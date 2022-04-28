@@ -2,375 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57C6E513824
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 17:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0B04513924
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 17:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234091AbiD1PXK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 11:23:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52752 "EHLO
+        id S1349667AbiD1P7c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 11:59:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbiD1PXJ (ORCPT
+        with ESMTP id S232991AbiD1P7b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 11:23:09 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ABDCAFB2F;
-        Thu, 28 Apr 2022 08:19:54 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id j6so10198634ejc.13;
-        Thu, 28 Apr 2022 08:19:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=qS0RYEubj/WEr+tBfiyT1mscJrdXnWl5GKBmmuMBcCc=;
-        b=o7gGmN1K53qTHzZPZiZUP82W+AEVP8i01imwcRltNcX5PTXUy++fSzThNEJUwIWH+t
-         nO5IPCD40xJtBMIxfrH0LZ1ToxqMW3mQVx/Wbua1/udsEiyRxifK0A48RSBjZbxGi80y
-         TIQ2fWQOMRJV64I0ymp1EzgFylizXkv7TW8c0YINfkY5AW2/57TLmq36GzPLQwgaIFfG
-         HbOZ+Jv98cYZ7i7vFBmz/GnzMGfM2LAM7HzBF0Icto7SxE4M8aUaSK2O979dc5A7SqJ+
-         dpjmB3V/gQ0YDTonel66eIWmjAUHCPX1UIsljRbkPLqRiyRr85npkuhG0H7jn66uIf9+
-         LG0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qS0RYEubj/WEr+tBfiyT1mscJrdXnWl5GKBmmuMBcCc=;
-        b=kpclssOIdCMdjYSp8/I4ktErNU7cRXZ2he/rXEunsLKXgkE1NziQ8Mq5hmN/THZ1xx
-         voo008xG48Wo8fdCke7+ugI1gfgX4LFTGqjGLE+i2T04J4N6aePY4JLkDMLLR5stJ8/P
-         HIHZkBIxg/OtKzhZCS/GnerKGKlJ5AFkuQbmJQkf+mdcNcL+ag8qHPqAEKloRIVMiFyx
-         0J6shu7bGXZ/T3HsXW/lqdVfw89fBfl5bTBbTT/aSNjwIMwZk4+GQx73L9zaCnZ8hydb
-         Myc43luyQijjkH9ReYWZOWocHUuH8hlp4hyHrbPM6ivpIFUg6shJ3NtsqBe9H0/iaSxt
-         laoQ==
-X-Gm-Message-State: AOAM5307t+1JpbXh4CCTNlL+kJqo6l974nHNLZBojg4yN9buYJOvGAtz
-        yYIpNjd1YhmUwHL6WVGzFps=
-X-Google-Smtp-Source: ABdhPJy107+0PxRUcY57JeQXLnVh3ZgSwQ9hDo5Ig9/OMcKPwYWANWxK0XlKKHqHHr2jEYKdy/mFZw==
-X-Received: by 2002:a17:907:6284:b0:6e0:f895:15a with SMTP id nd4-20020a170907628400b006e0f895015amr32459790ejc.713.1651159192359;
-        Thu, 28 Apr 2022 08:19:52 -0700 (PDT)
-Received: from orome ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id ao9-20020a170907358900b006f3995f0fe0sm107256ejc.6.2022.04.28.08.19.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 08:19:51 -0700 (PDT)
-Date:   Thu, 28 Apr 2022 17:19:49 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Cai Huoqing <cai.huoqing@linux.dev>
+        Thu, 28 Apr 2022 11:59:31 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B3DE33893;
+        Thu, 28 Apr 2022 08:56:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=NAVO6GO4V+BR9ZQy4hKCv3Ayu8fcDUtPDQrlXbpnU30=; b=nVX3OfNi4kwA5p+zj/iITV1MvQ
+        n601hRkrAGw4XDX7cNUhiQdh6gSRIRbvMweM3MBDkXEI1AL3nOOQvYHahQNp6cymX4gK/UFmSGEp7
+        SGc9K7YDDG+qzW2a8kq/1zxQ+ns6W8x4WKEHIX8yVSIpTqihFUsDFTFJwl29teCJ1OgpW4egxMTM9
+        BH8nlwR/75GNzqXESRFrqDVujjytOt7ohbihDQx9Biawd0gGLTi7bh2YWTvhU7Y8ouD81XSAfAosh
+        uZhEwtzmVGOszJ8HlyDrWj6xTxqnuiasjIU2gETISv2yBJnyN0WDVIjdCe6BJSeXJZN7VGq1vdrhA
+        ovbt71Cg==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=[192.168.1.10])
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1nk6Ux-00015p-Vz; Thu, 28 Apr 2022 18:56:08 +0300
+Message-ID: <beacfd71-ebd0-7fde-187f-34b7a42a47de@kapsi.fi>
+Date:   Thu, 28 Apr 2022 18:56:07 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v2 0/4] drm/nvdla: Add driver support for NVDLA
+Content-Language: en-US
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Cai Huoqing <cai.huoqing@linux.dev>
 Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
         linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] drm/nvdla: Add driver support for NVDLA
-Message-ID: <YmqwlbLcFgTDUpkX@orome>
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Jon Hunter <jonathanh@nvidia.com>
 References: <20220426060808.78225-1-cai.huoqing@linux.dev>
- <20220426060808.78225-3-cai.huoqing@linux.dev>
- <YmqwNVoTZZFaIM9S@orome>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xJwzd/BOTwcSuCe5"
-Content-Disposition: inline
-In-Reply-To: <YmqwNVoTZZFaIM9S@orome>
-User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
+ <YmqgailZKIuY7zTZ@orome>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+In-Reply-To: <YmqgailZKIuY7zTZ@orome>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 4/28/22 17:10, Thierry Reding wrote:
+> On Tue, Apr 26, 2022 at 02:07:57PM +0800, Cai Huoqing wrote:
+>> The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
+>> which is integrated into NVIDIA Jetson AGX Xavier,
+>> so add driver support for this accelerator."
+> 
+> Hi,
+> 
+> nice to see this work going on. For subsequent revisions, can you please
+> also Cc the Tegra mailing list (linux-tegra@vger.kernel.org) as well as
+> the Tegra platform maintainers (that's Jon Hunter and myself). This will
+> make sure that more people with an interest in this will see your work.
+> Not everyone follows dri-devel, linaro-mm-sig or linux-media.
+> 
+> Thanks,
+> Thierry
 
---xJwzd/BOTwcSuCe5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ From a quick glance it looks like this driver pokes DLA hardware 
+directly which is not the intended programming model on Tegra hardware 
+(there are Falcon microcontrollers that offload task scheduling and 
+synchronization from the CPU). The hardware is also behind the Host1x 
+bus so a simple platform device is not sufficient.
 
-On Thu, Apr 28, 2022 at 05:18:13PM +0200, Thierry Reding wrote:
-> On Tue, Apr 26, 2022 at 02:07:59PM +0800, Cai Huoqing wrote:
-> [...]
-> > diff --git a/drivers/gpu/drm/nvdla/nvdla_drv.c b/drivers/gpu/drm/nvdla/=
-nvdla_drv.c
->=20
-> I'll look at this from an architectural level and leave it to other
-> experts to review the more technical things.
->=20
-> [...]
-> > +static struct nvdla_config nvdla_config_os_initial =3D {
-> > +	.atom_size =3D 32,
-> > +	.bdma_enable =3D true,
-> > +	.rubik_enable =3D true,
-> > +	.weight_compress_support =3D true,
-> > +};
-> > +
-> > +static struct nvdla_config nvdla_config_small =3D {
-> > +	//.atom_size =3D 8,
-> > +	.atom_size =3D 32,  // nv_large config
-> > +	.bdma_enable =3D false,
-> > +	.rubik_enable =3D false,
-> > +	.weight_compress_support =3D false,
-> > +};
-> > +
-> [...]
-> > +static union nvdla_operation_container operation_desc[NVDLA_OP_NUM][NV=
-DLA_NUM_GROUPS];
-> > +static union nvdla_surface_container surface_desc[NVDLA_OP_NUM][NVDLA_=
-NUM_GROUPS];
-> > +
-> > +static struct nvdla_task_desc global_task;
-> > +
-> > +static struct nvdla_engine engine =3D {
-> > +	.processors[NVDLA_OP_BDMA] =3D {
-> > +		.name =3D "BDMA",
-> > +		.op_type =3D NVDLA_OP_BDMA,
-> > +		.program =3D nvdla_bdma_program,
-> > +		.enable =3D nvdla_bdma_enable,
-> > +		.set_producer =3D nvdla_bdma_set_producer,
-> > +		.is_ready =3D nvdla_bdma_is_ready,
-> > +		.dump_config =3D nvdla_bdma_dump_config,
-> > +		.rdma_check =3D nvdla_bdma_rdma_check,
-> > +		.consumer_ptr =3D 0,
-> > +		.roi_index =3D 0,
-> > +		.group_status =3D 0,
-> > +		.rdma_status =3D 0,
-> > +		.last_group =3D 1,
-> > +		.groups[0] =3D {
-> > +			.id =3D 0,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_BDMA][0],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_BDMA][0],
-> > +		},
-> > +		.groups[1] =3D {
-> > +			.id =3D 1,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_BDMA][1],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_BDMA][1],
-> > +		},
-> > +	},
-> > +	.processors[NVDLA_OP_CONV] =3D {
-> > +		.name =3D "Convolution",
-> > +		.op_type =3D NVDLA_OP_CONV,
-> > +		.program =3D nvdla_conv_program,
-> > +		.enable =3D nvdla_conv_enable,
-> > +		.set_producer =3D nvdla_conv_set_producer,
-> > +		.is_ready =3D nvdla_conv_is_ready,
-> > +		.dump_config =3D nvdla_conv_dump_config,
-> > +		.rdma_check =3D nvdla_conv_rdma_check,
-> > +		.consumer_ptr =3D 0,
-> > +		.roi_index =3D 0,
-> > +		.group_status =3D 0,
-> > +		.rdma_status =3D 0,
-> > +		.last_group =3D 1,
-> > +		.groups[0] =3D {
-> > +			.id =3D 0,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_CONV][0],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_CONV][0],
-> > +		},
-> > +		.groups[1] =3D {
-> > +			.id =3D 1,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_CONV][1],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_CONV][1],
-> > +		},
-> > +	},
-> > +	.processors[NVDLA_OP_SDP] =3D {
-> > +		.name =3D "SDP",
-> > +		.op_type =3D NVDLA_OP_SDP,
-> > +		.program =3D nvdla_sdp_program,
-> > +		.enable =3D nvdla_sdp_enable,
-> > +		.set_producer =3D nvdla_sdp_set_producer,
-> > +		.is_ready =3D nvdla_sdp_is_ready,
-> > +		.dump_config =3D nvdla_sdp_dump_config,
-> > +		.rdma_check =3D nvdla_sdp_rdma_check,
-> > +		.consumer_ptr =3D 0,
-> > +		.roi_index =3D 0,
-> > +		.group_status =3D 0,
-> > +		.rdma_status =3D 0,
-> > +		.last_group =3D 1,
-> > +		.groups[0] =3D {
-> > +			.id =3D 0,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_SDP][0],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_SDP][0],
-> > +		},
-> > +		.groups[1] =3D {
-> > +			.id =3D 1,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_SDP][1],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_SDP][1],
-> > +		},
-> > +	},
-> > +	.processors[NVDLA_OP_PDP] =3D {
-> > +		.name =3D "PDP",
-> > +		.op_type =3D NVDLA_OP_PDP,
-> > +		.program =3D nvdla_pdp_program,
-> > +		.enable =3D nvdla_pdp_enable,
-> > +		.set_producer =3D nvdla_pdp_set_producer,
-> > +		.is_ready =3D nvdla_pdp_is_ready,
-> > +		.dump_config =3D nvdla_pdp_dump_config,
-> > +		.rdma_check =3D nvdla_pdp_rdma_check,
-> > +		.consumer_ptr =3D 0,
-> > +		.roi_index =3D 0,
-> > +		.group_status =3D 0,
-> > +		.rdma_status =3D 0,
-> > +		.last_group =3D 1,
-> > +		.groups[0] =3D {
-> > +			.id =3D 0,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_PDP][0],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_PDP][0],
-> > +		},
-> > +		.groups[1] =3D {
-> > +			.id =3D 1,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_PDP][1],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_PDP][1],
-> > +		},
-> > +	},
-> > +	.processors[NVDLA_OP_CDP] =3D {
-> > +		.name =3D "CDP",
-> > +		.op_type =3D NVDLA_OP_CDP,
-> > +		.program =3D nvdla_cdp_program,
-> > +		.enable =3D nvdla_cdp_enable,
-> > +		.set_producer =3D nvdla_cdp_set_producer,
-> > +		.is_ready =3D nvdla_cdp_is_ready,
-> > +		.dump_config =3D nvdla_cdp_dump_config,
-> > +		.rdma_check =3D nvdla_cdp_rdma_check,
-> > +		.consumer_ptr =3D 0,
-> > +		.roi_index =3D 0,
-> > +		.group_status =3D 0,
-> > +		.rdma_status =3D 0,
-> > +		.last_group =3D 1,
-> > +		.groups[0] =3D {
-> > +			.id =3D 0,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_CDP][0],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_CDP][0],
-> > +		},
-> > +		.groups[1] =3D {
-> > +			.id =3D 1,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_CDP][1],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_CDP][1],
-> > +		},
-> > +	},
-> > +
-> > +	.processors[NVDLA_OP_RUBIK] =3D {
-> > +		.name =3D "RUBIK",
-> > +		.op_type =3D NVDLA_OP_RUBIK,
-> > +		.program =3D nvdla_rubik_program,
-> > +		.enable =3D nvdla_rubik_enable,
-> > +		.set_producer =3D nvdla_rubik_set_producer,
-> > +		.is_ready =3D nvdla_rubik_is_ready,
-> > +		.dump_config =3D nvdla_rubik_dump_config,
-> > +		.rdma_check =3D nvdla_rubik_rdma_check,
-> > +		.consumer_ptr =3D 0,
-> > +		.roi_index =3D 0,
-> > +		.group_status =3D 0,
-> > +		.rdma_status =3D 0,
-> > +		.last_group =3D 1,
-> > +		.groups[0] =3D {
-> > +			.id =3D 0,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_RUBIK][0],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_RUBIK][0],
-> > +		},
-> > +		.groups[1] =3D {
-> > +			.id =3D 1,
-> > +			.rdma_id =3D 0,
-> > +			.active =3D 0,
-> > +			.events =3D 0,
-> > +			.roi_index =3D 0,
-> > +			.is_rdma_needed =3D 0,
-> > +			.lut_index =3D -1,
-> > +			.operation_desc =3D &operation_desc[NVDLA_OP_RUBIK][1],
-> > +			.surface_desc =3D &surface_desc[NVDLA_OP_RUBIK][1],
-> > +		},
-> > +	},
-> > +
-> > +};
->=20
-> These global variables aren't going to work because Tegra234 (Tegra194's
-> successor) has two instances of NVDLA.
+Was this driver developed against some platform with OpenDLA hardware 
+(i.e. not Tegra)?
 
-Small correction: I just recalled that even Tegra194 has two DLA
-instances, so if we want both supported we'll need to get rid of those
-global variables for that chip already.
+If so, we'd need to verify if the hardware matches the hardware in 
+Tegra194. Also, this driver may not be ideal for Tegra platforms since 
+we would lack the hardware scheduling and synchronization facilities. It 
+is likely necessary to have separate drivers for OpenDLA and Tegra's DLA 
+integration.
 
-Thierry
+Thanks,
+Mikko
 
---xJwzd/BOTwcSuCe5
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+>>
+>> v1->v2:
+>> *Rename nvdla_drm.[ch] to nvdla_drv.[ch] and rename nvdla_ioctl.h to nvdla_drm.h,
+>>   move it to uapi.
+>>   comments link: https://lore.kernel.org/lkml/20bac605-97e6-e5cd-c4e4-83a8121645d8@amd.com/
+>> *Remove the  onexistent filename  in Makefile
+>>   comments link: https://lore.kernel.org/lkml/202204201512.pp20MXT5-lkp@intel.com/
+>> *Sort file names alphabetically in Makefile.
+>> *Rearrange the error messages, and use drm_err/_dbg() instead of pr_err/_dbg().
+>> *Replace  "dla_" prefix with "nvdla_"
+>> *Check the iosys_map by iosys_map_is_null(), and check "ret" directly.
+>> *Using iosys_map_memcpy_to/_from() for iosys_map instead of memcpy()
+>> *Fix parameter error "dma_buf_vunmap(buf, ptr)", use "&map" instead of "ptr"
+>> *Use iosys_map instead of kvaddr and use "iosys_map_set_vaddr()" to initialize iosys_map
+>> *Using "vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node)" to update vm_pgoff is cleaner
+>> *Remove the unused nvdla_drm_gem_mmap, register drm_gem_mmap to file_operations directly.
+>> *Use DEFINE_DRM_GEM_FOPS() to define nvdla_drm_fops.
+>> *Remove the unused nvdla_drm_gem_mmap_buf, register drm_gem_prime_mmap to drm_driver directly.
+>>   comments link: https://lore.kernel.org/lkml/7fa19996-5830-af3d-ab24-08c76e1d5604@suse.de/
+>> *Fix typo and some code style
+>> *Remove unused function nvdla_get_time_us()
+>>   comments link: https://lore.kernel.org/lkml/0fa9ab41-c18e-a569-e6fe-a0e9d965905e@stargateuniverse.net/
+>>
+>> Cai Huoqing (4):
+>>    MAINTAINERS: Add the driver info of the NVDLA
+>>    drm/nvdla: Add driver support for NVDLA
+>>    drm/nvdla: Add register head file of NVDLA
+>>    drm/nvdla/uapi: Add UAPI of NVDLA driver
+>>
+>>   MAINTAINERS                             |    7 +
+>>   drivers/gpu/drm/Kconfig                 |    2 +
+>>   drivers/gpu/drm/Makefile                |    1 +
+>>   drivers/gpu/drm/nvdla/Kconfig           |    8 +
+>>   drivers/gpu/drm/nvdla/Makefile          |   17 +
+>>   drivers/gpu/drm/nvdla/nvdla_bdma.c      |  198 +
+>>   drivers/gpu/drm/nvdla/nvdla_cache.c     |  202 +
+>>   drivers/gpu/drm/nvdla/nvdla_cdp.c       |  299 ++
+>>   drivers/gpu/drm/nvdla/nvdla_common.c    |  293 ++
+>>   drivers/gpu/drm/nvdla/nvdla_common.h    |  835 +++
+>>   drivers/gpu/drm/nvdla/nvdla_conv.c      |  684 +++
+>>   drivers/gpu/drm/nvdla/nvdla_drv.c       |  694 +++
+>>   drivers/gpu/drm/nvdla/nvdla_drv.h       |  129 +
+>>   drivers/gpu/drm/nvdla/nvdla_engine.c    |  233 +
+>>   drivers/gpu/drm/nvdla/nvdla_engine.h    |  272 +
+>>   drivers/gpu/drm/nvdla/nvdla_gem.c       |  358 ++
+>>   drivers/gpu/drm/nvdla/nvdla_pdp.c       |  448 ++
+>>   drivers/gpu/drm/nvdla/nvdla_reg.h       | 6411 +++++++++++++++++++++++
+>>   drivers/gpu/drm/nvdla/nvdla_rubik.c     |  214 +
+>>   drivers/gpu/drm/nvdla/nvdla_sched.h     |   37 +
+>>   drivers/gpu/drm/nvdla/nvdla_scheduler.c | 1012 ++++
+>>   drivers/gpu/drm/nvdla/nvdla_sdp.c       |  723 +++
+>>   include/uapi/drm/nvdla_drm.h            |   99 +
+>>   23 files changed, 13176 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/nvdla/Kconfig
+>>   create mode 100644 drivers/gpu/drm/nvdla/Makefile
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_bdma.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_cache.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_cdp.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_common.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_common.h
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_conv.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_drv.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_drv.h
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_engine.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_engine.h
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_gem.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_pdp.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_reg.h
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_rubik.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_sched.h
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_scheduler.c
+>>   create mode 100644 drivers/gpu/drm/nvdla/nvdla_sdp.c
+>>   create mode 100644 include/uapi/drm/nvdla_drm.h
+>>
+>> -- 
+>> 2.25.1
+>>
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJqsJUACgkQ3SOs138+
-s6Gpgg/9H+U035AscZ+rM3Mw++AKhE951GQ8tIbJxV6LwTW1JahCazVsrOZ/fTPL
-GHMAq5XhOcoyQuolcfAyMu4F9Rb+5TiVVJTfHq0TuA3rVdYeP8czuiY6Bsch0HHM
-ZU4TjTyZL2VMvECeXZfRHWQvU7FCMQ+ms8uKs6cWs5CQNSFF10Ve/FjpistPRv82
-VBDJzD2UUfPA7D41OdMuaQy8z0MrTnksI+H3v50AS8PBaenF7yk0BmK5/km88X+b
-dXrElDAJ1ntH8HrQyntNq+fBPoWiExdz8gXiM0PWMnW1UZRoFKraLrW3FCzl28Uy
-SK5ezIatixWLdpdWfA49LxpBlKPGLoWzHGyQCrTdpFxP8rfRIpuMUtbvFfhYEkNU
-N94Pb28CKyG7eWo+pg5Umc3AlWjsg8LtgC44zDYLnXymVicKHzKFs/RP0Mo6Fj6m
-z+pAYZtgQnSjLqAeIUVTdrJUYgnpQ00MA3Zl1U2nJjBHZgWGyXj71fBOf4v6Ar/c
-o/WoMwSbME87hEtyFzEmQGk95ed2ZlCeNACykyF9ZEPBDv1CprEzZQeDg21tM3Z1
-HaZrHL1U0VFJwLnIkyFYp023OwCPQqQoXgHd3zCyOL4gp1boROMmCQYzxHxBGxeH
-KJ519K56LvO/S0VRWiASqmAK2kDkfWZ15M/tR0BtDImCz4lDJ7Q=
-=KfCd
------END PGP SIGNATURE-----
-
---xJwzd/BOTwcSuCe5--
