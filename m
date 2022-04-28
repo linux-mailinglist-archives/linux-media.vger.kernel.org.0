@@ -2,191 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1CAA512C04
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 08:54:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 772E3512C2D
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 09:04:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244615AbiD1G5R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 02:57:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59566 "EHLO
+        id S244722AbiD1HH1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 03:07:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244610AbiD1G5N (ORCPT
+        with ESMTP id S243043AbiD1HH0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 02:57:13 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B79A5986C4;
-        Wed, 27 Apr 2022 23:53:59 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,295,1643641200"; 
-   d="scan'208";a="118286419"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Apr 2022 15:53:59 +0900
-Received: from localhost.localdomain (unknown [10.226.92.182])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id F06684010919;
-        Thu, 28 Apr 2022 15:53:55 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v9 5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
-Date:   Thu, 28 Apr 2022 07:53:33 +0100
-Message-Id: <20220428065333.3108-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220428065333.3108-1-biju.das.jz@bp.renesas.com>
-References: <20220428065333.3108-1-biju.das.jz@bp.renesas.com>
+        Thu, 28 Apr 2022 03:07:26 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1743A98F50;
+        Thu, 28 Apr 2022 00:04:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 535C0B82BC4;
+        Thu, 28 Apr 2022 07:04:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B788C385A0;
+        Thu, 28 Apr 2022 07:04:07 +0000 (UTC)
+Message-ID: <fd81ba16-9772-3f45-dca6-50a0284abd86@xs4all.nl>
+Date:   Thu, 28 Apr 2022 09:04:06 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] Documentation/media: Try to make enum usage clearer
+Content-Language: en-US
+To:     Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm
+References: <20220422092542.1333177-1-dorota.czaplejewicz@puri.sm>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220422092542.1333177-1-dorota.czaplejewicz@puri.sm>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+Hi Dorota,
 
-The VSPD block on RZ/G2L SoCs does not have a version register, so
-added a new compatible string "renesas,r9a07g044-vsp2" with a data
-pointer containing the info structure. Also the reset line is shared
-with the DU module.
+On 22/04/2022 11:30, Dorota Czaplejewicz wrote:
+> Fixed: typo "format" -> "frame size" in enum-frame-size
+> Added: mbus codes must not repeat
+> Added: no holes in the array
+> Added: arrays per what?
+> Added: who fills in what (questionable naming: caller/driver. caller/callee could be confusing for beginners, they look similar)
+> Changed: "zero" -> "0"
+> Changed: "given" -> "selected". "given to me by the driver?" dunno feels like "selected" or "chosen" are the words to indicate agency to the consumer
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-v8->v9:
- * Replaced the code comments RZ/G2L {SoC's,SoC} with RZ/G2L SoCs.
-v7->v8:
- * Split the patch for adding s/w version, feature bit and RZ/G2L support
- * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
- * Added .soc for RZ/G2L
- * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
-v6->v7:
- * Added Rb tag from Kieran
- * Added a quirk to handle LIF0 buffer attribute related
-   changes for V3M and G2L.
- * Removed the macro for VSP HW version
-v5->v6:
- * Rebased to media_staging and updated commit header
- * Removed the extra tab from rzg2l_vsp2_device_info
- * Changed the function vsp1_lookup->vsp1_lookup_info and
-   all info match related code moved here.
- * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
-   distinguish HW & SW IP_VSP_Version.
- * Used 0x80 for RZG2L VSPD model and SoC identification
- * Updated Switch() for LIF0 buffer attribute handling.
-v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for RZ/G2L SoC's.
-v3->v4:
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-v2->v3:
- * Fixed version comparison in vsp1_lookup()
-v1->v2:
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
-RFC->v1:
- * Used data pointer containing info structure to retrieve version information
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 13 +++++++++++++
- drivers/media/platform/renesas/vsp1/vsp1_lif.c  |  9 +++++----
- drivers/media/platform/renesas/vsp1/vsp1_regs.h |  4 ++++
- 3 files changed, 22 insertions(+), 4 deletions(-)
+I'm missing a 'Signed-off-by' here, please add this in a v2.
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index ec845d50037b..dd8da8a61ab2 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -822,6 +822,18 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
- };
- 
-+static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-+	.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-+	.model = "VSP2-D",
-+	.soc = VI6_IP_VERSION_SOC_RZG2L,
-+	.gen = 3,
-+	.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL
-+		  | VSP1_HAS_NON_ZERO_LBA,
-+	.lif_count = 1,
-+	.rpf_count = 2,
-+	.wpf_count = 1,
-+};
-+
- static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
- {
- 	const struct vsp1_device_info *info;
-@@ -972,6 +984,7 @@ static int vsp1_remove(struct platform_device *pdev)
- static const struct of_device_id vsp1_of_match[] = {
- 	{ .compatible = "renesas,vsp1" },
- 	{ .compatible = "renesas,vsp2" },
-+	{ .compatible = "renesas,r9a07g044-vsp2", .data = &rzg2l_vsp2_device_info },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, vsp1_of_match);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-index 9adb892edcdc..186a5730e1e3 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 
- 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
- 	case VI6_IP_VERSION_MODEL_VSPD_V3:
-+	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
- 		hbth = 0;
- 		obth = 1500;
- 		lbth = 0;
-@@ -130,10 +131,10 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
- 
- 	/*
--	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
--	 * non-default value to guarantee proper operation (otherwise artifacts
--	 * may appear on the output). The value required by the manual is not
--	 * explained but is likely a buffer size or threshold.
-+	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-+	 * set to a non-default value to guarantee proper operation (otherwise
-+	 * artifacts may appear on the output). The value required by the
-+	 * manual is not explained but is likely a buffer size or threshold.
- 	 */
- 	if (vsp1_feature(entity->vsp1, VSP1_HAS_NON_ZERO_LBA))
- 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index 4286d13eca32..8928f4c6bb55 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -767,6 +767,8 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+/* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
-+#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
- 
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
-@@ -780,6 +782,8 @@
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
-+/* RZ/G2L SoCs have no version register, So use 0x80 for SoC Identification */
-+#define VI6_IP_VERSION_SOC_RZG2L	(0x80 << 0)
- 
- #define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
- 
--- 
-2.25.1
+> 
+> ---
+> Hello,
+> 
+> I encountered some difficulties trying to implement a media-api driver, and I traced the problems to not understanding the documentation. Here I try to make the API usage clearer, after consulting with libcamera authors.
+> 
+> Still unclear how it works so I didn't touch it: "which". What is a "try format" vs "active format"?
+> 
+> Cheers,
+> Dorota Czaplejewicz
+> 
+> 
+>  .../v4l/vidioc-subdev-enum-frame-size.rst     | 44 ++++++++++++-------
+>  .../v4l/vidioc-subdev-enum-mbus-code.rst      | 39 +++++++++++-----
+>  2 files changed, 55 insertions(+), 28 deletions(-)
 
+Split this patch up into two separate patches, one for each .rst file.
+
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
+> index c25a9896df0e..c7afeffb6269 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
+> @@ -31,18 +31,29 @@ Arguments
+>  Description
+>  ===========
+>  
+> -This ioctl allows applications to enumerate all frame sizes supported by
+> -a sub-device on the given pad for the given media bus format. Supported
+> -formats can be retrieved with the
+> +This ioctl allows applications to access the array of frame sizes supported by
+
+As I mentioned on, I think, irc, I disagree with calling this an array.
+I prefer the original phrase 'enumerate all frame sizes'. This is consistent
+as well with other ENUM ioctls. This applies to the other 'array' references
+below as well. Just keep the original text.
+
+> +a sub-device on the selected pad for the selected media bus format.
+
+I'd use 'specified' instead of 'selected' or 'given' since the application
+specifies this information.
+
+> +Supported formats can be retrieved with the
+>  :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE`
+>  ioctl.
+>  
+> -To enumerate frame sizes applications initialize the ``pad``, ``which``
+> -, ``code`` and ``index`` fields of the struct
+> -:c:type:`v4l2_subdev_mbus_code_enum` and
+> -call the :ref:`VIDIOC_SUBDEV_ENUM_FRAME_SIZE` ioctl with a pointer to the
+> -structure. Drivers fill the minimum and maximum frame sizes or return an
+> -EINVAL error code if one of the input parameters is invalid.
+> +The arrays are defined by the driver, and indexed using the ``index`` field
+> +of the struct :c:type:`v4l2_subdev_mbus_code_enum`.
+> +Each pair of ``pad`` and ``code`` correspond to a separate array.
+> +Each array starts with the ``index`` of 0, and
+> +the first invalid index marks the end of array.
+> +
+> +Therefore, to enumerate frame sizes allowed on the selected pad
+> +and using the selected mbus format, initialize the
+> +``pad``, ``which``, and ``code`` fields to desired values,
+> +and set ``index`` to 0.
+> +Then call the :ref:`VIDIOC_SUBDEV_ENUM_FRAME_SIZE` ioctl with a pointer to the
+> +structure.
+> +
+> +A successful call will return with minimum and maximum frame sizes filled in.
+> +Repeat with increasing ``index`` until ``EINVAL`` is received.
+> +``EINVAL`` means that either no more entries are available in the array,
+> +or that an input parameter was invalid.
+>  
+>  Sub-devices that only support discrete frame sizes (such as most
+>  sensors) will return one or more frame sizes with identical minimum and
+> @@ -72,26 +83,27 @@ information about try formats.
+>  
+>      * - __u32
+>        - ``index``
+> -      - Number of the format in the enumeration, set by the application.
+> +      - Index of the frame size in the enumeration
+> +    belonging to the given pad and format. Filled in by the caller.
+
+Stick to 'application' instead of 'caller'. That's the terminology used elsewhere
+in the documentation as well, changing what it is called is just more confusing.
+
+>      * - __u32
+>        - ``pad``
+> -      - Pad number as reported by the media controller API.
+> +      - Pad number as reported by the media controller API. Filled in by the caller.
+>      * - __u32
+>        - ``code``
+>        - The media bus format code, as defined in
+> -	:ref:`v4l2-mbus-format`.
+> +	:ref:`v4l2-mbus-format`. Filled in by the caller.
+>      * - __u32
+>        - ``min_width``
+> -      - Minimum frame width, in pixels.
+> +      - Minimum frame width, in pixels. Filled in by the driver.
+>      * - __u32
+>        - ``max_width``
+> -      - Maximum frame width, in pixels.
+> +      - Maximum frame width, in pixels. Filled in by the driver.
+>      * - __u32
+>        - ``min_height``
+> -      - Minimum frame height, in pixels.
+> +      - Minimum frame height, in pixels. Filled in by the driver.
+>      * - __u32
+>        - ``max_height``
+> -      - Maximum frame height, in pixels.
+> +      - Maximum frame height, in pixels. Filled in by the driver.
+>      * - __u32
+>        - ``which``
+>        - Frame sizes to be enumerated, from enum
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+> index 417f1a19bcc4..22d046dd09c2 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+> @@ -31,15 +31,29 @@ Arguments
+>  Description
+>  ===========
+>  
+> -To enumerate media bus formats available at a given sub-device pad
+> -applications initialize the ``pad``, ``which`` and ``index`` fields of
+> -struct
+> -:c:type:`v4l2_subdev_mbus_code_enum` and
+> -call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl with a pointer to this
+> -structure. Drivers fill the rest of the structure or return an ``EINVAL``
+> -error code if either the ``pad`` or ``index`` are invalid. All media bus
+> -formats are enumerable by beginning at index zero and incrementing by
+> -one until ``EINVAL`` is returned.
+> +This call is used by the application to access the array of bus formats
+> +for the selected pad.
+> +
+> +The arrays are defined by the driver, and indexed using the ``index`` field
+> +of struct :c:type:`v4l2_subdev_mbus_code_enum`.
+> +Each value of ``pad`` corresponds to a separate array.
+> +Each array starts with the ``index`` of 0, and
+> +the first invalid index marks the end of array.
+> +
+> +Therefore, to enumerate media bus formats available at a given sub-device pad,
+> +initialize the ``pad``, and ``which`` fields to desired values,
+> +and set ``index`` to 0.
+> +Then call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl
+> +with a pointer to this structure.
+> +
+> +A successful call will return with the ``code`` field filled in
+> +with a mbus format value.
+> +Repeat with increasing ``index`` until ``EINVAL`` is received.
+> +``EINVAL`` means that either ``pad`` is invalid,
+> +or that there are no more codes available at this pad.
+> +
+> +The driver must not return the same value of ``code`` for different indices
+> +at the same pad.
+>  
+>  Available media bus formats may depend on the current 'try' formats at
+>  other pads of the sub-device, as well as on the current active links.
+> @@ -57,14 +71,15 @@ information about the try formats.
+>  
+>      * - __u32
+>        - ``pad``
+> -      - Pad number as reported by the media controller API.
+> +      - Pad number as reported by the media controller API. Filled in by the caller.
+>      * - __u32
+>        - ``index``
+> -      - Number of the format in the enumeration, set by the application.
+> +      - Index of the mbus code in the enumeration belonging to the given pad.
+> +    Filled in by the caller.
+>      * - __u32
+>        - ``code``
+>        - The media bus format code, as defined in
+> -	:ref:`v4l2-mbus-format`.
+> +	:ref:`v4l2-mbus-format`. Filled in by the driver.
+>      * - __u32
+>        - ``which``
+>        - Media bus format codes to be enumerated, from enum
+
+I'll take another, closer look at this once v2 is posted. The documentation certainly
+can be better, but changing terminology inconsistent with what is used elsewhere in
+the media documentation is not helping.
+
+You should also consider changing vidioc-subdev-enum-frame-interval.rst which is
+closely related to these two documentation files. If changes are made, then it
+should probably be done to all three.
+
+Regards,
+
+	Hans
