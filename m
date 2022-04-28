@@ -2,150 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D40E051331E
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 13:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4291D51335E
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 14:11:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346038AbiD1MAi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 08:00:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37812 "EHLO
+        id S235391AbiD1MO6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 08:14:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345977AbiD1MA0 (ORCPT
+        with ESMTP id S235369AbiD1MO5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 08:00:26 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D224288B29
-        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 04:56:57 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id CCC2760013;
-        Thu, 28 Apr 2022 11:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651147016;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+kqXswugkVGOFt41Krx7tQpUugV0n6joxlQ9XVQuB0Q=;
-        b=Fq3Bt+Ci0xehqSuJ8c4Y2n0tntzUcIy4uISssoFKE3gVIVGz24SRm8YajWiw56CEid62UO
-        bzcCDEibxZfLI6JORx8JgBK78pdymi0UvXomDrtLSSLTawuQOQy4GFRVZOAJFhq4/3IqGq
-        2MYAzLKD6HLGa+9Jt+c2V00sUm+vXY/tCBHqmUeEIgF5paLxsa4op4XmJaA4vNSpduBqm4
-        tsODikDhsvqZBAxV8MxYUJ0q1CleG8naewtqWIIeQepk6XHhoaQnOXkeyy6K4lIaO/MqyE
-        8gd6XI2JU7yYvXpT9fEk8mJyJ/MtMRMjsCNlJmzHTqY6ahOv4NnOPuRfQ6i0ng==
-Date:   Thu, 28 Apr 2022 13:56:49 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Ian Cowan <ian@linux.cowan.aero>, mripard@kernel.org,
-        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] staging: sunxi: cedrus: centralize cedrus_open exit
-Message-ID: <YmqBAZwdiE6GuarU@aptenodytes>
-References: <20220423180111.91602-1-ian@linux.cowan.aero>
- <20220425092048.GL2462@kadam>
- <YmZp+qgSLpT5PP2u@aptenodytes>
- <20220425100057.GB2090@kadam>
- <Ymehl27gmW41a3FY@aptenodytes>
- <20220428102608.GU2462@kadam>
+        Thu, 28 Apr 2022 08:14:57 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A61AAAD135
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 05:11:42 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id l7so9184603ejn.2
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 05:11:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K7j/IXCZRNwKocFzMTKoZXWUGv8T3gbG86BHWdxVdnY=;
+        b=ltewfHoQK0n3nI4gRBczZ9EbdfSC9Qo9aPF4PcwDlsZH1FhQjWslXPMFvzvNhfxo5I
+         pW2Xeic48XeMRxkTsYXDF/Dbck/YyaKpu4c2F+a9im8RXGbeMtamA+khhx7sh7b3ZMuw
+         aVMigur+rwXLMNnNx22tTLSqp4io7cekV6iTOAmcenBRZWQ4C41rQdwrYG3VFi7cqPWs
+         Kchhit0DDopEKumjEt3lEmumvho+/bMdR0YOeCdq2gtNx2UgXE5iGutm4zkHEUorR3Rc
+         Fewp0kuSou5O0vzHdhx4UAGrkS116U7xFPtY8Afwutf5y02I0tBEfQFmzNe9k7VSxD6h
+         xiqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K7j/IXCZRNwKocFzMTKoZXWUGv8T3gbG86BHWdxVdnY=;
+        b=K0vkvgXAwWdHMq/eA7ghS7D/HqtyPKPjiEvtkIpDO6OnZKIHqZQQkTOKvl2Vl6kf5f
+         MnCEGhQFcziX2EZkXFXi8i2wgqv1n8hBeddaK9FIYf0Ds64kUATh6gpUkyL7ydHZQmtR
+         GCJZEE/slpeIxHjIZfgsUOHh7wIhnUC+02OjrI+HhIU6s0bEfkyTy63UShxR9fy8nlb8
+         sfvB773KguRdYAqqCOpjspRuP3qGFyf1lwHKm09umO53slO0HYe2FjTrgQouT05i11jK
+         wKlumL6sQ69TopbVQNo9qWNS0ql+SWJ3ehGnk5vrlQAqzA98BxSIdhgRc5oEY4Qnun7Q
+         q2kg==
+X-Gm-Message-State: AOAM530w9qNIVoqcEzBB0J1zNNjulZ766/pjpUaxst0mGTqErkGR67px
+        WDxR+TnEKyQ/YTBaTFPxIFapwjs5mqgIiw==
+X-Google-Smtp-Source: ABdhPJxQYGrMfrAGGN+Vu+8O1xE1Qy1ARxa8uH0kKYWmhgYlLeC1QvyK1MqBMzTIY5AHX1ViiTPE2Q==
+X-Received: by 2002:a17:906:c113:b0:6d7:7b53:9cb with SMTP id do19-20020a170906c11300b006d77b5309cbmr32274865ejc.197.1651147901236;
+        Thu, 28 Apr 2022 05:11:41 -0700 (PDT)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id h7-20020a1709066d8700b006d4b4d137fbsm8296207ejt.50.2022.04.28.05.11.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 05:11:40 -0700 (PDT)
+From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>, wens@csie.org,
+        frattaroli.nicolas@gmail.com,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Hantro JPEG Encoding Padding Bug
+Date:   Thu, 28 Apr 2022 14:04:00 +0200
+Message-ID: <2351438.KPpaG06aq8@archbook>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="llYjTutXsM3Kb7Ne"
-Content-Disposition: inline
-In-Reply-To: <20220428102608.GU2462@kadam>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
---llYjTutXsM3Kb7Ne
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+yesterday I enabled the Hantro JPEG encoder on my RK3566[1], and noticed
+a peculiar thing: when encoding a 1920x1080 video[2] with gstreamer
+through the hardware JPEG encoder using v4l2jpegenc, it'd result in a
+1920x1088 output with a green bar at the bottom[3].
 
-Hi Dan,
+I asked on the #linux-media IRC channel on OFTC about this, and was told
+by Nicolas Dufresne (hello, fellow Nicolas!) that I should post to this
+list to make sure this doesn't fall through the cracks.
 
-On Thu 28 Apr 22, 13:26, Dan Carpenter wrote:
-> On Tue, Apr 26, 2022 at 09:39:03AM +0200, Paul Kocialkowski wrote:
-> >=20
-> > > Do-everything gotos are the most bug prone style of error handling.
-> > > Imagine the function is trying to do three things.  It fails part way
-> > > through.  Now you're trying to undo the second thing which was never
-> > > done.  Just moments ago I was just looking at one of these do-everyth=
-ing
-> > > bugs where it was using uninitialized memory.
-> >=20
-> > So by that you mean having just one label for all error handling instead
-> > of labels for each undo step?
-> >=20
->=20
-> Yes.  Don't do that.  If you try to free everything, half the stuff is
-> not allocated so you will undo things which have not been done and it
-> leads to a bug.
->
-> > I've also seen conditionals used in error labels to undo stuff.
-> >=20
->=20
-> I don't understand what you're describing?
+The kernel used was based on 5.18-rc4, and the GStreamer version is
+1.20.1.
 
-Typically that would look like:
+The GStreamer command used was:
 
-void *foo =3D NULL;
-void *bar =3D NULL;
+gst-launch-1.0 filesrc location=panduroll.mp4 ! \
+               qtdemux name=demux demux.video_0 ! decodebin ! \
+               videoconvert ! v4l2jpegenc ! matroskamux ! \
+               filesink location=pandu_but_mjpeg.mkv
 
-foo =3D alloc(...);
-if (!foo)
-	goto single_error;
+Regards,
+Nicolas Frattaroli
 
-bar =3D alloc(...);
-if (!bar)
-	goto single_error;
+[1]: https://patchwork.kernel.org/project/linux-rockchip/list/?series=636371
+[2]: https://overviewer.org/~pillow/up/cd92d13cc0/panduroll.mp4
+[3]: https://overviewer.org/~pillow/up/f46371b207/pandu_but_mjpeg.mkv
 
-=2E..
 
-single_error:
-	if (bar)
-		free(bar);
-
-	if (foo)
-		free(foo);
-
-> > Would you recommend duplicating error cleanup in each error condition?
-> > It feels like another set of issue on its own, besides the obvious down=
-side
-> > of duplication.
->=20
-> Let me write a blog about it:
->=20
-> https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
-
-Good writeup, thanks! The part about unwinding loops especially, I've always
-wondered about the right way to go about it.
-
-Cheers,
-
-Paul=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---llYjTutXsM3Kb7Ne
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJqgQEACgkQ3cLmz3+f
-v9H8zgf/USKoNw7Qr8vIWY2/+HjO33Pop6QIuHHsAlwlS/ThzGh7qy0+ZldEXwEt
-Phh7ZRqCl9Y38R7uF2W3dRzOGdq10Ra4wUQUM/zX/TGeSCneOoljbtMoXvaHiZSc
-ui9HWxYRLC9QAGU0cDvU4peogw+qbWFG9jqWfxTfxuj6SRK/Lo/Gsd+KHa3rHt+7
-sS0k0oarxxVrg5bJaBOrL/yO1THV+e/0buB4zvCUFuGyQ1SBzEyGG8jCg5kw0tCp
-gouOJjLf1t/oGPRLNvVq6WywSEMFkR4T96zXuMkn5aB8HaoLndbaSYkC0gXnOTiy
-30hHyTS8W5/fOFGguzpbD3XKUqwTUw==
-=jQV4
------END PGP SIGNATURE-----
-
---llYjTutXsM3Kb7Ne--
