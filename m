@@ -2,191 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F82B5134A8
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 15:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FBD15134C5
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 15:17:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345828AbiD1NPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 09:15:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50700 "EHLO
+        id S1346914AbiD1NUO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 09:20:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238516AbiD1NPW (ORCPT
+        with ESMTP id S1346910AbiD1NUG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 09:15:22 -0400
-X-Greylist: delayed 419 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 28 Apr 2022 06:11:51 PDT
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A25F1D306;
-        Thu, 28 Apr 2022 06:11:50 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6F4B01C0007;
-        Thu, 28 Apr 2022 13:11:48 +0000 (UTC)
-Date:   Thu, 28 Apr 2022 15:11:46 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@puri.sm
-Subject: Re: [PATCHv2 2/2] media api: Try to make enum usage clearer
-Message-ID: <20220428131146.ofdn7tr5mkxya3ck@uno.localdomain>
-References: <20220428083715.75997-1-dorota.czaplejewicz@puri.sm>
- <20220428105219.4b068b1f.dorota.czaplejewicz@puri.sm>
+        Thu, 28 Apr 2022 09:20:06 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2BA554B8
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 06:16:52 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id 6404A1F45786
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1651151811;
+        bh=kctxlG5b7xeWvSXqu4NdAJc58xKdWPIlKfVzEP8l5/U=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=BdTaUmO2fdCJvh9COOxJ/CmK9qf2FaqRznlS6pf7zZAwO/3g744pRZamZah775DCR
+         VGeJ2pwiL8owA/G8gleqJ6qHuVrepQvtk2xvUYYQ/Mc1tXUOHQlBpIFjJu3Z777tko
+         hcdy4l4/xqH+Z8bVWU6mlfMhXTEgfTaMA8gm3QgY5VFoWh04/efxVLVtg0jiUhv/sr
+         xlToGhrTS7cSRlOqHJbhaURF9ntxLrmBErFuTcNcgDKfQWPakyMmBxq3ZDZAIUyAER
+         uwvCf54tG5Z/EOLsZmihIRkLp90B0jN9t9p8fZWfVE1edHgHCTIRCkd9WANAi6h2+Y
+         3UMF/aaEr/btw==
+Message-ID: <ba3f5fa632a53218974ab1640ae72e2315d7518e.camel@collabora.com>
+Subject: Re: Hantro JPEG Encoding Padding Bug
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     wens@csie.org, Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Date:   Thu, 28 Apr 2022 09:16:40 -0400
+In-Reply-To: <2351438.KPpaG06aq8@archbook>
+References: <2351438.KPpaG06aq8@archbook>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mydpssort7jg2wxh"
-Content-Disposition: inline
-In-Reply-To: <20220428105219.4b068b1f.dorota.czaplejewicz@puri.sm>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Le jeudi 28 avril 2022 =C3=A0 14:04 +0200, Nicolas Frattaroli a =C3=A9crit=
+=C2=A0:
+> Hello,
+>=20
+> yesterday I enabled the Hantro JPEG encoder on my RK3566[1], and noticed
+> a peculiar thing: when encoding a 1920x1080 video[2] with gstreamer
+> through the hardware JPEG encoder using v4l2jpegenc, it'd result in a
+> 1920x1088 output with a green bar at the bottom[3].
+>=20
+> I asked on the #linux-media IRC channel on OFTC about this, and was told
+> by Nicolas Dufresne (hello, fellow Nicolas!) that I should post to this
+> list to make sure this doesn't fall through the cracks.
+>=20
+> The kernel used was based on 5.18-rc4, and the GStreamer version is
+> 1.20.1.
+>=20
+> The GStreamer command used was:
+>=20
+> gst-launch-1.0 filesrc location=3Dpanduroll.mp4 ! \
+>                qtdemux name=3Ddemux demux.video_0 ! decodebin ! \
+>                videoconvert ! v4l2jpegenc ! matroskamux ! \
+>                filesink location=3Dpandu_but_mjpeg.mkv
 
---mydpssort7jg2wxh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Dorota
-
-On Thu, Apr 28, 2022 at 10:52:19AM +0200, Dorota Czaplejewicz wrote:
-> Fixed: typo "format" -> "frame size" in enum-frame-size
-> Added: no holes in the enumeration
-> Added: enumerations per what?
-> Added: who fills in what in calls
-> Changed: "zero" -> "0"
-> Changed: "given" -> "specified"
-
-Empty line here
-
-> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> ---
->  .../v4l/vidioc-subdev-enum-frame-size.rst     | 44 ++++++++++++-------
->  1 file changed, 28 insertions(+), 16 deletions(-)
->
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
-> index c25a9896df0e..2c6fd291dc44 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
-> @@ -31,18 +31,29 @@ Arguments
->  Description
->  ===========
->
-> -This ioctl allows applications to enumerate all frame sizes supported by
-> -a sub-device on the given pad for the given media bus format. Supported
-> -formats can be retrieved with the
-> +This ioctl allows applications to access the enumeration of frame sizes supported by
-
-over 80 cols
-
-> +a sub-device on the specified pad for the specified media bus format.
-> +Supported formats can be retrieved with the
-
-This seems quite an arbitrary change. What's wrong with the existing
-phrase ?
-
->  :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE`
->  ioctl.
->
-> -To enumerate frame sizes applications initialize the ``pad``, ``which``
-> -, ``code`` and ``index`` fields of the struct
-> -:c:type:`v4l2_subdev_mbus_code_enum` and
-> -call the :ref:`VIDIOC_SUBDEV_ENUM_FRAME_SIZE` ioctl with a pointer to the
-> -structure. Drivers fill the minimum and maximum frame sizes or return an
-> -EINVAL error code if one of the input parameters is invalid.
-> +The enumerations are defined by the driver, and indexed using the ``index`` field
-> +of the struct :c:type:`v4l2_subdev_mbus_code_enum`.
-> +Each pair of ``pad`` and ``code`` correspond to a separate enumeration.
-> +Each enumeeration starts with the ``index`` of 0, and
-
-s/enumeeration/enumeration/
-
-> +the lowest invalid index marks the end of the enumeration.
-> +
-> +Therefore, to enumerate frame sizes allowed on the specified pad
-> +and using the specified mbus format, initialize the
-> +``pad``, ``which``, and ``code`` fields to desired values,
-> +and set ``index`` to 0.
-> +Then call the :ref:`VIDIOC_SUBDEV_ENUM_FRAME_SIZE` ioctl with a pointer to the
-> +structure.
-> +
-> +A successful call will return with minimum and maximum frame sizes filled in.
-> +Repeat with increasing ``index`` until ``EINVAL`` is received.
-> +``EINVAL`` means that either no more entries are available in the enumeration,
-> +or that an input parameter was invalid.
->
->  Sub-devices that only support discrete frame sizes (such as most
->  sensors) will return one or more frame sizes with identical minimum and
-> @@ -72,26 +83,27 @@ information about try formats.
->
->      * - __u32
->        - ``index``
-> -      - Number of the format in the enumeration, set by the application.
-> +      - Index of the frame size in the enumeration
-
-Rougue line break
-
-> +    belonging to the given pad and format. Filled in by the application.
->      * - __u32
->        - ``pad``
-> -      - Pad number as reported by the media controller API.
-> +      - Pad number as reported by the media controller API. Filled in by the application.
-
-over 80 cols
-
->      * - __u32
->        - ``code``
->        - The media bus format code, as defined in
-> -	:ref:`v4l2-mbus-format`.
-> +	:ref:`v4l2-mbus-format`. Filled in by the application.
->      * - __u32
->        - ``min_width``
-> -      - Minimum frame width, in pixels.
-> +      - Minimum frame width, in pixels. Filled in by the driver.
->      * - __u32
->        - ``max_width``
-> -      - Maximum frame width, in pixels.
-> +      - Maximum frame width, in pixels. Filled in by the driver.
->      * - __u32
->        - ``min_height``
-> -      - Minimum frame height, in pixels.
-> +      - Minimum frame height, in pixels. Filled in by the driver.
->      * - __u32
->        - ``max_height``
-> -      - Maximum frame height, in pixels.
-> +      - Maximum frame height, in pixels. Filled in by the driver.
->      * - __u32
->        - ``which``
->        - Frame sizes to be enumerated, from enum
-
-Even more than 1/2, I am a bit failing to see what is missing in the
-existing doc. If it feels better to others who will have a look, I for sure
-won't oppose this change though :)
-
-> --
-> 2.35.1
->
+I've reproduced the issue, it looks like GStreamer videoencoder does not ca=
+ll
+S_SELECTION. Older driver were simply using the CAPTURE width/height and wo=
+uld
+set the crop automatically, hence why it worked in other cases. Here's a pa=
+tch
+to fix GStreamer, looking for feedback.
 
 
+diff --git a/subprojects/gst-plugins-good/sys/v4l2/gstv4l2object.c
+b/subprojects/gst-plugins-good/sys/v4l2/gstv4l2object.c
+index 8609d823ec..de791aa936 100644
+--- a/subprojects/gst-plugins-good/sys/v4l2/gstv4l2object.c
++++ b/subprojects/gst-plugins-good/sys/v4l2/gstv4l2object.c
+@@ -3190,7 +3190,6 @@ gst_v4l2_object_reset_compose_region (GstV4l2Object *=
+ obj)
+   struct v4l2_selection sel =3D { 0 };
+=20
+   GST_V4L2_CHECK_OPEN (obj);
+-  GST_V4L2_CHECK_NOT_ACTIVE (obj);
+=20
+   sel.type =3D obj->type;
+   sel.target =3D V4L2_SEL_TGT_COMPOSE_DEFAULT;
+@@ -4353,7 +4352,6 @@ gst_v4l2_object_set_crop (GstV4l2Object * obj, struct
+v4l2_rect * crop_rect)
+   struct v4l2_crop crop =3D { 0 };
+=20
+   GST_V4L2_CHECK_OPEN (obj);
+-  GST_V4L2_CHECK_NOT_ACTIVE (obj);
+=20
+   sel.type =3D obj->type;
+   sel.target =3D V4L2_SEL_TGT_CROP;
+diff --git a/subprojects/gst-plugins-good/sys/v4l2/gstv4l2videoenc.c
+b/subprojects/gst-plugins-good/sys/v4l2/gstv4l2videoenc.c
+index 19496b73f0..04fab87a48 100644
+--- a/subprojects/gst-plugins-good/sys/v4l2/gstv4l2videoenc.c
++++ b/subprojects/gst-plugins-good/sys/v4l2/gstv4l2videoenc.c
+@@ -342,6 +342,9 @@ gst_v4l2_video_enc_set_format (GstVideoEncoder * encode=
+r,
+     return FALSE;
+   }
+=20
++  /* best effort */
++  gst_v4l2_object_setup_padding (self->v4l2output);
++
+   self->input_state =3D gst_video_codec_state_ref (state);
+=20
+   GST_DEBUG_OBJECT (self, "output caps: %" GST_PTR_FORMAT, state->caps);
+@@ -876,6 +879,9 @@ gst_v4l2_video_enc_decide_allocation (GstVideoEncoder *
+   }
+   gst_caps_unref (caps);
+=20
++  /* best effort */
++  gst_v4l2_object_setup_padding (self->v4l2capture);
++
+   if (gst_v4l2_object_decide_allocation (self->v4l2capture, query)) {
+     GstVideoEncoderClass *enc_class =3D GST_VIDEO_ENCODER_CLASS (parent_cl=
+ass);
+     ret =3D enc_class->decide_allocation (encoder, query);
+---
 
---mydpssort7jg2wxh
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+>=20
+> Regards,
+> Nicolas Frattaroli
+>=20
+> [1]: https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D6=
+36371
+> [2]: https://overviewer.org/~pillow/up/cd92d13cc0/panduroll.mp4
+> [3]: https://overviewer.org/~pillow/up/f46371b207/pandu_but_mjpeg.mkv
+>=20
+>=20
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAmJqkpIACgkQcjQGjxah
-VjwkRQ//XOof8zmTn52P5jTy7sxMrWz8z9pDTDsFi4ZouonRODL6WRssg7gMtXXq
-QO/haVRwKwgG/PRgwXFgJAZ7GAsWDpu3gcoLgzenX2DiAbYu8XPz8/Nr1rCmUOoZ
-roP7VK2COn+Y0KgdzArHI/W2Rpzw1cDqbbZVzQvJvqyP/WELYD7ddCJegLwKTqFD
-7KMlWAcg8FkX60yKEhoNf8je5tfC9fNQ0QJcAT7piazfXcfCvF/1EhjRSLiP046r
-mQgSbETN6L9GQ1NsAaR3Vn6b0j7/WAussYUBpQGNm05egS7SaI1ETP78sFWmncF9
-U0No76QwBm+ZPgvWEFMbHQpvQPwlioSUA9gBYqPP6tBBBsb/l6AQLWXJ4wuXC/G/
-87LBPdsjyyIHV5yCOjohMMQA4wdBIrhtsutUGIdS8iUiTi8X41AXACivM10qifuV
-jT/i9JoAWo9gkMpfw7SfQze7pJUwRhe0FBmm7WeXES/i3EwHinCUHLFs4quZYnVa
-YGxVuO63V6n/AT1QYdMFYKA2aBhJC7gwPZ/DQoVL2BaexVJVH7PMXQtAl/0YX6xC
-qEmvm/DT3Y9qJaginKAeuLeCFmtkO6ynHNkYsnVqcz+5MAHd8YavcTbTdnJNki9W
-PH6lbEkbaChsnbtDP09X4xBrW+HKWVCiCzZPAvLl6/88PtK3T4w=
-=DgoL
------END PGP SIGNATURE-----
-
---mydpssort7jg2wxh--
