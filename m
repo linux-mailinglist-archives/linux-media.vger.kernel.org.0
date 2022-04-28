@@ -2,48 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F1F5135DC
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 15:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84FF551364A
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 16:07:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347801AbiD1OA5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 10:00:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47510 "EHLO
+        id S242726AbiD1OIM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 10:08:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346899AbiD1OA4 (ORCPT
+        with ESMTP id S232267AbiD1OIJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 10:00:56 -0400
+        Thu, 28 Apr 2022 10:08:09 -0400
 Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 464F53DDD3;
-        Thu, 28 Apr 2022 06:57:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AAE7AC076;
+        Thu, 28 Apr 2022 07:04:54 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 642DFDF8DB;
-        Thu, 28 Apr 2022 06:57:39 -0700 (PDT)
+        by comms.puri.sm (Postfix) with ESMTP id 49234DF8D8;
+        Thu, 28 Apr 2022 07:04:54 -0700 (PDT)
 Received: from comms.puri.sm ([127.0.0.1])
         by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Ig7oScWZPIsr; Thu, 28 Apr 2022 06:57:38 -0700 (PDT)
-Date:   Thu, 28 Apr 2022 15:57:23 +0200
+        with ESMTP id ggvQbIEcjV6V; Thu, 28 Apr 2022 07:04:53 -0700 (PDT)
+Date:   Thu, 28 Apr 2022 16:04:48 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-        t=1651154258; bh=vLbHlYOt6LoVdFmtMXhjYEpdyn/I1inbFkDo5q7Xc2Q=;
+        t=1651154693; bh=kEN2az4QinOm4QNlEhCC9dIUweT4lFTVpB8RS//MQaE=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nz8/Fafk2Vr5aiEgJyewn2lnV+gj0UhPCZcRjHm8Ga08pP1HPo0C5a4D+B1Y4T7U4
-         8ex9tXNujPUROXlCvv+P9shIRqhNsxZ3shnE0SQtMXvuPTZElqrm/ne+29SKalNmBP
-         Yuk5J4MOeOy8feiBbKKVsRi/25Mj0ftp5H28iuiRQN83PNXbg5lnJOvFdVnoCIAM6S
-         AEGni3jVS9boTKi6AmBHBYyAkYI0q2CHbKIFlpAM00++HnH3zpH0KsqQJqYkvDAHij
-         /pQjVfgLhwFE1IYrkCn3uvPgR6IDzl3cWZHw5leET3fv3TlvGJeLe7l4dthxY5rXBO
-         6CNgQPfVkpwyQ==
+        b=LqHi/bxahONXQYIkUJWMdmLGu8p6bAXjEnrVmR7elGDlMIN+yepAToo8pRWB76f/l
+         PXY2MRvXtcBKD0mQlz976Qc+z+rTQuuGQ8Uvx0krzbjmhuBQF8zCg0RJdDg+u83H4G
+         bZBLYko9yk1WtFB1YpAsbkfV87QNMLwj93K3eyWylHo4nczKI+oFhnEQETyAH2uXt5
+         Q3CrpwesXgiJZ3+S+G31WHfixkHciC8aVQ8jkaOYA6mp8wkgNJDzBLn28D9Qaq5AfE
+         I7eh4+4kMszVfUXu9Ix7ctx5ihf8R565Q8SD14FNYoQmgOvaSaqPNUagNa3vxcQ77g
+         izzaq0PnPzHkw==
 From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel@puri.sm
-Subject: Re: [PATCHv2 1/2] doc/media api: Try to make enum usage clearer
-Message-ID: <20220428155723.456b7ff0.dorota.czaplejewicz@puri.sm>
-In-Reply-To: <20220428130448.bfht2nf23n6lidsk@uno.localdomain>
-References: <20220428105211.7106ce6a.dorota.czaplejewicz@puri.sm>
-        <20220428130448.bfht2nf23n6lidsk@uno.localdomain>
+Subject: Re: [PATCHv2 2/2] media api: Try to make enum usage clearer
+Message-ID: <20220428160448.6e23e50c.dorota.czaplejewicz@puri.sm>
+In-Reply-To: <20220428131146.ofdn7tr5mkxya3ck@uno.localdomain>
+References: <20220428083715.75997-1-dorota.czaplejewicz@puri.sm>
+        <20220428105219.4b068b1f.dorota.czaplejewicz@puri.sm>
+        <20220428131146.ofdn7tr5mkxya3ck@uno.localdomain>
 Organization: Purism
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/vPfZ4CbmyVqo94p47OVPln.";
+Content-Type: multipart/signed; boundary="Sig_/02RSxe3sdM1r0_xf5dPXf4D";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
@@ -54,243 +55,188 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/vPfZ4CbmyVqo94p47OVPln.
+--Sig_/02RSxe3sdM1r0_xf5dPXf4D
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hi,
 
-On Thu, 28 Apr 2022 15:04:48 +0200
+On Thu, 28 Apr 2022 15:11:46 +0200
 Jacopo Mondi <jacopo@jmondi.org> wrote:
 
-> Hi Dorota,
+> Hi Dorota
 >=20
->=20
-> On Thu, Apr 28, 2022 at 10:52:11AM +0200, Dorota Czaplejewicz wrote:
-> > Added: mbus codes must not repeat
+> On Thu, Apr 28, 2022 at 10:52:19AM +0200, Dorota Czaplejewicz wrote:
+> > Fixed: typo "format" -> "frame size" in enum-frame-size
 > > Added: no holes in the enumeration
 > > Added: enumerations per what?
 > > Added: who fills in what in calls
 > > Changed: "zero" -> "0"
-> > Changed: "given" -> "specified"
-> > =20
-> A more discoursive commit message would be appreciated. Just a few lines
-> before the crude list of changes:
+> > Changed: "given" -> "specified" =20
 >=20
-> Something like
->=20
-> "Update the documentation of ... in order to clarify etc etc"
+> Empty line here
 >=20
 > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
 > > ---
-> > Hello,
+> >  .../v4l/vidioc-subdev-enum-frame-size.rst     | 44 ++++++++++++-------
+> >  1 file changed, 28 insertions(+), 16 deletions(-)
 > >
-> > this is the second attempt at updating the media documentation.
-> >
-> > Differences from previous: "selected" is now "specified", "array" is no=
-w "enumeration", and "caller" is now "application". =20
->=20
-> Please stay in 80 cols even for parts that won't end up in the commit
-> message, it's hard to read this if you have multiple terminal windows
-> open.
-
-I can try to comply with this, but I generally don't do it
-because hard breaks are difficult to read
-on a phone or if I have multiple messages open.
-My line widths vary between 40 and 80 characters,
-and hard breaks can only cover one width, at the cost of all others.
->=20
-> >
-> > No differences: I haven't used the frame intervals calls and haven't ga=
-thered practical knowledge about where docs may be insufficient, so I didn'=
-t touch its documentation. =20
->=20
-> I think Hans required to change the documentation of that ioctl to
-> match the style of the changes you have made here, not because
-> something is missing there.
->=20
-> >
-> > Regards,
-> > Dorota
-> >
-> >  .../v4l/vidioc-subdev-enum-mbus-code.rst      | 39 +++++++++++++------
-> >  1 file changed, 27 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-m=
-bus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbu=
-s-code.rst
-> > index 417f1a19bcc4..87572de0fd26 100644
-> > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-cod=
-e.rst
-> > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-cod=
-e.rst
-> > @@ -31,15 +31,29 @@ Arguments
+> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-f=
+rame-size.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-fr=
+ame-size.rst
+> > index c25a9896df0e..2c6fd291dc44 100644
+> > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-si=
+ze.rst
+> > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-si=
+ze.rst
+> > @@ -31,18 +31,29 @@ Arguments
 > >  Description
 > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > >
-> > -To enumerate media bus formats available at a given sub-device pad
-> > -applications initialize the ``pad``, ``which`` and ``index`` fields of
-> > -struct
+> > -This ioctl allows applications to enumerate all frame sizes supported =
+by
+> > -a sub-device on the given pad for the given media bus format. Supported
+> > -formats can be retrieved with the
+> > +This ioctl allows applications to access the enumeration of frame size=
+s supported by =20
+>=20
+> over 80 cols
+>=20
+> > +a sub-device on the specified pad for the specified media bus format.
+> > +Supported formats can be retrieved with the =20
+>=20
+> This seems quite an arbitrary change. What's wrong with the existing
+> phrase ?
+>=20
+"Given" is vague and does not really say who gives and who is given.
+Is it the kernel or the application? It kept confusing me.
+I tried to turn it into a "selected", which has more "application" vibes,
+but I was asked to change it to "specified".
+IMO this could benefit from an active voice, but I didn't want to rewrite i=
+t completely.
+
+About "access the enumeration" - this serves to show the data structure up =
+front.
+In my original patch it was "array", which hopefully implies some things:
+that it's continuous and indexed.
+I was asked to get rid of "array" though.
+
+Thanks,
+Dorota
+> >  :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE`
+> >  ioctl.
+> >
+> > -To enumerate frame sizes applications initialize the ``pad``, ``which``
+> > -, ``code`` and ``index`` fields of the struct
 > > -:c:type:`v4l2_subdev_mbus_code_enum` and
-> > -call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl with a pointer to t=
-his
-> > -structure. Drivers fill the rest of the structure or return an ``EINVA=
-L``
-> > -error code if either the ``pad`` or ``index`` are invalid. All media b=
-us
-> > -formats are enumerable by beginning at index zero and incrementing by
-> > -one until ``EINVAL`` is returned.
-> > +This call is used by the application to access the enumeration of bus =
-formats
-> > +for the selected pad. =20
->=20
-> This is a good introductory phrase.
->=20
-> > +
+> > -call the :ref:`VIDIOC_SUBDEV_ENUM_FRAME_SIZE` ioctl with a pointer to =
+the
+> > -structure. Drivers fill the minimum and maximum frame sizes or return =
+an
+> > -EINVAL error code if one of the input parameters is invalid.
 > > +The enumerations are defined by the driver, and indexed using the ``in=
 dex`` field
-> > +of struct :c:type:`v4l2_subdev_mbus_code_enum`.
-> > +Each value of ``pad`` corresponds to a separate enumeration. =20
+> > +of the struct :c:type:`v4l2_subdev_mbus_code_enum`.
+> > +Each pair of ``pad`` and ``code`` correspond to a separate enumeration.
+> > +Each enumeeration starts with the ``index`` of 0, and =20
 >=20
-> Isn't this a repetition of the above "enumeration of bus formats for
-> the selected pad" ? Also, the fact different mbus codes are available
-> at different pads is an intrinsic characteristics of the device
-> capabilities and of what a pad represents. Put it in this way it seems
-> it's an API requirement.
+> s/enumeeration/enumeration/
 >=20
-> > +Each enumeration starts with the ``index`` of 0, and
-> > +the lowest invalid index marks the end of enumeration.
+> > +the lowest invalid index marks the end of the enumeration.
 > > +
-> > +Therefore, to enumerate media bus formats available at a given sub-dev=
-ice pad,
-> > +initialize the ``pad``, and ``which`` fields to desired values,
+> > +Therefore, to enumerate frame sizes allowed on the specified pad
+> > +and using the specified mbus format, initialize the
+> > +``pad``, ``which``, and ``code`` fields to desired values,
 > > +and set ``index`` to 0.
-> > +Then call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl
-> > +with a pointer to this structure. =20
->=20
-> Could these two paragraphs be just:
->=20
-> To enumerate all the media bus codes available at a give sub-device pad,
-> an application set the ``index`` field to 0 and then call the
-> :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl with a pointer to this structur=
-e,
-> incrementing ``index`` by one until ``EINVAL`` is returned.
->=20
-What I found difficult with this documentation is that it described an algo=
-rithm,
-and did not describe the basic assumption about the shape of the data.
-Here, I tried to give a quick overview of the data structure in the first p=
-aragraph.
-The second paragraph is just a description of details,
-not needed to get a high level idea of the API.
-
+> > +Then call the :ref:`VIDIOC_SUBDEV_ENUM_FRAME_SIZE` ioctl with a pointe=
+r to the
+> > +structure.
 > > +
-> > +A successful call will return with the ``code`` field filled in
-> > +with a mbus format value. =20
->=20
-> Generally, I see "mbus code", not "mbus format" as far as
-> I'm aware..
-I was generally confused about the "mbus" thing the whole time I used the A=
-PI.
-That's why I came up with the idea to describe what it's useful for (format=
-),
-instead of using an abstract "code" which could mean anything.
-"mbus code" is not even searchable online much, so it's difficult to make t=
-he connection.
->=20
+> > +A successful call will return with minimum and maximum frame sizes fil=
+led in.
 > > +Repeat with increasing ``index`` until ``EINVAL`` is received.
-> > +``EINVAL`` means that either ``pad`` is invalid,
-> > +or that there are no more codes available at this pad. =20
->=20
-> Is it necessary to add this last paragraph. Isn't it specified in the
-> error code description below ?
->=20
-> EINVAL
->     The struct
->     :c:type:`v4l2_subdev_mbus_code_enum`
->     ``pad`` references a non-existing pad, or the ``index`` field is out
->     of bounds.
->=20
->=20
-"Out of bounds" does not say what the bounds are.
-What I wrote is in the context of the incrementing algorithm,
-which implies that hitting it means hitting the bound ("no more codes").
-> > +
-> > +The driver must not return the same value of ``code`` for different in=
-dices
-> > +at the same pad. =20
->=20
-> This might be a good thing to specify, a little obvious maybe but it
-> doesn't hurt.
->=20
-Given that I ran head first into a bug involving repeats (prompting this pa=
-tch),
-I testify that nothing about it is obvious :)
+> > +``EINVAL`` means that either no more entries are available in the enum=
+eration,
+> > +or that an input parameter was invalid.
 > >
-> >  Available media bus formats may depend on the current 'try' formats at
-> >  other pads of the sub-device, as well as on the current active links.
-> > @@ -57,14 +71,15 @@ information about the try formats.
+> >  Sub-devices that only support discrete frame sizes (such as most
+> >  sensors) will return one or more frame sizes with identical minimum and
+> > @@ -72,26 +83,27 @@ information about try formats.
 > >
-> >      * - __u32
-> >        - ``pad``
-> > -      - Pad number as reported by the media controller API.
-> > +      - Pad number as reported by the media controller API. Filled in =
-by the application.
 > >      * - __u32
 > >        - ``index``
 > > -      - Number of the format in the enumeration, set by the applicatio=
 n.
-> > +      - Index of the mbus code in the enumeration belonging to the giv=
-en pad.
-> > +    Filled in by the application. =20
+> > +      - Index of the frame size in the enumeration =20
 >=20
-> These last changes are good, provided this phrase still renders correctly
-> now that you added a line break.
+> Rougue line break
+>=20
+> > +    belonging to the given pad and format. Filled in by the applicatio=
+n.
+> >      * - __u32
+> >        - ``pad``
+> > -      - Pad number as reported by the media controller API.
+> > +      - Pad number as reported by the media controller API. Filled in =
+by the application. =20
+>=20
+> over 80 cols
 >=20
 > >      * - __u32
 > >        - ``code``
 > >        - The media bus format code, as defined in
 > > -	:ref:`v4l2-mbus-format`.
-> > +	:ref:`v4l2-mbus-format`. Filled in by the driver.
+> > +	:ref:`v4l2-mbus-format`. Filled in by the application.
+> >      * - __u32
+> >        - ``min_width``
+> > -      - Minimum frame width, in pixels.
+> > +      - Minimum frame width, in pixels. Filled in by the driver.
+> >      * - __u32
+> >        - ``max_width``
+> > -      - Maximum frame width, in pixels.
+> > +      - Maximum frame width, in pixels. Filled in by the driver.
+> >      * - __u32
+> >        - ``min_height``
+> > -      - Minimum frame height, in pixels.
+> > +      - Minimum frame height, in pixels. Filled in by the driver.
+> >      * - __u32
+> >        - ``max_height``
+> > -      - Maximum frame height, in pixels.
+> > +      - Maximum frame height, in pixels. Filled in by the driver.
 > >      * - __u32
 > >        - ``which``
-> >        - Media bus format codes to be enumerated, from enum =20
+> >        - Frame sizes to be enumerated, from enum =20
 >=20
-> In general there are a few good additions, but to be honest I would
-> keep the changes small for sake of consistency with the existing
-> documentation of other enumeration-related ioctls
->=20
-> Thanks
->    j
+> Even more than 1/2, I am a bit failing to see what is missing in the
+> existing doc. If it feels better to others who will have a look, I for su=
+re
+> won't oppose this change though :)
 >=20
 > > --
 > > 2.35.1
 > > =20
 >=20
 >=20
-Thanks for reviewing.
 
---Dorota
 
---Sig_/vPfZ4CbmyVqo94p47OVPln.
+--Sig_/02RSxe3sdM1r0_xf5dPXf4D
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmJqnUMACgkQADBpX4S8
-Znd8jQ/8DpjlOIzRKpSjFYvngl3DGOsYQirndJNf2pxHhwV3vU3kCpl/32K1bhrI
-FZPD8THpKGhDmC9Kw2Q2mbxywvdS/crX5aeeucNgIg1KTSA/odIXou416vGAIrrO
-Xcc/9F+NHIow7qht03zQqczCoBmNcQV1MeigW0WDHOWWSQVfzNPK+ZonUqGp5VKj
-0aIiq6O7SZ1r5bdbt9CytRBnsOHCGeKc1mdPOh+ivIb/N5rgYNZA93DWpYpk6/10
-UewSUuaQH0S9tKFxh48y423Y2awy8HcF8sdjSl7RUWoY1p02vrGs2umT8XI1LkuL
-JBAKMTyVDk2neLGPWrLfcparK/ThbOtALutvQ2CoySYtiPIFcjQKvySreJoXkaUl
-lZn4T6IAd8eAb1ygX+s3dLZxZH0cmnAwk2i3PyF1RJk9T0xGtDJgpRKszLkfIsY1
-FcYnKZ6dcrgwswvwohzzivIicCF2etFMJq+1LQoW4JNvHGDEhsmzkzXmuKrQ4daj
-9VEnEB6KUnndZLUrmAFy1fvRLdI1SGZ0pEGsXTweeYuEK4oz8porBy/F63BwcH+x
-KE/7LZ/yZrz5NrK+c47xGTb3iGt5/1DCvue5wbHCOrK2OJ2r8jaYmz2znl0dpUXZ
-gnE108lqzk+KWBeOTH3VlvXJclaKh6BqZOMpZV3OHfRmLkpBWy8=
-=znw0
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmJqnwAACgkQADBpX4S8
+ZncAVA/+OGS6CIfwV7O9+nUL37fOPbbylVjZVeQPEItOlQFykECjlPaCSZ5kK9VN
+gSPllfQKLN3ICzT3tdcQdutT+rW14dplKgvHIXlFayqMJeZyO7rV63UmElAwwTTL
+mBlFIg1Vuw5jzC8lBnjly4xsrb6qi71KE9sNnhYqI5aK1JYYMw7JSCGNQmG8/Cre
+VCXd2/DhkkwUsqa4Y0wtiRB5ZU7MCfbnBLoDwHLlLQSsRy7flKporCCGEQAlVPBJ
+C+FLcFNMJ5OaBQASELrTaenf21Hq8nKDhnm1vtiSs1kCoeTjkVyzuIkZL1cGm+8X
+8qsX9DIYFSYe3yR1JyAdblnrfPuU6TdxDE8TaMVdzuHSL1umA/eifUvCIoVnZFD4
+FH6bBr4WMBNsmCA8KtNaDmbvGFcY2MMQPHwVEufPeHd9uK2DoAEYGKKXx12dqH8Q
+lXGPuhn9VWIxqNBiW48Z4CLfY5PraH7WmLasWLbuzGewfgjUahh7FxvnvEy3qbX1
+PSK/g5rbf/4mMHFgSk/24PLBep3BAZDnLbFLk/djMS9V6hok212ZeCIYKqPMJ/Ui
+ga5WSZMq7MV3U0K28sGPxzhflovBqput9+zKIHpaUOnl0vInxcxPRk851zVpjcXP
+U0Z1FfdECSoVizelszDNupUpTFDVYRDK9ThBaWbowpQzvbmyiV0=
+=Q2X7
 -----END PGP SIGNATURE-----
 
---Sig_/vPfZ4CbmyVqo94p47OVPln.--
+--Sig_/02RSxe3sdM1r0_xf5dPXf4D--
