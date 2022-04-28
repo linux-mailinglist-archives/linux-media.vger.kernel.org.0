@@ -2,169 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 748D5512DAA
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 10:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED3AD512DB1
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 10:05:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243464AbiD1IG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 04:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34064 "EHLO
+        id S1343803AbiD1III (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 04:08:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229769AbiD1IG0 (ORCPT
+        with ESMTP id S1343806AbiD1IIC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 04:06:26 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2057.outbound.protection.outlook.com [40.107.237.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD9717E06;
-        Thu, 28 Apr 2022 01:03:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mZLvYkcAdncLk+30Ha3gyCQnnMlWuNPYzlOOUN1kNnkxquVFPAEVvlcT9ARgMQjiRDd7aFdBTQ/hGSoBnuS/MCtPszoV4BhGwYX6RwCbPeCMk27SG4qynGhqr/cvoBwMt6/U8nB7/s69mnXvGhA7s4w0T4wpDuh+SHDZ0O9VcUytMvmQOIgu+XBWbV3RVIQxgSsFavB+kwGoGX4xezDx+o0PDq37wBoknQ1cQaeKa7t/klT69VbM0zPNo/baT1Nx1Q34GgSeoy44V3ep0WF47gZNWuO+50zx+Y12K++20PMB5A9Kr9/FLKBODkhEgtJuF1/rCiBDu6IScip56HIBRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kbMazzCskmK5MH/yt3fK0SXhkb+3wZdoZzhPbox96Js=;
- b=iPCqLJ9+1p6XcbAGC/AwcoQ/L+1Ho0vu8xrTTbVgFPeaPJPFATarFNa2CKCpvxM7pFF1pbQGQXGvJ+i7Xv+gW0C8vd36mSEOTsI+dhpv4mdAfNdORqZDkyTz1+meE8xUxvWcJ2BFVRsT0N957uWfpbjMd8cmD7fpibRziLPnM9/E9xXK9qjHUOgxCVFjFJiAstyvOKNCdQC3JRwXSe2VYzoMey8kzqXZNc1JyI/aw6HRASnYP5s+Ye+1Qe96ssEQ7Sn8iXq1CofTtQEDJUrdeyNy9HgX77y5MhTTbKEaPhXMr6S1xfdMJzVOVLLm7io1Qave5kDUvGWhkc3AVTTW/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kbMazzCskmK5MH/yt3fK0SXhkb+3wZdoZzhPbox96Js=;
- b=AUq8XaE+Iu9hSMadqTKQ0cgEdQ3qEHL5NrmuQT+ZJd+pJeY4Fn9oLp/cYTLFz2nwuVHhBb/2Uw/hpsA3CgA7Mi7bt5oTdm5w53kGY9fLpcMOnuj1Ih7U/C8AElN6VAfjetL8c4aZ/Og2meuMg8VrMgNUmWl0M1fgcNtJKgmVYHM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by IA1PR12MB6306.namprd12.prod.outlook.com (2603:10b6:208:3e6::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.20; Thu, 28 Apr
- 2022 08:03:11 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8%5]) with mapi id 15.20.5186.021; Thu, 28 Apr 2022
- 08:03:11 +0000
-Message-ID: <e4e5bd41-df5b-bb65-b92f-47122d1e7738@amd.com>
-Date:   Thu, 28 Apr 2022 10:03:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] dma-buf: add the name field to the table header
-Content-Language: en-US
-To:     Yuanzheng Song <songyuanzheng@huawei.com>, sumit.semwal@linaro.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220428063924.3570409-1-songyuanzheng@huawei.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220428063924.3570409-1-songyuanzheng@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9P250CA0002.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:532::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Thu, 28 Apr 2022 04:08:02 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0966F9D4E9;
+        Thu, 28 Apr 2022 01:04:47 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id CE5A46000D;
+        Thu, 28 Apr 2022 08:04:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1651133085;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XFs4BoPFxxMdlDnM4BwqsNcAhqErhYQfhGYqvICNnic=;
+        b=mp/2iSH7tfbe8g/5WJ3MiWav+wygO0D+A4ld69PaCo5bU9jE9M5pyY2WpYYMvhE10xe2lY
+        mtIvqWtsvYA3PCbxGlgXbTbEDoqEG1m+xDzrUovm1CYfVOBaDNQlYzpwe8lvXiyCafaVS3
+        zVFguuWu/SLdpeqvTHVavojWQydWEfBNw8iZXfOrE9pQSnsWUulwrG2eCKsZyEImte8tyK
+        6ik1cj/nbQTTh61UqFA6YA35nBhqLAaK3S8EffM1M7DY96sDD45Yk7P4sDV/NlEvf4MhvE
+        v+/ppmeXSHhl2abOjUsm1EvUIdFzWMCYUPK1wMEUTRrKmkKyhIAS/FtvjazP6A==
+Date:   Thu, 28 Apr 2022 10:04:37 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 13/45] media: sun6i-csi: Introduce and use video
+ helper functions
+Message-ID: <YmpKlePweCAyeOT0@aptenodytes>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com>
+ <20220415152811.636419-14-paul.kocialkowski@bootlin.com>
+ <13001485.uLZWGnKmhe@jernej-laptop>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 05c5c62b-a968-4919-a004-08da28ed89cb
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6306:EE_
-X-Microsoft-Antispam-PRVS: <IA1PR12MB6306C04676490AB25B98ACC083FD9@IA1PR12MB6306.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YyThP3670wEI4OsgFX/Lr8q76+IukI/SjlDAFHOTUwQgNSWmdvwLRAufVOA9/gxC9hmjl3LWiUUB6qsjSg/SmxsOI4JNagBHw/s78q6Smpe2AL2DwAopvvxVn0rEa2Ozcztd8uX1XikSoEhGunUmxJO/SemNQVwRm1tRYt0f/0rClmAuTGXGBMaHY4kL3Zvhp4+2F3we4YdZs2OKzlrgALuJSMvB4FU1RUg/PYEgHqpdRNwMTQnq4yn0weS3tt9TuL0lz9Wf4cISDWqQ+VHdXGZHFaMFpwNUQLFfuK5MPAVaQBtMlFBjpN4X10YZADtZymKe5OhnNLKCMZ6QW+ok9bTGKZQi5yvnFsPZZeJjo/jn0HApgj4+6d0fUKqgan30Ny9L1P4japnEywXCSgXrKwutKgtu3EBFe7FYArBjXomB1HLe83Ouv4x5bPdLRkr1B03oQI2U3uWjCtxIjmdOL/MEsts9PKpNUygZdoHLPuePnQRCleoKhAE0C6xGuqzN1DmZSEwKDHhMAEfAmw4AH3n6gexDvd58eepukknv3Uf/EflGIUv9B1amSMQcRHa96RUoj3Lid3TEwAuoe6qLbcYDF+B7QPai86rU8HHuLcW/fTzapmFvk0u4Fvogvmwd73paVfe5EWKkOmk6ZeT50SaBcBie2TvM8dw9o4Euba3jUtBeG+g8mCjL/Eu0QZxzlQW08OtsZDD+qJIL3AiTF5PPih3PakeuePmj6P6XC67iL0XNgwigg9VqCMn3PqvG
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(508600001)(6486002)(316002)(4326008)(66574015)(66556008)(66476007)(8676002)(86362001)(6666004)(31696002)(66946007)(38100700002)(6506007)(5660300002)(2906002)(36756003)(83380400001)(6512007)(26005)(31686004)(186003)(2616005)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1h6SXo4NjVpT1MvVjFFZFBFRUlSajhUclRidHR4czBGZ2NIdzRkckF5SlJk?=
- =?utf-8?B?dTdhSmZ5VFFMM2tFUjZyamNVQUdReE1UaEo4dURtdzl3VXVkOTl3ZTlKVnJ6?=
- =?utf-8?B?TEZRRTRla282blJRb1hacGtmN3JMemVOUE9Ca285ak4xb0FBYXF4UkpvRzBq?=
- =?utf-8?B?L1BqYmk0eE5KVTh4ellnc2E4WUl1NVZrWGNuUXprVGRqT1RmbjNrLzk2MmdP?=
- =?utf-8?B?WFdvNGwreWRPeHdPUTJaVlY5akVxOGpEMzZ4QjRldlNKcXd2SG5MdHRJT3N0?=
- =?utf-8?B?VVczbzcrdThSM1AzLzIxVkZNZXRzbDBNMEhGV0VqYzJqNXJQbStIZGtTc3FV?=
- =?utf-8?B?emxiTmNld1JhaURJUWwyYXRFbFhCNU1TRDI2NXlmdlJ4RFFSZ01LRGgybitT?=
- =?utf-8?B?RkNTaGQvRW9EM29ObUVlQzUzWXNkMmRaTnpaQzZqWEQraEJKc1RVM1FaVGhG?=
- =?utf-8?B?SG1pdkJqeVNsVDNyQzMwU082dTdLYURlQmc0NitOVVRBWkJuL2xlYlMzSGFi?=
- =?utf-8?B?dXZsQlNIN1o1QnpGYjVhc3VVVXgwb3RaOEFqMEJjRWIxYitXYmdENWFPdzlH?=
- =?utf-8?B?RkFsUlNTcG14eVNib2lOL2U4Z1ZoZm9HWDlFLzZLcjdiL251S2I4YzUrZ25v?=
- =?utf-8?B?TkZkeHpLSlhES3JkQWhveWdPS2RIU2t3cHdtOW5aN3B1dklacms4cjBGZUNG?=
- =?utf-8?B?bHZCa1dkNFJwanVldGo1YkkwRlMxSTg2UWVFZG1IYjFBbkh2L0kyQ1pkdWtK?=
- =?utf-8?B?Ujh3M0d1SDhUL0cvODk5Ly81ZmF2YTlNaFNnbDZrUEx2R1YxcnUxOGFUY01o?=
- =?utf-8?B?WkE2cEIxTkczMXdQbmxqU3JJSWFZQ1AzRXJLZHpxak1Rdkc5c0EvSlR3VlRw?=
- =?utf-8?B?SWF2WC8zQldUSlJ4dXQxS3pPRmRlY2l3MDg3MCtZNmthczVEbUlwTG5xQWhv?=
- =?utf-8?B?NE9lMWhDek4wSnduQmhRT1dYRTYvZjJOQWRvTGtTZldoTlBVR1Z1bFFKUWVQ?=
- =?utf-8?B?Zk5GVy9yN3lXeFlKSitXWWxKNHhKbVZDeUtkRWtoUUNyZkswZ3d4dFZkT3pQ?=
- =?utf-8?B?dFhBUDZKcldxaUdGMm1nRk02RjNRMzNHeGw5cmVSYTNiS1lzODI2WUsxK3NW?=
- =?utf-8?B?OXFCa1J3L1E1aTYwMUdrRmIwYkxrRjRPV2tybmxXSCtIaSszWGRtdW5QQ2J3?=
- =?utf-8?B?L2Yrbm1RRjBpOFcwaTExaDZ5TmVZYlFhTGVucU10aVhmd0tJbDFNcUMzcG90?=
- =?utf-8?B?VlJTTDNiUHFBYVd3MDhLcGZFYmxpYk1nWjNmNHJhTG9vcUVDYzZ4QUg2L1Zt?=
- =?utf-8?B?SGpTL2pVZm9QZk4xcUdJVjZCR1F0ckIybEpXcjN3ZEJudXcxOU1lOVMvbDBX?=
- =?utf-8?B?dGtrMnBPMmdxYXAwVnlJWXYvRURJU1k4Wlg5dG1vUWQwT1JjZGdoQzJ0K1VC?=
- =?utf-8?B?WXhuSVN6andMY0xKbUNSOHdSaVEyR1R2T1ZySmFBcDB4Sy9Nd3hTL1VoZFNl?=
- =?utf-8?B?NkRuZ2p5cEhqVS9oOU5LczlzV3VTNVFVcCtOVUUxQ0RWcVV5eENFem5rMGcr?=
- =?utf-8?B?S1VQYnFKc1ZmaG50SUxaU3RDQ2lodE00NE5VaHd4QnZVcklObUxKTEZsZk5p?=
- =?utf-8?B?bnhyeWdCc0VlSDluUWwzVWZVcVlMbGVhL2s1MWJWbEI2Tk9jSXEwRUw2UzAy?=
- =?utf-8?B?cVNFSmlodkNVUjE4aGhnRDFXMWJiajZkYVBpVWJqczI5dVFxcFkvSlhOL1lX?=
- =?utf-8?B?b1Q3WHJ6S0xoRWNuMEtYcmYwTTE4WTRtZU1yaVMxNHFaK3JlR3A2MVl2Q2VF?=
- =?utf-8?B?NU9UT3ZHaWJteFUwTFdoK3lOdFhOaExFZkRBUWxBbERJQVVaeGNpQzBwb2tU?=
- =?utf-8?B?WTNLbUw5VTJ2bWJNdVVLRVJQK3hEMDUxcWhqRzRzbWZaTFRGaVdBRy9wSVpr?=
- =?utf-8?B?bEFwUUNldlhJS2J6bDNSME1BSmh2eDJMRTJNWStyd2wxNWJQMitUekFLQmcv?=
- =?utf-8?B?dzBQeVBEV2NZUzEwT3RTR1hkdVA1THp1ekd5SEx2YTV0eWNlekZlQ0x3bWlt?=
- =?utf-8?B?Z25tcEVPV3FHa1p6L2tXMDdkM3Q5UGIyZkhvOVBzTHB4cXdXUlRBZE5tTEc3?=
- =?utf-8?B?UHJUTTJycEY2ditoYmo5VkNLQVlza2czRlgzdmYzY2o1dDQyVnlkZ2J1Q1Ey?=
- =?utf-8?B?MUF1UDBpNitDZm0zYUpUMStYSXluTVJhTHdZWFYvenNLZkVsY2hxZ1RIakZp?=
- =?utf-8?B?NCtQcEcvN1VUZXBZb3BGYzZhR3NHcU9rN3BvdXE3M0taRjFPVGRkUTNVMDgy?=
- =?utf-8?B?NmZ5TWVBUnJySmhqbjViMldRSWMzTjFrNXdIaFEzYjNyWkFXc1Y5UT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05c5c62b-a968-4919-a004-08da28ed89cb
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2022 08:03:11.2561
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9QW8ZBK+vaC+B0x9hepI5Qj0+/Ne1Px6B9tY6RAYSZB8iM6gpktyFU4qTcKbDNZE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6306
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="hbLKg0yuMi8/nDoQ"
+Content-Disposition: inline
+In-Reply-To: <13001485.uLZWGnKmhe@jernej-laptop>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 28.04.22 um 08:39 schrieb Yuanzheng Song:
-> 'cat /sys/kernel/debug/dma_buf/bufinfo' will print the Dma-buf
-> Objects' information when the CONFIG_DEBUG_FS=y.
-> However, the printed table header information does not contain
-> the name field. So we need to add the name field to the table
-> header and use the '<none>' to replace the empty buf_obj->name.
->
-> Signed-off-by: Yuanzheng Song <songyuanzheng@huawei.com>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+--hbLKg0yuMi8/nDoQ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sumit do you want to push this or should I go ahead?
+Hi Jernej,
 
-> ---
->   drivers/dma-buf/dma-buf.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 79795857be3e..a2f9a1815e38 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1351,7 +1351,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
->   		return ret;
->   
->   	seq_puts(s, "\nDma-buf Objects:\n");
-> -	seq_printf(s, "%-8s\t%-8s\t%-8s\t%-8s\texp_name\t%-8s\n",
-> +	seq_printf(s, "%-8s\t%-8s\t%-8s\t%-8s\texp_name\t%-8s\tname\n",
->   		   "size", "flags", "mode", "count", "ino");
->   
->   	list_for_each_entry(buf_obj, &db_list.head, list_node) {
-> @@ -1368,7 +1368,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
->   				file_count(buf_obj->file),
->   				buf_obj->exp_name,
->   				file_inode(buf_obj->file)->i_ino,
-> -				buf_obj->name ?: "");
-> +				buf_obj->name ?: "<none>");
->   		spin_unlock(&buf_obj->name_lock);
->   
->   		dma_resv_describe(buf_obj->resv, s);
+On Wed 27 Apr 22, 20:50, Jernej =C5=A0krabec wrote:
+> Dne petek, 15. april 2022 ob 17:27:39 CEST je Paul Kocialkowski napisal(a=
+):
+> > Introduce some helpers for buffer and general video configuration.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  .../platform/sunxi/sun6i-csi/sun6i_video.c    | 46 +++++++++++--------
+> >  1 file changed, 28 insertions(+), 18 deletions(-)
+> >=20
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c index
+> > e6c85fcc65bb..e47eeb27dc4e 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> > @@ -92,6 +92,29 @@ static bool sun6i_video_format_check(u32 format)
+> >  	return false;
+> >  }
+> >=20
+> > +/* Video */
+> > +
+> > +static void sun6i_video_buffer_configure(struct sun6i_csi_device *csi_=
+dev,
+> > +					 struct sun6i_csi_buffer=20
+> *csi_buffer)
+> > +{
+> > +	csi_buffer->queued_to_csi =3D true;
+> > +	sun6i_csi_update_buf_addr(csi_dev, csi_buffer->dma_addr);
+> > +}
+> > +
+> > +static void sun6i_video_configure(struct sun6i_csi_device *csi_dev)
+> > +{
+> > +	struct sun6i_video *video =3D &csi_dev->video;
+> > +	struct sun6i_csi_config config =3D { 0 };
+> > +
+> > +	config.pixelformat =3D video->format.fmt.pix.pixelformat;
+> > +	config.code =3D video->mbus_code;
+> > +	config.field =3D video->format.fmt.pix.field;
+> > +	config.width =3D video->format.fmt.pix.width;
+> > +	config.height =3D video->format.fmt.pix.height;
+> > +
+> > +	sun6i_csi_update_config(csi_dev, &config);
+> > +}
+> > +
+> >  /* Queue */
+> >=20
+> >  static int sun6i_video_queue_setup(struct vb2_queue *queue,
+> > @@ -160,7 +183,6 @@ static int sun6i_video_start_streaming(struct vb2_q=
+ueue
+> > *queue, struct video_device *video_dev =3D &video->video_dev;
+> >  	struct sun6i_csi_buffer *buf;
+> >  	struct sun6i_csi_buffer *next_buf;
+> > -	struct sun6i_csi_config config;
+> >  	struct v4l2_subdev *subdev;
+> >  	unsigned long flags;
+> >  	int ret;
+> > @@ -182,22 +204,13 @@ static int sun6i_video_start_streaming(struct
+> > vb2_queue *queue, goto error_media_pipeline;
+> >  	}
+> >=20
+> > -	config.pixelformat =3D video->format.fmt.pix.pixelformat;
+> > -	config.code =3D video->mbus_code;
+> > -	config.field =3D video->format.fmt.pix.field;
+> > -	config.width =3D video->format.fmt.pix.width;
+> > -	config.height =3D video->format.fmt.pix.height;
+> > -
+> > -	ret =3D sun6i_csi_update_config(csi_dev, &config);
+> > -	if (ret < 0)
+> > -		goto error_media_pipeline;
+> > +	sun6i_video_configure(csi_dev);
+>=20
+> What happened to that error handling? New helper function ignores return =
+value=20
+> of sun6i_csi_update_config(). Why?
 
+Ah that's a good point, the error value is still being returned by
+sun6i_csi_update_config so it should be kept around at this stage.
+
+Note that this is a transitional commit and sun6i_video_configure
+(which gets renamed to sun6i_csi_capture_configure) is eventually
+reworked to only configure registers (no checks) and returns void.
+
+If you think it's important to keep it in the meantime I can do that.
+
+Paul
+
+> Best regards,
+> Jernej
+>=20
+> >=20
+> >  	spin_lock_irqsave(&video->dma_queue_lock, flags);
+> >=20
+> >  	buf =3D list_first_entry(&video->dma_queue,
+> >  			       struct sun6i_csi_buffer, list);
+> > -	buf->queued_to_csi =3D true;
+> > -	sun6i_csi_update_buf_addr(csi_dev, buf->dma_addr);
+> > +	sun6i_video_buffer_configure(csi_dev, buf);
+> >=20
+> >  	sun6i_csi_set_stream(csi_dev, true);
+> >=20
+> > @@ -219,8 +232,7 @@ static int sun6i_video_start_streaming(struct vb2_q=
+ueue
+> > *queue, * would also drop frame when lacking of queued buffer.
+> >  	 */
+> >  	next_buf =3D list_next_entry(buf, list);
+> > -	next_buf->queued_to_csi =3D true;
+> > -	sun6i_csi_update_buf_addr(csi_dev, next_buf->dma_addr);
+> > +	sun6i_video_buffer_configure(csi_dev, next_buf);
+> >=20
+> >  	spin_unlock_irqrestore(&video->dma_queue_lock, flags);
+> >=20
+> > @@ -294,8 +306,7 @@ void sun6i_video_frame_done(struct sun6i_csi_device
+> > *csi_dev) * for next ISR call.
+> >  	 */
+> >  	if (!next_buf->queued_to_csi) {
+> > -		next_buf->queued_to_csi =3D true;
+> > -		sun6i_csi_update_buf_addr(csi_dev, next_buf->dma_addr);
+> > +		sun6i_video_buffer_configure(csi_dev, next_buf);
+> >  		dev_dbg(csi_dev->dev, "Frame dropped!\n");
+> >  		goto complete;
+> >  	}
+> > @@ -309,8 +320,7 @@ void sun6i_video_frame_done(struct sun6i_csi_device
+> > *csi_dev) /* Prepare buffer for next frame but one.  */
+> >  	if (!list_is_last(&next_buf->list, &video->dma_queue)) {
+> >  		next_buf =3D list_next_entry(next_buf, list);
+> > -		next_buf->queued_to_csi =3D true;
+> > -		sun6i_csi_update_buf_addr(csi_dev, next_buf->dma_addr);
+> > +		sun6i_video_buffer_configure(csi_dev, next_buf);
+> >  	} else {
+> >  		dev_dbg(csi_dev->dev, "Next frame will be dropped!\n");
+> >  	}
+>=20
+>=20
+>=20
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--hbLKg0yuMi8/nDoQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJqSpUACgkQ3cLmz3+f
+v9F9WQf/Yw9U3I/o7JqV+HsxUfKaf4gX6vbH1O2ZCv4jD06TNpE+RVR8CE2SjqVo
+wI0w+RbVZMBT64ueuuqr2dRPuYlJ15WVCgMKU21N8vEAXDxfYVQr4f3/7cj8CBzK
+x6vCvWs5dbqKF3ek3S3h7y9iMhDQ9nbVh7dZlJnQfwcAWK+K/aQEfpqnTBKpL3km
+MCk9PxVjRtk23TS1pS/GtDids1vtMMNjnaDvfRR/NWd3dfEL25wC72N+7bxNv0fX
+06IcEdCHll0ZanSeo/2Rdpy4KFCtC8LI+5xmv4lOZ7M/4+1UdlhI9ArYZvseiK3N
+u8wy39tlfO0JuXma+sRGdMQDtSWPQQ==
+=30KN
+-----END PGP SIGNATURE-----
+
+--hbLKg0yuMi8/nDoQ--
