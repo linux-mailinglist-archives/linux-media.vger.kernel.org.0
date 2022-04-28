@@ -2,228 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51E48513468
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 15:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C59513490
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 15:09:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346684AbiD1NII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 09:08:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54536 "EHLO
+        id S1346381AbiD1NM5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 09:12:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345704AbiD1NIH (ORCPT
+        with ESMTP id S1345315AbiD1NMw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 09:08:07 -0400
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C9084ED0
-        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 06:04:51 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id D0646200018;
-        Thu, 28 Apr 2022 13:04:49 +0000 (UTC)
-Date:   Thu, 28 Apr 2022 15:04:48 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@puri.sm
-Subject: Re: [PATCHv2 1/2] doc/media api: Try to make enum usage clearer
-Message-ID: <20220428130448.bfht2nf23n6lidsk@uno.localdomain>
-References: <20220428105211.7106ce6a.dorota.czaplejewicz@puri.sm>
+        Thu, 28 Apr 2022 09:12:52 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2DFFB0A6C
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 06:09:37 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id t11so3340413qto.11
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 06:09:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=s18GDO57PNAgRtMK8C6iNS6vfqL/ISq2KJZGUSJ2Tyo=;
+        b=ughLqVdfWYzKzui0OFORJzcx5HA4uYZ7/2xgFrSgtMBgsEMXpOMvBDMBVqiHzZzOqo
+         z4qXmMMNFU0iE3E9X/hmtTtLoTpl7XJxck+ZognpaBrA9pgHE0XrrF9BQGAp1eZvA8X9
+         4yw01krYIybyHtlnTajc+FUoT/IMaBX3NJIw6XbP1X2mxanRnEqRv6yeMx6fh83fnGcL
+         kTdzVjWFoVnZJhGUwk3+BhxdUGqcuU4xEQGy5o/Dhjzm029DPywE8G/3sWuQPRHNdYo/
+         fgh6z+HgiqtGweMTMQ4K+0UHQHHGhsdf6tvZDB0MablUirVqQpKKwVtEd1BtC82F15Rz
+         dACA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=s18GDO57PNAgRtMK8C6iNS6vfqL/ISq2KJZGUSJ2Tyo=;
+        b=GYYlh3zMdfL/LWfw6kfJnO65sTNPieKZmB3Sm5ESX0TL7+6Ou9DZG/dLzY54SIfI9K
+         40Lau8Dn7OBMhK4f+GE686Mrs5nlSTPeelMkoHTyBacSHua5iLKvh5hz7Ku3hYZPZBni
+         ykgdH5+3aiDTPstVmaQ+GMTcqJMUZuCb+AHfHpsTA01oLWDiZ9Nlwv1LVH3T4REM+SuV
+         hMAlSC94hT1UqaBwTZPo2sinn50hXyj9ZwCLmmrOxXm1bRpHIlz/fw7Y1gP+/3WvhqEg
+         SBFSZoXrsgXOoimbdjOWfAdFsUM4rLSKsHj4jL9N3fGmkP2mkmP8Knr68YvZXHiDp8mX
+         fpPg==
+X-Gm-Message-State: AOAM532t939ZsUlqNRQFE3JFfzgFYvX8k1FQbgUjSlMAvMOs4MlMy8Ee
+        gAco+7dc1jod/+VfET7rQCedMg==
+X-Google-Smtp-Source: ABdhPJy3PL9wj4LxTpDUJPtDjChVZiZoa0P6DuFBNAcegYF/81rEJYf19o3Rdp6oi/IqiOtldPzvew==
+X-Received: by 2002:ac8:5a0a:0:b0:2f3:64a5:5ee3 with SMTP id n10-20020ac85a0a000000b002f364a55ee3mr15283649qta.505.1651151377040;
+        Thu, 28 Apr 2022 06:09:37 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id b11-20020a05622a020b00b002f38fe59f03sm347538qtx.18.2022.04.28.06.09.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 06:09:36 -0700 (PDT)
+Message-ID: <d8de72b8c9c6252e2ea66d790e4a5c938050fb0a.camel@ndufresne.ca>
+Subject: Re: [PATCH v4 03/24] media: videobuf2-v4l2: Warn on holding buffers
+ without support
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 28 Apr 2022 09:09:35 -0400
+In-Reply-To: <4b7a3d71-629b-56d6-fdc7-d07682390fd2@xs4all.nl>
+References: <20220426125751.108293-1-nicolas.dufresne@collabora.com>
+         <20220426125751.108293-4-nicolas.dufresne@collabora.com>
+         <CAAFQd5C6qmxmn4y=cx5Mtb3p8vcTAFm6Jfc1vMAE8+x9iwhDZg@mail.gmail.com>
+         <a78920881b2ffaf1fba04bc9ebeda591ec0dfd87.camel@ndufresne.ca>
+         <4b7a3d71-629b-56d6-fdc7-d07682390fd2@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="toluwoxxewqm2y5f"
-Content-Disposition: inline
-In-Reply-To: <20220428105211.7106ce6a.dorota.czaplejewicz@puri.sm>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Le jeudi 28 avril 2022 =C3=A0 08:12 +0200, Hans Verkuil a =C3=A9crit=C2=A0:
+> On 27/04/2022 17:08, Nicolas Dufresne wrote:
+> > Le mercredi 27 avril 2022 =C3=A0 13:31 +0900, Tomasz Figa a =C3=A9crit=
+=C2=A0:
+> > > Hi Nicolas, Sebastian,
+> > >=20
+> > > On Tue, Apr 26, 2022 at 9:58 PM Nicolas Dufresne
+> > > <nicolas.dufresne@collabora.com> wrote:
+> > > >=20
+> > > > From: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > > >=20
+> > > > Using V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF flag without specifying th=
+e
+> > > > subsystem flag VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF, results i=
+n
+> > > > silently ignoring it.
+> > > > Warn the user via a debug print when the flag is requested but igno=
+red
+> > > > by the videobuf2 framework.
+> > > >=20
+> > > > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > > > ---
+> > > >  drivers/media/common/videobuf2/videobuf2-v4l2.c | 7 ++++++-
+> > > >  1 file changed, 6 insertions(+), 1 deletion(-)
+> > > >=20
+> > >=20
+> > > Thanks for the patch. Please see my comments inline.
+> > >=20
+> > > > diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/driv=
+ers/media/common/videobuf2/videobuf2-v4l2.c
+> > > > index 6edf4508c636..812c8d1962e0 100644
+> > > > --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > > > +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > > > @@ -329,8 +329,13 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2=
+_buffer *vb, struct v4l2_buffer *b
+> > > >                  */
+> > > >                 vbuf->flags &=3D ~V4L2_BUF_FLAG_TIMECODE;
+> > > >                 vbuf->field =3D b->field;
+> > > > -               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M=
+_HOLD_CAPTURE_BUF))
+> > > > +               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M=
+_HOLD_CAPTURE_BUF)) {
+> > > > +                       if (vbuf->flags & V4L2_BUF_FLAG_M2M_HOLD_CA=
+PTURE_BUF)
+> > > > +                               dprintk(q, 1,
+> > > > +                                       "Request holding buffer (%d=
+), unsupported on output queue\n",
+> > > > +                                       b->index);
+> > >=20
+> > > I wonder if we shouldn't just fail such a QBUF operation. Otherwise
+> > > the application would get unexpected behavior from the kernel.
+> > > Although it might be too late to do it now if there are applications
+> > > that rely on this implicit ignore...
+> >=20
+> > In the context of this patchset, the statu quo seems to be the logical =
+thing to
+> > do. We can raise this up in a separate thread. The side effect is of co=
+urse
+> > confusing for developers, but it is hard for me to tell if a hard failu=
+re may
+> > break an existing software.
+>=20
+> I am leaning towards returning an error as well. It makes no sense to try
+> to hold on to a buffer when this is not supported.
+>=20
+> I also thought that it should be enough to rely on the core to clear the
+> flag upon return if it isn't supported, but looking through the vb2 core =
+code
+> it looks like we're not clearing unknown flags at all, so running this fo=
+r
+> older kernels that do not support holding at all will not clear the flag
+> either.
+>=20
+> The handling for flags in vb2 can be improved, I think I'll take a look a=
+t
+> that myself.
+>=20
+> I plan to merge this series soon, but will skip this patch for now.
 
---toluwoxxewqm2y5f
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Ok, no problem. For me, as long as we do something about it, since it was n=
+ot
+obvious and time consuming to debug.
 
-Hi Dorota,
+regards,
+Nicolas
 
-
-On Thu, Apr 28, 2022 at 10:52:11AM +0200, Dorota Czaplejewicz wrote:
-> Added: mbus codes must not repeat
-> Added: no holes in the enumeration
-> Added: enumerations per what?
-> Added: who fills in what in calls
-> Changed: "zero" -> "0"
-> Changed: "given" -> "specified"
->
-A more discoursive commit message would be appreciated. Just a few lines
-before the crude list of changes:
-
-Something like
-
-"Update the documentation of ... in order to clarify etc etc"
-
-> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> ---
-> Hello,
->
-> this is the second attempt at updating the media documentation.
->
-> Differences from previous: "selected" is now "specified", "array" is now "enumeration", and "caller" is now "application".
-
-Please stay in 80 cols even for parts that won't end up in the commit
-message, it's hard to read this if you have multiple terminal windows
-open.
-
->
-> No differences: I haven't used the frame intervals calls and haven't gathered practical knowledge about where docs may be insufficient, so I didn't touch its documentation.
-
-I think Hans required to change the documentation of that ioctl to
-match the style of the changes you have made here, not because
-something is missing there.
-
->
+>=20
 > Regards,
-> Dorota
->
->  .../v4l/vidioc-subdev-enum-mbus-code.rst      | 39 +++++++++++++------
->  1 file changed, 27 insertions(+), 12 deletions(-)
->
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-> index 417f1a19bcc4..87572de0fd26 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-> @@ -31,15 +31,29 @@ Arguments
->  Description
->  ===========
->
-> -To enumerate media bus formats available at a given sub-device pad
-> -applications initialize the ``pad``, ``which`` and ``index`` fields of
-> -struct
-> -:c:type:`v4l2_subdev_mbus_code_enum` and
-> -call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl with a pointer to this
-> -structure. Drivers fill the rest of the structure or return an ``EINVAL``
-> -error code if either the ``pad`` or ``index`` are invalid. All media bus
-> -formats are enumerable by beginning at index zero and incrementing by
-> -one until ``EINVAL`` is returned.
-> +This call is used by the application to access the enumeration of bus formats
-> +for the selected pad.
+>=20
+> 	Hans
+>=20
+> >=20
+> > regards,
+> > Nicolas
+> >=20
+> > >=20
+> > > Best regards,
+> > > Tomasz
+> >=20
+>=20
 
-This is a good introductory phrase.
-
-> +
-> +The enumerations are defined by the driver, and indexed using the ``index`` field
-> +of struct :c:type:`v4l2_subdev_mbus_code_enum`.
-> +Each value of ``pad`` corresponds to a separate enumeration.
-
-Isn't this a repetition of the above "enumeration of bus formats for
-the selected pad" ? Also, the fact different mbus codes are available
-at different pads is an intrinsic characteristics of the device
-capabilities and of what a pad represents. Put it in this way it seems
-it's an API requirement.
-
-> +Each enumeration starts with the ``index`` of 0, and
-> +the lowest invalid index marks the end of enumeration.
-> +
-> +Therefore, to enumerate media bus formats available at a given sub-device pad,
-> +initialize the ``pad``, and ``which`` fields to desired values,
-> +and set ``index`` to 0.
-> +Then call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl
-> +with a pointer to this structure.
-
-Could these two paragraphs be just:
-
-To enumerate all the media bus codes available at a give sub-device pad,
-an application set the ``index`` field to 0 and then call the
-:ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl with a pointer to this structure,
-incrementing ``index`` by one until ``EINVAL`` is returned.
-
-> +
-> +A successful call will return with the ``code`` field filled in
-> +with a mbus format value.
-
-Generally, I see "mbus code", not "mbus format" as far as
-I'm aware..
-
-> +Repeat with increasing ``index`` until ``EINVAL`` is received.
-> +``EINVAL`` means that either ``pad`` is invalid,
-> +or that there are no more codes available at this pad.
-
-Is it necessary to add this last paragraph. Isn't it specified in the
-error code description below ?
-
-EINVAL
-    The struct
-    :c:type:`v4l2_subdev_mbus_code_enum`
-    ``pad`` references a non-existing pad, or the ``index`` field is out
-    of bounds.
-
-
-> +
-> +The driver must not return the same value of ``code`` for different indices
-> +at the same pad.
-
-This might be a good thing to specify, a little obvious maybe but it
-doesn't hurt.
-
->
->  Available media bus formats may depend on the current 'try' formats at
->  other pads of the sub-device, as well as on the current active links.
-> @@ -57,14 +71,15 @@ information about the try formats.
->
->      * - __u32
->        - ``pad``
-> -      - Pad number as reported by the media controller API.
-> +      - Pad number as reported by the media controller API. Filled in by the application.
->      * - __u32
->        - ``index``
-> -      - Number of the format in the enumeration, set by the application.
-> +      - Index of the mbus code in the enumeration belonging to the given pad.
-> +    Filled in by the application.
-
-These last changes are good, provided this phrase still renders correctly
-now that you added a line break.
-
->      * - __u32
->        - ``code``
->        - The media bus format code, as defined in
-> -	:ref:`v4l2-mbus-format`.
-> +	:ref:`v4l2-mbus-format`. Filled in by the driver.
->      * - __u32
->        - ``which``
->        - Media bus format codes to be enumerated, from enum
-
-In general there are a few good additions, but to be honest I would
-keep the changes small for sake of consistency with the existing
-documentation of other enumeration-related ioctls
-
-Thanks
-   j
-
-> --
-> 2.35.1
->
-
-
-
---toluwoxxewqm2y5f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAmJqkO8ACgkQcjQGjxah
-VjymVhAApUEsdzPNeWh7kxkyZbVPoJgq+1UFS/zhkJNnby4tmdpJ86TbbKtzjifj
-s4Hw1QyCQkEgZxl1vPpmUpcGlkVEafHT7AN9DjuToOjKJKAWhhNuUO4n8nrRUkhN
-1R5KV/ffy3ighSBSOtlyaW9a+GtVwNn39UFBK9FqKKlCHQsY4qwO0jivltjIWM1h
-WTSFEcl7nrky3tGp45WvezT1ZOjPCSdn2dsJ2tmBbeZQ00qJYp7hHuqKDId6jDSV
-LUuQ9yV95PH1gXMTmKmraUl/qwj0teLx5SKPZ11oSTkPGdUjyisL6hp5XleTmozy
-5aWnY3C0rhLoeQ4ljxWyXIppMxxO+Vkihow/CYHo9oVBHuy4EiCQoxKtJ0VBUa/r
-2D/XEoJRD5xB326V3LAt7Rhk0t1RPq89kpl7ilXDdLn+meBx/NhPyPDSexbimnEf
-uNSfMaWHny76bioOT/29pHrvNhss7knpwW3yXkXHbmLrtbbLJ6p6heoMJ0raP6fe
-GYybe9060leuTxq30yhpuolCYOutL/+dBczD6rqm3V8qkNKmZnAiXC+2fVra6BTo
-8aNE8WQ5zfjWexSQw2+g7B4rsCQp6SJ6BNWsY9ynwX11Rsrs5p7N6EWyhSNl4ntw
-4CIBTDt59sCh6aGrYCLMwC62RMufYzk3UwQiTg2IPtzUjFG/i4I=
-=OWpT
------END PGP SIGNATURE-----
-
---toluwoxxewqm2y5f--
