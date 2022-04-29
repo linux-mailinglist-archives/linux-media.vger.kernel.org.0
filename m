@@ -2,148 +2,275 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C99685144F0
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 10:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80D105145D2
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 11:46:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356186AbiD2JBh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Apr 2022 05:01:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47822 "EHLO
+        id S1356718AbiD2JsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Apr 2022 05:48:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347883AbiD2JBf (ORCPT
+        with ESMTP id S244541AbiD2JsO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Apr 2022 05:01:35 -0400
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-eopbgr150079.outbound.protection.outlook.com [40.107.15.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54F6186E02;
-        Fri, 29 Apr 2022 01:58:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mI2saKNr7iOzfk9U4EYXht46c76Y2EQc2gobwCbc3D0mN1a8akLcFZYUq5akyLmi2F7OmVOAVREyDASsGqZb8yrP4NVHoCuwdxmAgykXZ+pk7BT7/7W6R08dOdaL/JCdzTriJSS7qQx15FcACS+wTy+guguB9IVUmfgcUut8JzagYSPqeQXbrppFwMW9kxRebQV2ZVmryOhU6k1QiR3OoU1U2mBpAH/fd0CJlJEpCGkqT/tyAZ31PKp77heWet+DuVx5VroPYDUNC0f0pJ/R8VoxQQn1SPzi8DVNDqWn0w1bLEFBdvIHfXivTvBjCmeA1XSIBEnYCnrEFYLqP8ofMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P7RRaTFjmSbM7HSEuXXR41ASDpyb5tfKFaR191EujIA=;
- b=ho7txe9P94AyH+4wmeKZMo/X8TtCMwcIi8BSSh1hqfk485rN/aK5v4+Dn/ozmwhGbTZWfGa/h0KmwY/UM7mK4iM8ZMdxQRcmscU7nbr29287h8Eo4+iCC+MDeS6HpHk/Hl7NMY7ETQFawPE7bXnJ9LLKp1XWCtghgu8emYwuGqNXsHJiYZw/zIAxJTZdfdkLUo3WE/AkxZwyooGvtfXgMSOy7UcYywyIsLlxV3Jl7mUUw2eZmfJc1hmHsCKYr4iKrsfO6efjmMUstbiVve6laWSdCeY0xVJhEPMpLFqHEDIZOI2AV3iYe1xtZuHDN7bEDwRzfbyTDfJkWB4LO7/qEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7RRaTFjmSbM7HSEuXXR41ASDpyb5tfKFaR191EujIA=;
- b=AsdAUXeuz+wzM+KtSnh5pg4g+tTza651uzTFB2k/SObTss/+s6TTgAOCZHTdKhdNQ9Ng+xxzXuCXaL0YWXbW/wn5MX2E4oDkY9Jh+IqlLQJq3QJ0G1wqySnssB/ejeiwreliNpJorUM9uBRMDLsOzR0BsKN3YaKYYsq+qVJKPag=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by DB7PR04MB5225.eurprd04.prod.outlook.com (2603:10a6:10:20::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.26; Fri, 29 Apr
- 2022 08:58:15 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::ed87:b085:802d:2390]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::ed87:b085:802d:2390%6]) with mapi id 15.20.5206.013; Fri, 29 Apr 2022
- 08:58:15 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] media: amphion: wake up when error occurs
-Date:   Fri, 29 Apr 2022 16:57:57 +0800
-Message-Id: <20220429085757.18443-1-ming.qian@nxp.com>
-X-Mailer: git-send-email 2.36.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0020.apcprd02.prod.outlook.com
- (2603:1096:4:195::7) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
+        Fri, 29 Apr 2022 05:48:14 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E80C1CAA;
+        Fri, 29 Apr 2022 02:44:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 29B09B82C1A;
+        Fri, 29 Apr 2022 09:44:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23F1EC385A7;
+        Fri, 29 Apr 2022 09:44:47 +0000 (UTC)
+Message-ID: <4334520e-af49-fe32-fb23-ef9af6388529@xs4all.nl>
+Date:   Fri, 29 Apr 2022 11:44:46 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2ed51219-1d7e-4af3-3c8f-08da29be6563
-X-MS-TrafficTypeDiagnostic: DB7PR04MB5225:EE_
-X-Microsoft-Antispam-PRVS: <DB7PR04MB5225C8DBFBF32B1C6402E2A1E7FC9@DB7PR04MB5225.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PI8ml+9+0CYAYycpU2k1xNI7Cmd+CdLhO6gg/E2AS7dk/0DrdGKfROMi+zlL2I5naaENwmwtV5gEgPs2k6ubyQuxUiCGRvF7ngOruHrDC3fVjcV/fe5MkOwlVMYdOEKKO+peQvTjjaIgxnoI+VTyCEtYIds454F1CkoFwVxJgU8nbsppbTDQVm1nJyE6Dv4Ymf2uUjcivCpmtd2kdQVXjXHHLqzxIUAAqhdZoXma4TPjNK/qTeccSm8BOJKyGoHFCDuQTjS0/S6POCTZHA8BSF/vtqZmQHdfW10lT3NxxCIGRMEYIyAIVsV0nUgGCwMZ1u3favn5rhIgEVqO2ToSOlJcG/f+x35MXeBFLoO4WzxynUGvDGKXLbflpS59727CaEwVMIYVVcmP8wUCuf1Pq6guuZgZQcbdmFOB3sSHHgIeNq59CYckoH44SZX94U/uyWkRIDlKUfZG0JL4ZQUlBAKpVjC0qaXxcK27jbzcaGjx7sSnITUWiJCYs44E+D50yVeAOHzVOIOefyPEEBx3gRf4XguS+EoU4yTB7Nf0LQ0opoWeQOSzeKgE+cqd/EBV82iwpjBAoX3Rm85yh2ZH16+QuZxSAK5M/i6gs0vqP/8tV0bRogB0jWBHrKI2KFXw87+81etQGfovLyKGdzttpBPvcKY+hl3S1Do9IwVtc174pfYctJroUfS9rFCg9c+UBBUk1Z+y7QjcgYIN2HxKSQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(186003)(1076003)(2616005)(86362001)(38350700002)(38100700002)(83380400001)(316002)(36756003)(5660300002)(8676002)(4744005)(44832011)(7416002)(4326008)(8936002)(66946007)(66556008)(66476007)(2906002)(52116002)(6506007)(26005)(6512007)(6666004)(508600001)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Bo4UtZB+0FlhiRm88WAQmqwkFoteJzBs5L3SEX5MGqgddetqzA+9YB39yrC1?=
- =?us-ascii?Q?lKSWm+wbnGpN+fxRt4/CdK5lzyEFCBNPQvKbHtgHx2Fy8Dq79hOcWP6ruqwC?=
- =?us-ascii?Q?4XlSiWC1H1C56IeSz1rjNhcSXxOwJhIwnLael8AszgEHh/qRFllBHe02uHND?=
- =?us-ascii?Q?VF5B8wRVKwFSMSHkyVE03JvIo10Z96JR2J9O9MqCifx34efNcCORK0X5wJA7?=
- =?us-ascii?Q?mNbq6EvjioSqRvdLLp2xAD7NOIc2eM2t05iAzd1CLt0enmuEx+gPVpFB5Ftk?=
- =?us-ascii?Q?BqoPsUR4Znui5ybRPlTlgLqkEZJ4PwcXTekjhjnMWiKlW+iHccACSXWGzuZv?=
- =?us-ascii?Q?vwQ5r8VjlZnb/yAl2QtSIPD3YiAEX0kUsPOtZDQVpYj9bU7duD3RNEXxDuKl?=
- =?us-ascii?Q?/+ffPhhzj7Tz+qvojt0rAhIch7eIxcSkpkeyTveo7o2WyPE5Df9PB8hZjxXI?=
- =?us-ascii?Q?JpldbFtQqidkwMicpSOA4dWYtGdCyOKcc5K9KzSf+eH0Ivj9AWAm+02LNHEa?=
- =?us-ascii?Q?qgGDLU9ig1yvKCvHVQZBbwp7vb/ndNXqvjZboHfXtC28h35GkJux8ibmrWXZ?=
- =?us-ascii?Q?ql9iFQM/A8mH+HLf3350tjw+j6o3XEnWshPHAtXFhKspw5pT5uyXFNhp3QDo?=
- =?us-ascii?Q?Dy9X8iPvWl/F0yuD8zfsGSNiIPF8a1wKtDqSnrXH4TdZRMNJKPfEYC5iDcsF?=
- =?us-ascii?Q?KSkwnjqcMMiN3ilJxDRkTFA7RcuvzdTEstQG9vYUdzMj0xquPYtEEZRa/NGY?=
- =?us-ascii?Q?zbamv5Bc5jsVSh0ktyXf7KONqC2j4XcUKa+AyulbwkKhY9ZVxXKNzMsD3W+t?=
- =?us-ascii?Q?c4HfvNuYvQCEiFuUfN1Cb0+XixF42btUkZiH+Dwlso3Hs4YwoBOrAPjaMXlA?=
- =?us-ascii?Q?16BORp0ZVOxxxSeQlfec1hrO0L2cXUMYCq7dS5wmAvLr5fFuLNUHpoBZp8rz?=
- =?us-ascii?Q?MAiwtsJQ1RqDZNdPVNgbigZeYngAd1SaD3j7WZ+JGYXC0naNRTayzDAZmcTP?=
- =?us-ascii?Q?9bVIhLPi59f1FXdLxCBkbijRjFhIj7tUmk83afSMt6GMURwCv9JU/yQtu3uS?=
- =?us-ascii?Q?byfdHd9UbDZnJC3MmBXSiwxyBtWYTcLK1IuUdrRdj6qkPYLy9w1oWjSWsrXJ?=
- =?us-ascii?Q?rw2pe5rEIA74ZzlrUkkzuzuOfmcWq9VKuzNazUs8FULy+RifoAjEN4dXS33k?=
- =?us-ascii?Q?5xof3n+V6UXUPPXNEwbrdPwlj3jMPYgoGlDPG2blZm0Q3FdARLMOhVc/gubQ?=
- =?us-ascii?Q?0DU6imrtlKLF+ujZo2CSSaoX7bmcaPtOeWcJfmzzas4yw14SC6sUm7Tfvuxy?=
- =?us-ascii?Q?MUDlyw3+Nb6Be6n410687a05Dqe4qj9jw/jyQ8cbQKaD3lq+HBRNoR0eNsV1?=
- =?us-ascii?Q?103VEybRKqG9hQvGjDDBBHTVRSh50o8YZ8U1d4GN+Wl8h9yX+5HFETzsO7nD?=
- =?us-ascii?Q?W1+xPZWCwcZPDxEOGMXIz2PkruaN+7O0vz3Ldk8UXWN5y1qdjtuJ02z3+Wf7?=
- =?us-ascii?Q?8c8ut+iREARqd+xkJEKWoEMydb5lQFyT/+vYzMcH1tHTk/qsYiATkp8xU9Ai?=
- =?us-ascii?Q?QF9WgS6MpLUNb2rb013oU73irUdIJeCaIqsvTdR//er/N5hb2JeZdHPZrtDV?=
- =?us-ascii?Q?GxCI/3pQ4b3UA3NXRXQHtIGTIROHB4nmFD/86D4IQ9KdkVXM+giVfQ1PMHF8?=
- =?us-ascii?Q?+Tx5ilvieNX4+RLn7byUUYwTjGguqvTpkitCEghajZBPwY2Y7nig7X+hNwvl?=
- =?us-ascii?Q?+cMCqCMwbg=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ed51219-1d7e-4af3-3c8f-08da29be6563
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2022 08:58:15.1311
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x3kKSVRNCiqryBH5KItaZoZf8vQ8uByjgWYpkckXrT0gemYuLyQjsdbymDUWlwlPgdluzuKkaHm3aw9msq6J+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB5225
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [DKIM] [PATCH v10, 00/15] media: mtk-vcodec: support for M8192
+ decoder
+Content-Language: en-US
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20220426100828.13429-1-yunfei.dong@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220426100828.13429-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-when error occurs, driver set error flag,
-and driver need to wake up the poll wait
+Hi Yunfei,
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
----
- drivers/media/platform/amphion/vpu_v4l2.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On 26/04/2022 12:08, Yunfei Dong wrote:
+> This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly, refactor
+> power/clock/interrupt interfaces for mt8192 is lat and core architecture.
+> 
+> Secondly, add new functions to get frame buffer size and resolution according
+> to decoder capability from scp side. Then add callback function to get/put
+> capture buffer in order to enable lat and core decoder in parallel, need to
+> adjust GStreamer at the same time. 
+> 
+> Then add to support MT21C compressed mode and fix v4l2-compliance fail.
+> 
+> Next, extract H264 request api driver to let mt8183 and mt8192 use the same
+> code, and adds mt8192 frame based h264 driver for stateless decoder.
+> 
+> Lastly, add vp8 and vp9 stateless decoder drivers.
+> 
+> Patches 1 refactor power/clock/interrupt interface.
+> Patches 2~4 get frame buffer size and resolution according to decoder capability.
+> Patches 5 set capture queue bytesused.
+> Patches 6 adjust GStreamer.
+> Patch 7~11 add to support MT21C compressed mode and fix v4l2-compliance fail.
+> patch 12 record capture queue format type.
+> Patch 13~14 extract h264 driver and add mt8192 frame based driver for h264 decoder.
+> Patch 15~16 add vp8 and vp9 stateless decoder drivers.
+> Patch 17 prevent kernel crash when rmmod mtk-vcodec-dec.ko
 
-diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-index 49747e0ee96e..a5de72f644a1 100644
---- a/drivers/media/platform/amphion/vpu_v4l2.c
-+++ b/drivers/media/platform/amphion/vpu_v4l2.c
-@@ -73,10 +73,10 @@ void vpu_v4l2_set_error(struct vpu_inst *inst)
- 	if (inst->fh.m2m_ctx) {
- 		src_q = v4l2_m2m_get_src_vq(inst->fh.m2m_ctx);
- 		dst_q = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
--		if (src_q)
--			src_q->error = 1;
--		if (dst_q)
--			dst_q->error = 1;
-+		src_q->error = 1;
-+		dst_q->error = 1;
-+		wake_up(&src_q->done_wq);
-+		wake_up(&dst_q->done_wq);
- 	}
- 	vpu_inst_unlock(inst);
- }
--- 
-2.36.0
+I'm getting loads of sparse and smatch warnings/errors:
+
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c:20:28: warning: incorrect type in argument 1 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c:176:21: warning: incorrect type in argument 1 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c:179:21: warning: incorrect type in argument 1 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:463:26: warning: incorrect type in argument 1 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:647:60: warning: incorrect type in argument 2 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:723:30: warning: incorrect type in argument 1 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:740:48: warning: incorrect type in argument 2 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1995:44: warning: incorrect type in argument 2 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:532:34: warning: incorrect type in argument 2 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:673:40: warning: incorrect type in argument 2 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:674:48: warning: incorrect type in argument 2 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:675:45: warning: incorrect type in argument 2 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:678:37: warning: incorrect type in argument 2 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:684:21: warning: incorrect type in argument 1 (different address spaces)
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1912:45: warning: Using plain integer as NULL pointer
+SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1924:44: warning: incorrect type in argument 2 (different address spaces)
+
+
+smatch: ERRORS
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1192 vdec_vp9_slice_map_counts_eob_coef() error: buffer overflow 'counts->coef_probs[i][j][k]->band_0'
+3 <= 5
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1194 vdec_vp9_slice_map_counts_eob_coef() error: buffer overflow 'counts->eob_branch[i][j][k]->band_0'
+3 <= 5
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1196 vdec_vp9_slice_map_counts_eob_coef() error: buffer overflow 'counts->coef_probs[i][j][k]->band_0'
+3 <= 5
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:2018 vdec_vp9_slice_core_decode() error: we previously assumed 'pfc' could be null (see line 1963)
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:700 vdec_h264_slice_single_decode() warn: unsigned 'nal_start_idx' is never less than zero.
+
+And also one compile warning when compiling on a 32 bit platform (i.e. arm or i686):
+
+In file included from /home/hans/work/build/media-git/include/linux/kernel.h:29,
+                 from /home/hans/work/build/media-git/include/linux/cpumask.h:10,
+                 from /home/hans/work/build/media-git/include/linux/mm_types_task.h:14,
+                 from /home/hans/work/build/media-git/include/linux/mm_types.h:5,
+                 from /home/hans/work/build/media-git/include/linux/buildid.h:5,
+                 from /home/hans/work/build/media-git/include/linux/module.h:14,
+                 from /home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:7:
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c: In function 'vdec_h264_slice_single_decode':
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:684:76: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  684 |                          inst->ctx->decoded_frame_cnt, y_fb_dma, c_fb_dma, (u64)fb);
+      |                                                                            ^
+/home/hans/work/build/media-git/include/linux/printk.h:418:33: note: in definition of macro 'printk_index_wrap'
+  418 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+      |                                 ^~~~~~~~~~~
+/home/hans/work/build/media-git/include/linux/printk.h:132:17: note: in expansion of macro 'printk'
+  132 |                 printk(fmt, ##__VA_ARGS__);             \
+      |                 ^~~~~~
+/home/hans/work/build/media-git/include/linux/printk.h:576:9: note: in expansion of macro 'no_printk'
+  576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+      |         ^~~~~~~~~
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:45:9: note: in expansion of macro 'pr_debug'
+   45 |         pr_debug("[MTK_VCODEC][%d]: " fmt "\n",                 \
+      |         ^~~~~~~~
+/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:683:9: note: in expansion of macro 'mtk_vcodec_debug'
+  683 |         mtk_vcodec_debug(inst, "+ [%d] FB y_dma=%llx c_dma=%llx va=0x%llx",
+      |         ^~~~~~~~~~~~~~~~
+
+Regards,
+
+	Hans
+
+> ---
+> changes compared with v9:
+> - fix kernel robot build fail for patch 16
+> changes compared with v8:
+> - fix vp9 build error
+> - fix kernel-doc fail
+> changes compared with v7:
+> - adjust GStreamer, separate src buffer done with v4l2_ctrl_request_complete for patch 6.
+> - remove v4l2_m2m_set_dst_buffered.
+> - add new patch to set each plane bytesused in buf prepare for patch 5.
+> - using upstream interface to update vp9 prob tables for patch 16.
+> - fix maintainer comments.
+> - test the driver with chrome VD and GStreamer(H264/VP9/VP8/AV1).
+> changes compared with v6:
+> - rebase to the latest media stage and fix conficts
+> - fix memcpy to memcpy_fromio or memcpy_toio
+> - fix h264 crash when test field bitstream
+> changes compared with v5:
+> - fix vp9 comments for patch 15
+> - fix vp8 comments for patch 14.
+> - fix comments for patch 12.
+> - fix build errors.
+> changes compared with v4:
+> - fix checkpatch.pl fail.
+> - fix kernel-doc fail.
+> - rebase to the latest media codec driver.
+> changes compared with v3:
+> - remove enum mtk_chip for patch 2.
+> - add vp8 stateless decoder drivers for patch 14.
+> - add vp9 stateless decoder drivers for patch 15.
+> changes compared with v2:
+> - add new patch 11 to record capture queue format type.
+> - separate patch 4 according to tzung-bi's suggestion.
+> - re-write commit message for patch 5 according to tzung-bi's suggestion.
+> changes compared with v1:
+> - rewrite commit message for patch 12.
+> - rewrite cover-letter message.
+> ---
+> Yunfei Dong (17):
+>   media: mediatek: vcodec: Add vdec enable/disable hardware helpers
+>   media: mediatek: vcodec: Using firmware type to separate different
+>     firmware architecture
+>   media: mediatek: vcodec: get capture queue buffer size from scp
+>   media: mediatek: vcodec: Read max resolution from dec_capability
+>   media: mediatek: vcodec: set each plane bytesused in buf prepare
+>   media: mediatek: vcodec: Refactor get and put capture buffer flow
+>   media: mediatek: vcodec: Refactor supported vdec formats and
+>     framesizes
+>   media: mediatek: vcodec: Getting supported decoder format types
+>   media: mediatek: vcodec: Add format to support MT21C
+>   media: mediatek: vcodec: disable vp8 4K capability
+>   media: mediatek: vcodec: Fix v4l2-compliance fail
+>   media: mediatek: vcodec: record capture queue format type
+>   media: mediatek: vcodec: Extract H264 common code
+>   media: mediatek: vcodec: support stateless H.264 decoding for mt8192
+>   media: mediatek: vcodec: support stateless VP8 decoding
+>   media: mediatek: vcodec: support stateless VP9 decoding
+>   media: mediatek: vcodec: prevent kernel crash when rmmod
+>     mtk-vcodec-dec.ko
+> 
+>  .../media/platform/mediatek/vcodec/Makefile   |    4 +
+>  .../platform/mediatek/vcodec/mtk_vcodec_dec.c |   62 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |    8 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_pm.c       |  166 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_pm.h       |    6 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_stateful.c |   19 +-
+>  .../vcodec/mtk_vcodec_dec_stateless.c         |  257 ++-
+>  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   41 +-
+>  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |    5 -
+>  .../platform/mediatek/vcodec/mtk_vcodec_fw.c  |    6 +
+>  .../platform/mediatek/vcodec/mtk_vcodec_fw.h  |    1 +
+>  .../vcodec/vdec/vdec_h264_req_common.c        |  310 +++
+>  .../vcodec/vdec/vdec_h264_req_common.h        |  274 +++
+>  .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  438 +---
+>  .../vcodec/vdec/vdec_h264_req_multi_if.c      |  626 +++++
+>  .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  437 ++++
+>  .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 2031 +++++++++++++++++
+>  .../platform/mediatek/vcodec/vdec_drv_if.c    |   37 +-
+>  .../platform/mediatek/vcodec/vdec_drv_if.h    |    3 +
+>  .../platform/mediatek/vcodec/vdec_ipi_msg.h   |   36 +
+>  .../platform/mediatek/vcodec/vdec_msg_queue.c |    2 +
+>  .../platform/mediatek/vcodec/vdec_msg_queue.h |    2 +
+>  .../platform/mediatek/vcodec/vdec_vpu_if.c    |   53 +-
+>  .../platform/mediatek/vcodec/vdec_vpu_if.h    |   15 +
+>  .../platform/mediatek/vcodec/venc_vpu_if.c    |    2 +-
+>  include/linux/remoteproc/mtk_scp.h            |    2 +
+>  26 files changed, 4242 insertions(+), 601 deletions(-)
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.h
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> 
 
