@@ -2,188 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E2D2514122
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 05:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F41F151418E
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 06:49:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235964AbiD2ECS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Apr 2022 00:02:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47794 "EHLO
+        id S237731AbiD2EwS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Apr 2022 00:52:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230133AbiD2ECR (ORCPT
+        with ESMTP id S237302AbiD2EwO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Apr 2022 00:02:17 -0400
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57059B9F1D;
-        Thu, 28 Apr 2022 20:58:57 -0700 (PDT)
-Date:   Fri, 29 Apr 2022 11:58:30 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1651204735;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=GGbVJ2oBgQd9WBhBVcYIZ91yYFFi5lls4Cqv+m8iT0Y=;
-        b=G3wXv49vKJ30/lKminB+CrcC5Q6qT5Pwjp6Z3SJ7dAQvIGT46/aCRlKluDdq10B0+3LHKF
-        czPEjwExecGkZ0rdli93xZsN07GHkkdOtoWnyXxlNRLladQOoJCQ8NZypSB4guh0wI1YLE
-        CpgN5e9NdYxatNMmEOoSCOZMiuiPpgQ=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Cai Huoqing <cai.huoqing@linux.dev>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of NVDLA driver
-Message-ID: <20220429035830.GB15753@chq-T47>
-References: <20220426060808.78225-1-cai.huoqing@linux.dev>
- <20220426060808.78225-5-cai.huoqing@linux.dev>
- <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
- <20220426082341.GA83596@chq-T47>
- <YmqocpCdc7cuYJm7@orome>
+        Fri, 29 Apr 2022 00:52:14 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32E762316F;
+        Thu, 28 Apr 2022 21:48:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651207737; x=1682743737;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Jj2HJdFD+WzFuEtVuuAOpTSCLb1M1zXw4IDK1AusbpA=;
+  b=eos+kAtnWd41KOe5P6ZuMlzTGAunnKNn83LMFVoA9TtTNpGnofKSouJd
+   aqJDzU4gzmfzpLF8NREMeZVTzlKA3Bml4AlQb7M//NzoerBSA/mA6p9Kd
+   068xxInQ5Y/JoEo982dOA7JmpgiDRy60yjhtveh0mmbCkf1w9sHcRJq7F
+   jCQbu7ZfIheo35JJb0JL92hN+4Pb4Z3rnl7o1h8H2B5jRfAC77mFWit6H
+   10astohG7J9GwCRSxtBdDDQQGflMRfLGCwGtMR7gXSvBk5jux9XFXTv2X
+   x8+tTpnYvxl6KEwl4WLPgv5cyaC11Wfgg94Abi4dEg2hmihUgKDvDA5T3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="352960684"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
+   d="scan'208";a="352960684"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2022 21:48:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
+   d="scan'208";a="542062208"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 28 Apr 2022 21:48:54 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nkIYn-0005zX-Fj;
+        Fri, 29 Apr 2022 04:48:53 +0000
+Date:   Fri, 29 Apr 2022 12:48:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
+        s.nawrocki@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: s5c73m3: replace legacy gpio interface for
+ gpiod
+Message-ID: <202204291212.g99NfHX0-lkp@intel.com>
+References: <YmsuDHwjUwxtjiyq@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YmqocpCdc7cuYJm7@orome>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YmsuDHwjUwxtjiyq@fedora>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28 4月 22 16:45:06, Thierry Reding wrote:
-> On Tue, Apr 26, 2022 at 04:23:41PM +0800, Cai Huoqing wrote:
-> > On 26 4月 22 08:31:05, Christian König wrote:
-> > > Am 26.04.22 um 08:08 schrieb Cai Huoqing:
-> > > > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
-> > > > which is integrated into NVIDIA Jetson AGX Xavier,
-> > > > so add UAPI of this driver.
-> > > > 
-> > > > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
-> > > > ---
-> > > > v1->v2:
-> > > > *Rename nvdla_drm.[ch] to nvdla_drv.[ch] and rename nvdla_ioctl.h to nvdla_drm.h,
-> > > >   move it to uapi.
-> > > >   comments link: https://lore.kernel.org/lkml/20bac605-97e6-e5cd-c4e4-83a8121645d8@amd.com/
-> > > > 
-> > > >   include/uapi/drm/nvdla_drm.h | 99 ++++++++++++++++++++++++++++++++++++
-> > > >   1 file changed, 99 insertions(+)
-> > > >   create mode 100644 include/uapi/drm/nvdla_drm.h
-> > > > 
-> > > > diff --git a/include/uapi/drm/nvdla_drm.h b/include/uapi/drm/nvdla_drm.h
-> > > > new file mode 100644
-> > > > index 000000000000..984635285525
-> > > > --- /dev/null
-> > > > +++ b/include/uapi/drm/nvdla_drm.h
-> > > > @@ -0,0 +1,99 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-> > > > +/*
-> > > > + * Copyright (C) 2017-2018 NVIDIA CORPORATION.
-> > > > + * Copyright (C) 2022 Cai Huoqing
-> > > > + */
-> > > > +
-> > > > +#ifndef __LINUX_NVDLA_IOCTL_H
-> > > > +#define __LINUX_NVDLA_IOCTL_H
-> > > > +
-> > > > +#include <linux/ioctl.h>
-> > > > +#include <linux/types.h>
-> > > > +
-> > > > +#if !defined(__KERNEL__)
-> > > > +#define __user
-> > > > +#endif
-> > > > +
-> > > > +/**
-> > > > + * struct nvdla_mem_handle structure for memory handles
-> > > > + *
-> > > > + * @handle		handle to DMA buffer allocated in userspace
-> > > > + * @reserved		Reserved for padding
-> > > > + * @offset		offset in bytes from start address of buffer
-> > > > + *
-> > > > + */
-> > > > +struct nvdla_mem_handle {
-> > > > +	__u32 handle;
-> > > > +	__u32 reserved;
-> > > > +	__u64 offset;
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct nvdla_ioctl_submit_task structure for single task information
-> > > > + *
-> > > > + * @num_addresses		total number of entries in address_list
-> > > > + * @reserved			Reserved for padding
-> > > > + * @address_list		pointer to array of struct nvdla_mem_handle
-> > > > + *
-> > > > + */
-> > > > +struct nvdla_ioctl_submit_task {
-> > > > +#define NVDLA_MAX_BUFFERS_PER_TASK (6144)
-> > > > +	__u32 num_addresses;
-> > > > +#define NVDLA_NO_TIMEOUT    (0xffffffff)
-> > > > +	__u32 timeout;
-> > > 
-> > > What format does that timeout value have?
-> > > 
-> > > In general it is best practice to have absolute 64bit nanosecond timeouts
-> > > (to be used with ktime inside the kernel) so that restarting interrupted
-> > > IOCTLs works smooth.
-> > > 
-> > > > +	__u64 address_list;
-> > > 
-> > > Maybe make the comments inline, cause I just wanted to write that you should
-> > > note that this is pointing to an nvdla_mem_handle array until I saw the
-> > > comment above.
-> > > 
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct nvdla_submit_args structure for task submit
-> > > > + *
-> > > > + * @tasks		pointer to array of struct nvdla_ioctl_submit_task
-> > > > + * @num_tasks		number of entries in tasks
-> > > > + * @flags		flags for task submit, no flags defined yet
-> > > > + * @version		version of task structure
-> > > > + *
-> > > > + */
-> > > > +struct nvdla_submit_args {
-> > > > +	__u64 tasks;
-> > > > +	__u16 num_tasks;
-> > > > +#define NVDLA_MAX_TASKS_PER_SUBMIT	24
-> > > > +#define NVDLA_SUBMIT_FLAGS_ATOMIC	(1 << 0)
-> > > 
-> > > Well that "no flags defined yet" from the comment above is probably outdated
-> > > :)
-> > > 
-> > > A comment what this flag means would also be nice to have.
-> > > 
-> > > Apart from all those nit picks that looks pretty solid to me. Just one core
-> > > functionality we usually have seems to be missing here: How is completion
-> > > signaling implemented?
-> > Hi,thank for your reply.
-> > 
-> > Do you mean fence signal? In this driver, IOCTL_SUBMIT is a synchronous call
-> > which do task submission & wait for done completion. This accerletor deal
-> > with massive compute operator (Pooling, Conv...), that is different to
-> > GPU. It's unnecessary to expose fence API to UMD for reducing such less time.
-> 
-> Are you saying that using fences won't be a big benefit because the DLA
-> can't effectively process tasks from multiple sources in parallel? That
-> is only part of where some sort of signalling would be useful. Another
-> reason why it would be good to have is to make it easier to write user-
-> space that can hand off a set of tasks to the DLA, then go off and do
-> something else and get notified about the completion somehow. If not a
-> full-blown fence API, then perhaps FD polling would be a simple
-> mechanism to allow some degree of asynchronicity.
-Agree, I will add fence IOCTL if resend patch
+Hi "Ma�ra,
 
-Thanks
-Cai
-> 
-> Thierry
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on v5.18-rc4 next-20220428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/media-s5c73m3-replace-legacy-gpio-interface-for-gpiod/20220429-081656
+base:   git://linuxtv.org/media_tree.git master
+config: arm64-randconfig-r022-20220428 (https://download.01.org/0day-ci/archive/20220429/202204291212.g99NfHX0-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473aacce38cd7dd77eebceaf3c98c5707ab3b)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/427ae1b9cae644d199f9ffc260480dd1c32ec9d6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ma-ra-Canal/media-s5c73m3-replace-legacy-gpio-interface-for-gpiod/20220429-081656
+        git checkout 427ae1b9cae644d199f9ffc260480dd1c32ec9d6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/media/i2c/s5c73m3/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/media/i2c/s5c73m3/s5c73m3-core.c:1359:32: error: too few arguments to function call, expected 2, have 1
+           int val = gpiod_set_value(gpio);
+                     ~~~~~~~~~~~~~~~     ^
+   include/linux/gpio/consumer.h:119:6: note: 'gpiod_set_value' declared here
+   void gpiod_set_value(struct gpio_desc *desc, int value);
+        ^
+   drivers/media/i2c/s5c73m3/s5c73m3-core.c:1366:32: error: too few arguments to function call, expected 2, have 1
+           int val = gpiod_set_value(gpio);
+                     ~~~~~~~~~~~~~~~     ^
+   include/linux/gpio/consumer.h:119:6: note: 'gpiod_set_value' declared here
+   void gpiod_set_value(struct gpio_desc *desc, int value);
+        ^
+   2 errors generated.
 
 
+vim +1359 drivers/media/i2c/s5c73m3/s5c73m3-core.c
+
+  1356	
+  1357	static int s5c73m3_gpio_assert(struct gpio_desc *gpio)
+  1358	{
+> 1359		int val = gpiod_set_value(gpio);
+  1360	
+  1361		return s5c73m3_gpio_set_value(gpio, val);
+  1362	}
+  1363	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
