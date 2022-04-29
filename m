@@ -2,171 +2,240 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E75D514F72
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 17:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61799514F99
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 17:36:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378429AbiD2PcU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Apr 2022 11:32:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42070 "EHLO
+        id S239470AbiD2Pj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Apr 2022 11:39:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378505AbiD2PcJ (ORCPT
+        with ESMTP id S233043AbiD2Pj2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Apr 2022 11:32:09 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AD0ED4C9B;
-        Fri, 29 Apr 2022 08:28:38 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id a1so9495912edt.3;
-        Fri, 29 Apr 2022 08:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uQV4T/D00CJ/ygzy9sj7P/AoFBwXwhKdzgdcMmOX8Rs=;
-        b=HK6WZvw87L2O6eO4hpnri/TbkekIUuPquNkJEEJEcnJrYjYHyc5VQvUSr80v8RCJOr
-         365W7Y0B4vVvAJoj3fOVXCofI2R9mbv4kpQs6HVu0zTfZr/+2Lzoh4cdnuEKs+qRJg6Z
-         lpCVzU/GCsJRdOyfYd4LOukvGBRywOQgPKndBLCOJ+UrnJ/rw3AoHPUlkhXZCmi3Va4V
-         UO8AiQqizbkuRPUBdrzoNmlQKrCuA1Oy34y1ngpd5/MjhTct3Eqw8qfK5eVGeocqLUmv
-         WUjjZtT8DvDIVrawPP8l+W26QkVJzyBtBkrYk1U9fhy+GejP5g1EBDnMLnwyQENG2F4G
-         dWeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uQV4T/D00CJ/ygzy9sj7P/AoFBwXwhKdzgdcMmOX8Rs=;
-        b=RMv4simdYYLc8nNTYtmxanX8439XlTbDeGqdPDDr3JFVJptjkxnBKOa2CVfdw5O94G
-         vV9YllVU9Me73BXGv6sKLHAz28a8bUa9qkioBiWs41OrpSs7m6kofX6Sj0cuhbQ2bEMs
-         vk2SQrSs1OYcqEoOlLkcUMVdzMnG7s3o1F0vpOPabZBnRNzMhQuw2/lJVrtb8Sp9LHRN
-         dBT0NGXpS715lTLVywYHYFa6SWrxHgstDYZKFGe60/Ka8Tk0c0OBFACitNTW06yFpeDT
-         kEFQ2kUr4uOIjbUjw+2hyDK6XviOvXWSIDTImhHJFY7EYGwfjduWhT+Ct8fiW4WSUvIF
-         Nijw==
-X-Gm-Message-State: AOAM532ra1sC6D4D4BZQ7d8BGq+7yOrw25KOhTPhN8enbGYIvo0+xohp
-        qlSDkVyhpwd8SqQaKGt0/kU=
-X-Google-Smtp-Source: ABdhPJzAa9xFpERdrvjYh23on+WS7Qi0ovrUCS3EkiR6XULJ/lZhvMKLOJYvPu9iXKvt01ZXIA8eUg==
-X-Received: by 2002:a05:6402:e:b0:423:d5ff:8fce with SMTP id d14-20020a056402000e00b00423d5ff8fcemr41453209edu.407.1651246117121;
-        Fri, 29 Apr 2022 08:28:37 -0700 (PDT)
-Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
-        by smtp.gmail.com with ESMTPSA id e13-20020a170906844d00b006f3ef214dc3sm737910ejy.41.2022.04.29.08.28.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 08:28:36 -0700 (PDT)
-From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
+        Fri, 29 Apr 2022 11:39:28 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CECED5EB3;
+        Fri, 29 Apr 2022 08:36:09 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 10EB5101D81; Fri, 29 Apr 2022 16:36:05 +0100 (BST)
+Date:   Fri, 29 Apr 2022 16:36:05 +0100
+From:   Sean Young <sean@mess.org>
+To:     Niklas Schnelle <schnelle@linux.ibm.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        Liang Chen <cl@rock-chips.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Kever Yang <kever.yang@rock-chips.com>
-Subject: Re: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
-Date:   Fri, 29 Apr 2022 17:28:35 +0200
-Message-ID: <2438841.KJ31GcehEG@archbook>
-In-Reply-To: <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
-References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com> <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [RFC v2 17/39] media: add HAS_IOPORT dependencies
+Message-ID: <YmwF5TLJy2ZiU25a@gofer.mess.org>
+References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
+ <20220429135108.2781579-30-schnelle@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220429135108.2781579-30-schnelle@linux.ibm.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Freitag, 29. April 2022 16:46:01 CEST Nicolas Dufresne wrote:
-> Le jeudi 28 avril 2022 =E0 00:44 +0200, Nicolas Frattaroli a =E9crit :
-> > Hello,
-> >=20
-> > the following series adds support for and enables the hardware JPEG
-> > encoder on the RK3566 and RK3568 line of SoCs by Rockchip.
-> >=20
-> > The JPEG encoder is its own little Hantro instance with seemingly just
-> > the encode functionality.
->=20
-> I'm a little suspicious about this statement. I believe the Hantro combo =
-is
-> identical to RK3399 and that you are confusing with Rockchip JPEG encoder=
- here.
-> Here's the source of my suspicion:
->=20
-> https://github.com/JeffyCN/rockchip_mirrors/blob/mpp/osal/mpp_soc.cpp#L637
->=20
-> As this get burnt into DT, we really need to get this right. Perhaps we n=
-eed to
-> run the reference software to verify ? Ping me if you need help with that.
+On Fri, Apr 29, 2022 at 03:50:27PM +0200, Niklas Schnelle wrote:
+> In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+> not being declared. We thus need to add HAS_IOPORT as dependency for
+> those drivers using them.
+> 
+> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> ---
+>  drivers/media/pci/dm1105/Kconfig |  2 +-
+>  drivers/media/radio/Kconfig      | 14 +++++++++++++-
+>  drivers/media/rc/Kconfig         |  6 ++++++
 
-I believe there's three separate questions here:
+For drivers/media/rc/Kconfig:
 
-A) is this a Hantro instance with more than just JPEG encoding?
-B) is this the same as the other[1] Hantro instance, just with a bigger
-   offset for the encoder?
-C) if A is true and B is false, does this also have decoders?
+Reviewed-by: Sean Young <sean@mess.org>
 
-I think I can only answer B). I do not think fdee0000 is the same hardware
-instance as fdea0400. They are in different power domains (yes, this one
-being in the RGA PD is correct according to downstream code, TRM and my
-own testing). They also have their own MMU each.
+Sean
 
-Your findings point towards A) being true. I'd love to be able to just
-throw a mainline VP8 or H.264 driver at it to check, but that sadly does
-not exist yet. Upon checking the TRM again, it seems it documents
-registers for H.264 as well.
-
-However I can do this to answer C), and I will once I get the time.
-It would be somewhat surprising if there was a hidden third H.264
-decoder on this chip.
-
-I'll also CC Kever Yang from rockchip, maybe he can shine some light on
-this.
-
-Regards,
-Nicolas Frattaroli
-
-[1]: https://patchwork.kernel.org/project/linux-rockchip/patch/202202142129=
-55.1178947-2-piotr.oniszczuk@gmail.com/
-
->=20
-> >=20
-> > The first patch modifies the bindings with a new compatible, and adds
-> > the ability to just have a vepu interrupt without a vdpu interrupt.
-> >=20
-> > The second patch makes the actual driver changes to support this varian=
-t.
-> >=20
-> > The third and final patch makes the necessary device tree changes for
-> > the rk356x device tree file to add both the node for the encoder and
-> > its MMU.
-> >=20
-> > The series has been tested on a PINE64 Quartz64 Model A with an RK3566
-> > SoC using GStreamer.
-> >=20
-> > Regards,
-> > Nicolas Frattaroli
-> >=20
-> > Nicolas Frattaroli (3):
-> >   dt-bindings: media: rockchip-vpu: Add RK3568 JPEG compatible
-> >   media: hantro: Add support for RK356x JPEG encoder
-> >   arm64: dts: rockchip: Add JPEG encoder node to rk356x
-> >=20
-> >  .../bindings/media/rockchip-vpu.yaml          |  2 +
-> >  arch/arm64/boot/dts/rockchip/rk356x.dtsi      | 21 +++++++
-> >  drivers/staging/media/hantro/hantro_drv.c     |  1 +
-> >  drivers/staging/media/hantro/hantro_hw.h      |  1 +
-> >  .../staging/media/hantro/rockchip_vpu_hw.c    | 62 +++++++++++++++++++
-> >  5 files changed, 87 insertions(+)
-> >=20
->=20
->=20
-
-
-
-
+>  3 files changed, 20 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/pci/dm1105/Kconfig b/drivers/media/pci/dm1105/Kconfig
+> index e0e3af67c99c..4498c37f4990 100644
+> --- a/drivers/media/pci/dm1105/Kconfig
+> +++ b/drivers/media/pci/dm1105/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  config DVB_DM1105
+>  	tristate "SDMC DM1105 based PCI cards"
+> -	depends on DVB_CORE && PCI && I2C && I2C_ALGOBIT
+> +	depends on DVB_CORE && PCI && I2C && I2C_ALGOBIT && HAS_IOPORT
+>  	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
+>  	select DVB_STV0299 if MEDIA_SUBDRV_AUTOSELECT
+>  	select DVB_STV0288 if MEDIA_SUBDRV_AUTOSELECT
+> diff --git a/drivers/media/radio/Kconfig b/drivers/media/radio/Kconfig
+> index cca03bd2cc42..e15d50d9161f 100644
+> --- a/drivers/media/radio/Kconfig
+> +++ b/drivers/media/radio/Kconfig
+> @@ -15,7 +15,7 @@ if RADIO_ADAPTERS
+>  
+>  config RADIO_MAXIRADIO
+>  	tristate "Guillemot MAXI Radio FM 2000 radio"
+> -	depends on PCI
+> +	depends on PCI && HAS_IOPORT
+>  	select RADIO_TEA575X
+>  	help
+>  	  Choose Y here if you have this radio card.  This card may also be
+> @@ -232,6 +232,7 @@ source "drivers/media/radio/wl128x/Kconfig"
+>  menuconfig V4L_RADIO_ISA_DRIVERS
+>  	bool "ISA radio devices"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	help
+>  	  Say Y here to enable support for these ISA drivers.
+>  
+> @@ -240,6 +241,7 @@ if V4L_RADIO_ISA_DRIVERS
+>  config RADIO_AZTECH
+>  	tristate "Aztech/Packard Bell Radio"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	select RADIO_ISA
+>  	help
+>  	  Choose Y here if you have one of these FM radio cards, and then fill
+> @@ -260,6 +262,7 @@ config RADIO_AZTECH_PORT
+>  config RADIO_CADET
+>  	tristate "ADS Cadet AM/FM Tuner"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	help
+>  	  Choose Y here if you have one of these AM/FM radio cards, and then
+>  	  fill in the port address below.
+> @@ -270,6 +273,7 @@ config RADIO_CADET
+>  config RADIO_GEMTEK
+>  	tristate "GemTek Radio card (or compatible) support"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	select RADIO_ISA
+>  	help
+>  	  Choose Y here if you have this FM radio card, and then fill in the
+> @@ -309,6 +313,7 @@ config RADIO_GEMTEK_PROBE
+>  
+>  config RADIO_ISA
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	tristate
+>  
+>  config RADIO_MIROPCM20
+> @@ -329,6 +334,7 @@ config RADIO_MIROPCM20
+>  config RADIO_RTRACK
+>  	tristate "AIMSlab RadioTrack (aka RadioReveal) support"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	select RADIO_ISA
+>  	help
+>  	  Choose Y here if you have one of these FM radio cards, and then fill
+> @@ -383,6 +389,7 @@ config RADIO_RTRACK_PORT
+>  config RADIO_SF16FMI
+>  	tristate "SF16-FMI/SF16-FMP/SF16-FMD Radio"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	help
+>  	  Choose Y here if you have one of these FM radio cards.
+>  
+> @@ -392,6 +399,7 @@ config RADIO_SF16FMI
+>  config RADIO_SF16FMR2
+>  	tristate "SF16-FMR2/SF16-FMD2 Radio"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	select RADIO_TEA575X
+>  	help
+>  	  Choose Y here if you have one of these FM radio cards.
+> @@ -402,6 +410,7 @@ config RADIO_SF16FMR2
+>  config RADIO_TERRATEC
+>  	tristate "TerraTec ActiveRadio ISA Standalone"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	select RADIO_ISA
+>  	help
+>  	  Choose Y here if you have this FM radio card.
+> @@ -416,6 +425,7 @@ config RADIO_TERRATEC
+>  config RADIO_TRUST
+>  	tristate "Trust FM radio card"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	select RADIO_ISA
+>  	help
+>  	  This is a driver for the Trust FM radio cards. Say Y if you have
+> @@ -439,6 +449,7 @@ config RADIO_TRUST_PORT
+>  config RADIO_TYPHOON
+>  	tristate "Typhoon Radio (a.k.a. EcoRadio)"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	select RADIO_ISA
+>  	help
+>  	  Choose Y here if you have one of these FM radio cards, and then fill
+> @@ -473,6 +484,7 @@ config RADIO_TYPHOON_PORT
+>  config RADIO_ZOLTRIX
+>  	tristate "Zoltrix Radio"
+>  	depends on ISA || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	select RADIO_ISA
+>  	help
+>  	  Choose Y here if you have one of these FM radio cards, and then fill
+> diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
+> index f560fc38895f..96528e6532fd 100644
+> --- a/drivers/media/rc/Kconfig
+> +++ b/drivers/media/rc/Kconfig
+> @@ -148,6 +148,7 @@ if RC_DEVICES
+>  config IR_ENE
+>  	tristate "ENE eHome Receiver/Transceiver (pnp id: ENE0100/ENE02xxx)"
+>  	depends on PNP || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	help
+>  	   Say Y here to enable support for integrated infrared receiver
+>  	   /transceiver made by ENE.
+> @@ -161,6 +162,7 @@ config IR_ENE
+>  config IR_FINTEK
+>  	tristate "Fintek Consumer Infrared Transceiver"
+>  	depends on PNP || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	help
+>  	   Say Y here to enable support for integrated infrared receiver
+>  	   /transceiver made by Fintek. This chip is found on assorted
+> @@ -249,6 +251,7 @@ config IR_IMON_RAW
+>  config IR_ITE_CIR
+>  	tristate "ITE Tech Inc. IT8712/IT8512 Consumer Infrared Transceiver"
+>  	depends on PNP || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	help
+>  	   Say Y here to enable support for integrated infrared receivers
+>  	   /transceivers made by ITE Tech Inc. These are found in
+> @@ -301,6 +304,7 @@ config IR_MTK
+>  config IR_NUVOTON
+>  	tristate "Nuvoton w836x7hg Consumer Infrared Transceiver"
+>  	depends on PNP || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	help
+>  	   Say Y here to enable support for integrated infrared receiver
+>  	   /transceiver made by Nuvoton (formerly Winbond). This chip is
+> @@ -345,6 +349,7 @@ config IR_RX51
+>  
+>  config IR_SERIAL
+>  	tristate "Homebrew Serial Port Receiver"
+> +	depends on HAS_IOPORT
+>  	help
+>  	   Say Y if you want to use Homebrew Serial Port Receivers and
+>  	   Transceivers.
+> @@ -412,6 +417,7 @@ config IR_TTUSBIR
+>  config IR_WINBOND_CIR
+>  	tristate "Winbond IR remote control"
+>  	depends on (X86 && PNP) || COMPILE_TEST
+> +	depends on HAS_IOPORT
+>  	select NEW_LEDS
+>  	select LEDS_CLASS
+>  	select BITREVERSE
+> -- 
+> 2.32.0
