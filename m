@@ -2,240 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61799514F99
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 17:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E94E95150A3
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 18:20:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239470AbiD2Pj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Apr 2022 11:39:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34210 "EHLO
+        id S1379001AbiD2QXk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Apr 2022 12:23:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233043AbiD2Pj2 (ORCPT
+        with ESMTP id S234286AbiD2QXj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Apr 2022 11:39:28 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CECED5EB3;
-        Fri, 29 Apr 2022 08:36:09 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 10EB5101D81; Fri, 29 Apr 2022 16:36:05 +0100 (BST)
-Date:   Fri, 29 Apr 2022 16:36:05 +0100
-From:   Sean Young <sean@mess.org>
-To:     Niklas Schnelle <schnelle@linux.ibm.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [RFC v2 17/39] media: add HAS_IOPORT dependencies
-Message-ID: <YmwF5TLJy2ZiU25a@gofer.mess.org>
-References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
- <20220429135108.2781579-30-schnelle@linux.ibm.com>
+        Fri, 29 Apr 2022 12:23:39 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D0F218B03;
+        Fri, 29 Apr 2022 09:20:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651249219; x=1682785219;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NeeAYHCb2w8hfb2CqYSw0VXn0vgeaiNaoDLMfEcGd6U=;
+  b=aRelUJHAOq5NynNFsOMgxpTUUmwyD7sqd+ssbUpr7TAdnbSWbbgoRF+e
+   jjybxaW1I/hkW+UJyaEenrpnZ/ulReHuvuDra9KfakQb3JixCSV3YJFdg
+   rPuVqJq3zu1AwWjwzlNB+Opm56Kh389PtrrMhoQDT365dKURzZBGq+k8i
+   pyRIDWbjBvgGjwn7t2ToiePiAHsrCCLDUS2m8v0HuAP85If0RCvkhjya6
+   bpdTJVxUwx4ZO+yF20xUUJKcrHHczqMNC7qNevpP7hQugtFSMMPOeE29g
+   gTL63FFWf37Wav2LvlttZ4pWeUY7wYQQlCBCEsBY8QN0VPrzZr00Ons2E
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10332"; a="248617880"
+X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; 
+   d="scan'208";a="248617880"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2022 09:20:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; 
+   d="scan'208";a="542671702"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 29 Apr 2022 09:20:16 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nkTLs-0006Tj-2q;
+        Fri, 29 Apr 2022 16:20:16 +0000
+Date:   Sat, 30 Apr 2022 00:19:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        quic_vgarodia@quicinc.com, frkoenig@chromium.org,
+        quic_dikshita@quicinc.com
+Subject: Re: [PATCH] media: venus: set ubwc configuration on specific video
+ hardware
+Message-ID: <202204300037.EcG1kDyl-lkp@intel.com>
+References: <1651131248-20313-1-git-send-email-quic_vgarodia@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220429135108.2781579-30-schnelle@linux.ibm.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <1651131248-20313-1-git-send-email-quic_vgarodia@quicinc.com>
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Apr 29, 2022 at 03:50:27PM +0200, Niklas Schnelle wrote:
-> In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-> not being declared. We thus need to add HAS_IOPORT as dependency for
-> those drivers using them.
-> 
-> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> ---
->  drivers/media/pci/dm1105/Kconfig |  2 +-
->  drivers/media/radio/Kconfig      | 14 +++++++++++++-
->  drivers/media/rc/Kconfig         |  6 ++++++
+Hi Vikash,
 
-For drivers/media/rc/Kconfig:
+Thank you for the patch! Yet something to improve:
 
-Reviewed-by: Sean Young <sean@mess.org>
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on v5.18-rc4 next-20220429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Sean
+url:    https://github.com/intel-lab-lkp/linux/commits/Vikash-Garodia/media-venus-set-ubwc-configuration-on-specific-video-hardware/20220428-153510
+base:   git://linuxtv.org/media_tree.git master
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20220430/202204300037.EcG1kDyl-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473aacce38cd7dd77eebceaf3c98c5707ab3b)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/22d299bea1f679d007cb71b3916bf39bb957ab66
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Vikash-Garodia/media-venus-set-ubwc-configuration-on-specific-video-hardware/20220428-153510
+        git checkout 22d299bea1f679d007cb71b3916bf39bb957ab66
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/crypto/ arch/arm64/kernel/ drivers/media/platform/qcom/venus/
 
->  3 files changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/pci/dm1105/Kconfig b/drivers/media/pci/dm1105/Kconfig
-> index e0e3af67c99c..4498c37f4990 100644
-> --- a/drivers/media/pci/dm1105/Kconfig
-> +++ b/drivers/media/pci/dm1105/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config DVB_DM1105
->  	tristate "SDMC DM1105 based PCI cards"
-> -	depends on DVB_CORE && PCI && I2C && I2C_ALGOBIT
-> +	depends on DVB_CORE && PCI && I2C && I2C_ALGOBIT && HAS_IOPORT
->  	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
->  	select DVB_STV0299 if MEDIA_SUBDRV_AUTOSELECT
->  	select DVB_STV0288 if MEDIA_SUBDRV_AUTOSELECT
-> diff --git a/drivers/media/radio/Kconfig b/drivers/media/radio/Kconfig
-> index cca03bd2cc42..e15d50d9161f 100644
-> --- a/drivers/media/radio/Kconfig
-> +++ b/drivers/media/radio/Kconfig
-> @@ -15,7 +15,7 @@ if RADIO_ADAPTERS
->  
->  config RADIO_MAXIRADIO
->  	tristate "Guillemot MAXI Radio FM 2000 radio"
-> -	depends on PCI
-> +	depends on PCI && HAS_IOPORT
->  	select RADIO_TEA575X
->  	help
->  	  Choose Y here if you have this radio card.  This card may also be
-> @@ -232,6 +232,7 @@ source "drivers/media/radio/wl128x/Kconfig"
->  menuconfig V4L_RADIO_ISA_DRIVERS
->  	bool "ISA radio devices"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	help
->  	  Say Y here to enable support for these ISA drivers.
->  
-> @@ -240,6 +241,7 @@ if V4L_RADIO_ISA_DRIVERS
->  config RADIO_AZTECH
->  	tristate "Aztech/Packard Bell Radio"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	select RADIO_ISA
->  	help
->  	  Choose Y here if you have one of these FM radio cards, and then fill
-> @@ -260,6 +262,7 @@ config RADIO_AZTECH_PORT
->  config RADIO_CADET
->  	tristate "ADS Cadet AM/FM Tuner"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	help
->  	  Choose Y here if you have one of these AM/FM radio cards, and then
->  	  fill in the port address below.
-> @@ -270,6 +273,7 @@ config RADIO_CADET
->  config RADIO_GEMTEK
->  	tristate "GemTek Radio card (or compatible) support"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	select RADIO_ISA
->  	help
->  	  Choose Y here if you have this FM radio card, and then fill in the
-> @@ -309,6 +313,7 @@ config RADIO_GEMTEK_PROBE
->  
->  config RADIO_ISA
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	tristate
->  
->  config RADIO_MIROPCM20
-> @@ -329,6 +334,7 @@ config RADIO_MIROPCM20
->  config RADIO_RTRACK
->  	tristate "AIMSlab RadioTrack (aka RadioReveal) support"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	select RADIO_ISA
->  	help
->  	  Choose Y here if you have one of these FM radio cards, and then fill
-> @@ -383,6 +389,7 @@ config RADIO_RTRACK_PORT
->  config RADIO_SF16FMI
->  	tristate "SF16-FMI/SF16-FMP/SF16-FMD Radio"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	help
->  	  Choose Y here if you have one of these FM radio cards.
->  
-> @@ -392,6 +399,7 @@ config RADIO_SF16FMI
->  config RADIO_SF16FMR2
->  	tristate "SF16-FMR2/SF16-FMD2 Radio"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	select RADIO_TEA575X
->  	help
->  	  Choose Y here if you have one of these FM radio cards.
-> @@ -402,6 +410,7 @@ config RADIO_SF16FMR2
->  config RADIO_TERRATEC
->  	tristate "TerraTec ActiveRadio ISA Standalone"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	select RADIO_ISA
->  	help
->  	  Choose Y here if you have this FM radio card.
-> @@ -416,6 +425,7 @@ config RADIO_TERRATEC
->  config RADIO_TRUST
->  	tristate "Trust FM radio card"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	select RADIO_ISA
->  	help
->  	  This is a driver for the Trust FM radio cards. Say Y if you have
-> @@ -439,6 +449,7 @@ config RADIO_TRUST_PORT
->  config RADIO_TYPHOON
->  	tristate "Typhoon Radio (a.k.a. EcoRadio)"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	select RADIO_ISA
->  	help
->  	  Choose Y here if you have one of these FM radio cards, and then fill
-> @@ -473,6 +484,7 @@ config RADIO_TYPHOON_PORT
->  config RADIO_ZOLTRIX
->  	tristate "Zoltrix Radio"
->  	depends on ISA || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	select RADIO_ISA
->  	help
->  	  Choose Y here if you have one of these FM radio cards, and then fill
-> diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
-> index f560fc38895f..96528e6532fd 100644
-> --- a/drivers/media/rc/Kconfig
-> +++ b/drivers/media/rc/Kconfig
-> @@ -148,6 +148,7 @@ if RC_DEVICES
->  config IR_ENE
->  	tristate "ENE eHome Receiver/Transceiver (pnp id: ENE0100/ENE02xxx)"
->  	depends on PNP || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	help
->  	   Say Y here to enable support for integrated infrared receiver
->  	   /transceiver made by ENE.
-> @@ -161,6 +162,7 @@ config IR_ENE
->  config IR_FINTEK
->  	tristate "Fintek Consumer Infrared Transceiver"
->  	depends on PNP || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	help
->  	   Say Y here to enable support for integrated infrared receiver
->  	   /transceiver made by Fintek. This chip is found on assorted
-> @@ -249,6 +251,7 @@ config IR_IMON_RAW
->  config IR_ITE_CIR
->  	tristate "ITE Tech Inc. IT8712/IT8512 Consumer Infrared Transceiver"
->  	depends on PNP || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	help
->  	   Say Y here to enable support for integrated infrared receivers
->  	   /transceivers made by ITE Tech Inc. These are found in
-> @@ -301,6 +304,7 @@ config IR_MTK
->  config IR_NUVOTON
->  	tristate "Nuvoton w836x7hg Consumer Infrared Transceiver"
->  	depends on PNP || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	help
->  	   Say Y here to enable support for integrated infrared receiver
->  	   /transceiver made by Nuvoton (formerly Winbond). This chip is
-> @@ -345,6 +349,7 @@ config IR_RX51
->  
->  config IR_SERIAL
->  	tristate "Homebrew Serial Port Receiver"
-> +	depends on HAS_IOPORT
->  	help
->  	   Say Y if you want to use Homebrew Serial Port Receivers and
->  	   Transceivers.
-> @@ -412,6 +417,7 @@ config IR_TTUSBIR
->  config IR_WINBOND_CIR
->  	tristate "Winbond IR remote control"
->  	depends on (X86 && PNP) || COMPILE_TEST
-> +	depends on HAS_IOPORT
->  	select NEW_LEDS
->  	select LEDS_CLASS
->  	select BITREVERSE
-> -- 
-> 2.32.0
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/media/platform/qcom/venus/hfi_venus.c:997:35: error: too few arguments to function call, single argument 'hdev' was not specified
+                   ret = venus_sys_set_ubwc_config();
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/media/platform/qcom/venus/hfi_venus.c:907:12: note: 'venus_sys_set_ubwc_config' declared here
+   static int venus_sys_set_ubwc_config(struct venus_hfi_device *hdev)
+              ^
+   1 error generated.
+
+
+vim +/hdev +997 drivers/media/platform/qcom/venus/hfi_venus.c
+
+   967	
+   968	static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
+   969	{
+   970		struct device *dev = hdev->core->dev;
+   971		const struct venus_resources *res = hdev->core->res;
+   972		int ret;
+   973	
+   974		ret = venus_sys_set_debug(hdev, venus_fw_debug);
+   975		if (ret)
+   976			dev_warn(dev, "setting fw debug msg ON failed (%d)\n", ret);
+   977	
+   978		/*
+   979		 * Idle indicator is disabled by default on some 4xx firmware versions,
+   980		 * enable it explicitly in order to make suspend functional by checking
+   981		 * WFI (wait-for-interrupt) bit.
+   982		 */
+   983		if (IS_V4(hdev->core) || IS_V6(hdev->core))
+   984			venus_sys_idle_indicator = true;
+   985	
+   986		ret = venus_sys_set_idle_message(hdev, venus_sys_idle_indicator);
+   987		if (ret)
+   988			dev_warn(dev, "setting idle response ON failed (%d)\n", ret);
+   989	
+   990		ret = venus_sys_set_power_control(hdev, venus_fw_low_power_mode);
+   991		if (ret)
+   992			dev_warn(dev, "setting hw power collapse ON failed (%d)\n",
+   993				 ret);
+   994	
+   995		/* For specific venus core, it is mandatory to set the UBWC configuration */
+   996		if (res->ubwc_conf) {
+ > 997			ret = venus_sys_set_ubwc_config();
+   998			if (ret)
+   999				dev_warn(dev, "setting ubwc config failed (%d)\n", ret);
+  1000		}
+  1001	
+  1002		return ret;
+  1003	}
+  1004	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
