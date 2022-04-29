@@ -2,153 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E94E95150A3
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 18:20:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90B6F515627
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 22:55:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379001AbiD2QXk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Apr 2022 12:23:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59486 "EHLO
+        id S1381097AbiD2U7N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Apr 2022 16:59:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234286AbiD2QXj (ORCPT
+        with ESMTP id S230128AbiD2U7M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Apr 2022 12:23:39 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D0F218B03;
-        Fri, 29 Apr 2022 09:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651249219; x=1682785219;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NeeAYHCb2w8hfb2CqYSw0VXn0vgeaiNaoDLMfEcGd6U=;
-  b=aRelUJHAOq5NynNFsOMgxpTUUmwyD7sqd+ssbUpr7TAdnbSWbbgoRF+e
-   jjybxaW1I/hkW+UJyaEenrpnZ/ulReHuvuDra9KfakQb3JixCSV3YJFdg
-   rPuVqJq3zu1AwWjwzlNB+Opm56Kh389PtrrMhoQDT365dKURzZBGq+k8i
-   pyRIDWbjBvgGjwn7t2ToiePiAHsrCCLDUS2m8v0HuAP85If0RCvkhjya6
-   bpdTJVxUwx4ZO+yF20xUUJKcrHHczqMNC7qNevpP7hQugtFSMMPOeE29g
-   gTL63FFWf37Wav2LvlttZ4pWeUY7wYQQlCBCEsBY8QN0VPrzZr00Ons2E
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10332"; a="248617880"
-X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; 
-   d="scan'208";a="248617880"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2022 09:20:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; 
-   d="scan'208";a="542671702"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 29 Apr 2022 09:20:16 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nkTLs-0006Tj-2q;
-        Fri, 29 Apr 2022 16:20:16 +0000
-Date:   Sat, 30 Apr 2022 00:19:15 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        quic_vgarodia@quicinc.com, frkoenig@chromium.org,
-        quic_dikshita@quicinc.com
-Subject: Re: [PATCH] media: venus: set ubwc configuration on specific video
- hardware
-Message-ID: <202204300037.EcG1kDyl-lkp@intel.com>
-References: <1651131248-20313-1-git-send-email-quic_vgarodia@quicinc.com>
+        Fri, 29 Apr 2022 16:59:12 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE908CD9B
+        for <linux-media@vger.kernel.org>; Fri, 29 Apr 2022 13:55:53 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id z19so10343253edx.9
+        for <linux-media@vger.kernel.org>; Fri, 29 Apr 2022 13:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=odFeoUtD+7OIfOjcCxQ9wfXNR7wVZhijBGF51FWGtSw=;
+        b=rE3Eu+h5/rF6eon9FdzUJ/dS8L+nePq2WYpXSQQZR5/UfOZYailhJXzjVlqNPyQVx1
+         AG7UavQcFGu3QXL4YzSWmGMnK78wgk/qzwjCwBg7WXYBEUlXQ/+HGgFusFqXicLULFG3
+         h442HKo878osClxO3VWeVI8jAN4Ter/I7cSb0eFdYjPUbcUfru460vxPZjCM1JoAnufl
+         s0Z/HZlaf53Qs67dEapm0SPgGhLrx/rUb6DkpTtcKmWkk/nC+I6t5Aziq0+d/RdzYHtl
+         vKhfZ5bH0LFFOQXRisNZ8Tgqu3szAp1qAh6Sy9BSl5Eao474yaVTjXWfCrZgvlScN2fH
+         8wnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=odFeoUtD+7OIfOjcCxQ9wfXNR7wVZhijBGF51FWGtSw=;
+        b=wlKPgpNXDgResqGqC/qmj42co1tHPNBxAwdXB4edh1TYRvo7U01jHnXaR9tYZE5tk8
+         C6W732GrcP5/0zMnyil0Se9wYBk8jkwrsCMSTVW3gUdYBpF8+TOSYoffSkVE+NCcZFN5
+         KAvrteZ8KBkSoZvikx0aL3QieZhK1r8IH4eJeq++fmrXe/xQiJ/5NKFpXaEEFk4KJTr3
+         W7s5kPZ4ccjXTvVsQXWux6PhMkmFvOSkn10nkHAPwu5UN4smfsX1JVgcp96UbohSZTA0
+         KzVySsMKSUMD7rKqdomBOwSozMtWXGu9RaKzHLeKZDuE8SJi6ARKxUZNod5zQ7wJYJQI
+         N2DQ==
+X-Gm-Message-State: AOAM532VgDLTQkRTmRbTrTT7w/lEZ+2umniMgFg6dRansm28HCe9Ju6G
+        1nSxo9WUoZVh5+9FRg50+JpnGQ==
+X-Google-Smtp-Source: ABdhPJyoJ3bmrABMI8yFtCqJfS6GezD6A0PfIiZPdI92UtPgc9/ENZq94mvA8yCzlYuZdxHhaeBKPg==
+X-Received: by 2002:a05:6402:11cd:b0:425:ee49:58cb with SMTP id j13-20020a05640211cd00b00425ee4958cbmr1145388edw.157.1651265751805;
+        Fri, 29 Apr 2022 13:55:51 -0700 (PDT)
+Received: from [192.168.0.176] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id bo9-20020a0564020b2900b0042617ba63a5sm3310476edb.47.2022.04.29.13.55.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Apr 2022 13:55:51 -0700 (PDT)
+Message-ID: <c962111d-09ab-36dc-6c12-5324e0f090b7@linaro.org>
+Date:   Fri, 29 Apr 2022 22:55:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1651131248-20313-1-git-send-email-quic_vgarodia@quicinc.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 2/2] dt-bindings: media: s5c73m3: Fix reset-gpio
+ descriptor
+Content-Language: en-US
+To:     =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220429123740.147703-1-maira.canal@usp.br>
+ <20220429123740.147703-3-maira.canal@usp.br>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220429123740.147703-3-maira.canal@usp.br>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vikash,
+On 29/04/2022 14:37, Maíra Canal wrote:
+> The reset-gpios is described as xshutdown-gpios on the required
+> properties, as it is on the driver. Despite that, the device tree
+> example set the property 'reset-gpios' instead of the property
+> 'xshutdown-gpios'.
+> 
+> Therefore, this patch updates the example to match the property specified
+> on the driver.
+> 
+> Signed-off-by: Maíra Canal <maira.canal@usp.br>
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on v5.18-rc4 next-20220429]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vikash-Garodia/media-venus-set-ubwc-configuration-on-specific-video-hardware/20220428-153510
-base:   git://linuxtv.org/media_tree.git master
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20220430/202204300037.EcG1kDyl-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473aacce38cd7dd77eebceaf3c98c5707ab3b)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/22d299bea1f679d007cb71b3916bf39bb957ab66
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vikash-Garodia/media-venus-set-ubwc-configuration-on-specific-video-hardware/20220428-153510
-        git checkout 22d299bea1f679d007cb71b3916bf39bb957ab66
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/crypto/ arch/arm64/kernel/ drivers/media/platform/qcom/venus/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/media/platform/qcom/venus/hfi_venus.c:997:35: error: too few arguments to function call, single argument 'hdev' was not specified
-                   ret = venus_sys_set_ubwc_config();
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/media/platform/qcom/venus/hfi_venus.c:907:12: note: 'venus_sys_set_ubwc_config' declared here
-   static int venus_sys_set_ubwc_config(struct venus_hfi_device *hdev)
-              ^
-   1 error generated.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
-vim +/hdev +997 drivers/media/platform/qcom/venus/hfi_venus.c
-
-   967	
-   968	static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
-   969	{
-   970		struct device *dev = hdev->core->dev;
-   971		const struct venus_resources *res = hdev->core->res;
-   972		int ret;
-   973	
-   974		ret = venus_sys_set_debug(hdev, venus_fw_debug);
-   975		if (ret)
-   976			dev_warn(dev, "setting fw debug msg ON failed (%d)\n", ret);
-   977	
-   978		/*
-   979		 * Idle indicator is disabled by default on some 4xx firmware versions,
-   980		 * enable it explicitly in order to make suspend functional by checking
-   981		 * WFI (wait-for-interrupt) bit.
-   982		 */
-   983		if (IS_V4(hdev->core) || IS_V6(hdev->core))
-   984			venus_sys_idle_indicator = true;
-   985	
-   986		ret = venus_sys_set_idle_message(hdev, venus_sys_idle_indicator);
-   987		if (ret)
-   988			dev_warn(dev, "setting idle response ON failed (%d)\n", ret);
-   989	
-   990		ret = venus_sys_set_power_control(hdev, venus_fw_low_power_mode);
-   991		if (ret)
-   992			dev_warn(dev, "setting hw power collapse ON failed (%d)\n",
-   993				 ret);
-   994	
-   995		/* For specific venus core, it is mandatory to set the UBWC configuration */
-   996		if (res->ubwc_conf) {
- > 997			ret = venus_sys_set_ubwc_config();
-   998			if (ret)
-   999				dev_warn(dev, "setting ubwc config failed (%d)\n", ret);
-  1000		}
-  1001	
-  1002		return ret;
-  1003	}
-  1004	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Best regards,
+Krzysztof
