@@ -2,320 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B52D0513F74
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 02:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B6705140F8
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 05:48:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353540AbiD2ASd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 20:18:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53118 "EHLO
+        id S236259AbiD2Db7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 23:31:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239751AbiD2ASc (ORCPT
+        with ESMTP id S236224AbiD2Db5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 20:18:32 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E16D1EADD
-        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 17:15:13 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id s131so7071265oie.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 17:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=usp.br; s=usp-google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :content-transfer-encoding;
-        bh=0DkQj+q076dx93Yv4PIgPq7P8eoSOD7swe9UHIViUdU=;
-        b=jnp8cIJs/YeTYXQ7fuXzTW4njVdeceOkRNvmPUOCavN94OuFeT2w0Td7G+HsyPY/dk
-         yScTssepSrH+VCsNO6bUNqP2t/HikOBYuzMtmwF/4HzbM3agaQee+CEXTkM9i5D2B1U0
-         PvLpMyT5lIZ6WzZYY8NgwuFXSUrWfK5ptFETxAVKBfJPpjBhkVdlso13PPJ1zOsZf0XA
-         iKsukQs/4wlJQKqA+VejVurOZdH0my8ERknmblMWhKIw/WlW1mIf4bk3ZDXicEsWoLFQ
-         7DdaBQO4WVuTgghZBDunIQwBeAktl4xeQbLjBREht92tPF7OVhDAs7+KoVCH7IixeVxR
-         IuIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:content-transfer-encoding;
-        bh=0DkQj+q076dx93Yv4PIgPq7P8eoSOD7swe9UHIViUdU=;
-        b=XYP/dFLSu1Oho2o9rdlDZ0HCRhTISVSELGnaav5YXoq1C8Vpjauz810rWRmjT3Lv8l
-         9mA/FKGHHZPmUlNncz0CyzTLdSr4meb0lpGrwZMarfIzteDcX3mGZXQ/+OlRpjjl7DJ/
-         oxRMQjrBm090AELKW3j6zg1ukWc8Qy2VnOXz5ijUI5aYt/py6x+qj9h9ozaw13k3vuF4
-         9gsmKH357PuimR9jPkmV+cPsAWOxr8hln988tRqIloEtVmADTI3lBNzM0pXgefATEDqi
-         /W1bAHgKOHQFAbfZX3iABMZnwPEjWIThq8A/skESCEwVF99MO7MVkSz53avbAcu4ifSO
-         x52Q==
-X-Gm-Message-State: AOAM531Etb9uILdJf+WBHqS4F7YP2493WE7j+iYuRj8n6u3lXeFluACW
-        dWj+ZXU91/P6U7Yyob1+yEzVHb7zqFxTSQ==
-X-Google-Smtp-Source: ABdhPJyb8tbUy/9r9G0h5i/hCX/cT7CnZZWnOeF/Nu6KU6qxnDlwWzPALOWnnz1QeEVitSyqAPJFnQ==
-X-Received: by 2002:a05:6808:178d:b0:322:c889:750f with SMTP id bg13-20020a056808178d00b00322c889750fmr353365oib.54.1651191312424;
-        Thu, 28 Apr 2022 17:15:12 -0700 (PDT)
-Received: from fedora ([2804:14d:8084:84c6:fe26:c42d:aab9:fa8a])
-        by smtp.gmail.com with ESMTPSA id v22-20020a056870e49600b000e686d13871sm2396684oag.11.2022.04.28.17.15.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 17:15:11 -0700 (PDT)
-Date:   Thu, 28 Apr 2022 21:15:08 -0300
-From:   =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>
-To:     s.nawrocki@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: s5c73m3: replace legacy gpio interface for gpiod
-Message-ID: <YmsuDHwjUwxtjiyq@fedora>
+        Thu, 28 Apr 2022 23:31:57 -0400
+Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5437C0D02;
+        Thu, 28 Apr 2022 20:28:39 -0700 (PDT)
+Date:   Fri, 29 Apr 2022 11:28:10 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1651202916;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WR7AidTezt3FhuHMgE1GKtelbFYIEUudur94Uc7U6sQ=;
+        b=xKr3p3iG1CdWcIoCvh74pr/16V95IjrnfEpjJjpakdxDjhj16raMvB01Ffq7Koo5qKH+dQ
+        yM+kdMncSOk+cVivhE/eOa/R9nWd7Fvv0pgsLZfkHgzlReSwhUOxVsM/b02FL6OTQVYSTc
+        MkFgS+z/ruizZd+tD7wnD00g243IeXg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Cai Huoqing <cai.huoqing@linux.dev>
+To:     Mikko Perttunen <cyndis@kapsi.fi>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH v2 0/4] drm/nvdla: Add driver support for NVDLA
+Message-ID: <20220429032810.GA10104@chq-T47>
+References: <20220426060808.78225-1-cai.huoqing@linux.dev>
+ <YmqgailZKIuY7zTZ@orome>
+ <beacfd71-ebd0-7fde-187f-34b7a42a47de@kapsi.fi>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <beacfd71-ebd0-7fde-187f-34b7a42a47de@kapsi.fi>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Considering the current transition of the GPIO subsystem, remove all
-dependencies of the legacy GPIO interface (linux/gpio.h and linux
-/of_gpio.h) and replace it with the descriptor-based GPIO approach.
+On 28 4æœˆ 22 18:56:07, Mikko Perttunen wrote:
+> On 4/28/22 17:10, Thierry Reding wrote:
+> > On Tue, Apr 26, 2022 at 02:07:57PM +0800, Cai Huoqing wrote:
+> > > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
+> > > which is integrated into NVIDIA Jetson AGX Xavier,
+> > > so add driver support for this accelerator."
+> > 
+> > Hi,
+> > 
+> > nice to see this work going on. For subsequent revisions, can you please
+> > also Cc the Tegra mailing list (linux-tegra@vger.kernel.org) as well as
+> > the Tegra platform maintainers (that's Jon Hunter and myself). This will
+> > make sure that more people with an interest in this will see your work.
+> > Not everyone follows dri-devel, linaro-mm-sig or linux-media.
+> > 
+> > Thanks,
+> > Thierry
+> 
+> From a quick glance it looks like this driver pokes DLA hardware directly
+> which is not the intended programming model on Tegra hardware (there are
+> Falcon microcontrollers that offload task scheduling and synchronization
+> from the CPU). The hardware is also behind the Host1x bus so a simple
+> platform device is not sufficient.
+> 
+> Was this driver developed against some platform with OpenDLA hardware (i.e.
+> not Tegra)?
+> 
+> If so, we'd need to verify if the hardware matches the hardware in Tegra194.
+> Also, this driver may not be ideal for Tegra platforms since we would lack
+> the hardware scheduling and synchronization facilities. It is likely
+> necessary to have separate drivers for OpenDLA and Tegra's DLA integration.
+> 
+> Thanks,
+> Mikko
+> 
+Tegra DLA seems to work with a slave coprocessor, the host driver just
+impelement message queue, share buffer, notification... The hardware
+detail of DLA maybe in the slave driver(not linux OS?).
 
-Signed-off-by: Maíra Canal <maira.canal@usp.br>
----
-V1 -> V2: As suggested by Andrzej, all s5c73m3 specific gpio code is completely
-removed. 
----
- drivers/media/i2c/s5c73m3/s5c73m3-core.c | 95 ++++++++++--------------
- drivers/media/i2c/s5c73m3/s5c73m3.h      |  9 +--
- include/media/i2c/s5c73m3.h              | 15 +---
- 3 files changed, 44 insertions(+), 75 deletions(-)
+Sure, This driver just support for the SOCs or FPGAs that OPENDLA
+inside. I will change this kind of description "integrated into NVIDIA Jetson AGX Xavier"
+this driver dont support for Tegra directly.
 
-diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-index e2b88c5e4f98..e653157f4b19 100644
---- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-+++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-@@ -10,12 +10,11 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/firmware.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/init.h>
- #include <linux/media.h>
- #include <linux/module.h>
--#include <linux/of_gpio.h>
- #include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/sizes.h>
-@@ -1347,22 +1346,26 @@ static int s5c73m3_oif_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 	return 0;
- }
- 
--static int s5c73m3_gpio_set_value(struct s5c73m3 *priv, int id, u32 val)
-+static int s5c73m3_gpio_set_value(struct gpio_desc *gpio, int val)
- {
--	if (!gpio_is_valid(priv->gpio[id].gpio))
-+	if (!gpio)
- 		return 0;
--	gpio_set_value(priv->gpio[id].gpio, !!val);
-+	gpiod_set_value(gpio, !!val);
- 	return 1;
- }
- 
--static int s5c73m3_gpio_assert(struct s5c73m3 *priv, int id)
-+static int s5c73m3_gpio_assert(struct gpio_desc *gpio)
- {
--	return s5c73m3_gpio_set_value(priv, id, priv->gpio[id].level);
-+	int val = gpiod_set_value(gpio);
-+
-+	return s5c73m3_gpio_set_value(gpio, val);
- }
- 
--static int s5c73m3_gpio_deassert(struct s5c73m3 *priv, int id)
-+static int s5c73m3_gpio_deassert(struct gpio_desc *gpio)
- {
--	return s5c73m3_gpio_set_value(priv, id, !priv->gpio[id].level);
-+	int val = gpiod_set_value(gpio);
-+
-+	return s5c73m3_gpio_set_value(gpio, !val);
- }
- 
- static int __s5c73m3_power_on(struct s5c73m3 *state)
-@@ -1386,10 +1389,10 @@ static int __s5c73m3_power_on(struct s5c73m3 *state)
- 	v4l2_dbg(1, s5c73m3_dbg, &state->oif_sd, "clock frequency: %ld\n",
- 					clk_get_rate(state->clock));
- 
--	s5c73m3_gpio_deassert(state, STBY);
-+	s5c73m3_gpio_deassert(state->gpio_stby);
- 	usleep_range(100, 200);
- 
--	s5c73m3_gpio_deassert(state, RSET);
-+	s5c73m3_gpio_deassert(state->gpio_reset);
- 	usleep_range(50, 100);
- 
- 	return 0;
-@@ -1404,10 +1407,10 @@ static int __s5c73m3_power_off(struct s5c73m3 *state)
- {
- 	int i, ret;
- 
--	if (s5c73m3_gpio_assert(state, RSET))
-+	if (s5c73m3_gpio_assert(state->gpio_reset))
- 		usleep_range(10, 50);
- 
--	if (s5c73m3_gpio_assert(state, STBY))
-+	if (s5c73m3_gpio_assert(state->gpio_stby))
- 		usleep_range(100, 200);
- 
- 	clk_disable_unprepare(state->clock);
-@@ -1545,50 +1548,34 @@ static const struct v4l2_subdev_ops oif_subdev_ops = {
- 
- static int s5c73m3_configure_gpios(struct s5c73m3 *state)
- {
--	static const char * const gpio_names[] = {
--		"S5C73M3_STBY", "S5C73M3_RST"
--	};
- 	struct i2c_client *c = state->i2c_client;
--	struct s5c73m3_gpio *g = state->gpio;
--	int ret, i;
-+	struct device *dev = &c->dev;
-+	struct device_node *np = dev->of_node;
- 
--	for (i = 0; i < GPIO_NUM; ++i) {
--		unsigned int flags = GPIOF_DIR_OUT;
--		if (g[i].level)
--			flags |= GPIOF_INIT_HIGH;
--		ret = devm_gpio_request_one(&c->dev, g[i].gpio, flags,
--					    gpio_names[i]);
--		if (ret) {
--			v4l2_err(c, "failed to request gpio %s\n",
--				 gpio_names[i]);
--			return ret;
--		}
-+	state->gpio_stby = gpiod_get_from_of_node(np, "standby-gpios", 0, GPIOD_ASIS,
-+			"S5C73M3_STBY");
-+
-+	if (IS_ERR(state->gpio_stby)) {
-+		v4l2_err(c, "failed to request gpio S5C73M3_STBY");
-+		return PTR_ERR(state->gpio_stby);
- 	}
--	return 0;
--}
- 
--static int s5c73m3_parse_gpios(struct s5c73m3 *state)
--{
--	static const char * const prop_names[] = {
--		"standby-gpios", "xshutdown-gpios",
--	};
--	struct device *dev = &state->i2c_client->dev;
--	struct device_node *node = dev->of_node;
--	int ret, i;
-+	if (state->gpio_stby)
-+		gpiod_direction_output(state->gpio_stby,
-+				!gpiod_is_active_low(state->gpio_stby));
- 
--	for (i = 0; i < GPIO_NUM; ++i) {
--		enum of_gpio_flags of_flags;
-+	state->gpio_reset = gpiod_get_from_of_node(np, "xshutdown-gpios", 0, GPIOD_ASIS,
-+			"S5C73M3_RST");
- 
--		ret = of_get_named_gpio_flags(node, prop_names[i],
--					      0, &of_flags);
--		if (ret < 0) {
--			dev_err(dev, "failed to parse %s DT property\n",
--				prop_names[i]);
--			return -EINVAL;
--		}
--		state->gpio[i].gpio = ret;
--		state->gpio[i].level = !(of_flags & OF_GPIO_ACTIVE_LOW);
-+	if (IS_ERR(state->gpio_reset)) {
-+		v4l2_err(c, "failed to request gpio S5C73M3_RST");
-+		return PTR_ERR(state->gpio_reset);
- 	}
-+
-+	if (state->gpio_reset)
-+		gpiod_direction_output(state->gpio_reset,
-+				!gpiod_is_active_low(state->gpio_reset));
-+
- 	return 0;
- }
- 
-@@ -1608,8 +1595,8 @@ static int s5c73m3_get_platform_data(struct s5c73m3 *state)
- 		}
- 
- 		state->mclk_frequency = pdata->mclk_frequency;
--		state->gpio[STBY] = pdata->gpio_stby;
--		state->gpio[RSET] = pdata->gpio_reset;
-+		state->gpio_stby = pdata->gpio_stby;
-+		state->gpio_reset = pdata->gpio_reset;
- 		return 0;
- 	}
- 
-@@ -1624,10 +1611,6 @@ static int s5c73m3_get_platform_data(struct s5c73m3 *state)
- 					state->mclk_frequency);
- 	}
- 
--	ret = s5c73m3_parse_gpios(state);
--	if (ret < 0)
--		return -EINVAL;
--
- 	node_ep = of_graph_get_next_endpoint(node, NULL);
- 	if (!node_ep) {
- 		dev_warn(dev, "no endpoint defined for node: %pOF\n", node);
-diff --git a/drivers/media/i2c/s5c73m3/s5c73m3.h b/drivers/media/i2c/s5c73m3/s5c73m3.h
-index c3fcfdd3ea66..f0056ae6e51a 100644
---- a/drivers/media/i2c/s5c73m3/s5c73m3.h
-+++ b/drivers/media/i2c/s5c73m3/s5c73m3.h
-@@ -351,12 +351,6 @@ struct s5c73m3_ctrls {
- 	struct v4l2_ctrl *scene_mode;
- };
- 
--enum s5c73m3_gpio_id {
--	STBY,
--	RSET,
--	GPIO_NUM,
--};
--
- enum s5c73m3_resolution_types {
- 	RES_ISP,
- 	RES_JPEG,
-@@ -383,7 +377,8 @@ struct s5c73m3 {
- 	u32 i2c_read_address;
- 
- 	struct regulator_bulk_data supplies[S5C73M3_MAX_SUPPLIES];
--	struct s5c73m3_gpio gpio[GPIO_NUM];
-+	struct gpio_desc *gpio_stby;
-+	struct gpio_desc *gpio_reset;
- 
- 	struct clk *clock;
- 
-diff --git a/include/media/i2c/s5c73m3.h b/include/media/i2c/s5c73m3.h
-index a51f1025ba1c..caad855a8394 100644
---- a/include/media/i2c/s5c73m3.h
-+++ b/include/media/i2c/s5c73m3.h
-@@ -17,19 +17,10 @@
- #ifndef MEDIA_S5C73M3__
- #define MEDIA_S5C73M3__
- 
-+#include <linux/gpio/consumer.h>
- #include <linux/videodev2.h>
- #include <media/v4l2-mediabus.h>
- 
--/**
-- * struct s5c73m3_gpio - data structure describing a GPIO
-- * @gpio:  GPIO number
-- * @level: indicates active state of the @gpio
-- */
--struct s5c73m3_gpio {
--	int gpio;
--	int level;
--};
--
- /**
-  * struct s5c73m3_platform_data - s5c73m3 driver platform data
-  * @mclk_frequency: sensor's master clock frequency in Hz
-@@ -44,8 +35,8 @@ struct s5c73m3_gpio {
- struct s5c73m3_platform_data {
- 	unsigned long mclk_frequency;
- 
--	struct s5c73m3_gpio gpio_reset;
--	struct s5c73m3_gpio gpio_stby;
-+	struct gpio_desc *gpio_reset;
-+	struct gpio_desc *gpio_stby;
- 
- 	enum v4l2_mbus_type bus_type;
- 	u8 nlanes;
--- 
-2.35.1
-
+Thanks,
+Cai
+> > 
+> > > 
+> > > v1->v2:
+> > > *Rename nvdla_drm.[ch] to nvdla_drv.[ch] and rename nvdla_ioctl.h to nvdla_drm.h,
+> > >   move it to uapi.
+> > >   comments link: https://lore.kernel.org/lkml/20bac605-97e6-e5cd-c4e4-83a8121645d8@amd.com/
+> > > *Remove the  onexistent filename  in Makefile
+> > >   comments link: https://lore.kernel.org/lkml/202204201512.pp20MXT5-lkp@intel.com/
+> > > *Sort file names alphabetically in Makefile.
+> > > *Rearrange the error messages, and use drm_err/_dbg() instead of pr_err/_dbg().
+> > > *Replace  "dla_" prefix with "nvdla_"
+> > > *Check the iosys_map by iosys_map_is_null(), and check "ret" directly.
+> > > *Using iosys_map_memcpy_to/_from() for iosys_map instead of memcpy()
+> > > *Fix parameter error "dma_buf_vunmap(buf, ptr)", use "&map" instead of "ptr"
+> > > *Use iosys_map instead of kvaddr and use "iosys_map_set_vaddr()" to initialize iosys_map
+> > > *Using "vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node)" to update vm_pgoff is cleaner
+> > > *Remove the unused nvdla_drm_gem_mmap, register drm_gem_mmap to file_operations directly.
+> > > *Use DEFINE_DRM_GEM_FOPS() to define nvdla_drm_fops.
+> > > *Remove the unused nvdla_drm_gem_mmap_buf, register drm_gem_prime_mmap to drm_driver directly.
+> > >   comments link: https://lore.kernel.org/lkml/7fa19996-5830-af3d-ab24-08c76e1d5604@suse.de/
+> > > *Fix typo and some code style
+> > > *Remove unused function nvdla_get_time_us()
+> > >   comments link: https://lore.kernel.org/lkml/0fa9ab41-c18e-a569-e6fe-a0e9d965905e@stargateuniverse.net/
+> > > 
+> > > Cai Huoqing (4):
+> > >    MAINTAINERS: Add the driver info of the NVDLA
+> > >    drm/nvdla: Add driver support for NVDLA
+> > >    drm/nvdla: Add register head file of NVDLA
+> > >    drm/nvdla/uapi: Add UAPI of NVDLA driver
+> > > 
+> > >   MAINTAINERS                             |    7 +
+> > >   drivers/gpu/drm/Kconfig                 |    2 +
+> > >   drivers/gpu/drm/Makefile                |    1 +
+> > >   drivers/gpu/drm/nvdla/Kconfig           |    8 +
+> > >   drivers/gpu/drm/nvdla/Makefile          |   17 +
+> > >   drivers/gpu/drm/nvdla/nvdla_bdma.c      |  198 +
+> > >   drivers/gpu/drm/nvdla/nvdla_cache.c     |  202 +
+> > >   drivers/gpu/drm/nvdla/nvdla_cdp.c       |  299 ++
+> > >   drivers/gpu/drm/nvdla/nvdla_common.c    |  293 ++
+> > >   drivers/gpu/drm/nvdla/nvdla_common.h    |  835 +++
+> > >   drivers/gpu/drm/nvdla/nvdla_conv.c      |  684 +++
+> > >   drivers/gpu/drm/nvdla/nvdla_drv.c       |  694 +++
+> > >   drivers/gpu/drm/nvdla/nvdla_drv.h       |  129 +
+> > >   drivers/gpu/drm/nvdla/nvdla_engine.c    |  233 +
+> > >   drivers/gpu/drm/nvdla/nvdla_engine.h    |  272 +
+> > >   drivers/gpu/drm/nvdla/nvdla_gem.c       |  358 ++
+> > >   drivers/gpu/drm/nvdla/nvdla_pdp.c       |  448 ++
+> > >   drivers/gpu/drm/nvdla/nvdla_reg.h       | 6411 +++++++++++++++++++++++
+> > >   drivers/gpu/drm/nvdla/nvdla_rubik.c     |  214 +
+> > >   drivers/gpu/drm/nvdla/nvdla_sched.h     |   37 +
+> > >   drivers/gpu/drm/nvdla/nvdla_scheduler.c | 1012 ++++
+> > >   drivers/gpu/drm/nvdla/nvdla_sdp.c       |  723 +++
+> > >   include/uapi/drm/nvdla_drm.h            |   99 +
+> > >   23 files changed, 13176 insertions(+)
+> > >   create mode 100644 drivers/gpu/drm/nvdla/Kconfig
+> > >   create mode 100644 drivers/gpu/drm/nvdla/Makefile
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_bdma.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_cache.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_cdp.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_common.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_common.h
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_conv.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_drv.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_drv.h
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_engine.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_engine.h
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_gem.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_pdp.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_reg.h
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_rubik.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_sched.h
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_scheduler.c
+> > >   create mode 100644 drivers/gpu/drm/nvdla/nvdla_sdp.c
+> > >   create mode 100644 include/uapi/drm/nvdla_drm.h
+> > > 
+> > > -- 
+> > > 2.25.1
+> > > 
+> 
