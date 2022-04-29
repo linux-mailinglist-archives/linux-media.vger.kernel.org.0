@@ -2,154 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C414E51426F
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 08:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B395142C6
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 09:01:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238350AbiD2Gjq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Apr 2022 02:39:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38722 "EHLO
+        id S1354844AbiD2HEY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Apr 2022 03:04:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232281AbiD2Gjm (ORCPT
+        with ESMTP id S1351983AbiD2HEW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Apr 2022 02:39:42 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74721B9F36
-        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 23:36:25 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nkKEp-006e3v-R6; Fri, 29 Apr 2022 06:36:23 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nkKEn-00E8dy-Hd; Fri, 29 Apr 2022 06:36:21 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.19] H.264 Field Decoding Support for Frame-based (#82804)
-Date:   Fri, 29 Apr 2022 06:36:21 +0000
-Message-Id: <20220429063621.3369772-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <5ac6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl>
-References: 
+        Fri, 29 Apr 2022 03:04:22 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3EEDB8228;
+        Fri, 29 Apr 2022 00:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651215664; x=1682751664;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=1d4EA+GAeB2i1quacZYLkgBEH5LKN2qs4OFoh8w4Yl8=;
+  b=V1liJDkQZeBVkXi+422R9b+pW7XVZjBV1gUWngmACyhJ5SwNthhU2fw5
+   LOGaa/tUYfEWTR+LcURqtSQmuguX+8SJMf1DP2LL+y/EIflBKGL/uLXg2
+   0XEKMpWRxm32SC2d9kCN4fktXLKyEez2eUonTiQ/vxmrbH7GaaOtm3jeP
+   kkR4fe5xSylmJltu57Gtm0ECofoSBm52ZhKJkOrpjGBa+lOpbwpQE0tGy
+   UcARaPOXY8Z3MUsINUjGPOdDZrGJHDOouDPMaD5u7VOUIb13CnAlKTMo7
+   kvptzp2yBSCNjWjMJ8Ju4rlZr9Am2xgDGQyV2BSS1SWGzvoTupUSGFtah
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="246470813"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
+   d="scan'208";a="246470813"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2022 00:01:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
+   d="scan'208";a="618545672"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 29 Apr 2022 00:00:59 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nkKcc-00065f-Pi;
+        Fri, 29 Apr 2022 07:00:58 +0000
+Date:   Fri, 29 Apr 2022 15:00:20 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
+        s.nawrocki@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: s5c73m3: replace legacy gpio interface for
+ gpiod
+Message-ID: <202204291438.sh9ZA6U8-lkp@intel.com>
+References: <YmsuDHwjUwxtjiyq@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YmsuDHwjUwxtjiyq@fedora>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi "Ma�ra,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/5ac6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/203191/
-Build time: 00:24:05
-Link: https://lore.kernel.org/linux-media/5ac6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl
+Thank you for the patch! Yet something to improve:
 
-gpg: Signature made Fri 29 Apr 2022 06:02:35 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Can't check signature: No public key
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on v5.18-rc4 next-20220428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Summary: got 4/23 patches with issues, being 4 at build time, plus one error when buinding PDF document
+url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/media-s5c73m3-replace-legacy-gpio-interface-for-gpiod/20220429-081656
+base:   git://linuxtv.org/media_tree.git master
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20220429/202204291438.sh9ZA6U8-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/427ae1b9cae644d199f9ffc260480dd1c32ec9d6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ma-ra-Canal/media-s5c73m3-replace-legacy-gpio-interface-for-gpiod/20220429-081656
+        git checkout 427ae1b9cae644d199f9ffc260480dd1c32ec9d6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/i2c/s5c73m3/
 
-Error/warnings:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-patches/0001-media-doc-Document-dual-use-of-H.264-pic_num-frame_n.patch:
+All errors (new ones prefixed by >>):
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2888 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0004-media-h264-Use-v4l2_h264_reference-for-reflist.patch:
-
-    allyesconfig: return code #512:
-	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
-	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
-	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
-	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
-	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
-	make: *** [Makefile:219: __sub-make] Error 2
-
-    allmodconfig: return code #512:
-	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
-	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
-	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
-	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
-	make[3]: *** Waiting for unfinished jobs....
-	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
-	make: *** [Makefile:219: __sub-make] Error 2
-
-patches/0005-media-h264-Increase-reference-lists-size-to-32.patch:
-
-    allyesconfig: return code #512:
-	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
-	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
-	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
-	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
-	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
-	make: *** [Makefile:219: __sub-make] Error 2
-
-    allmodconfig: return code #512:
-	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
-	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
-	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
-	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
-	make[3]: *** Waiting for unfinished jobs....
-	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
-	make: *** [Makefile:219: __sub-make] Error 2
-
-patches/0006-media-h264-Store-current-picture-fields.patch:
-
-    allyesconfig: return code #512:
-	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
-	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
-	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
-	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
-	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
-	make: *** [Makefile:219: __sub-make] Error 2
-
-    allmodconfig: return code #512:
-	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
-	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
-	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
-	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
-	make[3]: *** Waiting for unfinished jobs....
-	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
-	make: *** [Makefile:219: __sub-make] Error 2
+   drivers/media/i2c/s5c73m3/s5c73m3-core.c: In function 's5c73m3_gpio_assert':
+>> drivers/media/i2c/s5c73m3/s5c73m3-core.c:1359:19: error: too few arguments to function 'gpiod_set_value'
+    1359 |         int val = gpiod_set_value(gpio);
+         |                   ^~~~~~~~~~~~~~~
+   In file included from drivers/media/i2c/s5c73m3/s5c73m3-core.c:13:
+   include/linux/gpio/consumer.h:119:6: note: declared here
+     119 | void gpiod_set_value(struct gpio_desc *desc, int value);
+         |      ^~~~~~~~~~~~~~~
+   drivers/media/i2c/s5c73m3/s5c73m3-core.c: In function 's5c73m3_gpio_deassert':
+   drivers/media/i2c/s5c73m3/s5c73m3-core.c:1366:19: error: too few arguments to function 'gpiod_set_value'
+    1366 |         int val = gpiod_set_value(gpio);
+         |                   ^~~~~~~~~~~~~~~
+   In file included from drivers/media/i2c/s5c73m3/s5c73m3-core.c:13:
+   include/linux/gpio/consumer.h:119:6: note: declared here
+     119 | void gpiod_set_value(struct gpio_desc *desc, int value);
+         |      ^~~~~~~~~~~~~~~
 
 
-Error #512 when building PDF docs
+vim +/gpiod_set_value +1359 drivers/media/i2c/s5c73m3/s5c73m3-core.c
 
+  1356	
+  1357	static int s5c73m3_gpio_assert(struct gpio_desc *gpio)
+  1358	{
+> 1359		int val = gpiod_set_value(gpio);
+  1360	
+  1361		return s5c73m3_gpio_set_value(gpio, val);
+  1362	}
+  1363	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
