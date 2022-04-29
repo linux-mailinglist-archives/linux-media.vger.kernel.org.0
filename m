@@ -2,128 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F41F151418E
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 06:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD7A351422D
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 08:07:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237731AbiD2EwS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Apr 2022 00:52:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36858 "EHLO
+        id S1354414AbiD2GKl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Apr 2022 02:10:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237302AbiD2EwO (ORCPT
+        with ESMTP id S241040AbiD2GKj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Apr 2022 00:52:14 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32E762316F;
-        Thu, 28 Apr 2022 21:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651207737; x=1682743737;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Jj2HJdFD+WzFuEtVuuAOpTSCLb1M1zXw4IDK1AusbpA=;
-  b=eos+kAtnWd41KOe5P6ZuMlzTGAunnKNn83LMFVoA9TtTNpGnofKSouJd
-   aqJDzU4gzmfzpLF8NREMeZVTzlKA3Bml4AlQb7M//NzoerBSA/mA6p9Kd
-   068xxInQ5Y/JoEo982dOA7JmpgiDRy60yjhtveh0mmbCkf1w9sHcRJq7F
-   jCQbu7ZfIheo35JJb0JL92hN+4Pb4Z3rnl7o1h8H2B5jRfAC77mFWit6H
-   10astohG7J9GwCRSxtBdDDQQGflMRfLGCwGtMR7gXSvBk5jux9XFXTv2X
-   x8+tTpnYvxl6KEwl4WLPgv5cyaC11Wfgg94Abi4dEg2hmihUgKDvDA5T3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="352960684"
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
-   d="scan'208";a="352960684"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2022 21:48:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
-   d="scan'208";a="542062208"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 28 Apr 2022 21:48:54 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nkIYn-0005zX-Fj;
-        Fri, 29 Apr 2022 04:48:53 +0000
-Date:   Fri, 29 Apr 2022 12:48:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
-        s.nawrocki@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: s5c73m3: replace legacy gpio interface for
- gpiod
-Message-ID: <202204291212.g99NfHX0-lkp@intel.com>
-References: <YmsuDHwjUwxtjiyq@fedora>
+        Fri, 29 Apr 2022 02:10:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8FF7BF79
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 23:07:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6823161BC5
+        for <linux-media@vger.kernel.org>; Fri, 29 Apr 2022 06:07:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4632FC385A4;
+        Fri, 29 Apr 2022 06:07:20 +0000 (UTC)
+Message-ID: <5ac6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl>
+Date:   Fri, 29 Apr 2022 08:07:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YmsuDHwjUwxtjiyq@fedora>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.19] H.264 Field Decoding Support for Frame-based
+ Decoders
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi "Maíra,
+This PR contains this Nicolas' v4 patch series:
 
-Thank you for the patch! Yet something to improve:
+https://patchwork.linuxtv.org/project/linux-media/patch/20220426125751.108293-2-nicolas.dufresne@collabora.com/
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on v5.18-rc4 next-20220428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+except for patch 03/24 ("media: videobuf2-v4l2: Warn on holding buffers without support")
+which needs more work. It's independent of the other patches though, so that can be
+done later.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/media-s5c73m3-replace-legacy-gpio-interface-for-gpiod/20220429-081656
-base:   git://linuxtv.org/media_tree.git master
-config: arm64-randconfig-r022-20220428 (https://download.01.org/0day-ci/archive/20220429/202204291212.g99NfHX0-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c59473aacce38cd7dd77eebceaf3c98c5707ab3b)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/427ae1b9cae644d199f9ffc260480dd1c32ec9d6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ma-ra-Canal/media-s5c73m3-replace-legacy-gpio-interface-for-gpiod/20220429-081656
-        git checkout 427ae1b9cae644d199f9ffc260480dd1c32ec9d6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/media/i2c/s5c73m3/
+Regards,
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+	Hans
 
-All errors (new ones prefixed by >>):
+The following changes since commit 6c1c1eb8c87de221051b9198d40971640060842f:
 
->> drivers/media/i2c/s5c73m3/s5c73m3-core.c:1359:32: error: too few arguments to function call, expected 2, have 1
-           int val = gpiod_set_value(gpio);
-                     ~~~~~~~~~~~~~~~     ^
-   include/linux/gpio/consumer.h:119:6: note: 'gpiod_set_value' declared here
-   void gpiod_set_value(struct gpio_desc *desc, int value);
-        ^
-   drivers/media/i2c/s5c73m3/s5c73m3-core.c:1366:32: error: too few arguments to function call, expected 2, have 1
-           int val = gpiod_set_value(gpio);
-                     ~~~~~~~~~~~~~~~     ^
-   include/linux/gpio/consumer.h:119:6: note: 'gpiod_set_value' declared here
-   void gpiod_set_value(struct gpio_desc *desc, int value);
-        ^
-   2 errors generated.
+  media: ext-ctrls-codec.rst: fix indentation (2022-04-25 23:55:02 +0100)
 
+are available in the Git repository at:
 
-vim +1359 drivers/media/i2c/s5c73m3/s5c73m3-core.c
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.19f
 
-  1356	
-  1357	static int s5c73m3_gpio_assert(struct gpio_desc *gpio)
-  1358	{
-> 1359		int val = gpiod_set_value(gpio);
-  1360	
-  1361		return s5c73m3_gpio_set_value(gpio, val);
-  1362	}
-  1363	
+for you to fetch changes up to 837f4cd1ceefa0e52631da3df382ed495784c290:
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+  media: hantro: Enable HOLD_CAPTURE_BUF for H.264 (2022-04-28 10:55:13 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Jonas Karlman (5):
+      media: rkvdec: h264: Fix bit depth wrap in pps packet
+      media: rkvdec: h264: Validate and use pic width and height in mbs
+      media: rkvdec: h264: Fix reference frame_num wrap for second field
+      media: rkvdec: Ensure decoded resolution fit coded resolution
+      media: hantro: h264: Make dpb entry management more robust
+
+Nicolas Dufresne (18):
+      media: doc: Document dual use of H.264 pic_num/frame_num
+      media: v4l2-mem2mem: Trace on implicit un-hold
+      media: h264: Avoid wrapping long_term_frame_idx
+      media: h264: Use v4l2_h264_reference for reflist
+      media: h264: Increase reference lists size to 32
+      media: h264: Store current picture fields
+      media: h264: Store all fields into the unordered list
+      media: v4l2: Trace calculated p/b0/b1 initial reflist
+      media: h264: Sort p/b reflist using frame_num
+      media: v4l2: Reorder field reflist
+      media: rkvdec: Stop overclocking the decoder
+      media: rkvdec: h264: Fix dpb_valid implementation
+      media: rkvdec: Move H264 SPS validation in rkvdec-h264
+      media: rkvdec-h264: Add field decoding support
+      media: rkvdec: Enable capture buffer holding for H264
+      media: hantro: Stop using H.264 parameter pic_num
+      media: hantro: Add H.264 field decoding support
+      media: hantro: Enable HOLD_CAPTURE_BUF for H.264
+
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst |  10 +-
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c      |  36 +++++--
+ drivers/media/platform/nvidia/tegra-vde/h264.c                      |  19 ++--
+ drivers/media/v4l2-core/v4l2-h264.c                                 | 275 ++++++++++++++++++++++++++++++++++++++++++---------
+ drivers/media/v4l2-core/v4l2-mem2mem.c                              |   1 +
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c                   |  38 +++----
+ drivers/staging/media/hantro/hantro_h264.c                          | 134 ++++++++++++++++++++-----
+ drivers/staging/media/hantro/hantro_hw.h                            |   8 +-
+ drivers/staging/media/hantro/hantro_v4l2.c                          |  25 +++++
+ drivers/staging/media/hantro/rockchip_vpu2_hw_h264_dec.c            |  98 +++++++++---------
+ drivers/staging/media/rkvdec/rkvdec-h264.c                          | 157 +++++++++++++++++++++--------
+ drivers/staging/media/rkvdec/rkvdec.c                               |  35 +++----
+ drivers/staging/media/rkvdec/rkvdec.h                               |   2 +
+ include/media/v4l2-h264.h                                           |  31 +++---
+ 14 files changed, 634 insertions(+), 235 deletions(-)
