@@ -2,115 +2,320 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E271513F50
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 02:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B52D0513F74
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 02:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353487AbiD2ACs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 20:02:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41800 "EHLO
+        id S1353540AbiD2ASd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 20:18:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353494AbiD2ACq (ORCPT
+        with ESMTP id S239751AbiD2ASc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 20:02:46 -0400
-Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE3AB3DFA
-        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 16:59:29 -0700 (PDT)
-Received: from apollo.. (unknown [IPv6:2a02:810b:4340:43bf:4685:ff:fe12:5967])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by ssl.serverraum.org (Postfix) with ESMTPSA id 02E5722238;
-        Fri, 29 Apr 2022 01:59:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
-        t=1651190367;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5+ookkYoRvSYJlv3MLXoEnad8QTltTpUU8LXR63oCiM=;
-        b=kMftywZQ8uoL7xrVY4AFZBywzWYY5z3HraaywHO9jqmOovu/2V91XSdbL3TD161AZaHWTX
-        ygvYHVz1bjc2BOvTiHMGNp0BQ6aKXiLidDQI8IPZ0SsiXlgO7jI8KpPbo8vZtKqSPHgJsh
-        jGOsGNmMEzD7LDCzgllNVok55IVVkRY=
-From:   Michael Walle <michael@walle.cc>
-To:     daniel.vetter@ffwll.ch
-Cc:     christian.gmeiner@gmail.com, christian.koenig@amd.com,
-        daniel.vetter@intel.com, dri-devel@lists.freedesktop.org,
-        etnaviv@lists.freedesktop.org, l.stach@pengutronix.de,
-        linaro-mm-sig@lists.linaro.org, linux+etnaviv@armlinux.org.uk,
-        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
-        Michael Walle <michael@walle.cc>
-Subject: Re: [PATCH 1/4] drm/etnaviv: Use scheduler dependency handling
-Date:   Fri, 29 Apr 2022 01:59:16 +0200
-Message-Id: <20220428235916.331490-1-michael@walle.cc>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220331204651.2699107-2-daniel.vetter@ffwll.ch>
-References: <20220331204651.2699107-2-daniel.vetter@ffwll.ch>
+        Thu, 28 Apr 2022 20:18:32 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E16D1EADD
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 17:15:13 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id s131so7071265oie.1
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 17:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=usp.br; s=usp-google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=0DkQj+q076dx93Yv4PIgPq7P8eoSOD7swe9UHIViUdU=;
+        b=jnp8cIJs/YeTYXQ7fuXzTW4njVdeceOkRNvmPUOCavN94OuFeT2w0Td7G+HsyPY/dk
+         yScTssepSrH+VCsNO6bUNqP2t/HikOBYuzMtmwF/4HzbM3agaQee+CEXTkM9i5D2B1U0
+         PvLpMyT5lIZ6WzZYY8NgwuFXSUrWfK5ptFETxAVKBfJPpjBhkVdlso13PPJ1zOsZf0XA
+         iKsukQs/4wlJQKqA+VejVurOZdH0my8ERknmblMWhKIw/WlW1mIf4bk3ZDXicEsWoLFQ
+         7DdaBQO4WVuTgghZBDunIQwBeAktl4xeQbLjBREht92tPF7OVhDAs7+KoVCH7IixeVxR
+         IuIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding;
+        bh=0DkQj+q076dx93Yv4PIgPq7P8eoSOD7swe9UHIViUdU=;
+        b=XYP/dFLSu1Oho2o9rdlDZ0HCRhTISVSELGnaav5YXoq1C8Vpjauz810rWRmjT3Lv8l
+         9mA/FKGHHZPmUlNncz0CyzTLdSr4meb0lpGrwZMarfIzteDcX3mGZXQ/+OlRpjjl7DJ/
+         oxRMQjrBm090AELKW3j6zg1ukWc8Qy2VnOXz5ijUI5aYt/py6x+qj9h9ozaw13k3vuF4
+         9gsmKH357PuimR9jPkmV+cPsAWOxr8hln988tRqIloEtVmADTI3lBNzM0pXgefATEDqi
+         /W1bAHgKOHQFAbfZX3iABMZnwPEjWIThq8A/skESCEwVF99MO7MVkSz53avbAcu4ifSO
+         x52Q==
+X-Gm-Message-State: AOAM531Etb9uILdJf+WBHqS4F7YP2493WE7j+iYuRj8n6u3lXeFluACW
+        dWj+ZXU91/P6U7Yyob1+yEzVHb7zqFxTSQ==
+X-Google-Smtp-Source: ABdhPJyb8tbUy/9r9G0h5i/hCX/cT7CnZZWnOeF/Nu6KU6qxnDlwWzPALOWnnz1QeEVitSyqAPJFnQ==
+X-Received: by 2002:a05:6808:178d:b0:322:c889:750f with SMTP id bg13-20020a056808178d00b00322c889750fmr353365oib.54.1651191312424;
+        Thu, 28 Apr 2022 17:15:12 -0700 (PDT)
+Received: from fedora ([2804:14d:8084:84c6:fe26:c42d:aab9:fa8a])
+        by smtp.gmail.com with ESMTPSA id v22-20020a056870e49600b000e686d13871sm2396684oag.11.2022.04.28.17.15.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 17:15:11 -0700 (PDT)
+Date:   Thu, 28 Apr 2022 21:15:08 -0300
+From:   =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>
+To:     s.nawrocki@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: s5c73m3: replace legacy gpio interface for gpiod
+Message-ID: <YmsuDHwjUwxtjiyq@fedora>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> We need to pull the drm_sched_job_init much earlier, but that's very
-> minor surgery.
+Considering the current transition of the GPIO subsystem, remove all
+dependencies of the legacy GPIO interface (linux/gpio.h and linux
+/of_gpio.h) and replace it with the descriptor-based GPIO approach.
 
-This patch breaks the GC7000 on the LS1028A:
+Signed-off-by: Maíra Canal <maira.canal@usp.br>
+---
+V1 -> V2: As suggested by Andrzej, all s5c73m3 specific gpio code is completely
+removed. 
+---
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c | 95 ++++++++++--------------
+ drivers/media/i2c/s5c73m3/s5c73m3.h      |  9 +--
+ include/media/i2c/s5c73m3.h              | 15 +---
+ 3 files changed, 44 insertions(+), 75 deletions(-)
 
-[   35.671102] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000078
-[   35.680925] Mem abort info:
-[   35.685127]   ESR = 0x96000004
-[   35.689583]   EC = 0x25: DABT (current EL), IL = 32 bits
-[   35.696312]   SET = 0, FnV = 0
-[   35.700766]   EA = 0, S1PTW = 0
-[   35.705315]   FSC = 0x04: level 0 translation fault
-[   35.711616] Data abort info:
-[   35.715916]   ISV = 0, ISS = 0x00000004
-[   35.721170]   CM = 0, WnR = 0
-[   35.725552] user pgtable: 4k pages, 48-bit VAs, pgdp=0000002083f59000
-[   35.733420] [0000000000000078] pgd=0000000000000000, p4d=0000000000000000
-[   35.741627] Internal error: Oops: 96000004 [#1] SMP
-[   35.747902] Modules linked in:
-[   35.750963] CPU: 0 PID: 44 Comm: f0c0000.gpu Not tainted 5.18.0-rc2-00894-gde6a1d7294f5 #24
-[   35.759345] Hardware name: Kontron KBox A-230-LS (DT)
-[   35.764409] pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   35.771394] pc : drm_sched_entity_select_rq+0x314/0x380
-[   35.776645] lr : drm_sched_entity_pop_job+0x4c/0x480
-[   35.781625] sp : ffff80000949bdb0
-[   35.784943] x29: ffff80000949bdb0 x28: 0000000000000000 x27: 0000000000000000
-[   35.792107] x26: ffff002003f09008 x25: ffff00200231d130 x24: ffff800008c13008
-[   35.799270] x23: ffff8000086af900 x22: ffff800008c13008 x21: ffff002003fb6e00
-[   35.806432] x20: 0000000000000040 x19: ffff002003f09008 x18: ffffffffffffffff
-[   35.813594] x17: 0000000000000000 x16: 0000000000000000 x15: ffff800009ee3d48
-[   35.820756] x14: 0000000000000000 x13: 0000000000000000 x12: ffffffff00000008
-[   35.827918] x11: 0000aaaadb063d30 x10: 0000000000000960 x9 : ffff8000086afedc
-[   35.835080] x8 : ffff00200186a900 x7 : 0000000000000000 x6 : 0000000000000000
-[   35.842242] x5 : ffff00200231d2b0 x4 : 0000000000000000 x3 : 0000000000000000
-[   35.849403] x2 : 0000000000000000 x1 : 0000000000000078 x0 : 0000000000000078
-[   35.856565] Call trace:
-[   35.859013]  drm_sched_entity_select_rq+0x314/0x380
-[   35.863906]  drm_sched_main+0x1b0/0x49c
-[   35.867752]  kthread+0xe4/0xf0
-[   35.870814]  ret_from_fork+0x10/0x20
-[   35.874401] Code: 8805fc24 35ffffa5 17fffef9 f9800031 (885f7c22) 
-[   35.880513] ---[ end trace 0000000000000000 ]---
+diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+index e2b88c5e4f98..e653157f4b19 100644
+--- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
++++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+@@ -10,12 +10,11 @@
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/firmware.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/init.h>
+ #include <linux/media.h>
+ #include <linux/module.h>
+-#include <linux/of_gpio.h>
+ #include <linux/of_graph.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/sizes.h>
+@@ -1347,22 +1346,26 @@ static int s5c73m3_oif_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 	return 0;
+ }
+ 
+-static int s5c73m3_gpio_set_value(struct s5c73m3 *priv, int id, u32 val)
++static int s5c73m3_gpio_set_value(struct gpio_desc *gpio, int val)
+ {
+-	if (!gpio_is_valid(priv->gpio[id].gpio))
++	if (!gpio)
+ 		return 0;
+-	gpio_set_value(priv->gpio[id].gpio, !!val);
++	gpiod_set_value(gpio, !!val);
+ 	return 1;
+ }
+ 
+-static int s5c73m3_gpio_assert(struct s5c73m3 *priv, int id)
++static int s5c73m3_gpio_assert(struct gpio_desc *gpio)
+ {
+-	return s5c73m3_gpio_set_value(priv, id, priv->gpio[id].level);
++	int val = gpiod_set_value(gpio);
++
++	return s5c73m3_gpio_set_value(gpio, val);
+ }
+ 
+-static int s5c73m3_gpio_deassert(struct s5c73m3 *priv, int id)
++static int s5c73m3_gpio_deassert(struct gpio_desc *gpio)
+ {
+-	return s5c73m3_gpio_set_value(priv, id, !priv->gpio[id].level);
++	int val = gpiod_set_value(gpio);
++
++	return s5c73m3_gpio_set_value(gpio, !val);
+ }
+ 
+ static int __s5c73m3_power_on(struct s5c73m3 *state)
+@@ -1386,10 +1389,10 @@ static int __s5c73m3_power_on(struct s5c73m3 *state)
+ 	v4l2_dbg(1, s5c73m3_dbg, &state->oif_sd, "clock frequency: %ld\n",
+ 					clk_get_rate(state->clock));
+ 
+-	s5c73m3_gpio_deassert(state, STBY);
++	s5c73m3_gpio_deassert(state->gpio_stby);
+ 	usleep_range(100, 200);
+ 
+-	s5c73m3_gpio_deassert(state, RSET);
++	s5c73m3_gpio_deassert(state->gpio_reset);
+ 	usleep_range(50, 100);
+ 
+ 	return 0;
+@@ -1404,10 +1407,10 @@ static int __s5c73m3_power_off(struct s5c73m3 *state)
+ {
+ 	int i, ret;
+ 
+-	if (s5c73m3_gpio_assert(state, RSET))
++	if (s5c73m3_gpio_assert(state->gpio_reset))
+ 		usleep_range(10, 50);
+ 
+-	if (s5c73m3_gpio_assert(state, STBY))
++	if (s5c73m3_gpio_assert(state->gpio_stby))
+ 		usleep_range(100, 200);
+ 
+ 	clk_disable_unprepare(state->clock);
+@@ -1545,50 +1548,34 @@ static const struct v4l2_subdev_ops oif_subdev_ops = {
+ 
+ static int s5c73m3_configure_gpios(struct s5c73m3 *state)
+ {
+-	static const char * const gpio_names[] = {
+-		"S5C73M3_STBY", "S5C73M3_RST"
+-	};
+ 	struct i2c_client *c = state->i2c_client;
+-	struct s5c73m3_gpio *g = state->gpio;
+-	int ret, i;
++	struct device *dev = &c->dev;
++	struct device_node *np = dev->of_node;
+ 
+-	for (i = 0; i < GPIO_NUM; ++i) {
+-		unsigned int flags = GPIOF_DIR_OUT;
+-		if (g[i].level)
+-			flags |= GPIOF_INIT_HIGH;
+-		ret = devm_gpio_request_one(&c->dev, g[i].gpio, flags,
+-					    gpio_names[i]);
+-		if (ret) {
+-			v4l2_err(c, "failed to request gpio %s\n",
+-				 gpio_names[i]);
+-			return ret;
+-		}
++	state->gpio_stby = gpiod_get_from_of_node(np, "standby-gpios", 0, GPIOD_ASIS,
++			"S5C73M3_STBY");
++
++	if (IS_ERR(state->gpio_stby)) {
++		v4l2_err(c, "failed to request gpio S5C73M3_STBY");
++		return PTR_ERR(state->gpio_stby);
+ 	}
+-	return 0;
+-}
+ 
+-static int s5c73m3_parse_gpios(struct s5c73m3 *state)
+-{
+-	static const char * const prop_names[] = {
+-		"standby-gpios", "xshutdown-gpios",
+-	};
+-	struct device *dev = &state->i2c_client->dev;
+-	struct device_node *node = dev->of_node;
+-	int ret, i;
++	if (state->gpio_stby)
++		gpiod_direction_output(state->gpio_stby,
++				!gpiod_is_active_low(state->gpio_stby));
+ 
+-	for (i = 0; i < GPIO_NUM; ++i) {
+-		enum of_gpio_flags of_flags;
++	state->gpio_reset = gpiod_get_from_of_node(np, "xshutdown-gpios", 0, GPIOD_ASIS,
++			"S5C73M3_RST");
+ 
+-		ret = of_get_named_gpio_flags(node, prop_names[i],
+-					      0, &of_flags);
+-		if (ret < 0) {
+-			dev_err(dev, "failed to parse %s DT property\n",
+-				prop_names[i]);
+-			return -EINVAL;
+-		}
+-		state->gpio[i].gpio = ret;
+-		state->gpio[i].level = !(of_flags & OF_GPIO_ACTIVE_LOW);
++	if (IS_ERR(state->gpio_reset)) {
++		v4l2_err(c, "failed to request gpio S5C73M3_RST");
++		return PTR_ERR(state->gpio_reset);
+ 	}
++
++	if (state->gpio_reset)
++		gpiod_direction_output(state->gpio_reset,
++				!gpiod_is_active_low(state->gpio_reset));
++
+ 	return 0;
+ }
+ 
+@@ -1608,8 +1595,8 @@ static int s5c73m3_get_platform_data(struct s5c73m3 *state)
+ 		}
+ 
+ 		state->mclk_frequency = pdata->mclk_frequency;
+-		state->gpio[STBY] = pdata->gpio_stby;
+-		state->gpio[RSET] = pdata->gpio_reset;
++		state->gpio_stby = pdata->gpio_stby;
++		state->gpio_reset = pdata->gpio_reset;
+ 		return 0;
+ 	}
+ 
+@@ -1624,10 +1611,6 @@ static int s5c73m3_get_platform_data(struct s5c73m3 *state)
+ 					state->mclk_frequency);
+ 	}
+ 
+-	ret = s5c73m3_parse_gpios(state);
+-	if (ret < 0)
+-		return -EINVAL;
+-
+ 	node_ep = of_graph_get_next_endpoint(node, NULL);
+ 	if (!node_ep) {
+ 		dev_warn(dev, "no endpoint defined for node: %pOF\n", node);
+diff --git a/drivers/media/i2c/s5c73m3/s5c73m3.h b/drivers/media/i2c/s5c73m3/s5c73m3.h
+index c3fcfdd3ea66..f0056ae6e51a 100644
+--- a/drivers/media/i2c/s5c73m3/s5c73m3.h
++++ b/drivers/media/i2c/s5c73m3/s5c73m3.h
+@@ -351,12 +351,6 @@ struct s5c73m3_ctrls {
+ 	struct v4l2_ctrl *scene_mode;
+ };
+ 
+-enum s5c73m3_gpio_id {
+-	STBY,
+-	RSET,
+-	GPIO_NUM,
+-};
+-
+ enum s5c73m3_resolution_types {
+ 	RES_ISP,
+ 	RES_JPEG,
+@@ -383,7 +377,8 @@ struct s5c73m3 {
+ 	u32 i2c_read_address;
+ 
+ 	struct regulator_bulk_data supplies[S5C73M3_MAX_SUPPLIES];
+-	struct s5c73m3_gpio gpio[GPIO_NUM];
++	struct gpio_desc *gpio_stby;
++	struct gpio_desc *gpio_reset;
+ 
+ 	struct clk *clock;
+ 
+diff --git a/include/media/i2c/s5c73m3.h b/include/media/i2c/s5c73m3.h
+index a51f1025ba1c..caad855a8394 100644
+--- a/include/media/i2c/s5c73m3.h
++++ b/include/media/i2c/s5c73m3.h
+@@ -17,19 +17,10 @@
+ #ifndef MEDIA_S5C73M3__
+ #define MEDIA_S5C73M3__
+ 
++#include <linux/gpio/consumer.h>
+ #include <linux/videodev2.h>
+ #include <media/v4l2-mediabus.h>
+ 
+-/**
+- * struct s5c73m3_gpio - data structure describing a GPIO
+- * @gpio:  GPIO number
+- * @level: indicates active state of the @gpio
+- */
+-struct s5c73m3_gpio {
+-	int gpio;
+-	int level;
+-};
+-
+ /**
+  * struct s5c73m3_platform_data - s5c73m3 driver platform data
+  * @mclk_frequency: sensor's master clock frequency in Hz
+@@ -44,8 +35,8 @@ struct s5c73m3_gpio {
+ struct s5c73m3_platform_data {
+ 	unsigned long mclk_frequency;
+ 
+-	struct s5c73m3_gpio gpio_reset;
+-	struct s5c73m3_gpio gpio_stby;
++	struct gpio_desc *gpio_reset;
++	struct gpio_desc *gpio_stby;
+ 
+ 	enum v4l2_mbus_type bus_type;
+ 	u8 nlanes;
+-- 
+2.35.1
 
-# glmark2-es2-drm
-=======================================================
-    glmark2 2021.02
-=======================================================
-    OpenGL Information
-    GL_VENDOR:     etnaviv
-    GL_RENDERER:   Vivante GC7000 rev 6202
-    GL_VERSION:    OpenGL ES 2.0 Mesa 22.1.0-devel
-
-Mesa is Lucas latest MR branch: lynxeye/etnaviv-gc7000-r6204.
-
-Reverting this patch on drm-next will make the oops go away. Any idea
-what's going wrong here?
-
--michael
