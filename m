@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD7A351422D
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 08:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C414E51426F
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 08:36:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354414AbiD2GKl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Apr 2022 02:10:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58926 "EHLO
+        id S238350AbiD2Gjq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Apr 2022 02:39:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241040AbiD2GKj (ORCPT
+        with ESMTP id S232281AbiD2Gjm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Apr 2022 02:10:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8FF7BF79
-        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 23:07:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6823161BC5
-        for <linux-media@vger.kernel.org>; Fri, 29 Apr 2022 06:07:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4632FC385A4;
-        Fri, 29 Apr 2022 06:07:20 +0000 (UTC)
-Message-ID: <5ac6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl>
-Date:   Fri, 29 Apr 2022 08:07:18 +0200
+        Fri, 29 Apr 2022 02:39:42 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74721B9F36
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 23:36:25 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nkKEp-006e3v-R6; Fri, 29 Apr 2022 06:36:23 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nkKEn-00E8dy-Hd; Fri, 29 Apr 2022 06:36:21 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.19] H.264 Field Decoding Support for Frame-based (#82804)
+Date:   Fri, 29 Apr 2022 06:36:21 +0000
+Message-Id: <20220429063621.3369772-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <5ac6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.19] H.264 Field Decoding Support for Frame-based
- Decoders
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,73 +45,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This PR contains this Nicolas' v4 patch series:
+From: builder@linuxtv.org
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20220426125751.108293-2-nicolas.dufresne@collabora.com/
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/5ac6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/203191/
+Build time: 00:24:05
+Link: https://lore.kernel.org/linux-media/5ac6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl
 
-except for patch 03/24 ("media: videobuf2-v4l2: Warn on holding buffers without support")
-which needs more work. It's independent of the other patches though, so that can be
-done later.
+gpg: Signature made Fri 29 Apr 2022 06:02:35 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Can't check signature: No public key
 
-Regards,
+Summary: got 4/23 patches with issues, being 4 at build time, plus one error when buinding PDF document
 
-	Hans
+Error/warnings:
 
-The following changes since commit 6c1c1eb8c87de221051b9198d40971640060842f:
+patches/0001-media-doc-Document-dual-use-of-H.264-pic_num-frame_n.patch:
 
-  media: ext-ctrls-codec.rst: fix indentation (2022-04-25 23:55:02 +0100)
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-are available in the Git repository at:
+    allyesconfig: return code #0:
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2888 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.19f
+patches/0004-media-h264-Use-v4l2_h264_reference-for-reflist.patch:
 
-for you to fetch changes up to 837f4cd1ceefa0e52631da3df382ed495784c290:
+    allyesconfig: return code #512:
+	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
+	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-  media: hantro: Enable HOLD_CAPTURE_BUF for H.264 (2022-04-28 10:55:13 +0200)
+    allmodconfig: return code #512:
+	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
+	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-----------------------------------------------------------------
-Tag branch
+patches/0005-media-h264-Increase-reference-lists-size-to-32.patch:
 
-----------------------------------------------------------------
-Jonas Karlman (5):
-      media: rkvdec: h264: Fix bit depth wrap in pps packet
-      media: rkvdec: h264: Validate and use pic width and height in mbs
-      media: rkvdec: h264: Fix reference frame_num wrap for second field
-      media: rkvdec: Ensure decoded resolution fit coded resolution
-      media: hantro: h264: Make dpb entry management more robust
+    allyesconfig: return code #512:
+	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
+	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Nicolas Dufresne (18):
-      media: doc: Document dual use of H.264 pic_num/frame_num
-      media: v4l2-mem2mem: Trace on implicit un-hold
-      media: h264: Avoid wrapping long_term_frame_idx
-      media: h264: Use v4l2_h264_reference for reflist
-      media: h264: Increase reference lists size to 32
-      media: h264: Store current picture fields
-      media: h264: Store all fields into the unordered list
-      media: v4l2: Trace calculated p/b0/b1 initial reflist
-      media: h264: Sort p/b reflist using frame_num
-      media: v4l2: Reorder field reflist
-      media: rkvdec: Stop overclocking the decoder
-      media: rkvdec: h264: Fix dpb_valid implementation
-      media: rkvdec: Move H264 SPS validation in rkvdec-h264
-      media: rkvdec-h264: Add field decoding support
-      media: rkvdec: Enable capture buffer holding for H264
-      media: hantro: Stop using H.264 parameter pic_num
-      media: hantro: Add H.264 field decoding support
-      media: hantro: Enable HOLD_CAPTURE_BUF for H.264
+    allmodconfig: return code #512:
+	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
+	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
- Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst |  10 +-
- drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c      |  36 +++++--
- drivers/media/platform/nvidia/tegra-vde/h264.c                      |  19 ++--
- drivers/media/v4l2-core/v4l2-h264.c                                 | 275 ++++++++++++++++++++++++++++++++++++++++++---------
- drivers/media/v4l2-core/v4l2-mem2mem.c                              |   1 +
- drivers/staging/media/hantro/hantro_g1_h264_dec.c                   |  38 +++----
- drivers/staging/media/hantro/hantro_h264.c                          | 134 ++++++++++++++++++++-----
- drivers/staging/media/hantro/hantro_hw.h                            |   8 +-
- drivers/staging/media/hantro/hantro_v4l2.c                          |  25 +++++
- drivers/staging/media/hantro/rockchip_vpu2_hw_h264_dec.c            |  98 +++++++++---------
- drivers/staging/media/rkvdec/rkvdec-h264.c                          | 157 +++++++++++++++++++++--------
- drivers/staging/media/rkvdec/rkvdec.c                               |  35 +++----
- drivers/staging/media/rkvdec/rkvdec.h                               |   2 +
- include/media/v4l2-h264.h                                           |  31 +++---
- 14 files changed, 634 insertions(+), 235 deletions(-)
+patches/0006-media-h264-Store-current-picture-fields.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
+	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: ‘struct <anonymous>’ has no member named ‘top_field_order_cnt’
+	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvidia/tegra-vde/h264.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia/tegra-vde] Error 2
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+
+Error #512 when building PDF docs
+
