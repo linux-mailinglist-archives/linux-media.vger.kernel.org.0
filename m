@@ -2,275 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80D105145D2
-	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 11:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C43C514607
+	for <lists+linux-media@lfdr.de>; Fri, 29 Apr 2022 11:54:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356718AbiD2JsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Apr 2022 05:48:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32834 "EHLO
+        id S1357932AbiD2Jya (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Apr 2022 05:54:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244541AbiD2JsO (ORCPT
+        with ESMTP id S1357079AbiD2Jxd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Apr 2022 05:48:14 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E80C1CAA;
-        Fri, 29 Apr 2022 02:44:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 29B09B82C1A;
-        Fri, 29 Apr 2022 09:44:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23F1EC385A7;
-        Fri, 29 Apr 2022 09:44:47 +0000 (UTC)
-Message-ID: <4334520e-af49-fe32-fb23-ef9af6388529@xs4all.nl>
-Date:   Fri, 29 Apr 2022 11:44:46 +0200
+        Fri, 29 Apr 2022 05:53:33 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39683C7480;
+        Fri, 29 Apr 2022 02:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1651225684; x=1682761684;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=yC+QUZ4Zg5LO+lQnbzXfksf/7ximPrUNJ9MAIMUi3cU=;
+  b=TsJEtwq8G9SIIt0a9ppGY74F6b1g4//i5/XUjeaGifOO8KC+X6MCPw1V
+   PfHrbsi26Ppn7SzBeYae5m8x3/r9TXUXGCzsCEqbUw7bV2KXcop87tIJl
+   rIb+s9I7gim3tSGm9YgJmuuOa5bxTXScI1EgDcPaOn2MY8SIP8hxSDvzb
+   4=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 29 Apr 2022 02:48:03 -0700
+X-QCInternal: smtphost
+Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
+  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2022 02:48:03 -0700
+Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 29 Apr 2022 02:48:00 -0700
+From:   Vikash Garodia <quic_vgarodia@quicinc.com>
+To:     <linux-media@vger.kernel.org>, <stanimir.varbanov@linaro.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <quic_vgarodia@quicinc.com>, <frkoenig@chromium.org>,
+        <quic_dikshita@quicinc.com>
+Subject: [PATCH v2] media: venus: set ubwc configuration on specific video hardware
+Date:   Fri, 29 Apr 2022 15:17:52 +0530
+Message-ID: <1651225672-32243-1-git-send-email-quic_vgarodia@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [DKIM] [PATCH v10, 00/15] media: mtk-vcodec: support for M8192
- decoder
-Content-Language: en-US
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20220426100828.13429-1-yunfei.dong@mediatek.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220426100828.13429-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+UBWC configuration parameters would vary across video hardware
+generations. At the same time, driver is expected to configure
+these parameters, without relying on video firmware to use the
+default configurations.
+Setting the configuration parameters for sc7280.
 
-On 26/04/2022 12:08, Yunfei Dong wrote:
-> This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly, refactor
-> power/clock/interrupt interfaces for mt8192 is lat and core architecture.
-> 
-> Secondly, add new functions to get frame buffer size and resolution according
-> to decoder capability from scp side. Then add callback function to get/put
-> capture buffer in order to enable lat and core decoder in parallel, need to
-> adjust GStreamer at the same time. 
-> 
-> Then add to support MT21C compressed mode and fix v4l2-compliance fail.
-> 
-> Next, extract H264 request api driver to let mt8183 and mt8192 use the same
-> code, and adds mt8192 frame based h264 driver for stateless decoder.
-> 
-> Lastly, add vp8 and vp9 stateless decoder drivers.
-> 
-> Patches 1 refactor power/clock/interrupt interface.
-> Patches 2~4 get frame buffer size and resolution according to decoder capability.
-> Patches 5 set capture queue bytesused.
-> Patches 6 adjust GStreamer.
-> Patch 7~11 add to support MT21C compressed mode and fix v4l2-compliance fail.
-> patch 12 record capture queue format type.
-> Patch 13~14 extract h264 driver and add mt8192 frame based driver for h264 decoder.
-> Patch 15~16 add vp8 and vp9 stateless decoder drivers.
-> Patch 17 prevent kernel crash when rmmod mtk-vcodec-dec.ko
+Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+---
+ drivers/media/platform/qcom/venus/core.c       |  5 +++
+ drivers/media/platform/qcom/venus/core.h       | 18 +++++++++
+ drivers/media/platform/qcom/venus/hfi_cmds.c   |  9 +++++
+ drivers/media/platform/qcom/venus/hfi_cmds.h   |  1 +
+ drivers/media/platform/qcom/venus/hfi_helper.h | 20 ++++++++++
+ drivers/media/platform/qcom/venus/hfi_venus.c  | 54 ++++++++++++++++++++++++++
+ 6 files changed, 107 insertions(+)
 
-I'm getting loads of sparse and smatch warnings/errors:
-
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c:20:28: warning: incorrect type in argument 1 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c:176:21: warning: incorrect type in argument 1 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c:179:21: warning: incorrect type in argument 1 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:463:26: warning: incorrect type in argument 1 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:647:60: warning: incorrect type in argument 2 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:723:30: warning: incorrect type in argument 1 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:740:48: warning: incorrect type in argument 2 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1995:44: warning: incorrect type in argument 2 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:532:34: warning: incorrect type in argument 2 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:673:40: warning: incorrect type in argument 2 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:674:48: warning: incorrect type in argument 2 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:675:45: warning: incorrect type in argument 2 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:678:37: warning: incorrect type in argument 2 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:684:21: warning: incorrect type in argument 1 (different address spaces)
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1912:45: warning: Using plain integer as NULL pointer
-SPARSE:/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1924:44: warning: incorrect type in argument 2 (different address spaces)
-
-
-smatch: ERRORS
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1192 vdec_vp9_slice_map_counts_eob_coef() error: buffer overflow 'counts->coef_probs[i][j][k]->band_0'
-3 <= 5
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1194 vdec_vp9_slice_map_counts_eob_coef() error: buffer overflow 'counts->eob_branch[i][j][k]->band_0'
-3 <= 5
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1196 vdec_vp9_slice_map_counts_eob_coef() error: buffer overflow 'counts->coef_probs[i][j][k]->band_0'
-3 <= 5
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:2018 vdec_vp9_slice_core_decode() error: we previously assumed 'pfc' could be null (see line 1963)
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:700 vdec_h264_slice_single_decode() warn: unsigned 'nal_start_idx' is never less than zero.
-
-And also one compile warning when compiling on a 32 bit platform (i.e. arm or i686):
-
-In file included from /home/hans/work/build/media-git/include/linux/kernel.h:29,
-                 from /home/hans/work/build/media-git/include/linux/cpumask.h:10,
-                 from /home/hans/work/build/media-git/include/linux/mm_types_task.h:14,
-                 from /home/hans/work/build/media-git/include/linux/mm_types.h:5,
-                 from /home/hans/work/build/media-git/include/linux/buildid.h:5,
-                 from /home/hans/work/build/media-git/include/linux/module.h:14,
-                 from /home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:7:
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c: In function 'vdec_h264_slice_single_decode':
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:684:76: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-  684 |                          inst->ctx->decoded_frame_cnt, y_fb_dma, c_fb_dma, (u64)fb);
-      |                                                                            ^
-/home/hans/work/build/media-git/include/linux/printk.h:418:33: note: in definition of macro 'printk_index_wrap'
-  418 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-      |                                 ^~~~~~~~~~~
-/home/hans/work/build/media-git/include/linux/printk.h:132:17: note: in expansion of macro 'printk'
-  132 |                 printk(fmt, ##__VA_ARGS__);             \
-      |                 ^~~~~~
-/home/hans/work/build/media-git/include/linux/printk.h:576:9: note: in expansion of macro 'no_printk'
-  576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-      |         ^~~~~~~~~
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:45:9: note: in expansion of macro 'pr_debug'
-   45 |         pr_debug("[MTK_VCODEC][%d]: " fmt "\n",                 \
-      |         ^~~~~~~~
-/home/hans/work/build/media-git/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c:683:9: note: in expansion of macro 'mtk_vcodec_debug'
-  683 |         mtk_vcodec_debug(inst, "+ [%d] FB y_dma=%llx c_dma=%llx va=0x%llx",
-      |         ^~~~~~~~~~~~~~~~
-
-Regards,
-
-	Hans
-
-> ---
-> changes compared with v9:
-> - fix kernel robot build fail for patch 16
-> changes compared with v8:
-> - fix vp9 build error
-> - fix kernel-doc fail
-> changes compared with v7:
-> - adjust GStreamer, separate src buffer done with v4l2_ctrl_request_complete for patch 6.
-> - remove v4l2_m2m_set_dst_buffered.
-> - add new patch to set each plane bytesused in buf prepare for patch 5.
-> - using upstream interface to update vp9 prob tables for patch 16.
-> - fix maintainer comments.
-> - test the driver with chrome VD and GStreamer(H264/VP9/VP8/AV1).
-> changes compared with v6:
-> - rebase to the latest media stage and fix conficts
-> - fix memcpy to memcpy_fromio or memcpy_toio
-> - fix h264 crash when test field bitstream
-> changes compared with v5:
-> - fix vp9 comments for patch 15
-> - fix vp8 comments for patch 14.
-> - fix comments for patch 12.
-> - fix build errors.
-> changes compared with v4:
-> - fix checkpatch.pl fail.
-> - fix kernel-doc fail.
-> - rebase to the latest media codec driver.
-> changes compared with v3:
-> - remove enum mtk_chip for patch 2.
-> - add vp8 stateless decoder drivers for patch 14.
-> - add vp9 stateless decoder drivers for patch 15.
-> changes compared with v2:
-> - add new patch 11 to record capture queue format type.
-> - separate patch 4 according to tzung-bi's suggestion.
-> - re-write commit message for patch 5 according to tzung-bi's suggestion.
-> changes compared with v1:
-> - rewrite commit message for patch 12.
-> - rewrite cover-letter message.
-> ---
-> Yunfei Dong (17):
->   media: mediatek: vcodec: Add vdec enable/disable hardware helpers
->   media: mediatek: vcodec: Using firmware type to separate different
->     firmware architecture
->   media: mediatek: vcodec: get capture queue buffer size from scp
->   media: mediatek: vcodec: Read max resolution from dec_capability
->   media: mediatek: vcodec: set each plane bytesused in buf prepare
->   media: mediatek: vcodec: Refactor get and put capture buffer flow
->   media: mediatek: vcodec: Refactor supported vdec formats and
->     framesizes
->   media: mediatek: vcodec: Getting supported decoder format types
->   media: mediatek: vcodec: Add format to support MT21C
->   media: mediatek: vcodec: disable vp8 4K capability
->   media: mediatek: vcodec: Fix v4l2-compliance fail
->   media: mediatek: vcodec: record capture queue format type
->   media: mediatek: vcodec: Extract H264 common code
->   media: mediatek: vcodec: support stateless H.264 decoding for mt8192
->   media: mediatek: vcodec: support stateless VP8 decoding
->   media: mediatek: vcodec: support stateless VP9 decoding
->   media: mediatek: vcodec: prevent kernel crash when rmmod
->     mtk-vcodec-dec.ko
-> 
->  .../media/platform/mediatek/vcodec/Makefile   |    4 +
->  .../platform/mediatek/vcodec/mtk_vcodec_dec.c |   62 +-
->  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |    8 +-
->  .../mediatek/vcodec/mtk_vcodec_dec_pm.c       |  166 +-
->  .../mediatek/vcodec/mtk_vcodec_dec_pm.h       |    6 +-
->  .../mediatek/vcodec/mtk_vcodec_dec_stateful.c |   19 +-
->  .../vcodec/mtk_vcodec_dec_stateless.c         |  257 ++-
->  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   41 +-
->  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |    5 -
->  .../platform/mediatek/vcodec/mtk_vcodec_fw.c  |    6 +
->  .../platform/mediatek/vcodec/mtk_vcodec_fw.h  |    1 +
->  .../vcodec/vdec/vdec_h264_req_common.c        |  310 +++
->  .../vcodec/vdec/vdec_h264_req_common.h        |  274 +++
->  .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  438 +---
->  .../vcodec/vdec/vdec_h264_req_multi_if.c      |  626 +++++
->  .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  437 ++++
->  .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 2031 +++++++++++++++++
->  .../platform/mediatek/vcodec/vdec_drv_if.c    |   37 +-
->  .../platform/mediatek/vcodec/vdec_drv_if.h    |    3 +
->  .../platform/mediatek/vcodec/vdec_ipi_msg.h   |   36 +
->  .../platform/mediatek/vcodec/vdec_msg_queue.c |    2 +
->  .../platform/mediatek/vcodec/vdec_msg_queue.h |    2 +
->  .../platform/mediatek/vcodec/vdec_vpu_if.c    |   53 +-
->  .../platform/mediatek/vcodec/vdec_vpu_if.h    |   15 +
->  .../platform/mediatek/vcodec/venc_vpu_if.c    |    2 +-
->  include/linux/remoteproc/mtk_scp.h            |    2 +
->  26 files changed, 4242 insertions(+), 601 deletions(-)
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.h
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> 
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 877eca1..75d8e14 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -832,6 +832,10 @@ static const struct reg_val sm7280_reg_preset[] = {
+ 	{ 0xb0088, 0 },
+ };
+ 
++static const struct ubwc_config sc7280_ubwc_config[] = {
++	{{1, 1, 1, 0, 0, 0}, 8, 32, 14, 0, 0},
++};
++
+ static const struct venus_resources sc7280_res = {
+ 	.freq_tbl = sc7280_freq_table,
+ 	.freq_tbl_size = ARRAY_SIZE(sc7280_freq_table),
+@@ -841,6 +845,7 @@ static const struct venus_resources sc7280_res = {
+ 	.bw_tbl_enc_size = ARRAY_SIZE(sc7280_bw_table_enc),
+ 	.bw_tbl_dec = sc7280_bw_table_dec,
+ 	.bw_tbl_dec_size = ARRAY_SIZE(sc7280_bw_table_dec),
++	.ubwc_conf = sc7280_ubwc_config,
+ 	.clks = {"core", "bus", "iface"},
+ 	.clks_num = 3,
+ 	.vcodec0_clks = {"vcodec_core", "vcodec_bus"},
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index c3023340..ef71462 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -47,6 +47,23 @@ struct bw_tbl {
+ 	u32 peak_10bit;
+ };
+ 
++struct ubwc_config {
++	struct {
++		u32 max_channel_override : 1;
++		u32 mal_length_override : 1;
++		u32 hb_override : 1;
++		u32 bank_swzl_level_override : 1;
++		u32 bank_spreading_override : 1;
++		u32 reserved : 27;
++	} override_bit_info;
++
++	u32 max_channels;
++	u32 mal_length;
++	u32 highest_bank_bit;
++	u32 bank_swzl_level;
++	u32 bank_spreading;
++};
++
+ struct venus_resources {
+ 	u64 dma_mask;
+ 	const struct freq_tbl *freq_tbl;
+@@ -57,6 +74,7 @@ struct venus_resources {
+ 	unsigned int bw_tbl_dec_size;
+ 	const struct reg_val *reg_tbl;
+ 	unsigned int reg_tbl_size;
++	const struct ubwc_config *ubwc_conf;
+ 	const char * const clks[VIDC_CLKS_NUM_MAX];
+ 	unsigned int clks_num;
+ 	const char * const vcodec0_clks[VIDC_VCODEC_CLKS_NUM_MAX];
+diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+index 4ecd444..036eaca 100644
+--- a/drivers/media/platform/qcom/venus/hfi_cmds.c
++++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+@@ -58,6 +58,15 @@ void pkt_sys_coverage_config(struct hfi_sys_set_property_pkt *pkt, u32 mode)
+ 	pkt->data[1] = mode;
+ }
+ 
++void pkt_sys_ubwc_config(struct hfi_sys_set_property_pkt *pkt, struct hfi_ubwc_config *hfi)
++{
++	pkt->hdr.size = struct_size(pkt, data, 1) + sizeof(*hfi);
++	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
++	pkt->num_properties = 1;
++	pkt->data[0] = HFI_PROPERTY_SYS_UBWC_CONFIG;
++	memcpy(&pkt->data[1], hfi, sizeof(*hfi));
++}
++
+ int pkt_sys_set_resource(struct hfi_sys_set_resource_pkt *pkt, u32 id, u32 size,
+ 			 u32 addr, void *cookie)
+ {
+diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
+index 327ed90..ce7179e 100644
+--- a/drivers/media/platform/qcom/venus/hfi_cmds.h
++++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
+@@ -256,6 +256,7 @@ void pkt_sys_init(struct hfi_sys_init_pkt *pkt, u32 arch_type);
+ void pkt_sys_pc_prep(struct hfi_sys_pc_prep_pkt *pkt);
+ void pkt_sys_idle_indicator(struct hfi_sys_set_property_pkt *pkt, u32 enable);
+ void pkt_sys_power_control(struct hfi_sys_set_property_pkt *pkt, u32 enable);
++void pkt_sys_ubwc_config(struct hfi_sys_set_property_pkt *pkt, struct hfi_ubwc_config *hfi);
+ int pkt_sys_set_resource(struct hfi_sys_set_resource_pkt *pkt, u32 id, u32 size,
+ 			 u32 addr, void *cookie);
+ int pkt_sys_unset_resource(struct hfi_sys_release_resource_pkt *pkt, u32 id,
+diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+index 2daa88e..d2d6719 100644
+--- a/drivers/media/platform/qcom/venus/hfi_helper.h
++++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+@@ -427,6 +427,7 @@
+ #define HFI_PROPERTY_SYS_CODEC_POWER_PLANE_CTRL			0x5
+ #define HFI_PROPERTY_SYS_IMAGE_VERSION				0x6
+ #define HFI_PROPERTY_SYS_CONFIG_COVERAGE			0x7
++#define HFI_PROPERTY_SYS_UBWC_CONFIG				0x8
+ 
+ /*
+  * HFI_PROPERTY_PARAM_COMMON_START
+@@ -626,6 +627,25 @@ struct hfi_debug_config {
+ 	u32 mode;
+ };
+ 
++struct hfi_ubwc_config {
++	u32 size;
++	u32 packet_type;
++	struct {
++		u32 max_channel_override : 1;
++		u32 mal_length_override : 1;
++		u32 hb_override : 1;
++		u32 bank_swzl_level_override : 1;
++		u32 bank_spreading_override : 1;
++		u32 reserved : 27;
++		} override_bit_info;
++	u32 max_channels;
++	u32 mal_length;
++	u32 highest_bank_bit;
++	u32 bank_swzl_level;
++	u32 bank_spreading;
++	u32 reserved[2];
++};
++
+ struct hfi_enable {
+ 	u32 enable;
+ };
+diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+index 3a75a27..fa0fc91 100644
+--- a/drivers/media/platform/qcom/venus/hfi_venus.c
++++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+@@ -904,6 +904,52 @@ static int venus_sys_set_power_control(struct venus_hfi_device *hdev,
+ 	return 0;
+ }
+ 
++static int venus_sys_set_ubwc_config(struct venus_hfi_device *hdev)
++{
++	struct hfi_sys_set_property_pkt *pkt;
++	u8 packet[IFACEQ_VAR_SMALL_PKT_SIZE];
++	struct hfi_ubwc_config *hfi;
++	const struct venus_resources *res = hdev->core->res;
++	const struct ubwc_config *ubwc_conf = res->ubwc_conf;
++	int ret;
++
++	hfi = kzalloc(sizeof(*hfi), GFP_KERNEL);
++	if (!hfi)
++		return -ENOMEM;
++
++	pkt = (struct hfi_sys_set_property_pkt *)packet;
++
++	hfi->max_channels = ubwc_conf->max_channels;
++	hfi->override_bit_info.max_channel_override =
++		ubwc_conf->override_bit_info.max_channel_override;
++
++	hfi->mal_length = ubwc_conf->mal_length;
++	hfi->override_bit_info.mal_length_override =
++		ubwc_conf->override_bit_info.mal_length_override;
++
++	hfi->highest_bank_bit = ubwc_conf->highest_bank_bit;
++	hfi->override_bit_info.hb_override =
++		ubwc_conf->override_bit_info.hb_override;
++
++	hfi->bank_swzl_level = ubwc_conf->bank_swzl_level;
++	hfi->override_bit_info.bank_swzl_level_override =
++		ubwc_conf->override_bit_info.bank_swzl_level_override;
++
++	hfi->bank_spreading = ubwc_conf->bank_spreading;
++	hfi->override_bit_info.bank_spreading_override =
++		ubwc_conf->override_bit_info.bank_spreading_override;
++
++	pkt_sys_ubwc_config(pkt, hfi);
++
++	kfree(hfi);
++
++	ret = venus_iface_cmdq_write(hdev, pkt, false);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
+ static int venus_get_queue_size(struct venus_hfi_device *hdev,
+ 				unsigned int index)
+ {
+@@ -922,6 +968,7 @@ static int venus_get_queue_size(struct venus_hfi_device *hdev,
+ static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
+ {
+ 	struct device *dev = hdev->core->dev;
++	const struct venus_resources *res = hdev->core->res;
+ 	int ret;
+ 
+ 	ret = venus_sys_set_debug(hdev, venus_fw_debug);
+@@ -945,6 +992,13 @@ static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
+ 		dev_warn(dev, "setting hw power collapse ON failed (%d)\n",
+ 			 ret);
+ 
++	/* For specific venus core, it is mandatory to set the UBWC configuration */
++	if (res->ubwc_conf) {
++		ret = venus_sys_set_ubwc_config(hdev);
++		if (ret)
++			dev_warn(dev, "setting ubwc config failed (%d)\n", ret);
++	}
++
+ 	return ret;
+ }
+ 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
