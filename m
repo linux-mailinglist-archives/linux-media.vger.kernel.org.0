@@ -2,168 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CA6A515FE4
-	for <lists+linux-media@lfdr.de>; Sat, 30 Apr 2022 20:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8EAA5161DA
+	for <lists+linux-media@lfdr.de>; Sun,  1 May 2022 07:01:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244161AbiD3Sq6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Apr 2022 14:46:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52326 "EHLO
+        id S239593AbiEAFEa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 May 2022 01:04:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242565AbiD3Sq5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Apr 2022 14:46:57 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C0BC5D649;
-        Sat, 30 Apr 2022 11:43:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651344215; x=1682880215;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oWYIihokUaJM/i9/QmGaXX3gl+K8rlFxtNay5clvk0I=;
-  b=VUtEWa0ssPUBeV3Jrub/2PePGnUp5LPRzfQj7JOg0Tfa77WlEZk//+vV
-   gljgn/LouD+0aiyo7qLns4bSD8PGLDniXrUM8xnImoFK/UKQoyqhyOO/m
-   1BPLI1yXIN3rQ97yeqob0OlRE4rxXHuTZgyU84PVHvVIFcLinDrb6nwmm
-   u3tPyQumjBxKwWVR6aSD9d/dslwQh3DkKmTXMLF0+D0xiYheIZ7BAmm0q
-   K+27FS0s+geHuOzyuLRhAPbs3r5Wb40aTSDWVBuZNiwpHpTVE+2DBxhwG
-   Ql/9SLoejbPUHqYv7urofd6026TpK7JYfPS2PTS61Rl5TmKpxxFKNTNex
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10333"; a="329878082"
-X-IronPort-AV: E=Sophos;i="5.91,188,1647327600"; 
-   d="scan'208";a="329878082"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2022 11:43:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,188,1647327600"; 
-   d="scan'208";a="732688331"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 30 Apr 2022 11:43:30 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nks41-0007VT-Fq;
-        Sat, 30 Apr 2022 18:43:29 +0000
-Date:   Sun, 1 May 2022 02:42:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>, Greg KH <greg@kroah.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Kai Vehmanen <kai.vehmanen@intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@intel.com>,
-        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-        mauro.chehab@linux.intel.com
-Subject: Re: [PATCH v3 2/2] ALSA: hda - identify when audio is provided by a
- video driver
-Message-ID: <202205010257.ZFhZYEG9-lkp@intel.com>
-References: <6b5f1e2cec0137d5aab089a7e7497972ff5addb1.1651326000.git.mchehab@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6b5f1e2cec0137d5aab089a7e7497972ff5addb1.1651326000.git.mchehab@kernel.org>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S238021AbiEAFE2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 May 2022 01:04:28 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0700111C03
+        for <linux-media@vger.kernel.org>; Sat, 30 Apr 2022 22:01:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 89FE2B80B56
+        for <linux-media@vger.kernel.org>; Sun,  1 May 2022 05:01:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF5AC385A9
+        for <linux-media@vger.kernel.org>; Sun,  1 May 2022 05:01:00 +0000 (UTC)
+Date:   Sun, 01 May 2022 07:00:58 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220501050100.EBF5AC385A9@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I love your patch! Yet something to improve:
+Results of the daily build of media_tree:
 
-[auto build test ERROR on mcgrof/modules-next]
-[also build test ERROR on linus/master v5.18-rc4 next-20220429]
-[cannot apply to tiwai-sound/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+date:			Sun May  1 05:00:24 CEST 2022
+media-tree git hash:	6c1c1eb8c87de221051b9198d40971640060842f
+media_build git hash:	4e29721804ea4e824c776101214389642dccad98
+v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7885-gb67c6ed1-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/Let-userspace-know-when-snd-hda-intel-needs-i915/20220430-214332
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
-config: riscv-buildonly-randconfig-r003-20220428 (https://download.01.org/0day-ci/archive/20220501/202205010257.ZFhZYEG9-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 400775649969b9baf3bc2a510266e7912bb16ae9)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/32f6557b5cc77c3cc2fcf6e68f11d989e31c954d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mauro-Carvalho-Chehab/Let-userspace-know-when-snd-hda-intel-needs-i915/20220430-214332
-        git checkout 32f6557b5cc77c3cc2fcf6e68f11d989e31c954d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash sound/hda/
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.275-i686: OK
+linux-4.14.275-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.237-i686: OK
+linux-4.19.237-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.19-i686: OK
+linux-5.13.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Detailed results are available here:
 
-All errors (new ones prefixed by >>):
+https://hverkuil.home.xs4all.nl/logs/Sunday.log
 
->> sound/hda/hdac_component.c:202:7: error: call to undeclared function '__try_module_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           if (!__try_module_get(acomp->ops->owner, dev->driver->owner)) {
-                ^
-   sound/hda/hdac_component.c:202:7: note: did you mean 'try_module_get'?
-   include/linux/module.h:759:20: note: 'try_module_get' declared here
-   static inline bool try_module_get(struct module *module)
-                      ^
-   1 error generated.
+Detailed regression test results are available here:
 
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-dmesg.log
 
-vim +/__try_module_get +202 sound/hda/hdac_component.c
+Full logs are available here:
 
-   183	
-   184	static int hdac_component_master_bind(struct device *dev)
-   185	{
-   186		struct drm_audio_component *acomp = hdac_get_acomp(dev);
-   187		int ret;
-   188	
-   189		if (WARN_ON(!acomp))
-   190			return -EINVAL;
-   191	
-   192		ret = component_bind_all(dev, acomp);
-   193		if (ret < 0)
-   194			return ret;
-   195	
-   196		if (WARN_ON(!(acomp->dev && acomp->ops))) {
-   197			ret = -EINVAL;
-   198			goto out_unbind;
-   199		}
-   200	
-   201		/* pin the module to avoid dynamic unbinding, but only if given */
- > 202		if (!__try_module_get(acomp->ops->owner, dev->driver->owner)) {
-   203			ret = -ENODEV;
-   204			goto out_unbind;
-   205		}
-   206	
-   207		if (acomp->audio_ops && acomp->audio_ops->master_bind) {
-   208			ret = acomp->audio_ops->master_bind(dev, acomp);
-   209			if (ret < 0)
-   210				goto module_put;
-   211		}
-   212	
-   213		complete_all(&acomp->master_bind_complete);
-   214		return 0;
-   215	
-   216	 module_put:
-   217		module_put(acomp->ops->owner);
-   218	out_unbind:
-   219		component_unbind_all(dev, acomp);
-   220		complete_all(&acomp->master_bind_complete);
-   221	
-   222		return ret;
-   223	}
-   224	
+https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
