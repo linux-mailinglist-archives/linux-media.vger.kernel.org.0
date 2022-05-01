@@ -2,166 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8EAA5161DA
-	for <lists+linux-media@lfdr.de>; Sun,  1 May 2022 07:01:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 327915168CF
+	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 01:00:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239593AbiEAFEa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 May 2022 01:04:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
+        id S1378102AbiEAXD3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 May 2022 19:03:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238021AbiEAFE2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 1 May 2022 01:04:28 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0700111C03
-        for <linux-media@vger.kernel.org>; Sat, 30 Apr 2022 22:01:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 89FE2B80B56
-        for <linux-media@vger.kernel.org>; Sun,  1 May 2022 05:01:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF5AC385A9
-        for <linux-media@vger.kernel.org>; Sun,  1 May 2022 05:01:00 +0000 (UTC)
-Date:   Sun, 01 May 2022 07:00:58 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220501050100.EBF5AC385A9@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S234297AbiEAXD2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 May 2022 19:03:28 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31618483B2;
+        Sun,  1 May 2022 16:00:00 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F6CCA46;
+        Mon,  2 May 2022 00:59:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1651445997;
+        bh=MRWisMUeM29h2xFjIiLMSuO4mNMpnsXW7jxf3zvDG7g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RnYemCpRbsolGkTv+ZNf5PsT16YG9ykZGLdj6kmq3EcotxP4KcvzLKRGK2ZIF7GXp
+         sATQSKG3GA2Tb3jgBfIyIAhRfFz0Y56D0YtQj8S6DbmDbwrFeeji2UvEmVrAipcA6r
+         rQNJpabheArMOUaE/vbNdpz8NvDScBBJqgQ4t3Yw=
+Date:   Mon, 2 May 2022 01:59:57 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: ov5645: Remove unneeded of_match_ptr macro
+Message-ID: <Ym8Q7QhoT2aqMrJr@pendragon.ideasonboard.com>
+References: <20220429222754.11333-1-mosescb.dev@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220429222754.11333-1-mosescb.dev@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Moses,
 
-Results of the daily build of media_tree:
+Thank you for the patch.
 
-date:			Sun May  1 05:00:24 CEST 2022
-media-tree git hash:	6c1c1eb8c87de221051b9198d40971640060842f
-media_build git hash:	4e29721804ea4e824c776101214389642dccad98
-v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7885-gb67c6ed1-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
+On Sat, Apr 30, 2022 at 12:27:54AM +0200, Moses Christopher Bollavarapu wrote:
+> of_match_ptr isn't required as CONFIG_OF is already a dependency in Kconfig
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.275-i686: OK
-linux-4.14.275-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.237-i686: OK
-linux-4.19.237-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.19-i686: OK
-linux-5.13.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
+And the .of_match_table field hasn't been conditional on CONFIG_OF for a
+long time now.
 
-Detailed results are available here:
+> Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
 
-https://hverkuil.home.xs4all.nl/logs/Sunday.log
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Detailed regression test results are available here:
+> ---
+>  drivers/media/i2c/ov5645.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> index 368fa21e675e..ea73c060514d 100644
+> --- a/drivers/media/i2c/ov5645.c
+> +++ b/drivers/media/i2c/ov5645.c
+> @@ -1283,7 +1283,7 @@ MODULE_DEVICE_TABLE(of, ov5645_of_match);
+>  
+>  static struct i2c_driver ov5645_i2c_driver = {
+>  	.driver = {
+> -		.of_match_table = of_match_ptr(ov5645_of_match),
+> +		.of_match_table = ov5645_of_match,
+>  		.name  = "ov5645",
+>  	},
+>  	.probe_new = ov5645_probe,
 
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-dmesg.log
+-- 
+Regards,
 
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Laurent Pinchart
