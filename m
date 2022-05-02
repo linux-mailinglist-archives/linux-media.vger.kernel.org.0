@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2BCC517487
+	by mail.lfdr.de (Postfix) with ESMTP id 2ED3C517484
 	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 18:37:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243212AbiEBQlT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 May 2022 12:41:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50920 "EHLO
+        id S243119AbiEBQlU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 May 2022 12:41:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243296AbiEBQlO (ORCPT
+        with ESMTP id S1386342AbiEBQlO (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Mon, 2 May 2022 12:41:14 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32A1410FF3
-        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 09:37:30 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id d5so20238895wrb.6
-        for <linux-media@vger.kernel.org>; Mon, 02 May 2022 09:37:30 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C3C11151
+        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 09:37:32 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id e2so20240036wrh.7
+        for <linux-media@vger.kernel.org>; Mon, 02 May 2022 09:37:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ztozpp4Hd7P88p5EylObdLnFFM2e9No0uy0uVps0Q4o=;
-        b=l8cnH0/oWnlGs4iC9nSE0GWCX5g6JqtmjJMCjqSOAwOlKROP5Dav+7qr2vV22I5AyR
-         P29H9FiZL0l2XMAOD39ti1qK7CTYjhCfhB/1+yXOLeBeRWny9/cVyMmgwWfoI/s/Irld
-         ZRtRAzcb0kVhafr3YK4q7sAqJH9N878z6sN9gTuvwmb5v79Q5utfbdU/1lMGWZC9QQFQ
-         UNgGqrfbGFfgl4WqqTb8n9jL+C74NUCcdbKkwWbHWD8HODMIuK3SPi81YaAuOHrXN9cS
-         2i0O0Ls4YIs41WHjk2OSpRFoFPhhX0T09C3YwERYz33I3c2eqkXCNeI1/XrcKaWKZgfC
-         uTWg==
+        bh=IWKemcOrL+b0gDAZZafa8ch1M5o7lnyn/o46hmmWygU=;
+        b=R03rLumujGEAhM8SwniCLQoHPy6kFAqVrw+ARLriiv2g9paPKv1HJ+UXOxaEV6Rmya
+         IryHyZomNBs+p6BJAqENBZ6yG2HnabhAsecgLf4OBThsEKurj0EnP+v6ax9tjg6zbCDH
+         /RFB4DiUPMaj7jS9K9VUN9mN79W5bEcNxBIzk13pjkyHGhT5dvm6oTg1kVYLioM6aPTP
+         C9jPXj5uX5mAaxIzWIcLGHzK2OEuA8hSe9u2oSp3J5I4xEXnKCh9DV7IUFhJ3u4pbwPu
+         lPZ8N8EApdAw+tvjkVgX3a/YY+EILJdse1eiuD/pNi0Etd6+jZ7NAe6IkF1ftEPAnrLD
+         LBmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ztozpp4Hd7P88p5EylObdLnFFM2e9No0uy0uVps0Q4o=;
-        b=dDPwiDJvWLGs0FwYYAtApgA8tVrIC/nAqqMVjQwGzqN1Iq2XkgNc4Sz1GnahaCWqpQ
-         wsf6BGnJqMkRMbu0kgwYphoCb2nPsjxpI3NxQTwj8PiIsRRDVW9J1ntUSS/u5b07CoQ5
-         paxfYFYbDKiMDZObUoBo6q5gSbROXKKHBu+5MRkuZI6f4dFXJ16Up7RcHJKi2qRCody4
-         U88/F5UYk1xR0UG8Tq6PvSnEfT/60heQ7e27gkm3lfPNl/g5QUoJWWf3ghuznYwcBGu+
-         HkeeSuk6ojKIxXNFbpRtzBfAhmPThrcvI4BLIGTcxoH2Z1XXSdFQTNmRgEMbI3MvUPwa
-         F72Q==
-X-Gm-Message-State: AOAM530yGTJw/159xNVZnhMO134z0Im8uX8Gdo3FWhe0yG3KW4q3NcAi
-        om0CwtZXJLfCYaes1xxfwBM=
-X-Google-Smtp-Source: ABdhPJz2JXWWJflLQjuCGIgmn7WtX7jC1WTxfxIIZ7Mwf9txYB3Hit3CNEpghfRADVo4PLGr1oZzVg==
-X-Received: by 2002:a05:6000:c:b0:20a:df2e:2c38 with SMTP id h12-20020a056000000c00b0020adf2e2c38mr9823627wrx.481.1651509448873;
-        Mon, 02 May 2022 09:37:28 -0700 (PDT)
+        bh=IWKemcOrL+b0gDAZZafa8ch1M5o7lnyn/o46hmmWygU=;
+        b=Xt8x++Fostm6xT2F89OsvZetUjFHgYxkCjeXnhU5bhfrN6YXEYBvV1a1cy90gKUATD
+         KXU95YaOBNRdVz/AMJgKJ1ia/zpIrdCd8H2FtV1S2pcoCG7xcReY8UX/NkrxfZBEns7p
+         KY79hFytyMBVDC1kifo4+icEPeljrh2OzZZOIRO4saY+uP1w2YI7yd++6Z8CDTI2tQtS
+         VXflB4kHJC/xKUDcx2of0WGZVZ4tCbpUG/jYLBoafy8DJCD8r9bymH4D3B+GjAJl9LeN
+         UHIhUJa/Gk8fzXfh5qiSw6iuHKZc10SQa0yluzCrmvCBvjMWKOm9i2g9GpjkmQsZIhcK
+         Rubg==
+X-Gm-Message-State: AOAM533MBz7TZXBcax2SUkD8aWk03wSaT+Z2yKFRflPbyiPjsMrWFGo0
+        TkK9QLSVbx3lJ44tEIb7JsQ=
+X-Google-Smtp-Source: ABdhPJysH2Ctla10lLPUFGhMcYiY1T7Y2hl8wvbRHgqL7XSe78IEd9IooYntpUrILEjkqAF5FaqAlw==
+X-Received: by 2002:a5d:4989:0:b0:20a:c907:2110 with SMTP id r9-20020a5d4989000000b0020ac9072110mr9936120wrq.476.1651509450429;
+        Mon, 02 May 2022 09:37:30 -0700 (PDT)
 Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
-        by smtp.gmail.com with ESMTPSA id p14-20020adfaa0e000000b0020c5253d8f6sm7294694wrd.66.2022.05.02.09.37.27
+        by smtp.gmail.com with ESMTPSA id p14-20020adfaa0e000000b0020c5253d8f6sm7294694wrd.66.2022.05.02.09.37.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 09:37:28 -0700 (PDT)
+        Mon, 02 May 2022 09:37:29 -0700 (PDT)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
@@ -58,9 +58,9 @@ To:     daniel@ffwll.ch, jason@jlekstrand.net, daniels@collabora.com,
         linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linaro-mm-sig@lists.linaro.org
 Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH 01/15] dma-buf: rename DMA_FENCE_FLAG_USER_BITS to _DEVICE
-Date:   Mon,  2 May 2022 18:37:08 +0200
-Message-Id: <20220502163722.3957-2-christian.koenig@amd.com>
+Subject: [PATCH 02/15] dma-buf: introduce user fence support
+Date:   Mon,  2 May 2022 18:37:09 +0200
+Message-Id: <20220502163722.3957-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220502163722.3957-1-christian.koenig@amd.com>
 References: <20220502163722.3957-1-christian.koenig@amd.com>
@@ -77,86 +77,299 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is supposed to be used by device drivers.
+Start introducing a new part of the framework for handling user fences.
+
+In strict opposition to normal fences user fences don't reliable finish in
+a fixed amount of time and therefore can't be used as dependency in memory
+management.
+
+Because of this user fences are marked with DMA_FENCE_FLAG_USER. Lockdep
+is checked that we can at least fault user pages when we check them for
+signaling.
+
+This patch also adds a flag to dma_fence_get_stub() so that we can
+retrieve a signaled user fence. This can be used together with lockdep to
+test the handling in code path supporting user fences.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/i915/i915_request.h       | 2 +-
- drivers/gpu/drm/i915/i915_sw_fence_work.h | 2 +-
- drivers/gpu/drm/nouveau/nouveau_fence.c   | 4 ++--
- include/linux/dma-fence.h                 | 4 ++--
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/dma-buf/dma-fence-unwrap.c            |  4 +--
+ drivers/dma-buf/dma-fence.c                   | 31 ++++++++++++-------
+ drivers/dma-buf/st-dma-fence.c                |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c      |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  4 +--
+ drivers/gpu/drm/drm_syncobj.c                 | 10 +++---
+ include/linux/dma-fence.h                     | 17 +++++++++-
+ 9 files changed, 49 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-index 28b1f9db5487..716c8c413cc4 100644
---- a/drivers/gpu/drm/i915/i915_request.h
-+++ b/drivers/gpu/drm/i915/i915_request.h
-@@ -80,7 +80,7 @@ enum {
- 	 *
- 	 * See i915_request_is_active()
+diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
+index c9becc74896d..87ee2efced10 100644
+--- a/drivers/dma-buf/dma-fence-unwrap.c
++++ b/drivers/dma-buf/dma-fence-unwrap.c
+@@ -76,7 +76,7 @@ struct dma_fence *__dma_fence_merge(unsigned int num_fences,
+ 	}
+ 
+ 	if (count == 0)
+-		return dma_fence_get_stub();
++		return dma_fence_get_stub(false);
+ 
+ 	if (count > INT_MAX)
+ 		return NULL;
+@@ -129,7 +129,7 @@ struct dma_fence *__dma_fence_merge(unsigned int num_fences,
+ 	} while (tmp);
+ 
+ 	if (count == 0) {
+-		tmp = dma_fence_get_stub();
++		tmp = dma_fence_get_stub(false);
+ 		goto return_tmp;
+ 	}
+ 
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 066400ed8841..52873f5eaeba 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -26,6 +26,7 @@ EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
+ 
+ static DEFINE_SPINLOCK(dma_fence_stub_lock);
+ static struct dma_fence dma_fence_stub;
++static struct dma_fence dma_fence_user_stub;
+ 
+ /*
+  * fence context counter: each execution context should have its own
+@@ -123,24 +124,28 @@ static const struct dma_fence_ops dma_fence_stub_ops = {
+ 
+ /**
+  * dma_fence_get_stub - return a signaled fence
++ * @user: if true the returned fence is an user fence
+  *
+- * Return a stub fence which is already signaled. The fence's
+- * timestamp corresponds to the first time after boot this
+- * function is called.
++ * Return a stub fence which is already signaled. The fence's timestamp
++ * corresponds to the first time after boot this function is called. If @user is
++ * true an user fence is returned which can be used with lockdep to test user
++ * fence saveness in a code path.
+  */
+-struct dma_fence *dma_fence_get_stub(void)
++struct dma_fence *dma_fence_get_stub(bool user)
+ {
++	struct dma_fence *fence = user ? &dma_fence_stub : &dma_fence_user_stub;
++
+ 	spin_lock(&dma_fence_stub_lock);
+-	if (!dma_fence_stub.ops) {
+-		dma_fence_init(&dma_fence_stub,
+-			       &dma_fence_stub_ops,
+-			       &dma_fence_stub_lock,
++	if (!fence->ops) {
++		dma_fence_init(fence, &dma_fence_stub_ops, &dma_fence_stub_lock,
+ 			       0, 0);
+-		dma_fence_signal_locked(&dma_fence_stub);
++		if (user)
++			set_bit(DMA_FENCE_FLAG_USER, &fence->flags);
++		dma_fence_signal_locked(fence);
+ 	}
+ 	spin_unlock(&dma_fence_stub_lock);
+ 
+-	return dma_fence_get(&dma_fence_stub);
++	return dma_fence_get(fence);
+ }
+ EXPORT_SYMBOL(dma_fence_get_stub);
+ 
+@@ -497,8 +502,9 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+ 		return -EINVAL;
+ 
+ 	might_sleep();
+-
+ 	__dma_fence_might_wait();
++	if (test_bit(DMA_FENCE_FLAG_USER, &fence->flags))
++		might_fault();
+ 
+ 	trace_dma_fence_wait_start(fence);
+ 	if (fence->ops->wait)
+@@ -870,6 +876,9 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
+ 	for (i = 0; i < count; ++i) {
+ 		struct dma_fence *fence = fences[i];
+ 
++		if (test_bit(DMA_FENCE_FLAG_USER, &fence->flags))
++			might_fault();
++
+ 		cb[i].task = current;
+ 		if (dma_fence_add_callback(fence, &cb[i].base,
+ 					   dma_fence_default_wait_cb)) {
+diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
+index c8a12d7ad71a..50f757f75645 100644
+--- a/drivers/dma-buf/st-dma-fence.c
++++ b/drivers/dma-buf/st-dma-fence.c
+@@ -412,7 +412,7 @@ static int test_stub(void *arg)
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(f); i++) {
+-		f[i] = dma_fence_get_stub();
++		f[i] = dma_fence_get_stub((i % 2) == 1);
+ 		if (!dma_fence_is_signaled(f[i])) {
+ 			pr_err("Obtained unsignaled stub fence!\n");
+ 			goto err;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index 64ac4f8f49be..541c59635c34 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -263,7 +263,7 @@ static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
+ 	/* TODO: Instead of block before we should use the fence of the page
+ 	 * table update and TLB flush here directly.
  	 */
--	I915_FENCE_FLAG_ACTIVE = DMA_FENCE_FLAG_USER_BITS,
-+	I915_FENCE_FLAG_ACTIVE = DMA_FENCE_FLAG_DRIVER,
+-	replacement = dma_fence_get_stub();
++	replacement = dma_fence_get_stub(false);
+ 	dma_resv_replace_fences(bo->tbo.base.resv, ef->base.context,
+ 				replacement, DMA_RESV_USAGE_READ);
+ 	dma_fence_put(replacement);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index a28b7947a034..95eeab527ca9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1399,7 +1399,7 @@ int amdgpu_cs_fence_to_handle_ioctl(struct drm_device *dev, void *data,
+ 		return PTR_ERR(fence);
  
- 	/*
- 	 * I915_FENCE_FLAG_PQUEUE - this request is ready for execution
-diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.h b/drivers/gpu/drm/i915/i915_sw_fence_work.h
-index d56806918d13..ece0a06e598c 100644
---- a/drivers/gpu/drm/i915/i915_sw_fence_work.h
-+++ b/drivers/gpu/drm/i915/i915_sw_fence_work.h
-@@ -33,7 +33,7 @@ struct dma_fence_work {
- };
+ 	if (!fence)
+-		fence = dma_fence_get_stub();
++		fence = dma_fence_get_stub(false);
  
- enum {
--	DMA_FENCE_WORK_IMM = DMA_FENCE_FLAG_USER_BITS,
-+	DMA_FENCE_WORK_IMM = DMA_FENCE_FLAG_DRIVER,
- };
+ 	switch (info->in.what) {
+ 	case AMDGPU_FENCE_TO_HANDLE_GET_SYNCOBJ:
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+index 7f33ae87cb41..73165f387f3b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+@@ -193,7 +193,7 @@ int amdgpu_ring_init(struct amdgpu_device *adev, struct amdgpu_ring *ring,
+ 		adev->rings[ring->idx] = ring;
+ 		ring->num_hw_submission = sched_hw_submission;
+ 		ring->sched_score = sched_score;
+-		ring->vmid_wait = dma_fence_get_stub();
++		ring->vmid_wait = dma_fence_get_stub(false);
+ 		r = amdgpu_fence_driver_init_ring(ring);
+ 		if (r)
+ 			return r;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 7e5cc8323329..e5c8e72a9485 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -1689,7 +1689,7 @@ int amdgpu_vm_bo_update_mapping(struct amdgpu_device *adev,
+ 	}
  
- void dma_fence_work_init(struct dma_fence_work *f,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 7f01dcf81fab..e2f61b34cc1e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -61,7 +61,7 @@ nouveau_fence_signal(struct nouveau_fence *fence)
- 	list_del(&fence->head);
- 	rcu_assign_pointer(fence->channel, NULL);
+ 	if (!unlocked && !dma_fence_is_signaled(vm->last_unlocked)) {
+-		struct dma_fence *tmp = dma_fence_get_stub();
++		struct dma_fence *tmp = dma_fence_get_stub(false);
  
--	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags)) {
-+	if (test_bit(DMA_FENCE_FLAG_DRIVER, &fence->base.flags)) {
- 		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+ 		amdgpu_bo_fence(vm->root.bo, vm->last_unlocked, true);
+ 		swap(vm->last_unlocked, tmp);
+@@ -2905,7 +2905,7 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm)
+ 	else
+ 		vm->update_funcs = &amdgpu_vm_sdma_funcs;
+ 	vm->last_update = NULL;
+-	vm->last_unlocked = dma_fence_get_stub();
++	vm->last_unlocked = dma_fence_get_stub(false);
  
- 		if (!--fctx->notify_ref)
-@@ -510,7 +510,7 @@ static bool nouveau_fence_enable_signaling(struct dma_fence *f)
+ 	mutex_init(&vm->eviction_lock);
+ 	vm->evicting = false;
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 7e48dcd1bee4..5a961ea90a35 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -255,7 +255,7 @@ static void drm_syncobj_fence_add_wait(struct drm_syncobj *syncobj,
+ 		dma_fence_put(fence);
+ 		list_add_tail(&wait->node, &syncobj->cb_list);
+ 	} else if (!fence) {
+-		wait->fence = dma_fence_get_stub();
++		wait->fence = dma_fence_get_stub(false);
+ 	} else {
+ 		wait->fence = fence;
+ 	}
+@@ -411,7 +411,7 @@ int drm_syncobj_find_fence(struct drm_file *file_private,
+ 			 * signalled, use a new fence instead.
+ 			 */
+ 			if (!*fence)
+-				*fence = dma_fence_get_stub();
++				*fence = dma_fence_get_stub(false);
  
- 	ret = nouveau_fence_no_signaling(f);
- 	if (ret)
--		set_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags);
-+		set_bit(DMA_FENCE_FLAG_DRIVER, &fence->base.flags);
- 	else if (!--fctx->notify_ref)
- 		nvif_notify_put(&fctx->notify);
+ 			goto out;
+ 		}
+@@ -1000,7 +1000,7 @@ static void syncobj_wait_syncobj_func(struct drm_syncobj *syncobj,
+ 		dma_fence_put(fence);
+ 		return;
+ 	} else if (!fence) {
+-		wait->fence = dma_fence_get_stub();
++		wait->fence = dma_fence_get_stub(false);
+ 	} else {
+ 		wait->fence = fence;
+ 	}
+@@ -1067,7 +1067,7 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+ 		if (fence)
+ 			entries[i].fence = fence;
+ 		else
+-			entries[i].fence = dma_fence_get_stub();
++			entries[i].fence = dma_fence_get_stub(false);
  
+ 		if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) ||
+ 		    dma_fence_is_signaled(entries[i].fence)) {
+@@ -1472,7 +1472,7 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
+ 	}
+ 
+ 	for (i = 0; i < args->count_handles; i++) {
+-		struct dma_fence *fence = dma_fence_get_stub();
++		struct dma_fence *fence = dma_fence_get_stub(false);
+ 
+ 		drm_syncobj_add_point(syncobjs[i], chains[i],
+ 				      fence, points[i]);
 diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 775cdc0b4f24..afea82ec5946 100644
+index afea82ec5946..be96687d31d8 100644
 --- a/include/linux/dma-fence.h
 +++ b/include/linux/dma-fence.h
-@@ -49,7 +49,7 @@ struct dma_fence_cb;
-  * DMA_FENCE_FLAG_SIGNALED_BIT - fence is already signaled
-  * DMA_FENCE_FLAG_TIMESTAMP_BIT - timestamp recorded for fence signaling
-  * DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT - enable_signaling might have been called
-- * DMA_FENCE_FLAG_USER_BITS - start of the unused bits, can be used by the
-+ * DMA_FENCE_FLAG_DRIVER - start of the unused bits, can be used by the
-  * implementer of the fence for its own purposes. Can be used in different
-  * ways by different fence implementers, so do not rely on this.
-  *
-@@ -99,7 +99,7 @@ enum dma_fence_flag_bits {
+@@ -99,6 +99,16 @@ enum dma_fence_flag_bits {
  	DMA_FENCE_FLAG_SIGNALED_BIT,
  	DMA_FENCE_FLAG_TIMESTAMP_BIT,
  	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
--	DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
-+	DMA_FENCE_FLAG_DRIVER, /* must always be last member */
++
++	/**
++	 * @DMA_FENCE_FLAG_USER:
++	 *
++	 * Indicates an user fence. User fences are not guaranteed to signal in
++	 * a finite amount of time. Because of this it is not allowed to wait for user
++	 * fences with any lock held nor depend the signaling of none user
++	 * fences on them.
++	 */
++	DMA_FENCE_FLAG_USER,
+ 	DMA_FENCE_FLAG_DRIVER, /* must always be last member */
  };
  
- typedef void (*dma_fence_func_t)(struct dma_fence *fence,
+@@ -398,6 +408,8 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+ static inline bool
+ dma_fence_is_signaled_locked(struct dma_fence *fence)
+ {
++	WARN_ON(test_bit(DMA_FENCE_FLAG_USER, &fence->flags));
++
+ 	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+ 		return true;
+ 
+@@ -428,6 +440,9 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+ static inline bool
+ dma_fence_is_signaled(struct dma_fence *fence)
+ {
++	if (test_bit(DMA_FENCE_FLAG_USER, &fence->flags))
++		might_fault();
++
+ 	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+ 		return true;
+ 
+@@ -583,7 +598,7 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
+ 	return ret < 0 ? ret : 0;
+ }
+ 
+-struct dma_fence *dma_fence_get_stub(void);
++struct dma_fence *dma_fence_get_stub(bool user);
+ struct dma_fence *dma_fence_allocate_private_stub(void);
+ u64 dma_fence_context_alloc(unsigned num);
+ 
 -- 
 2.25.1
 
