@@ -2,98 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C296516E87
-	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 13:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E3F7516F81
+	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 14:20:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384836AbiEBLKA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 May 2022 07:10:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38542 "EHLO
+        id S233894AbiEBMYY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 May 2022 08:24:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384687AbiEBLIt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 May 2022 07:08:49 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA3C1131
-        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 04:05:18 -0700 (PDT)
-Received: from fsav411.sakura.ne.jp (fsav411.sakura.ne.jp [133.242.250.110])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 242B5GMb078599;
-        Mon, 2 May 2022 20:05:17 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav411.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp);
- Mon, 02 May 2022 20:05:16 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 242B5Gal078593
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Mon, 2 May 2022 20:05:16 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <1b7b9a2a-d52c-ff35-f32d-d22d7980a80f@I-love.SAKURA.ne.jp>
-Date:   Mon, 2 May 2022 20:05:15 +0900
+        with ESMTP id S233567AbiEBMYW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 May 2022 08:24:22 -0400
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71E2265D4
+        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 05:20:53 -0700 (PDT)
+Received: by mail-qk1-x72c.google.com with SMTP id y6so9047791qke.10
+        for <linux-media@vger.kernel.org>; Mon, 02 May 2022 05:20:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=Fw3WDxeowbTLWz6Ru6lKfna8BJhR9uyUJgU4i6Lx6eE=;
+        b=qazHzdbUqUY+JBu1L+Ghkx2BTsogAGkFnOfCjITzugw4bwFjFAMpAJeURp89Vky6/U
+         Wq7NNkCMaTSrbP+3ogAErVWWIxYFqqYm+Jv9G8bZp4BmrqTTCEAZtyl3a4p+w5DGCTh4
+         IECTzPPzm6l92yy6uxNjRJof9h9SyQVIefJ7gKeY0XV3znaycUFYZcOPUsxl2B3GjQl3
+         JRvOynsTsnYdth7qlIWJwStg5aqAR1kGQ1O7D3CDlg6qUqjMVlvS/Nb14OCY+OKBrqGN
+         RcAXOllGP+KY4GDsFM0yzL9RhybPRIXscxNdnS8zDVAs8qrhmqi+6dCKdsgOC5rEJvVP
+         aovQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=Fw3WDxeowbTLWz6Ru6lKfna8BJhR9uyUJgU4i6Lx6eE=;
+        b=JsiWIs+Jg1oXDkIlzWNB8zWxgdT0xO8ROYVMv3aRs6kqypjFb5QI1VrLGFjm6g9lQk
+         csSpoygV9Yk/rZLr+wRd8/A1wFHuh9vBKLbizfS6TmK1Vhk8INmxWSr6jRxZmgp8YE+r
+         auG0TyRf65EipSpFhTth0LSC1ZdNFC+VuK5CjDrrUO6oM4UVr4FvguSAIznwyS9llQh0
+         +mewLoJhiw3VZsrqHvgahyXqAtl3oOxUqvIRx4UEWfAf+MzXn5ql0UHDH70DVCPpGk6Y
+         fFIpZXdIxsKxsU/D/rtFTlTO/NS9eucu0GhHrKBA9L2rjieZrYCyqj9ArHWnN2YpvRzR
+         eSXA==
+X-Gm-Message-State: AOAM530l7Zmcnx50ya1b9B9xAwVTwME228+X0BSMNwH4wItMwAw70Lhb
+        L4hbPsuBv5vA/QW2tOqK5dYEWA==
+X-Google-Smtp-Source: ABdhPJxumv3g/uljydEcUe9WMgnkePrW46ByZPAaB9YOkcVTpD1uHYDXYtz9wtMJ8bQiOeA++8nw2g==
+X-Received: by 2002:a05:620a:44c8:b0:69f:e71f:7a02 with SMTP id y8-20020a05620a44c800b0069fe71f7a02mr2463437qkp.253.1651494052548;
+        Mon, 02 May 2022 05:20:52 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id d188-20020a379bc5000000b0069fc347ef5dsm4060820qke.74.2022.05.02.05.20.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 May 2022 05:20:51 -0700 (PDT)
+Message-ID: <0414bb0816eef95961fe47de96f97f925d29228f.camel@ndufresne.ca>
+Subject: Re: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Michael Grzeschik <mgr@pengutronix.de>,
+        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Liang Chen <cl@rock-chips.com>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        Kever Yang <kever.yang@rock-chips.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Date:   Mon, 02 May 2022 08:20:50 -0400
+In-Reply-To: <20220429232047.GG7671@pengutronix.de>
+References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
+         <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
+         <2438841.KJ31GcehEG@archbook> <20220429232047.GG7671@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 (resend)] media: imon: reorganize serialization
-Content-Language: en-US
-To:     Oliver Neukum <oneukum@suse.com>, Sean Young <sean@mess.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jarod Wilson <jarod@redhat.com>,
-        syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-References: <00000000000043b599058faf0145@google.com>
- <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
- <YmZny7mzugFe0t+X@gofer.mess.org>
- <62dddbb9-3053-f284-f9db-3beda5e8e951@I-love.SAKURA.ne.jp>
- <YmaMY/XKBmEfl8i6@gofer.mess.org> <YmbF071fSKUff6R2@rowland.harvard.edu>
- <YmbKiPna01aMQhJw@gofer.mess.org>
- <349f3e34-41ed-f832-3b22-ae10c50e3868@I-love.SAKURA.ne.jp>
- <Ymel5XtWC7rwpiXF@gofer.mess.org>
- <e17d6647-2c65-638b-1469-f546da7d0ba8@I-love.SAKURA.ne.jp>
- <21ffa07a-1bc1-cb1f-eef4-6c3a73953061@I-love.SAKURA.ne.jp>
- <6ab13405-b942-ddbe-c2de-dd193fe40795@suse.com>
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <6ab13405-b942-ddbe-c2de-dd193fe40795@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2022/05/02 19:46, Oliver Neukum wrote:
-> 
-> 
-> On 02.05.22 05:49, Tetsuo Handa wrote:
-> Hi,
-> 
-> there is one open question with this patch I am afraid.
->>  
->> @@ -533,8 +550,10 @@ static int display_open(struct inode *inode, struct file *file)
->>  
->>  	mutex_unlock(&ictx->lock);
->>  
->> +	if (retval && refcount_dec_and_test(&ictx->users))
->> +		free_imon_context(ictx);
->> +
->>
-> 
-> When could this ever happen? Either the device is disconnected, then
-> you'll go to 'exit' or the refcount will go back to something >0, won't it?
-> 
+Hi Michael,
 
-(Step 0) Say, ictx->users is initially 1.
+Le samedi 30 avril 2022 =C3=A0 01:20 +0200, Michael Grzeschik a =C3=A9crit=
+=C2=A0:
+> Since the RK3568 seems to get more and more of attention at the moment
+> I would like to ask if somebody is planning to write support the RKVENC
+> in mainline. That is the VEPU540 core refered to in the RK3568 TRM.
+>=20
+> I would start with that in the next weeks, taking the bootlin H1 support
+> as an reference to handle the request_api for the encoder part. Which is
+> currently completely untouched in mainline AFAIK.
 
-(Step 1) display_open() increments via refcount_inc_not_zero(), now is 2.
+I'm very happy to ear you'd be interest in helping with this. I'm adding An=
+drzej
+in CC, as he started some base work using VP8 encoder on RK3399 (same HW fo=
+und
+on other RK SoC) to make this possible. Note that these are a new type of
+encoders and a specification is needed to ensure they all have a coherent w=
+ork-
+flow. The first step was obviously to have working prototype, Bootlin start=
+ed
+with H264 (but never posted anything on the mailing list). I'm under the
+impression they have abandoned it. Andrzej have decided to use VP8 as it is
+simpler. The prototype should help understand the basic flow of an encoder =
+and
+produce a specification for this.
 
-(Step 2) imon_disconnect() decrements via refcount_dec_and_test(), now is 1.
+From there, the "easy" part is to make per codec controls, to configure the
+encoder. Demonstrating fixed QP, this is about were I believe Bootlin stopp=
+ed.
+And I personally believe some OSS userland (not just tests) that can handle
+multiple reference, perhaps more advance GOP pattern and some basic rate co=
+ntrol
+would help build confidence in the uAPI. Let us know how we can help, we sh=
+ould
+avoid doing the same thing, as this is already quite a large project that c=
+an
+easily take over a year to become mainline ready.
 
-(Step 3) if retval != 0, display_open() needs to undo (Step 1) via
-         refcount_dec_and_test(), now is 0.
+regards,
+Nicolas
 
-because imon_disconnect() can be called while display_open() is in progress...
+>=20
+> Regards,
+> Michael
+>=20
+
