@@ -2,133 +2,276 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E3F7516F81
-	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 14:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95617516FCD
+	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 14:53:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233894AbiEBMYY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 May 2022 08:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50576 "EHLO
+        id S234640AbiEBM4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 May 2022 08:56:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233567AbiEBMYW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 May 2022 08:24:22 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71E2265D4
-        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 05:20:53 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id y6so9047791qke.10
-        for <linux-media@vger.kernel.org>; Mon, 02 May 2022 05:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=Fw3WDxeowbTLWz6Ru6lKfna8BJhR9uyUJgU4i6Lx6eE=;
-        b=qazHzdbUqUY+JBu1L+Ghkx2BTsogAGkFnOfCjITzugw4bwFjFAMpAJeURp89Vky6/U
-         Wq7NNkCMaTSrbP+3ogAErVWWIxYFqqYm+Jv9G8bZp4BmrqTTCEAZtyl3a4p+w5DGCTh4
-         IECTzPPzm6l92yy6uxNjRJof9h9SyQVIefJ7gKeY0XV3znaycUFYZcOPUsxl2B3GjQl3
-         JRvOynsTsnYdth7qlIWJwStg5aqAR1kGQ1O7D3CDlg6qUqjMVlvS/Nb14OCY+OKBrqGN
-         RcAXOllGP+KY4GDsFM0yzL9RhybPRIXscxNdnS8zDVAs8qrhmqi+6dCKdsgOC5rEJvVP
-         aovQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=Fw3WDxeowbTLWz6Ru6lKfna8BJhR9uyUJgU4i6Lx6eE=;
-        b=JsiWIs+Jg1oXDkIlzWNB8zWxgdT0xO8ROYVMv3aRs6kqypjFb5QI1VrLGFjm6g9lQk
-         csSpoygV9Yk/rZLr+wRd8/A1wFHuh9vBKLbizfS6TmK1Vhk8INmxWSr6jRxZmgp8YE+r
-         auG0TyRf65EipSpFhTth0LSC1ZdNFC+VuK5CjDrrUO6oM4UVr4FvguSAIznwyS9llQh0
-         +mewLoJhiw3VZsrqHvgahyXqAtl3oOxUqvIRx4UEWfAf+MzXn5ql0UHDH70DVCPpGk6Y
-         fFIpZXdIxsKxsU/D/rtFTlTO/NS9eucu0GhHrKBA9L2rjieZrYCyqj9ArHWnN2YpvRzR
-         eSXA==
-X-Gm-Message-State: AOAM530l7Zmcnx50ya1b9B9xAwVTwME228+X0BSMNwH4wItMwAw70Lhb
-        L4hbPsuBv5vA/QW2tOqK5dYEWA==
-X-Google-Smtp-Source: ABdhPJxumv3g/uljydEcUe9WMgnkePrW46ByZPAaB9YOkcVTpD1uHYDXYtz9wtMJ8bQiOeA++8nw2g==
-X-Received: by 2002:a05:620a:44c8:b0:69f:e71f:7a02 with SMTP id y8-20020a05620a44c800b0069fe71f7a02mr2463437qkp.253.1651494052548;
-        Mon, 02 May 2022 05:20:52 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id d188-20020a379bc5000000b0069fc347ef5dsm4060820qke.74.2022.05.02.05.20.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 05:20:51 -0700 (PDT)
-Message-ID: <0414bb0816eef95961fe47de96f97f925d29228f.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Michael Grzeschik <mgr@pengutronix.de>,
-        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        with ESMTP id S234201AbiEBM4x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 May 2022 08:56:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39F68E02D;
+        Mon,  2 May 2022 05:53:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CABB261326;
+        Mon,  2 May 2022 12:53:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14165C385AC;
+        Mon,  2 May 2022 12:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1651496003;
+        bh=5QtNpFnOIRLN6HrHSBOSS1ig20eCQ/TaGqRapJzGbhU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=o8Irft7kz54Cds0bQE+vjwXSk09XEFol+PrsiEy+wTz1hEae63nNcal8UnE0/brO0
+         QcdJiWXBiQgh/pGHK3SgHm14EoSx39oKysiiyXJpGxs3jqOo2PK6hCddgFFbOKjkoa
+         IhD99yJCti4jbvZEGve4CBiMekLJIX7BZN2ia3YA=
+Date:   Mon, 2 May 2022 14:53:22 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     Sean Young <sean@mess.org>, Alan Stern <stern@rowland.harvard.edu>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        Liang Chen <cl@rock-chips.com>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        Kever Yang <kever.yang@rock-chips.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Date:   Mon, 02 May 2022 08:20:50 -0400
-In-Reply-To: <20220429232047.GG7671@pengutronix.de>
-References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
-         <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
-         <2438841.KJ31GcehEG@archbook> <20220429232047.GG7671@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+        Jarod Wilson <jarod@redhat.com>,
+        syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH v2 (resend)] media: imon: reorganize serialization
+Message-ID: <Ym/UQpEV46W6frqH@kroah.com>
+References: <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
+ <YmZny7mzugFe0t+X@gofer.mess.org>
+ <62dddbb9-3053-f284-f9db-3beda5e8e951@I-love.SAKURA.ne.jp>
+ <YmaMY/XKBmEfl8i6@gofer.mess.org>
+ <YmbF071fSKUff6R2@rowland.harvard.edu>
+ <YmbKiPna01aMQhJw@gofer.mess.org>
+ <349f3e34-41ed-f832-3b22-ae10c50e3868@I-love.SAKURA.ne.jp>
+ <Ymel5XtWC7rwpiXF@gofer.mess.org>
+ <e17d6647-2c65-638b-1469-f546da7d0ba8@I-love.SAKURA.ne.jp>
+ <21ffa07a-1bc1-cb1f-eef4-6c3a73953061@I-love.SAKURA.ne.jp>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <21ffa07a-1bc1-cb1f-eef4-6c3a73953061@I-love.SAKURA.ne.jp>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+On Mon, May 02, 2022 at 12:49:04PM +0900, Tetsuo Handa wrote:
+> Since usb_register_dev() from imon_init_display() from imon_probe() holds
+> minor_rwsem while display_open() which holds driver_lock and ictx->lock is
+> called with minor_rwsem held from usb_open(), holding driver_lock or
+> ictx->lock when calling usb_register_dev() causes circular locking
+> dependency problem.
+> 
+> Since usb_deregister_dev() from imon_disconnect() holds minor_rwsem while
+> display_open() which holds driver_lock is called with minor_rwsem held,
+> holding driver_lock when calling usb_deregister_dev() also causes circular
+> locking dependency problem.
+> 
+> Sean Young explained that the problem is there are imon devices which have
+> two usb interfaces, even though it is one device. The probe and disconnect
+> function of both usb interfaces can run concurrently.
+> 
+> Alan Stern responded that the driver and USB cores guarantee that when an
+> interface is probed, both the interface and its USB device are locked.
+> Ditto for when the disconnect callback gets run. So concurrent probing/
+> disconnection of multiple interfaces on the same device is not possible.
+> 
+> Therefore, we don't need locks for handling race between imon_probe() and
+> imon_disconnect(). But we still need to handle race between display_open()
+> /vfd_write()/lcd_write()/display_close() and imon_disconnect(), for
+> disconnect event can happen while file descriptors are in use.
+> 
+> Since "struct file"->private_data is set by display_open(), vfd_write()/
+> lcd_write()/display_close() can assume that "struct file"->private_data
+> is not NULL even after usb_set_intfdata(interface, NULL) was called.
+> 
+> Replace insufficiently held driver_lock with refcount_t based management.
+> Add a boolean flag for recording whether imon_disconnect() was already
+> called. Use RCU for accessing this boolean flag and refcount_t.
+> 
+> Since the boolean flag for imon_disconnect() is shared, disconnect event
+> on either intf0 or intf1 affects both interfaces. But I assume that this
+> change does not matter, for usually disconnect event would not happen
+> while interfaces are in use.
+> 
+> Link: https://syzkaller.appspot.com/bug?extid=c558267ad910fc494497
+> Reported-by: syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Tested-by: syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>
+> Cc: Sean Young <sean@mess.org>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> ---
+> Changes in v2:
+>   Defer free_imon_context() using refcount till display_close() is called.
+> 
+>  drivers/media/rc/imon.c | 99 +++++++++++++++++++----------------------
+>  1 file changed, 47 insertions(+), 52 deletions(-)
+> 
+> diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+> index 54da6f60079b..9a4f24e294bc 100644
+> --- a/drivers/media/rc/imon.c
+> +++ b/drivers/media/rc/imon.c
+> @@ -153,6 +153,24 @@ struct imon_context {
+>  	const struct imon_usb_dev_descr *dev_descr;
+>  					/* device description with key */
+>  					/* table for front panels */
+> +	/*
+> +	 * Fields for deferring free_imon_context().
+> +	 *
+> +	 * Since reference to "struct imon_context" is stored into
+> +	 * "struct file_operations"->private_data, we need to remember
+> +	 * how many file descriptors might access this "struct imon_context".
+> +	 */
+> +	refcount_t users;
 
-Le samedi 30 avril 2022 =C3=A0 01:20 +0200, Michael Grzeschik a =C3=A9crit=
-=C2=A0:
-> Since the RK3568 seems to get more and more of attention at the moment
-> I would like to ask if somebody is planning to write support the RKVENC
-> in mainline. That is the VEPU540 core refered to in the RK3568 TRM.
->=20
-> I would start with that in the next weeks, taking the bootlin H1 support
-> as an reference to handle the request_api for the encoder part. Which is
-> currently completely untouched in mainline AFAIK.
+Are you sure this is going to work properly?
 
-I'm very happy to ear you'd be interest in helping with this. I'm adding An=
-drzej
-in CC, as he started some base work using VP8 encoder on RK3399 (same HW fo=
-und
-on other RK SoC) to make this possible. Note that these are a new type of
-encoders and a specification is needed to ensure they all have a coherent w=
-ork-
-flow. The first step was obviously to have working prototype, Bootlin start=
-ed
-with H264 (but never posted anything on the mailing list). I'm under the
-impression they have abandoned it. Andrzej have decided to use VP8 as it is
-simpler. The prototype should help understand the basic flow of an encoder =
-and
-produce a specification for this.
+How do you handle userspace passing around file descriptors to other
+processes?
 
-From there, the "easy" part is to make per codec controls, to configure the
-encoder. Demonstrating fixed QP, this is about were I believe Bootlin stopp=
-ed.
-And I personally believe some OSS userland (not just tests) that can handle
-multiple reference, perhaps more advance GOP pattern and some basic rate co=
-ntrol
-would help build confidence in the uAPI. Let us know how we can help, we sh=
-ould
-avoid doing the same thing, as this is already quite a large project that c=
-an
-easily take over a year to become mainline ready.
+You really should not ever have to count this.
 
-regards,
-Nicolas
+> +	/*
+> +	 * Use a flag for telling display_open()/vfd_write()/lcd_write() that
+> +	 * imon_disconnect() was already called.
+> +	 */
+> +	bool disconnected;
+> +	/*
+> +	 * We need to wait for RCU grace period in order to allow
+> +	 * display_open() to safely check ->disconnected and increment ->users.
+> +	 */
+> +	struct rcu_head rcu;
+>  };
+>  
+>  #define TOUCH_TIMEOUT	(HZ/30)
+> @@ -160,18 +178,18 @@ struct imon_context {
+>  /* vfd character device file operations */
+>  static const struct file_operations vfd_fops = {
+>  	.owner		= THIS_MODULE,
+> -	.open		= &display_open,
+> -	.write		= &vfd_write,
+> -	.release	= &display_close,
+> +	.open		= display_open,
+> +	.write		= vfd_write,
+> +	.release	= display_close,
+>  	.llseek		= noop_llseek,
+>  };
+>  
+>  /* lcd character device file operations */
+>  static const struct file_operations lcd_fops = {
+>  	.owner		= THIS_MODULE,
+> -	.open		= &display_open,
+> -	.write		= &lcd_write,
+> -	.release	= &display_close,
+> +	.open		= display_open,
+> +	.write		= lcd_write,
+> +	.release	= display_close,
+>  	.llseek		= noop_llseek,
+>  };
+>  
+> @@ -439,9 +457,6 @@ static struct usb_driver imon_driver = {
+>  	.id_table	= imon_usb_id_table,
+>  };
+>  
+> -/* to prevent races between open() and disconnect(), probing, etc */
+> -static DEFINE_MUTEX(driver_lock);
+> -
+>  /* Module bookkeeping bits */
+>  MODULE_AUTHOR(MOD_AUTHOR);
+>  MODULE_DESCRIPTION(MOD_DESC);
+> @@ -481,9 +496,11 @@ static void free_imon_context(struct imon_context *ictx)
+>  	struct device *dev = ictx->dev;
+>  
+>  	usb_free_urb(ictx->tx_urb);
+> +	WARN_ON(ictx->dev_present_intf0);
+>  	usb_free_urb(ictx->rx_urb_intf0);
+> +	WARN_ON(ictx->dev_present_intf1);
+>  	usb_free_urb(ictx->rx_urb_intf1);
+> -	kfree(ictx);
+> +	kfree_rcu(ictx, rcu);
+>  
+>  	dev_dbg(dev, "%s: iMON context freed\n", __func__);
+>  }
+> @@ -499,9 +516,6 @@ static int display_open(struct inode *inode, struct file *file)
+>  	int subminor;
+>  	int retval = 0;
+>  
+> -	/* prevent races with disconnect */
+> -	mutex_lock(&driver_lock);
+> -
+>  	subminor = iminor(inode);
+>  	interface = usb_find_interface(&imon_driver, subminor);
+>  	if (!interface) {
+> @@ -509,13 +523,16 @@ static int display_open(struct inode *inode, struct file *file)
+>  		retval = -ENODEV;
+>  		goto exit;
+>  	}
+> -	ictx = usb_get_intfdata(interface);
+>  
+> -	if (!ictx) {
+> +	rcu_read_lock();
+> +	ictx = usb_get_intfdata(interface);
+> +	if (!ictx || ictx->disconnected || !refcount_inc_not_zero(&ictx->users)) {
+> +		rcu_read_unlock();
+>  		pr_err("no context found for minor %d\n", subminor);
+>  		retval = -ENODEV;
+>  		goto exit;
+>  	}
+> +	rcu_read_unlock();
+>  
+>  	mutex_lock(&ictx->lock);
+>  
+> @@ -533,8 +550,10 @@ static int display_open(struct inode *inode, struct file *file)
+>  
+>  	mutex_unlock(&ictx->lock);
+>  
+> +	if (retval && refcount_dec_and_test(&ictx->users))
+> +		free_imon_context(ictx);
+> +
+>  exit:
+> -	mutex_unlock(&driver_lock);
+>  	return retval;
+>  }
+>  
+> @@ -544,16 +563,9 @@ static int display_open(struct inode *inode, struct file *file)
+>   */
+>  static int display_close(struct inode *inode, struct file *file)
+>  {
+> -	struct imon_context *ictx = NULL;
+> +	struct imon_context *ictx = file->private_data;
+>  	int retval = 0;
+>  
+> -	ictx = file->private_data;
+> -
+> -	if (!ictx) {
+> -		pr_err("no context for device\n");
+> -		return -ENODEV;
+> -	}
+> -
+>  	mutex_lock(&ictx->lock);
+>  
+>  	if (!ictx->display_supported) {
+> @@ -568,6 +580,8 @@ static int display_close(struct inode *inode, struct file *file)
+>  	}
+>  
+>  	mutex_unlock(&ictx->lock);
+> +	if (refcount_dec_and_test(&ictx->users))
+> +		free_imon_context(ictx);
 
->=20
-> Regards,
-> Michael
->=20
+Why not just put a kref into your larger structure?
 
+I think trying to count users of open/close is never going to work, just
+allow the normal open/close logic to work properly and track your data
+structure based on reference counts like it should be doing already.
+
+thanks,
+
+greg k-h
