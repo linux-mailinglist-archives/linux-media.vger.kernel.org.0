@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49A8D517493
-	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 18:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CD0D517495
+	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 18:38:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245618AbiEBQl1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 May 2022 12:41:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50218 "EHLO
+        id S1380588AbiEBQl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 May 2022 12:41:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386375AbiEBQlR (ORCPT
+        with ESMTP id S1386380AbiEBQlR (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Mon, 2 May 2022 12:41:17 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE4811A3F
-        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 09:37:43 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id k2so20242252wrd.5
-        for <linux-media@vger.kernel.org>; Mon, 02 May 2022 09:37:43 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E05F911C0B
+        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 09:37:44 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id i5so20218853wrc.13
+        for <linux-media@vger.kernel.org>; Mon, 02 May 2022 09:37:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RsppMnZlvpz/PS1/TtGolLScNmUL2porbiCTAL7nvFU=;
-        b=a8nOHOjENFk8Xqwt3xRBWqsEDbDkcxAnWu2DgN6ZDlTrGJ1q3k5MN1DjOQ2zViSQg4
-         /pvQDUerSXJhjlxEWeERMaolbCrzCoqr56pyfb2TEL7vg+B7hOdMEIVTyYgxNOqqRQiV
-         muLLlNRxADbcJZC0Xo7s+vNAzrLICHoUlxYFy64xxzxl8U7CmD+wchoGiqZyArMJGYyf
-         m6y8dFfXLwy6xUJ3j6HJ9GsJN24zFxv3tC2YmECdIRGZlHnwRRNeMCFzeycRNMjZc5Rd
-         FWhd8+2d5xbZspsYRjuRbwCa1ZanS8BMkagr654IsvWoWehrdkQCdAGIrfrQ0XnLSjlb
-         NjGg==
+        bh=KjkQ0JRQZyD+wsFR0t4oPn4rUlqhN8HCr5sJCzpjRmE=;
+        b=XRFyPBX826gX+6Sf6EdgjzVcDAEC57cWAnpTUJSiNbTAuYlcDJqotYTXcL4OCIZhKK
+         rGrruKwqySetpI5UYY3c8MrVsrYSkCQLOpxEzdboo9Q3r0Nlqe0Xu6KecryhvSGhaa53
+         /ALxzRnKwxCTsSUwi/t+VQAtFWy5YxseyD5HM/82srioDn+fYu6wEihksTJo4ja5Ahyt
+         5aTJtt+xiPZ1jQwB/Z137YFORgQkslcu+pdrKfbC5AEvSmvA5ShFJfsbwdOD6aix9GVg
+         9jwEfBxqiry31YlDKCDDNUjfPrZyXALr1nE9yv5ntYzzHvYbRz3QDLkMwnTv7gCUSx6V
+         q1+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RsppMnZlvpz/PS1/TtGolLScNmUL2porbiCTAL7nvFU=;
-        b=KxC/l1eFbPYwLoYkY8rsSy4EWw/JBUX4Szfs4SDa5EXOQMNkuMJFUD5DJy6rlprJsj
-         /pIotq5Kvb/HpD/k3rFuX9GxMRWV+Z7t40F4aqkkMBstEr/gA5CFfKUgtaQvSAwcYGPZ
-         2zM/2YhhrGpfskFpd/tjTl+zsIvobhuw0zal/Ac9SC3eglsaECVBVWVQP1C1ZKJCOvft
-         asd4hkbhb8K4ZVifx5Z11a1ON1ZenfGRi5EviqaTjq8E/3L0+Wprzns0mMfLUNEQDzxA
-         0go1UzUWJD6gBcSmKaSCQeRqpZrx0Go1+PjKW49etw3vme3cuOhRzS7Shhgsb8hXUrbV
-         EeLQ==
-X-Gm-Message-State: AOAM530vISCmZDPN5/6NSoOM09h/TvMbrxmE4kg3XxUiX9er0h8t8ZOB
-        jYmUBgqSaxmfj/Giq20gJAM=
-X-Google-Smtp-Source: ABdhPJyTPKUM05Y+tnsze0dzaZtqnYwBQZsZfdgYGdtgR2xVTDvcPZhlwnNrXn5ccgWpn6iPCc00wA==
-X-Received: by 2002:a5d:5228:0:b0:20a:d7e9:7ed8 with SMTP id i8-20020a5d5228000000b0020ad7e97ed8mr9472997wra.687.1651509462037;
-        Mon, 02 May 2022 09:37:42 -0700 (PDT)
+        bh=KjkQ0JRQZyD+wsFR0t4oPn4rUlqhN8HCr5sJCzpjRmE=;
+        b=NYaovfUiABphkH57HY5D+nDx35mO+33K8pScAhzoL+29RWb+/Z4AtrIDg7GxAyIjwD
+         uR6+K3iCA7pRoebIp/6kF2acaGQXcRq0x4V54KHcK0TKYnXnZDSLcmU0tkesfmEQeV5k
+         135KUME04iGvg97qa+0R7CFKWYA4IV6AvdI/4xFefZnO6AXjtl+k5MHx4ign6mzsdaJn
+         Ga22n/TWf1ZLXanS/ZW7rcU5lZmeUCkc5gjyFln/+M8Bm0+M+c1JlGG9rm2r+FIu9PdR
+         HMqgPfjh5BGLMDOxSdvyRzF4SGJfGLxwvjffjdzMyo2xBmoity/HXXnu2figuepgad+g
+         qzQw==
+X-Gm-Message-State: AOAM533nkZfaSFOK/HiO8mMFz+xVyI/e2c+yR6HMvsB63XKwxU5Jz+1D
+        animEHEZ8bdJe8k2hvnVTL8=
+X-Google-Smtp-Source: ABdhPJwIO4JMf3a/FHinF4NCDxZum5bVjIfSGJInrAQPVDJEyndnzfd420zGEtBXfAqSUovvsyyOEg==
+X-Received: by 2002:a05:6000:2c9:b0:20c:64c9:4b7a with SMTP id o9-20020a05600002c900b0020c64c94b7amr3727596wry.325.1651509463426;
+        Mon, 02 May 2022 09:37:43 -0700 (PDT)
 Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
-        by smtp.gmail.com with ESMTPSA id p14-20020adfaa0e000000b0020c5253d8f6sm7294694wrd.66.2022.05.02.09.37.40
+        by smtp.gmail.com with ESMTPSA id p14-20020adfaa0e000000b0020c5253d8f6sm7294694wrd.66.2022.05.02.09.37.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 09:37:41 -0700 (PDT)
+        Mon, 02 May 2022 09:37:42 -0700 (PDT)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
@@ -58,9 +58,9 @@ To:     daniel@ffwll.ch, jason@jlekstrand.net, daniels@collabora.com,
         linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linaro-mm-sig@lists.linaro.org
 Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH 10/15] drm: add user fence support for atomic out fences
-Date:   Mon,  2 May 2022 18:37:17 +0200
-Message-Id: <20220502163722.3957-11-christian.koenig@amd.com>
+Subject: [PATCH 11/15] drm: add user fence support for atomic in fences
+Date:   Mon,  2 May 2022 18:37:18 +0200
+Message-Id: <20220502163722.3957-12-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220502163722.3957-1-christian.koenig@amd.com>
 References: <20220502163722.3957-1-christian.koenig@amd.com>
@@ -77,74 +77,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a new driver flag indicating support for user fences.
-
-This flag is then used when creating out fences for atomic mode setting,
-indicating that the mode set might depend on an user fence.
+When the DRIVER_USER_FENCE flag is set we grab the user fence from the
+sync file instead of the normal one.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 8 ++++++++
- include/drm/drm_drv.h             | 7 +++++++
- 2 files changed, 15 insertions(+)
+ drivers/gpu/drm/drm_atomic_uapi.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 434f3d4cb8a2..e2112c10569b 100644
+index e2112c10569b..d1b13657e2ae 100644
 --- a/drivers/gpu/drm/drm_atomic_uapi.c
 +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -1111,6 +1111,7 @@ static int prepare_signaling(struct drm_device *dev,
- 				  struct drm_out_fence_state **fence_state,
- 				  unsigned int *num_fences)
- {
-+	bool use_user_fence = drm_core_check_feature(dev, DRIVER_USER_FENCE);
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_connector *conn;
-@@ -1120,6 +1121,7 @@ static int prepare_signaling(struct drm_device *dev,
- 	if (arg->flags & DRM_MODE_ATOMIC_TEST_ONLY)
- 		return 0;
+@@ -517,7 +517,10 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
+ 		if (U642I64(val) == -1)
+ 			return 0;
  
-+
- 	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
- 		s32 __user *fence_ptr;
- 
-@@ -1168,6 +1170,9 @@ static int prepare_signaling(struct drm_device *dev,
- 			if (!fence)
- 				return -ENOMEM;
- 
-+			if (use_user_fence)
-+				set_bit(DMA_FENCE_FLAG_USER, &fence->flags);
-+
- 			ret = setup_out_fence(&f[(*num_fences)++], fence);
- 			if (ret) {
- 				dma_fence_put(fence);
-@@ -1208,6 +1213,9 @@ static int prepare_signaling(struct drm_device *dev,
- 		if (!fence)
- 			return -ENOMEM;
- 
-+		if (use_user_fence)
-+			set_bit(DMA_FENCE_FLAG_USER, &fence->flags);
-+
- 		ret = setup_out_fence(&f[(*num_fences)++], fence);
- 		if (ret) {
- 			dma_fence_put(fence);
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index f6159acb8856..b2b8ea8d4a9e 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -94,6 +94,13 @@ enum drm_driver_feature {
- 	 * synchronization of command submission.
- 	 */
- 	DRIVER_SYNCOBJ_TIMELINE         = BIT(6),
-+	/**
-+	 * @DRIVER_USER_FENCE:
-+	 *
-+	 * Drivers supports user fences and waiting for the before command
-+	 * submission.
-+	 */
-+	DRIVER_USER_FENCE		= BIT(7),
- 
- 	/* IMPORTANT: Below are all the legacy flags, add new ones above. */
+-		state->fence = sync_file_get_fence(val);
++		if (drm_core_check_feature(dev, DRIVER_USER_FENCE))
++			state->fence = sync_file_get_user_fence(val);
++		else
++			state->fence = sync_file_get_fence(val);
+ 		if (!state->fence)
+ 			return -EINVAL;
  
 -- 
 2.25.1
