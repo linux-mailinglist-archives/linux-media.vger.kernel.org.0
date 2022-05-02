@@ -2,71 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAEC951749E
-	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 18:38:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F443517551
+	for <lists+linux-media@lfdr.de>; Mon,  2 May 2022 19:04:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386333AbiEBQlc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 May 2022 12:41:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50258 "EHLO
+        id S1386433AbiEBRHu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 May 2022 13:07:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381117AbiEBQlU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 May 2022 12:41:20 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2281DF9D
-        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 09:37:50 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id m2-20020a1ca302000000b003943bc63f98so1641701wme.4
-        for <linux-media@vger.kernel.org>; Mon, 02 May 2022 09:37:50 -0700 (PDT)
+        with ESMTP id S1352435AbiEBRHt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 May 2022 13:07:49 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8B7525F7;
+        Mon,  2 May 2022 10:04:19 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id u3so20345747wrg.3;
+        Mon, 02 May 2022 10:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JaejlDfj0uy9dkJeeagJEWX0/Sis0ZiAGo/I1Cyla8w=;
-        b=WJ14jFIJZIdqObfgPXjsBsWmhqzPN5JNkavdyclcrjJvsiZMlKFrcxW82UKBOKg1Kt
-         +FyDEMWQJLDovDeCeOC7uNufANhJwlQ3HGaAmUM8PD8QWue6I5FD2dl2byPzAYnQlbZT
-         1cFPbuBXiU+xID11jsSFtSTxaemQaed+J9VZrU7HrUImIBhc0ZWXbAwlimB4YDWbYXAZ
-         BIqdUTzQvGbtjWRv1nOZTP8ZrA2jOBZt2ADK+xok8RzzOzmtHyvCAsgiYiOLK9IAOuex
-         G6KX9NjweCQ+WmEDsvJ3zeqmrC5ueLUwluvFRCmkoAhT411SV3lUfs3KI3mu03Opg0B4
-         du0w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=IKIkKWLuV1OGwYFULnAsOkM2G0PGs69FkOVI5N/cNnw=;
+        b=E00mffjDjTe6c/+9iDlEB1wdjEcT0U7DrFgxMpBPQJx9s+IQ4i+hMTICCKe1dASuRK
+         vv17Che0ajGuui4mx+K4r1+z9SF2TndTWwcLkPj7BMuHQVSLA/G8SdWC1WOJcaezXcEO
+         b/Tooz0sFb9G1wLn4RiJVFlcskkBXXUmyjKYwz7a9+TwyRGdWnAuwzUf0fCiUkO4ygoB
+         YD8aLEPqcUpn/YjO2ONOe5YijCPdvSc8VQbjgldKdr1xt9IDzvQxyEeVTIAnEu+JSpYf
+         STMZn12f6RylbjtgqkIXpQn6ujutZoG6Wz/zFfehbOoE6scGhaR9O9vV+mvz4mPPLlYt
+         5d8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JaejlDfj0uy9dkJeeagJEWX0/Sis0ZiAGo/I1Cyla8w=;
-        b=chZNj8D96bX1pZhZMdI/JqpsTL9iBH0/TiIlQQGCRKJiLTaufhBde8SRZOzBSb8i1i
-         p29LCa5/5sVRxNI+wq53C4RZVtwHXFWBzBv9bFhZFojDmEHNn/SQY5uEtSMJ249LN2Ss
-         5fOZc1/skcPjD/QL3S1pjRvJUyahI9/mD/YB+a49Z1ImQkdCYQE5OJ8XDaT6yjmY7V4q
-         sXnN23OkMojO7WsVbGhE2tIxzADhtO1J5yqDQ4ZrfHeZKX5Fe2Wq3ptmID9mg7IszBiZ
-         jadDk8hdVIBPi9t/rnpCTuN+6thxqnrqvASk0jnLofPUiY69U3tcuF05fVBcj+griNum
-         wn5w==
-X-Gm-Message-State: AOAM530ToOFjANFvRF0UBzhvJFVbQNce71Ari/TCmZvO4UbfxzJrQctV
-        E6JWMvJ+LAOotxtIctSPz/g=
-X-Google-Smtp-Source: ABdhPJynMfTwX3SfWHMTUt/qZtPV8EjvjXV8D1iGxBM93doCrtHO7arJvRfSWJC8eKAagR1WU/LPWA==
-X-Received: by 2002:a05:600c:25d2:b0:394:2db5:bc32 with SMTP id 18-20020a05600c25d200b003942db5bc32mr10549461wml.39.1651509469475;
-        Mon, 02 May 2022 09:37:49 -0700 (PDT)
-Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
-        by smtp.gmail.com with ESMTPSA id p14-20020adfaa0e000000b0020c5253d8f6sm7294694wrd.66.2022.05.02.09.37.48
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IKIkKWLuV1OGwYFULnAsOkM2G0PGs69FkOVI5N/cNnw=;
+        b=LYe8c2OnNbN5bKg7ZYsNSWx+DdbHZ0P7nHGXjFeRl9/bJdbRtoRC2Sgu/B8EjQ+Bn+
+         h25GEG/dSihhenSw9d4t+nWvXx3Q5mz+YHgoOkPTxW79EKK+RBB8oh8LLOX3gOt1JqAm
+         JMrRutjwuNfK/0WB5cTmGqyqRdZ3VEpKSGyG/emww5iVTcqooCjyYzfcraRYFL3Kb7Ce
+         HEkkCJDAH4OLUcdX5LMAOoX/XXXdwpfkAzW0OYpSZS18iqR8oX7ZvQyN2Fw8h1sjgrXX
+         vKtQHCStvvXdizp4shFdYXa1Yo+DbJCMy/L6RYdD5OE6svyPgU8ZD8UyA8CsN1CQyDOG
+         4Leg==
+X-Gm-Message-State: AOAM532h1RZhyV9puV9D/W+RvpPmb5EixiCQ+Fb8XB4lB2xO891ZFEtZ
+        zNkKoTfh3/MNd9iVUzQwI+I=
+X-Google-Smtp-Source: ABdhPJyY68uLuAzWuSiv8NzwPVrip8vAdDKoe4nwXxnPu/iAX4m8EhrXazWqZbj5vHpF7sAHIxdztA==
+X-Received: by 2002:a5d:5885:0:b0:20c:7048:2951 with SMTP id n5-20020a5d5885000000b0020c70482951mr1354652wrf.28.1651511058007;
+        Mon, 02 May 2022 10:04:18 -0700 (PDT)
+Received: from orome ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id k8-20020adfc708000000b0020c5253d8easm9375256wrg.54.2022.05.02.10.04.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 09:37:48 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     daniel@ffwll.ch, jason@jlekstrand.net, daniels@collabora.com,
-        skhawaja@google.com, maad.aldabagh@amd.com, sergemetral@google.com,
-        sumit.semwal@linaro.org, gustavo@padovan.org,
-        Felix.Kuehling@amd.com, alexander.deucher@amd.com,
-        tzimmermann@suse.de, tvrtko.ursulin@linux.intel.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH 15/15] drm/amdgpu: user fence proof of concept
-Date:   Mon,  2 May 2022 18:37:22 +0200
-Message-Id: <20220502163722.3957-16-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220502163722.3957-1-christian.koenig@amd.com>
-References: <20220502163722.3957-1-christian.koenig@amd.com>
+        Mon, 02 May 2022 10:04:16 -0700 (PDT)
+Date:   Mon, 2 May 2022 19:04:13 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Cai Huoqing <cai.huoqing@linux.dev>
+Cc:     Mikko Perttunen <cyndis@kapsi.fi>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH v2 0/4] drm/nvdla: Add driver support for NVDLA
+Message-ID: <YnAPDRZMc88cDdYS@orome>
+References: <20220426060808.78225-1-cai.huoqing@linux.dev>
+ <YmqgailZKIuY7zTZ@orome>
+ <beacfd71-ebd0-7fde-187f-34b7a42a47de@kapsi.fi>
+ <20220429032810.GA10104@chq-T47>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="xESg3apyTC1nCRXH"
+Content-Disposition: inline
+In-Reply-To: <20220429032810.GA10104@chq-T47>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -77,172 +80,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just some hack to test the functionality, not a real implementation of
-the interface.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-resv.c                    |  3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        | 28 ++++++++++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  2 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  9 ++++--
- 5 files changed, 34 insertions(+), 10 deletions(-)
+--xESg3apyTC1nCRXH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index da667c21ad55..e18efb21c452 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -286,7 +286,8 @@ void dma_resv_add_fence(struct dma_resv *obj, struct dma_fence *fence,
- 	/* Drivers should not add containers here, instead add each fence
- 	 * individually.
- 	 */
--	WARN_ON(dma_fence_is_container(fence));
-+	//WARN_ON(dma_fence_is_container(fence));
-+
- 
- 	/* User fences must be added using DMA_RESV_USAGE_USER */
- 	WARN_ON(test_bit(DMA_FENCE_FLAG_USER, &fence->flags) !=
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 95eeab527ca9..299ab8e50c42 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -453,6 +453,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
- 	struct amdgpu_vm *vm = &fpriv->vm;
- 	struct amdgpu_bo_list_entry *e;
- 	struct drm_gem_object *obj;
-+	long timeout = HZ / 10;
- 	struct amdgpu_bo *gds;
- 	struct amdgpu_bo *gws;
- 	struct amdgpu_bo *oa;
-@@ -476,6 +477,17 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
- 			return r;
- 	}
- 
-+	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
-+		struct dma_resv *resv = e->bo->tbo.base.resv;
-+
-+		timeout = dma_resv_wait_timeout(resv, DMA_RESV_USAGE_USER,
-+						true, timeout);
-+		if (unlikely(timeout < 0))
-+			return timeout;
-+		if (unlikely(timeout == 0))
-+			return -ETIME;
-+	}
-+
- 	/* Get userptr backing pages. If pages are updated after registered
- 	 * in amdgpu_gem_userptr_ioctl(), amdgpu_cs_list_validate() will do
- 	 * amdgpu_ttm_backend_bind() to flush and invalidate new pages
-@@ -516,7 +528,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
- 			return r;
- 
- 		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
--			r = drm_exec_prepare_obj(&p->exec, &e->bo->tbo.base, 2);
-+			r = drm_exec_prepare_obj(&p->exec, &e->bo->tbo.base, 3);
- 			drm_exec_break_on_contention(&p->exec);
- 			if (unlikely(r))
- 				return r;
-@@ -527,7 +539,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
- 
- 		if (p->uf_bo) {
- 			r = drm_exec_prepare_obj(&p->exec, &p->uf_bo->tbo.base,
--						 2);
-+						 3);
- 			drm_exec_continue_on_contention(&p->exec);
- 			if (unlikely(r))
- 				return r;
-@@ -1160,6 +1172,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 	struct drm_sched_entity *entity = p->entity;
- 	struct amdgpu_bo_list_entry *e;
- 	struct drm_gem_object *gobj;
-+	struct dma_fence *dummy;
- 	struct amdgpu_job *job;
- 	unsigned long index;
- 	uint64_t seq;
-@@ -1191,6 +1204,11 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 	}
- 
- 	p->fence = dma_fence_get(&job->base.s_fence->finished);
-+	dummy = dma_fence_merge(p->fence, dma_fence_get_stub(true));
-+	if (!dummy) {
-+		r = -ENOMEM;
-+		goto error_abort;
-+	}
- 
- 	amdgpu_ctx_add_fence(p->ctx, entity, p->fence, &seq);
- 	amdgpu_cs_post_dependencies(p);
-@@ -1214,11 +1232,13 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 
- 	drm_exec_for_each_duplicate_object(&p->exec, index, gobj) {
- 		ttm_bo_move_to_lru_tail_unlocked(&gem_to_amdgpu_bo(gobj)->tbo);
--		dma_resv_add_fence(gobj->resv, p->fence, DMA_RESV_USAGE_WRITE);
-+		dma_resv_add_fence(gobj->resv, p->fence, DMA_RESV_USAGE_KERNEL);
-+		dma_resv_add_fence(gobj->resv, dummy, DMA_RESV_USAGE_USER);
- 	}
- 	drm_exec_for_each_locked_object(&p->exec, index, gobj) {
- 		ttm_bo_move_to_lru_tail_unlocked(&gem_to_amdgpu_bo(gobj)->tbo);
--		dma_resv_add_fence(gobj->resv, p->fence, DMA_RESV_USAGE_WRITE);
-+		dma_resv_add_fence(gobj->resv, p->fence, DMA_RESV_USAGE_KERNEL);
-+		dma_resv_add_fence(gobj->resv, dummy, DMA_RESV_USAGE_USER);
- 	}
- 
- 	mutex_unlock(&p->adev->notifier_lock);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index b03663f42cc9..bd334f5fd64f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2655,7 +2655,7 @@ static const struct drm_driver amdgpu_kms_driver = {
- 	    DRIVER_ATOMIC |
- 	    DRIVER_GEM |
- 	    DRIVER_RENDER | DRIVER_MODESET | DRIVER_SYNCOBJ |
--	    DRIVER_SYNCOBJ_TIMELINE,
-+	    DRIVER_SYNCOBJ_TIMELINE | DRIVER_USER_FENCE,
- 	.open = amdgpu_driver_open_kms,
- 	.postclose = amdgpu_driver_postclose_kms,
- 	.lastclose = amdgpu_driver_lastclose_kms,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index e5c8e72a9485..6705287887e9 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -628,7 +628,7 @@ static void amdgpu_vm_pt_next_dfs(struct amdgpu_device *adev,
-  */
- int amdgpu_vm_lock_pd(struct amdgpu_vm *vm, struct drm_exec *exec)
- {
--	return drm_exec_prepare_obj(exec, &vm->root.bo->tbo.base, 4);
-+	return drm_exec_prepare_obj(exec, &vm->root.bo->tbo.base, 5);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index c5b2417adcc6..2e0f059b9d12 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7627,12 +7627,11 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
- 		DRM_ERROR("%p bind failed\n", rbo);
- 		goto error_unpin;
- 	}
-+	amdgpu_bo_unreserve(rbo);
- 
- 	r = drm_gem_plane_helper_prepare_fb(plane, new_state);
- 	if (unlikely(r != 0))
--		goto error_unpin;
--
--	amdgpu_bo_unreserve(rbo);
-+		goto error_reserve;
- 
- 	afb->address = amdgpu_bo_gpu_offset(rbo);
- 
-@@ -7665,6 +7664,10 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
- 
- 	return 0;
- 
-+error_reserve:
-+	if (WARN_ON(amdgpu_bo_reserve(rbo, true)))
-+		return r;
-+
- error_unpin:
- 	amdgpu_bo_unpin(rbo);
- 
--- 
-2.25.1
+On Fri, Apr 29, 2022 at 11:28:10AM +0800, Cai Huoqing wrote:
+> On 28 4=E6=9C=88 22 18:56:07, Mikko Perttunen wrote:
+> > On 4/28/22 17:10, Thierry Reding wrote:
+> > > On Tue, Apr 26, 2022 at 02:07:57PM +0800, Cai Huoqing wrote:
+> > > > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
+> > > > which is integrated into NVIDIA Jetson AGX Xavier,
+> > > > so add driver support for this accelerator."
+> > >=20
+> > > Hi,
+> > >=20
+> > > nice to see this work going on. For subsequent revisions, can you ple=
+ase
+> > > also Cc the Tegra mailing list (linux-tegra@vger.kernel.org) as well =
+as
+> > > the Tegra platform maintainers (that's Jon Hunter and myself). This w=
+ill
+> > > make sure that more people with an interest in this will see your wor=
+k.
+> > > Not everyone follows dri-devel, linaro-mm-sig or linux-media.
+> > >=20
+> > > Thanks,
+> > > Thierry
+> >=20
+> > From a quick glance it looks like this driver pokes DLA hardware direct=
+ly
+> > which is not the intended programming model on Tegra hardware (there are
+> > Falcon microcontrollers that offload task scheduling and synchronization
+> > from the CPU). The hardware is also behind the Host1x bus so a simple
+> > platform device is not sufficient.
+> >=20
+> > Was this driver developed against some platform with OpenDLA hardware (=
+i.e.
+> > not Tegra)?
+> >=20
+> > If so, we'd need to verify if the hardware matches the hardware in Tegr=
+a194.
+> > Also, this driver may not be ideal for Tegra platforms since we would l=
+ack
+> > the hardware scheduling and synchronization facilities. It is likely
+> > necessary to have separate drivers for OpenDLA and Tegra's DLA integrat=
+ion.
+> >=20
+> > Thanks,
+> > Mikko
+> >=20
+> Tegra DLA seems to work with a slave coprocessor, the host driver just
+> impelement message queue, share buffer, notification... The hardware
+> detail of DLA maybe in the slave driver(not linux OS?).
+>=20
+> Sure, This driver just support for the SOCs or FPGAs that OPENDLA
+> inside. I will change this kind of description "integrated into NVIDIA Je=
+tson AGX Xavier"
+> this driver dont support for Tegra directly.
 
+Yes, I think it would be good to make it clear that this is not going to
+work with the Tegra instantiations so that people don't get confused.
+
+I think it would be ideal, though, if we could reuse as much of this
+driver as possible to work with other instantiations. The only reference
+to OpenDLA that I can find and which seems somehow relevant to this is
+here:
+
+	https://github.com/SCLUO/ITRI-OpenDLA
+
+Is that the version that you're using? Or is the version that you're
+using at least compatible with that one? Apart from that and the Tegra
+instantiations, are you aware of any other derivatives that we need to
+account for? I'm worried that this might fragment to the point where it
+becomes unmaintainable in upstream Linux.
+
+Even if this doesn't concern the Tegra instantiation, I think most of my
+other comments remain valid. Things like global variables will get in
+the way of multiple FPGA instantiations as well, for example.
+
+You will also need to provide the device tree bindings for the
+particular instantiation that you're working on. Typically this would be
+identified by a vendor-specific compatible string for your particular
+board, but if it stems from a "canonical" FPGA mapping, matching on that
+compatible string might also be an option. In either case, when you send
+out the DT bindings, please include the devicetree@vger.kernel.org
+mailing list so that they can be properly reviewed.
+
+Thierry
+
+--xESg3apyTC1nCRXH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJwDwoACgkQ3SOs138+
+s6HQBA/9G4mT1YRxO1XmbGtYRMlb5WwgJE5DE02upNSHm7Ixb2KSRxQqcdLPG/rQ
+ip5zcasTrh9hLKISslL9+mRphslV8obFPSF9tDhQ/SINiIRM/9CYvI4vkr/qe38t
+C6GU4tlQwn/IJIy1i4jaDVxdFEtQzXEAucfG1lLee1L46jYUpykk3cTKFCZM8xND
+HTrWnKdCUsjb9it08g68ItVxkq2v5lG2HKT+j4LJeEA82i4iS34/H42QOyQ7yQi9
+0CsRDMq/BC7Nu8bSCKzwMAp6FiO9ZSXBPb5Bvpy1gbZRKMX0OvQe2u0/wk2DI0zG
+G70ioJZUh8lq7Dtx6TnFTaYskxKFipHfni4oBOMXD4GQJ9YPlPG5NMNTDPLvL+Co
+OqwgDr3EFKee6efZwsJbzYF+2sculK4syW9OHZDvP8RuhqW2qCiWBBQxqj9SY/hB
+LJ33BUv7iCer3fpSORrmmT2rNRzCw0xqiOWniofQTdKZUDtphrjwxW9wT+FbnFNw
+/mrXZGsB8UY8sKQyhR3FDL74g6QYb9wrpq9mJ4jKD/Py3Yd00v00GjgeDHmb7V/d
+weu2Nrx1NG83vW4rBqGd4qnOZbMQtEesVgaa3SYmH5lyJSzAnCB9QT5PPR3xL8o3
+96I0sU2UqMHqWjCMqKFLD8886Oovi3Jo4uuXONTL95ZIDoScJaw=
+=Kefv
+-----END PGP SIGNATURE-----
+
+--xESg3apyTC1nCRXH--
