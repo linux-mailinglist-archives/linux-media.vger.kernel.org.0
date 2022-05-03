@@ -2,86 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32DB451856D
-	for <lists+linux-media@lfdr.de>; Tue,  3 May 2022 15:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64803518580
+	for <lists+linux-media@lfdr.de>; Tue,  3 May 2022 15:32:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236143AbiECNbR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 May 2022 09:31:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50590 "EHLO
+        id S236188AbiECNfw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 May 2022 09:35:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232840AbiECNbP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 May 2022 09:31:15 -0400
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F0175F76;
-        Tue,  3 May 2022 06:27:43 -0700 (PDT)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id EA4483C00BB;
-        Tue,  3 May 2022 15:27:41 +0200 (CEST)
-Received: from lxhi-065 (10.72.94.4) by hi2exch02.adit-jv.com (10.72.92.28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Tue, 3 May
- 2022 15:27:41 +0200
-Date:   Tue, 3 May 2022 15:27:36 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
-        Michael Rodin <mrodin@de.adit-jv.com>,
-        Eugen Friedrich <efriedrich@de.adit-jv.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [RFC] media: renesas: vsp1: Add VSPD underrun detection & tracing
-Message-ID: <20220503132736.GA10237@lxhi-065>
-References: <1650962227-14281-1-git-send-email-erosca@de.adit-jv.com>
+        with ESMTP id S232840AbiECNfv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 May 2022 09:35:51 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C91AE19009;
+        Tue,  3 May 2022 06:32:15 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: benjamin.gaignard)
+        with ESMTPSA id 35C8E1F443C6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1651584734;
+        bh=Yi4Uy3F9RG9QTJLxf0BYd+sKJm9SOsJsPZxDl2eQp+c=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=YAhIWzoJSCAXq5It7jKfdawVuvvInO28kuCcMsjmB6x+77mzHXZnyHilP2X+kVkxI
+         IG9gajNggO4Y3/UONQQHveTQUWtDnJhYB8QO8n+/AYqw2IShuvKGAChfEE2P/jwF8t
+         3JXnCyn9gdOp9d6Al9wIMsZxvDyjLx5oCRrHIjs49MkoAZFpJ9USC2wMGHoHgRoQ5F
+         ffNYdTmmk3rTfsEZkalCVTIB80UOySDdGfQ9MO0652hUW4fdm0lThUOn2FdBqTL3PS
+         9r5lXAxgJA82p2kER/89vTPTsz2fvGSksqKjzg5G4f5HdRSFzNNvU+X7H/tcuS4WjL
+         /qqESlYcvrGPg==
+Message-ID: <010be970-2463-f65b-dbef-0a2784530981@collabora.com>
+Date:   Tue, 3 May 2022 15:32:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1650962227-14281-1-git-send-email-erosca@de.adit-jv.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.94.4]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2] media: hantro: HEVC: unconditionnaly set
+ pps_{cb/cr}_qp_offset values
+Content-Language: en-US
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        jon@nanocrew.net, Adam Ford <aford173@gmail.com>,
+        Collabora Kernel ML <kernel@collabora.com>
+References: <20220426135034.694655-1-benjamin.gaignard@collabora.com>
+ <CAAEAJfAvUjtR4w0uaZ5yFueXu8jNbH-gmWUOEZxoJH78771RSA@mail.gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAAEAJfAvUjtR4w0uaZ5yFueXu8jNbH-gmWUOEZxoJH78771RSA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Di, Apr 26, 2022 at 10:37:07 +0200, Eugeniu Rosca wrote:
-> A barely noticeable (especially if hardly reproducible) display flicker
-> may not be the biggest concern in the development environment. However,
-> an automotive OEM will not only notice it, but will also be haunted by
-> its phenomenon/nature till it is understood in the greatest detail and
-> ultimately eradicated, to avoid impairing user experience.
-> 
-> Troubleshooting the above without the right tools becomes a nightmare.
-> 
-> Since VSPD underruns may indeed cause [1] display flicker, we believe
-> that having a minimal/lightweight support for detecting and logging
-> such events would be extremely beneficial. Obviously, this only applies
-> to VSP2 modules having an interface to DU (i.e. not mem2mem).
-> 
-> This implementation is heavily inspired by Koji Matsuoka's work [2-3],
-> but has been refactored to hopefully become production/mainline-friendly
-> (the original feature is intended for the development environment only).
-> 
-> [1] https://lore.kernel.org/linux-renesas-soc/20220421161259.GA2660@lxhi-065
-> [2] https://github.com/renesas-rcar/linux-bsp/commit/3469001c3098
->     ("v4l: vsp1: Add underrun hung-up workaround")
-> [3] https://github.com/renesas-rcar/linux-bsp/commit/12ea79975a10
->     ("v4l: vsp1: Add underrun debug messege option")
-> 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Cc: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
 
-Superseded by https://lore.kernel.org/linux-renesas-soc/1651584010-10156-1-git-send-email-erosca@de.adit-jv.com
+Le 03/05/2022 à 15:12, Ezequiel Garcia a écrit :
+> Hi Benjamin,
+>
+> On Tue, Apr 26, 2022 at 10:50 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>> Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
+>> register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
+>> flag value.
+> I would say we need more justification why this is correct, or at least
+> checking what the reference vendor implementation is doing (and mentioning
+> in the commit description so we can track it in the future).
 
-Best regards,
-Eugeniu
+Yes that is what the vendor implementation is doing.
+
+>
+>> This fix CAINIT_G_SHARP_3 test in fluster.
+>>
+> This could sound like a tad a pedantic detail, but I'd say it's
+> important we stop refering to tests
+> as "fluster tests", and instead say something more correct as "HEVC
+> conformance test CAINIT_G_SHARP_3".
+
+As you want.
+
+>
+> Also, when we are fixing conformance tests, let's please add the
+> Fluster score (in this case, I think it's
+> OK to refer to Fluster).
+
+We are fixing bugs in parallel in the driver, the uAPI and GStreamer
+so fluster score evolution reflect that progression and maybe not only
+what this patch is fixing.
+The best I could says here is that patch fix HEVC conformance test
+CAINIT_G_SHARP_3 so fluster score increase by one.
+
+Regards,
+Benjamin
+
+>
+> PS: Same comments apply to patch "media: hantro: HEVC: Fix reference
+> frames management".
+>
+> Thanks,
+> Ezequiel
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
+>>   1 file changed, 2 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> index 6deb31b7b993..503f4b028bc5 100644
+>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> @@ -194,13 +194,8 @@ static void set_params(struct hantro_ctx *ctx)
+>>                  hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
+>>          }
+>>
+>> -       if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
+>> -               hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+>> -               hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+>> -       } else {
+>> -               hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
+>> -               hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
+>> -       }
+>> +       hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+>> +       hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+>>
+>>          hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
+>>          hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
+>> --
+>> 2.32.0
+>>
