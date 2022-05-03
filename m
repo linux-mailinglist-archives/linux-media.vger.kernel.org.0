@@ -2,116 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3788051903D
-	for <lists+linux-media@lfdr.de>; Tue,  3 May 2022 23:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64CA5519162
+	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 00:28:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240407AbiECV2j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 May 2022 17:28:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41934 "EHLO
+        id S243690AbiECWZg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 May 2022 18:25:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242971AbiECV2Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 May 2022 17:28:25 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28FD7424B1;
-        Tue,  3 May 2022 14:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651613073; x=1683149073;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VquISUrDva1ii+/TThhn+PnxLPxmCUEioQRKIcqao2w=;
-  b=To/CT909OFhDgWjFBuFNxp158SY9LsEy6ufrES/EN6CLAg9YpSLdrbj1
-   7NowfGCsR9nZgXtQCLg7vGxUTws/CMExWrey+MXYcRwLziYqABHOyTbhb
-   triLxlTd5EJlA/dx1ortCI1wIJjuA7nul/KeKIhtB5rMVw4siAFOZ5mLU
-   XKt2pKtcNn+fhEB4gS96d8HHNRKT2oqukQIcBRRvisA28z1JKihfATX5V
-   SNSaoFAPm0PvIJz8FP3Fa2pXwL/biRpwniD35VBLAgst1agxQbMUH/Zd7
-   o1QSkfoIpMYsb9viux3eDMlHJB0jSGiEVD8vh1yWjwbVJLGA0XEVpiiRp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="255056712"
-X-IronPort-AV: E=Sophos;i="5.91,196,1647327600"; 
-   d="scan'208";a="255056712"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2022 14:24:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,196,1647327600"; 
-   d="scan'208";a="889153341"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 May 2022 14:24:27 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nm00Q-000Ao1-CT;
-        Tue, 03 May 2022 21:24:26 +0000
-Date:   Wed, 4 May 2022 05:23:46 +0800
-From:   kernel test robot <lkp@intel.com>
+        with ESMTP id S243649AbiECWZa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 May 2022 18:25:30 -0400
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A4F640A26;
+        Tue,  3 May 2022 15:21:57 -0700 (PDT)
+Received: by mail-oi1-f175.google.com with SMTP id v65so19617920oig.10;
+        Tue, 03 May 2022 15:21:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=OSLTDCz5wo2JoJLvzX6uS8zgmzcMDJX9Q7s2zJJuaxA=;
+        b=IK7+9NrERJiwVThbT5W4NKGMf3QL62lRTf7TRLZChOjBhl30usCNIGSi4vCeR61+jh
+         EDgMG7OLSk7nnGa+a8R4gaN3BPU0GpqTsoMTMcbBBSrn2NMlz1RT9w70Kp5o1U+LXk2N
+         ES31TLwoDi64166alXcaNYgV1MaGRl8M7i2efKNMQnnJiOSY2+/DgPwbZGbBw7rN2wPB
+         8JrMdz9GqVxeO7kWuC5Gng3SVogVQcipM3XoayZvxroDpgkw9uHWlE4DAtswlbTrodDA
+         8vUQ/pImX+38YT+ie6KpIgd9VALZvHQU6fzXEwz/gYl296N8dGrI7/MLCBGIgqpYiXpV
+         PJBg==
+X-Gm-Message-State: AOAM5315xf6PH57r8hWhVMMebxJmBQDc7pTpVPYtyEVT0g27BWxIVwZD
+        kK6KBDv5cnyzCg8BiWgp9dZwS4yB4w==
+X-Google-Smtp-Source: ABdhPJx5INNn38v4TDM5wD8bxSFNca1P0/aa3o058Xc7kDhuig9wsXCfl69wBBxg+VrUV1x9E+mPfQ==
+X-Received: by 2002:a05:6808:1441:b0:325:7604:4ec1 with SMTP id x1-20020a056808144100b0032576044ec1mr2746356oiv.1.1651616516541;
+        Tue, 03 May 2022 15:21:56 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z17-20020a05683020d100b0060603221244sm4497062otq.20.2022.05.03.15.21.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 May 2022 15:21:56 -0700 (PDT)
+Received: (nullmailer pid 139792 invoked by uid 1000);
+        Tue, 03 May 2022 22:21:51 -0000
+From:   Rob Herring <robh@kernel.org>
 To:     Quentin Schulz <foss+kernel@0leil.net>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org, shawnx.tu@intel.com,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Quentin Schulz <quentin.schulz@theobroma-systems.com>
-Subject: Re: [PATCH 2/3] media: ov5675: add device-tree support
-Message-ID: <202205040514.C0uKmI1p-lkp@intel.com>
-References: <20220503154259.1166203-2-foss+kernel@0leil.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220503154259.1166203-2-foss+kernel@0leil.net>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Cc:     linux-kernel@vger.kernel.org, mchehab@kernel.org,
+        devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+        robh+dt@kernel.org, linux-media@vger.kernel.org,
+        shawnx.tu@intel.com
+In-Reply-To: <20220503154259.1166203-1-foss+kernel@0leil.net>
+References: <20220503154259.1166203-1-foss+kernel@0leil.net>
+Subject: Re: [PATCH 1/3] media: dt-bindings: ov5675: document YAML binding
+Date:   Tue, 03 May 2022 17:21:51 -0500
+Message-Id: <1651616511.172886.139791.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Quentin,
+On Tue, 03 May 2022 17:42:57 +0200, Quentin Schulz wrote:
+> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> 
+> This patch adds documentation of device tree in YAML schema for the
+> OV5675 CMOS image sensor from Omnivision.
+> 
+> Cc: Quentin Schulz <foss+kernel@0leil.net>
+> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> ---
+>  .../bindings/media/i2c/ovti,ov5675.yaml       | 137 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 138 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+> 
 
-Thank you for the patch! Perhaps something to improve:
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v5.18-rc5 next-20220503]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+yamllint warnings/errors:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Quentin-Schulz/media-dt-bindings-ov5675-document-YAML-binding/20220503-234500
-base:   git://linuxtv.org/media_tree.git master
-config: x86_64-randconfig-a011-20220502 (https://download.01.org/0day-ci/archive/20220504/202205040514.C0uKmI1p-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 363b3a645a1e30011cc8da624f13dac5fd915628)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1623110421bc0b9cec990a62a40655076de1e71c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Quentin-Schulz/media-dt-bindings-ov5675-document-YAML-binding/20220503-234500
-        git checkout 1623110421bc0b9cec990a62a40655076de1e71c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpio/ drivers/leds/ drivers/media/i2c/
+dtschema/dtc warnings/errors:
+./Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/media/i2c/ovti,ov5675.yaml#
+Error: Documentation/devicetree/bindings/media/i2c/ovti,ov5675.example.dts:30.39-40 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/media/i2c/ovti,ov5675.example.dtb] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1401: dt_binding_check] Error 2
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+doc reference errors (make refcheckdocs):
 
-All warnings (new ones prefixed by >>):
+See https://patchwork.ozlabs.org/patch/
 
->> drivers/media/i2c/ov5675.c:1383:34: warning: unused variable 'ov5675_of_match' [-Wunused-const-variable]
-   static const struct of_device_id ov5675_of_match[] = {
-                                    ^
-   1 warning generated.
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-vim +/ov5675_of_match +1383 drivers/media/i2c/ov5675.c
+pip3 install dtschema --upgrade
 
-  1382	
-> 1383	static const struct of_device_id ov5675_of_match[] = {
-  1384		{ .compatible = "ovti,ov5675", },
-  1385		{ /* sentinel */ },
-  1386	};
-  1387	MODULE_DEVICE_TABLE(of, ov5675_of_match);
-  1388	
+Please check and re-submit.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
