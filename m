@@ -2,165 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AFA35184EB
-	for <lists+linux-media@lfdr.de>; Tue,  3 May 2022 15:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9610951853A
+	for <lists+linux-media@lfdr.de>; Tue,  3 May 2022 15:13:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235746AbiECNII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 May 2022 09:08:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48526 "EHLO
+        id S235990AbiECNQo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 May 2022 09:16:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233312AbiECNII (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 May 2022 09:08:08 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A62213EB3;
-        Tue,  3 May 2022 06:04:36 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 6F4981F4430A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1651583074;
-        bh=hkr05uuJPKXMb5S1cAIIku4fMqp84TgWb1SiORt8AWI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=m48zmX1FqcMp7Rmqpr8fVbb9KjjIepgPaqdA+qTeJG1JniCd93QZaj+rrVM1AW08B
-         8t5p7yV2S1h7D6Lfw0C4uKSDt5ont1dXw71XXyNiO1Z6QRTyo54e/+sdPcRWSvom5W
-         fAEz5wylc3kDOz4DVTKe7XIgtRT6Ew2qqAhERaWIbMELnSG3hSzXtZ/fj1OMAZCgj5
-         T8e/GGkL8faSvMssJTHvybmsgWjMkUAW/nvl7Yc6TplYxdNblOxigeN7j5klC09ciw
-         il1ge3ft0h7Dn2f7gv+G1xkiC4EvkLrH8RpEqxjUl8Vtx/8KNuM3U6y1RmdVNndjhA
-         BFD3xaYr1phVA==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        jon@nanocrew.net, aford173@gmail.com, kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH] media: hantro: HEVC: Fix reference frames management
-Date:   Tue,  3 May 2022 15:04:22 +0200
-Message-Id: <20220503130422.622682-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S235874AbiECNQo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 May 2022 09:16:44 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B192ED6C
+        for <linux-media@vger.kernel.org>; Tue,  3 May 2022 06:13:09 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id p18so19785638edr.7
+        for <linux-media@vger.kernel.org>; Tue, 03 May 2022 06:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m9EJXKOaKjDDNKQv1gqS5JQ7TFaPX71hGDmkIvDsda0=;
+        b=jFHCvpg7kJ7bmVCanX+9zqu46ofKvbl/Xb/SqqfkaxIx/MLwrPEJg27OzILpJiK3qZ
+         clfA5sgrVh2Kl2tk4tnXaUwgNoSJR/UxnYJtAMAVNYN46DEXN2H5Yxk2XMCg10vUFo2W
+         flWDfcAqisasCl/8EA5Sqq3PU4sVOVUSVBhgGhP0qVURTSGw2Pyn2Y1AiCt4CyQFVy3t
+         Hhq487eMpjhKhV8B69S3+eJcbhkRiXS5GJJYz2gHKcJoeFijCo1oWCm31Ksvl4l+zTiJ
+         UyGrqOsLINbNMXAMr5Wp9Gy2eGkXHGRw/kU5XL+C9hWsBV0zJuPeVpgs97XjYg4MPeMz
+         8k+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m9EJXKOaKjDDNKQv1gqS5JQ7TFaPX71hGDmkIvDsda0=;
+        b=x9IgxWRbpFVjohfZgxFU3HuNszHwDFy+ZiPgwgmqWyhOvXGozJyRXiVPDrOOHCbyPA
+         XZtPKkLnyIPT+zmkBak+Qv9aj2FYrsklcYmS9sNiDH21mIo8QAhsu3EL+47Z5NYN3K0q
+         nHdb/D8jAujg5+5bs9/9d12W8hg8AJNYqRim6lXbxCCckQMSuaIFERvNaSEVSBRGX/Fv
+         0ZwzOrAchqJbTcJrh57rQ/vIoWagLilKXLV60UUre/DhTuwkqOEspCaKiswncV1b+GAa
+         1MtZKgPr4bj283f+zM99Wyx/sMxWgOARvCf3q0I/9Kw3JDNUN0UxjLMXy9a5t2/nj0Nf
+         F5wg==
+X-Gm-Message-State: AOAM531n4YcQCnP1f4xZEE0F1e5YOLKonjaQjIHI1tm1f4hN6+4a/10O
+        O6ZSjSz63IEok6L3nPmosytmqIvlIXC4kncWYMV1cRFAlYubOw==
+X-Google-Smtp-Source: ABdhPJxXwCm9IHHV3kTuM6DOq/lBLPdzGlFlGxt6I/BTiZE2k82vcX4wZYbW9ztH1iJfXbCDL0KsRXOdo34VWfoK7Fc=
+X-Received: by 2002:a05:6402:2c4:b0:425:ac5c:4376 with SMTP id
+ b4-20020a05640202c400b00425ac5c4376mr18103055edx.10.1651583588354; Tue, 03
+ May 2022 06:13:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220426135034.694655-1-benjamin.gaignard@collabora.com>
+In-Reply-To: <20220426135034.694655-1-benjamin.gaignard@collabora.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 3 May 2022 10:12:57 -0300
+Message-ID: <CAAEAJfAvUjtR4w0uaZ5yFueXu8jNbH-gmWUOEZxoJH78771RSA@mail.gmail.com>
+Subject: Re: [PATCH v2] media: hantro: HEVC: unconditionnaly set
+ pps_{cb/cr}_qp_offset values
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        jon@nanocrew.net, Adam Ford <aford173@gmail.com>,
+        Collabora Kernel ML <kernel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-PoC shall be int the range of -2^31 to 2^31 -1
-(HEVC spec section 8.3.1 Decoding process for picture order count).
-The current way to know if an entry in reference picture array is free
-is to test if PoC = UNUSED_REF. Since UNUSED_REF is defined as '-1' that
-could lead to decode issue if one PoC also equal '-1'.
-That is the case in fluster test SLIST_B_Sony_9.
+Hi Benjamin,
 
-Change the way unused entries are managed in reference pictures array to
-avoid using PoC to detect then.
+On Tue, Apr 26, 2022 at 10:50 AM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+> Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
+> register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
+> flag value.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- .../staging/media/hantro/hantro_g2_hevc_dec.c |  6 ++---
- drivers/staging/media/hantro/hantro_hevc.c    | 27 +++----------------
- drivers/staging/media/hantro/hantro_hw.h      |  2 +-
- 3 files changed, 6 insertions(+), 29 deletions(-)
+I would say we need more justification why this is correct, or at least
+checking what the reference vendor implementation is doing (and mentioning
+in the commit description so we can track it in the future).
 
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 0a8c01ff2fa7..b7835bbf5e98 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -473,8 +473,8 @@ static int set_ref(struct hantro_ctx *ctx)
- 
- 	set_ref_pic_list(ctx);
- 
--	/* We will only keep the references picture that are still used */
--	ctx->hevc_dec.ref_bufs_used = 0;
-+	/* We will only keep the references pictures that are still used */
-+	hantro_hevc_ref_init(ctx);
- 
- 	/* Set up addresses of DPB buffers */
- 	dpb_longterm_e = 0;
-@@ -515,8 +515,6 @@ static int set_ref(struct hantro_ctx *ctx)
- 	hantro_write_addr(vpu, G2_OUT_CHROMA_ADDR, chroma_addr);
- 	hantro_write_addr(vpu, G2_OUT_MV_ADDR, mv_addr);
- 
--	hantro_hevc_ref_remove_unused(ctx);
--
- 	for (; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
- 		hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), 0);
- 		hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), 0);
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index 7d4b1d72255c..7fdec50dc853 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -25,15 +25,11 @@
- #define MAX_TILE_COLS 20
- #define MAX_TILE_ROWS 22
- 
--#define UNUSED_REF	-1
--
--static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
-+void hantro_hevc_ref_init(struct hantro_ctx *ctx)
- {
- 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
--	int i;
- 
--	for (i = 0;  i < NUM_REF_PICTURES; i++)
--		hevc_dec->ref_bufs_poc[i] = UNUSED_REF;
-+	hevc_dec->ref_bufs_used = 0;
- }
- 
- dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
-@@ -60,7 +56,7 @@ int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
- 
- 	/* Add a new reference buffer */
- 	for (i = 0; i < NUM_REF_PICTURES; i++) {
--		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF) {
-+		if (!(hevc_dec->ref_bufs_used & 1 << i)) {
- 			hevc_dec->ref_bufs_used |= 1 << i;
- 			hevc_dec->ref_bufs_poc[i] = poc;
- 			hevc_dec->ref_bufs[i].dma = addr;
-@@ -71,23 +67,6 @@ int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
- 	return -EINVAL;
- }
- 
--void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx)
--{
--	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
--	int i;
--
--	/* Just tag buffer as unused, do not free them */
--	for (i = 0;  i < NUM_REF_PICTURES; i++) {
--		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF)
--			continue;
--
--		if (hevc_dec->ref_bufs_used & (1 << i))
--			continue;
--
--		hevc_dec->ref_bufs_poc[i] = UNUSED_REF;
--	}
--}
--
- static int tile_buffer_reallocate(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 9f31cce609d6..5de558386179 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -337,9 +337,9 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
- void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
- int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
- int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
-+void hantro_hevc_ref_init(struct hantro_ctx *ctx);
- dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
- int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
--void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
- 
- static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
- {
--- 
-2.32.0
+> This fix CAINIT_G_SHARP_3 test in fluster.
+>
 
+This could sound like a tad a pedantic detail, but I'd say it's
+important we stop refering to tests
+as "fluster tests", and instead say something more correct as "HEVC
+conformance test CAINIT_G_SHARP_3".
+
+Also, when we are fixing conformance tests, let's please add the
+Fluster score (in this case, I think it's
+OK to refer to Fluster).
+
+PS: Same comments apply to patch "media: hantro: HEVC: Fix reference
+frames management".
+
+Thanks,
+Ezequiel
+
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> index 6deb31b7b993..503f4b028bc5 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -194,13 +194,8 @@ static void set_params(struct hantro_ctx *ctx)
+>                 hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
+>         }
+>
+> -       if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
+> -               hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+> -               hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+> -       } else {
+> -               hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
+> -               hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
+> -       }
+> +       hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+> +       hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+>
+>         hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
+>         hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
+> --
+> 2.32.0
+>
