@@ -2,101 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 605875183A4
-	for <lists+linux-media@lfdr.de>; Tue,  3 May 2022 13:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AFA35184EB
+	for <lists+linux-media@lfdr.de>; Tue,  3 May 2022 15:04:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234985AbiECMCf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 May 2022 08:02:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46206 "EHLO
+        id S235746AbiECNII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 May 2022 09:08:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234570AbiECMCe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 May 2022 08:02:34 -0400
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DADDD26AF2;
-        Tue,  3 May 2022 04:59:02 -0700 (PDT)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so16906355fac.7;
-        Tue, 03 May 2022 04:59:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=m2BgfrfV6RN7dJFXpZRX5XjmcB0IDcigUix/sX/LRNk=;
-        b=jjUuNdUmEw+oVao7f0IBKcntN68XNLy21vfI0uA9d8LNvlFP/2YZ6D6GIw5ixozVXf
-         3vt+ztNiNMV+F54px/cFEyWQTsPWZJ9Fol+ERSRjmusgoKKa7YQ9G7bt5abrWxQxecBh
-         eObbUuQz0YtP6niR0wIKjRJjZHLdtfPSXJZXUD4OLIt8B7zkQHnMaaWl3eq/mQEsnXLq
-         a8JUVO8cBxMyRSdpnHpy96SA/7OentSXZSnGKDnFyHbK5ODEVLR8F7DwcRIyX3Orc4xK
-         Wn1ajVtIn8Rx0bD1qtwRFySr68G7tm1GCDj4QTD9T0F80D/nLlzm7jv3C5t9AiINGzgi
-         6i9w==
-X-Gm-Message-State: AOAM533Kdb6PisL5Fc9vD5euPOwzHIOtWTLrCTocemTSPKqnAAlSEFQh
-        Nj+5tfhjptIn6HZtP2VBD0/obgy8Kg==
-X-Google-Smtp-Source: ABdhPJyzMbayNNzoGbU/8rB4uQ1K75fwFdZzWyImHucod1Bbz32viwi5J4Icfi/hbAn3VdbrZ03xgw==
-X-Received: by 2002:a05:6870:7a8:b0:e5:d471:1e82 with SMTP id en40-20020a05687007a800b000e5d4711e82mr1586718oab.138.1651579142061;
-        Tue, 03 May 2022 04:59:02 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id v15-20020a9d604f000000b006060322123esm3805591otj.14.2022.05.03.04.59.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 04:59:01 -0700 (PDT)
-Received: (nullmailer pid 3296825 invoked by uid 1000);
-        Tue, 03 May 2022 11:59:00 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Cc:     hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
-        tomi.valkeinen@ideasonboard.com, alexander.stein@ew.tq-group.com,
-        mchehab@kernel.org, devicetree@vger.kernel.org,
-        stanimir.varbanov@linaro.org, linux-media@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com, robh+dt@kernel.org
-In-Reply-To: <20220503093925.876640-8-xavier.roumegue@oss.nxp.com>
-References: <20220503093925.876640-1-xavier.roumegue@oss.nxp.com> <20220503093925.876640-8-xavier.roumegue@oss.nxp.com>
-Subject: Re: [PATCH v5 7/9] media: dt-bindings: media: Add i.MX8MP DW100 binding
-Date:   Tue, 03 May 2022 06:59:00 -0500
-Message-Id: <1651579140.647327.3296824.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        with ESMTP id S233312AbiECNII (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 May 2022 09:08:08 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A62213EB3;
+        Tue,  3 May 2022 06:04:36 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: benjamin.gaignard)
+        with ESMTPSA id 6F4981F4430A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1651583074;
+        bh=hkr05uuJPKXMb5S1cAIIku4fMqp84TgWb1SiORt8AWI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=m48zmX1FqcMp7Rmqpr8fVbb9KjjIepgPaqdA+qTeJG1JniCd93QZaj+rrVM1AW08B
+         8t5p7yV2S1h7D6Lfw0C4uKSDt5ont1dXw71XXyNiO1Z6QRTyo54e/+sdPcRWSvom5W
+         fAEz5wylc3kDOz4DVTKe7XIgtRT6Ew2qqAhERaWIbMELnSG3hSzXtZ/fj1OMAZCgj5
+         T8e/GGkL8faSvMssJTHvybmsgWjMkUAW/nvl7Yc6TplYxdNblOxigeN7j5klC09ciw
+         il1ge3ft0h7Dn2f7gv+G1xkiC4EvkLrH8RpEqxjUl8Vtx/8KNuM3U6y1RmdVNndjhA
+         BFD3xaYr1phVA==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        jon@nanocrew.net, aford173@gmail.com, kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: hantro: HEVC: Fix reference frames management
+Date:   Tue,  3 May 2022 15:04:22 +0200
+Message-Id: <20220503130422.622682-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 03 May 2022 11:39:23 +0200, Xavier Roumegue wrote:
-> Add DT binding documentation for the Vivante DW100 dewarper engine found
-> on NXP i.MX8MP SoC
-> 
-> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../devicetree/bindings/media/nxp,dw100.yaml  | 69 +++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,dw100.yaml
-> 
+PoC shall be int the range of -2^31 to 2^31 -1
+(HEVC spec section 8.3.1 Decoding process for picture order count).
+The current way to know if an entry in reference picture array is free
+is to test if PoC = UNUSED_REF. Since UNUSED_REF is defined as '-1' that
+could lead to decode issue if one PoC also equal '-1'.
+That is the case in fluster test SLIST_B_Sony_9.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Change the way unused entries are managed in reference pictures array to
+avoid using PoC to detect then.
 
-yamllint warnings/errors:
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |  6 ++---
+ drivers/staging/media/hantro/hantro_hevc.c    | 27 +++----------------
+ drivers/staging/media/hantro/hantro_hw.h      |  2 +-
+ 3 files changed, 6 insertions(+), 29 deletions(-)
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/media/nxp,dw100.example.dts:34.50-51 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/media/nxp,dw100.example.dtb] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1401: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index 0a8c01ff2fa7..b7835bbf5e98 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -473,8 +473,8 @@ static int set_ref(struct hantro_ctx *ctx)
+ 
+ 	set_ref_pic_list(ctx);
+ 
+-	/* We will only keep the references picture that are still used */
+-	ctx->hevc_dec.ref_bufs_used = 0;
++	/* We will only keep the references pictures that are still used */
++	hantro_hevc_ref_init(ctx);
+ 
+ 	/* Set up addresses of DPB buffers */
+ 	dpb_longterm_e = 0;
+@@ -515,8 +515,6 @@ static int set_ref(struct hantro_ctx *ctx)
+ 	hantro_write_addr(vpu, G2_OUT_CHROMA_ADDR, chroma_addr);
+ 	hantro_write_addr(vpu, G2_OUT_MV_ADDR, mv_addr);
+ 
+-	hantro_hevc_ref_remove_unused(ctx);
+-
+ 	for (; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
+ 		hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), 0);
+ 		hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), 0);
+diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+index 7d4b1d72255c..7fdec50dc853 100644
+--- a/drivers/staging/media/hantro/hantro_hevc.c
++++ b/drivers/staging/media/hantro/hantro_hevc.c
+@@ -25,15 +25,11 @@
+ #define MAX_TILE_COLS 20
+ #define MAX_TILE_ROWS 22
+ 
+-#define UNUSED_REF	-1
+-
+-static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
++void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+-	int i;
+ 
+-	for (i = 0;  i < NUM_REF_PICTURES; i++)
+-		hevc_dec->ref_bufs_poc[i] = UNUSED_REF;
++	hevc_dec->ref_bufs_used = 0;
+ }
+ 
+ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+@@ -60,7 +56,7 @@ int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
+ 
+ 	/* Add a new reference buffer */
+ 	for (i = 0; i < NUM_REF_PICTURES; i++) {
+-		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF) {
++		if (!(hevc_dec->ref_bufs_used & 1 << i)) {
+ 			hevc_dec->ref_bufs_used |= 1 << i;
+ 			hevc_dec->ref_bufs_poc[i] = poc;
+ 			hevc_dec->ref_bufs[i].dma = addr;
+@@ -71,23 +67,6 @@ int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
+ 	return -EINVAL;
+ }
+ 
+-void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx)
+-{
+-	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+-	int i;
+-
+-	/* Just tag buffer as unused, do not free them */
+-	for (i = 0;  i < NUM_REF_PICTURES; i++) {
+-		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF)
+-			continue;
+-
+-		if (hevc_dec->ref_bufs_used & (1 << i))
+-			continue;
+-
+-		hevc_dec->ref_bufs_poc[i] = UNUSED_REF;
+-	}
+-}
+-
+ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 9f31cce609d6..5de558386179 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -337,9 +337,9 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+ void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
++void hantro_hevc_ref_init(struct hantro_ctx *ctx);
+ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+ int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+-void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+ 
+ static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
+ {
+-- 
+2.32.0
 
