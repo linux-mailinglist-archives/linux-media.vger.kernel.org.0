@@ -2,361 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58075517ABC
-	for <lists+linux-media@lfdr.de>; Tue,  3 May 2022 01:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F7F517CBB
+	for <lists+linux-media@lfdr.de>; Tue,  3 May 2022 07:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229731AbiEBX0d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 May 2022 19:26:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51694 "EHLO
+        id S231341AbiECE6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 May 2022 00:58:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233568AbiEBXYD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 May 2022 19:24:03 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28A781CFC6
-        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 16:20:31 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2d7eaa730d9so148124427b3.13
-        for <linux-media@vger.kernel.org>; Mon, 02 May 2022 16:20:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:content-transfer-encoding;
-        bh=0TAk0nmCubnIEtozmQWacfwQLEk6ByxDGz3r/lPj7cw=;
-        b=lOWN9rzefUZ0edT8p5y5ADSerTjzqQHH9B8Nx9+g/DzybZnZQFIPC1y1vylXUAhzfb
-         48EacZnRhJFPXZQnt/XiOyLfjrQio+ZgDr5kxqEy2Z8uSsjG6bAXhCcwX0FCFwXnLLK1
-         zfZiHsSyWXuf4f0sxVZoQgNabkLSRI9n0GtF0YXaDPKpPrkkcifa0we7kaGwCNKAFgfM
-         mYUJ0njkyRtiW5Uuwbij4ddqTS4Fg9nbKBRaO4bqn2W8tXmtovV2++Q87iR0d3N0RqzA
-         Xz+T3RXQ3HfD8rg4u/fWinrkS2DnsuMDBlKjgdMo6p7C3PsDTRRKcxZRElpEqI3ZmrlX
-         1Gbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:content-transfer-encoding;
-        bh=0TAk0nmCubnIEtozmQWacfwQLEk6ByxDGz3r/lPj7cw=;
-        b=lTwXEHwb+AEUIKHeYiie54/tVfHOXJCsXryDXkqNxxtxeG7LV9dttndLEPNc0U/7OH
-         Y2DAwEhK7s+up3LGhhyE1utBOwfH7nGmOLfMx17h0TJ7j+v2iODGPYk31UyQz+0DfbD4
-         NqucqanYn7ytbGZGZ7ideu68se4h0j9wNv76auiJjRdBf8duYYs4rMHukAmjmVgkxvHG
-         Ehmhu2dtJ7IWjzAmEmiohrg++1yhU4LkiyvQFieINmUg5FJ+WCf2/2EQ2eaxxqTypBcj
-         NWldSKQJ/+Jyx77HM2JdrWv9bStMR2Tcdgxv4esxJ7KITzOFaPKgJgRlAlDXEep7bQ8w
-         TDrg==
-X-Gm-Message-State: AOAM533bWKVJD4Zl+Mfba9HI7BmIm272kK+8wESRFJ7JKX2eG+40mdVp
-        di53qeY0Qk4Vf/uJ/AmaaWkF+QEl3V63vCE=
-X-Google-Smtp-Source: ABdhPJyZJbG0ZG2PPgW/AhQlPJhLbqn/wtOk6UM6bU5+W9xCurl8VcjAduCdRLPhG2ZDDa9ZHojEC5JktltKEOI=
-X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
- (user=tjmercier job=sendgmr) by 2002:a05:6902:52:b0:645:bd1:970e with SMTP id
- m18-20020a056902005200b006450bd1970emr11802500ybh.413.1651533624083; Mon, 02
- May 2022 16:20:24 -0700 (PDT)
-Date:   Mon,  2 May 2022 23:19:39 +0000
-In-Reply-To: <20220502231944.3891435-1-tjmercier@google.com>
-Message-Id: <20220502231944.3891435-6-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20220502231944.3891435-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
-Subject: [PATCH v6 5/6] binder: Add flags to relinquish ownership of fds
-From:   "T.J. Mercier" <tjmercier@google.com>
-To:     tjmercier@google.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>
-Cc:     daniel@ffwll.ch, tj@kernel.org, jstultz@google.com,
-        cmllamas@google.com, kaleshsingh@google.com, Kenny.Ho@amd.com,
-        mkoutny@suse.com, skhan@linuxfoundation.org,
-        kernel-team@android.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S231342AbiECE6B (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 May 2022 00:58:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F8AD3EBAE
+        for <linux-media@vger.kernel.org>; Mon,  2 May 2022 21:54:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7337C614CF
+        for <linux-media@vger.kernel.org>; Tue,  3 May 2022 04:54:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E641C385AF
+        for <linux-media@vger.kernel.org>; Tue,  3 May 2022 04:54:27 +0000 (UTC)
+Date:   Tue, 03 May 2022 06:54:20 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220503045427.8E641C385AF@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hridya Valsaraju <hridya@google.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-This patch introduces flags BINDER_FD_FLAG_XFER_CHARGE, and
-BINDER_FD_FLAG_XFER_CHARGE that a process sending an individual fd or
-fd array to another process over binder IPC can set to relinquish
-ownership of the fds being sent for memory accounting purposes. If the
-flag is found to be set during the fd or fd array translation and the
-fd is for a DMA-BUF, the buffer is uncharged from the sender's cgroup
-and charged to the receiving process's cgroup instead.
+Results of the daily build of media_tree:
 
-It is up to the sending process to ensure that it closes the fds
-regardless of whether the transfer failed or succeeded.
+date:			Tue May  3 05:00:14 CEST 2022
+media-tree git hash:	6c1c1eb8c87de221051b9198d40971640060842f
+media_build git hash:	4e29721804ea4e824c776101214389642dccad98
+v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7905-g3ef4ed38-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
-Most graphics shared memory allocations in Android are done by the
-graphics allocator HAL process. On requests from clients, the HAL process
-allocates memory and sends the fds to the clients over binder IPC.
-The graphics allocator HAL will not retain any references to the
-buffers. When the HAL sets *_FLAG_XFER_CHARGE for fd arrays holding
-DMA-BUF fds, or individual fd objects, the gpu cgroup controller will
-be able to correctly charge the buffers to the client processes instead
-of the graphics allocator HAL.
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-at91: OK
+linux-git-arm-multi: OK
+linux-git-arm-davinci: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.275-i686: OK
+linux-4.14.275-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.237-i686: OK
+linux-4.19.237-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.19-i686: OK
+linux-5.13.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
-Since this is a new feature exposed to userspace, the kernel and userspace
-must be compatible for the accounting to work for transfers. In all cases
-the allocation and transport of DMA buffers via binder will succeed, but
-only when both the kernel supports, and userspace depends on this feature
-will the transfer accounting work. The possible scenarios are detailed
-below:
+Detailed results are available here:
 
-1. new kernel + old userspace
-The kernel supports the feature but userspace does not use it. The old
-userspace won't mount the new cgroup controller, accounting is not
-performed, charge is not transferred.
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
 
-2. old kernel + new userspace
-The new cgroup controller is not supported by the kernel, accounting is
-not performed, charge is not transferred.
+Detailed regression test results are available here:
 
-3. old kernel + old userspace
-Same as #2
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
 
-4. new kernel + new userspace
-Cgroup is mounted, feature is supported and used.
+Full logs are available here:
 
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
 
----
-v6 changes
-Rename BINDER_FD{A}_FLAG_SENDER_NO_NEED ->
-BINDER_FD{A}_FLAG_XFER_CHARGE per Carlos Llamas.
+The Media Infrastructure API from this daily build is here:
 
-Return error on transfer failure per Carlos Llamas.
-
-v5 changes
-Support both binder_fd_array_object and binder_fd_object. This is
-necessary because new versions of Android will use binder_fd_object
-instead of binder_fd_array_object, and we need to support both.
-
-Use the new, simpler dma_buf_transfer_charge API.
-
-v3 changes
-Remove android from title per Todd Kjos.
-
-Use more common dual author commit message format per John Stultz.
-
-Include details on behavior for all combinations of kernel/userspace
-versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Hartman.
-
-v2 changes
-Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
-heap to a single dma-buf function for all heaps per Daniel Vetter and
-Christian K=C3=B6nig.
----
- drivers/android/binder.c            | 31 +++++++++++++++++++++++++----
- drivers/dma-buf/dma-buf.c           |  4 ++--
- include/linux/dma-buf.h             |  2 +-
- include/uapi/linux/android/binder.h | 23 +++++++++++++++++----
- 4 files changed, 49 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-index 8351c5638880..1f39b24498f1 100644
---- a/drivers/android/binder.c
-+++ b/drivers/android/binder.c
-@@ -42,6 +42,7 @@
-=20
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-=20
-+#include <linux/dma-buf.h>
- #include <linux/fdtable.h>
- #include <linux/file.h>
- #include <linux/freezer.h>
-@@ -2170,7 +2171,7 @@ static int binder_translate_handle(struct flat_binder=
-_object *fp,
- 	return ret;
- }
-=20
--static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-+static int binder_translate_fd(u32 fd, binder_size_t fd_offset, __u32 flag=
-s,
- 			       struct binder_transaction *t,
- 			       struct binder_thread *thread,
- 			       struct binder_transaction *in_reply_to)
-@@ -2208,6 +2209,26 @@ static int binder_translate_fd(u32 fd, binder_size_t=
- fd_offset,
- 		goto err_security;
- 	}
-=20
-+	if (IS_ENABLED(CONFIG_CGROUP_GPU) && (flags & BINDER_FD_FLAG_XFER_CHARGE)=
-) {
-+		struct dma_buf *dmabuf;
-+
-+		if (!is_dma_buf_file(file)) {
-+			binder_user_error(
-+				"%d:%d got transaction with XFER_CHARGE for non-dmabuf fd, %d\n",
-+				proc->pid, thread->pid, fd);
-+			ret =3D -EINVAL;
-+			goto err_dmabuf;
-+		}
-+
-+		dmabuf =3D file->private_data;
-+		ret =3D dma_buf_transfer_charge(dmabuf, target_proc->tsk);
-+		if (ret) {
-+			pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
-+				proc->pid, thread->pid, target_proc->pid);
-+			goto err_xfer;
-+		}
-+	}
-+
- 	/*
- 	 * Add fixup record for this transaction. The allocation
- 	 * of the fd in the target needs to be done from a
-@@ -2226,6 +2247,8 @@ static int binder_translate_fd(u32 fd, binder_size_t =
-fd_offset,
- 	return ret;
-=20
- err_alloc:
-+err_xfer:
-+err_dmabuf:
- err_security:
- 	fput(file);
- err_fget:
-@@ -2528,7 +2551,7 @@ static int binder_translate_fd_array(struct list_head=
- *pf_head,
-=20
- 		ret =3D copy_from_user(&fd, sender_ufda_base + sender_uoffset, sizeof(fd=
-));
- 		if (!ret)
--			ret =3D binder_translate_fd(fd, offset, t, thread,
-+			ret =3D binder_translate_fd(fd, offset, fda->flags, t, thread,
- 						  in_reply_to);
- 		if (ret)
- 			return ret > 0 ? -EINVAL : ret;
-@@ -3179,8 +3202,8 @@ static void binder_transaction(struct binder_proc *pr=
-oc,
- 			struct binder_fd_object *fp =3D to_binder_fd_object(hdr);
- 			binder_size_t fd_offset =3D object_offset +
- 				(uintptr_t)&fp->fd - (uintptr_t)fp;
--			int ret =3D binder_translate_fd(fp->fd, fd_offset, t,
--						      thread, in_reply_to);
-+			int ret =3D binder_translate_fd(fp->fd, fd_offset, fp->flags,
-+						      t, thread, in_reply_to);
-=20
- 			fp->pad_binder =3D 0;
- 			if (ret < 0 ||
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index f3fb844925e2..36ed6cd4ddcc 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -31,7 +31,6 @@
-=20
- #include "dma-buf-sysfs-stats.h"
-=20
--static inline int is_dma_buf_file(struct file *);
-=20
- struct dma_buf_list {
- 	struct list_head head;
-@@ -400,10 +399,11 @@ static const struct file_operations dma_buf_fops =3D =
-{
- /*
-  * is_dma_buf_file - Check if struct file* is associated with dma_buf
-  */
--static inline int is_dma_buf_file(struct file *file)
-+int is_dma_buf_file(struct file *file)
- {
- 	return file->f_op =3D=3D &dma_buf_fops;
- }
-+EXPORT_SYMBOL_NS_GPL(is_dma_buf_file, DMA_BUF);
-=20
- static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
- {
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 438ad8577b76..2b9812758fee 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -614,7 +614,7 @@ dma_buf_attachment_is_dynamic(struct dma_buf_attachment=
- *attach)
- {
- 	return !!attach->importer_ops;
- }
--
-+int is_dma_buf_file(struct file *file);
- struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
- 					  struct device *dev);
- struct dma_buf_attachment *
-diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/andro=
-id/binder.h
-index 11157fae8a8e..d17e791b38ab 100644
---- a/include/uapi/linux/android/binder.h
-+++ b/include/uapi/linux/android/binder.h
-@@ -91,14 +91,14 @@ struct flat_binder_object {
- /**
-  * struct binder_fd_object - describes a filedescriptor to be fixed up.
-  * @hdr:	common header structure
-- * @pad_flags:	padding to remain compatible with old userspace code
-+ * @flags:	One or more BINDER_FD_FLAG_* flags
-  * @pad_binder:	padding to remain compatible with old userspace code
-  * @fd:		file descriptor
-  * @cookie:	opaque data, used by user-space
-  */
- struct binder_fd_object {
- 	struct binder_object_header	hdr;
--	__u32				pad_flags;
-+	__u32				flags;
- 	union {
- 		binder_uintptr_t	pad_binder;
- 		__u32			fd;
-@@ -107,6 +107,17 @@ struct binder_fd_object {
- 	binder_uintptr_t		cookie;
- };
-=20
-+enum {
-+	/**
-+	 * @BINDER_FD_FLAG_XFER_CHARGE
-+	 *
-+	 * When set, the sender of a binder_fd_object wishes to relinquish owners=
-hip of the fd for
-+	 * memory accounting purposes. If the fd is for a DMA-BUF, the buffer is =
-uncharged from the
-+	 * sender's cgroup and charged to the receiving process's cgroup instead.
-+	 */
-+	BINDER_FD_FLAG_XFER_CHARGE =3D 0x2000,
-+};
-+
- /* struct binder_buffer_object - object describing a userspace buffer
-  * @hdr:		common header structure
-  * @flags:		one or more BINDER_BUFFER_* flags
-@@ -141,7 +152,7 @@ enum {
-=20
- /* struct binder_fd_array_object - object describing an array of fds in a =
-buffer
-  * @hdr:		common header structure
-- * @pad:		padding to ensure correct alignment
-+ * @flags:		One or more BINDER_FDA_FLAG_* flags
-  * @num_fds:		number of file descriptors in the buffer
-  * @parent:		index in offset array to buffer holding the fd array
-  * @parent_offset:	start offset of fd array in the buffer
-@@ -162,12 +173,16 @@ enum {
-  */
- struct binder_fd_array_object {
- 	struct binder_object_header	hdr;
--	__u32				pad;
-+	__u32				flags;
- 	binder_size_t			num_fds;
- 	binder_size_t			parent;
- 	binder_size_t			parent_offset;
- };
-=20
-+enum {
-+	BINDER_FDA_FLAG_XFER_CHARGE =3D BINDER_FD_FLAG_XFER_CHARGE,
-+};
-+
- /*
-  * On 64-bit platforms where user code may run in 32-bits the driver must
-  * translate the buffer (and local binder) addresses appropriately.
---=20
-2.36.0.464.gb9c8b46e94-goog
-
+https://hverkuil.home.xs4all.nl/spec/index.html
