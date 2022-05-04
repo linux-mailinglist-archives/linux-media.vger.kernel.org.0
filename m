@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A379A51B1E1
-	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 00:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A824B51B1E7
+	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 00:31:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378998AbiEDWe3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 May 2022 18:34:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51214 "EHLO
+        id S1378995AbiEDWea (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 May 2022 18:34:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378988AbiEDWe0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 18:34:26 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0ECB2D1F0
-        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 15:30:46 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id i20-20020a05600c355400b0039456976dcaso1801345wmq.1
-        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 15:30:46 -0700 (PDT)
+        with ESMTP id S1379016AbiEDWe1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 18:34:27 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFC2A2DA86
+        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 15:30:47 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id n126-20020a1c2784000000b0038e8af3e788so1644613wmn.1
+        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 15:30:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=P1QaVmRJwjnZ2MMq/nBSQV6D5HxzClMsYDbecLw36iM=;
-        b=XwL7y4wF5rduiDiOFUQEY+paA6pTmohOZ50RCWP1KL3jIEUXG3f0xfeZvRfE4uZNN2
-         z6h1PbqP8TX3fA+xxG8H8Pm1rKkP86ayKykQpEg24Cb1nwTHCJWQe92z+3nQ1Lo1QpM4
-         2cvtO2GoAy9qqTnksRIv7yzrtrkmwhLfFTphTC1cbVYDleEjNLy/9zoI2+TDIaubgsWg
-         YIKA/Wf7onD1WOCye7d/vxIkk8I5/nOpntHrbidLnNR8Px8Y1g6ysRmsKk/eKsrSbtvA
-         nA8A3hILCyWOYLeMj6StDDoZqc2IdpeJBWLEPNPcvIgfJtKNAK0Dac+fSdxQ+2BV/DR5
-         imEw==
+        bh=pDvejTzpJvwXHbktCuIlyOmoW2YWSNPSBMElVA5ikBA=;
+        b=DflcTHz9MVTv8BfxTKuGBP2dvOY6sASDYBzRhwr53i+M8AgojsumxBTvxZulnp5stZ
+         dgYutaj3wLPPMHICCr9S5l0YEt273YE7S1vESE8E//bnNvNPbAtj5zXIYwC4mPrLNlvU
+         th1NOxqB4Sd3YMiZQyNSoKiuVLVk8oX3mAzmu1OwHf1u1WfFyfMfpLRcXOEOejK0HJFd
+         hTQD4BKZPc1opyRTi9vCUnMHjWfaK0fdCnfkBhmHKJemCfEJjOMJy3hUM5sdSUZrJEHJ
+         wgfdzvRZfl6HA4MvEmNCMk1iL1t4ZzjzaSyhA7sOUSTc+YefssyS+5Ayd5cc66nyDGzg
+         QXCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=P1QaVmRJwjnZ2MMq/nBSQV6D5HxzClMsYDbecLw36iM=;
-        b=ZHpplxPqymPz3U7sw/LRMZHu9J5PQR2JEtN3SVY5A9hjtxz5E4Od0r4CqCuyDhyRL8
-         0gAVNwqMDixoP7H8wAjzaot54FT0cOI78icuH45M3mwMKMlMbAszoNi2fjjdCsS3OgAW
-         AGvCNFDE1UJf5OPMFsL1vxBibB47HVnhbyod8WS5RIRY0+3w7OkzQmqt5PqvZUlfWZ3c
-         2rizHdG3CPvcW5P6amiopO51j6Xf8d01zW/caGqR7o4ue2o2KS1fuytEacJOAma5bjeN
-         Qvjz3//m28fyWl9YEYdSU22JPTugM4kbwAG5x+hNLE2Eo76kRW0MY0iDgMnv7DqqfcIQ
-         G8aQ==
-X-Gm-Message-State: AOAM533j691O2IXoVZCxvlsgBFjhVLePFTtGqJY1AVH+yYRcfB3jiRzg
-        BvmT1Z+vgAvXUiBA/8Vmy1kQrYZfKS8=
-X-Google-Smtp-Source: ABdhPJxLPw2NId/q65eP1+zxSCCwhOYxHM9EE6rqHbpDkfmGSHhHy60xDfkB/4YXQV/jsNM/rU3K6w==
-X-Received: by 2002:a05:600c:3d96:b0:38f:fbc6:da44 with SMTP id bi22-20020a05600c3d9600b0038ffbc6da44mr1465171wmb.93.1651703445418;
-        Wed, 04 May 2022 15:30:45 -0700 (PDT)
+        bh=pDvejTzpJvwXHbktCuIlyOmoW2YWSNPSBMElVA5ikBA=;
+        b=EG0VHUh6vEL0u3H7SqObIyHGhJmPNaEu178UH+ASY3zfB4kyXJdcTWDA6Vzb3A7Ihz
+         fsRUqlWlurVMVloLoRaa5gfsUXc0pyItgdAHS1Ic0HkoQ2Pz8KPMbZ1lcSXD1JZ7ZGZE
+         Vdbjwu3Uplrju/RQIf3ZYKCOVH78zTap8I9OwXN846uPSleEUnk8+miUWlNk+o7BsKSi
+         B2kx/HLJx0x4/QNsF4IXR/Rv7SNV9GcAANE/Tk8SbO1rNvy/N1DUHhidJmeU9v2yxBmC
+         gkvWJjkRbbJv5piaNEtZSenoEawssoRgpT7u3AfSH1wICHT6sG76REWXdqq4iiLGm/iD
+         MJIw==
+X-Gm-Message-State: AOAM533BkP4Y5QIR6fFWDHaFX+TN4/S1QIz1/fGOZvP3N6c0V24ePD99
+        rV73cAnWqEf9pwkLBRbSIAr8EWNuu6A=
+X-Google-Smtp-Source: ABdhPJw1bsVfn4g8ueacMlzYuQGO4JPQoWj4monLf/cR65NS8gF5CqAa1r4S3eOxloTRvCSAV7PRgA==
+X-Received: by 2002:a7b:c10d:0:b0:393:fbff:24a9 with SMTP id w13-20020a7bc10d000000b00393fbff24a9mr1438734wmi.53.1651703446320;
+        Wed, 04 May 2022 15:30:46 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id h29-20020adfaa9d000000b0020c5253d913sm12501442wrc.95.2022.05.04.15.30.44
+        by smtp.gmail.com with ESMTPSA id h29-20020adfaa9d000000b0020c5253d913sm12501442wrc.95.2022.05.04.15.30.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 15:30:44 -0700 (PDT)
+        Wed, 04 May 2022 15:30:45 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
         bingbu.cao@intel.com, tian.shu.qiu@intel.com,
         andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH v3 05/15] media: i2c: Remove per-mode frequencies from ov7251
-Date:   Wed,  4 May 2022 23:30:17 +0100
-Message-Id: <20220504223027.3480287-6-djrscally@gmail.com>
+Subject: [PATCH v3 06/15] media: i2c: Add ov7251_pll_configure()
+Date:   Wed,  4 May 2022 23:30:18 +0100
+Message-Id: <20220504223027.3480287-7-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220504223027.3480287-1-djrscally@gmail.com>
 References: <20220504223027.3480287-1-djrscally@gmail.com>
@@ -70,137 +70,288 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Each of the defined modes in the ov7251 driver uses the same link
-frequency and pixel rate; just drop those members of the modes and
-set the controls to read only during initialisation. Add a new
-table defining the supported pixel rates to substitue for the values
-hardcoded in the modes.
+Rather than having the pll settings hidden inside mode blobs, define
+them in structs and use a dedicated function to set them. This makes
+it simpler to extend the driver to support other frequencies for both
+the external clock and desired link frequency.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
 Changes in v3:
 
-	- None
+	- Added commas to last items in arrays (Andy)
 
 Changes in v2:
 
-	- New patch
+	- Updated to support different link-frequencies in addition to different
+	external clock frequencies.
 
- drivers/media/i2c/ov7251.c | 43 +++++++++++++-------------------------
- 1 file changed, 14 insertions(+), 29 deletions(-)
+ drivers/media/i2c/ov7251.c | 175 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 145 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
-index f1965c8adbd7..f21119064b2d 100644
+index f21119064b2d..3440077e8ba9 100644
 --- a/drivers/media/i2c/ov7251.c
 +++ b/drivers/media/i2c/ov7251.c
-@@ -526,7 +526,11 @@ static const struct reg_value ov7251_setting_vga_90fps[] = {
+@@ -42,6 +42,16 @@
+ #define OV7251_TIMING_FORMAT2_MIRROR	BIT(2)
+ #define OV7251_PRE_ISP_00		0x5e00
+ #define OV7251_PRE_ISP_00_TEST_PATTERN	BIT(7)
++#define OV7251_PLL1_PRE_DIV_REG		0x30b4
++#define OV7251_PLL1_MULT_REG		0x30b3
++#define OV7251_PLL1_DIVIDER_REG		0x30b1
++#define OV7251_PLL1_PIX_DIV_REG		0x30b0
++#define OV7251_PLL1_MIPI_DIV_REG	0x30b5
++#define OV7251_PLL2_PRE_DIV_REG		0x3098
++#define OV7251_PLL2_MULT_REG		0x3099
++#define OV7251_PLL2_DIVIDER_REG		0x309d
++#define OV7251_PLL2_SYS_DIV_REG		0x309a
++#define OV7251_PLL2_ADC_DIV_REG		0x309b
+ 
+ struct reg_value {
+ 	u16 reg;
+@@ -60,6 +70,36 @@ struct ov7251_mode_info {
+ 	struct v4l2_fract timeperframe;
  };
  
- static const s64 link_freq[] = {
--	240000000,
-+	[OV7251_LINK_FREQ_240_MHZ] = 240000000,
++struct ov7251_pll1_cfg {
++	unsigned int pre_div;
++	unsigned int mult;
++	unsigned int div;
++	unsigned int pix_div;
++	unsigned int mipi_div;
 +};
 +
-+static const s64 pixel_rates[] = {
-+	[OV7251_LINK_FREQ_240_MHZ] = 48000000,
++struct ov7251_pll2_cfg {
++	unsigned int pre_div;
++	unsigned int mult;
++	unsigned int div;
++	unsigned int sys_div;
++	unsigned int adc_div;
++};
++
++/*
++ * Rubbish ordering, but only PLL1 needs to have a separate configuration per
++ * link frequency and the array member needs to be last.
++ */
++struct ov7251_pll_cfgs {
++	const struct ov7251_pll2_cfg *pll2;
++	const struct ov7251_pll1_cfg *pll1[];
++};
++
++enum xclk_rate {
++	OV7251_24_MHZ,
++	OV7251_NUM_SUPPORTED_RATES
++};
++
+ enum supported_link_freqs {
+ 	OV7251_LINK_FREQ_240_MHZ,
+ 	OV7251_NUM_SUPPORTED_LINK_FREQS
+@@ -80,6 +120,7 @@ struct ov7251 {
+ 	struct regulator *core_regulator;
+ 	struct regulator *analog_regulator;
+ 
++	const struct ov7251_pll_cfgs *pll_cfgs;
+ 	enum supported_link_freqs link_freq_idx;
+ 	const struct ov7251_mode_info *current_mode;
+ 
+@@ -106,6 +147,33 @@ static inline struct ov7251 *to_ov7251(struct v4l2_subdev *sd)
+ 	return container_of(sd, struct ov7251, sd);
+ }
+ 
++static const struct ov7251_pll1_cfg ov7251_pll1_cfg_24_mhz_240_mhz = {
++	.pre_div = 0x03,
++	.mult = 0x64,
++	.div = 0x01,
++	.pix_div = 0x0a,
++	.mipi_div = 0x05,
++};
++
++static const struct ov7251_pll2_cfg ov7251_pll2_cfg_24_mhz = {
++	.pre_div = 0x04,
++	.mult = 0x28,
++	.div = 0x00,
++	.sys_div = 0x05,
++	.adc_div = 0x04,
++};
++
++static const struct ov7251_pll_cfgs ov7251_pll_cfgs_24_mhz = {
++	.pll2 = &ov7251_pll2_cfg_24_mhz,
++	.pll1 = {
++		[OV7251_LINK_FREQ_240_MHZ] = &ov7251_pll1_cfg_24_mhz_240_mhz,
++	},
++};
++
++static const struct ov7251_pll_cfgs *ov7251_pll_cfgs[] = {
++	[OV7251_24_MHZ] = &ov7251_pll_cfgs_24_mhz,
++};
++
+ static const struct reg_value ov7251_global_init_setting[] = {
+ 	{ 0x0103, 0x01 },
+ 	{ 0x303b, 0x02 },
+@@ -124,16 +192,6 @@ static const struct reg_value ov7251_setting_vga_30fps[] = {
+ 	{ 0x301c, 0xf0 },
+ 	{ 0x3023, 0x05 },
+ 	{ 0x3037, 0xf0 },
+-	{ 0x3098, 0x04 }, /* pll2 pre divider */
+-	{ 0x3099, 0x28 }, /* pll2 multiplier */
+-	{ 0x309a, 0x05 }, /* pll2 sys divider */
+-	{ 0x309b, 0x04 }, /* pll2 adc divider */
+-	{ 0x309d, 0x00 }, /* pll2 divider */
+-	{ 0x30b0, 0x0a }, /* pll1 pix divider */
+-	{ 0x30b1, 0x01 }, /* pll1 divider */
+-	{ 0x30b3, 0x64 }, /* pll1 multiplier */
+-	{ 0x30b4, 0x03 }, /* pll1 pre divider */
+-	{ 0x30b5, 0x05 }, /* pll1 mipi divider */
+ 	{ 0x3106, 0xda },
+ 	{ 0x3503, 0x07 },
+ 	{ 0x3509, 0x10 },
+@@ -262,16 +320,6 @@ static const struct reg_value ov7251_setting_vga_60fps[] = {
+ 	{ 0x301c, 0x00 },
+ 	{ 0x3023, 0x05 },
+ 	{ 0x3037, 0xf0 },
+-	{ 0x3098, 0x04 }, /* pll2 pre divider */
+-	{ 0x3099, 0x28 }, /* pll2 multiplier */
+-	{ 0x309a, 0x05 }, /* pll2 sys divider */
+-	{ 0x309b, 0x04 }, /* pll2 adc divider */
+-	{ 0x309d, 0x00 }, /* pll2 divider */
+-	{ 0x30b0, 0x0a }, /* pll1 pix divider */
+-	{ 0x30b1, 0x01 }, /* pll1 divider */
+-	{ 0x30b3, 0x64 }, /* pll1 multiplier */
+-	{ 0x30b4, 0x03 }, /* pll1 pre divider */
+-	{ 0x30b5, 0x05 }, /* pll1 mipi divider */
+ 	{ 0x3106, 0xda },
+ 	{ 0x3503, 0x07 },
+ 	{ 0x3509, 0x10 },
+@@ -400,16 +448,6 @@ static const struct reg_value ov7251_setting_vga_90fps[] = {
+ 	{ 0x301c, 0x00 },
+ 	{ 0x3023, 0x05 },
+ 	{ 0x3037, 0xf0 },
+-	{ 0x3098, 0x04 }, /* pll2 pre divider */
+-	{ 0x3099, 0x28 }, /* pll2 multiplier */
+-	{ 0x309a, 0x05 }, /* pll2 sys divider */
+-	{ 0x309b, 0x04 }, /* pll2 adc divider */
+-	{ 0x309d, 0x00 }, /* pll2 divider */
+-	{ 0x30b0, 0x0a }, /* pll1 pix divider */
+-	{ 0x30b1, 0x01 }, /* pll1 divider */
+-	{ 0x30b3, 0x64 }, /* pll1 multiplier */
+-	{ 0x30b4, 0x03 }, /* pll1 pre divider */
+-	{ 0x30b5, 0x05 }, /* pll1 mipi divider */
+ 	{ 0x3106, 0xda },
+ 	{ 0x3503, 0x07 },
+ 	{ 0x3509, 0x10 },
+@@ -525,6 +563,10 @@ static const struct reg_value ov7251_setting_vga_90fps[] = {
+ 	{ 0x5001, 0x80 },
  };
  
- static const struct ov7251_mode_info ov7251_mode_info_data[] = {
-@@ -535,8 +539,6 @@ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
- 		.height = 480,
- 		.data = ov7251_setting_vga_30fps,
- 		.data_size = ARRAY_SIZE(ov7251_setting_vga_30fps),
--		.pixel_clock = 48000000,
--		.link_freq = 0, /* an index in link_freq[] */
- 		.exposure_max = 1704,
- 		.exposure_def = 504,
- 		.timeperframe = {
-@@ -549,8 +551,6 @@ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
- 		.height = 480,
- 		.data = ov7251_setting_vga_60fps,
- 		.data_size = ARRAY_SIZE(ov7251_setting_vga_60fps),
--		.pixel_clock = 48000000,
--		.link_freq = 0, /* an index in link_freq[] */
- 		.exposure_max = 840,
- 		.exposure_def = 504,
- 		.timeperframe = {
-@@ -563,8 +563,6 @@ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
- 		.height = 480,
- 		.data = ov7251_setting_vga_90fps,
- 		.data_size = ARRAY_SIZE(ov7251_setting_vga_90fps),
--		.pixel_clock = 48000000,
--		.link_freq = 0, /* an index in link_freq[] */
- 		.exposure_max = 552,
- 		.exposure_def = 504,
- 		.timeperframe = {
-@@ -1059,16 +1057,6 @@ static int ov7251_set_format(struct v4l2_subdev *sd,
- 	__crop->height = new_mode->height;
++static const unsigned long supported_xclk_rates[] = {
++	[OV7251_24_MHZ] = 24000000,
++};
++
+ static const s64 link_freq[] = {
+ 	[OV7251_LINK_FREQ_240_MHZ] = 240000000,
+ };
+@@ -696,6 +738,63 @@ static int ov7251_read_reg(struct ov7251 *ov7251, u16 reg, u8 *val)
+ 	return 0;
+ }
  
- 	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
--		ret = __v4l2_ctrl_s_ctrl_int64(ov7251->pixel_clock,
--					       new_mode->pixel_clock);
--		if (ret < 0)
--			goto exit;
--
--		ret = __v4l2_ctrl_s_ctrl(ov7251->link_freq,
--					 new_mode->link_freq);
--		if (ret < 0)
--			goto exit;
--
- 		ret = __v4l2_ctrl_modify_range(ov7251->exposure,
- 					       1, new_mode->exposure_max,
- 					       1, new_mode->exposure_def);
-@@ -1199,16 +1187,6 @@ static int ov7251_set_frame_interval(struct v4l2_subdev *subdev,
- 	new_mode = ov7251_find_mode_by_ival(ov7251, &fi->interval);
++static int ov7251_pll_configure(struct ov7251 *ov7251)
++{
++	const struct ov7251_pll_cfgs *configs;
++	int ret;
++
++	configs = ov7251->pll_cfgs;
++
++	ret = ov7251_write_reg(ov7251, OV7251_PLL1_PRE_DIV_REG,
++			       configs->pll1[ov7251->link_freq_idx]->pre_div);
++	if (ret < 0)
++		return ret;
++
++	ret = ov7251_write_reg(ov7251, OV7251_PLL1_MULT_REG,
++			       configs->pll1[ov7251->link_freq_idx]->mult);
++	if (ret < 0)
++		return ret;
++	ret = ov7251_write_reg(ov7251, OV7251_PLL1_DIVIDER_REG,
++			       configs->pll1[ov7251->link_freq_idx]->div);
++	if (ret < 0)
++		return ret;
++
++	ret = ov7251_write_reg(ov7251, OV7251_PLL1_PIX_DIV_REG,
++			       configs->pll1[ov7251->link_freq_idx]->pix_div);
++	if (ret < 0)
++		return ret;
++
++	ret = ov7251_write_reg(ov7251, OV7251_PLL1_MIPI_DIV_REG,
++			       configs->pll1[ov7251->link_freq_idx]->mipi_div);
++	if (ret < 0)
++		return ret;
++
++	ret = ov7251_write_reg(ov7251, OV7251_PLL2_PRE_DIV_REG,
++			       configs->pll2->pre_div);
++	if (ret < 0)
++		return ret;
++
++	ret = ov7251_write_reg(ov7251, OV7251_PLL2_MULT_REG,
++			       configs->pll2->mult);
++	if (ret < 0)
++		return ret;
++
++	ret = ov7251_write_reg(ov7251, OV7251_PLL2_DIVIDER_REG,
++			       configs->pll2->div);
++	if (ret < 0)
++		return ret;
++
++	ret = ov7251_write_reg(ov7251, OV7251_PLL2_SYS_DIV_REG,
++			       configs->pll2->sys_div);
++	if (ret < 0)
++		return ret;
++
++	ret = ov7251_write_reg(ov7251, OV7251_PLL2_ADC_DIV_REG,
++			       configs->pll2->adc_div);
++
++	return ret;
++}
++
+ static int ov7251_set_exposure(struct ov7251 *ov7251, s32 exposure)
+ {
+ 	u16 reg;
+@@ -1137,6 +1236,11 @@ static int ov7251_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	mutex_lock(&ov7251->lock);
  
- 	if (new_mode != ov7251->current_mode) {
--		ret = __v4l2_ctrl_s_ctrl_int64(ov7251->pixel_clock,
--					       new_mode->pixel_clock);
--		if (ret < 0)
--			goto exit;
--
--		ret = __v4l2_ctrl_s_ctrl(ov7251->link_freq,
--					 new_mode->link_freq);
--		if (ret < 0)
--			goto exit;
--
- 		ret = __v4l2_ctrl_modify_range(ov7251->exposure,
- 					       1, new_mode->exposure_max,
- 					       1, new_mode->exposure_def);
-@@ -1317,6 +1295,7 @@ static int ov7251_probe(struct i2c_client *client)
- 	struct device *dev = &client->dev;
- 	struct ov7251 *ov7251;
+ 	if (enable) {
++		ret = ov7251_pll_configure(ov7251);
++		if (ret)
++			return dev_err_probe(ov7251->dev, ret,
++					     "error configuring PLLs\n");
++
+ 		ret = ov7251_set_register_array(ov7251,
+ 					ov7251->current_mode->data,
+ 					ov7251->current_mode->data_size);
+@@ -1297,6 +1401,7 @@ static int ov7251_probe(struct i2c_client *client)
  	u8 chip_id_high, chip_id_low, chip_rev;
-+	s64 pixel_rate;
+ 	s64 pixel_rate;
  	int ret;
++	int i;
  
  	ov7251 = devm_kzalloc(dev, sizeof(struct ov7251), GFP_KERNEL);
-@@ -1398,17 +1377,23 @@ static int ov7251_probe(struct i2c_client *client)
- 				     V4L2_CID_TEST_PATTERN,
- 				     ARRAY_SIZE(ov7251_test_pattern_menu) - 1,
- 				     0, 0, ov7251_test_pattern_menu);
+ 	if (!ov7251)
+@@ -1335,6 +1440,16 @@ static int ov7251_probe(struct i2c_client *client)
+ 		dev_err(dev, "could not set xclk frequency\n");
+ 		return ret;
+ 	}
++	for (i = 0; i < ARRAY_SIZE(supported_xclk_rates); i++)
++		if (ov7251->xclk_freq == supported_xclk_rates[i])
++			break;
 +
-+	pixel_rate = pixel_rates[ov7251->link_freq_idx];
- 	ov7251->pixel_clock = v4l2_ctrl_new_std(&ov7251->ctrls,
- 						&ov7251_ctrl_ops,
- 						V4L2_CID_PIXEL_RATE,
--						1, INT_MAX, 1, 1);
-+						pixel_rate, INT_MAX,
-+						pixel_rate, pixel_rate);
- 	ov7251->link_freq = v4l2_ctrl_new_int_menu(&ov7251->ctrls,
- 						   &ov7251_ctrl_ops,
- 						   V4L2_CID_LINK_FREQ,
- 						   ARRAY_SIZE(link_freq) - 1,
--						   0, link_freq);
-+						   ov7251->link_freq_idx,
-+						   link_freq);
- 	if (ov7251->link_freq)
- 		ov7251->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	if (ov7251->pixel_clock)
-+		ov7251->pixel_clock->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++	if (i == ARRAY_SIZE(supported_xclk_rates))
++		return dev_err_probe(dev, -EINVAL,
++				     "clock rate %u Hz is unsupported\n",
++				     ov7251->xclk_freq);
++
++	ov7251->pll_cfgs = ov7251_pll_cfgs[i];
  
- 	ov7251->sd.ctrl_handler = &ov7251->ctrls;
- 
+ 	ov7251->io_regulator = devm_regulator_get(dev, "vdddo");
+ 	if (IS_ERR(ov7251->io_regulator)) {
 -- 
 2.25.1
 
