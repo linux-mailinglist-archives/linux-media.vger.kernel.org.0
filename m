@@ -2,232 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECBD651B1E2
-	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 00:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C39D51B458
+	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 02:09:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235162AbiEDWem (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 May 2022 18:34:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51346 "EHLO
+        id S235544AbiEEAGs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 May 2022 20:06:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354265AbiEDWef (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 18:34:35 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA1542B24F
-        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 15:30:54 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id w4so3786136wrg.12
-        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 15:30:54 -0700 (PDT)
+        with ESMTP id S1383586AbiEDX5t (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 19:57:49 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E600251E51
+        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 16:54:10 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id s18-20020a056830149200b006063fef3e17so1928166otq.12
+        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 16:54:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wi29Ap2zgAim6yF6i/K40HPuBvWXM5rGaocel2NVWbk=;
-        b=WFYdXcicFf+w7uqHvwNP2KiitwYLQufA3VTmr1qMNPqbo75gYhiFP1gu0tHkdzvMRc
-         pV85j+0oeB7eL4KY/RPM7MIefy2zm4zvS1IOnILlTEAEknI3ITdM9+rEytCpjxXFxV1R
-         ZSadH2pR0iKC0vsCa7ec4iTExFrU1v6FxJnydYKkxeSbxD7LYSQv6jBG+GeBVIYDcf6U
-         aZY4Rbrdx+aqvH3YHypEXMczimycDVb/tCsETwECgsF86s1bEiW71XYneRdD4byTY8kr
-         vgjg4Q62OLvnlD9XDvL6jBjm5P/wlPJQRv7BAOQNK5LUW6ibvCXoMULSo0Pbwl0PNNy/
-         kK9A==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=ampHH5WJLIBWSsxWwzVjbk5pO9UBFxn81pZ6QIDzZtY=;
+        b=Dn1MT8x7p4Rbn+pctwVkt7IgIdUxT0LRLjox/JaF9ttsZ2N8sUUglHFRxQa3sl75aK
+         h1U1JpCoOjPff8rV+LL0edQuBh+YvYlTbZ4zx127Qa80qMcS49J0d2nS2s7mVVadwp/M
+         vGp6wV8qQhR9tMRiQjyWHIJslgvG4HigF7p24aLxixJ1l99K68kLikab9Y0HgtSpkDYW
+         0+riuhXlj9dAnGs04evyYz4sFXKtm0FlJKiBI2Dtbo7ebvKr6E7XJkxgxzCXhReMwL1D
+         yv9OUeo9KjH+/RIlVXefhsYivAQRdlwo604eWoXrrvRFVxcSgXwgPis+UtVhyLpBWx3z
+         WyWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wi29Ap2zgAim6yF6i/K40HPuBvWXM5rGaocel2NVWbk=;
-        b=DknUlCl0YRahQAFJRFC4Viljdtg1zMwpKjrPKW8UEkYYztCGiNs3DBHUKkEhxhi4vj
-         LTROeZIuCXwuXzgXyOE1hraL6VGoEN/8OGaQfF/GsNY6oN/cFQmH0RtpTQd66aYmTdoT
-         0YHtTv0v9nWq8evh3t0nH9jKh8u01fv2vxlpn/Pe/lKGgq1TQ6Ni0MhS7SBOrUjLXlZe
-         bJZ3lubB7Z1sExUgLh7J2nrRrqHC1liGVagX4vNiHOlZUrQgVs2+/B+GRzBac0xPsElM
-         Gav+6ExC9uTXxu7FOIHeqlue4uX434R12K+VBdNRpY5oUoxfUOYiwURhz/5aQzylS+t7
-         aK6A==
-X-Gm-Message-State: AOAM5319f1simIygza9ZKO/YsNZgBdrvCY8wvpnOKDV3fzuaukpfn2ue
-        xA4QCeFeT7uhNEU8MlS1ggX0/6DredA=
-X-Google-Smtp-Source: ABdhPJwGsbesHhAeitfwFQNOJ0B2hpa+3C5VAcEAyshQgbxgLC+b+BcQullao8RFZKQmi+VR1Ln7pg==
-X-Received: by 2002:a5d:414a:0:b0:20a:d5f9:8b62 with SMTP id c10-20020a5d414a000000b0020ad5f98b62mr18431961wrq.492.1651703454291;
-        Wed, 04 May 2022 15:30:54 -0700 (PDT)
-Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id h29-20020adfaa9d000000b0020c5253d913sm12501442wrc.95.2022.05.04.15.30.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 15:30:53 -0700 (PDT)
-From:   Daniel Scally <djrscally@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH v3 15/15] media: i2c: Add vblank control to ov7251 driver
-Date:   Wed,  4 May 2022 23:30:27 +0100
-Message-Id: <20220504223027.3480287-16-djrscally@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220504223027.3480287-1-djrscally@gmail.com>
-References: <20220504223027.3480287-1-djrscally@gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=ampHH5WJLIBWSsxWwzVjbk5pO9UBFxn81pZ6QIDzZtY=;
+        b=u41OZnPVUHG8y2dvwB20PAkngSi2y2dVDXyAjrOk3r3Nf0cCsvoY9PwZV+E9zJmCvu
+         ni1wGKwfCHcPSVyZBfgE1jhPADf4Fac1oHn8M0s24HWquIvRqnHVF8WJ+aRSr2WROzL1
+         fgj8gurTBDkzXb556IHnApjZ9bfo9CuKUctYtF7nwn7/3ZSuVODmhYDhaPpl6nrbm6cg
+         akcxzCcAV7I9jV6tr+oypG7xlIx4V5ESQOwLV6+/c1EK2susLE1s9DeetFllpXTdLu5S
+         hRavQgwsZoyB9CNrT7US/5sC2F+oivtC423jG5psJpCP7RsHwfh5xf7YwRJA4GYBBtpJ
+         4HgQ==
+X-Gm-Message-State: AOAM532xcjSs7zML8hRoHtcwB+tqIGB7kCY8stPm9WIt1L25wp7F7vg3
+        DGPfQKFUD51MK1Ql6pr/YDysW3SVvM799mI7U2tu7wzzG9gl9Q==
+X-Google-Smtp-Source: ABdhPJyXbFHNtxfp8+qt+M9kuv/iG7XfFeFFPd7I4/fmpdxuycMtmf6dIJw5ghtZAT2CwgvAVE/kUl0HxsirxLIU8v0=
+X-Received: by 2002:a9d:6b16:0:b0:605:e0eb:d3d6 with SMTP id
+ g22-20020a9d6b16000000b00605e0ebd3d6mr8263208otp.213.1651708440302; Wed, 04
+ May 2022 16:54:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6802:1a9:0:0:0:0 with HTTP; Wed, 4 May 2022 16:53:59
+ -0700 (PDT)
+Reply-To: ortegainvestmmentforrealinvest@gmail.com
+From:   Info <joybhector64@gmail.com>
+Date:   Thu, 5 May 2022 05:23:59 +0530
+Message-ID: <CAP7KLYgH9LcKHS-KgR0zObHAgC6Fr3D+dOJSbDKurTc_12+iFw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:343 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [joybhector64[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [joybhector64[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a vblank control to the ov7251 driver.
-
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
----
-Changes in v3:
-
-	- New patch
-
- drivers/media/i2c/ov7251.c | 53 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
-
-diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
-index 003a7a5ae038..dc9d4e08efae 100644
---- a/drivers/media/i2c/ov7251.c
-+++ b/drivers/media/i2c/ov7251.c
-@@ -62,6 +62,10 @@
- #define OV7251_ACTIVE_HEIGHT		488
- 
- #define OV7251_FIXED_PPL		928
-+#define OV7251_TIMING_VTS_REG		0x380e
-+#define OV7251_TIMING_MIN_VTS		1
-+#define OV7251_TIMING_MAX_VTS		0xffff
-+#define OV7251_INTEGRATION_MARGIN	20
- 
- struct reg_value {
- 	u16 reg;
-@@ -71,6 +75,7 @@ struct reg_value {
- struct ov7251_mode_info {
- 	u32 width;
- 	u32 height;
-+	u32 vts;
- 	const struct reg_value *data;
- 	u32 data_size;
- 	u32 pixel_clock;
-@@ -142,6 +147,7 @@ struct ov7251 {
- 	struct v4l2_ctrl *exposure;
- 	struct v4l2_ctrl *gain;
- 	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *vblank;
- 
- 	/* Cached register values */
- 	u8 aec_pk_manual;
-@@ -637,6 +643,7 @@ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
- 	{
- 		.width = 640,
- 		.height = 480,
-+		.vts = 1724,
- 		.data = ov7251_setting_vga_30fps,
- 		.data_size = ARRAY_SIZE(ov7251_setting_vga_30fps),
- 		.exposure_max = 1704,
-@@ -649,6 +656,7 @@ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
- 	{
- 		.width = 640,
- 		.height = 480,
-+		.vts = 860,
- 		.data = ov7251_setting_vga_60fps,
- 		.data_size = ARRAY_SIZE(ov7251_setting_vga_60fps),
- 		.exposure_max = 840,
-@@ -661,6 +669,7 @@ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
- 	{
- 		.width = 640,
- 		.height = 480,
-+		.vts = 572,
- 		.data = ov7251_setting_vga_90fps,
- 		.data_size = ARRAY_SIZE(ov7251_setting_vga_90fps),
- 		.exposure_max = 552,
-@@ -1001,12 +1010,36 @@ static const char * const ov7251_test_pattern_menu[] = {
- 	"Vertical Pattern Bars",
- };
- 
-+static int ov7251_vts_configure(struct ov7251 *ov7251, s32 vblank)
-+{
-+	u8 vts[2];
-+
-+	vts[0] = ((ov7251->current_mode->height + vblank) & 0xff00) >> 8;
-+	vts[1] = ((ov7251->current_mode->height + vblank) & 0x00ff);
-+
-+	return ov7251_write_seq_regs(ov7251, OV7251_TIMING_VTS_REG, vts, 2);
-+}
-+
- static int ov7251_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct ov7251 *ov7251 = container_of(ctrl->handler,
- 					     struct ov7251, ctrls);
- 	int ret;
- 
-+	/* If VBLANK is altered we need to update exposure to compensate */
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		int exposure_max;
-+
-+		exposure_max = ov7251->current_mode->height + ctrl->val -
-+			       OV7251_INTEGRATION_MARGIN;
-+		__v4l2_ctrl_modify_range(ov7251->exposure,
-+					 ov7251->exposure->minimum,
-+					 exposure_max,
-+					 ov7251->exposure->step,
-+					 min(ov7251->exposure->val,
-+					     exposure_max));
-+	}
-+
- 	/* v4l2_ctrl_lock() locks our mutex */
- 
- 	if (!pm_runtime_get_if_in_use(ov7251->dev))
-@@ -1028,6 +1061,9 @@ static int ov7251_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_VFLIP:
- 		ret = ov7251_set_vflip(ov7251, ctrl->val);
- 		break;
-+	case V4L2_CID_VBLANK:
-+		ret = ov7251_vts_configure(ov7251, ctrl->val);
-+		break;
- 	default:
- 		ret = -EINVAL;
- 		break;
-@@ -1179,6 +1215,7 @@ static int ov7251_set_format(struct v4l2_subdev *sd,
- {
- 	struct ov7251 *ov7251 = to_ov7251(sd);
- 	struct v4l2_mbus_framefmt *__format;
-+	int vblank_max, vblank_def;
- 	struct v4l2_rect *__crop;
- 	const struct ov7251_mode_info *new_mode;
- 	int ret = 0;
-@@ -1212,6 +1249,14 @@ static int ov7251_set_format(struct v4l2_subdev *sd,
- 		if (ret < 0)
- 			goto exit;
- 
-+		vblank_max = OV7251_TIMING_MAX_VTS - new_mode->height;
-+		vblank_def = new_mode->vts - new_mode->height;
-+		ret = __v4l2_ctrl_modify_range(ov7251->vblank,
-+					       OV7251_TIMING_MIN_VTS,
-+					       vblank_max, 1, vblank_max);
-+		if (ret < 0)
-+			goto exit;
-+
- 		ov7251->current_mode = new_mode;
- 	}
- 
-@@ -1492,6 +1537,7 @@ static int ov7251_detect_chip(struct ov7251 *ov7251)
- 
- static int ov7251_init_ctrls(struct ov7251 *ov7251)
- {
-+	int vblank_max, vblank_def;
- 	s64 pixel_rate;
- 	int hblank;
- 
-@@ -1535,6 +1581,13 @@ static int ov7251_init_ctrls(struct ov7251 *ov7251)
- 	if (ov7251->hblank)
- 		ov7251->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
-+	vblank_max = OV7251_TIMING_MAX_VTS - ov7251->current_mode->height;
-+	vblank_def = ov7251->current_mode->vts - ov7251->current_mode->height;
-+	ov7251->vblank = v4l2_ctrl_new_std(&ov7251->ctrls, &ov7251_ctrl_ops,
-+					   V4L2_CID_VBLANK,
-+					   OV7251_TIMING_MIN_VTS, vblank_max, 1,
-+					   vblank_def);
-+
- 	ov7251->sd.ctrl_handler = &ov7251->ctrls;
- 
- 	if (ov7251->ctrls.error) {
 -- 
-2.25.1
+I am an investor. I came from the USA and I have many investments all
+over the world.
 
+I want you to partner with me to invest in your country I am into many
+investment such as real Estate or buying of properties i can also
+invest money in any of existing business with equity royalty or by %
+percentage so on,
+Warm regards
