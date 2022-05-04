@@ -2,104 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82D6251B1F6
-	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 00:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D93CB51B1DF
+	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 00:31:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbiEDWei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1379028AbiEDWei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 4 May 2022 18:34:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51274 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237672AbiEDWe3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 18:34:29 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA6B72B1A9
-        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 15:30:51 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id j15so3824577wrb.2
-        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 15:30:51 -0700 (PDT)
+        with ESMTP id S1378988AbiEDWea (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 18:34:30 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB1A22B257
+        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 15:30:52 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id v12so3784947wrv.10
+        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 15:30:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WHkXA0eWimFClf7wSQc2ZrjEMI+cQiIgeyRQAJkX8CA=;
-        b=TfS2izcwGf47DyV64epBDbX/zwrWVe7vCWYHk0cGa6rr+ABcy26O8bIjEZq/hoOym/
-         RQgSrJexTFcE9XLZ4AJKc1N8WZYQwVW1CrUPZ7U5c7yMtyzj+wfXSpRDlBY/DuRdQFuC
-         4TerNxxr8iCAlUnR9yegnh6lga1CbqhdwzEDDkJg6u/HgnAO7Km6wE3wdp5o0M6Rddm8
-         DbcufTFlWDHiNuhyC81Bj8cJH6f4grmIStWw1hfYlJRNpyUu3sR+ZRqeyTxGNYYvFm5P
-         zgKswJ8M53sISq7KuyDFAG3IBpC96uzu7uIW8LddhTdgZ44yhot4urjfHurfjJ+YEVMe
-         1qTQ==
+        bh=f+hA5NbVCTe8pYlLM1ek8PpVaxlEFMTM89KxjFBt8xE=;
+        b=nu2qX6j5MqwcHp2+UxdFRQgqRkRJR1HvjBAMSlSGsZ1LCOAnhRaKClMLvQKzk+bLif
+         xmCx0KQnDp1EU0d8ZM5xyBUcmAAdlbuWEb98a3lriUrtNaKpyZ+W6KXt1gPF+2jjVzat
+         X+beI0BxRwe3CbAtyk0qjAK8TE9E1UTlx1J/CDW/E6lOa9dHAPU+qVw6g/f/403PI4gl
+         r6ISdMiy4j58cPY9aGLjSm3wWEhbpjHCme2aloeMPtZfIZDMPUezLHn4p/yF+PZ7YwCi
+         8ZDfNUrqD6bJZw9oqzwfCK9w9reWRoPBwr4E5dzndnl5soKDnLkpmZSHTWDuGA5cBkMm
+         +pGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WHkXA0eWimFClf7wSQc2ZrjEMI+cQiIgeyRQAJkX8CA=;
-        b=akWWVvhpdLjauirYqchNC2fvAWidFoXbfZ/gtL//l3coC2Ww7Pucw8B3UmdBZi1ZOE
-         O6v5KBvOlV5mzL9vIL65ctP0hqf8xbe99fkagFS3BkM+OVhhy9mKJkIlVoLA33a7e6JX
-         +vOHsxnb8mquY7CY+ysrU1uDT0lf4ESUl4mZPe/rMqrh6VzR3s165pNar/ECAhYhdlC3
-         EMvc8JiF8s1kzWVaGqhEYqrVw5KHwIbA1DjIjkghsvOdr8nStC4noMeu6VqEO8/HoLRP
-         eLTtd63jnVb7LCeFPhCvOsZmg5HvQofgSKTi4A3dKuJ29FXEwe5BXhRNes220+XF1rEf
-         l6mA==
-X-Gm-Message-State: AOAM5318AP1o3XxTdxBI3arxrEz/nzIgRpZ+C118Ky7jgOu5vPkLDr+z
-        /ke2olNgYWSoQWiUlCEc8pOHUPydHNY=
-X-Google-Smtp-Source: ABdhPJxxMa4UpqpSPQP6SYzdaE5jFYbEuQe6teDjFZm90JOelcwqFLz/G2gMnmXciJnvif853OckFg==
-X-Received: by 2002:a5d:608b:0:b0:20c:7a44:d8c1 with SMTP id w11-20020a5d608b000000b0020c7a44d8c1mr6488064wrt.287.1651703450609;
-        Wed, 04 May 2022 15:30:50 -0700 (PDT)
+        bh=f+hA5NbVCTe8pYlLM1ek8PpVaxlEFMTM89KxjFBt8xE=;
+        b=zaaadr/EobtctXyEVv9woOLRlNEBRLWLbLa0bfOrUKYCckMptfhw9vL8DfcijR2ND+
+         9LXilNTwumJAHIK03VxFcTZOyoKemtCaPUjDLgnUBm6sCXFUN8DRwctiZO8rSTxWl24b
+         vWYwP/26Q2wei7MPacmgIOGkyqRez1ch6lVwmj4Cs6tXAa3SAv578x7BF8QAdzSpk51f
+         6n/YkrN6z+oudNn9rs/BWMCCLTk9cylnEhpRJVZQD1tCCQM+baGur7sap7nsoZyLXT8t
+         1MVwKsKHs6FKnQbp2cUSZIbbkguVyh9tHNqvd9U42Rr8hZpq2B0rVFgP3xOCie6nVLM4
+         3y+g==
+X-Gm-Message-State: AOAM5305VgNmA/OurbjlswYyYmXe1BFjeFtt+Wdihbcjwui1MquGgHqI
+        jm9e2Z3HfXg5g6qBVNz3PMjRiDjNa4o=
+X-Google-Smtp-Source: ABdhPJzsc+jpB25yjrFwaI98yNlnsg6um76AfygHK5EvO6AHjDEEF/pCxSb2OVr8ClwUlEwmxdEUrg==
+X-Received: by 2002:a5d:6da8:0:b0:20c:535e:2f61 with SMTP id u8-20020a5d6da8000000b0020c535e2f61mr18250219wrs.455.1651703451622;
+        Wed, 04 May 2022 15:30:51 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id h29-20020adfaa9d000000b0020c5253d913sm12501442wrc.95.2022.05.04.15.30.49
+        by smtp.gmail.com with ESMTPSA id h29-20020adfaa9d000000b0020c5253d913sm12501442wrc.95.2022.05.04.15.30.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 15:30:50 -0700 (PDT)
+        Wed, 04 May 2022 15:30:51 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
         bingbu.cao@intel.com, tian.shu.qiu@intel.com,
         andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH v3 11/15] media: ipu3-cio2: Add INT347E to cio2-bridge
-Date:   Wed,  4 May 2022 23:30:23 +0100
-Message-Id: <20220504223027.3480287-12-djrscally@gmail.com>
+Subject: [PATCH v3 12/15] media: i2c: Extend .get_selection() for ov7251
+Date:   Wed,  4 May 2022 23:30:24 +0100
+Message-Id: <20220504223027.3480287-13-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220504223027.3480287-1-djrscally@gmail.com>
 References: <20220504223027.3480287-1-djrscally@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,PDS_OTHER_BAD_TLD,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The OVTI7251 sensor can be found on x86 laptops with an IPU3, and so
-needs to be supported by the cio2-bridge. Add it to the table of
-supported sensors.
+Extend the .get_selection() callback to support other values for
+sel->target, primarily to satisfy libcamera's requirements.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
 Changes in v3:
 
-	- None
+	- New patch
 
-Changes in v2:
+ drivers/media/i2c/ov7251.c | 35 +++++++++++++++++++++++++++++------
+ 1 file changed, 29 insertions(+), 6 deletions(-)
 
-	- Switched to 319.2MHz link frequency
-
- drivers/media/pci/intel/ipu3/cio2-bridge.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-index 7ccb7b6eaa82..df6c94da2f6a 100644
---- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-+++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-@@ -25,6 +25,8 @@ static const struct cio2_sensor_config cio2_supported_sensors[] = {
- 	CIO2_SENSOR_CONFIG("INT33BE", 1, 419200000),
- 	/* Omnivision OV8865 */
- 	CIO2_SENSOR_CONFIG("INT347A", 1, 360000000),
-+	/* Omnivision OV7251 */
-+	CIO2_SENSOR_CONFIG("INT347E", 1, 319200000),
- 	/* Omnivision OV2680 */
- 	CIO2_SENSOR_CONFIG("OVTI2680", 0),
- };
+diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
+index 4f8c797839f6..40e42d19cddd 100644
+--- a/drivers/media/i2c/ov7251.c
++++ b/drivers/media/i2c/ov7251.c
+@@ -54,6 +54,13 @@
+ #define OV7251_PLL2_SYS_DIV_REG		0x309a
+ #define OV7251_PLL2_ADC_DIV_REG		0x309b
+ 
++#define OV7251_NATIVE_WIDTH		656
++#define OV7251_NATIVE_HEIGHT		496
++#define OV7251_ACTIVE_START_LEFT	4
++#define OV7251_ACTIVE_START_TOP		4
++#define OV7251_ACTIVE_WIDTH		648
++#define OV7251_ACTIVE_HEIGHT		488
++
+ struct reg_value {
+ 	u16 reg;
+ 	u8 val;
+@@ -1248,13 +1255,29 @@ static int ov7251_get_selection(struct v4l2_subdev *sd,
+ {
+ 	struct ov7251 *ov7251 = to_ov7251(sd);
+ 
+-	if (sel->target != V4L2_SEL_TGT_CROP)
+-		return -EINVAL;
+-
++	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++	case V4L2_SEL_TGT_CROP:
+ 	mutex_lock(&ov7251->lock);
+-	sel->r = *__ov7251_get_pad_crop(ov7251, sd_state, sel->pad,
+-					sel->which);
+-	mutex_unlock(&ov7251->lock);
++		sel->r = *__ov7251_get_pad_crop(ov7251, sd_state, sel->pad,
++						sel->which);
++		mutex_unlock(&ov7251->lock);
++		break;
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++		sel->r.top = 0;
++		sel->r.left = 0;
++		sel->r.width = OV7251_NATIVE_WIDTH;
++		sel->r.height = OV7251_NATIVE_HEIGHT;
++		break;
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++		sel->r.top = OV7251_ACTIVE_START_TOP;
++		sel->r.left = OV7251_ACTIVE_START_LEFT;
++		sel->r.width = OV7251_ACTIVE_WIDTH;
++		sel->r.height = OV7251_ACTIVE_HEIGHT;
++		break;
++	default:
++		return -EINVAL;
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.25.1
 
