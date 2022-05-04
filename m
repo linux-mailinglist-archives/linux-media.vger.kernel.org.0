@@ -2,125 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70C7F519AEA
-	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 10:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D92B8519B60
+	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 11:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346979AbiEDI50 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 May 2022 04:57:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57094 "EHLO
+        id S1347049AbiEDJTG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 May 2022 05:19:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346985AbiEDI4Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 04:56:24 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2088.outbound.protection.outlook.com [40.107.93.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CADD12613B
-        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 01:52:41 -0700 (PDT)
+        with ESMTP id S1347146AbiEDJS5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 05:18:57 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam08on2046.outbound.protection.outlook.com [40.107.100.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6756F20F7B
+        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 02:15:20 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Blvx7/erQKnqRme/0eLMqpjdyBod47jmYnQdZjfpjIPSdXGKUnuXQw+eCk0RqCWn3Kd7i3tyEHCkjhaO25zi5nm0C/9svvBlHAtOjuJ5w5W6EWhJjPo+jdB8Et7C2Tm++ZPICA/MMDIMOrCo3ehoBiZ+sLvV8n/wrWdZh3vwJ/OCBJJQ/bmy1dN8JOfaDgdrUzJkZiz17/kb4hT1Rqoah7j931lIErLk+q4I1OoO2b9dTwxRqU4d2QYs9VXYnJkfHQ/WSaOkj25m68gn3x5+BRLiCeGR9IZ926I3TDOgPO2V2bR8KdVnxiUHnAhNWzm2Cn3Xnzm9jTLG475/9hNlZw==
+ b=jeGepD3ddE4EPfsVyG9lot3tUwwAIEGua5Png2t9H8r4tfcfSmKcsf53BU7kHMwMoNjY0qO5wziZVnANPp2hmtTSTBiyejC4cbql2wcCjWPuN+G/K+usx5GHebO9eCmyq2eCBTOiJrat8nZtqPWgZuC7gkiVdVDakKjXbq8+/bJl7eaCuJ4fhsU4iWm4uh8AMNHiC4sDQbULxAJ6C83Up++6Gi8sGSkPCP1gTNsUEt0iGAvyhmzPBktKpYKsDCE0vusGV6I3gIPTlvWCO6VnkthCWTJ3FmeJbAJFoDtsPJwm7uUzglUmKdxU5C1o4sutiYbxxHjqs4BsQEEIC8DvCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kYoip7fusvZ+0QtFzChfHvdg5Ut0er7RyYbeMYOOMC4=;
- b=IXWjJOmH4aHPx/9Q66VtlHtHz5UtW57EWZuxLtrV6l1JVR7ijyU7Lp9sK3/2sZsVH4JCd7dR8WYxXbmht7iRkUEi9U5Sb0g5pOfA3R6wIB8PwFzcki7q33cXMPUlQ2/0vJC6qanhivqABXZGeEKIBHckPoaTI5ebwTMH1oGfiMD4ql2DkwTeq1hW3uLstFEzqZsNKbPDGV55+NjmlG6oNdadWZcWBt8tB1Ozg4aw4GfwuCfvxHo4BILY+xCeVx3ot9qRRc5Q3WFs50kWXYZlsIkSQa85hf7gHd1gH8LoKeWv+YoEVEuQM2AJHGNORmoBkekjXGUGR44yD7N+3zaLOg==
+ bh=87Ot/B6uHukEPfxUCty/O3JxLFrWMROa5DQQLu7rhpU=;
+ b=eTIxqN2YJEtxXk4m9uq4OAPIdEjfs6iOmrLeJLcsKP1xW8+VboIQ7tzFxqDW4zPSuDEvDdT47RDq1jMt8f5PH2CpGWXrs0iE8RM00GNgMB5qYzfsThG21HDiXE+HmlHPr/OfWioWQb3M9TPNypJ+/1WAlIoBs2moep/PQcH8Szb3QWGIfyt9QF2RAInPc/bWDuIso4dWI0P5hfUhtShTDQI496mDrs94ORxrhWqXD33hr5pt+T4Ew0RcIWO9oOAWiVgtb7ovjGrysoc6kQB1w1jxjpe8T8fijVf8oDOGBLQNl91NF1J4AY3DaC8WKykxuFXOQgtgQnQn1ogkpca7ag==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kYoip7fusvZ+0QtFzChfHvdg5Ut0er7RyYbeMYOOMC4=;
- b=sF1Aqxj78HjOrf8JRWej+fIhJ2cUyefcgY9um6Q60/sgDjyVfdg4oReObNAHF/PTMYZMu4S0Ie9JsFg16iRvL6UxueVA+o6lUba+jLr7PIWcli7WcI+YOcpbSUmlwAAV9uJx1H09UEsrruuAGw+PMndkB2QVhymocZlelUmLu2M=
+ bh=87Ot/B6uHukEPfxUCty/O3JxLFrWMROa5DQQLu7rhpU=;
+ b=tlXKNIpzuFzEE82xuCbNPrmB+Ff5z4KLBqY71BOVB6RNKXJFxKs+VGMn7Jtvots3aUl+tw8fBmmYKAdm6WVqVsPCCrfM9a4CckWmmLwaLiB5UI7h1p4ffp+ojok9cq6Sk1XV1rWk3WgN5MdLQfdxRrdV77MA3UBhAVb0PcXAeRo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BY5PR12MB3714.namprd12.prod.outlook.com (2603:10b6:a03:1a9::18) with
+ by BN8PR12MB3202.namprd12.prod.outlook.com (2603:10b6:408:9c::29) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24; Wed, 4 May
- 2022 08:52:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.17; Wed, 4 May
+ 2022 09:15:18 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::fdba:2c6c:b9ab:38f]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::fdba:2c6c:b9ab:38f%4]) with mapi id 15.20.5206.025; Wed, 4 May 2022
- 08:52:34 +0000
-Message-ID: <09d1cd03-1da0-bb7a-5770-a75de67dffc8@amd.com>
-Date:   Wed, 4 May 2022 10:52:20 +0200
+ 09:15:18 +0000
+Message-ID: <7b1c76b4-3074-24c1-5a76-46780f5056fd@amd.com>
+Date:   Wed, 4 May 2022 11:15:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 3/3] dma-buf: generalize fence merging
+Subject: Re: [PATCH 02/15] dma-buf: introduce user fence support
 Content-Language: en-US
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     sumit.semwal@linaro.org, gustavo@padovan.org,
-        daniel.vetter@ffwll.ch, linux-media@vger.kernel.org,
+To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        daniel@ffwll.ch, jason@jlekstrand.net, daniels@collabora.com,
+        skhawaja@google.com, maad.aldabagh@amd.com, sergemetral@google.com,
+        sumit.semwal@linaro.org, gustavo@padovan.org,
+        Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+        tzimmermann@suse.de, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20220426124637.329764-1-christian.koenig@amd.com>
- <20220426124637.329764-3-christian.koenig@amd.com>
- <YnI8qJbJ1DYklNcm@phenom.ffwll.local>
+References: <20220502163722.3957-1-christian.koenig@amd.com>
+ <20220502163722.3957-3-christian.koenig@amd.com>
+ <c3e168cb-fbd5-07b7-f927-ac9e5e73b1e8@linux.intel.com>
 From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <YnI8qJbJ1DYklNcm@phenom.ffwll.local>
+In-Reply-To: <c3e168cb-fbd5-07b7-f927-ac9e5e73b1e8@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P192CA0082.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:209:8d::23) To BN8PR12MB3587.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM6P191CA0069.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:209:7f::46) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db83f52e-335d-4248-d90d-08da2dab6ea2
-X-MS-TrafficTypeDiagnostic: BY5PR12MB3714:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB37146C3F9282E889F3C077EF83C39@BY5PR12MB3714.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: b5f38a0c-9692-45a3-2dd2-08da2dae9b2b
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3202:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR12MB320220E8F587BB1A3B81BB6183C39@BN8PR12MB3202.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9+zwaGVEJSkMZ87HTYk17A4dXqN5vFcZZr4F1ihCZ+593/yvI2qfl4YZBaVarZfkVzqsr8NwbOuP6kdbZkQlg+OHERjFltZ6eR1h2rs8sTpVjKlJPzZFiEs+7PRXnRCVzOJ9jON8xwdbJYWJltwpJG3dyQQvEk9xXV/biQU8GftpOBlVULLXW5mG1KtYWjRPU0Gdn66vhKbKxCKjRzdty/sBYvQnXbd2OwU01Xan4Oe3RbJD3qykJF9YB+U8pHNyKhWzC+iUVfgdAm6yCVyc3Wy5tLl+yL51975QFus1CHAjPHCDVoh8T2ZOGbPUaXK+tgrTyRtmF4ln6U0u+MvuqRiEuxabED4GgOPBj5zuihpwj2Npjbr+P33zCnQh1NX/EEjJISsZJZeexeyeh/hiisgs5LJCs7wi3QglSIQdiSvfOhPnKty89uNeKHIcO5Np4aC8NZ1TfkiUFTFbtl9BS6IHpWorON6d94/50Z4CL8AfPiY9YQgQnvs4bONpw0Yah9e3jN+6t0oNnonZyxqeMZVpfyNK8GtBXyso4hXaRGdG6IcatCUHE/liJGlBlGvBzNSOJh963snq41VYusXCGIjZk0z7gu5hiVaNqAlYkBJ2ABM0Ck0sEKt7khUXRmuofrwc8Q5DuWbfQuGO5tJkinG9v6Y7OfKsvctcWXLSxnylQZlzd98da75t641DS6/9S7TiPu/GxV4UYf2GKwO1g5oH9m/xvvfeMlGavG26545Asg91kXpUxX8GaKAKvQUr
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(110136005)(83380400001)(26005)(36756003)(31686004)(86362001)(2616005)(31696002)(6512007)(6506007)(66946007)(508600001)(66556008)(5660300002)(66476007)(38100700002)(8936002)(8676002)(4326008)(2906002)(6666004)(6486002)(186003)(30864003)(316002)(66574015)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: LW43OKcO2EzMJHJN6/2KIYwWKOUitDXBEXjEJNpOTl9k67nur4tba7VDcIbGrOQZAbFdQh3t4Y+WwLNbL1MIRU4yU+NM5knsBtbIgvSql5DezBU4NbUEmW5qD6pQ6t+OVxVIMuWNTBun4nvr6hxpNujZ3jXXAjQzWnPA4j5R2z4X0PGM4z1x8EAiXhT5MGEBPbGs1nYkz6slXZrwo4kT8Pe2fGkDarUYtF3TccHVLE4q4xMKY7BH8BF9KSY2wEde4wZRqyWm0wfS1Dt/lSGlXiuT/dRFotuJmumdB81sO1NzLRnQYG0RFfvV6wZq1rJYzKVJaYm88q7BUC0Q+St8f9gN4P1I/c3yoDHSR+2RO0wMESlfWmaDR54dkEgW3FAhGxqmLs2KpyD9fy1vpcPHvs+LBBRS/yraNX+R7gauEcrmoiimC5/3hVYkCtcHgowRsd3pgCUr3SsfVxH8iTMhZSdzSH8f8AhcGp8HOZtvmL9oZtQOMLKtgyR7nrIMZithhTXVU6w20rFSPpkTI83CBF1oYWrTATgigVBXFrg6y/uF2pbpuzLdjeqJfOxC9wpS3xY1q8W0q/3+poL/ib9oK6LK3PQ0K4q5bJ+bVkViTH4Ze/7KF3n3qpWBng1fXFYEuQngJDJRJzg6JeJPG1it/mFSwvIJA3NWaAuo29nRywW0Ta42Y8mrpNoXGfGf4yy8mCqKfWxaQ2N9Mqr/VMuW6M/2gn5AxdgfTt6RSEQODvcVNx+2EWWgS4Kv2Syau0mm6Hfky9CVSexkas8saI0FlQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6666004)(6506007)(7416002)(53546011)(316002)(8936002)(6512007)(83380400001)(31686004)(5660300002)(2616005)(2906002)(36756003)(66556008)(86362001)(8676002)(66574015)(66476007)(31696002)(186003)(38100700002)(921005)(110136005)(66946007)(26005)(508600001)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkVVQ2dkZ2pETW11N3dnOExacWtJeXUzOUpnVHR3ci9BL2U3OWdrN3VBaHpR?=
- =?utf-8?B?S21kdk13dVdkaTVvSk5HS1lLZFFSUkVGKzczeThxZHVPa2xvY01zQk4wSHRG?=
- =?utf-8?B?L1hnVWRabDkwSGxacUVkZ2NkTVVCbmFHUXhQVkdsdVI1MWVaa25nb3RrTEpN?=
- =?utf-8?B?ckhVUzJFNUZ4ZVZlbmw2QjFJMlY0L25kNXFoV2tFbkovQURWSWtkU3JNS21k?=
- =?utf-8?B?ZU5MUnYwK055dWs0SnBpS0doOEEzYTlDcU5BWnc3dlNYV3l6eEZOZUFDWW9H?=
- =?utf-8?B?dnBQcmZvTmhvcFcvcjBsNXNMZ09xZjZUM1dMeE9HeEdwMkUxeDNWMEIvbGxC?=
- =?utf-8?B?UDJBd080Rk9xTWRONEMycVNJWDVKTXlNZllEUEROakpRalNXM1diRmZBUTlG?=
- =?utf-8?B?Q29LbXZ1Ny9ESXFlZ1dMOHlrWTdyTC9RWWdGMUZRZlBHalNuWkp0ODA2NTFT?=
- =?utf-8?B?NzdYNHpLem9LUVpGWUxjSTFLUFgvUmFUcnFBWWgzc3FiN2Jid2ZRRUdBSnA4?=
- =?utf-8?B?N1lMQXhPMm5rZ3BISXRpZWN3UW1aN2M1QlM4OEQyTSsxdG9CSkhaWHRyYy8r?=
- =?utf-8?B?b2pELy9pY3JyVVdFdDdtSWlkT1krYzB2Tzc4MnA2OFpsV1ltTjR0Z3U5aHlC?=
- =?utf-8?B?V0c4UFBTOWc2dzR4SGpOY2F5OHhUR3d6bGRTL1JxSS9oa25qeGkzRjUxVjZF?=
- =?utf-8?B?UjZtNmF3ZStlZTN3RS92R1B6dWx1ZHpqVlRyNStHYnIyUVM3M1RYUG9nOUtK?=
- =?utf-8?B?bDJzdk1IZ25TNmtKeEkzUkdFKzhvd2g2bjltalpQb21WcU5HcVpZaXU1QUhN?=
- =?utf-8?B?T0dvL0pORXBHRUhuK2ljYS9qVzUrMnpza0lSanpNcHVLbjFKZGdKU3c5eWMw?=
- =?utf-8?B?WWZWSTZLYy9QeDRGK0wycVJvY09HNTZZMmJLOHB6OE0vZERqd3FYYlptMHdl?=
- =?utf-8?B?bTZjV2htY3B0NXhNRkJDK1JUc1JIVnlPbXBFdkFLMDRSL2c4Z2pqUGRIbWZW?=
- =?utf-8?B?Yk5uOVkxWmJGVlIrYmdyOEpkblp6d3NiUjY3ZXJQR3Y5QllFQjY5SkJ5OHNY?=
- =?utf-8?B?N0RHdUNoY1Y2b2VpbjNGNGN4dU52Q0FLY2NUUXZoNVhEbnp1U05obXFybm9q?=
- =?utf-8?B?SEJRK2szS0dFUlRUZnJab1FkZGErNXJMSTU4UXVOMTVhL1ZTOThDSmZ3bDB5?=
- =?utf-8?B?djVkZ0FHR3BsK1VSbTh5QTVISlRrNW5LRUFnYUdkL3V5OXkrL01Qa2Q0MkpG?=
- =?utf-8?B?RnBCcksyS2M3aDNPVGRraU5TODBXYW1XcjF3bGNZQUJvZ2NKbzNFL2pSa2Ja?=
- =?utf-8?B?R2xUdkZrRlFwVlpYb1NyQVJxRnhMZU9EMHpiclpjRG1WTEcrQlNCRENXZXhs?=
- =?utf-8?B?L0ptM2U4TUxvNGs1K1pkSHBQcnJMdEpnVElobE1pSCtKekpOTjJ2YVRIQTQw?=
- =?utf-8?B?NE9YZDE1c3VDY2lsYksvclp4YmVKa21TYTkveExJbWkwU3pnY1l1MVMxekpJ?=
- =?utf-8?B?RENISk9TYUk2dHcrWG5iWVl1cDNqd2pWWDBtSkd6S2M1cC90blpzTGN2RTd3?=
- =?utf-8?B?c1FpSDNpWDBVcVFram0vVDFSRyttb0U2VjRuTWRFdUg2S3FCUUZnd2RDMjdp?=
- =?utf-8?B?QmxwbkFwbitIaWdMSzJDMm12RG5VZlZmOGxMeFlCT2hFTzd2MTc2OFRVbUNM?=
- =?utf-8?B?blRFUTlrVG5HNjlqRE9VT1J0MTVWWjBYZXZ6S2JrbnZWMVhPdjZFR0tLYWJ4?=
- =?utf-8?B?Sk5vOWVtY28yODgxSmJCQjBnNEZuOUFIeTh4WTQ4WjFDMkFVRCs1aENVcnBM?=
- =?utf-8?B?ZFF4WHNNUlpZTmhhZXhOSm9SckdyV1EwN1k4Zmw4dnpWbUlyeHJLWFpIVklZ?=
- =?utf-8?B?cU44V3pONEtZOGRaSkpFNUMxTkp0clltKzZRMTVTeUpuM3JhQjVzK2syRmpC?=
- =?utf-8?B?eXlxUUNVVGlIYUUyakFtM1dDdDAxVW1HclFzTXJrK2tuUDFrNlozaTZGbGUy?=
- =?utf-8?B?TEZMTnl1aHF4SSszTFd2aWRlUm1JMGR2WllHRXBoL2tHaDVyclcrY2ovUy9B?=
- =?utf-8?B?Y0dTUUgxalhvQ2FUU3p6dFJEdEhDOHczUGZ3dHJEekFObm1iWHAxRi8wc1pa?=
- =?utf-8?B?OTJHaHozdTd6RjVYeVhUQUlVcTZ4VXVsbHdpdjNFMFZHMDArZjRuaEtZRUVk?=
- =?utf-8?B?dDNEY1Q2Ukc5QnFJUmFpMUpGeGx6UEo4cFVUa1hrTnliQ3FGaEF3L0J0b2FT?=
- =?utf-8?B?cXU2Tkdka1czQmNuOCt2TzRTeFNQelhWbTRmM0hic3dNVmxMU3pXQzVnRUdk?=
- =?utf-8?B?TUJ4WUc5ZzhERDNvTjZqZG9MMVBKcGFwWDN2MTc0VGZGdG43clhKUT09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eW1JUUdWdkJlS3p1OWJPa0xwblJCczdDVUt6TnRWMmcrbG0xUFpIT1hQODdv?=
+ =?utf-8?B?Ulg3aWwyYmRsNm1NbXJkS3N0bEgya1VJdW14ZTg4L0lNanpwSUdXR3Roa3V6?=
+ =?utf-8?B?dTFvR2R6VnJpTEpTVDQ3VnhKdDlTZVJ3WUVwVVZQQXI1VHIyZk93WlBBRHh0?=
+ =?utf-8?B?UlBFYzl1bzdjSzBaczNvaGVyQ1ptQXk4aldzQ09paitURjhnb01MelpjbDJW?=
+ =?utf-8?B?QzFlU2x0N3pwRkljUm1BQnlnMTNzWW9pSVV0SGxxUTRKUTdnbFNQVEt1cTQ1?=
+ =?utf-8?B?NmpQSEgxWS9nZzBsNVIyZUcxbGx4czVHNlBFM2Uva3QzZHlXYmp4NHoybnhG?=
+ =?utf-8?B?Z1VJUlVKZ0loMUEweCsrZzNrR2t3VUZZSkNRTU5qYkpaSTNWc1RxTnA4aHdK?=
+ =?utf-8?B?SGJ4QnRnNFJsNzIxREMwV3pIb3lDVVc1djJjdVFoWkF2ODVxeHg5QUtOd2N5?=
+ =?utf-8?B?VklKajdNRWYzKzlNSlFRSE5hSkZMcnVtd0ViOERBU2pISDhFNDY0Wk9zWHE5?=
+ =?utf-8?B?akNoNnlic0lZVUluZGNhbXhPSERpQ1NXeVpZZDNHZzZWVEYvSFp6cWsxeENo?=
+ =?utf-8?B?em10bjR0Tk9sOHU1ZFNZb21Pc2VnaHdvU3RNUzdlS2hYYWdUSzNJVmpUbks0?=
+ =?utf-8?B?UHFrMzN3NzYyN2YzcGJ1UFZzaFhWb1dvaTJadVU0TkpCMDZicitIWDNZclFa?=
+ =?utf-8?B?R1NCTUdIYmM0TmJlenBpTFJnUUVzVm1zU244OHJRVEpqUzRFZm9IUkxGWmYz?=
+ =?utf-8?B?b2o1OXk5anhiQjlaWkRBcEdjSllCQUhzc1VOcXJ3cWQzTklQeVYrMDNTR3Jm?=
+ =?utf-8?B?SWRDb25ibkZXTXF4V2tqVE5wVVlkaWtWVjBWbUVjcGRwN1NxSnhiNWE0WGx2?=
+ =?utf-8?B?R1FOK2FoU0lRTkE1SlI0TVpRU0Q4Z3BabHVzQVVQMFRub2ZqWUVQek4zZ2c2?=
+ =?utf-8?B?bTNmUnpkSi9oWnFMblZBbW9tL0lBVm5mRlFFbEZpSTRhQlE0aVhrVTJkcVVC?=
+ =?utf-8?B?WEhDTVlQS0FmVkxNcWViQzZzVUFiQTltU1lTOEJRcS91Y3p5dUlYbmlSUjlZ?=
+ =?utf-8?B?RkVLWG9IZ3gyTTJIbjh6YzVsdUQ1R0RoV3BlVVJHS2VwNS9YM2hyVlNMQlhX?=
+ =?utf-8?B?a3FaM1RrMlA0TDJXWDFiSmJBSlFtMHNkd1hUTk9KNHdCWW56WGwzTkRvZWd5?=
+ =?utf-8?B?VnVEempUdU5sYkJBZ3E1U3B5SDFSY3hPTkl4VDllNnp0dnJmRGFqTlU5S1hm?=
+ =?utf-8?B?bU5sODAzME11akRjYklGeGZRTHR3c2dsTWV6bnhCYnVxZUM2enlwakFUMk4w?=
+ =?utf-8?B?QVJhOWhyaVdvWUV3SlM3bEpwTU5VUW5WV2haUm5obWtJNUorbjZFZ2RqcXVL?=
+ =?utf-8?B?ZE9naHZyZ2cvUFd1NXRDQVZDbXRJVkZpVkdLY25uTlprYkRoZTFDN0xWR1pi?=
+ =?utf-8?B?anJPcFVPeXVGby95T0x1OGkxVVZwR2RBRUFrZ0hHNkJacldEWXFmNEUzWTVi?=
+ =?utf-8?B?MTJpS3lONzlpNFhicWtob0xHdFNIWm5JK2tJRk1vM1ZLdkNzVzJESVV0bWVq?=
+ =?utf-8?B?THZGa0xDWkFvQXhqUTdWaThhZ3BHbUJucVFzNlFQWENNWHM2UnpIbmNBSFFo?=
+ =?utf-8?B?K0xsRHpLQmxSTCtpRVR1TjVFS1N3bkNzQm5HQnExVDlZUjg2S2xrdXkyTDRo?=
+ =?utf-8?B?RWEySkdONEFUd29LSjR4MFVrVklRcnVOVFNnT2pYamdLNmpDOUJRTmhmd1Za?=
+ =?utf-8?B?d0lJNVo3akhhRVFhUlI3eHJrdDVhU1FudVVzaDJtYTVrMTBtQWpBVlAvTDdV?=
+ =?utf-8?B?TFRHNmlOTDZBVHVhMjhwYXA4L05TS1dScG5YOG1BbXAydHBmWDVFVG5QTitn?=
+ =?utf-8?B?dEUvcHY1bThITGIrT1NrYnFHUU5xcmRhN3lhSzMvWmx4UFVEV1BGbkpNclZN?=
+ =?utf-8?B?VE1ZSk80NVl4NWNvUk5HV3Y4MDZCc2VEK1JJcG1ITURIM2NxTzdMeHNjNXdL?=
+ =?utf-8?B?ejlOQjhiOS9zemRqMVBIVXJhWitaS3h2eUt1bE9mN2ZWbWZCeTNxV2JVUUQ5?=
+ =?utf-8?B?NHJqbWZ6RnJjZnozQzVXT1QxSzdpZ2o4bDNnNW1MSWJaS1pTZEVFREx5ckZt?=
+ =?utf-8?B?Rlp3TFY4dDFYOWw2eElEanZlYnBscXE0d3hZRnpEVDN5bkw0eHBHVUJPYlQz?=
+ =?utf-8?B?YjMwNGY1R3B1UFNIczJ5a2tLeUNGRlhnZGwzNGswdXk0Nm1rWEFuY2c4eVVy?=
+ =?utf-8?B?emNISFA5VnRlblA4N1JDa1VCUmkvTktPbTEzVWR4WFR5S3JINVdkL0s5eWNv?=
+ =?utf-8?B?NGVuaFNPUnlLTzhRV0FCYXdrTHNIcGpVdzQ4USsvYXBvNkdZZnJOdz09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db83f52e-335d-4248-d90d-08da2dab6ea2
+X-MS-Exchange-CrossTenant-Network-Message-Id: b5f38a0c-9692-45a3-2dd2-08da2dae9b2b
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 08:52:34.7357
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 09:15:17.9860
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yevS/1boXHY/uQEVyLMHAtzRCtG1pdC7wSf+ee1wgnol4N9pWKRBYGMDPRzaf02X
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3714
+X-MS-Exchange-CrossTenant-UserPrincipalName: AIdCFqPHvYl8B7loVHQu5FVhsOyJF6VCqZvb9Pdn5Hshxa/wAoKwQL6m+b1/AKJK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3202
 X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -131,395 +134,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 04.05.22 um 10:43 schrieb Daniel Vetter:
-> On Tue, Apr 26, 2022 at 02:46:37PM +0200, Christian König wrote:
->> Introduce a dma_fence_merge() macro which allows to unwrap fences which
->> potentially can be containers as well and then merge them back together
->> into a flat dma_fence_array.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
-> So this is really neat (the va args macro trick especially), but I'm not
-> sure how much use it is with just one user. Is there like more planned?
 
-We have another potential user of this in drm_syncobj_flatten_chain() 
-and at least another potential cases in amdgpu come to my mind.
 
-I just wanted to double check the general implementation before I start 
-to use this more widely.
+Am 04.05.22 um 09:53 schrieb Tvrtko Ursulin:
+>
+> On 02/05/2022 17:37, Christian König wrote:
+>> [SNIP]
+>>   @@ -398,6 +408,8 @@ void dma_fence_enable_sw_signaling(struct 
+>> dma_fence *fence);
+>>   static inline bool
+>>   dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>   {
+>> +    WARN_ON(test_bit(DMA_FENCE_FLAG_USER, &fence->flags));
+>> +
+>>       if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>           return true;
+>>   @@ -428,6 +440,9 @@ dma_fence_is_signaled_locked(struct dma_fence 
+>> *fence)
+>>   static inline bool
+>>   dma_fence_is_signaled(struct dma_fence *fence)
+>>   {
+>> +    if (test_bit(DMA_FENCE_FLAG_USER, &fence->flags))
+>> +        might_fault();
+>
+> Why this one can fault and the dma_fence_signal_locked cannot? I mean 
+> obviosuly it must not in the locked section, but how do signalling 
+> callbacks know the context of the caller?
 
-> Or is the idea to make merging consistent so that the context sorting
-> trick can be done consistently?
+Well, dma_fence_is_signaled_locked() shouldn't exists in the first place.
 
-The context sorting trick is just a nice to have optimization. My main 
-intention here is to have an utility function for flattening things out 
-I can point people to which does the job and works reliable in all cases.
+The locking can only be done by either the framework itself or the 
+driver exporting the fence. And if you take at the actual users than you 
+indeed see that the only two cases where this is used the driver knows 
+what fence it has and should probably call it's internal function itself.
 
+>
+> This maybe ties back to the issue I don't think I ever found an 
+> explanation to - why "is signal" helpers actually need (or want?) to 
+> do the signalling itself, and are therefore hit also with the 
+> signalling annotations?
+
+Yeah, exactly that's what I could never figure out as well. And I think 
+that it isn't good design to do this, because it results in the 
+dma_fence being signaled from different sources.
+
+Without it it would just be consistently signaled from the interrupt (or 
+whatever context) the exporter uses to signal it.
+
+Thanks,
 Christian.
 
-> -Daniel
 >
->> ---
->>   drivers/dma-buf/dma-fence-unwrap.c    |  95 ++++++++++++++++++++
->>   drivers/dma-buf/st-dma-fence-unwrap.c |  47 ++++++++++
->>   drivers/dma-buf/sync_file.c           | 119 ++------------------------
->>   include/linux/dma-fence-unwrap.h      |  24 ++++++
->>   4 files changed, 172 insertions(+), 113 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
->> index 711be125428c..c9becc74896d 100644
->> --- a/drivers/dma-buf/dma-fence-unwrap.c
->> +++ b/drivers/dma-buf/dma-fence-unwrap.c
->> @@ -11,6 +11,7 @@
->>   #include <linux/dma-fence-array.h>
->>   #include <linux/dma-fence-chain.h>
->>   #include <linux/dma-fence-unwrap.h>
->> +#include <linux/slab.h>
->>   
->>   /* Internal helper to start new array iteration, don't use directly */
->>   static struct dma_fence *
->> @@ -57,3 +58,97 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
->>   	return __dma_fence_unwrap_array(cursor);
->>   }
->>   EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
+> Regards,
+>
+> Tvrtko
+>
 >> +
->> +/* Implementation for the dma_fence_merge() marco, don't use directly */
->> +struct dma_fence *__dma_fence_merge(unsigned int num_fences,
->> +				    struct dma_fence **fences,
->> +				    struct dma_fence_unwrap *iter)
->> +{
->> +	struct dma_fence_array *result;
->> +	struct dma_fence *tmp, **array;
->> +	unsigned int i, count;
->> +
->> +	count = 0;
->> +	for (i = 0; i < num_fences; ++i) {
->> +		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
->> +			if (!dma_fence_is_signaled(tmp))
->> +				++count;
->> +	}
->> +
->> +	if (count == 0)
->> +		return dma_fence_get_stub();
->> +
->> +	if (count > INT_MAX)
->> +		return NULL;
->> +
->> +	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
->> +	if (!array)
->> +		return NULL;
->> +
->> +	/*
->> +	 * We can't guarantee that inpute fences are ordered by context, but
->> +	 * it is still quite likely when this function is used multiple times.
->> +	 * So attempt to order the fences by context as we pass over them and
->> +	 * merge fences with the same context.
->> +	 */
->> +	for (i = 0; i < num_fences; ++i)
->> +		fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
->> +
->> +	count = 0;
->> +	do {
->> +		unsigned int sel;
->> +
->> +restart:
->> +		tmp = NULL;
->> +		for (i = 0; i < num_fences; ++i) {
->> +			struct dma_fence *next = fences[i];
->> +
->> +			if (!next || dma_fence_is_signaled(next))
->> +				continue;
->> +
->> +			if (!tmp || tmp->context > next->context) {
->> +				tmp = next;
->> +				sel = i;
->> +
->> +			} else if (tmp->context < next->context) {
->> +				continue;
->> +
->> +			} else if (dma_fence_is_later(tmp, next)) {
->> +				fences[i] = dma_fence_unwrap_next(&iter[i]);
->> +				goto restart;
->> +			} else {
->> +				fences[sel] = dma_fence_unwrap_next(&iter[sel]);
->> +				goto restart;
->> +			}
->> +		}
->> +
->> +		if (tmp) {
->> +			array[count++] = dma_fence_get(tmp);
->> +			fences[sel] = dma_fence_unwrap_next(&iter[sel]);
->> +		}
->> +	} while (tmp);
->> +
->> +	if (count == 0) {
->> +		tmp = dma_fence_get_stub();
->> +		goto return_tmp;
->> +	}
->> +
->> +	if (count == 1) {
->> +		tmp = array[0];
->> +		goto return_tmp;
->> +	}
->> +
->> +	result = dma_fence_array_create(count, array,
->> +					dma_fence_context_alloc(1),
->> +					1, false);
->> +	if (!result) {
->> +		tmp = NULL;
->> +		goto return_tmp;
->> +	}
->> +	return &result->base;
->> +
->> +return_tmp:
->> +	kfree(array);
->> +	return tmp;
->> +}
->> +EXPORT_SYMBOL_GPL(__dma_fence_merge);
->> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
->> index 59628add93f5..23ab134417ed 100644
->> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
->> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
->> @@ -240,6 +240,52 @@ static int unwrap_chain_array(void *arg)
->>   	return err;
->>   }
->>   
->> +static int unwrap_merge(void *arg)
->> +{
->> +	struct dma_fence *fence, *f1, *f2, *f3;
->> +	struct dma_fence_unwrap iter;
->> +	int err = 0;
->> +
->> +	f1 = mock_fence();
->> +	if (!f1)
->> +		return -ENOMEM;
->> +
->> +	f2 = mock_fence();
->> +	if (!f2) {
->> +		err = -ENOMEM;
->> +		goto error_put_f1;
->> +	}
->> +
->> +	f3 = dma_fence_merge(f1, f2);
->> +	if (!f3) {
->> +		err = -ENOMEM;
->> +		goto error_put_f2;
->> +	}
->> +
->> +	dma_fence_unwrap_for_each(fence, &iter, f3) {
->> +		if (fence == f1) {
->> +			f1 = NULL;
->> +		} else if (fence == f2) {
->> +			f2 = NULL;
->> +		} else {
->> +			pr_err("Unexpected fence!\n");
->> +			err = -EINVAL;
->> +		}
->> +	}
->> +
->> +	if (f1 || f2) {
->> +		pr_err("Not all fences seen!\n");
->> +		err = -EINVAL;
->> +	}
->> +
->> +	dma_fence_put(f3);
->> +error_put_f2:
->> +	dma_fence_put(f2);
->> +error_put_f1:
->> +	dma_fence_put(f1);
->> +	return err;
->> +}
->> +
->>   int dma_fence_unwrap(void)
->>   {
->>   	static const struct subtest tests[] = {
->> @@ -247,6 +293,7 @@ int dma_fence_unwrap(void)
->>   		SUBTEST(unwrap_array),
->>   		SUBTEST(unwrap_chain),
->>   		SUBTEST(unwrap_chain_array),
->> +		SUBTEST(unwrap_merge),
->>   	};
->>   
->>   	return subtests(tests, NULL);
->> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
->> index 0fe564539166..fe149d7e3ce2 100644
->> --- a/drivers/dma-buf/sync_file.c
->> +++ b/drivers/dma-buf/sync_file.c
->> @@ -146,50 +146,6 @@ char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
->>   	return buf;
->>   }
->>   
->> -static int sync_file_set_fence(struct sync_file *sync_file,
->> -			       struct dma_fence **fences, int num_fences)
->> -{
->> -	struct dma_fence_array *array;
->> -
->> -	/*
->> -	 * The reference for the fences in the new sync_file and held
->> -	 * in add_fence() during the merge procedure, so for num_fences == 1
->> -	 * we already own a new reference to the fence. For num_fence > 1
->> -	 * we own the reference of the dma_fence_array creation.
->> -	 */
->> -
->> -	if (num_fences == 0) {
->> -		sync_file->fence = dma_fence_get_stub();
->> -		kfree(fences);
->> -
->> -	} else if (num_fences == 1) {
->> -		sync_file->fence = fences[0];
->> -		kfree(fences);
->> -
->> -	} else {
->> -		array = dma_fence_array_create(num_fences, fences,
->> -					       dma_fence_context_alloc(1),
->> -					       1, false);
->> -		if (!array)
->> -			return -ENOMEM;
->> -
->> -		sync_file->fence = &array->base;
->> -	}
->> -
->> -	return 0;
->> -}
->> -
->> -static void add_fence(struct dma_fence **fences,
->> -		      int *i, struct dma_fence *fence)
->> -{
->> -	fences[*i] = fence;
->> -
->> -	if (!dma_fence_is_signaled(fence)) {
->> -		dma_fence_get(fence);
->> -		(*i)++;
->> -	}
->> -}
->> -
->>   /**
->>    * sync_file_merge() - merge two sync_files
->>    * @name:	name of new fence
->> @@ -203,84 +159,21 @@ static void add_fence(struct dma_fence **fences,
->>   static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
->>   					 struct sync_file *b)
->>   {
->> -	struct dma_fence *a_fence, *b_fence, **fences;
->> -	struct dma_fence_unwrap a_iter, b_iter;
->> -	unsigned int index, num_fences;
->>   	struct sync_file *sync_file;
->> +	struct dma_fence *fence;
->>   
->>   	sync_file = sync_file_alloc();
->>   	if (!sync_file)
->>   		return NULL;
->>   
->> -	num_fences = 0;
->> -	dma_fence_unwrap_for_each(a_fence, &a_iter, a->fence)
->> -		++num_fences;
->> -	dma_fence_unwrap_for_each(b_fence, &b_iter, b->fence)
->> -		++num_fences;
->> -
->> -	if (num_fences > INT_MAX)
->> -		goto err_free_sync_file;
->> -
->> -	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
->> -	if (!fences)
->> -		goto err_free_sync_file;
->> -
->> -	/*
->> -	 * We can't guarantee that fences in both a and b are ordered, but it is
->> -	 * still quite likely.
->> -	 *
->> -	 * So attempt to order the fences as we pass over them and merge fences
->> -	 * with the same context.
->> -	 */
->> -
->> -	index = 0;
->> -	for (a_fence = dma_fence_unwrap_first(a->fence, &a_iter),
->> -	     b_fence = dma_fence_unwrap_first(b->fence, &b_iter);
->> -	     a_fence || b_fence; ) {
->> -
->> -		if (!b_fence) {
->> -			add_fence(fences, &index, a_fence);
->> -			a_fence = dma_fence_unwrap_next(&a_iter);
->> -
->> -		} else if (!a_fence) {
->> -			add_fence(fences, &index, b_fence);
->> -			b_fence = dma_fence_unwrap_next(&b_iter);
->> -
->> -		} else if (a_fence->context < b_fence->context) {
->> -			add_fence(fences, &index, a_fence);
->> -			a_fence = dma_fence_unwrap_next(&a_iter);
->> -
->> -		} else if (b_fence->context < a_fence->context) {
->> -			add_fence(fences, &index, b_fence);
->> -			b_fence = dma_fence_unwrap_next(&b_iter);
->> -
->> -		} else if (__dma_fence_is_later(a_fence->seqno, b_fence->seqno,
->> -						a_fence->ops)) {
->> -			add_fence(fences, &index, a_fence);
->> -			a_fence = dma_fence_unwrap_next(&a_iter);
->> -			b_fence = dma_fence_unwrap_next(&b_iter);
->> -
->> -		} else {
->> -			add_fence(fences, &index, b_fence);
->> -			a_fence = dma_fence_unwrap_next(&a_iter);
->> -			b_fence = dma_fence_unwrap_next(&b_iter);
->> -		}
->> +	fence = dma_fence_merge(a->fence, b->fence);
->> +	if (!fence) {
->> +		fput(sync_file->file);
->> +		return NULL;
->>   	}
->> -
->> -	if (sync_file_set_fence(sync_file, fences, index) < 0)
->> -		goto err_put_fences;
->> -
->> +	sync_file->fence = fence;
->>   	strlcpy(sync_file->user_name, name, sizeof(sync_file->user_name));
->>   	return sync_file;
->> -
->> -err_put_fences:
->> -	while (index)
->> -		dma_fence_put(fences[--index]);
->> -	kfree(fences);
->> -
->> -err_free_sync_file:
->> -	fput(sync_file->file);
->> -	return NULL;
->>   }
->>   
->>   static int sync_file_release(struct inode *inode, struct file *file)
->> diff --git a/include/linux/dma-fence-unwrap.h b/include/linux/dma-fence-unwrap.h
->> index e7c219da4ed7..7c0fab318301 100644
->> --- a/include/linux/dma-fence-unwrap.h
->> +++ b/include/linux/dma-fence-unwrap.h
->> @@ -48,4 +48,28 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor);
->>   	for (fence = dma_fence_unwrap_first(head, cursor); fence;	\
->>   	     fence = dma_fence_unwrap_next(cursor))
->>   
->> +struct dma_fence *__dma_fence_merge(unsigned int num_fences,
->> +				    struct dma_fence **fences,
->> +				    struct dma_fence_unwrap *cursors);
->> +
->> +/**
->> + * dma_fence_merge - unwrap and merge fences
->> + *
->> + * All fences given as parameters are unwrapped and merged back together as flat
->> + * dma_fence_array. Useful if multiple containers need to be merged together.
->> + *
->> + * Implemented as a macro to allocate the necessary arrays on the stack and
->> + * account the stack frame size to the caller.
->> + *
->> + * Returns NULL on memory allocation failure, a dma_fence object representing
->> + * all the given fences otherwise.
->> + */
->> +#define dma_fence_merge(...)					\
->> +	({							\
->> +		struct dma_fence *__f[] = { __VA_ARGS__ };	\
->> +		struct dma_fence_unwrap __c[ARRAY_SIZE(__f)];	\
->> +								\
->> +		__dma_fence_merge(ARRAY_SIZE(__f), __f, __c);	\
->> +	})
->> +
->>   #endif
->> -- 
->> 2.25.1
->>
+>>       if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>           return true;
+>>   @@ -583,7 +598,7 @@ static inline signed long dma_fence_wait(struct 
+>> dma_fence *fence, bool intr)
+>>       return ret < 0 ? ret : 0;
+>>   }
+>>   -struct dma_fence *dma_fence_get_stub(void);
+>> +struct dma_fence *dma_fence_get_stub(bool user);
+>>   struct dma_fence *dma_fence_allocate_private_stub(void);
+>>   u64 dma_fence_context_alloc(unsigned num);
 
