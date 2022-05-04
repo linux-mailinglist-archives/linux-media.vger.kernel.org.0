@@ -2,102 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2D1451A1B8
-	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 16:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C638151A281
+	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 16:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351071AbiEDOH5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 May 2022 10:07:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53632 "EHLO
+        id S1351456AbiEDOud (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 May 2022 10:50:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351051AbiEDOHy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 10:07:54 -0400
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE3A13BFBF;
-        Wed,  4 May 2022 07:04:18 -0700 (PDT)
-Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 4AA4ECAB3F;
-        Wed,  4 May 2022 13:56:04 +0000 (UTC)
-Received: (Authenticated sender: foss@0leil.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 13B83E0008;
-        Wed,  4 May 2022 13:55:56 +0000 (UTC)
-From:   Quentin Schulz <foss+kernel@0leil.net>
+        with ESMTP id S1348325AbiEDOub (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 10:50:31 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2001E220D5
+        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 07:46:55 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id e24so2346894wrc.9
+        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 07:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Z42/fsT5SHrg845Q2k3w98eqH6zbPIzfs0XsQfbP87M=;
+        b=RV6N4wSlfVsEAsSSv0kF6RIXeIyA7Tl4QRrua8UAsiVnPF3fpfrhHSAbD9Vxo+734F
+         BDXFJd8WUdg6f3dKe5uMfoT1uXaIy/yXicnMH3MbKi0qiH13avRMTh3L5aSE9PZkaBBz
+         //kOVj46nMsHYN2cNwqFZl2an7703BXI8LsdXW8pvkDqjf7czlRFep/xIqMcs2eEdx3P
+         YILwgkR3zLsPk63sJbQpgrUq+kbVDTRAiPshVGv7Um1cPg+xM5MliiwC+czRbw7XZifR
+         vY/AzxwVSdbX2i4Tqg5opFw31Qz2MppTUzkaBy4TZt9lwrGRlJnlFIUF1BI/3Mi2XoMp
+         28zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Z42/fsT5SHrg845Q2k3w98eqH6zbPIzfs0XsQfbP87M=;
+        b=oNlOskGwOtLgHSPBYADSzbzZs6wvo7I8yLvffSNtWZoKqXX2/13c+lzfhNthlAEzhr
+         b2D3+9HXxkAVKilkF9j7II5KXbP5H/RBo2PNsjIekMOHMrixAB4oU9AKiXswNiW8nqgd
+         UjInAW1pnbt2NEoXq5YdIyb/wPxdM/O3wE5oFKNlJsBIiXox1RqCoGIKLJ9m35DYTe2f
+         23k9Asw08gFjYxsxHtW8uttjXBd9DVilqC5mvw47PUSzP3i9ZdlW3huGEMJCLI6nymv5
+         12RUJA8wncUEiliD9F6g7yx7wieMELjfheSiPyL96P0EiieHIuFGxdEa57Be21RQonxW
+         eZEw==
+X-Gm-Message-State: AOAM533iPdVgOzP2mT+Db7j+X3nHBIQEAcxB9FKBqYXtN3umS5P66WHU
+        UT+ayvPOTKhU94jubrgk+wu28O8NM3tAmvbH
+X-Google-Smtp-Source: ABdhPJxXXf8a7etiffjEzo/TeSDj3vhLMXwoPds1iqBJCqcniTdXO+Q8YopvGH2gEu9QxLzPhuyj5A==
+X-Received: by 2002:a5d:5228:0:b0:20a:d7e9:7ed8 with SMTP id i8-20020a5d5228000000b0020ad7e97ed8mr16037956wra.687.1651675613704;
+        Wed, 04 May 2022 07:46:53 -0700 (PDT)
+Received: from [192.168.0.215] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id e15-20020adffc4f000000b0020c8d8252dasm135126wrs.103.2022.05.04.07.46.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 May 2022 07:46:53 -0700 (PDT)
+Message-ID: <18d1032c-1fee-9de5-bd25-752ff9c39200@linaro.org>
+Date:   Wed, 4 May 2022 16:46:51 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 1/3] media: dt-bindings: ov5675: document YAML binding
+Content-Language: en-US
+To:     Quentin Schulz <foss+kernel@0leil.net>
 Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-        Quentin Schulz <foss+kernel@0leil.net>
-Subject: [PATCH v2 3/3] media: i2c: ov5675: parse and register V4L2 device tree properties
-Date:   Wed,  4 May 2022 15:55:43 +0200
-Message-Id: <20220504135543.59522-3-foss+kernel@0leil.net>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220504135543.59522-1-foss+kernel@0leil.net>
+        Quentin Schulz <quentin.schulz@theobroma-systems.com>
 References: <20220504135543.59522-1-foss+kernel@0leil.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220504135543.59522-1-foss+kernel@0leil.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+On 04/05/2022 15:55, Quentin Schulz wrote:
+> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> 
+> This patch adds documentation of device tree in YAML schema for the
+> OV5675 CMOS image sensor from Omnivision.
+> 
+> Cc: Quentin Schulz <foss+kernel@0leil.net>
 
-Parse V4L2 device tree properties and register controls for them.
+Don't Cc yourself in commits. This goes to the Git history, so
+assumption is that the "other you" knows that you sent it. :)
 
-Cc: Quentin Schulz <foss+kernel@0leil.net>
-Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
----
- drivers/media/i2c/ov5675.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> ---
+> 
+> v2:
+>  - fixed incorrect id,
+>  - fixed device tree example by adding missing dt-bindings headers,
+>  - fixed device tree example by using vcc_1v2 for dvdd supply, as requested
+>  in datasheet,
+> 
+>  .../bindings/media/i2c/ovti,ov5675.yaml       | 139 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 140 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+> new file mode 100644
+> index 000000000000..29df2f82c631
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+> @@ -0,0 +1,139 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2022 Theobroma Systems Design und Consulting GmbH
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5675.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV5675 CMOS Sensor Device Tree Bindings
 
-diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-index ccbc8dc506ff..324992fca557 100644
---- a/drivers/media/i2c/ov5675.c
-+++ b/drivers/media/i2c/ov5675.c
-@@ -778,12 +778,14 @@ static const struct v4l2_ctrl_ops ov5675_ctrl_ops = {
- 
- static int ov5675_init_controls(struct ov5675 *ov5675)
- {
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov5675->sd);
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	struct v4l2_fwnode_device_properties props;
- 	s64 exposure_max, h_blank;
- 	int ret;
- 
- 	ctrl_hdlr = &ov5675->ctrl_handler;
--	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
- 	if (ret)
- 		return ret;
- 
-@@ -837,9 +839,23 @@ static int ov5675_init_controls(struct ov5675 *ov5675)
- 	if (ctrl_hdlr->error)
- 		return ctrl_hdlr->error;
- 
-+	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-+	if (ret)
-+		goto error;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov5675_ctrl_ops,
-+					      &props);
-+	if (ret)
-+		goto error;
-+
- 	ov5675->sd.ctrl_handler = ctrl_hdlr;
- 
- 	return 0;
-+
-+error:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+
-+	return ret;
- }
- 
- static void ov5675_update_pad_format(const struct ov5675_mode *mode,
--- 
-2.35.1
+s/Device Tree Bindings//
 
+> +
+> +maintainers:
+> +  - Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> +
+> +description: |-
+> +  The Omnivision OV5675 is a high performance, 1/5-inch, 5 megapixel, CMOS
+> +  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
+> +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
+> +  Serial Camera Control Bus (SCCB) interface. This chip is programmable
+> +  through I2C and two-wire SCCB. The sensor output is available via CSI-2
+> +  serial data output (up to 2-lane).
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov5675
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description:
+> +      Input clock for the sensor.
+> +    items:
+> +      - const: xvclk
+
+Just "xv" is preferred.
+
+> +
+> +  clock-frequency:
+> +    description:
+> +      Frequency of the xvclk clock in Hertz.
+> +
+> +  dovdd-supply:
+> +    description:
+> +      Definition of the regulator used as interface power supply.
+> +
+> +  avdd-supply:
+> +    description:
+> +      Definition of the regulator used as analog power supply.
+> +
+> +  dvdd-supply:
+> +    description:
+> +      Definition of the regulator used as digital power supply.
+> +
+> +  reset-gpios:
+> +    description:
+> +      The phandle and specifier for the GPIO that controls sensor reset.
+> +      This corresponds to the hardware pin XSHUTDOWN which is physically
+> +      active low.
+
+Needs maxItems
+
+> +
+> +  port:
+> +    type: object
+
+Open other bindings and compare how it is done there. This looks like
+/schemas/graph.yaml#/$defs/port-base
+
+> +    additionalProperties: false
+> +    description:
+> +      A node containing an output port node with an endpoint definition
+> +      as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+
+Missing ref
+
+> +
+> +        properties:
+> +          data-lanes:
+> +            description: |-
+
+No need for "|-"
+
+> +              The driver only supports 2-lane operation.
+
+Please remove references to driver. It's not part of hardware.
+
+> +            items:
+> +              - const: 1
+> +              - const: 2
+> +
+> +          link-frequencies:
+> +            $ref: /schemas/types.yaml#/definitions/uint64-array
+
+The ref should be already provided by video-interfaces.
+
+> +            description:
+> +              Allowed data bus frequencies. 450000000Hz is supported by the driver.
+
+Again, skip driver reference. However you need to describe the number of
+items.
+
+>
+Best regards,
+Krzysztof
