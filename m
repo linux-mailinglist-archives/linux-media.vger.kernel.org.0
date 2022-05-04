@@ -2,70 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08E2351A0F3
-	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 15:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59AF551A1B7
+	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 16:04:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350575AbiEDNf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 May 2022 09:35:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49616 "EHLO
+        id S1351058AbiEDOHz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 May 2022 10:07:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230220AbiEDNfz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 09:35:55 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61745240A7
-        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 06:32:19 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id l62-20020a1c2541000000b0038e4570af2fso833054wml.5
-        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 06:32:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=qIlNwwvnqpvAJDfIcI1fnSBVRmBpsiG2Eyv+W/PJQYQ=;
-        b=JNpn+KVSlgYdCTJPh87leQRSoVKZ8d7Tp/UZZQ2zpwSRJ6eANRzLAizUVEMPmQfvsN
-         RFu4e3kVQsexLo/n/sg+bPjwgQaAZYLHAoi52dpls8xYEzm5mUaOegNPREalOQYzPMOF
-         jRcOxfIfU42LSzHt+InVJIHJb8rMcuQbuyPC27YycXvLbSotNLXz0Ra2jVAe34buXH9h
-         O9m8cVQyh4IywrQRggPDMsVrPtszPiiJXU9YcQ2xyy3ZFEu/nmlD9S9V4+wiizqOOGyA
-         9fw6wO45LWqg/I2mgRiJHYOVp41NmDqqzZkf4vEBPWsshJaKvqDmVTso7oSVP/DT6UJb
-         2w8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=qIlNwwvnqpvAJDfIcI1fnSBVRmBpsiG2Eyv+W/PJQYQ=;
-        b=HWxTFi/0/BF4rT4quH0LSR1vUlMKKF2XOR0x1EPMPm5U1pE9bLY2MMo//XiEPk45Oz
-         pJLRqHBmgzTgdh2bFpRNQORZPeFUeYmlBDDTa4egtA2pNMxt661A1O0iY5/DXJsKfPlC
-         y7djcLf7ZYx5R0HdtAQrMuQRadXG/1AWbDtbXtMB09FtFdmbX0czSQAzi7O6Mru2zpS/
-         cRKSztuZgDIdNz/C8hdOH5AcGTRqCtx/1DxypxJvpMzgdKzpFel4SmxRkuyxQRQeYDV7
-         29DtqXYDPQeK2yNEChaBJJrNmPhL1xAsESLdbB3s05EoLXCHU8L5bISg+eN++xOI/Gq7
-         BHsA==
-X-Gm-Message-State: AOAM530jmPRdQ+V6sf5kvHrTZEqpu6XSmrizQY0MVVoLhcsoGcwO2PZT
-        UZMxzfK88jYV9xiBAxJUnWKHNpNWZJt8+k4PNEI=
-X-Google-Smtp-Source: ABdhPJw542y/wVo/0Jv5ag9sRWF3erj2w5C7oN/Tus8xTjThRjOtThLA9TYtjyKb9XfiKLNtjZG3hFGTdLuZN8/KFUc=
-X-Received: by 2002:a7b:c088:0:b0:394:451e:34a0 with SMTP id
- r8-20020a7bc088000000b00394451e34a0mr7764691wmh.10.1651671137705; Wed, 04 May
- 2022 06:32:17 -0700 (PDT)
+        with ESMTP id S1350943AbiEDOHy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 10:07:54 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D081B28992;
+        Wed,  4 May 2022 07:04:16 -0700 (PDT)
+Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 4215EC3E91;
+        Wed,  4 May 2022 13:55:59 +0000 (UTC)
+Received: (Authenticated sender: foss@0leil.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 49D52E000B;
+        Wed,  4 May 2022 13:55:51 +0000 (UTC)
+From:   Quentin Schulz <foss+kernel@0leil.net>
+Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+        Quentin Schulz <foss+kernel@0leil.net>
+Subject: [PATCH v2 1/3] media: dt-bindings: ov5675: document YAML binding
+Date:   Wed,  4 May 2022 15:55:41 +0200
+Message-Id: <20220504135543.59522-1-foss+kernel@0leil.net>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Received: by 2002:a05:600c:1e1a:0:0:0:0 with HTTP; Wed, 4 May 2022 06:32:16
- -0700 (PDT)
-Reply-To: rihab.maryam@yahoo.com
-From:   Rihab Maryam <amiata34@gmail.com>
-Date:   Wed, 4 May 2022 13:32:16 +0000
-Message-ID: <CANx5USqAYJDDXObZvrtZ03nGvCabUGj5Sj+rzprBtLvikXnFzg@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+
+This patch adds documentation of device tree in YAML schema for the
+OV5675 CMOS image sensor from Omnivision.
+
+Cc: Quentin Schulz <foss+kernel@0leil.net>
+Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+---
+
+v2:
+ - fixed incorrect id,
+ - fixed device tree example by adding missing dt-bindings headers,
+ - fixed device tree example by using vcc_1v2 for dvdd supply, as requested
+ in datasheet,
+
+ .../bindings/media/i2c/ovti,ov5675.yaml       | 139 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 2 files changed, 140 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+new file mode 100644
+index 000000000000..29df2f82c631
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+@@ -0,0 +1,139 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2022 Theobroma Systems Design und Consulting GmbH
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/ovti,ov5675.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Omnivision OV5675 CMOS Sensor Device Tree Bindings
++
++maintainers:
++  - Quentin Schulz <quentin.schulz@theobroma-systems.com>
++
++description: |-
++  The Omnivision OV5675 is a high performance, 1/5-inch, 5 megapixel, CMOS
++  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
++  sub-sampled, and windowed 10-bit MIPI images in various formats via the
++  Serial Camera Control Bus (SCCB) interface. This chip is programmable
++  through I2C and two-wire SCCB. The sensor output is available via CSI-2
++  serial data output (up to 2-lane).
++
++properties:
++  compatible:
++    const: ovti,ov5675
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    description:
++      Input clock for the sensor.
++    items:
++      - const: xvclk
++
++  clock-frequency:
++    description:
++      Frequency of the xvclk clock in Hertz.
++
++  dovdd-supply:
++    description:
++      Definition of the regulator used as interface power supply.
++
++  avdd-supply:
++    description:
++      Definition of the regulator used as analog power supply.
++
++  dvdd-supply:
++    description:
++      Definition of the regulator used as digital power supply.
++
++  reset-gpios:
++    description:
++      The phandle and specifier for the GPIO that controls sensor reset.
++      This corresponds to the hardware pin XSHUTDOWN which is physically
++      active low.
++
++  port:
++    type: object
++    additionalProperties: false
++    description:
++      A node containing an output port node with an endpoint definition
++      as documented in
++      Documentation/devicetree/bindings/media/video-interfaces.txt
++
++    properties:
++      endpoint:
++        type: object
++
++        properties:
++          data-lanes:
++            description: |-
++              The driver only supports 2-lane operation.
++            items:
++              - const: 1
++              - const: 2
++
++          link-frequencies:
++            $ref: /schemas/types.yaml#/definitions/uint64-array
++            description:
++              Allowed data bus frequencies. 450000000Hz is supported by the driver.
++
++        required:
++          - link-frequencies
++
++    required:
++      - endpoint
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - clock-frequency
++  - dovdd-supply
++  - avdd-supply
++  - dvdd-supply
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/px30-cru.h>
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/pinctrl/rockchip.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        ov5675: camera@36 {
++            compatible = "ovti,ov5675";
++            reg = <0x36>;
++
++            reset-gpios = <&gpio2 RK_PB1 GPIO_ACTIVE_LOW>;
++            pinctrl-names = "default";
++            pinctrl-0 = <&cif_clkout_m0>;
++
++            clocks = <&cru SCLK_CIF_OUT>;
++            clock-names = "xvclk";
++            clock-frequency = <19200000>;
++
++            avdd-supply = <&vcc_1v8>;
++            dvdd-supply = <&vcc_1v2>;
++            dovdd-supply = <&vcc_2v8>;
++
++            port {
++                ucam_out: endpoint {
++                    remote-endpoint = <&mipi_in_ucam>;
++                    data-lanes = <1 2>;
++                    link-frequencies = /bits/ 64 <450000000>;
++                };
++            };
++        };
++    };
++...
++
+diff --git a/MAINTAINERS b/MAINTAINERS
+index edc96cdb85e8..94ff31268c3d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14550,6 +14550,7 @@ M:	Shawn Tu <shawnx.tu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+ F:	drivers/media/i2c/ov5675.c
+ 
+ OMNIVISION OV5693 SENSOR DRIVER
 -- 
-My name is miss.Rihab Maryam, i have something
-important to tell you.Reply me immediately you get this message.God
-bless you.
+2.35.1
+
