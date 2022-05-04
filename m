@@ -2,193 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BD3951AD7E
-	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 21:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEA5651AEF3
+	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 22:23:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377479AbiEDTKO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 May 2022 15:10:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37626 "EHLO
+        id S1377972AbiEDU0t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 May 2022 16:26:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377475AbiEDTKN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 15:10:13 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 25FAF3C719;
-        Wed,  4 May 2022 12:06:36 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,198,1647270000"; 
-   d="scan'208";a="118725656"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 May 2022 04:06:35 +0900
-Received: from localhost.localdomain (unknown [10.226.92.27])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6750F40D9AC5;
-        Thu,  5 May 2022 04:06:32 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v10 5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
-Date:   Wed,  4 May 2022 20:06:09 +0100
-Message-Id: <20220504190609.94375-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220504190609.94375-1-biju.das.jz@bp.renesas.com>
-References: <20220504190609.94375-1-biju.das.jz@bp.renesas.com>
+        with ESMTP id S1377969AbiEDU0s (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 16:26:48 -0400
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B7E4F448;
+        Wed,  4 May 2022 13:23:11 -0700 (PDT)
+Received: by mail-oi1-f169.google.com with SMTP id n24so2324138oie.12;
+        Wed, 04 May 2022 13:23:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ySBOubiPulo913haM4WoQ1mv/TU5CEHMQ1toV9XVhMc=;
+        b=FCXUdLEbcOxpcjp7ADFVzzL2Gzc4xU1gZLDS/KjuhAimejAP23RYfyfr0XrNcUaWen
+         bkoIy8uojZhLQKS5WmbTRQTW6a2qtL1e10vhkQwhLC4ADIvLYIae3lgGw45upQZXuyhP
+         6nqxhafn8/W7XBCo07/91jRd6P5B9FKVQRR+KT0WQWTVRHIQRIibvfRTg0Afc7JWISKZ
+         zYHncbxKha3ocQJRo6n3GuNwunjQHu3eDc0I60MZUa0wO/IDt55qYSyEVjS9zBomB8hM
+         7ClopJjeMCnkJ7HC5JLq2uaBfepzUv4B6KLtW6XVvySbkcBFzGzwoE4W6m5/iTFoFbQE
+         W8Aw==
+X-Gm-Message-State: AOAM530iV1vlhHpOjEtzE/2q188qJr21NsRXkp1i/keuFMzuYj3xK4Mj
+        3HWGC4nz2CVT4jedV8vD1Q==
+X-Google-Smtp-Source: ABdhPJzACW6AvH0oEJr8UNPH9HL8vuoKqEyRonyCY12D3tqsWHQUGMaQ5zgSLXG56C5vPug6oW5P/A==
+X-Received: by 2002:a05:6808:d48:b0:326:2d1f:1c0f with SMTP id w8-20020a0568080d4800b003262d1f1c0fmr637501oik.43.1651695790838;
+        Wed, 04 May 2022 13:23:10 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id o14-20020a0568080f8e00b00325cda1ff8bsm4649538oiw.10.2022.05.04.13.23.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 13:23:10 -0700 (PDT)
+Received: (nullmailer pid 2163645 invoked by uid 1000);
+        Wed, 04 May 2022 20:23:09 -0000
+Date:   Wed, 4 May 2022 15:23:09 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: media: rockchip-vpu: Add RK3568 JPEG
+ compatible
+Message-ID: <YnLgrVJcdkYgNvEO@robh.at.kernel.org>
+References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
+ <20220427224438.335327-2-frattaroli.nicolas@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220427224438.335327-2-frattaroli.nicolas@gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+On Thu, Apr 28, 2022 at 12:44:36AM +0200, Nicolas Frattaroli wrote:
+> The RK3568 and RK3566 have a VPU node solely dedicated to JPEG
+> encoding. This patch adds a compatible for it, and also allows
+> the bindings to only come with a vepu interrupt.
 
-The VSPD block on RZ/G2L SoCs does not have a version register, so
-added a new compatible string "renesas,r9a07g044-vsp2" with a data
-pointer containing the info structure. Also the reset line is shared
-with the DU module.
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-v9->v10:
- * No change.
-v8->v9:
- * Replaced the code comments RZ/G2L {SoC's,SoC} with RZ/G2L SoCs.
-v7->v8:
- * Split the patch for adding s/w version, feature bit and RZ/G2L support
- * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
- * Added .soc for RZ/G2L
- * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
-v6->v7:
- * Added Rb tag from Kieran
- * Added a quirk to handle LIF0 buffer attribute related
-   changes for V3M and G2L.
- * Removed the macro for VSP HW version
-v5->v6:
- * Rebased to media_staging and updated commit header
- * Removed the extra tab from rzg2l_vsp2_device_info
- * Changed the function vsp1_lookup->vsp1_lookup_info and
-   all info match related code moved here.
- * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
-   distinguish HW & SW IP_VSP_Version.
- * Used 0x80 for RZG2L VSPD model and SoC identification
- * Updated Switch() for LIF0 buffer attribute handling.
-v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for RZ/G2L SoC's.
-v3->v4:
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-v2->v3:
- * Fixed version comparison in vsp1_lookup()
-v1->v2:
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
-RFC->v1:
- * Used data pointer containing info structure to retrieve version information
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 13 +++++++++++++
- drivers/media/platform/renesas/vsp1/vsp1_lif.c  |  9 +++++----
- drivers/media/platform/renesas/vsp1/vsp1_regs.h |  4 ++++
- 3 files changed, 22 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 102a5dbfa246..ef9075327574 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -820,6 +820,18 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
- };
+Sounds like this might be more than just JPEG, so I'm assuming this will 
+get sent again.
  
-+static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-+	.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-+	.model = "VSP2-D",
-+	.soc = VI6_IP_VERSION_SOC_RZG2L,
-+	.gen = 3,
-+	.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL
-+		  | VSP1_HAS_NON_ZERO_LBA,
-+	.lif_count = 1,
-+	.rpf_count = 2,
-+	.wpf_count = 1,
-+};
-+
- static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
- {
- 	const struct vsp1_device_info *info;
-@@ -970,6 +982,7 @@ static int vsp1_remove(struct platform_device *pdev)
- static const struct of_device_id vsp1_of_match[] = {
- 	{ .compatible = "renesas,vsp1" },
- 	{ .compatible = "renesas,vsp2" },
-+	{ .compatible = "renesas,r9a07g044-vsp2", .data = &rzg2l_vsp2_device_info },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, vsp1_of_match);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-index 9adb892edcdc..186a5730e1e3 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 
- 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
- 	case VI6_IP_VERSION_MODEL_VSPD_V3:
-+	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
- 		hbth = 0;
- 		obth = 1500;
- 		lbth = 0;
-@@ -130,10 +131,10 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
- 
- 	/*
--	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
--	 * non-default value to guarantee proper operation (otherwise artifacts
--	 * may appear on the output). The value required by the manual is not
--	 * explained but is likely a buffer size or threshold.
-+	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-+	 * set to a non-default value to guarantee proper operation (otherwise
-+	 * artifacts may appear on the output). The value required by the
-+	 * manual is not explained but is likely a buffer size or threshold.
- 	 */
- 	if (vsp1_feature(entity->vsp1, VSP1_HAS_NON_ZERO_LBA))
- 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index 4286d13eca32..8928f4c6bb55 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -767,6 +767,8 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+/* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
-+#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
- 
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
-@@ -780,6 +782,8 @@
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
-+/* RZ/G2L SoCs have no version register, So use 0x80 for SoC Identification */
-+#define VI6_IP_VERSION_SOC_RZG2L	(0x80 << 0)
- 
- #define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
- 
--- 
-2.25.1
-
+> Signed-off-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> index bacb60a34989..cd62b44c34c3 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> @@ -22,6 +22,7 @@ properties:
+>            - rockchip,rk3288-vpu
+>            - rockchip,rk3328-vpu
+>            - rockchip,rk3399-vpu
+> +          - rockchip,rk3568-jpeg-vepu
+>            - rockchip,px30-vpu
+>        - items:
+>            - const: rockchip,rk3188-vpu
+> @@ -40,6 +41,7 @@ properties:
+>    interrupt-names:
+>      oneOf:
+>        - const: vdpu
+> +      - const: vepu
+>        - items:
+>            - const: vepu
+>            - const: vdpu
+> -- 
+> 2.36.0
+> 
+> 
