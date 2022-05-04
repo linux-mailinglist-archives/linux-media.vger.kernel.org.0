@@ -2,190 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FD12519E80
-	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 13:49:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 484ED519F28
+	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 14:23:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349076AbiEDLxH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 May 2022 07:53:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59630 "EHLO
+        id S1349387AbiEDM0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 May 2022 08:26:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234461AbiEDLxF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 07:53:05 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC965F91;
-        Wed,  4 May 2022 04:49:28 -0700 (PDT)
-X-UUID: 03b2502f90ec4a62b4abbce6beff4ddd-20220504
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:7f5c9cfb-e572-4057-9e20-2dd2e1d5b1f6,OB:0,LO
-        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
-        ON:release,TS:0
-X-CID-META: VersionHash:faefae9,CLOUDID:fac48ab2-56b5-4c9e-8d83-0070b288eb6a,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 03b2502f90ec4a62b4abbce6beff4ddd-20220504
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
-        (envelope-from <rex-bc.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 325725063; Wed, 04 May 2022 19:49:22 +0800
-Received: from MTKMBS07N2.mediatek.inc (172.21.101.141) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Wed, 4 May 2022 19:49:21 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 4 May 2022 19:49:21 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 4 May 2022 19:49:21 +0800
-Message-ID: <7189b0c0c62fe8a8026d2e25e741a29b2f5b01a9.camel@mediatek.com>
-Subject: Re: [PATCH v14 1/3] dt-binding: mediatek: add bindings for MediaTek
- MDP3 components
-From:   Rex-BC Chen <rex-bc.chen@mediatek.com>
-To:     Rob Herring <robh@kernel.org>, Moudy Ho <moudy.ho@mediatek.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        <tfiga@chromium.org>, <drinkcat@chromium.org>,
-        <pihsun@chromium.org>, <hsinyi@google.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <xiandong.wang@mediatek.com>,
-        <randy.wu@mediatek.com>, <jason-jh.lin@mediatek.com>,
-        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Wed, 4 May 2022 19:49:21 +0800
-In-Reply-To: <YnFqnEI16B+xrxdQ@robh.at.kernel.org>
-References: <20220427070514.10355-1-moudy.ho@mediatek.com>
-         <20220427070514.10355-2-moudy.ho@mediatek.com>
-         <YnFqnEI16B+xrxdQ@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        with ESMTP id S231824AbiEDM0f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 08:26:35 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B3C2F3A5
+        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 05:22:59 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id u3so1792640wrg.3
+        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 05:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e2dYbzpbHvQMo1jShWOwpkjE5/wTuIDOzNVfw59wRas=;
+        b=V8shUO/xhYYbGZxdaNXzcK+WSqnYEbC6vYpIe/DgsNDk/dO+GmoNGwGyQyQLbVU9OE
+         iElPz6pcmk3jEpAVYaMdpkyYKF54+3jG92k2DdgkCFNUq6HTNk9H5mKoqSSmaikNXOJv
+         qJXof+/srLWZWFkSKX13xgjjPwf4WCm92SuHFyV8AvOoUjiLhEJGtlm96SA1PGaMp8c/
+         RedoRDc74gzxjOXdgSZjJLpxr9ucuUwTYtrXdzd746W8b39SoUsn1KNlL7uvAKMgJMt/
+         w+H+pbpyGqDKy3FLVOoHIL2muANFh3Kf/bfEEPJn9PKUNG4qlt3JDujI5j39BaHDLu/v
+         mhCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e2dYbzpbHvQMo1jShWOwpkjE5/wTuIDOzNVfw59wRas=;
+        b=Va4UWxMZlqks0j46Mp5cqMZ++4nf2IeHKIadE1vOxAGOMvtV8nubcl7hqMDjmMMWFL
+         1s3kmgJpj6JF2lasdpJNurPBpIkd3CKxLFcXQPZS7kv9mIG2jAGtyErrfkdauCr+0kr4
+         IkZhjacvTxN/2rj51qvuUYUqotOFCuHQu0oOWuq4aKI5yD6yQMfdONGYjLUVoS30UVtz
+         6l4wBZn5F9gUlpKVHzENgB5e1njnFNu0m9/MM1X3KOHdFjskZHVyYsItNRuNblS/PzkW
+         FLiuaVcjVjJ8kWogvpw0QeorRGJo3H1R1Vqdkc0l2Mzq55MUIUEzd5eSkz/vi7rAQiKG
+         273Q==
+X-Gm-Message-State: AOAM5314OySqDstAtl5woGqYNFAQygVY52gD6KGLr3QrwZxvHCOd16LN
+        fpzkXCLaEIg+p5cnMGibM5Y=
+X-Google-Smtp-Source: ABdhPJz3kydFY+B/6iKFZcfRMy8REtjbOq66KG75DTt9bv0nOKZk2oLXx1bF/92Na3BGZlRTJLMNtQ==
+X-Received: by 2002:a5d:498d:0:b0:20a:dc6b:35c9 with SMTP id r13-20020a5d498d000000b0020adc6b35c9mr16348694wrq.176.1651666978028;
+        Wed, 04 May 2022 05:22:58 -0700 (PDT)
+Received: from able.fritz.box (p57b0b7c9.dip0.t-ipconnect.de. [87.176.183.201])
+        by smtp.gmail.com with ESMTPSA id l28-20020a05600c1d1c00b003942a244ed1sm1462119wms.22.2022.05.04.05.22.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 05:22:57 -0700 (PDT)
+From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
+        <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH 1/5] dma-buf: cleanup dma_fence_unwrap selftest
+Date:   Wed,  4 May 2022 14:22:52 +0200
+Message-Id: <20220504122256.1654-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2022-05-03 at 12:47 -0500, Rob Herring wrote:
-> On Wed, Apr 27, 2022 at 03:05:12PM +0800, Moudy Ho wrote:
-> > This patch adds DT binding documents for Media Data Path 3 (MDP3)
-> > a unit in multimedia system combined with several components and
-> > used for scaling and color format convert.
-> > 
-> > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> > ---
-> >  .../bindings/media/mediatek,mdp3-rdma.yaml    | 82
-> > +++++++++++++++++++
-> >  .../bindings/media/mediatek,mdp3-rsz.yaml     | 61 ++++++++++++++
-> >  .../bindings/media/mediatek,mdp3-wrot.yaml    | 66 +++++++++++++++
-> >  .../bindings/soc/mediatek/mediatek,ccorr.yaml | 54 ++++++++++++
-> >  .../bindings/soc/mediatek/mediatek,wdma.yaml  | 67 +++++++++++++++
-> >  5 files changed, 330 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
-> >  create mode 100644
-> > Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
-> >  create mode 100644
-> > Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
-> > rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
-> > rdma.yaml
-> > new file mode 100644
-> > index 000000000000..ce24eda14cb6
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-
-> > rdma.yaml
-> > @@ -0,0 +1,82 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: 
-> > https://urldefense.com/v3/__http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!zzzJB6GFgAbOaMvOMeEANc2UnatoXvcdzZ3UGx6024oxx1okemuH9vCeCSpaGUuD8dSrlYueRf2HFVdfFu6CVB7LUQ$
-> >  
-> > +$schema: 
-> > https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!zzzJB6GFgAbOaMvOMeEANc2UnatoXvcdzZ3UGx6024oxx1okemuH9vCeCSpaGUuD8dSrlYueRf2HFVdfFu5BwY-loQ$
-> >  
-> > +
-> > +title: Mediatek Read Direct Memory Access
-> > +
-> > +maintainers:
-> > +  - Matthias Brugger <matthias.bgg@gmail.com>
-> > +  - Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
-> > +
-> > +description: |
-> > +  Mediatek Read Direct Memory Access(RDMA) component used to do
-> > read DMA.
-> > +  It contains one line buffer to store the sufficient pixel data,
-> > and
-> > +  must be siblings to the central MMSYS_CONFIG node.
-> > +  For a description of the MMSYS_CONFIG binding, see
-> > +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
-> > ml
-> > +  for details.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: mediatek,mt8183-mdp3-rdma
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  mediatek,gce-client-reg:
-> > +    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-> > +    maxItems: 1
-> 
-> Like your other patches this needs 'items' describing each cell.
-> 
-> > +    description: |
-> > +      The register of client driver can be configured by gce with
-> > +      4 arguments defined in this property, such as phandle of
-> > gce, subsys id,
-> > +      register offset and size. Each GCE subsys id is mapping to a
-> > client
-> > +      defined in the header include/dt-bindings/gce/<chip>-gce.h.
-> 
-> Other than other cases of this property, the rest looks fine.
-> 
-> Rob
+The selftests, fix the error handling, remove unused functions and stop
+leaking memory in failed tests.
 
-Hello Rob,
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/st-dma-fence-unwrap.c | 40 +++++++++++----------------
+ 1 file changed, 16 insertions(+), 24 deletions(-)
 
-Thanks for your review and reminder.
-
-Moudy's mail is still not received by devicetree@vger.kernel.org.
-We are still under checking this issue.
-To prevent you do not receive his response, I help Moudy to mail you
-again.
-
-Moudy will sync the description from the patch listed below to this
-property and extend to other yaml files in this series.
-
-
-https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220427064425.30383-5-moudy.ho@mediatek.com/
-
-BRs,
-Rex
+diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
+index 039f016b57be..59628add93f5 100644
+--- a/drivers/dma-buf/st-dma-fence-unwrap.c
++++ b/drivers/dma-buf/st-dma-fence-unwrap.c
+@@ -4,27 +4,19 @@
+  * Copyright (C) 2022 Advanced Micro Devices, Inc.
+  */
+ 
++#include <linux/dma-fence.h>
++#include <linux/dma-fence-array.h>
++#include <linux/dma-fence-chain.h>
+ #include <linux/dma-fence-unwrap.h>
+-#if 0
+-#include <linux/kernel.h>
+-#include <linux/kthread.h>
+-#include <linux/mm.h>
+-#include <linux/sched/signal.h>
+-#include <linux/slab.h>
+-#include <linux/spinlock.h>
+-#include <linux/random.h>
+-#endif
+ 
+ #include "selftest.h"
+ 
+ #define CHAIN_SZ (4 << 10)
+ 
+-static inline struct mock_fence {
++struct mock_fence {
+ 	struct dma_fence base;
+ 	spinlock_t lock;
+-} *to_mock_fence(struct dma_fence *f) {
+-	return container_of(f, struct mock_fence, base);
+-}
++};
+ 
+ static const char *mock_name(struct dma_fence *f)
+ {
+@@ -45,7 +37,8 @@ static struct dma_fence *mock_fence(void)
+ 		return NULL;
+ 
+ 	spin_lock_init(&f->lock);
+-	dma_fence_init(&f->base, &mock_ops, &f->lock, 0, 0);
++	dma_fence_init(&f->base, &mock_ops, &f->lock,
++		       dma_fence_context_alloc(1), 1);
+ 
+ 	return &f->base;
+ }
+@@ -113,7 +106,6 @@ static int sanitycheck(void *arg)
+ 	if (!chain)
+ 		return -ENOMEM;
+ 
+-	dma_fence_signal(f);
+ 	dma_fence_put(chain);
+ 	return err;
+ }
+@@ -154,10 +146,10 @@ static int unwrap_array(void *arg)
+ 		err = -EINVAL;
+ 	}
+ 
+-	dma_fence_signal(f1);
+-	dma_fence_signal(f2);
++	dma_fence_put(f1);
++	dma_fence_put(f2);
+ 	dma_fence_put(array);
+-	return 0;
++	return err;
+ }
+ 
+ static int unwrap_chain(void *arg)
+@@ -196,10 +188,10 @@ static int unwrap_chain(void *arg)
+ 		err = -EINVAL;
+ 	}
+ 
+-	dma_fence_signal(f1);
+-	dma_fence_signal(f2);
++	dma_fence_put(f1);
++	dma_fence_put(f2);
+ 	dma_fence_put(chain);
+-	return 0;
++	return err;
+ }
+ 
+ static int unwrap_chain_array(void *arg)
+@@ -242,10 +234,10 @@ static int unwrap_chain_array(void *arg)
+ 		err = -EINVAL;
+ 	}
+ 
+-	dma_fence_signal(f1);
+-	dma_fence_signal(f2);
++	dma_fence_put(f1);
++	dma_fence_put(f2);
+ 	dma_fence_put(chain);
+-	return 0;
++	return err;
+ }
+ 
+ int dma_fence_unwrap(void)
+-- 
+2.25.1
 
