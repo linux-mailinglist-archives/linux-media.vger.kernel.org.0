@@ -2,72 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37B04519C8F
-	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 12:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FD12519E80
+	for <lists+linux-media@lfdr.de>; Wed,  4 May 2022 13:49:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347888AbiEDKMc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 May 2022 06:12:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52108 "EHLO
+        id S1349076AbiEDLxH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 May 2022 07:53:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347886AbiEDKMb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 06:12:31 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC2825E9C
-        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 03:08:55 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id kq17so1927142ejb.4
-        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 03:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=rDvB+eR1HPDPBgGgQVQu2odCTv9ee9o4/T9uHCg8jP4=;
-        b=A56yDbl+jbM/gnxspFPWnGAYTEb0RqS2FzO7zYJrM+jL5V5PQog7tdfOOGVGOgj3g3
-         74+mk4+8V5EvHB0v9xnXL2vZ6c1GpJtriJSGRQJWqXrHbhfpUI8mqVMqX/wilUanQVUA
-         eT/ihO+r2X13yIcZwGtoxlBc5OH19/1ypIFW8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=rDvB+eR1HPDPBgGgQVQu2odCTv9ee9o4/T9uHCg8jP4=;
-        b=6d4Q+1QTsg9dBtAhmKdAWrwUGQu9YAAaJaSqq7MTw3BHG4V1SxMldyLD8cW5rWzxHy
-         6gooBZiM5ofsE5lVBJg8t3bCCWm8dzjjwfz665GiDgRnNN8TZXy7k1YlClRlRszzfxRG
-         wnpGDG3kId4sDwAOrVfq/c5wDmbD121AUXTCX2zpaN2zBtQVh+KzskEt7b+A8dZEJ5Jj
-         8vcXknjCzZdVdGAqws7ZNQecAd7lgaonvYh6w7JT09lwwgLB5eKaarpS+qgl0QnT4lmK
-         rBJC7hCBX1SoUsB98RebGHT5of+K45MhKBpSHfR0/Qf/dZVdsq8h95pdUrLLyDdEDUPZ
-         aZbQ==
-X-Gm-Message-State: AOAM530rwVWtjq6Vb+BWhs5GNjTlPI06oH4jp6EpsQJDyokQVRnOiBah
-        I6LqBeCcgYxwq0ZTZ2wqdbXW/w==
-X-Google-Smtp-Source: ABdhPJwbjPuToa2SnetpxbPrTynYxAMYWjdHnaxw0b3HqZFbxYlHD3SMrwyEcKnvnOumNHYnDaOB8g==
-X-Received: by 2002:a17:907:2064:b0:6f4:3f07:c76e with SMTP id qp4-20020a170907206400b006f43f07c76emr13671217ejb.462.1651658933850;
-        Wed, 04 May 2022 03:08:53 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id hz19-20020a1709072cf300b006f3ef214df7sm5618514ejc.93.2022.05.04.03.08.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 03:08:53 -0700 (PDT)
-Date:   Wed, 4 May 2022 12:08:51 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     daniel@ffwll.ch, jason@jlekstrand.net, daniels@collabora.com,
-        skhawaja@google.com, maad.aldabagh@amd.com, sergemetral@google.com,
-        sumit.semwal@linaro.org, gustavo@padovan.org,
-        Felix.Kuehling@amd.com, alexander.deucher@amd.com,
-        tzimmermann@suse.de, tvrtko.ursulin@linux.intel.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: Tackling the indefinite/user DMA fence problem
-Message-ID: <YnJQs1iusrBvpuMs@phenom.ffwll.local>
-References: <20220502163722.3957-1-christian.koenig@amd.com>
+        with ESMTP id S234461AbiEDLxF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 07:53:05 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC965F91;
+        Wed,  4 May 2022 04:49:28 -0700 (PDT)
+X-UUID: 03b2502f90ec4a62b4abbce6beff4ddd-20220504
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4,REQID:7f5c9cfb-e572-4057-9e20-2dd2e1d5b1f6,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+        ON:release,TS:0
+X-CID-META: VersionHash:faefae9,CLOUDID:fac48ab2-56b5-4c9e-8d83-0070b288eb6a,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 03b2502f90ec4a62b4abbce6beff4ddd-20220504
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
+        (envelope-from <rex-bc.chen@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 325725063; Wed, 04 May 2022 19:49:22 +0800
+Received: from MTKMBS07N2.mediatek.inc (172.21.101.141) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Wed, 4 May 2022 19:49:21 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 4 May 2022 19:49:21 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 4 May 2022 19:49:21 +0800
+Message-ID: <7189b0c0c62fe8a8026d2e25e741a29b2f5b01a9.camel@mediatek.com>
+Subject: Re: [PATCH v14 1/3] dt-binding: mediatek: add bindings for MediaTek
+ MDP3 components
+From:   Rex-BC Chen <rex-bc.chen@mediatek.com>
+To:     Rob Herring <robh@kernel.org>, Moudy Ho <moudy.ho@mediatek.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <xiandong.wang@mediatek.com>,
+        <randy.wu@mediatek.com>, <jason-jh.lin@mediatek.com>,
+        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Wed, 4 May 2022 19:49:21 +0800
+In-Reply-To: <YnFqnEI16B+xrxdQ@robh.at.kernel.org>
+References: <20220427070514.10355-1-moudy.ho@mediatek.com>
+         <20220427070514.10355-2-moudy.ho@mediatek.com>
+         <YnFqnEI16B+xrxdQ@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220502163722.3957-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,130 +83,109 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 02, 2022 at 06:37:07PM +0200, Christian König wrote:
-> Hello everyone,
+On Tue, 2022-05-03 at 12:47 -0500, Rob Herring wrote:
+> On Wed, Apr 27, 2022 at 03:05:12PM +0800, Moudy Ho wrote:
+> > This patch adds DT binding documents for Media Data Path 3 (MDP3)
+> > a unit in multimedia system combined with several components and
+> > used for scaling and color format convert.
+> > 
+> > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> > ---
+> >  .../bindings/media/mediatek,mdp3-rdma.yaml    | 82
+> > +++++++++++++++++++
+> >  .../bindings/media/mediatek,mdp3-rsz.yaml     | 61 ++++++++++++++
+> >  .../bindings/media/mediatek,mdp3-wrot.yaml    | 66 +++++++++++++++
+> >  .../bindings/soc/mediatek/mediatek,ccorr.yaml | 54 ++++++++++++
+> >  .../bindings/soc/mediatek/mediatek,wdma.yaml  | 67 +++++++++++++++
+> >  5 files changed, 330 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
+> > rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
+> > rdma.yaml
+> > new file mode 100644
+> > index 000000000000..ce24eda14cb6
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-
+> > rdma.yaml
+> > @@ -0,0 +1,82 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: 
+> > https://urldefense.com/v3/__http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!zzzJB6GFgAbOaMvOMeEANc2UnatoXvcdzZ3UGx6024oxx1okemuH9vCeCSpaGUuD8dSrlYueRf2HFVdfFu6CVB7LUQ$
+> >  
+> > +$schema: 
+> > https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!zzzJB6GFgAbOaMvOMeEANc2UnatoXvcdzZ3UGx6024oxx1okemuH9vCeCSpaGUuD8dSrlYueRf2HFVdfFu5BwY-loQ$
+> >  
+> > +
+> > +title: Mediatek Read Direct Memory Access
+> > +
+> > +maintainers:
+> > +  - Matthias Brugger <matthias.bgg@gmail.com>
+> > +  - Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+> > +
+> > +description: |
+> > +  Mediatek Read Direct Memory Access(RDMA) component used to do
+> > read DMA.
+> > +  It contains one line buffer to store the sufficient pixel data,
+> > and
+> > +  must be siblings to the central MMSYS_CONFIG node.
+> > +  For a description of the MMSYS_CONFIG binding, see
+> > +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
+> > ml
+> > +  for details.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - const: mediatek,mt8183-mdp3-rdma
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  mediatek,gce-client-reg:
+> > +    $ref: '/schemas/types.yaml#/definitions/phandle-array'
+> > +    maxItems: 1
 > 
-> it's a well known problem that the DMA-buf subsystem mixed
-> synchronization and memory management requirements into the same
-> dma_fence and dma_resv objects. Because of this dma_fence objects need
-> to guarantee that they complete within a finite amount of time or
-> otherwise the system can easily deadlock.
+> Like your other patches this needs 'items' describing each cell.
 > 
-> One of the few good things about this problem is that it is really good
-> understood by now.
+> > +    description: |
+> > +      The register of client driver can be configured by gce with
+> > +      4 arguments defined in this property, such as phandle of
+> > gce, subsys id,
+> > +      register offset and size. Each GCE subsys id is mapping to a
+> > client
+> > +      defined in the header include/dt-bindings/gce/<chip>-gce.h.
 > 
-> Daniel and others came up with some documentation:
-> https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#indefinite-dma-fences
+> Other than other cases of this property, the rest looks fine.
 > 
-> And Jason did an excellent presentation about that problem on last years
-> LPC: https://lpc.events/event/11/contributions/1115/
-> 
-> Based on that we had been able to reject new implementations of
-> infinite/user DMA fences and mitigate the effect of the few existing
-> ones.
-> 
-> The still remaining down side is that we don't have a way of using user
-> fences as dependency in both the explicit (sync_file, drm_syncobj) as
-> well as the implicit (dma_resv) synchronization objects, resulting in
-> numerous problems and limitations for things like HMM, user queues
-> etc....
-> 
-> This patch set here now tries to tackle this problem by untangling the
-> synchronization from the memory management. What it does *not* try to do
-> is to fix the existing kernel fences, because I think we now can all
-> agree on that this isn't really possible.
-> 
-> To archive this goal what I do in this patch set is to add some parallel
-> infrastructure to cleanly separate normal kernel dma_fence objects from
-> indefinite/user fences:
-> 
-> 1. It introduce a DMA_FENCE_FLAG_USER define (after renaming some
-> existing driver defines). To note that a certain dma_fence is an user
-> fence and *must* be ignore by memory management and never used as
-> dependency for normal none user dma_fence objects.
-> 
-> 2. The dma_fence_array and dma_fence_chain containers are modified so
-> that they are marked as user fences whenever any of their contained
-> fences are an user fence.
-> 
-> 3. The dma_resv object gets a new DMA_RESV_USAGE_USER flag which must be
-> used with indefinite/user fences and separates those into it's own
-> synchronization domain.
-> 
-> 4. The existing dma_buf_poll_add_cb() function is modified so that
-> indefinite/user fences are included in the polling.
-> 
-> 5. The sync_file synchronization object is modified so that we
-> essentially have two fence streams instead of just one.
-> 
-> 6. The drm_syncobj is modified in a similar way. User fences are just
-> ignored unless the driver explicitly states support to wait for them.
-> 
-> 7. The DRM subsystem gains a new DRIVER_USER_FENCE flag which drivers
-> can use to indicate the need for user fences. If user fences are used
-> the atomic mode setting starts to support user fences as IN/OUT fences.
-> 
-> 8. Lockdep is used at various critical locations to ensure that nobody
-> ever tries to mix user fences with non user fences.
-> 
-> The general approach is to just ignore user fences unless a driver
-> stated explicitely support for them.
-> 
-> On top of all of this I've hacked amdgpu so that we add the resulting CS
-> fence only as kernel dependency to the dma_resv object and an additional
-> wrapped up with a dma_fence_array and a stub user fence.
-> 
-> The result is that the newly added atomic modeset functions now
-> correctly wait for the user fence to complete before doing the flip. And
-> dependent CS don't pipeline any more, but rather block on the CPU before
-> submitting work.
-> 
-> After tons of debugging and testing everything now seems to not go up in
-> flames immediately and even lockdep is happy with the annotations.
-> 
-> I'm perfectly aware that this is probably by far the most controversial
-> patch set I've ever created and I really wish we wouldn't need it. But
-> we certainly have the requirement for this and I don't see much other
-> chance to get that working in an UAPI compatible way.
-> 
-> Thoughts/comments?
+> Rob
 
-I think you need to type up the goal or exact problem statement you're
-trying to solve first. What you typed up is a solution along the lines of
-"try to stuff userspace memory fences into dma_fence and see how horrible
-it all is", and that's certainly an interesting experiment, but what are
-you trying to solve with it?
+Hello Rob,
 
-Like if the issue is to enable opencl or whatever, then that's no problem
-(rocm on amdkfd is a thing, same maybe without the kfd part can be done
-anywhere else). If the goal is to enable userspace memory fences for vk,
-then we really don't need these everywhere, but really only in drm_syncobj
-(and maybe sync_file).
+Thanks for your review and reminder.
 
-If the goal is specifically atomic kms, then there's an entire can of
-worms there that I really don't want to think about, but it exists: We
-have dma_fence as out-fences from atomic commit, and that's already
-massively broken since most drivers allocate some memory or at least take
-locks which can allocate memory in their commit path. Like i2c. Putting a
-userspace memory fence as in-fence in there makes that problem
-substantially worse, since at least in theory you're just not allowed to
-might_faul in atomic_commit_tail.
+Moudy's mail is still not received by devicetree@vger.kernel.org.
+We are still under checking this issue.
+To prevent you do not receive his response, I help Moudy to mail you
+again.
 
-If the goal is to keep the uapi perfectly compatible then your patch set
-doesn't look like a solution, since as soon as another driver is involved
-which doesn't understand userspace memory fences it all falls apart. So
-works great for a quick demo with amd+amd sharing, but not much further.
-And I don't think it's feasible to just rev the entire ecosystem, since
-that kinda defeats the point of keeping uapi stable - if we rev everything
-we might as well also rev the uapi and make this a bit more incremental
-again :-)
+Moudy will sync the description from the patch listed below to this
+property and extend to other yaml files in this series.
 
-There's probably more to ponder here ...
 
-I'm not sure what exactly the problem statement is that matches your
-solution here though, so that seems to be missing.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220427064425.30383-5-moudy.ho@mediatek.com/
+
+BRs,
+Rex
+
