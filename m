@@ -2,76 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D93CB51B1DF
-	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 00:31:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 413E951B1E3
+	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 00:31:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379028AbiEDWei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 May 2022 18:34:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51292 "EHLO
+        id S1379016AbiEDWek (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 May 2022 18:34:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378988AbiEDWea (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 18:34:30 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB1A22B257
-        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 15:30:52 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id v12so3784947wrv.10
-        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 15:30:52 -0700 (PDT)
+        with ESMTP id S1379020AbiEDWec (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 May 2022 18:34:32 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0545F2B242
+        for <linux-media@vger.kernel.org>; Wed,  4 May 2022 15:30:54 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id x18so3838908wrc.0
+        for <linux-media@vger.kernel.org>; Wed, 04 May 2022 15:30:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=f+hA5NbVCTe8pYlLM1ek8PpVaxlEFMTM89KxjFBt8xE=;
-        b=nu2qX6j5MqwcHp2+UxdFRQgqRkRJR1HvjBAMSlSGsZ1LCOAnhRaKClMLvQKzk+bLif
-         xmCx0KQnDp1EU0d8ZM5xyBUcmAAdlbuWEb98a3lriUrtNaKpyZ+W6KXt1gPF+2jjVzat
-         X+beI0BxRwe3CbAtyk0qjAK8TE9E1UTlx1J/CDW/E6lOa9dHAPU+qVw6g/f/403PI4gl
-         r6ISdMiy4j58cPY9aGLjSm3wWEhbpjHCme2aloeMPtZfIZDMPUezLHn4p/yF+PZ7YwCi
-         8ZDfNUrqD6bJZw9oqzwfCK9w9reWRoPBwr4E5dzndnl5soKDnLkpmZSHTWDuGA5cBkMm
-         +pGQ==
+        bh=m//43Rp7njXORy91OJCD5DVgj0T57kwW6CzMCnhDzqE=;
+        b=dNAKk2lRalsl6nVQZ2G3QRIbIb4c1zmr7+vrJBpW/lTGzDadPtgQxg1/+55O01HoqD
+         BcY8FRY7P7dRlxybxukhQ8VTLFcYNYgUDekF3j/C/BUmpQb5T04f6cFUiQiR3GrokPbi
+         IfoGwWlGOqxHyy+IU7k1ECXhDWyMZJL8I7AAPbKRmKeOAFsb5x2o/9cf8/CLhmq8uFnz
+         sXv6GWMqzopKij57zSTiYgfj8mzgG2rkUX84KK//B2GGM3a8IJJ/EXsmRkajJ+fCJSY8
+         yKwOw+VyJHL0FTINmMVrxyNrMCcZjrg07/3EZKVMgRRMN+wbA19g59Cpj2Pmjy6o+2Pe
+         fDQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=f+hA5NbVCTe8pYlLM1ek8PpVaxlEFMTM89KxjFBt8xE=;
-        b=zaaadr/EobtctXyEVv9woOLRlNEBRLWLbLa0bfOrUKYCckMptfhw9vL8DfcijR2ND+
-         9LXilNTwumJAHIK03VxFcTZOyoKemtCaPUjDLgnUBm6sCXFUN8DRwctiZO8rSTxWl24b
-         vWYwP/26Q2wei7MPacmgIOGkyqRez1ch6lVwmj4Cs6tXAa3SAv578x7BF8QAdzSpk51f
-         6n/YkrN6z+oudNn9rs/BWMCCLTk9cylnEhpRJVZQD1tCCQM+baGur7sap7nsoZyLXT8t
-         1MVwKsKHs6FKnQbp2cUSZIbbkguVyh9tHNqvd9U42Rr8hZpq2B0rVFgP3xOCie6nVLM4
-         3y+g==
-X-Gm-Message-State: AOAM5305VgNmA/OurbjlswYyYmXe1BFjeFtt+Wdihbcjwui1MquGgHqI
-        jm9e2Z3HfXg5g6qBVNz3PMjRiDjNa4o=
-X-Google-Smtp-Source: ABdhPJzsc+jpB25yjrFwaI98yNlnsg6um76AfygHK5EvO6AHjDEEF/pCxSb2OVr8ClwUlEwmxdEUrg==
-X-Received: by 2002:a5d:6da8:0:b0:20c:535e:2f61 with SMTP id u8-20020a5d6da8000000b0020c535e2f61mr18250219wrs.455.1651703451622;
-        Wed, 04 May 2022 15:30:51 -0700 (PDT)
+        bh=m//43Rp7njXORy91OJCD5DVgj0T57kwW6CzMCnhDzqE=;
+        b=FLsF73zkOe+J/DQYacw1MSRIJj7k9QANGb6bAk8JU4mbWKeSOC1nxnFfPdT6j5JfI3
+         bIPl3uWxW7PTXO4HemQHgKpKNWqKE/xxqLaVnY2MsKaLD7yqbdGMeQAMAOX3cl6Giqy2
+         gXW8E1+5AYy6McmAX3j6fuTHuWDkcmHBz3QDSCnmwM3lGNuNSQoVhxk/tp2fDV/BlKmo
+         jAdSkPabnYHLEx/bNsK5gfZXzIz4DsU5TRURAPMg88VDgEpYe4bM6uq0REvq8jAoz81y
+         issLNU5/6Or3h016FpWd39DmHetMj/4feo31+KTSB8ghjYDxJ3IVTn9YeJhYvuIWZiHQ
+         ARRw==
+X-Gm-Message-State: AOAM532GfT+5sTX2z9Bik7zz1I4O5YEFKfKAy2/z1wJjHMOtI0ky+53T
+        cgzLL3bg1yNQtzJAiWFHlPMiTYVLef0=
+X-Google-Smtp-Source: ABdhPJz7mOj4asuIG00+XTOamd90hr1n/r80CVxRO7GGVfl4IEZCHlzGAH9q2CfgzAoguLZ77U8oWw==
+X-Received: by 2002:a5d:64e7:0:b0:20c:5b42:a93c with SMTP id g7-20020a5d64e7000000b0020c5b42a93cmr14759645wri.619.1651703452541;
+        Wed, 04 May 2022 15:30:52 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id h29-20020adfaa9d000000b0020c5253d913sm12501442wrc.95.2022.05.04.15.30.50
+        by smtp.gmail.com with ESMTPSA id h29-20020adfaa9d000000b0020c5253d913sm12501442wrc.95.2022.05.04.15.30.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 15:30:51 -0700 (PDT)
+        Wed, 04 May 2022 15:30:52 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
         bingbu.cao@intel.com, tian.shu.qiu@intel.com,
         andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH v3 12/15] media: i2c: Extend .get_selection() for ov7251
-Date:   Wed,  4 May 2022 23:30:24 +0100
-Message-Id: <20220504223027.3480287-13-djrscally@gmail.com>
+Subject: [PATCH v3 13/15] media: i2c: add ov7251_init_ctrls()
+Date:   Wed,  4 May 2022 23:30:25 +0100
+Message-Id: <20220504223027.3480287-14-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220504223027.3480287-1-djrscally@gmail.com>
 References: <20220504223027.3480287-1-djrscally@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,PDS_OTHER_BAD_TLD,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Extend the .get_selection() callback to support other values for
-sel->target, primarily to satisfy libcamera's requirements.
+V4L2 controls initialisation takes up a sizeable portion of the
+driver's .probe() function. To keep things neat, move it to a
+dedicated function.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
@@ -79,63 +80,132 @@ Changes in v3:
 
 	- New patch
 
- drivers/media/i2c/ov7251.c | 35 +++++++++++++++++++++++++++++------
- 1 file changed, 29 insertions(+), 6 deletions(-)
+ drivers/media/i2c/ov7251.c | 93 +++++++++++++++++++++-----------------
+ 1 file changed, 52 insertions(+), 41 deletions(-)
 
 diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
-index 4f8c797839f6..40e42d19cddd 100644
+index 40e42d19cddd..b7d89ad49887 100644
 --- a/drivers/media/i2c/ov7251.c
 +++ b/drivers/media/i2c/ov7251.c
-@@ -54,6 +54,13 @@
- #define OV7251_PLL2_SYS_DIV_REG		0x309a
- #define OV7251_PLL2_ADC_DIV_REG		0x309b
- 
-+#define OV7251_NATIVE_WIDTH		656
-+#define OV7251_NATIVE_HEIGHT		496
-+#define OV7251_ACTIVE_START_LEFT	4
-+#define OV7251_ACTIVE_START_TOP		4
-+#define OV7251_ACTIVE_WIDTH		648
-+#define OV7251_ACTIVE_HEIGHT		488
-+
- struct reg_value {
- 	u16 reg;
- 	u8 val;
-@@ -1248,13 +1255,29 @@ static int ov7251_get_selection(struct v4l2_subdev *sd,
- {
- 	struct ov7251 *ov7251 = to_ov7251(sd);
- 
--	if (sel->target != V4L2_SEL_TGT_CROP)
--		return -EINVAL;
--
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP:
- 	mutex_lock(&ov7251->lock);
--	sel->r = *__ov7251_get_pad_crop(ov7251, sd_state, sel->pad,
--					sel->which);
--	mutex_unlock(&ov7251->lock);
-+		sel->r = *__ov7251_get_pad_crop(ov7251, sd_state, sel->pad,
-+						sel->which);
-+		mutex_unlock(&ov7251->lock);
-+		break;
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = OV7251_NATIVE_WIDTH;
-+		sel->r.height = OV7251_NATIVE_HEIGHT;
-+		break;
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.top = OV7251_ACTIVE_START_TOP;
-+		sel->r.left = OV7251_ACTIVE_START_LEFT;
-+		sel->r.width = OV7251_ACTIVE_WIDTH;
-+		sel->r.height = OV7251_ACTIVE_HEIGHT;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
- 
+@@ -1487,12 +1487,58 @@ static int ov7251_detect_chip(struct ov7251 *ov7251)
  	return 0;
  }
+ 
++static int ov7251_init_ctrls(struct ov7251 *ov7251)
++{
++	s64 pixel_rate;
++
++	v4l2_ctrl_handler_init(&ov7251->ctrls, 7);
++	ov7251->ctrls.lock = &ov7251->lock;
++
++	v4l2_ctrl_new_std(&ov7251->ctrls, &ov7251_ctrl_ops,
++			  V4L2_CID_HFLIP, 0, 1, 1, 0);
++	v4l2_ctrl_new_std(&ov7251->ctrls, &ov7251_ctrl_ops,
++			  V4L2_CID_VFLIP, 0, 1, 1, 0);
++	ov7251->exposure = v4l2_ctrl_new_std(&ov7251->ctrls, &ov7251_ctrl_ops,
++					     V4L2_CID_EXPOSURE, 1, 32, 1, 32);
++	ov7251->gain = v4l2_ctrl_new_std(&ov7251->ctrls, &ov7251_ctrl_ops,
++					 V4L2_CID_GAIN, 16, 1023, 1, 16);
++	v4l2_ctrl_new_std_menu_items(&ov7251->ctrls, &ov7251_ctrl_ops,
++				     V4L2_CID_TEST_PATTERN,
++				     ARRAY_SIZE(ov7251_test_pattern_menu) - 1,
++				     0, 0, ov7251_test_pattern_menu);
++
++	pixel_rate = pixel_rates[ov7251->link_freq_idx];
++	ov7251->pixel_clock = v4l2_ctrl_new_std(&ov7251->ctrls,
++						&ov7251_ctrl_ops,
++						V4L2_CID_PIXEL_RATE,
++						pixel_rate, INT_MAX,
++						pixel_rate, pixel_rate);
++	ov7251->link_freq = v4l2_ctrl_new_int_menu(&ov7251->ctrls,
++						   &ov7251_ctrl_ops,
++						   V4L2_CID_LINK_FREQ,
++						   ARRAY_SIZE(link_freq) - 1,
++						   ov7251->link_freq_idx,
++						   link_freq);
++	if (ov7251->link_freq)
++		ov7251->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++	if (ov7251->pixel_clock)
++		ov7251->pixel_clock->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	ov7251->sd.ctrl_handler = &ov7251->ctrls;
++
++	if (ov7251->ctrls.error) {
++		v4l2_ctrl_handler_free(&ov7251->ctrls);
++		return ov7251->ctrls.error;
++	}
++
++	return 0;
++}
++
+ static int ov7251_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	struct ov7251 *ov7251;
+ 	unsigned int rate = 0, clk_rate = 0;
+-	s64 pixel_rate;
+ 	int ret;
+ 	int i;
+ 
+@@ -1573,46 +1619,10 @@ static int ov7251_probe(struct i2c_client *client)
+ 
+ 	mutex_init(&ov7251->lock);
+ 
+-	v4l2_ctrl_handler_init(&ov7251->ctrls, 7);
+-	ov7251->ctrls.lock = &ov7251->lock;
+-
+-	v4l2_ctrl_new_std(&ov7251->ctrls, &ov7251_ctrl_ops,
+-			  V4L2_CID_HFLIP, 0, 1, 1, 0);
+-	v4l2_ctrl_new_std(&ov7251->ctrls, &ov7251_ctrl_ops,
+-			  V4L2_CID_VFLIP, 0, 1, 1, 0);
+-	ov7251->exposure = v4l2_ctrl_new_std(&ov7251->ctrls, &ov7251_ctrl_ops,
+-					     V4L2_CID_EXPOSURE, 1, 32, 1, 32);
+-	ov7251->gain = v4l2_ctrl_new_std(&ov7251->ctrls, &ov7251_ctrl_ops,
+-					 V4L2_CID_GAIN, 16, 1023, 1, 16);
+-	v4l2_ctrl_new_std_menu_items(&ov7251->ctrls, &ov7251_ctrl_ops,
+-				     V4L2_CID_TEST_PATTERN,
+-				     ARRAY_SIZE(ov7251_test_pattern_menu) - 1,
+-				     0, 0, ov7251_test_pattern_menu);
+-
+-	pixel_rate = pixel_rates[ov7251->link_freq_idx];
+-	ov7251->pixel_clock = v4l2_ctrl_new_std(&ov7251->ctrls,
+-						&ov7251_ctrl_ops,
+-						V4L2_CID_PIXEL_RATE,
+-						pixel_rate, INT_MAX,
+-						pixel_rate, pixel_rate);
+-	ov7251->link_freq = v4l2_ctrl_new_int_menu(&ov7251->ctrls,
+-						   &ov7251_ctrl_ops,
+-						   V4L2_CID_LINK_FREQ,
+-						   ARRAY_SIZE(link_freq) - 1,
+-						   ov7251->link_freq_idx,
+-						   link_freq);
+-	if (ov7251->link_freq)
+-		ov7251->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+-	if (ov7251->pixel_clock)
+-		ov7251->pixel_clock->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+-
+-	ov7251->sd.ctrl_handler = &ov7251->ctrls;
+-
+-	if (ov7251->ctrls.error) {
+-		dev_err(dev, "%s: control initialization error %d\n",
+-			__func__, ov7251->ctrls.error);
+-		ret = ov7251->ctrls.error;
+-		goto free_ctrl;
++	ret = ov7251_init_ctrls(ov7251);
++	if (ret) {
++		dev_err_probe(dev, ret, "error during v4l2 ctrl init\n");
++		goto destroy_mutex;
+ 	}
+ 
+ 	v4l2_i2c_subdev_init(&ov7251->sd, client, &ov7251_subdev_ops);
+@@ -1686,6 +1696,7 @@ static int ov7251_probe(struct i2c_client *client)
+ 	media_entity_cleanup(&ov7251->sd.entity);
+ free_ctrl:
+ 	v4l2_ctrl_handler_free(&ov7251->ctrls);
++destroy_mutex:
+ 	mutex_destroy(&ov7251->lock);
+ 
+ 	return ret;
 -- 
 2.25.1
 
