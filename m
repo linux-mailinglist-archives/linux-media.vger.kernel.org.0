@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63A1251CC72
-	for <lists+linux-media@lfdr.de>; Fri,  6 May 2022 01:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE85751CC6D
+	for <lists+linux-media@lfdr.de>; Fri,  6 May 2022 01:05:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386546AbiEEXH7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1386548AbiEEXH7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 5 May 2022 19:07:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44714 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386537AbiEEXH6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 19:07:58 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04A255EDC5
+        with ESMTP id S1386547AbiEEXH7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 19:07:59 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F12B95EDCB
         for <linux-media@vger.kernel.org>; Thu,  5 May 2022 16:04:17 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id i5so7855977wrc.13
-        for <linux-media@vger.kernel.org>; Thu, 05 May 2022 16:04:16 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id d5so7866507wrb.6
+        for <linux-media@vger.kernel.org>; Thu, 05 May 2022 16:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p991ONNHq387h8+TGxMod6UhA12KlgGHC0aWWdyIYEk=;
-        b=ZIeT9NqqYiqSTvqUSSd4/FrqoPifRIBzrqpmeOPsN5bLMwtKlQCpMxPOhwn04lnoCM
-         qHTZ7FKpCJ2khISrW0CBP4LcWRa8bEWhFRQ1cy74LUDSEEZuW+oz5bulPztQHxEwL5+8
-         N8gSVxWm6u/Gq8PIdRHbqtXG1/+7FVw1Tp3ubzicHCI8hodCkGF+vpia1ffCwcdEIL/o
-         QO2cEtAhnSaZCZHM/G9dycWxjUESRX2VJFYqhAuz65MNyPks/ar5T+puM3Uk9B3uiP3g
-         nEsv0Y0h9FmaOjP+bpfuDDDyyqeAOXAaH6AYYFw+x4Cw26nDZrMI20qITNFoOr/aHvRZ
-         qkzA==
+        bh=+FA1HuzrAkUutuEywbGVeEDJxd7dNUrp3TJdDuNCkCs=;
+        b=N35mVl5yJGmgfFJtBagPmJpHhgEsakttcGl1N+IXYoGXdNbAr6T9YVzRicSTwFO1Jp
+         EaVI3X611PtHSDJKZmNIhZk+azTxy+A0vgVHiv+cclu+xuC91lGMEOkFbDSDxDRSNaPs
+         /6v5pOahoHbgjb4n5a9wSFdEo0rFogDKTN79ddsx1aRQQeHEcZ4enJakH575nmMoGs8j
+         mgK0Sz7+eb9aLqfBTb/MusHu/zDN0lG7Tz/+ElZH7Kjhl2Vngakgzd41lgFwfJViIKX2
+         wuKWyCkotOn+4sC8tbqZs9jM/+fpB+aR1928nTdFtXDm+CVK2io+jBhCCMTHnLAUxgwN
+         UYpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p991ONNHq387h8+TGxMod6UhA12KlgGHC0aWWdyIYEk=;
-        b=lRUdwoqT74LBcaXUTn0HLRf1o5sOaVYMyFjJa25MvWitm0pl+1Hcfw40D2g6h6Mmw3
-         jdndZw7nAABc71+9QP+XKsYFODxMev8Zgnn1UD9wAve/Qq/GvDF+o3B/zEUn1I/74vOJ
-         eAWIFjDOa4+dwVUfGyTmXjZCzS+/ghLayn65RbymiYy/BXp5pa5/FA6HW8QZUXEG+Nq6
-         THBTKBLvnzUjfMLp1/MNzPsMjDpSqpxZ0fTfskHk47f6LOaEjPN7M2b+x4AbA4s+lH7k
-         f+Yj+ozni3y4q3FA/jNts32Vty3C0yYldckwAFRJC4SlX1Y+doEpRCg9KoWWPJ1qnqN4
-         dKEA==
-X-Gm-Message-State: AOAM530EsxJ3hmWKoqFGilZHluPWSim4SzZgHRqBscxVywcZgLmr7bTu
-        ZrIQq+BgbvP3HYuQiau7J5kUsSLNXE0=
-X-Google-Smtp-Source: ABdhPJwdVDLsubdklz1U2XwW5OrrruoOs5k81m0wwbMZZBwnSyGRttuOoDGc9hQmC4okIgUjBhFvaA==
-X-Received: by 2002:a5d:4307:0:b0:207:9f82:e238 with SMTP id h7-20020a5d4307000000b002079f82e238mr312859wrq.430.1651791855568;
-        Thu, 05 May 2022 16:04:15 -0700 (PDT)
+        bh=+FA1HuzrAkUutuEywbGVeEDJxd7dNUrp3TJdDuNCkCs=;
+        b=DPPoTH4pKkaeNEzHIgLNdG4l6ptlfmbjjRgnCWmTRgfKUIzRiRMavk2s0nMRm0AaeV
+         2W95N44QW//FnrB0ETpzoJuoktiUvo53PMKZOtpQtLTE6aGmgLu/eAXCASY2H8s4Avuk
+         GOEeLZfVfUviEBsUrecQhfRQBVGR46ovvf0sj3K38Ey6o4V8PyhDaek2y8eoYrbLTiZ8
+         EtLFoHeYxHdBjsiEJ0kFZq+YKW2FWuzwXOAG+vSY2BUsBKRUBqyPZAl485f9HUn7TLps
+         S+7EC/sIXsuL82ia4VCTikbh1geF9lloG1czMpQ1lml/M2/NLkRTt1vk0HakNTXolgMt
+         jqBA==
+X-Gm-Message-State: AOAM530SHP3oTBm31aM5dxG0Y2ESkKvjPHKHsVsg55GHqBgrh0TRngQi
+        +E1uJGoE5IA13Nf6Df483f8DJEv4IG0=
+X-Google-Smtp-Source: ABdhPJwOE9TsG5VBT6LgHARIuD8Km43iKWc6DIN/DvRx1bELcdo+yjO9XGN9M1UbVogAWhwu/4T/jg==
+X-Received: by 2002:a05:6000:156e:b0:20c:4fd5:f780 with SMTP id 14-20020a056000156e00b0020c4fd5f780mr266896wrz.561.1651791856607;
+        Thu, 05 May 2022 16:04:16 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id o20-20020a05600c339400b003942a244f33sm6782130wmp.12.2022.05.05.16.04.14
+        by smtp.gmail.com with ESMTPSA id o20-20020a05600c339400b003942a244f33sm6782130wmp.12.2022.05.05.16.04.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 16:04:15 -0700 (PDT)
+        Thu, 05 May 2022 16:04:16 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
         bingbu.cao@intel.com, tian.shu.qiu@intel.com,
         andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH v4 04/15] media: i2c: Provide ov7251_check_hwcfg()
-Date:   Fri,  6 May 2022 00:03:51 +0100
-Message-Id: <20220505230402.449643-5-djrscally@gmail.com>
+Subject: [PATCH v4 05/15] media: i2c: Remove per-mode frequencies from ov7251
+Date:   Fri,  6 May 2022 00:03:52 +0100
+Message-Id: <20220505230402.449643-6-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220505230402.449643-1-djrscally@gmail.com>
 References: <20220505230402.449643-1-djrscally@gmail.com>
@@ -70,143 +70,141 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move the endpoint checking from .probe() to a dedicated function,
-and additionally check that the firmware provided link frequencies
-are a match for those supported by the driver. Store the index to the
-matching link frequency so it can be easily identified later.
+Each of the defined modes in the ov7251 driver uses the same link
+frequency and pixel rate; just drop those members of the modes and
+set the controls to read only during initialisation. Add a new
+table defining the supported pixel rates to substitue for the values
+hardcoded in the modes.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
 Changes in v4:
 
-	- Used dev_err_probe() to set ret (Andy)
+	- None
 
 Changes in v3:
 
-	- Replaced freq_found variable (Andy)
+	- None
 
 Changes in v2:
 
-	- Switched to use unsigned int (Sakari)
-	- Dropped the checks for bus_type and number of data lanes (Sakari)
-	- Fixed the double-loop break (Dave)
-	- Stored the index to the configured link frequency so it can be used
-	later on.
+	- New patch
 
- drivers/media/i2c/ov7251.c | 75 +++++++++++++++++++++++++++++---------
- 1 file changed, 57 insertions(+), 18 deletions(-)
+ drivers/media/i2c/ov7251.c | 43 +++++++++++++-------------------------
+ 1 file changed, 14 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
-index d6fe574cb9e0..177b99eef3a5 100644
+index 177b99eef3a5..4f51e6258988 100644
 --- a/drivers/media/i2c/ov7251.c
 +++ b/drivers/media/i2c/ov7251.c
-@@ -60,6 +60,11 @@ struct ov7251_mode_info {
- 	struct v4l2_fract timeperframe;
+@@ -526,7 +526,11 @@ static const struct reg_value ov7251_setting_vga_90fps[] = {
  };
  
-+enum supported_link_freqs {
-+	OV7251_LINK_FREQ_240_MHZ,
-+	OV7251_NUM_SUPPORTED_LINK_FREQS
+ static const s64 link_freq[] = {
+-	240000000,
++	[OV7251_LINK_FREQ_240_MHZ] = 240000000,
 +};
 +
- struct ov7251 {
- 	struct i2c_client *i2c_client;
- 	struct device *dev;
-@@ -75,6 +80,7 @@ struct ov7251 {
- 	struct regulator *core_regulator;
- 	struct regulator *analog_regulator;
- 
-+	enum supported_link_freqs link_freq_idx;
- 	const struct ov7251_mode_info *current_mode;
- 
- 	struct v4l2_ctrl_handler ctrls;
-@@ -1255,10 +1261,58 @@ static const struct v4l2_subdev_ops ov7251_subdev_ops = {
- 	.pad = &ov7251_subdev_pad_ops,
++static const s64 pixel_rates[] = {
++	[OV7251_LINK_FREQ_240_MHZ] = 48000000,
  };
  
-+static int ov7251_check_hwcfg(struct ov7251 *ov7251)
-+{
-+	struct fwnode_handle *fwnode = dev_fwnode(ov7251->dev);
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY,
-+	};
-+	struct fwnode_handle *endpoint;
-+	unsigned int i, j;
-+	int ret;
-+
-+	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
-+	if (!endpoint)
-+		return -EPROBE_DEFER; /* could be provided by cio2-bridge */
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
-+	fwnode_handle_put(endpoint);
-+	if (ret)
-+		return dev_err_probe(ov7251->dev, ret,
-+				     "parsing endpoint node failed\n");
-+
-+	if (!bus_cfg.nr_of_link_frequencies) {
-+		ret = dev_err_probe(ov7251->dev, -EINVAL,
-+				    "no link frequencies defined\n");
-+		goto out_free_bus_cfg;
-+	}
-+
-+	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-+		for (j = 0; j < ARRAY_SIZE(link_freq); j++)
-+			if (bus_cfg.link_frequencies[i] == link_freq[j])
-+				break;
-+
-+		if (j < ARRAY_SIZE(link_freq))
-+			break;
-+	}
-+
-+	if (i == bus_cfg.nr_of_link_frequencies) {
-+		ret = dev_err_probe(ov7251->dev, -EINVAL,
-+				    "no supported link freq found\n");
-+		goto out_free_bus_cfg;
-+	}
-+
-+	ov7251->link_freq_idx = i;
-+
-+out_free_bus_cfg:
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+
-+	return ret;
-+}
-+
- static int ov7251_probe(struct i2c_client *client)
- {
+ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
+@@ -535,8 +539,6 @@ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
+ 		.height = 480,
+ 		.data = ov7251_setting_vga_30fps,
+ 		.data_size = ARRAY_SIZE(ov7251_setting_vga_30fps),
+-		.pixel_clock = 48000000,
+-		.link_freq = 0, /* an index in link_freq[] */
+ 		.exposure_max = 1704,
+ 		.exposure_def = 504,
+ 		.timeperframe = {
+@@ -549,8 +551,6 @@ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
+ 		.height = 480,
+ 		.data = ov7251_setting_vga_60fps,
+ 		.data_size = ARRAY_SIZE(ov7251_setting_vga_60fps),
+-		.pixel_clock = 48000000,
+-		.link_freq = 0, /* an index in link_freq[] */
+ 		.exposure_max = 840,
+ 		.exposure_def = 504,
+ 		.timeperframe = {
+@@ -563,8 +563,6 @@ static const struct ov7251_mode_info ov7251_mode_info_data[] = {
+ 		.height = 480,
+ 		.data = ov7251_setting_vga_90fps,
+ 		.data_size = ARRAY_SIZE(ov7251_setting_vga_90fps),
+-		.pixel_clock = 48000000,
+-		.link_freq = 0, /* an index in link_freq[] */
+ 		.exposure_max = 552,
+ 		.exposure_def = 504,
+ 		.timeperframe = {
+@@ -1059,16 +1057,6 @@ static int ov7251_set_format(struct v4l2_subdev *sd,
+ 	__crop->height = new_mode->height;
+ 
+ 	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+-		ret = __v4l2_ctrl_s_ctrl_int64(ov7251->pixel_clock,
+-					       new_mode->pixel_clock);
+-		if (ret < 0)
+-			goto exit;
+-
+-		ret = __v4l2_ctrl_s_ctrl(ov7251->link_freq,
+-					 new_mode->link_freq);
+-		if (ret < 0)
+-			goto exit;
+-
+ 		ret = __v4l2_ctrl_modify_range(ov7251->exposure,
+ 					       1, new_mode->exposure_max,
+ 					       1, new_mode->exposure_def);
+@@ -1199,16 +1187,6 @@ static int ov7251_set_frame_interval(struct v4l2_subdev *subdev,
+ 	new_mode = ov7251_find_mode_by_ival(ov7251, &fi->interval);
+ 
+ 	if (new_mode != ov7251->current_mode) {
+-		ret = __v4l2_ctrl_s_ctrl_int64(ov7251->pixel_clock,
+-					       new_mode->pixel_clock);
+-		if (ret < 0)
+-			goto exit;
+-
+-		ret = __v4l2_ctrl_s_ctrl(ov7251->link_freq,
+-					 new_mode->link_freq);
+-		if (ret < 0)
+-			goto exit;
+-
+ 		ret = __v4l2_ctrl_modify_range(ov7251->exposure,
+ 					       1, new_mode->exposure_max,
+ 					       1, new_mode->exposure_def);
+@@ -1315,6 +1293,7 @@ static int ov7251_probe(struct i2c_client *client)
  	struct device *dev = &client->dev;
--	struct fwnode_handle *endpoint;
  	struct ov7251 *ov7251;
  	u8 chip_id_high, chip_id_low, chip_rev;
++	s64 pixel_rate;
  	int ret;
-@@ -1270,24 +1324,9 @@ static int ov7251_probe(struct i2c_client *client)
- 	ov7251->i2c_client = client;
- 	ov7251->dev = dev;
  
--	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
--	if (!endpoint) {
--		dev_err(dev, "endpoint node not found\n");
--		return -EINVAL;
--	}
--
--	ret = v4l2_fwnode_endpoint_parse(endpoint, &ov7251->ep);
--	fwnode_handle_put(endpoint);
--	if (ret < 0) {
--		dev_err(dev, "parsing endpoint node failed\n");
-+	ret = ov7251_check_hwcfg(ov7251);
-+	if (ret)
- 		return ret;
--	}
--
--	if (ov7251->ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
--		dev_err(dev, "invalid bus type (%u), must be CSI2 (%u)\n",
--			ov7251->ep.bus_type, V4L2_MBUS_CSI2_DPHY);
--		return -EINVAL;
--	}
+ 	ov7251 = devm_kzalloc(dev, sizeof(struct ov7251), GFP_KERNEL);
+@@ -1396,17 +1375,23 @@ static int ov7251_probe(struct i2c_client *client)
+ 				     V4L2_CID_TEST_PATTERN,
+ 				     ARRAY_SIZE(ov7251_test_pattern_menu) - 1,
+ 				     0, 0, ov7251_test_pattern_menu);
++
++	pixel_rate = pixel_rates[ov7251->link_freq_idx];
+ 	ov7251->pixel_clock = v4l2_ctrl_new_std(&ov7251->ctrls,
+ 						&ov7251_ctrl_ops,
+ 						V4L2_CID_PIXEL_RATE,
+-						1, INT_MAX, 1, 1);
++						pixel_rate, INT_MAX,
++						pixel_rate, pixel_rate);
+ 	ov7251->link_freq = v4l2_ctrl_new_int_menu(&ov7251->ctrls,
+ 						   &ov7251_ctrl_ops,
+ 						   V4L2_CID_LINK_FREQ,
+ 						   ARRAY_SIZE(link_freq) - 1,
+-						   0, link_freq);
++						   ov7251->link_freq_idx,
++						   link_freq);
+ 	if (ov7251->link_freq)
+ 		ov7251->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++	if (ov7251->pixel_clock)
++		ov7251->pixel_clock->flags |= V4L2_CTRL_FLAG_READ_ONLY;
  
- 	/* get system clock (xclk) */
- 	ov7251->xclk = devm_clk_get(dev, "xclk");
+ 	ov7251->sd.ctrl_handler = &ov7251->ctrls;
+ 
 -- 
 2.25.1
 
