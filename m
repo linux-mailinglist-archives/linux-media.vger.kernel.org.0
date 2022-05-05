@@ -2,262 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3789651C681
-	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 19:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AD5151C9C6
+	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 21:58:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382384AbiEERuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 May 2022 13:50:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45092 "EHLO
+        id S1385464AbiEEUBO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 May 2022 16:01:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380815AbiEERuF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 13:50:05 -0400
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam08on2083.outbound.protection.outlook.com [40.107.101.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 560812AC70
-        for <linux-media@vger.kernel.org>; Thu,  5 May 2022 10:46:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KcLgZbtqzcr3t22xQfTHT70ntLoxh9beqHpFfl/S4/okmFor21aUOCS5J7stYipWr3zTmUUxshBQDEoyoULrqraCKbFQaLEJwaTHFzv4swVqfxIEfOzBtyioAjHpNB8rnEKWAovyo9tCi68rJVJD5MahU24piAkc0uJZJLPTF37XlaAPsarYrRQ6OVQB5STGi4SHIoXOXXhI4WoCkVrGWdWxdrThYgKKH4NnE00An6sKnJ+BmlwL9NICYQDQXkRWVd+FZYfIbqCFHp5A6hlvnhoVqfv9bLSz5Ox0R2dfQzaRphRBIIYO3nLU9C9y7Nlj35q4Zoi4EPBA43BoGJ+Gxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bb8R8rcHoJ4WypX3wtRzfHknvnEBB1bjpOxZeLPtOUY=;
- b=Q8Loe9ASGXImPLSVY8m+0Id2nnsA4TgWx4Fl09UKQd3RZcQv1ZvNz9bprOwmikOGUbX0Yn7+SUUn4+ad9rQtIJMUrhfBz/Po/YzBJO2zK+0fK1bovWeQTEsaHHodng/uTHvE9817eJs9sNb9w7BrzZ2Rci0x/2LgnxIBvv/NfFm4RREnMRmNbxW0HUmv/6MlrLnKB8Qg68Nv7mr8ksv8ZWAgpuJe9sR73DJCKCuOoPGUt74zma8Qv5ugSdNgt+DBzmChdbzDwlVC8ONd+LEe9pSQ5UjSwcc+pfiYHUPuv64iQYGFBMaBEQvGKeB+0OT+PmWyaBNWZ5sczeJl+DDsbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bb8R8rcHoJ4WypX3wtRzfHknvnEBB1bjpOxZeLPtOUY=;
- b=wywHAdGaNQrngIk8smbFIqygRC/T2vVI/utcY0o3a9djkVqyYdyLZdEMRmrUAVIOQjTsHLF0PwkaEBbVZVZeZ+3vFNJVPS9XtvOXz7wvhl42o/xGY0JfTa8iyiSVNo9+JBiFS/hGNLESU8qtQC68yf8jybSU11umx63LrF2dvKk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MWHPR12MB1152.namprd12.prod.outlook.com (2603:10b6:300:7::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.20; Thu, 5 May
- 2022 17:46:22 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::fdba:2c6c:b9ab:38f]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::fdba:2c6c:b9ab:38f%4]) with mapi id 15.20.5206.025; Thu, 5 May 2022
- 17:46:21 +0000
-Message-ID: <70344113-6dd7-3d56-9a87-26d91f2f766e@amd.com>
-Date:   Thu, 5 May 2022 19:46:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/5] dma-buf: cleanup dma_fence_unwrap selftest
-Content-Language: en-US
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org
-References: <20220504122256.1654-1-christian.koenig@amd.com>
- <YnPRL7ndeh9z01mW@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <YnPRL7ndeh9z01mW@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6PR10CA0051.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:209:80::28) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S238796AbiEEUBM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 16:01:12 -0400
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.133.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B48675E777
+        for <linux-media@vger.kernel.org>; Thu,  5 May 2022 12:57:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651780650;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rQdApoYa6nUTANKsVJL2yCvAWducoOnmFhGo9oVvBLo=;
+        b=h5sn2L+uS+ybPxJYdEiyVldvi9Hcpp1dDaRPZ8I2qLyzhrA+KfNG21kB+RQFU3LEaSYI1r
+        0DEQe19tUYeWWl95bu9pn/Q+7Yu53U9H28l8FPHJFDTHMjUKfVKabaDhUAH5LfhNFy/+Yf
+        +JoqwM7JwPZ4E5yNyRbc0vzAjhyYnSY=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-110-Mz4duPMlMselUMfiQ9K8cQ-1; Thu, 05 May 2022 15:57:29 -0400
+X-MC-Unique: Mz4duPMlMselUMfiQ9K8cQ-1
+Received: by mail-qv1-f72.google.com with SMTP id s19-20020ad44b33000000b00456107e1120so4078856qvw.0
+        for <linux-media@vger.kernel.org>; Thu, 05 May 2022 12:57:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:organization:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=rQdApoYa6nUTANKsVJL2yCvAWducoOnmFhGo9oVvBLo=;
+        b=RxTSbMMHAAwKq1U6jgSqcWuRCB6zNmbKvAZxobImDOUN+GypKuJr2snGgMgjMtz0f5
+         zLCdN+hVE6FO14dKjrYhucpExpwwZWIQY1B8/IDAudWyZ+edsXXK64hvk8+EkSlk7MjW
+         QU9grRx6CE85AgLIFx+FFssTrEAKM2eYTZPu2cQfI0ctD/SUT+3ZENYK/9C2DpBFoOKD
+         lxGR4uIiXNqGsgNpZuCEM7mQPpORHVNnPBbt3DdljFhlvfpmv3i4rwAkQFP5fn8AChZx
+         phXKCkdrarC612v/GmaW93Fb4hjkyT7hixiv8Pos6DEtDnlVbz4xeZ8HJnWrqoCaMslm
+         gj+A==
+X-Gm-Message-State: AOAM532sb+cg14CqLw0nlmjRPQFuWQZRARutLzOwsCvqw8NPCOJrWHBo
+        KgUQwXKrZ/fqzGkjAf3/77x+y3kTOWfLZa4kGzpaKcplR0cc67p8yRm+kDkUhW2csXL8dxp3Hdx
+        tcvDfBn5D1ql+i+8/EJaHc9s=
+X-Received: by 2002:a37:9381:0:b0:69f:62c6:56a7 with SMTP id v123-20020a379381000000b0069f62c656a7mr21018122qkd.643.1651780649333;
+        Thu, 05 May 2022 12:57:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJysHvCP5TnQ3sEmfDp/p5w9i9wXshs650VSW1K7lLdusgFc5hlOZKEwi/HjjBeApccdfiF3kQ==
+X-Received: by 2002:a37:9381:0:b0:69f:62c6:56a7 with SMTP id v123-20020a379381000000b0069f62c656a7mr21018112qkd.643.1651780649132;
+        Thu, 05 May 2022 12:57:29 -0700 (PDT)
+Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net. [71.184.137.158])
+        by smtp.gmail.com with ESMTPSA id l15-20020ac848cf000000b002f39b99f6c3sm1288303qtr.93.2022.05.05.12.57.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 May 2022 12:57:28 -0700 (PDT)
+Message-ID: <7574d491866ffa7c1a4607885b76140ba4206477.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau: reorder nouveau_drm_device_fini
+From:   Lyude Paul <lyude@redhat.com>
+To:     Mark Menzynski <mmenzyns@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Date:   Thu, 05 May 2022 15:57:27 -0400
+In-Reply-To: <20220504171851.17188-1-mmenzyns@redhat.com>
+References: <20220504171851.17188-1-mmenzyns@redhat.com>
+Organization: Red Hat Inc.
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2877db00-3af9-49e8-b797-08da2ebf2a33
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1152:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1152A565C3DD99A599E9B5DB83C29@MWHPR12MB1152.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oq08dL5rWgHiB5EOLjVy/a3l2tcImjWtxsQUOeCtqmVQSDy2XesXo+O+brXqll5C7E3LKv56tRMGKmph2Q1mPreHa3mKBwqFmFtnN+yLBtp8u+K2xUrnU7h/jE5AlqwTvq1/7IRBldEu5wCu8l9rfbyswwDwtVP9HajYSk67Is0RBl/dSYjOhekENksMi2cNqOow9hGzeu95ecdih0w6buhZGIRvT2QKoG14LGkkry7bpklKJMO8cdW2y8SQwwC75gZSSfdnnvu3xAOWJxK7vKg4nEq6lYs86DtU617g/nveoupq0ODRuCzU3gE07QxFjXw+ZK6Ewb1WiAXvJ13ibwb96hZugpZTddanntloBDmfYC63N2LgIBpIehI96EfRfAuvvsWdniLABsHQQNVtH8w81xu9A4+ZwOyzuPnrItzsyoP4LEzS5X5LAw53+Cx4zYBrIHqh6LqYzbfuFID8BRlDhXeQjaL0N/GoIQacWq3HwaBifbH2vB+B9hP8sQ1zvTjXE1mKLtFOkSbSGH9OkCuJesZumserxWGVUQO71gDvoF7pxLN/A+19rhEzON/qf3NjUt0PMGhduYD5WSdACJ/8oGFKvf1Bx55prxrSixGggmyMHX0ehnXL//BeYKEyjunTr3P54qGGIuv7oUQw1xdbg/E0K5Wt+dxkLgM37fOHEm+1kZJ76jyy/EUpLlnzW/HRSckwZLpfkWgOlqFrvgWTzq51SLx6kcFySCOSsZbIWznQP22jXpRnpNRk+INr
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66476007)(38100700002)(110136005)(6486002)(6506007)(66556008)(8676002)(66946007)(8936002)(316002)(508600001)(4326008)(2616005)(5660300002)(86362001)(31696002)(6666004)(66574015)(186003)(36756003)(31686004)(2906002)(83380400001)(6512007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWl0b2swd2hxU2dkY3JRMDFobDZSM3NOQkZ6NVJWZmJLd0YyZEJVUUhEVlE4?=
- =?utf-8?B?MU9YaE1TZTZQQ1ZsTmltbW44L3hlMUtKNFA0RWQ2ZnJ5Q1F2ODVIT3RmOS82?=
- =?utf-8?B?MTBqNVBscU12Ym1vOVdzTmxTUjJ5TUlVUUYyWHBNYVV5eTl5Tzk2YmdRM1F4?=
- =?utf-8?B?T2hkc1NUcjlqVzZudWw2SWp1THpwajJlRXNRYjhtYWFicEFlNGpRR20wTGJC?=
- =?utf-8?B?V0RodlpieGJRWGlxSkhxcnh4VmlNaXRYcDRqUzlTSGQ1R2J5TnoxRHpwM2F0?=
- =?utf-8?B?dk4xN1ZMNzluY1c5VHRYKzFuMWgzVkFxZDRLbHkrT1I3QTZqUDI2amI5UFc0?=
- =?utf-8?B?Y21zTG1OUHpVWmRvbUxrRGVwbFo3Ym1rYngzeWh2TnNqMnZPL29mS2JvOXFJ?=
- =?utf-8?B?QStKZ09NWVkvS2pPQXhEb1dTL1hoVjJoUzVEYU0rdzNXQlZ0MTJkbkgyN2dT?=
- =?utf-8?B?QkpRTm1IZS95VTgwdWpLZDIvSzg1VnRyWVVDb3N2cFNpMGc2YjJ4WWFIQmFY?=
- =?utf-8?B?S2RBK1VucFhhMWFPMHFtUDUrcWx5ajROcVpTeUNYQzl4K0gxMHVVbDNVTnc3?=
- =?utf-8?B?ZnhVQW5kbTNLMjhleXpHMzNTMUw0YjJqbVI5UWlUTmpWcFd3UHNSN2pLbk9k?=
- =?utf-8?B?bmVyc1d2ZGc2aURmc0pTeUtQRHRlUTJjSGkzelVWelo1U1E4b3pPbWdHZk9E?=
- =?utf-8?B?cU9vSW1mTTRQZ24xa1N1aTlPUDlIdk56d0VOWFNwaXVaSWZleDVCcUNvMUFD?=
- =?utf-8?B?Y3diQkRhNEpNVVRaYzR4OGFWRnBCcnc3eWRjcW1pOXJyK2hVRWNJSk00VlBZ?=
- =?utf-8?B?RW9yRzgxNGprdW1JNlRZZ2J2TXFEMDJpQ2x6clRxZTRrMTVHa2E3RXVoTU9M?=
- =?utf-8?B?Q1ovWHloK2JZVmxodHNTdWVaODFsOE9ndVlQcU55RTlzYTZFYTVVRWFiTHkx?=
- =?utf-8?B?WlhTVE5qcDdJaGJFdnp3THR2OXhlam9pRnVOekNzdDJJMjAxZzkvcmcvRWRJ?=
- =?utf-8?B?YWhkbDlHR1hXZ0dIMENpTjIxcjdFY0NYa2ttVitGaFN1R3BlcWwreXJ6N1E5?=
- =?utf-8?B?cHVKaTAwN0MwUjBHQTRIclQ1SG9mOHJDWjRRQUl2TUM2Rm1iaVgwODFUVFNp?=
- =?utf-8?B?MmNjRHUvYjhrRmxHeE00aUlkcHk1MDIvV0JRQjNUWUtZcWpBOVlReHRXQWVh?=
- =?utf-8?B?b0NUYWxkUlhHZExhMUpCNFA4R1ZuTTh4WEc3QVlSMjFSSWJmd3VUTWNqSUxv?=
- =?utf-8?B?RnhsRWVTWUJ5eWtnWFZVWk9BWkZjRGR4OWdFRGNxUHBLWDZEbmNOWDQ5VVpk?=
- =?utf-8?B?RzYzd0xCdUI2VVV0K2dicHRCMDArQm1Wc1FuVGNYUEgyUm9lMUprTk1Wb1pC?=
- =?utf-8?B?ZTMzWE41ZnZhZnloUER4K0NIOUNXRWZrSnN4QUpBVWpCV01xVEU4ejVBV2hK?=
- =?utf-8?B?cmZ2emVlMTR2TWpkVXdtb3MzR3A2TzQxMlE2TFYrdVAvYjRlaGR4TjVZRVJ1?=
- =?utf-8?B?SVNTYjJnd2F4Q3FLYUVFRUlkRUJHK1c1eVBvSFIyQlBnYUtTSWgxMm9CY2ly?=
- =?utf-8?B?L2UzSXluK0xvMjFKdU1yNWt0L0svZ1FEeURxcVNmWm5zUWhrL0t6cmRNbEl2?=
- =?utf-8?B?d0ZSZXp3SWdpVyswVUM5RENNMzViVHlPRWsrRmhYaktoREpNR0J1Ty9wcEs2?=
- =?utf-8?B?Q283YUFOZUJXbXFmVEkvMHZwaVRWL1R4TVhhazBWREdEZ2lFMTB2TVZzOGZZ?=
- =?utf-8?B?WGNIdUZIMk5mdHF5Wm9LTk8veVFZYVFSczFaMGpTZys5M045MEVwenc0OWw2?=
- =?utf-8?B?bnBwS2IyVjRWcDRXcFdVY3NhckpSQ2ROanJwbWRMYVNHR2IxVU01bTJQTUxn?=
- =?utf-8?B?c04zSUVSd3Fvc0tHNG1pT2s4OFNYaWlHbXQyUmtnd3E3cW5GcDVvV2daVURY?=
- =?utf-8?B?ckxaZXJ3dEVoQkVzS1RnRi9hazdWYTRlbzRIczllZ0tBRTVLUlM1K24xbWZp?=
- =?utf-8?B?a0hEWEtFbUxUd2Jhejk2OS93QW1BOERUNVpEOXhkbENsOEFmaFZRTjNFVUk5?=
- =?utf-8?B?cEcwUUJKVTlGNDVualZxV1d1K2g3c2NTZHBJd0VSQ2cwajZwS2lVK0ptc1hr?=
- =?utf-8?B?dGZkNGo0SnVyUVlMSkR4bDd2VmNrcGdnRlY2eGRRYXAwNGdVMjZQZlpnQUNy?=
- =?utf-8?B?VGQxVmVSVUw3OHZLRTgvd2lUWmJUM2FLZXJjVnNCZWFTTmZBWWdlZmhQZHZ3?=
- =?utf-8?B?NHZqdWIrZHNTVTJXa2Vmc1BIZnB0dVBjb2VqQThKUjA5WTVGM2M1S1lPc0t4?=
- =?utf-8?B?QU5oV21MQzZ0Tjl5VUdXNDBML0JzSXhoWWRTUFo1bWszOTlHeDdOTnd1T3p0?=
- =?utf-8?Q?qNPfwM2zFn2ZIZAB4TbzjqaQIpzPYj2xpzkRfiRYDECs0?=
-X-MS-Exchange-AntiSpam-MessageData-1: DZ8TiKFad3hVQQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2877db00-3af9-49e8-b797-08da2ebf2a33
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2022 17:46:21.6290
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v2bMTgRhIWIoYhwYLq/b/o9ipRXu+vjlWDSugvzMENyZWQ8ZOHbTu1grE7vpq7Sp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1152
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 05.05.22 um 15:29 schrieb Daniel Vetter:
-> On Wed, May 04, 2022 at 02:22:52PM +0200, Christian König wrote:
->> The selftests, fix the error handling, remove unused functions and stop
->> leaking memory in failed tests.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/dma-buf/st-dma-fence-unwrap.c | 40 +++++++++++----------------
->>   1 file changed, 16 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
->> index 039f016b57be..59628add93f5 100644
->> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
->> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
->> @@ -4,27 +4,19 @@
->>    * Copyright (C) 2022 Advanced Micro Devices, Inc.
->>    */
->>   
->> +#include <linux/dma-fence.h>
->> +#include <linux/dma-fence-array.h>
->> +#include <linux/dma-fence-chain.h>
->>   #include <linux/dma-fence-unwrap.h>
->> -#if 0
->> -#include <linux/kernel.h>
->> -#include <linux/kthread.h>
->> -#include <linux/mm.h>
->> -#include <linux/sched/signal.h>
->> -#include <linux/slab.h>
->> -#include <linux/spinlock.h>
->> -#include <linux/random.h>
->> -#endif
->>   
->>   #include "selftest.h"
->>   
->>   #define CHAIN_SZ (4 << 10)
->>   
->> -static inline struct mock_fence {
->> +struct mock_fence {
->>   	struct dma_fence base;
->>   	spinlock_t lock;
->> -} *to_mock_fence(struct dma_fence *f) {
->> -	return container_of(f, struct mock_fence, base);
->> -}
->> +};
->>   
->>   static const char *mock_name(struct dma_fence *f)
->>   {
->> @@ -45,7 +37,8 @@ static struct dma_fence *mock_fence(void)
->>   		return NULL;
->>   
->>   	spin_lock_init(&f->lock);
->> -	dma_fence_init(&f->base, &mock_ops, &f->lock, 0, 0);
->> +	dma_fence_init(&f->base, &mock_ops, &f->lock,
->> +		       dma_fence_context_alloc(1), 1);
->>   
->>   	return &f->base;
->>   }
->> @@ -113,7 +106,6 @@ static int sanitycheck(void *arg)
->>   	if (!chain)
->>   		return -ENOMEM;
->>   
->> -	dma_fence_signal(f);
->>   	dma_fence_put(chain);
->>   	return err;
->>   }
->> @@ -154,10 +146,10 @@ static int unwrap_array(void *arg)
->>   		err = -EINVAL;
->>   	}
->>   
->> -	dma_fence_signal(f1);
->> -	dma_fence_signal(f2);
->> +	dma_fence_put(f1);
->> +	dma_fence_put(f2);
-> I'm completely lost on why you add these _put() calls?
+Hmm, I think we might just need to move the drm_kms_helper_poll_enable() call
+to the end here instead of all of nouveau_display_init(). I realized this
+because in nouveau_display_init() it seems that we actually rely on
+nouveau_display_init() to setup hotplug interrupts - which we do actually need
+this early on in the driver probe process.
 
-Because my five year old had a nightmare and I had not enough caffeine 
-in my blood stream on the next morning.
+That being said though, drm_kms_helper_poll_enable() shouldn't be required for
+MST short HPD IRQs from working so moving that instead should work.
 
-Fixed in the next round.
+On Wed, 2022-05-04 at 19:18 +0200, Mark Menzynski wrote:
+> Resources needed for output poll workers are destroyed in
+> nouveau_fbcon_fini() before output poll workers are cleared in
+> nouveau_display_fini(). This means there is a time between fbcon_fini
+> and display_fini, where if output poll happens, it crashes.
+> 
+> BUG: KASAN: use-after-free in
+> __drm_fb_helper_initial_config_and_unlock.cold+0x1f3/0x291
+> [drm_kms_helper]
+> 
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Mark Menzynski <mmenzyns@redhat.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_drm.c | 17 ++++++++---------
+>  1 file changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> index 561309d447e0..773efdd20d2f 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> @@ -588,12 +588,6 @@ nouveau_drm_device_init(struct drm_device *dev)
+>         if (ret)
+>                 goto fail_dispctor;
+>  
+> -       if (dev->mode_config.num_crtc) {
+> -               ret = nouveau_display_init(dev, false, false);
+> -               if (ret)
+> -                       goto fail_dispinit;
+> -       }
+> -
+>         nouveau_debugfs_init(drm);
+>         nouveau_hwmon_init(dev);
+>         nouveau_svm_init(drm);
+> @@ -601,6 +595,12 @@ nouveau_drm_device_init(struct drm_device *dev)
+>         nouveau_fbcon_init(dev);
+>         nouveau_led_init(dev);
+>  
+> +       if (dev->mode_config.num_crtc) {
+> +               ret = nouveau_display_init(dev, false, false);
+> +               if (ret)
+> +                       goto fail_dispinit;
+> +       }
+> +
+>         if (nouveau_pmops_runtime()) {
+>                 pm_runtime_use_autosuspend(dev->dev);
+>                 pm_runtime_set_autosuspend_delay(dev->dev, 5000);
+> @@ -641,15 +641,14 @@ nouveau_drm_device_fini(struct drm_device *dev)
+>                 pm_runtime_forbid(dev->dev);
+>         }
+>  
+> +       if (dev->mode_config.num_crtc)
+> +               nouveau_display_fini(dev, false, false);
+>         nouveau_led_fini(dev);
+>         nouveau_fbcon_fini(dev);
+>         nouveau_dmem_fini(drm);
+>         nouveau_svm_fini(drm);
+>         nouveau_hwmon_fini(dev);
+>         nouveau_debugfs_fini(drm);
+> -
+> -       if (dev->mode_config.num_crtc)
+> -               nouveau_display_fini(dev, false, false);
+>         nouveau_display_destroy(dev);
+>  
+>         nouveau_accel_fini(drm);
 
-Thanks,
-Christian.
-
->   The reference we
-> create all get transferred over to the container object, and that takes
-> care of releasing them.
->
-> The other bits with error handling and code cleanup all look good, and
-> dropping dma_fence_signal calls also makes sense. But this one I don't
-> get.
-> -Daniel
->
->>   	dma_fence_put(array);
->> -	return 0;
->> +	return err;
->>   }
->>   
->>   static int unwrap_chain(void *arg)
->> @@ -196,10 +188,10 @@ static int unwrap_chain(void *arg)
->>   		err = -EINVAL;
->>   	}
->>   
->> -	dma_fence_signal(f1);
->> -	dma_fence_signal(f2);
->> +	dma_fence_put(f1);
->> +	dma_fence_put(f2);
->>   	dma_fence_put(chain);
->> -	return 0;
->> +	return err;
->>   }
->>   
->>   static int unwrap_chain_array(void *arg)
->> @@ -242,10 +234,10 @@ static int unwrap_chain_array(void *arg)
->>   		err = -EINVAL;
->>   	}
->>   
->> -	dma_fence_signal(f1);
->> -	dma_fence_signal(f2);
->> +	dma_fence_put(f1);
->> +	dma_fence_put(f2);
->>   	dma_fence_put(chain);
->> -	return 0;
->> +	return err;
->>   }
->>   
->>   int dma_fence_unwrap(void)
->> -- 
->> 2.25.1
->>
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
