@@ -2,104 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E763651C3B4
-	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 17:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BA5751C5D6
+	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 19:11:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381219AbiEEPVh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 May 2022 11:21:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44964 "EHLO
+        id S1382472AbiEERP1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 May 2022 13:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347238AbiEEPVg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 11:21:36 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BC1E47054;
-        Thu,  5 May 2022 08:17:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1651763877; x=1683299877;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=X6h6rS6jN3qu9nIBCNmP+TfMLkXzjzPBQUYyg739b9o=;
-  b=05iRsWRJgYQkFdtN5RbjELZ1Vlmi6VHODVulMmGLsmRyHs6axfzMq9KM
-   dHH1jonND1aqLRaicnIwPMEk5SqW3Y+GpspffOdJkhB2R16HdXiARNcW2
-   fLw5rTPf6G6G4PaBJckhqPUnmWNVjuANc4Am25/D6BzC8yYLCTjKJZMNh
-   x49lsZ47jmrmjRuWjKyDepeyTzrzKbS0Om5gWnkQzZDZ8vBClZOje92kx
-   Qk80nzirSAGSWfZpLheOFz0+NBk80LHm4GpuwRXb98exyMbiW+X4dda8M
-   DwRsmV9e3YLH6TivWzeF3qZFr+Y2blDl7ULtrdXsz3HfczCnYW+AKAgbF
+        with ESMTP id S242491AbiEERP1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 13:15:27 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671AF5C75D
+        for <linux-media@vger.kernel.org>; Thu,  5 May 2022 10:11:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651770707; x=1683306707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u1FYaTGfAwYIyvT2VgCzuIDSbbEnT2oLmYjIT11cmiw=;
+  b=PxrmJWL2PfhZ6ShJ6Bi7GHTMEkflMaknVLgPO64TixHiWQQ2z8vU/upe
+   pQYtdKLZC6rX9/o9nzoZNcoG8rhmetR4RL2oWKJvEo1MXN/Yikv2tQuu+
+   dMksMQ5LzTwBAsmLIsZzaJ2CduOtK4v4F5ouVIe052J+l/LEIjNXl1+/7
+   hxSwyfpodWiRxjIHsblz9Gww8+Mov+oqm7J8YmcKZyoanVgRVUMxyxNzV
+   ot7DL4LzeOOblVIVBkknqiRsUVbvG+j0DSC+pLOt6uEVZYWz/gYc9L/XG
+   hCRWLwaKbheY0+bLcxSLJmvBSd1GkLbc5ZMR1SfKvhdG6iu6CCZJu6X01
    w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="248095038"
 X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; 
-   d="scan'208";a="162455081"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 05 May 2022 08:17:56 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Thu, 5 May 2022 08:17:56 -0700
-Received: from [10.159.245.112] (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2375.17 via Frontend
- Transport; Thu, 5 May 2022 08:17:54 -0700
-Message-ID: <10b7ac7b-b996-cc24-e116-3a76c2683dad@microchip.com>
-Date:   Thu, 5 May 2022 17:17:47 +0200
+   d="scan'208";a="248095038"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 10:11:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; 
+   d="scan'208";a="632527981"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 05 May 2022 10:11:44 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nmf0x-000CbM-TP;
+        Thu, 05 May 2022 17:11:43 +0000
+Date:   Fri, 6 May 2022 01:11:07 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daniel Scally <djrscally@gmail.com>, linux-media@vger.kernel.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org, yong.zhi@intel.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, andriy.shevchenko@linux.intel.com,
+        hverkuil-cisco@xs4all.nl
+Subject: Re: [PATCH v3 15/15] media: i2c: Add vblank control to ov7251 driver
+Message-ID: <202205060133.HrXVpuXG-lkp@intel.com>
+References: <20220504223027.3480287-16-djrscally@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v10 5/5] ARM: multi_v7_defconfig: add atmel video pipeline
- modules
-Content-Language: en-US
-To:     Eugen Hristev <eugen.hristev@microchip.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <hverkuil@xs4all.nl>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <claudiu.beznea@microchip.com>, <jacopo@jmondi.org>
-References: <20220503095127.48710-1-eugen.hristev@microchip.com>
- <20220503095127.48710-6-eugen.hristev@microchip.com>
-From:   Nicolas Ferre <nicolas.ferre@microchip.com>
-Organization: microchip
-In-Reply-To: <20220503095127.48710-6-eugen.hristev@microchip.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220504223027.3480287-16-djrscally@gmail.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/05/2022 at 11:51, Eugen Hristev wrote:
-> Add drivers for the atmel video capture pipeline: atmel isc, xisc and
-> microchip csi2dc.
-> 
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+Hi Daniel,
 
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+I love your patch! Perhaps something to improve:
 
-Queued in at91-defconfig for 5.19.
-Best regards,
-   Nicolas
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on v5.18-rc5 next-20220505]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> ---
->   arch/arm/configs/multi_v7_defconfig | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-> index 6e0c8c19b35c..621bd1cbaf7c 100644
-> --- a/arch/arm/configs/multi_v7_defconfig
-> +++ b/arch/arm/configs/multi_v7_defconfig
-> @@ -662,7 +662,10 @@ CONFIG_VIDEO_S5P_MIPI_CSIS=m
->   CONFIG_VIDEO_EXYNOS_FIMC_LITE=m
->   CONFIG_VIDEO_EXYNOS4_FIMC_IS=m
->   CONFIG_VIDEO_RCAR_VIN=m
-> +CONFIG_VIDEO_ATMEL_ISC=m
-> +CONFIG_VIDEO_ATMEL_XISC=m
->   CONFIG_VIDEO_ATMEL_ISI=m
-> +CONFIG_VIDEO_MICROCHIP_CSI2DC=m
->   CONFIG_V4L_MEM2MEM_DRIVERS=y
->   CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
->   CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/Support-OVTI7251-on-Microsoft-Surface-line/20220505-063608
+base:   git://linuxtv.org/media_tree.git master
+config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20220506/202205060133.HrXVpuXG-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004fb787698440a387750db7f8028e7cb14cfc)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/132a5a799bbe214b679bc8e242193c5c1ff1d967
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Scally/Support-OVTI7251-on-Microsoft-Surface-line/20220505-063608
+        git checkout 132a5a799bbe214b679bc8e242193c5c1ff1d967
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/crypto/ drivers/media/i2c/
 
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/i2c/ov7251.c:1218:18: warning: variable 'vblank_def' set but not used [-Wunused-but-set-variable]
+           int vblank_max, vblank_def;
+                           ^
+   drivers/media/i2c/ov7251.c:193:37: warning: unused variable 'ov7251_pll1_cfg_24_mhz_319_2_mhz' [-Wunused-const-variable]
+   static const struct ov7251_pll1_cfg ov7251_pll1_cfg_24_mhz_319_2_mhz = {
+                                       ^
+   2 warnings generated.
+
+
+vim +/vblank_def +1218 drivers/media/i2c/ov7251.c
+
+  1211	
+  1212	static int ov7251_set_format(struct v4l2_subdev *sd,
+  1213				     struct v4l2_subdev_state *sd_state,
+  1214				     struct v4l2_subdev_format *format)
+  1215	{
+  1216		struct ov7251 *ov7251 = to_ov7251(sd);
+  1217		struct v4l2_mbus_framefmt *__format;
+> 1218		int vblank_max, vblank_def;
+  1219		struct v4l2_rect *__crop;
+  1220		const struct ov7251_mode_info *new_mode;
+  1221		int ret = 0;
+  1222	
+  1223		mutex_lock(&ov7251->lock);
+  1224	
+  1225		__crop = __ov7251_get_pad_crop(ov7251, sd_state, format->pad,
+  1226					       format->which);
+  1227	
+  1228		new_mode = v4l2_find_nearest_size(ov7251_mode_info_data,
+  1229					ARRAY_SIZE(ov7251_mode_info_data),
+  1230					width, height,
+  1231					format->format.width, format->format.height);
+  1232	
+  1233		__crop->width = new_mode->width;
+  1234		__crop->height = new_mode->height;
+  1235	
+  1236		if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+  1237			ret = __v4l2_ctrl_modify_range(ov7251->exposure,
+  1238						       1, new_mode->exposure_max,
+  1239						       1, new_mode->exposure_def);
+  1240			if (ret < 0)
+  1241				goto exit;
+  1242	
+  1243			ret = __v4l2_ctrl_s_ctrl(ov7251->exposure,
+  1244						 new_mode->exposure_def);
+  1245			if (ret < 0)
+  1246				goto exit;
+  1247	
+  1248			ret = __v4l2_ctrl_s_ctrl(ov7251->gain, 16);
+  1249			if (ret < 0)
+  1250				goto exit;
+  1251	
+  1252			vblank_max = OV7251_TIMING_MAX_VTS - new_mode->height;
+  1253			vblank_def = new_mode->vts - new_mode->height;
+  1254			ret = __v4l2_ctrl_modify_range(ov7251->vblank,
+  1255						       OV7251_TIMING_MIN_VTS,
+  1256						       vblank_max, 1, vblank_max);
+  1257			if (ret < 0)
+  1258				goto exit;
+  1259	
+  1260			ov7251->current_mode = new_mode;
+  1261		}
+  1262	
+  1263		__format = __ov7251_get_pad_format(ov7251, sd_state, format->pad,
+  1264						   format->which);
+  1265		__format->width = __crop->width;
+  1266		__format->height = __crop->height;
+  1267		__format->code = MEDIA_BUS_FMT_Y10_1X10;
+  1268		__format->field = V4L2_FIELD_NONE;
+  1269		__format->colorspace = V4L2_COLORSPACE_SRGB;
+  1270		__format->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(__format->colorspace);
+  1271		__format->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
+  1272					__format->colorspace, __format->ycbcr_enc);
+  1273		__format->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(__format->colorspace);
+  1274	
+  1275		format->format = *__format;
+  1276	
+  1277	exit:
+  1278		mutex_unlock(&ov7251->lock);
+  1279	
+  1280		return ret;
+  1281	}
+  1282	
 
 -- 
-Nicolas Ferre
+0-DAY CI Kernel Test Service
+https://01.org/lkp
