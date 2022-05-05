@@ -2,82 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72A3D51CC34
-	for <lists+linux-media@lfdr.de>; Fri,  6 May 2022 00:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4B6351CBD4
+	for <lists+linux-media@lfdr.de>; Fri,  6 May 2022 00:04:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386349AbiEEWhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 May 2022 18:37:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52824 "EHLO
+        id S1351502AbiEEWHv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 May 2022 18:07:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386356AbiEEWhZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 18:37:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAD6553727;
-        Thu,  5 May 2022 15:33:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 583D961F47;
-        Thu,  5 May 2022 22:33:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD30C385A4;
-        Thu,  5 May 2022 22:33:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1651790023;
-        bh=hGR8u1po44PqRNRm8Caqu9lGQdERMV7VT79h9eSQ/mk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Fn8rvJpuvTE3iJlKWIq2UTeDe3TE37K+gw6Vm54Ic3M8t9BG7amKH+NzaviE2Nwd4
-         mzA0Pz/gQeAaDFX1qRqnhOgYtd/u4k/l3YZNUYirQRJTSsN8iKJQq4ptCCOeh86HT1
-         2e4IvWmPfKHXDd2KGWSCx1sdhI+fLFplrF+uWKRE=
-Date:   Thu, 5 May 2022 22:14:00 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
-        paul.elder@ideasonboard.com, kernel@pengutronix.de,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com
-Subject: Re: [RESEND v7 1/7] media: v4l: move helper functions for fractions
- from uvc to v4l2-common
-Message-ID: <YnQwCHKVLYcuTF7c@kroah.com>
-References: <20220421211427.3400834-1-m.grzeschik@pengutronix.de>
- <20220421211427.3400834-2-m.grzeschik@pengutronix.de>
+        with ESMTP id S237116AbiEEWHt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 18:07:49 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BE971EEF0
+        for <linux-media@vger.kernel.org>; Thu,  5 May 2022 15:04:09 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id e2so7740552wrh.7
+        for <linux-media@vger.kernel.org>; Thu, 05 May 2022 15:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=BQNQPRYrF0dA1B3BhbXjfvOAUZO9ZbvtoK+rc9ZdmXw=;
+        b=VqB5qfdNvN0TQm463LRcgHJfzcYm2/2VYmf2bPqhWHlWi29kjgWdCykk3UszdSnMCf
+         fqYZDj6nd/LSJ+OR6aPQxSX9uZMOpliXyQvTtsIXZZrFbHJUXxyffoyIWjZ1sjg0ZcyA
+         nAhssR9rzVyOvaJH8N2H9J2HXmgzyzVS1xUC4AR9tDhC1deGlUMMcG7RFaTT/9qLlMJQ
+         CQTn64XMrFrmbjrDkSanIJJxJeoDMCfn+N9fUSSjmlrddsnR/su5CxOeKFQ4GRe9KluZ
+         NXls53cQ5dLcNwevNph+KPqIkR1fBSA+ldQgc60f4Vc59rz9+o/CTiQNGf5SZ9u32UKD
+         bTSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=BQNQPRYrF0dA1B3BhbXjfvOAUZO9ZbvtoK+rc9ZdmXw=;
+        b=Zjc0I34vpv4xHSL7Nkpum6uzpfKYA8rKz2CHsu3VosBbMffNYggwXCDlYSio0dsydq
+         4RRkqphaJ2EteWb0wXVBtRMu/WGHi6ZyGezgjDjBhp1uJ7Zi5cBaWNaea/HmgmMRatl2
+         J4bIgz2q67tNgZjVSexT3EsKOWwSsOMAe3sdjpCqdNTYiPxqqXFbirO9KdRFGZO1oZCD
+         k6VMvYAusmmEKZGvs00RmkUVsvzfmGdX+RQmRe0xDcWl3yRLEDGgF2+jTDNZNQBqntwe
+         Xue/noHO5DqNQg3ir/IfV0Wl54gU5jL8R0WLP64edWsulLlbYZ2TWXsNRSR4c8LVaVrV
+         34uQ==
+X-Gm-Message-State: AOAM531q/iSjv+BkwY/mGjmprn+lLxI0egZumIQmxyfp90HGO5Z6djAN
+        VI9hLWsF85Pgdm0ScwdN7XI=
+X-Google-Smtp-Source: ABdhPJymmrxPcMysgFsg2cFvPD0+PUd+4pGv3EjshMqdgAf/zq03Yo0iu+czZJxlq0kDSxLWDUFeow==
+X-Received: by 2002:a5d:47a6:0:b0:20c:5f07:2c5 with SMTP id 6-20020a5d47a6000000b0020c5f0702c5mr147100wrb.397.1651788247426;
+        Thu, 05 May 2022 15:04:07 -0700 (PDT)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id 18-20020a05600c021200b003945237fea1sm2544350wmi.0.2022.05.05.15.04.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 May 2022 15:04:06 -0700 (PDT)
+Message-ID: <b821fcf3-1d4c-f1e5-8b3f-72ee4cf1397a@gmail.com>
+Date:   Thu, 5 May 2022 23:04:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220421211427.3400834-2-m.grzeschik@pengutronix.de>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 15/15] media: i2c: Add vblank control to ov7251 driver
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, yong.zhi@intel.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, hverkuil-cisco@xs4all.nl
+References: <20220504223027.3480287-1-djrscally@gmail.com>
+ <20220504223027.3480287-16-djrscally@gmail.com>
+ <YnOnl51UTkg28/FW@smile.fi.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+In-Reply-To: <YnOnl51UTkg28/FW@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 21, 2022 at 11:14:21PM +0200, Michael Grzeschik wrote:
-> The functions uvc_simplify_fraction and uvc_fraction_to_interval are
-> generic helpers which are also useful for other v4l2 drivers. This patch
-> moves them to v4l2-common.
-> 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> 
-> ---
-> v1 -> v7: -
-> 
->  drivers/media/usb/uvc/uvc_driver.c    | 80 --------------------------
->  drivers/media/usb/uvc/uvc_v4l2.c      | 14 ++---
->  drivers/media/usb/uvc/uvcvideo.h      |  3 -
->  drivers/media/v4l2-core/v4l2-common.c | 82 +++++++++++++++++++++++++++
->  include/media/v4l2-common.h           |  4 ++
->  5 files changed, 93 insertions(+), 90 deletions(-)
+Hi Andy
 
-I need an ack from a media maintainer in order to be able to take this
-and patch 2/7.
 
-I have applied a few other that were independent of these first two, but
-the "real" changes in this series (the last 2), need these commits in
-order to build properly.
-
-thanks,
-
-greg k-h
+On 05/05/2022 11:31, Andy Shevchenko wrote:
+> On Wed, May 04, 2022 at 11:30:27PM +0100, Daniel Scally wrote:
+>> Add a vblank control to the ov7251 driver.
+>> +static int ov7251_vts_configure(struct ov7251 *ov7251, s32 vblank)
+>> +{
+>> +	u8 vts[2];
+>> +
+>> +	vts[0] = ((ov7251->current_mode->height + vblank) & 0xff00) >> 8;
+>> +	vts[1] = ((ov7251->current_mode->height + vblank) & 0x00ff);
+> __be16 vts;
+>
+> cpu_to_be16();
+Most places that do this seem to do the conversion in the i2c read/write
+functions, so in this case within ov7251_write_seq_regs(). Can I do it
+there, as an extra patch? I actually have more changes to make on this
+driver but they're not remotely read yet so there'll be another series
+in the future
+>> +	return ov7251_write_seq_regs(ov7251, OV7251_TIMING_VTS_REG, vts, 2);
+>> +}
