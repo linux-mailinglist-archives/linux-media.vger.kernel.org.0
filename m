@@ -2,102 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC40F51BB83
-	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 11:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB7F151BD03
+	for <lists+linux-media@lfdr.de>; Thu,  5 May 2022 12:17:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245698AbiEEJOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 May 2022 05:14:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52410 "EHLO
+        id S1354653AbiEEKUT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 May 2022 06:20:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242230AbiEEJOD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 05:14:03 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 653611034
-        for <linux-media@vger.kernel.org>; Thu,  5 May 2022 02:10:17 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id d5so5211629wrb.6
-        for <linux-media@vger.kernel.org>; Thu, 05 May 2022 02:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=yXY25yzY74R5AlW6TqRTa5x2Aq6bpcDlDzz9Lf5P5B4=;
-        b=gVlgA66SdjyS+sVTtrXzmb5V0sVyPgNAE0Ap9yV3bAlm8zGQCL6BWFEDmJ3VsQrdI9
-         y+rkS6vjha0VHwfx2PiyGiQZEEhXY8Ss+JyVdzKxmf9We+HmdZfV44bWsaMCfQUJvY4d
-         3nMAE+lC66Wkz2sOLYWhj2K9HQ0YIKaICrPQW9rJIL/donN1detqIEFtoUBdtKNsGLiq
-         3b8JL9xQx5pY9zAe+rPJgeOjfZG1Up7B41heLci8yzQs2drbNGN3ETqXZCpHH7GZRs7K
-         V7mRuVNCBUu3KR8a6ovCULqOuzgGbHLPOmbOf1ZWpZHi+mvNhnJCaz5Ha02JwglFlwMk
-         aR1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=yXY25yzY74R5AlW6TqRTa5x2Aq6bpcDlDzz9Lf5P5B4=;
-        b=oIIqfRBdaTwqrzFqBHfKCDfyNmkpJgScOfAQTP8rEpB9sFB+RI3nkJuwl3nDjjwmNj
-         btquRW98k2asp+kKOhj6atAfP5AZuQAseSSwfV7WvkU2hxXqX9KU5XUt+tY11u44O+BT
-         6UCYyRBOk7xYlpndMIPTtuWSg5je9OjRd+uXw7F2bUSEnpzwqKPj1s1d7KPYFOLa9T2H
-         UAYf0kgVMiL3OKB7c8lBrFaXBSjHa/AqkNVqeUZO0JoQigWVA7r4Nvr/1r6YWI9mep2Z
-         qdj3nLx56mz9sOgQWrvbpTbd0HU+yYvaeylk4KKdDuyGV9+uZ9pPxMb8E0ee/dm6d+/1
-         fNmg==
-X-Gm-Message-State: AOAM531w1lgrS90Fwj9L506/xIpwN1/ORw33dMg+C/w0hXXt8Xrnph3e
-        1KOFL65QV9SkQrsJaHdxw9jlEINjzRI=
-X-Google-Smtp-Source: ABdhPJwNQ/tbfb9NFkMdKriDiU27P0xmJyAH+hsNA+GxeqmaKWkSYws3fdls0GETDXswkjSfVbemNA==
-X-Received: by 2002:a5d:6a85:0:b0:20a:d938:3879 with SMTP id s5-20020a5d6a85000000b0020ad9383879mr19694757wru.462.1651741816023;
-        Thu, 05 May 2022 02:10:16 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id d10-20020adffd8a000000b0020c5253d925sm753059wrr.113.2022.05.05.02.10.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 May 2022 02:10:15 -0700 (PDT)
-Message-ID: <df0cd412-30af-af7b-e693-d0a89109e3e5@gmail.com>
-Date:   Thu, 5 May 2022 10:10:14 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 15/15] media: i2c: Add vblank control to ov7251 driver
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     kernel test robot <lkp@intel.com>, linux-media@vger.kernel.org,
-        kbuild-all@lists.01.org, yong.zhi@intel.com,
+        with ESMTP id S1350451AbiEEKUP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 May 2022 06:20:15 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B6C522C4
+        for <linux-media@vger.kernel.org>; Thu,  5 May 2022 03:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651745796; x=1683281796;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iHP3VxXCN/ZSi+SfmceHdkvEY/2FTX9vbZztflzmYoA=;
+  b=d4UIOj9KUaJWYu/BPtAasyv8DYSxYie3v7y6kDj8i7ha9pfM/CQIIUyx
+   eXFP5xSq3+b516jfvoOmWrM4h2Im80qCFC9ss8DbFCqpjKzydf4SQzJde
+   KERVhWQb1VJAhVhdpevDigAOBzKZLZkx3cu9oMfTHEkHa+OJboGIaPsuv
+   gmXGiFGdjtRlhNRIAOEcUxjwkofR3S6fyeFj53d0Vb0AfIOkgsTIZqFC6
+   JUoXa6Disso1tZ6py/s7YY0z4pFBsZTKmZI4I5skU16xPfFRYY/y2GfDi
+   eIS47N1K0jc8XCT8KO0QdlRVNdSbJ1uQySGOiQPuU6TzE/COWMspBdXwo
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="248601148"
+X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; 
+   d="scan'208";a="248601148"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 03:16:36 -0700
+X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; 
+   d="scan'208";a="734834582"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 03:16:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nmYX9-00CErA-45;
+        Thu, 05 May 2022 13:16:31 +0300
+Date:   Thu, 5 May 2022 13:16:30 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-media@vger.kernel.org, yong.zhi@intel.com,
         sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, andriy.shevchenko@linux.intel.com,
-        hverkuil-cisco@xs4all.nl
-References: <20220504223027.3480287-16-djrscally@gmail.com>
- <202205050844.k1CPWqtV-lkp@intel.com>
- <0ae34349-f4c0-4388-b33f-73603ab464ce@gmail.com>
- <YnOLueXnmsm9ig4B@valkosipuli.retiisi.eu>
-From:   Daniel Scally <djrscally@gmail.com>
-In-Reply-To: <YnOLueXnmsm9ig4B@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        tian.shu.qiu@intel.com, hverkuil-cisco@xs4all.nl
+Subject: Re: [PATCH v3 04/15] media: i2c: Provide ov7251_check_hwcfg()
+Message-ID: <YnOj/pFvHmPZEDa0@smile.fi.intel.com>
+References: <20220504223027.3480287-1-djrscally@gmail.com>
+ <20220504223027.3480287-5-djrscally@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220504223027.3480287-5-djrscally@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, May 04, 2022 at 11:30:16PM +0100, Daniel Scally wrote:
+> Move the endpoint checking from .probe() to a dedicated function,
+> and additionally check that the firmware provided link frequencies
+> are a match for those supported by the driver. Store the index to the
+> matching link frequency so it can be easily identified later.
 
-On 05/05/2022 09:32, Sakari Ailus wrote:
-> On Thu, May 05, 2022 at 09:04:32AM +0100, Daniel Scally wrote:
->> Argh - I screwed up a rebase here, not sure how I missed that. Sorry
->> all, let me resend
-> If it's just that, I can fix it. No need to resend.
->
-Thanks...there's two problems shown though actually, I used 1 instead of
-vblank_def in the __v4l2_ctrl_modify_range() call in
-ov7251_set_format(), and the other problem
-(ov7251_pll1_cfg_24_mhz_319_2_mhz defined but not used) was actually
-introduced in patch #7 (media: i2c: Add support for new frequencies to
-ov7251). This change:
+...
 
+> +	if (!bus_cfg.nr_of_link_frequencies) {
+> +		ret = -EINVAL;
+> +		dev_err_probe(ov7251->dev, ret,
+> +			      "no link frequencies defined\n");
 
-|static const struct ov7251_pll_cfgs ov7251_pll_cfgs_24_mhz = { .pll2 =
-&ov7251_pll2_cfg_24_mhz, .pll1 = { [OV7251_LINK_FREQ_240_MHZ] =
-&ov7251_pll1_cfg_24_mhz_240_mhz, + [OV7251_LINK_FREQ_319_2_MHZ] =
-&ov7251_pll1_cfg_19_2_mhz_319_2_mhz, }, }; Should have referred to |ov7251_pll1_cfg_24_mhz_319_2_mhz. I can fix them, but it wouldn't be until tonight (sorry, I expected to have this ready much earlier by the end of the weekend!)
-||
+		ret = dev_err_probe(ov7251->dev, -EINVAL,
+				    "no link frequencies defined\n");
+
+?
+
+> +		goto out_free_bus_cfg;
+> +	}
+
+...
+
+> +	if (i == bus_cfg.nr_of_link_frequencies) {
+> +		ret = -EINVAL;
+> +		dev_err_probe(ov7251->dev, ret,
+> +			      "no supported link freq found\n");
+
+Ditto.
+
+> +		goto out_free_bus_cfg;
+> +	}
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
