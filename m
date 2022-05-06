@@ -2,104 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8CDD51DB51
-	for <lists+linux-media@lfdr.de>; Fri,  6 May 2022 16:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B961451DBC1
+	for <lists+linux-media@lfdr.de>; Fri,  6 May 2022 17:17:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442550AbiEFPCy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 May 2022 11:02:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56804 "EHLO
+        id S1442758AbiEFPV3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 May 2022 11:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347628AbiEFPCw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 May 2022 11:02:52 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC6A5D5CE;
-        Fri,  6 May 2022 07:59:08 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 84F631B00252;
-        Fri,  6 May 2022 17:59:06 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1651849146;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LbT5IGtky0H4rQRh8Cp6duVvDTunMzK7mUfLU1XT12Q=;
-        b=ZA1zp990cio1fHuBQ9fC/CLwgqo25zcAH+WW22ifRC7j2nOx/mcU21o+2eFjFToBZl3YYB
-        Nnii/SpZz7WGRmRsj6Er3PDJhkAO8JZvXcUfgOp3bpj+V/V70v+0BnQO2EABlQiLVFvpYh
-        AMiL+3lXQhTZ/phFbaiOBqlQdl1wk2hAfCHF0PN9BRDpGgU705coS6iIIozI7GwddzxmMq
-        81KSAupC93VEwi9ga3b5E3onrsmvAjt0/5V/KaT8iSQ+9I06W8j4F7/Kaf9kT5ZRli25I5
-        XgMHNQMAjPaEPTB6rd7QsDWS/jJh0y1ZGOTtSTiG7psP/yWEYt9Zuv1iZCnyXw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 293F8634C91;
-        Fri,  6 May 2022 17:59:06 +0300 (EEST)
-Date:   Fri, 6 May 2022 17:59:06 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-        Quentin Schulz <foss+kernel@0leil.net>, shawnx.tu@intel.com,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] media: ov5675: add device-tree support
-Message-ID: <YnU3umQnJxvYFmCg@valkosipuli.retiisi.eu>
-References: <20220504135543.59522-1-foss+kernel@0leil.net>
- <20220504135543.59522-2-foss+kernel@0leil.net>
- <20220505074725.4aabembd4uh4tt23@uno.localdomain>
- <YnOKuGqQ74rGUz6q@valkosipuli.retiisi.eu>
- <1344ed86-1505-a1af-1671-67106a4b9cf7@theobroma-systems.com>
- <20220506144300.nv3lqogpkir3i7fz@uno.localdomain>
+        with ESMTP id S1347956AbiEFPV2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 May 2022 11:21:28 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA046620F
+        for <linux-media@vger.kernel.org>; Fri,  6 May 2022 08:17:44 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id t16so6187219qtr.9
+        for <linux-media@vger.kernel.org>; Fri, 06 May 2022 08:17:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=WrpjkkUbyN1DBEh3bMP3L3Uzy3GA0euB3Wb/x+Igx8g=;
+        b=IjGX4HsKasUp7PJp2udvJf0S1KtIfmaMIVrTGZEupT3ohzABxJq/DX2RLWd4NRnxmo
+         zutzopnL0fis6HZ4TutGjKcckaDnovHcqQaI/ZyDqNOvLbciVmp7KoD0s3UmFn2+aKox
+         p0QeKmnKpmsUa85djbEeU2pd9ME+ev1fBwcn5kdHfIKF2XA5ZfHQlm5ujaif3pfwmGER
+         rwQy1NiZCwhvg5Ad9ki1k0+b5F//TDdRhk+7w/OGDXjgrEffeW2B2yTxLYnB0+J2QRPH
+         fd95OBCZF7eOUu/hx3UMP3VkNZkdWD6FsPlmAzmL9Ji7ot09HHjnbp8R4F9RkNDvCfzE
+         MBLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=WrpjkkUbyN1DBEh3bMP3L3Uzy3GA0euB3Wb/x+Igx8g=;
+        b=STPNli+ynGuans8yDPEFwj0WCHheVcjcRjPimLFJhGkGkwAFFz/jwBVPNUaGeZ1Fhc
+         3hSjKVfYvQ9gNj3d638pJnOE0uJY3KOQoH/W7pnSupEi1yyKp8wS0n7LZHYp8NotgKDj
+         mhgICqBt+RcmH4usvOq79mzYkXGXGhG267hTbJFye1UFF8GTUHTn4aQndtLMeRifkTPG
+         kTyHVsVuImUtXP2jiFL5dupLpK1LE3BEqt2XUymSdmfz8wGxiddJClqtUgw6uDBoLPWR
+         QPtMkAznGvHaMcf/fZL2ZX3fHS5qstYfWipH5NO5qbKgypHmaf4P6CpxYcBekFAQjtoo
+         6NiA==
+X-Gm-Message-State: AOAM533Wp46wndXXxpE+f2wFjn5DhfIchbcz+Ph767jPKkiRjACdv0rN
+        abQJE12wx8OOZt2hWURW6T0ec9Ejkqev9Qqfi+g=
+X-Google-Smtp-Source: ABdhPJziaFgsQh28fSSrq1WjEV+NHExQ5GNv8WBPFzTdRPdKSpQol2yb0l481pNMFe35zlTSf04aTA57sfT+T69EHWA=
+X-Received: by 2002:ac8:7c51:0:b0:2f3:cb71:c7a6 with SMTP id
+ o17-20020ac87c51000000b002f3cb71c7a6mr1295765qtv.409.1651850262861; Fri, 06
+ May 2022 08:17:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220506144300.nv3lqogpkir3i7fz@uno.localdomain>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1651849146; a=rsa-sha256;
-        cv=none;
-        b=r7V0iWsvz7F/pm/x1tWejtH6MaAyyOlX+c5HeCcAurpqigfnSy10qXT4xmpbPSgxnlwXHf
-        oCOkN7+QeKuJaYq6DaNoYZmicXau/Hacmx8ZWwRaRQiTb3ieUteJQFnPoR+3dukvSiOUgI
-        TbOTjqqM8CkEnE9VcyTQ5n31OtBj6foObfTZhXAY/bV3IKFV1hqy15+b5QQXhmXy80EVzL
-        8uPCjrtaePG5t2x2t54BDCYfgZMNuw25IMWH/PNGXMvOTXrDhVRacD4sUJz4PzDifEKqH4
-        8BXeNBUAepkKf9/7rsIfxJson0JemVNXm6pjCfVOzQevFDGeyOTBPVmeUHSRHA==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1651849146;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LbT5IGtky0H4rQRh8Cp6duVvDTunMzK7mUfLU1XT12Q=;
-        b=uAsp9WyJrf5qEO97HiEWR8T2oJNtC7D4sAJNl0JvL50ILDoY89whjuuZX4rAGUTRzvOJPY
-        FTTX9TAobCeRgLFzfLje3gSqr3JeXO92uYPucku+uNI+Jc3MSwEDzyLzVl5bR2f7/6cYfn
-        SFDByxt1OIQHwK9ReeIBYxnb6PMxcRULwvVd0vUTNw5GR0E5Vh0bXOvS4zDjJttcl3FtUy
-        Ch2t39+MUPGdIPCmP0SpCckbgdFU0v1p54uY5u212tBt+0QkV5W3ZPScVzJcezpF7QGazO
-        EcnaDMQwuJnItK74lXl7rcMB0Zn+KOj7oNvbAr+CoCGofwuhShw9AgphOwoAog==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Sender: dongheiram@gmail.com
+Received: by 2002:a05:622a:138e:b0:2f3:a09d:c70e with HTTP; Fri, 6 May 2022
+ 08:17:42 -0700 (PDT)
+From:   Aisha Al-Qaddafi <aisha.gdaff21@gmail.com>
+Date:   Fri, 6 May 2022 08:17:42 -0700
+X-Google-Sender-Auth: 3fPFYkzIDcOUts3JwGJ4ctAEmIM
+Message-ID: <CAJGwrKHpPP06TdoAs75FAZVa3Z44hF2VnHWY9wqpnqmCJaUDBQ@mail.gmail.com>
+Subject: Your Urgent Reply Will Be Appreciated
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_60,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,LOTS_OF_MONEY,
+        MILLION_HUNDRED,MILLION_USD,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY,URG_BIZ
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On Fri, May 06, 2022 at 04:43:00PM +0200, Jacopo Mondi wrote:
-> My understanding is that "clock-frequency" is
-> an ACPI leftover that has been brought into some DT bindings as an
-> historical mistake. OF can work well with the common clock framework,
-> there's no need to introduce a property for the same purpose.
-
-The other way around actually. It was first used on DT but it's no longer
-the perferred way to set the frequency there. On ACPI it simply indicates
-the frequency without an ability to set it.
-
--- 
-Sakari Ailus
+I came across your e-mail contact prior a private search while in need
+of your assistance. I am Aisha Al-Qaddafi, the only biological
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children.
+I have investment funds worth Twenty Seven Million Five Hundred
+Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
+investment Manager/Partner because of my current refugee status,
+however, I am interested in you for investment project assistance in
+your country, may be from there, we can build business relationship in
+the nearest future I am willing to negotiate investment/business
+profit sharing ratio
+with you base on the future investment earning profits.
+If you are willing to handle this project on my behalf kindly reply
+urgent to enable me provide you more information about the investment
+funds.
