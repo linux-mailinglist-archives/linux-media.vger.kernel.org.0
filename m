@@ -2,186 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ADA651D50F
-	for <lists+linux-media@lfdr.de>; Fri,  6 May 2022 11:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 100C351D571
+	for <lists+linux-media@lfdr.de>; Fri,  6 May 2022 12:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1390751AbiEFKCM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 May 2022 06:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43272 "EHLO
+        id S1347455AbiEFKQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 May 2022 06:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236473AbiEFKCL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 May 2022 06:02:11 -0400
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40F984754F;
-        Fri,  6 May 2022 02:58:27 -0700 (PDT)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id D0AEB3C00BB;
-        Fri,  6 May 2022 11:58:25 +0200 (CEST)
-Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by hi2exch02.adit-jv.com
- (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Fri, 6 May
- 2022 11:58:25 +0200
-Date:   Fri, 6 May 2022 11:58:21 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>,
-        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        LUU HOAI <hoai.luu.ub@renesas.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l: vsp1: Fix offset calculation for plane
- cropping
-Message-ID: <20220506095821.GA120301@vmlxhi-121.adit-jv.com>
-References: <20220228120058.9755-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220302110012.GB11173@vmlxhi-121.adit-jv.com>
- <YlgtnlL8Loehk2cA@pendragon.ideasonboard.com>
- <20220419102215.GA46023@vmlxhi-121.adit-jv.com>
+        with ESMTP id S245457AbiEFKQr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 May 2022 06:16:47 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E317750067;
+        Fri,  6 May 2022 03:13:03 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77755487;
+        Fri,  6 May 2022 12:13:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1651831982;
+        bh=2+tuYCwivtB145V4QoTwdnoY2qPvvaOlTfMdgauiziE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=NSUAhwqOQp0vyVtQqVo7Q672Tlj9n5RKIk7tVmauS62RbVVw0LxCb8q1n1MeDAoP6
+         KfdnG2YvViuEuKjOyK2uyTmUF+TyCnrAh109A+rqWL+mJiZ3B2i7xwxPQKdnhTGvDs
+         XXR2Fc+Km7l1YJsqqkfjkbqw5+rMUbdivfeLUl6E=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v2 2/3] media: vsp1: Don't open-code vb2_fop_release()
+Date:   Fri,  6 May 2022 13:12:52 +0300
+Message-Id: <20220506101252.28770-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220318211446.11543-3-laurent.pinchart+renesas@ideasonboard.com>
+References: <20220318211446.11543-3-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220419102215.GA46023@vmlxhi-121.adit-jv.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.92.132]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,PDS_OTHER_BAD_TLD,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Use the vb2_fop_release() helper to replace the open-coded version. The
+video->lock is assigned to the queue lock, used by vb2_fop_release(), so
+the only functional difference is that v4l2_fh_release() is now called
+before vsp1_device_put(). This should be harmless.
 
-do you see any open points for this patch? If not, do you know maybe when
-it will be available on linux-media or maybe mainline branch?
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+Changes since v1:
 
-Thank you!
+- Remove redundant clear of file->private_data
+---
+ drivers/media/platform/renesas/vsp1/vsp1_video.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-On Tue, Apr 19, 2022 at 12:22:15PM +0200, Michael Rodin wrote:
-> Hi Laurent,
-> 
-> On Thu, Apr 14, 2022 at 05:20:14PM +0300, Laurent Pinchart wrote:
-> > Hi Michael,
-> > 
-> > Your previous mail slipped through the cracks, sorry about that.
-> > 
-> > On Wed, Mar 02, 2022 at 12:00:12PM +0100, Michael Rodin wrote:
-> > > Hi Laurent,
-> > > 
-> > > thank you for your work!
-> > > 
-> > > On Mon, Feb 28, 2022 at 02:00:58PM +0200, Laurent Pinchart wrote:
-> > > > From: Michael Rodin <mrodin@de.adit-jv.com>
-> > > > 
-> > > > The vertical subsampling factor is currently not considered in the
-> > > > offset calculation for plane cropping done in rpf_configure_partition.
-> > > > This causes a distortion (shift of the color plane) when formats with
-> > > > the vsub factor larger than 1 are used (e.g. NV12, see
-> > > > vsp1_video_formats in vsp1_pipe.c). This commit considers vsub factor
-> > > > for all planes except plane 0 (luminance).
-> > > > 
-> > > > Fixes: e5ad37b64de9 ("[media] v4l: vsp1: Add cropping support")
-> > > > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > > > Signed-off-by: LUU HOAI <https://urldefense.proofpoint.com/v2/url?u=http-3A__hoai.luu.ub-40renesas.com&d=DwICaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=XAmHpGpli5fGaRsYAxJsReuojH4FFIzGmp2Njkwt8ko&s=l9CsK_BwOB0w3jdi3p2OFRTiGdlxWl2EHtxac3eVSTU&e=>
-> > > > 
-> > > > Drop generalization of the offset calculation to reduce the binary size.
-> > > 
-> > > Dropping generalization which I have done in my initial patch [1] is ok as
-> > > long as this will not cause any troubles. I am not aware of any case where
-> > > bytesperline and bpp could be different between the chroma planes, so
-> > > probably it's fine.
-> > > 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > ---
-> > > >  drivers/media/platform/vsp1/vsp1_rpf.c | 6 +++---
-> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/vsp1/vsp1_rpf.c
-> > > > index 85587c1b6a37..75083cb234fe 100644
-> > > > --- a/drivers/media/platform/vsp1/vsp1_rpf.c
-> > > > +++ b/drivers/media/platform/vsp1/vsp1_rpf.c
-> > > > @@ -291,11 +291,11 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
-> > > >  		     + crop.left * fmtinfo->bpp[0] / 8;
-> > > >  
-> > > >  	if (format->num_planes > 1) {
-> > > > +		unsigned int bpl = format->plane_fmt[1].bytesperline;
-> > > >  		unsigned int offset;
-> > > >  
-> > > > -		offset = crop.top * format->plane_fmt[1].bytesperline
-> > > > -		       + crop.left / fmtinfo->hsub
-> > > > -		       * fmtinfo->bpp[1] / 8;
-> > > > +		offset = crop.top / fmtinfo->vsub * bpl
-> > > > +		       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
-> > > 
-> > > Probably it makes sense to do the division after all multiplications are
-> > > done in order to avoid rounding errors? Consider the case when left = 3,
-> > > hsub = 2, bpp = 32. Then we would get for the second part of the offset:
-> > >   3 / 2 * 32 / 8 = 1 * 32 / 8 = 4
-> > > and if we do division as the last operation:
-> > >   (3 * 32) / (8 * 2) = 96 / 16 = 6
-> > 
-> > This was actually done on purpose :-) If the horizontal subsampling
-> > factor is equal to 2, for instance for the NV12 chroma plane, the
-> > horizontal offset must effectively be a multiple of 2. Otherwise you'll
-> > swap the Cr and Cb components.
-> > 
-> > Taking your above example with a NV12 format (left=3, hsub=2, but
-> > bpp=16), with the rounding in this patch,
-> > 
-> > 	offset = crop.top / fmtinfo->vsub * bpl
-> > 	       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
-> > 	       = [vertical offset]
-> > 	       + 3 / 2 * 16 / 8;
-> > 	       = [vertical offset]
-> > 	       + 2;
-> > 
-> > Byte: 0  1  2  3  4  5
-> >       Cr Cb Cr Cb Cr Cb ...
-> >             ^
-> >             offset
-> > 
-> > With your rounding proposal,
-> > 
-> > 	offset = crop.top / fmtinfo->vsub * bpl
-> > 	       + (crop.left * fmtinfo->bpp[1]) / (fmtinfo->hsub * 8);
-> > 	       = [vertical offset]
-> > 	       + (3 * 16) / (2 * 8);
-> > 	       = [vertical offset]
-> > 	       + 3;
-> > 
-> > Byte: 0  1  2  3  4  5
-> >       Cr Cb Cr Cb Cr Cb ...
-> >                ^
-> >                offset
-> 
-> Thank you very much for the clarification, I have missed this point!
-> Now the patch looks fine to me.
-> 
-> Reviewed-by: Michael Rodin <mrodin@de.adit-jv.com>
-> 
-> > > The first part of the offset can probably also cause the same rounding
-> > > issue.
-> > > 
-> > > >  		mem.addr[1] += offset;
-> > > >  		mem.addr[2] += offset;
-> > > >  	}
-> > > > 
-> > > 
-> > > [1] https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_all_1637679566-2D76975-2D1-2Dgit-2Dsend-2Demail-2Dmrodin-40de.adit-2Djv.com_T_&d=DwICaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=XAmHpGpli5fGaRsYAxJsReuojH4FFIzGmp2Njkwt8ko&s=zwktftJ_aVV0iA0D8dcfCy1_rRg5PSdi5OXfTZBs648&e=
-> > 
-> > -- 
-> > Regards,
-> > 
-> > Laurent Pinchart
-> 
-> -- 
-> Best Regards,
-> Michael
-
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+index 497f352e9f8c..0180ffce35f7 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+@@ -1127,21 +1127,11 @@ static int vsp1_video_open(struct file *file)
+ static int vsp1_video_release(struct file *file)
+ {
+ 	struct vsp1_video *video = video_drvdata(file);
+-	struct v4l2_fh *vfh = file->private_data;
+ 
+-	mutex_lock(&video->lock);
+-	if (video->queue.owner == vfh) {
+-		vb2_queue_release(&video->queue);
+-		video->queue.owner = NULL;
+-	}
+-	mutex_unlock(&video->lock);
++	vb2_fop_release(file);
+ 
+ 	vsp1_device_put(video->vsp1);
+ 
+-	v4l2_fh_release(file);
+-
+-	file->private_data = NULL;
+-
+ 	return 0;
+ }
+ 
 -- 
-Best Regards,
-Michael
+Regards,
+
+Laurent Pinchart
+
