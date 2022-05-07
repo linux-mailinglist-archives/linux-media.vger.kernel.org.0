@@ -2,74 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E449751E6C7
-	for <lists+linux-media@lfdr.de>; Sat,  7 May 2022 14:00:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B88B051E730
+	for <lists+linux-media@lfdr.de>; Sat,  7 May 2022 14:58:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1391274AbiEGMEQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 May 2022 08:04:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48992 "EHLO
+        id S1443023AbiEGNBR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 May 2022 09:01:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1446310AbiEGMEG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 May 2022 08:04:06 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B96A1488A9
-        for <linux-media@vger.kernel.org>; Sat,  7 May 2022 05:00:13 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id k27so11360420edk.4
-        for <linux-media@vger.kernel.org>; Sat, 07 May 2022 05:00:13 -0700 (PDT)
+        with ESMTP id S1446507AbiEGNAf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 May 2022 09:00:35 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C2352B1B
+        for <linux-media@vger.kernel.org>; Sat,  7 May 2022 05:56:22 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id y32so16679597lfa.6
+        for <linux-media@vger.kernel.org>; Sat, 07 May 2022 05:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=MJ5P80Xm99M8HaZon9Nxr3GNke+ga/P6cYQ3Q9Jg6ZU=;
-        b=MQvTn/dfBEG8PymJS4/L+Db+QkbhwqqGo38F0wmkcKX6yzBdhiVm2s5ehq4K0AUE1b
-         XkDOD8IrNrblq5xgZ6lKFBKnt3giY4kFR9JHEY1B5oiS5Dhq4tO80tltyx61MbWsJvKp
-         vjVGrqQ4o4IFg3d4AhGZ/P2OyXoqWjYKGRV59EbyfYK6hfknDAYRlad6unlOA+7XtvoY
-         +keq5TOdYavisrMfbIhFVznk0F+MC6rbaJzXG6INYPruK6JA+h9Y+eahPZkSuEtAaHDO
-         jxjNN3fzYwVnVox80aye3aHKRsejgt8KmcPcj/giqoipauGHZvaAT3wY7bHc9yovFr5m
-         VwHw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nh4UXdfseLTvf47MmPlW401g3TG4nefDHH0y35hBxhM=;
+        b=GKeZdVPzbNtZ4q+ZQFpJQ79Sqt+tdKWvewbc5Enyp9++4DZDIw4b1RsJT5SBDkDqH4
+         UPTOJjAnYyC2iu4f3Opp8Etz8nYmciJFEtVeY4DAzbonio0Nwti10sdvXJphRVc3fp+U
+         Vkzsb8fcYv3+vNbhWtaYvYTIp23bYwcvZOJTatAStBWslDzMfWrAp+oPnUp7ekhTqb+c
+         bNdGFsMuf8OhgPC5qFh2NOYqmN/5bwIpLdYaIojU2BbRQHgnVKPnqrK9LaGl5ntV15ni
+         QUONMjCWwJlyhgaPfhYczWZnXEoqPhHxIAurzTUwPG4TTc4gyBY+jU/aIh576+vUjq5a
+         gsiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MJ5P80Xm99M8HaZon9Nxr3GNke+ga/P6cYQ3Q9Jg6ZU=;
-        b=n+yKuG+U2c1QfEWkfoTpAdxq71gOrR9xLnE0Ub8hiuc9X+GbRbP8cxuwa2OZfmH4nK
-         RR+9MBpbHLcWJ/fFm3wvVhCZ9F+i8XgqQhWz1Ao1cvCewVbBdGwcnPfS9NXNworHzilf
-         EZvmuU60Ss283QyZY6hxzYaDFg9A4w5IFmt/uFMPBM+kmM5WKTYoB2sthWA4c5NUaocB
-         +V7iwbUWBBFUKLs/Lq9I0Cu6IOL1B4rxHhlP3HNj/78/dMAbl0R0WrmLlZE8T06nhaiB
-         KOpnd4Nb6f2z0uoyU78PjfWbDMEKTwS3y875cmOXpYbVUYodjxIJRcKctbU7dbfgN3vm
-         eTBA==
-X-Gm-Message-State: AOAM532xinjU6xXr+TtGtZC0ofF92jlXmQCIiuOoOWnP0bD4hUYbLZcd
-        1wSvGKUVud+X82o9xoirM0pPbw==
-X-Google-Smtp-Source: ABdhPJxBDiBw/+Y6YqGlDI0kGxCvL6NRopsXdXUCX5l4w4QqNFYvG7MfzHhWwbmJaT0RK+wj1kz73A==
-X-Received: by 2002:aa7:c58e:0:b0:425:b5e3:6c51 with SMTP id g14-20020aa7c58e000000b00425b5e36c51mr8394827edq.99.1651924812215;
-        Sat, 07 May 2022 05:00:12 -0700 (PDT)
-Received: from [192.168.0.231] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id og21-20020a1709071dd500b006f3ef214df8sm2827458ejc.94.2022.05.07.05.00.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 May 2022 05:00:11 -0700 (PDT)
-Message-ID: <324d9977-e8bc-b69f-ce8e-b5156035074e@linaro.org>
-Date:   Sat, 7 May 2022 14:00:10 +0200
+        bh=nh4UXdfseLTvf47MmPlW401g3TG4nefDHH0y35hBxhM=;
+        b=Dv901UcTlBxXijijitAAt3QrS/UKpRXcMXzrzSX6kFm93Ox6iadhFqyrkSk4+kdDhk
+         FnsMWslnqi5nU83jMkDW04lHIBQO1g+mHZDbS9905S7JUVsOYCBybjubOZlqb1BTkArf
+         D+NwgKztcG3Xe9THoAb+o16jeVDCgZiJwn2P7Hz+xqoYHulX5CEMZQ0bAevs+xa3pjyv
+         gOh/niGclNllhFhJcmMk/aFd+XHQEUEkVGMd3RxhayO5B1fcT5lXxJo7TTJ+FxcN/zXO
+         pk1SZ4cHyQH9xwb5VpNOJpdWdpVpOxRia6fMVrlbxbFnt61D4e0omjIcUMNd5BOI3kJ+
+         RkYQ==
+X-Gm-Message-State: AOAM533SvVEmt026odEPQRV4unDIDsGTFXAfpsmm5A7mT98Fw2lmTyQB
+        P9UVsoF27k53TARyIYnVtHuufFFpdc/D8g==
+X-Google-Smtp-Source: ABdhPJyWf+x11tjjYstVsMO5bRcuqNBNSYS73ygmIXRTo85Qdwsux+goTLm+qX56HvvE003uU4lsrQ==
+X-Received: by 2002:ac2:518b:0:b0:471:f81b:bb9f with SMTP id u11-20020ac2518b000000b00471f81bbb9fmr5977769lfi.638.1651928180728;
+        Sat, 07 May 2022 05:56:20 -0700 (PDT)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id v26-20020ac2593a000000b0047255d211e8sm1100005lfi.279.2022.05.07.05.56.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 May 2022 05:56:20 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Marek Vasut <marex@denx.de>
+Subject: [PATCH] media: i2c: isl7998x: Use right include
+Date:   Sat,  7 May 2022 14:54:15 +0200
+Message-Id: <20220507125415.172973-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 1/3] media: dt-bindings: ov5675: document YAML binding
-Content-Language: en-US
-To:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-        Quentin Schulz <foss+kernel@0leil.net>
-Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220504135543.59522-1-foss+kernel@0leil.net>
- <18d1032c-1fee-9de5-bd25-752ff9c39200@linaro.org>
- <889135d8-575e-3f95-4c65-ff3c40f64b05@theobroma-systems.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <889135d8-575e-3f95-4c65-ff3c40f64b05@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,125 +68,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/05/2022 15:48, Quentin Schulz wrote:
->>> +  clock-names:
->>> +    description:
->>> +      Input clock for the sensor.
->>> +    items:
->>> +      - const: xvclk
->>
->> Just "xv" is preferred.
->>
-> 
-> The name of the clock in the datasheet is XVCLK though. Wouldn't it be 
-> confusing to describe HW by using names different from the datasheet?
+This driver is using GPIO descriptors but uses the legacy
+include header <linux/gpio.h>. Fix it by including the
+intended <linux/gpio/consumer.h>.
 
-No, because datasheet could call it "xvclk_clk_clk_clk" and it is not a
-reason to use it in the bindings. All of these are clocks, so don't add
-unnecessary suffixes. The same goes to interrupts (wake not wakeirq) or
-DMA (tx not txdma).
+Cc: Marek Vasut <marex@denx.de>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/media/i2c/isl7998x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
->>> +
->>> +  clock-frequency:
->>> +    description:
->>> +      Frequency of the xvclk clock in Hertz.
->>> +
->>> +  dovdd-supply:
->>> +    description:
->>> +      Definition of the regulator used as interface power supply.
->>> +
->>> +  avdd-supply:
->>> +    description:
->>> +      Definition of the regulator used as analog power supply.
->>> +
->>> +  dvdd-supply:
->>> +    description:
->>> +      Definition of the regulator used as digital power supply.
->>> +
->>> +  reset-gpios:
->>> +    description:
->>> +      The phandle and specifier for the GPIO that controls sensor reset.
->>> +      This corresponds to the hardware pin XSHUTDOWN which is physically
->>> +      active low.
->>
->> Needs maxItems
->>
->>> +
->>> +  port:
->>> +    type: object
->>
->> Open other bindings and compare how it is done there. This looks like
->> /schemas/graph.yaml#/$defs/port-base
->>
-> 
-> Did that but used an old kernel as base :/
+diff --git a/drivers/media/i2c/isl7998x.c b/drivers/media/i2c/isl7998x.c
+index dc3068549dfa..27feefe1dfcd 100644
+--- a/drivers/media/i2c/isl7998x.c
++++ b/drivers/media/i2c/isl7998x.c
+@@ -8,7 +8,7 @@
+ 
+ #include <linux/bitfield.h>
+ #include <linux/delay.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/of_graph.h>
+-- 
+2.35.1
 
-Then please do not develop on an older kernel.
-
-> 
->>> +    additionalProperties: false
->>> +    description:
->>> +      A node containing an output port node with an endpoint definition
->>> +      as documented in
->>> +      Documentation/devicetree/bindings/media/video-interfaces.txt
->>> +
->>> +    properties:
->>> +      endpoint:
->>> +        type: object
->>
->> Missing ref
->>
->>> +
->>> +        properties:
->>> +          data-lanes:
->>> +            description: |-
->>
->> No need for "|-"
->>
->>> +              The driver only supports 2-lane operation.
->>
->> Please remove references to driver. It's not part of hardware.
->>
->>> +            items:
->>> +              - const: 1
->>> +              - const: 2
->>> +
->>> +          link-frequencies:
->>> +            $ref: /schemas/types.yaml#/definitions/uint64-array
->>
->> The ref should be already provided by video-interfaces.
->>
->>> +            description:
->>> +              Allowed data bus frequencies. 450000000Hz is supported by the driver.
->>
->> Again, skip driver reference. However you need to describe the number of
->> items.
->>
-> 
-> Currently, the driver is limited to 450 MHz link-freq and 2 data lanes, 
-> while the HW advertises: "The OV5675 supports a MIPI interface of up to 
-> 2-lanes. The MIPI interface can be configured for 1/2-lane and each lane
-> 
-> is capable of a data transfer rate of up to 900 Mbps."
-> 
-> Was wondering what I am supposed to do in this situation as I see 
-> Documentation/devicetree/bindings/media/i2c/ov8856.yaml mentioning 
-> driver limitations in the dt-bindings.
-
-Bindings describe the hardware and they are used in different projects.
-Let's say Linux implementation supports only 450 MHz, but other project
-supports 450 and 900, so your bindings would be incorrect in such
-case... IOW, bindings should not depend on the implementation.
-
-What is more, the driver might get updated without updating the comments
-in the bindings making them incorrect even for Linux.
-
-In the past several bindings contained actual specifics of
-implementation, but this is usually not the proper way.
-
-There are clear issues with describing implementation in the bindings,
-but what are the benefits?
-
-Best regards,
-Krzysztof
