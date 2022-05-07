@@ -2,381 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DC251E386
-	for <lists+linux-media@lfdr.de>; Sat,  7 May 2022 04:30:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8701151E43E
+	for <lists+linux-media@lfdr.de>; Sat,  7 May 2022 07:13:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357389AbiEGCdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 May 2022 22:33:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36436 "EHLO
+        id S1357238AbiEGFRi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 May 2022 01:17:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243289AbiEGCdp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 May 2022 22:33:45 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459F86A020;
-        Fri,  6 May 2022 19:29:55 -0700 (PDT)
-X-UUID: 0816ecf7a4914d20a3f6862124a7eba6-20220507
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:3e4bb740-593a-4622-82a2-05d1f2815536,OB:0,LO
-        B:0,IP:0,URL:8,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
-        TION:release,TS:-12
-X-CID-META: VersionHash:faefae9,CLOUDID:32ef8516-2e53-443e-b81a-655c13977218,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 0816ecf7a4914d20a3f6862124a7eba6-20220507
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 634343465; Sat, 07 May 2022 10:29:47 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Sat, 7 May 2022 10:29:45 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 7 May 2022 10:29:41 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2] media: mediatek: vcodec: add vp9 decoder driver for mt8186
-Date:   Sat, 7 May 2022 10:29:40 +0800
-Message-ID: <20220507022940.30439-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S1343722AbiEGFRh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 May 2022 01:17:37 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFAAC48E50
+        for <linux-media@vger.kernel.org>; Fri,  6 May 2022 22:13:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 24F3EB8015A
+        for <linux-media@vger.kernel.org>; Sat,  7 May 2022 05:13:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79B4AC385A5
+        for <linux-media@vger.kernel.org>; Sat,  7 May 2022 05:13:48 +0000 (UTC)
+Date:   Sat, 07 May 2022 07:13:46 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+Message-Id: <20220507051348.79B4AC385A5@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add vp9 single core decode driver to support mt8186.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Mingjia Zhang <mingjia.zhang@mediatek.com>
-Signed-off-by: Xiaoyong Lu <xiaoyong.lu@mediatek.com>
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
-This patch depends on "support mt8195 decoder"[1]
+Results of the daily build of media_tree:
 
-[1] https://patchwork.kernel.org/project/linux-mediatek/cover/20220507014618.29412-1-yunfei.dong@mediatek.com/
----
-changed with v1:
-- fix sparse and smatch check fail.
----
- .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 197 +++++++++++++++++-
- .../platform/mediatek/vcodec/vdec_drv_if.c    |   2 +-
- 2 files changed, 195 insertions(+), 4 deletions(-)
+date:			Sat May  7 05:00:18 CEST 2022
+media-tree git hash:	6c1c1eb8c87de221051b9198d40971640060842f
+media_build git hash:	4e29721804ea4e824c776101214389642dccad98
+v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7931-gf6cbfb19-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-index 3ebdb3c29e0e..f4de6951269f 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-@@ -439,6 +439,8 @@ struct vdec_vp9_slice_ref {
-  * @init_vsi:		vsi used for initialized VP9 instance
-  * @vsi:		vsi used for decoding/flush ...
-  * @core_vsi:		vsi used for Core stage
-+ *
-+ * @sc_pfc:		per frame context single core
-  * @counts_map:	used map to counts_helper
-  * @counts_helper:	counts table according to newest kernel spec
-  */
-@@ -487,6 +489,7 @@ struct vdec_vp9_slice_instance {
- 	};
- 	struct vdec_vp9_slice_vsi *core_vsi;
- 
-+	struct vdec_vp9_slice_pfc sc_pfc;
- 	struct vdec_vp9_slice_counts_map counts_map;
- 	struct v4l2_vp9_frame_symbol_counts counts_helper;
- };
-@@ -693,6 +696,25 @@ static int vdec_vp9_slice_tile_offset(int idx, int mi_num, int tile_log2)
- 	return offset < mi_num ? offset : mi_num;
- }
- 
-+static
-+int vdec_vp9_slice_setup_single_from_src_to_dst(struct vdec_vp9_slice_instance *instance)
-+{
-+	struct vb2_v4l2_buffer *src;
-+	struct vb2_v4l2_buffer *dst;
-+
-+	src = v4l2_m2m_next_src_buf(instance->ctx->m2m_ctx);
-+	if (!src)
-+		return -EINVAL;
-+
-+	dst = v4l2_m2m_next_dst_buf(instance->ctx->m2m_ctx);
-+	if (!dst)
-+		return -EINVAL;
-+
-+	v4l2_m2m_buf_copy_metadata(src, dst, true);
-+
-+	return 0;
-+}
-+
- static int vdec_vp9_slice_setup_lat_from_src_buf(struct vdec_vp9_slice_instance *instance,
- 						 struct vdec_lat_buf *lat_buf)
- {
-@@ -1568,6 +1590,33 @@ static int vdec_vp9_slice_update_prob(struct vdec_vp9_slice_instance *instance,
- 	return 0;
- }
- 
-+static int vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance,
-+				        struct vdec_vp9_slice_pfc *pfc)
-+{
-+	struct vdec_vp9_slice_vsi *vsi;
-+
-+	vsi = &pfc->vsi;
-+	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
-+
-+	mtk_vcodec_debug(instance, "Frame %u Y_CRC %08x %08x %08x %08x\n",
-+			 pfc->seq,
-+			 vsi->state.crc[0], vsi->state.crc[1],
-+			 vsi->state.crc[2], vsi->state.crc[3]);
-+	mtk_vcodec_debug(instance, "Frame %u C_CRC %08x %08x %08x %08x\n",
-+			 pfc->seq,
-+			 vsi->state.crc[4], vsi->state.crc[5],
-+			 vsi->state.crc[6], vsi->state.crc[7]);
-+
-+	vdec_vp9_slice_update_prob(instance, vsi);
-+
-+	instance->width = vsi->frame.uh.frame_width;
-+	instance->height = vsi->frame.uh.frame_height;
-+	instance->frame_type = vsi->frame.uh.frame_type;
-+	instance->show_frame = vsi->frame.uh.show_frame;
-+
-+	return 0;
-+}
-+
- static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance *instance,
- 				     struct vdec_lat_buf *lat_buf,
- 				     struct vdec_vp9_slice_pfc *pfc)
-@@ -1691,6 +1740,40 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
- 	return 0;
- }
- 
-+static void vdec_vp9_slice_setup_single_buffer(struct vdec_vp9_slice_instance *instance,
-+					       struct vdec_vp9_slice_pfc *pfc,
-+					       struct vdec_vp9_slice_vsi *vsi,
-+					       struct mtk_vcodec_mem *bs,
-+					       struct vdec_fb *fb)
-+{
-+	int i;
-+
-+	vsi->bs.buf.dma_addr = bs->dma_addr;
-+	vsi->bs.buf.size = bs->size;
-+	vsi->bs.frame.dma_addr = bs->dma_addr;
-+	vsi->bs.frame.size = bs->size;
-+
-+	for (i = 0; i < 2; i++) {
-+		vsi->mv[i].dma_addr = instance->mv[i].dma_addr;
-+		vsi->mv[i].size = instance->mv[i].size;
-+	}
-+	for (i = 0; i < 2; i++) {
-+		vsi->seg[i].dma_addr = instance->seg[i].dma_addr;
-+		vsi->seg[i].size = instance->seg[i].size;
-+	}
-+	vsi->tile.dma_addr = instance->tile.dma_addr;
-+	vsi->tile.size = instance->tile.size;
-+	vsi->prob.dma_addr = instance->prob.dma_addr;
-+	vsi->prob.size = instance->prob.size;
-+	vsi->counts.dma_addr = instance->counts.dma_addr;
-+	vsi->counts.size = instance->counts.size;
-+
-+	vsi->row_info.buf = 0;
-+	vsi->row_info.size = 0;
-+
-+	vdec_vp9_slice_setup_core_buffer(instance, pfc, vsi, fb, NULL);
-+}
-+
- static int vdec_vp9_slice_setup_core(struct vdec_vp9_slice_instance *instance,
- 				     struct vdec_fb *fb,
- 				     struct vdec_lat_buf *lat_buf,
-@@ -1717,6 +1800,43 @@ static int vdec_vp9_slice_setup_core(struct vdec_vp9_slice_instance *instance,
- 	return ret;
- }
- 
-+static int vdec_vp9_slice_setup_single(struct vdec_vp9_slice_instance *instance,
-+				       struct mtk_vcodec_mem *bs,
-+				       struct vdec_fb *fb,
-+				       struct vdec_vp9_slice_pfc *pfc)
-+{
-+	struct vdec_vp9_slice_vsi *vsi = &pfc->vsi;
-+	int ret;
-+
-+	ret = vdec_vp9_slice_setup_single_from_src_to_dst(instance);
-+	if (ret)
-+		goto err;
-+
-+	ret = vdec_vp9_slice_setup_pfc(instance, pfc);
-+	if (ret)
-+		goto err;
-+
-+	ret = vdec_vp9_slice_alloc_working_buffer(instance, vsi);
-+	if (ret)
-+		goto err;
-+
-+	vdec_vp9_slice_setup_single_buffer(instance, pfc, vsi, bs, fb);
-+	vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[0]);
-+
-+	ret = vdec_vp9_slice_setup_prob_buffer(instance, vsi);
-+	if (ret)
-+		goto err;
-+
-+	ret = vdec_vp9_slice_setup_tile_buffer(instance, vsi, bs);
-+	if (ret)
-+		goto err;
-+
-+	return 0;
-+
-+err:
-+	return ret;
-+}
-+
- static int vdec_vp9_slice_update_core(struct vdec_vp9_slice_instance *instance,
- 				      struct vdec_lat_buf *lat_buf,
- 				      struct vdec_vp9_slice_pfc *pfc)
-@@ -1814,8 +1934,8 @@ static int vdec_vp9_slice_flush(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	struct vdec_vp9_slice_instance *instance = h_vdec;
- 
- 	mtk_vcodec_debug(instance, "flush ...\n");
--
--	vdec_msg_queue_wait_lat_buf_full(&instance->ctx->msg_queue);
-+	if (instance->ctx->dev->vdec_pdata->hw_arch != MTK_VDEC_PURE_SINGLE_CORE)
-+		vdec_msg_queue_wait_lat_buf_full(&instance->ctx->msg_queue);
- 	return vpu_dec_reset(&instance->vpu);
- }
- 
-@@ -1868,6 +1988,63 @@ static int vdec_vp9_slice_get_param(void *h_vdec, enum vdec_get_param_type type,
- 	return 0;
- }
- 
-+static int vdec_vp9_slice_single_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
-+				        struct vdec_fb *fb, bool *res_chg)
-+{
-+	struct vdec_vp9_slice_instance *instance = h_vdec;
-+	struct vdec_vp9_slice_pfc *pfc = &(instance->sc_pfc);
-+	struct vdec_vp9_slice_vsi *vsi;
-+	struct mtk_vcodec_ctx *ctx;
-+	int ret;
-+
-+	if (!instance || !instance->ctx)
-+		return -EINVAL;
-+	ctx = instance->ctx;
-+
-+	/* bs NULL means flush decoder */
-+	if (!bs)
-+		return vdec_vp9_slice_flush(h_vdec, bs, fb, res_chg);
-+
-+	fb = ctx->dev->vdec_pdata->get_cap_buffer(ctx);
-+	if (!fb)
-+		return -EBUSY;
-+
-+	vsi = &pfc->vsi;
-+
-+	ret = vdec_vp9_slice_setup_single(instance, bs, fb, pfc);
-+	if (ret) {
-+		mtk_vcodec_err(instance, "Failed to setup VP9 single ret %d\n", ret);
-+		return ret;
-+	}
-+	vdec_vp9_slice_vsi_to_remote(vsi, (void __iomem *)instance->vsi);
-+
-+	ret = vpu_dec_start(&instance->vpu, NULL, 0);
-+	if (ret) {
-+		mtk_vcodec_err(instance, "Failed to dec VP9 ret %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mtk_vcodec_wait_for_done_ctx(ctx,	MTK_INST_IRQ_RECEIVED,
-+					   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
-+	/* update remote vsi if decode timeout */
-+	if (ret) {
-+		mtk_vcodec_err(instance, "VP9 decode timeout %d\n", ret);
-+		writel(1, (void __iomem *)&instance->vsi->state.timeout);
-+	}
-+
-+	vpu_dec_end(&instance->vpu);
-+
-+	vdec_vp9_slice_vsi_from_remote(vsi, (void __iomem *)instance->vsi, 0);
-+	ret = vdec_vp9_slice_update_single(instance, pfc);
-+	if (ret) {
-+		mtk_vcodec_err(instance, "VP9 decode error: %d\n", ret);
-+		return ret;
-+	}
-+
-+	instance->ctx->decoded_frame_cnt++;
-+	return 0;
-+}
-+
- static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 				     struct vdec_fb *fb, bool *res_chg)
- {
-@@ -1947,6 +2124,20 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	return 0;
- }
- 
-+static int vdec_vp9_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
-+				 struct vdec_fb *fb, bool *res_chg)
-+{
-+	struct vdec_vp9_slice_instance *instance = h_vdec;
-+	int ret;
-+
-+	if (instance->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_PURE_SINGLE_CORE)
-+		ret = vdec_vp9_slice_single_decode(h_vdec, bs, fb, res_chg);
-+	else
-+		ret = vdec_vp9_slice_lat_decode(h_vdec, bs, fb, res_chg);
-+
-+	return ret;
-+}
-+
- static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- {
- 	struct vdec_vp9_slice_instance *instance;
-@@ -2025,7 +2216,7 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 
- const struct vdec_common_if vdec_vp9_slice_lat_if = {
- 	.init		= vdec_vp9_slice_init,
--	.decode		= vdec_vp9_slice_lat_decode,
-+	.decode		= vdec_vp9_slice_decode,
- 	.get_param	= vdec_vp9_slice_get_param,
- 	.deinit		= vdec_vp9_slice_deinit,
- };
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c b/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
-index 27b4b35039cf..f3807f03d880 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
-@@ -47,7 +47,7 @@ int vdec_if_init(struct mtk_vcodec_ctx *ctx, unsigned int fourcc)
- 		break;
- 	case V4L2_PIX_FMT_VP9_FRAME:
- 		ctx->dec_if = &vdec_vp9_slice_lat_if;
--		ctx->hw_id = MTK_VDEC_LAT0;
-+		ctx->hw_id = IS_VDEC_LAT_ARCH(hw_arch) ? MTK_VDEC_LAT0 : MTK_VDEC_CORE;
- 		break;
- 	default:
- 		return -EINVAL;
--- 
-2.18.0
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-at91: OK
+linux-git-arm-multi: OK
+linux-git-arm-davinci: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.275-i686: OK
+linux-4.14.275-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.237-i686: OK
+linux-4.19.237-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.19-i686: OK
+linux-5.13.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2989, Succeeded: 2978, Failed: 11, Warnings: 10
+virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
