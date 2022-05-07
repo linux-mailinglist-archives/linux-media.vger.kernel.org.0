@@ -2,150 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 028C451E5D0
-	for <lists+linux-media@lfdr.de>; Sat,  7 May 2022 11:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E449751E6C7
+	for <lists+linux-media@lfdr.de>; Sat,  7 May 2022 14:00:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376962AbiEGJJ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 May 2022 05:09:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47686 "EHLO
+        id S1391274AbiEGMEQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 May 2022 08:04:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbiEGJJz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 May 2022 05:09:55 -0400
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C66A1AF2A;
-        Sat,  7 May 2022 02:06:09 -0700 (PDT)
-Date:   Sat, 7 May 2022 17:05:42 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1651914367;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j815uNVTrC2zbEfuQ1kKt5KWSsZfGH90td0/PQ5ogrQ=;
-        b=iYt7riG/mfb9s7dyzVgXIqRzZwelacsgxjTdeN1AgJ91kN3y9nSM/W9WzuEGg70/Fl/UFN
-        nb+4oOkKnazbkpCJgnlsQVbx7EBJ6qmgeDXxyqNDAWK6TXDKkXapdrfwQLxTnrwKJKldRE
-        px0qOTi/OvwmWo8YbfXXNFlE5qf+B24=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Cai Huoqing <cai.huoqing@linux.dev>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Mikko Perttunen <cyndis@kapsi.fi>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: Re: [PATCH v2 0/4] drm/nvdla: Add driver support for NVDLA
-Message-ID: <20220507090542.GA30702@chq-T47>
-References: <20220426060808.78225-1-cai.huoqing@linux.dev>
- <YmqgailZKIuY7zTZ@orome>
- <beacfd71-ebd0-7fde-187f-34b7a42a47de@kapsi.fi>
- <20220429032810.GA10104@chq-T47>
- <YnAPDRZMc88cDdYS@orome>
+        with ESMTP id S1446310AbiEGMEG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 May 2022 08:04:06 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B96A1488A9
+        for <linux-media@vger.kernel.org>; Sat,  7 May 2022 05:00:13 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id k27so11360420edk.4
+        for <linux-media@vger.kernel.org>; Sat, 07 May 2022 05:00:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=MJ5P80Xm99M8HaZon9Nxr3GNke+ga/P6cYQ3Q9Jg6ZU=;
+        b=MQvTn/dfBEG8PymJS4/L+Db+QkbhwqqGo38F0wmkcKX6yzBdhiVm2s5ehq4K0AUE1b
+         XkDOD8IrNrblq5xgZ6lKFBKnt3giY4kFR9JHEY1B5oiS5Dhq4tO80tltyx61MbWsJvKp
+         vjVGrqQ4o4IFg3d4AhGZ/P2OyXoqWjYKGRV59EbyfYK6hfknDAYRlad6unlOA+7XtvoY
+         +keq5TOdYavisrMfbIhFVznk0F+MC6rbaJzXG6INYPruK6JA+h9Y+eahPZkSuEtAaHDO
+         jxjNN3fzYwVnVox80aye3aHKRsejgt8KmcPcj/giqoipauGHZvaAT3wY7bHc9yovFr5m
+         VwHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=MJ5P80Xm99M8HaZon9Nxr3GNke+ga/P6cYQ3Q9Jg6ZU=;
+        b=n+yKuG+U2c1QfEWkfoTpAdxq71gOrR9xLnE0Ub8hiuc9X+GbRbP8cxuwa2OZfmH4nK
+         RR+9MBpbHLcWJ/fFm3wvVhCZ9F+i8XgqQhWz1Ao1cvCewVbBdGwcnPfS9NXNworHzilf
+         EZvmuU60Ss283QyZY6hxzYaDFg9A4w5IFmt/uFMPBM+kmM5WKTYoB2sthWA4c5NUaocB
+         +V7iwbUWBBFUKLs/Lq9I0Cu6IOL1B4rxHhlP3HNj/78/dMAbl0R0WrmLlZE8T06nhaiB
+         KOpnd4Nb6f2z0uoyU78PjfWbDMEKTwS3y875cmOXpYbVUYodjxIJRcKctbU7dbfgN3vm
+         eTBA==
+X-Gm-Message-State: AOAM532xinjU6xXr+TtGtZC0ofF92jlXmQCIiuOoOWnP0bD4hUYbLZcd
+        1wSvGKUVud+X82o9xoirM0pPbw==
+X-Google-Smtp-Source: ABdhPJxBDiBw/+Y6YqGlDI0kGxCvL6NRopsXdXUCX5l4w4QqNFYvG7MfzHhWwbmJaT0RK+wj1kz73A==
+X-Received: by 2002:aa7:c58e:0:b0:425:b5e3:6c51 with SMTP id g14-20020aa7c58e000000b00425b5e36c51mr8394827edq.99.1651924812215;
+        Sat, 07 May 2022 05:00:12 -0700 (PDT)
+Received: from [192.168.0.231] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id og21-20020a1709071dd500b006f3ef214df8sm2827458ejc.94.2022.05.07.05.00.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 May 2022 05:00:11 -0700 (PDT)
+Message-ID: <324d9977-e8bc-b69f-ce8e-b5156035074e@linaro.org>
+Date:   Sat, 7 May 2022 14:00:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YnAPDRZMc88cDdYS@orome>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 1/3] media: dt-bindings: ov5675: document YAML binding
+Content-Language: en-US
+To:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+        Quentin Schulz <foss+kernel@0leil.net>
+Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220504135543.59522-1-foss+kernel@0leil.net>
+ <18d1032c-1fee-9de5-bd25-752ff9c39200@linaro.org>
+ <889135d8-575e-3f95-4c65-ff3c40f64b05@theobroma-systems.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <889135d8-575e-3f95-4c65-ff3c40f64b05@theobroma-systems.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02 5月 22 19:04:13, Thierry Reding wrote:
-> On Fri, Apr 29, 2022 at 11:28:10AM +0800, Cai Huoqing wrote:
-> > On 28 4月 22 18:56:07, Mikko Perttunen wrote:
-> > > On 4/28/22 17:10, Thierry Reding wrote:
-> > > > On Tue, Apr 26, 2022 at 02:07:57PM +0800, Cai Huoqing wrote:
-> > > > > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
-> > > > > which is integrated into NVIDIA Jetson AGX Xavier,
-> > > > > so add driver support for this accelerator."
-> > > > 
-> > > > Hi,
-> > > > 
-> > > > nice to see this work going on. For subsequent revisions, can you please
-> > > > also Cc the Tegra mailing list (linux-tegra@vger.kernel.org) as well as
-> > > > the Tegra platform maintainers (that's Jon Hunter and myself). This will
-> > > > make sure that more people with an interest in this will see your work.
-> > > > Not everyone follows dri-devel, linaro-mm-sig or linux-media.
-> > > > 
-> > > > Thanks,
-> > > > Thierry
-> > > 
-> > > From a quick glance it looks like this driver pokes DLA hardware directly
-> > > which is not the intended programming model on Tegra hardware (there are
-> > > Falcon microcontrollers that offload task scheduling and synchronization
-> > > from the CPU). The hardware is also behind the Host1x bus so a simple
-> > > platform device is not sufficient.
-> > > 
-> > > Was this driver developed against some platform with OpenDLA hardware (i.e.
-> > > not Tegra)?
-> > > 
-> > > If so, we'd need to verify if the hardware matches the hardware in Tegra194.
-> > > Also, this driver may not be ideal for Tegra platforms since we would lack
-> > > the hardware scheduling and synchronization facilities. It is likely
-> > > necessary to have separate drivers for OpenDLA and Tegra's DLA integration.
-> > > 
-> > > Thanks,
-> > > Mikko
-> > > 
-> > Tegra DLA seems to work with a slave coprocessor, the host driver just
-> > impelement message queue, share buffer, notification... The hardware
-> > detail of DLA maybe in the slave driver(not linux OS?).
-> > 
-> > Sure, This driver just support for the SOCs or FPGAs that OPENDLA
-> > inside. I will change this kind of description "integrated into NVIDIA Jetson AGX Xavier"
-> > this driver dont support for Tegra directly.
+On 06/05/2022 15:48, Quentin Schulz wrote:
+>>> +  clock-names:
+>>> +    description:
+>>> +      Input clock for the sensor.
+>>> +    items:
+>>> +      - const: xvclk
+>>
+>> Just "xv" is preferred.
+>>
 > 
-> Yes, I think it would be good to make it clear that this is not going to
-> work with the Tegra instantiations so that people don't get confused.
-> 
-> I think it would be ideal, though, if we could reuse as much of this
-> driver as possible to work with other instantiations. The only reference
-> to OpenDLA that I can find and which seems somehow relevant to this is
-> here:
-> 
-> 	https://github.com/SCLUO/ITRI-OpenDLA
-Hi, thanks for your reply.
+> The name of the clock in the datasheet is XVCLK though. Wouldn't it be 
+> confusing to describe HW by using names different from the datasheet?
 
-the hardware code here,
-https://github.com/caihuoq/nvdla-hw
-or https://github.com/nvdla/hw
-which includes cmodel, RTL.
+No, because datasheet could call it "xvclk_clk_clk_clk" and it is not a
+reason to use it in the bindings. All of these are clocks, so don't add
+unnecessary suffixes. The same goes to interrupts (wake not wakeirq) or
+DMA (tx not txdma).
 
-I also make a docker image to run cmodel simulator(based on qemu)
-https://github.com/caihuoq/nvdla_docker
-It can be used to check this driver.
+> 
+>>> +
+>>> +  clock-frequency:
+>>> +    description:
+>>> +      Frequency of the xvclk clock in Hertz.
+>>> +
+>>> +  dovdd-supply:
+>>> +    description:
+>>> +      Definition of the regulator used as interface power supply.
+>>> +
+>>> +  avdd-supply:
+>>> +    description:
+>>> +      Definition of the regulator used as analog power supply.
+>>> +
+>>> +  dvdd-supply:
+>>> +    description:
+>>> +      Definition of the regulator used as digital power supply.
+>>> +
+>>> +  reset-gpios:
+>>> +    description:
+>>> +      The phandle and specifier for the GPIO that controls sensor reset.
+>>> +      This corresponds to the hardware pin XSHUTDOWN which is physically
+>>> +      active low.
+>>
+>> Needs maxItems
+>>
+>>> +
+>>> +  port:
+>>> +    type: object
+>>
+>> Open other bindings and compare how it is done there. This looks like
+>> /schemas/graph.yaml#/$defs/port-base
+>>
+> 
+> Did that but used an old kernel as base :/
 
-Thanks,
-Cai
-> 
-> Is that the version that you're using? Or is the version that you're
-> using at least compatible with that one? Apart from that and the Tegra
-> instantiations, are you aware of any other derivatives that we need to
-> account for? I'm worried that this might fragment to the point where it
-> becomes unmaintainable in upstream Linux.
-> 
-> Even if this doesn't concern the Tegra instantiation, I think most of my
-> other comments remain valid. Things like global variables will get in
-> the way of multiple FPGA instantiations as well, for example.
-> 
-> You will also need to provide the device tree bindings for the
-> particular instantiation that you're working on. Typically this would be
-> identified by a vendor-specific compatible string for your particular
-> board, but if it stems from a "canonical" FPGA mapping, matching on that
-> compatible string might also be an option. In either case, when you send
-> out the DT bindings, please include the devicetree@vger.kernel.org
-> mailing list so that they can be properly reviewed.
-> 
-> Thierry
+Then please do not develop on an older kernel.
 
+> 
+>>> +    additionalProperties: false
+>>> +    description:
+>>> +      A node containing an output port node with an endpoint definition
+>>> +      as documented in
+>>> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+>>> +
+>>> +    properties:
+>>> +      endpoint:
+>>> +        type: object
+>>
+>> Missing ref
+>>
+>>> +
+>>> +        properties:
+>>> +          data-lanes:
+>>> +            description: |-
+>>
+>> No need for "|-"
+>>
+>>> +              The driver only supports 2-lane operation.
+>>
+>> Please remove references to driver. It's not part of hardware.
+>>
+>>> +            items:
+>>> +              - const: 1
+>>> +              - const: 2
+>>> +
+>>> +          link-frequencies:
+>>> +            $ref: /schemas/types.yaml#/definitions/uint64-array
+>>
+>> The ref should be already provided by video-interfaces.
+>>
+>>> +            description:
+>>> +              Allowed data bus frequencies. 450000000Hz is supported by the driver.
+>>
+>> Again, skip driver reference. However you need to describe the number of
+>> items.
+>>
+> 
+> Currently, the driver is limited to 450 MHz link-freq and 2 data lanes, 
+> while the HW advertises: "The OV5675 supports a MIPI interface of up to 
+> 2-lanes. The MIPI interface can be configured for 1/2-lane and each lane
+> 
+> is capable of a data transfer rate of up to 900 Mbps."
+> 
+> Was wondering what I am supposed to do in this situation as I see 
+> Documentation/devicetree/bindings/media/i2c/ov8856.yaml mentioning 
+> driver limitations in the dt-bindings.
 
+Bindings describe the hardware and they are used in different projects.
+Let's say Linux implementation supports only 450 MHz, but other project
+supports 450 and 900, so your bindings would be incorrect in such
+case... IOW, bindings should not depend on the implementation.
+
+What is more, the driver might get updated without updating the comments
+in the bindings making them incorrect even for Linux.
+
+In the past several bindings contained actual specifics of
+implementation, but this is usually not the proper way.
+
+There are clear issues with describing implementation in the bindings,
+but what are the benefits?
+
+Best regards,
+Krzysztof
