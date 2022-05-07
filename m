@@ -2,81 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87F3451E870
-	for <lists+linux-media@lfdr.de>; Sat,  7 May 2022 18:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12C7A51E90C
+	for <lists+linux-media@lfdr.de>; Sat,  7 May 2022 20:03:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349259AbiEGQO6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 May 2022 12:14:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52850 "EHLO
+        id S1446763AbiEGSGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 May 2022 14:06:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232965AbiEGQO6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 May 2022 12:14:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A31876342;
-        Sat,  7 May 2022 09:11:09 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A81F55A;
-        Sat,  7 May 2022 18:11:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1651939867;
-        bh=se6o+9yWQACYAlaRsFAG9CGqkeJ/BhQO9jJBskb2Neg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fqNOBIfbd+f+sPsUEmlUPkIqCxXSgnM+73ZAftzPl3DpAkHNQuo02O0RoWY32BwuP
-         hT0N7IwYKV5SXM/OFr60fGDCoeq++bZRBBby5U4v43ddEJOmSvT65Rzc01MALAcbbr
-         AAGZQ0kTMJNvx9m6Vp+VkO2m5VmDiOeA4MR+hg84=
-Date:   Sat, 7 May 2022 19:11:03 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sergey Meirovich <rathamahata@gmail.com>
-Cc:     Corentin Labbe <clabbe@baylibre.com>, devel@driverdev.osuosl.org,
-        gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org
-Subject: Re: [PATCH RFT/RFC v2 01/47] staging: media: Revert "media: zoran:
- remove deprecated driver"
-Message-ID: <YnaaF8AtSA8glnEg@pendragon.ideasonboard.com>
-References: <1601058657-14042-1-git-send-email-clabbe@baylibre.com>
- <1601058657-14042-2-git-send-email-clabbe@baylibre.com>
- <CA+QCeVRjnU6RwHkj3c54pzLq6yeaZ1Lz8eG4vDOkGT5RyKvJhA@mail.gmail.com>
+        with ESMTP id S1446748AbiEGSGw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 May 2022 14:06:52 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 252892CE11;
+        Sat,  7 May 2022 11:03:05 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id e2so14042102wrh.7;
+        Sat, 07 May 2022 11:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=D7VtlgOsRgbFduqgmvE9B7kMfxFi0Jdh2MT6Sj/9wbU=;
+        b=UXpTm9/8iVMwJ68tlYJQAFO4W4iNPNHGqWu7c1aOkfbiiI7sXHjvZSrk77C+ozGT3h
+         X4lJlemZ5JkEcfIux7W6wGoKbllqParKp/8FTMGpzWQYzCoUfaieR9F8KngSBBt5x9Ki
+         5+tzPLGITvCVuVCkjg7LZ+wsa6+Xsse5nbJCwRADQMcWikk3f2CHDWsTlKUX2/DTtGqh
+         u5ugstVN1Gcfo9EtYDoxS5gA/vC6YMcN0AS02X6vFoiMRK6QbFiAV4JaEm/OU7Fjd0Zi
+         WqhHoFZeXRkpyN4TWMJq/PTJAzwQjU3c5nKAvHNsYpxSZfyorqRFCrz1zKmGxb60an6w
+         irHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=D7VtlgOsRgbFduqgmvE9B7kMfxFi0Jdh2MT6Sj/9wbU=;
+        b=0BMIty//4ANqlY3FjYQkv+OpbMlVDvXDEjlJsj8B5yAiism7e5b8AqjGRU1FmteWnC
+         fQoMC7mBIN8Ewao5Rn60cBtkwP94pabqc2y6GB+XHVD/L2dnV4GFep+g6sY/o21CB4gF
+         +DlcYYMMogG/V8VEykx6ho1guSjyNNf8wkfuyQMIGciz4l+5Vsmp9m6w05SXqAEsNjlx
+         ukGKNiGWUzaiiVgSev3F4SZd50MbGXjkJSLL4kt748LjG4I3wKKN5kX+WF7ZYhMmVD+y
+         aEvq7h74Jjp0ftuSJVbtQrIA7CNkKa7xkv+U4C+y45nL5AmAJdhSFwSRUz6AcwYKVHc6
+         grCA==
+X-Gm-Message-State: AOAM532s4xsT/ugdxrNXYXoZnSaDntx+OuIFwBGGtoQvr6RROoXV55HV
+        Dyc4kQiXC5MhzBUc/SA5SD/HEbY0+Jo=
+X-Google-Smtp-Source: ABdhPJzG5ttqjWeUlkVS2RItfVD/Q6KF+SDkvOoT5ySwDBUpkUOHyPJzih+GFjsN6KYpRD4014eJMw==
+X-Received: by 2002:adf:e60a:0:b0:20a:c402:6810 with SMTP id p10-20020adfe60a000000b0020ac4026810mr7856140wrm.45.1651946583586;
+        Sat, 07 May 2022 11:03:03 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id n18-20020a05600c4f9200b003942a244f57sm3176153wmq.48.2022.05.07.11.03.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 May 2022 11:03:03 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: tuners: mxl5005s: make array static const, reduces object code size
+Date:   Sat,  7 May 2022 19:03:02 +0100
+Message-Id: <20220507180302.25853-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+QCeVRjnU6RwHkj3c54pzLq6yeaZ1Lz8eG4vDOkGT5RyKvJhA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 07, 2022 at 10:58:39AM -0500, Sergey Meirovich wrote:
-> Sergey Meirovich has sent you an email via Gmail confidential mode:
-> 
-> Gmail logoRe: [PATCH RFT/RFC v2 01/47] staging: media: Revert "media: zoran:
-> remove deprecated driver"
-> 
-> This message was sent on May 7, 2022 at 8:58:50 AM PDT
-> You can open it by clicking the link below. This link will only work for
-> laurent.pinchart@ideasonboard.com.
+Don't populate the array RegAddr on the stack, instead make it static
+const. Also makes the object code smaller.
 
-Please don't use this feature when posting to public mailing lists. Such
-messages will be totally ignored.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/media/tuners/mxl5005s.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> View the email
-> 
-> Gmail confidential mode gives you more control over the messages you send. The
-> sender may have chosen to set an expiration time, disable printing or
-> forwarding, or track access to this message. Learn more
-> 
-> Gmail: Email by Google
-> Use is subject to the Google Privacy Policy                            Google
-> Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA    logo
-> You have received this message because someone sent you an email via
-> Gmail confidential mode.
-> 
-
+diff --git a/drivers/media/tuners/mxl5005s.c b/drivers/media/tuners/mxl5005s.c
+index ab4c43df9d18..3a509038c8df 100644
+--- a/drivers/media/tuners/mxl5005s.c
++++ b/drivers/media/tuners/mxl5005s.c
+@@ -3637,7 +3637,7 @@ static u16 MXL_GetCHRegister_ZeroIF(struct dvb_frontend *fe, u8 *RegNum,
+ 	u16 status = 0;
+ 	int i;
+ 
+-	u8 RegAddr[] = {43, 136};
++	static const u8 RegAddr[] = {43, 136};
+ 
+ 	*count = ARRAY_SIZE(RegAddr);
+ 
 -- 
-Regards,
+2.35.1
 
-Laurent Pinchart
