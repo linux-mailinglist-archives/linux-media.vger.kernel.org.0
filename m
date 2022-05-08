@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB5D151EBE6
-	for <lists+linux-media@lfdr.de>; Sun,  8 May 2022 07:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DD5C51EBF0
+	for <lists+linux-media@lfdr.de>; Sun,  8 May 2022 07:56:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbiEHFS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 May 2022 01:18:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38882 "EHLO
+        id S231272AbiEHGA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 May 2022 02:00:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231243AbiEHFS5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 May 2022 01:18:57 -0400
+        with ESMTP id S229479AbiEHGAX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 May 2022 02:00:23 -0400
 Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE626425
-        for <linux-media@vger.kernel.org>; Sat,  7 May 2022 22:15:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 778EF38A6
+        for <linux-media@vger.kernel.org>; Sat,  7 May 2022 22:56:33 -0700 (PDT)
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1nnZG1-002AX1-RK; Sun, 08 May 2022 05:15:02 +0000
+        id 1nnZu7-002EM3-CP; Sun, 08 May 2022 05:56:27 +0000
 Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1nnZFz-008EFp-E7; Sun, 08 May 2022 05:14:59 +0000
-Date:   Sun, 8 May 2022 05:14:58 +0000 (UTC)
+        id 1nnZu5-008Yar-8Y; Sun, 08 May 2022 05:56:24 +0000
+Date:   Sun, 8 May 2022 05:56:24 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org,
         mchehab@linuxtv.org
-Message-ID: <1010274796.0.1651986898906@builder.linuxtv.org>
-In-Reply-To: <1843219824.0.1650927465869@builder.linuxtv.org>
-References: <1843219824.0.1650927465869@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media_stage_clang #450
+Message-ID: <202840870.1.1651989384747@builder.linuxtv.org>
+In-Reply-To: <1010274796.0.1651986898906@builder.linuxtv.org>
+References: <1010274796.0.1651986898906@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media_stage_clang #451
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -47,84 +47,166 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media_stage_clang/450/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/media_stage_clang/451/display/redirect>
 
 Changes:
 
-[Mauro Carvalho Chehab] media: gpio-ir-tx: simplify wait logic
-
-[Mauro Carvalho Chehab] media: docs: media: uvcvideo: Use linux-media mailing list
-
-[Mauro Carvalho Chehab] media: uvcvideo: Fix missing check to determine if element is found in list
-
-[Mauro Carvalho Chehab] media: uvcvideo: Fix bit overflow in uvc_probe_video
-
-[Mauro Carvalho Chehab] media: uvcvideo: Fix memory leak if uvc_ctrl_add_mapping fails
-
-[Mauro Carvalho Chehab] media: uvcvideo: Simplify uvc_endpoint_max_bpi()
-
-[Mauro Carvalho Chehab] media: uvcvideo: Undup use uvc_endpoint_max_bpi() code
-
-[Mauro Carvalho Chehab] media: uvcvideo: Add UVC_GUID_FORMAT_H265
-
 
 ------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media_stage_clang/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media_stage_clang/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_stage.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_stage.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_stage.git +refs/heads/*:refs/remotes/origin/* # timeout=30
-Seen branch in repository origin/master
-Seen 1 remote branch
- > git show-ref --tags -d # timeout=10
-Checking out Revision be938c70e292731f81226917fc214683e66da577 (origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f be938c70e292731f81226917fc214683e66da577 # timeout=10
-Commit message: "media: uvcvideo: Add UVC_GUID_FORMAT_H265"
- > git rev-list --no-walk 6c1c1eb8c87de221051b9198d40971640060842f # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse be938c70e292731f81226917fc214683e66da577^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_stage.git'
-[GitCheckoutListener] Found previous build 'media_stage_clang #449' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '6c1c1eb'
-[GitCheckoutListener] -> Using head commit 'be938c7' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@29268fdd'
-[GitCheckoutListener] -> Recorded 8 new commits
-[media_stage_clang] $ /bin/sh -xe /tmp/jenkins4922168907188976153.sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make W=1 CC=clang-12 HOSTCC=clang-12 allyesconfig
-#
-# configuration written to .config
-#
-+ ./scripts/config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS -d CHECK_SIGNATURE
-+ make W=1 CC=clang-12 HOSTCC=clang-12 init
-  SYNC    include/config/auto.conf.cmd
-  DESCEND objtool
-  CALL    scripts/atomic/check-atomics.sh
-  CALL    scripts/checksyscalls.sh
-  CHK     include/generated/compile.h
-  CC      init/do_mounts.o
-In file included from init/do_mounts.c:22:
-In file included from ./include/linux/nfs_fs.h:31:
-In file included from ./include/linux/sunrpc/auth.h:13:
-In file included from ./include/linux/sunrpc/sched.h:19:
-./include/linux/sunrpc/xdr.h:734:10: error: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Werror,-Wtautological-constant-out-of-range-compare]
-        if (len > SIZE_MAX / sizeof(*p))
-            ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
-1 error generated.
-make[1]: *** [scripts/Makefile.build:288: init/do_mounts.o] Error 1
-make: *** [Makefile:1834: init] Error 2
+[...truncated 51.16 KB...]
+  CC      drivers/media/dvb-frontends/lnbh25.o
+  CC      drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.o
+  CC      drivers/media/rc/keymaps/rc-tanix-tx3mini.o
+  CC      drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.o
+  CC      drivers/media/pci/saa7146/hexium_orion.o
+  CC      drivers/media/usb/dvb-usb/technisat-usb2.o
+  CC      drivers/media/rc/keymaps/rc-tanix-tx5max.o
+  CC      drivers/media/i2c/m5mols/m5mols_core.o
+  CC      drivers/media/test-drivers/vivid/vivid-vbi-cap.o
+  CC      drivers/media/pci/ddbridge/ddbridge-max.o
+  CC      drivers/media/dvb-frontends/lnbh29.o
+  CC      drivers/media/pci/ddbridge/ddbridge-mci.o
+  CC      drivers/media/pci/saa7146/hexium_gemini.o
+  CC      drivers/media/rc/keymaps/rc-tbs-nec.o
+  CC      drivers/media/test-drivers/vivid/vivid-vbi-out.o
+  CC      drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_parse.o
+  AR      drivers/media/usb/dvb-usb/built-in.a
+  CC      drivers/media/dvb-frontends/lnbp21.o
+  CC      drivers/media/rc/keymaps/rc-technisat-ts35.o
+  CC      drivers/media/usb/s2255/s2255drv.o
+  CC      drivers/media/pci/smipcie/smipcie-main.o
+  CC      drivers/media/i2c/m5mols/m5mols_controls.o
+  CC      drivers/media/pci/ddbridge/ddbridge-sx8.o
+  AR      drivers/media/pci/saa7146/built-in.a
+  CC      drivers/media/dvb-frontends/lnbp22.o
+  CC      drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.o
+  CC      drivers/media/test-drivers/vivid/vivid-osd.o
+  CC      drivers/media/test-drivers/vivid/vivid-meta-cap.o
+  CC      drivers/media/rc/keymaps/rc-technisat-usb2.o
+  CC      drivers/media/i2c/m5mols/m5mols_capture.o
+  AR      drivers/media/usb/s2255/built-in.a
+  CC      drivers/media/usb/siano/smsusb.o
+  CC      drivers/media/pci/ddbridge/ddbridge-dummy-fe.o
+  CC      drivers/media/rc/keymaps/rc-terratec-cinergy-c-pci.o
+  CC      drivers/media/pci/smipcie/smipcie-ir.o
+  AR      drivers/media/platform/mediatek/jpeg/built-in.a
+  CC      drivers/media/platform/mediatek/mdp/mtk_mdp_core.o
+  CC      drivers/media/dvb-frontends/m88ds3103.o
+  CC      drivers/media/test-drivers/vivid/vivid-meta-out.o
+  CC      drivers/media/rc/keymaps/rc-terratec-cinergy-s2-hd.o
+  AR      drivers/media/usb/siano/built-in.a
+  CC      drivers/media/usb/stkwebcam/stk-webcam.o
+  AR      drivers/media/i2c/m5mols/built-in.a
+  CC      drivers/media/i2c/max9271.o
+  AR      drivers/media/pci/ddbridge/built-in.a
+  CC      drivers/media/platform/mediatek/mdp/mtk_mdp_comp.o
+  AR      drivers/media/pci/smipcie/built-in.a
+  CC      drivers/media/rc/keymaps/rc-terratec-cinergy-xs.o
+  CC      drivers/media/pci/netup_unidvb/netup_unidvb_core.o
+  CC      drivers/media/test-drivers/vivid/vivid-kthread-touch.o
+  CC      drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.o
+  CC      drivers/media/usb/ttusb-budget/dvb-ttusb-budget.o
+  CC      drivers/media/i2c/max9286.o
+  CC      drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_if.o
+  CC      drivers/media/dvb-frontends/m88rs2000.o
+  CC      drivers/media/usb/stkwebcam/stk-sensor.o
+  CC      drivers/media/rc/keymaps/rc-terratec-slim-2.o
+  CC      drivers/media/pci/netup_unidvb/netup_unidvb_i2c.o
+  CC      drivers/media/platform/mediatek/mdp/mtk_mdp_regs.o
+  CC      drivers/media/test-drivers/vivid/vivid-touch-cap.o
+  AR      drivers/media/usb/stkwebcam/built-in.a
+  CC      drivers/media/rc/keymaps/rc-terratec-slim.o
+  CC      drivers/media/i2c/ml86v7667.o
+  CC      drivers/media/dvb-frontends/mb86a16.o
+  AR      drivers/media/usb/ttusb-budget/built-in.a
+  CC      drivers/media/platform/mediatek/vpu/mtk_vpu.o
+  CC      drivers/media/rc/keymaps/rc-tevii-nec.o
+  CC      drivers/media/pci/netup_unidvb/netup_unidvb_ci.o
+  CC      drivers/media/usb/ttusb-dec/ttusb_dec.o
+  CC      drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.o
+  CC      drivers/media/test-drivers/vivid/vivid-cec.o
+  CC      drivers/media/i2c/msp3400-driver.o
+  CC      drivers/media/platform/mediatek/mdp/mtk_mdp_vpu.o
+  AR      drivers/media/platform/mediatek/vpu/built-in.a
+  CC      drivers/media/rc/keymaps/rc-tivo.o
+  CC      drivers/media/usb/ttusb-dec/ttusbdecfe.o
+  CC      drivers/media/pci/netup_unidvb/netup_unidvb_spi.o
+  AR      drivers/media/test-drivers/vivid/built-in.a
+  AR      drivers/media/test-drivers/built-in.a
+  CC      drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.o
+  CC      drivers/media/i2c/msp3400-kthreads.o
+  AR      drivers/media/platform/mediatek/mdp/built-in.a
+  CC      drivers/media/rc/keymaps/rc-total-media-in-hand-02.o
+  CC      drivers/media/dvb-frontends/mb86a20s.o
+  CC      drivers/media/platform/nvidia/tegra-vde/vde.o
+  CC      drivers/media/platform/nvidia/tegra-vde/iommu.o
+  CC      drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.o
+  AR      drivers/media/usb/ttusb-dec/built-in.a
+  CC      drivers/media/usb/zr364xx/zr364xx.o
+  CC      drivers/media/i2c/mt9m001.o
+  CC      drivers/media/rc/keymaps/rc-total-media-in-hand.o
+FATAL: command execution failed
+java.io.IOException
+	at hudson.remoting.Channel.close(Channel.java:1470)
+	at hudson.remoting.Channel.close(Channel.java:1447)
+	at hudson.slaves.SlaveComputer.closeChannel(SlaveComputer.java:902)
+	at hudson.slaves.SlaveComputer.kill(SlaveComputer.java:868)
+	at hudson.model.AbstractCIBase.killComputer(AbstractCIBase.java:95)
+	at jenkins.model.Jenkins.lambda$_cleanUpDisconnectComputers$11(Jenkins.java:3699)
+	at hudson.model.Queue._withLock(Queue.java:1395)
+	at hudson.model.Queue.withLock(Queue.java:1269)
+	at jenkins.model.Jenkins._cleanUpDisconnectComputers(Jenkins.java:3695)
+	at jenkins.model.Jenkins.cleanUp(Jenkins.java:3578)
+	at hudson.lifecycle.Lifecycle.lambda$new$0(Lifecycle.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused: hudson.remoting.ChannelClosedException: Channel "hudson.remoting.Channel@3f7d837a:slave2": Remote call on slave2 failed. The channel is closing down or has closed down
+	at hudson.remoting.Channel.call(Channel.java:993)
+	at hudson.remoting.RemoteInvocationHandler.invoke(RemoteInvocationHandler.java:285)
+	at com.sun.proxy.$Proxy70.isAlive(Unknown Source)
+	at hudson.Launcher$RemoteLauncher$ProcImpl.isAlive(Launcher.java:1215)
+	at hudson.Launcher$RemoteLauncher$ProcImpl.join(Launcher.java:1207)
+	at hudson.tasks.CommandInterpreter.join(CommandInterpreter.java:195)
+	at hudson.tasks.CommandInterpreter.perform(CommandInterpreter.java:145)
+	at hudson.tasks.CommandInterpreter.perform(CommandInterpreter.java:92)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:814)
+	at hudson.model.Build$BuildExecution.build(Build.java:199)
+	at hudson.model.Build$BuildExecution.doRun(Build.java:164)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:522)
+	at hudson.model.Run.execute(Run.java:1896)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:44)
+	at hudson.model.ResourceController.execute(ResourceController.java:101)
+	at hudson.model.Executor.run(Executor.java:442)
+FATAL: Unable to delete script file /tmp/jenkins11905292353700388175.sh
+java.io.IOException
+	at hudson.remoting.Channel.close(Channel.java:1470)
+	at hudson.remoting.Channel.close(Channel.java:1447)
+	at hudson.slaves.SlaveComputer.closeChannel(SlaveComputer.java:902)
+	at hudson.slaves.SlaveComputer.kill(SlaveComputer.java:868)
+	at hudson.model.AbstractCIBase.killComputer(AbstractCIBase.java:95)
+	at jenkins.model.Jenkins.lambda$_cleanUpDisconnectComputers$11(Jenkins.java:3699)
+	at hudson.model.Queue._withLock(Queue.java:1395)
+	at hudson.model.Queue.withLock(Queue.java:1269)
+	at jenkins.model.Jenkins._cleanUpDisconnectComputers(Jenkins.java:3695)
+	at jenkins.model.Jenkins.cleanUp(Jenkins.java:3578)
+	at hudson.lifecycle.Lifecycle.lambda$new$0(Lifecycle.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused: hudson.remoting.ChannelClosedException: Channel "hudson.remoting.Channel@3f7d837a:slave2": Remote call on slave2 failed. The channel is closing down or has closed down
+	at hudson.remoting.Channel.call(Channel.java:993)
+	at hudson.FilePath.act(FilePath.java:1194)
+	at hudson.FilePath.act(FilePath.java:1183)
+	at hudson.FilePath.delete(FilePath.java:1730)
+	at hudson.tasks.CommandInterpreter.perform(CommandInterpreter.java:163)
+	at hudson.tasks.CommandInterpreter.perform(CommandInterpreter.java:92)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:814)
+	at hudson.model.Build$BuildExecution.build(Build.java:199)
+	at hudson.model.Build$BuildExecution.doRun(Build.java:164)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:522)
+	at hudson.model.Run.execute(Run.java:1896)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:44)
+	at hudson.model.ResourceController.execute(ResourceController.java:101)
+	at hudson.model.Executor.run(Executor.java:442)
 Build step 'Execute shell' marked build as failure
 Not sending mail to unregistered user daniel@iogearbox.net
 Not sending mail to unregistered user herbert@gondor.apana.org.au
