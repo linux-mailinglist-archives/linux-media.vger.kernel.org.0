@@ -2,74 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E38B651FDEE
-	for <lists+linux-media@lfdr.de>; Mon,  9 May 2022 15:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1847B51FEE5
+	for <lists+linux-media@lfdr.de>; Mon,  9 May 2022 15:54:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235421AbiEINXL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 May 2022 09:23:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59558 "EHLO
+        id S236619AbiEIN5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 May 2022 09:57:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235347AbiEINXK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 09:23:10 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C712AA2FE
-        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 06:19:14 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1no3I9-003zcA-F4; Mon, 09 May 2022 13:19:13 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1no3I5-00CkTA-Kn; Mon, 09 May 2022 13:19:11 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.19] smatch fixes (#83013)
-Date:   Mon,  9 May 2022 13:19:09 +0000
-Message-Id: <20220509131909.3038518-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <55457695-4f48-68a4-d5b1-1d6ff2ef253e@xs4all.nl>
-References: 
+        with ESMTP id S236485AbiEIN5D (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 09:57:03 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 711B12AE0B;
+        Mon,  9 May 2022 06:53:07 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KxjKS5RqdzhYtW;
+        Mon,  9 May 2022 21:52:28 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 9 May 2022 21:53:05 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 9 May
+ 2022 21:53:04 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+CC:     <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <robert.foss@linaro.org>, <bryan.odonoghue@linaro.org>,
+        <vladimir.zapolskiy@linaro.org>
+Subject: [PATCH] media: camss: csid: fix wrong size passed to devm_kmalloc_array()
+Date:   Mon, 9 May 2022 22:04:39 +0800
+Message-ID: <20220509140439.1361352-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+'supplies' is a pointer, the real size of struct regulator_bulk_data
+should be pass to devm_kmalloc_array().
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/55457695-4f48-68a4-d5b1-1d6ff2ef253e@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/206136/
-Build time: 00:21:02
-Link: https://lore.kernel.org/linux-media/55457695-4f48-68a4-d5b1-1d6ff2ef253e@xs4all.nl
+Fixes: 0d8140179715 ("media: camss: Add regulator_bulk support")
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/media/platform/qcom/camss/camss-csid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-gpg: Signature made Mon 09 May 2022 12:49:55 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Can't check signature: No public key
-
-Summary: got 1/6 patches with issues, being 1 at build time
-
-Error/warnings:
-
-patches/0001-v4l2-subdev.c-kvmalloc_array-kvcalloc.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+index f993f349b66b..80628801cf09 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.c
++++ b/drivers/media/platform/qcom/camss/camss-csid.c
+@@ -666,7 +666,7 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
+ 	if (csid->num_supplies) {
+ 		csid->supplies = devm_kmalloc_array(camss->dev,
+ 						    csid->num_supplies,
+-						    sizeof(csid->supplies),
++						    sizeof(*csid->supplies),
+ 						    GFP_KERNEL);
+ 		if (!csid->supplies)
+ 			return -ENOMEM;
+-- 
+2.25.1
 
