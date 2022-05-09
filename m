@@ -2,99 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A52751F90B
-	for <lists+linux-media@lfdr.de>; Mon,  9 May 2022 12:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A911351F8D1
+	for <lists+linux-media@lfdr.de>; Mon,  9 May 2022 12:00:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231432AbiEIJv2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 May 2022 05:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34506 "EHLO
+        id S232678AbiEIJvf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 May 2022 05:51:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232025AbiEIJT7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 05:19:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5619CF7B
-        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 02:16:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C4E8C614DF
-        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 09:16:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F71BC385AB;
-        Mon,  9 May 2022 09:16:04 +0000 (UTC)
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 7/7] uvc_v4l2.c: avoid using iterator used outside loop
-Date:   Mon,  9 May 2022 11:15:53 +0200
-Message-Id: <20220509091553.2637089-8-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220509091553.2637089-1-hverkuil-cisco@xs4all.nl>
-References: <20220509091553.2637089-1-hverkuil-cisco@xs4all.nl>
+        with ESMTP id S237246AbiEIJ2r (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 05:28:47 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119FF209B5D;
+        Mon,  9 May 2022 02:24:54 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id ba17so15535269edb.5;
+        Mon, 09 May 2022 02:24:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=LFcgVVJ7bK726HSSPtE+r4B2aXmQmGmr8tjtETzF3YE=;
+        b=SCk+kS+aXSHUKOVJ2iBIKunz+vcKeLZXVRZZHJfW4513NoPDMHM/BlO9OtZ7pastdC
+         W/17ymo2ZabbKF5AqescJlLZ70aU1Y97l5qpVLrA18jRc0OHqWQv8jc26EcjZrcOWJgx
+         dHj0tCBpALYRpyVM+ddvFgwFOppJimHwgMIcd7eh5EABQOJIUoZWVsSh9zUzOph1salq
+         27jvi086X5pbvzJgzxj/oTtHN9/bkaCl2rc7R84n0hivnm28KWv6VgNhxEqHfcwFy1Km
+         FZvm+nMTTAeT0s1Qlvuzm7IvUgUETmh90LwK2vTHxI9i5QZ6N26z1U30HAg3ur85Fc7A
+         avug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LFcgVVJ7bK726HSSPtE+r4B2aXmQmGmr8tjtETzF3YE=;
+        b=IDm4iiYbLlhGGsSLZxelMdi/705R5RMDyqR7X+ypHUCuKCALZPHFimb/WuJ6knErEs
+         rrroWqPiXD1NRSqU43obj2ONhUgSw1zp5BSODz9uQbg/pdraTvjC5LuHakbhY3m8lqj9
+         0G+UgdugKH7fa7nHvnlTo4X2UkD+uZGnRBCMnopVxiU5ZtbwdUvX76A3UY9WwQJTU676
+         o0f93gazFNX5gyQJuxUl1x86uL+2tRaWOLxSXSp662+w3IX8014i2qd30LSYOqn46QoE
+         icTEDuID6FrZi2LT19K0TlqQUbrV4Um3kuhL2x1hH7ZaBoreDAQ97WWOtIefOmp0L8Uy
+         GAZQ==
+X-Gm-Message-State: AOAM530+P5+0SO2MMJbtvo16q2fOI9YJ8DOfMNYOQ09HQq83qmYJDYHU
+        Bo4IP1DmqCl+l5/NpPtrgIs=
+X-Google-Smtp-Source: ABdhPJx86XxIR0CMtq+ONANDVnTdQClivXE2E+RefrUi2Gb8ihwn5DKx9ngWTXM2K4DIENT7/NS20A==
+X-Received: by 2002:a05:6402:4384:b0:427:b5c0:4bf with SMTP id o4-20020a056402438400b00427b5c004bfmr16757704edc.127.1652088292537;
+        Mon, 09 May 2022 02:24:52 -0700 (PDT)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id gz14-20020a170907a04e00b006f3ef214e62sm4869938ejc.200.2022.05.09.02.24.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 May 2022 02:24:52 -0700 (PDT)
+From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: rockchip-vpu: Add RK3568 VEPU compatible
+Date:   Mon, 09 May 2022 11:24:50 +0200
+Message-ID: <3594222.Ivq9XVSPaC@archbook>
+In-Reply-To: <422bf3bc-7787-97dd-6ab4-7570e5ce2ed8@linaro.org>
+References: <20220508202544.501981-1-frattaroli.nicolas@gmail.com> <20220508202544.501981-2-frattaroli.nicolas@gmail.com> <422bf3bc-7787-97dd-6ab4-7570e5ce2ed8@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes these two smatch warnings:
+On Montag, 9. Mai 2022 09:25:23 CEST Krzysztof Kozlowski wrote:
+> On 08/05/2022 22:25, Nicolas Frattaroli wrote:
+> > The RK3568 and RK3566 have a Hantro VPU node solely dedicated to
+> > encoding. This patch adds a compatible for it, and also allows
+> > the bindings to only come with a vepu interrupt.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+> > ---
+> >  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> > index bacb60a34989..4045f107ca4e 100644
+> > --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> > +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> > @@ -22,6 +22,7 @@ properties:
+> >            - rockchip,rk3288-vpu
+> >            - rockchip,rk3328-vpu
+> >            - rockchip,rk3399-vpu
+> > +          - rockchip,rk3568-vepu
+> >            - rockchip,px30-vpu
+> >        - items:
+> >            - const: rockchip,rk3188-vpu
+> > @@ -40,6 +41,7 @@ properties:
+> >    interrupt-names:
+> >      oneOf:
+> >        - const: vdpu
+> > +      - const: vepu
+> 
+> This should be enum (for both lines above) and you should add
+> allOf:if:then with a constraints which variant can have which interrupts.
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
 
-drivers/media/usb/uvc/uvc_v4l2.c:885 uvc_ioctl_enum_input() warn: iterator used outside loop: 'iterm'
-drivers/media/usb/uvc/uvc_v4l2.c:896 uvc_ioctl_enum_input() warn: iterator used outside loop: 'iterm'
+So something like this?
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/usb/uvc/uvc_v4l2.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+  interrupt-names:
+    oneOf:
+      - enum:
+         - vdpu
+         - vepu
+      - items:
+          - const: vepu
+          - const: vdpu
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 711556d13d03..ff3f04af4e21 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -871,6 +871,7 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
- 	struct uvc_video_chain *chain = handle->chain;
- 	const struct uvc_entity *selector = chain->selector;
- 	struct uvc_entity *iterm = NULL;
-+	bool found_pin = false;
- 	u32 index = input->index;
- 	int pin = 0;
- 
-@@ -879,21 +880,25 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
- 		if (index != 0)
- 			return -EINVAL;
- 		list_for_each_entry(iterm, &chain->entities, chain) {
--			if (UVC_ENTITY_IS_ITERM(iterm))
-+			if (UVC_ENTITY_IS_ITERM(iterm)) {
-+				pin = iterm->id;
-+				found_pin = true;
- 				break;
-+			}
- 		}
--		pin = iterm->id;
- 	} else if (index < selector->bNrInPins) {
- 		pin = selector->baSourceID[index];
- 		list_for_each_entry(iterm, &chain->entities, chain) {
- 			if (!UVC_ENTITY_IS_ITERM(iterm))
- 				continue;
--			if (iterm->id == pin)
-+			if (iterm->id == pin) {
-+				found_pin = true;
- 				break;
-+			}
- 		}
- 	}
- 
--	if (iterm == NULL || iterm->id != pin)
-+	if (!found_pin)
- 		return -EINVAL;
- 
- 	memset(input, 0, sizeof(*input));
--- 
-2.34.1
+What's the difference between a list of consts and an enum here?
+I'm not very familiar with dt-schema, my apologies.
+
+Also, since I don't know which of the other variants can have
+the encoding interrupt and this wasn't brought up until now, I think
+my solution will be to have a check for -vepu in the compatible and in
+that case require that only the vepu interrupt is present, if that's
+alright with you.
+
+Regards,
+Nicolas Frattaroli
+
 
