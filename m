@@ -2,38 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53F4751FD4F
-	for <lists+linux-media@lfdr.de>; Mon,  9 May 2022 14:52:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E38B651FDEE
+	for <lists+linux-media@lfdr.de>; Mon,  9 May 2022 15:19:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234984AbiEIMzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 May 2022 08:55:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45688 "EHLO
+        id S235421AbiEINXL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 May 2022 09:23:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235016AbiEIMze (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 08:55:34 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06DEC1C12E9
-        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 05:51:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2F7EFB81222
-        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 12:51:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE60CC385A8
-        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 12:51:36 +0000 (UTC)
-Message-ID: <55457695-4f48-68a4-d5b1-1d6ff2ef253e@xs4all.nl>
-Date:   Mon, 9 May 2022 14:51:34 +0200
+        with ESMTP id S235347AbiEINXK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 09:23:10 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C712AA2FE
+        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 06:19:14 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1no3I9-003zcA-F4; Mon, 09 May 2022 13:19:13 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1no3I5-00CkTA-Kn; Mon, 09 May 2022 13:19:11 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.19] smatch fixes (#83013)
+Date:   Mon,  9 May 2022 13:19:09 +0000
+Message-Id: <20220509131909.3038518-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <55457695-4f48-68a4-d5b1-1d6ff2ef253e@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.19] smatch fixes
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,34 +43,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 6c1c1eb8c87de221051b9198d40971640060842f:
+From: builder@linuxtv.org
 
-  media: ext-ctrls-codec.rst: fix indentation (2022-04-25 23:55:02 +0100)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/55457695-4f48-68a4-d5b1-1d6ff2ef253e@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/206136/
+Build time: 00:21:02
+Link: https://lore.kernel.org/linux-media/55457695-4f48-68a4-d5b1-1d6ff2ef253e@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Mon 09 May 2022 12:49:55 PM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Can't check signature: No public key
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-smatch-fixes
+Summary: got 1/6 patches with issues, being 1 at build time
 
-for you to fetch changes up to 39ae259ccae506d95ba194d558a6af7d8cfa7c26:
+Error/warnings:
 
-  s5k6a3: add missing clk_disable_unprepare (2022-05-09 14:33:58 +0200)
+patches/0001-v4l2-subdev.c-kvmalloc_array-kvcalloc.patch:
 
-----------------------------------------------------------------
-Tag branch
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-----------------------------------------------------------------
-Hans Verkuil (6):
-      v4l2-subdev.c: kvmalloc_array -> kvcalloc
-      v4l2-ctls-core.c: kvmalloc_array -> kvcalloc
-      videobuf2-dma-sg.c: kvmalloc_array -> kvcalloc
-      cx25821: request_irq -> devm_request_irq
-      ccs-core.c: fix failure to call clk_disable_unprepare
-      s5k6a3: add missing clk_disable_unprepare
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
- drivers/media/common/videobuf2/videobuf2-dma-sg.c | 3 +--
- drivers/media/i2c/ccs/ccs-core.c                  | 7 +++++--
- drivers/media/i2c/s5k6a3.c                        | 4 +++-
- drivers/media/pci/cx25821/cx25821-alsa.c          | 4 ++--
- drivers/media/v4l2-core/v4l2-ctrls-core.c         | 5 ++---
- drivers/media/v4l2-core/v4l2-subdev.c             | 5 ++---
- 6 files changed, 15 insertions(+), 13 deletions(-)
