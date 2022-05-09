@@ -2,82 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C6BE51F9FF
-	for <lists+linux-media@lfdr.de>; Mon,  9 May 2022 12:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C86A51FA2D
+	for <lists+linux-media@lfdr.de>; Mon,  9 May 2022 12:46:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232406AbiEIKe4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 May 2022 06:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
+        id S230160AbiEIKtn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 May 2022 06:49:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbiEIKeh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 06:34:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C487F24EA2C
-        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 03:29:55 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 449BE55A;
-        Mon,  9 May 2022 12:29:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1652092194;
-        bh=nm8ZfDBH9GeQL9RxwlQxtxtYI2Dv0JIWWH6rAl7iAfw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Wjf3N1HjsATYwaies1nYg3+1ZyUUmSYb6RQOzjMN/FG0ZJ9wycgZ8tXh3OYwUWY8E
-         V9F2rMOy2Ga9Uf6p9VBelniVaYYbr0sVvTROndxPkApZrbz0R/oZcDygP7PsOkWY56
-         zkFAitqd/8gPnvLltUL9cCF9EGNqV+L4AnfbCUZI=
-Date:   Mon, 9 May 2022 13:29:50 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 3/7] videobuf2-dma-sg.c: kvmalloc_array -> kvcalloc
-Message-ID: <YnjtHipdmqf2fXwu@pendragon.ideasonboard.com>
-References: <20220509091553.2637089-1-hverkuil-cisco@xs4all.nl>
- <20220509091553.2637089-4-hverkuil-cisco@xs4all.nl>
+        with ESMTP id S229894AbiEIKsp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 06:48:45 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD1E2CE20B
+        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 03:42:44 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id l18so25927699ejc.7
+        for <linux-media@vger.kernel.org>; Mon, 09 May 2022 03:42:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=0Tzmc8wnZSs3kaLgnggedsJSFk2LO/Nmg9rBj5r4ux8=;
+        b=WGMooZUa6j8KkU69lShmqD1ymL72xwWNXs3nodalP0erTsGOvMWwwYlpvkfH88kCxT
+         0E8YX1Y8qiBuf+/rBk0+GJSTXF4omE/91WD5LJkr+PvXlkfHyQsDlxfi0okhln9IpJqD
+         KrAZFM6qgMNFC0njfHmHs9zDX1UdTGXpgkhojXf4lsgtIc6vSsp851y0Jm+QuhQ0Wmi9
+         Rw4mtHZsbsDJ15qVnpdTJUMfDa9Fv2M2CD3A5zcyze3Ld1rxH+U6YqggkNOytsjeUp4L
+         QiWxMaXka+DZ6JYAWG3tn5oudbxE7kOyJyTVgROVW9mhNxBOnZCxjVyoNPVQOrHSiCJM
+         Khgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=0Tzmc8wnZSs3kaLgnggedsJSFk2LO/Nmg9rBj5r4ux8=;
+        b=RVt1MFFOIqqQfrQcicuzWXYNHpbvMsjjLeicoRS3CUT+eC7nzrc3/3H7lZeW7dqkMb
+         00iD6MTowU/j46QeZtS3XY+CNFkGpYTalE8Oo22f+UQnme9F2efZVqIwwLztMsUiv5TD
+         K4lSUruZrnYuTRSTBCq+xo2GX0G56P0Ain4xW0/8iT3HpXPyBTxQmrWwcIVANypAIHQn
+         Srw45I+g5blmepTsUQTe3u2eIXSvlG0CffVkui2O3nrn+X2RLSm2iouOBlSTz/Byf9N6
+         KItbKIGpGauhUynA7XWjyrcGyzBQoJrRLcGigIhbmmqUiRvf9E5LVi5JiX7q4BE9pVeE
+         xL5g==
+X-Gm-Message-State: AOAM532VVQ6bbqj8ApMlXvkhDljwEJOus4pXFlBBljxuOJ41kyHWv6iS
+        tHrTAOMB49yNJGiFBQJmNNYtMA==
+X-Google-Smtp-Source: ABdhPJyu2S2O+OMAKWn+Ou31zi5Crs68RqyrtMBL3634D7gSQVjyX9dDSoVFxbdUCHfECEtlVve5Fw==
+X-Received: by 2002:a17:906:7315:b0:6f4:c84f:9eab with SMTP id di21-20020a170906731500b006f4c84f9eabmr13171153ejc.759.1652092895893;
+        Mon, 09 May 2022 03:41:35 -0700 (PDT)
+Received: from [192.168.0.243] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id z22-20020a50f156000000b0042617ba63c3sm6137747edl.77.2022.05.09.03.41.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 May 2022 03:41:35 -0700 (PDT)
+Message-ID: <ea94f18d-3172-98bb-0892-a98236a08018@linaro.org>
+Date:   Mon, 9 May 2022 12:41:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220509091553.2637089-4-hverkuil-cisco@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: rockchip-vpu: Add RK3568 VEPU
+ compatible
+Content-Language: en-US
+To:     Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <20220508202544.501981-1-frattaroli.nicolas@gmail.com>
+ <20220508202544.501981-2-frattaroli.nicolas@gmail.com>
+ <422bf3bc-7787-97dd-6ab4-7570e5ce2ed8@linaro.org>
+ <3594222.Ivq9XVSPaC@archbook>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <3594222.Ivq9XVSPaC@archbook>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-Thank you for the patch.
-
-On Mon, May 09, 2022 at 11:15:49AM +0200, Hans Verkuil wrote:
-> Fixes smatch warning:
+On 09/05/2022 11:24, Nicolas Frattaroli wrote:
+> On Montag, 9. Mai 2022 09:25:23 CEST Krzysztof Kozlowski wrote:
+>> On 08/05/2022 22:25, Nicolas Frattaroli wrote:
+>>> The RK3568 and RK3566 have a Hantro VPU node solely dedicated to
+>>> encoding. This patch adds a compatible for it, and also allows
+>>> the bindings to only come with a vepu interrupt.
+>>>
+>>> Signed-off-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+>>> ---
+>>>  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>>> index bacb60a34989..4045f107ca4e 100644
+>>> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>>> @@ -22,6 +22,7 @@ properties:
+>>>            - rockchip,rk3288-vpu
+>>>            - rockchip,rk3328-vpu
+>>>            - rockchip,rk3399-vpu
+>>> +          - rockchip,rk3568-vepu
+>>>            - rockchip,px30-vpu
+>>>        - items:
+>>>            - const: rockchip,rk3188-vpu
+>>> @@ -40,6 +41,7 @@ properties:
+>>>    interrupt-names:
+>>>      oneOf:
+>>>        - const: vdpu
+>>> +      - const: vepu
+>>
+>> This should be enum (for both lines above) and you should add
+>> allOf:if:then with a constraints which variant can have which interrupts.
+>>
+>>
+>> Best regards,
+>> Krzysztof
+>>
 > 
-> drivers/media/common/videobuf2/videobuf2-dma-sg.c:129 vb2_dma_sg_alloc() warn: Please consider using kvcalloc instead
+> So something like this?
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>   interrupt-names:
+>     oneOf:
+>       - enum:
+>          - vdpu
+>          - vepu
+>       - items:
+>           - const: vepu
+>           - const: vdpu
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Yes
 
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index f8a21c560ad2..fa69158a65b1 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -126,8 +126,7 @@ static void *vb2_dma_sg_alloc(struct vb2_buffer *vb, struct device *dev,
->  	 * there is no memory consistency guarantee, hence dma-sg ignores DMA
->  	 * attributes passed from the upper layer.
->  	 */
-> -	buf->pages = kvmalloc_array(buf->num_pages, sizeof(struct page *),
-> -				    GFP_KERNEL | __GFP_ZERO);
-> +	buf->pages = kvcalloc(buf->num_pages, sizeof(struct page *), GFP_KERNEL);
->  	if (!buf->pages)
->  		goto fail_pages_array_alloc;
->  
+> What's the difference between a list of consts and an enum here?
+> I'm not very familiar with dt-schema, my apologies.
 
--- 
-Regards,
+The effect is the same, just oneOf is a bit more complicated way to
+describe it.
 
-Laurent Pinchart
+> 
+> Also, since I don't know which of the other variants can have
+> the encoding interrupt and this wasn't brought up until now, I think
+> my solution will be to have a check for -vepu in the compatible and in
+> that case require that only the vepu interrupt is present, if that's
+> alright with you.
+
+If you meant by adding a "if" case for only rockchip,rk3568-vepu, it's ok.
+
+Best regards,
+Krzysztof
