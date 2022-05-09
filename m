@@ -2,131 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D95452072B
-	for <lists+linux-media@lfdr.de>; Mon,  9 May 2022 23:54:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA051520800
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 00:48:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230296AbiEIV6D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 May 2022 17:58:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57020 "EHLO
+        id S231964AbiEIWwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 May 2022 18:52:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231897AbiEIV40 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 17:56:26 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE9FB2D3D5C
-        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 14:50:03 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id dk23so29364722ejb.8
-        for <linux-media@vger.kernel.org>; Mon, 09 May 2022 14:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aKEvNnMqJr+Ji3wzZ+kyxqDQgYFrf7j1orREUwNHbE8=;
-        b=Gr/9HTJiYOlDX6fetpo8rWY8vmbwB2ZeETv9WvSLj426WRc41qKOI2DbQDQw8wYrzl
-         VMkbaUCWqEmmuWQSf6QXc97xXftjTcTkNiUat2bVrWg6KDJXGw/3EnKvR23vtrc5ek2d
-         Huti8ge5p5gr7z/EQS1UOwMrLB+8Lu6MhHhnjLpWSnbfclaxyHzXbK5+ay0dnHO1rWd4
-         zn6yEsKKzT44KtGADaFlK2syri+0W8SljEmBB7/ZYrDE3Ubp9EhoqnPOcO8VAtgffMbT
-         vxJMvDlQ8kCM7to3VeTwl0W7qseqYQC11parqS+l1gc0hV4AXHRC6AZMIGvKz12lcw7b
-         0hOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aKEvNnMqJr+Ji3wzZ+kyxqDQgYFrf7j1orREUwNHbE8=;
-        b=2++1EEfvz4YEggHBm0oQeiEE/qvsXjvoO5xbcw3+hYtYsQe/q/z2+0HrfNE1k8AQfY
-         CxWGSFJEc0LWfWq5eZb7gJDXClsqYHdxLzYAoZYLFpkpp3DEQznUUkZ8TFsQR75weNrM
-         0Gc0eH9bb+3iK3agK7zkEmQpbXlAa1+wpcRjVPMxJZBhqHNNde347tywJQh+Y7HIX6DF
-         KjQMP6PhXuLk7SQroD0mOy+rPvb7yNpr/OF51VmIrY01PjEV6FzZSuqDEnSlFHxxwxOK
-         GY6rLcgLjbKFRVOX2UrUv96og3n89fKJmfFZXq9WUp3N86LT1UMbKotEyadPx85n+1LC
-         NmgA==
-X-Gm-Message-State: AOAM5334BmdQ9ezSQwza+iYHD1k8YAyuBObaHWaTiHSzgDNS3Rx0/n+F
-        pMECeRVvsYzVDoMnsMzo8dmDWbAoEk1tyzlh/bSsuEsUbZHn/w==
-X-Google-Smtp-Source: ABdhPJykPbx/03p5//2jQ4C7Er1AEW64JcawHsesvTbhr6ztpX0AZiQPHHfGXfUFyhECCsGvdqV3kvR9V0bNS63hXS4=
-X-Received: by 2002:a17:907:9813:b0:6fa:78b0:9be2 with SMTP id
- ji19-20020a170907981300b006fa78b09be2mr6269780ejc.159.1652133001507; Mon, 09
- May 2022 14:50:01 -0700 (PDT)
+        with ESMTP id S231941AbiEIWwR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 18:52:17 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76AFE2C4F42
+        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 15:48:21 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1noCAt-004WMS-RG; Mon, 09 May 2022 22:48:19 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1noCAs-00FnH3-6Z; Mon, 09 May 2022 22:48:17 +0000
+Date:   Mon, 9 May 2022 22:48:17 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Message-ID: <742172381.1.1652136497699@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #841
 MIME-Version: 1.0
-References: <1652125797-2043-1-git-send-email-quic_charante@quicinc.com>
-In-Reply-To: <1652125797-2043-1-git-send-email-quic_charante@quicinc.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Mon, 9 May 2022 14:49:50 -0700
-Message-ID: <CABdmKX2V55tA-Or6Dd+bpbcv3fDHps_+zHHJQwhz819LX_2RSQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: call dma_buf_stats_setup after dmabuf is in
- valid list
-To:     Charan Teja Kalla <quic_charante@quicinc.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Hridya Valsaraju <hridya@google.com>, daniel.vetter@ffwll.ch,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 9, 2022 at 12:50 PM Charan Teja Kalla
-<quic_charante@quicinc.com> wrote:
->
-> From: Charan Teja Reddy <quic_charante@quicinc.com>
->
-> When dma_buf_stats_setup() fails, it closes the dmabuf file which
-> results into the calling of dma_buf_file_release() where it does
-> list_del(&dmabuf->list_node) with out first adding it to the proper
-> list. This is resulting into panic in the below path:
-> __list_del_entry_valid+0x38/0xac
-> dma_buf_file_release+0x74/0x158
-> __fput+0xf4/0x428
-> ____fput+0x14/0x24
-> task_work_run+0x178/0x24c
-> do_notify_resume+0x194/0x264
-> work_pending+0xc/0x5f0
->
-> Fix it by moving the dma_buf_stats_setup() after dmabuf is added to the
-> list.
->
-> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stats in sysfs")
-> Signed-off-by: Charan Teja Reddy <quic_charante@quicinc.com>
+See <https://builder.linuxtv.org/job/libcamera/841/display/redirect?page=changes>
 
-Tested-by: T.J. Mercier <tjmercier@google.com>
-Acked-by: T.J. Mercier <tjmercier@google.com>
+Changes:
 
-> ---
->  drivers/dma-buf/dma-buf.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 602b12d..a6fc96e 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -543,10 +543,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->         file->f_mode |= FMODE_LSEEK;
->         dmabuf->file = file;
->
-> -       ret = dma_buf_stats_setup(dmabuf);
-> -       if (ret)
-> -               goto err_sysfs;
-> -
->         mutex_init(&dmabuf->lock);
->         INIT_LIST_HEAD(&dmabuf->attachments);
->
-> @@ -554,6 +550,10 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->         list_add(&dmabuf->list_node, &db_list.head);
->         mutex_unlock(&db_list.lock);
->
-> +       ret = dma_buf_stats_setup(dmabuf);
-> +       if (ret)
-> +               goto err_sysfs;
-> +
->         return dmabuf;
->
->  err_sysfs:
-> --
-> 2.7.4
->
+[laurent.pinchart] libcamera: Introduce YamlParser as a helper to parse yaml files
+
+[laurent.pinchart] test: Add YamlParser test
+
+[laurent.pinchart] android: camera_hal_config: Use YamlParser to parse android HAL config
+
+
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/libcamera/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/libcamera.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 6d990f102fd829feb05e37e5f242a796fcada1b5 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 6d990f102fd829feb05e37e5f242a796fcada1b5 # timeout=10
+Commit message: "android: camera_hal_config: Use YamlParser to parse android HAL config"
+ > git rev-list --no-walk c70323e4941542202c34f4fde7d340d1f62d6c9c # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 6d990f102fd829feb05e37e5f242a796fcada1b5^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/libcamera.git'
+[GitCheckoutListener] Found previous build 'libcamera #840' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since 'c70323e'
+[GitCheckoutListener] -> Using head commit '6d990f1' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@7ec23d92'
+[GitCheckoutListener] -> Recorded 3 new commits
+[libcamera] $ /bin/sh -xe /tmp/jenkins13672912161320613703.sh
++ rm -rf build
++ meson setup -Dandroid=auto -Dv4l2=true build
+The Meson build system
+Version: 0.56.2
+Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
+Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
+Build type: native build
+Project name: libcamera
+Project version: 0.0.0
+C compiler for the host machine: ccache cc (gcc 10.2.1 "cc (Debian 10.2.1-6) 10.2.1 20210110")
+C linker for the host machine: cc ld.bfd 2.35.2
+C++ compiler for the host machine: ccache c++ (gcc 10.2.1 "c++ (Debian 10.2.1-6) 10.2.1 20210110")
+C++ linker for the host machine: c++ ld.bfd 2.35.2
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Program utils/run-dist.sh found: YES (/bin/sh <https://builder.linuxtv.org/job/libcamera/ws/utils/run-dist.sh)>
+Header <unistd.h> has symbol "issetugid" : NO 
+Header <stdlib.h> has symbol "secure_getenv" : YES 
+Compiler for C supports arguments -Wno-c99-designator: NO 
+Library lttng-ust found: YES
+Program ./parser.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/ipc/./parser.py)>
+Program ./generate.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/ipc/./generate.py)>
+Program ./extract-docs.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/ipc/./extract-docs.py)>
+Program ./gen-tp-header.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/tracepoints/./gen-tp-header.py)>
+Configuring version.h using configuration
+Program openssl found: YES (/usr/bin/openssl)
+Library atomic found: YES
+Library libdw found: YES
+Library libunwind found: YES
+Header <execinfo.h> has symbol "backtrace" : YES 
+Run-time dependency threads found: YES
+Library dl found: YES
+Library gnutls found: YES
+Found pkg-config: /usr/bin/pkg-config (0.29.2)
+Run-time dependency libudev found: YES 247
+Found CMake: /usr/bin/cmake (3.18.4)
+Run-time dependency yaml-0.1 found: NO (tried pkgconfig and cmake)
+
+src/libcamera/meson.build:70:0: ERROR: Dependency "yaml-0.1" not found, tried pkgconfig and cmake
+
+A full log can be found at <https://builder.linuxtv.org/job/libcamera/ws/build/meson-logs/meson-log.txt>
+Build step 'Execute shell' marked build as failure
