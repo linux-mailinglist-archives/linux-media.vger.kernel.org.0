@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 983AA5214A6
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FCAA5214B8
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241511AbiEJMEK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 08:04:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53826 "EHLO
+        id S241515AbiEJMEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 08:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241501AbiEJMEJ (ORCPT
+        with ESMTP id S241501AbiEJMEL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 08:04:09 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C80352E73
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 05:00:12 -0700 (PDT)
+        Tue, 10 May 2022 08:04:11 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4A35131E
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 05:00:14 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E493C21CD;
-        Tue, 10 May 2022 13:59:48 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C14E91248;
+        Tue, 10 May 2022 13:59:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1652183989;
-        bh=8RjlLCLqB3e6bnEKhzH3wSIoisKEZ2LtKIghyJR8FuI=;
+        s=mail; t=1652183990;
+        bh=k83DkJluD69YCIeo/EtpffCkhSFp7txn436AUp0SJpM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BFG09sYFsxxRj5SMMS5H5KQbolIXa/AOoH5ZZOjflmotdNmmUyh89xGBJYMgoVjhI
-         bLaBpbfxksE1yQ6Qm4iCRDBLp+JEklSCADWKklUyudP5eaEQUTq3VUPEvVUfTRjSVK
-         xlzEh60XIvMLeV0Ca2asdQCp6dWGcAq7BI11hg/c=
+        b=DrGoIS6Vb6VIX/DtLfRomsZFKhEsksQgKuWtClOJ8eLxO1vysfRVViChFw/tKI6oe
+         zvXEcG6HRtWdz2LFcRPr0p5MFQ7Fz89jaNpCWoo0ZPjEtfgc+yI8EipuP9TbcKzedi
+         uKLcWpy9lN1XQF2oCKI65edAIsS2tESx6tBvMvLo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -35,9 +35,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
         kernel@pengutronix.de
-Subject: [PATCH 46/50] staging: media: imx: imx7-media-csi: Add V4L2_PIX_FMT_Y14 support
-Date:   Tue, 10 May 2022 14:58:55 +0300
-Message-Id: <20220510115859.19777-47-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 47/50] staging: media: imx: imx7-media-csi: Drop unneeded pixel format validation
+Date:   Tue, 10 May 2022 14:58:56 +0300
+Message-Id: <20220510115859.19777-48-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
 References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
@@ -53,37 +53,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The device supports 14-bit greyscale formats the same way it supports
-14-bit Bayer formats.
+The driver won't accept unsupported pixel formats, there's thus no need
+to validate it in imx7_csi_pad_link_validate().
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/staging/media/imx/imx7-media-csi.c | 33 ----------------------
+ 1 file changed, 33 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 1bb60f245861..4d8e3c0a3633 100644
+index 4d8e3c0a3633..8be6f40588af 100644
 --- a/drivers/staging/media/imx/imx7-media-csi.c
 +++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -905,6 +905,10 @@ static const struct imx7_csi_pixfmt pixel_formats[] = {
- 		.fourcc = V4L2_PIX_FMT_Y12,
- 		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_Y12_1X12),
- 		.bpp    = 16,
-+	}, {
-+		.fourcc = V4L2_PIX_FMT_Y14,
-+		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_Y14_1X14),
-+		.bpp    = 16,
- 	},
- };
+@@ -1966,7 +1966,6 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
+ 				      struct v4l2_subdev_format *sink_fmt)
+ {
+ 	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
+-	const struct v4l2_pix_format *out_pix = &csi->vdev_fmt;
+ 	struct media_pad *pad = NULL;
+ 	unsigned int i;
+ 	int ret;
+@@ -2016,38 +2015,6 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
+ 		break;
+ 	}
  
-@@ -2019,6 +2023,7 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
- 	case V4L2_PIX_FMT_GREY:
- 	case V4L2_PIX_FMT_Y10:
- 	case V4L2_PIX_FMT_Y12:
-+	case V4L2_PIX_FMT_Y14:
- 	case V4L2_PIX_FMT_SBGGR8:
- 	case V4L2_PIX_FMT_SGBRG8:
- 	case V4L2_PIX_FMT_SGRBG8:
+-	/* Validate the sink link, ensure the pixel format is supported. */
+-	switch (out_pix->pixelformat) {
+-	case V4L2_PIX_FMT_UYVY:
+-	case V4L2_PIX_FMT_YUYV:
+-	case V4L2_PIX_FMT_GREY:
+-	case V4L2_PIX_FMT_Y10:
+-	case V4L2_PIX_FMT_Y12:
+-	case V4L2_PIX_FMT_Y14:
+-	case V4L2_PIX_FMT_SBGGR8:
+-	case V4L2_PIX_FMT_SGBRG8:
+-	case V4L2_PIX_FMT_SGRBG8:
+-	case V4L2_PIX_FMT_SRGGB8:
+-	case V4L2_PIX_FMT_SBGGR10:
+-	case V4L2_PIX_FMT_SGBRG10:
+-	case V4L2_PIX_FMT_SGRBG10:
+-	case V4L2_PIX_FMT_SRGGB10:
+-	case V4L2_PIX_FMT_SBGGR12:
+-	case V4L2_PIX_FMT_SGBRG12:
+-	case V4L2_PIX_FMT_SGRBG12:
+-	case V4L2_PIX_FMT_SRGGB12:
+-	case V4L2_PIX_FMT_SBGGR14:
+-	case V4L2_PIX_FMT_SGBRG14:
+-	case V4L2_PIX_FMT_SGRBG14:
+-	case V4L2_PIX_FMT_SRGGB14:
+-		break;
+-
+-	default:
+-		dev_dbg(csi->dev, "Invalid capture pixel format 0x%08x\n",
+-			out_pix->pixelformat);
+-		return -EINVAL;
+-	}
+-
+ 	return 0;
+ }
+ 
 -- 
 Regards,
 
