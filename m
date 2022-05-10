@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14325521482
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C32AC521498
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241470AbiEJMDt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 08:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52242 "EHLO
+        id S241476AbiEJMDs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 08:03:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241469AbiEJMDs (ORCPT
+        with ESMTP id S241470AbiEJMDs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 10 May 2022 08:03:48 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B581052E73
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA43E54685
         for <linux-media@vger.kernel.org>; Tue, 10 May 2022 04:59:50 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 856F5D18;
-        Tue, 10 May 2022 13:59:35 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DAF4E0C;
+        Tue, 10 May 2022 13:59:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1652183976;
-        bh=ugFiXGKljdu4sLM/6x0wIcV2N3AEtbDAbQDr0izYfQg=;
+        s=mail; t=1652183977;
+        bh=H0UZuPYvqIKi1smJ8Qfmjedgtg9V7e3LUJmJMM+87hQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rLIgdHwEWJz9QaXVlzD+5yQO0t4RY1aN4JI17XZf7V3zy/j6vKn/8IVJE7zkS1ks+
-         ax1MkFb1siPQrcSiCZ7QT99tz1sA/JT1mbNDQivlTUBGBt+gH4EErcTgFvLGKwZboR
-         Ba9LZhkGt/TXqRIxWoMCBybVaBoeRHj+ldwhjepU=
+        b=J7EOm4zh3ZfbthdkMlrxtQ48/G1BjkmHWv3CDqyTvhwRqOXwPmiriERlrLaTb5PfU
+         LT9gkFqchrUUdNSx0pvfiX8Ds2sKyOkVpwpvb0fN+Bf5gJELwkwL2qkpCeLRqS+Dlf
+         Fz+1uSlKwyrJzTd+bV5cUlZ+cC6OGzk4gK7t+/6A=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -35,9 +35,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
         kernel@pengutronix.de
-Subject: [PATCH 30/50] staging: media: imx: imx7-media-csi: Decouple from imx_media_dma_buf
-Date:   Tue, 10 May 2022 14:58:39 +0300
-Message-Id: <20220510115859.19777-31-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 31/50] staging: media: imx: imx7-media-csi: Decouple from shared macros
+Date:   Tue, 10 May 2022 14:58:40 +0300
+Message-Id: <20220510115859.19777-32-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
 References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
@@ -53,91 +53,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Decouple from the imx_media_dma_buf structure defined in shared helpers
-by duplicating it in the imx7-media-csi driver, along with the two small
-alloc and free functions. No functional change intended.
+Decouple from the IMX7_CSI_VIDEO_DEF_PIX_WIDTH,
+IMX7_CSI_VIDEO_DEF_PIX_HEIGHT and IMX_MEDIA_EOF_TIMEOUT macros defined
+in shared helpers by duplicating them in the imx7-media-csi driver, with
+a rename to avoid name clashes. No functional change intended.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 40 +++++++++++++++++++---
- 1 file changed, 36 insertions(+), 4 deletions(-)
+ drivers/staging/media/imx/imx7-media-csi.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 5a5157d8b27b..05907d6257a8 100644
+index 05907d6257a8..2106a72ebe85 100644
 --- a/drivers/staging/media/imx/imx7-media-csi.c
 +++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -184,6 +184,12 @@ to_imx7_csi_vb2_buffer(struct vb2_buffer *vb)
- 	return container_of(vbuf, struct imx7_csi_vb2_buffer, vbuf);
- }
+@@ -165,6 +165,9 @@
+ #define IMX7_CSI_VIDEO_NAME		"imx-capture"
+ /* In bytes, per queue */
+ #define IMX7_CSI_VIDEO_MEM_LIMIT	SZ_64M
++#define IMX7_CSI_VIDEO_DEF_PIX_WIDTH	640
++#define IMX7_CSI_VIDEO_DEF_PIX_HEIGHT	480
++#define IMX7_CSI_VIDEO_EOF_TIMEOUT	2000
  
-+struct imx7_csi_dma_buf {
-+	void *virt;
-+	dma_addr_t phys;
-+	unsigned long len;
-+};
-+
- struct imx7_csi {
- 	struct device *dev;
+ enum imx_csi_model {
+ 	IMX7_CSI_IMX7 = 0,
+@@ -488,7 +491,7 @@ static void imx7_csi_dma_stop(struct imx7_csi *csi)
+ 	/*
+ 	 * and then wait for interrupt handler to mark completion.
+ 	 */
+-	timeout_jiffies = msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT);
++	timeout_jiffies = msecs_to_jiffies(IMX7_CSI_VIDEO_EOF_TIMEOUT);
+ 	ret = wait_for_completion_timeout(&csi->last_eof_completion,
+ 					  timeout_jiffies);
+ 	if (ret == 0)
+@@ -1275,8 +1278,8 @@ static int imx7_csi_video_init_format(struct imx7_csi *csi)
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 	};
+ 	fmt_src.format.code = MEDIA_BUS_FMT_UYVY8_2X8;
+-	fmt_src.format.width = IMX_MEDIA_DEF_PIX_WIDTH;
+-	fmt_src.format.height = IMX_MEDIA_DEF_PIX_HEIGHT;
++	fmt_src.format.width = IMX7_CSI_VIDEO_DEF_PIX_WIDTH;
++	fmt_src.format.height = IMX7_CSI_VIDEO_DEF_PIX_HEIGHT;
  
-@@ -227,7 +233,7 @@ struct imx7_csi {
- 
- 	/* Buffers and streaming state */
- 	struct imx7_csi_vb2_buffer *active_vb2_buf[2];
--	struct imx_media_dma_buf underrun_buf;
-+	struct imx7_csi_dma_buf underrun_buf;
- 
- 	bool is_streaming;
- 	int buf_num;
-@@ -415,12 +421,38 @@ static void imx7_csi_dma_unsetup_vb2_buf(struct imx7_csi *csi,
- 	}
- }
- 
-+static void imx7_csi_free_dma_buf(struct imx7_csi *csi,
-+				  struct imx7_csi_dma_buf *buf)
-+{
-+	if (buf->virt)
-+		dma_free_coherent(csi->dev, buf->len, buf->virt, buf->phys);
-+
-+	buf->virt = NULL;
-+	buf->phys = 0;
-+}
-+
-+static int imx7_csi_alloc_dma_buf(struct imx7_csi *csi,
-+				  struct imx7_csi_dma_buf *buf, int size)
-+{
-+	imx7_csi_free_dma_buf(csi, buf);
-+
-+	buf->len = PAGE_ALIGN(size);
-+	buf->virt = dma_alloc_coherent(csi->dev, buf->len, &buf->phys,
-+				       GFP_DMA | GFP_KERNEL);
-+	if (!buf->virt) {
-+		dev_err(csi->dev, "%s: failed\n", __func__);
-+		return -ENOMEM;
-+	}
-+
-+	return 0;
-+}
-+
- static int imx7_csi_dma_setup(struct imx7_csi *csi)
- {
- 	int ret;
- 
--	ret = imx_media_alloc_dma_buf(csi->dev, &csi->underrun_buf,
--				      csi->vdev_fmt.sizeimage);
-+	ret = imx7_csi_alloc_dma_buf(csi, &csi->underrun_buf,
-+				     csi->vdev_fmt.sizeimage);
- 	if (ret < 0) {
- 		v4l2_warn(&csi->sd, "consider increasing the CMA area\n");
- 		return ret;
-@@ -439,7 +471,7 @@ static void imx7_csi_dma_cleanup(struct imx7_csi *csi,
- 				 enum vb2_buffer_state return_status)
- {
- 	imx7_csi_dma_unsetup_vb2_buf(csi, return_status);
--	imx_media_free_dma_buf(csi->dev, &csi->underrun_buf);
-+	imx7_csi_free_dma_buf(csi, &csi->underrun_buf);
- }
- 
- static void imx7_csi_dma_stop(struct imx7_csi *csi)
+ 	imx_media_mbus_fmt_to_pix_fmt(&csi->vdev_fmt, &fmt_src.format, NULL);
+ 	csi->vdev_compose.width = fmt_src.format.width;
 -- 
 Regards,
 
