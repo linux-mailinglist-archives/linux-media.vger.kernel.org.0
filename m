@@ -2,215 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7524F521CA3
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 16:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E88A521CC0
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 16:45:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242836AbiEJOpU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 10:45:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52610 "EHLO
+        id S1344327AbiEJOtY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 10:49:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241800AbiEJOoy (ORCPT
+        with ESMTP id S242929AbiEJOtC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 10:44:54 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47C42E1832
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 07:04:21 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id kq17so33189762ejb.4
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 07:04:21 -0700 (PDT)
+        Tue, 10 May 2022 10:49:02 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856996C57D;
+        Tue, 10 May 2022 07:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=IEQJxrgCftMX87O1fp0L99tkMioW1fIbf3pjaY0cgTs=;
-        b=c4lA06Jc8V0lkRPwljLSKeIbqVyQ7hH2D6qBtC0heXu3sQuzQDrtAwBMJ204ijf8xs
-         +r9JcJDrywkieGSliFKxBoxrXKmGlk+Yw5bx2KD5cAzSPBfGoXWW1mFRLvjweFJeJaEz
-         2ZNIcrjqjigWJeY4u+Zky6/gTk+/gPlE/P4yxt7QpQibt27b2cdF9U+1e7g/IgqmRBGt
-         jGtZZOYb8X8QnWpsILWIlyKHyjY2jSQATgU399TDLnYnEiG6XiwawHaIaKO0vFe+4DKI
-         XOFIicZMfJbqKgvEBOuSlyaziuqz55BoQkvEBZwbDR7le+PCls3cNHYGqrdQ3TkJYX3B
-         SH5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IEQJxrgCftMX87O1fp0L99tkMioW1fIbf3pjaY0cgTs=;
-        b=yu9IRzv899FGBFqlFSUHD9z7US+A6On3XTd7sg45cwULfGVtnL0ufWSVHT3QP4d0No
-         fmGlTjGLB/AoS7CgVj9ZmiwR1A8Wj9WNgXvD3OIXaByDgq6dTK/2pFX5rgPQNLzomKHg
-         djILBLaEgS9dYjMxru6AvDhL+JZjInZ6+dnm0oULJhmvYbS7wLH95NCNxbl9HJouLKaL
-         v19fOlqvKBhzPY5ZvixlkFKZZBcdkeGGY2ycDyYqbksbwqkIu/GqXJsijvBIcIzAOvqj
-         Gt46WJRagZO/HXR53pbtyj/2znmEAsOMlbMW8HNPY52DczhjtAzzwg1wRBZazKsm094e
-         ggkg==
-X-Gm-Message-State: AOAM530xw9mkvPsTn+H7doqij4Ad2RkyranEVUrkinwnqW70D9Z8HQKX
-        IXa8s+eHAFYbeP1v5HwdeQs=
-X-Google-Smtp-Source: ABdhPJzIZrT9MY4eUqmsIV6YiHCXdfO2TCNiGnPL7VdLwtgd0ryv0Lq/qrvjirtl8+LnkLEp/GAEBA==
-X-Received: by 2002:a17:906:7952:b0:6f8:91fa:cef8 with SMTP id l18-20020a170906795200b006f891facef8mr13988346ejo.373.1652191459539;
-        Tue, 10 May 2022 07:04:19 -0700 (PDT)
-Received: from arch-thunder (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
-        by smtp.gmail.com with ESMTPSA id qr48-20020a1709068cb000b006f3ef214e5csm6285742ejc.194.2022.05.10.07.04.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 07:04:18 -0700 (PDT)
-Date:   Tue, 10 May 2022 15:04:16 +0100
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 00/50] staging: media: imx: Prepare destaging of
- imx7-media-csi
-Message-ID: <20220510140416.4klypvzok7ril7n7@arch-thunder>
-References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1652191630; x=1683727630;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=BlQ0Cp+elT3/iPSUa4fUVbxemKM5LtOghkESJ25jI34=;
+  b=hP3/qeBD5ypLPqxosoMyicHVwTwKt61dln+cLzHOIEJgtevKStTZ4Dqm
+   HTaBd7N5ZrSfOmZlj5xvodrAcD9LDU9w2zfYLXgZF9GIzEZgFrX4VhAZl
+   sD7uWXC1a2GC6kk6taingeGWMTWkkEVaGJkcWZL/r0QE+cd/cqyo+a88o
+   4=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 10 May 2022 07:07:10 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 07:07:09 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 10 May 2022 07:06:46 -0700
+Received: from hu-charante-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 10 May 2022 07:06:41 -0700
+From:   Charan Teja Kalla <quic_charante@quicinc.com>
+To:     <gregkh@linuxfoundation.org>, <christian.koenig@amd.com>,
+        <sumit.semwal@linaro.org>, <hridya@google.com>,
+        <daniel.vetter@ffwll.ch>, <tjmercier@google.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        "Charan Teja Kalla" <quic_charante@quicinc.com>
+Subject: [PATCH V2] dmabuf: ensure unique directory name for dmabuf stats
+Date:   Tue, 10 May 2022 19:36:02 +0530
+Message-ID: <1652191562-18700-1-git-send-email-quic_charante@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-Thanks for this small change :).
+The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
+alloc_anon_inode()) to get an inode number and uses the same as a
+directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
+used to collect the dmabuf stats and it is created through
+dma_buf_stats_setup(). At current, failure to create this directory
+entry can make the dma_buf_export() to fail.
 
-On Tue, May 10, 2022 at 02:58:09PM +0300, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series prepares the imx7-media-csi for destaging by
-> decoupling it from the helpers shared with the i.MX6 IPUv3.
-> 
-> The strategy Paul and I have followed is to import copies of helper code
-> and, refactor it within the imx7-media-csi driver, and repeat until no
-> more shared helpers are used. There is still room for refactoring and
-> simplification of the imx7-media-csi driver, but I believe it is now in
-> a state clean enough to be moved out of staging.
+Now, as the get_next_ino() can definitely give a repetitive inode no
+causing the directory entry creation to fail with -EEXIST. This is a
+problem on the systems where dmabuf stats functionality is enabled on
+the production builds can make the dma_buf_export(), though the dmabuf
+memory is allocated successfully, to fail just because it couldn't
+create stats entry.
 
-I agree.
+This issue we are able to see on the snapdragon system within 13 days
+where there already exists a directory with inode no "122602" so
+dma_buf_stats_setup() failed with -EEXIST as it is trying to create
+the same directory entry.
 
-> 
-> The series also includes a few fixes or improvements in supported
-> formats that are now made possible thanks to this refactoring. See
-> patches 45/50 and 46/50 for details.
-> 
-> The code size has grown as a result. This is partly offset by code in
-> the shared helpers that can be removed or simplified, but I haven't
-> starting working on that. The helpers are now used for the i.MX6 IPUv3
-> only, so I will leave this exercise to anyone who would be interested in
-> destaging that driver as well.
-> 
-> Some of the items in the TODO file related to the imx7-media-csi driver
-> have been addressed. The two remaining items are frame interval monitor
-> support and restricting the list of supported formats to the SoC
-> version. The former isn't a destaging blocker in my opinion, as the
-> feature can be added later if desired (and frame interval monitoring
-> should then be moved to the V4L2 core). I believe the latter could also
-> be addressed after destaging the driver, but in any case, this is a
-> discussion for a future destaging series (which may come as soon as this
-> one is accepted).
-> 
-> Alexander, this also could greatly simplify your "[PATCH v3 0/8]
-> imx7/imx8mm media / csi patches" series.
+To make the directory entry as unique, append the unique_id for every
+inode. With this change the stats directory entries will be in the
+format of: /sys/kernel/dmabuf/buffers/<inode_number-unique_id>.
 
-I went over all patches and I have 2 small remarks:
+Signed-off-by: Charan Teja Kalla <quic_charante@quicinc.com>
+---
+Changes in V2:
+  -- Used the atomic64_t variable to generate a unique_id to be appended to inode
+     to have an unique directory with name <inode_number-unique_id> -- Suggested by christian
+  -- Updated the ABI documentation -- Identified by Greg.
+  -- Massaged the commit log.
 
-1. Shouldn't we change the connection between imx-media objects and
-   imx7-csi also in kconfig? Since at the end of this series they are
-   completely independent. Yeah, it can be done in a follow up
-   patch on the unstaging, for me that's fine also.
+Changes in V1:
+  -- Used the inode->i_ctime->tv_secs as an id appended to inode to create the
+     unique directory with name <inode_number-time_in_secs>.
+  -- https://lore.kernel.org/all/1652178212-22383-1-git-send-email-quic_charante@quicinc.com/
 
-2. Something that caught my eye on patch 2/50. But nothing functional.
+ Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers | 10 +++++-----
+ drivers/dma-buf/Kconfig                               |  6 +++---
+ drivers/dma-buf/dma-buf-sysfs-stats.c                 |  8 +++++---
+ 3 files changed, 13 insertions(+), 11 deletions(-)
 
-Once again many thanks for continuing investing in this code.
-for the all series (except patch 2/50):
+diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+index 5d3bc99..9fffbd3 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
++++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+@@ -4,19 +4,19 @@ KernelVersion:	v5.13
+ Contact:	Hridya Valsaraju <hridya@google.com>
+ Description:	The /sys/kernel/dmabuf/buffers directory contains a
+ 		snapshot of the internal state of every DMA-BUF.
+-		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
+-		statistics for the DMA-BUF with the unique inode number
+-		<inode_number>
++		/sys/kernel/dmabuf/buffers/<inode_number-unique_id> will
++		contain the statistics for the DMA-BUF with the unique
++		pair <inode_number-unique_id>
+ Users:		kernel memory tuning/debugging tools
+ 
+-What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
++What:		/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/exporter_name
+ Date:		May 2021
+ KernelVersion:	v5.13
+ Contact:	Hridya Valsaraju <hridya@google.com>
+ Description:	This file is read-only and contains the name of the exporter of
+ 		the DMA-BUF.
+ 
+-What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
++What:		/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/size
+ Date:		May 2021
+ KernelVersion:	v5.13
+ Contact:	Hridya Valsaraju <hridya@google.com>
+diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+index 541efe0..5bcbdb1 100644
+--- a/drivers/dma-buf/Kconfig
++++ b/drivers/dma-buf/Kconfig
+@@ -81,9 +81,9 @@ menuconfig DMABUF_SYSFS_STATS
+ 	   Choose this option to enable DMA-BUF sysfs statistics
+ 	   in location /sys/kernel/dmabuf/buffers.
+ 
+-	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
+-	   statistics for the DMA-BUF with the unique inode number
+-	   <inode_number>.
++	   /sys/kernel/dmabuf/buffers/<inode_number-unique_id> will contain
++	   statistics for the DMA-BUF with the unique pair
++	   <inode_number-unique_id>.
+ 
+ source "drivers/dma-buf/heaps/Kconfig"
+ 
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+index 2bba0ba..29e9e23 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -38,8 +38,8 @@
+  *
+  * The following stats are exposed by the interface:
+  *
+- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
+- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
++ * * ``/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/exporter_name``
++ * * ``/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/size``
+  *
+  * The information in the interface can also be used to derive per-exporter
+  * statistics. The data from the interface can be gathered on error conditions
+@@ -172,6 +172,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+ {
+ 	struct dma_buf_sysfs_entry *sysfs_entry;
+ 	int ret;
++	static atomic64_t unique_id = ATOMIC_INIT(0);
+ 
+ 	if (!dmabuf || !dmabuf->file)
+ 		return -EINVAL;
+@@ -192,7 +193,8 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+ 
+ 	/* create the directory for buffer stats */
+ 	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
+-				   "%lu", file_inode(dmabuf->file)->i_ino);
++				   "%lu-%lu", file_inode(dmabuf->file)->i_ino,
++				   atomic64_add_return(1, &unique_id));
+ 	if (ret)
+ 		goto err_sysfs_dmabuf;
+ 
+-- 
+2.7.4
 
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-
-Cheers,
-     Rui
-> 
-> Laurent Pinchart (48):
->   staging: media: imx: imx7-media-csi: Initialize locks early on
->   staging: media: imx: imx7-media-csi: Split imx_media_dev from probe()
->   staging: media: imx: imx7-media-csi: Import notifier helpers
->   staging: media: imx: imx7-media-csi: Drop duplicate link creation
->   staging: media: imx: imx7-media-csi: Drop the imx_media notifier
->   staging: media: imx: imx7-media-csi: Don't populate vdev lists
->   staging: media: imx: imx7-media-csi: Drop unused frame_interval
->   staging: media: imx: imx7-media-csi: Move format init to probe time
->   staging: media: imx: imx7-media-csi: Import video device helpers
->   staging: media: imx: imx7-media-csi: Drop legacy video device support
->   staging: media: imx: imx7-media-csi: Drop unused controls support
->   staging: media: imx: imx7-media-csi: Reorganize imx7_csi structure
->   staging: media: imx: imx7-media-csi: Fold capture_priv into imx7_csi
->   staging: media: imx: imx7-media-csi: Ensure consistent function prefix
->   staging: media: imx: imx7-media-csi: Don't set subdev group id
->   staging: media: imx: imx7-media-csi: Import imx_media_dev_init()
->     helper
->   staging: media: imx: imx7-media-csi: Embed imx_media_dev in imx7_csi
->   staging: media: imx: imx7-media-csi: Drop imx_media_add_video_device
->     call
->   staging: media: imx: imx7-media-csi: Don't initialize unused fields
->   staging: media: imx: imx7-media-csi: Inline imx_media_pipeline_pad()
->   staging: media: imx: imx7-media-csi: Import
->     imx_media_pipeline_set_stream()
->   staging: media: imx: imx7-media-csi: Avoid unnecessary casts
->   staging: media: imx: imx7-media-csi: Inline pipeline start/stop
->   staging: media: imx: imx7-media-csi: Fold imx_media_dev into imx7_csi
->   staging: media: imx: imx7-media-csi: Decouple from imx_media_buffer
->   staging: media: imx: imx7-media-csi: Fold imx_media_video_dev into
->     imx7_csi
->   staging: media: imx: imx7-media-csi: Store imx7_csi in drv data
->   staging: media: imx: imx7-media-csi: Decouple from imx_media_dma_buf
->   staging: media: imx: imx7-media-csi: Decouple from shared macros
->   staging: media: imx: imx7-media-csi: Drop error message on alloc
->     failure
->   staging: media: imx: imx7-media-csi: Import format helpers
->   staging: media: imx: imx7-media-csi: Replace ipu_color_space with bool
->     yuv field
->   staging: media: imx: imx7-media-csi: Drop IC support from
->     imx7_csi_try_colorimetry()
->   staging: media: imx: imx7-media-csi: Drop IPU-only formats
->   staging: media: imx: imx7-media-csi: Drop unsupported YUV and RGB
->     formats
->   staging: media: imx: imx7-media-csi: Make default formats consistent
->   staging: media: imx: imx7-media-csi: Define macro for default mbus
->     code
->   staging: media: imx: imx7-media-csi: Simplify default mbus code in
->     try_fmt
->   staging: media: imx: imx7-media-csi: Drop YUV/RGB/BAYER format
->     selectors
->   staging: media: imx: imx7-media-csi: Drop unneeded imx7_csi_pixfmt
->     fields
->   staging: media: imx: imx7-media-csi: Inline imx7_csi_init_mbus_fmt()
->   staging: media: imx: imx7-media-csi: Simplify default format in
->     try_fmt
->   staging: media: imx: imx7-media-csi: Fix list of supported formats
->   staging: media: imx: imx7-media-csi: Add V4L2_PIX_FMT_Y14 support
->   staging: media: imx: imx7-media-csi: Drop unneeded pixel format
->     validation
->   staging: media: imx: imx7-media-csi: Inline
->     imx7_csi_enum_pixel_formats()
->   staging: media: imx: imx7-media-csi: Drop V4L2 events support
->   staging: media: imx: imx7-media-csi: Drop usage of shared helpers
-> 
-> Paul Elder (2):
->   staging: media: imx: imx7-media-csi: Move misc init out of probe()
->   staging: media: imx: imx7-media-csi: Remove imx_media_of_add_csi
-> 
->  drivers/staging/media/imx/imx7-media-csi.c | 1370 +++++++++++++++++---
->  1 file changed, 1172 insertions(+), 198 deletions(-)
-> 
-> 
-> base-commit: c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
