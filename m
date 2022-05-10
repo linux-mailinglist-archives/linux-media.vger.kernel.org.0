@@ -2,53 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AB8C520A97
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 03:19:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D94EE520B6E
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 04:43:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232847AbiEJBXX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 May 2022 21:23:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57886 "EHLO
+        id S234910AbiEJCrj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 May 2022 22:47:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbiEJBXW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 21:23:22 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF3020F74F;
-        Mon,  9 May 2022 18:19:26 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.53])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Ky0Xk5hTkz1JBxm;
-        Tue, 10 May 2022 09:18:14 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 10 May 2022 09:19:25 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 10 May 2022 09:19:24 +0800
-Subject: Re: [PATCH] media: camss: csid: fix wrong size passed to
- devm_kmalloc_array()
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-CC:     <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <robert.foss@linaro.org>, <bryan.odonoghue@linaro.org>,
-        <vladimir.zapolskiy@linaro.org>
-References: <20220509140439.1361352-1-yangyingliang@huawei.com>
-Message-ID: <ae190d9c-160d-7d3d-6a57-a50655b36a73@huawei.com>
-Date:   Tue, 10 May 2022 09:19:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        with ESMTP id S233220AbiEJCrh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 May 2022 22:47:37 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C19A827F11C;
+        Mon,  9 May 2022 19:43:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1652150621; x=1683686621;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=InTny3n7yeTKHBypR3lvOVYf18pf04hsVskSXrNlYf0=;
+  b=yOmnkI6MWqYkfM8CbKLTrSW4rWd1a1WLJcVMTCQcVMw18WZGOAAT+z2a
+   bJwMzLNfupEWZASLBUpHp5ey72cHmglxT3igTJNMLC2d+O2qlodbhZrBa
+   7d/LHUAxt/FMKLHVYXW1GLEvQd3u/YRc65TuIS+JUBVT8s/30XtVidGVA
+   g=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 09 May 2022 19:43:41 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2022 19:43:41 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 9 May 2022 19:43:41 -0700
+Received: from [10.216.42.221] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 9 May 2022
+ 19:43:37 -0700
+Message-ID: <51bc6d33-c5f5-2a6e-fd83-ffebbe2e0202@quicinc.com>
+Date:   Tue, 10 May 2022 08:13:31 +0530
 MIME-Version: 1.0
-In-Reply-To: <20220509140439.1361352-1-yangyingliang@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] dma-buf: call dma_buf_stats_setup after dmabuf is in
+ valid list
 Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+To:     "T.J. Mercier" <tjmercier@google.com>
+CC:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Hridya Valsaraju <hridya@google.com>, <daniel.vetter@ffwll.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
+References: <1652125797-2043-1-git-send-email-quic_charante@quicinc.com>
+ <CABdmKX2V55tA-Or6Dd+bpbcv3fDHps_+zHHJQwhz819LX_2RSQ@mail.gmail.com>
+From:   Charan Teja Kalla <quic_charante@quicinc.com>
+In-Reply-To: <CABdmKX2V55tA-Or6Dd+bpbcv3fDHps_+zHHJQwhz819LX_2RSQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,30 +71,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I made a mistake, this patch was sent twice, please ignore this patch.
+Hello Mercier,
 
-Thanks,
-Yang
-On 2022/5/9 22:04, Yang Yingliang wrote:
-> 'supplies' is a pointer, the real size of struct regulator_bulk_data
-> should be pass to devm_kmalloc_array().
->
-> Fixes: 0d8140179715 ("media: camss: Add regulator_bulk support")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->   drivers/media/platform/qcom/camss/camss-csid.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> index f993f349b66b..80628801cf09 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> @@ -666,7 +666,7 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
->   	if (csid->num_supplies) {
->   		csid->supplies = devm_kmalloc_array(camss->dev,
->   						    csid->num_supplies,
-> -						    sizeof(csid->supplies),
-> +						    sizeof(*csid->supplies),
->   						    GFP_KERNEL);
->   		if (!csid->supplies)
->   			return -ENOMEM;
+On 5/10/2022 3:19 AM, T.J. Mercier wrote:
+> On Mon, May 9, 2022 at 12:50 PM Charan Teja Kalla
+> <quic_charante@quicinc.com> wrote:
+>> From: Charan Teja Reddy <quic_charante@quicinc.com>
+>>
+>> When dma_buf_stats_setup() fails, it closes the dmabuf file which
+>> results into the calling of dma_buf_file_release() where it does
+>> list_del(&dmabuf->list_node) with out first adding it to the proper
+>> list. This is resulting into panic in the below path:
+>> __list_del_entry_valid+0x38/0xac
+>> dma_buf_file_release+0x74/0x158
+>> __fput+0xf4/0x428
+>> ____fput+0x14/0x24
+>> task_work_run+0x178/0x24c
+>> do_notify_resume+0x194/0x264
+>> work_pending+0xc/0x5f0
+>>
+>> Fix it by moving the dma_buf_stats_setup() after dmabuf is added to the
+>> list.
+>>
+>> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stats in sysfs")
+>> Signed-off-by: Charan Teja Reddy <quic_charante@quicinc.com>
+> Tested-by: T.J. Mercier <tjmercier@google.com>
+> Acked-by: T.J. Mercier <tjmercier@google.com>
+> 
+
+Thanks for the Ack. Also Realized that it should have:
+Cc: <stable@vger.kernel.org> # 5.15.x+
