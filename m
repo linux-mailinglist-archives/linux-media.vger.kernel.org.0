@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5A3C52149B
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F2A52149E
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241362AbiEJMDT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 08:03:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49478 "EHLO
+        id S241373AbiEJMDU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 08:03:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241270AbiEJMDS (ORCPT
+        with ESMTP id S241345AbiEJMDS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 10 May 2022 08:03:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6888D5046D
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 04:59:20 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355CA5131E
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 04:59:21 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83C13E0C;
-        Tue, 10 May 2022 13:59:14 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6944B824;
+        Tue, 10 May 2022 13:59:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1652183955;
-        bh=g1HSzGVKOFmiTz3acZlXrvGDr9k5S9lpIAwIEIkpp9E=;
+        s=mail; t=1652183956;
+        bh=JweyVKZn5hEu99NUVKs8LT0pqn6mT3HILsiBxsegB5s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IGg2/1nYFSWINsoBkH9C621lW6eeOFDAlaxaIXg0FxUnuiUsx/oJV1Dc3CQSECS4o
-         om8QTUAQNMYaHEUxIw5JR4MmG07gmaVvwGQMjrG0/cN+yYcuxrsIvq4B/LdvGHu0Ar
-         vjcMBwMFwCAKFJ0xXbt+HeW79MV0kDGvCdRfZpnU=
+        b=c30/nRgSUfg/kKQ+uFBMhsLXN6JNADoVIBAj3m2lyeQy62xenDZjMCiW7On+Xz4Vn
+         MzbADvR90rbk24feb2IMEspivETYYGesPk38ZoQ93zjYZiJnjbd4jEcrSGISYEjTyW
+         tNzECUQuTbg4CFgmlhAvOmbKLmen8Eaq69Aq5caA=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -34,10 +34,10 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Martin Kepplinger <martin.kepplinger@puri.sm>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        kernel@pengutronix.de, Paul Elder <paul.elder@ideasonboard.com>
-Subject: [PATCH 06/50] staging: media: imx: imx7-media-csi: Move misc init out of probe()
-Date:   Tue, 10 May 2022 14:58:15 +0300
-Message-Id: <20220510115859.19777-7-laurent.pinchart@ideasonboard.com>
+        kernel@pengutronix.de
+Subject: [PATCH 07/50] staging: media: imx: imx7-media-csi: Don't populate vdev lists
+Date:   Tue, 10 May 2022 14:58:16 +0300
+Message-Id: <20220510115859.19777-8-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
 References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
@@ -53,106 +53,204 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Paul Elder <paul.elder@ideasonboard.com>
+The imx_media_dev framework maintains a per-pad list of connected video
+devices, created once all subdevs have been bound. This is used for two
+purposes, updating V4L2 control inheritance when links change, and
+relaying subdev events to video nodes. None of these are used by the
+imx7-media-csi driver as it implements the MC-centric approach. Drop
+them.
 
-There is a chunk of miscellaneous initializations related to the CSI
-subdev and media pads directly in the probe function. Move them into the
-imx7_csi_media_init() function to clean up the probe function.
-
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 49 +++++++++++-----------
- 1 file changed, 24 insertions(+), 25 deletions(-)
+ drivers/staging/media/imx/imx7-media-csi.c | 167 +++------------------
+ 1 file changed, 17 insertions(+), 150 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 984f7bec15af..042dd4c0cb4d 100644
+index 042dd4c0cb4d..e0b600580c21 100644
 --- a/drivers/staging/media/imx/imx7-media-csi.c
 +++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1342,7 +1342,7 @@ static void imx7_csi_media_cleanup(struct imx7_csi *csi)
- static int imx7_csi_media_init(struct imx7_csi *csi)
- {
- 	struct imx_media_dev *imxmd;
--	int ret;
-+	int i, ret;
- 
- 	/* add media device */
- 	imxmd = imx_media_dev_init(csi->dev, NULL);
-@@ -1357,14 +1357,33 @@ static int imx7_csi_media_init(struct imx7_csi *csi)
- 
- 	csi->imxmd = imxmd;
- 
--	return 0;
-+	v4l2_subdev_init(&csi->sd, &imx7_csi_subdev_ops);
-+	v4l2_set_subdevdata(&csi->sd, csi);
-+	csi->sd.internal_ops = &imx7_csi_internal_ops;
-+	csi->sd.entity.ops = &imx7_csi_entity_ops;
-+	csi->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	csi->sd.dev = csi->dev;
-+	csi->sd.owner = THIS_MODULE;
-+	csi->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	snprintf(csi->sd.name, sizeof(csi->sd.name), "csi");
-+
-+	for (i = 0; i < IMX7_CSI_PADS_NUM; i++)
-+		csi->pad[i].flags = (i == IMX7_CSI_PAD_SINK) ?
-+			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
-+
-+	ret = media_entity_pads_init(&csi->sd.entity, IMX7_CSI_PADS_NUM,
-+				     csi->pad);
-+	if (ret < 0)
-+		return ret;
-+
-+	return v4l2_device_register_subdev(&csi->imxmd->v4l2_dev, &csi->sd);
+@@ -717,151 +717,6 @@ static irqreturn_t imx7_csi_irq_handler(int irq, void *data)
+ 	return IRQ_HANDLED;
  }
  
- static int imx7_csi_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct imx7_csi *csi;
+-/* -----------------------------------------------------------------------------
+- * Temporary copy of imx_media_dev helpers
+- */
+-
+-/*
+- * adds given video device to given imx-media source pad vdev list.
+- * Continues upstream from the pad entity's sink pads.
+- */
+-static int imx_media_add_vdev_to_pad(struct imx_media_dev *imxmd,
+-				     struct imx_media_video_dev *vdev,
+-				     struct media_pad *srcpad)
+-{
+-	struct media_entity *entity = srcpad->entity;
+-	struct imx_media_pad_vdev *pad_vdev;
+-	struct list_head *pad_vdev_list;
+-	struct media_link *link;
+-	struct v4l2_subdev *sd;
 -	int i, ret;
-+	int ret;
- 
- 	csi = devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
- 	if (!csi)
-@@ -1410,28 +1429,9 @@ static int imx7_csi_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto destroy_mutex;
- 
--	v4l2_subdev_init(&csi->sd, &imx7_csi_subdev_ops);
--	v4l2_set_subdevdata(&csi->sd, csi);
--	csi->sd.internal_ops = &imx7_csi_internal_ops;
--	csi->sd.entity.ops = &imx7_csi_entity_ops;
--	csi->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
--	csi->sd.dev = &pdev->dev;
--	csi->sd.owner = THIS_MODULE;
--	csi->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
--	snprintf(csi->sd.name, sizeof(csi->sd.name), "csi");
 -
--	for (i = 0; i < IMX7_CSI_PADS_NUM; i++)
--		csi->pad[i].flags = (i == IMX7_CSI_PAD_SINK) ?
--			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
+-	/* skip this entity if not a v4l2_subdev */
+-	if (!is_media_entity_v4l2_subdev(entity))
+-		return 0;
 -
--	ret = media_entity_pads_init(&csi->sd.entity, IMX7_CSI_PADS_NUM,
--				     csi->pad);
--	if (ret < 0)
--		goto cleanup;
+-	sd = media_entity_to_v4l2_subdev(entity);
 -
- 	ret = v4l2_device_register_subdev(&csi->imxmd->v4l2_dev, &csi->sd);
- 	if (ret)
--		goto cleanup;
-+		goto media_cleanup;
+-	pad_vdev_list = to_pad_vdev_list(sd, srcpad->index);
+-	if (!pad_vdev_list) {
+-		v4l2_warn(&imxmd->v4l2_dev, "%s:%u has no vdev list!\n",
+-			  entity->name, srcpad->index);
+-		/*
+-		 * shouldn't happen, but no reason to fail driver load,
+-		 * just skip this entity.
+-		 */
+-		return 0;
+-	}
+-
+-	/* just return if we've been here before */
+-	list_for_each_entry(pad_vdev, pad_vdev_list, list) {
+-		if (pad_vdev->vdev == vdev)
+-			return 0;
+-	}
+-
+-	dev_dbg(imxmd->md.dev, "adding %s to pad %s:%u\n",
+-		vdev->vfd->entity.name, entity->name, srcpad->index);
+-
+-	pad_vdev = devm_kzalloc(imxmd->md.dev, sizeof(*pad_vdev), GFP_KERNEL);
+-	if (!pad_vdev)
+-		return -ENOMEM;
+-
+-	/* attach this vdev to this pad */
+-	pad_vdev->vdev = vdev;
+-	list_add_tail(&pad_vdev->list, pad_vdev_list);
+-
+-	/* move upstream from this entity's sink pads */
+-	for (i = 0; i < entity->num_pads; i++) {
+-		struct media_pad *pad = &entity->pads[i];
+-
+-		if (!(pad->flags & MEDIA_PAD_FL_SINK))
+-			continue;
+-
+-		list_for_each_entry(link, &entity->links, list) {
+-			if (link->sink != pad)
+-				continue;
+-			ret = imx_media_add_vdev_to_pad(imxmd, vdev,
+-							link->source);
+-			if (ret)
+-				return ret;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-/*
+- * For every subdevice, allocate an array of list_head's, one list_head
+- * for each pad, to hold the list of video devices reachable from that
+- * pad.
+- */
+-static int imx_media_alloc_pad_vdev_lists(struct imx_media_dev *imxmd)
+-{
+-	struct list_head *vdev_lists;
+-	struct media_entity *entity;
+-	struct v4l2_subdev *sd;
+-	int i;
+-
+-	list_for_each_entry(sd, &imxmd->v4l2_dev.subdevs, list) {
+-		entity = &sd->entity;
+-		vdev_lists = devm_kcalloc(imxmd->md.dev,
+-					  entity->num_pads, sizeof(*vdev_lists),
+-					  GFP_KERNEL);
+-		if (!vdev_lists)
+-			return -ENOMEM;
+-
+-		/* attach to the subdev's host private pointer */
+-		sd->host_priv = vdev_lists;
+-
+-		for (i = 0; i < entity->num_pads; i++)
+-			INIT_LIST_HEAD(to_pad_vdev_list(sd, i));
+-	}
+-
+-	return 0;
+-}
+-
+-/* form the vdev lists in all imx-media source pads */
+-static int imx_media_create_pad_vdev_lists(struct imx_media_dev *imxmd)
+-{
+-	struct imx_media_video_dev *vdev;
+-	struct media_link *link;
+-	int ret;
+-
+-	ret = imx_media_alloc_pad_vdev_lists(imxmd);
+-	if (ret)
+-		return ret;
+-
+-	list_for_each_entry(vdev, &imxmd->vdev_list, list) {
+-		link = list_first_entry(&vdev->vfd->entity.links,
+-					struct media_link, list);
+-		ret = imx_media_add_vdev_to_pad(imxmd, vdev, link->source);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-/* async subdev complete notifier */
+-static int __imx_media_probe_complete(struct imx_media_dev *imxmd)
+-{
+-	int ret;
+-
+-	mutex_lock(&imxmd->mutex);
+-
+-	ret = imx_media_create_pad_vdev_lists(imxmd);
+-	if (ret)
+-		goto unlock;
+-
+-	ret = v4l2_device_register_subdev_nodes(&imxmd->v4l2_dev);
+-unlock:
+-	mutex_unlock(&imxmd->mutex);
+-	if (ret)
+-		return ret;
+-
+-	return media_device_register(&imxmd->md);
+-}
+-
+ /* -----------------------------------------------------------------------------
+  * V4L2 Subdev Operations
+  */
+@@ -1214,12 +1069,24 @@ static int imx7_csi_registered(struct v4l2_subdev *sd)
  
- 	ret = imx7_csi_async_register(csi);
- 	if (ret)
-@@ -1442,8 +1442,7 @@ static int imx7_csi_probe(struct platform_device *pdev)
- subdev_notifier_cleanup:
- 	v4l2_async_nf_unregister(&csi->notifier);
- 	v4l2_async_nf_cleanup(&csi->notifier);
--
--cleanup:
-+media_cleanup:
- 	imx7_csi_media_cleanup(csi);
+ 	ret = imx_media_capture_device_register(csi->vdev,
+ 						MEDIA_LNK_FL_IMMUTABLE);
+-	if (ret) {
+-		imx_media_capture_device_remove(csi->vdev);
+-		return ret;
+-	}
++	if (ret)
++		goto err_remove;
  
- destroy_mutex:
+-	return __imx_media_probe_complete(csi->imxmd);
++	ret = v4l2_device_register_subdev_nodes(&csi->imxmd->v4l2_dev);
++	if (ret)
++		goto err_unreg;
++
++	ret = media_device_register(&csi->imxmd->md);
++	if (ret)
++		goto err_unreg;
++
++	return 0;
++
++err_unreg:
++	imx_media_capture_device_unregister(csi->vdev);
++err_remove:
++	imx_media_capture_device_remove(csi->vdev);
++	return ret;
+ }
+ 
+ static void imx7_csi_unregistered(struct v4l2_subdev *sd)
 -- 
 Regards,
 
