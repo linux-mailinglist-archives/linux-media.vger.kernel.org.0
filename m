@@ -2,53 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF6095214E5
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2122752150B
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:17:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241558AbiEJMOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 08:14:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60168 "EHLO
+        id S241640AbiEJMVP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 08:21:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241561AbiEJMOo (ORCPT
+        with ESMTP id S241629AbiEJMU4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 08:14:44 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF1C4B43C;
-        Tue, 10 May 2022 05:10:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7A82AB81A0A;
-        Tue, 10 May 2022 12:10:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2A8C385A6;
-        Tue, 10 May 2022 12:10:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1652184642;
-        bh=DpHjuqVa+SSlkOsM/Gej0YHbCu1wZMGTmd4rbhVUBqE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a6PjO9Ow4kq9o7cWrnq2GFU5qa9QpEuWuWHq1GreqkvmbEABkI24Doocn1CkwAc9t
-         bNAOVxVTY/DP5mjRphxpzPQjJenPUkiTIEgYWhRTkAukpn/pTwmJnj/IwEQo+EH7fk
-         0GanbfHet/iJ8P9I6jsZp4rvq9ZRWAykdEAYyX28=
-Date:   Tue, 10 May 2022 14:10:29 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Charan Teja Kalla <quic_charante@quicinc.com>,
-        sumit.semwal@linaro.org, daniel.vetter@ffwll.ch,
-        tjmercier@google.com, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dmabuf: ensure unique directory name for dmabuf stats
-Message-ID: <YnpWNSdAQzG80keQ@kroah.com>
-References: <1652178212-22383-1-git-send-email-quic_charante@quicinc.com>
- <YnpF1XP1tH83uBlM@kroah.com>
- <039e1acc-8688-2e06-1b2a-1acbe813b91e@amd.com>
+        Tue, 10 May 2022 08:20:56 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57BF8F6891;
+        Tue, 10 May 2022 05:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1652185019; x=1683721019;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=JJaaWuWc8sV2e51bEleyOQg6zUB2DlPf9YjM1Nke9to=;
+  b=OA1GhaYqHFPwcNkqHyp/vz55cymG5OaITuzPr2HsYsyltsGb0GBZyM1l
+   AfLl4fWe3SiHd6CBBN6SPJ/8i2aiO5a/Em9TBHV8woGHflsstrj5B8+fO
+   AlaTTli7lp4zVAgvicLGXa6UA113DL2RhNQwvi/eIv+p08JPncawsL7dE
+   g=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 10 May 2022 05:16:59 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 05:16:58 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 10 May 2022 05:16:58 -0700
+Received: from [10.216.42.221] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 10 May
+ 2022 05:16:54 -0700
+Message-ID: <cf3a80e3-301d-7c61-54ab-d63fd355dd48@quicinc.com>
+Date:   Tue, 10 May 2022 17:46:50 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] dmabuf: ensure unique directory name for dmabuf stats
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+CC:     <sumit.semwal@linaro.org>, <daniel.vetter@ffwll.ch>,
+        <tjmercier@google.com>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
+References: <1652178212-22383-1-git-send-email-quic_charante@quicinc.com>
+ <YnpF1XP1tH83uBlM@kroah.com> <039e1acc-8688-2e06-1b2a-1acbe813b91e@amd.com>
+From:   Charan Teja Kalla <quic_charante@quicinc.com>
 In-Reply-To: <039e1acc-8688-2e06-1b2a-1acbe813b91e@amd.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -57,53 +70,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 10, 2022 at 01:35:41PM +0200, Christian König wrote:
-> Am 10.05.22 um 13:00 schrieb Greg KH:
-> > On Tue, May 10, 2022 at 03:53:32PM +0530, Charan Teja Kalla wrote:
-> > > The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
-> > > alloc_anon_inode()) to get an inode number and uses the same as a
-> > > directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
-> > > used to collect the dmabuf stats and it is created through
-> > > dma_buf_stats_setup(). At current, failure to create this directory
-> > > entry can make the dma_buf_export() to fail.
-> > > 
-> > > Now, as the get_next_ino() can definitely give a repetitive inode no
-> > > causing the directory entry creation to fail with -EEXIST. This is a
-> > > problem on the systems where dmabuf stats functionality is enabled on
-> > > the production builds can make the dma_buf_export(), though the dmabuf
-> > > memory is allocated successfully, to fail just because it couldn't
-> > > create stats entry.
-> > Then maybe we should not fail the creation path of the kobject fails to
-> > be created?  It's just for debugging, it should be fine if the creation
-> > of it isn't there.
+Thanks Christian for the inputs!!
+
+On 5/10/2022 5:05 PM, Christian KÃ¶nig wrote:
 > 
-> Well if it's just for debugging then it should be under debugfs and not
-> sysfs.
-
-I'll note that the original patch series for this described why this was
-moved from debugfs to sysfs.
-
-> > > This issue we are able to see on the snapdragon system within 13 days
-> > > where there already exists a directory with inode no "122602" so
-> > > dma_buf_stats_setup() failed with -EEXIST as it is trying to create
-> > > the same directory entry.
-> > > 
-> > > To make the directory entry as unique, append the inode creation time to
-> > > the inode. With this change the stats directory entries will be in the
-> > > format of: /sys/kernel/dmabuf/buffers/<inode no>-<inode creation time in
-> > > secs>.
-> > As you are changing the format here, shouldn't the Documentation/ABI/
-> > entry for this also be changed?
+>> And what's to keep the seconds field from also being the same?
 > 
-> As far as I can see that is even an UAPI break, not sure if we can allow
-> that.
+> Well exporting two DMA-bufs with the same ino in the same nanosecond
+> should be basically impossible, but I would rather opt for using a 64bit
+> atomic in that function.
+> 
+> This should be 100% UAPI compatible and even if we manage to create one
+> buffer ever ns we need ~500years to wrap around.
 
-Why?  Device names change all the time and should never be static.  A
-buffer name should just be a unique identifier in that directory, that's
-all.  No rules on the formatting of it unless for some reason the name
-being the inode number was somehow being used in userspace for that
-number?
+I see that the inode->i_ctime->tv_sec is already defined as
+64bit(time64_t tv_sec), hence used it. This way we don't need extra
+static atomic_t variable just to get a unique name.
 
-thanks,
+Just pasting excerpt from the reply posted to Greg about why this secs
+will always be a unique: with secs field added, to get the same
+inode-secs string, the uint should overflow in the same second which is
+impossible.
 
-greg k-h
+Let me know If you still opt for atomic variable only.
