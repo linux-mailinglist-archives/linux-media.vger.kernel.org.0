@@ -2,40 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7615F521162
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 11:48:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDA3D521220
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 12:24:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239236AbiEJJvz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 05:51:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45112 "EHLO
+        id S239050AbiEJK2B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 06:28:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239222AbiEJJvx (ORCPT
+        with ESMTP id S238069AbiEJK2A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 05:51:53 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA25B237B86;
-        Tue, 10 May 2022 02:47:56 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id F02761C0003;
-        Tue, 10 May 2022 09:47:52 +0000 (UTC)
-Date:   Tue, 10 May 2022 11:47:51 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Quentin Schulz <foss+kernel@0leil.net>
-Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Quentin Schulz <quentin.schulz@theobroma-systems.com>
-Subject: Re: [PATCH v3 3/4] media: i2c: ov5675: parse and register V4L2
- device tree properties
-Message-ID: <20220510094751.b6xbevurqhezpsnd@uno.localdomain>
-References: <20220509143226.531117-1-foss+kernel@0leil.net>
- <20220509143226.531117-3-foss+kernel@0leil.net>
+        Tue, 10 May 2022 06:28:00 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6285359080;
+        Tue, 10 May 2022 03:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1652178243; x=1683714243;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=6VR3oeP5kAd2DRErHPuUEXFtXEbcDzDtOhkw+65RdIA=;
+  b=QLo+3VXNTwIW4usQk7LO05EXEQBgOj2Ba4suRfBHp4iADBp5CSrQmDuI
+   ubXzru9qbAObvQmGKw9bf26emX3DxdzHlTzVWPx4xYSwi2QRs+DoI5Juv
+   KE8+qs2eFXN7R/pwLj6hDBbJsqix2xDYJE9iyB3Biivj4vQ2pNg4EWV1I
+   g=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 10 May 2022 03:24:02 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 03:24:02 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 10 May 2022 03:24:01 -0700
+Received: from hu-charante-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 10 May 2022 03:23:58 -0700
+From:   Charan Teja Kalla <quic_charante@quicinc.com>
+To:     <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
+        <daniel.vetter@ffwll.ch>, <gregkh@linuxfoundation.org>,
+        <tjmercier@google.com>
+CC:     <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        "Charan Teja Kalla" <quic_charante@quicinc.com>
+Subject: [PATCH] dmabuf: ensure unique directory name for dmabuf stats
+Date:   Tue, 10 May 2022 15:53:32 +0530
+Message-ID: <1652178212-22383-1-git-send-email-quic_charante@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220509143226.531117-3-foss+kernel@0leil.net>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -43,72 +63,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Quentin,
+The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
+alloc_anon_inode()) to get an inode number and uses the same as a
+directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
+used to collect the dmabuf stats and it is created through
+dma_buf_stats_setup(). At current, failure to create this directory
+entry can make the dma_buf_export() to fail.
 
-On Mon, May 09, 2022 at 04:32:25PM +0200, Quentin Schulz wrote:
-> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
->
-> Parse V4L2 device tree properties and register controls for them.
->
-> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> ---
->  drivers/media/i2c/ov5675.c | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> index cee380196774..5544e1ae444e 100644
-> --- a/drivers/media/i2c/ov5675.c
-> +++ b/drivers/media/i2c/ov5675.c
-> @@ -779,12 +779,14 @@ static const struct v4l2_ctrl_ops ov5675_ctrl_ops = {
->
->  static int ov5675_init_controls(struct ov5675 *ov5675)
->  {
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov5675->sd);
->  	struct v4l2_ctrl_handler *ctrl_hdlr;
-> +	struct v4l2_fwnode_device_properties props;
+Now, as the get_next_ino() can definitely give a repetitive inode no
+causing the directory entry creation to fail with -EEXIST. This is a
+problem on the systems where dmabuf stats functionality is enabled on
+the production builds can make the dma_buf_export(), though the dmabuf
+memory is allocated successfully, to fail just because it couldn't
+create stats entry.
 
-You could move the line up and maintain the (in)famous
-reverse-xmas-tree ordering in variable declaration.
+This issue we are able to see on the snapdragon system within 13 days
+where there already exists a directory with inode no "122602" so
+dma_buf_stats_setup() failed with -EEXIST as it is trying to create
+the same directory entry.
 
-Nit apart, looks good
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+To make the directory entry as unique, append the inode creation time to
+the inode. With this change the stats directory entries will be in the
+format of: /sys/kernel/dmabuf/buffers/<inode no>-<inode creation time in
+secs>.
 
-Thanks
-  j
+Signed-off-by: Charan Teja Kalla <quic_charante@quicinc.com>
+---
+ drivers/dma-buf/dma-buf-sysfs-stats.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
->  	s64 exposure_max, h_blank;
->  	int ret;
->
->  	ctrl_hdlr = &ov5675->ctrl_handler;
-> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
->  	if (ret)
->  		return ret;
->
-> @@ -838,9 +840,23 @@ static int ov5675_init_controls(struct ov5675 *ov5675)
->  	if (ctrl_hdlr->error)
->  		return ctrl_hdlr->error;
->
-> +	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-> +	if (ret)
-> +		goto error;
-> +
-> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov5675_ctrl_ops,
-> +					      &props);
-> +	if (ret)
-> +		goto error;
-> +
->  	ov5675->sd.ctrl_handler = ctrl_hdlr;
->
->  	return 0;
-> +
-> +error:
-> +	v4l2_ctrl_handler_free(ctrl_hdlr);
-> +
-> +	return ret;
->  }
->
->  static void ov5675_update_pad_format(const struct ov5675_mode *mode,
-> --
-> 2.35.3
->
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+index 2bba0ba..292cb31 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -192,7 +192,8 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+ 
+ 	/* create the directory for buffer stats */
+ 	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
+-				   "%lu", file_inode(dmabuf->file)->i_ino);
++				   "%lu-%lu", file_inode(dmabuf->file)->i_ino,
++				   file_inode(dmabuf->file)->i_ctime.tv_sec);
+ 	if (ret)
+ 		goto err_sysfs_dmabuf;
+ 
+-- 
+2.7.4
+
