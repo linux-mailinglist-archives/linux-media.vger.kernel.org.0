@@ -2,168 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A246520D25
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 07:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFAEC520F81
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 10:10:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236657AbiEJFQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 01:16:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58712 "EHLO
+        id S233227AbiEJIOn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 04:14:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232892AbiEJFQ3 (ORCPT
+        with ESMTP id S229737AbiEJIOk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 01:16:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C330C2A83F7
-        for <linux-media@vger.kernel.org>; Mon,  9 May 2022 22:12:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6E69EB819CA
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 05:12:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9302C385C0
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 05:12:29 +0000 (UTC)
-Date:   Tue, 10 May 2022 07:12:27 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        Tue, 10 May 2022 04:14:40 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A79465D1
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 01:10:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652170242; x=1683706242;
+  h=from:to:cc:subject:date:message-id;
+  bh=2onr/ktvdVGopuEawENs8W6bhK+PdW+75WTpdrZG7uY=;
+  b=V4QuH7B+KQnplFp1Jwq9XQSID1nBIPd9JyHaWJqE+5naUu971LVV/yGj
+   LpXci9uNF7dpaQfKsLa+V4jNVqF2vhbViDuMM4kLzcLA+d60bHCPpeq/T
+   gUFBLV7fvCE/gHCWpt5zgfgGrrDzSqGgDAZqH6yewjm8Om2+4AlGu0nlB
+   5c9/ad9KaujXMdDAeWL/C2eYxp0kC0t9bc18+tqArBLPvVR8kRlDGOHMh
+   9lt0WTNIPU7UF9u7uuBop3zCkSf7mPDFJoQlqkPznTwYIFuNC1SdjHJhy
+   QIFroKq5wFZbyYNTPBYv2Kp6kq0EER/Ux3aTHWTJKWkc5W6pIoR4t7C75
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="269438423"
+X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; 
+   d="scan'208";a="269438423"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 01:10:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; 
+   d="scan'208";a="738568398"
+Received: from jimmy-x299-aorus-gaming-7.itwn.intel.com ([10.5.253.29])
+  by orsmga005.jf.intel.com with ESMTP; 10 May 2022 01:10:40 -0700
+From:   Jimmy Su <jimmy.su@intel.com>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220510051229.B9302C385C0@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Cc:     sakari.ailus@linux.intel.com, andy.yeh@intel.com,
+        jimmy.su@intel.com, yhuang@ovt.com, akeem.chen@ovt.com
+Subject: [PATCH v1] UPSTREAM: media: ov8856: skip OTP read in non-zero ACPI D state
+Date:   Tue, 10 May 2022 16:08:50 +0800
+Message-Id: <20220510080850.4306-1-jimmy.su@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+To skip OTP read function while enable non-zero ACPI D state.
+This OTP read only influences streaming output with 3280x2464 &
+1640x1232 resolution.
 
-Results of the daily build of media_tree:
+Signed-off-by: Jimmy Su <jimmy.su@intel.com>
+---
+ drivers/media/i2c/ov8856.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-date:			Tue May 10 05:00:12 CEST 2022
-media-tree git hash:	be938c70e292731f81226917fc214683e66da577
-media_build git hash:	5eb7d23e8f3dffdb13c843ea0ae3ddd497f23107
-v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7940-g7a97f134-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
+diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+index 8785764b7a74..bbab0ac91edf 100644
+--- a/drivers/media/i2c/ov8856.c
++++ b/drivers/media/i2c/ov8856.c
+@@ -1448,6 +1448,9 @@ struct ov8856 {
+ 
+ 	/* True if the device has been identified */
+ 	bool identified;
++
++	/* True for skipping otp read */
++	bool acpi_skip_otp;
+ };
+ 
+ struct ov8856_lane_cfg {
+@@ -1692,7 +1695,7 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
+ 	int ret;
+-	u32 val;
++	u32 val, width;
+ 
+ 	if (ov8856->identified)
+ 		return 0;
+@@ -1708,6 +1711,10 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
+ 		return -ENXIO;
+ 	}
+ 
++	width = ov8856->cur_mode->width;
++	if (ov8856->acpi_skip_otp & (width == 3280 | width == 1640))
++		goto otp_skip;
++
+ 	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
+ 			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
+ 	if (ret)
+@@ -1750,6 +1757,11 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
+ 
+ 	ov8856->identified = true;
+ 
++	return 0;
++
++otp_skip:
++	ov8856->identified = true;
++
+ 	return 0;
+ }
+ 
+@@ -2499,6 +2511,8 @@ static int ov8856_probe(struct i2c_client *client)
+ 			dev_err(&client->dev, "failed to find sensor: %d", ret);
+ 			goto probe_power_off;
+ 		}
++	} else {
++		ov8856->acpi_skip_otp = true;
+ 	}
+ 
+ 	mutex_init(&ov8856->mutex);
+-- 
+2.17.1
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.275-i686: OK
-linux-4.14.275-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.237-i686: OK
-linux-4.19.237-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.19-i686: OK
-linux-5.13.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
