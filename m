@@ -2,232 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF78D522033
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 17:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 398835220A8
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 18:05:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346522AbiEJP6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 11:58:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52572 "EHLO
+        id S1347044AbiEJQJG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 12:09:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347161AbiEJP5R (ORCPT
+        with ESMTP id S1348559AbiEJQId (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 11:57:17 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 659EA28FEB3
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 08:49:42 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id bv19so33840077ejb.6
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 08:49:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nPO0Ir5x3z8pPdUWHCzDY9V2vGiVy3I+wbHW6u9yff4=;
-        b=OUAYLdCYN4Tvi1RldOSVMHK/cWGhr7tQEU/3OM7dBVYPOhkCzRkA14QrshZxGUaFcA
-         5hTVnM3BHhoyMY8uSujWJ93TDr7SK+XiRaSSM6olw730/d7w6bfwEH64t5WwcHhdUTrK
-         yxXbZ2yTvW+dRxNEzAqhaZD/doM6SVChinKF3SSiM7aO0vN3wGQm4ReANIpQfGKlUprH
-         VmvTU9mwiD+ZnRRAx8tpBAIPi+E+bh3CLqpkLOCXrVfY78lBGcQCc1wrLbYtvzNQkYO0
-         AyjCd+QcUta+xCJVVLuoU1Ub5nCXQARIFOoihqMedfShuU7D7HZTlupsRFwX2YZ+s7FE
-         P27A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nPO0Ir5x3z8pPdUWHCzDY9V2vGiVy3I+wbHW6u9yff4=;
-        b=KU4PbkVCBKm10H+ufnz3aFOMxKdFQfkMVVYuE1U1SWf3aD9oJRqAaDdYouXiDQjsUK
-         MgbXcRz+AI279P2RBQ0tQQIbWUHxn98yTJ+kEhqsdKt22rIkG9LC4Aye9YO9TStRPxCu
-         1PbDcQ/GRqyyIlQK53eHF5ueTMvpMVG0J8Bt75CyTPccJdIuJHWLgFDc1uN1XwTiRbgB
-         sHZOXyrDl5wZqm+j3TvAi6wm0SWaTz5IXyj2qrPUNfCT8WbqUstJkTpVSBjq8jvQbxmv
-         D8NYCh11EF3eoutut58NWvisnmEapdU4WJLL9fgVpZ5JGATtgDyEJYZcv7hDKs4Qy3Pz
-         0WqA==
-X-Gm-Message-State: AOAM533JSe1vgccBF3+r1vxXD52X3iGrJ4kp+j3jKKW3pwJwkmbKS/aP
-        50mU91SAE2yNWCFlPsqYOT0=
-X-Google-Smtp-Source: ABdhPJyGByUrRaGajKkImcISdDLz7fha5YqSnpY3nZxfHB9fIEKFilcIIG19fsfTMVlRuVwZsh3xJw==
-X-Received: by 2002:a17:907:7ea7:b0:6f4:7a72:da92 with SMTP id qb39-20020a1709077ea700b006f47a72da92mr19766342ejc.348.1652197780600;
-        Tue, 10 May 2022 08:49:40 -0700 (PDT)
-Received: from arch-thunder (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
-        by smtp.gmail.com with ESMTPSA id og47-20020a1709071def00b006f3ef214e61sm6254212ejc.199.2022.05.10.08.49.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 08:49:40 -0700 (PDT)
-Date:   Tue, 10 May 2022 16:49:37 +0100
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v1.1 02/50] staging: media: imx: imx7-media-csi: Split
- imx_media_dev from probe()
-Message-ID: <20220510154937.mvw5m7sjpqw2uswa@arch-thunder>
-References: <20220510115859.19777-3-laurent.pinchart@ideasonboard.com>
- <20220510152518.4063-1-laurent.pinchart@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220510152518.4063-1-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Tue, 10 May 2022 12:08:33 -0400
+Received: from mailgate1.beam.ltd.uk (mailgate1.beam.ltd.uk [88.96.138.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FD3C5E56
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 09:01:34 -0700 (PDT)
+Received: by mailgate1.beam.ltd.uk (Postfix, from userid 900)
+        id 005DA5C00DA; Tue, 10 May 2022 17:01:32 +0100 (BST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailgate1.beam.ltd.uk 005DA5C00DA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=beam.ltd.uk;
+        s=default; t=1652198493;
+        bh=BK2JImpWiy/HPIkkPWxkV1ovzXB4EwbO0xEJBRaQZ8c=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=jX/Tgz5S9OlAz3PDbDDkNXAap2HGr4/GcAjw/80nRzAsQS56WqoqYGfjgndxE0W71
+         Tp34NOmNBDP4b9GrA9Fuh0OKmnJmq+fPZKADv9NSA6OYp7laASXhh4JDt40N0tBA3D
+         la1EPRQSp9CmOeozqo8DKMQ2tORCncuaTibLDET0=
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
+Received: from [192.168.202.2] (king.beamweb.co.uk [82.69.10.222])
+        by mailgate1.beam.ltd.uk (Postfix) with ESMTPSA id 902CD5C00D0;
+        Tue, 10 May 2022 17:01:28 +0100 (BST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailgate1.beam.ltd.uk 902CD5C00D0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=beam.ltd.uk;
+        s=default; t=1652198488;
+        bh=BK2JImpWiy/HPIkkPWxkV1ovzXB4EwbO0xEJBRaQZ8c=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=QP/q+L8B0W9A8tbrctVSi2AlrIcHMqcoKH7evzY3FCF3FybixkdVBAESAOnQjwod+
+         s2I1WJ7T9v83WV+zfzwT02xW0vWkZT/3Xs5KFfqWsBuD7h29KlHBDcZQZhSA03vDjQ
+         GCwXRcpyaRHk80gqh1Ym8Zo0oinbm/5C5od1XYiA=
+Message-ID: <4048baf9-2a4a-8f8e-5457-16bf06868597@beam.ltd.uk>
+Date:   Tue, 10 May 2022 17:01:28 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: Video4Linux: Call an I2C subdev function to start a stream after
+ a CSI2 driver has been started
+Content-Language: en-GB
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Terry Barnaby <terry1@beam.ltd.uk>, linux-media@vger.kernel.org
+References: <908eb507-677c-359e-154b-da3a7147af0d@beam.ltd.uk>
+ <165219680369.2416244.9210617082672091187@Monstersaurus>
+From:   Terry Barnaby <terry1@beam.ltd.uk>
+In-Reply-To: <165219680369.2416244.9210617082672091187@Monstersaurus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks Laurent,
-On Tue, May 10, 2022 at 06:25:18PM +0300, Laurent Pinchart wrote:
-> Prepare for the decoupling of the imx7-media-csi driver from the
-> IPUv3-based drivers by moving the imx_media_dev handling from probe()
-> function to separate functions.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On 10/05/2022 16:33, Kieran Bingham wrote:
+> Hi Terry,
+>
+> Quoting Terry Barnaby (2022-05-10 14:35:38)
+>> Hi,
+>>
+>> We are working on a system that uses a NXP IMX8MP SOC with a TP2855
+>> analogue video front end chip that can capture 1920x1080p25 or PAL
+>> 720x576i25 analogue video streams which is generally working using
+>> gstreamer as the higher level software driving this.
+>>
+>> We have an intermittent video stream start up problem which we believe
+>> is down to:
+>>
+>> 1. The TP2855 is initialised first and its subdev *_s_stream() call is
+>> called to start the video input.
+>>
+>> 2. The NXP CSI2 video input hardware is then started:
+>> imx8-mipi-csi2-sam.c: mipi_csis_s_stream().
+> I don't think I can see this file in the latest linux sources. Are you
+> working on an out of tree BSP driver supported by a vendor?
+>
+> If so - you might be able to contact them directly for support, but if
+> we don't have the source code it can be hard to support your issue.
+>
+> --
+> Regards
+>
+> Kieran
 
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Sorry, top posted in previous email (all different groups methods). I 
+have repeated my response here.
 
-Cheers,
-   Rui
+Hi Kiera,
 
-> ---
-> Changes since v1:
-> 
-> - Set csi->imxmd earlier in imx7_csi_media_init()
-> - Unregister and cleanup notifier in imx7_csi_media_cleanup()
-> ---
->  drivers/staging/media/imx/imx7-media-csi.c | 74 +++++++++++++---------
->  1 file changed, 45 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index 893620e8fc03..3246a5826cb2 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -1175,11 +1175,48 @@ static int imx7_csi_async_register(struct imx7_csi *csi)
->  	return v4l2_async_register_subdev(&csi->sd);
->  }
->  
-> +static void imx7_csi_media_cleanup(struct imx7_csi *csi)
-> +{
-> +	struct imx_media_dev *imxmd = csi->imxmd;
-> +
-> +	v4l2_async_nf_unregister(&imxmd->notifier);
-> +	v4l2_async_nf_cleanup(&imxmd->notifier);
-> +
-> +	v4l2_device_unregister(&imxmd->v4l2_dev);
-> +	media_device_unregister(&imxmd->md);
-> +	media_device_cleanup(&imxmd->md);
-> +}
-> +
-> +static int imx7_csi_media_init(struct imx7_csi *csi)
-> +{
-> +	struct imx_media_dev *imxmd;
-> +	int ret;
-> +
-> +	/* add media device */
-> +	imxmd = imx_media_dev_init(csi->dev, NULL);
-> +	if (IS_ERR(imxmd))
-> +		return PTR_ERR(imxmd);
-> +
-> +	csi->imxmd = imxmd;
-> +
-> +	ret = imx_media_of_add_csi(imxmd, csi->dev->of_node);
-> +	if (ret < 0 && ret != -ENODEV && ret != -EEXIST) {
-> +		imx7_csi_media_cleanup(csi);
-> +		return ret;
-> +	}
-> +
-> +	ret = imx_media_dev_notifier_register(imxmd, NULL);
-> +	if (ret < 0) {
-> +		imx7_csi_media_cleanup(csi);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int imx7_csi_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> -	struct device_node *node = dev->of_node;
-> -	struct imx_media_dev *imxmd;
->  	struct imx7_csi *csi;
->  	int i, ret;
->  
-> @@ -1193,6 +1230,7 @@ static int imx7_csi_probe(struct platform_device *pdev)
->  	spin_lock_init(&csi->irqlock);
->  	mutex_init(&csi->lock);
->  
-> +	/* Acquire resources and install interrupt handler. */
->  	csi->mclk = devm_clk_get(&pdev->dev, "mclk");
->  	if (IS_ERR(csi->mclk)) {
->  		ret = PTR_ERR(csi->mclk);
-> @@ -1214,7 +1252,6 @@ static int imx7_csi_probe(struct platform_device *pdev)
->  
->  	csi->model = (enum imx_csi_model)(uintptr_t)of_device_get_match_data(&pdev->dev);
->  
-> -	/* install interrupt handler */
->  	ret = devm_request_irq(dev, csi->irq, imx7_csi_irq_handler, 0, "csi",
->  			       (void *)csi);
->  	if (ret < 0) {
-> @@ -1222,22 +1259,11 @@ static int imx7_csi_probe(struct platform_device *pdev)
->  		goto destroy_mutex;
->  	}
->  
-> -	/* add media device */
-> -	imxmd = imx_media_dev_init(dev, NULL);
-> -	if (IS_ERR(imxmd)) {
-> -		ret = PTR_ERR(imxmd);
-> +	/* Initialize all the media device infrastructure. */
-> +	ret = imx7_csi_media_init(csi);
-> +	if (ret)
->  		goto destroy_mutex;
-> -	}
->  
-> -	ret = imx_media_of_add_csi(imxmd, node);
-> -	if (ret < 0 && ret != -ENODEV && ret != -EEXIST)
-> -		goto cleanup;
-> -
-> -	ret = imx_media_dev_notifier_register(imxmd, NULL);
-> -	if (ret < 0)
-> -		goto cleanup;
-> -
-> -	csi->imxmd = imxmd;
->  	v4l2_subdev_init(&csi->sd, &imx7_csi_subdev_ops);
->  	v4l2_set_subdevdata(&csi->sd, csi);
->  	csi->sd.internal_ops = &imx7_csi_internal_ops;
-> @@ -1269,11 +1295,7 @@ static int imx7_csi_probe(struct platform_device *pdev)
->  	v4l2_async_nf_cleanup(&csi->notifier);
->  
->  cleanup:
-> -	v4l2_async_nf_unregister(&imxmd->notifier);
-> -	v4l2_async_nf_cleanup(&imxmd->notifier);
-> -	v4l2_device_unregister(&imxmd->v4l2_dev);
-> -	media_device_unregister(&imxmd->md);
-> -	media_device_cleanup(&imxmd->md);
-> +	imx7_csi_media_cleanup(csi);
->  
->  destroy_mutex:
->  	mutex_destroy(&csi->lock);
-> @@ -1285,14 +1307,8 @@ static int imx7_csi_remove(struct platform_device *pdev)
->  {
->  	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
->  	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
-> -	struct imx_media_dev *imxmd = csi->imxmd;
->  
-> -	v4l2_async_nf_unregister(&imxmd->notifier);
-> -	v4l2_async_nf_cleanup(&imxmd->notifier);
-> -
-> -	media_device_unregister(&imxmd->md);
-> -	v4l2_device_unregister(&imxmd->v4l2_dev);
-> -	media_device_cleanup(&imxmd->md);
-> +	imx7_csi_media_cleanup(csi);
->  
->  	v4l2_async_nf_unregister(&csi->notifier);
->  	v4l2_async_nf_cleanup(&csi->notifier);
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+Thanks for you response. Yes its from the NXP Yocto distribution with 
+kernel at: git://source.codeaurora.org/external/imx/linux-imx.git
+
+But I wasn't after specific information/help with this platform, I was 
+really trying to find out if there is a mechanism within the 
+mainline/standard Video4Linux kernel API's such that a video front end 
+subdev can get some function called once the video pipeline has been 
+setup ie. All hardware modules configured and ready to run a video stream.
+
+For example there is the s_stream() function pointer in 
+v4l2_subdev_video_ops, but that function is called before the later (in 
+pipeline) CSI2 module is started and I need a function to be called 
+after all of the pipelines hardware has been initialised to get around 
+this hardware feature/issue.
+
+Terry
+
+>
+>
+>> 3. The TP2855 enables the CSI2 clock after its *_s_stream() call,
+>> probably in hardware after its PLL's have locked, by sending a CSI2
+>> start sequence on the CSI2 clock pair. This clock is then a continuous
+>> clock ie. it does not go into low power mode during horizontal/vertical
+>> blanking.
+>>
+>> 4. The NXP CSI2 video input hardware, based on some Samsung IP, does not
+>> see the CSI2 clock unless it sees the CSI2 start sequence and depending
+>> on timings it may not see this at video pipeline startup and we get not
+>> video stream from the CSI2 hardware.
+>>
+>> I was hoping the subdev *_s_stream() call would be after all of the
+>> hardware's pipeline was setup so I could instigate a CSI2 clock restart
+>> in the TP2855 driver, but unfortunately this is called before the CSI2
+>> hardware is setup.
+>>
+>> I can add a one shot timer to do this in the TP2855 subdev *_s_stream()
+>> call, but obviously this is not ideal. Is there anyway to get a subdev
+>> function called in the video4linux API automatically once all of the
+>> video streams hardware is setup ?
+>>
+>> Any ideas/recommendations ?
+>>
+>> Terry
+>>
+>>
+
