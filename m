@@ -2,132 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBB4A521458
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 13:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84EF3521491
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241311AbiEJL7M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 07:59:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60574 "EHLO
+        id S238928AbiEJMDM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 08:03:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241299AbiEJL7L (ORCPT
+        with ESMTP id S233692AbiEJMDK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 07:59:11 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C610928BDFB;
-        Tue, 10 May 2022 04:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1652183714; x=1683719714;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Dm3X0ozVMRc4qPMKkmV0VxYC7We4StxOkXMsdvVYhuI=;
-  b=blyBUH/3gcyUJffTCUkvF3RGTRyMIuMScYpdEHK9vEY/ZmU073TQ9hRq
-   Of1rF2T1YM5e8vZd4+Zx952Lfa+F28CQ6MMG+gOPv5vXFvODjTXYgXC8M
-   sFDowY2CR9b+936AMrqYfFRcY15b8OTCDHadSVtJS+QPaEDeTOfbjSwF2
-   g=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 10 May 2022 04:55:13 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 04:55:10 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 10 May 2022 04:55:08 -0700
-Received: from [10.216.42.221] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 10 May
- 2022 04:55:04 -0700
-Message-ID: <c95bd5fb-0880-c98b-5f5c-b2b0bdd7b042@quicinc.com>
-Date:   Tue, 10 May 2022 17:25:00 +0530
+        Tue, 10 May 2022 08:03:10 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A75F3165AB
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 04:59:12 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7AB14824;
+        Tue, 10 May 2022 13:59:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1652183950;
+        bh=znKOnW5DcqLMT8bFMMoINNY9WM5rEJCjpMdpXf5v+rw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eeq7smbayk60Wfi6+KKDizZtI11nTitTH0JY2Xq35lDd5noFO/s4DgEwSDRb0ldMs
+         eIbQgGcpQ6CczUU2dSuLCrq5igQGP3TgbHwywBjGpT92Jbs8P8KtjPaFSCSQaJptiF
+         xfChI8SaZ7IyTt+7dHQfYrQbEEc7t5AfuK4huTUM=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        kernel@pengutronix.de
+Subject: [PATCH 00/50] staging: media: imx: Prepare destaging of imx7-media-csi
+Date:   Tue, 10 May 2022 14:58:09 +0300
+Message-Id: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] dmabuf: ensure unique directory name for dmabuf stats
-Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-        <daniel.vetter@ffwll.ch>, <tjmercier@google.com>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
-References: <1652178212-22383-1-git-send-email-quic_charante@quicinc.com>
- <YnpF1XP1tH83uBlM@kroah.com>
-From:   Charan Teja Kalla <quic_charante@quicinc.com>
-In-Reply-To: <YnpF1XP1tH83uBlM@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks Greg for the inputs!!
+Hello,
 
-On 5/10/2022 4:30 PM, Greg KH wrote:
->> The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
->> alloc_anon_inode()) to get an inode number and uses the same as a
->> directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
->> used to collect the dmabuf stats and it is created through
->> dma_buf_stats_setup(). At current, failure to create this directory
->> entry can make the dma_buf_export() to fail.
->>
->> Now, as the get_next_ino() can definitely give a repetitive inode no
->> causing the directory entry creation to fail with -EEXIST. This is a
->> problem on the systems where dmabuf stats functionality is enabled on
->> the production builds can make the dma_buf_export(), though the dmabuf
->> memory is allocated successfully, to fail just because it couldn't
->> create stats entry.
-> Then maybe we should not fail the creation path of the kobject fails to
-> be created?  It's just for debugging, it should be fine if the creation
-> of it isn't there.
+This patch series prepares the imx7-media-csi for destaging by
+decoupling it from the helpers shared with the i.MX6 IPUv3.
 
-Not creating the debug node under some special cases can make this
-interface not reliable if one wants to know info about the created
-dmabuf buffers. Please help in correcting me If my perspective is wrong
-here.
+The strategy Paul and I have followed is to import copies of helper code
+and, refactor it within the imx7-media-csi driver, and repeat until no
+more shared helpers are used. There is still room for refactoring and
+simplification of the imx7-media-csi driver, but I believe it is now in
+a state clean enough to be moved out of staging.
 
-IIUC, except this -EEXIST condition, under the other conditions (-EINVAL
-and -ENOMEM) failure is fine. Since, we are going to fix the -EEXIST
-error in this patch, my opinion is failure in the kobject creation path
-is acceptable for the reasons: a) The user is expected to pass the valid
-dmabuf to create the stats node, b) The user can undefine the
-CONFIG_DMABUF_SYSFS_STATS if he don't want this stats.
+The series also includes a few fixes or improvements in supported
+formats that are now made possible thanks to this refactoring. See
+patches 45/50 and 46/50 for details.
 
-> 
->> This issue we are able to see on the snapdragon system within 13 days
->> where there already exists a directory with inode no "122602" so
->> dma_buf_stats_setup() failed with -EEXIST as it is trying to create
->> the same directory entry.
->>
->> To make the directory entry as unique, append the inode creation time to
->> the inode. With this change the stats directory entries will be in the
->> format of: /sys/kernel/dmabuf/buffers/<inode no>-<inode creation time in
->> secs>.
-> As you are changing the format here, shouldn't the Documentation/ABI/
-> entry for this also be changed?
-> 
-> And what's to keep the seconds field from also being the same?
+The code size has grown as a result. This is partly offset by code in
+the shared helpers that can be removed or simplified, but I haven't
+starting working on that. The helpers are now used for the i.MX6 IPUv3
+only, so I will leave this exercise to anyone who would be interested in
+destaging that driver as well.
 
-get_next_ino() just increases the inode number monotonically and return
-to the caller and it is 'unsigned int' data type. Thus 2 successive
-calls always generate the different inode_number but can be the same
-secs value.  With inode-secs format, this will be still be a unique
-string.  Say it will be like ino1-sec1 and ino2-sec1.
+Some of the items in the TODO file related to the imx7-media-csi driver
+have been addressed. The two remaining items are frame interval monitor
+support and restricting the list of supported formats to the SoC
+version. The former isn't a destaging blocker in my opinion, as the
+feature can be added later if desired (and frame interval monitoring
+should then be moved to the V4L2 core). I believe the latter could also
+be addressed after destaging the driver, but in any case, this is a
+discussion for a future destaging series (which may come as soon as this
+one is accepted).
 
-Now after the inode number overflow and wraps, we may get the ino1 again
-from the get_next_ino() but then secs will be different i.e. say it may
-be like ino1-secn and ion2-secn. So, it always be a unique string.
+Alexander, this also could greatly simplify your "[PATCH v3 0/8]
+imx7/imx8mm media / csi patches" series.
 
-IOW, with secs field added, to get the same inode-secs string, the uint
-should overflow in the same second which is impossible.
+Laurent Pinchart (48):
+  staging: media: imx: imx7-media-csi: Initialize locks early on
+  staging: media: imx: imx7-media-csi: Split imx_media_dev from probe()
+  staging: media: imx: imx7-media-csi: Import notifier helpers
+  staging: media: imx: imx7-media-csi: Drop duplicate link creation
+  staging: media: imx: imx7-media-csi: Drop the imx_media notifier
+  staging: media: imx: imx7-media-csi: Don't populate vdev lists
+  staging: media: imx: imx7-media-csi: Drop unused frame_interval
+  staging: media: imx: imx7-media-csi: Move format init to probe time
+  staging: media: imx: imx7-media-csi: Import video device helpers
+  staging: media: imx: imx7-media-csi: Drop legacy video device support
+  staging: media: imx: imx7-media-csi: Drop unused controls support
+  staging: media: imx: imx7-media-csi: Reorganize imx7_csi structure
+  staging: media: imx: imx7-media-csi: Fold capture_priv into imx7_csi
+  staging: media: imx: imx7-media-csi: Ensure consistent function prefix
+  staging: media: imx: imx7-media-csi: Don't set subdev group id
+  staging: media: imx: imx7-media-csi: Import imx_media_dev_init()
+    helper
+  staging: media: imx: imx7-media-csi: Embed imx_media_dev in imx7_csi
+  staging: media: imx: imx7-media-csi: Drop imx_media_add_video_device
+    call
+  staging: media: imx: imx7-media-csi: Don't initialize unused fields
+  staging: media: imx: imx7-media-csi: Inline imx_media_pipeline_pad()
+  staging: media: imx: imx7-media-csi: Import
+    imx_media_pipeline_set_stream()
+  staging: media: imx: imx7-media-csi: Avoid unnecessary casts
+  staging: media: imx: imx7-media-csi: Inline pipeline start/stop
+  staging: media: imx: imx7-media-csi: Fold imx_media_dev into imx7_csi
+  staging: media: imx: imx7-media-csi: Decouple from imx_media_buffer
+  staging: media: imx: imx7-media-csi: Fold imx_media_video_dev into
+    imx7_csi
+  staging: media: imx: imx7-media-csi: Store imx7_csi in drv data
+  staging: media: imx: imx7-media-csi: Decouple from imx_media_dma_buf
+  staging: media: imx: imx7-media-csi: Decouple from shared macros
+  staging: media: imx: imx7-media-csi: Drop error message on alloc
+    failure
+  staging: media: imx: imx7-media-csi: Import format helpers
+  staging: media: imx: imx7-media-csi: Replace ipu_color_space with bool
+    yuv field
+  staging: media: imx: imx7-media-csi: Drop IC support from
+    imx7_csi_try_colorimetry()
+  staging: media: imx: imx7-media-csi: Drop IPU-only formats
+  staging: media: imx: imx7-media-csi: Drop unsupported YUV and RGB
+    formats
+  staging: media: imx: imx7-media-csi: Make default formats consistent
+  staging: media: imx: imx7-media-csi: Define macro for default mbus
+    code
+  staging: media: imx: imx7-media-csi: Simplify default mbus code in
+    try_fmt
+  staging: media: imx: imx7-media-csi: Drop YUV/RGB/BAYER format
+    selectors
+  staging: media: imx: imx7-media-csi: Drop unneeded imx7_csi_pixfmt
+    fields
+  staging: media: imx: imx7-media-csi: Inline imx7_csi_init_mbus_fmt()
+  staging: media: imx: imx7-media-csi: Simplify default format in
+    try_fmt
+  staging: media: imx: imx7-media-csi: Fix list of supported formats
+  staging: media: imx: imx7-media-csi: Add V4L2_PIX_FMT_Y14 support
+  staging: media: imx: imx7-media-csi: Drop unneeded pixel format
+    validation
+  staging: media: imx: imx7-media-csi: Inline
+    imx7_csi_enum_pixel_formats()
+  staging: media: imx: imx7-media-csi: Drop V4L2 events support
+  staging: media: imx: imx7-media-csi: Drop usage of shared helpers
 
-Thanks for pointing out the changes to be done in ABI document. Will do
-it in the next spin.
+Paul Elder (2):
+  staging: media: imx: imx7-media-csi: Move misc init out of probe()
+  staging: media: imx: imx7-media-csi: Remove imx_media_of_add_csi
+
+ drivers/staging/media/imx/imx7-media-csi.c | 1370 +++++++++++++++++---
+ 1 file changed, 1172 insertions(+), 198 deletions(-)
+
+
+base-commit: c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a
+-- 
+Regards,
+
+Laurent Pinchart
+
