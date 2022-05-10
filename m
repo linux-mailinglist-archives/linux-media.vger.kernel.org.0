@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D98552148C
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B8AC521497
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241443AbiEJMDk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S241444AbiEJMDk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 10 May 2022 08:03:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51294 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241425AbiEJMDi (ORCPT
+        with ESMTP id S241431AbiEJMDj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 08:03:38 -0400
+        Tue, 10 May 2022 08:03:39 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E91E46673
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 04:59:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B0352E73
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 04:59:42 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52AD018C1;
-        Tue, 10 May 2022 13:59:28 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2CE3018D4;
+        Tue, 10 May 2022 13:59:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1652183969;
-        bh=wREWnlZORWJLC+76NQD4bNVhlmjZ7u0qButDdbEp29U=;
+        bh=EgNZsoN/7OI10adZIP8tfznFAkRmxK+4iV9hb6MY8ns=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ji+tbR7X7ocw+GLi9TtlJ/WwdWok2ENdvdB9ZcFN6V6B+2zPf8JMgwqvYCBWG6x5M
-         K1pkfgWH6n3u+wp4FjjSmrL2JjtQmIVJ0BI17ftxmwBmjLobeiyPPjIkeRef3Wmo/e
-         5DITVHPILoEHTV9odqxQnRwz/OKwBO6RO6h+6wvg=
+        b=bixe9dooDVF41rCeQjnWsFDLw2QBUi7ZzVBroJpmAGZQgeSzeNbQav3wB7j5WGa5E
+         I7WMAKK9AGe0jE0+v/PF39IDFbWmdad/juXL3CxAtNR1i+CthqsLBZNT7UVNTlmddZ
+         8nS1k+dxh20GZBJ628RXi3Lqkp3c9+hHkdDADGlo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -35,9 +35,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
         kernel@pengutronix.de
-Subject: [PATCH 22/50] staging: media: imx: imx7-media-csi: Inline imx_media_pipeline_pad()
-Date:   Tue, 10 May 2022 14:58:31 +0300
-Message-Id: <20220510115859.19777-23-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 23/50] staging: media: imx: imx7-media-csi: Import imx_media_pipeline_set_stream()
+Date:   Tue, 10 May 2022 14:58:32 +0300
+Message-Id: <20220510115859.19777-24-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
 References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
@@ -53,46 +53,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Inline the imx_media_pipeline_pad() helper, dropping all the code unused
-by the imx7-media-csi driver.
+To prepare for code refactoring, copy the
+imx_media_pipeline_set_stream() helper used by this driver from
+imx-media-utils.c. Rename the function to avoid name clashes, no
+functional change intended.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ drivers/staging/media/imx/imx7-media-csi.c | 40 ++++++++++++++++++++--
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 7e932884fd02..e1b494183ebc 100644
+index e1b494183ebc..1c8ee7c88f46 100644
 --- a/drivers/staging/media/imx/imx7-media-csi.c
 +++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1605,7 +1605,8 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
- 	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
- 	struct imx_media_video_dev *vdev = &csi->vdev;
- 	const struct v4l2_pix_format *out_pix = &vdev->fmt;
--	struct media_pad *pad;
-+	struct media_pad *pad = NULL;
-+	unsigned int i;
+@@ -1067,6 +1067,40 @@ static int imx7_csi_video_validate_fmt(struct imx7_csi *csi)
+ 	return 0;
+ }
+ 
++/*
++ * Turn current pipeline streaming on/off starting from entity.
++ */
++static int imx7_csi_media_pipeline_set_stream(struct imx_media_dev *imxmd,
++					      struct media_entity *entity,
++					      bool on)
++{
++	struct v4l2_subdev *sd;
++	int ret = 0;
++
++	if (!is_media_entity_v4l2_subdev(entity))
++		return -EINVAL;
++	sd = media_entity_to_v4l2_subdev(entity);
++
++	mutex_lock(&imxmd->md.graph_mutex);
++
++	if (on) {
++		ret = __media_pipeline_start(entity, &imxmd->pipe);
++		if (ret)
++			goto out;
++		ret = v4l2_subdev_call(sd, video, s_stream, 1);
++		if (ret)
++			__media_pipeline_stop(entity);
++	} else {
++		v4l2_subdev_call(sd, video, s_stream, 0);
++		if (entity->pipe)
++			__media_pipeline_stop(entity);
++	}
++
++out:
++	mutex_unlock(&imxmd->md.graph_mutex);
++	return ret;
++}
++
+ static int imx7_csi_video_start_streaming(struct vb2_queue *vq,
+ 					  unsigned int count)
+ {
+@@ -1081,7 +1115,8 @@ static int imx7_csi_video_start_streaming(struct vb2_queue *vq,
+ 		goto return_bufs;
+ 	}
+ 
+-	ret = imx_media_pipeline_set_stream(&csi->imxmd, &csi->sd.entity, true);
++	ret = imx7_csi_media_pipeline_set_stream(&csi->imxmd, &csi->sd.entity,
++						 true);
+ 	if (ret) {
+ 		dev_err(csi->dev, "pipeline start failed with %d\n", ret);
+ 		goto return_bufs;
+@@ -1107,7 +1142,8 @@ static void imx7_csi_video_stop_streaming(struct vb2_queue *vq)
+ 	unsigned long flags;
  	int ret;
  
- 	if (!csi->src_sd)
-@@ -1627,7 +1628,17 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
- 
- 	case MEDIA_ENT_F_VID_MUX:
- 		/* The input is the mux, check its input. */
--		pad = imx_media_pipeline_pad(&csi->src_sd->entity, 0, 0, true);
-+		for (i = 0; i < csi->src_sd->entity.num_pads; i++) {
-+			struct media_pad *spad = &csi->src_sd->entity.pads[i];
-+
-+			if (!(spad->flags & MEDIA_PAD_FL_SINK))
-+				continue;
-+
-+			pad = media_entity_remote_pad(spad);
-+			if (pad)
-+				break;
-+		}
-+
- 		if (!pad)
- 			return -ENODEV;
+-	ret = imx_media_pipeline_set_stream(&csi->imxmd, &csi->sd.entity, false);
++	ret = imx7_csi_media_pipeline_set_stream(&csi->imxmd, &csi->sd.entity,
++						 false);
+ 	if (ret)
+ 		dev_warn(csi->dev, "pipeline stop failed with %d\n", ret);
  
 -- 
 Regards,
