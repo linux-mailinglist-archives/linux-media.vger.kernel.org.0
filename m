@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35CF25214AE
+	by mail.lfdr.de (Postfix) with ESMTP id E37B85214B0
 	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 14:00:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241421AbiEJMDh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 08:03:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
+        id S241426AbiEJMDi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 08:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241425AbiEJMDg (ORCPT
+        with ESMTP id S241430AbiEJMDh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 08:03:36 -0400
+        Tue, 10 May 2022 08:03:37 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081255131E
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 04:59:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA765418B
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 04:59:40 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0207BA9;
-        Tue, 10 May 2022 13:59:26 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 764CCB60;
+        Tue, 10 May 2022 13:59:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1652183967;
-        bh=gm/2LW6ZHCvoGWF4lJlzBcDie/aSGoep0fsUMokwzPE=;
+        s=mail; t=1652183968;
+        bh=R6JzINy4gD6TovfrdcP/5VdD1wSGdqHELXNnBkONj8c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=J+jeN6fLShQnt8YjDbtSwxEZ2WShY5ohU5M8yMwkpfBfYCDc13KspQQtWa0qN6qid
-         GRGvIXz4CQcrZuULF6fRsjPipbUsieyCKV3k5J3gFKTxvEk386kzR01QBCKO5nIaUX
-         lsxCfsC4PpUvZ7oyvGgz+m5WaD3bm52JUGvCL/Qo=
+        b=TOaOwPNTWN5VDFEYvvVriB0A4NilhrSTdD/GF7a/r1dlWjTEFWQbL9nUJHoXtEL0v
+         NmKzR+PVR41f66RwC2LJ/tGwHJZ4OvuDfCcbYbC2SvQdqsk+KDwn7fB2OxOTRnrhR0
+         bwZyZ6SXd1+Dh+w1x/cSgEplZ/nyQvIsOBkFJWmc=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -35,9 +35,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
         kernel@pengutronix.de
-Subject: [PATCH 20/50] staging: media: imx: imx7-media-csi: Drop imx_media_add_video_device call
-Date:   Tue, 10 May 2022 14:58:29 +0300
-Message-Id: <20220510115859.19777-21-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 21/50] staging: media: imx: imx7-media-csi: Don't initialize unused fields
+Date:   Tue, 10 May 2022 14:58:30 +0300
+Message-Id: <20220510115859.19777-22-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
 References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
@@ -53,29 +53,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's no need to call imx_media_add_video_device() anymore, as the
-video devices list it manages is only used by the control inheritance
-mechanism in the helpers, which this driver doesn't use.
+The imx_media_dev structure contains three fields that are not used by
+this driver or any helper code that it calls. Don't initialize them.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/media/imx/imx7-media-csi.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 891e939d7ea5..b6643952da25 100644
+index b6643952da25..7e932884fd02 100644
 --- a/drivers/staging/media/imx/imx7-media-csi.c
 +++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1267,9 +1267,6 @@ static int imx7_csi_video_register(struct imx7_csi *csi)
- 		return ret;
+@@ -1821,8 +1821,6 @@ static int imx7_csi_media_dev_init(struct imx7_csi *csi)
+ 	imxmd->md.ops = &imx7_csi_media_ops;
+ 	imxmd->md.dev = csi->dev;
+ 
+-	mutex_init(&imxmd->mutex);
+-
+ 	imxmd->v4l2_dev.mdev = &imxmd->md;
+ 	strscpy(imxmd->v4l2_dev.name, "imx-media",
+ 		sizeof(imxmd->v4l2_dev.name));
+@@ -1838,10 +1836,6 @@ static int imx7_csi_media_dev_init(struct imx7_csi *csi)
+ 		goto cleanup;
  	}
  
--	/* Add vdev to the video devices list. */
--	imx_media_add_video_device(&csi->imxmd, &csi->vdev);
+-	INIT_LIST_HEAD(&imxmd->vdev_list);
+-
+-	v4l2_async_nf_init(&imxmd->notifier);
 -
  	return 0;
- }
  
+ cleanup:
 -- 
 Regards,
 
