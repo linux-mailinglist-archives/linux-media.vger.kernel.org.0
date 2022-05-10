@@ -2,83 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 768F45221D0
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 18:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CABF152220B
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 19:11:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243998AbiEJQ7L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 12:59:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37342 "EHLO
+        id S1347821AbiEJRPW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 13:15:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237624AbiEJQ7K (ORCPT
+        with ESMTP id S1347840AbiEJRPV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 12:59:10 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E1C27E3E6
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 09:55:12 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1noT8g-005ZqF-Oc; Tue, 10 May 2022 16:55:10 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1noT8e-00GwCp-3g; Tue, 10 May 2022 16:55:08 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.19] imon fixes (#83092)
-Date:   Tue, 10 May 2022 16:55:07 +0000
-Message-Id: <20220510165507.4036945-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YnqTwWIzco9V/KyC@gofer.mess.org>
-References: 
+        Tue, 10 May 2022 13:15:21 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21523E5CF
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 10:11:21 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id d6so20789889ede.8
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 10:11:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yyNHCsFHssjn3zbR0NR3ZZ0sgxAdJxbsIG3gfIjrUV8=;
+        b=ACHfeTA70D1ZNAnMiNJhLU/Opraxgv/jvpBeBpQ1DYMiU8lGPSxaGVKXIO9oDmCIt+
+         tE0ry69/0T+lGoRbjQVS9V6mDOdSbOCkItBIMFqgU4g5y4A8nBHO4mz5iXjzFezUd1uA
+         nYb9UgFSq/W/F0Nf8QYN9YGL0/vISFxA1SyWp424FRaKmm29MQMGnF7nUW2tQUAZWufW
+         RGm+N42Z6YTjqSzS3wMSwcAceRxlQZqcxmi7fcLtk8PNc6kSI8EC786t0jcYIKr5YWL6
+         78KZHB8qywucOwUwGA6kYo6mX2yBqTKO0EFYg2YFNkRil4DZNyEFj8flEj8S5CqZzAmr
+         M9YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yyNHCsFHssjn3zbR0NR3ZZ0sgxAdJxbsIG3gfIjrUV8=;
+        b=8MB4gRsRep5757oOYAl5rovoJ5xEu89l7WIAAF1uJtI5J9EyBIhP9GxudT5RdsGimv
+         TyJ0r02jefc9LF7I14D+YNpNeknsxQQTRBouBhDdhagfwCG6x8Zqt2lzrcBMcgYvrubQ
+         dgemviAX8URT5tMnxdmflT/HM5e18y1EndCixFGWGpjlPY1hjkWpHHVBm+o5AxJiedLV
+         tPH6V2kerZs6v/L6pP3wilwLsiPdNjxlePHp+zfm3+jYd89F437Jgeu5hyvaPbnsjJa2
+         4fz5nBkiUpG/wsFr3OmmlexxJUqkGasRj3fAkt2ZihPRB32bP52Q8zf84cnyeXBGUnDF
+         AXZQ==
+X-Gm-Message-State: AOAM5338GMFGUBYyqP8M69NWhgihmuSzGvFlVuynpBD65NklX/EQvWUp
+        xXOduJ46vFCxYuxt9j7pdZiD/LzxLrjsE7CYk2s6nA==
+X-Google-Smtp-Source: ABdhPJwsfwv5eCPLQc/uzvs1bAR2eSnYRw+cAYOUkXo2dBciN+5iqf8VYiLI6m+03pLF7oV9DEfjscfDjzk4xZzawXQ=
+X-Received: by 2002:a05:6402:2c4:b0:427:f4a3:2e94 with SMTP id
+ b4-20020a05640202c400b00427f4a32e94mr23955650edx.138.1652202679663; Tue, 10
+ May 2022 10:11:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <1652191562-18700-1-git-send-email-quic_charante@quicinc.com>
+In-Reply-To: <1652191562-18700-1-git-send-email-quic_charante@quicinc.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Tue, 10 May 2022 10:11:08 -0700
+Message-ID: <CABdmKX3A1dMwByum1dzbFzjTgq44dquZMzFXXQbzpfGGm2hCJQ@mail.gmail.com>
+Subject: Re: [PATCH V2] dmabuf: ensure unique directory name for dmabuf stats
+To:     Charan Teja Kalla <quic_charante@quicinc.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Hridya Valsaraju <hridya@google.com>, daniel.vetter@ffwll.ch,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Tue, May 10, 2022 at 7:07 AM Charan Teja Kalla
+<quic_charante@quicinc.com> wrote:
+>
+> The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
+> alloc_anon_inode()) to get an inode number and uses the same as a
+> directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
+> used to collect the dmabuf stats and it is created through
+> dma_buf_stats_setup(). At current, failure to create this directory
+> entry can make the dma_buf_export() to fail.
+>
+> Now, as the get_next_ino() can definitely give a repetitive inode no
+> causing the directory entry creation to fail with -EEXIST. This is a
+> problem on the systems where dmabuf stats functionality is enabled on
+> the production builds can make the dma_buf_export(), though the dmabuf
+> memory is allocated successfully, to fail just because it couldn't
+> create stats entry.
+>
+> This issue we are able to see on the snapdragon system within 13 days
+> where there already exists a directory with inode no "122602" so
+> dma_buf_stats_setup() failed with -EEXIST as it is trying to create
+> the same directory entry.
+>
+> To make the directory entry as unique, append the unique_id for every
+> inode. With this change the stats directory entries will be in the
+> format of: /sys/kernel/dmabuf/buffers/<inode_number-unique_id>.
+>
+> Signed-off-by: Charan Teja Kalla <quic_charante@quicinc.com>
+> ---
+> Changes in V2:
+>   -- Used the atomic64_t variable to generate a unique_id to be appended to inode
+>      to have an unique directory with name <inode_number-unique_id> -- Suggested by christian
+>   -- Updated the ABI documentation -- Identified by Greg.
+>   -- Massaged the commit log.
+>
+> Changes in V1:
+>   -- Used the inode->i_ctime->tv_secs as an id appended to inode to create the
+>      unique directory with name <inode_number-time_in_secs>.
+>   -- https://lore.kernel.org/all/1652178212-22383-1-git-send-email-quic_charante@quicinc.com/
+>
+>  Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers | 10 +++++-----
+>  drivers/dma-buf/Kconfig                               |  6 +++---
+>  drivers/dma-buf/dma-buf-sysfs-stats.c                 |  8 +++++---
+>  3 files changed, 13 insertions(+), 11 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> index 5d3bc99..9fffbd3 100644
+> --- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> +++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> @@ -4,19 +4,19 @@ KernelVersion:        v5.13
+>  Contact:       Hridya Valsaraju <hridya@google.com>
+>  Description:   The /sys/kernel/dmabuf/buffers directory contains a
+>                 snapshot of the internal state of every DMA-BUF.
+> -               /sys/kernel/dmabuf/buffers/<inode_number> will contain the
+> -               statistics for the DMA-BUF with the unique inode number
+> -               <inode_number>
+> +               /sys/kernel/dmabuf/buffers/<inode_number-unique_id> will
+> +               contain the statistics for the DMA-BUF with the unique
+> +               pair <inode_number-unique_id>
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YnqTwWIzco9V/KyC@gofer.mess.org/
-Build log: https://builder.linuxtv.org/job/patchwork/206465/
-Build time: 00:17:48
-Link: https://lore.kernel.org/linux-media/YnqTwWIzco9V/KyC@gofer.mess.org
+Android userspace does have a dependency on this being an inode
+number. Or at least, a single unsigned int. Not the end of the world,
+but still... this will break.
+https://cs.android.com/android/platform/superproject/+/master:system/memory/libmeminfo/libdmabufinfo/dmabuf_sysfs_stats.cpp;l=76-77;drc=6951984bbefb96423970b82005ae381065e36704
 
-gpg: Signature made Tue 10 May 2022 04:24:45 PM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
-
-Summary: got 1/4 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-imon-avoid-needless-atomic-allocations-in-resu.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1983 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2869 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-
-
-Error #512 when building PDF docs
-
+>  Users:         kernel memory tuning/debugging tools
+>
+> -What:          /sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
+> +What:          /sys/kernel/dmabuf/buffers/<inode_number-unique_id>/exporter_name
+>  Date:          May 2021
+>  KernelVersion: v5.13
+>  Contact:       Hridya Valsaraju <hridya@google.com>
+>  Description:   This file is read-only and contains the name of the exporter of
+>                 the DMA-BUF.
+>
+> -What:          /sys/kernel/dmabuf/buffers/<inode_number>/size
+> +What:          /sys/kernel/dmabuf/buffers/<inode_number-unique_id>/size
+>  Date:          May 2021
+>  KernelVersion: v5.13
+>  Contact:       Hridya Valsaraju <hridya@google.com>
+> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+> index 541efe0..5bcbdb1 100644
+> --- a/drivers/dma-buf/Kconfig
+> +++ b/drivers/dma-buf/Kconfig
+> @@ -81,9 +81,9 @@ menuconfig DMABUF_SYSFS_STATS
+>            Choose this option to enable DMA-BUF sysfs statistics
+>            in location /sys/kernel/dmabuf/buffers.
+>
+> -          /sys/kernel/dmabuf/buffers/<inode_number> will contain
+> -          statistics for the DMA-BUF with the unique inode number
+> -          <inode_number>.
+> +          /sys/kernel/dmabuf/buffers/<inode_number-unique_id> will contain
+> +          statistics for the DMA-BUF with the unique pair
+> +          <inode_number-unique_id>.
+>
+>  source "drivers/dma-buf/heaps/Kconfig"
+>
+> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> index 2bba0ba..29e9e23 100644
+> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> @@ -38,8 +38,8 @@
+>   *
+>   * The following stats are exposed by the interface:
+>   *
+> - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
+> - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
+> + * * ``/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/exporter_name``
+> + * * ``/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/size``
+>   *
+>   * The information in the interface can also be used to derive per-exporter
+>   * statistics. The data from the interface can be gathered on error conditions
+> @@ -172,6 +172,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+>  {
+>         struct dma_buf_sysfs_entry *sysfs_entry;
+>         int ret;
+> +       static atomic64_t unique_id = ATOMIC_INIT(0);
+>
+>         if (!dmabuf || !dmabuf->file)
+>                 return -EINVAL;
+> @@ -192,7 +193,8 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+>
+>         /* create the directory for buffer stats */
+>         ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
+> -                                  "%lu", file_inode(dmabuf->file)->i_ino);
+> +                                  "%lu-%lu", file_inode(dmabuf->file)->i_ino,
+> +                                  atomic64_add_return(1, &unique_id));
+>         if (ret)
+>                 goto err_sysfs_dmabuf;
+>
+> --
+> 2.7.4
+>
