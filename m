@@ -2,63 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 305E4522150
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 18:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 768F45221D0
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 18:55:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347471AbiEJQhJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 12:37:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42576 "EHLO
+        id S243998AbiEJQ7L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 12:59:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347458AbiEJQhF (ORCPT
+        with ESMTP id S237624AbiEJQ7K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 12:37:05 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FB2E205448
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 09:33:08 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 296EA101BDF; Tue, 10 May 2022 17:33:06 +0100 (BST)
-Date:   Tue, 10 May 2022 17:33:05 +0100
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Cc:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Oliver Neukum <oneukum@suse.com>
-Subject: [GIT PULL FOR v5.19] imon fixes
-Message-ID: <YnqTwWIzco9V/KyC@gofer.mess.org>
+        Tue, 10 May 2022 12:59:10 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E1C27E3E6
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 09:55:12 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1noT8g-005ZqF-Oc; Tue, 10 May 2022 16:55:10 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1noT8e-00GwCp-3g; Tue, 10 May 2022 16:55:08 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.19] imon fixes (#83092)
+Date:   Tue, 10 May 2022 16:55:07 +0000
+Message-Id: <20220510165507.4036945-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YnqTwWIzco9V/KyC@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit be938c70e292731f81226917fc214683e66da577:
+From: builder@linuxtv.org
 
-  media: uvcvideo: Add UVC_GUID_FORMAT_H265 (2022-05-08 07:10:51 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YnqTwWIzco9V/KyC@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/206465/
+Build time: 00:17:48
+Link: https://lore.kernel.org/linux-media/YnqTwWIzco9V/KyC@gofer.mess.org
 
-are available in the Git repository at:
+gpg: Signature made Tue 10 May 2022 04:24:45 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.19c
+Summary: got 1/4 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to 5414f8c15c4f236726c04d440e1accc87e7d2ed5:
+Error/warnings:
 
-  media: imon: reorganize serialization (2022-05-10 13:58:17 +0100)
+patches/0001-media-imon-avoid-needless-atomic-allocations-in-resu.patch:
 
-----------------------------------------------------------------
-v5.19c
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-----------------------------------------------------------------
-Oliver Neukum (3):
-      media: imon: avoid needless atomic allocations in resume
-      media: imon: fix timer racing disconnect
-      media: imon: drop references only after device is no longer used
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1983 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2869 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
 
-Tetsuo Handa (1):
-      media: imon: reorganize serialization
 
- drivers/media/rc/imon.c | 109 +++++++++++++++++++++++-------------------------
- 1 file changed, 52 insertions(+), 57 deletions(-)
+Error #512 when building PDF docs
+
