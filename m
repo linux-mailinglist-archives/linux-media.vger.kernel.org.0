@@ -2,310 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17469521C9E
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 16:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7524F521CA3
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 16:41:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239493AbiEJOo6 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 10 May 2022 10:44:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44122 "EHLO
+        id S242836AbiEJOpU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 10:45:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243112AbiEJOoi (ORCPT
+        with ESMTP id S241800AbiEJOoy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 10:44:38 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B7B6F483
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 07:03:44 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1noQSk-005OMB-Vc; Tue, 10 May 2022 14:03:43 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1noQSj-000Fht-Bh; Tue, 10 May 2022 14:03:40 +0000
-Date:   Tue, 10 May 2022 14:03:40 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org
-Message-ID: <363745425.1.1652191420856@builder.linuxtv.org>
-In-Reply-To: <1947579924.0.1652188755494@builder.linuxtv.org>
-References: <1947579924.0.1652188755494@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #843
+        Tue, 10 May 2022 10:44:54 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47C42E1832
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 07:04:21 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id kq17so33189762ejb.4
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 07:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=IEQJxrgCftMX87O1fp0L99tkMioW1fIbf3pjaY0cgTs=;
+        b=c4lA06Jc8V0lkRPwljLSKeIbqVyQ7hH2D6qBtC0heXu3sQuzQDrtAwBMJ204ijf8xs
+         +r9JcJDrywkieGSliFKxBoxrXKmGlk+Yw5bx2KD5cAzSPBfGoXWW1mFRLvjweFJeJaEz
+         2ZNIcrjqjigWJeY4u+Zky6/gTk+/gPlE/P4yxt7QpQibt27b2cdF9U+1e7g/IgqmRBGt
+         jGtZZOYb8X8QnWpsILWIlyKHyjY2jSQATgU399TDLnYnEiG6XiwawHaIaKO0vFe+4DKI
+         XOFIicZMfJbqKgvEBOuSlyaziuqz55BoQkvEBZwbDR7le+PCls3cNHYGqrdQ3TkJYX3B
+         SH5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=IEQJxrgCftMX87O1fp0L99tkMioW1fIbf3pjaY0cgTs=;
+        b=yu9IRzv899FGBFqlFSUHD9z7US+A6On3XTd7sg45cwULfGVtnL0ufWSVHT3QP4d0No
+         fmGlTjGLB/AoS7CgVj9ZmiwR1A8Wj9WNgXvD3OIXaByDgq6dTK/2pFX5rgPQNLzomKHg
+         djILBLaEgS9dYjMxru6AvDhL+JZjInZ6+dnm0oULJhmvYbS7wLH95NCNxbl9HJouLKaL
+         v19fOlqvKBhzPY5ZvixlkFKZZBcdkeGGY2ycDyYqbksbwqkIu/GqXJsijvBIcIzAOvqj
+         Gt46WJRagZO/HXR53pbtyj/2znmEAsOMlbMW8HNPY52DczhjtAzzwg1wRBZazKsm094e
+         ggkg==
+X-Gm-Message-State: AOAM530xw9mkvPsTn+H7doqij4Ad2RkyranEVUrkinwnqW70D9Z8HQKX
+        IXa8s+eHAFYbeP1v5HwdeQs=
+X-Google-Smtp-Source: ABdhPJzIZrT9MY4eUqmsIV6YiHCXdfO2TCNiGnPL7VdLwtgd0ryv0Lq/qrvjirtl8+LnkLEp/GAEBA==
+X-Received: by 2002:a17:906:7952:b0:6f8:91fa:cef8 with SMTP id l18-20020a170906795200b006f891facef8mr13988346ejo.373.1652191459539;
+        Tue, 10 May 2022 07:04:19 -0700 (PDT)
+Received: from arch-thunder (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
+        by smtp.gmail.com with ESMTPSA id qr48-20020a1709068cb000b006f3ef214e5csm6285742ejc.194.2022.05.10.07.04.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 May 2022 07:04:18 -0700 (PDT)
+Date:   Tue, 10 May 2022 15:04:16 +0100
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 00/50] staging: media: imx: Prepare destaging of
+ imx7-media-csi
+Message-ID: <20220510140416.4klypvzok7ril7n7@arch-thunder>
+References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
+        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/libcamera/843/display/redirect?page=changes>
+Hi Laurent,
+Thanks for this small change :).
 
-Changes:
+On Tue, May 10, 2022 at 02:58:09PM +0300, Laurent Pinchart wrote:
+> Hello,
+> 
+> This patch series prepares the imx7-media-csi for destaging by
+> decoupling it from the helpers shared with the i.MX6 IPUv3.
+> 
+> The strategy Paul and I have followed is to import copies of helper code
+> and, refactor it within the imx7-media-csi driver, and repeat until no
+> more shared helpers are used. There is still room for refactoring and
+> simplification of the imx7-media-csi driver, but I believe it is now in
+> a state clean enough to be moved out of staging.
 
-[kieran.bingham] libcamera: Add a SensorSensitivity property
+I agree.
 
-[kieran.bingham] libcamera: raspberrypi: Fetch correct value for SensorSensitivity
+> 
+> The series also includes a few fixes or improvements in supported
+> formats that are now made possible thanks to this refactoring. See
+> patches 45/50 and 46/50 for details.
+> 
+> The code size has grown as a result. This is partly offset by code in
+> the shared helpers that can be removed or simplified, but I haven't
+> starting working on that. The helpers are now used for the i.MX6 IPUv3
+> only, so I will leave this exercise to anyone who would be interested in
+> destaging that driver as well.
+> 
+> Some of the items in the TODO file related to the imx7-media-csi driver
+> have been addressed. The two remaining items are frame interval monitor
+> support and restricting the list of supported formats to the SoC
+> version. The former isn't a destaging blocker in my opinion, as the
+> feature can be added later if desired (and frame interval monitoring
+> should then be moved to the V4L2 core). I believe the latter could also
+> be addressed after destaging the driver, but in any case, this is a
+> discussion for a future destaging series (which may come as soon as this
+> one is accepted).
+> 
+> Alexander, this also could greatly simplify your "[PATCH v3 0/8]
+> imx7/imx8mm media / csi patches" series.
 
+I went over all patches and I have 2 small remarks:
 
-------------------------------------------
-[...truncated 19.75 KB...]
-[115/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/v4l2_device.cpp.o
-[116/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/v4l2_pixelformat.cpp.o
-[117/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/v4l2_videodevice.cpp.o
-[118/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/v4l2_subdevice.cpp.o
-[119/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_ipu3_cio2.cpp.o
-[120/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_ipu3_imgu.cpp.o
-[121/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/yaml_parser.cpp.o
-[122/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_ipu3_frames.cpp.o
-[123/539] Generating symbol file src/libcamera/base/libcamera-base.so.0.0.0.p/libcamera-base.so.0.0.0.symbols
-[124/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_raspberrypi_dma_heaps.cpp.o
-[125/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_rkisp1_rkisp1.cpp.o
-[126/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_rkisp1_rkisp1_path.cpp.o
-[127/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_simple_converter.cpp.o
-[128/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_simple_simple.cpp.o
-[129/539] Compiling C++ object test/object-invoke.p/object-invoke.cpp.o
-[130/539] Compiling C++ object src/ipa/rkisp1/ipa_rkisp1.so.p/algorithms_agc.cpp.o
-[131/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/meson-generated_.._property_ids.cpp.o
-[132/539] Compiling C++ object src/android/libcamera-hal.so.p/camera_ops.cpp.o
-[133/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_vimc_vimc.cpp.o
-[134/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/tracepoints.cpp.o
-[135/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/device_enumerator_udev.cpp.o
-[136/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/meson-generated_.._version.cpp.o
-[137/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_dpc.cpp.o
-[138/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/meson-generated_.._ipa_pub_key.cpp.o
-[139/539] Compiling C++ object src/libcamera/proxy/worker/ipu3_ipa_proxy.p/meson-generated_.._ipu3_ipa_proxy_worker.cpp.o
-[140/539] Compiling C++ object src/libcamera/proxy/worker/rkisp1_ipa_proxy.p/meson-generated_.._rkisp1_ipa_proxy_worker.cpp.o
-[141/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_ccm.cpp.o
-[142/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_compare_neon64.cc.o
-[143/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_compare_win.cc.o
-[144/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_convert.cc.o
-[145/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_convert_argb.cc.o
-[146/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_convert_from.cc.o
-[147/539] Generating vimc_proxy_worker with a custom command
-[148/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_convert_from_argb.cc.o
-[149/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_convert_jpeg.cc.o
-[150/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_convert_to_argb.cc.o
-[151/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_convert_to_i420.cc.o
-[152/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_cpu_id.cc.o
-[153/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_mjpeg_decoder.cc.o
-[154/539] Compiling C++ object src/libcamera/proxy/worker/vimc_ipa_proxy.p/meson-generated_.._vimc_ipa_proxy_worker.cpp.o
-[155/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_mjpeg_validate.cc.o
-[156/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate_any.cc.o
-[157/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate_argb.cc.o
-[158/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate.cc.o
-[159/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate_common.cc.o
-[160/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate_gcc.cc.o
-[161/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate_mmi.cc.o
-[162/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate_msa.cc.o
-[163/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate_neon.cc.o
-[164/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate_win.cc.o
-[165/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_row_any.cc.o
-[166/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_row_common.cc.o
-[167/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/control_serializer.cpp.o
-[168/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/camera_sensor.cpp.o
-[169/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_row_msa.cc.o
-[170/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_row_gcc.cc.o
-[171/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_row_neon64.cc.o
-[172/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_row_win.cc.o
-[173/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_rotate_neon64.cc.o
-[174/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_any.cc.o
-[175/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_row_neon.cc.o
-[176/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_common.cc.o
-[177/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_gcc.cc.o
-[178/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_mmi.cc.o
-[179/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_msa.cc.o
-[180/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_argb.cc.o
-[181/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_neon64.cc.o
-[182/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale.cc.o
-[183/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_win.cc.o
-[184/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_video_common.cc.o
-[185/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_raspberrypi_rpi_stream.cpp.o
-[186/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_compare.cc.o
-[187/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_neon.cc.o
-[188/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_compare_mmi.cc.o
-[189/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_compare_common.cc.o
-[190/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_compare_neon.cc.o
-[191/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_compare_neon64.cc.o
-[192/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_row_mmi.cc.o
-[193/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_compare_win.cc.o
-[194/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_convert.cc.o
-[195/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_compare_msa.cc.o
-[196/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_convert_from.cc.o
-[197/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_compare_gcc.cc.o
-[198/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_convert_argb.cc.o
-[199/539] Compiling C++ object subprojects/libyuv/libcm_yuv.a.p/source_scale_uv.cc.o
-[200/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_convert_from_argb.cc.o
-[201/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_convert_to_argb.cc.o
-[202/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_convert_jpeg.cc.o
-[203/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_mjpeg_validate.cc.o
-[204/539] Linking static target subprojects/libyuv/libcm_yuv.a
-[205/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_cpu_id.cc.o
-[206/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_convert_to_i420.cc.o
-[207/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate_argb.cc.o
-[208/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate_any.cc.o
-[209/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_mjpeg_decoder.cc.o
-[210/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate_gcc.cc.o
-[211/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate_msa.cc.o
-[212/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate_mmi.cc.o
-[213/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_planar_functions.cc.o
-[214/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate_common.cc.o
-[215/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate_neon64.cc.o
-[216/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_row_common.cc.o
-[217/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate_neon.cc.o
-[218/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate.cc.o
-[219/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_row_gcc.cc.o
-[220/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_row_msa.cc.o
-[221/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_row_neon.cc.o
-[222/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_row_mmi.cc.o
-[223/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_row_neon64.cc.o
-[224/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_row_win.cc.o
-[225/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_argb.cc.o
-[226/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_common.cc.o
-[227/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale.cc.o
-[228/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_gcc.cc.o
-[229/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_rotate_win.cc.o
-[230/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_msa.cc.o
-[231/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_row_any.cc.o
-[232/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_any.cc.o
-[233/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_neon64.cc.o
-[234/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_neon.cc.o
-[235/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_uv.cc.o
-[236/539] Compiling C object src/android/libcamera_metadata.a.p/metadata_camera_metadata.c.o
-[237/539] Linking static target src/android/libcamera_metadata.a
-[238/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_win.cc.o
-[239/539] Compiling C++ object src/android/libcamera-hal.so.p/camera3_hal.cpp.o
-[240/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_scale_mmi.cc.o
-[241/539] Compiling C++ object subprojects/libyuv/libcm_yuv_shared.so.p/source_video_common.cc.o
-[242/539] Compiling C++ object src/android/libcamera-hal.so.p/camera_hal_config.cpp.o
-[243/539] Compiling C++ object src/android/libcamera-hal.so.p/camera_metadata.cpp.o
-[244/539] Compiling C++ object test/event-thread.p/event-thread.cpp.o
-[245/539] Linking target subprojects/libyuv/libcm_yuv_shared.so
-[246/539] Compiling C++ object src/android/libcamera-hal.so.p/camera_request.cpp.o
-[247/539] Compiling C++ object src/android/libcamera-hal.so.p/camera_stream.cpp.o
-[248/539] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_exif.cpp.o
-[249/539] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_post_processor_jpeg.cpp.o
-[250/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/meson-generated_.._proxy_raspberrypi_ipa_proxy.cpp.o
-[251/539] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_encoder_libjpeg.cpp.o
-[252/539] Compiling C++ object src/android/libcamera-hal.so.p/yuv_post_processor_yuv.cpp.o
-[253/539] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_thumbnailer.cpp.o
-[254/539] Compiling C++ object src/android/libcamera-hal.so.p/mm_generic_camera_buffer.cpp.o
-[255/539] Compiling C++ object src/ipa/libipa/libipa.a.p/camera_sensor_helper.cpp.o
-[256/539] Compiling C++ object src/android/libcamera-hal.so.p/mm_generic_frame_buffer_allocator.cpp.o
-[257/539] Compiling C++ object src/ipa/libipa/libipa.a.p/libipa.cpp.o
-[258/539] Compiling C++ object src/ipa/libipa/libipa.a.p/histogram.cpp.o
-[259/539] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/ipa_context.cpp.o
-[260/539] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/ipu3.cpp.o
-[261/539] Linking static target src/ipa/libipa/libipa.a
-[262/539] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_af.cpp.o
-[263/539] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_awb.cpp.o
-[264/539] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_agc.cpp.o
-[265/539] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_tone_mapping.cpp.o
-[266/539] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_blc.cpp.o
-[267/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper.cpp.o
-[268/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/md_parser_smia.cpp.o
-[269/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_ov5647.cpp.o
-[270/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_imx219.cpp.o
-[271/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_imx290.cpp.o
-[272/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_imx296.cpp.o
-[273/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_imx477.cpp.o
-[274/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_uvcvideo_uvcvideo.cpp.o
-[275/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_ov9281.cpp.o
-[276/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_histogram.cpp.o
-[277/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_algorithm.cpp.o
-[278/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_controller.cpp.o
-In file included from /usr/include/boost/bind.hpp:30,
-                 from /usr/include/boost/property_tree/json_parser/detail/parser.hpp:7,
-                 from /usr/include/boost/property_tree/json_parser/detail/read.hpp:13,
-                 from /usr/include/boost/property_tree/json_parser.hpp:16,
-                 from ../src/ipa/raspberrypi/controller/controller.cpp:13:
-/usr/include/boost/bind.hpp:36:1: note: ‘#pragma message: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.’
-   36 | BOOST_PRAGMA_MESSAGE(
-      | ^~~~~~~~~~~~~~~~~~~~
-[279/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_awb.cpp.o
-[280/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_alsc.cpp.o
-[281/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_sharpen.cpp.o
-[282/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_black_level.cpp.o
-[283/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_focus.cpp.o
-[284/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_geq.cpp.o
-[285/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_noise.cpp.o
-[286/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_imx519.cpp.o
-[287/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_agc.cpp.o
-[288/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_contrast.cpp.o
-[289/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_lux.cpp.o
-[290/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_sdn.cpp.o
-[291/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_pwl.cpp.o
-[292/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_device_status.cpp.o
-[293/539] Compiling C++ object src/ipa/rkisp1/ipa_rkisp1.so.p/ipa_context.cpp.o
-[294/539] Compiling C++ object src/ipa/rkisp1/ipa_rkisp1.so.p/algorithms_awb.cpp.o
-[295/539] Compiling C++ object test/pixel-format.p/pixel-format.cpp.o
-[296/539] Compiling C++ object src/ipa/rkisp1/ipa_rkisp1.so.p/rkisp1.cpp.o
-[297/539] Compiling C++ object test/shared-fd.p/shared-fd.cpp.o
-[298/539] Compiling C++ object src/ipa/vimc/ipa_vimc.so.p/vimc.cpp.o
-[299/539] Compiling C++ object src/lc-compliance/lc-compliance.p/.._cam_options.cpp.o
-[300/539] Compiling C++ object src/lc-compliance/lc-compliance.p/.._cam_event_loop.cpp.o
-[301/539] Compiling C++ object src/libcamera/proxy/worker/raspberrypi_ipa_proxy.p/meson-generated_.._raspberrypi_ipa_proxy_worker.cpp.o
-[302/539] Compiling C++ object src/ipa/rkisp1/ipa_rkisp1.so.p/algorithms_blc.cpp.o
-[303/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_ipu3_ipu3.cpp.o
-[304/539] Compiling C++ object src/lc-compliance/lc-compliance.p/.._.._subprojects_googletest-release-1.11.0_googletest_src_gtest-all.cc.o
-[305/539] Compiling C++ object src/android/libcamera-hal.so.p/camera_hal_manager.cpp.o
-[306/539] Compiling C++ object src/cam/cam.p/event_loop.cpp.o
-[307/539] Compiling C++ object src/cam/cam.p/file_sink.cpp.o
-[308/539] Compiling C++ object src/cam/cam.p/frame_sink.cpp.o
-[309/539] Compiling C++ object src/cam/cam.p/image.cpp.o
-[310/539] Compiling C++ object src/lc-compliance/lc-compliance.p/environment.cpp.o
-[311/539] Compiling C++ object src/cam/cam.p/options.cpp.o
-[312/539] Compiling C++ object src/cam/cam.p/stream_options.cpp.o
-[313/539] Generating qt5-feathericons_qrc with a custom command
-[314/539] Generating qt5-shaders_qrc with a custom command
-[315/539] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/pipeline_raspberrypi_raspberrypi.cpp.o
-[316/539] Generating 'src/qcam/qcam.p/moc_main_window.cpp'.
-[317/539] Generating 'src/qcam/qcam.p/moc_viewfinder_qt.cpp'.
-[318/539] Generating 'src/qcam/qcam.p/moc_viewfinder_gl.cpp'.
-[319/539] Compiling C++ object src/qcam/qcam.p/meson-generated_.._qt5-feathericons_qrc.cpp.o
-[320/539] Compiling C++ object src/android/libcamera-hal.so.p/camera_device.cpp.o
-[321/539] Compiling C++ object src/qcam/qcam.p/meson-generated_.._qt5-shaders_qrc.cpp.o
-[322/539] Compiling C++ object src/qcam/qcam.p/meson-generated_moc_main_window.cpp.o
-[323/539] Compiling C++ object src/qcam/qcam.p/meson-generated_moc_viewfinder_qt.cpp.o
-[324/539] Compiling C++ object src/qcam/qcam.p/meson-generated_moc_viewfinder_gl.cpp.o
-[325/539] Compiling C++ object src/qcam/qcam.p/.._cam_image.cpp.o
-[326/539] Compiling C++ object src/qcam/qcam.p/.._cam_stream_options.cpp.o
-[327/539] Compiling C++ object src/qcam/qcam.p/.._cam_options.cpp.o
-[328/539] Compiling C++ object src/qcam/qcam.p/format_converter.cpp.o
-[329/539] Compiling C++ object src/qcam/qcam.p/main.cpp.o
-[330/539] Compiling C++ object src/qcam/qcam.p/main_window.cpp.o
-[331/539] Compiling C++ object src/qcam/qcam.p/message_handler.cpp.o
-[332/539] Compiling C++ object src/qcam/qcam.p/viewfinder_qt.cpp.o
-[333/539] Compiling C++ object src/qcam/qcam.p/viewfinder_gl.cpp.o
-[334/539] Compiling C++ object src/android/libcamera-hal.so.p/camera_capabilities.cpp.o
-[335/539] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera-utils.cpp.o
-[336/539] Compiling C++ object src/lc-compliance/lc-compliance.p/main.cpp.o
-[337/539] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapad.cpp.o
-[338/539] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera.cpp.o
-[339/539] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraallocator.cpp.o
-[340/539] Compiling C++ object src/lc-compliance/lc-compliance.p/simple_capture.cpp.o
-[341/539] Generating py_gen_controls with a custom command
-FAILED: src/py/libcamera/pyenums_generated.cpp 
-gen-py-control-enums.py -o src/py/libcamera/pyenums_generated.cpp <https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/control_ids.yaml> ../src/py/libcamera/pyenums_generated.cpp.in
-/bin/sh: 1: gen-py-control-enums.py: not found
-[342/539] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapool.cpp.o
-[343/539] Compiling C++ object src/cam/cam.p/main.cpp.o
-[344/539] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerasrc.cpp.o
-[345/539] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraprovider.cpp.o
-[346/539] Compiling C++ object src/cam/cam.p/camera_session.cpp.o
-[347/539] Linking target src/libcamera/libcamera.so.0.0.0
-[348/539] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/raspberrypi.cpp.o
-[349/539] Compiling C++ object src/qcam/qcam.p/dng_writer.cpp.o
-[350/539] Compiling C++ object src/lc-compliance/lc-compliance.p/capture_test.cpp.o
-ninja: build stopped: subcommand failed.
-Build step 'Execute shell' marked build as failure
+1. Shouldn't we change the connection between imx-media objects and
+   imx7-csi also in kconfig? Since at the end of this series they are
+   completely independent. Yeah, it can be done in a follow up
+   patch on the unstaging, for me that's fine also.
+
+2. Something that caught my eye on patch 2/50. But nothing functional.
+
+Once again many thanks for continuing investing in this code.
+for the all series (except patch 2/50):
+
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+
+Cheers,
+     Rui
+> 
+> Laurent Pinchart (48):
+>   staging: media: imx: imx7-media-csi: Initialize locks early on
+>   staging: media: imx: imx7-media-csi: Split imx_media_dev from probe()
+>   staging: media: imx: imx7-media-csi: Import notifier helpers
+>   staging: media: imx: imx7-media-csi: Drop duplicate link creation
+>   staging: media: imx: imx7-media-csi: Drop the imx_media notifier
+>   staging: media: imx: imx7-media-csi: Don't populate vdev lists
+>   staging: media: imx: imx7-media-csi: Drop unused frame_interval
+>   staging: media: imx: imx7-media-csi: Move format init to probe time
+>   staging: media: imx: imx7-media-csi: Import video device helpers
+>   staging: media: imx: imx7-media-csi: Drop legacy video device support
+>   staging: media: imx: imx7-media-csi: Drop unused controls support
+>   staging: media: imx: imx7-media-csi: Reorganize imx7_csi structure
+>   staging: media: imx: imx7-media-csi: Fold capture_priv into imx7_csi
+>   staging: media: imx: imx7-media-csi: Ensure consistent function prefix
+>   staging: media: imx: imx7-media-csi: Don't set subdev group id
+>   staging: media: imx: imx7-media-csi: Import imx_media_dev_init()
+>     helper
+>   staging: media: imx: imx7-media-csi: Embed imx_media_dev in imx7_csi
+>   staging: media: imx: imx7-media-csi: Drop imx_media_add_video_device
+>     call
+>   staging: media: imx: imx7-media-csi: Don't initialize unused fields
+>   staging: media: imx: imx7-media-csi: Inline imx_media_pipeline_pad()
+>   staging: media: imx: imx7-media-csi: Import
+>     imx_media_pipeline_set_stream()
+>   staging: media: imx: imx7-media-csi: Avoid unnecessary casts
+>   staging: media: imx: imx7-media-csi: Inline pipeline start/stop
+>   staging: media: imx: imx7-media-csi: Fold imx_media_dev into imx7_csi
+>   staging: media: imx: imx7-media-csi: Decouple from imx_media_buffer
+>   staging: media: imx: imx7-media-csi: Fold imx_media_video_dev into
+>     imx7_csi
+>   staging: media: imx: imx7-media-csi: Store imx7_csi in drv data
+>   staging: media: imx: imx7-media-csi: Decouple from imx_media_dma_buf
+>   staging: media: imx: imx7-media-csi: Decouple from shared macros
+>   staging: media: imx: imx7-media-csi: Drop error message on alloc
+>     failure
+>   staging: media: imx: imx7-media-csi: Import format helpers
+>   staging: media: imx: imx7-media-csi: Replace ipu_color_space with bool
+>     yuv field
+>   staging: media: imx: imx7-media-csi: Drop IC support from
+>     imx7_csi_try_colorimetry()
+>   staging: media: imx: imx7-media-csi: Drop IPU-only formats
+>   staging: media: imx: imx7-media-csi: Drop unsupported YUV and RGB
+>     formats
+>   staging: media: imx: imx7-media-csi: Make default formats consistent
+>   staging: media: imx: imx7-media-csi: Define macro for default mbus
+>     code
+>   staging: media: imx: imx7-media-csi: Simplify default mbus code in
+>     try_fmt
+>   staging: media: imx: imx7-media-csi: Drop YUV/RGB/BAYER format
+>     selectors
+>   staging: media: imx: imx7-media-csi: Drop unneeded imx7_csi_pixfmt
+>     fields
+>   staging: media: imx: imx7-media-csi: Inline imx7_csi_init_mbus_fmt()
+>   staging: media: imx: imx7-media-csi: Simplify default format in
+>     try_fmt
+>   staging: media: imx: imx7-media-csi: Fix list of supported formats
+>   staging: media: imx: imx7-media-csi: Add V4L2_PIX_FMT_Y14 support
+>   staging: media: imx: imx7-media-csi: Drop unneeded pixel format
+>     validation
+>   staging: media: imx: imx7-media-csi: Inline
+>     imx7_csi_enum_pixel_formats()
+>   staging: media: imx: imx7-media-csi: Drop V4L2 events support
+>   staging: media: imx: imx7-media-csi: Drop usage of shared helpers
+> 
+> Paul Elder (2):
+>   staging: media: imx: imx7-media-csi: Move misc init out of probe()
+>   staging: media: imx: imx7-media-csi: Remove imx_media_of_add_csi
+> 
+>  drivers/staging/media/imx/imx7-media-csi.c | 1370 +++++++++++++++++---
+>  1 file changed, 1172 insertions(+), 198 deletions(-)
+> 
+> 
+> base-commit: c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
