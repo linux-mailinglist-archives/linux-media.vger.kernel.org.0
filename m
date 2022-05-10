@@ -2,124 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A61A521E68
-	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 17:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AF09521EA5
+	for <lists+linux-media@lfdr.de>; Tue, 10 May 2022 17:29:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243530AbiEJP2I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 May 2022 11:28:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34042 "EHLO
+        id S1345576AbiEJPdT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 May 2022 11:33:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346009AbiEJP04 (ORCPT
+        with ESMTP id S1345705AbiEJPc5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 May 2022 11:26:56 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 736A9201397
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 08:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652195670; x=1683731670;
-  h=from:to:cc:subject:date:message-id;
-  bh=zacHfELBlZkrrzuQmofo7PR9nJCExga8KfgAflcSDec=;
-  b=buEvSeAN2vWL/aglLXmedxQfC1CSfHaEJiS9+Mo5QEBqv9Bb/ZBtSdQA
-   UDVAaYiWEjeRhlRxwDM4AGn8H7GAnK6sPBEgznWy0vLPIRG2tafHL69Hd
-   Eb+dht6wsz19vW75m/K5SBsJt+GRknEem90MOxW68F+wPRn/Ad5Zhjo5n
-   lveGzda1MqUkAPOwriJPQhRaYb1Ll8o+F7+F3H6aGGQSDZW24H/LfDSyW
-   +xJKjcxmDnT+M3ZTDeZ4jbaq6aOCcA8GDAJyg3Dt1EFtcly0nrVNkz9p+
-   dFTmSxyHMS7Ixp486zY2dZ7mw/2qRd1Q3VRWk+xHkhGXwadahfgWaHoc7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="269339789"
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; 
-   d="scan'208";a="269339789"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 08:14:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; 
-   d="scan'208";a="519801334"
-Received: from jimmy-x299-aorus-gaming-7.itwn.intel.com ([10.5.253.29])
-  by orsmga003.jf.intel.com with ESMTP; 10 May 2022 08:14:28 -0700
-From:   Jimmy Su <jimmy.su@intel.com>
+        Tue, 10 May 2022 11:32:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4743F79809
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 08:25:30 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DB5EB60;
+        Tue, 10 May 2022 17:25:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1652196328;
+        bh=3z38PR6KbUx9EXbjyILJZX6N6y69xADV3INHv2JzQGA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=lR+9zwNBiEKgNNdn3Znz0UWsPOnuNJ/rp7am5KbmoDk+fnzaNGGGqXVk0UttJIelD
+         fMKIAFjPOXJ0rkeHUlEMATDsrUOhMWUQ6H0hF/QvW+kJN2IZVH71U52D/eaQW3vlqp
+         vqpvaRZLQSEfrvLf/R+BYv4SArV8fenzqCSuLyok=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, andy.yeh@intel.com,
-        jimmy.su@intel.com, yhuang@ovt.com, akeem.chen@ovt.com
-Subject: [PATCH v2] UPSTREAM: media: ov8856: skip OTP read in non-zero ACPI D state
-Date:   Tue, 10 May 2022 23:12:41 +0800
-Message-Id: <20220510151241.12435-1-jimmy.su@intel.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        kernel@pengutronix.de
+Subject: [PATCH v1.1 02/50] staging: media: imx: imx7-media-csi: Split imx_media_dev from probe()
+Date:   Tue, 10 May 2022 18:25:18 +0300
+Message-Id: <20220510152518.4063-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220510115859.19777-3-laurent.pinchart@ideasonboard.com>
+References: <20220510115859.19777-3-laurent.pinchart@ideasonboard.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To skip OTP read function while enable non-zero ACPI D state.
-This OTP read only influences streaming output with 3280x2464 &
-1640x1232 resolution.
+Prepare for the decoupling of the imx7-media-csi driver from the
+IPUv3-based drivers by moving the imx_media_dev handling from probe()
+function to separate functions.
 
-Signed-off-by: Jimmy Su <jimmy.su@intel.com>
-Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov8856.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+Changes since v1:
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index 8785764b7a74..f1bb7d882183 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -1448,6 +1448,9 @@ struct ov8856 {
- 
- 	/* True if the device has been identified */
- 	bool identified;
-+
-+	/* True for skipping otp read */
-+	bool acpi_skip_otp;
- };
- 
- struct ov8856_lane_cfg {
-@@ -1692,7 +1695,7 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
- 	int ret;
--	u32 val;
-+	u32 val, width;
- 
- 	if (ov8856->identified)
- 		return 0;
-@@ -1708,6 +1711,10 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
- 		return -ENXIO;
- 	}
- 
-+	width = ov8856->cur_mode->width;
-+	if (ov8856->acpi_skip_otp & ((width == 3280) | (width == 1640)))
-+		goto otp_skip;
-+
- 	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
- 			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
- 	if (ret)
-@@ -1750,6 +1757,11 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
- 
- 	ov8856->identified = true;
- 
-+	return 0;
-+
-+otp_skip:
-+	ov8856->identified = true;
-+
- 	return 0;
+- Set csi->imxmd earlier in imx7_csi_media_init()
+- Unregister and cleanup notifier in imx7_csi_media_cleanup()
+---
+ drivers/staging/media/imx/imx7-media-csi.c | 74 +++++++++++++---------
+ 1 file changed, 45 insertions(+), 29 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index 893620e8fc03..3246a5826cb2 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -1175,11 +1175,48 @@ static int imx7_csi_async_register(struct imx7_csi *csi)
+ 	return v4l2_async_register_subdev(&csi->sd);
  }
  
-@@ -2499,6 +2511,8 @@ static int ov8856_probe(struct i2c_client *client)
- 			dev_err(&client->dev, "failed to find sensor: %d", ret);
- 			goto probe_power_off;
- 		}
-+	} else {
-+		ov8856->acpi_skip_otp = true;
++static void imx7_csi_media_cleanup(struct imx7_csi *csi)
++{
++	struct imx_media_dev *imxmd = csi->imxmd;
++
++	v4l2_async_nf_unregister(&imxmd->notifier);
++	v4l2_async_nf_cleanup(&imxmd->notifier);
++
++	v4l2_device_unregister(&imxmd->v4l2_dev);
++	media_device_unregister(&imxmd->md);
++	media_device_cleanup(&imxmd->md);
++}
++
++static int imx7_csi_media_init(struct imx7_csi *csi)
++{
++	struct imx_media_dev *imxmd;
++	int ret;
++
++	/* add media device */
++	imxmd = imx_media_dev_init(csi->dev, NULL);
++	if (IS_ERR(imxmd))
++		return PTR_ERR(imxmd);
++
++	csi->imxmd = imxmd;
++
++	ret = imx_media_of_add_csi(imxmd, csi->dev->of_node);
++	if (ret < 0 && ret != -ENODEV && ret != -EEXIST) {
++		imx7_csi_media_cleanup(csi);
++		return ret;
++	}
++
++	ret = imx_media_dev_notifier_register(imxmd, NULL);
++	if (ret < 0) {
++		imx7_csi_media_cleanup(csi);
++		return ret;
++	}
++
++	return 0;
++}
++
+ static int imx7_csi_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+-	struct device_node *node = dev->of_node;
+-	struct imx_media_dev *imxmd;
+ 	struct imx7_csi *csi;
+ 	int i, ret;
+ 
+@@ -1193,6 +1230,7 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 	spin_lock_init(&csi->irqlock);
+ 	mutex_init(&csi->lock);
+ 
++	/* Acquire resources and install interrupt handler. */
+ 	csi->mclk = devm_clk_get(&pdev->dev, "mclk");
+ 	if (IS_ERR(csi->mclk)) {
+ 		ret = PTR_ERR(csi->mclk);
+@@ -1214,7 +1252,6 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 
+ 	csi->model = (enum imx_csi_model)(uintptr_t)of_device_get_match_data(&pdev->dev);
+ 
+-	/* install interrupt handler */
+ 	ret = devm_request_irq(dev, csi->irq, imx7_csi_irq_handler, 0, "csi",
+ 			       (void *)csi);
+ 	if (ret < 0) {
+@@ -1222,22 +1259,11 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 		goto destroy_mutex;
  	}
  
- 	mutex_init(&ov8856->mutex);
+-	/* add media device */
+-	imxmd = imx_media_dev_init(dev, NULL);
+-	if (IS_ERR(imxmd)) {
+-		ret = PTR_ERR(imxmd);
++	/* Initialize all the media device infrastructure. */
++	ret = imx7_csi_media_init(csi);
++	if (ret)
+ 		goto destroy_mutex;
+-	}
+ 
+-	ret = imx_media_of_add_csi(imxmd, node);
+-	if (ret < 0 && ret != -ENODEV && ret != -EEXIST)
+-		goto cleanup;
+-
+-	ret = imx_media_dev_notifier_register(imxmd, NULL);
+-	if (ret < 0)
+-		goto cleanup;
+-
+-	csi->imxmd = imxmd;
+ 	v4l2_subdev_init(&csi->sd, &imx7_csi_subdev_ops);
+ 	v4l2_set_subdevdata(&csi->sd, csi);
+ 	csi->sd.internal_ops = &imx7_csi_internal_ops;
+@@ -1269,11 +1295,7 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 	v4l2_async_nf_cleanup(&csi->notifier);
+ 
+ cleanup:
+-	v4l2_async_nf_unregister(&imxmd->notifier);
+-	v4l2_async_nf_cleanup(&imxmd->notifier);
+-	v4l2_device_unregister(&imxmd->v4l2_dev);
+-	media_device_unregister(&imxmd->md);
+-	media_device_cleanup(&imxmd->md);
++	imx7_csi_media_cleanup(csi);
+ 
+ destroy_mutex:
+ 	mutex_destroy(&csi->lock);
+@@ -1285,14 +1307,8 @@ static int imx7_csi_remove(struct platform_device *pdev)
+ {
+ 	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
+ 	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
+-	struct imx_media_dev *imxmd = csi->imxmd;
+ 
+-	v4l2_async_nf_unregister(&imxmd->notifier);
+-	v4l2_async_nf_cleanup(&imxmd->notifier);
+-
+-	media_device_unregister(&imxmd->md);
+-	v4l2_device_unregister(&imxmd->v4l2_dev);
+-	media_device_cleanup(&imxmd->md);
++	imx7_csi_media_cleanup(csi);
+ 
+ 	v4l2_async_nf_unregister(&csi->notifier);
+ 	v4l2_async_nf_cleanup(&csi->notifier);
 -- 
-2.17.1
+Regards,
+
+Laurent Pinchart
 
