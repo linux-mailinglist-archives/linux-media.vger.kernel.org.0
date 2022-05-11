@@ -2,149 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E4AA522ABF
-	for <lists+linux-media@lfdr.de>; Wed, 11 May 2022 06:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3F54522B4D
+	for <lists+linux-media@lfdr.de>; Wed, 11 May 2022 06:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbiEKEQm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 May 2022 00:16:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49284 "EHLO
+        id S242034AbiEKEkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 May 2022 00:40:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbiEKEQi (ORCPT
+        with ESMTP id S239271AbiEKEkH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 May 2022 00:16:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A097D2CDE5
-        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 21:16:33 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B1C17824;
-        Wed, 11 May 2022 06:16:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1652242590;
-        bh=qTzgAsXVwdfyLbCBPOSywNqljxuM4ol/gkTeaMRJp98=;
-        h=In-Reply-To:References:Subject:From:To:Date:From;
-        b=rmjdJAhCcU4DhvLocId+tz/8tLheNh4wFc4TZrhPDbLmzrX/yWA9OlJh7Oenw6sUV
-         Lc764HP0JSa9mfd2l45ECVnUZjLMB4VqlZbBXz8b6+9M3cmYzB2I8jQhPwjFMZ7824
-         KTYu76665TuJjw8UIvtGO9J6V5yeQm2t+2oDuT7M=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 11 May 2022 00:40:07 -0400
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79CC814C76F
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 21:39:24 -0700 (PDT)
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-d39f741ba0so1435089fac.13
+        for <linux-media@vger.kernel.org>; Tue, 10 May 2022 21:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=nrkBIDyCffFbQz5WNhQU88q5l+bx8m1CoLNL/nRcxBFZRgp3B2RwRJzpJi69hjmFPQ
+         Eotn36CVTQor8sTwq84btYhQQ+OsypTpYdHIfGkC/Ekjg8a9U0HkQq0T/gbcQg5/if4Y
+         i1yzcJYhTRMm8ny1NIiOYUNRazrfloxlCC/1XVxW2+TG0ItQpx2/G3cXjgMuOALgO1Rc
+         auxKHXwS3ghK6vFFIfR8essc70JXfRi2oIpi3YT/VLqISCMTaVWCOI/Xf0rWfpfTmlnw
+         XgqCFC8jOuHD5AjsEtox3h0b9tzcHlVM0fA1RrJyDFubK9aS707t1BYf/K43qSc4slo4
+         wrQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=X7hvVadMflSE+qVznLaRAZOkaYrlEQChg9k0JpdHGkT6qXiwORGs9OAnLcde68m0zw
+         1p9u8RIEF/peE9SAe7dk+4wWJ5jWCqAJ//jY1jLCEyqdAnq4D87iHZkuKeNm2txe02zX
+         KAQbL9Dmiv1xtAqXOLL1bxRAxyPP3IH3FYmh3+eRsUFnVSl+Jmi98mZf4uttZWWIlmmi
+         OdNnD5aTKFSwLqPIQatD2HXdpVtsCLkTRbR9c1DWZwqrZ+m591Eqr600PRlKtCadJcv3
+         kw89akjpgYJx1tJOK7SY4OnC/gO1Vgn03IqnzTSQci2Dx0Vw7zyHNrBp2+sGquhEpgWe
+         enQg==
+X-Gm-Message-State: AOAM530Evb+tKKU5caA9ZUJHgAk0+4O7UVRehF17bAbav2XbJrAIyh3b
+        AdVlML8AGPkqNaDNJr6xQ+42F3fVqMat3h81CZeJ3aaU/X+zmw==
+X-Google-Smtp-Source: ABdhPJwbKHmbnZDflMHBZCcp2YbZAAZvFdPcM4owWeuPIkoxodmwIZJ+Xpgi08ylB1RFXLrw63SQRxJzumbwJKMTxhs=
+X-Received: by 2002:a17:90b:1007:b0:1dc:9862:68af with SMTP id
+ gm7-20020a17090b100700b001dc986268afmr3261389pjb.205.1652243951499; Tue, 10
+ May 2022 21:39:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <4048baf9-2a4a-8f8e-5457-16bf06868597@beam.ltd.uk>
-References: <908eb507-677c-359e-154b-da3a7147af0d@beam.ltd.uk> <165219680369.2416244.9210617082672091187@Monstersaurus> <4048baf9-2a4a-8f8e-5457-16bf06868597@beam.ltd.uk>
-Subject: Re: Video4Linux: Call an I2C subdev function to start a stream after a CSI2 driver has been started
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Terry Barnaby <terry1@beam.ltd.uk>, linux-media@vger.kernel.org
-Date:   Wed, 11 May 2022 05:16:28 +0100
-Message-ID: <165224258874.1217485.3967333726403014856@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:39:10
+ -0700 (PDT)
+From:   Private Mail <privatemail1961@gmail.com>
+Date:   Tue, 10 May 2022 21:39:10 -0700
+Message-ID: <CANjAOAiiVcSrSv31FjThCVmeppS54UVvGVj3SRSvMfxOB+T8DA@mail.gmail.com>
+Subject: Have you had this? It is for your Benefit
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
+        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
         version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Terry,
+Our Ref: BG/WA0151/2022
 
-Quoting Terry Barnaby (2022-05-10 17:01:28)
-> On 10/05/2022 16:33, Kieran Bingham wrote:
-> > Hi Terry,
-> >
-> > Quoting Terry Barnaby (2022-05-10 14:35:38)
-> >> Hi,
-> >>
-> >> We are working on a system that uses a NXP IMX8MP SOC with a TP2855
-> >> analogue video front end chip that can capture 1920x1080p25 or PAL
-> >> 720x576i25 analogue video streams which is generally working using
-> >> gstreamer as the higher level software driving this.
-> >>
-> >> We have an intermittent video stream start up problem which we believe
-> >> is down to:
-> >>
-> >> 1. The TP2855 is initialised first and its subdev *_s_stream() call is
-> >> called to start the video input.
-> >>
-> >> 2. The NXP CSI2 video input hardware is then started:
-> >> imx8-mipi-csi2-sam.c: mipi_csis_s_stream().
-> > I don't think I can see this file in the latest linux sources. Are you
-> > working on an out of tree BSP driver supported by a vendor?
-> >
-> > If so - you might be able to contact them directly for support, but if
-> > we don't have the source code it can be hard to support your issue.
-> >
-> > --
-> > Regards
-> >
-> > Kieran
->=20
-> Sorry, top posted in previous email (all different groups methods). I=20
-> have repeated my response here.
->=20
-> Hi Kiera,
->=20
-> Thanks for you response. Yes its from the NXP Yocto distribution with=20
-> kernel at: git://source.codeaurora.org/external/imx/linux-imx.git
->=20
-> But I wasn't after specific information/help with this platform, I was=20
-> really trying to find out if there is a mechanism within the=20
-> mainline/standard Video4Linux kernel API's such that a video front end=20
-> subdev can get some function called once the video pipeline has been=20
-> setup ie. All hardware modules configured and ready to run a video stream.
->=20
-> For example there is the s_stream() function pointer in=20
-> v4l2_subdev_video_ops, but that function is called before the later (in=20
-> pipeline) CSI2 module is started and I need a function to be called=20
-> after all of the pipelines hardware has been initialised to get around=20
-> this hardware feature/issue.
+Dear Beneficiary
 
-There's quite a distinction between 'ready to run a stream' ... and
-'running a stream', and your description below references actions that
-occur in out of tree drivers, so it's not possible to get a clear
-picture here of what is really happening without extending support to an
-out of tree vendor driver.
+Subject: An Estate of US$15.8 Million
 
-The v4l2_async_notifier framework allows hooks that know when the
-pipeline is 'ready to run a stream' if I understand your statements
-correctly, but the mention of s_stream() makes me wonder if you're
-trying to do something /after/ you have started the stream.
+Blount and Griffin Genealogical Investigators specializes in probate
+research to locate missing heirs and beneficiaries to estates in the
+United Kingdom and Europe.
 
---
-Kieran
+We can also help you find wills, obtain copies of certificates, help
+you to administer an estate, as well as calculating how an estate,
+intestacy or trust should be distributed.
 
+You may be entitled to a large pay out for an inheritance in Europe
+worth US$15.8 million. We have discovered an estate belonging to the
+late Depositor has remained unclaimed since he died in 2011 and we
+have strong reasons to believe you are the closest living relative to
+the deceased we can find.
 
+You may unknowingly be the heir of this person who died without
+leaving a will (intestate). We will conduct a probate research to
+prove your entitlement, and can submit a claim on your behalf all at
+no risk to yourselves.
 
->=20
-> Terry
->=20
-> >
-> >
-> >> 3. The TP2855 enables the CSI2 clock after its *_s_stream() call,
-> >> probably in hardware after its PLL's have locked, by sending a CSI2
-> >> start sequence on the CSI2 clock pair. This clock is then a continuous
-> >> clock ie. it does not go into low power mode during horizontal/vertical
-> >> blanking.
-> >>
-> >> 4. The NXP CSI2 video input hardware, based on some Samsung IP, does n=
-ot
-> >> see the CSI2 clock unless it sees the CSI2 start sequence and depending
-> >> on timings it may not see this at video pipeline startup and we get not
-> >> video stream from the CSI2 hardware.
-> >>
-> >> I was hoping the subdev *_s_stream() call would be after all of the
-> >> hardware's pipeline was setup so I could instigate a CSI2 clock restart
-> >> in the TP2855 driver, but unfortunately this is called before the CSI2
-> >> hardware is setup.
-> >>
-> >> I can add a one shot timer to do this in the TP2855 subdev *_s_stream()
-> >> call, but obviously this is not ideal. Is there anyway to get a subdev
-> >> function called in the video4linux API automatically once all of the
-> >> video streams hardware is setup ?
-> >>
-> >> Any ideas/recommendations ?
-> >>
-> >> Terry
-> >>
-> >>
->
+Our service fee of 10% will be paid to us after you have received the estate.
+
+The estate transfer process should take just a matter of days as we
+have the mechanism and expertise to get this done very quickly. This
+message may come to you as a shock, however we hope to work with you
+to transfer the estate to you as quickly as possible.
+
+Feel free to email our senior case worker Mr. Malcolm Casey on email:
+malcolmcasey68@yahoo.com for further discussions.
+
+With warm regards,
+
+Mr. Blount W. Gort, CEO.
+Blount and Griffin Associates Inc
