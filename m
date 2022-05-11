@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25AF5522CE2
-	for <lists+linux-media@lfdr.de>; Wed, 11 May 2022 09:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C4FE522D7F
+	for <lists+linux-media@lfdr.de>; Wed, 11 May 2022 09:39:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234682AbiEKHKv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 May 2022 03:10:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54176 "EHLO
+        id S231521AbiEKHjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 May 2022 03:39:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230164AbiEKHKu (ORCPT
+        with ESMTP id S229579AbiEKHjQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 May 2022 03:10:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D33A1AD9C
-        for <linux-media@vger.kernel.org>; Wed, 11 May 2022 00:10:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CAE166175E
-        for <linux-media@vger.kernel.org>; Wed, 11 May 2022 07:10:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E10E7C385A7
-        for <linux-media@vger.kernel.org>; Wed, 11 May 2022 07:10:44 +0000 (UTC)
-Message-ID: <334ab2d5-7de3-b596-077a-26c21b96650c@xs4all.nl>
-Date:   Wed, 11 May 2022 09:10:42 +0200
+        Wed, 11 May 2022 03:39:16 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1B2D224A40
+        for <linux-media@vger.kernel.org>; Wed, 11 May 2022 00:39:14 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nogwD-006RH3-4G; Wed, 11 May 2022 07:39:13 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nogw9-001wug-6v; Wed, 11 May 2022 07:39:10 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.19] Various CEC fixes for 5.19 (#83098)
+Date:   Wed, 11 May 2022 07:39:09 +0000
+Message-Id: <20220511073909.464744-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <334ab2d5-7de3-b596-077a-26c21b96650c@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.19] Various CEC fixes for 5.19
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -43,32 +45,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit be938c70e292731f81226917fc214683e66da577:
+From: builder@linuxtv.org
 
-  media: uvcvideo: Add UVC_GUID_FORMAT_H265 (2022-05-08 07:10:51 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/334ab2d5-7de3-b596-077a-26c21b96650c@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/206638/
+Build time: 00:21:01
+Link: https://lore.kernel.org/linux-media/334ab2d5-7de3-b596-077a-26c21b96650c@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Wed 11 May 2022 07:09:10 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Can't check signature: No public key
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.19i
+Summary: got 2/7 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to f2c6c22d5970b82c47e95352a0980dde34431592:
+Error/warnings:
 
-  cec-adap.c: drop activate_cnt, use state info instead (2022-05-11 08:24:41 +0200)
+patches/0001-cec-pin.c-disabling-the-adapter-cannot-call-kthread_.patch:
 
-----------------------------------------------------------------
-Tag branch
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-----------------------------------------------------------------
-Hans Verkuil (7):
-      cec-pin.c: disabling the adapter cannot call kthread_stop
-      cec-pin.c: don't zero work_pin_num_events in adap_enable
-      cec-adap.c: don't unconfigure if already unconfigured
-      cec-adap.c: stop trying LAs on CEC_TX_STATUS_TIMEOUT
-      cec-adap.c: fix is_configuring state
-      cec-adap.c: reconfigure if the PA changes during configuration
-      cec-adap.c: drop activate_cnt, use state info instead
+    allyesconfig: return code #0:
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2888 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
- drivers/media/cec/core/cec-adap.c | 188 +++++++++++++++++++++++++++++++++++++------------------------------------------
- drivers/media/cec/core/cec-pin.c  |  57 ++++++++++++++----------
- include/media/cec.h               |   6 ++-
- 3 files changed, 124 insertions(+), 127 deletions(-)
+patches/0005-cec-adap.c-fix-is_configuring-state.patch:
+
+   checkpatch.pl:
+	$ cat patches/0005-cec-adap.c-fix-is_configuring-state.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:21: WARNING: Possible repeated word: 'the'
+
+
+Error #512 when building PDF docs
+
