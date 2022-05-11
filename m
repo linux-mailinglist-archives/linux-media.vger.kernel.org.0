@@ -2,68 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ADCF52359C
-	for <lists+linux-media@lfdr.de>; Wed, 11 May 2022 16:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 450175237C3
+	for <lists+linux-media@lfdr.de>; Wed, 11 May 2022 17:53:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244732AbiEKOe2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 May 2022 10:34:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59882 "EHLO
+        id S1344019AbiEKPxc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 May 2022 11:53:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244741AbiEKOeU (ORCPT
+        with ESMTP id S230114AbiEKPxb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 May 2022 10:34:20 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A8513CA0D;
-        Wed, 11 May 2022 07:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652279632; x=1683815632;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jDhbXouhq/tEBUHIK3VOhtLf48Jd+FB2EOUwZcQlPLs=;
-  b=QiVJ1Tb93iT8kBrDIj1cz6OI3Yp+BxDPeEZIwAzSFngx3doY3wUwDTga
-   xWMYimJrl33wn0Zm0DzTVhWA2ClNyP24wbBlhSt2mxJNuaDWrDTYyEkmw
-   b3CoVc/HJqgLWWdiBddFhgqhea+9DRoywn3/ojx1hG1FvVtYIqSkJ9Lch
-   xU5cLqe+ehDA6b3YQwFdVOghki7Yt5LK4DyDWZKN8tSywbJoy42PouhcG
-   kCJSp4Hg0Rw0sJo9cbfR/Lm6+fC9wc49006Gwlbt6zhSF9wEX78gdy0vZ
-   AFR8UcVnrE/KxvOx3eeZ6+irZK74iJ59OVgRw3gIWB8isGC2yL+8BNWtR
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="250243383"
-X-IronPort-AV: E=Sophos;i="5.91,217,1647327600"; 
-   d="scan'208";a="250243383"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2022 07:33:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,217,1647327600"; 
-   d="scan'208";a="636434725"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 May 2022 07:33:49 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nonPQ-000JBm-OR;
-        Wed, 11 May 2022 14:33:48 +0000
-Date:   Wed, 11 May 2022 22:33:41 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Miaoqian Lin <linmq006@gmail.com>, Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Doug Thompson <dougthompson@xmission.com>,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org, linmq006@gmail.com
-Subject: Re: [PATCH] EDAC: Fix some refcount leaks
-Message-ID: <202205112212.TdxIloxH-lkp@intel.com>
-References: <20220511081402.19784-1-linmq006@gmail.com>
+        Wed, 11 May 2022 11:53:31 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E1C96FD21;
+        Wed, 11 May 2022 08:53:30 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id dk23so4927474ejb.8;
+        Wed, 11 May 2022 08:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ChBlo8JgQztQyDOjW7CP34CCFtQT8Hz2+dkYQmQof/E=;
+        b=nS/TpcRwwFbflyet94bFc5CcjxVk6t+j5NOxzBIdlm7hFfnejEQ8BOzTywqf4YVfAu
+         m2A/gL/WWUrYgsduw7j6fczHanwiY8cEZorN6VhHQ1fGKx1ZBrZ6I1LcwYufNn7CqR8U
+         /HHJQrGPO9Lx/xcdmPoGwbKUtbcZ1V+ToVFnBHHq75nGjZ6s1oF4fH4WUS0G+AmFOCub
+         pD1qQCaNC2yCwS2gSNfVTvr70v98+/W58T4G9hQajqW70Gnj5ivXCs650AtLPwoZxLSA
+         S1pspjYl3XFJsIxwdmGD115D0QyHJIjAmb4dDTUFlkZ+ov8Q1w+7zOUBOdxKUHl6sznT
+         20uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ChBlo8JgQztQyDOjW7CP34CCFtQT8Hz2+dkYQmQof/E=;
+        b=xWcrVYJezqIA84/PP4JXm7wzuA+mG7RLSyQroaSbhaY0BWoY3iTq6qP6KX5Z8aiLVY
+         +CVk+z1jrxkYoRLkY47wZ7YwRSqLWrIinNv9o52w0bnqegBLM/ZlSFSp7g/gwXVuAyAL
+         pwznuivZ4QeUBhpgldtuSVp5XeNb6TDt4fRzsruPygCPnHDStb2t528NvMGbWmz+zi5/
+         7r3t0r2J66ySBsyFdO8mJRzISmoINef/Tz4C9k52DbSFKWVK+wgfSgWF/R9MeNewi2yF
+         dxb2huarOY8gQRK9AIW1OvXwfuaK4U4iX6aQh9RjRiedelKaYfbScZkC5ST3UkOE1mI+
+         2XAg==
+X-Gm-Message-State: AOAM531Cbm5P8H1WGhy+1X2JrFl2wMQTB1dc82KvVq1WqvmIEBLc5LuR
+        7oEBX6zFc2Jk1LQ7H31FCC0=
+X-Google-Smtp-Source: ABdhPJx+gLv9qZMLtZ6TZVHw/+QL36jRAthkyIcW+H3mR5CsVPUeHqXkxzrfYIjIcR+1soMD/SYmlQ==
+X-Received: by 2002:a17:906:4313:b0:6b8:b3e5:a46 with SMTP id j19-20020a170906431300b006b8b3e50a46mr24525324ejm.417.1652284408880;
+        Wed, 11 May 2022 08:53:28 -0700 (PDT)
+Received: from localhost.localdomain (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id fb21-20020a1709073a1500b006f3ef214e1fsm1072458ejc.133.2022.05.11.08.53.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 May 2022 08:53:28 -0700 (PDT)
+From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Liang Chen <cl@rock-chips.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v3 0/3] Enable JPEG Encoder on RK3566/RK3568
+Date:   Wed, 11 May 2022 17:53:05 +0200
+Message-Id: <20220511155309.2637-1-frattaroli.nicolas@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220511081402.19784-1-linmq006@gmail.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,116 +79,98 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Miaoqian,
+Hello,
 
-Thank you for the patch! Yet something to improve:
+the following series adds support for and enables one of the hardware
+video encoders on the RK3566 and RK3568 line of SoCs by Rockchip,
+initially just for the JPEG format in line with what the kernel supports.
 
-[auto build test ERROR on ras/edac-for-next]
-[also build test ERROR on linux/master linus/master v5.18-rc6 next-20220511]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+The encoder block is separate from the Hantro decoder instance, as they
+are in different power domains and have wildly different memory addresses
+as well.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Miaoqian-Lin/EDAC-Fix-some-refcount-leaks/20220511-161440
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-config: arm64-randconfig-r032-20220509 (https://download.01.org/0day-ci/archive/20220511/202205112212.TdxIloxH-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 18dd123c56754edf62c7042dcf23185c3727610f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/e5e3d8b94764dd1abe3c99881483c3f6dee8030a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Miaoqian-Lin/EDAC-Fix-some-refcount-leaks/20220511-161440
-        git checkout e5e3d8b94764dd1abe3c99881483c3f6dee8030a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/edac/
+The encoder hardware seemingly also supports VP8 and H.264 in addition
+to just JPEG, as is evident from both the downstream vendor stack and the
+register listing in the TRM. The hantro driver in Linux, however, does
+not yet support encoding these formats.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+The first patch modifies the bindings with a new compatible, and adds
+the ability to just have a vepu interrupt without a vdpu interrupt.
 
-All errors (new ones prefixed by >>):
+The second patch makes the actual driver changes to support this variant.
 
->> drivers/edac/edac_device_sysfs.c:640:8: error: use of undeclared label 'edac_device_create_instance'
-                   goto edac_device_create_instance;
-                        ^
-   1 error generated.
+The third and final patch makes the necessary device tree changes for
+the rk356x device tree file to add both the node for the encoder and
+its MMU.
 
+The series has been tested on a PINE64 Quartz64 Model A with an RK3566
+SoC using GStreamer.
 
-vim +/edac_device_create_instance +640 drivers/edac/edac_device_sysfs.c
+Below you'll also find an interdiff against V2.
 
-   604	
-   605	/*
-   606	 * edac_device_create_instance
-   607	 *	create just one instance of an edac_device 'instance'
-   608	 */
-   609	static int edac_device_create_instance(struct edac_device_ctl_info *edac_dev,
-   610					int idx)
-   611	{
-   612		int i, j;
-   613		int err;
-   614		struct edac_device_instance *instance;
-   615		struct kobject *main_kobj;
-   616	
-   617		instance = &edac_dev->instances[idx];
-   618	
-   619		/* Init the instance's kobject */
-   620		memset(&instance->kobj, 0, sizeof(struct kobject));
-   621	
-   622		instance->ctl = edac_dev;
-   623	
-   624		/* bump the main kobject's reference count for this controller
-   625		 * and this instance is dependent on the main
-   626		 */
-   627		main_kobj = kobject_get(&edac_dev->kobj);
-   628		if (!main_kobj) {
-   629			err = -ENODEV;
-   630			goto err_out;
-   631		}
-   632	
-   633		/* Formally register this instance's kobject under the edac_device */
-   634		err = kobject_init_and_add(&instance->kobj, &ktype_instance_ctrl,
-   635					   &edac_dev->kobj, "%s", instance->name);
-   636		if (err != 0) {
-   637			edac_dbg(2, "Failed to register instance '%s'\n",
-   638				 instance->name);
-   639			kobject_put(main_kobj);
- > 640			goto edac_device_create_instance;
-   641		}
-   642	
-   643		edac_dbg(4, "now register '%d' blocks for instance %d\n",
-   644			 instance->nr_blocks, idx);
-   645	
-   646		/* register all blocks of this instance */
-   647		for (i = 0; i < instance->nr_blocks; i++) {
-   648			err = edac_device_create_block(edac_dev, instance,
-   649							&instance->blocks[i]);
-   650			if (err) {
-   651				/* If any fail, remove all previous ones */
-   652				for (j = 0; j < i; j++)
-   653					edac_device_delete_block(edac_dev,
-   654								&instance->blocks[j]);
-   655				goto err_release_instance_kobj;
-   656			}
-   657		}
-   658		kobject_uevent(&instance->kobj, KOBJ_ADD);
-   659	
-   660		edac_dbg(4, "Registered instance %d '%s' kobject\n",
-   661			 idx, instance->name);
-   662	
-   663		return 0;
-   664	
-   665		/* error unwind stack */
-   666	err_release_instance_kobj:
-   667		kobject_put(&instance->kobj);
-   668	
-   669	err_out:
-   670		return err;
-   671	}
-   672	
+Regards,
+Nicolas Frattaroli
 
+Changes in v3:
+ - bindings: change consts to an enum
+ - bindings: add check to make sure devices with a -vepu compatible only
+   have the vepu interrupt
+
+Changes in v2:
+ - rename compatible as it's not JPEG only
+ - rename device tree nodes as it's not JPEG only
+ - reword commits as it's not JPEG only
+ - get rid of a whole bunch of redundant struct definitions, as, you
+   guessed it, it's not JPEG only
+
+Nicolas Frattaroli (3):
+  dt-bindings: media: rockchip-vpu: Add RK3568 VEPU compatible
+  media: hantro: Add support for RK356x encoder
+  arm64: dts: rockchip: Add Hantro encoder node to rk356x
+
+ .../bindings/media/rockchip-vpu.yaml          | 17 ++++++++++++-
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi      | 21 ++++++++++++++++
+ drivers/staging/media/hantro/hantro_drv.c     |  1 +
+ drivers/staging/media/hantro/hantro_hw.h      |  1 +
+ .../staging/media/hantro/rockchip_vpu_hw.c    | 25 +++++++++++++++++++
+ 5 files changed, 64 insertions(+), 1 deletion(-)
+
+Interdiff against v2:
+diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+index 4045f107ca4e..965ca80b5cea 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+@@ -40,8 +40,9 @@ properties:
+ 
+   interrupt-names:
+     oneOf:
+-      - const: vdpu
+-      - const: vepu
++      - enum:
++          - vdpu
++          - vepu
+       - items:
+           - const: vepu
+           - const: vdpu
+@@ -78,6 +79,18 @@ required:
+ 
+ additionalProperties: false
+ 
++allOf:
++  # compatibles that end in -vepu should only have the vepu interrupt
++  - if:
++      properties:
++        compatible:
++          contains:
++            pattern: "^[a-zA-Z0-9\\-,_.]+\\-vepu$"
++    then:
++      properties:
++        interrupt-names:
++          const: vepu
++
+ examples:
+   - |
+         #include <dt-bindings/clock/rk3288-cru.h>
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.36.1
+
