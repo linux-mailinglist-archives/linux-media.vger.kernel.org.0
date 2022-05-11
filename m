@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5128D52342B
-	for <lists+linux-media@lfdr.de>; Wed, 11 May 2022 15:22:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CB2052343B
+	for <lists+linux-media@lfdr.de>; Wed, 11 May 2022 15:28:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243465AbiEKNWq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 May 2022 09:22:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45772 "EHLO
+        id S243733AbiEKN2Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 May 2022 09:28:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243880AbiEKNWP (ORCPT
+        with ESMTP id S243990AbiEKN1o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 May 2022 09:22:15 -0400
+        Wed, 11 May 2022 09:27:44 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7C0205C4
-        for <linux-media@vger.kernel.org>; Wed, 11 May 2022 06:22:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58FBA45AF2
+        for <linux-media@vger.kernel.org>; Wed, 11 May 2022 06:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1652275325; x=1683811325;
+  t=1652275662; x=1683811662;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=SQ5E2wIZAR1MDjch2SPhRHlLJoCw7I18ymRmpLm8bO0=;
-  b=KYnvZG8GlWPtuWIKCbSX+IaVYtdtKwz+niux73eZakl6sN2tDE5pSWol
-   HOdgdFikB9pTHGmtN0Ste/5V8vG9Apu1GPLkWlgi9uKvZyXlRPn7CZTCe
-   WW4C/8/5Ooy3wFnjT26WZ56HkMmZE99Gsy5fpS8a2Vjlkg1o3I9bZI2s8
-   GJiw+uTZ+QRnJcvSort+0CV/nY7hpdcO7vtPBrqxkOlCSlBSgp9CCcrO4
-   BT7N1Zisazut1ONoKv95MmJWYGPswtjDiUcqVbpYQ9cnVRuz36NBL5IqY
-   DwP7HJoWBjQ/B2TyWdiu0XI9rs8VeDUMfYS2s+M2f/kLIYHYY7qAeeRXm
-   g==;
+  bh=JoYaZjmI0xUvpEGC3aHC0sjmMFPLADyXjpQB7mtAzKE=;
+  b=YYGwDLBpm79xm+GOxa7rJ2moEfWssQGqkd0/jLLHnXMHtK9bXNQy9UKW
+   KA0lYqNDWFUZub16lfhfIkm02Y9LKcCXyOud//0CLhgnNdwDpwgVaIsHJ
+   7TEeCUJU2XNu34tm3XUpJZP+Rw4Oe1fkC7ZeKyVxSdXOstlwq00kzL/Qu
+   SvXpJDg5ihzkQTJDeYC+a2YjrM7yrsqahOKmxYHReIE49iGbJhq/Vl6De
+   gD+vHtAnM5/kLieSF4tRDAw/xuayJ02//lnigGivX6xP0f9gJ+675sF12
+   CP4ZDCpMXS/iCM/pi88O1zPlDnvMsMXHYaZr78B0UNxJEP5pH5ZTLSTV8
+   w==;
 X-IronPort-AV: E=Sophos;i="5.91,217,1647298800"; 
-   d="scan'208";a="23811325"
+   d="scan'208";a="23811463"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 11 May 2022 15:22:03 +0200
+  by mx1-pgp.tq-group.com with ESMTP; 11 May 2022 15:27:40 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Wed, 11 May 2022 15:22:03 +0200
+  Wed, 11 May 2022 15:27:40 +0200
 X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Wed, 11 May 2022 15:22:03 +0200
+        by tq-pgp-pr1.tq-net.de on Wed, 11 May 2022 15:27:40 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1652275323; x=1683811323;
+  t=1652275660; x=1683811660;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=SQ5E2wIZAR1MDjch2SPhRHlLJoCw7I18ymRmpLm8bO0=;
-  b=lpbt7kAwLvT90XkoNgtYet1snuTxUe7T5fw40lm/o+xk3WAZCI5my6rm
-   7JVrNc4ug0XTuU3MUZPbTvywIY0MmUOEnTDcjODPrjTTgdda39BMlEQ7t
-   CaYO+Fz3SkVY8l/kvFV9CamnUiFxJ+ByWDqLZpNyeNsZjkQUs1K61a0F0
-   JmcjEsD9DOqq+YbHMAxQu0r9Fdyk13ObhRE44sLlD4+f7/z+r07q/xNNH
-   6kb6bG2QuvxJZG/uqcOdeH25xUZj4ocy/aVyhhD13jYmUoO8ahnrqYFMV
-   1wnHrH04ya7PbHr+RF5xvLTGZ6GEaJt0Eq0G6gZ4vFZ6BQCqmcKEzRasz
+  bh=JoYaZjmI0xUvpEGC3aHC0sjmMFPLADyXjpQB7mtAzKE=;
+  b=TENIS5jfmii+FTSf5wGL4IPOUjXOwtfEDq8ZatPqHb0EYaJm/htTSPCW
+   BZcySdCvc7hiMOduBuNpatiMVYccajn2REGDtxVe/IkEARIqhwkVzIwC5
+   3pMPW9E2W1xjFwnXdfwDJdf+VnIE70ehGXTS/0/d+t4XP8ejY+RrQUzVl
+   fOKgj8iuMzUuONoecN1rhWpd1iCSNXtrs9Mm3ZoHB77BPu4kxXSfXnEGD
+   EMQeOYdl6qCXWv9JmjZUBO4nO8BPZni1fMDQd7+eSswc+tVrxlII/rV3G
+   GwVjitVoglVpBQK4Z0U/Fbz95rl+Pb7XeTLLxGb3fTjKdn3qKEL3yPJo3
    A==;
 X-IronPort-AV: E=Sophos;i="5.91,217,1647298800"; 
-   d="scan'208";a="23811324"
+   d="scan'208";a="23811462"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 11 May 2022 15:22:03 +0200
+  by mx1.tq-group.com with ESMTP; 11 May 2022 15:27:40 +0200
 Received: from steina-w.localnet (unknown [10.123.49.12])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 317ED280070;
-        Wed, 11 May 2022 15:22:03 +0200 (CEST)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7DDD9280070;
+        Wed, 11 May 2022 15:27:40 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -68,12 +68,12 @@ Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
         Martin Kepplinger <martin.kepplinger@puri.sm>,
         Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
         kernel@pengutronix.de
-Subject: Re: [PATCH 39/50] staging: media: imx: imx7-media-csi: Define macro for default mbus code
-Date:   Wed, 11 May 2022 15:22:02 +0200
-Message-ID: <13014610.uLZWGnKmhe@steina-w>
+Subject: Re: [PATCH 44/50] staging: media: imx: imx7-media-csi: Simplify default format in try_fmt
+Date:   Wed, 11 May 2022 15:27:40 +0200
+Message-ID: <3169848.aeNJFYEL58@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <20220510115859.19777-40-laurent.pinchart@ideasonboard.com>
-References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com> <20220510115859.19777-40-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220510115859.19777-45-laurent.pinchart@ideasonboard.com>
+References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com> <20220510115859.19777-45-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -88,53 +88,43 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hello Laurent,
 
-Am Dienstag, 10. Mai 2022, 13:58:48 CEST schrieb Laurent Pinchart:
-> Define a macro for the default media bus code and use it through the
-> driver to replace a hardcoded value and a dynamic query from the
-> pixel_formats table.
+Am Dienstag, 10. Mai 2022, 13:58:53 CEST schrieb Laurent Pinchart:
+> When trying a format on the video node, if the requested pixel format
+> isn't supported, fallback to the default with a simpler logic.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/staging/media/imx/imx7-media-csi.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/staging/media/imx/imx7-media-csi.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/staging/media/imx/imx7-media-csi.c
 > b/drivers/staging/media/imx/imx7-media-csi.c index
-> bcf57aff3572..f2e85e9851e4 100644
+> bc3a87656117..0fb5e0c03396 100644
 > --- a/drivers/staging/media/imx/imx7-media-csi.c
 > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -167,6 +167,7 @@
->  #define IMX7_CSI_VIDEO_MEM_LIMIT	SZ_64M
+> @@ -168,6 +168,7 @@
 >  #define IMX7_CSI_VIDEO_EOF_TIMEOUT	2000
 > 
-> +#define IMX7_CSI_DEF_MBUS_CODE		MEDIA_BUS_FMT_UYVY8_2X8
+>  #define IMX7_CSI_DEF_MBUS_CODE		MEDIA_BUS_FMT_UYVY8_2X8
+> +#define IMX7_CSI_DEF_PIX_FORMAT		V4L2_PIX_FMT_UYVY
 >  #define IMX7_CSI_DEF_PIX_WIDTH		640
 >  #define IMX7_CSI_DEF_PIX_HEIGHT		480
 > 
-> @@ -1096,7 +1097,7 @@ static int imx7_csi_init_mbus_fmt(struct
-> v4l2_mbus_framefmt *mbus, mbus->field = field;
-> 
->  	if (code == 0)
-> -		imx7_csi_enum_mbus_formats(&code, 0, 
-IMX7_CSI_PIXFMT_SEL_YUV);
-> +		code = IMX7_CSI_DEF_MBUS_CODE;
-> 
->  	lcc = imx7_csi_find_mbus_format(code, IMX7_CSI_PIXFMT_SEL_ANY);
->  	if (!lcc)
-> @@ -1629,7 +1630,7 @@ static int imx7_csi_video_init_format(struct imx7_csi
-> *csi) .pad = IMX7_CSI_PAD_SRC,
->  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
->  	};
-> -	fmt_src.format.code = MEDIA_BUS_FMT_UYVY8_2X8;
-> +	fmt_src.format.code = IMX7_CSI_DEF_MBUS_CODE;
->  	fmt_src.format.width = IMX7_CSI_DEF_PIX_WIDTH;
->  	fmt_src.format.height = IMX7_CSI_DEF_PIX_HEIGHT;
+> @@ -1130,7 +1131,7 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format
+> *pixfmt, */
+>  	cc = imx7_csi_find_pixel_format(pixfmt->pixelformat);
+>  	if (!cc) {
+> -		imx7_csi_enum_pixel_formats(&pixfmt->pixelformat, 0, 0);
+> +		pixfmt->pixelformat = IMX7_CSI_DEF_PIX_FORMAT;
+>  		cc = imx7_csi_find_pixel_format(pixfmt->pixelformat);
+>  	}
 
-This change assumes, like before, that MEDIA_BUS_FMT_UYVY8_2X8 is the 1st code 
-in the 1st entry in pixel_formats. Maybe a comment is helpful to indicate 
+This change now expects that V4L2_PIX_FMT_UYVY is the 1st entry in 
+pixel_formats. Maybe a comment is helpful to indicate 
 that.
 
 Regards,
 Alexander
+
 
 
