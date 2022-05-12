@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C20F0524A45
-	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 12:30:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D43A524A4E
+	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 12:32:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352616AbiELKaR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 06:30:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48796 "EHLO
+        id S1352639AbiELKbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 06:31:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235697AbiELKaP (ORCPT
+        with ESMTP id S1352638AbiELKbp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 06:30:15 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CF72222C28;
-        Thu, 12 May 2022 03:30:09 -0700 (PDT)
-X-UUID: c2120aac2697453a82e4dac9089f2101-20220512
+        Thu, 12 May 2022 06:31:45 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 483214D612;
+        Thu, 12 May 2022 03:31:40 -0700 (PDT)
+X-UUID: 01437242befd49d7a4d00e207afc4c70-20220512
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:4756a4c6-a249-4f39-be8f-99541c429198,OB:0,LO
-        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
-        ION:release,TS:45
-X-CID-INFO: VERSION:1.1.4,REQID:4756a4c6-a249-4f39-be8f-99541c429198,OB:0,LOB:
-        0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
-        N:release,TS:45
-X-CID-META: VersionHash:faefae9,CLOUDID:a61a0fa7-eab7-4b74-a74d-5359964535a9,C
+X-CID-O-INFO: VERSION:1.1.4,REQID:4cad2d59-18ab-4720-b397-b3de20fb5a71,OB:20,L
+        OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+        TION:release,TS:45
+X-CID-INFO: VERSION:1.1.4,REQID:4cad2d59-18ab-4720-b397-b3de20fb5a71,OB:20,LOB
+        :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+        ON:release,TS:45
+X-CID-META: VersionHash:faefae9,CLOUDID:4c7bf9f1-ab23-4aed-a67b-f96514452486,C
         OID:1347ce9edb3e,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil
         ,QS:0,BEC:nil
-X-UUID: c2120aac2697453a82e4dac9089f2101-20220512
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+X-UUID: 01437242befd49d7a4d00e207afc4c70-20220512
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
         (envelope-from <rex-bc.chen@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 674903071; Thu, 12 May 2022 18:30:06 +0800
+        with ESMTP id 1306276664; Thu, 12 May 2022 18:31:37 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Thu, 12 May 2022 18:30:05 +0800
+ Thu, 12 May 2022 18:31:36 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 12 May 2022 18:30:05 +0800
-Message-ID: <694b90f3d95d6e029d343d98e84c888ddf4eb855.camel@mediatek.com>
-Subject: Re: [PATCH v18 1/6] soc: mediatek: mutex: add common interface for
- modules setting
+ Transport; Thu, 12 May 2022 18:31:36 +0800
+Message-ID: <ceb508aeb66c42bf9d3dd7659cd64496621c27f8.camel@mediatek.com>
+Subject: Re: [PATCH v18 2/6] soc: mediatek: mutex: add 8183 MUTEX MOD
+ settings for MDP
 From:   Rex-BC Chen <rex-bc.chen@mediatek.com>
 To:     Moudy Ho <moudy.ho@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -68,18 +68,18 @@ CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
         <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
         <Project_Global_Chrome_Upstream_Group@mediatek.com>,
         <cellopoint.kai@gmail.com>
-Date:   Thu, 12 May 2022 18:30:05 +0800
-In-Reply-To: <20220512084139.15086-2-moudy.ho@mediatek.com>
+Date:   Thu, 12 May 2022 18:31:36 +0800
+In-Reply-To: <20220512084139.15086-3-moudy.ho@mediatek.com>
 References: <20220512084139.15086-1-moudy.ho@mediatek.com>
-         <20220512084139.15086-2-moudy.ho@mediatek.com>
+         <20220512084139.15086-3-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 X-MTK:  N
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,MAY_BE_FORGED,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -87,19 +87,10 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On Thu, 2022-05-12 at 16:41 +0800, Moudy Ho wrote:
-> In order to allow multiple modules to operate MUTEX hardware through
-> a common interfrace, a flexible index "mtk_mutex_table_index" needs
-> to
-> be added to replace original component ID so that like DDP and MDP
-> can add their own MUTEX table settings independently.
-> 
-> In addition, 4 generic interface "mtk_mutex_set_mod",
-> "mtk_mutex_set_sof",
-> "mtk_mutex_clear_mod" and "mtk_mutex_clear_sof" have been added,
-> which is
-> expected to replace the "mtk_mutex_add_comp" and
-> "mtk_mutex_remove_comp"
-> pair originally dedicated to DDP in the future.
+> For the purpose of module independence, related settings should be
+> moved
+> from MDP to the corresponding driver.
+> This patch adds 8183 MUTEX MOD settings for MDP.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > Reviewed-by: AngeloGioacchino Del Regno <
