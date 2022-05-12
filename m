@@ -2,107 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E26EF524829
-	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 10:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F79352488B
+	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 11:06:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242107AbiELIm7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 04:42:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40878 "EHLO
+        id S1351802AbiELJGP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 05:06:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351679AbiELImo (ORCPT
+        with ESMTP id S1351820AbiELJGF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 04:42:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B9F544A0C
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 01:42:29 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2D686D7;
-        Thu, 12 May 2022 10:42:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1652344946;
-        bh=4U7V+jH6JnIVctZ0a6vgd68/lLwTJry6efWUvgEpm8w=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=YKJBmd62FT4CCxbr3TIKPmSSfKf21oCarlU9O6M+LgAXv+ftl906LAa0K5tgk1qHA
-         +ExxN96smM0v/t2HxiA+WTIdfW6VGt54ifm2vuH55RSr5TDpi7FnAy3eIjLBtyvuGs
-         +n6ypc5ZNLfwN3dZ0QOuZ2FNJGyeClu0VC87ydNY=
-Content-Type: text/plain; charset="utf-8"
+        Thu, 12 May 2022 05:06:05 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B2F1EADA;
+        Thu, 12 May 2022 02:05:59 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 3B9F5240002;
+        Thu, 12 May 2022 09:05:54 +0000 (UTC)
+Date:   Thu, 12 May 2022 11:05:53 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Quentin Schulz <foss+kernel@0leil.net>
+Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Subject: Re: [PATCH v3 4/4] media: i2c: ov5675: add .get_selection support
+Message-ID: <20220512090553.x7mzsj3ff3u5gqxq@uno.localdomain>
+References: <20220509143226.531117-1-foss+kernel@0leil.net>
+ <20220509143226.531117-4-foss+kernel@0leil.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220512080859.9923-1-info@benjaminmarty.ch>
-References: <20220512080859.9923-1-info@benjaminmarty.ch>
-Subject: Re: [PATCH] media: i2c: adv7180: fix reserved bit in Video Selection 2
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Benjamin Marty <info@benjaminmarty.ch>
-To:     Benjamin Marty <info@benjaminmarty.ch>, linux-media@vger.kernel.org
-Date:   Thu, 12 May 2022 09:42:24 +0100
-Message-ID: <165234494429.2416244.11071203482635474383@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220509143226.531117-4-foss+kernel@0leil.net>
+X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,PDS_OTHER_BAD_TLD,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Quentin,
 
-Thank you for your patch, and your investigation into this issue.
-
-Quoting Benjamin Marty (2022-05-12 09:08:59)
-> This bit is marked as reserved in the ADV Hardware Reference Manual.
->=20
-> Resetting this bit seems to cause increased video noise. Setting this bit=
- according to the Hardware Reference Manual reduces the video noise immedia=
-tely.
-
-It's quite minor, but please try to wrap your commit messages:
-
-> Resetting this bit seems to cause increased video noise. Setting this
-> bit according to the Hardware Reference Manual reduces the video noise
-> immediately.
-
-
-> Signed-off-by: Benjamin Marty <info@benjaminmarty.ch>
+On Mon, May 09, 2022 at 04:32:26PM +0200, Quentin Schulz wrote:
+> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+>
+> The sensor has 2592*1944 active pixels, surrounded by 16 active dummy
+> pixels and there are an additional 24 black rows "at the bottom".
+>
+> As recommended in the SELECTION API documentation, let's put the first
+> useful active pixel at the top/left corner (0,0).
+>
+> This window is the default and maximal crop allowed by the sensor.
+>
+> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 > ---
->  drivers/media/i2c/adv7180.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> index 4f5db195e66d..d99b22286b74 100644
-> --- a/drivers/media/i2c/adv7180.c
-> +++ b/drivers/media/i2c/adv7180.c
-> @@ -1014,7 +1014,8 @@ static int adv7182_init(struct adv7180_state *state)
-> =20
->  static int adv7182_set_std(struct adv7180_state *state, unsigned int std)
->  {
-> -       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL, std << 4);
-> +       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL,
-> +                            (std << 4) | (0x01 << 2));
-
-This should be defined using a macro and use BIT() to be clearer, for
-instance:
-
- #define ADV7182_REG_INPUT_RESERVED BIT(2)
-
-That definition should live near the defintion of
-ADV7182_REG_INPUT_VIDSEL.
-
-If the bit is documented with a better name, then use that of course,
-otherwise perhaps even a comment in the code saying that failing to set
-the bit increases visible noise would be suitable. (or that setting the
-bit reduces noise, I guess it depends on if you think this bit is
-performing noise reduction, or if not setting it is introducing noise)
-
---
-Kieran
-
-
-
+>
+> added in v3
+>
+>  drivers/media/i2c/ov5675.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>
+> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+> index 5544e1ae444e..8e3a5bc6c027 100644
+> --- a/drivers/media/i2c/ov5675.c
+> +++ b/drivers/media/i2c/ov5675.c
+> @@ -78,6 +78,9 @@
+>  #define OV5675_REG_FORMAT1		0x3820
+>  #define OV5675_REG_FORMAT2		0x373d
+>
+> +#define OV5675_PIXEL_ARRAY_WIDTH	2592U
+> +#define OV5675_PIXEL_ARRAY_HEIGHT	1944U
+> +
+>  #define to_ov5675(_sd)			container_of(_sd, struct ov5675, sd)
+>
+>  static const char * const ov5675_supply_names[] = {
+> @@ -1115,6 +1118,27 @@ static int ov5675_get_format(struct v4l2_subdev *sd,
+>  	return 0;
 >  }
-> =20
->  enum adv7182_input_type {
-> --=20
-> 2.36.1
+>
+> +static int ov5675_get_selection(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *state,
+> +				struct v4l2_subdev_selection *sel)
+> +{
+> +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> +		return -EINVAL;
+> +
+> +	switch (sel->target) {
+> +	case V4L2_SEL_TGT_CROP:
+> +	case V4L2_SEL_TGT_CROP_DEFAULT:
+> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> +		/* In HW, top/left corner is actually at (16,16) */
+> +		sel->r.top = 0;
+> +		sel->r.left = 0;
+> +		sel->r.width = OV5675_PIXEL_ARRAY_WIDTH;
+> +		sel->r.height = OV5675_PIXEL_ARRAY_HEIGHT;
+> +		return 0;
+> +	}
+
+CROP_NATIVE = the full pixel array size = 2592x1944
+
+CROP_BOUNDS = the rectangle that contains all possible crop
+              rectangles, aka the readable portion of your pixel array.
+              If in your case the sensor can read out dummy and non
+              active lines this is == NATIVE
+
+CROP_DEFAULT = the active/valid pixel area. If there are any
+               dummy/invalid lines the DEFAULT rectangle should not
+               include them
+
+CROP = the portion of the active pixel area cropped to produce the
+       final image. You should look into the modes definition and
+       inspect what values are programmed in register 0x380x (I don't
+       have a datasheet hence I don't know what corresponds to what)
+
+Does this make any sense to you ?
+
+Thanks
+  j
+
+> +	return -EINVAL;
+> +}
+> +
+>  static int ov5675_enum_mbus_code(struct v4l2_subdev *sd,
+>  				 struct v4l2_subdev_state *sd_state,
+>  				 struct v4l2_subdev_mbus_code_enum *code)
+> @@ -1164,6 +1188,7 @@ static const struct v4l2_subdev_video_ops ov5675_video_ops = {
+>  static const struct v4l2_subdev_pad_ops ov5675_pad_ops = {
+>  	.set_fmt = ov5675_set_format,
+>  	.get_fmt = ov5675_get_format,
+> +	.get_selection = ov5675_get_selection,
+>  	.enum_mbus_code = ov5675_enum_mbus_code,
+>  	.enum_frame_size = ov5675_enum_frame_size,
+>  };
+> --
+> 2.35.3
 >
