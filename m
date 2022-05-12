@@ -2,97 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A106C524C70
-	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 14:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43E96524CF3
+	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 14:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353571AbiELML2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 08:11:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48894 "EHLO
+        id S1353812AbiELMeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 08:34:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353570AbiELMLZ (ORCPT
+        with ESMTP id S1353805AbiELMeB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 08:11:25 -0400
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C72E36329
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 05:11:24 -0700 (PDT)
-Received: by mail-wr1-f54.google.com with SMTP id a5so3174150wrp.7
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 05:11:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HJwU5LS4I0ENs9QTTUdJs7vGUcZGBL8PpTeBRo7Fi8U=;
-        b=X9WmS1kKwDGY+0D8mYvHs3ZCHYMiCt06dp6hnP7WSYKkw3axAS9olhrRHUvhea+eif
-         EGcRIt357iK127DLjHyU7gsHRA7i1L9KuIBhKln5J107h1OiP2m3TPgj8gjGhteUNpx2
-         Hu3OJK3WFfYHXXKenATTS+GF/hVOiCcrF3uxICW2vOjiBiqgqMMNWj199KnRa6ffJwzv
-         JK6R7Cdu7pMPJAGlhSatbv767kUf4QrdG6VgBBnggdLFemKTLBuuVmFkgy8IhZaalV+C
-         lan+M9qQPqsEN3ZfW7NUOhe3RINtQBm0r+257QV1BWbiW3zFH3YmHUqHjRhszBU0icXR
-         J6Kw==
-X-Gm-Message-State: AOAM531mxLkosHKqycTmjE5zM7l7s6CFQ9NCX7EYJkg0D2iBy+iFRgza
-        AF6o+68M1riNeamEm6kzK//Y8LdqYyQ=
-X-Google-Smtp-Source: ABdhPJzz8Kn9KmeYcDPnI3RMhD87C0YT9uXEsR0rbaNhgfxvyPkCMSI0T5h6ifWthtYqdz5ioebyxA==
-X-Received: by 2002:a05:6000:1acd:b0:20c:811c:9f39 with SMTP id i13-20020a0560001acd00b0020c811c9f39mr26378264wry.482.1652357482851;
-        Thu, 12 May 2022 05:11:22 -0700 (PDT)
-Received: from localhost.localdomain ([2001:470:26:14d:2383:a80b:b4b0:e183])
-        by smtp.gmail.com with ESMTPSA id m27-20020a05600c3b1b00b003942a244f2csm2659331wms.5.2022.05.12.05.11.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 May 2022 05:11:22 -0700 (PDT)
-From:   Benjamin Marty <info@benjaminmarty.ch>
-To:     linux-media@vger.kernel.org
-Cc:     Benjamin Marty <info@benjaminmarty.ch>
-Subject: [PATCH v2] media: i2c: adv7180: fix reserved bit in Video Selection 2
-Date:   Thu, 12 May 2022 14:02:10 +0200
-Message-Id: <20220512120209.11614-1-info@benjaminmarty.ch>
-X-Mailer: git-send-email 2.36.1
+        Thu, 12 May 2022 08:34:01 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910BC644C1
+        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 05:33:59 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 0A84421C82;
+        Thu, 12 May 2022 12:33:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1652358838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=BNJI+u1QPL4iKmQOgR9HOOU515MZvyu/0IWN9/HT5Jw=;
+        b=Dg3vstJ0lKsW7i9xNb+gw+90ec8sXPQk1eyHiLaUIKaWoCqAptmUTYKQph8CWn43uCjs29
+        pEKa6jklPyMC6GjaAxAwMXOOqPoSbUGRknbIcIsXCw9WlDAn1xoN8h8S5GAdRpyPsLsxTc
+        xqA5XbaXjMeTn8voUhwFuiG0BJq7vCE=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C685C13ABE;
+        Thu, 12 May 2022 12:33:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 9orWLrX+fGL+GAAAMHmgww
+        (envelope-from <oneukum@suse.com>); Thu, 12 May 2022 12:33:57 +0000
+From:   Oliver Neukum <oneukum@suse.com>
+To:     linux-media@vger.kernel.org, mchehab@kernel.org, sean@mess.org
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH 1/3] igorplugusb: prevent use after free in probe error
+Date:   Thu, 12 May 2022 14:33:52 +0200
+Message-Id: <20220512123354.25766-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This bit is marked as reserved in the ADV Hardware Reference Manual.
+The timer uses the URB. Free it only after the timer
+has been stopped.
 
-Resetting this bit seems to cause increased video noise. Setting this
-bit according to the Hardware Reference Manual reduces the video noise
-immediately.
-
-Signed-off-by: Benjamin Marty <info@benjaminmarty.ch>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
-version 2:
-- Fixed Kieran's remarks
+ drivers/media/rc/igorplugusb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/media/i2c/adv7180.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 4f5db195e66d..992111fe249e 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -43,6 +43,7 @@
- #define ADV7180_INPUT_CONTROL_INSEL_MASK		0x0f
+diff --git a/drivers/media/rc/igorplugusb.c b/drivers/media/rc/igorplugusb.c
+index b46362da8623..1afba95409ff 100644
+--- a/drivers/media/rc/igorplugusb.c
++++ b/drivers/media/rc/igorplugusb.c
+@@ -223,9 +223,9 @@ static int igorplugusb_probe(struct usb_interface *intf,
  
- #define ADV7182_REG_INPUT_VIDSEL			0x0002
-+#define ADV7182_REG_INPUT_RESERVED			BIT(2)
+ 	return 0;
+ fail:
+-	rc_free_device(ir->rc);
+-	usb_free_urb(ir->urb);
+ 	del_timer(&ir->timer);
++	usb_free_urb(ir->urb);
++	rc_free_device(ir->rc);
+ 	kfree(ir->buf_in);
  
- #define ADV7180_REG_OUTPUT_CONTROL			0x0003
- #define ADV7180_REG_EXTENDED_OUTPUT_CONTROL		0x0004
-@@ -1014,7 +1015,9 @@ static int adv7182_init(struct adv7180_state *state)
- 
- static int adv7182_set_std(struct adv7180_state *state, unsigned int std)
- {
--	return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL, std << 4);
-+	/* Failing to set the reserved bit can result in increased video noise */
-+	return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL,
-+			     (std << 4) | ADV7182_REG_INPUT_RESERVED);
- }
- 
- enum adv7182_input_type {
+ 	return ret;
 -- 
-2.36.1
+2.35.3
 
