@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A170524D22
+	by mail.lfdr.de (Postfix) with ESMTP id 135B6524D21
 	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 14:39:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353860AbiELMi7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 08:38:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57798 "EHLO
+        id S1353883AbiELMjC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 08:39:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353880AbiELMi6 (ORCPT
+        with ESMTP id S1353880AbiELMjB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 08:38:58 -0400
+        Thu, 12 May 2022 08:39:01 -0400
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E76062A28
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 05:38:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E96F62136
+        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 05:38:59 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 37AAE1F88F;
-        Thu, 12 May 2022 12:38:56 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 50D0A1F893;
+        Thu, 12 May 2022 12:38:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1652359136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1652359138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=BNJI+u1QPL4iKmQOgR9HOOU515MZvyu/0IWN9/HT5Jw=;
-        b=jUinTGPpFsu/yVLzzy9W9OhjpktyEdc+7keJqcLJ8n6lIJ9EvXdvFumUBh/nbSGFT4jZ1D
-        I1cUGkcJ3jutz/kToUClHD96gyG15RtDaNdx1NsSGZCFDTnf68Zkk1KzYN7s3BrFM6rzW7
-        ehYoAud5Y0wo7RDH7LXa3d7+svK2vEw=
+        bh=Cl1chpKtxWdZhiKHeu+ldZiumzQWQfZbSHf2WvQ8XlY=;
+        b=JfIL9pf5+mixGbtoMcQcc4807zNcBXL8y1IGf3nm9FZOWo9Kn3LkzT+0fEstP5Nb4L3TkO
+        p8Zu1bKyOxmyUFDdLjsfp4F5g2BwCqQJePApAeBeE6GZ7ygY7zdCjaLnKCUGQez5L58zw0
+        atoEcUKo/zwBLHAsfREa9E3DdwC73C4=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F1FBD13ABE;
-        Thu, 12 May 2022 12:38:55 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 20A1913ABE;
+        Thu, 12 May 2022 12:38:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id UIppOd//fGKqGwAAMHmgww
-        (envelope-from <oneukum@suse.com>); Thu, 12 May 2022 12:38:55 +0000
+        id CE4wBuL/fGKqGwAAMHmgww
+        (envelope-from <oneukum@suse.com>); Thu, 12 May 2022 12:38:58 +0000
 From:   Oliver Neukum <oneukum@suse.com>
 To:     linux-media@vger.kernel.org, mchehab@kernel.org, sean@mess.org
 Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH 2/4] igorplugusb: prevent use after free in probe error
-Date:   Thu, 12 May 2022 14:38:47 +0200
-Message-Id: <20220512123849.25903-2-oneukum@suse.com>
+Subject: [PATCH 3/4] igorplugusb: break cyclical race on disconnect
+Date:   Thu, 12 May 2022 14:38:48 +0200
+Message-Id: <20220512123849.25903-3-oneukum@suse.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220512123849.25903-1-oneukum@suse.com>
 References: <20220512123849.25903-1-oneukum@suse.com>
@@ -61,30 +61,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The timer uses the URB. Free it only after the timer
-has been stopped.
+The driver uses a timer, that may submit the URB and
+the URB may start the timer. No simple order of killing
+can break te cycle. Poison the URB before killing
+the timer.
 
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/media/rc/igorplugusb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/rc/igorplugusb.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/rc/igorplugusb.c b/drivers/media/rc/igorplugusb.c
-index b46362da8623..1afba95409ff 100644
+index 1afba95409ff..b2245849f7aa 100644
 --- a/drivers/media/rc/igorplugusb.c
 +++ b/drivers/media/rc/igorplugusb.c
-@@ -223,9 +223,9 @@ static int igorplugusb_probe(struct usb_interface *intf,
+@@ -126,7 +126,7 @@ static void igorplugusb_cmd(struct igorplugusb *ir, int cmd)
+ 	ir->request.bRequest = cmd;
+ 	ir->urb->transfer_flags = 0;
+ 	ret = usb_submit_urb(ir->urb, GFP_ATOMIC);
+-	if (ret)
++	if (ret && ret != -EPERM)
+ 		dev_err(ir->dev, "submit urb failed: %d", ret);
+ }
+ 
+@@ -223,7 +223,9 @@ static int igorplugusb_probe(struct usb_interface *intf,
  
  	return 0;
  fail:
--	rc_free_device(ir->rc);
--	usb_free_urb(ir->urb);
++	usb_poison_urb(ir->urb);
  	del_timer(&ir->timer);
-+	usb_free_urb(ir->urb);
-+	rc_free_device(ir->rc);
++	usb_unpoison_urb(ir->urb);
+ 	usb_free_urb(ir->urb);
+ 	rc_free_device(ir->rc);
  	kfree(ir->buf_in);
+@@ -236,9 +238,10 @@ static void igorplugusb_disconnect(struct usb_interface *intf)
+ 	struct igorplugusb *ir = usb_get_intfdata(intf);
  
- 	return ret;
+ 	rc_unregister_device(ir->rc);
++	usb_poison_urb(ir->urb);
+ 	del_timer_sync(&ir->timer);
+ 	usb_set_intfdata(intf, NULL);
+-	usb_kill_urb(ir->urb);
++	usb_unpoison_urb(ir->urb);
+ 	usb_free_urb(ir->urb);
+ 	kfree(ir->buf_in);
+ }
 -- 
 2.35.3
 
