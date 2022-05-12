@@ -2,79 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAF66524A5C
-	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 12:33:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0089524B3D
+	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 13:16:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352655AbiELKdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 06:33:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58676 "EHLO
+        id S1353037AbiELLPp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 07:15:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347390AbiELKdI (ORCPT
+        with ESMTP id S1353146AbiELLPJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 06:33:08 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EE04222C35;
-        Thu, 12 May 2022 03:33:06 -0700 (PDT)
-X-UUID: fbd15ee8f20048ea9271c7ff174e2153-20220512
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:91f8f3b0-30df-4b49-a7cb-444f92dec6f7,OB:0,LO
-        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
-        ON:release,TS:0
-X-CID-META: VersionHash:faefae9,CLOUDID:8685f9f1-ab23-4aed-a67b-f96514452486,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: fbd15ee8f20048ea9271c7ff174e2153-20220512
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <rex-bc.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 695125433; Thu, 12 May 2022 18:32:59 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Thu, 12 May 2022 18:32:58 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 12 May 2022 18:32:58 +0800
-Message-ID: <e99b73e850780a104cf053e5e76bfd19256fc2a4.camel@mediatek.com>
-Subject: Re: [PATCH v18 6/6] soc: mediatek: mutex: add functions that
- operate registers by CMDQ
-From:   Rex-BC Chen <rex-bc.chen@mediatek.com>
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        <tfiga@chromium.org>, <drinkcat@chromium.org>,
-        <pihsun@chromium.org>, <hsinyi@google.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <xiandong.wang@mediatek.com>,
-        <randy.wu@mediatek.com>, <jason-jh.lin@mediatek.com>,
-        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <cellopoint.kai@gmail.com>
-Date:   Thu, 12 May 2022 18:32:58 +0800
-In-Reply-To: <20220512084139.15086-7-moudy.ho@mediatek.com>
-References: <20220512084139.15086-1-moudy.ho@mediatek.com>
-         <20220512084139.15086-7-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Thu, 12 May 2022 07:15:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38DE213C35E;
+        Thu, 12 May 2022 04:14:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C9D3E61E4B;
+        Thu, 12 May 2022 11:14:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27528C385B8;
+        Thu, 12 May 2022 11:14:36 +0000 (UTC)
+Message-ID: <b5e35985-c159-6b11-8752-d6dd29fc6a64@xs4all.nl>
+Date:   Thu, 12 May 2022 13:14:35 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 0/4] Add Toshiba Visconti DNN image processing accelerator
+ driver
+Content-Language: en-US
+To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+        Rob Herring <robh+dt@kernel.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20220428131128.5053-1-yuji2.ishikawa@toshiba.co.jp>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220428131128.5053-1-yuji2.ishikawa@toshiba.co.jp>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,20 +53,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2022-05-12 at 16:41 +0800, Moudy Ho wrote:
-> Due to HW limitations, MDP3 is necessary to enable MUTEX in each
-> frame
-> for SOF triggering and cooperate with CMDQ control to reduce the
-> amount
-> of interrupts generated(also, reduce frame latency).
-> 
-> In response to the above situation, a new interface
-> "mtk_mutex_enable_by_cmdq" has been added to achieve the purpose.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> ---
+Hi Yuji,
 
-Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+On 4/28/22 15:11, Yuji Ishikawa wrote:
+> This series is the DNN image processing accelerator driver for Toshiba's ARM SoC, Visconti[0].
+> This provides DT binding documentation, device driver, MAINTAINER files.
+> 
+> The second patch "soc: visconti: Add Toshiba Visconti image processing accelerator common source"
+> and the fourth patch "MAINTAINERS: ..." are the same as the ones in the preceding post for affine driver.
+
+There appears to be no documentation whatsoever, unless I am missing something.
+
+How is the uAPI supposed to be used? What does it do? What formats does it accept
+or produce?
+
+If this processes images, then (as Laurent mentioned) this is more suitable as a
+V4L2 mem2mem driver.
+
+See https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-mem2mem.html
+and the many drivers in drivers/media that use it (git grep v4l2-mem2mem.h).
+
+But without any explanation whatsoever I have no idea what does or does not make sense.
+
+Regards,
+
+	Hans
+
+> 
+> Best regards,
+> Yuji
+> 
+> [0]: https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-recognition-processors-visconti.html
+> 
+> Yuji Ishikawa (4):
+>   dt-bindings: soc: visconti: Add Toshiba Visconti DNN image processing
+>     accelerator bindings
+>   soc: visconti: Add Toshiba Visconti image processing accelerator
+>     common source
+>   soc: visconti: Add Toshiba Visconti DNN image processing accelerator
+>   MAINTAINERS: Add entries for Toshiba Visconti DNN image processing
+>     accelerator
+> 
+>  .../soc/visconti/toshiba,visconti-dnn.yaml    |  54 ++
+>  MAINTAINERS                                   |   2 +
+>  drivers/soc/Kconfig                           |   1 +
+>  drivers/soc/Makefile                          |   1 +
+>  drivers/soc/visconti/Kconfig                  |   7 +
+>  drivers/soc/visconti/Makefile                 |   8 +
+>  drivers/soc/visconti/dnn/Makefile             |   6 +
+>  drivers/soc/visconti/dnn/dnn.c                | 533 ++++++++++++++++++
+>  drivers/soc/visconti/dnn/hwd_dnn.c            | 183 ++++++
+>  drivers/soc/visconti/dnn/hwd_dnn.h            |  68 +++
+>  drivers/soc/visconti/dnn/hwd_dnn_reg.h        | 228 ++++++++
+>  drivers/soc/visconti/ipa_common.c             |  55 ++
+>  drivers/soc/visconti/ipa_common.h             |  18 +
+>  drivers/soc/visconti/uapi/dnn.h               |  77 +++
+>  drivers/soc/visconti/uapi/ipa.h               |  88 +++
+>  15 files changed, 1329 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/visconti/toshiba,visconti-dnn.yaml
+>  create mode 100644 drivers/soc/visconti/Kconfig
+>  create mode 100644 drivers/soc/visconti/Makefile
+>  create mode 100644 drivers/soc/visconti/dnn/Makefile
+>  create mode 100644 drivers/soc/visconti/dnn/dnn.c
+>  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn.c
+>  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn.h
+>  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn_reg.h
+>  create mode 100644 drivers/soc/visconti/ipa_common.c
+>  create mode 100644 drivers/soc/visconti/ipa_common.h
+>  create mode 100644 drivers/soc/visconti/uapi/dnn.h
+>  create mode 100644 drivers/soc/visconti/uapi/ipa.h
+> 
 
