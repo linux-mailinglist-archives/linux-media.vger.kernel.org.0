@@ -2,64 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D29B8524EF2
-	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 15:57:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE7E0524F6C
+	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 16:06:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354770AbiELN5I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 09:57:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53346 "EHLO
+        id S1355013AbiELOGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 10:06:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354793AbiELN5G (ORCPT
+        with ESMTP id S1355106AbiELOGa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 09:57:06 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 367911C7649
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 06:57:04 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id l18so10397461ejc.7
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 06:57:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pWsDFWWil9EKmDKq6jLBpzdftwVkCdugui3i9OujR1g=;
-        b=QW/HlnV9FIR9gd2dU8DoCau7fu3ylHOWDIt9qrOmAZT9bpfwLDPHbIg/Q1yvnlKepW
-         Y3xKZ+/Z+GhbcyAdYl3U96bgSUYQMoosiHZYFKIoF23kST3tvMMZYs9/W9Cx3rOSEpgI
-         P5IKB4K4RNAQYtw8hC0b+NulJ93baqBuuVtgVCtacgeBnhkiZHdftQgS2LsESeywlz7f
-         qttZTT8GDrWcQl9TZiZjWNFEg+MvQjYl5UpsLv+P3e0oIKocWL24aAcUVSIJ/Y6Rk/mK
-         4ERu8L2mba1Qz1kCL5sbinRDb/VIzKedxcVt8dWtF5cYNBbnmPegiLwUfqB3mXoIKtyW
-         YYRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pWsDFWWil9EKmDKq6jLBpzdftwVkCdugui3i9OujR1g=;
-        b=sVagjnYHCANbH/YfAjuXnPn+IkDMyiHmfdFQv7Ng9KvyMV1hydIN7rHVxkGC3C/l0v
-         e2XhhJhrBsvKxYg4iDYIc6BR88oGUNDjeicDWCLtZ2KD2AGHEjezaJ+h9Rx2RuH1bS70
-         1DFbO84N/bmaBLiOu0sUw1DZ7T8Tj/i1vSRDi2OAC6Uij+cVpy0FPH6SDbJM35gV3a8w
-         R4a4+NNNlloPjCnP0dB/aXRDhhjFFAdXPU1OIwLR6rMr/OcUKeMfriKEzYXFucy1s///
-         4IriF8fFrxe277EZAUX3JWyGhGgiSf6aBrhYdNW0SGCscnt/P0MIzbhz4mjG7jPNqJ0p
-         236A==
-X-Gm-Message-State: AOAM5333bOCfz0Wm82be6F5g1dPCspigyRpGRElGC4ADLmXvyPwMIgwV
-        21Hsjv9n13g7Driyto/3t4w000wDw0JougAisspB3sdkQB74Lw==
-X-Google-Smtp-Source: ABdhPJzgVDU4+biC24iWwf0z7RSAhfVAUdaqBSeV9anOf7rEyNn+4Oh5JQvXIZb5aYGwggcur9nXhlrFQrduF9VnAog=
-X-Received: by 2002:a17:907:162a:b0:6f4:c53b:fca7 with SMTP id
- hb42-20020a170907162a00b006f4c53bfca7mr30770688ejc.723.1652363822740; Thu, 12
- May 2022 06:57:02 -0700 (PDT)
+        Thu, 12 May 2022 10:06:30 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33BB20BF6;
+        Thu, 12 May 2022 07:06:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652364389; x=1683900389;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WIvtdmWtX/TRORt8dlpmlTRf4eOZvfVee018Zhu+TL0=;
+  b=hiZBSyl4vpPMMH4iv4Hi9OB4Hdv/g6vPOgI3YDVPeyMEYu97jJ84pXSe
+   P9lfYiGPIPNBuzIZj5uC1DwY/zr6Hm9ZdMTwF6NJqvj5fGaS32UbmtQra
+   XKcHny5os1JbV0JGvtKiFP1gkeyPkh6PkOfwD8j6OiKcTkqdCs91ve49k
+   lSPGbWF9kOkeTOGCVrdbvaNQINPGzbdW4S3zDxr5wXe1s7mvsl80M9R1M
+   AoOr0UQPXvGKBwQLxe37k6fUXZ04Npn1bXEyKpCu0i32baSQFzylVBgyQ
+   RJeoV836jtBgflJ8cVV74u4gQPXUUFnZImnH/oF7MAl0C9kDzr16JL0su
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="333046938"
+X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
+   d="scan'208";a="333046938"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2022 07:06:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
+   d="scan'208";a="698042755"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 12 May 2022 07:06:27 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1np9SV-000KYY-0J;
+        Thu, 12 May 2022 14:06:27 +0000
+Date:   Thu, 12 May 2022 22:06:17 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Stefan Agner <stefan@agner.ch>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: drivers/media/dvb-frontends/mn88443x.c:772:34: warning:
+ 'mn88443x_of_match' defined but not used
+Message-ID: <202205122148.yhQVSpac-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220512120209.11614-1-info@benjaminmarty.ch>
-In-Reply-To: <20220512120209.11614-1-info@benjaminmarty.ch>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 12 May 2022 14:56:45 +0100
-Message-ID: <CAPY8ntD4miACVe9naYUyVAztZcDBK47chpJLy4=qqjmego1jvA@mail.gmail.com>
-Subject: Re: [PATCH v2] media: i2c: adv7180: fix reserved bit in Video
- Selection 2
-To:     Benjamin Marty <info@benjaminmarty.ch>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "cc: Kieran Bingham" <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,75 +63,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   feb9c5e19e913b53cb536a7aa7c9f20107bb51ec
+commit: 8169cf0a02caafd87ee33e66c12f7a35606a6b0c media: Kconfig: allow to select drivers if EMBEDDED
+date:   3 years ago
+config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20220512/202205122148.yhQVSpac-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8169cf0a02caafd87ee33e66c12f7a35606a6b0c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8169cf0a02caafd87ee33e66c12f7a35606a6b0c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/dvb-frontends/
 
-On Thu, 12 May 2022 at 13:11, Benjamin Marty <info@benjaminmarty.ch> wrote:
->
-> This bit is marked as reserved in the ADV Hardware Reference Manual.
->
-> Resetting this bit seems to cause increased video noise. Setting this
-> bit according to the Hardware Reference Manual reduces the video noise
-> immediately.
->
-> Signed-off-by: Benjamin Marty <info@benjaminmarty.ch>
-> ---
-> version 2:
-> - Fixed Kieran's remarks
->
->  drivers/media/i2c/adv7180.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> index 4f5db195e66d..992111fe249e 100644
-> --- a/drivers/media/i2c/adv7180.c
-> +++ b/drivers/media/i2c/adv7180.c
-> @@ -43,6 +43,7 @@
->  #define ADV7180_INPUT_CONTROL_INSEL_MASK               0x0f
->
->  #define ADV7182_REG_INPUT_VIDSEL                       0x0002
-> +#define ADV7182_REG_INPUT_RESERVED                     BIT(2)
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Responding to Kieran's comment on V1:
-> If the bit is documented with a better name, then use that of course,
-> otherwise perhaps even a comment in the code saying that failing to set
-> the bit increases visible noise would be suitable. (or that setting the
-> bit reduces noise, I guess it depends on if you think this bit is
-> performing noise reduction, or if not setting it is introducing noise)
+All warnings (new ones prefixed by >>):
 
-I went digging through the datasheet for this info as I care about
-ADV728[0|1|2]M.
+>> drivers/media/dvb-frontends/mn88443x.c:772:34: warning: 'mn88443x_of_match' defined but not used [-Wunused-const-variable=]
+     772 | static const struct of_device_id mn88443x_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~
 
-https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7182.pdf
-page 68 defines bits 0-3 as reserved, and "set to default" which is
-0100b.
-https://www.analog.com/media/en/technical-documentation/user-guides/ADV7280_7281_7282_7283_UG-637.pdf
-page 70 says the same for ADV7280/ADV7281/ADV7282/ADV7283.
 
-So no name or detail in the docs over what the bits do.
+vim +/mn88443x_of_match +772 drivers/media/dvb-frontends/mn88443x.c
 
-The patch does mean the driver more closely follows the datasheet, so
-it looks good to me.
+0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  771  
+0f408ce8941fcb Katsuhiro Suzuki 2018-07-23 @772  static const struct of_device_id mn88443x_of_match[] = {
+0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  773  	{ .compatible = "socionext,mn884433",   .data = &mn88443x_spec_pri, },
+0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  774  	{ .compatible = "socionext,mn884434-0", .data = &mn88443x_spec_pri, },
+0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  775  	{ .compatible = "socionext,mn884434-1", .data = &mn88443x_spec_sec, },
+0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  776  	{}
+0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  777  };
+0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  778  MODULE_DEVICE_TABLE(of, mn88443x_of_match);
+0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  779  
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+:::::: The code at line 772 was first introduced by commit
+:::::: 0f408ce8941fcb1b6e8431272cfc9337a0407d73 media: dvb-frontends: add Socionext MN88443x ISDB-S/T demodulator driver
 
-I'll try to find a couple of minutes to get my hardware out and
-confirm I see the change in video noise.
+:::::: TO: Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-  Dave
-
->  #define ADV7180_REG_OUTPUT_CONTROL                     0x0003
->  #define ADV7180_REG_EXTENDED_OUTPUT_CONTROL            0x0004
-> @@ -1014,7 +1015,9 @@ static int adv7182_init(struct adv7180_state *state)
->
->  static int adv7182_set_std(struct adv7180_state *state, unsigned int std)
->  {
-> -       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL, std << 4);
-> +       /* Failing to set the reserved bit can result in increased video noise */
-> +       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL,
-> +                            (std << 4) | ADV7182_REG_INPUT_RESERVED);
->  }
->
->  enum adv7182_input_type {
-> --
-> 2.36.1
->
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
