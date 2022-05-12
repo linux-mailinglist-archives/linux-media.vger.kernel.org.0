@@ -2,189 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAFD0525468
-	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 20:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D90EA525551
+	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 21:03:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356288AbiELSDI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 14:03:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44378 "EHLO
+        id S1353630AbiELTDu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 15:03:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238781AbiELSDH (ORCPT
+        with ESMTP id S238231AbiELTDu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 14:03:07 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40600703C7
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 11:03:06 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1npD9U-008ivn-81; Thu, 12 May 2022 18:03:04 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1npD9R-008f4H-V6; Thu, 12 May 2022 18:03:01 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR 5.19] More V4L2 patches (#83170)
-Date:   Thu, 12 May 2022 18:03:01 +0000
-Message-Id: <20220512180301.2064443-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <Yn0z8Tjj53FBd09R@valkosipuli.retiisi.eu>
-References: 
+        Thu, 12 May 2022 15:03:50 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0BA620F4E6
+        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 12:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652382229; x=1683918229;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r/MrM0aa3v+g3XfeTh6/KiXpr80XesavKEiyALab2Lw=;
+  b=eUnnlbbc52d8vTNpdWi0tWainTUGkBGPvAhJS13AqSim//GAXkGL7xV4
+   LhbtitvGc9c5TOOq/D8LDbIzkbCDopPGzzkBDZ3jqzILb6y3Yj8y4+v5T
+   1idxyCM5kaDFtFXacIhcMfnvyEKn9ob9zuDoxTp5fIzUIwZLnGjZsqMpg
+   OuZoqRjJGDXfXee6m6RCQyhECGaazqBjPNfPhbR1WFd9McAy5KREg3scv
+   Yk4si5PHtjMt7QIrgiIqDGQjUwzuLfVPAkplw4zQ0/9OM81xn6h7Ke0WZ
+   bcgZORpGA4kEarLH/hYLRByRiVPFupLYWCszNPMgRv2WeL+QL663kJIbn
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="252160664"
+X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
+   d="scan'208";a="252160664"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2022 12:03:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
+   d="scan'208";a="895922349"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 12 May 2022 12:03:46 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1npE6D-000Kpg-B6;
+        Thu, 12 May 2022 19:03:45 +0000
+Date:   Fri, 13 May 2022 03:02:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Oliver Neukum <oneukum@suse.com>, linux-media@vger.kernel.org,
+        mchehab@kernel.org, sean@mess.org
+Cc:     kbuild-all@lists.01.org, Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH] imon_raw: respect DMA coherency
+Message-ID: <202205130246.Kh3xxrsg-lkp@intel.com>
+References: <20220512130321.30599-1-oneukum@suse.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220512130321.30599-1-oneukum@suse.com>
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Oliver,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Yn0z8Tjj53FBd09R@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/207033/
-Build time: 00:35:29
-Link: https://lore.kernel.org/linux-media/Yn0z8Tjj53FBd09R@valkosipuli.retiisi.eu
+I love your patch! Perhaps something to improve:
 
-gpg: Signature made Thu 12 May 2022 04:13:16 PM UTC
-gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: F0D0 377A 0D4F 25A7 9238  EFE5 6D40 361B 6E28 C193
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on v5.18-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Summary: got 14/38 patches with issues, being 11 at build time, plus one error when buinding PDF document
+url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/imon_raw-respect-DMA-coherency/20220512-210422
+base:   git://linuxtv.org/media_tree.git master
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20220513/202205130246.Kh3xxrsg-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/5e1a1b1e9c8288033f5f1f1d70a3d7506114fad3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Oliver-Neukum/imon_raw-respect-DMA-coherency/20220512-210422
+        git checkout 5e1a1b1e9c8288033f5f1f1d70a3d7506114fad3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/rc/
 
-Error/warnings:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-patches/0001-media-i2c-imx412-Fix-reset-GPIO-polarity.patch:
+All warnings (new ones prefixed by >>):
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-
-patches/0005-dt-bindings-Convert-Dongwoon-dw9807-vcm-bindings-to-.patch:
-
-   checkpatch.pl:
-	$ cat patches/0005-dt-bindings-Convert-Dongwoon-dw9807-vcm-bindings-to-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:18: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:21: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:32: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0008-media-v4l2-core-Add-enum-V4L2_FWNODE_BUS_TYPE_DPI.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0010-media-Add-bus-type-to-frame-descriptors.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0010-media-Add-bus-type-to-frame-descriptors.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:19: WARNING: Duplicate signature
-
-patches/0011-media-Add-CSI-2-bus-configuration-to-frame-descripto.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0011-media-Add-CSI-2-bus-configuration-to-frame-descripto.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:18: WARNING: Duplicate signature
-
-patches/0013-media-i2c-adv7180-Add-support-for-the-test-patterns.patch:
-
-   checkpatch.pl:
-	$ cat patches/0013-media-i2c-adv7180-Add-support-for-the-test-patterns.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:97: CHECK: Alignment should match open parenthesis
-
-patches/0014-media-exynos4-is-Fix-compile-warning.patch:
-
-   checkpatch.pl:
-	$ cat patches/0014-media-exynos4-is-Fix-compile-warning.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:28: CHECK: Alignment should match open parenthesis
-
-patches/0024-media-uapi-Add-IPU3-packed-Y10-format.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0024-media-uapi-Add-IPU3-packed-Y10-format.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:57: ERROR: trailing statements should be on next line
-	-:69: WARNING: line length of 106 exceeds 100 columns
-
-patches/0032-media-i2c-Add-pm_runtime-support-to-ov7251.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/ov7251.c: ../drivers/media/i2c/ov7251.c:1338 ov7251_s_stream() warn: inconsistent returns '&ov7251->lock'.
-	  Locked on  : 1338
-	  Unlocked on: 1334
-
-patches/0033-media-i2c-Remove-.s_power-from-ov7251.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/ov7251.c: ../drivers/media/i2c/ov7251.c:1310 ov7251_s_stream() warn: inconsistent returns '&ov7251->lock'.
-	  Locked on  : 1310
-	  Unlocked on: 1306
-
-patches/0035-media-i2c-Extend-.get_selection-for-ov7251.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/ov7251.c: ../drivers/media/i2c/ov7251.c:1333 ov7251_s_stream() warn: inconsistent returns '&ov7251->lock'.
-	  Locked on  : 1333
-	  Unlocked on: 1329
-
-patches/0036-media-i2c-add-ov7251_init_ctrls.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/ov7251.c: ../drivers/media/i2c/ov7251.c:1333 ov7251_s_stream() warn: inconsistent returns '&ov7251->lock'.
-	  Locked on  : 1333
-	  Unlocked on: 1329
-
-patches/0037-media-i2c-Add-hblank-control-to-ov7251.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/ov7251.c: ../drivers/media/i2c/ov7251.c:1336 ov7251_s_stream() warn: inconsistent returns '&ov7251->lock'.
-	  Locked on  : 1336
-	  Unlocked on: 1332
-
-patches/0038-media-i2c-Add-vblank-control-to-ov7251-driver.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/ov7251.c: ../drivers/media/i2c/ov7251.c:1381 ov7251_s_stream() warn: inconsistent returns '&ov7251->lock'.
-	  Locked on  : 1381
-	  Unlocked on: 1377
+   In file included from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/little_endian.h:14,
+                    from include/linux/byteorder/little_endian.h:5,
+                    from arch/arm/include/uapi/asm/byteorder.h:22,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/arm/include/asm/bitops.h:267,
+                    from include/linux/bitops.h:33,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from arch/arm/include/asm/div64.h:107,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/media/rc/imon_raw.c:5:
+   drivers/media/rc/imon_raw.c: In function 'imon_ir_data':
+>> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
+         |                                                  ^
+   include/uapi/linux/swab.h:128:54: note: in definition of macro '__swab64'
+     128 | #define __swab64(x) (__u64)__builtin_bswap64((__u64)(x))
+         |                                                      ^
+   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
+      93 | #define be64_to_cpu __be64_to_cpu
+         |                     ^~~~~~~~~~~~~
+   drivers/media/rc/imon_raw.c:32:20: note: in expansion of macro 'be64_to_cpu'
+      32 |         u64 data = be64_to_cpu(imon->ir_buf);
+         |                    ^~~~~~~~~~~
 
 
-Error #512 when building PDF docs
+vim +39 include/uapi/linux/byteorder/little_endian.h
 
+5921e6f8809b16 David Howells 2012-10-13  15  
+5921e6f8809b16 David Howells 2012-10-13  16  #define __constant_htonl(x) ((__force __be32)___constant_swab32((x)))
+5921e6f8809b16 David Howells 2012-10-13  17  #define __constant_ntohl(x) ___constant_swab32((__force __be32)(x))
+5921e6f8809b16 David Howells 2012-10-13  18  #define __constant_htons(x) ((__force __be16)___constant_swab16((x)))
+5921e6f8809b16 David Howells 2012-10-13  19  #define __constant_ntohs(x) ___constant_swab16((__force __be16)(x))
+5921e6f8809b16 David Howells 2012-10-13  20  #define __constant_cpu_to_le64(x) ((__force __le64)(__u64)(x))
+5921e6f8809b16 David Howells 2012-10-13  21  #define __constant_le64_to_cpu(x) ((__force __u64)(__le64)(x))
+5921e6f8809b16 David Howells 2012-10-13  22  #define __constant_cpu_to_le32(x) ((__force __le32)(__u32)(x))
+5921e6f8809b16 David Howells 2012-10-13  23  #define __constant_le32_to_cpu(x) ((__force __u32)(__le32)(x))
+5921e6f8809b16 David Howells 2012-10-13  24  #define __constant_cpu_to_le16(x) ((__force __le16)(__u16)(x))
+5921e6f8809b16 David Howells 2012-10-13  25  #define __constant_le16_to_cpu(x) ((__force __u16)(__le16)(x))
+5921e6f8809b16 David Howells 2012-10-13  26  #define __constant_cpu_to_be64(x) ((__force __be64)___constant_swab64((x)))
+5921e6f8809b16 David Howells 2012-10-13  27  #define __constant_be64_to_cpu(x) ___constant_swab64((__force __u64)(__be64)(x))
+5921e6f8809b16 David Howells 2012-10-13  28  #define __constant_cpu_to_be32(x) ((__force __be32)___constant_swab32((x)))
+5921e6f8809b16 David Howells 2012-10-13  29  #define __constant_be32_to_cpu(x) ___constant_swab32((__force __u32)(__be32)(x))
+5921e6f8809b16 David Howells 2012-10-13  30  #define __constant_cpu_to_be16(x) ((__force __be16)___constant_swab16((x)))
+5921e6f8809b16 David Howells 2012-10-13  31  #define __constant_be16_to_cpu(x) ___constant_swab16((__force __u16)(__be16)(x))
+5921e6f8809b16 David Howells 2012-10-13  32  #define __cpu_to_le64(x) ((__force __le64)(__u64)(x))
+5921e6f8809b16 David Howells 2012-10-13  33  #define __le64_to_cpu(x) ((__force __u64)(__le64)(x))
+5921e6f8809b16 David Howells 2012-10-13  34  #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+5921e6f8809b16 David Howells 2012-10-13  35  #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+5921e6f8809b16 David Howells 2012-10-13  36  #define __cpu_to_le16(x) ((__force __le16)(__u16)(x))
+5921e6f8809b16 David Howells 2012-10-13  37  #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+5921e6f8809b16 David Howells 2012-10-13  38  #define __cpu_to_be64(x) ((__force __be64)__swab64((x)))
+5921e6f8809b16 David Howells 2012-10-13 @39  #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
+5921e6f8809b16 David Howells 2012-10-13  40  #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
+5921e6f8809b16 David Howells 2012-10-13  41  #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
+5921e6f8809b16 David Howells 2012-10-13  42  #define __cpu_to_be16(x) ((__force __be16)__swab16((x)))
+5921e6f8809b16 David Howells 2012-10-13  43  #define __be16_to_cpu(x) __swab16((__force __u16)(__be16)(x))
+5921e6f8809b16 David Howells 2012-10-13  44  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
