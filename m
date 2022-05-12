@@ -2,60 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE7E0524F6C
-	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 16:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BC2352509B
+	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 16:50:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355013AbiELOGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 10:06:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34564 "EHLO
+        id S1355600AbiELOuZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 10:50:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355106AbiELOGa (ORCPT
+        with ESMTP id S1355595AbiELOuQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 10:06:30 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33BB20BF6;
-        Thu, 12 May 2022 07:06:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652364389; x=1683900389;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WIvtdmWtX/TRORt8dlpmlTRf4eOZvfVee018Zhu+TL0=;
-  b=hiZBSyl4vpPMMH4iv4Hi9OB4Hdv/g6vPOgI3YDVPeyMEYu97jJ84pXSe
-   P9lfYiGPIPNBuzIZj5uC1DwY/zr6Hm9ZdMTwF6NJqvj5fGaS32UbmtQra
-   XKcHny5os1JbV0JGvtKiFP1gkeyPkh6PkOfwD8j6OiKcTkqdCs91ve49k
-   lSPGbWF9kOkeTOGCVrdbvaNQINPGzbdW4S3zDxr5wXe1s7mvsl80M9R1M
-   AoOr0UQPXvGKBwQLxe37k6fUXZ04Npn1bXEyKpCu0i32baSQFzylVBgyQ
-   RJeoV836jtBgflJ8cVV74u4gQPXUUFnZImnH/oF7MAl0C9kDzr16JL0su
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="333046938"
-X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
-   d="scan'208";a="333046938"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2022 07:06:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
-   d="scan'208";a="698042755"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 12 May 2022 07:06:27 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1np9SV-000KYY-0J;
-        Thu, 12 May 2022 14:06:27 +0000
-Date:   Thu, 12 May 2022 22:06:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Stefan Agner <stefan@agner.ch>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: drivers/media/dvb-frontends/mn88443x.c:772:34: warning:
- 'mn88443x_of_match' defined but not used
-Message-ID: <202205122148.yhQVSpac-lkp@intel.com>
+        Thu, 12 May 2022 10:50:16 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88BEF24FDB2;
+        Thu, 12 May 2022 07:50:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1652367014; x=1683903014;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=AJOZLU0t6aDTGHtV1c8nOzI70dn0CA+lR89QhiodPug=;
+  b=bT/nGOKTSwtN5XFwzmaGjBl3My7qkqcXN9tueg3eN9RIGGewNouwec0Q
+   tVHO1MUwOWkxCTaCqiEwZjNwjaj4+gUriaQXqJjZ43W0fikG7ES9d4ou2
+   1tb1xpq/gFeh95Gf1BdsIeM/0311PIFPUvjCW1biPkQxT1FrldrpNWKYN
+   U=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 12 May 2022 07:50:14 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2022 07:50:14 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 12 May 2022 07:50:13 -0700
+Received: from [10.214.30.67] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 12 May
+ 2022 07:50:10 -0700
+Message-ID: <9be4ea50-4dc0-50f0-0552-e4b9e4feafa2@quicinc.com>
+Date:   Thu, 12 May 2022 20:20:07 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH V2] dmabuf: ensure unique directory name for dmabuf stats
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        <gregkh@linuxfoundation.org>, <sumit.semwal@linaro.org>,
+        <hridya@google.com>, <daniel.vetter@ffwll.ch>,
+        <tjmercier@google.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
+References: <1652191562-18700-1-git-send-email-quic_charante@quicinc.com>
+ <4ac55be2-7d55-2c3b-0d5e-f61c02c62792@amd.com>
+ <6dc59fa7-5885-9ed1-54c3-f2d112786312@quicinc.com>
+ <2a0312d3-d576-b5be-c823-938b38096523@amd.com>
+ <4d644a01-5259-a063-b5b2-ea95d5e7dd88@quicinc.com>
+ <93103bb7-8d67-a9ae-31c8-d53cb651a027@amd.com>
+From:   Charan Teja Kalla <quic_charante@quicinc.com>
+In-Reply-To: <93103bb7-8d67-a9ae-31c8-d53cb651a027@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,49 +74,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   feb9c5e19e913b53cb536a7aa7c9f20107bb51ec
-commit: 8169cf0a02caafd87ee33e66c12f7a35606a6b0c media: Kconfig: allow to select drivers if EMBEDDED
-date:   3 years ago
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20220512/202205122148.yhQVSpac-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8169cf0a02caafd87ee33e66c12f7a35606a6b0c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8169cf0a02caafd87ee33e66c12f7a35606a6b0c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/dvb-frontends/
+Thanks Christian for the comments!!
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+On 5/11/2022 12:33 PM, Christian König wrote:
+> 
+>> The single number approach, generated by atomic, wouldn't break the
+>> uapi, but that number won't give any meaningful information especially
+>> when this is targeted just for debug purpose. And just 'inode' is not
+>> usable for already stated reasons.
+> 
+> Well, why do you want to use the ino in the first place? This is an
+> anonymous inode not associated with any filesystem, so that number is
+> meaningless anyway.
+> 
 
-All warnings (new ones prefixed by >>):
+It is just for ease of debugging. Nothing more. I can quickly traverse
+the /sys/kernel/dmabuf/buffers/* and get complete information about the
+dmabuf buffers while relating to which process this buffer is allocated
+by, using this inode as the 'unique' reference.
 
->> drivers/media/dvb-frontends/mn88443x.c:772:34: warning: 'mn88443x_of_match' defined but not used [-Wunused-const-variable=]
-     772 | static const struct of_device_id mn88443x_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~
+https://cs.android.com/android/platform/superproject/+/master:system/memory/libmeminfo/libdmabufinfo/tools/dmabuf_dump.cpp
 
+>> How about using the atomic number generated it self used as inode
+>> number? I see tmpfs also maintains its own inode numbers for the same
+>> overflow reasons[2].
+> 
+> Yeah, that could potentially work as well.
+> 
 
-vim +/mn88443x_of_match +772 drivers/media/dvb-frontends/mn88443x.c
+Thanks. Will work on the next version of this patch.
 
-0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  771  
-0f408ce8941fcb Katsuhiro Suzuki 2018-07-23 @772  static const struct of_device_id mn88443x_of_match[] = {
-0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  773  	{ .compatible = "socionext,mn884433",   .data = &mn88443x_spec_pri, },
-0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  774  	{ .compatible = "socionext,mn884434-0", .data = &mn88443x_spec_pri, },
-0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  775  	{ .compatible = "socionext,mn884434-1", .data = &mn88443x_spec_sec, },
-0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  776  	{}
-0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  777  };
-0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  778  MODULE_DEVICE_TABLE(of, mn88443x_of_match);
-0f408ce8941fcb Katsuhiro Suzuki 2018-07-23  779  
-
-:::::: The code at line 772 was first introduced by commit
-:::::: 0f408ce8941fcb1b6e8431272cfc9337a0407d73 media: dvb-frontends: add Socionext MN88443x ISDB-S/T demodulator driver
-
-:::::: TO: Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> Regards,
+> Christian.
