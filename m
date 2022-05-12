@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54AAD524CF0
-	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 14:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 800FF524CEE
+	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 14:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353820AbiELMeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 08:34:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38570 "EHLO
+        id S1353803AbiELMeD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 08:34:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353806AbiELMeB (ORCPT
+        with ESMTP id S1353807AbiELMeB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 12 May 2022 08:34:01 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91436644C3
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5E6644D1
         for <linux-media@vger.kernel.org>; Thu, 12 May 2022 05:33:59 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 4226F21C73;
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 858D21F8F7;
         Thu, 12 May 2022 12:33:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
         t=1652358838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Cl1chpKtxWdZhiKHeu+ldZiumzQWQfZbSHf2WvQ8XlY=;
-        b=r2GKhCmjlgRCPLUTdHQY9JIbQWdQZ3MUyuW6xuzFwbmBzmpfK7GjwZ5rpg90z2wt4wCmY2
-        GHgIumcEyXHMJBtA7YXuY+IcXNOmTKf4K4Lgt7GpMpkzEeWtFygOK7KPB2btIUDd/Lj1uT
-        Zw1mkVGRLYXdJoOAe7f9CHPsKcjGPg8=
+        bh=dOSpqB3pLDS6sMKSpThZSIaP5oLpMXTeavYUI6S8mW8=;
+        b=BMa7c+uQOEtVa/VzlLhxhM+ECdKhIZrNghJVZGfCtwPi2LsCmi/yR9C6AO5ze3mRLPOdRr
+        0wCp7CX2Ph1Qc8TMNSyvMLPgUMgD4s/vT32sNFTCCPIYl97SRrVP97lZeF5hd+dbN3Dlwf
+        7kHB2aGmDWPlW9UcfK7q9jS87qMA/VQ=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1385113ABE;
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4C09A13ABE;
         Thu, 12 May 2022 12:33:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id aFMAA7b+fGL+GAAAMHmgww
+        id MGQFEbb+fGL+GAAAMHmgww
         (envelope-from <oneukum@suse.com>); Thu, 12 May 2022 12:33:58 +0000
 From:   Oliver Neukum <oneukum@suse.com>
 To:     linux-media@vger.kernel.org, mchehab@kernel.org, sean@mess.org
 Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH 2/3] igorplugusb: break cyclical race on disconnect
-Date:   Thu, 12 May 2022 14:33:53 +0200
-Message-Id: <20220512123354.25766-2-oneukum@suse.com>
+Subject: [PATCH 3/3] igorplugusb: remove superfluous usb_unlink_urb()
+Date:   Thu, 12 May 2022 14:33:54 +0200
+Message-Id: <20220512123354.25766-3-oneukum@suse.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220512123354.25766-1-oneukum@suse.com>
 References: <20220512123354.25766-1-oneukum@suse.com>
@@ -61,51 +61,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver uses a timer, that may submit the URB and
-the URB may start the timer. No simple order of killing
-can break te cycle. Poison the URB before killing
-the timer.
+Calling that on yourself while the completion handler
+is running is a NOP. Remove it.
 
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/media/rc/igorplugusb.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/media/rc/igorplugusb.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/media/rc/igorplugusb.c b/drivers/media/rc/igorplugusb.c
-index 1afba95409ff..b2245849f7aa 100644
+index b2245849f7aa..12ee5dd0a61a 100644
 --- a/drivers/media/rc/igorplugusb.c
 +++ b/drivers/media/rc/igorplugusb.c
-@@ -126,7 +126,7 @@ static void igorplugusb_cmd(struct igorplugusb *ir, int cmd)
- 	ir->request.bRequest = cmd;
- 	ir->urb->transfer_flags = 0;
- 	ret = usb_submit_urb(ir->urb, GFP_ATOMIC);
--	if (ret)
-+	if (ret && ret != -EPERM)
- 		dev_err(ir->dev, "submit urb failed: %d", ret);
- }
- 
-@@ -223,7 +223,9 @@ static int igorplugusb_probe(struct usb_interface *intf,
- 
- 	return 0;
- fail:
-+	usb_poison_urb(ir->urb);
- 	del_timer(&ir->timer);
-+	usb_unpoison_urb(ir->urb);
- 	usb_free_urb(ir->urb);
- 	rc_free_device(ir->rc);
- 	kfree(ir->buf_in);
-@@ -236,9 +238,10 @@ static void igorplugusb_disconnect(struct usb_interface *intf)
- 	struct igorplugusb *ir = usb_get_intfdata(intf);
- 
- 	rc_unregister_device(ir->rc);
-+	usb_poison_urb(ir->urb);
- 	del_timer_sync(&ir->timer);
- 	usb_set_intfdata(intf, NULL);
--	usb_kill_urb(ir->urb);
-+	usb_unpoison_urb(ir->urb);
- 	usb_free_urb(ir->urb);
- 	kfree(ir->buf_in);
- }
+@@ -110,7 +110,6 @@ static void igorplugusb_callback(struct urb *urb)
+ 	case -ECONNRESET:
+ 	case -ENOENT:
+ 	case -ESHUTDOWN:
+-		usb_unlink_urb(urb);
+ 		return;
+ 	default:
+ 		dev_warn(ir->dev, "Error: urb status = %d\n", urb->status);
 -- 
 2.35.3
 
