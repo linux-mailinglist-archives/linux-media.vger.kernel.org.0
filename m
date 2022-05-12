@@ -2,95 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8474524E73
-	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 15:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEC3D524E94
+	for <lists+linux-media@lfdr.de>; Thu, 12 May 2022 15:46:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354519AbiELNlx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 09:41:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53116 "EHLO
+        id S244935AbiELNqo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 May 2022 09:46:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354535AbiELNlv (ORCPT
+        with ESMTP id S1351993AbiELNqn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 09:41:51 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 159885DE7F
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 06:41:45 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 1BB4921C75;
-        Thu, 12 May 2022 13:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1652362904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Qva2/AimS1lux9ZaJY+ZwaRaPYSNaI3e2zUqWJj9XKs=;
-        b=aerY/KGW1fk+X83EszXb2uSaOftjIyRH+NtCsm/G9uxRq2wiwa/ROdEh/9WQD22Su3q1xl
-        E0LG5EPHBW3Bg7/ANWowKjJhllqere7LywS2GQbdvKtrFtGxcK7oq45gIDtGrcLG1+cfL3
-        /2i5H/Hv8WfrKlru4HcVbUjx66unAR0=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DE75613B35;
-        Thu, 12 May 2022 13:41:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 2IZ2NJcOfWKPPAAAMHmgww
-        (envelope-from <oneukum@suse.com>); Thu, 12 May 2022 13:41:43 +0000
-From:   Oliver Neukum <oneukum@suse.com>
-To:     linux-media@vger.kernel.org, mchehab@kernel.org, sean@mess.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCHv2 2/2] ttusbir: avoid unnecessary usb_unlink_urb()
-Date:   Thu, 12 May 2022 15:41:41 +0200
-Message-Id: <20220512134141.5388-2-oneukum@suse.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220512134141.5388-1-oneukum@suse.com>
-References: <20220512134141.5388-1-oneukum@suse.com>
+        Thu, 12 May 2022 09:46:43 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C38C162CC3
+        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 06:46:42 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id j6so4810858pfe.13
+        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 06:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=BKTUsOZXurokKw93pDZ/qCH4rd2yh1Ne8HUq4b8wchY=;
+        b=Y63gqBsfRrjW5Wg1/uqYlapV4UJPKvEAySHVc1O+o5rdfyAvM2PuHfdMQRqcBanwpn
+         GXeS95qUUCdS+zKdlYnkVwLfRXrNXrXS0qrhDiLkgm/sp7IKbnGI2USzMB2Ls7vBHCmC
+         XUlthZehM9dELVvDP9rF96SFUOF2U+o7gNgWiZd4kxez6dnpQ/sM+zFxMMzxjKjeVHDN
+         waZCI68CDWH8Jh8uwR9BzqLoDAjfy7Ll6lr9RCL332yQnTNgAmrHR0XtTVKhln5eoq3T
+         zm+80JagvdpuIPhyyFyCsIPVCTJlt/OBYi2SRZJZAJhSV3olCTtlQBzLHwcdrv+bYNKw
+         mTKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=BKTUsOZXurokKw93pDZ/qCH4rd2yh1Ne8HUq4b8wchY=;
+        b=5YWyKG9GBDEj4W4RN1sBTkNDkWRLCOosBeLHcqvi0VD1/adoj6DMCaVLkSNsBsPSUD
+         t/n0bQoIw7e93Yh/CghgK6vHmxZDzZbII32pYHl3EZNoMMEmuRk6eql12fEHKXbOBaJm
+         yx2C9HBzfygOSw+INzHStggcPerACnWMdVoalbi3kQmtxeXmubObrPlt3I5KEXS1VBcV
+         Mvi5g0oVEh+KGc5GJ9cCL0xavwsmnDbenSTTMLyOx8ntV1IBcdNvFdqKbwBLRvs0u+yi
+         WtP5Hqkwqor6BTlXx3BsOILsPRXOkce3KT+j/dCraXLYNnWSXzwYirHV4iqEvKMmegJA
+         wKvg==
+X-Gm-Message-State: AOAM532p7wquos19dLd+XpabhxxweY699tPZaOq8Yr3Ba2yfwAtoqp3Q
+        sBriUtcVxFwRUq9ngoh3CcidWMRQbWNXeVOXq3g=
+X-Google-Smtp-Source: ABdhPJxA/liaQk8S8plDAjUxUg979oUjC+zu1NUmIntTt9lxaJpdTWjcqji/aFlbusbg3ZA8ub+Y5JQEYTxokdOoGHc=
+X-Received: by 2002:a05:6a00:a1e:b0:50d:bb0c:2e27 with SMTP id
+ p30-20020a056a000a1e00b0050dbb0c2e27mr30166684pfh.49.1652363202221; Thu, 12
+ May 2022 06:46:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Received: by 2002:a05:6a20:3e0c:b0:7f:499d:4df6 with HTTP; Thu, 12 May 2022
+ 06:46:41 -0700 (PDT)
+Reply-To: musadosseh1@gmail.com
+From:   David Randal <barr.musabame9@gmail.com>
+Date:   Thu, 12 May 2022 15:46:41 +0200
+Message-ID: <CACXnS-6WgcbSi9DpVems9L8U0N04T5VN9meEYuUV-6UU+TcQ+g@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:42a listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [barr.musabame9[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [barr.musabame9[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [musadosseh1[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While the completion handler is running,
-usb_unlink_urb(9 on yourself is a NOP. Remove it.
+My name is DAVID Randal from africa construction equipment operator I
+want you to work with me as an overseas partner to do business GOLD.
+If you are interested answer me.
 
-v2: Resending due to typo in CC
-
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/media/rc/ttusbir.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/media/rc/ttusbir.c b/drivers/media/rc/ttusbir.c
-index a8009dc958be..560a26f3965c 100644
---- a/drivers/media/rc/ttusbir.c
-+++ b/drivers/media/rc/ttusbir.c
-@@ -90,7 +90,6 @@ static void ttusbir_bulk_complete(struct urb *urb)
- 	case -ECONNRESET:
- 	case -ENOENT:
- 	case -ESHUTDOWN:
--		usb_unlink_urb(urb);
- 		return;
- 	case -EPIPE:
- 	default:
-@@ -166,7 +165,6 @@ static void ttusbir_urb_complete(struct urb *urb)
- 	case -ECONNRESET:
- 	case -ENOENT:
- 	case -ESHUTDOWN:
--		usb_unlink_urb(urb);
- 		return;
- 	case -EPIPE:
- 	default:
--- 
-2.35.3
-
+Ms.David
