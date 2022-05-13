@@ -2,431 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1E28525A4D
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 05:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 517D2525AE5
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 06:54:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376865AbiEMDoL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 May 2022 23:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54580 "EHLO
+        id S1376995AbiEMEkr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 00:40:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376806AbiEMDoI (ORCPT
+        with ESMTP id S1352463AbiEMEkq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 May 2022 23:44:08 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE23226CC52
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 20:44:05 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id ks9so13835845ejb.2
-        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 20:44:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=bHsWM+Jemo/IE4V7RB9cRdmEwCfy/dzIlfh2KyXi40c=;
-        b=dqoqhLTVommukWekYXATDCaajEGXoveHVJmfJOKBRldg0JkH4yFwr2l/vQj5BS97A9
-         rTE2HKI8YMS4d/BBQJYi8PV2Xu+6CeAv6NQ1cUu7H2cN1JYq7xRWmcS0+2US8Rr7zlsH
-         OzLSSGQ2v/1eFDvg8T13gqwohDRs9o8pe82KgEHBthUwlYbRd/pI5cgIXPmpkg+n5onV
-         f9w/U2YFs6VFgaf8XeKnhDaCQqmYU0OAq49VXMalEEsW0GipsQNm4eJcukacT8AMi3Vl
-         PWyBTDGEl7JI0LagbJfAT7VQicCGnLaX6ZKI5KP4duD6OPAgmrMUvYCYFE+tla8aJ/V0
-         LSmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bHsWM+Jemo/IE4V7RB9cRdmEwCfy/dzIlfh2KyXi40c=;
-        b=Jd9UdA/706mXb+6Ps39bG/hAoyxkjQAsfPlq/41kCredFb7NdH2P1WWqZ7rQYHt3yo
-         puq4r7PT2CCugaDEig1UOhh1wbFZM6ziwi0r9LD4MqyyWUI2YYPTatLQhSuPcFibRuNt
-         6NARf1hd9J7VlKD1KW/rjmWoBC8OfpeLsR2Fe7RX/t2q4Nu3l9PkAB8+jY6qaKyeRKN+
-         rQ8OdHezl4P4JW2W8ScftUB/qtGUkJ2Kw7DHMYyMXV+G9xLqn6XJ6hKajG57EuP9jqyw
-         6g+gVgZ88TAgBtNd6I+NqN4DGzJMoNfADdLeqTJYGjiJbYlvQUcshgQvDs+RrJ/BEHuv
-         8GfQ==
-X-Gm-Message-State: AOAM530lCRn92iJafI8APItF09pHC/MGACTKSl+qHsW1kMypwfD/dHnk
-        KY+DzRqXGk8DzTyqBMzyiky64U8buiR+viQ8gFzUmg==
-X-Google-Smtp-Source: ABdhPJwFWNh6XhDKKc51rh3sa/hEc/yEhfmKOtpU/oxW7nRCQ8tw7lmd0fC7np1TYyHXTpHiZPSDwI53NnVsPAxmJaA=
-X-Received: by 2002:a17:906:6a0f:b0:6f5:15cf:2e5 with SMTP id
- qw15-20020a1709066a0f00b006f515cf02e5mr2476733ejc.584.1652413444067; Thu, 12
- May 2022 20:44:04 -0700 (PDT)
+        Fri, 13 May 2022 00:40:46 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49CDA2DF1
+        for <linux-media@vger.kernel.org>; Thu, 12 May 2022 21:40:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652416843; x=1683952843;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=wafAMVd9V6pZ0GkQwZ6/wrpZZJxXOng6XrsIv0iCdl0=;
+  b=MZindAi+MKOmZXXAfLV10sHF8K2FzoYC0xqR3ztOQcUOtNuLBKI6502b
+   jqK8sXjhMsrUcIi4FgKNV9P70YkJLsRbJ9yS7/d5l+Lktav/AijzqtQ24
+   n4kgxWO1J9lPcgFQuRILY3khu5WK5pShNMwdIqXMxMN/refWGDT+T+QMG
+   CJb4zPjaIw+eOHt0lrqJSAsHjfUBpuNTS46wbTH89EEumxT1C5QnaYajC
+   obTGFSW+o9wUMSUkDmoucj3ZldLW9JKOsrdOvcNkL4LhhLVLad4mptz+g
+   vmwD2YCBPrlJ5HdaVIlSTAbuRvQ+96USYJdQG1IWUkyhsZyu2ZN98HzN+
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="270149165"
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
+   d="scan'208";a="270149165"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2022 21:40:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
+   d="scan'208";a="712249858"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 12 May 2022 21:40:41 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1npN6W-000LK8-FQ;
+        Fri, 13 May 2022 04:40:40 +0000
+Date:   Fri, 13 May 2022 12:40:04 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Oliver Neukum <oneukum@suse.com>, linux-media@vger.kernel.org,
+        mchehab@kernel.org, sean@mess.org
+Cc:     kbuild-all@lists.01.org, Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH] imon_raw: respect DMA coherency
+Message-ID: <202205131229.FeABo9N9-lkp@intel.com>
+References: <20220512130321.30599-1-oneukum@suse.com>
 MIME-Version: 1.0
-References: <20220510235653.933868-1-tjmercier@google.com> <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
- <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com> <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
-In-Reply-To: <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Thu, 12 May 2022 20:43:52 -0700
-Message-ID: <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Shuah Khan <shuah@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
-        John Stultz <jstultz@google.com>,
-        Carlos Llamas <cmllamas@google.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        kernel-team@android.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220512130321.30599-1-oneukum@suse.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 12, 2022 at 6:10 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
-te:
->
-> Le mercredi 11 mai 2022 =C3=A0 13:31 -0700, T.J. Mercier a =C3=A9crit :
-> > On Wed, May 11, 2022 at 6:21 AM Nicolas Dufresne <nicolas@ndufresne.ca>=
- wrote:
-> > >
-> > > Hi,
-> > >
-> > > Le mardi 10 mai 2022 =C3=A0 23:56 +0000, T.J. Mercier a =C3=A9crit :
-> > > > This patch series revisits the proposal for a GPU cgroup controller=
- to
-> > > > track and limit memory allocations by various device/allocator
-> > > > subsystems. The patch series also contains a simple prototype to
-> > > > illustrate how Android intends to implement DMA-BUF allocator
-> > > > attribution using the GPU cgroup controller. The prototype does not
-> > > > include resource limit enforcements.
-> > >
-> > > I'm sorry, since I'm not in-depth technically involve. But from readi=
-ng the
-> > > topic I don't understand the bound this creates between DMABuf Heaps =
-and GPU. Is
-> > > this an attempt to really track the DMABuf allocated by userland, or =
-just
-> > > something for GPU ? What about V4L2 devices ? Any way this can be cla=
-rified,
-> > > specially what would other subsystem needs to have cgroup DMABuf allo=
-cation
-> > > controller support ?
-> > >
-> > Hi Nicolas,
-> >
-> > The link between dmabufs, dmabuf heaps, and "GPU memory" is maybe
-> > somewhat of an Androidism. However this change aims to be usable for
-> > tracking all GPU related allocations. It's just that this initial
-> > series only adds support for tracking dmabufs allocated from dmabuf
-> > heaps.
-> >
-> > In Android most graphics buffers are dma buffers allocated from a
-> > dmabuf heap, so that is why these dmabuf heap allocations are being
-> > tracked under the GPU cgroup. Other dmabuf exporters like V4L2 might
-> > also want to track their buffers, but would probably want to do so
-> > under a bucket name of something like "v4l2". Same goes for GEM
-> > dmabufs. The naming scheme for this is still yet to be decided. It
-> > would be cool to be able to attribute memory at the driver level, or
-> > even different types of memory at the driver level, but I imagine
-> > there is a point of diminishing returns for fine-grained
-> > naming/bucketing.
-> >
-> > So far, I haven't tried to create a strict definition of what is and
-> > is not "GPU memory" for the purpose of this accounting, so I don't
-> > think we should be restricted to tracking just dmabufs. I don't see
-> > why this couldn't be anything a driver wants to consider as GPU memory
-> > as long as it is named/bucketed appropriately, such as both on-package
-> > graphics card memory use and CPU memory dedicated for graphics use
-> > like for host/device transfers.
-> >
-> > Is that helpful?
->
-> I'm actually happy I've asked this question, wasn't silly after all. I th=
-ink the
-> problem here is a naming issue. What you really are monitor is "video mem=
-ory",
-> which consist of a memory segment allocated to store data used to render =
-images
-> (its not always images of course, GPU an VPU have specialized buffers for=
- their
-> purpose).
->
-> Whether this should be split between what is used specifically by the GPU
-> drivers, the display drivers, the VPU (CODEC and pre/post-processor) or c=
-amera
-> drivers is something that should be discussed. But in the current approac=
-h, you
-> really meant Video memory as a superset of the above. Personally, I think
-> generically (to de-Andronized your work), en-globing all video memory is
-> sufficient. What I fail to understand is how you will manage to distingui=
-shed
-> DMABuf Heap allocation (which are used outside of Android btw), from Vide=
-o
-> allocation or other type of usage. I'm sure non-video usage will exist in=
- the
-> future (think of machine learning, compute, other high bandwidth streamin=
-g
-> thingy ...)
->
-Ok thank you for pointing out the naming issue. The naming is a
-consequence of the initial use case, but I guess it's too specific.
-What I want out of this change is that android can track dmabufs that
-come out of heaps, and drm can track gpu memory. But other drivers
-could track different resources under different names. Imagine this
-were called a buffer cgroup controller instead of a GPU cgroup
-controller. Then the use component ("video memory") isn't tied up with
-the name of the controller, but it's up to the name of the bucket the
-resource is tracked under. I think this meets the needs of the two use
-cases I'm aware of now, while leaving the door open to other future
-needs. Really the controller is just enabling abstract named buckets
-for tracking and eventually limiting a type of resource.
+Hi Oliver,
 
-P.S. I will be unavailable starting tomorrow, but I'll be back on Monday.
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on v5.18-rc6 next-20220512]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/imon_raw-respect-DMA-coherency/20220512-210422
+base:   git://linuxtv.org/media_tree.git master
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20220513/202205131229.FeABo9N9-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/5e1a1b1e9c8288033f5f1f1d70a3d7506114fad3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Oliver-Neukum/imon_raw-respect-DMA-coherency/20220512-210422
+        git checkout 5e1a1b1e9c8288033f5f1f1d70a3d7506114fad3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh SHELL=/bin/bash drivers/media/rc/ drivers/platform/mellanox/ net/rxrpc/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: cast to restricted __be64
+>> drivers/media/rc/imon_raw.c:32:20: sparse: sparse: non size-preserving pointer to integer cast
 
+vim +32 drivers/media/rc/imon_raw.c
 
-> >
-> > Best,
-> > T.J.
-> >
-> > > >
-> > > > Changelog:
-> > > > v7:
-> > > > Hide gpucg and gpucg_bucket struct definitions per Michal Koutn=C3=
-=BD.
-> > > > This means gpucg_register_bucket now returns an internally allocate=
-d
-> > > > struct gpucg_bucket.
-> > > >
-> > > > Move all public function documentation to the cgroup_gpu.h header.
-> > > >
-> > > > Remove comment in documentation about duplicate name rejection whic=
-h
-> > > > is not relevant to cgroups users per Michal Koutn=C3=BD.
-> > > >
-> > > > v6:
-> > > > Move documentation into cgroup-v2.rst per Tejun Heo.
-> > > >
-> > > > Rename BINDER_FD{A}_FLAG_SENDER_NO_NEED ->
-> > > > BINDER_FD{A}_FLAG_XFER_CHARGE per Carlos Llamas.
-> > > >
-> > > > Return error on transfer failure per Carlos Llamas.
-> > > >
-> > > > v5:
-> > > > Rebase on top of v5.18-rc3
-> > > >
-> > > > Drop the global GPU cgroup "total" (sum of all device totals) porti=
-on
-> > > > of the design since there is no currently known use for this per
-> > > > Tejun Heo.
-> > > >
-> > > > Fix commit message which still contained the old name for
-> > > > dma_buf_transfer_charge per Michal Koutn=C3=BD.
-> > > >
-> > > > Remove all GPU cgroup code except what's necessary to support charg=
-e transfer
-> > > > from dma_buf. Previously charging was done in export, but for non-A=
-ndroid
-> > > > graphics use-cases this is not ideal since there may be a delay bet=
-ween
-> > > > allocation and export, during which time there is no accounting.
-> > > >
-> > > > Merge dmabuf: Use the GPU cgroup charge/uncharge APIs patch into
-> > > > dmabuf: heaps: export system_heap buffers with GPU cgroup charging =
-as a
-> > > > result of above.
-> > > >
-> > > > Put the charge and uncharge code in the same file (system_heap_allo=
-cate,
-> > > > system_heap_dma_buf_release) instead of splitting them between the =
-heap and
-> > > > the dma_buf_release. This avoids asymmetric management of the gpucg=
- charges.
-> > > >
-> > > > Modify the dma_buf_transfer_charge API to accept a task_struct inst=
-ead
-> > > > of a gpucg. This avoids requiring the caller to manage the refcount
-> > > > of the gpucg upon failure and confusing ownership transfer logic.
-> > > >
-> > > > Support all strings for gpucg_register_bucket instead of just strin=
-g
-> > > > literals.
-> > > >
-> > > > Enforce globally unique gpucg_bucket names.
-> > > >
-> > > > Constrain gpucg_bucket name lengths to 64 bytes.
-> > > >
-> > > > Append "-heap" to gpucg_bucket names from dmabuf-heaps.
-> > > >
-> > > > Drop patch 7 from the series, which changed the types of
-> > > > binder_transaction_data's sender_pid and sender_euid fields. This w=
-as
-> > > > done in another commit here:
-> > > > https://lore.kernel.org/all/20220210021129.3386083-4-masahiroy@kern=
-el.org/
-> > > >
-> > > > Rename:
-> > > >   gpucg_try_charge -> gpucg_charge
-> > > >   find_cg_rpool_locked -> cg_rpool_find_locked
-> > > >   init_cg_rpool -> cg_rpool_init
-> > > >   get_cg_rpool_locked -> cg_rpool_get_locked
-> > > >   "gpu cgroup controller" -> "GPU controller"
-> > > >   gpucg_device -> gpucg_bucket
-> > > >   usage -> size
-> > > >
-> > > > Tests:
-> > > >   Support both binder_fd_array_object and binder_fd_object. This is
-> > > >   necessary because new versions of Android will use binder_fd_obje=
-ct
-> > > >   instead of binder_fd_array_object, and we need to support both.
-> > > >
-> > > >   Tests for both binder_fd_array_object and binder_fd_object.
-> > > >
-> > > >   For binder_utils return error codes instead of
-> > > >   struct binder{fs}_ctx.
-> > > >
-> > > >   Use ifdef __ANDROID__ to choose platform-dependent temp path inst=
-ead
-> > > >   of a runtime fallback.
-> > > >
-> > > >   Ensure binderfs_mntpt ends with a trailing '/' character instead =
-of
-> > > >   prepending it where used.
-> > > >
-> > > > v4:
-> > > > Skip test if not run as root per Shuah Khan
-> > > >
-> > > > Add better test logging for abnormal child termination per Shuah Kh=
-an
-> > > >
-> > > > Adjust ordering of charge/uncharge during transfer to avoid potenti=
-ally
-> > > > hitting cgroup limit per Michal Koutn=C3=BD
-> > > >
-> > > > Adjust gpucg_try_charge critical section for charge transfer functi=
-onality
-> > > >
-> > > > Fix uninitialized return code error for dmabuf_try_charge error cas=
-e
-> > > >
-> > > > v3:
-> > > > Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz
-> > > >
-> > > > Use more common dual author commit message format per John Stultz
-> > > >
-> > > > Remove android from binder changes title per Todd Kjos
-> > > >
-> > > > Add a kselftest for this new behavior per Greg Kroah-Hartman
-> > > >
-> > > > Include details on behavior for all combinations of kernel/userspac=
-e
-> > > > versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Ha=
-rtman.
-> > > >
-> > > > Fix pid and uid types in binder UAPI header
-> > > >
-> > > > v2:
-> > > > See the previous revision of this change submitted by Hridya Valsar=
-aju
-> > > > at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@goo=
-gle.com/
-> > > >
-> > > > Move dma-buf cgroup charge transfer from a dma_buf_op defined by ev=
-ery
-> > > > heap to a single dma-buf function for all heaps per Daniel Vetter a=
-nd
-> > > > Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_dev=
-ice
-> > > > tracking the current associations were added to the dma_buf struct =
-to
-> > > > achieve this.
-> > > >
-> > > > Fix incorrect Kconfig help section indentation per Randy Dunlap.
-> > > >
-> > > > History of the GPU cgroup controller
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > The GPU/DRM cgroup controller came into being when a consensus[1]
-> > > > was reached that the resources it tracked were unsuitable to be int=
-egrated
-> > > > into memcg. Originally, the proposed controller was specific to the=
- DRM
-> > > > subsystem and was intended to track GEM buffers and GPU-specific
-> > > > resources[2]. In order to help establish a unified memory accountin=
-g model
-> > > > for all GPU and all related subsystems, Daniel Vetter put forth a
-> > > > suggestion to move it out of the DRM subsystem so that it can be us=
-ed by
-> > > > other DMA-BUF exporters as well[3]. This RFC proposes an interface =
-that
-> > > > does the same.
-> > > >
-> > > > [1]: https://patchwork.kernel.org/project/dri-devel/cover/201905011=
-40438.9506-1-brian.welty@intel.com/#22624705
-> > > > [2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.w=
-elty@intel.com/
-> > > > [3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwl=
-l.local/
-> > > >
-> > > > Hridya Valsaraju (3):
-> > > >   gpu: rfc: Proposal for a GPU cgroup controller
-> > > >   cgroup: gpu: Add a cgroup controller for allocator attribution of=
- GPU
-> > > >     memory
-> > > >   binder: Add flags to relinquish ownership of fds
-> > > >
-> > > > T.J. Mercier (3):
-> > > >   dmabuf: heaps: export system_heap buffers with GPU cgroup chargin=
-g
-> > > >   dmabuf: Add gpu cgroup charge transfer function
-> > > >   selftests: Add binder cgroup gpu memory transfer tests
-> > > >
-> > > >  Documentation/admin-guide/cgroup-v2.rst       |  23 +
-> > > >  drivers/android/binder.c                      |  31 +-
-> > > >  drivers/dma-buf/dma-buf.c                     |  80 ++-
-> > > >  drivers/dma-buf/dma-heap.c                    |  38 ++
-> > > >  drivers/dma-buf/heaps/system_heap.c           |  28 +-
-> > > >  include/linux/cgroup_gpu.h                    | 146 +++++
-> > > >  include/linux/cgroup_subsys.h                 |   4 +
-> > > >  include/linux/dma-buf.h                       |  49 +-
-> > > >  include/linux/dma-heap.h                      |  15 +
-> > > >  include/uapi/linux/android/binder.h           |  23 +-
-> > > >  init/Kconfig                                  |   7 +
-> > > >  kernel/cgroup/Makefile                        |   1 +
-> > > >  kernel/cgroup/gpu.c                           | 390 +++++++++++++
-> > > >  .../selftests/drivers/android/binder/Makefile |   8 +
-> > > >  .../drivers/android/binder/binder_util.c      | 250 +++++++++
-> > > >  .../drivers/android/binder/binder_util.h      |  32 ++
-> > > >  .../selftests/drivers/android/binder/config   |   4 +
-> > > >  .../binder/test_dmabuf_cgroup_transfer.c      | 526 ++++++++++++++=
-++++
-> > > >  18 files changed, 1632 insertions(+), 23 deletions(-)
-> > > >  create mode 100644 include/linux/cgroup_gpu.h
-> > > >  create mode 100644 kernel/cgroup/gpu.c
-> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
-Makefile
-> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
-binder_util.c
-> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
-binder_util.h
-> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
-config
-> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
-test_dmabuf_cgroup_transfer.c
-> > > >
-> > >
->
+8a4e8f8dfc6994 Sean Young 2018-01-05  20  
+8a4e8f8dfc6994 Sean Young 2018-01-05  21  /*
+8d023a5787775c Sean Young 2018-10-18  22   * The first 5 bytes of data represent IR pulse or space. Each bit, starting
+8d023a5787775c Sean Young 2018-10-18  23   * from highest bit in the first byte, represents 250µs of data. It is 1
+8d023a5787775c Sean Young 2018-10-18  24   * for space and 0 for pulse.
+8d023a5787775c Sean Young 2018-10-18  25   *
+8d023a5787775c Sean Young 2018-10-18  26   * The station sends 10 packets, and the 7th byte will be number 1 to 10, so
+8d023a5787775c Sean Young 2018-10-18  27   * when we receive 10 we assume all the data has arrived.
+8a4e8f8dfc6994 Sean Young 2018-01-05  28   */
+8a4e8f8dfc6994 Sean Young 2018-01-05  29  static void imon_ir_data(struct imon *imon)
+8a4e8f8dfc6994 Sean Young 2018-01-05  30  {
+183e19f5b9ee18 Sean Young 2018-08-21  31  	struct ir_raw_event rawir = {};
+e70d13f7ac061d Sean Young 2019-08-09 @32  	u64 data = be64_to_cpu(imon->ir_buf);
+e70d13f7ac061d Sean Young 2019-08-09  33  	u8 packet_no = data & 0xff;
+8d023a5787775c Sean Young 2018-10-18  34  	int offset = 40;
+8a4e8f8dfc6994 Sean Young 2018-01-05  35  	int bit;
+8a4e8f8dfc6994 Sean Young 2018-01-05  36  
+e70d13f7ac061d Sean Young 2019-08-09  37  	if (packet_no == 0xff)
+e70d13f7ac061d Sean Young 2019-08-09  38  		return;
+e70d13f7ac061d Sean Young 2019-08-09  39  
+e70d13f7ac061d Sean Young 2019-08-09  40  	dev_dbg(imon->dev, "data: %*ph", 8, &imon->ir_buf);
+e70d13f7ac061d Sean Young 2019-08-09  41  
+e70d13f7ac061d Sean Young 2019-08-09  42  	/*
+e70d13f7ac061d Sean Young 2019-08-09  43  	 * Only the first 5 bytes contain IR data. Right shift so we move
+e70d13f7ac061d Sean Young 2019-08-09  44  	 * the IR bits to the lower 40 bits.
+e70d13f7ac061d Sean Young 2019-08-09  45  	 */
+e70d13f7ac061d Sean Young 2019-08-09  46  	data >>= 24;
+8a4e8f8dfc6994 Sean Young 2018-01-05  47  
+8d023a5787775c Sean Young 2018-10-18  48  	do {
+e70d13f7ac061d Sean Young 2019-08-09  49  		/*
+e70d13f7ac061d Sean Young 2019-08-09  50  		 * Find highest set bit which is less or equal to offset
+e70d13f7ac061d Sean Young 2019-08-09  51  		 *
+e70d13f7ac061d Sean Young 2019-08-09  52  		 * offset is the bit above (base 0) where we start looking.
+e70d13f7ac061d Sean Young 2019-08-09  53  		 *
+e70d13f7ac061d Sean Young 2019-08-09  54  		 * data & (BIT_ULL(offset) - 1) masks off any unwanted bits,
+e70d13f7ac061d Sean Young 2019-08-09  55  		 * so we have just bits less than offset.
+e70d13f7ac061d Sean Young 2019-08-09  56  		 *
+e70d13f7ac061d Sean Young 2019-08-09  57  		 * fls will tell us the highest bit set plus 1 (or 0 if no
+e70d13f7ac061d Sean Young 2019-08-09  58  		 * bits are set).
+e70d13f7ac061d Sean Young 2019-08-09  59  		 */
+d587cdb2a5f570 Sean Young 2019-10-07  60  		rawir.pulse = !rawir.pulse;
+e70d13f7ac061d Sean Young 2019-08-09  61  		bit = fls64(data & (BIT_ULL(offset) - 1));
+8d023a5787775c Sean Young 2018-10-18  62  		if (bit < offset) {
+d587cdb2a5f570 Sean Young 2019-10-07  63  			dev_dbg(imon->dev, "%s: %d bits",
+d587cdb2a5f570 Sean Young 2019-10-07  64  				rawir.pulse ? "pulse" : "space", offset - bit);
+8d023a5787775c Sean Young 2018-10-18  65  			rawir.duration = (offset - bit) * BIT_DURATION;
+8a4e8f8dfc6994 Sean Young 2018-01-05  66  			ir_raw_event_store_with_filter(imon->rcdev, &rawir);
+8a4e8f8dfc6994 Sean Young 2018-01-05  67  
+8a4e8f8dfc6994 Sean Young 2018-01-05  68  			offset = bit;
+8d023a5787775c Sean Young 2018-10-18  69  		}
+8d023a5787775c Sean Young 2018-10-18  70  
+d587cdb2a5f570 Sean Young 2019-10-07  71  		data = ~data;
+8d023a5787775c Sean Young 2018-10-18  72  	} while (offset > 0);
+8a4e8f8dfc6994 Sean Young 2018-01-05  73  
+494fce160f2dac Sean Young 2019-08-09  74  	if (packet_no == 0x0a && !imon->rcdev->idle) {
+8a4e8f8dfc6994 Sean Young 2018-01-05  75  		ir_raw_event_set_idle(imon->rcdev, true);
+8a4e8f8dfc6994 Sean Young 2018-01-05  76  		ir_raw_event_handle(imon->rcdev);
+8a4e8f8dfc6994 Sean Young 2018-01-05  77  	}
+8a4e8f8dfc6994 Sean Young 2018-01-05  78  }
+8a4e8f8dfc6994 Sean Young 2018-01-05  79  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
