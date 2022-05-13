@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A694526384
+	by mail.lfdr.de (Postfix) with ESMTP id 66454526385
 	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 16:14:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241632AbiEMOOd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 10:14:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41986 "EHLO
+        id S241727AbiEMOOf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 10:14:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237900AbiEMOO2 (ORCPT
+        with ESMTP id S239120AbiEMOOa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 10:14:28 -0400
+        Fri, 13 May 2022 10:14:30 -0400
 Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE1810FC0
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 07:14:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7523C25299
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 07:14:28 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id F2FE210000F;
-        Fri, 13 May 2022 14:14:25 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id B73E9100010;
+        Fri, 13 May 2022 14:14:26 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     sakari.ailus@iki.fi, mchehab@kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH v7 04/28] media: ov5640: Associate bpp with formats
-Date:   Fri, 13 May 2022 16:13:52 +0200
-Message-Id: <20220513141416.120552-5-jacopo@jmondi.org>
+Subject: [PATCH v7 05/28] media: ov5640: Add LINK_FREQ control
+Date:   Fri, 13 May 2022 16:13:53 +0200
+Message-Id: <20220513141416.120552-6-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220513141416.120552-1-jacopo@jmondi.org>
 References: <20220513141416.120552-1-jacopo@jmondi.org>
@@ -38,92 +38,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Associate the bit depth to each format supported by the sensor.
-
-The bpp will be used to calculate the line length.
+Add the V4L2_CID_LINK_FREQ control to the ov5640 driver.
+Make the control read-only for the moment.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5640.c | 63 +++++++++++++++++++++++++++++---------
- 1 file changed, 48 insertions(+), 15 deletions(-)
+ drivers/media/i2c/ov5640.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 0697c9bf03ed..297ed135c476 100644
+index 297ed135c476..aa1d2e7fb819 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -150,23 +150,56 @@ enum ov5640_format_mux {
- 	OV5640_FMT_MUX_RAW_CIP,
+@@ -141,6 +141,24 @@ static const u32 ov5640_pixel_rates[] = {
+ 	[OV5640_PIXEL_RATE_48M] = 48000000,
  };
  
--struct ov5640_pixfmt {
-+static const struct ov5640_pixfmt {
- 	u32 code;
- 	u32 colorspace;
--};
--
--static const struct ov5640_pixfmt ov5640_formats[] = {
--	{ MEDIA_BUS_FMT_JPEG_1X8, V4L2_COLORSPACE_JPEG, },
--	{ MEDIA_BUS_FMT_UYVY8_2X8, V4L2_COLORSPACE_SRGB, },
--	{ MEDIA_BUS_FMT_UYVY8_1X16, V4L2_COLORSPACE_SRGB, },
--	{ MEDIA_BUS_FMT_YUYV8_2X8, V4L2_COLORSPACE_SRGB, },
--	{ MEDIA_BUS_FMT_YUYV8_1X16, V4L2_COLORSPACE_SRGB, },
--	{ MEDIA_BUS_FMT_RGB565_2X8_LE, V4L2_COLORSPACE_SRGB, },
--	{ MEDIA_BUS_FMT_RGB565_2X8_BE, V4L2_COLORSPACE_SRGB, },
--	{ MEDIA_BUS_FMT_SBGGR8_1X8, V4L2_COLORSPACE_SRGB, },
--	{ MEDIA_BUS_FMT_SGBRG8_1X8, V4L2_COLORSPACE_SRGB, },
--	{ MEDIA_BUS_FMT_SGRBG8_1X8, V4L2_COLORSPACE_SRGB, },
--	{ MEDIA_BUS_FMT_SRGGB8_1X8, V4L2_COLORSPACE_SRGB, },
-+	u8 bpp;
-+} ov5640_formats[] = {
-+	{
-+		.code = MEDIA_BUS_FMT_JPEG_1X8,
-+		.colorspace = V4L2_COLORSPACE_JPEG,
-+		.bpp = 16,
-+	}, {
-+		.code = MEDIA_BUS_FMT_UYVY8_2X8,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 16,
-+	}, {
-+		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 16,
-+	}, {
-+		.code = MEDIA_BUS_FMT_YUYV8_2X8,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 16,
-+	}, {
-+		.code = MEDIA_BUS_FMT_YUYV8_1X16,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 16,
-+	}, {
-+		.code = MEDIA_BUS_FMT_RGB565_2X8_LE,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 16,
-+	}, {
-+		.code = MEDIA_BUS_FMT_RGB565_2X8_BE,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 16,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 8,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 8
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 8,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 8,
-+	},
- };
++/*
++ * MIPI CSI-2 link frequencies.
++ *
++ * Derived from the above defined pixel rate for bpp = (8, 16, 24) and
++ * data_lanes = (1, 2)
++ *
++ * link_freq = (pixel_rate * bpp) / (2 * data_lanes)
++ */
++static const s64 ov5640_csi2_link_freqs[] = {
++	992000000, 888000000, 768000000, 744000000, 672000000, 672000000,
++	592000000, 592000000, 576000000, 576000000, 496000000, 496000000,
++	384000000, 384000000, 384000000, 336000000, 296000000, 288000000,
++	248000000, 192000000, 192000000, 192000000, 96000000,
++};
++
++/* Link freq for default mode: UYVY 16 bpp, 2 data lanes. */
++#define OV5640_DEFAULT_LINK_FREQ	13
++
+ enum ov5640_format_mux {
+ 	OV5640_FMT_MUX_YUV422 = 0,
+ 	OV5640_FMT_MUX_RGB,
+@@ -258,6 +276,7 @@ struct ov5640_mode_info {
+ struct ov5640_ctrls {
+ 	struct v4l2_ctrl_handler handler;
+ 	struct v4l2_ctrl *pixel_rate;
++	struct v4l2_ctrl *link_freq;
+ 	struct {
+ 		struct v4l2_ctrl *auto_exp;
+ 		struct v4l2_ctrl *exposure;
+@@ -2855,6 +2874,12 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+ 			      ov5640_pixel_rates[0], 1,
+ 			      ov5640_pixel_rates[mode->pixel_rate]);
  
- /*
++	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops,
++					V4L2_CID_LINK_FREQ,
++					ARRAY_SIZE(ov5640_csi2_link_freqs) - 1,
++					OV5640_DEFAULT_LINK_FREQ,
++					ov5640_csi2_link_freqs);
++
+ 	/* Auto/manual white balance */
+ 	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
+ 					   V4L2_CID_AUTO_WHITE_BALANCE,
+@@ -2903,6 +2928,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+ 	}
+ 
+ 	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 	ctrls->gain->flags |= V4L2_CTRL_FLAG_VOLATILE;
+ 	ctrls->exposure->flags |= V4L2_CTRL_FLAG_VOLATILE;
+ 
 -- 
 2.35.1
 
