@@ -2,106 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B857525FBD
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 12:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA7C8525FF7
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 12:39:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379329AbiEMKT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 06:19:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42738 "EHLO
+        id S1379428AbiEMK1K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 06:27:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379339AbiEMKTZ (ORCPT
+        with ESMTP id S229569AbiEMK1F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 06:19:25 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2DD13C4F2
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 03:19:23 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1npSOI-009kyz-7Y; Fri, 13 May 2022 10:19:22 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1npSOF-00BKrO-VG; Fri, 13 May 2022 10:19:20 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.19] mtk-vcodec: support for M8192 and MT8186 decoder (#83182)
-Date:   Fri, 13 May 2022 10:19:19 +0000
-Message-Id: <20220513101919.2701746-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <0dd99c3a-09e0-a6ae-0d1e-1e66fa78ab5e@xs4all.nl>
-References: 
+        Fri, 13 May 2022 06:27:05 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236634EF65;
+        Fri, 13 May 2022 03:27:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CB635B82CE2;
+        Fri, 13 May 2022 10:27:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35DFBC34100;
+        Fri, 13 May 2022 10:27:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1652437621;
+        bh=pTA4HXvpS8DuEF4nFjoqNWh0DGB6tDjhLzkQfFBwJMU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=e9O4imyBJIqCEIV66j0/sr7IDdE3NmIgmOiSNxBHVusss9fc0WI91dN5mE9gwwd+a
+         i98oyMTXx4H6wi9X1dl6N42uUc/cRAZu1s4rImNUDykrYRwuIHEQsik3VTb/oPtiSM
+         pa70tzuwhT0NePaqI+keZqPxfteFyyfad5QZPZtI=
+Date:   Fri, 13 May 2022 12:26:58 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Charan Teja Kalla <quic_charante@quicinc.com>
+Cc:     christian.koenig@amd.com, sumit.semwal@linaro.org,
+        hridya@google.com, daniel.vetter@ffwll.ch, tjmercier@google.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3] dma-buf: ensure unique directory name for dmabuf stats
+Message-ID: <Yn4ycnpSV2dKU0vv@kroah.com>
+References: <1652434689-6203-1-git-send-email-quic_charante@quicinc.com>
+ <Yn4u0AG8iC33S3jO@kroah.com>
+ <2a45f1e1-39d5-76b3-8fd3-c1f8b288afac@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2a45f1e1-39d5-76b3-8fd3-c1f8b288afac@quicinc.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Fri, May 13, 2022 at 03:48:23PM +0530, Charan Teja Kalla wrote:
+> 
+> On 5/13/2022 3:41 PM, Greg KH wrote:
+> >> Reported-by: kernel test robot <lkp@intel.com>
+> > The trest robot did not say that the dmabuf stat name was being
+> > duplicated, did it?
+> >
+> 
+> It reported a printk warning on V2[1]. Should we remove this on V3?
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/0dd99c3a-09e0-a6ae-0d1e-1e66fa78ab5e@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/207145/
-Build time: 00:31:57
-Link: https://lore.kernel.org/linux-media/0dd99c3a-09e0-a6ae-0d1e-1e66fa78ab5e@xs4all.nl
+Yes, that's different.
 
-gpg: Signature made Fri 13 May 2022 07:34:58 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Can't check signature: No public key
+> @Christian: Could you please drop this tag while merging?
+> 
+> [1] https://lore.kernel.org/all/202205110511.E0d8TXXC-lkp@intel.com/
 
-Summary: got 5/21 patches with issues, being 1 at build time, plus one error when buinding PDF document
+Never ask a maintainer to hand-edit a patch, it increases their workload
+:(
 
-Error/warnings:
+thanks,
 
-patches/0001-media-mediatek-vcodec-Fix-v4l2-compliance-decoder-cm.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2888 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0014-media-mediatek-vcodec-Extract-H264-common-code.patch:
-
-   checkpatch.pl:
-	$ cat patches/0014-media-mediatek-vcodec-Extract-H264-common-code.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:39: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:53: CHECK: Macro argument 'cond' may be better as '(cond)' to avoid precedence issues
-	-:53: CHECK: Macro argument 'flag' may be better as '(flag)' to avoid precedence issues
-	-:55: CHECK: Macro argument reuse 'param' - possible side-effects?
-	-:55: CHECK: Macro argument 'param' may be better as '(param)' to avoid precedence issues
-
-patches/0015-media-mediatek-vcodec-support-stateless-H.264-decodi.patch:
-
-   checkpatch.pl:
-	$ cat patches/0015-media-mediatek-vcodec-support-stateless-H.264-decodi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:38: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0016-media-mediatek-vcodec-support-stateless-VP8-decoding.patch:
-
-   checkpatch.pl:
-	$ cat patches/0016-media-mediatek-vcodec-support-stateless-VP8-decoding.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:105: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0017-media-mediatek-vcodec-support-stateless-VP9-decoding.patch:
-
-   checkpatch.pl:
-	$ cat patches/0017-media-mediatek-vcodec-support-stateless-VP9-decoding.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:119: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-
-Error #512 when building PDF docs
-
+greg k-h
