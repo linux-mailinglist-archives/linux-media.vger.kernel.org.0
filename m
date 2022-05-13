@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E70485263BA
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 16:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 392C05263BD
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 16:17:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352583AbiEMORH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 10:17:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46378 "EHLO
+        id S241746AbiEMORJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 10:17:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353032AbiEMOQ7 (ORCPT
+        with ESMTP id S1352636AbiEMOQ6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 10:16:59 -0400
+        Fri, 13 May 2022 10:16:58 -0400
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28A1B1207CC
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 07:16:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D16129ECE
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 07:16:48 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 3173E20018;
+        by mail.gandi.net (Postfix) with ESMTPSA id 00C202000B;
         Fri, 13 May 2022 14:16:46 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     sakari.ailus@iki.fi, mchehab@kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH v7 18/28] media: ov5640: Remove frame rate check from find_mode()
-Date:   Fri, 13 May 2022 16:14:06 +0200
-Message-Id: <20220513141416.120552-19-jacopo@jmondi.org>
+Subject: [PATCH v7 19/28] media: ov5640: Change CSI-2 timings to comply with FPS
+Date:   Fri, 13 May 2022 16:14:07 +0200
+Message-Id: <20220513141416.120552-20-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220513141416.120552-1-jacopo@jmondi.org>
 References: <20220513141416.120552-1-jacopo@jmondi.org>
@@ -38,88 +38,118 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The current implementation of ov5640_find_mode() fails if the
-frame rate programmed with s_frame_interval doesn't match the
-maximum frame rate for the current mode.
+Now that the frame duration can be controlled by tuning the VBLANK
+duration in CSI-2 mode, fix all modes definitions to comply with the
+reported FPS.
 
-This causes issues when moving from one mode with higher FPS to another
-one which only supports a lower FPS range with tools like media-ctl.
+All modes run at 30 FPS except for full-resolution mode 2592x1944
+which runs at 15FPS.
 
-It also forces users that do not use s_frame_interval(), but rather
-configure blankings explicitly, to adjust the programmed FPS range to
-avoid failures.
-
-For this reason, remove the FPS check from ov5640_find_mode() and only
-perform it at s_frame_interval() time.
+Tested on a 2 data lanes setup in UYVY and RGB565 modes in CSI-2 mode.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5640.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ drivers/media/i2c/ov5640.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 5e0014df136f..a17fcb39410d 100644
+index a17fcb39410d..8391e920ef79 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -1995,8 +1995,7 @@ static int ov5640_set_virtual_channel(struct ov5640_dev *sensor)
- }
- 
- static const struct ov5640_mode_info *
--ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
--		 int width, int height, bool nearest)
-+ov5640_find_mode(struct ov5640_dev *sensor, int width, int height, bool nearest)
- {
- 	const struct ov5640_mode_info *mode;
- 
-@@ -2009,10 +2008,6 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
- 	     (mode->width != width || mode->height != height)))
- 		return NULL;
- 
--	/* Check to see if the current mode exceeds the max frame rate */
--	if (ov5640_framerates[fr] > ov5640_framerates[mode->max_fps])
--		return NULL;
--
- 	return mode;
- }
- 
-@@ -2649,7 +2644,7 @@ static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
- 	fi->denominator = best_fps;
- 
- find_mode:
--	mode = ov5640_find_mode(sensor, rate, width, height, false);
-+	mode = ov5640_find_mode(sensor, width, height, false);
- 	return mode ? rate : -EINVAL;
- }
- 
-@@ -2687,7 +2682,7 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
- 	const struct ov5640_mode_info *mode;
- 	int i;
- 
--	mode = ov5640_find_mode(sensor, fr, fmt->width, fmt->height, true);
-+	mode = ov5640_find_mode(sensor, fmt->width, fmt->height, true);
- 	if (!mode)
- 		return -EINVAL;
- 	fmt->width = mode->width;
-@@ -3481,13 +3476,17 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
- 		goto out;
- 	}
- 
--	mode = ov5640_find_mode(sensor, frame_rate, mode->width,
--				mode->height, true);
-+	mode = ov5640_find_mode(sensor, mode->width, mode->height, true);
- 	if (!mode) {
- 		ret = -EINVAL;
- 		goto out;
- 	}
- 
-+	if (ov5640_framerates[frame_rate] > ov5640_framerates[mode->max_fps]) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
- 	if (mode != sensor->current_mode ||
- 	    frame_rate != sensor->current_fr) {
- 		sensor->current_fr = frame_rate;
+@@ -598,8 +598,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+ 				.width	= 160,
+ 				.height	= 120,
+ 			},
+-			.htot		= 1896,
+-			.vblank_def	= 864,
++			.htot		= 1600,
++			.vblank_def	= 878,
+ 		},
+ 		.reg_data	= ov5640_setting_low_res,
+ 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_low_res),
+@@ -643,8 +643,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+ 				.width	= 176,
+ 				.height	= 144,
+ 			},
+-			.htot		= 1896,
+-			.vblank_def	= 840,
++			.htot		= 1600,
++			.vblank_def	= 854,
+ 		},
+ 		.reg_data	= ov5640_setting_low_res,
+ 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_low_res),
+@@ -688,8 +688,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+ 				.width	= 320,
+ 				.height	= 240,
+ 			},
+-			.htot		= 1896,
+-			.vblank_def	= 744,
++			.htot		= 1600,
++			.vblank_def	= 760,
+ 		},
+ 		.reg_data	= ov5640_setting_low_res,
+ 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_low_res),
+@@ -733,8 +733,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+ 				.width	= 640,
+ 				.height	= 480,
+ 			},
+-			.htot		= 1896,
+-			.vblank_def	= 600,
++			.htot		= 1600,
++			.vblank_def	= 520,
+ 		},
+ 		.reg_data	= ov5640_setting_low_res,
+ 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_low_res),
+@@ -778,7 +778,7 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+ 				.height	= 480,
+ 			},
+ 			.htot		= 1896,
+-			.vblank_def	= 504,
++			.vblank_def	= 1206,
+ 		},
+ 		.reg_data	= ov5640_setting_low_res,
+ 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_low_res),
+@@ -822,7 +822,7 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+ 				.height	= 576,
+ 			},
+ 			.htot		= 1896,
+-			.vblank_def	= 408,
++			.vblank_def	= 1110,
+ 		},
+ 		.reg_data	= ov5640_setting_low_res,
+ 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_low_res),
+@@ -865,7 +865,7 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+ 				.height	= 768,
+ 			},
+ 			.htot		= 1896,
+-			.vblank_def	= 312,
++			.vblank_def	= 918,
+ 		},
+ 		.reg_data	= ov5640_setting_low_res,
+ 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_low_res),
+@@ -907,8 +907,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+ 				.width	= 1280,
+ 				.height	= 720,
+ 			},
+-			.htot		= 1892,
+-			.vblank_def	= 20,
++			.htot		= 1600,
++			.vblank_def	= 560,
+ 		},
+ 		.reg_data	= ov5640_setting_720P_1280_720,
+ 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_720P_1280_720),
+@@ -952,8 +952,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+ 				.width	= 1920,
+ 				.height	= 1080,
+ 			},
+-			.htot		= 2500,
+-			.vblank_def	= 40,
++			.htot		= 2234,
++			.vblank_def	= 24,
+ 		},
+ 		.reg_data	= ov5640_setting_1080P_1920_1080,
+ 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
 -- 
 2.35.1
 
