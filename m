@@ -2,115 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FC78526B92
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 22:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF90526C4D
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 23:26:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384420AbiEMUb4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 16:31:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37344 "EHLO
+        id S232968AbiEMV0A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 17:26:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384523AbiEMUbD (ORCPT
+        with ESMTP id S1384670AbiEMVZ4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 16:31:03 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B85B7A45E;
-        Fri, 13 May 2022 13:30:24 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id E733F1F46488
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1652473809;
-        bh=OIhbnD+GYKGESjhoWfLHkSeEKZZ1mESH1BJd09/VI6M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bGgZSkmlNeEq1zqsBAQ6J/QOV0+EU2s34r7sIdcuq7QFsqawbnepKngMCh61jgJhb
-         N4QzmDr5jRBoOubx6Jot6ecXLzlAHuRNlkxCLgae9AB+779PwnWuU14zbXr7HhLxnV
-         7UVERLCsKPqD9oJ9j6+525Q0QScfBxvmXp7S512qpp0xna7bFwb1jMCHjGeo5FtB+6
-         8dxVa9nBvkioolmbl9Xavcft1MohKl9Ieg2cSKWVt6zmRbuBZahPNa/hm7R8B6EynC
-         NAk2Wr4eqyUb5MjnAyINxTahI9gwHZ5/I20f9sHKDUs8Hq026Va/QJ1pYd+OB1lyY2
-         cRYhzAVQ8w1Pg==
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     nicolas@ndufresne.ca, linux-media@vger.kernel.org,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 20/20] media: hantro: Enable HOLD_CAPTURE_BUF for H.264
-Date:   Fri, 13 May 2022 16:29:22 -0400
-Message-Id: <20220513202922.13846-21-nicolas.dufresne@collabora.com>
-X-Mailer: git-send-email 2.34.3
-In-Reply-To: <20220513202922.13846-1-nicolas.dufresne@collabora.com>
-References: <20220513202922.13846-1-nicolas.dufresne@collabora.com>
+        Fri, 13 May 2022 17:25:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA71FE3
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 14:25:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AF9E1B831D8
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 21:25:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD1AAC34100;
+        Fri, 13 May 2022 21:25:49 +0000 (UTC)
+Message-ID: <52f2537f-2151-f2cf-dcf4-949849812f8a@xs4all.nl>
+Date:   Fri, 13 May 2022 23:25:47 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>, jonas@kwiboo.se
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.19] H.264 Field Decoding Support for Frame-based
+ Decoders
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is needed to optimize field decoding. Each field will be
-decoded into the same capture buffer. To be able to queue multiple
-buffers, we need to be able to ask the driver to hold the capture
-buffer.
+This PR is of the v5 patch series "H.264 Field Decoding Support for Frame-based Decoders"
 
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/staging/media/hantro/hantro_v4l2.c | 25 ++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Regards,
 
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index ed458866257a..22ad182ee972 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -408,6 +408,30 @@ hantro_update_requires_request(struct hantro_ctx *ctx, u32 fourcc)
- 	}
- }
- 
-+static void
-+hantro_update_requires_hold_capture_buf(struct hantro_ctx *ctx, u32 fourcc)
-+{
-+	struct vb2_queue *vq;
-+
-+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+			     V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-+
-+	switch (fourcc) {
-+	case V4L2_PIX_FMT_JPEG:
-+	case V4L2_PIX_FMT_MPEG2_SLICE:
-+	case V4L2_PIX_FMT_VP8_FRAME:
-+	case V4L2_PIX_FMT_HEVC_SLICE:
-+	case V4L2_PIX_FMT_VP9_FRAME:
-+		vq->subsystem_flags &= ~(VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF);
-+		break;
-+	case V4L2_PIX_FMT_H264_SLICE:
-+		vq->subsystem_flags |= VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
- static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- 			      struct v4l2_pix_format_mplane *pix_mp)
- {
-@@ -471,6 +495,7 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- 	ctx->dst_fmt.quantization = pix_mp->quantization;
- 
- 	hantro_update_requires_request(ctx, pix_mp->pixelformat);
-+	hantro_update_requires_hold_capture_buf(ctx, pix_mp->pixelformat);
- 
- 	vpu_debug(0, "OUTPUT codec mode: %d\n", ctx->vpu_src_fmt->codec_mode);
- 	vpu_debug(0, "fmt - w: %d, h: %d\n",
--- 
-2.34.3
+	Hans
 
+The following changes since commit 4a18d21649f4f34e79a16c635e5df48cebb82e1f:
+
+  media: h264: Avoid wrapping long_term_frame_idx (2022-05-13 14:59:54 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.19f
+
+for you to fetch changes up to fcd1effef6706fd66e2400601ecb52899d5f51e9:
+
+  media: hantro: Enable HOLD_CAPTURE_BUF for H.264 (2022-05-13 22:57:27 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Jonas Karlman (5):
+      media: rkvdec: h264: Fix bit depth wrap in pps packet
+      media: rkvdec: h264: Validate and use pic width and height in mbs
+      media: rkvdec: h264: Fix reference frame_num wrap for second field
+      media: rkvdec: Ensure decoded resolution fit coded resolution
+      media: hantro: h264: Make dpb entry management more robust
+
+Nicolas Dufresne (15):
+      media: h264: Use v4l2_h264_reference for reflist
+      media: h264: Increase reference lists size to 32
+      media: h264: Store current picture fields
+      media: h264: Store all fields into the unordered list
+      media: v4l2: Trace calculated p/b0/b1 initial reflist
+      media: h264: Sort p/b reflist using frame_num
+      media: v4l2: Reorder field reflist
+      media: rkvdec: Stop overclocking the decoder
+      media: rkvdec: h264: Fix dpb_valid implementation
+      media: rkvdec: Move H264 SPS validation in rkvdec-h264
+      media: rkvdec-h264: Add field decoding support
+      media: rkvdec: Enable capture buffer holding for H264
+      media: hantro: Stop using H.264 parameter pic_num
+      media: hantro: Add H.264 field decoding support
+      media: hantro: Enable HOLD_CAPTURE_BUF for H.264
+
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c   |  21 +++-
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.h   |  11 +-
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c       |  15 ++-
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c |  27 +++--
+ drivers/media/platform/nvidia/tegra-vde/h264.c                       |  19 ++--
+ drivers/media/v4l2-core/v4l2-h264.c                                  | 271 ++++++++++++++++++++++++++++++++++++--------
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c                    |  38 +++----
+ drivers/staging/media/hantro/hantro_h264.c                           | 134 ++++++++++++++++++----
+ drivers/staging/media/hantro/hantro_hw.h                             |   8 +-
+ drivers/staging/media/hantro/hantro_v4l2.c                           |  25 ++++
+ drivers/staging/media/hantro/rockchip_vpu2_hw_h264_dec.c             |  98 ++++++++--------
+ drivers/staging/media/rkvdec/rkvdec-h264.c                           | 157 ++++++++++++++++++-------
+ drivers/staging/media/rkvdec/rkvdec.c                                |  35 ++----
+ drivers/staging/media/rkvdec/rkvdec.h                                |   2 +
+ include/media/v4l2-h264.h                                            |  31 ++---
+ 15 files changed, 646 insertions(+), 246 deletions(-)
