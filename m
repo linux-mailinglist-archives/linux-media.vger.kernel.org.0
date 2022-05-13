@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 923D2526383
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 16:14:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A694526384
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 16:14:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240785AbiEMOOb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 10:14:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41966 "EHLO
+        id S241632AbiEMOOd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 10:14:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237037AbiEMOO1 (ORCPT
+        with ESMTP id S237900AbiEMOO2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 10:14:27 -0400
+        Fri, 13 May 2022 10:14:28 -0400
 Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF8BFD33
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 07:14:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE1810FC0
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 07:14:27 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 29F0C100015;
-        Fri, 13 May 2022 14:14:24 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id F2FE210000F;
+        Fri, 13 May 2022 14:14:25 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     sakari.ailus@iki.fi, mchehab@kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH v7 03/28] media: ov5640: Add ov5640_is_csi2() function
-Date:   Fri, 13 May 2022 16:13:51 +0200
-Message-Id: <20220513141416.120552-4-jacopo@jmondi.org>
+Subject: [PATCH v7 04/28] media: ov5640: Associate bpp with formats
+Date:   Fri, 13 May 2022 16:13:52 +0200
+Message-Id: <20220513141416.120552-5-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220513141416.120552-1-jacopo@jmondi.org>
 References: <20220513141416.120552-1-jacopo@jmondi.org>
@@ -38,60 +38,92 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Checking if the sensor is used in DVP or MIPI CSI-2 mode is a repeated
-pattern which is about to be repeated more often.
+Associate the bit depth to each format supported by the sensor.
 
-Provide an inline function to shortcut that.
+The bpp will be used to calculate the line length.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5640.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/media/i2c/ov5640.c | 63 +++++++++++++++++++++++++++++---------
+ 1 file changed, 48 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 1f3cb84c284e..0697c9bf03ed 100644
+index 0697c9bf03ed..297ed135c476 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -294,6 +294,11 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
- 			     ctrls.handler)->sd;
- }
+@@ -150,23 +150,56 @@ enum ov5640_format_mux {
+ 	OV5640_FMT_MUX_RAW_CIP,
+ };
  
-+static inline bool ov5640_is_csi2(const struct ov5640_dev *sensor)
-+{
-+	return sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY;
-+}
-+
+-struct ov5640_pixfmt {
++static const struct ov5640_pixfmt {
+ 	u32 code;
+ 	u32 colorspace;
+-};
+-
+-static const struct ov5640_pixfmt ov5640_formats[] = {
+-	{ MEDIA_BUS_FMT_JPEG_1X8, V4L2_COLORSPACE_JPEG, },
+-	{ MEDIA_BUS_FMT_UYVY8_2X8, V4L2_COLORSPACE_SRGB, },
+-	{ MEDIA_BUS_FMT_UYVY8_1X16, V4L2_COLORSPACE_SRGB, },
+-	{ MEDIA_BUS_FMT_YUYV8_2X8, V4L2_COLORSPACE_SRGB, },
+-	{ MEDIA_BUS_FMT_YUYV8_1X16, V4L2_COLORSPACE_SRGB, },
+-	{ MEDIA_BUS_FMT_RGB565_2X8_LE, V4L2_COLORSPACE_SRGB, },
+-	{ MEDIA_BUS_FMT_RGB565_2X8_BE, V4L2_COLORSPACE_SRGB, },
+-	{ MEDIA_BUS_FMT_SBGGR8_1X8, V4L2_COLORSPACE_SRGB, },
+-	{ MEDIA_BUS_FMT_SGBRG8_1X8, V4L2_COLORSPACE_SRGB, },
+-	{ MEDIA_BUS_FMT_SGRBG8_1X8, V4L2_COLORSPACE_SRGB, },
+-	{ MEDIA_BUS_FMT_SRGGB8_1X8, V4L2_COLORSPACE_SRGB, },
++	u8 bpp;
++} ov5640_formats[] = {
++	{
++		.code = MEDIA_BUS_FMT_JPEG_1X8,
++		.colorspace = V4L2_COLORSPACE_JPEG,
++		.bpp = 16,
++	}, {
++		.code = MEDIA_BUS_FMT_UYVY8_2X8,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 16,
++	}, {
++		.code = MEDIA_BUS_FMT_UYVY8_1X16,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 16,
++	}, {
++		.code = MEDIA_BUS_FMT_YUYV8_2X8,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 16,
++	}, {
++		.code = MEDIA_BUS_FMT_YUYV8_1X16,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 16,
++	}, {
++		.code = MEDIA_BUS_FMT_RGB565_2X8_LE,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 16,
++	}, {
++		.code = MEDIA_BUS_FMT_RGB565_2X8_BE,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 16,
++	}, {
++		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 8,
++	}, {
++		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 8
++	}, {
++		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 8,
++	}, {
++		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.bpp = 8,
++	},
+ };
+ 
  /*
-  * FIXME: all of these register tables are likely filled with
-  * entries that set the register to their power-on default values,
-@@ -1208,7 +1213,7 @@ static int ov5640_load_regs(struct ov5640_dev *sensor,
- 		/* remain in power down mode for DVP */
- 		if (regs->reg_addr == OV5640_REG_SYS_CTRL0 &&
- 		    val == OV5640_REG_SYS_CTRL0_SW_PWUP &&
--		    sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY)
-+		    !ov5640_is_csi2(sensor))
- 			continue;
- 
- 		if (mask)
-@@ -1843,7 +1848,7 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
- 	 * the same rate than YUV, so we can just use 16 bpp all the time.
- 	 */
- 	rate = ov5640_calc_pixel_rate(sensor) * 16;
--	if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
-+	if (ov5640_is_csi2(sensor)) {
- 		rate = rate / sensor->ep.bus.mipi_csi2.num_data_lanes;
- 		ret = ov5640_set_mipi_pclk(sensor, rate);
- 	} else {
-@@ -3020,7 +3025,7 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
- 			sensor->pending_fmt_change = false;
- 		}
- 
--		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-+		if (ov5640_is_csi2(sensor))
- 			ret = ov5640_set_stream_mipi(sensor, enable);
- 		else
- 			ret = ov5640_set_stream_dvp(sensor, enable);
 -- 
 2.35.1
 
