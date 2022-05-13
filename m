@@ -2,73 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8187525CF0
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 10:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC4B0525D00
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 10:14:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378090AbiEMIK1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 04:10:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54300 "EHLO
+        id S1378087AbiEMIJ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 04:09:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357650AbiEMIK1 (ORCPT
+        with ESMTP id S1378089AbiEMIJ5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 04:10:27 -0400
-Received: from mail.coredeal.pl (mail.coredeal.pl [51.75.73.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52A342A4A2B
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 01:10:26 -0700 (PDT)
-Received: by mail.coredeal.pl (Postfix, from userid 1002)
-        id 543B9A4469; Fri, 13 May 2022 08:06:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=coredeal.pl; s=mail;
-        t=1652429236; bh=9KGuIG62LgzC9aYmjKxzocuYLRCVghXg6v9Q1q2LHec=;
-        h=Date:From:To:Subject:From;
-        b=BinuWHAjwmRKZtBqwQnm3qb2Qs+NSjSddoYENBcIhOxNT2FZYlwK9KUxgWOn8wHSt
-         JBUz7SmAMdIlKj95wM9sE1fFBOA3O21oSpepBzZitFV8OGZZmm6haFuAw0IsdQVtr7
-         RwB98Imlvhwvo7IMsJjecJirDbc8djR0R6hw2zbz7JAWNW26chFKZJRYBTBn3xVZcg
-         gHlkqnNlB7BBWFLefnTqR/1ZSG30JqmBVB1U6yVRV94klfrk2rbTfdsDdvK6WA3QcJ
-         RGxRk5T46mie0tZ3DG+mNa5JEqbdPCBzBgKM+9bwlRbWM7e3V2ek8Ghs5qw8qStPbU
-         ZtBFhf+kEcNiA==
-Received: by mail.coredeal.pl for <linux-media@vger.kernel.org>; Fri, 13 May 2022 08:05:55 GMT
-Message-ID: <20220513064500-0.1.33.o0vi.0.ropn59l049@coredeal.pl>
-Date:   Fri, 13 May 2022 08:05:55 GMT
-From:   "Krzysztof Maj" <krzysztof.maj@coredeal.pl>
-To:     <linux-media@vger.kernel.org>
-Subject: Biznesowy angielski
-X-Mailer: mail.coredeal.pl
+        Fri, 13 May 2022 04:09:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E73C2A28EE
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 01:09:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 16DA761F34
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 08:09:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE7C4C34100;
+        Fri, 13 May 2022 08:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652429394;
+        bh=Cn7e+vAO9S8gEqNpCyzp0PVnF0s9rCP3AhBe6NRbQWM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ggTCsNsLUYxW/LuqUxIKXFuliEtRA/RCLYH5bEnCdHyQumoOUUHXikJsTqA27GNku
+         +xvKlflM75YtmtvZG8fG0xiX9X+dlbe9dYSOlllktmztPRlCP+uPHVkPuTQH2I/TJe
+         XjMTCC1NPxbNPo7bPQQe8OH5YnvCZoAMZcikMnyhSBNsfaYJhgc494M+28L5UruODE
+         y+jq1d/dg3OFJ4nA2UEkEDR2QIrBy/RwhAfxtJbies1L5qE51lO85HfGpWnbXRq2Sn
+         X7WRX6M0Zj5Ws4hitlYesd5E/Pq9Bcdx4nqSx/StOC5N9JG3anH9uhiNBzG59nsPHI
+         8flGeA0/FauMQ==
+Date:   Fri, 13 May 2022 10:09:50 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [GIT PULL FOR v5.19] H.264 Field Decoding Support for
+ Frame-based (#82804)
+Message-ID: <20220513100926.0faea100@coco.lan>
+In-Reply-To: <20220429063621.3369772-1-jenkins@linuxtv.org>
+References: <5ac6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl>
+        <20220429063621.3369772-1-jenkins@linuxtv.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,=20
+Hi Hans,
 
-czy rozwa=C5=BCali Pa=C5=84stwo rozw=C3=B3j kwalifikacji j=C4=99zykowych =
-swoich pracownik=C3=B3w?
+Em Fri, 29 Apr 2022 06:36:21 +0000
+Jenkins <jenkins@linuxtv.org> escreveu:
 
-Opracowali=C5=9Bmy kursy j=C4=99zykowe dla r=C3=B3=C5=BCnych bran=C5=BC, =
-w kt=C3=B3rych koncentrujemy si=C4=99 na podniesieniu poziomu s=C5=82owni=
-ctwa i jako=C5=9Bci komunikacji wykorzystuj=C4=85c autorsk=C4=85 metod=C4=
-=99, stworzon=C4=85 specjalnie dla wymagaj=C4=85cego biznesu.=20
+> From: builder@linuxtv.org
+>=20
+> Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/5ac=
+6c664-c130-265a-c8e0-6a47c9ebbd3f@xs4all.nl/
+> Build log: https://builder.linuxtv.org/job/patchwork/203191/
+> Build time: 00:24:05
+> Link: https://lore.kernel.org/linux-media/5ac6c664-c130-265a-c8e0-6a47c9e=
+bbd3f@xs4all.nl
+>=20
+> gpg: Signature made Fri 29 Apr 2022 06:02:35 AM UTC
+> gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1=
+E76
+> gpg: Can't check signature: No public key
+>=20
+> Summary: got 4/23 patches with issues, being 4 at build time, plus one er=
+ror when buinding PDF document
+>=20
+> Error/warnings:
+>=20
+> patches/0001-media-doc-Document-dual-use-of-H.264-pic_num-frame_n.patch:
+>=20
+>     allyesconfig: return code #0:
+> 	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconfli=
+cts-sr]
+> 	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconfl=
+icts-rr]
+> 	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples'=
+ to generate conflict counterexamples
+>=20
+>     allyesconfig: return code #0:
+> 	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platfor=
+m/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously a=
+ssumed 'req' could be null (see line 674)
+> 	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/sm=
+susb.c:53:38: :warning: array of flexible structures
+> 	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/sm=
+susb.c:53:38: warning: array of flexible structures
+> 	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885=
+/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications af=
+ter 60 seconds
+> 	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-=
+drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turnin=
+g off implications after 60 seconds
+> 	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/=
+em28xx-video.c:2888 em28xx_v4l2_init() parse error: turning off implication=
+s after 60 seconds
+>=20
+> patches/0004-media-h264-Use-v4l2_h264_reference-for-reflist.patch:
+>=20
+>     allyesconfig: return code #512:
+> 	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: =E2=80=
+=98struct <anonymous>=E2=80=99 has no member named =E2=80=98top_field_order=
+_cnt=E2=80=99
+> 	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvid=
+ia/tegra-vde/h264.o] Error 1
+> 	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia/tegra-vde] Error 2
+> 	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia] Error 2
+> 	make[4]: *** Waiting for unfinished jobs....
+> 	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Err=
+or 2
+> 	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+> 	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: driver=
+s] Error 2
+> 	make: *** [Makefile:219: __sub-make] Error 2
 
-Niestandardowy kurs on-line, dopasowany do profilu firmy i obszar=C3=B3w =
-=C5=9Bwiadczonych us=C5=82ug, w szybkim czasie przyniesie efekty, kt=C3=B3=
-re zwi=C4=99ksz=C4=85 komfort i jako=C5=9B=C4=87 pracy, rozwijaj=C4=85c m=
-o=C5=BCliwo=C5=9Bci biznesowe.=20
 
-Zdalne szkolenie j=C4=99zykowe to m.in. zaj=C4=99cia z native speakerami,=
- kt=C3=B3re w szybkim czasie naucz=C4=85 pracownik=C3=B3w rozmawia=C4=87 =
-za pomoc=C4=85 jasnego i zwi=C4=99z=C5=82ego j=C4=99zyka Business English=
-=2E
+This series break Kernel compilation. Please fix it and resubmit.
 
-Czy m=C3=B3g=C5=82bym przedstawi=C4=87 wi=C4=99cej szczeg=C3=B3=C5=82=C3=B3=
-w i opowiedzie=C4=87 jak dzia=C5=82amy?=20
+Thanks,
+Mauro
+
+>=20
+>     allmodconfig: return code #512:
+> 	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: =E2=80=
+=98struct <anonymous>=E2=80=99 has no member named =E2=80=98top_field_order=
+_cnt=E2=80=99
+> 	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvid=
+ia/tegra-vde/h264.o] Error 1
+> 	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia/tegra-vde] Error 2
+> 	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia] Error 2
+> 	make[4]: *** Waiting for unfinished jobs....
+> 	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Err=
+or 2
+> 	make[3]: *** Waiting for unfinished jobs....
+> 	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+> 	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: driver=
+s] Error 2
+> 	make: *** [Makefile:219: __sub-make] Error 2
+>=20
+> patches/0005-media-h264-Increase-reference-lists-size-to-32.patch:
+>=20
+>     allyesconfig: return code #512:
+> 	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: =E2=80=
+=98struct <anonymous>=E2=80=99 has no member named =E2=80=98top_field_order=
+_cnt=E2=80=99
+> 	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvid=
+ia/tegra-vde/h264.o] Error 1
+> 	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia/tegra-vde] Error 2
+> 	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia] Error 2
+> 	make[4]: *** Waiting for unfinished jobs....
+> 	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Err=
+or 2
+> 	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+> 	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: driver=
+s] Error 2
+> 	make: *** [Makefile:219: __sub-make] Error 2
+>=20
+>     allmodconfig: return code #512:
+> 	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: =E2=80=
+=98struct <anonymous>=E2=80=99 has no member named =E2=80=98top_field_order=
+_cnt=E2=80=99
+> 	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvid=
+ia/tegra-vde/h264.o] Error 1
+> 	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia/tegra-vde] Error 2
+> 	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia] Error 2
+> 	make[4]: *** Waiting for unfinished jobs....
+> 	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Err=
+or 2
+> 	make[3]: *** Waiting for unfinished jobs....
+> 	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+> 	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: driver=
+s] Error 2
+> 	make: *** [Makefile:219: __sub-make] Error 2
+>=20
+> patches/0006-media-h264-Store-current-picture-fields.patch:
+>=20
+>     allyesconfig: return code #512:
+> 	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: =E2=80=
+=98struct <anonymous>=E2=80=99 has no member named =E2=80=98top_field_order=
+_cnt=E2=80=99
+> 	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvid=
+ia/tegra-vde/h264.o] Error 1
+> 	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia/tegra-vde] Error 2
+> 	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia] Error 2
+> 	make[4]: *** Waiting for unfinished jobs....
+> 	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Err=
+or 2
+> 	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+> 	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: driver=
+s] Error 2
+> 	make: *** [Makefile:219: __sub-make] Error 2
+>=20
+>     allmodconfig: return code #512:
+> 	../drivers/media/platform/nvidia/tegra-vde/h264.c:823:22: error: =E2=80=
+=98struct <anonymous>=E2=80=99 has no member named =E2=80=98top_field_order=
+_cnt=E2=80=99
+> 	make[6]: *** [../scripts/Makefile.build:288: drivers/media/platform/nvid=
+ia/tegra-vde/h264.o] Error 1
+> 	make[5]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia/tegra-vde] Error 2
+> 	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/nvid=
+ia] Error 2
+> 	make[4]: *** Waiting for unfinished jobs....
+> 	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Err=
+or 2
+> 	make[3]: *** Waiting for unfinished jobs....
+> 	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+> 	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: driver=
+s] Error 2
+> 	make: *** [Makefile:219: __sub-make] Error 2
+>=20
+>=20
+> Error #512 when building PDF docs
+>=20
 
 
-Pozdrawiam
-Krzysztof Maj
+
+Thanks,
+Mauro
