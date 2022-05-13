@@ -2,47 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 244F95262AC
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 15:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B6A65262EC
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 15:19:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233326AbiEMNLf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 09:11:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44156 "EHLO
+        id S1356231AbiEMNT0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 09:19:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232625AbiEMNLd (ORCPT
+        with ESMTP id S1346283AbiEMNTV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 09:11:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C04387A3
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 06:11:32 -0700 (PDT)
+        Fri, 13 May 2022 09:19:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E0210FC3
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 06:19:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C7FEA6200C
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 13:11:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8D6C34100;
-        Fri, 13 May 2022 13:11:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A5B9661F95
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 13:19:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F51C34114;
+        Fri, 13 May 2022 13:19:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652447491;
-        bh=9NmCixj6Yz8r0N5r/kmeWtE9rN0p87+5XfP+Ba5/8XE=;
+        s=k20201202; t=1652447960;
+        bh=KEM0h3K5ONRrlF7DOKpPKERxtTRsqMlXfO05OZO8zTc=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SG+6wjTTNNFmL0wNIBBZ5lN2m406jm/GjvTdJy80l/ub0at3f1uc1kP5feQ+HZoWg
-         VmwRNOuFUHM7LUSlHRVo/Dix4AxWKCyAXi9GGgcv0U3EIh/SZZDHToLCWxT/bymF2R
-         hCdKyX4deJQTArnDhu+YjL0yMrwYk4MHpeWdOfGYc6sQ4FgNjK/X3rtxFVH8Ba5EXK
-         nuv/9M7oSw5Es+kgJKOOcdAwmi0r2i1KKoUTKzwXI2IVzfDyupiElKCzGc5eRbjo9+
-         v1G2a0TiFpVty2txAQvK4i4EhLCi9JwRFeKnHB2rWChBwBtydev4uIiXTSeUnmFaxE
-         DhHrljOMfz7rw==
-Date:   Fri, 13 May 2022 15:11:26 +0200
+        b=fgoGQ/pVgqzNl08HQGyPsXGAQykJ5Q1bL01DkN7nXt4Vv3gxkwYuZT12IDSmkHzTW
+         IxpdYZk1A89mE635WuJrzvod73IoH+lQu1g9j3lX0vysOsU3EizyuSzSuTw9AgJh+i
+         dkklX1Z2I1UifIpNLYEp4Z9atH4wKujlW3HxJCgGnJE8FA0TsQ+OtdzBQG4zOUUpCd
+         7v1JC0lB7C/qvDJCZHR5nHWi+89XJUncwBIlk92KrtMbeyvPey9z7IhSIIhmbKM32i
+         9Tvtbjc9SqUpoobUKob/vnqB/bJLNpVqfiqpAyQP9ZNfGB9TdD/M+H6wBKr8VO3iyf
+         OmcTULHsSmtRg==
+Date:   Fri, 13 May 2022 15:19:15 +0200
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        jonas@kwiboo.se
-Subject: Re: [GIT PULL FOR v5.19] v2: H.264 Field Decoding Support for
- Frame-based Decoders
-Message-ID: <20220513151126.2dafc3aa@coco.lan>
-In-Reply-To: <68d6a73a-5571-0ea3-0fca-ff06fe6bda45@xs4all.nl>
-References: <68d6a73a-5571-0ea3-0fca-ff06fe6bda45@xs4all.nl>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [GIT PULL FOR 5.19] Ov5640 driver improvements (#83198)
+Message-ID: <20220513151908.60c01b50@coco.lan>
+In-Reply-To: <20220513112018.3416321-1-jenkins@linuxtv.org>
+References: <Yn41HyGCOJyZU98T@valkosipuli.retiisi.eu>
+        <20220513112018.3416321-1-jenkins@linuxtv.org>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -57,102 +55,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Sakari,
 
-Em Fri, 13 May 2022 10:46:56 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+Em Fri, 13 May 2022 11:20:17 +0000
+Jenkins <jenkins@linuxtv.org> escreveu:
 
-> This PR contains this Nicolas' v4 patch series:
->=20
-> https://patchwork.linuxtv.org/project/linux-media/patch/20220426125751.10=
-8293-2-nicolas.dufresne@collabora.com/
->=20
-> except for patch 03/24 ("media: videobuf2-v4l2: Warn on holding buffers w=
-ithout support")
-> which needs more work. It's independent of the other patches though, so t=
-hat can be
-> done later.
->=20
-> Regards,
->=20
-> 	Hans
->=20
-> Changes since v1:
->=20
-> - patch "Use v4l2_h264_reference for reflist" failed to compile: the tegr=
-a-vde change used
->   a field that was only added 3 patches later ("Store all fields into the=
- unordered list").
->   Keep the old field and only update it in the later patch.
->=20
->=20
-> The following changes since commit 02970914dbc7152d6de615127261e778ef425a=
-09:
->=20
->   media: amphion: ensure the buffer count is not less than min_buffer (20=
-22-05-13 10:05:09 +0200)
->=20
-> are available in the Git repository at:
->=20
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.19f
->=20
-> for you to fetch changes up to 57ee62e3da43e55fe7a83115bc941e9c84b2cd1f:
->=20
->   media: hantro: Enable HOLD_CAPTURE_BUF for H.264 (2022-05-13 10:42:24 +=
-0200)
->=20
-> ----------------------------------------------------------------
-> Tag branch
->=20
-> ----------------------------------------------------------------
-> Jonas Karlman (5):
->       media: rkvdec: h264: Fix bit depth wrap in pps packet
->       media: rkvdec: h264: Validate and use pic width and height in mbs
->       media: rkvdec: h264: Fix reference frame_num wrap for second field
->       media: rkvdec: Ensure decoded resolution fit coded resolution
->       media: hantro: h264: Make dpb entry management more robust
->=20
-> Nicolas Dufresne (18):
->       media: doc: Document dual use of H.264 pic_num/frame_num
->       media: v4l2-mem2mem: Trace on implicit un-hold
->       media: h264: Avoid wrapping long_term_frame_idx
->       media: h264: Use v4l2_h264_reference for reflist
+> 	../drivers/media/i2c/ov5640.c:205:12: error: =E2=80=98ov5640_code_to_bpp=
+=E2=80=99 defined but not used [-Werror=3Dunused-function]
+> 	cc1: all warnings being treated as errors
+> 	make[4]: *** [../scripts/Makefile.build:288: drivers/media/i2c/ov5640.o]=
+ Error 1
+> 	make[3]: *** [../scripts/Makefile.build:550: drivers/media/i2c] Error 2
+> 	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+> 	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: driver=
+s] Error 2
+> 	make: *** [Makefile:219: __sub-make] Error 2
 
-This one has a non-trivial conflict. Basically, part of the code it
-modifies are not there at the header file.
-
-I suspect it could be due to some conflict with this patch:
-
-commit 024b1f4fedc87db2aeea77dbfb1b32bbac096304
-Author:     Yunfei Dong <yunfei.dong@mediatek.com>
-AuthorDate: Thu May 12 04:19:46 2022 +0200
-Commit:     Mauro Carvalho Chehab <mchehab@kernel.org>
-CommitDate: Fri May 13 14:48:31 2022 +0200
-
-    media: mediatek: vcodec: Extract H264 common code
-   =20
-    Mt8192 can use some of common code with mt8183. Moves them to
-    a new file in order to reuse.
-   =20
-    [hverkuil: replaced memcpy_toio by memcpy, was left over from a prev ve=
-rsion]
-   =20
-    Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-    Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-    Tested-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
-    Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-    Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-That was merged from another branch.
-
-I'll apply only the 3 patches that came before this one, e. g.:
-
-	4a18d21649f4 media: h264: Avoid wrapping long_term_frame_idx
-	86ef61ad686c media: v4l2-mem2mem: Trace on implicit un-hold
-	804e192a8114 media: doc: Document dual use of H.264 pic_num/frame_num
-
-Regards,
-Mauro
+Please fix this compilation breakage on this series.
 
 Thanks,
 Mauro
