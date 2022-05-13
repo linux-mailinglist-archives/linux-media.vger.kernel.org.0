@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 183AE5263A2
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 16:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AFD45263B6
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 16:17:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346893AbiEMOQc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 10:16:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44878 "EHLO
+        id S1354007AbiEMORA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 10:17:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347753AbiEMOQQ (ORCPT
+        with ESMTP id S1350746AbiEMOQs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 10:16:16 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E03DF11B407
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 07:16:10 -0700 (PDT)
+        Fri, 13 May 2022 10:16:48 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C0412463B
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 07:16:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652451370; x=1683987370;
+  t=1652451405; x=1683987405;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=6ofoCKuWCsMr3gx7rodnJeAFifES6yzInam8PQ80aJk=;
-  b=bLDUZkMSGB6sOFmVkCE98JOz2kaqS7zWAcuO0sllbJpdXJLeEiWllLyV
-   eNJiDh9HKaIxmOtvuRxpGZ1WyNplHDtj5sm1mRoT6EY2V/tidm3l4cGLz
-   NE/4Z9dwkuF1AckYTiwsEWUnV20toiVeWWo46o5VgkiOoeqXakI7aiQHd
-   1vi5QXxtYDcP6/LuHPnf4Ih4l1g+X41ZYxvR+wsHw2tJnWz0Z5t+7eNUV
-   OQeGIAbylk7i8b60r3B9bFVxhx81CPHO14h7jjyfvW3pOnTxfNidg/5v/
-   w/dUIfrbIdzOood2rJTRXDRWaftPDedWE3FUT/mUYj0sOw89DfhW4x9iw
+  bh=vEMlo/SgpNN/+xV5dMppXNYq9KNsUHPSnH3M46a4lO0=;
+  b=S4hhku+dQd8Mw5Hc5OZhWiPUuIghGcr4il6D9Osd/SknhYzDQ6JLVS3b
+   YaCCs8rRcSDRsgvzySGqFD7DP3YMLXm6NpcG80JSOrIoLnESx8RUr8syD
+   MHqBUM+/XyX2JC+qdzPuq2+OE90cc/uWFc9mmWb6VRkX/dFE6vR3PFOVj
+   NW4ppmeFTTOnYSNsQZ6SNNdZnf0IDEIGoSfSM/59vd26lNu+WVUzHgTbo
+   U8tm5HXyeUVzRzwwfRGO8V80MCki68Zhe3D9jyfrB3l8J2Z22mepeg0Yq
+   +lXtuNDt6Q/sXTXIomPEPqiiMEvdbL1bP9Pc6DiDqg7614QM0lDZt8O4b
    g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="252360911"
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="330912100"
 X-IronPort-AV: E=Sophos;i="5.91,223,1647327600"; 
-   d="scan'208";a="252360911"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 07:16:08 -0700
+   d="scan'208";a="330912100"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 07:16:38 -0700
 X-IronPort-AV: E=Sophos;i="5.91,223,1647327600"; 
-   d="scan'208";a="815393376"
+   d="scan'208";a="624879509"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 07:16:04 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 07:16:34 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 722BA21ABD;
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 888AA21AD8;
         Fri, 13 May 2022 17:15:51 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1npW58-0001gq-Nb; Fri, 13 May 2022 17:15:50 +0300
+        id 1npW58-0001gv-RU; Fri, 13 May 2022 17:15:50 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
@@ -55,17 +55,17 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         jbrunet@baylibre.com, paul.elder@ideasonboard.com,
         eddy.khan@vergesense.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v7 21/28] media: ov5640: Implement get_selection
-Date:   Fri, 13 May 2022 17:15:41 +0300
-Message-Id: <20220513141548.6344-22-sakari.ailus@linux.intel.com>
+Subject: [PATCH v7 22/28] media: ov5640: Register device properties
+Date:   Fri, 13 May 2022 17:15:42 +0300
+Message-Id: <20220513141548.6344-23-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220513141548.6344-1-sakari.ailus@linux.intel.com>
 References: <20220513141548.6344-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,11 +75,11 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Jacopo Mondi <jacopo@jmondi.org>
 
-Implement the get_selection pad operation for the OV5640 sensor driver.
+Parse the device properties and register the rotation and orientation
+V4L2 controls using v4l2_ctrl_new_fwnode_properties().
 
-The supported targets report the sensor's native size, the active pixel
-array size and the analog crop rectangle from which the image is
-produced.
+Remove the open-coded parsing of the rotation property and assume the
+DTS is correct is providing either <0> or <180> as possible rotations.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 Acked-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
@@ -87,83 +87,70 @@ Tested-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ov5640.c | 46 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ drivers/media/i2c/ov5640.c | 29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 1981436f40177..2c3c49bbaaa54 100644
+index 2c3c49bbaaa54..b3159375d34b4 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -2866,6 +2866,45 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
- 	return ret;
- }
+@@ -3347,6 +3347,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+ 	const struct v4l2_ctrl_ops *ops = &ov5640_ctrl_ops;
+ 	struct ov5640_ctrls *ctrls = &sensor->ctrls;
+ 	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
++	struct v4l2_fwnode_device_properties props;
+ 	const struct ov5640_timings *timings;
+ 	unsigned int max_vblank;
+ 	unsigned int hblank;
+@@ -3426,6 +3427,17 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+ 		goto free_ctrls;
+ 	}
  
-+static int ov5640_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-+	const struct ov5640_mode_info *mode = sensor->current_mode;
-+	const struct ov5640_timings *timings;
++	ret = v4l2_fwnode_device_parse(&sensor->i2c_client->dev, &props);
++	if (ret)
++		goto free_ctrls;
 +
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP: {
-+		mutex_lock(&sensor->lock);
-+		timings = ov5640_timings(sensor, mode);
-+		sel->r = timings->analog_crop;
-+		mutex_unlock(&sensor->lock);
++	if (props.rotation == 180)
++		sensor->upside_down = true;
 +
-+		return 0;
-+	}
++	ret = v4l2_ctrl_new_fwnode_properties(hdl, ops, &props);
++	if (ret)
++		goto free_ctrls;
 +
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = OV5640_NATIVE_WIDTH;
-+		sel->r.height = OV5640_NATIVE_HEIGHT;
-+
-+		return 0;
-+
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+		sel->r.top = OV5640_PIXEL_ARRAY_TOP;
-+		sel->r.left = OV5640_PIXEL_ARRAY_LEFT;
-+		sel->r.width = OV5640_PIXEL_ARRAY_WIDTH;
-+		sel->r.height = OV5640_PIXEL_ARRAY_HEIGHT;
-+
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
- static int ov5640_set_framefmt(struct ov5640_dev *sensor,
- 			       struct v4l2_mbus_framefmt *format)
- {
-@@ -3565,9 +3604,15 @@ static int ov5640_init_cfg(struct v4l2_subdev *sd,
- {
- 	struct v4l2_mbus_framefmt *fmt =
- 				v4l2_subdev_get_try_format(sd, state, 0);
-+	struct v4l2_rect *crop = v4l2_subdev_get_try_crop(sd, state, 0);
+ 	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 	ctrls->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+@@ -3690,7 +3702,6 @@ static int ov5640_probe(struct i2c_client *client)
+ 	struct device *dev = &client->dev;
+ 	struct fwnode_handle *endpoint;
+ 	struct ov5640_dev *sensor;
+-	u32 rotation;
+ 	int ret;
  
- 	*fmt = ov5640_default_fmt;
+ 	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+@@ -3714,22 +3725,6 @@ static int ov5640_probe(struct i2c_client *client)
  
-+	crop->left = OV5640_PIXEL_ARRAY_LEFT;
-+	crop->top = OV5640_PIXEL_ARRAY_TOP;
-+	crop->width = OV5640_PIXEL_ARRAY_WIDTH;
-+	crop->height = OV5640_PIXEL_ARRAY_HEIGHT;
-+
- 	return 0;
- }
+ 	sensor->ae_target = 52;
  
-@@ -3589,6 +3634,7 @@ static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
- 	.enum_mbus_code = ov5640_enum_mbus_code,
- 	.get_fmt = ov5640_get_fmt,
- 	.set_fmt = ov5640_set_fmt,
-+	.get_selection = ov5640_get_selection,
- 	.enum_frame_size = ov5640_enum_frame_size,
- 	.enum_frame_interval = ov5640_enum_frame_interval,
- };
+-	/* optional indication of physical rotation of sensor */
+-	ret = fwnode_property_read_u32(dev_fwnode(&client->dev), "rotation",
+-				       &rotation);
+-	if (!ret) {
+-		switch (rotation) {
+-		case 180:
+-			sensor->upside_down = true;
+-			fallthrough;
+-		case 0:
+-			break;
+-		default:
+-			dev_warn(dev, "%u degrees rotation is not supported, ignoring...\n",
+-				 rotation);
+-		}
+-	}
+-
+ 	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+ 						  NULL);
+ 	if (!endpoint) {
 -- 
 2.30.2
 
