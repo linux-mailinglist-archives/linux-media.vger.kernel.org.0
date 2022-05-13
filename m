@@ -2,121 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 524DB5263D2
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 16:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F0D6526630
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 17:35:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345226AbiEMOYN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 10:24:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37024 "EHLO
+        id S1381432AbiEMPfp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 11:35:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244638AbiEMOYM (ORCPT
+        with ESMTP id S1381399AbiEMPfp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 10:24:12 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 421A25047F
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 07:24:11 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id D727220005;
-        Fri, 13 May 2022 14:24:05 +0000 (UTC)
-Date:   Fri, 13 May 2022 16:24:04 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-        mirela.rabulea@nxp.com, xavier.roumegue@oss.nxp.com,
-        tomi.valkeinen@ideasonboard.com, hugues.fruchet@st.com,
-        prabhakar.mahadev-lad.rj@bp.renesas.com, aford173@gmail.com,
-        festevam@gmail.com, Eugen.Hristev@microchip.com,
-        jbrunet@baylibre.com, paul.elder@ideasonboard.com,
-        eddy.khan@vergesense.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v7 00/28] media: ov5640: Rework the clock tree
- programming for MIPI
-Message-ID: <20220513142404.7obbuidmc42wn3sf@uno.localdomain>
-References: <20220513141548.6344-1-sakari.ailus@linux.intel.com>
+        Fri, 13 May 2022 11:35:45 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 904D1101C4
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 08:35:43 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id q18so8271642pln.12
+        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 08:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cwEHROTwAWONW9LClMhxm8JAVtk6t0Q8QMuswvfpMFA=;
+        b=F2xgswMAUMJnoWT2kgHwvwb7EA/MS5Gajp2D7DvfQFxBDqfagFm6uuiU3ENAPPnuW3
+         ywUUwCVkvohIJe/URo9xZdNLMdvrB3jSiGl49mPgMXQAGUTwsi5KDaR8jqLTkVf1k+HD
+         y6JrMQFc6VpMWkriDvhmKCByZI2z9sYvMtNXpVm/mHHzyNPC3UCup8WN3nQQeU1t6VEy
+         cNWlGjS/phf5DRTbXUATM0q3f2COVZbh6GRNP4NHaIjeq9pBQP6r+kn0UArMQRPCYu/S
+         dcivxAwEcnmTBWKjAIfj9X1HeMqPmrrweORk2ShDYYNTX+23U9q4zfwdCyo+oMmsRiDB
+         VvFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cwEHROTwAWONW9LClMhxm8JAVtk6t0Q8QMuswvfpMFA=;
+        b=SQnqDSpNkpEC/sCnr3VdYEFzvYBrYSkVX0iCFwUsF0unwBKzV2Ntqe+OVMciu734j0
+         g13Sdoo0Ny7/8I2fya2Ivav+mIIcGedP+RFG2CW3OXtEXErQlSDBczdY2CiEVbBzdw4J
+         /A4hHBZGm8ECpRRW/pM1gceGwLV8JsvrP/hJ+N7cwdnM7uCMs5j3c0sFCUUh61Jpfzas
+         bsOzSZBK6m5m0skxI/IUiaU/Uc7wHm9gnXQcRrx7pJza2QZi5nxfwHSzpVHxudk2FkZG
+         6JQTU7AqCncfjRJ4z+EJfK2+60MuClk83rYl49kObLV41CkFtSHx7pz32+UXGUL57LdV
+         5fCg==
+X-Gm-Message-State: AOAM532FVo/s6awsi291eVNMMRjmBQH8hsTeRO03j74090VTr6ef39iA
+        3wxLpdetx7ahr4CLfi1V25eNbZa8RDeAHqcluWShJg==
+X-Google-Smtp-Source: ABdhPJxZfZuyOwpsIqij6nkirkYBtmy/5yc5wER0gD3/nwfYeCw5KwZEIqQ6IpZVyIvFiv9ncmdfM8gHOBQPXjxSHtk=
+X-Received: by 2002:a17:902:ea0e:b0:15e:c0e4:cf15 with SMTP id
+ s14-20020a170902ea0e00b0015ec0e4cf15mr5415797plg.63.1652456143031; Fri, 13
+ May 2022 08:35:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220513141548.6344-1-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220510134146.1727701-1-zheyuma97@gmail.com>
+In-Reply-To: <20220510134146.1727701-1-zheyuma97@gmail.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Fri, 13 May 2022 08:35:31 -0700
+Message-ID: <CAJ+vNU3f6vxwwCjXTA8E8n8EjMFosKpXKRk1TOBz-Tifx15Ufg@mail.gmail.com>
+Subject: Re: [PATCH] media: TDA1997x: Fix the error handling in tda1997x_probe()
+To:     Zheyu Ma <zheyuma97@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-  I -litterally- just sent a v7 to you and Mauro (and list) to fix the
-warning. Feel free to ignore it then
-
-On Fri, May 13, 2022 at 05:15:20PM +0300, Sakari Ailus wrote:
-> Hi folks,
+On Tue, May 10, 2022 at 6:42 AM Zheyu Ma <zheyuma97@gmail.com> wrote:
 >
-> Reworked the internals a little so that no compile warnings are produced
-> for intermediate patches. In the past we've allowed them but now with
-> warnings considered as errors, this is a problem.
+> The driver should disable the regulator when failing to probe.
 >
-> The end result is unchanged. Still testing for compilation.
+> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+> ---
+>  drivers/media/i2c/tda1997x.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> I'm still sending this all to list as several patches got changed:
->
-> 	media: ov5640: Associate bpp with formats
-> 	media: ov5640: Rework CSI-2 clock tree
-> 	media: ov5640: Split DVP and CSI-2 formats
-
-In my v7 I have only moved ov5640_code_to_bpp() from [4/28] to
-[6/28] where it is actually used.
-
-Hence the changed patches for me are:
-
-        media: ov5640: Associate bpp with formats       [4/28]
-        media: ov5640: Update pixel_rate and link_freq  [6/28]
-
-Are there other warnings to fix which I have missed ?
-
-Thanks
-   j
-
->
-> Hugues Fruchet (1):
->   media: ov5640: Adjust vblank with s_frame_interval
->
-> Jacopo Mondi (27):
->   media: ov5640: Add pixel rate to modes
->   media: ov5640: Re-arrange modes definition
->   media: ov5640: Add ov5640_is_csi2() function
->   media: ov5640: Associate bpp with formats
->   media: ov5640: Add LINK_FREQ control
->   media: ov5640: Update pixel_rate and link_freq
->   media: ov5640: Rework CSI-2 clock tree
->   media: ov5640: Rework timings programming
->   media: ov5640: Fix 720x480 in RGB888 mode
->   media: ov5640: Split DVP and CSI-2 timings
->   media: ov5640: Provide timings accessor
->   media: ov5640: Re-sort per-mode register tables
->   media: ov5640: Remove duplicated mode settings
->   media: ov5640: Remove ov5640_mode_init_data
->   media: ov5640: Add HBLANK control
->   media: ov5640: Add VBLANK control
->   media: ov5640: Remove frame rate check from find_mode()
->   media: ov5640: Change CSI-2 timings to comply with FPS
->   media: ov5640: Implement init_cfg
->   media: ov5640: Implement get_selection
->   media: ov5640: Register device properties
->   media: ov5640: Add RGB565_1X16 format
->   media: ov5640: Add BGR888 format
->   media: ov5640: Restrict sizes to mbus code
->   media: ov5640: Adjust format to bpp in s_fmt
->   media: ov5640: Split DVP and CSI-2 formats
->   media: ov5640: Move format mux config in format
->
->  drivers/media/i2c/ov5640.c | 1650 ++++++++++++++++++++++++++----------
->  1 file changed, 1188 insertions(+), 462 deletions(-)
->
+> diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
+> index 8fafce26d62f..0de7acdf58a7 100644
+> --- a/drivers/media/i2c/tda1997x.c
+> +++ b/drivers/media/i2c/tda1997x.c
+> @@ -2798,6 +2798,7 @@ static int tda1997x_probe(struct i2c_client *client,
+>         cancel_delayed_work(&state->delayed_work_enable_hpd);
+>         mutex_destroy(&state->page_lock);
+>         mutex_destroy(&state->lock);
+> +       tda1997x_set_power(state, 0);
+>  err_free_state:
+>         kfree(state);
+>         dev_err(&client->dev, "%s failed: %d\n", __func__, ret);
 > --
-> 2.30.2
+> 2.25.1
 >
+
+Acked-By: Tim Harvey <tharvey@gateworks.com>
+
+Best Regards,
+
+Tim
