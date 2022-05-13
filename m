@@ -2,128 +2,388 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC0A3525E5E
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 11:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F478525F30
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 12:08:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378892AbiEMJKg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 05:10:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38048 "EHLO
+        id S1378818AbiEMJZM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 05:25:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378777AbiEMJKd (ORCPT
+        with ESMTP id S231895AbiEMJZL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 05:10:33 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DEB16D12D;
-        Fri, 13 May 2022 02:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652433031; x=1683969031;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nuXU/g3coGmPHjkK9kbksU4msj3bxR1yewtKO4WIDNs=;
-  b=KmD8INxtmJCSnGU/1IUizFvuvvzoYFgpkJ+0k/5/N2dpOjX1ftkavRb0
-   vp5mJY7C3yVj2brzuWHOrXGzKw4GJa/WP6X2Fb1qZP5zg+b+/tqlf/Qj3
-   OhrfHXeQYG5adI9WvCGKzSdmNOAY3Ke3zirb2y7N2o4+DIIDLLBPcsSsm
-   BOm+WqqoyKqty6SXoNCMOCg9MGdRVz6YhGDTaHHdNT5RF7H67wGVzQMb9
-   rast8Fsr3DEsWnwbgjatC1ByqpfePyxzKuVhn56ogbQSd7e9v/emPdHan
-   pzYH84oR4ZkPGEbF3U3QqIY8ZdvCV44Qa6k2MKAtuCynjvvFKNfyRABAz
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="295518013"
-X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
-   d="scan'208";a="295518013"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 02:10:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
-   d="scan'208";a="543183693"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 13 May 2022 02:10:28 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1npRJb-000LZW-Ep;
-        Fri, 13 May 2022 09:10:27 +0000
-Date:   Fri, 13 May 2022 17:09:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Marvin Lin <milkfafa@gmail.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, openbmc@lists.ozlabs.org,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        kwliu@nuvoton.com, kflin@nuvoton.com
-Subject: Re: [PATCH v2 5/5] drivers: media: platform: Add NPCM Video
- Capture/Encode Engine driver
-Message-ID: <202205131733.OM8Kr2te-lkp@intel.com>
-References: <20220513033450.7038-6-kflin@nuvoton.com>
+        Fri, 13 May 2022 05:25:11 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE60E29B03D;
+        Fri, 13 May 2022 02:25:05 -0700 (PDT)
+X-UUID: 3e5a0e1c8d9047cca6d59814e75317e4-20220513
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5,REQID:db04cc78-6b89-4060-aa80-92724f6b7de7,OB:0,LO
+        B:0,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:0
+X-CID-META: VersionHash:2a19b09,CLOUDID:be841cf2-ab23-4aed-a67b-f96514452486,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+        ,QS:0,BEC:nil
+X-UUID: 3e5a0e1c8d9047cca6d59814e75317e4-20220513
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 326340984; Fri, 13 May 2022 17:25:00 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 13 May 2022 17:24:59 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 13 May 2022 17:24:59 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 13 May 2022 17:24:56 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v3] media: mediatek: vcodec: add vp9 decoder driver for mt8186
+Date:   Fri, 13 May 2022 17:24:53 +0800
+Message-ID: <20220513092453.9600-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220513033450.7038-6-kflin@nuvoton.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,MAY_BE_FORGED,
+        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marvin,
+Add vp9 single core decode driver to support mt8186.
 
-Thank you for the patch! Perhaps something to improve:
+Signed-off-by: Mingjia Zhang <mingjia.zhang@mediatek.com>
+Signed-off-by: Xiaoyong Lu <xiaoyong.lu@mediatek.com>
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+---
+This patch depends on "add h264 decoder driver for mt8186"[1]
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linux/master linus/master v5.18-rc6]
-[cannot apply to media-tree/master next-20220512]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+[1]  https://patchwork.kernel.org/project/linux-mediatek/cover/20220512034620.30500-1-yunfei.dong@mediatek.com/
+---
+changed with v2:
+- fix __iomem not reasonable, align share memory to dram.
+changed with v1:
+- fix sparse and smatch check fail.
+---
+ .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 197 +++++++++++++++++-
+ .../platform/mediatek/vcodec/vdec_drv_if.c    |   2 +-
+ 2 files changed, 195 insertions(+), 4 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marvin-Lin/Support-Nuvoton-NPCM-Video-Capture-Encode-Engine/20220513-113806
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220513/202205131733.OM8Kr2te-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7fa1f7750e7317479ce2c2c043b44fa19c46b1a8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Marvin-Lin/Support-Nuvoton-NPCM-Video-Capture-Encode-Engine/20220513-113806
-        git checkout 7fa1f7750e7317479ce2c2c043b44fa19c46b1a8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/media/platform/nuvoton/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/media/platform/nuvoton/npcm-video.c: In function 'nuvoton_video_buf_queue':
->> drivers/media/platform/nuvoton/npcm-video.c:1776:13: warning: variable 'empty' set but not used [-Wunused-but-set-variable]
-    1776 |         int empty;
-         |             ^~~~~
-
-
-vim +/empty +1776 drivers/media/platform/nuvoton/npcm-video.c
-
-  1773	
-  1774	static void nuvoton_video_buf_queue(struct vb2_buffer *vb)
-  1775	{
-> 1776		int empty;
-  1777		struct nuvoton_video *video = vb2_get_drv_priv(vb->vb2_queue);
-  1778		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-  1779		struct nuvoton_video_buffer *nvb = to_nuvoton_video_buffer(vbuf);
-  1780		unsigned long flags;
-  1781	
-  1782		dev_dbg(video->dev, "%s\n", __func__);
-  1783	
-  1784		spin_lock_irqsave(&video->lock, flags);
-  1785		empty = list_empty(&video->buffers);
-  1786		list_add_tail(&nvb->link, &video->buffers);
-  1787		spin_unlock_irqrestore(&video->lock, flags);
-  1788	}
-  1789	
-
+diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+index 023aba4ec2c4..fba06f321baa 100644
+--- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
++++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+@@ -439,6 +439,8 @@ struct vdec_vp9_slice_ref {
+  * @init_vsi:		vsi used for initialized VP9 instance
+  * @vsi:		vsi used for decoding/flush ...
+  * @core_vsi:		vsi used for Core stage
++ *
++ * @sc_pfc:		per frame context single core
+  * @counts_map:	used map to counts_helper
+  * @counts_helper:	counts table according to newest kernel spec
+  */
+@@ -487,6 +489,7 @@ struct vdec_vp9_slice_instance {
+ 	};
+ 	struct vdec_vp9_slice_vsi *core_vsi;
+ 
++	struct vdec_vp9_slice_pfc sc_pfc;
+ 	struct vdec_vp9_slice_counts_map counts_map;
+ 	struct v4l2_vp9_frame_symbol_counts counts_helper;
+ };
+@@ -692,6 +695,25 @@ static int vdec_vp9_slice_tile_offset(int idx, int mi_num, int tile_log2)
+ 	return offset < mi_num ? offset : mi_num;
+ }
+ 
++static
++int vdec_vp9_slice_setup_single_from_src_to_dst(struct vdec_vp9_slice_instance *instance)
++{
++	struct vb2_v4l2_buffer *src;
++	struct vb2_v4l2_buffer *dst;
++
++	src = v4l2_m2m_next_src_buf(instance->ctx->m2m_ctx);
++	if (!src)
++		return -EINVAL;
++
++	dst = v4l2_m2m_next_dst_buf(instance->ctx->m2m_ctx);
++	if (!dst)
++		return -EINVAL;
++
++	v4l2_m2m_buf_copy_metadata(src, dst, true);
++
++	return 0;
++}
++
+ static int vdec_vp9_slice_setup_lat_from_src_buf(struct vdec_vp9_slice_instance *instance,
+ 						 struct vdec_lat_buf *lat_buf)
+ {
+@@ -1567,6 +1589,33 @@ static int vdec_vp9_slice_update_prob(struct vdec_vp9_slice_instance *instance,
+ 	return 0;
+ }
+ 
++static int vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance,
++				        struct vdec_vp9_slice_pfc *pfc)
++{
++	struct vdec_vp9_slice_vsi *vsi;
++
++	vsi = &pfc->vsi;
++	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
++
++	mtk_vcodec_debug(instance, "Frame %u Y_CRC %08x %08x %08x %08x\n",
++			 pfc->seq,
++			 vsi->state.crc[0], vsi->state.crc[1],
++			 vsi->state.crc[2], vsi->state.crc[3]);
++	mtk_vcodec_debug(instance, "Frame %u C_CRC %08x %08x %08x %08x\n",
++			 pfc->seq,
++			 vsi->state.crc[4], vsi->state.crc[5],
++			 vsi->state.crc[6], vsi->state.crc[7]);
++
++	vdec_vp9_slice_update_prob(instance, vsi);
++
++	instance->width = vsi->frame.uh.frame_width;
++	instance->height = vsi->frame.uh.frame_height;
++	instance->frame_type = vsi->frame.uh.frame_type;
++	instance->show_frame = vsi->frame.uh.show_frame;
++
++	return 0;
++}
++
+ static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance *instance,
+ 				     struct vdec_lat_buf *lat_buf,
+ 				     struct vdec_vp9_slice_pfc *pfc)
+@@ -1690,6 +1739,40 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
+ 	return 0;
+ }
+ 
++static void vdec_vp9_slice_setup_single_buffer(struct vdec_vp9_slice_instance *instance,
++					       struct vdec_vp9_slice_pfc *pfc,
++					       struct vdec_vp9_slice_vsi *vsi,
++					       struct mtk_vcodec_mem *bs,
++					       struct vdec_fb *fb)
++{
++	int i;
++
++	vsi->bs.buf.dma_addr = bs->dma_addr;
++	vsi->bs.buf.size = bs->size;
++	vsi->bs.frame.dma_addr = bs->dma_addr;
++	vsi->bs.frame.size = bs->size;
++
++	for (i = 0; i < 2; i++) {
++		vsi->mv[i].dma_addr = instance->mv[i].dma_addr;
++		vsi->mv[i].size = instance->mv[i].size;
++	}
++	for (i = 0; i < 2; i++) {
++		vsi->seg[i].dma_addr = instance->seg[i].dma_addr;
++		vsi->seg[i].size = instance->seg[i].size;
++	}
++	vsi->tile.dma_addr = instance->tile.dma_addr;
++	vsi->tile.size = instance->tile.size;
++	vsi->prob.dma_addr = instance->prob.dma_addr;
++	vsi->prob.size = instance->prob.size;
++	vsi->counts.dma_addr = instance->counts.dma_addr;
++	vsi->counts.size = instance->counts.size;
++
++	vsi->row_info.buf = 0;
++	vsi->row_info.size = 0;
++
++	vdec_vp9_slice_setup_core_buffer(instance, pfc, vsi, fb, NULL);
++}
++
+ static int vdec_vp9_slice_setup_core(struct vdec_vp9_slice_instance *instance,
+ 				     struct vdec_fb *fb,
+ 				     struct vdec_lat_buf *lat_buf,
+@@ -1716,6 +1799,43 @@ static int vdec_vp9_slice_setup_core(struct vdec_vp9_slice_instance *instance,
+ 	return ret;
+ }
+ 
++static int vdec_vp9_slice_setup_single(struct vdec_vp9_slice_instance *instance,
++				       struct mtk_vcodec_mem *bs,
++				       struct vdec_fb *fb,
++				       struct vdec_vp9_slice_pfc *pfc)
++{
++	struct vdec_vp9_slice_vsi *vsi = &pfc->vsi;
++	int ret;
++
++	ret = vdec_vp9_slice_setup_single_from_src_to_dst(instance);
++	if (ret)
++		goto err;
++
++	ret = vdec_vp9_slice_setup_pfc(instance, pfc);
++	if (ret)
++		goto err;
++
++	ret = vdec_vp9_slice_alloc_working_buffer(instance, vsi);
++	if (ret)
++		goto err;
++
++	vdec_vp9_slice_setup_single_buffer(instance, pfc, vsi, bs, fb);
++	vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[0]);
++
++	ret = vdec_vp9_slice_setup_prob_buffer(instance, vsi);
++	if (ret)
++		goto err;
++
++	ret = vdec_vp9_slice_setup_tile_buffer(instance, vsi, bs);
++	if (ret)
++		goto err;
++
++	return 0;
++
++err:
++	return ret;
++}
++
+ static int vdec_vp9_slice_update_core(struct vdec_vp9_slice_instance *instance,
+ 				      struct vdec_lat_buf *lat_buf,
+ 				      struct vdec_vp9_slice_pfc *pfc)
+@@ -1813,8 +1933,8 @@ static int vdec_vp9_slice_flush(void *h_vdec, struct mtk_vcodec_mem *bs,
+ 	struct vdec_vp9_slice_instance *instance = h_vdec;
+ 
+ 	mtk_vcodec_debug(instance, "flush ...\n");
+-
+-	vdec_msg_queue_wait_lat_buf_full(&instance->ctx->msg_queue);
++	if (instance->ctx->dev->vdec_pdata->hw_arch != MTK_VDEC_PURE_SINGLE_CORE)
++		vdec_msg_queue_wait_lat_buf_full(&instance->ctx->msg_queue);
+ 	return vpu_dec_reset(&instance->vpu);
+ }
+ 
+@@ -1867,6 +1987,63 @@ static int vdec_vp9_slice_get_param(void *h_vdec, enum vdec_get_param_type type,
+ 	return 0;
+ }
+ 
++static int vdec_vp9_slice_single_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
++				        struct vdec_fb *fb, bool *res_chg)
++{
++	struct vdec_vp9_slice_instance *instance = h_vdec;
++	struct vdec_vp9_slice_pfc *pfc = &(instance->sc_pfc);
++	struct vdec_vp9_slice_vsi *vsi;
++	struct mtk_vcodec_ctx *ctx;
++	int ret;
++
++	if (!instance || !instance->ctx)
++		return -EINVAL;
++	ctx = instance->ctx;
++
++	/* bs NULL means flush decoder */
++	if (!bs)
++		return vdec_vp9_slice_flush(h_vdec, bs, fb, res_chg);
++
++	fb = ctx->dev->vdec_pdata->get_cap_buffer(ctx);
++	if (!fb)
++		return -EBUSY;
++
++	vsi = &pfc->vsi;
++
++	ret = vdec_vp9_slice_setup_single(instance, bs, fb, pfc);
++	if (ret) {
++		mtk_vcodec_err(instance, "Failed to setup VP9 single ret %d\n", ret);
++		return ret;
++	}
++	vdec_vp9_slice_vsi_to_remote(vsi, instance->vsi);
++
++	ret = vpu_dec_start(&instance->vpu, NULL, 0);
++	if (ret) {
++		mtk_vcodec_err(instance, "Failed to dec VP9 ret %d\n", ret);
++		return ret;
++	}
++
++	ret = mtk_vcodec_wait_for_done_ctx(ctx,	MTK_INST_IRQ_RECEIVED,
++					   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
++	/* update remote vsi if decode timeout */
++	if (ret) {
++		mtk_vcodec_err(instance, "VP9 decode timeout %d\n", ret);
++		WRITE_ONCE(instance->vsi->state.timeout, 1);
++	}
++
++	vpu_dec_end(&instance->vpu);
++
++	vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
++	ret = vdec_vp9_slice_update_single(instance, pfc);
++	if (ret) {
++		mtk_vcodec_err(instance, "VP9 decode error: %d\n", ret);
++		return ret;
++	}
++
++	instance->ctx->decoded_frame_cnt++;
++	return 0;
++}
++
+ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+ 				     struct vdec_fb *fb, bool *res_chg)
+ {
+@@ -1946,6 +2123,20 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+ 	return 0;
+ }
+ 
++static int vdec_vp9_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
++				 struct vdec_fb *fb, bool *res_chg)
++{
++	struct vdec_vp9_slice_instance *instance = h_vdec;
++	int ret;
++
++	if (instance->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_PURE_SINGLE_CORE)
++		ret = vdec_vp9_slice_single_decode(h_vdec, bs, fb, res_chg);
++	else
++		ret = vdec_vp9_slice_lat_decode(h_vdec, bs, fb, res_chg);
++
++	return ret;
++}
++
+ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
+ {
+ 	struct vdec_vp9_slice_instance *instance;
+@@ -2024,7 +2215,7 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
+ 
+ const struct vdec_common_if vdec_vp9_slice_lat_if = {
+ 	.init		= vdec_vp9_slice_init,
+-	.decode		= vdec_vp9_slice_lat_decode,
++	.decode		= vdec_vp9_slice_decode,
+ 	.get_param	= vdec_vp9_slice_get_param,
+ 	.deinit		= vdec_vp9_slice_deinit,
+ };
+diff --git a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c b/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
+index 27b4b35039cf..f3807f03d880 100644
+--- a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
++++ b/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
+@@ -47,7 +47,7 @@ int vdec_if_init(struct mtk_vcodec_ctx *ctx, unsigned int fourcc)
+ 		break;
+ 	case V4L2_PIX_FMT_VP9_FRAME:
+ 		ctx->dec_if = &vdec_vp9_slice_lat_if;
+-		ctx->hw_id = MTK_VDEC_LAT0;
++		ctx->hw_id = IS_VDEC_LAT_ARCH(hw_arch) ? MTK_VDEC_LAT0 : MTK_VDEC_CORE;
+ 		break;
+ 	default:
+ 		return -EINVAL;
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.18.0
+
