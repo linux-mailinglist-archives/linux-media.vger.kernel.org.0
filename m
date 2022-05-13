@@ -2,170 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0158525E5A
-	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 11:19:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC0A3525E5E
+	for <lists+linux-media@lfdr.de>; Fri, 13 May 2022 11:19:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347190AbiEMJHM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 May 2022 05:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53162 "EHLO
+        id S1378892AbiEMJKg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 May 2022 05:10:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378792AbiEMJHK (ORCPT
+        with ESMTP id S1378777AbiEMJKd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 May 2022 05:07:10 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DE7F606FD
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 02:07:07 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id e29so901713wrc.11
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 02:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=tQhMv5wgd6P5e5ZPKnJXTqhF5TWWKVPkk+00hnqjRXs=;
-        b=l8ZqzODxTeK4g2pTFG9ZfVYndijHwk3ii/cTxtexptHo590e35fS20iJwufNZdEh92
-         2jnMvPNFHcft1cWJ2CbcRhtpHmMAmc8dJINengKkOOb5LUd5kbGum+qa3F+Uqhq9WxGl
-         Y+4vNppopCVyTh/NMA/pHCUtSirsXcuUpHKpHmqmDSiZwaJhIZS9BkwROWE1xhfpXly0
-         vSZYHS/eCsuDxwTwx4exGV1Fcw0wIFsgGORQL+NhF0F+GT4P72xlIFvgV2ehYcMbmDo+
-         /yl0yWZV9wzV5KCbXL8PYSXGFZ+bnosYCEC8iFJe3AHNNRz4j1c+vziQGTi+0eTaY+OS
-         xqFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=tQhMv5wgd6P5e5ZPKnJXTqhF5TWWKVPkk+00hnqjRXs=;
-        b=wNK/xNOF+tzlejID4R0TFGWIHT5HgyRFSLoafHBSFGMyFzB/NRUhjnxcmeP/fwhHBG
-         k9O7AQS5gZGIjUUJxRFLcDiNbjYsHkx4xJlt/vg9Hdlj1CU9ww94B35esFnEroitkOLI
-         ybRcEg05W3P6v3Mb4pI6DsZKW+ZYVEYisvggpGuSW/U/yZXZYsECzJqvpNdq9K0rmL97
-         Ste0mXz3NeHu7Rua9rlNZ2U7tqI8zv/NaZOC/jlXB0ypwdNGQAuKt0ccVWXvBAn2AvZa
-         aY/YuWqnJ6WduVtidjyG3RJYLpnJbukKN9pyqSgynkZvuTCO0SyTQYIRWrzKh2JzmVtg
-         xGEQ==
-X-Gm-Message-State: AOAM531SpUzokh3MY2GQ1BAzmbSJfvVKxdsn6N+8LAzoORv9jvL5BhEE
-        kIkidC85ArBqm69V9WrImzVxeg==
-X-Google-Smtp-Source: ABdhPJy98bvsVxNsD1pSSLGnY3/tw/4jQw9PX2RSQLFiZDfcJuBduq4HwVBFKrcSH9BcOE5sNaEWQA==
-X-Received: by 2002:a5d:4090:0:b0:20c:8b91:3b17 with SMTP id o16-20020a5d4090000000b0020c8b913b17mr2991905wrp.348.1652432826026;
-        Fri, 13 May 2022 02:07:06 -0700 (PDT)
-Received: from [192.168.0.169] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id s23-20020adfa297000000b0020c5253d8f4sm1662710wra.64.2022.05.13.02.07.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 May 2022 02:07:05 -0700 (PDT)
-Message-ID: <da78aaf6-c9ae-d591-fdc4-723f097ace2c@linaro.org>
-Date:   Fri, 13 May 2022 11:07:04 +0200
+        Fri, 13 May 2022 05:10:33 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DEB16D12D;
+        Fri, 13 May 2022 02:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652433031; x=1683969031;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nuXU/g3coGmPHjkK9kbksU4msj3bxR1yewtKO4WIDNs=;
+  b=KmD8INxtmJCSnGU/1IUizFvuvvzoYFgpkJ+0k/5/N2dpOjX1ftkavRb0
+   vp5mJY7C3yVj2brzuWHOrXGzKw4GJa/WP6X2Fb1qZP5zg+b+/tqlf/Qj3
+   OhrfHXeQYG5adI9WvCGKzSdmNOAY3Ke3zirb2y7N2o4+DIIDLLBPcsSsm
+   BOm+WqqoyKqty6SXoNCMOCg9MGdRVz6YhGDTaHHdNT5RF7H67wGVzQMb9
+   rast8Fsr3DEsWnwbgjatC1ByqpfePyxzKuVhn56ogbQSd7e9v/emPdHan
+   pzYH84oR4ZkPGEbF3U3QqIY8ZdvCV44Qa6k2MKAtuCynjvvFKNfyRABAz
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="295518013"
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
+   d="scan'208";a="295518013"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 02:10:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
+   d="scan'208";a="543183693"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 13 May 2022 02:10:28 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1npRJb-000LZW-Ep;
+        Fri, 13 May 2022 09:10:27 +0000
+Date:   Fri, 13 May 2022 17:09:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Marvin Lin <milkfafa@gmail.com>, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, openbmc@lists.ozlabs.org,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        kwliu@nuvoton.com, kflin@nuvoton.com
+Subject: Re: [PATCH v2 5/5] drivers: media: platform: Add NPCM Video
+ Capture/Encode Engine driver
+Message-ID: <202205131733.OM8Kr2te-lkp@intel.com>
+References: <20220513033450.7038-6-kflin@nuvoton.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 3/3] dt-bindings: usb: add documentation for aspeed udc
-Content-Language: en-US
-To:     Neal Liu <neal_liu@aspeedtech.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Felipe Balbi <balbi@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Li Yang <leoyang.li@nxp.com>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        BMC-SW@aspeedtech.com
-References: <20220513065728.857722-1-neal_liu@aspeedtech.com>
- <20220513065728.857722-4-neal_liu@aspeedtech.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220513065728.857722-4-neal_liu@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220513033450.7038-6-kflin@nuvoton.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/05/2022 08:57, Neal Liu wrote:
-> Add device tree binding documentation for the Aspeed USB2.0 Device
-> Controller.
-> 
-> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-> ---
->  .../devicetree/bindings/usb/aspeed,udc.yaml   | 52 +++++++++++++++++++
->  1 file changed, 52 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/aspeed,udc.yaml
+Hi Marvin,
 
-Please name the file as first compatible, so "aspeed,ast2600-udc.yaml"
+Thank you for the patch! Perhaps something to improve:
 
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linux/master linus/master v5.18-rc6]
+[cannot apply to media-tree/master next-20220512]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/aspeed,udc.yaml b/Documentation/devicetree/bindings/usb/aspeed,udc.yaml
-> new file mode 100644
-> index 000000000000..d1d2f77d1c54
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/aspeed,udc.yaml
-> @@ -0,0 +1,52 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2020 Facebook Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/aspeed,udc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ASPEED USB 2.0 Device Controller
-> +
-> +maintainers:
-> +  - Neal Liu <neal_liu@aspeedtech.com>
-> +
-> +description: |+
-> +  The ASPEED USB 2.0 Device Controller implements 1 control endpoint and
-> +  4 generic endpoints for AST260x.
-> +
-> +  Supports independent DMA channel for each generic endpoint.
-> +  Supports 32/256 stages descriptor mode for all generic endpoints.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-udc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
+url:    https://github.com/intel-lab-lkp/linux/commits/Marvin-Lin/Support-Nuvoton-NPCM-Video-Capture-Encode-Engine/20220513-113806
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220513/202205131733.OM8Kr2te-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7fa1f7750e7317479ce2c2c043b44fa19c46b1a8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Marvin-Lin/Support-Nuvoton-NPCM-Video-Capture-Encode-Engine/20220513-113806
+        git checkout 7fa1f7750e7317479ce2c2c043b44fa19c46b1a8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/media/platform/nuvoton/
 
-No child properties? No ports or any other devices? No usb-hcd.yaml?
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/aspeed-clock.h>
-> +    udc: udc@1e6a2000 {
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Node name: usb
+All warnings (new ones prefixed by >>):
 
-> +            compatible = "aspeed,ast2600-udc";
-> +            reg = <0x1e6a2000 0x300>;
-> +            interrupts = <9>;
-> +            clocks = <&syscon ASPEED_CLK_GATE_USBPORT2CLK>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&pinctrl_usb2bd_default>;
-> +    };
+   drivers/media/platform/nuvoton/npcm-video.c: In function 'nuvoton_video_buf_queue':
+>> drivers/media/platform/nuvoton/npcm-video.c:1776:13: warning: variable 'empty' set but not used [-Wunused-but-set-variable]
+    1776 |         int empty;
+         |             ^~~~~
 
 
-Best regards,
-Krzysztof
+vim +/empty +1776 drivers/media/platform/nuvoton/npcm-video.c
+
+  1773	
+  1774	static void nuvoton_video_buf_queue(struct vb2_buffer *vb)
+  1775	{
+> 1776		int empty;
+  1777		struct nuvoton_video *video = vb2_get_drv_priv(vb->vb2_queue);
+  1778		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+  1779		struct nuvoton_video_buffer *nvb = to_nuvoton_video_buffer(vbuf);
+  1780		unsigned long flags;
+  1781	
+  1782		dev_dbg(video->dev, "%s\n", __func__);
+  1783	
+  1784		spin_lock_irqsave(&video->lock, flags);
+  1785		empty = list_empty(&video->buffers);
+  1786		list_add_tail(&nvb->link, &video->buffers);
+  1787		spin_unlock_irqrestore(&video->lock, flags);
+  1788	}
+  1789	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
