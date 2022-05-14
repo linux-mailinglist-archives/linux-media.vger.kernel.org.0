@@ -2,167 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3A96526F62
-	for <lists+linux-media@lfdr.de>; Sat, 14 May 2022 09:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E475C5270BC
+	for <lists+linux-media@lfdr.de>; Sat, 14 May 2022 12:42:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231540AbiENEzy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 May 2022 00:55:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37818 "EHLO
+        id S230061AbiENKmm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 May 2022 06:42:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230201AbiENEzx (ORCPT
+        with ESMTP id S229505AbiENKml (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 May 2022 00:55:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A36B3D494
-        for <linux-media@vger.kernel.org>; Fri, 13 May 2022 21:55:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D252560921
-        for <linux-media@vger.kernel.org>; Sat, 14 May 2022 04:55:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9D4C340EE
-        for <linux-media@vger.kernel.org>; Sat, 14 May 2022 04:55:50 +0000 (UTC)
-Date:   Sat, 14 May 2022 06:55:48 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220514045550.CE9D4C340EE@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 14 May 2022 06:42:41 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8FC12D26;
+        Sat, 14 May 2022 03:42:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652524959; x=1684060959;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=owL2E8dN4WOVXiXSAA2t80U2WaZOkvUVbpuMiP4wVM8=;
+  b=bWBJ+mcgQ5Z+TPdVrKeHG5Corj1LC8Pxayp4juMk7OVoDQfc+jg5cNAS
+   tiPpwkwV3TurD6iNfjoZsyFcPScIpEG4bjqsMOo7o5GtoxAWYEEiJbiHT
+   TV9IOtDhxJm6MK8gvMpHDng8zVyPQrmZmXNQwEMCjAFxz1V4cZ2+RSamy
+   vjc18W/QfHpbOurC9KvTgFQTcek9HKu9epgb+R7OopF4zbOR5nmA/HvFf
+   7KEbNer6aiV5Vqo6N49C5l4we1xfIaozZVLiOWSFg29jdRNCylaLojE27
+   gbyPvoAiUBke3VPHj4rxudoLUsYjB3hKyeEQHeuUFdrN2MM0KxDxNEfQd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10346"; a="250402859"
+X-IronPort-AV: E=Sophos;i="5.91,225,1647327600"; 
+   d="scan'208";a="250402859"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2022 03:42:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,225,1647327600"; 
+   d="scan'208";a="595648948"
+Received: from lkp-server01.sh.intel.com (HELO d1462bc4b09b) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 14 May 2022 03:42:36 -0700
+Received: from kbuild by d1462bc4b09b with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nppEJ-0000Vx-Ds;
+        Sat, 14 May 2022 10:42:35 +0000
+Date:   Sat, 14 May 2022 18:41:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Marvin Lin <milkfafa@gmail.com>, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        openbmc@lists.ozlabs.org, avifishman70@gmail.com,
+        tmaimon77@gmail.com, tali.perry1@gmail.com, kwliu@nuvoton.com,
+        kflin@nuvoton.com
+Subject: Re: [PATCH v2 5/5] drivers: media: platform: Add NPCM Video
+ Capture/Encode Engine driver
+Message-ID: <202205141815.QVBWWaqM-lkp@intel.com>
+References: <20220513033450.7038-6-kflin@nuvoton.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220513033450.7038-6-kflin@nuvoton.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Marvin,
 
-Results of the daily build of media_tree:
+Thank you for the patch! Perhaps something to improve:
 
-date:			Sat May 14 05:00:10 CEST 2022
-media-tree git hash:	4a18d21649f4f34e79a16c635e5df48cebb82e1f
-media_build git hash:	5eb7d23e8f3dffdb13c843ea0ae3ddd497f23107
-v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7940-g7a97f134-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linux/master linus/master v5.18-rc6]
+[cannot apply to media-tree/master next-20220513]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.275-i686: OK
-linux-4.14.275-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.237-i686: OK
-linux-4.19.237-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.19-i686: OK
-linux-5.13.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 2
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-kerneldoc: OK
+url:    https://github.com/intel-lab-lkp/linux/commits/Marvin-Lin/Support-Nuvoton-NPCM-Video-Capture-Encode-Engine/20220513-113806
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220514/202205141815.QVBWWaqM-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 38189438b69ca27b4c6ce707c52dbd217583d046)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7fa1f7750e7317479ce2c2c043b44fa19c46b1a8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Marvin-Lin/Support-Nuvoton-NPCM-Video-Capture-Encode-Engine/20220513-113806
+        git checkout 7fa1f7750e7317479ce2c2c043b44fa19c46b1a8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/platform/nuvoton/
 
-Detailed results are available here:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
+All warnings (new ones prefixed by >>):
 
-Detailed regression test results are available here:
+>> drivers/media/platform/nuvoton/npcm-video.c:1776:6: warning: variable 'empty' set but not used [-Wunused-but-set-variable]
+           int empty;
+               ^
+   1 warning generated.
 
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
 
-Full logs are available here:
+vim +/empty +1776 drivers/media/platform/nuvoton/npcm-video.c
 
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+  1773	
+  1774	static void nuvoton_video_buf_queue(struct vb2_buffer *vb)
+  1775	{
+> 1776		int empty;
+  1777		struct nuvoton_video *video = vb2_get_drv_priv(vb->vb2_queue);
+  1778		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+  1779		struct nuvoton_video_buffer *nvb = to_nuvoton_video_buffer(vbuf);
+  1780		unsigned long flags;
+  1781	
+  1782		dev_dbg(video->dev, "%s\n", __func__);
+  1783	
+  1784		spin_lock_irqsave(&video->lock, flags);
+  1785		empty = list_empty(&video->buffers);
+  1786		list_add_tail(&nvb->link, &video->buffers);
+  1787		spin_unlock_irqrestore(&video->lock, flags);
+  1788	}
+  1789	
 
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
