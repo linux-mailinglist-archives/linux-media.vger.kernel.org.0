@@ -2,81 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 183AA527E67
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 09:18:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30CD3527F09
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 10:00:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240694AbiEPHS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 03:18:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51662 "EHLO
+        id S241375AbiEPIAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 04:00:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240848AbiEPHS0 (ORCPT
+        with ESMTP id S241407AbiEPH77 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 03:18:26 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4212013CCF
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 00:18:24 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:51ae:171f:35c9:722d])
-        by xavier.telenet-ops.be with bizsmtp
-        id XKJK2700L2UsjYA01KJKhi; Mon, 16 May 2022 09:18:22 +0200
-Received: from geert (helo=localhost)
-        by ramsan.of.borg with local-esmtp (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nqUzi-000YsA-VZ; Mon, 16 May 2022 09:18:18 +0200
-Date:   Mon, 16 May 2022 09:18:18 +0200 (CEST)
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-X-X-Sender: geert@ramsan.of.borg
-To:     linux-kernel@vger.kernel.org
-cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-s390@vger.kernel.org
-Subject: Re: Build regressions/improvements in v5.18-rc7
-In-Reply-To: <20220516064231.2425428-1-geert@linux-m68k.org>
-Message-ID: <alpine.DEB.2.22.394.2205160916190.134019@ramsan.of.borg>
-References: <CAHk-=wg2eVUN0a1E5UnBF1ziGaU1yrMJtnFPg4R78O=FcRDqnA@mail.gmail.com> <20220516064231.2425428-1-geert@linux-m68k.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        Mon, 16 May 2022 03:59:59 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CF52C139
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 00:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1652687998; x=1684223998;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=z6FW8XHjY6i+m7Gc417gaDJnjfXGyY/xWZ7ymYvnYsI=;
+  b=AnZ3D7rwUbT4rhK5pN9WnQCfR2hyT5xJFRJL/u73jeSCJdZf80Igldfd
+   atN5xgl+KEQWLuUJMaeboVGXffWGhP5r0JkfvGroZpOYMELRDtPgstHk6
+   gEU66O6tz3uv8Ml6YPrZ0hcfuhpKoQdg4UykKk7JSi8Fz04Nza5Gc93JK
+   Q34XPvrWcAzLClTcCAlTI/ZVqvGbe+AxSLVDPIWYy1Qg49fY6t+xtOO48
+   xQTAijktcEKoanHPt76RX0aIKaL8xNZOUXXkYxejBVt1FQzulpd0U76+7
+   0xmI1U304Btvi2MM/mBvte9uVmXgZUsQP8bU8ADT5xyXwd6Un4sWe/OWu
+   w==;
+X-IronPort-AV: E=Sophos;i="5.91,229,1647298800"; 
+   d="scan'208";a="23882849"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 16 May 2022 09:59:55 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 16 May 2022 09:59:55 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 16 May 2022 09:59:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1652687995; x=1684223995;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=z6FW8XHjY6i+m7Gc417gaDJnjfXGyY/xWZ7ymYvnYsI=;
+  b=VwFTfG9dkQmHzYvk55Az0PuX5W8EAQVcsT/hNq0YoilW40lCq5ZvmHva
+   CxFcnfRfnQDe0Heebn0KvKHYRxLa01LJli1QRzoEXC88h6BZXHklCe4Bs
+   NUA+Yj4QM8EJztwrfcu2b0m2KzxiRBoFqdR9DiHBc24qM3xnaHL2ix+0Q
+   EDFBPiV+JJ5MvsDMe6kfw66HMtOrGZi1RgQOrWlyXZudP7jaZHyWBmmWe
+   09eB0uHArN5JuuCFq9dSXREzyKcNcTZhOMQDK1tFipSKL7PP/YhL+Z67g
+   DSyZoFdE95vew8j/pnnFnNeuv/vLv3j9xYkOap5Oy2CLKwHI7EKjxuvVk
+   w==;
+X-IronPort-AV: E=Sophos;i="5.91,229,1647298800"; 
+   d="scan'208";a="23882848"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 16 May 2022 09:59:55 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 4F4ED280070;
+        Mon, 16 May 2022 09:59:55 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 00/50] staging: media: imx: Prepare destaging of imx7-media-csi
+Date:   Mon, 16 May 2022 09:59:52 +0200
+Message-ID: <4401945.LvFx2qVVIh@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
+References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_CSS_A autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 16 May 2022, Geert Uytterhoeven wrote:
-> JFYI, when comparing v5.18-rc7[1] to v5.18-rc6[3], the summaries are:
->  - build errors: +2/-0
+Hello Laurent,
 
-   + /kisskb/src/drivers/media/platform/nxp/imx-pxp.h: error: initializer element is not constant:  => 582:38
+Am Dienstag, 10. Mai 2022, 13:58:09 CEST schrieb Laurent Pinchart:
+> Hello,
+> 
+> This patch series prepares the imx7-media-csi for destaging by
+> decoupling it from the helpers shared with the i.MX6 IPUv3.
+> 
+> The strategy Paul and I have followed is to import copies of helper code
+> and, refactor it within the imx7-media-csi driver, and repeat until no
+> more shared helpers are used. There is still room for refactoring and
+> simplification of the imx7-media-csi driver, but I believe it is now in
+> a state clean enough to be moved out of staging.
+> 
+> The series also includes a few fixes or improvements in supported
+> formats that are now made possible thanks to this refactoring. See
+> patches 45/50 and 46/50 for details.
+> 
+> The code size has grown as a result. This is partly offset by code in
+> the shared helpers that can be removed or simplified, but I haven't
+> starting working on that. The helpers are now used for the i.MX6 IPUv3
+> only, so I will leave this exercise to anyone who would be interested in
+> destaging that driver as well.
+> 
+> Some of the items in the TODO file related to the imx7-media-csi driver
+> have been addressed. The two remaining items are frame interval monitor
+> support and restricting the list of supported formats to the SoC
+> version. The former isn't a destaging blocker in my opinion, as the
+> feature can be added later if desired (and frame interval monitoring
+> should then be moved to the V4L2 core). I believe the latter could also
+> be addressed after destaging the driver, but in any case, this is a
+> discussion for a future destaging series (which may come as soon as this
+> one is accepted).
+> 
+> Alexander, this also could greatly simplify your "[PATCH v3 0/8]
+> imx7/imx8mm media / csi patches" series.
 
-mipsel-gcc5/mips-allmodconfig
+Thanks again for this patchset. This does not only simplify my series, it 
+pretty much makes it obsolete. Only one change is still valid (rounding up 
+width depending on bpp), but I would skip that for now.
+Just using my DT is enough. Nice!
 
-Seen before in other builds, missing "U"-suffix on large unsigned
-constants.
+If you respin a v2, I'll retest again for a proper Tested-by tag.
 
-   + /kisskb/src/include/linux/fortify-string.h: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]:  => 328:25
+Regards,
+Alexander
 
-s390x-gcc11/s390-allmodconfig
 
-> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/42226c989789d8da4af1de0c31070c96726d990c/ (all 131 configs)
-> [3] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a/ (all 131 configs)
 
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
