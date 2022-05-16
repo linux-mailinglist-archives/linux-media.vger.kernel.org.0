@@ -2,188 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35C32528515
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 15:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBE4852854F
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 15:28:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241835AbiEPNN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 09:13:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58604 "EHLO
+        id S241026AbiEPN1O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 09:27:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243767AbiEPNNq (ORCPT
+        with ESMTP id S236627AbiEPN1H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 09:13:46 -0400
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2090.outbound.protection.outlook.com [40.107.117.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 709A11EEE6;
-        Mon, 16 May 2022 06:13:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XTkxfwKH3IoVu44LpqInDRGDGsjKIa0TdJox1rPnY4KeatRcC5khwwk9YOYleOuwG17wtbbEywQuq/simYxlxNl6dfc7v5Im88ON2w1t38wnt1pVRuUJZIebA1GWBNloyKP5x1WaTiLTP2pxSyKafABPTNlli03o++z8tjDGPm8wOflUbFxviOqovU0iGwqQAYdu/qxWzf/w2ZkSSvzemv7va2RrAVG0JKWQk5TQDhVGpSzH75QX1n4aX0iQpu4WNqVYUh58MzWkPyr36MC1chrWek+UkdUNl8uxAYvy/CgKigRH6M0afxcnL92syKIBfVu2ZJybkibQWgttOrnUKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W11SDcr+LtrZACvtNLZUBBbJ3o/Shj/Nn7qBCKRTL+4=;
- b=Jo8srWAEIRRIlJdkQoVxFlulAl/wUVzsKdRRh+jofmBRP/hkDFuh+TihP8zCUngI0FUZkgUHLkYOA428ohIX4/dxq3pfYzfikWpJe7fxcGs6p+MP4EKYI/IcZQUiaTsEKA7a3wQIwZIUDlA48Sio/IzKfITiXs+7LJ/QeFPadRhaclkfXQwjKl0Qphh0/lXKUm+MVNY7Tmg5rzxmAYj1Mvp8t43UVXzF3kIMZBJ47uxCKob0WKjmg8DmNZ6EFzXkKqC0EMg1wTRK7lo3ishdMb0bWPZcrPpin/aCF50gQyeJp5zbi1c1/f5n9NZV/PL2IYgK0DEZr8woNHK9QJR0/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W11SDcr+LtrZACvtNLZUBBbJ3o/Shj/Nn7qBCKRTL+4=;
- b=LblGD9Jek/A0SzP2dTiFDnBP1Dl1ZEIlzymH/dH4zO9xknesgYPKow2vOXUZw4IzihxzmZh6yLTVoajUv7Z/+3c0VtN2YLzqXuLlaXGteqfHaMOIU55JJO1e8pkmUw6V5IcpN89X+0Ado1Pg7+pR9xOO5dhskrA82GQiFCjC8BI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
- SEYPR06MB5112.apcprd06.prod.outlook.com (2603:1096:101:58::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5250.13; Mon, 16 May 2022 13:13:42 +0000
-Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
- ([fe80::ccb7:f612:80b2:64d5]) by SG2PR06MB3367.apcprd06.prod.outlook.com
- ([fe80::ccb7:f612:80b2:64d5%4]) with mapi id 15.20.5250.018; Mon, 16 May 2022
- 13:13:42 +0000
-From:   Wan Jiabing <wanjiabing@vivo.com>
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Wan Jiabing <wanjiabing@vivo.com>
-Subject: [PATCH] [media] st-delta: Remove unneeded NULL check in delta-v4l2
-Date:   Mon, 16 May 2022 21:13:30 +0800
-Message-Id: <20220516131330.13970-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.36.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR0401CA0020.apcprd04.prod.outlook.com
- (2603:1096:202:2::30) To SG2PR06MB3367.apcprd06.prod.outlook.com
- (2603:1096:4:78::19)
+        Mon, 16 May 2022 09:27:07 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED00828720
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 06:26:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652707616; x=1684243616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lur/3NOqlYo8OA4XcGOZZynoHlfOsUsH13GiiFM9Bx8=;
+  b=BYoYP44onQAPWvvU4pWWymLFnOCP+PbIfw0/mGPx/5H5cGg+VjQ5udr5
+   /L9zct0CA2ruMSj/DJHE+jPn5fgW1Oq0l5dplWk+YFUHEKorjQwQIqQgw
+   VP61KHchEcEsRGRZ0qqKUTgHaAEJx7ZjLbQVn4y7CZqtlpqh90iBAZLY/
+   wIytDRz+wuVhNzM7JFLF7fNyZLNVFtAG/h0XVNWv6yx0iW/dTqeP4SbBL
+   UtMMOcvg0vb/nxQEQ9xB1z5gbHTzK7pN8cyJaiKmHl2Kvj7cJHkKgVrnE
+   c7ecHCbUIBStXZqCCti7Uhqi6k7a77AIE8YeAUFEvuZX/JxAsIuGHdfTf
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10348"; a="357239048"
+X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
+   d="scan'208";a="357239048"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 06:26:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
+   d="scan'208";a="604854114"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 16 May 2022 06:26:28 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nqak0-00002b-1p;
+        Mon, 16 May 2022 13:26:28 +0000
+Date:   Mon, 16 May 2022 21:25:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yunke Cao <yunkec@google.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org, Yunke Cao <yunkec@google.com>
+Subject: Re: [PATCH v1 5/6] media: uvcvideo: Initialize roi to default value
+Message-ID: <202205162134.uZvFM4c1-lkp@intel.com>
+References: <20220516092209.1801656-6-yunkec@google.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7dd0fd11-7dd7-4200-3105-08da373de623
-X-MS-TrafficTypeDiagnostic: SEYPR06MB5112:EE_
-X-Microsoft-Antispam-PRVS: <SEYPR06MB5112E61073EFDD9F5A7D1ECEABCF9@SEYPR06MB5112.apcprd06.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dA+j4zS8k01eGy5eiagOoqg4FoQ4N+ZzSwdFgY7Vl5mJKoINGJ77kjbidEW/UpFDYb36m/A3v4Bed+tGzLjiY9veT6Z71F4EQTeb4HsPnHEOxaANUrxZgerCxZTdKQeWfM8tqZxESWH+li85gSWPS38uqComGxpRgA4bdGhyaGWYvRMDV4u8dAnYKyvzwJquRTQNSR7xcKvX9FCc6d6mqLkV5V+E6x/iXzs+p5htX2PKeNS/ptQutv1ttzEJ0zY/EOCjKkLSW9os8emkWNaqBiRNBT4I/hXFc4ijfCjGbTxVjBtacnks4MKUOVNp/kc8CLLnSy3y1S3H0TT9f8RMvu6aSGku8maAwbiHsuGB7PQwUDlccuaz0dGtM6uEvPUO9qS1H8KsleLK+xC8JWC84OC3ELpkC64V4jFBTap0g+kNGXULGaUDBUEoTZ8IIA/tvEOoJ3wPhTlDFSywu7gikMrgQqkr2P0H4RdGnGHmr4+H0HWQhE6wu0AJlVfHtAo5THewbECF7hi9IZtat5AREhDsUXgXbHnYz7iaIqAA2rW4HzDqIrp+HN8U0e4ysjvkXYm/e9X80ZDWvdYCYHOcYQgQOZpXp4osTbGq78QAkUJ0zLXjV+J6pITfL03KcOKwC5U9flBuBGfb/AWTGJDtyPvql6jHjqYn2QUCV0M5qJx13MBkdqnD6dvq6384484Sgjk0plvj3ydoydJe7NBwbw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3367.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66476007)(110136005)(66556008)(38350700002)(26005)(316002)(8936002)(38100700002)(36756003)(66946007)(6512007)(52116002)(83380400001)(8676002)(107886003)(6486002)(6506007)(508600001)(6666004)(186003)(86362001)(4326008)(2906002)(1076003)(2616005)(5660300002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nfLu+4FdO2+75uSmAPfs350YCkC8yLi7KcDO6bPDm1VzuWcv1Fgj9q9UswEv?=
- =?us-ascii?Q?ZMC6daq0fyF5R02MDaCS7bnJixo1myd6Ke7HUW5HWXhtPij8GbzLmwBdlsjD?=
- =?us-ascii?Q?ktQi3KXzOyJBh958MP+7JIRrP++GE7UfaFE8ClQK+B4ldd5tjPtaTOUQNE26?=
- =?us-ascii?Q?UIyMkB7/wVMfXBoOs1RZKp+jTijT6Jp4Yx47Z0IDNqTkXUvPCZxqek91viva?=
- =?us-ascii?Q?xS4VaejImNi9LtTQOLNjZRWgCmPNCH28Vm/wDZJWHLC9JJAPC78HzZmLfNVA?=
- =?us-ascii?Q?SvaOQBD+fwV1Ax+NEN6Z2zZe1ztqLH+EoVNNEDqCSF9/U3g1Jwt8FWOAEwpm?=
- =?us-ascii?Q?aDRvCS2pcojgnCcpYriwWpDfk42B1z5yhUzOkcwhrPtOwuTtz3P4RIXsv9QV?=
- =?us-ascii?Q?9wEgi79aRNMOkRredsiWJBZbSm7YtFlOctdHnbldEeaSpSoTbnWweRV76WFD?=
- =?us-ascii?Q?zDOFHcvDvroTiZB3REqWkKOMWpw+smW1YOzgkKvrtt4x/ERO7sHQEqp7+2dq?=
- =?us-ascii?Q?dOW9rH4t8gIWWFmo09yN5UkYUkvHjGKRjDWjZHZ+whO0HQ45pwzBHphBy3X8?=
- =?us-ascii?Q?JRpx2Chws2gZ0E8NLz21ZtAhPs73GQ2Vnle0sli4VsAd7qRP8hgtlU0eZgIA?=
- =?us-ascii?Q?6sxKNt7W3wyGzHdn8w0PcgPJWFUKxZhI2zMAfqGrAy8+SuU0nQ4peI3QS2Yd?=
- =?us-ascii?Q?yQvluxyPijsx+t+tHKSnssS2BHAq5ro97csobTN6lM1LX7K9Y13AyCiy2evb?=
- =?us-ascii?Q?8Bxolvrk9h1Uw5+qwi5Bc9PU7z/chuo59rKE3Ew8H33Fa5M+bqo+u63P8O0V?=
- =?us-ascii?Q?uIIsOKeiMlAr74+xshXjIKPDL4DiKBk0vW1C2X0PtRi5EuyLzmUpeIGEjPc2?=
- =?us-ascii?Q?4D4+FRVcRKdJ7zl0Wk71MLxwZ1aQgx3q6Hzp6zvfoQSWzAavZhPV5f0Y7T3o?=
- =?us-ascii?Q?KYox9ncgVFIMWEWYYp8hhPl8M2cjvL0CYlKYBc1o30epY3OEuCT36Sn19AKO?=
- =?us-ascii?Q?QjXvWHeDaNfOHlWwXtrOZ6AWm3sfHzU0Qr3yQPxIapg14ibMEt4ci5r+c+9P?=
- =?us-ascii?Q?TQ+9XMoKhVLzZIJdtBV95fpvH6hKzdC51PVBjpUEJMGiNjwqHqLnYKWsJcDc?=
- =?us-ascii?Q?z6CJYUQCksZFVYLouoajigBUa+YQIqsaMNSvrvTOHYF5VSe9UfssgYAWKvHz?=
- =?us-ascii?Q?QoS9TLr2T1+gSx0JmH9qBfhgI/Z/byD95bfa5Tk7iAs1wg7GZ5whHoqjSxr1?=
- =?us-ascii?Q?sP+P+nIwimtlQEKzEUt2LwKCz40DnTLYiWErCkFhOCuwERcx2xWD1S/34NpZ?=
- =?us-ascii?Q?nSYCrgnkKRg9Z2kHhgAk0KoKWKUHHntjzfua0E6x1GkcisJLTms+rR9GYZZY?=
- =?us-ascii?Q?yvgx6HrW290VcsYbXrVk+1B7O6VnCk/3tsoqNcByiFbAXx61SdP/EwrRuOoI?=
- =?us-ascii?Q?/3xbkRabi1pIgC7WwfT1+KatMNoAwpIEblInyKFfrDm71rU8tSPvwhiSL2nd?=
- =?us-ascii?Q?ui59ZFLXajAc8NxBsj7u//gyLl+6siAED9xwKic+gf/7d7Lv+cpvTXcMEF9A?=
- =?us-ascii?Q?QD7kIBpvmzLeDmLkJkVWMe2zcmfNbfd39hcCzwFog9eQBnp5X2BXv4T9Tovu?=
- =?us-ascii?Q?cCCkqKlh4KdWHvqxmhbLlfJn1+rhIjvLKj9uUj03Wj5ocOWkhDqd/txfC9z6?=
- =?us-ascii?Q?ZBYiCdKTUUEDYKQMt1IZ19DDF/hv5ulFuvhcg96o4Tdmx8lRCZ+NOOGYiTY8?=
- =?us-ascii?Q?+6DKT6isYQ=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7dd0fd11-7dd7-4200-3105-08da373de623
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2022 13:13:42.1976
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uug9WOyxGQxWBxeFLJM2XOFUr7oRcOo+bRIjPSlTxXVcfXKDGKCEhdtEEyy/XrNFm7T31wCPAydfU+A8Jn3xzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5112
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220516092209.1801656-6-yunkec@google.com>
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-clk_prepare_enable() already checks NULL by using !clk.
-clk_disable_unprepare() already checks NULL by using IS_ERR_OR_NULL.
-Remove unneeded NULL checks before them.
+Hi Yunke,
 
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
----
- .../media/platform/st/sti/delta/delta-v4l2.c  | 24 +++++++------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
+Thank you for the patch! Yet something to improve:
 
-diff --git a/drivers/media/platform/st/sti/delta/delta-v4l2.c b/drivers/media/platform/st/sti/delta/delta-v4l2.c
-index 420ad4d8df5d..03eaee6d15da 100644
---- a/drivers/media/platform/st/sti/delta/delta-v4l2.c
-+++ b/drivers/media/platform/st/sti/delta/delta-v4l2.c
-@@ -1669,14 +1669,12 @@ static int delta_open(struct file *file)
- 	set_default_params(ctx);
- 
- 	/* enable ST231 clocks */
--	if (delta->clk_st231)
--		if (clk_prepare_enable(delta->clk_st231))
--			dev_warn(delta->dev, "failed to enable st231 clk\n");
-+	if (clk_prepare_enable(delta->clk_st231))
-+		dev_warn(delta->dev, "failed to enable st231 clk\n");
- 
- 	/* enable FLASH_PROMIP clock */
--	if (delta->clk_flash_promip)
--		if (clk_prepare_enable(delta->clk_flash_promip))
--			dev_warn(delta->dev, "failed to enable delta promip clk\n");
-+	if (clk_prepare_enable(delta->clk_flash_promip))
-+		dev_warn(delta->dev, "failed to enable delta promip clk\n");
- 
- 	mutex_unlock(&delta->lock);
- 
-@@ -1717,12 +1715,10 @@ static int delta_release(struct file *file)
- 	v4l2_fh_exit(&ctx->fh);
- 
- 	/* disable ST231 clocks */
--	if (delta->clk_st231)
--		clk_disable_unprepare(delta->clk_st231);
-+	clk_disable_unprepare(delta->clk_st231);
- 
- 	/* disable FLASH_PROMIP clock */
--	if (delta->clk_flash_promip)
--		clk_disable_unprepare(delta->clk_flash_promip);
-+	clk_disable_unprepare(delta->clk_flash_promip);
- 
- 	dev_dbg(delta->dev, "%s decoder instance released\n", ctx->name);
- 
-@@ -1926,8 +1922,7 @@ static int delta_runtime_suspend(struct device *dev)
- {
- 	struct delta_dev *delta = dev_get_drvdata(dev);
- 
--	if (delta->clk_delta)
--		clk_disable_unprepare(delta->clk_delta);
-+	clk_disable_unprepare(delta->clk_delta);
- 
- 	return 0;
- }
-@@ -1936,9 +1931,8 @@ static int delta_runtime_resume(struct device *dev)
- {
- 	struct delta_dev *delta = dev_get_drvdata(dev);
- 
--	if (delta->clk_delta)
--		if (clk_prepare_enable(delta->clk_delta))
--			dev_warn(dev, "failed to prepare/enable delta clk\n");
-+	if (clk_prepare_enable(delta->clk_delta))
-+		dev_warn(dev, "failed to prepare/enable delta clk\n");
- 
- 	return 0;
- }
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v5.18-rc7 next-20220513]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunke-Cao/media-Implement-UVC-v1-5-ROI/20220516-172509
+base:   git://linuxtv.org/media_tree.git master
+config: i386-buildonly-randconfig-r002-20220516 (https://download.01.org/0day-ci/archive/20220516/202205162134.uZvFM4c1-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 853fa8ee225edf2d0de94b0dcbd31bea916e825e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/453e68b0e012e424659c3fd4c4c7824ad768f440
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yunke-Cao/media-Implement-UVC-v1-5-ROI/20220516-172509
+        git checkout 453e68b0e012e424659c3fd4c4c7824ad768f440
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/usb/uvc/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/media/usb/uvc/uvc_ctrl.c:2587:44: error: use of undeclared identifier 'camera_entity'
+                               uvc_entity_match_guid(ctrl->entity, camera_entity))
+                                                                   ^
+   1 error generated.
+
+
+vim +/camera_entity +2587 drivers/media/usb/uvc/uvc_ctrl.c
+
+  2551	
+  2552	/*
+  2553	 * Add control information and hardcoded stock control mappings to the given
+  2554	 * device.
+  2555	 */
+  2556	static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+  2557				       struct uvc_control *ctrl)
+  2558	{
+  2559		const struct uvc_control_info *info = uvc_ctrls;
+  2560		const struct uvc_control_info *iend = info + ARRAY_SIZE(uvc_ctrls);
+  2561		const struct uvc_control_mapping *mapping = uvc_ctrl_mappings;
+  2562		const struct uvc_control_mapping *mend =
+  2563			mapping + ARRAY_SIZE(uvc_ctrl_mappings);
+  2564	
+  2565		/* XU controls initialization requires querying the device for control
+  2566		 * information. As some buggy UVC devices will crash when queried
+  2567		 * repeatedly in a tight loop, delay XU controls initialization until
+  2568		 * first use.
+  2569		 */
+  2570		if (UVC_ENTITY_TYPE(ctrl->entity) == UVC_VC_EXTENSION_UNIT)
+  2571			return;
+  2572	
+  2573		for (; info < iend; ++info) {
+  2574			if (uvc_entity_match_guid(ctrl->entity, info->entity) &&
+  2575			    ctrl->index == info->index) {
+  2576				uvc_ctrl_add_info(chain->dev, ctrl, info);
+  2577				/*
+  2578				 * Retrieve control flags from the device. Ignore errors
+  2579				 * and work with default flag values from the uvc_ctrl
+  2580				 * array when the device doesn't properly implement
+  2581				 * GET_INFO on standard controls.
+  2582				 */
+  2583				uvc_ctrl_get_flags(chain->dev, ctrl, &ctrl->info);
+  2584	
+  2585				if (ctrl->info.selector ==
+  2586					UVC_CT_REGION_OF_INTEREST_CONTROL &&
+> 2587				    uvc_entity_match_guid(ctrl->entity, camera_entity))
+  2588					uvc_ctrl_init_roi(chain->dev, ctrl);
+  2589				break;
+  2590			 }
+  2591		}
+  2592	
+  2593		if (!ctrl->initialized)
+  2594			return;
+  2595	
+  2596		for (; mapping < mend; ++mapping) {
+  2597			if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+  2598			    ctrl->info.selector == mapping->selector)
+  2599				__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+  2600		}
+  2601	}
+  2602	
+
 -- 
-2.36.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
