@@ -2,112 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7982528B13
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 18:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10DC4528BAD
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 19:13:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238493AbiEPQxo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 12:53:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49846 "EHLO
+        id S1343979AbiEPRN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 13:13:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231331AbiEPQxm (ORCPT
+        with ESMTP id S1344100AbiEPRNY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 12:53:42 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB0A27B24;
-        Mon, 16 May 2022 09:53:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652720021; x=1684256021;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QwE4qZcr0kfgxgWwYG+DqB0YHJUWXlP/2JufN6m80rE=;
-  b=lArZmi/0BYZ62djCCUBEjKVX1shTpzLJa/3loS0KpXo1IT9ovTLjmWhP
-   lpwOGcJwjy/cxItJs+6dc+o0sUzlPnzhmkPscpAhxYVZEJJJsweaLhqhH
-   CbfYdfavnlw6K56445IIf5Zpn67b7Cs4KrGbldxlwoFCzMJAqX+9R77j0
-   v6YxpXB+NEypbF6PNPsMpWme/osYX78xgn7stIDGWuoH7BJpTazEEaM3a
-   AYV6Fccm7IjM4+Khb3JlmNp/ckYGduymlTNHtpbH77dUtpLf92DEmVaqZ
-   xElLicm+HbibIU33WlD6Q7sb4AdyGlc4jRnm1v7yYPo3dwLvWzsg4WUWD
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="252951769"
-X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
-   d="scan'208";a="252951769"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 09:53:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
-   d="scan'208";a="897289897"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 16 May 2022 09:53:38 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nqdyU-0000Cp-AJ;
-        Mon, 16 May 2022 16:53:38 +0000
-Date:   Tue, 17 May 2022 00:52:49 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Lecopzer Chen <lecopzer.chen@mediatek.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, hverkuil@xs4all.nl,
-        yj.chiang@mediatek.com, Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: Re: [PATCH v2] media: Kconfig: Make DVB_CORE=m possible when
- MEDIA_SUPPORT=y
-Message-ID: <202205170022.UTCdqnyp-lkp@intel.com>
-References: <20220513173036.10807-1-lecopzer.chen@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220513173036.10807-1-lecopzer.chen@mediatek.com>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Mon, 16 May 2022 13:13:24 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F2D32043
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 10:13:22 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id f2-20020a17090274c200b0016158e7c490so3008557plt.9
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 10:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=BkxFs5g1qHthSeWFrePkH1QG+J6aKzpMAVQJiVuFFy0=;
+        b=Ux8p5mjSfdEF8/qXvqToIgfPYTMGeSNmiUns1+Eb0yBZkxK6/QPlxdqgH4zKeg3wsG
+         f7OZb33FwyhkU0V7zTKU4LSwif+XVlKDtHIpoTGwrzVGsr+248pDzVPlDoQ3Q7S8ssQ7
+         lou9e8Ztd/VwVlEOBXk/QR8CVl3Q43/Zei/zHQoF1JrOcBTf13eqa4gMu6k9UxP97uKg
+         eozshW0N0nAH+pO71/tmIjfCjIwKLyyLgmrxBTwpPvJQ+WBfYT4cRnlbWwgGEkDLENkZ
+         e2kXNTYxtJPFnB1etcyG3sgm1ExkbhOw5urHMR0khU1dgVNFr9uQvoQOZmgs9RmO6dlH
+         l1JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=BkxFs5g1qHthSeWFrePkH1QG+J6aKzpMAVQJiVuFFy0=;
+        b=VgczM04dsvRcrmof5Sz3jflV6fyqbydbNL+CdjZp6rQH+/N0W0oXrWMu8M3VxXy6Qw
+         0KjcgOK3u3ZCzUoe33+U48PQuywEkFk1od9N+pPWFUCWwdg/7FyweplQAX90hW1XchQq
+         7AToYmoVC5Rd9DjTdoH1yLtfUA99hYIBldOh3Gb77SU33aAgsiDgSr0OBs+Yf4ul4Qa2
+         53vpGx3QQbTkbMeooMVN7lxdpfBmTVW0f2rF3qAp9V6UVRBkdGlsWXSuTOwy1mDAXT3i
+         gxhTe1MhUAwtI2Qg6uXWEv87JzhJJ039wq5dBhu0crC5eQh6/9Ppo3Um9N/gz2HuYNmj
+         fOnw==
+X-Gm-Message-State: AOAM532TieUJuTdLXKnmeTzn91KSuc6IjVwpKSefjMUpGMEhe248iNvq
+        xuNsYh6XewLs6NDHzC6PZdC3jkC7xTD3SH8=
+X-Google-Smtp-Source: ABdhPJyPjKo1eQFHBLHJH6P4Mxk85QYIhhyhsHtKoWV418NVqX0hkw6JvORFy5M+l/4akC4PG6mHy3tzQZlSKeY=
+X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
+ (user=tjmercier job=sendgmr) by 2002:a17:90b:38c4:b0:1dc:6b64:3171 with SMTP
+ id nn4-20020a17090b38c400b001dc6b643171mr32420547pjb.168.1652721201871; Mon,
+ 16 May 2022 10:13:21 -0700 (PDT)
+Date:   Mon, 16 May 2022 17:13:15 +0000
+Message-Id: <20220516171315.2400578-1-tjmercier@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
+Subject: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+From:   "T.J. Mercier" <tjmercier@google.com>
+To:     tjmercier@google.com, surenb@google.com, kaleshsingh@google.com,
+        minchan@google.com, gregkh@google.com, jstultz@google.com,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Hridya Valsaraju <hridya@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     kernel-team@android.com, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lecopzer,
+Recently, we noticed an issue where a process went into direct reclaim
+while holding the kernfs rw semaphore for sysfs in write (exclusive)
+mode. This caused processes who were doing DMA-BUF exports and releases
+to go into uninterruptible sleep since they needed to acquire the same
+semaphore for the DMA-BUF sysfs entry creation/deletion. In order to avoid
+blocking DMA-BUF export for an indeterminate amount of time while
+another process is holding the sysfs rw semaphore in exclusive mode,
+this patch moves the per-buffer sysfs file creation to the default work
+queue. Note that this can lead to a short-term inaccuracy in the dmabuf
+sysfs statistics, but this is a tradeoff to prevent the hot path from
+being blocked. A work_struct is added to dma_buf to achieve this, but as
+it is unioned with the kobject in the sysfs_entry, dma_buf does not
+increase in size.
 
-Thank you for the patch! Yet something to improve:
+Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stats in=
+ sysfs")
+Originally-by: Hridya Valsaraju <hridya@google.com>
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on v5.18-rc7 next-20220516]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+---
+See the originally submitted patch by Hridya Valsaraju here:
+https://lkml.org/lkml/2022/1/4/1066
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lecopzer-Chen/media-Kconfig-Make-DVB_CORE-m-possible-when-MEDIA_SUPPORT-y/20220514-013156
-base:   git://linuxtv.org/media_tree.git master
-config: arm64-randconfig-c004-20220516 (https://download.01.org/0day-ci/archive/20220517/202205170022.UTCdqnyp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a487d9187c58c094c8886af300300e5ee92b6e05
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lecopzer-Chen/media-Kconfig-Make-DVB_CORE-m-possible-when-MEDIA_SUPPORT-y/20220514-013156
-        git checkout a487d9187c58c094c8886af300300e5ee92b6e05
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+v2 changes:
+- Defer only sysfs creation instead of creation and teardown per
+Christian K=C3=B6nig
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+- Use a work queue instead of a kthread for deferred work per
+Christian K=C3=B6nig
+---
+ drivers/dma-buf/dma-buf-sysfs-stats.c | 56 ++++++++++++++++++++-------
+ include/linux/dma-buf.h               | 14 ++++++-
+ 2 files changed, 54 insertions(+), 16 deletions(-)
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-bu=
+f-sysfs-stats.c
+index 2bba0babcb62..67b0a298291c 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -11,6 +11,7 @@
+ #include <linux/printk.h>
+ #include <linux/slab.h>
+ #include <linux/sysfs.h>
++#include <linux/workqueue.h>
+=20
+ #include "dma-buf-sysfs-stats.h"
+=20
+@@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(void)
+ 	kset_unregister(dma_buf_stats_kset);
+ }
+=20
++static void sysfs_add_workfn(struct work_struct *work)
++{
++	struct dma_buf_sysfs_entry *sysfs_entry =3D
++		container_of(work, struct dma_buf_sysfs_entry, sysfs_add_work);
++	struct dma_buf *dmabuf =3D sysfs_entry->dmabuf;
++
++	/*
++	 * A dmabuf is ref-counted via its file member. If this handler holds the=
+ only
++	 * reference to the dmabuf, there is no need for sysfs kobject creation. =
+This is an
++	 * optimization and a race; when the reference count drops to 1 immediate=
+ly after
++	 * this check it is not harmful as the sysfs entry will still get cleaned=
+ up in
++	 * dma_buf_stats_teardown, which won't get called until the final dmabuf =
+reference
++	 * is released, and that can't happen until the end of this function.
++	 */
++	if (file_count(dmabuf->file) > 1) {
++		/*
++		 * kobject_init_and_add expects kobject to be zero-filled, but we have p=
+opulated it
++		 * (the sysfs_add_work union member) to trigger this work function.
++		 */
++		memset(&dmabuf->sysfs_entry->kobj, 0, sizeof(dmabuf->sysfs_entry->kobj))=
+;
++		dmabuf->sysfs_entry->kobj.kset =3D dma_buf_per_buffer_stats_kset;
++		if (kobject_init_and_add(&dmabuf->sysfs_entry->kobj, &dma_buf_ktype, NUL=
+L,
++						"%lu", file_inode(dmabuf->file)->i_ino)) {
++			kobject_put(&dmabuf->sysfs_entry->kobj);
++			dmabuf->sysfs_entry =3D NULL;
++		}
++	} else {
++		/*
++		 * Free the sysfs_entry and reset the pointer so dma_buf_stats_teardown =
+doesn't
++		 * attempt to operate on it.
++		 */
++		kfree(dmabuf->sysfs_entry);
++		dmabuf->sysfs_entry =3D NULL;
++	}
++	dma_buf_put(dmabuf);
++}
++
+ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+ {
+ 	struct dma_buf_sysfs_entry *sysfs_entry;
+-	int ret;
+=20
+ 	if (!dmabuf || !dmabuf->file)
+ 		return -EINVAL;
+@@ -181,25 +218,16 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+ 		return -EINVAL;
+ 	}
+=20
+-	sysfs_entry =3D kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
++	sysfs_entry =3D kmalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
+ 	if (!sysfs_entry)
+ 		return -ENOMEM;
+=20
+-	sysfs_entry->kobj.kset =3D dma_buf_per_buffer_stats_kset;
+ 	sysfs_entry->dmabuf =3D dmabuf;
+-
+ 	dmabuf->sysfs_entry =3D sysfs_entry;
+=20
+-	/* create the directory for buffer stats */
+-	ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
+-				   "%lu", file_inode(dmabuf->file)->i_ino);
+-	if (ret)
+-		goto err_sysfs_dmabuf;
++	INIT_WORK(&dmabuf->sysfs_entry->sysfs_add_work, sysfs_add_workfn);
++	get_dma_buf(dmabuf); /* This reference will be dropped in sysfs_add_workf=
+n. */
++	schedule_work(&dmabuf->sysfs_entry->sysfs_add_work);
+=20
+ 	return 0;
+-
+-err_sysfs_dmabuf:
+-	kobject_put(&sysfs_entry->kobj);
+-	dmabuf->sysfs_entry =3D NULL;
+-	return ret;
+ }
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 2097760e8e95..0200caa3c515 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -22,6 +22,7 @@
+ #include <linux/fs.h>
+ #include <linux/dma-fence.h>
+ #include <linux/wait.h>
++#include <linux/workqueue.h>
+=20
+ struct device;
+ struct dma_buf;
+@@ -365,7 +366,7 @@ struct dma_buf {
+ 	 */
+ 	const char *name;
+=20
+-	/** @name_lock: Spinlock to protect name acces for read access. */
++	/** @name_lock: Spinlock to protect name access for read access. */
+ 	spinlock_t name_lock;
+=20
+ 	/**
+@@ -441,6 +442,7 @@ struct dma_buf {
+=20
+ 		__poll_t active;
+ 	} cb_in, cb_out;
++
+ #ifdef CONFIG_DMABUF_SYSFS_STATS
+ 	/**
+ 	 * @sysfs_entry:
+@@ -449,7 +451,15 @@ struct dma_buf {
+ 	 * `DMA-BUF statistics`_ for the uapi this enables.
+ 	 */
+ 	struct dma_buf_sysfs_entry {
+-		struct kobject kobj;
++		union {
++			struct kobject kobj;
++
++			/** @sysfs_add_work:
++			 *
++			 * For deferred sysfs kobject creation using a workqueue.
++			 */
++			struct work_struct sysfs_add_work;
++		};
+ 		struct dma_buf *dmabuf;
+ 	} *sysfs_entry;
+ #endif
+--=20
+2.36.0.550.gb090851708-goog
 
-ERROR: modpost: "dvb_dmx_init" [drivers/media/pci/mantis/mantis_core.ko] undefined!
-ERROR: modpost: "dvb_unregister_adapter" [drivers/media/pci/mantis/mantis_core.ko] undefined!
-ERROR: modpost: "dvb_register_frontend" [drivers/media/pci/mantis/mantis_core.ko] undefined!
-ERROR: modpost: "dvb_ca_en50221_camchange_irq" [drivers/media/pci/mantis/mantis_core.ko] undefined!
-ERROR: modpost: "dvb_unregister_frontend" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_ca_en50221_camready_irq" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_frontend_detach" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_dmxdev_release" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_dmx_swfilter" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_ca_en50221_release" [drivers/media/pci/mantis/mantis_core.ko] undefined!
-WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
