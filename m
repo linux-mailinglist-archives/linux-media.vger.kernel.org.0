@@ -2,118 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 463D75287DD
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 17:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6D69528ABB
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 18:40:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244853AbiEPPDF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 11:03:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49060 "EHLO
+        id S236213AbiEPQkx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 12:40:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244869AbiEPPCs (ORCPT
+        with ESMTP id S1343742AbiEPQku (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 11:02:48 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCC83B3F7;
-        Mon, 16 May 2022 08:02:46 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id BBC79FF807;
-        Mon, 16 May 2022 15:02:39 +0000 (UTC)
-Date:   Mon, 16 May 2022 17:02:37 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Philippe CORNU <philippe.cornu@foss.st.com>
-Subject: Re: [PATCH] media: stm32-dcmi: add support of 1X16 serial pixel
- formats variant
-Message-ID: <20220516150237.v3xt7onp2lpmellw@uno.localdomain>
-References: <20220516092048.264036-1-hugues.fruchet@foss.st.com>
+        Mon, 16 May 2022 12:40:50 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8928E6553
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 09:40:48 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id C60A6101BE5; Mon, 16 May 2022 17:40:46 +0100 (BST)
+Date:   Mon, 16 May 2022 17:40:46 +0100
+From:   Sean Young <sean@mess.org>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org
+Subject: Re: [PATCH] imon_raw: respect DMA coherency
+Message-ID: <YoJ+jhKDxUokK207@gofer.mess.org>
+References: <20220512130321.30599-1-oneukum@suse.com>
+ <Yn6F87BxKsOaDYR5@gofer.mess.org>
+ <2c6478af-6247-0cbf-8761-7ca288522f7f@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220516092048.264036-1-hugues.fruchet@foss.st.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <2c6478af-6247-0cbf-8761-7ca288522f7f@suse.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues,
+On Mon, May 16, 2022 at 01:00:30PM +0200, Oliver Neukum wrote:
+> On 13.05.22 18:23, Sean Young wrote:
+> Hi!
+> > On Thu, May 12, 2022 at 03:03:21PM +0200, Oliver Neukum wrote:
+> >> No buffer can be embedded inside a descriptor, not even a simple be64.
+> >> Use a separate kmalloc()
+> > This patch needs a tiny change from be64_to_cpu() to be64_to_cpup(), I've
+> > tested that change with the hardware.
+> Needs? It is certainly not wrong and the subsequent logging will be in the
+> converted order, but need
 
-On Mon, May 16, 2022 at 11:20:48AM +0200, Hugues Fruchet wrote:
-> From: Hugues Fruchet <hugues.fruchet@st.com>
->
-> Add support of 1X16 serial pixel formats in order to support
-> CSI-2 camera sensor exposing 1x16 pixel formats only.
->
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
-
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Sakari, if you're sending a new pull request for the ov5640 series,
-could you include this one as otherwise dcmi would be broken when used
-with that sensor.
+It certainly is wrong, and it doesn't compile without it, so yes it does
+need it. The kernel test robot also complained about.
 
 Thanks
-   j
 
-> ---
->  drivers/media/platform/st/stm32/stm32-dcmi.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
-> index 09a743cd7004..b2ba4d95bfa3 100644
-> --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
-> +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
-> @@ -1592,25 +1592,31 @@ static int dcmi_set_default_fmt(struct stm32_dcmi *dcmi)
->  	return 0;
->  }
->
-> -/*
-> - * FIXME: For the time being we only support subdevices
-> - * which expose RGB & YUV "parallel form" mbus code (_2X8).
-> - * Nevertheless, this allows to support serial source subdevices
-> - * and serial to parallel bridges which conform to this.
-> - */
->  static const struct dcmi_format dcmi_formats[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_RGB565,
->  		.mbus_code = MEDIA_BUS_FMT_RGB565_2X8_LE,
->  		.bpp = 2,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_RGB565,
-> +		.mbus_code = MEDIA_BUS_FMT_RGB565_1X16,
-> +		.bpp = 2,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_YUYV,
->  		.mbus_code = MEDIA_BUS_FMT_YUYV8_2X8,
->  		.bpp = 2,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_YUYV,
-> +		.mbus_code = MEDIA_BUS_FMT_YUYV8_1X16,
-> +		.bpp = 2,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_UYVY,
->  		.mbus_code = MEDIA_BUS_FMT_UYVY8_2X8,
->  		.bpp = 2,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_UYVY,
-> +		.mbus_code = MEDIA_BUS_FMT_UYVY8_1X16,
-> +		.bpp = 2,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_JPEG,
->  		.mbus_code = MEDIA_BUS_FMT_JPEG_1X8,
-> --
-> 2.25.1
->
+Sean
