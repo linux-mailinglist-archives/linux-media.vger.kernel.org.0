@@ -2,229 +2,312 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F17C4528D0D
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 20:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5E0B528D9C
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 21:02:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344864AbiEPS3V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 14:29:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52152 "EHLO
+        id S1345195AbiEPTCP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 15:02:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344888AbiEPS25 (ORCPT
+        with ESMTP id S237877AbiEPTCN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 14:28:57 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8516A3DDC3;
-        Mon, 16 May 2022 11:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652725735; x=1684261735;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R32de3wh6TrT1gnFG0UBXSG3pbisE1mnMN7/ySz5rO0=;
-  b=HcF6/I8CkV2OqL4TjNOWuDtlWXwngIIpKvXHRJmLkOk5MtMQXn1wf2s0
-   yHBuAKlMYfaw4KyHA0rr1gBB+LlHr9rXeRMBNwGDlSnHI9KAKNhJhuvqR
-   9gxcyRtD2w4oVVp0eOMjziirLQsilqow+z/Aa/r/6SPVmENaeP8JpkPT2
-   Jt659fmXmPiDTEzSwaCXbpGgSVj4D/u7Eu0LJ3IbP+Lf2nSWgbYvv8xNX
-   FXKv61h0xQJg+XGdvO3KWw/dDeE9YVOBro8hj3v8EMTF5RTuNrsGfX9uj
-   9ntqCZAA0dHBKkW26eNUdgIfE61u/C0pN91cU+YiqaW81VTC/IsgEUNx2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="357336972"
-X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
-   d="scan'208";a="357336972"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 11:28:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
-   d="scan'208";a="574151701"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 16 May 2022 11:28:42 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nqfSU-0000G2-5F;
-        Mon, 16 May 2022 18:28:42 +0000
-Date:   Tue, 17 May 2022 02:28:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Neal Liu <neal_liu@aspeedtech.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Felipe Balbi <balbi@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Li Yang <leoyang.li@nxp.com>
-Cc:     kbuild-all@lists.01.org, Neal Liu <neal_liu@aspeedtech.com>,
-        linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        BMC-SW@aspeedtech.com
-Subject: Re: [PATCH 1/3] usb: gadget: add Aspeed ast2600 udc driver
-Message-ID: <202205170249.uTUi0uir-lkp@intel.com>
-References: <20220513065728.857722-2-neal_liu@aspeedtech.com>
+        Mon, 16 May 2022 15:02:13 -0400
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A461BE8D
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 12:02:11 -0700 (PDT)
+Received: by mail-qv1-xf31.google.com with SMTP id jt15so12822140qvb.8
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 12:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=8ys/qk3ZaKomchykNXKoZFTVMFXpQVCNr/tlh3AtCfU=;
+        b=jbFBcnuvC3rZ2XPCZhw1uJw9pYA0PjCiTlvlBaSQxe5MbF91TfC+ThWzawQBExJsAB
+         KHVuDO/59CSFoMZhO6EbXXbXDXML5fG9ZwDqrT6YUisj/9hUioW/2jnucHt0LiMIVL8u
+         l0gxJnvcsR7O77qLdoBgcIr5NYYTeb2LJVJeXbVUN3I5jjG/EUw7Mp7UP+VVttwjXthd
+         Sg+QqUlvkPaKfIVC8TjHSsXAq7mRL20okKYQCVOe+PB6sfco3t0t4sDaR0+qgbo96Hqg
+         C+/z0GFynlCiGJcLdOoKl52XBNq7mFD2N4m1pKgzxbX+ptDxuGLSyPBmKLwibPBGLKJ0
+         4Ofw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=8ys/qk3ZaKomchykNXKoZFTVMFXpQVCNr/tlh3AtCfU=;
+        b=dNfHwVmv311C8B6dBBBN939sq+FiB42u+Ch8mk2FJJHQWMWDTXmMmRKJD3/AI7ZROp
+         FvVSsGpAfUem7juOJprxT1qZrcRW68JH7q2s2E6S71aqIYqFp+v+vnOVdG2mRuI/w6M7
+         N6C3OxgXcTQkw+0t8ZxtPFfWTEPKUocfoVXPtCyF9yNv4B0llmlXGIsF+kOZWgvD1hgZ
+         2QFGRazYRXJTU7D3zFE/gr8pJcC92HXEmxvqCTH5N1kN1Cc7p3a49bZi1ex5slA76VSK
+         xPRDOkSuQy0mHE7Z9HCcGbOvzgrkE3Ag0AoNOIM6tc6DgQ7VhDEzno9Gcp92ldjdJr3q
+         jrQQ==
+X-Gm-Message-State: AOAM530T8GZ+Un1/XyBvwcnPtpDuitrGlRLdrMeI1GjrUWpenRqZMfno
+        k09Wsz2HJtR96DHVbmfQfLDQDw==
+X-Google-Smtp-Source: ABdhPJwvv5JlQrW8Nve3c+j5Haumv/M6fw6fQDUV3YqY5oJe1p0SHKh1IfQTmXPgNNfNJfoxTftASw==
+X-Received: by 2002:a05:6214:c2e:b0:461:cdee:cd75 with SMTP id a14-20020a0562140c2e00b00461cdeecd75mr5579041qvd.121.1652727729995;
+        Mon, 16 May 2022 12:02:09 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id x2-20020a05620a14a200b0069fc13ce20fsm6305956qkj.64.2022.05.16.12.02.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 12:02:09 -0700 (PDT)
+Message-ID: <50d89e76f3c5f99363aa4062b40b579d94855136.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 1/6] media: v4l2_ctrl: Add region of interest
+ rectangle control
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Yunke Cao <yunkec@google.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+Date:   Mon, 16 May 2022 15:02:08 -0400
+In-Reply-To: <20220516140434.1871022-2-yunkec@google.com>
+References: <20220516140434.1871022-1-yunkec@google.com>
+         <20220516140434.1871022-2-yunkec@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220513065728.857722-2-neal_liu@aspeedtech.com>
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Neal,
+Hi,
 
-I love your patch! Perhaps something to improve:
+thanks for working on this, see my comments below ...
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on robh/for-next v5.18-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Le lundi 16 mai 2022 =C3=A0 23:04 +0900, Yunke Cao a =C3=A9crit=C2=A0:
+> Including:
+> 1. Add a control ID.
+> 2. Add p_rect to struct v4l2_ext_control with basic support in
+>    v4l2-ctrls.
+>=20
+> Signed-off-by: Yunke Cao <yunkec@google.com>
+> ---
+>  .../media/v4l/ext-ctrls-camera.rst            |  4 ++++
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
+>  .../media/videodev2.h.rst.exceptions          |  1 +
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 20 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++++
+>  include/media/v4l2-ctrls.h                    |  2 ++
+>  include/uapi/linux/v4l2-controls.h            |  2 ++
+>  include/uapi/linux/videodev2.h                |  2 ++
+>  8 files changed, 39 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b=
+/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> index 4c5061aa9cd4..86a1f09a8a1c 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> @@ -661,3 +661,7 @@ enum v4l2_scene_mode -
+>  .. [#f1]
+>     This control may be changed to a menu control in the future, if more
+>     options are required.
+> +
+> +``V4L2_CID_REGION_OF_INTEREST_RECT (struct)``
+> +    This control determines the region of interest. Region of interest i=
+s an
+> +    rectangular area represented by a struct v4l2_rect.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-config: mips-randconfig-s032-20220516 (https://download.01.org/0day-ci/archive/20220517/202205170249.uTUi0uir-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 11.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/272ae26f9fe89f60d584cf445431d0fa566eb24b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
-        git checkout 272ae26f9fe89f60d584cf445431d0fa566eb24b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips SHELL=/bin/bash drivers/usb/gadget/udc/
+This control documentation is missing some important information. Notably, =
+what
+will happen if this rectangle is set ? Is there a value to unset it ?
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+The name is very generic and I would expect that to be usable in general. B=
+ut it
+won't work for encoders, as you only allow 1 rectangle and it would be miss=
+ing
+some QP delta parameter. I think I would prefer if we specialize this type =
+of
+control a bit more. In your case, I'm guessing you only care about 1 ROI wh=
+en
+taking a picture, and this ROI will be used for automatic focus. If my gues=
+s is
+right, perhaps a FOCUS_AERA could be a better name ?
 
+regards,
+Nicolas
 
-sparse warnings: (new ones prefixed by >>)
-   command-line: note: in included file:
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_ACQUIRE redefined
-   builtin:0:0: sparse: this was the original definition
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_SEQ_CST redefined
-   builtin:0:0: sparse: this was the original definition
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_ACQ_REL redefined
-   builtin:0:0: sparse: this was the original definition
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_RELEASE redefined
-   builtin:0:0: sparse: this was the original definition
-   drivers/usb/gadget/udc/aspeed_udc.c:1009:34: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *src @@     got struct usb_ctrlrequest *creq @@
-   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse:     expected void const volatile [noderef] __iomem *src
-   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse:     got struct usb_ctrlrequest *creq
->> drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [addressable] [usertype] wValue @@
-   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     expected unsigned int [usertype] val
-   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     got restricted __le16 [addressable] [usertype] wValue
-   drivers/usb/gadget/udc/aspeed_udc.c:1070:37: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/aspeed_udc.c:1075:37: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct usb_ctrlrequest *creq @@     got void [noderef] __iomem * @@
-   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     expected struct usb_ctrlrequest *creq
-   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     got void [noderef] __iomem *
-   drivers/usb/gadget/udc/aspeed_udc.c:619:38: sparse: sparse: cast truncates bits from constant value (80 becomes 0)
-   drivers/usb/gadget/udc/aspeed_udc.c:625:12: sparse: sparse: context imbalance in 'ast_udc_ep_queue' - different lock contexts for basic block
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst=
+ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index 29971a45a2d4..f4e205ead0a2 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -189,6 +189,10 @@ still cause this situation.
+>        - ``p_area``
+>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control=
+ is
+>          of type ``V4L2_CTRL_TYPE_AREA``.
+> +    * - struct :c:type:`v4l2_rect` *
+> +      - ``p_area``
+> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control=
+ is
+> +        of type ``V4L2_CTRL_TYPE_RECT``.
+>      * - struct :c:type:`v4l2_ctrl_h264_sps` *
+>        - ``p_h264_sps``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if thi=
+s control is
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions=
+ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index 9cbb7a0c354a..7b423475281d 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -147,6 +147,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_=
+ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
+> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type=
+`
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4=
+l2-core/v4l2-ctrls-core.c
+> index 8968cec8454e..dcde405c2713 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -84,6 +84,11 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u3=
+2 idx,
+>  		return ptr1.p_u16[idx] =3D=3D ptr2.p_u16[idx];
+>  	case V4L2_CTRL_TYPE_U32:
+>  		return ptr1.p_u32[idx] =3D=3D ptr2.p_u32[idx];
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		return ptr1.p_rect->top =3D=3D ptr2.p_rect->top &&
+> +		       ptr1.p_rect->left =3D=3D ptr2.p_rect->left &&
+> +		       ptr1.p_rect->height =3D=3D ptr2.p_rect->height &&
+> +		       ptr1.p_rect->width =3D=3D ptr2.p_rect->width;
+>  	default:
+>  		if (ctrl->is_int)
+>  			return ptr1.p_s32[idx] =3D=3D ptr2.p_s32[idx];
+> @@ -307,6 +312,11 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+>  	case V4L2_CTRL_TYPE_VP9_FRAME:
+>  		pr_cont("VP9_FRAME");
+>  		break;
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		pr_cont("l: %d, t: %d, w: %u, h: %u",
+> +			ptr.p_rect->left, ptr.p_rect->top,
+> +			ptr.p_rect->width, ptr.p_rect->height);
+> +		break;
+>  	default:
+>  		pr_cont("unknown type %d", ctrl->type);
+>  		break;
+> @@ -525,6 +535,7 @@ static int std_validate_compound(const struct v4l2_ct=
+rl *ctrl, u32 idx,
+>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>  	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+>  	struct v4l2_area *area;
+> +	struct v4l2_rect *rect;
+>  	void *p =3D ptr.p + idx * ctrl->elem_size;
+>  	unsigned int i;
+> =20
+> @@ -888,6 +899,12 @@ static int std_validate_compound(const struct v4l2_c=
+trl *ctrl, u32 idx,
+>  			return -EINVAL;
+>  		break;
+> =20
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		rect =3D p;
+> +		if (!rect->width || !rect->height)
+> +			return -EINVAL;
+> +		break;
+> +
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -1456,6 +1473,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_=
+ctrl_handler *hdl,
+>  	case V4L2_CTRL_TYPE_AREA:
+>  		elem_size =3D sizeof(struct v4l2_area);
+>  		break;
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		elem_size =3D sizeof(struct v4l2_rect);
+> +		break;
+>  	default:
+>  		if (type < V4L2_CTRL_COMPOUND_TYPES)
+>  			elem_size =3D sizeof(s32);
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4=
+l2-core/v4l2-ctrls-defs.c
+> index 54ca4e6b820b..95f39a2d2ad2 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
+>  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
+>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+> +	case V4L2_CID_REGION_OF_INTEREST_RECT:  return "Region Of Interest Rect=
+angle";
+> =20
+>  	/* FM Radio Modulator controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1524,6 +1525,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum=
+ v4l2_ctrl_type *type,
+>  	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
+>  		*type =3D V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
+>  		break;
+> +	case V4L2_CID_REGION_OF_INTEREST_RECT:
+> +		*type =3D V4L2_CTRL_TYPE_RECT;
+> +		break;
+>  	default:
+>  		*type =3D V4L2_CTRL_TYPE_INTEGER;
+>  		break;
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index b3ce438f1329..919e104de50b 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -58,6 +58,7 @@ struct video_device;
+>   * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
+>   * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
+>   * @p_area:			Pointer to an area.
+> + * @p_rect:			Pointer to a rectangle.
+>   * @p:				Pointer to a compound value.
+>   * @p_const:			Pointer to a constant compound value.
+>   */
+> @@ -87,6 +88,7 @@ union v4l2_ctrl_ptr {
+>  	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>  	struct v4l2_area *p_area;
+> +	struct v4l2_rect *p_rect;
+>  	void *p;
+>  	const void *p_const;
+>  };
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
+-controls.h
+> index bb40129446d4..499fcddb6254 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1008,6 +1008,8 @@ enum v4l2_auto_focus_range {
+> =20
+>  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
+> =20
+> +#define V4L2_CID_REGION_OF_INTEREST_RECT	(V4L2_CID_CAMERA_CLASS_BASE+36)
+> +
+>  /* FM Modulator class control IDs */
+> =20
+>  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 3768a0a80830..b712412cf763 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1751,6 +1751,7 @@ struct v4l2_ext_control {
+>  		__u16 __user *p_u16;
+>  		__u32 __user *p_u32;
+>  		struct v4l2_area __user *p_area;
+> +		struct v4l2_rect __user *p_rect;
+>  		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+>  		struct v4l2_ctrl_h264_pps *p_h264_pps;
+>  		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
+> @@ -1810,6 +1811,7 @@ enum v4l2_ctrl_type {
+>  	V4L2_CTRL_TYPE_U16	     =3D 0x0101,
+>  	V4L2_CTRL_TYPE_U32	     =3D 0x0102,
+>  	V4L2_CTRL_TYPE_AREA          =3D 0x0106,
+> +	V4L2_CTRL_TYPE_RECT	     =3D 0x0107,
+> =20
+>  	V4L2_CTRL_TYPE_HDR10_CLL_INFO		=3D 0x0110,
+>  	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	=3D 0x0111,
 
-vim +1066 drivers/usb/gadget/udc/aspeed_udc.c
-
-  1027	
-  1028	static void ast_udc_ep0_handle_setup(struct ast_udc_dev *udc)
-  1029	{
-  1030		struct ast_udc_ep *ep = &udc->ep[0];
-  1031		struct ast_udc_request *req;
-  1032		struct usb_ctrlrequest crq;
-  1033		int req_num = 0;
-  1034		u16 ep_num = 0;
-  1035		int rc;
-  1036	
-  1037		memcpy_fromio(&crq, udc->creq, sizeof(crq));
-  1038	
-  1039		SETUP_DBG(udc, "SETEUP packet: %02x/%02x/%04x/%04x/%04x\n",
-  1040			  crq.bRequestType, crq.bRequest, le16_to_cpu(crq.wValue),
-  1041			  le16_to_cpu(crq.wIndex), le16_to_cpu(crq.wLength));
-  1042	
-  1043		/*
-  1044		 * Cleanup ep0 request(s) in queue because
-  1045		 * there is a new control setup comes.
-  1046		 */
-  1047		list_for_each_entry(req, &udc->ep[0].queue, queue) {
-  1048			req_num++;
-  1049			EP_DBG(ep, "there is req %p in ep0 queue !\n", req);
-  1050		}
-  1051	
-  1052		if (req_num)
-  1053			ast_udc_nuke(&udc->ep[0], -ETIMEDOUT);
-  1054	
-  1055		udc->ep[0].dir_in = crq.bRequestType & USB_DIR_IN;
-  1056	
-  1057		if ((crq.bRequestType & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
-  1058			switch (crq.bRequest) {
-  1059			case USB_REQ_SET_ADDRESS:
-  1060				if (ast_udc_read(udc, AST_UDC_STS) & UDC_STS_HIGHSPEED)
-  1061					udc->gadget.speed = USB_SPEED_HIGH;
-  1062				else
-  1063					udc->gadget.speed = USB_SPEED_FULL;
-  1064	
-  1065				SETUP_DBG(udc, "set addr: 0x%x\n", crq.wValue);
-> 1066				ast_udc_write(udc, crq.wValue, AST_UDC_CONFIG);
-  1067				goto req_complete;
-  1068	
-  1069			case USB_REQ_CLEAR_FEATURE:
-  1070				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
-  1071				SETUP_DBG(udc, "ep%d: CLEAR FEATURE\n", ep_num);
-  1072				goto req_driver;
-  1073	
-  1074			case USB_REQ_SET_FEATURE:
-  1075				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
-  1076				SETUP_DBG(udc, "ep%d: SET FEATURE\n", ep_num);
-  1077				goto req_driver;
-  1078	
-  1079			case USB_REQ_GET_STATUS:
-  1080				ast_udc_getstatus(udc);
-  1081				return;
-  1082	
-  1083			default:
-  1084				goto req_driver;
-  1085			}
-  1086	
-  1087		}
-  1088	
-  1089	req_driver:
-  1090		if (udc->driver) {
-  1091			SETUP_DBG(udc, "Forwarding %s to gadget...\n",
-  1092				  udc->gadget.name);
-  1093	
-  1094			spin_unlock(&udc->lock);
-  1095			rc = udc->driver->setup(&udc->gadget, &crq);
-  1096			spin_lock(&udc->lock);
-  1097	
-  1098		} else
-  1099			SETUP_DBG(udc, "No gadget for request !\n");
-  1100	
-  1101		if (rc >= 0)
-  1102			return;
-  1103	
-  1104		/* Stall if gadget failed */
-  1105		SETUP_DBG(udc, "Stalling, rc:0x%x\n", rc);
-  1106		ast_udc_write(udc, ast_udc_read(udc, AST_UDC_EP0_CTRL) | EP0_STALL,
-  1107			      AST_UDC_EP0_CTRL);
-  1108		return;
-  1109	
-  1110	req_complete:
-  1111		SETUP_DBG(udc, "ep%d: Sending IN status without data\n", ep_num);
-  1112		ast_udc_write(udc, EP0_TX_BUFF_RDY, AST_UDC_EP0_CTRL);
-  1113	}
-  1114	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
