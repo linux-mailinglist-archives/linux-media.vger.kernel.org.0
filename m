@@ -2,74 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BCFC527DDE
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 08:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 183AA527E67
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 09:18:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240485AbiEPGwX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 02:52:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55398 "EHLO
+        id S240694AbiEPHS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 03:18:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240522AbiEPGwT (ORCPT
+        with ESMTP id S240848AbiEPHS0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 02:52:19 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F368F36696
-        for <linux-media@vger.kernel.org>; Sun, 15 May 2022 23:52:17 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id u23so24097601lfc.1
-        for <linux-media@vger.kernel.org>; Sun, 15 May 2022 23:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=rPRsmp2S+ox3NW4Nkz7Uxi/+FDpcfG15/yUhK2SgzDs=;
-        b=v3uSv7bLh4yGdVxQsxnYEOO7Rllfhq8KHA1D+glz3RazBea57ykwaglnrFSyi5iTSF
-         XyLY31+OYTMfBZ49WJ5JC/jI88TBuYsFtYGIcsTFwxjAYrLaLg7ILS4MLTZfy9ghIGAg
-         38iTW4nYTYkyEhpaEXprXCi0r2Zc6XvZHTU82vOplY5agLMuz4/t7UsiQDed0jLVJafE
-         rrua7pEu/i+ysYr011+/Zlc7KXwFQ6/2p2AORe647DoMft/bCtfUhErcf/nMTB7LYpmG
-         M5vbxeNlB85KpeqCn/XSWaI36H/i34UY8GT6VMznIW6AmnI6manCUXnvfXO8U4rF9NwP
-         TASg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=rPRsmp2S+ox3NW4Nkz7Uxi/+FDpcfG15/yUhK2SgzDs=;
-        b=sRjoOdPWVBOD8R09QHFiMjCClICiI0xv5Qqag8OiDgwZoc6lA564Rir0K42+3Mrv6G
-         VsOOlreRXMT9JES1yOUG971zF9X9Ha2mpd53gAAudrnPst1TmJh+z5ReTyJCir1MgNhF
-         VMG27T0UFnosyYtw9iTMh8GudkBqxsx10922PrgFFeG5n7D58Izfd1Q5RI78ArglP94p
-         49t4AjG+y/oFKsMQNSdDjVxU9paRSSpTjOvCjJBNYFh1JT2PbIKlhAtzf7tKCAuI9eA7
-         f4ARIhAx/YD8wY7s0QswlSEagGMKRpImf+EWtC6gGbz4QA89MdPIfy+TBUhZI8bOCQib
-         lRSA==
-X-Gm-Message-State: AOAM532U+O51OMAVGzao1T4hPCkgDDooj9kPd0Y7ZZ1YuiVcjUOLevQo
-        o24ngSvpU1Uz3Tt5LlEFsFsvlw==
-X-Google-Smtp-Source: ABdhPJyLBneiXy67uswRTUL7av+Bk0KSkuTjjG050elMDmAnw8LyiYFwX7oD0zZb++fjEqzWTIjGPw==
-X-Received: by 2002:a05:6512:3c8f:b0:473:9d3b:84 with SMTP id h15-20020a0565123c8f00b004739d3b0084mr12156259lfv.334.1652683936420;
-        Sun, 15 May 2022 23:52:16 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id a1-20020a056512390100b0047255d21142sm1218412lfu.113.2022.05.15.23.52.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 May 2022 23:52:15 -0700 (PDT)
-Message-ID: <f263f61b-48bd-efcb-1f1f-1fb264dc05c6@linaro.org>
-Date:   Mon, 16 May 2022 08:52:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] media: s5c73m3: Switch to GPIO descriptors
-Content-Language: en-US
-To:     Linus Walleij <linus.walleij@linaro.org>,
+        Mon, 16 May 2022 03:18:26 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4212013CCF
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 00:18:24 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:51ae:171f:35c9:722d])
+        by xavier.telenet-ops.be with bizsmtp
+        id XKJK2700L2UsjYA01KJKhi; Mon, 16 May 2022 09:18:22 +0200
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nqUzi-000YsA-VZ; Mon, 16 May 2022 09:18:18 +0200
+Date:   Mon, 16 May 2022 09:18:18 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+X-X-Sender: geert@ramsan.of.borg
+To:     linux-kernel@vger.kernel.org
+cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>
-References: <20220515220703.347380-1-linus.walleij@linaro.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220515220703.347380-1-linus.walleij@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Subject: Re: Build regressions/improvements in v5.18-rc7
+In-Reply-To: <20220516064231.2425428-1-geert@linux-m68k.org>
+Message-ID: <alpine.DEB.2.22.394.2205160916190.134019@ramsan.of.borg>
+References: <CAHk-=wg2eVUN0a1E5UnBF1ziGaU1yrMJtnFPg4R78O=FcRDqnA@mail.gmail.com> <20220516064231.2425428-1-geert@linux-m68k.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,20 +52,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/05/2022 00:07, Linus Walleij wrote:
-> The driver has an option to pass in GPIO numbers from platform
-> data but this is not used in the kernel so delete this. Get
-> GPIO descriptors using the standard API and simplify the code,
-> gpiolib will handle any inversions.
-> 
-> Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+On Mon, 16 May 2022, Geert Uytterhoeven wrote:
+> JFYI, when comparing v5.18-rc7[1] to v5.18-rc6[3], the summaries are:
+>  - build errors: +2/-0
 
+   + /kisskb/src/drivers/media/platform/nxp/imx-pxp.h: error: initializer element is not constant:  => 582:38
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+mipsel-gcc5/mips-allmodconfig
 
-Best regards,
-Krzysztof
+Seen before in other builds, missing "U"-suffix on large unsigned
+constants.
+
+   + /kisskb/src/include/linux/fortify-string.h: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]:  => 328:25
+
+s390x-gcc11/s390-allmodconfig
+
+> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/42226c989789d8da4af1de0c31070c96726d990c/ (all 131 configs)
+> [3] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a/ (all 131 configs)
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
