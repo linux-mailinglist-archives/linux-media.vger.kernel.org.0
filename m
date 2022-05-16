@@ -2,143 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79EBB5280CD
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 11:24:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EB7A52819A
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 12:14:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242160AbiEPJXe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 05:23:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37224 "EHLO
+        id S240464AbiEPKOS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 06:14:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242145AbiEPJXb (ORCPT
+        with ESMTP id S242247AbiEPKOM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 05:23:31 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D8A25EBD
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 02:23:24 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2fed8245a03so34652647b3.1
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 02:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=IL247PX6DIraKPCB4Qq4FB+o6HNS1RKeiQ6Tz/uvjRQ=;
-        b=KFgP8HYf/u1YqkzNXS8ek75t+U3whxqOaiUbWvQT7rv/TKcZkgXX+KhU98h0mOVw48
-         mQrzFdDfyO6Yzc9QhMTT5LPNGIWsaQHtcoY8dle/Ji/lX1bJcsqiPyCfiTSOFtYXd2bD
-         CB6TRgK/nXBeyC9kqqlW6T0X/653qAMsT/3LAVag1O011udcUSWyL1ISWQgNlUUaylSo
-         +7Gh+JJMMRMG9Nel5XgfBcr15mm4UdaNOE3NzthppIMc2XMG4j8WH+qwMU+DTVnGKaAs
-         tPIJjx6Twjg84Wjb+cYkufgk7dbiXMvK3+UK0dydlmL4LH6CiYNkKLXiTBVVcCAOGsVY
-         YeFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=IL247PX6DIraKPCB4Qq4FB+o6HNS1RKeiQ6Tz/uvjRQ=;
-        b=T3m66sLIPK2XN3SDyRF+HcHoDg2AeqfmH3eQ2dpnOJEafDfVrSzLvw9btwlL5DItA7
-         6dHMxBnPaZJleqjRvtNcLMfsCnybML+SbF43ZvayGvpZtomkS50QByRfIorZ2LQ7yszx
-         sfWMoJK/mQ5vFVqy6G94lb31TEI87Op37QAeu7UJHnhG7BYSo6CwTnMt91jOzQMJc+A8
-         5SKx9FB9SbgAsrupW7Z0WzmpibCkMpuPY2d3qcT4yCxzeyuGXUI4HB8QlPdu7mx+32xx
-         P/Qc+FCjRtlKNTJWLnZFBWOef0RxCaO+IyKVo5P4uZM1lIZFhnxmqsc1Wqt35V7TUIQm
-         plzg==
-X-Gm-Message-State: AOAM533UNGXh6TwQSGX+k9+EblcOPtWv8hrzudYOydT/tK0WWQVYECvP
-        3SzGr350ERv0/XD6C/qMp7/6RjqAgeM=
-X-Google-Smtp-Source: ABdhPJwrI8ICCctSFTq1tdm5cLeSw7m1Id2aR3dWDRNjVo8Bxi19CN/FB37fV3W3h1u9qf8oda/AfwDT3uY=
-X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:2bd1:4151:d530:8b73])
- (user=yunkec job=sendgmr) by 2002:a25:258:0:b0:64d:6b57:bf25 with SMTP id
- 85-20020a250258000000b0064d6b57bf25mr8665650ybc.193.1652693003674; Mon, 16
- May 2022 02:23:23 -0700 (PDT)
-Date:   Mon, 16 May 2022 18:22:09 +0900
-In-Reply-To: <20220516092209.1801656-1-yunkec@google.com>
-Message-Id: <20220516092209.1801656-7-yunkec@google.com>
-Mime-Version: 1.0
-References: <20220516092209.1801656-1-yunkec@google.com>
-X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
-Subject: [PATCH v1 6/6] media: vivid: Add a roi rectangle control
-From:   Yunke Cao <yunkec@google.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, Yunke Cao <yunkec@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 16 May 2022 06:14:12 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A596BC0A;
+        Mon, 16 May 2022 03:14:04 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24G8G140000699;
+        Mon, 16 May 2022 12:12:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=KfKrm3sBYSHtTqJoRSBDteMQlV8Hhg0xxEFjLsYm0mQ=;
+ b=kFuSMPE5Y/svmlPHGJX9/+n0gSpEDLXSSL6I7q96JDi21FXNQPa/SVyel3P9nZpC4kQm
+ ci/9kYzJHDVFapgB0A0jeMzdAC73aFCS6taDYiNvP6J+gwkdHkd3B+HQRED2kRCP+OQs
+ Sb9GziYX2ew+7x1c6E7dENHAtd6M24Ilei2bR7/Du5uTLt0GmQq3zBwbE+SlOTb3rcT/
+ 2WhCf6hZVWuVZSJFyC/eIdQsqtIFcw6l4Cwbiki/IYRSg/pjywp5C74k9Db8sRbJ/qFU
+ E4HYj7+c6+zLIdf6p+Xqs38e8UCmAmGuPCrjogEFIldR+FoL3jsANVxRTTZm9syhcG4Q vA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3g23s18eq0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 16 May 2022 12:12:22 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E0A7A10002A;
+        Mon, 16 May 2022 12:12:21 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D5B5021A215;
+        Mon, 16 May 2022 12:12:21 +0200 (CEST)
+Received: from [10.0.2.15] (10.75.127.48) by SFHDAG2NODE3.st.com (10.75.127.6)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 16 May 2022 12:12:21
+ +0200
+Subject: Re: [PATCH 1/3] media: st-mipid02: add support of pixel clock
+ polarity
+To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Alain Volmat <alain.volmat@foss.st.com>
+References: <20220516091934.263141-1-hugues.fruchet@foss.st.com>
+ <20220516091934.263141-2-hugues.fruchet@foss.st.com>
+From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Message-ID: <d99db0c5-548d-6dee-5e44-cbef20074ec5@foss.st.com>
+Date:   Mon, 16 May 2022 12:12:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20220516091934.263141-2-hugues.fruchet@foss.st.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.48]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-16_06,2022-05-13_01,2022-02-23_01
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The control supports current, default, minimum and maximum.
+Hi Hugues,
 
-Tested by calling ioctls from the user space.
+Thank you for the patchset.
 
-Signed-off-by: Yunke Cao <yunkec@google.com>
----
- .../media/test-drivers/vivid/vivid-ctrls.c    | 34 +++++++++++++++++++
- 1 file changed, 34 insertions(+)
+On 16/05/2022 11:19, Hugues Fruchet wrote:
+> Add support of pixel clock polarity.
+> 
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-index e7516dc1227b..79093882d386 100644
---- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-+++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-@@ -34,6 +34,7 @@
- #define VIVID_CID_U8_4D_ARRAY		(VIVID_CID_CUSTOM_BASE + 10)
- #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
- #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
-+#define VIVID_CID_RECT			(VIVID_CID_CUSTOM_BASE + 13)
- 
- #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
- #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
-@@ -292,6 +293,38 @@ static const struct v4l2_ctrl_config vivid_ctrl_area = {
- 	.p_def.p_const = &area,
- };
- 
-+static const struct v4l2_rect def_rect = {
-+	.left = 0,
-+	.top = 0,
-+	.width = 1000,
-+	.height = 2000,
-+};
-+
-+static const struct v4l2_rect min_rect = {
-+	.left = 0,
-+	.top = 0,
-+	.width = 1,
-+	.height = 2,
-+};
-+
-+static const struct v4l2_rect max_rect = {
-+	.left = 0,
-+	.top = 0,
-+	.width = 2000,
-+	.height = 4000,
-+};
-+
-+static const struct v4l2_ctrl_config vivid_ctrl_rect = {
-+	.ops = &vivid_user_gen_ctrl_ops,
-+	.id = VIVID_CID_RECT,
-+	.name = "Region of Interest Rectangle",
-+	.type = V4L2_CTRL_TYPE_RECT,
-+	.p_def.p_const = &def_rect,
-+	.p_min.p_const = &min_rect,
-+	.p_max.p_const = &max_rect,
-+};
-+
-+
- static const struct v4l2_ctrl_config vivid_ctrl_ro_int32 = {
- 	.ops = &vivid_user_gen_ctrl_ops,
- 	.id = VIVID_CID_RO_INTEGER,
-@@ -1611,6 +1644,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
- 	dev->int_menu = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_int_menu, NULL);
- 	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
- 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
-+	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_rect, NULL);
- 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
- 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
- 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_4d_array, NULL);
--- 
-2.36.0.550.gb090851708-goog
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
+> ---
+>  drivers/media/i2c/st-mipid02.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+> index ef976d085d72..59b48026c752 100644
+> --- a/drivers/media/i2c/st-mipid02.c
+> +++ b/drivers/media/i2c/st-mipid02.c
+> @@ -50,6 +50,7 @@
+>  /* Bits definition for MIPID02_MODE_REG2 */
+>  #define MODE_HSYNC_ACTIVE_HIGH				BIT(1)
+>  #define MODE_VSYNC_ACTIVE_HIGH				BIT(2)
+> +#define MODE_PCLK_SAMPLE_RISING				BIT(3)
+>  /* Bits definition for MIPID02_DATA_SELECTION_CTRL */
+>  #define SELECTION_MANUAL_DATA				BIT(2)
+>  #define SELECTION_MANUAL_WIDTH				BIT(3)
+> @@ -494,6 +495,8 @@ static int mipid02_configure_from_tx(struct mipid02_dev *bridge)
+>  		bridge->r.mode_reg2 |= MODE_HSYNC_ACTIVE_HIGH;
+>  	if (ep->bus.parallel.flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
+>  		bridge->r.mode_reg2 |= MODE_VSYNC_ACTIVE_HIGH;
+> +	if (ep->bus.parallel.flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> +		bridge->r.mode_reg2 |= MODE_PCLK_SAMPLE_RISING;
+>  
+>  	return 0;
+>  }
+> 
