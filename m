@@ -2,136 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30CD3527F09
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 10:00:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A389052809C
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 11:15:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241375AbiEPIAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 04:00:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
+        id S229870AbiEPJPi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 05:15:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241407AbiEPH77 (ORCPT
+        with ESMTP id S229849AbiEPJPh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 03:59:59 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CF52C139
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 00:59:57 -0700 (PDT)
+        Mon, 16 May 2022 05:15:37 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F3E24946
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 02:15:35 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-2fee9fe48c2so23820297b3.3
+        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 02:15:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1652687998; x=1684223998;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=z6FW8XHjY6i+m7Gc417gaDJnjfXGyY/xWZ7ymYvnYsI=;
-  b=AnZ3D7rwUbT4rhK5pN9WnQCfR2hyT5xJFRJL/u73jeSCJdZf80Igldfd
-   atN5xgl+KEQWLuUJMaeboVGXffWGhP5r0JkfvGroZpOYMELRDtPgstHk6
-   gEU66O6tz3uv8Ml6YPrZ0hcfuhpKoQdg4UykKk7JSi8Fz04Nza5Gc93JK
-   Q34XPvrWcAzLClTcCAlTI/ZVqvGbe+AxSLVDPIWYy1Qg49fY6t+xtOO48
-   xQTAijktcEKoanHPt76RX0aIKaL8xNZOUXXkYxejBVt1FQzulpd0U76+7
-   0xmI1U304Btvi2MM/mBvte9uVmXgZUsQP8bU8ADT5xyXwd6Un4sWe/OWu
-   w==;
-X-IronPort-AV: E=Sophos;i="5.91,229,1647298800"; 
-   d="scan'208";a="23882849"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 16 May 2022 09:59:55 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 16 May 2022 09:59:55 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 16 May 2022 09:59:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1652687995; x=1684223995;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=z6FW8XHjY6i+m7Gc417gaDJnjfXGyY/xWZ7ymYvnYsI=;
-  b=VwFTfG9dkQmHzYvk55Az0PuX5W8EAQVcsT/hNq0YoilW40lCq5ZvmHva
-   CxFcnfRfnQDe0Heebn0KvKHYRxLa01LJli1QRzoEXC88h6BZXHklCe4Bs
-   NUA+Yj4QM8EJztwrfcu2b0m2KzxiRBoFqdR9DiHBc24qM3xnaHL2ix+0Q
-   EDFBPiV+JJ5MvsDMe6kfw66HMtOrGZi1RgQOrWlyXZudP7jaZHyWBmmWe
-   09eB0uHArN5JuuCFq9dSXREzyKcNcTZhOMQDK1tFipSKL7PP/YhL+Z67g
-   DSyZoFdE95vew8j/pnnFnNeuv/vLv3j9xYkOap5Oy2CLKwHI7EKjxuvVk
-   w==;
-X-IronPort-AV: E=Sophos;i="5.91,229,1647298800"; 
-   d="scan'208";a="23882848"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 16 May 2022 09:59:55 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 4F4ED280070;
-        Mon, 16 May 2022 09:59:55 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 00/50] staging: media: imx: Prepare destaging of imx7-media-csi
-Date:   Mon, 16 May 2022 09:59:52 +0200
-Message-ID: <4401945.LvFx2qVVIh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
-References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=buGMerFrqipK8Jb3tFvhac/c2c+O8piHg+izAwGyraI=;
+        b=TRSFu7AbWsVW/Ef8XKz5pVDm+GvFxxetzEadtSFQsRoRxdZGatUSxQcN0RbdrR/c3C
+         2FjzIubT3Y2DIAPnBoUvPxnorPnzLnh5vHcaYzKFI/BaViRO9wGm2N1DGT82wQuc+qq8
+         ibBiJXUL8NyNGdg/583OfNipR1kw3/PpbUuk7WMcxkMiFSFd92XCA+xDvaMLrS1qvv2J
+         7vSfn9Gx3h7n5EhrBeuf4E7srBVY6dux5fUQUP/lT0YaeWUp7M0MMG2xkEvMjVz4zN0O
+         vl5DnOW8QaoTM+tjjuSsyxMr1RhEH0TDVWRuXFCWw3WLEDLBpvecJwXSAASiLwkAFI+r
+         YLGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=buGMerFrqipK8Jb3tFvhac/c2c+O8piHg+izAwGyraI=;
+        b=IGcSM5sZF8stSgY/eotxZI8p8r/bwrxXqzv9gNr7Pl8Iop9B3EA8EZOKMyEx0+c1oP
+         6BxddGm/kWcM586e1x60ycj6yJ1+fFooGz4BLShyehZMa8Ai0hltEECJb8IgZTbAKfLR
+         YT4/cUF1SoUcHBkqRMsDG0A8ZsxALxqzHURlcmEPORX2dDeNuLuEwb8gE7u7+/1bC21/
+         rAJOqlvLt9hAbCicAGdONrpcOgr0YWhMTJEWjjGAkzmNSoUsKAtYallDW9jUiWIzEHZ+
+         EhlzbNU6GuNd66mfVHW1OFusM98CysDr1m13JO8mOHux2Ld8vm0L0ernYzjSneFBaZpy
+         7b2w==
+X-Gm-Message-State: AOAM530YliA6l0PPlLq7bHX7Lv3U4QMxz8xmzbw6kqdPNwgdOdpZ/jdo
+        AfDs2vwl9Spqy5rTHf0UKi0lLgcgMSKCTaNq9qmtoQ==
+X-Google-Smtp-Source: ABdhPJwFI6dvAkIgwWlRuN3bI3SCin//obBcEH44i2JoBsm8GZkg6NmkNqIVdwGF1AKvXK3+QEMyX7qaM7sPUGL8JHk=
+X-Received: by 2002:a0d:e657:0:b0:2fe:eed7:61e9 with SMTP id
+ p84-20020a0de657000000b002feeed761e9mr5350115ywe.417.1652692534237; Mon, 16
+ May 2022 02:15:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_CSS_A autolearn=ham autolearn_force=no version=3.4.6
+References: <20220308033839.3773-1-arec.kao@intel.com> <20220308033839.3773-2-arec.kao@intel.com>
+ <YidQtF28hqh6Ew7j@paasikivi.fi.intel.com>
+In-Reply-To: <YidQtF28hqh6Ew7j@paasikivi.fi.intel.com>
+From:   Tomasz Figa <tfiga@google.com>
+Date:   Mon, 16 May 2022 18:15:23 +0900
+Message-ID: <CAAFQd5DNY0bW4crJtLjKDAVLnypePE5OH2xoQwc_oXy7-9_-=A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Re-run BLC when gain change
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Arec Kao <arec.kao@intel.com>, linux-media@vger.kernel.org,
+        andy.yeh@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+On Tue, Mar 8, 2022 at 9:48 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Arec,
+>
+> Thanks for the patch.
+>
+> On Tue, Mar 08, 2022 at 11:38:39AM +0800, Arec Kao wrote:
+> > Changing the gain affects the black-level through the device;
+> > the gain should therefore not be changed during a BLC procedure.
+> > If the gain changes, then the BLC routine should be re-run
+> > in some scenarios.
+>
+> Could you also explain what are the scenarios the BLC routine should be
+> re-run and how does the user space know this should be done? Could this be
+> done in the driver instead without involving the user space?
 
-Am Dienstag, 10. Mai 2022, 13:58:09 CEST schrieb Laurent Pinchart:
-> Hello,
-> 
-> This patch series prepares the imx7-media-csi for destaging by
-> decoupling it from the helpers shared with the i.MX6 IPUv3.
-> 
-> The strategy Paul and I have followed is to import copies of helper code
-> and, refactor it within the imx7-media-csi driver, and repeat until no
-> more shared helpers are used. There is still room for refactoring and
-> simplification of the imx7-media-csi driver, but I believe it is now in
-> a state clean enough to be moved out of staging.
-> 
-> The series also includes a few fixes or improvements in supported
-> formats that are now made possible thanks to this refactoring. See
-> patches 45/50 and 46/50 for details.
-> 
-> The code size has grown as a result. This is partly offset by code in
-> the shared helpers that can be removed or simplified, but I haven't
-> starting working on that. The helpers are now used for the i.MX6 IPUv3
-> only, so I will leave this exercise to anyone who would be interested in
-> destaging that driver as well.
-> 
-> Some of the items in the TODO file related to the imx7-media-csi driver
-> have been addressed. The two remaining items are frame interval monitor
-> support and restricting the list of supported formats to the SoC
-> version. The former isn't a destaging blocker in my opinion, as the
-> feature can be added later if desired (and frame interval monitoring
-> should then be moved to the V4L2 core). I believe the latter could also
-> be addressed after destaging the driver, but in any case, this is a
-> discussion for a future destaging series (which may come as soon as this
-> one is accepted).
-> 
-> Alexander, this also could greatly simplify your "[PATCH v3 0/8]
-> imx7/imx8mm media / csi patches" series.
+FWIW, this turned out to be a camera module design issue (the
+investigation was running in parallel to the potential software fix),
+so this patch series isn't needed anymore.
 
-Thanks again for this patchset. This does not only simplify my series, it 
-pretty much makes it obsolete. Only one change is still valid (rounding up 
-width depending on bpp), but I would skip that for now.
-Just using my DT is enough. Nice!
-
-If you respin a v2, I'll retest again for a proper Tested-by tag.
-
-Regards,
-Alexander
-
-
-
+Best regards,
+Tomasz
