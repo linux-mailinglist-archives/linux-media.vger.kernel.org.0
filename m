@@ -2,62 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6152A5280BF
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 11:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 764615280C1
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 11:22:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237744AbiEPJVU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 05:21:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58164 "EHLO
+        id S242226AbiEPJVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 05:21:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235036AbiEPJVP (ORCPT
+        with ESMTP id S242129AbiEPJVe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 05:21:15 -0400
+        Mon, 16 May 2022 05:21:34 -0400
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 185D362FA;
-        Mon, 16 May 2022 02:21:11 -0700 (PDT)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24G7UHnR024416;
-        Mon, 16 May 2022 11:20:02 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ED7D26100;
+        Mon, 16 May 2022 02:21:24 -0700 (PDT)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24G8E5W1005786;
+        Mon, 16 May 2022 11:21:09 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=selector1;
- bh=0BSoCdtIzeozy9JDSMEC2EkfA3L2AByvAuj91yhKQPw=;
- b=43Y+VEymvQKxUSe8/n/y16VFlxqNHOB9ddS0zgM+NFWy5WiD2+fbNfIbQzcleu4xWYvM
- f16DSN/UaJRUsPtpOijUs5PFwHshwkmKMTUrkkPDt54E9QrFXCqWGmAbMYOaOlt/P7m7
- bPItgJBAmGAinIZsdijf+Xo6X9U5aWvQ9A/HdBE4wQzpBpFPRA06n3FsjJA0tWt9EoUh
- e9WxPVyGYtEJSgDmL5n3nxEwwBli7OHrI9mhnEL3UnKRCYkTgb4NZ8LS4q+ATvT4gtq7
- gK1ZZI1sdvAqVzcC1dfsS5ZesW55HPUDVPqoD11CBZrHguGyCH12uBDcNEXuulwYRFV9 mg== 
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=Q4W3Tjig+WlwJ7hKJLTi8rI/emUqtqXFj0FeCqRaQ3Q=;
+ b=qsI4yD4DpV+Z45Pez3UNwySlSjWcJ/PvPbwCIRwr0Dd1WZGmEwouNqMRfB16+DQ0tZQM
+ xtDh1Fn8SNIoUC1WHCD3bAsETNyoJ2+5FGJa4qye8plxHejH1SFwolBCwq3xJDpPDh51
+ EI75uhr/lMRpEoxoygHz/hPZ5TfXe+HNbtrytXiH72IMfVJpTO+zGxOFUxbgIlLxBqv5
+ 4rRzUt29spMX2U9kaMsDVgUuFipAG4/8OXQHiASpM566vCDw1glg0VbmF+Fyu14qykQk
+ da7T6RQArxsFzrar7zt3rrzpksHW9QPw1ZM4c/4vW6CuT7yZzW8uEB4gQUW0rWEEWmmQ hA== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3g23ah9k15-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3g21j8hxph-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 May 2022 11:20:02 +0200
+        Mon, 16 May 2022 11:21:09 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BE60E10002A;
-        Mon, 16 May 2022 11:20:01 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id EDCF810002A;
+        Mon, 16 May 2022 11:21:06 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B62252171DB;
-        Mon, 16 May 2022 11:20:01 +0200 (CEST)
-Received: from localhost (10.75.127.47) by SFHDAG2NODE2.st.com (10.75.127.5)
- with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 16 May 2022 11:20:00
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E753F2171DB;
+        Mon, 16 May 2022 11:21:06 +0200 (CEST)
+Received: from localhost (10.75.127.45) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 16 May 2022 11:21:06
  +0200
 From:   Hugues Fruchet <hugues.fruchet@foss.st.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+To:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
         Alain Volmat <alain.volmat@foss.st.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Philippe CORNU <philippe.cornu@foss.st.com>,
         Hugues Fruchet <hugues.fruchet@foss.st.com>
-Subject: [PATCH 3/3] media: st-mipid02: expose 1X16 serial pixel format
-Date:   Mon, 16 May 2022 11:19:34 +0200
-Message-ID: <20220516091934.263141-4-hugues.fruchet@foss.st.com>
+Subject: [PATCH] media: stm32-dcmi: add support of 1X16 serial pixel formats variant
+Date:   Mon, 16 May 2022 11:20:48 +0200
+Message-ID: <20220516092048.264036-1-hugues.fruchet@foss.st.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220516091934.263141-1-hugues.fruchet@foss.st.com>
-References: <20220516091934.263141-1-hugues.fruchet@foss.st.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.47]
+X-Originating-IP: [10.75.127.45]
 X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
  (10.75.127.5)
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -72,77 +75,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Expose RGB & YUV 1X16 serial pixel format variants to comply
-with CSI-2 camera sensor pixel formats.
+From: Hugues Fruchet <hugues.fruchet@st.com>
 
-Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+Add support of 1X16 serial pixel formats in order to support
+CSI-2 camera sensor exposing 1x16 pixel formats only.
+
+Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
 ---
- drivers/media/i2c/st-mipid02.c | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ drivers/media/platform/st/stm32/stm32-dcmi.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-index fe884d81b08b..16cc547976dd 100644
---- a/drivers/media/i2c/st-mipid02.c
-+++ b/drivers/media/i2c/st-mipid02.c
-@@ -62,7 +62,9 @@ static const u32 mipid02_supported_fmt_codes[] = {
- 	MEDIA_BUS_FMT_SGRBG10_1X10, MEDIA_BUS_FMT_SRGGB10_1X10,
- 	MEDIA_BUS_FMT_SBGGR12_1X12, MEDIA_BUS_FMT_SGBRG12_1X12,
- 	MEDIA_BUS_FMT_SGRBG12_1X12, MEDIA_BUS_FMT_SRGGB12_1X12,
--	MEDIA_BUS_FMT_UYVY8_1X16, MEDIA_BUS_FMT_BGR888_1X24,
-+	MEDIA_BUS_FMT_YUYV8_1X16, MEDIA_BUS_FMT_YVYU8_1X16,
-+	MEDIA_BUS_FMT_UYVY8_1X16, MEDIA_BUS_FMT_VYUY8_1X16,
-+	MEDIA_BUS_FMT_RGB565_1X16, MEDIA_BUS_FMT_BGR888_1X24,
- 	MEDIA_BUS_FMT_RGB565_2X8_LE, MEDIA_BUS_FMT_RGB565_2X8_BE,
- 	MEDIA_BUS_FMT_YUYV8_2X8, MEDIA_BUS_FMT_YVYU8_2X8,
- 	MEDIA_BUS_FMT_UYVY8_2X8, MEDIA_BUS_FMT_VYUY8_2X8,
-@@ -132,7 +134,11 @@ static int bpp_from_code(__u32 code)
- 	case MEDIA_BUS_FMT_SGRBG12_1X12:
- 	case MEDIA_BUS_FMT_SRGGB12_1X12:
- 		return 12;
-+	case MEDIA_BUS_FMT_YUYV8_1X16:
-+	case MEDIA_BUS_FMT_YVYU8_1X16:
- 	case MEDIA_BUS_FMT_UYVY8_1X16:
-+	case MEDIA_BUS_FMT_VYUY8_1X16:
-+	case MEDIA_BUS_FMT_RGB565_1X16:
- 	case MEDIA_BUS_FMT_YUYV8_2X8:
- 	case MEDIA_BUS_FMT_YVYU8_2X8:
- 	case MEDIA_BUS_FMT_UYVY8_2X8:
-@@ -165,7 +171,10 @@ static u8 data_type_from_code(__u32 code)
- 	case MEDIA_BUS_FMT_SGRBG12_1X12:
- 	case MEDIA_BUS_FMT_SRGGB12_1X12:
- 		return 0x2c;
-+	case MEDIA_BUS_FMT_YUYV8_1X16:
-+	case MEDIA_BUS_FMT_YVYU8_1X16:
- 	case MEDIA_BUS_FMT_UYVY8_1X16:
-+	case MEDIA_BUS_FMT_VYUY8_1X16:
- 	case MEDIA_BUS_FMT_YUYV8_2X8:
- 	case MEDIA_BUS_FMT_YVYU8_2X8:
- 	case MEDIA_BUS_FMT_UYVY8_2X8:
-@@ -173,6 +182,7 @@ static u8 data_type_from_code(__u32 code)
- 		return 0x1e;
- 	case MEDIA_BUS_FMT_BGR888_1X24:
- 		return 0x24;
-+	case MEDIA_BUS_FMT_RGB565_1X16:
- 	case MEDIA_BUS_FMT_RGB565_2X8_LE:
- 	case MEDIA_BUS_FMT_RGB565_2X8_BE:
- 		return 0x22;
-@@ -207,8 +217,16 @@ static __u32 get_fmt_code(__u32 code)
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+index 09a743cd7004..b2ba4d95bfa3 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+@@ -1592,25 +1592,31 @@ static int dcmi_set_default_fmt(struct stm32_dcmi *dcmi)
+ 	return 0;
+ }
  
- static __u32 serial_to_parallel_code(__u32 serial)
- {
-+	if (serial == MEDIA_BUS_FMT_RGB565_1X16)
-+		return MEDIA_BUS_FMT_RGB565_2X8_LE;
-+	if (serial == MEDIA_BUS_FMT_YUYV8_1X16)
-+		return MEDIA_BUS_FMT_YUYV8_2X8;
-+	if (serial == MEDIA_BUS_FMT_YVYU8_1X16)
-+		return MEDIA_BUS_FMT_YVYU8_2X8;
- 	if (serial == MEDIA_BUS_FMT_UYVY8_1X16)
- 		return MEDIA_BUS_FMT_UYVY8_2X8;
-+	if (serial == MEDIA_BUS_FMT_VYUY8_1X16)
-+		return MEDIA_BUS_FMT_VYUY8_2X8;
- 	if (serial == MEDIA_BUS_FMT_BGR888_1X24)
- 		return MEDIA_BUS_FMT_BGR888_3X8;
- 
+-/*
+- * FIXME: For the time being we only support subdevices
+- * which expose RGB & YUV "parallel form" mbus code (_2X8).
+- * Nevertheless, this allows to support serial source subdevices
+- * and serial to parallel bridges which conform to this.
+- */
+ static const struct dcmi_format dcmi_formats[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_RGB565,
+ 		.mbus_code = MEDIA_BUS_FMT_RGB565_2X8_LE,
+ 		.bpp = 2,
++	}, {
++		.fourcc = V4L2_PIX_FMT_RGB565,
++		.mbus_code = MEDIA_BUS_FMT_RGB565_1X16,
++		.bpp = 2,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_YUYV,
+ 		.mbus_code = MEDIA_BUS_FMT_YUYV8_2X8,
+ 		.bpp = 2,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YUYV,
++		.mbus_code = MEDIA_BUS_FMT_YUYV8_1X16,
++		.bpp = 2,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_UYVY,
+ 		.mbus_code = MEDIA_BUS_FMT_UYVY8_2X8,
+ 		.bpp = 2,
++	}, {
++		.fourcc = V4L2_PIX_FMT_UYVY,
++		.mbus_code = MEDIA_BUS_FMT_UYVY8_1X16,
++		.bpp = 2,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_JPEG,
+ 		.mbus_code = MEDIA_BUS_FMT_JPEG_1X8,
 -- 
 2.25.1
 
