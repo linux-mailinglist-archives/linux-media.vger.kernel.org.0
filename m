@@ -2,92 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A389052809C
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 11:15:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08F465280BB
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 11:21:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbiEPJPi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 05:15:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50286 "EHLO
+        id S239666AbiEPJVQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 05:21:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229849AbiEPJPh (ORCPT
+        with ESMTP id S231919AbiEPJVN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 05:15:37 -0400
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F3E24946
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 02:15:35 -0700 (PDT)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-2fee9fe48c2so23820297b3.3
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 02:15:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=buGMerFrqipK8Jb3tFvhac/c2c+O8piHg+izAwGyraI=;
-        b=TRSFu7AbWsVW/Ef8XKz5pVDm+GvFxxetzEadtSFQsRoRxdZGatUSxQcN0RbdrR/c3C
-         2FjzIubT3Y2DIAPnBoUvPxnorPnzLnh5vHcaYzKFI/BaViRO9wGm2N1DGT82wQuc+qq8
-         ibBiJXUL8NyNGdg/583OfNipR1kw3/PpbUuk7WMcxkMiFSFd92XCA+xDvaMLrS1qvv2J
-         7vSfn9Gx3h7n5EhrBeuf4E7srBVY6dux5fUQUP/lT0YaeWUp7M0MMG2xkEvMjVz4zN0O
-         vl5DnOW8QaoTM+tjjuSsyxMr1RhEH0TDVWRuXFCWw3WLEDLBpvecJwXSAASiLwkAFI+r
-         YLGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=buGMerFrqipK8Jb3tFvhac/c2c+O8piHg+izAwGyraI=;
-        b=IGcSM5sZF8stSgY/eotxZI8p8r/bwrxXqzv9gNr7Pl8Iop9B3EA8EZOKMyEx0+c1oP
-         6BxddGm/kWcM586e1x60ycj6yJ1+fFooGz4BLShyehZMa8Ai0hltEECJb8IgZTbAKfLR
-         YT4/cUF1SoUcHBkqRMsDG0A8ZsxALxqzHURlcmEPORX2dDeNuLuEwb8gE7u7+/1bC21/
-         rAJOqlvLt9hAbCicAGdONrpcOgr0YWhMTJEWjjGAkzmNSoUsKAtYallDW9jUiWIzEHZ+
-         EhlzbNU6GuNd66mfVHW1OFusM98CysDr1m13JO8mOHux2Ld8vm0L0ernYzjSneFBaZpy
-         7b2w==
-X-Gm-Message-State: AOAM530YliA6l0PPlLq7bHX7Lv3U4QMxz8xmzbw6kqdPNwgdOdpZ/jdo
-        AfDs2vwl9Spqy5rTHf0UKi0lLgcgMSKCTaNq9qmtoQ==
-X-Google-Smtp-Source: ABdhPJwFI6dvAkIgwWlRuN3bI3SCin//obBcEH44i2JoBsm8GZkg6NmkNqIVdwGF1AKvXK3+QEMyX7qaM7sPUGL8JHk=
-X-Received: by 2002:a0d:e657:0:b0:2fe:eed7:61e9 with SMTP id
- p84-20020a0de657000000b002feeed761e9mr5350115ywe.417.1652692534237; Mon, 16
- May 2022 02:15:34 -0700 (PDT)
+        Mon, 16 May 2022 05:21:13 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4A5625EA0;
+        Mon, 16 May 2022 02:21:08 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24G8ShAG001102;
+        Mon, 16 May 2022 11:19:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=ZkSx5Jhr6ckyxGj+pRYyb9jpx5gL1o2mb7prPSQ2dNM=;
+ b=C7hSCTglXqCmazYBepvIQgMmN2svWpJvS1fMMp3gjsCuJ5UmjLQ07Hn2cKzMJFDSwvkN
+ IdKG5WvjsS/ncVPzHsZFXAtXgsBRpoPuBG9KtuVJFTCdOoeUCQ1L+UW4b8qN8mBVzf6I
+ AXGGO77cTsf1LW6DKp2lr8uVBwKbqRCR/JOAxZYId3lX1fSfODmvieW0vP3bdx/Ul8ZK
+ 22B6Nqwxg9PxWBXXv9kkM7s7gFxy3z8z7JR1td8VYV/8ODBXLfHLVYiIv+0SXgujzPWk
+ +BNvpihloUZs+F281m4J+trEHNsmoSEaIROTFYnAgCG4x+AYFgz9c4d3ino9Hr2fnrTZ gw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3g23ah9k0a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 16 May 2022 11:19:59 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DF1E110002A;
+        Mon, 16 May 2022 11:19:57 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D5E182171DB;
+        Mon, 16 May 2022 11:19:57 +0200 (CEST)
+Received: from localhost (10.75.127.51) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 16 May 2022 11:19:57
+ +0200
+From:   Hugues Fruchet <hugues.fruchet@foss.st.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>
+Subject: [PATCH 0/3] MIPID02 pixel clk polarity & serial pixel formats
+Date:   Mon, 16 May 2022 11:19:31 +0200
+Message-ID: <20220516091934.263141-1-hugues.fruchet@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220308033839.3773-1-arec.kao@intel.com> <20220308033839.3773-2-arec.kao@intel.com>
- <YidQtF28hqh6Ew7j@paasikivi.fi.intel.com>
-In-Reply-To: <YidQtF28hqh6Ew7j@paasikivi.fi.intel.com>
-From:   Tomasz Figa <tfiga@google.com>
-Date:   Mon, 16 May 2022 18:15:23 +0900
-Message-ID: <CAAFQd5DNY0bW4crJtLjKDAVLnypePE5OH2xoQwc_oXy7-9_-=A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Re-run BLC when gain change
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Arec Kao <arec.kao@intel.com>, linux-media@vger.kernel.org,
-        andy.yeh@intel.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-16_05,2022-05-13_01,2022-02-23_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 9:48 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Arec,
->
-> Thanks for the patch.
->
-> On Tue, Mar 08, 2022 at 11:38:39AM +0800, Arec Kao wrote:
-> > Changing the gain affects the black-level through the device;
-> > the gain should therefore not be changed during a BLC procedure.
-> > If the gain changes, then the BLC routine should be re-run
-> > in some scenarios.
->
-> Could you also explain what are the scenarios the BLC routine should be
-> re-run and how does the user space know this should be done? Could this be
-> done in the driver instead without involving the user space?
+Enhance MIPID02 CSI-2 to parallel bridge with pixel clock polarity
+support and support of 1X16 CSI-2 serial pixel formats.
 
-FWIW, this turned out to be a camera module design issue (the
-investigation was running in parallel to the potential software fix),
-so this patch series isn't needed anymore.
+Alain Volmat (1):
+  media: st-mipid02: add support for YVYU and VYUY formats
 
-Best regards,
-Tomasz
+Hugues Fruchet (2):
+  media: st-mipid02: add support of pixel clock polarity
+  media: st-mipid02: expose 1X16 serial pixel format
+
+ drivers/media/i2c/st-mipid02.c | 30 ++++++++++++++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
+
+-- 
+2.25.1
+
