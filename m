@@ -2,65 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 635FC52874D
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 16:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 463D75287DD
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 17:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244242AbiEPOnw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 10:43:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54640 "EHLO
+        id S244853AbiEPPDF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 11:03:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232814AbiEPOnv (ORCPT
+        with ESMTP id S244869AbiEPPCs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 10:43:51 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9C082DD67
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 07:43:49 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id q4so14616851plr.11
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 07:43:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4xPd51zy939NVBEotrgpcfDeP3YTrS+eiImf3uuWQYk=;
-        b=URqpWG+tQCo0B0z+EiUx8eEm3LkP8jqdiCzJJcGqEyaaKqLZ6e9trHZgWE2mmdjirs
-         +VXwK5XZcro7CBTFKTWEC6zNiU1BTFjOExDHzdZbLSaa0TyNnJEFYtSr9QOaJHCM+MrP
-         h58HRtiLsFVtFuQiqScl44bLQ84bvYYaaQxZUut4P92muAa+1XeO7pKMeXSfhOTR8roX
-         4ZaI4G4xGiJqoH0SHf3OVf4bJbyPe5SJxUnwKCEs/PEu9DWq7s2aYtLyXWrldI8Zl+j0
-         Ov7NYS9s96FkukaTngcb5vLjzl7iPwCDXqK80r2Loho4mvlSCBTdzgOfnELR5tESFM8e
-         AO4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4xPd51zy939NVBEotrgpcfDeP3YTrS+eiImf3uuWQYk=;
-        b=tV3JX6ameHZHiT7yC9B1JvKMAVvWam2ANwU6Sk7aMcPvEcsfNVw7jX1Oc9DmesrvRW
-         83NrGfVZkQSLk7MlRaOhJ7A+L6hJ7QQXErVtjJEEkfcEcRBpx1FQkQzSF87uZ5SyQBKY
-         jtW4rC1tUZaZgAdRfdkA/pzyItCkfzCSqVvJELBjuip/GY1WXD29l9QmQdxeZOeqUrDN
-         FDSYYSXkPRB9N0xg4eJjGLPOEpWcQQ5XSNmdpeHuPEMM6znrYqZaF4WsHMrFJ8hr+DHr
-         Srmp6DHFgUJTMF6+zYHFLCiffwM+xJCwhIKVc9TFoObEETHUnji3+zGhRTH0HBcUUMlc
-         pvhw==
-X-Gm-Message-State: AOAM531huBuK0QHVxAI9KTy5FHUTJlZhQn73fi/1X0rQPBquqNNMuB2L
-        c/ULrrNamcKn4vOFnxjZq57+yRoyiTBhd/tHHoHYSw==
-X-Google-Smtp-Source: ABdhPJyaT5uDQ4TotygR2N3udnaNMAmiSHsJCAkRMxVPOX+fzafhOA2wZgYN0W5QErhsEzGFMgAZujKPdTzdNUcQtHE=
-X-Received: by 2002:a17:90b:1e4e:b0:1dc:583c:398 with SMTP id
- pi14-20020a17090b1e4e00b001dc583c0398mr19832864pjb.232.1652712229263; Mon, 16
- May 2022 07:43:49 -0700 (PDT)
+        Mon, 16 May 2022 11:02:48 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCC83B3F7;
+        Mon, 16 May 2022 08:02:46 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id BBC79FF807;
+        Mon, 16 May 2022 15:02:39 +0000 (UTC)
+Date:   Mon, 16 May 2022 17:02:37 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Philippe CORNU <philippe.cornu@foss.st.com>
+Subject: Re: [PATCH] media: stm32-dcmi: add support of 1X16 serial pixel
+ formats variant
+Message-ID: <20220516150237.v3xt7onp2lpmellw@uno.localdomain>
+References: <20220516092048.264036-1-hugues.fruchet@foss.st.com>
 MIME-Version: 1.0
-References: <20220509140439.1361352-1-yangyingliang@huawei.com>
-In-Reply-To: <20220509140439.1361352-1-yangyingliang@huawei.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Mon, 16 May 2022 16:43:38 +0200
-Message-ID: <CAG3jFyv8rjx2M9vZPbqNqT=ngv5JNt8PskQFR839fd6Z9gDVUw@mail.gmail.com>
-Subject: Re: [PATCH] media: camss: csid: fix wrong size passed to devm_kmalloc_array()
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, bryan.odonoghue@linaro.org,
-        vladimir.zapolskiy@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220516092048.264036-1-hugues.fruchet@foss.st.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,32 +49,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 9 May 2022 at 15:53, Yang Yingliang <yangyingliang@huawei.com> wrote:
+Hi Hugues,
+
+On Mon, May 16, 2022 at 11:20:48AM +0200, Hugues Fruchet wrote:
+> From: Hugues Fruchet <hugues.fruchet@st.com>
 >
-> 'supplies' is a pointer, the real size of struct regulator_bulk_data
-> should be pass to devm_kmalloc_array().
+> Add support of 1X16 serial pixel formats in order to support
+> CSI-2 camera sensor exposing 1x16 pixel formats only.
 >
-> Fixes: 0d8140179715 ("media: camss: Add regulator_bulk support")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Sakari, if you're sending a new pull request for the ov5640 series,
+could you include this one as otherwise dcmi would be broken when used
+with that sensor.
+
+Thanks
+   j
+
 > ---
->  drivers/media/platform/qcom/camss/camss-csid.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/platform/st/stm32/stm32-dcmi.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> index f993f349b66b..80628801cf09 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> @@ -666,7 +666,7 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
->         if (csid->num_supplies) {
->                 csid->supplies = devm_kmalloc_array(camss->dev,
->                                                     csid->num_supplies,
-> -                                                   sizeof(csid->supplies),
-> +                                                   sizeof(*csid->supplies),
->                                                     GFP_KERNEL);
->                 if (!csid->supplies)
->                         return -ENOMEM;
+> diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+> index 09a743cd7004..b2ba4d95bfa3 100644
+> --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+> @@ -1592,25 +1592,31 @@ static int dcmi_set_default_fmt(struct stm32_dcmi *dcmi)
+>  	return 0;
+>  }
+>
+> -/*
+> - * FIXME: For the time being we only support subdevices
+> - * which expose RGB & YUV "parallel form" mbus code (_2X8).
+> - * Nevertheless, this allows to support serial source subdevices
+> - * and serial to parallel bridges which conform to this.
+> - */
+>  static const struct dcmi_format dcmi_formats[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_RGB565,
+>  		.mbus_code = MEDIA_BUS_FMT_RGB565_2X8_LE,
+>  		.bpp = 2,
+> +	}, {
+> +		.fourcc = V4L2_PIX_FMT_RGB565,
+> +		.mbus_code = MEDIA_BUS_FMT_RGB565_1X16,
+> +		.bpp = 2,
+>  	}, {
+>  		.fourcc = V4L2_PIX_FMT_YUYV,
+>  		.mbus_code = MEDIA_BUS_FMT_YUYV8_2X8,
+>  		.bpp = 2,
+> +	}, {
+> +		.fourcc = V4L2_PIX_FMT_YUYV,
+> +		.mbus_code = MEDIA_BUS_FMT_YUYV8_1X16,
+> +		.bpp = 2,
+>  	}, {
+>  		.fourcc = V4L2_PIX_FMT_UYVY,
+>  		.mbus_code = MEDIA_BUS_FMT_UYVY8_2X8,
+>  		.bpp = 2,
+> +	}, {
+> +		.fourcc = V4L2_PIX_FMT_UYVY,
+> +		.mbus_code = MEDIA_BUS_FMT_UYVY8_1X16,
+> +		.bpp = 2,
+>  	}, {
+>  		.fourcc = V4L2_PIX_FMT_JPEG,
+>  		.mbus_code = MEDIA_BUS_FMT_JPEG_1X8,
 > --
 > 2.25.1
 >
-
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
