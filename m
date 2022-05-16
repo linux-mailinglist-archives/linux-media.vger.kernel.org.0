@@ -2,319 +2,229 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A0C1528C95
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 20:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F17C4528D0D
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 20:30:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344531AbiEPSJO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 14:09:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56128 "EHLO
+        id S1344864AbiEPS3V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 14:29:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232318AbiEPSJN (ORCPT
+        with ESMTP id S1344888AbiEPS25 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 14:09:13 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88FBA3D492
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 11:09:11 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id er5so5876111edb.12
-        for <linux-media@vger.kernel.org>; Mon, 16 May 2022 11:09:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=M1PljccbIAOAE9neWAHKLdafeOscED/K3xPR9tFDwk4=;
-        b=PI7Q/iLr9MBJ1zVVAxdTHWye2DT/WcZy78H6wJG7W3W7GKo7sW3vIeF9XIrKQ9/FFy
-         TYFhZ2gsRTL5XpZfqSQuwT4PhTWyDgRPtmIHvNY+BoONCJM5B6p29fX01gfCEQKx0Jkl
-         Zsfi92aHCMCOePiGwZd0sQpgGOuk165Lvfd3bk+/jSd6WfAWUo7OXEVBlc8vWlKDzS14
-         sTI2sYDm0IgECfq4gu+dpwQD6rFUgmPRfIX6MnRfReWMrMIuNyYtoOh9w0Yfi3HLH129
-         Ejk14PJhA0y+oRpQx7MjXQezpymW0sd58wcZj4tTmwu7KXgIiOvCpP2EsCc4L2eCt+xr
-         QLmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=M1PljccbIAOAE9neWAHKLdafeOscED/K3xPR9tFDwk4=;
-        b=SuRUpKOhn1ykzvh7GPx208QLQxXoQi6PA7VJLfKFL00xYsGEBANw2XqCwvAmStkk2u
-         epis+ICL7qiNpygRFDAUbO+62XPDVrUf9SHI5UoOUa0M5PNLcWlixcc2jIuGGggkTNpM
-         oYcSQ1F7WozmXV8RCuQTOhWrxYh2xerMPi4B/co20IdEtfHgKLXLgDP4cMrahnWdZt0L
-         dES9RdEh4CSVvflxdKyGpJJp1EJWJc2q0FCD8Czdh9APBLOizQzXvUOZsvnhDg2O4Oio
-         /0zde9mJiLJniM5zwWEN6r40IydJe1jNhXxPCSwTAQlOVtIVjk6lOl2CAXS4Qg9g6E61
-         ieNQ==
-X-Gm-Message-State: AOAM533/RDTiPjovCq7eSa+zy+uKWyniO8Ci9/JB3HPEelRS2VZ85lPO
-        KIOQLdjn7Tv4JBMUc3RpMbXLYioo8eCFh0J/AQNXhg==
-X-Google-Smtp-Source: ABdhPJybuxS4qikd73Kz3O+UugJ2dmVo1esTPFbqiEM0/0OxiI9stNtcymabcazgP7bTosofrHkTKIMCqGm0TzVKJDA=
-X-Received: by 2002:a05:6402:354d:b0:428:19be:2447 with SMTP id
- f13-20020a056402354d00b0042819be2447mr14561320edd.308.1652724549859; Mon, 16
- May 2022 11:09:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220516171315.2400578-1-tjmercier@google.com> <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
-In-Reply-To: <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Mon, 16 May 2022 11:08:57 -0700
-Message-ID: <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Minchan Kim <minchan@google.com>,
-        Greg Kroah-Hartman <gregkh@google.com>,
-        John Stultz <jstultz@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Hridya Valsaraju <hridya@google.com>,
+        Mon, 16 May 2022 14:28:57 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8516A3DDC3;
+        Mon, 16 May 2022 11:28:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652725735; x=1684261735;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R32de3wh6TrT1gnFG0UBXSG3pbisE1mnMN7/ySz5rO0=;
+  b=HcF6/I8CkV2OqL4TjNOWuDtlWXwngIIpKvXHRJmLkOk5MtMQXn1wf2s0
+   yHBuAKlMYfaw4KyHA0rr1gBB+LlHr9rXeRMBNwGDlSnHI9KAKNhJhuvqR
+   9gxcyRtD2w4oVVp0eOMjziirLQsilqow+z/Aa/r/6SPVmENaeP8JpkPT2
+   Jt659fmXmPiDTEzSwaCXbpGgSVj4D/u7Eu0LJ3IbP+Lf2nSWgbYvv8xNX
+   FXKv61h0xQJg+XGdvO3KWw/dDeE9YVOBro8hj3v8EMTF5RTuNrsGfX9uj
+   9ntqCZAA0dHBKkW26eNUdgIfE61u/C0pN91cU+YiqaW81VTC/IsgEUNx2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="357336972"
+X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
+   d="scan'208";a="357336972"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 11:28:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
+   d="scan'208";a="574151701"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 16 May 2022 11:28:42 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nqfSU-0000G2-5F;
+        Mon, 16 May 2022 18:28:42 +0000
+Date:   Tue, 17 May 2022 02:28:21 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Neal Liu <neal_liu@aspeedtech.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel-team@android.com, linux-media@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Li Yang <leoyang.li@nxp.com>
+Cc:     kbuild-all@lists.01.org, Neal Liu <neal_liu@aspeedtech.com>,
+        linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        BMC-SW@aspeedtech.com
+Subject: Re: [PATCH 1/3] usb: gadget: add Aspeed ast2600 udc driver
+Message-ID: <202205170249.uTUi0uir-lkp@intel.com>
+References: <20220513065728.857722-2-neal_liu@aspeedtech.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220513065728.857722-2-neal_liu@aspeedtech.com>
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 16, 2022 at 10:20 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 16.05.22 um 19:13 schrieb T.J. Mercier:
-> > Recently, we noticed an issue where a process went into direct reclaim
-> > while holding the kernfs rw semaphore for sysfs in write (exclusive)
-> > mode. This caused processes who were doing DMA-BUF exports and releases
-> > to go into uninterruptible sleep since they needed to acquire the same
-> > semaphore for the DMA-BUF sysfs entry creation/deletion. In order to av=
-oid
-> > blocking DMA-BUF export for an indeterminate amount of time while
-> > another process is holding the sysfs rw semaphore in exclusive mode,
-> > this patch moves the per-buffer sysfs file creation to the default work
-> > queue. Note that this can lead to a short-term inaccuracy in the dmabuf
-> > sysfs statistics, but this is a tradeoff to prevent the hot path from
-> > being blocked. A work_struct is added to dma_buf to achieve this, but a=
-s
-> > it is unioned with the kobject in the sysfs_entry, dma_buf does not
-> > increase in size.
->
-> I'm still not very keen of this approach as it strongly feels like we
-> are working around shortcoming somewhere else.
->
-My read of the thread for the last version is that we're running into
-a situation where sysfs is getting used for something it wasn't
-originally intended for, but we're also stuck with this sysfs
-functionality for dmabufs.
+Hi Neal,
 
-> > Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stat=
-s in sysfs")
-> > Originally-by: Hridya Valsaraju <hridya@google.com>
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> >
-> > ---
-> > See the originally submitted patch by Hridya Valsaraju here:
-> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flkm=
-l.org%2Flkml%2F2022%2F1%2F4%2F1066&amp;data=3D05%7C01%7Cchristian.koenig%40=
-amd.com%7C5575fa6126d74ca4315408da375f618d%7C3dd8961fe4884e608e11a82d994e18=
-3d%7C0%7C0%7C637883180063393649%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDA=
-iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=
-=3D1PcZaUfsLhQZOW29yGUDxazzcyNoBrN2NjeN1Yb40hk%3D&amp;reserved=3D0
-> >
-> > v2 changes:
-> > - Defer only sysfs creation instead of creation and teardown per
-> > Christian K=C3=B6nig
-> >
-> > - Use a work queue instead of a kthread for deferred work per
-> > Christian K=C3=B6nig
-> > ---
-> >   drivers/dma-buf/dma-buf-sysfs-stats.c | 56 ++++++++++++++++++++------=
--
-> >   include/linux/dma-buf.h               | 14 ++++++-
-> >   2 files changed, 54 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dm=
-a-buf-sysfs-stats.c
-> > index 2bba0babcb62..67b0a298291c 100644
-> > --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> > @@ -11,6 +11,7 @@
-> >   #include <linux/printk.h>
-> >   #include <linux/slab.h>
-> >   #include <linux/sysfs.h>
-> > +#include <linux/workqueue.h>
-> >
-> >   #include "dma-buf-sysfs-stats.h"
-> >
-> > @@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(void)
-> >       kset_unregister(dma_buf_stats_kset);
-> >   }
-> >
-> > +static void sysfs_add_workfn(struct work_struct *work)
-> > +{
-> > +     struct dma_buf_sysfs_entry *sysfs_entry =3D
-> > +             container_of(work, struct dma_buf_sysfs_entry, sysfs_add_=
-work);
-> > +     struct dma_buf *dmabuf =3D sysfs_entry->dmabuf;
-> > +
-> > +     /*
-> > +      * A dmabuf is ref-counted via its file member. If this handler h=
-olds the only
-> > +      * reference to the dmabuf, there is no need for sysfs kobject cr=
-eation. This is an
-> > +      * optimization and a race; when the reference count drops to 1 i=
-mmediately after
-> > +      * this check it is not harmful as the sysfs entry will still get=
- cleaned up in
-> > +      * dma_buf_stats_teardown, which won't get called until the final=
- dmabuf reference
-> > +      * is released, and that can't happen until the end of this funct=
-ion.
-> > +      */
-> > +     if (file_count(dmabuf->file) > 1) {
->
-> Please completely drop that. I see absolutely no justification for this
-> additional complexity.
->
-This case gets hit around 5% of the time in my testing so the else is
-not a completely unused branch. It's only 3 extra lines of actual
-code. I'd prefer to keep it, but I'll remove it to reduce complexity.
-This means doing work that we know is useless some of the time, and
-adding contention for a global kernfs lock which this patch is aimed
-at avoiding (on the hot path), but at least that work is on a worker
-thread with this patch.
+I love your patch! Perhaps something to improve:
 
-> > +             /*
-> > +              * kobject_init_and_add expects kobject to be zero-filled=
-, but we have populated it
-> > +              * (the sysfs_add_work union member) to trigger this work=
- function.
-> > +              */
-> > +             memset(&dmabuf->sysfs_entry->kobj, 0, sizeof(dmabuf->sysf=
-s_entry->kobj));
-> > +             dmabuf->sysfs_entry->kobj.kset =3D dma_buf_per_buffer_sta=
-ts_kset;
-> > +             if (kobject_init_and_add(&dmabuf->sysfs_entry->kobj, &dma=
-_buf_ktype, NULL,
-> > +                                             "%lu", file_inode(dmabuf-=
->file)->i_ino)) {
-> > +                     kobject_put(&dmabuf->sysfs_entry->kobj);
-> > +                     dmabuf->sysfs_entry =3D NULL;
-> > +             }
-> > +     } else {
-> > +             /*
-> > +              * Free the sysfs_entry and reset the pointer so dma_buf_=
-stats_teardown doesn't
-> > +              * attempt to operate on it.
-> > +              */
-> > +             kfree(dmabuf->sysfs_entry);
-> > +             dmabuf->sysfs_entry =3D NULL;
-> > +     }
-> > +     dma_buf_put(dmabuf);
-> > +}
-> > +
-> >   int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> >   {
-> >       struct dma_buf_sysfs_entry *sysfs_entry;
-> > -     int ret;
-> >
-> >       if (!dmabuf || !dmabuf->file)
-> >               return -EINVAL;
-> > @@ -181,25 +218,16 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> >               return -EINVAL;
-> >       }
-> >
-> > -     sysfs_entry =3D kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_K=
-ERNEL);
-> > +     sysfs_entry =3D kmalloc(sizeof(struct dma_buf_sysfs_entry), GFP_K=
-ERNEL);
-> >       if (!sysfs_entry)
-> >               return -ENOMEM;
-> >
-> > -     sysfs_entry->kobj.kset =3D dma_buf_per_buffer_stats_kset;
-> >       sysfs_entry->dmabuf =3D dmabuf;
-> > -
-> >       dmabuf->sysfs_entry =3D sysfs_entry;
-> >
-> > -     /* create the directory for buffer stats */
-> > -     ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, =
-NULL,
-> > -                                "%lu", file_inode(dmabuf->file)->i_ino=
-);
-> > -     if (ret)
-> > -             goto err_sysfs_dmabuf;
-> > +     INIT_WORK(&dmabuf->sysfs_entry->sysfs_add_work, sysfs_add_workfn)=
-;
-> > +     get_dma_buf(dmabuf); /* This reference will be dropped in sysfs_a=
-dd_workfn. */
-> > +     schedule_work(&dmabuf->sysfs_entry->sysfs_add_work);
-> >
-> >       return 0;
-> > -
-> > -err_sysfs_dmabuf:
-> > -     kobject_put(&sysfs_entry->kobj);
-> > -     dmabuf->sysfs_entry =3D NULL;
-> > -     return ret;
-> >   }
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 2097760e8e95..0200caa3c515 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -22,6 +22,7 @@
-> >   #include <linux/fs.h>
-> >   #include <linux/dma-fence.h>
-> >   #include <linux/wait.h>
-> > +#include <linux/workqueue.h>
-> >
-> >   struct device;
-> >   struct dma_buf;
-> > @@ -365,7 +366,7 @@ struct dma_buf {
-> >        */
-> >       const char *name;
-> >
->
-> > -     /** @name_lock: Spinlock to protect name acces for read access. *=
-/
-> > +     /** @name_lock: Spinlock to protect name access for read access. =
-*/
-> >       spinlock_t name_lock;
-> >
-> >       /**
-> > @@ -441,6 +442,7 @@ struct dma_buf {
-> >
-> >               __poll_t active;
-> >       } cb_in, cb_out;
-> > +
->
-> Those changes are unrelated.
->
-I included it here because I thought it was bad form to submit a
-typo-only patch. Will remove.
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on robh/for-next v5.18-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+config: mips-randconfig-s032-20220516 (https://download.01.org/0day-ci/archive/20220517/202205170249.uTUi0uir-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/272ae26f9fe89f60d584cf445431d0fa566eb24b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
+        git checkout 272ae26f9fe89f60d584cf445431d0fa566eb24b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips SHELL=/bin/bash drivers/usb/gadget/udc/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
 
+sparse warnings: (new ones prefixed by >>)
+   command-line: note: in included file:
+   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_ACQUIRE redefined
+   builtin:0:0: sparse: this was the original definition
+   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_SEQ_CST redefined
+   builtin:0:0: sparse: this was the original definition
+   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_ACQ_REL redefined
+   builtin:0:0: sparse: this was the original definition
+   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_RELEASE redefined
+   builtin:0:0: sparse: this was the original definition
+   drivers/usb/gadget/udc/aspeed_udc.c:1009:34: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *src @@     got struct usb_ctrlrequest *creq @@
+   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse:     expected void const volatile [noderef] __iomem *src
+   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse:     got struct usb_ctrlrequest *creq
+>> drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [addressable] [usertype] wValue @@
+   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     expected unsigned int [usertype] val
+   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     got restricted __le16 [addressable] [usertype] wValue
+   drivers/usb/gadget/udc/aspeed_udc.c:1070:37: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/gadget/udc/aspeed_udc.c:1075:37: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct usb_ctrlrequest *creq @@     got void [noderef] __iomem * @@
+   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     expected struct usb_ctrlrequest *creq
+   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     got void [noderef] __iomem *
+   drivers/usb/gadget/udc/aspeed_udc.c:619:38: sparse: sparse: cast truncates bits from constant value (80 becomes 0)
+   drivers/usb/gadget/udc/aspeed_udc.c:625:12: sparse: sparse: context imbalance in 'ast_udc_ep_queue' - different lock contexts for basic block
 
+vim +1066 drivers/usb/gadget/udc/aspeed_udc.c
 
-> Regards,
-> Christian.
->
-> >   #ifdef CONFIG_DMABUF_SYSFS_STATS
-> >       /**
-> >        * @sysfs_entry:
-> > @@ -449,7 +451,15 @@ struct dma_buf {
-> >        * `DMA-BUF statistics`_ for the uapi this enables.
-> >        */
-> >       struct dma_buf_sysfs_entry {
-> > -             struct kobject kobj;
-> > +             union {
-> > +                     struct kobject kobj;
-> > +
-> > +                     /** @sysfs_add_work:
-> > +                      *
-> > +                      * For deferred sysfs kobject creation using a wo=
-rkqueue.
-> > +                      */
-> > +                     struct work_struct sysfs_add_work;
-> > +             };
-> >               struct dma_buf *dmabuf;
-> >       } *sysfs_entry;
-> >   #endif
->
+  1027	
+  1028	static void ast_udc_ep0_handle_setup(struct ast_udc_dev *udc)
+  1029	{
+  1030		struct ast_udc_ep *ep = &udc->ep[0];
+  1031		struct ast_udc_request *req;
+  1032		struct usb_ctrlrequest crq;
+  1033		int req_num = 0;
+  1034		u16 ep_num = 0;
+  1035		int rc;
+  1036	
+  1037		memcpy_fromio(&crq, udc->creq, sizeof(crq));
+  1038	
+  1039		SETUP_DBG(udc, "SETEUP packet: %02x/%02x/%04x/%04x/%04x\n",
+  1040			  crq.bRequestType, crq.bRequest, le16_to_cpu(crq.wValue),
+  1041			  le16_to_cpu(crq.wIndex), le16_to_cpu(crq.wLength));
+  1042	
+  1043		/*
+  1044		 * Cleanup ep0 request(s) in queue because
+  1045		 * there is a new control setup comes.
+  1046		 */
+  1047		list_for_each_entry(req, &udc->ep[0].queue, queue) {
+  1048			req_num++;
+  1049			EP_DBG(ep, "there is req %p in ep0 queue !\n", req);
+  1050		}
+  1051	
+  1052		if (req_num)
+  1053			ast_udc_nuke(&udc->ep[0], -ETIMEDOUT);
+  1054	
+  1055		udc->ep[0].dir_in = crq.bRequestType & USB_DIR_IN;
+  1056	
+  1057		if ((crq.bRequestType & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
+  1058			switch (crq.bRequest) {
+  1059			case USB_REQ_SET_ADDRESS:
+  1060				if (ast_udc_read(udc, AST_UDC_STS) & UDC_STS_HIGHSPEED)
+  1061					udc->gadget.speed = USB_SPEED_HIGH;
+  1062				else
+  1063					udc->gadget.speed = USB_SPEED_FULL;
+  1064	
+  1065				SETUP_DBG(udc, "set addr: 0x%x\n", crq.wValue);
+> 1066				ast_udc_write(udc, crq.wValue, AST_UDC_CONFIG);
+  1067				goto req_complete;
+  1068	
+  1069			case USB_REQ_CLEAR_FEATURE:
+  1070				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
+  1071				SETUP_DBG(udc, "ep%d: CLEAR FEATURE\n", ep_num);
+  1072				goto req_driver;
+  1073	
+  1074			case USB_REQ_SET_FEATURE:
+  1075				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
+  1076				SETUP_DBG(udc, "ep%d: SET FEATURE\n", ep_num);
+  1077				goto req_driver;
+  1078	
+  1079			case USB_REQ_GET_STATUS:
+  1080				ast_udc_getstatus(udc);
+  1081				return;
+  1082	
+  1083			default:
+  1084				goto req_driver;
+  1085			}
+  1086	
+  1087		}
+  1088	
+  1089	req_driver:
+  1090		if (udc->driver) {
+  1091			SETUP_DBG(udc, "Forwarding %s to gadget...\n",
+  1092				  udc->gadget.name);
+  1093	
+  1094			spin_unlock(&udc->lock);
+  1095			rc = udc->driver->setup(&udc->gadget, &crq);
+  1096			spin_lock(&udc->lock);
+  1097	
+  1098		} else
+  1099			SETUP_DBG(udc, "No gadget for request !\n");
+  1100	
+  1101		if (rc >= 0)
+  1102			return;
+  1103	
+  1104		/* Stall if gadget failed */
+  1105		SETUP_DBG(udc, "Stalling, rc:0x%x\n", rc);
+  1106		ast_udc_write(udc, ast_udc_read(udc, AST_UDC_EP0_CTRL) | EP0_STALL,
+  1107			      AST_UDC_EP0_CTRL);
+  1108		return;
+  1109	
+  1110	req_complete:
+  1111		SETUP_DBG(udc, "ep%d: Sending IN status without data\n", ep_num);
+  1112		ast_udc_write(udc, EP0_TX_BUFF_RDY, AST_UDC_EP0_CTRL);
+  1113	}
+  1114	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
