@@ -2,154 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EB7D52818F
-	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 12:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 366845281CD
+	for <lists+linux-media@lfdr.de>; Mon, 16 May 2022 12:22:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237656AbiEPKNG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 06:13:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42982 "EHLO
+        id S242460AbiEPKWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 06:22:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238546AbiEPKM7 (ORCPT
+        with ESMTP id S242452AbiEPKW1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 06:12:59 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FA60B7CD;
-        Mon, 16 May 2022 03:12:57 -0700 (PDT)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24G8Q3tY008866;
-        Mon, 16 May 2022 12:12:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=T3neJSagT9ebofvQRy/yu4nxh0z8Vb5jJwQsf3DtDvI=;
- b=wcCx/e9nQKIJpPaVKc7kuPUiBgduptNV9M/6IdhmiIQRvsLIrW4+wWfwOQz9AOJfaToV
- IHQSYMg0VxUWnyXuesRM1gx9ivIHCutZMh+V6WTDxCmdYs8XJaE1uq77MMNacm9S03DS
- y5ZopUxnVV1ty9ms/d/OKIXcL3Tnwl0QJQy3hPcRJOdbvNDPNqtC4fW3uVYSZeu9Lmw2
- BB2pSy6S5VSIhtazzbcVX0VtR3BLd5dUioNSCJlZhvEPI/73uM/PHuylWhhMr7lR4y9Y
- vFWicaqU9pKbnK89ioLdVmnQrO8Tl12OprlxPWstN5P7ZSmruuZtp6SWeTExvFeScW4P ug== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3g21j8j969-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 May 2022 12:12:49 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1BADE10002A;
-        Mon, 16 May 2022 12:12:49 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1214E2138D5;
-        Mon, 16 May 2022 12:12:49 +0200 (CEST)
-Received: from [10.0.2.15] (10.75.127.49) by SFHDAG2NODE3.st.com (10.75.127.6)
- with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 16 May 2022 12:12:48
- +0200
-Subject: Re: [PATCH 3/3] media: st-mipid02: expose 1X16 serial pixel format
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Alain Volmat <alain.volmat@foss.st.com>
-References: <20220516091934.263141-1-hugues.fruchet@foss.st.com>
- <20220516091934.263141-4-hugues.fruchet@foss.st.com>
-From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Message-ID: <39016a6e-6e8d-d263-da9d-47f3bb13988f@foss.st.com>
-Date:   Mon, 16 May 2022 12:12:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mon, 16 May 2022 06:22:27 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B1CCDF2A;
+        Mon, 16 May 2022 03:22:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652696539; x=1684232539;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rQd2aZJvrRMvYuDZkI9jNLzYYyg/Ub/0/Ce4xmZSbro=;
+  b=kAxbo/i45sMw3QnPc84qdl5rmC81evQusEKcWDYS8tZ6WOvlBW77wjPb
+   if27pNVejm8t680E+KkhuAHwxg3sLCV3Qg+B3vygVmxjXiF6PyPK2p5YK
+   /h5YBPXdyuQ+xLXSJmi8nnWLH5MyWCgxepoldZBmgEfMeRXPa9YE/F+75
+   XmplKIyzhkKZLg8SjhihV5YudIYLhuYPgD71wROp3zZ2fTqfxnv5wfC1k
+   gAQOrtAerZqskavJ7WKyYcgCdwBmCXG1YzLcKMohcXSXWEX/NcXVCZJDR
+   uZx/ttTrupzvtfTO8+11pS+qxC2KFmVPDYT4bear8VVnzRdsvAqGFXUsV
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10348"; a="270742685"
+X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
+   d="scan'208";a="270742685"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 03:22:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
+   d="scan'208";a="660043145"
+Received: from lkp-server01.sh.intel.com (HELO d1462bc4b09b) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 16 May 2022 03:22:13 -0700
+Received: from kbuild by d1462bc4b09b with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nqXrh-0002KB-0L;
+        Mon, 16 May 2022 10:22:13 +0000
+Date:   Mon, 16 May 2022 18:21:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Neal Liu <neal_liu@aspeedtech.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Li Yang <leoyang.li@nxp.com>
+Cc:     kbuild-all@lists.01.org, Neal Liu <neal_liu@aspeedtech.com>,
+        linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        BMC-SW@aspeedtech.com
+Subject: Re: [PATCH 1/3] usb: gadget: add Aspeed ast2600 udc driver
+Message-ID: <202205161801.OB6kCtEa-lkp@intel.com>
+References: <20220513065728.857722-2-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
-In-Reply-To: <20220516091934.263141-4-hugues.fruchet@foss.st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.49]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-16_06,2022-05-16_02,2022-02-23_01
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220513065728.857722-2-neal_liu@aspeedtech.com>
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Neal,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on robh/for-next v5.18-rc7 next-20220513]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+config: openrisc-randconfig-s031-20220516 (https://download.01.org/0day-ci/archive/20220516/202205161801.OB6kCtEa-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/272ae26f9fe89f60d584cf445431d0fa566eb24b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
+        git checkout 272ae26f9fe89f60d584cf445431d0fa566eb24b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/usb/gadget/udc/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
 
-On 16/05/2022 11:19, Hugues Fruchet wrote:
-> Expose RGB & YUV 1X16 serial pixel format variants to comply
-> with CSI-2 camera sensor pixel formats.
-> 
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+sparse warnings: (new ones prefixed by >>)
+   drivers/usb/gadget/udc/aspeed_udc.c:1009:34: sparse: sparse: restricted __le16 degrades to integer
+>> drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got struct usb_ctrlrequest *creq @@
+   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse:     got struct usb_ctrlrequest *creq
+   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le16 [addressable] [usertype] wValue @@
+   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     expected unsigned int [usertype] value
+   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     got restricted __le16 [addressable] [usertype] wValue
+   drivers/usb/gadget/udc/aspeed_udc.c:1070:37: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/gadget/udc/aspeed_udc.c:1075:37: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct usb_ctrlrequest *creq @@     got void [noderef] __iomem * @@
+   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     expected struct usb_ctrlrequest *creq
+   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     got void [noderef] __iomem *
+   drivers/usb/gadget/udc/aspeed_udc.c:619:38: sparse: sparse: cast truncates bits from constant value (80 becomes 0)
+   drivers/usb/gadget/udc/aspeed_udc.c:625:12: sparse: sparse: context imbalance in 'ast_udc_ep_queue' - different lock contexts for basic block
 
-Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+vim +1037 drivers/usb/gadget/udc/aspeed_udc.c
 
-> ---
->  drivers/media/i2c/st-mipid02.c | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-> index fe884d81b08b..16cc547976dd 100644
-> --- a/drivers/media/i2c/st-mipid02.c
-> +++ b/drivers/media/i2c/st-mipid02.c
-> @@ -62,7 +62,9 @@ static const u32 mipid02_supported_fmt_codes[] = {
->  	MEDIA_BUS_FMT_SGRBG10_1X10, MEDIA_BUS_FMT_SRGGB10_1X10,
->  	MEDIA_BUS_FMT_SBGGR12_1X12, MEDIA_BUS_FMT_SGBRG12_1X12,
->  	MEDIA_BUS_FMT_SGRBG12_1X12, MEDIA_BUS_FMT_SRGGB12_1X12,
-> -	MEDIA_BUS_FMT_UYVY8_1X16, MEDIA_BUS_FMT_BGR888_1X24,
-> +	MEDIA_BUS_FMT_YUYV8_1X16, MEDIA_BUS_FMT_YVYU8_1X16,
-> +	MEDIA_BUS_FMT_UYVY8_1X16, MEDIA_BUS_FMT_VYUY8_1X16,
-> +	MEDIA_BUS_FMT_RGB565_1X16, MEDIA_BUS_FMT_BGR888_1X24,
->  	MEDIA_BUS_FMT_RGB565_2X8_LE, MEDIA_BUS_FMT_RGB565_2X8_BE,
->  	MEDIA_BUS_FMT_YUYV8_2X8, MEDIA_BUS_FMT_YVYU8_2X8,
->  	MEDIA_BUS_FMT_UYVY8_2X8, MEDIA_BUS_FMT_VYUY8_2X8,
-> @@ -132,7 +134,11 @@ static int bpp_from_code(__u32 code)
->  	case MEDIA_BUS_FMT_SGRBG12_1X12:
->  	case MEDIA_BUS_FMT_SRGGB12_1X12:
->  		return 12;
-> +	case MEDIA_BUS_FMT_YUYV8_1X16:
-> +	case MEDIA_BUS_FMT_YVYU8_1X16:
->  	case MEDIA_BUS_FMT_UYVY8_1X16:
-> +	case MEDIA_BUS_FMT_VYUY8_1X16:
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
->  	case MEDIA_BUS_FMT_YUYV8_2X8:
->  	case MEDIA_BUS_FMT_YVYU8_2X8:
->  	case MEDIA_BUS_FMT_UYVY8_2X8:
-> @@ -165,7 +171,10 @@ static u8 data_type_from_code(__u32 code)
->  	case MEDIA_BUS_FMT_SGRBG12_1X12:
->  	case MEDIA_BUS_FMT_SRGGB12_1X12:
->  		return 0x2c;
-> +	case MEDIA_BUS_FMT_YUYV8_1X16:
-> +	case MEDIA_BUS_FMT_YVYU8_1X16:
->  	case MEDIA_BUS_FMT_UYVY8_1X16:
-> +	case MEDIA_BUS_FMT_VYUY8_1X16:
->  	case MEDIA_BUS_FMT_YUYV8_2X8:
->  	case MEDIA_BUS_FMT_YVYU8_2X8:
->  	case MEDIA_BUS_FMT_UYVY8_2X8:
-> @@ -173,6 +182,7 @@ static u8 data_type_from_code(__u32 code)
->  		return 0x1e;
->  	case MEDIA_BUS_FMT_BGR888_1X24:
->  		return 0x24;
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
->  	case MEDIA_BUS_FMT_RGB565_2X8_LE:
->  	case MEDIA_BUS_FMT_RGB565_2X8_BE:
->  		return 0x22;
-> @@ -207,8 +217,16 @@ static __u32 get_fmt_code(__u32 code)
->  
->  static __u32 serial_to_parallel_code(__u32 serial)
->  {
-> +	if (serial == MEDIA_BUS_FMT_RGB565_1X16)
-> +		return MEDIA_BUS_FMT_RGB565_2X8_LE;
-> +	if (serial == MEDIA_BUS_FMT_YUYV8_1X16)
-> +		return MEDIA_BUS_FMT_YUYV8_2X8;
-> +	if (serial == MEDIA_BUS_FMT_YVYU8_1X16)
-> +		return MEDIA_BUS_FMT_YVYU8_2X8;
->  	if (serial == MEDIA_BUS_FMT_UYVY8_1X16)
->  		return MEDIA_BUS_FMT_UYVY8_2X8;
-> +	if (serial == MEDIA_BUS_FMT_VYUY8_1X16)
-> +		return MEDIA_BUS_FMT_VYUY8_2X8;
->  	if (serial == MEDIA_BUS_FMT_BGR888_1X24)
->  		return MEDIA_BUS_FMT_BGR888_3X8;
->  
-> 
+  1027	
+  1028	static void ast_udc_ep0_handle_setup(struct ast_udc_dev *udc)
+  1029	{
+  1030		struct ast_udc_ep *ep = &udc->ep[0];
+  1031		struct ast_udc_request *req;
+  1032		struct usb_ctrlrequest crq;
+  1033		int req_num = 0;
+  1034		u16 ep_num = 0;
+  1035		int rc;
+  1036	
+> 1037		memcpy_fromio(&crq, udc->creq, sizeof(crq));
+  1038	
+  1039		SETUP_DBG(udc, "SETEUP packet: %02x/%02x/%04x/%04x/%04x\n",
+  1040			  crq.bRequestType, crq.bRequest, le16_to_cpu(crq.wValue),
+  1041			  le16_to_cpu(crq.wIndex), le16_to_cpu(crq.wLength));
+  1042	
+  1043		/*
+  1044		 * Cleanup ep0 request(s) in queue because
+  1045		 * there is a new control setup comes.
+  1046		 */
+  1047		list_for_each_entry(req, &udc->ep[0].queue, queue) {
+  1048			req_num++;
+  1049			EP_DBG(ep, "there is req %p in ep0 queue !\n", req);
+  1050		}
+  1051	
+  1052		if (req_num)
+  1053			ast_udc_nuke(&udc->ep[0], -ETIMEDOUT);
+  1054	
+  1055		udc->ep[0].dir_in = crq.bRequestType & USB_DIR_IN;
+  1056	
+  1057		if ((crq.bRequestType & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
+  1058			switch (crq.bRequest) {
+  1059			case USB_REQ_SET_ADDRESS:
+  1060				if (ast_udc_read(udc, AST_UDC_STS) & UDC_STS_HIGHSPEED)
+  1061					udc->gadget.speed = USB_SPEED_HIGH;
+  1062				else
+  1063					udc->gadget.speed = USB_SPEED_FULL;
+  1064	
+  1065				SETUP_DBG(udc, "set addr: 0x%x\n", crq.wValue);
+  1066				ast_udc_write(udc, crq.wValue, AST_UDC_CONFIG);
+  1067				goto req_complete;
+  1068	
+  1069			case USB_REQ_CLEAR_FEATURE:
+  1070				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
+  1071				SETUP_DBG(udc, "ep%d: CLEAR FEATURE\n", ep_num);
+  1072				goto req_driver;
+  1073	
+  1074			case USB_REQ_SET_FEATURE:
+  1075				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
+  1076				SETUP_DBG(udc, "ep%d: SET FEATURE\n", ep_num);
+  1077				goto req_driver;
+  1078	
+  1079			case USB_REQ_GET_STATUS:
+  1080				ast_udc_getstatus(udc);
+  1081				return;
+  1082	
+  1083			default:
+  1084				goto req_driver;
+  1085			}
+  1086	
+  1087		}
+  1088	
+  1089	req_driver:
+  1090		if (udc->driver) {
+  1091			SETUP_DBG(udc, "Forwarding %s to gadget...\n",
+  1092				  udc->gadget.name);
+  1093	
+  1094			spin_unlock(&udc->lock);
+  1095			rc = udc->driver->setup(&udc->gadget, &crq);
+  1096			spin_lock(&udc->lock);
+  1097	
+  1098		} else
+  1099			SETUP_DBG(udc, "No gadget for request !\n");
+  1100	
+  1101		if (rc >= 0)
+  1102			return;
+  1103	
+  1104		/* Stall if gadget failed */
+  1105		SETUP_DBG(udc, "Stalling, rc:0x%x\n", rc);
+  1106		ast_udc_write(udc, ast_udc_read(udc, AST_UDC_EP0_CTRL) | EP0_STALL,
+  1107			      AST_UDC_EP0_CTRL);
+  1108		return;
+  1109	
+  1110	req_complete:
+  1111		SETUP_DBG(udc, "ep%d: Sending IN status without data\n", ep_num);
+  1112		ast_udc_write(udc, EP0_TX_BUFF_RDY, AST_UDC_EP0_CTRL);
+  1113	}
+  1114	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
