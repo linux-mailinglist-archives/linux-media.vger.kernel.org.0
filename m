@@ -2,160 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F126652A281
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 15:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBBD552A29A
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 15:05:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347052AbiEQNCR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 09:02:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49410 "EHLO
+        id S245339AbiEQNFN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 09:05:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347157AbiEQNBU (ORCPT
+        with ESMTP id S1347347AbiEQNE6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 09:01:20 -0400
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23E784EF41
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 05:59:35 -0700 (PDT)
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220517125933epoutp01f1c1b4a1057f65c86a2c3b10adef7081~v5egf3rlF2950629506epoutp01f
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 12:59:33 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220517125933epoutp01f1c1b4a1057f65c86a2c3b10adef7081~v5egf3rlF2950629506epoutp01f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1652792373;
-        bh=3+LJ7a9KC6u10L8XTAC6kESxBRaYe/uwgIVvQC8Pts0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cqHNiIPRM7HMf5YSwjb33ieIFuKBpbgrywF4zEnnzclaucaBVR2vda4Zk+fyMvCIs
-         A7rFaYGIFjER4SiB5hJTO+SafFNbLvzH/VMUpU20qygdbRPvzGTcNtAvxNCpfRCK1d
-         k6sH7g2OVqd9Wva0Uv0I0EqtqAw8YVPrLpB+fiKc=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-        20220517125932epcas5p1e33234b7521607333d9147782c06626c~v5efS17zv1830118301epcas5p1a;
-        Tue, 17 May 2022 12:59:32 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.176]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4L2bmd51cKz4x9Pp; Tue, 17 May
-        2022 12:59:29 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-        epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        33.5F.10063.13C93826; Tue, 17 May 2022 21:59:29 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-        20220517125659epcas5p4f344138f5b8a64f9e49c6cba4f0af92f~v5cRaGUYl3255032550epcas5p4j;
-        Tue, 17 May 2022 12:56:59 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20220517125659epsmtrp1cd969423219bcc26004953d94e0e21c2~v5cRZAv2U0134401344epsmtrp1L;
-        Tue, 17 May 2022 12:56:59 +0000 (GMT)
-X-AuditID: b6c32a49-4b5ff7000000274f-43-62839c31f6d7
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        67.46.08924.B9B93826; Tue, 17 May 2022 21:56:59 +0900 (KST)
-Received: from Jaguar.sa.corp.samsungelectronics.net (unknown
-        [107.108.73.139]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20220517125656epsmtip1d6f9a2b11deb8a856a0844767a640c3a~v5cOTrQ-c1799817998epsmtip1R;
-        Tue, 17 May 2022 12:56:56 +0000 (GMT)
-From:   Smitha T Murthy <smitha.t@samsung.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
-        dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
-        mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
-        andi@etezian.org, alim.akhtar@samsung.com,
-        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
-        Smitha T Murthy <smitha.t@samsung.com>, linux-fsd@tesla.com
-Subject: [PATCH 20/20] arm64 defconfig: Add MFC in defconfig
-Date:   Tue, 17 May 2022 18:25:48 +0530
-Message-Id: <20220517125548.14746-21-smitha.t@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220517125548.14746-1-smitha.t@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WTf1BUVRTH5763+3ah1t6sGtedAWFndMQEdmtZLsaPRqgeowXFmNWMrg94
-        AsOyu+4uRAK1BBJRUPQDgvih/GpCJH4siAi2LBRGaDL8GoQViBQhQXChDA3a5WH99znnfM89
-        3zn3Xj4uHCFE/FiVntGqaKWYcOS0dLnv8ZAWp0dIFgt2ocnSFgJVPJjB0ESFlYPMTc08ZBz8
-        Bkff9pi4qKz7Ghdd6PyNgxru2Kr9hRYOmimrA2i26CaBGqeHuWhq7ggaaCsm0Cf1zVx0vtvC
-        Q1Uj/RiqbnyEofLmZR463dHNQ5b2FoAyMruxF5yo2tJaQLVaKgE1Unkfpy4WWXhURfssRjXW
-        fERQ48PtBNVU+T51+sdVDpVrrAHU2gclPCq7e4SgrI0uVO+KlRe25e04vxiGjmK0rowqUh0V
-        q4r2Fx8MVwQpvOUSqYfUF/mIXVV0POMvDj4U5vFSrNK2AbFrIq1MsKXCaJ1O7BXgp1Un6BnX
-        GLVO7y9mNFFKjUzjqaPjdQmqaE8Vo98vlUie9bYJj8fFzC+VcTSdvKR7VZO4AVwnsgGfD0kZ
-        vDKWmg0c+ULyEoBNEyYeG9wH8IahGmMDK4ALU0O2isNGR8/UAmFnIdkG4Pn1FFaUgcH2pi+A
-        vUCQ++Cf937ZEG0j0wCcztLbGScf4rBw0MXOW0k/OFv8HW5nDrkLLnescO0sIPfDlZWfueyw
-        nfBcvQm3W3Ww5UvWjrLpdT4cMfuxHAxHB0wEy1vhXI9x06cIzn6aucnRcMKaDljWwBKDEWM5
-        EJoGizn243HSHX7f5sWmneFXvXUY63gLzHn4+6ZcAFtLH7MYlvdd2TwewqH55k3HFMy7NMhh
-        15MD4FzuK58Bl6L/J5wBoAbsYDS6+GhG562Rqph3/ruxSHV8I9h44XtDWoFlctHTDDA+MAPI
-        x8XbBJIkQ4RQEEW/e4rRqhXaBCWjMwNv2/bycNH2SLXti6j0CqnMVyKTy+Uy3+fkUrGTgFxP
-        ixCS0bSeiWMYDaN93IfxHUQGzOfmulei27njBbcCYw+kjF5NfbD0Wj/FebTb9LX0jSmtYLTr
-        iPzN9/KwpJyn4g6b8UMCfV2NhyA/ObTvZF7o4t930nvr1o4lZyZ9mF/+zJc+14fWAk00Wb3s
-        Way4GKJ2rO49eaPktnG6sHQpyE1O99Ue3XkiuWG1/NiegGZDn/JClr9TmqVDG3ybyk/tutbp
-        +9PnSueCpkLDX1VG3fNxGU6tq+sLATvOhJP8y7L2jxfqa2UzuZlC6glDwSShmE85fOpyvPXF
-        kpAs7xZV+ImVu/g/ryeHLznMXVUL618Nmhwbu/WDHp51+5UeH9/39B8HPILHzpaHOg+4v5zY
-        MCx6UvSWfPtdMUcXQ0v34lod/S82POIdagQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWRe0hTYRjG/c45O+c4sg5T2udCi5UR4jUqvsJMo+gEEd0gEtOmHmalc22Z
-        drHMmuEsu5dlarSt8hY2nS6blNvSTArFckiuNCsvoJW6VRorp/Tf73l+D7x/vDQuuEyI6P2y
-        w5xCJkkRk3yiziL2Dy4qOpMQpnMtRr0ldSTS/BrA0EfNOIHMNQYK1b4twtGDluc8VGp9w0P1
-        TZ8I9Hhw2nbcshNooPQRQEO3P5BI39/FQ33Du1Fnwx0Sna828FCV1U4hna0DQ/f1fzB0zzBB
-        IVWjlUJ2Ux1AZ3OtWJSQrSypBKzRrgWsTTuGs09u2ylWYxrCWH15Hsn2dJlItkZ7ilW9mCTY
-        gtpywLpyiilWbbWR7Ljen33lGKe2zY3hRyRxKfuPcIrQyH385JEfpYS8icr8puvFs0E7qQae
-        NGRWwJa+0RkWMEYAsy/6zPYQlk1dAbPsDctcA5Qa8Kc3ORjs1ubjbkEyQdD5rY10Cx9GBaCt
-        LA9zB5y5TMBrtsmZlTcTAYfulM0wwQTAiUYHz81ezBrocLTyZk8shBXVz6c3NO053Re79rpR
-        wKyGX56hS2DuXeBRDnw5uTJVmqoMly+XcRkhSkmqMl0mDUlMS9WDma8FBhqBqfx7iBlgNDAD
-        SONiH6+wzOwEgVeS5OgxTpEWr0hP4ZRmsIAmxEKvdnVrvICRSg5zBzlOzin+W4z2FGVj8/Iy
-        WlcCHz99f9TY5rGIOJFaFnt9fmNPWOx7rWrbVqf4RmbhzxHL8AHUJJ1ouWauip8fuNR03+Ou
-        ODQHn2NQBN9c6+f0OPLqpfNktPF70ztVs2pZTNeiGA9d21Vd38mEyaP8rCBJ5NODwTkNJzpy
-        B3MD/u5gLh3S/K2O3OhQEbUbThcVVjgTV8F7nlveFfda5v0OTeI//FWwq2fTTt+490xc95lI
-        /QHhheEsCX3j+sjilEJfS/CHbhCduWFzWujXYS7Dr1mzfs/q0WPbmx/QNQtbhVNXwz9zPzpE
-        S1y+66TjnaP1V0KOs1lWYaPQUjVY0P7aWVFFy7vrpOdE+f1Gg5hQJkvCA3GFUvIPcqGLyyQD
-        AAA=
-X-CMS-MailID: 20220517125659epcas5p4f344138f5b8a64f9e49c6cba4f0af92f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220517125659epcas5p4f344138f5b8a64f9e49c6cba4f0af92f
-References: <20220517125548.14746-1-smitha.t@samsung.com>
-        <CGME20220517125659epcas5p4f344138f5b8a64f9e49c6cba4f0af92f@epcas5p4.samsung.com>
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75 autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Tue, 17 May 2022 09:04:58 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE5014DF70
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 06:03:42 -0700 (PDT)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24HAqf0j003221;
+        Tue, 17 May 2022 13:03:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=br3TcYK3LxTse7pKGCh/0BuJUCuX9Z/vLB1lloch9y8=;
+ b=xeF0vkAzDimJKA+t9ZIuTR6oBFXL9FQjQaOBOiIVRv2ElrREEn6XOO17/4Uum+byx336
+ 8GCVoIa3dhwaVpPOdy8dwMfkHfji+33E5Bs6uMlqp/aLuxzZzDBNveRktAmACNWZ8l3y
+ w/g0VGbl44aNq8xcrRUun9UW98lnX9aAvFyoAXKP3OVcamFlOqnIRrFaHmGeQUdXLnE+
+ IB0jUPyT49OxvFR5Yy5a3VsK0KCRC9UH7YfUwAa8TedyEOemks4mHtzg541CqQYaHWaR
+ dn5bPZOTKDzcDAonwjJU5ufkFdA6zB+UzemLemHjrfZM7F4uNrfVqyJQ4QhoyFre+95l 2A== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g24aae3wa-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 17 May 2022 13:03:36 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24HCtUeI009428;
+        Tue, 17 May 2022 13:03:34 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2046.outbound.protection.outlook.com [104.47.74.46])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3g22v2tp9r-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 17 May 2022 13:03:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QqoG78Rjo2U4RcW6PND//b6I6XRNnMLPWzWMKD5uEybU8GKvsuDsSyc4LYfJX+I3DGh0yCxLTAeAWzaxSFT4Q0v3AG53C3jaeEf3hLpHRm/7ypAI/EFNH69yCAMIQjJHa4Dwb4XolOmI3fbSerb8h7k+f7e0oQbeRLYACVAji8c8+8B5yG1h7uvHwuXXSRbHHt4w6xB5wsMyWJinrK4CXs5lxIECvO5gj2NvwAd0SJt2sy0fqiootTRxmP1zS9X+sZJrdid3r5vYcPEBmfaWrJugRffel9pgMWYDmO996fM/q30XFwsbmM/te9xkmxkGaJe8yim7nEqpmNe9Tv5UAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=br3TcYK3LxTse7pKGCh/0BuJUCuX9Z/vLB1lloch9y8=;
+ b=U4QZf5z0nX7ibsin1qtpHbsqnhuLfkOJ/R0UeK+jQkixKwadTEjVAIAwhx7Xe6kAY7sD04cBfe5a4y6hXSVa21Qm+O8HoY7Kq6agNxIL6lQvy0t0bIhLoUdKSZB+gLk7JcV2VL85JuMu824gRIWKihkitWdO071Nd0Sg7Fayxl7Aln1z7HDWanZI3ZTMlR7JCv7Z3w6wAG+l5n3ojbcd2mezxjhjthCu4fxUU1PBCHyE/Hqi6HhTFLfJ6MJ6tpr7eg4KPghpVCZp88OMxHWmJx4+dXzud5D5jTAX/n0hl7LBYEez3BPT9NE4SC7AkSYxia+5HbrZ8JWJCe3W8c97Zg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=br3TcYK3LxTse7pKGCh/0BuJUCuX9Z/vLB1lloch9y8=;
+ b=QwFaDdPnTw+Jwq9iwFWTEMliDaJnfgYEoiq9ZFMIdobnROaPX44cPhizkL2zbrgC/vK/kXsmTEaa5KfdOskMHGp0SYZW2uSz18yHZVPRB+DlqLCNT2SmJ+t87tj8VDpKCitGitKJhCxnZ64ezgxanhsUTOWLmnWQNdp/mCU+Gyk=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by DM6PR10MB3500.namprd10.prod.outlook.com
+ (2603:10b6:5:153::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.13; Tue, 17 May
+ 2022 13:03:33 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::c053:117c:bd99:89ba]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::c053:117c:bd99:89ba%5]) with mapi id 15.20.5250.018; Tue, 17 May 2022
+ 13:03:33 +0000
+Date:   Tue, 17 May 2022 16:03:15 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+        mchehab@kernel.org
+Subject: Re: [PATCH] au0828: allow higher speeds
+Message-ID: <20220517130315.GK29930@kadam>
+References: <20220517125447.19535-1-oneukum@suse.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220517125447.19535-1-oneukum@suse.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::31)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f2699389-2466-40ae-57ac-08da3805a57d
+X-MS-TrafficTypeDiagnostic: DM6PR10MB3500:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR10MB35009907198A04593DF4CB668ECE9@DM6PR10MB3500.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RtAir/Cu5zQCL/+lBkLG6ebi5mKq1UhArjr28gJaTTimaoGpb1KZGmeJD9ReBv4Qyt+uxB5VSMSF2c3KqwI+M4mpruqutoi8mWWR8QGZxVeXUuNpUS9esfOScKUpwl9huu8YDM+40xxGoOfUVRHq/hwR6g8o+1l0VnEN5ch2c17aNerFARabZcQTrqDoN3h5yDfqYXo4sQM7IKR7GQCblvjM1Y74cRJ2ynWctCgn9eJ0tuY/SNKus9aQlOUZG7OrXjjDUkbqzq4+gvEGtSj8fAcQZ2A9SUBNNWuTohD8KwrpfEpiybNsft1TBKin1UHIYzz4YaLWQ9TmyaHAkf2YTNF2nkURr2ZeKdHdn2ceR8wiEnVP9rHBf6EdlC8EU3bsc/gE49wVdumoYb3peKG/we99m1ConfZtg0TCdGWsLWu6cpEwIK7Yx967qaC4MlUN41knZlhA/l1Vq8GlOPVW6nqolWbAhT3jbENntntnbLWoB0snQy2e0sLWFpG/FY1fJnY00xcv3komTqxsPnsyZUR3O9lBSYsrV8Vx6U6eZUGSzCi5LU6UndkELje8150kvQ7Bvj2jhu0c3GfdQKtj8CLYnilvU9VBFj2NnrCNIdIsmQbuxWTNfTXwZb4CFQiGErwzac9nXW5lpADkKv2lLqnAXVzOiNRvDANwv7RU2Q9Vfe1SvB+NnFbTnXUEz1oo9LG0KVuq+vt7zyMa0aZv7w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(8676002)(4326008)(66556008)(66946007)(66476007)(186003)(6486002)(52116002)(6666004)(6506007)(26005)(9686003)(6512007)(508600001)(1076003)(316002)(2906002)(33716001)(86362001)(33656002)(4744005)(44832011)(5660300002)(38100700002)(8936002)(38350700002)(6916009);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DEEDhC7J1dA6eu2EXqpmQdke1SVHvsMd68MboXUo2shNb5LUUv+cetetilTo?=
+ =?us-ascii?Q?VVf3P7PNIYEaxX7Z0oYTtnaLlTNawO2SOQa+nIRkr4zBBOD3O8TzvzX0nEUd?=
+ =?us-ascii?Q?YeFnpU2FpzgP0SKT81WiWYUmASWBGVIOLFvxE3oAIT84RDtQBfaQPKewV4P0?=
+ =?us-ascii?Q?XXbCmp+JCadHt6Pdnhq2wae8EAtPHGTwNxD3xuxAAGVNEadmJu9vf6dONqd/?=
+ =?us-ascii?Q?qxfBtpdi9kLgvgnlJGdDNTBfcl0ZjI2jAOvOGNOmuyiHTjgSMTqzOeLx7TcW?=
+ =?us-ascii?Q?0PNNc9kSHO0ulpehC2KSkvoJ/i55UfbB5xD4DJUyVDc5KhKfkS/60+jSNwdu?=
+ =?us-ascii?Q?d+tEY1TemE9oVY3XFwSIDBbJLsfo4sL4eESImQPkGA8DDgjMH9LQ7m6EXIs+?=
+ =?us-ascii?Q?mTJgy2vSwayrmVnt/6zXh54fHA4Y4QX3qfx9BoaaHOjnYPMQyLs2vlrKH4Se?=
+ =?us-ascii?Q?9GS+manxMdGp3aY9FFkbW9QQLcx+s5981aQDuBu3U9K0eA5IUcHeAoihg+rL?=
+ =?us-ascii?Q?sB98COcNYHIcMmWPyTZCFzVYlyiB0guu3eEsGFIjQ5c2mWi/1J3ldKQwiTeQ?=
+ =?us-ascii?Q?BairFyOaSqfN9iVx48/bs2aSDO/Nz6NMK1gFHf1c6YCrOY9MQeHcHrIOvOi9?=
+ =?us-ascii?Q?CDwCdlLcI3DkjcieCAAokjxZLB53i/XnwFe9vt8UAHO1/hUiKTCXph+4j+n2?=
+ =?us-ascii?Q?b83dnJrN3YrmwER3jW3R7VyCpQH8X3Yg0LwgKyMOw7HZjZxLrZsxMQLzaEhl?=
+ =?us-ascii?Q?7PXLJ0jw37gYjcmxntC/wSeyM9Qa9127xxiwjYa8cFU6Glhbc6C2y6JNhH6H?=
+ =?us-ascii?Q?NOjSbJPHo/0XJ8oKPBwNuWS4yGoKb1D0ec58uI2q7x4y9a6rEMVfa5eaTJtz?=
+ =?us-ascii?Q?FalvaT7z8yCU6w+C1XlN+0l37nxDEaxydxrLnZWBd6O2M73VfV1Z3ERImd6m?=
+ =?us-ascii?Q?uzgYKUJdPy6E+a7uG4GsHU1zD+QRCZ5PY770YfMnVqwCnK7Dued5FPryBI9t?=
+ =?us-ascii?Q?nHgVRVj2PASjl5V8V5ekzJT+YrunZefs1zQoarOkO1BSzobHZQi9/jlG65dL?=
+ =?us-ascii?Q?y80f8k6h4PnpOFyCls+2LARuSRfqX7rBCLrECZMMrx+aJdcgmnSax0Pj57kv?=
+ =?us-ascii?Q?uYnr7WhshsfE7iFB/PviLuriHCiJXJJYCrDGetmGywFM3c5fF5rHuqeJluYl?=
+ =?us-ascii?Q?tWs+lWuJ7t/Ko+xlHAU08SVm8Fz5wX0qP5y/SVPS7Tt+AuBTiy88Wc24y6gB?=
+ =?us-ascii?Q?m9Lo45yF7ODs8wJ0rC7eikic1o736TguXQsAfGKgHA8yJmRFN5L+wfbsroOe?=
+ =?us-ascii?Q?D+9h9Zf6Nm/pjmwB4CpeN6F2ja0704Zo09yogikcFt5XaD6qqQ9ze+gj13lk?=
+ =?us-ascii?Q?0Ibep2t3TvOoZ6wcNdl2S1q/1o6rsEkDKAdvJHhmY2Lxiwgdsl7i0Mls7b38?=
+ =?us-ascii?Q?eivntf3z28RyLqaFmThA2J8BOOebTjGqH4DZ0uxtAe3PE0eYdwOSGUD9cJAk?=
+ =?us-ascii?Q?ZsW0w8W+q3yBnX7PNV1kiIr9JeIQEgXYtFnu2XRz2khM24W85dELM1fKUNtS?=
+ =?us-ascii?Q?yvh49oe1oE9E/3TZ3zDVATDYwbNoPBqbQSrH42kjKvETtuvwRUGcpwnx0DLv?=
+ =?us-ascii?Q?o9woovt1XrxmGq8z67KxuuuH9GlFxqugmwpEs6H2F7R+XIfdAIWpwvM0PXqD?=
+ =?us-ascii?Q?s9JmhPC42ohgPjg02aeMOxrHeYRKBxuQuQkn3+XUVbXD1bo9IGXJVufH+/TF?=
+ =?us-ascii?Q?yr6YOhEh76DEJAiW/xTJ8G7rajsTCSc=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2699389-2466-40ae-57ac-08da3805a57d
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 13:03:33.1137
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ue7hW/WLQGhmDPo4cu56vMhvjq3Yf4qM3eh2YiigfxFDadkWSxsiRHY0xKc3NJL0tMMNYyszGd8nwwMLMB9kmpM4aQBq4Ux6v3Giepdr7yw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3500
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.874
+ definitions=2022-05-17_03:2022-05-17,2022-05-17 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 suspectscore=0
+ phishscore=0 bulkscore=0 adultscore=0 mlxlogscore=678 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205170079
+X-Proofpoint-ORIG-GUID: vAvtbswXzL1Vz9olPbPA8FONlDjOuATy
+X-Proofpoint-GUID: vAvtbswXzL1Vz9olPbPA8FONlDjOuATy
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add MFC into defconfig.
+On Tue, May 17, 2022 at 02:54:47PM +0200, Oliver Neukum wrote:
+> This should be taken as a minimum speed.
+> 
 
-Cc: linux-fsd@tesla.com
-Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
----
- arch/arm64/configs/defconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Did you find this by testing or by reviewing the code?  What does this
+bug look like to the user?
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 50aa3d75ab4f..e35765f2d78f 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -661,7 +661,7 @@ CONFIG_RC_DECODERS=y
- CONFIG_RC_DEVICES=y
- CONFIG_IR_MESON=m
- CONFIG_IR_SUNXI=m
--CONFIG_MEDIA_SUPPORT=m
-+CONFIG_MEDIA_SUPPORT=y
- CONFIG_MEDIA_CAMERA_SUPPORT=y
- CONFIG_MEDIA_ANALOG_TV_SUPPORT=y
- CONFIG_MEDIA_DIGITAL_TV_SUPPORT=y
-@@ -678,7 +678,7 @@ CONFIG_VIDEO_SUN6I_CSI=m
- CONFIG_VIDEO_RCAR_ISP=m
- CONFIG_V4L_MEM2MEM_DRIVERS=y
- CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
--CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
-+CONFIG_VIDEO_SAMSUNG_S5P_MFC=y
- CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=m
- CONFIG_VIDEO_RENESAS_FDP1=m
- CONFIG_VIDEO_RENESAS_FCP=m
--- 
-2.17.1
+Presumably there is a redit page webpage where someone discovered the
+bug and instead of reporting it to us they just told everyone to set the
+module parameter disable_usb_speed_check=1?
+
+regards,
+dan carpenter
 
