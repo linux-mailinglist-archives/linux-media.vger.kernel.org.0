@@ -2,302 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFBF852A2F4
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 15:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0676952A300
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 15:16:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346343AbiEQNOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 09:14:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36284 "EHLO
+        id S1344752AbiEQNQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 09:16:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347326AbiEQNOC (ORCPT
+        with ESMTP id S1347479AbiEQNPd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 09:14:02 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE91E41F9A
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 06:13:59 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id 185so14485684qke.7
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 06:13:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=v6eTvLUEvVevBWajX03I9738Bo9HdDYIbURMPVLgI3o=;
-        b=oPZVvcPwz2accgrfPbP8mek4jw2FV2aLaLaxNt5GLBRqCXua49jJzrW3dz1IBGnbyN
-         AYy7zqnYY7qbbHb1M3VEpydqgzIJpFfwMXe1KXdTpgTLocSEh9VP5Xb9Ep8M2f5HO2Xc
-         BjTU3XVNv3v90gDgvmInVAskIVEmIcSbyf+9EWGIDJd+ea6EtBa82IT176L+rMyL7SlG
-         9mgzenSuE2H87Mp/RGA0+TpyXDz6rvUwO8AzCRjaH9PQCSoyecL5V1Igz6Ab/tEtKrfU
-         6XUlICw3kR/t0/hfqSy3QVv5K+DIiarqKOuUKdDFl/Bpj9XmVq73hNz9RP1VaZ8c4y/n
-         to5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=v6eTvLUEvVevBWajX03I9738Bo9HdDYIbURMPVLgI3o=;
-        b=msM47mQzsat2UIjKl8cZliTnLt7Add3BOk4tnih1PgMKeZ9hOy6uWV0+sTYtLeXbP1
-         G2W0KPcc75QkkQu+JGf1pgliFL3TgmNimgPU34BAdft62nhohuZoHNFABDmrbPpDdtOc
-         KkpMpoRsIjTVQxE4BorzuqnTqMyialmE1qpNbZqUgGCe8dnDnLandiSlJKgmviHX1WyJ
-         o+D2BNVc31uEu1sT5QdEGImTE/LlW/9sI4gvwCy9/Oj4LyITRB1SUqI2yP16J9IU5dKa
-         SoM6i2XQpT5wx4Xt4eUojhGWKwcHmljxxSgg9pnUqEf/OVAIv6pboLZb0+EY/7ZDXBO5
-         O8aw==
-X-Gm-Message-State: AOAM532BFxsD81/wFN8fLgjyd+orZKoFyfwRghvkda/Befg73yiq5e43
-        XcBjnYuSuBhEkST8WuXHSg9YfQ==
-X-Google-Smtp-Source: ABdhPJzJUTu/kZOXxe6D9v/M0+MMu75gVhSgga0bLUrSZDERONsTz3Yb4XB6GpX3qEgbObri26puKQ==
-X-Received: by 2002:a05:620a:2792:b0:6a2:eb8d:70e1 with SMTP id g18-20020a05620a279200b006a2eb8d70e1mr7535050qkp.574.1652793238985;
-        Tue, 17 May 2022 06:13:58 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id y68-20020a37af47000000b0069fc13ce1f3sm7860925qke.36.2022.05.17.06.13.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 06:13:58 -0700 (PDT)
-Message-ID: <44a151e1cdbba8dcf3dfe7dfe00b6ee49c99bcfb.camel@ndufresne.ca>
-Subject: Re: [PATCH 06/20] Documention: v4l: Documentation for VP9 CIDs.
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Smitha T Murthy <smitha.t@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
-        dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
-        mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
-        andi@etezian.org, alim.akhtar@samsung.com,
-        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
-        linux-fsd@tesla.com
-Date:   Tue, 17 May 2022 09:13:56 -0400
-In-Reply-To: <20220517125548.14746-7-smitha.t@samsung.com>
-References: <20220517125548.14746-1-smitha.t@samsung.com>
-         <CGME20220517125608epcas5p48b5d2f91c711e5728f993169b1d4b9a1@epcas5p4.samsung.com>
-         <20220517125548.14746-7-smitha.t@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 17 May 2022 09:15:33 -0400
+Received: from de-smtp-delivery-102.mimecast.com (de-smtp-delivery-102.mimecast.com [194.104.111.102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A4C40E79
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 06:15:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=mimecast20200619;
+        t=1652793315;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zLQSC02vXTZVgJAkODwieZz4cOOV2N7PfvAcWU3Bzgo=;
+        b=jMS8gVDF/qroKkE7b0x+Dn0Eq7W3fJT79pmkqD3jnb9mdHoqja5BzHPnxE2QwfWtx5n6/5
+        2Gp82AGVunywrtNbjY2GsX40mQalzO+1viTfktQuvyBuAusOLjQRgcfs+VMet0I2PI9J22
+        QKDoCVRvn8cOrjeV1uPOXSCge+RnAgg=
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+ (mail-ve1eur02lp2053.outbound.protection.outlook.com [104.47.6.53]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ de-mta-12-KS4PCFclPLC6VZ1puWqL5A-1; Tue, 17 May 2022 15:15:13 +0200
+X-MC-Unique: KS4PCFclPLC6VZ1puWqL5A-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dELDvKO7YmRzmJ7UWchyyOQzU3Wr63kEEPUtshFaXBavuzaTDxFnnNsHh21AavPoPqvJWfT4oC4/alzLCUtQSUwO9KYvWL5PL/K5wkUZG/TnEF0i9OTSt7THflEBrV/ipIN2QKQjmRL45cNcEnr30rBqtPy1GyL/ETpK1ruyiZTBSPFr4yb8wz8QIyZaVAqvnnLO1HTsPB1zFzG6YiZsvnFTkcxsLnfAeA1WMzRS1GJU7dNC7qL3L4VG0nh40hh1XjqVkmPR/t/yN52VW8wOi/rfMZN3YqY1RCUqWtYRuZqDUWsi68s4paJApopmQyfoKwPJsheSUczoo8s+nX2OCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JG3SVIsUwkNx/a+5QFWgl8lq0YuBHLllTkQN3zQMHSQ=;
+ b=C/05kq/Oclv/MTVEIG9CaTlBLxYZVSP+yb0LBFV0pPWRaFKjGzwaU+CcHlq3VHG4AscCAgFcWcsFyVpikRxneWCMPWoAFrhNjxOl0nKCKtoG12eLLQQZtSjHCp/uSaWw32jo1Jnmskj1W8Z6YUi8q4sXbibwuxVaxlmBiO5s6z0fl0SPF9qUSIPL5chbVQp9dT/PLS4KQ6pB3w1vdwNTEwdZROxtA70kjmCIbnE5Hf6Nz3VI5FgWHUviOS5DKbQs8+5OJj+gjIYcJ9m7TKqiS7ybYVbFOVyuqWpk8cvo+VkF0HySB4p6FIe6QPBlz8hErM4U/svTDhoSTgH1a+VrOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from VI1PR0401MB2526.eurprd04.prod.outlook.com
+ (2603:10a6:800:58::16) by VE1PR04MB6701.eurprd04.prod.outlook.com
+ (2603:10a6:803:124::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.13; Tue, 17 May
+ 2022 13:15:10 +0000
+Received: from VI1PR0401MB2526.eurprd04.prod.outlook.com
+ ([fe80::19e2:fafb:553f:d8c]) by VI1PR0401MB2526.eurprd04.prod.outlook.com
+ ([fe80::19e2:fafb:553f:d8c%10]) with mapi id 15.20.5250.018; Tue, 17 May 2022
+ 13:15:10 +0000
+Message-ID: <7f809320-4dd5-c8e3-1a77-e9d8627d292d@suse.com>
+Date:   Tue, 17 May 2022 15:15:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] au0828: allow higher speeds
+Content-Language: en-US
+To:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Oliver Neukum <oneukum@suse.com>
+CC:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+        mchehab@kernel.org
+References: <20220517125447.19535-1-oneukum@suse.com>
+ <20220517130315.GK29930@kadam>
+From:   Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20220517130315.GK29930@kadam>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+X-ClientProxiedBy: AS9PR05CA0021.eurprd05.prod.outlook.com
+ (2603:10a6:20b:488::17) To VI1PR0401MB2526.eurprd04.prod.outlook.com
+ (2603:10a6:800:58::16)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 70c394ae-aec4-4452-adc8-08da3807451f
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6701:EE_
+X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-Microsoft-Antispam-PRVS: <VE1PR04MB67017AD9EE3ACBBF99AB4DF0C7CE9@VE1PR04MB6701.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bJcDAnXq+YkEJ4szYwJTqyEN4CE9oLg2lZd2p3xrpvUxhfWIWr5fO8tMgPHt3SwNjn8a3dVr/yLu8mOABGXdDrkane4Fw1JG1WSKQf5U1oaGVZwuRRKIzA//C5Ja2oes4/Llh+CY0lGIC6R+v1UG90vbC+m+SAKHIY0HHoVqrMpgpT0NQRfSBI6rew8if5nB9QZ/EAQ/1qZgKJwQhg/bkFEajQ34lzY6+/PHdR9bVNu7VaVTPSnl+dmP7vSt/NPzjbcdvcIDCkSEY/iUJG8pplsfHqYZZOAAgshswKYCgvdkt7SH6kBUPZR6s4Bs68sR/+cDknxUwNyiZ8om/b6a3DusKevTaUtIYsvLpjyLjAV8py22dj8t9MIssYbQb0RTmLb0OITl6F3JHF6k5JoLXWejXdkO5vPp6/LYx9IdF+xSmyrziTcwQ1X16v92mkFQvrK0xo9+sMXQEg8b9PcgKzZSZro/0R1xk9OLpR3PD4JgVQVFeLfXhNIYtkTM9Pmv1f11zPKSLq4flZITOjVGq/zyE893QjH/wBCtspUmmH1boqGTsyEIGQyN1RFM9hRCf6b9Fiw7tD9ZrQFu7NJu/PlWX++Joudc9CDtkqzhGt17T3PnxIMuW1knCHA85CoC6GpHuXv4rliYnIADoJZIS2xntoxTab1607rhAGEQqMRdwbyq40JqRhG0buGnf4OnfX8UckCL28hXY+WpW5UsdZpFiUw5G+khf8ot9P4jekQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0401MB2526.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(2616005)(6486002)(8936002)(508600001)(31686004)(6512007)(2906002)(8676002)(6506007)(31696002)(5660300002)(36756003)(186003)(66946007)(66556008)(66476007)(53546011)(316002)(4326008)(4744005)(38100700002)(86362001)(110136005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+FriNmbpzOnRwE04jBtsW+JogCTnA70TdJtqh8ycPErjUzXQo7Eb7yJ7cafJ?=
+ =?us-ascii?Q?PQe+/lVgN/ZOVuDQZalSe1TA0p2OUctEb+i5BzFSQ5u1bp/TEvcJnOFDyj7X?=
+ =?us-ascii?Q?o4jqL65fiKiZPLVBmCgNAyY5Bh0s+ui/Aa4cS+Te+8DlLsMqv6UfnOVWk3GS?=
+ =?us-ascii?Q?kSFPI3Scm5g+3wswwY7acH7LBUMHyiBBFhv61wt71xnimGbguv2ZKGYDiOMD?=
+ =?us-ascii?Q?+rAed0x4iJ8PeUBecblGyMVv106WBxDeAuPWOZuHoNmBonSJfJy4IiPVDQ+R?=
+ =?us-ascii?Q?si/N2uXIi7tcxw+DOyC4qBNm96DJhjRHXw0hGDs2W5bEmRIpfs80TPNmPPKf?=
+ =?us-ascii?Q?YXqcS+owAUeFoLuKszH/DYRAGUT0TMx5EuYHMG6fq1OntOp7LM1wwz+xsiXk?=
+ =?us-ascii?Q?BSyTK/1mTZesDOya+M+sxjgM5MnChIPryDHqbEqPfmVFxK16NuK8gEbkOr3/?=
+ =?us-ascii?Q?V27yj6CCoYGDYERSj9u4FllAOzA12QSZfOLAwgxwVlA+hfagPx6vwo+LD0ra?=
+ =?us-ascii?Q?+Vl1Oe+o5MINph70E5MpwMALW9kIyE9WSp9CB0BYd69uK4/9xLX8WQV1peQi?=
+ =?us-ascii?Q?LsTlgQ/4niAEzqsjX8TeKkub4gR/d52f+YvPH123uLFXzQ8AaeprXuk6iXec?=
+ =?us-ascii?Q?t8T8MOqp+192Gcb3w5Aq8ctS1dwOkiqRJgyUn/y28PPIQ/YkXN38pbg4fFok?=
+ =?us-ascii?Q?96xGOkRE7muOZesQ7HfEDc41uyH3NZMF1Su/F9GyUoq0WYlAA4RsCn6v0yrl?=
+ =?us-ascii?Q?0eRt/wkp3eDBHwh2VGbCa9cKIWHPLoq8Fwq6qlGMlMIDc6/m+udIPzXAU0sd?=
+ =?us-ascii?Q?AwvkRYUuOxmf2gFt3ujy5T56OUi0NarY8OWlmjuDYNjGs79XnH6bSVJ0A03b?=
+ =?us-ascii?Q?m2LmXZnfcVh4ieloCTLzr7g2En2kz1TyAwTGnvTRf2PhPvPPFpndZIMz8KW3?=
+ =?us-ascii?Q?JYoiI5caYFsNVxh9OK79TGVJraj/3FFawqtBmbV5Yss0kfm5g5Q4WR4H1c3h?=
+ =?us-ascii?Q?PSqaCug9OWjqnC6nau+YigDjFQnYbjB7mCqIcXJWr0Lo7N7HRZftWZmRUlWt?=
+ =?us-ascii?Q?BDfS4OFC7i3YMGu9o/6VqdKQDt1PxoNk3HVwK2bL+Ihsp4wA0PCIF+7XZH95?=
+ =?us-ascii?Q?EkqgF4x7ds7OugcJ8m2tBeiGAfMprPG93H4wLMygPpP6KsFI3ExZ5pT/Zuyw?=
+ =?us-ascii?Q?BAlxc5OAvme/+2Yw0zjuQ6Lwc0hErA65MCQEaWvJaEI0zU+KShp4uH82ngWf?=
+ =?us-ascii?Q?f9o/IicqM0FkrFJe3lYb602Xpy1blLC+nyXdOsLIeX07iKgRnjLvteZCq9oC?=
+ =?us-ascii?Q?NheUQI+8Da5Acf6U73I8hF/+yT+rGn8asl159Im5AX9mcvY3tYuZOw6RwPsq?=
+ =?us-ascii?Q?mJ4+8UD7YcMgxsBrwSfyib78CzpjQAATdE66aVwTZTKPe3er7qqDFKenTqUE?=
+ =?us-ascii?Q?mhpb4Mg/lRSq4F4QC6gQJQ+clbh2GEl9cEgoYo2uf+cexLENRhUedMcVj4aa?=
+ =?us-ascii?Q?8HJ0s1DSipICMJ8fUNJZ38UgbDX6Y7pxRLiccNm6tCleSc46d8GiW89S4nD9?=
+ =?us-ascii?Q?Of5XRKJOpJxw/4OXIJYqzwzxgJj1nkyT+/JFJdtXID9V1XQtDuIwRR2CZAc6?=
+ =?us-ascii?Q?Lb36vygVG+EfDdGWqz3tFfwwkdKhdc/EP89cKnS+4oYuv4BSYqeX8lpIyVGV?=
+ =?us-ascii?Q?QGXyMLpf8LvDnseiBJTZKC7CfYhAZNJ+iAbaFnnk38XfbqF1pd1XGvbYijNV?=
+ =?us-ascii?Q?p778SNNvFtLin9toO6GlVl0AAyqkSpW7SOo6L76wh1l3lOBMlbvyEc/thDJw?=
+X-MS-Exchange-AntiSpam-MessageData-1: EaclxPcSdM3kSQ==
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70c394ae-aec4-4452-adc8-08da3807451f
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0401MB2526.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 13:15:10.4164
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NIpAzWjCX6KoioPbrjJYQJqjsj3p0/XnIyS1SBEu9INC3Oqttb6oRuUhqaprqveJsZ1ntw3Znj2BzNaUqYv9uw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6701
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Smitha,
 
-Le mardi 17 mai 2022 =C3=A0 18:25 +0530, Smitha T Murthy a =C3=A9crit=C2=A0=
-:
-> Adds V4l2 controls for VP9 encoder documention.
->=20
-> Cc: linux-fsd@tesla.com
-> Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
-> ---
->  .../media/v4l/ext-ctrls-codec.rst             | 167 ++++++++++++++++++
->  1 file changed, 167 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
-Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 4cd7c541fc30..1b617a08f973 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -2165,6 +2165,16 @@ enum v4l2_mpeg_video_vp8_profile -
->      * - ``V4L2_MPEG_VIDEO_VP8_PROFILE_3``
->        - Profile 3
-> =20
-> +VP9 Control Reference
-> +---------------------
-> +
-> +The VP9 controls include controls for encoding parameters of VP9 video
-> +codec.
-> +
-> +.. _vp9-control-id:
-> +
-> +VP9 Control IDs
-> +
->  .. _v4l2-mpeg-video-vp9-profile:
-> =20
->  ``V4L2_CID_MPEG_VIDEO_VP9_PROFILE``
-> @@ -2231,6 +2241,163 @@ enum v4l2_mpeg_video_vp9_level -
->      * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_6_2``
->        - Level 6.2
-> =20
-> +``V4L2_CID_MPEG_VIDEO_VP9_I_FRAME_QP``
 
-The class was recently renamed V4L2_CID_CODEC... for a reason, can you rena=
-me
-MPEG_VIDEO with CODEC, specially for VP9 CODEC were MPEG makes no sense. Th=
-is
-applies all the doc and the defines in the other patch.
+On 17.05.22 15:03, Dan Carpenter wrote:
+> On Tue, May 17, 2022 at 02:54:47PM +0200, Oliver Neukum wrote:
+>> This should be taken as a minimum speed.
+>>
+> Did you find this by testing or by reviewing the code?  What does this
+Review.
+> bug look like to the user?
+The device will refuse to work if you connect it via a USB 3.0 hub
+to XHCI
+> Presumably there is a redit page webpage where someone discovered the
+> bug and instead of reporting it to us they just told everyone to set the
+> module parameter disable_usb_speed_check=3D1?
+>
 
-thanks,
-Nicolas
+Now, that you mention it, it isn't on reddit, but yes, someone's blog.
 
-> +    Quantization parameter for an I frame for VP9. Valid range: from 1 t=
-o 255.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_P_FRAME_QP``
-> +    Quantization parameter for an P frame for VP9. Valid range: from 1 t=
-o 255.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_MAX_QP``
-> +    Maximum quantization parameter for VP9. Valid range: from 1 to 255.
-> +    Recommended range for MFC is from 230 to 255.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_MIN_QP``
-> +    Minimum quantization parameter for VP9. Valid range: from 1 to 255.
-> +    Recommended range for MFC is from 1 to 24.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_RC_FRAME_RATE``
-> +    Indicates the number of evenly spaced subintervals, called ticks, wi=
-thin
-> +    one second. This is a 16 bit unsigned integer and has a maximum valu=
-e up to
-> +    0xffff and a minimum value of 1.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_GF_REFRESH_PERIOD``
-> +    Indicates the refresh period of the golden frame for VP9 encoder.
-> +
-> +.. _v4l2-vp9-golden-frame-sel:
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_GOLDEN_FRAMESEL``
-> +    (enum)
-> +
-> +enum v4l2_mpeg_vp9_golden_framesel -
-> +    Selects the golden frame for encoding. Valid when NUM_OF_REF is 2.
-> +    Possible values are:
-> +
-> +.. raw:: latex
-> +
-> +    \footnotesize
-> +
-> +.. tabularcolumns:: |p{9.0cm}|p{8.0cm}|
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - ``V4L2_CID_MPEG_VIDEO_VP9_GOLDEN_FRAME_USE_PREV``
-> +      - Use the (n-2)th frame as a golden frame, current frame index bei=
-ng
-> +        'n'.
-> +    * - ``V4L2_CID_MPEG_VIDEO_VP9_GOLDEN_FRAME_USE_REF_PERIOD``
-> +      - Use the previous specific frame indicated by
-> +        ``V4L2_CID_MPEG_VIDEO_VP9_GF_REFRESH_PERIOD`` as a
-> +        golden frame.
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_HIERARCHY_QP_ENABLE``
-> +    Allows host to specify the quantization parameter values for each
-> +    temporal layer through HIERARCHICAL_QP_LAYER. This is valid only
-> +    if HIERARCHICAL_CODING_LAYER is greater than 1. Setting the control
-> +    value to 1 enables setting of the QP values for the layers.
-> +
-> +.. _v4l2-vp9-ref-number-of-pframes:
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_REF_NUMBER_FOR_PFRAMES``
-> +    (enum)
-> +
-> +enum v4l2_mpeg_vp9_ref_num_for_pframes -
-> +    Number of reference pictures for encoding P frames.
-> +
-> +.. raw:: latex
-> +
-> +    \footnotesize
-> +
-> +.. tabularcolumns:: |p{9.0cm}|p{8.0cm}|
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - ``V4L2_CID_MPEG_VIDEO_VP9_1_REF_PFRAME``
-> +      - Indicates one reference frame, last encoded frame will be search=
-ed.
-> +    * - ``V4L2_CID_MPEG_VIDEO_VP9_GOLDEN_FRAME_USE_REF_PERIOD``
-> +      - Indicates 2 reference frames, last encoded frame and golden fram=
-e
-> +        will be searched.
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_HIERARCHICAL_CODING_LAYER``
-> +    Indicates the number of hierarchial coding layer.
-> +    In normal encoding (non-hierarchial coding), it should be zero.
-> +    VP9 has upto 3 layer of encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_HIERARCHY_RC_ENABLE``
-> +    Indicates enabling of bit rate for hierarchical coding layers VP9 en=
-coder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_HIER_CODING_L0_BR``
-> +    Indicates bit rate for hierarchical coding layer 0 for VP9 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_HIER_CODING_L1_BR``
-> +    Indicates bit rate for hierarchical coding layer 1 for VP9 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_HIER_CODING_L2_BR``
-> +    Indicates bit rate for hierarchical coding layer 2 for VP9 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_HIER_CODING_L0_QP``
-> +    Indicates quantization parameter for hierarchical coding layer 0.
-> +    Valid range: [V4L2_CID_MPEG_VIDEO_VP9_MIN_QP,
-> +    V4L2_CID_MPEG_VIDEO_VP9_MAX_QP].
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_HIER_CODING_L1_QP``
-> +    Indicates quantization parameter for hierarchical coding layer 1.
-> +    Valid range: [V4L2_CID_MPEG_VIDEO_VP9_MIN_QP,
-> +    V4L2_CID_MPEG_VIDEO_VP9_MAX_QP].
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_HIER_CODING_L2_QP``
-> +    Indicates quantization parameter for hierarchical coding layer 2.
-> +    Valid range: [V4L2_CID_MPEG_VIDEO_VP9_MIN_QP,
-> +    V4L2_CID_MPEG_VIDEO_VP9_MAX_QP].
-> +
-> +.. _v4l2-vp9-max-partition-depth:
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_MAX_PARTITION_DEPTH``
-> +    (enum)
-> +
-> +enum v4l2_mpeg_vp9_num_partitions -
-> +    Indicate maximum coding unit depth.
-> +
-> +.. raw:: latex
-> +
-> +    \footnotesize
-> +
-> +.. tabularcolumns:: |p{9.0cm}|p{8.0cm}|
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - ``V4L2_CID_MPEG_VIDEO_VP9_0_PARTITION``
-> +      - No coding unit partition depth.
-> +    * - ``V4L2_CID_MPEG_VIDEO_VP9_1_PARTITION``
-> +      - Allows one coding unit partition depth.
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_DISABLE_INTRA_PU_SPLIT``
-> +    Zero indicates enable intra NxN PU split.
-> +    One indicates disable intra NxN PU split.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_DISABLE_IVF_HEADER``
-> +    Indicates IVF header generation. Zero indicates enable IVF format.
-> +    One indicates disable IVF format.
-> +
-> =20
->  High Efficiency Video Coding (HEVC/H.265) Control Reference
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=C2=A0=C2=A0=C2=A0 Regards
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Oliver
 
