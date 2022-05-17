@@ -2,56 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0554452A97F
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 19:42:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 148F552A999
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 19:50:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351559AbiEQRmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 13:42:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42802 "EHLO
+        id S1351548AbiEQRud (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 13:50:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351561AbiEQRm1 (ORCPT
+        with ESMTP id S234949AbiEQRua (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 13:42:27 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 581D41262B;
-        Tue, 17 May 2022 10:42:25 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 438721F449B1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1652809343;
-        bh=2gNja2jzXINTHL1DpfULvc1b1SM/D/Au4dGjglcuCgI=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=b4Z5DzT+sf3HQ6039HxlUUoC+65ISIxA11E5wbSvgBkdUEGSSKNJ7K81Le/5JC9Pq
-         xA1F6Gyv1+3/SWUYoHU/9xE4a3ScTonl45OU1MENWs0YNOaBxPhdBaCVsqKmQAanMh
-         05Xwm9WRCu1feB2FllaNwAQOCJF5d2rgG1cqjDUV8Bv3/SygCBYX08O7y+Kgq3Kxik
-         MPqu1XP2MlodjgGiyCa+fNfdWpBq/t7Lxqz6et2/OoTcWJlc9yk5hiFHs8JeDT3PcS
-         VDIOmZfUZNPgZEtOGWM3QxT2jn0JnHrioAfAIY3jNwzRVY/QneD7lVGcQGcOLjk6P+
-         2DY4PdrWv61DA==
-Message-ID: <db9149100bbed9efecc54d9a39dc57862d49cd23.camel@collabora.com>
-Subject: Re: [PATCH v2] media: hantro: Be more accurate on pixel formats
- step_width constraints
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, heiko@sntech.de, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org
-Cc:     kernel@pengutronix.de, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, kernel@collabora.com
-Date:   Tue, 17 May 2022 13:42:11 -0400
-In-Reply-To: <20220517122629.522211-1-benjamin.gaignard@collabora.com>
-References: <20220517122629.522211-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+        Tue, 17 May 2022 13:50:30 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA3F50063
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 10:50:29 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id fd25so10778909edb.3
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 10:50:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KZOKRTKUX4ZjOyAqfwKHb2UInptNU+qwp7FxgDRzOxw=;
+        b=VBuXTPja0CEFg+ig4eRzzZSnVmOF/10iSpOFjEW6mcDnH8ys0HVGJixsPx2b0tbnA8
+         sC8OgFn7xIXqhUpX2ELksZF7DgaAfHdZM2Hxe9jHRbhSfGmInMal+s6CwWkVk5Z7LvQG
+         rZIEqHxU0uEYMmvBQiJiWghJiL84fhPSjqKf/5RPYynoJos9a1/1D+bTmSYLIBj9lMJ7
+         TVXLoPcBNTAqLR5tbbNr4mrujcBRiNm/bS8nQg4lvBRv0QXSarO3kNzWStn+fnt96NfA
+         xOh2CoRfC6sOrA4PNGV1f0PFByuGdP5TiUAxWUK5QypWYct4z5Jshaj3jJLT6d4Cuarj
+         qZKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KZOKRTKUX4ZjOyAqfwKHb2UInptNU+qwp7FxgDRzOxw=;
+        b=OHRFAZWL27keK/hqpeemdas8mORZWzfP0itWkRO1VH0SBpb/tE+v3kaND6kKx8S8tF
+         iaZhmHSAuaE85jcOGNIjdNHLp278v8i2OiueFuNiqPvWuP2OW0oy9Y3qSRRb9TF1pKnx
+         7e6CcDsAtxMb1yI+5pdxpWVFwLXwlXiluCliH5NigpovEXdbd1vmKlF3hs5McaQE+hjz
+         D7B1hVXu6GvIh2zzXzL/prt7S2hmQkKJsT4FIPYyecJ7bgcJW6WwoNfWI6oNFrUHpLio
+         lLxD62ziuUzlSkaBqguqebXou9lDm5JjxNUDFgntgBEQxVv4thspWDrTbaAvbm76DFg1
+         snRg==
+X-Gm-Message-State: AOAM531xB6FD8O5RksUg+w3ukCc3ujOTyupnN4P06cZFyL8hpNfbxKri
+        TRKvudg1bQqk9582eo1u37B6i8ORCJa5Ld8D4iPxXqndhe3ZjQ==
+X-Google-Smtp-Source: ABdhPJxwZm26j3QGZ7ttYj2HLV2GSvysdH272nYkH3GKmMv82oNe1HCjTMsQyyJ4tdsghPvoI1foWaJL9brEGa6j7Hc=
+X-Received: by 2002:a05:6402:d47:b0:42a:c276:def5 with SMTP id
+ ec7-20020a0564020d4700b0042ac276def5mr6482682edb.136.1652809828023; Tue, 17
+ May 2022 10:50:28 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220512120209.11614-1-info@benjaminmarty.ch> <CAPY8ntD4miACVe9naYUyVAztZcDBK47chpJLy4=qqjmego1jvA@mail.gmail.com>
+ <165243859864.2416244.4785590696956344599@Monstersaurus>
+In-Reply-To: <165243859864.2416244.4785590696956344599@Monstersaurus>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 17 May 2022 18:50:11 +0100
+Message-ID: <CAPY8ntDfnZG_+43gMz2D=v9eUBX8zjbJpDpwm1a8tTT4ak8drw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: i2c: adv7180: fix reserved bit in Video
+ Selection 2
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Benjamin Marty <info@benjaminmarty.ch>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,444 +68,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 17 mai 2022 =C3=A0 14:26 +0200, Benjamin Gaignard a =C3=A9crit=C2=
-=A0:
-> On Hantro G2 decoder on IMX8MQ strides requirements aren't the same
-> for NV12_4L4 and NV12 pixel formats. The first one use a 4 bytes padding
-> while the last one needs 8 bytes.
-> To be sure to provide the correct stride in all cases we need:
-> - to relax the constraints on codec formats so set step_width to 4
-> - use capture queue format and not the output queue format when applying
->   the pixel format constraints.
-> - put the correct step_width constraints on each pixel format.
->=20
-> Move HEVC SPS validation in hantro_hevc.c to be able to perform it
-> when setting sps control and when starting to decode the bitstream.
-> Add a new test in HEVC SPS validation function to check if resolution
-> is still matching the hardware constraints.
->=20
-> With this SAODBLK_A_MainConcept_4 and SAODBLK_B_MainConcept_4 conformance
-> tests files are correctly decoded with both NV12 and NV12_4L4 pixel forma=
-ts.
-> These two files have a resolution of 1016x760.
-> If step_width =3D 16 for the both pixel formats the selected capture
+On Fri, 13 May 2022 at 11:43, Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+>
+> Quoting Dave Stevenson (2022-05-12 14:56:45)
+> > Hi Benjamin.
+> >
+> > On Thu, 12 May 2022 at 13:11, Benjamin Marty <info@benjaminmarty.ch> wrote:
+> > >
+> > > This bit is marked as reserved in the ADV Hardware Reference Manual.
+> > >
+> > > Resetting this bit seems to cause increased video noise. Setting this
+> > > bit according to the Hardware Reference Manual reduces the video noise
+> > > immediately.
+> > >
+> > > Signed-off-by: Benjamin Marty <info@benjaminmarty.ch>
+> > > ---
+> > > version 2:
+> > > - Fixed Kieran's remarks
+> > >
+> > >  drivers/media/i2c/adv7180.c | 5 ++++-
+> > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> > > index 4f5db195e66d..992111fe249e 100644
+> > > --- a/drivers/media/i2c/adv7180.c
+> > > +++ b/drivers/media/i2c/adv7180.c
+> > > @@ -43,6 +43,7 @@
+> > >  #define ADV7180_INPUT_CONTROL_INSEL_MASK               0x0f
+> > >
+> > >  #define ADV7182_REG_INPUT_VIDSEL                       0x0002
+> > > +#define ADV7182_REG_INPUT_RESERVED                     BIT(2)
+> >
+> > Responding to Kieran's comment on V1:
+> > > If the bit is documented with a better name, then use that of course,
+> > > otherwise perhaps even a comment in the code saying that failing to set
+> > > the bit increases visible noise would be suitable. (or that setting the
+> > > bit reduces noise, I guess it depends on if you think this bit is
+> > > performing noise reduction, or if not setting it is introducing noise)
+> >
+> > I went digging through the datasheet for this info as I care about
+> > ADV728[0|1|2]M.
+> >
+> > https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7182.pdf
+> > page 68 defines bits 0-3 as reserved, and "set to default" which is
+> > 0100b.
+> > https://www.analog.com/media/en/technical-documentation/user-guides/ADV7280_7281_7282_7283_UG-637.pdf
+> > page 70 says the same for ADV7280/ADV7281/ADV7282/ADV7283.
+> >
+> > So no name or detail in the docs over what the bits do.
+> >
+> > The patch does mean the driver more closely follows the datasheet, so
+> > it looks good to me.
+> >
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >
+> > I'll try to find a couple of minutes to get my hardware out and
+> > confirm I see the change in video noise.
+>
+> Great, Is there any way we can identify (easily?) if this is introducing
+> noise reduction, or preventing noise being added?
+>
+> If it's introducing noise reduction, as a feature, that's quite
+> different to causing noise if it's not set ... (Unless perhaps people
+> have a desire to add noise :D)
 
-Did you mean is instead of =3D ? Are you missing "and" somewhere in this se=
-ntence
-?
+OK, I dug out my hardware. I'm doing the nasty with:
+i2ctransfer -y -f 10 w2@0x21 0x02 0x84
+and
+i2ctransfer -y -f 10 w2@0x21 0x02 0x80
+to flip back and forth between the two settings on my PAL source.
 
-> resolution is 1024x768 which is wrong for NV12_4L4 (which expect 1016x760=
-)
-> on Hantro G2 on IMX8MQ (but correct for NV12).
->=20
-> For other variants than Hantro G2 on IMX8M keep the same step_width to av=
-oid
-> regressions.
->=20
-> Fluster HEVC test score is now 128/147 vs 126/147 with the both pixel
-> formats as decoder output.
-> Fluster VP9 test score stay at 147/303.
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> version 2:
-> - Add a HEVC SPS validation function to be used when
->   setting the control and start decoding.
->   I hope that is what Nicolas expects in his remark on v1.
->=20
->  drivers/staging/media/hantro/hantro_drv.c     | 12 +++---
->  drivers/staging/media/hantro/hantro_hevc.c    | 28 +++++++++++++
->  drivers/staging/media/hantro/hantro_hw.h      |  2 +
->  drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
->  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 40 +++++++++++++++++--
->  .../staging/media/hantro/rockchip_vpu_hw.c    | 32 +++++++++++++++
->  .../staging/media/hantro/sama5d4_vdec_hw.c    | 16 ++++++++
->  drivers/staging/media/hantro/sunxi_vpu_hw.c   | 16 ++++++++
->  8 files changed, 137 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/=
-media/hantro/hantro_drv.c
-> index 377dcc1d19de..5aac3a090480 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -253,6 +253,11 @@ queue_init(void *priv, struct vb2_queue *src_vq, str=
-uct vb2_queue *dst_vq)
-> =20
->  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
-> +	struct hantro_ctx *ctx;
-> +
-> +	ctx =3D container_of(ctrl->handler,
-> +			   struct hantro_ctx, ctrl_handler);
-> +
->  	if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
->  		const struct v4l2_ctrl_h264_sps *sps =3D ctrl->p_new.p_h264_sps;
-> =20
-> @@ -268,12 +273,7 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_HEVC_SPS) {
->  		const struct v4l2_ctrl_hevc_sps *sps =3D ctrl->p_new.p_hevc_sps;
-> =20
-> -		if (sps->bit_depth_luma_minus8 !=3D sps->bit_depth_chroma_minus8)
-> -			/* Luma and chroma bit depth mismatch */
-> -			return -EINVAL;
-> -		if (sps->bit_depth_luma_minus8 !=3D 0)
-> -			/* Only 8-bit is supported */
-> -			return -EINVAL;
-> +		return hantro_hevc_validate_sps(ctx, sps);
->  	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_VP9_FRAME) {
->  		const struct v4l2_ctrl_vp9_frame *dec_params =3D ctrl->p_new.p_vp9_fra=
-me;
-> =20
-> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging=
-/media/hantro/hantro_hevc.c
-> index 7fdec50dc853..6abef810b285 100644
-> --- a/drivers/staging/media/hantro/hantro_hevc.c
-> +++ b/drivers/staging/media/hantro/hantro_hevc.c
-> @@ -154,6 +154,30 @@ static int tile_buffer_reallocate(struct hantro_ctx =
-*ctx)
->  	return -ENOMEM;
->  }
-> =20
-> +int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_c=
-trl_hevc_sps *sps)
-> +{
-> +	if (sps->bit_depth_luma_minus8 !=3D sps->bit_depth_chroma_minus8)
-> +		/* Luma and chroma bit depth mismatch */
-> +		return -EINVAL;
-> +	if (sps->bit_depth_luma_minus8 !=3D 0)
-> +		/* Only 8-bit is supported */
-> +		return -EINVAL;
-> +
-> +	/* for tile pixel format check if the width and height match
-> +	 * hardware constraints */
-> +	if (ctx->vpu_dst_fmt->fourcc =3D=3D V4L2_PIX_FMT_NV12_4L4) {
-> +		if (ctx->dst_fmt.width !=3D
-> +		    ALIGN(sps->pic_width_in_luma_samples, ctx->vpu_dst_fmt->frmsize.st=
-ep_width))
-> +			return -EINVAL;
-> +
-> +		if (ctx->dst_fmt.height !=3D
-> +		    ALIGN(sps->pic_height_in_luma_samples, ctx->vpu_dst_fmt->frmsize.s=
-tep_height))
-> +			return -EINVAL;
+It does reduce the noise, but also softens the image significantly.
 
-No action needed, just a question. Can we output tiled out of the PP ? If s=
-o,
-perhaps we could handle the alignment difference by enabling the PP even if
-tiled. That would greatly help to handle compatibility between decoders and
-encoders in the future.
+As slightly iffy photos to show the difference
+https://photos.app.goo.gl/hLKxv3TP93gX864y8 is the new setting.
+https://photos.app.goo.gl/sWxEhdvxHLUkGL1C8 is the old setting.
+(Yes it's a very old F1 race that happened to be on this DVD/HDD recorder).
 
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
->  {
->  	struct hantro_hevc_dec_hw_ctx *hevc_ctx =3D &ctx->hevc_dec;
-> @@ -177,6 +201,10 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *c=
-tx)
->  	if (WARN_ON(!ctrls->sps))
->  		return -EINVAL;
-> =20
-> +	ret =3D hantro_hevc_validate_sps(ctx, ctrls->sps);
-> +	if (ret)
-> +		return ret;
-> +
->  	ctrls->pps =3D
->  		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_HEVC_PPS);
->  	if (WARN_ON(!ctrls->pps))
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/m=
-edia/hantro/hantro_hw.h
-> index 994547fe41b9..0bba6378212d 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -341,6 +341,8 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ct=
-x);
->  void hantro_hevc_ref_init(struct hantro_ctx *ctx);
->  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
->  int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t =
-addr);
-> +int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_c=
-trl_hevc_sps *sps);
-> +
-> =20
->  static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension=
-)
->  {
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging=
-/media/hantro/hantro_v4l2.c
-> index 71a6279750bf..93d0dcf69f4a 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -260,7 +260,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ct=
-x,
->  	} else if (ctx->is_encoder) {
->  		vpu_fmt =3D ctx->vpu_dst_fmt;
->  	} else {
-> -		vpu_fmt =3D ctx->vpu_src_fmt;
-> +		vpu_fmt =3D fmt;
->  		/*
->  		 * Width/height on the CAPTURE end of a decoder are ignored and
->  		 * replaced by the OUTPUT ones.
-> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/stagin=
-g/media/hantro/imx8m_vpu_hw.c
-> index 9802508bade2..b6b2bf65e56d 100644
-> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> @@ -83,6 +83,14 @@ static const struct hantro_fmt imx8m_vpu_postproc_fmts=
-[] =3D {
->  		.fourcc =3D V4L2_PIX_FMT_YUYV,
->  		.codec_mode =3D HANTRO_MODE_NONE,
->  		.postprocessed =3D true,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 3840,
+I couldn't honestly say I prefer one over the other (analogue video
+really is grim!), but it does mean that we're following the datasheet
+more accurately, so:
 
-I remember seeing limits to 4096 instead in VSI documentation (UWHD). Just =
-like
-many hardcoded limits in this driver, perhaps the limits was copied from th=
-e=20
-white paper performance example. It would be weird that we can decode portr=
-ait
-UHD/FHD.
+Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-I think for this patch, what I'd like to see is the UDH and FHD limits to b=
-e set
-as a define. Since if we got them wrong, fixing them later after this patch
-becomes a lot more work, as its copied over and over.
-
-Everything else looks good to me know, thanks for the update.
-
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 48,
-> +			.max_height =3D 2160,
-> +			.step_height =3D MB_DIM,
-> +		},
->  	},
->  };
-> =20
-> @@ -90,6 +98,14 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] =
-=3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 3840,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 48,
-> +			.max_height =3D 2160,
-> +			.step_height =3D MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_MPEG2_SLICE,
-> @@ -137,6 +153,14 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc=
-_fmts[] =3D {
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
->  		.postprocessed =3D true,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 3840,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 48,
-> +			.max_height =3D 2160,
-> +			.step_height =3D MB_DIM,
-> +		},
->  	},
->  };
-> =20
-> @@ -144,6 +168,14 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts=
-[] =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12_4L4,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 3840,
-> +			.step_width =3D 4,
-> +			.min_height =3D 48,
-> +			.max_height =3D 2160,
-> +			.step_height =3D 4,
-> +		},
->  	},
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_HEVC_SLICE,
-> @@ -152,10 +184,10 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmt=
-s[] =3D {
->  		.frmsize =3D {
->  			.min_width =3D 48,
->  			.max_width =3D 3840,
-> -			.step_width =3D MB_DIM,
-> +			.step_width =3D 4,
->  			.min_height =3D 48,
->  			.max_height =3D 2160,
-> -			.step_height =3D MB_DIM,
-> +			.step_height =3D 4,
->  		},
->  	},
->  	{
-> @@ -165,10 +197,10 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmt=
-s[] =3D {
->  		.frmsize =3D {
->  			.min_width =3D 48,
->  			.max_width =3D 3840,
-> -			.step_width =3D MB_DIM,
-> +			.step_width =3D 4,
->  			.min_height =3D 48,
->  			.max_height =3D 2160,
-> -			.step_height =3D MB_DIM,
-> +			.step_height =3D 4,
->  		},
->  	},
->  };
-> diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/sta=
-ging/media/hantro/rockchip_vpu_hw.c
-> index fc96501f3bc8..efba7fcdf207 100644
-> --- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> @@ -63,6 +63,14 @@ static const struct hantro_fmt rockchip_vpu1_postproc_=
-fmts[] =3D {
->  		.fourcc =3D V4L2_PIX_FMT_YUYV,
->  		.codec_mode =3D HANTRO_MODE_NONE,
->  		.postprocessed =3D true,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 1920,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 48,
-> +			.max_height =3D 1088,
-> +			.step_height =3D MB_DIM,
-> +		},
->  	},
->  };
-> =20
-> @@ -70,6 +78,14 @@ static const struct hantro_fmt rk3066_vpu_dec_fmts[] =
-=3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 1920,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 48,
-> +			.max_height =3D 1088,
-> +			.step_height =3D MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_H264_SLICE,
-> @@ -116,6 +132,14 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[]=
- =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 4096,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 48,
-> +			.max_height =3D 2304,
-> +			.step_height =3D MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_H264_SLICE,
-> @@ -162,6 +186,14 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[]=
- =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 1920,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 48,
-> +			.max_height =3D 1088,
-> +			.step_height =3D MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_H264_SLICE,
-> diff --git a/drivers/staging/media/hantro/sama5d4_vdec_hw.c b/drivers/sta=
-ging/media/hantro/sama5d4_vdec_hw.c
-> index b2fc1c5613e1..07ee804e706b 100644
-> --- a/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-> +++ b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-> @@ -16,6 +16,14 @@ static const struct hantro_fmt sama5d4_vdec_postproc_f=
-mts[] =3D {
->  		.fourcc =3D V4L2_PIX_FMT_YUYV,
->  		.codec_mode =3D HANTRO_MODE_NONE,
->  		.postprocessed =3D true,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 1280,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 48,
-> +			.max_height =3D 720,
-> +			.step_height =3D MB_DIM,
-> +		},
->  	},
->  };
-> =20
-> @@ -23,6 +31,14 @@ static const struct hantro_fmt sama5d4_vdec_fmts[] =3D=
- {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 1280,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 48,
-> +			.max_height =3D 720,
-> +			.step_height =3D MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_MPEG2_SLICE,
-> diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/stagin=
-g/media/hantro/sunxi_vpu_hw.c
-> index c0edd5856a0c..c2392c08febb 100644
-> --- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> @@ -14,6 +14,14 @@ static const struct hantro_fmt sunxi_vpu_postproc_fmts=
-[] =3D {
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
->  		.postprocessed =3D true,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 3840,
-> +			.step_width =3D 32,
-> +			.min_height =3D 48,
-> +			.max_height =3D 2160,
-> +			.step_height =3D 32,
-> +		},
->  	},
->  };
-> =20
-> @@ -21,6 +29,14 @@ static const struct hantro_fmt sunxi_vpu_dec_fmts[] =
-=3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12_4L4,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.frmsize =3D {
-> +			.min_width =3D 48,
-> +			.max_width =3D 3840,
-> +			.step_width =3D 32,
-> +			.min_height =3D 48,
-> +			.max_height =3D 2160,
-> +			.step_height =3D 32,
-> +		},
->  	},
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_VP9_FRAME,
-> --=20
-> 2.32.0
->=20
->=20
-
+> But I think I could add this already:
+>
+>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
+> >
+> >   Dave
+> >
+> > >  #define ADV7180_REG_OUTPUT_CONTROL                     0x0003
+> > >  #define ADV7180_REG_EXTENDED_OUTPUT_CONTROL            0x0004
+> > > @@ -1014,7 +1015,9 @@ static int adv7182_init(struct adv7180_state *state)
+> > >
+> > >  static int adv7182_set_std(struct adv7180_state *state, unsigned int std)
+> > >  {
+> > > -       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL, std << 4);
+> > > +       /* Failing to set the reserved bit can result in increased video noise */
+> > > +       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL,
+> > > +                            (std << 4) | ADV7182_REG_INPUT_RESERVED);
+> > >  }
+> > >
+> > >  enum adv7182_input_type {
+> > > --
+> > > 2.36.1
+> > >
