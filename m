@@ -2,135 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ADC952AB28
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 20:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C82A52AC9E
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 22:19:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352340AbiEQSp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 14:45:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47968 "EHLO
+        id S242117AbiEQUTK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 16:19:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352352AbiEQSp1 (ORCPT
+        with ESMTP id S234652AbiEQUTJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 14:45:27 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2C7310FE8
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 11:45:24 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id y41so17654770pfw.12
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 11:45:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mV/CodTz7Z8B4eDDmmvtlxXq5m1Ig0T7xZuL/eV2jp0=;
-        b=Uy3wKTRaB+ir3y8m3qnwaEwB9Xypr5MXwqcCqZ5NxLdl+N0nkdpO3sM/A+hSpZhNF0
-         TnyZVlCuK72o09BlCX9cVg/EUDd96B+04tRNz7EAnLnCeZsgOKek45d0V5stMF2Oqm3G
-         raXpIFQYXLisCpzfdRab4j1JpKLmR4SK2YrnADrO4JXarb6v5XjB2l5um129FP4diIl+
-         b2pmvwxF0o9Dh2E99t0ZicIEdUe0TCFqH9N/4HWoBWL9M87E3UwHjES8Tl1V8oFNs9HW
-         LX9eiCpQWiIKmZ/XUNkfl61U95zJELugVHRiw9qkh+obuYNk/MnIvAw/I5G0FpxrAvi1
-         /qmQ==
+        Tue, 17 May 2022 16:19:09 -0400
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E94E451E6C;
+        Tue, 17 May 2022 13:19:05 -0700 (PDT)
+Received: by mail-oi1-f171.google.com with SMTP id w130so260749oig.0;
+        Tue, 17 May 2022 13:19:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mV/CodTz7Z8B4eDDmmvtlxXq5m1Ig0T7xZuL/eV2jp0=;
-        b=mdWm1Pj1xZuFObrUyYLJrcSGCzGw6jl+qQd88dIFNbVkmqK01XTsblH9qWDY7Bxk51
-         /QYapOOYLVwH86USNgMJfF9O7Edtf3l4D8qGeYNppWo97VRIjs7d3K+Xj1XbuO1khgYN
-         oIkxLwN4kFxPPzyQocaissVjfvWWveWu4/CNG+J4rXTHWPdDLI6YS52gNMHzyfJkRRo+
-         lrKQN3J2YZ+PsPbJQ0pHYTx0Ie08jvbaXUrI1jcD4c5Td15TiC2mkXSlVHmHstGb6pnV
-         BY8bzXNEw8Ys6Rb8IV5/atp48h8B1q+uTJZiyT1nwtySm4VR4k4vLS4gJbZgFieEP4cX
-         e/rA==
-X-Gm-Message-State: AOAM531bGqefskg32900KIb0NB2jH3DXYy7nGP+VMEuJ8At6atsiLoT4
-        6I00xt2fOa8qbCsOYfd6uDrenb5DStWkV9XZhhBhaI4qzjs=
-X-Google-Smtp-Source: ABdhPJwu80pfMT67tgPDHyPgDWbAsCo5bzGNv/UvcdFjQampI6bioXyZ5QtLmqdLkt18Iwn+N5T+XgkJWfJ+8Ev6ofI=
-X-Received: by 2002:a05:6a00:2186:b0:4f7:5544:1cc9 with SMTP id
- h6-20020a056a00218600b004f755441cc9mr23725519pfi.62.1652813124348; Tue, 17
- May 2022 11:45:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <CACBf5_XDzBAAPwx9wn-p-moLyWGzx5o_cnFKPqZuS7puvZbmGg@mail.gmail.com>
-In-Reply-To: <CACBf5_XDzBAAPwx9wn-p-moLyWGzx5o_cnFKPqZuS7puvZbmGg@mail.gmail.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Tue, 17 May 2022 15:45:12 -0300
-Message-ID: <CALF0-+XP0km6uKtbteST_Mm5nFQtxgeqKcoz-GoOKy_CHQwmLQ@mail.gmail.com>
-Subject: Re: STK1160 USB VIDEO CAPTURE DRIVER kconfig compatibility issues
-To:     Steven Rosenberg <steven.rosenberg@devalore.com>
-Cc:     linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=qF0K1DNnjaqSBBuzSNA0jml+7NSOTcoHRSVNExgb0IU=;
+        b=hHxYZavkNduQqYTY3Ya4UnZVleO/DbFMEXONXPjmAAt+XPY/9xbaeJI6CBavrtJ1Ro
+         KUaLikVyP9Amuk8pUD5Mq9daAYiu6ElJDAZumBFYVqNI0eRwunya7OBD4phZrarnLnNM
+         j7Xee9fbkUIVqbt6fdWVGzQH3+vH81O31yPIOpQncQFF3wkRFQE+Q75/9GE+8czZICqh
+         bcrwVi09W2R9iIxf+b3EWNwe1hPT7udN1cKM4BPCyWW8sG6twxfBKqGPqYxn3cKRAQID
+         AJd7YW2IPQDnSN8J5AAb9q+iZKXdvHfHC/8KhNU9m469EE1KjXMpMSZy9mQZIp3jrnJ8
+         XVrA==
+X-Gm-Message-State: AOAM530/WMwNEog31+1l9dFzViaBOrvPhsH3HcGGnAeOLO4xMuVXdugI
+        +zgxaziJNsOAbIwi09omVA==
+X-Google-Smtp-Source: ABdhPJyD6elI9HCVkd6AnLnBYNqOkkIRVTo1++KX2zvPCfJvAtcXP8v/Qto20xBUQ7sIQ4K661TKyg==
+X-Received: by 2002:aca:bc57:0:b0:326:b2b6:2535 with SMTP id m84-20020acabc57000000b00326b2b62535mr16655453oif.107.1652818745220;
+        Tue, 17 May 2022 13:19:05 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id q19-20020a4a8353000000b00333220959b9sm207184oog.1.2022.05.17.13.19.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 13:19:04 -0700 (PDT)
+Received: (nullmailer pid 1561450 invoked by uid 1000);
+        Tue, 17 May 2022 20:19:03 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Smitha T Murthy <smitha.t@samsung.com>
+Cc:     ezequiel@vanguardiasur.com.ar, benjamin.gaignard@collabora.com,
+        david.plowman@raspberrypi.com, stanimir.varbanov@linaro.org,
+        mark.rutland@arm.com, andi@etezian.org, aswani.reddy@samsung.com,
+        mchehab@kernel.org, linux-kernel@vger.kernel.org,
+        m.szyprowski@samsung.com, dillon.minfei@gmail.com,
+        andrzej.hajda@intel.com, linux-arm-kernel@lists.infradead.org,
+        pankaj.dubey@samsung.com, jernej.skrabec@gmail.com,
+        krzk+dt@kernel.org, devicetree@vger.kernel.org, robh+dt@kernel.org,
+        alim.akhtar@samsung.com, linux-media@vger.kernel.org,
+        linux-fsd@tesla.com, hverkuil-cisco@xs4all.nl
+In-Reply-To: <20220517125548.14746-3-smitha.t@samsung.com>
+References: <20220517125548.14746-1-smitha.t@samsung.com>        <CGME20220517125554epcas5p4e87a71471525056281f1578f4f80f760@epcas5p4.samsung.com> <20220517125548.14746-3-smitha.t@samsung.com>
+Subject: Re: [PATCH 02/20] dt-bindings: media: s5p-mfc: Convert s5p-mfc.txt to new DT schema
+Date:   Tue, 17 May 2022 15:19:03 -0500
+Message-Id: <1652818743.270476.1561449.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Steven,
+On Tue, 17 May 2022 18:25:30 +0530, Smitha T Murthy wrote:
+> Adds DT schema for s5p-mfc in yaml format.
+> 
+> Cc: linux-fsd@tesla.com
+> Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
+> ---
+>  .../devicetree/bindings/media/s5p-mfc.txt     | 77 +--------------
+>  .../devicetree/bindings/media/s5p-mfc.yaml    | 98 +++++++++++++++++++
+>  2 files changed, 99 insertions(+), 76 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/s5p-mfc.yaml
+> 
 
-I think your mail didn't get delivered because it's HTML and mailing
-list filter this. Plain-text is required.
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
 
-El mar, 17 may 2022 a la(s) 10:10, Steven Rosenberg
-(steven.rosenberg@devalore.com) escribi=C3=B3:
->
-> Dear Ezequiel Garcia,
->
->
->
-> We are using the linux 3.10.73 package [1], which includes your "drivers/=
-media/usb/stk1160/ Kconfig" file. We are upgrading versions of Yocto and th=
-e current version of kconfiglib.py gives errors [2]. There is indeed an ext=
-ra dot on line 20. Perhaps you have already fixed this in a later version  =
-of this linux package so that we can avoid adding a patch? If so or if you =
-have another solution, please advise accordingly. Currently your Kconfig fi=
-le for this version of Linux is not compatible with the current version of =
- kconfiglib.
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
 
-Thanks for the report. The extra dot was apparently introduced by
-commit "[media] rename most media/video usb drivers to media/usb",
-and later fixed in commit "[media] stk1160: Build as a module if SND
-is m and audio support is selected".
-See: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
-mit/?id=3Ddfb9f94e8e5e7f73c8e2bcb7d4fb1de57e7c333d
-
-3.10 is EOLed so you will have to patch this yourself.
-
-PS: If you still want to use 3.10, I would suggest you should be using
-3.10.108 (latest stable).
-
-Thanks,
-Ez
+Full log is available here: https://patchwork.ozlabs.org/patch/
 
 
+codec@11000000: 'iommu-names', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/exynos5250-arndale.dtb
+	arch/arm/boot/dts/exynos5250-smdk5250.dtb
+	arch/arm/boot/dts/exynos5250-snow.dtb
+	arch/arm/boot/dts/exynos5250-snow-rev5.dtb
+	arch/arm/boot/dts/exynos5250-spring.dtb
+	arch/arm/boot/dts/exynos5420-arndale-octa.dtb
+	arch/arm/boot/dts/exynos5420-chagall-wifi.dtb
+	arch/arm/boot/dts/exynos5420-klimt-wifi.dtb
+	arch/arm/boot/dts/exynos5420-peach-pit.dtb
+	arch/arm/boot/dts/exynos5420-smdk5420.dtb
+	arch/arm/boot/dts/exynos5422-odroidhc1.dtb
+	arch/arm/boot/dts/exynos5422-odroidxu3.dtb
+	arch/arm/boot/dts/exynos5422-odroidxu3-lite.dtb
+	arch/arm/boot/dts/exynos5422-odroidxu4.dtb
+	arch/arm/boot/dts/exynos5800-peach-pi.dtb
 
->
->
->
->
->
->
-> [1] https://www.kernel.org/pub/linux/kernel/v3.x/linux-3.10.73.tar.xz
->
-> [2]
->
->
-> kconfiglib.KconfigError: drivers/media/usb/stk1160/Kconfig:20: error: cou=
-ldn't parse '.': unknown token at start of line
->
-> ERROR: config analysis failed:
->
-> DEBUG: Python function do_kernel_configcheck finished
->
->
-> With Best Regards.
->
->
-> Steven Rosenberg.
+codec@13400000: clock-names: ['mfc', 'sclk_mfc'] is too long
+	arch/arm/boot/dts/exynos3250-artik5-eval.dtb
+	arch/arm/boot/dts/exynos3250-monk.dtb
+	arch/arm/boot/dts/exynos3250-rinato.dtb
+	arch/arm/boot/dts/exynos4210-i9100.dtb
+	arch/arm/boot/dts/exynos4210-origen.dtb
+	arch/arm/boot/dts/exynos4210-smdkv310.dtb
+	arch/arm/boot/dts/exynos4210-trats.dtb
+	arch/arm/boot/dts/exynos4210-universal_c210.dtb
+	arch/arm/boot/dts/exynos4412-i9300.dtb
+	arch/arm/boot/dts/exynos4412-i9305.dtb
+	arch/arm/boot/dts/exynos4412-itop-elite.dtb
+	arch/arm/boot/dts/exynos4412-n710x.dtb
+	arch/arm/boot/dts/exynos4412-odroidu3.dtb
+	arch/arm/boot/dts/exynos4412-odroidx2.dtb
+	arch/arm/boot/dts/exynos4412-odroidx.dtb
+	arch/arm/boot/dts/exynos4412-origen.dtb
+	arch/arm/boot/dts/exynos4412-p4note-n8010.dtb
+	arch/arm/boot/dts/exynos4412-smdk4412.dtb
+	arch/arm/boot/dts/exynos4412-tiny4412.dtb
+	arch/arm/boot/dts/exynos4412-trats2.dtb
 
+codec@13400000: clocks: [[5, 273], [5, 170]] is too long
+	arch/arm/boot/dts/exynos4210-i9100.dtb
+	arch/arm/boot/dts/exynos4210-origen.dtb
+	arch/arm/boot/dts/exynos4210-smdkv310.dtb
+	arch/arm/boot/dts/exynos4210-trats.dtb
+	arch/arm/boot/dts/exynos4210-universal_c210.dtb
 
+codec@13400000: clocks: [[7, 178], [7, 228]] is too long
+	arch/arm/boot/dts/exynos3250-artik5-eval.dtb
+	arch/arm/boot/dts/exynos3250-monk.dtb
+	arch/arm/boot/dts/exynos3250-rinato.dtb
 
---=20
-Ezequiel Garc=C3=ADa, VanguardiaSur
-www.vanguardiasur.com.ar
+codec@13400000: clocks: [[7, 273], [7, 170]] is too long
+	arch/arm/boot/dts/exynos4412-i9300.dtb
+	arch/arm/boot/dts/exynos4412-i9305.dtb
+	arch/arm/boot/dts/exynos4412-itop-elite.dtb
+	arch/arm/boot/dts/exynos4412-n710x.dtb
+	arch/arm/boot/dts/exynos4412-odroidu3.dtb
+	arch/arm/boot/dts/exynos4412-odroidx2.dtb
+	arch/arm/boot/dts/exynos4412-odroidx.dtb
+	arch/arm/boot/dts/exynos4412-origen.dtb
+	arch/arm/boot/dts/exynos4412-p4note-n8010.dtb
+	arch/arm/boot/dts/exynos4412-smdk4412.dtb
+	arch/arm/boot/dts/exynos4412-tiny4412.dtb
+	arch/arm/boot/dts/exynos4412-trats2.dtb
+
+codec@13400000: 'iommu-names', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/exynos4210-i9100.dtb
+	arch/arm/boot/dts/exynos4210-origen.dtb
+	arch/arm/boot/dts/exynos4210-smdkv310.dtb
+	arch/arm/boot/dts/exynos4210-trats.dtb
+	arch/arm/boot/dts/exynos4210-universal_c210.dtb
+	arch/arm/boot/dts/exynos4412-i9300.dtb
+	arch/arm/boot/dts/exynos4412-i9305.dtb
+	arch/arm/boot/dts/exynos4412-itop-elite.dtb
+	arch/arm/boot/dts/exynos4412-n710x.dtb
+	arch/arm/boot/dts/exynos4412-odroidu3.dtb
+	arch/arm/boot/dts/exynos4412-odroidx2.dtb
+	arch/arm/boot/dts/exynos4412-odroidx.dtb
+	arch/arm/boot/dts/exynos4412-origen.dtb
+	arch/arm/boot/dts/exynos4412-p4note-n8010.dtb
+	arch/arm/boot/dts/exynos4412-smdk4412.dtb
+	arch/arm/boot/dts/exynos4412-tiny4412.dtb
+	arch/arm/boot/dts/exynos4412-trats2.dtb
+
+codec@13400000: iommus: [[36]] is too short
+	arch/arm/boot/dts/exynos3250-monk.dtb
+
+codec@13400000: iommus: [[40]] is too short
+	arch/arm/boot/dts/exynos3250-artik5-eval.dtb
+
+codec@13400000: iommus: [[47]] is too short
+	arch/arm/boot/dts/exynos3250-rinato.dtb
+
+codec@13400000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/exynos3250-artik5-eval.dtb
+	arch/arm/boot/dts/exynos3250-monk.dtb
+	arch/arm/boot/dts/exynos3250-rinato.dtb
+
+codec@152e0000: clock-names: ['pclk', 'aclk', 'aclk_xiu'] is too long
+	arch/arm64/boot/dts/exynos/exynos5433-tm2.dtb
+	arch/arm64/boot/dts/exynos/exynos5433-tm2e.dtb
+
+codec@152e0000: clocks: [[34, 16], [34, 9], [34, 6]] is too long
+	arch/arm64/boot/dts/exynos/exynos5433-tm2.dtb
+	arch/arm64/boot/dts/exynos/exynos5433-tm2e.dtb
+
+codec@152e0000: 'iommu-names', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
+	arch/arm64/boot/dts/exynos/exynos5433-tm2.dtb
+	arch/arm64/boot/dts/exynos/exynos5433-tm2e.dtb
+
+codec@f1700000: clock-names: ['sclk_mfc', 'mfc'] is too long
+	arch/arm/boot/dts/s5pv210-aquila.dtb
+	arch/arm/boot/dts/s5pv210-fascinate4g.dtb
+	arch/arm/boot/dts/s5pv210-galaxys.dtb
+	arch/arm/boot/dts/s5pv210-goni.dtb
+	arch/arm/boot/dts/s5pv210-smdkc110.dtb
+	arch/arm/boot/dts/s5pv210-smdkv210.dtb
+	arch/arm/boot/dts/s5pv210-torbreck.dtb
+
+codec@f1700000: clocks: [[2, 60], [2, 92]] is too long
+	arch/arm/boot/dts/s5pv210-aquila.dtb
+	arch/arm/boot/dts/s5pv210-fascinate4g.dtb
+	arch/arm/boot/dts/s5pv210-galaxys.dtb
+	arch/arm/boot/dts/s5pv210-goni.dtb
+	arch/arm/boot/dts/s5pv210-smdkc110.dtb
+	arch/arm/boot/dts/s5pv210-smdkv210.dtb
+	arch/arm/boot/dts/s5pv210-torbreck.dtb
+
+codec@f1700000: 'iommus' is a required property
+	arch/arm/boot/dts/s5pv210-aquila.dtb
+	arch/arm/boot/dts/s5pv210-fascinate4g.dtb
+	arch/arm/boot/dts/s5pv210-galaxys.dtb
+	arch/arm/boot/dts/s5pv210-goni.dtb
+	arch/arm/boot/dts/s5pv210-smdkc110.dtb
+	arch/arm/boot/dts/s5pv210-smdkv210.dtb
+	arch/arm/boot/dts/s5pv210-torbreck.dtb
+
