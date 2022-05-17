@@ -2,194 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E26DB52AE6C
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 01:08:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4EC052AE6D
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 01:09:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231618AbiEQXIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 19:08:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56528 "EHLO
+        id S231636AbiEQXJw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 19:09:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230242AbiEQXIM (ORCPT
+        with ESMTP id S230242AbiEQXJu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 19:08:12 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A0E337AA8
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 16:08:11 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 341934A8;
-        Wed, 18 May 2022 01:08:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1652828889;
-        bh=XIZIu57x286mw5Zeq61JLUEb3y2bHFvbmI48RX6juBk=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=GqHTJGh/uS/iWTtcAbxbGufo4ZBaH51Q6S1qmWlDUjM4hYmSFKACitujBbKxHxyX1
-         mOkNY+c11Sm8gKb1ksw4rBXFBDcXn5jpuF0LnYSSFKTyJGMxflnsOUR2Ccjq+WAR7u
-         aCsvTtLsoh+ZaxBWsB1IN9rTY+1l2y3hJ53Nqr9U=
-Content-Type: text/plain; charset="utf-8"
+        Tue, 17 May 2022 19:09:50 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B1434AE2A
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 16:09:49 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id i9so821001edr.8
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 16:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=YeWHEdiEl4Cq8ce8kfBVpVlo8D7OiDCUHl/qifLiacg=;
+        b=Ac44BK8Oxljl1wYTS+T/ipuXIsyXnhAcD2EFhI7JosK6s2AsQoPQngNUvXID4XQU8R
+         mW0BrgZPM9PBNfCplH1dStY4W0uPggK8Wt+6CMBU7mscY1UFX/6hj+LnoR0uGO52NXre
+         +l1DxyMl5Jwi0KNt25psFVNG6+TgblbCYW2TtaI+GwLWcc0rj9ss2lo1oue9eMU5+mcl
+         QXteQBsXYw0S2TIAGZrSAk7sk04efAskF4tiEnJP+nQNSTQe23HVsY46BflkEcbSzII4
+         b0A+fWJDBtTWwT2EvWpIPUBE45sfCcfqGke+ggcODtNpXcqxB5rOTK9AMM+Nb18pnlM0
+         rQ/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=YeWHEdiEl4Cq8ce8kfBVpVlo8D7OiDCUHl/qifLiacg=;
+        b=EpNfhWnY9TZ4hveCODEvhfK4ul3TCbDdGTGX1STp9V8d4EbkP1QtZ9VAKOMwzFcSOp
+         bTrzi5kdwnCGz1pyYvDqeaSFCalIKDrpoONdcdzOwgJKVsINuTgzv8iCL7vSKTV02CL1
+         f1LWpj8FagrUgC0f9px5wgksNJa1EWXtXzh95bmuPjy8sl0d1SrCXFy8aAUu8BiGO2jv
+         CJR64jV4m2eTQW+1VVjUFTsyLFSdeLpFMHVe7egOwoZhiFxDEtO8janAxqzYIc8li/x7
+         WB0NwDGd9YmVDzpZPX88BGIuYuhnHdYqlI0lbTOh8FfzFx6Cfil0dgP5p+wmUohZYh6d
+         o4Ww==
+X-Gm-Message-State: AOAM533azUCFOWDrDJUpGBd/hUMcsSRugHOqVXw3HwWQJAVvPxrWlRWj
+        gpKxM0tmCdWOtZZf2Mgb3nKYe6qqR64zGHpGtSI9mA==
+X-Google-Smtp-Source: ABdhPJx4nt0FkvBklwCxEBBCV/UBFXuXao7+3ByQEB1fVw4PsnGPgV8/sCFzvyTI3gvxHW8FGK42C/aj4o8mMw44U6w=
+X-Received: by 2002:a50:ed8b:0:b0:42a:a7e0:f889 with SMTP id
+ h11-20020a50ed8b000000b0042aa7e0f889mr17019013edr.79.1652828987857; Tue, 17
+ May 2022 16:09:47 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220516171315.2400578-1-tjmercier@google.com>
+ <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com> <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
+ <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com> <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
+ <YoM9BAwybcjG7K/H@kroah.com>
+In-Reply-To: <YoM9BAwybcjG7K/H@kroah.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Tue, 17 May 2022 16:09:36 -0700
+Message-ID: <CABdmKX3SngXeq+X0YiQ8d4X3xpUhnUtewPiUam5Bfi7PCC6nWQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Greg Kroah-Hartman <gregkh@google.com>,
+        John Stultz <jstultz@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Hridya Valsaraju <hridya@google.com>, kernel-team@android.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAPY8ntDfnZG_+43gMz2D=v9eUBX8zjbJpDpwm1a8tTT4ak8drw@mail.gmail.com>
-References: <20220512120209.11614-1-info@benjaminmarty.ch> <CAPY8ntD4miACVe9naYUyVAztZcDBK47chpJLy4=qqjmego1jvA@mail.gmail.com> <165243859864.2416244.4785590696956344599@Monstersaurus> <CAPY8ntDfnZG_+43gMz2D=v9eUBX8zjbJpDpwm1a8tTT4ak8drw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: i2c: adv7180: fix reserved bit in Video Selection 2
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Benjamin Marty <info@benjaminmarty.ch>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Wed, 18 May 2022 00:08:06 +0100
-Message-ID: <165282888670.2416244.4233841355061128997@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Dave Stevenson (2022-05-17 18:50:11)
-> On Fri, 13 May 2022 at 11:43, Kieran Bingham
-> <kieran.bingham@ideasonboard.com> wrote:
-> >
-> > Quoting Dave Stevenson (2022-05-12 14:56:45)
-> > > Hi Benjamin.
+On Mon, May 16, 2022 at 11:13 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, May 16, 2022 at 05:08:05PM -0700, T.J. Mercier wrote:
+> > On Mon, May 16, 2022 at 12:21 PM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
 > > >
-> > > On Thu, 12 May 2022 at 13:11, Benjamin Marty <info@benjaminmarty.ch> =
-wrote:
+> > > Am 16.05.22 um 20:08 schrieb T.J. Mercier:
+> > > > On Mon, May 16, 2022 at 10:20 AM Christian K=C3=B6nig
+> > > > <christian.koenig@amd.com> wrote:
+> > > >> Am 16.05.22 um 19:13 schrieb T.J. Mercier:
+> > > >>> Recently, we noticed an issue where a process went into direct re=
+claim
+> > > >>> while holding the kernfs rw semaphore for sysfs in write (exclusi=
+ve)
+> > > >>> mode. This caused processes who were doing DMA-BUF exports and re=
+leases
+> > > >>> to go into uninterruptible sleep since they needed to acquire the=
+ same
+> > > >>> semaphore for the DMA-BUF sysfs entry creation/deletion. In order=
+ to avoid
+> > > >>> blocking DMA-BUF export for an indeterminate amount of time while
+> > > >>> another process is holding the sysfs rw semaphore in exclusive mo=
+de,
+> > > >>> this patch moves the per-buffer sysfs file creation to the defaul=
+t work
+> > > >>> queue. Note that this can lead to a short-term inaccuracy in the =
+dmabuf
+> > > >>> sysfs statistics, but this is a tradeoff to prevent the hot path =
+from
+> > > >>> being blocked. A work_struct is added to dma_buf to achieve this,=
+ but as
+> > > >>> it is unioned with the kobject in the sysfs_entry, dma_buf does n=
+ot
+> > > >>> increase in size.
+> > > >> I'm still not very keen of this approach as it strongly feels like=
+ we
+> > > >> are working around shortcoming somewhere else.
+> > > >>
+> > > > My read of the thread for the last version is that we're running in=
+to
+> > > > a situation where sysfs is getting used for something it wasn't
+> > > > originally intended for, but we're also stuck with this sysfs
+> > > > functionality for dmabufs.
 > > > >
-> > > > This bit is marked as reserved in the ADV Hardware Reference Manual.
-> > > >
-> > > > Resetting this bit seems to cause increased video noise. Setting th=
+> > > >>> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BU=
+F stats in sysfs")
+> > > >>> Originally-by: Hridya Valsaraju <hridya@google.com>
+> > > >>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > > >>>
+> > > >>> ---
+> > > >>> See the originally submitted patch by Hridya Valsaraju here:
+> > > >>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F=
+%2Flkml.org%2Flkml%2F2022%2F1%2F4%2F1066&amp;data=3D05%7C01%7Cchristian.koe=
+nig%40amd.com%7C794614324d114880a25508da37672e4b%7C3dd8961fe4884e608e11a82d=
+994e183d%7C0%7C0%7C637883213566903705%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wL=
+jAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;s=
+data=3DbGlA2FeubfSeL5XDHYyWMZqUXfScoCphZjjK4jrqQJs%3D&amp;reserved=3D0
+> > > >>>
+> > > >>> v2 changes:
+> > > >>> - Defer only sysfs creation instead of creation and teardown per
+> > > >>> Christian K=C3=B6nig
+> > > >>>
+> > > >>> - Use a work queue instead of a kthread for deferred work per
+> > > >>> Christian K=C3=B6nig
+> > > >>> ---
+> > > >>>    drivers/dma-buf/dma-buf-sysfs-stats.c | 56 +++++++++++++++++++=
++-------
+> > > >>>    include/linux/dma-buf.h               | 14 ++++++-
+> > > >>>    2 files changed, 54 insertions(+), 16 deletions(-)
+> > > >>>
+> > > >>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-=
+buf/dma-buf-sysfs-stats.c
+> > > >>> index 2bba0babcb62..67b0a298291c 100644
+> > > >>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > > >>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > > >>> @@ -11,6 +11,7 @@
+> > > >>>    #include <linux/printk.h>
+> > > >>>    #include <linux/slab.h>
+> > > >>>    #include <linux/sysfs.h>
+> > > >>> +#include <linux/workqueue.h>
+> > > >>>
+> > > >>>    #include "dma-buf-sysfs-stats.h"
+> > > >>>
+> > > >>> @@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(void)
+> > > >>>        kset_unregister(dma_buf_stats_kset);
+> > > >>>    }
+> > > >>>
+> > > >>> +static void sysfs_add_workfn(struct work_struct *work)
+> > > >>> +{
+> > > >>> +     struct dma_buf_sysfs_entry *sysfs_entry =3D
+> > > >>> +             container_of(work, struct dma_buf_sysfs_entry, sysf=
+s_add_work);
+> > > >>> +     struct dma_buf *dmabuf =3D sysfs_entry->dmabuf;
+> > > >>> +
+> > > >>> +     /*
+> > > >>> +      * A dmabuf is ref-counted via its file member. If this han=
+dler holds the only
+> > > >>> +      * reference to the dmabuf, there is no need for sysfs kobj=
+ect creation. This is an
+> > > >>> +      * optimization and a race; when the reference count drops =
+to 1 immediately after
+> > > >>> +      * this check it is not harmful as the sysfs entry will sti=
+ll get cleaned up in
+> > > >>> +      * dma_buf_stats_teardown, which won't get called until the=
+ final dmabuf reference
+> > > >>> +      * is released, and that can't happen until the end of this=
+ function.
+> > > >>> +      */
+> > > >>> +     if (file_count(dmabuf->file) > 1) {
+> > > >> Please completely drop that. I see absolutely no justification for=
+ this
+> > > >> additional complexity.
+> > > >>
+> > > > This case gets hit around 5% of the time in my testing so the else =
 is
-> > > > bit according to the Hardware Reference Manual reduces the video no=
-ise
-> > > > immediately.
-> > > >
-> > > > Signed-off-by: Benjamin Marty <info@benjaminmarty.ch>
-> > > > ---
-> > > > version 2:
-> > > > - Fixed Kieran's remarks
-> > > >
-> > > >  drivers/media/i2c/adv7180.c | 5 ++++-
-> > > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv718=
-0.c
-> > > > index 4f5db195e66d..992111fe249e 100644
-> > > > --- a/drivers/media/i2c/adv7180.c
-> > > > +++ b/drivers/media/i2c/adv7180.c
-> > > > @@ -43,6 +43,7 @@
-> > > >  #define ADV7180_INPUT_CONTROL_INSEL_MASK               0x0f
-> > > >
-> > > >  #define ADV7182_REG_INPUT_VIDSEL                       0x0002
-> > > > +#define ADV7182_REG_INPUT_RESERVED                     BIT(2)
+> > > > not a completely unused branch.
 > > >
-> > > Responding to Kieran's comment on V1:
-> > > > If the bit is documented with a better name, then use that of cours=
-e,
-> > > > otherwise perhaps even a comment in the code saying that failing to=
- set
-> > > > the bit increases visible noise would be suitable. (or that setting=
- the
-> > > > bit reduces noise, I guess it depends on if you think this bit is
-> > > > performing noise reduction, or if not setting it is introducing noi=
-se)
+> > > Well I can only repeat myself: This means that your userspace is
+> > > severely broken!
 > > >
-> > > I went digging through the datasheet for this info as I care about
-> > > ADV728[0|1|2]M.
-> > >
-> > > https://www.analog.com/media/en/technical-documentation/data-sheets/A=
-DV7182.pdf
-> > > page 68 defines bits 0-3 as reserved, and "set to default" which is
-> > > 0100b.
-> > > https://www.analog.com/media/en/technical-documentation/user-guides/A=
-DV7280_7281_7282_7283_UG-637.pdf
-> > > page 70 says the same for ADV7280/ADV7281/ADV7282/ADV7283.
-> > >
-> > > So no name or detail in the docs over what the bits do.
-> > >
-> > > The patch does mean the driver more closely follows the datasheet, so
-> > > it looks good to me.
-> > >
-> > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > >
-> > > I'll try to find a couple of minutes to get my hardware out and
-> > > confirm I see the change in video noise.
-> >
-> > Great, Is there any way we can identify (easily?) if this is introducing
-> > noise reduction, or preventing noise being added?
-> >
-> > If it's introducing noise reduction, as a feature, that's quite
-> > different to causing noise if it's not set ... (Unless perhaps people
-> > have a desire to add noise :D)
->=20
-> OK, I dug out my hardware. I'm doing the nasty with:
-> i2ctransfer -y -f 10 w2@0x21 0x02 0x84
-> and
-> i2ctransfer -y -f 10 w2@0x21 0x02 0x80
-> to flip back and forth between the two settings on my PAL source.
->=20
-> It does reduce the noise, but also softens the image significantly.
->=20
-> As slightly iffy photos to show the difference
-> https://photos.app.goo.gl/hLKxv3TP93gX864y8 is the new setting.
-> https://photos.app.goo.gl/sWxEhdvxHLUkGL1C8 is the old setting.
-> (Yes it's a very old F1 race that happened to be on this DVD/HDD recorder=
-).
+> > > DMA-buf are meant to be long living objects
+> > This patch addresses export *latency* regardless of how long-lived the
+> > object is. Even a single, long-lived export will benefit from this
+> > change if it would otherwise be blocked on adding an object to sysfs.
+> > I think attempting to improve this latency still has merit.
+>
+> Fixing the latency is nice, but as it's just pushing the needed work off
+> to another code path, it will take longer overall for the sysfs stuff to
+> be ready for userspace to see.
+>
+> Perhaps we need to step back and understand what this code is supposed
+> to be doing.  As I recall, it was created because some systems do not
+> allow debugfs anymore, and they wanted the debugging information that
+> the dmabuf code was exposing to debugfs on a "normal" system.  Moving
+> that logic to sysfs made sense, but now I am wondering why we didn't see
+> these issues in the debugfs code previously?
+>
+The debugfs stuff doesn't happen on every export, right?
 
-It's a really tough test case, as I expect these are frame captures from
-two separate time points, rather than some paused frame, but I would say
-the text on the old setting is clearer. That could easily be due to
-differences in the actual content though.
+> Perhaps we should go just one step further and make a misc device node
+> for dmabug debugging information to be in and just have userspace
+> poll/read on the device node and we spit the info that used to be in
+> debugfs out through that?  That way this only affects systems when they
+> want to read the information and not normal code paths?  Yeah that's a
+> hack, but this whole thing feels overly complex now.
+>
 
-It might make me think this should be a control that could be
-dynamically set to allow the user to decide...
+And deprecate sysfs support? I'm happy to try out anything you think
+might be a better way. As far as complexity of this patch, this
+revision is a much simpler version of the one from Hridya you already
+reviewed.
 
-Benjamin, how does it look on your system? I presume setting this bit
-improves image quality for your use case.
-
-
-> I couldn't honestly say I prefer one over the other (analogue video
-> really is grim!), but it does mean that we're following the datasheet
-> more accurately, so:
->=20
-> Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->=20
-> > But I think I could add this already:
-> >
-> >
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-From a driver perspective, with no other existing expecatation - I would
-say matching the datasheet is the correct thing to do anyway.
-
---
-Kieran
-
-
-
-> >
-> > >
-> > >   Dave
-> > >
-> > > >  #define ADV7180_REG_OUTPUT_CONTROL                     0x0003
-> > > >  #define ADV7180_REG_EXTENDED_OUTPUT_CONTROL            0x0004
-> > > > @@ -1014,7 +1015,9 @@ static int adv7182_init(struct adv7180_state =
-*state)
-> > > >
-> > > >  static int adv7182_set_std(struct adv7180_state *state, unsigned i=
-nt std)
-> > > >  {
-> > > > -       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL, std <=
-< 4);
-> > > > +       /* Failing to set the reserved bit can result in increased =
-video noise */
-> > > > +       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL,
-> > > > +                            (std << 4) | ADV7182_REG_INPUT_RESERVE=
-D);
-> > > >  }
-> > > >
-> > > >  enum adv7182_input_type {
-> > > > --
-> > > > 2.36.1
-> > > >
+> thanks,
+>
+> greg k-h
