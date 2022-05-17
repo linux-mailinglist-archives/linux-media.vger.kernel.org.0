@@ -2,69 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E624F529613
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 02:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E59C5296FC
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 03:56:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231378AbiEQAd1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 20:33:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48290 "EHLO
+        id S233652AbiEQB4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 May 2022 21:56:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbiEQAdZ (ORCPT
+        with ESMTP id S233560AbiEQBz6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 20:33:25 -0400
-Received: from out199-15.us.a.mail.aliyun.com (out199-15.us.a.mail.aliyun.com [47.90.199.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15BFE2715E;
-        Mon, 16 May 2022 17:33:23 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R921e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0VDPIy.u_1652747598;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VDPIy.u_1652747598)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 17 May 2022 08:33:19 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     mchehab@kernel.org
-Cc:     eugen.hristev@microchip.com, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] media: atmel: atmel-isc-base: remove unneeded semicolon
-Date:   Tue, 17 May 2022 08:33:17 +0800
-Message-Id: <20220517003317.122054-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        Mon, 16 May 2022 21:55:58 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5DF65F4;
+        Mon, 16 May 2022 18:55:56 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id m20so31844297ejj.10;
+        Mon, 16 May 2022 18:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YgBxFbatc44xZeVb7BCpn9bBMCWqFowgn6ucn53Dafw=;
+        b=M+kFVvYwVOeSwDbzvU5qMLJ/t4vsAjAUm5lEiawrhXQqMHUO7raDEZe++x70BDsMO9
+         qXDNLJc9MrSI6XltjRWoumXZgu2wfLn3KQI5JI6GlgQHypiFwB+SbNb42/XrPNWI8OyN
+         VW+y1cCyMjZ6f7RqOSoKPAt/5ITmlm80f7d2hUCWhUXCZpONqjdYJYKwsjpjd3YCtuF3
+         lwhez+491e7riTMO7+gTPAvNRBcKj3k2QfirJzJvpfxLU7rs/LEdWmn82dPB35CWTKES
+         A9ApVDrBUw5V7c4g7+qHeD1RZw5nRXsQatXWIfLaEhH2rZip763x8vrL5/kUHB72s/7i
+         d9zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YgBxFbatc44xZeVb7BCpn9bBMCWqFowgn6ucn53Dafw=;
+        b=z7+HbwerVuIvSjoEOH/yHzrCyXvwj8JKqD9cRGgyJbeKdBe5GDolcWL0On92bpxyA5
+         xvEwLV1Rphu/a4vdksk16nIOUZ/Y5+wx8jfDTxHH2cypDvw110yUp3G/jg2EaOgHe9na
+         429Db62q0t7DoAbkmnhxONLkIAqLukFuHhED8TCzwtITiqSFXMb/K1sAdf9gYOSCXAMR
+         puJv/8DZtzq1B7AcUpwmzAXt/2XkMVxjdaMrXUXC8OXtQAcwYICkQOrnd8kIPQzSQjnV
+         UpTE6vI4ZXA9P0z8NONf6UAxzN3FbKoTTn9Xxv4wjo8FWN7cA/KjOzc5Psyat5m4mlGA
+         TTjQ==
+X-Gm-Message-State: AOAM531qMkJgNbgunPCdHO3ilRhNEn4s4A4Xoc5312OcWWwat+BbMgBZ
+        3fiYhmZqDaiML05TSW882+3fB9Z2i5UMtyJoKzSqinb6OvGEow==
+X-Google-Smtp-Source: ABdhPJz7rc+erNWeLjGVy+TkCtqJz+van0FqEP98zM7Ha4CRfZsELxILBDnRwJ1ko3YUmePv9oxxJP75T3BFhTJo3gE=
+X-Received: by 2002:a17:907:8a21:b0:6f4:d2e5:4d17 with SMTP id
+ sc33-20020a1709078a2100b006f4d2e54d17mr17972348ejc.196.1652752555296; Mon, 16
+ May 2022 18:55:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220513033450.7038-1-kflin@nuvoton.com> <20220513033450.7038-2-kflin@nuvoton.com>
+ <5e1d0765-5428-b787-75ad-063a1fb051fc@molgen.mpg.de>
+In-Reply-To: <5e1d0765-5428-b787-75ad-063a1fb051fc@molgen.mpg.de>
+From:   Kun-Fa Lin <milkfafa@gmail.com>
+Date:   Tue, 17 May 2022 09:55:52 +0800
+Message-ID: <CADnNmFqFXxDv=+uEze2LjV2eMSVbMyCp=uiTnrm3Z7Hm6j8SHg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] arm: dts: Add node for NPCM Video Capture/Encode Engine
+To:     Paul Menzel <pmenzel@molgen.mpg.de>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, CS20 KWLiu <kwliu@nuvoton.com>,
+        tmaimon77@gmail.com, avifishman70@gmail.com,
+        openbmc@lists.ozlabs.org, tali.perry1@gmail.com,
+        Marvin Lin <kflin@nuvoton.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Eliminate the following coccicheck warning:
-./drivers/media/platform/atmel/atmel-isc-base.c:1469:2-3: Unneeded
-semicolon
+Dear Paul,
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/media/platform/atmel/atmel-isc-base.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for your review and comments.
 
-diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-index 2f07a50035c8..88308bb9c079 100644
---- a/drivers/media/platform/atmel/atmel-isc-base.c
-+++ b/drivers/media/platform/atmel/atmel-isc-base.c
-@@ -1466,7 +1466,7 @@ static void isc_awb_work(struct work_struct *w)
- 	if (isc->stop) {
- 		mutex_unlock(&isc->awb_mutex);
- 		return;
--	};
-+	}
- 
- 	isc_update_profile(isc);
- 
--- 
-2.20.1.7.g153144c
+> Could you please add the datasheet name and revision to the commit message?
 
+It may not be appropriate since the datasheet is not public.
+
+> What board did you test this on?
+
+I tested on Nuvoton NPCM750 evaluation board.
+
+>
+> > Signed-off-by: Marvin Lin <kflin@nuvoton.com>
+>
+> As you sent this from your Google Mail account, that address is going to
+> be used in the author field. Is your Nuvoton address configured for git?
+>
+>      git config user.email
+>
+> Then I would have thought, that that address is also in the files
+> generated by `git format-patch`.
+
+Thanks for the reminder. I'll change the address configuration.
+
+Regards,
+Marvin
