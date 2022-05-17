@@ -2,131 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FB60529DF1
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 11:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C96B529F64
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 12:28:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244635AbiEQJZm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 05:25:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49100 "EHLO
+        id S1344083AbiEQK2i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 06:28:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233781AbiEQJZZ (ORCPT
+        with ESMTP id S236999AbiEQK2b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 05:25:25 -0400
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-eopbgr80049.outbound.protection.outlook.com [40.107.8.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEB9337011;
-        Tue, 17 May 2022 02:25:21 -0700 (PDT)
+        Tue, 17 May 2022 06:28:31 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2063.outbound.protection.outlook.com [40.107.220.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D5F91CA
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 03:28:28 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UzGsqGEUzojbbvjcd/1edZbaJrkpjyjHnL1geTFtMdGL4sOfGRYSnhdMlqarzxS6uB3Uw3vbXz9Ulrxwtf0HoSWfJoCKQyhS8uULCIFKzBRsjBbfFua6JvHaI8ejb/jm1i+ruRxFEVjKo90lSO0CPDwsznSpLpXTdTJCXquu++9YMBLboepo+uF6XerKozMcYCYslsc1D2SHyVXfZTKAFw+uhBwJzHr6OMeaV+BBXgu0zgwjPyD9xcIMpUKDRyKPmnz4VGC+bvcUpZWKREa2ASqyWjTRUIBXTJEDi6KFlhn15rkdda56F107MGXABhDnFMQgJf1F0OshN9GU1NxBug==
+ b=TV4wDUWzrw2yNBKhl4yKHXf4FI74H/bNqbYWZUfyQj4YqHFBNycxciJoa6XWXM1wK5rYNmayL9ilZu6mLYIeY3QfqmGAMUTI+MPBjRYCx+1IhquXtTF31WQ96LQxHMw7HdbUDOxmvq7rzFhEzI/0pBr4TxYsKa1LxVqimWRr7ug1AyJi3H/oZ+cR4nwi0dMiO1+J+jhCYRlCGTz57mWRabDOz0YIzHhdFBAff/AoWPa5A6FgINvDaeDGAqzMw7PzFEOjckFsjagLCrUITlrTjcfdqxv3/eoKs4hCTzhO37RKWdLPhv9edkC+Zsja1A/C3GIayuAQpM81kvpbDOFo3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/70/UzSLiCi+paFYt6qZsJBS0h+j4iU0s8TKG5piyLw=;
- b=DFXbpqatEmrCn3vClDpp5xruPDV76p1lE6sVYGvYdt1Q6+/eh9TP++zeKG08912C5HJmZA/PCAhvY3wl/bB1I8kunQpnFoGCE27pqTleZBypozwFdeCEmEFUTQ1uZRFWwG5rwNjDovRpO0FJeu0/alPRBukkP8I0baX4Pby3vySfKzNpvhtw71MmByacGsXf90u8uA4r/DVws8/Lm8n1cVzaeJyTqhYWrZmyG0kpG3K8zV2AgZcomL5XvPJNVmx4KdXIiFTaq+zFgv15SEFBaokj5MBwI+YyRJxYIJvMK/zooiPdNwIeVmjxuHNvK94o54Fp4eHjJ5PiwtvX8eayBQ==
+ bh=R0ivsWog2EmFbn6oPyW6bRN75ury/1332yOzmq7q6CY=;
+ b=GLikXK4/uzz7V0PHWYEgCO5wsqiztGGPqiSORMpop0K8EUyD3L87piD5zkDo5fmKujxeUKMXktUVx0XbE0nn3P5t1PA9CkgZZxw4BNOP43kI5MlmjDdxlXhnfctvhzeSDqnhvnNKrirNN5sP8UdkwqdHp2OwUUumOVpM4/6+Di4Sw28VoiWvICtBVvT87vx+kGOr3jkusNhjLQQ7dF34vpZ0Ycsg6yc5ANY8J+l9Y4yC1m7v8yrv1hUJUNQU/r854ChY+e5l1yUJiFR+5ZCFYuxSzzYq+C0RxDOhzAL9ntqm9Imm3BUzlItYITW5apAHMtSU5Gh+aR/AVXx6JhHwNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/70/UzSLiCi+paFYt6qZsJBS0h+j4iU0s8TKG5piyLw=;
- b=IqJo5eeietANQpcgg1HbzPbg9lapwxQ+35iw5JTYBEvLF+LTD/94yjArA+yMhGK3eNNHbyVMAikNWj0LC4ojsrDOS+sHzB+fCetFN1A4f3Av7CYyvgREJ+X4vBW6/BTDgC9UID37PA14YncPB2QsdolbXo3xscNussTbdkXZyjE=
+ bh=R0ivsWog2EmFbn6oPyW6bRN75ury/1332yOzmq7q6CY=;
+ b=y3qJuGm5BUBmdD84bqPvW9UrS/UXGb3P8kP83jHuzhqc+oJ13KEbOsiWxQBerdfSABaCebZN9mgd4HSzhE5oAOMcaKmVw3RMTjWfpQdQLw1zV/yc8ON3iMYM/xk/EPShcH051askHZyYUuGOGwBJrCw7uip1ZNXTHrUKaWn/sX8=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from PA4PR04MB9367.eurprd04.prod.outlook.com (2603:10a6:102:2aa::7)
- by AS8PR04MB7893.eurprd04.prod.outlook.com (2603:10a6:20b:2ab::6) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CY4PR12MB1495.namprd12.prod.outlook.com (2603:10b6:910:e::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.18; Tue, 17 May
- 2022 09:25:19 +0000
-Received: from PA4PR04MB9367.eurprd04.prod.outlook.com
- ([fe80::e443:c646:c299:5512]) by PA4PR04MB9367.eurprd04.prod.outlook.com
- ([fe80::e443:c646:c299:5512%7]) with mapi id 15.20.5227.023; Tue, 17 May 2022
- 09:25:19 +0000
-Message-ID: <b77d43d5-4a50-3da2-67b4-65224a82a202@theobroma-systems.com>
-Date:   Tue, 17 May 2022 11:25:17 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.15; Tue, 17 May
+ 2022 10:28:25 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7146:65ee:8fd3:dd03]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7146:65ee:8fd3:dd03%4]) with mapi id 15.20.5250.018; Tue, 17 May 2022
+ 10:28:24 +0000
+Message-ID: <a249c0c4-ee6c-bfb0-737b-eb6afae29602@amd.com>
+Date:   Tue, 17 May 2022 12:28:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 4/4] media: i2c: ov5675: add .get_selection support
+ Thunderbird/91.8.1
+Subject: Re: Tackling the indefinite/user DMA fence problem
 Content-Language: en-US
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Quentin Schulz <foss+kernel@0leil.net>
-Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220509143226.531117-1-foss+kernel@0leil.net>
- <20220509143226.531117-4-foss+kernel@0leil.net>
- <20220512090553.x7mzsj3ff3u5gqxq@uno.localdomain>
-From:   Quentin Schulz <quentin.schulz@theobroma-systems.com>
-In-Reply-To: <20220512090553.x7mzsj3ff3u5gqxq@uno.localdomain>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     jason@jlekstrand.net, daniels@collabora.com, skhawaja@google.com,
+        maad.aldabagh@amd.com, sergemetral@google.com,
+        sumit.semwal@linaro.org, gustavo@padovan.org,
+        Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+        tzimmermann@suse.de, tvrtko.ursulin@linux.intel.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20220502163722.3957-1-christian.koenig@amd.com>
+ <YnJQs1iusrBvpuMs@phenom.ffwll.local>
+ <a01c7703-f7f7-f8ce-f80e-632a6fdcbbbe@gmail.com>
+ <Ynkg81p6ADyZBa/L@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <Ynkg81p6ADyZBa/L@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR04CA0095.eurprd04.prod.outlook.com
- (2603:10a6:20b:50e::7) To PA4PR04MB9367.eurprd04.prod.outlook.com
- (2603:10a6:102:2aa::7)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0134.eurprd06.prod.outlook.com
+ (2603:10a6:20b:467::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aeccf862-1b3a-4e9d-a071-08da37e728ee
-X-MS-TrafficTypeDiagnostic: AS8PR04MB7893:EE_
-X-Microsoft-Antispam-PRVS: <AS8PR04MB789302C4B7008DFC52BC21FBC2CE9@AS8PR04MB7893.eurprd04.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 1a7cb83a-0339-477f-479a-08da37eff928
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1495:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1495005AE825314F923D984F83CE9@CY4PR12MB1495.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BfhyFf+pYwFb3xv98uV9crfMnEpjUJtN8hxD/TZ3wWDA+MvQ5zP10T547hRbId7U44HaSG08UHg6ffdUYKWz6GYV7DGp4+BAfcDafiNlX9p/W4Sj/b3YZHiprpkLSzTGnNg029Xb6UyOd4szEoz0eERN7zBNg2TvZTC6mNevzSITMkTEb8LtqXOmfGjl5iOKMJocMRdq9lMkUeLPbkjA7vvdy3kSS3rR9je9e3J9qVzny7vYXjD06UOimYNSo31YlOj0GGJA0esNhYDbhchVCAEfHH7NMIVuvl34dH3ns9PpA0zeRB8kTS3sXkRZ5pQw/Q5f4gGK7Qh0qTQplAKpGS+hofSZoHWssifhAbdRnQjd0oxGJVYxOtYhu51VuO2e4rheAJ9182LHhx+sFCwIeSUuY1wWDXcC1FNQPmaNEPcU5QfPRPQCxUatt+nAED1lpLUw2I8inQk0DkLDEJU9iFaPswjRZVF9plgtMpPKWZAvS+snD9l4hr6reXREZnQzsN4WxEfzSA0CWf0lxQD0bDjKyAa4JCqq3bNLGTlJd+ZMcXfo4ubLipj5GVwOBx1ItofdR1/FThB+vaq19OrqOEnng88NJri3+bA7YpFftZpkbXf4UShK3vHYG0LvAWQlBp3LrdgfYBFXPpevjGg/DaT3QWKgL6jH3Gx9cHrj8GnWhliGXkLumB70zhk5XYqTNDzUIEMs8wDR/7dHAD2ft1QicqEeAgTviPIjwF397ytC/M6Qv4cee2BPedNygTF6
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9367.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(38100700002)(2906002)(6512007)(83380400001)(31686004)(186003)(316002)(110136005)(31696002)(6486002)(508600001)(44832011)(66946007)(5660300002)(66556008)(4326008)(8676002)(8936002)(66476007)(26005)(6506007)(53546011)(2616005)(36756003)(86362001)(142923001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: l4522vSlcgdxdsdqriF7s9LYCisJTzxHC7qK65SFWXcFzHQDLA0Njq8gc6HKteIrOEsM2QOPC96+msa5D1M8eM1eOCEk2sKsZLnCe1DaZ0EAUbbeudrJdbGjJG91Tg55Vn4FDPE//BJo2cU0XjbWQWNfG6bWwbAGre/7vnMzz04zKU3ytsfMYiouJrBcSo68dwWERJ8dmeyw/VFbdqvmKar1VIMgtLR6CuEh4JE7f+GHypZ38vLZMDrbj8SbZA+qGctumXOLf2AaS2yFPWaRd6JOQab092ysdau1vwHq6k0A7S2Chf7a3Y1W7yc35uuc4HJhSbGHRm6Fm9dHwpZVc005zuR2w0uomjWpnxKpUJCq/b9yqmPL6WGcsl8NC7PSrHYrR/mwfJCQHf9EXjVVzaWwiQ3KkTS1I7YYzE9Bds6KLIWvQikt4MEAGdT0IXCJoMiEBiqLAINF05AzMayNc717KU+3aFwoVR0PRNZCvrzazCigElHtIhz7Upnpl7qVB4aDgqOr2fG5aHWh8m5H+1gSROl8IjrTIDpq9V7rJjQHqZLVvPenqj4COr/EriBgPGuyiSxqPTBB8v/GWMYbpCAmukU/grU/AGRYZgM0ZQqJAr0+cXOBcmSP6a/1obMjArcg3bzRdK+9J56MCipElLj/cNNRq6NdPJV/H3/fHsL+kxMFsfVhh62yikOyeB5LozsmkwPkKF60EeYFGjggZz2RobakcOAbCoPBeYfKLbwcOEeywGedIYjhpHEddZQyvJwkE9jwjd4fz3iEVoh1JwJk/9Fkxj8g+IeHNSgfOtKCAv1LyYsKiGWNGlUYoBV0
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(31686004)(66574015)(2906002)(186003)(66946007)(8936002)(6666004)(83380400001)(66556008)(6486002)(316002)(966005)(26005)(4326008)(38100700002)(36756003)(8676002)(2616005)(5660300002)(30864003)(6916009)(6512007)(6506007)(7416002)(31696002)(66476007)(86362001)(508600001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXJxMTlyY1lXaDYzNytPSjlWSzhYOGRqRS9VL01abmFET2UvTGxmUXdqOTQr?=
- =?utf-8?B?U1llU2VMSjg4UHRhaDluZlZDRlc5VytUNnlhUm1JRmlNVzE5WDFXUFA2U0tt?=
- =?utf-8?B?WWhaMEJhZ1piTmViN1pxWlZNcEFJYjJkOEgyRi85NUh5eXIrS3ZVVWpUSnBV?=
- =?utf-8?B?Wm9RaHlZaXJZSHY5MHBxQUNmaXhYN3drWHRHTWgwejVidVc0VVJGdFRSL3RN?=
- =?utf-8?B?S1I5Q2p5Q1BSbEZ4eXNPYU1NTG9NSlFWR3B3Wkw1L1ArTWFHbThmWHZDS2Fo?=
- =?utf-8?B?ZllBQUJ1eGZJaFJoOG1pWnpOSTdzVzEvZ0RldXpjQWhTZWRrNkZDbkhJcTE1?=
- =?utf-8?B?OVpreFRjYm9PRC9PNGxlZXFRTWhmZHo3S0dIK3J5KzlOamNneGdWWklTRWtz?=
- =?utf-8?B?VnFNaWhGVnBGdFdJTDNZckUycCtzanFTdXI2aTBRQVhoUVFsQkVNN2ZTdzht?=
- =?utf-8?B?M0FETkdyZXI1c0xyS2dWVE8wb2RnbWNkbVl3R01nRXgzVy9jcGl4d0xrZENI?=
- =?utf-8?B?OE41SjNPRytwK3FOTGRjQk9VMVE0U0VVQWNkTUpkT2cwaEdoR3lHZnV6cE1u?=
- =?utf-8?B?dlJ4OVd4d3ViMHpmV1lWMUpPOUEwR1ZHb2thVW5haWRxay9KcVdSeFZIWmNM?=
- =?utf-8?B?bEgvOFZwYVYwcERIaFp0Z3hsdkM4K2x0YmwxV2thdWFrQ21UUjZiRG5odEpN?=
- =?utf-8?B?WDh6WFl2UnkvSWZsYk5zNWtNeHJxcXBEZFNwYi9QT2IzRlRMN2pnNVVSREE3?=
- =?utf-8?B?ZlVxajEvdXB5YjFVOGlZTkVPMnQzTERpeGFtZXQzeG1JTCtxQ0JEYVB2SGF1?=
- =?utf-8?B?OVU5WW1oYWVsYmpRQTJoY0FjUGZlUW5QWk8vZ3QwampJUkh0UFVIRmxtZ2RJ?=
- =?utf-8?B?TEQ2UnlYU2lMNHoyUGxYOUxpZ1JtSlBsVi96U1c1V2M4WlU3amhHL29uMGNn?=
- =?utf-8?B?V2M4WjF5Y3RXWUZwVm5WcDZLSjc5KzlvUExMSG1naG8xd2pFcFQzZ3hocTVO?=
- =?utf-8?B?Uk9CanVCMWI0LzllbzlFcHY0MzdvbnFHS1AzNmJOTUVuTWJ2MTljaVZneXB2?=
- =?utf-8?B?N0lnWXpzWlpvdTB0TC96OENKMEJmRlhDa01BY0wrenl4NjcvTHVCaEdNa09P?=
- =?utf-8?B?SStoQm5MWWhhWk5BWmdsa3VBdmxpUmJrcVI4QmxDaXpBaXRQQUJodVIwaFdR?=
- =?utf-8?B?OUxkalA4aU40dXlrQ0RxaEhGS05Gc1B3MmpuSGZHUS9SbmhqYUpTRldwZ0lL?=
- =?utf-8?B?dG44RUFDM3JNM0FHQ0xFUG40K3RQNEJ2U3lraHRGYng5SzVWeEZjM0ZqWjVm?=
- =?utf-8?B?Tjd0cU00bWZsWkN3U3k5OXg1dzhMa2d4QTFqc0NDUnlNam9JdHp2SHg1QVFJ?=
- =?utf-8?B?ckFBS3IzUUk2bzUyMlIzSFM2NTJrMFZDd2VBVEFmUHVkankydU9pUGxZUVlm?=
- =?utf-8?B?QkUzSFJXamx6QnlCeE9USm12eFlmUmJBZVkxVTZRUVMxcFAwRkFZOXV2M3kw?=
- =?utf-8?B?RTlUejltUmtUSWdreUpHQ2xZK2tCY2pSNGY3cmJCdENaUFpFcXI0MWpCM1hC?=
- =?utf-8?B?OVFDNnNsaHpqTFF3U21rNFVLeDJ3MkVNWmgwOTRhM2thRlRPTVFFbVhNdS9k?=
- =?utf-8?B?clR3L0ZibVdQMGw2NE5NQ2xkdzZia3VHV0ovVm44bXJwM3Q4UlMrNkkybHdj?=
- =?utf-8?B?cDMwbTg0anlTQU1JbmNHS2pySXp3b1grK3NjZXBwYXhnU0l2MXBNT0tKN1RY?=
- =?utf-8?B?SHFkSmdmVExJR3o0ZUlQbTVSalBXSmlncm9xbnQzanA5VUFHZGlqWE83SFZ3?=
- =?utf-8?B?S3dWMHVlT1ZsYjkvS051WlRDcHJDOUhDbzhmTEIyRXg3VUpNQVd0Z2FCSHVV?=
- =?utf-8?B?OWdhNFR2NFM5OEpHbStRTzQ2c2xqemZnemZxUjNEQkh2UzBxc3hEdG9wekhU?=
- =?utf-8?B?a2t5SEl1dUtJWjNZQnFqSEoyU2x3MUIrVlA3ZkFsU2Z5RTZTYTN5M000bHh5?=
- =?utf-8?B?SVdxVjZ1VDRQSGhIMGc5bmxoSWEzemZiNEtPdDM4czJmQThXWWVSc2ZzOWtC?=
- =?utf-8?B?WUxHM3RjSjZaVHlrOXUwOUtMTmdud2s1ZGZuZHlxTjI1SmR5WlNwWTNOS3Vr?=
- =?utf-8?B?VzZEamFIK3hYL0E2VVU1b3pGUkJ5eUtjVXVtNitNUmJvN1M2dkZKTEpZVHh4?=
- =?utf-8?B?OXlCWHo5cDRoaFk1ZUJZdGdiSElVdU1mRmhOZWxNNCtJUld5THV2UXM0N3Js?=
- =?utf-8?B?QU5WMEtha1hzd0RlWEZNWDY4Q090TFlrRVowdThUKzZkN0hGK3lDcW13cGVi?=
- =?utf-8?B?UlJoeHFxemhSKzI2Z29rbzJrRFNQdkg2UzZON05aRlQ3VjRybkRoZjk1N0xi?=
- =?utf-8?Q?dWk4mhlpY2OT4XeC29VfRHAn4RxDj8sIHL4df?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aeccf862-1b3a-4e9d-a071-08da37e728ee
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9367.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkFHeGJCUC9UOWVDRTRvUmJiUVBMN0tMOWZVN0s5Q0FJWVVvdVRCNzNFSTUv?=
+ =?utf-8?B?OCtZV0tva0dYNVFHUitxQ09udFZBRXZFejZZQ2o0UWJ5M3ViREhLMUV4bHpE?=
+ =?utf-8?B?d3g2MlpQM1JMaVpsekswR3ZybmYvenk2cGp4aElvVWE5NFNTSzQ0dkZxVEVZ?=
+ =?utf-8?B?bDJINUc0dmIyMzk5TDRmMUw5Rk9YOW1GeWNxNWp2RVlpbFdUQXp2YXYxRXpI?=
+ =?utf-8?B?ODJhODFVeEVsYzE4UGN2SitxR2h4YXRrU0J5Ym9qaHliQStVbTJXZGhKVXJH?=
+ =?utf-8?B?Qng1OGdvR0dtWVpkelA4K2R1MGdUUjl5d1RHOSs5cDdvUzQ0SFg2dzF6eUR3?=
+ =?utf-8?B?c1pvNGNxSU5zS21KSFRmc2tzYWdXRmZyT1NzQzI5dlk2eC9oWmN6RERrQTQ1?=
+ =?utf-8?B?S2lQMVE0eHlxaFQ4dFUxWmRtT1RZOFI2NWRFd3Ztc0JmTXdidTZrY29IWUla?=
+ =?utf-8?B?aldKYWhLOGErQkFuK0dtdHlYQ2NZSjJHZ2pqY2R2cHBqNUZ0eEYwdnpTMjFP?=
+ =?utf-8?B?T0t5dTJvQlJsbzhKbUNuc0xuMWhsdGptdmROaW1YdzdPdHJ4eG95Vk1oelQ3?=
+ =?utf-8?B?czRkaklwRHQvRjZuUTB2dEVQRXpBZ0xOZ1RHOURiUFEyU2RtQ3pJSHBnbzlE?=
+ =?utf-8?B?eEhnT1ZPcHd0azk1TlcxdVVUajV5UzNMc1JVcjFweDRiYmg0Y3hqM01nTXZN?=
+ =?utf-8?B?YVFGV1J3OWVyb29EejYrSk1OOENPL3hCN0JDdVBUUk9MZnNwZ25CY1pEWG52?=
+ =?utf-8?B?VmFHdzhHR1BnTmZiSFJiTmxxR2lyREgvcTB6WVdGSlFVNllZTXpqRXNkVXlu?=
+ =?utf-8?B?MFJEMDRKaG9VY3g0N3NOUnd3U2VrYXFrQ1ZYNk5QMzdLaEdQZGVIWFBHdk1H?=
+ =?utf-8?B?RmZCcm82Tk1VaGpwbzhsYTlHRlA0QjhFS2w3SUlKV3huTW5FUllDbjRGZkFC?=
+ =?utf-8?B?a1RTanpBazl5S0JXczViSjN5a0xnWU5NV01CZVRCUWpueFJwRkVGZktyNEJE?=
+ =?utf-8?B?MWZUaWwzc0lVVnN2SDNXc2c0Z0c1M2pLRmZuZEo0bE5TRkc2aElWRmVZNDRq?=
+ =?utf-8?B?MnB3a05Qcit3aW5VRlRjUkhLeDBOQVR6d0tqWEZpRGdEYWUvTC9CRE1XTWRz?=
+ =?utf-8?B?WTBUc2NHYzFTeWhpL2J3Z3VXTGVsRWNzaU5hWTd1ZjZHRHQzNHVWa093Q0ta?=
+ =?utf-8?B?TW1mblltZXhjQUdHNEd2UmJtK0lTVjRUZnptQVRsc1paclRYNXVocVhVQmt6?=
+ =?utf-8?B?MVBQS3IvTHBUSklZbklFZEI2d2dTc1l5aFg4WnBMNlpLd1NhcFZOTDZBTGpU?=
+ =?utf-8?B?aCtmdGJQU2NUa09hZTRQeElRM2txbWJEKzEzRnVXNVRlVUIvL3Voc1d3cnps?=
+ =?utf-8?B?SFkyV09aRlJ4N2RWSllFRkd1R2ZLMm1SL2hpUkFScWRzK05ZRE5MYUFoa0xY?=
+ =?utf-8?B?K2ZUdHVzM2d0NXN0Q1hjU2tEeWF3akNXdERmUEZHQi9mblpBdUVHdXpseUFZ?=
+ =?utf-8?B?dTdvMmdFczdrNmVkVmdRK0gwWTdyaFdBUndMQndSNDBZd2NaL2czSFc4cEpQ?=
+ =?utf-8?B?OEFMNjk0KzNmQTFRNDUvK2t0NnlySVgvME40R01wTVlTU2NBdHdweDZqcUJo?=
+ =?utf-8?B?OWthd0g4OFU1ZCtxVTJSRExKUGo5S2djRmVvUnhiY1RwcVB3b0daUTFOb3ZO?=
+ =?utf-8?B?dzFLSmhzYStIWWg3VGVrWHhTdUE2cnpwcmZUMXRaRHlLUTY5MHU4K2VyTEpn?=
+ =?utf-8?B?RTBMSG91eFhRdFcxbUYrdHZxOGN0VXR2RzB0SkVKb2E1SER5eUplUzQzZktS?=
+ =?utf-8?B?MjVYRUpoZ3hLZExDd0x4TWVsdGtQdnpkckJ0d1krbHZCd0ZicVErTUVicVRs?=
+ =?utf-8?B?bWhQUnJBOCtyc0ZkOFp2azRJeXZDUUp5dW1US0NOZHY4aUFWNzdqYkVVa3Nk?=
+ =?utf-8?B?QkovSVlDNHRyZkZCcnVzeE9kSkgyOU9EQnZNNFpVZDlqRFArdVo5RlNVS1dT?=
+ =?utf-8?B?c1oyV2dsdHhZVVQ0eDRWSjk0SzZmSGZ5SEw1Tk55UWVHdlloVTBFYVBrRHA1?=
+ =?utf-8?B?TGphTFRrOUpTcUVzRjVGWEl0RkdxUUwrN0w3SUFXLytMNElYUXI0U2xtd0l6?=
+ =?utf-8?B?aDE1THdSVlJJQlVRRVhnWGx1Mjd1cXFCME1IV0tydVJuclRNRDhHb2d5em95?=
+ =?utf-8?B?K3BxZ0h6VFhzNDZYQ2NaQWlzenJ1bE80R2FOczk3U1o3MEd4QU91dmZRczRo?=
+ =?utf-8?B?WTFqMkdHZTBpQk5wWDBSTnczMWVIbmNHczhyYVRRZ2pMZjRaeGQ0TzdnNEZu?=
+ =?utf-8?B?SU8yaWNBT3ZYdk94Zy9wQW9PQ3JXYmdJZ0N2M043QWliMW8zU3F6QT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a7cb83a-0339-477f-479a-08da37eff928
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 09:25:19.1765
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 10:28:24.7755
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WXVrSd2/b2uIYHPeGSqEL7n70C8iZDnteVtrAWpu7ELojdimAw9SnD9vLDvzNV0kcU72Vjk0exmicOGmq3f79G2kvMMUd/XujPXNJFzUAUGRASZeRDDHyGEVvRFIn1Ob
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7893
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,PDS_OTHER_BAD_TLD,RCVD_IN_DNSWL_NONE,
+X-MS-Exchange-CrossTenant-UserPrincipalName: zMJBpKqFNdPidC1+8mAwGcLUOZmGY06d7gdq2O+UwV0WkkBWzrjZfmtG1IQYqFoO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1495
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -135,120 +136,310 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On 5/12/22 11:05, Jacopo Mondi wrote:
-> Hi Quentin,
-> 
-> On Mon, May 09, 2022 at 04:32:26PM +0200, Quentin Schulz wrote:
->> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Am 09.05.22 um 16:10 schrieb Daniel Vetter:
+> On Mon, May 09, 2022 at 08:56:41AM +0200, Christian König wrote:
+>> Am 04.05.22 um 12:08 schrieb Daniel Vetter:
+>>> On Mon, May 02, 2022 at 06:37:07PM +0200, Christian König wrote:
+>>>> Hello everyone,
+>>>>
+>>>> it's a well known problem that the DMA-buf subsystem mixed
+>>>> synchronization and memory management requirements into the same
+>>>> dma_fence and dma_resv objects. Because of this dma_fence objects need
+>>>> to guarantee that they complete within a finite amount of time or
+>>>> otherwise the system can easily deadlock.
+>>>>
+>>>> One of the few good things about this problem is that it is really good
+>>>> understood by now.
+>>>>
+>>>> Daniel and others came up with some documentation:
+>>>> https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#indefinite-dma-fences
+>>>>
+>>>> And Jason did an excellent presentation about that problem on last years
+>>>> LPC: https://lpc.events/event/11/contributions/1115/
+>>>>
+>>>> Based on that we had been able to reject new implementations of
+>>>> infinite/user DMA fences and mitigate the effect of the few existing
+>>>> ones.
+>>>>
+>>>> The still remaining down side is that we don't have a way of using user
+>>>> fences as dependency in both the explicit (sync_file, drm_syncobj) as
+>>>> well as the implicit (dma_resv) synchronization objects, resulting in
+>>>> numerous problems and limitations for things like HMM, user queues
+>>>> etc....
+>>>>
+>>>> This patch set here now tries to tackle this problem by untangling the
+>>>> synchronization from the memory management. What it does *not* try to do
+>>>> is to fix the existing kernel fences, because I think we now can all
+>>>> agree on that this isn't really possible.
+>>>>
+>>>> To archive this goal what I do in this patch set is to add some parallel
+>>>> infrastructure to cleanly separate normal kernel dma_fence objects from
+>>>> indefinite/user fences:
+>>>>
+>>>> 1. It introduce a DMA_FENCE_FLAG_USER define (after renaming some
+>>>> existing driver defines). To note that a certain dma_fence is an user
+>>>> fence and *must* be ignore by memory management and never used as
+>>>> dependency for normal none user dma_fence objects.
+>>>>
+>>>> 2. The dma_fence_array and dma_fence_chain containers are modified so
+>>>> that they are marked as user fences whenever any of their contained
+>>>> fences are an user fence.
+>>>>
+>>>> 3. The dma_resv object gets a new DMA_RESV_USAGE_USER flag which must be
+>>>> used with indefinite/user fences and separates those into it's own
+>>>> synchronization domain.
+>>>>
+>>>> 4. The existing dma_buf_poll_add_cb() function is modified so that
+>>>> indefinite/user fences are included in the polling.
+>>>>
+>>>> 5. The sync_file synchronization object is modified so that we
+>>>> essentially have two fence streams instead of just one.
+>>>>
+>>>> 6. The drm_syncobj is modified in a similar way. User fences are just
+>>>> ignored unless the driver explicitly states support to wait for them.
+>>>>
+>>>> 7. The DRM subsystem gains a new DRIVER_USER_FENCE flag which drivers
+>>>> can use to indicate the need for user fences. If user fences are used
+>>>> the atomic mode setting starts to support user fences as IN/OUT fences.
+>>>>
+>>>> 8. Lockdep is used at various critical locations to ensure that nobody
+>>>> ever tries to mix user fences with non user fences.
+>>>>
+>>>> The general approach is to just ignore user fences unless a driver
+>>>> stated explicitely support for them.
+>>>>
+>>>> On top of all of this I've hacked amdgpu so that we add the resulting CS
+>>>> fence only as kernel dependency to the dma_resv object and an additional
+>>>> wrapped up with a dma_fence_array and a stub user fence.
+>>>>
+>>>> The result is that the newly added atomic modeset functions now
+>>>> correctly wait for the user fence to complete before doing the flip. And
+>>>> dependent CS don't pipeline any more, but rather block on the CPU before
+>>>> submitting work.
+>>>>
+>>>> After tons of debugging and testing everything now seems to not go up in
+>>>> flames immediately and even lockdep is happy with the annotations.
+>>>>
+>>>> I'm perfectly aware that this is probably by far the most controversial
+>>>> patch set I've ever created and I really wish we wouldn't need it. But
+>>>> we certainly have the requirement for this and I don't see much other
+>>>> chance to get that working in an UAPI compatible way.
+>>>>
+>>>> Thoughts/comments?
+>>> I think you need to type up the goal or exact problem statement you're
+>>> trying to solve first. What you typed up is a solution along the lines of
+>>> "try to stuff userspace memory fences into dma_fence and see how horrible
+>>> it all is", and that's certainly an interesting experiment, but what are
+>>> you trying to solve with it?
+>> Well, good point. I explained to much how it works, but now why.
 >>
->> The sensor has 2592*1944 active pixels, surrounded by 16 active dummy
->> pixels and there are an additional 24 black rows "at the bottom".
+>> In general I would describe the goal as: Providing a standard kernel
+>> infrastructure for user fences.
+> So on that goal the part I fully agree on is that drm_syncobj can (and
+> should imo) be able to contain userspace memory fences. The uapi semantics
+> and everything is already fully set up to support that, but maybe with
+> reduced performance: Non-aware userspace (or when you don't trust the
+> supplier of the umf) needs to block when looking up the fence, and the
+> dma_fence returned will always be signalled already. But that's just a
+> mild performance issue (and vk drivers paper over that already with
+> threading) and not a correctness issue.
+
+Exactly that, yes.
+
+>>> Like if the issue is to enable opencl or whatever, then that's no problem
+>>> (rocm on amdkfd is a thing, same maybe without the kfd part can be done
+>>> anywhere else). If the goal is to enable userspace memory fences for vk,
+>>> then we really don't need these everywhere, but really only in drm_syncobj
+>>> (and maybe sync_file).
+>> Yes, having an in kernel representation for vk user space fences is one of
+>> the goals.
 >>
->> As recommended in the SELECTION API documentation, let's put the first
->> useful active pixel at the top/left corner (0,0).
+>> And I was going back and forth if I should rather come up with a new
+>> structure for this or use the existing dma_fence with a flag as well.
 >>
->> This window is the default and maximal crop allowed by the sensor.
+>> I've decided to go down the later router because we have quite a lot of
+>> existing functionality which can be re-used. But if you have a good argument
+>> that it would be more defensive to come up with something completely new,
+>> I'm perfectly fine with that as well.
+> Yeah so stuffing that into dma_fence already freaks me out a bit. It is
+> quite fundamentally a different thing, and it would be really nice to make
+> that very apparent at the type level too.
+>
+> E.g. to make sure you never ever end up with an umf fence in mmu notifier
+> invalidate callback. You can enforce that with runtime checks too, but imo
+> compile time fail is better than runtime fail.
+
+Well, I see arguments for both sides.
+
+There is certainly the danger that we have an umf wait in the mmu 
+notifier, but then lockdep will scream "bloody hell" immediately.
+
+On the other hand when I make this a separate structure we need to 
+maintain containers for both variants, especially a chain implementation 
+for drm_syncobj. And here I don't have lockdep to keep an eye that 
+nobody does anything strange.
+
+It's only a gut feeling with no clear evidence for one side. If you 
+insists on a separate structure I will go down that route.
+
+>>> If the goal is specifically atomic kms, then there's an entire can of
+>>> worms there that I really don't want to think about, but it exists: We
+>>> have dma_fence as out-fences from atomic commit, and that's already
+>>> massively broken since most drivers allocate some memory or at least take
+>>> locks which can allocate memory in their commit path. Like i2c. Putting a
+>>> userspace memory fence as in-fence in there makes that problem
+>>> substantially worse, since at least in theory you're just not allowed to
+>>> might_faul in atomic_commit_tail.
+>> Yes, that's unfortunately one of the goals as well and yes I completely
+>> agree on the can of worms. But I think I've solved that.
 >>
->> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
->> ---
+>> What I do in the patch set is to enforce that the out fence is an user fence
+>> when the driver supports user in fences as well.
 >>
->> added in v3
+>> Since user fences doesn't have the memory management dependency drivers can
+>> actually allocate memory or call I2C functions which takes locks which have
+>> memory allocation dependencies.
 >>
->>   drivers/media/i2c/ov5675.c | 25 +++++++++++++++++++++++++
->>   1 file changed, 25 insertions(+)
+>> Or do I miss some other reason why you can't fault or allocate memory in
+>> atomic_commit_tail? At least lockdep seems to be happy about that now.
+> The problem is a bit that this breaks the uapi already. At least if the
+> goal is to have this all be perfectly transparent for userspace - as you
+> as you have multi-gpu setups going on at least.
+
+Question here is why do you think there is an UAPI break? We currently 
+wait in a work item already, so where exactly is the problem?
+
+>>> If the goal is to keep the uapi perfectly compatible then your patch set
+>>> doesn't look like a solution, since as soon as another driver is involved
+>>> which doesn't understand userspace memory fences it all falls apart. So
+>>> works great for a quick demo with amd+amd sharing, but not much further.
+>>> And I don't think it's feasible to just rev the entire ecosystem, since
+>>> that kinda defeats the point of keeping uapi stable - if we rev everything
+>>> we might as well also rev the uapi and make this a bit more incremental
+>>> again :-)
+>> Yes, unfortunately the uapi needs to stay compatible as well and yes that
+>> means we need to deploy this to all drivers involved.
 >>
->> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
->> index 5544e1ae444e..8e3a5bc6c027 100644
->> --- a/drivers/media/i2c/ov5675.c
->> +++ b/drivers/media/i2c/ov5675.c
->> @@ -78,6 +78,9 @@
->>   #define OV5675_REG_FORMAT1		0x3820
->>   #define OV5675_REG_FORMAT2		0x373d
+>> We at least need to be able to provide a stack on new hardware with (for
+>> example) Ubuntu 18.04 without replacing all the userspace components.
 >>
->> +#define OV5675_PIXEL_ARRAY_WIDTH	2592U
->> +#define OV5675_PIXEL_ARRAY_HEIGHT	1944U
->> +
->>   #define to_ov5675(_sd)			container_of(_sd, struct ov5675, sd)
+>> What we can replace is the OpenGL stack and if necessary libdrm, but not
+>> (for example) the X server and most likely not the DDX in some cases.
 >>
->>   static const char * const ov5675_supply_names[] = {
->> @@ -1115,6 +1118,27 @@ static int ov5675_get_format(struct v4l2_subdev *sd,
->>   	return 0;
->>   }
->>
->> +static int ov5675_get_selection(struct v4l2_subdev *sd,
->> +				struct v4l2_subdev_state *state,
->> +				struct v4l2_subdev_selection *sel)
->> +{
->> +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
->> +		return -EINVAL;
->> +
->> +	switch (sel->target) {
->> +	case V4L2_SEL_TGT_CROP:
->> +	case V4L2_SEL_TGT_CROP_DEFAULT:
->> +	case V4L2_SEL_TGT_CROP_BOUNDS:
->> +		/* In HW, top/left corner is actually at (16,16) */
->> +		sel->r.top = 0;
->> +		sel->r.left = 0;
->> +		sel->r.width = OV5675_PIXEL_ARRAY_WIDTH;
->> +		sel->r.height = OV5675_PIXEL_ARRAY_HEIGHT;
->> +		return 0;
->> +	}
-> 
-> CROP_NATIVE = the full pixel array size = 2592x1944
-> 
-> CROP_BOUNDS = the rectangle that contains all possible crop
->                rectangles, aka the readable portion of your pixel array.
->                If in your case the sensor can read out dummy and non
->                active lines this is == NATIVE
-> 
-> CROP_DEFAULT = the active/valid pixel area. If there are any
->                 dummy/invalid lines the DEFAULT rectangle should not
->                 include them
-> 
-> CROP = the portion of the active pixel area cropped to produce the
->         final image. You should look into the modes definition and
->         inspect what values are programmed in register 0x380x (I don't
->         have a datasheet hence I don't know what corresponds to what)
-> 
-> Does this make any sense to you ?
-> 
+>> The same applies with surfaceflinger and to some extend Wayland as well.
+> So for perfect uapi compat for existing compositor I really don't think
+> stuffing umf into the kernel is the right approach. Too many little
+> corners that break:
+>
+> - the in/out fence mismatch every
 
-It's difficult to make sense of the datasheet to be honest.
+On that part I need further explanation, cause I hoped that this is solved.
 
-There's a 3296x2480px "full-size" rectangle, then the sensor array 
-output area called CROP and configurable through registers 0x380x, then 
-another output area called WIN (for window) also configurable through 
-registers 0x380x. The WIN area seems to be just a mask applied on top of 
-CROP area ("timing is not affected").
+> - cross gpu with different userspace that doesn't understand umf and then
+>    just ignores them
 
-On top of that, the schema shows 24 black lines - I assume - 
-incorrectly, one after the start of the full-size rectangle, one after 
-the end of the full-size rectangle.
+Well by stuffing umf into the kernel the whole thing becomes transparent 
+for userspace.
 
-Then the sensor array area region in another section explicitly 
-specifies the sensor to be 2624x2000px, active dummy pixels (2 16-pixel 
-rows and columns) and black lines (1 24-pixel line) included. Which 
-makes the actual useful area 2592x1944px.
+So it won't matter that you have a new amdgpu stack which wants to use 
+umf and an older i915 stack which knows nothing about umfs.
 
-In the datasheet, the default size for the CROP area is
-2624x1952px, offset (0,12) and for WIN it is 2592x1944px, offset (16,4) 
-(assumed relative to CROP given the second coordinate).
+The kernel will block on command submission as soon as a buffer is used 
+by i915. And as you said above as well that might cause performance 
+trouble, but is not a correctness problem.
 
-In the kernel driver though, the 2592x1944px mode configures the CROP 
-area to be 2624x1968px offset (0,4) and the WIN area to be 2592x1944px, 
-offset (16,13).
+> - compositors which currently assume implicit sync finishes eventually,
+>    and with umf that gets complicated at best
 
-The datasheet only ever mentions 2592x1944px as being the max resolution 
-of the sensor though the sensor output area documentation and registers 
-do not mention such a limitation.
+But for userspace compositors there is no difference between an umf 
+which times out and a dma_fence which timesout? Or am I missing 
+something here?
 
-Since we're not modifying the crop area at the moment, CROP_DEFAULT and 
-CROP would be the same, which would both be 2592x1944px.
+> - same with sync_file, the uapi atm does not have a concept of future
+>    fence
+>
+> So you can kinda make this work, but it falls apart all over the place.
+> And I also don't think smashing umf into all these old concepts helps us
+> in any way to get towards a desktop which is umf-native.
 
-For the two others, I'm not sure. Any clue or hint with the info I just 
-gave?
+Yeah, but having an umf compatibility memory management doesn't help 
+either to get away from pre-pinned pages.
 
-Cheers,
-Quentin
+> My take is still that for backwards compat the simplest way is if a
+> umf-native driver simply provides dma-fence backwards compat as an opt-in,
+> which userspace chooses when it's necessary. There's really only two
+> things you need for that to work:
+>
+> - a timeout of some sort on the dma_fence, which might or might not kill
+>    the entire context. This is entirey up to how your userspace does or
+>    does not implement stuff like arb robustness or vk_error_device_lost
+>
+> - pre-pinned memory management to block out the all the inversions. This
+>    is a bit more nasty, but since we do have all the code for this already
+>    it really shouldn't be too tricky to make that happen for the fancy new
+>    umf world.
+
+Well, exactly that's what we want to get away from.
+
+> You do not need a kernel scheduler or anything like that at all, you can
+> do full userspace direct submit to hw and all that fun. Maybe do a
+> drm/sched frontend (and then your submit code does exactly what userspace
+> would do too).
+>
+> Importantly the things you really don't need:
+>
+> - special hw support, even if the only mode your hw supports is with page
+>    faults and all that: You can make sure all the pages are present
+>    upfront, and then simply kill the entire context is a page fault
+>    happens.
+
+Well, that's only like 90% correct.
+
+You can make that work without special hardware support, but from the 
+experience with ROCm and very extensive talks with out hardware folks we 
+have seriously problems making sure that the hw can't access freed up 
+memory any more.
+
+Except for the solution of never freeing up memory the only other 
+possibility is to wait between 1 and 6 seconds until a shoot down made 
+sure that there is really nobody accessing old page tables entries any more.
+
+In the case of an user space queue with hardware scheduler support and 
+HMM the memory would just still be referenced until userspace 
+cooperatively inserted a barrier, but that again breaks some dma_fence 
+assumptions as far as I can see.
+
+> - special fw scheduler support: Once the memory management inversions are
+>    taken care of with pre-pinning under dma_fences, then the only other
+>    thing you need is a timeout for the dma_fence to signal. And maybe some
+>    kind of guaranteed ordering if you want to use a dma_fence timeline
+>    since that one can't go backwards.
+
+Yeah, that not going backward thing turned out to be massively more 
+tricky than I thought initially as well.
+
+Alex, Marek and I worked quite hard on relaying those requirements to 
+our internal teams, but I'm still not quite sure if that will turn out 
+working or not.
+
+> Trying to shoehorn umf into all the old concepts like implicit sync or
+> sync_file which really don't support umf works for a demo, but imo just
+> isn't solid enough for shipping everywhere.
+>
+> And long term I really don't think we ever want umf anywhere else than
+> drm_syncobj, at least for a 100% umf-native stack.
+
+Ok then I will concentrate on drm_syncobj for now.
+
+What about in driver backward compatibility? E.g. blocking wait in the 
+multimedia driver CS IOCTL until umf signals?
+
+Thanks,
+Christian.
+
+>
+> So maybe this all goes back to the old discussion with had, where you
+> argued for the need for special fw and hw and all that to make the old
+> dma_fence stuff work. Why is that needed? I still don't get that part ...
+> -Daniel
+
