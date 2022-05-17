@@ -2,62 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B392B52ADB6
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 23:59:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E26DB52AE6C
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 01:08:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbiEQV7H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 17:59:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45344 "EHLO
+        id S231618AbiEQXIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 19:08:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229783AbiEQV7G (ORCPT
+        with ESMTP id S230242AbiEQXIM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 17:59:06 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ABFD50E2D
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 14:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652824745; x=1684360745;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bU7P64m3XU7JmtxUjymiBegLYYur7NYID41OGbEvWXw=;
-  b=LcVHcbvNu/bRH+Hi9pkXNVIM0wVhhDmNo+AylkWv4tiQsRA3StFN+SkM
-   S84XpAHkEWXe+3gAaZkoYz/72XxnqniRgd0dq7bIud1DnzSvRNhPuyfdT
-   DA+nYNYGjUaNNHMhPgMP5q8gs+J2qTp+J839Up3hB2X2THIA+TvPc74kH
-   gfDw/s6xEUhS4h+GCNgU6u4QyvujyICZsYiLR86C2KV/yDXkl4Sy+B+zW
-   plR0IkpcOwF6gQZecxC5RDrB6Pi06hK+8eVa5itxv65IWYlHFXOkZ0bra
-   oeWynDO/BNrFv+cKVyQmU0grGcHL49PEQA0BEpWEwQVtTBzIoUtfZ5Vac
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="271041632"
-X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; 
-   d="scan'208";a="271041632"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 14:59:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; 
-   d="scan'208";a="626692062"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 17 May 2022 14:59:03 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nr5Da-0001Tr-ED;
-        Tue, 17 May 2022 21:59:02 +0000
-Date:   Wed, 18 May 2022 05:58:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Oliver Neukum <oneukum@suse.com>, linux-media@vger.kernel.org,
-        mchehab@kernel.org, crope@iki.fi
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH] airspy: respect the DMA coherency rules
-Message-ID: <202205180516.aJrehmYZ-lkp@intel.com>
-References: <20220517110903.25491-1-oneukum@suse.com>
+        Tue, 17 May 2022 19:08:12 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A0E337AA8
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 16:08:11 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 341934A8;
+        Wed, 18 May 2022 01:08:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1652828889;
+        bh=XIZIu57x286mw5Zeq61JLUEb3y2bHFvbmI48RX6juBk=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=GqHTJGh/uS/iWTtcAbxbGufo4ZBaH51Q6S1qmWlDUjM4hYmSFKACitujBbKxHxyX1
+         mOkNY+c11Sm8gKb1ksw4rBXFBDcXn5jpuF0LnYSSFKTyJGMxflnsOUR2Ccjq+WAR7u
+         aCsvTtLsoh+ZaxBWsB1IN9rTY+1l2y3hJ53Nqr9U=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220517110903.25491-1-oneukum@suse.com>
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAPY8ntDfnZG_+43gMz2D=v9eUBX8zjbJpDpwm1a8tTT4ak8drw@mail.gmail.com>
+References: <20220512120209.11614-1-info@benjaminmarty.ch> <CAPY8ntD4miACVe9naYUyVAztZcDBK47chpJLy4=qqjmego1jvA@mail.gmail.com> <165243859864.2416244.4785590696956344599@Monstersaurus> <CAPY8ntDfnZG_+43gMz2D=v9eUBX8zjbJpDpwm1a8tTT4ak8drw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: i2c: adv7180: fix reserved bit in Video Selection 2
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Benjamin Marty <info@benjaminmarty.ch>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 18 May 2022 00:08:06 +0100
+Message-ID: <165282888670.2416244.4233841355061128997@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,188 +47,149 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Oliver,
+Quoting Dave Stevenson (2022-05-17 18:50:11)
+> On Fri, 13 May 2022 at 11:43, Kieran Bingham
+> <kieran.bingham@ideasonboard.com> wrote:
+> >
+> > Quoting Dave Stevenson (2022-05-12 14:56:45)
+> > > Hi Benjamin.
+> > >
+> > > On Thu, 12 May 2022 at 13:11, Benjamin Marty <info@benjaminmarty.ch> =
+wrote:
+> > > >
+> > > > This bit is marked as reserved in the ADV Hardware Reference Manual.
+> > > >
+> > > > Resetting this bit seems to cause increased video noise. Setting th=
+is
+> > > > bit according to the Hardware Reference Manual reduces the video no=
+ise
+> > > > immediately.
+> > > >
+> > > > Signed-off-by: Benjamin Marty <info@benjaminmarty.ch>
+> > > > ---
+> > > > version 2:
+> > > > - Fixed Kieran's remarks
+> > > >
+> > > >  drivers/media/i2c/adv7180.c | 5 ++++-
+> > > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv718=
+0.c
+> > > > index 4f5db195e66d..992111fe249e 100644
+> > > > --- a/drivers/media/i2c/adv7180.c
+> > > > +++ b/drivers/media/i2c/adv7180.c
+> > > > @@ -43,6 +43,7 @@
+> > > >  #define ADV7180_INPUT_CONTROL_INSEL_MASK               0x0f
+> > > >
+> > > >  #define ADV7182_REG_INPUT_VIDSEL                       0x0002
+> > > > +#define ADV7182_REG_INPUT_RESERVED                     BIT(2)
+> > >
+> > > Responding to Kieran's comment on V1:
+> > > > If the bit is documented with a better name, then use that of cours=
+e,
+> > > > otherwise perhaps even a comment in the code saying that failing to=
+ set
+> > > > the bit increases visible noise would be suitable. (or that setting=
+ the
+> > > > bit reduces noise, I guess it depends on if you think this bit is
+> > > > performing noise reduction, or if not setting it is introducing noi=
+se)
+> > >
+> > > I went digging through the datasheet for this info as I care about
+> > > ADV728[0|1|2]M.
+> > >
+> > > https://www.analog.com/media/en/technical-documentation/data-sheets/A=
+DV7182.pdf
+> > > page 68 defines bits 0-3 as reserved, and "set to default" which is
+> > > 0100b.
+> > > https://www.analog.com/media/en/technical-documentation/user-guides/A=
+DV7280_7281_7282_7283_UG-637.pdf
+> > > page 70 says the same for ADV7280/ADV7281/ADV7282/ADV7283.
+> > >
+> > > So no name or detail in the docs over what the bits do.
+> > >
+> > > The patch does mean the driver more closely follows the datasheet, so
+> > > it looks good to me.
+> > >
+> > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > >
+> > > I'll try to find a couple of minutes to get my hardware out and
+> > > confirm I see the change in video noise.
+> >
+> > Great, Is there any way we can identify (easily?) if this is introducing
+> > noise reduction, or preventing noise being added?
+> >
+> > If it's introducing noise reduction, as a feature, that's quite
+> > different to causing noise if it's not set ... (Unless perhaps people
+> > have a desire to add noise :D)
+>=20
+> OK, I dug out my hardware. I'm doing the nasty with:
+> i2ctransfer -y -f 10 w2@0x21 0x02 0x84
+> and
+> i2ctransfer -y -f 10 w2@0x21 0x02 0x80
+> to flip back and forth between the two settings on my PAL source.
+>=20
+> It does reduce the noise, but also softens the image significantly.
+>=20
+> As slightly iffy photos to show the difference
+> https://photos.app.goo.gl/hLKxv3TP93gX864y8 is the new setting.
+> https://photos.app.goo.gl/sWxEhdvxHLUkGL1C8 is the old setting.
+> (Yes it's a very old F1 race that happened to be on this DVD/HDD recorder=
+).
 
-I love your patch! Perhaps something to improve:
+It's a really tough test case, as I expect these are frame captures from
+two separate time points, rather than some paused frame, but I would say
+the text on the old setting is clearer. That could easily be due to
+differences in the actual content though.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on v5.18-rc7 next-20220517]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+It might make me think this should be a control that could be
+dynamically set to allow the user to decide...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/airspy-respect-the-DMA-coherency-rules/20220517-191203
-base:   git://linuxtv.org/media_tree.git master
-config: i386-randconfig-a006-20220516 (https://download.01.org/0day-ci/archive/20220518/202205180516.aJrehmYZ-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 853fa8ee225edf2d0de94b0dcbd31bea916e825e)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1001f475c1972ae2ab2be36a64d723f12c56786d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Oliver-Neukum/airspy-respect-the-DMA-coherency-rules/20220517-191203
-        git checkout 1001f475c1972ae2ab2be36a64d723f12c56786d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/usb/airspy/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/usb/airspy/airspy.c:979:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (!buf)
-               ^~~~
-   drivers/media/usb/airspy/airspy.c:1082:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/media/usb/airspy/airspy.c:979:2: note: remove the 'if' if its condition is always false
-           if (!buf)
-           ^~~~~~~~~
-   drivers/media/usb/airspy/airspy.c:976:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (!s->buf)
-               ^~~~~~~
-   drivers/media/usb/airspy/airspy.c:1082:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/media/usb/airspy/airspy.c:976:2: note: remove the 'if' if its condition is always false
-           if (!s->buf)
-           ^~~~~~~~~~~~
-   drivers/media/usb/airspy/airspy.c:966:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   2 warnings generated.
+Benjamin, how does it look on your system? I presume setting this bit
+improves image quality for your use case.
 
 
-vim +979 drivers/media/usb/airspy/airspy.c
+> I couldn't honestly say I prefer one over the other (analogue video
+> really is grim!), but it does mean that we're following the datasheet
+> more accurately, so:
+>=20
+> Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>=20
+> > But I think I could add this already:
+> >
+> >
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-   961	
-   962	static int airspy_probe(struct usb_interface *intf,
-   963			const struct usb_device_id *id)
-   964	{
-   965		struct airspy *s;
-   966		int ret;
-   967		u8 u8tmp, *buf = NULL;
-   968	
-   969		s = kzalloc(sizeof(struct airspy), GFP_KERNEL);
-   970		if (s == NULL) {
-   971			dev_err(&intf->dev, "Could not allocate memory for state\n");
-   972			return -ENOMEM;
-   973		}
-   974	
-   975		s->buf = kzalloc(BUF_SIZE, GFP_KERNEL);
-   976		if (!s->buf)
-   977			goto err_free_mem;
-   978		buf = kzalloc(BUF_SIZE, GFP_KERNEL);
- > 979		if (!buf)
-   980			goto err_free_mem;
-   981	
-   982		mutex_init(&s->v4l2_lock);
-   983		mutex_init(&s->vb_queue_lock);
-   984		spin_lock_init(&s->queued_bufs_lock);
-   985		INIT_LIST_HEAD(&s->queued_bufs);
-   986		s->dev = &intf->dev;
-   987		s->udev = interface_to_usbdev(intf);
-   988		s->f_adc = bands[0].rangelow;
-   989		s->f_rf = bands_rf[0].rangelow;
-   990		s->pixelformat = formats[0].pixelformat;
-   991		s->buffersize = formats[0].buffersize;
-   992	
-   993		/* Detect device */
-   994		ret = airspy_ctrl_msg(s, CMD_BOARD_ID_READ, 0, 0, &u8tmp, 1);
-   995		if (ret == 0)
-   996			ret = airspy_ctrl_msg(s, CMD_VERSION_STRING_READ, 0, 0,
-   997					buf, BUF_SIZE);
-   998		if (ret) {
-   999			dev_err(s->dev, "Could not detect board\n");
-  1000			goto err_free_mem;
-  1001		}
-  1002	
-  1003		buf[BUF_SIZE - 1] = '\0';
-  1004	
-  1005		dev_info(s->dev, "Board ID: %02x\n", u8tmp);
-  1006		dev_info(s->dev, "Firmware version: %s\n", buf);
-  1007	
-  1008		/* Init videobuf2 queue structure */
-  1009		s->vb_queue.type = V4L2_BUF_TYPE_SDR_CAPTURE;
-  1010		s->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-  1011		s->vb_queue.drv_priv = s;
-  1012		s->vb_queue.buf_struct_size = sizeof(struct airspy_frame_buf);
-  1013		s->vb_queue.ops = &airspy_vb2_ops;
-  1014		s->vb_queue.mem_ops = &vb2_vmalloc_memops;
-  1015		s->vb_queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-  1016		ret = vb2_queue_init(&s->vb_queue);
-  1017		if (ret) {
-  1018			dev_err(s->dev, "Could not initialize vb2 queue\n");
-  1019			goto err_free_mem;
-  1020		}
-  1021	
-  1022		/* Init video_device structure */
-  1023		s->vdev = airspy_template;
-  1024		s->vdev.queue = &s->vb_queue;
-  1025		s->vdev.queue->lock = &s->vb_queue_lock;
-  1026		video_set_drvdata(&s->vdev, s);
-  1027	
-  1028		/* Register the v4l2_device structure */
-  1029		s->v4l2_dev.release = airspy_video_release;
-  1030		ret = v4l2_device_register(&intf->dev, &s->v4l2_dev);
-  1031		if (ret) {
-  1032			dev_err(s->dev, "Failed to register v4l2-device (%d)\n", ret);
-  1033			goto err_free_mem;
-  1034		}
-  1035	
-  1036		/* Register controls */
-  1037		v4l2_ctrl_handler_init(&s->hdl, 5);
-  1038		s->lna_gain_auto = v4l2_ctrl_new_std(&s->hdl, &airspy_ctrl_ops,
-  1039				V4L2_CID_RF_TUNER_LNA_GAIN_AUTO, 0, 1, 1, 0);
-  1040		s->lna_gain = v4l2_ctrl_new_std(&s->hdl, &airspy_ctrl_ops,
-  1041				V4L2_CID_RF_TUNER_LNA_GAIN, 0, 14, 1, 8);
-  1042		v4l2_ctrl_auto_cluster(2, &s->lna_gain_auto, 0, false);
-  1043		s->mixer_gain_auto = v4l2_ctrl_new_std(&s->hdl, &airspy_ctrl_ops,
-  1044				V4L2_CID_RF_TUNER_MIXER_GAIN_AUTO, 0, 1, 1, 0);
-  1045		s->mixer_gain = v4l2_ctrl_new_std(&s->hdl, &airspy_ctrl_ops,
-  1046				V4L2_CID_RF_TUNER_MIXER_GAIN, 0, 15, 1, 8);
-  1047		v4l2_ctrl_auto_cluster(2, &s->mixer_gain_auto, 0, false);
-  1048		s->if_gain = v4l2_ctrl_new_std(&s->hdl, &airspy_ctrl_ops,
-  1049				V4L2_CID_RF_TUNER_IF_GAIN, 0, 15, 1, 0);
-  1050		if (s->hdl.error) {
-  1051			ret = s->hdl.error;
-  1052			dev_err(s->dev, "Could not initialize controls\n");
-  1053			goto err_free_controls;
-  1054		}
-  1055	
-  1056		v4l2_ctrl_handler_setup(&s->hdl);
-  1057	
-  1058		s->v4l2_dev.ctrl_handler = &s->hdl;
-  1059		s->vdev.v4l2_dev = &s->v4l2_dev;
-  1060		s->vdev.lock = &s->v4l2_lock;
-  1061		s->vdev.device_caps = V4L2_CAP_SDR_CAPTURE | V4L2_CAP_STREAMING |
-  1062				      V4L2_CAP_READWRITE | V4L2_CAP_TUNER;
-  1063	
-  1064		ret = video_register_device(&s->vdev, VFL_TYPE_SDR, -1);
-  1065		if (ret) {
-  1066			dev_err(s->dev, "Failed to register as video device (%d)\n",
-  1067					ret);
-  1068			goto err_free_controls;
-  1069		}
-  1070		dev_info(s->dev, "Registered as %s\n",
-  1071				video_device_node_name(&s->vdev));
-  1072		dev_notice(s->dev, "SDR API is still slightly experimental and functionality changes may follow\n");
-  1073		return 0;
-  1074	
-  1075	err_free_controls:
-  1076		v4l2_ctrl_handler_free(&s->hdl);
-  1077		v4l2_device_unregister(&s->v4l2_dev);
-  1078	err_free_mem:
-  1079		kfree(buf);
-  1080		kfree(s->buf);
-  1081		kfree(s);
-  1082		return ret;
-  1083	}
-  1084	
+From a driver perspective, with no other existing expecatation - I would
+say matching the datasheet is the correct thing to do anyway.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--
+Kieran
+
+
+
+> >
+> > >
+> > >   Dave
+> > >
+> > > >  #define ADV7180_REG_OUTPUT_CONTROL                     0x0003
+> > > >  #define ADV7180_REG_EXTENDED_OUTPUT_CONTROL            0x0004
+> > > > @@ -1014,7 +1015,9 @@ static int adv7182_init(struct adv7180_state =
+*state)
+> > > >
+> > > >  static int adv7182_set_std(struct adv7180_state *state, unsigned i=
+nt std)
+> > > >  {
+> > > > -       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL, std <=
+< 4);
+> > > > +       /* Failing to set the reserved bit can result in increased =
+video noise */
+> > > > +       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL,
+> > > > +                            (std << 4) | ADV7182_REG_INPUT_RESERVE=
+D);
+> > > >  }
+> > > >
+> > > >  enum adv7182_input_type {
+> > > > --
+> > > > 2.36.1
+> > > >
