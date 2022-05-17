@@ -2,287 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FAA6529794
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 04:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE216529961
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 08:13:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239522AbiEQC7j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 May 2022 22:59:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57504 "EHLO
+        id S237340AbiEQGNe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 02:13:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiEQC7i (ORCPT
+        with ESMTP id S231996AbiEQGNe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 May 2022 22:59:38 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA9D446146;
-        Mon, 16 May 2022 19:59:36 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id tk15so8576828ejc.6;
-        Mon, 16 May 2022 19:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9L5Khg1CsV1mJj4HN4+8r3xoUYvqrWbbzNA2NHh1VS8=;
-        b=O3G+JGx0PAmlDvq2x9GpUet1v7PATfl8GsiiBhyyHIVm2O0mDrFI2cdDhutDtGfXT8
-         s3r8VvQON0eX5Ry7QThtY5Ty/xBOnsU2CETi0HmYP75sUk5hxbhWkNKbJQPcc7asysH3
-         rFyvtkqg5Cj6OOx9VMrGTPPNAaY9oJRqoFC0UVNzLO717fTxiLm5dB/MOUzkLaQA8Fva
-         doT2y8b/zS8FAyyKI3zXud6q0jC7BtPL8mUe2IfZQh3H2LoFDbzi0V9t+E4ACZRSJaUi
-         xJRlJYgRdYQGDP5Twb39VaBxrLp3Z9RvZKAqa0AfGcmqrRLkokLqlQF7ciRUY/KNqI7u
-         zJ7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9L5Khg1CsV1mJj4HN4+8r3xoUYvqrWbbzNA2NHh1VS8=;
-        b=IM1PX2AOLOu9SD5+gJdSMd3odqKD+wzlVC3QlVRs6PuABevoHqnbkmj5ps6rACDLaS
-         wti8H1XiSkehTO5cGc8d4jfONLMuoYSzR3PUgOngy/d02AK5X5MaL4kGdbPwYA3a+gbV
-         dUeDZyQr51Sry7dsUyXBbIs89Nqqc8cP8688vcZgKXdPtODztCFhgEUqgItQv5DauPyd
-         GhFZFePpd4ZIFhwTDIloFIr8gQbKE0ih4Xisx4dYMxvpFcTp4XQfWl6xsHCIyUrkV8wP
-         aaAA4MtYJ67aZ55w9kpeMlJen6LMvY+WtYlGLYgiU7RXLGKMB6MqWhQBClrfB/UsAcYe
-         uU9g==
-X-Gm-Message-State: AOAM530Q55cBAX8dhZHehr5h4ZWINT0FQjZPqCqe1+H7IBGtBqcTzwrk
-        PSTsE7HQEdJK+Eu6jW9zeNmlkMZAp1VuoXGfZu96QSmnzq9p/A==
-X-Google-Smtp-Source: ABdhPJxGJ63ltlhgS8LTmZoQvHocGvopjIvM3r608Z+Du6QZiZ0iqL/BN/4qmkWhOz/wCG85LCYzZecFk94mUosNgII=
-X-Received: by 2002:a17:906:6a1b:b0:6f4:a9b8:e027 with SMTP id
- qw27-20020a1709066a1b00b006f4a9b8e027mr18063258ejc.222.1652756375444; Mon, 16
- May 2022 19:59:35 -0700 (PDT)
+        Tue, 17 May 2022 02:13:34 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7919B443C6;
+        Mon, 16 May 2022 23:13:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E1E96B816EA;
+        Tue, 17 May 2022 06:13:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B4BC385B8;
+        Tue, 17 May 2022 06:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1652768008;
+        bh=OluTkCLxVeKSfegoojJgsJodih/APBSYOWtV2jU6qDs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=0lYCqDwjr5OYoqicVtqSeJAN0ZLbYKsMFKfl9UaOceG2HPSbwvA854qd10G0b87b/
+         Kv0pMNwDnZ8EI0snXGxoHXBin+GcRbqOe6rNeFHvZhJc4a5MhXftkPvEiJhD4y5Twm
+         TGtN9umVRlTw08eUyq2RPakU5ZNvxFrXIASNpOl0=
+Date:   Tue, 17 May 2022 08:13:24 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Greg Kroah-Hartman <gregkh@google.com>,
+        John Stultz <jstultz@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Hridya Valsaraju <hridya@google.com>, kernel-team@android.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+Message-ID: <YoM9BAwybcjG7K/H@kroah.com>
+References: <20220516171315.2400578-1-tjmercier@google.com>
+ <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
+ <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
+ <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com>
+ <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220513033450.7038-1-kflin@nuvoton.com> <20220513033450.7038-6-kflin@nuvoton.com>
- <b5361f08-f9eb-9384-f904-2625bae0fd9a@molgen.mpg.de>
-In-Reply-To: <b5361f08-f9eb-9384-f904-2625bae0fd9a@molgen.mpg.de>
-From:   Kun-Fa Lin <milkfafa@gmail.com>
-Date:   Tue, 17 May 2022 10:59:32 +0800
-Message-ID: <CADnNmFqfxDE3UbNQiyhwkLBugfZ1fSZYDbGDQFnRZdD_4q58+A@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] drivers: media: platform: Add NPCM Video
- Capture/Encode Engine driver
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, CS20 KWLiu <kwliu@nuvoton.com>,
-        tmaimon77@gmail.com, avifishman70@gmail.com,
-        openbmc@lists.ozlabs.org, tali.perry1@gmail.com,
-        Marvin Lin <kflin@nuvoton.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Paul,
+On Mon, May 16, 2022 at 05:08:05PM -0700, T.J. Mercier wrote:
+> On Mon, May 16, 2022 at 12:21 PM Christian König
+> <christian.koenig@amd.com> wrote:
+> >
+> > Am 16.05.22 um 20:08 schrieb T.J. Mercier:
+> > > On Mon, May 16, 2022 at 10:20 AM Christian König
+> > > <christian.koenig@amd.com> wrote:
+> > >> Am 16.05.22 um 19:13 schrieb T.J. Mercier:
+> > >>> Recently, we noticed an issue where a process went into direct reclaim
+> > >>> while holding the kernfs rw semaphore for sysfs in write (exclusive)
+> > >>> mode. This caused processes who were doing DMA-BUF exports and releases
+> > >>> to go into uninterruptible sleep since they needed to acquire the same
+> > >>> semaphore for the DMA-BUF sysfs entry creation/deletion. In order to avoid
+> > >>> blocking DMA-BUF export for an indeterminate amount of time while
+> > >>> another process is holding the sysfs rw semaphore in exclusive mode,
+> > >>> this patch moves the per-buffer sysfs file creation to the default work
+> > >>> queue. Note that this can lead to a short-term inaccuracy in the dmabuf
+> > >>> sysfs statistics, but this is a tradeoff to prevent the hot path from
+> > >>> being blocked. A work_struct is added to dma_buf to achieve this, but as
+> > >>> it is unioned with the kobject in the sysfs_entry, dma_buf does not
+> > >>> increase in size.
+> > >> I'm still not very keen of this approach as it strongly feels like we
+> > >> are working around shortcoming somewhere else.
+> > >>
+> > > My read of the thread for the last version is that we're running into
+> > > a situation where sysfs is getting used for something it wasn't
+> > > originally intended for, but we're also stuck with this sysfs
+> > > functionality for dmabufs.
+> > >
+> > >>> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stats in sysfs")
+> > >>> Originally-by: Hridya Valsaraju <hridya@google.com>
+> > >>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > >>>
+> > >>> ---
+> > >>> See the originally submitted patch by Hridya Valsaraju here:
+> > >>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%2Flkml%2F2022%2F1%2F4%2F1066&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C794614324d114880a25508da37672e4b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637883213566903705%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=bGlA2FeubfSeL5XDHYyWMZqUXfScoCphZjjK4jrqQJs%3D&amp;reserved=0
+> > >>>
+> > >>> v2 changes:
+> > >>> - Defer only sysfs creation instead of creation and teardown per
+> > >>> Christian König
+> > >>>
+> > >>> - Use a work queue instead of a kthread for deferred work per
+> > >>> Christian König
+> > >>> ---
+> > >>>    drivers/dma-buf/dma-buf-sysfs-stats.c | 56 ++++++++++++++++++++-------
+> > >>>    include/linux/dma-buf.h               | 14 ++++++-
+> > >>>    2 files changed, 54 insertions(+), 16 deletions(-)
+> > >>>
+> > >>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > >>> index 2bba0babcb62..67b0a298291c 100644
+> > >>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > >>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > >>> @@ -11,6 +11,7 @@
+> > >>>    #include <linux/printk.h>
+> > >>>    #include <linux/slab.h>
+> > >>>    #include <linux/sysfs.h>
+> > >>> +#include <linux/workqueue.h>
+> > >>>
+> > >>>    #include "dma-buf-sysfs-stats.h"
+> > >>>
+> > >>> @@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(void)
+> > >>>        kset_unregister(dma_buf_stats_kset);
+> > >>>    }
+> > >>>
+> > >>> +static void sysfs_add_workfn(struct work_struct *work)
+> > >>> +{
+> > >>> +     struct dma_buf_sysfs_entry *sysfs_entry =
+> > >>> +             container_of(work, struct dma_buf_sysfs_entry, sysfs_add_work);
+> > >>> +     struct dma_buf *dmabuf = sysfs_entry->dmabuf;
+> > >>> +
+> > >>> +     /*
+> > >>> +      * A dmabuf is ref-counted via its file member. If this handler holds the only
+> > >>> +      * reference to the dmabuf, there is no need for sysfs kobject creation. This is an
+> > >>> +      * optimization and a race; when the reference count drops to 1 immediately after
+> > >>> +      * this check it is not harmful as the sysfs entry will still get cleaned up in
+> > >>> +      * dma_buf_stats_teardown, which won't get called until the final dmabuf reference
+> > >>> +      * is released, and that can't happen until the end of this function.
+> > >>> +      */
+> > >>> +     if (file_count(dmabuf->file) > 1) {
+> > >> Please completely drop that. I see absolutely no justification for this
+> > >> additional complexity.
+> > >>
+> > > This case gets hit around 5% of the time in my testing so the else is
+> > > not a completely unused branch.
+> >
+> > Well I can only repeat myself: This means that your userspace is
+> > severely broken!
+> >
+> > DMA-buf are meant to be long living objects
+> This patch addresses export *latency* regardless of how long-lived the
+> object is. Even a single, long-lived export will benefit from this
+> change if it would otherwise be blocked on adding an object to sysfs.
+> I think attempting to improve this latency still has merit.
 
-Thanks for your review and comments.
+Fixing the latency is nice, but as it's just pushing the needed work off
+to another code path, it will take longer overall for the sysfs stuff to
+be ready for userspace to see.
 
-> Please mention the datasheet name and revision used to implement this?
-> How can your patch be tested?
->
-> For a over 2000 line patch, I would expect a longer commit message with
-> a summary of the hardware features, and implementation.
+Perhaps we need to step back and understand what this code is supposed
+to be doing.  As I recall, it was created because some systems do not
+allow debugfs anymore, and they wanted the debugging information that
+the dmabuf code was exposing to debugfs on a "normal" system.  Moving
+that logic to sysfs made sense, but now I am wondering why we didn't see
+these issues in the debugfs code previously?
 
-Okay, I'll add more information to the commit message, but it may not
-be appropriate to add the datasheet name since it is not public.
-And I tested with openbmc/obmc-ikvm (with patches to support Hextile
-encoding that our driver used) and used VNC Viewer to verify the video
-result.
+Perhaps we should go just one step further and make a misc device node
+for dmabug debugging information to be in and just have userspace
+poll/read on the device node and we spit the info that used to be in
+debugfs out through that?  That way this only affects systems when they
+want to read the information and not normal code paths?  Yeah that's a
+hack, but this whole thing feels overly complex now.
 
->
-> As the module author should you also be added to the file `MAINTAINERS`?
-> (Maybe even with a functional address <linux-npcm-video@nuvoton.com>?
->
-> > Signed-off-by: Marvin Lin <kflin@nuvoton.com>
->
-> Same comment as in 1/5 regarding the author email address.
+thanks,
 
-I'll add a new entry in MAINTAINERS.
-
-> > +++ b/drivers/media/platform/nuvoton/Kconfig
-> > @@ -0,0 +1,12 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +comment "Nuvoton media platform drivers"
-> > +
-> > +config VIDEO_NUVOTON
->
-> Is that driver going to support all Nuvoton devices or just NPCM? If
-> only NPCM, that should be part of the Kconfig config name?
->
-> > +     tristate "Nuvoton NPCM Video Capture/Encode Engine driver"
-> > +     depends on V4L_PLATFORM_DRIVERS
-> > +     depends on VIDEO_DEV
-> > +     select VIDEOBUF2_DMA_CONTIG
-> > +     help
-> > +       Support for the Video Capture/Differentiation Engine (VCD) and
-> > +       Encoding Compression Engine (ECE) present on Nuvoton NPCM SoCs.
->
-> Mention the module name?
->
->  > To compile this driver as a module, choose M here: the module will be
-> called XXX.
-
-The driver just supports NPCM. I'll change the config to
-VIDEO_NUVOTON_NPCM_VCD_ECE.
-
-> > +struct nuvoton_video_addr {
-> > +     unsigned int size;
->
-> size_t?
-
-> > +struct rect_list_info {
-> > +     struct rect_list *list;
-> > +     struct rect_list *first;
-> > +     struct list_head *head;
-> > +     int index;
-> > +     int tile_perline;
-> > +     int tile_perrow;
-> > +     int offset_perline;
-> > +     int tile_size;
-> > +     int tile_cnt;
->
-> Can all of these be unsigned?
-
-> > +     int frame_rate;
-> > +     int vb_index;
->
-> Unsigned?
->
-
-They will be addressed in the next patch.
-
-> > +     u32 bytesperline;
-> > +     u8 bytesperpixel;
-> > +     u32 rect_cnt;
-> > +     u8 num_buffers;
-> > +     struct list_head *list;
-> > +     u32 *rect;
->
-> I would not limit the size?
-
-It's clearer to know that it stores u32 exactly.
-
-> > +static u32 nuvoton_video_ece_get_ed_size(struct nuvoton_video *video,
-> > +                                      u32 offset, void *addr)
->
-> Use unsigned int as return value?
-
-Okay.
-
-> > +static void nuvoton_video_ece_enc_rect(struct nuvoton_video *video, u32 r_off_x,
-> > +                                    u32 r_off_y, u32 r_w, u32 r_h)
-> > +{
-> > +     struct regmap *ece = video->ece.regmap;
-> > +     u32 rect_offset = (r_off_y * video->bytesperline) + (r_off_x * 2);
-> > +     u32 temp;
-> > +     u32 w_tile;
-> > +     u32 h_tile;
-> > +     u32 w_size = ECE_TILE_W;
-> > +     u32 h_size = ECE_TILE_H;
->
-> Any reason to fix the sizes?
-
-A "Hextile" is fixed to 16x16 pixels size, which is defined in Remote
-Framebuffer Protocol (RFC 6143, chapter 7.7.4 Hextile Encoding).
-
-> > +static void nuvoton_video_ece_ip_reset(struct nuvoton_video *video)
-> > +{
-> > +     reset_control_assert(video->ece.reset);
-> > +     msleep(100);
-> > +     reset_control_deassert(video->ece.reset);
-> > +     msleep(100);
->
-> 100 ms is quite long. Please add a comment, where that is documented. Is
-> there a way to poll, if the device is done?
-
-I'll add a comment. It should be reduced to ~10 us (suggested in
-spec.) and there's no way to poll.
-
-> > +
-> > +static void nuvoton_video_free_diff_table(struct nuvoton_video *video)
-> > +{
-> > +     struct list_head *head, *pos, *nx;
-> > +     struct rect_list *tmp;
-> > +     int i;
->
-> unsigned?
->
-
-> > +static int nuvoton_video_find_rect(struct nuvoton_video *video,
-> > +                                struct rect_list_info *info, u32 offset)
-> > +{
-> > +     int i = info->index;
-> > +
-> > +     if (offset < info->tile_perline) {
-> > +             info->list = nuvoton_video_new_rect(video, offset, i);
->
-> `i` is only used here, so use `info->index`?
->
-
-> > +static int nuvoton_video_build_table(struct nuvoton_video *video,
-> > +                                  struct rect_list_info *info)
-> > +{
-> > +     int i = info->index;
-> > +     int j, ret, bit;
->
-> Make `j` unsigned?
->
-> > +     u32 value;
-> > +     struct regmap *vcd = video->vcd_regmap;
-> > +
-> > +     for (j = 0; j < info->offset_perline; j += 4) {
-> > +             regmap_read(vcd, VCD_DIFF_TBL + (j + i), &value);
->
-> `i` is only used here, so use `info->index`?
->
-
-> > +static void nuvoton_video_vcd_ip_reset(struct nuvoton_video *video)
-> > +{
-> > +     reset_control_assert(video->reset);
-> > +     msleep(100);
-> > +     reset_control_deassert(video->reset);
-> > +     msleep(100);
->
-> 100 ms is quite long. Please add a comment, where that is documented. Is
-> there a way to poll, if the device is done?
->
-
-> > +static int nuvoton_video_queue_setup(struct vb2_queue *q,
-> > +                                  unsigned int *num_buffers,
-> > +                                  unsigned int *num_planes,
-> > +                                  unsigned int sizes[],
-> > +                                  struct device *alloc_devs[])
-> > +{
-> > +     struct nuvoton_video *video = vb2_get_drv_priv(q);
-> > +     int i;
->
-> unsigned?
->
-
-> > +static void nuvoton_video_buf_queue(struct vb2_buffer *vb)
-> > +{
-> > +     int empty;
-> > +     struct nuvoton_video *video = vb2_get_drv_priv(vb->vb2_queue);
-> > +     struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > +     struct nuvoton_video_buffer *nvb = to_nuvoton_video_buffer(vbuf);
-> > +     unsigned long flags;
-> > +
-> > +     dev_dbg(video->dev, "%s\n", __func__);
-> > +
-> > +     spin_lock_irqsave(&video->lock, flags);
-> > +     empty = list_empty(&video->buffers);
->
-> Where is empty read later?
->
-
-> > +     regs = devm_platform_ioremap_resource_byname(pdev, VCD_MODULE_NAME);
-> > +     if (IS_ERR(regs)) {
-> > +             dev_err(&pdev->dev, "Failed to get VCD regmap resource!\n");
->
-> Can you help the user more by saying what to fix like check devicetree
-> or so?
->
-
-Okay. All of them will be addressed in the next patch.
-
-Regards,
-Marvin
+greg k-h
