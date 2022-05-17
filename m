@@ -2,71 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A39352A8FA
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 19:09:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47A1C52A870
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 18:46:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351422AbiEQRI4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 13:08:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57992 "EHLO
+        id S1349948AbiEQQqo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 12:46:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351408AbiEQRIs (ORCPT
+        with ESMTP id S232954AbiEQQqn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 13:08:48 -0400
-X-Greylist: delayed 2396 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 May 2022 10:08:41 PDT
-Received: from mail.neweas.com (mail.neweas.com [162.19.155.127])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAF515047B
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 10:08:40 -0700 (PDT)
-Received: by mail.neweas.com (Postfix, from userid 1002)
-        id BF09422DC3; Tue, 17 May 2022 15:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=neweas.com; s=mail;
-        t=1652802670; bh=qQhd+6rcOH+OhrNQ6A9OWLCE/79cwvyTtb6LUe1aYuU=;
-        h=Date:From:To:Subject:From;
-        b=S5har4F5R3s7UHAs19IXHXZBFtazlFoHbib/LepkOY6PBG9BCMdIasKRi9Qh+4T/I
-         q69wXJv17xmZD/BoIKk8oQfmficXMilOIaFhbrkZ+lUGW6zt35DXtXX0B1enxGBsnL
-         3+Kf9N/Qd9bnUwQGwRibVnY0Mh2XS+QAi0l1HDDKPG1Ax0LJ6GbtGTndtG22ccjIuJ
-         4euC47lARy4dd0TGskqJfJ1/0jLv+Cdn9scgaguKgWtF0EWA/WCvUJtsAXtbO9+F2V
-         q/PMXYvw/1sI87vE6Z+RDIEYCBnC+YlIZQUpzXR6FE8u2ksVn8oOzGho3pvL8XQeJM
-         qIB/XWRVeHcgw==
-Received: by mail.neweas.com for <linux-media@vger.kernel.org>; Tue, 17 May 2022 15:50:50 GMT
-Message-ID: <20220517141500-0.1.f.110h.0.q3g6kg83av@neweas.com>
-Date:   Tue, 17 May 2022 15:50:50 GMT
-From:   "Luca Gauthier" <luca.gauthier@neweas.com>
-To:     <linux-media@vger.kernel.org>
-Subject: New collaboration
-X-Mailer: mail.neweas.com
+        Tue, 17 May 2022 12:46:43 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AE9FD4D27B;
+        Tue, 17 May 2022 09:46:42 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3E1001042;
+        Tue, 17 May 2022 09:46:42 -0700 (PDT)
+Received: from [10.57.82.55] (unknown [10.57.82.55])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CFD8E3F718;
+        Tue, 17 May 2022 09:46:40 -0700 (PDT)
+Message-ID: <0da188fa-efd8-62d0-2ea6-5a8e0c286cb5@arm.com>
+Date:   Tue, 17 May 2022 17:46:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] media: hantro: fix compatible string deprecation warning
+Content-Language: en-GB
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220517143521.1670663-1-martin.kepplinger@puri.sm>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220517143521.1670663-1-martin.kepplinger@puri.sm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-9.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On 2022-05-17 15:35, Martin Kepplinger wrote:
+> of_device_is_compatible() in the end uses strlen of the string
+> for comparison, so in this case, the condition is true even if
+> the requested string "nxp,imx8mq-vpu-g1" is being used. The first
+> chars containing "nxp,imx8mq-vpu" are the same.
 
-are you looking for more business clients?
+Have you seen this go wrong in practice? AFAICS, unless you're on SPARC, 
+which seems somewhat unlikely for an i.MX8 peripheral, of_compat_cmp() 
+should map to strcasecmp(), which should do the right thing :/
 
-We would like to start working with you as a partner in acquiring or exch=
-anging leads, which directly translates into mutual benefits in the form =
-of an increased client portfolio.
+Robin.
 
-We work in the sector of internet marketing and as one of the first in Eu=
-rope SEO Agencies we=E2=80=99ve introduced the SEO 360 service which allo=
-ws your clients to gain the access to original SEO consultations.
-
-By choosing to work with us you receive support in achieving your busines=
-s goals, and help in handling Digital Marketing for your clients.
-
-We support over 237 partner companies. We have one of the biggest executi=
-ve departments in Europe at our disposal, we=E2=80=99ve prepared over 200=
-0 campaigns in Europe and 200 in the USA and Canada.
-
-Are you interested in the details of our partnership programme?
-
-Yours sincerely,
-Luca Gauthier
+> Fix this by encoding what the comment says.
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> ---
+> 
+> This is more of a bugreport as the solution doesn't look very elegant
+> to me. I'm happy for advice.
+> 
+> thanks,
+>                             martin
+> 
+> 
+>   drivers/staging/media/hantro/hantro_drv.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index ac232b5f7825..014fab637df0 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -923,10 +923,11 @@ static int hantro_probe(struct platform_device *pdev)
+>   
+>   	/*
+>   	 * Support for nxp,imx8mq-vpu is kept for backwards compatibility
+> -	 * but it's deprecated. Please update your DTS file to use
+> -	 * nxp,imx8mq-vpu-g1 or nxp,imx8mq-vpu-g2 instead.
+> +	 * but it's deprecated.
+>   	 */
+> -	if (of_device_is_compatible(pdev->dev.of_node, "nxp,imx8mq-vpu"))
+> +	if ((of_device_is_compatible(pdev->dev.of_node, "nxp,imx8mq-vpu")) &&
+> +	    (!of_device_is_compatible(pdev->dev.of_node, "nxp,imx8mq-vpu-g1")) &&
+> +	    (!of_device_is_compatible(pdev->dev.of_node, "nxp,imx8mq-vpu-g2")))
+>   		dev_warn(&pdev->dev, "%s compatible is deprecated\n",
+>   			 match->compatible);
+>   
