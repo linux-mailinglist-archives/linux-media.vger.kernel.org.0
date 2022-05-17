@@ -2,155 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FBFD52AE96
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 01:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52C6252AEB3
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 01:35:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231690AbiEQXav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 19:30:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42914 "EHLO
+        id S231956AbiEQXfX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 19:35:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231715AbiEQXat (ORCPT
+        with ESMTP id S231890AbiEQXfM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 19:30:49 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 303B965FF
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 16:30:42 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id j6so548411ejc.13
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 16:30:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kje1fxePklyTYdwuahnUd7jrh3kjOYPr65ooSYjVE44=;
-        b=BZgE0jkbkeLVvFmb8ruOV8av8A5Vi/cJesgkFUe7yW3/UIFp5JuLCAIksYmq6dxaPC
-         UTmFxH4fn4hS3/gzRePwOA9Zgz2QoeR/e7KsL6wHOQMvCBYOzvoW2yP96YAu1wlsdo/W
-         OYW4HOnAUXA1JVGJiazKgXoK/bUipg6BPRZaPd0iU4I6XDCU9CWewInibc8sy+vWJYxb
-         GbGtI+anWZDqWuOTylV0pzWc9p1n+hpH4zF0jqzCG43N/eDSdV5LLd69UT0bGeoGyGse
-         0mKYTvfzrYVwqtPqL3gqbyjVL7SFmO6Pfdv96YRbeDf3urkh47YcrQa2GcXbFgbNtfr9
-         LXxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kje1fxePklyTYdwuahnUd7jrh3kjOYPr65ooSYjVE44=;
-        b=0LdCyqPYPe9rn4Vp5Ge0trLeFfl8AMA06h9Eqs4p/yypuYGyiIjHgqG3rYtPkuR4dB
-         fYEna+gXQ33sgna1qjjXThvj+OtJjoDVb89YranBTzhm+wh91LFLAyJODhs8HS5OonzY
-         aMSGMzMiboRjf3BHCBpqb+5hPXooFs00M6Os545kTJIUPKjVYECvliegWQuV5iPMfsqJ
-         sefYI5AE49PMZHRLPK1RO8En/QUl2/vd4XvDFtG2WAFNrnWVdmrFrs7ALVL9XbFTm9ku
-         Yl2ZXu0IDyMs5L3LOEveJ6FAwHGYHPuPuWXZX2FrLFNN+3Wet/kNdmM8mnhRlAplZA8S
-         hp1g==
-X-Gm-Message-State: AOAM533vp4TY/dkybc3yU4O1KqE4MCjDXDqsVV6et2tesi3bzATu1oS9
-        KBTTnMqucIRVfS9XAF8FjxQksJcr4mT6H0H7USZ5mA==
-X-Google-Smtp-Source: ABdhPJynpuiODXlilJ4ccPPw09Oypx2Cww6BUXEGpKKQ1/r4bC3SNcHdzpBPpWcDWLBl7XOueU5+lIF135DZSaWqEEs=
-X-Received: by 2002:a17:906:6a10:b0:6f5:5e4:9d5 with SMTP id
- qw16-20020a1709066a1000b006f505e409d5mr21615657ejc.122.1652830241187; Tue, 17
- May 2022 16:30:41 -0700 (PDT)
+        Tue, 17 May 2022 19:35:12 -0400
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06D06527DA
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 16:35:09 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 6D1E0240026
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 01:35:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1652830507; bh=90A0CO5Lx8M0gs+ouG7L9ZA1Ie2CIwadK1cEQiKc9oE=;
+        h=Date:Subject:To:Cc:From:From;
+        b=p5GNqI44b/paQllf1Ui9uX378cRwWASCmhsuCtMSODdH3gmapmNHeYd3ASVtp8p58
+         phTVU40+2+46u7eMAT0RDcnlxuRVEoQn9oZbSxOn+vreSXUZo9y/xxyHOnsftxdBqI
+         K+R00krrTEXCsZYEEFABImcSyFyn+1ighPFQAekVz4Ut6ccHt/gQHl33mfwJTZOF7K
+         +vjlT61uWLCSBpuOIqXNs1egsjwxD+rI+o3jZiOzQ5eVRmlWHerkfhAxNo7ZlSUfAE
+         5jLZb3Rbtho3scwdx5px9UxmtEXOqxU3cUi8ckrN5twdgph1Sf0YBDQfGQE1u95mLe
+         NU6l/+xBc0F2w==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4L2st25Pxzz9rxD;
+        Wed, 18 May 2022 01:35:06 +0200 (CEST)
+Message-ID: <7412d089-1276-5fda-bfb6-ea90a6b5c15b@posteo.de>
+Date:   Tue, 17 May 2022 23:35:06 +0000
 MIME-Version: 1.0
-References: <20220510235653.933868-1-tjmercier@google.com> <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
- <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
- <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
- <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com> <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
-In-Reply-To: <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Tue, 17 May 2022 16:30:29 -0700
-Message-ID: <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Shuah Khan <shuah@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
-        John Stultz <jstultz@google.com>,
-        Carlos Llamas <cmllamas@google.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        kernel-team@android.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: game capture usb device stops working
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+References: <dc489dbf-fbd0-db97-009d-df3eb94860fb@posteo.de>
+ <YoQv1CTNTInprDXd@pendragon.ideasonboard.com>
+From:   =?UTF-8?Q?Alexander_Wipperf=c3=bcrth?= <wpprfrth@posteo.de>
+In-Reply-To: <YoQv1CTNTInprDXd@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_LOCAL_NOVOWEL,
+        HK_RANDOM_ENVFROM,HK_RANDOM_FROM,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 13, 2022 at 9:13 AM Tejun Heo <tj@kernel.org> wrote:
->
-> Hello,
->
-> On Thu, May 12, 2022 at 08:43:52PM -0700, T.J. Mercier wrote:
-> > > I'm actually happy I've asked this question, wasn't silly after all. I think the
-> > > problem here is a naming issue. What you really are monitor is "video memory",
-> > > which consist of a memory segment allocated to store data used to render images
-> > > (its not always images of course, GPU an VPU have specialized buffers for their
-> > > purpose).
-> > >
-> > > Whether this should be split between what is used specifically by the GPU
-> > > drivers, the display drivers, the VPU (CODEC and pre/post-processor) or camera
-> > > drivers is something that should be discussed. But in the current approach, you
-> > > really meant Video memory as a superset of the above. Personally, I think
-> > > generically (to de-Andronized your work), en-globing all video memory is
-> > > sufficient. What I fail to understand is how you will manage to distinguished
-> > > DMABuf Heap allocation (which are used outside of Android btw), from Video
-> > > allocation or other type of usage. I'm sure non-video usage will exist in the
-> > > future (think of machine learning, compute, other high bandwidth streaming
-> > > thingy ...)
-> > >
-> > Ok thank you for pointing out the naming issue. The naming is a
-> > consequence of the initial use case, but I guess it's too specific.
-> > What I want out of this change is that android can track dmabufs that
-> > come out of heaps, and drm can track gpu memory. But other drivers
-> > could track different resources under different names. Imagine this
-> > were called a buffer cgroup controller instead of a GPU cgroup
-> > controller. Then the use component ("video memory") isn't tied up with
-> > the name of the controller, but it's up to the name of the bucket the
-> > resource is tracked under. I think this meets the needs of the two use
-> > cases I'm aware of now, while leaving the door open to other future
-> > needs. Really the controller is just enabling abstract named buckets
-> > for tracking and eventually limiting a type of resource.
->
-> So, there hasn't been whole lot of discussion w/ other GPU folks and what
-> comes up still seems to indicate that we're still long way away from having
-> a meaningful gpu controller.
->
-Yes, and I would still be happy to collaborate.
+Hi Laurent,
 
-> For your use case, would it make sense to just
-> add dmabuf as a key to the misc controller?
->
-Thanks for your suggestion. This almost works. "dmabuf" as a key could
-work, but I'd actually like to account for each heap. Since heaps can
-be dynamically added, I can't accommodate every potential heap name by
-hardcoding registrations in the misc controller.
+Right now I have the following scenario, after re-plugging it in for 3 
+times it started working again as it should, then I changed the setting 
+for Video Format and I get the following in the kernel log:
 
-> I'm not sure it makes sense to
-> push "gpu controller" forward if there's no conceptual consensus around what
-> resources are.
+[15207.692208] uvcvideo 2-4:1.1: Failed to set UVC probe control : -32 
+(exp. 34).
+
+On 18.05.22 01:29, Laurent Pinchart wrote:
+> Hi Alexander,
 >
-> Thanks.
+> On Tue, May 17, 2022 at 08:34:18PM +0000, Alexander Wipperfürth wrote:
+>> Hello, today I got a usb capture card (Elgato HD60 S+) which is uvc
+>> compatible and the first time I connected it to my computer it was
+>> immediately recognized and the video from the game console was displayed
+>> in OBS, but when I change any setting in the configuration menu the
+>> device stops working, no video will be displayed anymore, I have to plug
+>> it in and out multiple times until it starts showing video again, I hope
+>> with me stating this issue here someone maybe knows a solution or
+>> explanation why this could happen.
+>>
+>> Is there anything I should provide that may be useful?
+> Are there any messages printed to the kernel log when this occurs ?
 >
-> --
-> tejun
