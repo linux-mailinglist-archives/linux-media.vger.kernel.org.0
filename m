@@ -2,59 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BA2552A385
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 15:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38B1F52A3F0
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 15:56:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347906AbiEQNfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 09:35:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55798 "EHLO
+        id S1348146AbiEQNzu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 09:55:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347925AbiEQNfj (ORCPT
+        with ESMTP id S229486AbiEQNzr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 09:35:39 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53DE14CD65
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 06:35:31 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id q130so21807980ljb.5
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 06:35:31 -0700 (PDT)
+        Tue, 17 May 2022 09:55:47 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EA1839800
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 06:55:43 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id b32so21890265ljf.1
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 06:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=gLHS/b9qQdVVuN1R0+pvG/oH+ldjA527p+Isz/IUtsc=;
-        b=r0L6AMtlOLjXttwltWd+JbJzYHNgR+IDkHHHPjxUdZQzj0grfqgUPyBz5kKri1XMK5
-         pEJixh88Gs+7Opa0zseBHRqDrb2js/6iH1GZOFnpRJ1crVAKh4emSJje7kqbePk4rcOp
-         Ghmk2pwH5Z/SrgaUcWWyfmijBnf2QmRNq/ErW2I0CpOLCR7PlIQHd/Ud+Ua66KKkODb0
-         1ukwRvOIIhCeyElAYXdTyYi/OXYZoZiUf59QyvbLvQkRFDhV3BRD2hbTOYa2JDczixrR
-         LQjCkQRW6wEFy73Tn7eosqge128eICghzWcpWgAzPLMAuvwgnWoxpyIIdrx7YsMaIoUS
-         aSCw==
+        bh=Sxr705jZC8qwBHiwQ0dlLfdaaSWTqvjEURwffcf7Xtk=;
+        b=pqjyv0Ute1e96047pfU5nKGgnaYqhyPiUOUSl3PZ561saMuArdMZd2qdK9kcOh4Mz2
+         nno4wpRxxJg13GrxWLppxtngA5iFNYAmzzjDFMa6D/Pai3Z5DfILW32LD0hjhyYHHIZq
+         ZHu3ps7Y355wMdJk9auRHkB/gDoSAx9nF8RQ5Og3h72QiNZk//zfCKf5v5HJmNtxjx23
+         JTr+NHb723MCTXISD2ZWKgxOCos92w4Evv4L5Dzu/PCAZLnfBbz2ZToJv6Nx1W5p+55l
+         ALHV0ThwaYygX152HWCGv3XtzYhtseOZSX0yu3+sINQVezPetq27rdnqT/agiyuPMhPa
+         IyWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=gLHS/b9qQdVVuN1R0+pvG/oH+ldjA527p+Isz/IUtsc=;
-        b=L8Y66lqT8v9PSgwa5i5YUv6QLnzkNDMeKuseTvola6BfluGUspz6dB0U/1GqCq2yq5
-         VferorK2ef1MpU63MOdxIaThTb8M1lVC+tKPfWH7yGwpzOWAuu+OfXpfvXL+ScV+XRab
-         OYR9+2tqTVgfzgU37mo1O5A0WKHDGQm6NNR+TqvAJUHh86tJcRSHkOFhCyxdBbSnPRTf
-         IT/7WE0G+PgEGE0qAIDqu5VHO90CrAAHvR+em9M5DtjHcNj0V77QSYenNMmKMAdUAhwM
-         itiymJr4HtvkkVqfcGoaqePsMfHih6Nq8Vfo9NHZ1U0lOWh5dA3sEieSgc/SSUzgqsqY
-         Y6Ew==
-X-Gm-Message-State: AOAM530VAtw570sAxJKd8Qdr16UaZKj8Z4CbRlIBV1BCA/oIaA6KVRxP
-        hbpJPeMEWU0IT/aMjUr+NuySGg==
-X-Google-Smtp-Source: ABdhPJwqY+kntOQKl2ieBGyE6CPyoGfX0pDII8HGb/ETfWZEhzvSJGq9Jm4m6B3zEith92RNYqw8gA==
-X-Received: by 2002:a05:651c:1198:b0:253:c443:cdcb with SMTP id w24-20020a05651c119800b00253c443cdcbmr386635ljo.22.1652794530237;
-        Tue, 17 May 2022 06:35:30 -0700 (PDT)
+        bh=Sxr705jZC8qwBHiwQ0dlLfdaaSWTqvjEURwffcf7Xtk=;
+        b=QiDO+RO5N8ETGt69B/RPQvLa7em5QhETEt3xb/j3Homtg+b1zUTc5P55ekMm/trVcv
+         4ZSVjiSafA4CxsTMHPpGKw3bfbsU4SBzqkuhzXWw/UUFdebB1urL2PhrEvYtk8RPrQ6q
+         1Qh7TZCT5ca6ZO01/5mex+Pzue43DAZcu6pwgAQ+5sP5jLplt1CAzwu6Q2W+GCwNIvlj
+         K3N7qpKnADq1ekswlY+fEDTFDxlTrfq3iwUtxoO6p4YIf/Y/+LAh2+srsCvX11ZOyZnK
+         2rD55plBAEWydmSYmF0ygog5VtF2B+1RHE3ROFj4YbzT1wStdX8MQWvqDuXmPfvvEA7v
+         n59g==
+X-Gm-Message-State: AOAM530SZ2y1RYhkwYA+PCDgpEqH+zQ/3+iFqoNKiqKGjCTL7JuAv6Kq
+        AvNG3ILtHXF3Xx8YMqDQGC3unQ==
+X-Google-Smtp-Source: ABdhPJxU3rEbOrP15QmzJWshAm2FKWF9dKPOC9EJhEy/iX80uWHvbEb/N3DSQEbjIKDF9xJDNDuXgw==
+X-Received: by 2002:a2e:b893:0:b0:250:6ab8:6e1a with SMTP id r19-20020a2eb893000000b002506ab86e1amr14034943ljp.193.1652795741365;
+        Tue, 17 May 2022 06:55:41 -0700 (PDT)
 Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id 10-20020ac2568a000000b0047255d211c9sm1591084lfr.248.2022.05.17.06.35.28
+        by smtp.gmail.com with ESMTPSA id t10-20020a2e954a000000b0024b14fa6061sm1900075ljh.1.2022.05.17.06.55.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 May 2022 06:35:29 -0700 (PDT)
-Message-ID: <f5633395-0ff8-2de2-a7e5-b99891ede33e@linaro.org>
-Date:   Tue, 17 May 2022 15:35:28 +0200
+        Tue, 17 May 2022 06:55:40 -0700 (PDT)
+Message-ID: <6c2ea5f7-3cc0-d43c-c667-18c25b64ff72@linaro.org>
+Date:   Tue, 17 May 2022 15:55:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH 01/20] MAINTAINERS: Add git repo path for MFC
+Subject: Re: [PATCH 02/20] dt-bindings: media: s5p-mfc: Convert s5p-mfc.txt to
+ new DT schema
 Content-Language: en-US
 To:     Smitha T Murthy <smitha.t@samsung.com>,
         linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
@@ -66,12 +67,13 @@ Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
         dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
         mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
         andi@etezian.org, alim.akhtar@samsung.com,
-        aswani.reddy@samsung.com, pankaj.dubey@samsung.com
+        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
+        linux-fsd@tesla.com
 References: <20220517125548.14746-1-smitha.t@samsung.com>
- <CGME20220517125551epcas5p42cca7f0a2db6dc1d16d0e27265c43f56@epcas5p4.samsung.com>
- <20220517125548.14746-2-smitha.t@samsung.com>
+ <CGME20220517125554epcas5p4e87a71471525056281f1578f4f80f760@epcas5p4.samsung.com>
+ <20220517125548.14746-3-smitha.t@samsung.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220517125548.14746-2-smitha.t@samsung.com>
+In-Reply-To: <20220517125548.14746-3-smitha.t@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -85,26 +87,264 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 17/05/2022 14:55, Smitha T Murthy wrote:
-> Add git repo path for MFC.
+> Adds DT schema for s5p-mfc in yaml format.
 > 
+
+Thank you for your patch. There is something to discuss/improve.
+
+> Cc: linux-fsd@tesla.com
 > Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
 > ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+>  .../devicetree/bindings/media/s5p-mfc.txt     | 77 +--------------
+>  .../devicetree/bindings/media/s5p-mfc.yaml    | 98 +++++++++++++++++++
+>  2 files changed, 99 insertions(+), 76 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/s5p-mfc.yaml
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fd768d43e048..e53c7333562b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2703,6 +2703,7 @@ M:	Andrzej Hajda <andrzej.hajda@intel.com>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git
+> diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> index aa54c8159d9f..f00241ed407f 100644
+> --- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> +++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> @@ -1,76 +1 @@
+> -* Samsung Multi Format Codec (MFC)
+> -
+> -Multi Format Codec (MFC) is the IP present in Samsung SoCs which
+> -supports high resolution decoding and encoding functionalities.
+> -The MFC device driver is a v4l2 driver which can encode/decode
+> -video raw/elementary streams and has support for all popular
+> -video codecs.
+> -
+> -Required properties:
+> -  - compatible : value should be either one among the following
+> -	(a) "samsung,mfc-v5" for MFC v5 present in Exynos4 SoCs
+> -	(b) "samsung,mfc-v6" for MFC v6 present in Exynos5 SoCs
+> -	(c) "samsung,mfc-v7" for MFC v7 present in Exynos5420 SoC
+> -	(d) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
+> -	(e) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
+> -	(f) "samsung,mfc-v10" for MFC v10 present in Exynos7880 SoC
+> -
+> -  - reg : Physical base address of the IP registers and length of memory
+> -	  mapped region.
+> -
+> -  - interrupts : MFC interrupt number to the CPU.
+> -  - clocks : from common clock binding: handle to mfc clock.
+> -  - clock-names : from common clock binding: must contain "mfc",
+> -		  corresponding to entry in the clocks property.
+> -
+> -Optional properties:
+> -  - power-domains : power-domain property defined with a phandle
+> -			   to respective power domain.
+> -  - memory-region : from reserved memory binding: phandles to two reserved
+> -	memory regions, first is for "left" mfc memory bus interfaces,
+> -	second if for the "right" mfc memory bus, used when no SYSMMU
+> -	support is available; used only by MFC v5 present in Exynos4 SoCs
+> -
+> -Obsolete properties:
+> -  - samsung,mfc-r, samsung,mfc-l : support removed, please use memory-region
+> -	property instead
+> -
+> -
+> -Example:
+> -SoC specific DT entry:
+> -
+> -mfc: codec@13400000 {
+> -	compatible = "samsung,mfc-v5";
+> -	reg = <0x13400000 0x10000>;
+> -	interrupts = <0 94 0>;
+> -	power-domains = <&pd_mfc>;
+> -	clocks = <&clock 273>;
+> -	clock-names = "mfc";
+> -};
+> -
+> -Reserved memory specific DT entry for given board (see reserved memory binding
+> -for more information):
+> -
+> -reserved-memory {
+> -	#address-cells = <1>;
+> -	#size-cells = <1>;
+> -	ranges;
+> -
+> -	mfc_left: region@51000000 {
+> -		compatible = "shared-dma-pool";
+> -		no-map;
+> -		reg = <0x51000000 0x800000>;
+> -	};
+> -
+> -	mfc_right: region@43000000 {
+> -		compatible = "shared-dma-pool";
+> -		no-map;
+> -		reg = <0x43000000 0x800000>;
+> -	};
+> -};
+> -
+> -Board specific DT entry:
+> -
+> -codec@13400000 {
+> -	memory-region = <&mfc_left>, <&mfc_right>;
+> -};
+> +This file has moved to s5p-mfc.yaml
 
-This is not a MFC repo, but a repo of media drivers. There is no need to
-add to every driver repo of the subsystem. It should be in subsystem
-instead.
+Instead entirely remove the file.
+
+> diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.yaml b/Documentation/devicetree/bindings/media/s5p-mfc.yaml
+> new file mode 100644
+> index 000000000000..fff7c7e0d575
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/s5p-mfc.yaml
+> @@ -0,0 +1,98 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/s5p-mfc.yaml#
+
+Let's convert the name as well, so "samsung,s5p-mfc.yaml"
+
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung Exynos Multi Format Codec (MFC)
+> +
+> +maintainers:
+> +  - Mauro Carvalho Chehab <mchehab@kernel.org>
+> +  - Rob Herring <robh+dt@kernel.org>
+> +  - Mark Rutland <mark.rutland@arm.com>
+> +  - Smitha T Murthy <smitha.t@samsung.com>
+
+Only people with access to HW, so you can put here Marek and yourself.
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - samsung,mfc-v5                  # Exynos4
+> +      - samsung,mfc-v6                  # Exynos5
+> +      - samsung,mfc-v7                  # Exynos5420
+> +      - samsung,mfc-v8                  # Exynos5800
+> +      - samsung,exynos5433-mfc          # Exynos5433
+> +      - samsung,mfc-v10                 # Exynos7880
+
+Ugh, how MFCv10 appeared here? Since 5433 we moved from versions to Soc
+compatibles as recommended... eh, please follow this convention, don't
+reverse it to other way.
+
+I propose to deprecated this in next patch and instead use SoC-based
+compatible.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description:
+> +      Phandle to MFC IP clock.
+
+Here and other places: s/Phandle//
+Instead describe what is it, e.g. "MFC IP clock"
+
+
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description:
+> +      Must contain clock name (mfc) matching phandle in clocks
+> +      property.
+
+Skip description, its obvious. Instead list the items.
+
+> +    maxItems: 1
+
+No need, list the items.
+
+> +
+> +  interrupts:
+> +    description:
+> +      MFC interrupt number to the CPU.
+
+Skip description, it's obvious.
+
+> +    maxItems: 1
+> +
+> +  memory-region:
+> +    description:
+> +      From reserved memory binding phandles to two reserved
+> +      memory regions, first is for "left" mfc memory bus interfaces,
+> +      second if for the "right" mfc memory bus, used when no SYSMMU
+> +      support is available; used only by MFC v5 present in Exynos4 SoCs.
+> +    minItems: 1
+> +    maxItems: 2
+
+This needs allOf:if:then restricting two items to specific compatible.
+
+> +
+> +  iommus:
+> +    description:
+> +      Include the IOMMU domain MFC belong to.
+
+Skip description, it's obvious.
+
+> +    maxItems: 2
+> +
+
+What happened to power domains? You also removed them from the
+example... Does this pass dtbs_check?
+
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - iommus
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +        /* Reserved memory specific DT entry for given board */
+> +        reserved-memory {
+
+Wrong indentation. Four spaces. See example schema.
+
+> +                #address-cells = <1>;
+> +                #size-cells = <1>;
+> +                ranges;
+> +
+> +                mfc_left: region@84000000 {
+> +                        compatible = "shared-dma-pool";
+> +                        no-map;
+> +                        reg = <0x84000000 0x800000>;
+> +                };
+> +
+> +                mfc_right: region@A9000000 {
+
+lower case hex addresses, everywhere.
+
+> +                        compatible = "shared-dma-pool";
+> +                        no-map;
+> +                        reg = <0xA9000000 0x800000>;
+> +                };
+> +        };
+> +
+> +        mfc_0: mfc0@12880000 {
+
+Generic node names, so mfc.
+
+> +                compatible = "samsung,mfc-v12";
+
+Does not look like you tested the bindings. Please run `make
+dt_binding_check` (see
+Documentation/devicetree/bindings/writing-schema.rst for instructions).
+Be sure to test your bindings before sending them.
+
+> +                reg = <0x12880000 0x10000>;
+> +                clock-names = "mfc";
+> +                interrupts = <0 137 4>;
+
+Use interrupt defines.
+
+> +                clocks = <&clock_mfc 1>;
+> +                memory-region = <&mfc_left>, <&mfc_right>;
+> +                /* If IOMMU is present use below instead of memory-region property */
+> +                iommus = <&smmu_isp 0x1000 0x0>, <&smmu_isp 0x1400 0x0>;
+> +        };
 
 
 Best regards,
