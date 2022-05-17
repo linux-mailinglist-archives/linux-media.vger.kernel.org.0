@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 095A052A016
-	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 13:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB4D652A01C
+	for <lists+linux-media@lfdr.de>; Tue, 17 May 2022 13:12:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345019AbiEQLKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 07:10:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50860 "EHLO
+        id S234751AbiEQLLb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 07:11:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345282AbiEQLJj (ORCPT
+        with ESMTP id S1344121AbiEQLLD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 07:09:39 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4BC51A39F
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 04:09:07 -0700 (PDT)
+        Tue, 17 May 2022 07:11:03 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDBF3465C
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 04:10:53 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 8617D21D0D;
-        Tue, 17 May 2022 11:09:06 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id EAD1F1F8A6;
+        Tue, 17 May 2022 11:10:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1652785746; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1652785851; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=4fuZ/g8RT2KaTqMLEcydGPjqFuQuDXeKFrTesiV9+ao=;
-        b=BAryVy2h8hr2Cf5GpT6QOukyYX06hDWvdun4/xMjKnGeyYnN9clVE0xJ38k7ZeIavmbEfq
-        7edwjtwW9L0ITmAGUgUZZ+ym2njMrAxbBn8eO/IQSaX3crW5P+ijSDzi1i3PV8RB0s64I/
-        lEaXwrLhaj0DrqilHwwY8mcsF9rS/8o=
+        bh=b0MF9CyOCIJi0mR6Mje8V+9jQJsHGG1nWsPrFtU067E=;
+        b=XV/cUDuNJ5/bf2+/HYk0GX7uwzYYh7Ftax+BKwG7KdBt6TRWKi8yI/uAfWU8ioR+X7liYB
+        PfDgOE/2Erovp1FlIJX5+dqezfXVcSzmuky4HXVB5W3bNINsHTBkkZ3HTPIgQDqdplPOLZ
+        qhR9onGy98fuTn7lb6+/vEJ26EWfhUg=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 56CB613AA2;
-        Tue, 17 May 2022 11:09:06 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B982913AA2;
+        Tue, 17 May 2022 11:10:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id YmZ4E1KCg2LHaAAAMHmgww
-        (envelope-from <oneukum@suse.com>); Tue, 17 May 2022 11:09:06 +0000
+        id fRiWK7uCg2LjaQAAMHmgww
+        (envelope-from <oneukum@suse.com>); Tue, 17 May 2022 11:10:51 +0000
 From:   Oliver Neukum <oneukum@suse.com>
-To:     linux-media@vger.kernel.org, mchehab@kernel.org, crope@iki.fi
+To:     linux-media@vger.kernel.org, mchehab@kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH] airspy: respect the DMA coherency rules
-Date:   Tue, 17 May 2022 13:09:03 +0200
-Message-Id: <20220517110903.25491-1-oneukum@suse.com>
+Subject: [PATCH] as102: avoid GFP_ATOMIC
+Date:   Tue, 17 May 2022 13:10:49 +0200
+Message-Id: <20220517111049.25611-1-oneukum@suse.com>
 X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -57,72 +57,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If we want to avoid memory corruption
-on incoherent architectures, buffers for DMA
-must not reside
-- on the stack
-- embedded within other structures
-
-Allocate them separately.
+No need for GFP_ATOMIC during probe()
 
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/media/usb/airspy/airspy.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ drivers/media/usb/as102/as102_usb_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/airspy/airspy.c b/drivers/media/usb/airspy/airspy.c
-index d568452618d1..ed560e594efb 100644
---- a/drivers/media/usb/airspy/airspy.c
-+++ b/drivers/media/usb/airspy/airspy.c
-@@ -123,7 +123,7 @@ struct airspy {
+diff --git a/drivers/media/usb/as102/as102_usb_drv.c b/drivers/media/usb/as102/as102_usb_drv.c
+index 50419e8ae56c..3c8b35dc0266 100644
+--- a/drivers/media/usb/as102/as102_usb_drv.c
++++ b/drivers/media/usb/as102/as102_usb_drv.c
+@@ -259,7 +259,7 @@ static int as102_alloc_usb_stream_buffer(struct as102_dev_t *dev)
+ 	for (i = 0; i < MAX_STREAM_URB; i++) {
+ 		struct urb *urb;
  
- 	/* USB control message buffer */
- 	#define BUF_SIZE 128
--	u8 buf[BUF_SIZE];
-+	u8 *buf;
- 
- 	/* Current configuration */
- 	unsigned int f_adc;
-@@ -856,6 +856,7 @@ static void airspy_video_release(struct v4l2_device *v)
- 
- 	v4l2_ctrl_handler_free(&s->hdl);
- 	v4l2_device_unregister(&s->v4l2_dev);
-+	kfree(s->buf);
- 	kfree(s);
- }
- 
-@@ -963,7 +964,7 @@ static int airspy_probe(struct usb_interface *intf,
- {
- 	struct airspy *s;
- 	int ret;
--	u8 u8tmp, buf[BUF_SIZE];
-+	u8 u8tmp, *buf = NULL;
- 
- 	s = kzalloc(sizeof(struct airspy), GFP_KERNEL);
- 	if (s == NULL) {
-@@ -971,6 +972,13 @@ static int airspy_probe(struct usb_interface *intf,
- 		return -ENOMEM;
- 	}
- 
-+	s->buf = kzalloc(BUF_SIZE, GFP_KERNEL);
-+	if (!s->buf)
-+		goto err_free_mem;
-+	buf = kzalloc(BUF_SIZE, GFP_KERNEL);
-+	if (!buf)
-+		goto err_free_mem;
-+
- 	mutex_init(&s->v4l2_lock);
- 	mutex_init(&s->vb_queue_lock);
- 	spin_lock_init(&s->queued_bufs_lock);
-@@ -1068,6 +1076,8 @@ static int airspy_probe(struct usb_interface *intf,
- 	v4l2_ctrl_handler_free(&s->hdl);
- 	v4l2_device_unregister(&s->v4l2_dev);
- err_free_mem:
-+	kfree(buf);
-+	kfree(s->buf);
- 	kfree(s);
- 	return ret;
- }
+-		urb = usb_alloc_urb(0, GFP_ATOMIC);
++		urb = usb_alloc_urb(0, GFP_KERNEL);
+ 		if (urb == NULL) {
+ 			as102_free_usb_stream_buffer(dev);
+ 			return -ENOMEM;
 -- 
 2.35.3
 
