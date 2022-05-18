@@ -2,159 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 023DB52C031
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 19:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59CD152C128
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 19:50:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240389AbiERQlX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 12:41:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57770 "EHLO
+        id S240844AbiERRbR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 13:31:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240390AbiERQlV (ORCPT
+        with ESMTP id S240935AbiERRbG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 12:41:21 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F9513E98
-        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 09:41:18 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id c24so4581216lfv.11
-        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 09:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VLQuZRsYcKj9DGjJUjNPEZV/MlYtelhQsrqUJ/Nmj0I=;
-        b=HVI4HClzJCC1X3fnV+1P2j2nU7xcN+3j+6NKbABTiEFWKa9i52CfTBjF02Is7uq0FE
-         5VnB4CSA7lLbIgc+j9Ll+FZ7G8/VWoUaep6lvx/Uwjpdr2rISdEAZigxrPqGwOn2hBUO
-         NOV5K4eazSeNBzaRH6oTARYvEuW3v2fKM2MYU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VLQuZRsYcKj9DGjJUjNPEZV/MlYtelhQsrqUJ/Nmj0I=;
-        b=tbxYxtBAwujFCGABKsXKXQpBM6UlZqwVN7xGzD4vND2BI/0FyoSWGV+Iv46gaswjoJ
-         hWDG6JjC5ksGu9ZpIsXGMMsphxeJvoptU3/Fi0GmZqbvCi3dTb+QRT1xSEQaH9dlZ+03
-         VBymD71+GK7PijucKLuj9f6mnHOOUixZujM/zzgykfZu+z2BIoTxJmNaObsZbGyVDDNe
-         xBbGhumdjrpXHxiTZp78IOEfddN+wYaN4kBrwYRiyQ11DnRveds47RWFdpOowSRhB3hK
-         brGOvcN9fntfTwB7FASuG7HDCajC0OnXJ8nu91AO9aV4AqvxKhSiLntRwbUZDWhg/mu5
-         RJTQ==
-X-Gm-Message-State: AOAM531NdPeSZhqmzxw2BQY9oCZZVUShZ+2Q9QLse0mFkggkTaHutT/H
-        dqtfnsvfXl1Ce9pGFyfQ4cM3XUi2ml+fefhX3gIwWQ==
-X-Google-Smtp-Source: ABdhPJy1Mwo5TxtICkm//81NZXA2xMyBQVSS6fpnnqW0fIn2x91QRG0PxvBaj0sqvRlLugVk/7n0l/JbD8kinrnKFE8=
-X-Received: by 2002:a05:6512:31c3:b0:473:e6ef:368d with SMTP id
- j3-20020a05651231c300b00473e6ef368dmr238523lfe.141.1652892077287; Wed, 18 May
- 2022 09:41:17 -0700 (PDT)
+        Wed, 18 May 2022 13:31:06 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FEF263A;
+        Wed, 18 May 2022 10:31:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652895065; x=1684431065;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BoOLoJEyDFfO0iEr6PodmlZMpo8kGeXxw5b90DAP5hw=;
+  b=TBqUJeRom2Lj1jRLQlnWIhxLqM927SA0zG36dbuUsF4sHd46tcB5/YEN
+   uXlEbIphLnpa1SyBr3kNb2QpOQQMMcPNLAF/npBDDvej+GhIAxddQD1CM
+   32aDGeVqbH+l3q2fBmRQyW8IB8oaTMlYMRIeTkdXBBQbbzcrJzYEppWhU
+   lVmh6KVnTMnlY7NKgxz7NnwO0TBoOy8YoMId8iIW89KyZLE/iE6g22YvN
+   MhEWI5owS9uycYW30tEyE9FvgRQqP6Dy52/ubFI3royfztdKJJrS8qcwt
+   YCLc93eQ1BH2XJdEOPgfVDKg1Nwnr/vkmwvbAP0gBgbtlXHev2Qxv9XwB
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="332407527"
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
+   d="scan'208";a="332407527"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 10:08:59 -0700
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
+   d="scan'208";a="605989915"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 10:08:56 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 79AFF20387;
+        Wed, 18 May 2022 20:08:53 +0300 (EEST)
+Date:   Wed, 18 May 2022 20:08:53 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Philippe CORNU <philippe.cornu@foss.st.com>
+Subject: Re: [PATCH] media: stm32-dcmi: add support of 1X16 serial pixel
+ formats variant
+Message-ID: <YoUoJRzStCnzhxUK@paasikivi.fi.intel.com>
+References: <20220516092048.264036-1-hugues.fruchet@foss.st.com>
+ <20220516150237.v3xt7onp2lpmellw@uno.localdomain>
 MIME-Version: 1.0
-References: <20220322160101.620748-1-daniel.almeida@collabora.com>
- <CAC-pXoOQ5kD4bT95j+pwi7+Hb5s5H=0LFhAsk7K2sM9LkbAW1w@mail.gmail.com>
- <fa87fd58-dc73-24b0-0425-e466062c1d6d@collabora.com> <CAC-pXoP77VZT1Ftu3Amws9-Y9i11r9M0LxSEwqkezm_3i=HE8g@mail.gmail.com>
- <CAC-pXoOJPveE_+kjjkMS=anMCjJKc4VsxNrJbxkQsXqnLLb6XQ@mail.gmail.com>
-In-Reply-To: <CAC-pXoOJPveE_+kjjkMS=anMCjJKc4VsxNrJbxkQsXqnLLb6XQ@mail.gmail.com>
-From:   Steve Cho <stevecho@chromium.org>
-Date:   Wed, 18 May 2022 09:41:06 -0700
-Message-ID: <CAC-pXoPU_bOJu723POgWj+EdXHsPg3X9J5Phq-YTCpO9jt-seg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2] media: Add AV1 uAPI
-To:     Daniel Almeida <daniel.almeida@collabora.com>
-Cc:     hverkuil@xs4all.nl, linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220516150237.v3xt7onp2lpmellw@uno.localdomain>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Optional: one comment about "v4l2_ctrl_av1_frame_header".
+Hi Jacopo,
 
-struct v4l2_ctrl_av1_frame_header {
-  struct v4l2_av1_tile_info tile_info;
-  struct v4l2_av1_quantization quantization;
-  struct v4l2_av1_segmentation segmentation;
-  struct v4l2_av1_loop_filter loop_filter;
-  struct v4l2_av1_cdef cdef;
-  struct v4l2_av1_loop_restoration loop_restoration;
-  struct v4l2_av1_global_motion global_motion;
+On Mon, May 16, 2022 at 05:02:37PM +0200, Jacopo Mondi wrote:
+> Hi Hugues,
+> 
+> On Mon, May 16, 2022 at 11:20:48AM +0200, Hugues Fruchet wrote:
+> > From: Hugues Fruchet <hugues.fruchet@st.com>
+> >
+> > Add support of 1X16 serial pixel formats in order to support
+> > CSI-2 camera sensor exposing 1x16 pixel formats only.
+> >
+> > Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+> 
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> 
+> Sakari, if you're sending a new pull request for the ov5640 series,
+> could you include this one as otherwise dcmi would be broken when used
+> with that sensor.
 
-We used "v4l2_ctrl_vp9_frame" for the similar purpose.
+Just took this into my tree, with your refreshed ov5640 set.
 
-I thought "_header" can be confusing in a sense that these are
-parameters setup from parsing av1 frame header,
-not necessarily "header" itself.
+Thanks!
 
-How about making it "v4l2_ctrl_av1_frame" similar to vp9,
-or "v4l2_ctrl_av1_frame_params"?
-
-I don't think this alone justify for another update, but if we need to
-have an update anyway,
-then I thought it was worthwhile considering.
-
-Steve
-
-On Mon, May 16, 2022 at 10:42 AM Steve Cho <stevecho@chromium.org> wrote:
->
-> Hi Daniel,
->
-> Question about tile info structure.
->
-> struct v4l2_av1_tile_info {
-> __u8 flags;
-> __u32 mi_col_starts[V4L2_AV1_MAX_TILE_COLS + 1];
-> __u32 mi_row_starts[V4L2_AV1_MAX_TILE_ROWS + 1];
-> __u32 width_in_sbs_minus_1[V4L2_AV1_MAX_TILE_COLS];
-> __u32 height_in_sbs_minus_1[V4L2_AV1_MAX_TILE_ROWS];
->
-> I see below from the spec and gstreamer implementation
-> for width_in_sbs_minus_1 and height_in_sbs_minus_1 computation.
->
->   sb_cols = seq_header->use_128x128_superblock ?
->       ((parser->state.mi_cols + 31) >> 5) : ((parser->state.mi_cols + 15) >> 4);
->   sb_rows = seq_header->use_128x128_superblock ? ((parser->state.mi_rows +
->           31) >> 5) : ((parser->state.mi_rows + 15) >> 4);
->
-> Are we confident that V4L2_AV1_MAX_TILE_COLS is good enough size for
-> width_in_sbs_minus_1?
-> Or does it potentially need to be V4L2_AV1_MAX_TILE_COLS+1?
->
-> I am asking to double check because I see V4L2_AV1_MAX_TILE_COLS+1
-> used for corresponding field in libgav1.
-> int tile_column_width_in_superblocks[kMaxTileColumns + 1];
->
-> https://source.chromium.org/chromium/chromium/src/+/main:third_party/libgav1/src/src/utils/types.h;l=291
->
-> Steve
->
-> On Wed, May 11, 2022 at 1:59 PM Steve Cho <stevecho@chromium.org> wrote:
-> >
-> > Hi Daniel,
-> >
-> > I think the below definition is expected to cause a build error.
-> >
-> > +struct v4l2_av1_loop_restoration {
-> > +       u8 flags;
-> >
-> > s/u8/__u8/ is needed.
-> >
-> > At least, this change was needed to fix this build error on Chromium
-> > build environment.
-> >
-> > Steve
-> >
-> > On Tue, May 10, 2022 at 9:30 AM Daniel Almeida
-> > <daniel.almeida@collabora.com> wrote:
-> > >
-> > > Hi Steve,
-> > >
-> > > > Hi Daniel,
-> > > >
-> > > > Found a minor typo.
-> > > >
-> > > >> See enum_v4l2_av1_frame_restoration_type.
-> > > > Assume you meant v4l2_av1_frame_restoration_type instead here.
-> > >
-> > >
-> > > Thanks for the heads up, this will be fixed in v3.
-> > >
-> > > -- Daniel
-> > >
+-- 
+Sakari Ailus
