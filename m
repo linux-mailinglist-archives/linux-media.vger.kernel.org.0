@@ -2,207 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 982F852BC77
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 16:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BCCF52BCF5
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 16:17:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237997AbiERNaI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 09:30:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54088 "EHLO
+        id S237908AbiERNaR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 09:30:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237992AbiERN36 (ORCPT
+        with ESMTP id S237979AbiERNaJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 09:29:58 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7EF06A423
-        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 06:29:56 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id m23so2590136ljc.0
-        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 06:29:56 -0700 (PDT)
+        Wed, 18 May 2022 09:30:09 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A045B972A5
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 06:30:08 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id l38-20020a05600c1d2600b00395b809dfbaso1057916wms.2
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 06:30:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=devalore-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=uppEWIa/PX/sGTfdDgvjqOfT1h4/y84EZdPXZO9/TbI=;
-        b=VIAUdmk4g10XQ7xgi0Kk5Eac1jq20fLA/HxQ5GZKvOBcw74mRVWI3sV2fnC/C7VWT7
-         8wKd155xbWs4+nL7EyF0lgC0fNAdR78+WJbHIGrO2rQv5LzsP5s3t0IOffN4d0CHdRXy
-         +/i8YxDJQg5m+BUQONUv74BtvbhRJJySvMw2qEVCTcjYuT8VnUG9iNGrs/shIImQ8o8I
-         MWECKcdTpFNY4lL66IqvJGBIkp/1dZBOXTb0dZPEsLIAclhohWLbmpAAcevxvwVjK66j
-         772IDk2SWaSmzME9Gx4dQP+hDPm+LJrSZmKCMFK7nYFpIXus6rGWHBpfk5F1aMxlQ+Yz
-         L+Yg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rMq3wtgdWa638xFl37YBKw35mdAeVWoOmMk7IagjbL0=;
+        b=imaQStz4jhD3xQX6A/kF0adZYAG0NDXBwIXg3cmu2KcdR9ePDEJfjTuT12pRnoC+8Z
+         I17OR6sfQfpxUR1Z5h3AD5NcKYMEF5tC7aMALyt5lIhf9+lu3t0g63ZjEsmSnm35GEl1
+         eJjkliWPNrV2VMApNpPxfYDzrCsHmCPMM1cL80a3Zhg/WwV3E2YS7+fqiJk08Yq8DTrS
+         vs8UjJwm/dqrkHELzEbfhh6CqO+mP32ZUqS5SFF6hCkxhL0LqlyWIhm5tocGHHRA6vJH
+         c7xrnb2XX5Lv8LisPg1LgYk8bLzS3oLafla109CwIyaLYUwp105zN1ZxGO+4GwQEHMkW
+         dMSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=uppEWIa/PX/sGTfdDgvjqOfT1h4/y84EZdPXZO9/TbI=;
-        b=205KAZA84S5WyYq6wCEaEwn/JdkYK80YDnavpsKjkygYNHm5InavucUS59HhirjpbE
-         +W9/NNlkQizmIyqHAErP5hVB62t15s83KarkWDasRugKmyf8xjl+tMTxIcXa9ECybKSw
-         o7uqWPhBzgLhM0nrPI53IFfGk3Y9XjdvgBCA1xWCOoOqxASioW/v5ZvGkI6uLuLPi8FQ
-         PgKeRR58nCexOPKF0EsNqEPCuUYDL7Knxa61jYdf2wl7PlYguF3QLbSDfaOhcNLMYsgc
-         lqi1StaDizhprwSg/Ii0ByLs/Ur94HM+9T+TWdWjh0QWRjzWbVL4oe6EkrWUYYfwrOGe
-         QF3A==
-X-Gm-Message-State: AOAM533yEc/eA6MdETa4ulHC38DxjwglSa5m3hYO9TPAVuJ9X8Lqd3RX
-        XCdqn305XhqgsGtKTbE5AcVG+wGlVDa0Slf2QLlT23PiRexEmg9+zRQ=
-X-Google-Smtp-Source: ABdhPJxcJNo/s7N3hlOlIqEa/vTPNigO+zgbis/no2VqQmrVAjLThhAkqsbna+gfzK+/Zv/LTb3cV5CDoiXGAGrOq34=
-X-Received: by 2002:a05:651c:895:b0:250:c5ec:bc89 with SMTP id
- d21-20020a05651c089500b00250c5ecbc89mr17639916ljq.251.1652880595148; Wed, 18
- May 2022 06:29:55 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rMq3wtgdWa638xFl37YBKw35mdAeVWoOmMk7IagjbL0=;
+        b=30sHpS1yqoFcWl4HQzWJ3jY8RNimrQXOwwmNkpT1X7RhnGiUnzqGJt7IvgybGlCtuW
+         P612XXBfYWCAzmr7Mqi8zqy/wFpOkomQPVbLvbYGGuQjZ5e4kfQLkZ13IZB342FWTtlT
+         +GOeXEq9USzHpHD0ixM2nHTaontY4TBTEcHkeXHzsuXLZ+74D+sJhC+D3wbJf+buVEmU
+         99gZfssKy90QLgwWFZBEfGkrSWkMCNuc50kzLCDIyzgAUyt6HOwFDogIsb0bY4TMK2oS
+         Qu/+bScHYwM6oUWBqP1vUkZ2XWqzl2SQRYATPzBsM1ivzrW/3eAuHNiBc/FOqWaSd1ic
+         NTWQ==
+X-Gm-Message-State: AOAM530Vnq+SfjIe3ZHWJhC8rcHoAH1XnSb1RLyKJBCT//LM8Cx9FucT
+        L8AQYvteT9F9Ba2gqIeHu+Tyxw==
+X-Google-Smtp-Source: ABdhPJyHGsc5U1Y1zW/pY7IAMb6cT8LEH88fuMsAlvBbFqV8t9/KFU7viwSxO7vwvnyr1YBxNxaflg==
+X-Received: by 2002:a05:600c:1e17:b0:394:547c:e5a6 with SMTP id ay23-20020a05600c1e1700b00394547ce5a6mr1824wmb.203.1652880606872;
+        Wed, 18 May 2022 06:30:06 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id v14-20020a056000144e00b0020cdf6ecafbsm2905580wrx.81.2022.05.18.06.30.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 May 2022 06:30:06 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
+        bjorn.andersson@linaro.org
+Cc:     vladimir.zapolskiy@linaro.org, mchehab@kernel.org,
+        robh+dt@kernel.org, krzk+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, mmitkov@quicinc.com, jgrahsl@snap.com,
+        hfink@snap.com, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH 0/1] Switch on IMX577 on RB5
+Date:   Wed, 18 May 2022 14:30:03 +0100
+Message-Id: <20220518133004.342775-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <CACBf5_XDzBAAPwx9wn-p-moLyWGzx5o_cnFKPqZuS7puvZbmGg@mail.gmail.com>
- <CALF0-+XP0km6uKtbteST_Mm5nFQtxgeqKcoz-GoOKy_CHQwmLQ@mail.gmail.com> <CACBf5_UoTap2gtHbkRfX6cSza5rHcKZY_HSfzzGV7g+UBMiGNA@mail.gmail.com>
-In-Reply-To: <CACBf5_UoTap2gtHbkRfX6cSza5rHcKZY_HSfzzGV7g+UBMiGNA@mail.gmail.com>
-From:   Steven Rosenberg <steven.rosenberg@devalore.com>
-Date:   Wed, 18 May 2022 16:29:42 +0300
-Message-ID: <CACBf5_X4iUpHBagxFao_E4Z_jaM8i6Bb-h1bkXFzhoTPLVdpHw@mail.gmail.com>
-Subject: Re: STK1160 USB VIDEO CAPTURE DRIVER kconfig compatibility issues
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Resending in plain text:
+Linux-next now has everything we need to switch on this sensor both in the
+qcom DTS and in the imx412 driver.
 
----------- Forwarded message ----------
-From: Steven Rosenberg <steven.rosenberg@devalore.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: linux-media <linux-media@vger.kernel.org>
-Bcc:
-Date: Wed, 18 May 2022 16:17:07 +0300
-Subject: Re: STK1160 USB VIDEO CAPTURE DRIVER kconfig compatibility issues
-Dear Ezequiel,
+After this, no further dts or driver work is required to capture images on
+the RB5.
 
-Thank you for your response. Yes, your patch seemed to work.
-Unfortunately, we cannot upgrade the package, there are too many
-version specific dependencies. Currently we are getting another error
-on the gcc version:
+Here's a bootable linux-next with a kernel config. I added Vladimir's
+power-domain changes on-top to verify nothing breaks for me.
 
-poky-hardknott-25.0.5/build/tmp/work-shared/dcbullet/kernel-source/include/=
-linux/compiler-gcc.h:106:1:
-fatal error: linux/compiler-gcc10.h: No such file or directory
-|   106 | #include gcc_header(__GNUC__)
-|       | ^~~~~
-| compilation terminated.
+https://git.linaro.org/people/bryan.odonoghue/kernel.git/log/?h=linux-next-18-05-22%2bimx577-rb5
 
-There were no errors using Yocto sumo which used gcc version 7.3, but
-hardknott uses gcc 10.3. Attempting to set the preferred version in
-yocto after adding sumo's gcc 7.3 to the environment did not help.
+Bryan O'Donoghue (1):
+  arm64: dts: qcom: qrb5165-rb5: Enable the IMX577 on cam1
 
-Maybe you have some idea on how to set the __GNUC__ define for version
-7 or some other way to have the linux kernel use gcc 7.3 instead of
-the gcc 10.3?
+ arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 98 ++++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
 
-Thank you again for your help, time and consideration.
+-- 
+2.36.1
 
-With Best Regards.
-
-Steven.
-
-
-On Wed, May 18, 2022 at 4:17 PM Steven Rosenberg
-<steven.rosenberg@devalore.com> wrote:
->
-> Dear Ezequiel,
->
-> Thank you for your response. Yes, your patch seemed to work. Unfortunatel=
-y, we cannot upgrade the package, there are too many version specific depen=
-dencies. Currently we are getting another error on the gcc version:
->
-> poky-hardknott-25.0.5/build/tmp/work-shared/dcbullet/kernel-source/includ=
-e/linux/compiler-gcc.h:106:1: fatal error: linux/compiler-gcc10.h: No such =
-file or directory
-> |   106 | #include gcc_header(__GNUC__)
-> |       | ^~~~~
-> | compilation terminated.
->
-> There were no errors using Yocto sumo which used gcc version 7.3, but har=
-dknott uses gcc 10.3. Attempting to set the preferred version in yocto afte=
-r adding sumo's gcc 7.3 to the environment did not help.
->
-> Maybe you have some idea on how to set the __GNUC__ define for version 7 =
-or some other way to have the linux kernel use gcc 7.3 instead of the gcc 1=
-0.3?
->
-> Thank you again for your help, time and consideration.
->
-> With Best Regards.
->
-> Steven.
->
->
->
-> On Tue, May 17, 2022 at 9:45 PM Ezequiel Garcia <ezequiel@vanguardiasur.c=
-om.ar> wrote:
->>
->> Hi Steven,
->>
->> I think your mail didn't get delivered because it's HTML and mailing
->> list filter this. Plain-text is required.
->>
->> El mar, 17 may 2022 a la(s) 10:10, Steven Rosenberg
->> (steven.rosenberg@devalore.com) escribi=C3=B3:
->> >
->> > Dear Ezequiel Garcia,
->> >
->> >
->> >
->> > We are using the linux 3.10.73 package [1], which includes your "drive=
-rs/media/usb/stk1160/ Kconfig" file. We are upgrading versions of Yocto and=
- the current version of kconfiglib.py gives errors [2]. There is indeed an =
-extra dot on line 20. Perhaps you have already fixed this in a later versio=
-n  of this linux package so that we can avoid adding a patch? If so or if y=
-ou have another solution, please advise accordingly. Currently your Kconfig=
- file for this version of Linux is not compatible with the current version =
-of  kconfiglib.
->>
->> Thanks for the report. The extra dot was apparently introduced by
->> commit "[media] rename most media/video usb drivers to media/usb",
->> and later fixed in commit "[media] stk1160: Build as a module if SND
->> is m and audio support is selected".
->> See: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-commit/?id=3Ddfb9f94e8e5e7f73c8e2bcb7d4fb1de57e7c333d
->>
->> 3.10 is EOLed so you will have to patch this yourself.
->>
->> PS: If you still want to use 3.10, I would suggest you should be using
->> 3.10.108 (latest stable).
->>
->> Thanks,
->> Ez
->>
->>
->>
->> >
->> >
->> >
->> >
->> >
->> >
->> > [1] https://www.kernel.org/pub/linux/kernel/v3.x/linux-3.10.73.tar.xz
->> >
->> > [2]
->> >
->> >
->> > kconfiglib.KconfigError: drivers/media/usb/stk1160/Kconfig:20: error: =
-couldn't parse '.': unknown token at start of line
->> >
->> > ERROR: config analysis failed:
->> >
->> > DEBUG: Python function do_kernel_configcheck finished
->> >
->> >
->> > With Best Regards.
->> >
->> >
->> > Steven Rosenberg.
->>
->>
->>
->> --
->> Ezequiel Garc=C3=ADa, VanguardiaSur
->> www.vanguardiasur.com.ar
