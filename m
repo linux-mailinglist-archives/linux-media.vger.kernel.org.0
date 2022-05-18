@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B7B552B264
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 08:37:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74DEE52B259
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 08:37:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231280AbiERGZF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 02:25:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37196 "EHLO
+        id S231297AbiERGZK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 02:25:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231278AbiERGZB (ORCPT
+        with ESMTP id S231288AbiERGZH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 02:25:01 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B61DBD411B
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 23:25:00 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-2fef1441caaso12236967b3.6
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 23:25:00 -0700 (PDT)
+        Wed, 18 May 2022 02:25:07 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8325D4104
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 23:25:06 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id i17-20020a259d11000000b0064cd3084085so1073364ybp.9
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 23:25:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=XIMSQQojLkdvAm2rzbsF1owAymz5ZvXn1U0KlTv+Ci8=;
-        b=HGf5o/ipNpDLUcmBii10EQjpjYAG1tUzrcxqkqoFBUrQIQOXfiAJJ1sPTRlSzRx0li
-         sB7tyz3CaqOAk4qWlVVGYOE0LayfAKZBofnxvx6+1eDYV0V/9hQXOsf9R0S6LNgrrF/a
-         RZ+648Ra+zd9rFcWOt2CMfJ9/A5OG5D3DCqW6xsgy0u7AtEVNGFmJXwLErchG+zg+K7k
-         1DYRQmMyABEHpJnQVFsXuC9VNj14RlsJhp4AiRmpY2o9MitPIbIS7LzcLRnk/HQbCI9/
-         /hw4a9JlDT3+SWuJIkMVV1suFzeZme95y952xh/0itFGBAlpQKil9ynkiuvbGHeDOpO5
-         0TGQ==
+        bh=IL247PX6DIraKPCB4Qq4FB+o6HNS1RKeiQ6Tz/uvjRQ=;
+        b=FdxeR+8skMynSecmFetvLVn67Fcw6lsg9c8nc7s2TSvLKG4ZrTG3v0h0c9nhwIjmBE
+         Y8IP8ZLZwHsMBVL4fPpzHjE6enWFHhXlwIhBTgcu0X+SWhKmevc8cYdSjaErAsAhWHa7
+         Sxd98lMF246Z6KyxpC3azJHrZZgkhmYL0QVabLrHAh1lysi+L/u+bdTP0Va/UL0FZhwv
+         X0PD6H60LU3f3a3Vn8MAnyq3tJfdB9itWEKUHIkkI/2CVTx0RY1gPZSkwt9nJ5DqzDwA
+         DDPuwQkSxInnLGyzipmBmQPIvHjyU6ahF30dnRCN5nwSDfhlbEELd/H54aKfbtlMcnRO
+         +QAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=XIMSQQojLkdvAm2rzbsF1owAymz5ZvXn1U0KlTv+Ci8=;
-        b=w5CmFICQMTiq21JY7avEqSGFHvW/101OxrKKnVnvMfOoVH3626syyUNcBPPgJ4uNck
-         rv/985iKoegXC6T+XYWdWw2GNfsH745iuvnzbdv4mXylw/JxyI9MKdJ5GdPmy5TQnmtM
-         rCAh9qIlD8CtE59QG9kxjTgkhjMorfiqRX+KwCk50+tp1AUgcuPb9woiVj8t25vOrhWp
-         d0NatFJggxNt+j8qLZms/ch6Vx5VDNqjwo1hUhOqxfh4tLvUHSDK8ZhmQk8kO7iZ1kIw
-         mX/r8eob3pR4yctM9SGr95Z4OergAi+pIrEPprvEnuo9HeyyVAdGHvzyq4BRKlLWdI7g
-         9AeQ==
-X-Gm-Message-State: AOAM5332fgz2RojB88/PQRU/7VAfgyDfrUiN4hNmSMa+5IRx/au9MaWn
-        1RmsP5+k7TGAsvYGWqo7DaC9Zqw0kw4=
-X-Google-Smtp-Source: ABdhPJz2qITwtSPHl/L83KwubWyAMXHiTmnBTJ+AVp0EqR+YWFgGWobQOzzkr9zyxxihO1NVYqOUCPVCxo0=
+        bh=IL247PX6DIraKPCB4Qq4FB+o6HNS1RKeiQ6Tz/uvjRQ=;
+        b=xwEX3ox5xR24EExVOCS9hkZHkKLWaj7R0qAn51jteRqiH7fxeGKVVi/KilnbFqbgT5
+         63g8bTCQ4zwK93rqYl82K07/DLO1rasaSjcZxILl2u6SjUa/DSk7wCjrVDT6uNyGo8Gn
+         e53T9d9K/F3Cm+t6IbLcQ4BNqvwT6iPz63sYTeUKZT5lbTkfXNasABeGurQRCNO5Sr/V
+         BAJAKW0uKqhsVnb6EHuvReUu/r73JqszoGk7XWXydmTzpKg/ev4t/ZMjMbtpDtR+nl+d
+         QtzY5gTo5+sVBlLwinifwJHacbpqtGg14b6b5i5B1lWBWFMFCXwwcS59gygH95+eHtH5
+         Ttog==
+X-Gm-Message-State: AOAM530Cr7VV5Gosnprvmnr7tyqJFHRqr3Z+y5oG6nkq+5BQdrAjbiiy
+        UUtvH8f5uz+uKh9yhM/I3gF+1F4u8Jc=
+X-Google-Smtp-Source: ABdhPJw9C7pZGG4d0mBb5yg4XC7baOuBg8BA07JJ5Kl87enb+uEwdsrQ401Dyorm5sx9BkvdySoFdMeUgac=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:d4d4:2a73:fa69:7d32])
- (user=yunkec job=sendgmr) by 2002:a25:df10:0:b0:64d:8400:3a0a with SMTP id
- w16-20020a25df10000000b0064d84003a0amr16386255ybg.324.1652855099968; Tue, 17
- May 2022 23:24:59 -0700 (PDT)
-Date:   Wed, 18 May 2022 15:24:11 +0900
+ (user=yunkec job=sendgmr) by 2002:a25:2488:0:b0:64e:a74d:fc7e with SMTP id
+ k130-20020a252488000000b0064ea74dfc7emr399038ybk.563.1652855105948; Tue, 17
+ May 2022 23:25:05 -0700 (PDT)
+Date:   Wed, 18 May 2022 15:24:12 +0900
 In-Reply-To: <20220518062412.2375586-1-yunkec@google.com>
-Message-Id: <20220518062412.2375586-6-yunkec@google.com>
+Message-Id: <20220518062412.2375586-7-yunkec@google.com>
 Mime-Version: 1.0
 References: <20220518062412.2375586-1-yunkec@google.com>
 X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
-Subject: [PATCH v3 5/6] media: uvcvideo: Initialize roi to default value
+Subject: [PATCH v3 6/6] media: vivid: Add a roi rectangle control
 From:   Yunke Cao <yunkec@google.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -72,79 +72,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For the devices we tested with, firmwares have wrong initial
-ROI configuration. Initialize roi by setting to default value.
+The control supports current, default, minimum and maximum.
+
+Tested by calling ioctls from the user space.
 
 Signed-off-by: Yunke Cao <yunkec@google.com>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 40 ++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ .../media/test-drivers/vivid/vivid-ctrls.c    | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 0abe174231ab..f7aa97aa3772 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -2506,6 +2506,40 @@ static void uvc_ctrl_prune_entity(struct uvc_device *dev,
- 	}
- }
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index e7516dc1227b..79093882d386 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -34,6 +34,7 @@
+ #define VIVID_CID_U8_4D_ARRAY		(VIVID_CID_CUSTOM_BASE + 10)
+ #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
+ #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
++#define VIVID_CID_RECT			(VIVID_CID_CUSTOM_BASE + 13)
  
-+static int uvc_ctrl_init_roi(struct uvc_device *dev, struct uvc_control *ctrl)
-+{
-+	int ret;
-+
-+	ret = uvc_query_ctrl(dev, UVC_GET_DEF, ctrl->entity->id, dev->intfnum,
-+			     UVC_CT_REGION_OF_INTEREST_CONTROL,
-+			     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF),
-+			     ctrl->info.size);
-+	if (ret)
-+		goto out;
-+
-+	/*
-+	 * Some firmwares have wrong GET_CURRENT configuration. E.g. it's
-+	 * below GET_MIN, or have rectangle coordinates mixed up. This
-+	 * causes problems sometimes, because we are unable to set
-+	 * auto-controls value without first setting ROI rectangle to
-+	 * valid configuration.
-+	 *
-+	 * We expect that default configuration is always correct and
-+	 * is within the GET_MIN / GET_MAX boundaries.
-+	 *
-+	 * Set current ROI configuration to GET_DEF, so that we will
-+	 * always have properly configured ROI.
-+	 */
-+	ret = uvc_query_ctrl(dev, UVC_SET_CUR, 1, dev->intfnum,
-+			     UVC_CT_REGION_OF_INTEREST_CONTROL,
-+			     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF),
-+			     ctrl->info.size);
-+out:
-+	if (ret)
-+		dev_err(&dev->udev->dev, "Failed to fixup ROI (%d).\n", ret);
-+	return ret;
-+}
-+
- /*
-  * Add control information and hardcoded stock control mappings to the given
-  * device.
-@@ -2518,6 +2552,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 	const struct uvc_control_mapping *mapping = uvc_ctrl_mappings;
- 	const struct uvc_control_mapping *mend =
- 		mapping + ARRAY_SIZE(uvc_ctrl_mappings);
-+	const u8 camera_entity[16] = UVC_GUID_UVC_CAMERA;
+ #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
+ #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
+@@ -292,6 +293,38 @@ static const struct v4l2_ctrl_config vivid_ctrl_area = {
+ 	.p_def.p_const = &area,
+ };
  
- 	/* XU controls initialization requires querying the device for control
- 	 * information. As some buggy UVC devices will crash when queried
-@@ -2538,6 +2573,11 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 			 * GET_INFO on standard controls.
- 			 */
- 			uvc_ctrl_get_flags(chain->dev, ctrl, &ctrl->info);
++static const struct v4l2_rect def_rect = {
++	.left = 0,
++	.top = 0,
++	.width = 1000,
++	.height = 2000,
++};
 +
-+			if (ctrl->info.selector ==
-+				UVC_CT_REGION_OF_INTEREST_CONTROL &&
-+			    uvc_entity_match_guid(ctrl->entity, camera_entity))
-+				uvc_ctrl_init_roi(chain->dev, ctrl);
- 			break;
- 		 }
- 	}
++static const struct v4l2_rect min_rect = {
++	.left = 0,
++	.top = 0,
++	.width = 1,
++	.height = 2,
++};
++
++static const struct v4l2_rect max_rect = {
++	.left = 0,
++	.top = 0,
++	.width = 2000,
++	.height = 4000,
++};
++
++static const struct v4l2_ctrl_config vivid_ctrl_rect = {
++	.ops = &vivid_user_gen_ctrl_ops,
++	.id = VIVID_CID_RECT,
++	.name = "Region of Interest Rectangle",
++	.type = V4L2_CTRL_TYPE_RECT,
++	.p_def.p_const = &def_rect,
++	.p_min.p_const = &min_rect,
++	.p_max.p_const = &max_rect,
++};
++
++
+ static const struct v4l2_ctrl_config vivid_ctrl_ro_int32 = {
+ 	.ops = &vivid_user_gen_ctrl_ops,
+ 	.id = VIVID_CID_RO_INTEGER,
+@@ -1611,6 +1644,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 	dev->int_menu = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_int_menu, NULL);
+ 	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
++	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_rect, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_4d_array, NULL);
 -- 
 2.36.0.550.gb090851708-goog
 
