@@ -2,193 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8F7152BCD9
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 16:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 982F852BC77
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 16:16:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237734AbiERNVV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 09:21:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53208 "EHLO
+        id S237997AbiERNaI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 09:30:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237730AbiERNVT (ORCPT
+        with ESMTP id S237992AbiERN36 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 09:21:19 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 112A032073;
-        Wed, 18 May 2022 06:21:17 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id D52411F450A3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1652880076;
-        bh=QwUtZ0MlTuyD+kVFho3tPCQtHU2Givu7vatYONjked0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PTQ+51j+Sfhs+k6XBL27swuBTeZdnYk2vb6hvfwVBIjsO04Fk+wu+LwCabRDYcYo2
-         G362puEVZI21RLHZWwF5UnF/bF/tLvqok86cDY2ernlFdVm2+7CcYAQBZyxr0CnBV0
-         xUmFV75fVWju0y/kipSfLWAD/4S4gV3nHcR9YEyBRnfBmyvhZlWa8ZC4/qk+xGh38N
-         cRJjEQgo3rmBjna2bSFY+BJl8vx63oeHFswQ8sjbrzmllBrwwy4D3cERuSsyIlNARR
-         OgWHSGN8pqfKmdE+SSPwo16FdpMtZdzzLQo74Rx9iU6zVCHV4z7YxDwKe9B1BQio1t
-         Qphsm5/psb2lQ==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, heiko@sntech.de, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org
-Cc:     kernel@pengutronix.de, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v4] media: Add P010 video format
-Date:   Wed, 18 May 2022 15:21:05 +0200
-Message-Id: <20220518132105.629797-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
+        Wed, 18 May 2022 09:29:58 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7EF06A423
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 06:29:56 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id m23so2590136ljc.0
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 06:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=devalore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=uppEWIa/PX/sGTfdDgvjqOfT1h4/y84EZdPXZO9/TbI=;
+        b=VIAUdmk4g10XQ7xgi0Kk5Eac1jq20fLA/HxQ5GZKvOBcw74mRVWI3sV2fnC/C7VWT7
+         8wKd155xbWs4+nL7EyF0lgC0fNAdR78+WJbHIGrO2rQv5LzsP5s3t0IOffN4d0CHdRXy
+         +/i8YxDJQg5m+BUQONUv74BtvbhRJJySvMw2qEVCTcjYuT8VnUG9iNGrs/shIImQ8o8I
+         MWECKcdTpFNY4lL66IqvJGBIkp/1dZBOXTb0dZPEsLIAclhohWLbmpAAcevxvwVjK66j
+         772IDk2SWaSmzME9Gx4dQP+hDPm+LJrSZmKCMFK7nYFpIXus6rGWHBpfk5F1aMxlQ+Yz
+         L+Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=uppEWIa/PX/sGTfdDgvjqOfT1h4/y84EZdPXZO9/TbI=;
+        b=205KAZA84S5WyYq6wCEaEwn/JdkYK80YDnavpsKjkygYNHm5InavucUS59HhirjpbE
+         +W9/NNlkQizmIyqHAErP5hVB62t15s83KarkWDasRugKmyf8xjl+tMTxIcXa9ECybKSw
+         o7uqWPhBzgLhM0nrPI53IFfGk3Y9XjdvgBCA1xWCOoOqxASioW/v5ZvGkI6uLuLPi8FQ
+         PgKeRR58nCexOPKF0EsNqEPCuUYDL7Knxa61jYdf2wl7PlYguF3QLbSDfaOhcNLMYsgc
+         lqi1StaDizhprwSg/Ii0ByLs/Ur94HM+9T+TWdWjh0QWRjzWbVL4oe6EkrWUYYfwrOGe
+         QF3A==
+X-Gm-Message-State: AOAM533yEc/eA6MdETa4ulHC38DxjwglSa5m3hYO9TPAVuJ9X8Lqd3RX
+        XCdqn305XhqgsGtKTbE5AcVG+wGlVDa0Slf2QLlT23PiRexEmg9+zRQ=
+X-Google-Smtp-Source: ABdhPJxcJNo/s7N3hlOlIqEa/vTPNigO+zgbis/no2VqQmrVAjLThhAkqsbna+gfzK+/Zv/LTb3cV5CDoiXGAGrOq34=
+X-Received: by 2002:a05:651c:895:b0:250:c5ec:bc89 with SMTP id
+ d21-20020a05651c089500b00250c5ecbc89mr17639916ljq.251.1652880595148; Wed, 18
+ May 2022 06:29:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <CACBf5_XDzBAAPwx9wn-p-moLyWGzx5o_cnFKPqZuS7puvZbmGg@mail.gmail.com>
+ <CALF0-+XP0km6uKtbteST_Mm5nFQtxgeqKcoz-GoOKy_CHQwmLQ@mail.gmail.com> <CACBf5_UoTap2gtHbkRfX6cSza5rHcKZY_HSfzzGV7g+UBMiGNA@mail.gmail.com>
+In-Reply-To: <CACBf5_UoTap2gtHbkRfX6cSza5rHcKZY_HSfzzGV7g+UBMiGNA@mail.gmail.com>
+From:   Steven Rosenberg <steven.rosenberg@devalore.com>
+Date:   Wed, 18 May 2022 16:29:42 +0300
+Message-ID: <CACBf5_X4iUpHBagxFao_E4Z_jaM8i6Bb-h1bkXFzhoTPLVdpHw@mail.gmail.com>
+Subject: Re: STK1160 USB VIDEO CAPTURE DRIVER kconfig compatibility issues
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-P010 is a YUV format with 16-bits per pixel with interleaved UV.
+Resending in plain text:
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
-version 4:
-- Fix 10-bits per components wording.
+---------- Forwarded message ----------
+From: Steven Rosenberg <steven.rosenberg@devalore.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: linux-media <linux-media@vger.kernel.org>
+Bcc:
+Date: Wed, 18 May 2022 16:17:07 +0300
+Subject: Re: STK1160 USB VIDEO CAPTURE DRIVER kconfig compatibility issues
+Dear Ezequiel,
 
-version 3:
-- remove LE suffix
-- rebased on media_tree_master branch
+Thank you for your response. Yes, your patch seemed to work.
+Unfortunately, we cannot upgrade the package, there are too many
+version specific dependencies. Currently we are getting another error
+on the gcc version:
 
- .../media/v4l/pixfmt-yuv-planar.rst           | 54 +++++++++++++++++++
- drivers/media/v4l2-core/v4l2-common.c         |  1 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
- include/uapi/linux/videodev2.h                |  1 +
- 4 files changed, 57 insertions(+)
+poky-hardknott-25.0.5/build/tmp/work-shared/dcbullet/kernel-source/include/=
+linux/compiler-gcc.h:106:1:
+fatal error: linux/compiler-gcc10.h: No such file or directory
+|   106 | #include gcc_header(__GNUC__)
+|       | ^~~~~
+| compilation terminated.
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-index 8dff5906639b..a900ff66911a 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-@@ -109,6 +109,13 @@ All components are stored with the same number of bits per component.
-       - Cb, Cr
-       - No
-       - 16x16 tiles
-+    * - V4L2_PIX_FMT_P010
-+      - 'P010'
-+      - 10
-+      - 4:2:0
-+      - Cb, Cr
-+      - Yes
-+      - Linear
-     * - V4L2_PIX_FMT_NV16
-       - 'NV16'
-       - 8
-@@ -171,6 +178,7 @@ horizontally.
- .. _V4L2-PIX-FMT-NV21:
- .. _V4L2-PIX-FMT-NV12M:
- .. _V4L2-PIX-FMT-NV21M:
-+.. _V4L2-PIX-FMT-P010:
- 
- NV12, NV21, NV12M and NV21M
- ---------------------------
-@@ -519,6 +527,52 @@ number of lines as the luma plane.
-       - Cb\ :sub:`33`
-       - Cr\ :sub:`33`
- 
-+.. _V4L2_PIX_FMT_P010:
-+
-+P010
-+----
-+
-+Like NV12 with 10 bits per component, expanded to 16 bits.
-+Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian order.
-+
-+.. flat-table:: Sample 4x4 P010 Image
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start + 0:
-+      - Y'\ :sub:`00`
-+      - Y'\ :sub:`01`
-+      - Y'\ :sub:`02`
-+      - Y'\ :sub:`03`
-+    * - start + 8:
-+      - Y'\ :sub:`10`
-+      - Y'\ :sub:`11`
-+      - Y'\ :sub:`12`
-+      - Y'\ :sub:`13`
-+    * - start + 16:
-+      - Y'\ :sub:`20`
-+      - Y'\ :sub:`21`
-+      - Y'\ :sub:`22`
-+      - Y'\ :sub:`23`
-+    * - start + 24:
-+      - Y'\ :sub:`30`
-+      - Y'\ :sub:`31`
-+      - Y'\ :sub:`32`
-+      - Y'\ :sub:`33`
-+    * - start + 32:
-+      - Cb\ :sub:`00`
-+      - Cr\ :sub:`00`
-+      - Cb\ :sub:`01`
-+      - Cr\ :sub:`01`
-+    * - start + 40:
-+      - Cb\ :sub:`10`
-+      - Cr\ :sub:`10`
-+      - Cb\ :sub:`11`
-+      - Cr\ :sub:`11`
-+
-+.. raw:: latex
-+
-+    \endgroup
- 
- Fully Planar YUV Formats
- ========================
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index df34b2a283bc..1e38ad8906a2 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
- 
- 		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
- 		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index e2636539c9db..536aaeb4df82 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1305,6 +1305,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
- 	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
- 	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
-+	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
- 	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 6d465dc443b7..311f106bbdf5 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -601,6 +601,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
- #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
- #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
-+#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 16  Y/CbCr 4:2:0 16-bit per pixel */
- 
- /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
- #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
--- 
-2.32.0
+There were no errors using Yocto sumo which used gcc version 7.3, but
+hardknott uses gcc 10.3. Attempting to set the preferred version in
+yocto after adding sumo's gcc 7.3 to the environment did not help.
 
+Maybe you have some idea on how to set the __GNUC__ define for version
+7 or some other way to have the linux kernel use gcc 7.3 instead of
+the gcc 10.3?
+
+Thank you again for your help, time and consideration.
+
+With Best Regards.
+
+Steven.
+
+
+On Wed, May 18, 2022 at 4:17 PM Steven Rosenberg
+<steven.rosenberg@devalore.com> wrote:
+>
+> Dear Ezequiel,
+>
+> Thank you for your response. Yes, your patch seemed to work. Unfortunatel=
+y, we cannot upgrade the package, there are too many version specific depen=
+dencies. Currently we are getting another error on the gcc version:
+>
+> poky-hardknott-25.0.5/build/tmp/work-shared/dcbullet/kernel-source/includ=
+e/linux/compiler-gcc.h:106:1: fatal error: linux/compiler-gcc10.h: No such =
+file or directory
+> |   106 | #include gcc_header(__GNUC__)
+> |       | ^~~~~
+> | compilation terminated.
+>
+> There were no errors using Yocto sumo which used gcc version 7.3, but har=
+dknott uses gcc 10.3. Attempting to set the preferred version in yocto afte=
+r adding sumo's gcc 7.3 to the environment did not help.
+>
+> Maybe you have some idea on how to set the __GNUC__ define for version 7 =
+or some other way to have the linux kernel use gcc 7.3 instead of the gcc 1=
+0.3?
+>
+> Thank you again for your help, time and consideration.
+>
+> With Best Regards.
+>
+> Steven.
+>
+>
+>
+> On Tue, May 17, 2022 at 9:45 PM Ezequiel Garcia <ezequiel@vanguardiasur.c=
+om.ar> wrote:
+>>
+>> Hi Steven,
+>>
+>> I think your mail didn't get delivered because it's HTML and mailing
+>> list filter this. Plain-text is required.
+>>
+>> El mar, 17 may 2022 a la(s) 10:10, Steven Rosenberg
+>> (steven.rosenberg@devalore.com) escribi=C3=B3:
+>> >
+>> > Dear Ezequiel Garcia,
+>> >
+>> >
+>> >
+>> > We are using the linux 3.10.73 package [1], which includes your "drive=
+rs/media/usb/stk1160/ Kconfig" file. We are upgrading versions of Yocto and=
+ the current version of kconfiglib.py gives errors [2]. There is indeed an =
+extra dot on line 20. Perhaps you have already fixed this in a later versio=
+n  of this linux package so that we can avoid adding a patch? If so or if y=
+ou have another solution, please advise accordingly. Currently your Kconfig=
+ file for this version of Linux is not compatible with the current version =
+of  kconfiglib.
+>>
+>> Thanks for the report. The extra dot was apparently introduced by
+>> commit "[media] rename most media/video usb drivers to media/usb",
+>> and later fixed in commit "[media] stk1160: Build as a module if SND
+>> is m and audio support is selected".
+>> See: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
+commit/?id=3Ddfb9f94e8e5e7f73c8e2bcb7d4fb1de57e7c333d
+>>
+>> 3.10 is EOLed so you will have to patch this yourself.
+>>
+>> PS: If you still want to use 3.10, I would suggest you should be using
+>> 3.10.108 (latest stable).
+>>
+>> Thanks,
+>> Ez
+>>
+>>
+>>
+>> >
+>> >
+>> >
+>> >
+>> >
+>> >
+>> > [1] https://www.kernel.org/pub/linux/kernel/v3.x/linux-3.10.73.tar.xz
+>> >
+>> > [2]
+>> >
+>> >
+>> > kconfiglib.KconfigError: drivers/media/usb/stk1160/Kconfig:20: error: =
+couldn't parse '.': unknown token at start of line
+>> >
+>> > ERROR: config analysis failed:
+>> >
+>> > DEBUG: Python function do_kernel_configcheck finished
+>> >
+>> >
+>> > With Best Regards.
+>> >
+>> >
+>> > Steven Rosenberg.
+>>
+>>
+>>
+>> --
+>> Ezequiel Garc=C3=ADa, VanguardiaSur
+>> www.vanguardiasur.com.ar
