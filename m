@@ -2,215 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFCA852AFB2
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 03:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83E5E52B1BF
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 07:05:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233322AbiERBMM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 21:12:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40570 "EHLO
+        id S230041AbiERE4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 00:56:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233310AbiERBME (ORCPT
+        with ESMTP id S229982AbiERE4P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 21:12:04 -0400
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBDAE53708
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 18:12:02 -0700 (PDT)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-2ef5380669cso8550227b3.9
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 18:12:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=83mxSflTBszx9cbrRtfaqSIACqTgr60P5HV2K7u8DLo=;
-        b=b3AsMwpknXTxxrjmWWmQ5jfyD3cHfyB6cPbz1ZzIQfoxBTSvGVXwntCJPPCyndlZ/L
-         K5jUrFJr4R5YvHLHDDQOXfiTX5Not0TCuKDbakZSAIK9ltFtppwQoGEcUbRYSE/P6EOt
-         s02es43dKbd7/+/qo8MTaY7x1YE+8sk+KXRieHDyZfu9P+67/9IsmnfENst8YRO5eeHz
-         MeMgmC2aYfUje6dOWvr4BNyp4b8oWN8ySFoNpf56GNU6fMphboawOpEzMKss1dXEzpwI
-         aYVpWvkYygky9pjeaCjMYMsPFapOr40i5D5K9OHvUgRgAZZTVt2iaXHpJjQf3xjcHrs9
-         scpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=83mxSflTBszx9cbrRtfaqSIACqTgr60P5HV2K7u8DLo=;
-        b=RFgBR0JijBhHiTEfM7Qq51rlmQcDEai2dWCThAFEVnH7OmkFvUhhBth7CkQd+cVEN6
-         iERr5eVmQcvlEuaCuZgVuQ9/WuvZksCPl3S8H/ByjlrFRfGP57h5NL6oyVbXUPdM4KQ3
-         Q99j2cCHB77X8UT15bPvAnL5r3IwAVmoEY2uKiMYYe7TQa+kMKAXsuhGJdOqGP8LcEGV
-         CaTIzVSnTh6q/IEZPr7lHRzIHcsUb+L/LD31j43VgBGB86omw4LclFp9lT+O98715zD3
-         Qn0ZdSHQX9R6fHCj0ZTsnckdYJzpQtvnFmnsmc0rEu1XyaxLI39QCW5pKSICtUxhKduC
-         nNHQ==
-X-Gm-Message-State: AOAM532IfOGRIbxvs8lziumgX1FyuJykeQeqqBwuquOo6biEgvaqwJC2
-        IsAeyCvcXqEU8xPTo+lWEL5rNODiQYwMfKvjwV4AXg==
-X-Google-Smtp-Source: ABdhPJy+TQZhjRJAYWp/yEFggTULOsWF1GAxWa/8yMscjbyS8k/sqOcoRZ3M4167Kvk8y/0ioRdUPqrE+GE0iOlfQpU=
-X-Received: by 2002:a05:690c:94:b0:2f1:98b3:fe7c with SMTP id
- be20-20020a05690c009400b002f198b3fe7cmr29952947ywb.284.1652836321615; Tue, 17
- May 2022 18:12:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220516140434.1871022-1-yunkec@google.com> <20220516140434.1871022-3-yunkec@google.com>
- <e30531ef60ed12f40e1c778d7927214b15b79922.camel@ndufresne.ca>
-In-Reply-To: <e30531ef60ed12f40e1c778d7927214b15b79922.camel@ndufresne.ca>
-From:   Yunke Cao <yunkec@google.com>
-Date:   Wed, 18 May 2022 10:11:50 +0900
-Message-ID: <CANqU6FcU7+wHKFDmH=EDk1irPC9YZ15VikExSgcocVKQQQ_0nQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] media: v4l2_ctrl: Add region of interest auto control
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 18 May 2022 00:56:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1982E092
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 21:56:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 452F7B8181C
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 04:56:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FBD4C385A9
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 04:56:09 +0000 (UTC)
+Date:   Wed, 18 May 2022 06:56:07 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20220518045609.9FBD4C385A9@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks, I will add detailed behavior in the follow up version.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Tue, May 17, 2022 at 10:23 PM Nicolas Dufresne <nicolas@ndufresne.ca> wr=
-ote:
->
-> Le lundi 16 mai 2022 =C3=A0 23:04 +0900, Yunke Cao a =C3=A9crit :
-> > Signed-off-by: Yunke Cao <yunkec@google.com>
-> > ---
-> >  .../media/v4l/ext-ctrls-camera.rst            | 25 +++++++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  2 ++
-> >  include/uapi/linux/v4l2-controls.h            |  9 +++++++
-> >  3 files changed, 36 insertions(+)
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst=
- b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > index 86a1f09a8a1c..3da66e1e1fc7 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > @@ -665,3 +665,28 @@ enum v4l2_scene_mode -
-> >  ``V4L2_CID_REGION_OF_INTEREST_RECT (struct)``
-> >      This control determines the region of interest. Region of interest=
- is an
-> >      rectangular area represented by a struct v4l2_rect.
-> > +
-> > +``V4L2_CID_REGION_OF_INTEREST_AUTO (bitmask)``
-> > +    This determines which, if any, on board features should track to t=
-he
-> > +    Region of Interest.
-> > +
-> > +.. flat-table::
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +
-> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_EXPOSURE``
-> > +      - Auto Exposure.
-> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_IRIS``
-> > +      - Auto Iris.
-> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_WHITE_BALANCE``
-> > +      - Auto White Balance.
-> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_FOCUS``
-> > +      - Auto Focus.
-> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_FACE_DETECT``
-> > +      - Auto Face Detect.
-> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK``
-> > +      - Auto Detect and Track.
-> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION``
-> > +      - Image Stabilization.
-> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY``
-> > +      - Higher Quality.
->
-> Now I see the usage, the control is missing cross-reference and behaviour=
-.
-> Consider that someone may have to use or implement your feature on differ=
-ent HW
-> and in different context in the future. Right now you aren't writing a
-> specification, but barely listing things that are already encoded in the =
-item
-> names. For each of this, add human readable prose that explain what is ex=
-pected
-> behaviour when the bit is set. This way, future implementation can check =
-their
-> behaviour and cross-over with the documentation to make sure it is a fit,=
- or if
-> another bit need to be allocated.
->
-> I still believe REGION_OF_INTEREST is too generic of a name for the purpo=
-se, as
-> in the context of the V4L2 API, we also support video encoders, and none =
-of this
-> (perhaps except QUALITY, but with encoder you have to specify a delta for=
- that).
-> The name really needs to be specialized to be implemented this way. Other=
-wise,
-> it create confusion, and makes the V4L2 uAPI poorer over time. Naming is =
-hard,
-> but I need to make a suggestion, perhaps CAMERA_ROI ? We have classes, pe=
-rhaps a
-> class for the CAMERA controls is needed ?
->
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/=
-v4l2-core/v4l2-ctrls-defs.c
-> > index 95f39a2d2ad2..f28763bf95e9 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > @@ -1043,6 +1043,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >       case V4L2_CID_CAMERA_ORIENTATION:       return "Camera Orientatio=
-n";
-> >       case V4L2_CID_CAMERA_SENSOR_ROTATION:   return "Camera Sensor Rot=
-ation";
-> >       case V4L2_CID_REGION_OF_INTEREST_RECT:  return "Region Of Interes=
-t Rectangle";
-> > +     case V4L2_CID_REGION_OF_INTEREST_AUTO:  return "Region Of Interes=
-t Auto Controls";
-> >
-> >       /* FM Radio Modulator controls */
-> >       /* Keep the order of the 'case's the same as in v4l2-controls.h! =
-*/
-> > @@ -1415,6 +1416,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, en=
-um v4l2_ctrl_type *type,
-> >       case V4L2_CID_JPEG_ACTIVE_MARKER:
-> >       case V4L2_CID_3A_LOCK:
-> >       case V4L2_CID_AUTO_FOCUS_STATUS:
-> > +     case V4L2_CID_REGION_OF_INTEREST_AUTO:
-> >       case V4L2_CID_DV_TX_HOTPLUG:
-> >       case V4L2_CID_DV_TX_RXSENSE:
-> >       case V4L2_CID_DV_TX_EDID_PRESENT:
-> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4=
-l2-controls.h
-> > index 499fcddb6254..f6938e4de129 100644
-> > --- a/include/uapi/linux/v4l2-controls.h
-> > +++ b/include/uapi/linux/v4l2-controls.h
-> > @@ -1009,6 +1009,15 @@ enum v4l2_auto_focus_range {
-> >  #define V4L2_CID_CAMERA_SENSOR_ROTATION              (V4L2_CID_CAMERA_=
-CLASS_BASE+35)
-> >
-> >  #define V4L2_CID_REGION_OF_INTEREST_RECT     (V4L2_CID_CAMERA_CLASS_BA=
-SE+36)
-> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO     (V4L2_CID_CAMERA_CLASS_BA=
-SE+37)
+Results of the daily build of media_tree:
 
-The ROI controls are in V4L2_CID_CAMERA_CLASS
-"(V4L2_CID_CAMERA_CLASS_BASE+36)" unless I miss anything.
-Correct me if I'm wrong but I don't see "CAMERA" included in the name
-of other camera controls.
+date:			Wed May 18 05:00:11 CEST 2022
+media-tree git hash:	340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1
+media_build git hash:	5eb7d23e8f3dffdb13c843ea0ae3ddd497f23107
+v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7940-g7a97f134-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
-> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_EXPOSURE            (1 << 0)
-> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_IRIS                        (=
-1 << 1)
-> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_WHITE_BALANCE               (=
-1 << 2)
-> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_FOCUS                       (=
-1 << 3)
-> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_FACE_DETECT         (1 << 4)
-> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK    (1 << 5)
-> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION (1 << 6)
-> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY              (=
-1 << 7)
-> >
-> >  /* FM Modulator class control IDs */
-> >
->
+linux-git-sh: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.275-i686: OK
+linux-4.14.275-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.237-i686: OK
+linux-4.19.237-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.19-i686: OK
+linux-5.13.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
