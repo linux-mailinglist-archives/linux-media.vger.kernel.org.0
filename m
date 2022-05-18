@@ -2,350 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FF2652B55E
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 11:01:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF5E252B543
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 11:01:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233501AbiERIlv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 04:41:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52000 "EHLO
+        id S233509AbiERIw4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 04:52:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233610AbiERIlp (ORCPT
+        with ESMTP id S233495AbiERIwu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 04:41:45 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46FCA4D9D1;
-        Wed, 18 May 2022 01:41:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652863304; x=1684399304;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=TpsCICryPUcT3JfqRs7jrqTjzL2NlM8lKbag+c3j9Mo=;
-  b=H6gdIjjcUDyOgyXuGTMZUe68kePA5ykr9R3DJDBUbDlrHPIS068nAFtM
-   40kBpNrNla+abe2lRaM2zg/Z5506NWVPoxrMuKgUyhES3QpKXPXgy/3D6
-   esid0BEHMdsjbLegys+aHUOTLcv+0sTuJVYe5OdTkEAYVei8NmPa4J7kY
-   zbGktoL4xxKJeCBV2OLyKRqHtax1PO48fDx3j/QyonyHJsHMvOItUD2Jp
-   3TYOxTrx8yCDOr4iGaEIAmdgoDWJsvIlmTV+7YaH9DDDG9pNIwQTc19Bz
-   dAU5exlVMtyGqBbT8p1tXjUJ6EYDDHirQPkXHOwtlUXMKSiOrvBKCl9N9
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="334607037"
-X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; 
-   d="scan'208";a="334607037"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 01:41:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; 
-   d="scan'208";a="545336200"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
-  by orsmga006.jf.intel.com with ESMTP; 18 May 2022 01:41:43 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 18 May 2022 01:41:43 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 18 May 2022 01:41:42 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Wed, 18 May 2022 01:41:42 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.44) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Wed, 18 May 2022 01:41:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FZMkW0UItq8TVa04GPvihnKNiwmC39cY3vNo1uZBe2cyv5S0I6zGQfEOe7xnyYrfHn1XEZklnON0jQL00AqkLnTAnD9RL3Huwjx5Rh3XHhdyt2p56kSKCKqdUBiLqmdTDE8c6g0oa9vTH0ptTf8GKm2M1V8HhKzWXAwFZRxWi7bwpi+yXcXXm97OKzyWtUm8BR3ocTMh8ELRnjdJ4dPSRWqWt9i9UkSZY0Px6iqgFwzSS2nBhdratLi4RczqCBJk+FKEbOpAr2cNsPUHzC3hsZZ/eNZ2WP9fDYTkRdS1wuqJoTgeUxO5J/SDeI4MbGZHBCBKusRxe6+9G4UZaZ2Akw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mQaQznnzSpXuIWKHAE2RwrJTXra7XkZS1NaLrtw126k=;
- b=MtSZn/JhZL6ailApWsCZfCtHLvO197sV+/HZgoG/74QC8M0cYGy6muwWTyKYuZhpBaB6pRJwvhHpXY+BDr0zZ8cmE3Sc6S0wtTgKgCE4Y1I8F3u+XyUNpaJsjU2fRygt5HPxO/qBmILZenZj81Cm5dkHII1WyQRq2pD8mK4oLemcOyjwQXvOxP8hn4L8AKQS78RV5uRbZ4FtSC+GVbKtLKlvcmSGSdCrMrqvRRPcYTmyXFvGJEmoiOCxR59cuAmXaguaKHFeBAmiV/0fSDqCvhe+WO0C+Y20lJ8I6n7DHiDlhBHzeA/1lCLSGQxyFnYXDDmufxkP6BLLBiF58E10cQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
- BY5PR11MB4402.namprd11.prod.outlook.com (2603:10b6:a03:1c9::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.17; Wed, 18 May
- 2022 08:41:35 +0000
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::b1fa:393c:9fb6:6871]) by DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::b1fa:393c:9fb6:6871%5]) with mapi id 15.20.5250.018; Wed, 18 May 2022
- 08:41:34 +0000
-Message-ID: <002e5ec2-478d-ca10-5a71-5390dfb69173@intel.com>
-Date:   Wed, 18 May 2022 10:41:22 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [PATCH 04/20] media: s5p-mfc: Rename IS_MFCV10 macro
-Content-Language: en-US
-To:     Smitha T Murthy <smitha.t@samsung.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-CC:     <m.szyprowski@samsung.com>, <mchehab@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <ezequiel@vanguardiasur.com.ar>,
-        <jernej.skrabec@gmail.com>, <benjamin.gaignard@collabora.com>,
-        <stanimir.varbanov@linaro.org>, <dillon.minfei@gmail.com>,
-        <david.plowman@raspberrypi.com>, <mark.rutland@arm.com>,
-        <robh+dt@kernel.org>, <krzk+dt@kernel.org>, <andi@etezian.org>,
-        <alim.akhtar@samsung.com>, <aswani.reddy@samsung.com>,
-        <pankaj.dubey@samsung.com>, <linux-fsd@tesla.com>
-References: <20220517125548.14746-1-smitha.t@samsung.com>
- <CGME20220517125601epcas5p47dfcac0c5e0c412eb0c335759c51c941@epcas5p4.samsung.com>
- <20220517125548.14746-5-smitha.t@samsung.com>
-From:   Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220517125548.14746-5-smitha.t@samsung.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR07CA0012.eurprd07.prod.outlook.com
- (2603:10a6:20b:46c::17) To DM6PR11MB3180.namprd11.prod.outlook.com
- (2603:10b6:5:9::13)
+        Wed, 18 May 2022 04:52:50 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D06CA24BCD
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 01:52:48 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id c10so2099079edr.2
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 01:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sUl/2w0FHGEFd1yNG4JHtApin45+2DomsZCC+yAliOc=;
+        b=Tc3nKHzDxIWPKCBl7AMlh/+mZK19QD07dUH/YkLEdQFD0E6r3yaLFY1yj0B5/T3lHg
+         thiXlvL/KqwdT7BCF9BaLt868EUY/Yb4UK+YDUio4oY53Ktlid+J7cacCCaJi1hBUB7H
+         l0BViUnkcUt1TEQAUU+r+TLFU29rXWUobbH2rXRqyJ1hpdKdmBV5xgB0LFxS0F0Kuhfk
+         A34HtGAVwoyLMItwSFl2Q5YUWgBQUA4WIXi6pZbGKDLN7uoNH96+Vl1+B4FjAXGt/L8R
+         hK5KCw4PdOp82Z8XZ4SzEmNAaD8dwKG7hoY8udHnYs3OEZN5g1D8JbuE+NzCVpBkHmad
+         ox5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sUl/2w0FHGEFd1yNG4JHtApin45+2DomsZCC+yAliOc=;
+        b=Isc8vUDp2KA9yMe4jv21TQ64N58S84F/Qj+ozo84jP+htFNg6bYrkumdYOz3YvYoRD
+         6TleBB6PnXeQ53Xaff9e/z7vs7H3zQSFJmDJo+pM9Vii5mRVgSP2BjzMZb/S66XwVhLb
+         6+5vsdMGyxIgu37o9wvFXCyEXj1CyFNgNB94e92EjJpGxn/DdPx0HIX+YM5tMO/q8w3n
+         ziqy6V9AVAFEaG43XHwE9aS7SDIeU3pkUL+l7gLV/ng/0wv1LLNtyzQ8DfGxrlCHcOP1
+         3jN4YVyQKpmu8RSSYa70z76TEEcbAnErwbspRiSjhFLEqZCoqQPQJzgwtWU2p8oF8OCE
+         289w==
+X-Gm-Message-State: AOAM530mM2VnugTDJCXyQUiSW5aYuHQ/jjc57+6lHI+nYU21YnSD5Mur
+        qlIp2RiS/GxXxY5ZFMYwWipN2S0aJcBd05W5c7igYA==
+X-Google-Smtp-Source: ABdhPJwFEpWW7lhtFiDaUBxeWfO91o6nkeq0Tf9krhzJYDPhi+p6E1Yr9xlowJ7bIJju757LlPpQ13KtD/3pD8B9LWM=
+X-Received: by 2002:aa7:d415:0:b0:42a:bb4d:7deb with SMTP id
+ z21-20020aa7d415000000b0042abb4d7debmr12257819edq.6.1652863967416; Wed, 18
+ May 2022 01:52:47 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6581f67f-056c-4c90-ff9b-08da38aa36fd
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4402:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR11MB440223AD9010E43A3EE9BB6DEBD19@BY5PR11MB4402.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E2qXNowjpDVanWZKOHl8dLgLNws2Iw7W+czYhrPXekzuI/c7MIIIB90eIuc81MM561vSBKLMZbRjvwkdobXA5+R020iuYRimUWxVy6rQozQVZ0UsOVqt1H83BLNqjRKXmuMoCcR+rJ8cpmiYb8dRxoATjSPtOXyCeeplHRM7fRI3cK8V0W719qU3Pco4YHRQTq/QE+22la59TJRcmLG4UQHGOPnrXUBALp5JeRJFTOukK5fz/OP7a6RLH6r8To7ctbOSi7k0F0qyrrsxIVoeZYN90yOVUG1uJh7/Ozhqkz+i3QcvrN43h26j54lbq4lU/XoEOfGE3f9dO2+oFr8ZAmm/2CFNXQk8AllEaV0Tt4QHkDxDYE1ObUV25WzKKc5EbvALkyfCMb5YJIeVhJ2saWHINlxQI2Ko4VRI45Il2CUzBSqm9donf7V/OpJ29wYaM2yndMaV7uHYdWlwFd/PbC/qVNfjNAg0ULiB0ZkvUbaW8nUf3YyRz43icl2p4JqtImXINPbpE8oojbf85mBQ98/VBrkM1DFloRf7uJfTY7wDnq8GhFCTQUlrlp8Z1pzJRtvoeWaeobQtHrVjRB5SfkjBi95IAx/vu/E7z1P+uSmhFgH8BUVX7N5nBGlCauB59AW7h9g96RVIapAt0wnB80Oaby8YEkN6xc3SkfOyB3UsrQlyAonkCmK8mfQfHh+3Sb2SbKJh32xhf1Ezu6BXvhnbMKf8dYc95uXvI4LpK0o=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3180.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(44832011)(36756003)(4326008)(66946007)(66556008)(66476007)(7416002)(8936002)(5660300002)(508600001)(8676002)(2616005)(6486002)(31696002)(26005)(53546011)(6506007)(83380400001)(86362001)(82960400001)(38100700002)(2906002)(6666004)(36916002)(186003)(31686004)(6512007)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjVENmJ3cTU4djZPU0NlbDA0VXd1Z0paczY0MEM4bUx2MXZpeVhPbkxSQ2VB?=
- =?utf-8?B?YzZlTktuSlo1bGdGUVNpSlprMXNZZDJzdmFKNmhWWVZpb0daVEp1VmxIMzdQ?=
- =?utf-8?B?b1lkRW5pWTJpbFIyYk9JeVJkQTFuL0pLQ1IzY0ZmRHlmaDZuRWhjcWhVa1Mz?=
- =?utf-8?B?N3dtTHRURUVWajJjTWVDRVNOaHdsOXdBcGk1MWJiL3hFZnZEV0ZxYzFnSG83?=
- =?utf-8?B?cHpuUkdBTHU5aS9JQXV6VmhlSERtOVZGM3ZOVWpSNjJGNEhxaVJibnVlSEUr?=
- =?utf-8?B?SjZjN0w4UXVZSG9aZlVCMmpaQzZhZzJFSDhPalU3OEtmdmNLUTBReG4rT21J?=
- =?utf-8?B?d0NVcmRnNDlFb09LQ1RiZ2VnRm03ZmtjOVY5eExRWERoaFdqa1ZxeDlxbklj?=
- =?utf-8?B?SERxcklrMlhwdElhdDcrSW10aW13Yml2YU52bExuMjRpRGRHcFBjNU1VU21E?=
- =?utf-8?B?QmthYzgvdGlMWDVKTldUamhzWDlTbUkyN2kzVFdGT2lzT0JlQTZ0YldIMEpH?=
- =?utf-8?B?a2xzVTR6LzVkak1OamhTYVRRQW9KT0pvMUJBVzlER3pPU0FYZTRsMVpZc0l5?=
- =?utf-8?B?TE9HaTZUZVJLdXFRbk96TytIV1JPYVlFWGlSbUxPcE9rTUZFaWNlb2c2VDVT?=
- =?utf-8?B?eXc2TWo4dFlGZVZFdDFERStqamw1V0NiK1lJN3BqSXV2NnArNGZNU1E0MHhM?=
- =?utf-8?B?dlppa0gwZTFuWWxBU2c2WDlEdUtndXVhblRLYWlhbWJQc3lMdGZ6eUFwamp2?=
- =?utf-8?B?dEpOdUhST2ZpaE4vYmNNSmRIQVhpMWRPNkY4dUF6ZkJuV0JPWlJuenZ2cjJZ?=
- =?utf-8?B?dDBObHNOT3pKVGJUcnc2ZVBnNkZNb09MU1dwVlNwUDFaOGRrSTdLaUpCNlhP?=
- =?utf-8?B?ejVWYXZjZmtPdjYvRVdVbDdhVVNKdEpFcjJLeEM5eDRjdkszajQ0T0haNUcr?=
- =?utf-8?B?MEtsNW8vQ0JCZVVjVGd2RExKbUkxeDcwOUI3RlF5SWJoTWxPTHZWOUJXeURj?=
- =?utf-8?B?TXlDQklGM1VRU2FpNTVCa0tvYi9MVmZHYzZMNEZrY3liblhkbEZCbER2Mk91?=
- =?utf-8?B?dzA1aFNqeFE2eW91SGRTVzI0TmY1eEJLTk9MVGdFZ0JoVmZaT3N5WEYvZ3dD?=
- =?utf-8?B?SFZyWks4NTlwbklTUnZrTWFtQmsyNGdxek0zN1NBK1dSaHJrTDE0Sk9vbldC?=
- =?utf-8?B?RFFjTUdleXdISEd4Wi90Vjhzc3hYUlg4NmF4N2Y3RHplbEszSS9uVlpZVE02?=
- =?utf-8?B?UnNxakZDQUtyc3VSbUlXZlVIL3NzbnBkUHZNbTk3ZGV4cFVYNDFGdmtUVnBE?=
- =?utf-8?B?RDNvblk5NEZVYWZzRWpzclJLaGYvZzBxcTRydVRHejRhU08xT01VZi8reWxy?=
- =?utf-8?B?SWlTWkU0WGZocUFPS3dZdWNXWFVBdzErTW1VcUZaZkN6K0RxazZuTkQrOUxD?=
- =?utf-8?B?VlVKalgzLy90eEVuWEdxQmV6bzFlNlRIV2lNbHBnUDRYNGVsZGZNRFlKT0ZQ?=
- =?utf-8?B?VkZZbEoyYVNGbVZsdW1FWnlISGxzYjMzdWNieW1tRFhVdmYrbXBHdVc4eVV1?=
- =?utf-8?B?S1hVYjA5TDduTW94L3gwcjIzUVkxZFMzVFF5MVVXU1NHUWlkemdSbVZHbWVi?=
- =?utf-8?B?YUN3djYvaWNUdkFDRTNUaDRwQm45dytaeHJPU3F3Q2lKZFJjbXB2NVRaM3ps?=
- =?utf-8?B?a1lSd3lQRGJORnJhTEtSRVNacERmWkVFcUZyWGQ0Mi9jQWFnV015RGNGZ0lT?=
- =?utf-8?B?bEwwN2ZmNGZ4U3ZOLyswa25RSXR0SUFJY0JJTXZmL0ZILzlhSktWb3hHTVhi?=
- =?utf-8?B?dGtXczN6N1czdnd4R3RxU3AvcXZ0Uk1HakcwcXpzcEsyVlcrcEwwUXJuTWNE?=
- =?utf-8?B?RjlTZHdybmJ2aUpNZmpSMTJQSnZiQkFZOVpMd2pSWjBqUWNOZU1YcTZSUU1l?=
- =?utf-8?B?bzZndnpXQ0xMU3BaUXFUNmFlY0t0R3R2NnRnUVdaMHEzdDIrRndmYXl0aGRi?=
- =?utf-8?B?NTRyYjNTeHk2VnR1ME55OExVYkx2NDRrOUJtZmMvd0lrNVZQcXY1MHBoK2R2?=
- =?utf-8?B?UGFUeG9DOFB3cG5ad3dyMFpGUGVRUTVjdXNHWTRRdWxkUkcxWS8wYkYrajlr?=
- =?utf-8?B?VFE4Tk1lNHc2U0xmcWppTDhGN1MvMlFQSE41T1ozSUtCOTJvNGZkM2labHh2?=
- =?utf-8?B?TTBoRjNuWlVzT1Q0ZnlCZ3JmcE5oNm5jU2kyY2hpNjhZK3VOazVvSnFLYllZ?=
- =?utf-8?B?VGtpYmJDSGNkNDlKZ2xQQnN6emJvQk5zeVd3YTY1Q2swdHdsbzFkUGQyNFZO?=
- =?utf-8?B?anZVZmRES0JNSjBhWW5IMFdQbzNlWjdGYjVnOU5QMXFzSElrTFpyR1lxWjlu?=
- =?utf-8?Q?FMKNpRa2rqGaLaps=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6581f67f-056c-4c90-ff9b-08da38aa36fd
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 08:41:34.8307
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sqVZONho5dBArtTHJmOx9cWQZ8Dv4kpCyi3xZpqs0yqtpZmCOrPWJuW+pwAhLCLf6fydgAHWcIm4tMiYTkd0tQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4402
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220512120209.11614-1-info@benjaminmarty.ch> <CAPY8ntD4miACVe9naYUyVAztZcDBK47chpJLy4=qqjmego1jvA@mail.gmail.com>
+ <165243859864.2416244.4785590696956344599@Monstersaurus> <CAPY8ntDfnZG_+43gMz2D=v9eUBX8zjbJpDpwm1a8tTT4ak8drw@mail.gmail.com>
+ <165282888670.2416244.4233841355061128997@Monstersaurus>
+In-Reply-To: <165282888670.2416244.4233841355061128997@Monstersaurus>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 18 May 2022 09:52:30 +0100
+Message-ID: <CAPY8ntC9Bu3SfUjy+HqrdFHcHQWmwYrZdsVRQWYFv+JJihhGbw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: i2c: adv7180: fix reserved bit in Video
+ Selection 2
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Benjamin Marty <info@benjaminmarty.ch>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 17.05.2022 14:55, Smitha T Murthy wrote:
-> Renames macro IS_MFCV10 to IS_MFCV10_PLUS so that the MFCv10
-> code can be resued for MFCv12 support. Since some part of MFCv10
-> specific code holds good for MFCv12 also.
+On Wed, 18 May 2022 at 00:08, Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
 >
-> Cc: linux-fsd@tesla.com
-> Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
-> ---
->   .../platform/samsung/s5p-mfc/s5p_mfc_common.h |  4 +--
->   .../platform/samsung/s5p-mfc/s5p_mfc_ctrl.c   |  2 +-
->   .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c | 28 +++++++++----------
->   3 files changed, 17 insertions(+), 17 deletions(-)
+> Quoting Dave Stevenson (2022-05-17 18:50:11)
+> > On Fri, 13 May 2022 at 11:43, Kieran Bingham
+> > <kieran.bingham@ideasonboard.com> wrote:
+> > >
+> > > Quoting Dave Stevenson (2022-05-12 14:56:45)
+> > > > Hi Benjamin.
+> > > >
+> > > > On Thu, 12 May 2022 at 13:11, Benjamin Marty <info@benjaminmarty.ch> wrote:
+> > > > >
+> > > > > This bit is marked as reserved in the ADV Hardware Reference Manual.
+> > > > >
+> > > > > Resetting this bit seems to cause increased video noise. Setting this
+> > > > > bit according to the Hardware Reference Manual reduces the video noise
+> > > > > immediately.
+> > > > >
+> > > > > Signed-off-by: Benjamin Marty <info@benjaminmarty.ch>
+> > > > > ---
+> > > > > version 2:
+> > > > > - Fixed Kieran's remarks
+> > > > >
+> > > > >  drivers/media/i2c/adv7180.c | 5 ++++-
+> > > > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> > > > > index 4f5db195e66d..992111fe249e 100644
+> > > > > --- a/drivers/media/i2c/adv7180.c
+> > > > > +++ b/drivers/media/i2c/adv7180.c
+> > > > > @@ -43,6 +43,7 @@
+> > > > >  #define ADV7180_INPUT_CONTROL_INSEL_MASK               0x0f
+> > > > >
+> > > > >  #define ADV7182_REG_INPUT_VIDSEL                       0x0002
+> > > > > +#define ADV7182_REG_INPUT_RESERVED                     BIT(2)
+> > > >
+> > > > Responding to Kieran's comment on V1:
+> > > > > If the bit is documented with a better name, then use that of course,
+> > > > > otherwise perhaps even a comment in the code saying that failing to set
+> > > > > the bit increases visible noise would be suitable. (or that setting the
+> > > > > bit reduces noise, I guess it depends on if you think this bit is
+> > > > > performing noise reduction, or if not setting it is introducing noise)
+> > > >
+> > > > I went digging through the datasheet for this info as I care about
+> > > > ADV728[0|1|2]M.
+> > > >
+> > > > https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7182.pdf
+> > > > page 68 defines bits 0-3 as reserved, and "set to default" which is
+> > > > 0100b.
+> > > > https://www.analog.com/media/en/technical-documentation/user-guides/ADV7280_7281_7282_7283_UG-637.pdf
+> > > > page 70 says the same for ADV7280/ADV7281/ADV7282/ADV7283.
+> > > >
+> > > > So no name or detail in the docs over what the bits do.
+> > > >
+> > > > The patch does mean the driver more closely follows the datasheet, so
+> > > > it looks good to me.
+> > > >
+> > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > >
+> > > > I'll try to find a couple of minutes to get my hardware out and
+> > > > confirm I see the change in video noise.
+> > >
+> > > Great, Is there any way we can identify (easily?) if this is introducing
+> > > noise reduction, or preventing noise being added?
+> > >
+> > > If it's introducing noise reduction, as a feature, that's quite
+> > > different to causing noise if it's not set ... (Unless perhaps people
+> > > have a desire to add noise :D)
+> >
+> > OK, I dug out my hardware. I'm doing the nasty with:
+> > i2ctransfer -y -f 10 w2@0x21 0x02 0x84
+> > and
+> > i2ctransfer -y -f 10 w2@0x21 0x02 0x80
+> > to flip back and forth between the two settings on my PAL source.
+> >
+> > It does reduce the noise, but also softens the image significantly.
+> >
+> > As slightly iffy photos to show the difference
+> > https://photos.app.goo.gl/hLKxv3TP93gX864y8 is the new setting.
+> > https://photos.app.goo.gl/sWxEhdvxHLUkGL1C8 is the old setting.
+> > (Yes it's a very old F1 race that happened to be on this DVD/HDD recorder).
 >
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-> index 5304f42c8c72..ae266d8518d1 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-> @@ -774,8 +774,8 @@ void s5p_mfc_cleanup_queue(struct list_head *lh, struct vb2_queue *vq);
->   #define IS_MFCV6_PLUS(dev)	(dev->variant->version >= 0x60 ? 1 : 0)
->   #define IS_MFCV7_PLUS(dev)	(dev->variant->version >= 0x70 ? 1 : 0)
->   #define IS_MFCV8_PLUS(dev)	(dev->variant->version >= 0x80 ? 1 : 0)
-> -#define IS_MFCV10(dev)		(dev->variant->version >= 0xA0 ? 1 : 0)
-> -#define FW_HAS_E_MIN_SCRATCH_BUF(dev) (IS_MFCV10(dev))
-> +#define IS_MFCV10_PLUS(dev)	(dev->variant->version >= 0xA0 ? 1 : 0)
+> It's a really tough test case, as I expect these are frame captures from
+> two separate time points, rather than some paused frame, but I would say
+> the text on the old setting is clearer. That could easily be due to
+> differences in the actual content though.
 
-The " ? 1 : 0" part of the macro is redundant, you can remove it here 
-and in other IS_MFC*_PLUS macros.
+Yes the frames are from a few seconds apart as I thought I'd left the
+remote at home (actually I hadn't). I'll recapture them later today
+for the same frame from a better source (probably a DVD).
+The current settings are sharper, but significantly noisier.
 
-> +#define FW_HAS_E_MIN_SCRATCH_BUF(dev) (IS_MFCV10_PLUS(dev))
->   
->   #define MFC_V5_BIT	BIT(0)
->   #define MFC_V6_BIT	BIT(1)
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-> index 72d70984e99a..ffe9f7e79eca 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-> @@ -236,7 +236,7 @@ int s5p_mfc_init_hw(struct s5p_mfc_dev *dev)
->   	else
->   		mfc_write(dev, 0x3ff, S5P_FIMV_SW_RESET);
->   
-> -	if (IS_MFCV10(dev))
-> +	if (IS_MFCV10_PLUS(dev))
->   		mfc_write(dev, 0x0, S5P_FIMV_MFC_CLOCK_OFF_V10);
->   
->   	mfc_debug(2, "Will now wait for completion of firmware transfer\n");
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> index 8227004f6746..728d255e65fc 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> @@ -72,9 +72,9 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   			  ctx->luma_size, ctx->chroma_size, ctx->mv_size);
->   		mfc_debug(2, "Totals bufs: %d\n", ctx->total_dpb_count);
->   	} else if (ctx->type == MFCINST_ENCODER) {
-> -		if (IS_MFCV10(dev)) {
-> +		if (IS_MFCV10_PLUS(dev))
->   			ctx->tmv_buffer_size = 0;
-> -		} else if (IS_MFCV8_PLUS(dev))
-> +		else if (IS_MFCV8_PLUS(dev))
->   			ctx->tmv_buffer_size = S5P_FIMV_NUM_TMV_BUFFERS_V6 *
->   			ALIGN(S5P_FIMV_TMV_BUFFER_SIZE_V8(mb_width, mb_height),
->   			S5P_FIMV_TMV_BUFFER_ALIGN_V6);
-> @@ -82,7 +82,7 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   			ctx->tmv_buffer_size = S5P_FIMV_NUM_TMV_BUFFERS_V6 *
->   			ALIGN(S5P_FIMV_TMV_BUFFER_SIZE_V6(mb_width, mb_height),
->   			S5P_FIMV_TMV_BUFFER_ALIGN_V6);
-> -		if (IS_MFCV10(dev)) {
-> +		if (IS_MFCV10_PLUS(dev)) {
->   			lcu_width = S5P_MFC_LCU_WIDTH(ctx->img_width);
->   			lcu_height = S5P_MFC_LCU_HEIGHT(ctx->img_height);
->   			if (ctx->codec_mode != S5P_FIMV_CODEC_HEVC_ENC) {
-> @@ -133,7 +133,7 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   	switch (ctx->codec_mode) {
->   	case S5P_MFC_CODEC_H264_DEC:
->   	case S5P_MFC_CODEC_H264_MVC_DEC:
-> -		if (IS_MFCV10(dev))
-> +		if (IS_MFCV10_PLUS(dev))
->   			mfc_debug(2, "Use min scratch buffer size\n");
->   		else if (IS_MFCV8_PLUS(dev))
->   			ctx->scratch_buf_size =
-> @@ -152,7 +152,7 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   			(ctx->mv_count * ctx->mv_size);
->   		break;
->   	case S5P_MFC_CODEC_MPEG4_DEC:
-> -		if (IS_MFCV10(dev))
-> +		if (IS_MFCV10_PLUS(dev))
->   			mfc_debug(2, "Use min scratch buffer size\n");
->   		else if (IS_MFCV7_PLUS(dev)) {
->   			ctx->scratch_buf_size =
-> @@ -172,7 +172,7 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   		break;
->   	case S5P_MFC_CODEC_VC1RCV_DEC:
->   	case S5P_MFC_CODEC_VC1_DEC:
-> -		if (IS_MFCV10(dev))
-> +		if (IS_MFCV10_PLUS(dev))
->   			mfc_debug(2, "Use min scratch buffer size\n");
->   		else
->   			ctx->scratch_buf_size =
-> @@ -189,7 +189,7 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   		ctx->bank2.size = 0;
->   		break;
->   	case S5P_MFC_CODEC_H263_DEC:
-> -		if (IS_MFCV10(dev))
-> +		if (IS_MFCV10_PLUS(dev))
->   			mfc_debug(2, "Use min scratch buffer size\n");
->   		else
->   			ctx->scratch_buf_size =
-> @@ -201,7 +201,7 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   		ctx->bank1.size = ctx->scratch_buf_size;
->   		break;
->   	case S5P_MFC_CODEC_VP8_DEC:
-> -		if (IS_MFCV10(dev))
-> +		if (IS_MFCV10_PLUS(dev))
->   			mfc_debug(2, "Use min scratch buffer size\n");
->   		else if (IS_MFCV8_PLUS(dev))
->   			ctx->scratch_buf_size =
-> @@ -230,7 +230,7 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   			DEC_VP9_STATIC_BUFFER_SIZE;
->   		break;
->   	case S5P_MFC_CODEC_H264_ENC:
-> -		if (IS_MFCV10(dev)) {
-> +		if (IS_MFCV10_PLUS(dev)) {
->   			mfc_debug(2, "Use min scratch buffer size\n");
->   			ctx->me_buffer_size =
->   			ALIGN(ENC_V100_H264_ME_SIZE(mb_width, mb_height), 16);
-> @@ -254,7 +254,7 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   		break;
->   	case S5P_MFC_CODEC_MPEG4_ENC:
->   	case S5P_MFC_CODEC_H263_ENC:
-> -		if (IS_MFCV10(dev)) {
-> +		if (IS_MFCV10_PLUS(dev)) {
->   			mfc_debug(2, "Use min scratch buffer size\n");
->   			ctx->me_buffer_size =
->   				ALIGN(ENC_V100_MPEG4_ME_SIZE(mb_width,
-> @@ -273,7 +273,7 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->   		ctx->bank2.size = 0;
->   		break;
->   	case S5P_MFC_CODEC_VP8_ENC:
-> -		if (IS_MFCV10(dev)) {
-> +		if (IS_MFCV10_PLUS(dev)) {
->   			mfc_debug(2, "Use min scratch buffer size\n");
->   			ctx->me_buffer_size =
->   				ALIGN(ENC_V100_VP8_ME_SIZE(mb_width, mb_height),
-> @@ -452,7 +452,7 @@ static void s5p_mfc_dec_calc_dpb_size_v6(struct s5p_mfc_ctx *ctx)
->   
->   	if (ctx->codec_mode == S5P_MFC_CODEC_H264_DEC ||
->   			ctx->codec_mode == S5P_MFC_CODEC_H264_MVC_DEC) {
-> -		if (IS_MFCV10(dev)) {
-> +		if (IS_MFCV10_PLUS(dev)) {
->   			ctx->mv_size = S5P_MFC_DEC_MV_SIZE_V10(ctx->img_width,
->   					ctx->img_height);
->   		} else {
-> @@ -668,7 +668,7 @@ static int s5p_mfc_set_enc_ref_buffer_v6(struct s5p_mfc_ctx *ctx)
->   
->   	mfc_debug(2, "Buf1: %p (%d)\n", (void *)buf_addr1, buf_size1);
->   
-> -	if (IS_MFCV10(dev)) {
-> +	if (IS_MFCV10_PLUS(dev)) {
->   		/* start address of per buffer is aligned */
->   		for (i = 0; i < ctx->pb_count; i++) {
->   			writel(buf_addr1, mfc_regs->e_luma_dpb + (4 * i));
-> @@ -2455,7 +2455,7 @@ const struct s5p_mfc_regs *s5p_mfc_init_regs_v6_plus(struct s5p_mfc_dev *dev)
->   	R(e_h264_options, S5P_FIMV_E_H264_OPTIONS_V8);
->   	R(e_min_scratch_buffer_size, S5P_FIMV_E_MIN_SCRATCH_BUFFER_SIZE_V8);
->   
-> -	if (!IS_MFCV10(dev))
-> +	if (!IS_MFCV10_PLUS(dev))
->   		goto done;
->   
->   	/* Initialize registers used in MFC v10 only.
+> It might make me think this should be a control that could be
+> dynamically set to allow the user to decide...
+>
+> Benjamin, how does it look on your system? I presume setting this bit
+> improves image quality for your use case.
+>
+>
+> > I couldn't honestly say I prefer one over the other (analogue video
+> > really is grim!), but it does mean that we're following the datasheet
+> > more accurately, so:
+> >
+> > Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >
+> > > But I think I could add this already:
+> > >
+> > >
+> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
+> From a driver perspective, with no other existing expecatation - I would
+> say matching the datasheet is the correct thing to do anyway.
 
+That's my view too.
+
+  Dave
+
+> --
+> Kieran
+>
+>
+>
+> > >
+> > > >
+> > > >   Dave
+> > > >
+> > > > >  #define ADV7180_REG_OUTPUT_CONTROL                     0x0003
+> > > > >  #define ADV7180_REG_EXTENDED_OUTPUT_CONTROL            0x0004
+> > > > > @@ -1014,7 +1015,9 @@ static int adv7182_init(struct adv7180_state *state)
+> > > > >
+> > > > >  static int adv7182_set_std(struct adv7180_state *state, unsigned int std)
+> > > > >  {
+> > > > > -       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL, std << 4);
+> > > > > +       /* Failing to set the reserved bit can result in increased video noise */
+> > > > > +       return adv7180_write(state, ADV7182_REG_INPUT_VIDSEL,
+> > > > > +                            (std << 4) | ADV7182_REG_INPUT_RESERVED);
+> > > > >  }
+> > > > >
+> > > > >  enum adv7182_input_type {
+> > > > > --
+> > > > > 2.36.1
+> > > > >
