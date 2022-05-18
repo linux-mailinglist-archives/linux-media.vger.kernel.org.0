@@ -2,132 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B17FF52B475
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 10:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F59F52B4D9
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 10:38:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232719AbiERIKv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 04:10:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46454 "EHLO
+        id S233240AbiERIcY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 04:32:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232697AbiERIKu (ORCPT
+        with ESMTP id S233120AbiERIcX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 04:10:50 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F9DB335
-        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 01:10:48 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 3E5FE1F9AC;
-        Wed, 18 May 2022 08:10:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1652861447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=Bpqq6FoxgOHntZUhJvadF3rer0vxtqmEWw9zE50xxbA=;
-        b=vDAgXeyqywS7mXjtODkMJGihIGLLyRTOe/tQKCdggMsAhrGrtPJbTJotf+IaUjHJvOUrAX
-        nWEOplZVnv1cedTnu7iglwXSOWZ2NsVlj5MTw4jkotnsU43R7UIjQanOWZEbNzZTyWvGVg
-        7+g/WoKXZPVd0lAFYuQFQc6yBmeHxlE=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1095F133F5;
-        Wed, 18 May 2022 08:10:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id FAtwAgeqhGIoZAAAMHmgww
-        (envelope-from <oneukum@suse.com>); Wed, 18 May 2022 08:10:47 +0000
-From:   Oliver Neukum <oneukum@suse.com>
-To:     linux-media@vger.kernel.org, mchehab@kernel.org, crope@iki.fi
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCHv2] airspy: respect the DMA coherency rules
-Date:   Wed, 18 May 2022 10:10:45 +0200
-Message-Id: <20220518081045.18823-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.35.3
+        Wed, 18 May 2022 04:32:23 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856ED4EA10;
+        Wed, 18 May 2022 01:32:22 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id n6so707586wms.0;
+        Wed, 18 May 2022 01:32:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+z+PQb5MQz4Hi46TApUGBFaL5pik2KHkz+IdCi2pk9E=;
+        b=nY5N7FCiiLTLIDrAVVBNIomteMVrETYaVXuYS6S6dWlVkrDwFrzMMCy5pZRw1FpyLb
+         lXvOLdTFOPDufB1lDxHXiNeCc4voonWSxAyhbdIogQCX8LWGNHkdJa+GBnORF97VIDHq
+         Pkn65y9YJkCKnNZ469oZZAJtaVT9HFFPSgCkdUtjiPa0zET/KOPV8NUPlWH44wEUt6L2
+         AkgRMSgAn+PYPsBFIhoKlMTP46fKDPzI5UUlxI1MqNYM8ScXfPUxbpwqdAzHh/EaS59h
+         NDHaUcsiYR8A6HI/7Wfd6Cgzl135bPI7I70l7n0Dz1AfAmCjOW+SrY9XxkTWV5Jl1taG
+         shcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+z+PQb5MQz4Hi46TApUGBFaL5pik2KHkz+IdCi2pk9E=;
+        b=IVdsHasFRr48lerTqkabr8wT+WDhxTEs7eqojPUSwqHrLjMFfRsLdnxFGEFh1shp0v
+         av+TIIK/FEphwQS4pQDg4DaMcJ8qEC3lc1N6Q5oPlDqQW7VGBz/BLoGnX1vD8v5tqFUi
+         RFho4LTpwUPLNC6fuU08hIxfcYGlgNpew6nXiope/kfzkx8kjqsTNljsZOwSwentP+Gz
+         A+DTPnUBeLcgO1SEtdqIEIw7yeyS6j9Zyc2uH9nn9z1dqE16x9l2dCiuUX2u06PXXoQ2
+         r8yhLPXUlSKX40gfOQ6PYEdKrCizt3DYHCn2FtRniPtFARU8s37wkgNy69tJ3Z/kKKZZ
+         iNKg==
+X-Gm-Message-State: AOAM5316bnsoGlhmXd3mi6GgI+nsrCTBjzQTErkSEGciUqGKKabvYpT8
+        zQnIXc9BL7lCAbNdSaqlDvgxqxw+jtOpgZ8t
+X-Google-Smtp-Source: ABdhPJzXrAx8whtDX8CJHaQ830Cxos71neUjKQZK3vabF5JDnUvkzjkhqIlJ4DYqBPqGl4C/Op+VsQ==
+X-Received: by 2002:a05:600c:4fd4:b0:394:8e96:6d3b with SMTP id o20-20020a05600c4fd400b003948e966d3bmr24819426wmq.180.1652862740991;
+        Wed, 18 May 2022 01:32:20 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id j35-20020a05600c1c2300b00397220a9354sm611048wms.30.2022.05.18.01.32.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 May 2022 01:32:20 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: platform: exynos-gsc: remove redundant initializations of f_chk_len and f_chk_addr
+Date:   Wed, 18 May 2022 09:32:19 +0100
+Message-Id: <20220518083219.507716-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If we want to avoid memory corruption
-on incoherent architectures, buffers for DMA
-must not reside
-- on the stack
-- embedded within other structures
+The variables f_chk_len and f_chk_addr are being initialized to zero and
+then being re-assigned in the next statement. The initializations are
+redundant and can be removed. Also initialize s_chk_addr and s_chk_len
+at the declaration statement.
 
-Allocate them separately.
-
-v2: fix uninitialized return value
-
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/media/usb/airspy/airspy.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ drivers/media/platform/samsung/exynos-gsc/gsc-core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/airspy/airspy.c b/drivers/media/usb/airspy/airspy.c
-index d568452618d1..240a7cc56777 100644
---- a/drivers/media/usb/airspy/airspy.c
-+++ b/drivers/media/usb/airspy/airspy.c
-@@ -123,7 +123,7 @@ struct airspy {
+diff --git a/drivers/media/platform/samsung/exynos-gsc/gsc-core.c b/drivers/media/platform/samsung/exynos-gsc/gsc-core.c
+index e3559b047092..b147c645ae0b 100644
+--- a/drivers/media/platform/samsung/exynos-gsc/gsc-core.c
++++ b/drivers/media/platform/samsung/exynos-gsc/gsc-core.c
+@@ -339,8 +339,7 @@ static int get_plane_info(struct gsc_frame *frm, u32 addr, u32 *index, u32 *ret_
  
- 	/* USB control message buffer */
- 	#define BUF_SIZE 128
--	u8 buf[BUF_SIZE];
-+	u8 *buf;
- 
- 	/* Current configuration */
- 	unsigned int f_adc;
-@@ -856,6 +856,7 @@ static void airspy_video_release(struct v4l2_device *v)
- 
- 	v4l2_ctrl_handler_free(&s->hdl);
- 	v4l2_device_unregister(&s->v4l2_dev);
-+	kfree(s->buf);
- 	kfree(s);
- }
- 
-@@ -963,7 +964,10 @@ static int airspy_probe(struct usb_interface *intf,
+ void gsc_set_prefbuf(struct gsc_dev *gsc, struct gsc_frame *frm)
  {
- 	struct airspy *s;
- 	int ret;
--	u8 u8tmp, buf[BUF_SIZE];
-+	u8 u8tmp, *buf;
-+
-+	buf = NULL;
-+	ret = -ENOMEM;
+-	u32 f_chk_addr, f_chk_len, s_chk_addr, s_chk_len;
+-	f_chk_addr = f_chk_len = s_chk_addr = s_chk_len = 0;
++	u32 f_chk_addr, f_chk_len, s_chk_addr = 0, s_chk_len = 0;
  
- 	s = kzalloc(sizeof(struct airspy), GFP_KERNEL);
- 	if (s == NULL) {
-@@ -971,6 +975,13 @@ static int airspy_probe(struct usb_interface *intf,
- 		return -ENOMEM;
- 	}
- 
-+	s->buf = kzalloc(BUF_SIZE, GFP_KERNEL);
-+	if (!s->buf)
-+		goto err_free_mem;
-+	buf = kzalloc(BUF_SIZE, GFP_KERNEL);
-+	if (!buf)
-+		goto err_free_mem;
-+
- 	mutex_init(&s->v4l2_lock);
- 	mutex_init(&s->vb_queue_lock);
- 	spin_lock_init(&s->queued_bufs_lock);
-@@ -1068,6 +1079,8 @@ static int airspy_probe(struct usb_interface *intf,
- 	v4l2_ctrl_handler_free(&s->hdl);
- 	v4l2_device_unregister(&s->v4l2_dev);
- err_free_mem:
-+	kfree(buf);
-+	kfree(s->buf);
- 	kfree(s);
- 	return ret;
- }
+ 	f_chk_addr = frm->addr.y;
+ 	f_chk_len = frm->payload[0];
 -- 
-2.35.3
+2.35.1
 
