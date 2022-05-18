@@ -2,200 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44A0952AF97
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 03:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFCA852AFB2
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 03:12:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233201AbiERBEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 May 2022 21:04:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53052 "EHLO
+        id S233322AbiERBMM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 May 2022 21:12:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233194AbiERBEL (ORCPT
+        with ESMTP id S233310AbiERBME (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 May 2022 21:04:11 -0400
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA52954035
-        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 18:04:08 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 850CD240026
-        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 03:04:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1652835846; bh=Yzj2jfQTSnlvNtQCnHTE+LNOwDjLaI2iPbYzvKLwPdY=;
-        h=Date:Subject:From:To:Cc:From;
-        b=T29WModXAHBLJFMiVf7rJpghFHKTGxfZcGs+e8bANtxYYlw2XLQM8G0OMuuyhpFZl
-         27z3RS/7OKY2uZm//wdEm0jYGEAB6RkyPn412vzW5YWQX7fR7+F7qhRnhYxfCINGNY
-         GcdxDqFO4OTcb9Ry7Z5uArey2M2vrciOe8wZzjHBkGIsGRXPbx8o4UVax3FHn6bsXz
-         qXD6RF9d+LhiOMKgI9dHx843kJrYh1F4qZVM92RgAzJXrdMIi6NRsPCJwY2Xb6WBqi
-         kw/bs321/w5sfl6IUCjJAPDBiMFi3H1BE4l+brceV+XsTnm4vaeF68H1Gf1zI05mD5
-         Ekj7E5ASTLwUw==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4L2vrk024gz6tnw;
-        Wed, 18 May 2022 03:04:05 +0200 (CEST)
-Message-ID: <08922b18-87af-eb3b-0e8e-67d33fbbebe4@posteo.de>
-Date:   Wed, 18 May 2022 01:04:05 +0000
+        Tue, 17 May 2022 21:12:04 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBDAE53708
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 18:12:02 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-2ef5380669cso8550227b3.9
+        for <linux-media@vger.kernel.org>; Tue, 17 May 2022 18:12:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=83mxSflTBszx9cbrRtfaqSIACqTgr60P5HV2K7u8DLo=;
+        b=b3AsMwpknXTxxrjmWWmQ5jfyD3cHfyB6cPbz1ZzIQfoxBTSvGVXwntCJPPCyndlZ/L
+         K5jUrFJr4R5YvHLHDDQOXfiTX5Not0TCuKDbakZSAIK9ltFtppwQoGEcUbRYSE/P6EOt
+         s02es43dKbd7/+/qo8MTaY7x1YE+8sk+KXRieHDyZfu9P+67/9IsmnfENst8YRO5eeHz
+         MeMgmC2aYfUje6dOWvr4BNyp4b8oWN8ySFoNpf56GNU6fMphboawOpEzMKss1dXEzpwI
+         aYVpWvkYygky9pjeaCjMYMsPFapOr40i5D5K9OHvUgRgAZZTVt2iaXHpJjQf3xjcHrs9
+         scpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=83mxSflTBszx9cbrRtfaqSIACqTgr60P5HV2K7u8DLo=;
+        b=RFgBR0JijBhHiTEfM7Qq51rlmQcDEai2dWCThAFEVnH7OmkFvUhhBth7CkQd+cVEN6
+         iERr5eVmQcvlEuaCuZgVuQ9/WuvZksCPl3S8H/ByjlrFRfGP57h5NL6oyVbXUPdM4KQ3
+         Q99j2cCHB77X8UT15bPvAnL5r3IwAVmoEY2uKiMYYe7TQa+kMKAXsuhGJdOqGP8LcEGV
+         CaTIzVSnTh6q/IEZPr7lHRzIHcsUb+L/LD31j43VgBGB86omw4LclFp9lT+O98715zD3
+         Qn0ZdSHQX9R6fHCj0ZTsnckdYJzpQtvnFmnsmc0rEu1XyaxLI39QCW5pKSICtUxhKduC
+         nNHQ==
+X-Gm-Message-State: AOAM532IfOGRIbxvs8lziumgX1FyuJykeQeqqBwuquOo6biEgvaqwJC2
+        IsAeyCvcXqEU8xPTo+lWEL5rNODiQYwMfKvjwV4AXg==
+X-Google-Smtp-Source: ABdhPJy+TQZhjRJAYWp/yEFggTULOsWF1GAxWa/8yMscjbyS8k/sqOcoRZ3M4167Kvk8y/0ioRdUPqrE+GE0iOlfQpU=
+X-Received: by 2002:a05:690c:94:b0:2f1:98b3:fe7c with SMTP id
+ be20-20020a05690c009400b002f198b3fe7cmr29952947ywb.284.1652836321615; Tue, 17
+ May 2022 18:12:01 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: game capture usb device stops working
-Content-Language: en-US
-From:   =?UTF-8?Q?Alexander_Wipperf=c3=bcrth?= <wpprfrth@posteo.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-References: <dc489dbf-fbd0-db97-009d-df3eb94860fb@posteo.de>
- <YoQv1CTNTInprDXd@pendragon.ideasonboard.com>
- <7412d089-1276-5fda-bfb6-ea90a6b5c15b@posteo.de>
-In-Reply-To: <7412d089-1276-5fda-bfb6-ea90a6b5c15b@posteo.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_LOCAL_NOVOWEL,
-        HK_RANDOM_ENVFROM,HK_RANDOM_FROM,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220516140434.1871022-1-yunkec@google.com> <20220516140434.1871022-3-yunkec@google.com>
+ <e30531ef60ed12f40e1c778d7927214b15b79922.camel@ndufresne.ca>
+In-Reply-To: <e30531ef60ed12f40e1c778d7927214b15b79922.camel@ndufresne.ca>
+From:   Yunke Cao <yunkec@google.com>
+Date:   Wed, 18 May 2022 10:11:50 +0900
+Message-ID: <CANqU6FcU7+wHKFDmH=EDk1irPC9YZ15VikExSgcocVKQQQ_0nQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] media: v4l2_ctrl: Add region of interest auto control
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I want to add a more detailed description now that I monitored the log a 
-bit.
+Thanks, I will add detailed behavior in the follow up version.
 
-I am running Linux 5.17.7.
-
-This is what happens after the device stopped responding at all and when 
-I reconnected it to my front usb 3.0 port, this would not stop and 
-continue until I disconnected the device completely from the port.
-
-#plug in
-
-[19742.491916] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 24 ep 0
-[19742.491920] xhci_hcd 0000:02:00.0: @000000010a170060 ec931000 
-00000001 04000008 18018000
-[19742.491966] usb 2-3: Device not responding to setup address.
-[19742.699447] usb 2-3: device not accepting address 19, error -71
-[19742.702600] usb usb2-port3: attempt power cycle
-[19743.125915] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 26 ep 0
-[19743.125920] xhci_hcd 0000:02:00.0: @000000010a170700 ec931000 
-00000001 04000008 1a018000
-[19743.125999] usb 2-3: Device not responding to setup address.
-[19743.331914] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 27 ep 0
-[19743.331919] xhci_hcd 0000:02:00.0: @000000010a1700e0 ec931000 
-00000001 04000008 1b018001
-[19743.331999] usb 2-3: Device not responding to setup address.
-[19743.539448] usb 2-3: device not accepting address 20, error -71
-[19743.718913] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 29 ep 0
-[19743.718916] xhci_hcd 0000:02:00.0: @000000010a1703d0 ec931000 
-00000001 04000008 1d018000
-[19743.718997] usb 2-3: Device not responding to setup address.
-[19743.923912] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 30 ep 0
-[19743.923915] xhci_hcd 0000:02:00.0: @000000010a170ac0 ec931000 
-00000001 04000008 1e018000
-[19743.923997] usb 2-3: Device not responding to setup address.
-[19744.131451] usb 2-3: device not accepting address 21, error -71
-[19744.134606] usb usb2-port3: unable to enumerate USB device
-[19744.718911] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 32 ep 0
-[19744.718916] xhci_hcd 0000:02:00.0: @000000010a170830 ec931000 
-00000001 04000008 20018000
-[19744.718962] usb 2-3: Device not responding to setup address.
-[19744.923910] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 33 ep 0
-[19744.923913] xhci_hcd 0000:02:00.0: @000000010a170870 ec931000 
-00000001 04000008 21018000
-[19744.923958] usb 2-3: Device not responding to setup address.
-[19745.131456] usb 2-3: device not accepting address 22, error -71
-[19745.311909] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 35 ep 0
-[19745.311913] xhci_hcd 0000:02:00.0: @000000010a1708e0 ec931000 
-00000001 04000008 23018000
-[19745.311959] usb 2-3: Device not responding to setup address.
-[19745.523910] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 36 ep 0
-[19745.523913] xhci_hcd 0000:02:00.0: @000000010a170920 ec931000 
-00000001 04000008 24018000
-[19745.523959] usb 2-3: Device not responding to setup address.
-[19745.731462] usb 2-3: device not accepting address 23, error -71
-[19745.734620] usb usb2-port3: attempt power cycle
-[19746.157909] xhci_hcd 0000:02:00.0: ERROR Transfer event for disabled 
-endpoint slot 39 ep 0
-[19746.157913] xhci_hcd 0000:02:00.0: @000000010a1709a0 ec931000 
-00000001 04000008 27018000
-[19746.157958] usb 2-3: Device not responding to setup address.
-[19746.363831] usb 2-3: Device not responding to setup address.
-[19746.571468] usb 2-3: device not accepting address 24, error -71
-
-#plug out
-
-Then I plugged it into a different usb 3.0 port but this time on the back
-
-[19938.950687] usb 4-3: new SuperSpeed USB device number 2 using xhci_hcd
-[19938.964090] usb 4-3: LPM exit latency is zeroed, disabling LPM.
-[19938.964687] usb 4-3: New USB device found, idVendor=0fd9, 
-idProduct=006a, bcdDevice= 0.01
-[19938.964691] usb 4-3: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=4
-[19938.964693] usb 4-3: Product: Game Capture HD60 S+
-[19938.964695] usb 4-3: Manufacturer: Elgato
-[19938.964697] usb 4-3: SerialNumber: 000451B08E000
-[19939.056053] uvcvideo 4-3:1.1: Unknown video format 
-30313050-0000-0010-8000-00aa00389b71
-[19939.056059] usb 4-3: Found UVC 1.10 device Game Capture HD60 S+ 
-(0fd9:006a)
-[19939.085464] uvcvideo 4-3:1.0: Entity type for entity Input 1 was not 
-initialized!
-[19939.085518] input: Game Capture HD60 S+: Game Capt as 
-/devices/pci0000:00/0000:00:08.1/0000:2d:00.3/usb4/4-3/4-3:1.0/input/input43
-[19939.086225] hid-generic 0003:0FD9:006A.0019: hiddev103,hidraw13: USB 
-HID v1.01 Device [Elgato Game Capture HD60 S+] on usb-0000:2d:00.3-3/input2
-[20001.273966] xhci_hcd 0000:2d:00.3: WARN Event TRB for slot 3 ep 2 
-with no TDs queued?
-[20001.290966] xhci_hcd 0000:2d:00.3: WARN Event TRB for slot 3 ep 2 
-with no TDs queued?
-[20001.298312] uvcvideo 4-3:1.1: Non-zero status (-71) in video 
-completion handler.
-
-here I changed the setting for "Use Buffering" from on to off
-
-[20007.762947] uvcvideo 4-3:1.1: Failed to set UVC probe control : -32 
-(exp. 34).
-
-uvcvideo 4-3:1.1: Failed to set UVC probe control : -32 (exp. 34) this 
-is happening everytime I change a setting, I have to reconnect the 
-device, open OBS one time, close it and reopen it until I can see video 
-again.
-
-Not sure if this helps, but this is what dmesg gives me
-
-
-On 18.05.22 01:35, Alexander Wipperfürth wrote:
-> Hi Laurent,
+On Tue, May 17, 2022 at 10:23 PM Nicolas Dufresne <nicolas@ndufresne.ca> wr=
+ote:
 >
-> Right now I have the following scenario, after re-plugging it in for 3 
-> times it started working again as it should, then I changed the 
-> setting for Video Format and I get the following in the kernel log:
+> Le lundi 16 mai 2022 =C3=A0 23:04 +0900, Yunke Cao a =C3=A9crit :
+> > Signed-off-by: Yunke Cao <yunkec@google.com>
+> > ---
+> >  .../media/v4l/ext-ctrls-camera.rst            | 25 +++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  2 ++
+> >  include/uapi/linux/v4l2-controls.h            |  9 +++++++
+> >  3 files changed, 36 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst=
+ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > index 86a1f09a8a1c..3da66e1e1fc7 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > @@ -665,3 +665,28 @@ enum v4l2_scene_mode -
+> >  ``V4L2_CID_REGION_OF_INTEREST_RECT (struct)``
+> >      This control determines the region of interest. Region of interest=
+ is an
+> >      rectangular area represented by a struct v4l2_rect.
+> > +
+> > +``V4L2_CID_REGION_OF_INTEREST_AUTO (bitmask)``
+> > +    This determines which, if any, on board features should track to t=
+he
+> > +    Region of Interest.
+> > +
+> > +.. flat-table::
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +
+> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_EXPOSURE``
+> > +      - Auto Exposure.
+> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_IRIS``
+> > +      - Auto Iris.
+> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_WHITE_BALANCE``
+> > +      - Auto White Balance.
+> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_FOCUS``
+> > +      - Auto Focus.
+> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_FACE_DETECT``
+> > +      - Auto Face Detect.
+> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK``
+> > +      - Auto Detect and Track.
+> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION``
+> > +      - Image Stabilization.
+> > +    * - ``V4L2_CID_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY``
+> > +      - Higher Quality.
 >
-> [15207.692208] uvcvideo 2-4:1.1: Failed to set UVC probe control : -32 
-> (exp. 34).
+> Now I see the usage, the control is missing cross-reference and behaviour=
+.
+> Consider that someone may have to use or implement your feature on differ=
+ent HW
+> and in different context in the future. Right now you aren't writing a
+> specification, but barely listing things that are already encoded in the =
+item
+> names. For each of this, add human readable prose that explain what is ex=
+pected
+> behaviour when the bit is set. This way, future implementation can check =
+their
+> behaviour and cross-over with the documentation to make sure it is a fit,=
+ or if
+> another bit need to be allocated.
 >
-> On 18.05.22 01:29, Laurent Pinchart wrote:
->> Hi Alexander,
->>
->> On Tue, May 17, 2022 at 08:34:18PM +0000, Alexander Wipperfürth wrote:
->>> Hello, today I got a usb capture card (Elgato HD60 S+) which is uvc
->>> compatible and the first time I connected it to my computer it was
->>> immediately recognized and the video from the game console was 
->>> displayed
->>> in OBS, but when I change any setting in the configuration menu the
->>> device stops working, no video will be displayed anymore, I have to 
->>> plug
->>> it in and out multiple times until it starts showing video again, I 
->>> hope
->>> with me stating this issue here someone maybe knows a solution or
->>> explanation why this could happen.
->>>
->>> Is there anything I should provide that may be useful?
->> Are there any messages printed to the kernel log when this occurs ?
->>
+> I still believe REGION_OF_INTEREST is too generic of a name for the purpo=
+se, as
+> in the context of the V4L2 API, we also support video encoders, and none =
+of this
+> (perhaps except QUALITY, but with encoder you have to specify a delta for=
+ that).
+> The name really needs to be specialized to be implemented this way. Other=
+wise,
+> it create confusion, and makes the V4L2 uAPI poorer over time. Naming is =
+hard,
+> but I need to make a suggestion, perhaps CAMERA_ROI ? We have classes, pe=
+rhaps a
+> class for the CAMERA controls is needed ?
+>
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/=
+v4l2-core/v4l2-ctrls-defs.c
+> > index 95f39a2d2ad2..f28763bf95e9 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1043,6 +1043,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >       case V4L2_CID_CAMERA_ORIENTATION:       return "Camera Orientatio=
+n";
+> >       case V4L2_CID_CAMERA_SENSOR_ROTATION:   return "Camera Sensor Rot=
+ation";
+> >       case V4L2_CID_REGION_OF_INTEREST_RECT:  return "Region Of Interes=
+t Rectangle";
+> > +     case V4L2_CID_REGION_OF_INTEREST_AUTO:  return "Region Of Interes=
+t Auto Controls";
+> >
+> >       /* FM Radio Modulator controls */
+> >       /* Keep the order of the 'case's the same as in v4l2-controls.h! =
+*/
+> > @@ -1415,6 +1416,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, en=
+um v4l2_ctrl_type *type,
+> >       case V4L2_CID_JPEG_ACTIVE_MARKER:
+> >       case V4L2_CID_3A_LOCK:
+> >       case V4L2_CID_AUTO_FOCUS_STATUS:
+> > +     case V4L2_CID_REGION_OF_INTEREST_AUTO:
+> >       case V4L2_CID_DV_TX_HOTPLUG:
+> >       case V4L2_CID_DV_TX_RXSENSE:
+> >       case V4L2_CID_DV_TX_EDID_PRESENT:
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4=
+l2-controls.h
+> > index 499fcddb6254..f6938e4de129 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -1009,6 +1009,15 @@ enum v4l2_auto_focus_range {
+> >  #define V4L2_CID_CAMERA_SENSOR_ROTATION              (V4L2_CID_CAMERA_=
+CLASS_BASE+35)
+> >
+> >  #define V4L2_CID_REGION_OF_INTEREST_RECT     (V4L2_CID_CAMERA_CLASS_BA=
+SE+36)
+> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO     (V4L2_CID_CAMERA_CLASS_BA=
+SE+37)
+
+The ROI controls are in V4L2_CID_CAMERA_CLASS
+"(V4L2_CID_CAMERA_CLASS_BASE+36)" unless I miss anything.
+Correct me if I'm wrong but I don't see "CAMERA" included in the name
+of other camera controls.
+
+> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_EXPOSURE            (1 << 0)
+> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_IRIS                        (=
+1 << 1)
+> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_WHITE_BALANCE               (=
+1 << 2)
+> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_FOCUS                       (=
+1 << 3)
+> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_FACE_DETECT         (1 << 4)
+> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK    (1 << 5)
+> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION (1 << 6)
+> > +#define V4L2_CID_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY              (=
+1 << 7)
+> >
+> >  /* FM Modulator class control IDs */
+> >
+>
