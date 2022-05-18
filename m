@@ -2,101 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A7BB52C3B2
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 21:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA77652C72B
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 01:02:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242123AbiERTqt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 15:46:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36672 "EHLO
+        id S231168AbiERW6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 18:58:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242089AbiERTqs (ORCPT
+        with ESMTP id S231355AbiERW5W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 15:46:48 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13EE8186295;
-        Wed, 18 May 2022 12:46:48 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id i187so3246324ybg.6;
-        Wed, 18 May 2022 12:46:48 -0700 (PDT)
+        Wed, 18 May 2022 18:57:22 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078B666226
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 15:57:06 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id z15-20020a9d65cf000000b00605f064482cso2397326oth.6
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 15:57:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rsuE1ABWsB6b7Hsgob1VVtsU14xSna0mLGCkyQVROLY=;
-        b=KaO9l1foVfB0brtQxLf6U9LXDVB+mL7N/kZKGEsHkIbIyMH+s5Xfr4VvfyCaZeYOYQ
-         E06Eujq7zk+hiTDqO6qDOtNQ+kvQyUmuLMAmaVs2h7/nrvMB4ApBScCJJ9B8z7EUjABX
-         qgOBf0tFcHSqw36OwstkZ5AOkJNDfpq1iq0jcEigDeJRgHG8SkDRE8P5Q5i10OkXAnhY
-         9yOz8VIwQwD8aj03++d+4EmS5Z4T4Qg7UDXyER1dYuNQ+6yOXlEFJjKDHtkHVcqyaI6I
-         ChX49WV7vKOmZgEHxguzCqFsaZAoUjOhxM0sUSUouHoAeqvieg138zfUqJc7zrsZx+yf
-         GZSw==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=mZ3wqB4NmL7z6lpFr/h15h1rYqsZKafJnUpMVahbEPg=;
+        b=ovbcf3BPb/ZrA/FpQ+ZjErGDIEZ9sF3fYOxqsE4Z0xdiTlYY9UY36hS3ty6MLllddq
+         FdZzNc2PcFHW5cwKZ0FlQqx6F8uTY06Ab/cmT+eL89dkm6I4fHT5v6DDGzwY+fqIjM8b
+         RjeYQt93Ckr4p0lPVWY342OwWKznH6xDl4nV36uj7bwrBPcHFh3ePzF5GNEmu/mQBhIV
+         GwWDekgJIDWSV60014hyLdzt2NtjUStY8MI6SiwBWMH8LEBnRGkE0W6Db0zUE9IYWmDQ
+         Ifd6nbhkESdcIbQrjo3sdEfmdPtb1VAIHCw/LAZv1DOtvQwqLYnhML4dVDmuoYeMmVFn
+         q7TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rsuE1ABWsB6b7Hsgob1VVtsU14xSna0mLGCkyQVROLY=;
-        b=70o5Z5woxk0g4n0StHZgAmkC/p3lZj/sfdMHVLr8zdcg9tYltV0sP0km29753EDA3j
-         j9cRIxgYdEascUNq61W/oSe2tUnZPfXEqIllmuErNaAi47rZpvus+gBTGJZlQIk5Jflh
-         6RM3vYPaRuUVoQlmiClejNfbNSzNyMjJ4qG8dCfsdmDrq5j6bvgVNK97Vfwxc2//3kTF
-         i4jCGtHH0dZQPYEbDotFF/jFu5LxCt1DrCLG2XISxZC2QazZ8LBVV0+1SV0jvUDCTvqG
-         lP2blt0DYNmqqpkJ/wUL4gODsBu6Lv4B2/Lt63EwT3gcNP7iRpgyVetvRTo6lzvDoV+J
-         jqQg==
-X-Gm-Message-State: AOAM5301TJWjd0rCPrQ4yAtM/3N0xE5/g1qK5Y0sNXK+RV7XuwdHdHj0
-        JYA3tjRfBvWLRivMez0uMhygSycTwWe+tUhEDPJX7iHcDQcXqA==
-X-Google-Smtp-Source: ABdhPJwvjDBcRwOkT0WZiDvWeUp+xaCQNNykqEv7DhpPxVzcA/DYGmdN14aSyNwYRolRX93/t9AGunXpMkwv/z9FZ+M=
-X-Received: by 2002:a05:6902:1407:b0:64a:ecc7:aa2 with SMTP id
- z7-20020a056902140700b0064aecc70aa2mr1197261ybu.645.1652903207329; Wed, 18
- May 2022 12:46:47 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=mZ3wqB4NmL7z6lpFr/h15h1rYqsZKafJnUpMVahbEPg=;
+        b=3Dw2W3nP4C2mlVc6ZXZYjW/az+6MgWM2r69w8H7FV0WtrPi0M2C8RCDF5oR9qO4Owz
+         ilHU/O5LoXZUhduF4tyHG717xXCjZT2+OpkiM7Gi+BYnq5WCBVtclCIb5Y2CZIhqTl5i
+         XrQi7jMaTtfxasBeRna3Eta5rfmetvdVv0hRmSdGsULCFfO2VFxQQoF+BLwKa8QwH6Ft
+         QfCJtfqcfg9/12dAWjao0D2MjZpcz6jQbR9zRDT6hE8kBQNjVRVe9mNf7ktiihAhZ/j1
+         lY8t/QmkKCynoEo2DolWZLIIjOA1QDzEQyr7L4u5OGk0OecvTmEMyf/U301xCq+zJN9q
+         hNWA==
+X-Gm-Message-State: AOAM532PWXOrhB9/A6IyYT8QQjjW4AxU9J9EshRCRkyzo9KDgbEFTNLY
+        3pJkekg9Men7kDQ13eLYfKbWta6EdZPj4LQyW0B6BraVCWWctRs7etmu277S
+X-Google-Smtp-Source: ABdhPJyyLDAg+sVdsLTxwEXiZ5avjedwK/uWMP/Y3UWcChEjwDE+iXuY4kOycHY8vIqM/rcV0hLTcVdg0IN0RAQYgBc=
+X-Received: by 2002:a5b:f87:0:b0:64a:9aa6:e181 with SMTP id
+ q7-20020a5b0f87000000b0064a9aa6e181mr1852277ybh.157.1652914614913; Wed, 18
+ May 2022 15:56:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220426030544.3537713-1-yangyingliang@huawei.com> <20220426030544.3537713-3-yangyingliang@huawei.com>
-In-Reply-To: <20220426030544.3537713-3-yangyingliang@huawei.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 18 May 2022 20:46:20 +0100
-Message-ID: <CA+V-a8vS+Y94Rn0JL3+hf3yZxM8FOfPmMyP86GHB058gZ62VKA@mail.gmail.com>
-Subject: Re: [PATCH -next 3/3] media: isif: remove unnecessary check of res
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: by 2002:a05:7000:7143:0:0:0:0 with HTTP; Wed, 18 May 2022 15:56:53
+ -0700 (PDT)
+Reply-To: tonywenn@asia.com
+From:   Tony Wen <weboutloock4@gmail.com>
+Date:   Thu, 19 May 2022 06:56:53 +0800
+Message-ID: <CAE2_YrD=5bo8j9+ah-xptEBBV-HEC4=Gb0SRHf996phiopc3WQ@mail.gmail.com>
+Subject: engage
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 3:53 AM Yang Yingliang <yangyingliang@huawei.com> wrote:
->
-> The resource is checked in probe function, so there is
-> no need do this check in remove function.
->
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/media/platform/ti/davinci/isif.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
-
-Cheers,
-Prabhakar
-
-> diff --git a/drivers/media/platform/ti/davinci/isif.c b/drivers/media/platform/ti/davinci/isif.c
-> index c53cecd072b1..69e862de014f 100644
-> --- a/drivers/media/platform/ti/davinci/isif.c
-> +++ b/drivers/media/platform/ti/davinci/isif.c
-> @@ -1107,8 +1107,7 @@ static int isif_remove(struct platform_device *pdev)
->         isif_cfg.linear_tbl1_addr = NULL;
->         while (i < 3) {
->                 res = platform_get_resource(pdev, IORESOURCE_MEM, i);
-> -               if (res)
-> -                       release_mem_region(res->start, resource_size(res));
-> +               release_mem_region(res->start, resource_size(res));
->                 i++;
->         }
->         vpfe_unregister_ccdc_device(&isif_hw_dev);
-> --
-> 2.25.1
->
+Can I engage your services?
