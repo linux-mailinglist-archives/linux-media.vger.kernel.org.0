@@ -2,113 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1C0252BEF8
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 18:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB4D52BF54
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 18:13:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239493AbiERPl5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 11:41:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57398 "EHLO
+        id S239589AbiERPyF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 11:54:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239506AbiERPl4 (ORCPT
+        with ESMTP id S239620AbiERPyD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 11:41:56 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD93A309C
-        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 08:41:34 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id fd25so3557635edb.3
-        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 08:41:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1bJxVJ55viqLuO7DWJlWK3nPrGo/KubYFY25Zw9MyWU=;
-        b=RE8uaXc9BRMzy20QhffCm4CPCunZbxIgnSSrP5AC3ynVfxi/mzhc34TMXZBjBgLW0A
-         GWkL6bu26w0erNAxEcaU0QA2bMYY18hHPtrnmvAWDIfFbfj1bOX6PxCRkDEeElolSLg9
-         huUKCPMyh0ebxAV9jirGGqXw4ITJQ0Hw7LmLjpjPip+X3F/8ux2ucsDCDmR0cDanb7yB
-         I4toIkunf7qsAfZpT5CaUqeHkdR0SsMgLvwJvEdjLPX5hSQQqA82XXdQTvayaJZDXhbt
-         TWNCMa1CLIhmflsyXIU/C/Habmp9FTf2NBaARAcJy7Y7LBiZ9ALKK/9zlvbs0THD4gJL
-         OJmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1bJxVJ55viqLuO7DWJlWK3nPrGo/KubYFY25Zw9MyWU=;
-        b=E6aucV7N0rLm6uLs34V8a2T0Y/gJ8j7tJ836SrPEVOsg4b1j3osp78qnUVkpqJu39b
-         3d4pzXO2xSrN2pV/QSUdM8ga0lQ/Yjj8QvmKWcGngL+hOxHXVTMKEbuRX2O9xq99wxXe
-         iytFz0VyARRn/V5A+DAidC0TGjDpKrXeF4hr7EjMo/fdT1Lcgex8H86dxUTJBET7+Bz3
-         R41Ij7x/RMtwFaIpMcPOUnPgbq6420O80ivJBG7IDeTM6qQueKjrpt1jlUPwI/yUGnlG
-         p3Ui5ta77Cm7W7QK/s9Dgwc3u+oVEeVRLlmNoywbhyNsElmi5LG4EHratxgLq6TS8WBo
-         h+OQ==
-X-Gm-Message-State: AOAM533KC+OShwbBYh5jiQXSZW/CAZdthXfl9JAdWt8zHYTEPXDihC5o
-        Yf0T7sTwTJhowBtE++rSbZ5xiKsIDWshzah2f0D9TO76m+Du/g==
-X-Google-Smtp-Source: ABdhPJw6mJ7p8GB3KVP6gJ8BcT0l+cUVXLOWgMOZlMunYCevD8jwlFGagTL+YkXnfr0WhdIMBtKzt9pqqcfYIj+kyMI=
-X-Received: by 2002:a05:6402:90d:b0:428:c1ad:1e74 with SMTP id
- g13-20020a056402090d00b00428c1ad1e74mr336173edz.345.1652888492925; Wed, 18
- May 2022 08:41:32 -0700 (PDT)
+        Wed, 18 May 2022 11:54:03 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73F491CA079
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 08:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652889242; x=1684425242;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FAUHasJ7dKwSWlWl/MAFHH6bLU8NqhHAULwosmHvZBI=;
+  b=BsqjgxDSkrmXRGu8jSjejztZliWQhZdsqseRN2MAlg3+oKEtC8v1pxNr
+   +bzoUkJ+kai+Y/d294ovVLZ5ur0gs2spTimbg9SsLNcHg2zaXuTYZ+G9x
+   5k9vyQUzsl2N4Q7ZWWDGMbolVoH84b5cBKtVpighR9k+tP2dhXtKpcYDa
+   b6EU7Lswvy0zIUCM5P73wtvuLQruNN70pDF9zOHj8BWxZTa/fMglphiZE
+   fs6R4H0uX85UU/OK5y4yruqWAkEicl/Mu0lKtefnpYEGmTw8jMWshMZXJ
+   4QQPhIKigTOFm+FPEADhVjRmy3jE+MKaQxXFG7cJsykNR2y89sJ5dGPv0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="271868736"
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
+   d="scan'208";a="271868736"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 08:54:02 -0700
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
+   d="scan'208";a="817501913"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 08:54:00 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 3E2D720387;
+        Wed, 18 May 2022 18:53:58 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1nrM00-0003Lw-Sm; Wed, 18 May 2022 18:54:08 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        Daniel Scally <djrscally@gmail.com>
+Subject: [PATCH v2 1/1] ov7251: Fix multiple problems in s_stream callback
+Date:   Wed, 18 May 2022 18:54:08 +0300
+Message-Id: <20220518155408.12843-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220512120209.11614-1-info@benjaminmarty.ch> <CAPY8ntD4miACVe9naYUyVAztZcDBK47chpJLy4=qqjmego1jvA@mail.gmail.com>
- <165243859864.2416244.4785590696956344599@Monstersaurus> <CAPY8ntDfnZG_+43gMz2D=v9eUBX8zjbJpDpwm1a8tTT4ak8drw@mail.gmail.com>
- <165282888670.2416244.4233841355061128997@Monstersaurus> <CABSdY3+Wf8xmOHs4onE2E5Nhrj+JFcV4-dxjGH_dgiOyDOkujg@mail.gmail.com>
-In-Reply-To: <CABSdY3+Wf8xmOHs4onE2E5Nhrj+JFcV4-dxjGH_dgiOyDOkujg@mail.gmail.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Wed, 18 May 2022 16:41:16 +0100
-Message-ID: <CAPY8ntA8VyWwEXLnOdAERLF+pQmEC-MNAVdsSNcpjfAb9GJHtw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: i2c: adv7180: fix reserved bit in Video
- Selection 2
-To:     Benjamin Marty <info@benjaminmarty.ch>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 18 May 2022 at 13:57, Benjamin Marty <info@benjaminmarty.ch> wrote:
->
-> Am Mi., 18. Mai 2022 um 01:09 Uhr schrieb Kieran Bingham
-> <kieran.bingham@ideasonboard.com>:
-> > Benjamin, how does it look on your system? I presume setting this bit
-> > improves image quality for your use case.
->
-> Yes, it fixes the analog noise/grain issue. I have noticed too that
-> the image is getting softer, as described by Dave.
->
-> Comparison Images from my side (Not the exact same frame):
-> https://drive.google.com/file/d/1gdwKUGb7GcvMVJG0uSomhMPeSfDwXId-
-> https://drive.google.com/file/d/1oitfhl4txzxOabI-TplpsKMqP2mr0TKy
+The s_stream callback had several issues:
 
-More exciting images from me, and they are from the same frame (DVD paused)
-https://photos.app.goo.gl/ztbW6uf6C8AguVnz7 for some stills from Tom &
-Jerry, and the Fantastic 4.
-The first image in each case is the register at 0x84 (new setting),
-and the second as 0x80 (old setting).
+- If pm_runtime_get_sync() fails, the usage_count is not put.
 
-The final images from Fantastic 4 are the most telling. The old
-setting produces a lot of crawling noise on the land areas of the
-earth, whilst with the new setting that is almost totally gone, so on
-that basis I'd vote for the new.
+- The sensor wasn't suspended if s_stream(subdev, 1) failed.
 
-I should add that I am using the I2P block in the chip to deinterlace
-the source. From what I understand of the I2P it's a pretty simple
-line doubling so that won't overly help image quality, but shouldn't
-make a difference in this case.
+Fix this.
 
-  Dave
+Fixes: ("media: i2c: Add pm_runtime support to ov7251")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/i2c/ov7251.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-> > From a driver perspective, with no other existing expecatation - I would
-> > say matching the datasheet is the correct thing to do anyway.
->
-> I'm also agreeing on the driver should be complying with the
-> Datasheet. I think it's a "Bug" and not a "Feature" that the Image
-> gets sharpened but more grainy when not setting this bit.
->
-> Furthermore, I have opened a Ticket at ADV to get more details, but
-> I'm not really expecting a proper Answer.
->
-> Benjamin
+diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
+index 0e7be15bc20a7..603a4c7049e69 100644
+--- a/drivers/media/i2c/ov7251.c
++++ b/drivers/media/i2c/ov7251.c
+@@ -1340,7 +1340,7 @@ static int ov7251_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	if (enable) {
+ 		ret = pm_runtime_get_sync(ov7251->dev);
+ 		if (ret < 0)
+-			goto unlock_out;
++			goto err_power_down;
+ 
+ 		ret = ov7251_pll_configure(ov7251);
+ 		if (ret) {
+@@ -1372,12 +1372,11 @@ static int ov7251_s_stream(struct v4l2_subdev *subdev, int enable)
+ 		pm_runtime_put(ov7251->dev);
+ 	}
+ 
+-unlock_out:
+ 	mutex_unlock(&ov7251->lock);
+ 	return ret;
+ 
+ err_power_down:
+-	pm_runtime_put_noidle(ov7251->dev);
++	pm_runtime_put(ov7251->dev);
+ 	mutex_unlock(&ov7251->lock);
+ 	return ret;
+ }
+-- 
+2.30.2
+
