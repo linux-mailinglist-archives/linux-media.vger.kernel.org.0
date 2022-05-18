@@ -2,49 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3B1F52B72E
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 12:13:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B278C52B768
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 12:13:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234628AbiERJvb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 05:51:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53916 "EHLO
+        id S234511AbiERJy0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 05:54:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234679AbiERJuz (ORCPT
+        with ESMTP id S234741AbiERJyZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 05:50:55 -0400
+        Wed, 18 May 2022 05:54:25 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D78F2C138;
-        Wed, 18 May 2022 02:50:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DC956239;
+        Wed, 18 May 2022 02:54:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 51975B81EFB;
-        Wed, 18 May 2022 09:50:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28623C34113;
-        Wed, 18 May 2022 09:50:44 +0000 (UTC)
-Message-ID: <a08d95f2-1861-98fc-5a6a-d9400e5dca30@xs4all.nl>
-Date:   Wed, 18 May 2022 11:50:43 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id C6D9BB81EF2;
+        Wed, 18 May 2022 09:54:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 020A0C385A5;
+        Wed, 18 May 2022 09:54:18 +0000 (UTC)
+Message-ID: <1761ab1a-68ce-4946-24d4-8f4f9575e735@xs4all.nl>
+Date:   Wed, 18 May 2022 11:54:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
-Subject: Re: [PATCH 11/20] media: s5p-mfc: Add support for UHD encoding.
+Subject: Re: [PATCH] media: platform: replace ternary operator with max()
 Content-Language: en-US
-To:     Smitha T Murthy <smitha.t@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        jernej.skrabec@gmail.com, benjamin.gaignard@collabora.com,
-        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
-        david.plowman@raspberrypi.com, mark.rutland@arm.com,
-        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
-        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
-        pankaj.dubey@samsung.com, linux-fsd@tesla.com
-References: <20220517125548.14746-1-smitha.t@samsung.com>
- <CGME20220517125625epcas5p3a5d6e217570e2e2f4e11b4c099d45767@epcas5p3.samsung.com>
- <20220517125548.14746-12-smitha.t@samsung.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220517125548.14746-12-smitha.t@samsung.com>
+To:     Guo Zhengkui <guozhengkui@vivo.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "moderated list:ARM/SAMSUNG S5P SERIES JPEG CODEC SUPPORT" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:ARM/SAMSUNG S5P SERIES JPEG CODEC SUPPORT" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Cc:     zhengkui_guo@outlook.com
+References: <20220513133255.58600-1-guozhengkui@vivo.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220513133255.58600-1-guozhengkui@vivo.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-8.8 required=5.0 tests=BAYES_00,
@@ -57,63 +55,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Smitha,
+Hi Guo Zhengkui,
 
-On 5/17/22 14:55, Smitha T Murthy wrote:
-> MFC driver had restriction on max resolution of 1080p,
-> updated it for UHD. Added corresponding support to
-> set recommended profile and level for H264 in UHD scenario.
-> 
-> Cc: linux-fsd@tesla.com
-> Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
-> ---
->  drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c |  4 ++--
->  .../media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c  | 12 ++++++++++++
->  2 files changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> index 456edcfebba7..9b624f17e32b 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> @@ -1630,8 +1630,8 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
->  			return -EINVAL;
->  		}
->  
-> -		v4l_bound_align_image(&pix_fmt_mp->width, 8, 1920, 1,
-> -			&pix_fmt_mp->height, 4, 1080, 1, 0);
-> +		v4l_bound_align_image(&pix_fmt_mp->width, 8, 3840, 1,
-> +			&pix_fmt_mp->height, 4, 2160, 1, 0);
-
-Is this supported by older MFC versions as well? This seems to enable UHD support
-for all MFC versions.
+Please mention the driver in the subject line! Saying 'media: platform:' suggests
+changes throughout many media/platform drivers, but this is just for a single
+driver.
 
 Regards,
 
 	Hans
 
->  	} else {
->  		mfc_err("invalid buf type\n");
->  		return -EINVAL;
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> index 7db7945ea80f..2b6d6259a209 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> @@ -1127,6 +1127,18 @@ static int s5p_mfc_set_enc_params_h264(struct s5p_mfc_ctx *ctx)
->  	reg |= ((p->num_b_frame & 0x3) << 16);
->  	writel(reg, mfc_regs->e_gop_config);
+On 5/13/22 15:32, Guo Zhengkui wrote:
+> Fix the following coccicheck warning:
+> 
+> drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c:1712:24-25:
+> WARNING opportunity for max()
+> 
+> max() macro is defined in include/linux/minmax.h. It avoids multiple
+> evaluations of the arguments when non-constant and performs strict
+> type-checking.
+> 
+> Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
+> ---
+>  drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> index 456287186ad8..55814041b8d8 100644
+> --- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> @@ -1709,7 +1709,7 @@ static int exynos3250_jpeg_try_downscale(struct s5p_jpeg_ctx *ctx,
+>  	w_ratio = ctx->out_q.w / r->width;
+>  	h_ratio = ctx->out_q.h / r->height;
 >  
-> +	/* UHD encoding case */
-> +	if ((ctx->img_width == 3840) && ctx->img_height == 2160) {
-> +		if (p_h264->level < 51) {
-> +			mfc_debug(2, "Set Level 5.1 for UHD\n");
-> +			p_h264->level = 51;
-> +		}
-> +		if (p_h264->profile != 0x2) {
-> +			mfc_debug(2, "Set High profile for UHD\n");
-> +			p_h264->profile = 0x2;
-> +		}
-> +	}
-> +
->  	/* profile & level */
->  	reg = 0;
->  	/** level */
+> -	scale_factor = w_ratio > h_ratio ? w_ratio : h_ratio;
+> +	scale_factor = max(w_ratio, h_ratio);
+>  	scale_factor = clamp_val(scale_factor, 1, 8);
+>  
+>  	/* Align scale ratio to the nearest power of 2 */
