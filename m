@@ -2,65 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59CD152C128
-	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 19:50:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E39F52C182
+	for <lists+linux-media@lfdr.de>; Wed, 18 May 2022 19:50:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240844AbiERRbR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 13:31:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39138 "EHLO
+        id S241180AbiERRn3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 May 2022 13:43:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240935AbiERRbG (ORCPT
+        with ESMTP id S241077AbiERRn1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 13:31:06 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FEF263A;
-        Wed, 18 May 2022 10:31:04 -0700 (PDT)
+        Wed, 18 May 2022 13:43:27 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E938218FE4
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 10:43:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652895065; x=1684431065;
+  t=1652895807; x=1684431807;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BoOLoJEyDFfO0iEr6PodmlZMpo8kGeXxw5b90DAP5hw=;
-  b=TBqUJeRom2Lj1jRLQlnWIhxLqM927SA0zG36dbuUsF4sHd46tcB5/YEN
-   uXlEbIphLnpa1SyBr3kNb2QpOQQMMcPNLAF/npBDDvej+GhIAxddQD1CM
-   32aDGeVqbH+l3q2fBmRQyW8IB8oaTMlYMRIeTkdXBBQbbzcrJzYEppWhU
-   lVmh6KVnTMnlY7NKgxz7NnwO0TBoOy8YoMId8iIW89KyZLE/iE6g22YvN
-   MhEWI5owS9uycYW30tEyE9FvgRQqP6Dy52/ubFI3royfztdKJJrS8qcwt
-   YCLc93eQ1BH2XJdEOPgfVDKg1Nwnr/vkmwvbAP0gBgbtlXHev2Qxv9XwB
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="332407527"
+  bh=OAra1uUvHF3aJeha1pzu5gQlpbyWvkmAM0qFewO40ro=;
+  b=YydqHIkzhKf6w9BPN2fGtJbxFEtGrPrhWh5ad3CiLjEbQmoJlnHNy6x+
+   qSdqlZ5nEhEtwYou/FSqVlghH07n+9m3IiC2xePgBbLvXwL82uwMQKFa9
+   WU7FdltiogVSrMuFPEYL4f/ZNsDa6MDe3s4yISXjzQaDBxejv4abSYJIl
+   GgNp2Mv9nyydhMMzkElHwujQ/EKU8habbLsF2+lumVimNztjAQKyZHcNs
+   RulRY94ScxrbK5btuI5JqIxPjRfhc9oHTVt1mydWKGaVa3cpydBkXC5jW
+   hLnTlDy+yVjCvLss4bScfwnQTkTPa66VthJjMd6sxe0H/yvWoKGSSobs/
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="252315454"
 X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
-   d="scan'208";a="332407527"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 10:08:59 -0700
+   d="scan'208";a="252315454"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 10:15:33 -0700
 X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
-   d="scan'208";a="605989915"
+   d="scan'208";a="523620265"
 Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 10:08:56 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 10:15:31 -0700
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 79AFF20387;
-        Wed, 18 May 2022 20:08:53 +0300 (EEST)
-Date:   Wed, 18 May 2022 20:08:53 +0300
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 0C23320387;
+        Wed, 18 May 2022 20:15:29 +0300 (EEST)
+Date:   Wed, 18 May 2022 20:15:29 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Philippe CORNU <philippe.cornu@foss.st.com>
-Subject: Re: [PATCH] media: stm32-dcmi: add support of 1X16 serial pixel
- formats variant
-Message-ID: <YoUoJRzStCnzhxUK@paasikivi.fi.intel.com>
-References: <20220516092048.264036-1-hugues.fruchet@foss.st.com>
- <20220516150237.v3xt7onp2lpmellw@uno.localdomain>
+To:     Jimmy Su <jimmy.su@intel.com>
+Cc:     linux-media@vger.kernel.org, andy.yeh@intel.com, yhuang@ovt.com,
+        akeem.chen@ovt.com
+Subject: Re: [PATCH v2] UPSTREAM: media: ov8856: skip OTP read in non-zero
+ ACPI D state
+Message-ID: <YoUpsdTwtBre3Cyf@paasikivi.fi.intel.com>
+References: <20220510151241.12435-1-jimmy.su@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220516150237.v3xt7onp2lpmellw@uno.localdomain>
+In-Reply-To: <20220510151241.12435-1-jimmy.su@intel.com>
 X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -71,28 +63,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Jimmy,
 
-On Mon, May 16, 2022 at 05:02:37PM +0200, Jacopo Mondi wrote:
-> Hi Hugues,
-> 
-> On Mon, May 16, 2022 at 11:20:48AM +0200, Hugues Fruchet wrote:
-> > From: Hugues Fruchet <hugues.fruchet@st.com>
-> >
-> > Add support of 1X16 serial pixel formats in order to support
-> > CSI-2 camera sensor exposing 1x16 pixel formats only.
-> >
-> > Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
-> 
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> 
-> Sakari, if you're sending a new pull request for the ov5640 series,
-> could you include this one as otherwise dcmi would be broken when used
-> with that sensor.
+On Tue, May 10, 2022 at 11:12:41PM +0800, Jimmy Su wrote:
+> To skip OTP read function while enable non-zero ACPI D state.
+> This OTP read only influences streaming output with 3280x2464 &
+> 1640x1232 resolution.
 
-Just took this into my tree, with your refreshed ov5640 set.
+This isn't the right way to fix the problem.
 
-Thanks!
+Reading the EEPROM (and thus starting streaming) is a problem since the
+receiver has been already set up to receive a proper frame. EEPROM reading
+should be instead moved to pre_streamon callback.
+
+I suppose this way the sensor's CSI-2 TX is also set in LP-11 mode, as many
+CSI-2 receivers expect.
 
 -- 
+Kind regards,
+
 Sakari Ailus
