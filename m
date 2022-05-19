@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED5D152DC36
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 20:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF6D952DC39
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 20:02:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243547AbiESSCD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 14:02:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48432 "EHLO
+        id S243550AbiESSCF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 14:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243513AbiESSB7 (ORCPT
+        with ESMTP id S243529AbiESSCA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 14:01:59 -0400
+        Thu, 19 May 2022 14:02:00 -0400
 Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 599685BE45;
-        Thu, 19 May 2022 11:01:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E1F5B3C6;
+        Thu, 19 May 2022 11:01:59 -0700 (PDT)
 Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id E7EE63C00BA;
-        Thu, 19 May 2022 20:01:54 +0200 (CEST)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 1E1E13C0579;
+        Thu, 19 May 2022 20:01:58 +0200 (CEST)
 Received: from vmlxhi-121.localdomain (10.72.92.132) by hi2exch02.adit-jv.com
  (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Thu, 19 May
- 2022 20:01:54 +0200
+ 2022 20:01:57 +0200
 From:   Michael Rodin <mrodin@de.adit-jv.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
@@ -33,9 +33,9 @@ CC:     Michael Rodin <mrodin@de.adit-jv.com>, <michael@rodin.online>,
         <erosca@de.adit-jv.com>,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 1/3] media: videobuf2: Add a transfer error event
-Date:   Thu, 19 May 2022 20:00:07 +0200
-Message-ID: <1652983210-1194-2-git-send-email-mrodin@de.adit-jv.com>
+Subject: [PATCH 2/3] rcar-csi2: Do not try to recover after transfer error
+Date:   Thu, 19 May 2022 20:00:08 +0200
+Message-ID: <1652983210-1194-3-git-send-email-mrodin@de.adit-jv.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
 References: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
@@ -56,66 +56,52 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Add a new V4L2_EVENT_XFER_ERROR event to signal if a unrecoverable error
-happens during video transfer.
-
-The use-case that sparked this new event is to signal to the video
-device driver that an error has happen on the CSI-2 bus from the CSI-2
-receiver subdevice.
+Instead of restarting the R-Car CSI-2 receiver if a transmission error
+is detected, inform the R-Car VIN driver of the error so it can stop the
+whole pipeline and inform user-space. This is done to reflect a updated
+usage recommendation in later versions of the datasheet.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-[mrodin@de.adit-jv.com: added information what to do if this new event is received]
-Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- Documentation/userspace-api/media/v4l/vidioc-dqevent.rst     | 9 +++++++++
- Documentation/userspace-api/media/videodev2.h.rst.exceptions | 1 +
- include/uapi/linux/videodev2.h                               | 1 +
- 3 files changed, 11 insertions(+)
+ drivers/media/platform/renesas/rcar-vin/rcar-csi2.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-index 6eb4007..ed0a5ff 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-@@ -182,6 +182,15 @@ call.
- 	the regions changes. This event has a struct
- 	:c:type:`v4l2_event_motion_det`
- 	associated with it.
-+    * - ``V4L2_EVENT_XFER_ERROR``
-+      - 7
-+      - This event is triggered when an transfer error is detected while
-+	streaming. For example if a unrecoverable error is detected on a video
-+	bus in the pipeline. If a driver receives this event from an upstream
-+	subdevice, it has to check if it is affected by this error and then try
-+	to recover from this error. If an internal recovery is not possible,
-+	then it can forward the event to userspace so the streaming application
-+	has to restart streaming if it wants to continue.
-     * - ``V4L2_EVENT_PRIVATE_START``
-       - 0x08000000
-       - Base event number for driver-private events.
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index 9cbb7a0..25bde61 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -500,6 +500,7 @@ replace define V4L2_EVENT_CTRL event-type
- replace define V4L2_EVENT_FRAME_SYNC event-type
- replace define V4L2_EVENT_SOURCE_CHANGE event-type
- replace define V4L2_EVENT_MOTION_DET event-type
-+replace define V4L2_EVENT_XFER_ERROR event-type
- replace define V4L2_EVENT_PRIVATE_START event-type
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+index fea8f00..5a64941 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+@@ -943,21 +943,22 @@ static irqreturn_t rcsi2_irq(int irq, void *data)
  
- replace define V4L2_EVENT_CTRL_CH_VALUE ctrl-changes-flags
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 6d465dc..8c75bd8 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -2383,6 +2383,7 @@ struct v4l2_streamparm {
- #define V4L2_EVENT_FRAME_SYNC			4
- #define V4L2_EVENT_SOURCE_CHANGE		5
- #define V4L2_EVENT_MOTION_DET			6
-+#define V4L2_EVENT_XFER_ERROR			7
- #define V4L2_EVENT_PRIVATE_START		0x08000000
+ 	rcsi2_write(priv, INTERRSTATE_REG, err_status);
  
- /* Payload for V4L2_EVENT_VSYNC */
+-	dev_info(priv->dev, "Transfer error, restarting CSI-2 receiver\n");
+-
+ 	return IRQ_WAKE_THREAD;
+ }
+ 
+ static irqreturn_t rcsi2_irq_thread(int irq, void *data)
+ {
+ 	struct rcar_csi2 *priv = data;
++	struct v4l2_event event = {
++		.type = V4L2_EVENT_XFER_ERROR,
++	};
+ 
+-	mutex_lock(&priv->lock);
+-	rcsi2_stop(priv);
+-	usleep_range(1000, 2000);
+-	if (rcsi2_start(priv))
+-		dev_warn(priv->dev, "Failed to restart CSI-2 receiver\n");
+-	mutex_unlock(&priv->lock);
++	/* Disable further interrupts to not spam the transfer error event. */
++	rcsi2_write(priv, INTEN_REG, 0);
++
++	dev_err(priv->dev, "Transfer error detected.\n");
++
++	v4l2_subdev_notify_event(&priv->subdev, &event);
+ 
+ 	return IRQ_HANDLED;
+ }
 -- 
 2.7.4
 
