@@ -2,129 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80A1D52D036
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 12:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E11A952D061
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 12:23:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234348AbiESKMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 06:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45236 "EHLO
+        id S232291AbiESKWq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 06:22:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbiESKMo (ORCPT
+        with ESMTP id S230141AbiESKWo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 06:12:44 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72ECFA5A92;
-        Thu, 19 May 2022 03:12:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1652955149;
-        bh=OPdP5IIMcN9fBxqMri4kI953iSbKa5P+IdL25Vzrksc=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=Wym7vJ+4MH8ZqHKuSB8e8hDDvFm8IeDztTxsz8DMGmFK2VZ72EV7FLuQxAiQBBcrP
-         PM7Kp30BM4IPHM9b4ynQb4GTDOg1IeypiCfsNYFlm78nf5wJkitBKaj8c3l4iZ5r+K
-         Sv1iCR8kc6t7BpXW6ZNnX6ZDZQC0b2/ScvNRF+9c=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([5.146.195.3]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MAfYw-1o2ehh2Bjc-00B7l7; Thu, 19
- May 2022 12:12:29 +0200
-Date:   Thu, 19 May 2022 12:12:28 +0200
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Kun-Fa Lin <milkfafa@gmail.com>
-Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, CS20 KWLiu <kwliu@nuvoton.com>,
-        tmaimon77@gmail.com, avifishman70@gmail.com,
-        openbmc@lists.ozlabs.org, tali.perry1@gmail.com,
-        Marvin Lin <kflin@nuvoton.com>
-Subject: Re: [PATCH v2 5/5] drivers: media: platform: Add NPCM Video
- Capture/Encode Engine driver
-Message-ID: <YoYYDPHPjSUefbAg@latitude>
-References: <20220513033450.7038-1-kflin@nuvoton.com>
- <20220513033450.7038-6-kflin@nuvoton.com>
- <YoOje2L13q7d7KeI@latitude>
- <CADnNmFoa6=BWs74oQxEtP4TO-mL_vc0py4+4V1wjdtetW4Vy5w@mail.gmail.com>
+        Thu, 19 May 2022 06:22:44 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DEC49925;
+        Thu, 19 May 2022 03:22:43 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dmitry.osipenko)
+        with ESMTPSA id 4DE7D1F45A25
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1652955762;
+        bh=R0JOHH16vdw7dxb0Uon4A7HZbfdfttE9NlpiqAveo/w=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Dr6VEg8eUZL4lOg2f7qxCQ6uM3ykZdOJfOJG+9F3ufmOzHC3VG/lqvrFyDmXcGDGm
+         wQ11Amugo8ecPHuAT4n8X084mUILIClzfTmZGgCdsEuv+zaP8xAbErHvAcr97UoeyX
+         74d34MIVic5XsAut/WWMIZvKuvEAbreMJafGlJtXfsCmCF2Rl8qtVSfkQJjn3LsitQ
+         2+nr0e0Bi89ZcKDIHOakTShvWpYWNAxN1RiweKl0LPiZXRObHAxjm3V7NojGgMa+2p
+         PwaePMdyCC+GIBhHvC3cHScL2NkM+MN+IknWl+2d+i0V4pf8/hY3ymp0UHN2UhaoBK
+         tkbTUXOCu7wcA==
+Message-ID: <11bd51f2-ca35-4e01-95e9-ad35b37f26d8@collabora.com>
+Date:   Thu, 19 May 2022 13:22:38 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OETo/OdLKGpLORLY"
-Content-Disposition: inline
-In-Reply-To: <CADnNmFoa6=BWs74oQxEtP4TO-mL_vc0py4+4V1wjdtetW4Vy5w@mail.gmail.com>
-X-Provags-ID: V03:K1:GXL75oMM104pMaA0156vPkd1685uZ4OdSHAyF6TOOXcGi7Facg+
- KHVn2WswayORkpSpMAFN8jqdA0HJKNToBwaxjqib46spLsHHwBaTZ+2xbBxAVg8lL5CN9zz
- 4X1EAyLHY6IP1J8+ntwdBiXSJKl3AiwQDVoAi10ZiHq7mxphyAHGYDyoMl90WHJ3ZvstMxl
- +cZz+bfsSUxCFNxcMyY8A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oM9aJgrAhB0=:iMl4+K42OCw82rNHjDHRgl
- wqftQnjGOzcNaCpejU3YcQ0eVcXInRg7Z9UMU9tBm0jT/8L4lo1zFcVXoa3e/X2zX8nD7se85
- z6QUW0JTrUKDgVI9c8FyBdbeIxSd5BcgSv2CaCjf7JynCb6KGLsG0kex0j5vX3iN6LhEbrGNS
- vjTsWRlSPN2H3UvMDg2leY+V5+1EzJeFhSTUlfWrghr/s8XzA6tTHLvV0ZGd+8UhQS6TEi0Q/
- d230vT4/T+wK/kRVG/VRLXTZMQGsAUkqL65FvYazqQHE7DvN/IkIaAxTqvzbtjL25BT2KScml
- PduJGLMKO5NcmuHoYjyVKZ3NjQs9WYSY52hYZDvnhF2sftD2gragCnMpVVUA/CsHtZFu17RHL
- ztQCscTZRjEX+wMpxFL+7d/lU00vkW9zlJUKop+KWMOZXtRBu8S/8ZGnsu/xmh2IYWE06qM1E
- rq3vXx1RQvZxTc5lgqi2ctLbxFPGv/NmCOkdhlVLIQtVRUgQbAciEnmmwwJwZMqkHK5dADENy
- PRXWDJCqvIwiH0hV9YWdaiFP9zC/QeF+w0s87eA4Cr/zA4+6WqqZxbZPOnX7drSx0aT1h95qp
- KkayoIzb+bXnwBy0izbbejPMVQQnRKK3+ViFbnoBYd+X6iDK+X9ZGGTmLBh/eo31ElAVi3BgM
- Kz/hOODSRrBuSVruiwq5vFQA6TEVUMCPnt0NESYGPO2BCE+SqeMS8BYZjW1KfKzD3qEr1ZPTb
- DGu+Po7Le+QpACbQJgbbYGr3Q4FKsivpgpYWMbC1jVLOhA8K4Y4ljknmfUrUvF+49FU0aIt1P
- xZOZXVOyFNKtscQ4fSEwIcLt2K1lR1cX0ZUzeUj0JWLGdLndDRm9piqe9Irv6Jiz7N9ZfA6Iy
- 9ZB2RkWyIeJARPgmLAKZaYbMs7MWO9hmgC/6grFOUtEk829NeEmAEZ64C2+Lz7aO5ww7KY3HY
- 4JjgXeh4jw9ma+iAKOFV5QuV+rnYwGNevkkEB8x5SIJu1Rq6TjFOrDgHKt01ax025Yw9T5cxP
- 32eg9WxIinsLB7JZDEq6P0SfMgEyJOfcHiPyNohTPyfjsXyoMcUnqkzq1NwYpx8cMadyY34O4
- d2StwsxLCB9ztJCg8+XdSX9Vor35/97sxVelCfWmDj4YohXihIxCNiedw==
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
+ offsets of capture buffers
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Boris Brezillon <bbrezillon@collabora.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Laura Nao <laura.nao@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>
+References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
+ <a7c858461b99de2d4afad22d888acc3a74850240.camel@ndufresne.ca>
+ <9ec970d6-ea09-802c-419b-b2ef26800990@collabora.com>
+ <5be83f0b343c04d877a2c2d805fb5f71ca9973b1.camel@ndufresne.ca>
+ <fe24d151-6097-aa8e-7691-5e4d81fa42c6@collabora.com>
+ <f80128c50d3dacff0af70bd88521abae42476f85.camel@ndufresne.ca>
+ <1c1fda82-334a-04ec-fc2e-d1ea2da466e9@xs4all.nl>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <1c1fda82-334a-04ec-fc2e-d1ea2da466e9@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello Hans,
 
---OETo/OdLKGpLORLY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 5/18/22 13:26, Hans Verkuil wrote:
+> 
+> 
+> On 3/25/22 13:32, Nicolas Dufresne wrote:
+>> Le jeudi 24 mars 2022 à 21:20 +0300, Dmitry Osipenko a écrit :
+>>> The root of the problem is that DRM UAPI is more flexible and allows to
+>>> customize offsets for both S/MPLANEs, while V4L doesn't allow to do it
+>>> at all. I'm exploring all the potential options, so far neither of the
+>>> proposed variants is ideal.
+>>
+>> In GStreamer kmssink, the way DRM is used, is that if you have 2 planes in your
+>> pixel format, but only received 1 DMABuf, we will pass this DMABuf twice (well
+>> GEM handles, but twice), with appropriate offset.
+>>
+>> With this in mind, the idea for V4L2 could be to always resort to MPLANE for
+>> this purpose. The tricky part for userland is that it needs to know the dual
+>> pixel format and map that accordingly. That is a bit difficult and this is
+>> something Helen was trying to address with the v4l2_buffer_ext (that and
+>> allowing space to store DRM Modifiers in the future).
+> 
+> FYI: here is Helen's last patch series. Since Helen is no longer active in
+> the media subsystem, someone else who is sufficiently motivated would have to
+> take over.
+> 
+> https://patchwork.linuxtv.org/project/linux-media/cover/20210114180738.1758707-1-helen.koike@collabora.com/
+> 
+> I'm not enthusiastic about messing with data_offset: it was - in hindsight - a
+> bad idea.
 
-Hello Marvin,
+I'm aware of the Helen's work. To me the addition of the new IOCTLs that
+partially duplicate the older ones doesn't feel like the best approach.
+But since you're good with it, then I'll try to refresh the Helen's work
+for 5.20 and we'll see where it will go.
 
-On Thu, May 19, 2022 at 01:39:01PM +0800, Kun-Fa Lin wrote:
-[...]
-> In this architecture, for the case of WPCM450 (though it's in EOL for
-> several years), I'd prefer to try to let ECE be an optional node
-> instead of separating ECE code from this V4L2 video driver. However,
-> this patch series could be the base version and keep reviewing, and
-> afterwards we could make another patch for optional ECE, is it OK for
-> you?
-
-That's OK for me.
-
-I will wait until the driver is ready and merged, and then start working
-on WPCM450 integration and making ECE optional.
-
-Regarding WPCM450 being EOL, I'm aware, and I don't want to hold up your
-team's work on newer SoCs. But I personally find this old SoC interesting
-and I want to share driver code with newer SoCs where possible.
-
-
-Thank you,
-Jonathan
-
---OETo/OdLKGpLORLY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmKGF+QACgkQCDBEmo7z
-X9t0LRAAranUgQMvjypAouXTtgrde1IicjtSlp9n9g9lrRSuwJ3SPyYfI1OCr7Ac
-shd7clvanfcZq0Ti//rGDn+DnYsLv5OVWpUKx8mKBLtiRkmDl8DIcvupdDQPqrux
-7BPO9DLkj4QpgHym+4/2PLffEXVNkjpaf8uxRCnGmMrkMCgtaJSU+0f4txR+P5dF
-vKOfp0mz/VJfoX4zMSGqjd1WbStTTHAhx07XOOZtzmuoxkTIfrQNZoo77KBb4Wzk
-gqXIAGJhO/MOoJ4npzJeR2aKALVjGk48Xq1nxQDAFYnf4AkV1BW3LsbGWT3nt0hN
-suMVMqLhAeSFP6pH1vxSw0u5VZJ5NPXM6Brwp1q9caV4kL+GZuguutKBEWVXodrT
-JuOLz05JSp2osTS4029je9dXmF9IFoIAKFR7DpMERgAAekim0tBlllO2ITbuu6Dh
-bd1VKO6RKJgaf3UOzJ7iTh+wkyc+HHnc+6KUgas7J//ThY+6w1tRK2y1Zl+1h3fc
-3pdRUOSvFM2aDo3+Mx33LAK85tI19o09cn2PirukmmOLh4C2FDg11ByZkS9pDq+H
-HXMXvB0O4UHhwYPN/XN/4mgYgA4CuRDuj+MGgnCYy7x/AZ5AVHC4Eg3MlFBCpyaJ
-d7jL9dW/xxUv6zlW3vvTFLpWjPL9+6dxK8WN8knFmsoPJfsNSWM=
-=DvvF
------END PGP SIGNATURE-----
-
---OETo/OdLKGpLORLY--
+-- 
+Best regards,
+Dmitry
