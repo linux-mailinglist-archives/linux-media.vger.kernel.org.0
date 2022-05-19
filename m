@@ -2,308 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97C5152D0E5
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 12:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B42F52D269
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 14:25:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237034AbiESKzL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 06:55:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36054 "EHLO
+        id S237896AbiESMZt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 08:25:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbiESKzI (ORCPT
+        with ESMTP id S233210AbiESMZs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 06:55:08 -0400
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217E6AF318
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 03:55:04 -0700 (PDT)
-X-KPN-MessageId: d4439c81-d761-11ec-8294-005056ab378f
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id d4439c81-d761-11ec-8294-005056ab378f;
-        Thu, 19 May 2022 12:52:51 +0200 (CEST)
+        Thu, 19 May 2022 08:25:48 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1621110FB
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 05:25:46 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id 27so1071604ljw.0
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 05:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=cZBQCaKmf4v0SyojCltc4+mFF9/P6GNKf3zQ7pI38Co=;
-        b=CTOg8XGVTTvW5qYV5k9Y2SqqZ+cE+bxKQa+IP4eSklv2HxUpDgC8faiar/2ezktSuEAmJ41JgXyY5
-         DhF+Y7nk9wEDRlN9F+9iyvidJNN69Tni8h/pqGcor/zTVig0w+a1lTAcH0QPKcDN56L1uDZKWu65Fq
-         +kQ7+Al4I6iTFBG+CVm5Pa4cLFKUQ6WwapWPUNPJypxWQITihobmrGA7NuHEAML26YiqVLdlNvPMF1
-         RCDsZP6+xRPfJoHvNOIlnVquXpkMPUV98+DHo32kglan2SoOLRDWMACM/ZJL2CRYMTQy3Hxw/hCBBw
-         W7O7CIxiw4+JZq404bo6V0k0rTx0Epg==
-X-KPN-MID: 33|niU33LHmjQZ3Dq03dYJ28wvO69nDfhNd/KBCA/lxU2GXI7Lp9sCntKj+gQkVk86
- CYXnZvajecYaVoiwJjl3e+JSWby9iVM+LtxtVtFgdZzM=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|NvH04YC/WrN/n6ieOG1++ysdixtpshYOi1FjvXLVq77t5jueyZiNcSn0oO/0p9a
- r+ddw5zN7GWve+BDYhAu9HQ==
-X-Originating-IP: 173.38.220.60
-Received: from [10.47.77.219] (unknown [173.38.220.60])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 222003d9-d762-11ec-a146-005056ab1411;
-        Thu, 19 May 2022 12:55:02 +0200 (CEST)
-Message-ID: <a0fe2b49-12b7-8eaf-c3ef-7af1a247e595@xs4all.nl>
-Date:   Thu, 19 May 2022 12:55:01 +0200
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=+XDjcMQak510AbIZ8jLkJgCvsFB2A35/wbL1HOG/INE=;
+        b=lAaJmEzLeV3vj8T8CSED/mJMzic3+74SHUYEpH6rpNmlXcIRQJ7C+b0Zjroo6JCc+p
+         sw7SiTRSHqFvu27HOAEoJgN50mU6H6jGIvxIVz1Qqt8HH/9qlWDMWOGArR12oDwWgY9v
+         tUkLQUV530OJQO6ckRfmQQo22zxot9pSkAQ0bTH/Lie/ogo4VmqDwOuoPM9L+h4GO5z0
+         Rlci8TgIRLcw+UjP/r+RBA3z+fqz+x2oAM0bYelrxvbIts5DkBckYKYzc6CtCJZ8OKhB
+         d3SkhkjfQ/zXDIQ+3mEc3PfvvPbDsPc4RqZ0IvxZewlrEeQx+Db4pN5PLMX6OStKVPvA
+         hVrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=+XDjcMQak510AbIZ8jLkJgCvsFB2A35/wbL1HOG/INE=;
+        b=WLN9ToYYQrZN99JNnJkVh43sZsbMcBudARYm+xiMiDoSyPWYizqLC9/UANhYBUrTHU
+         Ufn//KJO2fjHpvSUassW/HQJcjX+NWTLSSkAdrgyvP09df8BavgNIbICwZF4778USIHg
+         SHr+Clo2gX001djyQYfigvniRjRi1QzAkT9ubiDe/MwCIa9E3S9fJS4y6NG1lyNHLL9l
+         MbUHo1M4zAusRlcnq7+kLAnRjV9csf9XFRB1VZsgPFXn30K3MXgvxTvzNSksKyAEDaQr
+         IsEyF6qNdQfFAcMGhOsFbIMQX77psCOqOddjoPev3suYIiyhfHSwCAcwocZcIKVLPHmc
+         F0VQ==
+X-Gm-Message-State: AOAM530GIl9QcSJjswxHvFB9o1Oa/K0m7DtHv4JhksvybwiAITTQePHX
+        J2hMc4kmcgkioNIBEQv6LCqliDj7vRuCNtvJ3OBcbaaHI/azKw==
+X-Google-Smtp-Source: ABdhPJxGyJtgWwbX8S0lH1j2ZFkcMo+rRVbGhMPhGE4a6v5ghusnKHQReSrKTmWTBYwAlslvk0NjT5bOE5aDGCFRwmA=
+X-Received: by 2002:a05:651c:a11:b0:250:5da4:e7b1 with SMTP id
+ k17-20020a05651c0a1100b002505da4e7b1mr2551149ljq.268.1652963144078; Thu, 19
+ May 2022 05:25:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v3 1/6] media: v4l2_ctrl: Add region of interest rectangle
- control
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Yunke Cao <yunkec@google.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-References: <20220518062412.2375586-1-yunkec@google.com>
- <20220518062412.2375586-2-yunkec@google.com>
- <9d9b32bd-16bc-76cd-6cd7-6d693714e5c9@xs4all.nl>
- <YoYeelewIe0tnrxh@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <YoYeelewIe0tnrxh@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <000000000000f0196305d219b2fe@google.com> <000000000000b968f305d74b1195@google.com>
+ <YgJhjdAbRHdnCZ4T@phenom.ffwll.local>
+In-Reply-To: <YgJhjdAbRHdnCZ4T@phenom.ffwll.local>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Thu, 19 May 2022 14:25:32 +0200
+Message-ID: <CACT4Y+ZiexzqBxeDQJAeQMR7Ef=JSh-2S8P73LN2BnibXhiC3Q@mail.gmail.com>
+Subject: Re: [syzbot] WARNING in __dma_map_sg_attrs
+To:     syzbot <syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>, christian.koenig@amd.com,
+        dri-devel@lists.freedesktop.org, hch@lst.de,
+        iommu@lists.linux-foundation.org,
+        linaro-mm-sig-owner@lists.linaro.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/19/22 12:39, Laurent Pinchart wrote:
-> On Thu, May 19, 2022 at 10:14:05AM +0200, Hans Verkuil wrote:
->> On 5/18/22 08:24, Yunke Cao wrote:
->>> Including:
->>> 1. Add a control ID.
->>> 2. Add p_rect to struct v4l2_ext_control with basic support in
->>>    v4l2-ctrls.
->>>
->>> Signed-off-by: Yunke Cao <yunkec@google.com>
->>> ---
->>> Changelog since v2:
->>> - Better documentation.
->>>
->>>  .../media/v4l/ext-ctrls-camera.rst            | 10 ++++++++++
->>>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
->>>  .../media/videodev2.h.rst.exceptions          |  1 +
->>>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 20 +++++++++++++++++++
->>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++++
->>>  include/media/v4l2-ctrls.h                    |  2 ++
->>>  include/uapi/linux/v4l2-controls.h            |  2 ++
->>>  include/uapi/linux/videodev2.h                |  2 ++
->>>  8 files changed, 45 insertions(+)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
->>> index 4c5061aa9cd4..c988a72b97b2 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
->>> @@ -661,3 +661,13 @@ enum v4l2_scene_mode -
->>>  .. [#f1]
->>>     This control may be changed to a menu control in the future, if more
->>>     options are required.
->>> +
->>> +``V4L2_CID_REGION_OF_INTEREST_RECT (struct)``
->>> +   This control determines the region of interest. Region of interest is an
->>> +   rectangular area represented by a struct v4l2_rect. The rectangle is in
->>> +   pixel units and global coordinates. Use ``V4L2_CTRL_WHICH_MIN_VAL`` and
->>> +   ``V4L2_CTRL_WHICH_MAX_VAL`` to query the range of coordinates.
->>
->> Hmm, what does MIN and MAX mean in terms of a rectangle? It makes sense for
->> the width and height, but how is that interpreted for top and left?
->>
->> Are these the minimum and maximum values each field of the struct can have?
->> So if the image is, say, 640x480, then the minimum value for a rectangle might
->> be 1x1@0x0, and the maximum 640x480@639x479. So in that case these are not real
->> rectangles, but they give the range for each field of the struct.
->>
->> An alternative would be to see this as the min and max rectangle size and keep
->> the top/left values at 0.
->>
->> To be honest, I'm not sure which one I would prefer.
-> 
-> I'm also really worried fo the interactions between this control and
-> selection rectangles. The uvcvideo driver won't need to care, but this
-> is a generic control, so we need to define it clearly.
-> 
-> To be honest, given how specific to UVC this is, I'd create
-> device-specific controls. I don't foresee any other driver being able to
-> make use of V4L2_CID_REGION_OF_INTEREST_RECT and
-> V4L2_CID_REGION_OF_INTEREST_AUTO.
+On Tue, 8 Feb 2022 at 13:26, Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Sat, Feb 05, 2022 at 12:18:23PM -0800, syzbot wrote:
+> > syzbot has found a reproducer for the following issue on:
+> >
+> > HEAD commit:    0457e5153e0e Merge tag 'for-linus' of git://git.kernel.org..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=11b2637c700000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=6f043113811433a5
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=10e27961f4da37c443b2
+> > compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11c65542700000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1163f480700000
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
+>
+> Adding Gerd, since this seems to blow up in udmabuf.
+>
+> I wonder why syzbot didn't figure this out, since it seems to have
+> correctly added both dma-api and dma-buf people. Just not the maintainer
+> for the begin_cpu_udmabuf function in the middle of the backtrace?
 
-Yeah, I'm leaning in the same direction. It might be wise to reduce the
-scope of these controls to just the UVC driver.
+Hi Daniel,
 
-Regards,
+syzbot selects only 1 file to get maintainers.
+Do you suggest using all files in the stack trace? I think it may lead
+to too many developers CCed since there can be something like 20 files
+including something from scheduler, arch, fs, etc.
 
-	Hans
 
-> 
->>> +
->>> +   Setting a region of interest allows the camera to optimize the capture for
->>> +   the region. The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control
->>> +   determines the detailed behavior.
->>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>> index 29971a45a2d4..f4e205ead0a2 100644
->>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>> @@ -189,6 +189,10 @@ still cause this situation.
->>>        - ``p_area``
->>>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
->>>          of type ``V4L2_CTRL_TYPE_AREA``.
->>> +    * - struct :c:type:`v4l2_rect` *
->>> +      - ``p_area``
->>> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
->>> +        of type ``V4L2_CTRL_TYPE_RECT``.
->>>      * - struct :c:type:`v4l2_ctrl_h264_sps` *
->>>        - ``p_h264_sps``
->>>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
->>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->>> index 9cbb7a0c354a..7b423475281d 100644
->>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->>> @@ -147,6 +147,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
->>>  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
->>>  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
->>>  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
->>> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
->>>  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
->>>  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
->>>  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
->>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
->>> index 8968cec8454e..dcde405c2713 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
->>> @@ -84,6 +84,11 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
->>>  		return ptr1.p_u16[idx] == ptr2.p_u16[idx];
->>>  	case V4L2_CTRL_TYPE_U32:
->>>  		return ptr1.p_u32[idx] == ptr2.p_u32[idx];
->>> +	case V4L2_CTRL_TYPE_RECT:
->>> +		return ptr1.p_rect->top == ptr2.p_rect->top &&
->>> +		       ptr1.p_rect->left == ptr2.p_rect->left &&
->>> +		       ptr1.p_rect->height == ptr2.p_rect->height &&
->>> +		       ptr1.p_rect->width == ptr2.p_rect->width;
->>>  	default:
->>>  		if (ctrl->is_int)
->>>  			return ptr1.p_s32[idx] == ptr2.p_s32[idx];
->>> @@ -307,6 +312,11 @@ static void std_log(const struct v4l2_ctrl *ctrl)
->>>  	case V4L2_CTRL_TYPE_VP9_FRAME:
->>>  		pr_cont("VP9_FRAME");
->>>  		break;
->>> +	case V4L2_CTRL_TYPE_RECT:
->>> +		pr_cont("l: %d, t: %d, w: %u, h: %u",
->>> +			ptr.p_rect->left, ptr.p_rect->top,
->>> +			ptr.p_rect->width, ptr.p_rect->height);
->>> +		break;
->>>  	default:
->>>  		pr_cont("unknown type %d", ctrl->type);
->>>  		break;
->>> @@ -525,6 +535,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->>>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
->>>  	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
->>>  	struct v4l2_area *area;
->>> +	struct v4l2_rect *rect;
->>>  	void *p = ptr.p + idx * ctrl->elem_size;
->>>  	unsigned int i;
->>>  
->>> @@ -888,6 +899,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->>>  			return -EINVAL;
->>>  		break;
->>>  
->>> +	case V4L2_CTRL_TYPE_RECT:
->>> +		rect = p;
->>> +		if (!rect->width || !rect->height)
->>> +			return -EINVAL;
->>> +		break;
->>> +
->>>  	default:
->>>  		return -EINVAL;
->>>  	}
->>> @@ -1456,6 +1473,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->>>  	case V4L2_CTRL_TYPE_AREA:
->>>  		elem_size = sizeof(struct v4l2_area);
->>>  		break;
->>> +	case V4L2_CTRL_TYPE_RECT:
->>> +		elem_size = sizeof(struct v4l2_rect);
->>> +		break;
->>>  	default:
->>>  		if (type < V4L2_CTRL_COMPOUND_TYPES)
->>>  			elem_size = sizeof(s32);
->>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>> index 54ca4e6b820b..95f39a2d2ad2 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>> @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>  	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
->>>  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
->>>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
->>> +	case V4L2_CID_REGION_OF_INTEREST_RECT:  return "Region Of Interest Rectangle";
->>>  
->>>  	/* FM Radio Modulator controls */
->>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
->>> @@ -1524,6 +1525,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>>  	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
->>>  		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
->>>  		break;
->>> +	case V4L2_CID_REGION_OF_INTEREST_RECT:
->>> +		*type = V4L2_CTRL_TYPE_RECT;
->>> +		break;
->>>  	default:
->>>  		*type = V4L2_CTRL_TYPE_INTEGER;
->>>  		break;
->>> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
->>> index b3ce438f1329..919e104de50b 100644
->>> --- a/include/media/v4l2-ctrls.h
->>> +++ b/include/media/v4l2-ctrls.h
->>> @@ -58,6 +58,7 @@ struct video_device;
->>>   * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
->>>   * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
->>>   * @p_area:			Pointer to an area.
->>> + * @p_rect:			Pointer to a rectangle.
->>>   * @p:				Pointer to a compound value.
->>>   * @p_const:			Pointer to a constant compound value.
->>>   */
->>> @@ -87,6 +88,7 @@ union v4l2_ctrl_ptr {
->>>  	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
->>>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
->>>  	struct v4l2_area *p_area;
->>> +	struct v4l2_rect *p_rect;
->>>  	void *p;
->>>  	const void *p_const;
->>>  };
->>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->>> index bb40129446d4..499fcddb6254 100644
->>> --- a/include/uapi/linux/v4l2-controls.h
->>> +++ b/include/uapi/linux/v4l2-controls.h
->>> @@ -1008,6 +1008,8 @@ enum v4l2_auto_focus_range {
->>>  
->>>  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
->>>  
->>> +#define V4L2_CID_REGION_OF_INTEREST_RECT	(V4L2_CID_CAMERA_CLASS_BASE+36)
->>> +
->>>  /* FM Modulator class control IDs */
->>>  
->>>  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
->>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>> index 3768a0a80830..b712412cf763 100644
->>> --- a/include/uapi/linux/videodev2.h
->>> +++ b/include/uapi/linux/videodev2.h
->>> @@ -1751,6 +1751,7 @@ struct v4l2_ext_control {
->>>  		__u16 __user *p_u16;
->>>  		__u32 __user *p_u32;
->>>  		struct v4l2_area __user *p_area;
->>> +		struct v4l2_rect __user *p_rect;
->>>  		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
->>>  		struct v4l2_ctrl_h264_pps *p_h264_pps;
->>>  		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
->>> @@ -1810,6 +1811,7 @@ enum v4l2_ctrl_type {
->>>  	V4L2_CTRL_TYPE_U16	     = 0x0101,
->>>  	V4L2_CTRL_TYPE_U32	     = 0x0102,
->>>  	V4L2_CTRL_TYPE_AREA          = 0x0106,
->>> +	V4L2_CTRL_TYPE_RECT	     = 0x0107,
->>>  
->>>  	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
->>>  	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
-> 
 
+> > ------------[ cut here ]------------
+> > WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188 __dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+> > Modules linked in:
+> > CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted 5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+> > Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0 83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45 31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
+> > RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
+> > RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+> > RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
+> > RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
+> > R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
+> > R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
+> > FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
+> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > Call Trace:
+> >  <TASK>
+> >  dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
+> >  get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
+> >  begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
+> >  dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
+> >  dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
+> >  vfs_ioctl fs/ioctl.c:51 [inline]
+> >  __do_sys_ioctl fs/ioctl.c:874 [inline]
+> >  __se_sys_ioctl fs/ioctl.c:860 [inline]
+> >  __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
+> >  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+> >  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+> >  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> > RIP: 0033:0x7f62fcf530f9
+> > Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+> > RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> > RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
+> > RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
+> > RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
+> > R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
+> > R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+> >  </TASK>
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+>
+> --
+> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/YgJhjdAbRHdnCZ4T%40phenom.ffwll.local.
