@@ -2,279 +2,276 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA4B652DE23
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 22:14:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3935252DEDE
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 23:00:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244639AbiESUOO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 16:14:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42708 "EHLO
+        id S244951AbiESVA3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 17:00:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230395AbiESUOM (ORCPT
+        with ESMTP id S243295AbiESVA0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 16:14:12 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E066C9ECD
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 13:14:11 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id v65so7742176oig.10
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 13:14:11 -0700 (PDT)
+        Thu, 19 May 2022 17:00:26 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA25FEC3FE
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 14:00:23 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 27so2654832ljw.0
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 14:00:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WW+gjeOXJptgnQmKm+r33s4apm+BmF1QnF7/SEvxdlg=;
-        b=VYyqH/Qv4YKD8FoZXYMMDPfy5UZZ9dQA7piYhohVg8QzRs9m3x1jaji+Ofrvn+N7Gj
-         YYXuTX+TKY90UT55XzX8VqK3klly4GTXuB7Nwohuq7Vo+GkFYWKXXnqrDMj83B+cQ3un
-         s58y2VtOGx34mGp2tX3JILo/2iR6sBLa333hE=
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=jJ5ibJyWgXSEVtzkRw4+wBg9lBfLq6hkUK/PMQO4gu8=;
+        b=ruiqItQaoeqAgrJoFFwJ/UR0y1kFMIA4/jFsRXtqkA/UzGJaMIfiqZww1gW8BwBhDH
+         YCKHxoyVRuF9CHRNB+qAziSMUqD1JEltX2KQSlMDQ3e2jtR76Fy82aBCGjVPyYNwrNdy
+         MwkftIr89LES3mjhfPw3qBR5l1hKK/aFssC1kLYJXCAhOEKBQ7tKPPGtZXaZPQF+qSqO
+         sGQR18LNpEO8xu3tNL0RObIImk83UlGl22zjMHmHJyWtdDQ96jgEPvaSJWzrBRB9qp6d
+         GiC7oCQuLDj+64B6mFx3acaFfU/xQj3yzdoeThqgPcd5bLhllXm45BzTQF47BEdR/i29
+         JB5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WW+gjeOXJptgnQmKm+r33s4apm+BmF1QnF7/SEvxdlg=;
-        b=WmJv87lZP6UHO+PMWd+dX9WOXbc0f+/pIguQMaY0xbfEPee0+Oj3D0HbSiuC7cmZZW
-         JcN70zQ6p5RAzoHeMhHjmf6+yWfjJ5zEItTtzDmXcWoIbonPU7fF/Hd8XZiYvZA6qBzZ
-         zqa+2WgpRNn205zDNlA48NHD17gt7LUR0oboja1CNiHfbLpUrayw3smxxBvfN1X3Gss6
-         EhxZqC7PZSKTYU4kjEkAYS1sls9wynk+eSyFpRXqkSXnpGKfH00E1oSSQfFayaCN60ai
-         i/QF2+OhsL+7HeLbgGTlWXMUAVB9u2hzrvGiBzI1dBO00zBFK2JPTQaVPZORzRbCKQWj
-         /hOw==
-X-Gm-Message-State: AOAM533jQCPE9GoIpk+2ZTg7v1ShpvaG9Jx6dUxyBi57HPZQAfb7S7iD
-        BqYYjUoH7OiX/kSPCb0uW4mWKFOX+8jwjA==
-X-Google-Smtp-Source: ABdhPJyrUAiRiqVERyyVTwLAtW+vfzIL7sftsfCHgrYT2Lws94R+oIABYZAFYul1W3WJSJXhf2AsPA==
-X-Received: by 2002:a05:6808:124b:b0:2da:38f0:945f with SMTP id o11-20020a056808124b00b002da38f0945fmr3783686oiv.171.1652991250575;
-        Thu, 19 May 2022 13:14:10 -0700 (PDT)
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com. [209.85.210.43])
-        by smtp.gmail.com with ESMTPSA id v23-20020a4ade97000000b0035f6cf71391sm106669oou.43.2022.05.19.13.14.09
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 13:14:10 -0700 (PDT)
-Received: by mail-ot1-f43.google.com with SMTP id s18-20020a056830149200b006063fef3e17so4253971otq.12
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 13:14:09 -0700 (PDT)
-X-Received: by 2002:a05:6830:1159:b0:60a:e220:b4a7 with SMTP id
- x25-20020a056830115900b0060ae220b4a7mr1771516otq.321.1652991248922; Thu, 19
- May 2022 13:14:08 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=jJ5ibJyWgXSEVtzkRw4+wBg9lBfLq6hkUK/PMQO4gu8=;
+        b=MIV5B+MCPxHQwkNP+3I8CMDpzcx2ePAGXyyMdbSvEvBx3GKYcg0qcD3q0YofYa2TUW
+         RQ2r+sr8cB1gb49u4ysqYw41M3QhOb14oMYmNqbgeOlBKNumF4qRtQ59woQJaEMXn6BE
+         shaG2gGSGQwPpdJFJ5DyjiyYMDY+yxauWP3uObVOQbscdTf27KQYcgkTNp1htsYQGFYN
+         WFJ0m8BpQSRx+d3XoEZ+YWWi9A3+QGx/A+ppgaB9iWDBXQkoslaESoMecbyYSV9L4Y75
+         HK4wavYFtROHObCCAieH1fV7tVWYmahYIhgmgMZf9V/asTGlt9T6Zxyf7Zjb6WM4klpz
+         k0dQ==
+X-Gm-Message-State: AOAM531DjEVyddgSlOJIe9/G/sfS0N90WOqa1BpKEPAACteSfa+YtIS3
+        TYBMy539FxWOYbN+6DVsw+GYdA==
+X-Google-Smtp-Source: ABdhPJz8OynJaFv5FD/dGoBy3yUXY/Dc5t8MtNwMt5B41FEmq0MCX+2wnuKUQ8pm5p1f9Ytf7jiVsQ==
+X-Received: by 2002:a2e:a445:0:b0:24a:c1ba:b62f with SMTP id v5-20020a2ea445000000b0024ac1bab62fmr3744675ljn.81.1652994021950;
+        Thu, 19 May 2022 14:00:21 -0700 (PDT)
+Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
+        by smtp.gmail.com with ESMTPSA id x12-20020a19f60c000000b00477c619f47fsm363543lfe.92.2022.05.19.14.00.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 14:00:21 -0700 (PDT)
+Date:   Thu, 19 May 2022 23:00:20 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Michael Rodin <mrodin@de.adit-jv.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, michael@rodin.online,
+        erosca@de.adit-jv.com
+Subject: Re: [PATCH 3/3] rcar-vin: handle transfer errors from subdevices and
+ stop streaming if required
+Message-ID: <Yoav5KjnbIlpkR6c@oden.dyn.berto.se>
+References: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
+ <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
 MIME-Version: 1.0
-References: <5911870d-e73c-92fc-d89b-fc4da07d0fa8@xs4all.nl> <CANiDSCuM14K-jSdMgG3nd0sqS8VK1i+c4aSk5WS8Q0FooohBUw@mail.gmail.com>
-In-Reply-To: <CANiDSCuM14K-jSdMgG3nd0sqS8VK1i+c4aSk5WS8Q0FooohBUw@mail.gmail.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 19 May 2022 22:13:58 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtifb_kd1HaNGZcFu58LbOcWux1A+ZQGc7Nzi7K-5sKgA@mail.gmail.com>
-Message-ID: <CANiDSCtifb_kd1HaNGZcFu58LbOcWux1A+ZQGc7Nzi7K-5sKgA@mail.gmail.com>
-Subject: Re: [PATCHv2] media: stkwebcam: deprecate driver, move to staging
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Seems like we managed to upset the test robot.
+Hi Michael,
 
-We have to add a
+Thanks for your work.
 
-depends on USB
+I like this patch, I think it captures the issue discussed in the 
+previous thread quiet nicely. One small nit below.
 
-to the Kconfig file
+On 2022-05-19 20:00:09 +0200, Michael Rodin wrote:
+> When a subdevice sends a transfer error event during streaming and we can
+> not capture new frames, then we know for sure that this is an unrecoverable
+> failure and not just a temporary glitch. In this case we can not ignore the
+> transfer error any more and have to notify userspace. In response to the
+> transfer error event userspace can try to restart streaming and hope that
+> it works again.
+> 
+> This patch is based on the patch [1] from Niklas Söderlund, however it adds
+> more logic to check whether the VIN hardware module is actually affected by
+> the transfer errors reported by the usptream device. For this it takes some
+> ideas from the imx driver where EOF interrupts are monitored by the
+> eof_timeout_timer added by commit 4a34ec8e470c ("[media] media: imx: Add
+> CSI subdev driver").
+> 
+> [1] https://lore.kernel.org/linux-renesas-soc/20211108160220.767586-4-niklas.soderlund+renesas@ragnatech.se/
+> 
+> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+> ---
+>  drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 34 ++++++++++++++++++++++
+>  .../media/platform/renesas/rcar-vin/rcar-v4l2.c    | 18 +++++++++++-
+>  drivers/media/platform/renesas/rcar-vin/rcar-vin.h |  7 +++++
+>  3 files changed, 58 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> index 2272f1c..596a367 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/pm_runtime.h>
+> +#include <media/v4l2-event.h>
+>  
+>  #include <media/videobuf2-dma-contig.h>
+>  
+> @@ -1060,6 +1061,9 @@ static irqreturn_t rvin_irq(int irq, void *data)
+>  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
+>  	}
+>  
+> +	cancel_delayed_work(&vin->frame_timeout);
+> +	schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
+> +
+>  	vin->sequence++;
+>  
+>  	/* Prepare for next frame */
+> @@ -1283,6 +1287,7 @@ int rvin_start_streaming(struct rvin_dev *vin)
+>  	spin_lock_irqsave(&vin->qlock, flags);
+>  
+>  	vin->sequence = 0;
+> +	vin->xfer_error = false;
+>  
+>  	ret = rvin_capture_start(vin);
+>  	if (ret)
+> @@ -1290,6 +1295,10 @@ int rvin_start_streaming(struct rvin_dev *vin)
+>  
+>  	spin_unlock_irqrestore(&vin->qlock, flags);
+>  
+> +	/* We start the frame watchdog only after we have successfully started streaming */
+> +	if (!ret)
+> +		schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
+> +
+>  	return ret;
+>  }
+>  
+> @@ -1332,6 +1341,12 @@ void rvin_stop_streaming(struct rvin_dev *vin)
+>  	}
+>  
+>  	vin->state = STOPPING;
+> +	/*
+> +	 * Since we are now stopping and don't expect more frames to be captured, make sure that
+> +	 * there is no pending work for error handling.
+> +	 */
+> +	cancel_delayed_work_sync(&vin->frame_timeout);
+> +	vin->xfer_error = false;
 
-Regards!
+Do we need to set xfer_error to false here? The delayed work is canceled 
+and we reset the xfer_error when we start in rvin_start_streaming().
 
-On Wed, 18 May 2022 at 11:32, Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> Thanks!
-> On Wed, 18 May 2022 at 11:29, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >
-> > This is a very old driver for very old hardware and it is one of
-> > the very few remaining that does not use the vb2 framework (or
-> > even the older videobuf framework), so deprecate this driver
-> > and move it to staging with the intent to removing it altogether
-> > by the end of 2022.
-> >
-> > If someone wants to keep this driver, then it has to be converted
-> > to use vb2.
-> >
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> > ---
-> > Changes since v1:
-> > - Change config name to VIDEO_STKWEBCAM as suggested by Ricardo
-> > - Mention in the Kconfig that the driver is deprecated.
-> > ---
-> >  drivers/media/usb/Kconfig                            |  1 -
-> >  drivers/media/usb/Makefile                           |  1 -
-> >  drivers/staging/media/Kconfig                        | 12 +++++++-----
-> >  drivers/staging/media/Makefile                       |  1 +
-> >  .../{media/usb => staging/media}/stkwebcam/Kconfig   |  7 +++++--
-> >  .../{media/usb => staging/media}/stkwebcam/Makefile  |  2 +-
-> >  drivers/staging/media/stkwebcam/TODO                 | 12 ++++++++++++
-> >  .../usb => staging/media}/stkwebcam/stk-sensor.c     |  0
-> >  .../usb => staging/media}/stkwebcam/stk-webcam.c     |  0
-> >  .../usb => staging/media}/stkwebcam/stk-webcam.h     |  0
-> >  10 files changed, 26 insertions(+), 10 deletions(-)
-> >  rename drivers/{media/usb => staging/media}/stkwebcam/Kconfig (69%)
-> >  rename drivers/{media/usb => staging/media}/stkwebcam/Makefile (63%)
-> >  create mode 100644 drivers/staging/media/stkwebcam/TODO
-> >  rename drivers/{media/usb => staging/media}/stkwebcam/stk-sensor.c (100%)
-> >  rename drivers/{media/usb => staging/media}/stkwebcam/stk-webcam.c (100%)
-> >  rename drivers/{media/usb => staging/media}/stkwebcam/stk-webcam.h (100%)
-> >
-> > diff --git a/drivers/media/usb/Kconfig b/drivers/media/usb/Kconfig
-> > index 8de08704f8e4..af88e0766388 100644
-> > --- a/drivers/media/usb/Kconfig
-> > +++ b/drivers/media/usb/Kconfig
-> > @@ -17,7 +17,6 @@ source "drivers/media/usb/cpia2/Kconfig"
-> >  source "drivers/media/usb/gspca/Kconfig"
-> >  source "drivers/media/usb/pwc/Kconfig"
-> >  source "drivers/media/usb/s2255/Kconfig"
-> > -source "drivers/media/usb/stkwebcam/Kconfig"
-> >  source "drivers/media/usb/usbtv/Kconfig"
-> >  source "drivers/media/usb/uvc/Kconfig"
-> >  source "drivers/media/usb/zr364xx/Kconfig"
-> > diff --git a/drivers/media/usb/Makefile b/drivers/media/usb/Makefile
-> > index 044bd46c799c..25fa2015b179 100644
-> > --- a/drivers/media/usb/Makefile
-> > +++ b/drivers/media/usb/Makefile
-> > @@ -10,7 +10,6 @@ obj-y += dvb-usb/
-> >  obj-y += dvb-usb-v2/
-> >  obj-y += s2255/
-> >  obj-y += siano/
-> > -obj-y += stkwebcam/
-> >  obj-y += ttusb-budget/
-> >  obj-y += ttusb-dec/
-> >  obj-y += zr364xx/
-> > diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-> > index 1fd6a0c6e1d8..421ce9dbf44c 100644
-> > --- a/drivers/staging/media/Kconfig
-> > +++ b/drivers/staging/media/Kconfig
-> > @@ -22,10 +22,14 @@ if STAGING_MEDIA && MEDIA_SUPPORT
-> >  # Please keep them in alphabetic order
-> >  source "drivers/staging/media/atomisp/Kconfig"
-> >
-> > +source "drivers/staging/media/av7110/Kconfig"
-> > +
-> >  source "drivers/staging/media/hantro/Kconfig"
-> >
-> >  source "drivers/staging/media/imx/Kconfig"
-> >
-> > +source "drivers/staging/media/ipu3/Kconfig"
-> > +
-> >  source "drivers/staging/media/max96712/Kconfig"
-> >
-> >  source "drivers/staging/media/meson/vdec/Kconfig"
-> > @@ -34,14 +38,12 @@ source "drivers/staging/media/omap4iss/Kconfig"
-> >
-> >  source "drivers/staging/media/rkvdec/Kconfig"
-> >
-> > -source "drivers/staging/media/sunxi/Kconfig"
-> > +source "drivers/staging/media/stkwebcam/Kconfig"
-> >
-> > -source "drivers/staging/media/zoran/Kconfig"
-> > +source "drivers/staging/media/sunxi/Kconfig"
-> >
-> >  source "drivers/staging/media/tegra-video/Kconfig"
-> >
-> > -source "drivers/staging/media/ipu3/Kconfig"
-> > -
-> > -source "drivers/staging/media/av7110/Kconfig"
-> > +source "drivers/staging/media/zoran/Kconfig"
-> >
-> >  endif
-> > diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-> > index 66d6f6d51c86..950e96f10aad 100644
-> > --- a/drivers/staging/media/Makefile
-> > +++ b/drivers/staging/media/Makefile
-> > @@ -5,6 +5,7 @@ obj-$(CONFIG_VIDEO_MAX96712)    += max96712/
-> >  obj-$(CONFIG_VIDEO_MESON_VDEC) += meson/vdec/
-> >  obj-$(CONFIG_VIDEO_OMAP4)      += omap4iss/
-> >  obj-$(CONFIG_VIDEO_ROCKCHIP_VDEC)      += rkvdec/
-> > +obj-$(CONFIG_VIDEO_STKWEBCAM)  += stkwebcam/
-> >  obj-$(CONFIG_VIDEO_SUNXI)      += sunxi/
-> >  obj-$(CONFIG_VIDEO_TEGRA)      += tegra-video/
-> >  obj-$(CONFIG_VIDEO_HANTRO)     += hantro/
-> > diff --git a/drivers/media/usb/stkwebcam/Kconfig b/drivers/staging/media/stkwebcam/Kconfig
-> > similarity index 69%
-> > rename from drivers/media/usb/stkwebcam/Kconfig
-> > rename to drivers/staging/media/stkwebcam/Kconfig
-> > index d94d023f1aa0..e0d7e1227bb4 100644
-> > --- a/drivers/media/usb/stkwebcam/Kconfig
-> > +++ b/drivers/staging/media/stkwebcam/Kconfig
-> > @@ -1,6 +1,6 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> > -config USB_STKWEBCAM
-> > -       tristate "USB Syntek DC1125 Camera support"
-> > +config VIDEO_STKWEBCAM
-> > +       tristate "USB Syntek DC1125 Camera support (DEPRECATED)"
-> >         depends on VIDEO_DEV
-> >         help
-> >           Say Y here if you want to use this type of camera.
-> > @@ -9,6 +9,9 @@ config USB_STKWEBCAM
-> >           may be supported by the stk11xx driver, from which this is
-> >           derived, see <http://sourceforge.net/projects/syntekdriver/>
-> >
-> > +         This driver is deprecated and is scheduled for removal by
-> > +         the end of 2022. See the TODO file for more information.
-> > +
-> >           To compile this driver as a module, choose M here: the
-> >           module will be called stkwebcam.
-> >
-> > diff --git a/drivers/media/usb/stkwebcam/Makefile b/drivers/staging/media/stkwebcam/Makefile
-> > similarity index 63%
-> > rename from drivers/media/usb/stkwebcam/Makefile
-> > rename to drivers/staging/media/stkwebcam/Makefile
-> > index daa9ae6d48c2..17ad7b6f43d0 100644
-> > --- a/drivers/media/usb/stkwebcam/Makefile
-> > +++ b/drivers/staging/media/stkwebcam/Makefile
-> > @@ -1,5 +1,5 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  stkwebcam-objs :=      stk-webcam.o stk-sensor.o
-> >
-> > -obj-$(CONFIG_USB_STKWEBCAM)     += stkwebcam.o
-> > +obj-$(CONFIG_VIDEO_STKWEBCAM)     += stkwebcam.o
-> >
-> > diff --git a/drivers/staging/media/stkwebcam/TODO b/drivers/staging/media/stkwebcam/TODO
-> > new file mode 100644
-> > index 000000000000..735304a72729
-> > --- /dev/null
-> > +++ b/drivers/staging/media/stkwebcam/TODO
-> > @@ -0,0 +1,12 @@
-> > +This is a very old driver for very old hardware (specifically
-> > +laptops that use this sensor). In addition according to reports
-> > +the picture quality is quite bad.
-> > +
-> > +This is also one of the few drivers still not using the vb2
-> > +framework (or even the old videobuf framework!), so this driver
-> > +is now deprecated with the intent of removing it altogether by
-> > +the end of 2022.
-> > +
-> > +In order to keep this driver it has to be converted to vb2.
-> > +If someone is interested in doing this work, then contact the
-> > +linux-media mailinglist (https://linuxtv.org/lists.php).
-> > diff --git a/drivers/media/usb/stkwebcam/stk-sensor.c b/drivers/staging/media/stkwebcam/stk-sensor.c
-> > similarity index 100%
-> > rename from drivers/media/usb/stkwebcam/stk-sensor.c
-> > rename to drivers/staging/media/stkwebcam/stk-sensor.c
-> > diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/staging/media/stkwebcam/stk-webcam.c
-> > similarity index 100%
-> > rename from drivers/media/usb/stkwebcam/stk-webcam.c
-> > rename to drivers/staging/media/stkwebcam/stk-webcam.c
-> > diff --git a/drivers/media/usb/stkwebcam/stk-webcam.h b/drivers/staging/media/stkwebcam/stk-webcam.h
-> > similarity index 100%
-> > rename from drivers/media/usb/stkwebcam/stk-webcam.h
-> > rename to drivers/staging/media/stkwebcam/stk-webcam.h
-> > --
-> > 2.34.1
-> >
->
->
-> --
-> Ricardo Ribalda
-
-
+>  
+>  	/* Wait until only scratch buffer is used, max 3 interrupts. */
+>  	retries = 0;
+> @@ -1424,6 +1439,23 @@ void rvin_dma_unregister(struct rvin_dev *vin)
+>  	v4l2_device_unregister(&vin->v4l2_dev);
+>  }
+>  
+> +static void rvin_frame_timeout(struct work_struct *work)
+> +{
+> +	struct delayed_work *dwork = to_delayed_work(work);
+> +	struct rvin_dev *vin = container_of(dwork, struct rvin_dev, frame_timeout);
+> +	struct v4l2_event event = {
+> +		.type = V4L2_EVENT_XFER_ERROR,
+> +	};
+> +
+> +	vin_dbg(vin, "Frame timeout!\n");
+> +
+> +	if (!vin->xfer_error)
+> +		return;
+> +	vin_err(vin, "Unrecoverable transfer error detected, stopping streaming\n");
+> +	vb2_queue_error(&vin->queue);
+> +	v4l2_event_queue(&vin->vdev, &event);
+> +}
+> +
+>  int rvin_dma_register(struct rvin_dev *vin, int irq)
+>  {
+>  	struct vb2_queue *q = &vin->queue;
+> @@ -1470,6 +1502,8 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+>  		goto error;
+>  	}
+>  
+> +	INIT_DELAYED_WORK(&vin->frame_timeout, rvin_frame_timeout);
+> +
+>  	return 0;
+>  error:
+>  	rvin_dma_unregister(vin);
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> index 2e2aa9d..bd7f6fe2 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> @@ -648,6 +648,8 @@ static int rvin_subscribe_event(struct v4l2_fh *fh,
+>  	switch (sub->type) {
+>  	case V4L2_EVENT_SOURCE_CHANGE:
+>  		return v4l2_event_subscribe(fh, sub, 4, NULL);
+> +	case V4L2_EVENT_XFER_ERROR:
+> +		return v4l2_event_subscribe(fh, sub, 1, NULL);
+>  	}
+>  	return v4l2_ctrl_subscribe_event(fh, sub);
+>  }
+> @@ -1000,9 +1002,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
+>  static void rvin_notify_video_device(struct rvin_dev *vin,
+>  				     unsigned int notification, void *arg)
+>  {
+> +	const struct v4l2_event *event;
+> +
+>  	switch (notification) {
+>  	case V4L2_DEVICE_NOTIFY_EVENT:
+> -		v4l2_event_queue(&vin->vdev, arg);
+> +		event = arg;
+> +
+> +		switch (event->type) {
+> +		case V4L2_EVENT_XFER_ERROR:
+> +			if (vin->state != STOPPED && vin->state != STOPPING) {
+> +				vin_dbg(vin, "Subdevice signaled transfer error.\n");
+> +				vin->xfer_error = true;
+> +			}
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +
+>  		break;
+>  	default:
+>  		break;
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> index 1f94589..4726a69 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> @@ -31,6 +31,9 @@
+>  /* Max number on VIN instances that can be in a system */
+>  #define RCAR_VIN_NUM 32
+>  
+> +/* maximum time we wait before signalling an error to userspace */
+> +#define FRAME_TIMEOUT_MS 1000
+> +
+>  struct rvin_group;
+>  
+>  enum model_id {
+> @@ -207,6 +210,8 @@ struct rvin_info {
+>   * @std:		active video standard of the video source
+>   *
+>   * @alpha:		Alpha component to fill in for supported pixel formats
+> + * @xfer_error:		Indicates if any transfer errors occurred in the current streaming session.
+> + * @frame_timeout:	Watchdog for monitoring regular capturing of frames in rvin_irq.
+>   */
+>  struct rvin_dev {
+>  	struct device *dev;
+> @@ -251,6 +256,8 @@ struct rvin_dev {
+>  	v4l2_std_id std;
+>  
+>  	unsigned int alpha;
+> +	bool xfer_error;
+> +	struct delayed_work frame_timeout;
+>  };
+>  
+>  #define vin_to_source(vin)		((vin)->parallel.subdev)
+> -- 
+> 2.7.4
+> 
 
 -- 
-Ricardo Ribalda
+Kind Regards,
+Niklas Söderlund
