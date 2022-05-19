@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4619C52CC55
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 09:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA3C652CC9C
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 09:13:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229784AbiESHCD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 03:02:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54900 "EHLO
+        id S234599AbiESHM1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 03:12:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbiESHCB (ORCPT
+        with ESMTP id S234527AbiESHMP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 03:02:01 -0400
+        Thu, 19 May 2022 03:12:15 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A391BC5B;
-        Thu, 19 May 2022 00:02:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31C3B5DA3A;
+        Thu, 19 May 2022 00:11:55 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 642441F45629
+        with ESMTPSA id 4369D1F4565F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1652943719;
-        bh=GLtuI+hry+/4iLJMOGwBy+jWAR47CJf0GMenGxeiSwM=;
+        s=mail; t=1652944313;
+        bh=OEcTyTvXeWneBi8GvH9jsIAxafQtn5PH2MYUYrWug2Q=;
         h=From:To:Cc:Subject:Date:From;
-        b=OED4ZCMv8q+ogwauV/f2/EreJYk+XcBUc0GGjdlHa6ui7oRbLAEMNbqflkmWG/2R3
-         unXL1lASx/ZFWTt7LfjBAUn8FETA6OW9WlFujnR1MlKHPxdRZkjr1n7luwg3duTMS3
-         MyZ1uAsEnMEOpMNekhQv3tiGcsiX6u7k3ZFE7UbrZ2pf/J90Ph3qZBcX/7FOrI9Fa5
-         auCnHdtB0lD6udebJWgInTFQMBrl1NBoigLgYdFXBhc24HNRp5ebz/F7oCmNB7FGaQ
-         aLQ4q96NETWK6/cVXNiWdgyZfMEuC+dbCt0tPO7jH4qI37hzTkkUI7vaIKy4Pom+5L
-         jykFXF2jkEyWw==
+        b=Cxf3+0ccgabzfMua9Rv0yMGRSD7g3lbSqVGAssBI1p7bDyreKENNItr8zEO6dLo3V
+         LKJhyaYazYAn3fP5CsUfXQJUaAWXICsIXDNbl1MkFBUm2/6xKxeOhvuF9VhRpI2XS7
+         6OH/qUZ58KQsrBl4ksLnyaHLaQx/iY6hfZzSKD8odBDjgzmod0tcFQRznLumOBS7TX
+         AU4HSX+IYWvHKHyh7FbakEz8nYDdhYR7hl+V8vTxJgybLr5URV0waQ3kbU20aofR5D
+         MvwHYJR/n9wEpSZYxIxKWkXmVRSre8/ofc9Kx51n3PqJ/ztC96mQgbV7PdK2V70Abx
+         tzHDE0XM9iV0Q==
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
         mchehab@kernel.org, gregkh@linuxfoundation.org,
@@ -40,9 +40,9 @@ Cc:     kernel@pengutronix.de, linux-media@vger.kernel.org,
         linux-sunxi@lists.linux.dev, kernel@collabora.com,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v5] media: Add P010 video format
-Date:   Thu, 19 May 2022 09:01:48 +0200
-Message-Id: <20220519070148.63315-1-benjamin.gaignard@collabora.com>
+Subject: [PATCH v6] media: Add P010 video format
+Date:   Thu, 19 May 2022 09:11:46 +0200
+Message-Id: <20220519071146.76119-1-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -56,11 +56,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-P010 is a YUV format with 10-bits per pixel with interleaved UV.
+P010 is a YUV format with 10-bits per component with interleaved UV.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
+version 6:
+- Replace 'pixel' per 'component' in commit message and fourcc
+  description
+
 version 5:
 - Fix commit message
 - Fix fourcc comment
@@ -182,14 +186,14 @@ index e2636539c9db..536aaeb4df82 100644
  	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
  	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 6d465dc443b7..57da13b6105c 100644
+index 6d465dc443b7..77bc9e85b8f8 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
 @@ -601,6 +601,7 @@ struct v4l2_pix_format {
  #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
  #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
  #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
-+#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 24  Y/CbCr 4:2:0 10-bit per pixel */
++#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 24  Y/CbCr 4:2:0 10-bit per component */
  
  /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
  #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
