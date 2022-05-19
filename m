@@ -2,167 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87C4552CB53
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 06:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF4BD52CB6B
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 07:14:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233852AbiESEyX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 00:54:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45184 "EHLO
+        id S233882AbiESFO1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 01:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231965AbiESEyU (ORCPT
+        with ESMTP id S231864AbiESFO0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 00:54:20 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9750A6D871
-        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 21:54:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 421F2B8218E
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 04:54:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AED2AC385B8
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 04:54:15 +0000 (UTC)
-Date:   Thu, 19 May 2022 06:54:13 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20220519045415.AED2AC385B8@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 19 May 2022 01:14:26 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04650994D0
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 22:14:23 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id b32so4921985ljf.1
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 22:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6oteEUWo3BejQsY6otGsI/7H4Z8rywbWY+p4jX1sDu0=;
+        b=o/lmD8dIZ7zhMvbclflrBPMnxtDMnOUX4yJHfSh+KmEPA69pI6goVFii284+d6nYsN
+         Usg0V97p8dtWTc9FHn5IcQL3bvt3shO6uA+D71fKZ/02bUtbiNwvy7xVdSX0Iw/74Sur
+         f59qdChYctDLuJhbFrDGQaV5a6hD5lvVct8k2mB4ol8BvbH5HFg20ssfHQjnb3S092g0
+         SaJzrzjanqKX/wZ1z3SuJlxH6rkDCJdDZWnMTnQaV4mEf0vgBc54AMqCVONLdWJ/kJpp
+         p2oldMHbw6ppViw/Q4zawVkEntsiv1UC5SoIPdWdhdXoAmZnAhFA+KLBGEG/FIK0pJzs
+         D14Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6oteEUWo3BejQsY6otGsI/7H4Z8rywbWY+p4jX1sDu0=;
+        b=K1atePYL60veLzJzyilZMhOmEPNLJ/HUD4SKSU6x9UUx1baUwvEoKjM8JPBIb1DZZA
+         kfzXiqvr37UY9GOI0kplmY2uhbLOjwZkh9U6NnRakfPEbQ/j3f1oy5Lk0Jm/Jgs0UybJ
+         tsJhfQo+ViESVwPybAwJSNX6GXPecawbjKiwBdXIuRV0ucNq2g5qWacLPdHaJvvNUYi+
+         ppm2TyvL0o7OynIYHiDx6ah+m1S4D/UoyBFEL3ywIXTz6kDEFRmk6rejRUeDMPoUF/f9
+         mT6Y3HEnEf0dLAoxDNvamVUyhGpUeRJEYOqi+bNqCQxJc3VSSLn+0qgsXqzAaXPmfWsI
+         486Q==
+X-Gm-Message-State: AOAM533yllu3WYTF09h+ZmRwbyS+sZspYizucjwox0dAwVbTkzVsGRLl
+        sRkew2OtnFYoPSp09tsUNuRIYg==
+X-Google-Smtp-Source: ABdhPJz5IbbCgXnvKwiosEWp8lM34Jx9WjqXwq5EmZzsE21zlHBLbc7OmA5o50iLfPGOlow1y4CGRw==
+X-Received: by 2002:a2e:aa14:0:b0:24f:25ed:e0a2 with SMTP id bf20-20020a2eaa14000000b0024f25ede0a2mr1584145ljb.43.1652937261325;
+        Wed, 18 May 2022 22:14:21 -0700 (PDT)
+Received: from localhost.localdomain (mobile-access-b04822-211.dhcp.inet.fi. [176.72.34.211])
+        by smtp.gmail.com with ESMTPSA id y25-20020ac24219000000b0047255d2119esm148361lfh.205.2022.05.18.22.14.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 May 2022 22:14:20 -0700 (PDT)
+From:   Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To:     Robert Foss <robert.foss@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: [PATCH v2] media: camss: Allocate camss struct as a managed device resource
+Date:   Thu, 19 May 2022 08:14:15 +0300
+Message-Id: <20220519051415.1198248-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.33.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+The change simplifies driver's probe and remove functions, no functional
+change is intended.
 
-Results of the daily build of media_tree:
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+---
+Changes from v1 to v2:
+* rebased on top of media/master
 
-date:			Thu May 19 05:00:10 CEST 2022
-media-tree git hash:	340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1
-media_build git hash:	5eb7d23e8f3dffdb13c843ea0ae3ddd497f23107
-v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7954-gac3cf4a1-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
+ drivers/media/platform/qcom/camss/camss.c | 33 +++++++----------------
+ 1 file changed, 10 insertions(+), 23 deletions(-)
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.275-i686: OK
-linux-4.14.275-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.237-i686: OK
-linux-4.19.237-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.19-i686: OK
-linux-5.13.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-kerneldoc: OK
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 79ad82e233cb..2055233af101 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -1529,7 +1529,7 @@ static int camss_probe(struct platform_device *pdev)
+ 	struct camss *camss;
+ 	int num_subdevs, ret;
+ 
+-	camss = kzalloc(sizeof(*camss), GFP_KERNEL);
++	camss = devm_kzalloc(dev, sizeof(*camss), GFP_KERNEL);
+ 	if (!camss)
+ 		return -ENOMEM;
+ 
+@@ -1567,39 +1567,30 @@ static int camss_probe(struct platform_device *pdev)
+ 		camss->csid_num = 4;
+ 		camss->vfe_num = 4;
+ 	} else {
+-		ret = -EINVAL;
+-		goto err_free;
++		return -EINVAL;
+ 	}
+ 
+ 	camss->csiphy = devm_kcalloc(dev, camss->csiphy_num,
+ 				     sizeof(*camss->csiphy), GFP_KERNEL);
+-	if (!camss->csiphy) {
+-		ret = -ENOMEM;
+-		goto err_free;
+-	}
++	if (!camss->csiphy)
++		return -ENOMEM;
+ 
+ 	camss->csid = devm_kcalloc(dev, camss->csid_num, sizeof(*camss->csid),
+ 				   GFP_KERNEL);
+-	if (!camss->csid) {
+-		ret = -ENOMEM;
+-		goto err_free;
+-	}
++	if (!camss->csid)
++		return -ENOMEM;
+ 
+ 	if (camss->version == CAMSS_8x16 ||
+ 	    camss->version == CAMSS_8x96) {
+ 		camss->ispif = devm_kcalloc(dev, 1, sizeof(*camss->ispif), GFP_KERNEL);
+-		if (!camss->ispif) {
+-			ret = -ENOMEM;
+-			goto err_free;
+-		}
++		if (!camss->ispif)
++			return -ENOMEM;
+ 	}
+ 
+ 	camss->vfe = devm_kcalloc(dev, camss->vfe_num, sizeof(*camss->vfe),
+ 				  GFP_KERNEL);
+-	if (!camss->vfe) {
+-		ret = -ENOMEM;
+-		goto err_free;
+-	}
++	if (!camss->vfe)
++		return -ENOMEM;
+ 
+ 	v4l2_async_nf_init(&camss->notifier);
+ 
+@@ -1681,8 +1672,6 @@ static int camss_probe(struct platform_device *pdev)
+ 	v4l2_device_unregister(&camss->v4l2_dev);
+ err_cleanup:
+ 	v4l2_async_nf_cleanup(&camss->notifier);
+-err_free:
+-	kfree(camss);
+ 
+ 	return ret;
+ }
+@@ -1709,8 +1698,6 @@ void camss_delete(struct camss *camss)
+ 		device_link_del(camss->genpd_link[i]);
+ 		dev_pm_domain_detach(camss->genpd[i], true);
+ 	}
+-
+-	kfree(camss);
+ }
+ 
+ /*
+-- 
+2.33.0
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
