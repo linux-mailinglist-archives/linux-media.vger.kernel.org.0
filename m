@@ -2,123 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B3FB52C9BB
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 04:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87C4552CB53
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 06:54:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232810AbiESCSm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 May 2022 22:18:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43648 "EHLO
+        id S233852AbiESEyX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 00:54:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230457AbiESCSk (ORCPT
+        with ESMTP id S231965AbiESEyU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 May 2022 22:18:40 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3DACC03BA;
-        Wed, 18 May 2022 19:18:39 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id oe17-20020a17090b395100b001df77d29587so7424166pjb.2;
-        Wed, 18 May 2022 19:18:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KeX8w/tHzQMRh97u9HLg+afFKVHsNgRdUyS/TL/tFmA=;
-        b=KVBvFQ9YS19mLDlSZBGgTG8QmY88NWqRL+Zdt+9e++VxhDUOavYgmvT5U6xOaRaj5e
-         c/HGDwqd2zxj8bkYiZ036YdHVShZZgTfyNIovn927R00DucYUHUufFEW0Ca+HRsCOj7E
-         /p4NhbInAdFA8OyuuBTr9bnV/NDhRExU3dgO7ISPkdk9I+LO2GdkhvtqOGC7EJ7n4eYE
-         7ratehvr7WapPNnIGwiLazuKv27m+Nm8WBD1pUqQmDA3566KD3eEglonI+5znVlcMkCM
-         NnrLCChO0yokU1Cii1hQxB8jb2mdNLMKUR4Kk5vISlXutokQWD9ayvJU/oaKZuAN0mmm
-         8Ong==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KeX8w/tHzQMRh97u9HLg+afFKVHsNgRdUyS/TL/tFmA=;
-        b=6V8PbRnBxxKL+DR0BRaNNnWb9RdbvyfuXhn7Tmkb9Pgf0E+PC39FW+PweJ/kMyU5Rh
-         CGX7gt2TkjZhIaAJSu0sZ4jhP4kEg5fYdOm70nEcos0xVCB+4232Ryxnp8JS4SnUBTOS
-         XlxbMej8dy9/dhsux527uFVPv1ofmimL8aFhB/oDiN2NaxH3xmjKDVXamSw2ktmOaY4E
-         cr3UaOj23DXY3CAmTCV3IJO1AiblbCLabKb3fSKMQ6Km89XnbURc5o3NazJklRI8w7d/
-         4PTF1y73OvcgRb0T7lSDsUnQA479Jbk3DBWoHNaHd9tvMYZ9uoc33m2qNoLxbqfET5LH
-         d/JQ==
-X-Gm-Message-State: AOAM530VF4GEHjRvRlJN5EriooViUeVE5kJdq0I6N90dEScAeKTufmqw
-        bRV6PZZHGIJRFu4w5uEvUoo=
-X-Google-Smtp-Source: ABdhPJza5NJsX50MgITiY21AXbqRp+aNg3kqzni2ni98Vxr5gRd5WexpY9rrSjpDP9Q2v6nVea/xDw==
-X-Received: by 2002:a17:902:dad1:b0:161:9abb:fb75 with SMTP id q17-20020a170902dad100b001619abbfb75mr2469103plx.135.1652926719221;
-        Wed, 18 May 2022 19:18:39 -0700 (PDT)
-Received: from localhost.localdomain ([103.84.139.165])
-        by smtp.gmail.com with ESMTPSA id 63-20020a621842000000b00512d13016d0sm2548596pfy.159.2022.05.18.19.18.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 19:18:38 -0700 (PDT)
-From:   Hangyu Hua <hbh25y@gmail.com>
-To:     mchehab@kernel.org, senozhatsky@chromium.org,
-        cai.huoqing@linux.dev, hverkuil-cisco@xs4all.nl,
-        sw0312.kim@samsung.com, satendra.t@samsung.com,
-        jh1009.sung@samsung.com, nenggun.kim@samsung.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hangyu Hua <hbh25y@gmail.com>
-Subject: [PATCH v2] media: dvb_vb2: fix possible out of bound access
-Date:   Thu, 19 May 2022 10:17:43 +0800
-Message-Id: <20220519021743.8295-1-hbh25y@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 19 May 2022 00:54:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9750A6D871
+        for <linux-media@vger.kernel.org>; Wed, 18 May 2022 21:54:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 421F2B8218E
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 04:54:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AED2AC385B8
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 04:54:15 +0000 (UTC)
+Date:   Thu, 19 May 2022 06:54:13 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20220519045415.AED2AC385B8@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-vb2_core_qbuf and vb2_core_querybuf don't check the range of b->index
-controlled by the user.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Fix this by adding range checking code before using them.
+Results of the daily build of media_tree:
 
-Fixes: 57868acc369a ("media: videobuf2: Add new uAPI for DVB streaming I/O")
-Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
----
+date:			Thu May 19 05:00:10 CEST 2022
+media-tree git hash:	340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1
+media_build git hash:	5eb7d23e8f3dffdb13c843ea0ae3ddd497f23107
+v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7954-gac3cf4a1-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
-v2: 
-1. fix inappropriate use of dprintk.
-2. add "fixes" tag
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.275-i686: OK
+linux-4.14.275-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.237-i686: OK
+linux-4.19.237-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.19-i686: OK
+linux-5.13.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
 
- drivers/media/dvb-core/dvb_vb2.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Detailed results are available here:
 
-diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
-index a1bd6d9c9223..909df82fed33 100644
---- a/drivers/media/dvb-core/dvb_vb2.c
-+++ b/drivers/media/dvb-core/dvb_vb2.c
-@@ -354,6 +354,12 @@ int dvb_vb2_reqbufs(struct dvb_vb2_ctx *ctx, struct dmx_requestbuffers *req)
- 
- int dvb_vb2_querybuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
- {
-+	struct vb2_queue *q = &ctx->vb_q;
-+
-+	if (b->index >= q->num_buffers) {
-+		dprintk(1, "[%s] buffer index out of range\n", ctx->name);
-+		return -EINVAL;
-+	}
- 	vb2_core_querybuf(&ctx->vb_q, b->index, b);
- 	dprintk(3, "[%s] index=%d\n", ctx->name, b->index);
- 	return 0;
-@@ -378,8 +384,13 @@ int dvb_vb2_expbuf(struct dvb_vb2_ctx *ctx, struct dmx_exportbuffer *exp)
- 
- int dvb_vb2_qbuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
- {
-+	struct vb2_queue *q = &ctx->vb_q;
- 	int ret;
- 
-+	if (b->index >= q->num_buffers) {
-+		dprintk(1, "[%s] buffer index out of range\n", ctx->name);
-+		return -EINVAL;
-+	}
- 	ret = vb2_core_qbuf(&ctx->vb_q, b->index, b, NULL);
- 	if (ret) {
- 		dprintk(1, "[%s] index=%d errno=%d\n", ctx->name,
--- 
-2.25.1
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
 
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
