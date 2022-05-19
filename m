@@ -2,111 +2,283 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E11A952D061
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 12:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C32C352D0AF
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 12:40:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232291AbiESKWq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 06:22:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35730 "EHLO
+        id S236342AbiESKkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 06:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230141AbiESKWo (ORCPT
+        with ESMTP id S231860AbiESKkF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 06:22:44 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DEC49925;
-        Thu, 19 May 2022 03:22:43 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dmitry.osipenko)
-        with ESMTPSA id 4DE7D1F45A25
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1652955762;
-        bh=R0JOHH16vdw7dxb0Uon4A7HZbfdfttE9NlpiqAveo/w=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Dr6VEg8eUZL4lOg2f7qxCQ6uM3ykZdOJfOJG+9F3ufmOzHC3VG/lqvrFyDmXcGDGm
-         wQ11Amugo8ecPHuAT4n8X084mUILIClzfTmZGgCdsEuv+zaP8xAbErHvAcr97UoeyX
-         74d34MIVic5XsAut/WWMIZvKuvEAbreMJafGlJtXfsCmCF2Rl8qtVSfkQJjn3LsitQ
-         2+nr0e0Bi89ZcKDIHOakTShvWpYWNAxN1RiweKl0LPiZXRObHAxjm3V7NojGgMa+2p
-         PwaePMdyCC+GIBhHvC3cHScL2NkM+MN+IknWl+2d+i0V4pf8/hY3ymp0UHN2UhaoBK
-         tkbTUXOCu7wcA==
-Message-ID: <11bd51f2-ca35-4e01-95e9-ad35b37f26d8@collabora.com>
-Date:   Thu, 19 May 2022 13:22:38 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
- offsets of capture buffers
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thu, 19 May 2022 06:40:05 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA926A8882
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 03:40:03 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (unknown [45.131.31.124])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB798A16;
+        Thu, 19 May 2022 12:40:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1652956801;
+        bh=9u2vLkJ9EGgU98FCRbiSf4MGzBP83a+Tk+jNNbtzqFY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WLfYO4qptNIjMLaBSpaJG16sUmgdeC5HDHBEZlUazJr+PNIKYtF1qOzdJiBn+UT28
+         3alV/VrvZ4gIcDJBCcikPcA/4tlsNAFrVPtle1AJk6kAezSyl08y4jkQX0NFTMu95A
+         IlNEOAX+U0w7UoP9MeKohF0NCXGMm3oYq0SI75aI=
+Date:   Thu, 19 May 2022 13:39:54 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Yunke Cao <yunkec@google.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Boris Brezillon <bbrezillon@collabora.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Laura Nao <laura.nao@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>
-References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
- <a7c858461b99de2d4afad22d888acc3a74850240.camel@ndufresne.ca>
- <9ec970d6-ea09-802c-419b-b2ef26800990@collabora.com>
- <5be83f0b343c04d877a2c2d805fb5f71ca9973b1.camel@ndufresne.ca>
- <fe24d151-6097-aa8e-7691-5e4d81fa42c6@collabora.com>
- <f80128c50d3dacff0af70bd88521abae42476f85.camel@ndufresne.ca>
- <1c1fda82-334a-04ec-fc2e-d1ea2da466e9@xs4all.nl>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <1c1fda82-334a-04ec-fc2e-d1ea2da466e9@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 1/6] media: v4l2_ctrl: Add region of interest
+ rectangle control
+Message-ID: <YoYeelewIe0tnrxh@pendragon.ideasonboard.com>
+References: <20220518062412.2375586-1-yunkec@google.com>
+ <20220518062412.2375586-2-yunkec@google.com>
+ <9d9b32bd-16bc-76cd-6cd7-6d693714e5c9@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9d9b32bd-16bc-76cd-6cd7-6d693714e5c9@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Hans,
+On Thu, May 19, 2022 at 10:14:05AM +0200, Hans Verkuil wrote:
+> On 5/18/22 08:24, Yunke Cao wrote:
+> > Including:
+> > 1. Add a control ID.
+> > 2. Add p_rect to struct v4l2_ext_control with basic support in
+> >    v4l2-ctrls.
+> > 
+> > Signed-off-by: Yunke Cao <yunkec@google.com>
+> > ---
+> > Changelog since v2:
+> > - Better documentation.
+> > 
+> >  .../media/v4l/ext-ctrls-camera.rst            | 10 ++++++++++
+> >  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
+> >  .../media/videodev2.h.rst.exceptions          |  1 +
+> >  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 20 +++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++++
+> >  include/media/v4l2-ctrls.h                    |  2 ++
+> >  include/uapi/linux/v4l2-controls.h            |  2 ++
+> >  include/uapi/linux/videodev2.h                |  2 ++
+> >  8 files changed, 45 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > index 4c5061aa9cd4..c988a72b97b2 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > @@ -661,3 +661,13 @@ enum v4l2_scene_mode -
+> >  .. [#f1]
+> >     This control may be changed to a menu control in the future, if more
+> >     options are required.
+> > +
+> > +``V4L2_CID_REGION_OF_INTEREST_RECT (struct)``
+> > +   This control determines the region of interest. Region of interest is an
+> > +   rectangular area represented by a struct v4l2_rect. The rectangle is in
+> > +   pixel units and global coordinates. Use ``V4L2_CTRL_WHICH_MIN_VAL`` and
+> > +   ``V4L2_CTRL_WHICH_MAX_VAL`` to query the range of coordinates.
+> 
+> Hmm, what does MIN and MAX mean in terms of a rectangle? It makes sense for
+> the width and height, but how is that interpreted for top and left?
+> 
+> Are these the minimum and maximum values each field of the struct can have?
+> So if the image is, say, 640x480, then the minimum value for a rectangle might
+> be 1x1@0x0, and the maximum 640x480@639x479. So in that case these are not real
+> rectangles, but they give the range for each field of the struct.
+> 
+> An alternative would be to see this as the min and max rectangle size and keep
+> the top/left values at 0.
+> 
+> To be honest, I'm not sure which one I would prefer.
 
-On 5/18/22 13:26, Hans Verkuil wrote:
-> 
-> 
-> On 3/25/22 13:32, Nicolas Dufresne wrote:
->> Le jeudi 24 mars 2022 à 21:20 +0300, Dmitry Osipenko a écrit :
->>> The root of the problem is that DRM UAPI is more flexible and allows to
->>> customize offsets for both S/MPLANEs, while V4L doesn't allow to do it
->>> at all. I'm exploring all the potential options, so far neither of the
->>> proposed variants is ideal.
->>
->> In GStreamer kmssink, the way DRM is used, is that if you have 2 planes in your
->> pixel format, but only received 1 DMABuf, we will pass this DMABuf twice (well
->> GEM handles, but twice), with appropriate offset.
->>
->> With this in mind, the idea for V4L2 could be to always resort to MPLANE for
->> this purpose. The tricky part for userland is that it needs to know the dual
->> pixel format and map that accordingly. That is a bit difficult and this is
->> something Helen was trying to address with the v4l2_buffer_ext (that and
->> allowing space to store DRM Modifiers in the future).
-> 
-> FYI: here is Helen's last patch series. Since Helen is no longer active in
-> the media subsystem, someone else who is sufficiently motivated would have to
-> take over.
-> 
-> https://patchwork.linuxtv.org/project/linux-media/cover/20210114180738.1758707-1-helen.koike@collabora.com/
-> 
-> I'm not enthusiastic about messing with data_offset: it was - in hindsight - a
-> bad idea.
+I'm also really worried fo the interactions between this control and
+selection rectangles. The uvcvideo driver won't need to care, but this
+is a generic control, so we need to define it clearly.
 
-I'm aware of the Helen's work. To me the addition of the new IOCTLs that
-partially duplicate the older ones doesn't feel like the best approach.
-But since you're good with it, then I'll try to refresh the Helen's work
-for 5.20 and we'll see where it will go.
+To be honest, given how specific to UVC this is, I'd create
+device-specific controls. I don't foresee any other driver being able to
+make use of V4L2_CID_REGION_OF_INTEREST_RECT and
+V4L2_CID_REGION_OF_INTEREST_AUTO.
+
+> > +
+> > +   Setting a region of interest allows the camera to optimize the capture for
+> > +   the region. The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control
+> > +   determines the detailed behavior.
+> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> > index 29971a45a2d4..f4e205ead0a2 100644
+> > --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> > +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> > @@ -189,6 +189,10 @@ still cause this situation.
+> >        - ``p_area``
+> >        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+> >          of type ``V4L2_CTRL_TYPE_AREA``.
+> > +    * - struct :c:type:`v4l2_rect` *
+> > +      - ``p_area``
+> > +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
+> > +        of type ``V4L2_CTRL_TYPE_RECT``.
+> >      * - struct :c:type:`v4l2_ctrl_h264_sps` *
+> >        - ``p_h264_sps``
+> >        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
+> > diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> > index 9cbb7a0c354a..7b423475281d 100644
+> > --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> > +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> > @@ -147,6 +147,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
+> > +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > index 8968cec8454e..dcde405c2713 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > @@ -84,6 +84,11 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
+> >  		return ptr1.p_u16[idx] == ptr2.p_u16[idx];
+> >  	case V4L2_CTRL_TYPE_U32:
+> >  		return ptr1.p_u32[idx] == ptr2.p_u32[idx];
+> > +	case V4L2_CTRL_TYPE_RECT:
+> > +		return ptr1.p_rect->top == ptr2.p_rect->top &&
+> > +		       ptr1.p_rect->left == ptr2.p_rect->left &&
+> > +		       ptr1.p_rect->height == ptr2.p_rect->height &&
+> > +		       ptr1.p_rect->width == ptr2.p_rect->width;
+> >  	default:
+> >  		if (ctrl->is_int)
+> >  			return ptr1.p_s32[idx] == ptr2.p_s32[idx];
+> > @@ -307,6 +312,11 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+> >  	case V4L2_CTRL_TYPE_VP9_FRAME:
+> >  		pr_cont("VP9_FRAME");
+> >  		break;
+> > +	case V4L2_CTRL_TYPE_RECT:
+> > +		pr_cont("l: %d, t: %d, w: %u, h: %u",
+> > +			ptr.p_rect->left, ptr.p_rect->top,
+> > +			ptr.p_rect->width, ptr.p_rect->height);
+> > +		break;
+> >  	default:
+> >  		pr_cont("unknown type %d", ctrl->type);
+> >  		break;
+> > @@ -525,6 +535,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> >  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+> >  	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+> >  	struct v4l2_area *area;
+> > +	struct v4l2_rect *rect;
+> >  	void *p = ptr.p + idx * ctrl->elem_size;
+> >  	unsigned int i;
+> >  
+> > @@ -888,6 +899,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> >  			return -EINVAL;
+> >  		break;
+> >  
+> > +	case V4L2_CTRL_TYPE_RECT:
+> > +		rect = p;
+> > +		if (!rect->width || !rect->height)
+> > +			return -EINVAL;
+> > +		break;
+> > +
+> >  	default:
+> >  		return -EINVAL;
+> >  	}
+> > @@ -1456,6 +1473,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+> >  	case V4L2_CTRL_TYPE_AREA:
+> >  		elem_size = sizeof(struct v4l2_area);
+> >  		break;
+> > +	case V4L2_CTRL_TYPE_RECT:
+> > +		elem_size = sizeof(struct v4l2_rect);
+> > +		break;
+> >  	default:
+> >  		if (type < V4L2_CTRL_COMPOUND_TYPES)
+> >  			elem_size = sizeof(s32);
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > index 54ca4e6b820b..95f39a2d2ad2 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >  	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
+> >  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
+> >  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+> > +	case V4L2_CID_REGION_OF_INTEREST_RECT:  return "Region Of Interest Rectangle";
+> >  
+> >  	/* FM Radio Modulator controls */
+> >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > @@ -1524,6 +1525,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >  	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
+> >  		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
+> >  		break;
+> > +	case V4L2_CID_REGION_OF_INTEREST_RECT:
+> > +		*type = V4L2_CTRL_TYPE_RECT;
+> > +		break;
+> >  	default:
+> >  		*type = V4L2_CTRL_TYPE_INTEGER;
+> >  		break;
+> > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> > index b3ce438f1329..919e104de50b 100644
+> > --- a/include/media/v4l2-ctrls.h
+> > +++ b/include/media/v4l2-ctrls.h
+> > @@ -58,6 +58,7 @@ struct video_device;
+> >   * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
+> >   * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
+> >   * @p_area:			Pointer to an area.
+> > + * @p_rect:			Pointer to a rectangle.
+> >   * @p:				Pointer to a compound value.
+> >   * @p_const:			Pointer to a constant compound value.
+> >   */
+> > @@ -87,6 +88,7 @@ union v4l2_ctrl_ptr {
+> >  	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+> >  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+> >  	struct v4l2_area *p_area;
+> > +	struct v4l2_rect *p_rect;
+> >  	void *p;
+> >  	const void *p_const;
+> >  };
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > index bb40129446d4..499fcddb6254 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -1008,6 +1008,8 @@ enum v4l2_auto_focus_range {
+> >  
+> >  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
+> >  
+> > +#define V4L2_CID_REGION_OF_INTEREST_RECT	(V4L2_CID_CAMERA_CLASS_BASE+36)
+> > +
+> >  /* FM Modulator class control IDs */
+> >  
+> >  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > index 3768a0a80830..b712412cf763 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -1751,6 +1751,7 @@ struct v4l2_ext_control {
+> >  		__u16 __user *p_u16;
+> >  		__u32 __user *p_u32;
+> >  		struct v4l2_area __user *p_area;
+> > +		struct v4l2_rect __user *p_rect;
+> >  		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+> >  		struct v4l2_ctrl_h264_pps *p_h264_pps;
+> >  		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
+> > @@ -1810,6 +1811,7 @@ enum v4l2_ctrl_type {
+> >  	V4L2_CTRL_TYPE_U16	     = 0x0101,
+> >  	V4L2_CTRL_TYPE_U32	     = 0x0102,
+> >  	V4L2_CTRL_TYPE_AREA          = 0x0106,
+> > +	V4L2_CTRL_TYPE_RECT	     = 0x0107,
+> >  
+> >  	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
+> >  	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
 
 -- 
-Best regards,
-Dmitry
+Regards,
+
+Laurent Pinchart
