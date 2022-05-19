@@ -2,131 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D178852DCC6
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 20:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0232952DD9A
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 21:17:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240572AbiESS3T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 14:29:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55970 "EHLO
+        id S244082AbiESTRL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 15:17:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232883AbiESS3R (ORCPT
+        with ESMTP id S244556AbiESTQx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 14:29:17 -0400
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD6BDC03A5
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 11:29:16 -0700 (PDT)
-Received: by mail-qt1-x835.google.com with SMTP id v6so2395037qtx.12
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 11:29:16 -0700 (PDT)
+        Thu, 19 May 2022 15:16:53 -0400
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FB31AD86
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 12:16:01 -0700 (PDT)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-2ff155c239bso67017687b3.2
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 12:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=qa+gghhVNCJdZIwbzWGr4GVzYXOjM0pg+gkd3cQYMhU=;
-        b=2roEZo1YO0+jn3Pip8lbNZmP4kOVm8BA1bfM+lmAUIWQCDRa6xoA1pOZLW03k2XFSj
-         i5scKMJMEXffrjo78//0MrLR89hty6rhQ7Nm8HtC6CnNFl5x+VINlpaTvMsExFZAMkAL
-         Y5Zw9sBIDcW8x0Id3hQsZvmKMdlS/1RPZoWnutGyG7kFvAzLhr0cHgYGmNRozElNX2y4
-         blmYYKf5VE655EI2I0gqQ2GkuqXGipdWdcpzjLRCrcgAFH/1mAB5rz3ju16ng07s+wtr
-         ot1JM1ul/LfbLz9V8Xxvpo5FAFYt1za3rPgJgP7y6/yJHy99iBTCZ2AFIxh6F23P/sHc
-         lpBA==
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=sldeoUHN+XKV/25qdr8o1yS1uyCAwpn/8BNmGuwP1dE=;
+        b=esdsxkGc0eGir1WNJCJ+3z0bGioybSNozIgc+5YrEAgjXQ55X1gbvI0UuAeHqVOr9u
+         pkeFmGpcsq6VvVMjKi3Kie8aYUOtwsAYrxFImGEr27vkiYw/OhhG4edYk+QLr2bcanFl
+         1yz1hRjuKwe5L4OgRPe3qUce6qKdJLOMpyUra06UfoVPFs9Rk/UWLsO6S6H1CerCzI3a
+         /087iBaPNoaV3eZhfkrwWc0+yd12va2Upq2jgVLPt1UN1cJZzGQrUa5jnnOzHiC7VAOI
+         DfCuHSXyPoEm7z8x/VHn5tYz3crZ3v8MYSc82Vdnima/E4/j/um0oMwuo1WMrynqLUwO
+         FK0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=qa+gghhVNCJdZIwbzWGr4GVzYXOjM0pg+gkd3cQYMhU=;
-        b=0BVoh0HFy+JEkR2zV22cYj3551hVb9KjRGHH7yzmeMGzBrUhxsZ2w1L5P8LoOLFgBl
-         HEu7GumAeSwi9SV/tVK2MlzHmoEEP8L7d2Uz3/idQyHmfeB/uoyqzV24ygTPQ14oCrvM
-         72Xw4lY3C+yHVEZy997kPDhrNcpqPMFnQIQdPWEc0A3GeZVqo5/FJtbg1sSLvwBVq1ij
-         YVpGYJdH0yHVaLUcsl1JrwVabMGtIoWFX+akk6VBV4bILzqjoxt9RF6QfgKulpvfRaji
-         UQzcBBD+1yT8T0NmH6kLMU76dXH+wP6BFZYNEXCaBpY25LoHCO2e1+FSqPNF22nCeqrV
-         YUYQ==
-X-Gm-Message-State: AOAM530Bcs8KB5kfaBR0WJL8g5lvTmxKavtFQEHTIm9IqfIaRtm5toqP
-        ngENC6UsfUBLtYIzaXXqUhzsYA==
-X-Google-Smtp-Source: ABdhPJxBVuxWrA1raXR1ZTVEMYBsN5Bcu1dprDyxZNpHWsMlwF05H4KExruJS+lGwKW0pKlmhXhiVQ==
-X-Received: by 2002:ac8:5896:0:b0:2f3:d231:58a9 with SMTP id t22-20020ac85896000000b002f3d23158a9mr5052909qta.131.1652984955844;
-        Thu, 19 May 2022 11:29:15 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id h22-20020ac85496000000b002f917b670a2sm676447qtq.74.2022.05.19.11.29.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 May 2022 11:29:15 -0700 (PDT)
-Message-ID: <5a372aa8296c1141a0da5f3eb240e6ca675a3a87.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 0/6] media: Implement UVC v1.5 ROI
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Yunke Cao <yunkec@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-Date:   Thu, 19 May 2022 14:29:14 -0400
-In-Reply-To: <20220518062412.2375586-1-yunkec@google.com>
-References: <20220518062412.2375586-1-yunkec@google.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=sldeoUHN+XKV/25qdr8o1yS1uyCAwpn/8BNmGuwP1dE=;
+        b=RmGEgSHQIFK7JBtxHQ2z0XCs4SEIyBBCsx2igqfOQnmGe1H2lMWhq4AkXbTyGyKCmv
+         h+TLg4OO5L2yqnUzMD4V2Q432KR32oF1Nm0pap3xftWtF0P0Nz8IYUYZtWAXG5rRYjoZ
+         9el+CTYkRo6GSwktI8j70IawpRe8XOhe5xqmPWvXfFRFgd/fuY2rR6laH5RhXi13c+0B
+         fuYBrbhCKeBcmIi4aWW3iZCCFduTZ3OHFJhYCsoEQActwZGcC7iz5suBtPRI8FLcZaqv
+         +XJ1MG/weZmCwjeAQBcKU6NQos68V7ApLMNjuMlZ35mNNTUh4u1K0PLHhFXTN0HxT71l
+         88Vw==
+X-Gm-Message-State: AOAM533UlFuTTb1t4km648ADcmTp678D7XXJ4uWNr66PWasVpHpIq0Ro
+        wQQXWhJyABodwxRzzEIFVvLv4DtUR+za8G4EbvI=
+X-Google-Smtp-Source: ABdhPJzsrhBthWUerOooCvtH/w1ulZF5flJzyUSyxmLTPq4eQnZ/Xkn06K6dIEO0BrCeHNS0q07Ser+0nsuYW8fZYNY=
+X-Received: by 2002:a81:60a:0:b0:2f8:b984:7f5 with SMTP id 10-20020a81060a000000b002f8b98407f5mr6390954ywg.217.1652987760471;
+ Thu, 19 May 2022 12:16:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a05:7010:6b12:b0:2ad:f417:94bd with HTTP; Thu, 19 May 2022
+ 12:16:00 -0700 (PDT)
+From:   Manuel Franco <manuelfrancolove048@gmail.com>
+Date:   Thu, 19 May 2022 12:16:00 -0700
+Message-ID: <CA+PGJtBW=RFNtvMUgz7E2EqQ6BF1sEQLZP--s0EACBHHamT4uw@mail.gmail.com>
+Subject: Der Betrag von 500.000,00 Euro wurde Ihnen gespendet. Kontakt: manuelfranco4love@gmail.com
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_80,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLY,LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunke Cao,
+Ich bin Manuel Franco und habe am 23. April 2019 den Power Ball
+Jackpot im Wert von 758,7 Millionen Dollar gewonnen. Ich gew=C3=A4hre 5
+Personen jeweils 500.000,00 Euro und Sie geh=C3=B6ren zu den 5 gl=C3=BCckli=
+chen
+Gewinnern, die ausgew=C3=A4hlt wurden, um meine Spende von 500.000,00 Euro
+zu erhalten.
 
-Le mercredi 18 mai 2022 =C3=A0 15:24 +0900, Yunke Cao a =C3=A9crit=C2=A0:
-> This patch set implements UVC v1.5 regioin of interest using V4L2
-> control API.
->=20
-> ROI control is consisted an auto control with type bitmask and a
-> rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
->=20
-> V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
->=20
-> A rectangle control is also added to the vivid test driver.
->=20
-> Tested on two different usb cameras using v4l2-ctl and calling ioctls.
->=20
-> Yunke Cao (6):
->   media: v4l2_ctrl: Add region of interest rectangle control
->   media: v4l2_ctrl: Add region of interest auto control
->   media: v4l2_ctrl: Add V4L2_CTRL_WHICH_MIN/MAX_VAL
->   media: uvcvideo: implement UVC v1.5 ROI
->   media: uvcvideo: Initialize roi to default value
->   media: vivid: Add a roi rectangle control
-
-A little about best practices, consider adding a change log in your revisio=
-ns,
-so we know what you have changed (or document what you decided not to chang=
-e).
-Its also nice to wait for the review comment to settle before posting a new=
- set,
-it may appear rude otherwise.
-
-kind regards,
-Nicolas
-
->=20
->  .../userspace-api/media/drivers/uvcvideo.rst  |   1 +
->  .../media/v4l/ext-ctrls-camera.rst            |  49 ++++
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  12 +-
->  .../media/videodev2.h.rst.exceptions          |   3 +
->  drivers/media/i2c/imx214.c                    |   4 +-
->  .../media/test-drivers/vivid/vivid-ctrls.c    |  34 +++
->  drivers/media/usb/uvc/uvc_ctrl.c              | 214 ++++++++++++++++--
->  drivers/media/usb/uvc/uvc_v4l2.c              |  12 +-
->  drivers/media/usb/uvc/uvcvideo.h              |  10 +-
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      |  51 ++++-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 155 ++++++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   7 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
->  include/media/v4l2-ctrls.h                    |  32 ++-
->  include/uapi/linux/usb/video.h                |   1 +
->  include/uapi/linux/uvcvideo.h                 |   1 +
->  include/uapi/linux/v4l2-controls.h            |  11 +
->  include/uapi/linux/videodev2.h                |   4 +
->  18 files changed, 553 insertions(+), 52 deletions(-)
->=20
-
+Kontaktieren Sie mich f=C3=BCr weitere Informationen unter:
+manuelfranco4love@gmail.com
