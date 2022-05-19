@@ -2,76 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0232952DD9A
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 21:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6B7652DE03
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 22:00:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244082AbiESTRL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 15:17:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51508 "EHLO
+        id S244321AbiESUAV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 16:00:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244556AbiESTQx (ORCPT
+        with ESMTP id S231778AbiESUAT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 15:16:53 -0400
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FB31AD86
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 12:16:01 -0700 (PDT)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-2ff155c239bso67017687b3.2
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 12:16:01 -0700 (PDT)
+        Thu, 19 May 2022 16:00:19 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 047426221A;
+        Thu, 19 May 2022 13:00:19 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id c2so5698741plh.2;
+        Thu, 19 May 2022 13:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sldeoUHN+XKV/25qdr8o1yS1uyCAwpn/8BNmGuwP1dE=;
-        b=esdsxkGc0eGir1WNJCJ+3z0bGioybSNozIgc+5YrEAgjXQ55X1gbvI0UuAeHqVOr9u
-         pkeFmGpcsq6VvVMjKi3Kie8aYUOtwsAYrxFImGEr27vkiYw/OhhG4edYk+QLr2bcanFl
-         1yz1hRjuKwe5L4OgRPe3qUce6qKdJLOMpyUra06UfoVPFs9Rk/UWLsO6S6H1CerCzI3a
-         /087iBaPNoaV3eZhfkrwWc0+yd12va2Upq2jgVLPt1UN1cJZzGQrUa5jnnOzHiC7VAOI
-         DfCuHSXyPoEm7z8x/VHn5tYz3crZ3v8MYSc82Vdnima/E4/j/um0oMwuo1WMrynqLUwO
-         FK0Q==
+        bh=r+JBYr/YBgGXuX47erfmD8xS+ac8EQgaMka1WHtaqB4=;
+        b=LPsUDlU3loCxhBQvblYbW66lDJFR18zfe2nlAm+4rDrUENsZuLNk1Wsi/M4rO70IcD
+         7rHDm/fc9uYPIghOCMqaw0TE4lmFbkJiByMMuRCL+NgGj79JurByaVWvxOqIZxbqT65G
+         L2yQ3gAek2NOyFIGKq//Zust4e49BF7hNPmpZbpUkP8i6efDAoaQzPBJ129vyrFBclgM
+         aEuhlIEtwBLhYOdjiD9Kiru7VubgwTqHHcPC2CLobv54iZbOFQ9fMRQQP5hhtvCBcsYn
+         mVo7+vJyp9pOFMvx2EmavhzMQ/ilheYfbhXKbpXwu+8Iee+aqcuG11mMmI41bL0rqqGK
+         qR9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sldeoUHN+XKV/25qdr8o1yS1uyCAwpn/8BNmGuwP1dE=;
-        b=RmGEgSHQIFK7JBtxHQ2z0XCs4SEIyBBCsx2igqfOQnmGe1H2lMWhq4AkXbTyGyKCmv
-         h+TLg4OO5L2yqnUzMD4V2Q432KR32oF1Nm0pap3xftWtF0P0Nz8IYUYZtWAXG5rRYjoZ
-         9el+CTYkRo6GSwktI8j70IawpRe8XOhe5xqmPWvXfFRFgd/fuY2rR6laH5RhXi13c+0B
-         fuYBrbhCKeBcmIi4aWW3iZCCFduTZ3OHFJhYCsoEQActwZGcC7iz5suBtPRI8FLcZaqv
-         +XJ1MG/weZmCwjeAQBcKU6NQos68V7ApLMNjuMlZ35mNNTUh4u1K0PLHhFXTN0HxT71l
-         88Vw==
-X-Gm-Message-State: AOAM533UlFuTTb1t4km648ADcmTp678D7XXJ4uWNr66PWasVpHpIq0Ro
-        wQQXWhJyABodwxRzzEIFVvLv4DtUR+za8G4EbvI=
-X-Google-Smtp-Source: ABdhPJzsrhBthWUerOooCvtH/w1ulZF5flJzyUSyxmLTPq4eQnZ/Xkn06K6dIEO0BrCeHNS0q07Ser+0nsuYW8fZYNY=
-X-Received: by 2002:a81:60a:0:b0:2f8:b984:7f5 with SMTP id 10-20020a81060a000000b002f8b98407f5mr6390954ywg.217.1652987760471;
- Thu, 19 May 2022 12:16:00 -0700 (PDT)
+        bh=r+JBYr/YBgGXuX47erfmD8xS+ac8EQgaMka1WHtaqB4=;
+        b=1cSITMUZtuCwdf6/g2JzF8JcmCPsgPG2XteYFeyBUNkjCh5duHPQ6K81OnFWuW8sMy
+         7jyONiA/P6TjMeKStZsFttWMVNM/3DfA8JpSAg61crKP6hEy38xBVudcT02erXevcE+L
+         tlEJxGl731PfoZfILS1fmAlL0uZu9G8Nm8aRimYazr9aMkBJfvAStKmG0WzGAO/th6+Y
+         XzC9HTRrBcUuTKTy/7KVD5LJ7WlIHWbog/UpQ+cyRaGrl1tawEPPRseuxj2GRg8fLUrT
+         1yjQFAQfOnHcuOJbs83HA6l0ksvwaTqPXhptS4H0qatCdyfThfrWOUS8maNQK/xJNGWX
+         GbvQ==
+X-Gm-Message-State: AOAM530+Lvxv03zLqyTNd8mH0GRrvOxm6bllgLEX8GOtOLATr98k8dZm
+        6IgBK7h/6PAch+D5S/DdJhQ=
+X-Google-Smtp-Source: ABdhPJwJMOd7ydAiGD+9PmRxBJQiyykFNT3FGPiA3YebQjvdKTelVfAjhA3VE1luVEdMSXLijY3eSQ==
+X-Received: by 2002:a17:90a:ba11:b0:1df:2d09:1308 with SMTP id s17-20020a17090aba1100b001df2d091308mr6704251pjr.184.1652990418629;
+        Thu, 19 May 2022 13:00:18 -0700 (PDT)
+Received: from ubuntu.localdomain ([103.230.148.187])
+        by smtp.gmail.com with ESMTPSA id j17-20020a170903025100b001618644d8b5sm4073863plh.154.2022.05.19.13.00.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 13:00:18 -0700 (PDT)
+From:   Gautam Menghani <gautam.linuxkernel@gmail.com>
+To:     sudipm.mukherjee@gmail.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com
+Cc:     Gautam Menghani <gautam.linuxkernel@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH] drivers/parport: Remove unused variable 'ret'
+Date:   Thu, 19 May 2022 13:00:12 -0700
+Message-Id: <20220519200012.59253-1-gautam.linuxkernel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a05:7010:6b12:b0:2ad:f417:94bd with HTTP; Thu, 19 May 2022
- 12:16:00 -0700 (PDT)
-From:   Manuel Franco <manuelfrancolove048@gmail.com>
-Date:   Thu, 19 May 2022 12:16:00 -0700
-Message-ID: <CA+PGJtBW=RFNtvMUgz7E2EqQ6BF1sEQLZP--s0EACBHHamT4uw@mail.gmail.com>
-Subject: Der Betrag von 500.000,00 Euro wurde Ihnen gespendet. Kontakt: manuelfranco4love@gmail.com
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_80,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLY,LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ich bin Manuel Franco und habe am 23. April 2019 den Power Ball
-Jackpot im Wert von 758,7 Millionen Dollar gewonnen. Ich gew=C3=A4hre 5
-Personen jeweils 500.000,00 Euro und Sie geh=C3=B6ren zu den 5 gl=C3=BCckli=
-chen
-Gewinnern, die ausgew=C3=A4hlt wurden, um meine Spende von 500.000,00 Euro
-zu erhalten.
+Remove the unused variable 'ret' as suggested by clang scan
+warning: Value stored to 'ret' is never read [deadcode.DeadStores]
+                        ret = 0;
 
-Kontaktieren Sie mich f=C3=BCr weitere Informationen unter:
-manuelfranco4love@gmail.com
+
+Signed-off-by: Gautam Menghani <gautam.linuxkernel@gmail.com>
+---
+ drivers/parport/parport_pc.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/parport/parport_pc.c b/drivers/parport/parport_pc.c
+index eda4ded4d5e5..3d9fcbe758d7 100644
+--- a/drivers/parport/parport_pc.c
++++ b/drivers/parport/parport_pc.c
+@@ -507,7 +507,6 @@ static size_t parport_pc_fifo_write_block_pio(struct parport *port,
+ 			ret = parport_wait_event(port, HZ);
+ 			if (ret < 0)
+ 				break;
+-			ret = 0;
+ 			if (!time_before(jiffies, expire)) {
+ 				/* Timed out. */
+ 				printk(KERN_DEBUG "FIFO write timed out\n");
+@@ -636,7 +635,6 @@ static size_t parport_pc_fifo_write_block_dma(struct parport *port,
+ 		ret = parport_wait_event(port, HZ);
+ 		if (ret < 0)
+ 			break;
+-		ret = 0;
+ 		if (!time_before(jiffies, expire)) {
+ 			/* Timed out. */
+ 			printk(KERN_DEBUG "DMA write timed out\n");
+-- 
+2.25.1
+
