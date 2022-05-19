@@ -2,72 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4826152D6BD
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 17:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3140D52D80C
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 17:43:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240218AbiESPC5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 11:02:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42478 "EHLO
+        id S241170AbiESPnA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 11:43:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240389AbiESPCp (ORCPT
+        with ESMTP id S241274AbiESPlY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 11:02:45 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF7063DDCA
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 08:01:01 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id s28so7439108wrb.7
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 08:01:01 -0700 (PDT)
+        Thu, 19 May 2022 11:41:24 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E97E13F44
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 08:41:20 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id n23so7549402edy.0
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 08:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=kk+3RWtEnWLHYV4TCesNJ2Di/nKpfHOUcfcAM49IYBo=;
-        b=GocAhr9e187YQKtgNkdpHhdUDju/RzbLC60GmlECdUgxlL9I3gef4M7pfbSDxlIaIp
-         v62nz9WQT97MIzuGBXzwXaJI6rFKb+lnMmoOJ8fvNlg7pMkL4m6swQOMzRYsys2E2oJD
-         H3IRH0JxDx9SIfvZgOqQWmTF+Oa6ZyWrzq4dASmiYpDFLTC8y1QfoqkmHNAuDSQREAuQ
-         0U/tVJv770uvuxvjLfvVNuwaDlunG7nqzURMPGudL6oymsTG1sWZvVDkSGtnSCei1Skt
-         SB1yPXw+ZGv89/VgytknCkzbZ4CZsI4+0loNWdEc8qssSvMV+4pw612yNGwpUqIvhMpK
-         mjAg==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dnQaBZGKU69MTwRS8qWTSCDZ3R9++iPFedE4qLezN24=;
+        b=G7MwAWrsF3KGXbnCiX64lpZaEv58Gq5Lv4QEGx6GLIkwE1e2uQwyshn1JeX9La5hhR
+         BtwZEOgoX2vdWjguSOz05Ht9Nz/AJXePmkG4ji3Q1LiJSUT2lkWLFEeKxKu5p7lS7y0x
+         tvXRyS3NOAMuYs7uVg9KJPVZQqY4H02kMhjPY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kk+3RWtEnWLHYV4TCesNJ2Di/nKpfHOUcfcAM49IYBo=;
-        b=o5WKk49+6bAtOfGx40oJq6cxuKNxNfBsyRiAXnjS2NSfHNsls3XUenHIdPNrzjjhHK
-         JkFo4N3pnSmgCxeHLvEWm6kybV6bukmuYLKw5OCgDGbH13/92gxuVllZErMWQYqlo9m0
-         C1PK1i0Zz5YQLO3wfQa5B2v74q1gmoO65cfi2qijlnWIMJMPETUjVfcPgTnMfqbelrF7
-         6fbvzYUTBmHjOfb8mvmQ8cCOAuSZ70KwGfx77INA8oIAnWBMbtrcdHawCV7tLN0Op7/t
-         DBdoVTgXqqZGI3qri3ZfWcpUzcjHqdbM0MgpB/AqWpA6bihW6iEd5QBxBlOr78WGxssX
-         CS1g==
-X-Gm-Message-State: AOAM531Y1NybSJYaQwP1mNVa9iBcMyBGN12IJh2x768WBhxKbiTYE96V
-        34n4fzS4FKayUrhtsbJ/XjgPDw==
-X-Google-Smtp-Source: ABdhPJylYY9rrFf6GRrDFY2Lac6iGtccjiKcHwGCqD1nSDxFhzQsI4Dj5xx9fqZwOc2C3VS3Lw7IEA==
-X-Received: by 2002:a5d:4112:0:b0:20d:b5e:e9bb with SMTP id l18-20020a5d4112000000b0020d0b5ee9bbmr4434628wrp.655.1652972460359;
-        Thu, 19 May 2022 08:01:00 -0700 (PDT)
-Received: from [192.168.1.17] ([84.238.208.203])
-        by smtp.googlemail.com with ESMTPSA id f21-20020a7bcd15000000b003942a244f30sm8373216wmj.9.2022.05.19.08.00.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 08:00:59 -0700 (PDT)
-Message-ID: <270cf1d2-fd41-d206-06b6-78442641ba66@linaro.org>
-Date:   Thu, 19 May 2022 18:00:58 +0300
+        bh=dnQaBZGKU69MTwRS8qWTSCDZ3R9++iPFedE4qLezN24=;
+        b=oAqPiaqL8d3xc6DEYbqMKEh/MBrlq2Sj803F4fk23DNeKppOrFcEWTTIXsFAUdBr4+
+         M46tNSUzXpRNr2whunHZlcPjdIQ/ZWND3PBOUZAMlFHTnRF8tPNTTTWBGOnOc3GdujhU
+         3M9/iQ92LhZrhHqMD0CI5vIIYxUwxgRFcGm+RegkLGOBWwnA0dbvdUVw8AW7nfRjvLa/
+         RrMJNtI1ZF4f6Te8Q+H+4f8g1DkMgy+Kgfne42vOyBogg1Rgh1ZDll/cB1QyjCeEuNWF
+         JUIMCuKaz7ZTrNVlJzu0e3jQKNZLVvUjDP1+sz7jdyYs7qMevNZhP/6vNr2BGeoZEJHF
+         0w6Q==
+X-Gm-Message-State: AOAM530CpEe9An4clA2rMAgCpPM+Rk2mJPJkORFLliJ5R36IMVVSZPSR
+        SQ7GjGgL3eNJ1D7M4bN6xFXcyw==
+X-Google-Smtp-Source: ABdhPJypS1rlHoxNjaPj41+APsPTv2k/LHJYFJ+iXvW2YCPP2gn8R0PSjPRZ/QYqrwnk7P0YpQ5uyw==
+X-Received: by 2002:a05:6402:f09:b0:42a:be2f:ceeb with SMTP id i9-20020a0564020f0900b0042abe2fceebmr6090840eda.110.1652974878684;
+        Thu, 19 May 2022 08:41:18 -0700 (PDT)
+Received: from alco.corp.google.com ([100.104.168.197])
+        by smtp.gmail.com with ESMTPSA id k24-20020a056402049800b0042aae307407sm2990092edv.21.2022.05.19.08.41.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 08:41:18 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Yunke Cao <yunkec@google.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/4] uvcvideo: Fix handling of power_line_frequency
+Date:   Thu, 19 May 2022 17:40:55 +0200
+Message-Id: <20220519154100.333091-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] media: venus: hfi_platform: Correct supported codecs for
- sc7280
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vboma@qti.qualcomm.com
-References: <1652952678-14747-1-git-send-email-quic_vgarodia@quicinc.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-In-Reply-To: <1652952678-14747-1-git-send-email-quic_vgarodia@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -76,103 +69,22 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The uvc standard recognizes 4 different values for this control, but we
+were only using the first 3.
 
+Also add a quirk for those devices that only support 50 and 60 Hz.
 
-On 5/19/22 12:31, Vikash Garodia wrote:
-> VP8 codec is deprecated for sc7280 SOC. Fix in platform layer to
-> update the supported codecs accordingly.
-> 
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/hfi_parser.c   |  6 ++++--
->  drivers/media/platform/qcom/venus/hfi_platform.c | 21 +++++++++++++++++++++
->  drivers/media/platform/qcom/venus/hfi_platform.h |  2 ++
->  3 files changed, 27 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
-> index 5b8389b..6cf74b2 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
-> @@ -234,6 +234,7 @@ static int hfi_platform_parser(struct venus_core *core, struct venus_inst *inst)
->  	const struct hfi_plat_caps *caps = NULL;
->  	u32 enc_codecs, dec_codecs, count = 0;
->  	unsigned int entries;
-> +	int ret;
->  
->  	plat = hfi_platform_get(core->res->hfi_version);
->  	if (!plat)
-> @@ -242,8 +243,9 @@ static int hfi_platform_parser(struct venus_core *core, struct venus_inst *inst)
->  	if (inst)
->  		return 0;
->  
-> -	if (plat->codecs)
-> -		plat->codecs(&enc_codecs, &dec_codecs, &count);
-> +	ret = hfi_platform_get_codecs(core, &enc_codecs, &dec_codecs, &count);
-> +	if (ret)
-> +		return ret;
->  
->  	if (plat->capabilities)
->  		caps = plat->capabilities(&entries);
-> diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
-> index f16f896..bc9b431 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_platform.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_platform.c
-> @@ -2,7 +2,9 @@
->  /*
->   * Copyright (c) 2020, The Linux Foundation. All rights reserved.
->   */
-> +#include <linux/of_device.h>
->  #include "hfi_platform.h"
-> +#include "core.h"
->  
->  const struct hfi_platform *hfi_platform_get(enum hfi_version version)
->  {
-> @@ -66,3 +68,22 @@ hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec, u32 session_
->  	return freq;
->  }
->  
-> +int
-> +hfi_platform_get_codecs(struct venus_core *core, u32 *enc_codecs, u32 *dec_codecs, u32 *count)
-> +{
-> +	const struct hfi_platform *plat;
-> +
-> +	plat = hfi_platform_get(core->res->hfi_version);
-> +	if (!plat)
-> +		return -EINVAL;
-> +
-> +	plat->codecs(enc_codecs, dec_codecs, count);
+Ricardo Ribalda (4):
+  media: uvcvideo: Add missing value for power_line_frequency
+  media: uvcvideo: Add UVC_QUIRK_LIMITED_POWERLINE
+  media: uvcvideo: Add LIMITED_POWERLINE quirks for Quanta UVC Webcam
+  media: uvcvideo: Add LIMITED_POWERLINE quirks for Chicony Easycamera
 
-I guess some of the static code analyzers could complain, so please
-check plat->codecs for NULL:
-
-	if (!plat->codecs)
-		return -EINVAL;
-
-Otherwise look good to me:
-
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
-> +
-> +	if (of_device_is_compatible(core->dev->of_node, "qcom,sc7280-venus")) {
-> +		*enc_codecs &= ~HFI_VIDEO_CODEC_VP8;
-> +		*dec_codecs &= ~HFI_VIDEO_CODEC_VP8;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
-> index 1dcf408..ec89a90 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_platform.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_platform.h
-> @@ -66,4 +66,6 @@ unsigned long hfi_platform_get_codec_vsp_freq(enum hfi_version version, u32 code
->  					      u32 session_type);
->  unsigned long hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec,
->  					     u32 session_type);
-> +int hfi_platform_get_codecs(struct venus_core *core, u32 *enc_codecs, u32 *dec_codecs,
-> +			    u32 *count);
->  #endif
+ drivers/media/usb/uvc/uvc_ctrl.c   | 28 ++++++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvc_driver.c | 27 +++++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 56 insertions(+)
 
 -- 
-regards,
-Stan
+2.36.1.124.g0e6072fb45-goog
+
