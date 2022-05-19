@@ -2,196 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96E7552CE8E
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 10:45:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9021252CF6F
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 11:31:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231199AbiESIoK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 04:44:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37344 "EHLO
+        id S236143AbiESJbK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 05:31:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229925AbiESIoJ (ORCPT
+        with ESMTP id S236049AbiESJbJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 04:44:09 -0400
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2067.outbound.protection.outlook.com [40.107.104.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65EC67E1EB;
-        Thu, 19 May 2022 01:44:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZTtd2IImCoDev7s5ooJ3mLX2CXQsr17J4zO4NZF4ti8c3gNMf6ZTwOmcRxsupkyLTkFSrlipYjKE5hhhP90d2+s2A676fKAqomUhch+PVqxHy/HE53IpwqOtLnQ2JAcmVPUXwHi/WBy3l+MdvV+5Jgd6BCJj0RqVHPdCPP6eg5w87c4GVxzduGH94r8aJGOqQ1RPFqzStAeFkmLn30ZAxgnSAV5SKvXoCMrPNxGZcy1Stsr6yLPoB3lP5LSUodYP8G+OICSL3xoq8GhCFHOE1M8Vjt9y94Pd2nyur8Aj5f1afNzG0I3cqfb7/c3F1CwQnwXdmE6ANRRq8I66O3LWzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iUjaLxzVVdtL+fuLrmbxhQnlpb3XPb7ukNFYwYUJjQg=;
- b=jelf5yvO2KuNzzWcbIN/RuTuhfhO/RKWhDjaXvOJdZDwHKZ7MEq0VmbLZE+FXaaQFDo8dOru7TaFYEEHTbR+5bHhV6pNu0QTtCnOswZUVR1ocJPTCg+mZ+3fSAoHPThsSkmvm1yqwy2m+jVIzYZyxrHMknOng/Ipc6Z355tYcETpPEXgPLaneX9IJteTr6UVD2wzubJkDb/96wwwt2DPx3eZbEds+sxdX0ki4PAh2VGtdwY+jWsAIX9wDut+wKBS+rtO1TwIvEv5U7yoV4Dr5qeu8e9OAurO5ns8Gb/giYt7XAT4w+XP2+LXVUnRHUggx/dbP4zXzZOfwqoC4x4PLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iUjaLxzVVdtL+fuLrmbxhQnlpb3XPb7ukNFYwYUJjQg=;
- b=XqT+GXlVfMZ92QBW001a0ykPY5ONXJ1zDQ6JivAHbrV1MTF4AonuxlRu7lIc/4wBxXmZ9iJmYQS5EVdCCEd7KfV2POWGxPHPLlt7sF//tUQNsjEGX6320oT5S2KHEQw2uhVtRB54IF5TR0SNZ4vRjKrZ2ho+jwVNNF6INeXUIPw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by DB3PR0402MB3740.eurprd04.prod.outlook.com (2603:10a6:8:e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.18; Thu, 19 May
- 2022 08:44:04 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::bc48:7565:c619:62c3]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::bc48:7565:c619:62c3%7]) with mapi id 15.20.5273.015; Thu, 19 May 2022
- 08:44:04 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] media: amphion: vdec check format in enum_fmt
-Date:   Thu, 19 May 2022 16:43:46 +0800
-Message-Id: <20220519084346.10538-1-ming.qian@nxp.com>
+        Thu, 19 May 2022 05:31:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2837133A2C;
+        Thu, 19 May 2022 02:31:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 024D3618D8;
+        Thu, 19 May 2022 09:31:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AAA9C385AA;
+        Thu, 19 May 2022 09:30:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652952665;
+        bh=ymyWwFkIGcEgTX/HoyldR566LvQatVtWXOdUzMjInTY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ZsqjEz6v2uriZ2N0Dq+pndBRjvXvXcsjqqD+SvOkF0pAjllZckSSQYaCIQuEcw1Jy
+         2gDuMEW3YDYmQiSxD5oLg6FWYCdEjerCuH613MHsO//W5TSZsctd3moeGrzUDeRe6s
+         A9o4YVEYofn+70aKTfqkQvyQKReky8arKQkuzj+/1fx+lWD15H7ZSBUhsWsqXso+2v
+         pfcgLj1oqEZBMnIQHSVyd/1eNUlHWeCjPPq+0x8B1shXK+tDzT9UJeTpd9qImfciul
+         P2Sn+4aIKue0xebzFbJ0yeibqCMn+utYG9Q8Y8N+qtr7MyADNwqr8dBlCdNZa0fDzj
+         bxurpPC3T8esw==
+From:   eballetbo@kernel.org
+To:     lizefan.x@bytedance.com, corbet@lwn.net, joel@joelfernandes.org,
+        arve@android.com, tjmercier@google.com, maco@android.com,
+        benjamin.gaignard@collabora.com, tj@kernel.org, brauner@kernel.org,
+        sumit.semwal@linaro.org, tkjos@android.com, surenb@google.com,
+        hannes@cmpxchg.org, Brian.Starkey@arm.com,
+        christian.koenig@amd.com, gregkh@linuxfoundation.org,
+        lmark@codeaurora.org, john.stultz@linaro.org, hridya@google.com,
+        shuah@kernel.org, labbott@redhat.com
+Cc:     Enric Balletbo i Serra <eballetbo@kernel.org>,
+        cgroups@vger.kernel.org, kernel-team@android.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, cmllamas@google.com,
+        daniel@ffwll.ch, Kenny.Ho@amd.com, linux-kselftest@vger.kernel.org,
+        kaleshsingh@google.com, mkoutny@suse.com, jstultz@google.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org
+Subject: Re: [PATCH v7 1/6] gpu: rfc: Proposal for a GPU cgroup controller
+Date:   Thu, 19 May 2022 11:30:35 +0200
+Message-Id: <20220519093034.541481-1-eballetbo@kernel.org>
 X-Mailer: git-send-email 2.36.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2P153CA0021.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::8)
- To AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+In-Reply-To: <20220510235653.933868-1-tjmercier@google.com>
+References: <20220510235653.933868-1-tjmercier@google.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: be8bc8b7-8499-498f-cb8a-08da3973ba84
-X-MS-TrafficTypeDiagnostic: DB3PR0402MB3740:EE_
-X-Microsoft-Antispam-PRVS: <DB3PR0402MB374033E19D27FA2954B49BE0E7D09@DB3PR0402MB3740.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZqPlS+yZSdqt9SG0HXdgeOm/V8pxK+0IA6bordoI+/QVeLuEkCrnsRrfcEcSQ3ZP1Mw2NYCvwEc+FUSthOxWysJS1FblwBVbirw6+cSIKi98O9ZN9WCQtfu9eZwackK+2CYOBRdoGbh2Z4+YvkzEhRJz+PC5YmrKVTrxhuFjio8QVQTZixVorlaNVEt5fcSFcpWpxmGd8ob+PsW791MdgEGqb2d7rsqGeYjnv9Ehe80t1Oyxg6lUkTfIAGV+aZhxNRTTzfh0D6Y8ASYJK1yrQZAMwuGQXUPqfYEU4rHwHlfiHJu8W/PvVTaFu0j7K62g63Q4bQIkoYVvfIlNfW91nFiqCAz0CDlshsCx7wN4TkkRWxN0buWI6rVCxX37gZz6tWlAQIWoAdFB3yorj0Yy2jr0tnNsgpr8+/oZ23Tx20BFT3VPrCYUiLsefKgKCowOR/nQALyVS0rRspeZb7m0XbyG3s/JDG3xrFFopr+qdNeijq3ECs83YEdy8hoz8fHxquG0EL5Nlu8Qa9Y8pHGOgSNi5JzgpEIEqzAfcRabHRIGq9NM8snbKBBqcgCO9UEetHW5zrKtLcFY6lCtVqtIy7IymWctOU/b7lcCL8MghZkGBsNE6imBlE5/TkKWL28C+rxTLZlVfvrL8vUiOmesuZUoCtlT76txl1iwaN/A7NtPPWlTlhrN/RCU/iPAKa1EsqluElOViIZLc++SDs8E1w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66946007)(186003)(2616005)(7416002)(38100700002)(26005)(66556008)(52116002)(316002)(508600001)(86362001)(36756003)(8936002)(66476007)(1076003)(6486002)(4326008)(8676002)(5660300002)(2906002)(38350700002)(44832011)(6512007)(83380400001)(6506007)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Q16XCYR8PAMv55IiPc0JyBW1YycKMtfpOdvQ2Q2Q8+9rTI63KpCPh3fb701E?=
- =?us-ascii?Q?Nj6pwuw0Rg/GjP++HM9PjQRy14RhxSdiO6fXfKRgpEyX67w3eZv0iYKypr6y?=
- =?us-ascii?Q?z6Q2v3w/6/RNGfy9zKwL9TXz3efYxk5qeMNX2bu+xeX1B4oZIetYiSgSFkHs?=
- =?us-ascii?Q?BPG+GZiwvxKbqYYCFYS+di6wxfwdZppMo9Ics2ljT77HPjbQb3DTB3mI0FFE?=
- =?us-ascii?Q?zsddgjACnEKt4tCRj1uVnRjAAc1kh3FVbnROSUL+0nlRnZ7/9HYdBabFa4pj?=
- =?us-ascii?Q?u18HSv5GcCgr5SBZ4Jd+2YS/AlCwzFCvCcK3t9Rz4ptMWx0+vW1rC1nz7JtO?=
- =?us-ascii?Q?oNrISPVpxuuvdcyWbGOf16EKIG7zucKK7X6Y/QxVm+s+iZOkE+hKnM0Y0rtY?=
- =?us-ascii?Q?dyaOU6YvGxUu2QxMCwlni0XeMNy2ZC209mzLR1k6YOx4Yq9q8K2PJURTe4su?=
- =?us-ascii?Q?FujistuqhhkF2C10rNw2zYracx92TQkftNHbgtkv9pO6ygdevjulKHMtemBZ?=
- =?us-ascii?Q?pHi9gNqCqbTgZpWFSjME6km0JQsBwi/bZi3NizwMf2DHPNb2ee2uZzQEDWYD?=
- =?us-ascii?Q?c9cHPpeAW+g9k/ilf0mIcP4X63uODeMjDcvQ1hUeLq6Yctvu0/fG+SdgOhRe?=
- =?us-ascii?Q?ff0TKyvIf6QuPeyj3GqYj4FB+kGnow7F4m7KGgCTD+7K9SEGcuTl2UykyTtW?=
- =?us-ascii?Q?u+ZCziQPKnK78/A3mWQY+WwlAwFcuDG1CS2v0tcBQh4ClJEX4vVvcFVnMTxS?=
- =?us-ascii?Q?VUzbl7NK4ClsiWVt89Rtjaacc8tFII/T4STpdA03svJLTCi78V70bmfmJ1yL?=
- =?us-ascii?Q?dLQqVXX3kOK8hlS+BSMoulecGPvp0eoG2LJ0VSq9ywDH5OcNcuLLmcsBogtt?=
- =?us-ascii?Q?FVayk42LAo3HKMyPJF4IdGKxNJ+okdrwSpSt+HBf0dGrNxkTl1Ivo6vfmyhf?=
- =?us-ascii?Q?ttPJanBMrfS0+bu+sPxrXNss2eQDPCOnInSqPCJwKHV1GRZP8g9HAEVn0x+1?=
- =?us-ascii?Q?ZvQeZ9wetSHP1a6xRPtNipowGGFiU/h6QIZnJ7uB7r8L4i4ARszrr637lvrh?=
- =?us-ascii?Q?/yGYKhooc7VJO5ee0b07NcOz/5jLthJY99xhULop2S0rauCtW1e5Z28tNqOp?=
- =?us-ascii?Q?O2NTQ8EocfuIzjrTICpZOY8LRxZOvU0+I+iFFxpvh1HmUn2P4Vnbp48DQp42?=
- =?us-ascii?Q?MCzPXeBg2hbKQdJchivIXYJIvA4TU8XfS5Y2iVuAjHdukhx0Q6vQ52DXjZaR?=
- =?us-ascii?Q?7EtDQ//Ylsh/settSeuYeiGLIrsQtVigBeQG2fKh6g4RYlZzvkduN5b725S6?=
- =?us-ascii?Q?yJ6q8OT+xvvu4w6qfJnKamL8P2Cnyo5fPieZB1V1ImBamp2gIHIBTvLWzozZ?=
- =?us-ascii?Q?whjyMjVZeJFn50goJh6T4uAcOQTEwZt0qil0pBpE/XYJt0ZNXyEiVFH955UT?=
- =?us-ascii?Q?s/21JxjhGutE+ffqYTfHac6BnZ0jaFQlnebwLBFvOpu3cwE+TgIOd/hCCzhx?=
- =?us-ascii?Q?wupCg+cTA34O8fRJNveRXMgT8tcSZykeSFdGgXfGqsFQGnxzs3X7h/Q9ivii?=
- =?us-ascii?Q?U0EO7UKYwosBccXn07q4N1HJbUHDgJZS+163S49iTZch1XqkJVdz07vkNPXV?=
- =?us-ascii?Q?c3kTpnNXW+37xOATTUL69EPRmX8QJdXK+OMoFuBFYcZrnnlRkhQXmDipkSdn?=
- =?us-ascii?Q?W/Cu+4U9llvksUMGY7Kb0WXS5hUjbxq/XIVa4pNt/+UAwhTcFRtEPdWR6OcL?=
- =?us-ascii?Q?K8+hrHaj0w=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be8bc8b7-8499-498f-cb8a-08da3973ba84
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2022 08:44:04.2133
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EA2dQ1bld+6azlQzqfz9gTRsFL7yQYG2cVlndim5JwtCBafnHdAvlc8N3z+7Qg5MEbhUmIEZcx4lY8vNDaxipQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3740
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-vdec check the pixel format is supported by vpu,
-or is it disabled.
-And don't report it if the result is false
+From: Enric Balletbo i Serra <eballetbo@kernel.org>
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
----
- drivers/media/platform/amphion/vpu_malone.c | 16 ++++++++++++++++
- drivers/media/platform/amphion/vpu_malone.h |  1 +
- drivers/media/platform/amphion/vpu_rpc.c    |  2 +-
- 3 files changed, 18 insertions(+), 1 deletion(-)
+On Tue, 10 May 2022 23:56:45 +0000, T.J. Mercier wrote:
+> From: Hridya Valsaraju <hridya@google.com>
+>
 
-diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
-index 0930b6ba8c42..ec4cd9db3076 100644
---- a/drivers/media/platform/amphion/vpu_malone.c
-+++ b/drivers/media/platform/amphion/vpu_malone.c
-@@ -309,6 +309,7 @@ struct malone_padding_scode {
- struct malone_fmt_mapping {
- 	u32 pixelformat;
- 	enum vpu_malone_format malone_format;
-+	u32 is_disabled;
- };
- 
- struct malone_scode_t {
-@@ -568,6 +569,8 @@ static enum vpu_malone_format vpu_malone_format_remap(u32 pixelformat)
- 	u32 i;
- 
- 	for (i = 0; i < ARRAY_SIZE(fmt_mappings); i++) {
-+		if (fmt_mappings[i].is_disabled)
-+			continue;
- 		if (pixelformat == fmt_mappings[i].pixelformat)
- 			return fmt_mappings[i].malone_format;
- 	}
-@@ -575,6 +578,19 @@ static enum vpu_malone_format vpu_malone_format_remap(u32 pixelformat)
- 	return MALONE_FMT_NULL;
- }
- 
-+bool vpu_malone_check_fmt(enum vpu_core_type type, u32 pixelfmt)
-+{
-+	if (!vpu_imx8q_check_fmt(type, pixelfmt))
-+		return false;
-+
-+	if (pixelfmt == V4L2_PIX_FMT_NV12M_8L128 || pixelfmt == V4L2_PIX_FMT_NV12M_10BE_8L128)
-+		return true;
-+	if (vpu_malone_format_remap(pixelfmt) == MALONE_FMT_NULL)
-+		return false;
-+
-+	return true;
-+}
-+
- static void vpu_malone_set_stream_cfg(struct vpu_shared_addr *shared,
- 				      u32 instance,
- 				      enum vpu_malone_format malone_format)
-diff --git a/drivers/media/platform/amphion/vpu_malone.h b/drivers/media/platform/amphion/vpu_malone.h
-index e5a5cbe9843e..02a9d9530970 100644
---- a/drivers/media/platform/amphion/vpu_malone.h
-+++ b/drivers/media/platform/amphion/vpu_malone.h
-@@ -40,5 +40,6 @@ int vpu_malone_pre_cmd(struct vpu_shared_addr *shared, u32 instance);
- int vpu_malone_post_cmd(struct vpu_shared_addr *shared, u32 instance);
- int vpu_malone_init_instance(struct vpu_shared_addr *shared, u32 instance);
- u32 vpu_malone_get_max_instance_count(struct vpu_shared_addr *shared);
-+bool vpu_malone_check_fmt(enum vpu_core_type type, u32 pixelfmt);
- 
- #endif
-diff --git a/drivers/media/platform/amphion/vpu_rpc.c b/drivers/media/platform/amphion/vpu_rpc.c
-index 18a164766409..676f7da041bd 100644
---- a/drivers/media/platform/amphion/vpu_rpc.c
-+++ b/drivers/media/platform/amphion/vpu_rpc.c
-@@ -195,7 +195,7 @@ static struct vpu_iface_ops imx8q_rpc_ops[] = {
- 	},
- 	[VPU_CORE_TYPE_DEC] = {
- 		.check_codec = vpu_imx8q_check_codec,
--		.check_fmt = vpu_imx8q_check_fmt,
-+		.check_fmt = vpu_malone_check_fmt,
- 		.boot_core = vpu_imx8q_boot_core,
- 		.get_power_state = vpu_imx8q_get_power_state,
- 		.on_firmware_loaded = vpu_imx8q_on_firmware_loaded,
--- 
-2.36.1
+Hi T.J. Mercier,
 
+Many thanks for this effort. It caught my attention because we might have a use
+case where this feature can be useful for us. Hence I'd like to jump and be part
+of the discussion, I'd really appreciate if you can cc'me for next versions.
+
+While reading the full patchset I was a bit confused about the status of this
+proposal. In fact, the rfc in the subject combined with the number of iterations
+(already seven) confused me. So I'm wondering if this is a RFC or a 'real'
+proposal already that you want to land.
+
+If this is still a RFC I'd remove the 'rfc: Proposal' and use the more canonical
+way that is put RFC in the []. I.e [PATCH RFC v7] cgroup: Add a GPU cgroup
+controller.
+
+If it is not, I'd just remove the RFC and make the subject in the cgroup
+subsystem instead of the gpu. I.E [PATCH v7] cgroup: Add a GPU cgroup
+
+I don't want to nitpick but IMO that helps new people to join to the history of
+the patchset.
+
+> This patch adds a proposal for a new GPU cgroup controller for
+> accounting/limiting GPU and GPU-related memory allocations.
+
+As far as I can see the only thing that is adding here is the accounting, so I'd
+remove any reference to limiting and just explain what the patch really
+introduces, not the future, otherwise is confusing an you expect more than the
+patch really does.
+
+It is important maintain the commit message sync with what the patch really
+does.
+
+> The proposed controller is based on the DRM cgroup controller[1] and
+> follows the design of the RDMA cgroup controller.
+> 
+> The new cgroup controller would:
+> * Allow setting per-device limits on the total size of buffers
+>   allocated by device within a cgroup.
+> * Expose a per-device/allocator breakdown of the buffers charged to a
+>   cgroup.
+> 
+> The prototype in the following patches is only for memory accounting
+> using the GPU cgroup controller and does not implement limit setting.
+> 
+> [1]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@intel.com/
+> 
+
+I think this is material for the cover more than the commit message. When I read
+this I was expecting all this in this patch.
+
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> ---
+> v7 changes
+> Remove comment about duplicate name rejection which is not relevant to
+> cgroups users per Michal Koutný.
+> 
+> v6 changes
+> Move documentation into cgroup-v2.rst per Tejun Heo.
+> 
+> v5 changes
+> Drop the global GPU cgroup "total" (sum of all device totals) portion
+> of the design since there is no currently known use for this per
+> Tejun Heo.
+> 
+> Update for renamed functions/variables.
+> 
+> v3 changes
+> Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz.
+> 
+> Use more common dual author commit message format per John Stultz.
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 69d7a6983f78..2e1d26e327c7 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -2352,6 +2352,29 @@ first, and stays charged to that cgroup until that resource is freed. Migrating
+>  a process to a different cgroup does not move the charge to the destination
+>  cgroup where the process has moved.
+>  
+> +
+> +GPU
+> +---
+> +
+> +The GPU controller accounts for device and system memory allocated by the GPU
+> +and related subsystems for graphics use. Resource limits are not currently
+> +supported.
+> +
+> +GPU Interface Files
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +  gpu.memory.current
+> +	A read-only file containing memory allocations in flat-keyed format. The key
+> +	is a string representing the device name. The value is the size of the memory
+> +	charged to the device in bytes. The device names are globally unique.::
+> +
+> +	  $ cat /sys/kernel/fs/cgroup1/gpu.memory.current
+
+I think this is outdated, you are using cgroup v2, right?
+
+> +	  dev1 4194304
+> +	  dev2 104857600
+> +
+
+When I applied the full series I was expecting see the memory allocated by the
+gpu devices or users of the gpu in this file but, after some experiments, what I
+saw is the memory allocated via any process that uses the dma-buf heap API (not
+necessary gpu users). For example, if you create a small program that allocates
+some memory via the dma-buf heap API and then you cat the gpu.memory.current
+file, you see that the memory accounted is not related to the gpu.
+
+This is really confusing, looks to me that the patches evolved to account memory
+that is not really related to the GPU but allocated vi the dma-buf heap API. IMO
+the name of the file should be according to what really does to avoid
+confusions.
+
+So, is this patchset meant to be GPU specific? If the answer is yes that's good
+but that's not what I experienced. I'm missing something?
+
+If the answer is that evolved to track dma-buf heap allocations I think all the
+patches need some rework to adapt the wording as right now, the gpu wording
+seems confusing to me.
+
+> +	The device name string is set by a device driver when it registers with the
+> +	GPU cgroup controller to participate in resource accounting.
+> +
+>  Others
+>  ------
+>
+>
+Thanks,
+ Enric
+ 
