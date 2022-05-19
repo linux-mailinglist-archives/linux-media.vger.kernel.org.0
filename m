@@ -2,158 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B42F52D269
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 14:25:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4826152D6BD
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 17:02:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237896AbiESMZt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 08:25:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35348 "EHLO
+        id S240218AbiESPC5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 11:02:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233210AbiESMZs (ORCPT
+        with ESMTP id S240389AbiESPCp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 08:25:48 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1621110FB
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 05:25:46 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 27so1071604ljw.0
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 05:25:46 -0700 (PDT)
+        Thu, 19 May 2022 11:02:45 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF7063DDCA
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 08:01:01 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id s28so7439108wrb.7
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 08:01:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=+XDjcMQak510AbIZ8jLkJgCvsFB2A35/wbL1HOG/INE=;
-        b=lAaJmEzLeV3vj8T8CSED/mJMzic3+74SHUYEpH6rpNmlXcIRQJ7C+b0Zjroo6JCc+p
-         sw7SiTRSHqFvu27HOAEoJgN50mU6H6jGIvxIVz1Qqt8HH/9qlWDMWOGArR12oDwWgY9v
-         tUkLQUV530OJQO6ckRfmQQo22zxot9pSkAQ0bTH/Lie/ogo4VmqDwOuoPM9L+h4GO5z0
-         Rlci8TgIRLcw+UjP/r+RBA3z+fqz+x2oAM0bYelrxvbIts5DkBckYKYzc6CtCJZ8OKhB
-         d3SkhkjfQ/zXDIQ+3mEc3PfvvPbDsPc4RqZ0IvxZewlrEeQx+Db4pN5PLMX6OStKVPvA
-         hVrA==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=kk+3RWtEnWLHYV4TCesNJ2Di/nKpfHOUcfcAM49IYBo=;
+        b=GocAhr9e187YQKtgNkdpHhdUDju/RzbLC60GmlECdUgxlL9I3gef4M7pfbSDxlIaIp
+         v62nz9WQT97MIzuGBXzwXaJI6rFKb+lnMmoOJ8fvNlg7pMkL4m6swQOMzRYsys2E2oJD
+         H3IRH0JxDx9SIfvZgOqQWmTF+Oa6ZyWrzq4dASmiYpDFLTC8y1QfoqkmHNAuDSQREAuQ
+         0U/tVJv770uvuxvjLfvVNuwaDlunG7nqzURMPGudL6oymsTG1sWZvVDkSGtnSCei1Skt
+         SB1yPXw+ZGv89/VgytknCkzbZ4CZsI4+0loNWdEc8qssSvMV+4pw612yNGwpUqIvhMpK
+         mjAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=+XDjcMQak510AbIZ8jLkJgCvsFB2A35/wbL1HOG/INE=;
-        b=WLN9ToYYQrZN99JNnJkVh43sZsbMcBudARYm+xiMiDoSyPWYizqLC9/UANhYBUrTHU
-         Ufn//KJO2fjHpvSUassW/HQJcjX+NWTLSSkAdrgyvP09df8BavgNIbICwZF4778USIHg
-         SHr+Clo2gX001djyQYfigvniRjRi1QzAkT9ubiDe/MwCIa9E3S9fJS4y6NG1lyNHLL9l
-         MbUHo1M4zAusRlcnq7+kLAnRjV9csf9XFRB1VZsgPFXn30K3MXgvxTvzNSksKyAEDaQr
-         IsEyF6qNdQfFAcMGhOsFbIMQX77psCOqOddjoPev3suYIiyhfHSwCAcwocZcIKVLPHmc
-         F0VQ==
-X-Gm-Message-State: AOAM530GIl9QcSJjswxHvFB9o1Oa/K0m7DtHv4JhksvybwiAITTQePHX
-        J2hMc4kmcgkioNIBEQv6LCqliDj7vRuCNtvJ3OBcbaaHI/azKw==
-X-Google-Smtp-Source: ABdhPJxGyJtgWwbX8S0lH1j2ZFkcMo+rRVbGhMPhGE4a6v5ghusnKHQReSrKTmWTBYwAlslvk0NjT5bOE5aDGCFRwmA=
-X-Received: by 2002:a05:651c:a11:b0:250:5da4:e7b1 with SMTP id
- k17-20020a05651c0a1100b002505da4e7b1mr2551149ljq.268.1652963144078; Thu, 19
- May 2022 05:25:44 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=kk+3RWtEnWLHYV4TCesNJ2Di/nKpfHOUcfcAM49IYBo=;
+        b=o5WKk49+6bAtOfGx40oJq6cxuKNxNfBsyRiAXnjS2NSfHNsls3XUenHIdPNrzjjhHK
+         JkFo4N3pnSmgCxeHLvEWm6kybV6bukmuYLKw5OCgDGbH13/92gxuVllZErMWQYqlo9m0
+         C1PK1i0Zz5YQLO3wfQa5B2v74q1gmoO65cfi2qijlnWIMJMPETUjVfcPgTnMfqbelrF7
+         6fbvzYUTBmHjOfb8mvmQ8cCOAuSZ70KwGfx77INA8oIAnWBMbtrcdHawCV7tLN0Op7/t
+         DBdoVTgXqqZGI3qri3ZfWcpUzcjHqdbM0MgpB/AqWpA6bihW6iEd5QBxBlOr78WGxssX
+         CS1g==
+X-Gm-Message-State: AOAM531Y1NybSJYaQwP1mNVa9iBcMyBGN12IJh2x768WBhxKbiTYE96V
+        34n4fzS4FKayUrhtsbJ/XjgPDw==
+X-Google-Smtp-Source: ABdhPJylYY9rrFf6GRrDFY2Lac6iGtccjiKcHwGCqD1nSDxFhzQsI4Dj5xx9fqZwOc2C3VS3Lw7IEA==
+X-Received: by 2002:a5d:4112:0:b0:20d:b5e:e9bb with SMTP id l18-20020a5d4112000000b0020d0b5ee9bbmr4434628wrp.655.1652972460359;
+        Thu, 19 May 2022 08:01:00 -0700 (PDT)
+Received: from [192.168.1.17] ([84.238.208.203])
+        by smtp.googlemail.com with ESMTPSA id f21-20020a7bcd15000000b003942a244f30sm8373216wmj.9.2022.05.19.08.00.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 May 2022 08:00:59 -0700 (PDT)
+Message-ID: <270cf1d2-fd41-d206-06b6-78442641ba66@linaro.org>
+Date:   Thu, 19 May 2022 18:00:58 +0300
 MIME-Version: 1.0
-References: <000000000000f0196305d219b2fe@google.com> <000000000000b968f305d74b1195@google.com>
- <YgJhjdAbRHdnCZ4T@phenom.ffwll.local>
-In-Reply-To: <YgJhjdAbRHdnCZ4T@phenom.ffwll.local>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 19 May 2022 14:25:32 +0200
-Message-ID: <CACT4Y+ZiexzqBxeDQJAeQMR7Ef=JSh-2S8P73LN2BnibXhiC3Q@mail.gmail.com>
-Subject: Re: [syzbot] WARNING in __dma_map_sg_attrs
-To:     syzbot <syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>, christian.koenig@amd.com,
-        dri-devel@lists.freedesktop.org, hch@lst.de,
-        iommu@lists.linux-foundation.org,
-        linaro-mm-sig-owner@lists.linaro.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] media: venus: hfi_platform: Correct supported codecs for
+ sc7280
+Content-Language: en-US
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vboma@qti.qualcomm.com
+References: <1652952678-14747-1-git-send-email-quic_vgarodia@quicinc.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+In-Reply-To: <1652952678-14747-1-git-send-email-quic_vgarodia@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 8 Feb 2022 at 13:26, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Sat, Feb 05, 2022 at 12:18:23PM -0800, syzbot wrote:
-> > syzbot has found a reproducer for the following issue on:
-> >
-> > HEAD commit:    0457e5153e0e Merge tag 'for-linus' of git://git.kernel.org..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=11b2637c700000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=6f043113811433a5
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=10e27961f4da37c443b2
-> > compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11c65542700000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1163f480700000
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
->
-> Adding Gerd, since this seems to blow up in udmabuf.
->
-> I wonder why syzbot didn't figure this out, since it seems to have
-> correctly added both dma-api and dma-buf people. Just not the maintainer
-> for the begin_cpu_udmabuf function in the middle of the backtrace?
-
-Hi Daniel,
-
-syzbot selects only 1 file to get maintainers.
-Do you suggest using all files in the stack trace? I think it may lead
-to too many developers CCed since there can be something like 20 files
-including something from scheduler, arch, fs, etc.
 
 
+On 5/19/22 12:31, Vikash Garodia wrote:
+> VP8 codec is deprecated for sc7280 SOC. Fix in platform layer to
+> update the supported codecs accordingly.
+> 
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/venus/hfi_parser.c   |  6 ++++--
+>  drivers/media/platform/qcom/venus/hfi_platform.c | 21 +++++++++++++++++++++
+>  drivers/media/platform/qcom/venus/hfi_platform.h |  2 ++
+>  3 files changed, 27 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+> index 5b8389b..6cf74b2 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+> @@ -234,6 +234,7 @@ static int hfi_platform_parser(struct venus_core *core, struct venus_inst *inst)
+>  	const struct hfi_plat_caps *caps = NULL;
+>  	u32 enc_codecs, dec_codecs, count = 0;
+>  	unsigned int entries;
+> +	int ret;
+>  
+>  	plat = hfi_platform_get(core->res->hfi_version);
+>  	if (!plat)
+> @@ -242,8 +243,9 @@ static int hfi_platform_parser(struct venus_core *core, struct venus_inst *inst)
+>  	if (inst)
+>  		return 0;
+>  
+> -	if (plat->codecs)
+> -		plat->codecs(&enc_codecs, &dec_codecs, &count);
+> +	ret = hfi_platform_get_codecs(core, &enc_codecs, &dec_codecs, &count);
+> +	if (ret)
+> +		return ret;
+>  
+>  	if (plat->capabilities)
+>  		caps = plat->capabilities(&entries);
+> diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
+> index f16f896..bc9b431 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_platform.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_platform.c
+> @@ -2,7 +2,9 @@
+>  /*
+>   * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+>   */
+> +#include <linux/of_device.h>
+>  #include "hfi_platform.h"
+> +#include "core.h"
+>  
+>  const struct hfi_platform *hfi_platform_get(enum hfi_version version)
+>  {
+> @@ -66,3 +68,22 @@ hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec, u32 session_
+>  	return freq;
+>  }
+>  
+> +int
+> +hfi_platform_get_codecs(struct venus_core *core, u32 *enc_codecs, u32 *dec_codecs, u32 *count)
+> +{
+> +	const struct hfi_platform *plat;
+> +
+> +	plat = hfi_platform_get(core->res->hfi_version);
+> +	if (!plat)
+> +		return -EINVAL;
+> +
+> +	plat->codecs(enc_codecs, dec_codecs, count);
 
-> > ------------[ cut here ]------------
-> > WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188 __dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-> > Modules linked in:
-> > CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted 5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> > RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-> > Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0 83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45 31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
-> > RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
-> > RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> > RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
-> > RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
-> > R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
-> > R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
-> > FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
-> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> > Call Trace:
-> >  <TASK>
-> >  dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
-> >  get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
-> >  begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
-> >  dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
-> >  dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
-> >  vfs_ioctl fs/ioctl.c:51 [inline]
-> >  __do_sys_ioctl fs/ioctl.c:874 [inline]
-> >  __se_sys_ioctl fs/ioctl.c:860 [inline]
-> >  __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
-> >  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-> >  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-> >  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > RIP: 0033:0x7f62fcf530f9
-> > Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-> > RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> > RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
-> > RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
-> > RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
-> > R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
-> > R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> >  </TASK>
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/YgJhjdAbRHdnCZ4T%40phenom.ffwll.local.
+I guess some of the static code analyzers could complain, so please
+check plat->codecs for NULL:
+
+	if (!plat->codecs)
+		return -EINVAL;
+
+Otherwise look good to me:
+
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+
+> +
+> +	if (of_device_is_compatible(core->dev->of_node, "qcom,sc7280-venus")) {
+> +		*enc_codecs &= ~HFI_VIDEO_CODEC_VP8;
+> +		*dec_codecs &= ~HFI_VIDEO_CODEC_VP8;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
+> index 1dcf408..ec89a90 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_platform.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_platform.h
+> @@ -66,4 +66,6 @@ unsigned long hfi_platform_get_codec_vsp_freq(enum hfi_version version, u32 code
+>  					      u32 session_type);
+>  unsigned long hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec,
+>  					     u32 session_type);
+> +int hfi_platform_get_codecs(struct venus_core *core, u32 *enc_codecs, u32 *dec_codecs,
+> +			    u32 *count);
+>  #endif
+
+-- 
+regards,
+Stan
