@@ -2,64 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8591D52D0E0
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 12:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97C5152D0E5
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 12:56:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237049AbiESKxJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 06:53:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34512 "EHLO
+        id S237034AbiESKzL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 06:55:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236989AbiESKxG (ORCPT
+        with ESMTP id S229498AbiESKzI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 06:53:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5A55AFB05;
-        Thu, 19 May 2022 03:53:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6CF6861AAD;
-        Thu, 19 May 2022 10:53:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 543B2C385AA;
-        Thu, 19 May 2022 10:52:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652957579;
-        bh=dGYLWT3DtjDG8PSsXWM9r1oSXqqv3zyJtJyCk2/pdgY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WJXWDujrcqkFLioEUf4NEk4lTgPHZUjWqBr8jdxYQFIHnn0je17hPPKW6o6b7GtFe
-         6zMLir3vQA+iz9iIy48odK6AK9kl9eL/MeE749WovpCOLVx19Ht6Px3ZOxwr3ZZtfe
-         p3Z1oqN8WBu+IB4z5MIXUGL0+55ERFW5TLO+Y7dEATuZ8ZzCor2pMoZitRes+P5Ee3
-         6hX1UO9O0oyecszRioOWIlkl+twLL2yJBBTPTxCkca4+P24d7eD0CZGnem+1JRE1Gg
-         ZQQRwQxpz+f6Thll4Hp128yQLSjNoUQaT2iBZDrkYBqToyD1hIMgJ6In1HR5VZDXf1
-         iyffQsGdu9Nhw==
-From:   eballetbo@kernel.org
-To:     lizefan.x@bytedance.com, corbet@lwn.net, joel@joelfernandes.org,
-        arve@android.com, tjmercier@google.com, maco@android.com,
-        benjamin.gaignard@collabora.com, tj@kernel.org, brauner@kernel.org,
-        sumit.semwal@linaro.org, tkjos@android.com, surenb@google.com,
-        hannes@cmpxchg.org, Brian.Starkey@arm.com,
-        christian.koenig@amd.com, gregkh@linuxfoundation.org,
-        lmark@codeaurora.org, john.stultz@linaro.org, hridya@google.com,
-        shuah@kernel.org, labbott@redhat.com
-Cc:     Enric Balletbo i Serra <eballetbo@kernel.org>,
-        cgroups@vger.kernel.org, kernel-team@android.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, cmllamas@google.com,
-        daniel@ffwll.ch, Kenny.Ho@amd.com, linux-kselftest@vger.kernel.org,
-        kaleshsingh@google.com, mkoutny@suse.com, jstultz@google.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org
-Subject: Re: [PATCH v7 2/6] cgroup: gpu: Add a cgroup controller for allocator attribution of GPU memory
-Date:   Thu, 19 May 2022 12:52:45 +0200
-Message-Id: <20220519105245.614963-1-eballetbo@kernel.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220510235653.933868-1-tjmercier@google.com>
-References: <20220510235653.933868-1-tjmercier@google.com>
+        Thu, 19 May 2022 06:55:08 -0400
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217E6AF318
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 03:55:04 -0700 (PDT)
+X-KPN-MessageId: d4439c81-d761-11ec-8294-005056ab378f
+Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id d4439c81-d761-11ec-8294-005056ab378f;
+        Thu, 19 May 2022 12:52:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=cZBQCaKmf4v0SyojCltc4+mFF9/P6GNKf3zQ7pI38Co=;
+        b=CTOg8XGVTTvW5qYV5k9Y2SqqZ+cE+bxKQa+IP4eSklv2HxUpDgC8faiar/2ezktSuEAmJ41JgXyY5
+         DhF+Y7nk9wEDRlN9F+9iyvidJNN69Tni8h/pqGcor/zTVig0w+a1lTAcH0QPKcDN56L1uDZKWu65Fq
+         +kQ7+Al4I6iTFBG+CVm5Pa4cLFKUQ6WwapWPUNPJypxWQITihobmrGA7NuHEAML26YiqVLdlNvPMF1
+         RCDsZP6+xRPfJoHvNOIlnVquXpkMPUV98+DHo32kglan2SoOLRDWMACM/ZJL2CRYMTQy3Hxw/hCBBw
+         W7O7CIxiw4+JZq404bo6V0k0rTx0Epg==
+X-KPN-MID: 33|niU33LHmjQZ3Dq03dYJ28wvO69nDfhNd/KBCA/lxU2GXI7Lp9sCntKj+gQkVk86
+ CYXnZvajecYaVoiwJjl3e+JSWby9iVM+LtxtVtFgdZzM=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|NvH04YC/WrN/n6ieOG1++ysdixtpshYOi1FjvXLVq77t5jueyZiNcSn0oO/0p9a
+ r+ddw5zN7GWve+BDYhAu9HQ==
+X-Originating-IP: 173.38.220.60
+Received: from [10.47.77.219] (unknown [173.38.220.60])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 222003d9-d762-11ec-a146-005056ab1411;
+        Thu, 19 May 2022 12:55:02 +0200 (CEST)
+Message-ID: <a0fe2b49-12b7-8eaf-c3ef-7af1a247e595@xs4all.nl>
+Date:   Thu, 19 May 2022 12:55:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 1/6] media: v4l2_ctrl: Add region of interest rectangle
+ control
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Yunke Cao <yunkec@google.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+References: <20220518062412.2375586-1-yunkec@google.com>
+ <20220518062412.2375586-2-yunkec@google.com>
+ <9d9b32bd-16bc-76cd-6cd7-6d693714e5c9@xs4all.nl>
+ <YoYeelewIe0tnrxh@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <YoYeelewIe0tnrxh@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -68,608 +72,238 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Enric Balletbo i Serra <eballetbo@kernel.org>
+On 5/19/22 12:39, Laurent Pinchart wrote:
+> On Thu, May 19, 2022 at 10:14:05AM +0200, Hans Verkuil wrote:
+>> On 5/18/22 08:24, Yunke Cao wrote:
+>>> Including:
+>>> 1. Add a control ID.
+>>> 2. Add p_rect to struct v4l2_ext_control with basic support in
+>>>    v4l2-ctrls.
+>>>
+>>> Signed-off-by: Yunke Cao <yunkec@google.com>
+>>> ---
+>>> Changelog since v2:
+>>> - Better documentation.
+>>>
+>>>  .../media/v4l/ext-ctrls-camera.rst            | 10 ++++++++++
+>>>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
+>>>  .../media/videodev2.h.rst.exceptions          |  1 +
+>>>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 20 +++++++++++++++++++
+>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++++
+>>>  include/media/v4l2-ctrls.h                    |  2 ++
+>>>  include/uapi/linux/v4l2-controls.h            |  2 ++
+>>>  include/uapi/linux/videodev2.h                |  2 ++
+>>>  8 files changed, 45 insertions(+)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+>>> index 4c5061aa9cd4..c988a72b97b2 100644
+>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+>>> @@ -661,3 +661,13 @@ enum v4l2_scene_mode -
+>>>  .. [#f1]
+>>>     This control may be changed to a menu control in the future, if more
+>>>     options are required.
+>>> +
+>>> +``V4L2_CID_REGION_OF_INTEREST_RECT (struct)``
+>>> +   This control determines the region of interest. Region of interest is an
+>>> +   rectangular area represented by a struct v4l2_rect. The rectangle is in
+>>> +   pixel units and global coordinates. Use ``V4L2_CTRL_WHICH_MIN_VAL`` and
+>>> +   ``V4L2_CTRL_WHICH_MAX_VAL`` to query the range of coordinates.
+>>
+>> Hmm, what does MIN and MAX mean in terms of a rectangle? It makes sense for
+>> the width and height, but how is that interpreted for top and left?
+>>
+>> Are these the minimum and maximum values each field of the struct can have?
+>> So if the image is, say, 640x480, then the minimum value for a rectangle might
+>> be 1x1@0x0, and the maximum 640x480@639x479. So in that case these are not real
+>> rectangles, but they give the range for each field of the struct.
+>>
+>> An alternative would be to see this as the min and max rectangle size and keep
+>> the top/left values at 0.
+>>
+>> To be honest, I'm not sure which one I would prefer.
+> 
+> I'm also really worried fo the interactions between this control and
+> selection rectangles. The uvcvideo driver won't need to care, but this
+> is a generic control, so we need to define it clearly.
+> 
+> To be honest, given how specific to UVC this is, I'd create
+> device-specific controls. I don't foresee any other driver being able to
+> make use of V4L2_CID_REGION_OF_INTEREST_RECT and
+> V4L2_CID_REGION_OF_INTEREST_AUTO.
 
-On Tue, 10 May 2022 23:56:46 +0000, T.J. Mercier wrote
-> From: Hridya Valsaraju <hridya@google.com>
-> 
-> The cgroup controller provides accounting for GPU and GPU-related
-> memory allocations. The memory being accounted can be device memory or
-> memory allocated from pools dedicated to serve GPU-related tasks.
-> 
-> This patch adds APIs to:
-> -allow a device to register for memory accounting using the GPU cgroup
-> controller.
-> -charge and uncharge allocated memory to a cgroup.
-> 
-> When the cgroup controller is enabled, it would expose information about
-> the memory allocated by each device(registered for GPU cgroup memory
-> accounting) for each cgroup.
-> 
-> The API/UAPI can be extended to set per-device/total allocation limits
-> in the future.
-> 
-> The cgroup controller has been named following the discussion in [1].
-> 
-> [1]: https://lore.kernel.org/amd-gfx/YCJp%2F%2FkMC7YjVMXv@phenom.ffwll.local/
-> 
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> ---
-> v7 changes
-> Hide gpucg and gpucg_bucket struct definitions per Michal Koutný.
-> This means gpucg_register_bucket now returns an internally allocated
-> struct gpucg_bucket.
-> 
-> Move all public function documentation to the cgroup_gpu.h header.
-> 
-> v5 changes
-> Support all strings for gpucg_register_device instead of just string
-> literals.
-> 
-> Enforce globally unique gpucg_bucket names.
-> 
-> Constrain gpucg_bucket name lengths to 64 bytes.
-> 
-> Obtain just a single css refcount instead of nr_pages for each
-> charge.
-> 
-> Rename:
-> gpucg_try_charge -> gpucg_charge
-> find_cg_rpool_locked -> cg_rpool_find_locked
-> init_cg_rpool -> cg_rpool_init
-> get_cg_rpool_locked -> cg_rpool_get_locked
-> "gpu cgroup controller" -> "GPU controller"
-> gpucg_device -> gpucg_bucket
-> usage -> size
-> 
-> v4 changes
-> Adjust gpucg_try_charge critical section for future charge transfer
-> functionality.
-> 
-> v3 changes
-> Use more common dual author commit message format per John Stultz.
-> 
-> v2 changes
-> Fix incorrect Kconfig help section indentation per Randy Dunlap.
-> ---
->  include/linux/cgroup_gpu.h    | 122 ++++++++++++
->  include/linux/cgroup_subsys.h |   4 +
->  init/Kconfig                  |   7 +
->  kernel/cgroup/Makefile        |   1 +
->  kernel/cgroup/gpu.c           | 339 ++++++++++++++++++++++++++++++++++
->  5 files changed, 473 insertions(+)
->  create mode 100644 include/linux/cgroup_gpu.h
->  create mode 100644 kernel/cgroup/gpu.c
-> 
-> diff --git a/include/linux/cgroup_gpu.h b/include/linux/cgroup_gpu.h
-> new file mode 100644
-> index 000000000000..cb228a16aa1f
-> --- /dev/null
-> +++ b/include/linux/cgroup_gpu.h
-> @@ -0,0 +1,122 @@
-> +/* SPDX-License-Identifier: MIT
-> + * Copyright 2019 Advanced Micro Devices, Inc.
-> + * Copyright (C) 2022 Google LLC.
-> + */
-> +#ifndef _CGROUP_GPU_H
-> +#define _CGROUP_GPU_H
-> +
-> +#include <linux/cgroup.h>
-> +
-> +#define GPUCG_BUCKET_NAME_MAX_LEN 64
-> +
-> +struct gpucg;
-> +struct gpucg_bucket;
-> +
-> +#ifdef CONFIG_CGROUP_GPU
-> +
-> +/**
-> + * css_to_gpucg - get the corresponding gpucg ref from a cgroup_subsys_state
-> + * @css: the target cgroup_subsys_state
-> + *
-> + * Returns: gpu cgroup that contains the @css
-> + */
-> +struct gpucg *css_to_gpucg(struct cgroup_subsys_state *css);
-> +
-> +/**
-> + * gpucg_get - get the gpucg reference that a task belongs to
-> + * @task: the target task
-> + *
-> + * This increases the reference count of the css that the @task belongs to.
-> + *
-> + * Returns: reference to the gpu cgroup the task belongs to.
-> + */
-> +struct gpucg *gpucg_get(struct task_struct *task);
-> +
-> +/**
-> + * gpucg_put - put a gpucg reference
-> + * @gpucg: the target gpucg
-> + *
-> + * Put a reference obtained via gpucg_get
-> + */
-> +void gpucg_put(struct gpucg *gpucg);
-> +
-> +/**
-> + * gpucg_parent - find the parent of a gpu cgroup
-> + * @cg: the target gpucg
-> + *
-> + * This does not increase the reference count of the parent cgroup
-> + *
-> + * Returns: parent gpu cgroup of @cg
-> + */
-> +struct gpucg *gpucg_parent(struct gpucg *cg);
-> +
-> +/**
-> + * gpucg_charge - charge memory to the specified gpucg and gpucg_bucket.
-> + * Caller must hold a reference to @gpucg obtained through gpucg_get(). The size of the memory is
-> + * rounded up to be a multiple of the page size.
-> + *
-> + * @gpucg: The gpu cgroup to charge the memory to.
-> + * @bucket: The bucket to charge the memory to.
-> + * @size: The size of memory to charge in bytes.
-> + *        This size will be rounded up to the nearest page size.
-> + *
-> + * Return: returns 0 if the charging is successful and otherwise returns an error code.
-> + */
-> +int gpucg_charge(struct gpucg *gpucg, struct gpucg_bucket *bucket, u64 size);
-> +
-> +/**
-> + * gpucg_uncharge - uncharge memory from the specified gpucg and gpucg_bucket.
-> + * The caller must hold a reference to @gpucg obtained through gpucg_get().
-> + *
-> + * @gpucg: The gpu cgroup to uncharge the memory from.
-> + * @bucket: The bucket to uncharge the memory from.
-> + * @size: The size of memory to uncharge in bytes.
-> + *        This size will be rounded up to the nearest page size.
-> + */
-> +void gpucg_uncharge(struct gpucg *gpucg, struct gpucg_bucket *bucket, u64 size);
-> +
-> +/**
-> + * gpucg_register_bucket - Registers a bucket for memory accounting using the GPU cgroup controller.
-> + *
-> + * @name: Pointer to a null-terminated string to denote the name of the bucket. This name should be
-> + *        globally unique, and should not exceed @GPUCG_BUCKET_NAME_MAX_LEN bytes.
-> + *
-> + * @bucket must remain valid. @name will be copied.
-> + *
-> + * Returns a pointer to a newly allocated bucket on success, or an errno code otherwise. As buckets
-> + * cannot be unregistered, this can never be freed.
-> + */
-> +struct gpucg_bucket *gpucg_register_bucket(const char *name);
-> +#else /* CONFIG_CGROUP_GPU */
-> +
-> +static inline struct gpucg *css_to_gpucg(struct cgroup_subsys_state *css)
-> +{
-> +	return NULL;
-> +}
-> +
-> +static inline struct gpucg *gpucg_get(struct task_struct *task)
-> +{
-> +	return NULL;
-> +}
-> +
-> +static inline void gpucg_put(struct gpucg *gpucg) {}
-> +
-> +static inline struct gpucg *gpucg_parent(struct gpucg *cg)
-> +{
-> +	return NULL;
-> +}
-> +
-> +static inline int gpucg_charge(struct gpucg *gpucg,
-> +			       struct gpucg_bucket *bucket,
-> +			       u64 size)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void gpucg_uncharge(struct gpucg *gpucg,
-> +				  struct gpucg_bucket *bucket,
-> +				  u64 size) {}
-> +
-> +static inline struct gpucg_bucket *gpucg_register_bucket(const char *name) {}
+Yeah, I'm leaning in the same direction. It might be wise to reduce the
+scope of these controls to just the UVC driver.
 
-I think this needs to return NULL, otherwise you'll get a compiler error when
-CONFIG_CGROUP_GPU is not set. 
+Regards,
 
-I found other build errors when CONFIG_CGROUP_GPU is not set, please fix them in
-the next versioon.
+	Hans
 
-Thanks,
-  Enric
-
-> +#endif /* CONFIG_CGROUP_GPU */
-> +#endif /* _CGROUP_GPU_H */
-> diff --git a/include/linux/cgroup_subsys.h b/include/linux/cgroup_subsys.h
-> index 445235487230..46a2a7b93c41 100644
-> --- a/include/linux/cgroup_subsys.h
-> +++ b/include/linux/cgroup_subsys.h
-> @@ -65,6 +65,10 @@ SUBSYS(rdma)
->  SUBSYS(misc)
->  #endif
->  
-> +#if IS_ENABLED(CONFIG_CGROUP_GPU)
-> +SUBSYS(gpu)
-> +#endif
-> +
->  /*
->   * The following subsystems are not supported on the default hierarchy.
->   */
-> diff --git a/init/Kconfig b/init/Kconfig
-> index ddcbefe535e9..2e00a190e170 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -984,6 +984,13 @@ config BLK_CGROUP
->  
->  	See Documentation/admin-guide/cgroup-v1/blkio-controller.rst for more information.
->  
-> +config CGROUP_GPU
-> +	bool "GPU controller (EXPERIMENTAL)"
-> +	select PAGE_COUNTER
-> +	help
-> +	  Provides accounting and limit setting for memory allocations by the GPU and
-> +	  GPU-related subsystems.
-> +
->  config CGROUP_WRITEBACK
->  	bool
->  	depends on MEMCG && BLK_CGROUP
-> diff --git a/kernel/cgroup/Makefile b/kernel/cgroup/Makefile
-> index 12f8457ad1f9..be95a5a532fc 100644
-> --- a/kernel/cgroup/Makefile
-> +++ b/kernel/cgroup/Makefile
-> @@ -7,3 +7,4 @@ obj-$(CONFIG_CGROUP_RDMA) += rdma.o
->  obj-$(CONFIG_CPUSETS) += cpuset.o
->  obj-$(CONFIG_CGROUP_MISC) += misc.o
->  obj-$(CONFIG_CGROUP_DEBUG) += debug.o
-> +obj-$(CONFIG_CGROUP_GPU) += gpu.o
-> diff --git a/kernel/cgroup/gpu.c b/kernel/cgroup/gpu.c
-> new file mode 100644
-> index 000000000000..ad16ea15d427
-> --- /dev/null
-> +++ b/kernel/cgroup/gpu.c
-> @@ -0,0 +1,339 @@
-> +// SPDX-License-Identifier: MIT
-> +// Copyright 2019 Advanced Micro Devices, Inc.
-> +// Copyright (C) 2022 Google LLC.
-> +
-> +#include <linux/cgroup.h>
-> +#include <linux/cgroup_gpu.h>
-> +#include <linux/err.h>
-> +#include <linux/gfp.h>
-> +#include <linux/list.h>
-> +#include <linux/mm.h>
-> +#include <linux/page_counter.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/slab.h>
-> +#include <linux/string.h>
-> +
-> +static struct gpucg *root_gpucg __read_mostly;
-> +
-> +/*
-> + * Protects list of resource pools maintained on per cgroup basis and list
-> + * of buckets registered for memory accounting using the GPU cgroup controller.
-> + */
-> +static DEFINE_MUTEX(gpucg_mutex);
-> +static LIST_HEAD(gpucg_buckets);
-> +
-> +/* The GPU cgroup controller data structure */
-> +struct gpucg {
-> +	struct cgroup_subsys_state css;
-> +
-> +	/* list of all resource pools that belong to this cgroup */
-> +	struct list_head rpools;
-> +};
-> +
-> +/* A named entity representing bucket of tracked memory. */
-> +struct gpucg_bucket {
-> +	/* list of various resource pools in various cgroups that the bucket is part of */
-> +	struct list_head rpools;
-> +
-> +	/* list of all buckets registered for GPU cgroup accounting */
-> +	struct list_head bucket_node;
-> +
-> +	/* string to be used as identifier for accounting and limit setting */
-> +	const char *name;
-> +};
-> +
-> +struct gpucg_resource_pool {
-> +	/* The bucket whose resource usage is tracked by this resource pool */
-> +	struct gpucg_bucket *bucket;
-> +
-> +	/* list of all resource pools for the cgroup */
-> +	struct list_head cg_node;
-> +
-> +	/* list maintained by the gpucg_bucket to keep track of its resource pools */
-> +	struct list_head bucket_node;
-> +
-> +	/* tracks memory usage of the resource pool */
-> +	struct page_counter total;
-> +};
-> +
-> +static void free_cg_rpool_locked(struct gpucg_resource_pool *rpool)
-> +{
-> +	lockdep_assert_held(&gpucg_mutex);
-> +
-> +	list_del(&rpool->cg_node);
-> +	list_del(&rpool->bucket_node);
-> +	kfree(rpool);
-> +}
-> +
-> +static void gpucg_css_free(struct cgroup_subsys_state *css)
-> +{
-> +	struct gpucg_resource_pool *rpool, *tmp;
-> +	struct gpucg *gpucg = css_to_gpucg(css);
-> +
-> +	// delete all resource pools
-> +	mutex_lock(&gpucg_mutex);
-> +	list_for_each_entry_safe(rpool, tmp, &gpucg->rpools, cg_node)
-> +		free_cg_rpool_locked(rpool);
-> +	mutex_unlock(&gpucg_mutex);
-> +
-> +	kfree(gpucg);
-> +}
-> +
-> +static struct cgroup_subsys_state *
-> +gpucg_css_alloc(struct cgroup_subsys_state *parent_css)
-> +{
-> +	struct gpucg *gpucg, *parent;
-> +
-> +	gpucg = kzalloc(sizeof(struct gpucg), GFP_KERNEL);
-> +	if (!gpucg)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	parent = css_to_gpucg(parent_css);
-> +	if (!parent)
-> +		root_gpucg = gpucg;
-> +
-> +	INIT_LIST_HEAD(&gpucg->rpools);
-> +
-> +	return &gpucg->css;
-> +}
-> +
-> +static struct gpucg_resource_pool *cg_rpool_find_locked(
-> +	struct gpucg *cg,
-> +	struct gpucg_bucket *bucket)
-> +{
-> +	struct gpucg_resource_pool *rpool;
-> +
-> +	lockdep_assert_held(&gpucg_mutex);
-> +
-> +	list_for_each_entry(rpool, &cg->rpools, cg_node)
-> +		if (rpool->bucket == bucket)
-> +			return rpool;
-> +
-> +	return NULL;
-> +}
-> +
-> +static struct gpucg_resource_pool *cg_rpool_init(struct gpucg *cg,
-> +						 struct gpucg_bucket *bucket)
-> +{
-> +	struct gpucg_resource_pool *rpool = kzalloc(sizeof(*rpool),
-> +							GFP_KERNEL);
-> +	if (!rpool)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	rpool->bucket = bucket;
-> +
-> +	page_counter_init(&rpool->total, NULL);
-> +	INIT_LIST_HEAD(&rpool->cg_node);
-> +	INIT_LIST_HEAD(&rpool->bucket_node);
-> +	list_add_tail(&rpool->cg_node, &cg->rpools);
-> +	list_add_tail(&rpool->bucket_node, &bucket->rpools);
-> +
-> +	return rpool;
-> +}
-> +
-> +/**
-> + * get_cg_rpool_locked - find the resource pool for the specified bucket and
-> + * specified cgroup. If the resource pool does not exist for the cg, it is
-> + * created in a hierarchical manner in the cgroup and its ancestor cgroups who
-> + * do not already have a resource pool entry for the bucket.
-> + *
-> + * @cg: The cgroup to find the resource pool for.
-> + * @bucket: The bucket associated with the returned resource pool.
-> + *
-> + * Return: return resource pool entry corresponding to the specified bucket in
-> + * the specified cgroup (hierarchically creating them if not existing already).
-> + *
-> + */
-> +static struct gpucg_resource_pool *
-> +cg_rpool_get_locked(struct gpucg *cg, struct gpucg_bucket *bucket)
-> +{
-> +	struct gpucg *parent_cg, *p, *stop_cg;
-> +	struct gpucg_resource_pool *rpool, *tmp_rpool;
-> +	struct gpucg_resource_pool *parent_rpool = NULL, *leaf_rpool = NULL;
-> +
-> +	rpool = cg_rpool_find_locked(cg, bucket);
-> +	if (rpool)
-> +		return rpool;
-> +
-> +	stop_cg = cg;
-> +	do {
-> +		rpool = cg_rpool_init(stop_cg, bucket);
-> +		if (IS_ERR(rpool))
-> +			goto err;
-> +
-> +		if (!leaf_rpool)
-> +			leaf_rpool = rpool;
-> +
-> +		stop_cg = gpucg_parent(stop_cg);
-> +		if (!stop_cg)
-> +			break;
-> +
-> +		rpool = cg_rpool_find_locked(stop_cg, bucket);
-> +	} while (!rpool);
-> +
-> +	/*
-> +	 * Re-initialize page counters of all rpools created in this invocation
-> +	 * to enable hierarchical charging.
-> +	 * stop_cg is the first ancestor cg who already had a resource pool for
-> +	 * the bucket. It can also be NULL if no ancestors had a pre-existing
-> +	 * resource pool for the bucket before this invocation.
-> +	 */
-> +	rpool = leaf_rpool;
-> +	for (p = cg; p != stop_cg; p = parent_cg) {
-> +		parent_cg = gpucg_parent(p);
-> +		if (!parent_cg)
-> +			break;
-> +		parent_rpool = cg_rpool_find_locked(parent_cg, bucket);
-> +		page_counter_init(&rpool->total, &parent_rpool->total);
-> +
-> +		rpool = parent_rpool;
-> +	}
-> +
-> +	return leaf_rpool;
-> +err:
-> +	for (p = cg; p != stop_cg; p = gpucg_parent(p)) {
-> +		tmp_rpool = cg_rpool_find_locked(p, bucket);
-> +		free_cg_rpool_locked(tmp_rpool);
-> +	}
-> +	return rpool;
-> +}
-> +
-> +struct gpucg *css_to_gpucg(struct cgroup_subsys_state *css)
-> +{
-> +	return css ? container_of(css, struct gpucg, css) : NULL;
-> +}
-> +
-> +struct gpucg *gpucg_get(struct task_struct *task)
-> +{
-> +	if (!cgroup_subsys_enabled(gpu_cgrp_subsys))
-> +		return NULL;
-> +	return css_to_gpucg(task_get_css(task, gpu_cgrp_id));
-> +}
-> +
-> +void gpucg_put(struct gpucg *gpucg)
-> +{
-> +	if (gpucg)
-> +		css_put(&gpucg->css);
-> +}
-> +
-> +struct gpucg *gpucg_parent(struct gpucg *cg)
-> +{
-> +	return css_to_gpucg(cg->css.parent);
-> +}
-> +
-> +int gpucg_charge(struct gpucg *gpucg, struct gpucg_bucket *bucket, u64 size)
-> +{
-> +	struct page_counter *counter;
-> +	u64 nr_pages;
-> +	struct gpucg_resource_pool *rp;
-> +	int ret = 0;
-> +
-> +	nr_pages = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> +
-> +	mutex_lock(&gpucg_mutex);
-> +	rp = cg_rpool_get_locked(gpucg, bucket);
-> +	/*
-> +	 * Continue to hold gpucg_mutex because we use it to block charges while transfers are in
-> +	 * progress to avoid potentially exceeding a limit.
-> +	 */
-> +	if (IS_ERR(rp)) {
-> +		mutex_unlock(&gpucg_mutex);
-> +		return PTR_ERR(rp);
-> +	}
-> +
-> +	if (page_counter_try_charge(&rp->total, nr_pages, &counter))
-> +		css_get(&gpucg->css);
-> +	else
-> +		ret = -ENOMEM;
-> +	mutex_unlock(&gpucg_mutex);
-> +
-> +	return ret;
-> +}
-> +
-> +void gpucg_uncharge(struct gpucg *gpucg, struct gpucg_bucket *bucket, u64 size)
-> +{
-> +	u64 nr_pages;
-> +	struct gpucg_resource_pool *rp;
-> +
-> +	mutex_lock(&gpucg_mutex);
-> +	rp = cg_rpool_find_locked(gpucg, bucket);
-> +	/*
-> +	 * gpucg_mutex can be unlocked here, rp will stay valid until gpucg is freed and there are
-> +	 * active refs on gpucg. Uncharges are fine while transfers are in progress since there is
-> +	 * no potential to exceed a limit while uncharging and transferring.
-> +	 */
-> +	mutex_unlock(&gpucg_mutex);
-> +
-> +	if (unlikely(!rp)) {
-> +		pr_err("Resource pool not found, incorrect charge/uncharge ordering?\n");
-> +		return;
-> +	}
-> +
-> +	nr_pages = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> +	page_counter_uncharge(&rp->total, nr_pages);
-> +	css_put(&gpucg->css);
-> +}
-> +
-> +struct gpucg_bucket *gpucg_register_bucket(const char *name)
-> +{
-> +	struct gpucg_bucket *bucket, *b;
-> +
-> +	if (!name)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (strlen(name) >= GPUCG_BUCKET_NAME_MAX_LEN)
-> +		return ERR_PTR(-ENAMETOOLONG);
-> +
-> +	bucket = kzalloc(sizeof(struct gpucg_bucket), GFP_KERNEL);
-> +	if (!bucket)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	INIT_LIST_HEAD(&bucket->bucket_node);
-> +	INIT_LIST_HEAD(&bucket->rpools);
-> +	bucket->name = kstrdup_const(name, GFP_KERNEL);
-> +
-> +	mutex_lock(&gpucg_mutex);
-> +	list_for_each_entry(b, &gpucg_buckets, bucket_node) {
-> +		if (strncmp(b->name, bucket->name, GPUCG_BUCKET_NAME_MAX_LEN) == 0) {
-> +			mutex_unlock(&gpucg_mutex);
-> +			kfree_const(bucket->name);
-> +			kfree(bucket);
-> +			return ERR_PTR(-EEXIST);
-> +		}
-> +	}
-> +	list_add_tail(&bucket->bucket_node, &gpucg_buckets);
-> +	mutex_unlock(&gpucg_mutex);
-> +
-> +	return bucket;
-> +}
-> +
-> +static int gpucg_resource_show(struct seq_file *sf, void *v)
-> +{
-> +	struct gpucg_resource_pool *rpool;
-> +	struct gpucg *cg = css_to_gpucg(seq_css(sf));
-> +
-> +	mutex_lock(&gpucg_mutex);
-> +	list_for_each_entry(rpool, &cg->rpools, cg_node) {
-> +		seq_printf(sf, "%s %lu\n", rpool->bucket->name,
-> +			   page_counter_read(&rpool->total) * PAGE_SIZE);
-> +	}
-> +	mutex_unlock(&gpucg_mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +struct cftype files[] = {
-> +	{
-> +		.name = "memory.current",
-> +		.seq_show = gpucg_resource_show,
-> +	},
-> +	{ }     /* terminate */
-> +};
-> +
-> +struct cgroup_subsys gpu_cgrp_subsys = {
-> +	.css_alloc      = gpucg_css_alloc,
-> +	.css_free       = gpucg_css_free,
-> +	.early_init     = false,
-> +	.legacy_cftypes = files,
-> +	.dfl_cftypes    = files,
-> +};
 > 
-> -- 
-> 2.36.0.512.ge40c2bad7a-goog
+>>> +
+>>> +   Setting a region of interest allows the camera to optimize the capture for
+>>> +   the region. The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control
+>>> +   determines the detailed behavior.
+>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+>>> index 29971a45a2d4..f4e205ead0a2 100644
+>>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+>>> @@ -189,6 +189,10 @@ still cause this situation.
+>>>        - ``p_area``
+>>>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+>>>          of type ``V4L2_CTRL_TYPE_AREA``.
+>>> +    * - struct :c:type:`v4l2_rect` *
+>>> +      - ``p_area``
+>>> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
+>>> +        of type ``V4L2_CTRL_TYPE_RECT``.
+>>>      * - struct :c:type:`v4l2_ctrl_h264_sps` *
+>>>        - ``p_h264_sps``
+>>>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
+>>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> index 9cbb7a0c354a..7b423475281d 100644
+>>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> @@ -147,6 +147,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
+>>>  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+>>>  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+>>>  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
+>>> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
+>>>  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+>>>  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
+>>>  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
+>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>>> index 8968cec8454e..dcde405c2713 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>>> @@ -84,6 +84,11 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
+>>>  		return ptr1.p_u16[idx] == ptr2.p_u16[idx];
+>>>  	case V4L2_CTRL_TYPE_U32:
+>>>  		return ptr1.p_u32[idx] == ptr2.p_u32[idx];
+>>> +	case V4L2_CTRL_TYPE_RECT:
+>>> +		return ptr1.p_rect->top == ptr2.p_rect->top &&
+>>> +		       ptr1.p_rect->left == ptr2.p_rect->left &&
+>>> +		       ptr1.p_rect->height == ptr2.p_rect->height &&
+>>> +		       ptr1.p_rect->width == ptr2.p_rect->width;
+>>>  	default:
+>>>  		if (ctrl->is_int)
+>>>  			return ptr1.p_s32[idx] == ptr2.p_s32[idx];
+>>> @@ -307,6 +312,11 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+>>>  	case V4L2_CTRL_TYPE_VP9_FRAME:
+>>>  		pr_cont("VP9_FRAME");
+>>>  		break;
+>>> +	case V4L2_CTRL_TYPE_RECT:
+>>> +		pr_cont("l: %d, t: %d, w: %u, h: %u",
+>>> +			ptr.p_rect->left, ptr.p_rect->top,
+>>> +			ptr.p_rect->width, ptr.p_rect->height);
+>>> +		break;
+>>>  	default:
+>>>  		pr_cont("unknown type %d", ctrl->type);
+>>>  		break;
+>>> @@ -525,6 +535,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>>>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>>>  	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+>>>  	struct v4l2_area *area;
+>>> +	struct v4l2_rect *rect;
+>>>  	void *p = ptr.p + idx * ctrl->elem_size;
+>>>  	unsigned int i;
+>>>  
+>>> @@ -888,6 +899,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>>>  			return -EINVAL;
+>>>  		break;
+>>>  
+>>> +	case V4L2_CTRL_TYPE_RECT:
+>>> +		rect = p;
+>>> +		if (!rect->width || !rect->height)
+>>> +			return -EINVAL;
+>>> +		break;
+>>> +
+>>>  	default:
+>>>  		return -EINVAL;
+>>>  	}
+>>> @@ -1456,6 +1473,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>>>  	case V4L2_CTRL_TYPE_AREA:
+>>>  		elem_size = sizeof(struct v4l2_area);
+>>>  		break;
+>>> +	case V4L2_CTRL_TYPE_RECT:
+>>> +		elem_size = sizeof(struct v4l2_rect);
+>>> +		break;
+>>>  	default:
+>>>  		if (type < V4L2_CTRL_COMPOUND_TYPES)
+>>>  			elem_size = sizeof(s32);
+>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> index 54ca4e6b820b..95f39a2d2ad2 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>>  	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
+>>>  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
+>>>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+>>> +	case V4L2_CID_REGION_OF_INTEREST_RECT:  return "Region Of Interest Rectangle";
+>>>  
+>>>  	/* FM Radio Modulator controls */
+>>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+>>> @@ -1524,6 +1525,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>>>  	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
+>>>  		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
+>>>  		break;
+>>> +	case V4L2_CID_REGION_OF_INTEREST_RECT:
+>>> +		*type = V4L2_CTRL_TYPE_RECT;
+>>> +		break;
+>>>  	default:
+>>>  		*type = V4L2_CTRL_TYPE_INTEGER;
+>>>  		break;
+>>> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+>>> index b3ce438f1329..919e104de50b 100644
+>>> --- a/include/media/v4l2-ctrls.h
+>>> +++ b/include/media/v4l2-ctrls.h
+>>> @@ -58,6 +58,7 @@ struct video_device;
+>>>   * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
+>>>   * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
+>>>   * @p_area:			Pointer to an area.
+>>> + * @p_rect:			Pointer to a rectangle.
+>>>   * @p:				Pointer to a compound value.
+>>>   * @p_const:			Pointer to a constant compound value.
+>>>   */
+>>> @@ -87,6 +88,7 @@ union v4l2_ctrl_ptr {
+>>>  	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+>>>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>>>  	struct v4l2_area *p_area;
+>>> +	struct v4l2_rect *p_rect;
+>>>  	void *p;
+>>>  	const void *p_const;
+>>>  };
+>>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>>> index bb40129446d4..499fcddb6254 100644
+>>> --- a/include/uapi/linux/v4l2-controls.h
+>>> +++ b/include/uapi/linux/v4l2-controls.h
+>>> @@ -1008,6 +1008,8 @@ enum v4l2_auto_focus_range {
+>>>  
+>>>  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
+>>>  
+>>> +#define V4L2_CID_REGION_OF_INTEREST_RECT	(V4L2_CID_CAMERA_CLASS_BASE+36)
+>>> +
+>>>  /* FM Modulator class control IDs */
+>>>  
+>>>  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>>> index 3768a0a80830..b712412cf763 100644
+>>> --- a/include/uapi/linux/videodev2.h
+>>> +++ b/include/uapi/linux/videodev2.h
+>>> @@ -1751,6 +1751,7 @@ struct v4l2_ext_control {
+>>>  		__u16 __user *p_u16;
+>>>  		__u32 __user *p_u32;
+>>>  		struct v4l2_area __user *p_area;
+>>> +		struct v4l2_rect __user *p_rect;
+>>>  		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+>>>  		struct v4l2_ctrl_h264_pps *p_h264_pps;
+>>>  		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
+>>> @@ -1810,6 +1811,7 @@ enum v4l2_ctrl_type {
+>>>  	V4L2_CTRL_TYPE_U16	     = 0x0101,
+>>>  	V4L2_CTRL_TYPE_U32	     = 0x0102,
+>>>  	V4L2_CTRL_TYPE_AREA          = 0x0106,
+>>> +	V4L2_CTRL_TYPE_RECT	     = 0x0107,
+>>>  
+>>>  	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
+>>>  	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
 > 
->
 
