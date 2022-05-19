@@ -2,276 +2,526 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3935252DEDE
-	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 23:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EB6F52DF06
+	for <lists+linux-media@lfdr.de>; Thu, 19 May 2022 23:14:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244951AbiESVA3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 17:00:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42406 "EHLO
+        id S244959AbiESVOU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 17:14:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243295AbiESVA0 (ORCPT
+        with ESMTP id S232180AbiESVOR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 17:00:26 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA25FEC3FE
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 14:00:23 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id 27so2654832ljw.0
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 14:00:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jJ5ibJyWgXSEVtzkRw4+wBg9lBfLq6hkUK/PMQO4gu8=;
-        b=ruiqItQaoeqAgrJoFFwJ/UR0y1kFMIA4/jFsRXtqkA/UzGJaMIfiqZww1gW8BwBhDH
-         YCKHxoyVRuF9CHRNB+qAziSMUqD1JEltX2KQSlMDQ3e2jtR76Fy82aBCGjVPyYNwrNdy
-         MwkftIr89LES3mjhfPw3qBR5l1hKK/aFssC1kLYJXCAhOEKBQ7tKPPGtZXaZPQF+qSqO
-         sGQR18LNpEO8xu3tNL0RObIImk83UlGl22zjMHmHJyWtdDQ96jgEPvaSJWzrBRB9qp6d
-         GiC7oCQuLDj+64B6mFx3acaFfU/xQj3yzdoeThqgPcd5bLhllXm45BzTQF47BEdR/i29
-         JB5w==
+        Thu, 19 May 2022 17:14:17 -0400
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 711956A04E;
+        Thu, 19 May 2022 14:14:15 -0700 (PDT)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-f18e6ff0f6so8236590fac.11;
+        Thu, 19 May 2022 14:14:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jJ5ibJyWgXSEVtzkRw4+wBg9lBfLq6hkUK/PMQO4gu8=;
-        b=MIV5B+MCPxHQwkNP+3I8CMDpzcx2ePAGXyyMdbSvEvBx3GKYcg0qcD3q0YofYa2TUW
-         RQ2r+sr8cB1gb49u4ysqYw41M3QhOb14oMYmNqbgeOlBKNumF4qRtQ59woQJaEMXn6BE
-         shaG2gGSGQwPpdJFJ5DyjiyYMDY+yxauWP3uObVOQbscdTf27KQYcgkTNp1htsYQGFYN
-         WFJ0m8BpQSRx+d3XoEZ+YWWi9A3+QGx/A+ppgaB9iWDBXQkoslaESoMecbyYSV9L4Y75
-         HK4wavYFtROHObCCAieH1fV7tVWYmahYIhgmgMZf9V/asTGlt9T6Zxyf7Zjb6WM4klpz
-         k0dQ==
-X-Gm-Message-State: AOAM531DjEVyddgSlOJIe9/G/sfS0N90WOqa1BpKEPAACteSfa+YtIS3
-        TYBMy539FxWOYbN+6DVsw+GYdA==
-X-Google-Smtp-Source: ABdhPJz8OynJaFv5FD/dGoBy3yUXY/Dc5t8MtNwMt5B41FEmq0MCX+2wnuKUQ8pm5p1f9Ytf7jiVsQ==
-X-Received: by 2002:a2e:a445:0:b0:24a:c1ba:b62f with SMTP id v5-20020a2ea445000000b0024ac1bab62fmr3744675ljn.81.1652994021950;
-        Thu, 19 May 2022 14:00:21 -0700 (PDT)
-Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
-        by smtp.gmail.com with ESMTPSA id x12-20020a19f60c000000b00477c619f47fsm363543lfe.92.2022.05.19.14.00.21
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LxgJ0WPMVmk2nku/9e7+IkyjOm1K2GpkGddzezuJOx0=;
+        b=M9dU3VdTDsgaPIhfae91fY8q8JA8WnocGaq2qO11cO7VOK0Kmf1cc9ezJnyIIdlSUr
+         HH9HJ1P/kxf+FU6VwyOC9nBjDhcpGZDkpOO380urPqpwOuPI2ZdFkCyePWdJ1v6sNymW
+         QGz0UmbYbUeT4CTroXmS1NP9zDXE7XtYVD4tc7vsy/zavgPY/l78iz0yIQojdRUEX2lq
+         hxc+bsrquPi2+f8ZiZzO3X/1+eXcTPCCp1jvnT5yEktJ4d3xVJcTtoE3TQZkjbHR4pVl
+         YxLutBA0TnKoGr0GJ+eYjeF44MMjcMkQgTfHXnghOW/X6uKmRd34ggHEHsbXCCrm7Efk
+         8xPw==
+X-Gm-Message-State: AOAM5323CZAAMjFHPVIOgd0EjpDbKmNtkJfgXHi9UOte5Ma9wrq1D4hJ
+        2IXGyz1j9x8QlH+E6jNmFLvEtV2ywA==
+X-Google-Smtp-Source: ABdhPJxqd+goUrJIo+WvgR54Lvn7Cn5KV5+/HRaUb0gHTseGWHqxpGn2/l3xlDDk7Z9PQGssS6T1uw==
+X-Received: by 2002:a05:6870:889d:b0:e6:170e:a37b with SMTP id m29-20020a056870889d00b000e6170ea37bmr4199509oam.38.1652994853853;
+        Thu, 19 May 2022 14:14:13 -0700 (PDT)
+Received: from xps15.. (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.googlemail.com with ESMTPSA id c206-20020acab3d7000000b00325cda1ffbbsm146366oif.58.2022.05.19.14.14.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 May 2022 14:00:21 -0700 (PDT)
-Date:   Thu, 19 May 2022 23:00:20 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, michael@rodin.online,
-        erosca@de.adit-jv.com
-Subject: Re: [PATCH 3/3] rcar-vin: handle transfer errors from subdevices and
- stop streaming if required
-Message-ID: <Yoav5KjnbIlpkR6c@oden.dyn.berto.se>
-References: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
- <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
+        Thu, 19 May 2022 14:14:12 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
+        linux-media@vger.kernel.org, netdev@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH] dt-bindings: Fix properties without any type
+Date:   Thu, 19 May 2022 16:14:11 -0500
+Message-Id: <20220519211411.2200720-1-robh@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+Now that the schema tools can extract type information for all
+properties (in order to decode dtb files), finding properties missing
+any type definition is fairly trivial though not yet automated.
 
-Thanks for your work.
+Fix the various property schemas which are missing a type. Most of these
+tend to be device specific properties which don't have a vendor prefix.
+A vendor prefix is how we normally ensure a type is defined.
 
-I like this patch, I think it captures the issue discussed in the 
-previous thread quiet nicely. One small nit below.
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../arm/hisilicon/controller/hip04-bootwrapper.yaml       | 5 +++--
+ .../bindings/display/bridge/toshiba,tc358768.yaml         | 1 +
+ .../devicetree/bindings/display/panel/panel-timing.yaml   | 5 +++++
+ .../bindings/display/panel/raydium,rm67191.yaml           | 1 +
+ .../bindings/display/panel/samsung,s6e8aa0.yaml           | 1 +
+ .../devicetree/bindings/gpio/fairchild,74hc595.yaml       | 1 +
+ .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 1 +
+ .../devicetree/bindings/input/matrix-keymap.yaml          | 4 ++++
+ Documentation/devicetree/bindings/media/i2c/adv7604.yaml  | 3 ++-
+ Documentation/devicetree/bindings/mux/reg-mux.yaml        | 8 ++++++--
+ Documentation/devicetree/bindings/net/cdns,macb.yaml      | 1 +
+ Documentation/devicetree/bindings/net/ingenic,mac.yaml    | 1 +
+ .../devicetree/bindings/net/ti,davinci-mdio.yaml          | 1 +
+ .../devicetree/bindings/net/wireless/ti,wlcore.yaml       | 2 ++
+ .../devicetree/bindings/pci/snps,dw-pcie-ep.yaml          | 6 ++++--
+ Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml   | 2 ++
+ .../devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml    | 2 ++
+ Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml | 1 +
+ .../devicetree/bindings/power/supply/battery.yaml         | 7 ++++++-
+ .../devicetree/bindings/power/supply/charger-manager.yaml | 1 +
+ Documentation/devicetree/bindings/rng/st,stm32-rng.yaml   | 1 +
+ Documentation/devicetree/bindings/serial/8250.yaml        | 1 +
+ .../devicetree/bindings/sound/audio-graph-card2.yaml      | 3 +++
+ .../devicetree/bindings/sound/imx-audio-hdmi.yaml         | 3 +++
+ Documentation/devicetree/bindings/usb/smsc,usb3503.yaml   | 1 +
+ 25 files changed, 55 insertions(+), 8 deletions(-)
 
-On 2022-05-19 20:00:09 +0200, Michael Rodin wrote:
-> When a subdevice sends a transfer error event during streaming and we can
-> not capture new frames, then we know for sure that this is an unrecoverable
-> failure and not just a temporary glitch. In this case we can not ignore the
-> transfer error any more and have to notify userspace. In response to the
-> transfer error event userspace can try to restart streaming and hope that
-> it works again.
-> 
-> This patch is based on the patch [1] from Niklas Söderlund, however it adds
-> more logic to check whether the VIN hardware module is actually affected by
-> the transfer errors reported by the usptream device. For this it takes some
-> ideas from the imx driver where EOF interrupts are monitored by the
-> eof_timeout_timer added by commit 4a34ec8e470c ("[media] media: imx: Add
-> CSI subdev driver").
-> 
-> [1] https://lore.kernel.org/linux-renesas-soc/20211108160220.767586-4-niklas.soderlund+renesas@ragnatech.se/
-> 
-> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> ---
->  drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 34 ++++++++++++++++++++++
->  .../media/platform/renesas/rcar-vin/rcar-v4l2.c    | 18 +++++++++++-
->  drivers/media/platform/renesas/rcar-vin/rcar-vin.h |  7 +++++
->  3 files changed, 58 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> index 2272f1c..596a367 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> @@ -13,6 +13,7 @@
->  #include <linux/delay.h>
->  #include <linux/interrupt.h>
->  #include <linux/pm_runtime.h>
-> +#include <media/v4l2-event.h>
->  
->  #include <media/videobuf2-dma-contig.h>
->  
-> @@ -1060,6 +1061,9 @@ static irqreturn_t rvin_irq(int irq, void *data)
->  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
->  	}
->  
-> +	cancel_delayed_work(&vin->frame_timeout);
-> +	schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
-> +
->  	vin->sequence++;
->  
->  	/* Prepare for next frame */
-> @@ -1283,6 +1287,7 @@ int rvin_start_streaming(struct rvin_dev *vin)
->  	spin_lock_irqsave(&vin->qlock, flags);
->  
->  	vin->sequence = 0;
-> +	vin->xfer_error = false;
->  
->  	ret = rvin_capture_start(vin);
->  	if (ret)
-> @@ -1290,6 +1295,10 @@ int rvin_start_streaming(struct rvin_dev *vin)
->  
->  	spin_unlock_irqrestore(&vin->qlock, flags);
->  
-> +	/* We start the frame watchdog only after we have successfully started streaming */
-> +	if (!ret)
-> +		schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
-> +
->  	return ret;
->  }
->  
-> @@ -1332,6 +1341,12 @@ void rvin_stop_streaming(struct rvin_dev *vin)
->  	}
->  
->  	vin->state = STOPPING;
-> +	/*
-> +	 * Since we are now stopping and don't expect more frames to be captured, make sure that
-> +	 * there is no pending work for error handling.
-> +	 */
-> +	cancel_delayed_work_sync(&vin->frame_timeout);
-> +	vin->xfer_error = false;
-
-Do we need to set xfer_error to false here? The delayed work is canceled 
-and we reset the xfer_error when we start in rvin_start_streaming().
-
->  
->  	/* Wait until only scratch buffer is used, max 3 interrupts. */
->  	retries = 0;
-> @@ -1424,6 +1439,23 @@ void rvin_dma_unregister(struct rvin_dev *vin)
->  	v4l2_device_unregister(&vin->v4l2_dev);
->  }
->  
-> +static void rvin_frame_timeout(struct work_struct *work)
-> +{
-> +	struct delayed_work *dwork = to_delayed_work(work);
-> +	struct rvin_dev *vin = container_of(dwork, struct rvin_dev, frame_timeout);
-> +	struct v4l2_event event = {
-> +		.type = V4L2_EVENT_XFER_ERROR,
-> +	};
-> +
-> +	vin_dbg(vin, "Frame timeout!\n");
-> +
-> +	if (!vin->xfer_error)
-> +		return;
-> +	vin_err(vin, "Unrecoverable transfer error detected, stopping streaming\n");
-> +	vb2_queue_error(&vin->queue);
-> +	v4l2_event_queue(&vin->vdev, &event);
-> +}
-> +
->  int rvin_dma_register(struct rvin_dev *vin, int irq)
->  {
->  	struct vb2_queue *q = &vin->queue;
-> @@ -1470,6 +1502,8 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
->  		goto error;
->  	}
->  
-> +	INIT_DELAYED_WORK(&vin->frame_timeout, rvin_frame_timeout);
-> +
->  	return 0;
->  error:
->  	rvin_dma_unregister(vin);
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> index 2e2aa9d..bd7f6fe2 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> @@ -648,6 +648,8 @@ static int rvin_subscribe_event(struct v4l2_fh *fh,
->  	switch (sub->type) {
->  	case V4L2_EVENT_SOURCE_CHANGE:
->  		return v4l2_event_subscribe(fh, sub, 4, NULL);
-> +	case V4L2_EVENT_XFER_ERROR:
-> +		return v4l2_event_subscribe(fh, sub, 1, NULL);
->  	}
->  	return v4l2_ctrl_subscribe_event(fh, sub);
->  }
-> @@ -1000,9 +1002,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
->  static void rvin_notify_video_device(struct rvin_dev *vin,
->  				     unsigned int notification, void *arg)
->  {
-> +	const struct v4l2_event *event;
-> +
->  	switch (notification) {
->  	case V4L2_DEVICE_NOTIFY_EVENT:
-> -		v4l2_event_queue(&vin->vdev, arg);
-> +		event = arg;
-> +
-> +		switch (event->type) {
-> +		case V4L2_EVENT_XFER_ERROR:
-> +			if (vin->state != STOPPED && vin->state != STOPPING) {
-> +				vin_dbg(vin, "Subdevice signaled transfer error.\n");
-> +				vin->xfer_error = true;
-> +			}
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +
->  		break;
->  	default:
->  		break;
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> index 1f94589..4726a69 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> @@ -31,6 +31,9 @@
->  /* Max number on VIN instances that can be in a system */
->  #define RCAR_VIN_NUM 32
->  
-> +/* maximum time we wait before signalling an error to userspace */
-> +#define FRAME_TIMEOUT_MS 1000
-> +
->  struct rvin_group;
->  
->  enum model_id {
-> @@ -207,6 +210,8 @@ struct rvin_info {
->   * @std:		active video standard of the video source
->   *
->   * @alpha:		Alpha component to fill in for supported pixel formats
-> + * @xfer_error:		Indicates if any transfer errors occurred in the current streaming session.
-> + * @frame_timeout:	Watchdog for monitoring regular capturing of frames in rvin_irq.
->   */
->  struct rvin_dev {
->  	struct device *dev;
-> @@ -251,6 +256,8 @@ struct rvin_dev {
->  	v4l2_std_id std;
->  
->  	unsigned int alpha;
-> +	bool xfer_error;
-> +	struct delayed_work frame_timeout;
->  };
->  
->  #define vin_to_source(vin)		((vin)->parallel.subdev)
-> -- 
-> 2.7.4
-> 
-
+diff --git a/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml b/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
+index 7378159e61df..483caf0ce25b 100644
+--- a/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
++++ b/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
+@@ -17,14 +17,15 @@ properties:
+       - const: hisilicon,hip04-bootwrapper
+ 
+   boot-method:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
+     description: |
+       Address and size of boot method.
+       [0]: bootwrapper physical address
+       [1]: bootwrapper size
+       [2]: relocation physical address
+       [3]: relocation size
+-    minItems: 1
+-    maxItems: 2
++    minItems: 2
++    maxItems: 4
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+index 3bd670b8e5cd..0b6f5bef120f 100644
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+@@ -58,6 +58,7 @@ properties:
+ 
+             properties:
+               data-lines:
++                $ref: /schemas/types.yaml#/definitions/uint32
+                 enum: [ 16, 18, 24 ]
+ 
+       port@1:
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
+index 7749de95ee40..229e3b36ee29 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
+@@ -146,6 +146,7 @@ properties:
+       Horizontal sync pulse.
+       0 selects active low, 1 selects active high.
+       If omitted then it is not used by the hardware
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [0, 1]
+ 
+   vsync-active:
+@@ -153,6 +154,7 @@ properties:
+       Vertical sync pulse.
+       0 selects active low, 1 selects active high.
+       If omitted then it is not used by the hardware
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [0, 1]
+ 
+   de-active:
+@@ -160,6 +162,7 @@ properties:
+       Data enable.
+       0 selects active low, 1 selects active high.
+       If omitted then it is not used by the hardware
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [0, 1]
+ 
+   pixelclk-active:
+@@ -169,6 +172,7 @@ properties:
+       sample data on rising edge.
+       Use 1 to drive pixel data on rising edge and
+       sample data on falling edge
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [0, 1]
+ 
+   syncclk-active:
+@@ -179,6 +183,7 @@ properties:
+       sample sync on rising edge of pixel clock.
+       Use 1 to drive sync on rising edge and
+       sample sync on falling edge of pixel clock
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [0, 1]
+ 
+   interlaced:
+diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+index 745dd247c409..617aa8c8c03a 100644
+--- a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
++++ b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+@@ -24,6 +24,7 @@ properties:
+ 
+   dsi-lanes:
+     description: Number of DSI lanes to be used must be <3> or <4>
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [3, 4]
+ 
+   v3p3-supply:
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+index ca959451557e..1cdc91b3439f 100644
+--- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+@@ -36,6 +36,7 @@ properties:
+ 
+   init-delay:
+     description: delay after initialization sequence [ms]
++    $ref: /schemas/types.yaml#/definitions/uint32
+ 
+   panel-width-mm:
+     description: physical panel width [mm]
+diff --git a/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml b/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
+index 5fe19fa5f67c..a99e7842ca17 100644
+--- a/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
++++ b/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
+@@ -26,6 +26,7 @@ properties:
+     const: 2
+ 
+   registers-number:
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description: Number of daisy-chained shift registers
+ 
+   enable-gpios:
+diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+index e8f137abb03c..aa61fe64be63 100644
+--- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
++++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+@@ -31,6 +31,7 @@ properties:
+     type: boolean
+ 
+   function-row-physmap:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
+     minItems: 1
+     maxItems: 15
+     description: |
+diff --git a/Documentation/devicetree/bindings/input/matrix-keymap.yaml b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
+index 6699d5e32dca..9f703bb51e12 100644
+--- a/Documentation/devicetree/bindings/input/matrix-keymap.yaml
++++ b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
+@@ -27,6 +27,10 @@ properties:
+       column and linux key-code. The 32-bit big endian cell is packed as:
+           row << 24 | column << 16 | key-code
+ 
++  linux,no-autorepeat:
++    type: boolean
++    description: Disable keyrepeat
++
+   keypad,num-rows:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description: Number of row lines connected to the keypad controller.
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
+index c19d8391e2d5..7589d377c686 100644
+--- a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
+@@ -60,7 +60,8 @@ properties:
+       enables hot-plug detection.
+ 
+   default-input:
+-    maxItems: 1
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [ 0, 1 ]
+     description:
+       Select which input is selected after reset.
+ 
+diff --git a/Documentation/devicetree/bindings/mux/reg-mux.yaml b/Documentation/devicetree/bindings/mux/reg-mux.yaml
+index 60d5746eb39d..e2f6b11f1254 100644
+--- a/Documentation/devicetree/bindings/mux/reg-mux.yaml
++++ b/Documentation/devicetree/bindings/mux/reg-mux.yaml
+@@ -25,8 +25,12 @@ properties:
+     const: 1
+ 
+   mux-reg-masks:
+-    description: an array of register offset and pre-shifted bitfield mask
+-      pairs, each describing a single mux control.
++    $ref: /schemas/types.yaml#/definitions/uint32-matrix
++    items:
++      items:
++        - description: register offset
++        - description: pre-shifted bitfield mask
++    description: Each entry describes a single mux control.
+ 
+   idle-states: true
+ 
+diff --git a/Documentation/devicetree/bindings/net/cdns,macb.yaml b/Documentation/devicetree/bindings/net/cdns,macb.yaml
+index 6cd3d853dcba..59fe2789fa44 100644
+--- a/Documentation/devicetree/bindings/net/cdns,macb.yaml
++++ b/Documentation/devicetree/bindings/net/cdns,macb.yaml
+@@ -129,6 +129,7 @@ patternProperties:
+       reset-gpios: true
+ 
+       magic-packet:
++        type: boolean
+         description:
+           Indicates that the hardware supports waking up via magic packet.
+ 
+diff --git a/Documentation/devicetree/bindings/net/ingenic,mac.yaml b/Documentation/devicetree/bindings/net/ingenic,mac.yaml
+index 8e52b2e683b8..93b3e991d209 100644
+--- a/Documentation/devicetree/bindings/net/ingenic,mac.yaml
++++ b/Documentation/devicetree/bindings/net/ingenic,mac.yaml
+@@ -37,6 +37,7 @@ properties:
+     const: stmmaceth
+ 
+   mode-reg:
++    $ref: /schemas/types.yaml#/definitions/phandle
+     description: An extra syscon register that control ethernet interface and timing delay
+ 
+   rx-clk-delay-ps:
+diff --git a/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml b/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
+index 6f44f9516c36..a339202c5e8e 100644
+--- a/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
++++ b/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
+@@ -34,6 +34,7 @@ properties:
+     maxItems: 1
+ 
+   bus_freq:
++    $ref: /schemas/types.yaml#/definitions/uint32
+     maximum: 2500000
+     description: MDIO Bus frequency
+ 
+diff --git a/Documentation/devicetree/bindings/net/wireless/ti,wlcore.yaml b/Documentation/devicetree/bindings/net/wireless/ti,wlcore.yaml
+index 8dd164d10290..d68bb2ec1f7e 100644
+--- a/Documentation/devicetree/bindings/net/wireless/ti,wlcore.yaml
++++ b/Documentation/devicetree/bindings/net/wireless/ti,wlcore.yaml
+@@ -54,9 +54,11 @@ properties:
+ 
+ 
+   ref-clock-frequency:
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description: Reference clock frequency.
+ 
+   tcxo-clock-frequency:
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description: TCXO clock frequency.
+ 
+   clock-xtal:
+diff --git a/Documentation/devicetree/bindings/pci/snps,dw-pcie-ep.yaml b/Documentation/devicetree/bindings/pci/snps,dw-pcie-ep.yaml
+index e59059ab5be0..b78535040f04 100644
+--- a/Documentation/devicetree/bindings/pci/snps,dw-pcie-ep.yaml
++++ b/Documentation/devicetree/bindings/pci/snps,dw-pcie-ep.yaml
+@@ -55,13 +55,15 @@ properties:
+       Translation Unit) registers.
+ 
+   num-ib-windows:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    maximum: 256
+     description: number of inbound address translation windows
+-    maxItems: 1
+     deprecated: true
+ 
+   num-ob-windows:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    maximum: 256
+     description: number of outbound address translation windows
+-    maxItems: 1
+     deprecated: true
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml b/Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml
+index a5345c494744..c90e5e2d25f6 100644
+--- a/Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml
++++ b/Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml
+@@ -68,6 +68,8 @@ properties:
+       Translation Unit) registers.
+ 
+   num-viewport:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    maximum: 256
+     description: |
+       number of view ports configured in hardware. If a platform
+       does not specify it, the driver autodetects it.
+diff --git a/Documentation/devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml b/Documentation/devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml
+index 53e963e090f2..533b4cfe33d2 100644
+--- a/Documentation/devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml
+@@ -120,6 +120,7 @@ patternProperties:
+       input-schmitt-disable: true
+ 
+       input-polarity-invert:
++        type: boolean
+         description:
+           Enable or disable pin input polarity inversion.
+ 
+@@ -132,6 +133,7 @@ patternProperties:
+       output-low: true
+ 
+       output-polarity-invert:
++        type: boolean
+         description:
+           Enable or disable pin output polarity inversion.
+ 
+diff --git a/Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml b/Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml
+index 3301fa0c2653..301db7daf870 100644
+--- a/Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml
++++ b/Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml
+@@ -51,6 +51,7 @@ properties:
+       supported by the CPR power domain.
+ 
+   acc-syscon:
++    $ref: /schemas/types.yaml#/definitions/phandle
+     description: A phandle to the syscon used for writing ACC settings.
+ 
+   nvmem-cells:
+diff --git a/Documentation/devicetree/bindings/power/supply/battery.yaml b/Documentation/devicetree/bindings/power/supply/battery.yaml
+index d56ac484fec5..491488e7b970 100644
+--- a/Documentation/devicetree/bindings/power/supply/battery.yaml
++++ b/Documentation/devicetree/bindings/power/supply/battery.yaml
+@@ -85,8 +85,13 @@ properties:
+     description: battery factory internal resistance
+ 
+   resistance-temp-table:
++    $ref: /schemas/types.yaml#/definitions/uint32-matrix
++    items:
++      items:
++        - description: the temperature in degree Celsius
++        - description: battery internal resistance percent
+     description: |
+-      An array providing the temperature in degree Celsius
++      A table providing the temperature in degree Celsius
+       and corresponding battery internal resistance percent, which is used to
+       look up the resistance percent according to current temperature to get an
+       accurate batterty internal resistance in different temperatures.
+diff --git a/Documentation/devicetree/bindings/power/supply/charger-manager.yaml b/Documentation/devicetree/bindings/power/supply/charger-manager.yaml
+index c863cfa67865..fbb2204769aa 100644
+--- a/Documentation/devicetree/bindings/power/supply/charger-manager.yaml
++++ b/Documentation/devicetree/bindings/power/supply/charger-manager.yaml
+@@ -36,6 +36,7 @@ properties:
+ 
+   cm-poll-mode:
+     description: polling mode
++    $ref: /schemas/types.yaml#/definitions/uint32
+     default: 0
+     enum:
+       - 0 # disabled
+diff --git a/Documentation/devicetree/bindings/rng/st,stm32-rng.yaml b/Documentation/devicetree/bindings/rng/st,stm32-rng.yaml
+index 9a6e4eaf4d3c..fcd86f822a9c 100644
+--- a/Documentation/devicetree/bindings/rng/st,stm32-rng.yaml
++++ b/Documentation/devicetree/bindings/rng/st,stm32-rng.yaml
+@@ -27,6 +27,7 @@ properties:
+     maxItems: 1
+ 
+   clock-error-detect:
++    type: boolean
+     description: If set enable the clock detection management
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/serial/8250.yaml b/Documentation/devicetree/bindings/serial/8250.yaml
+index 3bab2f27b970..5f6b113d378f 100644
+--- a/Documentation/devicetree/bindings/serial/8250.yaml
++++ b/Documentation/devicetree/bindings/serial/8250.yaml
+@@ -138,6 +138,7 @@ properties:
+     description: The current active speed of the UART.
+ 
+   reg-offset:
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description: |
+       Offset to apply to the mapbase from the start of the registers.
+ 
+diff --git a/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml b/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml
+index f7e94b1e0e4b..7416067c945e 100644
+--- a/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml
++++ b/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml
+@@ -24,10 +24,13 @@ properties:
+       connection's sink, the second being the connection's source.
+     $ref: /schemas/types.yaml#/definitions/non-unique-string-array
+   multi:
++    type: object
+     description: Multi-CPU/Codec node
+   dpcm:
++    type: object
+     description: DPCM node
+   codec2codec:
++    type: object
+     description: Codec to Codec node
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/sound/imx-audio-hdmi.yaml b/Documentation/devicetree/bindings/sound/imx-audio-hdmi.yaml
+index d5474f83ac2c..e7e7bb65c366 100644
+--- a/Documentation/devicetree/bindings/sound/imx-audio-hdmi.yaml
++++ b/Documentation/devicetree/bindings/sound/imx-audio-hdmi.yaml
+@@ -20,9 +20,11 @@ properties:
+     description: User specified audio sound card name
+ 
+   audio-cpu:
++    $ref: /schemas/types.yaml#/definitions/phandle
+     description: The phandle of an CPU DAI controller
+ 
+   hdmi-out:
++    type: boolean
+     description: |
+       This is a boolean property. If present, the transmitting function
+       of HDMI will be enabled, indicating there's a physical HDMI out
+@@ -30,6 +32,7 @@ properties:
+       block, such as an HDMI encoder or display-controller.
+ 
+   hdmi-in:
++    type: boolean
+     description: |
+       This is a boolean property. If present, the receiving function of
+       HDMI will be enabled, indicating there is a physical HDMI in
+diff --git a/Documentation/devicetree/bindings/usb/smsc,usb3503.yaml b/Documentation/devicetree/bindings/usb/smsc,usb3503.yaml
+index b9e219829801..321b6f166197 100644
+--- a/Documentation/devicetree/bindings/usb/smsc,usb3503.yaml
++++ b/Documentation/devicetree/bindings/usb/smsc,usb3503.yaml
+@@ -45,6 +45,7 @@ properties:
+       property if all ports have to be enabled.
+ 
+   initial-mode:
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [1, 2]
+     description: >
+       Specifies initial mode. 1 for Hub mode, 2 for standby mode.
 -- 
-Kind Regards,
-Niklas Söderlund
+2.34.1
+
