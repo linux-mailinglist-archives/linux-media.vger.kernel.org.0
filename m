@@ -2,174 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2910252E98D
-	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 12:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59D3B52EA19
+	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 12:43:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347925AbiETKCv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 May 2022 06:02:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40726 "EHLO
+        id S240627AbiETKnV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 May 2022 06:43:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229809AbiETKCt (ORCPT
+        with ESMTP id S236325AbiETKnU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 May 2022 06:02:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D1BA30BC;
-        Fri, 20 May 2022 03:02:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6792F61CCC;
-        Fri, 20 May 2022 10:02:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB789C385A9;
-        Fri, 20 May 2022 10:02:44 +0000 (UTC)
-Message-ID: <b7b5ac18-b4d2-a801-c2ff-6b48c8b863b9@xs4all.nl>
-Date:   Fri, 20 May 2022 12:02:42 +0200
+        Fri, 20 May 2022 06:43:20 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0174214CA03
+        for <linux-media@vger.kernel.org>; Fri, 20 May 2022 03:43:19 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id t11-20020a17090a6a0b00b001df6f318a8bso11152188pjj.4
+        for <linux-media@vger.kernel.org>; Fri, 20 May 2022 03:43:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wistron-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=um6Mtxj9hn6MLF0/DG+dua7GL3nWe8jP1xt8gG30nLY=;
+        b=QQI6WKxPdPQlxQR2wBHF8ieDOe8AjPnodlbFL2coMjZXGkbYc3ejUJKSdjhWhC5Hrz
+         4Frb0wz7hDNs9vuvxfcXLhPiO/Vx5V198ppq/coM2RoCMTxc3hT+fOnO7nrmqY5h3XmR
+         G783hWx646iduUN4WKTRng/rwRaGCJB7vVzArrL7IBWE6YrVsiTmBAjOrFsltZZgCWKC
+         X8d/1aEJnLduuk18lRy7YYSPFsXQFvixoCfTXD6/cjU0cOScIVj+yBeDz5Fa9UhcAJTX
+         pmsDtshY4fB4qdLauDDjsdpLjYYdCUXszo7Ii3G0UeylDOgmy1dvD9zwtGOGV5mHylrI
+         +97Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=um6Mtxj9hn6MLF0/DG+dua7GL3nWe8jP1xt8gG30nLY=;
+        b=YOMRtMV1ikIGfIjizCLc1/Zn8TRl/rT5esPkg+EEFSfb8MdOG4dvtJPWZL7NA4IpOX
+         KpPkgfB1riBB5cNvN8AoBglkwUwbHBGi2cW8ryVOVnQ+CxJjUDcbzaogdfU4nyc3HEC3
+         j3IeAilK3d1XsI0bhUQgi8O7NdM42TDn4lqIJ7+CM/UtJ4etMO3RYdZxVjQ4eLOvryN9
+         4ZO7qegsMNZXjdIZuxZzpSQ0Ax8ndYKh5cgYqiEq4Y0PmT2RHJsUL6lo/Ah1pk0Jj0G8
+         Pi28333EmXPfCkB6bM/NiBmTDZ+ER6oqo0zUYR8FTx20sPTlDGWk0a3p0VtQgjGap3SH
+         Iw2A==
+X-Gm-Message-State: AOAM532b/fRmMKSbLbIS+pOF2W/WT8ai19mjtApVzTaNcfudAZPwWwjU
+        POvrLs7XE2IjaqIg+LQIMMq1bA==
+X-Google-Smtp-Source: ABdhPJzJvp4abACIC9bSi6TaYIAOrBzPR9AkpGWI0uG2VlDBiX0Juhn7NPRg20Zp/1xDQU2YVkvBgQ==
+X-Received: by 2002:a17:903:244f:b0:15e:bb9a:3aa9 with SMTP id l15-20020a170903244f00b0015ebb9a3aa9mr9053463pls.78.1653043398455;
+        Fri, 20 May 2022 03:43:18 -0700 (PDT)
+Received: from localhost.localdomain ([1.200.35.228])
+        by smtp.gmail.com with ESMTPSA id ru13-20020a17090b2bcd00b001df4a0e9357sm1598543pjb.12.2022.05.20.03.43.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 May 2022 03:43:18 -0700 (PDT)
+From:   Scott Chao <scott_chao@wistron.corp-partner.google.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     mchehab@kernel.org, bleung@chromium.org, groeck@chromium.org,
+        zhuohao@chromium.org, linux-media@vger.kernel.org,
+        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Scott Chao <scott_chao@wistron.corp-partner.google.com>
+Subject: [PATCH] [v2] media/platform-wide: platform: Add moli to the match table
+Date:   Fri, 20 May 2022 18:42:53 +0800
+Message-Id: <20220520104253.26054-1-scott_chao@wistron.corp-partner.google.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 0/4] Add Toshiba Visconti DNN image processing accelerator
- driver
-Content-Language: en-US
-To:     yuji2.ishikawa@toshiba.co.jp, robh+dt@kernel.org,
-        nobuhiro1.iwamatsu@toshiba.co.jp, sumit.semwal@linaro.org,
-        christian.koenig@amd.com
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20220428131128.5053-1-yuji2.ishikawa@toshiba.co.jp>
- <b5e35985-c159-6b11-8752-d6dd29fc6a64@xs4all.nl>
- <TYAPR01MB62015F4029956F009EC03FBE92D39@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <TYAPR01MB62015F4029956F009EC03FBE92D39@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yuji,
+The Google Moli device uses the same approach as the Google Brask
+which enables the HDMI CEC via the cros-ec-cec driver.
 
-On 5/20/22 11:48, yuji2.ishikawa@toshiba.co.jp wrote:
-> Hi Hans,
-> 
-> Thank you for your comment.
-> I agree that this submission lacks documents sharing basic idea of the accelerators; what do they accept and what do they yield.
-> Where can I put a new document? Can I put it as a comment in a source? Can I add a file under Documentation/misc-devices directory?
+Signed-off-by: Scott Chao <scott_chao@wistron.corp-partner.google.com>
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Start with explaining it by replying to this mail. Without knowing anything
-about the hardware, it is difficult to say what the best place is. Usually
-it is either the public API header, or somewhere in Documentation.
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 8c8d8fc5e63e..25dc7309beab 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -217,6 +217,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Fizz", "0000:00:02.0", "Port B" },
+ 	/* Google Brask */
+ 	{ "Google", "Brask", "0000:00:02.0", "Port B" },
++	/* Google Moli */
++	{ "Google", "Moli", "0000:00:02.0", "Port B" },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+-- 
+2.36.1
 
-The first step is to have a better understanding of the Visconti image hardware
-and to see what the best subsystem would be to support that hardware.
-
-Regards,
-
-	Hans
-
-> 
-> Thanks,
-> Yuji Ishikawa
-> 
->> -----Original Message-----
->> From: Hans Verkuil <hverkuil@xs4all.nl>
->> Sent: Thursday, May 12, 2022 8:15 PM
->> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
->> <yuji2.ishikawa@toshiba.co.jp>; Rob Herring <robh+dt@kernel.org>;
->> iwamatsu nobuhiro(岩松 信洋 □ＳＷＣ◯ＡＣＴ)
->> <nobuhiro1.iwamatsu@toshiba.co.jp>; Sumit Semwal
->> <sumit.semwal@linaro.org>; Christian König <christian.koenig@amd.com>
->> Cc: linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org;
->> linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org;
->> linaro-mm-sig@lists.linaro.org
->> Subject: Re: [PATCH 0/4] Add Toshiba Visconti DNN image processing
->> accelerator driver
->>
->> Hi Yuji,
->>
->> On 4/28/22 15:11, Yuji Ishikawa wrote:
->>> This series is the DNN image processing accelerator driver for Toshiba's ARM
->> SoC, Visconti[0].
->>> This provides DT binding documentation, device driver, MAINTAINER files.
->>>
->>> The second patch "soc: visconti: Add Toshiba Visconti image processing
->> accelerator common source"
->>> and the fourth patch "MAINTAINERS: ..." are the same as the ones in the
->> preceding post for affine driver.
->>
->> There appears to be no documentation whatsoever, unless I am missing
->> something.
->>
->> How is the uAPI supposed to be used? What does it do? What formats does it
->> accept or produce?
->>
->> If this processes images, then (as Laurent mentioned) this is more suitable as a
->> V4L2 mem2mem driver.
->>
->> See
->> https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-me
->> m2mem.html
->> and the many drivers in drivers/media that use it (git grep v4l2-mem2mem.h).
->>
->> But without any explanation whatsoever I have no idea what does or does not
->> make sense.
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>> Best regards,
->>> Yuji
->>>
->>> [0]:
->>>
->> https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-
->>> recognition-processors-visconti.html
->>>
->>> Yuji Ishikawa (4):
->>>   dt-bindings: soc: visconti: Add Toshiba Visconti DNN image processing
->>>     accelerator bindings
->>>   soc: visconti: Add Toshiba Visconti image processing accelerator
->>>     common source
->>>   soc: visconti: Add Toshiba Visconti DNN image processing accelerator
->>>   MAINTAINERS: Add entries for Toshiba Visconti DNN image processing
->>>     accelerator
->>>
->>>  .../soc/visconti/toshiba,visconti-dnn.yaml    |  54 ++
->>>  MAINTAINERS                                   |   2 +
->>>  drivers/soc/Kconfig                           |   1 +
->>>  drivers/soc/Makefile                          |   1 +
->>>  drivers/soc/visconti/Kconfig                  |   7 +
->>>  drivers/soc/visconti/Makefile                 |   8 +
->>>  drivers/soc/visconti/dnn/Makefile             |   6 +
->>>  drivers/soc/visconti/dnn/dnn.c                | 533
->> ++++++++++++++++++
->>>  drivers/soc/visconti/dnn/hwd_dnn.c            | 183 ++++++
->>>  drivers/soc/visconti/dnn/hwd_dnn.h            |  68 +++
->>>  drivers/soc/visconti/dnn/hwd_dnn_reg.h        | 228 ++++++++
->>>  drivers/soc/visconti/ipa_common.c             |  55 ++
->>>  drivers/soc/visconti/ipa_common.h             |  18 +
->>>  drivers/soc/visconti/uapi/dnn.h               |  77 +++
->>>  drivers/soc/visconti/uapi/ipa.h               |  88 +++
->>>  15 files changed, 1329 insertions(+)
->>>  create mode 100644
->>> Documentation/devicetree/bindings/soc/visconti/toshiba,visconti-dnn.ya
->>> ml  create mode 100644 drivers/soc/visconti/Kconfig  create mode
->>> 100644 drivers/soc/visconti/Makefile  create mode 100644
->>> drivers/soc/visconti/dnn/Makefile  create mode 100644
->>> drivers/soc/visconti/dnn/dnn.c  create mode 100644
->>> drivers/soc/visconti/dnn/hwd_dnn.c
->>>  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn.h
->>>  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn_reg.h
->>>  create mode 100644 drivers/soc/visconti/ipa_common.c  create mode
->>> 100644 drivers/soc/visconti/ipa_common.h  create mode 100644
->>> drivers/soc/visconti/uapi/dnn.h  create mode 100644
->>> drivers/soc/visconti/uapi/ipa.h
->>>
