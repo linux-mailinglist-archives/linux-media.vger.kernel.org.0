@@ -2,173 +2,386 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D21F52E284
-	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 04:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD50652E298
+	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 04:44:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344775AbiETCbW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 May 2022 22:31:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59340 "EHLO
+        id S1344762AbiETCo5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 May 2022 22:44:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344765AbiETCbU (ORCPT
+        with ESMTP id S234497AbiETCo4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 May 2022 22:31:20 -0400
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2137.outbound.protection.outlook.com [40.107.215.137])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29C8517A89;
-        Thu, 19 May 2022 19:31:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NTLP8EhIP69XY/Q7+w0UWl9FEfAm+56Deq5b8Dme3gzI3prI3qlHkgF/yMxOQnRpkAa6paHizkmvIluAENngygbSEDZ0p6UaHk6lbPcB3QfvaWqJeL05dfphn72Lm0s+1qBEoOHjplYzXkDBKtyxLWDj758OKijmvgbb2C5MjggKqh+xdnvwMUY6OX7/zru51v2j6l1mzkRX8xu2crrzuYxZg6XUkpAfr/5/zu0JfxfSbnFVnhpYxFxYQa0Yct2+0JSi0hjRywgGjhn41yZK6RZe9xvkKaupVXdVjA7XOgJqbad5xXe8FFu1LoFfSA3PslhNfIgmiMXeP60rlA+O1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rbzrgDYDkZhA/rBWK5sR35m+IbSylrqHCcUshC/jidU=;
- b=cdRgzS5UE7G1YdjcLzR0YiEq/3RGAQ52iYd56VbDzS0OxHYp+SYDnI0yjxeMmgMdshpOPWngOU+NUUidebV9Dk4NgTjTTSZoXHMQHoM4RfyJYEtRDNxWDI9oFXfARuAqbF9Qaog2xCoIz8kfkPCLBGcQIiIr+KS+ieQ8l43IFb/pmj2ckjMV9fAjrb8xKIQVxjyPeGfjqAwxc1MvyajavRz9t4a9c3ifrH51d9lF1AvHJInikVf7GLEAskW4kJPQCRL9boohLahlgoW6mQh/9Yuh7CYdwMqsNYCwqbx2kO8w8Zq4WZpYRB7bXer/LDPspzKkqD4oq65x+htb8q4GLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rbzrgDYDkZhA/rBWK5sR35m+IbSylrqHCcUshC/jidU=;
- b=liS9yHiFDBrB8iWo/fs4uYp1CCuYO1RKLIFh2fnODpglqyfDo7Jl0/LVJ/WffOilSpzH1UHl6VP+suDEZbe7BwDVuDQeUnL1apvyGlAjSbz2X4YCUHdMvn/AskUToZkDuGY+e8NVm9gI3tkNv+LPvkbBB4b1rI9m5u4d1fuaEeB8z9dCnqAeYmNdyxP+NecMWPZ1PKwcEE+UzfLFSTF9SYH7KDeoFGUBgYTd44L8Al5hDQR6ZJDZq24m39eHyU+5j3qB0CM7Twho+2iHJf+U1klZpE6vHsaukVaNlXQW6Z2MWkcGfzqcYfWy4DLIs6HIIZ1PGMyRPn6Ddvl1olByjg==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by TY2PR06MB3456.apcprd06.prod.outlook.com (2603:1096:404:fc::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.17; Fri, 20 May
- 2022 02:31:13 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::3d31:8c42:b7f1:ece8]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::3d31:8c42:b7f1:ece8%7]) with mapi id 15.20.5250.020; Fri, 20 May 2022
- 02:31:13 +0000
-From:   Neal Liu <neal_liu@aspeedtech.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Felipe Balbi <balbi@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Li Yang <leoyang.li@nxp.com>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
-Subject: RE: [PATCH v3 0/3] add Aspeed udc driver for ast2600
-Thread-Topic: [PATCH v3 0/3] add Aspeed udc driver for ast2600
-Thread-Index: AQHYan9tqUAHvJsF0EuNAPwZWBao560mXQUAgACw5iA=
-Date:   Fri, 20 May 2022 02:31:13 +0000
-Message-ID: <HK0PR06MB320209500E21D25E7A31E4E880D39@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
- <YoZosLk5GhTsP841@kroah.com>
-In-Reply-To: <YoZosLk5GhTsP841@kroah.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 769401fa-6da4-4c1b-6020-08da3a08ceeb
-x-ms-traffictypediagnostic: TY2PR06MB3456:EE_
-x-microsoft-antispam-prvs: <TY2PR06MB345617FAC98ACD99022609A780D39@TY2PR06MB3456.apcprd06.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0Zcwt6dUA7Udvhl5PlP5P1fbDpuXykmCFjBTb+cJTgrMx/LRsQhxLY2qxlXYE5Er4vmk7maq8z9J8yoqHQFd8ox6S7PlAcQ79SXDxZaUMAWbXwoS/aWwlonlqKjJUOpHO0hggsrrXhOjR/2Zqg2uBhtCGstgGG1SKkOw3/dImSBD/D7ie4qwo7Lt86Qyh1UNhMmBIJerdMijciTxtdZSaEO07EHJxcO6fOhGULoMrA9q13oWnBZ0MKBPHWXpDFSXFhn9aHoe67N54qcUi/V+/chB6sg1uFmh1Bn99ykhGGEcBEJYRQS2fo66kQdMyPAryWEEOPmvFUxivOm1R3xnLymt6OmsYZXlm0WtmEi5zl3Omd36yUmswkdenpk/ZFjcMT4QzsqjvxrL4pFnHNt1J5yaU4SLo3jd9I7IZn+NadSbebo4JV7zxqxbGdGv3Ga+DcNYmtF9b8Cs0d60WmaMCE9HRTwmGMUmq39PR3ULiZ9xr73yI72peltPmR8+DeQZblK3H2Q44J09X0lb+aBy1hI8xxBCZ2ZtmRBxH5QJ58yJ4nkS+Lc9oa6LToCXsfuRq+x4C0wnMcvq2lwyRWJ8Vg9eeoX+iar5poJeB3l01LZ4L02IKjSlQ87keuYvJvUi35nuc9uYH2M4molHdD6xjtScIiye1BfhTDeg8i3P1xufSFSWMAJm8HtQD+JUW+wUJziz4kwADoJVskDnv6b13A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(376002)(39850400004)(396003)(346002)(136003)(83380400001)(71200400001)(5660300002)(86362001)(508600001)(38070700005)(186003)(41300700001)(7416002)(52536014)(8936002)(66574015)(38100700002)(6916009)(54906003)(55016003)(53546011)(316002)(7696005)(6506007)(33656002)(122000001)(2906002)(66556008)(76116006)(9686003)(66946007)(66476007)(66446008)(4326008)(8676002)(26005)(64756008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?3dROPhG5mrWPFNhT+obwgnunBu5dAoNXRSm4VNoLkl4Q903kePSRUwv9eR?=
- =?iso-8859-1?Q?fNy4952XciHgL7Rxe9sDWV4QC42uq7JbO3r9rc8mr1ikn6U2ZJZjPvx6UQ?=
- =?iso-8859-1?Q?Kzg7ZPoUSMgr7Q448CGoj5j6au0QtfQ0Q9WHMjLFaD6x9pHC4HL1XAyM8s?=
- =?iso-8859-1?Q?ZD907miLnwh8U5Vul8GW/TEkEtefOf4K4Dz/91kbQ/WVkMah9wqztmQ/tH?=
- =?iso-8859-1?Q?QOD4aBieBX3mx4bXBQLS0GD/+0INqFhRXp1JVaI7hmJ7SubsybIN/FrUjY?=
- =?iso-8859-1?Q?gabS7wFX6XawzbWNZUYkM7mSvB+8Jdb4WdO5tXP/v6Ej3SWK62sucbyEcc?=
- =?iso-8859-1?Q?XmJyu2sqfRdMvvNtyxzeGfAyOyTOkdhrS6wgszpOrbCu+b2u+GYTRctHGA?=
- =?iso-8859-1?Q?6GIzxXv9jiwe890dVsna2GnElD54KywaI1Gc8F1QRSSm1lUCjzzr1eeoNq?=
- =?iso-8859-1?Q?U7/gyXSVJdFAdcAtDnTCqKFskbl5Xc4TPtrJjQzwosKmU2QVbO6qrQTG+C?=
- =?iso-8859-1?Q?LQL7az0JxJN3vqPkJvozWZybBQt41bRaePCuYqv8uae06QlBnDSIaJOvNQ?=
- =?iso-8859-1?Q?8HsGU2KffoNtLw7esVn7xmJS0OEG3FRuNhLnnn3Zh0Xw1E7E/fpvw0jaDc?=
- =?iso-8859-1?Q?FUuVKj2ciwobhfxrXNvoDsiZMCc+Sb/ch+YmbpNsbbZEI52u5UpO5Lx2Su?=
- =?iso-8859-1?Q?wPUfKA7ZXIxA8UkhK6opuGNiwi/KKTkMddLPlZFxGTCT6HbMAaw51+wnH9?=
- =?iso-8859-1?Q?igWWSNj33P0un/mVjZHOLZOpm0HN1tiH5fa+tdDPc0D66TMCJsMm0XmaOB?=
- =?iso-8859-1?Q?wW4IM6+v0NEj4RUDYayGIp/En/8uT3SPpmgaqDAl3RVL+07+zlTFBzVVY+?=
- =?iso-8859-1?Q?2GKjYbei2s5UOzNGuYdekHtalEUZcmOysHRd/D4mmlSX8d07m5kHlXgudm?=
- =?iso-8859-1?Q?MU7fo+G25fUPVHQrgNYUHvBxkbmvZF/yWN2y35mFDFZ1+PkRljqyYBnP8/?=
- =?iso-8859-1?Q?isw5Ug27GeUwun+hm47APbJ+xo1K69KvnJAY2tRP+mE4+dbCrloivpLZKK?=
- =?iso-8859-1?Q?GwNcytMTpuF9PnD4HetrWhytJE9PKomx5RM5UakQKxZVNlPnvTWlvXRljc?=
- =?iso-8859-1?Q?l7oq/ganK0CVYZxCmAUN8O7UVsYh2s0EkZ8oQzN0WBjroQRGwGop06pGVd?=
- =?iso-8859-1?Q?tRgLHzmP906U68JwoORKCSWl2GKSbbXcOgBCj5mSF20PJWxU5mIs9DkOhO?=
- =?iso-8859-1?Q?YfTapWUEeQj1Ne+zQ9pK18FDPw5VqUk2JZ0fe9q/Fcsc12pSiYtCzNuI4I?=
- =?iso-8859-1?Q?eHnXIiqgWQ4C8qcqUgBgpR6X6DlEMu7tHLjif/GKjAsd6dhbVlUo7UbSsC?=
- =?iso-8859-1?Q?IN46yjFO2nO0jWDLVSFSJ6mowFraF5nHWgMky69XmX3Bq2dO7+gfqmxZrY?=
- =?iso-8859-1?Q?PhCqIBsDYY5/VUcJTEntkSj4Kzaff4j3tN1p93RvTUmMsTi3f3/qyNxQ39?=
- =?iso-8859-1?Q?1LlUuY7a1vwCiSyzuQZVEfwq2bpTQtkRPu6kbCJeViAuPkBGnvLjYxBK/0?=
- =?iso-8859-1?Q?zBXWW2Gr8i2TR7RiRvCGlPUoNexr0P30eBx3wTAcsnpz2UukwSqYjGjTp1?=
- =?iso-8859-1?Q?mKVpXGLkEQWrSgFAA3qOsxewrm07oHWbNgIsrYczTUMalRtIvUW/GrkO/H?=
- =?iso-8859-1?Q?/Y05/LAfKgUB6Iymva/2sfOBcukGf7PfF3ughHl/EablGrLYVbVaL07nHY?=
- =?iso-8859-1?Q?giPRavFxnxw2amrqXMHDq4wqutCUAQMfclSMILkUjStlEa0Y6n324H6Nks?=
- =?iso-8859-1?Q?FJBwkDL1iw=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 19 May 2022 22:44:56 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6EC714675A
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 19:44:54 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id i68so4844929qke.11
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 19:44:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Y5bKU69gBdwYXqKfBsd6lPoReCL7wSnrHfkcEkAaemQ=;
+        b=R/0bZyZOK/gcR6XhH1gYl0lX70IDM2yA/5oOc6tt+5ZmMq5nkDiVTeNwSji8iK6EOB
+         3haKzRZEQgeUqKm4wkUNyVYAo6uovd95QWM2TUOgsJpge4JqRNO18m4GcvQ478EEFlMk
+         /iRC+4do65yJoaVtnNphaLJHvs+QHX4zZFKGk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Y5bKU69gBdwYXqKfBsd6lPoReCL7wSnrHfkcEkAaemQ=;
+        b=5LECxrN6mX+KthEbAimtHSm3IAT5qkSNjnCS+9pj3fF7Ukcj/iYOOM3P71zpyWLr/V
+         G3QatJoFOcdzgis37o3lIRE8sJPvm4xrtP10hJvAxu9WbrylkMPonq8sKQO5bMFGanUG
+         wwJJoI17mYOFPHigYgkyeSenBmbm4490UKYqF53Z2H0Az8BhmhxyvRgWNuim0n0cDqU8
+         sAWV+k05yOK/r0TG4k7/edLQKMOlYW0vI6E7AyvJJkQYZn5RwwEXvCCBytHfoOfnjmVr
+         i6l7yLbtv5JPA1Y4zVYCJX3EErhWlj9G5wYX/aEyQz9NEF9ZM+Va+GR5nj10qqOP0fTX
+         mqyg==
+X-Gm-Message-State: AOAM533e67HhZEXv+Yip4fEtdvmOTJFp9bAJ76ydx3ee35LPCBGTw7VR
+        EXIOlxz0vR9k5miMAUyvHMI+s9RdpeJIfliP
+X-Google-Smtp-Source: ABdhPJzxtSbh+8RSfMoDsoQxIeVej09LG81joSG1C9i7dElF4Yng2jo3+hO9kGV7a59Xtw2Zud0frg==
+X-Received: by 2002:a05:620a:14ba:b0:69f:bfbb:e79 with SMTP id x26-20020a05620a14ba00b0069fbfbb0e79mr5072479qkj.781.1653014693624;
+        Thu, 19 May 2022 19:44:53 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id i2-20020a37b802000000b006a328ed2cecsm2206305qkf.29.2022.05.19.19.44.52
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 May 2022 19:44:52 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id f16so12105439ybk.2
+        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 19:44:52 -0700 (PDT)
+X-Received: by 2002:a25:496:0:b0:64f:59d4:dea2 with SMTP id
+ 144-20020a250496000000b0064f59d4dea2mr1317398ybe.493.1653014691789; Thu, 19
+ May 2022 19:44:51 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 769401fa-6da4-4c1b-6020-08da3a08ceeb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2022 02:31:13.1559
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NSTBzxDNQsvWOzTEhoiL5D3KrLXTEvuxr4nstYQyymcoaQTDi/4jViyZ6Nze0Df5DnNjCqi4Uqdv0BxxmsbJUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR06MB3456
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220516140434.1871022-1-yunkec@google.com> <20220516140434.1871022-2-yunkec@google.com>
+ <50d89e76f3c5f99363aa4062b40b579d94855136.camel@ndufresne.ca>
+ <CAAFQd5AHWG_=8wtUZ1WVer7h5fU6UQyPuN8LUDQz=y5emZhxCg@mail.gmail.com> <f66dcb4fb41edb8f157bedc3c82af193933e77ef.camel@ndufresne.ca>
+In-Reply-To: <f66dcb4fb41edb8f157bedc3c82af193933e77ef.camel@ndufresne.ca>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 20 May 2022 11:44:40 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Bw4CfUtm4CQD4utWEQerJVHej991PNXHMzgJe=u-Mqeg@mail.gmail.com>
+Message-ID: <CAAFQd5Bw4CfUtm4CQD4utWEQerJVHej991PNXHMzgJe=u-Mqeg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] media: v4l2_ctrl: Add region of interest rectangle control
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Yunke Cao <yunkec@google.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> -----Original Message-----
-> From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Sent: Thursday, May 19, 2022 11:57 PM
-> To: Neal Liu <neal_liu@aspeedtech.com>
-> Cc: Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
-> <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.au>; Andre=
-w
-> Jeffery <andrew@aj.id.au>; Felipe Balbi <balbi@kernel.org>; Sumit Semwal
-> <sumit.semwal@linaro.org>; Christian K=F6nig <christian.koenig@amd.com>;
-> Geert Uytterhoeven <geert@linux-m68k.org>; Li Yang <leoyang.li@nxp.com>;
-> linux-aspeed@lists.ozlabs.org; linux-usb@vger.kernel.org;
-> devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
-> linux-kernel@vger.kernel.org; linux-media@vger.kernel.org;
-> dri-devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org
-> Subject: Re: [PATCH v3 0/3] add Aspeed udc driver for ast2600
->=20
-> On Wed, May 18, 2022 at 02:20:40PM +0800, Neal Liu wrote:
-> > This patch series aim to add Aspeed USB 2.0 Device Controller (udc)
-> > driver, including driver itself, device tree node and documentation.
+On Fri, May 20, 2022 at 3:23 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Le mercredi 18 mai 2022 =C3=A0 14:19 +0900, Tomasz Figa a =C3=A9crit :
+> > Hi Nicolas,
 > >
-> > Change since v2:
-> > - Rename device tree nodes.
-> > - Fix unusual indentation.
+> > On Tue, May 17, 2022 at 4:02 AM Nicolas Dufresne <nicolas@ndufresne.ca>=
+ wrote:
+> > >
+> > > Hi,
+> > >
+> > > thanks for working on this, see my comments below ...
+> > >
+> > > Le lundi 16 mai 2022 =C3=A0 23:04 +0900, Yunke Cao a =C3=A9crit :
+> > > > Including:
+> > > > 1. Add a control ID.
+> > > > 2. Add p_rect to struct v4l2_ext_control with basic support in
+> > > >    v4l2-ctrls.
+> > > >
+> > > > Signed-off-by: Yunke Cao <yunkec@google.com>
+> > > > ---
+> > > >  .../media/v4l/ext-ctrls-camera.rst            |  4 ++++
+> > > >  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
+> > > >  .../media/videodev2.h.rst.exceptions          |  1 +
+> > > >  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 20 +++++++++++++++=
+++++
+> > > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++++
+> > > >  include/media/v4l2-ctrls.h                    |  2 ++
+> > > >  include/uapi/linux/v4l2-controls.h            |  2 ++
+> > > >  include/uapi/linux/videodev2.h                |  2 ++
+> > > >  8 files changed, 39 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera=
+.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > > > index 4c5061aa9cd4..86a1f09a8a1c 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > > > @@ -661,3 +661,7 @@ enum v4l2_scene_mode -
+> > > >  .. [#f1]
+> > > >     This control may be changed to a menu control in the future, if=
+ more
+> > > >     options are required.
+> > > > +
+> > > > +``V4L2_CID_REGION_OF_INTEREST_RECT (struct)``
+> > > > +    This control determines the region of interest. Region of inte=
+rest is an
+> > > > +    rectangular area represented by a struct v4l2_rect.
+> > >
+> > > This control documentation is missing some important information. Not=
+ably, what
+> > > will happen if this rectangle is set ? Is there a value to unset it ?
+> > >
 > >
-> > Change since v1:
-> > - Fix build test warning reported by kernel test robot.
-> > - Rename proper name for dt-bindings document.
+> > Thanks for the review!
 > >
-> > *** BLURB HERE ***
->=20
-> No blurb?
+> > In V4L2 all the controls are always set to something. There is no way
+> > to unset a control. Since controls have default values, perhaps the
+> > way to "unset" (or rather reset it to the initial configuration) is to
+> > set it to the default value?
+>
+> That's why a lot of similar controls comes with a companion boolean contr=
+ol to
+> enable/disable the feature, or an enum that specify what else is to be us=
+ed,
+> could be an "automatic" default or something.
+>
 
-The blurb is above over this comment. I'll revise it as you suggested.
+True. I think the other bitmask control is the companion control in
+this case, but it indeed wouldn't work for other use cases.
 
+> >
+> > > The name is very generic and I would expect that to be usable in gene=
+ral. But it
+> > > won't work for encoders, as you only allow 1 rectangle and it would b=
+e missing
+> > > some QP delta parameter. I think I would prefer if we specialize this=
+ type of
+> > > control a bit more. In your case, I'm guessing you only care about 1 =
+ROI when
+> > > taking a picture, and this ROI will be used for automatic focus. If m=
+y guess is
+> > > right, perhaps a FOCUS_AERA could be a better name ?
+> >
+> > I wonder if an array control is what we need here to make it flexible
+> > enough? For a UVC camera obviously we would only need 1 element, but
+> > other devices could accept more.
+>
+> See Hans and Laurent's comment on V3. They don't believe camera region of
+> interest is likely to exists outside of UVC, and suggested making all the=
+se
+> control entirely UVC specific, which also allow making it 1:1 with UVC wi=
+thout
+> any headache.
+>
+> And this way we don't need to think about encoder ROI just yet.
+>
+
+Okay, I think that also works for us. :)
+
+Best regards,
+Tomasz
+
+> >
+> > Best regards,
+> > Tomasz
+> >
+> > >
+> > > regards,
+> > > Nicolas
+> > >
+> > > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctr=
+ls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> > > > index 29971a45a2d4..f4e205ead0a2 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> > > > @@ -189,6 +189,10 @@ still cause this situation.
+> > > >        - ``p_area``
+> > > >        - A pointer to a struct :c:type:`v4l2_area`. Valid if this c=
+ontrol is
+> > > >          of type ``V4L2_CTRL_TYPE_AREA``.
+> > > > +    * - struct :c:type:`v4l2_rect` *
+> > > > +      - ``p_area``
+> > > > +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this c=
+ontrol is
+> > > > +        of type ``V4L2_CTRL_TYPE_RECT``.
+> > > >      * - struct :c:type:`v4l2_ctrl_h264_sps` *
+> > > >        - ``p_h264_sps``
+> > > >        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid =
+if this control is
+> > > > diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exce=
+ptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> > > > index 9cbb7a0c354a..7b423475281d 100644
+> > > > --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> > > > +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> > > > @@ -147,6 +147,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:=
+`v4l2_ctrl_type`
+> > > >  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+> > > >  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl=
+_type`
+> > > >  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
+> > > > +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
+> > > >  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+> > > >  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
+> > > >  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctr=
+l_type`
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/me=
+dia/v4l2-core/v4l2-ctrls-core.c
+> > > > index 8968cec8454e..dcde405c2713 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > > > @@ -84,6 +84,11 @@ static bool std_equal(const struct v4l2_ctrl *ct=
+rl, u32 idx,
+> > > >               return ptr1.p_u16[idx] =3D=3D ptr2.p_u16[idx];
+> > > >       case V4L2_CTRL_TYPE_U32:
+> > > >               return ptr1.p_u32[idx] =3D=3D ptr2.p_u32[idx];
+> > > > +     case V4L2_CTRL_TYPE_RECT:
+> > > > +             return ptr1.p_rect->top =3D=3D ptr2.p_rect->top &&
+> > > > +                    ptr1.p_rect->left =3D=3D ptr2.p_rect->left &&
+> > > > +                    ptr1.p_rect->height =3D=3D ptr2.p_rect->height=
+ &&
+> > > > +                    ptr1.p_rect->width =3D=3D ptr2.p_rect->width;
+> > > >       default:
+> > > >               if (ctrl->is_int)
+> > > >                       return ptr1.p_s32[idx] =3D=3D ptr2.p_s32[idx]=
+;
+> > > > @@ -307,6 +312,11 @@ static void std_log(const struct v4l2_ctrl *ct=
+rl)
+> > > >       case V4L2_CTRL_TYPE_VP9_FRAME:
+> > > >               pr_cont("VP9_FRAME");
+> > > >               break;
+> > > > +     case V4L2_CTRL_TYPE_RECT:
+> > > > +             pr_cont("l: %d, t: %d, w: %u, h: %u",
+> > > > +                     ptr.p_rect->left, ptr.p_rect->top,
+> > > > +                     ptr.p_rect->width, ptr.p_rect->height);
+> > > > +             break;
+> > > >       default:
+> > > >               pr_cont("unknown type %d", ctrl->type);
+> > > >               break;
+> > > > @@ -525,6 +535,7 @@ static int std_validate_compound(const struct v=
+4l2_ctrl *ctrl, u32 idx,
+> > > >       struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+> > > >       struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+> > > >       struct v4l2_area *area;
+> > > > +     struct v4l2_rect *rect;
+> > > >       void *p =3D ptr.p + idx * ctrl->elem_size;
+> > > >       unsigned int i;
+> > > >
+> > > > @@ -888,6 +899,12 @@ static int std_validate_compound(const struct =
+v4l2_ctrl *ctrl, u32 idx,
+> > > >                       return -EINVAL;
+> > > >               break;
+> > > >
+> > > > +     case V4L2_CTRL_TYPE_RECT:
+> > > > +             rect =3D p;
+> > > > +             if (!rect->width || !rect->height)
+> > > > +                     return -EINVAL;
+> > > > +             break;
+> > > > +
+> > > >       default:
+> > > >               return -EINVAL;
+> > > >       }
+> > > > @@ -1456,6 +1473,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct=
+ v4l2_ctrl_handler *hdl,
+> > > >       case V4L2_CTRL_TYPE_AREA:
+> > > >               elem_size =3D sizeof(struct v4l2_area);
+> > > >               break;
+> > > > +     case V4L2_CTRL_TYPE_RECT:
+> > > > +             elem_size =3D sizeof(struct v4l2_rect);
+> > > > +             break;
+> > > >       default:
+> > > >               if (type < V4L2_CTRL_COMPOUND_TYPES)
+> > > >                       elem_size =3D sizeof(s32);
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/me=
+dia/v4l2-core/v4l2-ctrls-defs.c
+> > > > index 54ca4e6b820b..95f39a2d2ad2 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > > @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> > > >       case V4L2_CID_UNIT_CELL_SIZE:           return "Unit Cell Siz=
+e";
+> > > >       case V4L2_CID_CAMERA_ORIENTATION:       return "Camera Orient=
+ation";
+> > > >       case V4L2_CID_CAMERA_SENSOR_ROTATION:   return "Camera Sensor=
+ Rotation";
+> > > > +     case V4L2_CID_REGION_OF_INTEREST_RECT:  return "Region Of Int=
+erest Rectangle";
+> > > >
+> > > >       /* FM Radio Modulator controls */
+> > > >       /* Keep the order of the 'case's the same as in v4l2-controls=
+.h! */
+> > > > @@ -1524,6 +1525,9 @@ void v4l2_ctrl_fill(u32 id, const char **name=
+, enum v4l2_ctrl_type *type,
+> > > >       case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
+> > > >               *type =3D V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
+> > > >               break;
+> > > > +     case V4L2_CID_REGION_OF_INTEREST_RECT:
+> > > > +             *type =3D V4L2_CTRL_TYPE_RECT;
+> > > > +             break;
+> > > >       default:
+> > > >               *type =3D V4L2_CTRL_TYPE_INTEGER;
+> > > >               break;
+> > > > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.=
+h
+> > > > index b3ce438f1329..919e104de50b 100644
+> > > > --- a/include/media/v4l2-ctrls.h
+> > > > +++ b/include/media/v4l2-ctrls.h
+> > > > @@ -58,6 +58,7 @@ struct video_device;
+> > > >   * @p_hdr10_cll:             Pointer to an HDR10 Content Light Lev=
+el structure.
+> > > >   * @p_hdr10_mastering:               Pointer to an HDR10 Mastering=
+ Display structure.
+> > > >   * @p_area:                  Pointer to an area.
+> > > > + * @p_rect:                  Pointer to a rectangle.
+> > > >   * @p:                               Pointer to a compound value.
+> > > >   * @p_const:                 Pointer to a constant compound value.
+> > > >   */
+> > > > @@ -87,6 +88,7 @@ union v4l2_ctrl_ptr {
+> > > >       struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+> > > >       struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+> > > >       struct v4l2_area *p_area;
+> > > > +     struct v4l2_rect *p_rect;
+> > > >       void *p;
+> > > >       const void *p_const;
+> > > >  };
+> > > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linu=
+x/v4l2-controls.h
+> > > > index bb40129446d4..499fcddb6254 100644
+> > > > --- a/include/uapi/linux/v4l2-controls.h
+> > > > +++ b/include/uapi/linux/v4l2-controls.h
+> > > > @@ -1008,6 +1008,8 @@ enum v4l2_auto_focus_range {
+> > > >
+> > > >  #define V4L2_CID_CAMERA_SENSOR_ROTATION              (V4L2_CID_CAM=
+ERA_CLASS_BASE+35)
+> > > >
+> > > > +#define V4L2_CID_REGION_OF_INTEREST_RECT     (V4L2_CID_CAMERA_CLAS=
+S_BASE+36)
+> > > > +
+> > > >  /* FM Modulator class control IDs */
+> > > >
+> > > >  #define V4L2_CID_FM_TX_CLASS_BASE            (V4L2_CTRL_CLASS_FM_T=
+X | 0x900)
+> > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vi=
+deodev2.h
+> > > > index 3768a0a80830..b712412cf763 100644
+> > > > --- a/include/uapi/linux/videodev2.h
+> > > > +++ b/include/uapi/linux/videodev2.h
+> > > > @@ -1751,6 +1751,7 @@ struct v4l2_ext_control {
+> > > >               __u16 __user *p_u16;
+> > > >               __u32 __user *p_u32;
+> > > >               struct v4l2_area __user *p_area;
+> > > > +             struct v4l2_rect __user *p_rect;
+> > > >               struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+> > > >               struct v4l2_ctrl_h264_pps *p_h264_pps;
+> > > >               struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_s=
+caling_matrix;
+> > > > @@ -1810,6 +1811,7 @@ enum v4l2_ctrl_type {
+> > > >       V4L2_CTRL_TYPE_U16           =3D 0x0101,
+> > > >       V4L2_CTRL_TYPE_U32           =3D 0x0102,
+> > > >       V4L2_CTRL_TYPE_AREA          =3D 0x0106,
+> > > > +     V4L2_CTRL_TYPE_RECT          =3D 0x0107,
+> > > >
+> > > >       V4L2_CTRL_TYPE_HDR10_CLL_INFO           =3D 0x0110,
+> > > >       V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY  =3D 0x0111,
+> > >
+>
