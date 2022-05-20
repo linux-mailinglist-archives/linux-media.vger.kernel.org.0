@@ -2,96 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32C2552E679
-	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 09:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F09C52E681
+	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 09:47:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345588AbiETHpF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 May 2022 03:45:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32986 "EHLO
+        id S1346611AbiETHra (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 May 2022 03:47:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346601AbiETHpD (ORCPT
+        with ESMTP id S1346549AbiETHr3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 May 2022 03:45:03 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 192D314C773
-        for <linux-media@vger.kernel.org>; Fri, 20 May 2022 00:45:02 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id bu29so12992884lfb.0
-        for <linux-media@vger.kernel.org>; Fri, 20 May 2022 00:45:02 -0700 (PDT)
+        Fri, 20 May 2022 03:47:29 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9645371D89;
+        Fri, 20 May 2022 00:47:27 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id nk9-20020a17090b194900b001df2fcdc165so10842579pjb.0;
+        Fri, 20 May 2022 00:47:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=+aBavLEkYJU8ppHKZfPEoTzJMPVM0ajWgFW8w1xSHTI=;
-        b=lJ76KJ2sv44ZiGDsP12pyEW4q4uQr5xfyiwEalACZa8qvGzmBfyDqS+gVgH7Qk84w+
-         HpHVZhzEwgzaOu48uV4DDYaKQ5Y1ffDlYlkjnpcCquL8VRF5SmY8Hq+Kwgy7HMt5EvSW
-         qOKTVBru/qLwTm1sfcJmi1leUvzCmiXTuW2HOUlCvSL1PeQ36FD+zPEp2xTsJ4cOoesQ
-         uIj0O0b5XCmWWI7pHW2Q3Rojxjcl9IMGsmdmpyNhFN7swsICmB1rtteOg7da0gMOfuFx
-         EiBChwTia3ySw739to/i3eUzD2kk88AHr8s3BiFQMDE7vHWLoz9qcwKk09kVshszbBa4
-         B2Ug==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=56ihVfI55g+5kWoCWi0j9KBKpP7u+QiASGOdishgsYU=;
+        b=fI4qwgrFQO4hVvdc3SUyQ8Cdgd+sywkDfLxoX5FB2E66Rov05yQTZSVOzP7gpoXEQF
+         0elvCO46fIFZh0PGVYSb0zBP9E8rthiYU1kAunjlGADxZHVDIzKAD9lkoRKg2HXJ1W5y
+         hXlwhv/t9DEN5z9vOFJjkOJHZlgbiKv1kt3tICg8ZW4m3WO5jv6iWCSmP7K1aB7qLYm4
+         VMIP2whsDbn6dmzkcOergoPPDPGfcjXLPaXh/y5sNGVVKXZAO8zLhLtKDQfFcopimuD1
+         iFzKXGu0GYsL7i2AAdYko6ymJb3ROx8/6svDCApNBiO36LmQDMIJe2JZDgJ2TmbOdK9q
+         Eg8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+aBavLEkYJU8ppHKZfPEoTzJMPVM0ajWgFW8w1xSHTI=;
-        b=mgBS09o4RlUh/+d11G46fSlg+2yoQzGJyEe/n03oHWMsHSQ//5s4tAEBgh4n6vmT2S
-         l6pddcvNcNlX18sOK8AeQvHzBCleCaBjw/wvg/A9cRVMn5sinL/hQN6TXp5WWPFf0DZ4
-         TDHShmtB5wyXj8N7+pT/pNDlnAIjiJ1GRiPO1RnNGkkdJ1Tojt2ZHoU92opJAIcU0l8o
-         jE4kGJhoEHm+94zDIQxL0+7Il5JPybL7RHkfE4YqVyfAzxWDkj1u5i/ghkytjO+65qOU
-         dytn3atsoOS+n49l7J2sqTI9jPl1Xc+qgQpvItXjFxgcSZWI/Mxp+59eyhIfU+SyDWOz
-         SmAg==
-X-Gm-Message-State: AOAM532rOEeyO5G2LEXAS5b4RGpYjjYfUA7JQ71G0OKHQLNfiv8wlq8J
-        dvlYM3tUu9bmhTq7YsXba1dLSw==
-X-Google-Smtp-Source: ABdhPJzny5YrTxA6USed7c9Qh1HoLb1QzlJ3c45ATl9O2YI4km3mZhR7V+Wsf+RupbtwytpqfGZvig==
-X-Received: by 2002:a05:6512:951:b0:477:aa57:3e9d with SMTP id u17-20020a056512095100b00477aa573e9dmr5763789lft.525.1653032700488;
-        Fri, 20 May 2022 00:45:00 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id n3-20020ac242c3000000b0047255d211e8sm556912lfl.279.2022.05.20.00.44.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 May 2022 00:44:59 -0700 (PDT)
-Message-ID: <02c3ef16-dbbb-e6b6-58f2-b0e691af2dfb@linaro.org>
-Date:   Fri, 20 May 2022 09:44:58 +0200
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=56ihVfI55g+5kWoCWi0j9KBKpP7u+QiASGOdishgsYU=;
+        b=HM34ncEY4fHxu4Xx07p6KWs1bSKp1D4Cq/L9VCHzndNSN63VYDO33Of07xgwiOuFDw
+         qdTRgF6q3QNhJ9hMFBPD+AfVZcUHxoQepZTb2ZBJbFXKHdGwOftBNlT8TxVkD2cal/04
+         YndHel80ekeJfzMIfv0fnDEjqqYWJAZ5Ho90nhIf5HTkho40yNUn0KtOMtEoP0IUPEd4
+         m1KS0ryCWldQDYPTQSg4ZF3qklZTsfphRuMQyojd8vY7IdQ3az6CXS7f/XX2ILDFvQd9
+         cHBkF1gmdM/NKHj1Q4tINQOOh0LsvDPs+9usQNfnrwcG6SNk4opFz06RKE8Pr2Sqrv9I
+         GD1Q==
+X-Gm-Message-State: AOAM5331K2ZflfCEdV5/3yMlh+VwT393BPqvmcpgFwXx1lpECKu6WPBC
+        INfzm8Azfl1wtnjIjX7VQSI=
+X-Google-Smtp-Source: ABdhPJzWP/OizPFgR9KmuaPsRGfMHikuqC99X6s0BZZQYR12Xiw5I0XneB0xM48YDFHIVgUBpKEfiw==
+X-Received: by 2002:a17:90a:760d:b0:1df:6423:d0b9 with SMTP id s13-20020a17090a760d00b001df6423d0b9mr10201911pjk.33.1653032846949;
+        Fri, 20 May 2022 00:47:26 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::4:1761])
+        by smtp.gmail.com with ESMTPSA id v12-20020a17090331cc00b0015e8d4eb1ebsm4949822ple.53.2022.05.20.00.47.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 May 2022 00:47:26 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Thu, 19 May 2022 21:47:25 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Shuah Khan <shuah@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+        John Stultz <jstultz@google.com>,
+        Carlos Llamas <cmllamas@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kernel-team@android.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+Message-ID: <YodHjYlMx1XGtM2+@slm.duckdns.org>
+References: <20220510235653.933868-1-tjmercier@google.com>
+ <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+ <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
+ <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [RESEND 1/6 v2] dt-bindings: vendor-prefixes: Add Geekworm
-Content-Language: en-US
-To:     Chris Morgan <macroalpha82@gmail.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
-        daniel@ffwll.ch, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, mchehab@kernel.org,
-        emma@anholt.net, mripard@kernel.org,
-        Chris Morgan <macromorgan@hotmail.com>
-References: <20220519162935.1585-1-macroalpha82@gmail.com>
- <20220519162935.1585-2-macroalpha82@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220519162935.1585-2-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/05/2022 18:29, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add vendor prefix for Geekworm (https://geekworm.com).
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+Hello,
 
+On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
+> Thanks for your suggestion. This almost works. "dmabuf" as a key could
+> work, but I'd actually like to account for each heap. Since heaps can
+> be dynamically added, I can't accommodate every potential heap name by
+> hardcoding registrations in the misc controller.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On its own, that's a pretty weak reason to be adding a separate gpu
+controller especially given that it doesn't really seem to be one with
+proper abstractions for gpu resources. We don't want to keep adding random
+keys to misc controller but can definitely add limited flexibility. What
+kind of keys do you need?
 
+Thanks.
 
-Best regards,
-Krzysztof
+-- 
+tejun
