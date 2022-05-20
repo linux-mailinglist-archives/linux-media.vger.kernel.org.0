@@ -2,292 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6AD352F3FE
-	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 21:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0845752F4D4
+	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 23:13:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353300AbiETTuw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 May 2022 15:50:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42862 "EHLO
+        id S1353598AbiETVNM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 May 2022 17:13:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353294AbiETTuv (ORCPT
+        with ESMTP id S1345724AbiETVNH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 May 2022 15:50:51 -0400
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AC16A1A5;
-        Fri, 20 May 2022 12:50:47 -0700 (PDT)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 64ED43C00BA;
-        Fri, 20 May 2022 21:50:45 +0200 (CEST)
-Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by hi2exch02.adit-jv.com
- (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Fri, 20 May
- 2022 21:50:45 +0200
-Date:   Fri, 20 May 2022 21:50:41 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <michael@rodin.online>,
-        <erosca@de.adit-jv.com>
-Subject: Re: [PATCH 3/3] rcar-vin: handle transfer errors from subdevices and
- stop streaming if required
-Message-ID: <20220520195041.GA18056@vmlxhi-121.adit-jv.com>
-References: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
- <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
- <Yoav5KjnbIlpkR6c@oden.dyn.berto.se>
+        Fri, 20 May 2022 17:13:07 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B693ED7A1
+        for <linux-media@vger.kernel.org>; Fri, 20 May 2022 14:13:06 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id jx22so4305681ejb.12
+        for <linux-media@vger.kernel.org>; Fri, 20 May 2022 14:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5tfmEi05Xxp6dAU46ufHV2sPoKhSLRcQSmdSLO82mmA=;
+        b=bA/NyeZJkA1hcMARgGoi/q6CxSZb4tZNUCU2SXUH09N5rv135UYjG5RiL08e98QaZF
+         NIDWP0MjQkSWnDPFpM2qKUjPHNuJ/ehR4zvL7ebrBnqYtQLo7zmft+h3vEqrGGwyMA74
+         WQoSa3DGbkfxVg8lmGeuisHCLuaTOSzltsN2TrXtllC/61Mdk4tju1sfAu/xQeYNWZex
+         tz6pRHj5vNRbN7Co6i7gV6+4+bZhcD2rBiCZsPemvHbDopbhwfCTKM98kKdnLEn1MgEy
+         1zCcGxm8mF/uw0lXTWu5s0kVMnYdtZJe+y0i9Q3glQNlBQgqkM0bpfONpICjraYnMrGd
+         KUNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5tfmEi05Xxp6dAU46ufHV2sPoKhSLRcQSmdSLO82mmA=;
+        b=ioU4YwFlU7i+rt7VO0J7OKycJSVYrQ16TXpch0RHFQ8tyGa7EHGxBzB4P3g0GaCmel
+         +As0/qIayNxn8tNJjkwC1ocU4Z7YX1q1U/v7PVUhY8IrS3V4zqou427xk2dUwjPdbAEi
+         BBN2oNWrkqiLmLyQ8nWuC6mREspoIor4IK5K2nORzNW01VRyQW+fnsmw9f9wDsPN1OxY
+         Y5OThOaq5VcZzMi+37ocxJGA7+w9EpZZoJDW7477tS/+4QgO8r87IFlh9xfzw1QkxtU0
+         dnq+nxIW3InUOKHlFRkv12QMlPrJahRQPKywxUI7Wq7SYMLYig5OyWuIBWjd+bDV7kVH
+         XsJA==
+X-Gm-Message-State: AOAM5328OVMpABEwDsm5h+hQG23m6uKbsbk99An/+jwatuK9shfWeUS2
+        mWBZyssHsvETqYJFgIu5DcnSVrcDRyRQpIPXl3xkbQ==
+X-Google-Smtp-Source: ABdhPJyFNfBP1soSSW+7t14vdrjq1IQP8RcJSq0V3+aYaQxEfVyt7JYMA4eZujIkkMiueV9zFTA+HtvtZUjGyJAAOV4=
+X-Received: by 2002:a17:907:6e18:b0:6fe:324a:65c1 with SMTP id
+ sd24-20020a1709076e1800b006fe324a65c1mr10678202ejc.368.1653081184534; Fri, 20
+ May 2022 14:13:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yoav5KjnbIlpkR6c@oden.dyn.berto.se>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.92.132]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_RED autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220516171315.2400578-1-tjmercier@google.com>
+ <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com> <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
+ <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com> <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
+ <YoM9BAwybcjG7K/H@kroah.com> <d820893c-fa2e-3bac-88be-f39c06d89c01@amd.com>
+ <CABdmKX2m1b1kdACKM19S+u9uR5RTy1UGMRgd+3QA_oAyCpeggg@mail.gmail.com>
+ <7f895a99-adfa-bcbd-c130-a924c668b8af@amd.com> <CABdmKX0XLvRZvXyiN0P_B-fUACiF5xwQ07+u_gaR+hDhu_x_TA@mail.gmail.com>
+ <953d4a2c-bf0c-9a92-9964-eae445a8f113@amd.com>
+In-Reply-To: <953d4a2c-bf0c-9a92-9964-eae445a8f113@amd.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Fri, 20 May 2022 14:12:53 -0700
+Message-ID: <CABdmKX2dNYhgOYdrrJU6-jt6F=LjCidbKhR6t4F7yaa0SPr+-A@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Greg Kroah-Hartman <gregkh@google.com>,
+        John Stultz <jstultz@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Hridya Valsaraju <hridya@google.com>, kernel-team@android.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+On Fri, May 20, 2022 at 12:03 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 20.05.22 um 00:58 schrieb T.J. Mercier:
+> > [SNIP]
+> >>> Is there some other
+> >>> solution to the problem of exports getting blocked that you would
+> >>> suggest here?
+> >> Well pretty much the same as Greg outlined as well. Go back to your
+> >> drawing board and come back with a solution which does not need such
+> >> workarounds.
+> >>
+> >> Alternatively you can give me a full overview of the design and explai=
+n
+> >> why exactly that interface here is necessary in exactly that form.
+> >>
+> > We ended up here because we could not use debugfs.
+>
+> [SNIP]
+>
+> > Another idea was adding per-buffer stats to procfs, but that was not
+> > an option since per-buffer stats are not process specific.
+> >
+> > So it seemed like sysfs was an appropriate solution at the time. It
+> > comes with a stable interface as a bonus, but with the limitation of 1
+> > value per file this leads to creating lots of files in sysfs for all
+> > dma buffers. This leads to increased kernfs lock contention, and
+> > unfortunately we try to take the lock on the hot path.
+>
+> That's what I totally agree on about. debugfs is for debugging and not
+> for production use.
+>
+> So either sysfs or procfs or something completely different seems to be
+> the right direction for the solution of the problem.
+>
+> > With the description and links to the userspace code which actually
+> > uses the feature I feel like that's a complete picture of what's
+> > currently happening with this interface. If you could explain what
+> > information is missing I'll do my best to provide it.
+>
+> Yeah, I've realized that I didn't made it clear what my concerns are
+> here. So let me try once more from the beginning:
+>
+> DMA-buf is a framework for sharing device buffers and their handles
+> between different userspace processes and kernel device. It's based
+> around the concept of representing those buffers as files which can then
+> be mmap(), referenced with a file descriptor, etc....
+>
+> Those abilities come with a certain overhead, using inode numbers,
+> reference counters, creating virtual files for tracking (both debugfs,
+> sysfs, procfs) etc... So what both drivers and userspace implementing
+> DMA-buf is doing is that they share buffers using this framework only
+> when they have to.
+>
+> In other words for upstream graphics drivers 99.9% of the buffers are
+> *not* shared using DMA-buf. And this is perfectly intentional because of
+> the additional overhead. Only the 3 or 4 buffers which are shared per
+> process between the client and server in a display environment are
+> actually exported and imported as DMA-buf.
+>
+> What the recent patches suggest is that this is not the case on Android.
+> So for example overrunning a 32bit inode number means that you manage to
+> created and destroy over 4 billion DMA-bufs. Same for this sysfs based
+> accounting, this only makes sense when you really export *everything* as
+> DMA-buf.
+>
+> So if that is correct, then that would be a pretty clear design issue in
+> Android. Now, if you want to keep this design then that is perfectly
+> fine with the kernel, but it also means that you need to deal with any
+> arising problems by yourself.
+>
+> Pushing patches upstream indicates that you want to share your work with
+> others. And in this case it suggests that you want to encourage others
+> to follow the Android design and that is something I would pretty
+> clearly reject.
+>
+Ok thank you, this is clear and I understand your position. Yes
+Android does things a little differently. My team is actually hoping
+to create a presentation on this topic explaining why things are the
+way they are because these differences keep coming up in discussions.
 
-On Thu, May 19, 2022 at 11:00:20PM +0200, Niklas Söderlund wrote:
-> Hi Michael,
-> 
-> Thanks for your work.
-> 
-> I like this patch, I think it captures the issue discussed in the 
-> previous thread quiet nicely. One small nit below.
-> 
-> On 2022-05-19 20:00:09 +0200, Michael Rodin wrote:
-> > When a subdevice sends a transfer error event during streaming and we can
-> > not capture new frames, then we know for sure that this is an unrecoverable
-> > failure and not just a temporary glitch. In this case we can not ignore the
-> > transfer error any more and have to notify userspace. In response to the
-> > transfer error event userspace can try to restart streaming and hope that
-> > it works again.
-> > 
-> > This patch is based on the patch [1] from Niklas Söderlund, however it adds
-> > more logic to check whether the VIN hardware module is actually affected by
-> > the transfer errors reported by the usptream device. For this it takes some
-> > ideas from the imx driver where EOF interrupts are monitored by the
-> > eof_timeout_timer added by commit 4a34ec8e470c ("[media] media: imx: Add
-> > CSI subdev driver").
-> > 
-> > [1] https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_linux-2Drenesas-2Dsoc_20211108160220.767586-2D4-2Dniklas.soderlund-2Brenesas-40ragnatech.se_&d=DwIDAw&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=on7B_2z5sGrhiuvQgbA4XC0_qMRWNTZoWGRMzD9N0Ag&s=_LetePiuy8odH72QwAj6k-I0YOANjzkNwTnqqFr0_ck&e=
-> > 
-> > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > ---
-> >  drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 34 ++++++++++++++++++++++
-> >  .../media/platform/renesas/rcar-vin/rcar-v4l2.c    | 18 +++++++++++-
-> >  drivers/media/platform/renesas/rcar-vin/rcar-vin.h |  7 +++++
-> >  3 files changed, 58 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > index 2272f1c..596a367 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > @@ -13,6 +13,7 @@
-> >  #include <linux/delay.h>
-> >  #include <linux/interrupt.h>
-> >  #include <linux/pm_runtime.h>
-> > +#include <media/v4l2-event.h>
-> >  
-> >  #include <media/videobuf2-dma-contig.h>
-> >  
-> > @@ -1060,6 +1061,9 @@ static irqreturn_t rvin_irq(int irq, void *data)
-> >  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
-> >  	}
-> >  
-> > +	cancel_delayed_work(&vin->frame_timeout);
-> > +	schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
-> > +
-> >  	vin->sequence++;
-> >  
-> >  	/* Prepare for next frame */
-> > @@ -1283,6 +1287,7 @@ int rvin_start_streaming(struct rvin_dev *vin)
-> >  	spin_lock_irqsave(&vin->qlock, flags);
-> >  
-> >  	vin->sequence = 0;
-> > +	vin->xfer_error = false;
-> >  
-> >  	ret = rvin_capture_start(vin);
-> >  	if (ret)
-> > @@ -1290,6 +1295,10 @@ int rvin_start_streaming(struct rvin_dev *vin)
-> >  
-> >  	spin_unlock_irqrestore(&vin->qlock, flags);
-> >  
-> > +	/* We start the frame watchdog only after we have successfully started streaming */
-> > +	if (!ret)
-> > +		schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
-> > +
-> >  	return ret;
-> >  }
-> >  
-> > @@ -1332,6 +1341,12 @@ void rvin_stop_streaming(struct rvin_dev *vin)
-> >  	}
-> >  
-> >  	vin->state = STOPPING;
-> > +	/*
-> > +	 * Since we are now stopping and don't expect more frames to be captured, make sure that
-> > +	 * there is no pending work for error handling.
-> > +	 */
-> > +	cancel_delayed_work_sync(&vin->frame_timeout);
-> > +	vin->xfer_error = false;
-> 
-> Do we need to set xfer_error to false here? The delayed work is canceled 
-> and we reset the xfer_error when we start in rvin_start_streaming().
-> 
+The inode number rollover happened after running for two weeks, but
+that's still around 300M a day which is extraordinary, so I think they
+must have been stress testing. But yes the Android graphics stack does
+make much more use of DMA-bufs than other users.
 
-You are right, this seems to be redundant. But I think that there might be
-a different case where we have to reset xfer_error:
+> >> Yeah and to be honest I have the strong feeling now that this was
+> >> absolutely not well thought through.
+> > I'm open to working on a replacement for this if we can't find an
+> > acceptable solution here, but I would appreciate some direction on
+> > what would be acceptable. For example Greg's idea sounds workable, but
+> > the question is if it mergeable?
+>
+> Well one possibility would be to use cgroups. That framework needs to do
+> accounting as well, just with an additional limitation to it.
+>
+> And there are already some proposed cgroup patches for device driver
+> memory. While reviewing those both Daniel and I already made it pretty
+> clear that it must be separated from DMA-buf, exactly because of the
+> reason that we probably don't want every buffer exported.
+>
+Cgroups definitely would help out with per-application accounting.
+Much nicer than parsing through procfs. For our use case this requires
+associating the exporter name with the cgroup resource, which is part
+of the data that comes from sysfs now. I have some patches which do
+this, but this naming component is a point of contention at the
+moment. Maybe it would be better to focus efforts on the problem of
+how to categorize and aggregate (or not aggregate) graphics resources
+for accounting with cgroups in a way that suits everyone's needs.
 
- 1. A non-critical transfer error has occurred during streaming from a
-    HDMI source.
- 2. Frames are still captured for an hour without any further problems,
-    since it was just a short glitch
- 3. Now the source (e.g. HDMI signal generator) has been powered off by the
-    user so it does not send new frames.
- 4. Timeout occurs due to 3 but since xfer_error has been set 1 hour ago,
-    userspace is notified about a transfer error and assumes that streaming
-    has been stopped because of this.
+Thanks,
+T.J.
 
-To avoid this scenario I think maybe we have to restrict validity of
-xfer_error. Maybe it would be better to make xfer_error a counter which is
-set after a transfer error to e.g. 10 frames and then decremented after
-each captured frame so after 10 successfully captured frames we know that a
-timeout has occurred definitely not due to a transfer error?
 
-Another possible improvement might be to make FRAME_TIMEOUT_MS configurable,
-maybe via a v4l2 control from userspace? Or we could also define the timeout
-as a multiple of the frame interval of the source. This would allow us to
-reduce the timeout further based on the particular source so the userspace
-does not have to wait for a second until it knows that it has to restart
-streaming.
-
-What do you think?
-
-> >  
-> >  	/* Wait until only scratch buffer is used, max 3 interrupts. */
-> >  	retries = 0;
-> > @@ -1424,6 +1439,23 @@ void rvin_dma_unregister(struct rvin_dev *vin)
-> >  	v4l2_device_unregister(&vin->v4l2_dev);
-> >  }
-> >  
-> > +static void rvin_frame_timeout(struct work_struct *work)
-> > +{
-> > +	struct delayed_work *dwork = to_delayed_work(work);
-> > +	struct rvin_dev *vin = container_of(dwork, struct rvin_dev, frame_timeout);
-> > +	struct v4l2_event event = {
-> > +		.type = V4L2_EVENT_XFER_ERROR,
-> > +	};
-> > +
-> > +	vin_dbg(vin, "Frame timeout!\n");
-> > +
-> > +	if (!vin->xfer_error)
-> > +		return;
-> > +	vin_err(vin, "Unrecoverable transfer error detected, stopping streaming\n");
-> > +	vb2_queue_error(&vin->queue);
-> > +	v4l2_event_queue(&vin->vdev, &event);
-> > +}
-> > +
-> >  int rvin_dma_register(struct rvin_dev *vin, int irq)
-> >  {
-> >  	struct vb2_queue *q = &vin->queue;
-> > @@ -1470,6 +1502,8 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
-> >  		goto error;
-> >  	}
-> >  
-> > +	INIT_DELAYED_WORK(&vin->frame_timeout, rvin_frame_timeout);
-> > +
-> >  	return 0;
-> >  error:
-> >  	rvin_dma_unregister(vin);
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> > index 2e2aa9d..bd7f6fe2 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> > @@ -648,6 +648,8 @@ static int rvin_subscribe_event(struct v4l2_fh *fh,
-> >  	switch (sub->type) {
-> >  	case V4L2_EVENT_SOURCE_CHANGE:
-> >  		return v4l2_event_subscribe(fh, sub, 4, NULL);
-> > +	case V4L2_EVENT_XFER_ERROR:
-> > +		return v4l2_event_subscribe(fh, sub, 1, NULL);
-> >  	}
-> >  	return v4l2_ctrl_subscribe_event(fh, sub);
-> >  }
-> > @@ -1000,9 +1002,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
-> >  static void rvin_notify_video_device(struct rvin_dev *vin,
-> >  				     unsigned int notification, void *arg)
-> >  {
-> > +	const struct v4l2_event *event;
-> > +
-> >  	switch (notification) {
-> >  	case V4L2_DEVICE_NOTIFY_EVENT:
-> > -		v4l2_event_queue(&vin->vdev, arg);
-> > +		event = arg;
-> > +
-> > +		switch (event->type) {
-> > +		case V4L2_EVENT_XFER_ERROR:
-> > +			if (vin->state != STOPPED && vin->state != STOPPING) {
-> > +				vin_dbg(vin, "Subdevice signaled transfer error.\n");
-> > +				vin->xfer_error = true;
-> > +			}
-> > +			break;
-> > +		default:
-> > +			break;
-> > +		}
-> > +
-> >  		break;
-> >  	default:
-> >  		break;
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> > index 1f94589..4726a69 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> > @@ -31,6 +31,9 @@
-> >  /* Max number on VIN instances that can be in a system */
-> >  #define RCAR_VIN_NUM 32
-> >  
-> > +/* maximum time we wait before signalling an error to userspace */
-> > +#define FRAME_TIMEOUT_MS 1000
-> > +
-> >  struct rvin_group;
-> >  
-> >  enum model_id {
-> > @@ -207,6 +210,8 @@ struct rvin_info {
-> >   * @std:		active video standard of the video source
-> >   *
-> >   * @alpha:		Alpha component to fill in for supported pixel formats
-> > + * @xfer_error:		Indicates if any transfer errors occurred in the current streaming session.
-> > + * @frame_timeout:	Watchdog for monitoring regular capturing of frames in rvin_irq.
-> >   */
-> >  struct rvin_dev {
-> >  	struct device *dev;
-> > @@ -251,6 +256,8 @@ struct rvin_dev {
-> >  	v4l2_std_id std;
-> >  
-> >  	unsigned int alpha;
-> > +	bool xfer_error;
-> > +	struct delayed_work frame_timeout;
-> >  };
-> >  
-> >  #define vin_to_source(vin)		((vin)->parallel.subdev)
-> > -- 
-> > 2.7.4
-> > 
-> 
-> -- 
-> Kind Regards,
-> Niklas Söderlund
-
--- 
-Best Regards,
-Michael
+> But to work on a full blown solution I need a better understanding of
+> how your userspace components do.
+>
+> Regards,
+> Christian.
