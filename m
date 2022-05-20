@@ -2,110 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EBF552E375
-	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 06:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B22AF52E479
+	for <lists+linux-media@lfdr.de>; Fri, 20 May 2022 07:44:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234968AbiETEBz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 May 2022 00:01:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44282 "EHLO
+        id S1345594AbiETFoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 May 2022 01:44:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230362AbiETEBx (ORCPT
+        with ESMTP id S244615AbiETFoS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 May 2022 00:01:53 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FCA314A252
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 21:01:52 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id j25so9750812wrc.9
-        for <linux-media@vger.kernel.org>; Thu, 19 May 2022 21:01:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lX20NL3YNPaKjNecI4oDdq3acoU2kOL0ZbPMHMv9mB0=;
-        b=QUhqUNwjiYBBL+Gfy7USDRKlfhCB5po25WZwgPlSiSkUXf8omWvdSvXZzxRV41w1tT
-         d5C/MVpxWJNzqMqMn4BsGlEqIb6rOVIxP+yf5DJ3CcD/CMFR7a+o3Nxfo0tiHS41+QJx
-         1G0voWhXE97nNh8TDu9IYnnRSfvefCogP4VsB5M0y74VMQ5qGopMDi1VQqUGm6PnvD78
-         YluERYOhs/tCKgwebfwVE2yQreNBgLUaB4ZY4z6xzZTQ7LXJk9AbCoT54oExEPxtuCAM
-         DF3gvipca18rnRT53tde7E+gUZik7VP0hR/Z6h4m5Gl7iRVkpIrQcRhWqQ2jBr0jnUJX
-         zgOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lX20NL3YNPaKjNecI4oDdq3acoU2kOL0ZbPMHMv9mB0=;
-        b=m5JSEP3/yOxPe6ATZKjmmj3/8yH4oCpUKbXJdEBGbr1YVHga1ROSYjjjogyRr7BYGw
-         JMj629MIIZna15hGz/F0WqztLAOw94sq1Vz1bKx3PddXL+ElT9P5pVmuPleCkEU0dlGX
-         +ey1OcNvmZnDK/IWVIqcn/tlnCoE/nmhPtABdyvYFTrvuxjn9tLhqcWs+NbCJfQV4+88
-         uesvBHthS2BpBVrmuaY0gfjaG+8vwrlMy27pu3EWImMWrUEbZreZGCZQJ9gBPe1M9hvV
-         6u+z/mHTEbzfxlaZ4mBVDaC+FfpMUjvvFaXrkoDLEXm6OuwTZf7h0dsQXO8k5KEF6EEY
-         wCxg==
-X-Gm-Message-State: AOAM531Rbp5NUW03WWMTz56PEXCGHe3RVZggSEsJ/yEJ2zKz0qa/NxY2
-        34QHDTiwlcRxpwuxvz1ctti9fZMlMiC0y1a4/Ihv8Q==
-X-Google-Smtp-Source: ABdhPJzdvVJxxqGLhr1D82HU8Nge0YZ/NcyQRTLRKVqI4Jh/02FF2nx30JgW9qrXm/uIf/Cxvut3pYr3QoTiG9nq0a4=
-X-Received: by 2002:a5d:5846:0:b0:20c:7407:5fa1 with SMTP id
- i6-20020a5d5846000000b0020c74075fa1mr6448325wrf.116.1653019310813; Thu, 19
- May 2022 21:01:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220519214021.3572840-1-kaleshsingh@google.com> <202205191848.DEE05F6@keescook>
-In-Reply-To: <202205191848.DEE05F6@keescook>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Thu, 19 May 2022 21:01:39 -0700
-Message-ID: <CAC_TJve0iyPU0uKoKOi_qcwgxPkgNKgirBcMJ=oYBqhRC3a_+Q@mail.gmail.com>
-Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Fri, 20 May 2022 01:44:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F183E13D0F;
+        Thu, 19 May 2022 22:44:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8A80461D6D;
+        Fri, 20 May 2022 05:44:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69DAAC385AA;
+        Fri, 20 May 2022 05:44:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1653025457;
+        bh=mseK8CCtepf2Ga20exHmxu8FEYO1RmDnTjp8MjgdFRo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xYQFxcBwfiillvnR2YKUZ8gbgnTwQyAJJxpaGGzJOukd56oPWr1Du+d1srmJCKtj2
+         7oZa6c45zqDAektaqNIUJ829XMqRGecoN4n0fKBIwco80slIt8P0OujNaPJtnVVBX3
+         bbERy5dCVloC9oE6+7fBd6lE38vBJsV2OXRulLcI=
+Date:   Fri, 20 May 2022 07:44:13 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Neal Liu <neal_liu@aspeedtech.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Felipe Balbi <balbi@kernel.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Mike Rapoport <rppt@kernel.org>,
-        Colin Cross <ccross@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 1/3] usb: gadget: add Aspeed ast2600 udc driver
+Message-ID: <YocqrTHm29g9qU69@kroah.com>
+References: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
+ <20220518062043.1075360-2-neal_liu@aspeedtech.com>
+ <YoZoouI4EbnNYE6h@kroah.com>
+ <HK0PR06MB32020AEF88CFFD4296762B2880D39@HK0PR06MB3202.apcprd06.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <HK0PR06MB32020AEF88CFFD4296762B2880D39@HK0PR06MB3202.apcprd06.prod.outlook.com>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 19, 2022 at 6:50 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Thu, May 19, 2022 at 02:40:15PM -0700, Kalesh Singh wrote:
-> > [...]
-> > +     seq_file_path(m, file, "\n");
-> > +     seq_putc(m, '\n');
-> >
-> >       /* show_fd_locks() never deferences files so a stale value is safe */
-> >       show_fd_locks(m, file, files);
->
-> This comment implies "file" might be stale? Does that mean anything for
-> the above seq_file_path()?
+On Fri, May 20, 2022 at 02:29:36AM +0000, Neal Liu wrote:
+> > -----Original Message-----
+> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Sent: Thursday, May 19, 2022 11:56 PM
+> > To: Neal Liu <neal_liu@aspeedtech.com>
+> > Cc: Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
+> > <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.au>; Andrew
+> > Jeffery <andrew@aj.id.au>; Felipe Balbi <balbi@kernel.org>; Sumit Semwal
+> > <sumit.semwal@linaro.org>; Christian König <christian.koenig@amd.com>;
+> > Geert Uytterhoeven <geert@linux-m68k.org>; Li Yang <leoyang.li@nxp.com>;
+> > linux-aspeed@lists.ozlabs.org; linux-usb@vger.kernel.org;
+> > devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
+> > linux-kernel@vger.kernel.org; linux-media@vger.kernel.org;
+> > dri-devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; kernel test
+> > robot <lkp@intel.com>
+> > Subject: Re: [PATCH v3 1/3] usb: gadget: add Aspeed ast2600 udc driver
+> > 
+> > On Wed, May 18, 2022 at 02:20:41PM +0800, Neal Liu wrote:
+> > > Aspeed udc is compliant with USB2.0, supports USB High Speed and Full
+> > > Speed, backward compatible with USB1.1.
+> > >
+> > > Supports independent DMA channel for each generic endpoint.
+> > > Supports 32/256 stages descriptor mode for all generic endpoints.
+> > >
+> > > This driver supports full functionality including single/multiple
+> > > stages descriptor mode, and exposes 1 UDC gadget driver.
+> > >
+> > > Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > The kernel test robot did not report that you needed to add a new driver :(
+> 
+> I had received auto build test WARNING on usb/usb-testing reported from kernel test robot.
+> It still mentioned that if the issue is fixed, I can kindly add this tag.
+> Would you prefer not to add this tag for the first coming driver?
 
-Hi Kees.
+Please do not add tags that do not make sense to.
 
-Thanks for taking a look. The comment above says the "files" pointer
-can be stale. It doesn't affect our use of "file" here. seq_show()
-takes the reference with get_file() so "file" wouldn't be destroyed
-from under us.
+thanks,
 
-Thanks,
-Kalesh
->
-> --
-> Kees Cook
+greg k-h
