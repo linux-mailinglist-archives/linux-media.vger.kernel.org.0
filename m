@@ -2,65 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A32FE52F938
-	for <lists+linux-media@lfdr.de>; Sat, 21 May 2022 08:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2D2E52FAFE
+	for <lists+linux-media@lfdr.de>; Sat, 21 May 2022 13:12:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238454AbiEUGYO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 May 2022 02:24:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46420 "EHLO
+        id S240282AbiEULMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 May 2022 07:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbiEUGYN (ORCPT
+        with ESMTP id S242538AbiEULME (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 May 2022 02:24:13 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E08F17CE5A;
-        Fri, 20 May 2022 23:24:12 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id j21so9208682pga.13;
-        Fri, 20 May 2022 23:24:12 -0700 (PDT)
+        Sat, 21 May 2022 07:12:04 -0400
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 327762AC71;
+        Sat, 21 May 2022 04:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=D+035shCGayoVZnHh6P8+prZuzk5qeaJC5UNIpCMpBI=;
-        b=DPMPF91IKlfD0xI4JyQCyHN9pvfG7aQ954msFUzst3pRk+TsDCxTnUJPl+G9xz35Ll
-         vrGQWBz5lvdKyt4Y1XtyXtTVehO56N4L7nu03CiQPil/XzaV2G6Qs5laH4ZzElWcVleb
-         k5UHlwpW7y4kWmuRtBI2KIihuQ8Cnv/wMOInRu51O1HfdzPySO92Fugc54VpjPpDbTPa
-         GulYWpKo6kZVN5KU8Y64qnU46c8GN+emJ82zZoHtUBjPWXoALmJdQ1O19lyPeWT/JiUk
-         QinVzT7E8wRvivtP72vJvffWYQgqTcm8IPdxzIG8akXCVg6Xm2B9yujOC/HEyHvg9CUJ
-         IXiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=D+035shCGayoVZnHh6P8+prZuzk5qeaJC5UNIpCMpBI=;
-        b=a2hsOJEiAOW45fMknfsEcx9aIlkQtZnPULLwp82FyQmUDvOerA+oTufTOzdX6O7Qz+
-         anpENupBXfhrLlurSQCzKuahUpt29s/MZ9MrzrQwt5eHpvU3HaYWMQP3gmCr814TsyoU
-         iV2Y2huHoGqfCKjq41l7bT/Ynl2C5tCKHpjhTnOcvPekRsHh1RF9HSgcGbG4eXpsGuiu
-         EYDuVeq3VeXJ1sUZBX2aTL7JbgWBLl8UD3PDvgvgctXi63OnGkbs1w95bh2PB1c42/jR
-         ra0NTEM89xFgoGVkvAWkyAAJhpkdffOTJybMbRvPnsoP+FGn7Ju9mLUDnZalKLfSIJhT
-         +Uhw==
-X-Gm-Message-State: AOAM531UFa1vHNug1kZf8nnKnWtSV5QZwEeIhXeUat59gIK3SJRFaCpD
-        ISeu0eEoZZVlj5sEXnfl2A==
-X-Google-Smtp-Source: ABdhPJxMBttmUWzz887BCqKJuXt9xNs8IZXr/b4QufxVfwdedzEseaozqS8YQDEY1FDHhIkIzXxmNg==
-X-Received: by 2002:a63:5959:0:b0:3f2:779d:de6c with SMTP id j25-20020a635959000000b003f2779dde6cmr11192176pgm.355.1653114251744;
-        Fri, 20 May 2022 23:24:11 -0700 (PDT)
-Received: from localhost.localdomain ([144.202.91.207])
-        by smtp.gmail.com with ESMTPSA id je15-20020a170903264f00b0015e8d4eb2a6sm747822plb.240.2022.05.20.23.24.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 23:24:11 -0700 (PDT)
-From:   Zheyu Ma <zheyuma97@gmail.com>
-To:     ezequiel@vanguardiasur.com.ar, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Zheyu Ma <zheyuma97@gmail.com>
-Subject: [PATCH] media: tw686x: Register the irq at the end of probe
-Date:   Sat, 21 May 2022 14:24:01 +0800
-Message-Id: <20220521062401.3294686-1-zheyuma97@gmail.com>
-X-Mailer: git-send-email 2.36.1
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qNf+LXKP5nv8dOD9AyBMbAWa2fVy5WdgtmvX/YL3SSA=;
+  b=tEfiQ5DUi7QvDM5CaerfMpqurmYag9IA5ADmM0lLII/JVNGF0Sn/VP95
+   a6hQAowoSJI2JypCHyWyXvhuj+pGSHDpUvce/nbHQVffRC6jmH9fqEAPt
+   q+QFdfiAHFPAAZVvR/r90amk54WmZYtnAUHWUDFtrrT24VaY4y68shTpv
+   I=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.91,242,1647298800"; 
+   d="scan'208";a="14727913"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:11:55 +0200
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kernel-janitors@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: platform: exynos-gsc: fix typo in comment
+Date:   Sat, 21 May 2022 13:10:28 +0200
+Message-Id: <20220521111145.81697-18-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,73 +52,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We got the following warning when booting the kernel:
+Spelling mistake (triple letters) in comment.
+Detected with the help of Coccinelle.
 
-[    3.243674] INFO: trying to register non-static key.
-[    3.243922] The code is fine but needs lockdep annotation, or maybe
-[    3.244230] you didn't initialize this object before use?
-[    3.245642] Call Trace:
-[    3.247836]  lock_acquire+0xff/0x2d0
-[    3.248727]  tw686x_audio_irq+0x1a5/0xcc0 [tw686x]
-[    3.249211]  tw686x_irq+0x1f9/0x480 [tw686x]
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-The lock 'vc->qlock' will be initialized in tw686x_video_init(), but the
-driver registers the irq before calling the tw686x_video_init(), and we
-got the warning.
-
-Fix this by registering the irq at the end of probe
-
-Fixes: 704a84ccdbf1 ("[media] media: Support Intersil/Techwell TW686x-based video capture cards")
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
 ---
- drivers/media/pci/tw686x/tw686x-core.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ drivers/media/platform/samsung/exynos-gsc/gsc-core.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/tw686x/tw686x-core.c b/drivers/media/pci/tw686x/tw686x-core.c
-index 6676e069b515..384d38754a4b 100644
---- a/drivers/media/pci/tw686x/tw686x-core.c
-+++ b/drivers/media/pci/tw686x/tw686x-core.c
-@@ -315,13 +315,6 @@ static int tw686x_probe(struct pci_dev *pci_dev,
- 
- 	spin_lock_init(&dev->lock);
- 
--	err = request_irq(pci_dev->irq, tw686x_irq, IRQF_SHARED,
--			  dev->name, dev);
--	if (err < 0) {
--		dev_err(&pci_dev->dev, "unable to request interrupt\n");
--		goto iounmap;
--	}
--
- 	timer_setup(&dev->dma_delay_timer, tw686x_dma_delay, 0);
- 
- 	/*
-@@ -333,18 +326,23 @@ static int tw686x_probe(struct pci_dev *pci_dev,
- 	err = tw686x_video_init(dev);
- 	if (err) {
- 		dev_err(&pci_dev->dev, "can't register video\n");
--		goto free_irq;
-+		goto iounmap;
- 	}
- 
- 	err = tw686x_audio_init(dev);
- 	if (err)
- 		dev_warn(&pci_dev->dev, "can't register audio\n");
- 
-+	err = request_irq(pci_dev->irq, tw686x_irq, IRQF_SHARED,
-+			  dev->name, dev);
-+	if (err < 0) {
-+		dev_err(&pci_dev->dev, "unable to request interrupt\n");
-+		goto iounmap;
-+	}
-+
- 	pci_set_drvdata(pci_dev, dev);
- 	return 0;
- 
--free_irq:
--	free_irq(pci_dev->irq, dev);
- iounmap:
- 	pci_iounmap(pci_dev, dev->mmio);
- free_region:
--- 
-2.36.1
+diff --git a/drivers/media/platform/samsung/exynos-gsc/gsc-core.h b/drivers/media/platform/samsung/exynos-gsc/gsc-core.h
+index e894e85e84a4..1ea5fa1bf3c8 100644
+--- a/drivers/media/platform/samsung/exynos-gsc/gsc-core.h
++++ b/drivers/media/platform/samsung/exynos-gsc/gsc-core.h
+@@ -222,7 +222,7 @@ struct gsc_m2m_device {
+  *  @org_scaler_input_w: max pixel width when the scaler is enabled
+  *  @org_scaler_input_h: max pixel height when the scaler is enabled
+  *  @real_rot_dis_w: max pixel src cropped height with the rotator is off
+- *  @real_rot_dis_h: max pixel src croppped width with the rotator is off
++ *  @real_rot_dis_h: max pixel src cropped width with the rotator is off
+  *  @real_rot_en_w: max pixel src cropped width with the rotator is on
+  *  @real_rot_en_h: max pixel src cropped height with the rotator is on
+  *  @target_rot_dis_w: max pixel dst scaled width with the rotator is off
 
