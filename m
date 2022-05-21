@@ -2,33 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CC8F52F8D2
-	for <lists+linux-media@lfdr.de>; Sat, 21 May 2022 07:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45BD352F914
+	for <lists+linux-media@lfdr.de>; Sat, 21 May 2022 07:55:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242332AbiEUFIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 May 2022 01:08:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41770 "EHLO
+        id S241553AbiEUFzc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 May 2022 01:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236348AbiEUFIj (ORCPT
+        with ESMTP id S233317AbiEUFza (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 May 2022 01:08:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F79B17997D
-        for <linux-media@vger.kernel.org>; Fri, 20 May 2022 22:08:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 446C860BB7
-        for <linux-media@vger.kernel.org>; Sat, 21 May 2022 05:08:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EACDC385A9
-        for <linux-media@vger.kernel.org>; Sat, 21 May 2022 05:08:36 +0000 (UTC)
-Date:   Sat, 21 May 2022 07:08:33 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220521050836.5EACDC385A9@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        Sat, 21 May 2022 01:55:30 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF551195EB4;
+        Fri, 20 May 2022 22:55:28 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id x143so9334416pfc.11;
+        Fri, 20 May 2022 22:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=A9K5jYakLsitCG3aeCoI3LC43G255mEcSCnND1aMnvE=;
+        b=HL6eA1yFsYmhhwBOMTcGVvfgJMcAN6Li3zYgH4JRb/UQMdkU5MdKLURgI/4AYpC4xq
+         KEOf/+Y72k6XqXWKfSecDt9ynqI/MD6AEPSCF8ugdKERDsz57OWrqgTMcQ3OApbNy4et
+         lW5U/ygWmaMkwVEF+0wPNJAEtyL3FTMmu5Kw0Mo2JuvufyejJ3FWfSbC7zNFZ6BPz+wf
+         giWLoCh/z7r+NBlq5T5v4yplIX9/Km6Hfgxk95uD034RYQQGcewHJn/KtUqlx3HjF7Q/
+         UVSGOzeodmxkYuoBFmY9AY+1BZulTyaCBx84iwPRQsM0UzO3U2RJyx4WUVCS6svLn6eJ
+         ZDpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=A9K5jYakLsitCG3aeCoI3LC43G255mEcSCnND1aMnvE=;
+        b=E2cQ434OnskwMAn6qOHT9D64lAUArJsM7rtZl0moTaxWWFVUiKXKRaD4zRsfJgoDQG
+         WZ71td5gvNl8RQLL7STdWYrvCSq5q45Zy2YUYkUNt4XX9wIal5EcLNN0njevhcE5gB+r
+         pPv03ijyvMUQv/emYIesHXj1C/a5HkHFmuhqtvu+JuEl/4OMOVL8VPexl/C96BukOIYy
+         PEtTda/pmiHYVcV7kMqJVEdC9aIeH27slS94/P8SaF3DDdW3VZAIqfIbXgmEB+n7gB45
+         1DdSwIv2r0GzjWJLxHiIPNq9CFAP9Zu4aPdbXFZr7olxJlxW846BJKSJMAImzIyNXU9l
+         UU7A==
+X-Gm-Message-State: AOAM531V4IoZw3C8cAamWANa27ECf3ZSFmgbLrhJlAvbq9dofUc7ZiW7
+        SOf8Y2oMjrtGQKiXAt5O7w==
+X-Google-Smtp-Source: ABdhPJzrcNGHH5doaI82Wr3eE19tL3mtNl4XKxa7gv6HxfWFzKm+dAVVmkJl5H8+3IDkoPbEiUISuw==
+X-Received: by 2002:a63:e513:0:b0:3ab:a3fb:f100 with SMTP id r19-20020a63e513000000b003aba3fbf100mr11276173pgh.70.1653112528379;
+        Fri, 20 May 2022 22:55:28 -0700 (PDT)
+Received: from localhost.localdomain ([144.202.91.207])
+        by smtp.gmail.com with ESMTPSA id v11-20020a170902d68b00b0015e8d4eb284sm685971ply.206.2022.05.20.22.55.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 May 2022 22:55:27 -0700 (PDT)
+From:   Zheyu Ma <zheyuma97@gmail.com>
+To:     maintainers@bluecherrydvr.com, anton@corp.bluecherry.net,
+        andrey.utkin@corp.bluecherry.net, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Zheyu Ma <zheyuma97@gmail.com>
+Subject: [PATCH] media: tw5864: Convert to use managed functions pcim* and devm*
+Date:   Sat, 21 May 2022 13:55:17 +0800
+Message-Id: <20220521055517.3099142-1-zheyuma97@gmail.com>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,129 +69,101 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+When removing the module, we will get the follow flaw:
 
-Results of the daily build of media_tree:
+[   69.323999] remove_proc_entry: removing non-empty directory 'irq/21', leaking at least 'tw5864'
+[   69.324449] WARNING: CPU: 0 PID: 395 at fs/proc/generic.c:717 remove_proc_entry+0x389/0x3f0
+[   69.326909] RIP: 0010:remove_proc_entry+0x389/0x3f0
+[   69.331089] Call Trace:
+[   69.331215]  <TASK>
+[   69.331327]  unregister_irq_proc+0x14c/0x170
+[   69.332579]  tw5864_finidev+0x12a/0x190 [tw5864]
+[   69.332811]  pci_device_remove+0x92/0x240
 
-date:			Sat May 21 05:00:16 CEST 2022
-media-tree git hash:	340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1
-media_build git hash:	5eb7d23e8f3dffdb13c843ea0ae3ddd497f23107
-v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7905-g3ef4ed38-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.16.0-6-amd64
+Fix this by using managed functions, this makes the error handling more
+simpler.
 
-linux-git-sh: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.275-i686: OK
-linux-4.14.275-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.237-i686: OK
-linux-4.19.237-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+---
+ drivers/media/pci/tw5864/tw5864-core.c | 30 ++++++--------------------
+ 1 file changed, 7 insertions(+), 23 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/media/pci/tw5864/tw5864-core.c b/drivers/media/pci/tw5864/tw5864-core.c
+index 5cae73e6fb9c..560ff1ddcc83 100644
+--- a/drivers/media/pci/tw5864/tw5864-core.c
++++ b/drivers/media/pci/tw5864/tw5864-core.c
+@@ -254,9 +254,9 @@ static int tw5864_initdev(struct pci_dev *pci_dev,
+ 
+ 	/* pci init */
+ 	dev->pci = pci_dev;
+-	err = pci_enable_device(pci_dev);
++	err = pcim_enable_device(pci_dev);
+ 	if (err) {
+-		dev_err(&dev->pci->dev, "pci_enable_device() failed\n");
++		dev_err(&dev->pci->dev, "pcim_enable_device() failed\n");
+ 		goto unreg_v4l2;
+ 	}
+ 
+@@ -265,21 +265,16 @@ static int tw5864_initdev(struct pci_dev *pci_dev,
+ 	err = dma_set_mask(&pci_dev->dev, DMA_BIT_MASK(32));
+ 	if (err) {
+ 		dev_err(&dev->pci->dev, "32 bit PCI DMA is not supported\n");
+-		goto disable_pci;
++		goto unreg_v4l2;
+ 	}
+ 
+ 	/* get mmio */
+-	err = pci_request_regions(pci_dev, dev->name);
++	err = pcim_iomap_regions(pci_dev, BIT(0), dev->name);
+ 	if (err) {
+ 		dev_err(&dev->pci->dev, "Cannot request regions for MMIO\n");
+-		goto disable_pci;
+-	}
+-	dev->mmio = pci_ioremap_bar(pci_dev, 0);
+-	if (!dev->mmio) {
+-		err = -EIO;
+-		dev_err(&dev->pci->dev, "can't ioremap() MMIO memory\n");
+-		goto release_mmio;
++		goto unreg_v4l2;
+ 	}
++	dev->mmio = pcim_iomap_table(pci_dev)[0];
+ 
+ 	spin_lock_init(&dev->slock);
+ 
+@@ -291,7 +286,7 @@ static int tw5864_initdev(struct pci_dev *pci_dev,
+ 
+ 	err = tw5864_video_init(dev, video_nr);
+ 	if (err)
+-		goto unmap_mmio;
++		goto unreg_v4l2;
+ 
+ 	/* get irq */
+ 	err = devm_request_irq(&pci_dev->dev, pci_dev->irq, tw5864_isr,
+@@ -308,12 +303,6 @@ static int tw5864_initdev(struct pci_dev *pci_dev,
+ 
+ fini_video:
+ 	tw5864_video_fini(dev);
+-unmap_mmio:
+-	iounmap(dev->mmio);
+-release_mmio:
+-	pci_release_regions(pci_dev);
+-disable_pci:
+-	pci_disable_device(pci_dev);
+ unreg_v4l2:
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+ 	return err;
+@@ -331,11 +320,6 @@ static void tw5864_finidev(struct pci_dev *pci_dev)
+ 	/* unregister */
+ 	tw5864_video_fini(dev);
+ 
+-	/* release resources */
+-	iounmap(dev->mmio);
+-	pci_release_regions(pci_dev);
+-	pci_disable_device(pci_dev);
+-
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+ }
+ 
+-- 
+2.36.1
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
