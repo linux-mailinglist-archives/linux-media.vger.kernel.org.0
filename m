@@ -2,67 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF18D52F8C1
-	for <lists+linux-media@lfdr.de>; Sat, 21 May 2022 06:50:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CC8F52F8D2
+	for <lists+linux-media@lfdr.de>; Sat, 21 May 2022 07:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350024AbiEUEuj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 May 2022 00:50:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36774 "EHLO
+        id S242332AbiEUFIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 May 2022 01:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349247AbiEUEug (ORCPT
+        with ESMTP id S236348AbiEUFIj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 May 2022 00:50:36 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E356ABF4C;
-        Fri, 20 May 2022 21:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653108635; x=1684644635;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=itrPZ10vCeHTeIr/aBAglfxYV5UcpuxZ5RfmgaB90ME=;
-  b=EJM7hO7NJWfcxPPKxVfAMs8Z8yhkP8VrNI6VXLwBP4YNXXJP/RwIHtAo
-   ZyAEt+ThfJzA5nTILgz7RGYV7TLAa6yG1aDLJmNQwqeOXddmjMzMHbdaa
-   3hUBHdbFxHxlkQ3DF5oO0heusqeYThLZpAU4IlrJRmmKEMgwlUlkf3Yq/
-   Mladc3sSPGDKL0uLCeBQel/tMZiDJ5J/4W7ru4nDgxOIRuCDmOuLjubJX
-   9S2ntzlgiUCo05OAi5tH5NTkuwtMl1lgat/ylM1sf4+X3l/eKrK2DRrVE
-   bH115v14+OsdkL1la7Gc4GHy2VlDGgAGq51pyt0OIKYZSX0STnNjRfylH
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10353"; a="260392867"
-X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; 
-   d="scan'208";a="260392867"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2022 21:50:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; 
-   d="scan'208";a="576507411"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 20 May 2022 21:50:30 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nsH4P-0005wk-Dn;
-        Sat, 21 May 2022 04:50:29 +0000
-Date:   Sat, 21 May 2022 12:50:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
-        bjorn.andersson@linaro.org
-Cc:     kbuild-all@lists.01.org, vladimir.zapolskiy@linaro.org,
-        mchehab@kernel.org, robh+dt@kernel.org, krzk+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, mmitkov@quicinc.com, jgrahsl@snap.com,
-        hfink@snap.com, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCH 1/1] arm64: dts: qcom: qrb5165-rb5: Enable the IMX577 on
- cam1
-Message-ID: <202205211233.z5zpxDvl-lkp@intel.com>
-References: <20220518133004.342775-2-bryan.odonoghue@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518133004.342775-2-bryan.odonoghue@linaro.org>
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        Sat, 21 May 2022 01:08:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F79B17997D
+        for <linux-media@vger.kernel.org>; Fri, 20 May 2022 22:08:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 446C860BB7
+        for <linux-media@vger.kernel.org>; Sat, 21 May 2022 05:08:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EACDC385A9
+        for <linux-media@vger.kernel.org>; Sat, 21 May 2022 05:08:36 +0000 (UTC)
+Date:   Sat, 21 May 2022 07:08:33 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220521050836.5EACDC385A9@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,42 +36,129 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bryan,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I love your patch! Yet something to improve:
+Results of the daily build of media_tree:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on v5.18-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+date:			Sat May 21 05:00:16 CEST 2022
+media-tree git hash:	340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1
+media_build git hash:	5eb7d23e8f3dffdb13c843ea0ae3ddd497f23107
+v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7905-g3ef4ed38-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.16.0-6-amd64
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bryan-O-Donoghue/Switch-on-IMX577-on-RB5/20220518-213438
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20220521/202205211233.z5zpxDvl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9d9ad87ded5bf5f2f790a549863ad3d63b7336f3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bryan-O-Donoghue/Switch-on-IMX577-on-RB5/20220518-213438
-        git checkout 9d9ad87ded5bf5f2f790a549863ad3d63b7336f3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+linux-git-sh: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.275-i686: OK
+linux-4.14.275-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.237-i686: OK
+linux-4.19.237-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Detailed results are available here:
 
-All errors (new ones prefixed by >>):
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
->> Error: arch/arm64/boot/dts/qcom/qrb5165-rb5.dts:1335.1-7 Label or path camcc not found
->> Error: arch/arm64/boot/dts/qcom/qrb5165-rb5.dts:1339.1-7 Label or path camss not found
->> Error: arch/arm64/boot/dts/qcom/qrb5165-rb5.dts:1361.1-6 Label or path cci1 not found
->> Error: arch/arm64/boot/dts/qcom/qrb5165-rb5.dts:1375.20-21 syntax error
-   FATAL ERROR: Unable to parse input tree
+Detailed regression test results are available here:
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
