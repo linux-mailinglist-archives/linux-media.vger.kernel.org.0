@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB9E52FB04
-	for <lists+linux-media@lfdr.de>; Sat, 21 May 2022 13:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83D7D52FB08
+	for <lists+linux-media@lfdr.de>; Sat, 21 May 2022 13:12:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354810AbiEULMj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 May 2022 07:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47568 "EHLO
+        id S1354839AbiEULMo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 May 2022 07:12:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349941AbiEULMQ (ORCPT
+        with ESMTP id S1353621AbiEULMU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 May 2022 07:12:16 -0400
+        Sat, 21 May 2022 07:12:20 -0400
 Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 906842D1EB;
-        Sat, 21 May 2022 04:12:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB3633A3E;
+        Sat, 21 May 2022 04:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=IFMk+sG1UkKvvet9eVEjt93RJXFlKUDi3Jz4fWOgUhg=;
-  b=PBKOlLXg1sPPVZuZm2u8rC85P2knGUduUA24hKtJrGlcBfo3iDZt85Mt
-   xVtAPUidhjAQg3jrSeKusd7UflRGrzlMKveeAxM+fga8okdZFKdOQbHg+
-   Cpr1z83U/f+8HMk7rJ5wrocuQI4r6uvHk2cEisQL1eY0SOaHnLv5DrV3m
-   s=;
+  bh=aU5tlRSC14cMrGEbcpMrzzo5gZ5+HICJ96yqY3jYY20=;
+  b=CC9+gz2aPYtWxNYlwEYMGhZ7J9Pn2n160KUdhvh6D7nH2NrGqreGCxUl
+   COSxil176o9VY1+cByJAVt0QEYtGBjiT+qxM7OY8CUL/v6xabEYR7V941
+   ZUXer4h1098ERyMxvyteK0h02/3wjO/hmjrBlnjG8cLvVF+oNmL5Y2KvR
+   M=;
 Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="5.91,242,1647298800"; 
-   d="scan'208";a="14727925"
+   d="scan'208";a="14727938"
 Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:11:57 +0200
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:11:59 +0200
 From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     Tiffany Lin <tiffany.lin@mediatek.com>
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>
 Cc:     kernel-janitors@vger.kernel.org,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: mediatek: vcodec: fix typo in comment
-Date:   Sat, 21 May 2022 13:10:40 +0200
-Message-Id: <20220521111145.81697-30-Julia.Lawall@inria.fr>
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: platform: exynos4-is: fix typos in comments
+Date:   Sat, 21 May 2022 13:10:51 +0200
+Message-Id: <20220521111145.81697-41-Julia.Lawall@inria.fr>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,26 +53,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Spelling mistake (triple letters) in comment.
+Spelling mistakes (triple letters) in comments.
 Detected with the help of Coccinelle.
 
 Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
 ---
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h |    2 +-
+ drivers/media/platform/samsung/exynos4-is/mipi-csis.c     |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-index a29041a0b7e0..c156048cd4a5 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-@@ -255,7 +255,7 @@ struct vdec_pic_info {
-  * @param_change: indicate encode parameter type
-  * @enc_params: encoding parameters
-  * @dec_if: hooked decoder driver interface
-- * @enc_if: hoooked encoder driver interface
-+ * @enc_if: hooked encoder driver interface
-  * @drv_handle: driver handle for specific decode/encode instance
-  *
-  * @picinfo: store picture info after header parsing
+diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
+index da36b48b8f9f..9dcbb9853ac0 100644
+--- a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
++++ b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
+@@ -116,7 +116,7 @@ enum fimc_is_error {
+ 	ERROR_COMMON_PARAMETER		= 2,	/* Invalid parameter */
+ 	/* setfile is not loaded before adjusting */
+ 	ERROR_COMMON_SETFILE_LOAD	= 3,
+-	/* setfile is not Adjusted before runnng. */
++	/* setfile is not Adjusted before running. */
+ 	ERROR_COMMON_SETFILE_ADJUST	= 4,
+ 	/* Index of setfile is not valid (0~MAX_SETFILE_NUM-1) */
+ 	ERROR_COMMON_SETFILE_INDEX	= 5,
+diff --git a/drivers/media/platform/samsung/exynos4-is/mipi-csis.c b/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
+index 27a214936cb0..6a0d35f33e8c 100644
+--- a/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
++++ b/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
+@@ -124,7 +124,7 @@ static char *csi_clock_name[] = {
+ #define DEFAULT_SCLK_CSIS_FREQ	166000000UL
+ 
+ static const char * const csis_supply_name[] = {
+-	"vddcore",  /* CSIS Core (1.0V, 1.1V or 1.2V) suppply */
++	"vddcore",  /* CSIS Core (1.0V, 1.1V or 1.2V) supply */
+ 	"vddio",    /* CSIS I/O and PLL (1.8V) supply */
+ };
+ #define CSIS_NUM_SUPPLIES ARRAY_SIZE(csis_supply_name)
 
