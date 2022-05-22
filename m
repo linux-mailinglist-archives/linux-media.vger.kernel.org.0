@@ -2,128 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28A005304E3
-	for <lists+linux-media@lfdr.de>; Sun, 22 May 2022 19:10:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 636375304F4
+	for <lists+linux-media@lfdr.de>; Sun, 22 May 2022 19:34:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349100AbiEVRKk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 May 2022 13:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39438 "EHLO
+        id S1349759AbiEVReS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 May 2022 13:34:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232802AbiEVRKg (ORCPT
+        with ESMTP id S238490AbiEVReQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 May 2022 13:10:36 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC0ED3AA41
-        for <linux-media@vger.kernel.org>; Sun, 22 May 2022 10:10:34 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id j25so17936533wrc.9
-        for <linux-media@vger.kernel.org>; Sun, 22 May 2022 10:10:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=UC29fQRATexTT7tJzzddZ4rno6ylvbw/uHwKcWDyCEE=;
-        b=p28KdpWyxvmBBqgGUVYoQNauk6dvzewKdhb69i+ywXo4dc1zSCobjzRGwYRYRvEE5F
-         3xWJfjot8sqqWL+Vcpy5xztbdIwzPaFW4fZaf5xeJbAuwT9L+7T6gezExk/ZZoJ0AFbZ
-         MOX9/QfszSYEmaHiHv8pmYLtmRpXkS4Gv5XAKW9epALT9W9+HRln4LQJj01iKrQjHi4Y
-         5DMxzyQg6FWsn5eJEmlYLMBgKkK7Nxg6TXxfmAdzzRG78xHbCF3s2xQ0BNtcBwxcwkdY
-         qsvW/SIL53EsXLXUQnCOkwQM8Tx0NQlRShLvYJVmF+3jixq5F59jRZpJoThLNrJVKhV0
-         zBjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=UC29fQRATexTT7tJzzddZ4rno6ylvbw/uHwKcWDyCEE=;
-        b=lXoOs78uHZm2jEajD/dHXHoSRim/la5y3Y8lAq7u4SHaYsgzkAyFLNgq+ZUXRBYHVN
-         TdfMMUAONUbfkyExDsxKWeUJZ2LhUGVvcPRkRlKyEHwIzUCZPw4a4cu2RoTvMEL0uzrE
-         pfsYvnB+DdvIna9t+rk6B9+tejN2Jp4IFCxki+g7nxQZIztYsvxt5T9ly8pvUK3kNz6s
-         NLOmfY4twZ/AWoEgG79YDStY4XpcSSeR7ItqBIkVPS1XPHWhtK1fGDlI1+i2bdiqQqP+
-         ardOkekuGZcdExjvHvQ14KroK76Pax2aJK9jJ2g7svpzZLU/VUNyhuEb4LmfaPT2C11w
-         1rFg==
-X-Gm-Message-State: AOAM533n8apxn2LRN5fOqSmyjCOcwpFixWyYf+X+/3a4lXLFNdyFHcvI
-        qPOM4eaXn86/NWbLf9edU1Svhw==
-X-Google-Smtp-Source: ABdhPJxp94yPqyr6oChze4h7ciJv1e+SH3bxLIjuxj6SYnkGaQCd+h8o9Bj9MHbehTvZ+6UT1rH9cw==
-X-Received: by 2002:adf:dbce:0:b0:20c:f507:8ef9 with SMTP id e14-20020adfdbce000000b0020cf5078ef9mr15958406wrj.29.1653239433052;
-        Sun, 22 May 2022 10:10:33 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id k41-20020a05600c1ca900b0039747cf8354sm2144778wms.39.2022.05.22.10.10.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 May 2022 10:10:32 -0700 (PDT)
-Message-ID: <19c92f9d-fa1c-fbe8-50ef-324da3e00695@linaro.org>
-Date:   Sun, 22 May 2022 18:10:31 +0100
+        Sun, 22 May 2022 13:34:16 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3AA2DD4F;
+        Sun, 22 May 2022 10:34:15 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (unknown [86.8.200.222])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 483AE45F;
+        Sun, 22 May 2022 19:34:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1653240852;
+        bh=7MpQyQtc2TVtgxChF+m8fe8kdSmQrvHBDgzor7SU3ZM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b76UBaw56+3iTwuNMjpS/go4euO+izOU1tmFouq9rysNYQ9Zltpuf0/gJGefURTnc
+         bHx15JyuHsc5CFaBVT7a2qcha1xufhVJFmqnpbxxNOqAAc1veniaDJql3+Czh/HqFs
+         g+ky4DRRl1oPH+McPckf21DmeFO4P8OLNpMZdwI8=
+Date:   Sun, 22 May 2022 20:34:04 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
+ ISP
+Message-ID: <Yop0DGOo1ky2dfnv@pendragon.ideasonboard.com>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+ <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
+ <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
+ <Ymqk89e+mn/1kLLx@aptenodytes>
+ <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
+ <YoesXywA4yzBDSwU@aptenodytes>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 1/1] arm64: dts: qcom: qrb5165-rb5: Enable the IMX577 on
- cam1
-Content-Language: en-US
-To:     Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
-        bjorn.andersson@linaro.org
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, krzk+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, mmitkov@quicinc.com, jgrahsl@snap.com,
-        hfink@snap.com
-References: <20220518133004.342775-1-bryan.odonoghue@linaro.org>
- <20220518133004.342775-2-bryan.odonoghue@linaro.org>
- <33abcc93-13f1-d6f5-36a3-6ab796f124f9@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <33abcc93-13f1-d6f5-36a3-6ab796f124f9@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YoesXywA4yzBDSwU@aptenodytes>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/05/2022 20:09, Vladimir Zapolskiy wrote:
+Hi Paul,
+
+On Fri, May 20, 2022 at 04:57:35PM +0200, Paul Kocialkowski wrote:
+> On Fri 29 Apr 22, 00:07, Sakari Ailus wrote:
+> > On Thu, Apr 28, 2022 at 04:30:11PM +0200, Paul Kocialkowski wrote:
+> > > Hi Sakari,
+> > > 
+> > > On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
+> > > > Hi Paul,
+> > > > 
+> > > > Thanks for the set.
+> > > > 
+> > > > A few comments below.
+> > > 
+> > > Thanks a lot for your review!
+> > 
+> > You're welcome!
+> > 
+> > ...
+> > 
+> > > > I understand this is an online ISP. How do you schedule the video buffer
+> > > > queues? Say, what happens if it's time to set up buffers for a frame and
+> > > > there's a buffer queued in the parameter queue but not in the image data
+> > > > queue? Or the other way around?
+> > > 
+> > > The ISP works in a quite atypical way, with a DMA buffer that is used to
+> > > hold upcoming parameters (including buffer addresses) and a bit in a "direct"
+> > > register to schedule the update of the parameters at next vsync.
+> > > 
+> > > The update (setting the bit) is triggered whenever new parameters are
+> > > submitted via the params video device or whenever there's a capture buffer
+> > > available in the capture video device.
+> > > 
+> > > So you don't particularly need to have one parameter buffer matching a capture
+> > > buffer, the two can be updated independently. Of course, a capture buffer will
+> > > only be returned after another buffer becomes active.
+> > 
+> > This also means it's not possible to associate a capture buffer to a
+> > parameter buffer by other means than timing --- which is unreliable. The
+> > request API would allow that but it's not free of issues either.
 > 
-> I run on you branch on top of linux-next, but switch build options from 
-> modules to built-in
+> Yes the request API seems like a good fit for this. Note that the returned
+> sequence number in dequeued buffers for the capture and meta video devices
+> should match though, so userspace still has a way to know which captured buffer
+> used parameters from which meta params buffer.
 > 
->     CONFIG_I2C_QCOM_CCI=y
->     CONFIG_VIDEO_QCOM_CAMSS=y
+> > Alternatively, I think in this case you could always require the capture
+> > buffer and grab a parameter buffer when it's available. As ISPs are
+> > generally requiring device specific control software, this shouldn't be a
+> > problem really.
 > 
-> I didn't get the sensor initialized and hence there is no /dev/media0 node:
+> I think this is pretty much what happens already.
 > 
-> [    0.620205] i2c-qcom-cci ac50000.cci: Found 19200000 cci clk rate 
-> while 37500000 was expected
-> [    0.620551] i2c 20-001a: Fixing up cyclic dependency with ac6a000.camss
-> [    0.620754] imx412 20-001a: Looking up dovdd-supply from device tree
-> [    0.620797] imx412 20-001a: Looking up avdd-supply from device tree
-> [    0.620860] imx412 20-001a: Looking up dvdd-supply from device tree
-> [    0.620876] duplicated lane 1 in clock-lanes, using defaults
-> [    0.622789] imx412 20-001a: failed to find sensor: -5
-> [    0.622880] imx412: probe of 20-001a failed with error -5
+> > I wonder what Laurent thinks.
+
+If parameters buffers are optional, I think the request API should be
+used, otherwise we won't be able to ensure per-frame control. The
+alternative is to make the parameter buffer mandatory for every frame,
+even if no parameters have changed. Or maybe that's the case already ?
+
+> > > I hope this answers your concern!
+> > > 
+> > > [...]
+> > > 
+> > > > > +static int sun6i_isp_tables_setup(struct sun6i_isp_device *isp_dev)
+> > > > > +{
+> > > > > +	struct sun6i_isp_tables *tables = &isp_dev->tables;
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	/* Sizes are hardcoded for now but actually depend on the platform. */
+> > > > 
+> > > > Would it be cleaner to have them defined in a platform-specific way, e.g.
+> > > > in a struct you obtain using device_get_match_data()?
+> > > 
+> > > Absolutely! I didn't do it at this stage since only one platform is supported
+> > > but we could just as well introduce a variant structure already for the table
+> > > sizes.
+> > 
+> > I think that would be nice already, especially if you know these are going
+> > to be different. Otherwise macros could be an option.
 > 
-> I believe the problem could be related to CCI, please remind me, are 
-> there I2C bus pull-ups?
+> Understood!
+> 
+> > ...
+> > 
+> > > > > +	ret = v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
+> > > > 
+> > > > I suppose you intend to add controls later on?
+> > > 
+> > > I might be wrong but I thought this was necessary to expose sensor controls
+> > > registered by subdevs that end up attached to this v4l2 device.
+> > > 
+> > > I doubt the drivers itself will expose controls otherwise.
+> > 
+> > Now that this is an MC-enabled driver, the subdev controls should be
+> > accessed through the subdev nodes only. Adding them to the video device's
+> > control handler is quite hackish and not guaranteed to even work (as e.g.
+> > multiple subdevs can have the same control).
+> 
+> Yes I was wondering what would happen in that case. I'll drop the ctrls
+> handling in the next iteration then.
+> 
+> Paul
+> 
+> > ...
+> > 
+> > > > > +{
+> > > > > +	struct sun6i_isp_device *isp_dev = video_drvdata(file);
+> > > > > +	struct video_device *video_dev = &isp_dev->capture.video_dev;
+> > > > > +	struct mutex *lock = &isp_dev->capture.lock;
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	if (mutex_lock_interruptible(lock))
+> > > > > +		return -ERESTARTSYS;
+> > > > > +
+> > > > > +	ret = v4l2_pipeline_pm_get(&video_dev->entity);
+> > > > 
+> > > > Do you need this?
+> > > > 
+> > > > Drivers should primarily depend on runtime PM, this is only needed for
+> > > > compatibility reasons. Instead I'd like to see sensor drivers being moved
+> > > > to runtime PM.
+> > > 
+> > > Yes it's still needed to support sensor drivers that don't use rpm yet.
+> > 
+> > To that I suggested adding runtime PM support for the affected sensors.
+> > This doesn't seem to get done otherwise. E.g. ipu3-cio2 driver does not
+> > call s_power() on sensor subdevs.
+> > 
+> > ...
+> > 
+> > > > > +	ret = video_register_device(video_dev, VFL_TYPE_VIDEO, -1);
+> > > > > +	if (ret) {
+> > > > > +		v4l2_err(v4l2_dev, "failed to register video device: %d\n",
+> > > > > +			 ret);
+> > > > > +		goto error_media_entity;
+> > > > > +	}
+> > > > > +
+> > > > > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video_dev->name,
+> > > > > +		  video_device_node_name(video_dev));
+> > > > 
+> > > > This isn't really driver specific. I'd drop it.
+> > > 
+> > > I agree but I see that many drivers are doing it and the information can
+> > > actually be quite useful at times.
+> > 
+> > You can get that information using media-ctl -e 'entity name'.
+> > 
+> > I guess this could be also added to video_register_device() on debug level.
+> > 
+> > > > > +struct sun6i_isp_params_config_bdnf {
+> > > > > +	__u8	in_dis_min; // 8
+> > > > > +	__u8	in_dis_max; // 10
+> > > > 
+> > > > Are these default values or something else? Better documentation was in the
+> > > > TODO.txt file already.
+> > > 
+> > > Yes that's the default register values, but these comments are and overlook on
+> > > my side and should be removed.
+> > 
+> > I'm fine leaving these here. Just wondering. Up to you.
 
-Hmm.
+-- 
+Regards,
 
-Just trying to replicate this on linux-next
-
-https://git.linaro.org/people/bryan.odonoghue/kernel.git/log/?h=linux-next-22-05-22%2bimx577-rb5
-
-root@linaro-gnome:~# zcat /proc/config.gz | grep -e CONFIG_I2C_QCOM_CCI 
--e CONFIG_VIDEO_QCOM_CAMSS
-CONFIG_I2C_QCOM_CCI=y
-CONFIG_VIDEO_QCOM_CAMSS=y
-
-root@linaro-gnome:~# uname -a
-Linux linaro-gnome 5.18.0-rc7-next-20220518-00006-g3beef4d1d353-dirty 
-#40 SMP PREEMPT Sun May 22 17:53:29 IST 2022 aarch64 GNU/Linux
-
-root@linaro-gnome:~# cam -l
-Available cameras:
-1: 'imx412' (/base/soc@0/cci@ac50000/i2c-bus@0/camera@1a)
-
-are you compiling everything in ?
-
----
-bod
+Laurent Pinchart
