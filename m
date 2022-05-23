@@ -2,120 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FA9353139C
-	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 18:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80AB053127C
+	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 18:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237056AbiEWORZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 May 2022 10:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41862 "EHLO
+        id S237552AbiEWPFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 May 2022 11:05:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236939AbiEWORZ (ORCPT
+        with ESMTP id S237503AbiEWPFI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 May 2022 10:17:25 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B938359BA0;
-        Mon, 23 May 2022 07:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1653315443; x=1684851443;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=JI0lcN9SHVIzgJehontYp/EcHZi0BmK64pGfGXgA72E=;
-  b=Zj9miZlRKkO1Gr6cHEAKTFiWI0+4eIOsyjdcAgTnv6eHdOZHqYRyYS9F
-   tNp2E2rLrEby161sVsFzPqvElXrDeOMg8dCmAN2hShwSqUrqRTRBQSy6c
-   3/rPvoRYFx+KZ4s0wUrsGa6gO3vALgo7S5Pj8nXy3TZVkpWHgBFHS5mzx
-   6GnSZ+wOSUXTAx+vH8Y1/+Wp9gTHkIYoB+ygy2mQKrFXMYFZomQpW0Ybq
-   SKyE5o0j6upL4YDf5yxjupbYyFx226FtTZ/71EZNrec46g5aAXy7uqvSk
-   jsaf90S8GvRW4y0mkZDFxa1DGmt2U4hjouEKSyoxKextTvIiAiz48J5NO
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; 
-   d="scan'208";a="96932993"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 23 May 2022 07:17:13 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Mon, 23 May 2022 07:17:13 -0700
-Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2375.17 via Frontend Transport; Mon, 23 May 2022 07:17:12 -0700
-From:   Eugen Hristev <eugen.hristev@microchip.com>
-To:     <linux-media@vger.kernel.org>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH] media: atmel: atmel-isc-base: move cropping settings outside start_dma
-Date:   Mon, 23 May 2022 17:17:05 +0300
-Message-ID: <20220523141705.98121-1-eugen.hristev@microchip.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 23 May 2022 11:05:08 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F595C343
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 08:05:07 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id p22so26057866lfo.10
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 08:05:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Lve1mxsIRFBHyA8U6h+dTcHz5C3XHO+Q/UM9b7xJHFY=;
+        b=WhS04NNb8SVxORS6RR+X9fLK1sO3RnfmwY5BuaeSNXk+B8O+yyNXYlTn+n70WHku/s
+         zF+VhhrjgLRI2hPPJ8HrKvZccv3A7fBf6L7ED8sdczxoZ44fktEbjPKT9mju98C7Ew7C
+         6z1FMBlWo0HQ2rTTXpoe2ieUxK6YzPEGVkN2LF7vHPKu6q3c0uugb6zVYC4lAQRceu7w
+         zG4d6gVAAGiqQEYVITc/xu0aTKU13i/8l+qra/Glgdngg2f+0+qMRrZCqr89DlKpeueh
+         o4c/oYsSk2PxLnvkQjXBITXNJGXT6ayyZFGgHBPvLrSUgC++u5EtJZi365yguSxMYiv8
+         WTwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=Lve1mxsIRFBHyA8U6h+dTcHz5C3XHO+Q/UM9b7xJHFY=;
+        b=lJXYAWqOPsNfKD7+sUnd21By8igaG7qTnFChCoX/DgYgRTHC0ETzEX1l0vS9JBz2vc
+         Bn0vFv/walVbXk+NzoUR671WQhlaxNj8Ne/KEeYEp6Yb7YDuy+oWcSDih3c/J5oaoZaj
+         l3iQsOVm+qVouTOovGjqEZh+xH+zmYHJcOsjUhF1HQacEL1Opdgn5q9gIxTqNZ/Okq2f
+         qRCjsR0i/EPR+znn1NkH/k9HnYHUtGM8uX8q11Gf+jIpcrF5QluGxzg/5CHIAcQPnTG4
+         jCyK/F0pIR0raSVqouBxdRQdCX8eYM8vVq67iOFMF+Auz/UpbEjjGnXMXgNcrHp2ynru
+         6zwA==
+X-Gm-Message-State: AOAM531OhzVdFfeoq5Y8rJYDd5uEyxEFI/10KzIkiXTAwGYj9pMsbnS5
+        tp6ltiUq4D6F4VjHU8X/nwU/67UYQlSOxd2vjD4=
+X-Google-Smtp-Source: ABdhPJzKE93+52RPrXi2nUFscFRW4RTWWNKl2OFwrx0LoLAfUFmmMpQzhtgYnt++AaXdZerLvMCUewfUrrKnhiulhHM=
+X-Received: by 2002:ac2:4858:0:b0:478:536b:51b with SMTP id
+ 24-20020ac24858000000b00478536b051bmr11664698lfy.196.1653318305584; Mon, 23
+ May 2022 08:05:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Received: by 2002:ac2:4d37:0:0:0:0:0 with HTTP; Mon, 23 May 2022 08:05:05
+ -0700 (PDT)
+Reply-To: benitasaira1994@gmail.com
+From:   MICHAEL EDWARD <romeokoli3@gmail.com>
+Date:   Mon, 23 May 2022 15:05:05 +0000
+Message-ID: <CADjUL1y-VN8G+-SgiAy5W4zt8=Kw-We=Pcbz-ZOGgCg2FUx97A@mail.gmail.com>
+Subject: ATM CARD
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:12a listed in]
+        [list.dnswl.org]
+        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+        *      [score: 0.0015]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [benitasaira1994[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [romeokoli3[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [romeokoli3[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  1.7 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The cropping configuration of the Parallel Front Engine (PFE) can be done
-just once when the streaming starts. The ISC configuration is in place and
-will not be changed while streaming.
-It is not effective to keep rewriting the crop registers configuration
-everytime start_dma is called, as this can be called for each queued
-buffer.
-Thus we can configure the cropping at start_streaming time.
-This change moves the code to a dedicated function.
+--=20
+Min kj=C3=A6re venn,
 
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
----
- drivers/media/platform/atmel/atmel-isc-base.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+God dag min kj=C3=A6re venn hvordan har du det Lengst. jeg er glad for
+for =C3=A5 informere deg om at jeg lykkes med =C3=A5 f=C3=A5 denne arven
 
-diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-index 894c22081397..01a2e7f626d0 100644
---- a/drivers/media/platform/atmel/atmel-isc-base.c
-+++ b/drivers/media/platform/atmel/atmel-isc-base.c
-@@ -127,12 +127,9 @@ static int isc_buffer_prepare(struct vb2_buffer *vb)
- 	return 0;
- }
- 
--static void isc_start_dma(struct isc_device *isc)
-+static void isc_crop_pfe(struct isc_device *isc)
- {
- 	struct regmap *regmap = isc->regmap;
--	u32 sizeimage = isc->fmt.fmt.pix.sizeimage;
--	u32 dctrl_dview;
--	dma_addr_t addr0;
- 	u32 h, w;
- 
- 	h = isc->fmt.fmt.pix.height;
-@@ -167,6 +164,14 @@ static void isc_start_dma(struct isc_device *isc)
- 	regmap_update_bits(regmap, ISC_PFE_CFG0,
- 			   ISC_PFE_CFG0_COLEN | ISC_PFE_CFG0_ROWEN,
- 			   ISC_PFE_CFG0_COLEN | ISC_PFE_CFG0_ROWEN);
-+}
-+
-+static void isc_start_dma(struct isc_device *isc)
-+{
-+	struct regmap *regmap = isc->regmap;
-+	u32 sizeimage = isc->fmt.fmt.pix.sizeimage;
-+	u32 dctrl_dview;
-+	dma_addr_t addr0;
- 
- 	addr0 = vb2_dma_contig_plane_dma_addr(&isc->cur_frm->vb.vb2_buf, 0);
- 	regmap_write(regmap, ISC_DAD0 + isc->offsets.dma, addr0);
-@@ -371,6 +376,7 @@ static int isc_start_streaming(struct vb2_queue *vq, unsigned int count)
- 					struct isc_buffer, list);
- 	list_del(&isc->cur_frm->list);
- 
-+	isc_crop_pfe(isc);
- 	isc_start_dma(isc);
- 
- 	spin_unlock_irqrestore(&isc->dma_queue_lock, flags);
--- 
-2.25.1
+fondsoverf=C3=B8ring i samarbeid med en ny partner.
+Jeg drikker n=C3=A5 min andel av totalen av INDIAs utenlandske investeringe=
+r
 
+prosjekter.
+Forresten, jeg har ikke glemt din tidligere innsats og innsats
+
+=C3=A5 hjelpe.
+sviktet meg i =C3=A5 overf=C3=B8re disse arvemidlene p=C3=A5 en eller annen=
+ m=C3=A5te.
+Ta n=C3=A5 kontakt med sekret=C3=A6ren min i Lome Togo Vest-Afrika, hun het=
+er
+
+BENITA SAIRA p=C3=A5 e-post (benitasaira1994@gmail.com)
+be ham sende deg det totale bel=C3=B8pet ($900.000,00),NI HUNDRE
+
+TUSEN.US dollar jeg har spart for kompensasjonen din hele fortiden
+
+innsats og fors=C3=B8k p=C3=A5 =C3=A5 hjelpe meg i transaksjonen.
+Da satte jeg stor pris p=C3=A5 innsatsen din. S=C3=A5 gjerne og
+
+Kontakt sekret=C3=A6ren min, BENITA SAIRA, og fortell henne hvor hun skal s=
+ende
+
+den. gir deg minibankkortet for det totale bel=C3=B8pet (US
+
+$9 000 000,00). Gi meg beskjed slik at vi kan dele gleden
+
+umiddelbart n=C3=A5r du mottar det s=C3=A5 smerte.
+Jeg har det veldig travelt her i disse dager.p=C3=A5 grunn av
+investeringsprosjektene jeg
+
+har med mitt nye hus husk, partner, at jeg endelig bestod
+
+mine instruksjoner til meg selv. Sekret=C3=A6r p=C3=A5 dine vegne for =C3=
+=A5 f=C3=A5 minibank
+
+KORT, s=C3=A5 ikke n=C3=B8l med =C3=A5 ta det n=C3=A5r du kontakter Benita
+
+Saira hun vil sende deg bel=C3=B8pet.
+enhver forsinkelse.
+
+Med vennlig hilsen,
+
+Mr. MICHAEL EDWARD
