@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7820D530B34
-	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 11:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E040D530BCC
+	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 11:03:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231713AbiEWIRl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 May 2022 04:17:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58904 "EHLO
+        id S231734AbiEWITC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 May 2022 04:19:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231691AbiEWIRk (ORCPT
+        with ESMTP id S231712AbiEWITC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 May 2022 04:17:40 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA6ABCAA
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 01:17:39 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id i1so12422824plg.7
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 01:17:39 -0700 (PDT)
+        Mon, 23 May 2022 04:19:02 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 612F32196
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 01:18:57 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id ob14-20020a17090b390e00b001dff2a43f8cso5680877pjb.1
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 01:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Dy4PRGOoGRp4CN77V+ahn71XloGT7JKOsY/m9WJCOgs=;
-        b=AzXaGiokChbNSYAcaNoEb68tNdvAPafice8elKmzBRDkx67VTOkzB0UfvczZtXkNbU
-         PPtGg234U0xXDj+rxpktTyxqq2uZ3s4MrO7EDM1P3BTMbxkA+4PzI695hFFTQMF9dt1N
-         eP6rOZW+CIaEHzJv/DwyL9KOVWvV7r7cY9yqo=
+        bh=f4J0ESP/V8Vnwz/yuHg3Z4IrDVJhBwYlkrbCGVndRBM=;
+        b=bO7z+R1t9wUhLnnnWDfhz6Zk6h2YBjLIxo/j4Y1MwDtpeUwI3PjDO9YQ56IeGCrnJ2
+         NcI5ekA6n2uks0MZqmmN3YR/0KlfnZDYlxt9So3GHsCdp4v4wRNBUWuHTgjXRxkmkZMe
+         I4r59ygYODe9ZgZTrQeb35X67mNcZ1baihrC8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Dy4PRGOoGRp4CN77V+ahn71XloGT7JKOsY/m9WJCOgs=;
-        b=ApvrdHBmGt479ONczoJcMwmyNNIoYWC/au9AHyRhA9Zr6MuLw7+X113ZKIdQtJapXQ
-         J5O0mFiMnafqf+KrhphAEMZhZY+q5uUDSxITkeK+F7GupF7DxaQMOhWbtNDCa4BcahX2
-         gvY52lCQciSq7/ta3R81o/lXlHsNyX1P5SQJEiRdNux9mswyOHKvzo3cCqtZMNxYIePH
-         9/BlR/Oq8Du/IzjnopBSSLMI9ERxJYU2PD5yMvKHsrcgZMOFdtapXZi8I6tS5TaOPrSl
-         n+OVLTxLTT5tgcHbfQIO/MqChG1odlHMTFvPw/YLlnIeYHK9LC22YLmxP3ZGKz4rKDTJ
-         mZDA==
-X-Gm-Message-State: AOAM530OXnEX5DRmJch9SR/coq8smT/ZJbuq9U0+hCV+PIUb2fyAs1On
-        8IFX9CN6mXombg0vyjks3KSVphrMXvUhZh/UB87WUw==
-X-Google-Smtp-Source: ABdhPJxHY9GMvf0RIC495y4Lpy5llzcH99rikFg9l4mAhhiFP1DtpUB+uoazLXEXCSmo0XrRCTzyP9muVQ5LoOg8CIc=
-X-Received: by 2002:a17:902:b10f:b0:161:f196:b4e with SMTP id
- q15-20020a170902b10f00b00161f1960b4emr15830929plr.134.1653293858455; Mon, 23
- May 2022 01:17:38 -0700 (PDT)
+        bh=f4J0ESP/V8Vnwz/yuHg3Z4IrDVJhBwYlkrbCGVndRBM=;
+        b=3C5sPQMmgsute9qA27gX9lCz7LdAjibKDJ2K45kT50tOpENnYpMocz1i32ymCKjeTW
+         rVggOsOxDJRRtqlZ+Wa6nfgPJywZuedy6nWiLtwjbor6hdVjASIyGR9MeuUp4le8XtZ+
+         GRYGBm38cjz3UYYWDImUhqXzaE/THVimca3EB9Jo/Of9p9iy0SETC1rXDwlnaj9SCuu3
+         s5pvreJSOVq44qTHuuQxahZCw6dlQrT6qM6NECQ0rOmFx7hKXfJaedU/04sOWA7KBe0n
+         ve2N9bGuTTtzpFHqueQXEiV2jE23kCyjgr6zSFhM3wJLz2glyX+ZwMIzmglCbadeLbu1
+         rHlA==
+X-Gm-Message-State: AOAM530wS2dnQ30MwOvHlAgTu2eiofzT6eORWZmkf7Imz9HrGIBmdKar
+        L6pAzC0v534LGxJI9rISGbjxgTRo78mEDLtYMqD9ag==
+X-Google-Smtp-Source: ABdhPJyz7VKSjCLQcQvZEV0siVQk9omWx/CGAhMugNLkeDy42Ha1soXO862Gh9FBtycwWIni79O56+SGwz+by46Kqd8=
+X-Received: by 2002:a17:90b:4c47:b0:1df:ad5b:e32e with SMTP id
+ np7-20020a17090b4c4700b001dfad5be32emr24827089pjb.59.1653293936890; Mon, 23
+ May 2022 01:18:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220519075117.1003520-1-tommaso.merciai@amarulasolutions.com> <20220519075117.1003520-3-tommaso.merciai@amarulasolutions.com>
-In-Reply-To: <20220519075117.1003520-3-tommaso.merciai@amarulasolutions.com>
+References: <20220519075117.1003520-1-tommaso.merciai@amarulasolutions.com> <20220519075117.1003520-4-tommaso.merciai@amarulasolutions.com>
+In-Reply-To: <20220519075117.1003520-4-tommaso.merciai@amarulasolutions.com>
 From:   Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date:   Mon, 23 May 2022 10:17:26 +0200
-Message-ID: <CAOf5uwmjBgSpQEqCswDt02H4e5jahO92TaQnk-91syskM_PZ_Q@mail.gmail.com>
-Subject: Re: [PATCH 2/4] arm64: dts: rockchip: px30: max drive-strength for cif_clkout_m0
+Date:   Mon, 23 May 2022 10:18:46 +0200
+Message-ID: <CAOf5uwkHm1Az+WOCy4bgoqJje2hVqfqVAQFBkZ==OEgXAhLJ+g@mail.gmail.com>
+Subject: Re: [PATCH 3/4] arm64: dts: rockchip: px30: add mux for mipi-pdn pad
 To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
         Rob Herring <robh+dt@kernel.org>,
@@ -75,38 +75,44 @@ Hi
 On Thu, May 19, 2022 at 9:51 AM Tommaso Merciai
 <tommaso.merciai@amarulasolutions.com> wrote:
 >
-> Add max drive-strength for cif_clkout_m0. This fix the issue that
-> sometimes camera ov5695 is not probed correctly.
-> Tested on PX30_Mini_EVB_V11_20190507
+> Add right mux for mipi-pdn. Mux this pad as gpio2 14
 >
 > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 > Tested-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 > ---
->  arch/arm64/boot/dts/rockchip/px30-evb.dts | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  arch/arm64/boot/dts/rockchip/px30-evb.dts | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >
 > diff --git a/arch/arm64/boot/dts/rockchip/px30-evb.dts b/arch/arm64/boot/dts/rockchip/px30-evb.dts
-> index 848bc39cf86a..53930e28eadf 100644
+> index 53930e28eadf..0d05a1b098bc 100644
 > --- a/arch/arm64/boot/dts/rockchip/px30-evb.dts
 > +++ b/arch/arm64/boot/dts/rockchip/px30-evb.dts
-> @@ -537,6 +537,13 @@ wifi_enable_h: wifi-enable-h {
->                                 <0 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
+> @@ -450,8 +450,8 @@ ov5695: ov5695@36 {
+>                 dvdd-supply = <&vcc1v5_dvp>;
+>                 dovdd-supply = <&vcc1v8_dvp>;
+>                 pinctrl-names = "default";
+> -               pinctrl-0 = <&cif_clkout_m0>;
+>                 reset-gpios = <&gpio2 14 GPIO_ACTIVE_LOW>;
+> +               pinctrl-0 = <&cif_clkout_m0 &mipi_pdn>;
+>
+>                 port {
+>                         ucam_out: endpoint {
+> @@ -544,6 +544,12 @@ cif_clkout_m0: cif-clkout-m0 {
+>                                 <2 RK_PB3 1 &pcfg_pull_none_12ma>;
 >                 };
 >         };
 > +
-> +       cif-m0 {
-> +               cif_clkout_m0: cif-clkout-m0 {
-> +                       rockchip,pins =
-> +                               <2 RK_PB3 1 &pcfg_pull_none_12ma>;
+> +       mipi {
+> +               mipi_pdn: mipi-pdn {
+> +                       rockchip,pins = <2 RK_PB6 RK_FUNC_GPIO &pcfg_pull_none>;
 > +               };
 > +       };
 >  };
-
-This is the same now on rockchip bsp
-
-Reviewed-by: Michael Trimarchi <michael@amarulasolutios.com>
-
 >
+
+Reviewed-by: Michael Trimarchi <michael@amarulasolutions.com>
+
+Michael
 >  &pmu_io_domains {
 > --
 > 2.25.1
