@@ -2,158 +2,316 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1AC9530FC9
-	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 15:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E18C0530EF4
+	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 15:17:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235610AbiEWMkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 May 2022 08:40:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56156 "EHLO
+        id S235718AbiEWMwG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 May 2022 08:52:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235592AbiEWMkA (ORCPT
+        with ESMTP id S235586AbiEWMwF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 May 2022 08:40:00 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB1A25044A
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 05:39:56 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id j10so1879985lfe.12
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 05:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=EOL04jP+eE7dVuOg6hEIwWWUW4POczWVTnduH9YcGb0=;
-        b=dscp7lxuXzvAvazXh3XQfmCEddLWn7+ErSWIbZNaa9GV1Dqom5OGQotT1L1vQ40DAr
-         tV+QngMbMinXVaEpFNFUwkuuQcHqPmOWlLg935FyQ/pv365F2DT7ldFDo1cIQOxQIB5k
-         jckxpnwO24VrNYVA7QT9OXE57kv4eu9UXkgvrGE6GMG/k5lxqdMm8sI8hSZO41JxGR4y
-         RDJ4BjpOB5ZZjxx4tISidy3rFFT8CWdujpKaOe/4HyFBGpSNOAxpJSlHIEy4wMrU/Ete
-         /af8YceSz7WRPilhyxLJ5wX0AMt/U++FV4rz6xF4S/2CWIxSJFJ87TE4pDyhah0hbz6l
-         J+pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=EOL04jP+eE7dVuOg6hEIwWWUW4POczWVTnduH9YcGb0=;
-        b=MxGQF5eMNs8eWtDDMrzEb745nKSAAGHRigwuLvqpS4twRgAcjpx6eDGygJgGOYxzrd
-         6UpZZLW/WiEUz60YrRTtPadv5SCDHf49fImQb0vJ0e3BZTIron3TfuPTL10o7g0jIt3x
-         owGgeY9KruO0k2ZruCJImUL47QRBKz2+VBouZ3yqpinT6sQ4YU4vTt5h7VHTv/17VYaa
-         ygjradU0TB+oIgJPRkKbc3j1s6wcBPc4sBDKrvwHTtgbBIm4WcCy2cxCMKd3G4PXae7S
-         HpbgxHa4oUaWX8iOGGVMxKyhAosgiVUa4k9RF/iEsM+EvQ1XDX2xqmdt8F62Tu+OGg0o
-         uxXQ==
-X-Gm-Message-State: AOAM532I7DxJCDYUoC5FVrijiOB94szpuq7iXwpcJYCrlWeSIYyTDeo8
-        VPBaStEvghLpfZ7CQp9OuQj+dw==
-X-Google-Smtp-Source: ABdhPJwo0PC3SioId0jNkNXBGwmBVrE8rg9qaxlN6Ax4/CUHq/r3fHvRNB3t0H78ZX4YRjchIypaWA==
-X-Received: by 2002:a05:6512:3b93:b0:474:188b:1c99 with SMTP id g19-20020a0565123b9300b00474188b1c99mr16289628lfv.549.1653309594979;
-        Mon, 23 May 2022 05:39:54 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id b23-20020ac25637000000b00477b11144e9sm1959703lff.66.2022.05.23.05.39.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 May 2022 05:39:54 -0700 (PDT)
-Message-ID: <638d6986-616f-4a1c-f1d0-82835b000b2a@linaro.org>
-Date:   Mon, 23 May 2022 15:39:53 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [RFC PATCH 00/14] CAMSS support for MSM8974
-Content-Language: en-GB
-To:     Luca Weiss <luca@z3ntu.xyz>, linux-arm-msm@vger.kernel.org
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mon, 23 May 2022 08:52:05 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38DE3DA7A;
+        Mon, 23 May 2022 05:52:01 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 335121C0004;
+        Mon, 23 May 2022 12:51:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1653310320;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=U+H5xu8nCjdPDFB+rNE/Nv2sAZrPCxc01fLrAUYE1eE=;
+        b=OHjPq6PNsRRavWiImrmtBl5h8WOWbZbQ2kehnB7qEoTtWw47+3pwOl5kMlB+tXm/J4wGRv
+        bZ+YCtkRlq+zIhBsnfhcfcieywN68jOpLfntklbqH651Lm1e56yMYVuEV3IA/uKVomqiS9
+        Mv7d4WfJtTbnsT9Mvy0M3mHLJlxasC0WezQ9riLw1XyLIK5cd4kRY682AX78iTkiB2PXm7
+        f/N5mTQPniOhR6SoS5KuaD7b5Tokf9yznWLvBaH3B6yDmcXAFsyVPRaPOgr4y5O96FQVYt
+        0ceQCUoBTL2ZaRlxtx0PfPzk2fIiGuDdWAQ+dYILBy19/kVw95TrVpUZRbKjjQ==
+Date:   Mon, 23 May 2022 14:51:55 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        matti.lehtimaki@gmail.com
-References: <20220522162802.208275-1-luca@z3ntu.xyz>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220522162802.208275-1-luca@z3ntu.xyz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
+ ISP
+Message-ID: <YouDa3mE9+SkKJg/@aptenodytes>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+ <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
+ <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
+ <Ymqk89e+mn/1kLLx@aptenodytes>
+ <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
+ <YoesXywA4yzBDSwU@aptenodytes>
+ <Yop0DGOo1ky2dfnv@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="SXPMYzqIrx+IMC+b"
+Content-Disposition: inline
+In-Reply-To: <Yop0DGOo1ky2dfnv@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/05/2022 19:27, Luca Weiss wrote:
-> This RFC series adds support for CAMSS and CCI that are found on
-> msm8974, including the OV8865 found on the FP2.
-> 
-> The only reason it's marked RFC is that CAMSS doesn't behave properly on
-> this SoC without the last commit which is obviously not upstreamable.
-> Not sure if this should be a blocker for including most of the other
-> patches because other than that it seems to work fine and I can get a
-> picture from the camera sensor. When/if msm8974 gets IOMMU support I
-> hope this should be resolved and it works without this hack.
-> 
-> I think at least the CCI patches could get applied as they're not
-> dependent on the CAMSS hack?
 
-I'd also vote for the camcc patches to be applied.
+--SXPMYzqIrx+IMC+b
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As for the camss, I'd suggest to get them verified to work properly with 
-a hacked/non-upstreamable/etc. IOMMU driver if one exists. Otherwise we 
-can easily get into a situation where we merge up code that contains 
-bugs itself.
+Hi Laurent,
 
-Another option might be to actually check whether the device has an 
-IOMMU attached (see device_iommu_mapped()) and to select whether the 
-driver should use SG or CONTIG depending on that.
+On Sun 22 May 22, 20:34, Laurent Pinchart wrote:
+> Hi Paul,
+>=20
+> On Fri, May 20, 2022 at 04:57:35PM +0200, Paul Kocialkowski wrote:
+> > On Fri 29 Apr 22, 00:07, Sakari Ailus wrote:
+> > > On Thu, Apr 28, 2022 at 04:30:11PM +0200, Paul Kocialkowski wrote:
+> > > > Hi Sakari,
+> > > >=20
+> > > > On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
+> > > > > Hi Paul,
+> > > > >=20
+> > > > > Thanks for the set.
+> > > > >=20
+> > > > > A few comments below.
+> > > >=20
+> > > > Thanks a lot for your review!
+> > >=20
+> > > You're welcome!
+> > >=20
+> > > ...
+> > >=20
+> > > > > I understand this is an online ISP. How do you schedule the video=
+ buffer
+> > > > > queues? Say, what happens if it's time to set up buffers for a fr=
+ame and
+> > > > > there's a buffer queued in the parameter queue but not in the ima=
+ge data
+> > > > > queue? Or the other way around?
+> > > >=20
+> > > > The ISP works in a quite atypical way, with a DMA buffer that is us=
+ed to
+> > > > hold upcoming parameters (including buffer addresses) and a bit in =
+a "direct"
+> > > > register to schedule the update of the parameters at next vsync.
+> > > >=20
+> > > > The update (setting the bit) is triggered whenever new parameters a=
+re
+> > > > submitted via the params video device or whenever there's a capture=
+ buffer
+> > > > available in the capture video device.
+> > > >=20
+> > > > So you don't particularly need to have one parameter buffer matchin=
+g a capture
+> > > > buffer, the two can be updated independently. Of course, a capture =
+buffer will
+> > > > only be returned after another buffer becomes active.
+> > >=20
+> > > This also means it's not possible to associate a capture buffer to a
+> > > parameter buffer by other means than timing --- which is unreliable. =
+The
+> > > request API would allow that but it's not free of issues either.
+> >=20
+> > Yes the request API seems like a good fit for this. Note that the retur=
+ned
+> > sequence number in dequeued buffers for the capture and meta video devi=
+ces
+> > should match though, so userspace still has a way to know which capture=
+d buffer
+> > used parameters from which meta params buffer.
+> >=20
+> > > Alternatively, I think in this case you could always require the capt=
+ure
+> > > buffer and grab a parameter buffer when it's available. As ISPs are
+> > > generally requiring device specific control software, this shouldn't =
+be a
+> > > problem really.
+> >=20
+> > I think this is pretty much what happens already.
+> >=20
+> > > I wonder what Laurent thinks.
+>=20
+> If parameters buffers are optional, I think the request API should be
+> used, otherwise we won't be able to ensure per-frame control. The
+> alternative is to make the parameter buffer mandatory for every frame,
+> even if no parameters have changed. Or maybe that's the case already ?
 
-As an additional note regarding the offset issue you've mentioned. It 
-looks like there is an issue with the swiotlb. On the IFC6410 (apq8064, 
-no IOMMU) I got an issue with the PCI-attached networking card. Received 
-packets are offset by 4 (IIRC) bytes. The same type of adapter works on 
-db820c (apq8096, working IOMMU). What kind of issues did you observe 
-with the camss? If it looks like the issue I had, it might be a symptom 
-of a more generic issue.
+Currently the parameters are not mandatory (there is a default state set
+by the driver) and queued parameter buffers are applied in the order they
+are submitted.
 
-> 
-> Luca Weiss (5):
->    dt-bindings: i2c: qcom-cci: add QCOM MSM8974 compatible
->    ARM: dts: qcom: msm8974: add CCI bus
->    ARM: dts: qcom: msm8974: add CAMSS node
->    ARM: dts: qcom: msm8974-FP2: Add OV8865 rear camera
->    [DNM] media: camss: hacks for MSM8974
-> 
-> Matti Lehtimäki (9):
->    media: dt-bindings: media: camss: Add qcom,msm8974-camss binding
->    media: camss: Add CAMSS_8x74 camss version
->    media: camss: vfe: Add support for 8x74
->    media: camss: video: Add support for 8x74
->    media: camss: csid: Add support for 8x74
->    media: camss: ispif: Add support for 8x74
->    media: camss: csiphy: Add support for 8x74
->    media: camss: Add 8x74 resources
->    i2c: qcom-cci: add msm8974 compatible
-> 
->   .../devicetree/bindings/i2c/i2c-qcom-cci.txt  |   7 +-
->   .../bindings/media/qcom,msm8974-camss.yaml    | 321 ++++++++++++++++++
->   arch/arm/boot/dts/qcom-msm8974.dtsi           | 184 ++++++++++
->   .../dts/qcom-msm8974pro-fairphone-fp2.dts     |  70 ++++
->   drivers/i2c/busses/i2c-qcom-cci.c             |  35 ++
->   drivers/media/platform/qcom/camss/Kconfig     |   4 +-
->   .../media/platform/qcom/camss/camss-csid.c    |   3 +-
->   .../media/platform/qcom/camss/camss-csiphy.c  |   4 +-
->   .../media/platform/qcom/camss/camss-ispif.c   |   5 +-
->   drivers/media/platform/qcom/camss/camss-vfe.c |   7 +-
->   .../media/platform/qcom/camss/camss-video.c   |  17 +-
->   drivers/media/platform/qcom/camss/camss.c     | 161 +++++++++
->   drivers/media/platform/qcom/camss/camss.h     |   1 +
->   13 files changed, 801 insertions(+), 18 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8974-camss.yaml
-> 
+The request API would make per-frame control possible, but I don't think
+there is a point in making it mandatory. It seems that the situation is very
+similar to what already exists with the rkisp1 driver.
 
+Cheers,
 
--- 
-With best wishes
-Dmitry
+Paul
+
+> > > > I hope this answers your concern!
+> > > >=20
+> > > > [...]
+> > > >=20
+> > > > > > +static int sun6i_isp_tables_setup(struct sun6i_isp_device *isp=
+_dev)
+> > > > > > +{
+> > > > > > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
+> > > > > > +	int ret;
+> > > > > > +
+> > > > > > +	/* Sizes are hardcoded for now but actually depend on the pla=
+tform. */
+> > > > >=20
+> > > > > Would it be cleaner to have them defined in a platform-specific w=
+ay, e.g.
+> > > > > in a struct you obtain using device_get_match_data()?
+> > > >=20
+> > > > Absolutely! I didn't do it at this stage since only one platform is=
+ supported
+> > > > but we could just as well introduce a variant structure already for=
+ the table
+> > > > sizes.
+> > >=20
+> > > I think that would be nice already, especially if you know these are =
+going
+> > > to be different. Otherwise macros could be an option.
+> >=20
+> > Understood!
+> >=20
+> > > ...
+> > >=20
+> > > > > > +	ret =3D v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
+> > > > >=20
+> > > > > I suppose you intend to add controls later on?
+> > > >=20
+> > > > I might be wrong but I thought this was necessary to expose sensor =
+controls
+> > > > registered by subdevs that end up attached to this v4l2 device.
+> > > >=20
+> > > > I doubt the drivers itself will expose controls otherwise.
+> > >=20
+> > > Now that this is an MC-enabled driver, the subdev controls should be
+> > > accessed through the subdev nodes only. Adding them to the video devi=
+ce's
+> > > control handler is quite hackish and not guaranteed to even work (as =
+e.g.
+> > > multiple subdevs can have the same control).
+> >=20
+> > Yes I was wondering what would happen in that case. I'll drop the ctrls
+> > handling in the next iteration then.
+> >=20
+> > Paul
+> >=20
+> > > ...
+> > >=20
+> > > > > > +{
+> > > > > > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
+> > > > > > +	struct video_device *video_dev =3D &isp_dev->capture.video_de=
+v;
+> > > > > > +	struct mutex *lock =3D &isp_dev->capture.lock;
+> > > > > > +	int ret;
+> > > > > > +
+> > > > > > +	if (mutex_lock_interruptible(lock))
+> > > > > > +		return -ERESTARTSYS;
+> > > > > > +
+> > > > > > +	ret =3D v4l2_pipeline_pm_get(&video_dev->entity);
+> > > > >=20
+> > > > > Do you need this?
+> > > > >=20
+> > > > > Drivers should primarily depend on runtime PM, this is only neede=
+d for
+> > > > > compatibility reasons. Instead I'd like to see sensor drivers bei=
+ng moved
+> > > > > to runtime PM.
+> > > >=20
+> > > > Yes it's still needed to support sensor drivers that don't use rpm =
+yet.
+> > >=20
+> > > To that I suggested adding runtime PM support for the affected sensor=
+s.
+> > > This doesn't seem to get done otherwise. E.g. ipu3-cio2 driver does n=
+ot
+> > > call s_power() on sensor subdevs.
+> > >=20
+> > > ...
+> > >=20
+> > > > > > +	ret =3D video_register_device(video_dev, VFL_TYPE_VIDEO, -1);
+> > > > > > +	if (ret) {
+> > > > > > +		v4l2_err(v4l2_dev, "failed to register video device: %d\n",
+> > > > > > +			 ret);
+> > > > > > +		goto error_media_entity;
+> > > > > > +	}
+> > > > > > +
+> > > > > > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video_dev=
+->name,
+> > > > > > +		  video_device_node_name(video_dev));
+> > > > >=20
+> > > > > This isn't really driver specific. I'd drop it.
+> > > >=20
+> > > > I agree but I see that many drivers are doing it and the informatio=
+n can
+> > > > actually be quite useful at times.
+> > >=20
+> > > You can get that information using media-ctl -e 'entity name'.
+> > >=20
+> > > I guess this could be also added to video_register_device() on debug =
+level.
+> > >=20
+> > > > > > +struct sun6i_isp_params_config_bdnf {
+> > > > > > +	__u8	in_dis_min; // 8
+> > > > > > +	__u8	in_dis_max; // 10
+> > > > >=20
+> > > > > Are these default values or something else? Better documentation =
+was in the
+> > > > > TODO.txt file already.
+> > > >=20
+> > > > Yes that's the default register values, but these comments are and =
+overlook on
+> > > > my side and should be removed.
+> > >=20
+> > > I'm fine leaving these here. Just wondering. Up to you.
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--SXPMYzqIrx+IMC+b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmKLg2sACgkQ3cLmz3+f
+v9HkdAf/c8WwJ1tDC3vE468r7moIH1vWtbKyBlLkj1iB/T6YtO4tadBef69WudfQ
+mEmB43e4AeciElrjs/y0s0lTvbSatpK2BRUg82vQwm7PKUvgefaNkliZsU2WSOeT
+5hbkDNUX1ckQeZxVbpqO7zleFAa+uupHBmzM9c5/mE6g2mYOB9PSyNvNiZSBJUb7
+eM3IilYNswo+nWdcXWR3KYAgePBArQAEyE9IBmQSPrXeBJVj0Hqsti0Z9ANJjOcx
+ZHa0d9TY6SOb/oRw7gPQGj796ZcfYhXrTCStEPYOh304OXSA790Vvd0O6wgPTio9
+8UxE4fCbngH6y23ie+BH3Kl25imuWw==
+=ZrB9
+-----END PGP SIGNATURE-----
+
+--SXPMYzqIrx+IMC+b--
