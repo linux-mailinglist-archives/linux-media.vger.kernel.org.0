@@ -2,153 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80AB053127C
-	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 18:22:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDF8D5312AE
+	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 18:22:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237552AbiEWPFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 May 2022 11:05:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44360 "EHLO
+        id S237866AbiEWPa0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 May 2022 11:30:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237503AbiEWPFI (ORCPT
+        with ESMTP id S237879AbiEWPaS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 May 2022 11:05:08 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F595C343
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 08:05:07 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id p22so26057866lfo.10
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 08:05:07 -0700 (PDT)
+        Mon, 23 May 2022 11:30:18 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 380F45FF17
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 08:30:14 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id k30so21898344wrd.5
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 08:30:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Lve1mxsIRFBHyA8U6h+dTcHz5C3XHO+Q/UM9b7xJHFY=;
-        b=WhS04NNb8SVxORS6RR+X9fLK1sO3RnfmwY5BuaeSNXk+B8O+yyNXYlTn+n70WHku/s
-         zF+VhhrjgLRI2hPPJ8HrKvZccv3A7fBf6L7ED8sdczxoZ44fktEbjPKT9mju98C7Ew7C
-         6z1FMBlWo0HQ2rTTXpoe2ieUxK6YzPEGVkN2LF7vHPKu6q3c0uugb6zVYC4lAQRceu7w
-         zG4d6gVAAGiqQEYVITc/xu0aTKU13i/8l+qra/Glgdngg2f+0+qMRrZCqr89DlKpeueh
-         o4c/oYsSk2PxLnvkQjXBITXNJGXT6ayyZFGgHBPvLrSUgC++u5EtJZi365yguSxMYiv8
-         WTwA==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Ki3nds2SQ94u+QBYsM2M4nRb9kIMl7mDNBezsS/vkEM=;
+        b=rO9GbfvfUDpR9XSGaMJqCDjRuDT9PA5XwA39wI3I3qGonALuDWn/2a4bfMlKjQq2p0
+         Mux1YrI+RbwOYPtyOz5SaKGnHtPYTIvIIFRrEISd8mrBfNCYVb1364u8X0D1LxnJRwL4
+         gVJQ/rGnnimhnnhY+gSKEnr6SQxblnz8WLXciIeVsIKg3/ZEODkbkJbV77QDTIZDwjF4
+         it8hegHYVjDsHANXb3P8XH5TU04PpJAEgxEJR9lRCOsmURJatQEng/dHfZ8VsBa6nil9
+         fJNlr1sj8RAZYXFihHC7uaZUoMmvg+udvBeOR2yxXsyRW2vP+qYEE01X/io87as3sQU3
+         H0aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Lve1mxsIRFBHyA8U6h+dTcHz5C3XHO+Q/UM9b7xJHFY=;
-        b=lJXYAWqOPsNfKD7+sUnd21By8igaG7qTnFChCoX/DgYgRTHC0ETzEX1l0vS9JBz2vc
-         Bn0vFv/walVbXk+NzoUR671WQhlaxNj8Ne/KEeYEp6Yb7YDuy+oWcSDih3c/J5oaoZaj
-         l3iQsOVm+qVouTOovGjqEZh+xH+zmYHJcOsjUhF1HQacEL1Opdgn5q9gIxTqNZ/Okq2f
-         qRCjsR0i/EPR+znn1NkH/k9HnYHUtGM8uX8q11Gf+jIpcrF5QluGxzg/5CHIAcQPnTG4
-         jCyK/F0pIR0raSVqouBxdRQdCX8eYM8vVq67iOFMF+Auz/UpbEjjGnXMXgNcrHp2ynru
-         6zwA==
-X-Gm-Message-State: AOAM531OhzVdFfeoq5Y8rJYDd5uEyxEFI/10KzIkiXTAwGYj9pMsbnS5
-        tp6ltiUq4D6F4VjHU8X/nwU/67UYQlSOxd2vjD4=
-X-Google-Smtp-Source: ABdhPJzKE93+52RPrXi2nUFscFRW4RTWWNKl2OFwrx0LoLAfUFmmMpQzhtgYnt++AaXdZerLvMCUewfUrrKnhiulhHM=
-X-Received: by 2002:ac2:4858:0:b0:478:536b:51b with SMTP id
- 24-20020ac24858000000b00478536b051bmr11664698lfy.196.1653318305584; Mon, 23
- May 2022 08:05:05 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Ki3nds2SQ94u+QBYsM2M4nRb9kIMl7mDNBezsS/vkEM=;
+        b=6/Z+vVpozC3USCTNMk1NxWnghqouRJ0xUFEpFQzgjywQKtyuH5XvBERbioblkHEVfP
+         iGUCzZfVIsBKF9XhtOPZJ2giFRsF38WatseoSm618nR7rmPpYITCIgbfOkBrm+/IhWhb
+         XgDn2Mi5Cs5ImNkKZs/7Zp4mNNAZ7DE26JqBjewXx/upjxYuYHbA2IaxAJ/cOIHRJri7
+         QQKzOtrTNbjFFz7k+YSUAPHlOeuVt3ATaaCSmCRH233Nb7lM7Eo/XNlJmob01fFHLLuL
+         GLCuF+KD+lF7VYfb1kyKlZRVkOVxhXxUhP96l2C4wOR8yr3t22nHFlP3Cf44oWYERBvN
+         jntA==
+X-Gm-Message-State: AOAM5326Z2W4XesTFZzq+7qqCSbkKOT96wEPO4GA4O8lnjq93JRxCR7u
+        7GQvs5DCdAnsRvtvNKFk5HNP5Q==
+X-Google-Smtp-Source: ABdhPJwAJmOXRtRNxDFU4DMCZoOjdk2vta2oozn3g6xqMgmjEBCafG5oHJTXYfnCa7somrhPoe6ccw==
+X-Received: by 2002:a5d:4f08:0:b0:20f:c7dc:8477 with SMTP id c8-20020a5d4f08000000b0020fc7dc8477mr9794083wru.713.1653319812641;
+        Mon, 23 May 2022 08:30:12 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id l24-20020adfa398000000b0020fcaba73bcsm7125690wrb.104.2022.05.23.08.30.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 May 2022 08:30:11 -0700 (PDT)
+Message-ID: <625094db-a1e7-b62c-9862-6e5b20420c97@linaro.org>
+Date:   Mon, 23 May 2022 16:30:10 +0100
 MIME-Version: 1.0
-Received: by 2002:ac2:4d37:0:0:0:0:0 with HTTP; Mon, 23 May 2022 08:05:05
- -0700 (PDT)
-Reply-To: benitasaira1994@gmail.com
-From:   MICHAEL EDWARD <romeokoli3@gmail.com>
-Date:   Mon, 23 May 2022 15:05:05 +0000
-Message-ID: <CADjUL1y-VN8G+-SgiAy5W4zt8=Kw-We=Pcbz-ZOGgCg2FUx97A@mail.gmail.com>
-Subject: ATM CARD
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 1/1] arm64: dts: qcom: qrb5165-rb5: Enable the IMX577 on
+ cam1
+Content-Language: en-US
+To:     Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
+        bjorn.andersson@linaro.org
+Cc:     mchehab@kernel.org, robh+dt@kernel.org, krzk+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, mmitkov@quicinc.com, jgrahsl@snap.com,
+        hfink@snap.com
+References: <20220518133004.342775-1-bryan.odonoghue@linaro.org>
+ <20220518133004.342775-2-bryan.odonoghue@linaro.org>
+ <33abcc93-13f1-d6f5-36a3-6ab796f124f9@linaro.org>
+ <19c92f9d-fa1c-fbe8-50ef-324da3e00695@linaro.org>
+ <e7bbe076-a1d1-a005-8110-5d35bc0d80de@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <e7bbe076-a1d1-a005-8110-5d35bc0d80de@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:12a listed in]
-        [list.dnswl.org]
-        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0015]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [benitasaira1994[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [romeokoli3[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [romeokoli3[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  1.7 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  0.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Min kj=C3=A6re venn,
+On 23/05/2022 14:50, Vladimir Zapolskiy wrote:
+> it's some kind of a race related to probes of CAMSS, CCI and IMX412 
+> drivers.
+> 
+> Since I'm able to reproduce it, I'll take the analysis on myself, and it 
+> does not
+> interfere with your patch series.
 
-God dag min kj=C3=A6re venn hvordan har du det Lengst. jeg er glad for
-for =C3=A5 informere deg om at jeg lykkes med =C3=A5 f=C3=A5 denne arven
+Ah, I think I have it pretty much narrowed down now. Needed to switch 
+off modules entirely.
 
-fondsoverf=C3=B8ring i samarbeid med en ny partner.
-Jeg drikker n=C3=A5 min andel av totalen av INDIAs utenlandske investeringe=
-r
+First probe fails, second probe succeeds.
 
-prosjekter.
-Forresten, jeg har ikke glemt din tidligere innsats og innsats
+Thanks anyway, I think I'm close to fix.
 
-=C3=A5 hjelpe.
-sviktet meg i =C3=A5 overf=C3=B8re disse arvemidlene p=C3=A5 en eller annen=
- m=C3=A5te.
-Ta n=C3=A5 kontakt med sekret=C3=A6ren min i Lome Togo Vest-Afrika, hun het=
-er
-
-BENITA SAIRA p=C3=A5 e-post (benitasaira1994@gmail.com)
-be ham sende deg det totale bel=C3=B8pet ($900.000,00),NI HUNDRE
-
-TUSEN.US dollar jeg har spart for kompensasjonen din hele fortiden
-
-innsats og fors=C3=B8k p=C3=A5 =C3=A5 hjelpe meg i transaksjonen.
-Da satte jeg stor pris p=C3=A5 innsatsen din. S=C3=A5 gjerne og
-
-Kontakt sekret=C3=A6ren min, BENITA SAIRA, og fortell henne hvor hun skal s=
-ende
-
-den. gir deg minibankkortet for det totale bel=C3=B8pet (US
-
-$9 000 000,00). Gi meg beskjed slik at vi kan dele gleden
-
-umiddelbart n=C3=A5r du mottar det s=C3=A5 smerte.
-Jeg har det veldig travelt her i disse dager.p=C3=A5 grunn av
-investeringsprosjektene jeg
-
-har med mitt nye hus husk, partner, at jeg endelig bestod
-
-mine instruksjoner til meg selv. Sekret=C3=A6r p=C3=A5 dine vegne for =C3=
-=A5 f=C3=A5 minibank
-
-KORT, s=C3=A5 ikke n=C3=B8l med =C3=A5 ta det n=C3=A5r du kontakter Benita
-
-Saira hun vil sende deg bel=C3=B8pet.
-enhver forsinkelse.
-
-Med vennlig hilsen,
-
-Mr. MICHAEL EDWARD
+---
+bod
