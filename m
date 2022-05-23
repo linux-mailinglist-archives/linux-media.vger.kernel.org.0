@@ -2,124 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79082531B9F
-	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 22:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A4FD5318B9
+	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 22:54:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242928AbiEWSrq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 May 2022 14:47:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43516 "EHLO
+        id S230015AbiEWTAK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 May 2022 15:00:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242413AbiEWSrj (ORCPT
+        with ESMTP id S235414AbiEWSyx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 May 2022 14:47:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7F6C026129
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 11:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653330624;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+GHDu8bX018Pj56HhIIQXnjcT5ZvQ3bky+5co5y7CGo=;
-        b=Chd/Jg/Z67qHhl1LW5EKKXSHKz/iGGD4lPDI+VCtSc2+lYeVG4wQKbZT7o42GbHF1xKJgQ
-        wHOZSaFc5kbYuzeqheUzBDJWsXWifprGWP5yiFg4b2xUdPwDZOwUVf6DDntBjIy+7RqIlI
-        5D1GddaDGebGOtPrZlTfNen6ASr0cZU=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-357-hbGYtWfONoahafdiRLDOsw-1; Mon, 23 May 2022 14:30:21 -0400
-X-MC-Unique: hbGYtWfONoahafdiRLDOsw-1
-Received: by mail-qt1-f199.google.com with SMTP id m5-20020a05622a118500b002f92201d3fbso6113945qtk.18
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 11:30:21 -0700 (PDT)
+        Mon, 23 May 2022 14:54:53 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717BC6D866
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 11:40:30 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id x12so14390300pgj.7
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 11:40:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=m68DOsp/4EVBBaR6jYaTrj32aAvF62YQf9B2NbMvhpc=;
+        b=eIJgCV3f1aQiogC9m32EyzwcTtK9ymplR5Q9oQQlWFSBfuvuemU28BQqplv4UtLpD5
+         cJRFCcVqNH0SaP94cbg4hUs6suqezjJBMzJru5rfATQwDQrD0FWfL2b87/PYnHvra9Be
+         1Vwafz0FhRPEr1q3mIk+rFiIc6IjymjCo+G1+GrPpvo+VKUY26qn6sSVx+waIX+SDZjC
+         zxBm1Pl2/FXbxExKqA8H9Dw7e7jsOd+c2w5VO3ujLE+Dni+U4Uf4ASVvvYbq4PgDuekn
+         7/OXaizVjv4uStrfDYpX+gnbuIcDNJo+OdmQfy9F31VS3awX5UjOyOmIe0cmg9uuDAb9
+         ztEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+GHDu8bX018Pj56HhIIQXnjcT5ZvQ3bky+5co5y7CGo=;
-        b=QBxYUVo6SNO14sytdZ2YH3lIHjE8iFXBzg1t6CgW1HYhrcMvgVp4PTpffbeuCkROWB
-         Rr08gP6c5FQZpYFrKnIgZqb3qSetWIfQPFMNwBQWumBmbyaNCteaUcW88RPfmyTkiepL
-         yJBDC8u9mH3KqRHdQO4W2rXz3nKOtndwGH6YWvybnk/kWfcFss6XpfjKP0XShKRoyFm4
-         QfDfByCtBGw38Dd1jCrG0ErXvZvfJdJzxMTWmGKZFzsmEEH6tlqdHnzcwe/RaVA2ZJBb
-         lpQLgIMvkmR30DMb1tKV/9da5iI+nkilyrDhwhF8vlfRRHEsD01p5SZeZZGXie+AkqYV
-         fgDw==
-X-Gm-Message-State: AOAM533SnPXi+bNNHHQ+hcwrEdDLgHhOkhgpDCKNmIxKS0iJmfuhClr8
-        SM7Wo8ix2WgaOkXi33vNtRsdePdFVqUWAqw755cOpH+Zw/xksWZ+Kl2sRl/yutWGvv4bPGqLMne
-        msJDxTRRXFgau18JVCjuSaCQ=
-X-Received: by 2002:a05:620a:29ce:b0:6a0:e9a:f7a2 with SMTP id s14-20020a05620a29ce00b006a00e9af7a2mr14909661qkp.479.1653330620340;
-        Mon, 23 May 2022 11:30:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyiHkoWHUvw+vM4ygrqlFJMksFa2jJVr/bYTmHbbZwPGQtQuPfxdNSMdEAKmnGv/bC5IUBo3Q==
-X-Received: by 2002:a05:620a:29ce:b0:6a0:e9a:f7a2 with SMTP id s14-20020a05620a29ce00b006a00e9af7a2mr14909649qkp.479.1653330620095;
-        Mon, 23 May 2022 11:30:20 -0700 (PDT)
-Received: from xps13 (c-98-239-145-235.hsd1.wv.comcast.net. [98.239.145.235])
-        by smtp.gmail.com with ESMTPSA id m201-20020a37a3d2000000b006a34f6a7840sm4630388qke.57.2022.05.23.11.30.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 11:30:19 -0700 (PDT)
-Date:   Mon, 23 May 2022 14:30:18 -0400
-From:   Brian Masney <bmasney@redhat.com>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Luca Weiss <luca@z3ntu.xyz>, linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        matti.lehtimaki@gmail.com
-Subject: Re: [RFC PATCH 00/14] CAMSS support for MSM8974
-Message-ID: <YovSurcGlyPW7v9s@xps13>
-References: <20220522162802.208275-1-luca@z3ntu.xyz>
- <638d6986-616f-4a1c-f1d0-82835b000b2a@linaro.org>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=m68DOsp/4EVBBaR6jYaTrj32aAvF62YQf9B2NbMvhpc=;
+        b=cRbsspRxyBJv/5v15zRQTre3jQXtCsleW27QWLkftTbE0Au7TwnYMyCMrUzIsTrpJo
+         libT91Gom+kRddAnFsfZbbngdkaFCRK+LPYBf97sOK8Nl7mbOha4lMH3Bhd1wFaxWW+W
+         kcFr/eBMDdGR8iKDcmrSvh+u1h1dyMNKDtYLPBUm+lkRK8+wK1enSZQuOwQaHJCBxEk/
+         6Ct1Zevil4IawBvYYcdpaJbAh5bqBuWro8TFluIeSGGTkfFTy7njwPeg07verAMJDQVU
+         pXSSRDFZuTKl0wEI/uuN+n/xMIpXSWEGZOrOIOrGMcWAUKZfdKI/R67MTjLV8B+LsSPJ
+         d9Aw==
+X-Gm-Message-State: AOAM533zFzAmNL0tejuyDnB59mj4WhC+RQySHv42sHfcmk5AuxArVlDl
+        t3erwc5qAkfDT7FRC6cSwXo+BF3SnS7hJiPOTPE=
+X-Google-Smtp-Source: ABdhPJwlA7x8bgHfyISj+vrAD1HsMhTdFnYgYHd6gDzj/cxY1t3g62fQjpfFvi+1bKrjoKGsDJ52XNcYdU0pZKVV22E=
+X-Received: by 2002:a63:520d:0:b0:3fa:52e2:1a1f with SMTP id
+ g13-20020a63520d000000b003fa52e21a1fmr5518621pgb.546.1653331229898; Mon, 23
+ May 2022 11:40:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <638d6986-616f-4a1c-f1d0-82835b000b2a@linaro.org>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a20:2d81:b0:81:eafb:fa9a with HTTP; Mon, 23 May 2022
+ 11:40:29 -0700 (PDT)
+Reply-To: belindasteenkamp14@gmail.com
+From:   DIVERSITY CASH LOAN <diversitycash@gmail.com>
+Date:   Mon, 23 May 2022 20:40:29 +0200
+Message-ID: <CAEM0kOsND2zdfni5p17Qj51i0447pPrH1ErjC8EvSb5gEknkrw@mail.gmail.com>
+Subject: May Specials
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:534 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [belindasteenkamp14[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [diversitycash[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 23, 2022 at 03:39:53PM +0300, Dmitry Baryshkov wrote:
-> On 22/05/2022 19:27, Luca Weiss wrote:
-> > This RFC series adds support for CAMSS and CCI that are found on
-> > msm8974, including the OV8865 found on the FP2.
-> > 
-> > The only reason it's marked RFC is that CAMSS doesn't behave properly on
-> > this SoC without the last commit which is obviously not upstreamable.
-> > Not sure if this should be a blocker for including most of the other
-> > patches because other than that it seems to work fine and I can get a
-> > picture from the camera sensor. When/if msm8974 gets IOMMU support I
-> > hope this should be resolved and it works without this hack.
-> > 
-> > I think at least the CCI patches could get applied as they're not
-> > dependent on the CAMSS hack?
-> 
-> I'd also vote for the camcc patches to be applied.
-> 
-> As for the camss, I'd suggest to get them verified to work properly with a
-> hacked/non-upstreamable/etc. IOMMU driver if one exists. Otherwise we can
-> easily get into a situation where we merge up code that contains bugs
-> itself.
+--=20
 
-Last I checked, there's no IOMMU driver for msm8974 that works with an
-upstream kernel at the moment. About 2 years ago, I took a stab at
-attempting to enable IOMMU for the display and ran into some issues that
-I documented at:
+ We offer Loans ranging from (R10,000.00 =E2=80=93 R5,000,000.00). Loan
+duration is from 1 to 20 years (Maximum) No collateral, No ITC CHECK
+and Blacklisted, Under debt review, No pay slip, Low credit, Self
+employed and Business owners are welcome.
 
-https://lore.kernel.org/lkml/20200109002606.35653-1-masneyb@onstation.org/
-
-I'm not familiar with this part of the hardware and haven't had time
-since then to look into this further.
-
-Brian
-
+CONTACT:
+Belinda Steenkamp (Mrs)
+Senior Loan Consultant,
+Call only or What=E2=80=99s-app only
+( +27677352072 )
+Email: { belindasteenkamp14@gmail.com }
