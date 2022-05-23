@@ -2,335 +2,450 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D95D8530CCF
-	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 12:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E5B3530CCA
+	for <lists+linux-media@lfdr.de>; Mon, 23 May 2022 12:41:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233267AbiEWJdR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 May 2022 05:33:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46700 "EHLO
+        id S233882AbiEWKHU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 May 2022 06:07:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233199AbiEWJdP (ORCPT
+        with ESMTP id S233872AbiEWKHS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 May 2022 05:33:15 -0400
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6062649915
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 02:33:01 -0700 (PDT)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-2ff90e0937aso66407997b3.4
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 02:33:01 -0700 (PDT)
+        Mon, 23 May 2022 06:07:18 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B44F64553F
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 03:07:13 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id h8so16576277ljb.6
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 03:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=StnlvMI97RXLZxeZaIKv68XYHgE+JxVOhBboCprQ3Nc=;
-        b=gNxczDDhr3jeppVt8ITXq1lokcBDnK/GD46Ado9Ku5j+41Ort3n8DiDp9TaSixyrwm
-         bqezo1421sZWgBT8GI+yuGO3p1GubEfeOm1vJapoedZzEv5/WqKoa02vW916jMakIbHQ
-         ESI9PcouEib7zj6W6G3QKlMk4dsFpRnH9knJxApUXZOTQbOlA9op8tTpoOH8pKib36R3
-         kcsCo+jvfwLS5k49hvjSZGzg4vA2u7OuMmVjV4b1LVYrGb1WYumANbyXaWEvYN8Bod0s
-         /3RMGvK3TcvodV280botFGhw783pyESZXY+sBtlDTLEFSkPLpFu+ikI6LK4aY6QRvprs
-         onhg==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=F4taQ5+IrXRMwOAhNcJUo/s1Ca6XrXb6YnUM76RxKpE=;
+        b=hX7ISdFon39d4aZ4z+AZ7AYEURkSDfboUIf7TkGGh7Z5DkqaT9KiJRDsY0VAxjH1Bc
+         z4DBfFwGuF5ibhJKm8kqPiyPNksBcGHKRcW9iwmNYcbKvVg3p8zoQPRoNEgd/aXVpQMr
+         itMwpv/WO6/dE4lRl7sKPKzDcNNsIa/amVUWyKxQSPtpwICmd9BuEPvMq64h12fuCy1p
+         I6tFyK/+ks1PQLol1jf5ng59rpGrN4CqlGMmd0+uL1wj0MmgrHUPkGTBOJ9fyGK5UMrM
+         oSqQdnCizMO8lXw4hsWxV9vF4QsteELBxkri21RDgsQn1xdgJlT6pwplVS+rFwNs9Hd5
+         DDkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=StnlvMI97RXLZxeZaIKv68XYHgE+JxVOhBboCprQ3Nc=;
-        b=gEVoskSP+q5oudNHoNHhvFjz36++KRVYaLdiDciBBnjyVD0Un91pnGWFsqLZAAbxHw
-         LG2em5ifhrtW3i9zWunCTnnVGhLMYUk0Zev9khKhgA5tc+xsRZerl7suo/4AnRS1cf9b
-         URFRe3PhRqiWjkwwQPcjZopovKS3sQbGoJmz8B73/5rBzMftlgp6BlFTidlew3myW5k8
-         HhyjVKqN3kx1cFGbqSsuAP/fxI5Y5yajHf3fHpKuoJY024e9Kvq6w0q8LvGQuj/AkQXt
-         7BLsFqnzJgSLqX3zKZLzNt4sAbbTB9AwQlKZ40L2Tgi03UEhbHe/dQtqPFppc5rVuEeH
-         Hvhg==
-X-Gm-Message-State: AOAM530ElTRngS49FsCERUt8A/x4S1ykKgS0tGLaH6zRfe2AIAaq+HUP
-        eeI5O351OGi4tgR8rQxlF+StWK4cIlMO01BdTrw3wn4XAwSikQ==
-X-Google-Smtp-Source: ABdhPJyQ6c2Vq/eIATHfZdVMnBjzLXM5OduO+05hhm7/iMp4d/u1Q3x/qYLDu+xv2lZ4UL31DpHl+KYnK4GURGC2DUQ=
-X-Received: by 2002:a05:690c:94:b0:2f1:98b3:fe7c with SMTP id
- be20-20020a05690c009400b002f198b3fe7cmr23018911ywb.284.1653298379994; Mon, 23
- May 2022 02:32:59 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=F4taQ5+IrXRMwOAhNcJUo/s1Ca6XrXb6YnUM76RxKpE=;
+        b=bbOQHJ8cq0KGcHKodwVMdR95h1GeuuKjuh5mBIir/dMbqh1udRV6azp8GXYCyDujD1
+         AMureTuLDWykZXtVuoSvbF4yJPLJ++kKQzk5JiOxab/t7oWFmu5Q50VW+jkKhrD4fpAb
+         4OSd66RSthwcjLOrXYdmSKXcTdY/Eml1lPPIwqzfxT3ZnRsNCoSfYJKGjeLyvjRqmmUy
+         CxGAg0gCYItMPcbWW/Q1n/QIQZFkTnn7V0+PBBO+CEQl7Zw2AbU0KIeGS2zokL+XKBtm
+         Cdozij6OjaMM6w/4VB3CSx2h9n4XV1X4Osnfw8HRG9iFmdpe1oWz/JPv7jhf3pjq5lfX
+         AnYw==
+X-Gm-Message-State: AOAM530v6/RisKvi+4mBObeQZiZIFKCfRFSJv1dIT394m+ulC8lOMUM/
+        0u1oXqTBqR8fdrC9ZT0OEnopWJOeQeleIDUp
+X-Google-Smtp-Source: ABdhPJxMjrqPZFZvMoxN4x/AxW+GX9hdhs+gP+izmBR2K0BBNuq8/KL6QCSUi/r+3onn1sJRZlR8NA==
+X-Received: by 2002:a2e:a794:0:b0:250:5de1:1ec5 with SMTP id c20-20020a2ea794000000b002505de11ec5mr12601741ljf.270.1653300431926;
+        Mon, 23 May 2022 03:07:11 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id z6-20020a196506000000b0047861c163d0sm1063397lfb.37.2022.05.23.03.07.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 May 2022 03:07:11 -0700 (PDT)
+Message-ID: <170dd20b-ab0b-0f61-bfe9-cb9167a2e133@linaro.org>
+Date:   Mon, 23 May 2022 12:07:10 +0200
 MIME-Version: 1.0
-References: <20220518062412.2375586-1-yunkec@google.com> <20220518062412.2375586-2-yunkec@google.com>
- <9d9b32bd-16bc-76cd-6cd7-6d693714e5c9@xs4all.nl> <YoYeelewIe0tnrxh@pendragon.ideasonboard.com>
- <a0fe2b49-12b7-8eaf-c3ef-7af1a247e595@xs4all.nl>
-In-Reply-To: <a0fe2b49-12b7-8eaf-c3ef-7af1a247e595@xs4all.nl>
-From:   Yunke Cao <yunkec@google.com>
-Date:   Mon, 23 May 2022 18:32:49 +0900
-Message-ID: <CANqU6Fe4FwkReokArx-6FiwYQ6TGte1C05o8pM5e8xaUoO4Fhg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] media: v4l2_ctrl: Add region of interest rectangle control
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [RFC PATCH 01/14] media: dt-bindings: media: camss: Add
+ qcom,msm8974-camss binding
+Content-Language: en-US
+To:     Luca Weiss <luca@z3ntu.xyz>, linux-arm-msm@vger.kernel.org
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Loic Poulain <loic.poulain@linaro.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        matti.lehtimaki@gmail.com
+References: <20220522162802.208275-1-luca@z3ntu.xyz>
+ <20220522162802.208275-2-luca@z3ntu.xyz>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220522162802.208275-2-luca@z3ntu.xyz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thank you for the feedback!
-Making this uvc-specific sounds good to me. I'm working on v4 :).
+On 22/05/2022 18:27, Luca Weiss wrote:
+> From: Matti Lehtimäki <matti.lehtimaki@gmail.com>
 
-On Thu, May 19, 2022 at 7:55 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 5/19/22 12:39, Laurent Pinchart wrote:
-> > On Thu, May 19, 2022 at 10:14:05AM +0200, Hans Verkuil wrote:
-> >> On 5/18/22 08:24, Yunke Cao wrote:
-> >>> Including:
-> >>> 1. Add a control ID.
-> >>> 2. Add p_rect to struct v4l2_ext_control with basic support in
-> >>>    v4l2-ctrls.
-> >>>
-> >>> Signed-off-by: Yunke Cao <yunkec@google.com>
-> >>> ---
-> >>> Changelog since v2:
-> >>> - Better documentation.
-> >>>
-> >>>  .../media/v4l/ext-ctrls-camera.rst            | 10 ++++++++++
-> >>>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
-> >>>  .../media/videodev2.h.rst.exceptions          |  1 +
-> >>>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 20 +++++++++++++++++++
-> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++++
-> >>>  include/media/v4l2-ctrls.h                    |  2 ++
-> >>>  include/uapi/linux/v4l2-controls.h            |  2 ++
-> >>>  include/uapi/linux/videodev2.h                |  2 ++
-> >>>  8 files changed, 45 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> >>> index 4c5061aa9cd4..c988a72b97b2 100644
-> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> >>> @@ -661,3 +661,13 @@ enum v4l2_scene_mode -
-> >>>  .. [#f1]
-> >>>     This control may be changed to a menu control in the future, if more
-> >>>     options are required.
-> >>> +
-> >>> +``V4L2_CID_REGION_OF_INTEREST_RECT (struct)``
-> >>> +   This control determines the region of interest. Region of interest is an
-> >>> +   rectangular area represented by a struct v4l2_rect. The rectangle is in
-> >>> +   pixel units and global coordinates. Use ``V4L2_CTRL_WHICH_MIN_VAL`` and
-> >>> +   ``V4L2_CTRL_WHICH_MAX_VAL`` to query the range of coordinates.
-> >>
-> >> Hmm, what does MIN and MAX mean in terms of a rectangle? It makes sense for
-> >> the width and height, but how is that interpreted for top and left?
-> >>
-> >> Are these the minimum and maximum values each field of the struct can have?
-> >> So if the image is, say, 640x480, then the minimum value for a rectangle might
-> >> be 1x1@0x0, and the maximum 640x480@639x479. So in that case these are not real
-> >> rectangles, but they give the range for each field of the struct.
-> >>
-> >> An alternative would be to see this as the min and max rectangle size and keep
-> >> the top/left values at 0.
-> >>
-> >> To be honest, I'm not sure which one I would prefer.
-It looks like the UVC GET_MAX returns a valid rectangle (640x480@0x0).
-UVC 1.5 defines CT_DIGITAL_WINDOW_CONTROL controls (we haven't
-implemented it yet).
-"The ROI must be within the current Digital Window as specified by the
-CT_WINDOW control.
-GET_MAX shall return the current Window as specified by
-CT_DIGITAL_WINDOW_CONTROL."
-The devices I tested with followed this: returning 1x1@0x0 and 640x480@0x0.
+Thank you for your patch. There is something to discuss/improve.
 
-The current implementation simply takes the rectangle returned by
-UVC_GET_MAX/MIN
-and converts it to a v4l2_rect. As we are making them uvc-specific, I
-guess keeping the current
-behavior is fine?
+> 
+> Add bindings for qcom,msm8974-camss in order to support the camera
+> subsystem on MSM8974.
+> 
+> Signed-off-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> ---
+>  .../bindings/media/qcom,msm8974-camss.yaml    | 321 ++++++++++++++++++
+>  1 file changed, 321 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8974-camss.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8974-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8974-camss.yaml
+> new file mode 100644
+> index 000000000000..f8f71e477535
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,msm8974-camss.yaml
+> @@ -0,0 +1,321 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/qcom,msm8974-camss.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Qualcomm CAMSS ISP
+> +
+> +maintainers:
+> +  - Robert Foss <robert.foss@linaro.org>
+> +
+> +description: |
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,msm8974-camss
+> +
+> +  clocks:
+> +    minItems: 31
 
-Best,
-Yunke
+No need for minItems, they are equal to max by default.
+
+> +    maxItems: 31
+> +
+> +  clock-names:
+> +    items:
+> +      - const: top_ahb
+> +      - const: ispif_ahb
+> +      - const: csiphy0_timer
+> +      - const: csiphy1_timer
+> +      - const: csiphy2_timer
+> +      - const: csi0_ahb
+> +      - const: csi0
+> +      - const: csi0_phy
+> +      - const: csi0_pix
+> +      - const: csi0_rdi
+> +      - const: csi1_ahb
+> +      - const: csi1
+> +      - const: csi1_phy
+> +      - const: csi1_pix
+> +      - const: csi1_rdi
+> +      - const: csi2_ahb
+> +      - const: csi2
+> +      - const: csi2_phy
+> +      - const: csi2_pix
+> +      - const: csi2_rdi
+> +      - const: csi3_ahb
+> +      - const: csi3
+> +      - const: csi3_phy
+> +      - const: csi3_pix
+> +      - const: csi3_rdi
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: csi_vfe0
+> +      - const: csi_vfe1
+> +      - const: iface
+> +      - const: bus
+> +
+> +  interrupts:
+> +    minItems: 10
+
+Same.
+
+> +    maxItems: 10
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid3
+> +      - const: ispif
+> +      - const: vfe0
+> +      - const: vfe1
+> +
+> +  power-domains:
+> +    items:
+> +      - description: VFE GDSC - Video Front End, Global Distributed Switch Controller.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                items:
+> +                  - const: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@1:
+
+These look all the same, so just use patternPropreties (in "ports") with
+proper pattern.
+
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                items:
+> +                  - const: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                items:
+> +                  - const: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +  reg:
+> +    minItems: 14
+> +    maxItems: 14
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csiphy0
+> +      - const: csiphy0_clk_mux
+> +      - const: csiphy1
+> +      - const: csiphy1_clk_mux
+> +      - const: csiphy2
+> +      - const: csiphy2_clk_mux
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid3
+> +      - const: ispif
+> +      - const: csi_clk_mux
+> +      - const: vfe0
+> +      - const: vfe1
+> +
+> +  vdda-supply:
+> +    description:
+> +      Definition of the regulator used as analog power supply.
+> +
+> +required:
+> +  - clock-names
+> +  - clocks
+> +  - compatible
+> +  - interrupt-names
+> +  - interrupts
+> +  - power-domains
+> +  - reg
+> +  - reg-names
+> +  - vdda-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,gcc-msm8974.h>
+> +    #include <dt-bindings/clock/qcom,mmcc-msm8974.h>
+> +    camss@fda00000 {
+
+Generic node name, so "isp" I guess?
+
+> +        compatible = "qcom,msm8974-camss";
+> +        reg = <0xfda0ac00 0x200>,
+> +              <0xfda00030 0x4>,
+> +              <0xfda0b000 0x200>,
+> +              <0xfda00038 0x4>,
+> +              <0xfda0b400 0x200>,
+> +              <0xfda00040 0x4>,
+> +              <0xfda08000 0x100>,
+> +              <0xfda08400 0x100>,
+> +              <0xfda08800 0x100>,
+> +              <0xfda08c00 0x100>,
+> +              <0xfda0a000 0x800>,
+> +              <0xfda00020 0x10>,
+> +              <0xfda10000 0x1000>,
+> +              <0xfda14000 0x1000>;
+> +        reg-names = "csiphy0",
+> +                    "csiphy0_clk_mux",
+> +                    "csiphy1",
+> +                    "csiphy1_clk_mux",
+> +                    "csiphy2",
+> +                    "csiphy2_clk_mux",
+> +                    "csid0",
+> +                    "csid1",
+> +                    "csid2",
+> +                    "csid3",
+> +                    "ispif",
+> +                    "csi_clk_mux",
+> +                    "vfe0",
+> +                    "vfe1";
+> +        interrupts = <GIC_SPI 78 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 79 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 80 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 51 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 52 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 53 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 54 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 55 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 57 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 58 IRQ_TYPE_EDGE_RISING>;
+> +        interrupt-names = "csiphy0",
+> +                          "csiphy1",
+> +                          "csiphy2",
+> +                          "csid0",
+> +                          "csid1",
+> +                          "csid2",
+> +                          "csid3",
+> +                          "ispif",
+> +                          "vfe0",
+> +                          "vfe1";
+> +        power-domains = <&mmcc CAMSS_VFE_GDSC>;
+> +        clocks = <&mmcc CAMSS_TOP_AHB_CLK>,
+> +                 <&mmcc CAMSS_ISPIF_AHB_CLK>,
+> +                 <&mmcc CAMSS_PHY0_CSI0PHYTIMER_CLK>,
+> +                 <&mmcc CAMSS_PHY1_CSI1PHYTIMER_CLK>,
+> +                 <&mmcc CAMSS_PHY2_CSI2PHYTIMER_CLK>,
+> +                 <&mmcc CAMSS_CSI0_AHB_CLK>,
+> +                 <&mmcc CAMSS_CSI0_CLK>,
+> +                 <&mmcc CAMSS_CSI0PHY_CLK>,
+> +                 <&mmcc CAMSS_CSI0PIX_CLK>,
+> +                 <&mmcc CAMSS_CSI0RDI_CLK>,
+> +                 <&mmcc CAMSS_CSI1_AHB_CLK>,
+> +                 <&mmcc CAMSS_CSI1_CLK>,
+> +                 <&mmcc CAMSS_CSI1PHY_CLK>,
+> +                 <&mmcc CAMSS_CSI1PIX_CLK>,
+> +                 <&mmcc CAMSS_CSI1RDI_CLK>,
+> +                 <&mmcc CAMSS_CSI2_AHB_CLK>,
+> +                 <&mmcc CAMSS_CSI2_CLK>,
+> +                 <&mmcc CAMSS_CSI2PHY_CLK>,
+> +                 <&mmcc CAMSS_CSI2PIX_CLK>,
+> +                 <&mmcc CAMSS_CSI2RDI_CLK>,
+> +                 <&mmcc CAMSS_CSI3_AHB_CLK>,
+> +                 <&mmcc CAMSS_CSI3_CLK>,
+> +                 <&mmcc CAMSS_CSI3PHY_CLK>,
+> +                 <&mmcc CAMSS_CSI3PIX_CLK>,
+> +                 <&mmcc CAMSS_CSI3RDI_CLK>,
+> +                 <&mmcc CAMSS_VFE_VFE0_CLK>,
+> +                 <&mmcc CAMSS_VFE_VFE1_CLK>,
+> +                 <&mmcc CAMSS_CSI_VFE0_CLK>,
+> +                 <&mmcc CAMSS_CSI_VFE1_CLK>,
+> +                 <&mmcc CAMSS_VFE_VFE_AHB_CLK>,
+> +                 <&mmcc CAMSS_VFE_VFE_AXI_CLK>;
+> +        clock-names = "top_ahb",
+> +                      "ispif_ahb",
+> +                      "csiphy0_timer",
+> +                      "csiphy1_timer",
+> +                      "csiphy2_timer",
+> +                      "csi0_ahb",
+> +                      "csi0",
+> +                      "csi0_phy",
+> +                      "csi0_pix",
+> +                      "csi0_rdi",
+> +                      "csi1_ahb",
+> +                      "csi1",
+> +                      "csi1_phy",
+> +                      "csi1_pix",
+> +                      "csi1_rdi",
+> +                      "csi2_ahb",
+> +                      "csi2",
+> +                      "csi2_phy",
+> +                      "csi2_pix",
+> +                      "csi2_rdi",
+> +                      "csi3_ahb",
+> +                      "csi3",
+> +                      "csi3_phy",
+> +                      "csi3_pix",
+> +                      "csi3_rdi",
+> +                      "vfe0",
+> +                      "vfe1",
+> +                      "csi_vfe0",
+> +                      "csi_vfe1",
+> +                      "iface",
+> +                      "bus";
+> +
+> +        vdda-supply = <&pm8941_l12>;
+> +
+> +        ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+
+This is not a complete example... empty ports node is useless, isn't it?
+
+> +        };
+> +    };
 
 
-
-
-> >
-> > I'm also really worried fo the interactions between this control and
-> > selection rectangles. The uvcvideo driver won't need to care, but this
-> > is a generic control, so we need to define it clearly.
-> >
-> > To be honest, given how specific to UVC this is, I'd create
-> > device-specific controls. I don't foresee any other driver being able to
-> > make use of V4L2_CID_REGION_OF_INTEREST_RECT and
-> > V4L2_CID_REGION_OF_INTEREST_AUTO.
->
-> Yeah, I'm leaning in the same direction. It might be wise to reduce the
-> scope of these controls to just the UVC driver.
->
-> Regards,
->
->         Hans
->
-> >
-> >>> +
-> >>> +   Setting a region of interest allows the camera to optimize the capture for
-> >>> +   the region. The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control
-> >>> +   determines the detailed behavior.
-> >>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >>> index 29971a45a2d4..f4e205ead0a2 100644
-> >>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >>> @@ -189,6 +189,10 @@ still cause this situation.
-> >>>        - ``p_area``
-> >>>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
-> >>>          of type ``V4L2_CTRL_TYPE_AREA``.
-> >>> +    * - struct :c:type:`v4l2_rect` *
-> >>> +      - ``p_area``
-> >>> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
-> >>> +        of type ``V4L2_CTRL_TYPE_RECT``.
-> >>>      * - struct :c:type:`v4l2_ctrl_h264_sps` *
-> >>>        - ``p_h264_sps``
-> >>>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
-> >>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >>> index 9cbb7a0c354a..7b423475281d 100644
-> >>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >>> @@ -147,6 +147,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
-> >>>  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
-> >>>  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
-> >>>  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
-> >>> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
-> >>>  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
-> >>>  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
-> >>>  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
-> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>> index 8968cec8454e..dcde405c2713 100644
-> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>> @@ -84,6 +84,11 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
-> >>>             return ptr1.p_u16[idx] == ptr2.p_u16[idx];
-> >>>     case V4L2_CTRL_TYPE_U32:
-> >>>             return ptr1.p_u32[idx] == ptr2.p_u32[idx];
-> >>> +   case V4L2_CTRL_TYPE_RECT:
-> >>> +           return ptr1.p_rect->top == ptr2.p_rect->top &&
-> >>> +                  ptr1.p_rect->left == ptr2.p_rect->left &&
-> >>> +                  ptr1.p_rect->height == ptr2.p_rect->height &&
-> >>> +                  ptr1.p_rect->width == ptr2.p_rect->width;
-> >>>     default:
-> >>>             if (ctrl->is_int)
-> >>>                     return ptr1.p_s32[idx] == ptr2.p_s32[idx];
-> >>> @@ -307,6 +312,11 @@ static void std_log(const struct v4l2_ctrl *ctrl)
-> >>>     case V4L2_CTRL_TYPE_VP9_FRAME:
-> >>>             pr_cont("VP9_FRAME");
-> >>>             break;
-> >>> +   case V4L2_CTRL_TYPE_RECT:
-> >>> +           pr_cont("l: %d, t: %d, w: %u, h: %u",
-> >>> +                   ptr.p_rect->left, ptr.p_rect->top,
-> >>> +                   ptr.p_rect->width, ptr.p_rect->height);
-> >>> +           break;
-> >>>     default:
-> >>>             pr_cont("unknown type %d", ctrl->type);
-> >>>             break;
-> >>> @@ -525,6 +535,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >>>     struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
-> >>>     struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
-> >>>     struct v4l2_area *area;
-> >>> +   struct v4l2_rect *rect;
-> >>>     void *p = ptr.p + idx * ctrl->elem_size;
-> >>>     unsigned int i;
-> >>>
-> >>> @@ -888,6 +899,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >>>                     return -EINVAL;
-> >>>             break;
-> >>>
-> >>> +   case V4L2_CTRL_TYPE_RECT:
-> >>> +           rect = p;
-> >>> +           if (!rect->width || !rect->height)
-> >>> +                   return -EINVAL;
-> >>> +           break;
-> >>> +
-> >>>     default:
-> >>>             return -EINVAL;
-> >>>     }
-> >>> @@ -1456,6 +1473,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
-> >>>     case V4L2_CTRL_TYPE_AREA:
-> >>>             elem_size = sizeof(struct v4l2_area);
-> >>>             break;
-> >>> +   case V4L2_CTRL_TYPE_RECT:
-> >>> +           elem_size = sizeof(struct v4l2_rect);
-> >>> +           break;
-> >>>     default:
-> >>>             if (type < V4L2_CTRL_COMPOUND_TYPES)
-> >>>                     elem_size = sizeof(s32);
-> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>> index 54ca4e6b820b..95f39a2d2ad2 100644
-> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>> @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >>>     case V4L2_CID_UNIT_CELL_SIZE:           return "Unit Cell Size";
-> >>>     case V4L2_CID_CAMERA_ORIENTATION:       return "Camera Orientation";
-> >>>     case V4L2_CID_CAMERA_SENSOR_ROTATION:   return "Camera Sensor Rotation";
-> >>> +   case V4L2_CID_REGION_OF_INTEREST_RECT:  return "Region Of Interest Rectangle";
-> >>>
-> >>>     /* FM Radio Modulator controls */
-> >>>     /* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> >>> @@ -1524,6 +1525,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
-> >>>     case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
-> >>>             *type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
-> >>>             break;
-> >>> +   case V4L2_CID_REGION_OF_INTEREST_RECT:
-> >>> +           *type = V4L2_CTRL_TYPE_RECT;
-> >>> +           break;
-> >>>     default:
-> >>>             *type = V4L2_CTRL_TYPE_INTEGER;
-> >>>             break;
-> >>> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> >>> index b3ce438f1329..919e104de50b 100644
-> >>> --- a/include/media/v4l2-ctrls.h
-> >>> +++ b/include/media/v4l2-ctrls.h
-> >>> @@ -58,6 +58,7 @@ struct video_device;
-> >>>   * @p_hdr10_cll:           Pointer to an HDR10 Content Light Level structure.
-> >>>   * @p_hdr10_mastering:             Pointer to an HDR10 Mastering Display structure.
-> >>>   * @p_area:                        Pointer to an area.
-> >>> + * @p_rect:                        Pointer to a rectangle.
-> >>>   * @p:                             Pointer to a compound value.
-> >>>   * @p_const:                       Pointer to a constant compound value.
-> >>>   */
-> >>> @@ -87,6 +88,7 @@ union v4l2_ctrl_ptr {
-> >>>     struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
-> >>>     struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
-> >>>     struct v4l2_area *p_area;
-> >>> +   struct v4l2_rect *p_rect;
-> >>>     void *p;
-> >>>     const void *p_const;
-> >>>  };
-> >>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> >>> index bb40129446d4..499fcddb6254 100644
-> >>> --- a/include/uapi/linux/v4l2-controls.h
-> >>> +++ b/include/uapi/linux/v4l2-controls.h
-> >>> @@ -1008,6 +1008,8 @@ enum v4l2_auto_focus_range {
-> >>>
-> >>>  #define V4L2_CID_CAMERA_SENSOR_ROTATION            (V4L2_CID_CAMERA_CLASS_BASE+35)
-> >>>
-> >>> +#define V4L2_CID_REGION_OF_INTEREST_RECT   (V4L2_CID_CAMERA_CLASS_BASE+36)
-> >>> +
-> >>>  /* FM Modulator class control IDs */
-> >>>
-> >>>  #define V4L2_CID_FM_TX_CLASS_BASE          (V4L2_CTRL_CLASS_FM_TX | 0x900)
-> >>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> >>> index 3768a0a80830..b712412cf763 100644
-> >>> --- a/include/uapi/linux/videodev2.h
-> >>> +++ b/include/uapi/linux/videodev2.h
-> >>> @@ -1751,6 +1751,7 @@ struct v4l2_ext_control {
-> >>>             __u16 __user *p_u16;
-> >>>             __u32 __user *p_u32;
-> >>>             struct v4l2_area __user *p_area;
-> >>> +           struct v4l2_rect __user *p_rect;
-> >>>             struct v4l2_ctrl_h264_sps __user *p_h264_sps;
-> >>>             struct v4l2_ctrl_h264_pps *p_h264_pps;
-> >>>             struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
-> >>> @@ -1810,6 +1811,7 @@ enum v4l2_ctrl_type {
-> >>>     V4L2_CTRL_TYPE_U16           = 0x0101,
-> >>>     V4L2_CTRL_TYPE_U32           = 0x0102,
-> >>>     V4L2_CTRL_TYPE_AREA          = 0x0106,
-> >>> +   V4L2_CTRL_TYPE_RECT          = 0x0107,
-> >>>
-> >>>     V4L2_CTRL_TYPE_HDR10_CLL_INFO           = 0x0110,
-> >>>     V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY  = 0x0111,
-> >
->
+Best regards,
+Krzysztof
