@@ -2,100 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54A60532F2C
-	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 18:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEBDD533397
+	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 00:40:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239636AbiEXQom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 May 2022 12:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48792 "EHLO
+        id S242438AbiEXWkc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 May 2022 18:40:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233170AbiEXQol (ORCPT
+        with ESMTP id S242434AbiEXWka (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 May 2022 12:44:41 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54D82427FF
-        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 09:44:39 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id p10so7905540wrg.12
-        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 09:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Rwol75CyD22GB+azy1Wfb8UM7WKUYecam29j0+8w0Ds=;
-        b=AcYNkjrduWPhMPZ9eJMqBTw39Am01PGf/zmGJPTUGgbAUn87jaKs/ueKmdyGsfZVnn
-         O56OtEvddGE+Y/w7Rk6YMRm/Ch7fLM3zN84ngKys0xL39qiY+kNirzmMoQ27iQQuG1BP
-         1ZU/75TGmGS97T10Gb6roP/OvW5XxC7TR6yIvgsGLV4N9sMvpicXph3wHok//4xSbXSQ
-         b0POhcs7UXUn+0Toonc5tyAE/5GfQ3vtY41pQ1yEGsxeuLInH5f2VLrI6vj9nkMC3gik
-         FCdcGRwNOER9zYFEiBkmLqAftjCnmv79ntDGZoHjzUerPfbq1OWg2Ie6+QdvwvujTXjO
-         DcDA==
+        Tue, 24 May 2022 18:40:30 -0400
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792E779802
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 15:40:29 -0700 (PDT)
+Received: by mail-il1-f198.google.com with SMTP id r9-20020a92cd89000000b002d16798b3cfso9597840ilb.22
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 15:40:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Rwol75CyD22GB+azy1Wfb8UM7WKUYecam29j0+8w0Ds=;
-        b=DvkcVZ9NFAw0nMB7ywEuBu+UtL8HnwdJvP06qTY7krapqjmqooZ/I/pamBCzHVhkrT
-         rc1lG90hXmJaVprgoZ2W4zxz4LEzh6VjELz6MQwdy0R9Pu1HKkUZpcNJoWig6paQEoHw
-         N2GPJvWFeX7uT7jcstpyWauHDkt4XVi4nUZgcOsrtrI0cQSTyMikrNR6TvR++iEDs+5p
-         B8sMewfTmY3K5D7hA34LxjfbvLH93YdyLm7k+bJIwjCRfoP0RkM6Rn8JUhpXyfq9VUOr
-         Utg5TA7Fqxeh0NVuDrdp9VVymGEay34VR3Da+PkcARDYtRxSUHBMUdI1O5dBS5ArPtim
-         kJdg==
-X-Gm-Message-State: AOAM530QAukmpFfCNhccb2qm1l1j/hclZp2oR2uWVkVm8ZD06x/7MIW0
-        fQkNrFrqD3VqB/VsrGmdgts12A==
-X-Google-Smtp-Source: ABdhPJx1U0/7EZnEBQLMEiIuCol1THiU31e5Z21aOY17NPbYAijEjm+yap7k148vhVFlfzqRnG7PKg==
-X-Received: by 2002:a5d:6c64:0:b0:20f:f413:8af8 with SMTP id r4-20020a5d6c64000000b0020ff4138af8mr2847216wrz.129.1653410677949;
-        Tue, 24 May 2022 09:44:37 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id e8-20020adfa448000000b0020c5253d8e5sm13594295wra.49.2022.05.24.09.44.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 May 2022 09:44:37 -0700 (PDT)
-Message-ID: <dc087955-4d00-454e-b242-7741ded6aa5b@nexus-software.ie>
-Date:   Tue, 24 May 2022 17:44:36 +0100
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=3Wu1WB361cVyVmWaFBDq59Mw0eDvd4l+pFg67au8VgE=;
+        b=4da7azfzUprmcAz8+G/R2S54SZdApSW9Y5mv6eQx8sYVUzJ79JO+EEF2a4Z54foXH2
+         +e2F0dMKaIyI9CTtEia2acJvNcSqiDOo2TdgAnjqsVIIdea0xIT7n3isBez/Vr49bcNC
+         fo4/88EG84S4FDXGvqfWAuY+BCP45pSL2ONL0qDLzpWDcoltqh3p8e/cZD6fdaplvLa7
+         EHcSItvM9nMVElbOb9wYTrrk5GudOcBI7bVTHZZihB88UijQLroLbQ1/YksJFI+XWEd3
+         0GAaCROSj5jTVYVEtYl4/tbBrrTuybUH1YpcWXLXrXgA0cjIgxBdnrnOH65QlL4fY1XD
+         6G6w==
+X-Gm-Message-State: AOAM533kUgfAeO+ITH8XvLrUKzrvqZbgl64iBnzGwVSJRHts91YAeDH9
+        FCV6AnkqY3AnRjW+ZBTG7hsVmGtYdCNOqgZBAOFzOXQBrH3o
+X-Google-Smtp-Source: ABdhPJzSV6nT/ASn4hr8gK9r1/+GtK+/qzh6e8zmFmEYkLIDSP7S5sAPXOiKlM2cs0XqhR9VEbkpIPdiO1AXCM2VVjrChe+pK8SX
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: qrb5165-rb5: Enable the IMX577
- on cam2
-Content-Language: en-US
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
-        bjorn.andersson@linaro.org, vladimir.zapolskiy@linaro.org,
-        mchehab@kernel.org, robh+dt@kernel.org, krzk+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, mmitkov@quicinc.com, jgrahsl@snap.com,
-        hfink@snap.com
-References: <20220524140207.2758605-1-bryan.odonoghue@linaro.org>
- <20220524140207.2758605-5-bryan.odonoghue@linaro.org>
- <CAA8EJpqUkeReqnhcURpftpJmFth9-3OGQoAkFqd7Y06EjfraRg@mail.gmail.com>
-From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
-In-Reply-To: <CAA8EJpqUkeReqnhcURpftpJmFth9-3OGQoAkFqd7Y06EjfraRg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Received: by 2002:a05:6e02:20e9:b0:2d1:d151:3c53 with SMTP id
+ q9-20020a056e0220e900b002d1d1513c53mr1815171ilv.220.1653432028356; Tue, 24
+ May 2022 15:40:28 -0700 (PDT)
+Date:   Tue, 24 May 2022 15:40:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000b5e80405dfc9a4f5@google.com>
+Subject: [syzbot] memory leak in dvb_usb_device_init
+From:   syzbot <syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, mudongliangabcd@gmail.com, sean@mess.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/05/2022 17:21, Dmitry Baryshkov wrote:
-> On Tue, 24 May 2022 at 17:02, Bryan O'Donoghue
-> <bryan.odonoghue@linaro.org> wrote:
->>
->> The IMX577 is on CCI1/CSI2 providing four lanes of camera data.
-> 
-> By default the RB5 doesn't employ the navigation mezzanine. Thus I
-> suggest adding a new DTS file that will include the qrb5165-rb5.dts
-> and extend it with camcc/camss setup.
+Hello,
 
-It makes sense to me.
+syzbot found the following issue on:
 
-I'll wait to hear from Robert and Bjorn. We can take the opportunity to 
-do it for RB3 too.
+HEAD commit:    3d7285a335ed Merge tag 'v5.18-p2' of git://git.kernel.org/..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13a2f289f00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=50f4d49cdcacc43c
+dashboard link: https://syzkaller.appspot.com/bug?extid=f66dd31987e6740657be
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=131c8871f00000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
+
+BUG: memory leak
+unreferenced object 0xffff8881172f1a00 (size 512):
+  comm "kworker/0:2", pid 139, jiffies 4294994873 (age 10.960s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff844af012>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:75 [inline]
+    [<ffffffff844af012>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
+    [<ffffffff844af012>] dvb_usb_device_init.cold+0x4e5/0x79e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
+    [<ffffffff830db21d>] dib0700_probe+0x8d/0x1b0 drivers/media/usb/dvb-usb/dib0700_core.c:883
+    [<ffffffff82d3fdc7>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
+    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
+    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
+    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
+    [<ffffffff8274af6a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:782
+    [<ffffffff8274b786>] __device_attach_driver+0xf6/0x140 drivers/base/dd.c:899
+    [<ffffffff82747c87>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:427
+    [<ffffffff8274b352>] __device_attach+0x122/0x260 drivers/base/dd.c:970
+    [<ffffffff827498f6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:487
+    [<ffffffff82745cdb>] device_add+0x5fb/0xdf0 drivers/base/core.c:3405
+    [<ffffffff82d3d202>] usb_set_configuration+0x8f2/0xb80 drivers/usb/core/message.c:2170
+    [<ffffffff82d4dbfc>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+    [<ffffffff82d3f49c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
+    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
+    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
+    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
+
+
 
 ---
-bod
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
