@@ -2,51 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEBDD533397
-	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 00:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D4E45333CE
+	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 01:13:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242438AbiEXWkc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 May 2022 18:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36996 "EHLO
+        id S242533AbiEXXNv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 May 2022 19:13:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242434AbiEXWka (ORCPT
+        with ESMTP id S239226AbiEXXNt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 May 2022 18:40:30 -0400
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792E779802
-        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 15:40:29 -0700 (PDT)
-Received: by mail-il1-f198.google.com with SMTP id r9-20020a92cd89000000b002d16798b3cfso9597840ilb.22
-        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 15:40:29 -0700 (PDT)
+        Tue, 24 May 2022 19:13:49 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4F876222E
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 16:13:48 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id gi33so29804219ejc.3
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 16:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c2gM35Ozz8+cKOIVvSmbVXl7QcMD4o/pnEQk9wTKJw0=;
+        b=Hv46XFNR+3YrOPGIN071GPXAYPwUskaj0nAqXdTNj/WE6SrLkmoYP/FM70hm1I6tz1
+         f2lHlHgri2fvt8hVNHYFPEehHoY+tag4f1cIVEkLWs24IFHc6EHplAKOjDAPWi5co1xo
+         /jOb0ylRTzyuseYrHA0dc5ml6jawr6PJ0yjnc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=3Wu1WB361cVyVmWaFBDq59Mw0eDvd4l+pFg67au8VgE=;
-        b=4da7azfzUprmcAz8+G/R2S54SZdApSW9Y5mv6eQx8sYVUzJ79JO+EEF2a4Z54foXH2
-         +e2F0dMKaIyI9CTtEia2acJvNcSqiDOo2TdgAnjqsVIIdea0xIT7n3isBez/Vr49bcNC
-         fo4/88EG84S4FDXGvqfWAuY+BCP45pSL2ONL0qDLzpWDcoltqh3p8e/cZD6fdaplvLa7
-         EHcSItvM9nMVElbOb9wYTrrk5GudOcBI7bVTHZZihB88UijQLroLbQ1/YksJFI+XWEd3
-         0GAaCROSj5jTVYVEtYl4/tbBrrTuybUH1YpcWXLXrXgA0cjIgxBdnrnOH65QlL4fY1XD
-         6G6w==
-X-Gm-Message-State: AOAM533kUgfAeO+ITH8XvLrUKzrvqZbgl64iBnzGwVSJRHts91YAeDH9
-        FCV6AnkqY3AnRjW+ZBTG7hsVmGtYdCNOqgZBAOFzOXQBrH3o
-X-Google-Smtp-Source: ABdhPJzSV6nT/ASn4hr8gK9r1/+GtK+/qzh6e8zmFmEYkLIDSP7S5sAPXOiKlM2cs0XqhR9VEbkpIPdiO1AXCM2VVjrChe+pK8SX
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c2gM35Ozz8+cKOIVvSmbVXl7QcMD4o/pnEQk9wTKJw0=;
+        b=6cbyFmU9hGKG+LnvE2xLZE1BljZwPU46pLHG24mJ9lQvalfQw6rYYoPVvYYoS/M8cT
+         apz2FxsvKa2Orklax1rK8MWJiz0uf/8W8aKK+psZ0m0vwjwjifZd7mLJ2HLLQltj+BRZ
+         Dko2Xl9/w0NbLKS+SB/Ttnpws/0Kmoxu4phRyIVQesBjnHlX/ThwMgZ0VjI2c2dqol8v
+         HaHjDPzXLA6HaEwyVu7s3aQLEn1ERBI8GR74r+wF7EtIP9ua4fqTAAuCrlzx50568t0C
+         D/yUQn/uSYbsMT8CxgMxcbEXpEa9ROQ5ZCy+tdPrrVzf+j2g1CLrQUuogW9DEPerRdKD
+         9SuQ==
+X-Gm-Message-State: AOAM5328xZhzHlpFlHjmXBmRxUu3u76zP8WrYQZF8sVUX4NEPGy97k98
+        HJPpjc7z+p3z0Hf95pT27wQV3aF5EgmafQ==
+X-Google-Smtp-Source: ABdhPJyqhTE4frBhOjpC8ZfSsjl7o+4cllren++rYt72Amw8NX09wvaaWLauiwyMOdo0yb/4HQoyeQ==
+X-Received: by 2002:a17:907:3f8c:b0:6fa:8b15:66fe with SMTP id hr12-20020a1709073f8c00b006fa8b1566femr26626182ejc.142.1653434026980;
+        Tue, 24 May 2022 16:13:46 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
+        by smtp.gmail.com with ESMTPSA id r15-20020a50d68f000000b0042b8ff060e7sm775567edi.96.2022.05.24.16.13.46
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 May 2022 16:13:46 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id i20-20020a05600c355400b0039456976dcaso1766340wmq.1
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 16:13:46 -0700 (PDT)
+X-Received: by 2002:a7b:c143:0:b0:397:4d12:244c with SMTP id
+ z3-20020a7bc143000000b003974d12244cmr5889978wmi.29.1653434025754; Tue, 24 May
+ 2022 16:13:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:20e9:b0:2d1:d151:3c53 with SMTP id
- q9-20020a056e0220e900b002d1d1513c53mr1815171ilv.220.1653432028356; Tue, 24
- May 2022 15:40:28 -0700 (PDT)
-Date:   Tue, 24 May 2022 15:40:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b5e80405dfc9a4f5@google.com>
-Subject: [syzbot] memory leak in dvb_usb_device_init
-From:   syzbot <syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, mudongliangabcd@gmail.com, sean@mess.org,
-        syzkaller-bugs@googlegroups.com
+References: <1653313421-29105-1-git-send-email-quic_vgarodia@quicinc.com>
+In-Reply-To: <1653313421-29105-1-git-send-email-quic_vgarodia@quicinc.com>
+From:   Fritz Koenig <frkoenig@chromium.org>
+Date:   Tue, 24 May 2022 16:13:33 -0700
+X-Gmail-Original-Message-ID: <CAMfZQbwJ14eZq7tMuTo8PEjdmFEXgzD5RQ8m4H=iO_4YT+=ymw@mail.gmail.com>
+Message-ID: <CAMfZQbwJ14eZq7tMuTo8PEjdmFEXgzD5RQ8m4H=iO_4YT+=ymw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: venus: hfi_platform: Correct supported codecs
+ for sc7280
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        "Viswanath Boma (Temp)" <vboma@qti.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,59 +77,99 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Mon, May 23, 2022 at 12:32 PM Vikash Garodia
+<quic_vgarodia@quicinc.com> wrote:
+>
+> VP8 codec is deprecated for sc7280 SOC. Fix in platform layer to
+> update the supported codecs accordingly.
+>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+> Change since v1:
+>  Review comments addressed(from Stanimir)
+>
+>  drivers/media/platform/qcom/venus/hfi_parser.c   |  6 ++++--
+>  drivers/media/platform/qcom/venus/hfi_platform.c | 22 ++++++++++++++++++++++
+>  drivers/media/platform/qcom/venus/hfi_platform.h |  2 ++
+>  3 files changed, 28 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+> index 5b8389b..6cf74b2 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+> @@ -234,6 +234,7 @@ static int hfi_platform_parser(struct venus_core *core, struct venus_inst *inst)
+>         const struct hfi_plat_caps *caps = NULL;
+>         u32 enc_codecs, dec_codecs, count = 0;
+>         unsigned int entries;
+> +       int ret;
+>
+>         plat = hfi_platform_get(core->res->hfi_version);
+>         if (!plat)
+> @@ -242,8 +243,9 @@ static int hfi_platform_parser(struct venus_core *core, struct venus_inst *inst)
+>         if (inst)
+>                 return 0;
+>
+> -       if (plat->codecs)
+> -               plat->codecs(&enc_codecs, &dec_codecs, &count);
+> +       ret = hfi_platform_get_codecs(core, &enc_codecs, &dec_codecs, &count);
+> +       if (ret)
+> +               return ret;
+>
+>         if (plat->capabilities)
+>                 caps = plat->capabilities(&entries);
+> diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
+> index f16f896..f07f554 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_platform.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_platform.c
+> @@ -2,7 +2,9 @@
+>  /*
+>   * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+>   */
+> +#include <linux/of_device.h>
+>  #include "hfi_platform.h"
+> +#include "core.h"
+>
+>  const struct hfi_platform *hfi_platform_get(enum hfi_version version)
+>  {
+> @@ -66,3 +68,23 @@ hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec, u32 session_
+>         return freq;
+>  }
+>
+> +int
+> +hfi_platform_get_codecs(struct venus_core *core, u32 *enc_codecs, u32 *dec_codecs, u32 *count)
+> +{
+> +       const struct hfi_platform *plat;
+> +
+> +       plat = hfi_platform_get(core->res->hfi_version);
+> +       if (!plat)
+> +               return -EINVAL;
+> +
+> +       if (plat->codecs)
+> +               plat->codecs(enc_codecs, dec_codecs, count);
+> +
+> +       if (of_device_is_compatible(core->dev->of_node, "qcom,sc7280-venus")) {
+> +               *enc_codecs &= ~HFI_VIDEO_CODEC_VP8;
+> +               *dec_codecs &= ~HFI_VIDEO_CODEC_VP8;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
+> index 1dcf408..ec89a90 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_platform.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_platform.h
+> @@ -66,4 +66,6 @@ unsigned long hfi_platform_get_codec_vsp_freq(enum hfi_version version, u32 code
+>                                               u32 session_type);
+>  unsigned long hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec,
+>                                              u32 session_type);
+> +int hfi_platform_get_codecs(struct venus_core *core, u32 *enc_codecs, u32 *dec_codecs,
+> +                           u32 *count);
+>  #endif
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
 
-syzbot found the following issue on:
-
-HEAD commit:    3d7285a335ed Merge tag 'v5.18-p2' of git://git.kernel.org/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13a2f289f00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=50f4d49cdcacc43c
-dashboard link: https://syzkaller.appspot.com/bug?extid=f66dd31987e6740657be
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=131c8871f00000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff8881172f1a00 (size 512):
-  comm "kworker/0:2", pid 139, jiffies 4294994873 (age 10.960s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff844af012>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:75 [inline]
-    [<ffffffff844af012>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
-    [<ffffffff844af012>] dvb_usb_device_init.cold+0x4e5/0x79e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
-    [<ffffffff830db21d>] dib0700_probe+0x8d/0x1b0 drivers/media/usb/dvb-usb/dib0700_core.c:883
-    [<ffffffff82d3fdc7>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
-    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
-    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
-    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
-    [<ffffffff8274af6a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:782
-    [<ffffffff8274b786>] __device_attach_driver+0xf6/0x140 drivers/base/dd.c:899
-    [<ffffffff82747c87>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:427
-    [<ffffffff8274b352>] __device_attach+0x122/0x260 drivers/base/dd.c:970
-    [<ffffffff827498f6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:487
-    [<ffffffff82745cdb>] device_add+0x5fb/0xdf0 drivers/base/core.c:3405
-    [<ffffffff82d3d202>] usb_set_configuration+0x8f2/0xb80 drivers/usb/core/message.c:2170
-    [<ffffffff82d4dbfc>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<ffffffff82d3f49c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
-    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
-    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
-    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
-
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Tested-by: Fritz Koenig<frkoenig@chromium.org>
