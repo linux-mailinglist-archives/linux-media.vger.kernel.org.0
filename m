@@ -2,159 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 598A6532243
-	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 06:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 287D6532252
+	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 06:54:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234486AbiEXEpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 May 2022 00:45:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55016 "EHLO
+        id S233849AbiEXEyg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 May 2022 00:54:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233834AbiEXEpl (ORCPT
+        with ESMTP id S229978AbiEXEyd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 May 2022 00:45:41 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D0178A324
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 21:45:40 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id e195-20020a25e7cc000000b0065343cb6c39so379829ybh.6
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 21:45:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=oLazf8t/p27Pa2vVH44l9QAYjjiNNMNPAjMcPhr4XIs=;
-        b=nCWlLPDRXva/Vz4wshjpzZMla00G7cfonvg1Spvo5LunDhzASLfRCpBxqYjELc/laU
-         pf2ImB8AQNsZmVlswUzK48ITKK4tHKbM39TQUfhIhSUt1QO7JCLJ27nZsmBoSaGob0D2
-         yw4ysF7mJKZAXwHAEz7+xwjgaoVdDvBpS+sQX6t5sy/BgBr57Jeu7muSqwgKHONoqOik
-         3dLfoTdyQXmg+YgrmmW0YNgLwhoKs1gAZWPBz6H48u8qIKMDK5XLaWWjMipobLRGI2Mf
-         fm5DFvOva/UvX/IWW5IjtzQnF4oorZQKZubiw7+1O1n9TuRTcing8AI+EJ+pqoLVoRRK
-         yatQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=oLazf8t/p27Pa2vVH44l9QAYjjiNNMNPAjMcPhr4XIs=;
-        b=IVVYwygMFbzRcqHG66DrmeJ+BBDWExR3rH4y/pVfyApIti+JIAIsUXNB9NJGNnbHwK
-         FcM14t0U9GmVCPbQ9fTvFp1mci3PfzX/inp2o79wlA1izkB9K9BpZX0ghHAI2oq/jfu/
-         uu2VJhaUvQsgzEAmGgqVdOHR9vbVaWnSk/FtxrxhMU9oI3W1RYYZqxAZr362nHcyn35P
-         exBN+3q8PsuCJ3/s6+3rwWpuDS0hLaIL+hLowTGcLfVUWKkjeYhyNA+pIAMAsI5BEGcx
-         x/EbeWkkrBIubRSaqNcJVTCSzFkWy9UwO3diQBaTaqWR5O75G18TtIedKXMgbOk3CYHg
-         CzKQ==
-X-Gm-Message-State: AOAM532v+me87BJCgzlL7cLEkiwzjyMX/bZK0rEPYI0ZOEyaoB5uFh3b
-        WQa7ka84smHjrma0uvR4ME5CN5HdpfQ=
-X-Google-Smtp-Source: ABdhPJwFOoTH3CNNxJuZybHP5Sfv6L49963FuqRr+uxz11K9Ev2PoAKhZu7mZKHLjRxFnsy/1jVTtHeR5Sw=
-X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:7145:c41f:bdd2:acc])
- (user=yunkec job=sendgmr) by 2002:a81:1847:0:b0:2fe:dff0:46d7 with SMTP id
- 68-20020a811847000000b002fedff046d7mr26081070ywy.501.1653367539751; Mon, 23
- May 2022 21:45:39 -0700 (PDT)
-Date:   Tue, 24 May 2022 13:45:07 +0900
-In-Reply-To: <20220524044507.1696012-1-yunkec@google.com>
-Message-Id: <20220524044507.1696012-5-yunkec@google.com>
-Mime-Version: 1.0
-References: <20220524044507.1696012-1-yunkec@google.com>
-X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
-Subject: [PATCH v4 4/4] media: uvcvideo: document UVC v1.5 ROI
-From:   Yunke Cao <yunkec@google.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, Yunke Cao <yunkec@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 24 May 2022 00:54:33 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA6C962A1D
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 21:54:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9635FB8169C
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 04:54:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011C3C34116
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 04:54:28 +0000 (UTC)
+Date:   Tue, 24 May 2022 06:54:27 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+Message-Id: <20220524045429.011C3C34116@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Added documentation of V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
-V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Yunke Cao <yunkec@google.com>
----
- .../userspace-api/media/drivers/uvcvideo.rst  | 60 +++++++++++++++++++
- 1 file changed, 60 insertions(+)
+Results of the daily build of media_tree:
 
-diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-index e5fd8fad333c..9b96c8b90b7a 100644
---- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
-+++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-@@ -181,6 +181,7 @@ Argument: struct uvc_xu_control_mapping
- 	UVC_CTRL_DATA_TYPE_BOOLEAN	Boolean
- 	UVC_CTRL_DATA_TYPE_ENUM		Enumeration
- 	UVC_CTRL_DATA_TYPE_BITMASK	Bitmask
-+	UVC_CTRL_DATA_TYPE_RECT		Rectangular area
- 
- 
- UVCIOC_CTRL_QUERY - Query a UVC XU control
-@@ -255,3 +256,62 @@ Argument: struct uvc_xu_control_query
- 	__u8	query		Request code to send to the device
- 	__u16	size		Control data size (in bytes)
- 	__u8	*data		Control value
-+
-+Private V4L2 controls
-+---------------------
-+
-+A few UVC specific V4L2 control IDs are listed below.
-+
-+``V4L2_CID_UVC_REGION_OF_INTEREST_RECT (struct)``
-+	This control determines the region of interest. Region of interest is an
-+	rectangular area represented by a struct v4l2_rect. The rectangle is in
-+	pixel units and global coordinates. It is independent of the field of view,
-+	not impacted by any cropping or scaling.
-+
-+	Use ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` to query the
-+	range of rectangle sizes. For example, a device can have a minimum ROI
-+	rectangle of 1x1@0x0, a maximum of 640x480@0x0.
-+
-+	Setting a region of interest allows the camera to optimize the capture for
-+	the region. The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control
-+	determines the detailed behavior.
-+
-+
-+``V4L2_CID_UVC_REGION_OF_INTEREST_AUTO (bitmask)``
-+	This determines which, if any, on board features should track to the
-+	Region of Interest specified by the current value of
-+	``V4L2_CID_UVD__REGION_OF_INTEREST_RECT``.
-+
-+	Max value is a mask indicating all supported Auto
-+	Controls.
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - ``V4L2_REGION_OF_INTEREST_AUTO_EXPOSURE``
-+      - Setting this to true enables automatic exposure time for the specified
-+	region.
-+    * - ``V4L2_REGION_OF_INTEREST_AUTO_IRIS``
-+      - Setting this to true enables automatic iris aperture for the specified
-+	region.
-+    * - ``V4L2_REGION_OF_INTEREST_AUTO_WHITE_BALANCE``
-+      - Setting this to true enables automatic white balance adjustment for the
-+	specified region.
-+    * - ``V4L2_REGION_OF_INTEREST_AUTO_FOCUS``
-+      - Setting this to true enables automatic focus adjustment for the
-+	specified region.
-+    * - ``V4L2_REGION_OF_INTEREST_AUTO_FACE_DETECT``
-+      - Setting this to true enables automatic face detection for the
-+	specified region.
-+    * - ``V4L2_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK``
-+      - Setting this to true enables automatic face detection and tracking. The
-+	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
-+	the driver.
-+    * - ``V4L2_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION``
-+      - Setting this to true enables automatic image stabilization. The
-+	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
-+	the driver.
-+    * - ``V4L2_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY``
-+      - Setting this to true enables automatically capture the specified region
-+	with higher quality if possible.
--- 
-2.36.1.124.g0e6072fb45-goog
+date:			Tue May 24 05:00:15 CEST 2022
+media-tree git hash:	340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1
+media_build git hash:	5eb7d23e8f3dffdb13c843ea0ae3ddd497f23107
+v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-14-g5a0004b5-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7985-g10181ff8-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.17.0-1-amd64
 
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: ERRORS
+linux-4.4.283-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.308-i686: ERRORS
+linux-4.9.308-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.275-i686: ERRORS
+linux-4.14.275-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.237-i686: ERRORS
+linux-4.19.237-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
+kerneldoc: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
