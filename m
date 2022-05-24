@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CABD5329B7
-	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 13:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 443405329E0
+	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 14:02:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236927AbiEXLw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 May 2022 07:52:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40500 "EHLO
+        id S235759AbiEXL7y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 May 2022 07:59:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236667AbiEXLwZ (ORCPT
+        with ESMTP id S231702AbiEXL7y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 May 2022 07:52:25 -0400
+        Tue, 24 May 2022 07:59:54 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D95E95C74C;
-        Tue, 24 May 2022 04:52:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A7B62CC0;
+        Tue, 24 May 2022 04:59:53 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 77A331F43D78
+        with ESMTPSA id 010CB1F43E41
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653393142;
-        bh=ALAqMrfW8Y9IKBszQmPYt8RTPIp0NQCV0UbgRyOpuc8=;
+        s=mail; t=1653393592;
+        bh=+BemnG7IWyoEHXSpYjscGO1bMMzKPeDF+hhkBNitIBM=;
         h=From:To:Cc:Subject:Date:From;
-        b=Om7aAl9CKiGbjRYF0vV47sdFVmoVIiOOnYKWD51j3BX5Qu3kJo7s/lVW6dP9PKjyH
-         0Ht6OZx34gUywRVmJyhQHZEDF+3tTT0syN+Q8KF9TS8XwTQYSbJHjpIZGoKRDzUUkE
-         Q3WHA3UkZsmYSP0rDUFRExKUbERFxXE8PI+CE9CpzJhe3zQxvj5TsPR1Oci/mksQU5
-         0Ppgf5/sO0uRM7ZrZMdNYy9lM4rYJ4+IKojoZMQ6vc+4HSZxIeIkWEbiagiR5mXj/K
-         F4nnJc9osgWPUOPjUuScs4TJMjPO3DV5tvKhppwhu4R9XgWkZE67rsaZ+BZ42JV7BJ
-         mDxFgBJZRFBxA==
+        b=K3+bhaI6Q5Q/I4eji0874puJaOxxq0oWYPZy7M43IM3f1rN31peZG0mu5pkFh27nB
+         RoKA4hbPU0534Khatc8OXkyXPK2BVRM/QW4QWXudiYOZ1m6YAx3xtGECwLUaNRgYUK
+         9W/0jmJkZP4TUQZ2DWWmTifeIor2KTlzcouE0m9TuE08CiymG6eb7hXqxuaYkwGIde
+         rG38f1I8Uzz+sEL1p7Mj0BDW+Vep5ZvFlV3hOZXMJf86/RUMO0v6sQeUFPo2uveETL
+         P22K3uQ+D1Q624Qd/THbySbnPhPTD1+VVXaUHWShBWXxi8opTb0hqV8QO0toEJwHBt
+         iFZUz4eEGz4Dg==
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
         mchehab@kernel.org, gregkh@linuxfoundation.org
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH] media: Hantro: Correct G2 init qp field
-Date:   Tue, 24 May 2022 13:52:12 +0200
-Message-Id: <20220524115212.2284908-1-benjamin.gaignard@collabora.com>
+Subject: [PATCH v2] media: Hantro: Correct G2 init qp field
+Date:   Tue, 24 May 2022 13:59:45 +0200
+Message-Id: <20220524115945.2294015-1-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -57,10 +57,14 @@ Change the field mask to be able to set 7 bits and not only 6 of them.
 Conformance test INITQP_B_Main10_Sony_1 decoding is OK with this
 patch.
 
+Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
 With this patch and the patches needed for 10-bit support
-Fluster HEVC score is 138/147
+Fluster HEVC score is 137/147
+
+version 2:
+- Add Fixes tag
 
  drivers/staging/media/hantro/hantro_g2_regs.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
