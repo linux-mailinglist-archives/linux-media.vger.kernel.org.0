@@ -2,33 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 287D6532252
-	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 06:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBF425323DB
+	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 09:17:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233849AbiEXEyg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 May 2022 00:54:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40876 "EHLO
+        id S233873AbiEXHQ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 May 2022 03:16:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbiEXEyd (ORCPT
+        with ESMTP id S233042AbiEXHQ5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 May 2022 00:54:33 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA6C962A1D
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 21:54:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9635FB8169C
-        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 04:54:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011C3C34116
-        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 04:54:28 +0000 (UTC)
-Date:   Tue, 24 May 2022 06:54:27 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20220524045429.011C3C34116@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        Tue, 24 May 2022 03:16:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E120B5B3ED
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 00:16:55 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72B944A8;
+        Tue, 24 May 2022 09:16:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1653376613;
+        bh=JVVRPsiGczsgeNC9L9YBdyMJH6rW+eUC7vKSABOVKWY=;
+        h=In-Reply-To:References:Subject:From:To:Date:From;
+        b=NqVciWG9FDtfLV6I8pwFIuIJmPSMox8UdJ6TjMwqvP+UK1e/y53/5U2f7d3z3LZ7D
+         Qs9J1wVMrCQ1ONMtuJNSH3wl0qGJgbEBLtEEFqs26JsoBIfxqddHisWq+gt6uKBFUy
+         611cc0fx9sTgTQODKwyuPjJeP1+yr8vkaNl+9epo=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
+References: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
+Subject: Re: [ANN] Media Summit at ELCE Dublin: Request for Topics
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Date:   Tue, 24 May 2022 08:16:51 +0100
+Message-ID: <165337661126.402452.10107682065782670158@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,129 +45,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Hans,
 
-Results of the daily build of media_tree:
+Quoting Hans Verkuil (2022-05-06 14:20:09)
+> Hi all,
+>=20
+> Since countries are opening up again and travel is (at least for now!) a =
+lot easier,
+> I am considering a media summit during the ELCE in Dublin (Sep 13-16).
+>=20
+> See here for more details about the conference:
+>=20
+> https://events.linuxfoundation.org/open-source-summit-europe/
+>=20
+> Of course, this only makes sense if there is something to talk about. So =
+please reply
+> with any suggestions for topics!
+>=20
+> Also please let me know if you would expect to be at such a media summit =
+in person.
+> If only a few people would be there, then there isn't much point to this.
+>=20
+>=20
+> I have two topics:
+>=20
+> 1) Discussion of the media subsystem development process: any bottlenecks=
+, any ideas
+>    for improvements?
+>=20
+> 2) I can give a presentation on the work I've done in the CTA-861 standar=
+d (used by
+>    HDMI) and the edid-decode utility.
+>=20
+> I'd like to make a decision on whether or not it is worthwhile to do this=
+ in a week
+> or two. If we wait too long it might be difficult to get a room for the s=
+ummit.
 
-date:			Tue May 24 05:00:15 CEST 2022
-media-tree git hash:	340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1
-media_build git hash:	5eb7d23e8f3dffdb13c843ea0ae3ddd497f23107
-v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-14-g5a0004b5-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7985-g10181ff8-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.17.0-1-amd64
+I would like to bring up the 'fault tolerance' topic again if I can. I
+raised this in the past when we first started hitting the issue on
+Renesas platforms with multiple cameras in a single media graph, but now
+I think it's become more critical with desktop / laptop devices that are
+hitting the issue (i.e. the IPU3).
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: ERRORS
-linux-4.4.283-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.308-i686: ERRORS
-linux-4.9.308-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.275-i686: ERRORS
-linux-4.14.275-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.237-i686: ERRORS
-linux-4.19.237-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
-kerneldoc: OK
+Summary of issue:
 
-Detailed results are available here:
+ - Multiple cameras that can function independently successfully, are
+   prevented from functioning or fully probing by V4L2 if one component
+   of another camera fails to load or probe.
+ =20
+   If Camera A has a VCM, and Camera B does not, Camera B will not be
+   available at all if Camera A's VCM is not fully probed, even though
+   Camera B can be fully functional and complete.
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+   Even if Camera A does not have the VCM probed, it may still function
+   successfully (with a fixed focal position) - but our current
+   implementation will mean that it will not even be available to
+   capture images.
 
-Detailed regression test results are available here:
+We talked about this quite a long time ago, and I believe the general
+consensus was that we can have events on the media graph. But
+unfortunately at the time, there was no development scheduled on that,
+and it wasn't something I was able to continue at the time.
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+I'd like to bring it up to refresh the topic, and see if we can make
+some progress as it's now affecting more general devices.
 
-Full logs are available here:
+--
+Kieran
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
 
-The Media Infrastructure API from this daily build is here:
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+>=20
+> Regards,
+>=20
+>         Hans
