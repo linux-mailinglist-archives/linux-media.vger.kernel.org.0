@@ -2,225 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62FF7532EDD
-	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 18:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54A60532F2C
+	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 18:44:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239428AbiEXQWM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 May 2022 12:22:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42180 "EHLO
+        id S239636AbiEXQom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 May 2022 12:44:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233166AbiEXQWK (ORCPT
+        with ESMTP id S233170AbiEXQol (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 May 2022 12:22:10 -0400
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A298040A31
-        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 09:22:09 -0700 (PDT)
-Received: by mail-qk1-x72f.google.com with SMTP id l82so10704747qke.3
-        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 09:22:09 -0700 (PDT)
+        Tue, 24 May 2022 12:44:41 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54D82427FF
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 09:44:39 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id p10so7905540wrg.12
+        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 09:44:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FbPeWCEe/rxIHEa/hiVBgobEzhmZYhzLM/LYaOtDRPU=;
-        b=Y3gcWPAaJ4hpmL2L+n26Ut0AF4CraALFauvu7s+2olFZzWxG4GRq2Bmq4l+G2t77cP
-         tYgtSfPXtyoNdtna9YMwOBuOmCsscJsxzvGJFtqD2auaIeIjejQKv0/gccH39w80YSpa
-         /pHsgYkYF7jKbbSEbNCxgEkyGOiiipfiz51/xcFxnIK1KPmGPYRdtPn7isN0fZt4NKl1
-         DM603a+yq55Z+nVvnn235F+1vbLLwdtDz+AwjDFI5j8rq/fTUzGr9K+7dWyrDApMgyh7
-         tp1aJgSy/fk3kZQMfxiZXCznaUXnM6Fw79bz9/H+1VhsoSq/I9un5DlTRQhyGbG+JnpR
-         Eg0w==
+        d=nexus-software-ie.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Rwol75CyD22GB+azy1Wfb8UM7WKUYecam29j0+8w0Ds=;
+        b=AcYNkjrduWPhMPZ9eJMqBTw39Am01PGf/zmGJPTUGgbAUn87jaKs/ueKmdyGsfZVnn
+         O56OtEvddGE+Y/w7Rk6YMRm/Ch7fLM3zN84ngKys0xL39qiY+kNirzmMoQ27iQQuG1BP
+         1ZU/75TGmGS97T10Gb6roP/OvW5XxC7TR6yIvgsGLV4N9sMvpicXph3wHok//4xSbXSQ
+         b0POhcs7UXUn+0Toonc5tyAE/5GfQ3vtY41pQ1yEGsxeuLInH5f2VLrI6vj9nkMC3gik
+         FCdcGRwNOER9zYFEiBkmLqAftjCnmv79ntDGZoHjzUerPfbq1OWg2Ie6+QdvwvujTXjO
+         DcDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FbPeWCEe/rxIHEa/hiVBgobEzhmZYhzLM/LYaOtDRPU=;
-        b=3qe+7UKF7VhEVvS2nbVYVvvzvnB7xLfWjMIQBArAYhmLgZxJ0Oa5Amj/2GuzU/xoCb
-         R6+lgpv3Q2/xtBpEtChbyKp2oInY1n856DNizMD8/yV8BxVnAIEUs31oANI7PCSRQ5bZ
-         +9AdatxXRFPj1SIK9NldTxDOUxuBESbTKX5JvfbqfA2kZJZ01qxTECF394cNN9+RJ0YF
-         5864ncs/pjLOLDXQHOIisPxrrzq2RZvO2pgX+hDPmqcEu+23/19xTgn2M8YaSPu5PKfd
-         RQkS3kAM9rmlxGm/BDmEnLyj5zmEdgpxe+ToKx8ZE/Jjnu7ignSxksM5NH6dpUvnONFe
-         vXvQ==
-X-Gm-Message-State: AOAM533xkUoNE+yvTsEySzZ3k9TiD3P2jb0NUVIEiy6FlPUS0HpZt62Y
-        I5EHaMxNJC33tQevHYFsCuKUY8RnK1LDEZl9+7pc/w==
-X-Google-Smtp-Source: ABdhPJzRM19vBhddeLT/0BQNWI+Y6tQxm9OEixBDWjgY2AVJx9Oo+xKjyEUF8zeMSB0OVfETg+HNBW/nEzA9vCsaRR4=
-X-Received: by 2002:a05:620a:2a0f:b0:6a0:2734:a92e with SMTP id
- o15-20020a05620a2a0f00b006a02734a92emr17609575qkp.593.1653409328778; Tue, 24
- May 2022 09:22:08 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Rwol75CyD22GB+azy1Wfb8UM7WKUYecam29j0+8w0Ds=;
+        b=DvkcVZ9NFAw0nMB7ywEuBu+UtL8HnwdJvP06qTY7krapqjmqooZ/I/pamBCzHVhkrT
+         rc1lG90hXmJaVprgoZ2W4zxz4LEzh6VjELz6MQwdy0R9Pu1HKkUZpcNJoWig6paQEoHw
+         N2GPJvWFeX7uT7jcstpyWauHDkt4XVi4nUZgcOsrtrI0cQSTyMikrNR6TvR++iEDs+5p
+         B8sMewfTmY3K5D7hA34LxjfbvLH93YdyLm7k+bJIwjCRfoP0RkM6Rn8JUhpXyfq9VUOr
+         Utg5TA7Fqxeh0NVuDrdp9VVymGEay34VR3Da+PkcARDYtRxSUHBMUdI1O5dBS5ArPtim
+         kJdg==
+X-Gm-Message-State: AOAM530QAukmpFfCNhccb2qm1l1j/hclZp2oR2uWVkVm8ZD06x/7MIW0
+        fQkNrFrqD3VqB/VsrGmdgts12A==
+X-Google-Smtp-Source: ABdhPJx1U0/7EZnEBQLMEiIuCol1THiU31e5Z21aOY17NPbYAijEjm+yap7k148vhVFlfzqRnG7PKg==
+X-Received: by 2002:a5d:6c64:0:b0:20f:f413:8af8 with SMTP id r4-20020a5d6c64000000b0020ff4138af8mr2847216wrz.129.1653410677949;
+        Tue, 24 May 2022 09:44:37 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id e8-20020adfa448000000b0020c5253d8e5sm13594295wra.49.2022.05.24.09.44.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 May 2022 09:44:37 -0700 (PDT)
+Message-ID: <dc087955-4d00-454e-b242-7741ded6aa5b@nexus-software.ie>
+Date:   Tue, 24 May 2022 17:44:36 +0100
 MIME-Version: 1.0
-References: <20220524140207.2758605-1-bryan.odonoghue@linaro.org> <20220524140207.2758605-5-bryan.odonoghue@linaro.org>
-In-Reply-To: <20220524140207.2758605-5-bryan.odonoghue@linaro.org>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Tue, 24 May 2022 19:21:57 +0300
-Message-ID: <CAA8EJpqUkeReqnhcURpftpJmFth9-3OGQoAkFqd7Y06EjfraRg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
 Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: qrb5165-rb5: Enable the IMX577
  on cam2
-To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc:     robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
         bjorn.andersson@linaro.org, vladimir.zapolskiy@linaro.org,
         mchehab@kernel.org, robh+dt@kernel.org, krzk+dt@kernel.org,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, mmitkov@quicinc.com, jgrahsl@snap.com,
         hfink@snap.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220524140207.2758605-1-bryan.odonoghue@linaro.org>
+ <20220524140207.2758605-5-bryan.odonoghue@linaro.org>
+ <CAA8EJpqUkeReqnhcURpftpJmFth9-3OGQoAkFqd7Y06EjfraRg@mail.gmail.com>
+From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <CAA8EJpqUkeReqnhcURpftpJmFth9-3OGQoAkFqd7Y06EjfraRg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 24 May 2022 at 17:02, Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> The IMX577 is on CCI1/CSI2 providing four lanes of camera data.
+On 24/05/2022 17:21, Dmitry Baryshkov wrote:
+> On Tue, 24 May 2022 at 17:02, Bryan O'Donoghue
+> <bryan.odonoghue@linaro.org> wrote:
+>>
+>> The IMX577 is on CCI1/CSI2 providing four lanes of camera data.
+> 
+> By default the RB5 doesn't employ the navigation mezzanine. Thus I
+> suggest adding a new DTS file that will include the qrb5165-rb5.dts
+> and extend it with camcc/camss setup.
 
-By default the RB5 doesn't employ the navigation mezzanine. Thus I
-suggest adding a new DTS file that will include the qrb5165-rb5.dts
-and extend it with camcc/camss setup.
+It makes sense to me.
 
-I remember, this was discussed back and forth. I think it's time we
-either create a working repo for mezzanines or push default setups
-into the kernel.
-I'd vote for the later option.
+I'll wait to hear from Robert and Bjorn. We can take the opportunity to 
+do it for RB3 too.
 
->
-> An example media-ctl pipeline is:
->
-> media-ctl --reset
-> media-ctl -v -d /dev/media0 -V '"imx412 '20-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
-> media-ctl -V '"msm_csiphy2":0[fmt:SRGGB10/4056x3040]'
-> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
-> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
-> media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
-> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
->
-> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
->
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 60 ++++++++++++++++++++++++
->  arch/arm64/boot/dts/qcom/sm8250.dtsi     | 33 +++++++++++++
->  2 files changed, 93 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-> index 0e63f707b911..756ddeb7530b 100644
-> --- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-> +++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-> @@ -1294,3 +1294,63 @@ &qup_spi0_data_clk {
->         drive-strength = <6>;
->         bias-disable;
->  };
-> +
-> +&camcc {
-> +       status = "okay";
-> +};
-> +
-> +&camss {
-> +       status = "okay";
-> +       vdda-phy-supply = <&vreg_l5a_0p88>;
-> +       vdda-pll-supply = <&vreg_l9a_1p2>;
-> +
-> +       ports {
-> +               /* The port index denotes CSIPHY id i.e. csiphy2 */
-> +               port@2 {
-> +                       reg = <2>;
-> +                       csiphy2_ep: endpoint {
-> +                               clock-lanes = <7>;
-> +                               data-lanes = <0 1 2 3>;
-> +                               remote-endpoint = <&imx412_ep>;
-> +                       };
-> +
-> +               };
-> +       };
-> +};
-> +
-> +&cci1 {
-> +       status = "okay";
-> +};
-> +
-> +&cci1_i2c0 {
-> +       camera@1a {
-> +               /*
-> +                * rb5 ships with an imx577. camx code from qcom treats imx412
-> +                * and imx577 the same way. Absent better data do the same here.
-> +                */
-> +               compatible = "sony,imx412";
-> +               reg = <0x1a>;
-> +
-> +               reset-gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
-> +               pinctrl-names = "default", "suspend";
-> +               pinctrl-0 = <&cam2_default>;
-> +               pinctrl-1 = <&cam2_suspend>;
-> +
-> +               clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> +               assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> +               assigned-clock-rates = <24000000>;
-> +
-> +               dovdd-supply  = <&vreg_l7f_1p8>;
-> +               avdd-supply = <&vdc_5v>;
-> +               dvdd-supply = <&vdc_5v>;
-> +
-> +               port {
-> +                       imx412_ep: endpoint {
-> +                               clock-lanes = <1>;
-> +                               link-frequencies = /bits/ 64 <600000000>;
-> +                               data-lanes = <1 2 3 4>;
-> +                               remote-endpoint = <&csiphy2_ep>;
-> +                       };
-> +               };
-> +       };
-> +};
-> diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> index aa9a13364865..2b65ec2806d0 100644
-> --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> @@ -3788,6 +3788,39 @@ tlmm: pinctrl@f100000 {
->                         gpio-ranges = <&tlmm 0 0 181>;
->                         wakeup-parent = <&pdc>;
->
-> +                       cam2_default: cam2-default {
-> +                               rst {
-> +                                       pins = "gpio78";
-> +                                       function = "gpio";
-> +                                       drive-strength = <2>;
-> +                                       bias-disable;
-> +                               };
-> +
-> +                               mclk {
-> +                                       pins = "gpio96";
-> +                                       function = "cam_mclk";
-> +                                       drive-strength = <16>;
-> +                                       bias-disable;
-> +                               };
-> +                       };
-> +
-> +                       cam2_suspend: cam2-suspend {
-> +                               rst {
-> +                                       pins = "gpio78";
-> +                                       function = "gpio";
-> +                                       drive-strength = <2>;
-> +                                       bias-pull-down;
-> +                                       output-low;
-> +                               };
-> +
-> +                               mclk {
-> +                                       pins = "gpio96";
-> +                                       function = "cam_mclk";
-> +                                       drive-strength = <2>;
-> +                                       bias-disable;
-> +                               };
-> +                       };
-> +
->                         cci0_default: cci0-default {
->                                 cci0_i2c0_default: cci0-i2c0-default {
->                                         /* SDA, SCL */
-> --
-> 2.36.1
->
-
-
--- 
-With best wishes
-Dmitry
+---
+bod
