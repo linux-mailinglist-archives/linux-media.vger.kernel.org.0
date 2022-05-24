@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC21E532242
-	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 06:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 598A6532243
+	for <lists+linux-media@lfdr.de>; Tue, 24 May 2022 06:45:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234480AbiEXEpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 May 2022 00:45:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54978 "EHLO
+        id S234486AbiEXEpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 May 2022 00:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234496AbiEXEph (ORCPT
+        with ESMTP id S233834AbiEXEpl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 May 2022 00:45:37 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 321238CB09
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 21:45:35 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-2ff40ee8109so142016497b3.14
-        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 21:45:35 -0700 (PDT)
+        Tue, 24 May 2022 00:45:41 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D0178A324
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 21:45:40 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id e195-20020a25e7cc000000b0065343cb6c39so379829ybh.6
+        for <linux-media@vger.kernel.org>; Mon, 23 May 2022 21:45:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=WwcGDs/idc/da7IypCZKxKJqTIIH0SgYepPP7Gn5N6Q=;
-        b=ePtptKsJzaLseJeAgKg/Doj83tiSkYju3xVUI1Tk9icf90iF5f+m+dSKbAvNk6V+iw
-         luhHYzG/i7IZ7IkUwbQ4J4WcAqEZO/SzllTgE8gJTkXC8LTHtF/rRFqNXVqench6JD+R
-         vQYrDWVAqivYa1ZJcUMJmco9hfXBddbIvFo3ucs39k+Yvlb+lf4TWhGFl7NgFcmdOLs+
-         zDW/s6ahnq6R3V4cHBnVWPddJiq6sADelUSYkO3JwJbUMwgz0VxKgaaXpXGSElh5+qq0
-         OHk8bfFts6lvH5c+yvxwhDdPIP3THX+sXqIvU2HJVwJmVXUisz9hHr4UYlfV54go9Lq+
-         EABg==
+        bh=oLazf8t/p27Pa2vVH44l9QAYjjiNNMNPAjMcPhr4XIs=;
+        b=nCWlLPDRXva/Vz4wshjpzZMla00G7cfonvg1Spvo5LunDhzASLfRCpBxqYjELc/laU
+         pf2ImB8AQNsZmVlswUzK48ITKK4tHKbM39TQUfhIhSUt1QO7JCLJ27nZsmBoSaGob0D2
+         yw4ysF7mJKZAXwHAEz7+xwjgaoVdDvBpS+sQX6t5sy/BgBr57Jeu7muSqwgKHONoqOik
+         3dLfoTdyQXmg+YgrmmW0YNgLwhoKs1gAZWPBz6H48u8qIKMDK5XLaWWjMipobLRGI2Mf
+         fm5DFvOva/UvX/IWW5IjtzQnF4oorZQKZubiw7+1O1n9TuRTcing8AI+EJ+pqoLVoRRK
+         yatQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=WwcGDs/idc/da7IypCZKxKJqTIIH0SgYepPP7Gn5N6Q=;
-        b=PD0Sf2j6Yyapnc9TNS1pnA9kVcf4RiDaghNl0F1xBlrKGhmtJ5+LzEQdzDFPA5QVxU
-         JUIY0VTyk2hbBboNnj6lymVP6eFvwxLBHYr+j6Xe3/DbW5Y+Xry3JjyswhDau59Egxc5
-         pGUVDK90noiY5UXBFVOargqDOSLjVqHZ8yMQgSopWGrT1jEwUEBUjj6bD7nDu/ptOfSQ
-         GXTukvveDFpCMTj+gLdCQneVe6B9cRC/qmiGxU3abdZIPesVE/7b8qkB1FN7jUisjcaf
-         ak+8M/4EL8B/nX5Zxz2yX0TgZR1gC+BxWk1QqbHLAuJ+E+O6BLVlnayYUhLib3N4CdlW
-         TQzg==
-X-Gm-Message-State: AOAM5322TNbx4H8+WT/D8PK0egA/jKPFatATHDUMFfDJq89WCMOKrM91
-        mkjpL8zx+zGov3T+mDqoyFJVosOy0nk=
-X-Google-Smtp-Source: ABdhPJzv3OZXDJBxmFweQUE2WuwSpAYVT4BfpLowg6KSqKKrutg838cgCSGh8duLma5TNr4J74l2ljhJr/U=
+        bh=oLazf8t/p27Pa2vVH44l9QAYjjiNNMNPAjMcPhr4XIs=;
+        b=IVVYwygMFbzRcqHG66DrmeJ+BBDWExR3rH4y/pVfyApIti+JIAIsUXNB9NJGNnbHwK
+         FcM14t0U9GmVCPbQ9fTvFp1mci3PfzX/inp2o79wlA1izkB9K9BpZX0ghHAI2oq/jfu/
+         uu2VJhaUvQsgzEAmGgqVdOHR9vbVaWnSk/FtxrxhMU9oI3W1RYYZqxAZr362nHcyn35P
+         exBN+3q8PsuCJ3/s6+3rwWpuDS0hLaIL+hLowTGcLfVUWKkjeYhyNA+pIAMAsI5BEGcx
+         x/EbeWkkrBIubRSaqNcJVTCSzFkWy9UwO3diQBaTaqWR5O75G18TtIedKXMgbOk3CYHg
+         CzKQ==
+X-Gm-Message-State: AOAM532v+me87BJCgzlL7cLEkiwzjyMX/bZK0rEPYI0ZOEyaoB5uFh3b
+        WQa7ka84smHjrma0uvR4ME5CN5HdpfQ=
+X-Google-Smtp-Source: ABdhPJwFOoTH3CNNxJuZybHP5Sfv6L49963FuqRr+uxz11K9Ev2PoAKhZu7mZKHLjRxFnsy/1jVTtHeR5Sw=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:7145:c41f:bdd2:acc])
- (user=yunkec job=sendgmr) by 2002:a5b:98c:0:b0:64a:d5c3:4422 with SMTP id
- c12-20020a5b098c000000b0064ad5c34422mr25959212ybq.638.1653367534397; Mon, 23
- May 2022 21:45:34 -0700 (PDT)
-Date:   Tue, 24 May 2022 13:45:06 +0900
+ (user=yunkec job=sendgmr) by 2002:a81:1847:0:b0:2fe:dff0:46d7 with SMTP id
+ 68-20020a811847000000b002fedff046d7mr26081070ywy.501.1653367539751; Mon, 23
+ May 2022 21:45:39 -0700 (PDT)
+Date:   Tue, 24 May 2022 13:45:07 +0900
 In-Reply-To: <20220524044507.1696012-1-yunkec@google.com>
-Message-Id: <20220524044507.1696012-4-yunkec@google.com>
+Message-Id: <20220524044507.1696012-5-yunkec@google.com>
 Mime-Version: 1.0
 References: <20220524044507.1696012-1-yunkec@google.com>
 X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
-Subject: [PATCH v4 3/4] media: uvcvideo: implement UVC v1.5 ROI
+Subject: [PATCH v4 4/4] media: uvcvideo: document UVC v1.5 ROI
 From:   Yunke Cao <yunkec@google.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -72,501 +72,89 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Supports GET_CUR, GET_DEF, GET_MIN and GET_MAX requests for UVC v1.5
-using V4L2 control API.
-
-References a rejected attempt that uses v4l2 selection API:
-https://lore.kernel.org/lkml/20210501082001.100533-2-senozhatsky@chromium.org
-
-For the devices we tested with, firmwares have wrong initial
-ROI configuration. Initialize roi by setting to default value.
+Added documentation of V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
+V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
 
 Signed-off-by: Yunke Cao <yunkec@google.com>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c   | 214 ++++++++++++++++++++++++++---
- drivers/media/usb/uvc/uvc_v4l2.c   |  12 +-
- drivers/media/usb/uvc/uvcvideo.h   |  10 +-
- include/uapi/linux/usb/video.h     |   1 +
- include/uapi/linux/uvcvideo.h      |  13 ++
- include/uapi/linux/v4l2-controls.h |   8 ++
- 6 files changed, 233 insertions(+), 25 deletions(-)
+ .../userspace-api/media/drivers/uvcvideo.rst  | 60 +++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index b4f6edf968bc..5c57cf688296 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -355,6 +355,16 @@ static const struct uvc_control_info uvc_ctrls[] = {
- 		.flags		= UVC_CTRL_FLAG_GET_CUR
- 				| UVC_CTRL_FLAG_AUTO_UPDATE,
- 	},
-+	{
-+		.entity		= UVC_GUID_UVC_CAMERA,
-+		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
-+		.index		= 21,
-+		.size		= 10,
-+		.flags		= UVC_CTRL_FLAG_SET_CUR | UVC_CTRL_FLAG_GET_CUR
-+				| UVC_CTRL_FLAG_GET_MIN | UVC_CTRL_FLAG_GET_MAX
-+				| UVC_CTRL_FLAG_GET_DEF
-+				| UVC_CTRL_FLAG_AUTO_UPDATE,
-+	},
- };
+diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
+index e5fd8fad333c..9b96c8b90b7a 100644
+--- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
++++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
+@@ -181,6 +181,7 @@ Argument: struct uvc_xu_control_mapping
+ 	UVC_CTRL_DATA_TYPE_BOOLEAN	Boolean
+ 	UVC_CTRL_DATA_TYPE_ENUM		Enumeration
+ 	UVC_CTRL_DATA_TYPE_BITMASK	Bitmask
++	UVC_CTRL_DATA_TYPE_RECT		Rectangular area
  
- static const u32 uvc_control_classes[] = {
-@@ -728,6 +738,24 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 		.v4l2_type	= V4L2_CTRL_TYPE_BOOLEAN,
- 		.data_type	= UVC_CTRL_DATA_TYPE_BOOLEAN,
- 	},
-+	{
-+		.id		= V4L2_CID_UVC_REGION_OF_INTEREST_RECT,
-+		.entity		= UVC_GUID_UVC_CAMERA,
-+		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
-+		.size		= 64,
-+		.offset		= 0,
-+		.v4l2_type	= V4L2_CTRL_TYPE_RECT,
-+		.data_type	= UVC_CTRL_DATA_TYPE_RECT,
-+	},
-+	{
-+		.id		= V4L2_CID_UVC_REGION_OF_INTEREST_AUTO,
-+		.entity		= UVC_GUID_UVC_CAMERA,
-+		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
-+		.size		= 16,
-+		.offset		= 64,
-+		.v4l2_type	= V4L2_CTRL_TYPE_BITMASK,
-+		.data_type	= UVC_CTRL_DATA_TYPE_BITMASK,
-+	},
- };
  
- /* ------------------------------------------------------------------------
-@@ -749,6 +777,33 @@ static inline void uvc_clear_bit(u8 *data, int bit)
- 	data[bit >> 3] &= ~(1 << (bit & 7));
- }
- 
-+static void uvc_to_v4l2_rect(struct v4l2_rect *v4l2_rect,
-+	const struct uvc_rect *uvc_rect)
-+{
-+	v4l2_rect->top = uvc_rect->top;
-+	v4l2_rect->left = uvc_rect->left;
-+	v4l2_rect->height = uvc_rect->bottom - uvc_rect->top + 1;
-+	v4l2_rect->width = uvc_rect->right - uvc_rect->left + 1;
-+}
+ UVCIOC_CTRL_QUERY - Query a UVC XU control
+@@ -255,3 +256,62 @@ Argument: struct uvc_xu_control_query
+ 	__u8	query		Request code to send to the device
+ 	__u16	size		Control data size (in bytes)
+ 	__u8	*data		Control value
 +
-+static int v4l2_to_uvc_rect(struct uvc_rect *uvc_rect,
-+	const struct v4l2_rect *v4l2_rect)
-+{
-+	// Safely converts s32 and u32 to u16.
-+	if (v4l2_rect->top > U16_MAX || v4l2_rect->top < 0 ||
-+	    v4l2_rect->left > U16_MAX || v4l2_rect->left < 0 ||
-+	    v4l2_rect->height > U16_MAX || v4l2_rect->width > U16_MAX ||
-+	    v4l2_rect->height + v4l2_rect->top - 1 > U16_MAX ||
-+	    v4l2_rect->width + v4l2_rect->left - 1 > U16_MAX)
-+		return -ERANGE;
++Private V4L2 controls
++---------------------
 +
-+	uvc_rect->top = v4l2_rect->top;
-+	uvc_rect->left = v4l2_rect->left;
-+	uvc_rect->bottom = v4l2_rect->height + v4l2_rect->top - 1;
-+	uvc_rect->right = v4l2_rect->width + v4l2_rect->left - 1;
-+	return 0;
-+}
++A few UVC specific V4L2 control IDs are listed below.
 +
- /* Extract the bit string specified by mapping->offset and mapping->size
-  * from the little-endian data stored at 'data' and return the result as
-  * a signed 32bit integer. Sign extension will be performed if the mapping
-@@ -963,11 +1018,23 @@ static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
- 	return value;
- }
- 
-+static void __uvc_ctrl_get_v4l2_rect(struct uvc_control *ctrl,
-+				     struct uvc_control_mapping *mapping,
-+				     u32 id,
-+				     struct v4l2_rect *rect)
-+{
-+	struct uvc_rect *uvc_rect =
-+		(struct uvc_rect *)(uvc_ctrl_data(ctrl, id)
-+					+ mapping->offset / 8);
-+	uvc_to_v4l2_rect(rect, uvc_rect);
-+}
++``V4L2_CID_UVC_REGION_OF_INTEREST_RECT (struct)``
++	This control determines the region of interest. Region of interest is an
++	rectangular area represented by a struct v4l2_rect. The rectangle is in
++	pixel units and global coordinates. It is independent of the field of view,
++	not impacted by any cropping or scaling.
 +
- static int __uvc_ctrl_get(struct uvc_video_chain *chain,
- 	struct uvc_control *ctrl, struct uvc_control_mapping *mapping,
--	s32 *value)
-+	struct v4l2_ext_control *xctrl)
- {
- 	int ret;
-+	struct v4l2_rect v4l2_rect;
- 
- 	if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
- 		return -EACCES;
-@@ -993,8 +1060,17 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
- 		ctrl->loaded = 1;
- 	}
- 
--	*value = __uvc_ctrl_get_value(mapping,
-+	switch (mapping->v4l2_type) {
-+	case V4L2_CTRL_TYPE_RECT:
-+		__uvc_ctrl_get_v4l2_rect(ctrl, mapping, UVC_CTRL_DATA_CURRENT,
-+					 &v4l2_rect);
-+		return copy_to_user(xctrl->p_rect, &v4l2_rect,
-+				sizeof(v4l2_rect));
++	Use ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` to query the
++	range of rectangle sizes. For example, a device can have a minimum ROI
++	rectangle of 1x1@0x0, a maximum of 640x480@0x0.
 +
-+	default:
-+		xctrl->value = __uvc_ctrl_get_value(mapping,
- 				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-+	}
- 
- 	return 0;
- }
-@@ -1104,13 +1180,14 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 		__uvc_find_control(ctrl->entity, mapping->master_id,
- 				   &master_map, &master_ctrl, 0);
- 	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
--		s32 val;
--		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-+		struct v4l2_ext_control xctrl;
-+		int ret =
-+			__uvc_ctrl_get(chain, master_ctrl, master_map, &xctrl);
- 		if (ret < 0)
- 			return ret;
- 
--		if (val != mapping->master_manual)
--				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-+		if (xctrl.value != mapping->master_manual)
-+			v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
- 	}
- 
- 	if (!ctrl->cached) {
-@@ -1344,16 +1421,16 @@ static void uvc_ctrl_send_slave_event(struct uvc_video_chain *chain,
- 	struct uvc_control_mapping *mapping = NULL;
- 	struct uvc_control *ctrl = NULL;
- 	u32 changes = V4L2_EVENT_CTRL_CH_FLAGS;
--	s32 val = 0;
-+	struct v4l2_ext_control xctrl;
- 
- 	__uvc_find_control(master->entity, slave_id, &mapping, &ctrl, 0);
- 	if (ctrl == NULL)
- 		return;
- 
--	if (__uvc_ctrl_get(chain, ctrl, mapping, &val) == 0)
-+	if (__uvc_ctrl_get(chain, ctrl, mapping, &xctrl) == 0)
- 		changes |= V4L2_EVENT_CTRL_CH_VALUE;
- 
--	uvc_ctrl_send_event(chain, handle, ctrl, mapping, val, changes);
-+	uvc_ctrl_send_event(chain, handle, ctrl, mapping, xctrl.value, changes);
- }
- 
- void uvc_ctrl_status_event(struct uvc_video_chain *chain,
-@@ -1515,13 +1592,13 @@ static int uvc_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems)
- 	if (sev->flags & V4L2_EVENT_SUB_FL_SEND_INITIAL) {
- 		struct v4l2_event ev;
- 		u32 changes = V4L2_EVENT_CTRL_CH_FLAGS;
--		s32 val = 0;
-+		struct v4l2_ext_control xctrl;
- 
--		if (__uvc_ctrl_get(handle->chain, ctrl, mapping, &val) == 0)
-+		if (__uvc_ctrl_get(handle->chain, ctrl, mapping, &xctrl) == 0)
- 			changes |= V4L2_EVENT_CTRL_CH_VALUE;
- 
--		uvc_ctrl_fill_event(handle->chain, &ev, ctrl, mapping, val,
--				    changes);
-+		uvc_ctrl_fill_event(handle->chain, &ev, ctrl, mapping,
-+				xctrl.value, changes);
- 		/* Mark the queue as active, allowing this initial
- 		   event to be accepted. */
- 		sev->elems = elems;
-@@ -1682,10 +1759,14 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
- }
- 
- int uvc_ctrl_get(struct uvc_video_chain *chain,
--	struct v4l2_ext_control *xctrl)
-+	struct v4l2_ext_control *xctrl, u32 v4l2_which)
- {
- 	struct uvc_control *ctrl;
- 	struct uvc_control_mapping *mapping;
-+	int ret;
-+	u32 flag;
-+	u32 id;
-+	u8 query;
- 
- 	if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
- 		return -EACCES;
-@@ -1694,7 +1775,46 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
- 	if (ctrl == NULL)
- 		return -EINVAL;
- 
--	return __uvc_ctrl_get(chain, ctrl, mapping, &xctrl->value);
-+	switch (v4l2_which) {
-+	case V4L2_CTRL_WHICH_DEF_VAL:
-+		flag = UVC_CTRL_FLAG_GET_DEF;
-+		id = UVC_CTRL_DATA_DEF;
-+		query = UVC_GET_DEF;
-+		break;
-+	case V4L2_CTRL_WHICH_MIN_VAL:
-+		flag = UVC_CTRL_FLAG_GET_MIN;
-+		id = UVC_CTRL_DATA_MIN;
-+		query = UVC_GET_MIN;
-+		break;
-+	case V4L2_CTRL_WHICH_MAX_VAL:
-+		flag = UVC_CTRL_FLAG_GET_MAX;
-+		id = UVC_CTRL_DATA_MAX;
-+		query = UVC_GET_MAX;
-+		break;
-+	case V4L2_CTRL_WHICH_CUR_VAL:
-+	default:
-+		return __uvc_ctrl_get(chain, ctrl, mapping, xctrl);
-+	}
++	Setting a region of interest allows the camera to optimize the capture for
++	the region. The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control
++	determines the detailed behavior.
 +
-+	if (!ctrl->cached) {
-+		ret = uvc_ctrl_populate_cache(chain, ctrl);
-+		if (ret < 0)
-+			return ret;
-+	}
 +
-+	if (!(ctrl->info.flags & flag))
-+		return -EACCES;
++``V4L2_CID_UVC_REGION_OF_INTEREST_AUTO (bitmask)``
++	This determines which, if any, on board features should track to the
++	Region of Interest specified by the current value of
++	``V4L2_CID_UVD__REGION_OF_INTEREST_RECT``.
 +
-+	if (mapping->v4l2_type == V4L2_CTRL_TYPE_RECT) {
-+		struct v4l2_rect rect;
++	Max value is a mask indicating all supported Auto
++	Controls.
 +
-+		__uvc_ctrl_get_v4l2_rect(ctrl, mapping, id, &rect);
-+		return copy_to_user(xctrl->p_rect, &rect, sizeof(rect));
-+	}
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
 +
-+	xctrl->value = mapping->get(mapping, query, uvc_ctrl_data(ctrl, id));
-+
-+	return 0;
- }
- 
- int uvc_ctrl_set(struct uvc_fh *handle,
-@@ -1703,6 +1823,8 @@ int uvc_ctrl_set(struct uvc_fh *handle,
- 	struct uvc_video_chain *chain = handle->chain;
- 	struct uvc_control *ctrl;
- 	struct uvc_control_mapping *mapping;
-+	struct v4l2_rect v4l2_rect;
-+	struct uvc_rect uvc_rect;
- 	s32 value;
- 	u32 step;
- 	s32 min;
-@@ -1774,6 +1896,16 @@ int uvc_ctrl_set(struct uvc_fh *handle,
- 
- 		break;
- 
-+	case V4L2_CTRL_TYPE_RECT:
-+		ret = copy_from_user(&v4l2_rect, xctrl->p_rect,
-+				sizeof(v4l2_rect));
-+		if (ret < 0)
-+			return ret;
-+		ret = v4l2_to_uvc_rect(&uvc_rect, &v4l2_rect);
-+		if (ret < 0)
-+			return ret;
-+		break;
-+
- 	default:
- 		value = xctrl->value;
- 		break;
-@@ -1807,8 +1939,16 @@ int uvc_ctrl_set(struct uvc_fh *handle,
- 		       ctrl->info.size);
- 	}
- 
--	mapping->set(mapping, value,
--		uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-+	switch (mapping->data_type) {
-+	case UVC_CTRL_DATA_TYPE_RECT:
-+		memcpy(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT)
-+			+ mapping->offset / 8,
-+			&uvc_rect, sizeof(uvc_rect));
-+		break;
-+	default:
-+		mapping->set(mapping, value,
-+			uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-+	}
- 
- 	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
- 		ctrl->handle = handle;
-@@ -2366,6 +2506,40 @@ static void uvc_ctrl_prune_entity(struct uvc_device *dev,
- 	}
- }
- 
-+static int uvc_ctrl_init_roi(struct uvc_device *dev, struct uvc_control *ctrl)
-+{
-+	int ret;
-+
-+	ret = uvc_query_ctrl(dev, UVC_GET_DEF, ctrl->entity->id, dev->intfnum,
-+			     UVC_CT_REGION_OF_INTEREST_CONTROL,
-+			     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF),
-+			     ctrl->info.size);
-+	if (ret)
-+		goto out;
-+
-+	/*
-+	 * Some firmwares have wrong GET_CURRENT configuration. E.g. it's
-+	 * below GET_MIN, or have rectangle coordinates mixed up. This
-+	 * causes problems sometimes, because we are unable to set
-+	 * auto-controls value without first setting ROI rectangle to
-+	 * valid configuration.
-+	 *
-+	 * We expect that default configuration is always correct and
-+	 * is within the GET_MIN / GET_MAX boundaries.
-+	 *
-+	 * Set current ROI configuration to GET_DEF, so that we will
-+	 * always have properly configured ROI.
-+	 */
-+	ret = uvc_query_ctrl(dev, UVC_SET_CUR, 1, dev->intfnum,
-+			     UVC_CT_REGION_OF_INTEREST_CONTROL,
-+			     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF),
-+			     ctrl->info.size);
-+out:
-+	if (ret)
-+		dev_err(&dev->udev->dev, "Failed to fixup ROI (%d).\n", ret);
-+	return ret;
-+}
-+
- /*
-  * Add control information and hardcoded stock control mappings to the given
-  * device.
-@@ -2378,6 +2552,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 	const struct uvc_control_mapping *mapping = uvc_ctrl_mappings;
- 	const struct uvc_control_mapping *mend =
- 		mapping + ARRAY_SIZE(uvc_ctrl_mappings);
-+	const u8 camera_entity[16] = UVC_GUID_UVC_CAMERA;
- 
- 	/* XU controls initialization requires querying the device for control
- 	 * information. As some buggy UVC devices will crash when queried
-@@ -2398,6 +2573,11 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 			 * GET_INFO on standard controls.
- 			 */
- 			uvc_ctrl_get_flags(chain->dev, ctrl, &ctrl->info);
-+
-+			if (ctrl->info.selector ==
-+				UVC_CT_REGION_OF_INTEREST_CONTROL &&
-+			    uvc_entity_match_guid(ctrl->entity, camera_entity))
-+				uvc_ctrl_init_roi(chain->dev, ctrl);
- 			break;
- 		 }
- 	}
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 711556d13d03..a88d3fe6de93 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -1038,17 +1038,15 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
- 	if (ret < 0)
- 		return ret;
- 
--	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
-+	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL ||
-+	    ctrls->which == V4L2_CTRL_WHICH_MIN_VAL ||
-+	    ctrls->which == V4L2_CTRL_WHICH_MAX_VAL) {
- 		for (i = 0; i < ctrls->count; ++ctrl, ++i) {
--			struct v4l2_queryctrl qc = { .id = ctrl->id };
--
--			ret = uvc_query_v4l2_ctrl(chain, &qc);
-+			ret = uvc_ctrl_get(chain, ctrl, ctrls->which);
- 			if (ret < 0) {
- 				ctrls->error_idx = i;
- 				return ret;
- 			}
--
--			ctrl->value = qc.default_value;
- 		}
- 
- 		return 0;
-@@ -1059,7 +1057,7 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
- 		return ret;
- 
- 	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
--		ret = uvc_ctrl_get(chain, ctrl);
-+		ret = uvc_ctrl_get(chain, ctrl, ctrls->which);
- 		if (ret < 0) {
- 			uvc_ctrl_rollback(handle);
- 			ctrls->error_idx = i;
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 143230b3275b..f414ad7d57b2 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -424,6 +424,13 @@ struct uvc_streaming_header {
- 	u8 bTriggerUsage;
- };
- 
-+struct uvc_rect {
-+	u16 top;
-+	u16 left;
-+	u16 bottom;
-+	u16 right;
-+} __packed;
-+
- enum uvc_buffer_state {
- 	UVC_BUF_STATE_IDLE	= 0,
- 	UVC_BUF_STATE_QUEUED	= 1,
-@@ -897,7 +904,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
- 	return __uvc_ctrl_commit(handle, 1, NULL);
- }
- 
--int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
-+int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl,
-+		 u32 v4l2_which);
- int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
- int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
- 			   bool read);
-diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/video.h
-index bfdae12cdacf..9076a444758a 100644
---- a/include/uapi/linux/usb/video.h
-+++ b/include/uapi/linux/usb/video.h
-@@ -104,6 +104,7 @@
- #define UVC_CT_ROLL_ABSOLUTE_CONTROL			0x0f
- #define UVC_CT_ROLL_RELATIVE_CONTROL			0x10
- #define UVC_CT_PRIVACY_CONTROL				0x11
-+#define UVC_CT_REGION_OF_INTEREST_CONTROL		0x14
- 
- /* A.9.5. Processing Unit Control Selectors */
- #define UVC_PU_CONTROL_UNDEFINED			0x00
-diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
-index 8288137387c0..b16e5d373f3f 100644
---- a/include/uapi/linux/uvcvideo.h
-+++ b/include/uapi/linux/uvcvideo.h
-@@ -16,6 +16,7 @@
- #define UVC_CTRL_DATA_TYPE_BOOLEAN	3
- #define UVC_CTRL_DATA_TYPE_ENUM		4
- #define UVC_CTRL_DATA_TYPE_BITMASK	5
-+#define UVC_CTRL_DATA_TYPE_RECT		6
- 
- /* Control flags */
- #define UVC_CTRL_FLAG_SET_CUR		(1 << 0)
-@@ -36,6 +37,18 @@
- 	 UVC_CTRL_FLAG_GET_MAX | UVC_CTRL_FLAG_GET_RES | \
- 	 UVC_CTRL_FLAG_GET_DEF)
- 
-+/* V4L2 private controls */
-+#define V4L2_CID_UVC_REGION_OF_INTEREST_RECT	(V4L2_CID_CAMERA_UVC_BASE+1)
-+#define V4L2_CID_UVC_REGION_OF_INTEREST_AUTO	(V4L2_CID_CAMERA_UVC_BASE+2)
-+#define V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE		(1 << 0)
-+#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS			(1 << 1)
-+#define V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE		(1 << 2)
-+#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS			(1 << 3)
-+#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT		(1 << 4)
-+#define V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK	(1 << 5)
-+#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION	(1 << 6)
-+#define V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY		(1 << 7)
-+
- struct uvc_menu_info {
- 	__u32 value;
- 	__u8 name[32];
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index bb40129446d4..48d12782e7e4 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1008,6 +1008,14 @@ enum v4l2_auto_focus_range {
- 
- #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
- 
-+/* CAMERA-class private control IDs */
-+
-+/*
-+ * The base for the uvc driver controls. See linux/uvcvideo.h for the list
-+ * of controls. We reserve 16 controls for this driver.
-+ */
-+#define V4L2_CID_CAMERA_UVC_BASE		(V4L2_CID_CAMERA_CLASS_BASE + 0x1000)
-+
- /* FM Modulator class control IDs */
- 
- #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
++    * - ``V4L2_REGION_OF_INTEREST_AUTO_EXPOSURE``
++      - Setting this to true enables automatic exposure time for the specified
++	region.
++    * - ``V4L2_REGION_OF_INTEREST_AUTO_IRIS``
++      - Setting this to true enables automatic iris aperture for the specified
++	region.
++    * - ``V4L2_REGION_OF_INTEREST_AUTO_WHITE_BALANCE``
++      - Setting this to true enables automatic white balance adjustment for the
++	specified region.
++    * - ``V4L2_REGION_OF_INTEREST_AUTO_FOCUS``
++      - Setting this to true enables automatic focus adjustment for the
++	specified region.
++    * - ``V4L2_REGION_OF_INTEREST_AUTO_FACE_DETECT``
++      - Setting this to true enables automatic face detection for the
++	specified region.
++    * - ``V4L2_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK``
++      - Setting this to true enables automatic face detection and tracking. The
++	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
++	the driver.
++    * - ``V4L2_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION``
++      - Setting this to true enables automatic image stabilization. The
++	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
++	the driver.
++    * - ``V4L2_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY``
++      - Setting this to true enables automatically capture the specified region
++	with higher quality if possible.
 -- 
 2.36.1.124.g0e6072fb45-goog
 
