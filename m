@@ -2,89 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2D745338EB
-	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 10:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CDA453394F
+	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 11:06:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236558AbiEYI5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 May 2022 04:57:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43040 "EHLO
+        id S234200AbiEYJFc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 May 2022 05:05:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236620AbiEYI5a (ORCPT
+        with ESMTP id S239425AbiEYJFT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 May 2022 04:57:30 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27526FA2B;
-        Wed, 25 May 2022 01:57:28 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 134C2101CCD; Wed, 25 May 2022 09:57:27 +0100 (BST)
-Date:   Wed, 25 May 2022 09:57:27 +0100
-From:   Sean Young <sean@mess.org>
-To:     Jiri Slaby <jirislaby@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: lirc build broken [was: [GIT PULL for v5.18-rc1] media updates]
-Message-ID: <Yo3vd4QRmwZsRhlH@gofer.mess.org>
-References: <20220322101406.459e2950@coco.lan>
- <a0470450-ecfd-2918-e04a-7b57c1fd7694@kernel.org>
- <5c691c83-480b-8731-7e6a-7f28536c9a59@kernel.org>
+        Wed, 25 May 2022 05:05:19 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99EC590CC8
+        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 02:03:35 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id e4so23198511ljb.13
+        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 02:03:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=ZtbcQaswtU2dqjmT14F4zADH8LUSwksU8SwBMe4IBPA=;
+        b=opkz2jp/Z44y2hsPU1RrbzF5zxhN14QmhBsqNuW9Lf6TfUZsUmqQjM8b3sLjfIWRrO
+         hNcN75Hkau6oHoZK0HCfB+dwqg5e7VHB2G+CDaHopzaKbtDzoi6Ksp8SZT6t3G8fZcWE
+         F2gRZ3alg2G91mCAFdZ3U06Ne1VnkFOgAYAD485uiVB9MW3WJcSflFWaGYCu+RclKp9p
+         afSZ7gzuVH1M5RS+7r0r7dK67RjSSizBh8sAX+PROnsunxjrC22p7bhMWzYA9NGZaF84
+         zSThapjW/b7HyHtapuAXvkNbY/BNkN0LM62/3XAhQmH8nUvX/d/DnS6jJot3V3eN1LXg
+         u95w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ZtbcQaswtU2dqjmT14F4zADH8LUSwksU8SwBMe4IBPA=;
+        b=3dmcWk9ZTz1ZiYeMRRCYHE+NYmc23584a3eZyn2s6nvz478uw8m9jftFKZOBSkbF4e
+         xakX95ER7bUeWdI1bgBC/BJ0qAl1SsglJc8UXw1jw8bEZQGV7VDJh3n/VP4Pdjq7y4vj
+         DJHRUUKUo7PMQkC0uebg/ggXJKJPwdQsoC7jgKXzscHlbOFb44AzwTBHBZGIa3AU5O6X
+         iVbcx46nlKNzI/CcNPxtAAdTj263mhJkgq3JGP+JUFmwW5AHDI4SWqs5SdMu+ihFwEWW
+         i4ACJ0hcqgoxf7xHqPRPLNBS04qoGCl8YBqcnXpoYW6loTp1W6wwjgY78/NOvjO9k39U
+         LPgw==
+X-Gm-Message-State: AOAM532yRh7qXPSIXaJTvrdoS1wNwtKpbSmXCYqp7OjqpsCexEhWVg4C
+        DsAKc5Df1mRqKSyp6gSjJVmH+A==
+X-Google-Smtp-Source: ABdhPJxF0Rcjya/efDJd558P1BUzVdJ3r8QP+mXxGK4ViSdnITnaRGcwqag+tWvCjGDLX7COUChMWQ==
+X-Received: by 2002:a2e:a447:0:b0:249:5d85:aa54 with SMTP id v7-20020a2ea447000000b002495d85aa54mr18397175ljn.528.1653469407942;
+        Wed, 25 May 2022 02:03:27 -0700 (PDT)
+Received: from [192.168.1.102] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id bd24-20020a05651c169800b00253bd515f88sm2917421ljb.68.2022.05.25.02.03.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 May 2022 02:03:27 -0700 (PDT)
+Message-ID: <899412f2-5ee4-cd32-393f-688fc6351437@linaro.org>
+Date:   Wed, 25 May 2022 12:03:26 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5c691c83-480b-8731-7e6a-7f28536c9a59@kernel.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/7] media: camss: ispif: Correctly reset based on the
+ VFE ID
+Content-Language: en-US
+To:     kholk11@gmail.com, Robert Foss <robert.foss@linaro.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        robh+dt@kernel.org, marijns95@gmail.com, konradybcio@gmail.com,
+        martin.botka1@gmail.com, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, todor.too@gmail.com
+References: <20201022174706.8813-1-kholk11@gmail.com>
+ <20201022174706.8813-2-kholk11@gmail.com>
+From:   Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20201022174706.8813-2-kholk11@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 25, 2022 at 08:44:38AM +0200, Jiri Slaby wrote:
-> On 25. 05. 22, 8:42, Jiri Slaby wrote:
-> > On 22. 03. 22, 10:14, Mauro Carvalho Chehab wrote:
-> > > Hi Linus,
-> > > 
-> > > Please pull from:
-> > >    git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
-> > > tags/media/v5.18-1
-> > ...
-> > > Sean Young (10):
-> > ...
-> > >        media: lirc: remove unused lirc features
-> > 
-> > Hi,
-> > 
-> > this breaks lirc build:
-> > > [   59s] lircd.cpp:489:49: error: 'LIRC_CAN_SET_REC_FILTER' was not
-> > > declared in this scope; did you mean 'LIRC_CAN_SET_REC_CARRIER'?
-> > > [   59s]   489 |                     || (curr_driver->features &
-> > > LIRC_CAN_SET_REC_FILTER)) {
-> > > [   59s]       |
-> > > ^~~~~~~~~~~~~~~~~~~~~~~
-> > > [   59s]       |
-> > > LIRC_CAN_SET_REC_CARRIER
-> > > [   59s] lircd.cpp: In function 'void loop()':
-> > > [   59s] lircd.cpp:2069:82: error: 'LIRC_CAN_NOTIFY_DECODE' was not
-> > > declared in this scope; did you mean 'DRVCTL_NOTIFY_DECODE'?
-> > > [   59s]  2069 |                         if
-> > > (curr_driver->drvctl_func && (curr_driver->features &
-> > > LIRC_CAN_NOTIFY_DECODE))
-> > > [   59s]       |
-> > > ^~~~~~~~~~~~~~~~~~~~~~
-> > > [   59s]       |
-> > > DRVCTL_NOTIFY_DECODE
-> > 
-> > So the uapi header defines should be brought back, IMO.
+On 10/22/20 20:47, kholk11@gmail.com wrote:
+> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 > 
-> (And lirc fixed at the same time.)
+> Resetting the ISPIF VFE0 context is wrong if we are using the VFE1
+> for dual-camera or simply because a secondary camera is connected
+> to it: in this case the reset will always happen on the VFE0 ctx
+> of the ISPIF, which is .. useless.
+> 
+> Fix this usecase by adding the ISPIF_RST_CMD_1 address and choose
+> where to do the (or what to) reset based on the VFE line id.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>   .../media/platform/qcom/camss/camss-ispif.c   | 85 ++++++++++++-------
+>   .../media/platform/qcom/camss/camss-ispif.h   |  2 +-
+>   2 files changed, 56 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
+> index db94cfd6c508..754f0d044c38 100644
+> --- a/drivers/media/platform/qcom/camss/camss-ispif.c
+> +++ b/drivers/media/platform/qcom/camss/camss-ispif.c
+> @@ -26,6 +26,7 @@
+>   #define MSM_ISPIF_NAME "msm_ispif"
+>   
+>   #define ISPIF_RST_CMD_0			0x008
+> +#define ISPIF_RST_CMD_1			0x00c
+>   #define ISPIF_RST_CMD_0_STROBED_RST_EN		(1 << 0)
+>   #define ISPIF_RST_CMD_0_MISC_LOGIC_RST		(1 << 1)
+>   #define ISPIF_RST_CMD_0_SW_REG_RST		(1 << 2)
+> @@ -179,7 +180,10 @@ static irqreturn_t ispif_isr_8x96(int irq, void *dev)
+>   	writel(0x1, ispif->base + ISPIF_IRQ_GLOBAL_CLEAR_CMD);
+>   
+>   	if ((value0 >> 27) & 0x1)
+> -		complete(&ispif->reset_complete);
+> +		complete(&ispif->reset_complete[0]);
+> +
+> +	if ((value3 >> 27) & 0x1)
+> +		complete(&ispif->reset_complete[1]);
+>   
+>   	if (unlikely(value0 & ISPIF_VFE_m_IRQ_STATUS_0_PIX0_OVERFLOW))
+>   		dev_err_ratelimited(to_device(ispif), "VFE0 pix0 overflow\n");
+> @@ -237,7 +241,7 @@ static irqreturn_t ispif_isr_8x16(int irq, void *dev)
+>   	writel(0x1, ispif->base + ISPIF_IRQ_GLOBAL_CLEAR_CMD);
+>   
+>   	if ((value0 >> 27) & 0x1)
+> -		complete(&ispif->reset_complete);
+> +		complete(&ispif->reset_complete[0]);
+>   
+>   	if (unlikely(value0 & ISPIF_VFE_m_IRQ_STATUS_0_PIX0_OVERFLOW))
+>   		dev_err_ratelimited(to_device(ispif), "VFE0 pix0 overflow\n");
+> @@ -257,33 +261,18 @@ static irqreturn_t ispif_isr_8x16(int irq, void *dev)
+>   	return IRQ_HANDLED;
+>   }
+>   
+> -/*
+> - * ispif_reset - Trigger reset on ISPIF module and wait to complete
+> - * @ispif: ISPIF device
+> - *
+> - * Return 0 on success or a negative error code otherwise
+> - */
+> -static int ispif_reset(struct ispif_device *ispif)
+> +static int ispif_vfe_reset(struct ispif_device *ispif, u8 vfe_id)
+>   {
+>   	unsigned long time;
+>   	u32 val;
+> -	int ret;
+> -
+> -	ret = camss_pm_domain_on(to_camss(ispif), PM_DOMAIN_VFE0);
+> -	if (ret < 0)
+> -		return ret;
+>   
+> -	ret = camss_pm_domain_on(to_camss(ispif), PM_DOMAIN_VFE1);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	ret = camss_enable_clocks(ispif->nclocks_for_reset,
+> -				  ispif->clock_for_reset,
+> -				  to_device(ispif));
+> -	if (ret < 0)
+> -		return ret;
+> +	if (vfe_id > (to_camss(ispif)->vfe_num - 1)) {
+> +		dev_err(to_device(ispif),
+> +			"Error: asked reset for invalid VFE%d\n", vfe_id);
+> +		return -ENOENT;
+> +	}
 
-What is broken?
+I was stumbled upon this "vfe_num" usage, which seems unnecessary...
 
+>   
+> -	reinit_completion(&ispif->reset_complete);
+> +	reinit_completion(&ispif->reset_complete[vfe_id]);
+>   
+>   	val = ISPIF_RST_CMD_0_STROBED_RST_EN |
+>   		ISPIF_RST_CMD_0_MISC_LOGIC_RST |
+> @@ -303,15 +292,50 @@ static int ispif_reset(struct ispif_device *ispif)
+>   		ISPIF_RST_CMD_0_RDI_OUTPUT_1_MISR_RST |
+>   		ISPIF_RST_CMD_0_RDI_OUTPUT_2_MISR_RST;
+>   
+> -	writel_relaxed(val, ispif->base + ISPIF_RST_CMD_0);
+> +	if (vfe_id == 1)
+> +		writel_relaxed(val, ispif->base + ISPIF_RST_CMD_1);
+> +	else
+> +		writel_relaxed(val, ispif->base + ISPIF_RST_CMD_0);
+>   
+> -	time = wait_for_completion_timeout(&ispif->reset_complete,
+> +	time = wait_for_completion_timeout(&ispif->reset_complete[vfe_id],
+>   		msecs_to_jiffies(ISPIF_RESET_TIMEOUT_MS));
+>   	if (!time) {
+> -		dev_err(to_device(ispif), "ISPIF reset timeout\n");
+> -		ret = -EIO;
+> +		dev_err(to_device(ispif),
+> +			"ISPIF for VFE%d reset timeout\n", vfe_id);
+> +		return -EIO;
+>   	}
+>   
+> +	return 0;
+> +}
+> +
+> +/*
+> + * ispif_reset - Trigger reset on ISPIF module and wait to complete
+> + * @ispif: ISPIF device
+> + *
+> + * Return 0 on success or a negative error code otherwise
+> + */
+> +static int ispif_reset(struct ispif_device *ispif, u8 vfe_id)
+> +{
+> +	int ret;
+> +
+> +	ret = camss_pm_domain_on(to_camss(ispif), PM_DOMAIN_VFE0);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = camss_pm_domain_on(to_camss(ispif), PM_DOMAIN_VFE1);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = camss_enable_clocks(ispif->nclocks_for_reset,
+> +				  ispif->clock_for_reset,
+> +				  to_device(ispif));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ispif_vfe_reset(ispif, vfe_id);
+> +	if (ret)
+> +		dev_dbg(to_device(ispif), "ISPIF Reset failed\n");
+> +
+>   	camss_disable_clocks(ispif->nclocks_for_reset, ispif->clock_for_reset);
+>   
+>   	camss_pm_domain_off(to_camss(ispif), PM_DOMAIN_VFE0);
+> @@ -355,7 +379,7 @@ static int ispif_set_power(struct v4l2_subdev *sd, int on)
+>   			goto exit;
+>   		}
+>   
+> -		ret = ispif_reset(ispif);
+> +		ret = ispif_reset(ispif, line->vfe_id);
 
-Sean
+But in fact here is an error.
+
+line->vfe_id is never set.
+
+I'm unable to test any fix, since I don't have a correspondent hardware,
+but I can write a fix for someone's testing.
+
+--
+Best wishes,
+Vladimir
