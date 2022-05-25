@@ -1,107 +1,128 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F340533AD7
-	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 12:46:55 +0200 (CEST)
+Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 98564533BD0
+	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 13:33:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242406AbiEYKqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 May 2022 06:46:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
+        id S242859AbiEYLd2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 May 2022 07:33:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242740AbiEYKqa (ORCPT
+        with ESMTP id S237651AbiEYLd0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 May 2022 06:46:30 -0400
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CE4D3883;
-        Wed, 25 May 2022 03:46:17 -0700 (PDT)
-Received: by mail-wr1-f42.google.com with SMTP id s28so29406746wrb.7;
-        Wed, 25 May 2022 03:46:17 -0700 (PDT)
+        Wed, 25 May 2022 07:33:26 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C85FB9345D
+        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 04:33:23 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id bq30so35581798lfb.3
+        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 04:33:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=EZsTbG5Ghb36/veeiU7rdV///7+Ve3p/GIrx5IOFMMk=;
+        b=UNaoBdpvQ0Wuh39ejXqVAxIdtogtZgXrbpaaU46uoIDB3jLwniE+a2Gw/eeD8rR8Yx
+         IXV3H3QXBNtA1tMANean66atO0lGhtSaBj/Jzj5RNfrNPf8kn0oSAKPugUTe2FTz20/o
+         5TH60Q4367rsBz1G9RGjIz8XELgZW7TyE43vX+m7/UlPP+AwpSJmlD2QG95/0zMEZsWS
+         tr5G30OGEiKdG5GnVwT8nCeszSZH6QYxn2Btg/docx5if5P9QbJdALM7qEVNf96vCbI4
+         8PVPsXCLlqa2JHW3+x+10k92IUQqj7bsSWQeFQsKgTrtK1cAELhcGiPxPVFOQXESnO70
+         CPFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=q9O1OGub18poRLHhomCuCLAnpIgun6gCJciHoCwZhXQ=;
-        b=wA/YoIextkItkfmZItfuS7mejwxz8PsmEAKDT4vZx8EpiRHx1TE8gFkLmtX9xheRc3
-         lK5I0eUiyUKznBvKrM7SH+UgwyXhcoyIB6XIcIUvO/ziJGM2c98Gt+1q+F3U7g3gRgJ8
-         LVYhMIAUUK4PVtoICjP224JC6a9m+RR3JJPS+DzwQ+2YDdQrTAUWL1tTGDQxh9WTBnVQ
-         vwLTo/ozhziXa95gH/K2rFR21SnYalChKlM3KNvAXoRDKA893YMhTOUiPUwuFRhHNE0M
-         1+HbRL4weXl26dZWHv2GekwdHogexfuZWuLgxFZayXrPO/OXY+VnjafyXDRPeikKjtFG
-         OMlQ==
-X-Gm-Message-State: AOAM532XuZTFeb+6kIXgOGq5zzgN1ZyWYcaujBL86lVNcZy0yy5Ufgsf
-        3X3iaXxPlcGixlH+Q8kDmzg=
-X-Google-Smtp-Source: ABdhPJwhLX2ksgGaO2ZVtVM7fwP7bpSx5WD8AGN1rT0/bqTlC+CbpGatSQsTaU+IqjT+1iHA5Laoig==
-X-Received: by 2002:adf:e0c3:0:b0:20c:5672:9577 with SMTP id m3-20020adfe0c3000000b0020c56729577mr26101094wri.466.1653475575536;
-        Wed, 25 May 2022 03:46:15 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id u19-20020a05600c19d300b003975c7058bfsm1895136wmq.12.2022.05.25.03.46.14
+        bh=EZsTbG5Ghb36/veeiU7rdV///7+Ve3p/GIrx5IOFMMk=;
+        b=EKu3EhsAuu5qGeNnIYjmDi9PM3sz0gOobQeGxCM5H99zrAu43xXA+VkneUrsBAHMXR
+         a4CWq88Fb0unTQKK2gnoOWVQpj8z6ErbZvy5r1XU+y/qEHVEUCKrtzLRBQOmdSew2ZEC
+         ubNt8eyHUdpiZZcABVh6pr1EKEkGm7drIRE1bnOd8OfgDYErtkvPEHFUWK7B+fy/JHVI
+         mdHP1PlbfgYy0R/WkBqrfPR8v+sjb1KEtAB1PoCM6BsfOSZ7nZEd74+pzjSbGIMBCj6K
+         FkGT/yFVKEhdsfttFiQWG7qZ7DDAJjFu9INJNoiaF5BInBFSxFhRXBuFRNqoJEZ01Ks5
+         f1cg==
+X-Gm-Message-State: AOAM530lgQVcdzO2T0CuVl2p6OB5FtPIHIdIDroyJFeq0LIPbUHr1Lke
+        ziarbV3HlmsmukutPhNQOaX5ew==
+X-Google-Smtp-Source: ABdhPJwxUQcyyc6kFYuWc0GAmuft5s7f8VFDf0BcrceocIyXBLKMhyRoxJLAZ62FMvqZdolc+cbblg==
+X-Received: by 2002:a05:6512:10c2:b0:478:8ea5:f6f9 with SMTP id k2-20020a05651210c200b004788ea5f6f9mr5197816lfg.1.1653478402086;
+        Wed, 25 May 2022 04:33:22 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+        by smtp.gmail.com with ESMTPSA id h26-20020a19701a000000b0047255d210fesm3063191lfc.45.2022.05.25.04.33.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 May 2022 03:46:15 -0700 (PDT)
-Message-ID: <e17cab70-66cf-492a-fb8a-dca091768345@kernel.org>
-Date:   Wed, 25 May 2022 12:46:14 +0200
+        Wed, 25 May 2022 04:33:20 -0700 (PDT)
+Message-ID: <1abe03bf-5de5-f73e-1043-46872a38e815@linaro.org>
+Date:   Wed, 25 May 2022 14:33:18 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [GIT PULL for v5.18-rc1] media updates
-Content-Language: en-US
-To:     Sean Young <sean@mess.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20220322101406.459e2950@coco.lan>
- <a0470450-ecfd-2918-e04a-7b57c1fd7694@kernel.org>
- <Yo3ddVHgBBlvJEdh@gofer.mess.org>
- <8093277c-5098-e5e3-f606-486de5b2f67b@kernel.org>
- <Yo3yfIim58IWf64z@gofer.mess.org>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <Yo3yfIim58IWf64z@gofer.mess.org>
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 1/7] media: camss: ispif: Correctly reset based on the
+ VFE ID
+Content-Language: en-GB
+To:     Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        kholk11@gmail.com, Robert Foss <robert.foss@linaro.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        robh+dt@kernel.org, marijns95@gmail.com, konradybcio@gmail.com,
+        martin.botka1@gmail.com, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, todor.too@gmail.com
+References: <20201022174706.8813-1-kholk11@gmail.com>
+ <20201022174706.8813-2-kholk11@gmail.com>
+ <899412f2-5ee4-cd32-393f-688fc6351437@linaro.org>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <899412f2-5ee4-cd32-393f-688fc6351437@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25. 05. 22, 11:10, Sean Young wrote:
-> On Wed, May 25, 2022 at 10:09:38AM +0200, Jiri Slaby wrote:
->> I don't understand how inability to build software is not an uapi breakage
->> -- care to elaborate?
-> 
-> So here is a good compromise suggested by Mauro.
-> 
-> 1. We add the following to the lirc.h uapi header.
-> 
-> #define LIRC_CAN_NOTIFY_DECODE 0
-> #define LIRC_CAN_SET_REC_FILTER 0
+Wow, a patchset from 2020.
 
-The code would do "if (x & 0)" or alike, so I'm not sure this won't 
-result in a warning. But as soon as that thing compiles, I don't really 
-care much. If it produces no warning, in fact, the code could be 
-optimized away out thanks to "& 0".
+On 25/05/2022 12:03, Vladimir Zapolskiy wrote:
+> On 10/22/20 20:47, kholk11@gmail.com wrote:
+>> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+>>
+>> Resetting the ISPIF VFE0 context is wrong if we are using the VFE1
+>> for dual-camera or simply because a secondary camera is connected
+>> to it: in this case the reset will always happen on the VFE0 ctx
+>> of the ISPIF, which is .. useless.
+>>
+>> Fix this usecase by adding the ISPIF_RST_CMD_1 address and choose
+>> where to do the (or what to) reset based on the VFE line id.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+>> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+>> ---
+>>   .../media/platform/qcom/camss/camss-ispif.c   | 85 ++++++++++++-------
+>>   .../media/platform/qcom/camss/camss-ispif.h   |  2 +-
+>>   2 files changed, 56 insertions(+), 31 deletions(-)
+>>
 
-Just looked up those defs in the debian code search, only lirc and 
-v4l-utils care about the defines. ANd the latter seems to define their 
-own copies.
+[skipped]
 
-> 2. Since lirc daemon is unmaintained, I am happy to take on maintainership.
+>> @@ -355,7 +379,7 @@ static int ispif_set_power(struct v4l2_subdev *sd, 
+>> int on)
+>>               goto exit;
+>>           }
+>> -        ret = ispif_reset(ispif);
+>> +        ret = ispif_reset(ispif, line->vfe_id);
 > 
-> This may require forking, depending on what the maintainer says.
+> But in fact here is an error.
 > 
-> How does that sound?
+> line->vfe_id is never set.
+> 
+> I'm unable to test any fix, since I don't have a correspondent hardware,
+> but I can write a fix for someone's testing.
 
-Great.
+I have a sda660 device, but I don't have cameras attached. So one will 
+have to use TPG.
 
-thanks,
 -- 
-js
-suse labs
+With best wishes
+Dmitry
