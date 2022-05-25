@@ -1,135 +1,77 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B981A533C8C
-	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 14:25:05 +0200 (CEST)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id A185B533D35
+	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 15:05:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235479AbiEYMYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 May 2022 08:24:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37830 "EHLO
+        id S238671AbiEYNF2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 May 2022 09:05:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbiEYMYk (ORCPT
+        with ESMTP id S243806AbiEYNFY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 May 2022 08:24:40 -0400
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2048.outbound.protection.outlook.com [40.107.104.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 553F86D3A9;
-        Wed, 25 May 2022 05:24:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fgx4ekumkYyipmK38XcOuopY80cBRqnc0CFKhpQ3V1K9CNeDuDgviWSmSxk4y7DyGpfyPfkY6TF58h1Hf8VnhNoJ0buKB1IBg7olYq8mmJJlypl3dlzIei4Ohozk9ebb1HH0jM9YxRxmNEgU0CynpA4TyF1pYTprSPpwYdBRG8UjuOAitDJpv7yGXvzZFP8fEk+TNZarNfw9NtN4HJN/JZAilygLhiSLlNdCxh2x6gEn7QTPfih2g21Tr9W0ktlcU8yh6TBqaiv9jZAaF0rvzb/XGq3mzO0xwgVzpvOzRtA11XvWjX/ZMJTx6k/OvnlUoxQjVFS6r83bB8x5mE7xKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gk+qOOqrm0QTXsWeTWGSAo1kiOCn4MxMXPa3CkNOtD0=;
- b=TbHU5+/9WjFGrEFktuW2Cug51ndIQpIjtu+RaAGVAZIliv0afIvYV/Kq4R0b4D866lVLjh6d/8gJzjhYGEa5BOKP7UziiyhCKRIMyIX4YES/PKCFNDYHqH4NM6P7WaTq2KFijeqKwap9H3Je42dLey0nCfZhW9DktTHHjdLGZrAU2XaJihtjbB2+DuGvJQwHQFed8MrO5ONxKOMHaxBwtOSmn9Jy2rR4n9O3D9Ct6ntwgITbab9Ia5iXqa5lvDCZuTPIqtiHz56reoDmzL0s4klJ6uzTLPx94FYDlNegXl5wFhe8WL+cxKNsrizprP7RT3XlFGTRJM5sxga7MQFVqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
+        Wed, 25 May 2022 09:05:24 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B69A5AB4
+        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 06:05:19 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id t6so30062257wra.4
+        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 06:05:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gk+qOOqrm0QTXsWeTWGSAo1kiOCn4MxMXPa3CkNOtD0=;
- b=GcuF5OXAW2qJc5zerv25zU4z5mQD9sMUH0NN8P9uCjdkg7eyuxkGut+VUKdsQbWdAGphmxYIXCRzM1zKU2FVxWVA1E5UcdqCb+TbvH3tbtYx3rl4TMGVqXdtXkTGH5a8tzgH9ZOjVM40dB2QhfiDwfIX3e5wBm1nkK9W5sgm4GQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from DB9PR04MB9378.eurprd04.prod.outlook.com (2603:10a6:10:36a::6)
- by AS8PR04MB8674.eurprd04.prod.outlook.com (2603:10a6:20b:429::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.18; Wed, 25 May
- 2022 12:24:37 +0000
-Received: from DB9PR04MB9378.eurprd04.prod.outlook.com
- ([fe80::4c85:560b:2f85:7522]) by DB9PR04MB9378.eurprd04.prod.outlook.com
- ([fe80::4c85:560b:2f85:7522%8]) with mapi id 15.20.5273.023; Wed, 25 May 2022
- 12:24:37 +0000
-Message-ID: <d599e48c-1821-164e-619d-dcfd8a689192@theobroma-systems.com>
-Date:   Wed, 25 May 2022 14:24:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 2/4] media: ov5675: add device-tree support and support
- runtime PM
-Content-Language: en-US
-From:   Quentin Schulz <quentin.schulz@theobroma-systems.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Quentin Schulz <foss+kernel@0leil.net>
-Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220509143226.531117-1-foss+kernel@0leil.net>
- <20220509143226.531117-2-foss+kernel@0leil.net>
- <20220510094607.2ijaw6we6jml2bv7@uno.localdomain>
- <49e53ae4-1be9-fae1-6c93-3ce7c16f3ada@theobroma-systems.com>
-In-Reply-To: <49e53ae4-1be9-fae1-6c93-3ce7c16f3ada@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR0502CA0023.eurprd05.prod.outlook.com
- (2603:10a6:203:91::33) To DB9PR04MB9378.eurprd04.prod.outlook.com
- (2603:10a6:10:36a::6)
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=05cAYL6xeSu1Wc61A6KPeOM0nDbLavsg1UBvch12Sj0=;
+        b=JbNU0hB4Zh8cK/NIm+x3mS7l/ZOkafNMqqHRT/vk+87kerE8IYkD+WWG8CDky0lUUG
+         CIm43R7ChfhLwe/+uqjwQzIR19sQc2D4W/rKoMllP8lZsQG1ILXgVx2tjtwMfepI6IGQ
+         ohLB3IZlRtX7KIK5WOKsTuQ7/O8RpIkygJCEg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=05cAYL6xeSu1Wc61A6KPeOM0nDbLavsg1UBvch12Sj0=;
+        b=GnKXMxDOiZo5M+1Ip7KyYogrCJRmtraFvGmjbpZdgELDy3l8LOLdO6TFlKWrajsjg5
+         u+lgEBZkdWb2WxsKHhcl4TNzhp/Gu5pJFd5WMPsu1MkbYBPavZAeUk+qNpA7qVGpznzG
+         w70HUlc5eUbq3rfRVKNpx19eKM/RwG26AmNi81XrXAyHk8+ktRTVVDUDGUgtJaZ5t3SV
+         MTugNf9psBRR0HNXYZ8LHJFIu2WjfRNp3UuF/ctXbnPBdyLq4EDKz9lmMZfdUAZ+Py8/
+         ehOCkLX8t6/aO2Z2f9h1nIZyfDrKgMjdPKfZ/hUv7vYSF69COcxymvJVUlt9QKkd9VL7
+         CdwA==
+X-Gm-Message-State: AOAM532lz8v/YqL9zhUV7Qpk+kyz/H91LxwZtwMqy+RF111esgLilq1N
+        q0YF7nlUoH5SpnYVrXwitOwxig==
+X-Google-Smtp-Source: ABdhPJynYlEcScbdzp1jjX5kjvclk0P+oGNDvg1J5q/BRkuQTOrriEYl08RBffRNB/L2Xme66CqsUg==
+X-Received: by 2002:adf:f089:0:b0:20e:5a80:c56 with SMTP id n9-20020adff089000000b0020e5a800c56mr27330681wro.37.1653483917103;
+        Wed, 25 May 2022 06:05:17 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id bi19-20020a05600c3d9300b003942a244f39sm1935450wmb.18.2022.05.25.06.05.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 May 2022 06:05:16 -0700 (PDT)
+Date:   Wed, 25 May 2022 15:05:14 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, jason@jlekstrand.net,
+        daniels@collabora.com, skhawaja@google.com, maad.aldabagh@amd.com,
+        sergemetral@google.com, sumit.semwal@linaro.org,
+        gustavo@padovan.org, Felix.Kuehling@amd.com,
+        alexander.deucher@amd.com, tzimmermann@suse.de,
+        tvrtko.ursulin@linux.intel.com, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: Tackling the indefinite/user DMA fence problem
+Message-ID: <Yo4pin1Js4KXs2HL@phenom.ffwll.local>
+References: <20220502163722.3957-1-christian.koenig@amd.com>
+ <YnJQs1iusrBvpuMs@phenom.ffwll.local>
+ <a01c7703-f7f7-f8ce-f80e-632a6fdcbbbe@gmail.com>
+ <Ynkg81p6ADyZBa/L@phenom.ffwll.local>
+ <a249c0c4-ee6c-bfb0-737b-eb6afae29602@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4923f759-4f36-4b40-d337-08da3e49887f
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8674:EE_
-X-Microsoft-Antispam-PRVS: <AS8PR04MB8674EA7F9EEED8F9CE605B48C2D69@AS8PR04MB8674.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: p0p2fMJ8qHmJztmefdGqzet+KRapIMqXplOtC7B1UNy8suyZPwbMuLnDs+/nNZ9icMmTMviagTrM7X1W5WJSf1rRYK0UZSEHptNmKJtd6gloUsudGzMaAsuVfxng6NKbpCyXZ/j4oQMWi/JX16usZ1q3OKB5hINxq1Ou+eA6dmnXHW31iWtp8PmWnsSywzPfZ9+ybyIHQgAM4/YA8ql7WAD8bY4aiXD5qjfyEobNza7xEOSashG3dmwhAGhbHDa7skFmdwyJk1E8uFFtz5UOtcvLH0LuFeUBilv28xnLNzI+g1kgM0uAC9aGWcsEmlapPPCxKx5LY4utr4/ARaY7NY1ru1+ZWg1XGtEVKZzADXbAeMky7vFPegBWKje2984hCgXVxtmBpm2A1qNOkxTAgoGevj3vi3fZ+NATqacmiYT0J10gZKWKHheoTD11DRFFWe12m+z83Tmu33qOxDZxAAvoNrrbyvSoPTmT6kSFEmNUIIxOKQ+fli0zBAC5NnoXjWmlfOZhquoA8nlITfP+j/7dhpvAw5d/wwRg+TXiSlklsxraEUAxmplCKzhcUn2fIKbUzEgoCOqNxmDtiVpDr8xGPVGtMoIuyb/e+ISu4RRJs8izy2pqcx3io1P434QYTndvTbFWUVTj+aKRqwzCBlWmGQouF1wxWIYQw1CjprCGziEHo1bjk6KRK9EcpaRLkAmUT7t9yqAejWjhBdzJF+jDFZgzcI6Ix+Hpv9fChjcZiH8wj1DbrkvefumH1612
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9378.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(66946007)(5660300002)(8936002)(508600001)(8676002)(4326008)(31696002)(26005)(2906002)(86362001)(6486002)(66476007)(36756003)(186003)(316002)(38100700002)(83380400001)(6506007)(31686004)(44832011)(2616005)(53546011)(6512007)(66556008)(110136005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bEw3aVFYR0VRNjZySmEyaEpWSUs3Mjcya1NMcXUzc3N6eFJRYk9ySGlCZ25F?=
- =?utf-8?B?dkEwREs1N3pWeS9MTU91SGNGa2swSlo5S0hCNGN4ZWtQWnNlNmZzOGozSWhP?=
- =?utf-8?B?dzdRUXQrMVJoWllwdTY4bW0yaEdYa1g4SHE1Ris0NEYwVS9zMnd2d255UjAx?=
- =?utf-8?B?dEFsdHBVSnhrbmtwbEtGU0w1TmYwWkYyRk9iOHNvUnR5aXJjTHo3U0NoakRw?=
- =?utf-8?B?OTlqOVV3cWtSaDBZN1RtUndpYjJIVzhxRE5tNCtONHRWRWVaWjVtZjhXZE9P?=
- =?utf-8?B?cGVTcnVtRVV5UWNwdTZtNE91bnVtZGg1Z0NyeVlYVitIc1p2RmRBOU5qM2FG?=
- =?utf-8?B?L2dxcGZadXV0ZHJ2ZHFHSnp3UlR6dDlzRDhTMVc5Y1ppUFhWaHhNQzEycExH?=
- =?utf-8?B?Mm9Yd3NBdFdFY1YzZndSWVIza1dtNUpuWkdGNkh1SFBTajIzdFlxOE9iKzNs?=
- =?utf-8?B?a1hmZlV2TEw5OEZGV2MzMm5zdyttcEsyMTZNWTltOW91S2ZYUm5MSjRyazcr?=
- =?utf-8?B?S2hWVjl1TDNxYVI1UytMeEVsTTZYbFVvZE1IcG5yU0Z3VXBZdW52SzFEUWpV?=
- =?utf-8?B?MDdjekZqTkZxWjB6Q1lvSEEzZE9pQVoxa2ZQdVo5SEszZlBpOWVuYVd0T3Ns?=
- =?utf-8?B?TEZ3OXorOGNkSTk1elpnN0FWV0NUb0pOMnYvWnhwU2JHdnFRaTc2V1ZLVFhQ?=
- =?utf-8?B?QURrak9kdXFXS1pRZmJLZzY3aGNSWjlVVXhIZ3ZXNnFCUGhTVVdzMmMwMDhx?=
- =?utf-8?B?UlBHbXhnV1N5cUhic0xuRHdwcXNVNzNsK3VLRFI1RndURldQd01lUjVrWWdI?=
- =?utf-8?B?djJCNC9ZRnJMTU8vYzdkYm4wTTczaXlReGZjZFc3S2NzZUo0dEI5c0NaTjlh?=
- =?utf-8?B?NTZYclpwK0JJOXFCTFAxQVBPTmdOMVV1NTBKckJPTWUrL05JT0RFTmxxMnk2?=
- =?utf-8?B?YzQvSnU4VXZxMlJXamJ1M3BZWjdHaEYrdWM4TjRaT0lxSHUwRGw1T1ZBWUdU?=
- =?utf-8?B?UzY4YndDNFAzbldtZkdiL3djUkJJeSs3UE5ibkJJYmFaOHZPSlF2ZEYrOGdG?=
- =?utf-8?B?bnNsMGRxcFM1c2JxTHpVQ3ZXMGxCK3FyeExVRDB3a0V1VnVjZFJIMHBzZVFB?=
- =?utf-8?B?MVBnMFlxU09RY3RUUUt5cDdVbEV6TVZtdGlEOGx0cHB6YlRnTmZ2Sm9sbldX?=
- =?utf-8?B?UGt6Y3dIYk1PQ0NiNk04MTBkZURzdFFvL3lJUUFaZmQ1ZTJTWlVnNFhUa1NW?=
- =?utf-8?B?L1ZvY0pnbXFUeFlVQ3N1aGRqRFlXUU9wc0QvNDB0TytycVlVLzl4ZUFndHRk?=
- =?utf-8?B?a2NYdHJlYkV1bjBlMmh1T0F6bWlGbmQ3ZVU4NXRzcVFUd2RxYng2dXlCM2xB?=
- =?utf-8?B?NjZFc2srdVBVYkpwU04ySkVSQTd0VUdlem5oOTRHWDdhSlpuOFhBK2dSTVlZ?=
- =?utf-8?B?UzBvN1N3eDFDbmZwSitIelRGemZnMlkwdU5GVVVrQjhoWVdweit5VFhmV2h0?=
- =?utf-8?B?OWZhUHBGY2tBUzJHYlJJWW5yWVFBd1VLL0w0OFpvKzl0bExpMFovMWZ3cWhk?=
- =?utf-8?B?TENWZmtSWVV4S0JHaGNGVzUxbkF4SWNjTSs1UUk2SkM1UUFiSmdKTGwrb1la?=
- =?utf-8?B?TVZTWGRpWS8vVU1wUlQ3bXA4SkRqOXg2aUowMGNZUDVaUFBlWS9ZMFl6Tkdv?=
- =?utf-8?B?SlpQYVdnTkFiQmphS2lsL1Y5dWJsM2pROTYzUTdXalVsa2g5WnA1TzNmV2JF?=
- =?utf-8?B?SGJyWkNlY1VubCtzTnY5VlhMOFdzTkErcDJCb2lTekhJOHY5RnBZWjVUOGV3?=
- =?utf-8?B?ZnROSjF0VmdJQ0xQdXhuQ2VNNUxUM25KMlhMODhVN2FPNEJaTTFlaWkvNnMr?=
- =?utf-8?B?THhDR2NKdmIxeHl4NUdCK1NJMEtIRDhGb0JDWldKYnRmblNVQy9KTGxNanR2?=
- =?utf-8?B?YlYrTVh2NVVQdkU3bnJvcENnVm01eUgzTVFiYlREYmU2a0tnOS9lUkx6Nytu?=
- =?utf-8?B?eTVrejlnbGZzcTVHekhFVjU1ZHc0V0l4ZkZHQkFla0NMdjZFeFZQWmJLcjNT?=
- =?utf-8?B?VmdnUGh6bGtrYVJNMjlSQ2hDa0ZlZnZ0cDVTeFJjZExxVzltNzlFUXBVUzZh?=
- =?utf-8?B?MVdwQVlwbnRqR3p4anFrU096Q1NtVk1taTB1ckU2MnRLbHRPY1VwQ2VqMUd4?=
- =?utf-8?B?dlp0bkFkRHphek9UVzVUai94V3cvaHJyMlFoT3lKeXZwckh3b2lJUXRnOG9q?=
- =?utf-8?B?WFMwZzVVcDlWSk1aR2RCSlIyVEIyc014Q0F2bUwyYzhsUy9pZUdBWTlrSTdU?=
- =?utf-8?B?Y2ZaLzRMTURmaE1Ca1NxbDB0YmcrOERTcWhYSFpoK2pzbHVMTFNDNDYvS3FV?=
- =?utf-8?Q?kDSzgNGNGCMFVhI23DRYj5xHbz7w7RvCo+UAH?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4923f759-4f36-4b40-d337-08da3e49887f
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9378.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2022 12:24:37.1521
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vXn9fu+s4zVzB5XAaZeShKiWG6hSwHkr/8qvylU8nZkf6/UpT7bp0QgU0kfL09gOHNeoR7CNklEiV9SyB8/51lVDR7RkkG/D0VBjfG9RYRNCwxOA+bNWdSMlaNg4uU4n
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8674
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a249c0c4-ee6c-bfb0-737b-eb6afae29602@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -137,57 +79,478 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+Apologies I'm constantly behind on m-l discussions :-/
 
-On 5/10/22 15:42, Quentin Schulz wrote:
-> Hi all,
+On Tue, May 17, 2022 at 12:28:17PM +0200, Christian König wrote:
+> Am 09.05.22 um 16:10 schrieb Daniel Vetter:
+> > On Mon, May 09, 2022 at 08:56:41AM +0200, Christian König wrote:
+> > > Am 04.05.22 um 12:08 schrieb Daniel Vetter:
+> > > > On Mon, May 02, 2022 at 06:37:07PM +0200, Christian König wrote:
+> > > > > Hello everyone,
+> > > > > 
+> > > > > it's a well known problem that the DMA-buf subsystem mixed
+> > > > > synchronization and memory management requirements into the same
+> > > > > dma_fence and dma_resv objects. Because of this dma_fence objects need
+> > > > > to guarantee that they complete within a finite amount of time or
+> > > > > otherwise the system can easily deadlock.
+> > > > > 
+> > > > > One of the few good things about this problem is that it is really good
+> > > > > understood by now.
+> > > > > 
+> > > > > Daniel and others came up with some documentation:
+> > > > > https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#indefinite-dma-fences
+> > > > > 
+> > > > > And Jason did an excellent presentation about that problem on last years
+> > > > > LPC: https://lpc.events/event/11/contributions/1115/
+> > > > > 
+> > > > > Based on that we had been able to reject new implementations of
+> > > > > infinite/user DMA fences and mitigate the effect of the few existing
+> > > > > ones.
+> > > > > 
+> > > > > The still remaining down side is that we don't have a way of using user
+> > > > > fences as dependency in both the explicit (sync_file, drm_syncobj) as
+> > > > > well as the implicit (dma_resv) synchronization objects, resulting in
+> > > > > numerous problems and limitations for things like HMM, user queues
+> > > > > etc....
+> > > > > 
+> > > > > This patch set here now tries to tackle this problem by untangling the
+> > > > > synchronization from the memory management. What it does *not* try to do
+> > > > > is to fix the existing kernel fences, because I think we now can all
+> > > > > agree on that this isn't really possible.
+> > > > > 
+> > > > > To archive this goal what I do in this patch set is to add some parallel
+> > > > > infrastructure to cleanly separate normal kernel dma_fence objects from
+> > > > > indefinite/user fences:
+> > > > > 
+> > > > > 1. It introduce a DMA_FENCE_FLAG_USER define (after renaming some
+> > > > > existing driver defines). To note that a certain dma_fence is an user
+> > > > > fence and *must* be ignore by memory management and never used as
+> > > > > dependency for normal none user dma_fence objects.
+> > > > > 
+> > > > > 2. The dma_fence_array and dma_fence_chain containers are modified so
+> > > > > that they are marked as user fences whenever any of their contained
+> > > > > fences are an user fence.
+> > > > > 
+> > > > > 3. The dma_resv object gets a new DMA_RESV_USAGE_USER flag which must be
+> > > > > used with indefinite/user fences and separates those into it's own
+> > > > > synchronization domain.
+> > > > > 
+> > > > > 4. The existing dma_buf_poll_add_cb() function is modified so that
+> > > > > indefinite/user fences are included in the polling.
+> > > > > 
+> > > > > 5. The sync_file synchronization object is modified so that we
+> > > > > essentially have two fence streams instead of just one.
+> > > > > 
+> > > > > 6. The drm_syncobj is modified in a similar way. User fences are just
+> > > > > ignored unless the driver explicitly states support to wait for them.
+> > > > > 
+> > > > > 7. The DRM subsystem gains a new DRIVER_USER_FENCE flag which drivers
+> > > > > can use to indicate the need for user fences. If user fences are used
+> > > > > the atomic mode setting starts to support user fences as IN/OUT fences.
+> > > > > 
+> > > > > 8. Lockdep is used at various critical locations to ensure that nobody
+> > > > > ever tries to mix user fences with non user fences.
+> > > > > 
+> > > > > The general approach is to just ignore user fences unless a driver
+> > > > > stated explicitely support for them.
+> > > > > 
+> > > > > On top of all of this I've hacked amdgpu so that we add the resulting CS
+> > > > > fence only as kernel dependency to the dma_resv object and an additional
+> > > > > wrapped up with a dma_fence_array and a stub user fence.
+> > > > > 
+> > > > > The result is that the newly added atomic modeset functions now
+> > > > > correctly wait for the user fence to complete before doing the flip. And
+> > > > > dependent CS don't pipeline any more, but rather block on the CPU before
+> > > > > submitting work.
+> > > > > 
+> > > > > After tons of debugging and testing everything now seems to not go up in
+> > > > > flames immediately and even lockdep is happy with the annotations.
+> > > > > 
+> > > > > I'm perfectly aware that this is probably by far the most controversial
+> > > > > patch set I've ever created and I really wish we wouldn't need it. But
+> > > > > we certainly have the requirement for this and I don't see much other
+> > > > > chance to get that working in an UAPI compatible way.
+> > > > > 
+> > > > > Thoughts/comments?
+> > > > I think you need to type up the goal or exact problem statement you're
+> > > > trying to solve first. What you typed up is a solution along the lines of
+> > > > "try to stuff userspace memory fences into dma_fence and see how horrible
+> > > > it all is", and that's certainly an interesting experiment, but what are
+> > > > you trying to solve with it?
+> > > Well, good point. I explained to much how it works, but now why.
+> > > 
+> > > In general I would describe the goal as: Providing a standard kernel
+> > > infrastructure for user fences.
+> > So on that goal the part I fully agree on is that drm_syncobj can (and
+> > should imo) be able to contain userspace memory fences. The uapi semantics
+> > and everything is already fully set up to support that, but maybe with
+> > reduced performance: Non-aware userspace (or when you don't trust the
+> > supplier of the umf) needs to block when looking up the fence, and the
+> > dma_fence returned will always be signalled already. But that's just a
+> > mild performance issue (and vk drivers paper over that already with
+> > threading) and not a correctness issue.
 > 
-> On 5/10/22 11:46, Jacopo Mondi wrote:
->> Hi Quentin,
->>
->> On Mon, May 09, 2022 at 04:32:24PM +0200, Quentin Schulz wrote:
->>> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
->>>
->>> Until now, this driver only supported ACPI. This adds support for
->>> Device Tree too while enabling clock and regulators in runtime PM.
->>>
->>> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
->>
->> Thanks for addressing all comments on the previous version.
->>
->> Looks good to me!
+> Exactly that, yes.
 > 
-> Unfortunately the sensor disagrees :/
+> > > > Like if the issue is to enable opencl or whatever, then that's no problem
+> > > > (rocm on amdkfd is a thing, same maybe without the kfd part can be done
+> > > > anywhere else). If the goal is to enable userspace memory fences for vk,
+> > > > then we really don't need these everywhere, but really only in drm_syncobj
+> > > > (and maybe sync_file).
+> > > Yes, having an in kernel representation for vk user space fences is one of
+> > > the goals.
+> > > 
+> > > And I was going back and forth if I should rather come up with a new
+> > > structure for this or use the existing dma_fence with a flag as well.
+> > > 
+> > > I've decided to go down the later router because we have quite a lot of
+> > > existing functionality which can be re-used. But if you have a good argument
+> > > that it would be more defensive to come up with something completely new,
+> > > I'm perfectly fine with that as well.
+> > Yeah so stuffing that into dma_fence already freaks me out a bit. It is
+> > quite fundamentally a different thing, and it would be really nice to make
+> > that very apparent at the type level too.
+> > 
+> > E.g. to make sure you never ever end up with an umf fence in mmu notifier
+> > invalidate callback. You can enforce that with runtime checks too, but imo
+> > compile time fail is better than runtime fail.
 > 
-> For some reasons, the first three power-on + power-off are successful 
-> (sometimes only the first two) and then the sensor is not working until 
-> next cold boot. I got lucky when I tested the patch before sending, much 
-> less now. >
+> Well, I see arguments for both sides.
+> 
+> There is certainly the danger that we have an umf wait in the mmu notifier,
+> but then lockdep will scream "bloody hell" immediately.
+> 
+> On the other hand when I make this a separate structure we need to maintain
+> containers for both variants, especially a chain implementation for
+> drm_syncobj. And here I don't have lockdep to keep an eye that nobody does
+> anything strange.
+> 
+> It's only a gut feeling with no clear evidence for one side. If you insists
+> on a separate structure I will go down that route.
+> 
+> > > > If the goal is specifically atomic kms, then there's an entire can of
+> > > > worms there that I really don't want to think about, but it exists: We
+> > > > have dma_fence as out-fences from atomic commit, and that's already
+> > > > massively broken since most drivers allocate some memory or at least take
+> > > > locks which can allocate memory in their commit path. Like i2c. Putting a
+> > > > userspace memory fence as in-fence in there makes that problem
+> > > > substantially worse, since at least in theory you're just not allowed to
+> > > > might_faul in atomic_commit_tail.
+> > > Yes, that's unfortunately one of the goals as well and yes I completely
+> > > agree on the can of worms. But I think I've solved that.
+> > > 
+> > > What I do in the patch set is to enforce that the out fence is an user fence
+> > > when the driver supports user in fences as well.
+> > > 
+> > > Since user fences doesn't have the memory management dependency drivers can
+> > > actually allocate memory or call I2C functions which takes locks which have
+> > > memory allocation dependencies.
+> > > 
+> > > Or do I miss some other reason why you can't fault or allocate memory in
+> > > atomic_commit_tail? At least lockdep seems to be happy about that now.
+> > The problem is a bit that this breaks the uapi already. At least if the
+> > goal is to have this all be perfectly transparent for userspace - as you
+> > as you have multi-gpu setups going on at least.
+> 
+> Question here is why do you think there is an UAPI break? We currently wait
+> in a work item already, so where exactly is the problem?
 
-For your information, there were actually two issues:
+It's a bit washy, but dma_fence and hence implicit sync is supposed to
+finish in finite time. umf just doesn't.
 
-  - the MCLK of our camera sensor is connected to a pin on a Rockchip 
-PX30 SoC whose iodomain is not enabled prior to booting the Linux 
-kernel. This means that the whole block was not supplied with power 
-(something around 100-150mV instead of the expected 1.8V) and the i2c 
-transfers during some device probing were broken because the iodomains 
-driver could be probed after the OV5675 driver (and also, since it 
-persists on CPU reset, a reboot would fix this too since the iodomain 
-would have been configured by the preceding boot). We currently handle 
-this the hackish way by configuring the iodomain in U-Boot before 
-booting the kernel. I have talked with Heiko, the Rockchip maintainer, 
-who mentioned there's no way to explicit a dependency to an iodomain in 
-Device Tree right now but suggested we expose regulators from the 
-iodomain driver. I'll come up with something to fix this properly in the 
-kernel in the next few months. This is not related to the camera driver 
-in any way but wanted to mention it.
+Ofc in reality you can still flood your compositor and they're not very
+robust, but with umf it's trivial to just hang your compositor forever and
+nothing happens. There was a least quite a bit of screaming from
+compositor folks 2 years ago when we've gone through the i915-gem fun of
+"hey we redefined dma_fence to have indefinite fence semantcis, cool isn't
+it". And this is kinda similar - you don't hang the kernel with all the
+lockdep stuff, meaning ^C can get you out of any hang. But userspace is
+still dead, and the user is still potentially rather unhappy.
 
-  - the camera sensor was actually faulty. After many attempts at HW 
-reworking, looking at the scope, re-reading the datasheet, trying to 
-read between the lines, etc... we swapped the camera sensor for a 
-fresh-out-of-the-box one and it worked for 30min (then we stopped it) 
-with a runtime/suspend every few seconds. I tried with two different 
-camera sensors and it worked fine.
+So either we force a timeout in the kernel or in userspace or somewhere,
+and at that point I'm not entirely sure this is really worth it.
 
-Cheers,
-Quentin
+Same holds for sync_file. drm_syncobj is different and does have the
+entire "this might never signal" concept encoded in it's uapi already, so
+that's fine.
+
+> > > > If the goal is to keep the uapi perfectly compatible then your patch set
+> > > > doesn't look like a solution, since as soon as another driver is involved
+> > > > which doesn't understand userspace memory fences it all falls apart. So
+> > > > works great for a quick demo with amd+amd sharing, but not much further.
+> > > > And I don't think it's feasible to just rev the entire ecosystem, since
+> > > > that kinda defeats the point of keeping uapi stable - if we rev everything
+> > > > we might as well also rev the uapi and make this a bit more incremental
+> > > > again :-)
+> > > Yes, unfortunately the uapi needs to stay compatible as well and yes that
+> > > means we need to deploy this to all drivers involved.
+> > > 
+> > > We at least need to be able to provide a stack on new hardware with (for
+> > > example) Ubuntu 18.04 without replacing all the userspace components.
+> > > 
+> > > What we can replace is the OpenGL stack and if necessary libdrm, but not
+> > > (for example) the X server and most likely not the DDX in some cases.
+> > > 
+> > > The same applies with surfaceflinger and to some extend Wayland as well.
+> > So for perfect uapi compat for existing compositor I really don't think
+> > stuffing umf into the kernel is the right approach. Too many little
+> > corners that break:
+> > 
+> > - the in/out fence mismatch every
+> 
+> On that part I need further explanation, cause I hoped that this is solved.
+
+The thing is even if you force the out fence to be an umf too if the
+in-fence is, they're chained. So as soon as you have an unsignalled in
+fence all subsequent out fences need to be forced to be umf semantics.
+Possible, but definitely messy.
+
+> > - cross gpu with different userspace that doesn't understand umf and then
+> >    just ignores them
+> 
+> Well by stuffing umf into the kernel the whole thing becomes transparent for
+> userspace.
+> 
+> So it won't matter that you have a new amdgpu stack which wants to use umf
+> and an older i915 stack which knows nothing about umfs.
+> 
+> The kernel will block on command submission as soon as a buffer is used by
+> i915. And as you said above as well that might cause performance trouble,
+> but is not a correctness problem.
+
+The problem is that you still have to adjust all drivers. Which yes
+eventually we have to do, but if the compat code is just in the driver
+which has switched to umf already, then the cost is a lot more localized.
+And with the dma_fence trick below it's all good.
+
+> > - compositors which currently assume implicit sync finishes eventually,
+> >    and with umf that gets complicated at best
+> 
+> But for userspace compositors there is no difference between an umf which
+> times out and a dma_fence which timesout? Or am I missing something here?
+> 
+> > - same with sync_file, the uapi atm does not have a concept of future
+> >    fence
+> > 
+> > So you can kinda make this work, but it falls apart all over the place.
+> > And I also don't think smashing umf into all these old concepts helps us
+> > in any way to get towards a desktop which is umf-native.
+> 
+> Yeah, but having an umf compatibility memory management doesn't help either
+> to get away from pre-pinned pages.
+
+I think it's really two worlds:
+
+a) dma_fence syncing (sync_file, implicit sync in dma_resv, drm_syncobj
+with dma_fence) and pre-pinned everything memory
+
+b) umf mode, which opens the door for page faults and clever tricks and
+avoids the need to pre-pin everything
+
+It sucks, but I really haven't found a way to mix these. And I feel like
+that it's pretty dangerous to pretend that we can do it - it freaks me out
+at least :-)
+
+> > My take is still that for backwards compat the simplest way is if a
+> > umf-native driver simply provides dma-fence backwards compat as an opt-in,
+> > which userspace chooses when it's necessary. There's really only two
+> > things you need for that to work:
+> > 
+> > - a timeout of some sort on the dma_fence, which might or might not kill
+> >    the entire context. This is entirey up to how your userspace does or
+> >    does not implement stuff like arb robustness or vk_error_device_lost
+> > 
+> > - pre-pinned memory management to block out the all the inversions. This
+> >    is a bit more nasty, but since we do have all the code for this already
+> >    it really shouldn't be too tricky to make that happen for the fancy new
+> >    umf world.
+> 
+> Well, exactly that's what we want to get away from.
+> 
+> > You do not need a kernel scheduler or anything like that at all, you can
+> > do full userspace direct submit to hw and all that fun. Maybe do a
+> > drm/sched frontend (and then your submit code does exactly what userspace
+> > would do too).
+> > 
+> > Importantly the things you really don't need:
+> > 
+> > - special hw support, even if the only mode your hw supports is with page
+> >    faults and all that: You can make sure all the pages are present
+> >    upfront, and then simply kill the entire context is a page fault
+> >    happens.
+> 
+> Well, that's only like 90% correct.
+> 
+> You can make that work without special hardware support, but from the
+> experience with ROCm and very extensive talks with out hardware folks we
+> have seriously problems making sure that the hw can't access freed up memory
+> any more.
+> 
+> Except for the solution of never freeing up memory the only other
+> possibility is to wait between 1 and 6 seconds until a shoot down made sure
+> that there is really nobody accessing old page tables entries any more.
+> 
+> In the case of an user space queue with hardware scheduler support and HMM
+> the memory would just still be referenced until userspace cooperatively
+> inserted a barrier, but that again breaks some dma_fence assumptions as far
+> as I can see.
+
+So two things:
+
+- Don't use legacy semantics for compute. They're completely different
+  worlds, and i915 plan is to have completely different mode between
+  legacy and compute mode creation, because they really don't mesh, at
+  context creation time. So kinda like amdgpu renderD* vs amdkfd, except
+  all int he renderD* node.
+
+  You _never_ want to run ROCm or level0 or cuda with legacy mode, because
+  it sucks too much. The trouble is a bit vulkan since if you run it
+  headless, you want to run in compute mode, but if want wayland/x11
+  winsys support, then you need legacy support. But we've come up with
+  some supremely nasty tricks for that too in the discussion at plumbers
+  last year.
+
+  The other trouble is interop. I think the best path here is the vk
+  approach of "you only get drm_syncobj, no implicit sync ever". But that
+  might not be workable for rocm/opencl/whatever. I'm not sure what's the
+  best option there, if absolutely everything breaks I guess we could look
+  into adding a umf implicit sync slot to dma_resv, but I really think we
+  should exhaust all other options first before we step into that dragon's
+  lair :-/
+
+  If we do go with the umf implicit sync I think we should really do it as
+  a timeline thing, i.e. you attach the umf container once, the other side
+  gets it once, an after that point the only thing that keeps happening is
+  that writers increment the syncpt seqno, and readers just sample that
+  every time they use the buffer. So essentially:
+
+  struct dma_buf_umf_implict_sync {
+  	struct drm_syncobj *sync;
+	atomic_t seqno;
+  };
+
+  Plus a few ioctls to increment the seqno (and receive the value) and
+  read the current seqno. That still means interop isn't perfectly
+  transparent, but maybe we could at least reuse some of the codepaths we
+  have for drm_syncobj in both kernel and userspace.
+
+  Maybe we could make it backwards compat but just blocking rendering
+  until the umf signals if a buffer is shared with any importer that
+  doesn't understand umf implicit sync.
+
+  But that's all rather horrible imo.
+
+- For memory management I think the right long term approach is to punt
+  this all to userspace, for both legacy and compute mode, with exactly
+  the same semantics as mmap()/munmap() on the cpu side. i915 calls this
+  vm_bind (the rfc is floating around somewhere), but essentially i915.ko
+  will execute vm_bind and vm_unbind directly, completely decoupled from
+  any in-flight command submission (we just punch out the ptes and force a
+  tlb flush and done). If userspace unmaps memory it still uses, it gets
+  to keep all the pieces. This is how vk and all the new stuff works. It
+  does mean there's more work for gl and that kind of stuff, but this
+  really shouldn't be the kernel's problem.
+
+  Aside: We're aiming for the same for gpu context. If userspace closes a
+  gpu context we just preempt and destroy it right away, userspace gets to
+  keep he pieces if they wanted to let it finish first.
+
+  This is exactly like on the cpu side where userspace can create/destroy
+  threads and mmap/munmap as it sees fit, and it just blows up if it gets
+  it all wrong.
+
+  Ofc if you're hw is busted and you can't do reasonable efficient tlb
+  flushing (even with pipeling and batching) then you're screwed, so I'm
+  hoping your 1-6 seconds of waiting isn't that. If it is then you kinda
+  have an unfixable security bug :-/ But iirc amdkfd already has batched
+  up tlb flushes as dma_fence in USAGE_OTHER now, so this should all work.
+
+  Anything else, i.e. userpsace fails to insert the required cache flushes
+  or barriers or anything else before it calls gpu_unamp (or vm_unbind or
+  whatever you want to call it) is a userspace bug.
+
+  Ofc if you preempt a context for memory eviction due to memory pressure
+  then the kernel has to do all the cache flushing and everything. Same
+  for evicting pages due to memory pressure in the hmm use case. If you're
+  preemption takes a few seconds I think there's bigger problems no matter
+  what :-)
+
+  Btw on vm_bind it'd be great if you or someone from amd's rocm/kfd side
+  can take a look and drop your input. I expect that we'll have the same
+  discussion with nouveau/nvidia and maybe also some of the armsoc chips.
+  So it would be great if we can collect upstream wisdom on this topic a
+  bit.
+
+Neither of these are a reason to stuff umf into implicit sync or sync file
+imo.
+
+> > - special fw scheduler support: Once the memory management inversions are
+> >    taken care of with pre-pinning under dma_fences, then the only other
+> >    thing you need is a timeout for the dma_fence to signal. And maybe some
+> >    kind of guaranteed ordering if you want to use a dma_fence timeline
+> >    since that one can't go backwards.
+> 
+> Yeah, that not going backward thing turned out to be massively more tricky
+> than I thought initially as well.
+> 
+> Alex, Marek and I worked quite hard on relaying those requirements to our
+> internal teams, but I'm still not quite sure if that will turn out working
+> or not.
+
+I really don't think you need to teach this to your fw scheduler, that
+sounds backwards. At least for i915+guc we don't have any plans to inflict
+this on our fw scheduler (otoh our fw scheduler sucks at resolving
+dependencies, but that's a different topic - currently it just busy-spins
+if a context is stuck, there's some plans to preempt contexts instead and
+round-robin to the next one):
+
+All our fw scheduler is doing is scheduling gpu context and round-robing
+them with preemption if they use up their time slice before they go idle
+again. Everything else is meaning and semantics we put on top either in
+the kernel (for dma_fence based sync) or in userspace (for direct submit
+userspace galore, which currently is done in the most hilarious way in a
+downstream hack since the hw support isn't there yet). Hilarious here
+means we submit a batchbuffer to the kernel which jumps back to it's
+start, and then use conditional rendering CS commands to latch in the next
+real userspace batch as userspace queues them up. There's a ring of these
+to keep it all nicely pipelined and the gpu busy. It's terrible, but for
+certain niche use-cases it gets the job done :-)
+
+> > Trying to shoehorn umf into all the old concepts like implicit sync or
+> > sync_file which really don't support umf works for a demo, but imo just
+> > isn't solid enough for shipping everywhere.
+> > 
+> > And long term I really don't think we ever want umf anywhere else than
+> > drm_syncobj, at least for a 100% umf-native stack.
+> 
+> Ok then I will concentrate on drm_syncobj for now.
+> 
+> What about in driver backward compatibility? E.g. blocking wait in the
+> multimedia driver CS IOCTL until umf signals?
+
+Yeah I think for that we can keep on using drm_syncobj exactly as-is, i.e.
+if it's a umf you just block until signalled when the driver tries to look
+up the dma_fence. Ofc userspace can be a bit more clever (and they all
+should do so) by doing that waiting in a userspace thread, and eventually
+we want them to get at the umf behind it all if they trust the other side,
+so that the wait can happen on the gpu.
+
+But that's kinda details, in general I think drm_syncobj should be ready
+for cross-driver/process/whatever umf sharing.
+
+Cheers, Daniel
+
+> Thanks,
+> Christian.
+> 
+> > 
+> > So maybe this all goes back to the old discussion with had, where you
+> > argued for the need for special fw and hw and all that to make the old
+> > dma_fence stuff work. Why is that needed? I still don't get that part ...
+> > -Daniel
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
