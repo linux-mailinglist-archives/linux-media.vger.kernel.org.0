@@ -2,225 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0B3B533D7C
-	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 15:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB220533DE9
+	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 15:34:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243984AbiEYNQU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 May 2022 09:16:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59816 "EHLO
+        id S241480AbiEYNeO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 May 2022 09:34:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229755AbiEYNQT (ORCPT
+        with ESMTP id S238854AbiEYNeJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 May 2022 09:16:19 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C37D9DFC9
-        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 06:16:17 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id s28so29952559wrb.7
-        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 06:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=r0OhdpMnZPonUb1erRhjQmUml1f0IxBmxKrI17luis4=;
-        b=h7YbprmnpeIZZ26SVzv/b1EwBpJGobMO7U8PhiUGOcx+QbAx4fWLQF9p7DF2vVKKT5
-         UaGN5CSTqqDehflhyxz3PcEPfSWX0X9uraBTDpd881XVMclONRBeDKrSkeKSAN79rmWs
-         NzTz+9TFd8bNlJeG4F5/iw7WsPIFCQkVwa7+w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=r0OhdpMnZPonUb1erRhjQmUml1f0IxBmxKrI17luis4=;
-        b=3TE/RmxLaJV4UqhDl5fa3ym9lwsmUHnJzZOdeD+zv/h6R74Ql23qVrGqnjbME7v19n
-         REAHFfFhF/Boz2MtoMJ1AlQksTCMjux2RVpnOlCkio8Frkv+lF2aKAJVce3SOflLxiZQ
-         w95xx33vkemjDWuMFfXvS3vgJ2o/BZnDaWH7KaRTz0OQ0nr7CW4+h3LmcFqzyXCovwVm
-         ReJ0XpFza51ti89l2aE9fElkpcQoJIw6wD0Mn0b3jUC5DzuF0+e/xUF6WE4ApRmSJdo3
-         v0iB+lbFkhVarHIN2x5W2FolAWqOaVlwpwcWUYGLExdEymeBDKOBvz7a+GcXZYA6pv0K
-         Vleg==
-X-Gm-Message-State: AOAM530Rmas1+RMeCeNY9ob5CgFOMt1A4Xny5L/CWQoiiDiPWDOrmsCO
-        409oDGBiaFXRryEgbqPVxobRFw==
-X-Google-Smtp-Source: ABdhPJyxy62K0wlO3BgFoV8DWXZZ6jfNIKST1lMDM3VZf3IjnzBY9rODYX2n46PUIakz4u+QXJc+7A==
-X-Received: by 2002:a5d:64c5:0:b0:20f:f372:13fd with SMTP id f5-20020a5d64c5000000b0020ff37213fdmr6001937wri.302.1653484576365;
-        Wed, 25 May 2022 06:16:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id y4-20020a056000168400b0020d02cbbb87sm2213026wrd.16.2022.05.25.06.16.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 May 2022 06:16:15 -0700 (PDT)
-Date:   Wed, 25 May 2022 15:16:13 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     daniel@ffwll.ch, linaro-mm-sig@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 1/5] dma-buf: cleanup dma_fence_unwrap selftest v2
-Message-ID: <Yo4sHQUP8IHdt4Kq@phenom.ffwll.local>
-References: <20220506141009.18047-1-christian.koenig@amd.com>
+        Wed, 25 May 2022 09:34:09 -0400
+X-Greylist: delayed 319 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 25 May 2022 06:34:08 PDT
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F79D5044C
+        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 06:34:07 -0700 (PDT)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4L7X2j0JCbz9ssr;
+        Wed, 25 May 2022 15:28:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1653485325;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aRQWRPkRkCsk8MA5HurITXUbflKlQ4WCJAgVg/vNYHk=;
+        b=HO/tvAbhDOGVkDR3da/Ya/vEZi1mu2iAdJcq08PmEAlrtSsP9U/m4LQVZM+fk5M3j4n7TO
+        QghFjVElgpTLVRc6mgQt9M3Jos4R4Z+CSDyz1MP25QCyGHcxjYZrmXUiqNxwgmGIleGeif
+        JdbZd8vDyLntbeceJYQ+NuCdI7cIV61d5aiMbrcEixkOkN42TMNHepRybX/JbYBZxPQNGU
+        sIGhpuHPPidUcXvJBh0HOYnyozabG2S70Vh6dqTWnNvOW7opWVUlMNohy1fxFfz9sq6F4G
+        qzbkYfq7JRk1iIgSSCzHWWc9wmpHfAqCdZn0Bcmy24nDwKKeIOkzWK3A79KiGw==
+Message-ID: <19808e9e-a5a6-c878-a2f7-5b33444f547d@mailbox.org>
+Date:   Wed, 25 May 2022 15:28:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Subject: Re: Tackling the indefinite/user DMA fence problem
+Content-Language: en-CA
+To:     Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     tvrtko.ursulin@linux.intel.com, sergemetral@google.com,
+        tzimmermann@suse.de, gustavo@padovan.org, Felix.Kuehling@amd.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, jason@jlekstrand.net,
+        alexander.deucher@amd.com, daniels@collabora.com,
+        skhawaja@google.com, sumit.semwal@linaro.org, maad.aldabagh@amd.com
+References: <20220502163722.3957-1-christian.koenig@amd.com>
+ <YnJQs1iusrBvpuMs@phenom.ffwll.local>
+ <a01c7703-f7f7-f8ce-f80e-632a6fdcbbbe@gmail.com>
+ <Ynkg81p6ADyZBa/L@phenom.ffwll.local>
+ <a249c0c4-ee6c-bfb0-737b-eb6afae29602@amd.com>
+ <Yo4pin1Js4KXs2HL@phenom.ffwll.local>
+From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <Yo4pin1Js4KXs2HL@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220506141009.18047-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MBO-RS-META: 8fobohk8h85i8nfr1u7m7beikuii4hc6
+X-MBO-RS-ID: acba8404cc4e0ad8a77
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 06, 2022 at 04:10:05PM +0200, Christian König wrote:
-> The selftests, fix the error handling, remove unused functions and stop
-> leaking memory in failed tests.
+On 2022-05-25 15:05, Daniel Vetter wrote:
+> On Tue, May 17, 2022 at 12:28:17PM +0200, Christian KÃ¶nig wrote:
+>> Am 09.05.22 um 16:10 schrieb Daniel Vetter:
+>>> On Mon, May 09, 2022 at 08:56:41AM +0200, Christian KÃ¶nig wrote:
+>>>> Am 04.05.22 um 12:08 schrieb Daniel Vetter:
+>>>>>
+>>>>> If the goal is specifically atomic kms, then there's an entire can of
+>>>>> worms there that I really don't want to think about, but it exists: We
+>>>>> have dma_fence as out-fences from atomic commit, and that's already
+>>>>> massively broken since most drivers allocate some memory or at least take
+>>>>> locks which can allocate memory in their commit path. Like i2c. Putting a
+>>>>> userspace memory fence as in-fence in there makes that problem
+>>>>> substantially worse, since at least in theory you're just not allowed to
+>>>>> might_faul in atomic_commit_tail.
+>>>> Yes, that's unfortunately one of the goals as well and yes I completely
+>>>> agree on the can of worms. But I think I've solved that.
+>>>>
+>>>> What I do in the patch set is to enforce that the out fence is an user fence
+>>>> when the driver supports user in fences as well.
+>>>>
+>>>> Since user fences doesn't have the memory management dependency drivers can
+>>>> actually allocate memory or call I2C functions which takes locks which have
+>>>> memory allocation dependencies.
+>>>>
+>>>> Or do I miss some other reason why you can't fault or allocate memory in
+>>>> atomic_commit_tail? At least lockdep seems to be happy about that now.
+>>> The problem is a bit that this breaks the uapi already. At least if the
+>>> goal is to have this all be perfectly transparent for userspace - as you
+>>> as you have multi-gpu setups going on at least.
+>>
+>> Question here is why do you think there is an UAPI break? We currently wait
+>> in a work item already, so where exactly is the problem?
 > 
-> v2: fix the memory leak correctly.
+> It's a bit washy, but dma_fence and hence implicit sync is supposed to
+> finish in finite time. umf just doesn't.
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Ofc in reality you can still flood your compositor and they're not very
+> robust, but with umf it's trivial to just hang your compositor forever and
+> nothing happens.
 
-I'm still a bit lost on all this (maybe add an explainer why you want to
-drop dma_fence_signal() - it's just not necessary for test functionality).
+You can add that to the list of reasons why compositors need to stop using buffers with unsignaled fences. There's plenty of other reasons there already (the big one being that otherwise slow clients can slow down the compositor, even if the compositor uses a high priority context and the HW supports preemption).
 
-But I think it's at least correct now.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-I've seen you've resent it to get intel-gfx-ci to look at it, so assuming
-that's all fine I think it's now all reviewed and ready for merging.
--Daniel
-> ---
->  drivers/dma-buf/st-dma-fence-unwrap.c | 48 +++++++++++----------------
->  1 file changed, 19 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
-> index 039f016b57be..e20c5a7dcfe4 100644
-> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
-> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
-> @@ -4,27 +4,19 @@
->   * Copyright (C) 2022 Advanced Micro Devices, Inc.
->   */
->  
-> +#include <linux/dma-fence.h>
-> +#include <linux/dma-fence-array.h>
-> +#include <linux/dma-fence-chain.h>
->  #include <linux/dma-fence-unwrap.h>
-> -#if 0
-> -#include <linux/kernel.h>
-> -#include <linux/kthread.h>
-> -#include <linux/mm.h>
-> -#include <linux/sched/signal.h>
-> -#include <linux/slab.h>
-> -#include <linux/spinlock.h>
-> -#include <linux/random.h>
-> -#endif
->  
->  #include "selftest.h"
->  
->  #define CHAIN_SZ (4 << 10)
->  
-> -static inline struct mock_fence {
-> +struct mock_fence {
->  	struct dma_fence base;
->  	spinlock_t lock;
-> -} *to_mock_fence(struct dma_fence *f) {
-> -	return container_of(f, struct mock_fence, base);
-> -}
-> +};
->  
->  static const char *mock_name(struct dma_fence *f)
->  {
-> @@ -45,7 +37,8 @@ static struct dma_fence *mock_fence(void)
->  		return NULL;
->  
->  	spin_lock_init(&f->lock);
-> -	dma_fence_init(&f->base, &mock_ops, &f->lock, 0, 0);
-> +	dma_fence_init(&f->base, &mock_ops, &f->lock,
-> +		       dma_fence_context_alloc(1), 1);
->  
->  	return &f->base;
->  }
-> @@ -59,7 +52,7 @@ static struct dma_fence *mock_array(unsigned int num_fences, ...)
->  
->  	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
->  	if (!fences)
-> -		return NULL;
-> +		goto error_put;
->  
->  	va_start(valist, num_fences);
->  	for (i = 0; i < num_fences; ++i)
-> @@ -70,13 +63,17 @@ static struct dma_fence *mock_array(unsigned int num_fences, ...)
->  				       dma_fence_context_alloc(1),
->  				       1, false);
->  	if (!array)
-> -		goto cleanup;
-> +		goto error_free;
->  	return &array->base;
->  
-> -cleanup:
-> -	for (i = 0; i < num_fences; ++i)
-> -		dma_fence_put(fences[i]);
-> +error_free:
->  	kfree(fences);
-> +
-> +error_put:
-> +	va_start(valist, num_fences);
-> +	for (i = 0; i < num_fences; ++i)
-> +		dma_fence_put(va_arg(valist, typeof(*fences)));
-> +	va_end(valist);
->  	return NULL;
->  }
->  
-> @@ -113,7 +110,6 @@ static int sanitycheck(void *arg)
->  	if (!chain)
->  		return -ENOMEM;
->  
-> -	dma_fence_signal(f);
->  	dma_fence_put(chain);
->  	return err;
->  }
-> @@ -154,10 +150,8 @@ static int unwrap_array(void *arg)
->  		err = -EINVAL;
->  	}
->  
-> -	dma_fence_signal(f1);
-> -	dma_fence_signal(f2);
->  	dma_fence_put(array);
-> -	return 0;
-> +	return err;
->  }
->  
->  static int unwrap_chain(void *arg)
-> @@ -196,10 +190,8 @@ static int unwrap_chain(void *arg)
->  		err = -EINVAL;
->  	}
->  
-> -	dma_fence_signal(f1);
-> -	dma_fence_signal(f2);
->  	dma_fence_put(chain);
-> -	return 0;
-> +	return err;
->  }
->  
->  static int unwrap_chain_array(void *arg)
-> @@ -242,10 +234,8 @@ static int unwrap_chain_array(void *arg)
->  		err = -EINVAL;
->  	}
->  
-> -	dma_fence_signal(f1);
-> -	dma_fence_signal(f2);
->  	dma_fence_put(chain);
-> -	return 0;
-> +	return err;
->  }
->  
->  int dma_fence_unwrap(void)
-> -- 
-> 2.25.1
-> 
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Earthling Michel DÃ¤nzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
