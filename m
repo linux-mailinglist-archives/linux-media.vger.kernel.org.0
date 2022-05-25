@@ -2,95 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BCF853363C
-	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 06:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F20495336D5
+	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 08:42:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231680AbiEYEl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 May 2022 00:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39328 "EHLO
+        id S243811AbiEYGmb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 May 2022 02:42:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231207AbiEYEl0 (ORCPT
+        with ESMTP id S229790AbiEYGmb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 May 2022 00:41:26 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D88BD2DAB5
-        for <linux-media@vger.kernel.org>; Tue, 24 May 2022 21:41:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 0B896CE1D6F
-        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 04:41:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04552C385B8
-        for <linux-media@vger.kernel.org>; Wed, 25 May 2022 04:41:18 +0000 (UTC)
-Date:   Wed, 25 May 2022 06:41:17 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20220525044119.04552C385B8@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 25 May 2022 02:42:31 -0400
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B0645D5E3;
+        Tue, 24 May 2022 23:42:30 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id t6so28693667wra.4;
+        Tue, 24 May 2022 23:42:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=xzXxE/nIG94fZDAx8kfaG+i6DsPPnFHAZGzGMp67EkM=;
+        b=pztPGd5ByyQ+ZPd7SplYwlnV8QAlSM2q2Psx19/bL5Fnel087GW/RHm3JSZTsh76Kw
+         v0duNkl+O+2VWT5D+BRgAN75FHbq4F9va1b/E0bcgSF8nCspp+2R07+Q2SVl5kbXkEcF
+         dDNEuJ9HOWRrntN+cKXWFd6scQueOW+7GMzodvWctj+rcxydfqEHVJj//yLgf5p9Ph3J
+         1rcIFg/rxd4xqpzsnc/UNpyzNpmfGJt93WACdg2wFrrxWD8BreJAQzuMgVP1yW0qE80Q
+         +DxoZQrf+7C0FH8JBa4vFR+mwDEJBSQhHAJ0YjbszE+5XNAEHEjdQzDrMM5ucit2yCqf
+         VOqA==
+X-Gm-Message-State: AOAM533KdHUetbC7knFPuEVtLeqzsiVYjPQ503XuQzq3zeNLa5CQsyf8
+        VqY1rqkz15IMqcMThBV6nV2BiUQ74kagdA==
+X-Google-Smtp-Source: ABdhPJym68uKqI8/tFMPBZVxhfI+3wgz9iBVPGOPE3DbsNrCpXDXGhWzcVzZLtJgKqLzixGM7/shzQ==
+X-Received: by 2002:a5d:574a:0:b0:20d:70c:3aa8 with SMTP id q10-20020a5d574a000000b0020d070c3aa8mr25569960wrw.255.1653460948533;
+        Tue, 24 May 2022 23:42:28 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id v7-20020a5d43c7000000b0020c5253d8f7sm1154279wrr.67.2022.05.24.23.42.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 May 2022 23:42:28 -0700 (PDT)
+Message-ID: <a0470450-ecfd-2918-e04a-7b57c1fd7694@kernel.org>
+Date:   Wed, 25 May 2022 08:42:26 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [GIT PULL for v5.18-rc1] media updates
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sean Young <sean@mess.org>
+References: <20220322101406.459e2950@coco.lan>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <20220322101406.459e2950@coco.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 22. 03. 22, 10:14, Mauro Carvalho Chehab wrote:
+> Hi Linus,
+> 
+> Please pull from:
+>    git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.18-1
+...
+> Sean Young (10):
+...
+>        media: lirc: remove unused lirc features
 
-Results of the daily build of media_tree:
+Hi,
 
-date:			Wed May 25 05:00:09 CEST 2022
-media-tree git hash:	340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-14-g5a0004b5-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7985-g10181ff8-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 9cab4a480ab6918fca528dd05f2ab6cc66cb668f
-host hardware:		x86_64
-host os:		5.17.0-1-amd64
+this breaks lirc build:
+> [   59s] lircd.cpp:489:49: error: 'LIRC_CAN_SET_REC_FILTER' was not declared in this scope; did you mean 'LIRC_CAN_SET_REC_CARRIER'?
+> [   59s]   489 |                     || (curr_driver->features & LIRC_CAN_SET_REC_FILTER)) {
+> [   59s]       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~
+> [   59s]       |                                                 LIRC_CAN_SET_REC_CARRIER
+> [   59s] lircd.cpp: In function 'void loop()':
+> [   59s] lircd.cpp:2069:82: error: 'LIRC_CAN_NOTIFY_DECODE' was not declared in this scope; did you mean 'DRVCTL_NOTIFY_DECODE'?
+> [   59s]  2069 |                         if (curr_driver->drvctl_func && (curr_driver->features & LIRC_CAN_NOTIFY_DECODE))
+> [   59s]       |                                                                                  ^~~~~~~~~~~~~~~~~~~~~~
+> [   59s]       |                                                                                  DRVCTL_NOTIFY_DECODE
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-kerneldoc: OK
+So the uapi header defines should be brought back, IMO.
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+thanks,
+-- 
+js
+suse labs
