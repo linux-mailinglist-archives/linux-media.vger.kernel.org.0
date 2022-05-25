@@ -2,56 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C897A534372
-	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 20:59:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA85534384
+	for <lists+linux-media@lfdr.de>; Wed, 25 May 2022 21:03:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343922AbiEYS7a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 May 2022 14:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60704 "EHLO
+        id S244310AbiEYTDU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 May 2022 15:03:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343925AbiEYS7X (ORCPT
+        with ESMTP id S240971AbiEYTDP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 May 2022 14:59:23 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D26483AA73;
-        Wed, 25 May 2022 11:59:20 -0700 (PDT)
+        Wed, 25 May 2022 15:03:15 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92FCABF64;
+        Wed, 25 May 2022 12:03:12 -0700 (PDT)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id B4CF8FF811;
-        Wed, 25 May 2022 18:59:17 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 274301C0003;
+        Wed, 25 May 2022 19:03:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1653505158;
+        t=1653505391;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+44MKEzbr6mmZvItCeUhrwnRLl0KFr8XIZCG0Fq+qRg=;
-        b=grYNXRJeMa6DGt1G8h7yKlO0bqx8yFTq+JmD7gXoLPMcWgX9x4BqrgbV3G0bsB1qPodkmi
-        iJph2cKn2JfdHP6VJ0Np101e5gc63kmrQEviaz9zoPhnuCp1j7U0IjZKqDE9++NzH/2CI2
-        HfUPlSFhA4xHZlEsGKtNSLf+XO1IIchh0MbpAHBCUpcx3/2WiyWwGH1CGUM4DG7JRjzT7x
-        aTxBS51iAfB/29HnfxNEShP6lYjzzMn2n+7xtZI2HOJNUR8oV2W7EflTlEAp6FSfIL75qP
-        ghh0BWzNbMcgUKcnyxyzAqgppCu3/7eiqxLzHS/WSyb9Img/MRRpZvUldemCmw==
+         content-transfer-encoding:content-transfer-encoding;
+        bh=aWM4jU+KpwKbe/LtiT6xQQFiiBtsv9ibwWOS4XTHIBQ=;
+        b=aCv2zN21S1EhX4HwiMuylnkJC/WpyeUQHx7cR5l3kFeeuKRIwci8QwKMd6FxLDwkMftK8n
+        bsQpE4QwjRMCPnQiF/44CoY5zemPFgdPUs13GIrmsY/mlTuJHiIYpMWY29X0EfAgRrgIUl
+        oElC7XFw2tmxxD69qmRiQb+cwkDEPSzLHX+XDOP2ZekWxg/Id6jRdzaDwPUoJ2/HJ6mEk/
+        O3pW/O4sSByXr/469uK4djoF01q8EISfKODxz4KUS/pqcOrS2qt95Cjz16NfFPExDuUXVt
+        VHzbFYRNZSCGam/t6JCibIqOEppg0V0yGdZ/x3jlX+tQ5FnnA7ek3MnYKGnSEA==
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Samuel Holland <samuel@sholland.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
-        <kevin.lhopital@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH NOT FOR MERGE v4 7/7] ARM: dts: sun8i: a83t: bananapi-m3: Enable MIPI CSI-2 with OV8865
-Date:   Wed, 25 May 2022 20:58:53 +0200
-Message-Id: <20220525185853.695931-8-paul.kocialkowski@bootlin.com>
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v5 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / MIPI CSI-2 Support
+Date:   Wed, 25 May 2022 21:02:54 +0200
+Message-Id: <20220525190300.696269-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
-References: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -65,167 +63,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-The Bananapi M3 supports a camera module which includes an OV8865 sensor
-connected via the parallel CSI interface and an OV8865 sensor connected
-via MIPI CSI-2.
+This part only concerns the MIPI CSI-2 controllers support changes.
 
-The I2C2 bus is shared by the two sensors as well as the (active-low)
-reset signal, but each sensor has it own shutdown line.
+Changes since v4:
+- Used '/schemas/graph.yaml#/properties/port' whenever possible;
+- Removed applied patches;
+- Added collected tag;
 
-Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 102 +++++++++++++++++++
- 1 file changed, 102 insertions(+)
+Paul Kocialkowski (6):
+  dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
+  dt-bindings: media: Add Allwinner A31 MIPI CSI-2 bindings
+    documentation
+  media: sunxi: Add support for the A31 MIPI CSI-2 controller
+  MAINTAINERS: Add entry for the Allwinner A31 MIPI CSI-2 bridge driver
+  dt-bindings: media: Add Allwinner A83T MIPI CSI-2 bindings
+    documentation
+  media: sunxi: Add support for the A83T MIPI CSI-2 controller
 
-diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-index 5a7e1bd5f825..80fd99cf24b2 100644
---- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-+++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-@@ -85,6 +85,30 @@ led-1 {
- 		};
- 	};
- 
-+	reg_ov8865_avdd: ov8865-avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-avdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	reg_ov8865_dovdd: ov8865-dovdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dovdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	reg_ov8865_dvdd: ov8865-dvdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dvdd";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		vin-supply = <&reg_eldo1>;
-+	};
-+
- 	reg_usb1_vbus: reg-usb1-vbus {
- 		compatible = "regulator-fixed";
- 		regulator-name = "usb1-vbus";
-@@ -115,6 +139,23 @@ &cpu100 {
- 	cpu-supply = <&reg_dcdc3>;
- };
- 
-+&csi {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			csi_in_mipi_csi2: endpoint {
-+				remote-endpoint = <&mipi_csi2_out_csi>;
-+			};
-+		};
-+	};
-+};
-+
- &de {
- 	status = "okay";
- };
-@@ -147,6 +188,36 @@ hdmi_out_con: endpoint {
- 	};
- };
- 
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c2_pe_pins>;
-+	status = "okay";
-+
-+	ov8865: camera@36 {
-+		compatible = "ovti,ov8865";
-+		reg = <0x36>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&csi_mclk_pin>;
-+		clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clock-rates = <24000000>;
-+		avdd-supply = <&reg_ov8865_avdd>;
-+		dovdd-supply = <&reg_ov8865_dovdd>;
-+		dvdd-supply = <&reg_ov8865_dvdd>;
-+		powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-+		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-+
-+		port {
-+			ov8865_out_mipi_csi2: endpoint {
-+				data-lanes = <1 2 3 4>;
-+				link-frequencies = /bits/ 64 <360000000>;
-+
-+				remote-endpoint = <&mipi_csi2_in_ov8865>;
-+			};
-+		};
-+	};
-+};
-+
- &mdio {
- 	rgmii_phy: ethernet-phy@1 {
- 		compatible = "ethernet-phy-ieee802.3-c22";
-@@ -154,6 +225,24 @@ rgmii_phy: ethernet-phy@1 {
- 	};
- };
- 
-+&mipi_csi2 {
-+	status = "okay";
-+};
-+
-+&mipi_csi2_in {
-+	mipi_csi2_in_ov8865: endpoint {
-+		data-lanes = <1 2 3 4>;
-+
-+		remote-endpoint = <&ov8865_out_mipi_csi2>;
-+	};
-+};
-+
-+&mipi_csi2_out {
-+	mipi_csi2_out_csi: endpoint {
-+		remote-endpoint = <&csi_in_mipi_csi2>;
-+	};
-+};
-+
- &mmc0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&mmc0_pins>;
-@@ -327,11 +416,24 @@ &reg_dldo3 {
- 	regulator-name = "vcc-pd";
- };
- 
-+&reg_dldo4 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <2800000>;
-+	regulator-max-microvolt = <2800000>;
-+	regulator-name = "avdd-csi";
-+};
-+
- &reg_drivevbus {
- 	regulator-name = "usb0-vbus";
- 	status = "okay";
- };
- 
-+&reg_eldo1 {
-+	regulator-min-microvolt = <1200000>;
-+	regulator-max-microvolt = <1200000>;
-+	regulator-name = "dvdd-csi-r";
-+};
-+
- &reg_fldo1 {
- 	regulator-min-microvolt = <1080000>;
- 	regulator-max-microvolt = <1320000>;
+ .../media/allwinner,sun6i-a31-csi.yaml        |  58 +-
+ .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 137 +++
+ .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 125 +++
+ MAINTAINERS                                   |   8 +
+ drivers/media/platform/sunxi/Kconfig          |   2 +
+ drivers/media/platform/sunxi/Makefile         |   2 +
+ .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  14 +
+ .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 749 ++++++++++++++++
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |  52 ++
+ .../sun6i-mipi-csi2/sun6i_mipi_csi2_reg.h     |  76 ++
+ .../sunxi/sun8i-a83t-mipi-csi2/Kconfig        |  12 +
+ .../sunxi/sun8i-a83t-mipi-csi2/Makefile       |   4 +
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c    |  72 ++
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h    |  39 +
+ .../sun8i_a83t_mipi_csi2.c                    | 815 ++++++++++++++++++
+ .../sun8i_a83t_mipi_csi2.h                    |  55 ++
+ .../sun8i_a83t_mipi_csi2_reg.h                | 151 ++++
+ 18 files changed, 2361 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2_reg.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2_reg.h
+
 -- 
 2.36.1
 
