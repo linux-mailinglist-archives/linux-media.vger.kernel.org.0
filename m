@@ -2,73 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F719534EF6
-	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 14:16:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F607534F0C
+	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 14:24:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347067AbiEZMQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 May 2022 08:16:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49362 "EHLO
+        id S239073AbiEZMYK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 May 2022 08:24:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241852AbiEZMQO (ORCPT
+        with ESMTP id S229899AbiEZMYJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 May 2022 08:16:14 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8336E24F21
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:16:12 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id n10so1583859pjh.5
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:16:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pSsFxHfEMcrHOSBoFMEeUFcZhoPO+KxNjOCmccE7VEc=;
-        b=j1LakW1276mdhdZUQsSFgcp6av448PqaRz7jViMY+GiGwh5iEij2Cm5mimSgVPEdiL
-         Ozj3HVl3aUCQNnL22XjmDerl2WGv3ej+oU5YMVtYH9VIgXAWsX2inzVAfnyQqa2b5xnX
-         W2Y4WrZkxJ+HRox9oe5wjmagh65jqeEWGjW8fstEyuAjiqnZGpAs/+pspSCQIhlehDyP
-         xDU30Ahlo1lxgsqq/URVcKV4vlRa+Ug1dhRi/5993PYb81ygDBtRkwhfgFcpx+IwipjA
-         ioZ7k1tvfTIqVetbCWXoO8xV/OhK2fIufIzWIIGxVrM90tgy7w3bSaH4Mpz4weYTocdg
-         ER1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pSsFxHfEMcrHOSBoFMEeUFcZhoPO+KxNjOCmccE7VEc=;
-        b=KlPbE5Dxgs4/ajbZBL2YGYuDgWqLTfz9pU2Fc/qQh+BgQe9hUV5mx3xD1jdjQ01qC2
-         4JUvMzb5OSQ6JSxwwKfTnRNqcqddD7uCNqwjzod6F404T5/cVeBmguAfSUVxgWxNsb38
-         3lsUulTOR/b3H+2lisyT6CC15ieGXgn8Fx2lyhqB9VP36fY6WA390KcM6WdCLZF3p+hB
-         Z0kbH1m0rDLmhJ4DY3nj+MrF4NM7TteF9eiZF+6onpFlgmQQXpGccDBuIPy1oR/TpitZ
-         k1Tc3E3WkPSSKg9Uuiof35XnDrckV1PY5kPWPDNJnMxnNJ/VjU1uAAMa2IRyVNWImYXt
-         g4Rw==
-X-Gm-Message-State: AOAM531lTaTW9erUUXJK0YxvPj5O4IFFHr4gXrN65/HSVGy5D9g+4j3W
-        vHa+7xCl4NJZTSRfGCT6Mx2ddD55Y8HQrB0hJDffArWBGYQ=
-X-Google-Smtp-Source: ABdhPJyPE1Wcb5k1NYZNag1s+hH2MlPohRmJCsdM2BsWrYm5w9w9F6ArFLEhJ5Lmyc8aI7BQaEykL1CgVfGR0Wh+Ecc=
-X-Received: by 2002:a17:902:8f81:b0:161:f4a7:f2fc with SMTP id
- z1-20020a1709028f8100b00161f4a7f2fcmr30701452plo.117.1653567371993; Thu, 26
- May 2022 05:16:11 -0700 (PDT)
+        Thu, 26 May 2022 08:24:09 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27FF3C966E;
+        Thu, 26 May 2022 05:24:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E0322B820D0;
+        Thu, 26 May 2022 12:24:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E651C385A9;
+        Thu, 26 May 2022 12:24:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1653567845;
+        bh=pXQ2y8qFFse1aW7YCdsD7dao6a8hX9aO58+GzC/aTXg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WzgnavGfQcAGdgHfWGM+61V0ZIvYhglLUR7rph10TGTHK9TXNrrArftyN3KxljxZG
+         BcZqTFep1SO5Q/LTHreT4nBus3TZp/A/9F/IF1yi8T/3d6kjKbGQxeKOqpIInfUrpI
+         XT8yZcvpnEelrzAFW8uOI2TJ6R9S2hu/zwFMTHbM=
+Date:   Thu, 26 May 2022 14:24:01 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+Cc:     stable@vger.kernel.org, mchehab@kernel.org, matthias.bgg@gmail.com,
+        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, yj.chiang@mediatek.com
+Subject: Re: [PATCH 5.4 0/2] media: vim2m: Fix potential NULL pointer
+ dereference
+Message-ID: <Yo9xYT2Ln6V9MbYA@kroah.com>
+References: <20220525082731.28235-1-mark-pk.tsai@mediatek.com>
 MIME-Version: 1.0
-References: <20220522162802.208275-1-luca@z3ntu.xyz> <20220522162802.208275-12-luca@z3ntu.xyz>
-In-Reply-To: <20220522162802.208275-12-luca@z3ntu.xyz>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 26 May 2022 14:16:01 +0200
-Message-ID: <CAG3jFys4o6vsqhDJXMkL2fFdjDGstdzaB59j=Md6KDinMDNVRg@mail.gmail.com>
-Subject: Re: [RFC PATCH 11/14] ARM: dts: qcom: msm8974: add CCI bus
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        matti.lehtimaki@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220525082731.28235-1-mark-pk.tsai@mediatek.com>
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,99 +55,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch does not apply on upstream-media/master or
-upstream-next/master. Is there another branch this series should be
-applied to?
+On Wed, May 25, 2022 at 04:27:29PM +0800, Mark-PK Tsai wrote:
+> Backport upstream solution [1][2] to fix below kernel panic:
+> 
+> Unable to handle kernel NULL pointer dereference at virtual address 0000000000000208
+> ...
+> pc : _raw_spin_lock_irqsave+0x50/0x90
+> lr : v4l2_m2m_cancel_job+0x38/0x1c4 [v4l2_mem2mem]
+> sp : ffffffc012d2bcb0
+> x29: ffffffc012d2bcb0 x28: ffffff8098d6bb00
+> x27: 0000000000000000 x26: ffffffc01009b5c8
+> x25: 00000000000e001f x24: ffffff808ff3eb50
+> x23: ffffffc01009f5a0 x22: 0000000000000000
+> x21: ffffff808ffef000 x20: 0000000000000208
+> x19: 0000000000000000 x18: ffffffc012b51048
+> x17: ffffffc011e0ef7c x16: 00000000000000c0
+> x15: ffffffc010fc78f4 x14: ffffffc0119dd790
+> x13: 0000000000001b26 x12: 0000000053555555
+> x11: 0000000000000002 x10: 0000000000000001
+> x9 : 0000000000000000 x8 : 0000000000000208
+> x7 : 2020202020202020 x6 : ffffffc011e313a6
+> x5 : 0000000000000000 x4 : 0000000000000008
+> x3 : 000000000000002e x2 : 0000000000000001
+> x1 : 0000000000000000 x0 : 0000000000000208
+> Call trace:
+>  _raw_spin_lock_irqsave+0x50/0x90
+>  v4l2_m2m_cancel_job+0x38/0x1c4 [v4l2_mem2mem]
+>  v4l2_m2m_ctx_release+0x38/0x60 [v4l2_mem2mem]
+>  vim2m_release+0x5c/0xe0 [vim2m]
+>  v4l2_release+0x90/0x18c
+>  __fput+0xdc/0x2cc
+>  ____fput+0x10/0x1c
+>  task_work_run+0xc4/0x130
+>  do_notify_resume+0xdc/0x158
+>  work_pending+0x8/0x10
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=cf7f34777a5b4100a3a44ff95f3d949c62892bdd
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1a28dce222a6ece725689ad58c0cf4a1b48894f4
+> 
+> Mark-PK Tsai (2):
+>   media: vim2m: Register video device after setting up internals
+>   media: vim2m: initialize the media device earlier
+> 
+>  drivers/media/platform/vim2m.c | 22 +++++++++++++---------
+>  1 file changed, 13 insertions(+), 9 deletions(-)
+> 
+> -- 
+> 2.18.0
+> 
 
-On Sun, 22 May 2022 at 18:28, Luca Weiss <luca@z3ntu.xyz> wrote:
->
-> Add a node for the camera-specific i2c bus found on msm8974.
->
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> ---
->  arch/arm/boot/dts/qcom-msm8974.dtsi | 62 +++++++++++++++++++++++++++++
->  1 file changed, 62 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/qcom-msm8974.dtsi b/arch/arm/boot/dts/qcom-msm8974.dtsi
-> index ffa6f874917a..a80b4ae71745 100644
-> --- a/arch/arm/boot/dts/qcom-msm8974.dtsi
-> +++ b/arch/arm/boot/dts/qcom-msm8974.dtsi
-> @@ -1434,6 +1434,34 @@ blsp2_i2c5_sleep: blsp2-i2c5-sleep {
->
->                         /* BLSP2_I2C6 info is missing - nobody uses it though? */
->
-> +                       cci0_default: cci0-default {
-> +                               pins = "gpio19", "gpio20";
-> +                               function = "cci_i2c0";
-> +                               drive-strength = <2>;
-> +                               bias-disable;
-> +                       };
-> +
-> +                       cci0_sleep: cci0-sleep {
-> +                               pins = "gpio19", "gpio20";
-> +                               function = "gpio";
-> +                               drive-strength = <2>;
-> +                               bias-disable;
-> +                       };
-> +
-> +                       cci1_default: cci1-default {
-> +                               pins = "gpio21", "gpio22";
-> +                               function = "cci_i2c1";
-> +                               drive-strength = <2>;
-> +                               bias-disable;
-> +                       };
-> +
-> +                       cci1_sleep: cci1-sleep {
-> +                               pins = "gpio21", "gpio22";
-> +                               function = "gpio";
-> +                               drive-strength = <2>;
-> +                               bias-disable;
-> +                       };
-> +
->                         spi8_default: spi8_default {
->                                 mosi {
->                                         pins = "gpio45";
-> @@ -1587,6 +1615,40 @@ dsi0_phy: dsi-phy@fd922a00 {
->                         };
->                 };
->
-> +               cci: cci@fda0c000 {
-> +                       compatible = "qcom,msm8974-cci";
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +                       reg = <0xfda0c000 0x1000>;
-> +                       interrupts = <GIC_SPI 50 IRQ_TYPE_EDGE_RISING>;
-> +                       clocks = <&mmcc CAMSS_TOP_AHB_CLK>,
-> +                                <&mmcc CAMSS_CCI_CCI_AHB_CLK>,
-> +                                <&mmcc CAMSS_CCI_CCI_CLK>;
-> +                       clock-names = "camss_top_ahb",
-> +                                     "cci_ahb",
-> +                                     "cci";
-> +
-> +                       pinctrl-names = "default", "sleep";
-> +                       pinctrl-0 = <&cci0_default &cci1_default>;
-> +                       pinctrl-1 = <&cci0_sleep &cci1_sleep>;
-> +
-> +                       status = "disabled";
-> +
-> +                       cci_i2c0: i2c-bus@0 {
-> +                               reg = <0>;
-> +                               clock-frequency = <400000>;
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +                       };
-> +
-> +                       cci_i2c1: i2c-bus@1 {
-> +                               reg = <1>;
-> +                               clock-frequency = <400000>;
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +                       };
-> +               };
-> +
->                 gpu: adreno@fdb00000 {
->                         compatible = "qcom,adreno-330.1", "qcom,adreno";
->                         reg = <0xfdb00000 0x10000>;
-> --
-> 2.36.0
->
+All now queued up, thanks.
+
+greg k-h
