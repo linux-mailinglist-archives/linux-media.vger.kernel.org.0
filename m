@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85740534F72
-	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 14:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 415A6534F7C
+	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 14:42:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347326AbiEZMlL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 May 2022 08:41:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54980 "EHLO
+        id S1343788AbiEZMmw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 May 2022 08:42:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347439AbiEZMlD (ORCPT
+        with ESMTP id S237910AbiEZMmu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 May 2022 08:41:03 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 323A066FAF
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:41:00 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id m14-20020a17090a414e00b001df77d29587so4328996pjg.2
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:41:00 -0700 (PDT)
+        Thu, 26 May 2022 08:42:50 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21E116E8C3
+        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:42:47 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id q92-20020a17090a17e500b001e0817e77f6so4312092pja.5
+        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=1Rj1FYBiOvZLhBZCkRxGB9isSInLDH4Eii5EQ0dZppM=;
-        b=YZPVPzqOw96zZveL7AOUNsY1sG+cTXdDluJDV13rwdILIi9W5IIMMZQ4JEwh8Upqj6
-         4MmHtKVZkYVuvTh/lAd+eybNMJnwgkn0zhvH+AV72IXN5agIMH/Gr46BxY34z4+LwPFU
-         FMan1xtIpwAzS13DruwpmZn/JHzF4dEijaYzr1i0zVXYAoVXbLUrl5N1dmkUXvkqo5Bo
-         zZNYfUIt8qoG3rh7HsSOZ87nIhABitYpatTFipEqtTljc5LWIhE6Um31wB2w/ElPeNVE
-         WBxTP02t8a+JQEJ0fYxsIrVylMGX6AC3/RjaE0+0QFqIoIbJSB2G2ttgIUmGXplaNE5B
-         74dQ==
+        bh=jdjGxx7PRekSNzvSccskiFkZs4U5abVvScuD8Z3XzKg=;
+        b=Iz1P49Jvu7F3411ROfQcozZqUkFOaQgRNHvjm19nwifaFwsMmfKP2J8QgLd+3E5r9I
+         BTXK+F6GrjZgT+tSWho24f7d4O1cM1o3ssHia+5i9qgBOe9Q7jFWbXYPEQkPSYtyDIr+
+         Skd1qV8Uj8D/9rHuZRyV1ZoseJIBLHItfpe5eykGXtxOzIaaJ/hKietgS2t3EQzR9Gl/
+         DXwBWeqLOEtBS02ycWWJIUJqMGsneyRfT0x5rXJdN1NPKhUPQbtWZJyWN8vRACRZqMC0
+         NZjXm769TCcyszRpSa0YRoET88SHeYC3SCdt9H25Ewj6QGZ8TVMqMa0ooXBU1vqckPKz
+         YCLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1Rj1FYBiOvZLhBZCkRxGB9isSInLDH4Eii5EQ0dZppM=;
-        b=PqJpA15OG1Ss6le9mjqQkhPozWra43AKScO+XYobhfUhumIlucFCi0kNkxNNI0AL10
-         I8tcKVm/qxL8YzIcrlH2dHH3dMHj2WE+IhYdBezdPzcO06gkM5uiEC86OnTfqSGTACS4
-         o8kyFEcExBcS3fOXrndrTdOHtXdstbcHeZRuFPt6jE9+EEuw+axTCGJLl0VO/8vbhfH1
-         y8NCwNNmoKzKBqLFg+XkotXWs8MFtSF8svVp7lOVaI4yVEK4ZxjgJylZgz9Oj77StCvj
-         rccX9Q7tdU9Omr3TGo81nX8ez/BZBU1RtDn371frJJ1zgmpdECxl1ydiyJr9dUmUNpRn
-         1qdA==
-X-Gm-Message-State: AOAM530b3TJi8eWjdHBqX0Je8+a8sdquatkGekhUP5DnkfECo7I/uqZ1
-        d1gAro8QQuNwCh2qM1HC1y2pVjBPlx2hWXtCDr0BMA==
-X-Google-Smtp-Source: ABdhPJyGQgT/BgWH1jsAbLqPk5ImtjgKyHKNaAQiFZB75mBBs8krUR0vq3nyaEkmEgd+MbH8+MRQdqS81o5QPOt+zNY=
-X-Received: by 2002:a17:90b:380f:b0:1e0:aa6:9e24 with SMTP id
- mq15-20020a17090b380f00b001e00aa69e24mr2459758pjb.232.1653568859590; Thu, 26
- May 2022 05:40:59 -0700 (PDT)
+        bh=jdjGxx7PRekSNzvSccskiFkZs4U5abVvScuD8Z3XzKg=;
+        b=zF14oCBaWC154rUS6MZ50Beop4+2Cq/eVZ67v/HegCBpI/uBltJlGaqaXnlzR6dd4c
+         kFU8fgbFhGQLmIyul90CmXrt+fk0VIB+oRdeOepAy4eGhXL4qK9/ugtcG4tNQ9wzvcM0
+         AQltGbZH4hhAxrjb5vvtMg7PUROdXISolyPh2F/fEeYODiJxMy8DIFMc0QDKxQC6f9QD
+         MEy1nQovVgpYJ3bKJFJ7sOrTouFulhcEcOKhV5KF5lMDKT9lnM9Q+tm6+GvlguJS/lux
+         VmJPA5nOmVubQKlpWGxTfgwOF2MUXj7+q8l2mMedAzi+QEErgm/c2e3ObMi5NiW0iS15
+         iExQ==
+X-Gm-Message-State: AOAM533O6URkT0BtJAS4rnURXd7E5vJYT1+8tpBCINSzdLl3INVdt4P/
+        LmH9bUKyffoIN4nuvDStBI8FM9at7vpAJPybsHbOiA==
+X-Google-Smtp-Source: ABdhPJwSlTKFfEDVZSH4bg6IXzpCeeQ8TDu75ALcCSHTgNKCO3gjRaw+18HZchkUJ4JSXlp3cX5qFz11VXRag++xkQM=
+X-Received: by 2002:a17:903:1cd:b0:163:6697:e6e with SMTP id
+ e13-20020a17090301cd00b0016366970e6emr6141774plh.21.1653568966611; Thu, 26
+ May 2022 05:42:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220522162802.208275-1-luca@z3ntu.xyz> <20220522162802.208275-8-luca@z3ntu.xyz>
-In-Reply-To: <20220522162802.208275-8-luca@z3ntu.xyz>
+References: <20220522162802.208275-1-luca@z3ntu.xyz> <20220522162802.208275-9-luca@z3ntu.xyz>
+In-Reply-To: <20220522162802.208275-9-luca@z3ntu.xyz>
 From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 26 May 2022 14:40:48 +0200
-Message-ID: <CAG3jFytdtw-LBpkgWo2EC1a4rJy-n7WOeYWo3NCOv6-mVOJmAg@mail.gmail.com>
-Subject: Re: [RFC PATCH 07/14] media: camss: csiphy: Add support for 8x74
+Date:   Thu, 26 May 2022 14:42:35 +0200
+Message-ID: <CAG3jFyuVG9H3P2yUEJRUo9c4xLzax1tTeJYLUpoPOwHdYZ-xNw@mail.gmail.com>
+Subject: Re: [RFC PATCH 08/14] media: camss: Add 8x74 resources
 To:     Luca Weiss <luca@z3ntu.xyz>
 Cc:     linux-arm-msm@vger.kernel.org,
         ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
@@ -81,48 +81,228 @@ On Sun, 22 May 2022 at 18:28, Luca Weiss <luca@z3ntu.xyz> wrote:
 >
 > From: Matti Lehtim=C3=A4ki <matti.lehtimaki@gmail.com>
 >
-> CSIPHY hardware modules in 8x74 and 8x16 are similar.
+> Add structs with 8x74 resources. The number of CSIPHY, CSID
+> and VFE hardware modules is the same as 8x96 but the support
+> is otherwise different.
 >
 > Signed-off-by: Matti Lehtim=C3=A4ki <matti.lehtimaki@gmail.com>
 > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 > ---
->  drivers/media/platform/qcom/camss/camss-csiphy.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/media/platform/qcom/camss/camss.c | 161 ++++++++++++++++++++++
+>  1 file changed, 161 insertions(+)
 >
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/m=
-edia/platform/qcom/camss/camss-csiphy.c
-> index 75fcfc627400..a0122705a874 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> @@ -557,7 +557,8 @@ int msm_csiphy_subdev_init(struct camss *camss,
->         csiphy->id =3D id;
->         csiphy->cfg.combo_mode =3D 0;
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/pl=
+atform/qcom/camss/camss.c
+> index 79ad82e233cb..5a69ce48c792 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -126,6 +126,154 @@ static const struct resources vfe_res_8x16[] =3D {
+>         }
+>  };
 >
-> -       if (camss->version =3D=3D CAMSS_8x16) {
-> +       if (camss->version =3D=3D CAMSS_8x16 ||
-> +                  camss->version =3D=3D CAMSS_8x74) {
-
-CHECK: Alignment should match open parenthesis
-#27: FILE: drivers/media/platform/qcom/camss/camss-csiphy.c:561:
-+    if (camss->version =3D=3D CAMSS_8x16 ||
-+           camss->version =3D=3D CAMSS_8x74) {
-
-
->                 csiphy->ops =3D &csiphy_ops_2ph_1_0;
->                 csiphy->formats =3D csiphy_formats_8x16;
->                 csiphy->nformats =3D ARRAY_SIZE(csiphy_formats_8x16);
-> @@ -582,6 +583,7 @@ int msm_csiphy_subdev_init(struct camss *camss,
->                 return PTR_ERR(csiphy->base);
+> +static const struct resources csiphy_res_8974[] =3D {
+> +       /* CSIPHY0 */
+> +       {
+> +               .regulators =3D { NULL },
+> +               .clock =3D { "top_ahb", "ispif_ahb", "csiphy0_timer" },
+> +               .clock_rate =3D { { 0 },
+> +                               { 0 },
+> +                               { 100000000, 200000000 } },
+> +               .reg =3D { "csiphy0", "csiphy0_clk_mux" },
+> +               .interrupt =3D { "csiphy0" }
+> +       },
+> +
+> +       /* CSIPHY1 */
+> +       {
+> +               .regulators =3D { NULL },
+> +               .clock =3D { "top_ahb", "ispif_ahb", "csiphy1_timer" },
+> +               .clock_rate =3D { { 0 },
+> +                               { 0 },
+> +                               { 100000000, 200000000 } },
+> +               .reg =3D { "csiphy1", "csiphy1_clk_mux" },
+> +               .interrupt =3D { "csiphy1" }
+> +       },
+> +
+> +       /* CSIPHY2 */
+> +       {
+> +               .regulators =3D { NULL },
+> +               .clock =3D { "top_ahb", "ispif_ahb", "csiphy2_timer" },
+> +               .clock_rate =3D { { 0 },
+> +                               { 0 },
+> +                               { 100000000, 200000000 } },
+> +               .reg =3D { "csiphy2", "csiphy2_clk_mux" },
+> +               .interrupt =3D { "csiphy2" }
+> +       }
+> +};
+> +
+> +static const struct resources csid_res_8974[] =3D {
+> +       /* CSID0 */
+> +       {
+> +               .regulators =3D { "vdda" },
+> +               .clock =3D { "top_ahb", "ispif_ahb", "csi0_ahb",
+> +                          "csi0", "csi0_phy", "csi0_pix", "csi0_rdi" },
+> +               .clock_rate =3D { { 0 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 100000000, 200000000 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 0 } },
+> +               .reg =3D { "csid0" },
+> +               .interrupt =3D { "csid0" }
+> +       },
+> +
+> +       /* CSID1 */
+> +       {
+> +               .regulators =3D { "vdda" },
+> +               .clock =3D { "top_ahb", "ispif_ahb", "csi1_ahb",
+> +                          "csi1", "csi1_phy", "csi1_pix", "csi1_rdi" },
+> +               .clock_rate =3D { { 0 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 100000000, 200000000 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 0 } },
+> +               .reg =3D { "csid1" },
+> +               .interrupt =3D { "csid1" }
+> +       },
+> +
+> +       /* CSID2 */
+> +       {
+> +               .regulators =3D { "vdda" },
+> +               .clock =3D { "top_ahb", "ispif_ahb", "csi2_ahb",
+> +                          "csi2", "csi2_phy", "csi2_pix", "csi2_rdi" },
+> +               .clock_rate =3D { { 0 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 100000000, 200000000 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 0 } },
+> +               .reg =3D { "csid2" },
+> +               .interrupt =3D { "csid2" }
+> +       },
+> +
+> +       /* CSID3 */
+> +       {
+> +               .regulators =3D { "vdda" },
+> +               .clock =3D { "top_ahb", "ispif_ahb", "csi3_ahb",
+> +                          "csi3", "csi3_phy", "csi3_pix", "csi3_rdi" },
+> +               .clock_rate =3D { { 0 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 100000000, 200000000 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 0 } },
+> +               .reg =3D { "csid3" },
+> +               .interrupt =3D { "csid3" }
+> +       }
+> +};
+> +
+> +static const struct resources_ispif ispif_res_8974 =3D {
+> +       /* ISPIF */
+> +       .clock =3D { "top_ahb", "ispif_ahb",
+> +                  "csi0", "csi0_pix", "csi0_rdi",
+> +                  "csi1", "csi1_pix", "csi1_rdi",
+> +                  "csi2", "csi2_pix", "csi2_rdi",
+> +                  "csi3", "csi3_pix", "csi3_rdi" },
+> +       .clock_for_reset =3D { "vfe0", "csi_vfe0",
+> +                  "vfe1", "csi_vfe1" },
+> +       .reg =3D { "ispif", "csi_clk_mux" },
+> +       .interrupt =3D "ispif"
+> +
+> +};
+> +
+> +static const struct resources vfe_res_8974[] =3D {
+> +       /* VFE0 */
+> +       {
+> +               .regulators =3D { NULL },
+> +               .clock =3D { "top_ahb", "vfe0", "csi_vfe0",
+> +                          "iface", "bus" },
+> +               .clock_rate =3D { { 0 },
+> +                               { 50000000, 80000000, 100000000, 16000000=
+0,
+> +                                 177780000, 200000000, 266670000, 320000=
+000,
+> +                                 400000000, 400000000 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 0 } },
+> +               .reg =3D { "vfe0" },
+> +               .interrupt =3D { "vfe0" }
+> +       },
+> +       /* VFE1 */
+> +       {
+> +               .regulators =3D { NULL },
+> +               .clock =3D { "top_ahb", "vfe1", "csi_vfe1",
+> +                          "iface", "bus" },
+> +               .clock_rate =3D { { 0 },
+> +                               { 50000000, 80000000, 100000000, 16000000=
+0,
+> +                                 177780000, 200000000, 266670000, 320000=
+000,
+> +                                 400000000, 400000000 },
+> +                               { 0 },
+> +                               { 0 },
+> +                               { 0 } },
+> +               .reg =3D { "vfe1" },
+> +               .interrupt =3D { "vfe1" }
+> +       }
+> +};
+> +
+>  static const struct resources csiphy_res_8x96[] =3D {
+>         /* CSIPHY0 */
+>         {
+> @@ -1132,6 +1280,11 @@ static int camss_init_subdevices(struct camss *cam=
+ss)
+>                 csid_res =3D csid_res_8x16;
+>                 ispif_res =3D &ispif_res_8x16;
+>                 vfe_res =3D vfe_res_8x16;
+> +       } else if (camss->version =3D=3D CAMSS_8x74) {
+> +               csiphy_res =3D csiphy_res_8974;
+> +               csid_res =3D csid_res_8974;
+> +               ispif_res =3D &ispif_res_8974;
+> +               vfe_res =3D vfe_res_8974;
+>         } else if (camss->version =3D=3D CAMSS_8x96) {
+>                 csiphy_res =3D csiphy_res_8x96;
+>                 csid_res =3D csid_res_8x96;
+> @@ -1542,6 +1695,12 @@ static int camss_probe(struct platform_device *pde=
+v)
+>                 camss->csiphy_num =3D 2;
+>                 camss->csid_num =3D 2;
+>                 camss->vfe_num =3D 1;
+> +       } else if (of_device_is_compatible(dev->of_node,
+> +                                          "qcom,msm8974-camss")) {
+> +               camss->version =3D CAMSS_8x74;
+> +               camss->csiphy_num =3D 3;
+> +               camss->csid_num =3D 4;
+> +               camss->vfe_num =3D 2;
+>         } else if (of_device_is_compatible(dev->of_node,
+>                                            "qcom,msm8996-camss")) {
+>                 camss->version =3D CAMSS_8x96;
+> @@ -1586,6 +1745,7 @@ static int camss_probe(struct platform_device *pdev=
+)
+>         }
 >
 >         if (camss->version =3D=3D CAMSS_8x16 ||
 > +           camss->version =3D=3D CAMSS_8x74 ||
 >             camss->version =3D=3D CAMSS_8x96) {
->                 csiphy->base_clk_mux =3D
->                         devm_platform_ioremap_resource_byname(pdev, res->=
-reg[1]);
+>                 camss->ispif =3D devm_kcalloc(dev, 1, sizeof(*camss->ispi=
+f), GFP_KERNEL);
+>                 if (!camss->ispif) {
+> @@ -1735,6 +1895,7 @@ static int camss_remove(struct platform_device *pde=
+v)
+>
+>  static const struct of_device_id camss_dt_match[] =3D {
+>         { .compatible =3D "qcom,msm8916-camss" },
+> +       { .compatible =3D "qcom,msm8974-camss" },
+>         { .compatible =3D "qcom,msm8996-camss" },
+>         { .compatible =3D "qcom,sdm660-camss" },
+>         { .compatible =3D "qcom,sdm845-camss" },
 > --
 > 2.36.0
 >
 
-With that fixed:
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
