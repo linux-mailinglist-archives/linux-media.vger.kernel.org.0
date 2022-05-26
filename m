@@ -2,178 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D95F534E1C
-	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 13:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2EF6534E35
+	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 13:43:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241281AbiEZLdX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 May 2022 07:33:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49460 "EHLO
+        id S1343771AbiEZLn2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 May 2022 07:43:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230031AbiEZLdW (ORCPT
+        with ESMTP id S237822AbiEZLn0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 May 2022 07:33:22 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694426AA57
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 04:33:20 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id j25so1786351wrb.6
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 04:33:20 -0700 (PDT)
+        Thu, 26 May 2022 07:43:26 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B745D393D4
+        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 04:43:24 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id l7-20020a17090aaa8700b001dd1a5b9965so1513333pjq.2
+        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 04:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:from:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding;
-        bh=+IAh8lxfUr/l1JQMPe87Z+Q/FRVH0ZlqbMzuUKVFHXY=;
-        b=FQ6n3zoao16xh/QgGPg62lORkzZES3oscH3ZDSwkSjdoOJVyueZFwe2G0lT1NttpVH
-         Drg4MRs1jW+QjToc3WJMe3+q5N5+hk9WzaRI2cO9LpML3xML+2BE8Ih25VJvwWVbds2X
-         35HMqe4TgQ0jfwUl4NnhQfO/TlhFBjLhDAd4c8G1/FU4iqzukgyKybyaHUEHlrW1og49
-         4GPSfrr+j9PeiRPf2abz7bM+j8J3GNp28kSHxT2s9ZwyR1otIi9/1wSMdEoRvhxjzBzX
-         jiXuuD5DKZR0YAv9B73WBd5Xz5Z8Tc4w43fmnFqSFeA3klCXoc0Hp8uCaVVNjllw+wbj
-         /ynQ==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Kq02GySVi94nZ9Mc+L7RCzpSrSe7oKjAYDJQaI+i1/M=;
+        b=jozl4ktxfx3kr41Xwo8mDlqT0z+gvOtnOWlJyYgee9yUgxgyfuOYUr1lx4RnOCQ6/1
+         EBChnizEhkGg98Qpb9CpWmqjZ9uwiJaLdKFSO74efjp/2WlLeF/PdqTf24D+LPN1P8LG
+         ut0mRRmlv8336aUyZvx8kApwOfcK8sDhtM7WuIfl2MBmS6ZuL17nr1XnMweom7zSFLQr
+         SU1LW9cXuv0oj342u5+FBEYK8zvWP3Ncp6alE6PlZBLutNfav0Wkn2mPAAiG73k05zRM
+         KXagAGOXvyhZJWcXTLNF9MpM0OMfwxpf1lgKnc+SiFLpACDo558o3HfUfDT5kBkmCL4j
+         kpBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=+IAh8lxfUr/l1JQMPe87Z+Q/FRVH0ZlqbMzuUKVFHXY=;
-        b=Gd8GSCGT2OfPuOp82A+Tm9uTLVUkqdVBYqkwDSv1vAMIkcjyRk0yZZzQgCe0wPnWbi
-         LWUJxvluK2M/W80JcW8uStY0cCvaRRdlyNLlFnlmX9lNt7e6rctFX/Rk+xf8H5lvvQLq
-         5AhmvL0HFILS3ECjgRlzZNcqYBp8nX+phwZuIyNbIr1RRX/OMgggHLtnAkCKl9BoaIkq
-         Lh/jvxBOKCQ9/kybekR04q2R7s2U1V5Fei2/650OVtpzFfNe6g2w9tqTnzh/0xpUQNP0
-         ILGmZQlOY6de3AWdpSGtNvE368YaCnH1MYDw5SBm+mLMlj8nrtoicQBg+0SGEzGC47rd
-         2UsQ==
-X-Gm-Message-State: AOAM531mfQo/1sI/unMo9BNQtjWUT8x1KY0cahF6832j4Q+S0HkvjmTz
-        /1Xld3efP7GSTRDvdgmD0fV8CVUytNrAht1b
-X-Google-Smtp-Source: ABdhPJyB0kaLKerRlHJXiA6FcEGKsKYpXCxq13gYelmn4PHjb3m5J1lRjue46cycjm0sMb5F4cSuTg==
-X-Received: by 2002:a5d:6989:0:b0:20d:b25:f5 with SMTP id g9-20020a5d6989000000b0020d0b2500f5mr30199481wru.616.1653564798739;
-        Thu, 26 May 2022 04:33:18 -0700 (PDT)
-Received: from localhost.localdomain (knetgate.kensnet.org. [80.168.136.138])
-        by smtp.gmail.com with ESMTPSA id j8-20020a05600c1c0800b003973e27b789sm6072284wms.27.2022.05.26.04.33.18
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 May 2022 04:33:18 -0700 (PDT)
-Subject: Re: HauppaugeTV-quadHD DVB-T & HVR5525 mpeg risc op code error
-From:   Ken Smith <kens999@gmail.com>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <20200423155908.GA22613@gofer.mess.org>
- <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
- <20200423163559.GB23006@gofer.mess.org>
- <0cd2436c-0a39-0f85-929e-5d8f333b5027@burnicki.net>
- <20200425114147.GA3037@gofer.mess.org>
- <4aa38e2a-6b98-6530-69d9-d945a467bf0b@burnicki.net>
- <1a2d9e15-55e2-88a7-d197-208a8ce99218@burnicki.net>
- <20200427080751.GA5925@gofer.mess.org>
- <e7d8aeb8-124a-f7b3-d469-4c47f182f067@burnicki.net>
- <0fc5d43f-7928-1649-220b-45916b189d8f@burnicki.net>
- <20200430164934.GA16730@gofer.mess.org>
- <a2ea7352-e37b-c749-2d60-f19ce10fdb95@gmail.com>
-Message-ID: <e33e499b-e7d1-c5e7-a9eb-6a0572f6a9fc@gmail.com>
-Date:   Thu, 26 May 2022 12:33:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Kq02GySVi94nZ9Mc+L7RCzpSrSe7oKjAYDJQaI+i1/M=;
+        b=OZKJGRN2ST0vegPJrFrsr61gnnh1cTASn4tnjkosbIVx/AU85f9vCael8RL/mem7F8
+         imI3LunfOUBZ8CiXGn27jYfKs2VnNebVYJaeyXXjrNdmmrm1TPH+dekMLqLuV2HEEqzi
+         v1+alALLhJASYsGVqExggwho+AIfAmaSEZS38W05qEgxjiJkN63552dTAgCHtFY4/KRz
+         PaQekr2x9buzbWdvhACo1fx/L6WwF/zn5wUaBvKkHo3RVv6rXMFAv2hn9OMqhjosKSDs
+         26CgcwLxkDeD8Gd0Q0eGnscqVBg1nk6vyhTSFKq5eyDWAMQ7zQSqqg/S6WFyrQGVyEEN
+         8Djg==
+X-Gm-Message-State: AOAM531azbJD1RJTWb4uJYGIQA0rN4WIACNwtn0tKKk0UWmuzQgC2ESV
+        CUOpDzaQc387Dpe9wn/poBLWFw==
+X-Google-Smtp-Source: ABdhPJxfALbrt1KmDbthK4aKVj2I9eMN8ID458hdF4feL14JAdfjm2AEeZoz0NS/AVyWmIjpPI7ETg==
+X-Received: by 2002:a17:902:7781:b0:161:c85a:8fff with SMTP id o1-20020a170902778100b00161c85a8fffmr37569596pll.97.1653565404194;
+        Thu, 26 May 2022 04:43:24 -0700 (PDT)
+Received: from localhost ([122.162.234.2])
+        by smtp.gmail.com with ESMTPSA id a16-20020aa78650000000b0050dc7628137sm1320375pfo.17.2022.05.26.04.43.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 May 2022 04:43:23 -0700 (PDT)
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ilia Lin <ilia.lin@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Mark Brown <broonie@kernel.org>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Nishanth Menon <nm@ti.com>, NXP Linux Team <linux-imx@nxp.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Qiang Yu <yuq825@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Clark <robdclark@gmail.com>, Rob Herring <robh@kernel.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Sean Paul <sean@poorly.run>, Shawn Guo <shawnguo@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Yangtao Li <tiny.windzz@gmail.com>
+Cc:     linux-pm@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rafael Wysocki <rjw@rjwysocki.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        lima@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 00/31] OPP: Add new configuration interface: dev_pm_opp_set_config()
+Date:   Thu, 26 May 2022 17:11:59 +0530
+Message-Id: <cover.1653564321.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 MIME-Version: 1.0
-In-Reply-To: <a2ea7352-e37b-c749-2d60-f19ce10fdb95@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Apologies for multiple posts - e-mail configuration error at my end.
+Hello,
 
+We have too many configuration specific APIs currently, six of them already,
+like dev_pm_opp_set_regulators(). This makes it complex/messy for both the OPP
+core and its users to manage. There is also code redundancy in these API, in the
+way they add/manage the OPP table specific stuff.
 
-Ken Smith wrote:
->
->
-> Ian Young wrote:
->> On Tue, Apr 28, 2020 at 08:24:20PM +0200, Martin Burnicki wrote:
->>> Hi,
->>>
->>> Am 27.04.20 um 10:59 schrieb Martin Burnicki:
->>>> Sean Young wrote:
->>>>> Would you mind testing this patch please?
->>>> I'm going to try it this evening.
->>>>
->>>> I'll have to find out how to do an out-of-tree build for a copy of the
->>>> cx module that includes the patch.
->>>>
->>>> My own kernel driver is always and only built out-of-tree, but for the
->>>> cx driver I need to see which files I need to copy to a local 
->>>> directory,
->>>> and if there is anything else that needs to be done to build a copy of
->>>> it out-of-tree.
->>> Sorry, I haven't managed to test the patch, yet.
->>>
->>> Currently I have the driver loaded with
->>>
->>> options cx23885 dma_reset_workaround=2
->>>
->>> but today there were 3 occurrences of the risc opcode error:
->>>
->>>
->> Drats.
->>
->>> So the workaround doesn't seem to fix the problem anyway, and the patch
->>> would just enable the workaround with out the specific option, right?
->> Yes, that's right.
->>
->>> The effect of the workaround looks just like debug levels lower than 7,
->>> it just seems to reduce the probability that the bug occurs, but 
->>> doesn't
->>> really fix it.
->>>
->>> So my conclusion is still that that this smells like a missing memory
->>> barrier or so in the driver.
->>>
->>> Since the driver seems to work properly with older mainboards/CPU 
->>> types,
->>> this doesn't sound like a problem in the CX chip, IMO.
->> I would agree with that. I would suspect same issue was being papered 
->> over
->> by the patch; now what that issue is, I don't know. Certainly some 
->> ordering
->> or barrier issue seems likely.
->>
->> Actually I suspected this all along, but the workaround is the best 
->> we have.
->>
->> I think, some time spent hunting down the issue would really be helpful
->> here. Hopefully that doesn't mean too many aborted recordings..
->>
->> Thanks,
->>
->> Sean
->>
->
-> Hi, I'd like to resurrect this thread (copied above). I have a system 
-> showing this error. Its on a HP ML350 server with 2x Xeon 5675 running 
-> Rocky Linux 8.5. It has a Hauppauge HVR5525 card that uses the same 
-> cx23885 kernel module, as many PCIe cards do, as the quadHD card 
-> discussed above. The HVR5525 is a dual DVB-T2/DVB-S2 card.
->
-> Elsewhere I read about the dma_reset_workaround option. That option 
-> did not appear to be in the driver included in standard kernel in 
-> Rocky 8.5. I have tested with a 5.4 & 5.18 kernel and compiled the DVB 
-> media modules from .git source and set dma_reset_workaround=2 in a 
-> file in modprobe.d. The built module shows version 0.0.4
->
-> Sadly the error remains. The system runs MythTV v.31. The main symptom 
-> is aborted recordings. Although the card does appear to recover, not 
-> requiring a reboot/cold restart.
->
-> I've also logged this on Bugzilla. For some reason my original 
-> subscription to this list had stopped working so I may have missed 
-> some threads since Oct 2020.
->
-> I'd appreciate some assistance with this. What information can I 
-> provide, or testing can I do, to help to trace this.
->
-> Many thanks
->
-> Ken
->
->
+This patch series is an attempt to simplify these interfaces by adding a single
+interface, dev_pm_opp_set_config(), which replaces all the existing ones. This
+also migrates the users to the new API.
+
+The first two patches help get the API in place, followed by patches to migrate
+the end users. Once all the users are migrated, the last few patches remove the
+now unused interfaces.
+
+I have lightly tested this on Hikey960 for now and also getting help from
+various build/boot bots, gitlab and lkp, to get these tested. It would be
+helpful if someone with access to the affected platforms can give it a try.
+
+This is pushed here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/config
+
+The entire patchset shall get merged via the OPP tree in 5.20-rc1, please do not
+merge individual patches.
+
+Thanks.
+
+--
+Viresh
+
+Viresh Kumar (31):
+  OPP: Track if clock name is configured by platform
+  OPP: Add dev_pm_opp_set_config() and friends
+  cpufreq: dt: Migrate to dev_pm_opp_set_config()
+  cpufreq: imx: Migrate to dev_pm_opp_set_config()
+  cpufreq: qcom-nvmem: Migrate to dev_pm_opp_set_config()
+  cpufreq: sti: Migrate to dev_pm_opp_set_config()
+  cpufreq: sun50i: Migrate to dev_pm_opp_set_config()
+  cpufreq: tegra20: Migrate to dev_pm_opp_set_config()
+  cpufreq: ti: Migrate to dev_pm_opp_set_config()
+  devfreq: exynos: Migrate to dev_pm_opp_set_config()
+  devfreq: sun8i: Migrate to dev_pm_opp_set_config()
+  devfreq: tegra30: Migrate to dev_pm_opp_set_config()
+  drm/lima: Migrate to dev_pm_opp_set_config()
+  drm/msm: Migrate to dev_pm_opp_set_config()
+  drm/panfrost: Migrate to dev_pm_opp_set_config()
+  drm/tegra: Migrate to dev_pm_opp_set_config()
+  media: venus: Migrate to dev_pm_opp_set_config()
+  media: tegra: Migrate to dev_pm_opp_set_config()
+  mmc: sdhci-msm: Migrate to dev_pm_opp_set_config()
+  OPP: ti: Migrate to dev_pm_opp_set_config()
+  soc/tegra: Remove the call to devm_pm_opp_set_clkname()
+  soc/tegra: Migrate to dev_pm_opp_set_config()
+  spi: qcom: Migrate to dev_pm_opp_set_config()
+  serial: qcom: Migrate to dev_pm_opp_set_config()
+  OPP: Remove dev_pm_opp_set_regulators() and friends
+  OPP: Remove dev_pm_opp_set_supported_hw() and friends
+  OPP: Remove dev_pm_opp_set_clkname() and friends
+  OPP: Remove dev_pm_opp_register_set_opp_helper() and friends
+  OPP: Remove dev_pm_opp_attach_genpd() and friends
+  OPP: Remove dev_pm_opp_set_prop_name() and friends
+  OPP: Rearrange dev_pm_opp_set_config() and friends
+
+ drivers/cpufreq/cpufreq-dt.c                  |  14 +-
+ drivers/cpufreq/imx-cpufreq-dt.c              |  12 +-
+ drivers/cpufreq/qcom-cpufreq-nvmem.c          | 107 +---
+ drivers/cpufreq/sti-cpufreq.c                 |  22 +-
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c        |  11 +-
+ drivers/cpufreq/tegra20-cpufreq.c             |  12 +-
+ drivers/cpufreq/ti-cpufreq.c                  |  38 +-
+ drivers/devfreq/exynos-bus.c                  |  14 +-
+ drivers/devfreq/sun8i-a33-mbus.c              |   7 +-
+ drivers/devfreq/tegra30-devfreq.c             |   8 +-
+ drivers/gpu/drm/lima/lima_devfreq.c           |  11 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   8 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   5 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              |   5 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |   5 +-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c   |   9 +-
+ drivers/gpu/drm/tegra/gr3d.c                  |   6 +-
+ .../media/platform/qcom/venus/pm_helpers.c    |  16 +-
+ drivers/memory/tegra/tegra124-emc.c           |  14 +-
+ drivers/mmc/host/sdhci-msm.c                  |   5 +-
+ drivers/opp/core.c                            | 540 +++++++-----------
+ drivers/opp/opp.h                             |   2 +
+ drivers/opp/ti-opp-supply.c                   |   6 +-
+ drivers/soc/tegra/common.c                    |  14 +-
+ drivers/soc/tegra/pmc.c                       |   8 +-
+ drivers/spi/spi-geni-qcom.c                   |   5 +-
+ drivers/spi/spi-qcom-qspi.c                   |   5 +-
+ drivers/tty/serial/qcom_geni_serial.c         |   5 +-
+ include/linux/pm_opp.h                        | 118 ++--
+ 30 files changed, 444 insertions(+), 598 deletions(-)
+
+-- 
+2.31.1.272.g89b43f80a514
 
