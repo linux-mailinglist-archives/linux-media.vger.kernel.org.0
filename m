@@ -2,74 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 415A6534F7C
-	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 14:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 521F353506B
+	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 16:15:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343788AbiEZMmw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 May 2022 08:42:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34370 "EHLO
+        id S242986AbiEZOPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 May 2022 10:15:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237910AbiEZMmu (ORCPT
+        with ESMTP id S239152AbiEZOPm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 May 2022 08:42:50 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21E116E8C3
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:42:47 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id q92-20020a17090a17e500b001e0817e77f6so4312092pja.5
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:42:47 -0700 (PDT)
+        Thu, 26 May 2022 10:15:42 -0400
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2293EC1EE2
+        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 07:15:41 -0700 (PDT)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-f2cd424b9cso2324925fac.7
+        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 07:15:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jdjGxx7PRekSNzvSccskiFkZs4U5abVvScuD8Z3XzKg=;
-        b=Iz1P49Jvu7F3411ROfQcozZqUkFOaQgRNHvjm19nwifaFwsMmfKP2J8QgLd+3E5r9I
-         BTXK+F6GrjZgT+tSWho24f7d4O1cM1o3ssHia+5i9qgBOe9Q7jFWbXYPEQkPSYtyDIr+
-         Skd1qV8Uj8D/9rHuZRyV1ZoseJIBLHItfpe5eykGXtxOzIaaJ/hKietgS2t3EQzR9Gl/
-         DXwBWeqLOEtBS02ycWWJIUJqMGsneyRfT0x5rXJdN1NPKhUPQbtWZJyWN8vRACRZqMC0
-         NZjXm769TCcyszRpSa0YRoET88SHeYC3SCdt9H25Ewj6QGZ8TVMqMa0ooXBU1vqckPKz
-         YCLw==
+         :cc;
+        bh=IZf3EIV6zRIJWeOSk/pGbLsMDENhrl3CsBCgBB4ZCKM=;
+        b=TNOe5fKPlqoAsNJ8Zm823ormfzBVHg0+r5JDnQXF+hGkB4Ig0YSyX60yRNjCL2jw1s
+         x0AkNLg3CLFbQV1Us+nNExkbqavbKHRd7Qy9YdXSiuqoQ2weMUC9J134Sv6U4O5aCFXl
+         QUx8Y1JYvZRuIqLPxkjRtZGSiebfZ1E4g97Yg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=jdjGxx7PRekSNzvSccskiFkZs4U5abVvScuD8Z3XzKg=;
-        b=zF14oCBaWC154rUS6MZ50Beop4+2Cq/eVZ67v/HegCBpI/uBltJlGaqaXnlzR6dd4c
-         kFU8fgbFhGQLmIyul90CmXrt+fk0VIB+oRdeOepAy4eGhXL4qK9/ugtcG4tNQ9wzvcM0
-         AQltGbZH4hhAxrjb5vvtMg7PUROdXISolyPh2F/fEeYODiJxMy8DIFMc0QDKxQC6f9QD
-         MEy1nQovVgpYJ3bKJFJ7sOrTouFulhcEcOKhV5KF5lMDKT9lnM9Q+tm6+GvlguJS/lux
-         VmJPA5nOmVubQKlpWGxTfgwOF2MUXj7+q8l2mMedAzi+QEErgm/c2e3ObMi5NiW0iS15
-         iExQ==
-X-Gm-Message-State: AOAM533O6URkT0BtJAS4rnURXd7E5vJYT1+8tpBCINSzdLl3INVdt4P/
-        LmH9bUKyffoIN4nuvDStBI8FM9at7vpAJPybsHbOiA==
-X-Google-Smtp-Source: ABdhPJwSlTKFfEDVZSH4bg6IXzpCeeQ8TDu75ALcCSHTgNKCO3gjRaw+18HZchkUJ4JSXlp3cX5qFz11VXRag++xkQM=
-X-Received: by 2002:a17:903:1cd:b0:163:6697:e6e with SMTP id
- e13-20020a17090301cd00b0016366970e6emr6141774plh.21.1653568966611; Thu, 26
- May 2022 05:42:46 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=IZf3EIV6zRIJWeOSk/pGbLsMDENhrl3CsBCgBB4ZCKM=;
+        b=VMXxFNOWlzTlHZ6Z89Y6GxErgkIpT/wudiScBcJfLllFu7/2KwZzltW80OZtPVkG8H
+         /bCzNPNd0C6BNf6nzhmpFOiIwvmK/qH3TYIRFqp2Qd+NcPP9aHAAJTsiDlKBPxP44V47
+         7wDPg+qF+cgKylPRES7tHMCVer/1FFDIkzHW0oCR3Jg5E/8nFFT5vV9Wiq0EdDW7CblI
+         HXGPHDNBO8ItEfdAeqrAUyorRyQHQRMfpYAsiBsew/KGk7wTGvix5ZIVJ7nfdKqM1sMr
+         GIpIZXj/t6WY0JnKtKdNFclej0BGc41POGxlNiJzqHshok9hShjI0ShxuxpOaoJBb2aE
+         CYZA==
+X-Gm-Message-State: AOAM531gkrdP5tQp96PmJaHinj5PSs0mvh5zO4es4BtT1wsjLWnhjk9g
+        TbwoO155DiOdC9qZxKqagt0JWxIn/e4NHQ==
+X-Google-Smtp-Source: ABdhPJy060nXu3TalihcxsynlU612a+Ezm8MWQOUraBPKJ+AOb9d8tel1tvgO+G/QlAs8v4OumP6KQ==
+X-Received: by 2002:a05:6870:5629:b0:f1:d545:f808 with SMTP id m41-20020a056870562900b000f1d545f808mr1273600oao.233.1653574540055;
+        Thu, 26 May 2022 07:15:40 -0700 (PDT)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com. [209.85.167.169])
+        by smtp.gmail.com with ESMTPSA id u3-20020a056830248300b0060603221247sm656784ots.23.2022.05.26.07.15.37
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 May 2022 07:15:38 -0700 (PDT)
+Received: by mail-oi1-f169.google.com with SMTP id v9so2249612oie.5
+        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 07:15:37 -0700 (PDT)
+X-Received: by 2002:a05:6808:150f:b0:32b:888:f534 with SMTP id
+ u15-20020a056808150f00b0032b0888f534mr1204245oiw.223.1653574537081; Thu, 26
+ May 2022 07:15:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220522162802.208275-1-luca@z3ntu.xyz> <20220522162802.208275-9-luca@z3ntu.xyz>
-In-Reply-To: <20220522162802.208275-9-luca@z3ntu.xyz>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 26 May 2022 14:42:35 +0200
-Message-ID: <CAG3jFyuVG9H3P2yUEJRUo9c4xLzax1tTeJYLUpoPOwHdYZ-xNw@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/14] media: camss: Add 8x74 resources
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        matti.lehtimaki@gmail.com
+References: <20220526050744.2431518-1-yunkec@google.com> <20220526050744.2431518-2-yunkec@google.com>
+In-Reply-To: <20220526050744.2431518-2-yunkec@google.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 26 May 2022 16:15:26 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvbU2NxUYR78QRiKQXfhCf0oJnhHzuoL-9WvFBecrszsw@mail.gmail.com>
+Message-ID: <CANiDSCvbU2NxUYR78QRiKQXfhCf0oJnhHzuoL-9WvFBecrszsw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+To:     Yunke Cao <yunkec@google.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,232 +77,153 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 22 May 2022 at 18:28, Luca Weiss <luca@z3ntu.xyz> wrote:
+On Thu, 26 May 2022 at 07:08, Yunke Cao <yunkec@google.com> wrote:
 >
-> From: Matti Lehtim=C3=A4ki <matti.lehtimaki@gmail.com>
+> Add p_rect to struct v4l2_ext_control with basic support in
+> v4l2-ctrls.
 >
-> Add structs with 8x74 resources. The number of CSIPHY, CSID
-> and VFE hardware modules is the same as 8x96 but the support
-> is otherwise different.
->
-> Signed-off-by: Matti Lehtim=C3=A4ki <matti.lehtimaki@gmail.com>
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> Signed-off-by: Yunke Cao <yunkec@google.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/platform/qcom/camss/camss.c | 161 ++++++++++++++++++++++
->  1 file changed, 161 insertions(+)
+> Changelog since v4:
+> - Fix typo.
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
+>  .../media/videodev2.h.rst.exceptions          |  1 +
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 20 +++++++++++++++++++
+>  include/media/v4l2-ctrls.h                    |  2 ++
+>  include/uapi/linux/videodev2.h                |  2 ++
+>  5 files changed, 29 insertions(+)
 >
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/pl=
-atform/qcom/camss/camss.c
-> index 79ad82e233cb..5a69ce48c792 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -126,6 +126,154 @@ static const struct resources vfe_res_8x16[] =3D {
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index 29971a45a2d4..7473baa4e977 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -189,6 +189,10 @@ still cause this situation.
+>        - ``p_area``
+>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_AREA``.
+> +    * - struct :c:type:`v4l2_rect` *
+> +      - ``p_rect``
+> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
+> +        of type ``V4L2_CTRL_TYPE_RECT``.
+>      * - struct :c:type:`v4l2_ctrl_h264_sps` *
+>        - ``p_h264_sps``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index 9cbb7a0c354a..7b423475281d 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -147,6 +147,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
+> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index 8968cec8454e..384d12a9638b 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -84,6 +84,11 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
+>                 return ptr1.p_u16[idx] == ptr2.p_u16[idx];
+>         case V4L2_CTRL_TYPE_U32:
+>                 return ptr1.p_u32[idx] == ptr2.p_u32[idx];
+> +       case V4L2_CTRL_TYPE_RECT:
+> +               return ptr1.p_rect->top == ptr2.p_rect->top &&
+> +                      ptr1.p_rect->left == ptr2.p_rect->left &&
+> +                      ptr1.p_rect->height == ptr2.p_rect->height &&
+> +                      ptr1.p_rect->width == ptr2.p_rect->width;
+>         default:
+>                 if (ctrl->is_int)
+>                         return ptr1.p_s32[idx] == ptr2.p_s32[idx];
+> @@ -307,6 +312,11 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+>         case V4L2_CTRL_TYPE_VP9_FRAME:
+>                 pr_cont("VP9_FRAME");
+>                 break;
+> +       case V4L2_CTRL_TYPE_RECT:
+> +               pr_cont("%ux%u@%dx%d",
+> +                       ptr.p_rect->width, ptr.p_rect->height,
+> +                       ptr.p_rect->left, ptr.p_rect->top);
+> +               break;
+>         default:
+>                 pr_cont("unknown type %d", ctrl->type);
+>                 break;
+> @@ -525,6 +535,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>         struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>         struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+>         struct v4l2_area *area;
+> +       struct v4l2_rect *rect;
+>         void *p = ptr.p + idx * ctrl->elem_size;
+>         unsigned int i;
+>
+> @@ -888,6 +899,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>                         return -EINVAL;
+>                 break;
+>
+> +       case V4L2_CTRL_TYPE_RECT:
+> +               rect = p;
+> +               if (!rect->width || !rect->height)
+> +                       return -EINVAL;
+> +               break;
+> +
+>         default:
+>                 return -EINVAL;
 >         }
+> @@ -1456,6 +1473,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>         case V4L2_CTRL_TYPE_AREA:
+>                 elem_size = sizeof(struct v4l2_area);
+>                 break;
+> +       case V4L2_CTRL_TYPE_RECT:
+> +               elem_size = sizeof(struct v4l2_rect);
+> +               break;
+>         default:
+>                 if (type < V4L2_CTRL_COMPOUND_TYPES)
+>                         elem_size = sizeof(s32);
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index b3ce438f1329..919e104de50b 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -58,6 +58,7 @@ struct video_device;
+>   * @p_hdr10_cll:               Pointer to an HDR10 Content Light Level structure.
+>   * @p_hdr10_mastering:         Pointer to an HDR10 Mastering Display structure.
+>   * @p_area:                    Pointer to an area.
+> + * @p_rect:                    Pointer to a rectangle.
+>   * @p:                         Pointer to a compound value.
+>   * @p_const:                   Pointer to a constant compound value.
+>   */
+> @@ -87,6 +88,7 @@ union v4l2_ctrl_ptr {
+>         struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+>         struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>         struct v4l2_area *p_area;
+> +       struct v4l2_rect *p_rect;
+>         void *p;
+>         const void *p_const;
 >  };
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 3768a0a80830..b712412cf763 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1751,6 +1751,7 @@ struct v4l2_ext_control {
+>                 __u16 __user *p_u16;
+>                 __u32 __user *p_u32;
+>                 struct v4l2_area __user *p_area;
+> +               struct v4l2_rect __user *p_rect;
+>                 struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+>                 struct v4l2_ctrl_h264_pps *p_h264_pps;
+>                 struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
+> @@ -1810,6 +1811,7 @@ enum v4l2_ctrl_type {
+>         V4L2_CTRL_TYPE_U16           = 0x0101,
+>         V4L2_CTRL_TYPE_U32           = 0x0102,
+>         V4L2_CTRL_TYPE_AREA          = 0x0106,
+> +       V4L2_CTRL_TYPE_RECT          = 0x0107,
 >
-> +static const struct resources csiphy_res_8974[] =3D {
-> +       /* CSIPHY0 */
-> +       {
-> +               .regulators =3D { NULL },
-> +               .clock =3D { "top_ahb", "ispif_ahb", "csiphy0_timer" },
-> +               .clock_rate =3D { { 0 },
-> +                               { 0 },
-> +                               { 100000000, 200000000 } },
-> +               .reg =3D { "csiphy0", "csiphy0_clk_mux" },
-> +               .interrupt =3D { "csiphy0" }
-> +       },
-> +
-> +       /* CSIPHY1 */
-> +       {
-> +               .regulators =3D { NULL },
-> +               .clock =3D { "top_ahb", "ispif_ahb", "csiphy1_timer" },
-> +               .clock_rate =3D { { 0 },
-> +                               { 0 },
-> +                               { 100000000, 200000000 } },
-> +               .reg =3D { "csiphy1", "csiphy1_clk_mux" },
-> +               .interrupt =3D { "csiphy1" }
-> +       },
-> +
-> +       /* CSIPHY2 */
-> +       {
-> +               .regulators =3D { NULL },
-> +               .clock =3D { "top_ahb", "ispif_ahb", "csiphy2_timer" },
-> +               .clock_rate =3D { { 0 },
-> +                               { 0 },
-> +                               { 100000000, 200000000 } },
-> +               .reg =3D { "csiphy2", "csiphy2_clk_mux" },
-> +               .interrupt =3D { "csiphy2" }
-> +       }
-> +};
-> +
-> +static const struct resources csid_res_8974[] =3D {
-> +       /* CSID0 */
-> +       {
-> +               .regulators =3D { "vdda" },
-> +               .clock =3D { "top_ahb", "ispif_ahb", "csi0_ahb",
-> +                          "csi0", "csi0_phy", "csi0_pix", "csi0_rdi" },
-> +               .clock_rate =3D { { 0 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 100000000, 200000000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 0 } },
-> +               .reg =3D { "csid0" },
-> +               .interrupt =3D { "csid0" }
-> +       },
-> +
-> +       /* CSID1 */
-> +       {
-> +               .regulators =3D { "vdda" },
-> +               .clock =3D { "top_ahb", "ispif_ahb", "csi1_ahb",
-> +                          "csi1", "csi1_phy", "csi1_pix", "csi1_rdi" },
-> +               .clock_rate =3D { { 0 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 100000000, 200000000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 0 } },
-> +               .reg =3D { "csid1" },
-> +               .interrupt =3D { "csid1" }
-> +       },
-> +
-> +       /* CSID2 */
-> +       {
-> +               .regulators =3D { "vdda" },
-> +               .clock =3D { "top_ahb", "ispif_ahb", "csi2_ahb",
-> +                          "csi2", "csi2_phy", "csi2_pix", "csi2_rdi" },
-> +               .clock_rate =3D { { 0 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 100000000, 200000000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 0 } },
-> +               .reg =3D { "csid2" },
-> +               .interrupt =3D { "csid2" }
-> +       },
-> +
-> +       /* CSID3 */
-> +       {
-> +               .regulators =3D { "vdda" },
-> +               .clock =3D { "top_ahb", "ispif_ahb", "csi3_ahb",
-> +                          "csi3", "csi3_phy", "csi3_pix", "csi3_rdi" },
-> +               .clock_rate =3D { { 0 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 100000000, 200000000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 0 } },
-> +               .reg =3D { "csid3" },
-> +               .interrupt =3D { "csid3" }
-> +       }
-> +};
-> +
-> +static const struct resources_ispif ispif_res_8974 =3D {
-> +       /* ISPIF */
-> +       .clock =3D { "top_ahb", "ispif_ahb",
-> +                  "csi0", "csi0_pix", "csi0_rdi",
-> +                  "csi1", "csi1_pix", "csi1_rdi",
-> +                  "csi2", "csi2_pix", "csi2_rdi",
-> +                  "csi3", "csi3_pix", "csi3_rdi" },
-> +       .clock_for_reset =3D { "vfe0", "csi_vfe0",
-> +                  "vfe1", "csi_vfe1" },
-> +       .reg =3D { "ispif", "csi_clk_mux" },
-> +       .interrupt =3D "ispif"
-> +
-> +};
-> +
-> +static const struct resources vfe_res_8974[] =3D {
-> +       /* VFE0 */
-> +       {
-> +               .regulators =3D { NULL },
-> +               .clock =3D { "top_ahb", "vfe0", "csi_vfe0",
-> +                          "iface", "bus" },
-> +               .clock_rate =3D { { 0 },
-> +                               { 50000000, 80000000, 100000000, 16000000=
-0,
-> +                                 177780000, 200000000, 266670000, 320000=
-000,
-> +                                 400000000, 400000000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 0 } },
-> +               .reg =3D { "vfe0" },
-> +               .interrupt =3D { "vfe0" }
-> +       },
-> +       /* VFE1 */
-> +       {
-> +               .regulators =3D { NULL },
-> +               .clock =3D { "top_ahb", "vfe1", "csi_vfe1",
-> +                          "iface", "bus" },
-> +               .clock_rate =3D { { 0 },
-> +                               { 50000000, 80000000, 100000000, 16000000=
-0,
-> +                                 177780000, 200000000, 266670000, 320000=
-000,
-> +                                 400000000, 400000000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 0 } },
-> +               .reg =3D { "vfe1" },
-> +               .interrupt =3D { "vfe1" }
-> +       }
-> +};
-> +
->  static const struct resources csiphy_res_8x96[] =3D {
->         /* CSIPHY0 */
->         {
-> @@ -1132,6 +1280,11 @@ static int camss_init_subdevices(struct camss *cam=
-ss)
->                 csid_res =3D csid_res_8x16;
->                 ispif_res =3D &ispif_res_8x16;
->                 vfe_res =3D vfe_res_8x16;
-> +       } else if (camss->version =3D=3D CAMSS_8x74) {
-> +               csiphy_res =3D csiphy_res_8974;
-> +               csid_res =3D csid_res_8974;
-> +               ispif_res =3D &ispif_res_8974;
-> +               vfe_res =3D vfe_res_8974;
->         } else if (camss->version =3D=3D CAMSS_8x96) {
->                 csiphy_res =3D csiphy_res_8x96;
->                 csid_res =3D csid_res_8x96;
-> @@ -1542,6 +1695,12 @@ static int camss_probe(struct platform_device *pde=
-v)
->                 camss->csiphy_num =3D 2;
->                 camss->csid_num =3D 2;
->                 camss->vfe_num =3D 1;
-> +       } else if (of_device_is_compatible(dev->of_node,
-> +                                          "qcom,msm8974-camss")) {
-> +               camss->version =3D CAMSS_8x74;
-> +               camss->csiphy_num =3D 3;
-> +               camss->csid_num =3D 4;
-> +               camss->vfe_num =3D 2;
->         } else if (of_device_is_compatible(dev->of_node,
->                                            "qcom,msm8996-camss")) {
->                 camss->version =3D CAMSS_8x96;
-> @@ -1586,6 +1745,7 @@ static int camss_probe(struct platform_device *pdev=
-)
->         }
->
->         if (camss->version =3D=3D CAMSS_8x16 ||
-> +           camss->version =3D=3D CAMSS_8x74 ||
->             camss->version =3D=3D CAMSS_8x96) {
->                 camss->ispif =3D devm_kcalloc(dev, 1, sizeof(*camss->ispi=
-f), GFP_KERNEL);
->                 if (!camss->ispif) {
-> @@ -1735,6 +1895,7 @@ static int camss_remove(struct platform_device *pde=
-v)
->
->  static const struct of_device_id camss_dt_match[] =3D {
->         { .compatible =3D "qcom,msm8916-camss" },
-> +       { .compatible =3D "qcom,msm8974-camss" },
->         { .compatible =3D "qcom,msm8996-camss" },
->         { .compatible =3D "qcom,sdm660-camss" },
->         { .compatible =3D "qcom,sdm845-camss" },
+>         V4L2_CTRL_TYPE_HDR10_CLL_INFO           = 0x0110,
+>         V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY  = 0x0111,
 > --
-> 2.36.0
+> 2.36.1.124.g0e6072fb45-goog
 >
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+
+-- 
+Ricardo Ribalda
