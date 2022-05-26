@@ -2,169 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5A33534CC8
-	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 11:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B3DF534CD2
+	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 11:57:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239446AbiEZJwu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 May 2022 05:52:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58686 "EHLO
+        id S243836AbiEZJ5v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 May 2022 05:57:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231512AbiEZJwt (ORCPT
+        with ESMTP id S236591AbiEZJ5u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 May 2022 05:52:49 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 537FBC9657
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 02:52:48 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id o29-20020a05600c511d00b00397697f172dso2179152wms.0
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 02:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=yC3gNLDwQgDGWU6u5sZWLctx128ZpF2u3Rd5klYlRWU=;
-        b=PMk0HECdtjBLit3vp2CPEk4WVu57Lvh52lkGuZ7EYZhgv/sRNdJylppnPgG82LGxZM
-         rM5bMVFj5DumbnYkHLRk6ntrBjD9VD98vsXRCrnLZHRukucbc4ILULAo+wSTkqGT1PoM
-         7EqoE7tvKyLEilKIvHTPBpijkwyotzCXDc0Iz1ZhlYQvV4xNuIsfS0oK0xnetM+ZXcO/
-         nLcCMB+iWJq2edWPyDYmFyQprY+gU3ccdNxenVDQq04Lm3qJHkM25a8OR716aYfWi2sN
-         y0BMJ4yB98XV+OGnjw1EJ1g953NOc0jVlmkgDE1kvYMeIrsCpLgxKlXhgvUbEucjyeH1
-         fuUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=yC3gNLDwQgDGWU6u5sZWLctx128ZpF2u3Rd5klYlRWU=;
-        b=lMRd5JVeLCKLtKVKewWTyKQlK1m52lzxST0Aes6qFAyRHreiY6TCOPHO7+AqBCrrvf
-         UmHMBCvGEOar1/U5krz+RIhkkBJBzNWK84mKVIXw4wD+N6mA8v2Cd3sB/RoUmv78YuQR
-         oCFEuzThX5+Vp8G3J21HmuXXpRMQh4PgEkiXV04l8C7kt+EoIrgAIkCs0gnN+6EBrw8a
-         7OmifjLoQPOxZVny+uJe/0uhmbjiapUmCkorHrYQq3QmonrvDA1YHictgh8FdTAZajIm
-         dLaaZzp5IyM9otgO2kjSc9g/g0GOSWoEMv1TalcSxfJX96EH8dnbaQGU8Q8oUrRTEObN
-         WGJQ==
-X-Gm-Message-State: AOAM530gq0QRQKJLySejKEnOAS8I2isbTKdATQ0RzIANaBoxrttM5xwr
-        qf4EhmBahlf6FQUHC7gfWN+gWeYycNdkbjXv
-X-Google-Smtp-Source: ABdhPJy15J8eKZEv8ZJqwnWbq6A0IO6Ydw0Db7bSv7nxLSDrTnB6Yern2dTrvvYGulY6cCqFjmIcgA==
-X-Received: by 2002:a05:600c:34c7:b0:397:73ae:a096 with SMTP id d7-20020a05600c34c700b0039773aea096mr1507367wmq.171.1653558766889;
-        Thu, 26 May 2022 02:52:46 -0700 (PDT)
-Received: from localhost.localdomain (knetgate.kensnet.org. [80.168.136.138])
-        by smtp.gmail.com with ESMTPSA id v8-20020adfe288000000b0020ffa2799f4sm1270332wri.73.2022.05.26.02.52.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 May 2022 02:52:46 -0700 (PDT)
-From:   Ken Smith <kens999@gmail.com>
-Subject: Re: HauppaugeTV-quadHD DVB-T & HVR5525 mpeg risc op code error
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Brad Love <brad@nextdimension.cc>
-References: <20200423155908.GA22613@gofer.mess.org>
- <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
- <20200423163559.GB23006@gofer.mess.org>
- <0cd2436c-0a39-0f85-929e-5d8f333b5027@burnicki.net>
- <20200425114147.GA3037@gofer.mess.org>
- <4aa38e2a-6b98-6530-69d9-d945a467bf0b@burnicki.net>
- <1a2d9e15-55e2-88a7-d197-208a8ce99218@burnicki.net>
- <20200427080751.GA5925@gofer.mess.org>
- <e7d8aeb8-124a-f7b3-d469-4c47f182f067@burnicki.net>
- <0fc5d43f-7928-1649-220b-45916b189d8f@burnicki.net>
- <20200430164934.GA16730@gofer.mess.org>
-X-Priority: 1 (Highest)
-Message-ID: <a2ea7352-e37b-c749-2d60-f19ce10fdb95@gmail.com>
-Date:   Thu, 26 May 2022 10:52:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.0
+        Thu, 26 May 2022 05:57:50 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33133C9EC2;
+        Thu, 26 May 2022 02:57:49 -0700 (PDT)
+X-UUID: 9cfcbfe08d67426299a85be40aba57d0-20220526
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5,REQID:4059dd73-19e1-456c-b523-9f6315660ae0,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+        ON:release,TS:0
+X-CID-META: VersionHash:2a19b09,CLOUDID:dec09347-4fb1-496b-8f1d-39e733fed1ea,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+        ,QS:0,BEC:nil
+X-UUID: 9cfcbfe08d67426299a85be40aba57d0-20220526
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1865388074; Thu, 26 May 2022 17:57:42 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Thu, 26 May 2022 17:57:41 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 26 May 2022 17:57:39 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH 1/4] media: mediatek: vcodec: Fix decoder v4l2 bus_info not correctly
+Date:   Thu, 26 May 2022 17:57:34 +0800
+Message-ID: <20220526095737.21118-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200430164934.GA16730@gofer.mess.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Fix v4l2 capability bus_info value with correct chip name according to compatible.
 
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+---
+ .../platform/mediatek/vcodec/mtk_vcodec_dec.c | 23 ++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-Ian Young wrote:
-> On Tue, Apr 28, 2020 at 08:24:20PM +0200, Martin Burnicki wrote:
->> Hi,
->>
->> Am 27.04.20 um 10:59 schrieb Martin Burnicki:
->>> Sean Young wrote:
->>>> Would you mind testing this patch please?
->>> I'm going to try it this evening.
->>>
->>> I'll have to find out how to do an out-of-tree build for a copy of the
->>> cx module that includes the patch.
->>>
->>> My own kernel driver is always and only built out-of-tree, but for the
->>> cx driver I need to see which files I need to copy to a local directory,
->>> and if there is anything else that needs to be done to build a copy of
->>> it out-of-tree.
->> Sorry, I haven't managed to test the patch, yet.
->>
->> Currently I have the driver loaded with
->>
->> options cx23885 dma_reset_workaround=2
->>
->> but today there were 3 occurrences of the risc opcode error:
->>
->>
-> Drats.
->
->> So the workaround doesn't seem to fix the problem anyway, and the patch
->> would just enable the workaround with out the specific option, right?
-> Yes, that's right.
->
->> The effect of the workaround looks just like debug levels lower than 7,
->> it just seems to reduce the probability that the bug occurs, but doesn't
->> really fix it.
->>
->> So my conclusion is still that that this smells like a missing memory
->> barrier or so in the driver.
->>
->> Since the driver seems to work properly with older mainboards/CPU types,
->> this doesn't sound like a problem in the CX chip, IMO.
-> I would agree with that. I would suspect same issue was being papered over
-> by the patch; now what that issue is, I don't know. Certainly some 
-> ordering
-> or barrier issue seems likely.
->
-> Actually I suspected this all along, but the workaround is the best we 
-> have.
->
-> I think, some time spent hunting down the issue would really be helpful
-> here. Hopefully that doesn't mean too many aborted recordings..
->
-> Thanks,
->
-> Sean
->
-
-Hi, I'd like to resurrect this thread (copied above). I have a system 
-showing this error. Its on a HP ML350 server with 2x Xeon 5675 running 
-Rocky Linux 8.5. It has a Hauppauge HVR5525 card that uses the same 
-cx23885 kernel module, as many PCIe cards do, as the quadHD card 
-discussed above. The HVR5525 is a dual DVB-T2/DVB-S2 card.
-
-Elsewhere I read about the dma_reset_workaround option. That option did 
-not appear to be in the driver included in standard kernel in Rocky 8.5. 
-I have tested with a 5.4 & 5.18 kernel and compiled the DVB media 
-modules from .git source and set dma_reset_workaround=2 in a file in 
-modprobe.d. The built module shows version 0.0.4
-
-Sadly the error remains. The system runs MythTV v.31. The main symptom 
-is aborted recordings. Although the card does appear to recover, not 
-requiring a reboot/cold restart.
-
-I've also logged this on Bugzilla. For some reason my original 
-subscription to this list had stopped working so I may have missed some 
-threads since Oct 2020.
-
-I'd appreciate some assistance with this. What information can I 
-provide, or testing can I do, to help to trace this.
-
-Many thanks
-
-Ken
-
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+index 52e5d36aa912..ccfa426a34ab 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+@@ -185,11 +185,32 @@ static int vidioc_vdec_dqbuf(struct file *file, void *priv,
+ 	return v4l2_m2m_dqbuf(file, ctx->m2m_ctx, buf);
+ }
+ 
++static int mtk_vcodec_dec_get_chip_name(void *priv)
++{
++	struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
++	struct device *dev = &ctx->dev->plat_dev->dev;
++
++	if (of_device_is_compatible(dev->of_node, "mediatek,mt8173-vcodec-dec"))
++		return 8173;
++	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8183-vcodec-dec"))
++		return 8183;
++	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8192-vcodec-dec"))
++		return 8192;
++	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8195-vcodec-dec"))
++		return 8195;
++	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8186-vcodec-dec"))
++		return 8186;
++	else
++		return 8173;
++}
++
+ static int vidioc_vdec_querycap(struct file *file, void *priv,
+ 				struct v4l2_capability *cap)
+ {
++	int platform_name = mtk_vcodec_dec_get_chip_name(priv);
++
+ 	strscpy(cap->driver, MTK_VCODEC_DEC_NAME, sizeof(cap->driver));
+-	strscpy(cap->bus_info, MTK_PLATFORM_STR, sizeof(cap->bus_info));
++	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:mt%d", platform_name);
+ 	strscpy(cap->card, MTK_PLATFORM_STR, sizeof(cap->card));
+ 
+ 	return 0;
+-- 
+2.18.0
 
