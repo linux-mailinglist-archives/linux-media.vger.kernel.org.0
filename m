@@ -2,170 +2,343 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F755535265
-	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 19:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6515253567E
+	for <lists+linux-media@lfdr.de>; Fri, 27 May 2022 01:54:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344411AbiEZRG2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 May 2022 13:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32902 "EHLO
+        id S1349527AbiEZXyN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 May 2022 19:54:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236465AbiEZRG1 (ORCPT
+        with ESMTP id S236122AbiEZXyN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 May 2022 13:06:27 -0400
-Received: from knet-dmarc.kensnet.org (knetgate.kensnet.org [80.168.136.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61E3A2DFF
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 10:06:23 -0700 (PDT)
-Received: from knetgate.kensnet.org ([192.168.122.1])
-        by knet-dmarc.kensnet.org (8.14.4/8.14.4) with ESMTP id 24QH67dt031005
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Thu, 26 May 2022 18:06:07 +0100
-DKIM-Filter: OpenDKIM Filter v2.11.0 knet-dmarc.kensnet.org 24QH67dt031005
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kensnet.org;
-        s=default; t=1653584768;
-        bh=XuCFAVxlpHSuVsjpqFmIwi7BlrRQFtILGeblLATbuhk=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=nkt/cJz+DndkFNkmVC0NtZXRjjHJBuwHR4hWLIL9f4nDsQkzemicGINUaD70g+llc
-         Uhc+QjFiyYcDX1wh3fp71AxZY59uwSOSym3ZAEMb2Rpt4nOxic7d5FYzWWVdaNrUMa
-         oSuXnybCwWgTCK+/PwjaZabWtRJzBBOgPLL/S0r8=
-Received: from localhost.localdomain ([172.16.0.45])
-        (authenticated bits=0)
-        by knetgate.kensnet.org (8.14.4/8.14.4) with ESMTP id 24QH63A0020197
-        (version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-        Thu, 26 May 2022 18:06:05 +0100
-Subject: Re: HauppaugeTV-quadHD DVB-T & HVR5525 mpeg risc op code error
-To:     Martin Burnicki <martin.burnicki@burnicki.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Brad Love <brad@nextdimension.cc>
-References: <20200423155908.GA22613@gofer.mess.org>
- <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
- <20200423163559.GB23006@gofer.mess.org>
- <0cd2436c-0a39-0f85-929e-5d8f333b5027@burnicki.net>
- <20200425114147.GA3037@gofer.mess.org>
- <4aa38e2a-6b98-6530-69d9-d945a467bf0b@burnicki.net>
- <1a2d9e15-55e2-88a7-d197-208a8ce99218@burnicki.net>
- <20200427080751.GA5925@gofer.mess.org>
- <e7d8aeb8-124a-f7b3-d469-4c47f182f067@burnicki.net>
- <0fc5d43f-7928-1649-220b-45916b189d8f@burnicki.net>
- <20200430164934.GA16730@gofer.mess.org>
- <49697978-c4ef-66fe-94ac-17117540c111@kensnet.org>
- <5744615d-1126-418a-1c39-95df385605ac@burnicki.net>
-From:   Ken Smith <kens@kensnet.org>
-Organization: K-Net Technology
-Message-ID: <7d749461-e52d-66de-fbcc-491d9ca035bb@kensnet.org>
-Date:   Thu, 26 May 2022 18:06:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.0
+        Thu, 26 May 2022 19:54:13 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E18B6D946;
+        Thu, 26 May 2022 16:54:11 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dmitry.osipenko)
+        with ESMTPSA id 4483D1F40874
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1653609249;
+        bh=I1kxpdsP20qNcPlQ3S/qdgM736mICTGXs/ZrSWQ9ttc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SHTmQV0zLXeImrn1UeqN8m/fhyY2ZlGh7b2rESG1aXUjlVDdXNI3FpYp6JOICoEZh
+         5GQ2IQpyAa6+nUjxNM3vdRz+3PsfbOvfvICH/GRnjGtourjs7kudOWxAtn1fOSFI2c
+         R+Cmmthp+WNj6cUZOnsaaoF4uEoyolk89saEo7fhwOlfATSVvHgar+q2KcmLkKQlw4
+         /5kuYHnGiQH0YLWwcbnz9PEUZNMprm1gTg4gWGImZfS3MwxoibI8dRcVa3r8hbKZgf
+         GV+5b/rY9nDxIHehUUckXeVTx9PGzo1xn8PLR5JL69vXvnYsi5M36LXQgDHFmJHYEw
+         wNCXZkqbwXICA==
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, kernel@collabora.com
+Subject: [PATCH v6 00/22] Add generic memory shrinker to VirtIO-GPU and Panfrost DRM drivers
+Date:   Fri, 27 May 2022 02:50:18 +0300
+Message-Id: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-In-Reply-To: <5744615d-1126-418a-1c39-95df385605ac@burnicki.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-kensnet-MailScanner-Information: Please contact the ISP for more information
-X-kensnet-MailScanner-ID: 24QH63A0020197
-X-kensnet-MailScanner: Found to be clean
-X-kensnet-MailScanner-From: kens@kensnet.org
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
->>>
->>
->> Hi, I'd like to resurrect this thread (copied below). I have a system 
->> showing this error. Its a HP ML350 server with 2x Xeon 5675 running 
->> Rocky Linux 8.5. It has a Hauppauge HVR5525 card that uses the same 
->> cx23885 kernel module as the quadHD card discussed above. The HVR5525 
->> is a dual DVB-T2/DVB-S2 card.
->>
->> In other threads I read about the dma_reset_workaround option. That 
->> option did not appear to be in the version included in standard 
->> kernel in Rocky 8.5. I have loaded a 5.4 kernel and compiled the DVB 
->> media modules from .git source and set dma_reset_workaround=2 in a 
->> file in modprobe.d. The built module shows version 0.0.4
->>
->> Sadly the error remains. The system runs MythTV v.31. The main 
->> symptom is occasional aborted recordings. Although the card does 
->> appear to recover, not requiring a reboot/cold restart.
->>
->> I'd appreciate some assistance with this. What information can I 
->> provide to help to trace this.
->
-> I'm also maintaining a driver which started to show problems on 
-> systems with new CPUs and chipsets quite some time ago, for example on 
-> some Ryzen CPUs. In my case it turned out that the problem was because 
-> my driver accessed memory locations on a my PCI card directly via a 
-> pointer.
->
-> Looks like the problem occurred because the CPU/chipset "optimized" 
-> and re-ordered the execution of some machine instructions. There are 
-> "barrier" instructions that can be inserted in the source code to 
-> avoid this, but my original code didn't use them because the driver 
-> had been working on many systems for a long time.
->
-> Anyway, the low level functions provided by the kernel to access 
-> registers on a peripheral are implemented to use those barriers, so 
-> simply using those primitives (writel, readl and friends) instead of 
-> accessing the registers directly via a pointer (*p = cmd; val = *(p+1) 
-> ) fixed the problem for my driver.
->
-> All the symptoms described here for the cx23885 module make me assume 
-> that the problem is very similar, i.e. due to a missing barrier 
-> instruction somewhere in the source code. Unfortunately I'm not 
-> familiar with the Linux media driver stuff, so I don't know where I 
-> could start to look for a missing barrier instruction.
->
-> The only workaround that fixed the problem for me, and that I'm still 
-> using, is to load the cx23885 module with a high debug level, by 
-> putting a line
->
-> options cx23885 debug=8
->
-> into a file
->
-> /etc/modprobe.d/cx23885.conf
->
-> This produces a HUGE amount of kernel log messages (dmesg), but with 
-> lower debug levels the driver still didn't work reliably.
->
-> To make this stable for a long time, I changed /var/log/ to NOT point 
-> to my SSD but to a real hard disk, and I created a cronjob file in 
-> /etc/etc/cron.d/ with the line
->
-> 1 0-23 * * * root rm -f /var/log/kern.log*
->
-> to periodically remove the huge kernel log files.
->
-> This hack works for me since this has been discussed on this ML years 
-> ago.
->
->
-> Martin
-Thank you Martin and Robert.
+This patchset introduces memory shrinker for the VirtIO-GPU DRM driver
+and adds memory purging and eviction support to VirtIO-GPU driver.
 
-I've been doing some testing today. intel_iommu=off and 
-dma_reset_workaround=2 or dma_reset_workaround=0 didn't change the 
-symptoms.
+The new dma-buf locking convention is introduced here as well.
 
-This system has journald. I initially set debug=1 to see where the 
-messages go and I see what you mean about the volume of messages. I need 
-to work out how to divert this torrent to /dev/null if that option is to 
-be workable.
+During OOM, the shrinker will release BOs that are marked as "not needed"
+by userspace using the new madvise IOCTL, it will also evict idling BOs
+to SWAP. The userspace in this case is the Mesa VirGL driver, it will mark
+the cached BOs as "not needed", allowing kernel driver to release memory
+of the cached shmem BOs on lowmem situations, preventing OOM kills.
 
-I fully understand your comment about out of order instructions, Martin. 
-Looks like this driver may need the same attention as the one you 
-maintain. One option for me is to move the HVR5525 to a lower power 
-machine and run that as a slave MythBackend.
+The Panfrost driver is switched to use generic memory shrinker.
 
-Many thanks
+This patchset includes improvements and fixes for various things that
+I found while was working on the shrinker.
 
+The Mesa and IGT patches will be kept on hold until this kernel series
+will be approved and merged.
+
+This patchset was tested using Qemu and crosvm, including both cases of
+IOMMU off/on.
+
+Mesa: https://gitlab.freedesktop.org/digetx/mesa/-/commits/virgl-madvise
+IGT:  https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/virtio-madvise
+      https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/panfrost-madvise
+
+Changelog:
+
+v6: - Added new VirtIO-related fix patch that previously was sent separately
+      and didn't get much attention:
+
+        drm/gem: Properly annotate WW context on drm_gem_lock_reservations() error
+
+    - Added new patch that fixes mapping of imported dma-bufs for
+      Tegra DRM and other affected drivers. It's also handy to have it
+      for switching to the new dma-buf locking convention scheme:
+
+        drm/gem: Move mapping of imported dma-bufs to drm_gem_mmap_obj()
+
+    - Added new patch that fixes shrinker list corruption for stable Panfrost
+      driver:
+
+        drm/panfrost: Fix shrinker list corruption by madvise IOCTL
+
+    - Added new minor patch-fix for drm-shmem:
+
+        drm/shmem-helper: Add missing vunmap on error
+
+    - Added fixes tag to the "Put mapping ..." patch like was suggested by
+      Steven Price.
+
+    - Added new VirtIO-GPU driver improvement patch:
+
+        drm/virtio: Return proper error codes instead of -1
+
+    - Reworked shrinker patches like was suggested by Daniel Vetter:
+
+        - Introduced the new locking convention for dma-bufs. Tested on
+          VirtIO-GPU, Panfrost, Lima, Tegra and Intel selftests.
+
+        - Dropped separate purge() callback. Now single evict() does
+          everything.
+
+        - Dropped swap_in() callback from drm-shmem objects. DRM drivers
+          now could and should restore only the required mappings.
+
+        - Dropped dynamic counting of evictable pages. This simplifies
+          code in exchange to *potentially* burning more CPU time on OOM.
+
+v5: - Added new for-stable patch "drm/panfrost: Put mapping instead of
+      shmem obj on panfrost_mmu_map_fault_addr() error" that corrects GEM's
+      refcounting in case of error.
+
+    - The drm_gem_shmem_v[un]map() now takes a separate vmap_lock for
+      imported GEMs to avoid recursive locking of DMA reservations.
+      This addresses v4 comment from Thomas Zimmermann about the potential
+      deadlocking of vmapping.
+
+    - Added ack from Thomas Zimmermann to "drm/shmem-helper: Correct
+      doc-comment of drm_gem_shmem_get_sg_table()" patch.
+
+    - Dropped explicit shmem states from the generic shrinker patch as
+      was requested by Thomas Zimmermann.
+
+    - Improved variable names and comments of the generic shrinker code.
+
+    - Extended drm_gem_shmem_print_info() with the shrinker-state info in
+      the "drm/virtio: Support memory shrinking" patch.
+
+    - Moved evict()/swap_in()/purge() callbacks from drm_gem_object_funcs
+      to drm_gem_shmem_object in the generic shrinker patch, for more
+      consistency.
+
+    - Corrected bisectability of the patches that was broken in v4
+      by accident.
+
+    - The virtio_gpu_plane_prepare_fb() now uses drm_gem_shmem_pin() instead
+      of drm_gem_shmem_set_unpurgeable_and_unevictable() and does it only for
+      shmem BOs in the "drm/virtio: Support memory shrinking" patch.
+
+    - Made more functions private to drm_gem_shmem_helper.c as was requested
+      by Thomas Zimmermann. This minimizes number of the public shmem helpers.
+
+v4: - Corrected minor W=1 warnings reported by kernel test robot for v3.
+
+    - Renamed DRM_GEM_SHMEM_PAGES_STATE_ACTIVE/INACTIVE to PINNED/UNPINNED,
+      for more clarity.
+
+v3: - Hardened shrinker's count() with usage of READ_ONCE() since we don't
+      use atomic type for counting and technically compiler is free to
+      re-fetch counter's variable.
+
+    - "Correct drm_gem_shmem_get_sg_table() error handling" now uses
+      PTR_ERR_OR_ZERO(), fixing typo that was made in v2.
+
+    - Removed obsoleted shrinker from the Panfrost driver, which I missed to
+      do in v2 by accident and Alyssa Rosenzweig managed to notice it.
+
+    - CCed stable kernels in all patches that make fixes, even the minor ones,
+      like was suggested by Emil Velikov and added his r-b to the patches.
+
+    - Added t-b from Steven Price to the Panfrost's shrinker patch.
+
+    - Corrected doc-comment of drm_gem_shmem_object.madv, like was suggested
+      by Steven Price. Comment now says that madv=1 means "object is purged"
+      instead of saying that value is unused.
+
+    - Added more doc-comments to the new shmem shrinker API.
+
+    - The "Improve DMA API usage for shmem BOs" patch got more improvements
+      by removing the obsoleted drm_dev_set_unique() quirk and its comment.
+
+    - Added patch that makes Virtio-GPU driver to use common dev_is_pci()
+      helper, which was suggested by Robin Murphy.
+
+    - Added new "drm/shmem-helper: Take GEM reservation lock instead of
+      drm_gem_shmem locks" patch, which was suggested by Daniel Vetter.
+
+    - Added new "drm/virtio: Simplify error handling of
+      virtio_gpu_object_create()" patch.
+
+    - Improved "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
+      like was suggested by Daniel Vetter, by saying that function returns
+      ERR_PTR() and not errno.
+
+    - virtio_gpu_purge_object() is fenced properly now, turned out
+      virtio_gpu_notify() doesn't do fencing as I was supposing before.
+      Stress testing of memory eviction revealed that.
+
+    - Added new patch that corrects virtio_gpu_plane_cleanup_fb() to use
+      appropriate atomic plane state.
+
+    - SHMEM shrinker got eviction support.
+
+    - VirtIO-GPU driver now supports memory eviction. It's enabled for a
+      non-blob GEMs only, i.e. for VirGL. The blobs don't support dynamic
+      attaching/detaching of guest's memory, so it's not trivial to enable
+      them.
+
+    - Added patch that removes obsoleted drm_gem_shmem_purge()
+
+    - Added patch that makes drm_gem_shmem_get_pages() private.
+
+    - Added patch that fixes lockup on dma_resv_reserve_fences() error.
+
+v2: - Improved shrinker by using a more fine-grained locking to reduce
+      contention during scan of objects and dropped locking from the
+      'counting' callback by tracking count of shrinkable pages. This
+      was suggested by Rob Clark in the comment to v1.
+
+    - Factored out common shrinker code into drm_gem_shmem_helper.c
+      and switched Panfrost driver to use the new common memory shrinker.
+      This was proposed by Thomas Zimmermann in his prototype series that
+      he shared with us in the comment to v1. Note that I only compile-tested
+      the Panfrost driver.
+
+    - Shrinker now takes object_name_lock during scan to prevent racing
+      with dma-buf exporting.
+
+    - Shrinker now takes vmap_lock during scan to prevent racing with shmem
+      vmap/unmap code.
+
+    - Added "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
+      which I sent out previously as a standalone change, since the
+      drm_gem_shmem_helper.c is now touched by this patchset anyways and
+      it doesn't hurt to group all the patches together.
+
+Dmitry Osipenko (22):
+  drm/gem: Properly annotate WW context on drm_gem_lock_reservations()
+    error
+  drm/gem: Move mapping of imported dma-bufs to drm_gem_mmap_obj()
+  drm/panfrost: Put mapping instead of shmem obj on
+    panfrost_mmu_map_fault_addr() error
+  drm/panfrost: Fix shrinker list corruption by madvise IOCTL
+  drm/virtio: Correct drm_gem_shmem_get_sg_table() error handling
+  drm/virtio: Check whether transferred 2D BO is shmem
+  drm/virtio: Unlock reservations on virtio_gpu_object_shmem_init()
+    error
+  drm/virtio: Unlock reservations on dma_resv_reserve_fences() error
+  drm/virtio: Use appropriate atomic state in
+    virtio_gpu_plane_cleanup_fb()
+  drm/shmem-helper: Add missing vunmap on error
+  drm/shmem-helper: Correct doc-comment of drm_gem_shmem_get_sg_table()
+  drm/virtio: Simplify error handling of virtio_gpu_object_create()
+  drm/virtio: Improve DMA API usage for shmem BOs
+  dma-buf: Introduce new locking convention
+  drm/shmem-helper: Don't use vmap_use_count for dma-bufs
+  drm/shmem-helper: Use reservation lock
+  drm/shmem-helper: Add generic memory shrinker
+  drm/gem: Add drm_gem_pin_unlocked()
+  drm/virtio: Support memory shrinking
+  drm/virtio: Use dev_is_pci()
+  drm/virtio: Return proper error codes instead of -1
+  drm/panfrost: Switch to generic memory shrinker
+
+ drivers/dma-buf/dma-buf.c                     | 270 ++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   6 +-
+ drivers/gpu/drm/drm_client.c                  |   4 +-
+ drivers/gpu/drm/drm_gem.c                     |  69 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 718 ++++++++++++++----
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  10 +-
+ drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+ drivers/gpu/drm/lima/lima_sched.c             |   4 +-
+ drivers/gpu/drm/panfrost/Makefile             |   1 -
+ drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  26 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  33 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 -
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 122 ---
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  18 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |  21 +-
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |   6 +-
+ drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
+ drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+ drivers/gpu/drm/tegra/gem.c                   |   4 +
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |  53 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |  23 +-
+ drivers/gpu/drm/virtio/virtgpu_gem.c          |  59 +-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  37 +
+ drivers/gpu/drm/virtio/virtgpu_kms.c          |  16 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c       | 203 +++--
+ drivers/gpu/drm/virtio/virtgpu_plane.c        |  28 +-
+ drivers/gpu/drm/virtio/virtgpu_vq.c           |  61 +-
+ .../common/videobuf2/videobuf2-dma-contig.c   |  11 +-
+ .../media/common/videobuf2/videobuf2-dma-sg.c |  11 +-
+ .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
+ include/drm/drm_device.h                      |   4 +
+ include/drm/drm_gem.h                         |   6 +
+ include/drm/drm_gem_shmem_helper.h            |  99 ++-
+ include/linux/dma-buf.h                       |  14 +-
+ include/uapi/drm/virtgpu_drm.h                |  14 +
+ 37 files changed, 1349 insertions(+), 661 deletions(-)
+ delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
 
 -- 
-This message has been scanned for viruses and
-dangerous content by MailScanner, and is
-believed to be clean.
+2.35.3
 
