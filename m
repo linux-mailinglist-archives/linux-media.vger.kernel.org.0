@@ -2,71 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0688534E60
-	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 13:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B0A3534EB3
+	for <lists+linux-media@lfdr.de>; Thu, 26 May 2022 14:01:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347236AbiEZLow (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 May 2022 07:44:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58958 "EHLO
+        id S235435AbiEZMBP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 May 2022 08:01:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347252AbiEZLoi (ORCPT
+        with ESMTP id S234318AbiEZMBO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 May 2022 07:44:38 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0EA6D02B3
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 04:44:19 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id pq9-20020a17090b3d8900b001df622bf81dso1498543pjb.3
-        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 04:44:19 -0700 (PDT)
+        Thu, 26 May 2022 08:01:14 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58D0DD029B
+        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:01:13 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id c2so1269231plh.2
+        for <linux-media@vger.kernel.org>; Thu, 26 May 2022 05:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JPsuNO4IJ7T2z2weCPNLXji/1rrU6SbwmIuvAfLuJdM=;
-        b=gXnGQSuj+c45yeKB+8j1h5YrFgbmZ/F+ScjvzuqHVRExHvwyEIyIm5m2DGsq4eRivF
-         P+M98Z8RwNJBIogL2m0HYIZ/Fwa/lLhneVU4VJ4Mj/sOV0eRgziQBZkii377HVD6QyY1
-         2bI/Muk5RxlNiPNzwLamtJMg9nie/mRGw9lFbmQU1dDJfGWsoTyOloH1ViyUb9qy2iog
-         R08xQMgbo7j+fugthPtNqBSIqZ60i0bcEzLumfuUcIQbXxbNMflFxtoh2dfLplEfco3s
-         Mk6gkTfQyPxNUeu4yHFaMQt3tnDVqPzUxf2Z/qjS5HuGEXrcPAUGpj/kBGYO/P3ecI86
-         SX9g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lUlIufSDBkjwRGikIYnntySsIitJmkjvs7vLr+Tbbww=;
+        b=Ty5GBSN2iEIhDAeRutUOsSPEgLXLa6DPGZ7ZGHAdq6UjfavOeqFzyH7SGin/YpOugV
+         tkKlPwPnmUaxeGt1d0DVEIc0xD2GKvhpBRgtE1x5dFgnHDbtE3ynzmc3baLfVBK3Ij3z
+         5/GJgP5sqF162zVmo8pSyep6p4Tl2KXD9Xw1CSQ0QUqL1Nm/8OIdC4guhnS68FbyyJaa
+         8UINrs+eGebUIKonnwNBc4LceeP5yxEa19rry/0aASHi+Wiz+RuzN70lQtl91J3+E6FI
+         3tuI9CzQmrIgJ9AdmuKzh43fRKlKPo90KOf4oT0OkEMrAW2/T18zczJ6g0OOHNaLQVCn
+         k3+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JPsuNO4IJ7T2z2weCPNLXji/1rrU6SbwmIuvAfLuJdM=;
-        b=Y6E7yzKIGnhREY1ynxGxv5fkgE+gEkQ1UEPnllZ837G/znR2L5DnhhMEZvAR5ZqjY2
-         Us7JxXlLH8kk/p1KNSGCoIjIe+9vOZbMhTaqHSVPQWJYzHeFFscef09P62pubnXAobw4
-         9Bwi2n5mBNgoasGPegRIeFh9/5qCyfimiwrUSY7Is6haoUG4SFV4K+pEeOGS/VZuhh4F
-         Mew+TZBFbC+is9uCXNjEQpo5Vu4RCIJtkbgu0dcBeYo8EYzn1VxmArKpsj6hGTTWe8Oj
-         8xIcne8RTxucJCsKmjjAG7rif5zIdm5L9UN5k9a5FbqL07ZITdvQrIgzGIu7FhQ2Iw8I
-         FdqA==
-X-Gm-Message-State: AOAM532v2bIdEc2YMlI0AJgKLPh111eRAaS7WhxH2Uji86F+uPdEnj4/
-        PDBpw//brrbUaf8tsuqhRFOjuw==
-X-Google-Smtp-Source: ABdhPJxHkvspcXsVc/hjxvjqkI2gYKKMuKYXQeyh/YgUZZoPbuby4lZj7ryI8rRuulEhYMTROUIvnQ==
-X-Received: by 2002:a17:90a:de02:b0:1df:3f94:811c with SMTP id m2-20020a17090ade0200b001df3f94811cmr2197205pjv.112.1653565459142;
-        Thu, 26 May 2022 04:44:19 -0700 (PDT)
-Received: from localhost ([122.162.234.2])
-        by smtp.gmail.com with ESMTPSA id u30-20020a63235e000000b003c14af505fcsm1319907pgm.20.2022.05.26.04.44.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 May 2022 04:44:18 -0700 (PDT)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rafael Wysocki <rjw@rjwysocki.net>,
-        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 17/31] media: venus: Migrate to dev_pm_opp_set_config()
-Date:   Thu, 26 May 2022 17:12:16 +0530
-Message-Id: <1f243f35b02d53fde5bf730a7da1a789186f62b1.1653564321.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
-In-Reply-To: <cover.1653564321.git.viresh.kumar@linaro.org>
-References: <cover.1653564321.git.viresh.kumar@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lUlIufSDBkjwRGikIYnntySsIitJmkjvs7vLr+Tbbww=;
+        b=GxEvI+6Ed0+jEKJchs8g4jBdrJybw+Wsm8S4SF6mDez8nS4pQ6mtYNpZ+5MWRv8Pdn
+         kZ3d2Pjgzzp2NiLcHEYWUWw9llRNNZlaY6YNXqlNibLYBI0cXUQZ0uDtQan+YFO9ahaV
+         LdbpFgoSfzbqNtzpij/lkJzq8prUkNc94u3+WKBWwJ9msReozuAEa/0QDVdTrj4ym4z8
+         UxdT6vYuErtZnC0yK/vttGiLNyOUhAA5n5f8meqTyIS6S0e6a0Q4aFg+rXKf94+CqtJd
+         pP0Gd2rmxViAiSDv2OBWlJiqnWByZmWJYMuMlAgyvWqpFzIvoV8mDH1e9JMZJLOsdVHR
+         uRJA==
+X-Gm-Message-State: AOAM533cq6NlSLsvLZb2Bh1M/EIrpshEuCd0zDzhpKCWKbf7U6W5uHwz
+        Ksp6bUBX0c95YhvQyqOVX7djD3uBX7tSLzgO5ithKQ==
+X-Google-Smtp-Source: ABdhPJw3gL9VX2LiWnW/hwS0uGQSrNbONre+VS5vdc0vFyQphqOWWV9oyEo4CdmmJJZkmg8N3h67TrbQSNIui8br0XY=
+X-Received: by 2002:a17:90b:4d91:b0:1df:f18f:7836 with SMTP id
+ oj17-20020a17090b4d9100b001dff18f7836mr2318571pjb.152.1653566472858; Thu, 26
+ May 2022 05:01:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220523122513.2064305-1-vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20220523122513.2064305-1-vladimir.zapolskiy@linaro.org>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Thu, 26 May 2022 14:00:59 +0200
+Message-ID: <CAG3jFyt_nB=1ymVECyMsXRh7hKFYREKtW=hx39y2bBjQPEzbVg@mail.gmail.com>
+Subject: Re: [PATCH] media: camss: Move and unexport functions specific to ISPIF
+To:     Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc:     Todor Tomov <todor.too@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
@@ -77,76 +69,138 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The OPP core now provides a unified API for setting all configuration
-types, i.e. dev_pm_opp_set_config().
+On Mon, 23 May 2022 at 14:25, Vladimir Zapolskiy
+<vladimir.zapolskiy@linaro.org> wrote:
+>
+> Common exported functions msm_vfe_get_vfe_id() and msm_vfe_get_vfe_line_id()
+> do not have any users outside of camss-ispif.c, move them to the latter
+> object and staticize.
+>
+> The change is supposed to be a non-functional one.
+>
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> ---
+>  .../media/platform/qcom/camss/camss-ispif.c   | 39 ++++++++++++++++++-
+>  drivers/media/platform/qcom/camss/camss-vfe.c | 34 ----------------
+>  drivers/media/platform/qcom/camss/camss-vfe.h |  3 --
+>  3 files changed, 37 insertions(+), 39 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
+> index 4ee11bb979cd..91e6a2b9ac50 100644
+> --- a/drivers/media/platform/qcom/camss/camss-ispif.c
+> +++ b/drivers/media/platform/qcom/camss/camss-ispif.c
+> @@ -1252,6 +1252,41 @@ static enum ispif_intf ispif_get_intf(enum vfe_line_id line_id)
+>         }
+>  }
+>
+> +/*
+> + * ispif_get_vfe_id - Get VFE HW module id
+> + * @entity: Pointer to VFE media entity structure
+> + * @id: Return CSID HW module id here
+> + */
+> +static void ispif_get_vfe_id(struct media_entity *entity, u8 *id)
+> +{
+> +       struct v4l2_subdev *sd;
+> +       struct vfe_line *line;
+> +       struct vfe_device *vfe;
+> +
+> +       sd = media_entity_to_v4l2_subdev(entity);
+> +       line = v4l2_get_subdevdata(sd);
+> +       vfe = to_vfe(line);
+> +
+> +       *id = vfe->id;
+> +}
+> +
+> +/*
+> + * ispif_get_vfe_line_id - Get VFE line id by media entity
+> + * @entity: Pointer to VFE media entity structure
+> + * @id: Return VFE line id here
+> + */
+> +static void ispif_get_vfe_line_id(struct media_entity *entity,
+> +                                 enum vfe_line_id *id)
+> +{
+> +       struct v4l2_subdev *sd;
+> +       struct vfe_line *line;
+> +
+> +       sd = media_entity_to_v4l2_subdev(entity);
+> +       line = v4l2_get_subdevdata(sd);
+> +
+> +       *id = line->id;
+> +}
+> +
+>  /*
+>   * ispif_link_setup - Setup ISPIF connections
+>   * @entity: Pointer to media entity structure
+> @@ -1285,8 +1320,8 @@ static int ispif_link_setup(struct media_entity *entity,
+>                         sd = media_entity_to_v4l2_subdev(entity);
+>                         line = v4l2_get_subdevdata(sd);
+>
+> -                       msm_vfe_get_vfe_id(remote->entity, &line->vfe_id);
+> -                       msm_vfe_get_vfe_line_id(remote->entity, &id);
+> +                       ispif_get_vfe_id(remote->entity, &line->vfe_id);
+> +                       ispif_get_vfe_line_id(remote->entity, &id);
+>                         line->interface = ispif_get_intf(id);
+>                 }
+>         }
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+> index 5b148e9f8134..76e28b832568 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+> @@ -1422,40 +1422,6 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
+>         return 0;
+>  }
+>
+> -/*
+> - * msm_vfe_get_vfe_id - Get VFE HW module id
+> - * @entity: Pointer to VFE media entity structure
+> - * @id: Return CSID HW module id here
+> - */
+> -void msm_vfe_get_vfe_id(struct media_entity *entity, u8 *id)
+> -{
+> -       struct v4l2_subdev *sd;
+> -       struct vfe_line *line;
+> -       struct vfe_device *vfe;
+> -
+> -       sd = media_entity_to_v4l2_subdev(entity);
+> -       line = v4l2_get_subdevdata(sd);
+> -       vfe = to_vfe(line);
+> -
+> -       *id = vfe->id;
+> -}
+> -
+> -/*
+> - * msm_vfe_get_vfe_line_id - Get VFE line id by media entity
+> - * @entity: Pointer to VFE media entity structure
+> - * @id: Return VFE line id here
+> - */
+> -void msm_vfe_get_vfe_line_id(struct media_entity *entity, enum vfe_line_id *id)
+> -{
+> -       struct v4l2_subdev *sd;
+> -       struct vfe_line *line;
+> -
+> -       sd = media_entity_to_v4l2_subdev(entity);
+> -       line = v4l2_get_subdevdata(sd);
+> -
+> -       *id = line->id;
+> -}
+> -
+>  /*
+>   * vfe_link_setup - Setup VFE connections
+>   * @entity: Pointer to media entity structure
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
+> index 0eba04eb9b77..cbc314c4e244 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.h
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.h
+> @@ -163,9 +163,6 @@ int msm_vfe_register_entities(struct vfe_device *vfe,
+>
+>  void msm_vfe_unregister_entities(struct vfe_device *vfe);
+>
+> -void msm_vfe_get_vfe_id(struct media_entity *entity, u8 *id);
+> -void msm_vfe_get_vfe_line_id(struct media_entity *entity, enum vfe_line_id *id);
+> -
+>  /*
+>   * vfe_buf_add_pending - Add output buffer to list of pending
+>   * @output: VFE output
 
-Lets start using it.
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- drivers/media/platform/qcom/venus/pm_helpers.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index cb48c5ff3dee..16f8849896a9 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.c
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -294,12 +294,15 @@ static int load_scale_v1(struct venus_inst *inst)
- static int core_get_v1(struct venus_core *core)
- {
- 	int ret;
-+	struct dev_pm_opp_config config = {
-+		.clk_name = "core",
-+	};
- 
- 	ret = core_clks_get(core);
- 	if (ret)
- 		return ret;
- 
--	ret = devm_pm_opp_set_clkname(core->dev, "core");
-+	ret = devm_pm_opp_set_config(core->dev, &config);
- 	if (ret)
- 		return ret;
- 
-@@ -862,6 +865,10 @@ static int vcodec_domains_get(struct venus_core *core)
- 	const struct venus_resources *res = core->res;
- 	struct device *pd;
- 	unsigned int i;
-+	struct dev_pm_opp_config config = {
-+		.genpd_names = res->opp_pmdomain,
-+		.virt_devs = &opp_virt_dev,
-+	};
- 
- 	if (!res->vcodec_pmdomains_num)
- 		goto skip_pmdomains;
-@@ -879,7 +886,7 @@ static int vcodec_domains_get(struct venus_core *core)
- 		return 0;
- 
- 	/* Attach the power domain for setting performance state */
--	ret = devm_pm_opp_attach_genpd(dev, res->opp_pmdomain, &opp_virt_dev);
-+	ret = devm_pm_opp_set_config(dev, &config);
- 	if (ret)
- 		goto opp_attach_err;
- 
-@@ -978,6 +985,9 @@ static int core_get_v4(struct venus_core *core)
- 	struct device *dev = core->dev;
- 	const struct venus_resources *res = core->res;
- 	int ret;
-+	struct dev_pm_opp_config config = {
-+		.clk_name = "core",
-+	};
- 
- 	ret = core_clks_get(core);
- 	if (ret)
-@@ -1003,7 +1013,7 @@ static int core_get_v4(struct venus_core *core)
- 	if (legacy_binding)
- 		return 0;
- 
--	ret = devm_pm_opp_set_clkname(dev, "core");
-+	ret = devm_pm_opp_set_config(dev, &config);
- 	if (ret)
- 		return ret;
- 
--- 
-2.31.1.272.g89b43f80a514
-
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
