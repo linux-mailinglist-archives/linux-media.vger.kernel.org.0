@@ -2,121 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AAB9535D6B
-	for <lists+linux-media@lfdr.de>; Fri, 27 May 2022 11:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 741A0535D72
+	for <lists+linux-media@lfdr.de>; Fri, 27 May 2022 11:31:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350036AbiE0J2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 May 2022 05:28:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
+        id S1350230AbiE0Jaz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 May 2022 05:30:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240627AbiE0J2L (ORCPT
+        with ESMTP id S1350599AbiE0Jax (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 May 2022 05:28:11 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F70B7D2;
-        Fri, 27 May 2022 02:28:10 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 27so4383446ljw.0;
-        Fri, 27 May 2022 02:28:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Krhf4p2A4F/OozPS2wYakVlCdwv1A4RoS750BCdPKcc=;
-        b=Lw1bpYpSg6Xu8NYSj+hYo9JMrcr1uhDlArl5ZVRhx6dypMyJ7zKZ3kcR9dRux2FrPZ
-         BmVJTGXFFCR3ba14zXc5mJ7+oYZxeWuzvLMfTDBudWpx7eTDF1zVAqJSsDFZW8FP0Jcv
-         LCuSpakjj/F+JPoz5ggzjQkap3QhTs34BCJG+s4ZdWIy9hmIbtufuKALLsn+YPKZ/8Y1
-         qd7PP1O4Mth3HrZXpnbXWo5nZ5CHgpWaodAe2lFGAFpUYjnj5mWQ7XJMknD521TV5LqR
-         E2e17Y6Y6xXevcEbzNJsgqd/z7Zr7cY6OsenyRBQd7sy54/cmLQLf1whxWN2zge/OB8W
-         sCTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Krhf4p2A4F/OozPS2wYakVlCdwv1A4RoS750BCdPKcc=;
-        b=ZCRPsf1KVUc10SrZ9QjvxM3Z0/qU6XKc1y0a4D7Bcra9vuiIA+WbmN8q+ZsgRJG2Eo
-         yC4yBzbBZIfP0VjW6kkTCAOQjN6t2QophnguqhXVoRI7qP1D0AldSDOTQHNGSf2aUa3C
-         fS0ErL4PbMr2nOTzhIbGBbKw0c5spgfxzRFuikOBE4b6RxiR0/Ozvk8mjYtROKDDJIoG
-         wPlnVvdbsg67KoZPVSzPjI1nPPDi5lmxxIbeGXNq+GvgFhFLfBmccWfIoCyiF3GKxzpR
-         C8ozTkWM18Fv/Z2rcDEUxpUQAKHufCirYfSnpwew2od/YxdORf5rNZzGeCj8adR+gm8W
-         gguA==
-X-Gm-Message-State: AOAM531EWxPPt3KjVJo5C3KMqAeKFW6XUyb8+XvlmPbD0HxG1nAeSUuz
-        32TDc/mTRfrbaL6ThQM4cDc=
-X-Google-Smtp-Source: ABdhPJyilFQbXSAMaOm+DGPi2n3CTBILPrU5RfGaNxR0GU6ym+ew2t5uYYPEGFHYpijTzWR52odNHQ==
-X-Received: by 2002:a05:651c:248:b0:253:d7cb:136 with SMTP id x8-20020a05651c024800b00253d7cb0136mr23043541ljn.65.1653643688369;
-        Fri, 27 May 2022 02:28:08 -0700 (PDT)
-Received: from [192.168.0.192] ([194.146.248.76])
-        by smtp.gmail.com with ESMTPSA id k27-20020ac2457b000000b0047255d2114csm792432lfm.123.2022.05.27.02.28.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 May 2022 02:28:07 -0700 (PDT)
-Message-ID: <6531e5e0-d4d5-1a16-5c5c-e8ff443f3275@gmail.com>
-Date:   Fri, 27 May 2022 11:28:06 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2] media: platform: samsung: s5p-jpeg: replace ternary
- operator with max()
-Content-Language: en-US
-To:     Guo Zhengkui <guozhengkui@vivo.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Fri, 27 May 2022 05:30:53 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 128C3FD37C;
+        Fri, 27 May 2022 02:30:48 -0700 (PDT)
+X-UUID: b7df0aabe2694a75bc2d2f914f191f3d-20220527
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5,REQID:ebdbe9a2-ce8a-476e-823e-b1af4bf74b6c,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+        ON:release,TS:0
+X-CID-META: VersionHash:2a19b09,CLOUDID:2dc6b847-4fb1-496b-8f1d-39e733fed1ea,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+        ,QS:0,BEC:nil
+X-UUID: b7df0aabe2694a75bc2d2f914f191f3d-20220527
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <ck.hu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 229779352; Fri, 27 May 2022 17:30:42 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Fri, 27 May 2022 17:30:40 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Fri, 27 May 2022 17:30:40 +0800
+Message-ID: <997da91ccc893a53cf4e7713ba08b5e32043c507.camel@mediatek.com>
+Subject: Re: [PATCH v18 6/6] soc: mediatek: mutex: add functions that
+ operate registers by CMDQ
+From:   CK Hu <ck.hu@mediatek.com>
+To:     Moudy Ho <moudy.ho@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "moderated list:ARM/SAMSUNG S5P SERIES JPEG CODEC SUPPORT" 
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/SAMSUNG S5P SERIES JPEG CODEC SUPPORT" 
-        <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Cc:     zhengkui_guo@outlook.com
-References: <1761ab1a-68ce-4946-24d4-8f4f9575e735@xs4all.nl>
- <20220518120836.126368-1-guozhengkui@vivo.com>
-From:   Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-In-Reply-To: <20220518120836.126368-1-guozhengkui@vivo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        <linux-mediatek@lists.infradead.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <xiandong.wang@mediatek.com>,
+        <randy.wu@mediatek.com>, <jason-jh.lin@mediatek.com>,
+        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <cellopoint.kai@gmail.com>
+Date:   Fri, 27 May 2022 17:30:40 +0800
+In-Reply-To: <20220512084139.15086-7-moudy.ho@mediatek.com>
+References: <20220512084139.15086-1-moudy.ho@mediatek.com>
+         <20220512084139.15086-7-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Guo Zhengkui,
+Hi, Moudy:
 
-Sorry about the delay.
-
-W dniu 18.05.2022 o 14:08, Guo Zhengkui pisze:
-> Fix the following coccicheck warning:
+On Thu, 2022-05-12 at 16:41 +0800, Moudy Ho wrote:
+> Due to HW limitations, MDP3 is necessary to enable MUTEX in each
+> frame
+> for SOF triggering and cooperate with CMDQ control to reduce the
+> amount
+> of interrupts generated(also, reduce frame latency).
 > 
-> drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c:1712:24-25:
-> WARNING opportunity for max()
+> In response to the above situation, a new interface
+> "mtk_mutex_enable_by_cmdq" has been added to achieve the purpose.
 > 
-> max() macro is defined in include/linux/minmax.h. It avoids multiple
-> evaluations of the arguments when non-constant and performs strict
-> type-checking.
-> 
-> Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
-
-Acked-by: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
 > ---
-> v1 -> v2: Change the subject according to Hans Verkuil's suggestion.
+>  drivers/soc/mediatek/mtk-mutex.c       | 47
+> +++++++++++++++++++++++++-
+>  include/linux/soc/mediatek/mtk-mutex.h |  2 ++
+>  2 files changed, 48 insertions(+), 1 deletion(-)
 > 
->   drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> index 456287186ad8..55814041b8d8 100644
-> --- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> @@ -1709,7 +1709,7 @@ static int exynos3250_jpeg_try_downscale(struct s5p_jpeg_ctx *ctx,
->   	w_ratio = ctx->out_q.w / r->width;
->   	h_ratio = ctx->out_q.h / r->height;
->   
-> -	scale_factor = w_ratio > h_ratio ? w_ratio : h_ratio;
-> +	scale_factor = max(w_ratio, h_ratio);
->   	scale_factor = clamp_val(scale_factor, 1, 8);
->   
->   	/* Align scale ratio to the nearest power of 2 */
+> diff --git a/drivers/soc/mediatek/mtk-mutex.c
+> b/drivers/soc/mediatek/mtk-mutex.c
+> index 92afdee14d43..4ec2954f2f43 100644
+> --- a/drivers/soc/mediatek/mtk-mutex.c
+> +++ b/drivers/soc/mediatek/mtk-mutex.c
+> @@ -7,10 +7,12 @@
+>  #include <linux/iopoll.h>
+>  #include <linux/module.h>
+>  #include <linux/of_device.h>
+> +#include <linux/of_address.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/regmap.h>
+>  #include <linux/soc/mediatek/mtk-mmsys.h>
+>  #include <linux/soc/mediatek/mtk-mutex.h>
+> +#include <linux/soc/mediatek/mtk-cmdq.h>
+>  
+>  #define MT2701_MUTEX0_MOD0			0x2c
+>  #define MT2701_MUTEX0_SOF0			0x30
+> @@ -176,6 +178,9 @@ struct mtk_mutex_ctx {
+>  	void __iomem			*regs;
+>  	struct mtk_mutex		mutex[10];
+>  	const struct mtk_mutex_data	*data;
+> +	phys_addr_t			addr;
+> +	struct cmdq_client_reg		cmdq_reg;
+> +	bool				has_gce_client_reg;
+
+I think this is not necessary. If cmdq_reg.size == 0, that would imply
+cmdq_reg is invalid.
+
+>  };
+>  
+>  static const unsigned int mt2701_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+> @@ -531,6 +536,30 @@ void mtk_mutex_enable(struct mtk_mutex *mutex)
+>  }
+>  EXPORT_SYMBOL_GPL(mtk_mutex_enable);
+>  
+> +int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
+> +{
+> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
+> mtk_mutex_ctx,
+> +						 mutex[mutex->id]);
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +	struct cmdq_pkt *cmdq_pkt = (struct cmdq_pkt *)pkt;
+> +
+> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
+> +
+> +	if (!mtx->has_gce_client_reg) {
+> +		dev_err(mtx->dev, "mediatek,gce-client-reg hasn't been
+> set in dts");
+> +		return -EINVAL;
+> +	}
+> +
+> +	cmdq_pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys,
+> +		       mtx->addr + DISP_REG_MUTEX_EN(mutex->id), 1);
+> +	return 0;
+> +#else
+> +	dev_err(mtx->dev, "Not support for enable MUTEX by CMDQ");
+> +	return -ENODEV;
+> +#endif
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
+> +
+>  void mtk_mutex_disable(struct mtk_mutex *mutex)
+>  {
+>  	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
+> mtk_mutex_ctx,
+> @@ -655,8 +684,11 @@ static int mtk_mutex_probe(struct
+> platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct mtk_mutex_ctx *mtx;
+> -	struct resource *regs;
+> +	struct resource *regs, addr;
+>  	int i;
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +	int ret;
+> +#endif
+>  
+>  	mtx = devm_kzalloc(dev, sizeof(*mtx), GFP_KERNEL);
+>  	if (!mtx)
+> @@ -676,6 +708,19 @@ static int mtk_mutex_probe(struct
+> platform_device *pdev)
+>  		}
+>  	}
+>  
+> +	if (of_address_to_resource(dev->of_node, 0, &addr) < 0)
+> +		mtx->addr = 0L;
+
+You may return error, or you should check mtx->addr when use it.
+
+Regards,
+CK
+
+> +	else
+> +		mtx->addr = addr.start;
+> +
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +	ret = cmdq_dev_get_client_reg(dev, &mtx->cmdq_reg, 0);
+> +	if (ret)
+> +		dev_dbg(dev, "No mediatek,gce-client-reg!\n");
+> +	else
+> +		mtx->has_gce_client_reg = true;
+> +#endif
+> +
+>  	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>  	mtx->regs = devm_ioremap_resource(dev, regs);
+>  	if (IS_ERR(mtx->regs)) {
+> diff --git a/include/linux/soc/mediatek/mtk-mutex.h
+> b/include/linux/soc/mediatek/mtk-mutex.h
+> index f174452212d6..80425ae19fb7 100644
+> --- a/include/linux/soc/mediatek/mtk-mutex.h
+> +++ b/include/linux/soc/mediatek/mtk-mutex.h
+> @@ -29,6 +29,8 @@ int mtk_mutex_prepare(struct mtk_mutex *mutex);
+>  void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>  			enum mtk_ddp_comp_id id);
+>  void mtk_mutex_enable(struct mtk_mutex *mutex);
+> +int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
+> +			     void *pkt);
+>  void mtk_mutex_disable(struct mtk_mutex *mutex);
+>  void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
+>  			   enum mtk_ddp_comp_id id);
+
