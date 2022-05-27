@@ -2,142 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BCB5536773
-	for <lists+linux-media@lfdr.de>; Fri, 27 May 2022 21:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF87A5367E1
+	for <lists+linux-media@lfdr.de>; Fri, 27 May 2022 22:06:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354349AbiE0T0S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 May 2022 15:26:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60252 "EHLO
+        id S241232AbiE0UGA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 May 2022 16:06:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354287AbiE0T0S (ORCPT
+        with ESMTP id S1350709AbiE0UF4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 May 2022 15:26:18 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DFE2263F
-        for <linux-media@vger.kernel.org>; Fri, 27 May 2022 12:26:16 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id x65so5682766qke.2
-        for <linux-media@vger.kernel.org>; Fri, 27 May 2022 12:26:16 -0700 (PDT)
+        Fri, 27 May 2022 16:05:56 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A995547543
+        for <linux-media@vger.kernel.org>; Fri, 27 May 2022 13:05:53 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id r1so4753651qvz.8
+        for <linux-media@vger.kernel.org>; Fri, 27 May 2022 13:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=G6b4VHTAM4bhr1qeJfjgThR4MDcHb/Fb1ERdo5Xb9Ik=;
-        b=W/HrPyjahMm4XKGZc9+7n1p03LftQMndyai4tDNxJxUutyLiTpXLxyMSO6hx3+MYx8
-         Z9v73UVhkR8hBRDiepUIqsS7dIEwk2GTJhGeA29+MBoSTLQ20wtDZbUANS5mfe1juPfW
-         3zBG1z++lCTMMTND6Hv0I0dg8fD+nUSH0C7OS3T3CAst542iDFd6Ahx47MngBwRQlHC4
-         20HynURDTifrwmB3aTLx5xG6oeOJL9tGq8EjWUNO4XfO/Z1TmS6AHh06Lj0xcRR+FeRe
-         7Uo8PQ3Tg9xsES9SZpyiL4HLNiZscxh+x7Mfrae8BAWoux9oI3408osPV6YryvKQAnEr
-         U0CA==
+        bh=g+pQqkTih63Ty7gF/Ucw70pNIC+bNdQYXn1gaDTT7SA=;
+        b=WlnE80aTu92PLPbZ8osuq8WBerY2I3HSbhRn+z867J97rIIA85Ry4iA5BpjdmP00ex
+         wxzSChNoikfGwEZ1dj67BEwk8h7YmPKgmOw5XbozDe9A07ZOUzv/MZkfkNmxsbWG+CA0
+         QyTVH8LCridQvqfaQcmLtlO55WfXw7Tv6lpe3S4/0IGxKnZrKLFHSE/5KG3EXT3uGiLx
+         8/UZFkE+xtpFJnSO/d44ROEE9E5VRl/GSgJofucWRmxZ7/SDt6WipmFuFNss+EtaW2LP
+         Q9IN7CMbhA+MCr+dqBoOh4O+xFe9mNhR3y+J7ISHF1sxajfMZu8awUL8CvsQKrIHgrzZ
+         SjdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=G6b4VHTAM4bhr1qeJfjgThR4MDcHb/Fb1ERdo5Xb9Ik=;
-        b=R3DOuVD6WRWx/SIY1vQoiHF+0XW8V3LAKHDYn9Pw7419OdFpfpqQypEeMiXo4GV6A4
-         Qtmpf6FQbpdQ4Gsclph3ejUrk3qHYsXpC8fYgNkuTmqcSmNi50pWCePvHuqFR0m+xoWL
-         9R/Ogz6uzXs2fgUeoHI7oRmv/zswTDd97pLopQFlnCukT3n0i0ULWjfuRAHWZiTx0oqJ
-         xuLwSyXLHEcd7/xDP9IPxRP1qIkqkUL79tarw89NNo+7e37fX+dXt4dp9z4GpMVGOyt0
-         M/Ih2Yn3QlvypFNNPuw4V7rxkhW1XAak+3Luh3vlFaspsoFT/o8/0EXS7D1qqFHhRKjB
-         iYnQ==
-X-Gm-Message-State: AOAM530aLBrRtOyYsjIGQ/8++hrTzGXRuC25b2aIfpGXI98FEKjkXsfy
-        S0X1MX2pmWF0/sSIyKAT+hvY5wDuuf17Xw==
-X-Google-Smtp-Source: ABdhPJyAI5R9wYvBWLNcvQNrBosxG7C54X4ReS6SL/cc8NYsDgCPP/4vLmzo8r/gjN3XtNdTk/a1UQ==
-X-Received: by 2002:a37:8a43:0:b0:699:fac5:224d with SMTP id m64-20020a378a43000000b00699fac5224dmr29317291qkd.599.1653679575602;
-        Fri, 27 May 2022 12:26:15 -0700 (PDT)
+        bh=g+pQqkTih63Ty7gF/Ucw70pNIC+bNdQYXn1gaDTT7SA=;
+        b=Htvr+DnlhJDirbguvfshLO1H2KgMctCnaE9oMX+tSgxhLdn/oH2QS6xLNMIs1/+vt4
+         xXdElMHCtQ77ozlEGTlK5b40pEAq+eq9n1bVZGaMeH9Bh9vxYQkBuIy5b6b+s7V0rxVY
+         xdE2EizR19Noiyy6eIy/11ip/QyI7QoVrJlLC4g0h5E4ic/6b4NKq1BqV6E/Jq4FvpzA
+         q8GUyXGIWmGMacWzr/eO5Kk6r4QAgmgr4lCX2pFIZxVSgCNQpgVmVPlpbZCQqpsojB31
+         9tEeCXEZ1pjKd66K6L0hBU17rzyjp8wNo86D7+KVmzcLhd+8VSfEDQ8amaoyPiIehqyR
+         G7/Q==
+X-Gm-Message-State: AOAM532BjQTLexnLW9ibT46NcPCCngYYZH1LQZL82sZswM1JsUZBi/H1
+        k2RSWbd0zqE99SRa6y/F3j1dWw==
+X-Google-Smtp-Source: ABdhPJypfwKyW9QIJgtPwkcsv3L6wbUSugzXr5toVyTpByWMXC9eJMXmJf8swe/WfITuwBOtB1P+8A==
+X-Received: by 2002:ad4:5944:0:b0:462:310a:b54c with SMTP id eo4-20020ad45944000000b00462310ab54cmr24814360qvb.41.1653681952811;
+        Fri, 27 May 2022 13:05:52 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id bq44-20020a05620a46ac00b006a33bee9a47sm3479852qkb.63.2022.05.27.12.26.14
+        by smtp.gmail.com with ESMTPSA id k25-20020ac84759000000b002fcb0d95f65sm2425544qtp.90.2022.05.27.13.05.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 May 2022 12:26:15 -0700 (PDT)
-Message-ID: <02cbaf49474cbba446b6bdae77d5da950cce3e00.camel@ndufresne.ca>
-Subject: Re: [EXT] Re: [PATCH v2] media: imx-jpeg: Leave a blank space
- before the configuration data
+        Fri, 27 May 2022 13:05:52 -0700 (PDT)
+Message-ID: <fd8c9ef48b48e014c468fe8cf61cd44062d14b1d.camel@ndufresne.ca>
+Subject: Re: [PATCH v2] media: Hantro: Correct G2 init qp field
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ming Qian <ming.qian@nxp.com>, Fabio Estevam <festevam@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Date:   Fri, 27 May 2022 15:26:13 -0400
-In-Reply-To: <AM6PR04MB6341CB4019E4F7077D3DCD54E7D89@AM6PR04MB6341.eurprd04.prod.outlook.com>
-References: <20220527102444.19683-1-ming.qian@nxp.com>
-         <CAOMZO5D-gUdoTx3hLmZE2EeYfun-g2xLx6J4tNTSZd-yKCLgXA@mail.gmail.com>
-         <AM6PR04MB6341CB4019E4F7077D3DCD54E7D89@AM6PR04MB6341.eurprd04.prod.outlook.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date:   Fri, 27 May 2022 16:05:51 -0400
+In-Reply-To: <20220524115945.2294015-1-benjamin.gaignard@collabora.com>
+References: <20220524115945.2294015-1-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 27 mai 2022 =C3=A0 11:33 +0000, Ming Qian a =C3=A9crit=C2=A0:
-> > From: Fabio Estevam <festevam@gmail.com>
-> > Sent: 2022=E5=B9=B45=E6=9C=8827=E6=97=A5 19:12
-> > To: Ming Qian <ming.qian@nxp.com>
-> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>; Mirela Rabulea (OSS)
-> > <mirela.rabulea@oss.nxp.com>; Hans Verkuil <hverkuil-cisco@xs4all.nl>;
-> > Shawn Guo <shawnguo@kernel.org>; Sascha Hauer <s.hauer@pengutronix.de>;
-> > Sascha Hauer <kernel@pengutronix.de>; dl-linux-imx <linux-imx@nxp.com>;
-> > linux-media <linux-media@vger.kernel.org>; linux-kernel
-> > <linux-kernel@vger.kernel.org>; open list:OPEN FIRMWARE AND FLATTENED
-> > DEVICE TREE BINDINGS <devicetree@vger.kernel.org>; moderated
-> > list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
-> > <linux-arm-kernel@lists.infradead.org>
-> > Subject: [EXT] Re: [PATCH v2] media: imx-jpeg: Leave a blank space befo=
-re
-> > the
-> > configuration data
-> >=20
-> > Caution: EXT Email
-> >=20
-> > Hi Ming,
-> >=20
-> > On Fri, May 27, 2022 at 7:25 AM Ming Qian <ming.qian@nxp.com> wrote:
-> > >=20
-> > > There is a hardware bug that it will load the first 128 bytes of
-> > > configuration data twice, it will led to some configure error.
-> > > so shift the configuration data 128 bytes, and make the first 128
-> > > bytes all zero, then hardware will load the 128 zero twice, and ignor=
-e
-> > > them as garbage.
-> > > then the configuration data can be loaded correctly
-> > >=20
-> > > Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> > > Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> > > Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> >=20
-> > Fixes tag?
+Le mardi 24 mai 2022 =C3=A0 13:59 +0200, Benjamin Gaignard a =C3=A9crit=C2=
+=A0:
+> Documentation said that g2 init_qp field use bits 24 to 30 of
+> the 8th register.
+> Change the field mask to be able to set 7 bits and not only 6 of them.
 >=20
-> Hi Fabio,
-> =C2=A0=C2=A0=C2=A0=C2=A0It's a hardware issue, so I'm not sure is it a dr=
-iver issue that I fix it.
-> =C2=A0=C2=A0=C2=A0=C2=A0Or I just check which patch includes the code I c=
-hanged, and add the fix
-> tag?
-
-You can use Fixes tag even though there was no software bug. The point of t=
-he
-tag is to help locate how far we can backport this patch in order to let st=
-able
-kernel users benefit.
-
-regards,
-Nicolas
-
+> Conformance test INITQP_B_Main10_Sony_1 decoding is OK with this
+> patch.
 >=20
-> Ming
+> Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+> ---
+> With this patch and the patches needed for 10-bit support
+> Fluster HEVC score is 137/147
+>=20
+> version 2:
+> - Add Fixes tag
+>=20
+>  drivers/staging/media/hantro/hantro_g2_regs.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/stag=
+ing/media/hantro/hantro_g2_regs.h
+> index 877d663a8181..82606783591a 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
+> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+> @@ -107,7 +107,7 @@
+> =20
+>  #define g2_start_code_e		G2_DEC_REG(10, 31, 0x1)
+>  #define g2_init_qp_old		G2_DEC_REG(10, 25, 0x3f)
+> -#define g2_init_qp		G2_DEC_REG(10, 24, 0x3f)
+> +#define g2_init_qp		G2_DEC_REG(10, 24, 0x7f)
+>  #define g2_num_tile_cols_old	G2_DEC_REG(10, 20, 0x1f)
+>  #define g2_num_tile_cols	G2_DEC_REG(10, 19, 0x1f)
+>  #define g2_num_tile_rows_old	G2_DEC_REG(10, 15, 0x1f)
 
