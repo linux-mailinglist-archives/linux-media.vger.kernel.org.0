@@ -2,113 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF87A5367E1
-	for <lists+linux-media@lfdr.de>; Fri, 27 May 2022 22:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E32FB53687F
+	for <lists+linux-media@lfdr.de>; Fri, 27 May 2022 23:30:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241232AbiE0UGA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 May 2022 16:06:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43166 "EHLO
+        id S1354773AbiE0VaE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 May 2022 17:30:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350709AbiE0UF4 (ORCPT
+        with ESMTP id S1354797AbiE0V36 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 May 2022 16:05:56 -0400
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A995547543
-        for <linux-media@vger.kernel.org>; Fri, 27 May 2022 13:05:53 -0700 (PDT)
-Received: by mail-qv1-xf2d.google.com with SMTP id r1so4753651qvz.8
-        for <linux-media@vger.kernel.org>; Fri, 27 May 2022 13:05:53 -0700 (PDT)
+        Fri, 27 May 2022 17:29:58 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 183421157E6
+        for <linux-media@vger.kernel.org>; Fri, 27 May 2022 14:29:56 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id n8so5196378plh.1
+        for <linux-media@vger.kernel.org>; Fri, 27 May 2022 14:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=g+pQqkTih63Ty7gF/Ucw70pNIC+bNdQYXn1gaDTT7SA=;
-        b=WlnE80aTu92PLPbZ8osuq8WBerY2I3HSbhRn+z867J97rIIA85Ry4iA5BpjdmP00ex
-         wxzSChNoikfGwEZ1dj67BEwk8h7YmPKgmOw5XbozDe9A07ZOUzv/MZkfkNmxsbWG+CA0
-         QyTVH8LCridQvqfaQcmLtlO55WfXw7Tv6lpe3S4/0IGxKnZrKLFHSE/5KG3EXT3uGiLx
-         8/UZFkE+xtpFJnSO/d44ROEE9E5VRl/GSgJofucWRmxZ7/SDt6WipmFuFNss+EtaW2LP
-         Q9IN7CMbhA+MCr+dqBoOh4O+xFe9mNhR3y+J7ISHF1sxajfMZu8awUL8CvsQKrIHgrzZ
-         SjdA==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EhXfUexqjilsLMChy39uhcV1ViCwU++I4yhRQJkaZ9M=;
+        b=YikbCdocbI5qO1dQMuyOh0SqpeFVValjgg+9sIP0Hnbdx8vcc35LjVNcaDh2t4siHl
+         DfPHj4nlYG/aBGyg7e/MI2pHbLioW18FalPCT60WQBERxfymZs9Q3tdHVc3fTR59FxWS
+         3Bvpm6l6+dstlEaOlkAU6teMa9GrlMDMa4Sq0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=g+pQqkTih63Ty7gF/Ucw70pNIC+bNdQYXn1gaDTT7SA=;
-        b=Htvr+DnlhJDirbguvfshLO1H2KgMctCnaE9oMX+tSgxhLdn/oH2QS6xLNMIs1/+vt4
-         xXdElMHCtQ77ozlEGTlK5b40pEAq+eq9n1bVZGaMeH9Bh9vxYQkBuIy5b6b+s7V0rxVY
-         xdE2EizR19Noiyy6eIy/11ip/QyI7QoVrJlLC4g0h5E4ic/6b4NKq1BqV6E/Jq4FvpzA
-         q8GUyXGIWmGMacWzr/eO5Kk6r4QAgmgr4lCX2pFIZxVSgCNQpgVmVPlpbZCQqpsojB31
-         9tEeCXEZ1pjKd66K6L0hBU17rzyjp8wNo86D7+KVmzcLhd+8VSfEDQ8amaoyPiIehqyR
-         G7/Q==
-X-Gm-Message-State: AOAM532BjQTLexnLW9ibT46NcPCCngYYZH1LQZL82sZswM1JsUZBi/H1
-        k2RSWbd0zqE99SRa6y/F3j1dWw==
-X-Google-Smtp-Source: ABdhPJypfwKyW9QIJgtPwkcsv3L6wbUSugzXr5toVyTpByWMXC9eJMXmJf8swe/WfITuwBOtB1P+8A==
-X-Received: by 2002:ad4:5944:0:b0:462:310a:b54c with SMTP id eo4-20020ad45944000000b00462310ab54cmr24814360qvb.41.1653681952811;
-        Fri, 27 May 2022 13:05:52 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id k25-20020ac84759000000b002fcb0d95f65sm2425544qtp.90.2022.05.27.13.05.51
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EhXfUexqjilsLMChy39uhcV1ViCwU++I4yhRQJkaZ9M=;
+        b=GCKwxHfOvUDiOsXydf2jTTxXogSzBTGx7tv4SW2QU6zqPSNWYBH+kIgxxnZOm4kGcN
+         MJjQCQy3UpdbkVun5mKRtILtiv0/Ny7/tvovzUBM5yzgTK8/pABQRVN/xIiQZVXaaN0v
+         NhcnI0qsdSZHQ98yBn0aifeKMcPTPuSOvMj9vvfTzkKE2cYTlhvw/BkVBsnLOa0BjsZh
+         W/quVAAg9gKPFfPjpvi295D3xFpRU/4bu8WxE9BqPD02E02dLp+RnOnbQwVphfcMRy2D
+         YJQMot507TtcvPWdP12hH5Tgyaq6jYTx2mXa0l+Dv8tncMKmesdQ5pKudbMzfgnpGxm2
+         rF3w==
+X-Gm-Message-State: AOAM530XUL4sWG8ZujjJZXnWDwqrS9HGzVSCbqIHfSTnb6IwwQNcVaEQ
+        ttHWvNgWJcKgdUdOHfOlFc7PsQ==
+X-Google-Smtp-Source: ABdhPJz3HqXfRsgeMrWPsWIMJ38E+s2sWT9IeHysdsoRnUT+uAv5B4J6/nBIgj9+oE/8GN+ldRhKNQ==
+X-Received: by 2002:a17:90b:1b08:b0:1df:f11a:7d51 with SMTP id nu8-20020a17090b1b0800b001dff11a7d51mr10498457pjb.190.1653686995383;
+        Fri, 27 May 2022 14:29:55 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d4-20020a170902c18400b001637d72b314sm4063638pld.10.2022.05.27.14.29.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 May 2022 13:05:52 -0700 (PDT)
-Message-ID: <fd8c9ef48b48e014c468fe8cf61cd44062d14b1d.camel@ndufresne.ca>
-Subject: Re: [PATCH v2] media: Hantro: Correct G2 init qp field
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date:   Fri, 27 May 2022 16:05:51 -0400
-In-Reply-To: <20220524115945.2294015-1-benjamin.gaignard@collabora.com>
-References: <20220524115945.2294015-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+        Fri, 27 May 2022 14:29:55 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Ming Qian <ming.qian@nxp.com>
+Cc:     Kees Cook <keescook@chromium.org>, Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH] media: amphion: Replace zero-length array with flexible-array member
+Date:   Fri, 27 May 2022 14:29:53 -0700
+Message-Id: <20220527212953.797574-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1378; h=from:subject; bh=nqnneLVAuOT5XH2WR1t/JGWDTSepj3ryGFJRhd1e9ok=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBikULQd851CKNz88uKVchNrNuHHm0hg5svRrMslIp5 rredE36JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYpFC0AAKCRCJcvTf3G3AJvCfD/ 0dREGfK+ZOxhiWJMFctrUirIMxBqf1GXmaCp2v/YfkGXFq0EvC/hZvAEIu2uS1Cp8W62lo9Y6XSEtd 4WRBoKXW9rzILaNK8bSgc1AlMWDL5qn4z2JYKpRYyKVRrSXiIbv8urqUh9LZEexktxwPBYzG9eq4s2 +PyUb2wCPF9mkjvgK6fnjhXvxnzl9ImJpnwl8U7Hc9JnzWr7MIcfLoaE5/Ibmz4VIS3wAnar84Yq1g mdj3p1sp0wnyZjfXG7Jsv5pcHr/+c+oXIS9Gg3It8IlQHZhzNiEnk47HrSqWdywHebzH2vHdnqmWLU qSd4Q3hD47GJyqHVsI9pclDV7swsL6g24UQfuzzWS9AWE+quL2xYq5pRMb4NV6j3+iykgzl2XJeZDd 2p7uFzXmVyo8vsKjp6dUv/T5cjMK2He52fD0oEfmLqhYXgXAMvLWYFc23J5vHkCUdAPVfkEv85Bhgk saRqs+wvHitDjYzE51SjJbTns1MEbTb0tEAmtEyuxq7USFZAN612DBxTX6ykQEQBkOrv5PtJsTBDIh 7QtS7aAJlqt3UD8u6YxqIXoCHWr+jIbaZqwp2BbDw3QjiK7xoJ5eLbc/MTpsQ9yZM61QJVhkTd+vfn 5j2J+zhEUxNzXP8muXgSjnTKIbIgNnp40gPs4cv9v81RRq005RM4tmxp8xgQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 24 mai 2022 =C3=A0 13:59 +0200, Benjamin Gaignard a =C3=A9crit=C2=
-=A0:
-> Documentation said that g2 init_qp field use bits 24 to 30 of
-> the 8th register.
-> Change the field mask to be able to set 7 bits and not only 6 of them.
->=20
-> Conformance test INITQP_B_Main10_Sony_1 decoding is OK with this
-> patch.
->=20
-> Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+There is a regular need in the kernel to provide a way to declare
+having a dynamically sized set of trailing elements in a structure.
+Kernel code should always use “flexible array members”[1] for these
+cases. The older style of one-element or zero-length arrays should no
+longer be used[2][3].
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+[1] https://en.wikipedia.org/wiki/Flexible_array_member
+[2] https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays
+[3] https://github.com/KSPP/linux/issues/78
 
-> ---
-> With this patch and the patches needed for 10-bit support
-> Fluster HEVC score is 137/147
->=20
-> version 2:
-> - Add Fixes tag
->=20
->  drivers/staging/media/hantro/hantro_g2_regs.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/stag=
-ing/media/hantro/hantro_g2_regs.h
-> index 877d663a8181..82606783591a 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
-> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
-> @@ -107,7 +107,7 @@
-> =20
->  #define g2_start_code_e		G2_DEC_REG(10, 31, 0x1)
->  #define g2_init_qp_old		G2_DEC_REG(10, 25, 0x3f)
-> -#define g2_init_qp		G2_DEC_REG(10, 24, 0x3f)
-> +#define g2_init_qp		G2_DEC_REG(10, 24, 0x7f)
->  #define g2_num_tile_cols_old	G2_DEC_REG(10, 20, 0x1f)
->  #define g2_num_tile_cols	G2_DEC_REG(10, 19, 0x1f)
->  #define g2_num_tile_rows_old	G2_DEC_REG(10, 15, 0x1f)
+Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
+Cc: Ming Qian <ming.qian@nxp.com>
+Cc: Shijie Qin <shijie.qin@nxp.com>
+Cc: Zhou Peng <eagle.zhou@nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/media/platform/amphion/vpu_dbg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
+index da62bd718fb8..f72c8a506b22 100644
+--- a/drivers/media/platform/amphion/vpu_dbg.c
++++ b/drivers/media/platform/amphion/vpu_dbg.c
+@@ -27,7 +27,7 @@ struct print_buf_desc {
+ 	u32 bytes;
+ 	u32 read;
+ 	u32 write;
+-	char buffer[0];
++	char buffer[];
+ };
+ 
+ static char *vb2_stat_name[] = {
+-- 
+2.32.0
 
