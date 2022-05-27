@@ -2,89 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2A0C53628D
-	for <lists+linux-media@lfdr.de>; Fri, 27 May 2022 14:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65E495362F5
+	for <lists+linux-media@lfdr.de>; Fri, 27 May 2022 14:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241567AbiE0M2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 May 2022 08:28:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56064 "EHLO
+        id S1349582AbiE0Mp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 May 2022 08:45:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354215AbiE0MZj (ORCPT
+        with ESMTP id S1351041AbiE0Mpl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 May 2022 08:25:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47BB763391;
-        Fri, 27 May 2022 05:03:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8509305;
-        Fri, 27 May 2022 14:03:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1653652998;
-        bh=aHAtY9WKA3vunkfTCR0DRvsKmSw92w8t8NQ/qCaDuUY=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=sqrzisRqSYfVgSNMauSuDpxuM4dBw13ICXRSwbflrtHZ2X+qprvJpS728FCZvu7n9
-         W9m9NSepEMHHE9ZTjSqaQtjhkU0LB6dyoDZ9Xx5QMBK6W2N4wa5sVP2QVtIsh1erK7
-         0HN7jQfiJ3T2rX9AWngXwCAOU6E+eNR55y2R8DW0=
-Content-Type: text/plain; charset="utf-8"
+        Fri, 27 May 2022 08:45:41 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1E195AA
+        for <linux-media@vger.kernel.org>; Fri, 27 May 2022 05:44:45 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dmitry.osipenko)
+        with ESMTPSA id 255C91F46072
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1653655484;
+        bh=2iR4pLutdays/ng9dl/DinzlvxujRkGf8duk/VwT014=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=bRx1YNkKDy+aI7rOHNB/rLf9g9vIqbmfWho3NrZ5VTSh84BBzGo6X+PB1RJekpKvV
+         +0KLuaDFhbwrOoWMlicXq0doa/q7dF7CRwYMAhvxnJqlZALeDz1d3H/dbMvu2Ab/Um
+         UdaJysjL6bOGQDjD0nXYMKD1HtUgD1g++UroZOMRj5SfA/c6GaaCuucVoEdOSl5OlB
+         l/t+TSAiAhyQN0yfrPCQTbjoRCQdNUcv0FSz6wIeU1NHSQQyStcJv/3jrABSlBknFr
+         2JNX8hsXBkXQEhcF3XSNHkJLQ0cF+Uj5ByaQQ4RONsR9ft3cZ7pO5t31VPw2FsRYNl
+         /sGq/N+un/dmw==
+Message-ID: <32c8da3e-e385-d43c-8561-50642f6eee4c@collabora.com>
+Date:   Fri, 27 May 2022 15:44:38 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220525092054.26089-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20220525092054.26089-1-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] media: renesas: rcar_drif: Drop of_match_ptr()
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
+Content-Language: en-US
+To:     kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
         linux-media@vger.kernel.org
-Date:   Fri, 27 May 2022 13:03:17 +0100
-Message-ID: <165365299706.1823135.14333390932062955644@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220526235040.678984-15-dmitry.osipenko@collabora.com>
+ <202205271042.1WRbRP1r-lkp@intel.com>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <202205271042.1WRbRP1r-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Laurent Pinchart (2022-05-25 10:20:54)
-> The device_driver structure's of_match_table field exists
-> unconditionally, so there's no need for of_match_ptr(). This fixes a
-> compiler warning when test-compiling on non-OF platforms:
->=20
-> drivers/media/platform/renesas/rcar_drif.c:1470:34: warning: unused varia=
-ble 'rcar_drif_of_table' [-Wunused-const-variable]
-> static const struct of_device_id rcar_drif_of_table[] =3D {
->                                  ^
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
+On 5/27/22 05:37, kernel test robot wrote:
+>>> drivers/dma-buf/dma-buf.c:1339:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+>                    return ret;
+>                           ^~~
+>    drivers/dma-buf/dma-buf.c:1331:9: note: initialize the variable 'ret' to silence this warning
+>            int ret;
+>                   ^
+>                    = 0
+>    1 warning generated.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Interestingly, GCC doesn't detect this problem and it's a valid warning.
+I'll correct it in v7.
 
-> ---
->  drivers/media/platform/renesas/rcar_drif.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/p=
-latform/renesas/rcar_drif.c
-> index 9a0982fa5c6b..5167960781bf 100644
-> --- a/drivers/media/platform/renesas/rcar_drif.c
-> +++ b/drivers/media/platform/renesas/rcar_drif.c
-> @@ -1477,7 +1477,7 @@ MODULE_DEVICE_TABLE(of, rcar_drif_of_table);
->  static struct platform_driver rcar_drif_driver =3D {
->         .driver =3D {
->                 .name =3D RCAR_DRIF_DRV_NAME,
-> -               .of_match_table =3D of_match_ptr(rcar_drif_of_table),
-> +               .of_match_table =3D rcar_drif_of_table,
->                 .pm =3D &rcar_drif_pm_ops,
->                 },
->         .probe =3D rcar_drif_probe,
->=20
-> base-commit: 6c1c1eb8c87de221051b9198d40971640060842f
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
->
+-- 
+Best regards,
+Dmitry
