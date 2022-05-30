@@ -2,52 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 953CC53827A
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41A045382C4
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:38:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237347AbiE3OYF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 10:24:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42946 "EHLO
+        id S236313AbiE3O2Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 10:28:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240733AbiE3OVL (ORCPT
+        with ESMTP id S241594AbiE3O0Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 10:21:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E3CA7757;
-        Mon, 30 May 2022 06:50:13 -0700 (PDT)
+        Mon, 30 May 2022 10:26:16 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3632AB0DB;
+        Mon, 30 May 2022 06:51:10 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E0EFAB80DAB;
-        Mon, 30 May 2022 13:49:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9E0C3411C;
-        Mon, 30 May 2022 13:49:04 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 79B6ECE106B;
+        Mon, 30 May 2022 13:49:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6B58C3411E;
+        Mon, 30 May 2022 13:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653918545;
-        bh=CTn9HCUjXYHSwA99rQmy+i5tCftAg7PvxJaOxRnYJjo=;
+        s=k20201202; t=1653918596;
+        bh=mfzOGPGDFMwBe8JQHvgneMIcB+OQk61Uas1dXZKCVjs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cY5E+OAOPG7UskD4aGGpktgGlTqyvDpkYdM7Wf851TE15/P7/dfeRVzvAGjf+AgtA
-         xzaFlqbvAQgIHJcRlFYpGS7L3YydSsAMTtk/HqvOaDJCNEPqKhpO4GDjK0CsY8zfKd
-         ZNhM5455LZS6yZjjYOL9rkJdzjFnfHh8ZEKy7X+0lk4aYrmLD3SZH9qyJmaqfrQLB6
-         4x6QQi1vnZjPKikz7u2x9xojfVp1gDpd6LH3pHRYApkceTmGKdIabgvkd50Ifpp6tk
-         Sv5NcCR26XmI2k+Og4/K0uodikbydaSzAtFCbodK8IjJ1IRAiewVC+Y7qpK879/Ecq
-         UbiHz6/RZtWmQ==
+        b=Lrgl0Z/XybRsHS/zZ5jcjund71qMAZ9GTi5JQBTM18sv/Q/OwENwrvdYfSGvRIBgY
+         FQRLkGwVD5r3wjVB8Z4LL8W/RJJuiKDm1ylhuAhFgnZglGpfYyDT0I+02fkuFatDq2
+         U5/rCdskx+0VnlMbtiWjqQA9y90hAzdJ+OqjSQv9RIxVSJMAcTwhtOLxbe17tk8vK2
+         y3h40Dk3YzItxoHVh8DISxHvgrLHOCiPsvBJWYWIlwmC7I4214grPn/LmC9ioWe6/a
+         dkTFuDAxJEORxAIJh/HwW3nTmVhRMD96fgfvrChxwKrsvzYrVljrp27aXczeAHoF5q
+         Zo51L8s4PNQUQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kwanghoon Son <k.son@samsung.com>,
-        kernel test robot <lkp@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Luca Weiss <luca.weiss@fairphone.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>,
-        krzysztof.kozlowski@linaro.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 49/55] media: exynos4-is: Fix compile warning
-Date:   Mon, 30 May 2022 09:46:55 -0400
-Message-Id: <20220530134701.1935933-49-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 12/38] media: venus: hfi: avoid null dereference in deinit
+Date:   Mon, 30 May 2022 09:48:58 -0400
+Message-Id: <20220530134924.1936816-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530134701.1935933-1-sashal@kernel.org>
-References: <20220530134701.1935933-1-sashal@kernel.org>
+In-Reply-To: <20220530134924.1936816-1-sashal@kernel.org>
+References: <20220530134924.1936816-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,37 +60,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Kwanghoon Son <k.son@samsung.com>
+From: Luca Weiss <luca.weiss@fairphone.com>
 
-[ Upstream commit e080f5c1f2b6d02c02ee5d674e0e392ccf63bbaf ]
+[ Upstream commit 86594f6af867b5165d2ba7b5a71fae3a5961e56c ]
 
-Declare static on function 'fimc_isp_video_device_unregister'.
+If venus_probe fails at pm_runtime_put_sync the error handling first
+calls hfi_destroy and afterwards hfi_core_deinit. As hfi_destroy sets
+core->ops to NULL, hfi_core_deinit cannot call the core_deinit function
+anymore.
 
-When VIDEO_EXYNOS4_ISP_DMA_CAPTURE=n, compiler warns about
-warning: no previous prototype for function [-Wmissing-prototypes]
+Avoid this null pointer derefence by skipping the call when necessary.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Kwanghoon Son <k.son@samsung.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/exynos4-is/fimc-isp-video.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/hfi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.h b/drivers/media/platform/exynos4-is/fimc-isp-video.h
-index edcb3a5e3cb9..2dd4ddbc748a 100644
---- a/drivers/media/platform/exynos4-is/fimc-isp-video.h
-+++ b/drivers/media/platform/exynos4-is/fimc-isp-video.h
-@@ -32,7 +32,7 @@ static inline int fimc_isp_video_device_register(struct fimc_isp *isp,
- 	return 0;
- }
+diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
+index 24207829982f..8a99e2d8274a 100644
+--- a/drivers/media/platform/qcom/venus/hfi.c
++++ b/drivers/media/platform/qcom/venus/hfi.c
+@@ -113,6 +113,9 @@ int hfi_core_deinit(struct venus_core *core, bool blocking)
+ 		mutex_lock(&core->lock);
+ 	}
  
--void fimc_isp_video_device_unregister(struct fimc_isp *isp,
-+static inline void fimc_isp_video_device_unregister(struct fimc_isp *isp,
- 				enum v4l2_buf_type type)
- {
- }
++	if (!core->ops)
++		goto unlock;
++
+ 	ret = core->ops->core_deinit(core);
+ 
+ 	if (!ret)
 -- 
 2.35.1
 
