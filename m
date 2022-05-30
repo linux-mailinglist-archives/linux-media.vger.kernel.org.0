@@ -2,78 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A539537C47
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 15:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD14F537E74
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:13:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236298AbiE3NbL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 09:31:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59454 "EHLO
+        id S238169AbiE3NsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 09:48:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237354AbiE3NaX (ORCPT
+        with ESMTP id S238773AbiE3Np4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 09:30:23 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B9828BD19
-        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 06:27:12 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dmitry.osipenko)
-        with ESMTPSA id 6AB921F41C09
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653917230;
-        bh=1Pi7dEoZ0pAA1m9BojUV8qIcFRS0/TZau3kDTBpqkcE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=JUuwe1ITApxeAApFN7LfnPQ3+xgNi4oasTkD25Cy4scubjbogcCZAZVD53gWR2Ea7
-         BPI7npTFBlKlTg095blVuNJyEXdQDxAUefuiLXnqEt7PNqo1cM4WGytj6OFxJsxmNx
-         Z0UlPTSqI+vcFKdZpp/5AvfBsRpV7xHIUB2/kN5LyAzQyrUCvYn8YVHQvrGSyEeVme
-         kB3hACHu2CenwkFyYntNLS/BS4uM5qUKupj/suLuvIHyyTQ237fSZw6lJgfTAw4hX0
-         /064XT+eA/oI9E1a5Q5m1Fvjk0rXJ42+bXYfW/OoA/TJsoqJfi/NDpN5kDh8YNq9+n
-         kfNLPrzdmKQMQ==
-Message-ID: <de487670-238b-5cb3-f779-35aa3014e63c@collabora.com>
-Date:   Mon, 30 May 2022 16:27:05 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [kbuild] Re: [PATCH v6 17/22] drm/shmem-helper: Add generic
- memory shrinker
-Content-Language: en-US
-To:     Dan Carpenter <dan.carpenter@oracle.com>, kbuild@lists.01.org,
-        David Airlie <airlied@linux.ie>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Herring <robh@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        Mon, 30 May 2022 09:45:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CE8A006E;
+        Mon, 30 May 2022 06:33:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C179BB80DB0;
+        Mon, 30 May 2022 13:33:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A0E5C385B8;
+        Mon, 30 May 2022 13:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653917609;
+        bh=CHObYO3QTAakNe5T3Fe914iXUbpSy1aT88lWYZtUQ/Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=S3q611tMgYLwVVLXnM9npCzgnB+kWTRnFanJRgz5EzTXHwcCnbdDRD0Y76jxezlmR
+         bdy9Fwj4euCd2j+L0Ho+znBLPTFSU+8q/dp4QTAoDIegI4IQTKcbaq8+CUbIp+/bN8
+         9p1KQNOdxwoChcpVBAF6iJ/C9xBo1iwynFQ/6gMuazoG+oFOO5lvjqjbyIT0fmINZZ
+         oSZ6yRZv3aFyKgvhqm6C79m0mj4AYRUDhfYxCv0vqFlPxxSNTDN1xMVavvzrK4NiBY
+         JW3msTpLk9OxdGDjn6U9l1yAPFGPo6Rtji9NpuF0iBkWE2gBN1KYqmi+o1f4sde7Lv
+         V40I5vBR8AetQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     lkp@intel.com, kbuild-all@lists.01.org, linux-media@vger.kernel.org
-References: <202205272155.MxDiru43-lkp@intel.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <202205272155.MxDiru43-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        Sasha Levin <sashal@kernel.org>, dongchun.zhu@mediatek.com,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.17 039/135] media: Revert "media: dw9768: activate runtime PM and turn off device"
+Date:   Mon, 30 May 2022 09:29:57 -0400
+Message-Id: <20220530133133.1931716-39-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220530133133.1931716-1-sashal@kernel.org>
+References: <20220530133133.1931716-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,64 +60,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/30/22 10:09, Dan Carpenter wrote:
-> Hi Dmitry,
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Add-generic-memory-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220527-075717 
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git  cdeffe87f790dfd1baa193020411ce9a538446d7
-> config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220527/202205272155.MxDiru43-lkp@intel.com/config )
-> compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 
-> New smatch warnings:
-> drivers/gpu/drm/drm_gem_shmem_helper.c:226 drm_gem_shmem_set_evictable() warn: inconsistent returns 'shmem->base.resv'.
-> drivers/gpu/drm/drm_gem_shmem_helper.c:253 drm_gem_shmem_set_purgeable() warn: inconsistent returns 'shmem->base.resv'.
-> drivers/gpu/drm/drm_gem_shmem_helper.c:703 drm_gem_shmem_fault() error: we previously assumed 'shmem->pages' could be null (see line 694)
-> 
-> vim +226 drivers/gpu/drm/drm_gem_shmem_helper.c
-> 
-> 875fd932de880a Dmitry Osipenko 2022-05-27  215  int drm_gem_shmem_set_evictable(struct drm_gem_shmem_object *shmem)
-> 875fd932de880a Dmitry Osipenko 2022-05-27  216  {
-> 875fd932de880a Dmitry Osipenko 2022-05-27  217  	dma_resv_lock(shmem->base.resv, NULL);
-> 875fd932de880a Dmitry Osipenko 2022-05-27  218  
-> 875fd932de880a Dmitry Osipenko 2022-05-27  219  	if (shmem->madv < 0)
-> 875fd932de880a Dmitry Osipenko 2022-05-27  220  		return -ENOMEM;
-> 
-> Unlock before returning?
-> 
-> 875fd932de880a Dmitry Osipenko 2022-05-27  221  
-> 875fd932de880a Dmitry Osipenko 2022-05-27  222  	shmem->eviction_enabled = true;
-> 875fd932de880a Dmitry Osipenko 2022-05-27  223  
-> 875fd932de880a Dmitry Osipenko 2022-05-27  224  	dma_resv_unlock(shmem->base.resv);
-> 875fd932de880a Dmitry Osipenko 2022-05-27  225  
-> 875fd932de880a Dmitry Osipenko 2022-05-27 @226  	return 0;
-> 875fd932de880a Dmitry Osipenko 2022-05-27  227  }
-> 875fd932de880a Dmitry Osipenko 2022-05-27  228  EXPORT_SYMBOL_GPL(drm_gem_shmem_set_evictable);
-> 875fd932de880a Dmitry Osipenko 2022-05-27  229  
-> 875fd932de880a Dmitry Osipenko 2022-05-27  230  /**
-> 875fd932de880a Dmitry Osipenko 2022-05-27  231   * drm_gem_shmem_set_purgeable() - Make GEM purgeable by memory shrinker
-> 875fd932de880a Dmitry Osipenko 2022-05-27  232   * @shmem: shmem GEM object
-> 875fd932de880a Dmitry Osipenko 2022-05-27  233   *
-> 875fd932de880a Dmitry Osipenko 2022-05-27  234   * Tell memory shrinker that this GEM can be purged. Initially purging is
-> 875fd932de880a Dmitry Osipenko 2022-05-27  235   * disabled for all GEMs. If GEM was purged, then -ENOMEM is returned.
-> 875fd932de880a Dmitry Osipenko 2022-05-27  236   *
-> 875fd932de880a Dmitry Osipenko 2022-05-27  237   * Returns:
-> 875fd932de880a Dmitry Osipenko 2022-05-27  238   * 0 on success or a negative error code on failure.
-> 875fd932de880a Dmitry Osipenko 2022-05-27  239   */
-> 875fd932de880a Dmitry Osipenko 2022-05-27  240  int drm_gem_shmem_set_purgeable(struct drm_gem_shmem_object *shmem)
-> 875fd932de880a Dmitry Osipenko 2022-05-27  241  {
-> 875fd932de880a Dmitry Osipenko 2022-05-27  242  	dma_resv_lock(shmem->base.resv, NULL);
-> 875fd932de880a Dmitry Osipenko 2022-05-27  243  
-> 875fd932de880a Dmitry Osipenko 2022-05-27  244  	if (shmem->madv < 0)
-> 875fd932de880a Dmitry Osipenko 2022-05-27  245  		return -ENOMEM;
-> 
-> Same.
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Indeed, thanks!
+[ Upstream commit 7dd0f93a31af03cba81c684c4c361bba510ffe71 ]
 
+This reverts commit c09d776eaa060534a1663e3b89d842db3e1d9076.
+
+Revert the commit as it breaks runtime PM support on OF based systems.
+More fixes to the driver are needed.
+
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/i2c/dw9768.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+index 65c6acf3ced9..c086580efac7 100644
+--- a/drivers/media/i2c/dw9768.c
++++ b/drivers/media/i2c/dw9768.c
+@@ -469,11 +469,6 @@ static int dw9768_probe(struct i2c_client *client)
+ 
+ 	dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
+ 
+-	/*
+-	 * Device is already turned on by i2c-core with ACPI domain PM.
+-	 * Attempt to turn off the device to satisfy the privacy LED concerns.
+-	 */
+-	pm_runtime_set_active(dev);
+ 	pm_runtime_enable(dev);
+ 	if (!pm_runtime_enabled(dev)) {
+ 		ret = dw9768_runtime_resume(dev);
+@@ -488,7 +483,6 @@ static int dw9768_probe(struct i2c_client *client)
+ 		dev_err(dev, "failed to register V4L2 subdev: %d", ret);
+ 		goto err_power_off;
+ 	}
+-	pm_runtime_idle(dev);
+ 
+ 	return 0;
+ 
 -- 
-Best regards,
-Dmitry
+2.35.1
+
