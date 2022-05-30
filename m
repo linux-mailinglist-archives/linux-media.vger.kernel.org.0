@@ -2,44 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15C6A5382D4
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 953CC53827A
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:35:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238640AbiE3O2g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 10:28:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40284 "EHLO
+        id S237347AbiE3OYF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 10:24:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242006AbiE3OSS (ORCPT
+        with ESMTP id S240733AbiE3OVL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 10:18:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6E19D07A;
-        Mon, 30 May 2022 06:48:54 -0700 (PDT)
+        Mon, 30 May 2022 10:21:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E3CA7757;
+        Mon, 30 May 2022 06:50:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A8FD60EC3;
-        Mon, 30 May 2022 13:48:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBECFC36AE5;
-        Mon, 30 May 2022 13:48:48 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E0EFAB80DAB;
+        Mon, 30 May 2022 13:49:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9E0C3411C;
+        Mon, 30 May 2022 13:49:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653918529;
-        bh=LwQYWt8RcYawY9dcDrj6e1/FgVm0e/k1MIM239Db11s=;
+        s=k20201202; t=1653918545;
+        bh=CTn9HCUjXYHSwA99rQmy+i5tCftAg7PvxJaOxRnYJjo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FWXn7kJW6G+TW3X6dhuLrPkJGcWjm+W/x8ULVRhzuPnAPzHRTTNHHR72hYt20M8TE
-         84C30Ms1HyZlrjCTLrfRseOe+6O1vUVwYOJnGcAEpfn/NqvLwPnWZGjnCqsG2vI3S3
-         wMgQOacex0VRNP/c/MB5+3OI2PsdQrjsDALtxU81yQzamsif7Qsu4o3sCj2LXvtdkI
-         68/ZMmUEvO0VIRCmQmKdaDQeJvb1zSotSBc4MLCqpvw/e5Tov4kWqr5qMkUj/vHvCn
-         0drEMEcadg2w9DPuUsnLH3ETbKdk/DnZNfhW6FhJ+SMy0U/NQiILYl/yfzYo4I4bCm
-         F5o8eNQnRLusA==
+        b=cY5E+OAOPG7UskD4aGGpktgGlTqyvDpkYdM7Wf851TE15/P7/dfeRVzvAGjf+AgtA
+         xzaFlqbvAQgIHJcRlFYpGS7L3YydSsAMTtk/HqvOaDJCNEPqKhpO4GDjK0CsY8zfKd
+         ZNhM5455LZS6yZjjYOL9rkJdzjFnfHh8ZEKy7X+0lk4aYrmLD3SZH9qyJmaqfrQLB6
+         4x6QQi1vnZjPKikz7u2x9xojfVp1gDpd6LH3pHRYApkceTmGKdIabgvkd50Ifpp6tk
+         Sv5NcCR26XmI2k+Og4/K0uodikbydaSzAtFCbodK8IjJ1IRAiewVC+Y7qpK879/Ecq
+         UbiHz6/RZtWmQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Kwanghoon Son <k.son@samsung.com>,
+        kernel test robot <lkp@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 43/55] media: cec-adap.c: fix is_configuring state
-Date:   Mon, 30 May 2022 09:46:49 -0400
-Message-Id: <20220530134701.1935933-43-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>,
+        krzysztof.kozlowski@linaro.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 49/55] media: exynos4-is: Fix compile warning
+Date:   Mon, 30 May 2022 09:46:55 -0400
+Message-Id: <20220530134701.1935933-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530134701.1935933-1-sashal@kernel.org>
 References: <20220530134701.1935933-1-sashal@kernel.org>
@@ -57,69 +62,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+From: Kwanghoon Son <k.son@samsung.com>
 
-[ Upstream commit 59267fc34f4900dcd2ec3295f6be04b79aee2186 ]
+[ Upstream commit e080f5c1f2b6d02c02ee5d674e0e392ccf63bbaf ]
 
-If an adapter is trying to claim a free logical address then it is
-in the 'is_configuring' state. If during that process the cable is
-disconnected (HPD goes low, which in turn invalidates the physical
-address), then cec_adap_unconfigure() is called, and that set the
-is_configuring boolean to false, even though the thread that's
-trying to claim an LA is still running.
+Declare static on function 'fimc_isp_video_device_unregister'.
 
-Don't touch the is_configuring bool in cec_adap_unconfigure(), it
-will eventually be cleared by the thread. By making that change
-the cec_config_log_addr() function also had to change: it was
-aborting if is_configuring became false (since that is what
-cec_adap_unconfigure() did), but that no longer works. Instead
-check if the physical address is invalid. That is a much
-more appropriate check anyway.
+When VIDEO_EXYNOS4_ISP_DMA_CAPTURE=n, compiler warns about
+warning: no previous prototype for function [-Wmissing-prototypes]
 
-This fixes a bug where the the adapter could be disabled even
-though the device was still configuring. This could cause POLL
-transmits to time out.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Kwanghoon Son <k.son@samsung.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/cec/cec-adap.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/platform/exynos4-is/fimc-isp-video.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/cec/cec-adap.c b/drivers/media/cec/cec-adap.c
-index 56857ac0a0be..c665f7d20c44 100644
---- a/drivers/media/cec/cec-adap.c
-+++ b/drivers/media/cec/cec-adap.c
-@@ -1263,7 +1263,7 @@ static int cec_config_log_addr(struct cec_adapter *adap,
- 		 * While trying to poll the physical address was reset
- 		 * and the adapter was unconfigured, so bail out.
- 		 */
--		if (!adap->is_configuring)
-+		if (adap->phys_addr == CEC_PHYS_ADDR_INVALID)
- 			return -EINTR;
- 
- 		if (err)
-@@ -1321,7 +1321,6 @@ static void cec_adap_unconfigure(struct cec_adapter *adap)
- 	    adap->phys_addr != CEC_PHYS_ADDR_INVALID)
- 		WARN_ON(adap->ops->adap_log_addr(adap, CEC_LOG_ADDR_INVALID));
- 	adap->log_addrs.log_addr_mask = 0;
--	adap->is_configuring = false;
- 	adap->is_configured = false;
- 	memset(adap->phys_addrs, 0xff, sizeof(adap->phys_addrs));
- 	cec_flush(adap);
-@@ -1514,9 +1513,10 @@ static int cec_config_thread_func(void *arg)
- 	for (i = 0; i < las->num_log_addrs; i++)
- 		las->log_addr[i] = CEC_LOG_ADDR_INVALID;
- 	cec_adap_unconfigure(adap);
-+	adap->is_configuring = false;
- 	adap->kthread_config = NULL;
--	mutex_unlock(&adap->lock);
- 	complete(&adap->config_completion);
-+	mutex_unlock(&adap->lock);
+diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.h b/drivers/media/platform/exynos4-is/fimc-isp-video.h
+index edcb3a5e3cb9..2dd4ddbc748a 100644
+--- a/drivers/media/platform/exynos4-is/fimc-isp-video.h
++++ b/drivers/media/platform/exynos4-is/fimc-isp-video.h
+@@ -32,7 +32,7 @@ static inline int fimc_isp_video_device_register(struct fimc_isp *isp,
  	return 0;
  }
  
+-void fimc_isp_video_device_unregister(struct fimc_isp *isp,
++static inline void fimc_isp_video_device_unregister(struct fimc_isp *isp,
+ 				enum v4l2_buf_type type)
+ {
+ }
 -- 
 2.35.1
 
