@@ -2,65 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F06AE5379BA
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 13:24:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BC665379E0
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 13:29:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235640AbiE3LWm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 07:22:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42636 "EHLO
+        id S232303AbiE3L23 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 07:28:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235642AbiE3LWk (ORCPT
+        with ESMTP id S235819AbiE3L20 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 07:22:40 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B6F3ED15
-        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 04:22:38 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id rs12so20093519ejb.13
-        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 04:22:38 -0700 (PDT)
+        Mon, 30 May 2022 07:28:26 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AB9850E20
+        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 04:28:04 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id q21so20271758ejm.1
+        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 04:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VZHUKR0IHFYL6ayBsErLDOGwzJgu/d6jiiX5vyOAisk=;
-        b=mmUekXcDdIYDwa8P28lVVVA4ROxj0K0LQApMxt/O+OwKivkZoQhq25Iewy6XW4NSDK
-         SaC8x5h8gNzwDgGqVmkguXtzuFnYy1vreELcw8s/HudqCmc0NysaQX8pRnjBzHBUnyD0
-         x+ydUgrdKKFvwQ5k2nfwVM9br5ezdckE2ddT4=
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=tAj71uhfpd7zy3DcY1wrWpNC2HSiY+lz9KoYoOBAv+g=;
+        b=MAul1gaNGk3a5noHPlwKMT4U8N4QwNwOCCMG11QXRNZUuagQK60TVoSFAZ3gH3YGD/
+         0e2xLVoicFMNpUt9IeL9Ro7lBLsEoSvb1uiX/sjCaElFGmaiXOAuyKRKdn3wv/zUOjOT
+         e/8xWo9A8MVK/X6819bIx9HLUpfs/YzFqNgxM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VZHUKR0IHFYL6ayBsErLDOGwzJgu/d6jiiX5vyOAisk=;
-        b=Io1oOIx84+MhusNVp5RITOp17NZ/8lXMrzXFXbWw3q265fy1iOst7cfWulWm4PhDzr
-         Za3ZlXBwZFxzluvhjObiWcNaF+UXF0m++nCPPakNYiHdUqlHPQ5Pipo0HYaQvyh7cDy7
-         CrbqTEJKFTykK/AWnfph3Zot5UrnmwbNZANYo5kurGa+9QCPQ9Vn6gQKTGz9DyhLIL4C
-         pJwqhIUDh6R/lm2mCthhBx9mz6E2q4vNeJaDWTYPX9YN/Ut23l1TKQA5H1+0Nj8mJK2w
-         QuzWhJ0GDtJjBry09q1w+nFYNsoaQkClqxMLJfWmTmCLxnJkCKShDVPicZrbvcN+xPS3
-         BmWQ==
-X-Gm-Message-State: AOAM5335tQObkAAz2stFLBM1j+v8l/hFu5vVdvLqoHposEdRZjRGPHMQ
-        UD/of+IHY70Nv9ePAdOkf5L3ilyO5dutOg==
-X-Google-Smtp-Source: ABdhPJwJfyWVmxcwcnbxwax6buYE4Db4h473DEuVne798zPPEEF10yoIJqDMpJr3tb9Vmq0YXzQIMQ==
-X-Received: by 2002:a17:907:9895:b0:6fe:991e:efe3 with SMTP id ja21-20020a170907989500b006fe991eefe3mr47246097ejc.74.1653909756465;
-        Mon, 30 May 2022 04:22:36 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=tAj71uhfpd7zy3DcY1wrWpNC2HSiY+lz9KoYoOBAv+g=;
+        b=jsthK2uzhBRa4fz/IAdy2Kr9Ljw56Wcrwkmh7zry+nJtN2+79IkgnL61h5upyafAYQ
+         UQ+/I3uvWmenV592VBgLKU+3wMRHxtcLuSluc0RmSke++uKLfX5XFNWr0J8b/JrdSb5q
+         zxNVpEAsjnva9e6wAOZxoopWVf5o3vjYe7WqjeQ2s0i2TMmphYrIKwlOizfoddc4UDoj
+         F2J54lES2sZW6i4qaG/G2rA/1AtNbIBjukvGjwXh9pH+HY8GwYCQ6V3B/62BhS/Wuqbw
+         lGX/RrrobrszBfPQyzBY41ca6WbYHWa+1zGssTF137ZncI8PdqYECO8/2euMUDh2/+C8
+         dGbQ==
+X-Gm-Message-State: AOAM531Avu6rlQRO22ggTgfkWadFO/REnS+FAlB0zH6En3HgZ89MuVb2
+        Jsg/IISCeAQc8nxdN5PDMhwXhfLEDaoDGQ==
+X-Google-Smtp-Source: ABdhPJySR3Qh0UAwwf+pSKv/+yvslrXpUVHM3TvCzEy8domQUYmGU1UJ53eOkvuWwZq3vxTFjpq3KA==
+X-Received: by 2002:a17:906:6a02:b0:6ff:1dfb:1e2a with SMTP id qw2-20020a1709066a0200b006ff1dfb1e2amr18649571ejc.477.1653910082573;
+        Mon, 30 May 2022 04:28:02 -0700 (PDT)
 Received: from tom-ThinkPad-T14s-Gen-2i (net-2-39-143-183.cust.vodafonedsl.it. [2.39.143.183])
-        by smtp.gmail.com with ESMTPSA id k11-20020a17090646cb00b006fee7b400e6sm3807355ejs.111.2022.05.30.04.22.34
+        by smtp.gmail.com with ESMTPSA id e23-20020a1709062c1700b006f3ef214dd2sm3905507ejh.56.2022.05.30.04.28.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 May 2022 04:22:35 -0700 (PDT)
-Date:   Mon, 30 May 2022 13:22:32 +0200
+        Mon, 30 May 2022 04:28:02 -0700 (PDT)
+Date:   Mon, 30 May 2022 13:27:59 +0200
 From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     Haowen Bai <baihaowen@meizu.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp-mt9m114: Fix pointer dereferenced before
- checking
-Message-ID: <20220530112232.GB99280@tom-ThinkPad-T14s-Gen-2i>
-References: <1653897481-25681-1-git-send-email-baihaowen@meizu.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Ming Qian <ming.qian@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] media: amphion: Replace zero-length array with
+ flexible-array member
+Message-ID: <20220530112759.GC99280@tom-ThinkPad-T14s-Gen-2i>
+References: <20220527212953.797574-1-keescook@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1653897481-25681-1-git-send-email-baihaowen@meizu.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220527212953.797574-1-keescook@chromium.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
@@ -71,44 +76,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 30, 2022 at 03:58:01PM +0800, Haowen Bai wrote:
-> The info->data is dereferencing before null checking, so move
-> it after checking.
+On Fri, May 27, 2022 at 02:29:53PM -0700, Kees Cook wrote:
+> There is a regular need in the kernel to provide a way to declare
+> having a dynamically sized set of trailing elements in a structure.
+> Kernel code should always use “flexible array members”[1] for these
+> cases. The older style of one-element or zero-length arrays should no
+> longer be used[2][3].
 > 
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+> [1] https://en.wikipedia.org/wiki/Flexible_array_member
+> [2] https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays
+> [3] https://github.com/KSPP/linux/issues/78
+> 
+> Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
+> Cc: Ming Qian <ming.qian@nxp.com>
+> Cc: Shijie Qin <shijie.qin@nxp.com>
+> Cc: Zhou Peng <eagle.zhou@nxp.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/media/platform/amphion/vpu_dbg.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> index 00d6842c07d6..3c81ab73cdae 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> @@ -616,13 +616,15 @@ static int mt9m114_get_intg_factor(struct i2c_client *client,
->  				   struct camera_mipi_info *info,
->  				   const struct mt9m114_res_struct *res)
->  {
-> -	struct atomisp_sensor_mode_data *buf = &info->data;
-> +	struct atomisp_sensor_mode_data *buf;
->  	u32 reg_val;
->  	int ret;
+> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
+> index da62bd718fb8..f72c8a506b22 100644
+> --- a/drivers/media/platform/amphion/vpu_dbg.c
+> +++ b/drivers/media/platform/amphion/vpu_dbg.c
+> @@ -27,7 +27,7 @@ struct print_buf_desc {
+>  	u32 bytes;
+>  	u32 read;
+>  	u32 write;
+> -	char buffer[0];
+> +	char buffer[];
+>  };
 >  
->  	if (!info)
->  		return -EINVAL;
->  
-> +	buf = &info->data;
-> +
->  	ret =  mt9m114_read_reg(client, MISENSOR_32BIT,
->  				REG_PIXEL_CLK, &reg_val);
->  	if (ret)
+>  static char *vb2_stat_name[] = {
 > -- 
-> 2.7.4
+> 2.32.0
 > 
 
-Hi Haowen,
+Hi,
 Looks good to me, thanks.
 
 Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+
 -- 
 Tommaso Merciai
 Embedded Linux Engineer
