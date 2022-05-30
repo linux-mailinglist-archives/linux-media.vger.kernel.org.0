@@ -2,59 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AA49538364
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34B84538420
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 17:14:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240375AbiE3OdM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 10:33:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44832 "EHLO
+        id S240182AbiE3OrK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 10:47:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242703AbiE3Ob3 (ORCPT
+        with ESMTP id S241847AbiE3Op1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 10:31:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0FAB12C940;
-        Mon, 30 May 2022 06:53:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BB55BB80DBB;
-        Mon, 30 May 2022 13:53:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AC7C341C5;
-        Mon, 30 May 2022 13:53:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653918786;
-        bh=RuUJURyxugcuc59iK03LZ8W2uZus1jLgTQH7goDPaHQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IE8VMiYXzwauNM/yrmZIreHuedc/E4kfjM9H+kMjfm3P22AJNm4Qy9PSWUPJwHl59
-         rRV/f/SIBC9uHzdq+P6Bv62dZeWcuxR45mSTNlXRc0qJyoiOrepkpuVPB2dfQDLzix
-         wY4GEY/CIfRAKyA4YYjj8QzG+R2LW3x/tmUUwDkX/MmPz0YgbZNAwTKV0cGragV6dM
-         QCukYeCrt26SPEhu7WioVGhQba4KhOqGszm5vQub0T/hAn4vJxTRB2BySsZeF7JW/3
-         m1LTFEIVHxnlH8BtdUFPmkUyvK7t7+TwW0065bVrReDmn/8+KXjUYQfaBfF9xCwt0b
-         cX3vHXyzKgK6w==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kwanghoon Son <k.son@samsung.com>,
-        kernel test robot <lkp@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>,
-        krzysztof.kozlowski@linaro.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 21/24] media: exynos4-is: Fix compile warning
-Date:   Mon, 30 May 2022 09:52:08 -0400
-Message-Id: <20220530135211.1937674-21-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530135211.1937674-1-sashal@kernel.org>
-References: <20220530135211.1937674-1-sashal@kernel.org>
+        Mon, 30 May 2022 10:45:27 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AA4B5DE4E;
+        Mon, 30 May 2022 06:57:30 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dmitry.osipenko)
+        with ESMTPSA id B98F41F417FE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1653919049;
+        bh=2XRBuky6ctLBMkVpHH42tRbnrHaVzoRJDfOS/8wLl/E=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=mPwSP+W1lUR0EdMvCliWfZoiylZ8CVpOpjwgflCUTZaI9WHJh5tJXhk8DyguPhNeN
+         HogdCkNBgtGD2G8U9Ep2K49/vmqE56g1BgD7MA21xGk1ZVBj+VJcIxxm08FCLdNgVK
+         RmZOwzc+caJBzV5axbiwKDrCGcHjZmvJd24egZXw9xLh3XfQFPhTT3EpgfN70g8mqC
+         9sjT+smifz0WHNiGEqr7+RZqCI9QQehNyQ19Mpiv9LWCOB9wzR78FM0tska4e7lqKe
+         50oVtOr/eGMjVeh2uPvpXIVZhL/NQ2LFQ3MNEmBcidBDh44gsd28fmmYzNC+2ue0aj
+         H9xWHCkQ7dKmg==
+Message-ID: <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
+Date:   Mon, 30 May 2022 16:57:22 +0300
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, kernel@collabora.com
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-15-dmitry.osipenko@collabora.com>
+ <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
+ <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
+ <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,37 +91,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Kwanghoon Son <k.son@samsung.com>
+On 5/30/22 16:41, Christian König wrote:
+> Hi Dmitry,
+> 
+> Am 30.05.22 um 15:26 schrieb Dmitry Osipenko:
+>> Hello Christian,
+>>
+>> On 5/30/22 09:50, Christian König wrote:
+>>> Hi Dmitry,
+>>>
+>>> First of all please separate out this patch from the rest of the series,
+>>> since this is a complex separate structural change.
+>> I assume all the patches will go via the DRM tree in the end since the
+>> rest of the DRM patches in this series depend on this dma-buf change.
+>> But I see that separation may ease reviewing of the dma-buf changes, so
+>> let's try it.
+> 
+> That sounds like you are underestimating a bit how much trouble this
+> will be.
+> 
+>>> I have tried this before and failed because catching all the locks in
+>>> the right code paths are very tricky. So expect some fallout from this
+>>> and make sure the kernel test robot and CI systems are clean.
+>> Sure, I'll fix up all the reported things in the next iteration.
+>>
+>> BTW, have you ever posted yours version of the patch? Will be great if
+>> we could compare the changed code paths.
+> 
+> No, I never even finished creating it after realizing how much work it
+> would be.
+> 
+>>>> This patch introduces new locking convention for dma-buf users. From
+>>>> now
+>>>> on all dma-buf importers are responsible for holding dma-buf
+>>>> reservation
+>>>> lock around operations performed over dma-bufs.
+>>>>
+>>>> This patch implements the new dma-buf locking convention by:
+>>>>
+>>>>     1. Making dma-buf API functions to take the reservation lock.
+>>>>
+>>>>     2. Adding new locked variants of the dma-buf API functions for
+>>>> drivers
+>>>>        that need to manage imported dma-bufs under the held lock.
+>>> Instead of adding new locked variants please mark all variants which
+>>> expect to be called without a lock with an _unlocked postfix.
+>>>
+>>> This should make it easier to remove those in a follow up patch set and
+>>> then fully move the locking into the importer.
+>> Do we really want to move all the locks to the importers? Seems the
+>> majority of drivers should be happy with the dma-buf helpers handling
+>> the locking for them.
+> 
+> Yes, I clearly think so.
+> 
+>>
+>>>>     3. Converting all drivers to the new locking scheme.
+>>> I have strong doubts that you got all of them. At least radeon and
+>>> nouveau should grab the reservation lock in their ->attach callbacks
+>>> somehow.
+>> Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
+>> lock already, seems they should be okay (?)
+> 
+> You are looking at the wrong side. You need to fix the export code path,
+> not the import ones.
+> 
+> See for example attach on radeon works like this
+> drm_gem_map_attach->drm_gem_pin->radeon_gem_prime_pin->radeon_bo_reserve->ttm_bo_reserve->dma_resv_lock.
 
-[ Upstream commit e080f5c1f2b6d02c02ee5d674e0e392ccf63bbaf ]
+Yeah, I was looking at the both sides, but missed this one.
 
-Declare static on function 'fimc_isp_video_device_unregister'.
+> Same for nouveau and probably a few other exporters as well. That will
+> certainly cause a deadlock if you don't fix it.
+> 
+> I strongly suggest to do this step by step, first attach/detach and then
+> the rest.
 
-When VIDEO_EXYNOS4_ISP_DMA_CAPTURE=n, compiler warns about
-warning: no previous prototype for function [-Wmissing-prototypes]
+Thank you very much for the suggestions. I'll implement them in the next
+version.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Kwanghoon Son <k.son@samsung.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/exynos4-is/fimc-isp-video.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.h b/drivers/media/platform/exynos4-is/fimc-isp-video.h
-index f79a1b348aa6..67ef85249912 100644
---- a/drivers/media/platform/exynos4-is/fimc-isp-video.h
-+++ b/drivers/media/platform/exynos4-is/fimc-isp-video.h
-@@ -35,7 +35,7 @@ static inline int fimc_isp_video_device_register(struct fimc_isp *isp,
- 	return 0;
- }
- 
--void fimc_isp_video_device_unregister(struct fimc_isp *isp,
-+static inline void fimc_isp_video_device_unregister(struct fimc_isp *isp,
- 				enum v4l2_buf_type type)
- {
- }
 -- 
-2.35.1
-
+Best regards,
+Dmitry
