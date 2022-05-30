@@ -2,45 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11CDC53817A
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:31:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51CA65382C8
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240653AbiE3OUG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 10:20:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
+        id S237648AbiE3O22 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 10:28:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241611AbiE3ORt (ORCPT
+        with ESMTP id S242005AbiE3OSS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 10:17:49 -0400
+        Mon, 30 May 2022 10:18:18 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA9A5622F;
-        Mon, 30 May 2022 06:47:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B41B19D078;
+        Mon, 30 May 2022 06:48:54 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 38CEAB80DA7;
-        Mon, 30 May 2022 13:47:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D387C36AE3;
-        Mon, 30 May 2022 13:47:46 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A1F64B80DBB;
+        Mon, 30 May 2022 13:48:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420E2C36AE3;
+        Mon, 30 May 2022 13:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653918467;
-        bh=AXOBA65BddkvlexoXP5FgrUhECKQc/p2tp+kkr1ZyVw=;
+        s=k20201202; t=1653918528;
+        bh=NYXfqZ1HeJVoDcZHWihxR8rS6ByUyPeh1j4e3NSlOOU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GTBGarW105iqQ2LzlgzisX1OsOyex5IjOHNCFpdC+WVT4VutEX7gUb1k2fbW3QgMV
-         fR0uQKoxj6dSIhTl9ivXpoyfcRiIsiCr/n3NHa/c9V/1WTEdZwUtypmsg/vJI4FM2d
-         kVtRkyuovLc8aQqxhl+uo1azTuofEhGdyMGMuBfSJmSQ6BxM7WobRywnhLeX75S0q3
-         uhLtb+x0Cp8QVxn6W0c7ot/vAbN7RIfxcM2lZ0AQt2RP7Exuuo5TZG0a1pkfQwmuxp
-         6xMwgcf+YqU0KB7Tld+hyeGAwFgDMQd4aIHzP5RNJ7B1q6SQNzJ/IP3qr0Mx54jcBk
-         FNls6ltXZIsiw==
+        b=a3JtxWzI6fEl1w2TRfGv+GSrOHscMuRlssAdOX+/21KxW3MqQoAb+HVDlZy8t5Jcl
+         XF0IN5FWogHUxqh3YxWUMIU3NH4S8jJUaoMmf27hQASXSADE+BbDlUUSt8SJnx+GFH
+         HcCbhYYZ5bAY9ZNUNiZ/oD4PTvJVL51auQ1CuuLkSlje8HXlYAD7LhC4407iJb/oGr
+         BuMntNlPxcu/aypwUPGqCypOZ0U0l4w/+Wc42rjwQ1uz32WwmfxAxHJtFRb1IKUv5O
+         Hi23MuClPf7lNB7LOhP4im+e2YcOD3noUYvDu6C4mfH2keUGRe0gftKul4S/HHtDl7
+         NJiFRdf0EFjlg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zheyu Ma <zheyuma97@gmail.com>,
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 17/55] media: cx25821: Fix the warning when removing the module
-Date:   Mon, 30 May 2022 09:46:23 -0400
-Message-Id: <20220530134701.1935933-17-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linmq006@gmail.com,
+        wsa+renesas@sang-engineering.com, martin.weber@br-automation.com,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 42/55] media: coda: limit frame interval enumeration to supported encoder frame sizes
+Date:   Mon, 30 May 2022 09:46:48 -0400
+Message-Id: <20220530134701.1935933-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530134701.1935933-1-sashal@kernel.org>
 References: <20220530134701.1935933-1-sashal@kernel.org>
@@ -58,55 +60,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Zheyu Ma <zheyuma97@gmail.com>
+From: Philipp Zabel <p.zabel@pengutronix.de>
 
-[ Upstream commit 2203436a4d24302871617373a7eb21bc17e38762 ]
+[ Upstream commit 67e33dd957880879e785cfea83a3aa24bd5c5577 ]
 
-When removing the module, we will get the following warning:
+Let VIDIOC_ENUM_FRAMEINTERVALS return -EINVAL if userspace queries
+frame intervals for frame sizes unsupported by the encoder. Fixes the
+following v4l2-compliance failure:
 
-[   14.746697] remove_proc_entry: removing non-empty directory 'irq/21', leaking at least 'cx25821[1]'
-[   14.747449] WARNING: CPU: 4 PID: 368 at fs/proc/generic.c:717 remove_proc_entry+0x389/0x3f0
-[   14.751611] RIP: 0010:remove_proc_entry+0x389/0x3f0
-[   14.759589] Call Trace:
-[   14.759792]  <TASK>
-[   14.759975]  unregister_irq_proc+0x14c/0x170
-[   14.760340]  irq_free_descs+0x94/0xe0
-[   14.760640]  mp_unmap_irq+0xb6/0x100
-[   14.760937]  acpi_unregister_gsi_ioapic+0x27/0x40
-[   14.761334]  acpi_pci_irq_disable+0x1d3/0x320
-[   14.761688]  pci_disable_device+0x1ad/0x380
-[   14.762027]  ? _raw_spin_unlock_irqrestore+0x2d/0x60
-[   14.762442]  ? cx25821_shutdown+0x20/0x9f0 [cx25821]
-[   14.762848]  cx25821_finidev+0x48/0xc0 [cx25821]
-[   14.763242]  pci_device_remove+0x92/0x240
+		fail: v4l2-test-formats.cpp(123): found frame intervals for invalid size 47x16
+		fail: v4l2-test-formats.cpp(282): node->codec_mask & STATEFUL_ENCODER
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: FAIL
 
-Fix this by freeing the irq before call pci_disable_device().
+[hverkuil: drop incorrect 'For decoder devices, return -ENOTTY.' in the commit log]
 
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/cx25821/cx25821-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/coda/coda-common.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/pci/cx25821/cx25821-core.c b/drivers/media/pci/cx25821/cx25821-core.c
-index 44839a6461e8..534829e352d1 100644
---- a/drivers/media/pci/cx25821/cx25821-core.c
-+++ b/drivers/media/pci/cx25821/cx25821-core.c
-@@ -1340,11 +1340,11 @@ static void cx25821_finidev(struct pci_dev *pci_dev)
- 	struct cx25821_dev *dev = get_cx25821(v4l2_dev);
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index 0adc54832657..fb469340634b 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -1192,7 +1192,8 @@ static int coda_enum_frameintervals(struct file *file, void *fh,
+ 				    struct v4l2_frmivalenum *f)
+ {
+ 	struct coda_ctx *ctx = fh_to_ctx(fh);
+-	int i;
++	struct coda_q_data *q_data;
++	const struct coda_codec *codec;
  
- 	cx25821_shutdown(dev);
--	pci_disable_device(pci_dev);
+ 	if (f->index)
+ 		return -EINVAL;
+@@ -1201,12 +1202,19 @@ static int coda_enum_frameintervals(struct file *file, void *fh,
+ 	if (!ctx->vdoa && f->pixel_format == V4L2_PIX_FMT_YUYV)
+ 		return -EINVAL;
  
- 	/* unregister stuff */
- 	if (pci_dev->irq)
- 		free_irq(pci_dev->irq, dev);
-+	pci_disable_device(pci_dev);
+-	for (i = 0; i < CODA_MAX_FORMATS; i++) {
+-		if (f->pixel_format == ctx->cvd->src_formats[i] ||
+-		    f->pixel_format == ctx->cvd->dst_formats[i])
+-			break;
++	if (coda_format_normalize_yuv(f->pixel_format) == V4L2_PIX_FMT_YUV420) {
++		q_data = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
++		codec = coda_find_codec(ctx->dev, f->pixel_format,
++					q_data->fourcc);
++	} else {
++		codec = coda_find_codec(ctx->dev, V4L2_PIX_FMT_YUV420,
++					f->pixel_format);
+ 	}
+-	if (i == CODA_MAX_FORMATS)
++	if (!codec)
++		return -EINVAL;
++
++	if (f->width < MIN_W || f->width > codec->max_w ||
++	    f->height < MIN_H || f->height > codec->max_h)
+ 		return -EINVAL;
  
- 	cx25821_dev_unregister(dev);
- 	v4l2_device_unregister(v4l2_dev);
+ 	f->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
 -- 
 2.35.1
 
