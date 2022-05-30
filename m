@@ -2,88 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34B84538420
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 17:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8862B5384AC
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 17:22:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240182AbiE3OrK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 10:47:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35108 "EHLO
+        id S242091AbiE3PWI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 11:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241847AbiE3Op1 (ORCPT
+        with ESMTP id S242925AbiE3PUw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 10:45:27 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AA4B5DE4E;
-        Mon, 30 May 2022 06:57:30 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dmitry.osipenko)
-        with ESMTPSA id B98F41F417FE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653919049;
-        bh=2XRBuky6ctLBMkVpHH42tRbnrHaVzoRJDfOS/8wLl/E=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mPwSP+W1lUR0EdMvCliWfZoiylZ8CVpOpjwgflCUTZaI9WHJh5tJXhk8DyguPhNeN
-         HogdCkNBgtGD2G8U9Ep2K49/vmqE56g1BgD7MA21xGk1ZVBj+VJcIxxm08FCLdNgVK
-         RmZOwzc+caJBzV5axbiwKDrCGcHjZmvJd24egZXw9xLh3XfQFPhTT3EpgfN70g8mqC
-         9sjT+smifz0WHNiGEqr7+RZqCI9QQehNyQ19Mpiv9LWCOB9wzR78FM0tska4e7lqKe
-         50oVtOr/eGMjVeh2uPvpXIVZhL/NQ2LFQ3MNEmBcidBDh44gsd28fmmYzNC+2ue0aj
-         H9xWHCkQ7dKmg==
-Message-ID: <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
-Date:   Mon, 30 May 2022 16:57:22 +0300
+        Mon, 30 May 2022 11:20:52 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CFD111CA0D
+        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 07:22:52 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id 137so10276979pgb.5
+        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 07:22:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3GQ31AOMg6CYL2o02SAXplBrbILZAQU3ouRxiSJOrgU=;
+        b=cgfAWNSA80459wk4ly9bSAoXoF/r0/0/legUd21+ZHniCAG1wV1B7JWCmIV9cguxnR
+         NV+x0Xe7rxk2pW6mtOL0GEwag0Bw5mdIxGiHpGKwJ5FcR94bn8Tj5J80iBM1BOCblTGM
+         PptUeWclGDH0aOgyVPyWxqj6BN9KxTrSnvYHY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3GQ31AOMg6CYL2o02SAXplBrbILZAQU3ouRxiSJOrgU=;
+        b=Vcj2OkbpWTvF/2NxuIEP/JdnHSNAk1zz8iYTcfr2EL9P4daaLENcvHLXx1AgB3yls9
+         /CPpFraZLluaNo3GTWXdC2d6Y/d84QbrWAhtiHsBT7D5Kv/j6pX1R624hIkasX1WixyM
+         0XME5GaxKkRX/0KRCtJsAzHeIOcdKZ3wf73gKaZMAAlKbX/syUJud23HDl9Cp5V1Cdeb
+         HqT9E6Xwyr+3t5X9yKekcdW6H4vTPOeQtFJmPrAGNcqpfplEbSmENtUcrtN9PN5T1zQ3
+         GTcuGzYY6GPr+dJObjhaqb7OmMstmQlKJ28L3kHCjH5nHJYd5ahVOiXcE98tKhFmJzca
+         TpaA==
+X-Gm-Message-State: AOAM530R68Ssk/iM3RcEJcst+3JX3LoBl8PUWLx0zypWXPP+aFpXhDyd
+        6xf2xSA8jT1sNC1itcYIMjzfdA==
+X-Google-Smtp-Source: ABdhPJygqQPEqP+uApdlFFyunbfljkbAcq0qYTWB6hl/oH8z4ZP/AA/eKh0jCieqFOXEU2LAYOIIAQ==
+X-Received: by 2002:a05:6a00:a8b:b0:4cd:6030:4df3 with SMTP id b11-20020a056a000a8b00b004cd60304df3mr57535126pfl.40.1653920570326;
+        Mon, 30 May 2022 07:22:50 -0700 (PDT)
+Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:5f0f:14e6:3bd7:41e3])
+        by smtp.gmail.com with ESMTPSA id i29-20020a056a00005d00b00517de3dc3c6sm8835947pfk.84.2022.05.30.07.22.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 May 2022 07:22:49 -0700 (PDT)
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Christian Konig <christian.koenig@amd.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [PATCH] dma-fence: allow dma fence to have their own lock
+Date:   Mon, 30 May 2022 23:22:32 +0900
+Message-Id: <20220530142232.2871634-1-senozhatsky@chromium.org>
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Herring <robh@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, kernel@collabora.com
-References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
- <20220526235040.678984-15-dmitry.osipenko@collabora.com>
- <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
- <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
- <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,85 +71,118 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/30/22 16:41, Christian König wrote:
-> Hi Dmitry,
-> 
-> Am 30.05.22 um 15:26 schrieb Dmitry Osipenko:
->> Hello Christian,
->>
->> On 5/30/22 09:50, Christian König wrote:
->>> Hi Dmitry,
->>>
->>> First of all please separate out this patch from the rest of the series,
->>> since this is a complex separate structural change.
->> I assume all the patches will go via the DRM tree in the end since the
->> rest of the DRM patches in this series depend on this dma-buf change.
->> But I see that separation may ease reviewing of the dma-buf changes, so
->> let's try it.
-> 
-> That sounds like you are underestimating a bit how much trouble this
-> will be.
-> 
->>> I have tried this before and failed because catching all the locks in
->>> the right code paths are very tricky. So expect some fallout from this
->>> and make sure the kernel test robot and CI systems are clean.
->> Sure, I'll fix up all the reported things in the next iteration.
->>
->> BTW, have you ever posted yours version of the patch? Will be great if
->> we could compare the changed code paths.
-> 
-> No, I never even finished creating it after realizing how much work it
-> would be.
-> 
->>>> This patch introduces new locking convention for dma-buf users. From
->>>> now
->>>> on all dma-buf importers are responsible for holding dma-buf
->>>> reservation
->>>> lock around operations performed over dma-bufs.
->>>>
->>>> This patch implements the new dma-buf locking convention by:
->>>>
->>>>     1. Making dma-buf API functions to take the reservation lock.
->>>>
->>>>     2. Adding new locked variants of the dma-buf API functions for
->>>> drivers
->>>>        that need to manage imported dma-bufs under the held lock.
->>> Instead of adding new locked variants please mark all variants which
->>> expect to be called without a lock with an _unlocked postfix.
->>>
->>> This should make it easier to remove those in a follow up patch set and
->>> then fully move the locking into the importer.
->> Do we really want to move all the locks to the importers? Seems the
->> majority of drivers should be happy with the dma-buf helpers handling
->> the locking for them.
-> 
-> Yes, I clearly think so.
-> 
->>
->>>>     3. Converting all drivers to the new locking scheme.
->>> I have strong doubts that you got all of them. At least radeon and
->>> nouveau should grab the reservation lock in their ->attach callbacks
->>> somehow.
->> Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
->> lock already, seems they should be okay (?)
-> 
-> You are looking at the wrong side. You need to fix the export code path,
-> not the import ones.
-> 
-> See for example attach on radeon works like this
-> drm_gem_map_attach->drm_gem_pin->radeon_gem_prime_pin->radeon_bo_reserve->ttm_bo_reserve->dma_resv_lock.
+	RFC
 
-Yeah, I was looking at the both sides, but missed this one.
+	I don't have a good name for this yet and I did not spend
+	any time on documentataion (for that reason)
 
-> Same for nouveau and probably a few other exporters as well. That will
-> certainly cause a deadlock if you don't fix it.
-> 
-> I strongly suggest to do this step by step, first attach/detach and then
-> the rest.
+We create fences (out fences) as part of operations execution, which
+are short-lived objects, we want to release all memory after operation
+execution is completed or when operation gets cancelled/deleted via
+ioctl().
 
-Thank you very much for the suggestions. I'll implement them in the next
-version.
+This creates a bit of a problem. DMA fences are refcounted objects and
+exporter never knows when importer imports a fence or puts its refcount,
+so exporter never knows when fence will be destoyed, which should not
+be a problem for refcounted objects, but here comes the twist...
 
+	operation A - creates and exports out fence X
+	... user-space imports fence X
+	operation A - finishes execution, signals fence X
+	kfree operation A, put dma_fence
+
+DMA fences are designed to borrow spinlock that DMA fences use to
+protect struct dma_fence members:
+
+	struct dma_fence {
+	        spinlock_t *lock;
+
+	        const struct dma_fence_ops *ops;
+		.....
+	};
+
+	void dma_fence_init(struct dma_fence *fence,
+			const struct dma_fence_ops *ops,
+			spinlock_t *lock,
+			u64 context,
+			u64 seqno);
+
+So the `lock` should have at least same lifespan as the DMA fence
+that borrows it, which is impossible to guarantee in our case. When
+we kfree operation A struct we also kfree ->lock that operation
+lends to DMA fence, which outlives operation A (depending on what
+fence importers do and when they drop imported fence refcount).
+
+This patch adds a new memnber to struct dma_fence: __lock_inplace.
+Which is a lock that DMA fence will use to protect its own data when
+it cannot reliably borrow a lock from the outside object.
+
+I also had a patch that puts inplace and borrowed locks to an unnamed
+uninon and adds one more dma_fence_flag_bits to distinguish between
+fences with borrowed and inplace locks
+
+	struct dma_fence {
+		uninon {
+			spinlock_t *lock;
+			spinlock_t __lock_inplace;
+		};
+		...
+	};
+
+And then instead of locking/unlocking ->lock directly we would use
+dma_fence_lock_irqsave()/dma_fence_unlock_irqrestore() macros which
+would check fence flags and either use borrowed lock or inplace lock.
+But after seeing how owten drivers directly access fence ->lock I
+decided to scratch that approach and just add extra spinlock member.
+
+Not-Yet-Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ drivers/dma-buf/dma-fence.c | 10 ++++++++++
+ include/linux/dma-fence.h   |  6 ++++++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 066400ed8841..7ae40b8adb73 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -958,3 +958,13 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+ 	trace_dma_fence_init(fence);
+ }
+ EXPORT_SYMBOL(dma_fence_init);
++
++void dma_fence_inplace_lock_init(struct dma_fence *fence,
++				 const struct dma_fence_ops *ops,
++				 u64 context, u64 seqno)
++{
++	spin_lock_init(&fence->__lock_inplace);
++
++	dma_fence_init(fence, ops, &fence->__lock_inplace, context, seqno);
++}
++EXPORT_SYMBOL(dma_fence_inplace_lock_init);
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 1ea691753bd3..6b15a0d2eccf 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -64,6 +64,8 @@ struct dma_fence_cb;
+  */
+ struct dma_fence {
+ 	spinlock_t *lock;
++	spinlock_t __lock_inplace;
++
+ 	const struct dma_fence_ops *ops;
+ 	/*
+ 	 * We clear the callback list on kref_put so that by the time we
+@@ -262,6 +264,10 @@ struct dma_fence_ops {
+ void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+ 		    spinlock_t *lock, u64 context, u64 seqno);
+ 
++void dma_fence_inplace_lock_init(struct dma_fence *fence,
++				 const struct dma_fence_ops *ops,
++				 u64 context, u64 seqno);
++
+ void dma_fence_release(struct kref *kref);
+ void dma_fence_free(struct dma_fence *fence);
+ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
 -- 
-Best regards,
-Dmitry
+2.36.1.124.g0e6072fb45-goog
+
