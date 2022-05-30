@@ -2,45 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85B64537F4D
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A36453807D
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:23:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239118AbiE3OJZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 10:09:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34728 "EHLO
+        id S236695AbiE3OJ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 10:09:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238660AbiE3OEo (ORCPT
+        with ESMTP id S239887AbiE3OIb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 10:04:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9139F994DC;
-        Mon, 30 May 2022 06:40:22 -0700 (PDT)
+        Mon, 30 May 2022 10:08:31 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F1E79B187;
+        Mon, 30 May 2022 06:42:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 01D2760F3B;
-        Mon, 30 May 2022 13:40:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82F5DC3411A;
-        Mon, 30 May 2022 13:40:20 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0A80CB80AE8;
+        Mon, 30 May 2022 13:42:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D7EC341C7;
+        Mon, 30 May 2022 13:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653918021;
-        bh=uk1qdW7JoKuQum18G3aYe+yII2qPfO4rIYEGwtqwbTk=;
+        s=k20201202; t=1653918143;
+        bh=ZRBlCTHt0pyFWYQr3Ew2t9lLWa2U4S35aOox2RxugS8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HjUnPGLGBTsbfPALSsqY5wzTQmxZKghvrnTIlEGP2kSSpQtHu5YoluyQ5HlPP16ZH
-         HYdoNnJVbVAaYr+JqAwEarkFUewTH1QpfJyu3zk9Bl1o7oJbZCXJz88SE5cNe3+SDV
-         C0GqEEMVCJAs957r+7Dsfh40JhbTqogfv8w6+ZfCdY9FRAbb/E5tsVUczm7A7j92vr
-         oZv5MFdS3mdlYrZZmhTaw3B86tT20ewqMA43cWD5A1j1hnVpwgfLx8Na+/I9WhsGRq
-         uh0wPqQ1ZRx+GYcnvZV2kPIibt074iqHYwJJIUTKAy1hH45RVRNNsxAJ0uKZItZm/p
-         w+3Gh2rWHDV3A==
+        b=oUOtRBaAibxjPJbFJpD0kYncUcFoHuVLD1i8LAfXR6NpjQT4Heeui4pGD2/6CbOcv
+         rjJ+ShUz+j+tU4yQqfF36DZm/yLwvDnlxTPTXczhRxFV8ISNfh2lPyfyW9dOUveJx0
+         yvCFLlAAQGUM54SPvSwPQHqXmY1MV4o78p6V2QcJlmawL7jKZcXsvX2IEU7sdD5NLf
+         JJd4apwuXZFgTNVlPBK70IPfq114S/UjNZS7GHRGb7YMNKKM6Ob3S/cnzdKdwhnJsw
+         4H+DLtIpLfF21uQznQvYL/0SnJ95tBwGj78kOWYL9GFLnYSAR7/Z2KimSBzEaQse/N
+         q/B7wh1/fMLBw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zheyu Ma <zheyuma97@gmail.com>,
+Cc:     Hangyu Hua <hbh25y@gmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 034/109] media: cx25821: Fix the warning when removing the module
-Date:   Mon, 30 May 2022 09:37:10 -0400
-Message-Id: <20220530133825.1933431-34-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, jacob-chen@iotwrt.com,
+        ezequiel@vanguardiasur.com.ar, heiko@sntech.de,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.15 076/109] media: rga: fix possible memory leak in rga_probe
+Date:   Mon, 30 May 2022 09:37:52 -0400
+Message-Id: <20220530133825.1933431-76-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530133825.1933431-1-sashal@kernel.org>
 References: <20220530133825.1933431-1-sashal@kernel.org>
@@ -58,55 +61,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Zheyu Ma <zheyuma97@gmail.com>
+From: Hangyu Hua <hbh25y@gmail.com>
 
-[ Upstream commit 2203436a4d24302871617373a7eb21bc17e38762 ]
+[ Upstream commit a71eb6025305192e646040cd76ccacb5bd48a1b5 ]
 
-When removing the module, we will get the following warning:
+rga->m2m_dev needs to be freed when rga_probe fails.
 
-[   14.746697] remove_proc_entry: removing non-empty directory 'irq/21', leaking at least 'cx25821[1]'
-[   14.747449] WARNING: CPU: 4 PID: 368 at fs/proc/generic.c:717 remove_proc_entry+0x389/0x3f0
-[   14.751611] RIP: 0010:remove_proc_entry+0x389/0x3f0
-[   14.759589] Call Trace:
-[   14.759792]  <TASK>
-[   14.759975]  unregister_irq_proc+0x14c/0x170
-[   14.760340]  irq_free_descs+0x94/0xe0
-[   14.760640]  mp_unmap_irq+0xb6/0x100
-[   14.760937]  acpi_unregister_gsi_ioapic+0x27/0x40
-[   14.761334]  acpi_pci_irq_disable+0x1d3/0x320
-[   14.761688]  pci_disable_device+0x1ad/0x380
-[   14.762027]  ? _raw_spin_unlock_irqrestore+0x2d/0x60
-[   14.762442]  ? cx25821_shutdown+0x20/0x9f0 [cx25821]
-[   14.762848]  cx25821_finidev+0x48/0xc0 [cx25821]
-[   14.763242]  pci_device_remove+0x92/0x240
-
-Fix this by freeing the irq before call pci_disable_device().
-
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/cx25821/cx25821-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/rockchip/rga/rga.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/pci/cx25821/cx25821-core.c b/drivers/media/pci/cx25821/cx25821-core.c
-index 40c10ca94def..a4192e80e9a0 100644
---- a/drivers/media/pci/cx25821/cx25821-core.c
-+++ b/drivers/media/pci/cx25821/cx25821-core.c
-@@ -1339,11 +1339,11 @@ static void cx25821_finidev(struct pci_dev *pci_dev)
- 	struct cx25821_dev *dev = get_cx25821(v4l2_dev);
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index d99ea8973b67..e3246344fb72 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -868,7 +868,7 @@ static int rga_probe(struct platform_device *pdev)
  
- 	cx25821_shutdown(dev);
--	pci_disable_device(pci_dev);
+ 	ret = pm_runtime_resume_and_get(rga->dev);
+ 	if (ret < 0)
+-		goto rel_vdev;
++		goto rel_m2m;
  
- 	/* unregister stuff */
- 	if (pci_dev->irq)
- 		free_irq(pci_dev->irq, dev);
-+	pci_disable_device(pci_dev);
+ 	rga->version.major = (rga_read(rga, RGA_VERSION_INFO) >> 24) & 0xFF;
+ 	rga->version.minor = (rga_read(rga, RGA_VERSION_INFO) >> 20) & 0x0F;
+@@ -884,7 +884,7 @@ static int rga_probe(struct platform_device *pdev)
+ 					   DMA_ATTR_WRITE_COMBINE);
+ 	if (!rga->cmdbuf_virt) {
+ 		ret = -ENOMEM;
+-		goto rel_vdev;
++		goto rel_m2m;
+ 	}
  
- 	cx25821_dev_unregister(dev);
- 	v4l2_device_unregister(v4l2_dev);
+ 	rga->src_mmu_pages =
+@@ -921,6 +921,8 @@ static int rga_probe(struct platform_device *pdev)
+ free_dma:
+ 	dma_free_attrs(rga->dev, RGA_CMDBUF_SIZE, rga->cmdbuf_virt,
+ 		       rga->cmdbuf_phy, DMA_ATTR_WRITE_COMBINE);
++rel_m2m:
++	v4l2_m2m_release(rga->m2m_dev);
+ rel_vdev:
+ 	video_device_release(vfd);
+ unreg_v4l2_dev:
 -- 
 2.35.1
 
