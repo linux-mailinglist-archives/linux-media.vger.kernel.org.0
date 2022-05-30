@@ -2,52 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0972A537F39
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:19:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4AC053801D
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 16:22:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236913AbiE3NyR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 09:54:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57612 "EHLO
+        id S237027AbiE3OJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 10:09:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238603AbiE3Nws (ORCPT
+        with ESMTP id S238227AbiE3OER (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 09:52:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4BD880D2;
-        Mon, 30 May 2022 06:37:28 -0700 (PDT)
+        Mon, 30 May 2022 10:04:17 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 111A3994CC;
+        Mon, 30 May 2022 06:40:16 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 925DE60F99;
-        Mon, 30 May 2022 13:37:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93623C3411E;
-        Mon, 30 May 2022 13:37:25 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BB5BFB80DB3;
+        Mon, 30 May 2022 13:40:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7446DC3411C;
+        Mon, 30 May 2022 13:40:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653917847;
-        bh=lyG/J14veE4PPv7P93S7wmHZ8PtfDwL4ePf9On8nxYM=;
+        s=k20201202; t=1653918013;
+        bh=84kLkUFrITbye63UGnUau2HQC5kDYnmHprBb0Z2XKPw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bDjXLFF3b9ceSuQ34IdFVWnrlZ9O7/xnKQROKweiXn+06XvkmEKKYZz/HzIrb/bnt
-         6lWuhiU+20HsX1tfEUclydHFDl8RgW8ouVZUthWwXUnrfOH7vHMsak1EqCGtLTPW9X
-         vK/pDrGV0rDP8lYlAtzqXUfk3Uyw5Oyikp3zF9nhNps5r5l97ycvFvwZn549beZnCz
-         RXMvtXun8Mtl1atKhPoZqPTrZQhZhpqnwItQWfvf7TZrQxSMwczWP03g9XtXAVGi+U
-         8rJ26/l9nHeDJTe1xrgHsilN6rnpSfxOPKt5oNtwAKXV29faxNKO/lDoXgKWaX+m1X
-         TWUTNggGCSPPQ==
+        b=TaVLbqwz+ih3thOKVyFlQvBKiMNYDx8oiRNrTQQ1IeVc1NLOu35P12Bx1E0jDfSPa
+         y8VAaJ1QpKyG/OQ45aqxN4+eTvS7WN+jHwaZw+AHYDLwnIiYp2KVRIIry5wbWa+Yt1
+         Knens3ZrGWmdBxTwXgwVkJbZb8vdbZarQ0JkGQ6Ta8vSYaEwMwa6ByGZd6LaV6jQmQ
+         WDCWVnI8ImAH9AyI++WO6rLinQRRW7oNsjvW+ZT5YjIruB9j5ZMU5H+9rAAizO0mFD
+         Y9/3Il8nefEl3W+7ZiHFHLlawEEA0OedNp4gXYdG0s9vcUZtY5OMxeQv5kC/SCUcIn
+         LL9WB+QvNAtYQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Luca Weiss <luca.weiss@fairphone.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.17 114/135] media: hantro: Stop using H.264 parameter pic_num
-Date:   Mon, 30 May 2022 09:31:12 -0400
-Message-Id: <20220530133133.1931716-114-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 032/109] media: venus: hfi: avoid null dereference in deinit
+Date:   Mon, 30 May 2022 09:37:08 -0400
+Message-Id: <20220530133825.1933431-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530133133.1931716-1-sashal@kernel.org>
-References: <20220530133133.1931716-1-sashal@kernel.org>
+In-Reply-To: <20220530133825.1933431-1-sashal@kernel.org>
+References: <20220530133825.1933431-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,40 +60,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+From: Luca Weiss <luca.weiss@fairphone.com>
 
-[ Upstream commit 831410700909f4e29d5af1ef26b8c59fc2d1988e ]
+[ Upstream commit 86594f6af867b5165d2ba7b5a71fae3a5961e56c ]
 
-The hardware expects FrameNumWrap or long_term_frame_idx. Picture
-numbers are per field, and are mostly used during the memory
-management process, which is done in userland. This fixes two
-ITU conformance tests:
+If venus_probe fails at pm_runtime_put_sync the error handling first
+calls hfi_destroy and afterwards hfi_core_deinit. As hfi_destroy sets
+core->ops to NULL, hfi_core_deinit cannot call the core_deinit function
+anymore.
 
-  - MR6_BT_B
-  - MR8_BT_B
+Avoid this null pointer derefence by skipping the call when necessary.
 
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/hantro/hantro_h264.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/media/platform/qcom/venus/hfi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
-index 0b4d2491be3b..228629fb3cdf 100644
---- a/drivers/staging/media/hantro/hantro_h264.c
-+++ b/drivers/staging/media/hantro/hantro_h264.c
-@@ -354,8 +354,6 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
+diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
+index 0f2482367e06..9bc4becdf638 100644
+--- a/drivers/media/platform/qcom/venus/hfi.c
++++ b/drivers/media/platform/qcom/venus/hfi.c
+@@ -104,6 +104,9 @@ int hfi_core_deinit(struct venus_core *core, bool blocking)
+ 		mutex_lock(&core->lock);
+ 	}
  
- 	if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
- 		return 0;
--	if (dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
--		return dpb->pic_num;
- 	return dpb->frame_num;
- }
++	if (!core->ops)
++		goto unlock;
++
+ 	ret = core->ops->core_deinit(core);
  
+ 	if (!ret)
 -- 
 2.35.1
 
