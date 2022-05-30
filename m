@@ -2,54 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73966537AC6
-	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 14:48:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86129537C36
+	for <lists+linux-media@lfdr.de>; Mon, 30 May 2022 15:32:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236184AbiE3MsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 08:48:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34864 "EHLO
+        id S237020AbiE3NbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 09:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235764AbiE3MsV (ORCPT
+        with ESMTP id S237118AbiE3NaG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 08:48:21 -0400
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1563A61613
-        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 05:48:20 -0700 (PDT)
-Received: by mail-io1-f69.google.com with SMTP id a11-20020a6b660b000000b0066577bb520dso5455489ioc.8
-        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 05:48:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=fviMwFuCOHUegEvnIFsjn2njt9ZqkztQPMv6YKuPdAA=;
-        b=spq4yfDX5VzejpHhcjVy5+PoOpxgC/lU9Gizl6fTJUGMnJZMvxQ3nxSgtpxsyfgCeT
-         z5wSkuVj9NrchJ+GBAQkSqQo8JhPDogwNejwMYUTj1jEI8Bhs9uXeg4cI6fljx9wCiCB
-         TBp5F2MZUyOJvhSH+UIiXTPj7S4LuGah5RrH2nkacyInPTQH3+yf4/ntip2qOW7ChirV
-         ehAWuJdhByo89geDmtvgHyxzYIPxdIcEfytUCh6Y/tSMQllpy40uJb0OGkxRS4YB2EEK
-         fKlCZfrqAOiAab32gUStR5EU/hiujbuwBWF/JbSfK9G++vIwwtBiCq3YSaE+G8n8l+wT
-         dEvw==
-X-Gm-Message-State: AOAM530zhbgaYzQKqCzy8/HxElqkLSmmLqAG1dkulQyNWHji3SBbx/U4
-        wp4QmJA5iKRJnJt1WrDNWC9dH++uk3iRbQY7EnVOpiUWb9o9
-X-Google-Smtp-Source: ABdhPJycnqRf6X1SBHFUkROsgHjQtpBF8Dm7PO+qwNPyD6tzwCY/b/l83ev4fZbc8+AUU6TRX9qmxx5ZaxRAKtUZFRfbJ4Z8oofl
+        Mon, 30 May 2022 09:30:06 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1203BCA5;
+        Mon, 30 May 2022 06:26:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A4ADEB80C9C;
+        Mon, 30 May 2022 13:26:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DECCC3411E;
+        Mon, 30 May 2022 13:26:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653917189;
+        bh=CHObYO3QTAakNe5T3Fe914iXUbpSy1aT88lWYZtUQ/Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=H0NvtAIeq1LgeUuZpsgEqRxyW4YMASqcV9P1Aeiu78fqe0LEcg+UhvytEDPzWGJXu
+         wfGOn9W5LscTSZL+aMZ+/lv6WbOt5PGYFX2utytV4lt2dfIZ3vIZOLpBfBZ4dwa1dQ
+         muVvS7TUzo6WBbAdC7WkhImVwY4Hba6q96574w41r4gUsDqngVUDBhfPG9sWr1ewXY
+         dVDcc85LFk0ae8vLT29Nom/nhr+DKYUPrX2Zp5AgJDMTnCsyglSlBswjK0xfMVgK/U
+         ivv6VTE0x6wKAESS2kD/EFeFRDN6XuS/uh7syz9c/E+pnMYsoha3bgjYt0PwLSdBYt
+         vvI0G0iXyQcjQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, dongchun.zhu@mediatek.com,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 048/159] media: Revert "media: dw9768: activate runtime PM and turn off device"
+Date:   Mon, 30 May 2022 09:22:33 -0400
+Message-Id: <20220530132425.1929512-48-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220530132425.1929512-1-sashal@kernel.org>
+References: <20220530132425.1929512-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:218b:b0:2d1:1d0c:2e28 with SMTP id
- j11-20020a056e02218b00b002d11d0c2e28mr28257557ila.216.1653914899437; Mon, 30
- May 2022 05:48:19 -0700 (PDT)
-Date:   Mon, 30 May 2022 05:48:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000011e14605e03a125d@google.com>
-Subject: [syzbot] WARNING in dma_map_sgtable (2)
-From:   syzbot <syzbot+3ba551855046ba3b3806@syzkaller.appspotmail.com>
-To:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        hch@lst.de, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,77 +60,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-syzbot found the following issue on:
+[ Upstream commit 7dd0f93a31af03cba81c684c4c361bba510ffe71 ]
 
-HEAD commit:    7e062cda7d90 Merge tag 'net-next-5.19' of git://git.kernel..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=172151d3f00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e9d71d3c07c36588
-dashboard link: https://syzkaller.appspot.com/bug?extid=3ba551855046ba3b3806
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12918503f00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1386fa39f00000
+This reverts commit c09d776eaa060534a1663e3b89d842db3e1d9076.
 
-Bisection is inconclusive: the issue happens on the oldest tested release.
+Revert the commit as it breaks runtime PM support on OF based systems.
+More fixes to the driver are needed.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14107ee5f00000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=16107ee5f00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=12107ee5f00000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+3ba551855046ba3b3806@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 3610 at kernel/dma/mapping.c:188 dma_map_sgtable+0x203/0x260 kernel/dma/mapping.c:264
-Modules linked in:
-CPU: 0 PID: 3610 Comm: syz-executor162 Not tainted 5.18.0-syzkaller-04943-g7e062cda7d90 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:__dma_map_sg_attrs kernel/dma/mapping.c:188 [inline]
-RIP: 0010:dma_map_sgtable+0x203/0x260 kernel/dma/mapping.c:264
-Code: 75 15 e8 50 5f 14 00 eb cb e8 49 5f 14 00 eb c4 e8 42 5f 14 00 eb bd e8 3b 5f 14 00 0f 0b bd fb ff ff ff eb af e8 2d 5f 14 00 <0f> 0b 31 ed 48 bb 00 00 00 00 00 fc ff df e9 7b ff ff ff 89 e9 80
-RSP: 0018:ffffc9000305fd40 EFLAGS: 00010293
-RAX: ffffffff81723873 RBX: dffffc0000000000 RCX: ffff88801fbb8000
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000002
-RBP: ffff8881487e5408 R08: ffffffff81723743 R09: ffffed1003592c9e
-R10: ffffed1003592c9e R11: 1ffff11003592c9c R12: ffff8881487e5000
-R13: ffff88801ac964e0 R14: 0000000000000000 R15: 0000000000000001
-FS:  0000555556c2a300(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000005d84c8 CR3: 000000001f1ef000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- get_sg_table+0xf9/0x150 drivers/dma-buf/udmabuf.c:72
- begin_cpu_udmabuf+0xf5/0x160 drivers/dma-buf/udmabuf.c:126
- dma_buf_begin_cpu_access+0xd8/0x170 drivers/dma-buf/dma-buf.c:1172
- dma_buf_ioctl+0x2a0/0x2f0 drivers/dma-buf/dma-buf.c:363
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:870 [inline]
- __se_sys_ioctl+0xfb/0x170 fs/ioctl.c:856
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x2b/0x70 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x46/0xb0
-RIP: 0033:0x7f8bf9c6dc19
-Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd7cfae1d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f8bf9c6dc19
-RDX: 0000000020000100 RSI: 0000000040086200 RDI: 0000000000000006
-RBP: 00007f8bf9c31dc0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f8bf9c31e50
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-
-
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/media/i2c/dw9768.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+index 65c6acf3ced9..c086580efac7 100644
+--- a/drivers/media/i2c/dw9768.c
++++ b/drivers/media/i2c/dw9768.c
+@@ -469,11 +469,6 @@ static int dw9768_probe(struct i2c_client *client)
+ 
+ 	dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
+ 
+-	/*
+-	 * Device is already turned on by i2c-core with ACPI domain PM.
+-	 * Attempt to turn off the device to satisfy the privacy LED concerns.
+-	 */
+-	pm_runtime_set_active(dev);
+ 	pm_runtime_enable(dev);
+ 	if (!pm_runtime_enabled(dev)) {
+ 		ret = dw9768_runtime_resume(dev);
+@@ -488,7 +483,6 @@ static int dw9768_probe(struct i2c_client *client)
+ 		dev_err(dev, "failed to register V4L2 subdev: %d", ret);
+ 		goto err_power_off;
+ 	}
+-	pm_runtime_idle(dev);
+ 
+ 	return 0;
+ 
+-- 
+2.35.1
+
