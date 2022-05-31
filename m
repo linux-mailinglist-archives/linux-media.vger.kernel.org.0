@@ -2,205 +2,384 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 955FA538F3A
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 12:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF84538F6A
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 13:04:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244781AbiEaKuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 06:50:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53286 "EHLO
+        id S1343678AbiEaLEZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 07:04:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233804AbiEaKuU (ORCPT
+        with ESMTP id S233919AbiEaLEX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 06:50:20 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BC190CC8;
-        Tue, 31 May 2022 03:50:18 -0700 (PDT)
+        Tue, 31 May 2022 07:04:23 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22889994D8
+        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 04:04:21 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2186B1C0006;
-        Tue, 31 May 2022 10:50:13 +0000 (UTC)
-Date:   Tue, 31 May 2022 12:50:11 +0200
+        by mail.gandi.net (Postfix) with ESMTPSA id 9CCB91C0012;
+        Tue, 31 May 2022 11:04:17 +0000 (UTC)
+Date:   Tue, 31 May 2022 13:04:16 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Quentin Schulz <foss+kernel@0leil.net>
 Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Quentin Schulz <quentin.schulz@theobroma-systems.com>
-Subject: Re: [PATCH v5 4/4] media: i2c: ov5675: add .get_selection support
-Message-ID: <20220531105011.yxrosmwtw3mpaomb@uno.localdomain>
+Subject: Re: [PATCH v5 2/4] media: ov5675: add device-tree support and
+ support runtime PM
+Message-ID: <20220531110416.olfdc2k6hb3layzp@uno.localdomain>
 References: <20220525145833.1165437-1-foss+kernel@0leil.net>
- <20220525145833.1165437-4-foss+kernel@0leil.net>
+ <20220525145833.1165437-2-foss+kernel@0leil.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220525145833.1165437-4-foss+kernel@0leil.net>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220525145833.1165437-2-foss+kernel@0leil.net>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Quentin
+Hi Quentin,
 
-On Wed, May 25, 2022 at 04:58:33PM +0200, Quentin Schulz wrote:
+On Wed, May 25, 2022 at 04:58:31PM +0200, Quentin Schulz wrote:
 > From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 >
-> The sensor has 2592*1944 active pixels, surrounded by 16 active dummy
-> pixels and there are an additional 24 black rows "at the bottom".
->
->                      [2624]
->         +-----+------------------+-----+
->         |     |     16 dummy     |     |
->         +-----+------------------+-----+
->         |     |                  |     |
->         |     |     [2592]       |     |
->         |     |                  |     |
->         |16   |      valid       | 16  |[2000]
->         |dummy|                  |dummy|
->         |     |            [1944]|     |
->         |     |                  |     |
->         +-----+------------------+-----+
->         |     |     16 dummy     |     |
->         +-----+------------------+-----+
->         |     |  24 black lines  |     |
->         +-----+------------------+-----+
->
-> The top-left coordinate is gotten from the registers specified in the
-> modes which are identical for both currently supported modes.
+> Until now, this driver only supported ACPI. This adds support for
+> Device Tree too while enabling clock and regulators in runtime PM.
 >
 > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 > ---
 >
+> v5:
+>  - fixed -Wdeclaration-after-statement for delay_us,
+>
 > v4:
->  - explicit a bit more the commit log,
->  - added drawing in the commit log,
->  - fixed reporting for V4L2_SEL_TGT_CROP_* thanks to Jacopo's help,
+>  - added delays based on clock cycles as specified in datasheet for
+>  pre-power-off and post-power-on,
+>  - re-arranged clk handling, shutdown toggling and regulator handling to
+>  better match power up/down sequence defined in datasheet,
+>  - added comment on need for regulator being stable before releasing
+>  shutdown pin,
 >
-> added in v3
+> v3:
+>  - added linux/mod_devicetable.h include,
+>  - moved delay for reset pulse right after the regulators are enabled,
+>  - removed check on is_acpi_node in favor of checks on presence of OF
+>  properties (e.g. devm_clk_get_optional returns NULL),
+>  - moved power management out of system suspend/resume into runtime PM
+>  callbacks,
+>  - removed ACPI specific comment since it's not specific to this driver,
+>  - changed devm_clk_get to devm_clk_get_optional,
+>  - remove OF use of clock-frequency (handled by devm_clk_get_optional
+>  directly),
+>  - removed name of clock (only one, so no need for anything explicit)
+>  when requesting a clock from OF,
+>  - wrapped lines to 80 chars,
 >
->  drivers/media/i2c/ov5675.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+> v2:
+>  - fixed unused-const-variable warning by removing of_match_ptr in
+>  of_match_table, reported by kernel test robot,
+>
+>  drivers/media/i2c/ov5675.c | 149 +++++++++++++++++++++++++++++++------
+>  1 file changed, 128 insertions(+), 21 deletions(-)
 >
 > diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> index c1f3c387afde0..384a9ea2372c3 100644
+> index 82ba9f56baec8..ea801edb8e408 100644
 > --- a/drivers/media/i2c/ov5675.c
 > +++ b/drivers/media/i2c/ov5675.c
-> @@ -1121,6 +1121,38 @@ static int ov5675_get_format(struct v4l2_subdev *sd,
+> @@ -3,10 +3,14 @@
+>
+>  #include <asm/unaligned.h>
+>  #include <linux/acpi.h>
+> +#include <linux/clk.h>
+>  #include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/regulator/consumer.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-fwnode.h>
+> @@ -17,7 +21,7 @@
+>
+>  #define OV5675_LINK_FREQ_450MHZ		450000000ULL
+>  #define OV5675_SCLK			90000000LL
+> -#define OV5675_MCLK			19200000
+> +#define OV5675_XVCLK_19_2		19200000
+>  #define OV5675_DATA_LANES		2
+>  #define OV5675_RGB_DEPTH		10
+>
+> @@ -76,6 +80,14 @@
+>
+>  #define to_ov5675(_sd)			container_of(_sd, struct ov5675, sd)
+>
+> +static const char * const ov5675_supply_names[] = {
+> +	"avdd",		/* Analog power */
+> +	"dovdd",	/* Digital I/O power */
+> +	"dvdd",		/* Digital core power */
+> +};
+> +
+> +#define OV5675_NUM_SUPPLIES	ARRAY_SIZE(ov5675_supply_names)
+> +
+>  enum {
+>  	OV5675_LINK_FREQ_900MBPS,
+>  };
+> @@ -484,6 +496,9 @@ struct ov5675 {
+>  	struct v4l2_subdev sd;
+>  	struct media_pad pad;
+>  	struct v4l2_ctrl_handler ctrl_handler;
+> +	struct clk		*xvclk;
+> +	struct gpio_desc	*reset_gpio;
+
+nit: all other variables are declared using a space between the type
+and the variable name, not a tab
+
+> +	struct regulator_bulk_data supplies[OV5675_NUM_SUPPLIES];
+>
+>  	/* V4L2 Controls */
+>  	struct v4l2_ctrl *link_freq;
+> @@ -944,6 +959,56 @@ static int ov5675_set_stream(struct v4l2_subdev *sd, int enable)
+>  	return ret;
+>  }
+>
+> +static int ov5675_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov5675 *ov5675 = to_ov5675(sd);
+> +	/* 512 xvclk cycles after the last SCCB transation or MIPI frame end */
+> +	u32 delay_us = DIV_ROUND_UP(512, OV5675_XVCLK_19_2 / 1000 / 1000);
+
+nit: this can be declared first
+
+> +
+> +	usleep_range(delay_us, delay_us * 2);
+> +
+> +	clk_disable_unprepare(ov5675->xvclk);
+> +	gpiod_set_value_cansleep(ov5675->reset_gpio, 1);
+> +	regulator_bulk_disable(OV5675_NUM_SUPPLIES, ov5675->supplies);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov5675_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov5675 *ov5675 = to_ov5675(sd);
+> +	u32 delay_us = DIV_ROUND_UP(8192, OV5675_XVCLK_19_2 / 1000 / 1000);
+
+ditto
+
+All minors, the rest looks good to me!
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+  j
+
+
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(ov5675->xvclk);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to enable xvclk: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(ov5675->reset_gpio, 1);
+> +
+> +	ret = regulator_bulk_enable(OV5675_NUM_SUPPLIES, ov5675->supplies);
+> +	if (ret) {
+> +		clk_disable_unprepare(ov5675->xvclk);
+> +		return ret;
+> +	}
+> +
+> +	/* Reset pulse should be at least 2ms and reset gpio released only once
+> +	 * regulators are stable.
+> +	 */
+> +	usleep_range(2000, 2200);
+> +
+> +	gpiod_set_value_cansleep(ov5675->reset_gpio, 0);
+> +
+> +	/* 8192 xvclk cycles prior to the first SCCB transation */
+> +	usleep_range(delay_us, delay_us * 2);
+> +
+> +	return 0;
+> +}
+> +
+>  static int __maybe_unused ov5675_suspend(struct device *dev)
+>  {
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> @@ -1106,32 +1171,60 @@ static const struct v4l2_subdev_internal_ops ov5675_internal_ops = {
+>  	.open = ov5675_open,
+>  };
+>
+> -static int ov5675_check_hwcfg(struct device *dev)
+> +static int ov5675_get_hwcfg(struct ov5675 *ov5675, struct device *dev)
+>  {
+>  	struct fwnode_handle *ep;
+>  	struct fwnode_handle *fwnode = dev_fwnode(dev);
+>  	struct v4l2_fwnode_endpoint bus_cfg = {
+>  		.bus_type = V4L2_MBUS_CSI2_DPHY
+>  	};
+> -	u32 mclk;
+> +	u32 xvclk_rate;
+>  	int ret;
+>  	unsigned int i, j;
+>
+>  	if (!fwnode)
+>  		return -ENXIO;
+>
+> -	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
+> +	ov5675->xvclk = devm_clk_get_optional(dev, NULL);
+> +	if (IS_ERR(ov5675->xvclk))
+> +		return dev_err_probe(dev, PTR_ERR(ov5675->xvclk),
+> +				     "failed to get xvclk: %ld\n",
+> +				     PTR_ERR(ov5675->xvclk));
+>
+> -	if (ret) {
+> -		dev_err(dev, "can't get clock frequency");
+> -		return ret;
+> +	if (ov5675->xvclk) {
+> +		xvclk_rate = clk_get_rate(ov5675->xvclk);
+> +	} else {
+> +		ret = fwnode_property_read_u32(fwnode, "clock-frequency",
+> +					       &xvclk_rate);
+> +
+> +		if (ret) {
+> +			dev_err(dev, "can't get clock frequency");
+> +			return ret;
+> +		}
+>  	}
+>
+> -	if (mclk != OV5675_MCLK) {
+> -		dev_err(dev, "external clock %d is not supported", mclk);
+> +	if (xvclk_rate != OV5675_XVCLK_19_2) {
+> +		dev_err(dev, "external clock rate %u is unsupported",
+> +			xvclk_rate);
+>  		return -EINVAL;
+>  	}
+>
+> +	ov5675->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> +						     GPIOD_OUT_HIGH);
+> +	if (IS_ERR(ov5675->reset_gpio)) {
+> +		ret = PTR_ERR(ov5675->reset_gpio);
+> +		dev_err(dev, "failed to get reset-gpios: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < OV5675_NUM_SUPPLIES; i++)
+> +		ov5675->supplies[i].supply = ov5675_supply_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(dev, OV5675_NUM_SUPPLIES,
+> +				      ov5675->supplies);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+>  	if (!ep)
+>  		return -ENXIO;
+> @@ -1186,6 +1279,9 @@ static int ov5675_remove(struct i2c_client *client)
+>  	pm_runtime_disable(&client->dev);
+>  	mutex_destroy(&ov5675->mutex);
+>
+> +	if (!pm_runtime_status_suspended(&client->dev))
+> +		ov5675_power_off(&client->dev);
+> +
 >  	return 0;
 >  }
 >
-> +static int ov5675_get_selection(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *state,
-> +				struct v4l2_subdev_selection *sel)
-> +{
-> +	struct ov5675 *ov5675 = to_ov5675(sd);
+> @@ -1195,25 +1291,31 @@ static int ov5675_probe(struct i2c_client *client)
+>  	bool full_power;
+>  	int ret;
+>
+> -	ret = ov5675_check_hwcfg(&client->dev);
+> +	ov5675 = devm_kzalloc(&client->dev, sizeof(*ov5675), GFP_KERNEL);
+> +	if (!ov5675)
+> +		return -ENOMEM;
 > +
-> +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
-> +		return -EINVAL;
-> +
-> +	switch (sel->target) {
-> +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> +		sel->r.top = 0;
-> +		sel->r.left = 0;
-> +		sel->r.width = 2624;
-> +		sel->r.height = 2000;
-> +		return 0;
-> +	case V4L2_SEL_TGT_CROP:
-> +		sel->r.top = 16;
-> +		sel->r.left = 16;
-> +		sel->r.width = ov5675->cur_mode->width;
-> +		sel->r.height = ov5675->cur_mode->height;
-> +		return 0;
-
-I'm afraid this doesn't match exactly my understanding of the
-discussion we had.
-
-The driver defines the following modes
-
-/*
- * OV5670 sensor supports following resolutions with full FOV:
- * 4:3  ==> {2592x1944, 1296x972, 648x486}
- * 16:9 ==> {2560x1440, 1280x720, 640x360}
- */
-static const struct ov5670_mode supported_modes[] = {
-	{
-		.width = 2592,
-		.height = 1944,
-	},
-	{
-		.width = 1296,
-		.height = 972,
-	},
-	{
-		.width = 648,
-		.height = 486,
-	},
-	{
-		.width = 2560,
-		.height = 1440,
-	},
-	{
-		.width = 1280,
-		.height = 720,
-	},
-	{
-		.width = 640,
-		.height = 360,
-	}
-};
-
-The comment says all modes retain the "full FOV", which I assume it
-implies they are obtained by sub-sampling and not cropping.
-
-The first three modes (4:3) are indeed obtained by subsampling the
-full active pixel array:
-
-        (2592,1944) / 2 = (1296,972) / 2 = (648,486)
-
-The last three are obtained by subsampling a slightly cropped portion
-of the pixel array
-
-        (2560,1440) / 2 = (1280,720) / 2 = (640,360)
-
-If you set CROP = cur_mode->[width/height] you will instead report the
-visible width/height, which as said it's obtained by subsampling (of a
-slightly cropped portion of the pixel array for the last three ones)
-
-The CROP rectangle is then (2592, 1944) for the first three and (2560,
-1440) for the last three.
-
-I would add a v4l2_rect to struct ov5670_mode where to record that and
-report it here.
-
-> +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> +		sel->r.top = 16;
-> +		sel->r.left = 16;
-> +		sel->r.width = supported_modes[0].width;
-> +		sel->r.height = supported_modes[0].height;
-> +		return 0;
-
-You could also define these values instead of fishing in the
-supported_modes array, to protect against future changes to the array
-itself. Up to you.
-
-
+> +	ret = ov5675_get_hwcfg(ov5675, &client->dev);
+>  	if (ret) {
+> -		dev_err(&client->dev, "failed to check HW configuration: %d",
+> +		dev_err(&client->dev, "failed to get HW configuration: %d",
+>  			ret);
+>  		return ret;
+>  	}
+>
+> -	ov5675 = devm_kzalloc(&client->dev, sizeof(*ov5675), GFP_KERNEL);
+> -	if (!ov5675)
+> -		return -ENOMEM;
+> -
+>  	v4l2_i2c_subdev_init(&ov5675->sd, client, &ov5675_subdev_ops);
+>
+> +	ret = ov5675_power_on(&client->dev);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to power on: %d\n", ret);
+> +		return ret;
 > +	}
-> +	return -EINVAL;
-> +}
 > +
->  static int ov5675_enum_mbus_code(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_state *sd_state,
->  				 struct v4l2_subdev_mbus_code_enum *code)
-> @@ -1170,6 +1202,7 @@ static const struct v4l2_subdev_video_ops ov5675_video_ops = {
->  static const struct v4l2_subdev_pad_ops ov5675_pad_ops = {
->  	.set_fmt = ov5675_set_format,
->  	.get_fmt = ov5675_get_format,
-> +	.get_selection = ov5675_get_selection,
->  	.enum_mbus_code = ov5675_enum_mbus_code,
->  	.enum_frame_size = ov5675_enum_frame_size,
+>  	full_power = acpi_dev_state_d0(&client->dev);
+>  	if (full_power) {
+>  		ret = ov5675_identify_module(ov5675);
+>  		if (ret) {
+>  			dev_err(&client->dev, "failed to find sensor: %d", ret);
+> -			return ret;
+> +			goto probe_power_off;
+>  		}
+>  	}
+>
+> @@ -1243,11 +1345,6 @@ static int ov5675_probe(struct i2c_client *client)
+>  		goto probe_error_media_entity_cleanup;
+>  	}
+>
+> -	/*
+> -	 * Device is already turned on by i2c-core with ACPI domain PM.
+> -	 * Enable runtime PM and turn off the device.
+> -	 */
+> -
+>  	/* Set the device's state to active if it's in D0 state. */
+>  	if (full_power)
+>  		pm_runtime_set_active(&client->dev);
+> @@ -1262,12 +1359,15 @@ static int ov5675_probe(struct i2c_client *client)
+>  probe_error_v4l2_ctrl_handler_free:
+>  	v4l2_ctrl_handler_free(ov5675->sd.ctrl_handler);
+>  	mutex_destroy(&ov5675->mutex);
+> +probe_power_off:
+> +	ov5675_power_off(&client->dev);
+>
+>  	return ret;
+>  }
+>
+>  static const struct dev_pm_ops ov5675_pm_ops = {
+>  	SET_SYSTEM_SLEEP_PM_OPS(ov5675_suspend, ov5675_resume)
+> +	SET_RUNTIME_PM_OPS(ov5675_power_off, ov5675_power_on, NULL)
 >  };
+>
+>  #ifdef CONFIG_ACPI
+> @@ -1279,11 +1379,18 @@ static const struct acpi_device_id ov5675_acpi_ids[] = {
+>  MODULE_DEVICE_TABLE(acpi, ov5675_acpi_ids);
+>  #endif
+>
+> +static const struct of_device_id ov5675_of_match[] = {
+> +	{ .compatible = "ovti,ov5675", },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, ov5675_of_match);
+> +
+>  static struct i2c_driver ov5675_i2c_driver = {
+>  	.driver = {
+>  		.name = "ov5675",
+>  		.pm = &ov5675_pm_ops,
+>  		.acpi_match_table = ACPI_PTR(ov5675_acpi_ids),
+> +		.of_match_table = ov5675_of_match,
+>  	},
+>  	.probe_new = ov5675_probe,
+>  	.remove = ov5675_remove,
 > --
 > 2.36.1
 >
