@@ -2,50 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0CB95389AC
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 03:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62721538A03
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 04:51:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235577AbiEaBlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 21:41:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52718 "EHLO
+        id S233590AbiEaCvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 May 2022 22:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232076AbiEaBlr (ORCPT
+        with ESMTP id S232597AbiEaCvu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 21:41:47 -0400
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C1E21BB;
-        Mon, 30 May 2022 18:41:44 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 31 May
- 2022 09:41:41 +0800
-Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 31 May
- 2022 09:41:41 +0800
-Message-ID: <4c7f6aa3-4463-81f7-fe6e-8428286a42f2@meizu.com>
-Date:   Tue, 31 May 2022 09:41:41 +0800
+        Mon, 30 May 2022 22:51:50 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B4B12AFC
+        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 19:51:48 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id gc3-20020a17090b310300b001e33092c737so934169pjb.3
+        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 19:51:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=xcpbx9Lt9Owdlm64rePa6qexHLWiyypbRMgxN1JLv/M=;
+        b=CyYXFkxhZiXQiu14RxVExNHuXRW0mFlO3k3+vtcoaKX56jC5Ba1StMa8qKRpw1gBRQ
+         m2pdXOpOXP5yoNapy24x4BR7MDFAg/xRghRxTbuu49cw3iyj+gWoa8iNtf8UAns32Wob
+         fQmMqbHWuHhV5B4vVeGxYjmDjsojaHhPcIBeQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=xcpbx9Lt9Owdlm64rePa6qexHLWiyypbRMgxN1JLv/M=;
+        b=MizVd+qQTq7dzchobiT4TiN6i7UBzYgbYjhZXR8awvCQ+0GZmvwQm9PN+9hWut35Xf
+         rKiokbyGxCyRIwL6asC3GCXt+jZJJNI4BjmM5dg4rRlSWIToKvkDkkk8fbQ/+dyseh+X
+         BYzuUNM7VIILHp/AZvfN1B60e+bqRtw+eN74+rsiRDpW1sLwHGMChBPNpSFUzi7ajpwp
+         aakkG2W4d9Q1iovmaKUdYDG148dkovNRnQrd0KQcWbk+48GHV0tvlsbn701OXFtuioWE
+         SRWN9MTEjibtH3Q0OKFXzuWPqByAKjiiizuLPd7yoKD+3KpTyCYbPwa2DlrLJozk9QCh
+         IZ5A==
+X-Gm-Message-State: AOAM530J+DLx0hvrWQ9FbbTTux3sCZNsv/S5soEqLENdMRV9OvqxB/Iw
+        TJ/rskN3lNGAGbZpHC7qE1NOwQ==
+X-Google-Smtp-Source: ABdhPJylou6Lhk/REVZIpM88w/Cw5uS6g71yGFXefOXkdi3IddUox11VUsoNOmO40/Smst1WUN/3KA==
+X-Received: by 2002:a17:90a:de01:b0:1df:cda5:8332 with SMTP id m1-20020a17090ade0100b001dfcda58332mr26157122pjv.123.1653965508382;
+        Mon, 30 May 2022 19:51:48 -0700 (PDT)
+Received: from google.com ([240f:75:7537:3187:7d2a:ad1f:afa1:7770])
+        by smtp.gmail.com with ESMTPSA id i16-20020a056a00005000b00518382bceaesm9479310pfk.57.2022.05.30.19.51.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 May 2022 19:51:47 -0700 (PDT)
+Date:   Tue, 31 May 2022 11:51:42 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dma-fence: allow dma fence to have their own lock
+Message-ID: <YpWCvniLzJfcp684@google.com>
+References: <20220530142232.2871634-1-senozhatsky@chromium.org>
+ <7eee4274-bd69-df8d-9067-771366217804@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] media: atomisp-mt9m114: Fix pointer dereferenced before
- checking
-To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-        <linux-kernel@vger.kernel.org>
-References: <1653897481-25681-1-git-send-email-baihaowen@meizu.com>
- <20220530112232.GB99280@tom-ThinkPad-T14s-Gen-2i>
- <20220530113750.GD99280@tom-ThinkPad-T14s-Gen-2i>
-From:   baihaowen <baihaowen@meizu.com>
-In-Reply-To: <20220530113750.GD99280@tom-ThinkPad-T14s-Gen-2i>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+In-Reply-To: <7eee4274-bd69-df8d-9067-771366217804@amd.com>
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,65 +76,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-在 2022/5/30 下午7:37, Tommaso Merciai 写道:
-> On Mon, May 30, 2022 at 01:22:32PM +0200, Tommaso Merciai wrote:
->> On Mon, May 30, 2022 at 03:58:01PM +0800, Haowen Bai wrote:
->>> The info->data is dereferencing before null checking, so move
->>> it after checking.
->>>
->>> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
->>> ---
->>>  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 +++-
->>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
->>> index 00d6842c07d6..3c81ab73cdae 100644
->>> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
->>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
->>> @@ -616,13 +616,15 @@ static int mt9m114_get_intg_factor(struct i2c_client *client,
->>>  				   struct camera_mipi_info *info,
->>>  				   const struct mt9m114_res_struct *res)
->>>  {
->>> -	struct atomisp_sensor_mode_data *buf = &info->data;
->>> +	struct atomisp_sensor_mode_data *buf;
->>>  	u32 reg_val;
->>>  	int ret;
->>>  
->>>  	if (!info)
->>>  		return -EINVAL;
->>>  
->>> +	buf = &info->data;
->>> +
->>>  	ret =  mt9m114_read_reg(client, MISENSOR_32BIT,
->>>  				REG_PIXEL_CLK, &reg_val);
->>>  	if (ret)
->>> -- 
->>> 2.7.4
->>>
->> Hi Haowen,
->> Looks good to me, thanks.
->>
->> Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> Hi,
-> My bad, Dan is right. Nothing to fix here.
-> Sorry for previous review.
->
-> Regards,
-> Tommaso
->> -- 
->> Tommaso Merciai
->> Embedded Linux Engineer
->> tommaso.merciai@amarulasolutions.com
->> __________________________________
->>
->> Amarula Solutions SRL
->> Via Le Canevare 30, 31100 Treviso, Veneto, IT
->> T. +39 042 243 5310
->> info@amarulasolutions.com
->> www.amarulasolutions.com
-hi, Dan
-Thank you for pointing out. I'm clear now.
+On (22/05/30 16:55), Christian K�nig wrote:
+> Am 30.05.22 um 16:22 schrieb Sergey Senozhatsky:
+> > [SNIP]
+> > So the `lock` should have at least same lifespan as the DMA fence
+> > that borrows it, which is impossible to guarantee in our case.
+> 
+> Nope, that's not correct. The lock should have at least same lifespan as the
+> context of the DMA fence.
 
--- 
-Haowen Bai
-
+How does one know when it's safe to release the context? DMA fence
+objects are still transparently refcount-ed and "live their own lives",
+how does one synchronize lifespans?
