@@ -2,208 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08D5D5398BB
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 23:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C619539936
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 00:01:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348042AbiEaV0A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 17:26:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51984 "EHLO
+        id S1348278AbiEaWBG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 18:01:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348028AbiEaVZv (ORCPT
+        with ESMTP id S1348273AbiEaWBE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 17:25:51 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9112B9D4D5
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 14:25:48 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-30974094b5cso92107667b3.20
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 14:25:48 -0700 (PDT)
+        Tue, 31 May 2022 18:01:04 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7AE54005;
+        Tue, 31 May 2022 15:01:03 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id c15-20020a9d684f000000b0060b097c71ecso10478654oto.10;
+        Tue, 31 May 2022 15:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:cc;
-        bh=SHwRUtvrT0NdcbhIAR6+q8dVHlt/noH6zImMf2T6bN4=;
-        b=T42lyMTLciKl9Rv8/akmQtqV6uQQ3E9lX3jWMAM9W82MEwX1WhMSTKgLZRje/MNn+N
-         eaMz6KMZQvtrz0QjRD+AfcH6yPO8ZF657CajRVWMHR5EbQcU2E6dqGuctCFu/kMyHUxC
-         vToGcV2W3eMszf/c30QX9yL1UALQwfojoCr5x6IchvuVjlav1j/iJta6sr8IMsKGUQ/k
-         S2lgestauhqAsjGB/Juetw8217qZvtYbVZ17ECFylI8CcKlrM+cJ4qS560kzTM6Q62wT
-         BQSEHpmzBUsOIEvFHF7bCoEe17s+9mMpHlx8aLBwTl+dueknacj39X5zbJHYt5zxLrPZ
-         gabg==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1kcpHZfon90bWFf3C0opWYOsOsDgVYWIWfKF1sbIHOg=;
+        b=PzDb+I+odIVJv+v3SJAjJiieVhfK9TLxSG7HEepT0URrxw1QQp7kRmiwJBPWRRavIc
+         4OMfjNbouVwJ9QQpQgLBXk6+QrfrsPci7ETu9MqS7ke/cmB5AaDwyt0mTTrETEI0nla8
+         ZoLP0cqrGh6Dw6Q5ps0yJtVdbye1Xjh4O23j3NOeVtWJfStBz4VKNrCPsD2YUn78wnbi
+         Ukl+m69RJ4e1Q6zPLsNeTDpLPDG05ZQrka2NfxXfSb0vOdwt0Bvb0jIKeCOCB3zfJalh
+         4mvF/uQXHPN8cAyYKnxmvof/pxdnJb1AtX2kW5llJ/84g0tUGQEq+0RBuVEWhFw0MnUm
+         /27Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:cc;
-        bh=SHwRUtvrT0NdcbhIAR6+q8dVHlt/noH6zImMf2T6bN4=;
-        b=Hg6cjQCxqxKqPk3tYAET8dwRJjGbYqShs6Vm9azSmwOpHfQV3nohWXbLeMJP+MeHYI
-         tNB0kmYgZuR0I+LhLb+VpWjtBJxjQlTxjCWKWjluRQvSWf/PexC7ZEUtjtidzA2rf/ex
-         2VIs4KKo6/V5Fr3gL3LqkurLc2KG07OZKkWgB1phdATMKh0XEAZyEaxq4sauQC3glWRk
-         /jU097YEyXZkGqOfaqhpTSo4GNwyahrl58EfJi3gw+lqiUWTTZt+Mh0NmY2Gz6MvrSow
-         aASbc8rr5I0cU9CCE+TBL2Y97R2+Tqv8gBA3TmGZEQLQ+mRV062lFtN1eFeM5iEzVN5P
-         fHvQ==
-X-Gm-Message-State: AOAM531AnrAgkAICoR2LROQP3GMvyXxV2uP4GiJ6+wFdYkcJNJA+hHSd
-        nFCeoTw6b0B3V0oidhzypMCdP3FH1MTkIsxflw==
-X-Google-Smtp-Source: ABdhPJyG9PJC9moHZn+WxEZeqsj3bqG2VefQDfTTJGrPdN9BgwqI20Tqbfa0K86skPf8JTa8S1yG0V0nozkYxpHBng==
-X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:a3c0:2a66:b25c:16df])
- (user=kaleshsingh job=sendgmr) by 2002:a0d:ea44:0:b0:30c:2902:dd96 with SMTP
- id t65-20020a0dea44000000b0030c2902dd96mr17812893ywe.115.1654032347582; Tue,
- 31 May 2022 14:25:47 -0700 (PDT)
-Date:   Tue, 31 May 2022 14:25:15 -0700
-In-Reply-To: <20220531212521.1231133-1-kaleshsingh@google.com>
-Message-Id: <20220531212521.1231133-3-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20220531212521.1231133-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-Subject: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
-From:   Kalesh Singh <kaleshsingh@google.com>
-Cc:     ilkos@google.com, tjmercier@google.com, surenb@google.com,
-        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1kcpHZfon90bWFf3C0opWYOsOsDgVYWIWfKF1sbIHOg=;
+        b=4K5uBr0uKC5fMJU8tMKYQaSj83q774YtxcwlIR9PmrdFIuHy0oCE4jQzQERuxW9UYX
+         vatFnLMgawLC1Zor/J9p1609FF3XVglekoyxBMGyzhY7Lzs5DkRN4WHBizTm2ohoatuh
+         AR8kt9KZOgnaXc5bMS1lFBsCr+MjDIo287c7iQizP3B6mGT+1ptt28bSovbkS5ztfA6d
+         3dgQGSdZBhgP/SfBm2BPAkold6vn4aFibRBDN34u5BSVXWLf33Uw8Pon9nU00gJMte6i
+         qjcy1BvCmMwpoN2pXP7Z+N8z74CqIrkC226e9LVOlERUE2NQWyHL3kgCLxZWoSgMctkx
+         NgMg==
+X-Gm-Message-State: AOAM530XF7ncc/WMnz5BiD/PJA6+y2TUy7ljfYIxy9U62zk5VwRg0i4H
+        kxZLqnToe8IldBDKbUWs66FPz411TL1LiJMaKyk=
+X-Google-Smtp-Source: ABdhPJyKVYOkJ1d9Y7SW5ELtHTlhTKMcjbccQa1ILmaqZpJll1OzACOy0Pf6i7ZX6i42bY3GxbQOusF+tYcIkZKsQbg=
+X-Received: by 2002:a9d:6b98:0:b0:60b:c54:e22b with SMTP id
+ b24-20020a9d6b98000000b0060b0c54e22bmr18226057otq.357.1654034462389; Tue, 31
+ May 2022 15:01:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220531100007.174649-1-christian.koenig@amd.com>
+In-Reply-To: <20220531100007.174649-1-christian.koenig@amd.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Tue, 31 May 2022 18:00:51 -0400
+Message-ID: <CADnq5_Ng7oe_NMSb6GdL=_T_zw22Gk0B6ePDXRiU7Ljind6Gww@mail.gmail.com>
+Subject: Re: Per file OOM badness
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        nouveau <nouveau@lists.freedesktop.org>,
+        linux-tegra@vger.kernel.org,
+        Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Hugh Dickens <hughd@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "Deucher, Alexander" <alexander.deucher@amd.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Colin Cross <ccross@google.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+        Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MISSING_HEADERS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to identify the type of memory a process has pinned through
-its open fds, add the file path to fdinfo output. This allows
-identifying memory types based on common prefixes. e.g. "/memfd...",
-"/dmabuf...", "/dev/ashmem...".
++ dri-devel
 
-Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
-the same as /proc/<pid>/maps which also exposes the file path of
-mappings; so the security permissions for accessing path is consistent
-with that of /proc/<pid>/maps.
-
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
----
-
-Changes from rfc:
-  - Split adding 'size' and 'path' into a separate patches, per Christian
-  - Fix indentation (use tabs) in documentaion, per Randy
-
- Documentation/filesystems/proc.rst | 14 ++++++++++++--
- fs/proc/fd.c                       |  4 ++++
- 2 files changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 779c05528e87..591f12d30d97 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1886,14 +1886,16 @@ if precise results are needed.
- 3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
- ---------------------------------------------------------------
- This file provides information associated with an opened file. The regular
--files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino', and 'size'.
-+files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', 'size',
-+and 'path'.
- 
- The 'pos' represents the current offset of the opened file in decimal
- form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
- file has been created with [see open(2) for details] and 'mnt_id' represents
- mount ID of the file system containing the opened file [see 3.5
- /proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
--the file, and 'size' represents the size of the file in bytes.
-+the file, 'size' represents the size of the file in bytes, and 'path'
-+represents the file path.
- 
- A typical output is::
- 
-@@ -1902,6 +1904,7 @@ A typical output is::
- 	mnt_id:	19
- 	ino:	63107
- 	size:	0
-+	path:	/dev/null
- 
- All locks associated with a file descriptor are shown in its fdinfo too::
- 
-@@ -1920,6 +1923,7 @@ Eventfd files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[eventfd]
- 	eventfd-count:	5a
- 
- where 'eventfd-count' is hex value of a counter.
-@@ -1934,6 +1938,7 @@ Signalfd files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[signalfd]
- 	sigmask:	0000000000000200
- 
- where 'sigmask' is hex value of the signal mask associated
-@@ -1949,6 +1954,7 @@ Epoll files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[eventpoll]
- 	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
- 
- where 'tfd' is a target file descriptor number in decimal form,
-@@ -1968,6 +1974,7 @@ For inotify files the format is the following::
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:inotify
- 	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
- 
- where 'wd' is a watch descriptor in decimal form, i.e. a target file
-@@ -1992,6 +1999,7 @@ For fanotify files the format is::
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[fanotify]
- 	fanotify flags:10 event-flags:0
- 	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
- 	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-@@ -2018,6 +2026,7 @@ Timerfd files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[timerfd]
- 	clockid: 0
- 	ticks: 0
- 	settime flags: 01
-@@ -2042,6 +2051,7 @@ DMA Buffer files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   32768
-+	path:	/dmabuf:
- 	count:  2
- 	exp_name:  system-heap
- 
-diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-index 464bc3f55759..8889a8ba09d4 100644
---- a/fs/proc/fd.c
-+++ b/fs/proc/fd.c
-@@ -60,6 +60,10 @@ static int seq_show(struct seq_file *m, void *v)
- 	seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
- 	seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i_size);
- 
-+	seq_puts(m, "path:\t");
-+	seq_file_path(m, file, "\n");
-+	seq_putc(m, '\n');
-+
- 	/* show_fd_locks() never deferences files so a stale value is safe */
- 	show_fd_locks(m, file, files);
- 	if (seq_has_overflowed(m))
--- 
-2.36.1.255.ge46751e96f-goog
-
+On Tue, May 31, 2022 at 6:00 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Hello everyone,
+>
+> To summarize the issue I'm trying to address here: Processes can allocate
+> resources through a file descriptor without being held responsible for it=
+.
+>
+> Especially for the DRM graphics driver subsystem this is rather
+> problematic. Modern games tend to allocate huge amounts of system memory
+> through the DRM drivers to make it accessible to GPU rendering.
+>
+> But even outside of the DRM subsystem this problem exists and it is
+> trivial to exploit. See the following simple example of
+> using memfd_create():
+>
+>          fd =3D memfd_create("test", 0);
+>          while (1)
+>                  write(fd, page, 4096);
+>
+> Compile this and you can bring down any standard desktop system within
+> seconds.
+>
+> The background is that the OOM killer will kill every processes in the
+> system, but just not the one which holds the only reference to the memory
+> allocated by the memfd.
+>
+> Those problems where brought up on the mailing list multiple times now
+> [1][2][3], but without any final conclusion how to address them. Since
+> file descriptors are considered shared the process can not directly held
+> accountable for allocations made through them. Additional to that file
+> descriptors can also easily move between processes as well.
+>
+> So what this patch set does is to instead of trying to account the
+> allocated memory to a specific process it adds a callback to struct
+> file_operations which the OOM killer can use to query the specific OOM
+> badness of this file reference. This badness is then divided by the
+> file_count, so that every process using a shmem file, DMA-buf or DRM
+> driver will get it's equal amount of OOM badness.
+>
+> Callbacks are then implemented for the two core users (memfd and DMA-buf)
+> as well as 72 DRM based graphics drivers.
+>
+> The result is that the OOM killer can now much better judge if a process
+> is worth killing to free up memory. Resulting a quite a bit better system
+> stability in OOM situations, especially while running games.
+>
+> The only other possibility I can see would be to change the accounting of
+> resources whenever references to the file structure change, but this woul=
+d
+> mean quite some additional overhead for a rather common operation.
+>
+> Additionally I think trying to limit device driver allocations using
+> cgroups is orthogonal to this effort. While cgroups is very useful, it
+> works on per process limits and tries to enforce a collaborative model on
+> memory management while the OOM killer enforces a competitive model.
+>
+> Please comment and/or review, we have that problem flying around for year=
+s
+> now and are not at a point where we finally need to find a solution for
+> this.
+>
+> Regards,
+> Christian.
+>
+> [1] https://lists.freedesktop.org/archives/dri-devel/2015-September/08977=
+8.html
+> [2] https://lkml.org/lkml/2018/1/18/543
+> [3] https://lkml.org/lkml/2021/2/4/799
+>
+>
