@@ -2,147 +2,375 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CF80539197
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 15:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 200575391A1
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 15:16:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343518AbiEaNOS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 09:14:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46948 "EHLO
+        id S1344355AbiEaNQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 09:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244090AbiEaNOR (ORCPT
+        with ESMTP id S231594AbiEaNQq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 09:14:17 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75B606EB17;
-        Tue, 31 May 2022 06:14:14 -0700 (PDT)
+        Tue, 31 May 2022 09:16:46 -0400
+X-Greylist: delayed 7937 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 31 May 2022 06:16:39 PDT
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18942A7;
+        Tue, 31 May 2022 06:16:38 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1A3B92000F;
-        Tue, 31 May 2022 13:14:10 +0000 (UTC)
-Date:   Tue, 31 May 2022 15:14:09 +0200
+        by mail.gandi.net (Postfix) with ESMTPSA id 6408CE000E;
+        Tue, 31 May 2022 13:16:35 +0000 (UTC)
+Date:   Tue, 31 May 2022 15:16:33 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
-        michael@amarulasolutions.com,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] media: i2c: ov5695: use
- regulator_bulk_enable/regulator_bulk disable instead of for loop
-Message-ID: <20220531131409.f54znvogejkwqqkf@uno.localdomain>
-References: <20220519075117.1003520-1-tommaso.merciai@amarulasolutions.com>
- <20220519075117.1003520-2-tommaso.merciai@amarulasolutions.com>
+To:     Quentin Schulz <foss+kernel@0leil.net>
+Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Subject: Re: [PATCH v5 2/4] media: ov5675: add device-tree support and
+ support runtime PM
+Message-ID: <20220531131633.tjkp6q43kwwxtnvk@uno.localdomain>
+References: <20220525145833.1165437-1-foss+kernel@0leil.net>
+ <20220525145833.1165437-2-foss+kernel@0leil.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220519075117.1003520-2-tommaso.merciai@amarulasolutions.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220525145833.1165437-2-foss+kernel@0leil.net>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+Hi Quentin,
+   one more question
 
-On Thu, May 19, 2022 at 09:51:14AM +0200, Tommaso Merciai wrote:
-> Enable regulator using regulator_bulk_enable/regulatore_bulk_disable
-> function in __ov5695_power_on/__ov5695_power_off function instead of for loop.
-> This reduce code size and make things more clear
+On Wed, May 25, 2022 at 04:58:31PM +0200, Quentin Schulz wrote:
+> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 >
-> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> Co-Developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Until now, this driver only supported ACPI. This adds support for
+> Device Tree too while enabling clock and regulators in runtime PM.
+>
+> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 > ---
->  drivers/media/i2c/ov5695.c | 25 +++++++------------------
->  1 file changed, 7 insertions(+), 18 deletions(-)
 >
-> diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-> index 439385938a51..880b586e55fe 100644
-> --- a/drivers/media/i2c/ov5695.c
-> +++ b/drivers/media/i2c/ov5695.c
-> @@ -972,7 +972,7 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
+> v5:
+>  - fixed -Wdeclaration-after-statement for delay_us,
 >
->  static int __ov5695_power_on(struct ov5695 *ov5695)
->  {
-> -	int i, ret;
-> +	int ret;
->  	struct device *dev = &ov5695->client->dev;
+> v4:
+>  - added delays based on clock cycles as specified in datasheet for
+>  pre-power-off and post-power-on,
+>  - re-arranged clk handling, shutdown toggling and regulator handling to
+>  better match power up/down sequence defined in datasheet,
+>  - added comment on need for regulator being stable before releasing
+>  shutdown pin,
 >
->  	ret = clk_prepare_enable(ov5695->xvclk);
-> @@ -987,13 +987,10 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
->  	 * The hardware requires the regulators to be powered on in order,
->  	 * so enable them one by one.
->  	 */
-
-The comment says that the hardware requires regulators to be enabled
-in precise order
-
-> -	for (i = 0; i < OV5695_NUM_SUPPLIES; i++) {
-> -		ret = regulator_enable(ov5695->supplies[i].consumer);
-> -		if (ret) {
-> -			dev_err(dev, "Failed to enable %s: %d\n",
-> -				ov5695->supplies[i].supply, ret);
-> -			goto disable_reg_clk;
-> -		}
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
-
-bulk_enable() uses the async API (async_schedule_domain() in
-particular) which by the name makes me think such ordering guarantee
-cannot be respected.
-
-However most sensors require some kind of ordering when enabling
-regulators, and most of the use the bulk API anyhow. The fact this
-driver uses the bulk API to get an release the regulators but not for
-enabling them and the above comment, makes me think it has been done
-on purpose ? Could you check with the driver author maybe ?
-
-> +	if (ret) {
-> +		dev_err(dev, "Failed to enable regulators %d\n", ret);
-> +		goto disable_reg_clk;
->  	}
+> v3:
+>  - added linux/mod_devicetable.h include,
+>  - moved delay for reset pulse right after the regulators are enabled,
+>  - removed check on is_acpi_node in favor of checks on presence of OF
+>  properties (e.g. devm_clk_get_optional returns NULL),
+>  - moved power management out of system suspend/resume into runtime PM
+>  callbacks,
+>  - removed ACPI specific comment since it's not specific to this driver,
+>  - changed devm_clk_get to devm_clk_get_optional,
+>  - remove OF use of clock-frequency (handled by devm_clk_get_optional
+>  directly),
+>  - removed name of clock (only one, so no need for anything explicit)
+>  when requesting a clock from OF,
+>  - wrapped lines to 80 chars,
 >
->  	gpiod_set_value_cansleep(ov5695->reset_gpio, 0);
-> @@ -1003,8 +1000,7 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
->  	return 0;
+> v2:
+>  - fixed unused-const-variable warning by removing of_match_ptr in
+>  of_match_table, reported by kernel test robot,
 >
->  disable_reg_clk:
-> -	for (--i; i >= 0; i--)
-> -		regulator_disable(ov5695->supplies[i].consumer);
-> +	regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
-
-FYI the bulk API does this for you if enabling any of the regulators fails.
-Hence this should not be necessary.
-
-Thanks
-   j
-
->  	clk_disable_unprepare(ov5695->xvclk);
+>  drivers/media/i2c/ov5675.c | 149 +++++++++++++++++++++++++++++++------
+>  1 file changed, 128 insertions(+), 21 deletions(-)
 >
+> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+> index 82ba9f56baec8..ea801edb8e408 100644
+> --- a/drivers/media/i2c/ov5675.c
+> +++ b/drivers/media/i2c/ov5675.c
+> @@ -3,10 +3,14 @@
+>
+>  #include <asm/unaligned.h>
+>  #include <linux/acpi.h>
+> +#include <linux/clk.h>
+>  #include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/regulator/consumer.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-fwnode.h>
+> @@ -17,7 +21,7 @@
+>
+>  #define OV5675_LINK_FREQ_450MHZ		450000000ULL
+>  #define OV5675_SCLK			90000000LL
+> -#define OV5675_MCLK			19200000
+> +#define OV5675_XVCLK_19_2		19200000
+>  #define OV5675_DATA_LANES		2
+>  #define OV5675_RGB_DEPTH		10
+>
+> @@ -76,6 +80,14 @@
+>
+>  #define to_ov5675(_sd)			container_of(_sd, struct ov5675, sd)
+>
+> +static const char * const ov5675_supply_names[] = {
+> +	"avdd",		/* Analog power */
+> +	"dovdd",	/* Digital I/O power */
+> +	"dvdd",		/* Digital core power */
+> +};
+> +
+> +#define OV5675_NUM_SUPPLIES	ARRAY_SIZE(ov5675_supply_names)
+> +
+>  enum {
+>  	OV5675_LINK_FREQ_900MBPS,
+>  };
+> @@ -484,6 +496,9 @@ struct ov5675 {
+>  	struct v4l2_subdev sd;
+>  	struct media_pad pad;
+>  	struct v4l2_ctrl_handler ctrl_handler;
+> +	struct clk		*xvclk;
+> +	struct gpio_desc	*reset_gpio;
+> +	struct regulator_bulk_data supplies[OV5675_NUM_SUPPLIES];
+>
+>  	/* V4L2 Controls */
+>  	struct v4l2_ctrl *link_freq;
+> @@ -944,6 +959,56 @@ static int ov5675_set_stream(struct v4l2_subdev *sd, int enable)
 >  	return ret;
-> @@ -1012,8 +1008,6 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
->
->  static void __ov5695_power_off(struct ov5695 *ov5695)
->  {
-> -	struct device *dev = &ov5695->client->dev;
-> -	int i, ret;
->
->  	clk_disable_unprepare(ov5695->xvclk);
->  	gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
-> @@ -1022,12 +1016,7 @@ static void __ov5695_power_off(struct ov5695 *ov5695)
->  	 * The hardware requires the regulators to be powered off in order,
->  	 * so disable them one by one.
->  	 */
-> -	for (i = OV5695_NUM_SUPPLIES - 1; i >= 0; i--) {
-> -		ret = regulator_disable(ov5695->supplies[i].consumer);
-> -		if (ret)
-> -			dev_err(dev, "Failed to disable %s: %d\n",
-> -				ov5695->supplies[i].supply, ret);
-> -	}
-> +	regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
 >  }
 >
->  static int __maybe_unused ov5695_runtime_resume(struct device *dev)
+> +static int ov5675_power_off(struct device *dev)
+
+Does this (and power_on) require __maybe_unused to avoid a warning
+when compiling without CONFIG_PM support ? Have you tried that ?
+
+Thanks
+  j
+
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov5675 *ov5675 = to_ov5675(sd);
+> +	/* 512 xvclk cycles after the last SCCB transation or MIPI frame end */
+> +	u32 delay_us = DIV_ROUND_UP(512, OV5675_XVCLK_19_2 / 1000 / 1000);
+> +
+> +	usleep_range(delay_us, delay_us * 2);
+> +
+> +	clk_disable_unprepare(ov5675->xvclk);
+> +	gpiod_set_value_cansleep(ov5675->reset_gpio, 1);
+> +	regulator_bulk_disable(OV5675_NUM_SUPPLIES, ov5675->supplies);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov5675_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov5675 *ov5675 = to_ov5675(sd);
+> +	u32 delay_us = DIV_ROUND_UP(8192, OV5675_XVCLK_19_2 / 1000 / 1000);
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(ov5675->xvclk);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to enable xvclk: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(ov5675->reset_gpio, 1);
+> +
+> +	ret = regulator_bulk_enable(OV5675_NUM_SUPPLIES, ov5675->supplies);
+> +	if (ret) {
+> +		clk_disable_unprepare(ov5675->xvclk);
+> +		return ret;
+> +	}
+> +
+> +	/* Reset pulse should be at least 2ms and reset gpio released only once
+> +	 * regulators are stable.
+> +	 */
+> +	usleep_range(2000, 2200);
+> +
+> +	gpiod_set_value_cansleep(ov5675->reset_gpio, 0);
+> +
+> +	/* 8192 xvclk cycles prior to the first SCCB transation */
+> +	usleep_range(delay_us, delay_us * 2);
+> +
+> +	return 0;
+> +}
+> +
+>  static int __maybe_unused ov5675_suspend(struct device *dev)
+>  {
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> @@ -1106,32 +1171,60 @@ static const struct v4l2_subdev_internal_ops ov5675_internal_ops = {
+>  	.open = ov5675_open,
+>  };
+>
+> -static int ov5675_check_hwcfg(struct device *dev)
+> +static int ov5675_get_hwcfg(struct ov5675 *ov5675, struct device *dev)
+>  {
+>  	struct fwnode_handle *ep;
+>  	struct fwnode_handle *fwnode = dev_fwnode(dev);
+>  	struct v4l2_fwnode_endpoint bus_cfg = {
+>  		.bus_type = V4L2_MBUS_CSI2_DPHY
+>  	};
+> -	u32 mclk;
+> +	u32 xvclk_rate;
+>  	int ret;
+>  	unsigned int i, j;
+>
+>  	if (!fwnode)
+>  		return -ENXIO;
+>
+> -	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
+> +	ov5675->xvclk = devm_clk_get_optional(dev, NULL);
+> +	if (IS_ERR(ov5675->xvclk))
+> +		return dev_err_probe(dev, PTR_ERR(ov5675->xvclk),
+> +				     "failed to get xvclk: %ld\n",
+> +				     PTR_ERR(ov5675->xvclk));
+>
+> -	if (ret) {
+> -		dev_err(dev, "can't get clock frequency");
+> -		return ret;
+> +	if (ov5675->xvclk) {
+> +		xvclk_rate = clk_get_rate(ov5675->xvclk);
+> +	} else {
+> +		ret = fwnode_property_read_u32(fwnode, "clock-frequency",
+> +					       &xvclk_rate);
+> +
+> +		if (ret) {
+> +			dev_err(dev, "can't get clock frequency");
+> +			return ret;
+> +		}
+>  	}
+>
+> -	if (mclk != OV5675_MCLK) {
+> -		dev_err(dev, "external clock %d is not supported", mclk);
+> +	if (xvclk_rate != OV5675_XVCLK_19_2) {
+> +		dev_err(dev, "external clock rate %u is unsupported",
+> +			xvclk_rate);
+>  		return -EINVAL;
+>  	}
+>
+> +	ov5675->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> +						     GPIOD_OUT_HIGH);
+> +	if (IS_ERR(ov5675->reset_gpio)) {
+> +		ret = PTR_ERR(ov5675->reset_gpio);
+> +		dev_err(dev, "failed to get reset-gpios: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < OV5675_NUM_SUPPLIES; i++)
+> +		ov5675->supplies[i].supply = ov5675_supply_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(dev, OV5675_NUM_SUPPLIES,
+> +				      ov5675->supplies);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+>  	if (!ep)
+>  		return -ENXIO;
+> @@ -1186,6 +1279,9 @@ static int ov5675_remove(struct i2c_client *client)
+>  	pm_runtime_disable(&client->dev);
+>  	mutex_destroy(&ov5675->mutex);
+>
+> +	if (!pm_runtime_status_suspended(&client->dev))
+> +		ov5675_power_off(&client->dev);
+> +
+>  	return 0;
+>  }
+>
+> @@ -1195,25 +1291,31 @@ static int ov5675_probe(struct i2c_client *client)
+>  	bool full_power;
+>  	int ret;
+>
+> -	ret = ov5675_check_hwcfg(&client->dev);
+> +	ov5675 = devm_kzalloc(&client->dev, sizeof(*ov5675), GFP_KERNEL);
+> +	if (!ov5675)
+> +		return -ENOMEM;
+> +
+> +	ret = ov5675_get_hwcfg(ov5675, &client->dev);
+>  	if (ret) {
+> -		dev_err(&client->dev, "failed to check HW configuration: %d",
+> +		dev_err(&client->dev, "failed to get HW configuration: %d",
+>  			ret);
+>  		return ret;
+>  	}
+>
+> -	ov5675 = devm_kzalloc(&client->dev, sizeof(*ov5675), GFP_KERNEL);
+> -	if (!ov5675)
+> -		return -ENOMEM;
+> -
+>  	v4l2_i2c_subdev_init(&ov5675->sd, client, &ov5675_subdev_ops);
+>
+> +	ret = ov5675_power_on(&client->dev);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to power on: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+>  	full_power = acpi_dev_state_d0(&client->dev);
+>  	if (full_power) {
+>  		ret = ov5675_identify_module(ov5675);
+>  		if (ret) {
+>  			dev_err(&client->dev, "failed to find sensor: %d", ret);
+> -			return ret;
+> +			goto probe_power_off;
+>  		}
+>  	}
+>
+> @@ -1243,11 +1345,6 @@ static int ov5675_probe(struct i2c_client *client)
+>  		goto probe_error_media_entity_cleanup;
+>  	}
+>
+> -	/*
+> -	 * Device is already turned on by i2c-core with ACPI domain PM.
+> -	 * Enable runtime PM and turn off the device.
+> -	 */
+> -
+>  	/* Set the device's state to active if it's in D0 state. */
+>  	if (full_power)
+>  		pm_runtime_set_active(&client->dev);
+> @@ -1262,12 +1359,15 @@ static int ov5675_probe(struct i2c_client *client)
+>  probe_error_v4l2_ctrl_handler_free:
+>  	v4l2_ctrl_handler_free(ov5675->sd.ctrl_handler);
+>  	mutex_destroy(&ov5675->mutex);
+> +probe_power_off:
+> +	ov5675_power_off(&client->dev);
+>
+>  	return ret;
+>  }
+>
+>  static const struct dev_pm_ops ov5675_pm_ops = {
+>  	SET_SYSTEM_SLEEP_PM_OPS(ov5675_suspend, ov5675_resume)
+> +	SET_RUNTIME_PM_OPS(ov5675_power_off, ov5675_power_on, NULL)
+>  };
+>
+>  #ifdef CONFIG_ACPI
+> @@ -1279,11 +1379,18 @@ static const struct acpi_device_id ov5675_acpi_ids[] = {
+>  MODULE_DEVICE_TABLE(acpi, ov5675_acpi_ids);
+>  #endif
+>
+> +static const struct of_device_id ov5675_of_match[] = {
+> +	{ .compatible = "ovti,ov5675", },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, ov5675_of_match);
+> +
+>  static struct i2c_driver ov5675_i2c_driver = {
+>  	.driver = {
+>  		.name = "ov5675",
+>  		.pm = &ov5675_pm_ops,
+>  		.acpi_match_table = ACPI_PTR(ov5675_acpi_ids),
+> +		.of_match_table = ov5675_of_match,
+>  	},
+>  	.probe_new = ov5675_probe,
+>  	.remove = ov5675_remove,
 > --
-> 2.25.1
+> 2.36.1
 >
