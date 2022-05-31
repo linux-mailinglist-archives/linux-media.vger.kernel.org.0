@@ -2,66 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E915539444
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 17:51:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ECA153950A
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 18:42:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345784AbiEaPvG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 11:51:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46602 "EHLO
+        id S1346197AbiEaQmM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 12:42:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230142AbiEaPvF (ORCPT
+        with ESMTP id S241712AbiEaQmK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 11:51:05 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08FDA7A803
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 08:51:04 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id u12-20020a17090a1d4c00b001df78c7c209so3168429pju.1
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 08:51:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=63Dh72iBG/bnj2Ixe2jPtaXi8Xp2x1EBc+gxE7+aSbQ=;
-        b=GBYAwax/LH+PPez9PmA99SqAUjkVVr19umyNwewxR9RerdRV3RYO4qKW4o+Q9EVm0s
-         XpML0WiC+sx2n/dhaQKoI+m3OWRRVaeX+P8sPO/sPMfiW2L1pp5uKUTGW3mdo4qdZIQ8
-         3QCY55rz+WLxTmSis/iRPZaARLDqOdkOYe1cM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=63Dh72iBG/bnj2Ixe2jPtaXi8Xp2x1EBc+gxE7+aSbQ=;
-        b=oOHzsQ2+DLNap4I0bPoOdK0JoT/1oq+rFVQgAjm/3coGvkTh/vr4i5D5wY9A0BoGD6
-         hnuvZ819EhTZuqXRcLLQP4Yeplvo+B4KTGDnrLzJze+f7jpuCHkOroV5CHEf5v/Hcsz3
-         UM9XoRixS6EeBaqGOlJ9eFLmbgSXC3kL0AViHxXJanRp2gnehUzpesVH6fgzh9OA5gKd
-         Iby2h6s4Hrk+Y0k110AMR5kfWXXkfqDBG7vjgF+KXKqkiQ8KHtKzL7NoO+LjoHoq95Jy
-         q6ncctX661d/m9jL8P2F7+nu2eCKCZDCt1GEMHoIJXJARiY+MfIunmygJ2zCk7QppbcQ
-         SXVA==
-X-Gm-Message-State: AOAM530T2QZDtAyWf00MMFTvIUq2Q+aepgvXgXQDwOwUI+NZQihsDa17
-        k9zp4tfdYSjfgNU7uQNmT6HXb03AxU0x6wA+g2riIA==
-X-Google-Smtp-Source: ABdhPJxfoDHY85r/rxqdbHy68jCot1RJCFffEmcUx/A48bpZHmo7RyFFClwOSUEV1xqItEZe0g5Yh/SmfdJpfrdi+LA=
-X-Received: by 2002:a17:902:e552:b0:163:6a5e:4e08 with SMTP id
- n18-20020a170902e55200b001636a5e4e08mr28798445plf.130.1654012263372; Tue, 31
- May 2022 08:51:03 -0700 (PDT)
+        Tue, 31 May 2022 12:42:10 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B6E95AA50
+        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 09:42:09 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dwlsalmeida)
+        with ESMTPSA id C78A41F43BD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1654015328;
+        bh=ZRZnMgJ66jQzzDDMvdaGu2DgKvaBwPpDPMtewaxPt8Y=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=PG8mEKoMVn6DcW/BqCo8W5bCIyA+TXe3NaTRm5WS4hcqhRQLirAcJNTttQtCAfC/Q
+         hfjQ0aXrds76OwAcs6dQjoPkpuNmxapMgqu79oN2sfqfDiuHa3xQz4VpD2MLb1cFUw
+         XFAB4ZzJGgWofDMkWH5vmEzrIJOTSNdWMSXb9Ky7+0yQomac/Q1wnFIqT3Y18ReVRa
+         oihV+dF44VZveCp5opufz6vVbeUkRWGTkOqP5RPNQcgPkeYTkH4EHfGuMyOlOwGMJI
+         8qG379RR9rcRmSJ4uN0nKKeeuiRi1nSI/p8KySW9lw9O+alamsYM2zbUahNXaYHugm
+         2J/pF6R/kaQ9g==
+Message-ID: <f366ce58-81e8-7b5b-24ef-b2ab88ce1d99@collabora.com>
+Date:   Tue, 31 May 2022 13:42:01 -0300
 MIME-Version: 1.0
-References: <20220519075117.1003520-1-tommaso.merciai@amarulasolutions.com>
- <20220519075117.1003520-2-tommaso.merciai@amarulasolutions.com>
- <20220531131409.f54znvogejkwqqkf@uno.localdomain> <20220531154040.GA1331064@tom-ThinkPad-T14s-Gen-2i>
-In-Reply-To: <20220531154040.GA1331064@tom-ThinkPad-T14s-Gen-2i>
-From:   Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date:   Tue, 31 May 2022 17:50:51 +0200
-Message-ID: <CAOf5uwmNoSPifCo8_hLZyr=DzMqL0r2Ftot2jneEVpAT8AyYVg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: i2c: ov5695: use regulator_bulk_enable/regulator_bulk
- disable instead of for loop
-To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linuxfancy@googlegroups.com,
-        linux-amarula@amarulasolutions.com,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [RFC PATCH v2] media: Add AV1 uAPI
+Content-Language: en-US
+To:     Steve Cho <stevecho@chromium.org>
+Cc:     hverkuil@xs4all.nl, linux-media@vger.kernel.org,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20220322160101.620748-1-daniel.almeida@collabora.com>
+ <CAC-pXoOQ5kD4bT95j+pwi7+Hb5s5H=0LFhAsk7K2sM9LkbAW1w@mail.gmail.com>
+ <fa87fd58-dc73-24b0-0425-e466062c1d6d@collabora.com>
+ <CAC-pXoP77VZT1Ftu3Amws9-Y9i11r9M0LxSEwqkezm_3i=HE8g@mail.gmail.com>
+ <CAC-pXoOJPveE_+kjjkMS=anMCjJKc4VsxNrJbxkQsXqnLLb6XQ@mail.gmail.com>
+ <CAC-pXoPU_bOJu723POgWj+EdXHsPg3X9J5Phq-YTCpO9jt-seg@mail.gmail.com>
+ <CAN0yncHrY6jfk6owTEue8PqGmxffU612UgccvPc9Y6XOz38LRA@mail.gmail.com>
+ <CAC-pXoPRAM8+xTPHHAxr_80vBGYaFO8R=v+2QMYJ5nEb0gvOTg@mail.gmail.com>
+ <CAC-pXoNHRxqe6tzg3++TqYRZE-nocxiz-iPh5vPXC07iA_BaSw@mail.gmail.com>
+ <CAC-pXoNRoqT_Fse_3Z8cO-SDwtMTm3fzScpDWvi5sNVr1N1Dzg@mail.gmail.com>
+ <CAC-pXoOon18axGdT_+V38sdAWDh+t4jZetXqte7BCwO09YG+2w@mail.gmail.com>
+ <CAC-pXoMVKmAZ=9iM7ivuo8rvnL=KQWHnopWharDz-eDky0QS-g@mail.gmail.com>
+From:   Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <CAC-pXoMVKmAZ=9iM7ivuo8rvnL=KQWHnopWharDz-eDky0QS-g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,172 +64,223 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Sending this again, as apparently my last submission contained some HTML 
+that prevented it from being sent on the media ML
 
-On Tue, May 31, 2022 at 5:40 PM Tommaso Merciai
-<tommaso.merciai@amarulasolutions.com> wrote:
->
-> Hi Jacopo,
-> On Tue, May 31, 2022 at 03:14:09PM +0200, Jacopo Mondi wrote:
-> > Hi Tommaso,
-> >
-> > On Thu, May 19, 2022 at 09:51:14AM +0200, Tommaso Merciai wrote:
-> > > Enable regulator using regulator_bulk_enable/regulatore_bulk_disable
-> > > function in __ov5695_power_on/__ov5695_power_off function instead of for loop.
-> > > This reduce code size and make things more clear
-> > >
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> > > Co-Developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-> > > ---
-> > >  drivers/media/i2c/ov5695.c | 25 +++++++------------------
-> > >  1 file changed, 7 insertions(+), 18 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-> > > index 439385938a51..880b586e55fe 100644
-> > > --- a/drivers/media/i2c/ov5695.c
-> > > +++ b/drivers/media/i2c/ov5695.c
-> > > @@ -972,7 +972,7 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
-> > >
-> > >  static int __ov5695_power_on(struct ov5695 *ov5695)
-> > >  {
-> > > -   int i, ret;
-> > > +   int ret;
-> > >     struct device *dev = &ov5695->client->dev;
-> > >
-> > >     ret = clk_prepare_enable(ov5695->xvclk);
-> > > @@ -987,13 +987,10 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
-> > >      * The hardware requires the regulators to be powered on in order,
-> > >      * so enable them one by one.
-> > >      */
-> >
-> > The comment says that the hardware requires regulators to be enabled
-> > in precise order
-> >
+---
 
-They are enabled on the array order.
+Hi Steve,
 
-> > > -   for (i = 0; i < OV5695_NUM_SUPPLIES; i++) {
-> > > -           ret = regulator_enable(ov5695->supplies[i].consumer);
-> > > -           if (ret) {
-> > > -                   dev_err(dev, "Failed to enable %s: %d\n",
-> > > -                           ov5695->supplies[i].supply, ret);
-> > > -                   goto disable_reg_clk;
-> > > -           }
-> > > +   ret = regulator_bulk_enable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
-> >
-> > bulk_enable() uses the async API (async_schedule_domain() in
-> > particular) which by the name makes me think such ordering guarantee
-> > cannot be respected.
+ > I think the below definition is expected to cause a build error.
+ >
+ > +struct v4l2_av1_loop_restoration {
+ > +       u8 flags;
+ >
+ > s/u8/__u8/ is needed.
+ >
+ > At least, this change was needed to fix this build error on Chromium
+ > build environment.
 
-I don't think so. Will make no sense because if it fails, revert them.
-Even the bulk disable disable them
-in reverse order
+This will be fixed in RFC v3
 
-> >
-> > However most sensors require some kind of ordering when enabling
-> > regulators, and most of the use the bulk API anyhow. The fact this
-> > driver uses the bulk API to get an release the regulators but not for
-> > enabling them and the above comment, makes me think it has been done
-> > on purpose ? Could you check with the driver author maybe ?
->
-> Thanks for suggestion, good question.
-> I see also ov5693 driver use bulk_enable/bulk_disable
-> on ov5693_sensor_powerdown and ov5693_sensor_powerup functions, I take
-> this as reference (and I'm wrong)
->
-> In a functional test on PX30_Mini_evb_v11_20190507, after this series
-> I'm able to see the correct chip id during probe and do some capture.
->
-> I think you are right Jacopo, we can drop off this [PATCH 1/4]
-> On the following link I found the issue that you describe: [1]
->
+ > Question about tile info structure.
+ >
+ > struct v4l2_av1_tile_info {
+ > __u8 flags;
+ > __u32 mi_col_starts[V4L2_AV1_MAX_TILE_COLS + 1];
+ > __u32 mi_row_starts[V4L2_AV1_MAX_TILE_ROWS + 1];
+ > __u32 width_in_sbs_minus_1[V4L2_AV1_MAX_TILE_COLS];
+ > __u32 height_in_sbs_minus_1[V4L2_AV1_MAX_TILE_ROWS];
+ >
+ > I see below from the spec and gstreamer implementation
+ > for width_in_sbs_minus_1 and height_in_sbs_minus_1 computation.
+ >
+ >   sb_cols = seq_header->use_128x128_superblock ?
+ >       ((parser->state.mi_cols + 31) >> 5) : ((parser->state.mi_cols + 
+15) >> 4);
+ >   sb_rows = seq_header->use_128x128_superblock ? 
+((parser->state.mi_rows +
+ >           31) >> 5) : ((parser->state.mi_rows + 15) >> 4);
+ >
+ > Are we confident that V4L2_AV1_MAX_TILE_COLS is good enough size for
+ > width_in_sbs_minus_1?
+ > Or does it potentially need to be V4L2_AV1_MAX_TILE_COLS+1?
+ >
+ > I am asking to double check because I see V4L2_AV1_MAX_TILE_COLS+1
+ > used for corresponding field in libgav1.
+ > int tile_column_width_in_superblocks[kMaxTileColumns + 1];
 
-WHy drop?
+I have checked with a few other APIs to be on the safe side.
 
-Michael
+In VA-API they  use a trick to save space on the last element, therefore 
+these two arrays will only be 63 members wide.
 
-> >
-> > > +   if (ret) {
-> > > +           dev_err(dev, "Failed to enable regulators %d\n", ret);
-> > > +           goto disable_reg_clk;
-> > >     }
-> > >
-> > >     gpiod_set_value_cansleep(ov5695->reset_gpio, 0);
-> > > @@ -1003,8 +1000,7 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
-> > >     return 0;
-> > >
-> > >  disable_reg_clk:
-> > > -   for (--i; i >= 0; i--)
-> > > -           regulator_disable(ov5695->supplies[i].consumer);
-> > > +   regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
-> >
-> > FYI the bulk API does this for you if enabling any of the regulators fails.
-> > Hence this should not be necessary.
->
-> Thanks for sharing! This is new to me.
-> I'll update the series on v2 removing this patch.
->
-> Regards,
-> Tommaso
->
-> [1]: https://mailweb.openeuler.org/hyperkitty/list/kernel@openeuler.org/message/4X54QYJDRRE4K5BW4FTDZUGRAL4GRQWY/
->
-> > Thanks
-> >    j
-> >
-> > >     clk_disable_unprepare(ov5695->xvclk);
-> > >
-> > >     return ret;
-> > > @@ -1012,8 +1008,6 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
-> > >
-> > >  static void __ov5695_power_off(struct ov5695 *ov5695)
-> > >  {
-> > > -   struct device *dev = &ov5695->client->dev;
-> > > -   int i, ret;
-> > >
-> > >     clk_disable_unprepare(ov5695->xvclk);
-> > >     gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
-> > > @@ -1022,12 +1016,7 @@ static void __ov5695_power_off(struct ov5695 *ov5695)
-> > >      * The hardware requires the regulators to be powered off in order,
-> > >      * so disable them one by one.
-> > >      */
-> > > -   for (i = OV5695_NUM_SUPPLIES - 1; i >= 0; i--) {
-> > > -           ret = regulator_disable(ov5695->supplies[i].consumer);
-> > > -           if (ret)
-> > > -                   dev_err(dev, "Failed to disable %s: %d\n",
-> > > -                           ov5695->supplies[i].supply, ret);
-> > > -   }
-> > > +   regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
-> > >  }
-> > >
-> > >  static int __maybe_unused ov5695_runtime_resume(struct device *dev)
-> > > --
-> > > 2.25.1
-> > >
->
-> --
-> Tommaso Merciai
-> Embedded Linux Engineer
-> tommaso.merciai@amarulasolutions.com
-> __________________________________
->
-> Amarula Solutions SRL
-> Via Le Canevare 30, 31100 Treviso, Veneto, IT
-> T. +39 042 243 5310
-> info@amarulasolutions.com
-> www.amarulasolutions.com
+In NVDEC, these two arrays are 64 members wide, which is the same as our 
+V4L2 stateless implementation.
+
+In DXVA, these two arrays are also 64 members wide
+
+While going through the spec alongside with the libgav1 source code, I 
+notice that the index used to index into the two arrays eventually gets 
+assigned to tile_info->tile_rows and tile_info->tile_cols, i.e.
+
+https://source.chromium.org/chromium/chromium/src/+/main:third_party/libgav1/src/src/obu_parser.cc;l=1704;drc=242da5037807dde3daf097ba74f875db83b8b613
+
+https://source.chromium.org/chromium/chromium/src/+/main:third_party/libgav1/src/src/obu_parser.cc;drc=242da5037807dde3daf097ba74f875db83b8b613;l=1729
+
+But the spec says that these variables must be less than or equal to 
+MAX_TILE_ROWS (i.e. 64) and MAX_TILE_COLS (i.e. 64), respectively, i.e.:
+
+ > TileCols specifies the number of tiles across the frame. It is a 
+requirement of bitstream conformance that TileCols is less
+ > than or equal to MAX_TILE_COLS.
+
+ > TileRows specifies the number of tiles down the frame. It is a 
+requirement of bitstream conformance that TileRows is less
+ > than or equal to MAX_TILE_ROWS.
+
+In which case only the first 64 members would be filled when actually 
+submitting to the accelerator, i.e.:
+
+https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/windows/d3d11_av1_accelerator.cc;drc=242da5037807dde3daf097ba74f875db83b8b613;l=316
 
 
+Given what I said above, I feel confident with the current implementation.
 
--- 
-Michael Nazzareno Trimarchi
-Co-Founder & Chief Executive Officer
-M. +39 347 913 2170
-michael@amarulasolutions.com
-__________________________________
+ > struct v4l2_ctrl_av1_frame_header {
+ >   struct v4l2_av1_tile_info tile_info;
+ >   struct v4l2_av1_quantization quantization;
+ >   struct v4l2_av1_segmentation segmentation;
+ >   struct v4l2_av1_loop_filter loop_filter;
+ >   struct v4l2_av1_cdef cdef;
+ >   struct v4l2_av1_loop_restoration loop_restoration;
+ >   struct v4l2_av1_global_motion global_motion;
+ >
+ > We used "v4l2_ctrl_vp9_frame" for the similar purpose.
+ >
+ > I thought "_header" can be confusing in a sense that these are
+ > parameters setup from parsing av1 frame header,
+ > not necessarily "header" itself.
+ >
+ > How about making it "v4l2_ctrl_av1_frame" similar to vp9,
+ > or "v4l2_ctrl_av1_frame_params"?
 
-Amarula Solutions BV
-Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-T. +31 (0)85 111 9172
-info@amarulasolutions.com
-www.amarulasolutions.com
+Ok, expect this change on RFC v3.
+
+ > Don't we also need V4L2_PIX_FMT_AV1 in addition to V4L2_PIX_FMT_AV1_FRAME
+ > as we do with both VP8 and VP9? I see V4L2_PIX_FMT_AV1 is missing.
+
+No, as the non "_FRAME" pixformats are used for the stateful interface.
+
+
+ > 1. "tab" seems to be used before "descr = ". […] for other cases.
+ > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+ > @@ -1441,6 +1441,7 @@ static void v4l_fill_fmtdesc(struct 
+v4l2_fmtdesc *fmt)
+ >                 case V4L2_PIX_FMT_MT21C:        descr = "Mediatek
+ > Compressed Format"; break;
+ > +               case V4L2_PIX_FMT_AV1_FRAME: descr = "AV1 Frame"; break;
+ >
+ > 2. nit: s/the  AOMedia/the AOMedia/
+ >
+ > This patch adds the  AOMedia Video 1 (AV1) kernel uAPI.
+ >
+ > 3. nit: s/AV1 film_gram/AV1 film grain/ ?
+ > +++ b/include/media/v4l2-ctrls.h
+ >
+ > + * @p_av1_film_grain:          Pointer to an AV1 film_grain.
+
+Will be fixed in v3.
+
+
+ >
+ > #define V4L2_AV1_LOOP_FILTER_FLAG_DELTA_LF_PRESENT BIT(2)
+ >
+ > /**
+ >  * struct v4l2_av1_loop_filter - AV1 Loop filter params as defined in 
+section
+ >  * 6.8.10. "Loop filter semantics" of the AV1 specification.
+ > ......
+ >
+ > struct v4l2_av1_loop_filter {
+ > ......
+ > __u8 delta_lf_res;
+ > __u8 delta_lf_multi;
+ > };
+ >
+ > - I think we should mention "6.8.16. Loop filter delta parameters 
+semantics" in the comment too.
+ >
+
+Ok
+
+ > - What was the reason "delta_lf_present" is defined with 
+V4L2_AV1_LOOP_FILTER_FLAG_DELTA_LF_PRESENT
+ > instead of being inside of "v4l2_av1_loop_filter"?
+ > In other words, why do we want to treat it differently from 
+delta_lf_res or delta_lf_multi?
+ > I am asking this question as this was confusing to me.
+
+Usually we try to keep single-bit flags into a single "flags" field to 
+save space. It is not a rule, but tends to get applied most of the time 
+(by almost all codec APIs, not only V4L2 stateless)
+
+I did fail to see that delta_lf_multi is only a single bit wide though, 
+so by RFC v3 I will possibly have a flag for it as well.
+
+ > AV1 uAPI is using BIT() macro, which is probably from a kernel 
+internal header <linux/bits.h>.
+ > Is this planned usage? We think we can't include it from userspace.
+ >
+ > Thank you Chen-Yu for sharing his thought on the issue.
+
+Looking at the other codec APIs in V4L2 stateless, apparently the 
+default is to declare the flag using a literal. I will convert the flags 
+in AV1 to not use the BIT macro anymore.
+
+ > Question about update_ref_delta, update_mode_delta flags for loop 
+filter params in the spec.
+ >
+ > I don't see these flags in v4l2_av1_loop_filter struct.
+ >
+ > After looking at gstreamer implementation, I think arrays ref_deltas, 
+mode_deltas are only filled in when these flags are 1.
+ >
+ > Is this correct understanding?
+ > If not, can you explain the background why these flags are omitted?
+
+Possibly forgotten. Will fix in RFC v3.
+
+ > I am not sure how to setup loop_restoration_size[0] in 
+v4l2_av1_loop_restoration struct,
+ > which seems to use RESTORATION_TILESIZE_MAX = 256 at least for 
+gstreamer implementation.
+ >
+ > Is this RESTORATION_TILESIZE_MAX something potentially needs to be 
+added in the API by any chance?
+ > I do see this from the AV1 spec.
+
+I usually only #define constants if they're used in the actual uAPI code 
+somehow as opposed to in intermediary steps such as parsing. You can 
+still define the spec constants as needed in userspace code. In this 
+particular case, you can compute loop_restoration_size[0] by following 
+the spec implementation, i.e.:
+
+LoopRestorationSize[ 0 ] = RESTORATION_TILESIZE_MAX >> (2 - lr_unit_shift);
+
+Where you can #define RESTORATION_TILESIZE_MAX 256 in your own userspace 
+code without it having to be part of the uAPI. I don't believe that 
+drivers will ever use that constant, but those that do may #define it on 
+their own code.
+
+ > could you have the V4L2 CID stuff inserted consistently? In some 
+places they are inserted before stateless HEVC / after VP8_FRAME, while 
+in others they are after VP9_FRAME. I'd expect them all to be at the 
+very end of the stateless block, after VP9_FRAME,
+ >
+
+I am adding this feedback from Chen-Yu ^ as a sign that the issue it 
+talks about will be fixed in RFC v3.
+
+
+-- Daniel
