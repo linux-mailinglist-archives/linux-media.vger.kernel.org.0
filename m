@@ -2,375 +2,301 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 200575391A1
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 15:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB6A65392D6
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 15:56:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344355AbiEaNQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 09:16:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49794 "EHLO
+        id S245022AbiEaN41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 09:56:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231594AbiEaNQq (ORCPT
+        with ESMTP id S1345104AbiEaN4X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 09:16:46 -0400
-X-Greylist: delayed 7937 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 31 May 2022 06:16:39 PDT
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18942A7;
-        Tue, 31 May 2022 06:16:38 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6408CE000E;
-        Tue, 31 May 2022 13:16:35 +0000 (UTC)
-Date:   Tue, 31 May 2022 15:16:33 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Quentin Schulz <foss+kernel@0leil.net>
-Cc:     shawnx.tu@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Quentin Schulz <quentin.schulz@theobroma-systems.com>
-Subject: Re: [PATCH v5 2/4] media: ov5675: add device-tree support and
- support runtime PM
-Message-ID: <20220531131633.tjkp6q43kwwxtnvk@uno.localdomain>
-References: <20220525145833.1165437-1-foss+kernel@0leil.net>
- <20220525145833.1165437-2-foss+kernel@0leil.net>
+        Tue, 31 May 2022 09:56:23 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 653F9AE68
+        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 06:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654005376; x=1685541376;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ryjw+Wdkq1IqWZaPmId2Yr1FTb9LVvlGoE5/LYc0rW4=;
+  b=arJN9ZQylooGrRj/FQIZY3gUao38KJaIEIyWBVNQ6c88HkCBM0B9TRE+
+   WVX6CYAdCnsdamvsHyo3HCy/4mrFfchReKjdnSrrFZusv49ao+HRDHnsC
+   0xIBLDeovLBCWfwClenTCLtfHaGDFv8RNbjCYWcsx73Z5ACt6b1f2M5fB
+   Bhl7IpHTrAG0gEG1BMBZunp3Bzv+t8Ik+A8tjqviXp40+UCS4z+nf509D
+   VGuR/Vuwl86VF8VqMB35cxhRMisfqnvMe+2kXIsJaM5HfY6+O5BuZ2/4Z
+   BOHjdz3qAfdrZH8fE47GQLjrgWf4vytnisHp63bSZ56F1eVsEywt1451W
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="255128986"
+X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; 
+   d="scan'208";a="255128986"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 06:56:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; 
+   d="scan'208";a="903978552"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 31 May 2022 06:56:14 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nw2M1-0002lU-CW;
+        Tue, 31 May 2022 13:56:13 +0000
+Date:   Tue, 31 May 2022 21:55:58 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-media@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: Re: [PATCH] media: s5k4ecgx: Switch to GPIO descriptors
+Message-ID: <202205312157.9EPLfsUw-lkp@intel.com>
+References: <20220531084546.67737-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220525145833.1165437-2-foss+kernel@0leil.net>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220531084546.67737-1-linus.walleij@linaro.org>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Quentin,
-   one more question
+Hi Linus,
 
-On Wed, May 25, 2022 at 04:58:31PM +0200, Quentin Schulz wrote:
-> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
->
-> Until now, this driver only supported ACPI. This adds support for
-> Device Tree too while enabling clock and regulators in runtime PM.
->
-> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> ---
->
-> v5:
->  - fixed -Wdeclaration-after-statement for delay_us,
->
-> v4:
->  - added delays based on clock cycles as specified in datasheet for
->  pre-power-off and post-power-on,
->  - re-arranged clk handling, shutdown toggling and regulator handling to
->  better match power up/down sequence defined in datasheet,
->  - added comment on need for regulator being stable before releasing
->  shutdown pin,
->
-> v3:
->  - added linux/mod_devicetable.h include,
->  - moved delay for reset pulse right after the regulators are enabled,
->  - removed check on is_acpi_node in favor of checks on presence of OF
->  properties (e.g. devm_clk_get_optional returns NULL),
->  - moved power management out of system suspend/resume into runtime PM
->  callbacks,
->  - removed ACPI specific comment since it's not specific to this driver,
->  - changed devm_clk_get to devm_clk_get_optional,
->  - remove OF use of clock-frequency (handled by devm_clk_get_optional
->  directly),
->  - removed name of clock (only one, so no need for anything explicit)
->  when requesting a clock from OF,
->  - wrapped lines to 80 chars,
->
-> v2:
->  - fixed unused-const-variable warning by removing of_match_ptr in
->  of_match_table, reported by kernel test robot,
->
->  drivers/media/i2c/ov5675.c | 149 +++++++++++++++++++++++++++++++------
->  1 file changed, 128 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> index 82ba9f56baec8..ea801edb8e408 100644
-> --- a/drivers/media/i2c/ov5675.c
-> +++ b/drivers/media/i2c/ov5675.c
-> @@ -3,10 +3,14 @@
->
->  #include <asm/unaligned.h>
->  #include <linux/acpi.h>
-> +#include <linux/clk.h>
->  #include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
-> +#include <linux/mod_devicetable.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -17,7 +21,7 @@
->
->  #define OV5675_LINK_FREQ_450MHZ		450000000ULL
->  #define OV5675_SCLK			90000000LL
-> -#define OV5675_MCLK			19200000
-> +#define OV5675_XVCLK_19_2		19200000
->  #define OV5675_DATA_LANES		2
->  #define OV5675_RGB_DEPTH		10
->
-> @@ -76,6 +80,14 @@
->
->  #define to_ov5675(_sd)			container_of(_sd, struct ov5675, sd)
->
-> +static const char * const ov5675_supply_names[] = {
-> +	"avdd",		/* Analog power */
-> +	"dovdd",	/* Digital I/O power */
-> +	"dvdd",		/* Digital core power */
-> +};
-> +
-> +#define OV5675_NUM_SUPPLIES	ARRAY_SIZE(ov5675_supply_names)
-> +
->  enum {
->  	OV5675_LINK_FREQ_900MBPS,
->  };
-> @@ -484,6 +496,9 @@ struct ov5675 {
->  	struct v4l2_subdev sd;
->  	struct media_pad pad;
->  	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct clk		*xvclk;
-> +	struct gpio_desc	*reset_gpio;
-> +	struct regulator_bulk_data supplies[OV5675_NUM_SUPPLIES];
->
->  	/* V4L2 Controls */
->  	struct v4l2_ctrl *link_freq;
-> @@ -944,6 +959,56 @@ static int ov5675_set_stream(struct v4l2_subdev *sd, int enable)
->  	return ret;
->  }
->
-> +static int ov5675_power_off(struct device *dev)
+I love your patch! Yet something to improve:
 
-Does this (and power_on) require __maybe_unused to avoid a warning
-when compiling without CONFIG_PM support ? Have you tried that ?
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on v5.18 next-20220531]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Thanks
-  j
+url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/media-s5k4ecgx-Switch-to-GPIO-descriptors/20220531-164948
+base:   git://linuxtv.org/media_tree.git master
+config: arm-randconfig-c002-20220531 (https://download.01.org/0day-ci/archive/20220531/202205312157.9EPLfsUw-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c825abd6b0198fb088d9752f556a70705bc99dfd)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/d6a5013d9dd546a9c9d7ed3714e861f7593b1635
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Linus-Walleij/media-s5k4ecgx-Switch-to-GPIO-descriptors/20220531-164948
+        git checkout d6a5013d9dd546a9c9d7ed3714e861f7593b1635
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/i2c/
 
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov5675 *ov5675 = to_ov5675(sd);
-> +	/* 512 xvclk cycles after the last SCCB transation or MIPI frame end */
-> +	u32 delay_us = DIV_ROUND_UP(512, OV5675_XVCLK_19_2 / 1000 / 1000);
-> +
-> +	usleep_range(delay_us, delay_us * 2);
-> +
-> +	clk_disable_unprepare(ov5675->xvclk);
-> +	gpiod_set_value_cansleep(ov5675->reset_gpio, 1);
-> +	regulator_bulk_disable(OV5675_NUM_SUPPLIES, ov5675->supplies);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5675_power_on(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov5675 *ov5675 = to_ov5675(sd);
-> +	u32 delay_us = DIV_ROUND_UP(8192, OV5675_XVCLK_19_2 / 1000 / 1000);
-> +	int ret;
-> +
-> +	ret = clk_prepare_enable(ov5675->xvclk);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to enable xvclk: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ov5675->reset_gpio, 1);
-> +
-> +	ret = regulator_bulk_enable(OV5675_NUM_SUPPLIES, ov5675->supplies);
-> +	if (ret) {
-> +		clk_disable_unprepare(ov5675->xvclk);
-> +		return ret;
-> +	}
-> +
-> +	/* Reset pulse should be at least 2ms and reset gpio released only once
-> +	 * regulators are stable.
-> +	 */
-> +	usleep_range(2000, 2200);
-> +
-> +	gpiod_set_value_cansleep(ov5675->reset_gpio, 0);
-> +
-> +	/* 8192 xvclk cycles prior to the first SCCB transation */
-> +	usleep_range(delay_us, delay_us * 2);
-> +
-> +	return 0;
-> +}
-> +
->  static int __maybe_unused ov5675_suspend(struct device *dev)
->  {
->  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> @@ -1106,32 +1171,60 @@ static const struct v4l2_subdev_internal_ops ov5675_internal_ops = {
->  	.open = ov5675_open,
->  };
->
-> -static int ov5675_check_hwcfg(struct device *dev)
-> +static int ov5675_get_hwcfg(struct ov5675 *ov5675, struct device *dev)
->  {
->  	struct fwnode_handle *ep;
->  	struct fwnode_handle *fwnode = dev_fwnode(dev);
->  	struct v4l2_fwnode_endpoint bus_cfg = {
->  		.bus_type = V4L2_MBUS_CSI2_DPHY
->  	};
-> -	u32 mclk;
-> +	u32 xvclk_rate;
->  	int ret;
->  	unsigned int i, j;
->
->  	if (!fwnode)
->  		return -ENXIO;
->
-> -	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
-> +	ov5675->xvclk = devm_clk_get_optional(dev, NULL);
-> +	if (IS_ERR(ov5675->xvclk))
-> +		return dev_err_probe(dev, PTR_ERR(ov5675->xvclk),
-> +				     "failed to get xvclk: %ld\n",
-> +				     PTR_ERR(ov5675->xvclk));
->
-> -	if (ret) {
-> -		dev_err(dev, "can't get clock frequency");
-> -		return ret;
-> +	if (ov5675->xvclk) {
-> +		xvclk_rate = clk_get_rate(ov5675->xvclk);
-> +	} else {
-> +		ret = fwnode_property_read_u32(fwnode, "clock-frequency",
-> +					       &xvclk_rate);
-> +
-> +		if (ret) {
-> +			dev_err(dev, "can't get clock frequency");
-> +			return ret;
-> +		}
->  	}
->
-> -	if (mclk != OV5675_MCLK) {
-> -		dev_err(dev, "external clock %d is not supported", mclk);
-> +	if (xvclk_rate != OV5675_XVCLK_19_2) {
-> +		dev_err(dev, "external clock rate %u is unsupported",
-> +			xvclk_rate);
->  		return -EINVAL;
->  	}
->
-> +	ov5675->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> +						     GPIOD_OUT_HIGH);
-> +	if (IS_ERR(ov5675->reset_gpio)) {
-> +		ret = PTR_ERR(ov5675->reset_gpio);
-> +		dev_err(dev, "failed to get reset-gpios: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	for (i = 0; i < OV5675_NUM_SUPPLIES; i++)
-> +		ov5675->supplies[i].supply = ov5675_supply_names[i];
-> +
-> +	ret = devm_regulator_bulk_get(dev, OV5675_NUM_SUPPLIES,
-> +				      ov5675->supplies);
-> +	if (ret)
-> +		return ret;
-> +
->  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
->  	if (!ep)
->  		return -ENXIO;
-> @@ -1186,6 +1279,9 @@ static int ov5675_remove(struct i2c_client *client)
->  	pm_runtime_disable(&client->dev);
->  	mutex_destroy(&ov5675->mutex);
->
-> +	if (!pm_runtime_status_suspended(&client->dev))
-> +		ov5675_power_off(&client->dev);
-> +
->  	return 0;
->  }
->
-> @@ -1195,25 +1291,31 @@ static int ov5675_probe(struct i2c_client *client)
->  	bool full_power;
->  	int ret;
->
-> -	ret = ov5675_check_hwcfg(&client->dev);
-> +	ov5675 = devm_kzalloc(&client->dev, sizeof(*ov5675), GFP_KERNEL);
-> +	if (!ov5675)
-> +		return -ENOMEM;
-> +
-> +	ret = ov5675_get_hwcfg(ov5675, &client->dev);
->  	if (ret) {
-> -		dev_err(&client->dev, "failed to check HW configuration: %d",
-> +		dev_err(&client->dev, "failed to get HW configuration: %d",
->  			ret);
->  		return ret;
->  	}
->
-> -	ov5675 = devm_kzalloc(&client->dev, sizeof(*ov5675), GFP_KERNEL);
-> -	if (!ov5675)
-> -		return -ENOMEM;
-> -
->  	v4l2_i2c_subdev_init(&ov5675->sd, client, &ov5675_subdev_ops);
->
-> +	ret = ov5675_power_on(&client->dev);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to power on: %d\n", ret);
-> +		return ret;
-> +	}
-> +
->  	full_power = acpi_dev_state_d0(&client->dev);
->  	if (full_power) {
->  		ret = ov5675_identify_module(ov5675);
->  		if (ret) {
->  			dev_err(&client->dev, "failed to find sensor: %d", ret);
-> -			return ret;
-> +			goto probe_power_off;
->  		}
->  	}
->
-> @@ -1243,11 +1345,6 @@ static int ov5675_probe(struct i2c_client *client)
->  		goto probe_error_media_entity_cleanup;
->  	}
->
-> -	/*
-> -	 * Device is already turned on by i2c-core with ACPI domain PM.
-> -	 * Enable runtime PM and turn off the device.
-> -	 */
-> -
->  	/* Set the device's state to active if it's in D0 state. */
->  	if (full_power)
->  		pm_runtime_set_active(&client->dev);
-> @@ -1262,12 +1359,15 @@ static int ov5675_probe(struct i2c_client *client)
->  probe_error_v4l2_ctrl_handler_free:
->  	v4l2_ctrl_handler_free(ov5675->sd.ctrl_handler);
->  	mutex_destroy(&ov5675->mutex);
-> +probe_power_off:
-> +	ov5675_power_off(&client->dev);
->
->  	return ret;
->  }
->
->  static const struct dev_pm_ops ov5675_pm_ops = {
->  	SET_SYSTEM_SLEEP_PM_OPS(ov5675_suspend, ov5675_resume)
-> +	SET_RUNTIME_PM_OPS(ov5675_power_off, ov5675_power_on, NULL)
->  };
->
->  #ifdef CONFIG_ACPI
-> @@ -1279,11 +1379,18 @@ static const struct acpi_device_id ov5675_acpi_ids[] = {
->  MODULE_DEVICE_TABLE(acpi, ov5675_acpi_ids);
->  #endif
->
-> +static const struct of_device_id ov5675_of_match[] = {
-> +	{ .compatible = "ovti,ov5675", },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, ov5675_of_match);
-> +
->  static struct i2c_driver ov5675_i2c_driver = {
->  	.driver = {
->  		.name = "ov5675",
->  		.pm = &ov5675_pm_ops,
->  		.acpi_match_table = ACPI_PTR(ov5675_acpi_ids),
-> +		.of_match_table = ov5675_of_match,
->  	},
->  	.probe_new = ov5675_probe,
->  	.remove = ov5675_remove,
-> --
-> 2.36.1
->
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/media/i2c/s5k4ecgx.c:897:38: warning: missing terminating '"' character [-Winvalid-pp-token]
+           gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
+                                               ^
+>> drivers/media/i2c/s5k4ecgx.c:897:38: error: expected expression
+>> drivers/media/i2c/s5k4ecgx.c:954:12: error: use of undeclared identifier 's5k4ecgx_remove'
+           .remove = s5k4ecgx_remove,
+                     ^
+>> drivers/media/i2c/s5k4ecgx.c:955:14: error: use of undeclared identifier 's5k4ecgx_id'
+           .id_table = s5k4ecgx_id,
+                       ^
+>> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
+   module_i2c_driver(v4l2_i2c_driver);
+   ^
+   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
+           module_driver(__i2c_driver, i2c_add_driver, \
+           ^
+   include/linux/device/driver.h:260:41: note: expanded from macro 'module_driver'
+   static int __init __driver##_init(void) \
+                                           ^
+>> drivers/media/i2c/s5k4ecgx.c:958:1: error: use of undeclared identifier 'v4l2_i2c_driver_init'
+   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
+           module_driver(__i2c_driver, i2c_add_driver, \
+           ^
+   include/linux/device/driver.h:264:13: note: expanded from macro 'module_driver'
+   module_init(__driver##_init); \
+               ^
+   <scratch space>:73:1: note: expanded from here
+   v4l2_i2c_driver_init
+   ^
+>> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
+   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
+           module_driver(__i2c_driver, i2c_add_driver, \
+           ^
+   include/linux/device/driver.h:265:42: note: expanded from macro 'module_driver'
+   static void __exit __driver##_exit(void) \
+                                            ^
+>> drivers/media/i2c/s5k4ecgx.c:958:1: error: use of undeclared identifier 'v4l2_i2c_driver_exit'; did you mean 'v4l2_i2c_driver'?
+   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
+           module_driver(__i2c_driver, i2c_add_driver, \
+           ^
+   include/linux/device/driver.h:269:13: note: expanded from macro 'module_driver'
+   module_exit(__driver##_exit);
+               ^
+   <scratch space>:89:1: note: expanded from here
+   v4l2_i2c_driver_exit
+   ^
+   drivers/media/i2c/s5k4ecgx.c:949:26: note: 'v4l2_i2c_driver' declared here
+   static struct i2c_driver v4l2_i2c_driver = {
+                            ^
+>> drivers/media/i2c/s5k4ecgx.c:958:1: error: initializing 'exitcall_t' (aka 'void (*)(void)') with an expression of incompatible type 'struct i2c_driver'
+   module_i2c_driver(v4l2_i2c_driver);
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
+           module_driver(__i2c_driver, i2c_add_driver, \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device/driver.h:268:3: note: expanded from macro 'module_driver'
+   } \
+     ^
+   include/linux/module.h:100:24: note: expanded from macro '\
+   module_exit'
+   #define module_exit(x)  __exitcall(x);
+                           ^          ~
+   include/linux/init.h:299:20: note: expanded from macro '__exitcall'
+           static exitcall_t __exitcall_##fn __exit_call = fn
+                             ^                             ~~
+   <scratch space>:90:1: note: expanded from here
+   __exitcall_v4l2_i2c_driver_exit
+   ^
+>> drivers/media/i2c/s5k4ecgx.c:964:36: error: expected '}'
+   MODULE_FIRMWARE(S5K4ECGX_FIRMWARE);
+                                      ^
+   drivers/media/i2c/s5k4ecgx.c:856:1: note: to match this '{'
+   {
+   ^
+>> drivers/media/i2c/s5k4ecgx.c:949:26: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
+   static struct i2c_driver v4l2_i2c_driver = {
+                            ^
+>> drivers/media/i2c/s5k4ecgx.c:895:8: error: use of undeclared label 'out_err'
+                   goto out_err;
+                        ^
+   2 warnings and 10 errors generated.
+
+
+vim +897 drivers/media/i2c/s5k4ecgx.c
+
+   853	
+   854	static int s5k4ecgx_probe(struct i2c_client *client,
+   855				  const struct i2c_device_id *id)
+   856	{
+   857		struct s5k4ecgx_platform_data *pdata = client->dev.platform_data;
+   858		struct v4l2_subdev *sd;
+   859		struct s5k4ecgx *priv;
+   860		int ret, i;
+   861	
+   862		if (pdata == NULL) {
+   863			dev_err(&client->dev, "platform data is missing!\n");
+   864			return -EINVAL;
+   865		}
+   866	
+   867		priv = devm_kzalloc(&client->dev, sizeof(struct s5k4ecgx), GFP_KERNEL);
+   868		if (!priv)
+   869			return -ENOMEM;
+   870	
+   871		mutex_init(&priv->lock);
+   872		priv->streaming = 0;
+   873	
+   874		sd = &priv->sd;
+   875		/* Registering subdev */
+   876		v4l2_i2c_subdev_init(sd, client, &s5k4ecgx_ops);
+   877		/* Static name; NEVER use in new drivers! */
+   878		strscpy(sd->name, S5K4ECGX_DRIVER_NAME, sizeof(sd->name));
+   879	
+   880		sd->internal_ops = &s5k4ecgx_subdev_internal_ops;
+   881		/* Support v4l2 sub-device user space API */
+   882		sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+   883	
+   884		priv->pad.flags = MEDIA_PAD_FL_SOURCE;
+   885		sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+   886		ret = media_entity_pads_init(&sd->entity, 1, &priv->pad);
+   887		if (ret)
+   888			return ret;
+   889	
+   890		/* Request GPIO lines asserted */
+   891		priv->stby = devm_gpiod_get(&client->dev, "standby", GPIOD_OUT_HIGH);
+   892		if (IS_ERR(priv->stby)) {
+   893			v4l2_err(sd, "failed to request gpio S5K4ECGX_STBY");
+   894			ret = PTR_ERR(priv->stby);
+ > 895			goto out_err;
+   896		}
+ > 897		gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
+   898		priv->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
+   899		if (IS_ERR(priv->reset)) {
+   900			v4l2_err(sd, "failed to request gpio S5K4ECGX_RST");
+   901			ret = PTR_ERR(priv->reset);
+   902			goto out_err;
+   903		}
+   904		gpiod_set_consumer_name(priv->reset, "S5K4ECGX_RST");
+   905	
+   906		for (i = 0; i < S5K4ECGX_NUM_SUPPLIES; i++)
+   907			priv->supplies[i].supply = s5k4ecgx_supply_names[i];
+   908	
+   909		ret = devm_regulator_bulk_get(&client->dev, S5K4ECGX_NUM_SUPPLIES,
+   910					 priv->supplies);
+   911		if (ret) {
+   912			dev_err(&client->dev, "Failed to get regulators\n");
+   913			goto out_err;
+   914		}
+   915		ret = s5k4ecgx_init_v4l2_ctrls(priv);
+   916		if (ret)
+   917			goto out_err;
+   918	
+   919		priv->curr_pixfmt = &s5k4ecgx_formats[0];
+   920		priv->curr_frmsize = &s5k4ecgx_prev_sizes[0];
+   921	
+   922		return 0;
+   923	
+   924	out_err:
+   925		media_entity_cleanup(&priv->sd.entity);
+   926	
+   927		return ret;
+   928	}
+   929	
+   930	static int s5k4ecgx_remove(struct i2c_client *client)
+   931	{
+   932		struct v4l2_subdev *sd = i2c_get_clientdata(client);
+   933		struct s5k4ecgx *priv = to_s5k4ecgx(sd);
+   934	
+   935		mutex_destroy(&priv->lock);
+   936		v4l2_device_unregister_subdev(sd);
+   937		v4l2_ctrl_handler_free(&priv->handler);
+   938		media_entity_cleanup(&sd->entity);
+   939	
+   940		return 0;
+   941	}
+   942	
+   943	static const struct i2c_device_id s5k4ecgx_id[] = {
+   944		{ S5K4ECGX_DRIVER_NAME, 0 },
+   945		{}
+   946	};
+   947	MODULE_DEVICE_TABLE(i2c, s5k4ecgx_id);
+   948	
+ > 949	static struct i2c_driver v4l2_i2c_driver = {
+   950		.driver = {
+   951			.name = S5K4ECGX_DRIVER_NAME,
+   952		},
+   953		.probe = s5k4ecgx_probe,
+ > 954		.remove = s5k4ecgx_remove,
+ > 955		.id_table = s5k4ecgx_id,
+   956	};
+   957	
+ > 958	module_i2c_driver(v4l2_i2c_driver);
+   959	
+   960	MODULE_DESCRIPTION("Samsung S5K4ECGX 5MP SOC camera");
+   961	MODULE_AUTHOR("Sangwook Lee <sangwook.lee@linaro.org>");
+   962	MODULE_AUTHOR("Seok-Young Jang <quartz.jang@samsung.com>");
+   963	MODULE_LICENSE("GPL");
+ > 964	MODULE_FIRMWARE(S5K4ECGX_FIRMWARE);
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
