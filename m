@@ -2,285 +2,343 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ECA153950A
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 18:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11F91539621
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 20:20:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346197AbiEaQmM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 12:42:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52896 "EHLO
+        id S1346970AbiEaSUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 14:20:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241712AbiEaQmK (ORCPT
+        with ESMTP id S237441AbiEaSUl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 12:42:10 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B6E95AA50
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 09:42:09 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dwlsalmeida)
-        with ESMTPSA id C78A41F43BD8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1654015328;
-        bh=ZRZnMgJ66jQzzDDMvdaGu2DgKvaBwPpDPMtewaxPt8Y=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=PG8mEKoMVn6DcW/BqCo8W5bCIyA+TXe3NaTRm5WS4hcqhRQLirAcJNTttQtCAfC/Q
-         hfjQ0aXrds76OwAcs6dQjoPkpuNmxapMgqu79oN2sfqfDiuHa3xQz4VpD2MLb1cFUw
-         XFAB4ZzJGgWofDMkWH5vmEzrIJOTSNdWMSXb9Ky7+0yQomac/Q1wnFIqT3Y18ReVRa
-         oihV+dF44VZveCp5opufz6vVbeUkRWGTkOqP5RPNQcgPkeYTkH4EHfGuMyOlOwGMJI
-         8qG379RR9rcRmSJ4uN0nKKeeuiRi1nSI/p8KySW9lw9O+alamsYM2zbUahNXaYHugm
-         2J/pF6R/kaQ9g==
-Message-ID: <f366ce58-81e8-7b5b-24ef-b2ab88ce1d99@collabora.com>
-Date:   Tue, 31 May 2022 13:42:01 -0300
+        Tue, 31 May 2022 14:20:41 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B1B89CC92;
+        Tue, 31 May 2022 11:20:40 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id o29-20020a05600c511d00b00397697f172dso1552654wms.0;
+        Tue, 31 May 2022 11:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5xAebr2NVeBjl9CHUGU02Xh2JLK4FCctFhmN5cMdt6I=;
+        b=gk/ovidVQQdHp8HZE/8jFAZU/0TwEC/us2MtNRmAfCBRojJ9hBaHTgmmr1sFwZw7KW
+         r56qq1OQnvV+8IzbhbdUKOULHqZtdIjcsI0Ce0ZX9AOUnphsp1LAAhu5A6PDEOzvXek1
+         Zo5S+Oc6DEfvnuNcHmJQNJi9T0kTOk8uwIt0CyamHqYYasxEGrXS5WYwbpKah8B/aljQ
+         9DN3X5DJ6zbMLwVFUgqDHza6cNZSKOqOL8v9h69xNw+BAI21olb5928JnMhPfAlT4N6F
+         xJHmbT2kNm31NdGu/49Sy2WMGwQeCIdGjpcSamEaCWe1hp59iStfOHt8D4G4WVWCDGnd
+         lb7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5xAebr2NVeBjl9CHUGU02Xh2JLK4FCctFhmN5cMdt6I=;
+        b=CZCO6YNoxtd+TY2uLyQqfOQvA7bp7hSyglyurGi5fosW9o1XLbelFf04rKB4d2hBZZ
+         1/P2ID+QxpWbCCLVxa2HJ/UzVEvl1kcdpw8uTD4ftz8brSxK592nt4SuFX5/JTfpT/Sh
+         9GUNiATQPjJuFfjwpBVE1grl3LFy0UxHXcl/BxBZ5kfmxGgiw54FWy2tQ4Q4k4KAIjHs
+         +x2N8w/qGA9SPAZK4Bnow5QG4osvx8TziIfX9klbx7/wKg1jjDk22uDQC+koH4f6265G
+         M8DVxPXEiKkK8+ujbLhnJv3jGj4RAou9BCUKIr6zVONvQ8UtC7kN1XQV7m/RZcl7pSMi
+         X98g==
+X-Gm-Message-State: AOAM530nyAuqFOV0ivVmDWpbWB4NpU5jAiHX94gWCPCSytRx6yH8lcKT
+        QlSbSM1MbKD/FUmjN9Ww2pI=
+X-Google-Smtp-Source: ABdhPJyvbycKBrgfnKv4yFm4VwT5uI4NbXHu65pEWt5+zb8TyOf7VpEV4NxD1mfNB5Amncf9wK7U2w==
+X-Received: by 2002:a7b:c109:0:b0:397:43ef:b66f with SMTP id w9-20020a7bc109000000b0039743efb66fmr24459854wmi.44.1654021239010;
+        Tue, 31 May 2022 11:20:39 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id h12-20020a05600c2cac00b0039749256d74sm3130267wmc.2.2022.05.31.11.20.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 May 2022 11:20:38 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        samuel@sholland.org, nicolas.dufresne@collabora.com,
+        andrzej.p@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com
+Subject: Re: Re: [PATCH v6 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Date:   Tue, 31 May 2022 20:20:37 +0200
+Message-ID: <2102878.irdbgypaU6@kista>
+In-Reply-To: <b398272b-daf8-7499-b4fd-8a6f2af30053@collabora.com>
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <5824953.lOV4Wx5bFT@kista> <b398272b-daf8-7499-b4fd-8a6f2af30053@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RFC PATCH v2] media: Add AV1 uAPI
-Content-Language: en-US
-To:     Steve Cho <stevecho@chromium.org>
-Cc:     hverkuil@xs4all.nl, linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20220322160101.620748-1-daniel.almeida@collabora.com>
- <CAC-pXoOQ5kD4bT95j+pwi7+Hb5s5H=0LFhAsk7K2sM9LkbAW1w@mail.gmail.com>
- <fa87fd58-dc73-24b0-0425-e466062c1d6d@collabora.com>
- <CAC-pXoP77VZT1Ftu3Amws9-Y9i11r9M0LxSEwqkezm_3i=HE8g@mail.gmail.com>
- <CAC-pXoOJPveE_+kjjkMS=anMCjJKc4VsxNrJbxkQsXqnLLb6XQ@mail.gmail.com>
- <CAC-pXoPU_bOJu723POgWj+EdXHsPg3X9J5Phq-YTCpO9jt-seg@mail.gmail.com>
- <CAN0yncHrY6jfk6owTEue8PqGmxffU612UgccvPc9Y6XOz38LRA@mail.gmail.com>
- <CAC-pXoPRAM8+xTPHHAxr_80vBGYaFO8R=v+2QMYJ5nEb0gvOTg@mail.gmail.com>
- <CAC-pXoNHRxqe6tzg3++TqYRZE-nocxiz-iPh5vPXC07iA_BaSw@mail.gmail.com>
- <CAC-pXoNRoqT_Fse_3Z8cO-SDwtMTm3fzScpDWvi5sNVr1N1Dzg@mail.gmail.com>
- <CAC-pXoOon18axGdT_+V38sdAWDh+t4jZetXqte7BCwO09YG+2w@mail.gmail.com>
- <CAC-pXoMVKmAZ=9iM7ivuo8rvnL=KQWHnopWharDz-eDky0QS-g@mail.gmail.com>
-From:   Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <CAC-pXoMVKmAZ=9iM7ivuo8rvnL=KQWHnopWharDz-eDky0QS-g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sending this again, as apparently my last submission contained some HTML 
-that prevented it from being sent on the media ML
+Dne torek, 31. maj 2022 ob 08:58:46 CEST je Benjamin Gaignard napisal(a):
+>=20
+> Le 30/05/2022 =C3=A0 23:24, Jernej =C5=A0krabec a =C3=A9crit :
+> > Dne ponedeljek, 30. maj 2022 ob 15:49:57 CEST je Hans Verkuil napisal(a=
+):
+> >> On 30/05/2022 11:18, Hans Verkuil wrote:
+> >>> On 29/05/2022 08:40, Jernej =C5=A0krabec wrote:
+> >>>> Hi!
+> >>>>
+> >>>> This series looks very good and I plan to test it shortly on Cedrus,=
+=20
+but
+> > I
+> >>>> have one major concern below.
+> >>>>
+> >>>> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard=20
+napisal(a):
+> >>>>> The number of 'entry point offset' can be very variable.
+> >>>>> Instead of using a large static array define a v4l2 dynamic array
+> >>>>> of U32 (V4L2_CTRL_TYPE_U32).
+> >>>>> The number of entry point offsets is reported by the elems field
+> >>>>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+> >>>>> field.
+> >>>> Slice control by itself is variable length array, so you would actua=
+lly
+> > need
+> >>>> 2D variable array for entry points which is not supported. However,=
+=20
+easy
+> >>>> workaround for that is to flatten 2D array to 1D and either have ano=
+ther
+> > slice
+> >>>> control field which would tell first entry point index for convenien=
+ce or
+> > let
+> >>>> driver calculate it by adding up all num_entry_point_offsets of prev=
+ious
+> >>>> slices.
+> >>>>
+> >>>> Hans, what do you think?
+> >>> If I would support 2D variable array sizes, wouldn't that be more=20
+elegant?
+> >>>
+> >>> The current implementation doesn't support that, but as the commit lo=
+g=20
+for
+> >>> patch 1/17 says:
+> >>>
+> >>> "Currently dynamically sized arrays are limited to one dimensional=20
+arrays,
+> >>> but that might change in the future if there is a need for it."
+> >>>
+> >>> Let me know if you agree, and I'll try to implement this. It's been a
+> > while
+> >>> since I last looked at this, so I'm not sure how much work it is, but=
+ it
+> > is
+> >>> probably worth a shot.
+> >> Digging more into this made me realize that this doesn't actually help=
+=20
+for
+> > this
+> >> particular case.
+> >>
+> >> I would lean towards your second suggestion of adding up all
+> > num_entry_point_offsets
+> >> of previous slices.
+> > Just one question/clarification about dynamic arrays - does driver need=
+ to
+> > reserve maximum amount of memory for dynamic array control at=20
+initialization
+> > time? If so, this would still be problematic, since there cound be a hu=
+ge
+> > amount of entry points in theory.
+>=20
+> When adding the control the driver could set .dims field to specify
+> the max number of accepted slices.
+> I have added '#define V4L2_HEVC_SLICE_MAX_COUNT 600' that you could use
+> for this field. It is the value we have found when using slices with RKVD=
+EC
+> driver.
 
----
+Is this maximum value applicable only to RKVDEC or is universal? Anyway, th=
+is=20
+means maximum offset points control for Cedrus would be 600 * 1024 (max. of=
+fset=20
+points supported per slice) * 4 ~=3D 2.4 MB, which is a lot for one control=
+, but=20
+I can live with that...
 
-Hi Steve,
+Best regards,
+Jernej
 
- > I think the below definition is expected to cause a build error.
- >
- > +struct v4l2_av1_loop_restoration {
- > +       u8 flags;
- >
- > s/u8/__u8/ is needed.
- >
- > At least, this change was needed to fix this build error on Chromium
- > build environment.
-
-This will be fixed in RFC v3
-
- > Question about tile info structure.
- >
- > struct v4l2_av1_tile_info {
- > __u8 flags;
- > __u32 mi_col_starts[V4L2_AV1_MAX_TILE_COLS + 1];
- > __u32 mi_row_starts[V4L2_AV1_MAX_TILE_ROWS + 1];
- > __u32 width_in_sbs_minus_1[V4L2_AV1_MAX_TILE_COLS];
- > __u32 height_in_sbs_minus_1[V4L2_AV1_MAX_TILE_ROWS];
- >
- > I see below from the spec and gstreamer implementation
- > for width_in_sbs_minus_1 and height_in_sbs_minus_1 computation.
- >
- >   sb_cols = seq_header->use_128x128_superblock ?
- >       ((parser->state.mi_cols + 31) >> 5) : ((parser->state.mi_cols + 
-15) >> 4);
- >   sb_rows = seq_header->use_128x128_superblock ? 
-((parser->state.mi_rows +
- >           31) >> 5) : ((parser->state.mi_rows + 15) >> 4);
- >
- > Are we confident that V4L2_AV1_MAX_TILE_COLS is good enough size for
- > width_in_sbs_minus_1?
- > Or does it potentially need to be V4L2_AV1_MAX_TILE_COLS+1?
- >
- > I am asking to double check because I see V4L2_AV1_MAX_TILE_COLS+1
- > used for corresponding field in libgav1.
- > int tile_column_width_in_superblocks[kMaxTileColumns + 1];
-
-I have checked with a few other APIs to be on the safe side.
-
-In VA-API they  use a trick to save space on the last element, therefore 
-these two arrays will only be 63 members wide.
-
-In NVDEC, these two arrays are 64 members wide, which is the same as our 
-V4L2 stateless implementation.
-
-In DXVA, these two arrays are also 64 members wide
-
-While going through the spec alongside with the libgav1 source code, I 
-notice that the index used to index into the two arrays eventually gets 
-assigned to tile_info->tile_rows and tile_info->tile_cols, i.e.
-
-https://source.chromium.org/chromium/chromium/src/+/main:third_party/libgav1/src/src/obu_parser.cc;l=1704;drc=242da5037807dde3daf097ba74f875db83b8b613
-
-https://source.chromium.org/chromium/chromium/src/+/main:third_party/libgav1/src/src/obu_parser.cc;drc=242da5037807dde3daf097ba74f875db83b8b613;l=1729
-
-But the spec says that these variables must be less than or equal to 
-MAX_TILE_ROWS (i.e. 64) and MAX_TILE_COLS (i.e. 64), respectively, i.e.:
-
- > TileCols specifies the number of tiles across the frame. It is a 
-requirement of bitstream conformance that TileCols is less
- > than or equal to MAX_TILE_COLS.
-
- > TileRows specifies the number of tiles down the frame. It is a 
-requirement of bitstream conformance that TileRows is less
- > than or equal to MAX_TILE_ROWS.
-
-In which case only the first 64 members would be filled when actually 
-submitting to the accelerator, i.e.:
-
-https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/windows/d3d11_av1_accelerator.cc;drc=242da5037807dde3daf097ba74f875db83b8b613;l=316
-
-
-Given what I said above, I feel confident with the current implementation.
-
- > struct v4l2_ctrl_av1_frame_header {
- >   struct v4l2_av1_tile_info tile_info;
- >   struct v4l2_av1_quantization quantization;
- >   struct v4l2_av1_segmentation segmentation;
- >   struct v4l2_av1_loop_filter loop_filter;
- >   struct v4l2_av1_cdef cdef;
- >   struct v4l2_av1_loop_restoration loop_restoration;
- >   struct v4l2_av1_global_motion global_motion;
- >
- > We used "v4l2_ctrl_vp9_frame" for the similar purpose.
- >
- > I thought "_header" can be confusing in a sense that these are
- > parameters setup from parsing av1 frame header,
- > not necessarily "header" itself.
- >
- > How about making it "v4l2_ctrl_av1_frame" similar to vp9,
- > or "v4l2_ctrl_av1_frame_params"?
-
-Ok, expect this change on RFC v3.
-
- > Don't we also need V4L2_PIX_FMT_AV1 in addition to V4L2_PIX_FMT_AV1_FRAME
- > as we do with both VP8 and VP9? I see V4L2_PIX_FMT_AV1 is missing.
-
-No, as the non "_FRAME" pixformats are used for the stateful interface.
-
-
- > 1. "tab" seems to be used before "descr = ". […] for other cases.
- > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
- > @@ -1441,6 +1441,7 @@ static void v4l_fill_fmtdesc(struct 
-v4l2_fmtdesc *fmt)
- >                 case V4L2_PIX_FMT_MT21C:        descr = "Mediatek
- > Compressed Format"; break;
- > +               case V4L2_PIX_FMT_AV1_FRAME: descr = "AV1 Frame"; break;
- >
- > 2. nit: s/the  AOMedia/the AOMedia/
- >
- > This patch adds the  AOMedia Video 1 (AV1) kernel uAPI.
- >
- > 3. nit: s/AV1 film_gram/AV1 film grain/ ?
- > +++ b/include/media/v4l2-ctrls.h
- >
- > + * @p_av1_film_grain:          Pointer to an AV1 film_grain.
-
-Will be fixed in v3.
-
-
- >
- > #define V4L2_AV1_LOOP_FILTER_FLAG_DELTA_LF_PRESENT BIT(2)
- >
- > /**
- >  * struct v4l2_av1_loop_filter - AV1 Loop filter params as defined in 
-section
- >  * 6.8.10. "Loop filter semantics" of the AV1 specification.
- > ......
- >
- > struct v4l2_av1_loop_filter {
- > ......
- > __u8 delta_lf_res;
- > __u8 delta_lf_multi;
- > };
- >
- > - I think we should mention "6.8.16. Loop filter delta parameters 
-semantics" in the comment too.
- >
-
-Ok
-
- > - What was the reason "delta_lf_present" is defined with 
-V4L2_AV1_LOOP_FILTER_FLAG_DELTA_LF_PRESENT
- > instead of being inside of "v4l2_av1_loop_filter"?
- > In other words, why do we want to treat it differently from 
-delta_lf_res or delta_lf_multi?
- > I am asking this question as this was confusing to me.
-
-Usually we try to keep single-bit flags into a single "flags" field to 
-save space. It is not a rule, but tends to get applied most of the time 
-(by almost all codec APIs, not only V4L2 stateless)
-
-I did fail to see that delta_lf_multi is only a single bit wide though, 
-so by RFC v3 I will possibly have a flag for it as well.
-
- > AV1 uAPI is using BIT() macro, which is probably from a kernel 
-internal header <linux/bits.h>.
- > Is this planned usage? We think we can't include it from userspace.
- >
- > Thank you Chen-Yu for sharing his thought on the issue.
-
-Looking at the other codec APIs in V4L2 stateless, apparently the 
-default is to declare the flag using a literal. I will convert the flags 
-in AV1 to not use the BIT macro anymore.
-
- > Question about update_ref_delta, update_mode_delta flags for loop 
-filter params in the spec.
- >
- > I don't see these flags in v4l2_av1_loop_filter struct.
- >
- > After looking at gstreamer implementation, I think arrays ref_deltas, 
-mode_deltas are only filled in when these flags are 1.
- >
- > Is this correct understanding?
- > If not, can you explain the background why these flags are omitted?
-
-Possibly forgotten. Will fix in RFC v3.
-
- > I am not sure how to setup loop_restoration_size[0] in 
-v4l2_av1_loop_restoration struct,
- > which seems to use RESTORATION_TILESIZE_MAX = 256 at least for 
-gstreamer implementation.
- >
- > Is this RESTORATION_TILESIZE_MAX something potentially needs to be 
-added in the API by any chance?
- > I do see this from the AV1 spec.
-
-I usually only #define constants if they're used in the actual uAPI code 
-somehow as opposed to in intermediary steps such as parsing. You can 
-still define the spec constants as needed in userspace code. In this 
-particular case, you can compute loop_restoration_size[0] by following 
-the spec implementation, i.e.:
-
-LoopRestorationSize[ 0 ] = RESTORATION_TILESIZE_MAX >> (2 - lr_unit_shift);
-
-Where you can #define RESTORATION_TILESIZE_MAX 256 in your own userspace 
-code without it having to be part of the uAPI. I don't believe that 
-drivers will ever use that constant, but those that do may #define it on 
-their own code.
-
- > could you have the V4L2 CID stuff inserted consistently? In some 
-places they are inserted before stateless HEVC / after VP8_FRAME, while 
-in others they are after VP9_FRAME. I'd expect them all to be at the 
-very end of the stateless block, after VP9_FRAME,
- >
-
-I am adding this feedback from Chen-Yu ^ as a sign that the issue it 
-talks about will be fixed in RFC v3.
+>=20
+> Regards,
+> Benjamin
+>=20
+> >
+> > Best regards,
+> > Jernej
+> >
+> >> Regards,
+> >>
+> >> 	Hans
+> >>
+> >>> Regards,
+> >>>
+> >>> 	Hans
+> >>>
+> >>>> Note, it seems that H265 decoding on Cedrus still works without entry
+> > points,
+> >>>> so this problem can be solved later. I'm not sure what we lose with=
+=20
+that
+> > but
+> >>>> it was suggested that this could influence speed or error resilience=
+ or
+> > both.
+> >>>> However, I think we're close to solve it, so I'd like to do that now.
+> >>>>
+> >>>> Best regards,
+> >>>> Jernej
+> >>>>
+> >>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >>>>> ---
+> >>>>>   .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 ++++++=
++++
+++
+> >>>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
+> >>>>>   include/media/hevc-ctrls.h                            |  5 ++++-
+> >>>>>   3 files changed, 20 insertions(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.=
+rst=20
+b/
+> >>>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>>>> index 0796b1563daa..05228e280f66 100644
+> >>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>>>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_fiel=
+d -
+> >>>>>       * - __u32
+> >>>>>         - ``data_bit_offset``
+> >>>>>         - Offset (in bits) to the video data in the current slice d=
+ata.
+> >>>>> +    * - __u32
+> >>>>> +      - ``num_entry_point_offsets``
+> >>>>> +      - Specifies the number of entry point offset syntax elements=
+ in=20
+the
+> >>>> slice header.
+> >>>>>       * - __u8
+> >>>>>         - ``nal_unit_type``
+> >>>>>         - Specifies the coding type of the slice (B, P or I).
+> >>>>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_fie=
+ld -
+> >>>>>  =20
+> >>>>>       \normalsize
+> >>>>>  =20
+> >>>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+> >>>>> +    Specifies entry point offsets in bytes.
+> >>>>> +    This control is a dynamically sized array. The number of entry
+> > point
+> >>>>> +    offsets is reported by the ``elems`` field.
+> >>>>> +    This bitstream parameter is defined according to :ref:`hevc`.
+> >>>>> +    They are described in section 7.4.7.1 "General slice segment=20
+header
+> >>>>> +    semantics" of the specification.
+> >>>>> +
+> >>>>>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+> >>>>>       Specifies the HEVC scaling matrix parameters used for the sca=
+ling
+> >>>> process
+> >>>>>       for transform coefficients.
+> >>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/me=
+dia/
+> > v4l2-
+> >>>> core/v4l2-ctrls-defs.c
+> >>>>> index d594efbcbb93..e22921e7ea61 100644
+> >>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>>>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return
+> >>>> "HEVC Decode Parameters";
+> >>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return
+> >>>> "HEVC Decode Mode";
+> >>>>>   	case V4L2_CID_STATELESS_HEVC_START_CODE:		return
+> >>>> "HEVC Start Code";
+> >>>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return
+> >>>> "HEVC Entry Point Offsets";
+> >>>>>  =20
+> >>>>>   	/* Colorimetry controls */
+> >>>>>   	/* Keep the order of the 'case's the same as in v4l2-controls.h!
+> >>>> */
+> >>>>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **nam=
+e,
+> > enum
+> >>>> v4l2_ctrl_type *type,
+> >>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+> >>>>>   		*type =3D V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+> >>>>>   		break;
+> >>>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+> >>>>> +		*type =3D V4L2_CTRL_TYPE_U32;
+> >>>>> +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> >>>>> +		break;
+> >>>>>   	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+> >>>>>   		*type =3D V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+> >>>>>   		break;
+> >>>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> >>>>> index a3c829ef531a..1319cb99ae3f 100644
+> >>>>> --- a/include/media/hevc-ctrls.h
+> >>>>> +++ b/include/media/hevc-ctrls.h
+> >>>>> @@ -20,6 +20,7 @@
+> >>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS=09
+(V4L2_CID_CODEC_BASE
+> >>>> + 1012)
+> >>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE=09
+(V4L2_CID_CODEC_BASE
+> > + 1015)
+> >>>>>   #define V4L2_CID_STATELESS_HEVC_START_CODE=09
+(V4L2_CID_CODEC_BASE + 1016)
+> >>>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS=20
+(V4L2_CID_CODEC_BASE
+> > +
+> >>>> 1017)
+> >>>>>  =20
+> >>>>>   /* enum v4l2_ctrl_type type values */
+> >>>>>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> >>>>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
+> >>>>>    *
+> >>>>>    * @bit_size: size (in bits) of the current slice data
+> >>>>>    * @data_bit_offset: offset (in bits) to the video data in the cu=
+rrent
+> > slice
+> >>>> data
+> >>>>> + * @num_entry_point_offsets: specifies the number of entry point o=
+ffset
+> > syntax
+> >>>>> + *			     elements in the slice header.
+> >>>>>    * @nal_unit_type: specifies the coding type of the slice (B, P o=
+r I)
+> >>>>>    * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifie=
+r for
+> > the
+> >>>> NAL unit
+> >>>>>    * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+> >>>>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
+> >>>>>   struct v4l2_ctrl_hevc_slice_params {
+> >>>>>   	__u32	bit_size;
+> >>>>>   	__u32	data_bit_offset;
+> >>>>> -
+> >>>>> +	__u32	num_entry_point_offsets;
+> >>>>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+> >>>>>   	__u8	nal_unit_type;
+> >>>>>   	__u8	nuh_temporal_id_plus1;
+> >>>>> --=20
+> >>>>> 2.32.0
+> >>>>>
+> >>>>>
+> >>>>
+> >>
+> >
+>=20
 
 
--- Daniel
