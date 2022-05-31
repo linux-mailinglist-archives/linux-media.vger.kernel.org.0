@@ -2,135 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EAE7539410
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 17:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FE8F539428
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 17:40:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345761AbiEaPcw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 11:32:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53396 "EHLO
+        id S1345811AbiEaPks (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 11:40:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345752AbiEaPct (ORCPT
+        with ESMTP id S234357AbiEaPkr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 11:32:49 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79B0F5BE78
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 08:32:48 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id f9so27473312ejc.0
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 08:32:48 -0700 (PDT)
+        Tue, 31 May 2022 11:40:47 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88FE08BD1A
+        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 08:40:44 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id rs12so27355667ejb.13
+        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 08:40:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=7oH+Xfrz6r1oCHRj13L+MKtIYqHbHCauXBBSfBoEsls=;
-        b=iBSzsZYB5EYZKcKC5//wUQeyyW0oxp4n24R/tKG3dR0GYcqTBhgMPek4aumHJghODn
-         3dteQDwTuR/pPewFSPATGPmi43Z+uq0awCHv+Aj+cw3KUe5g2iUVYjMIPMNiaUqa+VJf
-         Wa/5FgwXN3ULf0bkyyfL4ShM0hKTGiRVjt3ROQ7Xt+GUVQUwrG3qGuczGhIT6FBGWhok
-         MMX/3s0gQUBOidJ9Evp1N0IiL+qdZjgGZ3rI/LiXnPoDW33WXFyRB2ASV7spW2Rodu5W
-         lCE+1Wi3HucOSq6BC2Iv010Oh9v/6AQmYjd0Yj+84Y/zZK/iJsM9Q5dyMd+qdEGBf94d
-         Jw2Q==
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MwvjllhCYascr6Hu+WLB+f7zYDp3qacylj14TBpSNcY=;
+        b=cohW93SEB8Duxo+iA/QYyTE3a/S1mBlVzcraVB6XGvOneZBqeefJGxAFZvJMSWA3Wc
+         Kbd4z6uKQmVMsuakgqo6nnad9lo20WHoxn0z009peFNypcs9YDaTXW2koPwIuhhhDhfL
+         w5dWgum5XKj/ZL8zxxDtkVtmYgSAxCNLAuto8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=7oH+Xfrz6r1oCHRj13L+MKtIYqHbHCauXBBSfBoEsls=;
-        b=qfa4/Emm4un4iVuNnb1Y8C8eU7HD1m8cDvNDkmAjOEBSIl1oWfRRZE2phfObXiJqzO
-         XyEsgra3R8ngz8gZ8gtpbiyjlgRaNJoUEGGz7wMkEoG9UqqgRG0KduuNtEptqr4AFfN1
-         ZGOCHYLTRS3RxF+1LGQghjhxYaHyK5KP030bTdOV5qOmVKt9256ddgoOMrK5E0IEvIXL
-         ABXxUK6Nk6fKXkURV8DYllgBCLfKgk10LyGd3GobOVeCnr2cTEySON7c1AwTZHn4V3KS
-         c7Xlzc2g/8bLr2NkKfChNnvmgGlBDA52xu/oSp3kfO7rv/aR4C5ws2S+LjFxL7vtwaXw
-         gP3w==
-X-Gm-Message-State: AOAM531u7zi7ikaioNsgwY+P/zzh0OLwe5rZ1k8b46zcwU9RFICtfYbv
-        VauoAvtVNahYP8nGRMHWsZOtAVtiqaDDZ1LiNvo=
-X-Google-Smtp-Source: ABdhPJzSdFpiB3UKhEuLrOZd6SoM3Rtq4HA+CMl5ojqV1x0bklFwokETK59J5UAkvGK8iS1RnP84JqGeAlZlSyg8JyQ=
-X-Received: by 2002:a17:906:7308:b0:6fe:f979:6b05 with SMTP id
- di8-20020a170906730800b006fef9796b05mr35177455ejc.577.1654011166962; Tue, 31
- May 2022 08:32:46 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MwvjllhCYascr6Hu+WLB+f7zYDp3qacylj14TBpSNcY=;
+        b=Q+s60ZVUtXlJILFk559W0k3FMa+M6G7mOmAtQBWECbq+eXcMOZMeLFQj9BDszrgGUg
+         OrMk7WH1fYgCjtFaUgh8+E1G5n1Mpa+dJpTQahI1zRcS7NjzKLQ+xG7dtP52JUN1wTWO
+         tnZUPCFmuyPTV7+kNDwNj0nICWJWoecjQoLWbz+VvuCZTcdrUkzXy7McwBwILKYVsenb
+         vG+DxYlQsDWky4p15MZETvd1xCDIhgGlMWUYfSN2Mcg/+wUvePmrRZSDkN/a7Ktgs2Uf
+         oRnV5KLb7Xkap66PFi0MBwv01YN2EXBVCaYkE1JWDqPGC7JtWWWdWhdlk1tCZJJCCjj8
+         jb3A==
+X-Gm-Message-State: AOAM533p9q6QdhOd77j5HcMXSZ4wLRre4vGqTq0N+Pai/ulXBXcV4O3X
+        mWAmH5wSErqPNDzNSElBSZMOJjwQIy+lRQ==
+X-Google-Smtp-Source: ABdhPJytcQXARTMhdrsy3jhsiXyFDGyJGYhoA1vAMQK6sGSiJCu30h+NtMneYZYMmAGdN/q7q9geqg==
+X-Received: by 2002:a17:907:94ca:b0:6fe:c28b:7cb2 with SMTP id dn10-20020a17090794ca00b006fec28b7cb2mr42977102ejc.625.1654011643071;
+        Tue, 31 May 2022 08:40:43 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-2-39-143-183.cust.vodafonedsl.it. [2.39.143.183])
+        by smtp.gmail.com with ESMTPSA id q14-20020a170906144e00b006feb047502bsm5116675ejc.151.2022.05.31.08.40.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 May 2022 08:40:42 -0700 (PDT)
+Date:   Tue, 31 May 2022 17:40:40 +0200
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        michael@amarulasolutions.com,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: i2c: ov5695: use
+ regulator_bulk_enable/regulator_bulk disable instead of for loop
+Message-ID: <20220531154040.GA1331064@tom-ThinkPad-T14s-Gen-2i>
+References: <20220519075117.1003520-1-tommaso.merciai@amarulasolutions.com>
+ <20220519075117.1003520-2-tommaso.merciai@amarulasolutions.com>
+ <20220531131409.f54znvogejkwqqkf@uno.localdomain>
 MIME-Version: 1.0
-Received: by 2002:a17:907:96ac:b0:6ff:41a3:f4bd with HTTP; Tue, 31 May 2022
- 08:32:45 -0700 (PDT)
-Reply-To: lilhilal200@gmail.com
-From:   Lil Hilal <lilhilal77@gmail.com>
-Date:   Tue, 31 May 2022 08:32:45 -0700
-Message-ID: <CAB_6U_MtRVmHpn17bEoZEbcR8rX_exC=u5kzZ5FDMEwW9psj9g@mail.gmail.com>
-Subject: =?UTF-8?B?SsOzIG5hcG90LA==?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,
-        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:62a listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4966]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [lilhilal77[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [lilhilal200[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [lilhilal77[at]gmail.com]
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
-        *  0.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220531131409.f54znvogejkwqqkf@uno.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-J=C3=B3 napot,
-A nevem Lil Hilal (=C3=BCgyv=C3=A9d) Kor=C3=A1bban =C3=ADrtam neked, de nem=
- v=C3=A1laszolt=C3=A1l.
-Seg=C3=ADts=C3=A9gre van sz=C3=BCks=C3=A9gem k=C3=A9sei =C3=BCgyfelem (8 50=
-0 000 USD =C3=A9rt=C3=A9k=C5=B1)
-p=C3=A9nzeszk=C3=B6zeinek visszaszerz=C3=A9s=C3=A9ben, amelyeket a bank biz=
-tons=C3=A1gi
-oszt=C3=A1ly=C3=A1n helyeztek el biztons=C3=A1gos meg=C5=91rz=C3=A9s c=C3=
-=A9lj=C3=A1b=C3=B3l. Vegye
-figyelembe, hogy az =C3=96n vezet=C3=A9kneve hasonl=C3=B3 a n=C3=A9hai =C3=
-=BCgyfelem csal=C3=A1di
-vezet=C3=A9knev=C3=A9hez, =C3=A9s ez volt az oka annak, hogy felvettem =C3=
-=96nnel a
-kapcsolatot, hogy seg=C3=ADtsek visszaszerezni a fel nem haszn=C3=A1lt =C3=
-=B6sszeget,
-mert a bank hivatalos felhatalmaz=C3=A1st adott ki a kedvezm=C3=A9nyezett
-nev=C3=A9nek k=C3=B6vetel=C3=A9sre t=C3=B6rt=C3=A9n=C5=91 beny=C3=BAjt=C3=
-=A1s=C3=A1ra, k=C3=BCl=C3=B6nben elkobozni =C3=A9s
-bez=C3=A1rni a fi=C3=B3kot, ha nem v=C3=A1laszol.
-Ha tov=C3=A1bbi inform=C3=A1ci=C3=B3ra van sz=C3=BCks=C3=A9ge ezzel a k=C3=
-=B6lcs=C3=B6n=C3=B6s haszonszerz=C3=A9si
-tranzakci=C3=B3val kapcsolatban, s=C3=BCrg=C5=91sen keressen vissza. Megosz=
-t=C3=A1si
-ar=C3=A1nyunk 50-50%. 4 250 000,00 doll=C3=A1r lesz a saj=C3=A1t r=C3=A9sze=
-sed=C3=A9se ebben a
-tranzakci=C3=B3ban.
-S=C3=BCrg=C5=91sen k=C3=BCldje el nekem az adatait
-1) Teljes n=C3=A9v ----------------------
-2) Mobilsz=C3=A1m -----------------
-=C3=9Cdv=C3=B6zlettel.
-Lil Hilal
-E-mail c=C3=ADm......... ( lilhilal200@gmail.com )
+Hi Jacopo,
+On Tue, May 31, 2022 at 03:14:09PM +0200, Jacopo Mondi wrote:
+> Hi Tommaso,
+> 
+> On Thu, May 19, 2022 at 09:51:14AM +0200, Tommaso Merciai wrote:
+> > Enable regulator using regulator_bulk_enable/regulatore_bulk_disable
+> > function in __ov5695_power_on/__ov5695_power_off function instead of for loop.
+> > This reduce code size and make things more clear
+> >
+> > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > Co-Developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+> > ---
+> >  drivers/media/i2c/ov5695.c | 25 +++++++------------------
+> >  1 file changed, 7 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
+> > index 439385938a51..880b586e55fe 100644
+> > --- a/drivers/media/i2c/ov5695.c
+> > +++ b/drivers/media/i2c/ov5695.c
+> > @@ -972,7 +972,7 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
+> >
+> >  static int __ov5695_power_on(struct ov5695 *ov5695)
+> >  {
+> > -	int i, ret;
+> > +	int ret;
+> >  	struct device *dev = &ov5695->client->dev;
+> >
+> >  	ret = clk_prepare_enable(ov5695->xvclk);
+> > @@ -987,13 +987,10 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
+> >  	 * The hardware requires the regulators to be powered on in order,
+> >  	 * so enable them one by one.
+> >  	 */
+> 
+> The comment says that the hardware requires regulators to be enabled
+> in precise order
+> 
+> > -	for (i = 0; i < OV5695_NUM_SUPPLIES; i++) {
+> > -		ret = regulator_enable(ov5695->supplies[i].consumer);
+> > -		if (ret) {
+> > -			dev_err(dev, "Failed to enable %s: %d\n",
+> > -				ov5695->supplies[i].supply, ret);
+> > -			goto disable_reg_clk;
+> > -		}
+> > +	ret = regulator_bulk_enable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
+> 
+> bulk_enable() uses the async API (async_schedule_domain() in
+> particular) which by the name makes me think such ordering guarantee
+> cannot be respected.
+> 
+> However most sensors require some kind of ordering when enabling
+> regulators, and most of the use the bulk API anyhow. The fact this
+> driver uses the bulk API to get an release the regulators but not for
+> enabling them and the above comment, makes me think it has been done
+> on purpose ? Could you check with the driver author maybe ?
+
+Thanks for suggestion, good question.
+I see also ov5693 driver use bulk_enable/bulk_disable
+on ov5693_sensor_powerdown and ov5693_sensor_powerup functions, I take
+this as reference (and I'm wrong)
+
+In a functional test on PX30_Mini_evb_v11_20190507, after this series 
+I'm able to see the correct chip id during probe and do some capture.
+
+I think you are right Jacopo, we can drop off this [PATCH 1/4]
+On the following link I found the issue that you describe: [1]
+
+> 
+> > +	if (ret) {
+> > +		dev_err(dev, "Failed to enable regulators %d\n", ret);
+> > +		goto disable_reg_clk;
+> >  	}
+> >
+> >  	gpiod_set_value_cansleep(ov5695->reset_gpio, 0);
+> > @@ -1003,8 +1000,7 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
+> >  	return 0;
+> >
+> >  disable_reg_clk:
+> > -	for (--i; i >= 0; i--)
+> > -		regulator_disable(ov5695->supplies[i].consumer);
+> > +	regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
+> 
+> FYI the bulk API does this for you if enabling any of the regulators fails.
+> Hence this should not be necessary.
+
+Thanks for sharing! This is new to me.
+I'll update the series on v2 removing this patch.
+
+Regards,
+Tommaso
+
+[1]: https://mailweb.openeuler.org/hyperkitty/list/kernel@openeuler.org/message/4X54QYJDRRE4K5BW4FTDZUGRAL4GRQWY/
+
+> Thanks
+>    j
+> 
+> >  	clk_disable_unprepare(ov5695->xvclk);
+> >
+> >  	return ret;
+> > @@ -1012,8 +1008,6 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
+> >
+> >  static void __ov5695_power_off(struct ov5695 *ov5695)
+> >  {
+> > -	struct device *dev = &ov5695->client->dev;
+> > -	int i, ret;
+> >
+> >  	clk_disable_unprepare(ov5695->xvclk);
+> >  	gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
+> > @@ -1022,12 +1016,7 @@ static void __ov5695_power_off(struct ov5695 *ov5695)
+> >  	 * The hardware requires the regulators to be powered off in order,
+> >  	 * so disable them one by one.
+> >  	 */
+> > -	for (i = OV5695_NUM_SUPPLIES - 1; i >= 0; i--) {
+> > -		ret = regulator_disable(ov5695->supplies[i].consumer);
+> > -		if (ret)
+> > -			dev_err(dev, "Failed to disable %s: %d\n",
+> > -				ov5695->supplies[i].supply, ret);
+> > -	}
+> > +	regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
+> >  }
+> >
+> >  static int __maybe_unused ov5695_runtime_resume(struct device *dev)
+> > --
+> > 2.25.1
+> >
+
+-- 
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
