@@ -2,44 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BCBC538CD3
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 10:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79922538CDB
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 10:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244880AbiEaIZB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 04:25:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53552 "EHLO
+        id S244842AbiEaI0R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 04:26:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244839AbiEaIXX (ORCPT
+        with ESMTP id S234747AbiEaI0L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 04:23:23 -0400
-Received: from mail.onlinesuccesses.pl (mail.onlinesuccesses.pl [198.244.150.235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB5F26E7
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 01:23:22 -0700 (PDT)
-Received: by mail.onlinesuccesses.pl (Postfix, from userid 1002)
-        id 50B74ACC1C; Tue, 31 May 2022 08:16:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onlinesuccesses.pl;
-        s=mail; t=1653985069;
-        bh=nE8HqilgMh4dy7+Z8ksfg7Bc9rmPeQtYFq3/3YR2ODU=;
-        h=Date:From:To:Subject:From;
-        b=EAZR4dTJl3Jh4hjZqSOifsRyAlclByRyhR+GJ4FqVFHRXj//iVwaUQgBd1HtB+zc9
-         JGusn16u/rklfm/aw7zT5xw7AaJqJIWyTEY6zkuUB88irA2E2kQ5LydBvsIUJZFQIq
-         hneMSNr59R7+2LqLyVvP6I8JsUsK1EPH4B2u3oM49MgS0XvXwtXUAUYjDoX92qWn7I
-         mGZkDOAkiIubppb2GWHw2ZAaWHI2o5DdIiCVUnndVa7HmuRSPX+bfW5faeXIJJjn30
-         1pSEnIR1UbEKeL4FNPyqs6KbU28rbGVH0+KvtCexfCr+t7gHIdWecpvqStc+ibhg8A
-         Uv5CbYLTkGQlw==
-Received: by mail.onlinesuccesses.pl for <linux-media@vger.kernel.org>; Tue, 31 May 2022 08:15:36 GMT
-Message-ID: <20220531064501-0.1.4l.1dcj2.0.826n72cfj0@onlinesuccesses.pl>
-Date:   Tue, 31 May 2022 08:15:36 GMT
-From:   "Wiktor Zielonko" <wiktor.zielonko@onlinesuccesses.pl>
-To:     <linux-media@vger.kernel.org>
-Subject: Ruch z pierwszej pozycji w Google
-X-Mailer: mail.onlinesuccesses.pl
+        Tue, 31 May 2022 04:26:11 -0400
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9575997295
+        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 01:26:09 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 55954101D12; Tue, 31 May 2022 09:26:07 +0100 (BST)
+Date:   Tue, 31 May 2022 09:26:07 +0100
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.20] rc fixes
+Message-ID: <YpXRHxft+PhLR29h@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,22 +34,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,=20
+The following changes since commit 340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1:
 
-jaki=C5=9B czas temu zg=C5=82osi=C5=82a si=C4=99 do nas firma, kt=C3=B3re=
-j strona internetowa nie pozycjonowa=C5=82a si=C4=99 wysoko w wyszukiwarc=
-e Google.=20
+  media: hantro: Enable HOLD_CAPTURE_BUF for H.264 (2022-05-17 10:11:19 +0200)
 
-Na podstawie wykonanego przez nas audytu SEO zoptymalizowali=C5=9Bmy tre=C5=
-=9Bci na stronie pod k=C4=85tem wcze=C5=9Bniej opracowanych s=C5=82=C3=B3=
-w kluczowych. Nasz wewn=C4=99trzny system codziennie analizuje prawid=C5=82=
-owe dzia=C5=82anie witryny.  Dzi=C4=99ki indywidualnej strategii, firma z=
-dobywa coraz wi=C4=99cej Klient=C3=B3w. =20
+are available in the Git repository at:
 
-Czy chcieliby Pa=C5=84stwo zwi=C4=99kszy=C4=87 liczb=C4=99 os=C3=B3b odwi=
-edzaj=C4=85cych stron=C4=99 internetow=C4=85 firmy? M=C3=B3g=C5=82bym prz=
-edstawi=C4=87 ofert=C4=99?=20
+  git://linuxtv.org/syoung/media_tree.git tags/v5.20a
 
+for you to fetch changes up to 6f64f2b6e4f9d86f567395b1714f5c4de59edf91:
 
-Pozdrawiam serdecznie,
-Wiktor Zielonko
+  media: rc: Directly use ida_free() (2022-05-30 16:35:19 +0100)
+
+----------------------------------------------------------------
+v5.20a
+
+----------------------------------------------------------------
+Oliver Neukum (11):
+      igorplugusb: respect DMA coherency
+      igorplugusb: prevent use after free in probe error
+      igorplugusb: break cyclical race on disconnect
+      igorplugusb: remove superfluous usb_unlink_urb()
+      iguanair: no superfluous usb_unlink_urb()
+      imon_raw: respect DMA coherency
+      redrat3: no unnecessary GFP_ATOMIC
+      streamzap: avoid unnecessary GFP_ATOMIC
+      xbox_remote: xbox_remote_initialize() cannot fail
+      ttusbir: NOIO during resume
+      ttusbir: avoid unnecessary usb_unlink_urb()
+
+keliu (1):
+      media: rc: Directly use ida_free()
+
+ drivers/media/rc/igorplugusb.c | 19 +++++++++++++------
+ drivers/media/rc/iguanair.c    |  5 +----
+ drivers/media/rc/imon_raw.c    | 16 ++++++++++++----
+ drivers/media/rc/lirc_dev.c    |  6 +++---
+ drivers/media/rc/rc-main.c     |  6 +++---
+ drivers/media/rc/redrat3.c     |  4 ++--
+ drivers/media/rc/streamzap.c   |  2 +-
+ drivers/media/rc/ttusbir.c     |  4 +---
+ drivers/media/rc/xbox_remote.c | 10 +++-------
+ 9 files changed, 39 insertions(+), 33 deletions(-)
