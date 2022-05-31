@@ -2,288 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F6E95392D5
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 15:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 643E2539306
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 16:20:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344953AbiEaN42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 09:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56132 "EHLO
+        id S234252AbiEaOUN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 10:20:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345100AbiEaN4X (ORCPT
+        with ESMTP id S1345209AbiEaOUJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 09:56:23 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E9979FC5
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 06:56:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654005376; x=1685541376;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YFSRK+qfPnas2RbhUfW/p8UkWfdUBGu7pVNYkVu6cuo=;
-  b=PHteS5/V3RLXGbzwehs/Qxr/NoVkkHsr2DXbA89EgCxKXBYtArToIqf3
-   tp6kq7cq1QWmR5HWnZ+g3KaKSnRAyzhAtOsZAFIe9DTQ8zotEasnbElE/
-   CON8MSi3ZhbHIMmqP9qNTOanEYNCKFlTqGvSZPWYnzZDhbKvkaJVXJJDr
-   y5hvXVA1Jfc+gIQ7qLa7jO9bAdSqSV1E7cDvI1EiyKeLRyo3gPJGqqOsP
-   X2bIRf6zYm2uhBB1hYqqgGrzTw3XHm8NZkrWcMTr35uNXVsm1FzygAiSZ
-   dO4956kA6i57kA8EJyJZfLaVr/r2AwFVLKU8hX0W3Jp7P0MMarEXnOYhL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="361632372"
-X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; 
-   d="scan'208";a="361632372"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 06:56:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; 
-   d="scan'208";a="611838461"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 31 May 2022 06:56:14 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nw2M1-0002lS-C0;
-        Tue, 31 May 2022 13:56:13 +0000
-Date:   Tue, 31 May 2022 21:56:00 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: Re: [PATCH] media: s5k4ecgx: Switch to GPIO descriptors
-Message-ID: <202205312118.7XAVBcnY-lkp@intel.com>
-References: <20220531084546.67737-1-linus.walleij@linaro.org>
+        Tue, 31 May 2022 10:20:09 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 585AF70364;
+        Tue, 31 May 2022 07:20:05 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.91,265,1647270000"; 
+   d="scan'208";a="121464425"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 31 May 2022 23:20:04 +0900
+Received: from localhost.localdomain (unknown [10.226.92.53])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0E4354004BBF;
+        Tue, 31 May 2022 23:20:00 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v11 0/5] Add support for RZ/G2L VSPD
+Date:   Tue, 31 May 2022 15:19:53 +0100
+Message-Id: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220531084546.67737-1-linus.walleij@linaro.org>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+The RZ/G2L VSPD provides a single VSPD instance. It has the following
+sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
 
-I love your patch! Yet something to improve:
+The VSPD block on RZ/G2L does not have a version register, so added a
+new compatible string "renesas,r9a07g044-vsp2" with a data pointer containing
+the info structure. Also the reset line is shared with the DU module.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on v5.18 next-20220531]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+This patch series is tested on RZ/G1N, RZ/G2M and RZ/G2L boards.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/media-s5k4ecgx-Switch-to-GPIO-descriptors/20220531-164948
-base:   git://linuxtv.org/media_tree.git master
-config: hexagon-randconfig-r041-20220531 (https://download.01.org/0day-ci/archive/20220531/202205312118.7XAVBcnY-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c825abd6b0198fb088d9752f556a70705bc99dfd)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d6a5013d9dd546a9c9d7ed3714e861f7593b1635
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Linus-Walleij/media-s5k4ecgx-Switch-to-GPIO-descriptors/20220531-164948
-        git checkout d6a5013d9dd546a9c9d7ed3714e861f7593b1635
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/i2c/
+v10->v11:
+ * Added poll for reset status in order to avoid lock-up on R-Car Gen2
+ * with vsp register access after deassert.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+v9->v10
+ * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
 
-All error/warnings (new ones prefixed by >>):
+V8->v9
+ * Added Rb tag from Geert for patch#3
+ * Replaced break with return info in case a Model match is found and
+   removed additional check for non-match case.
+ * Used generic check for matching SoCs with LBA feature.
+ * Replaced the code comments RZ/G2L {SoC's,SoC} with RZ/G2L SoCs.
+v7->v8:
+ * Split the patch for adding s/w version, feature bit and RZ/G2L support
+ * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
+ * Added .soc for RZ/G2L
+ * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
+ * Updated Clock-names to false for non RZ/G2L SoC's on binding doc
+ * Added Rb tag from Laurent for bindings
+v6->v7:
+ * Added Rb tag from Kieran for patch#3
+ * Added a quirk to handle LIF0 buffer attribute related
+   changes for V3M and G2L.
+ * Removed the macro for VSP HW version
+v5->v6:
+ * Rebased to media_staging and updated commit header
+ * Removed LCDC reference clock description from bindings
+ * Changed the clock name from du.0->aclk from bindings
+ * Added Rb tag from Laurent for reset patch
+ * Added forward declaration for struct reset_control
+ * Updated vsp1_device_get() with changes suggested by Laurent
+ * Updated error message for reset_control_get form ctrl->control.
+ * Removed the extra tab from rzg2l_vsp2_device_info
+ * Changed the function vsp1_lookup->vsp1_lookup_info and
+   all info match related code moved here.
+ * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
+   distinguish HW & SW IP_VSP_Version.
+ * Used 0x80 for RZG2L VSPD model and SoC identification
+ * Updated Switch() for LIF0 buffer attribute handling.
+v4->v5:
+ * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
+ * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
+   for SoC identification for RZ/G2L SoC's.
+v3->v4:
+ * Restored error check for pm_runtime_resume_and_get and calls
+   assert() in case of failure.
+ * Added Rb tag from Geert
+ * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M SoC's
+v2->v3:
+ * Added Rb tags from Krzysztof and Philipp
+ * If reset_control_deassert() failed, return ret directly.
+ * Fixed version comparison in vsp1_lookup()
+v1->v2:
+ * Used reference counted reset handle to perform deassert/assert
+ * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
+ * Added standalone device info for rzg2l-vsp2.
+ * Added vsp1_lookup helper function.
+ * Updated comments for LIF0 buffer attribute register
+ * Used last ID for rzg2l-vsp2.
+RFC->v1:
+ * Added reset support as separate patch
+ * Moved rstc just after the bus_master field in struct vsp1_device
+ * Used data pointer containing info structure to retrieve version information
+ * Updated commit description
+ * Changed compatible from vsp2-r9a07g044->vsp2-rzg2l
+ * Defined the clocks
+ * Clock max Items is based on SoC Compatible string
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-20-biju.das.jz@bp.renesas.com/
 
-   drivers/media/i2c/s5k4ecgx.c:897:38: warning: missing terminating '"' character [-Winvalid-pp-token]
-           gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
-                                               ^
->> drivers/media/i2c/s5k4ecgx.c:897:38: error: expected expression
->> drivers/media/i2c/s5k4ecgx.c:947:26: error: use of undeclared identifier 's5k4ecgx_id'
-   MODULE_DEVICE_TABLE(i2c, s5k4ecgx_id);
-                            ^
->> drivers/media/i2c/s5k4ecgx.c:954:12: error: use of undeclared identifier 's5k4ecgx_remove'
-           .remove = s5k4ecgx_remove,
-                     ^
-   drivers/media/i2c/s5k4ecgx.c:955:14: error: use of undeclared identifier 's5k4ecgx_id'
-           .id_table = s5k4ecgx_id,
-                       ^
->> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
-   module_i2c_driver(v4l2_i2c_driver);
-   ^
-   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
-           module_driver(__i2c_driver, i2c_add_driver, \
-           ^
-   include/linux/device/driver.h:260:41: note: expanded from macro 'module_driver'
-   static int __init __driver##_init(void) \
-                                           ^
->> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
-   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
-           module_driver(__i2c_driver, i2c_add_driver, \
-           ^
-   include/linux/device/driver.h:263:3: note: expanded from macro 'module_driver'
-   } \
-     ^
-   include/linux/module.h:132:2: note: expanded from macro '\
-   module_init'
-           { return initfn; }                                      \
-           ^
->> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
-   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
-           module_driver(__i2c_driver, i2c_add_driver, \
-           ^
-   include/linux/device/driver.h:265:42: note: expanded from macro 'module_driver'
-   static void __exit __driver##_exit(void) \
-                                            ^
->> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
-   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
-           module_driver(__i2c_driver, i2c_add_driver, \
-           ^
-   include/linux/device/driver.h:268:3: note: expanded from macro 'module_driver'
-   } \
-     ^
-   include/linux/module.h:140:2: note: expanded from macro '\
-   module_exit'
-           { return exitfn; }                                      \
-           ^
->> drivers/media/i2c/s5k4ecgx.c:964:36: error: expected '}'
-   MODULE_FIRMWARE(S5K4ECGX_FIRMWARE);
-                                      ^
-   drivers/media/i2c/s5k4ecgx.c:856:1: note: to match this '{'
-   {
-   ^
->> drivers/media/i2c/s5k4ecgx.c:947:1: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-   MODULE_DEVICE_TABLE(i2c, s5k4ecgx_id);
-   ^
-   include/linux/module.h:244:21: note: expanded from macro 'MODULE_DEVICE_TABLE'
-   extern typeof(name) __mod_##type##__##name##_device_table               \
-                       ^
-   <scratch space>:94:1: note: expanded from here
-   __mod_i2c__s5k4ecgx_id_device_table
-   ^
->> drivers/media/i2c/s5k4ecgx.c:895:8: error: use of undeclared label 'out_err'
-                   goto out_err;
-                        ^
-   2 warnings and 10 errors generated.
+Biju Das (5):
+  media: dt-bindings: media: renesas,vsp1: Document RZ/G2L VSPD bindings
+  media: renesas: vsp1: Add support to deassert/assert reset line
+  media: renesas: vsp1: Add support for VSP software version
+  media: renesas: vsp1: Add VSP1_HAS_NON_ZERO_LBA feature bit
+  media: renesas: vsp1: Add support for RZ/G2L VSPD
 
-
-vim +897 drivers/media/i2c/s5k4ecgx.c
-
-   853	
-   854	static int s5k4ecgx_probe(struct i2c_client *client,
-   855				  const struct i2c_device_id *id)
-   856	{
-   857		struct s5k4ecgx_platform_data *pdata = client->dev.platform_data;
-   858		struct v4l2_subdev *sd;
-   859		struct s5k4ecgx *priv;
-   860		int ret, i;
-   861	
-   862		if (pdata == NULL) {
-   863			dev_err(&client->dev, "platform data is missing!\n");
-   864			return -EINVAL;
-   865		}
-   866	
-   867		priv = devm_kzalloc(&client->dev, sizeof(struct s5k4ecgx), GFP_KERNEL);
-   868		if (!priv)
-   869			return -ENOMEM;
-   870	
-   871		mutex_init(&priv->lock);
-   872		priv->streaming = 0;
-   873	
-   874		sd = &priv->sd;
-   875		/* Registering subdev */
-   876		v4l2_i2c_subdev_init(sd, client, &s5k4ecgx_ops);
-   877		/* Static name; NEVER use in new drivers! */
-   878		strscpy(sd->name, S5K4ECGX_DRIVER_NAME, sizeof(sd->name));
-   879	
-   880		sd->internal_ops = &s5k4ecgx_subdev_internal_ops;
-   881		/* Support v4l2 sub-device user space API */
-   882		sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-   883	
-   884		priv->pad.flags = MEDIA_PAD_FL_SOURCE;
-   885		sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
-   886		ret = media_entity_pads_init(&sd->entity, 1, &priv->pad);
-   887		if (ret)
-   888			return ret;
-   889	
-   890		/* Request GPIO lines asserted */
-   891		priv->stby = devm_gpiod_get(&client->dev, "standby", GPIOD_OUT_HIGH);
-   892		if (IS_ERR(priv->stby)) {
-   893			v4l2_err(sd, "failed to request gpio S5K4ECGX_STBY");
-   894			ret = PTR_ERR(priv->stby);
- > 895			goto out_err;
-   896		}
- > 897		gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
-   898		priv->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-   899		if (IS_ERR(priv->reset)) {
-   900			v4l2_err(sd, "failed to request gpio S5K4ECGX_RST");
-   901			ret = PTR_ERR(priv->reset);
-   902			goto out_err;
-   903		}
-   904		gpiod_set_consumer_name(priv->reset, "S5K4ECGX_RST");
-   905	
-   906		for (i = 0; i < S5K4ECGX_NUM_SUPPLIES; i++)
-   907			priv->supplies[i].supply = s5k4ecgx_supply_names[i];
-   908	
-   909		ret = devm_regulator_bulk_get(&client->dev, S5K4ECGX_NUM_SUPPLIES,
-   910					 priv->supplies);
-   911		if (ret) {
-   912			dev_err(&client->dev, "Failed to get regulators\n");
-   913			goto out_err;
-   914		}
-   915		ret = s5k4ecgx_init_v4l2_ctrls(priv);
-   916		if (ret)
-   917			goto out_err;
-   918	
-   919		priv->curr_pixfmt = &s5k4ecgx_formats[0];
-   920		priv->curr_frmsize = &s5k4ecgx_prev_sizes[0];
-   921	
-   922		return 0;
-   923	
-   924	out_err:
-   925		media_entity_cleanup(&priv->sd.entity);
-   926	
-   927		return ret;
-   928	}
-   929	
-   930	static int s5k4ecgx_remove(struct i2c_client *client)
-   931	{
-   932		struct v4l2_subdev *sd = i2c_get_clientdata(client);
-   933		struct s5k4ecgx *priv = to_s5k4ecgx(sd);
-   934	
-   935		mutex_destroy(&priv->lock);
-   936		v4l2_device_unregister_subdev(sd);
-   937		v4l2_ctrl_handler_free(&priv->handler);
-   938		media_entity_cleanup(&sd->entity);
-   939	
-   940		return 0;
-   941	}
-   942	
-   943	static const struct i2c_device_id s5k4ecgx_id[] = {
-   944		{ S5K4ECGX_DRIVER_NAME, 0 },
-   945		{}
-   946	};
- > 947	MODULE_DEVICE_TABLE(i2c, s5k4ecgx_id);
-   948	
-   949	static struct i2c_driver v4l2_i2c_driver = {
-   950		.driver = {
-   951			.name = S5K4ECGX_DRIVER_NAME,
-   952		},
-   953		.probe = s5k4ecgx_probe,
- > 954		.remove = s5k4ecgx_remove,
-   955		.id_table = s5k4ecgx_id,
-   956	};
-   957	
- > 958	module_i2c_driver(v4l2_i2c_driver);
-   959	
-   960	MODULE_DESCRIPTION("Samsung S5K4ECGX 5MP SOC camera");
-   961	MODULE_AUTHOR("Sangwook Lee <sangwook.lee@linaro.org>");
-   962	MODULE_AUTHOR("Seok-Young Jang <quartz.jang@samsung.com>");
-   963	MODULE_LICENSE("GPL");
- > 964	MODULE_FIRMWARE(S5K4ECGX_FIRMWARE);
+ .../bindings/media/renesas,vsp1.yaml          |  53 ++++++---
+ drivers/media/platform/renesas/vsp1/vsp1.h    |   4 +
+ .../media/platform/renesas/vsp1/vsp1_drv.c    | 104 +++++++++++++++---
+ .../media/platform/renesas/vsp1/vsp1_lif.c    |  12 +-
+ .../media/platform/renesas/vsp1/vsp1_regs.h   |   6 +
+ 5 files changed, 145 insertions(+), 34 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
