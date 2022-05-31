@@ -2,73 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62721538A03
-	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 04:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0F06538B0B
+	for <lists+linux-media@lfdr.de>; Tue, 31 May 2022 07:52:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233590AbiEaCvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 May 2022 22:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45884 "EHLO
+        id S244113AbiEaFwh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 01:52:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232597AbiEaCvu (ORCPT
+        with ESMTP id S244090AbiEaFwe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 May 2022 22:51:50 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B4B12AFC
-        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 19:51:48 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id gc3-20020a17090b310300b001e33092c737so934169pjb.3
-        for <linux-media@vger.kernel.org>; Mon, 30 May 2022 19:51:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=xcpbx9Lt9Owdlm64rePa6qexHLWiyypbRMgxN1JLv/M=;
-        b=CyYXFkxhZiXQiu14RxVExNHuXRW0mFlO3k3+vtcoaKX56jC5Ba1StMa8qKRpw1gBRQ
-         m2pdXOpOXP5yoNapy24x4BR7MDFAg/xRghRxTbuu49cw3iyj+gWoa8iNtf8UAns32Wob
-         fQmMqbHWuHhV5B4vVeGxYjmDjsojaHhPcIBeQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=xcpbx9Lt9Owdlm64rePa6qexHLWiyypbRMgxN1JLv/M=;
-        b=MizVd+qQTq7dzchobiT4TiN6i7UBzYgbYjhZXR8awvCQ+0GZmvwQm9PN+9hWut35Xf
-         rKiokbyGxCyRIwL6asC3GCXt+jZJJNI4BjmM5dg4rRlSWIToKvkDkkk8fbQ/+dyseh+X
-         BYzuUNM7VIILHp/AZvfN1B60e+bqRtw+eN74+rsiRDpW1sLwHGMChBPNpSFUzi7ajpwp
-         aakkG2W4d9Q1iovmaKUdYDG148dkovNRnQrd0KQcWbk+48GHV0tvlsbn701OXFtuioWE
-         SRWN9MTEjibtH3Q0OKFXzuWPqByAKjiiizuLPd7yoKD+3KpTyCYbPwa2DlrLJozk9QCh
-         IZ5A==
-X-Gm-Message-State: AOAM530J+DLx0hvrWQ9FbbTTux3sCZNsv/S5soEqLENdMRV9OvqxB/Iw
-        TJ/rskN3lNGAGbZpHC7qE1NOwQ==
-X-Google-Smtp-Source: ABdhPJylou6Lhk/REVZIpM88w/Cw5uS6g71yGFXefOXkdi3IddUox11VUsoNOmO40/Smst1WUN/3KA==
-X-Received: by 2002:a17:90a:de01:b0:1df:cda5:8332 with SMTP id m1-20020a17090ade0100b001dfcda58332mr26157122pjv.123.1653965508382;
-        Mon, 30 May 2022 19:51:48 -0700 (PDT)
-Received: from google.com ([240f:75:7537:3187:7d2a:ad1f:afa1:7770])
-        by smtp.gmail.com with ESMTPSA id i16-20020a056a00005000b00518382bceaesm9479310pfk.57.2022.05.30.19.51.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 May 2022 19:51:47 -0700 (PDT)
-Date:   Tue, 31 May 2022 11:51:42 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dma-fence: allow dma fence to have their own lock
-Message-ID: <YpWCvniLzJfcp684@google.com>
-References: <20220530142232.2871634-1-senozhatsky@chromium.org>
- <7eee4274-bd69-df8d-9067-771366217804@amd.com>
+        Tue, 31 May 2022 01:52:34 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EAA51CFFE;
+        Mon, 30 May 2022 22:52:32 -0700 (PDT)
+X-UUID: a4fe502c9df049b7b5ab10d5c2dcdf39-20220531
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5,REQID:6d60efb2-9d11-427f-a828-bb6eb8f608c4,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:-5
+X-CID-META: VersionHash:2a19b09,CLOUDID:1ac55714-f88c-475e-badf-d9ee54230b8f,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+        ,QS:0,BEC:nil
+X-UUID: a4fe502c9df049b7b5ab10d5c2dcdf39-20220531
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 509384947; Tue, 31 May 2022 13:52:27 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Tue, 31 May 2022 13:52:26 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 31 May 2022 13:52:25 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Tue, 31 May 2022 13:52:25 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <xiandong.wang@mediatek.com>,
+        <randy.wu@mediatek.com>, <moudy.ho@mediatek.com>,
+        <jason-jh.lin@mediatek.com>, <roy-cw.yeh@mediatek.com>,
+        <river.cheng@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <cellopoint.kai@gmail.com>
+Subject: [PATCH v19 0/6] Add mutex support for MDP
+Date:   Tue, 31 May 2022 13:52:18 +0800
+Message-ID: <20220531055224.19280-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7eee4274-bd69-df8d-9067-771366217804@amd.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,15 +81,97 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (22/05/30 16:55), Christian König wrote:
-> Am 30.05.22 um 16:22 schrieb Sergey Senozhatsky:
-> > [SNIP]
-> > So the `lock` should have at least same lifespan as the DMA fence
-> > that borrows it, which is impossible to guarantee in our case.
-> 
-> Nope, that's not correct. The lock should have at least same lifespan as the
-> context of the DMA fence.
+Change since V18:
+- Rebase on v5.19-rc1
+- Remove unnecessary functions:
+  "mtk_mutex_set_mod", "mtk_mutex_clear_mod",
+  "mtk_mutex_set_sof" and "mtk_mutex_clear_sof", and export
+  "mtk_mutex_write_mod" and "mtk_mutex_write_sof" to
+  set MOD/SOF directly.
+- Remove unnecessary SOF tables and add new enumerations of SOF instead.
+- Adjust the error checking for CMDQ operations.
 
-How does one know when it's safe to release the context? DMA fence
-objects are still transparently refcount-ed and "live their own lives",
-how does one synchronize lifespans?
+Change since V17:
+- Rebase on v5.18-rc6
+- Fix undeclared identifier causing compilation to fail.
+
+Change since V16:
+- Rebase on v5.18-rc4
+- Fix misplacement of definition "CONFIG_MTK_CMDQ" which
+  caused compilation error when CMD is not supported.
+
+Change since V15:
+- Rebase on linux-next.
+- As suggested by Angelo, split common parts into independent functions to
+  make functions more concise.
+- Based on safety considerations, increase the returned error number and
+  message to facilitate error handling.
+
+Change since V14:
+- Rebase on linux-next.
+- Add new SOF and MOD table for general interface to integrate the requirement
+  of different modules.
+- Remove unnecessary MOD structure.
+- By Rob Herring's suggestion, revise the description of
+  "mediatek,gce-client-reg" in MUTEX dt-bindings.
+- Delete the redundant definition of MTK_MUTEX_ENABLE and modify corresponding
+  function.
+
+Change since V13:
+- Rebase on linux-next tag:next-20220316
+- Adjust the MUTEX MOD table structure and corresponding functions.
+- Adjust the definition style about 8183 MDP MOD.
+- Remove redundant definitions and enumerations.
+- Adjust the CMDQ operation in MUTEX to be backward compatible
+
+Change since V12:
+- Rebase on linux-next
+- Remove ISP related settings in MMSYS
+- Removed CMDQ operations previously used by MDP in MMSYS
+- Move mediatek MUTEX dt-binding path
+- Add additional property in MUTEX for CMDQ operations
+
+Change since V11:
+- Rebase on v5.17-rc6.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.17-next/soc&id=5f9b5b757e44de47ebdc116c14b90e3cc8bc7acb
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.17-next/soc&id=831785f0e5b919c29e1bc5f9a74e9ebd38289e24
+[3]: https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.17-next/soc&id=15f1768365aed810826a61fef4a744437aa5b426
+
+Change since v10:
+- For some ISP application scenarios, such as preview and recording
+  at the same time.
+  The routing table needs to be discarded, and the calculation result
+  on the SCP side is used to write a suitable mux setting for
+  1 input and 2 output.
+- Adjust the GCE client register parsing method to avoid redundant warning logs.
+
+Change since v9:
+- Add API for MDP getting mutex mod.
+
+Hi,
+
+This patch splits mmsys and mutex settings from Media Data Path 3 (MDP3),
+and original mailling list list below:
+https://patchwork.kernel.org/project/linux-mediatek/cover/20211201095031.31606-1-moudy.ho@mediatek.com/
+Corresponding settings and interfaces are added for MDP operation in the
+mmsys and mutex drivers, which increases the independence of the modules
+
+Moudy Ho (6):
+  soc: mediatek: mutex: add common interface for modules setting
+  soc: mediatek: mutex: add 8183 MUTEX MOD settings for MDP
+  dt-bindings: soc: mediatek: move out common module from display folder
+  dt-bindings: soc: mediatek: add gce-client-reg for MUTEX
+  dts: arm64: mt8183: add GCE client property for Mediatek MUTEX
+  soc: mediatek: mutex: add functions that operate registers by CMDQ
+
+ .../mediatek/mediatek,mutex.yaml              |  14 +-
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |   1 +
+ drivers/soc/mediatek/mtk-mutex.c              | 125 +++++++++++++++++-
+ include/linux/soc/mediatek/mtk-mutex.h        |  28 ++++
+ 4 files changed, 166 insertions(+), 2 deletions(-)
+ rename Documentation/devicetree/bindings/{display => soc}/mediatek/mediatek,mutex.yaml (81%)
+
+-- 
+2.18.0
+
