@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 764E853AB8F
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 19:09:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBE8B53ABFC
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 19:34:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356240AbiFARIJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jun 2022 13:08:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48110 "EHLO
+        id S1355110AbiFARd6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jun 2022 13:33:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244187AbiFARII (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 13:08:08 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 418BC52524;
-        Wed,  1 Jun 2022 10:08:07 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id BFCB01F44545
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1654103285;
-        bh=lDyn2UbNzkXVPb/r+aeas5dM5cMmLSiPAoFFx/mTR58=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=hKGgtAuVB/nM+RjHwYL+SUADwNRxvkeD0OOE0Xkh3764zMjQ92J/2r2cDWOvtwLtA
-         WT/s4wQRkJt96DwrP9M7yZYgRt4y71zelr1LfexyI+jRaI6gHdb0E1sTnrvEZABY5y
-         21N9XIkghcREUOPPp8B5HQWamxjyZW6fwx4Umsf4j1J0onpoJ1kzyFEDRxc6qbeOc8
-         BlN8zlc1nksMAVK0rAfAaXPyTaZbuz4d0lNd2+R1znGqe4JtrpIu1aq3nhnbGD9dyT
-         IC+uoGmLlLBbxzAUP1c1gII+oYMo3SjMcZF4s2zHjYT63c+q0AHHdrIUoEWsdYj1Pc
-         dO4VROiQlm04A==
-Message-ID: <763308daa3304ef3cf011b4ca7b9c5c006627c90.camel@collabora.com>
-Subject: Re: [PATCH v6 11/17] media: uapi: Add
- V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        samuel@sholland.org, andrzej.p@collabora.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-Date:   Wed, 01 Jun 2022 13:07:54 -0400
-In-Reply-To: <11988268.O9o76ZdvQC@jernej-laptop>
-References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
-         <2102878.irdbgypaU6@kista>
-         <95261aa18425e8f5571888a41ee03d9dfd2814b9.camel@collabora.com>
-         <11988268.O9o76ZdvQC@jernej-laptop>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+        with ESMTP id S1354976AbiFARd5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 13:33:57 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 098038B0B2
+        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 10:33:56 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id f4so2468076iov.2
+        for <linux-media@vger.kernel.org>; Wed, 01 Jun 2022 10:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=jLaUrdx25t3GCyQ0wZRoescioueVrwZh619Ff29RWqY=;
+        b=fJm7d+9A2e486Flnp9XxXkQW/pJdZw107Sn4PmQ0vN9naz2oXXsZo3plWN4ehOvuJJ
+         T8tlef+9SvckXj99RLI0QmfmRzA+/Ixkg0LUR/JnfM9aWtkYtrVN4gTnNYvPLWv6mCwg
+         bjkgI1slY6/wr12FrZCp2G9q0i4269JkDkJrE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=jLaUrdx25t3GCyQ0wZRoescioueVrwZh619Ff29RWqY=;
+        b=07ZhN7jtkXXU64jmnJODxek0g1JvowSDsxcwcispMs5YNt2RUblGHFo6E/nPAK1lSp
+         v3wDqeej1DQLvWNRPwFPqJFXo3ieI6QaGy+c0QTApryOobr5QUQLVKBKPTFZf8T448Ta
+         TxZ8GF4huFskrFPmN1mYnkrVlw2eywzmDrzD7XfPtOGFEvG6ZkH7a+DEW/8/gMG2MSj8
+         +aYIAIEDQwzjtlIB6Ly4nxyZ75UMz1xmc5xeGgG7zp8s7PAGB9SbFSBvR1rl2epsaFP5
+         82ybcx0a/1JPtnKxrpP7jU2dLf/evuZWMeTa8d9ZIgXbYGnjgJuDY+OiGcK7cswDaFoQ
+         91lg==
+X-Gm-Message-State: AOAM532ktuch4+dezlDVVUCHssRhQtiXzONHa86DwdnZhP5a3DpwkxWu
+        ixOA4A62K0ftYB+5ZtJvkoyGRl4WshGJcv/cNSBV077zBXReEfhRjY+Inw==
+X-Google-Smtp-Source: ABdhPJwRMCbKQiN4Aqj2rgwxDXEhJ4QrXOHN58/kfsyq4galsMcHm5mOmijhiLqSO3OdhYxupSK7s6OwhtjttBvgvvM=
+X-Received: by 2002:a05:6638:1392:b0:32e:c78f:37d3 with SMTP id
+ w18-20020a056638139200b0032ec78f37d3mr692925jad.290.1654104835367; Wed, 01
+ Jun 2022 10:33:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+From:   Justin Green <greenjustin@chromium.org>
+Date:   Wed, 1 Jun 2022 13:33:44 -0400
+Message-ID: <CAHC42RcUnqEZDsShzzKa=7WKjaH6kt25K4tVY-ncWZaVaBPkkg@mail.gmail.com>
+Subject: [PATCH v2] mediatek/vcodec: Enable incoherent buffer allocation
+To:     linux-media@vger.kernel.org
+Cc:     "tiffany.lin@mediatek.com" <tiffany.lin@mediatek.com>,
+        "andrew-ct.chen@mediatek.com" <andrew-ct.chen@mediatek.com>,
+        mchehab@kernel.org,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,33 +62,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 01 juin 2022 =C3=A0 18:35 +0200, Jernej =C5=A0krabec a =C3=A9cr=
-it=C2=A0:
-> > I believe its defined following "Table A.8 =E2=80=93 General tier and l=
-evel limits".
-> > With the assumption there will never be a level 7 (which I think is fai=
-r).
-> > If anyone saw other reasons for this limit, let me know.
-> >=20
-> > This is a worse case scenario, this is quite unlikely in practice, so w=
-hile
-> > performance might be a disaster if your craft a stream for that case, I
-> > don't think it will ever happen in real life.
->=20
-> But do we really need to cover worst case scenario? In theory, one driver=
- can=20
-> set limit to (for example) max 100 slices and if there is a frame with 60=
-0=20
-> slices, userspace app would submit 6 decode requests. Basically the same =
-way=20
-> it's done today. While not as performant, it would be good compromise bet=
-ween=20
-> resources and speed.
+Set allow_cache_hints to 1 for the vb2_queue source and destination queues
+in the mediatek vcodec V4L2 driver. This allows us to allocate buffers
+with the V4L2_MEMORY_FLAG_NON_COHERENT set. On Mediatek SoCs, this enables
+caching for this memory, which vastly improves performance when being read
+from CPU. Read performance for these buffers is in turn important for
+detiling MM21 video frames in software.
 
-The limit here is to prevent userland from tricking the kernel into doing v=
-ery
-big allocation. But with dynamic array, you'll allocate just the right amou=
-nt.
+This change should be safe from race conditions since videobuf2 already
+invalidates or flushes the appropriate cache lines in its prepare() and
+finish() methods.
 
-Nicolas
+Tested on a MT8183 SoC. Resulted in both correct detiling and a 10X
+speedup.
 
+Signed-off-by: Justin Green <greenjustin@chromium.org>
+Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+index 52e5d36aa912..46f891f0104b 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+@@ -938,6 +938,7 @@ int mtk_vcodec_dec_queue_init(void *priv, struct
+vb2_queue *src_vq,
+  src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+  src_vq->lock = &ctx->dev->dev_mutex;
+  src_vq->dev             = &ctx->dev->plat_dev->dev;
++ src_vq->allow_cache_hints = 1;
+
+  ret = vb2_queue_init(src_vq);
+  if (ret) {
+@@ -953,6 +954,7 @@ int mtk_vcodec_dec_queue_init(void *priv, struct
+vb2_queue *src_vq,
+  dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+  dst_vq->lock = &ctx->dev->dev_mutex;
+  dst_vq->dev             = &ctx->dev->plat_dev->dev;
++ dst_vq->allow_cache_hints = 1;
+
+  ret = vb2_queue_init(dst_vq);
+  if (ret)
+-- 
+2.36.1.255.ge46751e96f-goog
