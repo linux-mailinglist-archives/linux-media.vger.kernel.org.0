@@ -2,53 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0982F53A9B8
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 17:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8531A53AA57
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 17:40:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354898AbiFAPOI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jun 2022 11:14:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47244 "EHLO
+        id S1355773AbiFAPkk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jun 2022 11:40:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348999AbiFAPOH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 11:14:07 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B5F90CFA
-        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 08:14:06 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 744D81F44596
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1654096444;
-        bh=lUHsKvf50AHaOVWK0bLfhNIAXc7K9XGAbVurLDdREhE=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=WP8HNlob6R3yCxMoiPBdFrgY96c5WXXUa45yeeDJRUXHG0TjgnTCCsG9fHM4PAFiJ
-         EmT7TTLr/EKKMPc95p0uAMzRwZ6Q1ZNKCbzoaaXUeuXONt7Rx7PgkZGEAUKQMDvjMz
-         CkAtZNz2HseAFJvfWUzNGttv3zbIEpcZ7XGhYbpU0cNH5BwvBy4p+jVDZQ0bouBQIH
-         nuU1YeMr/WASKKlKJn+B13SiFf0HAklgMckkQNd8ElhfiM6G/ZizXI6sKTjDysHmtw
-         MEgTeq4dEX9BDyInexdqrnP5pDGHsj39D3VBnM8TbmdHIsbtq6f9cfF8MaHojvx50/
-         XvkwtI9RLAYfw==
-Message-ID: <92a0163fa2bb20a5c577ca0222e497f0e2bee926.camel@collabora.com>
-Subject: Re: [PATCH] mediatek/vcodec: Enable incoherent buffer allocation
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Justin Green <greenjustin@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     linux-media@vger.kernel.org,
-        "tiffany.lin@mediatek.com" <tiffany.lin@mediatek.com>,
-        "andrew-ct.chen@mediatek.com" <andrew-ct.chen@mediatek.com>,
-        mchehab@kernel.org,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
-Date:   Wed, 01 Jun 2022 11:13:54 -0400
-In-Reply-To: <CAHC42RfnEmBzzLpRikJovq6-E-VWf04Wxrc6Go96y5w2MKT2YQ@mail.gmail.com>
-References: <CAHC42RegxBFjqMwR2gv8EwqE0FG+oS7QA9rcopapktf7tD_y-g@mail.gmail.com>
-         <YpbDJ+PUmUTcOD3n@google.com>
-         <CAHC42RfnEmBzzLpRikJovq6-E-VWf04Wxrc6Go96y5w2MKT2YQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+        with ESMTP id S1355771AbiFAPkj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 11:40:39 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B19C31506
+        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 08:40:37 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-142-DSHN-KKLM6GbHo2KcEfAdg-1; Wed, 01 Jun 2022 16:40:34 +0100
+X-MC-Unique: DSHN-KKLM6GbHo2KcEfAdg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.36; Wed, 1 Jun 2022 16:40:31 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.036; Wed, 1 Jun 2022 16:40:31 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Kalesh Singh' <kaleshsingh@google.com>,
+        Stephen Brennan <stephen.s.brennan@oracle.com>
+CC:     Ioannis Ilkos <ilkos@google.com>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "David Hildenbrand" <david@redhat.com>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Colin Cross <ccross@google.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Paul Gortmaker" <paul.gortmaker@windriver.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Subject: RE: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
+Thread-Topic: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
+Thread-Index: AQHYdT4SWIJvIUraZkitA/0m2+WPZq06r6HA
+Date:   Wed, 1 Jun 2022 15:40:31 +0000
+Message-ID: <959b0495a90e45b9816bb9f25d76a8f9@AcuMS.aculab.com>
+References: <20220531212521.1231133-1-kaleshsingh@google.com>
+ <20220531212521.1231133-3-kaleshsingh@google.com>
+ <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
+ <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
+In-Reply-To: <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,93 +82,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Justin,
-
-Le mercredi 01 juin 2022 =C3=A0 10:00 -0400, Justin Green a =C3=A9crit=C2=
-=A0:
-> Sure thing! Sorry about that, I think something got messed up with the
-> tabs. I've switched the "=3D" padding to spaces to spacing to make sure
-> everything is consistent. I think the removals part of the diff might
-> still look odd on some clients because of the tabs though.
-
-Best practice to to not mix style and functional changes, unless trivial. S=
-o if
-you want to change the style, add a second patch. Otherwise just maintain t=
-he
-original style (my recommendation). By the way you can add:
-
-Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-I'd be very interested to learn from Sergey on why this feature wasn't enab=
-le
-more broadly. I notice though the begin/end access bits have not been
-implemented, so when used with DMABuf, this isn't going to behave quite rig=
-ht by
-default. I also notice that the code make no use of the attached device
-dma_coherent flag, so another case were this feature would get some help be=
-fore
-being generalized.
-
->=20
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> index 52e5d36aa912..6a47b34c5bc9 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> @@ -929,30 +929,32 @@ int mtk_vcodec_dec_queue_init(void *priv, struct
-> vb2_queue *src_vq,
->=20
->   mtk_v4l2_debug(3, "[%d]", ctx->id);
->=20
-> - src_vq->type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> - src_vq->io_modes =3D VB2_DMABUF | VB2_MMAP;
-> - src_vq->drv_priv =3D ctx;
-> - src_vq->buf_struct_size =3D sizeof(struct mtk_video_dec_buf);
-> - src_vq->ops =3D ctx->dev->vdec_pdata->vdec_vb2_ops;
-> - src_vq->mem_ops =3D &vb2_dma_contig_memops;
-> - src_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> - src_vq->lock =3D &ctx->dev->dev_mutex;
-> - src_vq->dev             =3D &ctx->dev->plat_dev->dev;
-> + src_vq->type              =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> + src_vq->io_modes          =3D VB2_DMABUF | VB2_MMAP;
-> + src_vq->drv_priv          =3D ctx;
-> + src_vq->buf_struct_size   =3D sizeof(struct mtk_video_dec_buf);
-> + src_vq->ops               =3D ctx->dev->vdec_pdata->vdec_vb2_ops;
-> + src_vq->mem_ops           =3D &vb2_dma_contig_memops;
-> + src_vq->timestamp_flags   =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> + src_vq->lock              =3D &ctx->dev->dev_mutex;
-> + src_vq->dev               =3D &ctx->dev->plat_dev->dev;
-> + src_vq->allow_cache_hints =3D 1;
-
-As a side effect, you'll only have this line added, no noise around it.
-
->=20
->   ret =3D vb2_queue_init(src_vq);
->   if (ret) {
->   mtk_v4l2_err("Failed to initialize videobuf2 queue(output)");
->   return ret;
->   }
-> - dst_vq->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> - dst_vq->io_modes =3D VB2_DMABUF | VB2_MMAP;
-> - dst_vq->drv_priv =3D ctx;
-> - dst_vq->buf_struct_size =3D sizeof(struct mtk_video_dec_buf);
-> - dst_vq->ops =3D ctx->dev->vdec_pdata->vdec_vb2_ops;
-> - dst_vq->mem_ops =3D &vb2_dma_contig_memops;
-> - dst_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> - dst_vq->lock =3D &ctx->dev->dev_mutex;
-> - dst_vq->dev             =3D &ctx->dev->plat_dev->dev;
-> + dst_vq->type              =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> + dst_vq->io_modes          =3D VB2_DMABUF | VB2_MMAP;
-> + dst_vq->drv_priv          =3D ctx;
-> + dst_vq->buf_struct_size   =3D sizeof(struct mtk_video_dec_buf);
-> + dst_vq->ops               =3D ctx->dev->vdec_pdata->vdec_vb2_ops;
-> + dst_vq->mem_ops           =3D &vb2_dma_contig_memops;
-> + dst_vq->timestamp_flags   =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> + dst_vq->lock              =3D &ctx->dev->dev_mutex;
-> + dst_vq->dev               =3D &ctx->dev->plat_dev->dev;
-> + dst_vq->allow_cache_hints =3D 1;
->=20
->   ret =3D vb2_queue_init(dst_vq);
->   if (ret)
+RnJvbTogS2FsZXNoIFNpbmdoDQo+IFNlbnQ6IDMxIE1heSAyMDIyIDIzOjMwDQouLi4NCj4gPiBG
+aWxlIHBhdGhzIGNhbiBjb250YWluIGZ1biBjaGFyYWN0ZXJzIGxpa2UgbmV3bGluZXMgb3IgY29s
+b25zLCB3aGljaA0KPiA+IGNvdWxkIG1ha2UgcGFyc2luZyBvdXQgZmlsZW5hbWVzIGluIHRoaXMg
+dGV4dCBmaWxlLi4uIGZ1bi4gSG93IHdvdWxkIHlvdXINCj4gPiB1c2Vyc3BhY2UgcGFyc2luZyBs
+b2dpYyBoYW5kbGUgIi9ob21lL3N0ZXBoZW4vZmlsZW5hbWVcbnNpemU6XHQ0MDk2Ij8gVGhlDQo+
+ID4gcmVhZGxpbmsoMikgQVBJIG1ha2VzIHRoYXQgZWFzeSBhbHJlYWR5Lg0KPiANCj4gSSB0aGlu
+ayBzaW5jZSB3ZSBoYXZlIGVzY2FwZWQgdGhlICJcbiIgKHNlcV9maWxlX3BhdGgobSwgZmlsZSwg
+IlxuIikpLA0KPiB0aGVuIHVzZXIgc3BhY2UgbWlnaHQgcGFyc2UgdGhpcyBsaW5lIGxpa2U6DQo+
+IA0KPiBpZiAoc3RybmNtcChsaW5lLCAicGF0aDpcdCIsIDYpID09IDApDQo+ICAgICAgICAgY2hh
+ciogcGF0aCA9IGxpbmUgKyA2Ow0KDQpUaGUgcmVhbCBhbm5veWFuY2UgaXMgb3RoZXIgdGhpbmdz
+IGRvaW5nIHNjYW5zIG9mIHRoZSBmaWxlc3lzdGVtDQp0aGF0IGFjY2lkZW50YWxseSAnYnVtcCBp
+bnRvJyBzdHJhbmdlIG5hbWVzLg0KDQpXaGlsZSBhbnl0aGluZyBzZXJpb3VzIHByb2JhYmx5IGdl
+dHMgaXQgcmlnaHQgaG93IG1hbnkgdGltZXMNCkRvIHlvdSBydW4gJ2ZpbmQnIHRvIHF1aWNrbHkg
+c2VhcmNoIGZvciBzb21ldGhpbmc/DQoNClNwYWNlcyBpbiBmaWxlbmFtZXMgKHBvcHVsYXJpc2Vk
+IGJ5IHNvbWUgb3RoZXIgb3MpIGFyZSBhIFBJVEEuDQpOb3QgdG8gbWVudGlvbiBsZWFkaW5nIGFu
+ZCB0cmFpbGluZyBzcGFjZXMhDQpBbnlvbmUgdXNpbmcgZmlsZW5hbWVzIHRoYXQgb25seSBjb250
+YWluIHNwYWNlcyBkb2VzIG5lZWQgc2hvb3RpbmcuDQoNCkRlbGliZXJhdGVseSBhZGRpbmcgbm9u
+LXByaW50YWJsZXMgaXNuJ3QgcmVhbGx5IGEgZ29vZCBpZGVhLg0KDQoJRGF2aWQNCg0KLQ0KUmVn
+aXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRv
+biBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
