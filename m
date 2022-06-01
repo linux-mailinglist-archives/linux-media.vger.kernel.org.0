@@ -2,290 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E72453A4DA
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 14:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9688753A535
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 14:40:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343814AbiFAMYh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jun 2022 08:24:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56064 "EHLO
+        id S1353009AbiFAMkV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jun 2022 08:40:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352901AbiFAMY0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 08:24:26 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6459A80201
-        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 05:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654086250; x=1685622250;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PrQDsGlYut5N5u5rWs8P/yPx85AZGxE98etCbLfpanM=;
-  b=kXc88qvNT0aEN7gb4aEBtOpy2HD1gjxMYAoOgM/I+K8eFuwqyuNd6Ukp
-   1HIvQxU1GKVEqIUHTzXtlPPD8JyhsA3lkH1qRkcrfE7kF8SWxF70pYUXb
-   pIwfLVaFb3+Zh8tLnVBQeIjDqcO8YkmtwukFnaNvZd/jDcVQiWrWkdaON
-   cMN+73Pw2tUYctw3NPVirairru2oq4MtU9Bo3goFbOEREhd55NUOhHHYa
-   ZQdwf1bc/WuQfJclaYu1b2G8369acND5KLSvOJE/lr6JFtWWDwIGfL/jP
-   HAM6gKFpW4SilCnRlB1YfMwoU+thZo3qZ4pCYSyJx3ng/9dlE76jrjMXE
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="263204894"
-X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
-   d="scan'208";a="263204894"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2022 05:24:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
-   d="scan'208";a="581557602"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Jun 2022 05:24:00 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nwNOK-0003x6-0d;
-        Wed, 01 Jun 2022 12:24:00 +0000
-Date:   Wed, 1 Jun 2022 20:23:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>
-Subject: Re: [PATCH v2] media: s5k4ecgx: Switch to GPIO descriptors
-Message-ID: <202206012037.EwUL1zSZ-lkp@intel.com>
-References: <20220601094100.4928-1-linus.walleij@linaro.org>
+        with ESMTP id S243634AbiFAMkU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 08:40:20 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1176F4AF
+        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 05:40:18 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id s24so2161811wrb.10
+        for <linux-media@vger.kernel.org>; Wed, 01 Jun 2022 05:40:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=2BLb3a/bKK8JSZ8nleWjYNhcYmYYgG/wy6R6ErsL1i8=;
+        b=i2bfN+y0JLz22po/eL3Lw0qDgyhBAkJl6ewZX3EQMlGvvCs7Mntt2aiRKICHfvX4iV
+         YPr9HwJ9nHvKHXaRqJsSlYNbAxo4NEEqps8N8PPgy9Z1wTXqE2F1lOKPj0tkaAHn/GJD
+         nbWqPo8Enig167z9slg0Biu2LWGF+423jDsao=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=2BLb3a/bKK8JSZ8nleWjYNhcYmYYgG/wy6R6ErsL1i8=;
+        b=K2ydEEizzxhiG2lqGhQ/C/n2nHsY0IVPGt87ZiJRfRAaHUrADPDVKIa74WVhkDYsQa
+         sg+4efHbGK67mrBBFRNCJ8vObSZSqFDu0qJohCSwYXCoFKMy5gT9/y07MQaFUV6t4nt5
+         4lRIv1Aj0g2SaMCGdlS0mAeiHae74gfAiYF1bryxOC56tQ47pxcSiOXL2dXVqMfQTsoF
+         4pVrseJqPMAOWKa7cwkZSBzZSQMY784vakhXwiaQOA2phT/tRyKkxUuYmRyaDMvBIpwS
+         ysCm+vhPsV4S2JOY72Qv/RRsvhg3NA7qPLBLpNdPdsQqIK8Ga+EO3DeGOP5tfQP3zJ1o
+         Zyxw==
+X-Gm-Message-State: AOAM533KGCYqnY53hhFAo+NEXQYcIOAxn7b+8tcNuRCruZIDYgJQNGw0
+        VaEZt1Hwg5N/XtpClaODMUOCeV+x5Qy74Q==
+X-Google-Smtp-Source: ABdhPJzJHzc9OdTZBqvz/Ub5yA/mOJC3JvFEGfzcdAppFu9qrZLd+lPSu+/84/nYDyRM4+PKm6iNPw==
+X-Received: by 2002:adf:f38f:0:b0:210:30cf:6e4a with SMTP id m15-20020adff38f000000b0021030cf6e4amr14338402wro.676.1654087217380;
+        Wed, 01 Jun 2022 05:40:17 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id j37-20020a05600c1c2500b0039c235fb6a5sm1703467wms.8.2022.06.01.05.40.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jun 2022 05:40:16 -0700 (PDT)
+Date:   Wed, 1 Jun 2022 14:40:14 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     "T.J. Mercier" <tjmercier@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Greg Kroah-Hartman <gregkh@google.com>,
+        John Stultz <jstultz@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Hridya Valsaraju <hridya@google.com>, kernel-team@android.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+Message-ID: <YpdeLrJzmCA7OozT@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Greg Kroah-Hartman <gregkh@google.com>,
+        John Stultz <jstultz@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Hridya Valsaraju <hridya@google.com>, kernel-team@android.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20220516171315.2400578-1-tjmercier@google.com>
+ <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
+ <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
+ <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com>
+ <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
+ <YoM9BAwybcjG7K/H@kroah.com>
+ <Yo4/XhWQkACWaPIh@phenom.ffwll.local>
+ <CABdmKX2dC0fkFrCedjhzmheYiDVP4PnKBMeGkX3_bgrLjOiYOg@mail.gmail.com>
+ <38da6dcd-b395-f32f-5a47-6a8f2c6a4331@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220601094100.4928-1-linus.walleij@linaro.org>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <38da6dcd-b395-f32f-5a47-6a8f2c6a4331@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+On Mon, May 30, 2022 at 08:12:16AM +0200, Christian König wrote:
+> Am 25.05.22 um 23:05 schrieb T.J. Mercier:
+> > On Wed, May 25, 2022 at 7:38 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > On Tue, May 17, 2022 at 08:13:24AM +0200, Greg Kroah-Hartman wrote:
+> > > > On Mon, May 16, 2022 at 05:08:05PM -0700, T.J. Mercier wrote:
+> > > > > On Mon, May 16, 2022 at 12:21 PM Christian König
+> > > > > <christian.koenig@amd.com> wrote:
+> > > > > > Am 16.05.22 um 20:08 schrieb T.J. Mercier:
+> > > > > > > On Mon, May 16, 2022 at 10:20 AM Christian König
+> > > > > > > <christian.koenig@amd.com> wrote:
+> > > > > > > > Am 16.05.22 um 19:13 schrieb T.J. Mercier:
+> > > > > > > > > Recently, we noticed an issue where a process went into direct reclaim
+> > > > > > > > > while holding the kernfs rw semaphore for sysfs in write (exclusive)
+> > > > > > > > > mode. This caused processes who were doing DMA-BUF exports and releases
+> > > > > > > > > to go into uninterruptible sleep since they needed to acquire the same
+> > > > > > > > > semaphore for the DMA-BUF sysfs entry creation/deletion. In order to avoid
+> > > > > > > > > blocking DMA-BUF export for an indeterminate amount of time while
+> > > > > > > > > another process is holding the sysfs rw semaphore in exclusive mode,
+> > > > > > > > > this patch moves the per-buffer sysfs file creation to the default work
+> > > > > > > > > queue. Note that this can lead to a short-term inaccuracy in the dmabuf
+> > > > > > > > > sysfs statistics, but this is a tradeoff to prevent the hot path from
+> > > > > > > > > being blocked. A work_struct is added to dma_buf to achieve this, but as
+> > > > > > > > > it is unioned with the kobject in the sysfs_entry, dma_buf does not
+> > > > > > > > > increase in size.
+> > > > > > > > I'm still not very keen of this approach as it strongly feels like we
+> > > > > > > > are working around shortcoming somewhere else.
+> > > > > > > > 
+> > > > > > > My read of the thread for the last version is that we're running into
+> > > > > > > a situation where sysfs is getting used for something it wasn't
+> > > > > > > originally intended for, but we're also stuck with this sysfs
+> > > > > > > functionality for dmabufs.
+> > > > > > > 
+> > > > > > > > > Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stats in sysfs")
+> > > > > > > > > Originally-by: Hridya Valsaraju <hridya@google.com>
+> > > > > > > > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > > > > > > > > 
+> > > > > > > > > ---
+> > > > > > > > > See the originally submitted patch by Hridya Valsaraju here:
+> > > > > > > > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%2Flkml%2F2022%2F1%2F4%2F1066&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C8f00afd44b9744c45f5708da3e926503%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637891095771223650%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=pubWqUyqhCWpXHhJHsoqarc3GLtB6IFB1rhgfsL4a1M%3D&amp;reserved=0
+> > > > > > > > > 
+> > > > > > > > > v2 changes:
+> > > > > > > > > - Defer only sysfs creation instead of creation and teardown per
+> > > > > > > > > Christian König
+> > > > > > > > > 
+> > > > > > > > > - Use a work queue instead of a kthread for deferred work per
+> > > > > > > > > Christian König
+> > > > > > > > > ---
+> > > > > > > > >     drivers/dma-buf/dma-buf-sysfs-stats.c | 56 ++++++++++++++++++++-------
+> > > > > > > > >     include/linux/dma-buf.h               | 14 ++++++-
+> > > > > > > > >     2 files changed, 54 insertions(+), 16 deletions(-)
+> > > > > > > > > 
+> > > > > > > > > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > > > > > > > > index 2bba0babcb62..67b0a298291c 100644
+> > > > > > > > > --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > > > > > > > > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > > > > > > > > @@ -11,6 +11,7 @@
+> > > > > > > > >     #include <linux/printk.h>
+> > > > > > > > >     #include <linux/slab.h>
+> > > > > > > > >     #include <linux/sysfs.h>
+> > > > > > > > > +#include <linux/workqueue.h>
+> > > > > > > > > 
+> > > > > > > > >     #include "dma-buf-sysfs-stats.h"
+> > > > > > > > > 
+> > > > > > > > > @@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(void)
+> > > > > > > > >         kset_unregister(dma_buf_stats_kset);
+> > > > > > > > >     }
+> > > > > > > > > 
+> > > > > > > > > +static void sysfs_add_workfn(struct work_struct *work)
+> > > > > > > > > +{
+> > > > > > > > > +     struct dma_buf_sysfs_entry *sysfs_entry =
+> > > > > > > > > +             container_of(work, struct dma_buf_sysfs_entry, sysfs_add_work);
+> > > > > > > > > +     struct dma_buf *dmabuf = sysfs_entry->dmabuf;
+> > > > > > > > > +
+> > > > > > > > > +     /*
+> > > > > > > > > +      * A dmabuf is ref-counted via its file member. If this handler holds the only
+> > > > > > > > > +      * reference to the dmabuf, there is no need for sysfs kobject creation. This is an
+> > > > > > > > > +      * optimization and a race; when the reference count drops to 1 immediately after
+> > > > > > > > > +      * this check it is not harmful as the sysfs entry will still get cleaned up in
+> > > > > > > > > +      * dma_buf_stats_teardown, which won't get called until the final dmabuf reference
+> > > > > > > > > +      * is released, and that can't happen until the end of this function.
+> > > > > > > > > +      */
+> > > > > > > > > +     if (file_count(dmabuf->file) > 1) {
+> > > > > > > > Please completely drop that. I see absolutely no justification for this
+> > > > > > > > additional complexity.
+> > > > > > > > 
+> > > > > > > This case gets hit around 5% of the time in my testing so the else is
+> > > > > > > not a completely unused branch.
+> > > > > > Well I can only repeat myself: This means that your userspace is
+> > > > > > severely broken!
+> > > > > > 
+> > > > > > DMA-buf are meant to be long living objects
+> > > > > This patch addresses export *latency* regardless of how long-lived the
+> > > > > object is. Even a single, long-lived export will benefit from this
+> > > > > change if it would otherwise be blocked on adding an object to sysfs.
+> > > > > I think attempting to improve this latency still has merit.
+> > > > Fixing the latency is nice, but as it's just pushing the needed work off
+> > > > to another code path, it will take longer overall for the sysfs stuff to
+> > > > be ready for userspace to see.
+> > > > 
+> > > > Perhaps we need to step back and understand what this code is supposed
+> > > > to be doing.  As I recall, it was created because some systems do not
+> > > > allow debugfs anymore, and they wanted the debugging information that
+> > > > the dmabuf code was exposing to debugfs on a "normal" system.  Moving
+> > > > that logic to sysfs made sense, but now I am wondering why we didn't see
+> > > > these issues in the debugfs code previously?
+> > > > 
+> > > > Perhaps we should go just one step further and make a misc device node
+> > > > for dmabug debugging information to be in and just have userspace
+> > > > poll/read on the device node and we spit the info that used to be in
+> > > > debugfs out through that?  That way this only affects systems when they
+> > > > want to read the information and not normal code paths?  Yeah that's a
+> > > > hack, but this whole thing feels overly complex now.
+> > > A bit late on this discussion, but just wanted to add my +1 that we should
+> > > either redesign the uapi, or fix the underlying latency issue in sysfs, or
+> > > whatever else is deemed the proper fix.
+> > > 
+> > > Making uapi interfaces async in ways that userspace can't discover is a
+> > > hack that we really shouldn't consider, at least for upstream. All kinds
+> > > of hilarious things might start to happen when an object exists, but not
+> > > consistently in all the places where it should be visible. There's a
+> > > reason sysfs has all these neat property groups so that absolutely
+> > > everything is added atomically. Doing stuff later on just because usually
+> > > no one notices that the illusion falls apart isn't great.
+> > > 
+> > > Unfortunately I don't have a clear idea here what would be the right
+> > > solution :-/ One idea perhaps: Should we dynamically enumerate the objects
+> > > when userspace does a readdir()? That's absolutely not how sysfs works,
+> > > but procfs works like that and there's discussions going around about
+> > > moving these optimizations to other kernfs implementations. At least there
+> > > was a recent lwn article on this:
+> > > 
+> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flwn.net%2FArticles%2F895111%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C8f00afd44b9744c45f5708da3e926503%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637891095771223650%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=Q58OZi79vmKMCZLL0pY7NniIW6hmSqyWjlEaZgqzYtM%3D&amp;reserved=0
+> > > 
+> > > But that would be serious amounts of work I guess.
+> > > -Daniel
+> > > --
+> > > Daniel Vetter"
+> > > Software Engineer, Intel Corporation
+> > > https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C8f00afd44b9744c45f5708da3e926503%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637891095771223650%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=pOIl5yszzak4TPqjBYyL0mHjj%2F1nYRfNJbNPQTXBhbA%3D&amp;reserved=0
+> > Hi Daniel,
+> > 
+> > My team has been discussing this, and I think we're approaching a
+> > consensus on a way forward that involves deprecating the existing
+> > uapi.
+> > 
+> > I actually proposed a similar (but less elegant) idea to the readdir()
+> > one. A new "dump_dmabuf_data" sysfs file that a user would write to,
+> > which would cause a one-time creation of the per-buffer files. These
+> > could be left around to become stale, or get cleaned up after first
+> > read. However to me it seems impossible to correctly deal with
+> > multiple simultaneous users with this technique. We're not currently
+> > planning to pursue this.
+> > 
+> > Thanks for the link to the article. That on-demand creation sounds
+> > like it would allow us to keep the existing structure and files for
+> > DMA-buf, assuming there is not a similar lock contention issue when
+> > adding a new node to the virtual tree. :)
+> 
+> I think that this on demand creation is even worse than the existing ideas,
+> but if you can get Greg to accept the required sysfs changes than that's at
+> least outside of my maintenance domain any more :)
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on v5.18 next-20220601]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/media-s5k4ecgx-Switch-to-GPIO-descriptors/20220601-174300
-base:   git://linuxtv.org/media_tree.git master
-config: hexagon-randconfig-r041-20220531 (https://download.01.org/0day-ci/archive/20220601/202206012037.EwUL1zSZ-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c825abd6b0198fb088d9752f556a70705bc99dfd)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3814f4960184762bff97b188607a2b0042f3d6ba
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Linus-Walleij/media-s5k4ecgx-Switch-to-GPIO-descriptors/20220601-174300
-        git checkout 3814f4960184762bff97b188607a2b0042f3d6ba
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/i2c/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/i2c/s5k4ecgx.c:897:38: warning: missing terminating '"' character [-Winvalid-pp-token]
-           gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
-                                               ^
->> drivers/media/i2c/s5k4ecgx.c:897:38: error: expected expression
->> drivers/media/i2c/s5k4ecgx.c:947:26: error: use of undeclared identifier 's5k4ecgx_id'
-   MODULE_DEVICE_TABLE(i2c, s5k4ecgx_id);
-                            ^
->> drivers/media/i2c/s5k4ecgx.c:954:12: error: use of undeclared identifier 's5k4ecgx_remove'
-           .remove = s5k4ecgx_remove,
-                     ^
-   drivers/media/i2c/s5k4ecgx.c:955:14: error: use of undeclared identifier 's5k4ecgx_id'
-           .id_table = s5k4ecgx_id,
-                       ^
->> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
-   module_i2c_driver(v4l2_i2c_driver);
-   ^
-   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
-           module_driver(__i2c_driver, i2c_add_driver, \
-           ^
-   include/linux/device/driver.h:260:41: note: expanded from macro 'module_driver'
-   static int __init __driver##_init(void) \
-                                           ^
->> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
-   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
-           module_driver(__i2c_driver, i2c_add_driver, \
-           ^
-   include/linux/device/driver.h:263:3: note: expanded from macro 'module_driver'
-   } \
-     ^
-   include/linux/module.h:132:2: note: expanded from macro '\
-   module_init'
-           { return initfn; }                                      \
-           ^
->> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
-   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
-           module_driver(__i2c_driver, i2c_add_driver, \
-           ^
-   include/linux/device/driver.h:265:42: note: expanded from macro 'module_driver'
-   static void __exit __driver##_exit(void) \
-                                            ^
->> drivers/media/i2c/s5k4ecgx.c:958:1: error: function definition is not allowed here
-   include/linux/i2c.h:950:2: note: expanded from macro 'module_i2c_driver'
-           module_driver(__i2c_driver, i2c_add_driver, \
-           ^
-   include/linux/device/driver.h:268:3: note: expanded from macro 'module_driver'
-   } \
-     ^
-   include/linux/module.h:140:2: note: expanded from macro '\
-   module_exit'
-           { return exitfn; }                                      \
-           ^
->> drivers/media/i2c/s5k4ecgx.c:964:36: error: expected '}'
-   MODULE_FIRMWARE(S5K4ECGX_FIRMWARE);
-                                      ^
-   drivers/media/i2c/s5k4ecgx.c:856:1: note: to match this '{'
-   {
-   ^
-   drivers/media/i2c/s5k4ecgx.c:947:1: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-   MODULE_DEVICE_TABLE(i2c, s5k4ecgx_id);
-   ^
-   include/linux/module.h:244:21: note: expanded from macro 'MODULE_DEVICE_TABLE'
-   extern typeof(name) __mod_##type##__##name##_device_table               \
-                       ^
-   <scratch space>:94:1: note: expanded from here
-   __mod_i2c__s5k4ecgx_id_device_table
-   ^
->> drivers/media/i2c/s5k4ecgx.c:895:8: error: use of undeclared label 'out_err'
-                   goto out_err;
-                        ^
-   2 warnings and 10 errors generated.
-
-
-vim +897 drivers/media/i2c/s5k4ecgx.c
-
-   853	
-   854	static int s5k4ecgx_probe(struct i2c_client *client,
-   855				  const struct i2c_device_id *id)
-   856	{
-   857		struct s5k4ecgx_platform_data *pdata = client->dev.platform_data;
-   858		struct v4l2_subdev *sd;
-   859		struct s5k4ecgx *priv;
-   860		int ret, i;
-   861	
-   862		if (pdata == NULL) {
-   863			dev_err(&client->dev, "platform data is missing!\n");
-   864			return -EINVAL;
-   865		}
-   866	
-   867		priv = devm_kzalloc(&client->dev, sizeof(struct s5k4ecgx), GFP_KERNEL);
-   868		if (!priv)
-   869			return -ENOMEM;
-   870	
-   871		mutex_init(&priv->lock);
-   872		priv->streaming = 0;
-   873	
-   874		sd = &priv->sd;
-   875		/* Registering subdev */
-   876		v4l2_i2c_subdev_init(sd, client, &s5k4ecgx_ops);
-   877		/* Static name; NEVER use in new drivers! */
-   878		strscpy(sd->name, S5K4ECGX_DRIVER_NAME, sizeof(sd->name));
-   879	
-   880		sd->internal_ops = &s5k4ecgx_subdev_internal_ops;
-   881		/* Support v4l2 sub-device user space API */
-   882		sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-   883	
-   884		priv->pad.flags = MEDIA_PAD_FL_SOURCE;
-   885		sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
-   886		ret = media_entity_pads_init(&sd->entity, 1, &priv->pad);
-   887		if (ret)
-   888			return ret;
-   889	
-   890		/* Request GPIO lines asserted */
-   891		priv->stby = devm_gpiod_get(&client->dev, "standby", GPIOD_OUT_HIGH);
-   892		if (IS_ERR(priv->stby)) {
-   893			v4l2_err(sd, "failed to request gpio S5K4ECGX_STBY");
-   894			ret = PTR_ERR(priv->stby);
- > 895			goto out_err;
-   896		}
- > 897		gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
-   898		priv->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-   899		if (IS_ERR(priv->reset)) {
-   900			v4l2_err(sd, "failed to request gpio S5K4ECGX_RST");
-   901			ret = PTR_ERR(priv->reset);
-   902			goto out_err;
-   903		}
-   904		gpiod_set_consumer_name(priv->reset, "S5K4ECGX_RST");
-   905	
-   906		for (i = 0; i < S5K4ECGX_NUM_SUPPLIES; i++)
-   907			priv->supplies[i].supply = s5k4ecgx_supply_names[i];
-   908	
-   909		ret = devm_regulator_bulk_get(&client->dev, S5K4ECGX_NUM_SUPPLIES,
-   910					 priv->supplies);
-   911		if (ret) {
-   912			dev_err(&client->dev, "Failed to get regulators\n");
-   913			goto out_err;
-   914		}
-   915		ret = s5k4ecgx_init_v4l2_ctrls(priv);
-   916		if (ret)
-   917			goto out_err;
-   918	
-   919		priv->curr_pixfmt = &s5k4ecgx_formats[0];
-   920		priv->curr_frmsize = &s5k4ecgx_prev_sizes[0];
-   921	
-   922		return 0;
-   923	
-   924	out_err:
-   925		media_entity_cleanup(&priv->sd.entity);
-   926	
-   927		return ret;
-   928	}
-   929	
-   930	static int s5k4ecgx_remove(struct i2c_client *client)
-   931	{
-   932		struct v4l2_subdev *sd = i2c_get_clientdata(client);
-   933		struct s5k4ecgx *priv = to_s5k4ecgx(sd);
-   934	
-   935		mutex_destroy(&priv->lock);
-   936		v4l2_device_unregister_subdev(sd);
-   937		v4l2_ctrl_handler_free(&priv->handler);
-   938		media_entity_cleanup(&sd->entity);
-   939	
-   940		return 0;
-   941	}
-   942	
-   943	static const struct i2c_device_id s5k4ecgx_id[] = {
-   944		{ S5K4ECGX_DRIVER_NAME, 0 },
-   945		{}
-   946	};
- > 947	MODULE_DEVICE_TABLE(i2c, s5k4ecgx_id);
-   948	
-   949	static struct i2c_driver v4l2_i2c_driver = {
-   950		.driver = {
-   951			.name = S5K4ECGX_DRIVER_NAME,
-   952		},
-   953		.probe = s5k4ecgx_probe,
- > 954		.remove = s5k4ecgx_remove,
-   955		.id_table = s5k4ecgx_id,
-   956	};
-   957	
- > 958	module_i2c_driver(v4l2_i2c_driver);
-   959	
-   960	MODULE_DESCRIPTION("Samsung S5K4ECGX 5MP SOC camera");
-   961	MODULE_AUTHOR("Sangwook Lee <sangwook.lee@linaro.org>");
-   962	MODULE_AUTHOR("Seok-Young Jang <quartz.jang@samsung.com>");
-   963	MODULE_LICENSE("GPL");
- > 964	MODULE_FIRMWARE(S5K4ECGX_FIRMWARE);
-
+I think doing it cleanly in sysfs without changing the current uapi sounds
+pretty good. The hand-rolled "touch a magic file to force update all the
+files into existence" sounds like a horror show to me :-) Plus I don't see
+how you can actually avoid the locking pain with that since once the files
+are created, you have to remove them synchronously again, plus you get to
+deal with races on top (and likely some locking inversion fun on top).
+-Daniel
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
