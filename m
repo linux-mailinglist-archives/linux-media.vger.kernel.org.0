@@ -2,63 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 173FD539A39
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 01:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 190E9539ACA
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 03:39:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348756AbiEaXyn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 19:54:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40934 "EHLO
+        id S1347934AbiFABi7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 May 2022 21:38:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346644AbiEaXym (ORCPT
+        with ESMTP id S231584AbiFABi5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 19:54:42 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A60429CF62
-        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 16:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654041281; x=1685577281;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UJjCxL3vqh+P7R7LJwVPNXBXCjd+BwVohOyH2v9zvlU=;
-  b=BtyAE3HR77xmSyNpHla+kMOIGWtXUwGHNspAD8+TZcfQkrvGv8Ubq0Aq
-   /Hi95m0ATKiQGkVQjNAhgw2bqWU8j+lHacVEW/ycfKAaOdHazvQoJkK0Q
-   zmTqoGt/i/2/hoPZPqOj+rj8k0Xt00rAz5q7J9CGZoDZhm+nfgfV4u0qE
-   n2It1Dz6jTvtf9iL+eoJW14K+VVLTSOYokcu6AecXLa9noCijRl9TtoqX
-   aXIpfm4+busDlLGLBd6lUJAL0My3NeDTObzYiqMTJAA+yogXnR3GS5MyU
-   dw8xA4TUJiiU4+B1vsLVtBlL1OkHwNYEJEjWuzvEe3uhsro9D72EANdvL
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="338465446"
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; 
-   d="scan'208";a="338465446"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 16:54:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; 
-   d="scan'208";a="904200739"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 31 May 2022 16:54:33 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nwBh2-0003Fi-Ox;
-        Tue, 31 May 2022 23:54:32 +0000
-Date:   Wed, 1 Jun 2022 07:53:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: Re: [PATCH] media: s5k4ecgx: Switch to GPIO descriptors
-Message-ID: <202206010746.udUX5CYK-lkp@intel.com>
-References: <20220531084546.67737-1-linus.walleij@linaro.org>
+        Tue, 31 May 2022 21:38:57 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26A9270369
+        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 18:38:53 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id h1so354100plf.11
+        for <linux-media@vger.kernel.org>; Tue, 31 May 2022 18:38:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uWWAUmErisdtUtvBbjj0wGupXem7329reWK7fE7MtwQ=;
+        b=UxfDxnVTFCNDmKVBHz1AH7vroW8KxYt4EkJbguZfzP/qwnKgFBCvOW/vrNMbo5/MBt
+         QCz1XWHYfhC0WnP9cmUdo9vEbRmvTWkP0Oo0Z2O16jf4Vo78l4kaaZ5ca7E+a+CkSBxS
+         UnNX/JzsMxh0bFRsXV8JvcLxPLnehCsnT69So=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uWWAUmErisdtUtvBbjj0wGupXem7329reWK7fE7MtwQ=;
+        b=u8EFD/mjtGgtloyp1BoM/+MT3MgQQP+gLhXGRs1MGuaKaCadTPc7xB4s6UN/nJmDKc
+         LYWvJ/RzeFQA4zb5E+aYP2lQ2HtQ6GKIMlQ5w1byYN2uFyoG3fOEwNbEsqzKjZ30jyjR
+         X2ubHus3R6Y4L7NnQyLHCR8wK0SLOx/alFb3LqgyLmVKtP7Ki7ikg7Gg6WMuAprcTX1R
+         Ra9Upa7h+BXvsN7Nf+PkfypB4oSzSP09s8crDY9oGaZ3dO5cXQKq5bVrfD2x8OaZ7lQH
+         hnfcpxNK2BKbGlFb9+g0aW6KTjOc8G+ukThddGBwT7xN8lYP0SCuxfJMck1YjoeUR+RK
+         1wZA==
+X-Gm-Message-State: AOAM533peruc6A5i7MJdCyzX3l8lF9RNQVlbxKbm/5vO+pKZ3Tmaqsw6
+        zLLKRyb9RFt8eDXNl91U14cyQQ==
+X-Google-Smtp-Source: ABdhPJzAkO0U0vpTLsR5HQaDJSybhKRumcisTEvUjGFFERhS+jl+42zh7fQ26wY6h44vYmW5yVyJgQ==
+X-Received: by 2002:a17:902:e745:b0:163:5074:6c2f with SMTP id p5-20020a170902e74500b0016350746c2fmr35614706plf.140.1654047532678;
+        Tue, 31 May 2022 18:38:52 -0700 (PDT)
+Received: from google.com ([240f:75:7537:3187:d4ab:3840:8b0c:eb66])
+        by smtp.gmail.com with ESMTPSA id k62-20020a638441000000b003fbc60e3358sm125364pgd.4.2022.05.31.18.38.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 May 2022 18:38:52 -0700 (PDT)
+Date:   Wed, 1 Jun 2022 10:38:47 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Justin Green <greenjustin@chromium.org>
+Cc:     linux-media@vger.kernel.org,
+        "tiffany.lin@mediatek.com" <tiffany.lin@mediatek.com>,
+        "andrew-ct.chen@mediatek.com" <andrew-ct.chen@mediatek.com>,
+        mchehab@kernel.org,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH] mediatek/vcodec: Enable incoherent buffer allocation
+Message-ID: <YpbDJ+PUmUTcOD3n@google.com>
+References: <CAHC42RegxBFjqMwR2gv8EwqE0FG+oS7QA9rcopapktf7tD_y-g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220531084546.67737-1-linus.walleij@linaro.org>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <CAHC42RegxBFjqMwR2gv8EwqE0FG+oS7QA9rcopapktf7tD_y-g@mail.gmail.com>
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,159 +72,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+On (22/05/31 17:10), Justin Green wrote:
+> Set allow_cache_hints to 1 for the vb2_queue source and destination queues
+> in the mediatek vcodec V4L2 driver. This allows us to allocate buffers
+> with the V4L2_MEMORY_FLAG_NON_COHERENT set. On Mediatek SoCs, this enables
+> caching for this memory, which vastly improves performance when being read
+> from CPU. Read performance for these buffers is in turn important for
+> detiling MM21 video frames in software.
+> 
+> This change should be safe from race conditions since videobuf2 already
+> invalidates or flushes the appropriate cache lines in its prepare() and
+> finish() methods.
+> 
+> Tested on a MT8183 SoC. Resulted in both correct detiling and a 10X
+> speedup.
 
-I love your patch! Perhaps something to improve:
+Hi Justin,
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on v5.18 next-20220531]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+It seems that something has happened to tabs and code formatting,
+could you double check and resend?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/media-s5k4ecgx-Switch-to-GPIO-descriptors/20220531-164948
-base:   git://linuxtv.org/media_tree.git master
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20220601/202206010746.udUX5CYK-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/d6a5013d9dd546a9c9d7ed3714e861f7593b1635
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Linus-Walleij/media-s5k4ecgx-Switch-to-GPIO-descriptors/20220531-164948
-        git checkout d6a5013d9dd546a9c9d7ed3714e861f7593b1635
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/i2c/
+> @@ -929,30 +929,32 @@ int mtk_vcodec_dec_queue_init(void *priv, struct
+> vb2_queue *src_vq,
+> 
+>   mtk_v4l2_debug(3, "[%d]", ctx->id);
+> 
+> - src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> - src_vq->io_modes = VB2_DMABUF | VB2_MMAP;
+> - src_vq->drv_priv = ctx;
+> - src_vq->buf_struct_size = sizeof(struct mtk_video_dec_buf);
+> - src_vq->ops = ctx->dev->vdec_pdata->vdec_vb2_ops;
+> - src_vq->mem_ops = &vb2_dma_contig_memops;
+> - src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> - src_vq->lock = &ctx->dev->dev_mutex;
+> - src_vq->dev             = &ctx->dev->plat_dev->dev;
+> + src_vq->type   = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> + src_vq->io_modes   = VB2_DMABUF | VB2_MMAP;
+> + src_vq->drv_priv   = ctx;
+> + src_vq->buf_struct_size   = sizeof(struct mtk_video_dec_buf);
+> + src_vq->ops   = ctx->dev->vdec_pdata->vdec_vb2_ops;
+> + src_vq->mem_ops   = &vb2_dma_contig_memops;
+> + src_vq->timestamp_flags   = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> + src_vq->lock   = &ctx->dev->dev_mutex;
+> + src_vq->dev               = &ctx->dev->plat_dev->dev;
+> + src_vq->allow_cache_hints = 1;
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+I guess it should look something like this
 
-All warnings (new ones prefixed by >>):
-
-   drivers/media/i2c/s5k4ecgx.c: In function 's5k4ecgx_probe':
->> drivers/media/i2c/s5k4ecgx.c:897:45: warning: missing terminating " character
-     897 |         gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
-         |                                             ^
-   drivers/media/i2c/s5k4ecgx.c:897:45: error: missing terminating " character
-     897 |         gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
-         |                                             ^~~~~~~~~~~~~~~~
-   drivers/media/i2c/s5k4ecgx.c:898:76: error: expected ')' before ';' token
-     898 |         priv->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-         |                                                                            ^
-         |                                                                            )
-   drivers/media/i2c/s5k4ecgx.c:897:32: note: to match this '('
-     897 |         gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
-         |                                ^
-   drivers/media/i2c/s5k4ecgx.c:898:21: error: passing argument 2 of 'gpiod_set_consumer_name' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     898 |         priv->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-         |         ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                     |
-         |                     struct gpio_desc *
-   In file included from drivers/media/i2c/s5k4ecgx.c:18:
-   include/linux/gpio/consumer.h:166:65: note: expected 'const char *' but argument is of type 'struct gpio_desc *'
-     166 | int gpiod_set_consumer_name(struct gpio_desc *desc, const char *name);
-         |                                                     ~~~~~~~~~~~~^~~~
-   drivers/media/i2c/s5k4ecgx.c:927:20: error: expected ';' before '}' token
-     927 |         return ret;
-         |                    ^
-         |                    ;
-     928 | }
-         | ~                   
-   drivers/media/i2c/s5k4ecgx.c:895:17: error: label 'out_err' used but not defined
-     895 |                 goto out_err;
-         |                 ^~~~
->> drivers/media/i2c/s5k4ecgx.c:860:18: warning: unused variable 'i' [-Wunused-variable]
-     860 |         int ret, i;
-         |                  ^
-   drivers/media/i2c/s5k4ecgx.c:928:1: error: control reaches end of non-void function [-Werror=return-type]
-     928 | }
-         | ^
-   At top level:
-   drivers/media/i2c/s5k4ecgx.c:827:12: warning: 's5k4ecgx_init_v4l2_ctrls' defined but not used [-Wunused-function]
-     827 | static int s5k4ecgx_init_v4l2_ctrls(struct s5k4ecgx *priv)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +897 drivers/media/i2c/s5k4ecgx.c
-
-   853	
-   854	static int s5k4ecgx_probe(struct i2c_client *client,
-   855				  const struct i2c_device_id *id)
-   856	{
-   857		struct s5k4ecgx_platform_data *pdata = client->dev.platform_data;
-   858		struct v4l2_subdev *sd;
-   859		struct s5k4ecgx *priv;
- > 860		int ret, i;
-   861	
-   862		if (pdata == NULL) {
-   863			dev_err(&client->dev, "platform data is missing!\n");
-   864			return -EINVAL;
-   865		}
-   866	
-   867		priv = devm_kzalloc(&client->dev, sizeof(struct s5k4ecgx), GFP_KERNEL);
-   868		if (!priv)
-   869			return -ENOMEM;
-   870	
-   871		mutex_init(&priv->lock);
-   872		priv->streaming = 0;
-   873	
-   874		sd = &priv->sd;
-   875		/* Registering subdev */
-   876		v4l2_i2c_subdev_init(sd, client, &s5k4ecgx_ops);
-   877		/* Static name; NEVER use in new drivers! */
-   878		strscpy(sd->name, S5K4ECGX_DRIVER_NAME, sizeof(sd->name));
-   879	
-   880		sd->internal_ops = &s5k4ecgx_subdev_internal_ops;
-   881		/* Support v4l2 sub-device user space API */
-   882		sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-   883	
-   884		priv->pad.flags = MEDIA_PAD_FL_SOURCE;
-   885		sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
-   886		ret = media_entity_pads_init(&sd->entity, 1, &priv->pad);
-   887		if (ret)
-   888			return ret;
-   889	
-   890		/* Request GPIO lines asserted */
-   891		priv->stby = devm_gpiod_get(&client->dev, "standby", GPIOD_OUT_HIGH);
-   892		if (IS_ERR(priv->stby)) {
-   893			v4l2_err(sd, "failed to request gpio S5K4ECGX_STBY");
-   894			ret = PTR_ERR(priv->stby);
-   895			goto out_err;
-   896		}
- > 897		gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY);
-   898		priv->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-   899		if (IS_ERR(priv->reset)) {
-   900			v4l2_err(sd, "failed to request gpio S5K4ECGX_RST");
-   901			ret = PTR_ERR(priv->reset);
-   902			goto out_err;
-   903		}
-   904		gpiod_set_consumer_name(priv->reset, "S5K4ECGX_RST");
-   905	
-   906		for (i = 0; i < S5K4ECGX_NUM_SUPPLIES; i++)
-   907			priv->supplies[i].supply = s5k4ecgx_supply_names[i];
-   908	
-   909		ret = devm_regulator_bulk_get(&client->dev, S5K4ECGX_NUM_SUPPLIES,
-   910					 priv->supplies);
-   911		if (ret) {
-   912			dev_err(&client->dev, "Failed to get regulators\n");
-   913			goto out_err;
-   914		}
-   915		ret = s5k4ecgx_init_v4l2_ctrls(priv);
-   916		if (ret)
-   917			goto out_err;
-   918	
-   919		priv->curr_pixfmt = &s5k4ecgx_formats[0];
-   920		priv->curr_frmsize = &s5k4ecgx_prev_sizes[0];
-   921	
-   922		return 0;
-   923	
-   924	out_err:
-   925		media_entity_cleanup(&priv->sd.entity);
-   926	
-   927		return ret;
-   928	}
-   929	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+-	src_vq->type		= V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+-	src_vq->io_modes	= VB2_DMABUF | VB2_MMAP;
+-	src_vq->drv_priv	= ctx;
+-	src_vq->buf_struct_size = sizeof(struct mtk_video_dec_buf);
+-	src_vq->ops		= ctx->dev->vdec_pdata->vdec_vb2_ops;
+-	src_vq->mem_ops		= &vb2_dma_contig_memops;
+-	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+-	src_vq->lock		= &ctx->dev->dev_mutex;
+-	src_vq->dev             = &ctx->dev->plat_dev->dev;
++	src_vq->type			= V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
++	src_vq->io_modes		= VB2_DMABUF | VB2_MMAP;
++	src_vq->drv_priv		= ctx;
++	src_vq->buf_struct_size		= sizeof(struct mtk_video_dec_buf);
++	src_vq->ops			= ctx->dev->vdec_pdata->vdec_vb2_ops;
++	src_vq->mem_ops			= &vb2_dma_contig_memops;
++	src_vq->timestamp_flags		= V4L2_BUF_FLAG_TIMESTAMP_COPY;
++	src_vq->lock			= &ctx->dev->dev_mutex;
++	src_vq->dev			= &ctx->dev->plat_dev->dev;
++	src_vq->allow_cache_hints	= 1;
