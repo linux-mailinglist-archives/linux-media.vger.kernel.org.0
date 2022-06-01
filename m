@@ -2,128 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F9C8539F8E
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 10:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6A50539FAE
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 10:40:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245286AbiFAIdC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jun 2022 04:33:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56456 "EHLO
+        id S1350917AbiFAIjs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jun 2022 04:39:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344920AbiFAIdB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 04:33:01 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C068C590BC;
-        Wed,  1 Jun 2022 01:32:59 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id nn3-20020a17090b38c300b001e0e091cf03so3359251pjb.1;
-        Wed, 01 Jun 2022 01:32:59 -0700 (PDT)
+        with ESMTP id S1350792AbiFAIjr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 04:39:47 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE045FF2B
+        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 01:39:46 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id c14so1240393pgu.13
+        for <linux-media@vger.kernel.org>; Wed, 01 Jun 2022 01:39:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=wYKrercWjjwhVcq5zwRz95bnyrViR728O6OmqX4hnKc=;
-        b=jChRG5M+RIX7K5ln36MT/cnUVEnd4wFwyPwT0OluWvMa5hrBJNs+M0+WCsfgXKow7O
-         QNcD9y4BXQmJbLFRNWuLlw6Z5pzLOgpsPH0brJ8FLmpKEV0tevpleWMYek3ZzI9iALJM
-         bIO0yIbzWMZmBfgODAoQlrxtpNMfND1StkhLQeC63u3lObVM/JH22DQj7qRRXURzQ6L2
-         6Hau+v76Cc65gtLw/tHtxaqMKWx+vP2MrNUh0EBQfrPVDuRohg9nsPeZRr0cg2o7cPkB
-         6/+nSgLTEGZ/iXcdSA6tSgXsSQZhgudTS+0QK0yFdyblYPWKmdqyBhKf2Kx1gNXSf62k
-         kPSw==
+        d=amarulasolutions.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/hlGZJChg6yeZr8dizwcygIwZeI0usKJn+aja9BC6uQ=;
+        b=kbNZu03feANSW4Cj0446mG43egRTmCEdShrLXtPzqgPEFSLoqC8PxdX+0TwFK+eHaq
+         gasv/i/pMdr+HJrGBhWTAFKHTVwnn8wSMJaVFl/BNbHP3y+m6pAasA5ZqOXmRbW/bZ6P
+         AhG+erR0o1RNqNeb4wZ3YEwxK9fhtEoADXPd0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=wYKrercWjjwhVcq5zwRz95bnyrViR728O6OmqX4hnKc=;
-        b=rAAY13u0XSnZWLu5CbDBRG8ukDF2gxj3UB8htl7IDIYVxtAKL43VdoJ8m8A2OBOINd
-         8e+VWqMQdLVwaP88cYb/tOkGHk/tikgfW3JI7Krdzk0h2TU3sPzIX72paqNU+Fu91/yk
-         OJE/cM6L2ZbzzZIaFasuIbjPOW57+NbxrLUbepMfIyueQtx67TKEBr49O0SPbSGebNQ3
-         Xskp4WT99+Fmxj/K9ZII3ECAEWxFHUHoDMo6LF0jKL3o2Yxll//tUFD4d2u3aczX72hS
-         3UuETrBfusSh/2OlHebExO0clh5Q0fADgSVUV7nOZBo+vV6+oJhkY1zVQ3gU+8dV/Jji
-         S0NQ==
-X-Gm-Message-State: AOAM533HwFd+631D2bT389GVKjfGiVHFo0VcFe8D7e7P84cCcCJiplfn
-        liT+tytqnc4jaOcV3B5T2gV9Pvbpq6k0CcOI
-X-Google-Smtp-Source: ABdhPJw8n510jrR/IrcT0pJGTXpYydR0zo1E7nsV1+TzjU7/bNiHq7F1xyds6O/jydFgysFav3c0Mg==
-X-Received: by 2002:a17:90b:3803:b0:1e0:da02:b903 with SMTP id mq3-20020a17090b380300b001e0da02b903mr33041377pjb.125.1654072379055;
-        Wed, 01 Jun 2022 01:32:59 -0700 (PDT)
-Received: from [172.16.4.4] ([106.39.150.114])
-        by smtp.gmail.com with ESMTPSA id h26-20020a62b41a000000b0051843980605sm837388pfn.181.2022.06.01.01.32.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jun 2022 01:32:57 -0700 (PDT)
-Message-ID: <a2076725-acc6-c84c-91d5-acabd138264b@gmail.com>
-Date:   Wed, 1 Jun 2022 16:32:53 +0800
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/hlGZJChg6yeZr8dizwcygIwZeI0usKJn+aja9BC6uQ=;
+        b=h467pMys/y/csVEVedVjkibzsOvjG5vtURmovT8EKaMze/dU5UdwkAavhAJL5Axvm8
+         nyis3qt1HcuXS8znktISOT5899BN3qJ7Gp/a1j4pcb1xMou6rh44gDZJd79GhRegXpgZ
+         dBuqIwqBHWyN5tD9ri0EnJIoqeUvo5nv9MdBsfVgVxQa4nP82wRtffR/FH1sC9Bp9tqS
+         P2RD7eDnQh85oTDHQjBuZHKViwJJnx4c6FMqrPaPdkhNokIGr/Q4QywI7MsY6jYKE22Z
+         VFGgXVBJfz5h4NjEUhfXd0LfdP5iVyX1vClB0OgQL8kAFfD9DWchdEEw3Hc4cL9TFTZ6
+         FptQ==
+X-Gm-Message-State: AOAM5314HX+qBQRyt/FLJicKKf+UV3SCkw9wilvJ6+vGcP0aPeS6Jn8e
+        ov7ijUFKrAVQbJIzPhY4t9jPjEUUO/AP01vjafpzJg==
+X-Google-Smtp-Source: ABdhPJwOoKIaZ0Q7fZF4xk7xVQnTGZTj1phoAQ+dPWj3dBBmM5G6t/1ciGWPUVxtZbMs6zlAIBVOnd/y7QerGIMFuFI=
+X-Received: by 2002:a63:cd01:0:b0:3f2:7f8d:14e8 with SMTP id
+ i1-20020a63cd01000000b003f27f8d14e8mr56746779pgg.491.1654072785734; Wed, 01
+ Jun 2022 01:39:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] v4l: xilinx-vipp: Fix refcount leak in
- xvip_graph_dma_init
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hyun Kwon <hyun.kwon@xilinx.com>,
+References: <20220519075117.1003520-1-tommaso.merciai@amarulasolutions.com>
+ <20220519075117.1003520-2-tommaso.merciai@amarulasolutions.com>
+ <20220531131409.f54znvogejkwqqkf@uno.localdomain> <20220531154040.GA1331064@tom-ThinkPad-T14s-Gen-2i>
+ <CAOf5uwmNoSPifCo8_hLZyr=DzMqL0r2Ftot2jneEVpAT8AyYVg@mail.gmail.com> <20220601081129.jlasfmvjyvqr4brd@uno.localdomain>
+In-Reply-To: <20220601081129.jlasfmvjyvqr4brd@uno.localdomain>
+From:   Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date:   Wed, 1 Jun 2022 10:39:34 +0200
+Message-ID: <CAOf5uwmZDbT5mb3awjj1ggnVF7WQhHA3mYnt51nrzZUy1mArRA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: i2c: ov5695: use regulator_bulk_enable/regulator_bulk
+ disable instead of for loop
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+        linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Radhey Shyam Pandey <radheys@xilinx.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Miaoqian Lin <linmq006@gmail.com>
-References: <20220601042514.61780-1-linmq006@gmail.com>
- <YpcWf46fAJcfIgIt@pendragon.ideasonboard.com>
-From:   Miaoqian Lin <linmq006@gmail.com>
-In-Reply-To: <YpcWf46fAJcfIgIt@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Laurent
+Hi
 
-On 2022/6/1 15:34, Laurent Pinchart wrote:
-> Hi Lin,
+On Wed, Jun 1, 2022 at 10:11 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
 >
-> Thank you for the patch.
+> Hi Micheal,
 >
-> On Wed, Jun 01, 2022 at 08:25:14AM +0400, Miaoqian Lin wrote:
->> of_get_child_by_name() returns a node pointer with refcount
->> incremented, we should use of_node_put() on it when not need anymore.
->> Add missing of_node_put() to avoid refcount leak.
->>
->> Fixes: df3305156f98 ("[media] v4l: xilinx: Add Xilinx Video IP core")
->> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
->> ---
->>  drivers/media/platform/xilinx/xilinx-vipp.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
->> index f34f8b077e03..415579b63737 100644
->> --- a/drivers/media/platform/xilinx/xilinx-vipp.c
->> +++ b/drivers/media/platform/xilinx/xilinx-vipp.c
->> @@ -483,10 +483,12 @@ static int xvip_graph_dma_init(struct xvip_composite_device *xdev)
->>  		ret = xvip_graph_dma_init_one(xdev, port);
->>  		if (ret < 0) {
->>  			of_node_put(port);
->> +			of_node_put(ports);
->>  			return ret;
->>  		}
->>  	}
->>  
->> +	of_node_put(ports);
-> We could possibly simplify this a little bit by initializing ret to 0
-> when declaring it, replacing the "return ret" above by a break, and
-> returning ret below. This would remove the need for the first
-> of_node_put(ports) call above.
+> On Tue, May 31, 2022 at 05:50:51PM +0200, Michael Nazzareno Trimarchi wrote:
+> > Hi
+> >
+> > On Tue, May 31, 2022 at 5:40 PM Tommaso Merciai
+> > <tommaso.merciai@amarulasolutions.com> wrote:
+> > >
+> > > Hi Jacopo,
+> > > On Tue, May 31, 2022 at 03:14:09PM +0200, Jacopo Mondi wrote:
+> > > > Hi Tommaso,
+> > > >
+> > > > On Thu, May 19, 2022 at 09:51:14AM +0200, Tommaso Merciai wrote:
+> > > > > Enable regulator using regulator_bulk_enable/regulatore_bulk_disable
+> > > > > function in __ov5695_power_on/__ov5695_power_off function instead of for loop.
+> > > > > This reduce code size and make things more clear
+> > > > >
+> > > > > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > > > > Co-Developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+> > > > > ---
+> > > > >  drivers/media/i2c/ov5695.c | 25 +++++++------------------
+> > > > >  1 file changed, 7 insertions(+), 18 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
+> > > > > index 439385938a51..880b586e55fe 100644
+> > > > > --- a/drivers/media/i2c/ov5695.c
+> > > > > +++ b/drivers/media/i2c/ov5695.c
+> > > > > @@ -972,7 +972,7 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
+> > > > >
+> > > > >  static int __ov5695_power_on(struct ov5695 *ov5695)
+> > > > >  {
+> > > > > -   int i, ret;
+> > > > > +   int ret;
+> > > > >     struct device *dev = &ov5695->client->dev;
+> > > > >
+> > > > >     ret = clk_prepare_enable(ov5695->xvclk);
+> > > > > @@ -987,13 +987,10 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
+> > > > >      * The hardware requires the regulators to be powered on in order,
+> > > > >      * so enable them one by one.
+> > > > >      */
+> > > >
+> > > > The comment says that the hardware requires regulators to be enabled
+> > > > in precise order
+> > > >
+> >
+> > They are enabled on the array order.
+> >
+> > > > > -   for (i = 0; i < OV5695_NUM_SUPPLIES; i++) {
+> > > > > -           ret = regulator_enable(ov5695->supplies[i].consumer);
+> > > > > -           if (ret) {
+> > > > > -                   dev_err(dev, "Failed to enable %s: %d\n",
+> > > > > -                           ov5695->supplies[i].supply, ret);
+> > > > > -                   goto disable_reg_clk;
+> > > > > -           }
+> > > > > +   ret = regulator_bulk_enable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
+> > > >
+> > > > bulk_enable() uses the async API (async_schedule_domain() in
+> > > > particular) which by the name makes me think such ordering guarantee
+> > > > cannot be respected.
+> >
+> > I don't think so. Will make no sense because if it fails, revert them.
+> > Even the bulk disable disable them
+> > in reverse order
+> >
 >
-> If you think that's a good idea I can make that change when applying
-> this patch to my tree, otherwise I'll take it as-is.
-Thanks for your review, I think your idea is good, we can do that to simplify code.
-> In either case,
+> I understand your points, but even the commit message in the patch
+> linked by Tommaso [1] (which I see in mainline as
+> f1a64f56663e ("media: i2c: ov5695: Fix power on and off sequences"))
+> reports:
 >
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> "Given the bulk API does not give any guarantee about the order of
+> regulators, change the driver to use regulator_disable() instead."
 >
->>  	return 0;
->>  }
->>  
+> However I would have expected the core regulator API to clearly document
+> this behaviour.
+>
+
+Yes, I agree. I see two points:
+- patch f1a64f56663e is not fully consistent
+- a patch is needed to the regulator api documentation
+
+I think that we need better documentation of the api but:
+Work-queues are SMP-safe and guarantee serialization of actual work performed.
+
+Michael
+
+
+
+>
+> > > >
+> > > > However most sensors require some kind of ordering when enabling
+> > > > regulators, and most of the use the bulk API anyhow. The fact this
+> > > > driver uses the bulk API to get an release the regulators but not for
+> > > > enabling them and the above comment, makes me think it has been done
+> > > > on purpose ? Could you check with the driver author maybe ?
+> > >
+> > > Thanks for suggestion, good question.
+> > > I see also ov5693 driver use bulk_enable/bulk_disable
+> > > on ov5693_sensor_powerdown and ov5693_sensor_powerup functions, I take
+> > > this as reference (and I'm wrong)
+> > >
+> > > In a functional test on PX30_Mini_evb_v11_20190507, after this series
+> > > I'm able to see the correct chip id during probe and do some capture.
+> > >
+> > > I think you are right Jacopo, we can drop off this [PATCH 1/4]
+> > > On the following link I found the issue that you describe: [1]
+> > >
+> >
+> > WHy drop?
+>
+> As this is a partial revert of [1].
+>
+> I think in practice this won't make any actual difference, but if not
+> 100% sure, better leave it the way it is as the authors of [1] might
+> have actually been experiencing issues. Even more as this patch is
+> not a bugfix but a nice-to-have. Up to you :)
+>
+>
+> >
+> > Michael
+> >
+> > > >
+> > > > > +   if (ret) {
+> > > > > +           dev_err(dev, "Failed to enable regulators %d\n", ret);
+> > > > > +           goto disable_reg_clk;
+> > > > >     }
+> > > > >
+> > > > >     gpiod_set_value_cansleep(ov5695->reset_gpio, 0);
+> > > > > @@ -1003,8 +1000,7 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
+> > > > >     return 0;
+> > > > >
+> > > > >  disable_reg_clk:
+> > > > > -   for (--i; i >= 0; i--)
+> > > > > -           regulator_disable(ov5695->supplies[i].consumer);
+> > > > > +   regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
+> > > >
+> > > > FYI the bulk API does this for you if enabling any of the regulators fails.
+> > > > Hence this should not be necessary.
+> > >
+> > > Thanks for sharing! This is new to me.
+> > > I'll update the series on v2 removing this patch.
+> > >
+> > > Regards,
+> > > Tommaso
+> > >
+> > > [1]: https://mailweb.openeuler.org/hyperkitty/list/kernel@openeuler.org/message/4X54QYJDRRE4K5BW4FTDZUGRAL4GRQWY/
+> > >
+> > > > Thanks
+> > > >    j
+> > > >
+> > > > >     clk_disable_unprepare(ov5695->xvclk);
+> > > > >
+> > > > >     return ret;
+> > > > > @@ -1012,8 +1008,6 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
+> > > > >
+> > > > >  static void __ov5695_power_off(struct ov5695 *ov5695)
+> > > > >  {
+> > > > > -   struct device *dev = &ov5695->client->dev;
+> > > > > -   int i, ret;
+> > > > >
+> > > > >     clk_disable_unprepare(ov5695->xvclk);
+> > > > >     gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
+> > > > > @@ -1022,12 +1016,7 @@ static void __ov5695_power_off(struct ov5695 *ov5695)
+> > > > >      * The hardware requires the regulators to be powered off in order,
+> > > > >      * so disable them one by one.
+> > > > >      */
+> > > > > -   for (i = OV5695_NUM_SUPPLIES - 1; i >= 0; i--) {
+> > > > > -           ret = regulator_disable(ov5695->supplies[i].consumer);
+> > > > > -           if (ret)
+> > > > > -                   dev_err(dev, "Failed to disable %s: %d\n",
+> > > > > -                           ov5695->supplies[i].supply, ret);
+> > > > > -   }
+> > > > > +   regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
+> > > > >  }
+> > > > >
+> > > > >  static int __maybe_unused ov5695_runtime_resume(struct device *dev)
+> > > > > --
+> > > > > 2.25.1
+> > > > >
+> > >
+> > > --
+> > > Tommaso Merciai
+> > > Embedded Linux Engineer
+> > > tommaso.merciai@amarulasolutions.com
+> > > __________________________________
+> > >
+> > > Amarula Solutions SRL
+> > > Via Le Canevare 30, 31100 Treviso, Veneto, IT
+> > > T. +39 042 243 5310
+> > > info@amarulasolutions.com
+> > > www.amarulasolutions.com
+> >
+> >
+> >
+> > --
+> > Michael Nazzareno Trimarchi
+> > Co-Founder & Chief Executive Officer
+> > M. +39 347 913 2170
+> > michael@amarulasolutions.com
+> > __________________________________
+> >
+> > Amarula Solutions BV
+> > Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
+> > T. +31 (0)85 111 9172
+> > info@amarulasolutions.com
+> > www.amarulasolutions.com
+
+
+
+-- 
+Michael Nazzareno Trimarchi
+Co-Founder & Chief Executive Officer
+M. +39 347 913 2170
+michael@amarulasolutions.com
+__________________________________
+
+Amarula Solutions BV
+Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
+T. +31 (0)85 111 9172
+info@amarulasolutions.com
+www.amarulasolutions.com
