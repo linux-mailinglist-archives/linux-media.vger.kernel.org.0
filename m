@@ -2,254 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BCF3539B42
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 04:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D27D1539C45
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 06:27:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349179AbiFACZR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 May 2022 22:25:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51414 "EHLO
+        id S1345510AbiFAEZ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jun 2022 00:25:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240621AbiFACZQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 May 2022 22:25:16 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CF96813EE;
-        Tue, 31 May 2022 19:25:15 -0700 (PDT)
-X-UUID: 1a39456bb36b478eaeb882ffe721512c-20220601
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:42db6c5f-de4f-4397-bcfa-97d13f873f17,OB:0,LO
-        B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
-        ION:release,TS:50
-X-CID-INFO: VERSION:1.1.5,REQID:42db6c5f-de4f-4397-bcfa-97d13f873f17,OB:0,LOB:
-        0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
-        N:release,TS:50
-X-CID-META: VersionHash:2a19b09,CLOUDID:267b7814-f88c-475e-badf-d9ee54230b8f,C
-        OID:de123c9a6729,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:1,File:nil,QS:0,BEC:nil
-X-UUID: 1a39456bb36b478eaeb882ffe721512c-20220601
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 720505080; Wed, 01 Jun 2022 10:25:08 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 1 Jun 2022 10:25:07 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 1 Jun 2022 10:25:06 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Wed, 1 Jun 2022 10:25:06 +0800
-Message-ID: <0209f3123079f65027bff96d8214129d7bf8393c.camel@mediatek.com>
-Subject: Re: [PATCH v17 4/4] media: platform: mtk-mdp3: add Mediatek MDP3
- driver
-From:   CK Hu <ck.hu@mediatek.com>
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Rob Landley <rob@landley.net>,
+        with ESMTP id S240934AbiFAEZZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 00:25:25 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D3169E9E1;
+        Tue, 31 May 2022 21:25:24 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id a10so850732pju.3;
+        Tue, 31 May 2022 21:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qV/kQWWE5TCXDtwtIihkerreiew7iWC6lBTWJeucJIg=;
+        b=ReFoyD6+1Lqkr/R2pf+8AKWuf/SU8Gfa83eXY5S/LG50yi/hKWMyX/3OPwn6aJ1F59
+         ib9E9yb2Y+S9tgbMqi2DzZfsCNhEUZGbxD4oOkub/0tFfsfKT9wVkM86/SQIFsLo3BVz
+         e5cJitqsmzcKoJtU0zDAoJXxB/Z2c3YRZcfczyZeN6rgZiFxc0z9YfjrHcMfrDOIzBxV
+         u+rLPDPpIMOH6r2OBg5TTdGimLpRzbSuCskm47LvrMHkT2LLciV2MPVfHVIrOC8nH7HR
+         MEYS9/U+HJ6ikAALq2hyIwzab4ExehXGsmHSgM3JQxIvPbHiKj0rK4M0VnW+6Qi4/aq1
+         vRWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qV/kQWWE5TCXDtwtIihkerreiew7iWC6lBTWJeucJIg=;
+        b=1gJ7emSOgzsu5MHw1jXlb2eYKy2oTyMZIGlkaEgkRGi7vj2PYQKErkU8G18zIYPSAz
+         87YYHPomCIi4kS+blzK/S5OtphQm+jxkh+8Z411Z9GSo7kcP5SUudiRrjQCQ8PjdlqpB
+         5d9o2Kf+UBZZkSqsKEwr91lSSZrHQFdvvHtJxple+rpOn0n1/oQKAff7RoVEG+oTY6fK
+         mF+lZBv+Dfu3TeiHU04LFRbCFfkT0bYzgX+W1gPgbl5th7gqQEUerW26Z+KMD0rysz7x
+         8ovo/VraERsobG77GBndy5dw3u0A5javWcKJ2ckgKYJj2E3sxNxD7nylU5T42i+iiQmH
+         OsFw==
+X-Gm-Message-State: AOAM531ErYb6T1iAFg/QI24HQu1Qq2Ex+TsO/FFo7ITmeMw+Vdc/nYyQ
+        Q52IkR8g0mtDOyQKJYwdzu8=
+X-Google-Smtp-Source: ABdhPJzhh0v5mf83CiChYoplV/aivC7HiUkv4hOQhbwi4NqjR/XvCvK6+eyWrEazVoETOiYVO01X8A==
+X-Received: by 2002:a17:902:e54e:b0:162:4b8b:f2be with SMTP id n14-20020a170902e54e00b001624b8bf2bemr38630727plf.5.1654057524096;
+        Tue, 31 May 2022 21:25:24 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+        by smtp.googlemail.com with ESMTPSA id fz21-20020a17090b025500b001df51e34036sm337111pjb.0.2022.05.31.21.25.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 May 2022 21:25:23 -0700 (PDT)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Hyun Kwon <hyun.kwon@xilinx.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        <tfiga@chromium.org>, <drinkcat@chromium.org>,
-        <pihsun@chromium.org>, <hsinyi@google.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <xiandong.wang@mediatek.com>,
-        <randy.wu@mediatek.com>, <jason-jh.lin@mediatek.com>,
-        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <cellopoint.kai@gmail.com>
-Date:   Wed, 1 Jun 2022 10:25:06 +0800
-In-Reply-To: <20220531061338.19555-5-moudy.ho@mediatek.com>
-References: <20220531061338.19555-1-moudy.ho@mediatek.com>
-         <20220531061338.19555-5-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Radhey Shyam Pandey <radheys@xilinx.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     linmq006@gmail.com
+Subject: [PATCH] v4l: xilinx-vipp: Fix refcount leak in xvip_graph_dma_init
+Date:   Wed,  1 Jun 2022 08:25:14 +0400
+Message-Id: <20220601042514.61780-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Moudy:
+of_get_child_by_name() returns a node pointer with refcount
+incremented, we should use of_node_put() on it when not need anymore.
+Add missing of_node_put() to avoid refcount leak.
 
-On Tue, 2022-05-31 at 14:13 +0800, Moudy Ho wrote:
-> This patch adds driver for Mediatek's Media Data Path ver.3 (MDP3).
-> It provides the following functions:
->   color transform, format conversion, resize, crop, rotate, flip
->   and additional image quality enhancement.
-> 
-> The MDP3 driver is mainly used for Google Chromebook products to
-> import the new architecture to set the HW settings as shown below:
->   User -> V4L2 framework
->     -> MDP3 driver -> SCP (setting calculations)
->       -> MDP3 driver -> CMDQ (GCE driver) -> HW
-> 
-> Each modules' related operation control is sited in mtk-mdp3-comp.c
-> Each modules' register table is defined in file with "mdp_reg_"
-> prefix
-> GCE related API, operation control  sited in mtk-mdp3-cmdq.c
-> V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
-> Probe, power, suspend/resume, system level functions are defined in
-> mtk-mdp3-core.c
-> 
+Fixes: df3305156f98 ("[media] v4l: xilinx: Add Xilinx Video IP core")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/media/platform/xilinx/xilinx-vipp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[snip]
-
-> 
-> +int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
-> +{
-> +	struct mdp_cmdq_cmd cmd;
-> +	struct mdp_path *path = NULL;
-> +	struct mdp_cmdq_cb_param *cb_param = NULL;
-> +	struct mdp_comp *comps = NULL;
-> +	struct device *dev = &mdp->pdev->dev;
-> +	int i, ret;
-> +
-> +	atomic_inc(&mdp->job_count);
-> +	if (atomic_read(&mdp->suspended)) {
-> +		atomic_dec(&mdp->job_count);
-> +		return -ECANCELED;
-> +	}
-> +
-> +	cb_param = kzalloc(sizeof(*cb_param), GFP_KERNEL);
-> +	if (!cb_param) {
-> +		ret = -ENOMEM;
-> +		goto err_cmdq_data;
-> +	}
-> +
-> +	cmd.pkt = cmdq_pkt_create(mdp->cmdq_clt, SZ_16K);
-> +	if (IS_ERR(cmd.pkt)) {
-> +		ret = PTR_ERR(cmd.pkt);
-> +		goto err_cmdq_data;
-> +	}
-> +
-> +	comps = kcalloc(param->config->num_components, sizeof(*comps),
-> +			GFP_KERNEL);
-> +	if (!comps) {
-> +		ret = -ENOMEM;
-> +		goto err_cmdq_data;
-> +	}
-> +
-> +	path = kzalloc(sizeof(*path), GFP_KERNEL);
-> +	if (!path) {
-> +		ret = -ENOMEM;
-> +		goto err_cmdq_data;
-> +	}
-> +
-> +	path->mdp_dev = mdp;
-> +	path->config = param->config;
-> +	path->param = param->param;
-> +	for (i = 0; i < param->param->num_outputs; i++) {
-> +		path->bounds[i].left = 0;
-> +		path->bounds[i].top = 0;
-> +		path->bounds[i].width =
-> +			param->param->outputs[i].buffer.format.width;
-> +		path->bounds[i].height =
-> +			param->param->outputs[i].buffer.format.height;
-> +		path->composes[i] = param->composes[i] ?
-> +			param->composes[i] : &path->bounds[i];
-> +	}
-> +
-> +	ret = mdp_path_ctx_init(mdp, path);
-> +	if (ret) {
-> +		dev_err(dev, "mdp_path_ctx_init error\n");
-> +		goto err_cmdq_data;
-> +	}
-> +
-> +	cmd.event = &mdp->event[0];
-> +	ret = mdp_path_config(mdp, &cmd, path);
-> +	if (ret) {
-> +		dev_err(dev, "mdp_path_config error\n");
-> +		goto err_cmdq_data;
-> +	}
-> +	cmdq_pkt_finalize(cmd.pkt);
-> +
-> +	for (i = 0; i < param->config->num_components; i++)
-> +		memcpy(&comps[i], path->comps[i].comp,
-> +		       sizeof(struct mdp_comp));
-> +
-> +	cb_param->mdp = mdp;
-> +	cb_param->user_cmdq_cb = param->cmdq_cb;
-> +	cb_param->user_cb_data = param->cb_data;
-> +	cb_param->pkt = cmd.pkt;
-> +	cb_param->comps = comps;
-> +	cb_param->num_comps = param->config->num_components;
-> +	cb_param->mdp_ctx = param->mdp_ctx;
-> +
-> +	cmd.pkt->async_cb.data = (void *)cb_param;
-
-async_cb is part of proprietary callback mechanism and I'm replacing
-the proprietary one with standard one. My final patch is [1] (not
-upstreamed yet) and 'data' would be removed. The way to get data
-related to pkt:
-
-strutc mdp_data {
-    struct cmdq_pkt pkt;
-    /* Other data such as mdp, user_cmdq_cb, ... */
-}
-
-The callback function would callback with pkt and you could use pkt to
-find struct mdp_data{}.
-
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/?h=mediatek-cmdq6&id=a35f642aa89f02b7307725cdaa3bfb348b26d093
-
-Regards,
-CK
-
-
-> +	mdp->cmdq_clt->client.rx_callback = mdp_handle_cmdq_callback;
-> +
-> +	mtk_mutex_prepare(mdp->mdp_mutex[MDP_PIPE_RDMA0]);
-> +	for (i = 0; i < param->config->num_components; i++)
-> +		mdp_comp_clock_on(&mdp->pdev->dev, path-
-> >comps[i].comp);
-> +
-> +	dma_sync_single_for_device(mdp->cmdq_clt->chan->mbox->dev,
-> +				   cmd.pkt->pa_base, cmd.pkt-
-> >cmd_buf_size,
-> +				   DMA_TO_DEVICE);
-> +	ret = mbox_send_message(mdp->cmdq_clt->chan, cmd.pkt);
-> +	if (ret < 0) {
-> +		dev_err(dev, "mbox send message fail %d!\n", ret);
-> +		goto err_clock_off;
-> +	}
-> +	mbox_client_txdone(mdp->cmdq_clt->chan, 0);
-> +
-> +	kfree(path);
-> +	return 0;
-> +
-> +err_clock_off:
-> +	mtk_mutex_unprepare(mdp->mdp_mutex[MDP_PIPE_RDMA0]);
-> +	mdp_comp_clocks_off(&mdp->pdev->dev, cb_param->comps,
-> +			    cb_param->num_comps);
-> +err_cmdq_data:
-> +	kfree(path);
-> +	atomic_dec(&mdp->job_count);
-> +	wake_up(&mdp->callback_wq);
-> +	if (cmd.pkt)
-> +		cmdq_pkt_destroy(cmd.pkt);
-> +	kfree(comps);
-> +	kfree(cb_param);
-> +	return ret;
-> +}
+diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
+index f34f8b077e03..415579b63737 100644
+--- a/drivers/media/platform/xilinx/xilinx-vipp.c
++++ b/drivers/media/platform/xilinx/xilinx-vipp.c
+@@ -483,10 +483,12 @@ static int xvip_graph_dma_init(struct xvip_composite_device *xdev)
+ 		ret = xvip_graph_dma_init_one(xdev, port);
+ 		if (ret < 0) {
+ 			of_node_put(port);
++			of_node_put(ports);
+ 			return ret;
+ 		}
+ 	}
+ 
++	of_node_put(ports);
+ 	return 0;
+ }
+ 
+-- 
+2.25.1
 
