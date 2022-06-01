@@ -2,361 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C4E753A62D
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 15:50:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C19AC53A62C
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 15:50:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353348AbiFANuq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jun 2022 09:50:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47408 "EHLO
+        id S1353330AbiFANu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jun 2022 09:50:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353343AbiFANuo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 09:50:44 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82E206EC6D
-        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 06:50:43 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id h23so2864696lfe.4
-        for <linux-media@vger.kernel.org>; Wed, 01 Jun 2022 06:50:43 -0700 (PDT)
+        with ESMTP id S1347009AbiFANu1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 09:50:27 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E4796EC68;
+        Wed,  1 Jun 2022 06:50:26 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id r9-20020a1c4409000000b00397345f2c6fso3071234wma.4;
+        Wed, 01 Jun 2022 06:50:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DZrLJmcXEec/9SauegOUHb/+CIPb9XXU4UtFbuPefwE=;
-        b=ezr4B5trQyiHhlgTYhnasHdZkY6rmB+OLn6ZCWLGCNFRh11fSv9xkarQuCnKERUQo4
-         2uvDDf7RV4CZBg2QS3y4f8QrMHARMk/QLnSJGBsjYBAy937JIggVr/D4sE75RfSU1YPL
-         WXUUKO5HGOd7Rjio+DaRBHn5E3ByVLI94R5a3b8A/qwj6puwt8lp+oi7YPjQLGV71CIf
-         7fqyXmV52eIZ6AyzeWnbL5msXBVTE8HNJb2qBii0/vA2lPanM8Z1pFj9KaGkpnnsr9XE
-         uqKbHuLnRWNAaKYoAF1yCMZDS2L7s5/AqkZSHRdBUccgbKq9qh2xTUtUQx8hp4cHSX2p
-         SjPg==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=8js3BmhqDmlsACbALLq5e90PLEF4lborosfHSvoWOKM=;
+        b=YTm8+7dPHONlBsZR4SMEitCaBrfkbRXNUYC3ZuJKHQrTTGF4FMpWDkHvPvAUKxe/7W
+         vdWoMgFNonHPdtNFLs8dJ0eKIrl3TVQfXZJ1W0tL8u1KraHZ3D4SYSONkggVAD+CYTXc
+         vmgHav8NPKJ04dRy1E1KYZ6JMM3uN6Mbr1xauaHZ7Yu5PzCs6IOS9W3k8KXkoAtGZ+Kj
+         3WTmHnwAlXIAlgL8PwWAtd6lN4A7aT+ryvS5oVzEY7RSSG+IjEpqmsMSZk4Zg8mHPLnn
+         iayVlAoBzt92WTZsmg6sguCvUgZ2C7pPg2hJF3Jn/ExC9EtV0aaEwYCXejT3Wp+8zJqK
+         u0SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=DZrLJmcXEec/9SauegOUHb/+CIPb9XXU4UtFbuPefwE=;
-        b=wOW9+GA2ULCWfUdF/D3JRXRR8byQxt1FsfP0aGFJovmrCaZaXiUKfkLSrPQO+2Dust
-         c7LgOAGwQrtlvfwXUqPJLDI5Zo5CBDRq/jku5yd42a5arYhI5KQgfPnrPgY9K8T5mTuM
-         fhbHVapBB6Wyw0YlD9/spSUHi2GxW5OiXcCWsvnEy7ByExTL1HZJAtSaiXD11w9yptWy
-         8CxQbAOjSvOLmFzsGk5JzzFnohS2NPt70AnczM1J6vfjbYmcXIIxSIHVnjleI8ZEPGDL
-         2QmCFixXiH6JBKwDBhOjT1lg6VCNLKpsQgSMvcUBgJnLHKGZNgRpEQ/oy6ETEAESLqA0
-         +4bg==
-X-Gm-Message-State: AOAM530IEdKVqck6HcNABYbVOnn4LOBWcEDLdxpS0VnV7/jwLooz5pyc
-        KIHQPLHALxEeNEhLX5TZTqi9ig==
-X-Google-Smtp-Source: ABdhPJycpFj09BeUe/mI9ql7p246Fy20QWJhNw/PeTXGuBlY6fJRtiXxYzpZk4Bs7XaPFreg411zTA==
-X-Received: by 2002:a05:6512:128e:b0:478:6edd:f801 with SMTP id u14-20020a056512128e00b004786eddf801mr34671640lfs.95.1654091441745;
-        Wed, 01 Jun 2022 06:50:41 -0700 (PDT)
-Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
-        by smtp.gmail.com with ESMTPSA id h4-20020ac24da4000000b00478f8dbbeccsm381780lfe.77.2022.06.01.06.50.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 06:50:41 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>
-Subject: [PATCH v3] media: s5k4ecgx: Switch to GPIO descriptors
-Date:   Wed,  1 Jun 2022 15:48:35 +0200
-Message-Id: <20220601134835.3111-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.36.1
+        bh=8js3BmhqDmlsACbALLq5e90PLEF4lborosfHSvoWOKM=;
+        b=elYrwZtsBAYxu9scsnYvzWSwodOPXNRNFSW0S8/fVXt2QSx7+i7+NrA0cWRrfacdts
+         VBzsEvFbj4BG28krlEpmCzhIyQ78iuiMT6zwO4TinNGn5xMtXtXKrWuptuh6Hf+Or3nt
+         /sYJsgVGHCdWDTejpQ2ZIi89FosyzwOg95LfPUlOsXJH1StxHNJ2SkpWcRnBrPla0N0n
+         aBMd/fWLmLWxaHI7Oa0s8HN1PSlKqj+TFx5qs+7asBeSwGA5vwChy+eXSjkPwJzX832n
+         j2bL5KSDYdUIVZLBk03n6YCJ1BtvyV28Ed4uulmDNDTBWKr82lzH9CJolZJ4/R7MsWpX
+         L5tw==
+X-Gm-Message-State: AOAM532X1mS4Sfm12kjPClP/SXUzqlYV4JlFL/K3fi7F257WCQj2cKjW
+        GMlxvyvDkoPXNscL6EGcymY=
+X-Google-Smtp-Source: ABdhPJwrKHJfq73KfKlhy8VE3p9Xdk0H07fsnJbZrGsy5keEhwCnMaJoppLUFggoAw0VxEGq5FlEhQ==
+X-Received: by 2002:a7b:c1d9:0:b0:397:335d:4d9f with SMTP id a25-20020a7bc1d9000000b00397335d4d9fmr29006967wmj.55.1654091425051;
+        Wed, 01 Jun 2022 06:50:25 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:d1fb:e1e4:e193:e55f? ([2a02:908:1256:79a0:d1fb:e1e4:e193:e55f])
+        by smtp.gmail.com with ESMTPSA id n13-20020a5d400d000000b0020ff7246934sm1664650wrp.95.2022.06.01.06.50.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jun 2022 06:50:24 -0700 (PDT)
+Message-ID: <87724f19-7976-3a2c-96bc-8652a1cec9e8@gmail.com>
+Date:   Wed, 1 Jun 2022 15:50:22 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-fence: allow dma fence to have
+ their own lock
+Content-Language: en-US
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20220530142232.2871634-1-senozhatsky@chromium.org>
+ <7eee4274-bd69-df8d-9067-771366217804@amd.com> <YpTmhixkV7+yh6wo@google.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <YpTmhixkV7+yh6wo@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver has an option to pass in GPIO numbers from platform
-data but this is not used in the kernel so delete this and the
-whole platform data mechanism.
 
-Get GPIO descriptors using the standard API and simplify the code,
-gpiolib will handle any inversions.
 
-Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v2->v3:
-- COMMIT and send out what is actually in my tree (and
-  compiling).
-ChangeLog v1->v2:
-- Fix compile bug by sending out the patch actually in my
-  git tree.
----
- drivers/media/i2c/s5k4ecgx.c | 132 ++++++++---------------------------
- include/media/i2c/s5k4ecgx.h |  33 ---------
- 2 files changed, 31 insertions(+), 134 deletions(-)
- delete mode 100644 include/media/i2c/s5k4ecgx.h
+Am 30.05.22 um 17:45 schrieb Sergey Senozhatsky:
+> On (22/05/30 16:55), Christian König wrote:
+>> If you just want to create a single dma_fence which is also only bound to a
+>> single context you can embed the lock into the fence without much problem.
+>>
+>> See how the dma_fence_array does that for example: https://elixir.bootlin.com/linux/latest/source/include/linux/dma-fence-array.h#L37
+> Christian, I'm not sure I'm following you on the "embed the lock into the
+> fence without much problem" part. If I understand it correctly this should
+> be something like:
+>
+> 	fences = kmalloc_array(1, sizeof(*fences), GFP_KERNEL);
+> 	for_each_fence(...) {
+>
+> 		// what spinlock should I use here?
+>
+> 		dma_fence_init(&fences[i], .. &lock ..);
+> 		dma_fence_get(&fences[i]);
+> 	}
+> 	fence_array = dma_fence_array_create(1, fences, ....);
+> 	sync_file_create(&fence_array->base);
 
-diff --git a/drivers/media/i2c/s5k4ecgx.c b/drivers/media/i2c/s5k4ecgx.c
-index af9a305242cd..04e8d7b130ad 100644
---- a/drivers/media/i2c/s5k4ecgx.c
-+++ b/drivers/media/i2c/s5k4ecgx.c
-@@ -15,7 +15,7 @@
- #include <linux/ctype.h>
- #include <linux/delay.h>
- #include <linux/firmware.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/regulator/consumer.h>
-@@ -23,7 +23,6 @@
- #include <asm/unaligned.h>
- 
- #include <media/media-entity.h>
--#include <media/i2c/s5k4ecgx.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-mediabus.h>
-@@ -171,12 +170,6 @@ static const char * const s5k4ecgx_supply_names[] = {
- 
- #define S5K4ECGX_NUM_SUPPLIES ARRAY_SIZE(s5k4ecgx_supply_names)
- 
--enum s5k4ecgx_gpio_id {
--	STBY,
--	RSET,
--	GPIO_NUM,
--};
--
- struct s5k4ecgx {
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
-@@ -190,7 +183,8 @@ struct s5k4ecgx {
- 	u8 set_params;
- 
- 	struct regulator_bulk_data supplies[S5K4ECGX_NUM_SUPPLIES];
--	struct s5k4ecgx_gpio gpio[GPIO_NUM];
-+	struct gpio_desc *stby;
-+	struct gpio_desc *reset;
- };
- 
- static inline struct s5k4ecgx *to_s5k4ecgx(struct v4l2_subdev *sd)
-@@ -454,15 +448,6 @@ static int s5k4ecgx_init_sensor(struct v4l2_subdev *sd)
- 	return ret;
- }
- 
--static int s5k4ecgx_gpio_set_value(struct s5k4ecgx *priv, int id, u32 val)
--{
--	if (!gpio_is_valid(priv->gpio[id].gpio))
--		return 0;
--	gpio_set_value(priv->gpio[id].gpio, val);
--
--	return 1;
--}
--
- static int __s5k4ecgx_power_on(struct s5k4ecgx *priv)
- {
- 	int ret;
-@@ -472,23 +457,22 @@ static int __s5k4ecgx_power_on(struct s5k4ecgx *priv)
- 		return ret;
- 	usleep_range(30, 50);
- 
--	/* The polarity of STBY is controlled by TSP */
--	if (s5k4ecgx_gpio_set_value(priv, STBY, priv->gpio[STBY].level))
--		usleep_range(30, 50);
--
--	if (s5k4ecgx_gpio_set_value(priv, RSET, priv->gpio[RSET].level))
--		usleep_range(30, 50);
-+	/* De-assert standby and reset */
-+	gpiod_set_value(priv->stby, 0);
-+	usleep_range(30, 50);
-+	gpiod_set_value(priv->reset, 0);
-+	usleep_range(30, 50);
- 
- 	return 0;
- }
- 
- static int __s5k4ecgx_power_off(struct s5k4ecgx *priv)
- {
--	if (s5k4ecgx_gpio_set_value(priv, RSET, !priv->gpio[RSET].level))
--		usleep_range(30, 50);
--
--	if (s5k4ecgx_gpio_set_value(priv, STBY, !priv->gpio[STBY].level))
--		usleep_range(30, 50);
-+	/* Assert reset and standby */
-+	gpiod_set_value(priv->reset, 1);
-+	usleep_range(30, 50);
-+	gpiod_set_value(priv->stby, 1);
-+	usleep_range(30, 50);
- 
- 	priv->streaming = 0;
- 
-@@ -840,68 +824,6 @@ static const struct v4l2_subdev_ops s5k4ecgx_ops = {
- 	.video = &s5k4ecgx_video_ops,
- };
- 
--/*
-- * GPIO setup
-- */
--static int s5k4ecgx_config_gpio(int nr, int val, const char *name)
--{
--	unsigned long flags = val ? GPIOF_OUT_INIT_HIGH : GPIOF_OUT_INIT_LOW;
--	int ret;
--
--	if (!gpio_is_valid(nr))
--		return 0;
--	ret = gpio_request_one(nr, flags, name);
--	if (!ret)
--		gpio_export(nr, 0);
--
--	return ret;
--}
--
--static void s5k4ecgx_free_gpios(struct s5k4ecgx *priv)
--{
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(priv->gpio); i++) {
--		if (!gpio_is_valid(priv->gpio[i].gpio))
--			continue;
--		gpio_free(priv->gpio[i].gpio);
--		priv->gpio[i].gpio = -EINVAL;
--	}
--}
--
--static int s5k4ecgx_config_gpios(struct s5k4ecgx *priv,
--				  const struct s5k4ecgx_platform_data *pdata)
--{
--	const struct s5k4ecgx_gpio *gpio = &pdata->gpio_stby;
--	int ret;
--
--	priv->gpio[STBY].gpio = -EINVAL;
--	priv->gpio[RSET].gpio  = -EINVAL;
--
--	ret = s5k4ecgx_config_gpio(gpio->gpio, gpio->level, "S5K4ECGX_STBY");
--
--	if (ret) {
--		s5k4ecgx_free_gpios(priv);
--		return ret;
--	}
--	priv->gpio[STBY] = *gpio;
--	if (gpio_is_valid(gpio->gpio))
--		gpio_set_value(gpio->gpio, 0);
--
--	gpio = &pdata->gpio_reset;
--
--	ret = s5k4ecgx_config_gpio(gpio->gpio, gpio->level, "S5K4ECGX_RST");
--	if (ret) {
--		s5k4ecgx_free_gpios(priv);
--		return ret;
--	}
--	priv->gpio[RSET] = *gpio;
--	if (gpio_is_valid(gpio->gpio))
--		gpio_set_value(gpio->gpio, 0);
--
--	return 0;
--}
--
- static int s5k4ecgx_init_v4l2_ctrls(struct s5k4ecgx *priv)
- {
- 	const struct v4l2_ctrl_ops *ops = &s5k4ecgx_ctrl_ops;
-@@ -965,11 +887,22 @@ static int s5k4ecgx_probe(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 
--	ret = s5k4ecgx_config_gpios(priv, pdata);
--	if (ret) {
--		dev_err(&client->dev, "Failed to set gpios\n");
--		goto out_err1;
-+	/* Request GPIO lines asserted */
-+	priv->stby = devm_gpiod_get(&client->dev, "standby", GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->stby)) {
-+		v4l2_err(sd, "failed to request gpio S5K4ECGX_STBY");
-+		ret = PTR_ERR(priv->stby);
-+		goto out_err;
-+	}
-+	gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY");
-+	priv->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->reset)) {
-+		v4l2_err(sd, "failed to request gpio S5K4ECGX_RST");
-+		ret = PTR_ERR(priv->reset);
-+		goto out_err;
- 	}
-+	gpiod_set_consumer_name(priv->reset, "S5K4ECGX_RST");
-+
- 	for (i = 0; i < S5K4ECGX_NUM_SUPPLIES; i++)
- 		priv->supplies[i].supply = s5k4ecgx_supply_names[i];
- 
-@@ -977,20 +910,18 @@ static int s5k4ecgx_probe(struct i2c_client *client,
- 				 priv->supplies);
- 	if (ret) {
- 		dev_err(&client->dev, "Failed to get regulators\n");
--		goto out_err2;
-+		goto out_err;
- 	}
- 	ret = s5k4ecgx_init_v4l2_ctrls(priv);
- 	if (ret)
--		goto out_err2;
-+		goto out_err;
- 
- 	priv->curr_pixfmt = &s5k4ecgx_formats[0];
- 	priv->curr_frmsize = &s5k4ecgx_prev_sizes[0];
- 
- 	return 0;
- 
--out_err2:
--	s5k4ecgx_free_gpios(priv);
--out_err1:
-+out_err:
- 	media_entity_cleanup(&priv->sd.entity);
- 
- 	return ret;
-@@ -1002,7 +933,6 @@ static int s5k4ecgx_remove(struct i2c_client *client)
- 	struct s5k4ecgx *priv = to_s5k4ecgx(sd);
- 
- 	mutex_destroy(&priv->lock);
--	s5k4ecgx_free_gpios(priv);
- 	v4l2_device_unregister_subdev(sd);
- 	v4l2_ctrl_handler_free(&priv->handler);
- 	media_entity_cleanup(&sd->entity);
-diff --git a/include/media/i2c/s5k4ecgx.h b/include/media/i2c/s5k4ecgx.h
-deleted file mode 100644
-index 92202eb35249..000000000000
---- a/include/media/i2c/s5k4ecgx.h
-+++ /dev/null
-@@ -1,33 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/*
-- * S5K4ECGX image sensor header file
-- *
-- * Copyright (C) 2012, Linaro
-- * Copyright (C) 2012, Samsung Electronics Co., Ltd.
-- */
--
--#ifndef S5K4ECGX_H
--#define S5K4ECGX_H
--
--/**
-- * struct s5k4ecgx_gpio - data structure describing a GPIO
-- * @gpio: GPIO number
-- * @level: indicates active state of the @gpio
-- */
--struct s5k4ecgx_gpio {
--	int gpio;
--	int level;
--};
--
--/**
-- * struct s5k4ecgx_platform_data - s5k4ecgx driver platform data
-- * @gpio_reset:	 GPIO driving RESET pin
-- * @gpio_stby:	 GPIO driving STBY pin
-- */
--
--struct s5k4ecgx_platform_data {
--	struct s5k4ecgx_gpio gpio_reset;
--	struct s5k4ecgx_gpio gpio_stby;
--};
--
--#endif /* S5K4ECGX_H */
--- 
-2.36.1
+Well no, that's the high level usage of the dma_fence_array.
+
+What I meant was this here:
+
+struct dma_fence_array {
+     struct dma_fence base;
+
+     spinlock_t lock;
+...
+};
+
+Regards,
+Christian.
+
+> _______________________________________________
+> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
 
