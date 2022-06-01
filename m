@@ -2,137 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F3D253A9A2
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 17:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0982F53A9B8
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 17:14:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354782AbiFAPG1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jun 2022 11:06:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51068 "EHLO
+        id S1354898AbiFAPOI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jun 2022 11:14:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352646AbiFAPGX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 11:06:23 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E627562CF;
-        Wed,  1 Jun 2022 08:06:23 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id x17so2770327wrg.6;
-        Wed, 01 Jun 2022 08:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Leic+PhDW9JBtVqGFF33qmkBBaBIyf37xeEUSNRuRLw=;
-        b=XH0GWUPC4rtX5tdQrQMcCWEEcsMs/2hrq9PygPpWzqZYP/RMZk4ONuHge/lYiEsFvK
-         v6WciuNGiBg9/HBVpBfVhFPN7njNI4GhL8VuA60R1eK0ujsX8Qy023cZ2tJM0fo6ke7z
-         b7w0lc1yowLDgawmU2z/eV4WKF4q6HF0igBC9PUd4L0Kjb288DE7ESq8B+FnFK3MUmkn
-         V+qufjMsi9wJZfTauz6awGg8LcZ/+KC8xQuHPnyhm7DDkg65d8bSk1jYP+6a3gBVigHl
-         qUcikYx/jZvWz84tlXATBy0l6rjdcCQ5p2308GFL4GHy5T33GvTxaFUMb2Z129RazxTC
-         0MEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Leic+PhDW9JBtVqGFF33qmkBBaBIyf37xeEUSNRuRLw=;
-        b=UnpqUhY16460nx3v4OiIFGWePgxd2pL2DIp+pPKO7uHfopCR+bZrd+HK9pIePH7bNC
-         ih4CRQqY1mRaKi49H4pL4AndnGiCAwIlIBnTPcPHyr8EmbdQJt71glecbRvLlw8C2JG5
-         2ubvSmAspiLA5bvRKs5bd4qWD4F39TuM5e2BCI77JrTC9ACF5DAfnSQuArqN0AMVMjzi
-         Br7WKkem039VlaewywyWuIcoBMGomQOjVz26hqUYIrjK7wzAqFmCADSXZdQrzqRuAufR
-         TDP50EtYiKgK3cX8pcw3LCTpQ/8WLmBL8Hz9Tvnhl0iVjj9/4UcVT1RNxo/H/nNK6qUX
-         Tu5w==
-X-Gm-Message-State: AOAM5328htdu5zs/EgwbWFFUrJMfElL+fWzafpS8R3DNMFXi8HPQ3tHv
-        6i7jWiFpLWyTSgEhkXBujQs=
-X-Google-Smtp-Source: ABdhPJywvalFqzq1oRD29IlI1pb78iiaj27Usi9lg7MLrT/V1m31Qrl/vNekEuBU1JaXIWlVnGyUxw==
-X-Received: by 2002:adf:d1a3:0:b0:210:29f7:2d52 with SMTP id w3-20020adfd1a3000000b0021029f72d52mr179090wrc.397.1654095981285;
-        Wed, 01 Jun 2022 08:06:21 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:d1fb:e1e4:e193:e55f? ([2a02:908:1256:79a0:d1fb:e1e4:e193:e55f])
-        by smtp.gmail.com with ESMTPSA id n20-20020a7bc5d4000000b0039aef592ca0sm2247384wmk.35.2022.06.01.08.06.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jun 2022 08:06:20 -0700 (PDT)
-Message-ID: <30c96646-bb16-a876-57f5-155d46b8d805@gmail.com>
-Date:   Wed, 1 Jun 2022 17:06:18 +0200
+        with ESMTP id S1348999AbiFAPOH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 11:14:07 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B5F90CFA
+        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 08:14:06 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id 744D81F44596
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1654096444;
+        bh=lUHsKvf50AHaOVWK0bLfhNIAXc7K9XGAbVurLDdREhE=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=WP8HNlob6R3yCxMoiPBdFrgY96c5WXXUa45yeeDJRUXHG0TjgnTCCsG9fHM4PAFiJ
+         EmT7TTLr/EKKMPc95p0uAMzRwZ6Q1ZNKCbzoaaXUeuXONt7Rx7PgkZGEAUKQMDvjMz
+         CkAtZNz2HseAFJvfWUzNGttv3zbIEpcZ7XGhYbpU0cNH5BwvBy4p+jVDZQ0bouBQIH
+         nuU1YeMr/WASKKlKJn+B13SiFf0HAklgMckkQNd8ElhfiM6G/ZizXI6sKTjDysHmtw
+         MEgTeq4dEX9BDyInexdqrnP5pDGHsj39D3VBnM8TbmdHIsbtq6f9cfF8MaHojvx50/
+         XvkwtI9RLAYfw==
+Message-ID: <92a0163fa2bb20a5c577ca0222e497f0e2bee926.camel@collabora.com>
+Subject: Re: [PATCH] mediatek/vcodec: Enable incoherent buffer allocation
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Justin Green <greenjustin@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     linux-media@vger.kernel.org,
+        "tiffany.lin@mediatek.com" <tiffany.lin@mediatek.com>,
+        "andrew-ct.chen@mediatek.com" <andrew-ct.chen@mediatek.com>,
+        mchehab@kernel.org,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+Date:   Wed, 01 Jun 2022 11:13:54 -0400
+In-Reply-To: <CAHC42RfnEmBzzLpRikJovq6-E-VWf04Wxrc6Go96y5w2MKT2YQ@mail.gmail.com>
+References: <CAHC42RegxBFjqMwR2gv8EwqE0FG+oS7QA9rcopapktf7tD_y-g@mail.gmail.com>
+         <YpbDJ+PUmUTcOD3n@google.com>
+         <CAHC42RfnEmBzzLpRikJovq6-E-VWf04Wxrc6Go96y5w2MKT2YQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-fence: allow dma fence to have
- their own lock
-Content-Language: en-US
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220530142232.2871634-1-senozhatsky@chromium.org>
- <7eee4274-bd69-df8d-9067-771366217804@amd.com> <YpWCvniLzJfcp684@google.com>
- <33aba213-b6ad-4a15-9272-c62f5dfb1fb7@gmail.com>
- <Ypd3Us3a93aLonqT@google.com>
- <a009c207-a5fa-af1e-b961-8083b48360bf@gmail.com>
- <Ypd9OSqMtGMVKYZ0@google.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <Ypd9OSqMtGMVKYZ0@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 01.06.22 um 16:52 schrieb Sergey Senozhatsky:
-> On (22/06/01 16:38), Christian König wrote:
->>>> Well, you don't.
->>>>
->>>> If you have a dynamic context structure you need to reference count that as
->>>> well. In other words every time you create a fence in your context you need
->>>> to increment the reference count and every time a fence is release you
->>>> decrement it.
->>> OK then fence release should be able to point back to its "context"
->>> structure. Either a "private" data in dma fence or we need to "embed"
->>> fence into another object (refcounted) that owns the lock and provide
->>> dma fence ops->release callback, which can container_of() to the object
->>> that dma fence is embedded into.
->>>
->>> I think you are suggesting the latter. Thanks for clarifications.
->> Daniel might hurt me for this, but if you really only need a pointer to your
->> context then we could say that using a pointer value for the context field
->> is ok as well.
->>
->> That should be fine as well as long as you can guarantee that it will be
->> unique during the lifetime of all it's fences.
-> I think we can guarantee that. Object that creates fence is kmalloc-ed and
-> it sticks around until dma_fence_release() calls ops->release() and kfree-s
-> it. We *probably* can even do something like it now, by re-purposing dma_fence
-> context member:
->
->          dma_fence_init(obj->fence,
->                         &fence_ops,
->                         &obj->fence_lock,
->                         (u64)obj,                             <<   :/
->                         atomic64_inc_return(&obj->seqno));
->
-> I'd certainly refrain from being creative here and doing things that
-> are not documented/common. DMA fence embedding should work for us.
+Hi Justin,
 
-Yeah, exactly that's the idea. But if you are fine to create a subclass 
-of the dma_fence than that would indeed be cleaner.
+Le mercredi 01 juin 2022 =C3=A0 10:00 -0400, Justin Green a =C3=A9crit=C2=
+=A0:
+> Sure thing! Sorry about that, I think something got messed up with the
+> tabs. I've switched the "=3D" padding to spaces to spacing to make sure
+> everything is consistent. I think the removals part of the diff might
+> still look odd on some clients because of the tabs though.
 
-Christian.
+Best practice to to not mix style and functional changes, unless trivial. S=
+o if
+you want to change the style, add a second patch. Otherwise just maintain t=
+he
+original style (my recommendation). By the way you can add:
 
->
->>> The limiting factor of this approach is that now our ops->release() is
->>> under the same "pressure" as dma_fence_put()->dma_fence_release() are.
->>> dma_fence_put() and dma_fence_release() can be called from any context,
->>> as far as I understand, e.g. IRQ, however our normal object ->release
->>> can schedule, we do things like synchronize_rcu() and so on. Nothing is
->>> impossible, just saying that even this approach is not 100% perfect and
->>> may need additional workarounds.
->> Well just use a work item for release.
-> Yup, that's the plan.
+Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+I'd be very interested to learn from Sergey on why this feature wasn't enab=
+le
+more broadly. I notice though the begin/end access bits have not been
+implemented, so when used with DMABuf, this isn't going to behave quite rig=
+ht by
+default. I also notice that the code make no use of the attached device
+dma_coherent flag, so another case were this feature would get some help be=
+fore
+being generalized.
+
+>=20
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> index 52e5d36aa912..6a47b34c5bc9 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> @@ -929,30 +929,32 @@ int mtk_vcodec_dec_queue_init(void *priv, struct
+> vb2_queue *src_vq,
+>=20
+>   mtk_v4l2_debug(3, "[%d]", ctx->id);
+>=20
+> - src_vq->type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> - src_vq->io_modes =3D VB2_DMABUF | VB2_MMAP;
+> - src_vq->drv_priv =3D ctx;
+> - src_vq->buf_struct_size =3D sizeof(struct mtk_video_dec_buf);
+> - src_vq->ops =3D ctx->dev->vdec_pdata->vdec_vb2_ops;
+> - src_vq->mem_ops =3D &vb2_dma_contig_memops;
+> - src_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> - src_vq->lock =3D &ctx->dev->dev_mutex;
+> - src_vq->dev             =3D &ctx->dev->plat_dev->dev;
+> + src_vq->type              =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> + src_vq->io_modes          =3D VB2_DMABUF | VB2_MMAP;
+> + src_vq->drv_priv          =3D ctx;
+> + src_vq->buf_struct_size   =3D sizeof(struct mtk_video_dec_buf);
+> + src_vq->ops               =3D ctx->dev->vdec_pdata->vdec_vb2_ops;
+> + src_vq->mem_ops           =3D &vb2_dma_contig_memops;
+> + src_vq->timestamp_flags   =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> + src_vq->lock              =3D &ctx->dev->dev_mutex;
+> + src_vq->dev               =3D &ctx->dev->plat_dev->dev;
+> + src_vq->allow_cache_hints =3D 1;
+
+As a side effect, you'll only have this line added, no noise around it.
+
+>=20
+>   ret =3D vb2_queue_init(src_vq);
+>   if (ret) {
+>   mtk_v4l2_err("Failed to initialize videobuf2 queue(output)");
+>   return ret;
+>   }
+> - dst_vq->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> - dst_vq->io_modes =3D VB2_DMABUF | VB2_MMAP;
+> - dst_vq->drv_priv =3D ctx;
+> - dst_vq->buf_struct_size =3D sizeof(struct mtk_video_dec_buf);
+> - dst_vq->ops =3D ctx->dev->vdec_pdata->vdec_vb2_ops;
+> - dst_vq->mem_ops =3D &vb2_dma_contig_memops;
+> - dst_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> - dst_vq->lock =3D &ctx->dev->dev_mutex;
+> - dst_vq->dev             =3D &ctx->dev->plat_dev->dev;
+> + dst_vq->type              =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> + dst_vq->io_modes          =3D VB2_DMABUF | VB2_MMAP;
+> + dst_vq->drv_priv          =3D ctx;
+> + dst_vq->buf_struct_size   =3D sizeof(struct mtk_video_dec_buf);
+> + dst_vq->ops               =3D ctx->dev->vdec_pdata->vdec_vb2_ops;
+> + dst_vq->mem_ops           =3D &vb2_dma_contig_memops;
+> + dst_vq->timestamp_flags   =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> + dst_vq->lock              =3D &ctx->dev->dev_mutex;
+> + dst_vq->dev               =3D &ctx->dev->plat_dev->dev;
+> + dst_vq->allow_cache_hints =3D 1;
+>=20
+>   ret =3D vb2_queue_init(dst_vq);
+>   if (ret)
 
