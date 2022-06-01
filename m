@@ -2,64 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0AB253A892
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 16:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F401053A934
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 16:29:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354648AbiFAOJt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jun 2022 10:09:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50724 "EHLO
+        id S1354866AbiFAO3A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jun 2022 10:29:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354681AbiFAOJB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 10:09:01 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0D48DF3B
-        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 07:00:33 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id u2so395421iln.2
-        for <linux-media@vger.kernel.org>; Wed, 01 Jun 2022 07:00:33 -0700 (PDT)
+        with ESMTP id S1355046AbiFAO2v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 10:28:51 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1AAF30F5B
+        for <linux-media@vger.kernel.org>; Wed,  1 Jun 2022 07:27:37 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id p8so2140203pfh.8
+        for <linux-media@vger.kernel.org>; Wed, 01 Jun 2022 07:27:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DxbvDYsNyS+JKPZtZboCCAbUGckxEeU9T8ZJAlDs6F8=;
-        b=Q0FIn3pbtv4KH+yQjBa/S7D7Zev4zzfriyhAkgOJ0uc1mtZEctV9f04UfZ982fFXmC
-         vYPEOV065Qq6KbYZFcCuIstOYeRrr9yZACdf71+6s1ZsQf83BN5kFfaT7OwRC4bnistz
-         WyIN/X0kYc4va7pOA6xdam4uiSa58x6TZk6J4=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=1kEmR6X4i/nh+b6VMavBDubG9LMGPY4F+6d16NUM+gg=;
+        b=mzH/QSAKngGq4V8ihQYKENupPuzAZLcXExKUCzkD7wVNpc9ZhtZ9SHvU7A/Wtsjk5p
+         u8kr0G8Dxjuyhpjuqw3LG5uYEJBVyjeqJdOgUCIYXBdjvv7C4kZJqrt481urixeIGVCQ
+         6Bk5quC5jGzL+SmIzDU43ncWqQdAVI/I0jUgQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DxbvDYsNyS+JKPZtZboCCAbUGckxEeU9T8ZJAlDs6F8=;
-        b=TesWDkqIduzT8hn4uiPWiKI7aiv6Ug5WPpkLpEEmRJUo+Mwp/ucdq4WqdFy+BwGH/q
-         8kGIoEMWcRAYVUIRnuKA///55B2lkVoepb3oNXzB9NH788OkYYku70D59axYDMKGe5Oe
-         u+qiDwWbA6b1rja/Y76uU9sX9RgzHKPWbnXSgepGCqS8TsvJbRqkUfvNVeZHj5J39pjx
-         lMGTXF653FXkFu+PzgbX+gmUp3DoERz67sL0OMH1Shj5C2euAvrGoeAog9aFvA706+hw
-         9RhX5mrxwtugJWXnZxOFxHcNO/5qsn3wxcW8Ko9n/vOeW5xTrOht7TDFeSE45zYcFqRI
-         CGFQ==
-X-Gm-Message-State: AOAM531jJZfLWI0LdmvPMX2jICUxadvQHztj+OHH7SOgLuywQbsUaiFw
-        9pzZT3rTF0d+KQO3UqrxexhhQLrpwmYvSREZvJhxpe0Zo5LhMg==
-X-Google-Smtp-Source: ABdhPJyhQuATjWpMgeJlom+FcD0u5GwW2zTAYNJHuVUn1RtWAcA5GZHen8NuNMuBuTWezFO1ijyONUjhgX8toByjWbM=
-X-Received: by 2002:a05:6e02:1e08:b0:2d3:a866:2f0d with SMTP id
- g8-20020a056e021e0800b002d3a8662f0dmr59914ila.277.1654092031478; Wed, 01 Jun
- 2022 07:00:31 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=1kEmR6X4i/nh+b6VMavBDubG9LMGPY4F+6d16NUM+gg=;
+        b=8PJ9ydkEuu+EmkXp1I/W8CATXGXGzlr6xYiLCC9S0qZ681t9ZL0TKnSvLOEDdZ7ocy
+         LYdl2vZLCfQCsRJWnqepmQ7cGNj2SanJb95bAFOM45o3VZoLksGYK2QD6H2+QvjFTBkI
+         uuE6nKxLf2RW82E+Lq+UnqEI/nlpNxznUJxzEjrWa5lI2i9yPRtWTGx3cSZ8gH844zwd
+         BMmvimNhJFjDUauRiBwcyLyiJ9FcaSBBBw7WIMcEaMCrVn55H3pFxYQ6A7tEBHmqrRDY
+         WBMXu/6lfK9bWK+CZIlujX4iKs31CuG+vFsSfj91GzYpWWFc9RFue4rBgaMjvOwtGVRQ
+         vgRQ==
+X-Gm-Message-State: AOAM530ZCVhMelzz36Pq/LQ9m9fwGxQkq9wlbBotylnBlOqHMMP+l4N2
+        KZP8RbdnC6wyAx/DXncs55zz8A==
+X-Google-Smtp-Source: ABdhPJx1bs4rZIm3ygpokZwXwCX7e324N+HICM85x+DBIaCNTNO14kwZs2t/7lNxNBCdLuDn6WabZQ==
+X-Received: by 2002:a05:6a00:a01:b0:51b:51d8:3c2a with SMTP id p1-20020a056a000a0100b0051b51d83c2amr152799pfh.68.1654093656292;
+        Wed, 01 Jun 2022 07:27:36 -0700 (PDT)
+Received: from google.com ([240f:75:7537:3187:ec3a:4b49:34bc:e5b4])
+        by smtp.gmail.com with ESMTPSA id 2-20020a170902c24200b00162523fdb8fsm1589163plg.252.2022.06.01.07.27.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jun 2022 07:27:35 -0700 (PDT)
+Date:   Wed, 1 Jun 2022 23:27:30 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-fence: allow dma fence to have
+ their own lock
+Message-ID: <Ypd3Us3a93aLonqT@google.com>
+References: <20220530142232.2871634-1-senozhatsky@chromium.org>
+ <7eee4274-bd69-df8d-9067-771366217804@amd.com>
+ <YpWCvniLzJfcp684@google.com>
+ <33aba213-b6ad-4a15-9272-c62f5dfb1fb7@gmail.com>
 MIME-Version: 1.0
-References: <CAHC42RegxBFjqMwR2gv8EwqE0FG+oS7QA9rcopapktf7tD_y-g@mail.gmail.com>
- <YpbDJ+PUmUTcOD3n@google.com>
-In-Reply-To: <YpbDJ+PUmUTcOD3n@google.com>
-From:   Justin Green <greenjustin@chromium.org>
-Date:   Wed, 1 Jun 2022 10:00:20 -0400
-Message-ID: <CAHC42RfnEmBzzLpRikJovq6-E-VWf04Wxrc6Go96y5w2MKT2YQ@mail.gmail.com>
-Subject: Re: [PATCH] mediatek/vcodec: Enable incoherent buffer allocation
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     linux-media@vger.kernel.org,
-        "tiffany.lin@mediatek.com" <tiffany.lin@mediatek.com>,
-        "andrew-ct.chen@mediatek.com" <andrew-ct.chen@mediatek.com>,
-        mchehab@kernel.org,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <33aba213-b6ad-4a15-9272-c62f5dfb1fb7@gmail.com>
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,138 +80,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sure thing! Sorry about that, I think something got messed up with the
-tabs. I've switched the "=" padding to spaces to spacing to make sure
-everything is consistent. I think the removals part of the diff might
-still look odd on some clients because of the tabs though.
+On (22/06/01 14:45), Christian König wrote:
+> Am 31.05.22 um 04:51 schrieb Sergey Senozhatsky:
+> > On (22/05/30 16:55), Christian König wrote:
+> > > Am 30.05.22 um 16:22 schrieb Sergey Senozhatsky:
+> > > > [SNIP]
+> > > > So the `lock` should have at least same lifespan as the DMA fence
+> > > > that borrows it, which is impossible to guarantee in our case.
+> > > Nope, that's not correct. The lock should have at least same lifespan as the
+> > > context of the DMA fence.
+> > How does one know when it's safe to release the context? DMA fence
+> > objects are still transparently refcount-ed and "live their own lives",
+> > how does one synchronize lifespans?
+> 
+> Well, you don't.
+> 
+> If you have a dynamic context structure you need to reference count that as
+> well. In other words every time you create a fence in your context you need
+> to increment the reference count and every time a fence is release you
+> decrement it.
 
+OK then fence release should be able to point back to its "context"
+structure. Either a "private" data in dma fence or we need to "embed"
+fence into another object (refcounted) that owns the lock and provide
+dma fence ops->release callback, which can container_of() to the object
+that dma fence is embedded into.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-index 52e5d36aa912..6a47b34c5bc9 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-@@ -929,30 +929,32 @@ int mtk_vcodec_dec_queue_init(void *priv, struct
-vb2_queue *src_vq,
+I think you are suggesting the latter. Thanks for clarifications.
 
-  mtk_v4l2_debug(3, "[%d]", ctx->id);
+The limiting factor of this approach is that now our ops->release() is
+under the same "pressure" as dma_fence_put()->dma_fence_release() are.
+dma_fence_put() and dma_fence_release() can be called from any context,
+as far as I understand, e.g. IRQ, however our normal object ->release
+can schedule, we do things like synchronize_rcu() and so on. Nothing is
+impossible, just saying that even this approach is not 100% perfect and
+may need additional workarounds.
 
-- src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-- src_vq->io_modes = VB2_DMABUF | VB2_MMAP;
-- src_vq->drv_priv = ctx;
-- src_vq->buf_struct_size = sizeof(struct mtk_video_dec_buf);
-- src_vq->ops = ctx->dev->vdec_pdata->vdec_vb2_ops;
-- src_vq->mem_ops = &vb2_dma_contig_memops;
-- src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-- src_vq->lock = &ctx->dev->dev_mutex;
-- src_vq->dev             = &ctx->dev->plat_dev->dev;
-+ src_vq->type              = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-+ src_vq->io_modes          = VB2_DMABUF | VB2_MMAP;
-+ src_vq->drv_priv          = ctx;
-+ src_vq->buf_struct_size   = sizeof(struct mtk_video_dec_buf);
-+ src_vq->ops               = ctx->dev->vdec_pdata->vdec_vb2_ops;
-+ src_vq->mem_ops           = &vb2_dma_contig_memops;
-+ src_vq->timestamp_flags   = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-+ src_vq->lock              = &ctx->dev->dev_mutex;
-+ src_vq->dev               = &ctx->dev->plat_dev->dev;
-+ src_vq->allow_cache_hints = 1;
+> If you have a static context structure like most drivers have then you must
+> make sure that all fences at least signal before you unload your driver. We
+> still somewhat have a race when you try to unload a driver and the fence_ops
+> structure suddenly disappear, but we currently live with that.
 
-  ret = vb2_queue_init(src_vq);
-  if (ret) {
-  mtk_v4l2_err("Failed to initialize videobuf2 queue(output)");
-  return ret;
-  }
-- dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-- dst_vq->io_modes = VB2_DMABUF | VB2_MMAP;
-- dst_vq->drv_priv = ctx;
-- dst_vq->buf_struct_size = sizeof(struct mtk_video_dec_buf);
-- dst_vq->ops = ctx->dev->vdec_pdata->vdec_vb2_ops;
-- dst_vq->mem_ops = &vb2_dma_contig_memops;
-- dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-- dst_vq->lock = &ctx->dev->dev_mutex;
-- dst_vq->dev             = &ctx->dev->plat_dev->dev;
-+ dst_vq->type              = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-+ dst_vq->io_modes          = VB2_DMABUF | VB2_MMAP;
-+ dst_vq->drv_priv          = ctx;
-+ dst_vq->buf_struct_size   = sizeof(struct mtk_video_dec_buf);
-+ dst_vq->ops               = ctx->dev->vdec_pdata->vdec_vb2_ops;
-+ dst_vq->mem_ops           = &vb2_dma_contig_memops;
-+ dst_vq->timestamp_flags   = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-+ dst_vq->lock              = &ctx->dev->dev_mutex;
-+ dst_vq->dev               = &ctx->dev->plat_dev->dev;
-+ dst_vq->allow_cache_hints = 1;
+Hmm, indeed... I didn't consider fence_ops case.
 
-  ret = vb2_queue_init(dst_vq);
-  if (ret)
--- 
-2.36.1.255.ge46751e96f-goog
+> Apart from that you are right, fences can live forever and we need to deal
+> with that.
 
-On Tue, May 31, 2022 at 9:38 PM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> On (22/05/31 17:10), Justin Green wrote:
-> > Set allow_cache_hints to 1 for the vb2_queue source and destination queues
-> > in the mediatek vcodec V4L2 driver. This allows us to allocate buffers
-> > with the V4L2_MEMORY_FLAG_NON_COHERENT set. On Mediatek SoCs, this enables
-> > caching for this memory, which vastly improves performance when being read
-> > from CPU. Read performance for these buffers is in turn important for
-> > detiling MM21 video frames in software.
-> >
-> > This change should be safe from race conditions since videobuf2 already
-> > invalidates or flushes the appropriate cache lines in its prepare() and
-> > finish() methods.
-> >
-> > Tested on a MT8183 SoC. Resulted in both correct detiling and a 10X
-> > speedup.
->
-> Hi Justin,
->
-> It seems that something has happened to tabs and code formatting,
-> could you double check and resend?
->
-> > @@ -929,30 +929,32 @@ int mtk_vcodec_dec_queue_init(void *priv, struct
-> > vb2_queue *src_vq,
-> >
-> >   mtk_v4l2_debug(3, "[%d]", ctx->id);
-> >
-> > - src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> > - src_vq->io_modes = VB2_DMABUF | VB2_MMAP;
-> > - src_vq->drv_priv = ctx;
-> > - src_vq->buf_struct_size = sizeof(struct mtk_video_dec_buf);
-> > - src_vq->ops = ctx->dev->vdec_pdata->vdec_vb2_ops;
-> > - src_vq->mem_ops = &vb2_dma_contig_memops;
-> > - src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> > - src_vq->lock = &ctx->dev->dev_mutex;
-> > - src_vq->dev             = &ctx->dev->plat_dev->dev;
-> > + src_vq->type   = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> > + src_vq->io_modes   = VB2_DMABUF | VB2_MMAP;
-> > + src_vq->drv_priv   = ctx;
-> > + src_vq->buf_struct_size   = sizeof(struct mtk_video_dec_buf);
-> > + src_vq->ops   = ctx->dev->vdec_pdata->vdec_vb2_ops;
-> > + src_vq->mem_ops   = &vb2_dma_contig_memops;
-> > + src_vq->timestamp_flags   = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> > + src_vq->lock   = &ctx->dev->dev_mutex;
-> > + src_vq->dev               = &ctx->dev->plat_dev->dev;
-> > + src_vq->allow_cache_hints = 1;
->
-> I guess it should look something like this
->
-> -       src_vq->type            = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> -       src_vq->io_modes        = VB2_DMABUF | VB2_MMAP;
-> -       src_vq->drv_priv        = ctx;
-> -       src_vq->buf_struct_size = sizeof(struct mtk_video_dec_buf);
-> -       src_vq->ops             = ctx->dev->vdec_pdata->vdec_vb2_ops;
-> -       src_vq->mem_ops         = &vb2_dma_contig_memops;
-> -       src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> -       src_vq->lock            = &ctx->dev->dev_mutex;
-> -       src_vq->dev             = &ctx->dev->plat_dev->dev;
-> +       src_vq->type                    = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> +       src_vq->io_modes                = VB2_DMABUF | VB2_MMAP;
-> +       src_vq->drv_priv                = ctx;
-> +       src_vq->buf_struct_size         = sizeof(struct mtk_video_dec_buf);
-> +       src_vq->ops                     = ctx->dev->vdec_pdata->vdec_vb2_ops;
-> +       src_vq->mem_ops                 = &vb2_dma_contig_memops;
-> +       src_vq->timestamp_flags         = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> +       src_vq->lock                    = &ctx->dev->dev_mutex;
-> +       src_vq->dev                     = &ctx->dev->plat_dev->dev;
-> +       src_vq->allow_cache_hints       = 1;
+OK. I see.
