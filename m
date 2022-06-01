@@ -2,104 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D27D1539C45
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 06:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB3DB539C4F
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jun 2022 06:48:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345510AbiFAEZ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jun 2022 00:25:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48592 "EHLO
+        id S1349548AbiFAEpG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jun 2022 00:45:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240934AbiFAEZZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 00:25:25 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D3169E9E1;
-        Tue, 31 May 2022 21:25:24 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id a10so850732pju.3;
-        Tue, 31 May 2022 21:25:24 -0700 (PDT)
+        with ESMTP id S1349551AbiFAEpC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jun 2022 00:45:02 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 736549E9E8;
+        Tue, 31 May 2022 21:45:01 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id r129so285405wmr.3;
+        Tue, 31 May 2022 21:45:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qV/kQWWE5TCXDtwtIihkerreiew7iWC6lBTWJeucJIg=;
-        b=ReFoyD6+1Lqkr/R2pf+8AKWuf/SU8Gfa83eXY5S/LG50yi/hKWMyX/3OPwn6aJ1F59
-         ib9E9yb2Y+S9tgbMqi2DzZfsCNhEUZGbxD4oOkub/0tFfsfKT9wVkM86/SQIFsLo3BVz
-         e5cJitqsmzcKoJtU0zDAoJXxB/Z2c3YRZcfczyZeN6rgZiFxc0z9YfjrHcMfrDOIzBxV
-         u+rLPDPpIMOH6r2OBg5TTdGimLpRzbSuCskm47LvrMHkT2LLciV2MPVfHVIrOC8nH7HR
-         MEYS9/U+HJ6ikAALq2hyIwzab4ExehXGsmHSgM3JQxIvPbHiKj0rK4M0VnW+6Qi4/aq1
-         vRWw==
+        h=from:to:cc:subject:date:message-id;
+        bh=UxpRbsB4fW9Es2lqL888yJ7QXf4l6YrZ20jfoXVDxLw=;
+        b=q4b8Tjk8UpQ2TXQp9YxJBSMKTh3uotCktHoVhjGzV/CodlyiLmqmQ1pGuw00XOiq3K
+         4FpmUFoWVmEtOuQkfqcWxzRaeT8ZTzXsa9WPZ5G9iyc4ySa6oUrfRxRkl0aohhcgrbzQ
+         kgZi4ft8/ZEeGo9b4I9p6n7MXFrlPwMBoBDK3N3PlCJnj00MfpGPg5jBj0LgglYvIJnd
+         DJ6+pbP1ELdopkCtifkoXaJvl5gYwrbyCeidF9mJ3kdN/wQ2hgNFRPv9YDJMwKu4QHrA
+         LGUD2mSGjcQBr43d7E3nQzGvt4CO20TJm2K+GNj+DPE8DWbEe16LG5WYvEmCOykU7aul
+         VqIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qV/kQWWE5TCXDtwtIihkerreiew7iWC6lBTWJeucJIg=;
-        b=1gJ7emSOgzsu5MHw1jXlb2eYKy2oTyMZIGlkaEgkRGi7vj2PYQKErkU8G18zIYPSAz
-         87YYHPomCIi4kS+blzK/S5OtphQm+jxkh+8Z411Z9GSo7kcP5SUudiRrjQCQ8PjdlqpB
-         5d9o2Kf+UBZZkSqsKEwr91lSSZrHQFdvvHtJxple+rpOn0n1/oQKAff7RoVEG+oTY6fK
-         mF+lZBv+Dfu3TeiHU04LFRbCFfkT0bYzgX+W1gPgbl5th7gqQEUerW26Z+KMD0rysz7x
-         8ovo/VraERsobG77GBndy5dw3u0A5javWcKJ2ckgKYJj2E3sxNxD7nylU5T42i+iiQmH
-         OsFw==
-X-Gm-Message-State: AOAM531ErYb6T1iAFg/QI24HQu1Qq2Ex+TsO/FFo7ITmeMw+Vdc/nYyQ
-        Q52IkR8g0mtDOyQKJYwdzu8=
-X-Google-Smtp-Source: ABdhPJzhh0v5mf83CiChYoplV/aivC7HiUkv4hOQhbwi4NqjR/XvCvK6+eyWrEazVoETOiYVO01X8A==
-X-Received: by 2002:a17:902:e54e:b0:162:4b8b:f2be with SMTP id n14-20020a170902e54e00b001624b8bf2bemr38630727plf.5.1654057524096;
-        Tue, 31 May 2022 21:25:24 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
-        by smtp.googlemail.com with ESMTPSA id fz21-20020a17090b025500b001df51e34036sm337111pjb.0.2022.05.31.21.25.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=UxpRbsB4fW9Es2lqL888yJ7QXf4l6YrZ20jfoXVDxLw=;
+        b=4SlTKumCDjnSgt5M9qHPEvsCjeO1OWixtr1yJSE3WwnooycUhOF+cYUgqmW6E9PUDC
+         RuirEf3/nKjXWd8jIGumFHpBdtK50hNi3T6BbVWAFE2NDqEjibI5GpFSmFGhCR3NOPyM
+         iC417+BSRBBb5tliL/iFY59RvF22noBA01R//dXcILkTVoZ2/XNGTHJQbxjye61SlUkM
+         RLQsFO2xawFyIjztt9AYG4OdDefYTdozaaSlz7dOLufZcyxNeEK3QrPuRxx23eQQliMM
+         eSdSk9NHRhWBvbcHlZ246Tiooe4vttKxsgg7KBpIl/h01cSghEdsjR65BFRux3EF+OM1
+         ketQ==
+X-Gm-Message-State: AOAM533TTQ9kKdBttGNjIuw8AeHTml7O4k+uOiPPG+mbB25FQyjh3uyO
+        qL3QcDKlIAHyCw+7Bc3OIr0=
+X-Google-Smtp-Source: ABdhPJzpHyayVSJDL7wlT5GxcWKpvoD+twBMaZRJ+1JROIQ2naE3mChhbKYDbvR++VsJb9EI8hi6fA==
+X-Received: by 2002:a05:600c:3d8e:b0:397:73e3:8c83 with SMTP id bi14-20020a05600c3d8e00b0039773e38c83mr26213646wmb.29.1654058699805;
+        Tue, 31 May 2022 21:44:59 -0700 (PDT)
+Received: from felia.fritz.box (200116b82620c00028af88788fa7d286.dip.versatel-1u1.de. [2001:16b8:2620:c000:28af:8878:8fa7:d286])
+        by smtp.gmail.com with ESMTPSA id a5-20020adffac5000000b0021023877ac5sm390427wrs.107.2022.05.31.21.44.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 21:25:23 -0700 (PDT)
-From:   Miaoqian Lin <linmq006@gmail.com>
-To:     Hyun Kwon <hyun.kwon@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Radhey Shyam Pandey <radheys@xilinx.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     linmq006@gmail.com
-Subject: [PATCH] v4l: xilinx-vipp: Fix refcount leak in xvip_graph_dma_init
-Date:   Wed,  1 Jun 2022 08:25:14 +0400
-Message-Id: <20220601042514.61780-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 31 May 2022 21:44:59 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] media: MAINTAINERS: rectify entry for DONGWOON DW9807 LENS VOICE COIL DRIVER
+Date:   Wed,  1 Jun 2022 06:44:45 +0200
+Message-Id: <20220601044445.11943-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-of_get_child_by_name() returns a node pointer with refcount
-incremented, we should use of_node_put() on it when not need anymore.
-Add missing of_node_put() to avoid refcount leak.
+Commit a1f4626b282d ("media: dt-bindings: Convert Dongwoon dw9807-vcm
+bindings to json-schema") converts dongwoon,dw9807-vcm.txt to yaml, but
+misses to adjust its reference in MAINTAINERS.
 
-Fixes: df3305156f98 ("[media] v4l: xilinx: Add Xilinx Video IP core")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
+broken reference.
+
+Repair this file reference in DONGWOON DW9807 LENS VOICE COIL DRIVER.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- drivers/media/platform/xilinx/xilinx-vipp.c | 2 ++
- 1 file changed, 2 insertions(+)
+Mauro, please pick this minor non-urgent clean-up patch for media-next.
 
-diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
-index f34f8b077e03..415579b63737 100644
---- a/drivers/media/platform/xilinx/xilinx-vipp.c
-+++ b/drivers/media/platform/xilinx/xilinx-vipp.c
-@@ -483,10 +483,12 @@ static int xvip_graph_dma_init(struct xvip_composite_device *xdev)
- 		ret = xvip_graph_dma_init_one(xdev, port);
- 		if (ret < 0) {
- 			of_node_put(port);
-+			of_node_put(ports);
- 			return ret;
- 		}
- 	}
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e0f5895feb6b..88fdf39e6bb4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6078,7 +6078,7 @@ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+-F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.txt
++F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.yaml
+ F:	drivers/media/i2c/dw9807-vcm.c
  
-+	of_node_put(ports);
- 	return 0;
- }
- 
+ DOUBLETALK DRIVER
 -- 
-2.25.1
+2.17.1
 
