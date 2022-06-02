@@ -2,145 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2E3653B454
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jun 2022 09:28:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E118653B7E1
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jun 2022 13:34:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231738AbiFBH2o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Jun 2022 03:28:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44690 "EHLO
+        id S233316AbiFBLeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Jun 2022 07:34:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231169AbiFBH2n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Jun 2022 03:28:43 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B2329FE65
-        for <linux-media@vger.kernel.org>; Thu,  2 Jun 2022 00:28:42 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id p8so4047043pfh.8
-        for <linux-media@vger.kernel.org>; Thu, 02 Jun 2022 00:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=8wZEhrx3meNoOfRpvSHrZZtZauJF80x1Y9QVY2KLX4k=;
-        b=hkhx0g/ikCthA+2PcCVNY3OUxxnTo0xg7jMFVh+7Rtd+5RS5O0XKslp8oCfnC49xyJ
-         IzzNN1uFuyAwA2lDNiG9/92fi5bvUCpSbX/x6gDskCxVpDI0M+ojuWhQNF8v90GfAsjI
-         Fy+QttsYQwScBrEVrPbwLpWRzrLeI+KAUqSUz81byCFY9buGcdPBAS/M6C8MpD6g7xfL
-         TsFsUSJCKFdYifwBudSACq2MT+H9OpZ/Wv81eBqbGcGgPOGLkOPirb63v4edzpubOh3x
-         2L0eYH/0cb+nzaTKi71ZuLxSfAPAjC0iTWkmi5k0fUInJXWl08puQrGenFX1KsdTLufZ
-         3FEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=8wZEhrx3meNoOfRpvSHrZZtZauJF80x1Y9QVY2KLX4k=;
-        b=IitW7EH1nbukD40xH9jZYiJgF7xz6yZXbxX4KRthV0E6SnY6FSQAvP72wMBef4Am00
-         KqneqVAmWW5xhI567Ew7ZW7b9NcsrFC2YX+lXyDG7uACBF/++fCKPwP6igeCrZnNavbG
-         4/rIkjg9D9aknNNhfeKklXsNFHS8XgcYXzA17iyEDeeqeX2MphsxJ7MLg0PyqooXyjoQ
-         wvYDQu3n43V0++IInrjERH1T0NG/wZelaqPeUn7cq/Z17FhQIHhOBYSY+5g9FBigBuBF
-         n9EY1PamR6MLQM12Z6yHCE/ke+WANxdyWXiEoyAH4LbaHSGIJ1uHLPXHdWFTn/LS4tUi
-         vVRw==
-X-Gm-Message-State: AOAM530Pl4x/n8W6jPDGGXgKzElHf7iVLRCe2g6SpdjQgyqpAz2b+xP1
-        9Ldtj+SKeGQxu3lUPjEVKT80a56FmEnLG6p6zkI=
-X-Google-Smtp-Source: ABdhPJzNzH8DrWS3aQJZxovGbL6JugG+NqJnptQtXrAC3qolVCUK8ZgQ0TJojToVGyPiaudIWZ+oH+0wVmyHCRbybnc=
-X-Received: by 2002:a05:6a00:1306:b0:512:ca3d:392f with SMTP id
- j6-20020a056a00130600b00512ca3d392fmr71055129pfu.79.1654154921718; Thu, 02
- Jun 2022 00:28:41 -0700 (PDT)
+        with ESMTP id S231533AbiFBLeG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Jun 2022 07:34:06 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E13167FB
+        for <linux-media@vger.kernel.org>; Thu,  2 Jun 2022 04:34:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654169644; x=1685705644;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p7/TA1laRSuWcDz5d06Vv03+bPeFnXUnBRBZD4+wAYM=;
+  b=MuimK9AFNo45RNDd5BC1fYHU3pKbxuGckJyl/mF0ZRJPTqD7f4uiB5kp
+   lC7gkTzz6s0mTdK/7iEUjlJPstwXzsIBpO/zPPExjhunxp7h33/5ukcgC
+   LAZr24jDxMOGDmvPy54PW3sJBKAP2GzNwh+9Xx5Y5tB9wggBDPVXH+2x6
+   zp47/Yxyx3XcrdNW7FLo5DCGUIpOFqAjHJRmTBTpjt0I51in1rBuKFBhM
+   ZscsMscuCxwLhIc9zQJ8jmSu1xHI1bxYgcZX8XbdUW+W85Vy6MM+sQmds
+   XTehPRCScxTaYOhXYjvBYSjxJw1ta7zg7W33dmkHIXh2EfTem2mJw+gtL
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="273486828"
+X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; 
+   d="scan'208";a="273486828"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2022 04:34:04 -0700
+X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; 
+   d="scan'208";a="612784362"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2022 04:34:02 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nwj5T-000Rbi-6w;
+        Thu, 02 Jun 2022 14:33:59 +0300
+Date:   Thu, 2 Jun 2022 14:33:58 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, yong.zhi@intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        hverkuil-cisco@xs4all.nl, Daniel Scally <djrscally@gmail.com>
+Subject: Re: [PATCH v2 1/1] ov7251: Fix multiple problems in s_stream callback
+Message-ID: <YpigJom+FwVPLPXB@smile.fi.intel.com>
+References: <20220518155408.12843-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6a11:488:b0:2a0:ea7e:8adf with HTTP; Thu, 2 Jun 2022
- 00:28:41 -0700 (PDT)
-Reply-To: robertbailey00023@gmail.com
-From:   Mr Robert Bailey <skobo080m@gmail.com>
-Date:   Thu, 2 Jun 2022 00:28:41 -0700
-Message-ID: <CACA0f+XETAnmUeyv9imr7CgjsvOr_wXw97GQVQUi-dcLRPnSHg@mail.gmail.com>
-Subject: SPENDE
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:442 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5353]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [robertbailey00023[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [skobo080m[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  0.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518155408.12843-1-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Guten Tag lieber Beg=C3=BCnstigter
-Sie erhalten diese E-Mail von der Robert Bailey-Stiftung
-pensionierter Regierungsangestellter aus Harlem und Gewinner des Powerballs
-Lotterie-Jackpot im Wert von 343,8 Millionen Dollar, ich bin der gr=C3=B6=
-=C3=9Fte Jackpot
-Gewinner der New Yorker Lotteriegeschichte, United State of America.
-Ich habe gewonnen
-diese Lotterie am 27. Oktober 2018 und ich schreibe, um Sie dar=C3=BCber zu
-informieren
-Google hat in Verbindung mit Microsoft Ihre "E-Mail-Adresse" an gesendet
-Meine Bitte, dass Sie einen Spendenbetrag von 3.000.000,00 Mio. =E2=82=AC e=
-rhalten
-Euro Ich spende Ihnen diesen Betrag in H=C3=B6he von 3 Millionen Euro, um
-die Wohlt=C3=A4tigkeitsorganisation zu unterst=C3=BCtzen
-H=C3=A4user und arme Menschen in Ihrer Gemeinde, damit wir die Welt zu
-einem machen k=C3=B6nnen
-besserer Ort f=C3=BCr alle. Weitere Informationen finden Sie auf der Websit=
-e
-Informationen, damit Sie dieser Spende von 3 =E2=82=AC nicht skeptisch gege=
-n=C3=BCberstehen
-Millionen EUR.
+On Wed, May 18, 2022 at 06:54:08PM +0300, Sakari Ailus wrote:
+> The s_stream callback had several issues:
+> 
+> - If pm_runtime_get_sync() fails, the usage_count is not put.
+> 
+> - The sensor wasn't suspended if s_stream(subdev, 1) failed.
+> 
+> Fix this.
 
-https://nypost.com/2018/11/14/meet-the-winner-of-the-biggest-lottery-jackpo=
-t-in-neue-york-geschichte/
+Perhaps late, but nevertheless
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Sie k=C3=B6nnen mein YouTube auch f=C3=BCr weitere Best=C3=A4tigung ansehen=
-:
-https://www.youtube.com/watch?v=3DH5vT18Ysavc
+> Fixes: ("media: i2c: Add pm_runtime support to ov7251")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/ov7251.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
+> index 0e7be15bc20a7..603a4c7049e69 100644
+> --- a/drivers/media/i2c/ov7251.c
+> +++ b/drivers/media/i2c/ov7251.c
+> @@ -1340,7 +1340,7 @@ static int ov7251_s_stream(struct v4l2_subdev *subdev, int enable)
+>  	if (enable) {
+>  		ret = pm_runtime_get_sync(ov7251->dev);
+>  		if (ret < 0)
+> -			goto unlock_out;
+> +			goto err_power_down;
+>  
+>  		ret = ov7251_pll_configure(ov7251);
+>  		if (ret) {
+> @@ -1372,12 +1372,11 @@ static int ov7251_s_stream(struct v4l2_subdev *subdev, int enable)
+>  		pm_runtime_put(ov7251->dev);
+>  	}
+>  
+> -unlock_out:
+>  	mutex_unlock(&ov7251->lock);
+>  	return ret;
+>  
+>  err_power_down:
+> -	pm_runtime_put_noidle(ov7251->dev);
+> +	pm_runtime_put(ov7251->dev);
+>  	mutex_unlock(&ov7251->lock);
+>  	return ret;
+>  }
+> -- 
+> 2.30.2
+> 
 
- Bitte antworten Sie mir =C3=BCber: (robertbailey00023@gmail.com), damit wi=
-r
-kann weiter vorgehen, damit die verantwortliche Bank einen
-Geldautomaten generiert
-Karte im Wert von 3 Millionen Euro und diese ATM-Karte wird
-Sie erhalten den PIN-Code f=C3=BCr den Zugriff auf die Spendengelder.
-Bitte beachten Sie, dass alle Antworten an gesendet werden m=C3=BCssen
-(robertbailey00023@gmail.com) f=C3=BCr weitere Informationen zum Empfang
-Diese Spende erfolgt =C3=BCber die universelle Bankomatkarte, die Ihnen
-zugesandt wird
-so bald wie m=C3=B6glich. melde dich jetzt bei mir.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Beste Gr=C3=BC=C3=9Fe
-Robert Bailey
-* * * * * * * * * * * * * * * * *
-Powerball Jackpot-Gewinner
+
