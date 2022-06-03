@@ -2,127 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4652153CD16
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jun 2022 18:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8102353D233
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jun 2022 21:08:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343857AbiFCQWo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jun 2022 12:22:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48154 "EHLO
+        id S1349050AbiFCTIu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jun 2022 15:08:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343813AbiFCQWm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jun 2022 12:22:42 -0400
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF9122519;
-        Fri,  3 Jun 2022 09:22:41 -0700 (PDT)
-Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-e93bbb54f9so11162648fac.12;
-        Fri, 03 Jun 2022 09:22:41 -0700 (PDT)
+        with ESMTP id S1349021AbiFCTIs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jun 2022 15:08:48 -0400
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BABE83917B
+        for <linux-media@vger.kernel.org>; Fri,  3 Jun 2022 12:08:46 -0700 (PDT)
+Received: by mail-oo1-xc33.google.com with SMTP id 1-20020a4a1701000000b0040e90b56d03so1619681ooe.12
+        for <linux-media@vger.kernel.org>; Fri, 03 Jun 2022 12:08:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=MG4fB5L16PJOB6eygIdqZV5Ksttsv4vvkIROtuQ0QKg=;
-        b=joqdIXgCTJQK6rmOLq9hEzhW5hwG3cLQXUjb+cboAdPNERXpcXFUz62Yn33raBmc3o
-         blplY+PffT0s0Ma3Gjv1Dfji90dnBCQ0JR2M8adnSDl9hJoyKJqgg3aWFvyFxeB5RM+K
-         YoAkXQ88H8i9uUo9rKmbeuT/ZimhUj19/+ld6yWtzKNq1afkr3t3eiBm7Wso6leCedKO
-         cuYkfF5vxJ3xYJodra8xm2bhjpd+/hhXjeu6V0/G4NB9CrRPaFaXSDKbCX7KZsCwi2wh
-         jgjHN74aQl6bGwmJ2pDkbljmkUhKU6f8aC4TFk5T5u6RrZj1ScAJgyYyVZMHyM/ekVkJ
-         64vw==
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=uQm69jIgbOTyn1ClmnjZvF1mQyllP9AbcSxz7NY1e74=;
+        b=peMTcS2J0bkhcQfLpXY5HI+ynpJKNL1j7TT3n6xhnGINfudOzs/Wy5e9dOkvukoucU
+         QNydhfLVmiD4XxjbixY4MdYa0ULFfRmO+C8wExU9wYO734rkxFtFvLbBSYiVES+YUsWx
+         kg5nWq72UAX3I5at0ImMcE8uK3uCDT6FwR74Xfp+R86JbeLJqZWmVf1xdMp6z7SnM/yw
+         tP/12eTd0FRWERzniS9Ywa+QbfrWGQCDNrQkWB3LdqvrmccIu2JJWl7q1B8AAnYB2qf4
+         z+w90BsW60aRRW+4F2qwj8D0FsuoSPnNqveyuDudklGNo/81PwLtg+pvXRLQCTNkByGE
+         WgRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=MG4fB5L16PJOB6eygIdqZV5Ksttsv4vvkIROtuQ0QKg=;
-        b=q4VDddI+QV9bvDivCISA403lqF09R7dQMCssj1lIxbg0tfAg6ncGIVWR33DuCgEoj+
-         0Fa/gc+QI7TQO8SGg+vTZUOrbRA1fNWY3RgQ9WCLSUmJk6LZnN7JX7V46USJNxpJ5UIw
-         7Y/a5e8P+qqkMt6Kg2fPUCG2XYnubceSRHjPkWBkT+g6rasYjFv4zA7Z1HVo+RhMg1CI
-         Y2VlGY6XiktwGC9b2Vlj9H8K8vdbFyiK4XF7qZCT1JEZya9QZPlX99FyMlXllMZPOAjt
-         VkKkerHrydYk7UlogzRMqNnNv+Bf1fDLyMFxpZN+Fr0rpM9cwtaBr3/VcxjjvwvGs8A9
-         MsMg==
-X-Gm-Message-State: AOAM533nIMgvlWy9pSnN3rfYWOyG1ozmMcevcUKoueKdq974HJFzogZ1
-        lRpK1uBW3A/AWJvgNkrv5gBga8wVlcU=
-X-Google-Smtp-Source: ABdhPJx2XtRXI3hkPrfqrFyv7zA3+CCZ1oBRo6S2VY+rDVqlMJ2cFUadZ8sCGk08GLh4x3pQ99KDyw==
-X-Received: by 2002:a05:6870:891f:b0:e1:ec98:3c59 with SMTP id i31-20020a056870891f00b000e1ec983c59mr6325967oao.295.1654273361054;
-        Fri, 03 Jun 2022 09:22:41 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j9-20020a056870530900b000f33b23a030sm3412594oan.57.2022.06.03.09.22.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jun 2022 09:22:40 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4ef87536-7a71-0d1b-3121-94e763041562@roeck-us.net>
-Date:   Fri, 3 Jun 2022 09:22:37 -0700
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=uQm69jIgbOTyn1ClmnjZvF1mQyllP9AbcSxz7NY1e74=;
+        b=iTHOe5mqh0/hl1x0bQMagISlaihZfvMmKiDtLGQEbtLZHXJihYr4Auh8h566lRZqgg
+         583BKyViZKeVQgZQlaq+C9Iqb9LnzQ4jlff36ToreoFfStSS5SFjAGKLZusCdY2sz6x/
+         omebwGZmuv94DUq3gY/PR/ncT98y8IPAHWm4ODHICTVU7oAQvxF5M1AWD2xg65UihJLY
+         C6jqxRdE1YVMVTR1VhxNCovMGpc3N3H/RAxaMKoQN7B1wKxYTSdM91yVVWe5xatTRR/Y
+         tPVb5AhJArL0iFFAAkuzu6AbVBjaWkXdeNNOZIulZKrnWOMCA0xD+iwwBfBQbC0oZvda
+         sT1g==
+X-Gm-Message-State: AOAM533ZDH44QvPpKUCRgtJPGWg4EUf1FwC9dT3xlAzuGi4oG96G9BLG
+        y+hGFdMhyO+401aCbIpkaI+X64JerhXZDkuBFjs=
+X-Google-Smtp-Source: ABdhPJzPqr9ZJ75Di+tbMESnTfkIbH6PQ3O3mesgCBPuOrGJp0v+tITSgNkU3WRdfpwQIjwRVbypZGhoNlkRJn+M2B4=
+X-Received: by 2002:a4a:eac7:0:b0:40e:5c32:42f with SMTP id
+ s7-20020a4aeac7000000b0040e5c32042fmr4794281ooh.52.1654283326102; Fri, 03 Jun
+ 2022 12:08:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 6/6] watchdog: max77620: update Luca Ceresoli's e-mail
- address
-Content-Language: en-US
-To:     Luca Ceresoli <luca@lucaceresoli.net>, linux-kernel@vger.kernel.org
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>
-References: <20220603155727.1232061-1-luca@lucaceresoli.net>
- <20220603155727.1232061-6-luca@lucaceresoli.net>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20220603155727.1232061-6-luca@lucaceresoli.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Sender: sujitnoo030@gmail.com
+Received: by 2002:a05:6358:c21:b0:a3:41b9:b883 with HTTP; Fri, 3 Jun 2022
+ 12:08:45 -0700 (PDT)
+From:   "Mr. Jimmy Moore" <jimmymoore265@gmail.com>
+Date:   Fri, 3 Jun 2022 20:08:45 +0100
+X-Google-Sender-Auth: HJSPW36J7I-RtMMQntEJbYelM4Y
+Message-ID: <CAAJKTSX1Vg6CQtPch_nYOb3yfkEh7HdqQvGydTEaGrrF2S6TTw@mail.gmail.com>
+Subject: UNITED NATIONS COVID-19 COMPENSATION FUND.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLY,LOTS_OF_MONEY,MILLION_USD,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
+        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/3/22 08:57, Luca Ceresoli wrote:
-> My Bootlin address is preferred from now on.
-> 
-> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+UNITED NATIONS COVID-19 OVERDUE COMPENSATION UNIT.
+REFERENCE PAYMENT CODE: 8525595
+BAILOUT AMOUNT:$3.5 MILLION USD
+ADDRESS: NEW YORK, NY 10017, UNITED STATES
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Dear award recipient, Covid-19 Compensation Funds.
 
-An entry in .mailmap might be easier, though.
+You are receiving this correspondence because we have finally reached
+a consensus with the UN, IRS, and IMF that your total fund worth $3.5
+Million Dollars of Covid-19 Compensation payment shall be delivered to
+your nominated mode of receipt, and you are expected to pay the sum of
+$12,000 for levies owed to authorities after receiving your funds.
 
-Guenter
+You have a grace period of 2 weeks to pay the $12,000 levy after you
+have received your Covid-19 Compensation total sum of $3.5 Million. We
+shall proceed with the payment of your bailout grant only if you agree
+to the terms and conditions stated.
 
-> ---
->   drivers/watchdog/max77620_wdt.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/watchdog/max77620_wdt.c b/drivers/watchdog/max77620_wdt.c
-> index b76ad6ba0915..33835c0b06de 100644
-> --- a/drivers/watchdog/max77620_wdt.c
-> +++ b/drivers/watchdog/max77620_wdt.c
-> @@ -6,7 +6,7 @@
->    * Copyright (C) 2022 Luca Ceresoli
->    *
->    * Author: Laxman Dewangan <ldewangan@nvidia.com>
-> - * Author: Luca Ceresoli <luca@lucaceresoli.net>
-> + * Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
->    */
->   
->   #include <linux/err.h>
-> @@ -260,5 +260,5 @@ MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started "
->   	"(default=" __MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
->   
->   MODULE_AUTHOR("Laxman Dewangan <ldewangan@nvidia.com>");
-> -MODULE_AUTHOR("Luca Ceresoli <luca@lucaceresoli.net>");
-> +MODULE_AUTHOR("Luca Ceresoli <luca.ceresoli@bootlin.com>");
->   MODULE_LICENSE("GPL v2");
+Contact Dr. Mustafa Ali, for more information by email at:(
+mustafaliali180@gmail.com ) Your consent in this regard would be
+highly appreciated.
 
+Best Regards,
+Mr. Jimmy Moore.
+Undersecretary-General United Nations
+Office of Internal Oversight-UNIOS
+UN making the world a better place
