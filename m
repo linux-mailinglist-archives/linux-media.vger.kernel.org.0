@@ -2,94 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5A6953D589
-	for <lists+linux-media@lfdr.de>; Sat,  4 Jun 2022 06:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F1C53D91B
+	for <lists+linux-media@lfdr.de>; Sun,  5 Jun 2022 03:59:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349477AbiFDElM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Jun 2022 00:41:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55036 "EHLO
+        id S233802AbiFEB7A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Jun 2022 21:59:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232402AbiFDElL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Jun 2022 00:41:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E37CB56C20
-        for <linux-media@vger.kernel.org>; Fri,  3 Jun 2022 21:41:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8AEA3B82536
-        for <linux-media@vger.kernel.org>; Sat,  4 Jun 2022 04:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6E2C34114
-        for <linux-media@vger.kernel.org>; Sat,  4 Jun 2022 04:41:04 +0000 (UTC)
-Date:   Sat, 04 Jun 2022 06:41:02 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20220604044104.EF6E2C34114@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S240604AbiFEB67 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Jun 2022 21:58:59 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD602C674
+        for <linux-media@vger.kernel.org>; Sat,  4 Jun 2022 18:58:57 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id p13so20054966ybm.1
+        for <linux-media@vger.kernel.org>; Sat, 04 Jun 2022 18:58:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=sLlIiVjOIj+IrlayL6I/MZBzwRGIE1mUMEt33xJvxRY=;
+        b=VrXTauZcG2ZxwBFo5wG3mGng0I+REWSJoYjeIjBMVS1zD1AKTagmktMv3g8f3jRjEJ
+         SZ00RFrhWLA4EAVOgU6zWCp0qxRkf7uoxhtbWj3N/rehz8LJiJlzB4Az6dOuTXZPs1Bn
+         DiHQOuagF540epTqYE6F/JpNBfCyvMbV8Ke3xaHjRaEB3qnevkXVU9hsU2XWfuiBGDr/
+         e3RCUg3bkcep3KXpAvQitLwWz1f1eSdrnqCc96xfbp7+hBd33uSbEs47twmyKV4epfnp
+         33tb2a8aS8naNSqztxvTXCRZNVDehTpvJRf3c17tRgxwu0YXRhrzQAuKSVWcXKS3icwN
+         PUhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=sLlIiVjOIj+IrlayL6I/MZBzwRGIE1mUMEt33xJvxRY=;
+        b=sl1tPwkEqqb3TjoYgKrD5YhuQ25hy46IlQH2N/kxjGlfOqUUN14yxeQsrJAcIY6ixk
+         uJpkmD+kYdh4e5BDw5r/4E/0oK9hr3dCPRghjmUQCXSnQCroMIYFKD1CisZE8SZ5nHXX
+         FYEt4dLKRfYWIbNGkFwX1KKWnRoZKVq03QgGT6m51DbLCgiyemjgjWYruj5bGa7W8J5F
+         7Sznh8CZXYTIKLd0jUEsnhOoobrCaQ0Csg78yn2V9MejeSHG8wOrj0sC7hH6Wirc3NYP
+         pLnURocnRWN6PuKa/H5A8w6skVUndd8DR/CekeQXPhnU1cCP5ZJ9UymvXouHU170fgnF
+         cbVQ==
+X-Gm-Message-State: AOAM531wPjrSaL8nfBF0QoHSeW4OqRgM1hT5FdjUgbrTPYHeDgS0rMBE
+        6bQg7qtdKupLEjfgL22+0bdn0s+zJydTonTXpJg=
+X-Google-Smtp-Source: ABdhPJxrggaEFhLzcFaHvKCF+5+Dc20iDCUL0rcMV2WFM2tYeUAy4E4UqEC7ZXjqjSFaeZhA1Ma0KV8Venc2A4H5qbU=
+X-Received: by 2002:a25:dc92:0:b0:659:fcb9:4ab4 with SMTP id
+ y140-20020a25dc92000000b00659fcb94ab4mr18391285ybe.320.1654394336514; Sat, 04
+ Jun 2022 18:58:56 -0700 (PDT)
+MIME-Version: 1.0
+Sender: drfranksaxxxx2@gmail.com
+Received: by 2002:a05:7108:298d:0:0:0:0 with HTTP; Sat, 4 Jun 2022 18:58:56
+ -0700 (PDT)
+From:   MRS HANNAH VANDRAD <h.vandrad@gmail.com>
+Date:   Sat, 4 Jun 2022 18:58:56 -0700
+X-Google-Sender-Auth: P9upt7AOMkTpweaHFS0KZC55RlQ
+Message-ID: <CAGnkwZ5CF++sK1Ti8bzvUe1JP0LS0yksfbJ0=U2xPj5MFO6qxw@mail.gmail.com>
+Subject: Greetings dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.6 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+        BAYES_60,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
+        LOTS_OF_MONEY,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b2b listed in]
+        [list.dnswl.org]
+        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
+        *      [score: 0.6111]
+        *  1.0 HK_RANDOM_ENVFROM Envelope sender username looks random
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [drfranksaxxxx2[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [drfranksaxxxx2[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
+        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
+        *  0.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Greetings dear
 
-Results of the daily build of media_tree:
 
-date:			Sat Jun  4 05:00:10 CEST 2022
-media-tree git hash:	340ce50f75a6bdfe6d1850ca49ef37a8e2765dd1
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
-edid-decode git hash:	cc1aeb00500d1ac725577354af9cd2637f47ef71
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-14-g5a0004b5-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7985-g10181ff8-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 9cab4a480ab6918fca528dd05f2ab6cc66cb668f
-host hardware:		x86_64
-host os:		5.17.0-1-amd64
+   This letter might be a surprise to you, But I believe that you will
+be honest to fulfill my final wish. I bring peace and love to you. It
+is by the grace of god, I had no choice than to do what is lawful and
+right in the sight of God for eternal life and in the sight of man for
+witness of god=E2=80=99s mercy and glory upon my life. My dear, I sent this
+mail praying it will find you in a good condition, since I myself am
+in a very critical health condition in which I sleep every night
+without knowing if I may be alive to see the next day. I am Mrs.Hannah
+Vandrad, a widow suffering from a long time illness. I have some
+funds I inherited from my late husband, the sum of ($11,000,000.00,)
+my Doctor told me recently that I have serious
+sickness which is a cancer problem. What disturbs me most is my stroke
+sickness. Having known my condition, I decided to donate this fund to
+a good person that will utilize it the way I am going to instruct
+herein. I need a very honest and God fearing person who can claim this
+money and use it for Charity works, for orphanages and gives justice
+and help to the poor, needy and widows says The Lord." Jeremiah
+22:15-16.=E2=80=9C and also build schools for less privilege that will be
+named after my late husband if possible and to promote the word of god
+and the effort that the house of god is maintained.
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-kerneldoc: OK
+ I do not want a situation where this money will be used in an ungodly
+manner. That's why I'm taking this decision. I'm not afraid of death,
+so I know where I'm going. I accept this decision because I do not
+have any child who will inherit this money after I die. Please I want
+your sincere and urgent answer to know if you will be able to execute
+this project, and I will give you more information on how the fund
+will be transferred to your bank account. May the grace, peace, love
+and the truth in the Word of god be with you and all those that you
+love and  care for.
 
-Detailed results are available here:
+I am waiting for your reply.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+May God Bless you,
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+ Mrs. Hannah Vandrad
