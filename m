@@ -2,135 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF2C953DFB8
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jun 2022 04:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4DD753DFC4
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jun 2022 04:42:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352183AbiFFCdt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Jun 2022 22:33:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50992 "EHLO
+        id S1352210AbiFFCme (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Jun 2022 22:42:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233081AbiFFCds (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Jun 2022 22:33:48 -0400
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2066.outbound.protection.outlook.com [40.107.20.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B611122;
-        Sun,  5 Jun 2022 19:33:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mKr3C5QKNW5doUcnvP0sSdylvMwJRwXhun07p/GptlrGTxQIBxSenxzfv6d9Ychf0TWYdh3jVRBikP56nTEeO1sAhl8w3n3b8uOwCDUnRmFI8C8yL4Oi6O07EgacutguUeieSMdjrVwkOJKCUqVo8zqEaerFyiJ4GT5IXMz4TAiOKZBaJt5oACWZuGUaw5sXrcH249RhNmG3KT9y3IfAbv9qP2xQMYsOrztuWNgAkyWQAop/FJcmdAQvSKynTHh1n2TYl68iixjV7OBhmO1qZxU9uzc9ZJP0i60eFaSG+80gr638CP2Xgz6PktDlBChQKKloahCgrEE9/C2IF6GJvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=06ZmERcGxuOgxDb5X0niP/I6t/iuJl8xlYfSLfGuM8A=;
- b=P4u8NfW9Vxx3hqKP6dlMWgDdZtVpC7RTF7QCLYZL8bXp0pl+Zuiszlw520K/+hp53d37sifGuTEIx1A4Wj5UnNGAYPWSVIz5GX1lCdzhC7jUovDMTtxscZzUu36BUiScEZRHj4nXQKBW3anIEZNnm5+DLAohphfb7hx88Dxl8wno3McPTppqz6KPV/HO4XgGJktURO1OnzBEZOwLZ05WpfrvNpU6iD1V4tQLwycXkNQjQlde0ycOSuMcDszmQ0SVOGu2dQKGd+UAG3Wcr6IRAteU3tWMGLLsrpnojDrPqu8BIdxBbt2LRQGD8FyRis1xsxRUmf7mBtj4hurrbnWp6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=06ZmERcGxuOgxDb5X0niP/I6t/iuJl8xlYfSLfGuM8A=;
- b=PfYUuJg5rGgL0JB2vm8mFZMWZgNJyge3lHcxpqFTkIiiH1Tzqof7fLJeqX7rBylgHRUBcUVWrCOGJkaHJo4IRcokiGZJy/J43YWC1v5lgdQs10bRIsPcanE3kW/eryfzwFWHO3J/bFcz73OHh4yC8pyA4oNSXfzKFVmE0b71Q/0=
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by VI1PR0402MB2736.eurprd04.prod.outlook.com (2603:10a6:800:b1::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Mon, 6 Jun
- 2022 02:33:43 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::bc48:7565:c619:62c3]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::bc48:7565:c619:62c3%7]) with mapi id 15.20.5314.019; Mon, 6 Jun 2022
- 02:33:43 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
-CC:     "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH v2] media: imx-jpeg: Disable some unused interrupt
-Thread-Topic: [PATCH v2] media: imx-jpeg: Disable some unused interrupt
-Thread-Index: AQHYc/mclVqKJ6jFKUC3eH0lZl8KFq1BDqAAgACkeoA=
-Date:   Mon, 6 Jun 2022 02:33:42 +0000
-Message-ID: <AM6PR04MB63411F7904814E87116A5BEAE7A29@AM6PR04MB6341.eurprd04.prod.outlook.com>
-References: <20220530074756.14585-1-ming.qian@nxp.com>
- <69817804-a618-32ba-06ca-3ec38ff1f124@oss.nxp.com>
-In-Reply-To: <69817804-a618-32ba-06ca-3ec38ff1f124@oss.nxp.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ac271b69-cfbb-48cc-1a0f-08da4764f943
-x-ms-traffictypediagnostic: VI1PR0402MB2736:EE_
-x-microsoft-antispam-prvs: <VI1PR0402MB27361F85A4520ED780C16303E7A29@VI1PR0402MB2736.eurprd04.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: agrCVZwxT0A4e5TVYwmzt4orxWbhp8k6N6pnn+HpgQKDZXkq/GGBzo08kL1H2CredPZ94h1c8CEtTYq4dir5zFMx92Il16GipGvylSKkHnLZA05tcpU9Nvd03VWYbE/LFlxpagoKZqeeErb9mVccxd8+o9UxFakKnLlqcOPEHSQysFm/dLvIBDmP7Qy2IbFnnCsyCePqIIj4924Tfd6q0qoMRNXOYHn5KfDV9gHPgda4XgDLCO83Vl63yqApdW0deR5VYUupZLZhdZCnIptG1ligM/FX6D+IewGJtHMvbO8jppQTIuUc12ZztkwjejN63azAodnaUFGBnHUJHnQZEZ0L6fcwexmF1++rqEzoIJ15GnMq1DIdDjFf+FcsCDLTeZ+JzAigZRSohP/xfiQ/Ey0qdCWszEUwa+tUtgtPX9+uYhcFvb8ES2y/e8woa1OfPn/jEW6LW11uHBZQ9/A5Q04SOTJBGdntWbazApnSrsqWXHDxq2/oZYfon3hSknKjjYch14mrnEAOPvRHGwN0ulZo4pLQAIehADCNVg6wytyRCA0MWRxYVrYPbt9pA3qXv3eMnRYVdh8PUOhpLHEl2oM1dcb/JpoYH3sNLlb9M8GIY5ZkdoiWdmG9bvdFnMloa2nV5IZyEuALdPmr1/qhk7NWcaXfFSRoAJCfuy7hlCdsYCKxueG/hAjLV1WzmmpIlqXQHKVqcsHR4eDh81/e8Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(86362001)(8936002)(38100700002)(5660300002)(4326008)(8676002)(76116006)(44832011)(7416002)(66556008)(66476007)(66446008)(64756008)(66946007)(7696005)(122000001)(6506007)(26005)(316002)(110136005)(54906003)(9686003)(33656002)(38070700005)(83380400001)(53546011)(186003)(55016003)(2906002)(52536014)(508600001)(71200400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M01WRW9GeGhZNTJzVEJ3OFRCK2prQjhZdWM5Q3pPZEp3Y090b0h5N0l0VWFQ?=
- =?utf-8?B?M1RtdzNUVHMwRXdZaXNqRVBqaU53citiSysxY01WWldNUTBvWFBsRlYwOHda?=
- =?utf-8?B?cFBBV2dXc2l6bGJRMHZwaDZCK2VSc0cwbWhIY1FXZmNOWStENDdPS2JVb2Iv?=
- =?utf-8?B?d2hla3JNUGQvU0dvbmdOUzM0V0Z3eDkybUxhd2lzT0JWS2xWK2xaa0w1ZGFu?=
- =?utf-8?B?NE9CNlQyRXJaUHhRTU04NzB4QXFWbktZRFAxQi9sSXE5d1pnd0F0aUFFMGRI?=
- =?utf-8?B?dEk0YzVrUUZ3ekZOWGJRNXpIdnFmQ0F6cW9ucjNFQzloYjJwelBiQ2FDbWFF?=
- =?utf-8?B?SFVpZ3NUVUY4YTU4Zi92NHhjTzhoVFJQTHRMNE43aVU5dzkzdEtTdWtaWG01?=
- =?utf-8?B?bWJMNURaQkpnMnhRT20rTjU2RXN6YXNQN1J4SjcrY09vTFB5cGRBMmpUSG0z?=
- =?utf-8?B?ZlF6U1pyVGZCMXVnLzd2VmhadWVralVOOHVvVUZMd3RWNXhSbDNpNm5HL21R?=
- =?utf-8?B?QmJMait2dThuMnZrdU50elVGMGxabHhiak05TStMOEI2R3IrbGtZZWxQTGlC?=
- =?utf-8?B?UHBGNE1RaFJOZk9iOUVaOE5rV3ByRjRUUW5DbXhOaTdSWDBZYlpoNHIxQ2M5?=
- =?utf-8?B?UUQ1cE93STlGY29wOFNqMHMrdGFtUy9KSUhiejg3WWMzQm00ck52WkxxRFEv?=
- =?utf-8?B?c0EyY0tIdkZTZUFZR0VKYis3MTVJclUvelhJZkZ5dS8wR05FRHZhSlFzYytH?=
- =?utf-8?B?dVlZQ3A4ZGM2QnJ1YUptZHhyWmJYMllKeEdmckQyL21GbmltMXB3R1NHM0NG?=
- =?utf-8?B?L2NFaDNJbnoyRUZrLzZWMktTS1dGT0FFcFl2ZkpEVUJxREU2OEhVYkhlUTVF?=
- =?utf-8?B?RVd2c1BFVEhMUW9PYUpsYmJMaXBFQjUxNVFoa2psUXlJN2ZMM1JMOHBHS2Vi?=
- =?utf-8?B?Y1Q2a0llU1hqNDVZdnlhc3oyR01uUk9CZENzY0Y4ak9Ea3dxZmFWQkhnZ1Ry?=
- =?utf-8?B?QnI5ZjRNOFAyQjdsRnlBMkZqWWtqVCtnL3VLdEJqazdsakZqWTZySmJzRk9J?=
- =?utf-8?B?eFpJVVIvV21NNTNTbHU4bEpDWWN1UHNlOXNUODBXVVF2UlZna0NKUTYyN2ZQ?=
- =?utf-8?B?Ym1HREJ4aDlacVZGRk9kSFlQcWFxSFhYU0RWOTFVRDFKaWY5cEpzendtR1JB?=
- =?utf-8?B?dG1OY0c3c0lJYzFDcU1YMHVKcFpoMUtzUWwvL3dhQ29vcDZ6ZVg1Zml2enJI?=
- =?utf-8?B?T3FGN1JqVllHTXluVE93NWZPWVdKeU9FM0dhUVoyajdvanBWS0dWek02OXo3?=
- =?utf-8?B?Vmc3WU4vTnhjQmh0cXlmbXltbkUwUFVvZVNRYUc1ZTh6MjdFWEpKa0JZazE3?=
- =?utf-8?B?RlBDK0N3VHJ3Wi9MZlFYSW45bitxSWVxRmlTcjBLdmNaV2k3Mm1YWWV3ZCtn?=
- =?utf-8?B?dS9pc0ZOM0R6TkhKb2RQaTQwU09xakQrL0d5SDlNaXFocWZnSnZPL2NpMENt?=
- =?utf-8?B?bXNmRlViWHBieitJck5yMFBDOXZHSTZVQW84cElUUnR5aGthN2EydDNvdlRM?=
- =?utf-8?B?ZWsyWkpEbE9IRlJRVmQrZmFGZDNsYkJvNFphYllOd2FvRDdnQkhvTnkvUUEr?=
- =?utf-8?B?Q3B6aE5TQWYzZ3Bta21pNkoycWlRQ1cyRW4xaWJsRDVvN1UyaW9UbDNrSk5K?=
- =?utf-8?B?U3U1a3BLTUsrVXZURjZabVpUb2RxOVBGTVROM2l1T2pQWXA5WlIyaG5FMVhi?=
- =?utf-8?B?QXRRK2dGVlEyTnRBOWQyTC9vRTNEeTNQOE9ZVzlEUTZzNTdtdnZzdkNzSUc5?=
- =?utf-8?B?M3JYTEwwWTU2VDJWZ01QZGtsaHl1cDRBUkwyNGtBMXJ4V0t4SGhZeEZWdVhv?=
- =?utf-8?B?TWkxOE9WWEVxY1BwWVk0N0xrK1pXRE9jSXN6SWxwczdIN2N6d2krUGFiNFNB?=
- =?utf-8?B?Q2ZYZXY5Wlh5Z3d5MXB6aWR4OFRwamhIYVVWRnJ2UHNuMjZVcitiQ2ZocEwv?=
- =?utf-8?B?akJpTzJrMUxRVkNMaDQyYVdhUDVwYURyKzRSVlpkY3dacUtod0JDMTZiVnhw?=
- =?utf-8?B?UVNBclcvclVuL2RpekN5RitJMXdnT3Awd2RsMGROelJ6TXJlUW8zUlpvY3BV?=
- =?utf-8?B?eHpjT1RKYm5CL252OEE2WWwxS25hSkhrWWtNTHA4anptVTkvRGJ3cTJucGxx?=
- =?utf-8?B?WUtRV2s2VVpWSnJhd1gveU1yRnRwdlk2dVA3bzB4Smx4dmlha25GcmhWeHdj?=
- =?utf-8?B?ZmZWN0IxcjM5SWRma05GeFhvSU1xOFFSZEFjTWltSWhVMXlPMlNlWVY5UVR1?=
- =?utf-8?Q?AHNRSRTrmt+Ohh30AB?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S1352206AbiFFCmd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Jun 2022 22:42:33 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903AB95B7;
+        Sun,  5 Jun 2022 19:42:28 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id bg6so6505313ejb.0;
+        Sun, 05 Jun 2022 19:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1N3UQUBc3SITykVwo1DI11Mg5L1Q2wcvd0ubz4CZVpI=;
+        b=QR1BrIRVMMEg2pgbBohP2/arDirkXnP+tL4I5QMLHUWjiYDbuH6aIrxuPPxCPrWBpx
+         E7AeY+OCPrIOCSFxXu6077V46+Bknu5f1NrpoPF4TXfMtH+KH/ypkYQ9d3ME2aeDANp/
+         b3+bimiNl8MpeSYkBDFlBYwV0AQX3bB2Rd1WAT3/PB3IEBfpVaWO0HXtUsL80NX/V0r9
+         3YC26wLFLQHE1W8LV4p4sx00MCYjzwbdkBOq2YsZlKFZMHlEACQ8CcaAGLVWh/kQIlGU
+         g72pssLvO4y/Iwr9EgKi5wtbfPb5mxpRE7TeZ+NuXc0bq716HTfN7raiAr1TeA/4F3wx
+         DbMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1N3UQUBc3SITykVwo1DI11Mg5L1Q2wcvd0ubz4CZVpI=;
+        b=pTEQMQVCnYcEbjE+kyEXsNjAhXVs0F7oXsbFN3UI6Ql38i9pyDY/PvkSYGHnuWWhmc
+         nHnWANtii74/hI+S4a5su10ni2PmKlpIh2Cbi89I/eOWX2yr1BaPW5Hn5g5pxnH3Bv28
+         fh2OhpfIG9IAW5So0iTDEOIVvSQo9ctcG45Cpz0T24QgyLHXZykO2pnDUfT8UHVuWNHt
+         nKIJF/kc0jLu81I9NJX4J22Le8qRVrM8ePGVcuLyVjSzpopCut/lrdMlS5maRblgycB8
+         XsI4KrawPokx2JyZyue4P2I4Y3g+10gZA9Epd1l7cfNmmK0L8OaQsS9zRP02/50yALHW
+         S+Aw==
+X-Gm-Message-State: AOAM530EgC7wilYlK0glWcixPSG7XCv9A+6YNjJezCMPCo1hAp9HjSh5
+        W/IgV9Ip/iNZl0KZ7CHi7fY5pRbktjuopTCDD8yp1PVdMbU=
+X-Google-Smtp-Source: ABdhPJxkVMadKzZkp4603xDlsiXx/Hb59+1zjauQ6/hsxzM25KnSP9koqlSzgftzD42Y0SBSjP9JmAjC536SXaDMa24=
+X-Received: by 2002:a17:906:b294:b0:6fe:fdb9:5fb4 with SMTP id
+ q20-20020a170906b29400b006fefdb95fb4mr19414342ejz.179.1654483346371; Sun, 05
+ Jun 2022 19:42:26 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac271b69-cfbb-48cc-1a0f-08da4764f943
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2022 02:33:42.9947
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JYY2rADFtFtvRqtqkthIkhXd703tPDdbF6i8Oqr38CkRH8/dnQxbru23LbWDk2/LyOFVlW0LMzh6zl7CmkFQuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2736
+References: <20220513033450.7038-1-kflin@nuvoton.com> <20220513033450.7038-6-kflin@nuvoton.com>
+ <b5361f08-f9eb-9384-f904-2625bae0fd9a@molgen.mpg.de> <CADnNmFqfxDE3UbNQiyhwkLBugfZ1fSZYDbGDQFnRZdD_4q58+A@mail.gmail.com>
+In-Reply-To: <CADnNmFqfxDE3UbNQiyhwkLBugfZ1fSZYDbGDQFnRZdD_4q58+A@mail.gmail.com>
+From:   Kun-Fa Lin <milkfafa@gmail.com>
+Date:   Mon, 6 Jun 2022 10:42:39 +0800
+Message-ID: <CADnNmFqzAmyxgc0jbXFXUy8ueb=6-RxoWWHP4A=iRUO1fx4zRA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] drivers: media: platform: Add NPCM Video
+ Capture/Encode Engine driver
+To:     Paul Menzel <pmenzel@molgen.mpg.de>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, CS20 KWLiu <kwliu@nuvoton.com>,
+        tmaimon77@gmail.com, avifishman70@gmail.com,
+        openbmc@lists.ozlabs.org, tali.perry1@gmail.com,
+        Marvin Lin <kflin@nuvoton.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -138,57 +71,245 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-PiBGcm9tOiBNaXJlbGEgUmFidWxlYSAoT1NTKSA8bWlyZWxhLnJhYnVsZWFAb3NzLm54cC5jb20+
-DQo+IFNlbnQ6IDIwMjLlubQ25pyINuaXpSAwOjQzDQo+IFRvOiBNaW5nIFFpYW4gPG1pbmcucWlh
-bkBueHAuY29tPjsgbWNoZWhhYkBrZXJuZWwub3JnOw0KPiBodmVya3VpbC1jaXNjb0B4czRhbGwu
-bmwNCj4gQ2M6IHNoYXduZ3VvQGtlcm5lbC5vcmc7IHMuaGF1ZXJAcGVuZ3V0cm9uaXguZGU7IGtl
-cm5lbEBwZW5ndXRyb25peC5kZTsNCj4gZmVzdGV2YW1AZ21haWwuY29tOyBkbC1saW51eC1pbXgg
-PGxpbnV4LWlteEBueHAuY29tPjsNCj4gbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBsaW51
-eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOw0KPiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsg
-bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbUEFU
-Q0ggdjJdIG1lZGlhOiBpbXgtanBlZzogRGlzYWJsZSBzb21lIHVudXNlZCBpbnRlcnJ1cHQNCj4g
-DQo+IEhpIE1pbmcsDQo+IA0KPiBPbiAzMC4wNS4yMDIyIDEwOjQ3LCBNaW5nIFFpYW4gd3JvdGU6
-DQo+ID4gVGhlIGludGVycnVwdCBTVE1CVUZfSEFMRiBtYXkgYmUgdHJpZ2dlcmVkIGFmdGVyIGZy
-YW1lIGRvbmUuDQo+ID4gSXQgbWF5IGxlZCB0byBzeXN0ZW0gaGFuZyBpZiBkcml2ZXIgdHJ5IHRv
-IGFjY2VzcyB0aGUgcmVnaXN0ZXIgYWZ0ZXINCj4gPiBwb3dlciBvZmYuDQo+ID4gQW5kIGludGVy
-cnVwdCBTVE1CVUZfSEFMRiBhbmQgU1RNQlVGX1JUTkQgaGF2ZSBubyBvdGhlciBlZmZlY3QuDQo+
-ID4gU28gZGlzYWJsZSB0aGVtIGFuZCB0aGUgdW51c2VkIGludGVycnVwdHMuDQo+ID4NCj4gPiBG
-aXhlczogMmRiMTZjNmVkNzJjZSAoIm1lZGlhOiBpbXgtanBlZzogQWRkIFY0TDIgZHJpdmVyIGZv
-ciBpLk1YOCBKUEVHDQo+ID4gRW5jb2Rlci9EZWNvZGVyIikNCj4gPiBTaWduZWQtb2ZmLWJ5OiBN
-aW5nIFFpYW4gPG1pbmcucWlhbkBueHAuY29tPg0KPiA+IC0tLQ0KPiA+IHYyDQo+ID4gLSBhZGQg
-Rml4ZXMgdGFnDQo+ID4gICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXgtanBlZy9teGMt
-anBlZy1ody5jIHwgMiArLQ0KPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9y
-bS9ueHAvaW14LWpwZWcvbXhjLWpwZWctaHcuYw0KPiA+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9y
-bS9ueHAvaW14LWpwZWcvbXhjLWpwZWctaHcuYw0KPiA+IGluZGV4IGM0ODIyMjgyNjJhMy4uMjU4
-ZmJlZTdhYjY2IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lt
-eC1qcGVnL214Yy1qcGVnLWh3LmMNCj4gPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254
-cC9pbXgtanBlZy9teGMtanBlZy1ody5jDQo+ID4gQEAgLTc2LDcgKzc2LDcgQEAgdm9pZCBwcmlu
-dF93cmFwcGVyX2luZm8oc3RydWN0IGRldmljZSAqZGV2LCB2b2lkDQo+ID4gX19pb21lbSAqcmVn
-KQ0KPiA+DQo+ID4gICB2b2lkIG14Y19qcGVnX2VuYWJsZV9pcnEodm9pZCBfX2lvbWVtICpyZWcs
-IGludCBzbG90KQ0KPiA+ICAgew0KPiA+IC0Jd3JpdGVsKDB4RkZGRkZGRkYsIHJlZyArIE1YQ19T
-TE9UX09GRlNFVChzbG90LCBTTE9UX0lSUV9FTikpOw0KPiA+ICsJd3JpdGVsKDB4RjBDLCByZWcg
-KyBNWENfU0xPVF9PRkZTRVQoc2xvdCwgU0xPVF9JUlFfRU4pKTsNCj4gDQo+IFRoZXJlIGlzIGFu
-b3RoZXIgd2F5LCBsZXNzIGFnZ3Jlc3NpdmUsIHRvIGdvIGFyb3VuZCB0aGlzLCBkaXNhYmxlIGFs
-bCB0aGUNCj4gaW50ZXJydXB0cyBvbmNlIEZSTURPTkUgaXMgcmVjZWl2ZWQgKG9yIHNvbWUgb3Ro
-ZXIgZXJyb3IgY29uZGl0aW9uKSwNCj4gaW50ZXJydXB0cyB3aWxsIGdldCByZS1lbmFibGVkIGF0
-IHRoZSBuZXh0IGRldmljZV9ydW4uIEkgY2hlY2tlZCB0aGlzIHdvcmtzLCBpbg0KPiBteGNfanBl
-Z19kZWNfaXJxOg0KPiBidWZmZXJzX2RvbmU6DQo+IAl3cml0ZWwoMHgwLCByZWcgKyBNWENfU0xP
-VF9PRkZTRVQoc2xvdCwgU0xPVF9JUlFfRU4pKTsNCj4gDQoNCkhpIE1pcmVsYSwNCg0KWWVzLCBJ
-IHRoaW5rIGl0IHNob3VsZCB3b3JrIGlmIHdlIGRpc2FibGUgc2xvdCBpbnRlcnJ1cHQgd2hlbiBm
-cmFtZSBkb25lLg0KQW5kIHdoaWNoIHNvbHV0aW9uIGRvIHlvdSBwcmVmZXI/DQoNCk1pbmcNCg0K
-PiBFaXRoZXIgd2F5LCBJIHdvdWxkIGFsc28gcmVwbGFjZSB0aGlzOg0KPiAJaWYgKCFjdHgpIHsN
-Cj4gCQlkZXZfZXJyKGRldiwNCj4gCQkJIkluc3RhbmNlIHJlbGVhc2VkIGJlZm9yZSB0aGUgZW5k
-IG9mIHRyYW5zYWN0aW9uLlxuIik7DQo+IAkJLyogc29mdCByZXNldCBvbmx5IHJlc2V0cyBpbnRl
-cm5hbCBzdGF0ZSwgbm90IHJlZ2lzdGVycyAqLw0KPiAJCW14Y19qcGVnX3N3X3Jlc2V0KHJlZyk7
-DQo+IAkJLyogY2xlYXIgYWxsIGludGVycnVwdHMgKi8NCj4gCQl3cml0ZWwoMHhGRkZGRkZGRiwg
-cmVnICsgTVhDX1NMT1RfT0ZGU0VUKHNsb3QsIFNMT1RfU1RBVFVTKSk7DQo+IAkJZ290byBqb2Jf
-dW5sb2NrOw0KPiAJfQ0KPiANCj4gV2l0aCBzb21ldGhpbmcgbGlrZToNCj4gQlVHX09OKCFjdHgp
-DQo+IA0KPiBUaGUgaW5pdGlhbCBpbnRlbnQgb2YgdGhpcyBjb2RlIHdhcyB0byBjb3BlIHdpdGgg
-dGhlIHNhbWUgcHJvYmxlbSwNCj4gU1RNQlVGX0hBTEYgaW50ZXJydXB0IHJlY2VpdmVkIGFmdGVy
-IEZSTURPTkUsIHdoaWNoIGNvdWxkIG5vdCBiZSBjbGVhcmVkLA0KPiBidXQgaXQgd2FzIG5vdCBk
-b25lIHJpZ2h0LCBJIGNhbiBzZWUgdGhlIGhhbmcgaW4gc29tZSByYXJlIGNhc2VzLiBXZSBzaG91
-bGQgbm90DQo+IHJ1biBpbnRvIGl0IGFueW1vcmUsIHdpdGggaW50ZXJydXB0cyBkaXNhYmxlZCwg
-ZWl0aGVyIHRoZSB3YXkgeW91IHByb3Bvc2VkLCBvcg0KPiBtaW5lLg0KPiANCj4gUmVnYXJkcywN
-Cj4gTWlyZWxhDQo+IA0KPiA+ICAgfQ0KPiA+DQo+ID4gICB2b2lkIG14Y19qcGVnX3N3X3Jlc2V0
-KHZvaWQgX19pb21lbSAqcmVnKQ0K
+Dear Paul,
+
+These problems have been addressed in the new patch.
+Could you please help to review the new patch v4? Thanks.
+
+Regards,
+Marvin
+
+Kun-Fa Lin <milkfafa@gmail.com> =E6=96=BC 2022=E5=B9=B45=E6=9C=8817=E6=97=
+=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=8810:59=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Dear Paul,
+>
+> Thanks for your review and comments.
+>
+> > Please mention the datasheet name and revision used to implement this?
+> > How can your patch be tested?
+> >
+> > For a over 2000 line patch, I would expect a longer commit message with
+> > a summary of the hardware features, and implementation.
+>
+> Okay, I'll add more information to the commit message, but it may not
+> be appropriate to add the datasheet name since it is not public.
+> And I tested with openbmc/obmc-ikvm (with patches to support Hextile
+> encoding that our driver used) and used VNC Viewer to verify the video
+> result.
+>
+> >
+> > As the module author should you also be added to the file `MAINTAINERS`=
+?
+> > (Maybe even with a functional address <linux-npcm-video@nuvoton.com>?
+> >
+> > > Signed-off-by: Marvin Lin <kflin@nuvoton.com>
+> >
+> > Same comment as in 1/5 regarding the author email address.
+>
+> I'll add a new entry in MAINTAINERS.
+>
+> > > +++ b/drivers/media/platform/nuvoton/Kconfig
+> > > @@ -0,0 +1,12 @@
+> > > +# SPDX-License-Identifier: GPL-2.0-only
+> > > +
+> > > +comment "Nuvoton media platform drivers"
+> > > +
+> > > +config VIDEO_NUVOTON
+> >
+> > Is that driver going to support all Nuvoton devices or just NPCM? If
+> > only NPCM, that should be part of the Kconfig config name?
+> >
+> > > +     tristate "Nuvoton NPCM Video Capture/Encode Engine driver"
+> > > +     depends on V4L_PLATFORM_DRIVERS
+> > > +     depends on VIDEO_DEV
+> > > +     select VIDEOBUF2_DMA_CONTIG
+> > > +     help
+> > > +       Support for the Video Capture/Differentiation Engine (VCD) an=
+d
+> > > +       Encoding Compression Engine (ECE) present on Nuvoton NPCM SoC=
+s.
+> >
+> > Mention the module name?
+> >
+> >  > To compile this driver as a module, choose M here: the module will b=
+e
+> > called XXX.
+>
+> The driver just supports NPCM. I'll change the config to
+> VIDEO_NUVOTON_NPCM_VCD_ECE.
+>
+> > > +struct nuvoton_video_addr {
+> > > +     unsigned int size;
+> >
+> > size_t?
+>
+> > > +struct rect_list_info {
+> > > +     struct rect_list *list;
+> > > +     struct rect_list *first;
+> > > +     struct list_head *head;
+> > > +     int index;
+> > > +     int tile_perline;
+> > > +     int tile_perrow;
+> > > +     int offset_perline;
+> > > +     int tile_size;
+> > > +     int tile_cnt;
+> >
+> > Can all of these be unsigned?
+>
+> > > +     int frame_rate;
+> > > +     int vb_index;
+> >
+> > Unsigned?
+> >
+>
+> They will be addressed in the next patch.
+>
+> > > +     u32 bytesperline;
+> > > +     u8 bytesperpixel;
+> > > +     u32 rect_cnt;
+> > > +     u8 num_buffers;
+> > > +     struct list_head *list;
+> > > +     u32 *rect;
+> >
+> > I would not limit the size?
+>
+> It's clearer to know that it stores u32 exactly.
+>
+> > > +static u32 nuvoton_video_ece_get_ed_size(struct nuvoton_video *video=
+,
+> > > +                                      u32 offset, void *addr)
+> >
+> > Use unsigned int as return value?
+>
+> Okay.
+>
+> > > +static void nuvoton_video_ece_enc_rect(struct nuvoton_video *video, =
+u32 r_off_x,
+> > > +                                    u32 r_off_y, u32 r_w, u32 r_h)
+> > > +{
+> > > +     struct regmap *ece =3D video->ece.regmap;
+> > > +     u32 rect_offset =3D (r_off_y * video->bytesperline) + (r_off_x =
+* 2);
+> > > +     u32 temp;
+> > > +     u32 w_tile;
+> > > +     u32 h_tile;
+> > > +     u32 w_size =3D ECE_TILE_W;
+> > > +     u32 h_size =3D ECE_TILE_H;
+> >
+> > Any reason to fix the sizes?
+>
+> A "Hextile" is fixed to 16x16 pixels size, which is defined in Remote
+> Framebuffer Protocol (RFC 6143, chapter 7.7.4 Hextile Encoding).
+>
+> > > +static void nuvoton_video_ece_ip_reset(struct nuvoton_video *video)
+> > > +{
+> > > +     reset_control_assert(video->ece.reset);
+> > > +     msleep(100);
+> > > +     reset_control_deassert(video->ece.reset);
+> > > +     msleep(100);
+> >
+> > 100 ms is quite long. Please add a comment, where that is documented. I=
+s
+> > there a way to poll, if the device is done?
+>
+> I'll add a comment. It should be reduced to ~10 us (suggested in
+> spec.) and there's no way to poll.
+>
+> > > +
+> > > +static void nuvoton_video_free_diff_table(struct nuvoton_video *vide=
+o)
+> > > +{
+> > > +     struct list_head *head, *pos, *nx;
+> > > +     struct rect_list *tmp;
+> > > +     int i;
+> >
+> > unsigned?
+> >
+>
+> > > +static int nuvoton_video_find_rect(struct nuvoton_video *video,
+> > > +                                struct rect_list_info *info, u32 off=
+set)
+> > > +{
+> > > +     int i =3D info->index;
+> > > +
+> > > +     if (offset < info->tile_perline) {
+> > > +             info->list =3D nuvoton_video_new_rect(video, offset, i)=
+;
+> >
+> > `i` is only used here, so use `info->index`?
+> >
+>
+> > > +static int nuvoton_video_build_table(struct nuvoton_video *video,
+> > > +                                  struct rect_list_info *info)
+> > > +{
+> > > +     int i =3D info->index;
+> > > +     int j, ret, bit;
+> >
+> > Make `j` unsigned?
+> >
+> > > +     u32 value;
+> > > +     struct regmap *vcd =3D video->vcd_regmap;
+> > > +
+> > > +     for (j =3D 0; j < info->offset_perline; j +=3D 4) {
+> > > +             regmap_read(vcd, VCD_DIFF_TBL + (j + i), &value);
+> >
+> > `i` is only used here, so use `info->index`?
+> >
+>
+> > > +static void nuvoton_video_vcd_ip_reset(struct nuvoton_video *video)
+> > > +{
+> > > +     reset_control_assert(video->reset);
+> > > +     msleep(100);
+> > > +     reset_control_deassert(video->reset);
+> > > +     msleep(100);
+> >
+> > 100 ms is quite long. Please add a comment, where that is documented. I=
+s
+> > there a way to poll, if the device is done?
+> >
+>
+> > > +static int nuvoton_video_queue_setup(struct vb2_queue *q,
+> > > +                                  unsigned int *num_buffers,
+> > > +                                  unsigned int *num_planes,
+> > > +                                  unsigned int sizes[],
+> > > +                                  struct device *alloc_devs[])
+> > > +{
+> > > +     struct nuvoton_video *video =3D vb2_get_drv_priv(q);
+> > > +     int i;
+> >
+> > unsigned?
+> >
+>
+> > > +static void nuvoton_video_buf_queue(struct vb2_buffer *vb)
+> > > +{
+> > > +     int empty;
+> > > +     struct nuvoton_video *video =3D vb2_get_drv_priv(vb->vb2_queue)=
+;
+> > > +     struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
+> > > +     struct nuvoton_video_buffer *nvb =3D to_nuvoton_video_buffer(vb=
+uf);
+> > > +     unsigned long flags;
+> > > +
+> > > +     dev_dbg(video->dev, "%s\n", __func__);
+> > > +
+> > > +     spin_lock_irqsave(&video->lock, flags);
+> > > +     empty =3D list_empty(&video->buffers);
+> >
+> > Where is empty read later?
+> >
+>
+> > > +     regs =3D devm_platform_ioremap_resource_byname(pdev, VCD_MODULE=
+_NAME);
+> > > +     if (IS_ERR(regs)) {
+> > > +             dev_err(&pdev->dev, "Failed to get VCD regmap resource!=
+\n");
+> >
+> > Can you help the user more by saying what to fix like check devicetree
+> > or so?
+> >
+>
+> Okay. All of them will be addressed in the next patch.
+>
+> Regards,
+> Marvin
