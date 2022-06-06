@@ -2,338 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EF6F53E651
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jun 2022 19:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0130F53E880
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jun 2022 19:08:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238768AbiFFNUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jun 2022 09:20:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57278 "EHLO
+        id S239364AbiFFOAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jun 2022 10:00:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238769AbiFFNUo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jun 2022 09:20:44 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F409A2DCB3D
-        for <linux-media@vger.kernel.org>; Mon,  6 Jun 2022 06:20:40 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id u8so15507934wrm.13
-        for <linux-media@vger.kernel.org>; Mon, 06 Jun 2022 06:20:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=r2R9jG8Kr9X9kmtbyt2WFDnM8NcZdvgcAwzUcSJYgjw=;
-        b=qzJbkgoAry6y5ooent4QLmsA0cRCNFEoLRGjDr98rD999MqAsUN6QjVZpNJXZyo+hK
-         C6uN3cBDa1i+8ZtIhzwcOa7zLsYP/HsK0OQlEK9fBtuEYe3SVb++Cq6OWVDyJS4I1kQC
-         ch2ojPl4WGIvQXB2UlSjDPFGoXfWiw/kq6DExOEbJkI5y4PU6bQU8rkehsmiSkicKqal
-         9hy3xDwP3skiJHYRGIhTAKQM0z8g6kTVZaEZkXmLoCl6na3/adiZRqHR+pOnZGbufR1t
-         ARq0dzV39wxuKVMLcEDG69thomCWRIR3ZAre7w7Swd5lAGAq3ZaKq4tJZwiP4EUeyKTl
-         rFiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=r2R9jG8Kr9X9kmtbyt2WFDnM8NcZdvgcAwzUcSJYgjw=;
-        b=egAhZZwnb5EAeuZcTimH3BAs9+faVtRQHVlxlb7KSAywu71JOXC2kci0giUnlj/Cz2
-         7g0TQ2xCG6cMAwbKSwRZLUXomMdwmG3m4UiI29Q9N32NYkAKt1KcVNgfiRoOaEAASbYt
-         QtqnfOhIk7JaQT4n3zX+purCw9wqsAyEov02dTY/rDfXfjU1kJ+OMmvVWUg7YzY8nhub
-         bKOKwQors9drkJRDYoTcMITGxjheBp5bsBzU2LP2Jy8q0n/EZLMJ3RE7EeXKbCCJX8CA
-         mex2pSj7vGqh60/djcyF+U2n7FO8lD2FV2uHJAhq2AnHRV6yQyg5iHXk43hD7T72evvk
-         r0GQ==
-X-Gm-Message-State: AOAM530jLs2Y875HOdVBi0cICbjDx15L5CIB9SsHhPlom7eBku+P3Zr/
-        ZQGJstlXL2M4nf2hQ7L3ngNROm3b9KSJeA1K
-X-Google-Smtp-Source: ABdhPJzWoxTMK/JV0TvFWOsbiyvdmQ5ev4T6j/uZCIl+bI0dO66TkLxqsbDT345zmVf/uJBC+xcnXQ==
-X-Received: by 2002:a5d:5952:0:b0:217:a419:c417 with SMTP id e18-20020a5d5952000000b00217a419c417mr7367967wri.641.1654521639416;
-        Mon, 06 Jun 2022 06:20:39 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id i12-20020a05600c354c00b0039765a7add4sm21077810wmq.29.2022.06.06.06.20.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 06:20:38 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, hverkuil@xs4all.nl, robert.foss@linaro.org
-Cc:     jonathan@marek.ca, andrey.konovalov@linaro.org,
-        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
-        jgrahsl@snap.com, hfink@snap.com, vladimir.zapolskiy@linaro.org,
-        dmitry.baryshkov@linaro.org, konrad.dybcio@somainline.org,
-        bryan.odonoghue@linaro.org
-Subject: [PATCH v3 5/5] arm64: dts: qcom: sdm845-db845c-navigation-mezzanine: Add navigation mezzanine dts
-Date:   Mon,  6 Jun 2022 14:20:29 +0100
-Message-Id: <20220606132029.2221257-6-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220606132029.2221257-1-bryan.odonoghue@linaro.org>
-References: <20220606132029.2221257-1-bryan.odonoghue@linaro.org>
+        with ESMTP id S239276AbiFFOAA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jun 2022 10:00:00 -0400
+Received: from knet-dmarc.kensnet.org (knetgate.kensnet.org [80.168.136.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16367BF881
+        for <linux-media@vger.kernel.org>; Mon,  6 Jun 2022 06:59:57 -0700 (PDT)
+Received: from knetgate.kensnet.org ([192.168.122.1])
+        by knet-dmarc.kensnet.org (8.14.4/8.14.4) with ESMTP id 256DxgcL027427
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Mon, 6 Jun 2022 14:59:42 +0100
+DKIM-Filter: OpenDKIM Filter v2.11.0 knet-dmarc.kensnet.org 256DxgcL027427
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kensnet.org;
+        s=default; t=1654523982;
+        bh=09dk3Zv/YDG6BibiEVn7/Sly0pgPjCVZL9XaAAve2ic=;
+        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+        b=H1ZXKb06VzYjeh6+v32fFKbs6ZuyEKPZ+Zk+HWUgJFey7eoBF4YDRmAIrwu7gzBnQ
+         uBpZSrvmmX7u+VxCDjVCWMmw+o13LHJ0U2EU72lPrc7sK5mSB4N80SUtpBiLySbw0O
+         ZmzR3L+D4U5hXInpzO6M897SSHsEWb22dzAvqk20=
+Received: from [172.16.0.57] (kenslt3-fcore.kensnet [172.16.0.57])
+        (authenticated bits=0)
+        by knetgate.kensnet.org (8.14.4/8.14.4) with ESMTP id 256Dxdtw007230
+        (version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
+        Mon, 6 Jun 2022 14:59:40 +0100
+Subject: Re: HauppaugeTV-quadHD DVB-T & HVR5525 mpeg risc op code error
+From:   Ken Smith <kens@kensnet.org>
+To:     Martin Burnicki <martin.burnicki@burnicki.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Brad Love <brad@nextdimension.cc>
+References: <20200423155908.GA22613@gofer.mess.org>
+ <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
+ <20200423163559.GB23006@gofer.mess.org>
+ <0cd2436c-0a39-0f85-929e-5d8f333b5027@burnicki.net>
+ <20200425114147.GA3037@gofer.mess.org>
+ <4aa38e2a-6b98-6530-69d9-d945a467bf0b@burnicki.net>
+ <1a2d9e15-55e2-88a7-d197-208a8ce99218@burnicki.net>
+ <20200427080751.GA5925@gofer.mess.org>
+ <e7d8aeb8-124a-f7b3-d469-4c47f182f067@burnicki.net>
+ <0fc5d43f-7928-1649-220b-45916b189d8f@burnicki.net>
+ <20200430164934.GA16730@gofer.mess.org>
+ <49697978-c4ef-66fe-94ac-17117540c111@kensnet.org>
+ <5744615d-1126-418a-1c39-95df385605ac@burnicki.net>
+ <7d749461-e52d-66de-fbcc-491d9ca035bb@kensnet.org>
+Organization: K-Net Technology
+Message-ID: <b7e10c51-4fae-f939-286c-5364251757e3@kensnet.org>
+Date:   Mon, 6 Jun 2022 14:59:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <7d749461-e52d-66de-fbcc-491d9ca035bb@kensnet.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-kensnet-MailScanner-Information: Please contact the ISP for more information
+X-kensnet-MailScanner-ID: 256Dxdtw007230
+X-kensnet-MailScanner: Found to be clean
+X-kensnet-MailScanner-From: kens@kensnet.org
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move the dts data for the rb3 navigation mezzanine into its own dts file.
 
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- arch/arm64/boot/dts/qcom/Makefile             |   1 +
- .../sdm845-db845c-navigation-mezzanine.dts    | 115 ++++++++++++++++++
- arch/arm64/boot/dts/qcom/sdm845-db845c.dts    | 106 ----------------
- 3 files changed, 116 insertions(+), 106 deletions(-)
- create mode 100644 arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dts
 
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index 86e6801a9c29..2561c419f3ef 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -101,6 +101,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-cheza-r1.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-cheza-r2.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-cheza-r3.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-db845c.dtb
-+dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-db845c-navigation-mezzanine.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-mtp.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-oneplus-enchilada.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-oneplus-fajita.dtb
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dts b/arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dts
-new file mode 100644
-index 000000000000..565675d644c5
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dts
-@@ -0,0 +1,115 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2022, Linaro Ltd.
-+ */
-+
-+/dts-v1/;
-+
-+#include "sdm845-db845c.dts"
-+
-+&cci {
-+	status = "okay";
-+};
-+
-+&camss {
-+	vdda-supply = <&vreg_l1a_0p875>;
-+
-+	status = "ok";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		port@0 {
-+			reg = <0>;
-+			csiphy0_ep: endpoint {
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&ov8856_ep>;
-+			};
-+		};
-+	};
-+};
-+
-+&cci_i2c0 {
-+	camera@10 {
-+		compatible = "ovti,ov8856";
-+		reg = <0x10>;
-+
-+		// CAM0_RST_N
-+		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&cam0_default>;
-+		gpios = <&tlmm 13 0>,
-+			<&tlmm 9 GPIO_ACTIVE_LOW>;
-+
-+		clocks = <&clock_camcc CAM_CC_MCLK0_CLK>;
-+		clock-names = "xvclk";
-+		clock-frequency = <19200000>;
-+
-+		/* The &vreg_s4a_1p8 trace is powered on as a,
-+		 * so it is represented by a fixed regulator.
-+		 *
-+		 * The 2.8V vdda-supply and 1.2V vddd-supply regulators
-+		 * both have to be enabled through the power management
-+		 * gpios.
-+		 */
-+		power-domains = <&clock_camcc TITAN_TOP_GDSC>;
-+
-+		dovdd-supply = <&vreg_lvs1a_1p8>;
-+		avdd-supply = <&cam0_avdd_2v8>;
-+		dvdd-supply = <&cam0_dvdd_1v2>;
-+
-+		status = "ok";
-+
-+		port {
-+			ov8856_ep: endpoint {
-+				link-frequencies = /bits/ 64
-+					<360000000 180000000>;
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&csiphy0_ep>;
-+			};
-+		};
-+	};
-+};
-+
-+&cci_i2c1 {
-+	camera@60 {
-+		compatible = "ovti,ov7251";
-+
-+		// I2C address as per ov7251.txt linux documentation
-+		reg = <0x60>;
-+
-+		// CAM3_RST_N
-+		enable-gpios = <&tlmm 21 0>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&cam3_default>;
-+		gpios = <&tlmm 16 0>,
-+			<&tlmm 21 0>;
-+
-+		clocks = <&clock_camcc CAM_CC_MCLK3_CLK>;
-+		clock-names = "xclk";
-+		clock-frequency = <24000000>;
-+
-+		/* The &vreg_s4a_1p8 trace always powered on.
-+		 *
-+		 * The 2.8V vdda-supply regulator is enabled when the
-+		 * vreg_s4a_1p8 trace is pulled high.
-+		 * It too is represented by a fixed regulator.
-+		 *
-+		 * No 1.2V vddd-supply regulator is used.
-+		 */
-+		power-domains = <&clock_camcc TITAN_TOP_GDSC>;
-+
-+		vdddo-supply = <&vreg_lvs1a_1p8>;
-+		vdda-supply = <&cam3_avdd_2v8>;
-+
-+		status = "disable";
-+
-+		port {
-+			ov7251_ep: endpoint {
-+				data-lanes = <0 1>;
-+//				remote-endpoint = <&csiphy3_ep>;
-+			};
-+		};
-+	};
-+};
-+
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-index 194ebeb3259c..faf1e9c7f24b 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-@@ -1139,112 +1139,6 @@ &pm8998_gpio {
- 
- };
- 
--&cci {
--	status = "okay";
--};
--
--&camss {
--	vdda-supply = <&vreg_l1a_0p875>;
--
--	status = "ok";
--
--	ports {
--		#address-cells = <1>;
--		#size-cells = <0>;
--		port@0 {
--			reg = <0>;
--			csiphy0_ep: endpoint {
--				data-lanes = <0 1 2 3>;
--				remote-endpoint = <&ov8856_ep>;
--			};
--		};
--	};
--};
--
--&cci_i2c0 {
--	camera@10 {
--		compatible = "ovti,ov8856";
--		reg = <0x10>;
--
--		// CAM0_RST_N
--		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
--		pinctrl-names = "default";
--		pinctrl-0 = <&cam0_default>;
--		gpios = <&tlmm 13 0>,
--			<&tlmm 9 GPIO_ACTIVE_LOW>;
--
--		clocks = <&clock_camcc CAM_CC_MCLK0_CLK>;
--		clock-names = "xvclk";
--		clock-frequency = <19200000>;
--
--		/* The &vreg_s4a_1p8 trace is powered on as a,
--		 * so it is represented by a fixed regulator.
--		 *
--		 * The 2.8V vdda-supply and 1.2V vddd-supply regulators
--		 * both have to be enabled through the power management
--		 * gpios.
--		 */
--		power-domains = <&clock_camcc TITAN_TOP_GDSC>;
--
--		dovdd-supply = <&vreg_lvs1a_1p8>;
--		avdd-supply = <&cam0_avdd_2v8>;
--		dvdd-supply = <&cam0_dvdd_1v2>;
--
--		status = "ok";
--
--		port {
--			ov8856_ep: endpoint {
--				link-frequencies = /bits/ 64
--					<360000000 180000000>;
--				data-lanes = <1 2 3 4>;
--				remote-endpoint = <&csiphy0_ep>;
--			};
--		};
--	};
--};
--
--&cci_i2c1 {
--	camera@60 {
--		compatible = "ovti,ov7251";
--
--		// I2C address as per ov7251.txt linux documentation
--		reg = <0x60>;
--
--		// CAM3_RST_N
--		enable-gpios = <&tlmm 21 0>;
--		pinctrl-names = "default";
--		pinctrl-0 = <&cam3_default>;
--		gpios = <&tlmm 16 0>,
--			<&tlmm 21 0>;
--
--		clocks = <&clock_camcc CAM_CC_MCLK3_CLK>;
--		clock-names = "xclk";
--		clock-frequency = <24000000>;
--
--		/* The &vreg_s4a_1p8 trace always powered on.
--		 *
--		 * The 2.8V vdda-supply regulator is enabled when the
--		 * vreg_s4a_1p8 trace is pulled high.
--		 * It too is represented by a fixed regulator.
--		 *
--		 * No 1.2V vddd-supply regulator is used.
--		 */
--		power-domains = <&clock_camcc TITAN_TOP_GDSC>;
--
--		vdddo-supply = <&vreg_lvs1a_1p8>;
--		vdda-supply = <&cam3_avdd_2v8>;
--
--		status = "disable";
--
--		port {
--			ov7251_ep: endpoint {
--				data-lanes = <0 1>;
--//				remote-endpoint = <&csiphy3_ep>;
--			};
--		};
--	};
--};
--
- /* PINCTRL - additions to nodes defined in sdm845.dtsi */
- &qup_spi0_default {
- 	config {
+
+Ken Smith wrote:
+>
+>>>>
+>>>
+>>> Hi, I'd like to resurrect this thread (copied below). I have a 
+>>> system showing this error. Its a HP ML350 server with 2x Xeon 5675 
+>>> running Rocky Linux 8.5. It has a Hauppauge HVR5525 card that uses 
+>>> the same cx23885 kernel module as the quadHD card discussed above. 
+>>> The HVR5525 is a dual DVB-T2/DVB-S2 card.
+>>>
+>>> In other threads I read about the dma_reset_workaround option. That 
+>>> option did not appear to be in the version included in standard 
+>>> kernel in Rocky 8.5. I have loaded a 5.4 kernel and compiled the DVB 
+>>> media modules from .git source and set dma_reset_workaround=2 in a 
+>>> file in modprobe.d. The built module shows version 0.0.4
+>>>
+>>> Sadly the error remains. The system runs MythTV v.31. The main 
+>>> symptom is occasional aborted recordings. Although the card does 
+>>> appear to recover, not requiring a reboot/cold restart.
+>>>
+>>> I'd appreciate some assistance with this. What information can I 
+>>> provide to help to trace this.
+>>
+>> I'm also maintaining a driver which started to show problems on 
+>> systems with new CPUs and chipsets quite some time ago, for example 
+>> on some Ryzen CPUs. In my case it turned out that the problem was 
+>> because my driver accessed memory locations on a my PCI card directly 
+>> via a pointer.
+>>
+>> Looks like the problem occurred because the CPU/chipset "optimized" 
+>> and re-ordered the execution of some machine instructions. There are 
+>> "barrier" instructions that can be inserted in the source code to 
+>> avoid this, but my original code didn't use them because the driver 
+>> had been working on many systems for a long time.
+>>
+>> Anyway, the low level functions provided by the kernel to access 
+>> registers on a peripheral are implemented to use those barriers, so 
+>> simply using those primitives (writel, readl and friends) instead of 
+>> accessing the registers directly via a pointer (*p = cmd; val = 
+>> *(p+1) ) fixed the problem for my driver.
+>>
+>> All the symptoms described here for the cx23885 module make me assume 
+>> that the problem is very similar, i.e. due to a missing barrier 
+>> instruction somewhere in the source code. Unfortunately I'm not 
+>> familiar with the Linux media driver stuff, so I don't know where I 
+>> could start to look for a missing barrier instruction.
+>>
+>> The only workaround that fixed the problem for me, and that I'm still 
+>> using, is to load the cx23885 module with a high debug level, by 
+>> putting a line
+>>
+>> options cx23885 debug=8
+>>
+>> into a file
+>>
+>> /etc/modprobe.d/cx23885.conf
+>>
+>> This produces a HUGE amount of kernel log messages (dmesg), but with 
+>> lower debug levels the driver still didn't work reliably.
+>>
+>> To make this stable for a long time, I changed /var/log/ to NOT point 
+>> to my SSD but to a real hard disk, and I created a cronjob file in 
+>> /etc/etc/cron.d/ with the line
+>>
+>> 1 0-23 * * * root rm -f /var/log/kern.log*
+>>
+>> to periodically remove the huge kernel log files.
+>>
+>> This hack works for me since this has been discussed on this ML years 
+>> ago.
+>>
+>>
+>> Martin
+> Thank you Martin and Robert.
+>
+> I've been doing some testing today. intel_iommu=off and 
+> dma_reset_workaround=2 or dma_reset_workaround=0 didn't change the 
+> symptoms.
+>
+> This system has journald. I initially set debug=1 to see where the 
+> messages go and I see what you mean about the volume of messages. I 
+> need to work out how to divert this torrent to /dev/null if that 
+> option is to be workable.
+>
+> I fully understand your comment about out of order instructions, 
+> Martin. Looks like this driver may need the same attention as the one 
+> you maintain. One option for me is to move the HVR5525 to a lower 
+> power machine and run that as a slave MythBackend.
+>
+> Many thanks
+>
+>
+Update on this. I have moved the two DVBS2 tuners from the the ML350 
+Server to a mini PC that has an i3 processor and I'm using that as a 
+MythTV Slave Backend. It has logged three "mpeg risc op code error" 
+events since I started it last Friday and so far no aborted recordings. 
+This is a workaround fix that I'll live with for now. I noticed some 
+recent patches for that module being published.
+
+Thanks Ken
+
 -- 
-2.36.1
+This message has been scanned for viruses and
+dangerous content by MailScanner, and is
+believed to be clean.
 
