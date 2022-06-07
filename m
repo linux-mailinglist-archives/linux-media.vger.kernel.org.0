@@ -2,108 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0CF2542205
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 08:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4817B542534
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 08:54:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381809AbiFHBER (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jun 2022 21:04:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49116 "EHLO
+        id S1378401AbiFHBD4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jun 2022 21:03:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1588838AbiFGXzK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 19:55:10 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874C64388EB
-        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 15:01:17 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id s1so2786114wra.9
-        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 15:01:17 -0700 (PDT)
+        with ESMTP id S1582835AbiFGXpp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 19:45:45 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB02441606
+        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 15:04:20 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id s12so30648047ejx.3
+        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 15:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=s6eUytmYYH9eaFCb5BVA3b/HOVsknK+p7KhgU38haew=;
-        b=E2h+B4WVymgBM89H4QgZ9vQhnCsaEJYbb7lOrS2qb5RTeZ5udsn3fj8+TRDWNjFr1B
-         bzmpDTl59hTJUgdcMAMeuT8IIA3506G3XtTcuS4+nSR0GjPFo2v6NpZ1DuTZPrACIBq/
-         BT3zVg9x5BSj2CnyZAzcsT4ugBeHosgk4olwwFTyuqvciybGgYXHmOpRVYP/rt4YduCh
-         F9tzLl9uEcFV7XCPi+CciXIuAahblG3Jm92S383mljC54/d8p37XrGv04aN4SWskswK3
-         LMyL2+cVLgI7aZGhF1lo7sL95/JlS9B8EFTrOFZ+MgrI1PW9tvN5TVoKpmJkKKzXq2MI
-         JIWg==
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mv0VwaBbJj5t97Zb21xM6IYXGG5Qm9K6yXJwCzABay4=;
+        b=M5PMNwLa8MyWdKLku4+ic9U3z6Gzqi2oHEIJzOSX0fOBoSLwESMbYf3VdzSDsY0HRU
+         KXU7Z6vAgsqRCgttm4N21Lmp4UlmYr1l7ab/UZXTLAAG0Ot2yVbF1r2HkjVTmDGn0wBe
+         1Wi8eQRzbPu0npYC3f1+J+mfKv1U+Pw8KTE6E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=s6eUytmYYH9eaFCb5BVA3b/HOVsknK+p7KhgU38haew=;
-        b=aMTxXcvLwDPPCRwNpvPpoZohgOyXgxouCBB/Ea3+MLgO5c3oZT2EWnPdH7dlBLPguU
-         OxDpN5q7rMHWOqG5sX8l7Y3OOrUcYPGwJgmt9MaxQzQNgByv6ljCBhUADa6CtqVC3mfg
-         lu4zXIerne6pj6WboDOtAwCIWNUyt1xcJFtLtKdBSG9yi9rALJS17TvzP7duxxDci0ot
-         GTIwtBAJcMaSsW35ogmpi2r1bOyVTEzuT1O7oU8rIlu+IeSSB83efIphDM+pJeUuWsMu
-         FmEppv8PSfAR5lwW641H9XWSQfThiYzqyVZuKNd0CARogeCtMzzuKgWJxv2/9yWSb+9K
-         0ndA==
-X-Gm-Message-State: AOAM530SPNkiyAq4d2Je+e1mB1GqQ81Bzy4GQFWyFt5JhMIrrecMzaJX
-        4OunWOrXL7LbvDojg6mzXOkRgQ==
-X-Google-Smtp-Source: ABdhPJxZFR9ehraU6LkCn1t7uDVmpo6MoOSGm0Um+kWtjQ37jsrFZNmhCkkLVM0FY0gteaYaCbgGTA==
-X-Received: by 2002:a5d:64c1:0:b0:20f:d995:f896 with SMTP id f1-20020a5d64c1000000b0020fd995f896mr29438432wri.180.1654639275977;
-        Tue, 07 Jun 2022 15:01:15 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id z13-20020adfe54d000000b002103cfd2fbasm20129267wrm.65.2022.06.07.15.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jun 2022 15:01:15 -0700 (PDT)
-Message-ID: <a57d2fac-5e56-f0df-a69f-7925fd92ca42@linaro.org>
-Date:   Tue, 7 Jun 2022 23:01:14 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mv0VwaBbJj5t97Zb21xM6IYXGG5Qm9K6yXJwCzABay4=;
+        b=NoF1Wsomr5dLIIejMuKplXVi/JscQWQzcqg2N8TkY15AdE1xi3lJ09k+cqSGIVyNLf
+         PvvoNYfpbxv/OAw+t4DsItRECkBSYP35FugA9osgYyB2BwHaBTZ/kNlg7lfG49ZOyhFI
+         kQz8RcFE57sFkDtP0iyU7zvqj/1CZhoTnRMf7Cu5jEKqPD89DiOo7SBjbkUCXHPAW6MY
+         bEBuYv8HK58LkVzo4pTbLkRzI/dnTtNSYuRinRtpQ68ZtULAt/uHjGbEHkowaBlqfAGK
+         I2iU3ibg6mZz4kRoizVDG+43nTvxdUg6FHGj6JNtJbc3sx4vYe5Xr5hSlLYZ2RqYeItP
+         lfPw==
+X-Gm-Message-State: AOAM5333pnWjZ1lKe3jZcao0a2mNQ/x4fAd9f5zfDgyjm64J9jCYzt5l
+        7nG2rFgrYR8l5dyrWERlwgZx0uAreZIo2g==
+X-Google-Smtp-Source: ABdhPJySmOlt1DiJL18YR0Iqm0CEb1p42z/gKFMZ23iiK2MQtRnEUG+beEIRNfSYdLOPqnK6H0FZ1g==
+X-Received: by 2002:a17:907:608f:b0:6f6:1155:99ab with SMTP id ht15-20020a170907608f00b006f6115599abmr27960400ejc.306.1654639448414;
+        Tue, 07 Jun 2022 15:04:08 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-2-39-143-183.cust.vodafonedsl.it. [2.39.143.183])
+        by smtp.gmail.com with ESMTPSA id h24-20020a170906829800b0070f7d1c5a18sm5660359ejx.55.2022.06.07.15.04.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jun 2022 15:04:07 -0700 (PDT)
+Date:   Wed, 8 Jun 2022 00:04:05 +0200
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Quentin Schulz <foss+kernel@0leil.net>, shawnx.tu@intel.com,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Subject: Re: [PATCH v6 4/4] media: i2c: ov5675: add .get_selection support
+Message-ID: <20220607220405.GB821506@tom-ThinkPad-T14s-Gen-2i>
+References: <20220607153335.875956-1-foss+kernel@0leil.net>
+ <20220607153335.875956-4-foss+kernel@0leil.net>
+ <20220607165136.bmriu2n7yorc7fx6@uno.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 0/2] Add imx577 compatible to imx412
-Content-Language: en-US
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        daniele.alessandrelli@intel.com, devicetree@vger.kernel.org,
-        jacopo@jmondi.org, linux-media@vger.kernel.org, mchehab@kernel.org,
-        paul.j.murphy@intel.com, sakari.ailus@iki.fi
-Cc:     dmitry.baryshkov@linaro.org, konrad.dybcio@somainline.org,
-        andrey.konovalov@linaro.org
-References: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
- <165463899225.186364.3363631428060807036@Monstersaurus>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <165463899225.186364.3363631428060807036@Monstersaurus>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220607165136.bmriu2n7yorc7fx6@uno.localdomain>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/06/2022 22:56, Kieran Bingham wrote:
-> Quoting Bryan O'Donoghue (2022-06-07 14:40:55)
->> Right now the imx412 and imx577 are code and pin compatible however, they
->> are distinct pieces of silicon.
->>
->> Document imx577 as a compatible enum and add the compat string to imx412.c.
->> This allows us to differentiate these chips in DTS and potentially to apply
->> any future imx412 or imx577 specific changes appropriately.
-> While I think this is probably fine to get things working, there seems to
-> be quite a few extra features in the IMX577 [0] compared with the IMX412 [1].
+Hi Quentin/Jacopo,
+
+On Tue, Jun 07, 2022 at 06:51:36PM +0200, Jacopo Mondi wrote:
+> Hi Quentin,
 > 
-> [0]https://www.sony-semicon.co.jp/products/common/pdf/IMX412-AACK_Flyer03.pdf
-> [1]https://www.sony-semicon.co.jp/products/common/pdf/IMX577-AACK_Flyer.pdf
+> On Tue, Jun 07, 2022 at 05:33:35PM +0200, Quentin Schulz wrote:
+> > From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> >
+> > The sensor has 2592*1944 active pixels, surrounded by 16 active dummy
+> > pixels and there are an additional 24 black rows "at the bottom".
+> >
+> >                      [2624]
+> >         +-----+------------------+-----+
+> >         |     |     16 dummy     |     |
+> >         +-----+------------------+-----+
+> >         |     |                  |     |
+> >         |     |     [2592]       |     |
+> >         |     |                  |     |
+> >         |16   |      valid       | 16  |[2000]
+> >         |dummy|                  |dummy|
+> >         |     |            [1944]|     |
+> >         |     |                  |     |
+> >         +-----+------------------+-----+
+> >         |     |     16 dummy     |     |
+> >         +-----+------------------+-----+
+> >         |     |  24 black lines  |     |
+> >         +-----+------------------+-----+
+> >
+> > The top-left coordinate is gotten from the registers specified in the
+> > modes which are identical for both currently supported modes.
+> >
+> > There are currently two modes supported by this driver: 2592*1944 and
+> > 1296*972. The second mode is obtained thanks to subsampling while
+> > keeping the same field of view (FoV). No cropping involved, hence the
+> > harcoded values.
+> >
+> > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> > ---
+> >
+> > v6:
+> >  - explicit a bit more the commit log around subsampling for lower
+> >  resolution modes,
+> >  - (again) fixed reporting for V4L2_SEL_TGT_CROP_* thanks to Jacopo's help,
+> >
+> > v4:
+> >  - explicit a bit more the commit log,
+> >  - added drawing in the commit log,
+> >  - fixed reporting for V4L2_SEL_TGT_CROP_* thanks to Jacopo's help,
+> >
+> > added in v3
+> >
+> >  drivers/media/i2c/ov5675.c | 21 +++++++++++++++++++++
+> >  1 file changed, 21 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+> > index 80840ad7bbb0..2230ff47ef49 100644
+> > --- a/drivers/media/i2c/ov5675.c
+> > +++ b/drivers/media/i2c/ov5675.c
+> > @@ -1121,6 +1121,26 @@ static int ov5675_get_format(struct v4l2_subdev *sd,
+> >  	return 0;
+> >  }
+> >
+> > +static int ov5675_get_selection(struct v4l2_subdev *sd,
+> > +				struct v4l2_subdev_state *state,
+> > +				struct v4l2_subdev_selection *sel)
+> > +{
+> > +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> > +		return -EINVAL;
+> > +
+> > +	switch (sel->target) {
+> > +	case V4L2_SEL_TGT_CROP:
+> > +	case V4L2_SEL_TGT_CROP_BOUNDS:
 > 
-> I certainly agree though that it's better to declare the camera
-> correctly in the DT - so it's better to add this support than 'fake' the
-> DT to say it's an IMX412 on the platform.
+> Seem like we have trouble understanding each other, or better, I have
+> troubles explaining myself most probably :)
+> 
+> If the dummy/black area is readable, this should just be (0, 0, 2624,
+> 2000) like it was in your previous version. What has changed that I
+> have missed ?
 
-Agreed the specs differ but the only silicon enabling code I have access 
-to - from the qcom camx release is a 1:1 for 412 and 577.
+Taking as reference drivers/media/i2c/ov5693.c and others,
+seems ok what Quentin have done from my side.
 
-The init process works for me on rb5 to obtain 10 bit bayer @ 30 fps.
+Just one thing: maybe is better to avoid magic numbers with more
+explicit defines like:
 
-Agreed the 577 does a whole bunch of extra stuff I just have no 
-reference either in PDF or code on how to do any of it.
+ + case V4L2_SEL_TGT_CROP_DEFAULT:
+ +           sel->r.top = OV5675_ACTIVE_START_TOP;
+ +           sel->r.left = OV5693_ACTIVE_START_LEFT;
+ +           sel->r.width = OV5693_ACTIVE_WIDTH;
+ +           sel->r.height = OV5693_ACTIVE_HEIGHT;
+ 
+What do you think about?
 
-Its "good enough" for me in 412 mode.
+Thanks,
+Tommaso
 
----
-bod
+
+> 
+> Thanks
+>   j
+> 
+> 
+> > +	case V4L2_SEL_TGT_CROP_DEFAULT:
+> > +		sel->r.top = 16;
+> > +		sel->r.left = 16;
+> > +		sel->r.width = 2592;
+> > +		sel->r.height = 1944;
+> > +		return 0;
+> > +	}
+> > +	return -EINVAL;
+> > +}
+> > +
+> >  static int ov5675_enum_mbus_code(struct v4l2_subdev *sd,
+> >  				 struct v4l2_subdev_state *sd_state,
+> >  				 struct v4l2_subdev_mbus_code_enum *code)
+> > @@ -1170,6 +1190,7 @@ static const struct v4l2_subdev_video_ops ov5675_video_ops = {
+> >  static const struct v4l2_subdev_pad_ops ov5675_pad_ops = {
+> >  	.set_fmt = ov5675_set_format,
+> >  	.get_fmt = ov5675_get_format,
+> > +	.get_selection = ov5675_get_selection,
+> >  	.enum_mbus_code = ov5675_enum_mbus_code,
+> >  	.enum_frame_size = ov5675_enum_frame_size,
+> >  };
+> > --
+> > 2.36.1
+> >
+
+-- 
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
