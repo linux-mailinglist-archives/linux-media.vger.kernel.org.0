@@ -2,42 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E849B53FE3B
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jun 2022 14:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFFCB54003E
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jun 2022 15:41:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243320AbiFGMCa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jun 2022 08:02:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38000 "EHLO
+        id S244845AbiFGNlE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jun 2022 09:41:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243345AbiFGMC2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 08:02:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BDF71B792
-        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 05:02:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A9F16172E
-        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 12:02:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51B78C385A5;
-        Tue,  7 Jun 2022 12:02:23 +0000 (UTC)
-Message-ID: <c10fcafb-58b0-2df4-9d5e-eb09ebdef6f8@xs4all.nl>
-Date:   Tue, 7 Jun 2022 14:02:21 +0200
+        with ESMTP id S244842AbiFGNlD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 09:41:03 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF5F8BC6F8
+        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 06:41:01 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id h5so24284464wrb.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 06:41:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H1AtsGdEkkqVoDoziwXz7u9gxAqoupVuYeRio02Yhgc=;
+        b=Y7PerUmuAC+I+TxAwvOKEOP3NPC1VHKehphs8e30npMwl+dDGqLkSX50iz2BXzKBVr
+         7MfkDNfKgZJdv3e0N3tDHnkvGBfJKgT1Vpa0sPApGKlS9fgDUmDh5p1BWAtqpdYFXkP/
+         N6zgT8ZXa6HyXYbZgM1F3oncwhzyc2rp2Kjil9QhjHz63F1a8LUvwWaiGuVnWaeS3eSR
+         QOV3pLw9hRFqEB7F1+EtoPZZHkVV91Hb9GSX6W1eyOAjQegLMTX/jiafWIbT4cmvHK6T
+         Wvc0dr+kRoe+jdDOctNwp0EwnnBk0I503HGE+3TnE850llkSTRN7Z2WOOMWudW5GpP7V
+         +dzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H1AtsGdEkkqVoDoziwXz7u9gxAqoupVuYeRio02Yhgc=;
+        b=1gwfm3EnbxGc3/hDQvTKyOFCG9OVQ7IHHMPUfWo/P0GYKAXeibrimM4xyjyyvzSVsT
+         jZ3lQi2gULzkJgjGIXrC6b9gsuAOwTc0esAx9dkGViqucpzEZAD+3GK/wFtwXCrFBlaP
+         7xApYKBpKe4uL2hEe3ohDCj6DzUMasPsilzxd0klIc9bIKWpDSALZN0vfo7zlTaPiWLH
+         Gi9Q0K+GW2Fz6ayfqyIu8C9ipOmbSLIMsyPVQGPhPOZ7af6YrBF+k7H2AdPF7cOXxl/q
+         3cL1QBBhWgS4CaXvgy6k19yUzMEkPEh6aRWmxt4n4/uAhvbQWFI0QgukmOdBvGwNIX2B
+         iYRA==
+X-Gm-Message-State: AOAM530T97HULj5vPWnasHuoCbCsxnzN+dmvYdHS47vpfE+HKuVQkngw
+        8B1r//cGumGSAiaIrMSj9lJ5Yw==
+X-Google-Smtp-Source: ABdhPJzL9EH31N8AERCGNlck5JOegjARRYqZjS+5PlKTlV1mXDSm7m5WtDLdrVtfkbpWaNxGfC9wHA==
+X-Received: by 2002:a5d:59a4:0:b0:218:4a29:f12b with SMTP id p4-20020a5d59a4000000b002184a29f12bmr6732079wrr.145.1654609260350;
+        Tue, 07 Jun 2022 06:41:00 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id k7-20020a5d6d47000000b0020e5e906e47sm17818792wri.75.2022.06.07.06.40.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jun 2022 06:40:59 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     sakari.ailus@iki.fi, jacopo@jmondi.org, paul.j.murphy@intel.com,
+        daniele.alessandrelli@intel.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     dmitry.baryshkov@linaro.org, konrad.dybcio@somainline.org,
+        andrey.konovalov@linaro.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH 0/2] Add imx577 compatible to imx412
+Date:   Tue,  7 Jun 2022 14:40:55 +0100
+Message-Id: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH v2] media: visl: add virtual stateless driver
-Content-Language: en-US
-To:     daniel.almeida@collabora.com
-Cc:     linux-media@vger.kernel.org
-References: <20210810220552.298140-3-daniel.almeida@collabora.com>
- <20220606212622.495841-1-daniel.almeida@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220606212622.495841-1-daniel.almeida@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -46,293 +70,21 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/6/22 23:26, daniel.almeida@collabora.com wrote:
-> From: Daniel Almeida <daniel.almeida@collabora.com>
-> 
-> A virtual stateless device for stateless uAPI development purposes.
-> 
-> This tool's objective is to help the development and testing of userspace
-> applications that use the V4L2 stateless API to decode media.
+Right now the imx412 and imx577 are code and pin compatible however, they
+are distinct pieces of silicon.
 
-So this is specifically for *decoding*, right? Is it the intention that the
-same driver will be able to handle stateless encoding as well in the future?
-Or would that be a new driver?
+Document imx577 as a compatible enum and add the compat string to imx412.c.
+This allows us to differentiate these chips in DTS and potentially to apply
+any future imx412 or imx577 specific changes appropriately.
 
-It matters primarily for the naming of the driver. If it is decoding only,
-then it should be something like visldec.
+Bryan O'Donoghue (2):
+  media: dt-bindings: imx412: Add imx577 compatible string
+  media: i2c: imx412: Add imx577 compatible string
 
-> 
-> A userspace implementation can use visl to run a decoding loop even when no
-> hardware is available or when the kernel uAPI for the codec has not been
-> upstreamed yet. This can reveal bugs at an early stage.
-> 
-> This driver can also trace the contents of the V4L2 controls submitted to it.
-> It can also dump the contents of the vb2 buffers through a debugfs
-> interface. This is in many ways similar to the tracing infrastructure
-> available for other popular encode/decode APIs out there and can help develop
-> a userspace application by using another (working) one as a reference.
-> 
-> Note that no actual decoding of video frames is performed by visl. The V4L2
-> test pattern generator is used to write various debug information to the
-> capture buffers instead.
-> 
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
-> 
-> ---
-> Was media: vivpu: add virtual VPU driver
-> 
-> Changes from v1:
-> 
-> - Addressed review comments from v1
-> - Driver was renamed to visl
-> - Dropped AV1 support for now (as it's not upstream yet)
-> - Added support for FWHT, MPEG2, VP8, VP9, H264
-> - Added TPG support
-> - Driver can now dump the controls for the codecs above through ftrace
-> - Driver can now dump the vb2 bitstream buffer through a debugfs infrastructure
-> 
-> I ran this on a kernel with KASAN/kmemleak enabled, nothing showed up.
-> 
-> v4l2-compliance results:
-> 
-> v4l2-compliance 1.22.1, 64 bits, 64-bit time_t
+ Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml | 5 ++++-
+ drivers/media/i2c/imx412.c                                   | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-Based on the output I can tell that this is an old v4l2-compliance utility.
+-- 
+2.36.1
 
-Please compile it straight from the v4l-utils git repo.
-
-Also compare it with the output when used with vicodec: the compliance test
-should be able to detect that it is a stateless decoder, but I don't see that
-in the output below, either because it is a too old version, or the driver
-does something wrong, breaking this detection.
-
-> 
-> Compliance test for visl device /dev/video0:
-> 
-> Driver Info:
->         Driver name      : visl
->         Card type        : visl
->         Bus info         : platform:visl
->         Driver version   : 5.19.0
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
-> Media Driver Info:
->         Driver name      : visl
->         Model            : visl
->         Serial           : 
->         Bus info         : platform:visl
->         Media version    : 5.19.0
->         Hardware revision: 0x00000000 (0)
->         Driver version   : 5.19.0
-> Interface Info:
->         ID               : 0x0300000c
->         Type             : V4L Video
-> Entity Info:
->         ID               : 0x00000001 (1)
->         Name             : visl-source
->         Function         : V4L2 I/O
->         Pad 0x01000002   : 0: Source
->           Link 0x02000008: to remote pad 0x1000004 of entity 'visl-proc' (Video Decoder): Data, Enabled, Immutable
-> 
-> Required ioctls:
->         test MC information (see 'Media Driver Info' above): OK
->         test VIDIOC_QUERYCAP: OK
->         test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video0 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 3 Private Controls: 0
->         Standard Compound Controls: 13 Private Compound Controls: 0
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK (Not Supported)
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK (Not Supported)
->         test Scaling: OK
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK
-> 
-> Test input 0:
-> 
-> Streaming ioctls:
->         test read/write: OK (Not Supported)
->         test blocking wait: OK
->         Video Capture Multiplanar: Captured 58 buffers    
->         test MMAP (no poll): OK
->         Video Capture Multiplanar: Captured 58 buffers    
->         test MMAP (select): OK
->         Video Capture Multiplanar: Captured 58 buffers    
->         test MMAP (epoll): OK
->         Video Capture Multiplanar: Captured 58 buffers    
->         test USERPTR (no poll): OK
->         Video Capture Multiplanar: Captured 58 buffers    
->         test USERPTR (select): OK
->         test DMABUF: Cannot test, specify --expbuf-device
-> 
-> Total for visl device /dev/video0: 53, Succeeded: 53, Failed: 0, Warnings: 0
-> 
-> ---
->  drivers/media/test-drivers/Kconfig            |   1 +
->  drivers/media/test-drivers/Makefile           |   1 +
->  drivers/media/test-drivers/visl/Kconfig       |  31 +
->  drivers/media/test-drivers/visl/Makefile      |   8 +
->  drivers/media/test-drivers/visl/visl-core.c   | 532 ++++++++++++
->  .../media/test-drivers/visl/visl-debugfs.c    | 148 ++++
->  .../media/test-drivers/visl/visl-debugfs.h    |  72 ++
->  drivers/media/test-drivers/visl/visl-dec.c    | 468 +++++++++++
->  drivers/media/test-drivers/visl/visl-dec.h    | 100 +++
->  .../media/test-drivers/visl/visl-trace-fwht.h |  66 ++
->  .../media/test-drivers/visl/visl-trace-h264.h | 349 ++++++++
->  .../test-drivers/visl/visl-trace-mpeg2.h      |  99 +++
->  .../test-drivers/visl/visl-trace-points.c     |   9 +
->  .../media/test-drivers/visl/visl-trace-vp8.h  | 156 ++++
->  .../media/test-drivers/visl/visl-trace-vp9.h  | 292 +++++++
->  drivers/media/test-drivers/visl/visl-video.c  | 776 ++++++++++++++++++
->  drivers/media/test-drivers/visl/visl-video.h  |  61 ++
->  drivers/media/test-drivers/visl/visl.h        | 178 ++++
->  18 files changed, 3347 insertions(+)
->  create mode 100644 drivers/media/test-drivers/visl/Kconfig
->  create mode 100644 drivers/media/test-drivers/visl/Makefile
->  create mode 100644 drivers/media/test-drivers/visl/visl-core.c
->  create mode 100644 drivers/media/test-drivers/visl/visl-debugfs.c
->  create mode 100644 drivers/media/test-drivers/visl/visl-debugfs.h
->  create mode 100644 drivers/media/test-drivers/visl/visl-dec.c
->  create mode 100644 drivers/media/test-drivers/visl/visl-dec.h
->  create mode 100644 drivers/media/test-drivers/visl/visl-trace-fwht.h
->  create mode 100644 drivers/media/test-drivers/visl/visl-trace-h264.h
->  create mode 100644 drivers/media/test-drivers/visl/visl-trace-mpeg2.h
->  create mode 100644 drivers/media/test-drivers/visl/visl-trace-points.c
->  create mode 100644 drivers/media/test-drivers/visl/visl-trace-vp8.h
->  create mode 100644 drivers/media/test-drivers/visl/visl-trace-vp9.h
->  create mode 100644 drivers/media/test-drivers/visl/visl-video.c
->  create mode 100644 drivers/media/test-drivers/visl/visl-video.h
->  create mode 100644 drivers/media/test-drivers/visl/visl.h
-> 
-> diff --git a/drivers/media/test-drivers/Kconfig b/drivers/media/test-drivers/Kconfig
-> index 51cf27834df0..459b433e9fae 100644
-> --- a/drivers/media/test-drivers/Kconfig
-> +++ b/drivers/media/test-drivers/Kconfig
-> @@ -20,6 +20,7 @@ config VIDEO_VIM2M
->  source "drivers/media/test-drivers/vicodec/Kconfig"
->  source "drivers/media/test-drivers/vimc/Kconfig"
->  source "drivers/media/test-drivers/vivid/Kconfig"
-> +source "drivers/media/test-drivers/visl/Kconfig"
->  
->  endif #V4L_TEST_DRIVERS
->  
-> diff --git a/drivers/media/test-drivers/Makefile b/drivers/media/test-drivers/Makefile
-> index ff390b687189..740714a4584d 100644
-> --- a/drivers/media/test-drivers/Makefile
-> +++ b/drivers/media/test-drivers/Makefile
-> @@ -12,3 +12,4 @@ obj-$(CONFIG_VIDEO_VICODEC) += vicodec/
->  obj-$(CONFIG_VIDEO_VIM2M) += vim2m.o
->  obj-$(CONFIG_VIDEO_VIMC) += vimc/
->  obj-$(CONFIG_VIDEO_VIVID) += vivid/
-> +obj-$(CONFIG_VIDEO_VISL) += visl/
-> diff --git a/drivers/media/test-drivers/visl/Kconfig b/drivers/media/test-drivers/visl/Kconfig
-> new file mode 100644
-> index 000000000000..976319c3c372
-> --- /dev/null
-> +++ b/drivers/media/test-drivers/visl/Kconfig
-> @@ -0,0 +1,31 @@
-> +# SPDX-License-Identifier: GPL-2.0+
-> +config VIDEO_VISL
-> +	tristate "Virtual Stateless Driver (visl)"
-
-I think this should be "Virtual Stateless Codec Driver" (or Stateless Decoder Driver if
-it will only be for decoding). "Stateless Driver" is too vague.
-
-> +	depends on VIDEO_DEV
-> +	select FONT_SUPPORT
-> +	select FONT_8x16
-> +	select VIDEOBUF2_VMALLOC
-> +	select V4L2_MEM2MEM_DEV
-> +	select MEDIA_CONTROLLER
-> +	select MEDIA_CONTROLLER_REQUEST_API
-> +	select VIDEO_V4L2_TPG
-> +	help
-> +
-> +	  A virtual stateless device for uAPI development purposes.
-> +
-> +	  A userspace implementation can use visl to run a decoding loop even
-> +	  when no hardware is available or when the kernel uAPI for the codec
-> +	  has not been upstreamed yet. This can reveal bugs at an early stage.
-> +
-> +
-
-A few too many empty lines here. One is enough.
-
-Regards,
-
-	Hans
-
-> +
-> +	  When in doubt, say N.
-> +
-> +config VISL_DEBUGFS
-> +	bool "Enable debugfs for visl"
-> +	depends on VIDEO_VISL
-> +	depends on DEBUG_FS
-> +
-> +	help
-> +	  Choose Y to dump the bitstream buffers through debugfs.
-> +	  When in doubt, say N.
