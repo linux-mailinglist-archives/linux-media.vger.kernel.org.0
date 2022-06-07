@@ -2,68 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C9BD540042
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jun 2022 15:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2623E540057
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jun 2022 15:44:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244847AbiFGNlH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jun 2022 09:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37710 "EHLO
+        id S244941AbiFGNo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jun 2022 09:44:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243668AbiFGNlF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 09:41:05 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125ECBBCF4
-        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 06:41:05 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id k19so24214618wrd.8
-        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 06:41:04 -0700 (PDT)
+        with ESMTP id S244892AbiFGNo1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 09:44:27 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8063AFB20
+        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 06:44:09 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id n28so23059681edb.9
+        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 06:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yHhpnE3ZGoGrvzDhV4NP/nzD3vM7kpqOZlaREnhoQY0=;
-        b=gQAfK2ZOiazGohPpp6VRZ/kpQrAejiW+Qpq5KT1xRympXKTSMu/Xp+B3sxQ85v4e9E
-         28/PIDOFbXaOS8ygg2LsA5PtOgiOLpmHGoOiDsyEAlgx/GYC97g8yDdIevpMRXkWNxwL
-         tvAVKWSIw1Sz2BhzFuV/LUTGVQwqBU7rzVddCn/JmOjgBRC/p6GH5Gkole0IhAIdmdjb
-         o/cxuj3mp1jzg1qN6eTE7QKTpyI5xAJ853sXNClLeEcXPN8NXCa5b00C82k/XLl3q0CT
-         thbxpQlfNkL9G9nz2Xw9RuQq5Ael7ZwIs81cqoGzD1ywCHZvUo4TvirtDaMlWDUbUKtl
-         QmSg==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=97COYvDNGqtT1p05IKSNW2IVq5s7PiPDusUGhaHXKaY=;
+        b=LWoXEF+Xr3cgF+JmD8q1XxaRaMdkAZjTzUoODDseCtucHHxSSiNZEvPHKmUDprOV8c
+         zGbs/+KlpIcZblPR7bqRsv80S6MQgkuHhaNOmxslY/7dZRCshUcfSX6COkb5DjAgT/v/
+         oJMXJ6tUeGlzE863XczLzRsmU7xWN7nmF0IOk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yHhpnE3ZGoGrvzDhV4NP/nzD3vM7kpqOZlaREnhoQY0=;
-        b=1HtzMMfBEIZsTLlUu6criA9Lu6NcWKHaMyZUPzwdLrbOcoY/BvdK+wG0cBy1rPJ6Pr
-         D0gOyl1ay6gWp3qgLJSsHV7vmXmdELrGRYPa6SMWySZyJkDjblSKuEyqYyGBfjSlMRdt
-         UPlDQldHxryDR2TYD+cMEjw/JFQV8VTb/nRIch5a8jIOyc3znI9/+KZMZI7dReqjFVYZ
-         53MyjE2Ie7dcpPWQFVQXERohcvWzN+XRhpQfe7Mhc9oa4epmRIefdHw/Fc7sf9VXEv4p
-         dgngjf7erlpRD24v1NhYlWZPe/fvFYrrxQQUNEH70S9e+Hg3/5bAd14ckaf5klP3oakI
-         Bc1w==
-X-Gm-Message-State: AOAM5313mi5INYsg5uD6cNwPAZgmlMM9Iizws4OvZ/T9+ol3FaR48/73
-        89A4zptPHZMdDiQfpUaRp3gfGQ==
-X-Google-Smtp-Source: ABdhPJyP5Qh5pg6XinTmumB5XFCgRZc1lxZeylfUypDYGHsl45Fk9zqVp1OTsdQUBGWwcd3O1l+BpA==
-X-Received: by 2002:adf:e9c5:0:b0:217:56ae:c661 with SMTP id l5-20020adfe9c5000000b0021756aec661mr13931983wrn.513.1654609263287;
-        Tue, 07 Jun 2022 06:41:03 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id k7-20020a5d6d47000000b0020e5e906e47sm17818792wri.75.2022.06.07.06.41.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=97COYvDNGqtT1p05IKSNW2IVq5s7PiPDusUGhaHXKaY=;
+        b=4f1+SZjL6ocFBcenE/FgjymxBTR2W6RAE/6ul2noYYtXuNBud5767JXp5Xala5q6fU
+         Z60KBuCqerIZ+9wHSoPWJuUT56GvJxLI7pM3AcDaklvL2V4pzgw6xwBQ7zEyGJvmBGfO
+         8qux6uPL1wda90cN+szFYikIMQdzueKzpG0sGYgGsUS09VGbRBsyMe9XOlZRFRk5SrTR
+         yUdzCChNpc+W62vSbi07zCuSJCWStQsVndnBxUo3QfGdCD+9Zsv6XJ95cfHgRemSOLQb
+         hk/Mll5XOw1bn1A5nqWodmVHjBPXUxgT+UzKq07cXOlmkMDJq9D1PxE4k3zVeJEBUTs9
+         /Cag==
+X-Gm-Message-State: AOAM533ijGG+L0Oujvu3vV+lOHEkaZ0IPmn1f2cDoXT+XeQM95iLpzFD
+        BY2BCvX/FJfPFCdc45D1e/O1dg==
+X-Google-Smtp-Source: ABdhPJwr164gU3xV+FMMCEW1Td4kl3k7EOlXNkC0JRaPhk8iQcUStKrQlmev5TZa/pUGhixSqNkV4Q==
+X-Received: by 2002:a05:6402:2741:b0:41f:69dc:9bcd with SMTP id z1-20020a056402274100b0041f69dc9bcdmr33444610edd.239.1654609448320;
+        Tue, 07 Jun 2022 06:44:08 -0700 (PDT)
+Received: from alco.corp.google.com ([2620:0:1059:10:d185:5aaa:c33d:f136])
+        by smtp.gmail.com with ESMTPSA id c10-20020a170906528a00b0070a80f03a44sm6621347ejm.119.2022.06.07.06.44.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 06:41:02 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     sakari.ailus@iki.fi, jacopo@jmondi.org, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     dmitry.baryshkov@linaro.org, konrad.dybcio@somainline.org,
-        andrey.konovalov@linaro.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH 2/2] media: i2c: imx412: Add imx577 compatible string
-Date:   Tue,  7 Jun 2022 14:40:57 +0100
-Message-Id: <20220607134057.2427663-3-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
-References: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
+        Tue, 07 Jun 2022 06:44:07 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Yunke Cao <yunkec@google.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 0/7] uvcvideo: Fix handling of power_line_frequency
+Date:   Tue,  7 Jun 2022 15:43:57 +0200
+Message-Id: <20220607134405.166704-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -72,28 +68,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Sony IMX577 uses the same silicon enabling reference code from Sony in
-the available examples provided.
+The uvc 1.5 standard recognizes 4 different values for this control, but we
+were only using the first 3.
 
-Add an imx577 compatible string and re-use the existing imx412 code.
+Also add a quirk for those devices that only support 50 and 60 Hz.
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/i2c/imx412.c | 1 +
- 1 file changed, 1 insertion(+)
+v3: Add more devices
 
-diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-index a1394d6c1432..3b7011ab0a8f 100644
---- a/drivers/media/i2c/imx412.c
-+++ b/drivers/media/i2c/imx412.c
-@@ -1282,6 +1282,7 @@ static const struct dev_pm_ops imx412_pm_ops = {
- 
- static const struct of_device_id imx412_of_match[] = {
- 	{ .compatible = "sony,imx412" },
-+	{ .compatible = "sony,imx577" },
- 	{ }
- };
- 
+v2: Thanks Laurent! 
+
+Do not modify the behaviour of v1.1
+
+
+Ricardo Ribalda (7):
+  media: uvcvideo: Add missing value for power_line_frequency
+  media: uvcvideo: Add UVC_QUIRK_LIMITED_POWERLINE
+  media: uvcvideo: Add LIMITED_POWERLINE quirks for Quanta UVC Webcam
+  media: uvcvideo: Add LIMITED_POWERLINE quirks for Chicony Easycamera
+  media: uvcvideo: Add LIMITED_POWERLINE quirks for Chicony Easycamera
+  media: uvcvideo: Add LIMITED_POWERLINE quirks for Quanta cameras
+  media: uvcvideo: Add LIMITED_POWERLINE quirks for Acer EasyCamera
+
+ drivers/media/usb/uvc/uvc_ctrl.c   | 91 ++++++++++++++++++++++++++----
+ drivers/media/usb/uvc/uvc_driver.c | 63 +++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 143 insertions(+), 12 deletions(-)
+
 -- 
-2.36.1
+2.36.1.255.ge46751e96f-goog
 
