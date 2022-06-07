@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FC16540058
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jun 2022 15:44:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C5DF54005A
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jun 2022 15:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244918AbiFGNob (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jun 2022 09:44:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47700 "EHLO
+        id S244898AbiFGNod (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jun 2022 09:44:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244897AbiFGNo1 (ORCPT
+        with ESMTP id S244901AbiFGNo1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 09:44:27 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA6CAAFB3F
-        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 06:44:11 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id bg6so15478251ejb.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 06:44:11 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA84B040F
+        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 06:44:13 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id y19so35298811ejq.6
+        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 06:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=81mSmxn15JtVkPz978aR9cpRDrkI+JcjBbyBqhiZujI=;
-        b=JgKwyycO6K1nAZG5gXllWbL5lodh9u9YaRM+BOe9H5U9nQazybhFS8p5DbJMKHEsA7
-         WrWQEd0liSXRb9uOiSEyOWtL1QsFh4UsNSC+vX3dW2J4KvUgfJe5NcrU1TFEHaW6iBVO
-         hc+k523x57hBMog3+jOEI3i31MJYCWNnfjkiw=
+        bh=0RnT8kU7H7q3p/P8rHquQvDCE3TwnJon2uM96hlfJY0=;
+        b=URYEV61L1OqQWcHFaz6HVZZw41azTKBGajmvr+oO88pXKBaaPk5gXoaz1MLPR4Hylt
+         gsbg2QBhk3E2Bqdshhu0tAPQCzq179YQBJruAuANMA9qeFtoNAKkh45D7BaX5W+jjdks
+         FYQvQiPkSr2+KglK5OKLx/b5OWqofHC3wD/jU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=81mSmxn15JtVkPz978aR9cpRDrkI+JcjBbyBqhiZujI=;
-        b=k6TaiaF7Z38G7FdfGSvaT2K4QIYntqRGecbVNpfrjocWgH3xwGzWSD75X+71zwqcJy
-         Uozg1mp7AuBKe5YV3Pm4BK+VI8DwP2noitRrf7kvLENwXF6Yh9MQucHojX8dpVPDJYEv
-         qof1Sd+DEygNI3NZbU0hRh2rcCxYYhPhvlv4R7Aguha+s2kEuRG+MKmF1KvnQ7nqke93
-         XPliOw9ZuCpfiOfWbcQZnElNj/QVo9Cec/MswEmBO8zND2fUwIy46MoCQd8hOLT89uXe
-         QjCdPN8a15d39DVXMUokUXsGphYEtqNKKT2b5jblBymswm6HMLe4VY2MExkWVlO1x///
-         3xsg==
-X-Gm-Message-State: AOAM533hXRMb199oKnxqkk9KcWMxSwtOVtTpMgcf4/Q652HDdbHpvVD/
-        zn0lMUcdjus1ZO/Nkjc2MIflsg==
-X-Google-Smtp-Source: ABdhPJyL5DI94AAHTIYayLqSbNJLhgFDVPvODwS2D5wfFFejzTQ08+VSiBqqyc0v3kBzk+iWYZChzw==
-X-Received: by 2002:a17:906:99c1:b0:6fe:b01d:134 with SMTP id s1-20020a17090699c100b006feb01d0134mr26619200ejn.598.1654609450293;
-        Tue, 07 Jun 2022 06:44:10 -0700 (PDT)
+        bh=0RnT8kU7H7q3p/P8rHquQvDCE3TwnJon2uM96hlfJY0=;
+        b=mp23VPyyT4Sci1fqkU6xNCVKBSZjKFnzmxFfvQbBxIDfx4PZzk9L0qfmy23aGnAs3k
+         qNMPn+kUTxUJJOrHl8Hec1z+oB1T2xF55YyhbsdgHM4eET+veOZuedTl+I38GgVXmFf2
+         1+fF6EMxa8OSFUR4Gfb1nJYeQazKuS2IpzzYm1DeV5Z5l1M6B3obkQmCbOPWVo6R5B68
+         j2voQ6cwbOeMRNnMh3FoSCX8yOd78onHkCpANFNJF8mZtoRBc8tyz3SPJgQ7Jd3E7c8t
+         lAKWpuf5UbQjsrXZp+708IAhhkbkKESQR3eJfzIqJICFtXGdNCOJPUsapgVgPrbdbDON
+         7pPg==
+X-Gm-Message-State: AOAM531J7ZLnH+zxPROT7nw/XbAClcglndmBCRQp5Y2VGQV2Cqf24CBT
+        aiO5DA44A0szKbgEtjirzToh4g==
+X-Google-Smtp-Source: ABdhPJxzNmui42lekBApvYxus0xOWG5jvi5mCObgyydzIK69TyEBj77obg6jzpnN2guzTB8U32VVhg==
+X-Received: by 2002:a17:907:3f1f:b0:6fe:b40a:21f0 with SMTP id hq31-20020a1709073f1f00b006feb40a21f0mr26788778ejc.744.1654609451892;
+        Tue, 07 Jun 2022 06:44:11 -0700 (PDT)
 Received: from alco.corp.google.com ([2620:0:1059:10:d185:5aaa:c33d:f136])
-        by smtp.gmail.com with ESMTPSA id c10-20020a170906528a00b0070a80f03a44sm6621347ejm.119.2022.06.07.06.44.08
+        by smtp.gmail.com with ESMTPSA id c10-20020a170906528a00b0070a80f03a44sm6621347ejm.119.2022.06.07.06.44.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 06:44:09 -0700 (PDT)
+        Tue, 07 Jun 2022 06:44:11 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -52,9 +52,9 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
         Yunke Cao <yunkec@google.com>
 Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v3 1/7] media: uvcvideo: Add missing value for power_line_frequency
-Date:   Tue,  7 Jun 2022 15:43:58 +0200
-Message-Id: <20220607134405.166704-2-ribalda@chromium.org>
+Subject: [PATCH v3 2/7] media: uvcvideo: Add UVC_QUIRK_LIMITED_POWERLINE
+Date:   Tue,  7 Jun 2022 15:43:59 +0200
+Message-Id: <20220607134405.166704-3-ribalda@chromium.org>
 X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 In-Reply-To: <20220607134405.166704-1-ribalda@chromium.org>
 References: <20220607134405.166704-1-ribalda@chromium.org>
@@ -70,65 +70,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-UVC 1.5 class defines 4 values for this control on:
-4.2.2.3.6 Power Line Frequency Control
-
-Add the missing value when the uvc version is 1.5.
+Add a quirk for devices that only support a limited set of Power Line
+frequencies.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 67 ++++++++++++++++++++++++++------
- 1 file changed, 55 insertions(+), 12 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 24 ++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h |  1 +
+ 2 files changed, 25 insertions(+)
 
 diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 0e78233fc8a0..f9d4ac81e62f 100644
+index f9d4ac81e62f..4b06192c840e 100644
 --- a/drivers/media/usb/uvc/uvc_ctrl.c
 +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -362,12 +362,19 @@ static const u32 uvc_control_classes[] = {
- 	V4L2_CID_USER_CLASS,
+@@ -375,6 +375,11 @@ static const struct uvc_menu_info power_line_frequency_controls_uvc15[] = {
+ 	{ 3, "Auto" },
  };
  
--static const struct uvc_menu_info power_line_frequency_controls[] = {
-+static const struct uvc_menu_info power_line_frequency_controls_uvc11[] = {
- 	{ 0, "Disabled" },
- 	{ 1, "50 Hz" },
- 	{ 2, "60 Hz" },
- };
- 
-+static const struct uvc_menu_info power_line_frequency_controls_uvc15[] = {
-+	{ 0, "Disabled" },
++static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
 +	{ 1, "50 Hz" },
 +	{ 2, "60 Hz" },
-+	{ 3, "Auto" },
 +};
 +
  static const struct uvc_menu_info exposure_auto_controls[] = {
  	{ 2, "Auto Mode" },
  	{ 1, "Manual Mode" },
-@@ -504,17 +511,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 		.v4l2_type	= V4L2_CTRL_TYPE_INTEGER,
- 		.data_type	= UVC_CTRL_DATA_TYPE_UNSIGNED,
- 	},
--	{
--		.id		= V4L2_CID_POWER_LINE_FREQUENCY,
--		.entity		= UVC_GUID_UVC_PROCESSING,
--		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
--		.size		= 2,
--		.offset		= 0,
--		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
--		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
--		.menu_info	= power_line_frequency_controls,
--		.menu_count	= ARRAY_SIZE(power_line_frequency_controls),
--	},
- 	{
- 		.id		= V4L2_CID_HUE_AUTO,
- 		.entity		= UVC_GUID_UVC_PROCESSING,
-@@ -730,6 +726,32 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
+@@ -752,6 +757,19 @@ struct uvc_control_mapping power_line_mapping_uvc15 = {
+ 	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_uvc15),
  };
  
 +static const
-+struct uvc_control_mapping power_line_mapping_uvc11 = {
++struct uvc_control_mapping power_line_mapping_limited = {
 +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
 +	.entity		= UVC_GUID_UVC_PROCESSING,
 +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
@@ -136,68 +108,38 @@ index 0e78233fc8a0..f9d4ac81e62f 100644
 +	.offset		= 0,
 +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
 +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-+	.menu_info	= power_line_frequency_controls_uvc11,
-+	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_uvc11),
-+};
-+
-+static const
-+struct uvc_control_mapping power_line_mapping_uvc15 = {
-+	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
-+	.entity		= UVC_GUID_UVC_PROCESSING,
-+	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-+	.size		= 2,
-+	.offset		= 0,
-+	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-+	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-+	.menu_info	= power_line_frequency_controls_uvc15,
-+	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_uvc15),
++	.menu_info	= power_line_frequency_controls_limited,
++	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_limited),
 +};
 +
  /* ------------------------------------------------------------------------
   * Utility functions
   */
-@@ -2376,6 +2398,22 @@ static void uvc_ctrl_prune_entity(struct uvc_device *dev,
- 	}
- }
- 
-+/*
-+ * The powerline control has different valid values depending on the
-+ * uvc version.
-+ */
-+static void uvc_ctrl_init_powerline(struct uvc_video_chain *chain,
-+				    struct uvc_control *ctrl)
-+{
-+	if (chain->dev->uvc_version < 0x0150) {
+@@ -2405,6 +2423,12 @@ static void uvc_ctrl_prune_entity(struct uvc_device *dev,
+ static void uvc_ctrl_init_powerline(struct uvc_video_chain *chain,
+ 				    struct uvc_control *ctrl)
+ {
++	if (chain->dev->quirks & UVC_QUIRK_LIMITED_POWERLINE) {
 +		__uvc_ctrl_add_mapping(chain, ctrl,
-+				       &power_line_mapping_uvc11);
++				       &power_line_mapping_limited);
 +		return;
 +	}
 +
-+	__uvc_ctrl_add_mapping(chain, ctrl, &power_line_mapping_uvc15);
-+}
-+
- /*
-  * Add control information and hardcoded stock control mappings to the given
-  * device.
-@@ -2385,6 +2423,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- {
- 	const struct uvc_control_info *info = uvc_ctrls;
- 	const struct uvc_control_info *iend = info + ARRAY_SIZE(uvc_ctrls);
-+	static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
- 	const struct uvc_control_mapping *mapping = uvc_ctrl_mappings;
- 	const struct uvc_control_mapping *mend =
- 		mapping + ARRAY_SIZE(uvc_ctrl_mappings);
-@@ -2415,6 +2454,10 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 	if (!ctrl->initialized)
- 		return;
+ 	if (chain->dev->uvc_version < 0x0150) {
+ 		__uvc_ctrl_add_mapping(chain, ctrl,
+ 				       &power_line_mapping_uvc11);
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index c5b4febd2d94..4ee46fc41e8d 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -212,6 +212,7 @@
+ #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
+ #define UVC_QUIRK_FORCE_BPP		0x00001000
++#define UVC_QUIRK_LIMITED_POWERLINE     0x00002000
  
-+	if (uvc_entity_match_guid(ctrl->entity, uvc_processing_guid) &&
-+	    ctrl->info.selector == UVC_PU_POWER_LINE_FREQUENCY_CONTROL)
-+		return uvc_ctrl_init_powerline(chain, ctrl);
-+
- 	for (; mapping < mend; ++mapping) {
- 		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
- 		    ctrl->info.selector == mapping->selector)
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
 -- 
 2.36.1.255.ge46751e96f-goog
 
