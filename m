@@ -2,216 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D812D541A60
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jun 2022 23:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F24F542200
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 08:45:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379575AbiFGVcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jun 2022 17:32:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49136 "EHLO
+        id S1356333AbiFHCRD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jun 2022 22:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381195AbiFGVbo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 17:31:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7246922CECC;
-        Tue,  7 Jun 2022 12:04:05 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (95-210-23-39.ip.skylogicnet.com [95.210.23.39])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DF526CF;
-        Tue,  7 Jun 2022 21:04:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1654628643;
-        bh=OG6smnxmAp0FKgxIUoojm3yPcY4WHf6kWZxQVC95w84=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JYQDBmNvWsK8h+uHR0hrPbXa4Rp/cWpPH4ee6+1pnAK5U/ozlwSOXCL+cl9aWyou2
-         YMX/p3m85oZZ7j63TxHxzUyxs539qL/0Knf40lUQwAJPo4tpOFZM2gkyCEalYWKCxJ
-         +Izxmi4+05PufFPJvqoHL6A3XIxu3OuWS3so80kE=
-Date:   Tue, 7 Jun 2022 22:03:51 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Yunke Cao <yunkec@google.com>
-Subject: Re: [PATCH v3 1/7] media: uvcvideo: Add missing value for
- power_line_frequency
-Message-ID: <Yp+hF+HcZUIqC/Pm@pendragon.ideasonboard.com>
-References: <20220607134405.166704-1-ribalda@chromium.org>
- <20220607134405.166704-2-ribalda@chromium.org>
+        with ESMTP id S1445595AbiFHCMv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 22:12:51 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCBBE1E288F
+        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 13:32:27 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id a15so17145824wrh.2
+        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 13:32:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=+4Ntdp7pJmBmtDfe7mX/uE/xQNUen+uhfAxXK8rlZaE=;
+        b=lwSSrft6uaVVcJQfE6rRxWsVxZMvvKCnrVM9jSfpofNUj+Bc4c6ks0Sj6belVPb4HL
+         wD/EQMJJzo5/vHbB3SgQlSRSUFl0Vouem3IHI3FXmgWliSehjiKhFCTIeHRrjDNnjtec
+         6P4NuFNP47IZ57+QuIGaSFektV42HF80jdinYRryqka4mKa69/nm11PtfiDfJAKlzZ4c
+         kp1iuf5BDzVAENeRNGoA5vhnApIa5g/1RWo1MgP5tZxz8ZYktAYHpk2eAEf7XYUqQt+l
+         lEMFwKEeQVE00FNcOCMv4H7GQC46CLrYhj2hM93rWd8hCDA5lfypKfdM3NcSXoS+/pWV
+         3cmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=+4Ntdp7pJmBmtDfe7mX/uE/xQNUen+uhfAxXK8rlZaE=;
+        b=d1l09hQe+rRepSm4+2RKOEhqV65XxyOxPJAjnKq/V0/kaDfwnw0Cxp2uhTJru7dm37
+         nT8WaZI1yW7kzlXN0svUZV1rs9pKztq2k/Sq3rzT84UuaLZJ6X5fIQbJcgCDJb47xBQW
+         LhQapGt0sITDSrdAbIvQlEfJxZClqfeaHFCKWwsdTWPlk1ZHGV7aCe5XOw3fNv0m/d57
+         qIKEz59tAKJllCE8MqYjt5dJ8+SZSgDE5eJeAhKjb8EMUcPUEi9qTmGWlMHDtqRYLPqx
+         b+mHDdz7/9m+fHjsF0uTEyddIWp6USU4UdxfHz9F08vEawvkW0ryOmc3W55HjMtG11ft
+         vFTA==
+X-Gm-Message-State: AOAM530BiwPIXWzcrSleQK6DyoF30GfIXLVLdIDVqSWkx1w2IdTNkwTD
+        oaQPvhdh5zYu28Hz7eyEAv+VhRHWzq4=
+X-Google-Smtp-Source: ABdhPJysMals7H2L2jMzFT9UR4iApm74sbkNfQYKVQjlNHFq83yRh6fQJZAtxoLNN1EoldhZRuLonA==
+X-Received: by 2002:adf:d84b:0:b0:212:1c7c:5790 with SMTP id k11-20020adfd84b000000b002121c7c5790mr28207774wrl.366.1654633946057;
+        Tue, 07 Jun 2022 13:32:26 -0700 (PDT)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id n187-20020a1c27c4000000b0039c151298b7sm25023455wmn.10.2022.06.07.13.32.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jun 2022 13:32:25 -0700 (PDT)
+Message-ID: <4bb369e7-dfce-49b4-755d-d3b6e2d4d196@gmail.com>
+Date:   Tue, 7 Jun 2022 21:32:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220607134405.166704-2-ribalda@chromium.org>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SORBS_WEB,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: Attaching an I2C VCM subdev (media entity) to media pipeline
+Content-Language: en-US
+To:     Karthik Poduval <karthik.poduval@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <CAFP0Ok_DvJo7KM4YSsT2s3SAzDQdSy-8HrQoky6zH5YE4sGypw@mail.gmail.com>
+From:   Daniel Scally <djrscally@gmail.com>
+In-Reply-To: <CAFP0Ok_DvJo7KM4YSsT2s3SAzDQdSy-8HrQoky6zH5YE4sGypw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Hi Karthik
 
-Thank you for the patch.
-
-On Tue, Jun 07, 2022 at 03:43:58PM +0200, Ricardo Ribalda wrote:
-> UVC 1.5 class defines 4 values for this control on:
-> 4.2.2.3.6 Power Line Frequency Control
-> 
-> Add the missing value when the uvc version is 1.5.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 67 ++++++++++++++++++++++++++------
->  1 file changed, 55 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 0e78233fc8a0..f9d4ac81e62f 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -362,12 +362,19 @@ static const u32 uvc_control_classes[] = {
->  	V4L2_CID_USER_CLASS,
->  };
->  
-> -static const struct uvc_menu_info power_line_frequency_controls[] = {
-> +static const struct uvc_menu_info power_line_frequency_controls_uvc11[] = {
->  	{ 0, "Disabled" },
->  	{ 1, "50 Hz" },
->  	{ 2, "60 Hz" },
->  };
-
-Let's drop this, and ...
-
->  
-> +static const struct uvc_menu_info power_line_frequency_controls_uvc15[] = {
-
-... rename this to power_line_frequency_controls, and ...
-
-> +	{ 0, "Disabled" },
-> +	{ 1, "50 Hz" },
-> +	{ 2, "60 Hz" },
-> +	{ 3, "Auto" },
-> +};
-> +
->  static const struct uvc_menu_info exposure_auto_controls[] = {
->  	{ 2, "Auto Mode" },
->  	{ 1, "Manual Mode" },
-> @@ -504,17 +511,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
->  		.v4l2_type	= V4L2_CTRL_TYPE_INTEGER,
->  		.data_type	= UVC_CTRL_DATA_TYPE_UNSIGNED,
->  	},
-> -	{
-> -		.id		= V4L2_CID_POWER_LINE_FREQUENCY,
-> -		.entity		= UVC_GUID_UVC_PROCESSING,
-> -		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-> -		.size		= 2,
-> -		.offset		= 0,
-> -		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-> -		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-> -		.menu_info	= power_line_frequency_controls,
-> -		.menu_count	= ARRAY_SIZE(power_line_frequency_controls),
-> -	},
->  	{
->  		.id		= V4L2_CID_HUE_AUTO,
->  		.entity		= UVC_GUID_UVC_PROCESSING,
-> @@ -730,6 +726,32 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
->  	},
->  };
->  
-> +static const
-> +struct uvc_control_mapping power_line_mapping_uvc11 = {
-> +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
-> +	.entity		= UVC_GUID_UVC_PROCESSING,
-> +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-> +	.size		= 2,
-> +	.offset		= 0,
-> +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-> +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-> +	.menu_info	= power_line_frequency_controls_uvc11,
-> +	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_uvc11),
-
-... use
-
-	.menu_count	= ARRAY_SIZE(power_line_frequency_controls) - 1,
-
-here. It will avoid duplicating the common menu items.
-
-> +};
-> +
-> +static const
-> +struct uvc_control_mapping power_line_mapping_uvc15 = {
-
-This holds on a single line (and same for uvc11).
-
-> +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
-> +	.entity		= UVC_GUID_UVC_PROCESSING,
-> +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-> +	.size		= 2,
-> +	.offset		= 0,
-> +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-> +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-> +	.menu_info	= power_line_frequency_controls_uvc15,
-> +	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_uvc15),
-> +};
-
-How about turning those two into arrays (named uvc_ctrl_mappings_uvc11
-and uvc_ctrl_mappings_uvc15) ? uvc_ctrl_init_ctrl() would first loop
-over uvc_ctrl_mappings, and then over the version-specific arrays. This
-would ease support of further version-specific controls.
-
-> +
->  /* ------------------------------------------------------------------------
->   * Utility functions
->   */
-> @@ -2376,6 +2398,22 @@ static void uvc_ctrl_prune_entity(struct uvc_device *dev,
->  	}
->  }
->  
-> +/*
-> + * The powerline control has different valid values depending on the
-> + * uvc version.
-> + */
-> +static void uvc_ctrl_init_powerline(struct uvc_video_chain *chain,
-> +				    struct uvc_control *ctrl)
-> +{
-> +	if (chain->dev->uvc_version < 0x0150) {
-> +		__uvc_ctrl_add_mapping(chain, ctrl,
-> +				       &power_line_mapping_uvc11);
-> +		return;
-> +	}
-> +
-> +	__uvc_ctrl_add_mapping(chain, ctrl, &power_line_mapping_uvc15);
-> +}
-> +
->  /*
->   * Add control information and hardcoded stock control mappings to the given
->   * device.
-> @@ -2385,6 +2423,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
->  {
->  	const struct uvc_control_info *info = uvc_ctrls;
->  	const struct uvc_control_info *iend = info + ARRAY_SIZE(uvc_ctrls);
-> +	static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
-
-Please move this first, the driver declares static variables before the
-non-static ones.
-
->  	const struct uvc_control_mapping *mapping = uvc_ctrl_mappings;
->  	const struct uvc_control_mapping *mend =
->  		mapping + ARRAY_SIZE(uvc_ctrl_mappings);
-> @@ -2415,6 +2454,10 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
->  	if (!ctrl->initialized)
->  		return;
->  
-> +	if (uvc_entity_match_guid(ctrl->entity, uvc_processing_guid) &&
-> +	    ctrl->info.selector == UVC_PU_POWER_LINE_FREQUENCY_CONTROL)
-> +		return uvc_ctrl_init_powerline(chain, ctrl);
-> +
->  	for (; mapping < mend; ++mapping) {
->  		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
->  		    ctrl->info.selector == mapping->selector)
-
--- 
-Regards,
-
-Laurent Pinchart
+On 07/06/2022 18:29, Karthik Poduval wrote:
+> Hi All,
+>
+> I had a question about VCM subdev (media entity). The  example VCM
+> drivers have no pads. How do we attach them to the image sensor subdev
+> in the pipeline ?
+>
+This is somewhat in its infancy so you'll need to be running v5.19-rc1,
+but assuming you're describing the device with DT you should be able to
+link them by providing a lens-focus property with a phandle pointing to
+the node for the lens controller. No pad-to-pad links will or should be
+created though, the connection is represented by an "ancillary link"
+which should be created by v4l2-core. The VCM drivers won't be in the
+image pipeline as such but their connection to the sensor subdev is
+discoverable to user space when parsing links, for example in
+libcamera's implementation:
+https://git.linuxtv.org/libcamera.git/tree/src/libcamera/media_device.cpp#n732
