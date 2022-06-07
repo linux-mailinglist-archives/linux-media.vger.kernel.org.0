@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFFCB54003E
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jun 2022 15:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82F81540040
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jun 2022 15:41:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244845AbiFGNlE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jun 2022 09:41:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37668 "EHLO
+        id S244849AbiFGNlF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jun 2022 09:41:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244842AbiFGNlD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 09:41:03 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF5F8BC6F8
-        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 06:41:01 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id h5so24284464wrb.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 06:41:01 -0700 (PDT)
+        with ESMTP id S243700AbiFGNlE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 09:41:04 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 708E4BBCF4
+        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 06:41:03 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id l2-20020a05600c1d0200b0039c35ef94c4so7529513wms.4
+        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 06:41:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=H1AtsGdEkkqVoDoziwXz7u9gxAqoupVuYeRio02Yhgc=;
-        b=Y7PerUmuAC+I+TxAwvOKEOP3NPC1VHKehphs8e30npMwl+dDGqLkSX50iz2BXzKBVr
-         7MfkDNfKgZJdv3e0N3tDHnkvGBfJKgT1Vpa0sPApGKlS9fgDUmDh5p1BWAtqpdYFXkP/
-         N6zgT8ZXa6HyXYbZgM1F3oncwhzyc2rp2Kjil9QhjHz63F1a8LUvwWaiGuVnWaeS3eSR
-         QOV3pLw9hRFqEB7F1+EtoPZZHkVV91Hb9GSX6W1eyOAjQegLMTX/jiafWIbT4cmvHK6T
-         Wvc0dr+kRoe+jdDOctNwp0EwnnBk0I503HGE+3TnE850llkSTRN7Z2WOOMWudW5GpP7V
-         +dzw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=vPC6jxZnfPfgNm+MFhmEhunLFXf399c7vY0MUZYvuGU=;
+        b=q/4xL/sdgvlK9gvRefdJknaYtO6jVRw+QgSII+KKedhvZ6gVfvufuqh6rkFUVMEDFu
+         LQK4imouXb7W31iozQUeskBgOJnLtO5721jbjOpj4PAYGIZbE0d9/vJ5QASCX2EdDghk
+         LyhSYt5Dzzu7CPz65GHJaySYWDWInrW3IA0L4FEsWVZhr3f6I7lHa7qDoN10WnQMRUW4
+         xDzI9nMzfREJnsC4DE7GQL+0WtM/TYTzU3RpKtG/nsHm866AOJgtpxGL8orTvuLpMVsO
+         HRpdLXXWR1Rgtp8/+c80un9QMQwCqtVUAJQjbyoDIe0asE4PXixFcmRDgwIlBLWeNOjb
+         dgOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=H1AtsGdEkkqVoDoziwXz7u9gxAqoupVuYeRio02Yhgc=;
-        b=1gwfm3EnbxGc3/hDQvTKyOFCG9OVQ7IHHMPUfWo/P0GYKAXeibrimM4xyjyyvzSVsT
-         jZ3lQi2gULzkJgjGIXrC6b9gsuAOwTc0esAx9dkGViqucpzEZAD+3GK/wFtwXCrFBlaP
-         7xApYKBpKe4uL2hEe3ohDCj6DzUMasPsilzxd0klIc9bIKWpDSALZN0vfo7zlTaPiWLH
-         Gi9Q0K+GW2Fz6ayfqyIu8C9ipOmbSLIMsyPVQGPhPOZ7af6YrBF+k7H2AdPF7cOXxl/q
-         3cL1QBBhWgS4CaXvgy6k19yUzMEkPEh6aRWmxt4n4/uAhvbQWFI0QgukmOdBvGwNIX2B
-         iYRA==
-X-Gm-Message-State: AOAM530T97HULj5vPWnasHuoCbCsxnzN+dmvYdHS47vpfE+HKuVQkngw
-        8B1r//cGumGSAiaIrMSj9lJ5Yw==
-X-Google-Smtp-Source: ABdhPJzL9EH31N8AERCGNlck5JOegjARRYqZjS+5PlKTlV1mXDSm7m5WtDLdrVtfkbpWaNxGfC9wHA==
-X-Received: by 2002:a5d:59a4:0:b0:218:4a29:f12b with SMTP id p4-20020a5d59a4000000b002184a29f12bmr6732079wrr.145.1654609260350;
-        Tue, 07 Jun 2022 06:41:00 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=vPC6jxZnfPfgNm+MFhmEhunLFXf399c7vY0MUZYvuGU=;
+        b=b2wAAPxHhtLCCiEL7X7s2zqfdRIrvfDsHR14SzFKtIQejm04ot7wB5lnZy296iTtBF
+         UsiuLs+MBAYq/LgIMW/Xe46U9ow5UFVPnmRSXaI1gT+tUAj0Uy6msiVwRmqzRK/EFklV
+         Pjrb6lkalmlOKkYYmmc92TGZr/7dqR0f96iFPd8rJXtVPbf/ILPraGWEL8J7aIrxtHiv
+         rRgOMLOPqjT16LDsC8SgAvS957gwdEA5kUca2uCVRGW+H2GgOpUQWRjfpGt0F2uVgzmK
+         KWlU0aI8SjO8UVHIabEuPcjMqQm3hiJQ4WQ2efwKrY5cqI8vItRf3G1HzF07HoPbRZaV
+         p2NQ==
+X-Gm-Message-State: AOAM530lA0J6OIzvIYrDl0ja5UWbgplFq0PQ1OmUmjzf1YbmCAAwJbuJ
+        pltEvgo6nNgR0lEuMZ/13jKnOTJKC7faIuBX
+X-Google-Smtp-Source: ABdhPJz86TJAdibcSWQ0FCz127XuuMbcMfcUyOt/cqsyQ1mKDtqeJYR+8BNjfLLlb0vhI6s6TXNUmw==
+X-Received: by 2002:a05:600c:1992:b0:397:8d3b:8a9b with SMTP id t18-20020a05600c199200b003978d3b8a9bmr53365160wmq.20.1654609261796;
+        Tue, 07 Jun 2022 06:41:01 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id k7-20020a5d6d47000000b0020e5e906e47sm17818792wri.75.2022.06.07.06.40.58
+        by smtp.gmail.com with ESMTPSA id k7-20020a5d6d47000000b0020e5e906e47sm17818792wri.75.2022.06.07.06.41.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 06:40:59 -0700 (PDT)
+        Tue, 07 Jun 2022 06:41:01 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     sakari.ailus@iki.fi, jacopo@jmondi.org, paul.j.murphy@intel.com,
         daniele.alessandrelli@intel.com, mchehab@kernel.org,
@@ -54,10 +54,12 @@ To:     sakari.ailus@iki.fi, jacopo@jmondi.org, paul.j.murphy@intel.com,
 Cc:     dmitry.baryshkov@linaro.org, konrad.dybcio@somainline.org,
         andrey.konovalov@linaro.org,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH 0/2] Add imx577 compatible to imx412
-Date:   Tue,  7 Jun 2022 14:40:55 +0100
-Message-Id: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
+Subject: [PATCH 1/2] media: dt-bindings: imx412: Add imx577 compatible string
+Date:   Tue,  7 Jun 2022 14:40:56 +0100
+Message-Id: <20220607134057.2427663-2-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
+References: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -70,21 +72,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Right now the imx412 and imx577 are code and pin compatible however, they
-are distinct pieces of silicon.
+The Sony IMX577 uses the same silicon enabling reference code from Sony in
+the available examples provided.
 
-Document imx577 as a compatible enum and add the compat string to imx412.c.
-This allows us to differentiate these chips in DTS and potentially to apply
-any future imx412 or imx577 specific changes appropriately.
+Add an imx577 compatible string to allow for chip differentiation and
+accurate description of hardware in dts.
 
-Bryan O'Donoghue (2):
-  media: dt-bindings: imx412: Add imx577 compatible string
-  media: i2c: imx412: Add imx577 compatible string
-
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
  Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml | 5 ++++-
- drivers/media/i2c/imx412.c                                   | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+index 26d1807d0bb6..d1561841ccbc 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+@@ -19,7 +19,10 @@ description:
+ 
+ properties:
+   compatible:
+-    const: sony,imx412
++    items:
++      - enum:
++          - sony,imx412
++          - sony,imx577
+   reg:
+     description: I2C address
+     maxItems: 1
 -- 
 2.36.1
 
