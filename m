@@ -2,103 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07902543BBD
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 20:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BC1A543DA8
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 22:43:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231845AbiFHSuK convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 8 Jun 2022 14:50:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54978 "EHLO
+        id S232536AbiFHUnT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jun 2022 16:43:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229922AbiFHSuG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 14:50:06 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05DBD392124;
-        Wed,  8 Jun 2022 11:50:05 -0700 (PDT)
-Received: by mail-qt1-f179.google.com with SMTP id x16so12297324qtw.12;
-        Wed, 08 Jun 2022 11:50:04 -0700 (PDT)
+        with ESMTP id S229904AbiFHUnS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 16:43:18 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A563EAB8E
+        for <linux-media@vger.kernel.org>; Wed,  8 Jun 2022 13:43:16 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id x6-20020a1c7c06000000b003972dfca96cso353967wmc.4
+        for <linux-media@vger.kernel.org>; Wed, 08 Jun 2022 13:43:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=FjhE5PPiSPANLbERBUoaLIjjd9QBlbuIaGPi78yCQPY=;
+        b=X7eL2PC8+p8RlO9EuZXV7hUADUmUGDLPB21/oiOrCQ1TJgUzf0S6Jh4eS5UJmteeHC
+         9wE88WK5AAOjs10hdvEURZX3KTFe9yR4phHAqfYssU05BHAoiRAKC/Xpx6OF71DqlqQw
+         vfLepy8+F7dxXW3ENVNR5RHySeM9VautEk6JnEPH+zxcPtEPK1JX0jmvVvMqxuSzRLy2
+         UQ6EudG1mp2COlORH5JdlA9tQxlFk5kpVyw6VQRtMA1Xl+H2MR7bmfyDd/bzV+bxrt3r
+         Y3II48yLr/kCUsC0iQj0/DbjwJXXcd0jjvLFpGBtgj95YOSMDHWr8dmWMDr50tlHOnXK
+         q4QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=87dKZyu49pNfiTi55nRqzPD+LGTaoXWj5k4medJa6XY=;
-        b=QvpqOe9+9uFWuuWBFb0hstXPjxy7e2weJmxOck4B6Xipwlv+urweRJ5ePq57B7P0+R
-         wKldZfF/efrxgrrNR5IBeC+yePfLM3v5OzUYVVXW1emQ6+82TQjiSCTxXtuEnKyOpNAc
-         p+H5W+Kti5fVUrv5pzwbVGYlQaTcChgKttq/sPROpYb+TRkAJWsm3I0hWX3mwURsl3b+
-         8iei/4cp8xBCqY5olo/NFGaP2+ywMB/eVAkquGHUiIW0HFi8pBxZiRiTFVfcr+NaHgnh
-         0CVgjSP0JfhGHXh8k4C6EylA7+kW/fm6jsyDD0Qm+09nI8e1tEvRAgBNxKzXBaemvIGJ
-         Uc1w==
-X-Gm-Message-State: AOAM5339bIO62HwUa8LdmTA9UwzRbduPeQyvQJU38TGC8Kg6+9auw5Kx
-        KcSpraijpTkllV1/QrISU4rwtaEHj1/igg==
-X-Google-Smtp-Source: ABdhPJyRiWn6qb4xdiBcqn9qB4zL2eyMwO+ch3rJfV7nYyjnh14bUBCuHIALR+QlFJClqiIi3p+U/g==
-X-Received: by 2002:a05:622a:551:b0:2f3:d590:9a5e with SMTP id m17-20020a05622a055100b002f3d5909a5emr28278890qtx.165.1654714203862;
-        Wed, 08 Jun 2022 11:50:03 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id o185-20020a375ac2000000b006a36b0d7f27sm16212619qkb.76.2022.06.08.11.50.03
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=FjhE5PPiSPANLbERBUoaLIjjd9QBlbuIaGPi78yCQPY=;
+        b=kSaoo0DlTSDsECI3EKZRTQsc/bp7t4Q03e5j+uQySfsSskyVnzwfmLppXi2mArrjt9
+         9xC8RQYvsIWjW+Js0Yyw/FnscdrCTT8DqjmaKfQrybQWCylYWSGaFZ+cvFCGQIQxyJCW
+         N+AO41KuS3ysjuBINZ6U6g0QIG45QBmtO/napWE8TZdcZl0iAK1AedH60FnzgrwX8usk
+         TSXB7zv0xBrq3xoQ50ljKvJWDicQnzdscYozhXnI5GeX/VIPsxsAAsnhLMTQdAITreDX
+         o1lq97zzsVUBxjVsjmB0aDA6TVbpvUbETKtRWBv5ufgF2IATTzMBkTzvodw7DR7RXMdI
+         0Nyg==
+X-Gm-Message-State: AOAM532tPtQ9V0rCL1nocVtIf1RD3GJxcy/iEM4VkzHWIAUflZvBJ8jk
+        +OBiLn23rVbL3SMmwK83HQ4=
+X-Google-Smtp-Source: ABdhPJy1raBmoIyJjdtXT7dQKKRodaNcG8RPUZurnfws3uUCnWCKRMZH3/kVeq8lMAqSXvlIC1A/nQ==
+X-Received: by 2002:a05:600c:1910:b0:394:8517:496e with SMTP id j16-20020a05600c191000b003948517496emr1070904wmq.24.1654720994460;
+        Wed, 08 Jun 2022 13:43:14 -0700 (PDT)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id h24-20020a05600c145800b0039c54bb28f2sm8887353wmi.36.2022.06.08.13.43.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jun 2022 11:50:03 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id r3so3847404ybr.6;
-        Wed, 08 Jun 2022 11:50:03 -0700 (PDT)
-X-Received: by 2002:a05:6902:905:b0:64a:2089:f487 with SMTP id
- bu5-20020a056902090500b0064a2089f487mr36609031ybb.202.1654714203287; Wed, 08
- Jun 2022 11:50:03 -0700 (PDT)
+        Wed, 08 Jun 2022 13:43:13 -0700 (PDT)
+Message-ID: <a0293197-845b-0b95-5abe-6003c4692ab4@gmail.com>
+Date:   Wed, 8 Jun 2022 21:43:12 +0100
 MIME-Version: 1.0
-References: <20220608174446.994823-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20220608174446.994823-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 8 Jun 2022 20:49:52 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU2opOfAB_-komWksw-gjB8HJq9tfMAt03qoSkOpjDKKA@mail.gmail.com>
-Message-ID: <CAMuHMdU2opOfAB_-komWksw-gjB8HJq9tfMAt03qoSkOpjDKKA@mail.gmail.com>
-Subject: Re: [PATCH] media: rcar-vin: Fix channel routing for Ebisu
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URI_HEX autolearn=no autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] media: rkisp1: Don't create data links for non-sensor
+ subdevs
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        dafna@fastmail.com, heiko@sntech.de, foss+kernel@0leil.net
+References: <20220606225149.2941160-1-djrscally@gmail.com>
+ <20220607164125.oabtqz6kh5bo6k6v@uno.localdomain>
+ <c328e7e6-8d22-2480-38f0-f05528c548dc@gmail.com>
+ <20220608153416.ciwiwg4tbfyetprh@uno.localdomain>
+From:   Daniel Scally <djrscally@gmail.com>
+In-Reply-To: <20220608153416.ciwiwg4tbfyetprh@uno.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi Jacopo
 
-On Wed, Jun 8, 2022 at 7:45 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> When converting to full Virtual Channel routing an error crept into the
-> routing table for Ebisu (r8a77990). The routing information is used at
-> probe time preventing rcar-vin from probing correctly on this SoC, solve
-> by correcting the routing table.
+On 08/06/2022 16:34, Jacopo Mondi wrote:
+> Hi Dan,
+>
+> On Wed, Jun 08, 2022 at 03:25:36PM +0100, Daniel Scally wrote:
+>> Hi Jacopo
+>>
+>> On 07/06/2022 17:41, Jacopo Mondi wrote:
+>>> Hi Dan
+>>>
+>>> On Mon, Jun 06, 2022 at 11:51:49PM +0100, Daniel Scally wrote:
+>>>> With the introduction of ancillary links, not all subdevs linked to
+>>>> the ISP's v4l2_dev necessarily represent sensors / bridges. Check the
+>>>> function for the subdevs and skip any that represent lens or flash
+>>>> controllers before creating data links.
+>>>>
+>>>> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+>>>> ---
+>>>>
+>>>> This should fix the issues that have been noticed, but perhaps a new flag like
+>>>> MEDIA_ENT_FL_HAS_SOURCE or something would be a better way to denote subdevs
+>>>> that need data links?
+>>>>
+>>> I agree this a bit fragile...
+>>>
+>>> I noticed ancillary links are only created for subdev notifiers,
+>>> which have a populated 'sd' and consequentially an entity. Could an
+>>> helper that walks the links of the notifier's subdev links and checks
+>>> if the subdev at hand is already linked, help ? Maybe with an optional
+>>> set of link flags to match on ?
+> This is actually a mess, as the list of links to be walked is the list
+> of the sensor's notifier, not the one of the rkisp1. Bad advice,
+> sorry..
 
-You may want to list the actual error messages, e.g.
-  - rcar-csi2: probe of feaa0000.csi2 failed with error -22
-  - rcar-vin: probe of e6ef5000.video failed with error -22
 
-> Fixes: 3e52419ec04f9769 ("media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2 IP")
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+No problem!
 
-Please replace by:
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>
+>> Or maybe just check if the subdev's notifier is the same as the rkisp1's
+>> notifier? Like:
+>>
+>>
+>> if(sd->notifier!= &rkisp1->notifier)
+> Not all subdevs will have a notifier, won't they ? In facts only
+> sensor that registers a notifier for their connected lenses/flashes
+> will have one.
 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Thanks!
+sd->notifier is the one the subdev binds to, so the rkisp1 in this case.
+The notifier that's registered by the sensor would be
+sd->subdev_notifier...so I think this will work - any subdev that gets
+to this point should have a notifier, which will be the rkisp1 for the
+sensors and the sensor for the VCM.
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Anyway, I think the issue here is that we walk the list of all subdevs
+> registered to the root notifier's v4l2_dev.
+>
+> All async subdevices matched in the notifiers chain will end up being
+> registered to the root notifier's v4l2_dev, hence also lenses and
+> flashes will appear in this list.
+>
+>         list_for_each_entry(sd, &rkisp1->v4l2_dev.subdevs, list) {
+>
+>         }
+>
+> Can't we do like the CIO2 does, by walking the list of async subdevs
+> registered to the root notifier only ? This list should not include
+> lenses and flashes if I'm not mistaken.
+>
+> 	list_for_each_entry(asd, &rkisp1->notifier.asd_list, asd_list) {
+>
+>         }
+>
+> You can cast the struct v4l2_async_subdev back to the wrapping struct
+> rkisp1_sensor_async and from there get the sd to create the links on.
+> Could this work in your opinion ? I'm sorry I can't test it right
+> away...
 
-Gr{oetje,eeting}s,
 
-                        Geert
+Yeah I think this should work fine too (it's why the ipu3-cio2 driver
+doesn't experience the same problem) - I can see how easy it is to
+switch it over
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>
+>
+>
+>> continue
+>> That's a bit less clunky than both other solutions I think
+>>>
+>>>>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 4 ++++
+>>>>  1 file changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>>>> index 3f5cfa7eb937..e90f0216cb06 100644
+>>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>>>> @@ -134,6 +134,10 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+>>>>  		    sd == &rkisp1->resizer_devs[RKISP1_SELFPATH].sd)
+>>>>  			continue;
+>>>>
+>>>> +		if (sd->entity.function == MEDIA_ENT_F_LENS ||
+>>>> +		    sd->entity.function == MEDIA_ENT_F_FLASH)
+>>>> +			continue;
+>>>> +
+>>>>  		ret = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
+>>>>  						  MEDIA_PAD_FL_SOURCE);
+>>>>  		if (ret < 0) {
+>>>> --
+>>>> 2.25.1
+>>>>
