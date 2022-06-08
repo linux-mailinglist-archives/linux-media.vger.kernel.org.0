@@ -2,211 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4817B542534
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 08:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01A725423FA
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 08:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378401AbiFHBD4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jun 2022 21:03:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52040 "EHLO
+        id S234539AbiFHGBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jun 2022 02:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1582835AbiFGXpp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jun 2022 19:45:45 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB02441606
-        for <linux-media@vger.kernel.org>; Tue,  7 Jun 2022 15:04:20 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id s12so30648047ejx.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Jun 2022 15:04:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mv0VwaBbJj5t97Zb21xM6IYXGG5Qm9K6yXJwCzABay4=;
-        b=M5PMNwLa8MyWdKLku4+ic9U3z6Gzqi2oHEIJzOSX0fOBoSLwESMbYf3VdzSDsY0HRU
-         KXU7Z6vAgsqRCgttm4N21Lmp4UlmYr1l7ab/UZXTLAAG0Ot2yVbF1r2HkjVTmDGn0wBe
-         1Wi8eQRzbPu0npYC3f1+J+mfKv1U+Pw8KTE6E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mv0VwaBbJj5t97Zb21xM6IYXGG5Qm9K6yXJwCzABay4=;
-        b=NoF1Wsomr5dLIIejMuKplXVi/JscQWQzcqg2N8TkY15AdE1xi3lJ09k+cqSGIVyNLf
-         PvvoNYfpbxv/OAw+t4DsItRECkBSYP35FugA9osgYyB2BwHaBTZ/kNlg7lfG49ZOyhFI
-         kQz8RcFE57sFkDtP0iyU7zvqj/1CZhoTnRMf7Cu5jEKqPD89DiOo7SBjbkUCXHPAW6MY
-         bEBuYv8HK58LkVzo4pTbLkRzI/dnTtNSYuRinRtpQ68ZtULAt/uHjGbEHkowaBlqfAGK
-         I2iU3ibg6mZz4kRoizVDG+43nTvxdUg6FHGj6JNtJbc3sx4vYe5Xr5hSlLYZ2RqYeItP
-         lfPw==
-X-Gm-Message-State: AOAM5333pnWjZ1lKe3jZcao0a2mNQ/x4fAd9f5zfDgyjm64J9jCYzt5l
-        7nG2rFgrYR8l5dyrWERlwgZx0uAreZIo2g==
-X-Google-Smtp-Source: ABdhPJySmOlt1DiJL18YR0Iqm0CEb1p42z/gKFMZ23iiK2MQtRnEUG+beEIRNfSYdLOPqnK6H0FZ1g==
-X-Received: by 2002:a17:907:608f:b0:6f6:1155:99ab with SMTP id ht15-20020a170907608f00b006f6115599abmr27960400ejc.306.1654639448414;
-        Tue, 07 Jun 2022 15:04:08 -0700 (PDT)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-2-39-143-183.cust.vodafonedsl.it. [2.39.143.183])
-        by smtp.gmail.com with ESMTPSA id h24-20020a170906829800b0070f7d1c5a18sm5660359ejx.55.2022.06.07.15.04.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 15:04:07 -0700 (PDT)
-Date:   Wed, 8 Jun 2022 00:04:05 +0200
-From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Quentin Schulz <foss+kernel@0leil.net>, shawnx.tu@intel.com,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Quentin Schulz <quentin.schulz@theobroma-systems.com>
-Subject: Re: [PATCH v6 4/4] media: i2c: ov5675: add .get_selection support
-Message-ID: <20220607220405.GB821506@tom-ThinkPad-T14s-Gen-2i>
-References: <20220607153335.875956-1-foss+kernel@0leil.net>
- <20220607153335.875956-4-foss+kernel@0leil.net>
- <20220607165136.bmriu2n7yorc7fx6@uno.localdomain>
+        with ESMTP id S238717AbiFHFwB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 01:52:01 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E750AFAED;
+        Tue,  7 Jun 2022 20:35:49 -0700 (PDT)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 257NfeKx014363;
+        Wed, 8 Jun 2022 02:28:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2021-07-09;
+ bh=tzFAQqmTFkqGsbHjDHQsRsNbCV384tWaHO9lvOcIrVs=;
+ b=Ye+YGeenYcBmScBViqtGQxdm8aYdrLc1wFf4SWxFxyM9LDqk7CgodqnhhtPMD8AGjrBP
+ ZOyb10NoJv1+xYfcVuhBBfIuPl18rTGGpRrZNwbOJoeHXK+Lt+R7pOqjie+yXcmmAbjF
+ s/JNFhHDkaSqfY446cIx2gs5DrmtM+QRAcprkntZZti3vYGorY+8NQlI/93/Apx0DmJc
+ qZczfSQlOacWc7e4w3xarGhw9uFKFxcdKJc2/8eQSogzOWZl/JFUVkVFRCU67qdyz4Oh
+ H0ZugGbLmfu1Hd3aTo9JhrhAXrIbxa8OZuND3cDzv3qLvrE6OPgPg68VbtLaUc5TCXoN Kg== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ggvxmwff6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 08 Jun 2022 02:28:00 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2582ATYg037917;
+        Wed, 8 Jun 2022 02:28:00 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu3349h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 08 Jun 2022 02:27:59 +0000
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 2582RxlP032073;
+        Wed, 8 Jun 2022 02:27:59 GMT
+Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
+        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu33499-1;
+        Wed, 08 Jun 2022 02:27:59 +0000
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     linux-staging@lists.linux.dev, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Chengguang Xu <cgxu519@mykernel.net>,
+        linux-media@vger.kernel.org
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>
+Subject: Re: [PATCH 0/6] fix a common error of while loop condition in error path
+Date:   Tue,  7 Jun 2022 22:27:53 -0400
+Message-Id: <165465514543.8982.16992682001018007600.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.35.2
+In-Reply-To: <20220529153456.4183738-1-cgxu519@mykernel.net>
+References: <20220529153456.4183738-1-cgxu519@mykernel.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220607165136.bmriu2n7yorc7fx6@uno.localdomain>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 41BhbBr77pfcU9Yr9dVAy-63i_lQGxSG
+X-Proofpoint-ORIG-GUID: 41BhbBr77pfcU9Yr9dVAy-63i_lQGxSG
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Quentin/Jacopo,
+On Sun, 29 May 2022 23:34:50 +0800, Chengguang Xu wrote:
 
-On Tue, Jun 07, 2022 at 06:51:36PM +0200, Jacopo Mondi wrote:
-> Hi Quentin,
+> There is a common error of while loop condition which misses
+> the case '(--i) == 0' in error path. This patch series just
+> tries to fix it in several driver's code.
 > 
-> On Tue, Jun 07, 2022 at 05:33:35PM +0200, Quentin Schulz wrote:
-> > From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> >
-> > The sensor has 2592*1944 active pixels, surrounded by 16 active dummy
-> > pixels and there are an additional 24 black rows "at the bottom".
-> >
-> >                      [2624]
-> >         +-----+------------------+-----+
-> >         |     |     16 dummy     |     |
-> >         +-----+------------------+-----+
-> >         |     |                  |     |
-> >         |     |     [2592]       |     |
-> >         |     |                  |     |
-> >         |16   |      valid       | 16  |[2000]
-> >         |dummy|                  |dummy|
-> >         |     |            [1944]|     |
-> >         |     |                  |     |
-> >         +-----+------------------+-----+
-> >         |     |     16 dummy     |     |
-> >         +-----+------------------+-----+
-> >         |     |  24 black lines  |     |
-> >         +-----+------------------+-----+
-> >
-> > The top-left coordinate is gotten from the registers specified in the
-> > modes which are identical for both currently supported modes.
-> >
-> > There are currently two modes supported by this driver: 2592*1944 and
-> > 1296*972. The second mode is obtained thanks to subsampling while
-> > keeping the same field of view (FoV). No cropping involved, hence the
-> > harcoded values.
-> >
-> > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> > ---
-> >
-> > v6:
-> >  - explicit a bit more the commit log around subsampling for lower
-> >  resolution modes,
-> >  - (again) fixed reporting for V4L2_SEL_TGT_CROP_* thanks to Jacopo's help,
-> >
-> > v4:
-> >  - explicit a bit more the commit log,
-> >  - added drawing in the commit log,
-> >  - fixed reporting for V4L2_SEL_TGT_CROP_* thanks to Jacopo's help,
-> >
-> > added in v3
-> >
-> >  drivers/media/i2c/ov5675.c | 21 +++++++++++++++++++++
-> >  1 file changed, 21 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> > index 80840ad7bbb0..2230ff47ef49 100644
-> > --- a/drivers/media/i2c/ov5675.c
-> > +++ b/drivers/media/i2c/ov5675.c
-> > @@ -1121,6 +1121,26 @@ static int ov5675_get_format(struct v4l2_subdev *sd,
-> >  	return 0;
-> >  }
-> >
-> > +static int ov5675_get_selection(struct v4l2_subdev *sd,
-> > +				struct v4l2_subdev_state *state,
-> > +				struct v4l2_subdev_selection *sel)
-> > +{
-> > +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
-> > +		return -EINVAL;
-> > +
-> > +	switch (sel->target) {
-> > +	case V4L2_SEL_TGT_CROP:
-> > +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> Note: I'm not specialist of specific drivers so just compile tested
+> for the fixes.
 > 
-> Seem like we have trouble understanding each other, or better, I have
-> troubles explaining myself most probably :)
-> 
-> If the dummy/black area is readable, this should just be (0, 0, 2624,
-> 2000) like it was in your previous version. What has changed that I
-> have missed ?
+> [...]
 
-Taking as reference drivers/media/i2c/ov5693.c and others,
-seems ok what Quentin have done from my side.
+Applied to 5.19/scsi-fixes, thanks!
 
-Just one thing: maybe is better to avoid magic numbers with more
-explicit defines like:
-
- + case V4L2_SEL_TGT_CROP_DEFAULT:
- +           sel->r.top = OV5675_ACTIVE_START_TOP;
- +           sel->r.left = OV5693_ACTIVE_START_LEFT;
- +           sel->r.width = OV5693_ACTIVE_WIDTH;
- +           sel->r.height = OV5693_ACTIVE_HEIGHT;
- 
-What do you think about?
-
-Thanks,
-Tommaso
-
-
-> 
-> Thanks
->   j
-> 
-> 
-> > +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> > +		sel->r.top = 16;
-> > +		sel->r.left = 16;
-> > +		sel->r.width = 2592;
-> > +		sel->r.height = 1944;
-> > +		return 0;
-> > +	}
-> > +	return -EINVAL;
-> > +}
-> > +
-> >  static int ov5675_enum_mbus_code(struct v4l2_subdev *sd,
-> >  				 struct v4l2_subdev_state *sd_state,
-> >  				 struct v4l2_subdev_mbus_code_enum *code)
-> > @@ -1170,6 +1190,7 @@ static const struct v4l2_subdev_video_ops ov5675_video_ops = {
-> >  static const struct v4l2_subdev_pad_ops ov5675_pad_ops = {
-> >  	.set_fmt = ov5675_set_format,
-> >  	.get_fmt = ov5675_get_format,
-> > +	.get_selection = ov5675_get_selection,
-> >  	.enum_mbus_code = ov5675_enum_mbus_code,
-> >  	.enum_frame_size = ov5675_enum_frame_size,
-> >  };
-> > --
-> > 2.36.1
-> >
+[3/6] scsi: ipr: fix missing/incorrect resource cleanup in error case
+      https://git.kernel.org/mkp/scsi/c/d64c49191132
+[5/6] scsi: pmcraid: fix missing resource cleanup in error case
+      https://git.kernel.org/mkp/scsi/c/ec1e8adcbdf6
 
 -- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
-
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+Martin K. Petersen	Oracle Linux Engineering
