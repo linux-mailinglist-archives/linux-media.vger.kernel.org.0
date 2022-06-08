@@ -2,167 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97BBB543B9F
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 20:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07902543BBD
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 20:50:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231137AbiFHSlk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jun 2022 14:41:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43458 "EHLO
+        id S231845AbiFHSuK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 8 Jun 2022 14:50:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiFHSli (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 14:41:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6ED15735;
-        Wed,  8 Jun 2022 11:41:37 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 069D46CF;
-        Wed,  8 Jun 2022 20:41:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1654713695;
-        bh=Quvq/+VUWrTeqaEeXTg/GHPptPCG9G08+Df1UOZuV20=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Rk/I+P8L7SzlhE4Bx59HBrI+vTGDw4vLTcBJ8wq2LAJIFvk+m9pLj8ZYeONTHecnd
-         /sFFQ1ivwSsNtPDYLrlcSim4DkjX9/LKgEYCdZgYHX2/5+/qdgzvEwpC2MYoi2QMI/
-         f3YPm0yOzwp+ikT6sAhDQ9oAXSuyvEu/gBswfjkc=
-Date:   Wed, 8 Jun 2022 21:41:30 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, paul.elder@ideasonboard.com,
-        kieran.bingham@ideasonboard.com, nicolas@ndufresne.ca,
-        kernel@pengutronix.de
-Subject: Re: [RESEND v2 2/3] usb: gadget: uvc: increase worker prio to
- WQ_HIGHPRI
-Message-ID: <YqDtWkUbp4LPBRxS@pendragon.ideasonboard.com>
-References: <20220608110339.141036-1-m.grzeschik@pengutronix.de>
- <20220608110339.141036-3-m.grzeschik@pengutronix.de>
+        with ESMTP id S229922AbiFHSuG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 14:50:06 -0400
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05DBD392124;
+        Wed,  8 Jun 2022 11:50:05 -0700 (PDT)
+Received: by mail-qt1-f179.google.com with SMTP id x16so12297324qtw.12;
+        Wed, 08 Jun 2022 11:50:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=87dKZyu49pNfiTi55nRqzPD+LGTaoXWj5k4medJa6XY=;
+        b=QvpqOe9+9uFWuuWBFb0hstXPjxy7e2weJmxOck4B6Xipwlv+urweRJ5ePq57B7P0+R
+         wKldZfF/efrxgrrNR5IBeC+yePfLM3v5OzUYVVXW1emQ6+82TQjiSCTxXtuEnKyOpNAc
+         p+H5W+Kti5fVUrv5pzwbVGYlQaTcChgKttq/sPROpYb+TRkAJWsm3I0hWX3mwURsl3b+
+         8iei/4cp8xBCqY5olo/NFGaP2+ywMB/eVAkquGHUiIW0HFi8pBxZiRiTFVfcr+NaHgnh
+         0CVgjSP0JfhGHXh8k4C6EylA7+kW/fm6jsyDD0Qm+09nI8e1tEvRAgBNxKzXBaemvIGJ
+         Uc1w==
+X-Gm-Message-State: AOAM5339bIO62HwUa8LdmTA9UwzRbduPeQyvQJU38TGC8Kg6+9auw5Kx
+        KcSpraijpTkllV1/QrISU4rwtaEHj1/igg==
+X-Google-Smtp-Source: ABdhPJyRiWn6qb4xdiBcqn9qB4zL2eyMwO+ch3rJfV7nYyjnh14bUBCuHIALR+QlFJClqiIi3p+U/g==
+X-Received: by 2002:a05:622a:551:b0:2f3:d590:9a5e with SMTP id m17-20020a05622a055100b002f3d5909a5emr28278890qtx.165.1654714203862;
+        Wed, 08 Jun 2022 11:50:03 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id o185-20020a375ac2000000b006a36b0d7f27sm16212619qkb.76.2022.06.08.11.50.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jun 2022 11:50:03 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id r3so3847404ybr.6;
+        Wed, 08 Jun 2022 11:50:03 -0700 (PDT)
+X-Received: by 2002:a05:6902:905:b0:64a:2089:f487 with SMTP id
+ bu5-20020a056902090500b0064a2089f487mr36609031ybb.202.1654714203287; Wed, 08
+ Jun 2022 11:50:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220608110339.141036-3-m.grzeschik@pengutronix.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220608174446.994823-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20220608174446.994823-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 8 Jun 2022 20:49:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU2opOfAB_-komWksw-gjB8HJq9tfMAt03qoSkOpjDKKA@mail.gmail.com>
+Message-ID: <CAMuHMdU2opOfAB_-komWksw-gjB8HJq9tfMAt03qoSkOpjDKKA@mail.gmail.com>
+Subject: Re: [PATCH] media: rcar-vin: Fix channel routing for Ebisu
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URI_HEX autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+Hi Niklas,
 
-Thank you for the patch.
+On Wed, Jun 8, 2022 at 7:45 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> When converting to full Virtual Channel routing an error crept into the
+> routing table for Ebisu (r8a77990). The routing information is used at
+> probe time preventing rcar-vin from probing correctly on this SoC, solve
+> by correcting the routing table.
 
-On Wed, Jun 08, 2022 at 01:03:38PM +0200, Michael Grzeschik wrote:
-> Likewise to the uvcvideo hostside driver, this patch is changing the
-> simple workqueue to an async_wq with higher priority. This ensures that
-> the worker will not be scheduled away while the video stream is handled.
-> 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> 
-> ---
-> v1 -> v2: - added destroy_workqueue in uvc_function_unbind
->           - reworded comment above allow_workqueue
-> 
->  drivers/usb/gadget/function/f_uvc.c     | 4 ++++
->  drivers/usb/gadget/function/uvc.h       | 1 +
->  drivers/usb/gadget/function/uvc_v4l2.c  | 2 +-
->  drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
->  4 files changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-> index d3feeeb50841b8..dcc5f057810973 100644
-> --- a/drivers/usb/gadget/function/f_uvc.c
-> +++ b/drivers/usb/gadget/function/f_uvc.c
-> @@ -891,10 +891,14 @@ static void uvc_function_unbind(struct usb_configuration *c,
->  {
->  	struct usb_composite_dev *cdev = c->cdev;
->  	struct uvc_device *uvc = to_uvc(f);
-> +	struct uvc_video *video = &uvc->video;
->  	long wait_ret = 1;
->  
->  	uvcg_info(f, "%s()\n", __func__);
->  
-> +	if (video->async_wq)
-> +		destroy_workqueue(video->async_wq);
-> +
->  	/* If we know we're connected via v4l2, then there should be a cleanup
->  	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
->  	 * though the video device removal uevent. Allow some time for the
-> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-> index 58e383afdd4406..1a31e6c6a5ffb8 100644
-> --- a/drivers/usb/gadget/function/uvc.h
-> +++ b/drivers/usb/gadget/function/uvc.h
-> @@ -88,6 +88,7 @@ struct uvc_video {
->  	struct usb_ep *ep;
->  
->  	struct work_struct pump;
-> +	struct workqueue_struct *async_wq;
->  
->  	/* Frame parameters */
->  	u8 bpp;
-> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> index fd8f73bb726dd1..fddc392b8ab95d 100644
-> --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> @@ -170,7 +170,7 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
->  		return ret;
->  
->  	if (uvc->state == UVC_STATE_STREAMING)
-> -		schedule_work(&video->pump);
-> +		queue_work(video->async_wq, &video->pump);
->  
->  	return ret;
->  }
-> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-> index a9bb4553db847e..9a9101851bc1e8 100644
-> --- a/drivers/usb/gadget/function/uvc_video.c
-> +++ b/drivers/usb/gadget/function/uvc_video.c
-> @@ -277,7 +277,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
->  	spin_unlock_irqrestore(&video->req_lock, flags);
->  
->  	if (uvc->state == UVC_STATE_STREAMING)
-> -		schedule_work(&video->pump);
-> +		queue_work(video->async_wq, &video->pump);
->  }
->  
->  static int
-> @@ -478,7 +478,7 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
->  
->  	video->req_int_count = 0;
->  
-> -	schedule_work(&video->pump);
-> +	queue_work(video->async_wq, &video->pump);
->  
->  	return ret;
->  }
-> @@ -492,6 +492,11 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
->  	spin_lock_init(&video->req_lock);
->  	INIT_WORK(&video->pump, uvcg_video_pump);
->  
-> +	/* Allocate a work queue for asynchronous video pump handler. */
-> +	video->async_wq = alloc_workqueue("uvcvideo", WQ_UNBOUND | WQ_HIGHPRI, 0);
+You may want to list the actual error messages, e.g.
+  - rcar-csi2: probe of feaa0000.csi2 failed with error -22
+  - rcar-vin: probe of e6ef5000.video failed with error -22
 
-Let's call it "uvcgadget" (or "uvc gadget", "uvc-gadget", ...) as
-"uvcvideo" refers to the host side driver.
+> Fixes: 3e52419ec04f9769 ("media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2 IP")
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-I'm still a bit worried about WQ_UNBOUND and the risk of running work
-items in parallel on different CPUs. uvcg_video_pump() looks mostly
-safe, as it protects video->req_free with a spinlock, and the buffer
-queue with another spinlock. The req_int_count increment at the end of
-the loop would be unsafe though.
+Please replace by:
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Could we get to the bottom of this and find out whether or not the work
-items can be executed in parallel ?
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-> +	if (!video->async_wq)
-> +		return -EINVAL;
-> +
->  	video->uvc = uvc;
->  	video->fcc = V4L2_PIX_FMT_YUYV;
->  	video->bpp = 16;
+Thanks!
 
--- 
-Regards,
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Laurent Pinchart
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
