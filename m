@@ -2,294 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 828E0543095
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 14:39:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75A445430FE
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 15:06:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239316AbiFHMgi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jun 2022 08:36:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38730 "EHLO
+        id S239900AbiFHNFq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jun 2022 09:05:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239222AbiFHMgh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 08:36:37 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F3FA1B9A48
-        for <linux-media@vger.kernel.org>; Wed,  8 Jun 2022 05:36:33 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id u23so33043886lfc.1
-        for <linux-media@vger.kernel.org>; Wed, 08 Jun 2022 05:36:33 -0700 (PDT)
+        with ESMTP id S239855AbiFHNFp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 09:05:45 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70042.outbound.protection.outlook.com [40.107.7.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B7B91573;
+        Wed,  8 Jun 2022 06:05:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m1dNKbhTjw43Gv6rm0tMwGSQSETRxwIh6mq7kfwooEXzUJ4nFEy/hVzw2SzV19Fu2vMPjN4Qwlz8lMkDZ6nh0AnEa05tRldECk0I/YVKca7CTPR2dmO9qHQzGnGtjrzPsRIZZR3nZvxzl1yr82xga3lqXTWXED9fzt2DMl2ekzNLUi9eK0/H1nJbL1ktuYzIGqxhfT9AqQsRPcAXpJRkDzou64YnQcp1R1I8LRqmqP2HVl7ZeTyQmL60fWF/fRmh6Rh8maeqXbhLGDOSWctbtYAGKs0BnbcUHYNSr4l+TCl0h4YoT5dI7Ji65jLUF6CxfVUqGuVhLpz41WxeO4OAwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UjGA93lymzpgHYAL9uJXcqmqPNsL3V0fyUYYmgfY07M=;
+ b=ZiVzcOk3b7cWBS1G2+J4nhk5j15sFH0tOIlY14k+BzfEtF+zHB8JxnQ4qVO982OI1UU7/m4a7MCD/dHFUjSQTEv99Rqts463nVE+81pp3IFH/h95iAwb6EJOtov6j4krARx0PiUQGKuqgultqiaSjnd2FWvgJpzk+qN+8BPxAqCUrRDXd8ScGsIfvludVmhP44K/VA+hMjaRLhHVVXDoZ0/d7AcRMwgH5KghCuIJmXhAWw8Lhd8PcuAJXy8MUjfcIChYxHdVyZGrbTfc9Eo+Ojz0Z3Ne67fvyWknNLbCKuId/VeAPHtVKKbljUG7CyTAVvhY1tGyBkjLWXu8Gl6NQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=/LdWDWdRoOk0cE/d/55wUE4sguHEBk5WdYZtIA6mO60=;
-        b=ncjCbenm2QRZINItHJM/uOwt0TyPUA74Y2IcJ4gv3TEH/elraHL2TiJilLR0brqhFN
-         xF+hVTUJ0BUtzjDY2VeVuiNSKl0XLX5OImCtuY3RcAXYqskFxta26COn8cNK2tewDMn6
-         HxhDqFBsHUNZGAf/cPRFygN9q00NOYnP/lJp6Fxh6l6vg9C6vao3KXmEwQGnRV/GC215
-         N5l3RWHHlxVDRse47aqPbJjVaoFDoK00oDmL6qCQWuAQHZk64hi1vc7TY5Uy43Clb5B6
-         8mIhDHvBLTmdxcKoj6AQkSoo4EIm4dHyxQpF+ZC9HqCd1kVkfRqGjdmN5SMREntTCPLZ
-         HK+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=/LdWDWdRoOk0cE/d/55wUE4sguHEBk5WdYZtIA6mO60=;
-        b=3vnqHTi5jZABgSBmSaQGfGMCr4sMW0H9r7Qbk2sN7WtY0Zt/JiTKZ6Zf5a5umXaS+P
-         zU3fTegUDeIqx4PBnGeLhqbe8rJxQe9koGl5yM9c4w9Emgd7/aQWsG4td6dcV7yXZmhH
-         OxX+qgaRQEsed6Wp8zg+2ErQnlz5b3yHk85qNtGQGQxT8ljrcy66r/6iQ7MA6P26JnAv
-         hYMg9APKhIheur5MqhIIHB9c0DAD7ik28uPjGiVXhVLS4VQlRzVRd+iXDkw/1NhLa3UP
-         MXJ0xNQ5CjOw7xzecdzC2/zGqZwDiHXNCxBD5LdfP0F9/9Y/c1FJ5QAbtcw2bvMBDgqH
-         Wmiw==
-X-Gm-Message-State: AOAM530qQ4KIz584Yz8KCUlCAMST9g3KNZwkcvst7ZKi/DZeJtgLPmCX
-        fY3K7fFwNQqDAv9qosT6YfQ5zHBwoUjH5Q==
-X-Google-Smtp-Source: ABdhPJwV74EzmSXjjiDSet9dMmtul8TB5G2AKrFerpSOr5LZGxTUJMoVREXNT5Fkx8LYjglWS778yQ==
-X-Received: by 2002:a05:6512:a95:b0:479:2b1e:25c3 with SMTP id m21-20020a0565120a9500b004792b1e25c3mr13614646lfu.655.1654691791420;
-        Wed, 08 Jun 2022 05:36:31 -0700 (PDT)
-Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
-        by smtp.gmail.com with ESMTPSA id e26-20020ac2547a000000b004791f9ea46esm2162247lfn.231.2022.06.08.05.36.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 05:36:30 -0700 (PDT)
-Date:   Wed, 8 Jun 2022 14:36:29 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v3 3/3] media: rcar-{csi2,vin}: Move to full Virtual
- Channel routing per CSI-2 IP
-Message-ID: <YqCXzX+rpFb5V03n@oden.dyn.berto.se>
-References: <20220124124858.571363-1-niklas.soderlund+renesas@ragnatech.se>
- <20220124124858.571363-4-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdUvtGKnL=bzty4wYoCJ3vqm0PYunJV1jwyYUwB84mQusQ@mail.gmail.com>
+ d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UjGA93lymzpgHYAL9uJXcqmqPNsL3V0fyUYYmgfY07M=;
+ b=kpux2ujM7vTsR2zPhVteMF5xK4MnWnkgBbTBDMzYdN19l1S1zI/i2TI9q7SYPoLaggN4Fi6tdOJQK9bKkBbRSfZE0aI+YydmCNmhwR63eAgLm7uHNXRgTKqs4mAkGyXaw9d3jzpBBovGfOosb1zFrm1iDJSlVvBDKDQUV96NPVQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from PA4PR04MB9367.eurprd04.prod.outlook.com (2603:10a6:102:2aa::7)
+ by AS8PR04MB9510.eurprd04.prod.outlook.com (2603:10a6:20b:44a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.22; Wed, 8 Jun
+ 2022 13:05:37 +0000
+Received: from PA4PR04MB9367.eurprd04.prod.outlook.com
+ ([fe80::880a:6606:6f57:dd0a]) by PA4PR04MB9367.eurprd04.prod.outlook.com
+ ([fe80::880a:6606:6f57:dd0a%6]) with mapi id 15.20.5314.019; Wed, 8 Jun 2022
+ 13:05:37 +0000
+Message-ID: <941c3300-05e9-18b3-999a-1885585cf972@theobroma-systems.com>
+Date:   Wed, 8 Jun 2022 15:05:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 4/4] media: i2c: ov5675: add .get_selection support
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     Quentin Schulz <foss+kernel@0leil.net>, shawnx.tu@intel.com,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220607153335.875956-1-foss+kernel@0leil.net>
+ <20220607153335.875956-4-foss+kernel@0leil.net>
+ <20220607165136.bmriu2n7yorc7fx6@uno.localdomain>
+ <20220607220405.GB821506@tom-ThinkPad-T14s-Gen-2i>
+ <20220608064209.roub7uk7kx4k4muf@uno.localdomain>
+From:   Quentin Schulz <quentin.schulz@theobroma-systems.com>
+In-Reply-To: <20220608064209.roub7uk7kx4k4muf@uno.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS8PR04CA0002.eurprd04.prod.outlook.com
+ (2603:10a6:20b:310::7) To PA4PR04MB9367.eurprd04.prod.outlook.com
+ (2603:10a6:102:2aa::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUvtGKnL=bzty4wYoCJ3vqm0PYunJV1jwyYUwB84mQusQ@mail.gmail.com>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URI_HEX autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 14157ff0-d3e7-496a-bb21-08da494f946b
+X-MS-TrafficTypeDiagnostic: AS8PR04MB9510:EE_
+X-Microsoft-Antispam-PRVS: <AS8PR04MB9510524B06D3AFCCC7D6FA1EC2A49@AS8PR04MB9510.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: P5iMwOhqZH65jck17Pjw61ym7rPnb4jJptjNdFjdHjni3gdzxDeNhjNgrQ2fEJm2wjqWe8PdWcnfRZl5LdYUKBHwyvMUS3ZaSBoEkxMkgCQF1tWqqzlQwi6OrxfqRsG13WG6UXixOsUDIxRk6nrb69bBvLRHqro+nBiVllydV7l0I03B1VeTs5h1APMJU5xqknwqYZoowW6I8sVdXQ77Qg5bv7AOCjQf29IMkIC491vDqp/deMYz/Ey5qjEIZ1IWvaV9ifYZ7Ozz27FAR0wgxABmOm9HJ4PD9v3ovZySlQaKNEtnGA2oXSNyisspE2ybp6vfFb5qtcPOV2QPCQiKdHkr8Q+40hDEZalpp4qZdn0O/fZVPFMBQiFSWxq6yns02N9x8YiJpH9Z+WxM5tX+t3Fp9ubblYV7ii9cQlLNb84HX5u97jrQPlTyWyqbJcUKbLXmDElWJ++PLFtau2oBREWmRNU5nlg09uFlfmAC+cn+vxdqo4PhAE51fzmd++iE9xEEPXEJTe5waN3R1oCiUFStFsFhUoefQfB3d9NgJ1sptrMzkJAFo829FwYXDoGomIewBnIjMgGaTJss2mPCx4p5aMriPL0EkomgxR4Zu3KgmftjaCwZPoX9v/Jn3KMDoZuX3z98GaEwBchsy+Fvf031Rr36AXCAwtl+ghfZJPKtK8iBd9nhiDq/gytY4d4JhhAta6NL+WNeWQai2KvNx4i4SLNE0zpLrKex9gr8tKP0qVxizCFyAHjvHrL5Tyyi
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9367.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(508600001)(53546011)(8676002)(66476007)(86362001)(31696002)(66556008)(4326008)(316002)(6486002)(186003)(2616005)(6512007)(110136005)(44832011)(66946007)(8936002)(6506007)(31686004)(38100700002)(5660300002)(6666004)(36756003)(2906002)(7416002)(26005)(142923001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UzMzVHlNcjAyRUtPeEtDMm8rYnJ6ZnczdDRrZW9sTGI5eis5ZzZXeGFzdStx?=
+ =?utf-8?B?a1llTXI5NVB3WlpJeDhtWndQODZPNFdpeGFGZko0Rk90MVJIc0xnZWI2SHU2?=
+ =?utf-8?B?OUwwUW1RME9rcnVsZmxCNmJ5czFaaUxESHRBeGRaK0tSc2s1TGMrZkZvbDJB?=
+ =?utf-8?B?bDMrM1V1RzlqZnp5eW1CYzliNmltR0RHZ1dFR3NXK3NHREIwTVhWcWU3bnpJ?=
+ =?utf-8?B?d2pwNitLY3FBSmRQT3NhOEo1NFRENUUzSUxUOHlueDF6MW1Tb05Ob0lzOGx4?=
+ =?utf-8?B?OStVUVk3QXlGTHZuMDEwUHQyM3A4Wmd6L05ReDRSMUpSZ3l0WDhuR204eURa?=
+ =?utf-8?B?aVZuYVpLa3lTVjIzdnlKYXBqMGdST042ZG1WalMwczkvUFM1MHBITG9XQ3hW?=
+ =?utf-8?B?WktLN2l2VmRGZDJETlArVWJwS3lZZDZvK2hyVTl4bE1oUEtFYnFMUGtMcVlQ?=
+ =?utf-8?B?WXdLNUYwS2xaamdVbGg2OHJaWTRJb1NNNUFUb1Zlb25SZnp5dnJqRVlycDZI?=
+ =?utf-8?B?MC95TkZSbWNKdFNpcXR3T21XRURQcENPUHRmMFZOYnJoL2JOWmNnRGZHdnpo?=
+ =?utf-8?B?VmlCZFh1OXRyMCswVUtISWRETE5VbHR5aVVad1VRcjZFYUZRQ240SDBZUVY5?=
+ =?utf-8?B?ckJPc05KSEp5MGdQWW16Zm5WYk9Lc3dDRkdXTndOSEhwaHVybzMxdGJ0OXZk?=
+ =?utf-8?B?TnExWDdwZFA3VzN1cHIybHFzUDN2dFdaZGNJQm9QU25DVUFxZm1GU01jMmVD?=
+ =?utf-8?B?WXpNTFlwei9GQVB2bnRkTi9teG1EUEFPTmlFVHkvSzg3WDVsZHdXbkl1RTNT?=
+ =?utf-8?B?dTJ3NjdzMlpUdzBreGVQb29xR2xTKzgzOEFHaGYrSEwzTzZOa0ZDU2oydE1V?=
+ =?utf-8?B?RUhIYUU4UTR1VGNDYXVuSlY2dDJWK3ZTaUJYVEJBcTIrWTJUQmV2MGk4Wk9X?=
+ =?utf-8?B?Vkk0M3RMa3l1MmlLQ3MzaHZMOXNOSlNtUEZldERROUo1S3BCaUM4akFmclJk?=
+ =?utf-8?B?TGNPSFk3RlZQOFlOK1pnNzM2L3g4bklWbzhQaUE3eHRDT0NDcW93UmI1Z1cv?=
+ =?utf-8?B?amNHNStVY3NETWRDT0FBWFBnTWh6UlE0ZjQ1RGw5T1BETG1tNTFFOXRVQU5W?=
+ =?utf-8?B?czVCdEtSM0FYWWdnTllBR2JjYmNYZ3M2eko0UXBjTUFCUUN6OWJIcEpoOGVa?=
+ =?utf-8?B?NU85WjgyUk5qRjUrY1VaMzk0dUdqV1Vac2VIYzVqOGxVRUJHcEdpa1gzQjFP?=
+ =?utf-8?B?eHhRWHRxYWNLQ040UWRacDdSUzFSWXBDdU10TlhoUnNhSllJOHhjMFRweDMr?=
+ =?utf-8?B?L1lmZVVnaWVPVWtDelpiZWliOTF3TmFSa2Y2LzkvZjYzd09BQlMyTWZGcmVE?=
+ =?utf-8?B?Tm1zRXlJYWJvbDBkK2FNSlB4YWFNVitaYzZzb2xzWWQ3MHcwQUgwWlhJQlRq?=
+ =?utf-8?B?cW1OY01Fb3oyNEpaSGp3WHBKeWxnNmNzZ1VIY25kWTRzcTBFUUJHRlNBNjBR?=
+ =?utf-8?B?aE5BVHBjOElZU1h2WnYyTWRJT1l1QXRLREVDUU0yeFhyQ0RQSGcwZjhpdkN0?=
+ =?utf-8?B?RklTalc3OWlWSlVBZHM1YURPMmRvQXlZajR5MHhPdkVaVFQ4V0owR0hYRU5Q?=
+ =?utf-8?B?MXpDcHI2dlprdzgvd3hiNlpvQzgwdCt1UWtrcXdrdHhBVWFGRXRlSUI4aGlB?=
+ =?utf-8?B?UGRNYkpxaUhIQVJ6THpZUVJQWVlNOXNNNUhkSkxvZXlVem4rOTJYRnhNSnoz?=
+ =?utf-8?B?RUVVQlVGYkxybnJOUm5VZU5FS3RLeHVKc1pCNjhQRjNxL28xdDFzMlBZWDJ6?=
+ =?utf-8?B?MVhHUFJaRk41dEdya1BMTUVjYlRHRng1ZzlrT1pzdFh0WitUWWpwN2tIMm0r?=
+ =?utf-8?B?N2dDWHlPZ1l6Lzc3c2xhc1hVM2xwNEMvSW9oTzd4N0lycHFqdGNmdUU3SHU3?=
+ =?utf-8?B?NUtzSmU1VlNvYmVYaXhMYk5JVGp2OFRodjEyNkNhU1JVQ25JZmJUU2N5Ukth?=
+ =?utf-8?B?czQzZ0lvbDVVeExvZi9kdy9VOG5FTm1LSUhVYlZqcUkwdzRYWnhnMkdyUUdi?=
+ =?utf-8?B?NG1yNGg5K1FyV1pEZ1hocWFZQmRKWFZQb0NVZkxvV2ErOXVUMVdsbEZBMlZD?=
+ =?utf-8?B?K2F2Q1Y5TnhTN2F1aUxpOXZ3TkZmaGErRzcrQzBTbmxHM01mVTVwN0E1bTBt?=
+ =?utf-8?B?WTIyVnMzZE43RVhzeFQ4WXVRd3BHMmcxMnVFMDNwZStTVEExaGRrN0N2UHpy?=
+ =?utf-8?B?UlJrR1AwQUZKajZ2SkdEWG9HaWpUQXNVTWdPLzdZbU1JbVljbG95RXNKTUZF?=
+ =?utf-8?B?ZmpTZ2RSUnkrSlNqUUI3a0ZzVlZzU3p0a25mOTNqR1BEanNqU0RCNDYySEx3?=
+ =?utf-8?Q?CIUMZadI8upCXiGffQAayjx3ABTsSY2VrnRPo?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14157ff0-d3e7-496a-bb21-08da494f946b
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9367.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2022 13:05:36.9553
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: URu57IXnZ23EqdHj6de5upU12GDokJYBa8O5HHwFIvsnSPrYS80TUaxbl/XEu9XDe/9jMfDDdVgq9RTDa8mcqOCeI0v0v10MQF/xTsDiXrmujIZVFe2ivmlh30svq/Vy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9510
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,PDS_OTHER_BAD_TLD,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+Jacopo, Tommaso,
 
-Thanks for your bug report.
+On 6/8/22 08:42, Jacopo Mondi wrote:
+> Hi
+> 
+> On Wed, Jun 08, 2022 at 12:04:05AM +0200, Tommaso Merciai wrote:
+>> Hi Quentin/Jacopo,
+>>
+>> On Tue, Jun 07, 2022 at 06:51:36PM +0200, Jacopo Mondi wrote:
+>>> Hi Quentin,
+>>>
+>>> On Tue, Jun 07, 2022 at 05:33:35PM +0200, Quentin Schulz wrote:
+>>>> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+>>>>
+>>>> The sensor has 2592*1944 active pixels, surrounded by 16 active dummy
+>>>> pixels and there are an additional 24 black rows "at the bottom".
+>>>>
+>>>>                       [2624]
+>>>>          +-----+------------------+-----+
+>>>>          |     |     16 dummy     |     |
+>>>>          +-----+------------------+-----+
+>>>>          |     |                  |     |
+>>>>          |     |     [2592]       |     |
+>>>>          |     |                  |     |
+>>>>          |16   |      valid       | 16  |[2000]
+>>>>          |dummy|                  |dummy|
+>>>>          |     |            [1944]|     |
+>>>>          |     |                  |     |
+>>>>          +-----+------------------+-----+
+>>>>          |     |     16 dummy     |     |
+>>>>          +-----+------------------+-----+
+>>>>          |     |  24 black lines  |     |
+>>>>          +-----+------------------+-----+
+>>>>
+>>>> The top-left coordinate is gotten from the registers specified in the
+>>>> modes which are identical for both currently supported modes.
+>>>>
+>>>> There are currently two modes supported by this driver: 2592*1944 and
+>>>> 1296*972. The second mode is obtained thanks to subsampling while
+>>>> keeping the same field of view (FoV). No cropping involved, hence the
+>>>> harcoded values.
+>>>>
+>>>> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+>>>> ---
+>>>>
+>>>> v6:
+>>>>   - explicit a bit more the commit log around subsampling for lower
+>>>>   resolution modes,
+>>>>   - (again) fixed reporting for V4L2_SEL_TGT_CROP_* thanks to Jacopo's help,
+>>>>
+>>>> v4:
+>>>>   - explicit a bit more the commit log,
+>>>>   - added drawing in the commit log,
+>>>>   - fixed reporting for V4L2_SEL_TGT_CROP_* thanks to Jacopo's help,
+>>>>
+>>>> added in v3
+>>>>
+>>>>   drivers/media/i2c/ov5675.c | 21 +++++++++++++++++++++
+>>>>   1 file changed, 21 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+>>>> index 80840ad7bbb0..2230ff47ef49 100644
+>>>> --- a/drivers/media/i2c/ov5675.c
+>>>> +++ b/drivers/media/i2c/ov5675.c
+>>>> @@ -1121,6 +1121,26 @@ static int ov5675_get_format(struct v4l2_subdev *sd,
+>>>>   	return 0;
+>>>>   }
+>>>>
+>>>> +static int ov5675_get_selection(struct v4l2_subdev *sd,
+>>>> +				struct v4l2_subdev_state *state,
+>>>> +				struct v4l2_subdev_selection *sel)
+>>>> +{
+>>>> +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	switch (sel->target) {
+>>>> +	case V4L2_SEL_TGT_CROP:
+>>>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+>>>
+>>> Seem like we have trouble understanding each other, or better, I have
+>>> troubles explaining myself most probably :)
+>>>
+>>> If the dummy/black area is readable, this should just be (0, 0, 2624,
+>>> 2000) like it was in your previous version. What has changed that I
+>>> have missed ?
+>>
 
-The issue looks to be related to the nested V4L2 async notifiers. I 
-tried to recreate the DT setup on M3-N but failed to trigger the issue.  
-I will try to get hold of an Ebisu board and try to trigger the issue 
-and get back to you.
+I wouldn't say there's some misunderstanding, it's just super hard to 
+figure out how to match what the datasheet says to what the kernel 
+wants. Yay to obscure/confusing datasheets \o/
 
-On 2022-06-08 12:16:48 +0200, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Mon, Jan 24, 2022 at 8:13 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > When Gen3 support was first added to this R-Car VIN and CSI-2 driver the
-> > routing was centred around the CHSEL register which multiplexes the
-> > different parallel buses that sit between the CSI-2 receivers source
-> > side and the VIN dma engines. This was a bad design as the multiplexing
-> > do allow for only a few combinations and do not play nice with many
-> > video streams in the system.
-> >
-> > For example it's only possible for CSI-2 Virtual Channels 0 and 1 of any
-> > given CSI-2 receiver to be used together with the scaler.
-> >
-> > Later datasheets have expanded the documentation and it is now possible
-> > to improve on this design by allowing any Virtual Channel to be routed
-> > to any R-Car VIN instance, provided that there exists a parallel bus
-> > between them. This increases the flexibility as all Virtual Channels can
-> > now be used together with the scaler for example.
-> >
-> > The redesign is not however perfect. While the new design allows for
-> > many more routes, two constrains limit a small portion of routes that
-> > was possible in the old design but are no more.
-> >
-> > - It is no longer possible to route the same CSI-2 and VC to more then
-> >   one VIN at a time. This was theoretically possible before if the
-> >   specific SoC allowed for the same CSI-2 and VC to be routed to two
-> >   different VIN capture groups.
-> >
-> > - It is no longer possible to simultaneously mix links from two CSI-2 IP
-> >   blocks to the same VIN capture group.
-> >
-> >   For example if VIN2 is capturing from CSI40 then VIN{0,1,3} must also
-> >   capture from CSI40. While VIN{4,5,6,7} is still free to capture from
-> >   any other CSI-2 IP in the system. Once all VIN{0,1,2,3} links to CSI40
-> >   are disabled that VIN capture group is free again to capture from any
-> >   other CSI-2 IP it is connected to.
-> >
-> > At the core of the redesign is greater cooperator of the R-Car VIN and
-> > CSI-2 drivers in configuring the routing. The VIN driver is after this
-> > change only responsible to configure the full VIN capture groups
-> > parallel buses to be to a particular CSI-2 IP. While the configuration
-> > of which CSI-2 Virtual Channel is outputted on which of the R-Car CSI-2
-> > IP output ports is handled by the CSI-2 driver.
-> >
-> > Before this change the CSI-2 Virtual Channel to output port was static
-> > in the CSI-2 driver and the different links only manipulated the VIN
-> > capture groups CHSEL register. With this change both the CHSEl register
-> > and the CSI-2 routing VCDT registers are modified for greater
-> > flexibility.
-> >
-> > This change touches both the R-Car VIN and R-Car CSI-2 drivers in the
-> > same commit as both drivers cooperate closely and one change without the
-> > other would more or less break video capture.
-> >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> Thanks for your patch, which is now commit 3e52419ec04f9769 ("media:
-> rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2 IP")
-> in v5.18-rc1.
-> 
-> This patch causes, depending on probe order, either one of the two
-> failures below (with some debug info added) on Ebisu-4D (but not
-> on Salvator-X(S)):
-> 
->   1. rcar-vin: probe of e6ef5000.video failed with error -22
-> 
->      Probing e6500000.i2c
->      Probing adv748x
->        adv748x 0-0070: Endpoint
-> /soc/i2c@e6500000/video-receiver@70/ports/port@7/endpoint on port 7
->        adv748x 0-0070: Endpoint
-> /soc/i2c@e6500000/video-receiver@70/ports/port@8/endpoint on port 8
->        adv748x 0-0070: Endpoint
-> /soc/i2c@e6500000/video-receiver@70/ports/port@a/endpoint on port 10
->      Probing feaa0000.csi2
->        Probing e6ef4000.video
->          rcar-csi2 feaa0000.csi2: Consider updating driver rcar-csi2
-> to match on endpoints
->          rcar-vin e6ef4000.video: Device registered as video0
->        Probing e6ef5000.video
->          rcar-vin e6ef5000.video: Device registered as video1
->          rcar-vin e6ef4000.video: Removing video0
->          rcar-vin e6ef5000.video: Removing video1
->          rcar-vin e6ef5000.video: Notifier registration failed
->          rcar-vin e6ef5000.video: rcar_vin_probe: rvin_csi2_init()
-> returned -EINVAL
->          rcar-vin: probe of e6ef5000.video failed with error -22
-> 
->      This is seen with v5.18-rc1 and later, but somehow I never noticed before.
-> 
->   2. rcar-csi2: probe of feaa0000.csi2 failed with error -22
-> 
->      Probing e6500000.i2c
->      Probing adv748x
->        adv748x 0-0070: Endpoint
-> /soc/i2c@e6500000/video-receiver@70/ports/port@7/endpoint on port 7
->        adv748x 0-0070: Endpoint
-> /soc/i2c@e6500000/video-receiver@70/ports/port@8/endpoint on port 8
->        adv748x 0-0070: Endpoint
-> /soc/i2c@e6500000/video-receiver@70/ports/port@a/endpoint on port 10
->      Probing feaa0000.csi2
->        rcar-csi2 feaa0000.csi2: Consider updating driver rcar-csi2 to
-> match on endpoints
->          Probing e6ef4000
->            rcar-vin e6ef4000.video: Device registered as video0
->          Probing e6ef5000
->            rcar-vin e6ef5000.video: Device registered as video1
->        rcar-vin e6ef4000.video: Removing video0
->        rcar-vin e6ef5000.video: Removing video1
->        rcar-csi2 feaa0000.csi2: rcsi2_probe:
-> v4l2_async_register_subdev() returned -EINVAL
->        rcar-csi2: probe of feaa0000.csi2 failed with error -22
-> 
->      This is seen with[1], and did draw my attention, as it causes
->      a big splat later:
-> 
->          [  OK  ] Started D-Bus System Message Bus.
->          Unable to handle kernel NULL pointer dereference at virtual
-> address 0000000000000000
->          Unable to handle kernel NULL pointer dereference at virtual
-> address 0000000000000000
->          Mem abort info:
->            ESR = 0x0000000096000004
->          Mem abort info:
->            ESR = 0x0000000096000004
->            EC = 0x25: DABT (current EL), IL = 32 bits
->            SET = 0, FnV = 0
->            EC = 0x25: DABT (current EL), IL = 32 bits
->            EA = 0, S1PTW = 0
->            FSC = 0x04: level 0 translation fault
->            SET = 0, FnV = 0
->          Data abort info:
->            ISV = 0, ISS = 0x00000004
->            EA = 0, S1PTW = 0
->            FSC = 0x04: level 0 translation fault
->            CM = 0, WnR = 0
->          user pgtable: 4k pages, 48-bit VAs, pgdp=000000004ec45000
->          [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
->          Data abort info:
->          Internal error: Oops: 96000004 [#1] PREEMPT SMP
->          CPU: 0 PID: 374 Comm: v4l_id Tainted: G        W
-> 5.19.0-rc1-arm64-renesas-00799-gc13c3e49e8bd #1660
->            ISV = 0, ISS = 0x00000004
->          Hardware name: Renesas Ebisu-4D board based on r8a77990 (DT)
->          pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->            CM = 0, WnR = 0
->          pc : subdev_open+0x8c/0x128
->          lr : subdev_open+0x78/0x128
->          sp : ffff80000aadba60
->          x29: ffff80000aadba60 x28: 0000000000000000 x27: ffff80000aadbc58
->          x26: 0000000000020000 x25: ffff00000b3aaf00 x24: 0000000000000000
->          x23: ffff00000c331c00 x22: ffff000009aa61b8 x21: ffff000009aa6000
->          x20: ffff000008bae3e8 x19: ffff00000c3fe200 x18: 0000000000000000
->          x17: ffff800076945000 x16: ffff800008004000 x15: 00008cc6bf550c7c
->          x14: 000000000000038f x13: 000000000000001a x12: ffff00007fba8618
->          x11: 0000000000000001 x10: 0000000000000000 x9 : ffff800009253954
->          x8 : ffff00000b3aaf00 x7 : 0000000000000004 x6 : 000000000000001a
->          x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000001
->          x2 : 0000000100000001 x1 : 0000000000000000 x0 : 0000000000000000
->          Call trace:
->           subdev_open+0x8c/0x128
->           v4l2_open+0xa4/0x120
->           chrdev_open+0x78/0x178
->           do_dentry_open+0xfc/0x398
->           vfs_open+0x28/0x30
->           path_openat+0x584/0x9c8
->           do_filp_open+0x80/0x108
->           do_sys_openat2+0x20c/0x2d8
->           user pgtable: 4k pages, 48-bit VAs, pgdp=000000004ec53000
->           do_sys_open+0x54/0xa0
->           __arm64_sys_openat+0x20/0x28
->           invoke_syscall+0x40/0xf8
->           el0_svc_common.constprop.0+0xf0/0x110
->           do_el0_svc+0x20/0x78
->           el0_svc+0x48/0xd0
->           el0t_64_sync_handler+0xb0/0xb8
->           el0t_64_sync+0x148/0x14c
->          Code: f9405280 f9400400 b40000e0 f9400280 (f9400000)
->          ---[ end trace 0000000000000000 ]---
-> 
->      Adding debug prints to subdev_open() shows the opened files are
->      v4l-subdev1 and v4l-subdev2, which correspond to subdevs on
->      /soc/e6500000.i2c/i2c-0/0-0070.
-> 
-> Reverting this commit fixes the issue.
-> 
-> [1] "[PATCH v2 0/9] deferred_probe_timeout logic clean up"
->     https://lore.kernel.org/r/20220601070707.3946847-1-saravanak@google.com
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+I just did things too quickly, nothing changed. Sorry, will send a v7.
 
--- 
-Kind Regards,
-Niklas Söderlund
+>> Taking as reference drivers/media/i2c/ov5693.c and others,
+>> seems ok what Quentin have done from my side.
+>>
+>> Just one thing: maybe is better to avoid magic numbers with more
+>> explicit defines like:
+>>
+>>   + case V4L2_SEL_TGT_CROP_DEFAULT:
+>>   +           sel->r.top = OV5675_ACTIVE_START_TOP;
+>>   +           sel->r.left = OV5693_ACTIVE_START_LEFT;
+>>   +           sel->r.width = OV5693_ACTIVE_WIDTH;
+>>   +           sel->r.height = OV5693_ACTIVE_HEIGHT;
+>>
+
+They are hardcoded today but actually depend on what;s set in the 
+registers too, which might differ if we add more modes in the future? 
+It's anyway auto-magic and it's the only place it's used, so not sure it 
+brings much especially since the variable names on the left hand side of 
+the operator are pretty self-explanatory (not talking about 
+V4L2_SEL_TGT_CROP_* :p)? Not that I'm against it.
+
+Cheers,
+Quentin
