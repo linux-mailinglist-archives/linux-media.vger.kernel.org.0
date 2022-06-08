@@ -2,38 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84EC6543787
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 17:35:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADB925438CD
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 18:24:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244238AbiFHPeq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jun 2022 11:34:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36008 "EHLO
+        id S245138AbiFHQXV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jun 2022 12:23:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244057AbiFHPeh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 11:34:37 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2B204C793
-        for <linux-media@vger.kernel.org>; Wed,  8 Jun 2022 08:34:21 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 364F9100009;
-        Wed,  8 Jun 2022 15:34:17 +0000 (UTC)
-Date:   Wed, 8 Jun 2022 17:34:16 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        dafna@fastmail.com, heiko@sntech.de, foss+kernel@0leil.net
-Subject: Re: [PATCH] media: rkisp1: Don't create data links for non-sensor
- subdevs
-Message-ID: <20220608153416.ciwiwg4tbfyetprh@uno.localdomain>
-References: <20220606225149.2941160-1-djrscally@gmail.com>
- <20220607164125.oabtqz6kh5bo6k6v@uno.localdomain>
- <c328e7e6-8d22-2480-38f0-f05528c548dc@gmail.com>
+        with ESMTP id S243257AbiFHQXU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 12:23:20 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 819E83EB92
+        for <linux-media@vger.kernel.org>; Wed,  8 Jun 2022 09:23:18 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id h19so27844971edj.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Jun 2022 09:23:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6bCnYfpH8sQ/d9koSZ6dyy2E2YkGKvI5sdpoF1AgpaU=;
+        b=F6dUFiJlf1k5wV8cjjyO6RZGdS+iHk2ORzLe40efnVeQBaTLW7j9Z0+eL59Dat9/TQ
+         myfdWgiVx7IuDCzUSKEx5pEpu5atQ4YOldHrxTOZdNY8sQFeS0sonbTcsFMwU0LlNSLX
+         oe9gcfdfPzROpdVLhyY9+jfmfnljdUn39rWNU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6bCnYfpH8sQ/d9koSZ6dyy2E2YkGKvI5sdpoF1AgpaU=;
+        b=IKr1ez0VWqjz7Ox1K4+6r/6Jq8MbxZuzAu6txrFTYq/LMuac57OuifmNUbgxgCexlP
+         mP5WbNTuoFSOIQD0ZyxgaTKDHwY5P0VoQ/3EnVW3LRPCBFgRr48mafEZvxWAB1phAFvc
+         oaJKS/Lc6KMsUxB0dlPpu+QfkNcwtOYiQtAKLFpUeFU4/O+G81tnAgC2bAW2fDE8V2bH
+         y/Qz15NXGaKP3DTPyAOWltRgp1GF3RQfq31WMf3kpfcxj/1ER94XGY4RsWrJoFIlTShs
+         5ig/W2eQ6bhBb11XTZIWWqQ2SYQieMEMybgZwgdHfADWtbLxbMngItSCVmOC7nQAL3fX
+         dw0A==
+X-Gm-Message-State: AOAM530/mXyEXhvhkSg0UsWl3Z1T3/G5ehO/FCPmG4qnpWG1pGDbHbzC
+        t61YQXyNj4/QbmBLD+78sO4Lluj9/QVisg==
+X-Google-Smtp-Source: ABdhPJzg4/fByYj7uFrLx2SbQAjAT2zfZeii/3+4vsEXTOld6eua8j9uZn8+YRT5K8ZIpvkIVou0tw==
+X-Received: by 2002:a05:6402:35c9:b0:431:3b5f:ecc1 with SMTP id z9-20020a05640235c900b004313b5fecc1mr24194559edc.349.1654705396951;
+        Wed, 08 Jun 2022 09:23:16 -0700 (PDT)
+Received: from p310.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id m26-20020a50ef1a000000b0042bae6fbee2sm12475008eds.74.2022.06.08.09.23.16
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jun 2022 09:23:16 -0700 (PDT)
+Date:   Wed, 8 Jun 2022 19:25:34 +0300
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     linux-media@vger.kernel.org
+Subject: Re: imx492 camera driver on imx8mm
+Message-ID: <YqDNfiSZgRcVjHrn@p310.k.g>
+References: <Yp5lIHTt/NhgHNGm@carbon.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c328e7e6-8d22-2480-38f0-f05528c548dc@gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <Yp5lIHTt/NhgHNGm@carbon.lan>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,99 +65,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+	Hi again,
 
-On Wed, Jun 08, 2022 at 03:25:36PM +0100, Daniel Scally wrote:
-> Hi Jacopo
->
-> On 07/06/2022 17:41, Jacopo Mondi wrote:
-> > Hi Dan
-> >
-> > On Mon, Jun 06, 2022 at 11:51:49PM +0100, Daniel Scally wrote:
-> >> With the introduction of ancillary links, not all subdevs linked to
-> >> the ISP's v4l2_dev necessarily represent sensors / bridges. Check the
-> >> function for the subdevs and skip any that represent lens or flash
-> >> controllers before creating data links.
-> >>
-> >> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-> >> ---
-> >>
-> >> This should fix the issues that have been noticed, but perhaps a new flag like
-> >> MEDIA_ENT_FL_HAS_SOURCE or something would be a better way to denote subdevs
-> >> that need data links?
-> >>
-> > I agree this a bit fragile...
-> >
-> > I noticed ancillary links are only created for subdev notifiers,
-> > which have a populated 'sd' and consequentially an entity. Could an
-> > helper that walks the links of the notifier's subdev links and checks
-> > if the subdev at hand is already linked, help ? Maybe with an optional
-> > set of link flags to match on ?
+As continuation to the above, doing:
 
-This is actually a mess, as the list of links to be walked is the list
-of the sensor's notifier, not the one of the rkisp1. Bad advice,
-sorry..
+	gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,width=7408,height=5556 ! autovideosink sync=false
 
->
->
-> Or maybe just check if the subdev's notifier is the same as the rkisp1's
-> notifier? Like:
->
->
-> if(sd->notifier!= &rkisp1->notifier)
+fails but does not crash the kernel.  OTOH good old:
 
-Not all subdevs will have a notifier, won't they ? In facts only
-sensor that registers a notifier for their connected lenses/flashes
-will have one.
+	v4l2-ctl --stream-mmap --stream-to=/dev/null
 
-Anyway, I think the issue here is that we walk the list of all subdevs
-registered to the root notifier's v4l2_dev.
-
-All async subdevices matched in the notifiers chain will end up being
-registered to the root notifier's v4l2_dev, hence also lenses and
-flashes will appear in this list.
-
-        list_for_each_entry(sd, &rkisp1->v4l2_dev.subdevs, list) {
-
-        }
-
-Can't we do like the CIO2 does, by walking the list of async subdevs
-registered to the root notifier only ? This list should not include
-lenses and flashes if I'm not mistaken.
-
-	list_for_each_entry(asd, &rkisp1->notifier.asd_list, asd_list) {
-
-        }
-
-You can cast the struct v4l2_async_subdev back to the wrapping struct
-rkisp1_sensor_async and from there get the sd to create the links on.
-Could this work in your opinion ? I'm sorry I can't test it right
-away...
+inevitably kills it.  Does anyone know WTF is going on this good old i.MX8MM 
+platform?
 
 
-
-> continue
-> That's a bit less clunky than both other solutions I think
-> >
-> >
-> >>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 4 ++++
-> >>  1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> >> index 3f5cfa7eb937..e90f0216cb06 100644
-> >> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> >> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> >> @@ -134,6 +134,10 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
-> >>  		    sd == &rkisp1->resizer_devs[RKISP1_SELFPATH].sd)
-> >>  			continue;
-> >>
-> >> +		if (sd->entity.function == MEDIA_ENT_F_LENS ||
-> >> +		    sd->entity.function == MEDIA_ENT_F_FLASH)
-> >> +			continue;
-> >> +
-> >>  		ret = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
-> >>  						  MEDIA_PAD_FL_SOURCE);
-> >>  		if (ret < 0) {
-> >> --
-> >> 2.25.1
-> >>
+thanks,
+Petko
