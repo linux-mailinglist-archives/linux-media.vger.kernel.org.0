@@ -2,303 +2,272 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05963542BFD
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 11:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6864B542D9C
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jun 2022 12:30:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235378AbiFHJwM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jun 2022 05:52:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53616 "EHLO
+        id S236569AbiFHK2K convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 8 Jun 2022 06:28:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235475AbiFHJvw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 05:51:52 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7D093DB6D0
-        for <linux-media@vger.kernel.org>; Wed,  8 Jun 2022 02:21:35 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nyrrF-00Bu7g-0P; Wed, 08 Jun 2022 09:20:09 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nyrrC-006joZ-Ts; Wed, 08 Jun 2022 09:20:06 +0000
-Date:   Wed, 8 Jun 2022 09:20:06 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1606321420.0.1654680006236@builder.linuxtv.org>
-In-Reply-To: <1632669000.0.1654593678613@builder.linuxtv.org>
-References: <1632669000.0.1654593678613@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3923
+        with ESMTP id S236159AbiFHK1k (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jun 2022 06:27:40 -0400
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43DD4FC836;
+        Wed,  8 Jun 2022 03:17:01 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id i19so14132190qvu.13;
+        Wed, 08 Jun 2022 03:17:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=7RY3tqteIBx/wEp16WxUeRFbGQghh41I15j3qCfl9Ng=;
+        b=azJ/m3Ac8a/l3dJ9rKBrCqujYOfmMWFgGoUvI1eJcSWhFt+umWa/z0U3yiZo9tiQfe
+         jlSfD6CtxOozvOz3BmXJT7KomFWfm7dif9WQmFGEdcCcPH5+MXd24joktOFaBddVk1Yi
+         uyXZkdJgGpHZbgxJjGiz6jq7f//ce4QRMX7+3HXlNd0BmOHkZs1mJ6kohVXfr9rJvTM1
+         SS53IQ7cHiti63tNh79WpwcpkUrWGJXyL9cxxJ9wxCibWQmgxn2Dmyg7Wg0XOBgelUEi
+         S8mS/ZZ0UNZ0+d1nW5CdPprv4S3ohf4Ce1HifBXl09wXeYWO2RQk9usYHhGZDeTFi224
+         RW9Q==
+X-Gm-Message-State: AOAM5338XnID1miNL8Ps4QZ86L4niboA0BXPmaXy/d6CcGlfztG1HGRj
+        AMA6V/XadnpxeiZXooDeMfXSuPvi17nX/w==
+X-Google-Smtp-Source: ABdhPJzYeKkvl1ypiLISIP8RluIZUZ2bSUL/+GGAj9iEg+vTkXKpeg66SdM7tYMOJFUqTaFVu9Gd4w==
+X-Received: by 2002:a05:6214:628:b0:46b:188b:b8ac with SMTP id a8-20020a056214062800b0046b188bb8acmr14717570qvx.28.1654683420004;
+        Wed, 08 Jun 2022 03:17:00 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id h2-20020a05620a244200b006a6d3fa430csm4701615qkn.58.2022.06.08.03.16.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jun 2022 03:16:59 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id i39so7681310ybj.9;
+        Wed, 08 Jun 2022 03:16:59 -0700 (PDT)
+X-Received: by 2002:a25:d748:0:b0:65c:6b00:55af with SMTP id
+ o69-20020a25d748000000b0065c6b0055afmr33184713ybg.365.1654683419337; Wed, 08
+ Jun 2022 03:16:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220124124858.571363-1-niklas.soderlund+renesas@ragnatech.se> <20220124124858.571363-4-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20220124124858.571363-4-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 8 Jun 2022 12:16:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUvtGKnL=bzty4wYoCJ3vqm0PYunJV1jwyYUwB84mQusQ@mail.gmail.com>
+Message-ID: <CAMuHMdUvtGKnL=bzty4wYoCJ3vqm0PYunJV1jwyYUwB84mQusQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] media: rcar-{csi2,vin}: Move to full Virtual
+ Channel routing per CSI-2 IP
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URI_HEX autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3923/display/redirect>
+Hi Niklas,
 
-Changes:
+On Mon, Jan 24, 2022 at 8:13 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> When Gen3 support was first added to this R-Car VIN and CSI-2 driver the
+> routing was centred around the CHSEL register which multiplexes the
+> different parallel buses that sit between the CSI-2 receivers source
+> side and the VIN dma engines. This was a bad design as the multiplexing
+> do allow for only a few combinations and do not play nice with many
+> video streams in the system.
+>
+> For example it's only possible for CSI-2 Virtual Channels 0 and 1 of any
+> given CSI-2 receiver to be used together with the scaler.
+>
+> Later datasheets have expanded the documentation and it is now possible
+> to improve on this design by allowing any Virtual Channel to be routed
+> to any R-Car VIN instance, provided that there exists a parallel bus
+> between them. This increases the flexibility as all Virtual Channels can
+> now be used together with the scaler for example.
+>
+> The redesign is not however perfect. While the new design allows for
+> many more routes, two constrains limit a small portion of routes that
+> was possible in the old design but are no more.
+>
+> - It is no longer possible to route the same CSI-2 and VC to more then
+>   one VIN at a time. This was theoretically possible before if the
+>   specific SoC allowed for the same CSI-2 and VC to be routed to two
+>   different VIN capture groups.
+>
+> - It is no longer possible to simultaneously mix links from two CSI-2 IP
+>   blocks to the same VIN capture group.
+>
+>   For example if VIN2 is capturing from CSI40 then VIN{0,1,3} must also
+>   capture from CSI40. While VIN{4,5,6,7} is still free to capture from
+>   any other CSI-2 IP in the system. Once all VIN{0,1,2,3} links to CSI40
+>   are disabled that VIN capture group is free again to capture from any
+>   other CSI-2 IP it is connected to.
+>
+> At the core of the redesign is greater cooperator of the R-Car VIN and
+> CSI-2 drivers in configuring the routing. The VIN driver is after this
+> change only responsible to configure the full VIN capture groups
+> parallel buses to be to a particular CSI-2 IP. While the configuration
+> of which CSI-2 Virtual Channel is outputted on which of the R-Car CSI-2
+> IP output ports is handled by the CSI-2 driver.
+>
+> Before this change the CSI-2 Virtual Channel to output port was static
+> in the CSI-2 driver and the different links only manipulated the VIN
+> capture groups CHSEL register. With this change both the CHSEl register
+> and the CSI-2 routing VCDT registers are modified for greater
+> flexibility.
+>
+> This change touches both the R-Car VIN and R-Car CSI-2 drivers in the
+> same commit as both drivers cooperate closely and one change without the
+> other would more or less break video capture.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
+Thanks for your patch, which is now commit 3e52419ec04f9769 ("media:
+rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2 IP")
+in v5.18-rc1.
 
-------------------------------------------
-[...truncated 32.68 KB...]
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dv-timings.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fh.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-event.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-subdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-common.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls-api.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls-request.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls-defs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-trace.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvbdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dmxdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_demux.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ca_en50221.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_frontend.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_net.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ringbuffer.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_vb2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_math.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-adstech-dvb-t-pci.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-alink-dtu-m.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-anysee.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-apac-viewcomp.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-astrometa-t2hybrid.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-pc39.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-ps3-100.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-tv-wonder-hd-600.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-x10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-a16d.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-cardbus.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-dvbt.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m135a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m733a-rm-k6.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-rm-ks.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avertv-303.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-azurewave-ad-tu700.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-beelink-gs1.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold-columbus.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-budget-ci-old.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy-1400.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ct-90405.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-d680-dmb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-delock-61959.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-rc5.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digitalnow-tinytwin.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digittrade.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvb-t.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dm1105-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvbt-pro.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dtt200u.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvbsky.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-portable.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-em-terratec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv-fm53.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-evga-indtube.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-eztv.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flydvb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flyvideo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-fusionhdtv-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gadmei-rm008z.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-geekbox.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-genius-tvgo-a11mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gotview7135.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hauppauge.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-poplar.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-tv-demo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-pad.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-rsc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-iodata-bctv7e.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v1.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kaiomy.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khadas.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khamsin.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-315u.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-pc150u.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-plus-tv-analog.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-leadtek-y04g0051.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-lme2510.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-manli.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-mecool-kiii-pro.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-mecool-kii-pro.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-digitainer.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-or2x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-minix-neo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-iii.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-ii.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere-plus.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nebula.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nec-terratec-cinergy-xs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-norwood.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-npgtech.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-odroid.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pctv-sedna.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pine64.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-color.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-grey.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-pctv-hd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-002t.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-mk12.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-new.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-powercolor-real-angel.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-proteus-2309.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-purpletv.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pv951.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-rc6-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-real-audio-220-32-keys.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-reddo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-snapstream-firefly.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-streamzap.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-su3000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx3mini.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx5max.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tbs-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-ts35.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-usb2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-c-pci.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-s2-hd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-xs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim-2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tevii-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tivo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand-02.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-trekstor.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tt-1500.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan1027.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan-dtv-cab-ci.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-vega-s9x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-m1f.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-s350.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-tv-pvr.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videostrong-kii-pro.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-hub.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-play2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast-usbii-deluxe.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-x96max.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-xbox-360.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-xbox-dvd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-zx-irdec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-main.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ir-raw.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-imon-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-jvc-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-mce_kbd-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-nec-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc5-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc6-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rcmm-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sanyo-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sharp-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sony-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-xmp-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ene_ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/fintek-cir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/igorplugusb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/iguanair.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon_raw.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ite-cir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nuvoton-cir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/redrat3.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/serial_ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir_toy.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ttusbir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/winbond-cir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-loopback.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.c>: In function 'mceusb_dev_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.c>:1731:9: error: too few arguments to function 'usb_maxpacket'
- 1731 |  maxp = usb_maxpacket(dev, pipe);
-      |         ^~~~~~~~~~~~~
-In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.c>:29:
-/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
- 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
-      | ^~~~~~~~~~~~~
-make[4]: *** [/usr/src/linux-headers-5.10.0-14-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.o]> Error 1
-make[4]: *** Waiting for unfinished jobs....
-<https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.c>: In function 'streamzap_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.c>:310:9: error: too few arguments to function 'usb_maxpacket'
-  310 |  maxp = usb_maxpacket(usbdev, pipe);
-      |         ^~~~~~~~~~~~~
-In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.c>:24:
-/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
- 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
-      | ^~~~~~~~~~~~~
-make[4]: *** [/usr/src/linux-headers-5.10.0-14-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.o]> Error 1
-<https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.c>: In function 'xbox_remote_initialize':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.c>:174:9: error: too few arguments to function 'usb_maxpacket'
-  174 |  maxp = usb_maxpacket(udev, pipe);
-      |         ^~~~~~~~~~~~~
-In file included from /usr/src/linux-headers-5.10.0-14-common/include/linux/usb/input.h:13,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.c>:19:
-/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
- 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
-      | ^~~~~~~~~~~~~
-make[4]: *** [/usr/src/linux-headers-5.10.0-14-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.o]> Error 1
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>: In function 'ati_remote_initialize':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>:776:9: error: too few arguments to function 'usb_maxpacket'
-  776 |  maxp = usb_maxpacket(udev, pipe);
-      |         ^~~~~~~~~~~~~
-In file included from /usr/src/linux-headers-5.10.0-14-common/include/linux/usb/input.h:13,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>:81:
-/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
- 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
-      | ^~~~~~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>:787:9: error: too few arguments to function 'usb_maxpacket'
-  787 |  maxp = usb_maxpacket(udev, pipe);
-      |         ^~~~~~~~~~~~~
-In file included from /usr/src/linux-headers-5.10.0-14-common/include/linux/usb/input.h:13,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>:81:
-/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
- 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
-      | ^~~~~~~~~~~~~
-make[4]: *** [/usr/src/linux-headers-5.10.0-14-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o]> Error 1
-make[3]: *** [/usr/src/linux-headers-5.10.0-14-common/Makefile:1846: <https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
-make[2]: *** [/usr/src/linux-headers-5.10.0-14-common/Makefile:185: __sub-make] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-5.10.0-14-amd64'
-make[1]: *** [Makefile:53: default] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: all] Error 2
-build failed at ./build line 533
-Build step 'Execute shell' marked build as failure
+This patch causes, depending on probe order, either one of the two
+failures below (with some debug info added) on Ebisu-4D (but not
+on Salvator-X(S)):
+
+  1. rcar-vin: probe of e6ef5000.video failed with error -22
+
+     Probing e6500000.i2c
+     Probing adv748x
+       adv748x 0-0070: Endpoint
+/soc/i2c@e6500000/video-receiver@70/ports/port@7/endpoint on port 7
+       adv748x 0-0070: Endpoint
+/soc/i2c@e6500000/video-receiver@70/ports/port@8/endpoint on port 8
+       adv748x 0-0070: Endpoint
+/soc/i2c@e6500000/video-receiver@70/ports/port@a/endpoint on port 10
+     Probing feaa0000.csi2
+       Probing e6ef4000.video
+         rcar-csi2 feaa0000.csi2: Consider updating driver rcar-csi2
+to match on endpoints
+         rcar-vin e6ef4000.video: Device registered as video0
+       Probing e6ef5000.video
+         rcar-vin e6ef5000.video: Device registered as video1
+         rcar-vin e6ef4000.video: Removing video0
+         rcar-vin e6ef5000.video: Removing video1
+         rcar-vin e6ef5000.video: Notifier registration failed
+         rcar-vin e6ef5000.video: rcar_vin_probe: rvin_csi2_init()
+returned -EINVAL
+         rcar-vin: probe of e6ef5000.video failed with error -22
+
+     This is seen with v5.18-rc1 and later, but somehow I never noticed before.
+
+  2. rcar-csi2: probe of feaa0000.csi2 failed with error -22
+
+     Probing e6500000.i2c
+     Probing adv748x
+       adv748x 0-0070: Endpoint
+/soc/i2c@e6500000/video-receiver@70/ports/port@7/endpoint on port 7
+       adv748x 0-0070: Endpoint
+/soc/i2c@e6500000/video-receiver@70/ports/port@8/endpoint on port 8
+       adv748x 0-0070: Endpoint
+/soc/i2c@e6500000/video-receiver@70/ports/port@a/endpoint on port 10
+     Probing feaa0000.csi2
+       rcar-csi2 feaa0000.csi2: Consider updating driver rcar-csi2 to
+match on endpoints
+         Probing e6ef4000
+           rcar-vin e6ef4000.video: Device registered as video0
+         Probing e6ef5000
+           rcar-vin e6ef5000.video: Device registered as video1
+       rcar-vin e6ef4000.video: Removing video0
+       rcar-vin e6ef5000.video: Removing video1
+       rcar-csi2 feaa0000.csi2: rcsi2_probe:
+v4l2_async_register_subdev() returned -EINVAL
+       rcar-csi2: probe of feaa0000.csi2 failed with error -22
+
+     This is seen with[1], and did draw my attention, as it causes
+     a big splat later:
+
+         [  OK  ] Started D-Bus System Message Bus.
+         Unable to handle kernel NULL pointer dereference at virtual
+address 0000000000000000
+         Unable to handle kernel NULL pointer dereference at virtual
+address 0000000000000000
+         Mem abort info:
+           ESR = 0x0000000096000004
+         Mem abort info:
+           ESR = 0x0000000096000004
+           EC = 0x25: DABT (current EL), IL = 32 bits
+           SET = 0, FnV = 0
+           EC = 0x25: DABT (current EL), IL = 32 bits
+           EA = 0, S1PTW = 0
+           FSC = 0x04: level 0 translation fault
+           SET = 0, FnV = 0
+         Data abort info:
+           ISV = 0, ISS = 0x00000004
+           EA = 0, S1PTW = 0
+           FSC = 0x04: level 0 translation fault
+           CM = 0, WnR = 0
+         user pgtable: 4k pages, 48-bit VAs, pgdp=000000004ec45000
+         [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
+         Data abort info:
+         Internal error: Oops: 96000004 [#1] PREEMPT SMP
+         CPU: 0 PID: 374 Comm: v4l_id Tainted: G        W
+5.19.0-rc1-arm64-renesas-00799-gc13c3e49e8bd #1660
+           ISV = 0, ISS = 0x00000004
+         Hardware name: Renesas Ebisu-4D board based on r8a77990 (DT)
+         pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+           CM = 0, WnR = 0
+         pc : subdev_open+0x8c/0x128
+         lr : subdev_open+0x78/0x128
+         sp : ffff80000aadba60
+         x29: ffff80000aadba60 x28: 0000000000000000 x27: ffff80000aadbc58
+         x26: 0000000000020000 x25: ffff00000b3aaf00 x24: 0000000000000000
+         x23: ffff00000c331c00 x22: ffff000009aa61b8 x21: ffff000009aa6000
+         x20: ffff000008bae3e8 x19: ffff00000c3fe200 x18: 0000000000000000
+         x17: ffff800076945000 x16: ffff800008004000 x15: 00008cc6bf550c7c
+         x14: 000000000000038f x13: 000000000000001a x12: ffff00007fba8618
+         x11: 0000000000000001 x10: 0000000000000000 x9 : ffff800009253954
+         x8 : ffff00000b3aaf00 x7 : 0000000000000004 x6 : 000000000000001a
+         x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000001
+         x2 : 0000000100000001 x1 : 0000000000000000 x0 : 0000000000000000
+         Call trace:
+          subdev_open+0x8c/0x128
+          v4l2_open+0xa4/0x120
+          chrdev_open+0x78/0x178
+          do_dentry_open+0xfc/0x398
+          vfs_open+0x28/0x30
+          path_openat+0x584/0x9c8
+          do_filp_open+0x80/0x108
+          do_sys_openat2+0x20c/0x2d8
+          user pgtable: 4k pages, 48-bit VAs, pgdp=000000004ec53000
+          do_sys_open+0x54/0xa0
+          __arm64_sys_openat+0x20/0x28
+          invoke_syscall+0x40/0xf8
+          el0_svc_common.constprop.0+0xf0/0x110
+          do_el0_svc+0x20/0x78
+          el0_svc+0x48/0xd0
+          el0t_64_sync_handler+0xb0/0xb8
+          el0t_64_sync+0x148/0x14c
+         Code: f9405280 f9400400 b40000e0 f9400280 (f9400000)
+         ---[ end trace 0000000000000000 ]---
+
+     Adding debug prints to subdev_open() shows the opened files are
+     v4l-subdev1 and v4l-subdev2, which correspond to subdevs on
+     /soc/e6500000.i2c/i2c-0/0-0070.
+
+Reverting this commit fixes the issue.
+
+[1] "[PATCH v2 0/9] deferred_probe_timeout logic clean up"
+    https://lore.kernel.org/r/20220601070707.3946847-1-saravanak@google.com
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
