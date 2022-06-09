@@ -2,121 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F257545371
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 19:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23F955454D6
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 21:21:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345178AbiFIRvs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jun 2022 13:51:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36942 "EHLO
+        id S239796AbiFITV5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jun 2022 15:21:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345155AbiFIRvn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 13:51:43 -0400
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C38031D9C2
-        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 10:51:41 -0700 (PDT)
-Received: by mail-qt1-x82e.google.com with SMTP id x16so14421762qtw.12
-        for <linux-media@vger.kernel.org>; Thu, 09 Jun 2022 10:51:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=uETXtarVwZqoq55uxf85U5YgwPdkdqdQ5+5+F1r3C0I=;
-        b=UDGOOky72jyL07Hua5xhTBDqYbAuu1peFfWmRCYXOir+bIonsZfuAJtYNmGWBPdSdp
-         9+moDEFvyipsVEnQMhyLR2GDQcNQLhutuUbMQ+yly/LVK9rgX4enzJxrZCHQPhsyl8b8
-         XtPkLKWrpl2Go8b1xlVRwAcC48jh4xOfXnOqs/cYw0nI/083+8R0YsS4GQRu83zteIIu
-         0xeNCfssicXWd5d6jGS+LPBUYtS14lZLEiqsGgeanGl4xNNu59N1HDpfavzVxG2UMy00
-         ebFyWbpMkyERyTQb2gk3xIsE9mFMTY5QK/EoQbVUUKOsGUZlOx/1yB6zAYhfk4xQD+xl
-         biWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=uETXtarVwZqoq55uxf85U5YgwPdkdqdQ5+5+F1r3C0I=;
-        b=2JxdacRiDz8QznCj8Wu4z7WLLvebiSnWNcL6HCFuq1I7gOK+H3TB5FKWB9uk+5Yo7G
-         doV77mDqtgcKK6QfS6kB/3aLHIerEy2O3HYlTYRTKBAL7jDvyJCTFoo1hhuBQmcvLk7s
-         RdAEHAx9ywUMTdRxsbJgu/R5R+shVZMF0X4WUuZMXDfm8DX7FZbec91NhJxD2ghCYIBe
-         lPkBYrd4mQhtJLcOwJLT2ixIpWnFJZo8MnbXpyAGj74t/uZ5Y0jQbug29BZ68SbBCnYe
-         ix+xEerozzYXzBsD3UJVTrsEvpS1NYnw+OjcbUJYJl3xkFoErRugDXFlVdOZtVPPnu+T
-         LP6g==
-X-Gm-Message-State: AOAM531WmdqIpmZuwSnZfuPAqp7NLvK/6AzG9zHJa6ixG/Cu8mS/o3mp
-        9X3eO1aPRBFjihM0PThOPIZHiueG+7Rjk1xeXr0=
-X-Google-Smtp-Source: ABdhPJz9uDgn6plhYXX3UPAtsN2aRkEpgFG9wF17ebQAnW1rSRxwm+q4VUzDvYF7wNzUfJzDfqMT80Dv5ctUn8MKmkM=
-X-Received: by 2002:ac8:5e4b:0:b0:304:f179:4e9a with SMTP id
- i11-20020ac85e4b000000b00304f1794e9amr15839558qtx.490.1654797100197; Thu, 09
- Jun 2022 10:51:40 -0700 (PDT)
+        with ESMTP id S229780AbiFITVy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 15:21:54 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2E321F0A7F;
+        Thu,  9 Jun 2022 12:21:52 -0700 (PDT)
+Received: from mercury (unknown [185.209.196.172])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4E417660177B;
+        Thu,  9 Jun 2022 20:21:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1654802511;
+        bh=pJnUgqB06r+c4j6TArHnOqEGUTLYzWOpX1/yKBfNaQo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=k3EC0HgpflKPRYfrN6WjjOpBJh95/7bnuOhtTJ1hrvJXvQxx9ljTweF+WHfqw0xlk
+         yWShz8GZGbNUlpoZ2ibQiNU77S7dyAOonbQW2ZDbZoac6Ww2wl5mu+xDOSoKONo/20
+         QBi6P/hBcHbiBrOpkpuawqLvVWyxnynQpH+5B4+qSgFDfcrV4sgF9CCdK4kENPABNk
+         SidWpRKEXm070X4CTIbGdPPE3TwC1ONMVKk9uqKPmbXbRQ3hSUwTvX+mPvfWHJBot+
+         oqxTjTDWYok7kUEThBRc9ZyC46Pwo8kbvkHNr2lc9ZqS2rGGKUHNzDIQI08JkRBuSd
+         oh+aa9bNv2HWQ==
+Received: by mercury (Postfix, from userid 1000)
+        id DA84B10605B9; Thu,  9 Jun 2022 21:21:48 +0200 (CEST)
+Date:   Thu, 9 Jun 2022 21:21:48 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     linux-kernel@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 5/6] power: supply: max77976: update Luca Ceresoli's
+ e-mail address
+Message-ID: <20220609192148.vifrjbggixbn7mvi@mercury.elektranox.org>
+References: <20220603155727.1232061-1-luca@lucaceresoli.net>
+ <20220603155727.1232061-5-luca@lucaceresoli.net>
 MIME-Version: 1.0
-Reply-To: mihirpat56@gmail.com
-Sender: charlesjuntikka2204@gmail.com
-Received: by 2002:a05:6214:234a:0:0:0:0 with HTTP; Thu, 9 Jun 2022 10:51:39
- -0700 (PDT)
-From:   "Mr. Mihir Patel" <ij261347@gmail.com>
-Date:   Thu, 9 Jun 2022 10:51:39 -0700
-X-Google-Sender-Auth: vXF71wuuneRQ7eGFZd9OCrfhhkA
-Message-ID: <CAEOqroo9Yhh-4Sw+QQt-ZjL50JQ8nX3Mbji_QpO3Udz_NHdDjA@mail.gmail.com>
-Subject: Greetings to you
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.4 required=5.0 tests=ADVANCE_FEE_5_NEW,BAYES_50,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,HK_SCAM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,
-        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:82e listed in]
-        [list.dnswl.org]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [charlesjuntikka2204[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [charlesjuntikka2204[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mihirpat56[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 HK_SCAM No description available.
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  2.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  2.4 ADVANCE_FEE_5_NEW Appears to be advance fee fraud (Nigerian
-        *      419)
-        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jgfr724zbzdzymbh"
+Content-Disposition: inline
+In-Reply-To: <20220603155727.1232061-5-luca@lucaceresoli.net>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings,
 
+--jgfr724zbzdzymbh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am contacting you for us to work together on a profitable business
-because you bear the same last name with a late client of our bank. I
-want to present you as his true next of kin to inherit his fund in our
-bank. As his account officer I have some necessary documents in my
-disposal to achieve this.
+Hi,
 
+On Fri, Jun 03, 2022 at 05:57:26PM +0200, Luca Ceresoli wrote:
+> My Bootlin address is preferred from now on.
+>=20
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
 
-I therefore reckoned that you could receive this fund as you are
-qualified by your last name. All the legal papers will be processed in
-your name as the deceased's true next of kin.
+Thanks, queued.
 
-Please revert back to me for further details if you can handle this with me.
+-- Sebastian
 
+>  drivers/power/supply/max77976_charger.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/power/supply/max77976_charger.c b/drivers/power/supp=
+ly/max77976_charger.c
+> index 8b6c8cfa7503..4fed74511931 100644
+> --- a/drivers/power/supply/max77976_charger.c
+> +++ b/drivers/power/supply/max77976_charger.c
+> @@ -3,7 +3,7 @@
+>   * max77976_charger.c - Driver for the Maxim MAX77976 battery charger
+>   *
+>   * Copyright (C) 2021 Luca Ceresoli
+> - * Author: Luca Ceresoli <luca@lucaceresoli.net>
+> + * Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>   */
+> =20
+>  #include <linux/i2c.h>
+> @@ -504,6 +504,6 @@ static struct i2c_driver max77976_driver =3D {
+>  };
+>  module_i2c_driver(max77976_driver);
+> =20
+> -MODULE_AUTHOR("Luca Ceresoli <luca@lucaceresoli.net>");
+> +MODULE_AUTHOR("Luca Ceresoli <luca.ceresoli@bootlin.com>");
+>  MODULE_DESCRIPTION("Maxim MAX77976 charger driver");
+>  MODULE_LICENSE("GPL v2");
+> --=20
+> 2.25.1
+>=20
 
-Mr. Mihir Patel
-Customer relation officer
+--jgfr724zbzdzymbh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmKiSEwACgkQ2O7X88g7
++ppDpxAAjfpEDQfoYU0OfefOmIvmjURQvtNv7YBLr4ogCOf8qHqGGFLzfySKH+eE
+4ZVCjXYbmOXKy3eJHRDNCQD/84Fbc+1jq+AWg8BAjC9s1Dmrt7ik2IQcghQi2dqs
+8u24+mPus+cds5TBhk+UgoNqp90s9ZUhXxBgTpVa0fdghT9hG/EY2Xo+mKHXXx/z
+Vg1VsNgk+1+AlT9ScEZT0dsDVECEGQ6+7nWFGXQa+6fWmckdaBoN9m4ijm8yN1FI
+6FwKLJ7yuQliUV40uPgN6TQ2Pd9gz2LZahJFLIHO4I0MpjTOcoBZ3vDLVbqq+MiJ
+UXgTXsb9ATqC7HceqyYMKsAQCY4YL7SVDeq/K7ZGOv5R4mouNy0YLRgy2sdx1EPV
+v592Lj8KU/+93V+jTNXwwof9cbIVdMJq48tJBnXv8pyh3AX68Xwe/FRU5/WequH/
+ErQIv4wFnyJiwpBPbjP/45aoM54NQxt08b+NFGD07xLMTWWIj1XpHTbBPrb/HZ+Z
+puAFUk4cIyUjPb8gOuoD33oP714fxZem3l6XpAiXarm2prV1EN96PuiwYyEbCVxQ
+i38sRY2epqUpIWnDGWG16sfW9obOwIvJKzHF79EaW2v07j+/2TKp5OGRsLm0MOSA
+oI446aN/UILXE8CGiEKRoy3hzlARoT2jdM7Q1wdCPrdg/MNhnU0=
+=SZ2i
+-----END PGP SIGNATURE-----
+
+--jgfr724zbzdzymbh--
