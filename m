@@ -2,139 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23F955454D6
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 21:21:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2116E54556E
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 22:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239796AbiFITV5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jun 2022 15:21:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45990 "EHLO
+        id S233185AbiFIUPR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jun 2022 16:15:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbiFITVy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 15:21:54 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2E321F0A7F;
-        Thu,  9 Jun 2022 12:21:52 -0700 (PDT)
-Received: from mercury (unknown [185.209.196.172])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4E417660177B;
-        Thu,  9 Jun 2022 20:21:51 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1654802511;
-        bh=pJnUgqB06r+c4j6TArHnOqEGUTLYzWOpX1/yKBfNaQo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k3EC0HgpflKPRYfrN6WjjOpBJh95/7bnuOhtTJ1hrvJXvQxx9ljTweF+WHfqw0xlk
-         yWShz8GZGbNUlpoZ2ibQiNU77S7dyAOonbQW2ZDbZoac6Ww2wl5mu+xDOSoKONo/20
-         QBi6P/hBcHbiBrOpkpuawqLvVWyxnynQpH+5B4+qSgFDfcrV4sgF9CCdK4kENPABNk
-         SidWpRKEXm070X4CTIbGdPPE3TwC1ONMVKk9uqKPmbXbRQ3hSUwTvX+mPvfWHJBot+
-         oqxTjTDWYok7kUEThBRc9ZyC46Pwo8kbvkHNr2lc9ZqS2rGGKUHNzDIQI08JkRBuSd
-         oh+aa9bNv2HWQ==
-Received: by mercury (Postfix, from userid 1000)
-        id DA84B10605B9; Thu,  9 Jun 2022 21:21:48 +0200 (CEST)
-Date:   Thu, 9 Jun 2022 21:21:48 +0200
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Luca Ceresoli <luca@lucaceresoli.net>
-Cc:     linux-kernel@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 5/6] power: supply: max77976: update Luca Ceresoli's
- e-mail address
-Message-ID: <20220609192148.vifrjbggixbn7mvi@mercury.elektranox.org>
-References: <20220603155727.1232061-1-luca@lucaceresoli.net>
- <20220603155727.1232061-5-luca@lucaceresoli.net>
+        with ESMTP id S244052AbiFIUPQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 16:15:16 -0400
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 426F71451D2;
+        Thu,  9 Jun 2022 13:15:15 -0700 (PDT)
+Received: by mail-il1-f179.google.com with SMTP id p1so19536082ilj.9;
+        Thu, 09 Jun 2022 13:15:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iOJjb/HQ4gdA4/3VBeufzwLFhD15y3cbhKQBI6TlzwI=;
+        b=FV1oIczFvSBzvMlLmkm41ZJ0/e3FMCHlco38LeZdDwIzAuRlD6J7DQBUwb/Z5Z8stN
+         D7K9upJsFU/CN6gEDBQB7SAGVPdfxfgX5M4qpsC3HbriH1Sb6QK+UxUMRb/UWhZYJxWR
+         TQZzdgyUgcRYQ7tr5IrEpxg8L0A7qOaZ9VYXO7JKHZvqOTzLffkmIcLNGoA8xKE9aitx
+         y/l8hpQl8T/2S7Mu5MPT6tprIzq112QQX38Sq3NO0ZIrfZLKPJkUKu+Ph+DaSxOvIqWH
+         k9i+nH7M+NtvQvYjgp9Ud7wCh3uFQ4ijaUTRIyaif14n73J5aRUgyJDNVFJz5pSqkw/h
+         NoTQ==
+X-Gm-Message-State: AOAM531Uif8RBIOBUXCI40yGSxPWh2ymnyk1Nt88a5JTNSLfcEe5IcAu
+        XjobSDYv3tHjatb122GOXJtQGmWYAQ==
+X-Google-Smtp-Source: ABdhPJwWF+nD7Jp+sp0RDDh/8/VRzbg2P7oAecSyl3ztlo2OIB6mkUosVVHv1uCx5AahIIawzICIJw==
+X-Received: by 2002:a05:6e02:1a8e:b0:2d3:bd16:40ee with SMTP id k14-20020a056e021a8e00b002d3bd1640eemr23791377ilv.20.1654805714463;
+        Thu, 09 Jun 2022 13:15:14 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id k18-20020a6b3c12000000b0065a47e16f59sm9916092iob.43.2022.06.09.13.15.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jun 2022 13:15:14 -0700 (PDT)
+Received: (nullmailer pid 29881 invoked by uid 1000);
+        Thu, 09 Jun 2022 20:15:12 -0000
+Date:   Thu, 9 Jun 2022 14:15:12 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     paul.j.murphy@intel.com, sakari.ailus@iki.fi,
+        dmitry.baryshkov@linaro.org, andrey.konovalov@linaro.org,
+        daniele.alessandrelli@intel.com, devicetree@vger.kernel.org,
+        jacopo@jmondi.org, konrad.dybcio@somainline.org,
+        mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: dt-bindings: imx412: Add imx577 compatible
+ string
+Message-ID: <20220609201512.GA29786-robh@kernel.org>
+References: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
+ <20220607134057.2427663-2-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="jgfr724zbzdzymbh"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220603155727.1232061-5-luca@lucaceresoli.net>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220607134057.2427663-2-bryan.odonoghue@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---jgfr724zbzdzymbh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Fri, Jun 03, 2022 at 05:57:26PM +0200, Luca Ceresoli wrote:
-> My Bootlin address is preferred from now on.
->=20
-> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+On Tue, 07 Jun 2022 14:40:56 +0100, Bryan O'Donoghue wrote:
+> The Sony IMX577 uses the same silicon enabling reference code from Sony in
+> the available examples provided.
+> 
+> Add an imx577 compatible string to allow for chip differentiation and
+> accurate description of hardware in dts.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
+>  Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
 
-Thanks, queued.
-
--- Sebastian
-
->  drivers/power/supply/max77976_charger.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/power/supply/max77976_charger.c b/drivers/power/supp=
-ly/max77976_charger.c
-> index 8b6c8cfa7503..4fed74511931 100644
-> --- a/drivers/power/supply/max77976_charger.c
-> +++ b/drivers/power/supply/max77976_charger.c
-> @@ -3,7 +3,7 @@
->   * max77976_charger.c - Driver for the Maxim MAX77976 battery charger
->   *
->   * Copyright (C) 2021 Luca Ceresoli
-> - * Author: Luca Ceresoli <luca@lucaceresoli.net>
-> + * Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
->   */
-> =20
->  #include <linux/i2c.h>
-> @@ -504,6 +504,6 @@ static struct i2c_driver max77976_driver =3D {
->  };
->  module_i2c_driver(max77976_driver);
-> =20
-> -MODULE_AUTHOR("Luca Ceresoli <luca@lucaceresoli.net>");
-> +MODULE_AUTHOR("Luca Ceresoli <luca.ceresoli@bootlin.com>");
->  MODULE_DESCRIPTION("Maxim MAX77976 charger driver");
->  MODULE_LICENSE("GPL v2");
-> --=20
-> 2.25.1
->=20
-
---jgfr724zbzdzymbh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmKiSEwACgkQ2O7X88g7
-+ppDpxAAjfpEDQfoYU0OfefOmIvmjURQvtNv7YBLr4ogCOf8qHqGGFLzfySKH+eE
-4ZVCjXYbmOXKy3eJHRDNCQD/84Fbc+1jq+AWg8BAjC9s1Dmrt7ik2IQcghQi2dqs
-8u24+mPus+cds5TBhk+UgoNqp90s9ZUhXxBgTpVa0fdghT9hG/EY2Xo+mKHXXx/z
-Vg1VsNgk+1+AlT9ScEZT0dsDVECEGQ6+7nWFGXQa+6fWmckdaBoN9m4ijm8yN1FI
-6FwKLJ7yuQliUV40uPgN6TQ2Pd9gz2LZahJFLIHO4I0MpjTOcoBZ3vDLVbqq+MiJ
-UXgTXsb9ATqC7HceqyYMKsAQCY4YL7SVDeq/K7ZGOv5R4mouNy0YLRgy2sdx1EPV
-v592Lj8KU/+93V+jTNXwwof9cbIVdMJq48tJBnXv8pyh3AX68Xwe/FRU5/WequH/
-ErQIv4wFnyJiwpBPbjP/45aoM54NQxt08b+NFGD07xLMTWWIj1XpHTbBPrb/HZ+Z
-puAFUk4cIyUjPb8gOuoD33oP714fxZem3l6XpAiXarm2prV1EN96PuiwYyEbCVxQ
-i38sRY2epqUpIWnDGWG16sfW9obOwIvJKzHF79EaW2v07j+/2TKp5OGRsLm0MOSA
-oI446aN/UILXE8CGiEKRoy3hzlARoT2jdM7Q1wdCPrdg/MNhnU0=
-=SZ2i
------END PGP SIGNATURE-----
-
---jgfr724zbzdzymbh--
+Acked-by: Rob Herring <robh@kernel.org>
