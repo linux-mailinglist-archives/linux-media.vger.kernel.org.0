@@ -2,124 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B20D544E47
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 16:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D18CF544E6C
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 16:10:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236439AbiFIOAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jun 2022 10:00:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37242 "EHLO
+        id S241114AbiFIOKx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jun 2022 10:10:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbiFIOAS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 10:00:18 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09AC1B31;
-        Thu,  9 Jun 2022 07:00:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C1A96B82D5B;
-        Thu,  9 Jun 2022 14:00:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C9FAC34114;
-        Thu,  9 Jun 2022 14:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654783214;
-        bh=LmGPGQgFlXDp39gkuaUh/QQ94CuUMZoIes/TMms8Jfc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=F22F5K/aPgI/wT/JwFq3XZhGIWh9x6u3peG/NtDCkXeoOvHm2BToOMwNFhQFopdwm
-         +7atn6OwSfogpGGrhsA082Fk807mMpFGQ0olpsjEk0dqSBniHrLDK/U67dTVW/DFnF
-         7lWOJGc7L5f7Yed98S6MvagMr2R9+PpVHvHrkvB+hB9vjP6B4E4JpmPIk3l4itdrZq
-         vLqMb/sEfG6uaPiAQ1DtQqipPWyETU49oMR6z5WqbZ6YNYgOwM0y3a2dyfZIOqVmXj
-         CCs2220Q22QLKKAWceh5PpRuVhDqVH0KDQEIqhJSs3bEM69HajO1jvV2EEUrWdnAbx
-         JEkAVA26cc9VA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1nzIhm-0005EB-Ke; Thu, 09 Jun 2022 16:00:10 +0200
-Date:   Thu, 9 Jun 2022 16:00:10 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     Dongliang Mu <dzm91@hust.edu.cn>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        gushengxian <gushengxian@yulong.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Oliver Neukum <oneukum@suse.com>, Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: flexcop-usb: fix sanity check of bNumEndpoints
-Message-ID: <YqH86qB4wfYctyYP@hovoldconsulting.com>
-References: <20220602055027.849014-1-dzm91@hust.edu.cn>
- <YphciEToNtxIUrzU@hovoldconsulting.com>
- <CAD-N9QUfeN7qQ-S20x9mU=-rd38nPFeont2dYT2+-phTxdqMvA@mail.gmail.com>
+        with ESMTP id S237337AbiFIOKw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 10:10:52 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F00A1E2E;
+        Thu,  9 Jun 2022 07:10:47 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id fd25so31404137edb.3;
+        Thu, 09 Jun 2022 07:10:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=mEtsDMb1k6CAhwW7ISC2TInxkibSNypnKownS0OQOzM=;
+        b=mgrJ9hp/GfgwWN5tXJmnl8BnnEqXCAKpNGpam7MtrpYO0SI1hQovYwM1cGtHRSBW8N
+         8hwdKmACCRbdEVp3ztBxuOUpU8Lj8cWf+Kx+Z+HJz+f/NStxBiUuk3lNwo/iQqflxvTF
+         InhPQenYDtubdWj0kzqQunKVK2VpuXe5lG3LqH359TPGOV1ya8aUubNqeEJm5slFN9UC
+         s0l6wKpJdTKH6VEkOyvnAWu4FuxiRHTd1mmSc0t20a63BtaAauk73vDVGuMPaKxjSfDI
+         ZF7BlODVAXy32IB8sffpp41YjC1ufolYJTK/mIyUwM1Gg4I4h8Te99MpvvqM5hnlFIwa
+         jqMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=mEtsDMb1k6CAhwW7ISC2TInxkibSNypnKownS0OQOzM=;
+        b=bfpDhOe3ZcKZbjcorPwQjYVm6N7fNRquF0Qobpu3I3Pnrj+bCp78CMOXKsmL7M0Bz9
+         Z+lXMfyG2z8aAgEao6Sxkfy8MCkjcaYeBNDgsLCNM9Mggslu+nxOW9C5mDvfZJiDCjh2
+         YdjZGPSyMgQCCielQmf5ciTDZ7YFVmvGAa9Qn+78NZjU+f/W5XH26EQOGDfd1VkJ1R0f
+         f5Z1wv1SqKF8CigoARLcnT94TLyQzbvlU8m/YyVLp6tFMyWPXVK8zaLtW+0nW/72wjCw
+         kQVNHnGwNe3fG9txulbpUtSB878nCH8p2EiymV8kfii/OT02u7L9lPInRDW62+9OOkX6
+         z6Hw==
+X-Gm-Message-State: AOAM532mHO5qujRHkN4OKeSdQJnvAsNOuGEXG+i+W+UP6adwsAqSpPRs
+        WFyud28aZwTnfOSbl8R2m5FevebjqrQ=
+X-Google-Smtp-Source: ABdhPJyeKHQqi9/0tzt/2RVsH3TlW5RXc5Nbx2kxhyDYn4Th+HmG5UQ3rIQ0Tdhh57D5z0Br/W8sFA==
+X-Received: by 2002:a05:6402:3291:b0:42d:dd03:cbb1 with SMTP id f17-20020a056402329100b0042ddd03cbb1mr44742813eda.268.1654783846479;
+        Thu, 09 Jun 2022 07:10:46 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:99ff:907d:6fef:f861? ([2a02:908:1256:79a0:99ff:907d:6fef:f861])
+        by smtp.gmail.com with ESMTPSA id q24-20020aa7d458000000b0042aad9edc9bsm14778769edr.71.2022.06.09.07.10.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jun 2022 07:10:39 -0700 (PDT)
+Message-ID: <26d3e1c7-d73c-cc95-54ef-58b2c9055f0c@gmail.com>
+Date:   Thu, 9 Jun 2022 16:10:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD-N9QUfeN7qQ-S20x9mU=-rd38nPFeont2dYT2+-phTxdqMvA@mail.gmail.com>
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 03/13] mm: shmem: provide oom badness for shmem files
+Content-Language: en-US
+To:     Michal Hocko <mhocko@suse.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        alexander.deucher@amd.com, daniel@ffwll.ch,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        hughd@google.com, andrey.grodzovsky@amd.com
+References: <20220531100007.174649-1-christian.koenig@amd.com>
+ <20220531100007.174649-4-christian.koenig@amd.com>
+ <YqG67sox6L64E6wV@dhcp22.suse.cz>
+ <77b99722-fc13-e5c5-c9be-7d4f3830859c@amd.com>
+ <YqHuH5brYFQUfW8l@dhcp22.suse.cz>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <YqHuH5brYFQUfW8l@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 09, 2022 at 09:42:15AM +0800, Dongliang Mu wrote:
-> On Thu, Jun 2, 2022 at 2:45 PM Johan Hovold <johan@kernel.org> wrote:
-> >
-> > On Thu, Jun 02, 2022 at 01:50:24PM +0800, Dongliang Mu wrote:
-> > > From: Dongliang Mu <mudongliangabcd@gmail.com>
-> > >
-> > > Commit d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint type
-> > > ") adds a sanity check for endpoint[1], but fails to modify the sanity
-> > > check of bNumEndpoints.
-> > >
-> > > Fix this by modifying the sanity check of bNumEndpoints to 2.
-> >
-> > Are you sure that d725d20e81c2 ("media: flexcop-usb: sanity checking of
-> > endpoint type) was correct?
-> 
-> I am not sure if fc_usb->uintf->cur_altsetting->endpoint[1] is right or not.
-> 
-> But the sanity check of bNumEndpoints does not match the following dereference.
+Am 09.06.22 um 14:57 schrieb Michal Hocko:
+> On Thu 09-06-22 14:16:56, Christian König wrote:
+>> Am 09.06.22 um 11:18 schrieb Michal Hocko:
+>>> On Tue 31-05-22 11:59:57, Christian König wrote:
+>>>> This gives the OOM killer an additional hint which processes are
+>>>> referencing shmem files with potentially no other accounting for them.
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>    mm/shmem.c | 6 ++++++
+>>>>    1 file changed, 6 insertions(+)
+>>>>
+>>>> diff --git a/mm/shmem.c b/mm/shmem.c
+>>>> index 4b2fea33158e..a4ad92a16968 100644
+>>>> --- a/mm/shmem.c
+>>>> +++ b/mm/shmem.c
+>>>> @@ -2179,6 +2179,11 @@ unsigned long shmem_get_unmapped_area(struct file *file,
+>>>>    	return inflated_addr;
+>>>>    }
+>>>> +static long shmem_oom_badness(struct file *file)
+>>>> +{
+>>>> +	return i_size_read(file_inode(file)) >> PAGE_SHIFT;
+>>>> +}
+>>> This doesn't really represent the in memory size of the file, does it?
+>> Well the file could be partially or fully swapped out as anonymous memory or
+>> the address space only sparse populated, but even then just using the file
+>> size as OOM badness sounded like the most straightforward approach to me.
+> It covers hole as well, right?
 
-I should know better than try to be subtle on the internet: Your fix is
-wrong.
+Yes, exactly.
 
-You need to try to understand the code you're changing. Not just do
-pattern matching.
+>
+>> What could happen is that the file is also mmaped and we double account.
+>>
+>>> Also the memcg oom handling could be considerably skewed if the file was
+>>> shared between more memcgs.
+>> Yes, and that's one of the reasons why I didn't touched the memcg by this
+>> and only affected the classic OOM killer.
+> oom_badness is for all oom handlers, including memcg. Maybe I have
+> misread an earlier patch but I do not see anything specific to global
+> oom handling.
 
-> > > Fixes: d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint type")
-> > > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> > > ---
-> > >  drivers/media/usb/b2c2/flexcop-usb.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
-> > > index 7835bb0f32fc..eb54bfdda01f 100644
-> > > --- a/drivers/media/usb/b2c2/flexcop-usb.c
-> > > +++ b/drivers/media/usb/b2c2/flexcop-usb.c
-> > > @@ -509,7 +509,7 @@ static int flexcop_usb_init(struct flexcop_usb *fc_usb)
-> > >               return ret;
-> > >       }
-> > >
-> > > -     if (fc_usb->uintf->cur_altsetting->desc.bNumEndpoints < 1)
-> > > +     if (fc_usb->uintf->cur_altsetting->desc.bNumEndpoints < 2)
-> > >               return -ENODEV;
-> > >       if (!usb_endpoint_is_isoc_in(&fc_usb->uintf->cur_altsetting->endpoint[1].desc))
-> > >               return -ENODEV;
-> >
-> > It looks like it should have verified the type of endpoint[0] here
-> > instead.
-> 
-> This sanity check originally makes sure the
-> fc_usb->uintf->cur_altsetting->endpoint[0] in
-> flexcop_usb_transfer_init.
+As far as I can see the oom_badness() function is only used in oom_kill.c and in procfs to return the oom score. Did I missed something?
 
-Yes, and that is the only endpoint that this driver uses.
-
-I've posted a fix here:
-
-	https://lore.kernel.org/r/20220609135341.19941-1-johan@kernel.org
-
-Johan
+Regards,
+Christian.
