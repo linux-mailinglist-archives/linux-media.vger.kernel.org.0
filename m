@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEC755446EB
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 11:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 462365446EC
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 11:09:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233795AbiFIJI7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jun 2022 05:08:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34654 "EHLO
+        id S233850AbiFIJJA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jun 2022 05:09:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233741AbiFIJI5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 05:08:57 -0400
+        with ESMTP id S233703AbiFIJI6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 05:08:58 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D6D15A34
-        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 02:08:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3F415A26
+        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 02:08:57 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04D7C80A;
-        Thu,  9 Jun 2022 11:08:53 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A17C69B1;
+        Thu,  9 Jun 2022 11:08:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1654765734;
-        bh=xP7kPhL1tKqx2ZWOqLikCxiGqfHd1jbQ0I4d/gDyJko=;
+        s=mail; t=1654765735;
+        bh=cIgnn847+B3+5wEIqNjLkYY9Y2EhI6cAvaMmXWwSyEs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SZzYifeZoHgfAITtD7BPTzbdD34Sb893qfNIv0g0dvGZYEaQZ1G2B0gyoq3HDi4mw
-         wJ8EgUhPA70aqXrDlSBnJDD3AnKnHl9ByydiYTPYntThtOnR02EpzlAvEKvSURWZrn
-         K9vdwSz0tAZKxkSeViW/oqIBVcWWjrQRr7C5z/ds=
+        b=XQsR4nXdYPs00ag53qzNbDr/XyWRfEDgkhfSsNgu2nySCnbiYT17+mH6qa5WaMr7R
+         /ROLuED+Ly9eGf+gATq77wKoX3hb5xv6n8gBlzmXIS0a8Fon2Osp/oWlaqkLyI9z33
+         RNkCPXFCiITx/u+TxoIh8Ax0qFjcMFdvwa+QFVyE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Ricardo Ribalda <ribalda@chromium.org>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
         Yunke Cao <yunkec@google.com>
-Subject: [PATCH v5 2/7] media: uvcvideo: Add support for per-device control mapping overrides
-Date:   Thu,  9 Jun 2022 12:08:38 +0300
-Message-Id: <20220609090843.16423-3-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v5 3/7] media: uvcvideo: Limit power line control for Quanta UVC Webcam
+Date:   Thu,  9 Jun 2022 12:08:39 +0300
+Message-Id: <20220609090843.16423-4-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220609090843.16423-1-laurent.pinchart@ideasonboard.com>
 References: <20220609090843.16423-1-laurent.pinchart@ideasonboard.com>
@@ -49,79 +49,91 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Ricardo Ribalda <ribalda@chromium.org>
 
-Some devices do not implement all their controls in a way that complies
-with the UVC specification. This is for instance the case for several
-devices that do not support the disabled mode for the power line
-frequency control. Add a mechanism to allow per-device control mapping
-overrides to avoid errors when accessing non-compliant controls.
+The device does not implement the power line control correctly. Add a
+corresponding control mapping override.
+
+Bus 001 Device 003: ID 0408:3090 Quanta Computer, Inc. USB2.0 HD UVC WebCam
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x0408 Quanta Computer, Inc.
+  idProduct          0x3090
+  bcdDevice            0.04
+  iManufacturer           3 Quanta
+  iProduct                1 USB2.0 HD UVC WebCam
+  iSerial                 2 0x0001
+  bNumConfigurations      1
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
+Changes since v4:
+
+- Declare uvc_ctrl_power_line_limited
+
 Changes since v3:
 
 - Turn the power line quirk into a control mapping overrides array
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 27 +++++++++++++++++++++++++--
- drivers/media/usb/uvc/uvcvideo.h |  1 +
- 2 files changed, 26 insertions(+), 2 deletions(-)
+ drivers/media/usb/uvc/uvc_driver.c | 33 ++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 95fdd41ab20b..e4826a846861 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -2444,14 +2444,37 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 	if (!ctrl->initialized)
- 		return;
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 20d80d810d1f..c4f26b446c26 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2661,6 +2661,30 @@ MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
+  * Driver initialization and cleanup
+  */
  
--	/* Process common mappings first. */
-+	/*
-+	 * First check if the device provides a custom mapping for this control,
-+	 * used to override standard mappings for non-conformant devices. Don't
-+	 * process standard mappings if a custom mapping is found. This
-+	 * mechanism doesn't support combining standard and custom mappings for
-+	 * a single control.
-+	 */
-+	if (chain->dev->info->mappings) {
-+		bool custom = false;
-+		unsigned int i;
++static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
++	{ 1, "50 Hz" },
++	{ 2, "60 Hz" },
++};
 +
-+		for (i = 0; (mapping = chain->dev->info->mappings[i]); ++i) {
-+			if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
-+			    ctrl->info.selector == mapping->selector) {
-+				__uvc_ctrl_add_mapping(chain, ctrl, mapping);
-+				custom = true;
-+			}
-+		}
++static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
++	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
++	.entity		= UVC_GUID_UVC_PROCESSING,
++	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
++	.size		= 2,
++	.offset		= 0,
++	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
++	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
++	.menu_info	= power_line_frequency_controls_limited,
++	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_limited),
++};
 +
-+		if (custom)
-+			return;
-+	}
++static const struct uvc_device_info uvc_ctrl_power_line_limited = {
++	.mappings = (const struct uvc_control_mapping *[]) {
++		&uvc_ctrl_power_line_mapping_limited,
++		NULL, /* Sentinel */
++	},
++};
 +
-+	/* Process common mappings next. */
- 	for (; mapping < mend; ++mapping) {
- 		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
- 		    ctrl->info.selector == mapping->selector)
- 			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
- 	}
- 
--	/* And then version-specific mappings. */
-+	/* Finally process version-specific mappings. */
- 	if (chain->dev->uvc_version < 0x0150) {
- 		mapping = uvc_ctrl_mappings_uvc11;
- 		mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings_uvc11);
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index d2eb107347ea..24c911aeebce 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -668,6 +668,7 @@ struct uvc_device_info {
- 	u32	quirks;
- 	u32	meta_format;
- 	u16	uvc_version;
-+	const struct uvc_control_mapping **mappings;
+ static const struct uvc_device_info uvc_quirk_probe_minmax = {
+ 	.quirks = UVC_QUIRK_PROBE_MINMAX,
  };
- 
- struct uvc_device {
+@@ -2691,6 +2715,15 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
+  * though they are compliant.
+  */
+ static const struct usb_device_id uvc_ids[] = {
++	/* Quanta USB2.0 HD UVC Webcam */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x0408,
++	  .idProduct		= 0x3090,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
+ 	/* LogiLink Wireless Webcam */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
 -- 
 Regards,
 
