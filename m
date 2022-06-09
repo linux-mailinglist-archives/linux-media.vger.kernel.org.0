@@ -2,354 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32FC554486B
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 12:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88D0C5448DB
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 12:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237153AbiFIKMG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jun 2022 06:12:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43160 "EHLO
+        id S242934AbiFIK1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jun 2022 06:27:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235174AbiFIKMF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 06:12:05 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78AAE1D08B4
-        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 03:12:02 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id v19so30521050edd.4
-        for <linux-media@vger.kernel.org>; Thu, 09 Jun 2022 03:12:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=AlE4OrN8Oafq4R62eumSM04yhM03Svrair6od2l1/CY=;
-        b=okqBS1J6WCYuaa3XwjiO3R8B/gtCF5TAcLluSCdZ5LZtdJw5+YY1DhPR2RGVFu1vZM
-         BhWCQ/hwDtqUhyQf7dwDg3SD1oO1whP5Nu+JY8IEaeUO9FH+h90R2BmqGRmIAdztgXFU
-         iWg79ZrJqPp4gOtKwRWoJ/Prml2hGdkM0lUW0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AlE4OrN8Oafq4R62eumSM04yhM03Svrair6od2l1/CY=;
-        b=MsA8P6CreBstCpjSDl+9fRTqQIxrvPnqrxy5AKOgz1LjuZMldMTSJID2NBSOjyE0Qo
-         uzz3bCejTa5u46cNpEyXo9KAxwopoe4x6uYe9lxMNosbTZuk/ycJTK6JLwartMd4QSuG
-         h+73+O9rF/ehrfN7Wrv2WHqULmAZPZEv+Ci17bdqh+GA8rqF/cm2darQPa5spQRoD7Bs
-         wsyeUI4WH/4kjSag9/ct8iHDguIhEDCE1SeL0zEWXVxh1XYblcm9YE1IpcnfdPEYWGzD
-         61I29E7bKh4ozzQ7s8M1zx1PNR10epgKp6VnCsWdd4eMhpzpIUkKeAmq6NYNt3GpfcHa
-         DutQ==
-X-Gm-Message-State: AOAM5325nUq6m0Qp4fqvzdFExgCO/goy+vb49lFc5XzKbf0m7z+tp27i
-        RPsI7xeQUekFUCW/hjqe8OGniQ==
-X-Google-Smtp-Source: ABdhPJyMJMme9KJbAKrBgoMkKyPYW2ErZD6uwdWtIV5F+5/BdP6VdsWWfNJX5mqBTqa4A2gnm1T2qw==
-X-Received: by 2002:a05:6402:459:b0:431:665f:11ce with SMTP id p25-20020a056402045900b00431665f11cemr21857516edw.35.1654769521004;
-        Thu, 09 Jun 2022 03:12:01 -0700 (PDT)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-55-105.cust.vodafonedsl.it. [188.217.55.105])
-        by smtp.gmail.com with ESMTPSA id m3-20020aa7c483000000b0042de29d8fc0sm13969479edq.94.2022.06.09.03.11.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 03:12:00 -0700 (PDT)
-Date:   Thu, 9 Jun 2022 12:11:58 +0200
-From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Mark Brown <broonie@kernel.org>, linuxfancy@googlegroups.com,
-        linux-amarula@amarulasolutions.com,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] media: i2c: ov5695: use
- regulator_bulk_enable/regulator_bulk disable instead of for loop
-Message-ID: <20220609101158.GB1950409@tom-ThinkPad-T14s-Gen-2i>
-References: <20220519075117.1003520-1-tommaso.merciai@amarulasolutions.com>
- <20220519075117.1003520-2-tommaso.merciai@amarulasolutions.com>
- <20220531131409.f54znvogejkwqqkf@uno.localdomain>
- <20220531154040.GA1331064@tom-ThinkPad-T14s-Gen-2i>
- <CAOf5uwmNoSPifCo8_hLZyr=DzMqL0r2Ftot2jneEVpAT8AyYVg@mail.gmail.com>
- <20220601081129.jlasfmvjyvqr4brd@uno.localdomain>
- <CAOf5uwmZDbT5mb3awjj1ggnVF7WQhHA3mYnt51nrzZUy1mArRA@mail.gmail.com>
- <CAOf5uwkLfKk5aeFfSX+x40jhAp6omXjw6mWqBYLwBsro+53d0A@mail.gmail.com>
+        with ESMTP id S242762AbiFIK1L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 06:27:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E0E202D2F;
+        Thu,  9 Jun 2022 03:27:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ECEF661D3A;
+        Thu,  9 Jun 2022 10:27:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EABAC34114;
+        Thu,  9 Jun 2022 10:27:07 +0000 (UTC)
+Message-ID: <ca006530-b20b-f97c-af68-5f0191478f96@xs4all.nl>
+Date:   Thu, 9 Jun 2022 12:27:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOf5uwkLfKk5aeFfSX+x40jhAp6omXjw6mWqBYLwBsro+53d0A@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH] media: imx-jpeg: Disable slot interrupt when frame done
+Content-Language: en-US
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        mirela.rabulea@oss.nxp.com
+Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20220607072315.23209-1-ming.qian@nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220607072315.23209-1-ming.qian@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
+Hi Ming Qian,
 
-On Thu, Jun 02, 2022 at 07:57:02AM +0200, Michael Nazzareno Trimarchi wrote:
-> Hi Mark
+On 6/7/22 09:23, Ming Qian wrote:
+> The interrupt STMBUF_HALF may be triggered after frame done.
+> It may led to system hang if driver try to access the register after
+> power off.
 > 
-> Add Dongchun Zhu, for the patch of regulator changes and mark brown to
-> clarify the API for bulk regulator.
+> Disable the slot interrupt when frame done.
 > 
-> The commit f1a64f56663e9d03e509439016dcbddd0166b2da states that the
-> regulator bulk api does not guarantee the order.
-> Can you help me with this?
+> Fixes: 2db16c6ed72ce ("media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder")
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+>  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c |  5 +++++
+>  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h |  1 +
+>  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 11 ++---------
+>  3 files changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
+> index c482228262a3..9418fcf740a8 100644
+> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
+> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
+> @@ -79,6 +79,11 @@ void mxc_jpeg_enable_irq(void __iomem *reg, int slot)
+>  	writel(0xFFFFFFFF, reg + MXC_SLOT_OFFSET(slot, SLOT_IRQ_EN));
+>  }
+>  
+> +void mxc_jpeg_disable_irq(void __iomem *reg, int slot)
+> +{
+> +	writel(0x0, reg + MXC_SLOT_OFFSET(slot, SLOT_IRQ_EN));
+> +}
+> +
+>  void mxc_jpeg_sw_reset(void __iomem *reg)
+>  {
+>  	/*
+> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
+> index 07655502f4bd..ecf3b6562ba2 100644
+> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
+> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
+> @@ -126,6 +126,7 @@ u32 mxc_jpeg_get_offset(void __iomem *reg, int slot);
+>  void mxc_jpeg_enable_slot(void __iomem *reg, int slot);
+>  void mxc_jpeg_set_l_endian(void __iomem *reg, int le);
+>  void mxc_jpeg_enable_irq(void __iomem *reg, int slot);
+> +void mxc_jpeg_disable_irq(void __iomem *reg, int slot);
+>  int mxc_jpeg_set_input(void __iomem *reg, u32 in_buf, u32 bufsize);
+>  int mxc_jpeg_set_output(void __iomem *reg, u16 out_pitch, u32 out_buf,
+>  			u16 w, u16 h);
+> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> index 965021d3c7ef..b1f48835398e 100644
+> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> @@ -592,15 +592,7 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
+>  	dev_dbg(dev, "Irq %d on slot %d.\n", irq, slot);
+>  
+>  	ctx = v4l2_m2m_get_curr_priv(jpeg->m2m_dev);
+> -	if (!ctx) {
+> -		dev_err(dev,
+> -			"Instance released before the end of transaction.\n");
+> -		/* soft reset only resets internal state, not registers */
+> -		mxc_jpeg_sw_reset(reg);
+> -		/* clear all interrupts */
+> -		writel(0xFFFFFFFF, reg + MXC_SLOT_OFFSET(slot, SLOT_STATUS));
+> -		goto job_unlock;
+> -	}
+> +	WARN_ON(!ctx);
 
-Just a gentle ping on this point.
-Thanks
+This looks very scary, since if this happens,
+
+>  
+>  	if (slot != ctx->slot) {
+
+then it will crash here when it attempts to access ctx.
+
+Shouldn't this be better?
+
+	if (WARN_ON(!ctx))
+		goto job_unlock;
+
+It's certainly a lot more robust.
 
 Regards,
-Tommaso
 
-> 
-> On Wed, Jun 1, 2022 at 10:39 AM Michael Nazzareno Trimarchi
-> <michael@amarulasolutions.com> wrote:
-> >
-> > Hi
-> >
-> > On Wed, Jun 1, 2022 at 10:11 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> > >
-> > > Hi Micheal,
-> > >
-> > > On Tue, May 31, 2022 at 05:50:51PM +0200, Michael Nazzareno Trimarchi wrote:
-> > > > Hi
-> > > >
-> > > > On Tue, May 31, 2022 at 5:40 PM Tommaso Merciai
-> > > > <tommaso.merciai@amarulasolutions.com> wrote:
-> > > > >
-> > > > > Hi Jacopo,
-> > > > > On Tue, May 31, 2022 at 03:14:09PM +0200, Jacopo Mondi wrote:
-> > > > > > Hi Tommaso,
-> > > > > >
-> > > > > > On Thu, May 19, 2022 at 09:51:14AM +0200, Tommaso Merciai wrote:
-> > > > > > > Enable regulator using regulator_bulk_enable/regulatore_bulk_disable
-> > > > > > > function in __ov5695_power_on/__ov5695_power_off function instead of for loop.
-> > > > > > > This reduce code size and make things more clear
-> > > > > > >
-> > > > > > > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> > > > > > > Co-Developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-> > > > > > > ---
-> > > > > > >  drivers/media/i2c/ov5695.c | 25 +++++++------------------
-> > > > > > >  1 file changed, 7 insertions(+), 18 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-> > > > > > > index 439385938a51..880b586e55fe 100644
-> > > > > > > --- a/drivers/media/i2c/ov5695.c
-> > > > > > > +++ b/drivers/media/i2c/ov5695.c
-> > > > > > > @@ -972,7 +972,7 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
-> > > > > > >
-> > > > > > >  static int __ov5695_power_on(struct ov5695 *ov5695)
-> > > > > > >  {
-> > > > > > > -   int i, ret;
-> > > > > > > +   int ret;
-> > > > > > >     struct device *dev = &ov5695->client->dev;
-> > > > > > >
-> > > > > > >     ret = clk_prepare_enable(ov5695->xvclk);
-> > > > > > > @@ -987,13 +987,10 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
-> > > > > > >      * The hardware requires the regulators to be powered on in order,
-> > > > > > >      * so enable them one by one.
-> > > > > > >      */
-> > > > > >
-> > > > > > The comment says that the hardware requires regulators to be enabled
-> > > > > > in precise order
-> > > > > >
-> > > >
-> > > > They are enabled on the array order.
-> > > >
-> > > > > > > -   for (i = 0; i < OV5695_NUM_SUPPLIES; i++) {
-> > > > > > > -           ret = regulator_enable(ov5695->supplies[i].consumer);
-> > > > > > > -           if (ret) {
-> > > > > > > -                   dev_err(dev, "Failed to enable %s: %d\n",
-> > > > > > > -                           ov5695->supplies[i].supply, ret);
-> > > > > > > -                   goto disable_reg_clk;
-> > > > > > > -           }
-> > > > > > > +   ret = regulator_bulk_enable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
-> > > > > >
-> > > > > > bulk_enable() uses the async API (async_schedule_domain() in
-> > > > > > particular) which by the name makes me think such ordering guarantee
-> > > > > > cannot be respected.
-> > > >
-> > > > I don't think so. Will make no sense because if it fails, revert them.
-> > > > Even the bulk disable disable them
-> > > > in reverse order
-> > > >
-> > >
-> > > I understand your points, but even the commit message in the patch
-> > > linked by Tommaso [1] (which I see in mainline as
-> > > f1a64f56663e ("media: i2c: ov5695: Fix power on and off sequences"))
-> > > reports:
-> > >
-> > > "Given the bulk API does not give any guarantee about the order of
-> > > regulators, change the driver to use regulator_disable() instead."
-> > >
-> > > However I would have expected the core regulator API to clearly document
-> > > this behaviour.
-> > >
-> >
-> > Yes, I agree. I see two points:
-> > - patch f1a64f56663e is not fully consistent
-> > - a patch is needed to the regulator api documentation
-> >
-> > I think that we need better documentation of the api but:
-> > Work-queues are SMP-safe and guarantee serialization of actual work performed.
-> >
-> > Michael
-> >
-> >
-> >
-> > >
-> > > > > >
-> > > > > > However most sensors require some kind of ordering when enabling
-> > > > > > regulators, and most of the use the bulk API anyhow. The fact this
-> > > > > > driver uses the bulk API to get an release the regulators but not for
-> > > > > > enabling them and the above comment, makes me think it has been done
-> > > > > > on purpose ? Could you check with the driver author maybe ?
-> > > > >
-> > > > > Thanks for suggestion, good question.
-> > > > > I see also ov5693 driver use bulk_enable/bulk_disable
-> > > > > on ov5693_sensor_powerdown and ov5693_sensor_powerup functions, I take
-> > > > > this as reference (and I'm wrong)
-> > > > >
-> > > > > In a functional test on PX30_Mini_evb_v11_20190507, after this series
-> > > > > I'm able to see the correct chip id during probe and do some capture.
-> > > > >
-> > > > > I think you are right Jacopo, we can drop off this [PATCH 1/4]
-> > > > > On the following link I found the issue that you describe: [1]
-> > > > >
-> > > >
-> > > > WHy drop?
-> > >
-> > > As this is a partial revert of [1].
-> > >
-> > > I think in practice this won't make any actual difference, but if not
-> > > 100% sure, better leave it the way it is as the authors of [1] might
-> > > have actually been experiencing issues. Even more as this patch is
-> > > not a bugfix but a nice-to-have. Up to you :)
-> > >
-> > >
-> > > >
-> > > > Michael
-> > > >
-> > > > > >
-> > > > > > > +   if (ret) {
-> > > > > > > +           dev_err(dev, "Failed to enable regulators %d\n", ret);
-> > > > > > > +           goto disable_reg_clk;
-> > > > > > >     }
-> > > > > > >
-> > > > > > >     gpiod_set_value_cansleep(ov5695->reset_gpio, 0);
-> > > > > > > @@ -1003,8 +1000,7 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
-> > > > > > >     return 0;
-> > > > > > >
-> > > > > > >  disable_reg_clk:
-> > > > > > > -   for (--i; i >= 0; i--)
-> > > > > > > -           regulator_disable(ov5695->supplies[i].consumer);
-> > > > > > > +   regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
-> > > > > >
-> > > > > > FYI the bulk API does this for you if enabling any of the regulators fails.
-> > > > > > Hence this should not be necessary.
-> > > > >
-> > > > > Thanks for sharing! This is new to me.
-> > > > > I'll update the series on v2 removing this patch.
-> > > > >
-> > > > > Regards,
-> > > > > Tommaso
-> > > > >
-> > > > > [1]: https://mailweb.openeuler.org/hyperkitty/list/kernel@openeuler.org/message/4X54QYJDRRE4K5BW4FTDZUGRAL4GRQWY/
-> > > > >
-> > > > > > Thanks
-> > > > > >    j
-> > > > > >
-> > > > > > >     clk_disable_unprepare(ov5695->xvclk);
-> > > > > > >
-> > > > > > >     return ret;
-> > > > > > > @@ -1012,8 +1008,6 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
-> > > > > > >
-> > > > > > >  static void __ov5695_power_off(struct ov5695 *ov5695)
-> > > > > > >  {
-> > > > > > > -   struct device *dev = &ov5695->client->dev;
-> > > > > > > -   int i, ret;
-> > > > > > >
-> > > > > > >     clk_disable_unprepare(ov5695->xvclk);
-> > > > > > >     gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
-> > > > > > > @@ -1022,12 +1016,7 @@ static void __ov5695_power_off(struct ov5695 *ov5695)
-> > > > > > >      * The hardware requires the regulators to be powered off in order,
-> > > > > > >      * so disable them one by one.
-> > > > > > >      */
-> > > > > > > -   for (i = OV5695_NUM_SUPPLIES - 1; i >= 0; i--) {
-> > > > > > > -           ret = regulator_disable(ov5695->supplies[i].consumer);
-> > > > > > > -           if (ret)
-> > > > > > > -                   dev_err(dev, "Failed to disable %s: %d\n",
-> > > > > > > -                           ov5695->supplies[i].supply, ret);
-> > > > > > > -   }
-> > > > > > > +   regulator_bulk_disable(ARRAY_SIZE(ov5695->supplies), ov5695->supplies);
-> > > > > > >  }
-> > > > > > >
-> > > > > > >  static int __maybe_unused ov5695_runtime_resume(struct device *dev)
-> > > > > > > --
-> > > > > > > 2.25.1
-> > > > > > >
-> > > > >
-> > > > > --
-> > > > > Tommaso Merciai
-> > > > > Embedded Linux Engineer
-> > > > > tommaso.merciai@amarulasolutions.com
-> > > > > __________________________________
-> > > > >
-> > > > > Amarula Solutions SRL
-> > > > > Via Le Canevare 30, 31100 Treviso, Veneto, IT
-> > > > > T. +39 042 243 5310
-> > > > > info@amarulasolutions.com
-> > > > > www.amarulasolutions.com
-> > > >
-> > > >
-> > > >
-> > > > --
-> > > > Michael Nazzareno Trimarchi
-> > > > Co-Founder & Chief Executive Officer
-> > > > M. +39 347 913 2170
-> > > > michael@amarulasolutions.com
-> > > > __________________________________
-> > > >
-> > > > Amarula Solutions BV
-> > > > Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-> > > > T. +31 (0)85 111 9172
-> > > > info@amarulasolutions.com
-> > > > www.amarulasolutions.com
-> >
-> >
-> >
-> > --
-> > Michael Nazzareno Trimarchi
-> > Co-Founder & Chief Executive Officer
-> > M. +39 347 913 2170
-> > michael@amarulasolutions.com
-> > __________________________________
-> >
-> > Amarula Solutions BV
-> > Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-> > T. +31 (0)85 111 9172
-> > info@amarulasolutions.com
-> > www.amarulasolutions.com
-> 
-> 
-> 
-> -- 
-> Michael Nazzareno Trimarchi
-> Co-Founder & Chief Executive Officer
-> M. +39 347 913 2170
-> michael@amarulasolutions.com
-> __________________________________
-> 
-> Amarula Solutions BV
-> Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-> T. +31 (0)85 111 9172
-> info@amarulasolutions.com
-> www.amarulasolutions.com
+	Hans
 
--- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
-
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+>  		/* TODO investigate when adding multi-instance support */
+> @@ -673,6 +665,7 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
+>  	buf_state = VB2_BUF_STATE_DONE;
+>  
+>  buffers_done:
+> +	mxc_jpeg_disable_irq(reg, ctx->slot);
+>  	jpeg->slot_data[slot].used = false; /* unused, but don't free */
+>  	mxc_jpeg_check_and_set_last_buffer(ctx, src_buf, dst_buf);
+>  	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
