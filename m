@@ -2,50 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C844544799
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 11:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CE195447E1
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 11:43:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234695AbiFIJcb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jun 2022 05:32:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60872 "EHLO
+        id S242379AbiFIJmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jun 2022 05:42:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232782AbiFIJcX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 05:32:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CEC2374259;
-        Thu,  9 Jun 2022 02:32:22 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01C4D6CF;
-        Thu,  9 Jun 2022 11:32:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1654767141;
-        bh=q/5FMD1xa8fY3pr3lxdbgaGLlg5lGwEDc3LHPKizvIk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=abkqARdfqd7cqpMZCn6zfSbjFbeuDtdksDDXw1qTYKf4DNLfALlNcWBR7glTOZYMc
-         TRlq/sB2C/d+SOJ3SoGqz/ey7ip/AA8wneI1nnaOFFL5oJYseZM5W9mcJvzREY7k6L
-         WF7KMunlJF9cL0v6AeJBNCQ1bzj6SWDLh5ylQG+8=
-Date:   Thu, 9 Jun 2022 12:32:15 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Liu Ying <victor.liu@nxp.com>
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, andrzej.hajda@intel.com,
-        narmstrong@baylibre.com, robert.foss@linaro.org, jonas@kwiboo.se,
-        jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, lee.jones@linaro.org,
-        mchehab@kernel.org, marcel.ziswiler@toradex.com
-Subject: Re: [PATCH v8 00/14] Add some DRM bridge drivers support for
- i.MX8qm/qxp SoCs
-Message-ID: <YqG+Hxswo5ON1MX0@pendragon.ideasonboard.com>
-References: <20220609064931.3068601-1-victor.liu@nxp.com>
+        with ESMTP id S242905AbiFIJmb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 05:42:31 -0400
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E2215046B;
+        Thu,  9 Jun 2022 02:42:22 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id A1774DFDD0;
+        Thu,  9 Jun 2022 02:41:51 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id CyLQcTKbNT2H; Thu,  9 Jun 2022 02:41:50 -0700 (PDT)
+Message-ID: <2d5d3bbec443742506e39488dbfbf724bb4ca93f.camel@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+        t=1654767710; bh=JvptTP0wGobXosSU7TbBT2e0e6nJPwu/H4EWqXXNeho=;
+        h=Subject:From:To:Cc:Date:From;
+        b=YJSQTdNModpI7tt0R9Pvs9HK40ecR0k2wgvVJQEPSVYBy9S3RTEOYRKrPwL7VjopH
+         pQtPJrW24FSTr3XFIqmzybUmWUA7tWFk9+1+OdqMfAahivwTB5jR9MLvjpArbsoAGj
+         Bglfu6gti68ww5wPC6rthFm6daproEF5DHlTRlZcZ0SOpDAtrMoKeFtWC04Ahq9ETq
+         +o3zo61IUCN5LAiFnhdteOfD6aWMks81CcHEWHx/AvMebVaTRZnhv0ihoYSFxt0GwE
+         JWYZdGir3B114jBVcUmtb6pt4LYUec5mKRT2+Fbkoi0tNX9Pb0Qzz1YOcSjnPPDJEm
+         rG5KOQe58q7ow==
+Subject: soc: imx: gpcv2: regulator issue with system suspend on imx8mq
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Lucas Stach <l.stach@pengutronix.de>,
+        Adam Ford <aford173@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>, peng.fan@nxp.com,
+        festevam@gmail.com, lgirdwood@gmail.com
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        kernel@puri.sm
+Date:   Thu, 09 Jun 2022 11:41:43 +0200
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220609064931.3068601-1-victor.liu@nxp.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,198 +59,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Liu,
+hi Lucas and all interested in suspend to ram on imx8mq,
 
-On Thu, Jun 09, 2022 at 02:49:17PM +0800, Liu Ying wrote:
-> Hi,
-> 
-> This is the v8 series to add some DRM bridge drivers support
-> for i.MX8qm/qxp SoCs.
-> 
-> The bridges may chain one by one to form display pipes to support
-> LVDS displays.  The relevant display controller is DPU embedded in
-> i.MX8qm/qxp SoCs.
-> 
-> The DPU KMS driver can be found at:
-> https://patchwork.kernel.org/project/dri-devel/list/?series=629908&state=%2A&archive=both
-> 
-> This series supports the following display pipes:
-> 1) i.MX8qxp:
-> prefetch eng -> DPU -> pixel combiner -> pixel link ->
-> pixel link to DPI(PXL2DPI) -> LVDS display bridge(LDB)
-> 
-> 2) i.MX8qm:
-> prefetch eng -> DPU -> pixel combiner -> pixel link -> LVDS display bridge(LDB)
-> 
-> 
-> Patch 1/14 and 2/14 add bus formats used by pixel combiner.
-> 
-> Patch 9/14 adds a helper for LDB bridge drivers.
-> 
-> Patch 3/14 ~ 8/14 and 10/14 ~ 12/14 add drm bridge drivers and
-> dt-bindings support for the bridges.
-> 
-> Patch 13/14 adds dt-binding for Control and Status Registers module(a syscon
-> used by PXL2DPI and LDB), which references the PXL2DPI and LDB schemas.
-> 
-> Patch 14/14 updates MAINTAINERS.
-> 
-> 
-> I've tested this series with a koe,tx26d202vm0bwa dual link LVDS panel and
-> a LVDS to HDMI bridge(with a downstream drm bridge driver).
-> 
-> Marcel Ziswiler has tested v6 with two LVDS panels(single link LT170410-2WHC
-> and dual link LP156WF1) on Toradex Colibri iMX8X.
-> 
-> 
-> Welcome comments, thanks.
+This is slighly repeating my previous observations that still apply,
+but summarizing the situation:
 
-I'm not sure if this comment will be welcome, but what's the reason to
-handle the pixel combiner and pixel link (DPL) as bridges ? They seem
-very tightly couple with the display controller, wouldn't it be better
-to handle them in the display controller driver ?
+s2idle should work on mainline when looking at the implementations of
+platform drivers. With the missing bits
+https://source.codeaurora.org/external/imx/linux-imx/commit/?h=imx_5.10.35_2.0.0_imx8ulp_er&id=ab850d655c22df562c27c9d6775a26b6df6865b5
+and
+https://lore.kernel.org/linux-arm-kernel/1631554694-9599-7-git-send-email-abel.vesa@nxp.com/
+suspend to ram should work too,
+and it does for me, except when a power domain is using a board-
+regulator as power-supply that is not always-on, but controlled by a
+driver. (when I describe these as "always-on", things are fine (except
+for unrelated edgecases)) here's the example I'm running where I don't
+describe "buck3" as always-on, but etnaviv runtime pm is controlling
+it:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi#n1161
+When starting to resume, the following happens:
 
-> v7->v8:
-> * Rebase upon v5.19-rc1.
-> * Use devm_drm_of_get_bridge() in patch 9/14 due to the rebase.
-> * Reorder the patch for adding dt-binding for Control and Status Registers
->   module as patch 13/14, as it references PXL2DPI and LDB schemas in this
->   series.
-> 
-> v6->v7:
-> * Fix complaints from 'checkpatch.pl --strict' on the LDB DRM bridge helper
->   driver(patch 10/14) and some DRM bridge drivers(patch 9/14, 12/14 and 13/14).
->   (Robert)
-> * Fix complaints from 'checkpatch --strict' on the rest DRM bridge
->   drivers(patch 4/14 and 6/14).
-> * A trivial indentation fix for patch 9/14. (Robert)
-> * Add Robert's R-b tags on patch 9/14, 10/14, 12/14, 13/14 and 14/14.
-> * Add Marcel's T-b tags on all DRM bridge drivers.
-> * Add Rob's R-b tag on patch 7/14 for CSR module dt-binding.
-> 
-> v5->v6:
-> * Fix data organizations in documentation(patch 2/14) for
->   MEDIA_BUS_FMT_RGB{666,888}_1X30-CPADLO. (Laurent)
-> * Add Laurent's R-b tags on patch 1/14 and 2/14.
-> * Drop 'select' schema from the CSR dt-binding documentation(patch 7/14). (Rob)
-> * Add Rob's R-b tag on patch 8/14.
-> 
-> v4->v5:
-> * Drop the patch 'phy: Add LVDS configuration options'. (Robert)
-> * Add Robert's R-b tags on patch 1/14, 2/14, 4/14 and 6/14.
-> * Drop the 'PC_BUF_PARA_REG' register definition from the pixel combiner bridge
->   driver(patch 4/14). (Robert)
-> * Make a comment occupy a line in the pixel link bridge driver(patch 6/14).
->   (Robert)
-> * Introduce a new patch(patch 7/14) to add dt-binding for Control and Status
->   Registers module. (Rob)
-> * Make imx-ldb-helper be a pure object to be linked with i.MX8qxp LDB bridge
->   driver and i.MX8qm LDB bridge driver, instead of a module.  Correspondingly,
->   rename 'imx8{qm, qxp}-ldb.c' to 'imx8{qm, qxp}-ldb-drv.c'. (Robert)
-> * Move 'imx_ldb_helper.h' to 'drivers/gpu/drm/bridge/imx/imx-ldb-helper.h'.
->   (Robert)
-> * s/__FSL_IMX_LDB__/__IMX_LDB_HELPER__/  for 'imx-ldb-helper.h'.
-> 
-> v3->v4:
-> * Use 'fsl,sc-resource' DT property to get the SCU resource ID associated with
->   the PXL2DPI instance instead of using alias ID. (Rob)
-> * Add Rob's R-b tag on patch 11/14.
-> 
-> v2->v3:
-> * Drop 'fsl,syscon' DT properties from fsl,imx8qxp-ldb.yaml and
->   fsl,imx8qxp-pxl2dpi.yaml. (Rob)
-> * Mention the CSR module controls LDB and PXL2DPI in fsl,imx8qxp-ldb.yaml and
->   fsl,imx8qxp-pxl2dpi.yaml.
-> * Call syscon_node_to_regmap() to get regmaps from LDB bridge helper driver
->   and PXL2DPI bridger driver instead of syscon_regmap_lookup_by_phandle().
-> * Drop two macros from pixel link bridge driver which help define functions
->   and define them directly.
-> * Properly disable all pixel link controls to POR value by calling
->   imx8qxp_pixel_link_disable_all_controls() from
->   imx8qxp_pixel_link_bridge_probe().
-> * Add Rob's R-b tags on patch 4/14 and 6/14.
-> 
-> v1->v2:
-> * Rebase the series upon the latest drm-misc-next branch(5.11-rc2 based).
-> * Use graph schema in the dt-bindings of the bridges. (Laurent)
-> * Require all four pixel link output ports in fsl,imx8qxp-pixel-link.yaml.
->   (Laurent)
-> * Side note i.MX8qm/qxp LDB official name 'pixel mapper' in fsl,imx8qxp-ldb.yaml.
->   (Laurent)
-> * Mention pixel link is accessed via SCU firmware in fsl,imx8qxp-pixel-link.yaml.
->   (Rob)
-> * Use enum instead of oneOf + const for the reg property of pixel combiner
->   channels in fsl,imx8qxp-pixel-combiner.yaml. (Rob)
-> * Rewrite the function to find the next bridge in pixel link bridge driver
->   by properly using OF APIs and dropping unnecessary DT validation. (Rob)
-> * Drop unnecessary port availability check in i.MX8qxp pixel link to DPI
->   bridge driver.
-> * Drop unnecessary DT validation from i.MX8qxp LDB bridge driver.
-> * Use of_graph_get_endpoint_by_regs() and of_graph_get_remote_endpoint() to
->   get the input remote endpoint in imx8qxp_ldb_set_di_id() of i.MX8qxp LDB
->   bridge driver.
-> * Avoid using companion_port OF node after putting it in
->   imx8qxp_ldb_parse_dt_companion() of i.MX8qxp LDB bridge driver.
-> * Drop unnecessary check for maximum available LDB channels from
->   i.MX8qm LDB bridge driver.
-> * Mention i.MX8qm/qxp LDB official name 'pixel mapper' in i.MX8qm/qxp LDB
->   bridge drivers and Kconfig help messages.
-> 
-> Liu Ying (14):
->   media: uapi: Add some RGB bus formats for i.MX8qm/qxp pixel combiner
->   media: docs: Add some RGB bus formats for i.MX8qm/qxp pixel combiner
->   dt-bindings: display: bridge: Add i.MX8qm/qxp pixel combiner binding
->   drm/bridge: imx: Add i.MX8qm/qxp pixel combiner support
->   dt-bindings: display: bridge: Add i.MX8qm/qxp display pixel link
->     binding
->   drm/bridge: imx: Add i.MX8qm/qxp display pixel link support
->   dt-bindings: display: bridge: Add i.MX8qxp pixel link to DPI binding
->   drm/bridge: imx: Add i.MX8qxp pixel link to DPI support
->   drm/bridge: imx: Add LDB driver helper support
->   dt-bindings: display: bridge: Add i.MX8qm/qxp LVDS display bridge
->     binding
->   drm/bridge: imx: Add LDB support for i.MX8qxp
->   drm/bridge: imx: Add LDB support for i.MX8qm
->   dt-bindings: mfd: Add i.MX8qm/qxp Control and Status Registers module
->     binding
->   MAINTAINERS: add maintainer for DRM bridge drivers for i.MX SoCs
-> 
->  .../display/bridge/fsl,imx8qxp-ldb.yaml       | 173 +++++
->  .../bridge/fsl,imx8qxp-pixel-combiner.yaml    | 144 ++++
->  .../bridge/fsl,imx8qxp-pixel-link.yaml        | 106 +++
->  .../display/bridge/fsl,imx8qxp-pxl2dpi.yaml   | 108 +++
->  .../bindings/mfd/fsl,imx8qxp-csr.yaml         | 192 +++++
->  .../media/v4l/subdev-formats.rst              | 156 ++++
->  MAINTAINERS                                   |  10 +
->  drivers/gpu/drm/bridge/Kconfig                |   2 +
->  drivers/gpu/drm/bridge/Makefile               |   1 +
->  drivers/gpu/drm/bridge/imx/Kconfig            |  42 +
->  drivers/gpu/drm/bridge/imx/Makefile           |   9 +
->  drivers/gpu/drm/bridge/imx/imx-ldb-helper.c   | 220 ++++++
->  drivers/gpu/drm/bridge/imx/imx-ldb-helper.h   |  96 +++
->  drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c   | 587 ++++++++++++++
->  drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c  | 722 ++++++++++++++++++
->  .../drm/bridge/imx/imx8qxp-pixel-combiner.c   | 448 +++++++++++
->  .../gpu/drm/bridge/imx/imx8qxp-pixel-link.c   | 429 +++++++++++
->  drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c  | 487 ++++++++++++
->  include/uapi/linux/media-bus-format.h         |   6 +-
->  19 files changed, 3937 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
->  create mode 100644 Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml
->  create mode 100644 drivers/gpu/drm/bridge/imx/Kconfig
->  create mode 100644 drivers/gpu/drm/bridge/imx/Makefile
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx-ldb-helper.h
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
+[  139.985440] Enabling non-boot CPUs ...
+[  139.990363] Detected VIPT I-cache on CPU1
+[  139.990413] GICv3: CPU1: found redistributor 1 region
+0:0x00000000388a0000
+[  139.990487] CPU1: Booted secondary processor 0x0000000001
+[0x410fd034]
+[  139.991445] CPU1 is up
+[  140.011836] Detected VIPT I-cache on CPU2
+[  140.011852] GICv3: CPU2: found redistributor 2 region
+0:0x00000000388c0000
+[  140.011876] CPU2: Booted secondary processor 0x0000000002
+[0x410fd034]
+[  140.012284] CPU2 is up
+[  140.032739] Detected VIPT I-cache on CPU3
+[  140.032756] GICv3: CPU3: found redistributor 3 region
+0:0x00000000388e0000
+[  140.032780] CPU3: Booted secondary processor 0x0000000003
+[0x410fd034]
+[  140.033310] CPU3 is up
+[  140.158791] imx-pgc imx-pgc-domain.5: failed to enable regulator: -
+110
 
--- 
-Regards,
+trying runtime-resume in system-suspend for i2c busses didn't help me
+here for example. What's your idea for solving this? (regulator always-
+on is not an acceptable workaround :) I'm always happy to test concrete
+ideas and would like to know from anyone who uses system suspend on
+imx8mq.
 
-Laurent Pinchart
+history
+-------
+last time this came to my attention via the mainling lists was the VPU
+addition:
+https://lore.kernel.org/linux-arm-kernel/8ed3a28d59b442b531e68e95d83b187bb3392940.camel@puri.sm/
+but for the above logs and all current tests, I ignore the VPU (set the
+power-supply always-on) simply because the the driver is in staging and
+seems to create a different problem when suspending, and the GPU power-
+supply example is very well suited to highlight the problem.
+
+but before that, "gpcv2: support systemd suspend/resume"
+( https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=da4112230f86
+) didn't work for me, see:
+https://lore.kernel.org/all/a20ecd639f8e8b7fa4a9bed7a8e9590225262784.camel@puri.sm/
+
+thanks a lot,
+
+                               martin
+
+
