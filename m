@@ -2,141 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88D0C5448DB
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 12:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F2925448E2
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 12:29:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242934AbiFIK1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jun 2022 06:27:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50196 "EHLO
+        id S233799AbiFIK3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jun 2022 06:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242762AbiFIK1L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 06:27:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E0E202D2F;
-        Thu,  9 Jun 2022 03:27:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ECEF661D3A;
-        Thu,  9 Jun 2022 10:27:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EABAC34114;
-        Thu,  9 Jun 2022 10:27:07 +0000 (UTC)
-Message-ID: <ca006530-b20b-f97c-af68-5f0191478f96@xs4all.nl>
-Date:   Thu, 9 Jun 2022 12:27:05 +0200
+        with ESMTP id S230290AbiFIK3v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 06:29:51 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C6C3194254
+        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 03:29:50 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id r206so31320158oib.8
+        for <linux-media@vger.kernel.org>; Thu, 09 Jun 2022 03:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ribalda-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NEfkIqme8dn9dJYrSg1n7je0e0IoxbVwQHxXscwobvI=;
+        b=EQrrKc2pyM1DpXQsKmI8eBceQT7jCdTcsJEzlF+C/byJ8K26T0zxmoVSqHV+CYuF6f
+         8TVQVEU769B2dJlNkMwb/eyCF+cAdNhnDX7jyRUUsf7a9Uoioe07JVEJeMoTm+dPnlvN
+         N1NBzwjqVjYkGPxmD/D5qKTh62DZJmbta+/GDwiB4iwO40yA0Y6uEDHrQxqwuOYRvW/z
+         3P8eh1twjt5/C7XfzhxcI1SD52X3FcRcMBdIZ6AsWCtpdGeu2TUNDnJgNzzdLZg2JbIu
+         rsVRT4tIVTfVzCDAZyy8oyXL3SRRQ4yJLext6Dc7yP6BElsOKVNkeUfGRHJuAWI6JVad
+         /7UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NEfkIqme8dn9dJYrSg1n7je0e0IoxbVwQHxXscwobvI=;
+        b=RxLsyS7jIvkBUVQmpqNaYTcMBXI/DicEQOv0zlb7d/KjlZIFkJs7wr4Fhe2/ZLEYf6
+         10e4o4wfBPSYeLY9tPt3EgaDcu6ypWTLceoMjvFPDisAHZF39spHiG1xWULZegTbvnKE
+         5teJBrGPrh8H5QVxejwZEsCsvBik2LZeqbAB+o5xOzuqr1p411GCmm0p8cMOWhPs6tpi
+         Ue1o/cVbXkUY3J57VxvYiZThDsyqQtR0MLZkU+kxOFK9bbsgkJWiXc9zxoUCAIwWShov
+         RP3mLUI0Wad4FYOOtzPR2s0qeqkvYIJGdF9ue7/DFhiJpLIOXnnx2RRdmsYuziN3SM0d
+         5vMQ==
+X-Gm-Message-State: AOAM532072CLVGGMxUpgqDINYjJGj79ZRTysX7p4OVxBcCTKHKR08yXy
+        tuzlCk4O5Fh9mHo8/1pq6x2LBOeqivx/cEeXFR4=
+X-Google-Smtp-Source: ABdhPJz/7OKCn3vu8RPNtXqTB4+GxdfEIvV6rfcySuZLSrJ7iP1eI3z+56Yws86AMIFgGedaBhD3pg==
+X-Received: by 2002:aca:3bc1:0:b0:32b:243e:2542 with SMTP id i184-20020aca3bc1000000b0032b243e2542mr1218333oia.175.1654770589764;
+        Thu, 09 Jun 2022 03:29:49 -0700 (PDT)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com. [209.85.160.49])
+        by smtp.gmail.com with ESMTPSA id z18-20020a9d62d2000000b0060bf670dd35sm6310447otk.49.2022.06.09.03.29.48
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jun 2022 03:29:49 -0700 (PDT)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-fe4ac3b87fso351420fac.3
+        for <linux-media@vger.kernel.org>; Thu, 09 Jun 2022 03:29:48 -0700 (PDT)
+X-Received: by 2002:a05:6870:d69c:b0:de:9925:2baa with SMTP id
+ z28-20020a056870d69c00b000de99252baamr1308496oap.279.1654770588607; Thu, 09
+ Jun 2022 03:29:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] media: imx-jpeg: Disable slot interrupt when frame done
-Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        mirela.rabulea@oss.nxp.com
-Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20220607072315.23209-1-ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220607072315.23209-1-ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
+In-Reply-To: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
+From:   Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Date:   Thu, 9 Jun 2022 12:29:32 +0200
+X-Gmail-Original-Message-ID: <CAPybu_2=MkqBeesQe56pw1nVCpaRyukH80ifk6zasbcykyq5bA@mail.gmail.com>
+Message-ID: <CAPybu_2=MkqBeesQe56pw1nVCpaRyukH80ifk6zasbcykyq5bA@mail.gmail.com>
+Subject: Re: [ANN] Media Summit at ELCE Dublin: Request for Topics
+To:     Hans Verkuil <hverkuil@xs4all.nl>, Tomasz Figa <tfiga@chromium.org>
+Cc:     linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming Qian,
+Hi Hans
 
-On 6/7/22 09:23, Ming Qian wrote:
-> The interrupt STMBUF_HALF may be triggered after frame done.
-> It may led to system hang if driver try to access the register after
-> power off.
-> 
-> Disable the slot interrupt when frame done.
-> 
-> Fixes: 2db16c6ed72ce ("media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder")
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c |  5 +++++
->  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h |  1 +
->  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 11 ++---------
->  3 files changed, 8 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
-> index c482228262a3..9418fcf740a8 100644
-> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
-> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
-> @@ -79,6 +79,11 @@ void mxc_jpeg_enable_irq(void __iomem *reg, int slot)
->  	writel(0xFFFFFFFF, reg + MXC_SLOT_OFFSET(slot, SLOT_IRQ_EN));
->  }
->  
-> +void mxc_jpeg_disable_irq(void __iomem *reg, int slot)
-> +{
-> +	writel(0x0, reg + MXC_SLOT_OFFSET(slot, SLOT_IRQ_EN));
-> +}
-> +
->  void mxc_jpeg_sw_reset(void __iomem *reg)
->  {
->  	/*
-> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
-> index 07655502f4bd..ecf3b6562ba2 100644
-> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
-> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
-> @@ -126,6 +126,7 @@ u32 mxc_jpeg_get_offset(void __iomem *reg, int slot);
->  void mxc_jpeg_enable_slot(void __iomem *reg, int slot);
->  void mxc_jpeg_set_l_endian(void __iomem *reg, int le);
->  void mxc_jpeg_enable_irq(void __iomem *reg, int slot);
-> +void mxc_jpeg_disable_irq(void __iomem *reg, int slot);
->  int mxc_jpeg_set_input(void __iomem *reg, u32 in_buf, u32 bufsize);
->  int mxc_jpeg_set_output(void __iomem *reg, u16 out_pitch, u32 out_buf,
->  			u16 w, u16 h);
-> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> index 965021d3c7ef..b1f48835398e 100644
-> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> @@ -592,15 +592,7 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
->  	dev_dbg(dev, "Irq %d on slot %d.\n", irq, slot);
->  
->  	ctx = v4l2_m2m_get_curr_priv(jpeg->m2m_dev);
-> -	if (!ctx) {
-> -		dev_err(dev,
-> -			"Instance released before the end of transaction.\n");
-> -		/* soft reset only resets internal state, not registers */
-> -		mxc_jpeg_sw_reset(reg);
-> -		/* clear all interrupts */
-> -		writel(0xFFFFFFFF, reg + MXC_SLOT_OFFSET(slot, SLOT_STATUS));
-> -		goto job_unlock;
-> -	}
-> +	WARN_ON(!ctx);
+On Mon, May 9, 2022 at 8:46 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Hi all,
+>
+> Since countries are opening up again and travel is (at least for now!) a lot easier,
+> I am considering a media summit during the ELCE in Dublin (Sep 13-16).
+>
+> See here for more details about the conference:
+>
+> https://events.linuxfoundation.org/open-source-summit-europe/
+>
+> Of course, this only makes sense if there is something to talk about. So please reply
+> with any suggestions for topics!
+>
+> Also please let me know if you would expect to be at such a media summit in person.
+> If only a few people would be there, then there isn't much point to this.
+>
+>
+> I have two topics:
+>
+> 1) Discussion of the media subsystem development process: any bottlenecks, any ideas
+>    for improvements?
+>
+> 2) I can give a presentation on the work I've done in the CTA-861 standard (used by
+>    HDMI) and the edid-decode utility.
+>
+> I'd like to make a decision on whether or not it is worthwhile to do this in a week
+> or two. If we wait too long it might be difficult to get a room for the summit.
+>
+> Regards,
+>
+>         Hans
 
-This looks very scary, since if this happens,
 
->  
->  	if (slot != ctx->slot) {
+If all goes well, I will attend in person.
 
-then it will crash here when it attempts to access ctx.
+I would like to propose a topic as well if there is still space for it:
 
-Shouldn't this be better?
+At ChromeOS we have been working on a new way to access cameras that
+do not fit in the current V4L2/MC model.
 
-	if (WARN_ON(!ctx))
-		goto job_unlock;
+We want to introduce the project, start a discussion in the media
+community and think together about the approach and how it fits in our
+current ecosystem.
 
-It's certainly a lot more robust.
 
-Regards,
-
-	Hans
-
->  		/* TODO investigate when adding multi-instance support */
-> @@ -673,6 +665,7 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
->  	buf_state = VB2_BUF_STATE_DONE;
->  
->  buffers_done:
-> +	mxc_jpeg_disable_irq(reg, ctx->slot);
->  	jpeg->slot_data[slot].used = false; /* unused, but don't free */
->  	mxc_jpeg_check_and_set_last_buffer(ctx, src_buf, dst_buf);
->  	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+Best regards!
