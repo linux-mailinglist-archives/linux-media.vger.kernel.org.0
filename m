@@ -2,70 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F2925448E2
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 12:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 422465449E5
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 13:21:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233799AbiFIK3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jun 2022 06:29:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33218 "EHLO
+        id S236987AbiFILVq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jun 2022 07:21:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230290AbiFIK3v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 06:29:51 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C6C3194254
-        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 03:29:50 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id r206so31320158oib.8
-        for <linux-media@vger.kernel.org>; Thu, 09 Jun 2022 03:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ribalda-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NEfkIqme8dn9dJYrSg1n7je0e0IoxbVwQHxXscwobvI=;
-        b=EQrrKc2pyM1DpXQsKmI8eBceQT7jCdTcsJEzlF+C/byJ8K26T0zxmoVSqHV+CYuF6f
-         8TVQVEU769B2dJlNkMwb/eyCF+cAdNhnDX7jyRUUsf7a9Uoioe07JVEJeMoTm+dPnlvN
-         N1NBzwjqVjYkGPxmD/D5qKTh62DZJmbta+/GDwiB4iwO40yA0Y6uEDHrQxqwuOYRvW/z
-         3P8eh1twjt5/C7XfzhxcI1SD52X3FcRcMBdIZ6AsWCtpdGeu2TUNDnJgNzzdLZg2JbIu
-         rsVRT4tIVTfVzCDAZyy8oyXL3SRRQ4yJLext6Dc7yP6BElsOKVNkeUfGRHJuAWI6JVad
-         /7UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NEfkIqme8dn9dJYrSg1n7je0e0IoxbVwQHxXscwobvI=;
-        b=RxLsyS7jIvkBUVQmpqNaYTcMBXI/DicEQOv0zlb7d/KjlZIFkJs7wr4Fhe2/ZLEYf6
-         10e4o4wfBPSYeLY9tPt3EgaDcu6ypWTLceoMjvFPDisAHZF39spHiG1xWULZegTbvnKE
-         5teJBrGPrh8H5QVxejwZEsCsvBik2LZeqbAB+o5xOzuqr1p411GCmm0p8cMOWhPs6tpi
-         Ue1o/cVbXkUY3J57VxvYiZThDsyqQtR0MLZkU+kxOFK9bbsgkJWiXc9zxoUCAIwWShov
-         RP3mLUI0Wad4FYOOtzPR2s0qeqkvYIJGdF9ue7/DFhiJpLIOXnnx2RRdmsYuziN3SM0d
-         5vMQ==
-X-Gm-Message-State: AOAM532072CLVGGMxUpgqDINYjJGj79ZRTysX7p4OVxBcCTKHKR08yXy
-        tuzlCk4O5Fh9mHo8/1pq6x2LBOeqivx/cEeXFR4=
-X-Google-Smtp-Source: ABdhPJz/7OKCn3vu8RPNtXqTB4+GxdfEIvV6rfcySuZLSrJ7iP1eI3z+56Yws86AMIFgGedaBhD3pg==
-X-Received: by 2002:aca:3bc1:0:b0:32b:243e:2542 with SMTP id i184-20020aca3bc1000000b0032b243e2542mr1218333oia.175.1654770589764;
-        Thu, 09 Jun 2022 03:29:49 -0700 (PDT)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com. [209.85.160.49])
-        by smtp.gmail.com with ESMTPSA id z18-20020a9d62d2000000b0060bf670dd35sm6310447otk.49.2022.06.09.03.29.48
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 03:29:49 -0700 (PDT)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-fe4ac3b87fso351420fac.3
-        for <linux-media@vger.kernel.org>; Thu, 09 Jun 2022 03:29:48 -0700 (PDT)
-X-Received: by 2002:a05:6870:d69c:b0:de:9925:2baa with SMTP id
- z28-20020a056870d69c00b000de99252baamr1308496oap.279.1654770588607; Thu, 09
- Jun 2022 03:29:48 -0700 (PDT)
+        with ESMTP id S231712AbiFILVp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 07:21:45 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F3D25C5
+        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 04:21:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9B325B82C7E
+        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 11:21:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E45EC3411B
+        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 11:21:39 +0000 (UTC)
+Message-ID: <29f3db0b-ee7d-c4ba-dec7-95b693b0e5ac@xs4all.nl>
+Date:   Thu, 9 Jun 2022 13:21:38 +0200
 MIME-Version: 1.0
-References: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
-In-Reply-To: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
-From:   Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date:   Thu, 9 Jun 2022 12:29:32 +0200
-X-Gmail-Original-Message-ID: <CAPybu_2=MkqBeesQe56pw1nVCpaRyukH80ifk6zasbcykyq5bA@mail.gmail.com>
-Message-ID: <CAPybu_2=MkqBeesQe56pw1nVCpaRyukH80ifk6zasbcykyq5bA@mail.gmail.com>
-Subject: Re: [ANN] Media Summit at ELCE Dublin: Request for Topics
-To:     Hans Verkuil <hverkuil@xs4all.nl>, Tomasz Figa <tfiga@chromium.org>
-Cc:     linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.20] Various fixes/enhancements
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -74,52 +42,127 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
-
-On Mon, May 9, 2022 at 8:46 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> Hi all,
->
-> Since countries are opening up again and travel is (at least for now!) a lot easier,
-> I am considering a media summit during the ELCE in Dublin (Sep 13-16).
->
-> See here for more details about the conference:
->
-> https://events.linuxfoundation.org/open-source-summit-europe/
->
-> Of course, this only makes sense if there is something to talk about. So please reply
-> with any suggestions for topics!
->
-> Also please let me know if you would expect to be at such a media summit in person.
-> If only a few people would be there, then there isn't much point to this.
->
->
-> I have two topics:
->
-> 1) Discussion of the media subsystem development process: any bottlenecks, any ideas
->    for improvements?
->
-> 2) I can give a presentation on the work I've done in the CTA-861 standard (used by
->    HDMI) and the edid-decode utility.
->
-> I'd like to make a decision on whether or not it is worthwhile to do this in a week
-> or two. If we wait too long it might be difficult to get a room for the summit.
->
-> Regards,
->
->         Hans
 
 
-If all goes well, I will attend in person.
+The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
 
-I would like to propose a topic as well if there is still space for it:
+  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
 
-At ChromeOS we have been working on a new way to access cameras that
-do not fit in the current V4L2/MC model.
+are available in the Git repository at:
 
-We want to introduce the project, start a discussion in the media
-community and think together about the approach and how it fits in our
-current ecosystem.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.20c
 
+for you to fetch changes up to 7c7a740032d192fb42b94a02912e1322286d5339:
 
-Best regards!
+  pvrusb2: fix memory leak in pvr_probe (2022-06-09 12:33:34 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Benjamin Gaignard (2):
+      media: hantro: Be more accurate on pixel formats step_width constraints
+      media: Hantro: Correct G2 init qp field
+
+Chengguang Xu (1):
+      media: platform: fix missing/incorrect resource cleanup in error case
+
+Dongliang Mu (1):
+      pvrusb2: fix memory leak in pvr_probe
+
+Eugen Hristev (1):
+      media: atmel: atmel-isc-base: move cropping settings outside start_dma
+
+Haowen Bai (1):
+      media: mediatek: vcodec: Use kmemdup rather than kmalloc/memcpy
+
+Julia Lawall (4):
+      media: platform: exynos-gsc: fix typo in comment
+      media: mediatek: vcodec: fix typo in comment
+      media: platform: exynos4-is: fix typos in comments
+      media: staging: atomisp: fix typo in comment
+
+Justin Green (1):
+      mediatek/vcodec: Enable incoherent buffer allocation
+
+Kees Cook (1):
+      media: amphion: Replace zero-length array with flexible-array member
+
+Linus Walleij (1):
+      media: platform: omap: Pass a pointer to virt_to_page()
+
+Ming Qian (6):
+      media: amphion: vdec check format in enum_fmt
+      media: amphion: return error if format is unsupported by vpu
+      media: imx-jpeg: Correct some definition according specification
+      media: imx-jpeg: Leave a blank space before the configuration data
+      media: imx-jpeg: Align upwards buffer size
+      media: imx-jpeg: Implement drain using v4l2-mem2mem helpers
+
+Niklas Söderlund (1):
+      media: rcar-vin: Fix channel routing for Ebisu
+
+Oliver Neukum (1):
+      airspy: respect the DMA coherency rules
+
+Scott Chao (1):
+      media: platform: cros-ec: Add moli to the match table
+
+Vladimir Zapolskiy (2):
+      media: camss: Allocate camss struct as a managed device resource
+      media: camss: Move and unexport functions specific to ISPIF
+
+Zheyu Ma (2):
+      media: tw5864: Convert to use managed functions pcim* and devm*
+      media: tw686x: Register the irq at the end of probe
+
+Ziyang Xuan (1):
+      media: amphion: delete unnecessary NULL check
+
+kyrie wu (2):
+      media: media: jpegenc: add mediatek,mt8186-jpgenc compatible
+      media: media: jpegenc: set bit mask for jpegenc
+
+ Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml |   6 ++
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c                   |   2 +
+ drivers/media/pci/tw5864/tw5864-core.c                             |  30 ++------
+ drivers/media/pci/tw686x/tw686x-core.c                             |  18 +++--
+ drivers/media/platform/amphion/vdec.c                              |   3 +-
+ drivers/media/platform/amphion/venc.c                              |   3 +-
+ drivers/media/platform/amphion/vpu_cmds.c                          |   3 +-
+ drivers/media/platform/amphion/vpu_dbg.c                           |   2 +-
+ drivers/media/platform/amphion/vpu_malone.c                        |  18 +++++
+ drivers/media/platform/amphion/vpu_malone.h                        |   1 +
+ drivers/media/platform/amphion/vpu_rpc.c                           |   2 +-
+ drivers/media/platform/amphion/vpu_v4l2.c                          |   6 +-
+ drivers/media/platform/atmel/atmel-isc-base.c                      |  14 ++--
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c               |   3 +
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c            |   2 +
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h            |   2 +-
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c  |   3 +-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h                  |   8 +--
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c                     | 252 +++++++++++++++++++++++++++++++------------------------------------
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h                     |   2 -
+ drivers/media/platform/qcom/camss/camss-ispif.c                    |  39 ++++++++++-
+ drivers/media/platform/qcom/camss/camss-vfe.c                      |  34 ---------
+ drivers/media/platform/qcom/camss/camss-vfe.h                      |   3 -
+ drivers/media/platform/qcom/camss/camss.c                          |  33 +++------
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c                |   2 +-
+ drivers/media/platform/samsung/exynos-gsc/gsc-core.h               |   2 +-
+ drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h          |   2 +-
+ drivers/media/platform/samsung/exynos4-is/mipi-csis.c              |   2 +-
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.c                |   3 +-
+ drivers/media/platform/ti/omap/omap_voutlib.c                      |   4 +-
+ drivers/media/usb/airspy/airspy.c                                  |  17 ++++-
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c                            |   1 +
+ drivers/staging/media/atomisp/i2c/ov5693/ov5693.h                  |   2 +-
+ drivers/staging/media/hantro/hantro_drv.c                          |  12 ++--
+ drivers/staging/media/hantro/hantro_g2_regs.h                      |   2 +-
+ drivers/staging/media/hantro/hantro_hevc.c                         |  30 ++++++++
+ drivers/staging/media/hantro/hantro_hw.h                           |  14 ++++
+ drivers/staging/media/hantro/hantro_v4l2.c                         |   2 +-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c                        |  80 ++++++++++++++-------
+ drivers/staging/media/hantro/rockchip_vpu_hw.c                     | 104 ++++++++++++++++++----------
+ drivers/staging/media/hantro/sama5d4_vdec_hw.c                     |  40 +++++++----
+ drivers/staging/media/hantro/sunxi_vpu_hw.c                        |  24 +++++--
+ 42 files changed, 485 insertions(+), 347 deletions(-)
