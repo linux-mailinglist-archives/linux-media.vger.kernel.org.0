@@ -2,37 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DA1C5446E6
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 11:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DBEE5446E4
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jun 2022 11:08:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233724AbiFIJI4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jun 2022 05:08:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34466 "EHLO
+        id S232806AbiFIJI5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jun 2022 05:08:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232806AbiFIJIz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 05:08:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA0815A26
-        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 02:08:54 -0700 (PDT)
+        with ESMTP id S233703AbiFIJI4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jun 2022 05:08:56 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28FEE15A2C
+        for <linux-media@vger.kernel.org>; Thu,  9 Jun 2022 02:08:55 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0A4A6CF;
-        Thu,  9 Jun 2022 11:08:52 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6610F741;
+        Thu,  9 Jun 2022 11:08:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1654765733;
-        bh=8BAvC4WVWH4WEVVFQMA4Wbh9vbIRZWuBkgdg/LP70OU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=M9URfZcJ7QFBUfGGgdLJlVXJcfUwMGm5UuDy4cZ7fdzBPT2/8grKUWDXqehcXjspP
-         CoorANOTzS5FpElXqAE5DGPY/KhZ6RzwujxsmNEY8Cfj1pLBGyibEtQfh+Ws5kbN3x
-         jB4LTWNIpcFpKeGF8tN1/3CGU5hDI055eFGN/DuE=
+        bh=GxYbXz+ZTxeZ7l1DODtB+IMesSMvVH7waj736eYhvDA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Zg0qWPai7v3jUr1oqshjdZpb4X+2k0Vgadhr+qQFrMSfoJPSw3KmrkkQ1hNz2QBUN
+         Ut9CmVjJLRea+G56Y9KT2nFIAGqpmTu8krBvP0yY+8hy7Yd/fyPr3xmX5xH7NNlT2v
+         Yx4kadUx4DoUJWQS0YSGG9xmy/Kn4VBUYevZXNjY=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Ricardo Ribalda <ribalda@chromium.org>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
         Yunke Cao <yunkec@google.com>
-Subject: [PATCH v5 0/7] uvcvideo: Fix handling of power_line_frequency
-Date:   Thu,  9 Jun 2022 12:08:36 +0300
-Message-Id: <20220609090843.16423-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v5 1/7] media: uvcvideo: Add missing value for power_line_frequency
+Date:   Thu,  9 Jun 2022 12:08:37 +0300
+Message-Id: <20220609090843.16423-2-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220609090843.16423-1-laurent.pinchart@ideasonboard.com>
+References: <20220609090843.16423-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -45,36 +47,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+From: Ricardo Ribalda <ribalda@chromium.org>
 
-This series is a new version of "[PATCH v3 0/7] uvcvideo: Fix handling
-of power_line_frequency", with an attempt to generalize the
-UVC_QUIRK_LIMITED_POWERLINE quirk that it introduced and turn it into a
-control mappings override mechanism.
+UVC 1.5 class defines 4 values for this control on:
+4.2.2.3.6 Power Line Frequency Control
 
-The goal is still to support the UVC 1.5 power line frequency control
-extra option (patch 1/7), and work around an issue with devices that do
-not implement support for disabling the power line frequency (patches
-2/7 to 7/7).
+Add the missing value when the UVC version is 1.5.
 
-Ricardo, would you be able to test this ?
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+Changes since v3:
 
-Ricardo Ribalda (7):
-  media: uvcvideo: Add missing value for power_line_frequency
-  media: uvcvideo: Add support for per-device control mapping overrides
-  media: uvcvideo: Limit power line control for Quanta UVC Webcam
-  media: uvcvideo: Limit power line control for Chicony Easycamera
-  media: uvcvideo: Limit power line control for Chicony Easycamera
-  media: uvcvideo: Limit power line control for Quanta cameras
-  media: uvcvideo: Limit power line control for Acer EasyCamera
+- Create version-specific control mapping arrays
+---
+ drivers/media/usb/uvc/uvc_ctrl.c | 56 +++++++++++++++++++++++++-------
+ 1 file changed, 45 insertions(+), 11 deletions(-)
 
- drivers/media/usb/uvc/uvc_ctrl.c   | 79 +++++++++++++++++++++++----
- drivers/media/usb/uvc/uvc_driver.c | 87 ++++++++++++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 156 insertions(+), 11 deletions(-)
-
-
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index e1d57602bc37..95fdd41ab20b 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -366,6 +366,7 @@ static const struct uvc_menu_info power_line_frequency_controls[] = {
+ 	{ 0, "Disabled" },
+ 	{ 1, "50 Hz" },
+ 	{ 2, "60 Hz" },
++	{ 3, "Auto" },
+ };
+ 
+ static const struct uvc_menu_info exposure_auto_controls[] = {
+@@ -504,17 +505,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+ 		.v4l2_type	= V4L2_CTRL_TYPE_INTEGER,
+ 		.data_type	= UVC_CTRL_DATA_TYPE_UNSIGNED,
+ 	},
+-	{
+-		.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+-		.entity		= UVC_GUID_UVC_PROCESSING,
+-		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+-		.size		= 2,
+-		.offset		= 0,
+-		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+-		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+-		.menu_info	= power_line_frequency_controls,
+-		.menu_count	= ARRAY_SIZE(power_line_frequency_controls),
+-	},
+ 	{
+ 		.id		= V4L2_CID_HUE_AUTO,
+ 		.entity		= UVC_GUID_UVC_PROCESSING,
+@@ -730,6 +720,34 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+ 	},
+ };
+ 
++static const struct uvc_control_mapping uvc_ctrl_mappings_uvc11[] = {
++	{
++		.id		= V4L2_CID_POWER_LINE_FREQUENCY,
++		.entity		= UVC_GUID_UVC_PROCESSING,
++		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
++		.size		= 2,
++		.offset		= 0,
++		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
++		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
++		.menu_info	= power_line_frequency_controls,
++		.menu_count	= ARRAY_SIZE(power_line_frequency_controls) - 1,
++	},
++};
++
++static const struct uvc_control_mapping uvc_ctrl_mappings_uvc15[] = {
++	{
++		.id		= V4L2_CID_POWER_LINE_FREQUENCY,
++		.entity		= UVC_GUID_UVC_PROCESSING,
++		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
++		.size		= 2,
++		.offset		= 0,
++		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
++		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
++		.menu_info	= power_line_frequency_controls,
++		.menu_count	= ARRAY_SIZE(power_line_frequency_controls),
++	},
++};
++
+ /* ------------------------------------------------------------------------
+  * Utility functions
+  */
+@@ -2426,6 +2444,22 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 	if (!ctrl->initialized)
+ 		return;
+ 
++	/* Process common mappings first. */
++	for (; mapping < mend; ++mapping) {
++		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
++		    ctrl->info.selector == mapping->selector)
++			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
++	}
++
++	/* And then version-specific mappings. */
++	if (chain->dev->uvc_version < 0x0150) {
++		mapping = uvc_ctrl_mappings_uvc11;
++		mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings_uvc11);
++	} else {
++		mapping = uvc_ctrl_mappings_uvc15;
++		mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings_uvc15);
++	}
++
+ 	for (; mapping < mend; ++mapping) {
+ 		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+ 		    ctrl->info.selector == mapping->selector)
 -- 
 Regards,
 
