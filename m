@@ -2,54 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAF445466C1
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jun 2022 14:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEC925466DE
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jun 2022 14:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238630AbiFJMkT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jun 2022 08:40:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55328 "EHLO
+        id S244835AbiFJMwc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jun 2022 08:52:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235263AbiFJMkT (ORCPT
+        with ESMTP id S234166AbiFJMwb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jun 2022 08:40:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92262B1E7;
-        Fri, 10 Jun 2022 05:40:16 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DC02526;
-        Fri, 10 Jun 2022 14:40:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1654864813;
-        bh=j+aJB4rOQ8RKX4cgIaBP/K9zw3RQqoIcJInt8Ay4+bk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FlES49URonAQPMkJGhftu8f4bLHTSF7Xavp9Q6/nO0UlEgjOLfMzCo6k1MMC0uHvS
-         tl4m+JSmVNftq8UmTFax9LryXV73vZdhrbzvsIlnvvfq/ODC0LGrD/JCx4rNgCl6/o
-         efp2h5pV8a16RStGqpUjRbfiwRrXTUusmlMCMmhg=
-Date:   Fri, 10 Jun 2022 15:40:06 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Liu Ying <victor.liu@nxp.com>
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, andrzej.hajda@intel.com,
-        narmstrong@baylibre.com, robert.foss@linaro.org, jonas@kwiboo.se,
-        jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, lee.jones@linaro.org,
-        mchehab@kernel.org, marcel.ziswiler@toradex.com
-Subject: Re: [PATCH v8 06/14] drm/bridge: imx: Add i.MX8qm/qxp display pixel
- link support
-Message-ID: <YqM7pnLtC4VTPLWb@pendragon.ideasonboard.com>
-References: <20220609064931.3068601-1-victor.liu@nxp.com>
- <20220609064931.3068601-7-victor.liu@nxp.com>
- <YqG9uaGOOp8gEYZh@pendragon.ideasonboard.com>
- <0309ccad2b37c185a83d17e1a8fa3811ac98a49f.camel@nxp.com>
+        Fri, 10 Jun 2022 08:52:31 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8FB229361
+        for <linux-media@vger.kernel.org>; Fri, 10 Jun 2022 05:52:27 -0700 (PDT)
+Received: from whitebuilder.lan (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6077C6601723;
+        Fri, 10 Jun 2022 13:52:25 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1654865545;
+        bh=WMyIg7gisNtkD0sb5pNXdznK+SK0HIpv0lIkFvXUJOo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UbynGtkURBdM5q9n+q9wujZXhL+162anA83Ymtfydsv+zR5ndBXzdWqV6MN0VLXHB
+         UOVOWWOLDsb3Y9CY43/7LOCZjATI7oKHYiaY/qaUjwBMdjYLWnn7IUq3BomycDxnyS
+         JF2hea7mdbPvqyJ37euIRnXtrvxWpiXND6Ik6aZvX/6sVP/sMu/EaBAZJObMoI8FdW
+         ZP6O5FlGM8QtgeK1BhAdr1iDBvQmIaog/BxgtwxAdBQm9EnZmlwBPJnIx3p5wLTRmH
+         1IDF0tDNrUcnO49VWYvTj0PT/5Q/Z5JTlcOp6T4yc7hRHuSJKRtUCW0w1mV8/NOSTF
+         SZ8MZq+GSc29g==
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        kernel@collabora.com
+Subject: [PATCH v1 0/5] media: rkvdec: Fix H.264 error resilience
+Date:   Fri, 10 Jun 2022 08:52:10 -0400
+Message-Id: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0309ccad2b37c185a83d17e1a8fa3811ac98a49f.camel@nxp.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -58,466 +52,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Liu,
+Cc: kernel@collabora.com,
+    linux-media@vger.kernel.org 
 
-On Fri, Jun 10, 2022 at 10:09:19AM +0800, Liu Ying wrote:
-> On Thu, 2022-06-09 at 12:30 +0300, Laurent Pinchart wrote:
-> > On Thu, Jun 09, 2022 at 02:49:23PM +0800, Liu Ying wrote:
-> > > This patch adds a drm bridge driver for i.MX8qm/qxp display pixel
-> > > link.
-> > > The pixel link forms a standard asynchronous linkage between
-> > > pixel sources(display controller or camera module) and pixel
-> > > consumers(imaging or displays).  It consists of two distinct
-> > > functions, a pixel transfer function and a control interface.
-> > > 
-> > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> > > Tested-by: Marcel Ziswiler <marcel.ziswiler@toradex.com> # Colibri
-> > > iMX8X, LT170410-2WHC, LP156WF1
-> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > > ---
-> > > Robert, I keep your R-b tag from v5. Let me know if you want me to
-> > > drop it, as
-> > > v7 contains a fix for checkpatch complaints.
-> > > Marcel, as the fix is trivial, I add your T-b tag. Let me know if
-> > > you want me
-> > > to drop it.
-> > > 
-> > > v7->v8:
-> > > * No change.
-> > > 
-> > > v6->v7:
-> > > * Fix 'Alignment should match open parenthesis' complaints from
-> > >   'checkpatch.pl --strict'.
-> > > * Add Marcel's T-b tag.
-> > > 
-> > > v5->v6:
-> > > * No change.
-> > > 
-> > > v4->v5:
-> > > * Make a comment occupy a line. (Robert)
-> > > * Add Robert's R-b tag.
-> > > 
-> > > v3->v4:
-> > > * No change.
-> > > 
-> > > v2->v3:
-> > > * Drop two macros which help define functions and define them
-> > > directly.
-> > > * Properly disable all pixel link controls to POR value by calling
-> > >   imx8qxp_pixel_link_disable_all_controls() from
-> > >   imx8qxp_pixel_link_bridge_probe().
-> > > 
-> > > v1->v2:
-> > > * Rewrite the function to find the next bridge by properly using OF
-> > > APIs
-> > >   and dropping unnecessary DT validation. (Rob)
-> > > 
-> > >  drivers/gpu/drm/bridge/imx/Kconfig            |   8 +
-> > >  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
-> > >  .../gpu/drm/bridge/imx/imx8qxp-pixel-link.c   | 429 ++++++++++++++++++
-> > >  3 files changed, 438 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-> > > 
-> > > diff --git a/drivers/gpu/drm/bridge/imx/Kconfig
-> > > b/drivers/gpu/drm/bridge/imx/Kconfig
-> > > index f1c91b6814a5..4d1f027d07f8 100644
-> > > --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> > > @@ -6,3 +6,11 @@ config DRM_IMX8QXP_PIXEL_COMBINER
-> > >  	help
-> > >  	  Choose this to enable pixel combiner found in
-> > >  	  Freescale i.MX8qm/qxp processors.
-> > > +
-> > > +config DRM_IMX8QXP_PIXEL_LINK
-> > > +	tristate "Freescale i.MX8QM/QXP display pixel link"
-> > > +	depends on OF
-> > > +	select DRM_KMS_HELPER
-> > 
-> > Should this depend on (or select) IMX_SCU ?
-> 
-> Will add 'depends on IMX_SCU'.
-> 
-> > > +	help
-> > > +	  Choose this to enable display pixel link found in
-> > > +	  Freescale i.MX8qm/qxp processors.
-> > > diff --git a/drivers/gpu/drm/bridge/imx/Makefile
-> > > b/drivers/gpu/drm/bridge/imx/Makefile
-> > > index 7d7c8d674bf0..c15469fb5789 100644
-> > > --- a/drivers/gpu/drm/bridge/imx/Makefile
-> > > +++ b/drivers/gpu/drm/bridge/imx/Makefile
-> > > @@ -1 +1,2 @@
-> > >  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-
-> > > combiner.o
-> > > +obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
-> > > diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-> > > new file mode 100644
-> > > index 000000000000..52b9b96549e1
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-> > > @@ -0,0 +1,429 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +
-> > > +/*
-> > > + * Copyright 2020 NXP
-> > > + */
-> > > +
-> > > +#include <linux/firmware/imx/svc/misc.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/of_graph.h>
-> > > +#include <linux/platform_device.h>
-> > > +
-> > > +#include <drm/drm_atomic_state_helper.h>
-> > > +#include <drm/drm_bridge.h>
-> > > +#include <drm/drm_print.h>
-> > > +
-> > > +#include <dt-bindings/firmware/imx/rsrc.h>
-> > > +
-> > > +#define DRIVER_NAME		"imx8qxp-display-pixel-link"
-> > > +#define PL_MAX_MST_ADDR		3
-> > > +#define PL_MAX_NEXT_BRIDGES	2
-> > > +
-> > > +struct imx8qxp_pixel_link {
-> > > +	struct drm_bridge bridge;
-> > > +	struct drm_bridge *next_bridge;
-> > > +	struct device *dev;
-> > > +	struct imx_sc_ipc *ipc_handle;
-> > > +	int id;
-> > > +	int stream_id;
-> > > +	int dc_id;
-> > > +	u32 sink_rsc;
-> > > +	u32 mst_addr;
-> > > +	u8 mst_addr_ctrl;
-> > > +	u8 mst_en_ctrl;
-> > > +	u8 mst_vld_ctrl;
-> > > +	u8 sync_ctrl;
-> > > +};
-> > > +
-> > > +static void imx8qxp_pixel_link_enable_mst_en(struct imx8qxp_pixel_link *pl)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-> > > +				      pl->mst_en_ctrl, true);
-> > > +	if (ret)
-> > > +		DRM_DEV_ERROR(pl->dev,
-> > > +			      "failed to enable DC%d stream%d pixel link mst_en: %d\n",
-> > > +			      pl->dc_id, pl->stream_id, ret);
-> > > +}
-> > > +
-> > > +static void imx8qxp_pixel_link_enable_mst_vld(struct imx8qxp_pixel_link *pl)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-> > > +				      pl->mst_vld_ctrl, true);
-> > > +	if (ret)
-> > > +		DRM_DEV_ERROR(pl->dev,
-> > > +			      "failed to enable DC%d stream%d pixel link mst_vld: %d\n",
-> > > +			      pl->dc_id, pl->stream_id, ret);
-> > > +}
-> > > +
-> > > +static void imx8qxp_pixel_link_enable_sync(struct imx8qxp_pixel_link *pl)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-> > > +				      pl->sync_ctrl, true);
-> > > +	if (ret)
-> > > +		DRM_DEV_ERROR(pl->dev,
-> > > +			      "failed to enable DC%d stream%d pixel link sync: %d\n",
-> > > +			      pl->dc_id, pl->stream_id, ret);
-> > > +}
-> > > +
-> > > +static int imx8qxp_pixel_link_disable_mst_en(struct imx8qxp_pixel_link *pl)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-> > > +				      pl->mst_en_ctrl, false);
-> > > +	if (ret)
-> > > +		DRM_DEV_ERROR(pl->dev,
-> > > +			      "failed to disable DC%d stream%d pixel link mst_en: %d\n",
-> > > +			      pl->dc_id, pl->stream_id, ret);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static int imx8qxp_pixel_link_disable_mst_vld(struct imx8qxp_pixel_link *pl)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-> > > +				      pl->mst_vld_ctrl, false);
-> > > +	if (ret)
-> > > +		DRM_DEV_ERROR(pl->dev,
-> > > +			      "failed to disable DC%d stream%d pixel link mst_vld: %d\n",
-> > > +			      pl->dc_id, pl->stream_id, ret);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static int imx8qxp_pixel_link_disable_sync(struct imx8qxp_pixel_link *pl)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-> > > +				      pl->sync_ctrl, false);
-> > > +	if (ret)
-> > > +		DRM_DEV_ERROR(pl->dev,
-> > > +			      "failed to disable DC%d stream%d pixel link sync: %d\n",
-> > > +			      pl->dc_id, pl->stream_id, ret);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static void imx8qxp_pixel_link_set_mst_addr(struct imx8qxp_pixel_link *pl)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = imx_sc_misc_set_control(pl->ipc_handle,
-> > > +				      pl->sink_rsc, pl->mst_addr_ctrl,
-> > > +				      pl->mst_addr);
-> > > +	if (ret)
-> > > +		DRM_DEV_ERROR(pl->dev,
-> > > +			      "failed to set DC%d stream%d pixel link mst addr(%u): %d\n",
-> > > +			      pl->dc_id, pl->stream_id, pl->mst_addr, ret);
-> > > +}
-> > > +
-> > > +static int imx8qxp_pixel_link_bridge_attach(struct drm_bridge *bridge,
-> > > +					    enum drm_bridge_attach_flags flags)
-> > > +{
-> > > +	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-> > > +
-> > > +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> > > +		DRM_DEV_ERROR(pl->dev,
-> > > +			      "do not support creating a drm_connector\n");
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	if (!bridge->encoder) {
-> > > +		DRM_DEV_ERROR(pl->dev, "missing encoder\n");
-> > > +		return -ENODEV;
-> > > +	}
-> > > +
-> > > +	return drm_bridge_attach(bridge->encoder,
-> > > +				 pl->next_bridge, bridge,
-> > > +				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> > > +}
-> > > +
-> > > +static void
-> > > +imx8qxp_pixel_link_bridge_mode_set(struct drm_bridge *bridge,
-> > > +				   const struct drm_display_mode *mode,
-> > > +				   const struct drm_display_mode *adjusted_mode)
-> > > +{
-> > > +	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-> > > +
-> > > +	imx8qxp_pixel_link_set_mst_addr(pl);
-> > > +}
-> > > +
-> > > +static void
-> > > +imx8qxp_pixel_link_bridge_atomic_enable(struct drm_bridge *bridge,
-> > > +					struct drm_bridge_state
-> > > *old_bridge_state)
-> > > +{
-> > > +	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-> > > +
-> > > +	imx8qxp_pixel_link_enable_mst_en(pl);
-> > > +	imx8qxp_pixel_link_enable_mst_vld(pl);
-> > > +	imx8qxp_pixel_link_enable_sync(pl);
-> > > +}
-> > > +
-> > > +static void
-> > > +imx8qxp_pixel_link_bridge_atomic_disable(struct drm_bridge *bridge,
-> > > +					 struct drm_bridge_state
-> > > *old_bridge_state)
-> > > +{
-> > > +	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-> > > +
-> > > +	imx8qxp_pixel_link_disable_mst_en(pl);
-> > > +	imx8qxp_pixel_link_disable_mst_vld(pl);
-> > > +	imx8qxp_pixel_link_disable_sync(pl);
-> > > +}
-> > > +
-> > > +static const u32 imx8qxp_pixel_link_bus_output_fmts[] = {
-> > > +	MEDIA_BUS_FMT_RGB888_1X36_CPADLO,
-> > > +	MEDIA_BUS_FMT_RGB666_1X36_CPADLO,
-> > > +};
-> > > +
-> > > +static bool imx8qxp_pixel_link_bus_output_fmt_supported(u32 fmt)
-> > > +{
-> > > +	int i;
-> > > +
-> > > +	for (i = 0; i < ARRAY_SIZE(imx8qxp_pixel_link_bus_output_fmts); i++) {
-> > > +		if (imx8qxp_pixel_link_bus_output_fmts[i] == fmt)
-> > > +			return true;
-> > > +	}
-> > > +
-> > > +	return false;
-> > > +}
-> > > +
-> > > +static u32 *
-> > > +imx8qxp_pixel_link_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> > > +						    struct drm_bridge_state *bridge_state,
-> > > +						    struct drm_crtc_state *crtc_state,
-> > > +						    struct drm_connector_state *conn_state,
-> > > +						    u32 output_fmt,
-> > > +						    unsigned int
-> > > *num_input_fmts)
-> > > +{
-> > > +	u32 *input_fmts;
-> > > +
-> > > +	if (!imx8qxp_pixel_link_bus_output_fmt_supported(output_fmt))
-> > > +		return NULL;
-> > > +
-> > > +	*num_input_fmts = 1;
-> > > +
-> > > +	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-> > > +	if (!input_fmts)
-> > > +		return NULL;
-> > > +
-> > > +	input_fmts[0] = output_fmt;
-> > > +
-> > > +	return input_fmts;
-> > > +}
-> > > +
-> > > +static u32 *
-> > > +imx8qxp_pixel_link_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
-> > > +						     struct drm_bridge_state *bridge_state,
-> > > +						     struct drm_crtc_state *crtc_state,
-> > > +						     struct drm_connector_state *conn_state,
-> > > +						     unsigned int
-> > > *num_output_fmts)
-> > > +{
-> > > +	*num_output_fmts = ARRAY_SIZE(imx8qxp_pixel_link_bus_output_fmts);
-> > > +	return kmemdup(imx8qxp_pixel_link_bus_output_fmts,
-> > > +			sizeof(imx8qxp_pixel_link_bus_output_fmts), GFP_KERNEL);
-> > > +}
-> > > +
-> > > +static const struct drm_bridge_funcs imx8qxp_pixel_link_bridge_funcs = {
-> > > +	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-> > > +	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-> > > +	.atomic_reset		= drm_atomic_helper_bridge_reset,
-> > > +	.attach			= imx8qxp_pixel_link_bridge_attach,
-> > > +	.mode_set		= imx8qxp_pixel_link_bridge_mode_set,
-> > > +	.atomic_enable		= imx8qxp_pixel_link_bridge_atomic_enable,
-> > > +	.atomic_disable		= imx8qxp_pixel_link_bridge_atomic_disable,
-> > > +	.atomic_get_input_bus_fmts =
-> > > +			imx8qxp_pixel_link_bridge_atomic_get_input_bus_fmts,
-> > > +	.atomic_get_output_bus_fmts =
-> > > +			imx8qxp_pixel_link_bridge_atomic_get_output_bus_fmts,
-> > > +};
-> > > +
-> > > +static int imx8qxp_pixel_link_disable_all_controls(struct
-> > > imx8qxp_pixel_link *pl)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = imx8qxp_pixel_link_disable_mst_en(pl);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	ret = imx8qxp_pixel_link_disable_mst_vld(pl);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	return imx8qxp_pixel_link_disable_sync(pl);
-> > > +}
-> > > +
-> > > +static struct drm_bridge *
-> > > +imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
-> > > +{
-> > > +	struct device_node *np = pl->dev->of_node;
-> > > +	struct device_node *port, *remote;
-> > > +	struct drm_bridge *next_bridge[PL_MAX_NEXT_BRIDGES];
-> > > +	u32 port_id;
-> > > +	bool found_port = false;
-> > > +	int reg, ep_cnt = 0;
-> > > +	/* select the first next bridge by default */
-> > > +	int bridge_sel = 0;
-> > > +
-> > > +	for (port_id = 1; port_id <= PL_MAX_MST_ADDR + 1; port_id++) {
-> > > +		port = of_graph_get_port_by_id(np, port_id);
-> > > +		if (!port)
-> > > +			continue;
-> > > +
-> > > +		if (of_device_is_available(port)) {
-> > > +			found_port = true;
-> > > +			of_node_put(port);
-> > > +			break;
-> > > +		}
-> > > +
-> > > +		of_node_put(port);
-> > > +	}
-> > > +
-> > > +	if (!found_port) {
-> > > +		DRM_DEV_ERROR(pl->dev, "no available output port\n");
-> > > +		return ERR_PTR(-ENODEV);
-> > > +	}
-> > > +
-> > > +	for (reg = 0; reg < PL_MAX_NEXT_BRIDGES; reg++) {
-> > > +		remote = of_graph_get_remote_node(np, port_id, reg);
-> > > +		if (!remote)
-> > > +			continue;
-> > > +
-> > > +		if (!of_device_is_available(remote->parent)) {
-> > > +			DRM_DEV_DEBUG(pl->dev,
-> > > +				      "port%u endpoint%u remote parent is not available\n",
-> > > +				      port_id, reg);
-> > > +			of_node_put(remote);
-> > > +			continue;
-> > > +		}
-> > > +
-> > > +		next_bridge[ep_cnt] = of_drm_find_bridge(remote);
-> > > +		if (!next_bridge[ep_cnt]) {
-> > > +			of_node_put(remote);
-> > > +			return ERR_PTR(-EPROBE_DEFER);
-> > > +		}
-> > > +
-> > > +		/* specially select the next bridge with companion PXL2DPI */
-> > > +		if (of_find_property(remote, "fsl,companion-pxl2dpi", NULL))
-> > > +			bridge_sel = ep_cnt;
-> > > +
-> > > +		ep_cnt++;
-> > > +
-> > > +		of_node_put(remote);
-> > > +	}
-> > > +
-> > > +	pl->mst_addr = port_id - 1;
-> > > +
-> > > +	return next_bridge[bridge_sel];
-> > > +}
-> > > +
-> > > +static int imx8qxp_pixel_link_bridge_probe(struct platform_device *pdev)
-> > > +{
-> > > +	struct imx8qxp_pixel_link *pl;
-> > > +	struct device *dev = &pdev->dev;
-> > > +	struct device_node *np = dev->of_node;
-> > > +	int ret;
-> > > +
-> > > +	pl = devm_kzalloc(dev, sizeof(*pl), GFP_KERNEL);
-> > > +	if (!pl)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	ret = imx_scu_get_handle(&pl->ipc_handle);
-> > > +	if (ret) {
-> > > +		if (ret != -EPROBE_DEFER)
-> > > +			DRM_DEV_ERROR(dev, "failed to get SCU ipc handle: %d\n",
-> > > +				      ret);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	pl->id = of_alias_get_id(np, "dc_pl");
-> > 
-> > Could we avoid relying on aliases ? I'd add an id property to the DT
-> > node instead, or possibly even better a dc id and a stream id.
-> 
-> Will add two properties for dc id and stream id.
-> Do 'fsl,dc-id' and 'fsl,dc-stream-id' look ok?
+We found that when RKVDEC H.264 decoder encounter a stream error
+(corruption, or error in the bitstream) the decoder keeps reporting
+errors in the following (good) frames unless there is some pause
+before starting a new decoder operation. As a side effect, the
+decoder is not resilient to errors and this leads to a much worst
+experience then needed.
 
-Looks good to me.
+First patch of this series implement a conservative fix for this,
+which consist of simply disabling error detection. This method is
+very resilient to errors, but will completely hide any decoding
+errors. This mode have been running for years in ChromeOS
+downstream driver, thus we believe this is that safe approach
+and the one to backport into stable.
+
+The other patches changes the decoding mode from "exit on error"
+to "keep decoding". Using this mode and re-enabling error detection
+allow getting error resilience without loosing the ability to report
+errors to userland. This have showed great results, but might be a
+little more risky since this is not the mode that the reference code
+uses and the documentation is very brief.
+
+Nicolas Dufresne (5):
+  media: rkvdec: Disable H.264 error detection
+  media: rkvdec: Add an ops to check for decode errors
+  media: rkvdec: Fix RKVDEC_ERR_PKT_NUM macro
+  media: rkvdec: Re-enable H.264 error detection
+  media: rkvdec: Improve error handling
+
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 19 ++++++++++++-
+ drivers/staging/media/rkvdec/rkvdec-regs.h |  2 +-
+ drivers/staging/media/rkvdec/rkvdec.c      | 32 ++++++++++++++++++----
+ drivers/staging/media/rkvdec/rkvdec.h      |  2 ++
+ 4 files changed, 47 insertions(+), 8 deletions(-)
 
 -- 
-Regards,
+2.36.1
 
-Laurent Pinchart
