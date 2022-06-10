@@ -2,44 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEC925466DE
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jun 2022 14:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 990795466E6
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jun 2022 14:54:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244835AbiFJMwc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jun 2022 08:52:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
+        id S245274AbiFJMwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jun 2022 08:52:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234166AbiFJMwb (ORCPT
+        with ESMTP id S234166AbiFJMwh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jun 2022 08:52:31 -0400
+        Fri, 10 Jun 2022 08:52:37 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8FB229361
-        for <linux-media@vger.kernel.org>; Fri, 10 Jun 2022 05:52:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F057729361;
+        Fri, 10 Jun 2022 05:52:35 -0700 (PDT)
 Received: from whitebuilder.lan (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6077C6601723;
-        Fri, 10 Jun 2022 13:52:25 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 45E776601723;
+        Fri, 10 Jun 2022 13:52:33 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1654865545;
-        bh=WMyIg7gisNtkD0sb5pNXdznK+SK0HIpv0lIkFvXUJOo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UbynGtkURBdM5q9n+q9wujZXhL+162anA83Ymtfydsv+zR5ndBXzdWqV6MN0VLXHB
-         UOVOWWOLDsb3Y9CY43/7LOCZjATI7oKHYiaY/qaUjwBMdjYLWnn7IUq3BomycDxnyS
-         JF2hea7mdbPvqyJ37euIRnXtrvxWpiXND6Ik6aZvX/6sVP/sMu/EaBAZJObMoI8FdW
-         ZP6O5FlGM8QtgeK1BhAdr1iDBvQmIaog/BxgtwxAdBQm9EnZmlwBPJnIx3p5wLTRmH
-         1IDF0tDNrUcnO49VWYvTj0PT/5Q/Z5JTlcOp6T4yc7hRHuSJKRtUCW0w1mV8/NOSTF
-         SZ8MZq+GSc29g==
+        s=mail; t=1654865554;
+        bh=p58BGLd7hMm8p/2ISuy3Dy0LlqXqYJNmYcWNBWGs/eo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=k/12mt8TUAGfUMKdUILYc1U9Q0mcOKvYLKWOvKQehdBhmZwNiUxJswfiOfpoooU6Y
+         K7SyrWEXe2qjxHIqPHedkJ37gilThxf4XJm1pghTKSzfqIS5CJyy/DGRM6cwux/56x
+         BJC76p7e5Fq2jAX5N9L4Q+7mVubr9Jjllr2y0C1llKCJP6kL7yxELDiubw4W84nWK5
+         y2J3cAIz0OPwwKlQj8IYtTfQsYgJi0tzCounvyIkiAzE3Nbynsh4HGqqJjeLMjn96a
+         wnXDKPIFQARXVZqpvN92Lkf+CAUBKMooUOkILCPvyNcXkpfILLtadGlIz7x/dGu5lp
+         QNoDgEhEwkwOA==
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     linux-media@vger.kernel.org
+To:     linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Boris Brezillon <boris.brezillon@collabora.com>
 Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com
-Subject: [PATCH v1 0/5] media: rkvdec: Fix H.264 error resilience
-Date:   Fri, 10 Jun 2022 08:52:10 -0400
-Message-Id: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+        kernel@collabora.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/5] media: rkvdec: Disable H.264 error detection
+Date:   Fri, 10 Jun 2022 08:52:11 -0400
+Message-Id: <20220610125215.240539-2-nicolas.dufresne@collabora.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -52,43 +62,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Cc: kernel@collabora.com,
-    linux-media@vger.kernel.org 
+Quite often, the HW get stuck in error condition if a stream error
+was detected. As documented, the HW should stop immediately and self
+reset. There is likely a problem or a miss-understanding of the self
+self reset mechanism, as unless we make a long pause, the next command
+will then report an error even if there is no error in it.
 
-We found that when RKVDEC H.264 decoder encounter a stream error
-(corruption, or error in the bitstream) the decoder keeps reporting
-errors in the following (good) frames unless there is some pause
-before starting a new decoder operation. As a side effect, the
-decoder is not resilient to errors and this leads to a much worst
-experience then needed.
+Disabling error detection fixes the issue, and let the decoder continue
+after an error. This patch is safe for backport into older kernels.
 
-First patch of this series implement a conservative fix for this,
-which consist of simply disabling error detection. This method is
-very resilient to errors, but will completely hide any decoding
-errors. This mode have been running for years in ChromeOS
-downstream driver, thus we believe this is that safe approach
-and the one to backport into stable.
+Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The other patches changes the decoding mode from "exit on error"
-to "keep decoding". Using this mode and re-enabling error detection
-allow getting error resilience without loosing the ability to report
-errors to userland. This have showed great results, but might be a
-little more risky since this is not the mode that the reference code
-uses and the documentation is very brief.
-
-Nicolas Dufresne (5):
-  media: rkvdec: Disable H.264 error detection
-  media: rkvdec: Add an ops to check for decode errors
-  media: rkvdec: Fix RKVDEC_ERR_PKT_NUM macro
-  media: rkvdec: Re-enable H.264 error detection
-  media: rkvdec: Improve error handling
-
- drivers/staging/media/rkvdec/rkvdec-h264.c | 19 ++++++++++++-
- drivers/staging/media/rkvdec/rkvdec-regs.h |  2 +-
- drivers/staging/media/rkvdec/rkvdec.c      | 32 ++++++++++++++++++----
- drivers/staging/media/rkvdec/rkvdec.h      |  2 ++
- 4 files changed, 47 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+index 2992fb87cf72..55596ce6bb6e 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
++++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+@@ -1175,8 +1175,8 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+ 
+ 	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
+ 
+-	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+-	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
++	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
++	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+ 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
+ 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+ 
 -- 
 2.36.1
 
