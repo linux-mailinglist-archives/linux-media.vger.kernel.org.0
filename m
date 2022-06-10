@@ -2,132 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D64A5464F9
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jun 2022 13:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C425C54653F
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jun 2022 13:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349391AbiFJLAG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jun 2022 07:00:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59062 "EHLO
+        id S1347021AbiFJLN2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jun 2022 07:13:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349033AbiFJK7y (ORCPT
+        with ESMTP id S1344921AbiFJLNX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jun 2022 06:59:54 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB227370E40;
-        Fri, 10 Jun 2022 03:58:58 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id d14so9207019eda.12;
-        Fri, 10 Jun 2022 03:58:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=w6F5upqNbqcjOOBJM+5BezuuZ8DymaMUCrQuFA3GOnA=;
-        b=YZZv8NAd4bFAUuTNFuwIlDcmKTp86LFMvcog24DagojMbNLE5Se1DmFMVmJ87uRvVn
-         DHg3DsyZl5P8aCUmB2QRs6OBqSILElVCVRD7bc68R64iLg9kYb342KPpCwWXWO184NBc
-         HQcHyAdUhV8Q0WhynDc+yQ4/sZ7PQcZevq6VBL5SzqV6KYGeklmIRe38n9bvYY5Q1+JK
-         WhZSTnmlqR3Jo6PN7avr1sSEwFMtRIB63k6sjGq6yDCPtUFoSFNusdQKAtNJh/AlfSLS
-         +4BnHWFH5oLHuBp1MpFR5IFuUXStqITHPSeYQd5mB00paW4tZfj70WmiPHpMoU2dylt+
-         VQsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=w6F5upqNbqcjOOBJM+5BezuuZ8DymaMUCrQuFA3GOnA=;
-        b=Pr96j6qLhdcjOQnVJtW2daiDWogbgZXr4/x22m0Qe9SSsQlL7Yldinwk8MAAnoJl/E
-         Jj1ZVFmAW3P8rujEEip0YvMH9QwJNzUSmK4PutV3l1SP3SCzTIwyLSVXWoPsrEqZ7HUc
-         cUD6+jmO6xRvHG7Ux6fUP+vVuBs/OhhORuaEobmFRQe0LjI2mC1dgzuO+2yuIvUAZkmv
-         yu5Q9eBwmRcqltArE24BE79cJnXKMPVa7KPeArBFFwJPW8FKEU2uIs+AZZqCuqHntc6j
-         PG2kiNXAlu3Do8buTym0BQiRvFexNxsP0K91rFerlnRbSxJ1jd/BcLm+N7dCZfoB7MUU
-         nd/A==
-X-Gm-Message-State: AOAM532nUG4L7R9cMKY+lh0n4tkJfAk5USljJQjwQi5Mkn0ImomEvkAt
-        SrITSVsdaqPrquQdAuXCIuc=
-X-Google-Smtp-Source: ABdhPJwRYA/7eDJK0xNPvbtH+OzO5lQ4tB0JbSJQSmwOmyloSbsX0o7RtK6TGGmCWnVQA/XG1FkVRA==
-X-Received: by 2002:a05:6402:368a:b0:42d:ef42:f727 with SMTP id ej10-20020a056402368a00b0042def42f727mr50676107edb.204.1654858736837;
-        Fri, 10 Jun 2022 03:58:56 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea02f.dip0.t-ipconnect.de. [91.14.160.47])
-        by smtp.gmail.com with ESMTPSA id fi20-20020a1709073ad400b006fec8e8eff6sm12055062ejc.176.2022.06.10.03.58.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jun 2022 03:58:55 -0700 (PDT)
-Message-ID: <3f7d3d96-0858-fb6d-07a3-4c18964f888e@gmail.com>
-Date:   Fri, 10 Jun 2022 12:58:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 03/13] mm: shmem: provide oom badness for shmem files
-Content-Language: en-US
-To:     Michal Hocko <mhocko@suse.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        alexander.deucher@amd.com, daniel@ffwll.ch,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        hughd@google.com, andrey.grodzovsky@amd.com
-References: <20220531100007.174649-1-christian.koenig@amd.com>
- <20220531100007.174649-4-christian.koenig@amd.com>
- <YqG67sox6L64E6wV@dhcp22.suse.cz>
- <77b99722-fc13-e5c5-c9be-7d4f3830859c@amd.com>
- <YqHuH5brYFQUfW8l@dhcp22.suse.cz>
- <26d3e1c7-d73c-cc95-54ef-58b2c9055f0c@gmail.com>
- <YqIB0bavUeU8Abwl@dhcp22.suse.cz>
- <d4a19481-7a9f-19bf-c270-d89baa0970fc@amd.com>
- <YqIMmK18mb/+s5de@dhcp22.suse.cz>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <YqIMmK18mb/+s5de@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 10 Jun 2022 07:13:23 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D7BF6A072;
+        Fri, 10 Jun 2022 04:13:21 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 981211F90C;
+        Fri, 10 Jun 2022 11:13:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1654859600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/vV5Xf0ef+WyjXiLyhxJA2he6Uf47qY/Qj0qVvZZMgk=;
+        b=wlyOj3oX3QjDyNmXGs7r429SwLfKZ75TKAvUaK225+3JrOaVktk7+o0CxCFu4NL+SpHupV
+        f1+7dXbNuBdQYgO0a8X7ZHqu0ayDgAuT/BgXzjbj4Yy+1xvQGRakQp6rzJ04wVQssv7dzt
+        nSN24K52PT69jhdHWSa23ump7mnrBPs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1654859600;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/vV5Xf0ef+WyjXiLyhxJA2he6Uf47qY/Qj0qVvZZMgk=;
+        b=9JuLsgYQGkCfSIKIC8yWEWYu6JrZgNRJsMZPB8QuX6y0FWjuxQmRkSt6V9Qf9T0nk/VM6C
+        UpAKbj+bEyU5bNBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3832113941;
+        Fri, 10 Jun 2022 11:13:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id QjrxDFAno2IYEAAAMHmgww
+        (envelope-from <tiwai@suse.de>); Fri, 10 Jun 2022 11:13:20 +0000
+Date:   Fri, 10 Jun 2022 13:13:19 +0200
+Message-ID: <87h74sn54g.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Takashi Iwai <tiwai@suse.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Fix spurious DMA max segment size warnings
+In-Reply-To: <YqMHhPXPGkTcXICd@kroah.com>
+References: <20220609082246.13182-1-tiwai@suse.de>
+        <YqG65hU4SLUrxMI7@pendragon.ideasonboard.com>
+        <YqMHhPXPGkTcXICd@kroah.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 09.06.22 um 17:07 schrieb Michal Hocko:
-> On Thu 09-06-22 16:29:46, Christian König wrote:
-> [...]
->> Is that a show stopper? How should we address this?
-> This is a hard problem to deal with and I am not sure this simple
-> solution is really a good fit. Not only because of the memcg side of
-> things. I have my doubts that sparse files handling is ok as well.
+On Fri, 10 Jun 2022 10:57:40 +0200,
+Greg Kroah-Hartman wrote:
+> 
+> On Thu, Jun 09, 2022 at 12:18:30PM +0300, Laurent Pinchart wrote:
+> > Hi Takashi,
+> > 
+> > (CC'ing Greg and the linux-usb mailing list)
+> > 
+> > Thank you for the patch.
+> > 
+> > On Thu, Jun 09, 2022 at 10:22:46AM +0200, Takashi Iwai wrote:
+> > > As default, the DMA max segment size is set to 64k, and uvcvideo may
+> > > overflow that size easily, resulting in a warning like:
+> > > 
+> > >   DMA-API: xhci_hcd 0000:00:14.0: mapping sg segment longer than device claims to support [len=98304] [max=65536]
+> > > 
+> > > Explicitly set up the DMA max segment size for avoiding spurious kernel
+> > > warnings.
+> > > 
+> > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_video.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > index 1b4cc934109e..25aa6e6a6906 100644
+> > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > @@ -2160,6 +2160,8 @@ int uvc_video_init(struct uvc_streaming *stream)
+> > >  	for_each_uvc_urb(uvc_urb, stream)
+> > >  		INIT_WORK(&uvc_urb->work, uvc_video_copy_data_work);
+> > >  
+> > > +	dma_set_max_seg_size(uvc_stream_to_dmadev(stream), UINT_MAX);
+> > > +
+> > 
+> > uvc_stream_to_dmadev() returns the pointer to the HCD's struct device,
+> > which is shared between all drivers on the bus. Is it really fine for a
+> > USB device driver to change the maximum segment size of the HCD device
+> > directly ?
+> 
+> Ick, no!  That feels wrong, it should only change things for that one
+> specific device, not all devices on that bus.
 
-Well I didn't claimed that this would be easy, we juts need to start 
-somewhere.
+Hrm, indeed, that points to the HCD.  This made me wonder, though,
+whether the current usage of dma_*sgtable() with that device is OK or
+not.  The warning came from that code path, after all...
 
-Regarding the sparse file handling, how about using 
-file->f_mapping->nrpages as badness for shmem files?
 
-That should give us the real number of pages allocated through this 
-shmem file and gracefully handles sparse files.
-
-> I do realize this is a long term problem and there is a demand for some
-> solution at least. I am not sure how to deal with shared resources
-> myself. The best approximation I can come up with is to limit the scope
-> of the damage into a memcg context. One idea I was playing with (but
-> never convinced myself it is really a worth) is to allow a new mode of
-> the oom victim selection for the global oom event. It would be an opt in
-> and the victim would be selected from the biggest leaf memcg (or kill
-> the whole memcg if it has group_oom configured.
->
-> That would address at least some of the accounting issue because charges
-> are better tracked than per process memory consumption. It is a crude
-> and ugly hack and it doesn't solve the underlying problem as shared
-> resources are not guaranteed to be freed when processes die but maybe it
-> would be just slightly better than the existing scheme which is clearly
-> lacking behind existing userspace.
-
-Well, what is so bad at the approach of giving each process holding a 
-reference to some shared memory it's equal amount of badness even when 
-the processes belong to different memory control groups?
-
-If you really think that this would be a hard problem for upstreaming we 
-could as well keep the behavior for memcg as it is for now. We would 
-just need to adjust the paramters to oom_badness() a bit.
-
-Regards,
-Christian.
+Takashi
