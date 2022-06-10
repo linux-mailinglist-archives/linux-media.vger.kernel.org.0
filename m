@@ -2,297 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC4054680F
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jun 2022 16:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ABCC54681E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jun 2022 16:16:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244799AbiFJOIw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jun 2022 10:08:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50124 "EHLO
+        id S245285AbiFJOQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jun 2022 10:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239938AbiFJOIr (ORCPT
+        with ESMTP id S237558AbiFJOQr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jun 2022 10:08:47 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D411BE3F
-        for <linux-media@vger.kernel.org>; Fri, 10 Jun 2022 07:08:45 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id a15so28172866wrh.2
-        for <linux-media@vger.kernel.org>; Fri, 10 Jun 2022 07:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Dh7ytCWooIX35YNRESY2VG7oKkmeQTMTkqytRCSU7Qo=;
-        b=IdovWcn93xCezzeAjZqOAAzu44aDEWMldf5MMaloZTHDpkqucrCngeIRu78PTqmIyH
-         RkTbE/AaFYwsaYXY2is2pjeQV6YY151uwhHcbiXtw+nTNINAkFYyDqV+iXuVuV3FJERk
-         nZmsSdD04XSRD/g4G9wLDwcmbKARURKhG22UHzt2Dgx3PleL7lPWQsJI08Xr1yHAh4tu
-         2ocohVrNKcKH5iAjwti9IaoUUB8A8IB+U9fUoBo1CbIyBvY/K20mu7uC4f/3yr40id3R
-         o/8WIPRhkg34ZDj8B5XR56aFnQYpPnXlAItSH4W6LwGpoFyS2Zn+24FYiexOVZEonzLr
-         W2xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=Dh7ytCWooIX35YNRESY2VG7oKkmeQTMTkqytRCSU7Qo=;
-        b=F1mtqZLmLvdyni3gm/LH2ZU1lTgBIfLAw00YE2nIkdbWmX6IdSwRjSTvg8OOejOinf
-         Jk8m62H2rm2yBoOI1ob3fHBUyfNE9HrzqhMZqSwIJd8CvT1CcD2s80p+Q8PbGHTaCmEZ
-         ZFrEtgtznOlWiY8u4LGf8HhfC3EOYPFO6Uq2PGEwaZI4hniRFnYPn3XgXdU/3gt4nEUa
-         SoEJN4EcKGsr+tfFl/7SGZ+IzopmFGIvO+MfbSL9fFDXUyl7IJu8zF1tpCEEn1puCAhS
-         2g3rHOQ0d6rxp9mPzMckhIhop/5F+DXLP5TibyzGwZRV4SE22KVptRRCrXZq1nXoAfKJ
-         v25g==
-X-Gm-Message-State: AOAM533V+WZNJ2Jjm8sbkHba7ulIHiReyNVfYcdwwos5e1tci0fCKY0d
-        Dh+sNHQsv0D/eA4dalfMjnvvvA==
-X-Google-Smtp-Source: ABdhPJyzNxF1xL6rlGgbSWWh3ekinURLXh6JATjV77ZN4rQPw4Yi0mgCWc2hDnzWaohDxPyhNsQktg==
-X-Received: by 2002:a5d:59a5:0:b0:218:3ffb:e6ea with SMTP id p5-20020a5d59a5000000b002183ffbe6eamr27273247wrr.715.1654870123989;
-        Fri, 10 Jun 2022 07:08:43 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id q9-20020a5d6589000000b00219e758ff4fsm1914729wru.59.2022.06.10.07.08.42
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Fri, 10 Jun 2022 07:08:43 -0700 (PDT)
-From:   John Cox <jc@kynesim.co.uk>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     =?utf-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        samuel@sholland.org, nicolas.dufresne@collabora.com,
-        andrzej.p@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-Subject: Re: [PATCH v6 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Date:   Fri, 10 Jun 2022 15:08:42 +0100
-Message-ID: <spj6ahd7nhjhi12nfvduliqomjpk1r6vlc@4ax.com>
-References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <20220527143134.3360174-12-benjamin.gaignard@collabora.com> <2102641.irdbgypaU6@kista> <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl> <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
-In-Reply-To: <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
-User-Agent: ForteAgent/8.00.32.1272
+        Fri, 10 Jun 2022 10:16:47 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD42328EFF;
+        Fri, 10 Jun 2022 07:16:45 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 5C5FC22145;
+        Fri, 10 Jun 2022 14:16:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1654870604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5V1brKH3JxuGnK163MHstZIpkveguOsr+QIbT4bxCoY=;
+        b=NyQNSqMm7QuDHvrEU7zuZC0pzUg2RGEV/QNqY2FnmYqan0ThFcYQF/yJNBDlgKMUs+JA5d
+        0hIV8Eu1swzN5Qwl5Xkh9vy9jDc+jPIi1n9iq/2DomdScT+6hntA5YYLmINM3Q6MEVANUE
+        rn3CgbId4neVU+zayaDyRfjkmdDG7pg=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id F0BE42C141;
+        Fri, 10 Jun 2022 14:16:43 +0000 (UTC)
+Date:   Fri, 10 Jun 2022 16:16:40 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, alexander.deucher@amd.com, daniel@ffwll.ch,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        hughd@google.com, andrey.grodzovsky@amd.com
+Subject: Re: [PATCH 03/13] mm: shmem: provide oom badness for shmem files
+Message-ID: <YqNSSFQELx/LeEHR@dhcp22.suse.cz>
+References: <YqG67sox6L64E6wV@dhcp22.suse.cz>
+ <77b99722-fc13-e5c5-c9be-7d4f3830859c@amd.com>
+ <YqHuH5brYFQUfW8l@dhcp22.suse.cz>
+ <26d3e1c7-d73c-cc95-54ef-58b2c9055f0c@gmail.com>
+ <YqIB0bavUeU8Abwl@dhcp22.suse.cz>
+ <d4a19481-7a9f-19bf-c270-d89baa0970fc@amd.com>
+ <YqIMmK18mb/+s5de@dhcp22.suse.cz>
+ <3f7d3d96-0858-fb6d-07a3-4c18964f888e@gmail.com>
+ <YqMuq/ZrV8loC3jE@dhcp22.suse.cz>
+ <2e7e050e-04eb-0c0a-0675-d7f1c3ae7aed@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2e7e050e-04eb-0c0a-0675-d7f1c3ae7aed@amd.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 30 May 2022 15:49:57 +0200, you wrote:
+On Fri 10-06-22 14:17:27, Christian König wrote:
+> Am 10.06.22 um 13:44 schrieb Michal Hocko:
+> > On Fri 10-06-22 12:58:53, Christian König wrote:
+> > [SNIP]
+> > > > I do realize this is a long term problem and there is a demand for some
+> > > > solution at least. I am not sure how to deal with shared resources
+> > > > myself. The best approximation I can come up with is to limit the scope
+> > > > of the damage into a memcg context. One idea I was playing with (but
+> > > > never convinced myself it is really a worth) is to allow a new mode of
+> > > > the oom victim selection for the global oom event.
+> > And just for the clarity. I have mentioned global oom event here but the
+> > concept could be extended to per-memcg oom killer as well.
+> 
+> Then what exactly do you mean with "limiting the scope of the damage"? Cause
+> that doesn't make sense without memcg.
 
->On 30/05/2022 11:18, Hans Verkuil wrote:
->> On 29/05/2022 08:40, Jernej =C5=A0krabec wrote:
->>> Hi!
->>>
->>> This series looks very good and I plan to test it shortly on Cedrus, =
-but I=20
->>> have one major concern below.
->>>
->>> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard =
-napisal(a):
->>>> The number of 'entry point offset' can be very variable.
->>>> Instead of using a large static array define a v4l2 dynamic array
->>>> of U32 (V4L2_CTRL_TYPE_U32).
->>>> The number of entry point offsets is reported by the elems field
->>>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
->>>> field.
->>>
->>> Slice control by itself is variable length array, so you would =
-actually need=20
->>> 2D variable array for entry points which is not supported. However, =
-easy=20
->>> workaround for that is to flatten 2D array to 1D and either have =
-another slice=20
->>> control field which would tell first entry point index for =
-convenience or let=20
->>> driver calculate it by adding up all num_entry_point_offsets of =
-previous=20
->>> slices.
->>>
->>> Hans, what do you think?
->>=20
->> If I would support 2D variable array sizes, wouldn't that be more =
-elegant?
->>=20
->> The current implementation doesn't support that, but as the commit log=
- for
->> patch 1/17 says:
->>=20
->> "Currently dynamically sized arrays are limited to one dimensional =
-arrays,
->> but that might change in the future if there is a need for it."
->>=20
->> Let me know if you agree, and I'll try to implement this. It's been a =
-while
->> since I last looked at this, so I'm not sure how much work it is, but =
-it is
->> probably worth a shot.
->
->Digging more into this made me realize that this doesn't actually help =
-for this
->particular case.
->
->I would lean towards your second suggestion of adding up all =
-num_entry_point_offsets
->of previous slices.
+What I meant to say is to use the scheme of the damage control
+not only to the global oom situation (on the global shortage of memory)
+but also to the memcg oom situation (when the hard limit on a hierarchy
+is reached).
 
-Whilst I don't personally need this array I also think that a 1-D array
-is the correct answer here.  Any implementation that does need this info
-is going to have to be going through the slice array and this array
-together so adding the num_entry_point_offsets together is trivial.
+[...]
+> > The primary question is whether it actually helps much or what kind of
+> > scenarios it can help with and whether we can actually do better for
+> > those.
+> 
+> Well, it does help massively with a standard Linux desktop and GPU workloads
+> (e.g. games).
+> 
+> See what currently happens is that when games allocate for example textures
+> the memory for that is not accounted against that game. Instead it's usually
+> the display server (X or Wayland) which most of the shared resources
+> accounts to because it needs to compose a desktop from it and usually also
+> mmaps it for fallback CPU operations.
 
-Regards
+Let me try to understand some more. So the game (or the entity to be
+responsible for the resource) doesn't really allocate the memory but it
+relies on somebody else (from memcg perspective living in a different
+resource domain - i.e. a different memcg) to do that on its behalf.
+Correct? If that is the case then that is certainly not fitting into the
+memcg model then.
+I am not really sure there is any reasonable model where you cannot
+really tell who is responsible for the resource.
 
-John Cox
+> So what happens when a games over allocates texture resources is that your
+> whole desktop restarts because the compositor is killed. This obviously also
+> kills the game, but it would be much nice if we would be more selective
+> here.
+> 
+> For hardware rendering DMA-buf and GPU drivers are used, but for the
+> software fallback shmem files is what is used under the hood as far as I
+> know. And the underlying problem is the same for both.
 
->Regards,
->
->	Hans
->
->>=20
->> Regards,
->>=20
->> 	Hans
->>=20
->>>
->>> Note, it seems that H265 decoding on Cedrus still works without entry=
- points,=20
->>> so this problem can be solved later. I'm not sure what we lose with =
-that but=20
->>> it was suggested that this could influence speed or error resilience =
-or both.=20
->>> However, I think we're close to solve it, so I'd like to do that now.
->>>
->>> Best regards,
->>> Jernej
->>>
->>>>
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>> ---
->>>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 =
-+++++++++++
->>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
->>>>  include/media/hevc-ctrls.h                            |  5 ++++-
->>>>  3 files changed, 20 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git =
-a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
->>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>> index 0796b1563daa..05228e280f66 100644
->>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
- -
->>>>      * - __u32
->>>>        - ``data_bit_offset``
->>>>        - Offset (in bits) to the video data in the current slice =
-data.
->>>> +    * - __u32
->>>> +      - ``num_entry_point_offsets``
->>>> +      - Specifies the number of entry point offset syntax elements =
-in the=20
->>> slice header.
->>>>      * - __u8
->>>>        - ``nal_unit_type``
->>>>        - Specifies the coding type of the slice (B, P or I).
->>>> @@ -3150,6 +3153,14 @@ enum =
-v4l2_mpeg_video_hevc_size_of_length_field -
->>>> =20
->>>>      \normalsize
->>>> =20
->>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->>>> +    Specifies entry point offsets in bytes.
->>>> +    This control is a dynamically sized array. The number of entry =
-point
->>>> +    offsets is reported by the ``elems`` field.
->>>> +    This bitstream parameter is defined according to :ref:`hevc`.
->>>> +    They are described in section 7.4.7.1 "General slice segment =
-header
->>>> +    semantics" of the specification.
->>>> +
->>>>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->>>>      Specifies the HEVC scaling matrix parameters used for the =
-scaling=20
->>> process
->>>>      for transform coefficients.
->>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c =
-b/drivers/media/v4l2-
->>> core/v4l2-ctrls-defs.c
->>>> index d594efbcbb93..e22921e7ea61 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return=20
->>> "HEVC Decode Parameters";
->>>>  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return=20
->>> "HEVC Decode Mode";
->>>>  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return=20
->>> "HEVC Start Code";
->>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return=20
->>> "HEVC Entry Point Offsets";
->>>> =20
->>>>  	/* Colorimetry controls */
->>>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h!=20
->>> */
->>>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char =
-**name, enum=20
->>> v4l2_ctrl_type *type,
->>>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
->>>>  		*type =3D V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->>>>  		break;
->>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
->>>> +		*type =3D V4L2_CTRL_TYPE_U32;
->>>> +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->>>> +		break;
->>>>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
->>>>  		*type =3D V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
->>>>  		break;
->>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->>>> index a3c829ef531a..1319cb99ae3f 100644
->>>> --- a/include/media/hevc-ctrls.h
->>>> +++ b/include/media/hevc-ctrls.h
->>>> @@ -20,6 +20,7 @@
->>>>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE=20
->>> + 1012)
->>>>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + =
-1015)
->>>>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + =
-1016)
->>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS =
-(V4L2_CID_CODEC_BASE +=20
->>> 1017)
->>>> =20
->>>>  /* enum v4l2_ctrl_type type values */
->>>>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->>>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
->>>>   *
->>>>   * @bit_size: size (in bits) of the current slice data
->>>>   * @data_bit_offset: offset (in bits) to the video data in the =
-current slice=20
->>> data
->>>> + * @num_entry_point_offsets: specifies the number of entry point =
-offset syntax
->>>> + *			     elements in the slice header.
->>>>   * @nal_unit_type: specifies the coding type of the slice (B, P or =
-I)
->>>>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier =
-for the=20
->>> NAL unit
->>>>   * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
->>>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
->>>>  struct v4l2_ctrl_hevc_slice_params {
->>>>  	__u32	bit_size;
->>>>  	__u32	data_bit_offset;
->>>> -
->>>> +	__u32	num_entry_point_offsets;
->>>>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->>>>  	__u8	nal_unit_type;
->>>>  	__u8	nuh_temporal_id_plus1;
->>>> --=20
->>>> 2.32.0
->>>>
->>>>
->>>
->>>
->>=20
+For shmem files the end user of the buffer can preallocate and so own
+the buffer and be accounted for it.
+> 
+> > Also do not forget that shared file memory is not the only thing
+> > to care about. What about the kernel memory used on behalf of processes?
+> 
+> Yeah, I'm aware of that as well. But at least inside the GPU drivers we try
+> to keep that in a reasonable ratio.
+> 
+> > Just consider the above mentioned memcg driven model. It doesn't really
+> > require to chase specific files and do some arbitrary math to share the
+> > responsibility. It has a clear accounting and responsibility model.
+> 
+> Ok, how does that work then?
+
+The memory is accounted to whoever faults that memory in or to the
+allocating context if that is a kernel memory (in most situations).
+-- 
+Michal Hocko
+SUSE Labs
