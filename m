@@ -2,94 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB9AD546F43
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jun 2022 23:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4252854720B
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jun 2022 06:42:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347712AbiFJVcI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jun 2022 17:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54314 "EHLO
+        id S1346769AbiFKEmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Jun 2022 00:42:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347009AbiFJVcH (ORCPT
+        with ESMTP id S229498AbiFKEmJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jun 2022 17:32:07 -0400
-X-Greylist: delayed 1330 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 10 Jun 2022 14:32:06 PDT
-Received: from gateway24.websitewelcome.com (gateway24.websitewelcome.com [192.185.51.110])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 165B01A3BC
-        for <linux-media@vger.kernel.org>; Fri, 10 Jun 2022 14:32:05 -0700 (PDT)
-Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
-        by gateway24.websitewelcome.com (Postfix) with ESMTP id 2189B47D4
-        for <linux-media@vger.kernel.org>; Fri, 10 Jun 2022 16:09:55 -0500 (CDT)
-Received: from gator4040.hostgator.com ([192.185.4.51])
-        by cmsmtp with SMTP
-        id zltDnObSKghj8zltDniNoR; Fri, 10 Jun 2022 16:09:55 -0500
-X-Authority-Reason: nr=8
-Received: from gator4040.hostgator.com ([192.185.4.51]:48946)
-        by gator4040.hostgator.com with esmtpa (Exim 4.95)
-        (envelope-from <raymond.dalangin@hcc.com.ph>)
-        id 1nzlsl-003VdN-1a;
-        Fri, 10 Jun 2022 16:09:27 -0500
-Received: from [66.115.149.3]
- via [66.115.149.3]
- by webmail.hcc.com.ph
- with HTTP (HTTP/1.1 POST); Fri, 10 Jun 2022 16:09:03 -0500
-MIME-Version: 1.0
-Date:   Fri, 10 Jun 2022 16:09:03 -0500
-From:   "Mr. David Coleman" <raymond.dalangin@hcc.com.ph>
-To:     undisclosed-recipients:;
-Subject: Reply ASAP
-Reply-To: davidcolemanrhfs@gmail.com
-User-Agent: Roundcube Webmail/1.4.12
-Message-ID: <f9719ffd4b4ca1f900e44263fb828f34@hcc.com.ph>
-X-Sender: raymond.dalangin@hcc.com.ph
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4040.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - hcc.com.ph
-X-BWhitelist: no
-X-Source-IP: 192.185.4.51
-X-Source-L: Yes
-X-Exim-ID: 1nzlsl-003VdN-1a
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: gator4040.hostgator.com [192.185.4.51]:48946
-X-Source-Auth: raymond.dalangin@hcc.com.ph
-X-Email-Count: 27
-X-Source-Cap: YWI3MTc2MDthYjcxNzYwO2dhdG9yNDA0MC5ob3N0Z2F0b3IuY29t
-X-Local-Domain: yes
-X-Spam-Status: Yes, score=6.0 required=5.0 tests=BAYES_80,
-        FREEMAIL_FORGED_REPLYTO,HK_NAME_MR_MRS,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY,URG_BIZ
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [192.185.51.110 listed in list.dnswl.org]
-        *  2.0 BAYES_80 BODY: Bayes spam probability is 80 to 95%
-        *      [score: 0.8769]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-        *  0.8 HK_NAME_MR_MRS No description available.
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.6 URG_BIZ Contains urgent matter
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+        Sat, 11 Jun 2022 00:42:09 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A10929F
+        for <linux-media@vger.kernel.org>; Fri, 10 Jun 2022 21:42:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2F37FB83277
+        for <linux-media@vger.kernel.org>; Sat, 11 Jun 2022 04:42:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D46C34116
+        for <linux-media@vger.kernel.org>; Sat, 11 Jun 2022 04:42:04 +0000 (UTC)
+Date:   Sat, 11 Jun 2022 06:42:02 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20220611044204.A0D46C34116@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-   I have an urgent inheritance business proposal that will be beneficial 
-to both of us. Interest yourself and respond to me as soon as you can 
-for further details.
+Results of the daily build of media_tree:
 
-Regards
+date:			Sat Jun 11 05:00:14 CEST 2022
+media-tree git hash:	83916ec5a8c7faaeb8209f2d0763ce2e08f61f65
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
+edid-decode git hash:	cc1aeb00500d1ac725577354af9cd2637f47ef71
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-30-g92122700-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8015-g1a0af070-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b5e106a4cc94b2ea761f829eeaf8d3473bbbac27
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
-David Coleman
+linux-git-sh: OK
+linux-git-arm-stm32: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
