@@ -2,39 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60F075473D7
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jun 2022 12:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 758A454746E
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jun 2022 14:08:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232298AbiFKKkA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Jun 2022 06:40:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33252 "EHLO
+        id S231831AbiFKMIM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Jun 2022 08:08:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232152AbiFKKj7 (ORCPT
+        with ESMTP id S230289AbiFKMIL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Jun 2022 06:39:59 -0400
-Received: from smtp.smtpout.orange.fr (smtp01.smtpout.orange.fr [80.12.242.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B156D95A
-        for <linux-media@vger.kernel.org>; Sat, 11 Jun 2022 03:39:57 -0700 (PDT)
-Received: from pop-os.home ([90.11.190.129])
-        by smtp.orange.fr with ESMTPA
-        id zyX0nKofCk3ICzyX1nTmto; Sat, 11 Jun 2022 12:39:51 +0200
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sat, 11 Jun 2022 12:39:51 +0200
-X-ME-IP: 90.11.190.129
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-media@vger.kernel.org
-Subject: [PATCH] media: ddbridge: Remove useless license text when SPDX-License-Identifier is already used
-Date:   Sat, 11 Jun 2022 12:39:47 +0200
-Message-Id: <74368624bc2b3441b7b5de94374eab7d607fbce3.1654943981.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+        Sat, 11 Jun 2022 08:08:11 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30E2D6D3BE;
+        Sat, 11 Jun 2022 05:08:09 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id n28so1884418edb.9;
+        Sat, 11 Jun 2022 05:08:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=MBpWW3Rm0qHu8VKriKsz69J9U1fr852JTooAqUcIBSs=;
+        b=JGka//OtRrj4t/9GKYq/cGyzcLKCd9fNKHwtrSi+iMrLBxCIe2vjiURLMrjDKJLb9i
+         JhDL2oISE5D3tswqByIX9F9OkKCv+psJVaNkSsMpoEpwjp7Praxnsf0QO4whgqiCKqft
+         e0sxcPfUYpCiP5T0+JCyneRANM0HE00abZtoi6vIYFQs36/pfjFaifVK9MFkCoxsC9Sj
+         7LQeB/O2d0URJ+CkxOWYEryOmn3HbV+vcBBzYthTuyExaOtWnEWO3ON1H/NYb68rQnRB
+         ca0/ss9BbrMan95qXWzhv5iec3hRIsVXq7Y62uVTXM2BqZfuFDb5QvbyoyPPibnlfu3z
+         c1zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=MBpWW3Rm0qHu8VKriKsz69J9U1fr852JTooAqUcIBSs=;
+        b=sOXAaBMVbEdOZRd+guog2aPjN5ms1HYndUv7PfjKlfzFv8TrWvm5LkyKcKlKV24bWV
+         5up4cYzdxKFHmnX1Iqk2y2CD2GCgs6bC06BH/dA1k6KXNb1gtxcPY0KuJAG978YGNTO5
+         27TilMuDBp+HCqKmBuS+OX7J2lDd6ALVSqns4Ai02+SWtuIP1YWhIcI1AAu8ICracjc8
+         krL9xZRFMMoNcp/h7HiPgMAyrglLH2pON2YjoTSTZqKJyUa94tM/zs7p21qR0hcI+wzb
+         sLyRZ+AcCzBPl4GOjZA7WRXBVgs5ZFU8SMPPWQJ3JAwssXhKDcdGbJ/+mgzEqKvj/22C
+         OjWQ==
+X-Gm-Message-State: AOAM532e4mghgNm+D22VOnL4hMhwJeQ1sFGTxnoNK6mq4Qk5xXR0L1nN
+        wUAMCDsjmZg9XQa1nz07iA==
+X-Google-Smtp-Source: ABdhPJzUrTZfe/FzjHAMv8CZN44ZkvnDaQwFgVdQHT0CWx1GHxFj7YcfX0sdZb0Bk6zZ3I6MW6m/Tg==
+X-Received: by 2002:a05:6402:228d:b0:42d:e319:7297 with SMTP id cw13-20020a056402228d00b0042de3197297mr56166642edb.79.1654949287554;
+        Sat, 11 Jun 2022 05:08:07 -0700 (PDT)
+Received: from ?IPV6:2001:9e8:b963:4d00:eb2a:1586:942f:ce9f? ([2001:9e8:b963:4d00:eb2a:1586:942f:ce9f])
+        by smtp.gmail.com with ESMTPSA id q4-20020a50aa84000000b0042617ba638esm1318458edc.24.2022.06.11.05.08.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Jun 2022 05:08:06 -0700 (PDT)
+Message-ID: <8efa6811-ee17-4dd2-23a7-e0471af8c0a6@gmail.com>
+Date:   Sat, 11 Jun 2022 14:08:05 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v1 4/5] media: rkvdec: Re-enable H.264 error detection
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     kernel@collabora.com, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+ <20220610125215.240539-5-nicolas.dufresne@collabora.com>
+From:   Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <20220610125215.240539-5-nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,370 +79,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-An SPDX-License-Identifier is already in place. There is no need to
-duplicate part of the corresponding license.
+Am 10.06.22 um 14:52 schrieb Nicolas Dufresne:
+> This re-enables H.264 error detection, but using the other error mode.
+> In that mode, the decoder will skip over the error macro-block or
+> slices and complete the decoding. As a side effect, the error status
+> is not set in the interrupt status register, and instead errors are
+> detected per format. Using this mode workaround the issue that the
+> HW get stuck in error stated and allow reporting that some corruption
+> may be present in the buffer returned to userland.
+> 
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> index 55596ce6bb6e..60a89918e2c1 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> @@ -1175,14 +1175,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+>  
+>  	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
+>  
+> -	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> -	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+>  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
+>  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+>  
+>  	/* Start decoding! */
+>  	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
+> -	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
+> +	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
+> +	       RKVDEC_H264ORVP9_ERR_MODE,
+>  	       rkvdec->regs + RKVDEC_REG_INTERRUPT);
+>  
+>  	return 0;
+> @@ -1196,10 +1197,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
+>  
+> +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
+> +{
+> +	struct rkvdec_dev *rkvdec = ctx->dev;
+> +	int err;
+> +
+> +	err = readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
+> +	if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
+> +		pr_debug("Decoded picture have %i/%i slices with errors.\n",
+> +			 RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
+> +		return VB2_BUF_STATE_ERROR;
+> +	}
+> +
+> +	return VB2_BUF_STATE_DONE;
+> +}
+> +
+>  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
+>  	.adjust_fmt = rkvdec_h264_adjust_fmt,
+>  	.start = rkvdec_h264_start,
+>  	.stop = rkvdec_h264_stop,
+>  	.run = rkvdec_h264_run,
+>  	.try_ctrl = rkvdec_h264_try_ctrl,
+> +	.check_error_info = rkvdec_h264_check_error_info,
+>  };
 
-While at it, a few comments at the end of some .h files have been updated
-to reflect the correct include guard name (missing '_' and co.)
+Actually I'm not sure I fully understand what you are expecting the
+userspace to do with the information that there was an (HW!) error,
+which might or might not be bitstrean related. Resending the
+corrupted(?) frame until the HW fully hangs?
+As the interrupt reports an HW error it should (at least also) be
+handled driver-side and the HW is known not to be able to fully reset
+itself in case of an error.
+I think this will make behavior worse than it is now (for real-life
+users) where errors are eventually just ignored.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/pci/ddbridge/ddbridge-ci.c   |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-ci.h   |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-core.c |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-hw.c   |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-hw.h   | 11 +----------
- drivers/media/pci/ddbridge/ddbridge-i2c.c  |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-i2c.h  |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-io.h   |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-main.c |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-max.c  |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-max.h  | 11 +----------
- drivers/media/pci/ddbridge/ddbridge-mci.c  |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-mci.h  |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-regs.h |  9 ---------
- drivers/media/pci/ddbridge/ddbridge-sx8.c  |  9 ---------
- drivers/media/pci/ddbridge/ddbridge.h      | 11 +----------
- 16 files changed, 3 insertions(+), 147 deletions(-)
-
-diff --git a/drivers/media/pci/ddbridge/ddbridge-ci.c b/drivers/media/pci/ddbridge/ddbridge-ci.c
-index 377991095aba..ee20813c33ff 100644
---- a/drivers/media/pci/ddbridge/ddbridge-ci.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-ci.c
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #include "ddbridge.h"
-diff --git a/drivers/media/pci/ddbridge/ddbridge-ci.h b/drivers/media/pci/ddbridge/ddbridge-ci.h
-index cc98656af349..41cd97e52aa1 100644
---- a/drivers/media/pci/ddbridge/ddbridge-ci.h
-+++ b/drivers/media/pci/ddbridge/ddbridge-ci.h
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #ifndef __DDBRIDGE_CI_H__
-diff --git a/drivers/media/pci/ddbridge/ddbridge-core.c b/drivers/media/pci/ddbridge/ddbridge-core.c
-index 92fe051c672f..fe833f39698a 100644
---- a/drivers/media/pci/ddbridge/ddbridge-core.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-core.c
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #include <linux/module.h>
-diff --git a/drivers/media/pci/ddbridge/ddbridge-hw.c b/drivers/media/pci/ddbridge/ddbridge-hw.c
-index f9c91bdbd041..d7d9cd0dad23 100644
---- a/drivers/media/pci/ddbridge/ddbridge-hw.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-hw.c
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #include "ddbridge.h"
-diff --git a/drivers/media/pci/ddbridge/ddbridge-hw.h b/drivers/media/pci/ddbridge/ddbridge-hw.h
-index e34bd94c266b..934f296f48c0 100644
---- a/drivers/media/pci/ddbridge/ddbridge-hw.h
-+++ b/drivers/media/pci/ddbridge/ddbridge-hw.h
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #ifndef _DDBRIDGE_HW_H_
-@@ -40,4 +31,4 @@ struct ddb_device_id {
- const struct ddb_info *get_ddb_info(u16 vendor, u16 device,
- 				    u16 subvendor, u16 subdevice);
- 
--#endif /* _DDBRIDGE_HW_H */
-+#endif /* _DDBRIDGE_HW_H_ */
-diff --git a/drivers/media/pci/ddbridge/ddbridge-i2c.c b/drivers/media/pci/ddbridge/ddbridge-i2c.c
-index aafa6030c8cc..c894be180446 100644
---- a/drivers/media/pci/ddbridge/ddbridge-i2c.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-i2c.c
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #include <linux/module.h>
-diff --git a/drivers/media/pci/ddbridge/ddbridge-i2c.h b/drivers/media/pci/ddbridge/ddbridge-i2c.h
-index 90830f7b1638..48555d41aa48 100644
---- a/drivers/media/pci/ddbridge/ddbridge-i2c.h
-+++ b/drivers/media/pci/ddbridge/ddbridge-i2c.h
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #ifndef __DDBRIDGE_I2C_H__
-diff --git a/drivers/media/pci/ddbridge/ddbridge-io.h b/drivers/media/pci/ddbridge/ddbridge-io.h
-index 1a5b31b52494..991246cecee2 100644
---- a/drivers/media/pci/ddbridge/ddbridge-io.h
-+++ b/drivers/media/pci/ddbridge/ddbridge-io.h
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #ifndef __DDBRIDGE_IO_H__
-diff --git a/drivers/media/pci/ddbridge/ddbridge-main.c b/drivers/media/pci/ddbridge/ddbridge-main.c
-index 25d0d6745b52..91733ab9f58c 100644
---- a/drivers/media/pci/ddbridge/ddbridge-main.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-main.c
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/media/pci/ddbridge/ddbridge-max.c b/drivers/media/pci/ddbridge/ddbridge-max.c
-index 576dd2318e4d..0582b86bb869 100644
---- a/drivers/media/pci/ddbridge/ddbridge-max.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-max.c
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #include <linux/module.h>
-diff --git a/drivers/media/pci/ddbridge/ddbridge-max.h b/drivers/media/pci/ddbridge/ddbridge-max.h
-index 6543dfc77138..da1553fe8695 100644
---- a/drivers/media/pci/ddbridge/ddbridge-max.h
-+++ b/drivers/media/pci/ddbridge/ddbridge-max.h
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #ifndef _DDBRIDGE_MAX_H_
-@@ -27,4 +18,4 @@ int ddb_lnb_init_fmode(struct ddb *dev, struct ddb_link *link, u32 fm);
- int ddb_fe_attach_mxl5xx(struct ddb_input *input);
- int ddb_fe_attach_mci(struct ddb_input *input, u32 type);
- 
--#endif /* _DDBRIDGE_MAX_H */
-+#endif /* _DDBRIDGE_MAX_H_ */
-diff --git a/drivers/media/pci/ddbridge/ddbridge-mci.c b/drivers/media/pci/ddbridge/ddbridge-mci.c
-index 97384ae9ad27..a006cb0fa199 100644
---- a/drivers/media/pci/ddbridge/ddbridge-mci.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-mci.c
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2017-2018 Digital Devices GmbH
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-- * GNU General Public License for more details.
-  */
- 
- #include "ddbridge.h"
-diff --git a/drivers/media/pci/ddbridge/ddbridge-mci.h b/drivers/media/pci/ddbridge/ddbridge-mci.h
-index 24241111c634..d9799fbf59d4 100644
---- a/drivers/media/pci/ddbridge/ddbridge-mci.h
-+++ b/drivers/media/pci/ddbridge/ddbridge-mci.h
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2017-2018 Digital Devices GmbH
-  *                         Marcus Metzler <mocm@metzlerbros.de>
-  *                         Ralph Metzler <rjkm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-- * GNU General Public License for more details.
-  */
- 
- #ifndef _DDBRIDGE_MCI_H_
-diff --git a/drivers/media/pci/ddbridge/ddbridge-regs.h b/drivers/media/pci/ddbridge/ddbridge-regs.h
-index 2942a7f35099..42256fc9695d 100644
---- a/drivers/media/pci/ddbridge/ddbridge-regs.h
-+++ b/drivers/media/pci/ddbridge/ddbridge-regs.h
-@@ -3,15 +3,6 @@
-  * ddbridge-regs.h: Digital Devices PCIe bridge driver
-  *
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #ifndef __DDBRIDGE_REGS_H__
-diff --git a/drivers/media/pci/ddbridge/ddbridge-sx8.c b/drivers/media/pci/ddbridge/ddbridge-sx8.c
-index 374fcee94960..c8de8d283f85 100644
---- a/drivers/media/pci/ddbridge/ddbridge-sx8.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-sx8.c
-@@ -5,15 +5,6 @@
-  * Copyright (C) 2018 Digital Devices GmbH
-  *                    Marcus Metzler <mocm@metzlerbros.de>
-  *                    Ralph Metzler <rjkm@metzlerbros.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-- * GNU General Public License for more details.
-  */
- 
- #include "ddbridge.h"
-diff --git a/drivers/media/pci/ddbridge/ddbridge.h b/drivers/media/pci/ddbridge/ddbridge.h
-index b834449e78f8..f3699dbd193f 100644
---- a/drivers/media/pci/ddbridge/ddbridge.h
-+++ b/drivers/media/pci/ddbridge/ddbridge.h
-@@ -4,15 +4,6 @@
-  *
-  * Copyright (C) 2010-2017 Digital Devices GmbH
-  *                         Ralph Metzler <rmetzler@digitaldevices.de>
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 only, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #ifndef _DDBRIDGE_H_
-@@ -379,4 +370,4 @@ void ddb_unmap(struct ddb *dev);
- int ddb_exit_ddbridge(int stage, int error);
- int ddb_init_ddbridge(void);
- 
--#endif /* DDBRIDGE_H */
-+#endif /* _DDBRIDGE_H_ */
--- 
-2.34.1
-
+Alex
