@@ -2,193 +2,304 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BFB85472C3
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jun 2022 10:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE37954731C
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jun 2022 11:20:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231397AbiFKIGY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Jun 2022 04:06:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40194 "EHLO
+        id S232253AbiFKJUT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Jun 2022 05:20:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229661AbiFKIGX (ORCPT
+        with ESMTP id S229616AbiFKJUR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Jun 2022 04:06:23 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 073DF4C7AE;
-        Sat, 11 Jun 2022 01:06:22 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id a15so1231980wrh.2;
-        Sat, 11 Jun 2022 01:06:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=PcMyrMkeBq8FtDR9Ah+GKvDRw37wZQSxisNv3VbSxF8=;
-        b=VDanKS2aPNxEPD5gHHW3YO7eybeGWHt49VN3wMDZarFEdbZywtZanpzYHolibuSgHo
-         txN2heXPtUPZyZBdgRvwXaYcOVqigfgho+MuucKKg8YRX5hRDSDbV2sUsSVGMozHxCez
-         cAMPw9hLl6JfXxid1Fm2oOJ1bU7R0pq99NyyOAju9w7veIBu10IusWNm1Ib1mywc3MBN
-         JC7wuCDUDwt6aGszDEkUObBsev4hlStTmbJX7Pr9yBfezUDTR7a/S2C3fzxRQW3b/DKV
-         vQH6tk3Uxk7jxkep6/tBDg/gRPFIF/MOOWhXzLSF7CZwI2b9+eoXzorlWss0DAbJLMeV
-         Z/tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=PcMyrMkeBq8FtDR9Ah+GKvDRw37wZQSxisNv3VbSxF8=;
-        b=d8CjCHsumrQM6LvlUjSG6bKGoVvQQUEXwnRykLijif2NHIjAYEZ1JXXBHbZoEDqZtO
-         n/ybvRchep6GCO0hF1xUv8OYYA/tfmlQden4MN8QvNU4D2YmrMADR4XjStY1BIKzQOL2
-         6OLW0i5lWUaXhtQtkYi640AODPOlPLwMtuPyJM0WbxwEasrbhTY1d9it5XFh9gmtNvf6
-         qDYIo4MFS/o5y/94NM+9OVIccG0XoYrXWqZlMjQhWNNv55CSvxycfpRHkM5rW4Kmkk0X
-         Z0pVwO8dN8QuJ2llcPPaLuEJN2/NK4PRCzZJNUNnu7hBGrHXv/j+qWxeSOAvIrkhCBPE
-         s4zA==
-X-Gm-Message-State: AOAM5325Xt3plpfr7mrNTGhxSTihQrGHIc+ydm74cZnoFtDGtMedPw/H
-        rw7JLvt8/6ZR7FT+89HEOiM=
-X-Google-Smtp-Source: ABdhPJxOGwCLeulpLrfjSocHTBSjkFkIa8LIlAZvPBEKMl+ZSwhdQvggONhSb/e759HwNYTLN0sK/Q==
-X-Received: by 2002:adf:f706:0:b0:20e:6788:c2b6 with SMTP id r6-20020adff706000000b0020e6788c2b6mr47847880wrp.633.1654934780444;
-        Sat, 11 Jun 2022 01:06:20 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:285a:43cd:3b2c:3f3c? ([2a02:908:1256:79a0:285a:43cd:3b2c:3f3c])
-        by smtp.gmail.com with ESMTPSA id m6-20020adfe0c6000000b0021024f82e01sm1783833wri.16.2022.06.11.01.06.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Jun 2022 01:06:19 -0700 (PDT)
-Message-ID: <288528c3-411e-fb25-2f08-92d4bb9f1f13@gmail.com>
-Date:   Sat, 11 Jun 2022 10:06:18 +0200
+        Sat, 11 Jun 2022 05:20:17 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 469E06443
+        for <linux-media@vger.kernel.org>; Sat, 11 Jun 2022 02:20:15 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nzxHw-00GMpa-QT; Sat, 11 Jun 2022 09:20:13 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nzxHv-00GSoP-79; Sat, 11 Jun 2022 09:20:10 +0000
+Date:   Sat, 11 Jun 2022 09:20:10 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1174693735.0.1654939210402@builder.linuxtv.org>
+In-Reply-To: <2139072153.0.1654852808220@builder.linuxtv.org>
+References: <2139072153.0.1654852808220@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3926
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 03/13] mm: shmem: provide oom badness for shmem files
-Content-Language: en-US
-To:     Michal Hocko <mhocko@suse.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        alexander.deucher@amd.com, daniel@ffwll.ch,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        hughd@google.com, andrey.grodzovsky@amd.com
-References: <YqG67sox6L64E6wV@dhcp22.suse.cz>
- <77b99722-fc13-e5c5-c9be-7d4f3830859c@amd.com>
- <YqHuH5brYFQUfW8l@dhcp22.suse.cz>
- <26d3e1c7-d73c-cc95-54ef-58b2c9055f0c@gmail.com>
- <YqIB0bavUeU8Abwl@dhcp22.suse.cz>
- <d4a19481-7a9f-19bf-c270-d89baa0970fc@amd.com>
- <YqIMmK18mb/+s5de@dhcp22.suse.cz>
- <3f7d3d96-0858-fb6d-07a3-4c18964f888e@gmail.com>
- <YqMuq/ZrV8loC3jE@dhcp22.suse.cz>
- <2e7e050e-04eb-0c0a-0675-d7f1c3ae7aed@amd.com>
- <YqNSSFQELx/LeEHR@dhcp22.suse.cz>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <YqNSSFQELx/LeEHR@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 10.06.22 um 16:16 schrieb Michal Hocko:
-> [...]
->>> The primary question is whether it actually helps much or what kind of
->>> scenarios it can help with and whether we can actually do better for
->>> those.
->> Well, it does help massively with a standard Linux desktop and GPU workloads
->> (e.g. games).
->>
->> See what currently happens is that when games allocate for example textures
->> the memory for that is not accounted against that game. Instead it's usually
->> the display server (X or Wayland) which most of the shared resources
->> accounts to because it needs to compose a desktop from it and usually also
->> mmaps it for fallback CPU operations.
-> Let me try to understand some more. So the game (or the entity to be
-> responsible for the resource) doesn't really allocate the memory but it
-> relies on somebody else (from memcg perspective living in a different
-> resource domain - i.e. a different memcg) to do that on its behalf.
-> Correct? If that is the case then that is certainly not fitting into the
-> memcg model then.
+See <https://builder.linuxtv.org/job/media-build/3926/display/redirect>
 
-More or less: yes, that is one possible use case.  But we could leave 
-that one out since it is not the primary use case.
+Changes:
 
-What happens more is that 99% of the resources are only allocated per 
-process, but around 1% are shared with somebody else.
 
-But see two comments below of a better description of the problem I'm 
-facing.
-
-> I am not really sure there is any reasonable model where you cannot
-> really tell who is responsible for the resource.
-
-Well it would be fine with me to leave out those 1% of resources shared 
-with different memcgs.
-
-What breaks my neck are those 99% which are allocated by a game and 
-could potentially be shared but are most of the time not.
-
->> So what happens when a games over allocates texture resources is that your
->> whole desktop restarts because the compositor is killed. This obviously also
->> kills the game, but it would be much nice if we would be more selective
->> here.
->>
->> For hardware rendering DMA-buf and GPU drivers are used, but for the
->> software fallback shmem files is what is used under the hood as far as I
->> know. And the underlying problem is the same for both.
-> For shmem files the end user of the buffer can preallocate and so own
-> the buffer and be accounted for it.
-
-The problem is just that it can easily happen that one process is 
-allocating the resource and a different one freeing it.
-
-So just imaging the following example: Process opens X window, get 
-reference to the handle of the buffer backing this window for drawing, 
-tells X to close the window again and then a bit later closes the buffer 
-handle.
-
-In this example the X server would be charged allocating the buffer and 
-the client (which is most likely in a different memcg group) is charged 
-freeing it.
-
-I could of course add something to struct page to track which memcg (or 
-process) it was charged against, but extending struct page is most 
-likely a no-go.
-
-Alternative I could try to track the "owner" of a buffer (e.g. a shmem 
-file), but then it can happen that one processes creates the object and 
-another one is writing to it and actually allocating the memory.
-
->>> Also do not forget that shared file memory is not the only thing
->>> to care about. What about the kernel memory used on behalf of processes?
->> Yeah, I'm aware of that as well. But at least inside the GPU drivers we try
->> to keep that in a reasonable ratio.
->>
->>> Just consider the above mentioned memcg driven model. It doesn't really
->>> require to chase specific files and do some arbitrary math to share the
->>> responsibility. It has a clear accounting and responsibility model.
->> Ok, how does that work then?
-> The memory is accounted to whoever faults that memory in or to the
-> allocating context if that is a kernel memory (in most situations).
-
-That's what I had in mind as well. Problem with this approach is that 
-file descriptors are currently not informed that they are shared between 
-processes.
-
-So to make this work we would need something like attach/detach to 
-process in struct file_operations.
-
-And as I noted, this happens rather often. For example a game which 
-renders 120 frames per second needs to transfer 120 buffers per second 
-between client and X.
-
-So this is not something which could take a lot of time and the file 
-descriptor tracking structures in the Linux kernel are not made for this 
-either.
-
-I think for now I will try something like this specific for DRM drivers. 
-That doesn't solve the shmem file problem, but it at least gives me 
-something at hand for the accelerated Linux desktop case.
-
-Regards,
-Christian.
+------------------------------------------
+[...truncated 32.82 KB...]
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-device.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fh.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-event.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-subdev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls-api.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls-request.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls-defs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-spi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-trace.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvbdev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dmxdev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_demux.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ca_en50221.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_frontend.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_net.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ringbuffer.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_vb2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_math.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-adstech-dvb-t-pci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-alink-dtu-m.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-anysee.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-apac-viewcomp.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-astrometa-t2hybrid.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-pc39.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-ps3-100.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-tv-wonder-hd-600.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-x10.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-a16d.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-cardbus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-dvbt.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m135a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m733a-rm-k6.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-rm-ks.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avertv-303.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-azurewave-ad-tu700.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-beelink-gs1.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold-columbus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-budget-ci-old.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy-1400.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ct-90405.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-d680-dmb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-delock-61959.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-rc5.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digitalnow-tinytwin.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digittrade.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dm1105-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvb-t.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dtt200u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvbt-pro.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvbsky.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-portable.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-em-terratec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv-fm53.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-evga-indtube.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-eztv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flydvb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-fusionhdtv-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flyvideo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gadmei-rm008z.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-geekbox.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-genius-tvgo-a11mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gotview7135.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hauppauge.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-poplar.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-tv-demo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-pad.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-rsc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-iodata-bctv7e.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v1.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kaiomy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khadas.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khamsin.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-315u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-pc150u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-plus-tv-analog.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-leadtek-y04g0051.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-lme2510.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-manli.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-mecool-kiii-pro.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-mecool-kii-pro.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-digitainer.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-or2x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-minix-neo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-iii.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-ii.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere-plus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nebula.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nec-terratec-cinergy-xs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-norwood.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-npgtech.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-odroid.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pctv-sedna.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pine64.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-color.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-grey.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-pctv-hd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-002t.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-mk12.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-new.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-powercolor-real-angel.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-proteus-2309.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-purpletv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pv951.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-rc6-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-real-audio-220-32-keys.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-reddo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-snapstream-firefly.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-streamzap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-su3000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx3mini.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx5max.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tbs-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-ts35.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-usb2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-c-pci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-s2-hd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-xs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim-2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tevii-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tivo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand-02.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-trekstor.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tt-1500.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan1027.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan-dtv-cab-ci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-vega-s9x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-m1f.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-s350.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-tv-pvr.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videostrong-kii-pro.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-hub.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-play2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast-usbii-deluxe.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-x96max.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-xbox-360.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-xbox-dvd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-zx-irdec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-main.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ir-raw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-imon-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-jvc-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-mce_kbd-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-nec-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc5-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc6-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rcmm-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sanyo-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sharp-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sony-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-xmp-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ene_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/fintek-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/igorplugusb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/iguanair.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon_raw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ite-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nuvoton-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/redrat3.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/serial_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir_toy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ttusbir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/winbond-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-loopback.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-adap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-api.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.c>: In function 'mceusb_dev_probe':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.c>:1731:9: error: too few arguments to function 'usb_maxpacket'
+ 1731 |  maxp = usb_maxpacket(dev, pipe);
+      |         ^~~~~~~~~~~~~
+In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.c>:29:
+/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
+ 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
+      | ^~~~~~~~~~~~~
+make[4]: *** [/usr/src/linux-headers-5.10.0-14-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.o]> Error 1
+make[4]: *** Waiting for unfinished jobs....
+<https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.c>: In function 'streamzap_probe':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.c>:310:9: error: too few arguments to function 'usb_maxpacket'
+  310 |  maxp = usb_maxpacket(usbdev, pipe);
+      |         ^~~~~~~~~~~~~
+In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.c>:24:
+/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
+ 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
+      | ^~~~~~~~~~~~~
+make[4]: *** [/usr/src/linux-headers-5.10.0-14-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.o]> Error 1
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>: In function 'ati_remote_initialize':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>:776:9: error: too few arguments to function 'usb_maxpacket'
+  776 |  maxp = usb_maxpacket(udev, pipe);
+      |         ^~~~~~~~~~~~~
+In file included from /usr/src/linux-headers-5.10.0-14-common/include/linux/usb/input.h:13,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>:81:
+/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
+ 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
+      | ^~~~~~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>:787:9: error: too few arguments to function 'usb_maxpacket'
+  787 |  maxp = usb_maxpacket(udev, pipe);
+      |         ^~~~~~~~~~~~~
+In file included from /usr/src/linux-headers-5.10.0-14-common/include/linux/usb/input.h:13,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.c>:81:
+/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
+ 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
+      | ^~~~~~~~~~~~~
+make[4]: *** [/usr/src/linux-headers-5.10.0-14-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o]> Error 1
+<https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.c>: In function 'xbox_remote_initialize':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.c>:174:9: error: too few arguments to function 'usb_maxpacket'
+  174 |  maxp = usb_maxpacket(udev, pipe);
+      |         ^~~~~~~~~~~~~
+In file included from /usr/src/linux-headers-5.10.0-14-common/include/linux/usb/input.h:13,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.c>:19:
+/usr/src/linux-headers-5.10.0-14-common/include/linux/usb.h:1982:1: note: declared here
+ 1982 | usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
+      | ^~~~~~~~~~~~~
+make[4]: *** [/usr/src/linux-headers-5.10.0-14-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.o]> Error 1
+make[3]: *** [/usr/src/linux-headers-5.10.0-14-common/Makefile:1846: <https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
+make[2]: *** [/usr/src/linux-headers-5.10.0-14-common/Makefile:185: __sub-make] Error 2
+make[2]: Leaving directory '/usr/src/linux-headers-5.10.0-14-amd64'
+make[1]: *** [Makefile:53: default] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: all] Error 2
+build failed at ./build line 533
+Build step 'Execute shell' marked build as failure
