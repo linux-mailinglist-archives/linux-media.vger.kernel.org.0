@@ -2,67 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79A7B547BBB
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jun 2022 21:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BDAC547C02
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jun 2022 22:40:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234247AbiFLTaC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Jun 2022 15:30:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39276 "EHLO
+        id S234461AbiFLUkg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Jun 2022 16:40:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234482AbiFLT3y (ORCPT
+        with ESMTP id S230357AbiFLUke (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Jun 2022 15:29:54 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C7C41FB6
-        for <linux-media@vger.kernel.org>; Sun, 12 Jun 2022 12:29:52 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id c2so4700706edf.5
-        for <linux-media@vger.kernel.org>; Sun, 12 Jun 2022 12:29:52 -0700 (PDT)
+        Sun, 12 Jun 2022 16:40:34 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC9C13EB92;
+        Sun, 12 Jun 2022 13:40:32 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id h23so7497693ejj.12;
+        Sun, 12 Jun 2022 13:40:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WznPRpctTIv2zdDhb4zOCo3OtZZJR1xJ9rl6aDA9cws=;
-        b=qiDeMLXJpobmkAUebxqC+z6uq/XVcTzMKhn/yJSX83rszfeiZ4mTQft70fdqrQ3gdO
-         2DKTWR3BUHAkgSlqxN1ALi9LYG7iMn3AkTLF3PZnGENVBn6lnm5QgPjKSTXh6CbmJ4Af
-         9YC2PBPPzPva5Nxaa2MxGznfCnMX6fCsIg4p0xA+Gzyx+gQ9wewbEURNd35XRc0Fmp9w
-         9oOg60HAUbGJllA2eS/ZWkG6HVAAxYukY1M6druCVKvU1Kp5lPmQ8wutK4niP7e2nqRu
-         lR9bObqfsovbUZaPuecEdVSN5fqul1qy7QXJ7cQaqVFwZqFdWYPmm82Lfc7uexbRgpD1
-         W66Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2jytHVm8ZuiwCARiy/dgP+cTcJmeud+YGOQOnyEwcxA=;
+        b=GpY4ALNkJzEvUaHFW/O5CIpcZsTIXpDVZP49i7FVo8bGurcfZHFS9t7IT8KP9iu1Cc
+         2oqJhTvsTHDyd7l5Y25IjiUe1oyaPBnKpQHELKvVywXrIU5eGWBZe15fDoHYrvmhnG1r
+         7Rkga5RTqsYOL2tbtR0CL3PZ/ov0mJVD6UyCE8YyoDy11C8yfY01RFCM6sObulEkEPEl
+         qvxRj4HiZxCrYp+Lpq/z3uE1v2/U8f0rHdG17VoMn1SmqKkLKBKKGrDXgjfHQR8K+wrO
+         AOm65KD4tdozQl1dd+ICTBWfvRbwPAG60k800Nt7fIdHIex/14wPtFgE0MFhZXBEmQA0
+         ovpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WznPRpctTIv2zdDhb4zOCo3OtZZJR1xJ9rl6aDA9cws=;
-        b=ZRTlthU7deE4xRWqqT26Ius8u9MrSh00MgZV4vlIl2mlgtydOGiWzLHwS15MhnXi7v
-         hMj5DfFf9+c5+SmDXkKKcKc2sX/zdCiHZOJ98ktdi38muZs95RXzCOh7sHTEwKRz96yF
-         3pfnfvaaWs2godtFCh8el0ZjOspnMsdF66mQo6pK+hSMuAqfb85wP5Sd5+a9ebU6swKN
-         T8IqiDWm7cc+L5RNmpKfn4QdXDEHcsFxU8MYQrY7qxtGNRgpK5FnWJxZMvodFnGhX5mN
-         8owJO8jMOuXP53saC9wPboopZEK2RMuf/QvN+SrcTgJnVEoYxkW4lHGlAMoiU9OvIpB0
-         Vumw==
-X-Gm-Message-State: AOAM532wF3vUJPmEgmRRwbXhx8oCZooEaIdurdldsPe0fxWVWXv0z9qm
-        UX7D5r5A57o3eSiNJbmnCR+GBBVE6gORxogSlvo=
-X-Google-Smtp-Source: ABdhPJw1FbcomwSSXixBhJrM+uP33cpcyF5rtjKutFybBX5KXbS7P50C5RhnvYBhjRXr92iPgNtWTR3m8kEpnnQhUPo=
-X-Received: by 2002:aa7:d481:0:b0:42d:d5fd:f963 with SMTP id
- b1-20020aa7d481000000b0042dd5fdf963mr62189255edr.209.1655062191211; Sun, 12
- Jun 2022 12:29:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2jytHVm8ZuiwCARiy/dgP+cTcJmeud+YGOQOnyEwcxA=;
+        b=Ps+Xix7hJ0dfO8B7UqgSHIrba9JxqPZHiG9W3kK/nvK0QiOgl9ftjtVkEu33SJv2l2
+         crIy6twYc3c5cO/hh3BTUv7SKMMozkhUb1Byh8W1xF5M+w7l+rfDXOYu5+tijX6uctBM
+         XnS5O5pbH4qx0aeNKtmJzXFgoZjykSsYjA3wxEQYKwYJ0h9I7q4vRqhihicLXDjHjfZ6
+         TA1PzziQLXHuWDtzTCOTO+II44X/mcCq7bbwWltry57rHrsUBrQm464C1rPmjU0CrgId
+         a2hFthIwDBtUlUyiHP/aBPhkecTzXLrfOkR9hqOSQamGaZPAGV3u7M/jq8SHeEI0N0FL
+         1uZA==
+X-Gm-Message-State: AOAM531pMDn5sdVcdK930iF7x8wJYQi3lWzhXiiUZ7bt//YvqUd+b9ob
+        qIeuzSPpUUEUv6EtvXrQ91k=
+X-Google-Smtp-Source: ABdhPJyZMq8l4+8JswvBLfHVqVHIy5eA61rvmP1XRt/vBtLQl8KZ0Q089dGMem6tMX5+in5sWOeZkg==
+X-Received: by 2002:a17:907:971f:b0:6ff:2d30:4b37 with SMTP id jg31-20020a170907971f00b006ff2d304b37mr49917948ejc.7.1655066431322;
+        Sun, 12 Jun 2022 13:40:31 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id b10-20020a170906d10a00b006f4c557b7d2sm2853979ejz.203.2022.06.12.13.40.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jun 2022 13:40:30 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     mchehab@kernel.org, hverkuil@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
+        nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com
+Subject: Re: Re: [PATCH v6 16/17] media: uapi: Change data_bit_offset definition
+Date:   Sun, 12 Jun 2022 22:40:29 +0200
+Message-ID: <11997092.O9o76ZdvQC@kista>
+In-Reply-To: <c330e3e1-e10c-5930-2d1d-6260cb8d64b8@collabora.com>
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <7385576.EvYhyI6sBW@kista> <c330e3e1-e10c-5930-2d1d-6260cb8d64b8@collabora.com>
 MIME-Version: 1.0
-References: <20220612160556.108264-1-hdegoede@redhat.com>
-In-Reply-To: <20220612160556.108264-1-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 12 Jun 2022 21:29:14 +0200
-Message-ID: <CAHp75VdO_kE_5B+tXNmsvr1gUOoXg5EutYCp=PFx2qRKKqKCcg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] media: atomisp: fix "don't pass a pointer to a local variable"
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-staging@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -74,61 +77,143 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jun 12, 2022 at 6:06 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi All,
->
-> While working on other atomisp stuff I noticed that the recently
-> added: "media: atomisp: don't pass a pointer to a local variable"
-> compiler warning fix broke things.
->
-> Here is a small series reverting the troublesome fix and adding
-> an alternative compiler warning fix which does work in my testing.
->
+Dne sreda, 01. junij 2022 ob 18:33:22 CEST je Benjamin Gaignard napisal(a):
+>=20
+> Le 01/06/2022 =C3=A0 18:17, Jernej =C5=A0krabec a =C3=A9crit :
+> > Dne nedelja, 29. maj 2022 ob 08:45:57 CEST je Jernej =C5=A0krabec napis=
+al(a):
+> >> Dne petek, 27. maj 2022 ob 16:31:33 CEST je Benjamin Gaignard napisal(=
+a):
+> >>> 'F.7.3.6.1 General slice segment header syntax' section of HEVC
+> >>> specification describes that a slice header always end aligned on
+> >>> byte boundary, therefore we only need to provide the data offset in=20
+bytes.
+> >>>
+> >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >>> ---
+> >>>   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
+> >>>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
+> >>>   include/media/hevc-ctrls.h                                | 4 ++--
+> >>>   3 files changed, 5 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rs=
+t b/
+> >> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>> index 48a8825a001b..37079581c661 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>> @@ -3008,8 +3008,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >>>         - ``bit_size``
+> >>>         - Size (in bits) of the current slice data.
+> >>>       * - __u32
+> >>> -      - ``data_bit_offset``
+> >>> -      - Offset (in bits) to the video data in the current slice data.
+> >>> +      - ``data_byte_offset``
+> >>> +      - Offset (in bytes) to the video data in the current slice dat=
+a.
+> >>>       * - __u32
+> >>>         - ``num_entry_point_offsets``
+> >>>         - Specifies the number of entry point offset syntax elements =
+in=20
+the
+> >> slice header.
+> >>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drive=
+rs/
+> >> staging/media/sunxi/cedrus/cedrus_h265.c
+> >>> index 411601975124..835454239f73 100644
+> >>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> >>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> >>> @@ -405,7 +405,7 @@ static void cedrus_h265_setup(struct cedrus_ctx=20
+*ctx,
+> >>>   	/* Initialize bitstream access. */
+> >>>   	cedrus_write(dev, VE_DEC_H265_TRIGGER,
+> >> VE_DEC_H265_TRIGGER_INIT_SWDEC);
+> >>>  =20
+> >>> -	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
+> >>> +	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8);
+> >> While it's true that actual data starts on 8-bit aligned address, Cedr=
+us=20
+for
+> >> some reason needs offset which points at the end of the header, before
+> >> alignment. There is very simple way to determine that, but unfortunate=
+ly
+> > this
+> >> means reading source buffer.
+> >>
+> >> In short, above code won't work. I'll provide a fix.
+> > Please include following fix http://ix.io/3Z8x otherwise Cedrus will fa=
+il=20
+to
+> > decode slice.
+
+=46luster testing show that this patch isn't completely fine. I also have s=
+ome=20
+other issues, which need control values comparisons. It would be best, if y=
+ou=20
+can wait until I finish comparison. Old, hackish HEVC patches have high flu=
+ster=20
+score whereas new, based on stable uAPI, has low and CPU also locks up...
+
+Best regards,
+Jernej
+
+> >
+> > Other than fix in previous e-mail and this one, code looks good and I'l=
+l be
+> > able to add missing functionality to Cedrus without much trouble in fol=
+low=20
+up
+> > series.
+>=20
+> Thanks for the patch it will be in version 7.
+>=20
 > Regards,
->
-> Hans
->
-> p.s.
->
-> A while ago I mentioned that I was working on also making the code
-> work on Bay Trail devices (vs Cherry Trail) and that I had things
-> working with an older kernel based on Alan Cox' first merge of
-> the driver into drivers/staging. After a lot of work to keep the
-> code working rebasing on newer and newer (less old really) kernels
-> I had gathered some fixes and decided to just try the latest kernel.
->
-> And it turns out that the latest kernel already has all those
-> fixes and it just works. I don't know why my previous testing failed.
-> I might just have been unlucky with the hw which I used in my previous
-> testing.
->
-> So good news, the code works on Bay Trail too, which is also good
-> from a pov of being able to test on both platforms while doing further
-> refactoring.
->
-> Mauro, you also asked me to try mmap on the original code as merged
-> by Alan Cox, unfortunately mmap does not work their either, it seems
-> this has simply always been broken. More about this in another
-> patch-set.
+> Benjamin
+>=20
+> >
+> > Best regards,
+> > Jernej
+> >
+> >>>  =20
+> >>>   	/* Bitstream parameters. */
+> >>>  =20
+> >>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> >>> index 9abca1a75bd4..936ff693967b 100644
+> >>> --- a/include/media/hevc-ctrls.h
+> >>> +++ b/include/media/hevc-ctrls.h
+> >>> @@ -312,7 +312,7 @@ struct v4l2_hevc_pred_weight_table {
+> >>>    * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> >>>    *
+> >>>    * @bit_size: size (in bits) of the current slice data
+> >>> - * @data_bit_offset: offset (in bits) to the video data in the curre=
+nt
+> > slice
+> >> data
+> >>> + * @data_byte_offset: offset (in bytes) to the video data in the cur=
+rent
+> >> slice data
+> >>>    * @num_entry_point_offsets: specifies the number of entry point of=
+fset
+> > syntax
+> >>>    *			     elements in the slice header.
+> >>>    * @nal_unit_type: specifies the coding type of the slice (B, P or =
+I)
+> >>> @@ -356,7 +356,7 @@ struct v4l2_hevc_pred_weight_table {
+> >>>    */
+> >>>   struct v4l2_ctrl_hevc_slice_params {
+> >>>   	__u32	bit_size;
+> >>> -	__u32	data_bit_offset;
+> >>> +	__u32	data_byte_offset;
+> >>>   	__u32	num_entry_point_offsets;
+> >>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+> >>>   	__u8	nal_unit_type;
+> >>> --=20
+> >>> 2.32.0
+> >>>
+> >>>
+> >>
+> >>
+> >
+>=20
 
-Thanks for the fix!
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-> Hans de Goede (3):
->   media: atomisp: revert "don't pass a pointer to a local variable"
->   media: atomisp: fix uninitialized stack mem usage in
->     ia_css_rmgr_acq_vbuf()
->   media: atomisp: fix -Wdangling-pointer warning
->
->  .../atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c  | 22 +++++++++++++------
->  1 file changed, 15 insertions(+), 7 deletions(-)
->
-> --
-> 2.36.0
->
-
-
--- 
-With Best Regards,
-Andy Shevchenko
