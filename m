@@ -2,122 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 699465479F3
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jun 2022 13:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F3B6547AA0
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jun 2022 17:05:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236407AbiFLLcb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Jun 2022 07:32:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50274 "EHLO
+        id S237329AbiFLPFc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Jun 2022 11:05:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232995AbiFLLca (ORCPT
+        with ESMTP id S231658AbiFLPFb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Jun 2022 07:32:30 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 256F529802
-        for <linux-media@vger.kernel.org>; Sun, 12 Jun 2022 04:32:29 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id b8so3911277edj.11
-        for <linux-media@vger.kernel.org>; Sun, 12 Jun 2022 04:32:29 -0700 (PDT)
+        Sun, 12 Jun 2022 11:05:31 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F1C5A168;
+        Sun, 12 Jun 2022 08:05:28 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id y19so6632428ejq.6;
+        Sun, 12 Jun 2022 08:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=9FfohXFhB1sP403VxH1swwcmiEO4r97TnueS6gdgla0=;
-        b=HutqJca9cz10+fhpLBqF5pkCfmNuVpB/QmLPLH2RoeSpp+88FPj9DCRLsYlrV60IRI
-         yfGt8kTQJ3+U5hD05c9eQjOTUDndc3kFmmCKtoZcJTw6iEXGeaPRZUwBIb2hL10aHe3A
-         7EbObtS3e/RUerZDq6P0if6rMoEsasBL0IeuLIxwTHpNu3CceyHT/j7BTvAXuGh/jXn3
-         mZ2PnrRRlC0NrnYO4yqGRbm/BexgsBU/ybIJL5KQreT4XiaErEnB2fMcohiz3+qsoqp8
-         Xl5GKvTeAgRog3ZkHFVKaziM00o+HwG/FDCDlODVc32UellWfe2pLGmko+Rt8jRhNdyv
-         b+pA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=htFjsSXu7ZGxTjaP5i3din+9CWxv94Bctr84QoNiliY=;
+        b=APsLw00dy2F55yoY3iXIMcnELsihcXP/p6SNiyRSf5oZEwPYW3D+p0hDD/fhfBGpLe
+         213n/Vi5KHjD4mMgEBXf2SHm9ZkNEaPVqBySbH1z3UhGpTHYFKFPNey4vj/pQ1X6HLEG
+         CwJlDpgpTCvyl7Jilb5g9EBt7kK4A5jHct8fJEqfqx1dGEYyx4yqxwH5Hci+eZ5+6a1/
+         mwPrbmd2GM57MA2FANPMcQZRrQ+t0+ZzePfDQ0ZscrO4pnZjGmDSRDbNGdr3E+hjTEc+
+         vjADJaLYSq1uDbnUJWHDibDyKWaovFiZ9vlJy+aEvP/Vs+lyavPcbmcBUjdLyOjwTAEb
+         xhFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=9FfohXFhB1sP403VxH1swwcmiEO4r97TnueS6gdgla0=;
-        b=yY5oVVulIo3H3moJfulacMuexmT/Y7m59PFcsXA9qJ4xW4X1CgqzYvlw8ZUcrxzRNw
-         bTKB16X+I/7waZTFD5Px9IIrl9DdCciYz+yjXrpYb0qvqyn+9AJzKauasKgt0syzqPqG
-         vaL02ekN7cRraf78IlgwIM2E5RdI2ViVjxUVV6shJGr1jcsZG07dK5A9T2YyvF7hf+Dj
-         yj1t1QkTX0isGo65PWpcVEjcF0tyADCfsb+RQNQhHrUXk9QYzqgJeRgpCQyVizy9WhHj
-         7HrGcgDXk2f4mTLh9MVlrTQz/C5OKyCMEkj0cQj7Gd4ipAtBL3vLkCLqOzp58ZvM0n73
-         j4FQ==
-X-Gm-Message-State: AOAM533hJj8V5ktHCHm0hjGlAdDc2EdR9FGoUSUbi3psUxYrpXZR9wbK
-        zKQEVlDQZ4HEeMj8Kq81s+Z0fGznJxYKKkfR4Xs=
-X-Google-Smtp-Source: ABdhPJwdx/ts4yT81TfY9H4jSVwEQwJ2e/fPBdkfFmfsPIbmOM0FEcnF1voZtHMiIfkmIVV3xB+6Fmj8j1iYk6t89oo=
-X-Received: by 2002:a05:6402:d05:b0:425:b5c8:faeb with SMTP id
- eb5-20020a0564020d0500b00425b5c8faebmr60549161edb.273.1655033547542; Sun, 12
- Jun 2022 04:32:27 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=htFjsSXu7ZGxTjaP5i3din+9CWxv94Bctr84QoNiliY=;
+        b=O7tAG04umYANXFlsSIj9HYYWKh7UDtY1+oaOHFA05rUSNjw6DTIY/3D19ZrMmIxxtm
+         HtYFLmZAtFJxRi69vKAco96gLIpCJu/+w+3zahqvwQB4ieaZ7MOW5WdMqgh56p2N8txS
+         NdnO0wJNsBbwqpsWHCZC8QS8DHENAjUTZfiCS7tGM6OBQHMN18jpUlfCInFC+8IT94Yc
+         VFrw8HVN26qoIZjYZ3IgPgHCUSR6+kZGMEaXtgOvWqFIjGBgQIwtTBZsfcE8qxHeFGAM
+         vUnCOXC5DtngVxNm/EATzSmhBWdxe9szasFMMUrH15+NLOWjHkzehVLvJiI98jTR0nZx
+         U6Tw==
+X-Gm-Message-State: AOAM533sJnvD2MxxCcQEmw1mdwXfWoLl7HpKz3q4gz32LgxLB7z4W5sj
+        +7oRwth9EJEmzxsivYuI7Fw=
+X-Google-Smtp-Source: ABdhPJyi9sxjMamNlGeaPrfv21rrYPCrriGAL73CCnuOlTCxSIfRQCJRmSiN3kIcksZEs7Yydc4tvg==
+X-Received: by 2002:a17:906:8301:b0:6e4:896d:59b1 with SMTP id j1-20020a170906830100b006e4896d59b1mr47420520ejx.396.1655046326879;
+        Sun, 12 Jun 2022 08:05:26 -0700 (PDT)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id gv17-20020a170906f11100b006febc1e9fc8sm2553325ejb.47.2022.06.12.08.05.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jun 2022 08:05:26 -0700 (PDT)
+From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] media: dt-binding: media: Add rockchip-vepu binding
+Date:   Sun, 12 Jun 2022 17:05:25 +0200
+Message-ID: <1885873.U9Vi27CkfU@archbook>
+In-Reply-To: <440a7dc6-7ec4-d7a9-0c56-3b3dc15b79d0@linaro.org>
+References: <20220514133604.174905-1-frattaroli.nicolas@gmail.com> <20220514133604.174905-2-frattaroli.nicolas@gmail.com> <440a7dc6-7ec4-d7a9-0c56-3b3dc15b79d0@linaro.org>
 MIME-Version: 1.0
-Sender: mariajohn0331@gmail.com
-Received: by 2002:a54:3a4a:0:0:0:0:0 with HTTP; Sun, 12 Jun 2022 04:32:26
- -0700 (PDT)
-From:   MARIA ROLAND <mariaroland74@gmail.com>
-Date:   Sun, 12 Jun 2022 04:32:26 -0700
-X-Google-Sender-Auth: Co32K8Guj2mgf2O-dHQRzwqxqMY
-Message-ID: <CAEmdD2WEq8iFu03odoUHJOLqaAfOodUu9x8Et1FumwjSBv0eHw@mail.gmail.com>
-Subject: Greetings,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_60,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_8,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:52f listed in]
-        [list.dnswl.org]
-        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
-        *      [score: 0.6396]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [mariajohn0331[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mariaroland74[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *****
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings,
+Hello
 
-I sent this mail praying it will find you in a good condition, since I
-myself am in a very critical health condition in which I sleep every
-night  without knowing if I may be alive to see the next day. I am
-Mrs. Maria Roland, a widow suffering from a long time illness. I have
-some funds I  inherited from my late husband, the sum of
-($11,000,000.00) my Doctor told me recently that I have serious
-sickness which is a cancer problem. What disturbs me most is my stroke
-sickness. Having known my condition, I decided to donate this fund to
-a good person that will utilize it the way I am going to instruct
-herein. I need a very honest God.
+On Samstag, 14. Mai 2022 22:41:29 CEST Krzysztof Kozlowski wrote:
+> On 14/05/2022 15:36, Nicolas Frattaroli wrote:
+> > The RK3568 and RK3566 have a Hantro VPU node solely dedicated to
+> > encoding. This patch adds a new binding to describe it, as it
+> > does not really fit the rockchip-vpu binding, since there is no
+> > decoder.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+> > ---
+> >  .../bindings/media/rockchip-vepu.yaml         | 64 +++++++++++++++++++
+> >  MAINTAINERS                                   |  1 +
+> >  2 files changed, 65 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/rockchip-vepu.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/rockchip-vepu.yaml b/Documentation/devicetree/bindings/media/rockchip-vepu.yaml
+> > new file mode 100644
+> > index 000000000000..b7ba5bf3517a
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/rockchip-vepu.yaml
+> 
+> Filename: vendor,device (not hyphen)
+> It would be actually better if it followed the first compatible, so
+> "rockchip,rk3568-vepu.yaml"
 
-fearing a person who can claim this money and use it for Charity
-works, for orphanages, widows and also build schools for less
-privileges that will be named after my late husband if possible and to
-promote the word of God and the effort that the house of God is
-maintained. I do not want a situation where this money will be used in
-an ungodly manner. That's why I' making this decision. I'm not afraid
-of death so I know where I'm going. I accept this decision because I
-do not have any child who will inherit this money after I die. Please
-I want your sincere and urgent answer to know if you will be able to
-execute this project, and I will give you more information on how the
-fund will be transferred to your bank account. I am waiting for your reply,
+Thanks, will do.
 
-May God Bless you,
+> 
+> > @@ -0,0 +1,64 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +
+> > +%YAML 1.2
+> > +---
+> > +$id: "http://devicetree.org/schemas/media/rockchip-vepu.yaml#"
+> > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > +
+> > +title: Hantro G1 VPU encoders implemented on Rockchip SoCs
+> > +
+> > +maintainers:
+> > +  - Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+> > +
+> > +description:
+> > +  Hantro G1 video encode-only accelerators present on Rockchip SoCs.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - rockchip,rk3568-vepu
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 2
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: aclk
+> > +      - const: hclk
+> 
+> Since these are new bindings, it would be good to follow DT convention
+> and not add common "clk" prefix to clocks. Just like DMA is "tx" not
+> "txdma". However clock names "a" and "h" are also not good and maybe
+> this is already shared implementation?
 
-Mrs. Maria Roland,
+This is indeed a shared implementation. Theoretically I could change
+the driver for this one case but that seems pointless, especially
+since "aclk" and "hclk" are the usual clk names for AXI and AHB on
+ARM as far as I understand. I think I've been told before that those
+two clocks should always be called aclk and hclk.
+
+> 
+> > + 
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  iommus:
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +        #include <dt-bindings/clock/rk3568-cru.h>
+> 
+> Indentation starts at "|" (so four spaces)
+> 
+> > +        #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +        #include <dt-bindings/power/rk3568-power.h>
+> > +
+> > +        vepu: video-codec@fdee0000 {
+> 
+> four spaces.
+> 
+> > +                compatible = "rockchip,rk3568-vepu";
+> > +                reg = <0x0 0xfdee0000 0x0 0x800>;
+> > +                interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
+> > +                clocks = <&cru ACLK_JENC>, <&cru HCLK_JENC>;
+> > +                clock-names = "aclk", "hclk";
+> > +                iommus = <&vepu_mmu>;
+> > +                power-domains = <&power RK3568_PD_RGA>;
+> > +        };
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 9ce78f2275dc..f901a42e5d0f 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -8637,6 +8637,7 @@ L:	linux-media@vger.kernel.org
+> >  L:	linux-rockchip@lists.infradead.org
+> >  S:	Maintained
+> >  F:	Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> > +F:	Documentation/devicetree/bindings/media/rockchip-vepu.yaml
+> >  F:	Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> >  F:	drivers/staging/media/hantro/
+> >  
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
+
+Thank you for your feedback,
+Nicolas Frattaroli
+
+
+
