@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAD975479C4
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jun 2022 12:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B76A45479C6
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jun 2022 12:33:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236049AbiFLKbj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Jun 2022 06:31:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46350 "EHLO
+        id S236063AbiFLKd3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Jun 2022 06:33:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232186AbiFLKbi (ORCPT
+        with ESMTP id S231131AbiFLKd2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Jun 2022 06:31:38 -0400
+        Sun, 12 Jun 2022 06:33:28 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC04A6542D
-        for <linux-media@vger.kernel.org>; Sun, 12 Jun 2022 03:31:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B558313E19
+        for <linux-media@vger.kernel.org>; Sun, 12 Jun 2022 03:33:27 -0700 (PDT)
 Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1o0KsS-0006XB-Nf; Sun, 12 Jun 2022 12:31:28 +0200
+        id 1o0KuI-0006c7-2g; Sun, 12 Jun 2022 12:33:22 +0200
 Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1o0KsR-0008BT-13; Sun, 12 Jun 2022 12:31:27 +0200
-Date:   Sun, 12 Jun 2022 12:31:27 +0200
+        id 1o0KuH-0008D6-Pp; Sun, 12 Jun 2022 12:33:21 +0200
+Date:   Sun, 12 Jun 2022 12:33:21 +0200
 From:   Michael Grzeschik <mgr@pengutronix.de>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     balbi@kernel.org, paul.elder@ideasonboard.com,
         linux-usb@vger.kernel.org, kieran.bingham@ideasonboard.com,
-        nicolas@ndufresne.ca, Dan Vacura <w36195@motorola.com>,
-        kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [RESEND v2 1/3] usb: gadget: uvc: calculate the number of
- request depending on framesize
-Message-ID: <20220612103126.GC29935@pengutronix.de>
+        nicolas@ndufresne.ca, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [RESEND v2 2/3] usb: gadget: uvc: increase worker prio to
+ WQ_HIGHPRI
+Message-ID: <20220612103321.GD29935@pengutronix.de>
 References: <20220608110339.141036-1-m.grzeschik@pengutronix.de>
- <20220608110339.141036-2-m.grzeschik@pengutronix.de>
- <YqDlP3uy33+WPphJ@pendragon.ideasonboard.com>
+ <20220608110339.141036-3-m.grzeschik@pengutronix.de>
+ <YqDtWkUbp4LPBRxS@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="w7PDEPdKQumQfZlR"
+        protocol="application/pgp-signature"; boundary="veXX9dWIonWZEC6h"
 Content-Disposition: inline
-In-Reply-To: <YqDlP3uy33+WPphJ@pendragon.ideasonboard.com>
+In-Reply-To: <YqDtWkUbp4LPBRxS@pendragon.ideasonboard.com>
 X-Sent-From: Pengutronix Hildesheim
 X-URL:  http://www.pengutronix.de/
 X-Accept-Language: de,en
@@ -60,121 +60,147 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---w7PDEPdKQumQfZlR
+--veXX9dWIonWZEC6h
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
-
-On Wed, Jun 08, 2022 at 09:06:55PM +0300, Laurent Pinchart wrote:
->On Wed, Jun 08, 2022 at 01:03:37PM +0200, Michael Grzeschik wrote:
->> The current limitation of possible number of requests being handled is
->> dependent on the gadget speed. It makes more sense to depend on the
->> typical frame size when calculating the number of requests. This patch
->> is changing this and is using the previous limits as boundaries for
->> reasonable minimum and maximum number of requests.
->>
->> For a 1080p jpeg encoded video stream with a maximum imagesize of
->> e.g. 800kB with a maxburst of 8 and an multiplier of 1 the resulting
->> number of requests is calculated to 49.
->>
->>         800768         1
->> nreqs =3D ------ * -------------- ~=3D 49
->>           2      (1024 * 8 * 1)
+On Wed, Jun 08, 2022 at 09:41:30PM +0300, Laurent Pinchart wrote:
+>Hi Michael,
+>
+>Thank you for the patch.
+>
+>On Wed, Jun 08, 2022 at 01:03:38PM +0200, Michael Grzeschik wrote:
+>> Likewise to the uvcvideo hostside driver, this patch is changing the
+>> simple workqueue to an async_wq with higher priority. This ensures that
+>> the worker will not be scheduled away while the video stream is handled.
 >>
 >> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->> Tested-by: Dan Vacura <w36195@motorola.com>
 >>
 >> ---
->> v1 -> v2: - using clamp instead of min/max
->>           - added calculation example to description
->> 	  - commented the additional division by two in the code
+>> v1 -> v2: - added destroy_workqueue in uvc_function_unbind
+>>           - reworded comment above allow_workqueue
 >>
->>  drivers/usb/gadget/function/uvc_queue.c | 17 ++++++++++++-----
->>  1 file changed, 12 insertions(+), 5 deletions(-)
+>>  drivers/usb/gadget/function/f_uvc.c     | 4 ++++
+>>  drivers/usb/gadget/function/uvc.h       | 1 +
+>>  drivers/usb/gadget/function/uvc_v4l2.c  | 2 +-
+>>  drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
+>>  4 files changed, 13 insertions(+), 3 deletions(-)
 >>
->> diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadge=
-t/function/uvc_queue.c
->> index d25edc3d2174e1..eb9bd9d32cd056 100644
->> --- a/drivers/usb/gadget/function/uvc_queue.c
->> +++ b/drivers/usb/gadget/function/uvc_queue.c
->> @@ -44,7 +44,8 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+>> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/fu=
+nction/f_uvc.c
+>> index d3feeeb50841b8..dcc5f057810973 100644
+>> --- a/drivers/usb/gadget/function/f_uvc.c
+>> +++ b/drivers/usb/gadget/function/f_uvc.c
+>> @@ -891,10 +891,14 @@ static void uvc_function_unbind(struct usb_configu=
+ration *c,
 >>  {
->>  	struct uvc_video_queue *queue =3D vb2_get_drv_priv(vq);
->>  	struct uvc_video *video =3D container_of(queue, struct uvc_video, queu=
-e);
->> -	struct usb_composite_dev *cdev =3D video->uvc->func.config->cdev;
->> +	unsigned int req_size;
->> +	unsigned int nreq;
+>>  	struct usb_composite_dev *cdev =3D c->cdev;
+>>  	struct uvc_device *uvc =3D to_uvc(f);
+>> +	struct uvc_video *video =3D &uvc->video;
+>>  	long wait_ret =3D 1;
 >>
->>  	if (*nbuffers > UVC_MAX_VIDEO_BUFFERS)
->>  		*nbuffers =3D UVC_MAX_VIDEO_BUFFERS;
->> @@ -53,10 +54,16 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+>>  	uvcg_info(f, "%s()\n", __func__);
 >>
->>  	sizes[0] =3D video->imagesize;
->>
->> -	if (cdev->gadget->speed < USB_SPEED_SUPER)
->> -		video->uvc_num_requests =3D 4;
->> -	else
->> -		video->uvc_num_requests =3D 64;
->> +	req_size =3D video->ep->maxpacket
->> +		 * max_t(unsigned int, video->ep->maxburst, 1)
->> +		 * (video->ep->mult);
->
->No need for parentheses.
->
+>> +	if (video->async_wq)
+>> +		destroy_workqueue(video->async_wq);
 >> +
->> +	/* We divide by two, to increase the chance to run
->> +	 * into fewer requests for smaller framesizes.
->> +	 */
->
->Could you please change the comment style to the more standard
->
->	/*
->	 * We divide by two, to increase the chance to run into fewer requests
->	 * for smaller framesizes.
->	 */
->
->(with the text reflowed to 80 columns) ?
-
-These two things have to be fixed in a seperate patch.
-Greg seems to have taken it already, as is.
-
->I'm however now sure where the division by 2 come from.
->
->Furthermore, as far as I understand, the reason why the number of
->requests was increased for superspeed devices (by you ;-)) was to avoid
->underruns at higher speeds and keep the queue full. This is less of a
->concern at lower speeds. Is there any drawback in increasing it
->regardless of the speed ? Increased latency comes to mind, but is it a
->problem in practice ?
-
-This is a good question. Lets think through the case, where we set
-the number of requests to an high number, just to be safe.
-
-I think that for lower bandwidth USB you will probably not send high
-resolution video. Especially if they are uncompressed. So having an
-extra amount of requests available, they will probably unnecessary keep
-more data than one frame in memory.
-
-For the high bandwidth usb case we would by default also keep an extra
-amount of memory available, especially if the burst and mult is set in
-the upper values.
-
-We would have to think of an resonable value for both cases.
-
-This is why I think depending on the framesize is an good compromise.
-
->> +	nreq =3D DIV_ROUND_UP(DIV_ROUND_UP(sizes[0], 2), req_size);
->> +	nreq =3D clamp(nreq, 4U, 64U);
->> +	video->uvc_num_requests =3D nreq;
+>>  	/* If we know we're connected via v4l2, then there should be a cleanup
+>>  	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
+>>  	 * though the video device removal uevent. Allow some time for the
+>> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/func=
+tion/uvc.h
+>> index 58e383afdd4406..1a31e6c6a5ffb8 100644
+>> --- a/drivers/usb/gadget/function/uvc.h
+>> +++ b/drivers/usb/gadget/function/uvc.h
+>> @@ -88,6 +88,7 @@ struct uvc_video {
+>>  	struct usb_ep *ep;
 >>
->>  	return 0;
+>>  	struct work_struct pump;
+>> +	struct workqueue_struct *async_wq;
+>>
+>>  	/* Frame parameters */
+>>  	u8 bpp;
+>> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget=
+/function/uvc_v4l2.c
+>> index fd8f73bb726dd1..fddc392b8ab95d 100644
+>> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+>> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+>> @@ -170,7 +170,7 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4=
+l2_buffer *b)
+>>  		return ret;
+>>
+>>  	if (uvc->state =3D=3D UVC_STATE_STREAMING)
+>> -		schedule_work(&video->pump);
+>> +		queue_work(video->async_wq, &video->pump);
+>>
+>>  	return ret;
 >>  }
+>> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadge=
+t/function/uvc_video.c
+>> index a9bb4553db847e..9a9101851bc1e8 100644
+>> --- a/drivers/usb/gadget/function/uvc_video.c
+>> +++ b/drivers/usb/gadget/function/uvc_video.c
+>> @@ -277,7 +277,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_req=
+uest *req)
+>>  	spin_unlock_irqrestore(&video->req_lock, flags);
+>>
+>>  	if (uvc->state =3D=3D UVC_STATE_STREAMING)
+>> -		schedule_work(&video->pump);
+>> +		queue_work(video->async_wq, &video->pump);
+>>  }
+>>
+>>  static int
+>> @@ -478,7 +478,7 @@ int uvcg_video_enable(struct uvc_video *video, int e=
+nable)
+>>
+>>  	video->req_int_count =3D 0;
+>>
+>> -	schedule_work(&video->pump);
+>> +	queue_work(video->async_wq, &video->pump);
+>>
+>>  	return ret;
+>>  }
+>> @@ -492,6 +492,11 @@ int uvcg_video_init(struct uvc_video *video, struct=
+ uvc_device *uvc)
+>>  	spin_lock_init(&video->req_lock);
+>>  	INIT_WORK(&video->pump, uvcg_video_pump);
+>>
+>> +	/* Allocate a work queue for asynchronous video pump handler. */
+>> +	video->async_wq =3D alloc_workqueue("uvcvideo", WQ_UNBOUND | WQ_HIGHPR=
+I, 0);
+>
+>Let's call it "uvcgadget" (or "uvc gadget", "uvc-gadget", ...) as
+>"uvcvideo" refers to the host side driver.
 
-Regards,
-Michael
+Good Idea. I will fix this.
+
+>I'm still a bit worried about WQ_UNBOUND and the risk of running work
+>items in parallel on different CPUs. uvcg_video_pump() looks mostly
+>safe, as it protects video->req_free with a spinlock, and the buffer
+>queue with another spinlock. The req_int_count increment at the end of
+>the loop would be unsafe though.
+
+I didn't think about that. I will have to check for that.
+
+>Could we get to the bottom of this and find out whether or not the work
+>items can be executed in parallel ?
+
+Do you have an Idea to check for that?
+
+>> +	if (!video->async_wq)
+>> +		return -EINVAL;
+>> +
+>>  	video->uvc =3D uvc;
+>>  	video->fcc =3D V4L2_PIX_FMT_YUYV;
+>>  	video->bpp =3D 16;
+>
+>--=20
+>Regards,
+>
+>Laurent Pinchart
+>
+>
 
 --=20
 Pengutronix e.K.                           |                             |
@@ -182,24 +208,24 @@ Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
 Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
---w7PDEPdKQumQfZlR
+--veXX9dWIonWZEC6h
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmKlwHsACgkQC+njFXoe
-LGQaNg//fTkppOWIOKBd5c3S8S090w3keiJjTZkCrYIK36RWSzs7AjeGRBLYHeEZ
-8cYu+TobjY77H2GA7slaT8jdNH6hdfNTxnn+4YPSrjYSNjcJ6qsD+9zZQ6d/gS8/
-3EQd2D6wL9G2AI4O1whPspYntgXPliXkJjeP83jZFgZDLQ70+y1FhnEl8B1P4c5q
-xb8PVXjEPZTDl93cjbMJylMPVtZyhX+WCCkqtECiyUpbrczTPgskCd9P49hHT2TA
-5cNYds18JtqDLWGLhpBhMrx3ksLvG8poDLUQandcRrFK4/C9GUK6eeKBDS/TMfHi
-PI3nHrto1GYtv+PhoUjDKFobBN8tE11iRBiHnhBuXCDf+vKtIAYRIRmyl97XDk/X
-wl5flN4d/IpsSoKP6tk0Nn8HvyF3PwJmnRiYRnWH4h8U1el+yN+QssZDRrkwRKsR
-Ql0IQIdonfu1jEzyCaUri5SoHTqzTKeKE36Rnc+XCUS04LR5+PB9Ub0MpR6/ca10
-AKnS8pTh2b+7KcS3Z6ft0EpEjiwmpS0SXG079VfnN7zSkJul7xpaQV5zGcMOyFOQ
-iI43p7M3AtnN8KdHx/PwEgj7jc/CZpV0vihXpNTSsOVqipRDeXWIE2hqbdzDcF1t
-ikRNeY4yKTSRsl/toSuxnZdB2PvY5/aamZ6eFDPFL4j3fqpztpM=
-=MZ/z
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmKlwPEACgkQC+njFXoe
+LGT/sg//XI+zbJNYyEnypxXofkpak3fU9COwNpProk2OFKt2zbABubR3zlkM1A6I
+vDtL3WMU/cKDsU9n0s7kirqmHJ7yXA+QBgq9/L9iPJ+QSJwwdkniWdd9YEuYt/Gh
+TcOIFzTNBHRQGKdMvYIwCraBpTmpTXX4sJZk1OqZxgI+T1I2occf3A1eWHID/cYJ
+S7CR+rh1fHQYhA5btpDUzx4RTbrNbjAkYO5+lA5/YyoAIbIM2HnTPAfayKnRMDEM
+RT7FySnUeMJxcGRbux1YAUgdDuCAdPK10ZCF9Z2cSAmVo4JUnADom8aiHHLlXnGI
+t7kdijYpRa6sEN/GKVmrfj8fcJTsRNZ1jxT9mVoAjT7NNIN2aPqapl9RRqNlNEMj
+5KvE6a5YC8aQhA7TbSbVkLdgdPJwRKbgtQU7io74L+T4VUP7OQ3zoRukp2bBzXce
+AF05c8MDx7n2VdMyaVFlj/ShWzO1LRs3qVNVO02LjLYF7wCpAwvcKXVOf17nCZkD
+Q0ohSBvhdG5PR7zorOlxW07Sl35sSEQF2rFq/7YNHl1gtumbQKtfI3YynemTBZSq
+e8Yzxd2MHaA0KMICP10VZkEO5/dc+XmGDKRir72/G0zDsddcbM4iqbvayD2Z3JLj
+x3RVY74f3amu/gNQil6YOiC33t6TPHexXFcWzbX0ONieBTfXoKc=
+=VYxZ
 -----END PGP SIGNATURE-----
 
---w7PDEPdKQumQfZlR--
+--veXX9dWIonWZEC6h--
