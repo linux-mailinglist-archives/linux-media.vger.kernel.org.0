@@ -2,86 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FF4A549826
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 18:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C138549984
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 19:07:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358409AbiFMMGV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jun 2022 08:06:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59940 "EHLO
+        id S234437AbiFMRHP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jun 2022 13:07:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359304AbiFMMFi (ORCPT
+        with ESMTP id S239560AbiFMRGi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jun 2022 08:05:38 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B407127169;
-        Mon, 13 Jun 2022 03:59:56 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C575A6601668;
-        Mon, 13 Jun 2022 11:59:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1655117995;
-        bh=SL7kBZsKi8cfowZu11mX4C6u+yfbALkOkOrY3sg1/m4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=N7lJBxk5oRQl32dnAZL7WlZ349h3f7sVa4Pt0rqM4HPOnbCE1sO2TrxzgpaoCqYP8
-         y1emnx9HTaEcC6nx0gjEotmDvSaW10SpZRjV9MmeSACIeWaHPCl3qVA4UerOQxjIxk
-         G24kUO0wwX57taOva4+sfbb5gJDH0w1M4tnqsmR7hUijxqR0YGlkpc3k7nIyGYREKb
-         v+WlDIY7A0zE39k1+qf8/1OAQipOZblftdsHvpVDkdWtEQ8NMCWOvZHWzAGLlDQ5A8
-         5oNY4HaPvnJ1Dx08bqdIybmpcp80jyX2HWAilXnMWd3tlfNIUkTuaGrLOi0yPDGpFv
-         hznKLqaa4UTXg==
-Message-ID: <4fb6af60-9997-2505-7d75-f09b376f027e@collabora.com>
-Date:   Mon, 13 Jun 2022 12:59:51 +0200
+        Mon, 13 Jun 2022 13:06:38 -0400
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DB12559B;
+        Mon, 13 Jun 2022 05:05:56 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id l192so1663867qke.13;
+        Mon, 13 Jun 2022 05:05:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cwLyOilx9WOqvNt/3Yiyfo9fY3D0D5JL9svjFDzxcJc=;
+        b=mirG+pXYdWmT/wWIEW46KPdRMH8MivKaZ/dKt1JgRO4IcipqNlZQ2fZ+lvJssw66K9
+         kZCeOmE02qq1pT/JNuUZOu4KUo15Psce3yKzggqVi4b5QVxin9vPhWbOZC6t63c3MUv4
+         NqTHZlyocexLMKY3KjjTXcsxJGvVnDN+c+CwhcYNcdlX94ZGvcvZvEIhYVO9/SaLbpxr
+         Snqw13uQY7lDllq0/K5/9gbDyKQvGUATXyrqxCII6zdUedpYp+ogfa5DBwc2WoEwJ23J
+         rj6fRmY7d2qR4WjRRgfjmaF6gfmFmmwjpyyTci7tfzindOYDw+RlFPC4kXBtNXB5rlaq
+         rolw==
+X-Gm-Message-State: AOAM533EyBjxxtZPjbdXEB4TZeVC2nQVnM5O5p59Af+zByw3vXqzxK/S
+        k3KRcny8Q05L7HVNy4j+XyO0o11rij4z1Q==
+X-Google-Smtp-Source: ABdhPJyG1Z+ss0PDfZyxXSVEb2nP2BBLomzlw8szdGzyWol2HPyjMMZZUVT5aABs6ygf5y2cuJmc3w==
+X-Received: by 2002:ae9:f107:0:b0:69c:232b:bf39 with SMTP id k7-20020ae9f107000000b0069c232bbf39mr38809443qkg.310.1655121954596;
+        Mon, 13 Jun 2022 05:05:54 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id ca21-20020a05622a1f1500b00304e5839734sm4874647qtb.55.2022.06.13.05.05.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jun 2022 05:05:54 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-30c143c41e5so49016067b3.3;
+        Mon, 13 Jun 2022 05:05:54 -0700 (PDT)
+X-Received: by 2002:a0d:d481:0:b0:30c:44f1:2721 with SMTP id
+ w123-20020a0dd481000000b0030c44f12721mr64775617ywd.283.1655121953732; Mon, 13
+ Jun 2022 05:05:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v18 3/4] dts: arm64: mt8183: add Mediatek MDP3 nodes
-Content-Language: en-US
-To:     Moudy Ho <moudy.ho@mediatek.com>,
+References: <4dcd5c4ef92318dfa3298eb0c03945a8ce9b5833.1654942925.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <4dcd5c4ef92318dfa3298eb0c03945a8ce9b5833.1654942925.git.christophe.jaillet@wanadoo.fr>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 13 Jun 2022 14:05:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWT+sFoa9spFk1FYZb=Kyck8gPL4gRU5E8YOhdmmGAZxA@mail.gmail.com>
+Message-ID: <CAMuHMdWT+sFoa9spFk1FYZb=Kyck8gPL4gRU5E8YOhdmmGAZxA@mail.gmail.com>
+Subject: Re: [PATCH] media: rcar_drif: Remove useless license text when
+ SPDX-License-Identifier is already used
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
-        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        allen-kh.cheng@mediatek.com, xiandong.wang@mediatek.com,
-        randy.wu@mediatek.com, jason-jh.lin@mediatek.com,
-        roy-cw.yeh@mediatek.com, river.cheng@mediatek.com,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        cellopoint.kai@gmail.com
-References: <20220610064504.8302-1-moudy.ho@mediatek.com>
- <20220610064504.8302-4-moudy.ho@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220610064504.8302-4-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 10/06/22 08:45, Moudy Ho ha scritto:
-> Add device nodes for Media Data Path 3 (MDP3) modules.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+On Sat, Jun 11, 2022 at 12:28 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+> An SPDX-License-Identifier is already in place. There is no need to
+> duplicate part of the corresponding license.
+>
+> This is a left-over from commit adeb69705682 ("media: rcar_drif: convert to
+> SPDX identifiers")
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
