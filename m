@@ -2,131 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 757D2549A68
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 19:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 382E65497A2
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 18:36:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237897AbiFMRu7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jun 2022 13:50:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57002 "EHLO
+        id S245695AbiFMQQL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jun 2022 12:16:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242362AbiFMRuf (ORCPT
+        with ESMTP id S241505AbiFMQPz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jun 2022 13:50:35 -0400
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C00D46EB3E;
-        Mon, 13 Jun 2022 06:33:20 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id p69so6111002iod.0;
-        Mon, 13 Jun 2022 06:33:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=vyoJ85txEp3wcFTSeMW6nKhdwOlY3JedEaCIumOgJX0=;
-        b=otzJfOUwHCkOtcKoB+GqdbhFFpPSSm1AmwqloLzwx32osBGOFYzUbLkEpWK6Oa5V0q
-         retP9HK66JWnNhLtdaquDt3d9M5Q7CjwxfDh7Q0zVjBJJRkV4DAa6rjuWbxQXeaXKIis
-         HG4asCk5ZBT6cb8K2A/XGoc4LCHKKNtrTXme/PiVShYUiu4AiifGzWalPz4N0MS7cKt4
-         jbrRaRKC8BJRRFmGHAJ3cu1mvepMq/iZOUKYVi/WAgdZhvegzW3igb6ZwHhP4g8bfVV/
-         Bz1/2vjbcnU2+5JESO/uCAfaTqtRcF+YGC/MHg8CqU9DSd/jkWfLhNE4deQ+4YVCyCrx
-         ne4Q==
-X-Gm-Message-State: AOAM533gaA8O0s4lMVijjQ5n9gYXBdQ0wkdSxpfHDXVWpPCiQ8z5WvJA
-        Y+PbIlr7kNYfw4mOpRitXw==
-X-Google-Smtp-Source: ABdhPJwOoiPPMXAQ3HpzpzSM0BQ0OOEN1wDLDCLjfQX27FZnwuzSrw5lgyXQOpUCBVuEPG4qAKKUYw==
-X-Received: by 2002:a05:6602:2cd1:b0:66a:6f0:5867 with SMTP id j17-20020a0566022cd100b0066a06f05867mr540059iow.143.1655127199851;
-        Mon, 13 Jun 2022 06:33:19 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id b14-20020a92c84e000000b002d1df239846sm3901175ilq.79.2022.06.13.06.33.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 06:33:19 -0700 (PDT)
-Received: (nullmailer pid 3564130 invoked by uid 1000);
-        Mon, 13 Jun 2022 13:33:17 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Irui Wang <irui.wang@mediatek.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        wenst@chromium.org, maoguang.meng@mediatek.com,
-        xia.jiang@mediatek.com, srv_heupstream@mediatek.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-mediatek@lists.infradead.org,
-        kyrie wu <kyrie.wu@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        nicolas.dufresne@collabora.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org
-In-Reply-To: <20220613032232.23187-2-irui.wang@mediatek.com>
-References: <20220613032232.23187-1-irui.wang@mediatek.com> <20220613032232.23187-2-irui.wang@mediatek.com>
-Subject: Re: [V3,1/8] dt-bindings: mediatek: Add mediatek,mt8195-jpgdec compatible
-Date:   Mon, 13 Jun 2022 07:33:17 -0600
-Message-Id: <1655127197.543108.3564129.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        Mon, 13 Jun 2022 12:15:55 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573C21BBAC7;
+        Mon, 13 Jun 2022 07:11:31 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 55EEF21BF6;
+        Mon, 13 Jun 2022 14:11:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1655129490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9E+o4Ky9bBY7s0UMfZpgf+q0GGL3GUPMLh+CXNxGns8=;
+        b=nonkym9/vs+hiD9DrLlSt8bXIOiX+sGqXWJEFlSqj0bab/6szJrEIzEQXNcn2iKV8aUJko
+        fm5MrnZUcboOH3W064euvLQTExmPomsFbHbWqVqkUN4OcYaUaEVRD1jQsjgfDkxE1JSpXG
+        9vWHbrw+WA20V32PwtEuztdW/OkWLaE=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id E9DBD2C141;
+        Mon, 13 Jun 2022 14:11:29 +0000 (UTC)
+Date:   Mon, 13 Jun 2022 16:11:29 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        alexander.deucher@amd.com, daniel@ffwll.ch,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        hughd@google.com, andrey.grodzovsky@amd.com
+Subject: Re: [PATCH 03/13] mm: shmem: provide oom badness for shmem files
+Message-ID: <YqdFkfLVFUD5K6EK@dhcp22.suse.cz>
+References: <YqIMmK18mb/+s5de@dhcp22.suse.cz>
+ <3f7d3d96-0858-fb6d-07a3-4c18964f888e@gmail.com>
+ <YqMuq/ZrV8loC3jE@dhcp22.suse.cz>
+ <2e7e050e-04eb-0c0a-0675-d7f1c3ae7aed@amd.com>
+ <YqNSSFQELx/LeEHR@dhcp22.suse.cz>
+ <288528c3-411e-fb25-2f08-92d4bb9f1f13@gmail.com>
+ <Yqbq/Q5jz2ou87Jx@dhcp22.suse.cz>
+ <b8b9aba5-575e-8a34-e627-79bef4ed7f97@amd.com>
+ <YqcpZY3Xx7Mk2ROH@dhcp22.suse.cz>
+ <34daa8ab-a9f4-8f7b-0ea7-821bc36b9497@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <34daa8ab-a9f4-8f7b-0ea7-821bc36b9497@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 13 Jun 2022 11:22:25 +0800, Irui Wang wrote:
-> From: kyrie wu <kyrie.wu@mediatek.com>
+On Mon 13-06-22 14:55:54, Christian König wrote:
+> Am 13.06.22 um 14:11 schrieb Michal Hocko:
+> > [SNIP]
+> > > > > Alternative I could try to track the "owner" of a buffer (e.g. a shmem
+> > > > > file), but then it can happen that one processes creates the object and
+> > > > > another one is writing to it and actually allocating the memory.
+> > > > If you can enforce that the owner is really responsible for the
+> > > > allocation then all should be fine. That would require MAP_POPULATE like
+> > > > semantic and I suspect this is not really feasible with the existing
+> > > > userspace. It would be certainly hard to enforce for bad players.
+> > > I've tried this today and the result was: "BUG: Bad rss-counter state
+> > > mm:000000008751d9ff type:MM_FILEPAGES val:-571286".
+> > > 
+> > > The problem is once more that files are not informed when the process
+> > > clones. So what happened is that somebody called fork() with an mm_struct
+> > > I've accounted my pages to. The result is just that we messed up the
+> > > rss_stats and  the the "BUG..." above.
+> > > 
+> > > The key difference between normal allocated pages and the resources here is
+> > > just that we are not bound to an mm_struct in any way.
+> > It is not really clear to me what exactly you have tried.
 > 
-> Add mediatek,mt8195-jpgdec compatible to binding document.
+> I've tried to track the "owner" of a driver connection by keeping a
+> reference to the mm_struct who created this connection inside our file
+> private and then use add_mm_counter() to account all the allocations of the
+> driver to this mm_struct.
 > 
-> Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
-> ---
->  .../media/mediatek,mt8195-jpegdec.yaml        | 177 ++++++++++++++++++
->  1 file changed, 177 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
-> 
+> This works to the extend that now the right process is killed in an OOM
+> situation. The problem with this approach is that the driver is not informed
+> about operations like fork() or clone(), so what happens is that after a
+> fork()/clone() we have an unbalanced rss-counter.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Yes, I do not think you can make per-process accounting without a
+concept of the per-process ownership.
 
-yamllint warnings/errors:
+> Let me maybe get back to the initial question: We have resources which are
+> not related to the virtual address space of a process, how should we tell
+> the OOM killer about them?
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml: patternProperties:^jpgdec@[0-9a-f]+$:properties:mediatek,hw-id:minItems: 0 is less than the minimum of 1
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml: patternProperties:^jpgdec@[0-9a-f]+$:properties:mediatek,hw-id: 'oneOf' conditional failed, one must be fixed:
-	'type' is a required property
-		hint: A vendor boolean property can use "type: boolean"
-	Additional properties are not allowed ('maxItems', 'minItems' were unexpected)
-		hint: A vendor boolean property can use "type: boolean"
-	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml: patternProperties:^jpgdec@[0-9a-f]+$:properties:mediatek,hw-id: 'oneOf' conditional failed, one must be fixed:
-		'enum' is a required property
-		'const' is a required property
-		hint: A vendor string property with exact values has an implicit type
-		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml: patternProperties:^jpgdec@[0-9a-f]+$:properties:mediatek,hw-id: 'oneOf' conditional failed, one must be fixed:
-		'$ref' is a required property
-		'allOf' is a required property
-		hint: A vendor property needs a $ref to types.yaml
-		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
-	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml: ignoring, error in schema: patternProperties: ^jpgdec@[0-9a-f]+$: properties: mediatek,hw-id: minItems
-Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.example.dtb:0:0: /example-0/soc/jpgdec_master: failed to match any schema with compatible: ['mediatek,mt8195-jpgdec']
-Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.example.dtb:0:0: /example-0/soc/jpgdec_master/jpgdec@1a040000: failed to match any schema with compatible: ['mediatek,mt8195-jpgdec-hw']
-Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.example.dtb:0:0: /example-0/soc/jpgdec_master/jpgdec@1a050000: failed to match any schema with compatible: ['mediatek,mt8195-jpgdec-hw']
-Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.example.dtb:0:0: /example-0/soc/jpgdec_master/jpgdec@1b040000: failed to match any schema with compatible: ['mediatek,mt8195-jpgdec-hw']
+I would say memcg, but we have discussed this already...
 
-doc reference errors (make refcheckdocs):
+I do not think that exposing a resource (in a form of a counter
+or something like that) is sufficient. The existing oom killer
+implementation is hevily process centric (with memcg extension for
+grouping but not changing the overall design in principle). If you
+want to make it aware of resources which are not directly accounted to
+processes then a a new implementation is necessary IMHO. You would need
+to evaluate those resources and kill all the tasks that can hold on that
+resource.
 
-See https://patchwork.ozlabs.org/patch/
+This is also the reason why I am not really fan of the per file
+badness because it adds a notion of resource that is not process bound
+in general so it will add all sorts of weird runtime corner cases which
+are impossible to anticipate [*]. Maybe that will work in some scenarios
+but definitely not something to be done by default without users opting
+into that and being aware of consequences. 
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+There have been discussions that the existing oom implementation cannot
+fit all potential usecases so maybe we need to finally decide to use a
+plugable, BPFable etc architecture allow implementations that fit
+specific needs.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+[*] I know it is not directly related but kinda similar. In the past
+we used to have heuristics to consider work done as a resource . That is
+kill younger processes preferably to reduce the damage.  This has turned
+out to have a very unpredictable behavior and many complains by
+users. Situation has improved when the selection was solely based on
+rss. This has its own cons of course but at least they are predictable.
+-- 
+Michal Hocko
+SUSE Labs
