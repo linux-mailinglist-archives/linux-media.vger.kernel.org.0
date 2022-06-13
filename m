@@ -2,18 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4E5B549FBC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 22:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9388E549FB6
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 22:45:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347936AbiFMUpP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jun 2022 16:45:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49276 "EHLO
+        id S1346139AbiFMUpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jun 2022 16:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351484AbiFMUoN (ORCPT
+        with ESMTP id S1351483AbiFMUoM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jun 2022 16:44:13 -0400
+        Mon, 13 Jun 2022 16:44:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9163CDECB
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 655B3B8D
         for <linux-media@vger.kernel.org>; Mon, 13 Jun 2022 12:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
         s=mimecast20190719; t=1655149915;
@@ -21,23 +21,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7HvMLRoTK6rxSlVUrDF+p0yNYtkvPQrEiYM+HRir/9c=;
-        b=fQ/hUMgw0AothUrEVTtroiiHhZTfjzRwDg8obhOPI4+w38eYH0Z1ZEAG/dlKkWCBc7RX2y
-        RJDwgbQRRSpjyN41m2UonmFkplFlSjz6iwMNlt2i1EB79a092J6WKn/O4eFAJ9r1X2ClK4
-        yz5xCVHtbM4MRyatOGonvS8R4AcUy8Y=
+        bh=7WjbX67jOOqktZoDgh6cVkYAJUhz2Kr6yIotCYGhj3w=;
+        b=CEPxRp3ZhCONMZzXb0YB4f5///5BZo2XeDvlW8LwFGyNypRE7hBWeYfDd3M/X69YKug4pe
+        CK7o8FRSzDSftRfBiAZ5wSNn80W49waC6eVAPUbcjggxUVC756/pYPy81G3UOsA20D3MJV
+        bSuPVRPz4XWGdWwj3e30mVmloreyWMQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-NbigGoTfNNW_FJsHhVoLfQ-1; Mon, 13 Jun 2022 15:51:50 -0400
-X-MC-Unique: NbigGoTfNNW_FJsHhVoLfQ-1
+ us-mta-642-CZT9LDEYMC-bo9k6AgPQ-Q-1; Mon, 13 Jun 2022 15:51:52 -0400
+X-MC-Unique: CZT9LDEYMC-bo9k6AgPQ-Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A61E801755;
-        Mon, 13 Jun 2022 19:51:50 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2F16801755;
+        Mon, 13 Jun 2022 19:51:51 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.42])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 753F42166B26;
-        Mon, 13 Jun 2022 19:51:48 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3F89D2166B26;
+        Mon, 13 Jun 2022 19:51:50 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 06/40] media: atomisp: drop IA_CSS_FRAME_FORMAT_MIPI support from ia_css_frame_init_planes()
-Date:   Mon, 13 Jun 2022 21:51:03 +0200
-Message-Id: <20220613195137.8117-7-hdegoede@redhat.com>
+Subject: [PATCH 07/40] media: atomisp: drop contiguous flag from struct ia_css_frame
+Date:   Mon, 13 Jun 2022 21:51:04 +0200
+Message-Id: <20220613195137.8117-8-hdegoede@redhat.com>
 In-Reply-To: <20220613195137.8117-1-hdegoede@redhat.com>
 References: <20220613195137.8117-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,73 +66,110 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Nothing ever sets the format to IA_CSS_FRAME_FORMAT_MIPI and
-frame_init_mipi_plane() is the only code-path which ever sets
-frame->contiguous to true.
-
-Drop A_CSS_FRAME_FORMAT_MIPI support from ia_css_frame_init_planes()
-as part of the removal of contiguous alloc support from the frame code.
+Drop the contiguous flag from struct ia_css_frame, it is always false /
+not used.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../atomisp/pci/runtime/frame/src/frame.c     | 30 ++-----------------
- 1 file changed, 3 insertions(+), 27 deletions(-)
+ drivers/staging/media/atomisp/pci/ia_css_frame_public.h     | 1 -
+ .../media/atomisp/pci/runtime/debug/src/ia_css_debug.c      | 2 --
+ drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c | 6 +-----
+ drivers/staging/media/atomisp/pci/sh_css.c                  | 5 -----
+ 4 files changed, 1 insertion(+), 13 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_frame_public.h b/drivers/staging/media/atomisp/pci/ia_css_frame_public.h
+index 9c4d466ebfb9..8f05af6d4cc9 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_frame_public.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_frame_public.h
+@@ -169,7 +169,6 @@ struct ia_css_frame {
+ 	/** exposure id, see ia_css_event_public.h for more detail */
+ 	u32 isp_config_id; /** Unique ID to track which config was actually applied to a particular frame */
+ 	bool valid; /** First video output frame is not valid */
+-	bool contiguous; /** memory is allocated physically contiguously */
+ 	union {
+ 		unsigned int	_initialisation_dummy;
+ 		struct ia_css_frame_plane raw;
+diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+index f46238725eea..3d269bd23207 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
++++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+@@ -1305,8 +1305,6 @@ void ia_css_debug_frame_print(const struct ia_css_frame *frame,
+ 	ia_css_debug_dtrace(2, "  padded width  = %d\n",
+ 			    frame->info.padded_width);
+ 	ia_css_debug_dtrace(2, "  format        = %d\n", frame->info.format);
+-	ia_css_debug_dtrace(2, "  is contiguous = %s\n",
+-			    frame->contiguous ? "yes" : "no");
+ 	switch (frame->info.format) {
+ 	case IA_CSS_FRAME_FORMAT_NV12:
+ 	case IA_CSS_FRAME_FORMAT_NV16:
 diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index af23fbb831d6..cb0b579fbadf 100644
+index cb0b579fbadf..b748b133f01e 100644
 --- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
 +++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -48,12 +48,6 @@ static void frame_init_raw_single_plane(
-     unsigned int subpixels_per_line,
-     unsigned int bits_per_pixel);
- 
--static void frame_init_mipi_plane(struct ia_css_frame *frame,
--				  struct ia_css_frame_plane *plane,
--				  unsigned int height,
--				  unsigned int subpixels_per_line,
--				  unsigned int bytes_per_pixel);
+@@ -732,10 +732,7 @@ static int frame_allocate_buffer_data(struct ia_css_frame *frame)
+ 	IA_CSS_ENTER_LEAVE_PRIVATE("frame->data_bytes=%d\n", frame->data_bytes);
+ #endif
+ 	frame->data = hmm_alloc(frame->data_bytes,
+-				HMM_BO_PRIVATE, 0, NULL,
+-				frame->contiguous ?
+-				ATOMISP_MAP_FLAG_CONTIGUOUS : 0);
 -
- static void frame_init_nv_planes(struct ia_css_frame *frame,
- 				 unsigned int horizontal_decimation,
- 				 unsigned int vertical_decimation,
-@@ -297,11 +291,9 @@ int ia_css_frame_init_planes(struct ia_css_frame *frame)
++				HMM_BO_PRIVATE, 0, NULL, 0);
+ 	if (frame->data == mmgr_NULL)
+ 		return -ENOMEM;
+ 	return 0;
+@@ -796,7 +793,6 @@ static struct ia_css_frame *frame_create(unsigned int width,
+ 	me->info.format = format;
+ 	me->info.padded_width = padded_width;
+ 	me->info.raw_bit_depth = raw_bit_depth;
+-	me->contiguous = false;
+ 	me->valid = valid;
+ 	me->data_bytes = 0;
+ 	me->data = mmgr_NULL;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 1d605e533e29..8ddf29e88804 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -3061,7 +3061,6 @@ init_vf_frameinfo_defaults(struct ia_css_pipe *pipe,
+ 	assert(vf_frame);
  
- 	switch (frame->info.format) {
- 	case IA_CSS_FRAME_FORMAT_MIPI:
--		frame_init_mipi_plane(frame, &frame->planes.raw,
--				      frame->info.res.height,
--				      frame->info.padded_width,
--				      frame->info.raw_bit_depth <= 8 ? 1 : 2);
--		break;
-+		dev_err(atomisp_dev,
-+			"%s: unexpected use of IA_CSS_FRAME_FORMAT_MIPI\n", __func__);
-+		return -EINVAL;
- 	case IA_CSS_FRAME_FORMAT_RAW_PACKED:
- 		frame_init_raw_single_plane(frame, &frame->planes.raw,
- 					    frame->info.res.height,
-@@ -622,22 +614,6 @@ static void frame_init_raw_single_plane(
- 	return;
- }
+ 	sh_css_pipe_get_viewfinder_frame_info(pipe, &vf_frame->info, idx);
+-	vf_frame->contiguous = false;
+ 	vf_frame->flash_state = IA_CSS_FRAME_FLASH_STATE_NONE;
+ 	ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread_id);
+ 	ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME + idx, thread_id, &queue_id);
+@@ -3243,7 +3242,6 @@ init_in_frameinfo_memory_defaults(struct ia_css_pipe *pipe,
+ 	in_frame->info.raw_bit_depth =
+ 	ia_css_pipe_util_pipe_input_format_bpp(pipe);
+ 	ia_css_frame_info_set_width(&in_frame->info, pipe->stream->config.input_config.input_res.width, 0);
+-	in_frame->contiguous = false;
+ 	in_frame->flash_state = IA_CSS_FRAME_FLASH_STATE_NONE;
+ 	ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread_id);
+ 	ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_INPUT_FRAME, thread_id, &queue_id);
+@@ -3271,7 +3269,6 @@ init_out_frameinfo_defaults(struct ia_css_pipe *pipe,
+ 	assert(out_frame);
  
--static void frame_init_mipi_plane(struct ia_css_frame *frame,
--				  struct ia_css_frame_plane *plane,
--				  unsigned int height,
--				  unsigned int subpixels_per_line,
--				  unsigned int bytes_per_pixel)
--{
--	unsigned int stride;
--
--	stride = subpixels_per_line * bytes_per_pixel;
--	frame->data_bytes = 8388608; /* 8*1024*1024 */
--	frame->valid = false;
--	frame->contiguous = true;
--	frame_init_plane(plane, subpixels_per_line, stride, height, 0);
--	return;
--}
--
- static void frame_init_nv_planes(struct ia_css_frame *frame,
- 				 unsigned int horizontal_decimation,
- 				 unsigned int vertical_decimation,
+ 	sh_css_pipe_get_output_frame_info(pipe, &out_frame->info, idx);
+-	out_frame->contiguous = false;
+ 	out_frame->flash_state = IA_CSS_FRAME_FLASH_STATE_NONE;
+ 	ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread_id);
+ 	ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_OUTPUT_FRAME + idx, thread_id, &queue_id);
+@@ -7158,7 +7155,6 @@ create_host_copy_pipeline(struct ia_css_pipe *pipe,
+ 	ia_css_pipeline_clean(me);
+ 
+ 	/* Construct out_frame info */
+-	out_frame->contiguous = false;
+ 	out_frame->flash_state = IA_CSS_FRAME_FLASH_STATE_NONE;
+ 
+ 	if (copy_on_sp(pipe) &&
+@@ -7208,7 +7204,6 @@ create_host_isyscopy_capture_pipeline(struct ia_css_pipe *pipe)
+ 	err = sh_css_pipe_get_output_frame_info(pipe, &out_frame->info, 0);
+ 	if (err)
+ 		return err;
+-	out_frame->contiguous = false;
+ 	out_frame->flash_state = IA_CSS_FRAME_FLASH_STATE_NONE;
+ 	ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread_id);
+ 	ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, thread_id, &queue_id);
 -- 
 2.36.0
 
