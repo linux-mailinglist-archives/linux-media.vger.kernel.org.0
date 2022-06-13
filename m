@@ -2,92 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C138549984
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 19:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 352B85490AD
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 18:26:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234437AbiFMRHP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jun 2022 13:07:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52188 "EHLO
+        id S242292AbiFMPEe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jun 2022 11:04:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239560AbiFMRGi (ORCPT
+        with ESMTP id S1386768AbiFMPDi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jun 2022 13:06:38 -0400
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DB12559B;
-        Mon, 13 Jun 2022 05:05:56 -0700 (PDT)
-Received: by mail-qk1-f182.google.com with SMTP id l192so1663867qke.13;
-        Mon, 13 Jun 2022 05:05:56 -0700 (PDT)
+        Mon, 13 Jun 2022 11:03:38 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8524EFF21;
+        Mon, 13 Jun 2022 05:10:22 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id o7so10788965eja.1;
+        Mon, 13 Jun 2022 05:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=nM1ToNddtuPmZmKp34E+C0azOheh3w4b7TSvswDeFiQ=;
+        b=DEg9vurSZxRH4cSk2zXW9txEvtrNLgfxVRta6QlCi+LrOdsSVTdufVJNLkWXm3i+77
+         ZzkokCTOBgOqTxn0bBg+uE712WEGb0W/1SXzwb5b4LSalQjNdp8/Sz3sidk+xd0r2MzT
+         0l1UbAYNSv1MujwTn8QWIUU1+hqyACRG27Mz0Wlrh4l+WOjfEwth9Ax6zxKP4/PI62Q1
+         LO5Z/2RJR+60qpK9KSvthTY2WMmMxZUWW/nF5HQd8qCAdEgq/ky3coUWFXK3oS1uPTqB
+         Eq7pfKmSN2t65cWwzuvzp+sfaObZbNQ78b2NMv+ZSTvZjYMdQPmH7DTJC9eb/IIr0cCB
+         YUsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cwLyOilx9WOqvNt/3Yiyfo9fY3D0D5JL9svjFDzxcJc=;
-        b=mirG+pXYdWmT/wWIEW46KPdRMH8MivKaZ/dKt1JgRO4IcipqNlZQ2fZ+lvJssw66K9
-         kZCeOmE02qq1pT/JNuUZOu4KUo15Psce3yKzggqVi4b5QVxin9vPhWbOZC6t63c3MUv4
-         NqTHZlyocexLMKY3KjjTXcsxJGvVnDN+c+CwhcYNcdlX94ZGvcvZvEIhYVO9/SaLbpxr
-         Snqw13uQY7lDllq0/K5/9gbDyKQvGUATXyrqxCII6zdUedpYp+ogfa5DBwc2WoEwJ23J
-         rj6fRmY7d2qR4WjRRgfjmaF6gfmFmmwjpyyTci7tfzindOYDw+RlFPC4kXBtNXB5rlaq
-         rolw==
-X-Gm-Message-State: AOAM533EyBjxxtZPjbdXEB4TZeVC2nQVnM5O5p59Af+zByw3vXqzxK/S
-        k3KRcny8Q05L7HVNy4j+XyO0o11rij4z1Q==
-X-Google-Smtp-Source: ABdhPJyG1Z+ss0PDfZyxXSVEb2nP2BBLomzlw8szdGzyWol2HPyjMMZZUVT5aABs6ygf5y2cuJmc3w==
-X-Received: by 2002:ae9:f107:0:b0:69c:232b:bf39 with SMTP id k7-20020ae9f107000000b0069c232bbf39mr38809443qkg.310.1655121954596;
-        Mon, 13 Jun 2022 05:05:54 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id ca21-20020a05622a1f1500b00304e5839734sm4874647qtb.55.2022.06.13.05.05.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jun 2022 05:05:54 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-30c143c41e5so49016067b3.3;
-        Mon, 13 Jun 2022 05:05:54 -0700 (PDT)
-X-Received: by 2002:a0d:d481:0:b0:30c:44f1:2721 with SMTP id
- w123-20020a0dd481000000b0030c44f12721mr64775617ywd.283.1655121953732; Mon, 13
- Jun 2022 05:05:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <4dcd5c4ef92318dfa3298eb0c03945a8ce9b5833.1654942925.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <4dcd5c4ef92318dfa3298eb0c03945a8ce9b5833.1654942925.git.christophe.jaillet@wanadoo.fr>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Jun 2022 14:05:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWT+sFoa9spFk1FYZb=Kyck8gPL4gRU5E8YOhdmmGAZxA@mail.gmail.com>
-Message-ID: <CAMuHMdWT+sFoa9spFk1FYZb=Kyck8gPL4gRU5E8YOhdmmGAZxA@mail.gmail.com>
-Subject: Re: [PATCH] media: rcar_drif: Remove useless license text when
- SPDX-License-Identifier is already used
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=nM1ToNddtuPmZmKp34E+C0azOheh3w4b7TSvswDeFiQ=;
+        b=ZSU37UtsVLEnFWOT8n5z54bSBN7ye1au8aHGfq0DsTixYb5/Vkmkul9qTOFkZofeg0
+         rFYh5OVzgF4j42ipQsdpUYV9TBKuxjDZ4oG9aAFRsD0JXQby0Da0+yKjB97mHGPYkmwT
+         fvmQUsNbQkCMle5Qx8eGq2wxyq6uyW+LIj9HivuGhvduJoaL18B7dvZIuydaC2nNheXG
+         jELnc4QzLMjJ81emyx7qeS7wXcaCPm/Oz6D3VhGwHxM3F3JNKrIchnhCvQWb4F+MHdUg
+         lZVxcxEx87hd7gLFfzto6yfLRk3rnzXpNFTmVt9fllNHuKIWxUsaSAgi8r9P2OSfAOYo
+         re9w==
+X-Gm-Message-State: AOAM532pLJTaJa34UmNrNe2bF1s5AejU4Daom3oN+sGM39kuYGKVY/1d
+        /dVKdIc0+WBUffsMR5+WuEiqhY22fI8=
+X-Google-Smtp-Source: ABdhPJz7kuEWA784iJJ7FkL/0fAuCrBN5O1XxoGltVSCrkKX2BjLkd9USAyINg9V+2OoGGLTwBGqXw==
+X-Received: by 2002:a17:906:9b96:b0:711:d21c:1b0b with SMTP id dd22-20020a1709069b9600b00711d21c1b0bmr34797271ejc.365.1655122220343;
+        Mon, 13 Jun 2022 05:10:20 -0700 (PDT)
+Received: from felia.fritz.box (200116b8260df50011e978c0f780de03.dip.versatel-1u1.de. [2001:16b8:260d:f500:11e9:78c0:f780:de03])
+        by smtp.gmail.com with ESMTPSA id lo16-20020a170906fa1000b00708e906faecsm3761336ejb.124.2022.06.13.05.10.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jun 2022 05:10:19 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: add include/dt-bindings/media to MEDIA INPUT INFRASTRUCTURE
+Date:   Mon, 13 Jun 2022 14:10:07 +0200
+Message-Id: <20220613121007.6181-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jun 11, 2022 at 12:28 PM Christophe JAILLET
-<christophe.jaillet@wanadoo.fr> wrote:
-> An SPDX-License-Identifier is already in place. There is no need to
-> duplicate part of the corresponding license.
->
-> This is a left-over from commit adeb69705682 ("media: rcar_drif: convert to
-> SPDX identifiers")
->
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Maintainers of the directory Documentation/devicetree/bindings/media
+are also the maintainers of the corresponding directory
+include/dt-bindings/media.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Add the file entry for include/dt-bindings/media to the appropriate
+section in MAINTAINERS.
 
-Gr{oetje,eeting}s,
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Mauro, please pick this MAINTAINERS addition to your section.
 
-                        Geert
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 856ac3231a54..1b30f6b69477 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12501,6 +12501,7 @@ F:	Documentation/driver-api/media/
+ F:	Documentation/userspace-api/media/
+ F:	drivers/media/
+ F:	drivers/staging/media/
++F:	include/dt-bindings/media/
+ F:	include/linux/platform_data/media/
+ F:	include/media/
+ F:	include/uapi/linux/dvb/
+-- 
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
