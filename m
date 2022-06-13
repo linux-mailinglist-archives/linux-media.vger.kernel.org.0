@@ -2,86 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A6B85497AB
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 18:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95F6D549BBF
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 20:39:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244675AbiFMQSD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jun 2022 12:18:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55488 "EHLO
+        id S244943AbiFMSjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jun 2022 14:39:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244513AbiFMQRz (ORCPT
+        with ESMTP id S1344877AbiFMSin (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jun 2022 12:17:55 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18B751BF097;
-        Mon, 13 Jun 2022 07:12:16 -0700 (PDT)
+        Mon, 13 Jun 2022 14:38:43 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73DF14EF75
+        for <linux-media@vger.kernel.org>; Mon, 13 Jun 2022 07:59:16 -0700 (PDT)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DDYxBu015109;
+        Mon, 13 Jun 2022 14:58:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=1e/byytK0lL2jtOGZIEml8A1uv2p56Lam72Ex+EpIcA=;
+ b=kcZr1yTqckY3S2g6TUdm2dH579dEkMi66jmkSmz9r7P2OTZp3fj5o7iR/cK/x/C4hS1G
+ nRjxms9ie4Xibi/8dDPlbt/nzHjKIJfMKwNlpY9c0VCCX5rR/RhiJiYmt5EwAH80ALW4
+ bVvcXwLmTCe7KvPo8cDTBItn1wMdQH422iRrVf72xNp63BQVMxwWH1qZSIv4U8Vv13IU
+ U5PQnS9AJiPuedpAaG5CfoqEsDAYUxf5bPVtbcLq4+/QzWzi3tT+ms2iGYVIcyGopnqS
+ FKcPQP8YnFnCYbvCGmerO2b4LiIZx+jdxCTSTdvydUjBM7hAo36fuRr9wiM9ALcUIM/j aw== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjns3a2b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 13 Jun 2022 14:58:50 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25DEu1dI030311;
+        Mon, 13 Jun 2022 14:58:49 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
+        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gp7btr775-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 13 Jun 2022 14:58:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O155R10+vMLsJmilnxid0OPQYp9uoLgkKIUc/pwnyv3LAbLg6166qmqFf2aVndzkPjjt+WzCQ44/Rb8AvIHxtZ3WhU3irExynycZ1O2rO9W9BbsqrZTqRL5CmEA3D8aQESaKXx1bCVsVTPa/lZ53uUcra0tYa41Hs9oHBIkkcv5bNqFGm5vgBCxMAPpMf3iMq/ru0pC3+uCk7wgFhrbTdIJvPRuYE48GW4CIoiWh8AIZrLsdIcgqWO7JvDFxWxcHbNM23MBSAx425tfSY12S9p5xJg47RTTBbFninZbmN+CGiihDclbt7rsxQxslsm9VmGrUGH9Jtz13bOK/ni9efA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1e/byytK0lL2jtOGZIEml8A1uv2p56Lam72Ex+EpIcA=;
+ b=PJ+nkisP0XaRRCpRQpPdgvOuV6A2YXtXAzu8B3SPxATZZpmiaAfY+PXOhReyI7d0l1KEvnJw57KWM8NtSAu0h3xgCAtveptFtAi1/uZBFVsDF+Szcim3/wY3JCBnUEAF4H724U4Io0hAotwzTE/CIvbdeI8OWYD+8KvB1vHDOmENCc7bZDTGgidCx+4j5uAnp8pU5bNdkBVKYyVl7B6xeyu7mZ256TPW/0A56LvZFMoZz2bPvuouLfSTex62eZhZ8HnW7tNhpou5FUcxAvgwwNwzymW0FEPsSlP6it2pZ8rnSdGXrvdMXm+jdhEdi4p7cLVt925SDwH6azwJqG/kbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1655129537; x=1686665537;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=G8oaHtVT5fO69k9f5G2n2ofselguLNoR3qjSZ+lx9Ls=;
-  b=WnrauOo7FDcPygZ5wJgxz/iaJ6/urVxOLn3RcsAxhf+gab0xSy5zvEQd
-   CDdjl294pQfxuoMjdoBgCYSIckSCRA3JDAN7Fl5gqiraku4gpxDee/q3e
-   3Ee+bnLqHmNjg01Jme+dLuJx0+qBnZfjaxZgV1v5oDdWEoQoZDADd24cR
-   Qh6P8Etyxuzpvfr1wYD5FeGeOJcnoPohCrQr7fVB7y9CAzW4dZYEaMoMw
-   EEQreiTGHAXkdFP92PbLbMpL6MmnrJm4ByhsP2hEBWSFGodQZtBCmpj2u
-   BU9FA9442WKMdPXWetd4/UfVbKkq8Al619zz/dQB8P/KwFVk0WcAj/Ia1
-   g==;
-X-IronPort-AV: E=Sophos;i="5.91,297,1647298800"; 
-   d="scan'208";a="24421954"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 13 Jun 2022 16:12:15 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 13 Jun 2022 16:12:15 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 13 Jun 2022 16:12:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1655129535; x=1686665535;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=G8oaHtVT5fO69k9f5G2n2ofselguLNoR3qjSZ+lx9Ls=;
-  b=SLeCIFnlwi+SnqWMrLtU+W6NLNRtnLpC3wKA72G6ydY4FCeX8czzAmuj
-   NElmW3ku6pFlvEQV/juvdzMmDj14QRXlCPm8G1TREzD8Zk9ZKN7m6iKQJ
-   RyJR4DY/TpoYoWs1L252Lx8CaPTcebkwaU2qcZnvblh/vl7DEDriGGffB
-   9e6DpLLX2VWcSvT4hdnca9heUUj7aE2NPQE/EJFrd4eznNEkntCjcRWgE
-   datTlkzKi8lCz41gSGirFu4aAiArUgFvRRMBN4kyhmYYHQXmUCJor2Q5X
-   OF38+ii0kFkFrvDNnPPQM37FrOufHRO0knWyZ95xMZ98eyhp9jFykO1zh
-   A==;
-X-IronPort-AV: E=Sophos;i="5.91,297,1647298800"; 
-   d="scan'208";a="24421953"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 13 Jun 2022 16:12:14 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 8279D280056;
-        Mon, 13 Jun 2022 16:12:14 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Liu Ying <victor.liu@nxp.com>
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, andrzej.hajda@intel.com,
-        narmstrong@baylibre.com, robert.foss@linaro.org,
-        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-        jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, lee.jones@linaro.org,
-        mchehab@kernel.org, marcel.ziswiler@toradex.com
-Subject: Re: (EXT) Re: (EXT) [PATCH v8 09/14] drm/bridge: imx: Add LDB driver helper support
-Date:   Mon, 13 Jun 2022 16:12:14 +0200
-Message-ID: <5832505.lOV4Wx5bFT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <9f86afed1282a5749f416b0e5b9a39a1f972017a.camel@nxp.com>
-References: <20220609064931.3068601-1-victor.liu@nxp.com> <4748166.31r3eYUQgx@steina-w> <9f86afed1282a5749f416b0e5b9a39a1f972017a.camel@nxp.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1e/byytK0lL2jtOGZIEml8A1uv2p56Lam72Ex+EpIcA=;
+ b=QwRflJgUFsv8CB1fhzjJkfT70RYNEN/a9zylX1fNYblVKB4poFfBT5JW5DdDDeCeK42MVNVYOMFI2kjGYGcOqPrkaJtgfURtgtJxujT6LT79HomqVGAYp13hjzQlEOpmAue1i9L/9xP5KJWGYZuWD4c9WGC4W9gJ2R/WFJ0Mqfs=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by SJ0PR10MB5889.namprd10.prod.outlook.com
+ (2603:10b6:a03:3ee::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.20; Mon, 13 Jun
+ 2022 14:58:47 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5332.020; Mon, 13 Jun 2022
+ 14:58:47 +0000
+Date:   Mon, 13 Jun 2022 17:58:20 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/3] media: atomisp: revert "don't pass a pointer to a
+ local variable"
+Message-ID: <20220613145820.GF2146@kadam>
+References: <20220612160556.108264-1-hdegoede@redhat.com>
+ <20220612160556.108264-2-hdegoede@redhat.com>
+ <CAHp75VcNjQ+0=LcMdi=64U5qvO2f3PeZCPAf9AKbrGLx4PdKmg@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VcNjQ+0=LcMdi=64U5qvO2f3PeZCPAf9AKbrGLx4PdKmg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0048.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::36)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 222bb5f3-5a65-4f46-875c-08da4d4d376d
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5889:EE_
+X-Microsoft-Antispam-PRVS: <SJ0PR10MB588918E37823C078581EE87D8EAB9@SJ0PR10MB5889.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: E2ygKi/iogUOv/J0gEOm67taALs7ilODZWjFF3qnPMuQGMeA7NEcDLteBqjf5/c9MVS92QHraZ4eyF3wT0jGBp1Ssdvb+/WSCveBRIdeXY7x3jwdVXiqKqL6X3qWI7bpoyFYzJqO1ehaGYUBg8br1r11LEnA0ILAjM6nAC/9YZQOJVeCq0KotbCisbjs21d1y/jBreGrkSembXci5m8XSOzmQFjk4pWGKHaTsXLhanbKuqXbVnGb5K1VSIhUMc841nfphFZVPzMln4NE3ZfGyZSZVAVwNUCWB3Q+vXTDc95TlUBN8gWXTZzM9vdmZmWSggsrUhgn8YR+A+CjhIJPhuflIuVto4TmhvBcvqYfECrqDbMG6Gp8+khzPWoOQXTZ2rFh0Wh0ePS2500vhEwpQQJJNJV5qyEeOvvG8m2hzsryypl1sjnzmFa8gVCAh5+G4H5IgIGngXDrpsybxN3uiHJ+znhD1Ki6BsNvXtaWF3kpw7BeRo0O4U0/OTKF7OgR/e7VD9+fQmPHS7A+fcPyw4ti6l4VvfpHDKzz3mMP9GoT5gyCo9mVeMqWaEoT6Ro2llQpxocca6ry0pbItcTgh/AvkkWFUa8VEh4iE8d773258Qv1r1/44+eg2S303w9ZhOMlzOKRoCgZh+4r6wVszCUNiAV2RTmq1DqVBRjo76UFfGC5tAEGqQM0uYO3u1aEs8mRpVBwBjbET3qOyW1jeg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(4326008)(66556008)(6666004)(8676002)(66946007)(66476007)(38100700002)(508600001)(8936002)(6486002)(44832011)(7416002)(33656002)(2906002)(6512007)(86362001)(52116002)(26005)(6506007)(5660300002)(38350700002)(9686003)(316002)(33716001)(54906003)(1076003)(186003)(83380400001)(6916009);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EI6NoTV8xyuY2B968vZSiLDuKEiQ/5zoXB0Zj2GvvlTPu2TBxgfruulRpFh2?=
+ =?us-ascii?Q?Hoh23lcbosOnAmejaaw1tID7qSPGIyykWtG0ORIHhg6G3FXYEEEjXjTukiY3?=
+ =?us-ascii?Q?F21ihVcRdXSpilnNO0hHsraUHDbCYwOjs6hSvdgr3Z3NVhFLm9E1RiamB6OJ?=
+ =?us-ascii?Q?4btN0wVQlaPWRv9daq1NmEaHvy14JWMsInazph2LvbN+LtTptfVQOd7tldXQ?=
+ =?us-ascii?Q?ZdVbj/jJA91ndzhP0EjFEORpzsySqDL5Upbab+feuNmyHryYnp4qMCtU3vin?=
+ =?us-ascii?Q?9Ixg1e4PnGpBvxnaZAkjMtJFqehwfrXvEGe8yaYyTo+0YOVExRr0syrUR2sw?=
+ =?us-ascii?Q?W0TqpmutnM4dLd2SvC+9u6y1J4L/EKjDpGIo9ps706gkMH44InU1bIu8Q7Gb?=
+ =?us-ascii?Q?WMZB1X/zKl9mnKS5bIB8IG+zEPHkCDGQ7Zdh+CzK+CsZde0A4h9/RfuabiwK?=
+ =?us-ascii?Q?Y/qllRfxH/hgKfsUQIjNLi1X8W/TlXaVQyHm+7NxNdvzczjUtc+1g8kIHL+u?=
+ =?us-ascii?Q?SE03SpcVF4BElVxSS0pUd1N3ACIf4vG0mSygJEt3nfC/Pgb/48eMqJW7dUwo?=
+ =?us-ascii?Q?XN+mNWwWRjvD5tSWzFR67+FEA6E22asVQ0imwiseVRQMDwchT7OhJKHV1gfN?=
+ =?us-ascii?Q?rG5424X519egOMK7jm6v7bqVILM66VdAC20/5YrpFD2E9ZCBDxy3jAYYdLYX?=
+ =?us-ascii?Q?Wj/8I/0u+YXgDafkUiTGef8AF77oSujGJNAyOX7BhmZisqKZ9jE4kIp0ye83?=
+ =?us-ascii?Q?OhiTrHabQLZHZm569wNnFsKvHiOpR8XOpuJa3NR7+7gBeVk9SxniPZLxp6Oa?=
+ =?us-ascii?Q?d6tk8iUVLtwb0dOSElF9vmMK70eDb80OwT5rXIzdmdL+zdR7aNUWDgEhmjXp?=
+ =?us-ascii?Q?3pkO8p40UYHv1BVgrmA1Z9VUWc4sxhGekfW4jwerG/C9lq1VcQJAhKe3dwcF?=
+ =?us-ascii?Q?mQapduL9bc574+bMAJvB6gK3vakrDSRsnJdp1vt5lfjJjvyUWsXdBigtknfQ?=
+ =?us-ascii?Q?kPyVEznD+2GisNcNNX4NKpiajYOM22NCd7zJdt+A6TBdSiygKfmKazCzcB/f?=
+ =?us-ascii?Q?YvZTFqap0Vn+jx7s/IrGIKtQcSVjEBsFZaILO0gYM1RsZPR3xsMMec25EtqL?=
+ =?us-ascii?Q?XPvsxPdS16A1OOfFbOYsTQxmhQKjyred0V1nLO7RE8D534E/USHCB0p14uCK?=
+ =?us-ascii?Q?0vrLE4i+XAl3X0l+qqgHBt0RfwDPa3wYN3o63WRMLrrl4NsARDhRnBzArxst?=
+ =?us-ascii?Q?TkOAvVpWlaoQduD+Kz6xJ1eo5wUkhhhkhCl61Wgb7OrtDDJnqmIbCrNt9FpL?=
+ =?us-ascii?Q?JswkGdy64pWJ/x++kRVLj5SSMwxTQGtZGub0WAacTwSYxAc0T/naLQ2/MzYH?=
+ =?us-ascii?Q?ROHo+wZHG5Ph9dF/Xmx7Q0PbkTWZjV0vIkAwxurOoXVnee/x239S1ziH8kWA?=
+ =?us-ascii?Q?uQJKqGiz7whb0UFp/DFSbIfSxYdwllSOdc9L/jyoYwtxOlF/zPHYi5G3Qel1?=
+ =?us-ascii?Q?lHadiexbpyrmjyzDzjlQgJXmVJ7G3HG8X3XWzppK786repSDVS6o6oSD6XJK?=
+ =?us-ascii?Q?AUI226rOaMxfSnNZ8BPtPCWxVGgI7sdIfEDwUW3E1625ZDUGWzRkVP9m6QLd?=
+ =?us-ascii?Q?Nx/kaI/RK0pOCTpwP8mEk6Yb+Wdik+SyhsM3yIjBQwlS5EZjfqcf9C3V30SM?=
+ =?us-ascii?Q?x2YQ/jHf1WnZpprM1biP4neu2QfOBq0RsN+K755DAF6vFJJmidY5VOYu/Yei?=
+ =?us-ascii?Q?FTTJ+kq8hF60+iGxMckVuMzD4x+JRMk=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 222bb5f3-5a65-4f46-875c-08da4d4d376d
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2022 14:58:47.2060
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MUWI9o5y43VfV3vDctuVVxaGv9H4GMIqGf6+xRw9Qja3ZFFdpQo/nlvXAkP1Mp6aPbyPZ/hcwUPO5W9pWaoW3F7o/xXTHyznrnudKkpkKvQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5889
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
+ definitions=2022-06-13_06:2022-06-13,2022-06-13 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0 spamscore=0
+ mlxlogscore=892 mlxscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206130067
+X-Proofpoint-GUID: Bc9-hqNDPb15BDvPFkpOA9vzC4lAtEN8
+X-Proofpoint-ORIG-GUID: Bc9-hqNDPb15BDvPFkpOA9vzC4lAtEN8
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -89,487 +158,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-Am Freitag, 10. Juni 2022, 05:01:21 CEST schrieb Liu Ying:
-> > reading this I got reminded of fsl-ldb [1], which is accepted
-> > already. At a
-> > first glance reading the RM the LDB peripheral are similar, although
-> > not
-> > identical. Is it worth merging them into one driver (at some point)?
+On Sun, Jun 12, 2022 at 09:22:55PM +0200, Andy Shevchenko wrote:
+> > Note there is another patch in this series, which fixes the warning
+> > in another way.
 > 
-> fsl-ldb is for i.MX8mp LDB. It couples the lvds phy(LVDS_CTRL register)
-> with LDB(LDB_CTRL register) hardly.
+> > Fixes: fa1451374ebf ("media: atomisp: don't pass a pointer to a local variable")
 > 
-> Eventually, I think there would be separate LDB bridge drivers for
-> i.MX8mp/qxp/qm LDBs, as they are far or less different(LVDS PHY IPs,
-> clocks, ways of dual link usage...). So, maybe, the question is that
-> can fsl-ldb use this LDB helper driver. AFAICS, the different DT
-> bindings between i.MX8mp LDB and i.MX8qxp/qm LDB make this difficult.
-> This LDB helper takes each LDB child node(channel node) of i.MX8qxp/qm
-> as a bridge, while i.MX8mp LDB bindings put input and output ports in
-> 'ports' node.  Like i.MX8qxp/qm LDB, i.MX6 LDB
-> binding(Documentation/devicetree/bindings/display/imx/ldb.txt) also
-> uses 'channel' nodes, though i.MX6 LDB has a separate encoder driver.
-> I think the 'channel' node better reflects HW design.
-> So, maybe, fsl-ldb for i.MX8mp won't use this LDB helper.
+> Dunno for media subsystem, but for ones that Greg is maintain, the
+> point is that revert itself is already kinda fix and no need to have a
+> Fixes tag, instead the commit message should clearly have the
+> automatically generated line of revert (with the rest of the
+> explanation why that is needed). Just sharing my experience.
 
-Apparently the hardware is too different to share much common code. Yes, 
-bindings seem very different as well, so maybe it's ot possible. Thanks for 
-the explanation though.
+How would that work in this case?  We don't have a reference to the git
+hash.
 
-Best regards,
-Alexander
+The `git revert` command came from early days of git and I always
+feel like it hasn't keep up with how git is used these days.  The
+subject doesn't have the subsystem prefix.  The commit message is wrong.
+It uses the full git hash instead of the 12 char hash.  It doesn't have
+a fixes tag.  Hans's commit is only correct because he re-wrote
+basically everything.
 
-> Regards,
-> Liu Ying
-> 
-> > Best regards,
-> > Alexander
-> > 
-> > [1]
-> > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwor
-> > k.freedesktop.org%2Fpatch%2Fmsgid%2F20220426193645.244792-2-marex%40denx.d
-> > e&amp;data=05%7C01%7Cvictor.liu%40nxp.com%7Ca4ee326b3f314cf48a3408da49ec5a
-> > 33%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637903576722519563%7CUnkno
-> > wn%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXV
-> > CI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=yJhovCeB7Dx2eWJqKohZskA7fX3NLwqmW1GxeQ
-> > lDe40%3D&amp;reserved=0> 
-> > > Marcel, I add your T-b tag from v6, let me know if you want me to
-> > > drop it,
-> > > as the checkpatch fix in v7 and the rebase in v8 are trivial.
-> > > 
-> > > v7->v8:
-> > > * Use devm_drm_of_get_bridge() due to the rebase upon v5.19-rc1.
-> > > 
-> > > v6->v7:
-> > > * Fix below complaints from 'checkpatch.pl --strict'. (Robert)
-> > > 
-> > >    - 'Alignment should match open parenthesis'
-> > >    - 'Prefer using the BIT macro'
-> > > 
-> > > * Add Marcel's T-b tag.
-> > > * Add Robert's R-b tag.
-> > > 
-> > > v5->v6:
-> > > * No change.
-> > > 
-> > > v4->v5:
-> > > * Make imx-ldb-helper be a pure object to be linked with i.MX8qxp
-> > > LDB bridge
-> > > driver and i.MX8qm LDB bridge driver. (Robert)
-> > > * Move 'imx_ldb_helper.h' to 'drivers/gpu/drm/bridge/imx/imx-ldb-
-> > > helper.h'.
-> > > 
-> > >   (Robert)
-> > > 
-> > > * s/__FSL_IMX_LDB__/__IMX_LDB_HELPER__/  for 'imx-ldb-helper.h'.
-> > > 
-> > > v3->v4:
-> > > * No change.
-> > > 
-> > > v2->v3:
-> > > * Call syscon_node_to_regmap() to get regmap instead of
-> > > 
-> > >   syscon_regmap_lookup_by_phandle().
-> > > 
-> > > v1->v2:
-> > > * No change.
-> > > 
-> > >  drivers/gpu/drm/bridge/imx/imx-ldb-helper.c | 220
-> > > 
-> > > ++++++++++++++++++++
-> > > 
-> > >  drivers/gpu/drm/bridge/imx/imx-ldb-helper.h |  96 +++++++++
-> > >  2 files changed, 316 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-> > >  create mode 100644 drivers/gpu/drm/bridge/imx/imx-ldb-helper.h
-> > > 
-> > > diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-> > > b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c new file mode 100644
-> > > index 000000000000..e85eb9ab5947
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-> > > @@ -0,0 +1,220 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * Copyright (C) 2012 Sascha Hauer, Pengutronix
-> > > + * Copyright 2019,2020,2022 NXP
-> > > + */
-> > > +
-> > > +#include <linux/mfd/syscon.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/regmap.h>
-> > > +
-> > > +#include <drm/drm_bridge.h>
-> > > +#include <drm/drm_of.h>
-> > > +#include <drm/drm_print.h>
-> > > +
-> > > +#include "imx-ldb-helper.h"
-> > > +
-> > > +bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch)
-> > > +{
-> > > +	return ldb_ch->link_type == LDB_CH_SINGLE_LINK;
-> > > +}
-> > > +
-> > > +bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch)
-> > > +{
-> > > +	return ldb_ch->link_type == LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS ||
-> > > +	       ldb_ch->link_type == LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS;
-> > > +}
-> > > +
-> > > +int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
-> > > +				   struct drm_bridge_state
-> > 
-> > *bridge_state,
-> > 
-> > > +				   struct drm_crtc_state
-> > 
-> > *crtc_state,
-> > 
-> > > +				   struct drm_connector_state
-> > 
-> > *conn_state)
-> > 
-> > > +{
-> > > +	struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +
-> > > +	ldb_ch->in_bus_format = bridge_state->input_bus_cfg.format;
-> > > +	ldb_ch->out_bus_format = bridge_state->output_bus_cfg.format;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
-> > > +				const struct drm_display_mode
-> > 
-> > *mode,
-> > 
-> > > +				const struct drm_display_mode
-> > 
-> > *adjusted_mode)
-> > 
-> > > +{
-> > > +	struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +	struct ldb *ldb = ldb_ch->ldb;
-> > > +	bool is_split = ldb_channel_is_split_link(ldb_ch);
-> > > +
-> > > +	if (is_split)
-> > > +		ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
-> > > +
-> > > +	switch (ldb_ch->out_bus_format) {
-> > > +	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-> > > +		break;
-> > > +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> > > +		if (ldb_ch->chno == 0 || is_split)
-> > > +			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH0_24;
-> > > +		if (ldb_ch->chno == 1 || is_split)
-> > > +			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH1_24;
-> > > +		break;
-> > > +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> > > +		if (ldb_ch->chno == 0 || is_split)
-> > > +			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH0_24 |
-> > > +					 LDB_BIT_MAP_CH0_JEIDA;
-> > > +		if (ldb_ch->chno == 1 || is_split)
-> > > +			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH1_24 |
-> > > +					 LDB_BIT_MAP_CH1_JEIDA;
-> > > +		break;
-> > > +	}
-> > > +}
-> > > +
-> > > +void ldb_bridge_enable_helper(struct drm_bridge *bridge)
-> > > +{
-> > > +	struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +	struct ldb *ldb = ldb_ch->ldb;
-> > > +
-> > > +	/*
-> > > +	 * Platform specific bridge drivers should set ldb_ctrl
-> > > properly
-> > > +	 * for the enablement, so just write the ctrl_reg here.
-> > > +	 */
-> > > +	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
-> > > +}
-> > > +
-> > > +void ldb_bridge_disable_helper(struct drm_bridge *bridge)
-> > > +{
-> > > +	struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +	struct ldb *ldb = ldb_ch->ldb;
-> > > +	bool is_split = ldb_channel_is_split_link(ldb_ch);
-> > > +
-> > > +	if (ldb_ch->chno == 0 || is_split)
-> > > +		ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
-> > > +	if (ldb_ch->chno == 1 || is_split)
-> > > +		ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
-> > > +
-> > > +	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
-> > > +}
-> > > +
-> > > +int ldb_bridge_attach_helper(struct drm_bridge *bridge,
-> > > +			     enum drm_bridge_attach_flags flags)
-> > > +{
-> > > +	struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +	struct ldb *ldb = ldb_ch->ldb;
-> > > +
-> > > +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> > > +		DRM_DEV_ERROR(ldb->dev,
-> > > +			      "do not support creating a
-> > 
-> > drm_connector\n");
-> > 
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	if (!bridge->encoder) {
-> > > +		DRM_DEV_ERROR(ldb->dev, "missing encoder\n");
-> > > +		return -ENODEV;
-> > > +	}
-> > > +
-> > > +	return drm_bridge_attach(bridge->encoder,
-> > > +				ldb_ch->next_bridge, bridge,
-> > > +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> > > +}
-> > > +
-> > > +int ldb_init_helper(struct ldb *ldb)
-> > > +{
-> > > +	struct device *dev = ldb->dev;
-> > > +	struct device_node *np = dev->of_node;
-> > > +	struct device_node *child;
-> > > +	int ret;
-> > > +	u32 i;
-> > > +
-> > > +	ldb->regmap = syscon_node_to_regmap(np->parent);
-> > > +	if (IS_ERR(ldb->regmap)) {
-> > > +		ret = PTR_ERR(ldb->regmap);
-> > > +		if (ret != -EPROBE_DEFER)
-> > 
-> > > +			DRM_DEV_ERROR(dev, "failed to get regmap:
-> > %d\n", ret);
-> > 
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	for_each_available_child_of_node(np, child) {
-> > > +		struct ldb_channel *ldb_ch;
-> > > +
-> > > +		ret = of_property_read_u32(child, "reg", &i);
-> > > +		if (ret || i > MAX_LDB_CHAN_NUM - 1) {
-> > > +			ret = -EINVAL;
-> > > +			DRM_DEV_ERROR(dev,
-> > > +				      "invalid channel node
-> > 
-> > address: %u\n", i);
-> > 
-> > > +			of_node_put(child);
-> > > +			return ret;
-> > > +		}
-> > > +
-> > > +		ldb_ch = ldb->channel[i];
-> > > +		ldb_ch->ldb = ldb;
-> > > +		ldb_ch->chno = i;
-> > > +		ldb_ch->is_available = true;
-> > > +		ldb_ch->np = child;
-> > > +
-> > > +		ldb->available_ch_cnt++;
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +int ldb_find_next_bridge_helper(struct ldb *ldb)
-> > > +{
-> > > +	struct device *dev = ldb->dev;
-> > > +	struct ldb_channel *ldb_ch;
-> > > +	int ret, i;
-> > > +
-> > > +	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-> > > +		ldb_ch = ldb->channel[i];
-> > > +
-> > > +		if (!ldb_ch->is_available)
-> > > +			continue;
-> > > +
-> > > +		ldb_ch->next_bridge = devm_drm_of_get_bridge(dev,
-> > 
-> > ldb_ch->np,
-> > 
-> > > +
-> > 
-> > 1, 0);
-> > 
-> > > +		if (IS_ERR(ldb_ch->next_bridge)) {
-> > > +			ret = PTR_ERR(ldb_ch->next_bridge);
-> > > +			if (ret != -EPROBE_DEFER)
-> > > +				DRM_DEV_ERROR(dev,
-> > > +					      "failed to get
-> > 
-> > next bridge: %d\n",
-> > 
-> > > +					      ret);
-> > > +			return ret;
-> > > +		}
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +void ldb_add_bridge_helper(struct ldb *ldb,
-> > > +			   const struct drm_bridge_funcs
-> > 
-> > *bridge_funcs)
-> > 
-> > > +{
-> > > +	struct ldb_channel *ldb_ch;
-> > > +	int i;
-> > > +
-> > > +	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-> > > +		ldb_ch = ldb->channel[i];
-> > > +
-> > > +		if (!ldb_ch->is_available)
-> > > +			continue;
-> > > +
-> > > +		ldb_ch->bridge.driver_private = ldb_ch;
-> > > +		ldb_ch->bridge.funcs = bridge_funcs;
-> > > +		ldb_ch->bridge.of_node = ldb_ch->np;
-> > > +
-> > > +		drm_bridge_add(&ldb_ch->bridge);
-> > > +	}
-> > > +}
-> > > +
-> > > +void ldb_remove_bridge_helper(struct ldb *ldb)
-> > > +{
-> > > +	struct ldb_channel *ldb_ch;
-> > > +	int i;
-> > > +
-> > > +	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-> > > +		ldb_ch = ldb->channel[i];
-> > > +
-> > > +		if (!ldb_ch->is_available)
-> > > +			continue;
-> > > +
-> > > +		drm_bridge_remove(&ldb_ch->bridge);
-> > > +	}
-> > > +}
-> > > diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.h
-> > > b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.h new file mode 100644
-> > > index 000000000000..a0a5cde27fbc
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.h
-> > > @@ -0,0 +1,96 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > > +
-> > > +/*
-> > > + * Copyright 2019,2020,2022 NXP
-> > > + */
-> > > +
-> > > +#ifndef __IMX_LDB_HELPER__
-> > > +#define __IMX_LDB_HELPER__
-> > > +
-> > > +#include <linux/device.h>
-> > > +#include <linux/kernel.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/regmap.h>
-> > > +
-> > > +#include <drm/drm_atomic.h>
-> > > +#include <drm/drm_bridge.h>
-> > > +#include <drm/drm_device.h>
-> > > +#include <drm/drm_encoder.h>
-> > > +#include <drm/drm_modeset_helper_vtables.h>
-> > > +
-> > > +#define LDB_CH0_MODE_EN_TO_DI0		BIT(0)
-> > > +#define LDB_CH0_MODE_EN_TO_DI1		(3 << 0)
-> > > +#define LDB_CH0_MODE_EN_MASK		(3 << 0)
-> > > +#define LDB_CH1_MODE_EN_TO_DI0		BIT(2)
-> > > +#define LDB_CH1_MODE_EN_TO_DI1		(3 << 2)
-> > > +#define LDB_CH1_MODE_EN_MASK		(3 << 2)
-> > > +#define LDB_SPLIT_MODE_EN		BIT(4)
-> > > +#define LDB_DATA_WIDTH_CH0_24		BIT(5)
-> > > +#define LDB_BIT_MAP_CH0_JEIDA		BIT(6)
-> > > +#define LDB_DATA_WIDTH_CH1_24		BIT(7)
-> > > +#define LDB_BIT_MAP_CH1_JEIDA		BIT(8)
-> > > +#define LDB_DI0_VS_POL_ACT_LOW		BIT(9)
-> > > +#define LDB_DI1_VS_POL_ACT_LOW		BIT(10)
-> > > +
-> > > +#define MAX_LDB_CHAN_NUM		2
-> > > +
-> > > +enum ldb_channel_link_type {
-> > > +	LDB_CH_SINGLE_LINK,
-> > > +	LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS,
-> > > +	LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS,
-> > > +};
-> > > +
-> > > +struct ldb;
-> > > +
-> > > +struct ldb_channel {
-> > > +	struct ldb *ldb;
-> > > +	struct drm_bridge bridge;
-> > > +	struct drm_bridge *next_bridge;
-> > > +	struct device_node *np;
-> > > +	u32 chno;
-> > > +	bool is_available;
-> > > +	u32 in_bus_format;
-> > > +	u32 out_bus_format;
-> > > +	enum ldb_channel_link_type link_type;
-> > > +};
-> > > +
-> > > +struct ldb {
-> > > +	struct regmap *regmap;
-> > > +	struct device *dev;
-> > > +	struct ldb_channel *channel[MAX_LDB_CHAN_NUM];
-> > > +	unsigned int ctrl_reg;
-> > > +	u32 ldb_ctrl;
-> > > +	unsigned int available_ch_cnt;
-> > > +};
-> > > +
-> > > +#define bridge_to_ldb_ch(b)	container_of(b, struct
-> > > ldb_channel, bridge)
-> > > +
-> > > +bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch);
-> > > +bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch);
-> > > +
-> > > +int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
-> > > +				   struct drm_bridge_state
-> > 
-> > *bridge_state,
-> > 
-> > > +				   struct drm_crtc_state
-> > 
-> > *crtc_state,
-> > 
-> > > +				   struct drm_connector_state
-> > 
-> > *conn_state);
-> > 
-> > > +
-> > > +void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
-> > > +				const struct drm_display_mode
-> > 
-> > *mode,
-> > 
-> > > +				const struct drm_display_mode
-> > 
-> > *adjusted_mode);
-> > 
-> > > +
-> > > +void ldb_bridge_enable_helper(struct drm_bridge *bridge);
-> > > +
-> > > +void ldb_bridge_disable_helper(struct drm_bridge *bridge);
-> > > +
-> > > +int ldb_bridge_attach_helper(struct drm_bridge *bridge,
-> > > +			     enum drm_bridge_attach_flags flags);
-> > > +
-> > > +int ldb_init_helper(struct ldb *ldb);
-> > > +
-> > > +int ldb_find_next_bridge_helper(struct ldb *ldb);
-> > > +
-> > > +void ldb_add_bridge_helper(struct ldb *ldb,
-> > > +			   const struct drm_bridge_funcs
-> > 
-> > *bridge_funcs);
-> > 
-> > > +
-> > > +void ldb_remove_bridge_helper(struct ldb *ldb);
-> > > +
-> > > +#endif /* __IMX_LDB_HELPER__ */
+Do a `git --grep=revert`.  Some of them you can grep for "This reverts
+commit 8bdc2a190105e862dfe7a4033f2fd385b7e58ae8." but there are a lot
+which are not machine parsable like:
 
+bd06db5ff9af ("lib/flex_proportions.c: remove local_irq_ops in fprop_new_period()")
+4af2bd190a5b ("Revert "squashfs: provide backing_dev_info in order to disable read-ahead"")
+646728dff254 ("dmaengine: Revert "dmaengine: add verification of DMA_INTERRUPT capability for dmatest"")
 
+I feel like we should encourage people to not use git revert because
+otherwise we're kind of setting them up for failure.
 
-
+regards,
+dan carpenter
