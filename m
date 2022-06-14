@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E564454BA53
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 21:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A35DB54BA55
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 21:15:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357815AbiFNTOx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 15:14:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55940 "EHLO
+        id S1357853AbiFNTO5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 15:14:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357853AbiFNTOw (ORCPT
+        with ESMTP id S1357829AbiFNTO4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 15:14:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1624167E1
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 12:14:51 -0700 (PDT)
+        Tue, 14 Jun 2022 15:14:56 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4F65764E
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 12:14:55 -0700 (PDT)
 Received: from pyrite.rasen.tech (softbank036240126034.bbtec.net [36.240.126.34])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E019D96;
-        Tue, 14 Jun 2022 21:14:47 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43A4B825;
+        Tue, 14 Jun 2022 21:14:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655234090;
-        bh=Bhft2ql1CSfmPHJxfGOvZIq7jzGcGv9JEwoGwE8igyI=;
+        s=mail; t=1655234094;
+        bh=EG0U4nHqxwGlJmaOm9q7pgjmOJ4qGSCMRWmGBWC+C8E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uVkpy072o89BR0n10QWcZ6dBCRoenK46mXj1Oq0Ygzbh3P/R25wl+OFtY4CdwWR61
-         M3/eExIQs+fhmTFMzBQq1DgcLY5g/+AxU+zf06A98G5fIF1t/5+RLlLqijQWL63qE9
-         BHCyaLzlRxLWODdX4YL5wE4MoURGZ7le6ekI2TuQ=
+        b=Q86Xja8JKk2RFys5yEk+mzSSX1efewrDVQThh8bG/sO0zFE6ACbSfMU5E9wO0N9ZV
+         VvqNCfBpTNGyBtsXdzWjTpTtG35+bQC8WHex2Uw1tP8/DCGGu7KQgiEa7uf1eJvCpm
+         NecY0+H1wdgesO8NO2cHo5yl9iDjQzPyuYpCPiew=
 From:   Paul Elder <paul.elder@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -32,9 +32,9 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
         djrscally@gmail.com, helen.koike@collabora.com,
         linux-rockchip@lists.infradead.org
-Subject: [PATCH 45/55] media: rkisp1: Add infrastructure to support ISP features
-Date:   Wed, 15 Jun 2022 04:11:17 +0900
-Message-Id: <20220614191127.3420492-46-paul.elder@ideasonboard.com>
+Subject: [PATCH 46/55] media: rkisp1: Make the internal CSI-2 receiver optional
+Date:   Wed, 15 Jun 2022 04:11:18 +0900
+Message-Id: <20220614191127.3420492-47-paul.elder@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
 References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
@@ -51,81 +51,116 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Different ISP versions implement different sets of features. The driver
-already takes the version into account in several places, but this
-approach won't scale well for features that are found in different
-versions. Introduce a new mechanism using a features bitmask in the
-rkisp1_info structure to indicate which features the ISP support.
-
-The first feature bit tells if the ISP has an internal CSI-2 receiver,
-which is not available in all ISP versions.
+Not all ISP versions integrate a MIPI CSI-2 receiver.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../platform/rockchip/rkisp1/rkisp1-common.h      | 15 +++++++++++++++
- .../media/platform/rockchip/rkisp1/rkisp1-dev.c   |  2 ++
- 2 files changed, 17 insertions(+)
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     | 50 +++++++++++++------
+ 1 file changed, 34 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index f926ca8248f8..eccdd3f9bc89 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -98,6 +98,19 @@ enum rkisp1_isp_pad {
- 	RKISP1_ISP_PAD_MAX
- };
- 
-+/*
-+ * enum rkisp1_feature - ISP features
-+ *
-+ * @RKISP1_FEATURE_MIPI_CSI2: The ISP has an internal MIPI CSI-2 receiver
-+ *
-+ * The ISP features are stored in a bitmask in &rkisp1_info.features and allow
-+ * the driver to implement support for features present in some ISP versions
-+ * only.
-+ */
-+enum rkisp1_feature {
-+	RKISP1_FEATURE_MIPI_CSI2 = BIT(0),
-+};
-+
- /*
-  * struct rkisp1_info - Model-specific ISP Information
-  *
-@@ -106,6 +119,7 @@ enum rkisp1_isp_pad {
-  * @isrs: array of ISP interrupt descriptors
-  * @isr_size: number of entires in the @isrs array
-  * @isp_ver: ISP version
-+ * @features: bitmatk of rkisp1_feature features implemented by the ISP
-  *
-  * This structure contains information about the ISP specific to a particular
-  * ISP model, version, or integration in a particular SoC.
-@@ -116,6 +130,7 @@ struct rkisp1_info {
- 	const struct rkisp1_isr_data *isrs;
- 	unsigned int isr_size;
- 	enum rkisp1_cif_isp_version isp_ver;
-+	unsigned int features;
- };
- 
- /*
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index e85cf0d79af9..8ccd4042f3f3 100644
+index 8ccd4042f3f3..62fa2bd275fe 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -450,6 +450,7 @@ static const struct rkisp1_info px30_isp_info = {
- 	.isrs = px30_isp_isrs,
- 	.isr_size = ARRAY_SIZE(px30_isp_isrs),
- 	.isp_ver = RKISP1_V12,
-+	.features = RKISP1_FEATURE_MIPI_CSI2,
- };
+@@ -195,6 +195,14 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
  
- static const char * const rk3399_isp_clks[] = {
-@@ -468,6 +469,7 @@ static const struct rkisp1_info rk3399_isp_info = {
- 	.isrs = rk3399_isp_isrs,
- 	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
- 	.isp_ver = RKISP1_V10,
-+	.features = RKISP1_FEATURE_MIPI_CSI2,
- };
+ 		switch (reg) {
+ 		case 0:
++			/* MIPI CSI-2 port */
++			if (!(rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)) {
++				dev_err(rkisp1->dev,
++					"internal CSI must be available for port 0\n");
++				ret = -EINVAL;
++				break;
++			}
++
+ 			vep.bus_type = V4L2_MBUS_CSI2_DPHY;
+ 			break;
  
- static const struct of_device_id rkisp1_of_match[] = {
+@@ -320,13 +328,16 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+ 	unsigned int i;
+ 	int ret;
+ 
+-	/* Link the CSI receiver to the ISP. */
+-	ret = media_create_pad_link(&rkisp1->csi.sd.entity, RKISP1_CSI_PAD_SRC,
+-				    &rkisp1->isp.sd.entity,
+-				    RKISP1_ISP_PAD_SINK_VIDEO,
+-				    MEDIA_LNK_FL_ENABLED);
+-	if (ret)
+-		return ret;
++	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
++		/* Link the CSI receiver to the ISP. */
++		ret = media_create_pad_link(&rkisp1->csi.sd.entity,
++					    RKISP1_CSI_PAD_SRC,
++					    &rkisp1->isp.sd.entity,
++					    RKISP1_ISP_PAD_SINK_VIDEO,
++					    MEDIA_LNK_FL_ENABLED);
++		if (ret)
++			return ret;
++	}
+ 
+ 	/* create ISP->RSZ->CAP links */
+ 	for (i = 0; i < 2; i++) {
+@@ -369,7 +380,8 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+ 
+ static void rkisp1_entities_unregister(struct rkisp1_device *rkisp1)
+ {
+-	rkisp1_csi_unregister(rkisp1);
++	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
++		rkisp1_csi_unregister(rkisp1);
+ 	rkisp1_params_unregister(rkisp1);
+ 	rkisp1_stats_unregister(rkisp1);
+ 	rkisp1_capture_devs_unregister(rkisp1);
+@@ -401,9 +413,11 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
+ 	if (ret)
+ 		goto error;
+ 
+-	ret = rkisp1_csi_register(rkisp1);
+-	if (ret)
+-		goto error;
++	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
++		ret = rkisp1_csi_register(rkisp1);
++		if (ret)
++			goto error;
++	}
+ 
+ 	ret = rkisp1_create_links(rkisp1);
+ 	if (ret)
+@@ -566,9 +580,11 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 		goto err_unreg_v4l2_dev;
+ 	}
+ 
+-	ret = rkisp1_csi_init(rkisp1);
+-	if (ret)
+-		goto err_unreg_media_dev;
++	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
++		ret = rkisp1_csi_init(rkisp1);
++		if (ret)
++			goto err_unreg_media_dev;
++	}
+ 
+ 	ret = rkisp1_entities_register(rkisp1);
+ 	if (ret)
+@@ -585,7 +601,8 @@ static int rkisp1_probe(struct platform_device *pdev)
+ err_unreg_entities:
+ 	rkisp1_entities_unregister(rkisp1);
+ err_cleanup_csi:
+-	rkisp1_csi_cleanup(rkisp1);
++	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
++		rkisp1_csi_cleanup(rkisp1);
+ err_unreg_media_dev:
+ 	media_device_unregister(&rkisp1->media_dev);
+ err_unreg_v4l2_dev:
+@@ -603,7 +620,8 @@ static int rkisp1_remove(struct platform_device *pdev)
+ 	v4l2_async_nf_cleanup(&rkisp1->notifier);
+ 
+ 	rkisp1_entities_unregister(rkisp1);
+-	rkisp1_csi_cleanup(rkisp1);
++	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
++		rkisp1_csi_cleanup(rkisp1);
+ 	rkisp1_debug_cleanup(rkisp1);
+ 
+ 	media_device_unregister(&rkisp1->media_dev);
 -- 
 2.30.2
 
