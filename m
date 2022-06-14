@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2FF454BA2D
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 21:12:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B16E954BA2E
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 21:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347448AbiFNTMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 15:12:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52332 "EHLO
+        id S1351017AbiFNTMY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 15:12:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346934AbiFNTMS (ORCPT
+        with ESMTP id S1346934AbiFNTMX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 15:12:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7419248DE
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 12:12:17 -0700 (PDT)
+        Tue, 14 Jun 2022 15:12:23 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA03BD0
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 12:12:21 -0700 (PDT)
 Received: from pyrite.rasen.tech (softbank036240126034.bbtec.net [36.240.126.34])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2AE2825;
-        Tue, 14 Jun 2022 21:12:12 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 105FB9E5;
+        Tue, 14 Jun 2022 21:12:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655233936;
-        bh=ezpdH0sDENe4SC2kcyfXXr7hHWjEHr22xpbzcdQQXP0=;
+        s=mail; t=1655233940;
+        bh=A2fdDC+egWutaMVHi6UlHyyI7g9A33l3ZSwSZNsp5Dw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a952uRO9gdq1xudsMOe6fnPxLFcK6th8DGx1bzWtx5TAwErv9tcIzl+1q6lWGG/SC
-         fbLGwf5HQiphz3edG5oRK7/rNCZiX500wo4Svz+S/3UBq/q645xgAUYBLqGlBLY65L
-         84gEDJcuD+C2pd2Nbqm533bqt8of6YdnCsqkT7So=
+        b=pEtldVyXBtUV4tMMd4zv/kxxt6L3zZNeaGpUYKprXWtOWTEhmVAl4o4x5A+BRWrT4
+         Y6Vsq/SSeu0BijDJFw9exVFHjiqDBOrPELq1ElzxNGIqXrYA49+Oz8J4ntnGCE7M60
+         59PY8iO1Lw9hY+n6juaXzgW07/RbF/zFWFXvONGo=
 From:   Paul Elder <paul.elder@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     Paul Elder <paul.elder@ideasonboard.com>, dafna@fastmail.com,
-        heiko@sntech.de, laurent.pinchart@ideasonboard.com,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        dafna@fastmail.com, heiko@sntech.de,
         jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
         djrscally@gmail.com, helen.koike@collabora.com,
         linux-rockchip@lists.infradead.org
-Subject: [PATCH 07/55] media: rkisp1: Save info pointer in rkisp1_device
-Date:   Wed, 15 Jun 2022 04:10:39 +0900
-Message-Id: <20220614191127.3420492-8-paul.elder@ideasonboard.com>
+Subject: [PATCH 08/55] media: rkisp1: Access ISP version from info pointer
+Date:   Wed, 15 Jun 2022 04:10:40 +0900
+Message-Id: <20220614191127.3420492-9-paul.elder@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
 References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
@@ -49,105 +49,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To make it possible to use the rkisp1_info after probe time (for
-instance to make code conditional on the ISP version), save it in the
-main rkisp1_device structure. To achieve this, also move the info
-structure into the common header, and document it.
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-While at it, drop a NULL check in rkisp1_probe() for the match data as
-it can't happen.
+The ISP version is stored in the media_device hw_revision field and
+access from there in the driver. Now that we store a pointer to the
+match data in the rkisp1_device structure, access the ISP version from
+there to make the code clearer and avoid depending on the media_device.
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../platform/rockchip/rkisp1/rkisp1-common.h  | 22 +++++++++++++++++++
- .../platform/rockchip/rkisp1/rkisp1-dev.c     | 15 +++----------
- 2 files changed, 25 insertions(+), 12 deletions(-)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c    | 4 ++--
+ drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 2 +-
+ drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c  | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index a67fe7b1dfa1..50d31a254b03 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -91,6 +91,26 @@ enum rkisp1_isp_pad {
- 	RKISP1_ISP_PAD_MAX
- };
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+index 02968656f3c0..328e8fec14e9 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+@@ -417,7 +417,7 @@ static int rkisp1_config_mipi(struct rkisp1_device *rkisp1)
+ 	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_CTRL, mipi_ctrl);
  
-+/*
-+ * struct rkisp1_info - Model-specific ISP Information
-+ *
-+ * @clks: array of ISP clock names
-+ * @clk_size: number of entries in the @clks array
-+ * @isrs: array of ISP interrupt descriptors
-+ * @isr_size: number of entires in the @isrs array
-+ * @isp_ver: ISP version
-+ *
-+ * This structure contains information about the ISP specific to a particular
-+ * ISP model, version, or integration in a particular SoC.
-+ */
-+struct rkisp1_info {
-+	const char * const *clks;
-+	unsigned int clk_size;
-+	const struct rkisp1_isr_data *isrs;
-+	unsigned int isr_size;
-+	enum rkisp1_cif_isp_version isp_ver;
-+};
-+
- /*
-  * struct rkisp1_sensor_async - A container for the v4l2_async_subdev to add to the notifier
-  *				of the v4l2-async API
-@@ -395,6 +415,7 @@ struct rkisp1_debug {
-  * @pipe:	   media pipeline
-  * @stream_lock:   serializes {start/stop}_streaming callbacks between the capture devices.
-  * @debug:	   debug params to be exposed on debugfs
-+ * @info:	   version-specific ISP information
-  */
- struct rkisp1_device {
- 	void __iomem *base_addr;
-@@ -413,6 +434,7 @@ struct rkisp1_device {
- 	struct media_pipeline pipe;
- 	struct mutex stream_lock; /* serialize {start/stop}_streaming cb between capture devices */
- 	struct rkisp1_debug debug;
-+	const struct rkisp1_info *info;
- };
+ 	/* V12 could also use a newer csi2-host, but we don't want that yet */
+-	if (rkisp1->media_dev.hw_revision == RKISP1_V12)
++	if (rkisp1->info->isp_ver == RKISP1_V12)
+ 		rkisp1_write(rkisp1, RKISP1_CIF_ISP_CSI0_CTRL0, 0);
  
- /*
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index 258980ef4783..39ae35074062 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -105,14 +105,6 @@ struct rkisp1_isr_data {
- 	irqreturn_t (*isr)(int irq, void *ctx);
- };
+ 	/* Configure Data Type and Virtual Channel */
+@@ -535,7 +535,7 @@ static void rkisp1_config_clk(struct rkisp1_device *rkisp1)
+ 	rkisp1_write(rkisp1, RKISP1_CIF_VI_ICCL, val);
  
--struct rkisp1_info {
--	const char * const *clks;
--	unsigned int clk_size;
--	const struct rkisp1_isr_data *isrs;
--	unsigned int isr_size;
--	enum rkisp1_cif_isp_version isp_ver;
--};
--
- /* ----------------------------------------------------------------------------
-  * Sensor DT bindings
-  */
-@@ -469,14 +461,13 @@ static int rkisp1_probe(struct platform_device *pdev)
- 	int ret, irq;
- 	u32 cif_id;
+ 	/* ensure sp and mp can run at the same time in V12 */
+-	if (rkisp1->media_dev.hw_revision == RKISP1_V12) {
++	if (rkisp1->info->isp_ver == RKISP1_V12) {
+ 		val = RKISP1_CIF_CLK_CTRL_MI_Y12 | RKISP1_CIF_CLK_CTRL_MI_SP |
+ 		      RKISP1_CIF_CLK_CTRL_MI_RAW0 | RKISP1_CIF_CLK_CTRL_MI_RAW1 |
+ 		      RKISP1_CIF_CLK_CTRL_MI_READ | RKISP1_CIF_CLK_CTRL_MI_RAWRD |
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+index c88a9c0fa86e..9da7dc1bc690 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+@@ -1801,7 +1801,7 @@ static void rkisp1_init_params(struct rkisp1_params *params)
+ 	params->vdev_fmt.fmt.meta.buffersize =
+ 		sizeof(struct rkisp1_params_cfg);
  
--	info = of_device_get_match_data(&pdev->dev);
--	if (!info)
--		return -ENODEV;
--
- 	rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
- 	if (!rkisp1)
- 		return -ENOMEM;
+-	if (params->rkisp1->media_dev.hw_revision == RKISP1_V12)
++	if (params->rkisp1->info->isp_ver == RKISP1_V12)
+ 		params->ops = &rkisp1_v12_params_ops;
+ 	else
+ 		params->ops = &rkisp1_v10_params_ops;
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+index b7ae9166c52f..7d82356b5345 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+@@ -427,7 +427,7 @@ static void rkisp1_init_stats(struct rkisp1_stats *stats)
+ 	stats->vdev_fmt.fmt.meta.buffersize =
+ 		sizeof(struct rkisp1_stat_buffer);
  
-+	info = of_device_get_match_data(dev);
-+	rkisp1->info = info;
-+
- 	dev_set_drvdata(dev, rkisp1);
- 	rkisp1->dev = dev;
- 
+-	if (stats->rkisp1->media_dev.hw_revision == RKISP1_V12)
++	if (stats->rkisp1->info->isp_ver == RKISP1_V12)
+ 		stats->ops = &rkisp1_v12_stats_ops;
+ 	else
+ 		stats->ops = &rkisp1_v10_stats_ops;
 -- 
 2.30.2
 
