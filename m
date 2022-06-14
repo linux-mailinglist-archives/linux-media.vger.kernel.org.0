@@ -2,74 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61B5754A079
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jun 2022 22:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B55654A847
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 06:45:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351186AbiFMU4X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jun 2022 16:56:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40800 "EHLO
+        id S229671AbiFNEpE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 00:45:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243550AbiFMUzO (ORCPT
+        with ESMTP id S238375AbiFNEo4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jun 2022 16:55:14 -0400
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B6809FC5
-        for <linux-media@vger.kernel.org>; Mon, 13 Jun 2022 13:27:29 -0700 (PDT)
-Received: by mail-ua1-x941.google.com with SMTP id h21so1232837uaw.7
-        for <linux-media@vger.kernel.org>; Mon, 13 Jun 2022 13:27:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=f/v1gZW2d1xf+y6gXLTGdOPEOS7UDztcZyURQzQMDp0=;
-        b=OdrDmXqTVaEbKcbTjD93surbgAVobFR9a3I9MeN4fRc5obpOYLA/G7GfEB5WFowb8h
-         XdRsLcqW7XIqfCH+isAmT75z5hl/HZxm1St9/GA9XMrLtzLbb8jGzb8DWdAstivj5YtO
-         v00D+S/b9wk68DZLb6hJErkewgMZGK17nK/lMoDllJr2v11w50S7JTmtJEeLSnJOEka6
-         OECmoc2TH/Sd8h9FNyTKTWCAI7gpMwcT/8XQfDOECJaeHw50dOAl5k9XJEjJrzl/1LtK
-         UdU4n5L/u4kNC0tGXPIkgPO/R9cAbS5Dp4aLhYu2iTjcF/JrrIPiwXPxJe3+RU+id1IJ
-         GSwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=f/v1gZW2d1xf+y6gXLTGdOPEOS7UDztcZyURQzQMDp0=;
-        b=auQPB3AWUMd+Tb+CsSYpT2wJpklU8IUG4XQYMpemiC5tgYNchDqCbOvcfn36iET/Hr
-         F7xC/O8Z9BJKME1+5haxMDfl6zLfQC9iCMeBm3OoLUligJ/oB2xKBfsj0C/yXZMBKINb
-         vUBy2kzvJR8KmAsk4uAja9R5Qm1cjJk7CYx8dmX3HbC+Rs8SrrjWaaTBwX+wKJxW3y1h
-         IQ6dWnwLet/ybSh/Kr9qqTndo8t20XRLTU48TDBUL41NYIzrB4toRnOkbyoLo83qstRO
-         ezhx40VZ0be8LCnuvrjl8yJLufnVVbSjgZ/epmHZztlrGEAF43mHTAdSHPKBXjKddkxx
-         mGIw==
-X-Gm-Message-State: AJIora/9JDfkRyjmYN/9jcHhGMR/FFtcuDQoJc7zlqJ3/MAAkDz3v8Ab
-        5xEVBlNHmMdhiPpsLTmiWk0iDGiGgpQsZB0ezUM=
-X-Google-Smtp-Source: AGRyM1vlUx8WCvfTFwc0l2UwNQoC52Qay1JID43h6Lwj7EfAxiXQd6uzVfIzERlunthWMzzAAT3c9eTduXZ3DW4jxm0=
-X-Received: by 2002:ab0:5a85:0:b0:35d:20c3:5463 with SMTP id
- w5-20020ab05a85000000b0035d20c35463mr719740uae.103.1655152048706; Mon, 13 Jun
- 2022 13:27:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a59:bf8a:0:b0:2ca:3b5c:ca48 with HTTP; Mon, 13 Jun 2022
- 13:27:28 -0700 (PDT)
-Reply-To: nikkifenton79@gmail.com
-From:   Nikki Fenton <gustaviagrowe629@gmail.com>
-Date:   Mon, 13 Jun 2022 22:27:28 +0200
-Message-ID: <CAEmpkiAvAF6YR3E1DnukQzAj+5ibPOvEG4TM+XcbhkRyf1Ve9A@mail.gmail.com>
-Subject: Please Read
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+        Tue, 14 Jun 2022 00:44:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 199892F384
+        for <linux-media@vger.kernel.org>; Mon, 13 Jun 2022 21:44:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 745A3B81785
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 04:44:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDA55C341C7
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 04:44:44 +0000 (UTC)
+Date:   Tue, 14 Jun 2022 06:44:43 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20220614044444.DDA55C341C7@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good Day,
-I viewed your profile on Linkedin regarding a proposal that has
-something in common with you, reply for more details on my private
-email:nikkifenton79@gmail.com
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Nikki Fenton,
-nikkifenton79@gmail.com
+Results of the daily build of media_tree:
+
+date:			Tue Jun 14 05:00:11 CEST 2022
+media-tree git hash:	83916ec5a8c7faaeb8209f2d0763ce2e08f61f65
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	163144712a46229f3476b04f6c0037c4b7f00299
+edid-decode git hash:	cc1aeb00500d1ac725577354af9cd2637f47ef71
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-30-g92122700-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8015-g1a0af070-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b5e106a4cc94b2ea761f829eeaf8d3473bbbac27
+host hardware:		x86_64
+host os:		5.17.0-1-rt-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-davinci: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
