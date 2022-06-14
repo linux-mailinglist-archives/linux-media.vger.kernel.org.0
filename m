@@ -2,52 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC35554B2C6
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 16:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C0C954B3B8
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 16:47:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239633AbiFNOJf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 10:09:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53032 "EHLO
+        id S236679AbiFNOoT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 10:44:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237068AbiFNOJe (ORCPT
+        with ESMTP id S1356373AbiFNOnq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 10:09:34 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29B5731936;
-        Tue, 14 Jun 2022 07:09:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C8D6CB818E3;
-        Tue, 14 Jun 2022 14:09:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A27EC3411B;
-        Tue, 14 Jun 2022 14:09:26 +0000 (UTC)
-Message-ID: <0c656c92-f029-bc02-6026-23649836d080@xs4all.nl>
-Date:   Tue, 14 Jun 2022 16:09:24 +0200
+        Tue, 14 Jun 2022 10:43:46 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 499331A391
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 07:43:45 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id e66so8685599pgc.8
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 07:43:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=4cFnRvgmCgZilg+kua2nS8hJF1hI6XababS0iH20TWo=;
+        b=wBDys1FsoPdSRBO3RkTw5jlPlUveLtj70wIv5jWeDeDLEXnPegBmCF3tkiBJbp6xmr
+         kcnSZ9qvtjIuBe7II3as/t5SoZ1juk65X+SVmJ9SOmJ/DN+edJzpzYzN/UY1U8ydxEy4
+         qNdG/90Ex/j6q6jZ6FPsB+YADxJK5BpFKLhyNaj2ZEinXendLg5kraR7ulE8m0frtNm2
+         /dILb8+Azt2pGcQ4CXh1KORlJIOxo7q47pTt9HYRGfNdcgxZuJZ3IpLrNAYlbreaC/f9
+         jrq1sKedHCX/0IVWRvzdOBW93TTTpD+39TZicokOhiMCldjMxSosTQPQnmgVMVAZ4PEx
+         X8Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=4cFnRvgmCgZilg+kua2nS8hJF1hI6XababS0iH20TWo=;
+        b=shmeG2vahgLGsCbZMcYAAeHTip+YOStt9lEburzGgJDHSXraCqwRgcm3R58ZZ594uP
+         yhh/K65+pZ9lJR0oDrThXwGjDwDCWL4RUp4pbkK1X0wYBxmfMIhYO1D1L56+iHQkbD6V
+         w91fRp7DOp3S8iDQR25q5ICHdiJ5pUQ0qiLFk7xKHcvNNn1SeLbIwVqk3n9O9vEuFFA9
+         Fn+IeSzKpcC2pT1nFhqZ+eu0ZFpV2QlC29qo7KOT3uLuiX5uwwnLmHX92uhyqqhLFOCm
+         79gT5O3zp6NLLp34xnInhcADITmx8mAJkDCECb9oIg0fkLuGeX0TqqpixRCXmqg6xfMb
+         iJsQ==
+X-Gm-Message-State: AOAM530lkE0ppR0qXgwn+ufOLYx+zMuju62cMo73+hE6vtqEyneEs1xN
+        X8VfXUIouCNID3Zfw4+I/H4Ong==
+X-Google-Smtp-Source: ABdhPJypR8vjAMFkGvsZC+cplFp5gkSzlPo/jUCX+Nh+gTxI9BNzxBVZce/Kf+3LESVZiCbBz1Stcg==
+X-Received: by 2002:a05:6a00:a21:b0:522:9134:c620 with SMTP id p33-20020a056a000a2100b005229134c620mr4853896pfh.68.1655217824803;
+        Tue, 14 Jun 2022 07:43:44 -0700 (PDT)
+Received: from [172.20.0.51] ([192.77.111.2])
+        by smtp.gmail.com with ESMTPSA id g7-20020a63ad07000000b003db822e2170sm7866328pgf.23.2022.06.14.07.43.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jun 2022 07:43:44 -0700 (PDT)
+Message-ID: <26dc329e-b663-e779-a30f-b495206ced48@linaro.org>
+Date:   Tue, 14 Jun 2022 07:43:42 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v8 15/17] media: uapi: HEVC: fix padding in v4l2 control
- structures
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 2/2] media: i2c: imx412: Add imx577 compatible string
 Content-Language: en-US
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, andrzej.p@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-References: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
- <20220614083614.240641-16-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220614083614.240641-16-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     jacopo@jmondi.org, paul.j.murphy@intel.com,
+        daniele.alessandrelli@intel.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        dmitry.baryshkov@linaro.org, konrad.dybcio@somainline.org,
+        andrey.konovalov@linaro.org
+References: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
+ <20220607134057.2427663-3-bryan.odonoghue@linaro.org>
+ <Yqh4ewFMP5QcO/ta@valkosipuli.retiisi.eu>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <Yqh4ewFMP5QcO/ta@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -56,187 +79,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/14/22 10:36, Benjamin Gaignard wrote:
-> Fix padding where needed to remove holes and stay align on cache boundaries
-
-align -> aligned
-
+On 14/06/2022 05:00, Sakari Ailus wrote:
+> Thanks for the patch.
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../media/v4l/ext-ctrls-codec.rst             |  6 +++---
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  9 ---------
->  include/media/hevc-ctrls.h                    | 19 ++++++++++++-------
->  3 files changed, 15 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 05228e280f66..48a8825a001b 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3509,9 +3509,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->      * - __u8
->        - ``num_active_dpb_entries``
->        - The number of entries in ``dpb``.
-> -    * - struct :c:type:`v4l2_hevc_dpb_entry`
-> -      - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-> -      - The decoded picture buffer, for meta-data about reference frames.
->      * - __u8
->        - ``num_poc_st_curr_before``
->        - The number of reference pictures in the short-term set that come before
-> @@ -3535,6 +3532,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->        - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->        - PocLtCurr as described in section 8.3.2 "Decoding process for reference
->          picture set": provides the index of the long term references in DPB array.
-> +    * - struct :c:type:`v4l2_hevc_dpb_entry`
-> +      - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-> +      - The decoded picture buffer, for meta-data about reference frames.
->      * - __u64
->        - ``flags``
->        - See :ref:`Decode Parameters Flags <hevc_decode_params_flags>`
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index c5c5407584ff..fb68786c498b 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -824,20 +824,11 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  		if (p_hevc_decode_params->num_active_dpb_entries >
->  		    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
->  			return -EINVAL;
-> -
-> -		for (i = 0; i < p_hevc_decode_params->num_active_dpb_entries;
-> -		     i++) {
-> -			struct v4l2_hevc_dpb_entry *dpb_entry =
-> -				&p_hevc_decode_params->dpb[i];
-> -
-> -			zero_padding(*dpb_entry);
-> -		}
->  		break;
->  
->  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
->  		p_hevc_slice_params = p;
->  
-> -		zero_padding(p_hevc_slice_params->pred_weight_table);
->  		zero_padding(*p_hevc_slice_params);
->  		break;
->  
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index efc0412ac41e..9abca1a75bd4 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -133,7 +133,9 @@ struct v4l2_ctrl_hevc_sps {
->  	__u8	chroma_format_idc;
->  	__u8	sps_max_sub_layers_minus1;
->  
-> +	__u8	reserved[6];
->  	__u64	flags;
-> +	__u8	padding[24];
+> Surely the sensors still have some differences.
 
-Why are there 24 padding bytes at the end? For future use? If so, what is
-the rationale for '24'? Is it likely that new fields will be added in future
-HEVC revisions? Or is it in case we forget something?
+They do, they absolutely do, the imx577 has a whole bunch of extra modes.
 
-It's missing kerneldoc comments as well: it should state that the application
-must zero this.
+We don't have any reference code or access to documentation for those modes.
 
-Why mix 'reserved' with 'padding'? It's odd to see both names in a single
-struct.
+My reference is the qualcomm camx code for the rb5 board, which includes 
+a imx577 sensor. That stack uses the same init code as for the 412.
 
-In any case, this patch goes beyond 'fixing padding', it is doing more.
+So for that baseline mode, the imx412 driver works perfectly.
 
-If you really want to add space for future use at the end of structs,
-then do that in a separate patch together with a rationale for it.
+> Even if the same registers would work as-is (the imx577 might still benefit
+> from different MSRs?), the user should know which sensor it is. I.e. please
+> set the media entity name accordingly. See e.g. the CCS driver for an
+> example.
 
-Regards,
+Agreed, I'll do that.
 
-	Hans
-
->  };
->  
->  #define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
-> @@ -210,9 +212,10 @@ struct v4l2_ctrl_hevc_pps {
->  	__s8	pps_beta_offset_div2;
->  	__s8	pps_tc_offset_div2;
->  	__u8	log2_parallel_merge_level_minus2;
-> +	__u8	reserved[9];
->  
-> -	__u8	padding[4];
->  	__u64	flags;
-> +	__u8	padding[56];
->  };
->  
->  #define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
-> @@ -245,8 +248,8 @@ struct v4l2_hevc_dpb_entry {
->  	__u64	timestamp;
->  	__u8	flags;
->  	__u8	field_pic;
-> +	__u16	reserved;
->  	__s32	pic_order_cnt_val;
-> -	__u8	padding[2];
->  };
->  
->  /**
-> @@ -285,8 +288,6 @@ struct v4l2_hevc_pred_weight_table {
->  	__s8	delta_chroma_weight_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
->  	__s8	chroma_offset_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
->  
-> -	__u8	padding[6];
-> -
->  	__u8	luma_log2_weight_denom;
->  	__s8	delta_chroma_log2_weight_denom;
->  };
-> @@ -381,18 +382,20 @@ struct v4l2_ctrl_hevc_slice_params {
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
->  	__u8	pic_struct;
->  
-> +	__u8	reserved0[3];
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
->  	__u32	slice_segment_addr;
->  	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u16	short_term_ref_pic_set_size;
->  	__u16	long_term_ref_pic_set_size;
-> -	__u8	padding;
->  
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
->  	struct v4l2_hevc_pred_weight_table pred_weight_table;
->  
-> +	__u8	reserved1[2];
->  	__u64	flags;
-> +	__u8	padding[40];
->  };
->  
->  #define V4L2_HEVC_DECODE_PARAM_FLAG_IRAP_PIC		0x1
-> @@ -408,7 +411,6 @@ struct v4l2_ctrl_hevc_slice_params {
->   * @long_term_ref_pic_set_size: specifies the size of long-term reference
->   *				pictures set include in the SPS of the first slice
->   * @num_active_dpb_entries: the number of entries in dpb
-> - * @dpb: the decoded picture buffer, for meta-data about reference frames
->   * @num_poc_st_curr_before: the number of reference pictures in the short-term
->   *			    set that come before the current frame
->   * @num_poc_st_curr_after: the number of reference pictures in the short-term
-> @@ -419,6 +421,7 @@ struct v4l2_ctrl_hevc_slice_params {
->   * @poc_st_curr_after: provides the index of the short term after references
->   *		       in DPB array
->   * @poc_lt_curr: provides the index of the long term references in DPB array
-> + * @dpb: the decoded picture buffer, for meta-data about reference frames
->   * @flags: see V4L2_HEVC_DECODE_PARAM_FLAG_{}
->   */
->  struct v4l2_ctrl_hevc_decode_params {
-> @@ -426,14 +429,16 @@ struct v4l2_ctrl_hevc_decode_params {
->  	__u16	short_term_ref_pic_set_size;
->  	__u16	long_term_ref_pic_set_size;
->  	__u8	num_active_dpb_entries;
-> -	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u8	num_poc_st_curr_before;
->  	__u8	num_poc_st_curr_after;
->  	__u8	num_poc_lt_curr;
->  	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> +	__u8	reserved[4];
-> +	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u64	flags;
-> +	__u8	padding[56];
->  };
->  
->  /**
-
+---
+bod
