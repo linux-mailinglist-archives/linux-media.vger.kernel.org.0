@@ -2,286 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76F8154B6A9
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 18:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDB2954B7EA
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 19:46:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244321AbiFNQr2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 12:47:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34190 "EHLO
+        id S239336AbiFNRqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 13:46:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244118AbiFNQq6 (ORCPT
+        with ESMTP id S235235AbiFNRqL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 12:46:58 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E81728987;
-        Tue, 14 Jun 2022 09:46:56 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:9c07:3892:84e3:aba8] (unknown [IPv6:2a01:e0a:120:3210:9c07:3892:84e3:aba8])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3C2BA66016B0;
-        Tue, 14 Jun 2022 17:46:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1655225214;
-        bh=T1oqS49XxbOgOShLZkSdFGRKIJ5qzYm6xIThOciGkN8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TAQ4xSf55b3J0A8YfpvBcCTbditlXBn+TqcVxPn6hetbnViwS5fRvqEfRVmpRvL7+
-         ny8OQByTGN94hw/JlA77p+n+T+kZLzuHjjuan1tSge+5dEUDlbLhvXwXfU3TTBibPS
-         9jD3yxjCoTwuK4qJUhRTfLIuLG1P9Xx63+ZL4rqFQmgO2+qHYgNoHxYyMgH0+LGFsq
-         0NMBTvBLAmzEc+4WZcFhfOv044pawdNLHEl0JV8zVvgGQQmpjcb4ctPvgR3FK/3IIf
-         vCaLF2XA7cwYtnqHX2UnP5pj8i6wwvyMja1gxfrg0RtytyVMe5vbqlARPmjBtUxuyZ
-         jJykt4gYsF/nQ==
-Message-ID: <f6c636b6-f379-650a-cc7c-6f1e8b014455@collabora.com>
-Date:   Tue, 14 Jun 2022 18:46:51 +0200
+        Tue, 14 Jun 2022 13:46:11 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 506AE4132F
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 10:46:09 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id fu17so6644241qtb.2
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 10:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=Xn5U6yTCivKcEB2CQHYVzvugp+BfiT1C9G92C8VTcFE=;
+        b=613RfUCkNkGQMLtU7V2MbO04fhnH0mtvC5dKJO2n7m5TCcstyJMNMqLu5YY/jKx85W
+         WqQMLAi27pfXea2pgAxcenjo+QPeoTl9CYin1epFcZK/vTqiQCqBD1EYkVVK5uDXlJOk
+         /REj65VNDa+2mfoDGydpq55FH9UXhemjGynB7O4/KvsjpjTKj3iXzE5se/WNWb3HwcDQ
+         Qm8tyvsIiyWLkoQC0YSKGsXgM6jbVZQWXTcSfHhc7xpqFpsgqnP3lP5KbJsA0tnl+2AB
+         IlaRWg/QdubW8ftDo3KKzJL3UuG4GA8jNRl6v8rVtjb0Mt6ik6HtmbEE25xxiVEQixz1
+         wZZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=Xn5U6yTCivKcEB2CQHYVzvugp+BfiT1C9G92C8VTcFE=;
+        b=cQEbCzqailk2MjM0gy/ju6/jAgPeVpnv/n9WxBqjTz9lyS12xfQe+Cf2c+oLCq/OBp
+         lnEqgX+0nNxBfcllSawAZpQCFJR7LgAt/P9xVjhRK/KEIysKaHsh9JO2i2f1DHkOG3HK
+         t/LTGUwyx4stouwkrXP5mZhVNFN4l+wwnvGg97AmLR54J9Rhf61ejoRP/oVQ9PcsBXjV
+         K05XwbUiKtJocyudy6rNKq25Og17SCBOQkQe0Q3oSmAiHmZBPHvqy3VEf6qZSZwNYH+C
+         9Sh1LCWkb3hab7MkggaZcTtEw+sGdYIZVxtpOXq1mv7CIFY7HMdU0eGVBEdBJTUF6l/O
+         uJZg==
+X-Gm-Message-State: AOAM533EmfhIdMjz9CvnG30zhC3OU25G7ORbO6VmUqJWt6fPcL3zZ5JD
+        IioxiwZXcTGv2M5tYX3hQH6BTg==
+X-Google-Smtp-Source: ABdhPJyz6Dah76Tro/nBusft/e8MUMRJGJMekMTnnVzKmUelFUurRZI3FxaqFWMN0HWssy5n6ZNO1g==
+X-Received: by 2002:ac8:5a42:0:b0:305:222b:8ec9 with SMTP id o2-20020ac85a42000000b00305222b8ec9mr5296612qta.214.1655228768303;
+        Tue, 14 Jun 2022 10:46:08 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id q12-20020a05622a030c00b00304dd83a9b1sm8255216qtw.82.2022.06.14.10.46.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jun 2022 10:46:07 -0700 (PDT)
+Message-ID: <5316234cef174e49110f949991ef71c578a3478e.camel@ndufresne.ca>
+Subject: Re: [PATCH v4, 0/3] add h264 decoder driver for mt8186
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Tue, 14 Jun 2022 13:46:06 -0400
+In-Reply-To: <edbb4605c9e30329d2f5a4ff738571acb6b91f1f.camel@ndufresne.ca>
+References: <20220512034620.30500-1-yunfei.dong@mediatek.com>
+         <edbb4605c9e30329d2f5a4ff738571acb6b91f1f.camel@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v8 14/17] media: hantro: Stop using Hantro dedicated
- control
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        andrzej.p@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-References: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
- <20220614083614.240641-15-benjamin.gaignard@collabora.com>
- <b244e86d-06de-7423-d0df-e77485ce4c87@xs4all.nl>
- <958ab30f9cfbb14e4a7ea55826064e6a20d5ffd2.camel@collabora.com>
- <c5c6903d-ec7d-6218-35d3-2ac6caa9d2c5@xs4all.nl>
- <ac31307f9186fc851f76889a66ffb007de88fa15.camel@collabora.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <ac31307f9186fc851f76889a66ffb007de88fa15.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URI_DOTEDU autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Le lundi 13 juin 2022 =C3=A0 16:10 -0400, Nicolas Dufresne a =C3=A9crit=C2=
+=A0:
+> Le jeudi 12 mai 2022 =C3=A0 11:46 +0800, Yunfei Dong a =C3=A9crit=C2=A0:
+> > Firstly, add mt8186 compatible and private data, then add document for
+> > compatible "mediatek,mt8186-vcodec-dec". For mt8186 is single core
+> > architecture, need to add new interface for h264 hardware decoder.
+>=20
+> Would be nice to take the habit of sharing fluster score for this new HW,=
+ I
+> would expect no less then what the numbers you'd get from running over MT=
+8195 or
+> 92, remains nice to demonstrate that this was tested and document any oop=
+s along
+> the way.
+> >=20
+> > Patche 1 add mt8186 compatible and private data.
+> > Patche 2 add mt8186 compatible document.
+> > Patche 3 add h264 single core driver.
+> > ---
+> > This patch depends on "support for MT8192 decoder"[1]
+> >=20
+> > [1]  https://patchwork.kernel.org/project/linux-mediatek/cover/20220512=
+021950.29087-1-yunfei.dong@mediatek.com/
 
-Le 14/06/2022 à 18:23, Nicolas Dufresne a écrit :
-> Le mardi 14 juin 2022 à 17:47 +0200, Hans Verkuil a écrit :
->> On 6/14/22 17:43, Nicolas Dufresne wrote:
->>> Le mardi 14 juin 2022 à 15:58 +0200, Hans Verkuil a écrit :
->>>> On 6/14/22 10:36, Benjamin Gaignard wrote:
->>>>> The number of bits to skip in the slice header can be computed
->>>>> in the driver by using sps, pps and decode_params information.
->>>>> This allow to remove Hantro dedicated control.
->>>> allow -> makes it possible
->>>>
->>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>>> ---
->>>>>   drivers/staging/media/hantro/hantro_drv.c     | 36 -----------
->>>>>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 62 ++++++++++++++++++-
->>>>>   include/media/hevc-ctrls.h                    | 13 ----
->>>>>   3 files changed, 61 insertions(+), 50 deletions(-)
->>>>>
->>>>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->>>>> index 536c8c374952..5aac3a090480 100644
->>>>> --- a/drivers/staging/media/hantro/hantro_drv.c
->>>>> +++ b/drivers/staging/media/hantro/hantro_drv.c
->>>>> @@ -304,26 +304,6 @@ static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
->>>>>   	return 0;
->>>>>   }
->>>>>   
->>>>> -static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
->>>>> -{
->>>>> -	struct hantro_ctx *ctx;
->>>>> -
->>>>> -	ctx = container_of(ctrl->handler,
->>>>> -			   struct hantro_ctx, ctrl_handler);
->>>>> -
->>>>> -	vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
->>>>> -
->>>>> -	switch (ctrl->id) {
->>>>> -	case V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP:
->>>>> -		ctx->hevc_dec.ctrls.hevc_hdr_skip_length = ctrl->val;
->>>>> -		break;
->>>>> -	default:
->>>>> -		return -EINVAL;
->>>>> -	}
->>>>> -
->>>>> -	return 0;
->>>>> -}
->>>>> -
->>>>>   static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
->>>>>   	.try_ctrl = hantro_try_ctrl,
->>>>>   };
->>>>> @@ -332,10 +312,6 @@ static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
->>>>>   	.s_ctrl = hantro_jpeg_s_ctrl,
->>>>>   };
->>>>>   
->>>>> -static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
->>>>> -	.s_ctrl = hantro_hevc_s_ctrl,
->>>>> -};
->>>>> -
->>>>>   #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_APP0 | \
->>>>>   					 V4L2_JPEG_ACTIVE_MARKER_COM | \
->>>>>   					 V4L2_JPEG_ACTIVE_MARKER_DQT | \
->>>>> @@ -487,18 +463,6 @@ static const struct hantro_ctrl controls[] = {
->>>>>   		.cfg = {
->>>>>   			.id = V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
->>>>>   		},
->>>>> -	}, {
->>>>> -		.codec = HANTRO_HEVC_DECODER,
->>>>> -		.cfg = {
->>>>> -			.id = V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP,
->>>>> -			.name = "Hantro HEVC slice header skip bytes",
->>>>> -			.type = V4L2_CTRL_TYPE_INTEGER,
->>>>> -			.min = 0,
->>>>> -			.def = 0,
->>>>> -			.max = 0x100,
->>>>> -			.step = 1,
->>>>> -			.ops = &hantro_hevc_ctrl_ops,
->>>>> -		},
->>>>>   	}, {
->>>>>   		.codec = HANTRO_VP9_DECODER,
->>>>>   		.cfg = {
->>>>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->>>>> index d28653d04d20..3be8d6e60bf0 100644
->>>>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->>>>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->>>>> @@ -117,6 +117,66 @@ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
->>>>>   		vpu_debug(1, "%s: no chroma!\n", __func__);
->>>>>   }
->>>>>   
->>>>> +static unsigned int ceil_log2(unsigned int v)
->>>>> +{
->>>>> +	/* Compute Ceil(Log2(v))
->>>>> +	 * Derived from branchless code for integer log2(v) from:
->>>>> +	 * <http://graphics.stanford.edu/~seander/bithacks.html#IntegerLog>
->>>>> +	 */
->>>>> +	unsigned int r, shift;
->>>>> +
->>>>> +	v--;
->>>>> +	r = (v > 0xFFFF) << 4;
->>>>> +	v >>= r;
->>>>> +	shift = (v > 0xFF) << 3;
->>>>> +	v >>= shift;
->>>>> +	r |= shift;
->>>>> +	shift = (v > 0xF) << 2;
->>>>> +	v >>= shift;
->>>>> +	r |= shift;
->>>>> +	shift = (v > 0x3) << 1;
->>>>> +	v >>= shift;
->>>>> +	r |= shift;
->>>>> +	r |= (v >> 1);
->>>>> +
->>>>> +	return r + 1;
->>>>> +}
->>>> Isn't this identical to fls(v - 1)? See also lib/math/reciprocal_div.c
->>>> where this is used.
->>> Thanks for pointing this out, I was wondering if there was an equivalent, and
->>> never knew there was a relation between log2() and the "last set bit". Not sure
->>> about the -1 here though, can you extend ?
->> Based on how lib/math/reciprocal_div.c did it. Also, the ceil_log2 function
->> starts with v--, while fls doesn't. That said, it's wise to verify that that
->> is correct.
-> Just for the reference, from lib/math/reciprocal_div.c:
->
-> 	/* ceil(log2(d)) */
-> 	l = fls(d - 1);
->
-> Perhaps fls() return position starting from 1 rather then 0 ?
+I forgot earlier, but I suppose this will also depends on an scp.img firmwa=
+re ?
+If so, any linux-firmware submission to link to ?
 
-I have compare the results of ceil_log2(d) vs fls(d-1)
-for values between 2 (because sps->num_short_term_ref_pic_sets > 1) and 16 (the maximum number of frames)
-they are always the same so I will remove ceil_log2() and use fls().
+> > ---
+> > changed with v3:
+> > - fix __iomem not reasonable, align share memory to dram.
+> > changed with v2:
+> > - fix sparse and smatch check fail for patch 3
+> > changed with v1:
+> > - rebase driver to the latest media_stage.
+> > ---
+> > Yunfei Dong (3):
+> >   dt-bindings: media: mediatek: vcodec: Adds decoder dt-bindings for
+> >     mt8186
+> >   media: mediatek: vcodec: Support MT8186
+> >   media: mediatek: vcodec: add h264 decoder driver for mt8186
+> >=20
+> >  .../media/mediatek,vcodec-subdev-decoder.yaml |   4 +-
+> >  .../platform/mediatek/vcodec/mtk_vcodec_dec.h |   1 +
+> >  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   4 +
+> >  .../vcodec/mtk_vcodec_dec_stateless.c         |  19 ++
+> >  .../vcodec/vdec/vdec_h264_req_multi_if.c      | 177 +++++++++++++++++-
+> >  5 files changed, 203 insertions(+), 2 deletions(-)
+> >=20
+>=20
 
-Regards,
-Benjamin
-
->
-> Nicolas
->
->> Regards,
->>
->> 	Hans
->>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>>> +
->>>>> +static int compute_header_skip_lenght(struct hantro_ctx *ctx)
->>>>> +{
->>>>> +	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
->>>>> +	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
->>>>> +	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
->>>>> +	const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
->>>>> +	int skip = 0;
->>>>> +
->>>>> +	if (pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT)
->>>>> +		/* size of pic_output_flag */
->>>>> +		skip++;
->>>>> +
->>>>> +	if (sps->flags & V4L2_HEVC_SPS_FLAG_SEPARATE_COLOUR_PLANE)
->>>>> +		/* size of pic_order_cnt_lsb */
->>>>> +		skip += 2;
->>>>> +
->>>>> +	if (!(decode_params->flags & V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC)) {
->>>>> +		/* size of pic_order_cnt_lsb */
->>>>> +		skip += sps->log2_max_pic_order_cnt_lsb_minus4 + 4;
->>>>> +
->>>>> +		/* size of short_term_ref_pic_set_sps_flag */
->>>>> +		skip++;
->>>>> +
->>>>> +		if (decode_params->short_term_ref_pic_set_size)
->>>>> +			/* size of st_ref_pic_set( num_short_term_ref_pic_sets ) */
->>>>> +			skip += decode_params->short_term_ref_pic_set_size;
->>>>> +		else if (sps->num_short_term_ref_pic_sets > 1)
->>>>> +			skip += ceil_log2(sps->num_short_term_ref_pic_sets);
->>>>> +
->>>>> +		skip += decode_params->long_term_ref_pic_set_size;
->>>>> +	}
->>>>> +
->>>>> +	return skip;
->>>>> +}
->>>>> +
->>>>>   static void set_params(struct hantro_ctx *ctx)
->>>>>   {
->>>>>   	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
->>>>> @@ -134,7 +194,7 @@ static void set_params(struct hantro_ctx *ctx)
->>>>>   
->>>>>   	hantro_reg_write(vpu, &g2_output_8_bits, 0);
->>>>>   
->>>>> -	hantro_reg_write(vpu, &g2_hdr_skip_length, ctrls->hevc_hdr_skip_length);
->>>>> +	hantro_reg_write(vpu, &g2_hdr_skip_length, compute_header_skip_lenght(ctx));
->>>>>   
->>>>>   	min_log2_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
->>>>>   	max_log2_ctb_size = min_log2_cb_size + sps->log2_diff_max_min_luma_coding_block_size;
->>>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->>>>> index d6cb3779d190..efc0412ac41e 100644
->>>>> --- a/include/media/hevc-ctrls.h
->>>>> +++ b/include/media/hevc-ctrls.h
->>>>> @@ -467,17 +467,4 @@ struct v4l2_ctrl_hevc_scaling_matrix {
->>>>>   	__u8	scaling_list_dc_coef_32x32[2];
->>>>>   };
->>>>>   
->>>>> -/*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 */
->>>>> -#define V4L2_CID_CODEC_HANTRO_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1200)
->>>>> -/*
->>>>> - * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
->>>>> - * the number of data (in bits) to skip in the
->>>>> - * slice segment header.
->>>>> - * If non-IDR, the bits to be skipped go from syntax element "pic_output_flag"
->>>>> - * to before syntax element "slice_temporal_mvp_enabled_flag".
->>>>> - * If IDR, the skipped bits are just "pic_output_flag"
->>>>> - * (separate_colour_plane_flag is not supported).
->>>>> - */
->>>>> -#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	(V4L2_CID_CODEC_HANTRO_BASE + 0)
->>>>> -
->>>>>   #endif
