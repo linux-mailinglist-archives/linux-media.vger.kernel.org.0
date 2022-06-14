@@ -2,73 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 543C254B811
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 19:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C007D54B863
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 20:16:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346818AbiFNRun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 13:50:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42346 "EHLO
+        id S239478AbiFNSQJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 14:16:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348935AbiFNRum (ORCPT
+        with ESMTP id S231262AbiFNSQI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 13:50:42 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1910636315
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 10:50:40 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id s1so12245003wra.9
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 10:50:40 -0700 (PDT)
+        Tue, 14 Jun 2022 14:16:08 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F05619F80
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 11:16:04 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id d23so7056486qke.0
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 11:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=x63h/c1BGVusV25ZT0fkdjHSGcrp+du01iw2pt40ZiY=;
-        b=wC2k+b0KHPpw9d+uXu4XTg8ogHhDCwtZpfR40+2PQfGRRBsqMojV22iXjFCOch/cT3
-         xw/T7iXOTdS/PrAX/Zsaj1o3TbbFQqxJZQIUxj+7Y31I/IEuvUv7OqSAbbAI1shq6DWa
-         HBNOJiHl9ztLGL5Vs2c16KPnqGPiC0m11MRD4Bv/iQNjIbVIVghhimmepwZCO2ovAZsf
-         r5Yc3DVnG5DW2LGbQaQmzYZuzu+Kupw+QtfhjZ/sXjSUvHMP4Sljtsdz2FrdxVGljNFC
-         IA1ZajZI5Hn63JfA6oIxVJDAcflZt36ayzw9IBG01Fo9D4AckSwYz/ZGgXkT5C6r7pOF
-         8IVQ==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=IUZbp7PiXUU7CAVpO1jooUP9RPiupsus4DCsHt1x4pQ=;
+        b=GVcOu+R24+27b2NOvitiVm0BFB8m/d5jTlFrMXfoUi7v9rt8nF0E2q0h9wUTAiiNqL
+         0dOB9sUXKyM0KWkVvc1bLRbT+961TQS0GbEGUMR0YGhhtAnUHWh7SgKaU8H5D/WOw8Ik
+         kQVot4N1MIEvbRmr+TER8hR+dyhNLMzo/wAy4KqSibgLRZ12kyTdDUvVynQ+q9Et3sXJ
+         KYwRZ3CWARS/lM6FUYw1ZReTAYgotqGiLV5I9b1DU9WZmol83vnmF7+66YxUiG3p7AJh
+         UyIActoNb1Aa6Nk+ElpIqwIJ+vtaj0p4ApTGcXhfvGgGcu7l/oIrN6JB9zdXPQFK0N2E
+         AtDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=x63h/c1BGVusV25ZT0fkdjHSGcrp+du01iw2pt40ZiY=;
-        b=BbEozseuIO30m6wsfxpUDORyZwLuBhGLJhK8iDgy+kbgtYsgbijSoWiGZxu2a1+zex
-         aNpAC6CQ6evF5wcVPoMpVGeAr4kUqzuOQ4O4aTtj2hrfK0HQcEXJ2J6wA43vNRdxWB2r
-         gvNpvT/6zkzEqwoK2LOXUF4iiwHS+bSvrrlZPhPp8vfBsVheBUtIvDvOQY7etcNPqFfd
-         Swt4To+cju976EiOMZ+VylAJDuN4rAWjujH2JVtlRFmTJ0aJufAdSGJXcNocdjJb/VGE
-         GWVWSqe5ObnT6Yp4KCLDcmA9Kyh/9gUzgYe2Qcj80jGg16loRsLcwGCfQ4a1HlEErHse
-         ltjQ==
-X-Gm-Message-State: AJIora/3bJ2oOmxYdLGeSEXcPOK3WxFV/yYbV2bMytn8BEknX61/H2UV
-        cPJZnyMGWkDFxiCHg5mefwRz5M9SMeSxU9kIGNc=
-X-Google-Smtp-Source: AGRyM1vtyiXwWVIL9MMf4TgYpUoAn9bBTXR+rnlA9ZEo4F4daQXCmIIAXO7sujqKVZGPndgDzp1Efg==
-X-Received: by 2002:adf:978c:0:b0:219:e4e7:7057 with SMTP id s12-20020adf978c000000b00219e4e77057mr5959106wrb.568.1655229038553;
-        Tue, 14 Jun 2022 10:50:38 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id bh8-20020a05600c3d0800b003942a244ee6sm13732418wmb.43.2022.06.14.10.50.37
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 14 Jun 2022 10:50:37 -0700 (PDT)
-From:   John Cox <jc@kynesim.co.uk>
-To:     =?utf-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        samuel@sholland.org, nicolas.dufresne@collabora.com,
-        andrzej.p@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-Subject: Re: [PATCH v8 09/17] media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a dynamic array
-Date:   Tue, 14 Jun 2022 18:50:36 +0100
-Message-ID: <cgihahl6gu9089b1ph9tj4vobftaoatbjt@4ax.com>
-References: <20220614083614.240641-1-benjamin.gaignard@collabora.com> <20220614083614.240641-10-benjamin.gaignard@collabora.com> <e16c48e0-39ab-80db-0d14-2b3f97079823@xs4all.nl> <2830572.e9J7NaK4W3@kista>
-In-Reply-To: <2830572.e9J7NaK4W3@kista>
-User-Agent: ForteAgent/8.00.32.1272
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=IUZbp7PiXUU7CAVpO1jooUP9RPiupsus4DCsHt1x4pQ=;
+        b=aJADyRl7bSyGXHnhJJMykIJOwpqVygncImBIDCQTvFG2IBkbX4keViD+XDMxMg8Ryb
+         6/lkJuilvNzTxGJ6oprM7W8krPQe/1PU08VfXf/KGAM9lzROcPBGLkv7uZv/yPa91Yvh
+         FM93O/KDRDeJg1PXXtZKAkbGcXi49aopVuGjwX/ZKUdQ+r2L0NSY66c4MCuTq1b0+QV3
+         N8sKxMI/XbDo7d2Bo7PCF31+dRbs5gPjL3fdvfbglsO0seLLkF54l04bGdkjzpeI7PTT
+         UJyjLsnz41cNDCb+vDfoadhboqSqQVOGxg6WZ94pDGBxmHpgem+gTOkK/b/iYN9SI0/+
+         mnKA==
+X-Gm-Message-State: AOAM533iK0n2kiKCD0YhVsMinjVagRuy7UTUlPR8iPWKsomse4X0GuFK
+        jJYwih2/4klAsWMDQQPwFElxUQ==
+X-Google-Smtp-Source: ABdhPJyspk1OooBvKaZDZNbDRmfj2xD5SU/mh9sKS0Jw8BTrNURhDW6qUdVc4ix3LNjCyOrp5xwfbA==
+X-Received: by 2002:a05:620a:28d6:b0:6a7:7a8d:4840 with SMTP id l22-20020a05620a28d600b006a77a8d4840mr4912308qkp.500.1655230563578;
+        Tue, 14 Jun 2022 11:16:03 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id r11-20020a37a80b000000b006a6ab259261sm9371251qke.29.2022.06.14.11.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jun 2022 11:16:03 -0700 (PDT)
+Message-ID: <9fef91917df081bd94e4b8e7e76b441264ad073c.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: mediatek: vcodec: fix minmax.cocci warning
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Guo Zhengkui <guozhengkui@vivo.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Haowen Bai <baihaowen@meizu.com>,
+        George Sun <george.sun@mediatek.com>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Cc:     zhengkui_guo@outlook.com
+Date:   Tue, 14 Jun 2022 14:16:01 -0400
+In-Reply-To: <20220614072618.26925-1-guozhengkui@vivo.com>
+References: <20220614072618.26925-1-guozhengkui@vivo.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -78,153 +84,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Le mardi 14 juin 2022 =C3=A0 15:25 +0800, Guo Zhengkui a =C3=A9crit=C2=A0:
+> Fix the following coccicheck warning:
+>=20
+> drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
+> 694:15-16: WARNING opportunity for min().
+>=20
+> Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
 
->Dne torek, 14. junij 2022 ob 15:50:23 CEST je Hans Verkuil napisal(a):
->> On 6/14/22 10:36, Benjamin Gaignard wrote:
->> > Make explicit that V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control is
->> > a dynamic array control type.
->> > Some drivers may be able to receive multiple slices in one control
->> > to improve decoding performance.
->> >=20
->> > Define the max size of the dynamic that can driver can set in .dims =
-=3D {}.
->> >=20
->> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> > ---
->> > version 7:
->> > - Add Jernej patch to set array dims for Cedrus
->> >=20
->> > version 6:
->> > - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
->> >   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
->> > - Add a define for max slices count
->> >=20
->> >  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
->> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 1 +
->> >  drivers/staging/media/sunxi/cedrus/cedrus.c               | 1 +
->> >  include/media/hevc-ctrls.h                                | 5 +++++
->> >  4 files changed, 9 insertions(+)
->> >=20
->> > diff --git =
-a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
->Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> > index 06b967de140c..0796b1563daa 100644
->> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> > @@ -2986,6 +2986,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
- -
->> >      These bitstream parameters are defined according to =
-:ref:`hevc`.
->> >      They are described in section 7.4.7 "General slice segment =
-header
->> >      semantics" of the specification.
->> > +    This control is a dynamically sized 1-dimensional array,
->> > +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
->> > =20
->> >  .. c:type:: v4l2_ctrl_hevc_slice_params
->> > =20
->> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c =
-b/drivers/media/
->v4l2-core/v4l2-ctrls-defs.c
->> > index 9f55503cd3d6..d594efbcbb93 100644
->> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> > @@ -1510,6 +1510,7 @@ void v4l2_ctrl_fill(u32 id, const char **name,=
- enum=20
->v4l2_ctrl_type *type,
->> >  		break;
->> >  	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
->> >  		*type =3D V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
->> > +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->> >  		break;
->> >  	case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
->> >  		*type =3D V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
->> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c =
-b/drivers/staging/
->media/sunxi/cedrus/cedrus.c
->> > index 87be975a72b6..f3391c7c811c 100644
->> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
->> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
->> > @@ -178,6 +178,7 @@ static const struct cedrus_control =
-cedrus_controls[] =3D=20
->{
->> >  	{
->> >  		.cfg =3D {
->> >  			.id	=3D=20
->V4L2_CID_STATELESS_HEVC_SLICE_PARAMS,
->> > +			.dims   =3D { 1 },
->>=20
->> So cedrus HW supports only a single SLICE_PARAMS struct? Perhaps add =
-that
->> as a comment.
->
->Yes, for now. I have WIP patch which will remove this limitation.
->
->Please corrrect me if I'm wrong, but this dimension represents maximum =
-allowed=20
->array length? If so, this is a bit awkward for cases where there is =
-really no=20
->limit. Like in this case. Cedrus can process only one slice which means =
-that=20
->driver will have to loop over all submitted slices, one by one. Thus, =
-there is=20
->no real limitation. It could be set to 10, 1000 or even more. Any =
-suggestion=20
->for appropriate upper limit is appreciated.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Likewise for Pi there is no real upper limit.
+> ---
+>  .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c   | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat=
+_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> index f464af190d8c..81de876d5126 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> @@ -691,7 +691,7 @@ static int vdec_vp9_slice_tile_offset(int idx, int mi=
+_num, int tile_log2)
+>  	int sbs =3D (mi_num + 7) >> 3;
+>  	int offset =3D ((idx * sbs) >> tile_log2) << 3;
+> =20
+> -	return offset < mi_num ? offset : mi_num;
+> +	return min(offset, mi_num);
+>  }
+> =20
+>  static
 
-Regards
+regards,
+Nicolas
 
-John Cox
-
->Best regards,
->Jernej
->
->>=20
->> >  		},
->> >  		.codec		=3D CEDRUS_CODEC_H265,
->> >  	},
->> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> > index 0dbd5d681c28..140151609c96 100644
->> > --- a/include/media/hevc-ctrls.h
->> > +++ b/include/media/hevc-ctrls.h
->> > @@ -311,9 +311,14 @@ struct v4l2_hevc_pred_weight_table {
->> >  #define=20
->V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED =
-(1ULL <<=20
->8)
->> >  #define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL =
-<<=20
->9)
->> > =20
->> > +#define V4L2_HEVC_SLICE_MAX_COUNT	600
->> > +
->>=20
->> I would drop this define. It is not used at the moment, and I think it
->> is the driver that should set this through the dims field (as cedrus
->> does above). It is likely to be limited by hardware anyway (just my =
-guess).
->>=20
->> If it is needed in the future, it can always be added.
->>=20
->> Regards,
->>=20
->> 	Hans
->>=20
->> >  /**
->> >   * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
->> >   *
->> > + * This control is a dynamically sized 1-dimensional array,
->> > + * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
->> > + *
->> >   * @bit_size: size (in bits) of the current slice data
->> >   * @data_bit_offset: offset (in bits) to the video data in the =
-current=20
->slice data
->> >   * @nal_unit_type: specifies the coding type of the slice (B, P or =
-I)
->>=20
->>=20
->
