@@ -2,51 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92F9E54AB3C
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 09:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 004E654AB5E
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 10:03:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355302AbiFNH5O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 03:57:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49022 "EHLO
+        id S1355571AbiFNIC1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 04:02:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355259AbiFNH5N (ORCPT
+        with ESMTP id S240296AbiFNICT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 03:57:13 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D94E3F320;
-        Tue, 14 Jun 2022 00:57:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E8841B817AD;
-        Tue, 14 Jun 2022 07:57:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58487C3411B;
-        Tue, 14 Jun 2022 07:57:05 +0000 (UTC)
-Message-ID: <434a4936-1374-a1d9-4204-2538f802267f@xs4all.nl>
-Date:   Tue, 14 Jun 2022 09:57:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7 00/17] Move HEVC stateless controls out of staging
+        Tue, 14 Jun 2022 04:02:19 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632C1286C4;
+        Tue, 14 Jun 2022 01:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655193738; x=1686729738;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=b5qXyTKs9yEq9MVsMEfSSgoAjBwu5d2eu5KCnYF3faA=;
+  b=ErX0SmadHRh+dSSEF1xSwNz3l1Bjpkw6atbwNSbAoglewxUNBxfSg/Q4
+   /C7m/nt2VlYi9xJuSvNpkG1z+EsE5jR89uv+XUnppK2BvaGyX+lNXP0Sk
+   H0cv9Be8/mj0/QXCnMnAItC3ZV2/LSJrL4JsP0mVcuqj8oLPqxajm/YfH
+   CnpWoRqOAcEtkm7II4LLkEK+BuX2UTPZ+/IeKkldvcMOdV3cKW+J3Lwq1
+   tKIKkeLSrOlWxwHUMSNWj9IuQE4AHUmChS2qh+GQN4NcXtULlyKLI6rKV
+   1vx/50nFaxTjmFqkVrgvADJtKpz47LcGj11sUidsJH3p54+wWNq8GwRMh
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="340211099"
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
+   d="scan'208";a="340211099"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 01:02:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
+   d="scan'208";a="651897212"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Jun 2022 01:02:16 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 14 Jun 2022 01:02:15 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Tue, 14 Jun 2022 01:02:14 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Tue, 14 Jun 2022 01:02:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N319bqiKri0orlfUn5hpaQg9PtTfdKHWf3+DCELhNwuQvzykn8QJzqSyQ0ijt7qmeoD0g7aPn1nOFBTTRrBIygt8yBmtT4UTgamCPF8SeXsZfXF8sXhACKqaaEKr5d9IPAXPbP/wwrPOYoP47bdTGBHROJqHK53b5pQs85x8xG1HBxt3nVTPqxlZ93xqSMtg845vwotGp/fVTDq4/+EEJe4imKcpYpugDqOxKS082Xz2dtbR8mXUljJqbWoQi6HzVNrqLJN3eGYeM4LGco63I3CR8PXJePNxJTYNuwJBTcJZMcCmgbDyH4/MMZMdEK8c3c9L9596WyILbdy8JoKuEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b5qXyTKs9yEq9MVsMEfSSgoAjBwu5d2eu5KCnYF3faA=;
+ b=B/iZK4H9NGhqm/Gz5GZ32Uh8XOtBFHz5EoEefeN1Cm+VI/uimFdmwV7NybdnDgw8OF/mraH3j7/AeqQ7AgUuSx6n9Yow+0kMWgflHNUdHiph1yHZodHTgoNAX0kq22plYXRjErUIcQJIKu5I1WTBi36unPhPHeVwFUaxp9gSlaQzmwO36R27R1n5+1T3WQS79ZLPSKpe4HReY8zIWxNFrgtdz02ljKS6aLdO2RmwWeCo2hppVZHmX7niORICKYKG43GHCOxA00Ak0YM2wtkAUJpMt/hko3q6oJ8uLRpudnbQ9tMsTyRKX0lWLb78rBS5EKosrwiK5TVes3aGRekTvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SN6PR11MB3055.namprd11.prod.outlook.com (2603:10b6:805:dc::18)
+ by SJ0PR11MB5055.namprd11.prod.outlook.com (2603:10b6:a03:2d9::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12; Tue, 14 Jun
+ 2022 08:02:13 +0000
+Received: from SN6PR11MB3055.namprd11.prod.outlook.com
+ ([fe80::dd4e:b4a9:f7ca:1b5b]) by SN6PR11MB3055.namprd11.prod.outlook.com
+ ([fe80::dd4e:b4a9:f7ca:1b5b%7]) with mapi id 15.20.5332.020; Tue, 14 Jun 2022
+ 08:02:13 +0000
+From:   "Alessandrelli, Daniele" <daniele.alessandrelli@intel.com>
+To:     "Murphy, Paul J" <paul.j.murphy@intel.com>,
+        "jacopo@jmondi.org" <jacopo@jmondi.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>
+CC:     "konrad.dybcio@somainline.org" <konrad.dybcio@somainline.org>,
+        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+        "andrey.konovalov@linaro.org" <andrey.konovalov@linaro.org>
+Subject: Re: [PATCH 2/2] media: i2c: imx412: Add imx577 compatible string
+Thread-Topic: [PATCH 2/2] media: i2c: imx412: Add imx577 compatible string
+Thread-Index: AQHYenRXomGjADE8XESfcpS7O9y3gK1OlTIA
+Date:   Tue, 14 Jun 2022 08:02:13 +0000
+Message-ID: <4e5aefa1dec1b90c9f43e175fdf82d75ad0fe46f.camel@intel.com>
+References: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
+         <20220607134057.2427663-3-bryan.odonoghue@linaro.org>
+In-Reply-To: <20220607134057.2427663-3-bryan.odonoghue@linaro.org>
+Accept-Language: en-US
 Content-Language: en-US
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, andrzej.p@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-References: <20220614074947.160316-1-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220614074947.160316-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-5.fc34) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 19bcd09f-00ab-4a01-0c06-08da4ddc30a2
+x-ms-traffictypediagnostic: SJ0PR11MB5055:EE_
+x-microsoft-antispam-prvs: <SJ0PR11MB50558EEA7982067189C9B281F2AA9@SJ0PR11MB5055.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IUflo6A0irCWRjcUMpOKUkapsSn/I7NXD/FEd+4OvxGc4UF8GE35CMfGacfc+sEXMZORZeyA8zxWbMGLYwYFDA8SyhviuJFMz93eE79EwXgDWfn4G/SymkbcywvxITlE+fMiphPuHWsOtl0SKw6LrTmeXy5IIHxGBirOgV68mGJmMyHdQKpR/P6Bs3h5vhkdw/S2izXgFfPjlu67AWTUlVV5+EOITRnD7cvO4255oDJrplusc5cYcxWTiB5vIyqgrmPjX7xkJobszi1lDZSPGUsEX8H85Q5Y0UW/NqUV26RHSff/6F2igIhPbwArqD1eeyNof1XPaOc3xsvlL4lyCtUXYUM3fdqXwwG69be4b7hOu0ctUv6/dwD663Q5HEL19m5FqUPdE2NqRkXeGrJIfIuJvgAfIS2vc61kBflRY7T9Xj79Yb/qd4VIzZiaghCIMyyOTiJAwjeujCGjtLtLaf8MHT+LjGPedQg87cgsb30xb+TUErLvdOvRxzdsBUT15yuI/rslW9o3lYGK+in9m7T20ZHGHx5HWiEz0oA8CGbM7b28wiUReA/jifcvEhYXPafMAiV5PB7SekOayqfA8hTEYAsANLShzPqp/bFh/UQr9LFkjLPK209i9oqpGagJheuaKlNWqqSwb500SZQv1PxJhtOc2j2YH2njR1KvxtwZHyid0oVr6EiegS8Wb7sgdlsyNpAKX3oiJazBqk/dqw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3055.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(38070700005)(66446008)(82960400001)(508600001)(66476007)(8936002)(122000001)(86362001)(2906002)(4326008)(66946007)(91956017)(54906003)(66556008)(64756008)(76116006)(6486002)(8676002)(186003)(71200400001)(316002)(110136005)(6506007)(26005)(38100700002)(36756003)(6512007)(5660300002)(2616005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RzVIZW56aXAxcHBBbjcyYzczWEppQ0ZkVGtSdHZhUWZCZ2dSVUlyT2U2YXJC?=
+ =?utf-8?B?akNVUUxyKzVKSVhTSmJsQm5YdDF6eG9NbjF4ZWFxNUdUV1NWSzk1M09ZWlEv?=
+ =?utf-8?B?MlFQQUZwelEwbTRWVkordFA3Z2NNckdHKytZc1dpTFl4Z2dFTXZrbFRlVHJO?=
+ =?utf-8?B?NXE4Wmw5YUhZeDQ5YVRETWxORU02dlI0cjlaZ0xXOGhDakt0bzRoK205Nyt3?=
+ =?utf-8?B?K2JUWVNjSUZPZTR6d1ZIOXlXMDc5TCtkeEdTSGZVM2ZyRVVaa1RvWTNLYVo4?=
+ =?utf-8?B?eGhEV0xweXZvQUdpeHFicnVTQ25Hd3ZjVW1XeHk2a1EwbkR2U1lPVEswSG50?=
+ =?utf-8?B?QlNVT2YzRStBU3RmOGZTbm5lTXdPNm4rQ2xIWmtCMmg2VmQ1QndmNkVQdGpx?=
+ =?utf-8?B?T0lXaDE5Z2VqSkNwdlprWXN1bjdLdlJZRmhWaTVLWC8yTmhZa01LVm10SGps?=
+ =?utf-8?B?SmxBQTBJOExOZzN1MnVIOERqRStlcjRkN1pyWnduclJ0QjVrTS8zSDQ3aXp5?=
+ =?utf-8?B?MWN0U0lNQkxDNVl0REdiMjJqcjg4aWFyYkZvOU91a0k0MHFnTFcrUXlEd1hw?=
+ =?utf-8?B?a3dNRmNFVVBhRVZTK3c0cVErMFhJaEljbnR4SFYxWUgxY1AwSmY2RXJzU1k3?=
+ =?utf-8?B?YURkVEx1TTQ0TjUxWmUzc09CV1RzeDBEYW9LVCt3MmRWMzgxOURjTlExUkw1?=
+ =?utf-8?B?d2NvS1Noci81U1MyTGhJczdvenJnUGFSUkxGbUlZNEZjSmpIMnZacS9QblUx?=
+ =?utf-8?B?TnVnaWZKa2NqZ1pFaXVxeWNmSS9Gdmc5c2RJL2tUMEJrZ0hEZlE5U0RoUTR5?=
+ =?utf-8?B?UytUZWpGU015emgzNlF4enpBb2lsTjVSSkZGQjNBOW12UGpWbTdicUZEYWsx?=
+ =?utf-8?B?alQzSjJGa1FTeFZTbDNXSGpmRUpvYjJSejBaMlBrL2ROc1hGK2lXbVc4Nit6?=
+ =?utf-8?B?SjNBY09aZ1ZiSm5DR0xJcVpRRVVLdy9TYkcwbTVjRlV4a1dpcTVXUzUvMU1Q?=
+ =?utf-8?B?UkY3N1BRd28vOTB6ZFZIR3RzSWtycFNDMXRaTnJXQ25FbFdvZkVwWVlPeXpv?=
+ =?utf-8?B?NEt6aWRQcnZxQ2RCaWxBNXdqYk9yK1NCamllTEVTZjRmYnhTdXhyYXliamFB?=
+ =?utf-8?B?MUIvbTRPREVUZWtlem5HUUlPNmJBTlBVQzBUamIxdDF4L3FSLzhZNjZ0M0pP?=
+ =?utf-8?B?MTdVZTVFRUNLQnc4bElTUDcrVUxHZUZrV0RocW96TzdPMFVVRjRHajJEL0Jh?=
+ =?utf-8?B?bE1neGpsOVFKWTdTR3QwR1ZnVTNuTUFMWjFxZUttTFhHcGpFTWFsbFYzZDhJ?=
+ =?utf-8?B?M1hMem5odXU2QmlSQm1ZaDhwMGFQWE03Y2dWT3VLNExwVmdUUnNxcTZpclpU?=
+ =?utf-8?B?UnNIcGdXcU9mUXYxUEtEV2ZOWVNzWU5WMm54ZHJIa1VoUVNlNWpSekxVOHZN?=
+ =?utf-8?B?YXNpUXAzVmxLOUVVRjJVVzBLeGMwTzJ6K1Q1NmhNTUs1L1FpbUdBYi9zb0xo?=
+ =?utf-8?B?YUNaTElwUkJvdmtNc1BKTUlVN2szMFVadDd2SWdPazFDejIrd2pvVnErUWo4?=
+ =?utf-8?B?c0VKMXFXTjR0Y0lEQVFKTEpnSFRLQ05vZi9uUlg3dnBmUnFFTm5OcXpkWVBK?=
+ =?utf-8?B?Q1dma1Z0anlXbDVsYk9TQVIwc3gvQ3FJNWZFL3o5ZUJIekk3amJQV1hDYlNp?=
+ =?utf-8?B?VVptUUV0NDF1QVhROFZXNDBkSXUxWmFFNzZkeWgrSXlHNE1mTExPSVVGZHdC?=
+ =?utf-8?B?RzhDVGR6bVg2N2Y5NFNOcG5jNnp3K2haREl3SnN6OGd6QW5vbWFmNXh3Zy9o?=
+ =?utf-8?B?Z3cyMGU5QzN6bjNndXJGVlc1akNDNFpaWTBnL3NMek10a2xqbE95Tk1Lemxh?=
+ =?utf-8?B?T3BYL0VVTXVWclVDL3I2K0RpZzlWV0U3aU5FU1V3WEJlbGJ5SVRNeWlsRWFj?=
+ =?utf-8?B?Si9keU80TXRPdldEN29ETTl3ZXRva01mc1RNVkxIZ0RrWVFYNVJtL25XdUpi?=
+ =?utf-8?B?ZnNiQXBFVGtWc0lubU1NTTRqNnpycVNieGpPVWFYeWFEVzZsQ2JmRmJRRk15?=
+ =?utf-8?B?UzZ4YlZVaGMzZk01NTFIR3g2NkFYMmgvT0JvV2ZFMXpuclVXcHc5Y1JGYm9q?=
+ =?utf-8?B?MStyMmt0OGFYT0xVVU1MYTIwRmlSZ2NXRERjTEl4azVTTlB2dUhSakdqekV3?=
+ =?utf-8?B?YmJDa2I5VTY1T3dtRnRPWlg4RjFPdi9vcjVTMUxwN3VTZHBGd2F4c2ZGQnhx?=
+ =?utf-8?B?K1RxNndLbUpKR1FVeEcvNEtxRWt0emc4dFJlLzJlck5lSUJJUE9ETjVNUnhB?=
+ =?utf-8?B?TThlZ3E0Z3ZoRHRlOHZsdTh6Y3huelh6Sjd6dGhmZzJDanBud2NsQkhUMkto?=
+ =?utf-8?Q?o6jkNq5zjneN9L4CAXz75Jar/gSgFoUbtTnE4?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0D3E32CE8A646548844F9D8BE61A646C@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3055.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19bcd09f-00ab-4a01-0c06-08da4ddc30a2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2022 08:02:13.0260
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cJuNgnF+UupDYMv4oJBu2hWg5s1UwIhG89o9p/ZG/w99iMcxarfMFYwmrGmlmTuXLeqT9bUW6LiqVe1JquqUmCKBy3H38wy8TPxJw2T9dWs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5055
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,131 +171,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
-
-I tried to apply this patch series to the latest git://linuxtv.org/media_stage.git
-and it failed to apply. Can you rebase this series?
-
-Regards,
-
-	Hans
-
-On 6/14/22 09:49, Benjamin Gaignard wrote:
-> This series aims to make HEVC uapi stable and usable for hardware
-> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
-> and 2 out of the tree drivers (rkvdec and RPI).
-> 
-> version 7:
-> - Apply Jernej patches for Cedrus about bit offset definition and
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
-> 
-> version 6:
-> - Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
->   in v4l2_ctrl_hevc_decode_params structure.
-> - Change slice_pic_order_cnt type to s32 to match with PoC type.
-> - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
-> - Add a define for max slices count
-> - Stop using Hantro dedicated control.
-> 
-> This version has been tested with these branches:
-> - GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
-> - Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAPI_V6
-> 
-> With patches to decode 10-bits bitstream and produce P010 frames the Fluster score 
-> which was 77/147 before, is now 138/147.
-> The 10-bits series will comes after this because of it dependency to
-> uAPI change. If you are curious you can find the WIP branch here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HEVC_UAPI_V6
-> 
-> The 9 failing tests are:
-> - CONFWIN_A_Sony_1 which contains conformance_window_flag that isn't supported 
->   by the hardware (but visually ok aside a pixel shift).
-> - PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hardware.
-> - TSKIP_A_MS_3 is ok when testing alone but fail (corrupted lines on the
->   first frame) when running it after a couple of other tests.
-> - VPSSPSPPS_A_MainConcept_1 where there is an issue on gst parser side 
->   because of VPS/SPS/PPS ordering
-> - WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but some 
->   difference exist on 5 decoded frames. Some pixels values are no the same 
->   the very end of few lines.
-> 
-> version 6:
-> - Stop using Hantro dedicated control and compute the number
->   of bytes to skip inside the driver.
-> - Rebased on media_tree/master
-> 
-> version 5:
-> - Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
->   hevc_dpb_entry structure
-> - Add defines for SEI pic_struct values (patch 4)
-> - Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
-> - Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
->   documentation (patch 8)
-> - Rebased on v5-18-rc1
-> 
-> GStreamer H265 decoder plugin aligned with HEVC uAPI v5:
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
-> 
-> Version 4:
-> - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
-> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
-> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
-> - Fix space/tab issue in kernel-doc
-> - Add patch to change data_bit_offset definition
-> - Fix hantro-media SPDX license
-> - put controls under stateless section in v4l2-ctrls-defs.c
-> 
-> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
-> 
-> Benjamin Gaignard (14):
->   media: uapi: HEVC: Add missing fields in HEVC controls
->   media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
->     prefix
->   media: uapi: HEVC: Change pic_order_cnt definition in
->     v4l2_hevc_dpb_entry
->   media: uapi: HEVC: Add SEI pic struct flags
->   media: uapi: HEVC: Add documentation to uAPI structure
->   media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
->     dynamic array
->   media: uapi: Move parsed HEVC pixel format out of staging
->   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
->   media: uapi: Move the HEVC stateless control type out of staging
->   media: controls: Log HEVC stateless control in .std_log
->   media: hantro: Stop using Hantro dedicated control
->   media: uapi: HEVC: fix padding in v4l2 control structures
->   media: uapi: Change data_bit_offset definition
->   media: uapi: move HEVC stateless controls out of staging
-> 
-> Hans Verkuil (3):
->   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->   v4l2-ctrls: add support for dynamically allocated arrays.
->   vivid: add dynamic array test control
-> 
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
->  .../media/v4l/pixfmt-compressed.rst           |   7 +-
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
->  .../media/v4l/vidioc-queryctrl.rst            |   8 +
->  .../media/videodev2.h.rst.exceptions          |   5 +
->  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 206 +++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
->  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  62 +-
->  .../staging/media/hantro/hantro_g2_hevc_dec.c |  69 +-
->  drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
->  drivers/staging/media/hantro/hantro_hw.h      |   4 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  25 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
->  .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
->  include/media/hevc-ctrls.h                    | 250 -----
->  include/media/v4l2-ctrls.h                    |  48 +-
->  include/uapi/linux/v4l2-controls.h            | 458 +++++++++
->  include/uapi/linux/videodev2.h                |  13 +
->  24 files changed, 1848 insertions(+), 1220 deletions(-)
->  delete mode 100644 include/media/hevc-ctrls.h
-> 
+T24gVHVlLCAyMDIyLTA2LTA3IGF0IDE0OjQwICswMTAwLCBCcnlhbiBPJ0Rvbm9naHVlIHdyb3Rl
+Og0KPiBUaGUgU29ueSBJTVg1NzcgdXNlcyB0aGUgc2FtZSBzaWxpY29uIGVuYWJsaW5nIHJlZmVy
+ZW5jZSBjb2RlIGZyb20gU29ueSBpbg0KPiB0aGUgYXZhaWxhYmxlIGV4YW1wbGVzIHByb3ZpZGVk
+Lg0KPiANCj4gQWRkIGFuIGlteDU3NyBjb21wYXRpYmxlIHN0cmluZyBhbmQgcmUtdXNlIHRoZSBl
+eGlzdGluZyBpbXg0MTIgY29kZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEJyeWFuIE8nRG9ub2do
+dWUgPGJyeWFuLm9kb25vZ2h1ZUBsaW5hcm8ub3JnPg0KDQpJJ3ZlIHJlYWQgdGhlIGRpc2N1c3Np
+b24gZm9sbG93aW5nIHRoZSBjb3ZlciBsZXR0ZXIgYW5kIEkgYWxzbyB0ZW5kIHRvDQphZ3JlZSB0
+aGF0IHRoaXMgY2hhbmdlIG1ha2VzIHNlbnNlLCBhdCBsZWFzdCBmb3Igbm93Lg0KDQpJZiBpbiB0
+aGUgZnV0dXJlIHNvbWVib2R5IHdhbnRzIHRvIGFkZCBJTVg1Nzctc3BlY2lmaWMgZmVhdHVyZXMs
+IHRoZXkNCmNhbiBhbHdheXMgY3JlYXRlIGEgc2VwYXJhdGUgZHJpdmVyIGZvciBJTVg1NzcsIGlm
+IHRoYXQncyBwcmVmZXJhYmxlLg0KDQpSZXZpZXdlZC1ieTogRGFuaWVsZSBBbGVzc2FuZHJlbGxp
+IDxkYW5pZWxlLmFsZXNzYW5kcmVsbGlAaW50ZWwuY29tPg0KDQo+IC0tLQ0KPiDCoGRyaXZlcnMv
+bWVkaWEvaTJjL2lteDQxMi5jIHwgMSArDQo+IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9pMmMvaW14NDEyLmMgYi9kcml2
+ZXJzL21lZGlhL2kyYy9pbXg0MTIuYw0KPiBpbmRleCBhMTM5NGQ2YzE0MzIuLjNiNzAxMWFiMGE4
+ZiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9pMmMvaW14NDEyLmMNCj4gKysrIGIvZHJp
+dmVycy9tZWRpYS9pMmMvaW14NDEyLmMNCj4gQEAgLTEyODIsNiArMTI4Miw3IEBAIHN0YXRpYyBj
+b25zdCBzdHJ1Y3QgZGV2X3BtX29wcyBpbXg0MTJfcG1fb3BzID0gew0KPiDCoA0KPiDCoHN0YXRp
+YyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIGlteDQxMl9vZl9tYXRjaFtdID0gew0KPiDCoMKg
+wqDCoMKgwqDCoMKgeyAuY29tcGF0aWJsZSA9ICJzb255LGlteDQxMiIgfSwNCj4gK8KgwqDCoMKg
+wqDCoMKgeyAuY29tcGF0aWJsZSA9ICJzb255LGlteDU3NyIgfSwNCj4gwqDCoMKgwqDCoMKgwqDC
+oHsgfQ0KPiDCoH07DQo+IMKgDQoNCg==
