@@ -2,81 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C007D54B863
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 20:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EC8754BA22
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 21:11:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239478AbiFNSQJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 14:16:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38022 "EHLO
+        id S1344835AbiFNTLw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 15:11:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231262AbiFNSQI (ORCPT
+        with ESMTP id S233902AbiFNTLv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 14:16:08 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F05619F80
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 11:16:04 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id d23so7056486qke.0
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 11:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=IUZbp7PiXUU7CAVpO1jooUP9RPiupsus4DCsHt1x4pQ=;
-        b=GVcOu+R24+27b2NOvitiVm0BFB8m/d5jTlFrMXfoUi7v9rt8nF0E2q0h9wUTAiiNqL
-         0dOB9sUXKyM0KWkVvc1bLRbT+961TQS0GbEGUMR0YGhhtAnUHWh7SgKaU8H5D/WOw8Ik
-         kQVot4N1MIEvbRmr+TER8hR+dyhNLMzo/wAy4KqSibgLRZ12kyTdDUvVynQ+q9Et3sXJ
-         KYwRZ3CWARS/lM6FUYw1ZReTAYgotqGiLV5I9b1DU9WZmol83vnmF7+66YxUiG3p7AJh
-         UyIActoNb1Aa6Nk+ElpIqwIJ+vtaj0p4ApTGcXhfvGgGcu7l/oIrN6JB9zdXPQFK0N2E
-         AtDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=IUZbp7PiXUU7CAVpO1jooUP9RPiupsus4DCsHt1x4pQ=;
-        b=aJADyRl7bSyGXHnhJJMykIJOwpqVygncImBIDCQTvFG2IBkbX4keViD+XDMxMg8Ryb
-         6/lkJuilvNzTxGJ6oprM7W8krPQe/1PU08VfXf/KGAM9lzROcPBGLkv7uZv/yPa91Yvh
-         FM93O/KDRDeJg1PXXtZKAkbGcXi49aopVuGjwX/ZKUdQ+r2L0NSY66c4MCuTq1b0+QV3
-         N8sKxMI/XbDo7d2Bo7PCF31+dRbs5gPjL3fdvfbglsO0seLLkF54l04bGdkjzpeI7PTT
-         UJyjLsnz41cNDCb+vDfoadhboqSqQVOGxg6WZ94pDGBxmHpgem+gTOkK/b/iYN9SI0/+
-         mnKA==
-X-Gm-Message-State: AOAM533iK0n2kiKCD0YhVsMinjVagRuy7UTUlPR8iPWKsomse4X0GuFK
-        jJYwih2/4klAsWMDQQPwFElxUQ==
-X-Google-Smtp-Source: ABdhPJyspk1OooBvKaZDZNbDRmfj2xD5SU/mh9sKS0Jw8BTrNURhDW6qUdVc4ix3LNjCyOrp5xwfbA==
-X-Received: by 2002:a05:620a:28d6:b0:6a7:7a8d:4840 with SMTP id l22-20020a05620a28d600b006a77a8d4840mr4912308qkp.500.1655230563578;
-        Tue, 14 Jun 2022 11:16:03 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id r11-20020a37a80b000000b006a6ab259261sm9371251qke.29.2022.06.14.11.16.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 11:16:03 -0700 (PDT)
-Message-ID: <9fef91917df081bd94e4b8e7e76b441264ad073c.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: mediatek: vcodec: fix minmax.cocci warning
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Guo Zhengkui <guozhengkui@vivo.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Haowen Bai <baihaowen@meizu.com>,
-        George Sun <george.sun@mediatek.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Cc:     zhengkui_guo@outlook.com
-Date:   Tue, 14 Jun 2022 14:16:01 -0400
-In-Reply-To: <20220614072618.26925-1-guozhengkui@vivo.com>
-References: <20220614072618.26925-1-guozhengkui@vivo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+        Tue, 14 Jun 2022 15:11:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34946205CF
+        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 12:11:49 -0700 (PDT)
+Received: from pyrite.rasen.tech (softbank036240126034.bbtec.net [36.240.126.34])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C536A825;
+        Tue, 14 Jun 2022 21:11:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1655233906;
+        bh=POQJwgYWm/OjgPbqYJOxvoM/PSkiBCRnOT4Lwh/HHu0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TUv2Mcxd2gX3QNOg9IlpPeEa/P0Ye/+YmfJM83mzh1Xsjt9dJ75mrpVG49J8iFODG
+         Wsb4OQBC7biyVBL720Oznu6908Wv+gX2aswUW5J3CNUc9G4wmCmaYgcz8ECaOzNWn3
+         KE9StINUmf6vp/oZrc8a1qarknE2YSjdjurC29mQ=
+From:   Paul Elder <paul.elder@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Paul Elder <paul.elder@ideasonboard.com>, dafna@fastmail.com,
+        heiko@sntech.de, laurent.pinchart@ideasonboard.com,
+        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
+        djrscally@gmail.com, helen.koike@collabora.com,
+        linux-rockchip@lists.infradead.org
+Subject: [PATCH 00/55] media: rkisp1: Cleanups and add support for i.MX8MP
+Date:   Wed, 15 Jun 2022 04:10:32 +0900
+Message-Id: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,36 +47,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 14 juin 2022 =C3=A0 15:25 +0800, Guo Zhengkui a =C3=A9crit=C2=A0:
-> Fix the following coccicheck warning:
->=20
-> drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:
-> 694:15-16: WARNING opportunity for min().
->=20
-> Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
+Hello,
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+This series depends on v4 of "media: rkisp1: Misc bug fixes and cleanups" [1].
 
-> ---
->  .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c   | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat=
-_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> index f464af190d8c..81de876d5126 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> @@ -691,7 +691,7 @@ static int vdec_vp9_slice_tile_offset(int idx, int mi=
-_num, int tile_log2)
->  	int sbs =3D (mi_num + 7) >> 3;
->  	int offset =3D ((idx * sbs) >> tile_log2) << 3;
-> =20
-> -	return offset < mi_num ? offset : mi_num;
-> +	return min(offset, mi_num);
->  }
-> =20
->  static
+The ISP integrated in the i.MX8MP is nearly the same as the rkisp1, and
+so we can reuse the rkisp1 driver for it.
 
-regards,
-Nicolas
+This series does some cleanup and refactoring of the rkisp1 driver,
+(patches 1/55 to 46/55), and then adds support for the i.MX8MP (patches
+47/55 to 55/55).
+
+
+Paul
+
+[1] https://lore.kernel.org/linux-media/Ymbxs2p9Tuf331qM@pendragon.ideasonboard.com/T/
+
+Laurent Pinchart (38):
+  media: rkisp1: Enable compilation on ARCH_MXC
+  media: rkisp1: Disable runtime PM in probe error path
+  media: rkisp1: Read the ID register at probe time instead of streamon
+  media: rkisp1: Rename rkisp1_match_data to rkisp1_info
+  media: rkisp1: Access ISP version from info pointer
+  media: rkisp1: cap: Print debug message on failed link validation
+  media: rkisp1: Move sensor .s_stream() call to ISP
+  media: rkisp1: Reject sensors without pixel rate control at bound time
+  media: rkisp1: Create link from sensor to ISP at notifier bound time
+  media: rkisp1: Create internal links at probe time
+  media: rkisp1: Rename rkisp1_subdev_notifier() to
+    rkisp1_subdev_notifier_register()
+  media: v4l2-async: Add notifier operation to destroy asd instances
+  media: rkisp1: Fix sensor source pad retrieval at bound time
+  media: rkisp1: isp: Start CSI-2 receiver before ISP
+  media: rkisp1: csi: Handle CSI-2 RX configuration fully in
+    rkisp1-csi.c
+  media: rkisp1: csi: Rename CSI functions with a common rkisp1_csi
+    prefix
+  media: rkisp1: csi: Move start delay to rkisp1_csi_start()
+  media: rkisp1: csi: Pass sensor pointer to rkisp1_csi_config()
+  media: rkisp1: csi: Constify argument to rkisp1_csi_start()
+  media: rkisp1: isp: Don't initialize ret to 0 in rkisp1_isp_s_stream()
+  media: rkisp1: isp: Pass mbus type and flags to rkisp1_config_cif()
+  media: rkisp1: isp: Rename rkisp1_device.active_sensor to source
+  media: rkisp1: isp: Add container_of wrapper to cast subdev to
+    rkisp1_isp
+  media: rkisp1: isp: Add rkisp1_device backpointer to rkisp1_isp
+  media: rkisp1: isp: Pass rkisp1_isp pointer to internal ISP functions
+  media: rkisp1: isp: Move input configuration to rkisp1_config_isp()
+  media: rkisp1: isp: Merge ISP_ACQ_PROP configuration in single
+    variable
+  media: rkisp1: isp: Initialize some variables at declaration time
+  media: rkisp1: isp: Fix whitespace issues
+  media: rkisp1: isp: Constify various local variables
+  media: rkisp1: isp: Rename rkisp1_get_remote_source()
+  media: mc-entity: Add a new helper function to get a remote pad
+  media: mc-entity: Add a new helper function to get a remote pad for a
+    pad
+  media: rkisp1: isp: Disallow multiple active sources
+  media: rkisp1: csi: Plumb the CSI RX subdev
+  media: rkisp1: Add infrastructure to support ISP features
+  media: rkisp1: Make the internal CSI-2 receiver optional
+  media: rkisp1: Configure gasket on i.MX8MP
+
+Paul Elder (17):
+  media: rkisp1: debug: Add dump file in debugfs for MI buffer registers
+  media: rkisp1: debug: Add debugfs files to monitor MI and ISP
+    interrupts
+  media: rkisp1: Save info pointer in rkisp1_device
+  media: rkisp1: Make rkisp1_isp_mbus_info common
+  media: rkisp1: Split CSI handling to separate file
+  media: rkisp1: csi: Implement a V4L2 subdev for the CSI receiver
+  media: rkisp1: Use fwnode_graph_for_each_endpoint
+  dt-bindings: media: rkisp1: Add port for parallel interface
+  media: rkisp1: Support the ISP parallel input
+  dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
+  media: rkisp1: Add match data for i.MX8MP ISP
+  media: rkisp1: Add and set registers for crop for i.MX8MP
+  media: rkisp1: Add and set registers for output size config on i.MX8MP
+  media: rkisp1: Add i.MX8MP-specific registers for MI and resizer
+  media: rkisp1: Shift DMA buffer addresses on i.MX8MP
+  media: rkisp1: Add register definitions for the test pattern generator
+  media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
+
+ .../bindings/media/rockchip-isp1.yaml         |  30 +-
+ Documentation/driver-api/media/mc-core.rst    |   4 +-
+ .../driver-api/media/v4l2-subdev.rst          |   6 +
+ drivers/media/mc/mc-entity.c                  |  69 ++
+ .../media/platform/rockchip/rkisp1/Kconfig    |   2 +-
+ .../media/platform/rockchip/rkisp1/Makefile   |   1 +
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |  49 +-
+ .../platform/rockchip/rkisp1/rkisp1-common.c  | 148 ++++
+ .../platform/rockchip/rkisp1/rkisp1-common.h  | 130 +++-
+ .../platform/rockchip/rkisp1/rkisp1-csi.c     | 525 ++++++++++++++
+ .../platform/rockchip/rkisp1/rkisp1-csi.h     |  28 +
+ .../platform/rockchip/rkisp1/rkisp1-debug.c   |  55 +-
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     | 440 +++++++-----
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 679 +++++++-----------
+ .../platform/rockchip/rkisp1/rkisp1-params.c  |   2 +-
+ .../platform/rockchip/rkisp1/rkisp1-regs.h    |  87 +++
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c |  43 +-
+ .../platform/rockchip/rkisp1/rkisp1-stats.c   |   4 +-
+ drivers/media/v4l2-core/v4l2-async.c          |  10 +
+ include/media/media-entity.h                  |  63 ++
+ include/media/v4l2-async.h                    |   2 +
+ include/uapi/linux/rkisp1-config.h            |   3 +
+ 22 files changed, 1735 insertions(+), 645 deletions(-)
+ create mode 100644 drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
+
+-- 
+2.30.2
 
