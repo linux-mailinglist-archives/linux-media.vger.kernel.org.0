@@ -2,321 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8364E54A932
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 08:05:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB8BB54A9D3
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 08:54:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238746AbiFNGFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 02:05:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38824 "EHLO
+        id S1352602AbiFNGxU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 02:53:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237177AbiFNGFO (ORCPT
+        with ESMTP id S1352601AbiFNGxN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 02:05:14 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C74B22ED40;
-        Mon, 13 Jun 2022 23:05:12 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41CDE825;
-        Tue, 14 Jun 2022 08:05:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655186710;
-        bh=QYptlfnk0VxCl07UM6skKbaz0LAnWtEY0VKHc61nOD4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sKBij5WMadmOImZ/7LBa13X/J95QzOHIJpvLDtBRy3EHHydbUemAuTsfczfrkJxrL
-         zI3exFbwP7tBYBko4QxP29t6wWcQ23IdkFwo+XNX6I1EosPnacZyqMYDtTdCxEMHbo
-         Uy5oFvlscgKF9ShDnQconUg31tay0SPo59TwKaUw=
-Date:   Tue, 14 Jun 2022 09:05:01 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Xiu Jianfeng <xiujianfeng@huawei.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, sakari.ailus@linux.intel.com,
-        arnd@arndb.de, ribalda@chromium.org, andrzej.p@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] media: v4l: Use memset_after() helper
-Message-ID: <YqglDSzN7bx+mMkx@pendragon.ideasonboard.com>
-References: <20220613130845.89220-1-xiujianfeng@huawei.com>
+        Tue, 14 Jun 2022 02:53:13 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8D039830;
+        Mon, 13 Jun 2022 23:53:11 -0700 (PDT)
+X-UUID: 3c5491eef1c94249be75c28a48a26605-20220614
+X-CID-UNFAMILIAR: 1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6,REQID:96fbbba5-b4af-4626-88d0-4e00f84d22f1,OB:10,L
+        OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,
+        ACTION:release,TS:100
+X-CID-INFO: VERSION:1.1.6,REQID:96fbbba5-b4af-4626-88d0-4e00f84d22f1,OB:10,LOB
+        :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,
+        ACTION:quarantine,TS:100
+X-CID-META: VersionHash:b14ad71,CLOUDID:7e178607-b57a-4a25-a071-bc7b4972bc68,C
+        OID:5ec219501881,Recheck:0,SF:28|16|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 3c5491eef1c94249be75c28a48a26605-20220614
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+        (envelope-from <mingjia.zhang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1179339351; Tue, 14 Jun 2022 14:53:06 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 14 Jun 2022 14:53:04 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 14 Jun 2022 14:53:02 +0800
+From:   Mingjia Zhang <mingjia.zhang@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH] media: mediatek: vcodec: Add to support VP9 inner racing mode
+Date:   Tue, 14 Jun 2022 14:52:19 +0800
+Message-ID: <20220614065219.29712-1-mingjia.zhang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220613130845.89220-1-xiujianfeng@huawei.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xiu,
+From: mingjia zhang <mingjia.zhang@mediatek.com>
 
-Thank you for the patch.
+In order to reduce decoder latency, enable VP9 inner racing mode.
+Send lat trans buffer information to core when trigger lat to work,
+need not to wait until lat decode done.
 
-On Mon, Jun 13, 2022 at 09:08:45PM +0800, Xiu Jianfeng wrote:
-> The CLEAR_AFTER_FIELD defined here is functionally the same as
-> memset_after() helper, so replace it with memset_after() to simplify the
-> code, no functional change in this patch.
-> 
-> Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+Signed-off-by: mingjia zhang <mingjia.zhang@mediatek.com>
+---
+ .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 64 ++++++++++++-------
+ 1 file changed, 40 insertions(+), 24 deletions(-)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 84 +++++++++++++---------------
->  1 file changed, 39 insertions(+), 45 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 21470de62d72..417e939a2b2f 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -31,12 +31,6 @@
->  
->  #include <trace/events/v4l2.h>
->  
-> -/* Zero out the end of the struct pointed to by p.  Everything after, but
-> - * not including, the specified field is cleared. */
-> -#define CLEAR_AFTER_FIELD(p, field) \
-> -	memset((u8 *)(p) + offsetof(typeof(*(p)), field) + sizeof((p)->field), \
-> -	0, sizeof(*(p)) - offsetof(typeof(*(p)), field) - sizeof((p)->field))
-> -
->  #define is_valid_ioctl(vfd, cmd) test_bit(_IOC_NR(cmd), (vfd)->valid_ioctls)
->  
->  struct std_descr {
-> @@ -1481,7 +1475,7 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
->  		p->mbus_code = 0;
->  
->  	mbus_code = p->mbus_code;
-> -	CLEAR_AFTER_FIELD(p, type);
-> +	memset_after(p, 0, type);
->  	p->mbus_code = mbus_code;
->  
->  	switch (p->type) {
-> @@ -1656,7 +1650,7 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->  		if (unlikely(!ops->vidioc_s_fmt_vid_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.pix);
-> +		memset_after(p, 0, fmt.pix);
->  		ret = ops->vidioc_s_fmt_vid_cap(file, fh, arg);
->  		/* just in case the driver zeroed it again */
->  		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
-> @@ -1666,30 +1660,30 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
->  		if (unlikely(!ops->vidioc_s_fmt_vid_cap_mplane))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
-> +		memset_after(p, 0, fmt.pix_mp.xfer_func);
->  		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
-> -			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
-> -					  bytesperline);
-> +			memset_after(&p->fmt.pix_mp.plane_fmt[i],
-> +				     0, bytesperline);
->  		return ops->vidioc_s_fmt_vid_cap_mplane(file, fh, arg);
->  	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
->  		if (unlikely(!ops->vidioc_s_fmt_vid_overlay))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.win);
-> +		memset_after(p, 0, fmt.win);
->  		return ops->vidioc_s_fmt_vid_overlay(file, fh, arg);
->  	case V4L2_BUF_TYPE_VBI_CAPTURE:
->  		if (unlikely(!ops->vidioc_s_fmt_vbi_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.vbi.flags);
-> +		memset_after(p, 0, fmt.vbi.flags);
->  		return ops->vidioc_s_fmt_vbi_cap(file, fh, arg);
->  	case V4L2_BUF_TYPE_SLICED_VBI_CAPTURE:
->  		if (unlikely(!ops->vidioc_s_fmt_sliced_vbi_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.sliced.io_size);
-> +		memset_after(p, 0, fmt.sliced.io_size);
->  		return ops->vidioc_s_fmt_sliced_vbi_cap(file, fh, arg);
->  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
->  		if (unlikely(!ops->vidioc_s_fmt_vid_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.pix);
-> +		memset_after(p, 0, fmt.pix);
->  		ret = ops->vidioc_s_fmt_vid_out(file, fh, arg);
->  		/* just in case the driver zeroed it again */
->  		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
-> @@ -1697,45 +1691,45 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
->  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
->  		if (unlikely(!ops->vidioc_s_fmt_vid_out_mplane))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
-> +		memset_after(p, 0, fmt.pix_mp.xfer_func);
->  		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
-> -			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
-> -					  bytesperline);
-> +			memset_after(&p->fmt.pix_mp.plane_fmt[i],
-> +				     0, bytesperline);
->  		return ops->vidioc_s_fmt_vid_out_mplane(file, fh, arg);
->  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY:
->  		if (unlikely(!ops->vidioc_s_fmt_vid_out_overlay))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.win);
-> +		memset_after(p, 0, fmt.win);
->  		return ops->vidioc_s_fmt_vid_out_overlay(file, fh, arg);
->  	case V4L2_BUF_TYPE_VBI_OUTPUT:
->  		if (unlikely(!ops->vidioc_s_fmt_vbi_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.vbi.flags);
-> +		memset_after(p, 0, fmt.vbi.flags);
->  		return ops->vidioc_s_fmt_vbi_out(file, fh, arg);
->  	case V4L2_BUF_TYPE_SLICED_VBI_OUTPUT:
->  		if (unlikely(!ops->vidioc_s_fmt_sliced_vbi_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.sliced.io_size);
-> +		memset_after(p, 0, fmt.sliced.io_size);
->  		return ops->vidioc_s_fmt_sliced_vbi_out(file, fh, arg);
->  	case V4L2_BUF_TYPE_SDR_CAPTURE:
->  		if (unlikely(!ops->vidioc_s_fmt_sdr_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.sdr.buffersize);
-> +		memset_after(p, 0, fmt.sdr.buffersize);
->  		return ops->vidioc_s_fmt_sdr_cap(file, fh, arg);
->  	case V4L2_BUF_TYPE_SDR_OUTPUT:
->  		if (unlikely(!ops->vidioc_s_fmt_sdr_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.sdr.buffersize);
-> +		memset_after(p, 0, fmt.sdr.buffersize);
->  		return ops->vidioc_s_fmt_sdr_out(file, fh, arg);
->  	case V4L2_BUF_TYPE_META_CAPTURE:
->  		if (unlikely(!ops->vidioc_s_fmt_meta_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.meta);
-> +		memset_after(p, 0, fmt.meta);
->  		return ops->vidioc_s_fmt_meta_cap(file, fh, arg);
->  	case V4L2_BUF_TYPE_META_OUTPUT:
->  		if (unlikely(!ops->vidioc_s_fmt_meta_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.meta);
-> +		memset_after(p, 0, fmt.meta);
->  		return ops->vidioc_s_fmt_meta_out(file, fh, arg);
->  	}
->  	return -EINVAL;
-> @@ -1758,7 +1752,7 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->  		if (unlikely(!ops->vidioc_try_fmt_vid_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.pix);
-> +		memset_after(p, 0, fmt.pix);
->  		ret = ops->vidioc_try_fmt_vid_cap(file, fh, arg);
->  		/* just in case the driver zeroed it again */
->  		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
-> @@ -1768,30 +1762,30 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
->  		if (unlikely(!ops->vidioc_try_fmt_vid_cap_mplane))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
-> +		memset_after(p, 0, fmt.pix_mp.xfer_func);
->  		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
-> -			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
-> -					  bytesperline);
-> +			memset_after(&p->fmt.pix_mp.plane_fmt[i],
-> +				     0, bytesperline);
->  		return ops->vidioc_try_fmt_vid_cap_mplane(file, fh, arg);
->  	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
->  		if (unlikely(!ops->vidioc_try_fmt_vid_overlay))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.win);
-> +		memset_after(p, 0, fmt.win);
->  		return ops->vidioc_try_fmt_vid_overlay(file, fh, arg);
->  	case V4L2_BUF_TYPE_VBI_CAPTURE:
->  		if (unlikely(!ops->vidioc_try_fmt_vbi_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.vbi.flags);
-> +		memset_after(p, 0, fmt.vbi.flags);
->  		return ops->vidioc_try_fmt_vbi_cap(file, fh, arg);
->  	case V4L2_BUF_TYPE_SLICED_VBI_CAPTURE:
->  		if (unlikely(!ops->vidioc_try_fmt_sliced_vbi_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.sliced.io_size);
-> +		memset_after(p, 0, fmt.sliced.io_size);
->  		return ops->vidioc_try_fmt_sliced_vbi_cap(file, fh, arg);
->  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
->  		if (unlikely(!ops->vidioc_try_fmt_vid_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.pix);
-> +		memset_after(p, 0, fmt.pix);
->  		ret = ops->vidioc_try_fmt_vid_out(file, fh, arg);
->  		/* just in case the driver zeroed it again */
->  		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
-> @@ -1799,45 +1793,45 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
->  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
->  		if (unlikely(!ops->vidioc_try_fmt_vid_out_mplane))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
-> +		memset_after(p, 0, fmt.pix_mp.xfer_func);
->  		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
-> -			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
-> -					  bytesperline);
-> +			memset_after(&p->fmt.pix_mp.plane_fmt[i],
-> +				     0, bytesperline);
->  		return ops->vidioc_try_fmt_vid_out_mplane(file, fh, arg);
->  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY:
->  		if (unlikely(!ops->vidioc_try_fmt_vid_out_overlay))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.win);
-> +		memset_after(p, 0, fmt.win);
->  		return ops->vidioc_try_fmt_vid_out_overlay(file, fh, arg);
->  	case V4L2_BUF_TYPE_VBI_OUTPUT:
->  		if (unlikely(!ops->vidioc_try_fmt_vbi_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.vbi.flags);
-> +		memset_after(p, 0, fmt.vbi.flags);
->  		return ops->vidioc_try_fmt_vbi_out(file, fh, arg);
->  	case V4L2_BUF_TYPE_SLICED_VBI_OUTPUT:
->  		if (unlikely(!ops->vidioc_try_fmt_sliced_vbi_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.sliced.io_size);
-> +		memset_after(p, 0, fmt.sliced.io_size);
->  		return ops->vidioc_try_fmt_sliced_vbi_out(file, fh, arg);
->  	case V4L2_BUF_TYPE_SDR_CAPTURE:
->  		if (unlikely(!ops->vidioc_try_fmt_sdr_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.sdr.buffersize);
-> +		memset_after(p, 0, fmt.sdr.buffersize);
->  		return ops->vidioc_try_fmt_sdr_cap(file, fh, arg);
->  	case V4L2_BUF_TYPE_SDR_OUTPUT:
->  		if (unlikely(!ops->vidioc_try_fmt_sdr_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.sdr.buffersize);
-> +		memset_after(p, 0, fmt.sdr.buffersize);
->  		return ops->vidioc_try_fmt_sdr_out(file, fh, arg);
->  	case V4L2_BUF_TYPE_META_CAPTURE:
->  		if (unlikely(!ops->vidioc_try_fmt_meta_cap))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.meta);
-> +		memset_after(p, 0, fmt.meta);
->  		return ops->vidioc_try_fmt_meta_cap(file, fh, arg);
->  	case V4L2_BUF_TYPE_META_OUTPUT:
->  		if (unlikely(!ops->vidioc_try_fmt_meta_out))
->  			break;
-> -		CLEAR_AFTER_FIELD(p, fmt.meta);
-> +		memset_after(p, 0, fmt.meta);
->  		return ops->vidioc_try_fmt_meta_out(file, fh, arg);
->  	}
->  	return -EINVAL;
-> @@ -2036,7 +2030,7 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
->  	if (ret)
->  		return ret;
->  
-> -	CLEAR_AFTER_FIELD(p, flags);
-> +	memset_after(p, 0, flags);
->  
->  	return ops->vidioc_reqbufs(file, fh, p);
->  }
-> @@ -2077,7 +2071,7 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
->  	if (ret)
->  		return ret;
->  
-> -	CLEAR_AFTER_FIELD(create, flags);
-> +	memset_after(create, 0, flags);
->  
->  	v4l_sanitize_format(&create->format);
->  
-
+diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+index fba06f321baa..35462d45fbf4 100644
+--- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
++++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+@@ -436,6 +436,7 @@ struct vdec_vp9_slice_ref {
+  * @frame_ctx:		4 frame context according to VP9 Spec
+  * @frame_ctx_helper:	4 frame context according to newest kernel spec
+  * @dirty:		state of each frame context
++ * @local_vsi:		local instance vsi information
+  * @init_vsi:		vsi used for initialized VP9 instance
+  * @vsi:		vsi used for decoding/flush ...
+  * @core_vsi:		vsi used for Core stage
+@@ -482,6 +483,8 @@ struct vdec_vp9_slice_instance {
+ 	struct v4l2_vp9_frame_context frame_ctx_helper;
+ 	unsigned char dirty[4];
+ 
++	struct vdec_vp9_slice_vsi local_vsi;
++
+ 	/* MicroP vsi */
+ 	union {
+ 		struct vdec_vp9_slice_init_vsi *init_vsi;
+@@ -1617,16 +1620,10 @@ static int vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance
+ }
+ 
+ static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance *instance,
+-				     struct vdec_lat_buf *lat_buf,
+-				     struct vdec_vp9_slice_pfc *pfc)
++				     struct vdec_vp9_slice_vsi *vsi)
+ {
+-	struct vdec_vp9_slice_vsi *vsi;
+-
+-	vsi = &pfc->vsi;
+-	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
+-
+ 	mtk_vcodec_debug(instance, "Frame %u LAT CRC 0x%08x %lx %lx\n",
+-			 pfc->seq, vsi->state.crc[0],
++			 (instance->seq - 1), vsi->state.crc[0],
+ 			 (unsigned long)vsi->trans.dma_addr,
+ 			 (unsigned long)vsi->trans.dma_addr_end);
+ 
+@@ -2091,6 +2088,13 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+ 		return ret;
+ 	}
+ 
++	if (IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability)) {
++		vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
++		memcpy(&instance->local_vsi, vsi, sizeof(*vsi));
++		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
++		vsi = &instance->local_vsi;
++	}
++
+ 	if (instance->irq) {
+ 		ret = mtk_vcodec_wait_for_done_ctx(ctx,	MTK_INST_IRQ_RECEIVED,
+ 						   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
+@@ -2103,22 +2107,25 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+ 	}
+ 
+ 	vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
+-	ret = vdec_vp9_slice_update_lat(instance, lat_buf, pfc);
++	ret = vdec_vp9_slice_update_lat(instance, vsi);
+ 
+-	/* LAT trans full, no more UBE or decode timeout */
+-	if (ret) {
+-		mtk_vcodec_err(instance, "VP9 decode error: %d\n", ret);
+-		return ret;
+-	}
++	if (!IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
++		/* LAT trans full, no more UBE or decode timeout */
++		if (ret) {
++			mtk_vcodec_err(instance, "frame[%d] decode error: %d\n",
++				       ret, (instance->seq - 1));
++			return ret;
++		}
+ 
+-	mtk_vcodec_debug(instance, "lat dma addr: 0x%lx 0x%lx\n",
+-			 (unsigned long)pfc->vsi.trans.dma_addr,
+-			 (unsigned long)pfc->vsi.trans.dma_addr_end);
+ 
+-	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
+-				       vsi->trans.dma_addr_end +
+-				       ctx->msg_queue.wdma_addr.dma_addr);
+-	vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
++	vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
++	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi->trans.dma_addr_end);
++	if (!IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
++		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
++
++	mtk_vcodec_debug(instance, "lat trans end addr(0x%lx), ube start addr(0x%lx)\n",
++			 (unsigned long)vsi->trans.dma_addr_end,
++			 (unsigned long)ctx->msg_queue.wdma_addr.dma_addr);
+ 
+ 	return 0;
+ }
+@@ -2194,10 +2201,14 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
+ 		goto err;
+ 	}
+ 
+-	pfc->vsi.trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
+ 	mtk_vcodec_debug(instance, "core dma_addr_end 0x%lx\n",
+ 			 (unsigned long)pfc->vsi.trans.dma_addr_end);
+-	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
++
++	if (IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
++		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr);
++	else
++		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
++
+ 	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
+ 
+ 	return 0;
+@@ -2205,7 +2216,12 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
+ err:
+ 	if (ctx && pfc) {
+ 		/* always update read pointer */
+-		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
++		if (IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
++			vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
++						       pfc->vsi.trans.dma_addr);
++		else
++			vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
++						       pfc->vsi.trans.dma_addr_end);
+ 
+ 		if (fb)
+ 			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
 -- 
-Regards,
+2.18.0
 
-Laurent Pinchart
