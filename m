@@ -2,124 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00ED354BB2A
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 22:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0375B54BC14
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 22:49:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357971AbiFNUUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 16:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39258 "EHLO
+        id S234626AbiFNUqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 16:46:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358064AbiFNUUe (ORCPT
+        with ESMTP id S229585AbiFNUqi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 16:20:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5D7BB485;
-        Tue, 14 Jun 2022 13:20:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 46B3761560;
-        Tue, 14 Jun 2022 20:20:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA9B1C3411E;
-        Tue, 14 Jun 2022 20:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655238031;
-        bh=/YZ/vfdY+LpkLwFedw1kInlGS37UJrgkhllxkJRhf6Y=;
+        Tue, 14 Jun 2022 16:46:38 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9C42F381;
+        Tue, 14 Jun 2022 13:46:33 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 121C22E4;
+        Tue, 14 Jun 2022 22:46:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1655239590;
+        bh=wX2gQgJTWQQOF5Wrys2HrbI2KH7mSvT/4W+QO54dYbM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c72bZ+oCNYTvdU0AwQSmlyiTkpM10TAEYMAsZ3JElFrOEGXaMiEWfqn/XXVHWRX9B
-         YiEkV1PUhV8d1tOvMOXuBtfqR78WZH5HWVIP38H13X52lc8LJzFI8nyYd0bv4ZKyw8
-         E0ReS0tedlRIKuTWEHcbnQpXhMhOms9jwRWHDNUXkYrBMez5+akYdBkmrdj0zTbeVm
-         5IeMUNZKH19mqoaRSPVCDm46iUlL7+/SiZMl9Gc5DaOhxs+QKvFgj5HX9FczzshjKg
-         D0HKkHk6FZIA29okuu+DtStfoWifXSKs56G26KXH4aqU4PHWJvBKFS3l6muGeWHt58
-         T+Xe7OO7Rxa7A==
-Date:   Tue, 14 Jun 2022 22:20:27 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        matti.lehtimaki@gmail.com
-Subject: Re: [RFC PATCH 10/14] i2c: qcom-cci: add msm8974 compatible
-Message-ID: <Yqjti8s06LIfTE52@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Luca Weiss <luca@z3ntu.xyz>, linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        matti.lehtimaki@gmail.com
-References: <20220522162802.208275-1-luca@z3ntu.xyz>
- <20220522162802.208275-11-luca@z3ntu.xyz>
+        b=sjgpR95qxzLVHR4Ju8xqJeTJl7+/3w+4Wwqg0CD84XpN5TzKdF3nwSZkqg30HD37L
+         8ND6JdLRhzRCx2CTb+LPbJ0dZC8IfbF1FUuUwzVcKjMTuPudJh1FH0wog6eDsZod1L
+         g8nT2xIyAiiVt0Juc4IKw5hu4oQA8PdbTiS/sB+o=
+Date:   Tue, 14 Jun 2022 23:46:20 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        stanimir.varbanov@linaro.org, tomi.valkeinen@ideasonboard.com,
+        robh+dt@kernel.org, nicolas@ndufresne.ca,
+        alexander.stein@ew.tq-group.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 1/9] videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+Message-ID: <YqjznJSwPFH4GrhO@pendragon.ideasonboard.com>
+References: <20220503093925.876640-1-xavier.roumegue@oss.nxp.com>
+ <20220503093925.876640-2-xavier.roumegue@oss.nxp.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="QLG4RjiqBen7yn3N"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220522162802.208275-11-luca@z3ntu.xyz>
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220503093925.876640-2-xavier.roumegue@oss.nxp.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Xavier and Hans,
 
---QLG4RjiqBen7yn3N
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch.
 
-On Sun, May 22, 2022 at 06:27:58PM +0200, Luca Weiss wrote:
-> From: Matti Lehtim=C3=A4ki <matti.lehtimaki@gmail.com>
->=20
-> MSM8974 CCI is the same as MSM8916 except it has two masters.
->=20
-> Signed-off-by: Matti Lehtim=C3=A4ki <matti.lehtimaki@gmail.com>
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+On Tue, May 03, 2022 at 11:39:17AM +0200, Xavier Roumegue wrote:
+> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+> Add a new flag that indicates that this control is a dynamically sized
+> array. Also document this flag.
+> 
+> Currently dynamically sized arrays are limited to one dimensional arrays,
+> but that might change in the future if there is a need for it.
+> 
+> The initial use-case of dynamic arrays are stateless codecs. A frame
+> can be divided in many slices, so you want to provide an array containing
+> slice information for each slice. Typically the number of slices is small,
+> but the standard allow for hundreds or thousands of slices. Dynamic arrays
+> are a good solution since sizing the array for the worst case would waste
+> substantial amounts of memory.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
-> To note, the cci_v1_5_data variable name is just a bit arbitrary and
-> isn't meant to reflect IP version "1.5". I'd be happy to change the
-> variable name to something else.
+>  .../userspace-api/media/v4l/vidioc-queryctrl.rst          | 8 ++++++++
+>  include/uapi/linux/videodev2.h                            | 1 +
+>  2 files changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> index 88f630252d98..a20dfa2a933b 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> @@ -625,6 +625,14 @@ See also the examples in :ref:`control`.
+>  	``V4L2_CTRL_FLAG_GRABBED`` flag when buffers are allocated or
+>  	streaming is in progress since most drivers do not support changing
+>  	the format in that case.
+> +    * - ``V4L2_CTRL_FLAG_DYNAMIC_ARRAY``
+> +      - 0x0800
+> +      - This control is a dynamically sized 1-dimensional array. It
+> +        behaves the same as a regular array, except that the number
+> +	of elements as reported by the ``elems`` field is between 1 and
+> +	``dims[0]``. So setting the control with a differently sized
+> +	array will change the ``elems`` field when the control is
+> +	queried afterwards.
 
-Loic, Robert: I know this series is marked RFC, but the I2C patches
-adding a new SoC to the driver are maybe interesting already?
+Wrong indentation.
 
+Can the dimension be changed by the application only, or by the driver
+too ? In the latter case, is an event generated ?
 
---QLG4RjiqBen7yn3N
-Content-Type: application/pgp-signature; name="signature.asc"
+Considering this in the context of this series, the driver needs to
+change the dimension, as the use case is to size the control based on
+the image size. Do we want to document here that the driver will reset
+the control to a default value when the dimension changes, or is that
+something that should be control-specific ?
 
------BEGIN PGP SIGNATURE-----
+>  
+>  Return Value
+>  ============
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 3768a0a80830..8df13defde75 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1886,6 +1886,7 @@ struct v4l2_querymenu {
+>  #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
+>  #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
+>  #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
+> +#define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
+>  
+>  /*  Query flags, to be ORed with the control ID */
+>  #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmKo7YsACgkQFA3kzBSg
-KbbqbRAAoyyAxbFsgQBm8I5Vx+0UoHw0pUnptb52g5CjmSpFUz3rhcc7nFtAGTRq
-4c++op/pMcUHuN53keum60Y0530+cM25HAhvvVY9ggDXuK8Mn2bSHEmC23dHCAX/
-whRjzsH9W2BlOukKhiJyg/EGZgGfeDC2HTcddnzr5WSlZksOcxItocYO4d6rl3xf
-uQLT6cAzCaNtLP1C5KBd2dQb39kdXrrRcNNeWETL8krJHBQjkCWg2guXJDvPnLjE
-b9MvaiZUZ6EMIR+KezE4PFYw6BtlLhH/AeCEgLruK6KlV4muzOIvstnAGGfRgm3u
-+EcGebvT3FgFHlqrNF7exFG3ACWJolAaM8ZyehkOKoyA+J+7AINmoKDrpwa33qIE
-YygWfUbH1tUBxMfxJ4tU/ranCmr5ZnJCCoVY2Pt64M/yOCldnkN55BUKiL1Gg/Uq
-po7+6rbLpWJIlSWeyQWRi9RYDGhA1tc0NI+ptSvrA9e7ewyj9ggVIY7KnnYjXrhE
-7YMDeWyowe925c8BW5+E8vsMfgRA6NyHavPiGr0B+aa5eGYjPvBpCxs95F5Tppom
-MONwVTNhmCxEqVWQTQt3Zil8AikUFUa5dYVSFt2pUuXMfmYU6kkvZ8kSH7tL7ASQ
-uWjlcz4x/fjQZ2Oova/E8UOLv/3eOCu6Zxj/grCDPITArk5ftJA=
-=9e2S
------END PGP SIGNATURE-----
+-- 
+Regards,
 
---QLG4RjiqBen7yn3N--
+Laurent Pinchart
