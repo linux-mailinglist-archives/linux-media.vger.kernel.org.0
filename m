@@ -2,144 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB2954B7EA
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 19:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 722E154B7FD
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 19:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239336AbiFNRqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 13:46:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35758 "EHLO
+        id S1348588AbiFNRuk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 13:50:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235235AbiFNRqL (ORCPT
+        with ESMTP id S236048AbiFNRu0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 13:46:11 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 506AE4132F
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 10:46:09 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id fu17so6644241qtb.2
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 10:46:09 -0700 (PDT)
+        Tue, 14 Jun 2022 13:50:26 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 790D334673;
+        Tue, 14 Jun 2022 10:50:19 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id s12so18657693ejx.3;
+        Tue, 14 Jun 2022 10:50:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=Xn5U6yTCivKcEB2CQHYVzvugp+BfiT1C9G92C8VTcFE=;
-        b=613RfUCkNkGQMLtU7V2MbO04fhnH0mtvC5dKJO2n7m5TCcstyJMNMqLu5YY/jKx85W
-         WqQMLAi27pfXea2pgAxcenjo+QPeoTl9CYin1epFcZK/vTqiQCqBD1EYkVVK5uDXlJOk
-         /REj65VNDa+2mfoDGydpq55FH9UXhemjGynB7O4/KvsjpjTKj3iXzE5se/WNWb3HwcDQ
-         Qm8tyvsIiyWLkoQC0YSKGsXgM6jbVZQWXTcSfHhc7xpqFpsgqnP3lP5KbJsA0tnl+2AB
-         IlaRWg/QdubW8ftDo3KKzJL3UuG4GA8jNRl6v8rVtjb0Mt6ik6HtmbEE25xxiVEQixz1
-         wZZg==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OmDKqsh2oZWR7s2YwH+5e/H1/JJVJGhbhyO8uGLahfw=;
+        b=nhgL7jZLaDOjeykvNjYlb1d3NgpnUqhakHHnuBDtGRbm7tvkX/v+9SrT9gNcSbeOBQ
+         LJSN1OJH8gdzOdV4Xh3nKcetziUnvkr6mwhHwjGF9r7hmK3WWl46fHyK1sRyHRIz1IYU
+         lArlp4Iu9Lgp5BEzMCs9uzZlgJOGX/tS+8U3DdM6aMW353A0b5o+w+ClrMtfHWTA3DO8
+         pyH3nUVOZEB6fUJwYePFLEZMPZ8zLDhWLTDX7GDG52nvm8Q6Zw1K1FTxJH0/UcriviJO
+         hvJPrJdmLWMbtpnmzAWvYJSweefWgNl58d6aZ19G8OcsQikp+CAy2Vp2iFT0ofxRNaub
+         04GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=Xn5U6yTCivKcEB2CQHYVzvugp+BfiT1C9G92C8VTcFE=;
-        b=cQEbCzqailk2MjM0gy/ju6/jAgPeVpnv/n9WxBqjTz9lyS12xfQe+Cf2c+oLCq/OBp
-         lnEqgX+0nNxBfcllSawAZpQCFJR7LgAt/P9xVjhRK/KEIysKaHsh9JO2i2f1DHkOG3HK
-         t/LTGUwyx4stouwkrXP5mZhVNFN4l+wwnvGg97AmLR54J9Rhf61ejoRP/oVQ9PcsBXjV
-         K05XwbUiKtJocyudy6rNKq25Og17SCBOQkQe0Q3oSmAiHmZBPHvqy3VEf6qZSZwNYH+C
-         9Sh1LCWkb3hab7MkggaZcTtEw+sGdYIZVxtpOXq1mv7CIFY7HMdU0eGVBEdBJTUF6l/O
-         uJZg==
-X-Gm-Message-State: AOAM533EmfhIdMjz9CvnG30zhC3OU25G7ORbO6VmUqJWt6fPcL3zZ5JD
-        IioxiwZXcTGv2M5tYX3hQH6BTg==
-X-Google-Smtp-Source: ABdhPJyz6Dah76Tro/nBusft/e8MUMRJGJMekMTnnVzKmUelFUurRZI3FxaqFWMN0HWssy5n6ZNO1g==
-X-Received: by 2002:ac8:5a42:0:b0:305:222b:8ec9 with SMTP id o2-20020ac85a42000000b00305222b8ec9mr5296612qta.214.1655228768303;
-        Tue, 14 Jun 2022 10:46:08 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id q12-20020a05622a030c00b00304dd83a9b1sm8255216qtw.82.2022.06.14.10.46.06
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OmDKqsh2oZWR7s2YwH+5e/H1/JJVJGhbhyO8uGLahfw=;
+        b=FyHsqlM7ikuDKPi8tk8w+tqdwRi8EWy9qvbq0kdud8yfuazFEKKQ4gGB1zMi6wNlvm
+         /QUCv1YJagWl1Tvs9JT1yDUcD19LSr/BLTyaqOR+ld5IhngAsrJ3MEUj76OCGueBTlyy
+         eUaIGrpGMXIij/injOEuKu6h2+ZwE4q6NevpFmkUSrXNgtthT7OlpcaUl8WvKYc9sTb7
+         8cVDPuIBVP4x4cA6u1Rfc6d+7jZmaGcxfNdGr0w3wOsopEjXoI+1nh++5RtNI77U1y43
+         f+ZooqyDEjMKyMUKSq8EFxePDpQNOruH1v9hl44/KFDSUXF4BjGioYxjlEP0u0m1t9qg
+         I/8Q==
+X-Gm-Message-State: AJIora9b1NIW2dvmSOhlctJ+cgcIZtzuYuKDqr1ZWFSMuQ27CIu57If8
+        CphUova+3CSyhx+Nn5iCGAmdmQgrETtAhQ==
+X-Google-Smtp-Source: ABdhPJzNCLZrd0x4nKJdxKaons9gsaAJagLSGLJrc8mg7xgrgZPUgYiMXT4K0xqjouHP86Bao1Oi9w==
+X-Received: by 2002:a17:907:7810:b0:6e7:ef73:8326 with SMTP id la16-20020a170907781000b006e7ef738326mr5242986ejc.429.1655229018022;
+        Tue, 14 Jun 2022 10:50:18 -0700 (PDT)
+Received: from nlaptop.localdomain (ptr-dtfv0poj8u7zblqwbt6.18120a2.ip6.access.telenet.be. [2a02:1811:cc83:eef0:f2b6:6987:9238:41ca])
+        by smtp.gmail.com with ESMTPSA id d2-20020aa7d5c2000000b0042dd630eb2csm7395200eds.96.2022.06.14.10.50.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 10:46:07 -0700 (PDT)
-Message-ID: <5316234cef174e49110f949991ef71c578a3478e.camel@ndufresne.ca>
-Subject: Re: [PATCH v4, 0/3] add h264 decoder driver for mt8186
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Tue, 14 Jun 2022 10:50:17 -0700 (PDT)
+From:   Niels Dossche <dossche.niels@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Tue, 14 Jun 2022 13:46:06 -0400
-In-Reply-To: <edbb4605c9e30329d2f5a4ff738571acb6b91f1f.camel@ndufresne.ca>
-References: <20220512034620.30500-1-yunfei.dong@mediatek.com>
-         <edbb4605c9e30329d2f5a4ff738571acb6b91f1f.camel@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+        Dongliang Mu <mudongliangabcd@gmail.com>,
+        Niels Dossche <dossche.niels@gmail.com>
+Subject: [PATCH] media: hdpvr: fix error value returns in hdpvr_read
+Date:   Tue, 14 Jun 2022 19:50:02 +0200
+Message-Id: <20220614175002.120931-1-dossche.niels@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 13 juin 2022 =C3=A0 16:10 -0400, Nicolas Dufresne a =C3=A9crit=C2=
-=A0:
-> Le jeudi 12 mai 2022 =C3=A0 11:46 +0800, Yunfei Dong a =C3=A9crit=C2=A0:
-> > Firstly, add mt8186 compatible and private data, then add document for
-> > compatible "mediatek,mt8186-vcodec-dec". For mt8186 is single core
-> > architecture, need to add new interface for h264 hardware decoder.
->=20
-> Would be nice to take the habit of sharing fluster score for this new HW,=
- I
-> would expect no less then what the numbers you'd get from running over MT=
-8195 or
-> 92, remains nice to demonstrate that this was tested and document any oop=
-s along
-> the way.
-> >=20
-> > Patche 1 add mt8186 compatible and private data.
-> > Patche 2 add mt8186 compatible document.
-> > Patche 3 add h264 single core driver.
-> > ---
-> > This patch depends on "support for MT8192 decoder"[1]
-> >=20
-> > [1]  https://patchwork.kernel.org/project/linux-mediatek/cover/20220512=
-021950.29087-1-yunfei.dong@mediatek.com/
+Error return values are supposed to be negative in hdpvr_read. Most
+error returns are currently handled via an unsigned integer "ret". When
+setting a negative error value to "ret", the value actually becomes a
+large positive value, because "ret" is unsigned. Later on, the "ret"
+value is returned. But as ssize_t is a 64-bit signed number, the error
+return value stays a large positive integer instead of a negative
+integer. This can cause an error value to be interpreted as the read
+size, which can cause a buffer overread for applications relying on the
+returned size.
 
-I forgot earlier, but I suppose this will also depends on an scp.img firmwa=
-re ?
-If so, any linux-firmware submission to link to ?
+Fixes: 9aba42efe85b ("V4L/DVB (11096): V4L2 Driver for the Hauppauge HD PVR usb capture device")
+Signed-off-by: Niels Dossche <dossche.niels@gmail.com>
+---
 
-> > ---
-> > changed with v3:
-> > - fix __iomem not reasonable, align share memory to dram.
-> > changed with v2:
-> > - fix sparse and smatch check fail for patch 3
-> > changed with v1:
-> > - rebase driver to the latest media_stage.
-> > ---
-> > Yunfei Dong (3):
-> >   dt-bindings: media: mediatek: vcodec: Adds decoder dt-bindings for
-> >     mt8186
-> >   media: mediatek: vcodec: Support MT8186
-> >   media: mediatek: vcodec: add h264 decoder driver for mt8186
-> >=20
-> >  .../media/mediatek,vcodec-subdev-decoder.yaml |   4 +-
-> >  .../platform/mediatek/vcodec/mtk_vcodec_dec.h |   1 +
-> >  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   4 +
-> >  .../vcodec/mtk_vcodec_dec_stateless.c         |  19 ++
-> >  .../vcodec/vdec/vdec_h264_req_multi_if.c      | 177 +++++++++++++++++-
-> >  5 files changed, 203 insertions(+), 2 deletions(-)
-> >=20
->=20
+Note:
+I found this issue using my own-developed static analysis tool to find
+inconsistent error return values. As I do not have the necessary
+hardware to test, I could not test this patch. I only compile-tested
+this on x86-64. I found this issue on v5.19-rc2.
+I manually verified the issue report by looking at the code.
+
+ drivers/media/usb/hdpvr/hdpvr-video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/hdpvr/hdpvr-video.c b/drivers/media/usb/hdpvr/hdpvr-video.c
+index 60e57e0f1927..fd7d2a9d0449 100644
+--- a/drivers/media/usb/hdpvr/hdpvr-video.c
++++ b/drivers/media/usb/hdpvr/hdpvr-video.c
+@@ -409,7 +409,7 @@ static ssize_t hdpvr_read(struct file *file, char __user *buffer, size_t count,
+ 	struct hdpvr_device *dev = video_drvdata(file);
+ 	struct hdpvr_buffer *buf = NULL;
+ 	struct urb *urb;
+-	unsigned int ret = 0;
++	int ret = 0;
+ 	int rem, cnt;
+ 
+ 	if (*pos)
+-- 
+2.36.1
 
