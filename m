@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0375B54BC14
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 22:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5083554BC68
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 23:05:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234626AbiFNUqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 16:46:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35396 "EHLO
+        id S1351655AbiFNVAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 17:00:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbiFNUqi (ORCPT
+        with ESMTP id S1353110AbiFNVAQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 16:46:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9C42F381;
-        Tue, 14 Jun 2022 13:46:33 -0700 (PDT)
+        Tue, 14 Jun 2022 17:00:16 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F2CB50076;
+        Tue, 14 Jun 2022 14:00:12 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 121C22E4;
-        Tue, 14 Jun 2022 22:46:30 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEF822E4;
+        Tue, 14 Jun 2022 23:00:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655239590;
-        bh=wX2gQgJTWQQOF5Wrys2HrbI2KH7mSvT/4W+QO54dYbM=;
+        s=mail; t=1655240410;
+        bh=vq7W3LM3Q8tusI6NcOOaLPQi6HWdPmkVmI+E3atWtkk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sjgpR95qxzLVHR4Ju8xqJeTJl7+/3w+4Wwqg0CD84XpN5TzKdF3nwSZkqg30HD37L
-         8ND6JdLRhzRCx2CTb+LPbJ0dZC8IfbF1FUuUwzVcKjMTuPudJh1FH0wog6eDsZod1L
-         g8nT2xIyAiiVt0Juc4IKw5hu4oQA8PdbTiS/sB+o=
-Date:   Tue, 14 Jun 2022 23:46:20 +0300
+        b=c1rr8WHS7C/QDJ/0iy5Cf8OPF+IOa4Iq2bJJba0lilrOsg2nxGaM9ZwagIqCcH1R9
+         c4Qui9E4vriCzWwA7rJ1sHrqR/l3BUH9EaiYTu9vRzlkDHkUAqqykW825GMMp6ja/y
+         6N3wzJ6xM6xxB823DxK3Yt2wSt1HRYmCXAYLpSSw=
+Date:   Wed, 15 Jun 2022 00:00:00 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>
 Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
@@ -33,14 +33,14 @@ Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         robh+dt@kernel.org, nicolas@ndufresne.ca,
         alexander.stein@ew.tq-group.com, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 1/9] videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
-Message-ID: <YqjznJSwPFH4GrhO@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v5 3/9] vivid: add dynamic array test control
+Message-ID: <Yqj20J9QaAV6ZNes@pendragon.ideasonboard.com>
 References: <20220503093925.876640-1-xavier.roumegue@oss.nxp.com>
- <20220503093925.876640-2-xavier.roumegue@oss.nxp.com>
+ <20220503093925.876640-4-xavier.roumegue@oss.nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220503093925.876640-2-xavier.roumegue@oss.nxp.com>
+In-Reply-To: <20220503093925.876640-4-xavier.roumegue@oss.nxp.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -54,71 +54,62 @@ Hi Xavier and Hans,
 
 Thank you for the patch.
 
-On Tue, May 03, 2022 at 11:39:17AM +0200, Xavier Roumegue wrote:
+On Tue, May 03, 2022 at 11:39:19AM +0200, Xavier Roumegue wrote:
 > From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > 
-> Add a new flag that indicates that this control is a dynamically sized
-> array. Also document this flag.
-> 
-> Currently dynamically sized arrays are limited to one dimensional arrays,
-> but that might change in the future if there is a need for it.
-> 
-> The initial use-case of dynamic arrays are stateless codecs. A frame
-> can be divided in many slices, so you want to provide an array containing
-> slice information for each slice. Typically the number of slices is small,
-> but the standard allow for hundreds or thousands of slices. Dynamic arrays
-> are a good solution since sizing the array for the worst case would waste
-> substantial amounts of memory.
+> Add a dynamic array test control to help test support for this
+> feature.
 > 
 > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  .../userspace-api/media/v4l/vidioc-queryctrl.rst          | 8 ++++++++
->  include/uapi/linux/videodev2.h                            | 1 +
->  2 files changed, 9 insertions(+)
+>  drivers/media/test-drivers/vivid/vivid-ctrls.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> index 88f630252d98..a20dfa2a933b 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> @@ -625,6 +625,14 @@ See also the examples in :ref:`control`.
->  	``V4L2_CTRL_FLAG_GRABBED`` flag when buffers are allocated or
->  	streaming is in progress since most drivers do not support changing
->  	the format in that case.
-> +    * - ``V4L2_CTRL_FLAG_DYNAMIC_ARRAY``
-> +      - 0x0800
-> +      - This control is a dynamically sized 1-dimensional array. It
-> +        behaves the same as a regular array, except that the number
-> +	of elements as reported by the ``elems`` field is between 1 and
-> +	``dims[0]``. So setting the control with a differently sized
-> +	array will change the ``elems`` field when the control is
-> +	queried afterwards.
-
-Wrong indentation.
-
-Can the dimension be changed by the application only, or by the driver
-too ? In the latter case, is an event generated ?
-
-Considering this in the context of this series, the driver needs to
-change the dimension, as the use case is to size the control based on
-the image size. Do we want to document here that the driver will reset
-the control to a default value when the dimension changes, or is that
-something that should be control-specific ?
-
+> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> index e7516dc1227b..7267892dc18a 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> @@ -34,6 +34,7 @@
+>  #define VIVID_CID_U8_4D_ARRAY		(VIVID_CID_CUSTOM_BASE + 10)
+>  #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
+>  #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
+> +#define VIVID_CID_U32_DYN_ARRAY		(VIVID_CID_CUSTOM_BASE + 13)
 >  
->  Return Value
->  ============
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 3768a0a80830..8df13defde75 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -1886,6 +1886,7 @@ struct v4l2_querymenu {
->  #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
->  #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
->  #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
-> +#define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
+>  #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
+>  #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
+> @@ -189,6 +190,19 @@ static const struct v4l2_ctrl_config vivid_ctrl_u32_array = {
+>  	.dims = { 1 },
+>  };
 >  
->  /*  Query flags, to be ORed with the control ID */
->  #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
+> +static const struct v4l2_ctrl_config vivid_ctrl_u32_dyn_array = {
+> +	.ops = &vivid_user_gen_ctrl_ops,
+> +	.id = VIVID_CID_U32_DYN_ARRAY,
+> +	.name = "U32 Dynamic Array",
+> +	.type = V4L2_CTRL_TYPE_U32,
+> +	.flags = V4L2_CTRL_FLAG_DYNAMIC_ARRAY,
+> +	.def = 50,
+> +	.min = 10,
+> +	.max = 90,
+> +	.step = 1,
+> +	.dims = { 100 },
+> +};
+
+To meaningfully test this, don't we need the vivid driver to change the
+dimension ? Or is it meant to only test changes made by the application
+?
+
+> +
+>  static const struct v4l2_ctrl_config vivid_ctrl_u16_matrix = {
+>  	.ops = &vivid_user_gen_ctrl_ops,
+>  	.id = VIVID_CID_U16_MATRIX,
+> @@ -1612,6 +1626,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>  	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
+>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
+>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
+> +	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NULL);
+>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
+>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_4d_array, NULL);
+>  
 
 -- 
 Regards,
