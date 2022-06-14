@@ -2,75 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C0C954B3B8
+	by mail.lfdr.de (Postfix) with ESMTP id 634D654B3B9
 	for <lists+linux-media@lfdr.de>; Tue, 14 Jun 2022 16:47:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236679AbiFNOoT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jun 2022 10:44:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40158 "EHLO
+        id S236475AbiFNOot (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jun 2022 10:44:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356373AbiFNOnq (ORCPT
+        with ESMTP id S231584AbiFNOoo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jun 2022 10:43:46 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 499331A391
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 07:43:45 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id e66so8685599pgc.8
-        for <linux-media@vger.kernel.org>; Tue, 14 Jun 2022 07:43:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=4cFnRvgmCgZilg+kua2nS8hJF1hI6XababS0iH20TWo=;
-        b=wBDys1FsoPdSRBO3RkTw5jlPlUveLtj70wIv5jWeDeDLEXnPegBmCF3tkiBJbp6xmr
-         kcnSZ9qvtjIuBe7II3as/t5SoZ1juk65X+SVmJ9SOmJ/DN+edJzpzYzN/UY1U8ydxEy4
-         qNdG/90Ex/j6q6jZ6FPsB+YADxJK5BpFKLhyNaj2ZEinXendLg5kraR7ulE8m0frtNm2
-         /dILb8+Azt2pGcQ4CXh1KORlJIOxo7q47pTt9HYRGfNdcgxZuJZ3IpLrNAYlbreaC/f9
-         jrq1sKedHCX/0IVWRvzdOBW93TTTpD+39TZicokOhiMCldjMxSosTQPQnmgVMVAZ4PEx
-         X8Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=4cFnRvgmCgZilg+kua2nS8hJF1hI6XababS0iH20TWo=;
-        b=shmeG2vahgLGsCbZMcYAAeHTip+YOStt9lEburzGgJDHSXraCqwRgcm3R58ZZ594uP
-         yhh/K65+pZ9lJR0oDrThXwGjDwDCWL4RUp4pbkK1X0wYBxmfMIhYO1D1L56+iHQkbD6V
-         w91fRp7DOp3S8iDQR25q5ICHdiJ5pUQ0qiLFk7xKHcvNNn1SeLbIwVqk3n9O9vEuFFA9
-         Fn+IeSzKpcC2pT1nFhqZ+eu0ZFpV2QlC29qo7KOT3uLuiX5uwwnLmHX92uhyqqhLFOCm
-         79gT5O3zp6NLLp34xnInhcADITmx8mAJkDCECb9oIg0fkLuGeX0TqqpixRCXmqg6xfMb
-         iJsQ==
-X-Gm-Message-State: AOAM530lkE0ppR0qXgwn+ufOLYx+zMuju62cMo73+hE6vtqEyneEs1xN
-        X8VfXUIouCNID3Zfw4+I/H4Ong==
-X-Google-Smtp-Source: ABdhPJypR8vjAMFkGvsZC+cplFp5gkSzlPo/jUCX+Nh+gTxI9BNzxBVZce/Kf+3LESVZiCbBz1Stcg==
-X-Received: by 2002:a05:6a00:a21:b0:522:9134:c620 with SMTP id p33-20020a056a000a2100b005229134c620mr4853896pfh.68.1655217824803;
-        Tue, 14 Jun 2022 07:43:44 -0700 (PDT)
-Received: from [172.20.0.51] ([192.77.111.2])
-        by smtp.gmail.com with ESMTPSA id g7-20020a63ad07000000b003db822e2170sm7866328pgf.23.2022.06.14.07.43.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jun 2022 07:43:44 -0700 (PDT)
-Message-ID: <26dc329e-b663-e779-a30f-b495206ced48@linaro.org>
-Date:   Tue, 14 Jun 2022 07:43:42 -0700
+        Tue, 14 Jun 2022 10:44:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF8A1AF38;
+        Tue, 14 Jun 2022 07:44:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9FBD161762;
+        Tue, 14 Jun 2022 14:44:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24A10C3411B;
+        Tue, 14 Jun 2022 14:44:40 +0000 (UTC)
+Message-ID: <fed8b2cf-3098-0690-dc40-796dbe0ff424@xs4all.nl>
+Date:   Tue, 14 Jun 2022 16:44:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 2/2] media: i2c: imx412: Add imx577 compatible string
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v1 2/5] media: rkvdec: Add an ops to check for decode
+ errors
 Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     jacopo@jmondi.org, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        dmitry.baryshkov@linaro.org, konrad.dybcio@somainline.org,
-        andrey.konovalov@linaro.org
-References: <20220607134057.2427663-1-bryan.odonoghue@linaro.org>
- <20220607134057.2427663-3-bryan.odonoghue@linaro.org>
- <Yqh4ewFMP5QcO/ta@valkosipuli.retiisi.eu>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <Yqh4ewFMP5QcO/ta@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     kernel@collabora.com, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+ <20220610125215.240539-3-nicolas.dufresne@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220610125215.240539-3-nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,26 +53,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/06/2022 05:00, Sakari Ailus wrote:
-> Thanks for the patch.
+On 6/10/22 14:52, Nicolas Dufresne wrote:
+> This optional internal ops allow each codec to do their own
+> error status checking. The presence of an error is reported
+> using the ERROR buffer state. This patch have no functional
+> changes.
+
+If a buffer is returned with state ERROR, then that means that it is
+seriously corrupt and userspace is expected to drop it. You might still
+want to show it for debugging purposes, but the normal action is to drop it.
+
+So this is not a valid approach for a decoder that can still produce a
+decent picture, albeit with macroblock artifacts.
+
+A separate control that can be returned as part of the request and contains
+some sort of error indication would be more appropriate.
+
+Buffer state ERROR is really meant for e.g. DMA errors and it shouldn't
+be mixed with decode errors that still produce a valid picture.
+
+Regards,
+
+	Hans
+
 > 
-> Surely the sensors still have some differences.
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++----
+>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+>  2 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index 7bab7586918c..7e76f8b72885 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -950,6 +950,7 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *rkvdec)
+>  static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+>  {
+>  	struct rkvdec_dev *rkvdec = priv;
+> +	struct rkvdec_ctx *ctx;
+>  	enum vb2_buffer_state state;
+>  	u32 status;
+>  
+> @@ -958,12 +959,13 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+>  		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+>  
+>  	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+> -	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
+> -		struct rkvdec_ctx *ctx;
+> +	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+>  
+> -		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+> +	if (ctx->coded_fmt_desc->ops->check_error_info)
+> +		state = ctx->coded_fmt_desc->ops->check_error_info(ctx);
+> +
+> +	if (cancel_delayed_work(&rkvdec->watchdog_work))
+>  		rkvdec_job_finish(ctx, state);
+> -	}
+>  
+>  	return IRQ_HANDLED;
+>  }
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+> index 633335ebb9c4..4ae8e6c6b03c 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.h
+> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+>  		     struct vb2_v4l2_buffer *dst_buf,
+>  		     enum vb2_buffer_state result);
+>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+> +	/* called from IRQ handler */
+> +	int (*check_error_info)(struct rkvdec_ctx *ctx);
+>  };
+>  
+>  struct rkvdec_coded_fmt_desc {
 
-They do, they absolutely do, the imx577 has a whole bunch of extra modes.
-
-We don't have any reference code or access to documentation for those modes.
-
-My reference is the qualcomm camx code for the rb5 board, which includes 
-a imx577 sensor. That stack uses the same init code as for the 412.
-
-So for that baseline mode, the imx412 driver works perfectly.
-
-> Even if the same registers would work as-is (the imx577 might still benefit
-> from different MSRs?), the user should know which sensor it is. I.e. please
-> set the media entity name accordingly. See e.g. the CCS driver for an
-> example.
-
-Agreed, I'll do that.
-
----
-bod
