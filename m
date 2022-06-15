@@ -2,196 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89BA854CC69
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 093F054CC6E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:16:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346864AbiFOPPq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 11:15:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37846 "EHLO
+        id S1346997AbiFOPPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 11:15:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346898AbiFOPPl (ORCPT
+        with ESMTP id S1347422AbiFOPPn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 11:15:41 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD2F3D1E2
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 08:15:37 -0700 (PDT)
+        Wed, 15 Jun 2022 11:15:43 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CEFD3E0C1;
+        Wed, 15 Jun 2022 08:15:40 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 70F6D24001A;
-        Wed, 15 Jun 2022 15:15:33 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 717F7240017;
+        Wed, 15 Jun 2022 15:15:36 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     dave.stevenson@raspberrypi.com
 Cc:     Jacopo Mondi <jacopo@jmondi.org>, david.plowman@raspberrypi.com,
         laurent.pinchart@ideasonboard.com,
         Valentine Barshak <valentine.barshak@cogentembedded.com>,
         linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 4/5] media: ov5647: Reintroduce 8 bit 640x480
-Date:   Wed, 15 Jun 2022 17:14:56 +0200
-Message-Id: <20220615151457.415038-5-jacopo@jmondi.org>
+Subject: [PATCH 5/5] media: ov5647: Add support for test patterns
+Date:   Wed, 15 Jun 2022 17:14:57 +0200
+Message-Id: <20220615151457.415038-6-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220615151457.415038-1-jacopo@jmondi.org>
 References: <20220615151457.415038-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-VGA 8 bpp mode was removed in commit 38c223081815 ("media: ov5647:
-Remove 640x480 SBGGR8 mode") as it hangs the sensor and no streaming was
-possible.
+Add support for V4L2_CID_TEST_PATTERN.
 
-This is a partial revert of that commit as it re-introduces the mode
-with the value of register 0x3034 modified.
-
-Streaming operations are correctly working
-pi@raspberrypi:~ $ v4l2-ctl --get-subdev-fmt pad=0 -d /dev/v4l-subdev0
-pi@raspberrypi:~ $ yavta -s640x480 -fSGBRG8 --capture=10 --skip=7 -F /dev/video0
-...
-Captured 10 frames in 0.319589 seconds (31.290098 fps, 9612318.005293 B/s).
-...
-
-Frames when captured on a raspberry pi result in being completely
-black. It is worth re-introducing the mode as compared to the previous
-version it does not hang the sensor anymore and can be used for further
-improvements.
+Based on a patch from Renesas R-Car BSP 4.1.0 from
+Valentine Barshak <valentine.barshak@cogentembedded.com>
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov5647.c | 109 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 109 insertions(+)
+ drivers/media/i2c/ov5647.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index e0a693640661..0a3e4acec036 100644
+index 0a3e4acec036..68e56b0d8153 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -588,6 +588,94 @@ static struct regval_list ov5647_2592x1944_8bpp[] = {
- 	{0x0100, 0x01},
- };
+@@ -60,6 +60,7 @@
+ #define OV5647_REG_MIPI_CTRL00		0x4800
+ #define OV5647_REG_MIPI_CTRL14		0x4814
+ #define OV5647_REG_AWB			0x5001
++#define OV5647_REG_ISP_CTRL3D		0x503d
  
-+static const struct regval_list ov5647_640x480_8bpp[] = {
-+	{0x0100, 0x00},
-+	{0x0103, 0x01},
-+	{0x3034, 0x0a},
-+	{0x3035, 0x21},
-+	{0x3036, 0x46},
-+	{0x303c, 0x11},
-+	{0x3106, 0xf5},
-+	{0x3821, 0x01},
-+	{0x3820, 0x41},
-+	{0x3827, 0xec},
-+	{0x370c, 0x0f},
-+	{0x3612, 0x59},
-+	{0x3618, 0x00},
-+	{0x5000, 0x06},
-+	{0x5002, 0x41},
-+	{0x5003, 0x08},
-+	{0x5a00, 0x08},
-+	{0x3000, 0x00},
-+	{0x3001, 0x00},
-+	{0x3002, 0x00},
-+	{0x3016, 0x08},
-+	{0x3017, 0xe0},
-+	{0x3018, 0x44},
-+	{0x301c, 0xf8},
-+	{0x301d, 0xf0},
-+	{0x3a18, 0x00},
-+	{0x3a19, 0xf8},
-+	{0x3c01, 0x80},
-+	{0x3b07, 0x0c},
-+	{0x380c, 0x07},
-+	{0x380d, 0x68},
-+	{0x3814, 0x31},
-+	{0x3815, 0x31},
-+	{0x3708, 0x64},
-+	{0x3709, 0x52},
-+	{0x3808, 0x02},
-+	{0x3809, 0x80},
-+	{0x380a, 0x01},
-+	{0x380b, 0xe0},
-+	{0x3801, 0x00},
-+	{0x3802, 0x00},
-+	{0x3803, 0x00},
-+	{0x3804, 0x0a},
-+	{0x3805, 0x3f},
-+	{0x3806, 0x07},
-+	{0x3807, 0xa1},
-+	{0x3811, 0x08},
-+	{0x3813, 0x02},
-+	{0x3630, 0x2e},
-+	{0x3632, 0xe2},
-+	{0x3633, 0x23},
-+	{0x3634, 0x44},
-+	{0x3636, 0x06},
-+	{0x3620, 0x64},
-+	{0x3621, 0xe0},
-+	{0x3600, 0x37},
-+	{0x3704, 0xa0},
-+	{0x3703, 0x5a},
-+	{0x3715, 0x78},
-+	{0x3717, 0x01},
-+	{0x3731, 0x02},
-+	{0x370b, 0x60},
-+	{0x3705, 0x1a},
-+	{0x3f05, 0x02},
-+	{0x3f06, 0x10},
-+	{0x3f01, 0x0a},
-+	{0x3a08, 0x01},
-+	{0x3a09, 0x27},
-+	{0x3a0a, 0x00},
-+	{0x3a0b, 0xf6},
-+	{0x3a0d, 0x04},
-+	{0x3a0e, 0x03},
-+	{0x3a0f, 0x58},
-+	{0x3a10, 0x50},
-+	{0x3a1b, 0x58},
-+	{0x3a1e, 0x50},
-+	{0x3a11, 0x60},
-+	{0x3a1f, 0x28},
-+	{0x4001, 0x02},
-+	{0x4004, 0x02},
-+	{0x4000, 0x09},
-+	{0x4837, 0x24},
-+	{0x4050, 0x6e},
-+	{0x4051, 0x8f},
-+	{0x0100, 0x01},
+ #define REG_TERM 0xfffe
+ #define VAL_TERM 0xfe
+@@ -812,6 +813,22 @@ static const struct ov5647_mode ov5647_8_bpp_modes[] = {
+ #define OV5647_DEFAULT_MODE	(&ov5647_10_bpp_modes[3])
+ #define OV5647_DEFAULT_FORMAT	(ov5647_10_bpp_modes[3].format)
+ 
++static const char * const ov5647_test_pattern_menu[] = {
++	"Disabled",
++	"Color Bars",
++	"Color Squares",
++	"Random Data",
++	"Input Data"
 +};
 +
- static const struct ov5647_mode ov5647_10_bpp_modes[] = {
- 	/* 2592x1944 full resolution full FOV 10-bit mode. */
- 	{
-@@ -697,6 +785,27 @@ static const struct ov5647_mode ov5647_8_bpp_modes[] = {
- 		.reg_list	= ov5647_2592x1944_8bpp,
- 		.num_regs	= ARRAY_SIZE(ov5647_2592x1944_8bpp)
- 	},
-+	/* 8-bit VGA mode: Uncentred crop 2x2 binned 1296x972 image. */
-+	{
-+		.format = {
-+			.code           = MEDIA_BUS_FMT_SBGGR8_1X8,
-+			.colorspace     = V4L2_COLORSPACE_SRGB,
-+			.field          = V4L2_FIELD_NONE,
-+			.width          = 640,
-+			.height         = 480
-+		},
-+		.crop = {
-+			.left           = OV5647_PIXEL_ARRAY_LEFT,
-+			.top            = OV5647_PIXEL_ARRAY_TOP,
-+			.width          = 1280,
-+			.height         = 960,
-+		},
-+		.pixel_rate     = 77291670,
-+		.hts            = 1896,
-+		.vts            = 0x3d8,
-+		.reg_list       = ov5647_640x480_8bpp,
-+		.num_regs       = ARRAY_SIZE(ov5647_640x480_8bpp)
-+	},
- };
++static u8 ov5647_test_pattern_val[] = {
++	0x00,	/* Disabled */
++	0x80,	/* Color Bars */
++	0x82,	/* Color Squares */
++	0x81,	/* Random Data */
++	0x83,	/* Input Data */
++};
++
+ static int ov5647_write16(struct v4l2_subdev *sd, u16 reg, u16 val)
+ {
+ 	unsigned char data[4] = { reg >> 8, reg & 0xff, val >> 8, val & 0xff};
+@@ -1582,6 +1599,10 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		ov5647_s_flip(sd, OV5647_REG_VFLIP, ctrl->val);
+ 		break;
  
- /* Default sensor mode is 2x2 binned 640x480 SBGGR10_1X10. */
++	case V4L2_CID_TEST_PATTERN:
++		ret = ov5647_write(sd, OV5647_REG_ISP_CTRL3D,
++				   ov5647_test_pattern_val[ctrl->val]);
++		break;
+ 	default:
+ 		dev_info(&client->dev,
+ 			 "Control (id:0x%x, val:0x%x) not supported\n",
+@@ -1604,7 +1625,7 @@ static int ov5647_init_controls(struct ov5647 *sensor, struct device *dev)
+ 	int hblank, exposure_max, exposure_def;
+ 	struct v4l2_fwnode_device_properties props;
+ 
+-	v4l2_ctrl_handler_init(&sensor->ctrls, 10);
++	v4l2_ctrl_handler_init(&sensor->ctrls, 11);
+ 
+ 	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+ 			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
+@@ -1658,6 +1679,11 @@ static int ov5647_init_controls(struct ov5647 *sensor, struct device *dev)
+ 	if (sensor->vflip)
+ 		sensor->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+ 
++	v4l2_ctrl_new_std_menu_items(&sensor->ctrls, &ov5647_ctrl_ops,
++				     V4L2_CID_TEST_PATTERN,
++				     ARRAY_SIZE(ov5647_test_pattern_menu) - 1,
++				     0, 0, ov5647_test_pattern_menu);
++
+ 	v4l2_fwnode_device_parse(dev, &props);
+ 
+ 	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ov5647_ctrl_ops,
 -- 
 2.35.1
 
