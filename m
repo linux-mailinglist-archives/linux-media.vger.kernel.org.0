@@ -2,122 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 093F054CC6E
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54E0A54CC97
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:21:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346997AbiFOPPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 11:15:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37930 "EHLO
+        id S242731AbiFOPVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 11:21:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347422AbiFOPPn (ORCPT
+        with ESMTP id S239037AbiFOPVc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 11:15:43 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CEFD3E0C1;
-        Wed, 15 Jun 2022 08:15:40 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 717F7240017;
-        Wed, 15 Jun 2022 15:15:36 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     dave.stevenson@raspberrypi.com
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, david.plowman@raspberrypi.com,
-        laurent.pinchart@ideasonboard.com,
-        Valentine Barshak <valentine.barshak@cogentembedded.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 5/5] media: ov5647: Add support for test patterns
-Date:   Wed, 15 Jun 2022 17:14:57 +0200
-Message-Id: <20220615151457.415038-6-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220615151457.415038-1-jacopo@jmondi.org>
-References: <20220615151457.415038-1-jacopo@jmondi.org>
+        Wed, 15 Jun 2022 11:21:32 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC8024956
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 08:21:30 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o1Upk-004sQr-TT; Wed, 15 Jun 2022 15:21:28 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o1Upi-00C5SS-K2; Wed, 15 Jun 2022 15:21:26 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.20] rkisp1 misc fixes and improvements (#84037)
+Date:   Wed, 15 Jun 2022 15:21:26 +0000
+Message-Id: <20220615152126.2880870-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YqnuxKlNjA0AaIAR@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for V4L2_CID_TEST_PATTERN.
+From: builder@linuxtv.org
 
-Based on a patch from Renesas R-Car BSP 4.1.0 from
-Valentine Barshak <valentine.barshak@cogentembedded.com>
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YqnuxKlNjA0AaIAR@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/216642/
+Build time: 00:29:41
+Link: https://lore.kernel.org/linux-media/YqnuxKlNjA0AaIAR@pendragon.ideasonboard.com
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/i2c/ov5647.c | 28 +++++++++++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+gpg: Signature made Wed 15 Jun 2022 01:52:17 PM UTC
+gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 0a3e4acec036..68e56b0d8153 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -60,6 +60,7 @@
- #define OV5647_REG_MIPI_CTRL00		0x4800
- #define OV5647_REG_MIPI_CTRL14		0x4814
- #define OV5647_REG_AWB			0x5001
-+#define OV5647_REG_ISP_CTRL3D		0x503d
- 
- #define REG_TERM 0xfffe
- #define VAL_TERM 0xfe
-@@ -812,6 +813,22 @@ static const struct ov5647_mode ov5647_8_bpp_modes[] = {
- #define OV5647_DEFAULT_MODE	(&ov5647_10_bpp_modes[3])
- #define OV5647_DEFAULT_FORMAT	(ov5647_10_bpp_modes[3].format)
- 
-+static const char * const ov5647_test_pattern_menu[] = {
-+	"Disabled",
-+	"Color Bars",
-+	"Color Squares",
-+	"Random Data",
-+	"Input Data"
-+};
-+
-+static u8 ov5647_test_pattern_val[] = {
-+	0x00,	/* Disabled */
-+	0x80,	/* Color Bars */
-+	0x82,	/* Color Squares */
-+	0x81,	/* Random Data */
-+	0x83,	/* Input Data */
-+};
-+
- static int ov5647_write16(struct v4l2_subdev *sd, u16 reg, u16 val)
- {
- 	unsigned char data[4] = { reg >> 8, reg & 0xff, val >> 8, val & 0xff};
-@@ -1582,6 +1599,10 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ov5647_s_flip(sd, OV5647_REG_VFLIP, ctrl->val);
- 		break;
- 
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = ov5647_write(sd, OV5647_REG_ISP_CTRL3D,
-+				   ov5647_test_pattern_val[ctrl->val]);
-+		break;
- 	default:
- 		dev_info(&client->dev,
- 			 "Control (id:0x%x, val:0x%x) not supported\n",
-@@ -1604,7 +1625,7 @@ static int ov5647_init_controls(struct ov5647 *sensor, struct device *dev)
- 	int hblank, exposure_max, exposure_def;
- 	struct v4l2_fwnode_device_properties props;
- 
--	v4l2_ctrl_handler_init(&sensor->ctrls, 10);
-+	v4l2_ctrl_handler_init(&sensor->ctrls, 11);
- 
- 	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
- 			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
-@@ -1658,6 +1679,11 @@ static int ov5647_init_controls(struct ov5647 *sensor, struct device *dev)
- 	if (sensor->vflip)
- 		sensor->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 
-+	v4l2_ctrl_new_std_menu_items(&sensor->ctrls, &ov5647_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(ov5647_test_pattern_menu) - 1,
-+				     0, 0, ov5647_test_pattern_menu);
-+
- 	v4l2_fwnode_device_parse(dev, &props);
- 
- 	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ov5647_ctrl_ops,
--- 
-2.35.1
+Summary: got 4/21 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-rkisp1-capture-Initialize-entity-before-video-.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000004Kb sm_state_count = 543764
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 8 seconds
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5539 cx23885_dif_setup() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1725876
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 50 seconds
+	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0008-media-rkisp1-regs-Don-t-use-BIT-macro-for-multi-bit-.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-media-rkisp1-regs-Don-t-use-BIT-macro-for-multi-bit-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:28: CHECK: Prefer using the BIT macro
+	-:37: CHECK: Prefer using the BIT macro
+	-:43: CHECK: Prefer using the BIT macro
+	-:48: CHECK: Prefer using the BIT macro
+	-:52: CHECK: Prefer using the BIT macro
+	-:60: CHECK: Prefer using the BIT macro
+	-:63: CHECK: Prefer using the BIT macro
+	-:68: CHECK: Prefer using the BIT macro
+	-:74: CHECK: Prefer using the BIT macro
+	-:83: CHECK: Prefer using the BIT macro
+	-:87: CHECK: Prefer using the BIT macro
+	-:93: CHECK: Prefer using the BIT macro
+	-:98: CHECK: Prefer using the BIT macro
+	-:102: CHECK: Prefer using the BIT macro
+	-:107: CHECK: Prefer using the BIT macro
+	-:116: CHECK: Prefer using the BIT macro
+	-:120: CHECK: Prefer using the BIT macro
+	-:126: CHECK: Prefer using the BIT macro
+	-:129: CHECK: Prefer using the BIT macro
+	-:136: CHECK: Prefer using the BIT macro
+	-:145: CHECK: Prefer using the BIT macro
+	-:149: CHECK: Prefer using the BIT macro
+	-:158: CHECK: Prefer using the BIT macro
+	-:167: CHECK: Prefer using the BIT macro
+	-:176: CHECK: Prefer using the BIT macro
+	-:185: CHECK: Prefer using the BIT macro
+
+patches/0012-media-rkisp1-Move-debugfs-code-to-a-separate-file.patch:
+
+   checkpatch.pl:
+	$ cat patches/0012-media-rkisp1-Move-debugfs-code-to-a-separate-file.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:58: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0013-media-rkisp1-Compile-debugfs-support-conditionally.patch:
+
+   checkpatch.pl:
+	$ cat patches/0013-media-rkisp1-Compile-debugfs-support-conditionally.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:57: CHECK: Please use a blank line after function/struct/union/enum declarations
+
+
+Error #512 when building PDF docs
 
