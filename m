@@ -2,312 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 627AC54D4F8
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 01:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41EE954D581
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 01:50:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349502AbiFOXKx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 19:10:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54584 "EHLO
+        id S1349199AbiFOXuO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 19:50:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349919AbiFOXKw (ORCPT
+        with ESMTP id S233984AbiFOXuN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 19:10:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B602C122
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 16:10:50 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81293415;
-        Thu, 16 Jun 2022 01:10:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655334648;
-        bh=O7ZNOUpuPlxSnW/P1dmlHqXBPaYA+WfcHmaUeCCsrt0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fZ37+IBbHEFY2/Pdj/5/zLhrEKTHdYjW895/mY3qaO4XMf2BxwJcPAYzwYlG0RfDV
-         goD9QhIbkf+1WARDnjMPcYzMmYuLwbY9doZJazjVR23Ppva3Txj1dZIdpMbcc6BoRN
-         Bx371hJ5E6RcHKTyzdAkQffOyFJU8GCwxwipekbU=
-Date:   Thu, 16 Jun 2022 02:10:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, dafna@fastmail.com, heiko@sntech.de,
-        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
-        djrscally@gmail.com, helen.koike@collabora.com,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 41/55] media: rkisp1: csi: Plumb the CSI RX subdev
-Message-ID: <Yqpm7m8txqrtScR/@pendragon.ideasonboard.com>
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-42-paul.elder@ideasonboard.com>
+        Wed, 15 Jun 2022 19:50:13 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 763283C732
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 16:50:12 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id g4so691144wrh.11
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 16:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zQ639pDlCKDPv9KigQwi0ZLEgWgPMwcZ5fRsrb01EsY=;
+        b=iWpHsRw3oA7OOUVNZt1GZ9YKQ28Rv54xSk56BsdxS2wknrZi+8pWpC/xGSOpI2pV3R
+         TFEa01YGB4OGE37kDUVKHEVRU1cvWvk4T4woErwt8McmP2gawqYAZ7as2/w9zG+VGOUC
+         w0INPTi5H0HXn9q4mQGkpo6qCEdtJzNHcTDPE/OnGmp3XCuz7G/Dz36pNhqq1CzcdVc8
+         YHj9uQ3XrAPiyeAbUXf4tRqFLOKbrqknWQSkyat6g+vVEYtBCUYzqTpTo5SFeoAViqJL
+         zdIU8scsXbaRdMFNYGvtyHK9h0O2y59D5J7OLTuOsuE0/r0pb04VidHK82A9EbbGI54j
+         FRjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zQ639pDlCKDPv9KigQwi0ZLEgWgPMwcZ5fRsrb01EsY=;
+        b=sS4GCfb9QGwpoZqU6zbsbe6EpLXGgx8Qj6JS9BVLvFpXkPIfNoKEKQXaazu6UCsMNz
+         ZbNyXGR3xwqxo5no4+Xesw/6COHUdIZrH5KvBBYbT9Cbu9AZyxnx2iFKgPeOf3kKg4w5
+         flaJ0STyx0pu7/c2cJ0v1dNTlYAnND55mlzsN1/qLiTDBgExEpW0UB46Ue5cxihy5zvd
+         N5iZtqFO8qyUrYlM7qnLuY9us+9EW6OOCikaE8ntkqRXWm0oKkRTHLexuM2SVg0B7f2P
+         o5dg/pJ+hP4Bod3SLqQLG2EPLgSA8XP8YGR3UwwyDUkUUyku8HPHo2GWEGdaLEmI3CyF
+         r5lg==
+X-Gm-Message-State: AJIora9GYQrqHojPEh6RO13KPFcZrISYWuks6pN4kyuu2SFjOdKvwxAN
+        jjfjshBDdPfxe1tLdrs0+ns=
+X-Google-Smtp-Source: AGRyM1uAsc3dtMIyybKyeayzn1uUx4C7gU+fE6D6wIJslyZOeBZ5aegM0jLTjxVaQf+LeMFP/rXxkw==
+X-Received: by 2002:adf:f110:0:b0:21a:716:12e3 with SMTP id r16-20020adff110000000b0021a071612e3mr2029184wro.614.1655337010906;
+        Wed, 15 Jun 2022 16:50:10 -0700 (PDT)
+Received: from arch-thunder (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
+        by smtp.gmail.com with ESMTPSA id p3-20020a1c5443000000b0039c362311d2sm4723081wmi.9.2022.06.15.16.50.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 16:50:10 -0700 (PDT)
+Date:   Thu, 16 Jun 2022 00:50:08 +0100
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        kernel@pengutronix.de, linux-imx@nxp.com
+Subject: Re: [PATCH 1/4] media: imx: imx-mipi-csis: Set the subdev fwnode for
+ endpoint matching
+Message-ID: <20220615235008.htfebbrntq7thp2z@arch-thunder>
+References: <20220615192602.25472-1-laurent.pinchart@ideasonboard.com>
+ <20220615192602.25472-2-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220614191127.3420492-42-paul.elder@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220615192602.25472-2-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
+        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hey Laurent,
 
-Thank you for the patch.
-
-On Wed, Jun 15, 2022 at 04:11:13AM +0900, Paul Elder wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Wed, Jun 15, 2022 at 10:25:59PM +0300, Laurent Pinchart wrote:
+> Endpoint matching is preferred over device matching with the async
+> notifier framework. Set the fwnode in the v4l2_subdev for the CSIS to
+> the endpoint connected to the next device.
 > 
-> Connect the CSI receiver subdevice into the rest of the driver. This
-> includes:
-> - calling the subdevice via the v4l2 subdev API
-> - moving the async notifier for the sensor from the ISP to the CSI
->   receiver
-> - in the ISP, create a media link to the CSI receiver, and remove the
->   media link creation to the sensor
-> - in the CSI receiver, create a media link to the sensor
-> 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+LGTM,
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+
+Cheers,
+   Rui
 > ---
->  .../platform/rockchip/rkisp1/rkisp1-csi.c     | 34 ++++++++++++++++--
->  .../platform/rockchip/rkisp1/rkisp1-csi.h     |  6 ++--
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 36 +++++++++----------
->  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 21 ++---------
->  4 files changed, 53 insertions(+), 44 deletions(-)
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> index 8182694a6fe0..96712b467dde 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> @@ -43,6 +43,34 @@ rkisp1_csi_get_pad_fmt(struct rkisp1_csi *csi,
->  		return v4l2_subdev_get_try_format(&csi->sd, &state, pad);
->  }
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> index 80b1c021d14a..09a220c1bfe8 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -1378,6 +1378,13 @@ static int mipi_csis_subdev_init(struct mipi_csis_device *csis)
 >  
-> +int rkisp1_csi_link_sensor(struct rkisp1_device *rkisp1, struct v4l2_subdev *sd,
-> +			   struct rkisp1_sensor_async *s_asd,
-> +			   unsigned int source_pad)
-> +{
-> +	struct rkisp1_csi *csi = &rkisp1->csi;
-> +	int ret;		
-
-There's trailing whitespace here.
-
-> +
-> +	s_asd->pixel_rate_ctrl = v4l2_ctrl_find(sd->ctrl_handler,
-> +						V4L2_CID_PIXEL_RATE);
-> +	if (!s_asd->pixel_rate_ctrl) {
-> +		dev_err(rkisp1->dev, "No pixel rate control in subdev %s\n",
-> +			sd->name);
-> +		return -EINVAL;
+>  	sd->dev = csis->dev;
+>  
+> +	sd->fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(csis->dev),
+> +						     1, 0, 0);
+> +	if (!sd->fwnode) {
+> +		dev_err(csis->dev, "Unable to retrieve endpoint for port@1\n");
+> +		return -ENOENT;
 > +	}
 > +
-> +	/* Create the link from the sensor to the CSI receiver. */
-> +	ret = media_create_pad_link(&sd->entity, source_pad,
-> +				    &csi->sd.entity, RKISP1_CSI_PAD_SINK,
-> +				    !s_asd->index ? MEDIA_LNK_FL_ENABLED : 0);
-> +	if (ret) {
-> +		dev_err(csi->rkisp1->dev, "failed to link src pad of %s\n",
-> +			sd->name);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int rkisp1_csi_config(struct rkisp1_csi *csi,
->  			     const struct rkisp1_sensor_async *sensor)
->  {
-> @@ -118,8 +146,8 @@ static void rkisp1_csi_disable(struct rkisp1_csi *csi)
->  		     val & (~RKISP1_CIF_MIPI_CTRL_OUTPUT_ENA));
->  }
+>  	csis->csis_fmt = &mipi_csis_formats[0];
+>  	mipi_csis_init_cfg(sd, NULL);
 >  
-> -int rkisp1_csi_start(struct rkisp1_csi *csi,
-> -		     const struct rkisp1_sensor_async *sensor)
-> +static int rkisp1_csi_start(struct rkisp1_csi *csi,
-> +			    const struct rkisp1_sensor_async *sensor)
->  {
->  	struct rkisp1_device *rkisp1 = csi->rkisp1;
->  	union phy_configure_opts opts;
-> @@ -155,7 +183,7 @@ int rkisp1_csi_start(struct rkisp1_csi *csi,
->  	return 0;
->  }
+> @@ -1498,6 +1505,7 @@ static int mipi_csis_probe(struct platform_device *pdev)
+>  	v4l2_async_unregister_subdev(&csis->sd);
+>  disable_clock:
+>  	mipi_csis_clk_disable(csis);
+> +	fwnode_handle_put(csis->sd.fwnode);
+>  	mutex_destroy(&csis->lock);
 >  
-> -void rkisp1_csi_stop(struct rkisp1_csi *csi)
-> +static void rkisp1_csi_stop(struct rkisp1_csi *csi)
->  {
->  	rkisp1_csi_disable(csi);
->  
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
-> index ddf8e5e08f55..eadcd24f65fb 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
-> @@ -21,8 +21,8 @@ void rkisp1_csi_cleanup(struct rkisp1_device *rkisp1);
->  int rkisp1_csi_register(struct rkisp1_device *rkisp1);
->  void rkisp1_csi_unregister(struct rkisp1_device *rkisp1);
->  
-> -int rkisp1_csi_start(struct rkisp1_csi *csi,
-> -		     const struct rkisp1_sensor_async *sensor);
-> -void rkisp1_csi_stop(struct rkisp1_csi *csi);
-> +int rkisp1_csi_link_sensor(struct rkisp1_device *rkisp1, struct v4l2_subdev *sd,
-> +			   struct rkisp1_sensor_async *s_asd,
-> +			   unsigned int source_pad);
->  
->  #endif /* _RKISP1_CSI_H */
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index faf2cd4c8149..a3e182c86bdd 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -17,6 +17,7 @@
->  #include <linux/pinctrl/consumer.h>
->  #include <linux/pm_runtime.h>
->  #include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-mc.h>
->  
->  #include "rkisp1-common.h"
->  #include "rkisp1-csi.h"
-> @@ -119,17 +120,8 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
->  		container_of(asd, struct rkisp1_sensor_async, asd);
->  	int source_pad;
->  
-> -	s_asd->pixel_rate_ctrl = v4l2_ctrl_find(sd->ctrl_handler,
-> -						V4L2_CID_PIXEL_RATE);
-> -	if (!s_asd->pixel_rate_ctrl) {
-> -		dev_err(rkisp1->dev, "No pixel rate control in subdev %s\n",
-> -			sd->name);
-> -		return -EINVAL;
-> -	}
-> -
->  	s_asd->sd = sd;
->  
-> -	/* Create the link to the sensor. */
->  	source_pad = media_entity_get_fwnode_pad(&sd->entity, s_asd->source_ep,
->  						 MEDIA_PAD_FL_SOURCE);
->  	if (source_pad < 0) {
-> @@ -138,10 +130,7 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
->  		return source_pad;
->  	}
->  
-> -	return media_create_pad_link(&sd->entity, source_pad,
-> -				     &rkisp1->isp.sd.entity,
-> -				     RKISP1_ISP_PAD_SINK_VIDEO,
-> -				     !s_asd->index ? MEDIA_LNK_FL_ENABLED : 0);
-> +	return rkisp1_csi_link_sensor(rkisp1, sd, s_asd, source_pad);
->  }
->  
->  static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
-> @@ -283,6 +272,14 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
->  	unsigned int i;
->  	int ret;
->  
-> +	/* Link the CSI receiver to the ISP. */
-> +	ret = media_create_pad_link(&rkisp1->csi.sd.entity, RKISP1_CSI_PAD_SRC,
-> +				    &rkisp1->isp.sd.entity,
-> +				    RKISP1_ISP_PAD_SINK_VIDEO,
-> +				    MEDIA_LNK_FL_ENABLED);
-> +	if (ret)
-> +		return ret;
-> +
->  	/* create ISP->RSZ->CAP links */
->  	for (i = 0; i < 2; i++) {
->  		struct media_entity *resizer =
-> @@ -364,13 +361,6 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
->  	if (ret)
->  		goto error;
->  
-> -	ret = rkisp1_subdev_notifier_register(rkisp1);
-> -	if (ret) {
-> -		dev_err(rkisp1->dev,
-> -			"Failed to register subdev notifier(%d)\n", ret);
-> -		goto error;
-> -	}
-> -
->  	return 0;
->  
->  error:
-> @@ -534,10 +524,16 @@ static int rkisp1_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto err_cleanup_csi;
->  
-> +	ret = rkisp1_subdev_notifier_register(rkisp1);
-> +	if (ret)
-> +		goto err_unreg_entities;
-> +
->  	rkisp1_debug_init(rkisp1);
->  
->  	return 0;
->  
-> +err_unreg_entities:
-> +	rkisp1_entities_unregister(rkisp1);
->  err_cleanup_csi:
->  	rkisp1_csi_cleanup(rkisp1);
->  err_unreg_media_dev:
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index 5afb8be311c7..260c9ce0dca4 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -16,7 +16,6 @@
->  #include <media/v4l2-event.h>
->  
->  #include "rkisp1-common.h"
-> -#include "rkisp1-csi.h"
->  
->  #define RKISP1_DEF_SINK_PAD_FMT MEDIA_BUS_FMT_SRGGB10_1X10
->  #define RKISP1_DEF_SRC_PAD_FMT MEDIA_BUS_FMT_YUYV8_2X8
-> @@ -728,16 +727,12 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
->  {
->  	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
->  	struct rkisp1_device *rkisp1 = isp->rkisp1;
-> -	const struct rkisp1_sensor_async *asd;
->  	struct media_pad *source_pad;
->  	int ret;
->  
->  	if (!enable) {
->  		v4l2_subdev_call(rkisp1->source, video, s_stream, false);
-> -
-> -		rkisp1_csi_stop(&rkisp1->csi);
->  		rkisp1_isp_stop(isp);
-> -
->  		return 0;
->  	}
->  
-> @@ -754,30 +749,20 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
->  		return -EPIPE;
->  	}
->  
-> -	asd = container_of(rkisp1->source->asd, struct rkisp1_sensor_async,
-> -			   asd);
-> -
-> -	if (asd->mbus_type != V4L2_MBUS_CSI2_DPHY)
-> -		return -EINVAL;
-> +	if (rkisp1->source != &rkisp1->csi.sd)
-> +		return -EPIPE;
->  
->  	isp->frame_sequence = -1;
->  	mutex_lock(&isp->ops_lock);
-> -	ret = rkisp1_config_cif(isp, asd->mbus_type, asd->mbus_flags);
-> +	ret = rkisp1_config_cif(isp, V4L2_MBUS_CSI2_DPHY, 0);
->  	if (ret)
->  		goto mutex_unlock;
->  
->  	rkisp1_isp_start(isp);
->  
-> -	ret = rkisp1_csi_start(&rkisp1->csi, asd);
-> -	if (ret) {
-> -		rkisp1_isp_stop(isp);
-> -		goto mutex_unlock;
-> -	}
-> -
->  	ret = v4l2_subdev_call(rkisp1->source, video, s_stream, true);
->  	if (ret) {
->  		rkisp1_isp_stop(isp);
-> -		rkisp1_csi_stop(&rkisp1->csi);
->  		goto mutex_unlock;
->  	}
+>  	return ret;
+> @@ -1517,6 +1525,7 @@ static int mipi_csis_remove(struct platform_device *pdev)
+>  	mipi_csis_runtime_suspend(&pdev->dev);
+>  	mipi_csis_clk_disable(csis);
+>  	media_entity_cleanup(&csis->sd.entity);
+> +	fwnode_handle_put(csis->sd.fwnode);
+>  	mutex_destroy(&csis->lock);
+>  	pm_runtime_set_suspended(&pdev->dev);
 >  
 > -- 
-> 2.30.2
+> Regards,
 > 
-
--- 
-Regards,
-
-Laurent Pinchart
+> Laurent Pinchart
+>
+> 
