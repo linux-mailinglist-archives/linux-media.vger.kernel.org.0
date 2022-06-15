@@ -2,106 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BBD354C881
+	by mail.lfdr.de (Postfix) with ESMTP id BE9AE54C883
 	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 14:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238249AbiFOM2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 08:28:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60792 "EHLO
+        id S1348546AbiFOM2M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 08:28:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348528AbiFOM2J (ORCPT
+        with ESMTP id S1348537AbiFOM2J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 15 Jun 2022 08:28:09 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B9B39BB7
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 05:28:04 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DF14749;
-        Wed, 15 Jun 2022 14:28:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655296083;
-        bh=JovgE/ifTRpeya7zV9PFWBUZTQ1hV8GT7AlNsm8Buqo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aOtgzuj1+TotYolviTFDQit8UVLSzRnA0YfLx1UqQY9udcIg6wrgIJb8bUduS+Kzk
-         dN0TKSWm2JPu46iS1hGWVl7+JMZQb+2ct9BqsWgPamBatGKBwCs4L4YjznSmM17GR3
-         c8uooA/QcQDiTc0dQD7vndO/z8/TbTwg139fDEb0=
-Date:   Wed, 15 Jun 2022 15:27:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>
-Subject: Re: [ANN] Media Summit at ELCE Dublin: Request for Topics
-Message-ID: <YqnQSU3geEdZ0SGo@pendragon.ideasonboard.com>
-References: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
- <CAPybu_2=MkqBeesQe56pw1nVCpaRyukH80ifk6zasbcykyq5bA@mail.gmail.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7150939827;
+        Wed, 15 Jun 2022 05:28:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 0E6ECCE1CE0;
+        Wed, 15 Jun 2022 12:28:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 115C3C34115;
+        Wed, 15 Jun 2022 12:27:58 +0000 (UTC)
+Message-ID: <3afb8643-9e4d-bded-e788-ef024895dcb2@xs4all.nl>
+Date:   Wed, 15 Jun 2022 14:27:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPybu_2=MkqBeesQe56pw1nVCpaRyukH80ifk6zasbcykyq5bA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v5 3/9] vivid: add dynamic array test control
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>, mchehab@kernel.org,
+        stanimir.varbanov@linaro.org, tomi.valkeinen@ideasonboard.com,
+        robh+dt@kernel.org, nicolas@ndufresne.ca,
+        alexander.stein@ew.tq-group.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20220503093925.876640-1-xavier.roumegue@oss.nxp.com>
+ <20220503093925.876640-4-xavier.roumegue@oss.nxp.com>
+ <Yqj20J9QaAV6ZNes@pendragon.ideasonboard.com>
+ <b508597d-3da5-5e1f-66a5-a9f7d6a2c352@xs4all.nl>
+ <YqnIRWtyjtyz4gzj@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <YqnIRWtyjtyz4gzj@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
 
-On Thu, Jun 09, 2022 at 12:29:32PM +0200, Ricardo Ribalda Delgado wrote:
-> On Mon, May 9, 2022 at 8:46 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >
-> > Hi all,
-> >
-> > Since countries are opening up again and travel is (at least for now!) a lot easier,
-> > I am considering a media summit during the ELCE in Dublin (Sep 13-16).
-> >
-> > See here for more details about the conference:
-> >
-> > https://events.linuxfoundation.org/open-source-summit-europe/
-> >
-> > Of course, this only makes sense if there is something to talk about. So please reply
-> > with any suggestions for topics!
-> >
-> > Also please let me know if you would expect to be at such a media summit in person.
-> > If only a few people would be there, then there isn't much point to this.
-> >
-> >
-> > I have two topics:
-> >
-> > 1) Discussion of the media subsystem development process: any bottlenecks, any ideas
-> >    for improvements?
-> >
-> > 2) I can give a presentation on the work I've done in the CTA-861 standard (used by
-> >    HDMI) and the edid-decode utility.
-> >
-> > I'd like to make a decision on whether or not it is worthwhile to do this in a week
-> > or two. If we wait too long it might be difficult to get a room for the summit.
-> >
-> > Regards,
-> >
-> >         Hans
-> 
-> If all goes well, I will attend in person.
-> 
-> I would like to propose a topic as well if there is still space for it:
-> 
-> At ChromeOS we have been working on a new way to access cameras that
-> do not fit in the current V4L2/MC model.
-> 
-> We want to introduce the project, start a discussion in the media
-> community and think together about the approach and how it fits in our
-> current ecosystem.
 
-I hope there will be space to discuss this topic :-) Could you maybe
-provide links to the talk you've given in Paris (video and slides) as
-well as to the public git tree ? We'll have a big agenda for the
-workshop, it will be important to focus on discussions and not
-presentations, so we should all prepare by reading material in advance.
+On 6/15/22 13:53, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Wed, Jun 15, 2022 at 11:14:43AM +0200, Hans Verkuil wrote:
+>> Hi Laurent, Xavier,
+>>
+>> Ignore what I wrote before, I read it with the HEVC patch series in mind, not the dw100
+>> series.
+>>
+>> So let me try again :-)
+>>
+>> On 6/14/22 23:00, Laurent Pinchart wrote:
+>>> Hi Xavier and Hans,
+>>>
+>>> Thank you for the patch.
+>>>
+>>> On Tue, May 03, 2022 at 11:39:19AM +0200, Xavier Roumegue wrote:
+>>>> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>>>
+>>>> Add a dynamic array test control to help test support for this
+>>>> feature.
+>>>>
+>>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>>> ---
+>>>>  drivers/media/test-drivers/vivid/vivid-ctrls.c | 15 +++++++++++++++
+>>>>  1 file changed, 15 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+>>>> index e7516dc1227b..7267892dc18a 100644
+>>>> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
+>>>> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+>>>> @@ -34,6 +34,7 @@
+>>>>  #define VIVID_CID_U8_4D_ARRAY		(VIVID_CID_CUSTOM_BASE + 10)
+>>>>  #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
+>>>>  #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
+>>>> +#define VIVID_CID_U32_DYN_ARRAY		(VIVID_CID_CUSTOM_BASE + 13)
+>>>>  
+>>>>  #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
+>>>>  #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
+>>>> @@ -189,6 +190,19 @@ static const struct v4l2_ctrl_config vivid_ctrl_u32_array = {
+>>>>  	.dims = { 1 },
+>>>>  };
+>>>>  
+>>>> +static const struct v4l2_ctrl_config vivid_ctrl_u32_dyn_array = {
+>>>> +	.ops = &vivid_user_gen_ctrl_ops,
+>>>> +	.id = VIVID_CID_U32_DYN_ARRAY,
+>>>> +	.name = "U32 Dynamic Array",
+>>>> +	.type = V4L2_CTRL_TYPE_U32,
+>>>> +	.flags = V4L2_CTRL_FLAG_DYNAMIC_ARRAY,
+>>>> +	.def = 50,
+>>>> +	.min = 10,
+>>>> +	.max = 90,
+>>>> +	.step = 1,
+>>>> +	.dims = { 100 },
+>>>> +};
+>>>
+>>> To meaningfully test this, don't we need the vivid driver to change the
+>>> dimension ? Or is it meant to only test changes made by the application
+>>> ?
+>>
+>> As I understand it the dw100 driver needs a 2 dimensional array control.
+>> The size is fixed for each resolution, but if the resolution changes, then
+>> this control changes size as well, and it makes sense that when that happens
+>> it is also reset to default values.
+>>
+>> So this isn't a dynamic array at all. It is a standard 2 dimensional array.
+>>
+>> What is missing in the control framework is a function similar to
+>> v4l2_ctrl_modify_range() that can resize an array.
+>>
+>> v4l2_ctrl_modify_dimensions() would be a good name.
+>>
+>> I can make something for that if you both agree with this proposal.
+> 
+> From a userspace point of view, we only need to be able to set the
+> control after setting the format. There's no need for control change
+> events (but I don't mind if they're there of course, even if I think
+> they won't be very usable in practice).
+> 
+> From an API point of view, I'd like a clear and documented behaviour for
+> what happens to the control value when the format is changed. It can be
+> a global behaviour, or a control-specific behaviour, I don't mind much.
 
--- 
+I'd say it is control specific. In this case you would reset the contents
+to default values (presumably values that don't do any warping in this
+case).
+
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+>>>> +
+>>>>  static const struct v4l2_ctrl_config vivid_ctrl_u16_matrix = {
+>>>>  	.ops = &vivid_user_gen_ctrl_ops,
+>>>>  	.id = VIVID_CID_U16_MATRIX,
+>>>> @@ -1612,6 +1626,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>>>>  	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
+>>>>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
+>>>>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
+>>>> +	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NULL);
+>>>>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
+>>>>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_4d_array, NULL);
+>>>>  
+> 
