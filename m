@@ -2,153 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D2F354C866
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 14:24:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BBD354C881
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 14:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348678AbiFOMYG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 15 Jun 2022 08:24:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55856 "EHLO
+        id S238249AbiFOM2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 08:28:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345559AbiFOMYG (ORCPT
+        with ESMTP id S1348528AbiFOM2J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 08:24:06 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8C2439175
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 05:24:04 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1o1S43-00017T-BX; Wed, 15 Jun 2022 14:24:03 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1o1S40-000g5N-Hl; Wed, 15 Jun 2022 14:24:01 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1o1S40-0006eq-5u; Wed, 15 Jun 2022 14:24:00 +0200
-Message-ID: <40e67aa5f4ae19bb0227acdfbd2992943acb6638.camel@pengutronix.de>
-Subject: Re: [bug report] media: coda: jpeg: add CODA960 JPEG encoder support
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     linux-media@vger.kernel.org
-Date:   Wed, 15 Jun 2022 14:24:00 +0200
-In-Reply-To: <YqmWY0MmKWTsAL4D@kili>
-References: <YqmWY0MmKWTsAL4D@kili>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.38.3-1 
+        Wed, 15 Jun 2022 08:28:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B9B39BB7
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 05:28:04 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DF14749;
+        Wed, 15 Jun 2022 14:28:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1655296083;
+        bh=JovgE/ifTRpeya7zV9PFWBUZTQ1hV8GT7AlNsm8Buqo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aOtgzuj1+TotYolviTFDQit8UVLSzRnA0YfLx1UqQY9udcIg6wrgIJb8bUduS+Kzk
+         dN0TKSWm2JPu46iS1hGWVl7+JMZQb+2ct9BqsWgPamBatGKBwCs4L4YjznSmM17GR3
+         c8uooA/QcQDiTc0dQD7vndO/z8/TbTwg139fDEb0=
+Date:   Wed, 15 Jun 2022 15:27:53 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>
+Subject: Re: [ANN] Media Summit at ELCE Dublin: Request for Topics
+Message-ID: <YqnQSU3geEdZ0SGo@pendragon.ideasonboard.com>
+References: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
+ <CAPybu_2=MkqBeesQe56pw1nVCpaRyukH80ifk6zasbcykyq5bA@mail.gmail.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPybu_2=MkqBeesQe56pw1nVCpaRyukH80ifk6zasbcykyq5bA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+Hi Ricardo,
 
-On Mi, 2022-06-15 at 11:20 +0300, Dan Carpenter wrote:
-> Hello Philipp Zabel,
+On Thu, Jun 09, 2022 at 12:29:32PM +0200, Ricardo Ribalda Delgado wrote:
+> On Mon, May 9, 2022 at 8:46 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >
+> > Hi all,
+> >
+> > Since countries are opening up again and travel is (at least for now!) a lot easier,
+> > I am considering a media summit during the ELCE in Dublin (Sep 13-16).
+> >
+> > See here for more details about the conference:
+> >
+> > https://events.linuxfoundation.org/open-source-summit-europe/
+> >
+> > Of course, this only makes sense if there is something to talk about. So please reply
+> > with any suggestions for topics!
+> >
+> > Also please let me know if you would expect to be at such a media summit in person.
+> > If only a few people would be there, then there isn't much point to this.
+> >
+> >
+> > I have two topics:
+> >
+> > 1) Discussion of the media subsystem development process: any bottlenecks, any ideas
+> >    for improvements?
+> >
+> > 2) I can give a presentation on the work I've done in the CTA-861 standard (used by
+> >    HDMI) and the edid-decode utility.
+> >
+> > I'd like to make a decision on whether or not it is worthwhile to do this in a week
+> > or two. If we wait too long it might be difficult to get a room for the summit.
+> >
+> > Regards,
+> >
+> >         Hans
 > 
-> The patch 96f6f62c4656: "media: coda: jpeg: add CODA960 JPEG encoder
-> support" from Dec 12, 2019, leads to the following Smatch static
-> checker warning:
+> If all goes well, I will attend in person.
 > 
-> 	drivers/media/platform/chips-media/coda-jpeg.c:622 coda9_jpeg_gen_enc_huff_tab()
-> 	warn: check that incremented offset 'k' is capped
-
-Thank you for the report. I think k is currently guaranteed to be
-capped, but this depends on the data stored in the luma/chroma_dc/ac
-tables.
-
-Which smatch version is this? I didn't get this warning with commit
-1a0af070bd4d ("select_type: new check for propagating negatives to u32
-to s64").
-
-> drivers/media/platform/chips-media/coda-jpeg.c
->     583 static int coda9_jpeg_gen_enc_huff_tab(struct coda_ctx *ctx, int tab_num,
->     584                                        int *ehufsi, int *ehufco)
->     585 {
->     586         int i, j, k, lastk, si, code, maxsymbol;
->     587         const u8 *bits, *huffval;
->     588         struct {
->     589                 int size[256];
->     590                 int code[256];
->     591         } *huff;
->     592         static const unsigned char *huff_tabs[4] = {
->     593                 luma_dc, luma_ac, chroma_dc, chroma_ac,
-
-We use the hardcoded Huffman bit/value tables from from JPEG ITU-T.81,
-for example luma_ac:
-
-        0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03,
-        0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7d,
-	...
-
-The sum of the first 16 values in these tables is either 12 for the _dc
-tables or 162 for the _ac tables.
-
->     594         };
->     595         int ret = -EINVAL;
->     596 
->     597         huff = kzalloc(sizeof(*huff), GFP_KERNEL);
->     598         if (!huff)
->     599                 return -ENOMEM;
->     600 
->     601         bits = huff_tabs[tab_num];
-
-The sum of all 16 values in the bits table is at most 162.
-
-
->     602         huffval = huff_tabs[tab_num] + 16;
->     603 
->     604         maxsymbol = tab_num & 1 ? 256 : 16;
->     605 
->     606         /* Figure C.1 - Generation of table of Huffman code sizes */
->     607         k = 0;
->     608         for (i = 1; i <= 16; i++) {
->     609                 j = bits[i - 1];
->     610                 if (k + j > maxsymbol)
->     611                         goto out;
->     612                 while (j--)
->     613                         huff->size[k++] = i;
-
-Here we can increment k only to the sum of bits[0..16], 162 at most.
-This leaves huff->size[162..255] set to 0.
-
-huff->size[0] is set to 1.
-
->     614         }
->     615         lastk = k;
->     616 
->     617         /* Figure C.2 - Generation of table of Huffman codes */
->     618         k = 0;
->     619         code = 0;
->     620         si = huff->size[0];
->     621         while (k < lastk) {
->                        ^^^^^^^^^
-> Here we know that k is valid.
+> I would like to propose a topic as well if there is still space for it:
 > 
-> --> 622                 while (huff->size[k] == si) {
-
-This iteration stops at k == 162 at the latest, since si is at least 1
-and huff->size[162] == 0.
-
->     623                         huff->code[k++] = code;
+> At ChromeOS we have been working on a new way to access cameras that
+> do not fit in the current V4L2/MC model.
 > 
-> But this loop iterates through k without checking if k is still valid.
-> How do we know that the huff->size[k] check won't read beyond the end
-> of the loop?
+> We want to introduce the project, start a discussion in the media
+> community and think together about the approach and how it fits in our
+> current ecosystem.
 
-See above.
+I hope there will be space to discuss this topic :-) Could you maybe
+provide links to the talk you've given in Paris (video and slides) as
+well as to the public git tree ? We'll have a big agenda for the
+workshop, it will be important to focus on discussions and not
+presentations, so we should all prepare by reading material in advance.
 
+-- 
+Regards,
 
-regards
-Philipp
+Laurent Pinchart
