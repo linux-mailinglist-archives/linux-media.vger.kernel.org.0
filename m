@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4056154D2F3
+	by mail.lfdr.de (Postfix) with ESMTP id D044654D2F5
 	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 22:54:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347017AbiFOUvF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 16:51:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45778 "EHLO
+        id S1346894AbiFOUvE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 16:51:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346713AbiFOUvD (ORCPT
+        with ESMTP id S1346771AbiFOUvD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 15 Jun 2022 16:51:03 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E9A7354FBA
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 13:51:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D439055220
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 13:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655326262;
+        s=mimecast20190719; t=1655326260;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=NhqcL20ATpkNnWN0t51j/5ixk5yZJtiAjUQlYSVOb6s=;
-        b=IEbL6dErn1XJaSx/DKkdgw67GBtfW1oqVm8rgeaIJMIGboAzgp/TsZ7pUeeXnelqaY1MlD
-        CjSvi42lRcl5HZ2jEQLWwoiB2TcKQFl/cFHsbl8zeT8c0h5Zh/9NNRzQNBrLZW+J6Gur03
-        8H7OAInAejuo2dpiqlzY5Kms1N843gM=
+        bh=v/KHcJiSNDMwcTgPq3/h5DxHYYxIvtlvD+tscnIkafg=;
+        b=ONda1cUUsBCaCTekP8IuwlhE7RiYZDTAd86kx/2KdHr83+vuiH4AYoVX1B6IVOMzzfr9EH
+        n8X++kfPf+kUz8og4xaSLQPVvIKEFIlXa9O3Dps+9nsTroulUIbFok3zubbCK3LUfW8Ptv
+        9OcC9npjRp5Oc+ca4hbTtDYMPZqSk7k=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-416-ruIwti6cMYWB5XwhwSJ_Sg-1; Wed, 15 Jun 2022 16:50:57 -0400
-X-MC-Unique: ruIwti6cMYWB5XwhwSJ_Sg-1
+ us-mta-52-dyml-3e8PTyMjIRSErIPVQ-1; Wed, 15 Jun 2022 16:50:58 -0400
+X-MC-Unique: dyml-3e8PTyMjIRSErIPVQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B4AD1C1C1AA;
-        Wed, 15 Jun 2022 20:50:56 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 426F13C10228;
+        Wed, 15 Jun 2022 20:50:58 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.27])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E7D2E111F5;
-        Wed, 15 Jun 2022 20:50:54 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A02AF18EA9;
+        Wed, 15 Jun 2022 20:50:56 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -47,10 +47,11 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Yury Luneff <yury.lunev@gmail.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v2 09/40] media: atomisp: remove hmm_pool_[un]register()
-Date:   Wed, 15 Jun 2022 22:50:06 +0200
-Message-Id: <20220615205037.16549-10-hdegoede@redhat.com>
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [PATCH v2 10/40] media: atomisp: remove dynamic and reserved pool code
+Date:   Wed, 15 Jun 2022 22:50:07 +0200
+Message-Id: <20220615205037.16549-11-hdegoede@redhat.com>
 In-Reply-To: <20220615205037.16549-1-hdegoede@redhat.com>
 References: <20220615205037.16549-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,152 +67,533 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These are no-ops, so lets remove them.
+There are no callers of this code atm; and looking at the atomisp
+memory-management code if anything we want to make it simpler and
+not re-introduce use of these pools, so remove the pool code.
 
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/include/hmm/hmm.h   |  3 --
- .../staging/media/atomisp/pci/atomisp_fops.c  |  9 ----
- .../staging/media/atomisp/pci/atomisp_v4l2.c  | 10 -----
- drivers/staging/media/atomisp/pci/hmm/hmm.c   | 42 -------------------
- 4 files changed, 64 deletions(-)
+ drivers/staging/media/atomisp/Makefile        |   2 -
+ .../media/atomisp/pci/hmm/hmm_dynamic_pool.c  | 234 ----------------
+ .../media/atomisp/pci/hmm/hmm_reserved_pool.c | 253 ------------------
+ 3 files changed, 489 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/hmm/hmm_dynamic_pool.c
+ delete mode 100644 drivers/staging/media/atomisp/pci/hmm/hmm_reserved_pool.c
 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm.h b/drivers/staging/media/atomisp/include/hmm/hmm.h
-index b48bdf5c274c..067e0310d02b 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm.h
-@@ -32,9 +32,6 @@
- #define mmgr_NULL              ((ia_css_ptr)0)
- #define mmgr_EXCEPTION         ((ia_css_ptr) - 1)
- 
--int hmm_pool_register(unsigned int pool_size, enum hmm_pool_type pool_type);
--void hmm_pool_unregister(enum hmm_pool_type pool_type);
+diff --git a/drivers/staging/media/atomisp/Makefile b/drivers/staging/media/atomisp/Makefile
+index 2485d7b3fee2..dd4c2c0317ae 100644
+--- a/drivers/staging/media/atomisp/Makefile
++++ b/drivers/staging/media/atomisp/Makefile
+@@ -45,9 +45,7 @@ atomisp-objs += \
+ 	pci/camera/pipe/src/pipe_util.o \
+ 	pci/camera/util/src/util.o \
+ 	pci/hmm/hmm_bo.o \
+-	pci/hmm/hmm_dynamic_pool.o \
+ 	pci/hmm/hmm.o \
+-	pci/hmm/hmm_reserved_pool.o \
+ 	pci/ia_css_device_access.o \
+ 	pci/ia_css_isp_configs.o \
+ 	pci/ia_css_isp_states.o \
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_dynamic_pool.c b/drivers/staging/media/atomisp/pci/hmm/hmm_dynamic_pool.c
+deleted file mode 100644
+index eaf97e5f3b68..000000000000
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_dynamic_pool.c
++++ /dev/null
+@@ -1,234 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Support for Medifield PNW Camera Imaging ISP subsystem.
+- *
+- * Copyright (c) 2010 Intel Corporation. All Rights Reserved.
+- *
+- * Copyright (c) 2010 Silicon Hive www.siliconhive.com.
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License version
+- * 2 as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- *
+- */
+-/*
+- * This file contains functions for dynamic memory pool management
+- */
+-#include <linux/kernel.h>
+-#include <linux/types.h>
+-#include <linux/mm.h>
 -
- int hmm_init(void);
- void hmm_cleanup(void);
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index be6a74d5ac19..e78d9364feb7 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -865,12 +865,6 @@ static int atomisp_open(struct file *file)
- 		goto error;
- 	}
- 
--	if (dypool_enable) {
--		ret = hmm_pool_register(dypool_pgnr, HMM_POOL_TYPE_DYNAMIC);
+-#include <asm/set_memory.h>
+-
+-#include "atomisp_internal.h"
+-
+-#include "hmm/hmm_pool.h"
+-
+-/*
+- * dynamic memory pool ops.
+- */
+-static unsigned int get_pages_from_dynamic_pool(void *pool,
+-	struct hmm_page_object *page_obj,
+-	unsigned int size, bool cached)
+-{
+-	struct hmm_page *hmm_page;
+-	unsigned long flags;
+-	unsigned int i = 0;
+-	struct hmm_dynamic_pool_info *dypool_info = pool;
+-
+-	if (!dypool_info)
+-		return 0;
+-
+-	spin_lock_irqsave(&dypool_info->list_lock, flags);
+-	if (dypool_info->initialized) {
+-		while (!list_empty(&dypool_info->pages_list)) {
+-			hmm_page = list_entry(dypool_info->pages_list.next,
+-					      struct hmm_page, list);
+-
+-			list_del(&hmm_page->list);
+-			dypool_info->pgnr--;
+-			spin_unlock_irqrestore(&dypool_info->list_lock, flags);
+-
+-			page_obj[i].page = hmm_page->page;
+-			page_obj[i++].type = HMM_PAGE_TYPE_DYNAMIC;
+-			kmem_cache_free(dypool_info->pgptr_cache, hmm_page);
+-
+-			if (i == size)
+-				return i;
+-
+-			spin_lock_irqsave(&dypool_info->list_lock, flags);
+-		}
+-	}
+-	spin_unlock_irqrestore(&dypool_info->list_lock, flags);
+-
+-	return i;
+-}
+-
+-static void free_pages_to_dynamic_pool(void *pool,
+-				       struct hmm_page_object *page_obj)
+-{
+-	struct hmm_page *hmm_page;
+-	unsigned long flags;
+-	int ret;
+-	struct hmm_dynamic_pool_info *dypool_info = pool;
+-
+-	if (!dypool_info)
+-		return;
+-
+-	spin_lock_irqsave(&dypool_info->list_lock, flags);
+-	if (!dypool_info->initialized) {
+-		spin_unlock_irqrestore(&dypool_info->list_lock, flags);
+-		return;
+-	}
+-	spin_unlock_irqrestore(&dypool_info->list_lock, flags);
+-
+-	if (page_obj->type == HMM_PAGE_TYPE_RESERVED)
+-		return;
+-
+-	if (dypool_info->pgnr >= dypool_info->pool_size) {
+-		/* free page directly back to system */
+-		ret = set_pages_wb(page_obj->page, 1);
 -		if (ret)
--			dev_err(isp->dev, "Failed to register dynamic memory pool.\n");
+-			dev_err(atomisp_dev,
+-				"set page to WB err ...ret=%d\n", ret);
+-		/*
+-		W/A: set_pages_wb seldom return value = -EFAULT
+-		indicate that address of page is not in valid
+-		range(0xffff880000000000~0xffffc7ffffffffff)
+-		then, _free_pages would panic; Do not know why page
+-		address be valid, it maybe memory corruption by lowmemory
+-		*/
+-		if (!ret) {
+-			__free_pages(page_obj->page, 0);
+-			hmm_mem_stat.sys_size--;
+-		}
+-		return;
+-	}
+-	hmm_page = kmem_cache_zalloc(dypool_info->pgptr_cache,
+-				     GFP_KERNEL);
+-	if (!hmm_page) {
+-		/* free page directly */
+-		ret = set_pages_wb(page_obj->page, 1);
+-		if (ret)
+-			dev_err(atomisp_dev,
+-				"set page to WB err ...ret=%d\n", ret);
+-		if (!ret) {
+-			__free_pages(page_obj->page, 0);
+-			hmm_mem_stat.sys_size--;
+-		}
+-		return;
 -	}
 -
- 	/* Init ISP */
- 	if (atomisp_css_init(isp)) {
- 		ret = -EINVAL;
-@@ -910,7 +904,6 @@ static int atomisp_open(struct file *file)
- 	atomisp_css_uninit(isp);
- 	pm_runtime_put(vdev->v4l2_dev->dev);
- error:
--	hmm_pool_unregister(HMM_POOL_TYPE_DYNAMIC);
- 	rt_mutex_unlock(&isp->mutex);
- 	return ret;
- }
-@@ -1032,8 +1025,6 @@ static int atomisp_release(struct file *file)
- 		isp->css_env.isp_css_fw.bytes = 0;
- 	}
- 
--	hmm_pool_unregister(HMM_POOL_TYPE_DYNAMIC);
+-	hmm_page->page = page_obj->page;
 -
- 	ret = v4l2_subdev_call(isp->flash, core, s_power, 0);
- 	if (ret < 0 && ret != -ENODEV && ret != -ENOIOCTLCMD)
- 		dev_warn(isp->dev, "Failed to power-off flash\n");
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 49ccfb1646da..3fd0c526193f 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1771,12 +1771,6 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	pm_runtime_allow(&pdev->dev);
- 
- 	hmm_init_mem_stat(repool_pgnr, dypool_enable, dypool_pgnr);
--	err = hmm_pool_register(repool_pgnr, HMM_POOL_TYPE_RESERVED);
--	if (err) {
--		dev_err(&pdev->dev, "Failed to register reserved memory pool.\n");
--		goto hmm_pool_fail;
--	}
+-	/*
+-	 * add to pages_list of pages_pool
+-	 */
+-	spin_lock_irqsave(&dypool_info->list_lock, flags);
+-	list_add_tail(&hmm_page->list, &dypool_info->pages_list);
+-	dypool_info->pgnr++;
+-	spin_unlock_irqrestore(&dypool_info->list_lock, flags);
+-	hmm_mem_stat.dyc_size++;
+-}
 -
- 	/* Init ISP memory management */
- 	hmm_init();
- 
-@@ -1813,8 +1807,6 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	devm_free_irq(&pdev->dev, pdev->irq, isp);
- request_irq_fail:
- 	hmm_cleanup();
--	hmm_pool_unregister(HMM_POOL_TYPE_RESERVED);
--hmm_pool_fail:
- 	pm_runtime_get_noresume(&pdev->dev);
- 	destroy_workqueue(isp->wdt_work_queue);
- wdt_work_queue_fail:
-@@ -1885,8 +1877,6 @@ static void atomisp_pci_remove(struct pci_dev *pdev)
- 	atomisp_file_input_cleanup(isp);
- 
- 	release_firmware(isp->firmware);
--
--	hmm_pool_unregister(HMM_POOL_TYPE_RESERVED);
- }
- 
- static const struct pci_device_id atomisp_pci_tbl[] = {
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index a4722155ddef..f609e154d788 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -660,48 +660,6 @@ void hmm_vunmap(ia_css_ptr virt)
- 	hmm_bo_vunmap(bo);
- }
- 
--int hmm_pool_register(unsigned int pool_size, enum hmm_pool_type pool_type)
+-static int hmm_dynamic_pool_init(void **pool, unsigned int pool_size)
 -{
--#if 0	// Just use the "normal" pool
--	switch (pool_type) {
--	case HMM_POOL_TYPE_RESERVED:
--		reserved_pool.pops = &reserved_pops;
--		return reserved_pool.pops->pool_init(&reserved_pool.pool_info,
--						     pool_size);
--	case HMM_POOL_TYPE_DYNAMIC:
--		dynamic_pool.pops = &dynamic_pops;
--		return dynamic_pool.pops->pool_init(&dynamic_pool.pool_info,
--						    pool_size);
--	default:
--		dev_err(atomisp_dev, "invalid pool type.\n");
--		return -EINVAL;
+-	struct hmm_dynamic_pool_info *dypool_info;
+-
+-	if (pool_size == 0)
+-		return 0;
+-
+-	dypool_info = kmalloc(sizeof(struct hmm_dynamic_pool_info),
+-			      GFP_KERNEL);
+-	if (unlikely(!dypool_info))
+-		return -ENOMEM;
+-
+-	dypool_info->pgptr_cache = kmem_cache_create("pgptr_cache",
+-				   sizeof(struct hmm_page), 0,
+-				   SLAB_HWCACHE_ALIGN, NULL);
+-	if (!dypool_info->pgptr_cache) {
+-		kfree(dypool_info);
+-		return -ENOMEM;
 -	}
--#else
+-
+-	INIT_LIST_HEAD(&dypool_info->pages_list);
+-	spin_lock_init(&dypool_info->list_lock);
+-	dypool_info->initialized = true;
+-	dypool_info->pool_size = pool_size;
+-	dypool_info->pgnr = 0;
+-
+-	*pool = dypool_info;
+-
 -	return 0;
--#endif
 -}
 -
--void hmm_pool_unregister(enum hmm_pool_type pool_type)
+-static void hmm_dynamic_pool_exit(void **pool)
 -{
--#if 0	// Just use the "normal" pool
--	switch (pool_type) {
--	case HMM_POOL_TYPE_RESERVED:
--		if (reserved_pool.pops && reserved_pool.pops->pool_exit)
--			reserved_pool.pops->pool_exit(&reserved_pool.pool_info);
--		break;
--	case HMM_POOL_TYPE_DYNAMIC:
--		if (dynamic_pool.pops && dynamic_pool.pops->pool_exit)
--			dynamic_pool.pops->pool_exit(&dynamic_pool.pool_info);
--		break;
--	default:
--		dev_err(atomisp_dev, "invalid pool type.\n");
--		break;
--	}
--#endif
+-	struct hmm_dynamic_pool_info *dypool_info = *pool;
+-	struct hmm_page *hmm_page;
+-	unsigned long flags;
+-	int ret;
 -
--	return;
+-	if (!dypool_info)
+-		return;
+-
+-	spin_lock_irqsave(&dypool_info->list_lock, flags);
+-	if (!dypool_info->initialized) {
+-		spin_unlock_irqrestore(&dypool_info->list_lock, flags);
+-		return;
+-	}
+-	dypool_info->initialized = false;
+-
+-	while (!list_empty(&dypool_info->pages_list)) {
+-		hmm_page = list_entry(dypool_info->pages_list.next,
+-				      struct hmm_page, list);
+-
+-		list_del(&hmm_page->list);
+-		spin_unlock_irqrestore(&dypool_info->list_lock, flags);
+-
+-		/* can cause thread sleep, so cannot be put into spin_lock */
+-		ret = set_pages_wb(hmm_page->page, 1);
+-		if (ret)
+-			dev_err(atomisp_dev,
+-				"set page to WB err...ret=%d\n", ret);
+-		if (!ret) {
+-			__free_pages(hmm_page->page, 0);
+-			hmm_mem_stat.dyc_size--;
+-			hmm_mem_stat.sys_size--;
+-		}
+-		kmem_cache_free(dypool_info->pgptr_cache, hmm_page);
+-		spin_lock_irqsave(&dypool_info->list_lock, flags);
+-	}
+-
+-	spin_unlock_irqrestore(&dypool_info->list_lock, flags);
+-
+-	kmem_cache_destroy(dypool_info->pgptr_cache);
+-
+-	kfree(dypool_info);
+-
+-	*pool = NULL;
 -}
 -
- void *hmm_isp_vaddr_to_host_vaddr(ia_css_ptr ptr, bool cached)
- {
- 	return hmm_vmap(ptr, cached);
+-static int hmm_dynamic_pool_inited(void *pool)
+-{
+-	struct hmm_dynamic_pool_info *dypool_info = pool;
+-
+-	if (!dypool_info)
+-		return 0;
+-
+-	return dypool_info->initialized;
+-}
+-
+-struct hmm_pool_ops dynamic_pops = {
+-	.pool_init		= hmm_dynamic_pool_init,
+-	.pool_exit		= hmm_dynamic_pool_exit,
+-	.pool_alloc_pages	= get_pages_from_dynamic_pool,
+-	.pool_free_pages	= free_pages_to_dynamic_pool,
+-	.pool_inited		= hmm_dynamic_pool_inited,
+-};
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_reserved_pool.c b/drivers/staging/media/atomisp/pci/hmm/hmm_reserved_pool.c
+deleted file mode 100644
+index 57525fece921..000000000000
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_reserved_pool.c
++++ /dev/null
+@@ -1,253 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Support for Medifield PNW Camera Imaging ISP subsystem.
+- *
+- * Copyright (c) 2010 Intel Corporation. All Rights Reserved.
+- *
+- * Copyright (c) 2010 Silicon Hive www.siliconhive.com.
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License version
+- * 2 as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- *
+- */
+-/*
+- * This file contains functions for reserved memory pool management
+- */
+-#include <linux/kernel.h>
+-#include <linux/types.h>
+-#include <linux/mm.h>
+-
+-#include <asm/set_memory.h>
+-
+-#include "atomisp_internal.h"
+-#include "hmm/hmm_pool.h"
+-
+-/*
+- * reserved memory pool ops.
+- */
+-static unsigned int get_pages_from_reserved_pool(void *pool,
+-	struct hmm_page_object *page_obj,
+-	unsigned int size, bool cached)
+-{
+-	unsigned long flags;
+-	unsigned int i = 0;
+-	unsigned int repool_pgnr;
+-	int j;
+-	struct hmm_reserved_pool_info *repool_info = pool;
+-
+-	if (!repool_info)
+-		return 0;
+-
+-	spin_lock_irqsave(&repool_info->list_lock, flags);
+-	if (repool_info->initialized) {
+-		repool_pgnr = repool_info->index;
+-
+-		for (j = repool_pgnr - 1; j >= 0; j--) {
+-			page_obj[i].page = repool_info->pages[j];
+-			page_obj[i].type = HMM_PAGE_TYPE_RESERVED;
+-			i++;
+-			repool_info->index--;
+-			if (i == size)
+-				break;
+-		}
+-	}
+-	spin_unlock_irqrestore(&repool_info->list_lock, flags);
+-	return i;
+-}
+-
+-static void free_pages_to_reserved_pool(void *pool,
+-					struct hmm_page_object *page_obj)
+-{
+-	unsigned long flags;
+-	struct hmm_reserved_pool_info *repool_info = pool;
+-
+-	if (!repool_info)
+-		return;
+-
+-	spin_lock_irqsave(&repool_info->list_lock, flags);
+-
+-	if (repool_info->initialized &&
+-	    repool_info->index < repool_info->pgnr &&
+-	    page_obj->type == HMM_PAGE_TYPE_RESERVED) {
+-		repool_info->pages[repool_info->index++] = page_obj->page;
+-	}
+-
+-	spin_unlock_irqrestore(&repool_info->list_lock, flags);
+-}
+-
+-static int hmm_reserved_pool_setup(struct hmm_reserved_pool_info **repool_info,
+-				   unsigned int pool_size)
+-{
+-	struct hmm_reserved_pool_info *pool_info;
+-
+-	pool_info = kmalloc(sizeof(struct hmm_reserved_pool_info),
+-			    GFP_KERNEL);
+-	if (unlikely(!pool_info))
+-		return -ENOMEM;
+-
+-	pool_info->pages = kmalloc(sizeof(struct page *) * pool_size,
+-				   GFP_KERNEL);
+-	if (unlikely(!pool_info->pages)) {
+-		kfree(pool_info);
+-		return -ENOMEM;
+-	}
+-
+-	pool_info->index = 0;
+-	pool_info->pgnr = 0;
+-	spin_lock_init(&pool_info->list_lock);
+-	pool_info->initialized = true;
+-
+-	*repool_info = pool_info;
+-
+-	return 0;
+-}
+-
+-static int hmm_reserved_pool_init(void **pool, unsigned int pool_size)
+-{
+-	int ret;
+-	unsigned int blk_pgnr;
+-	unsigned int pgnr = pool_size;
+-	unsigned int order = 0;
+-	unsigned int i = 0;
+-	int fail_number = 0;
+-	struct page *pages;
+-	int j;
+-	struct hmm_reserved_pool_info *repool_info;
+-
+-	if (pool_size == 0)
+-		return 0;
+-
+-	ret = hmm_reserved_pool_setup(&repool_info, pool_size);
+-	if (ret) {
+-		dev_err(atomisp_dev, "hmm_reserved_pool_setup failed.\n");
+-		return ret;
+-	}
+-
+-	pgnr = pool_size;
+-
+-	i = 0;
+-	order = MAX_ORDER;
+-
+-	while (pgnr) {
+-		blk_pgnr = 1U << order;
+-		while (blk_pgnr > pgnr) {
+-			order--;
+-			blk_pgnr >>= 1U;
+-		}
+-		BUG_ON(order > MAX_ORDER);
+-
+-		pages = alloc_pages(GFP_KERNEL | __GFP_NOWARN, order);
+-		if (unlikely(!pages)) {
+-			if (order == 0) {
+-				fail_number++;
+-				dev_err(atomisp_dev, "%s: alloc_pages failed: %d\n",
+-					__func__, fail_number);
+-				/* if fail five times, will goto end */
+-
+-				/* FIXME: whether is the mechanism is ok? */
+-				if (fail_number == ALLOC_PAGE_FAIL_NUM)
+-					goto end;
+-			} else {
+-				order--;
+-			}
+-		} else {
+-			blk_pgnr = 1U << order;
+-
+-			ret = set_pages_uc(pages, blk_pgnr);
+-			if (ret) {
+-				dev_err(atomisp_dev,
+-					"set pages uncached failed\n");
+-				__free_pages(pages, order);
+-				goto end;
+-			}
+-
+-			for (j = 0; j < blk_pgnr; j++)
+-				repool_info->pages[i++] = pages + j;
+-
+-			repool_info->index += blk_pgnr;
+-			repool_info->pgnr += blk_pgnr;
+-
+-			pgnr -= blk_pgnr;
+-
+-			fail_number = 0;
+-		}
+-	}
+-
+-end:
+-	repool_info->initialized = true;
+-
+-	*pool = repool_info;
+-
+-	dev_info(atomisp_dev,
+-		 "hmm_reserved_pool init successfully,hmm_reserved_pool is with %d pages.\n",
+-		 repool_info->pgnr);
+-	return 0;
+-}
+-
+-static void hmm_reserved_pool_exit(void **pool)
+-{
+-	unsigned long flags;
+-	int i, ret;
+-	unsigned int pgnr;
+-	struct hmm_reserved_pool_info *repool_info = *pool;
+-
+-	if (!repool_info)
+-		return;
+-
+-	spin_lock_irqsave(&repool_info->list_lock, flags);
+-	if (!repool_info->initialized) {
+-		spin_unlock_irqrestore(&repool_info->list_lock, flags);
+-		return;
+-	}
+-	pgnr = repool_info->pgnr;
+-	repool_info->index = 0;
+-	repool_info->pgnr = 0;
+-	repool_info->initialized = false;
+-	spin_unlock_irqrestore(&repool_info->list_lock, flags);
+-
+-	for (i = 0; i < pgnr; i++) {
+-		ret = set_pages_wb(repool_info->pages[i], 1);
+-		if (ret)
+-			dev_err(atomisp_dev,
+-				"set page to WB err...ret=%d\n", ret);
+-		/*
+-		W/A: set_pages_wb seldom return value = -EFAULT
+-		indicate that address of page is not in valid
+-		range(0xffff880000000000~0xffffc7ffffffffff)
+-		then, _free_pages would panic; Do not know why
+-		page address be valid, it maybe memory corruption by lowmemory
+-		*/
+-		if (!ret)
+-			__free_pages(repool_info->pages[i], 0);
+-	}
+-
+-	kfree(repool_info->pages);
+-	kfree(repool_info);
+-
+-	*pool = NULL;
+-}
+-
+-static int hmm_reserved_pool_inited(void *pool)
+-{
+-	struct hmm_reserved_pool_info *repool_info = pool;
+-
+-	if (!repool_info)
+-		return 0;
+-
+-	return repool_info->initialized;
+-}
+-
+-struct hmm_pool_ops reserved_pops = {
+-	.pool_init		= hmm_reserved_pool_init,
+-	.pool_exit		= hmm_reserved_pool_exit,
+-	.pool_alloc_pages	= get_pages_from_reserved_pool,
+-	.pool_free_pages	= free_pages_to_reserved_pool,
+-	.pool_inited		= hmm_reserved_pool_inited,
+-};
 -- 
 2.36.0
 
