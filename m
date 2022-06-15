@@ -2,66 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9332E54CC52
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BFDC54CC6C
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:16:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344902AbiFOPNV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 11:13:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34026 "EHLO
+        id S1346330AbiFOPPc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 11:15:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239055AbiFOPNJ (ORCPT
+        with ESMTP id S1344978AbiFOPP3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 11:13:09 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36DDF13D30
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 08:13:08 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id n28so16630945edb.9
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 08:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7CbeHNxpi9+s0qv2gIQi33L5PMDbofgWDLYkT2RlfqU=;
-        b=Auij9wGydoXVcXtnVt7f5SscEe86yhsuqwH1KBIeBgvJIamUxyE+Vb4zImjfbs/8Gg
-         vUnQ2F90PpL4Fg5ZySoT9EghYv3hokn3+el6rjZ0/FMwTRdgNl7aD54X5zsd/qxIhrff
-         5qFW6e0Ief8Zv+CCF4k39oNBYsX3RwDmztce8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7CbeHNxpi9+s0qv2gIQi33L5PMDbofgWDLYkT2RlfqU=;
-        b=R6FJwIL5u1d5mL5fO8iU0Z/20mSHm4jMtJ1laU7etefVOnsGWdWkR455wJtgO+RPDn
-         B82DFSDNhNqF9yriEBdNZJxiRJku48tytCuhBwC4ApCT9vSFHr0B0TUq5QIfyYZqgcpo
-         hDdRmBOfqTiTjYZdoALehmYPrN2E5eIo/7g/PCfVuPs8+vvYNs4As+rqaN+coh1hK098
-         cB3TJ5/0Q0Yn3n7qRaudP6V6LU1wNYmTGiCkqqcX9lVr7VSpqbTkwga53p/QIdYXSOTq
-         AYr9ZGQH9mSbDisZvcE2CcnYRsb/n4Q4A7/4UGZ0exq1N9/PsGxuTzsJcxSwDJj+ZU80
-         n5hw==
-X-Gm-Message-State: AJIora9rWUbx7fQAOzNJia5WHEG5uj4EJAfsmhRXFV0Ty6Fs5En2znFE
-        +XFC/y5P2gjMdartgl5Tlu1qHw==
-X-Google-Smtp-Source: AGRyM1uCatZFuN2m8N1LXga0uQ6Mh4GENNAyAybfRA+eNgeNGD+PO4HiS0jfW/G6qoArI/+erOyYPA==
-X-Received: by 2002:a05:6402:3322:b0:42d:f984:92fa with SMTP id e34-20020a056402332200b0042df98492famr291175eda.106.1655305987825;
-        Wed, 15 Jun 2022 08:13:07 -0700 (PDT)
-Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id b25-20020aa7cd19000000b0042bd2012196sm9610264edw.85.2022.06.15.08.13.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 08:13:07 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, senozhatsky@chromium.org, yunkec@google.com
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v6 8/8] media: uvcvideo: Limit power line control for Acer EasyCamera
-Date:   Wed, 15 Jun 2022 17:12:59 +0200
-Message-Id: <20220615151259.77825-9-ribalda@chromium.org>
-X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
-In-Reply-To: <20220615151259.77825-1-ribalda@chromium.org>
-References: <20220615151259.77825-1-ribalda@chromium.org>
+        Wed, 15 Jun 2022 11:15:29 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F29B3C707;
+        Wed, 15 Jun 2022 08:15:26 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5759F240005;
+        Wed, 15 Jun 2022 15:15:22 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     dave.stevenson@raspberrypi.com
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, david.plowman@raspberrypi.com,
+        laurent.pinchart@ideasonboard.com,
+        Valentine Barshak <valentine.barshak@cogentembedded.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 0/5] media: ov5647: Reintroduce 8bpp modes from R-Car BSP
+Date:   Wed, 15 Jun 2022 17:14:52 +0200
+Message-Id: <20220615151457.415038-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,52 +39,75 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The device does not implement the power line control correctly. Add a
-corresponding control mapping override.
+8 bpp mode was removed in commit 38c223081815 ("media: ov5647:
+Remove 640x480 SBGGR8 mode") as it hangs the sensor and no streaming
+was possible.
 
-Bus 001 Device 003: ID 5986:1172 Acer, Inc EasyCamera
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass          239 Miscellaneous Device
-  bDeviceSubClass         2
-  bDeviceProtocol         1 Interface Association
-  bMaxPacketSize0        64
-  idVendor           0x5986 Acer, Inc
-  idProduct          0x1172
-  bcdDevice           56.04
-  iManufacturer           3 Bison
-  iProduct                1 EasyCamera
-  iSerial                 2
-  bNumConfigurations      1
+This series upports a few patches from Renesas R-Car 4.1.0 BSP which use
+8 bpp modes for ADAS applications.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+While at it, a few patches from the RPi BSP have been upported as well, as the
+series has been tested on a Pi.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index a862a9d6a2fd..6d34992032e6 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3248,6 +3248,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
-+	/* Acer EasyCamera */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x5986,
-+	  .idProduct		= 0x1172,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
- 	/* Intel RealSense D4M */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
--- 
-2.36.1.476.g0c4daa206d-goog
+As reported in the commit message of 3/5, a register quirk allows to capture
+8bpp modes with no hangs:
+
+Quoting:
+
+-------------------------------------------------------------------------------
+Comparing the register table for the 10 bit full-size mode and the
+register table for the there introduced 8 bit full size mode, the main
+difference is in the value of register 0x3034, documented as:
+
+0x3034: Bit[7]:   Not used
+	Bit[6:4]: pll_charge_pump
+	Bit[3:0]: mipi_bit_mode
+		  0000: 8 bit mode
+		  0001: 10 bit mode
+		  Others: Reserved to future use
+
+However the value currently assigned to the register in all 10 bits
+modes contradicts the register description (0x3034=0x1a) suggesting that
+the documentation is possibly wrong and the lower and higher 4 bits are
+actually swapped.
+
+In facts, the 8 bits mode as added in the BSP commit assigns to register
+0x3034 the value 0x08, causing the sensor to hang.
+
+This patch uses for the register the same value as the 10 bits mode with
+BIT(4) cleared, resulting in correct streaming operations with the
+expected 15 FPS frame rate.
+
+pi@raspberrypi:~ $ v4l2-ctl --get-subdev-fmt pad=0 -d /dev/v4l-subdev0
+pi@raspberrypi:~ $ yavta -s2592x1944 -fSGBRG8 --capture=10 --skip=7 -F /dev/video0
+...
+Captured 10 frames in 0.631383 seconds (15.838237 fps, 79806470.803431 B/s).
+...
+-------------------------------------------------------------------------------
+
+As reported in the same commit messages, frames as captured from the Pi are
+completely black, suggesting that some other setting is off.
+
+However the sensor does not hang anymore and it is worth re-enabling the modes
+as a base for further debugging.
+
+Thanks
+   j
+
+David Plowman (1):
+  media: ov5647: Support HFLIP and VFLIP
+
+Jacopo Mondi (3):
+  media: ov5647: Add 8 bit SGBRG8 full size mode
+  media: ov5647: Reintroduce 8 bit 640x480
+  media: ov5647: Add support for test patterns
+
+Laurent Pinchart (1):
+  media: ov5647: Parse and register properties
+
+ drivers/media/i2c/ov5647.c | 411 +++++++++++++++++++++++++++++++++++--
+ 1 file changed, 393 insertions(+), 18 deletions(-)
+
+--
+2.35.1
 
