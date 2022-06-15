@@ -2,210 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F309554C8A5
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 14:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA60B54C8B1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 14:38:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344120AbiFOMfg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 08:35:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39700 "EHLO
+        id S1346566AbiFOMiG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 08:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243457AbiFOMff (ORCPT
+        with ESMTP id S243952AbiFOMiC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 08:35:35 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2040.outbound.protection.outlook.com [40.107.94.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9378A3057D;
-        Wed, 15 Jun 2022 05:35:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hxmp9d+5KYx+1sl3Ryfwx2Ru5kwlr0xFriLeEhov6bypYsJJv86IvsFlP0DR3UfrU+JF55tHeBMLCjLcNL7RPpVTxB8bdtzC2aQY9Y4n4NEQyLIE99tv0yxhJ0TqMjSXv/MN6Qbf+r1LeLge2kBWkN21KAUqX8xuQjOHB18dvSkK6/cyBpls1/Dnd6RZ2cDP5gvEoxQHyqkGLdU8r0t2RBKMgQzlwWtSE9Je0lKUGin15iBpG25wroRC6cfqdic7rp8SfrYM9SOxjrGVU0YH9ZscQwQa6RygRMt+OJIyLNlSulh667ev28qSEjU0ZuOyxykevGjzQxBtNF75raGi3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZBsB15QHb2e3BP5C0cRXuymKg2tuz7g8M/n6PB3FVew=;
- b=NuK8Rd29x1asUv4ptDHxDRfPnAPVqDBaqCc5dCvmer39GnaQ+bX4K9KFgQw+MuXx9MR/cc9noPz8QgAs4QNO04S5oyWUJvER89TdElNweoZw7dgC5YT4Xgd+RyGS2jYDKr6msOyVmWFPyGKBtkHuTFdRGhwpnv1hlvcD9V8f6Dk4VCeHrP7yfHHA5fUhzxNBzYEbH3XV+MEpHvqMEB0kjjPJeuKIHuxV5iZ2QgOFKV/12vn7fcEZzAYbJ7ADe/iWnqVqfFC+6gymeRUhEx9HwIfG2IZ5b2+5TKXPNt1yC5NnVOE4AN0jd9EbaFCt2RmVk3qo7vBgYi3SzTzu/OJyEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZBsB15QHb2e3BP5C0cRXuymKg2tuz7g8M/n6PB3FVew=;
- b=iL957Z4cI8aF+9GNZVscUFS7vnZUz3VKB9YKJhDqkojzNzIxQCcDkEJZDOUT4UQDMGH8x3uMRXguGR/AEeq9dQz8Qy5pmqSnDktZkbyUa1FZq3CL00tMEYYksaHBNvoC5ZLcViRTdCDmCbETH0y7r9Ax96L2uSwh/97/RQi742w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM6PR12MB2988.namprd12.prod.outlook.com (2603:10b6:5:3d::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.16; Wed, 15 Jun
- 2022 12:35:30 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5353.014; Wed, 15 Jun 2022
- 12:35:30 +0000
-Message-ID: <9e170201-35df-cfcc-8d07-2f9693278829@amd.com>
-Date:   Wed, 15 Jun 2022 14:35:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 03/13] mm: shmem: provide oom badness for shmem files
-Content-Language: en-US
-To:     Michal Hocko <mhocko@suse.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        alexander.deucher@amd.com, daniel@ffwll.ch,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        hughd@google.com, andrey.grodzovsky@amd.com
-References: <YqIMmK18mb/+s5de@dhcp22.suse.cz>
- <3f7d3d96-0858-fb6d-07a3-4c18964f888e@gmail.com>
- <YqMuq/ZrV8loC3jE@dhcp22.suse.cz>
- <2e7e050e-04eb-0c0a-0675-d7f1c3ae7aed@amd.com>
- <YqNSSFQELx/LeEHR@dhcp22.suse.cz>
- <288528c3-411e-fb25-2f08-92d4bb9f1f13@gmail.com>
- <Yqbq/Q5jz2ou87Jx@dhcp22.suse.cz>
- <b8b9aba5-575e-8a34-e627-79bef4ed7f97@amd.com>
- <YqcpZY3Xx7Mk2ROH@dhcp22.suse.cz>
- <34daa8ab-a9f4-8f7b-0ea7-821bc36b9497@gmail.com>
- <YqdFkfLVFUD5K6EK@dhcp22.suse.cz>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <YqdFkfLVFUD5K6EK@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6PR04CA0063.eurprd04.prod.outlook.com
- (2603:10a6:20b:f0::40) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Wed, 15 Jun 2022 08:38:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEBB231928
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 05:38:00 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7CE6BE41;
+        Wed, 15 Jun 2022 14:37:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1655296678;
+        bh=/pCm9lh1AKwXFVohxw2ivJ/zdczsKR+uqxQrmpWynMA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kxuPcF0bwWEAmsTK4r4PTkLmp3d/PFP1LRxfM5ZFnM1tuPrk5ugyqe47DY98NI+YC
+         TeGch3vdGnaX42XUrpRolUdfyFdln3L3QieMBl6ASeWjLWb3leg5P1rdxb6mSrELWx
+         cnF+WEbUR5R41cTofl42EbAUHyobzDclcptp4Tso=
+Date:   Wed, 15 Jun 2022 15:37:48 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [ANN] Media Summit at ELCE Dublin: Request for Topics
+Message-ID: <YqnSnDksAYfrQVKw@pendragon.ideasonboard.com>
+References: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
+ <20220520082248.o6gzekapndo4lhgb@uno.localdomain>
+ <CAPY8ntCwoLys1uwpoy3AW=wbBZod5cxj==z0XjUrBxK=0cwr8g@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0ee299bd-72c5-420e-bfe2-08da4ecb889c
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2988:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB298839FBD123EB5C91226E5D83AD9@DM6PR12MB2988.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3MKDx0tiesF6XaqBkDqLJbrNbcN+G+4VSoZJ549VJF7deZtjLxomv7sRbNJixNTHLZuf6rHvctlOv/ainko3rsqV/lkkgguVe9hQ/hn9DwzDMpXTI2HsbMuuhGI/tmNPZBtzXtms752PcJGvw0rcFr84+TwfVgXoX05+8Y2UpxzOULhMvRBBo2p1DmyOGBof6/RSftqBfQG5NF5SeRQEDX9BnMQKwdJd6bbe5TmFjo4wXJtF8SEazobtDBSGMMBJxle+bF3ip7cBy/+2bzzr+SXs6Ir7VVt/7lLqKxwwcOz4VFopFD7zRy9E1+BbNdJe7XL1nH2R6GkgZYPWv4W8p5fHQRlPikkc33mebuaQiqYTuO9W2X0XqgMxbi/Hm91mmnfJZyCgR2qyYdp8cX6f3AOQ4ttRYf4Hm+ooKaAUNIz3AcOQcDAXjqAS4yQ3FaeF/joMYFW9APaLUMZ8r42jBshefT5Aa+JmqV/m6e3dyI24s41g0BGS42v8no9vInlohOX0x9g3DBTL3nJr8O/yX9G7RQ0jLYQA+9RdOaoKk4aRjK3VJs++f7SPh+9+6jYWiW9aZL9p1KtUmnTK/6WDVM3xRGQ+Dn8DCvzqzVn5o0IVnHPibu8V+6MgWjvEI/e2xlBK6SbD+ZYS4ZevPDORSTfUJc9OMLlEZqOz991N9Ge+Ki/SRdOVmYXL9LnO7gi/Ltgzp1TJR3imCfA8CXiddc1+2kWxb01ITGAmysljTCLqtyKtotql2STiX6EN0w3v
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(86362001)(5660300002)(7416002)(66946007)(2906002)(6486002)(66556008)(508600001)(110136005)(8936002)(186003)(26005)(6512007)(2616005)(83380400001)(38100700002)(36756003)(31696002)(4326008)(6666004)(8676002)(316002)(6506007)(66476007)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y3JXNHRqUldxNTJTL1EyVkRYYmVESzJDSGJjd0hIeGRpN2lmdmtJYVpJU1Zn?=
- =?utf-8?B?OWM4M0FTWnVUTG1XME9Pb0dhVS9YdlNES2dDTm5WeHA3NDZQejBpYU91R2Vw?=
- =?utf-8?B?WDk4bG9YNE45V2FqOEhyZE1yU2ZqZEUwN0FmRUhsU0VraWl5ekJMWG5OZFZP?=
- =?utf-8?B?aG5qd3hxV3kxc2NpWnpqV2pkRk85bzBGK0l2VHNFbFg1V3BmdFFmVWZqSGd0?=
- =?utf-8?B?M2hkZSs3M0tneXpUa0JSczFvTjFKMkdXZnZXQmNyU2hqbkxwckdPOVE1aUg4?=
- =?utf-8?B?ci9RYzNNVnEyL0JwQVJiUWVCQmJYbzM2TERoS3ZUcVR2ZUI1TUk5VWZ5eUtr?=
- =?utf-8?B?UDhxOUN0NUVFSUZTTk1ScTE5QmpzV2RMTGtnVCtoVnZOb2EyS1o0aTJCaWt5?=
- =?utf-8?B?RXJpRGk4QkRVQVl5Q3hUM0lseUVscm03RTZwdjRXNmluaWVtUVdxYy9jZjlp?=
- =?utf-8?B?cWdjZlVoRG1RY3JvZm9OK2kxTmtNeUFtcG1ZSCtncUhSNzRCT29sTGZueHpt?=
- =?utf-8?B?U3VFNGVoUnFZUEdGaE9BWkxwSzBkVHA2WERUeWFyMkx2dnJpYkVQUHk3ZE01?=
- =?utf-8?B?bDhlZFdIY2dPOTVFdHErY1V1cGNZVDZXV0Y2WFE2NUtJb3RnTEJVamVkZVds?=
- =?utf-8?B?bzBOZnVIdDBEVHFCeXBFaUNJbzhnY1dGS1dyQTBMVm1PR2o4RldvbUVlaXFk?=
- =?utf-8?B?a2IwemEydXJFZGlMcmVTaWVaSGlVNlJzMEd2clA3NmNPbWpYNkdoQU5yRFll?=
- =?utf-8?B?UXNrYmpYay84M3ZRdmRaQ0lYakMxLzNncW9LNlJQVVRUMTRyNXdmYU0xSmJT?=
- =?utf-8?B?eFB0SkQzSUY4MmtQWFR4ZjFoeFUxblkyTkNoVkZrUEVLUDZSZ254N3crbGEw?=
- =?utf-8?B?K1BhL0VDMHhQVVFqTkIvajZVUnBqVnVVaHU3S0EwcHVoV3daTllVUmpvK3Nx?=
- =?utf-8?B?UUJDb1RLK0dtMmlkenJZY1p3ZzgwQjVlVHEvcTEwZ3dmMVFrMDlSWDhrdVdO?=
- =?utf-8?B?WHJlNHR2bVY5MzhRWE9qV0tzUXF0UzBoWDhFME5OeFByZHVScFQ2dmJ0VE9E?=
- =?utf-8?B?VHplVy9YNGREQUpFN0NrTmtlUm1TSkU2cW8yVEZBQkNiVXRRM3dpU2EzNTN1?=
- =?utf-8?B?UHFLeDFLREdad3dXNGFHRUJKb3VMVlZrRnlCYTA5RHF1LzZEQ29wV0kyQVJl?=
- =?utf-8?B?anpoNXJUcTZ0RzRmNkF3V1gxTmdxL1dIcnIrZmJVZjEyTXFSZ1NBLzRCbWl6?=
- =?utf-8?B?WGtFMEJCcWVNOXVrSzY5eExZWmFTa29LWUhEejc3UHhJY0hNYVRpSjZDenBj?=
- =?utf-8?B?UkhlcjMyWDRseDFMOGlWMWdUL1p1eGp2WlFUZHRBZGh2cFFiOWlWbDJwTUEx?=
- =?utf-8?B?NnIveEVwM25xVG5Qd3o1azhmcXoyZFlPckNQZ0RYeHNwUStTZ0paMC96U0hj?=
- =?utf-8?B?RmhCNXNaajU3QmRnc09DdFBmRmUyZmdkbXliREhKUWN5WEFXYVQ0VjM1VnNw?=
- =?utf-8?B?L3VYNWppWVdmZGhqY1J4QkErUEM4RFFINW50ckVLa2xTaVJFM2xCNFVjeXlY?=
- =?utf-8?B?VFRkOEhpdHVwRHkvQVllcFJ5MzNWUTRGdXQ5c1Q3Q1M5bFkwVVo3SGZZTDZJ?=
- =?utf-8?B?alU5NlNta0o2Ums1cytIeDR4NGJNNTBKZjlBajExbGdlMTEraGY2c3pjeWZO?=
- =?utf-8?B?NjJ0dnhPRDJzdDdtQ1Jsd1dNenBWd0p1Ukx5c0JNditvbTNyOVFuTUtHTU9n?=
- =?utf-8?B?QnhUK0QzZFFFS1h3dFliTllYd3JYazMrQlF1ZVVGTlNUcXV2TmlWMHNMUFU5?=
- =?utf-8?B?dnNJZ0M0YWtyR3pJT3FwQ3I2ZzJHTHQ5SnRya3l0cWlqMEhMOUN6ZkdKL2dn?=
- =?utf-8?B?YWNVRzRLT3dzT0dOMzdjdFFlNXdYaDN2RlE0eElUZXNtamtpTVdqeVN0Ry9R?=
- =?utf-8?B?bE5OMFlrbnhKZnFhaG9IWHZBU0IyQVRNN2R5SDhDTmF5cVd4TElDZWxZZTVj?=
- =?utf-8?B?Yk1DaE1vTHFTMXhEbWVpUWtGbS9wYVFNQ1RwYjZlYmNRSVhTaWtWR3MyMzFG?=
- =?utf-8?B?ZVNVTTJjbktVTFoyQjVHZWxxMGxiSmhvVG5lN1hraGhqc0JFR1lmRDhWNUxG?=
- =?utf-8?B?S2FxOGE2WUlWMjVjTmNuQ3dMbm5UL1Qyc0J6WTRrNEt2K05qZkdTWG8zNTIw?=
- =?utf-8?B?c09Td0ttVDdnVi9SVURobGZNMlRSVzUwakxRby82cXBRaDRsSytma1p0N3hN?=
- =?utf-8?B?c25mcCtWTmxNODl5NjA5bDBXaDhHM3k4eHVmR0JoMndsblY3dUlhWXQwdXhX?=
- =?utf-8?B?RlljZnN4amxiVXhCaTBsOXl4ZHdybXN5Snk3d2hMSFExT0RKSUphUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ee299bd-72c5-420e-bfe2-08da4ecb889c
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2022 12:35:30.6304
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HB9uEk9iA0wbSI9UmNPGku71foBYSRHmaKfRo9QDa1Pai1HOcRKOIb5itTnyhCLk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2988
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntCwoLys1uwpoy3AW=wbBZod5cxj==z0XjUrBxK=0cwr8g@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 13.06.22 um 16:11 schrieb Michal Hocko:
-> [SNIP]
->> Let me maybe get back to the initial question: We have resources which are
->> not related to the virtual address space of a process, how should we tell
->> the OOM killer about them?
-> I would say memcg, but we have discussed this already...
+Hi Dave,
 
-Well memcg is at least closer to the requirements than the classic 
-mm_struct accounting.
+On Tue, May 24, 2022 at 11:51:04AM +0100, Dave Stevenson wrote:
+> On Fri, 20 May 2022 at 09:22, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> > On Fri, May 06, 2022 at 03:20:09PM +0200, Hans Verkuil wrote:
+> > > Hi all,
+> > >
+> > > Since countries are opening up again and travel is (at least for now!) a lot easier,
+> > > I am considering a media summit during the ELCE in Dublin (Sep 13-16).
+> > >
+> > > See here for more details about the conference:
+> > >
+> > > https://events.linuxfoundation.org/open-source-summit-europe/
+> > >
+> > > Of course, this only makes sense if there is something to talk about. So please reply
+> > > with any suggestions for topics!
+> > >
+> > > Also please let me know if you would expect to be at such a media summit in person.
+> > > If only a few people would be there, then there isn't much point to this.
+> > >
+> > >
+> > > I have two topics:
+> > >
+> > > 1) Discussion of the media subsystem development process: any bottlenecks, any ideas
+> > >    for improvements?
+> > >
+> > > 2) I can give a presentation on the work I've done in the CTA-861 standard (used by
+> > >    HDMI) and the edid-decode utility.
+> > >
+> > > I'd like to make a decision on whether or not it is worthwhile to do this in a week
+> > > or two. If we wait too long it might be difficult to get a room for the summit.
+> >
+> > There are a few topics around image sensor support, especially
+> > relevant for RAW sensor drivers
+> >
+> > - Recently Dave posted an question about how to represent additional
+> >   processing stages that happens on the sensor side, mostly
+> >   additional subsampling/cropping that happen between the analogue cropping
+> >   on the full pixel array and the final image sent on the wire.
+> >
+> >   https://lore.kernel.org/linux-media/CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com/
+> >
+> >   Dave made a good introduction of the issue his email which got
+> >   largely unanswered.
+> >
+> >   The issue is particularly relevant for RAW sensors, where applying
+> >   subsampling has an impact on the sensor's sensitivity and requires
+> >   to adjust the gains and exposure accordingly.
+> >
+> >   The V4L2 selection API falls short on this and the only other
+> >   solution I am aware of is registering additional subdevices as the
+> >   CCS driver does.
+> 
+> If you want to throw in some more image sensor related issues, I can
+> think of a couple more areas that could do with some consensus on how
+> to implement:
+> 
+> On-sensor temperature reporting. Thread started by Benjamin at
+> https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
+> , but no resolution over using hwmon API or V4L2 control. If hwmon
+> then we need Media Controller framework to tie the sensor and thermal
+> device together.
+> It's recently been queried for IMX477 with the Pi
+> (https://github.com/raspberrypi/libcamera/issues/19), but it will
+> apply to many sensors.
 
-It won't work for really shared buffers, but if that's the requirement 
-to find some doable solution for the remaining 99% then I can live with 
-that.
+I'd favour V4L2 for simplicity, but that's a pretty self-centric view as
+I care about imaging sensor temperature for the purpose of tuning
+imaging algorithms. If someone wants to use an imaging sensor as a
+general-purpose temperature sensor (a pretty expensive one, but why
+not...), then hwmon could be considered simpler.
 
-> I do not think that exposing a resource (in a form of a counter
-> or something like that) is sufficient. The existing oom killer
-> implementation is hevily process centric (with memcg extension for
-> grouping but not changing the overall design in principle). If you
-> want to make it aware of resources which are not directly accounted to
-> processes then a a new implementation is necessary IMHO. You would need
-> to evaluate those resources and kill all the tasks that can hold on that
-> resource.
+> Synchronising sensors for stereoscopic operation (trying to avoid the
+> master / slave terminonlogy). How should that be configured? Allowing
+> configuration from userspace would allow sensors to be operated
+> independently which can be useful for test purposes, or should it be
+> enforced from DT / ACPI? Do we set a default configuration for each
+> sensor from DT/ACPI and then allow userspace to override should it
+> wish?
 
-Well the OOM killer is process centric because processes are what you 
-can kill.
+I think the firmware should describe the connections between the sensors
+(or actually between the sensors and possibly the trigger source, as we
+could have two sensors configured in external trigger mode), and
+userspace should then be allowed to configure the operation mode within
+the possibilities the hardware offers.
 
-Even the classic mm_struct based accounting includes MM_SHMEMPAGES into 
-the badness. So accounting shared resources as badness to make a 
-decision is nothing new here.
+> Controlling sensor GPIO outputs for things such as flash triggers,
+> vsync, frame start/end, exposure start/end, etc.
+> There is a huge range of features available so do we have any hope of
+> standardising some of it, or do we end up hiding these away in the
+> drivers with custom DT bindings to configure them? If we accept that
+> there will be variation, can we vaguely standardise what those
+> bindings look like? Or should these be V4L2 controls as things like
+> pulse widths may want to be adjusted by userspace?
 
-The difference is that this time the badness doesn't come from the 
-memory management subsystem, but rather from the I/O subsystem.
+Good question. I wonder if pinctrl could help there (for part of the
+problem space), or if it would be too complex. A list of (real) sample
+use cases could help the discussion.
 
-> This is also the reason why I am not really fan of the per file
-> badness because it adds a notion of resource that is not process bound
-> in general so it will add all sorts of weird runtime corner cases which
-> are impossible to anticipate [*]. Maybe that will work in some scenarios
-> but definitely not something to be done by default without users opting
-> into that and being aware of consequences.
+> Lens drivers. Each driver will have a "useful" range which is
 
-Would a kernel command line option to control the behavior be helpful here?
+I'll start nitpicking here. I've seen the terms "lens driver", "VCM",
+"lens", "VCM driver", "lens controller", ... all used interchangeably,
+and that's a big source of confusion. I'd like to reserve the word
+"driver" to refer to the kernel software driver, as opposed to the
+hardware chip that drives the actuator, and "controller" to refer to the
+chip. This would then become "lens controller driver" (one may argue
+that the controller drives the actuator attached to the lens, but "lens
+actuator controller driver" is getting quite long, and doesn't really
+improve understanding in my opinion).
 
-> There have been discussions that the existing oom implementation cannot
-> fit all potential usecases so maybe we need to finally decide to use a
-> plugable, BPFable etc architecture allow implementations that fit
-> specific needs.
+> effectively dictated by the overall module. Should that be defined via
+> DT as it is a feature of the platform, or leave the driver totally
+> generic and expect userspace to do something sensible?
+> In the case of simple systems without libcamera (this is Video 4 Linux
+> 2, not Video 4 Libcamera 2), do we set default for
 
-Yeah, BPF came to my mind as well. But need to talk with out experts on 
-that topic first.
+We'd be back to V4L in that case, there's no "libcamera 2" ;-)
 
-When the OOM killer runs allocating more memory is pretty much a no-go 
-and I'm not sure what the requirements of running a BPF to find the 
-badness are.
+> V4L2_CID_FOCUS_ABSOLUTE to a sensible hyperfocal distance, and can
+> that again be defined in DT as it is defining the hardware?
 
-> [*] I know it is not directly related but kinda similar. In the past
-> we used to have heuristics to consider work done as a resource . That is
-> kill younger processes preferably to reduce the damage.  This has turned
-> out to have a very unpredictable behavior and many complains by
-> users. Situation has improved when the selection was solely based on
-> rss. This has its own cons of course but at least they are predictable.
+Before answering this question, we need to think about how to come up
+with those three values (min, max and hyperfocal distance). They need to
+be measured somehow, and if we don't consider that, we'll end up with
+device trees that will encode incorrect values, and we'll be none the
+wiser.
 
-Good to know, thanks.
+> > - Probably less relevant for a media summit, but we recently got a few
+> >   series trying to reconcile handling of regulators, gpios and clocks
+> >   on OF and ACPI platforms all of them doing the usual "similar but
+> >   slightly different" thing:
+> >
+> >   https://lore.kernel.org/linux-media/20220425061022.1569480-1-paul.elder@ideasonboard.com/
+> >   https://lore.kernel.org/linux-media/20220329090133.338073-1-jacopo@jmondi.org/
+> >   https://lore.kernel.org/linux-media/20220509143226.531117-1-foss+kernel@0leil.net/
+> >   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0c2c7a1e0d69221b9d489bfd8cf53262d6f82446
+> >
+> >   ACPI and OF handles clocks slightly differently, and it is not clear
+> >   to me if ACPI based platform need explicit handling of
+> >   clocks/regulator or ACPI does "the right thing" by itself (I'm
+> >   afraid the answer is actually "it depends"). I'm ACPI illiterate
+> >   so I cannot propose anything meaningful but if anyone is interested
+> >   in discussing this further this might be a good time to do so ?
+> >
+> > Let me know if those points might be of any interest and I can try to
+> > prepare something about them.
 
+-- 
 Regards,
-Christian.
+
+Laurent Pinchart
