@@ -2,199 +2,359 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE57F54CD57
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:46:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B4D454CF41
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 19:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232197AbiFOPqK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 11:46:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40556 "EHLO
+        id S1344239AbiFORBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 13:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbiFOPqK (ORCPT
+        with ESMTP id S1357329AbiFORAt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 11:46:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 049F3286CD;
-        Wed, 15 Jun 2022 08:46:05 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D77E5A9;
-        Wed, 15 Jun 2022 17:46:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655307963;
-        bh=m3A5dqZop5odCJRCkgs9BvSWyBpz30/KNAeaIHJZ1q0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gz+qyRs9G+48QItleZ7QvFKhIzWdHGgYD3bsSj4cvZevz+vnv/bHuU11OCDz2zfvV
-         mVSOAOmfirc3j3SuYgvLYBpRzrMfP0UyUXAilgSvgVHGUDVUOChMlva/17o7wLGv0O
-         tPxdzNanUqOciJtQpE5RO6ZydGGmlUaux55rBxfs=
-Date:   Wed, 15 Jun 2022 18:45:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
-Cc:     selinux@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Stefan Haberland <sth@linux.ibm.com>,
-        Jan Hoeppner <hoeppner@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Serge Hallyn <serge@hallyn.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Arnd Bergmann <arnd@arndb.de>, Ondrej Zary <linux@zary.sk>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        David Yang <davidcomponentone@gmail.com>,
-        Colin Ian King <colin.king@intel.com>,
-        Yang Guang <yang.guang5@zte.com.cn>,
-        Wan Jiabing <wanjiabing@vivo.com>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v3 4/8] drivers: use new capable_any functionality
-Message-ID: <Yqn+sCXTHeTH5v+R@pendragon.ideasonboard.com>
-References: <20220502160030.131168-8-cgzones@googlemail.com>
- <20220615152623.311223-1-cgzones@googlemail.com>
- <20220615152623.311223-3-cgzones@googlemail.com>
+        Wed, 15 Jun 2022 13:00:49 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41F049FBD
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 10:00:27 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id u8so16162637wrm.13
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 10:00:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=pr7/sSYVOXPdtGS1/T+T8Lqb0MTvzV5EwQqM4oOBt7M=;
+        b=RGjh36gsbSL7V2Cy2m2NjJhaQAc9PMFRxBITRzbJo0e6uQYU2PYDC5NLnQ+yGyDl+R
+         0zS71FKcfX5hIOSm8TbBXXs4Lfr/g8YMMGK1+H7L0MHHJ4ERPJnOAiuvX9kjV/6/j5Jf
+         680iSXj86QecnfayPEJekK0udeX/yNBxkmuLB73Bj7pk1WJkjC4f6VHX7hiLma5UpuCU
+         3V8UHCvzboc1/yrqh8ZW3uLcljQHUwyDtBrjgE/WcQOhhxXOIOYHrY676rcuM4sVZhGn
+         M8SyyBbMOXfe2nTSiGRVqHzLG6gokbEVq5KPRFXRH/NNheY3zwpuJxDGd0jNQRIA3ntp
+         L5Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=pr7/sSYVOXPdtGS1/T+T8Lqb0MTvzV5EwQqM4oOBt7M=;
+        b=6rCtg6LsZmgSR6daWh3PdGfy1tZwi5QTH23bG95Gil+QiLmME+IA4bQXS2TaokSWQ4
+         PPAv1C7WoUI46TtH+SuZnHu1M+UcxH8GiBP/+BaZeYwAN/V6//RIbtZlcr5pIcWvZKCX
+         BeGFigkk9L7FV0YmK16UQXtSZKH2a0wqrOo7J52Ew9BTonKNtgq0A7rTmHsfTo5GqaE+
+         pG43PQTsakTo7z8AqmJmrypAMqd3sDzDSPb3pXprD7o2hWfa6ZafnUOZHfWmxvLNFfQN
+         JVKrCEBDmumNVORVvw6Vw9u5aSlIz+spBQlAjsgaYDGe6vTvPczb77wvZnhJY4CAEKTD
+         RZFA==
+X-Gm-Message-State: AJIora+5YDUQ3hOkLyTFCOjTfEN2pQqyXs8E0Dh5BNHk7ttYax+CALxW
+        x4qyUf1nXiZn8Brtc4OGRE3ZFw/WuSiVsI5qQJ8Llw==
+X-Google-Smtp-Source: AGRyM1uB0UDMl9b/896cLH/y+hwYakenLps6KtvwAg3Fh2+Uxwu1swfsOSTeK8iwAI8IasAO3ym5N1xcQXZHz/gUbP8=
+X-Received: by 2002:a05:6000:18a9:b0:218:7791:a9ad with SMTP id
+ b9-20020a05600018a900b002187791a9admr777565wri.116.1655312425754; Wed, 15 Jun
+ 2022 10:00:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220615152623.311223-3-cgzones@googlemail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220531212521.1231133-1-kaleshsingh@google.com>
+ <20220531212521.1231133-3-kaleshsingh@google.com> <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
+ <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
+ <875yll1fp1.fsf@stepbren-lnx.us.oracle.com> <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
+ <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com>
+In-Reply-To: <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com>
+From:   Kalesh Singh <kaleshsingh@google.com>
+Date:   Wed, 15 Jun 2022 10:00:14 -0700
+Message-ID: <CAC_TJvd6znLxqRON8DTxwsFKmDh_crQyzWmBugS7JPFrPn12Vw@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     Stephen Brennan <stephen.s.brennan@oracle.com>,
+        Ioannis Ilkos <ilkos@google.com>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Colin Cross <ccross@google.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christian,
+On Wed, Jun 1, 2022 at 8:31 PM Kalesh Singh <kaleshsingh@google.com> wrote:
+>
+> On Wed, Jun 1, 2022 at 8:02 AM Christian K=C3=B6nig
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >
+> > Am 01.06.22 um 00:48 schrieb Stephen Brennan:
+> > > Kalesh Singh <kaleshsingh@google.com> writes:
+> > >> On Tue, May 31, 2022 at 3:07 PM Stephen Brennan
+> > >> <stephen.s.brennan@oracle.com> wrote:
+> > >>> On 5/31/22 14:25, Kalesh Singh wrote:
+> > >>>> In order to identify the type of memory a process has pinned throu=
+gh
+> > >>>> its open fds, add the file path to fdinfo output. This allows
+> > >>>> identifying memory types based on common prefixes. e.g. "/memfd...=
+",
+> > >>>> "/dmabuf...", "/dev/ashmem...".
+> > >>>>
+> > >>>> Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCRE=
+DS
+> > >>>> the same as /proc/<pid>/maps which also exposes the file path of
+> > >>>> mappings; so the security permissions for accessing path is consis=
+tent
+> > >>>> with that of /proc/<pid>/maps.
+> > >>> Hi Kalesh,
+> > >> Hi Stephen,
+> > >>
+> > >> Thanks for taking a look.
+> > >>
+> > >>> I think I see the value in the size field, but I'm curious about pa=
+th,
+> > >>> which is available via readlink /proc/<pid>/fd/<n>, since those are
+> > >>> symlinks to the file themselves.
+> > >> This could work if we are root, but the file permissions wouldn't
+> > >> allow us to do the readlink on other processes otherwise. We want to
+> > >> be able to capture the system state in production environments from
+> > >> some trusted process with ptrace read capability.
+> > > Interesting, thanks for explaining. It seems weird to have a duplicat=
+e
+> > > interface for the same information but such is life.
+> >
+> > Yeah, the size change is really straight forward but for this one I'm
+> > not 100% sure either.
+>
+> The 2 concerns I think are:
+>   1. Fun characters in the path names
+>   2. If exposing the path is appropriate to begin with.
+>
+> One way I think we can address both is to only expose the path for
+> anon inodes. Then we have well-known path formats and we don't expose
+> much about which files a process is accessing since these aren't real
+> paths.
+>
+> +       if (is_anon_inode(inode)) {
+> +               seq_puts(m, "path:\t");
+> +               seq_file_path(m, file, "\n");
+> +               seq_putc(m, '\n');
+> +       }
+>
+> Interested to hear thoughts on it.
 
-Thank you for the patch.
+Adding Christoph,
 
-On Wed, Jun 15, 2022 at 05:26:18PM +0200, Christian Göttsche wrote:
-> Use the new added capable_any function in appropriate cases, where a
-> task is required to have any of two capabilities.
-> 
-> Reorder CAP_SYS_ADMIN last.
-> 
-> Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
+To be able to identify types of shared memory processes pin through
+FDs in production builds, we would like to add a 'path' field to
+fdinfo of anon inodes. We could then use the common prefixes
+("/dmabuf", "/memfd", ...) to identify different types.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Would appreciate any feedback from the FS perspective.
 
-> ---
-> v3:
->    rename to capable_any()
-> ---
->  drivers/media/common/saa7146/saa7146_video.c     | 2 +-
->  drivers/media/pci/bt8xx/bttv-driver.c            | 3 +--
->  drivers/media/pci/saa7134/saa7134-video.c        | 3 +--
->  drivers/media/platform/nxp/fsl-viu.c             | 2 +-
->  drivers/media/test-drivers/vivid/vivid-vid-cap.c | 2 +-
->  drivers/net/caif/caif_serial.c                   | 2 +-
->  drivers/s390/block/dasd_eckd.c                   | 2 +-
->  7 files changed, 7 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/common/saa7146/saa7146_video.c b/drivers/media/common/saa7146/saa7146_video.c
-> index 2296765079a4..f0d08935b096 100644
-> --- a/drivers/media/common/saa7146/saa7146_video.c
-> +++ b/drivers/media/common/saa7146/saa7146_video.c
-> @@ -469,7 +469,7 @@ static int vidioc_s_fbuf(struct file *file, void *fh, const struct v4l2_framebuf
->  
->  	DEB_EE("VIDIOC_S_FBUF\n");
->  
-> -	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
-> +	if (!capable_any(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
->  		return -EPERM;
->  
->  	/* check args */
-> diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-> index d40b537f4e98..7098cff2ea51 100644
-> --- a/drivers/media/pci/bt8xx/bttv-driver.c
-> +++ b/drivers/media/pci/bt8xx/bttv-driver.c
-> @@ -2567,8 +2567,7 @@ static int bttv_s_fbuf(struct file *file, void *f,
->  	const struct bttv_format *fmt;
->  	int retval;
->  
-> -	if (!capable(CAP_SYS_ADMIN) &&
-> -		!capable(CAP_SYS_RAWIO))
-> +	if (!capable_any(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
->  		return -EPERM;
->  
->  	/* check args */
-> diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
-> index 4d8974c9fcc9..23104c04a9aa 100644
-> --- a/drivers/media/pci/saa7134/saa7134-video.c
-> +++ b/drivers/media/pci/saa7134/saa7134-video.c
-> @@ -1797,8 +1797,7 @@ static int saa7134_s_fbuf(struct file *file, void *f,
->  	struct saa7134_dev *dev = video_drvdata(file);
->  	struct saa7134_format *fmt;
->  
-> -	if (!capable(CAP_SYS_ADMIN) &&
-> -	   !capable(CAP_SYS_RAWIO))
-> +	if (!capable_any(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
->  		return -EPERM;
->  
->  	/* check args */
-> diff --git a/drivers/media/platform/nxp/fsl-viu.c b/drivers/media/platform/nxp/fsl-viu.c
-> index afc96f6db2a1..81a90c113dc6 100644
-> --- a/drivers/media/platform/nxp/fsl-viu.c
-> +++ b/drivers/media/platform/nxp/fsl-viu.c
-> @@ -803,7 +803,7 @@ static int vidioc_s_fbuf(struct file *file, void *priv, const struct v4l2_frameb
->  	const struct v4l2_framebuffer *fb = arg;
->  	struct viu_fmt *fmt;
->  
-> -	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
-> +	if (!capable_any(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
->  		return -EPERM;
->  
->  	/* check args */
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> index b9caa4b26209..918913e47069 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> @@ -1253,7 +1253,7 @@ int vivid_vid_cap_s_fbuf(struct file *file, void *fh,
->  	if (dev->multiplanar)
->  		return -ENOTTY;
->  
-> -	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
-> +	if (!capable_any(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
->  		return -EPERM;
->  
->  	if (dev->overlay_cap_owner)
-> diff --git a/drivers/net/caif/caif_serial.c b/drivers/net/caif/caif_serial.c
-> index 688075859ae4..ca3f82a0e3a6 100644
-> --- a/drivers/net/caif/caif_serial.c
-> +++ b/drivers/net/caif/caif_serial.c
-> @@ -326,7 +326,7 @@ static int ldisc_open(struct tty_struct *tty)
->  	/* No write no play */
->  	if (tty->ops->write == NULL)
->  		return -EOPNOTSUPP;
-> -	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_TTY_CONFIG))
-> +	if (!capable_any(CAP_SYS_TTY_CONFIG, CAP_SYS_ADMIN))
->  		return -EPERM;
->  
->  	/* release devices to avoid name collision */
-> diff --git a/drivers/s390/block/dasd_eckd.c b/drivers/s390/block/dasd_eckd.c
-> index 836838f7d686..66f6db7a11fc 100644
-> --- a/drivers/s390/block/dasd_eckd.c
-> +++ b/drivers/s390/block/dasd_eckd.c
-> @@ -5330,7 +5330,7 @@ static int dasd_symm_io(struct dasd_device *device, void __user *argp)
->  	char psf0, psf1;
->  	int rc;
->  
-> -	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
-> +	if (!capable_any(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
->  		return -EACCES;
->  	psf0 = psf1 = 0;
->  
+Thanks,
+Kalesh
 
--- 
-Regards,
-
-Laurent Pinchart
+>
+> >
+> > Probably best to ping some core fs developer before going further with =
+it.
+>
+> linux-fsdevel is cc'd here. Adding Al Vrio as well. Please let me know
+> if there are other parties I should include.
+>
+> >
+> > BTW: Any preferred branch to push this upstream? If not I can take it
+> > through drm-misc-next.
+>
+> No other dependencies for this, so drm-misc-next is good.
+>
+> Thanks,
+> Kalesh
+>
+> >
+> > Regards,
+> > Christian.
+> >
+> > >
+> > >>> File paths can contain fun characters like newlines or colons, whic=
+h
+> > >>> could make parsing out filenames in this text file... fun. How woul=
+d your
+> > >>> userspace parsing logic handle "/home/stephen/filename\nsize:\t4096=
+"? The
+> > >>> readlink(2) API makes that easy already.
+> > >> I think since we have escaped the "\n" (seq_file_path(m, file, "\n")=
+),
+> > > I really should have read through that function before commenting,
+> > > thanks for teaching me something new :)
+> > >
+> > > Stephen
+> > >
+> > >> then user space might parse this line like:
+> > >>
+> > >> if (strncmp(line, "path:\t", 6) =3D=3D 0)
+> > >>          char* path =3D line + 6;
+> > >>
+> > >>
+> > >> Thanks,
+> > >> Kalesh
+> > >>
+> > >>> Is the goal avoiding races (e.g. file descriptor 3 is closed and re=
+opened
+> > >>> to a different path between reading fdinfo and stating the fd)?
+> > >>>
+> > >>> Stephen
+> > >>>
+> > >>>> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> > >>>> ---
+> > >>>>
+> > >>>> Changes from rfc:
+> > >>>>    - Split adding 'size' and 'path' into a separate patches, per C=
+hristian
+> > >>>>    - Fix indentation (use tabs) in documentaion, per Randy
+> > >>>>
+> > >>>>   Documentation/filesystems/proc.rst | 14 ++++++++++++--
+> > >>>>   fs/proc/fd.c                       |  4 ++++
+> > >>>>   2 files changed, 16 insertions(+), 2 deletions(-)
+> > >>>>
+> > >>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/fi=
+lesystems/proc.rst
+> > >>>> index 779c05528e87..591f12d30d97 100644
+> > >>>> --- a/Documentation/filesystems/proc.rst
+> > >>>> +++ b/Documentation/filesystems/proc.rst
+> > >>>> @@ -1886,14 +1886,16 @@ if precise results are needed.
+> > >>>>   3.8  /proc/<pid>/fdinfo/<fd> - Information about opened file
+> > >>>>   ---------------------------------------------------------------
+> > >>>>   This file provides information associated with an opened file. T=
+he regular
+> > >>>> -files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino=
+', and 'size'.
+> > >>>> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino'=
+, 'size',
+> > >>>> +and 'path'.
+> > >>>>
+> > >>>>   The 'pos' represents the current offset of the opened file in de=
+cimal
+> > >>>>   form [see lseek(2) for details], 'flags' denotes the octal O_xxx=
+ mask the
+> > >>>>   file has been created with [see open(2) for details] and 'mnt_id=
+' represents
+> > >>>>   mount ID of the file system containing the opened file [see 3.5
+> > >>>>   /proc/<pid>/mountinfo for details]. 'ino' represents the inode n=
+umber of
+> > >>>> -the file, and 'size' represents the size of the file in bytes.
+> > >>>> +the file, 'size' represents the size of the file in bytes, and 'p=
+ath'
+> > >>>> +represents the file path.
+> > >>>>
+> > >>>>   A typical output is::
+> > >>>>
+> > >>>> @@ -1902,6 +1904,7 @@ A typical output is::
+> > >>>>        mnt_id: 19
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   /dev/null
+> > >>>>
+> > >>>>   All locks associated with a file descriptor are shown in its fdi=
+nfo too::
+> > >>>>
+> > >>>> @@ -1920,6 +1923,7 @@ Eventfd files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[eventfd]
+> > >>>>        eventfd-count:  5a
+> > >>>>
+> > >>>>   where 'eventfd-count' is hex value of a counter.
+> > >>>> @@ -1934,6 +1938,7 @@ Signalfd files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[signalfd]
+> > >>>>        sigmask:        0000000000000200
+> > >>>>
+> > >>>>   where 'sigmask' is hex value of the signal mask associated
+> > >>>> @@ -1949,6 +1954,7 @@ Epoll files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[eventpoll]
+> > >>>>        tfd:        5 events:       1d data: ffffffffffffffff pos:0=
+ ino:61af sdev:7
+> > >>>>
+> > >>>>   where 'tfd' is a target file descriptor number in decimal form,
+> > >>>> @@ -1968,6 +1974,7 @@ For inotify files the format is the followin=
+g::
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:inotify
+> > >>>>        inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask=
+:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+> > >>>>
+> > >>>>   where 'wd' is a watch descriptor in decimal form, i.e. a target =
+file
+> > >>>> @@ -1992,6 +1999,7 @@ For fanotify files the format is::
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[fanotify]
+> > >>>>        fanotify flags:10 event-flags:0
+> > >>>>        fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+> > >>>>        fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mas=
+k:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+> > >>>> @@ -2018,6 +2026,7 @@ Timerfd files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[timerfd]
+> > >>>>        clockid: 0
+> > >>>>        ticks: 0
+> > >>>>        settime flags: 01
+> > >>>> @@ -2042,6 +2051,7 @@ DMA Buffer files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   32768
+> > >>>> +     path:   /dmabuf:
+> > >>>>        count:  2
+> > >>>>        exp_name:  system-heap
+> > >>>>
+> > >>>> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+> > >>>> index 464bc3f55759..8889a8ba09d4 100644
+> > >>>> --- a/fs/proc/fd.c
+> > >>>> +++ b/fs/proc/fd.c
+> > >>>> @@ -60,6 +60,10 @@ static int seq_show(struct seq_file *m, void *v=
+)
+> > >>>>        seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
+> > >>>>        seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)-=
+>i_size);
+> > >>>>
+> > >>>> +     seq_puts(m, "path:\t");
+> > >>>> +     seq_file_path(m, file, "\n");
+> > >>>> +     seq_putc(m, '\n');
+> > >>>> +
+> > >>>>        /* show_fd_locks() never deferences files so a stale value =
+is safe */
+> > >>>>        show_fd_locks(m, file, files);
+> > >>>>        if (seq_has_overflowed(m))
+> > >>> --
+> > >>> To unsubscribe from this group and stop receiving emails from it, s=
+end an email to kernel-team+unsubscribe@android.com.
+> > >>>
+> > > _______________________________________________
+> > > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> > > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+> >
