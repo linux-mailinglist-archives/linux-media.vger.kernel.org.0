@@ -2,359 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B4D454CF41
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 19:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB13E54CF7F
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 19:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344239AbiFORBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 13:01:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35438 "EHLO
+        id S235181AbiFOROE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 13:14:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357329AbiFORAt (ORCPT
+        with ESMTP id S1355869AbiFORMD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 13:00:49 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41F049FBD
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 10:00:27 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id u8so16162637wrm.13
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 10:00:27 -0700 (PDT)
+        Wed, 15 Jun 2022 13:12:03 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEE47506CF
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 10:12:01 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id 129so11961060pgc.2
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 10:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=pr7/sSYVOXPdtGS1/T+T8Lqb0MTvzV5EwQqM4oOBt7M=;
-        b=RGjh36gsbSL7V2Cy2m2NjJhaQAc9PMFRxBITRzbJo0e6uQYU2PYDC5NLnQ+yGyDl+R
-         0zS71FKcfX5hIOSm8TbBXXs4Lfr/g8YMMGK1+H7L0MHHJ4ERPJnOAiuvX9kjV/6/j5Jf
-         680iSXj86QecnfayPEJekK0udeX/yNBxkmuLB73Bj7pk1WJkjC4f6VHX7hiLma5UpuCU
-         3V8UHCvzboc1/yrqh8ZW3uLcljQHUwyDtBrjgE/WcQOhhxXOIOYHrY676rcuM4sVZhGn
-         M8SyyBbMOXfe2nTSiGRVqHzLG6gokbEVq5KPRFXRH/NNheY3zwpuJxDGd0jNQRIA3ntp
-         L5Eg==
+        bh=3AyomL7Oc+DdUYdK158JFYS4POGAertrwHcZhI495qU=;
+        b=RaryPI0ZtjtKjxfcUL/BY2bKh6PbgJEUZfevFWvhuw0gKFSweI6+ekz1KnHX++ofzz
+         5lS36xmH1bEd3gfPv1owuiy3SfJqg8r9ePZ/AEmWwzUJ3gDPdM/oI4moUoe7n98TlSOM
+         FcPpuG17WcgLz5I1tQgFCLyMQr+2xpL93VFf7H6ynbM8R7uNMikDh4PyzBkvfbeJIXxD
+         GNjSpPppaEGtvDyI1to4njrRQmdHLZXmWbFanQ+9r6KHFW/SDCPVLpVMGsAMEg2zy298
+         beiA1ZrY5n2Njt7OABc/Eyo22CBSFtpDXcJ2a+dxKzEuWtwcsNc1p7htSXhJukYpcLYu
+         VWKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=pr7/sSYVOXPdtGS1/T+T8Lqb0MTvzV5EwQqM4oOBt7M=;
-        b=6rCtg6LsZmgSR6daWh3PdGfy1tZwi5QTH23bG95Gil+QiLmME+IA4bQXS2TaokSWQ4
-         PPAv1C7WoUI46TtH+SuZnHu1M+UcxH8GiBP/+BaZeYwAN/V6//RIbtZlcr5pIcWvZKCX
-         BeGFigkk9L7FV0YmK16UQXtSZKH2a0wqrOo7J52Ew9BTonKNtgq0A7rTmHsfTo5GqaE+
-         pG43PQTsakTo7z8AqmJmrypAMqd3sDzDSPb3pXprD7o2hWfa6ZafnUOZHfWmxvLNFfQN
-         JVKrCEBDmumNVORVvw6Vw9u5aSlIz+spBQlAjsgaYDGe6vTvPczb77wvZnhJY4CAEKTD
-         RZFA==
-X-Gm-Message-State: AJIora+5YDUQ3hOkLyTFCOjTfEN2pQqyXs8E0Dh5BNHk7ttYax+CALxW
-        x4qyUf1nXiZn8Brtc4OGRE3ZFw/WuSiVsI5qQJ8Llw==
-X-Google-Smtp-Source: AGRyM1uB0UDMl9b/896cLH/y+hwYakenLps6KtvwAg3Fh2+Uxwu1swfsOSTeK8iwAI8IasAO3ym5N1xcQXZHz/gUbP8=
-X-Received: by 2002:a05:6000:18a9:b0:218:7791:a9ad with SMTP id
- b9-20020a05600018a900b002187791a9admr777565wri.116.1655312425754; Wed, 15 Jun
- 2022 10:00:25 -0700 (PDT)
+        bh=3AyomL7Oc+DdUYdK158JFYS4POGAertrwHcZhI495qU=;
+        b=jsbFdoS3d4lnhdo+xmkhqDeYqOXtk4d6ynBo6tWrAdee82fMwdu8awaYVBQ7KrL5pI
+         5o3cEaRDxjiUhr9uEtTBAWXfI7wgcTTy4LYmoQ36V3hHjUNZMWGhSnX8bOORKhRuJXp3
+         7sTdh8Tz+8HluwpuIMhDcg+IfbmVEE+coLMvgEkb0f5OZuX21pqt77Wg9vxPexLlxo6y
+         dalb2Hq5XUOdGSlGalPOosfqUfyaBSCbYy8gPFK1pqWv3vlBDq71n6Wi95tfymsmk7tN
+         VhxArJbmrWfOxJ4xmpKHbBigSYcQiHs0p5nAT2G43DeBk4JRXTNUvmyfk9wWd+cJvV+r
+         9nzw==
+X-Gm-Message-State: AJIora8OU2L9WpjpY4DgP5a7XtLYYHngMxuXm4/E4N335lr/LQlgXDSc
+        5U21d39D8Uoi3HMuISSNnJHUmGmgFY3mxLBV/buwBA==
+X-Google-Smtp-Source: AGRyM1uA1LIViXu2DRXGg9esMg5JyGVlSdhSVJDitquFoXIzMZ+OJ2WuNj0EVeUj2Boh9KSivtt8Vaspthfz2HrD6vM=
+X-Received: by 2002:a62:7c14:0:b0:51b:9d03:a4c7 with SMTP id
+ x20-20020a627c14000000b0051b9d03a4c7mr387767pfc.74.1655313121181; Wed, 15 Jun
+ 2022 10:12:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531212521.1231133-1-kaleshsingh@google.com>
- <20220531212521.1231133-3-kaleshsingh@google.com> <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
- <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
- <875yll1fp1.fsf@stepbren-lnx.us.oracle.com> <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
- <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com>
-In-Reply-To: <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Wed, 15 Jun 2022 10:00:14 -0700
-Message-ID: <CAC_TJvd6znLxqRON8DTxwsFKmDh_crQyzWmBugS7JPFrPn12Vw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     Stephen Brennan <stephen.s.brennan@oracle.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Colin Cross <ccross@google.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
+References: <20220522162802.208275-1-luca@z3ntu.xyz> <20220522162802.208275-11-luca@z3ntu.xyz>
+In-Reply-To: <20220522162802.208275-11-luca@z3ntu.xyz>
+From:   Loic Poulain <loic.poulain@linaro.org>
+Date:   Wed, 15 Jun 2022 19:11:25 +0200
+Message-ID: <CAMZdPi82+xW2yoKQrg61Mj_-kLCBbp=VDQNDDccQpv5=i_V6Vw@mail.gmail.com>
+Subject: Re: [RFC PATCH 10/14] i2c: qcom-cci: add msm8974 compatible
+To:     Luca Weiss <luca@z3ntu.xyz>
+Cc:     linux-arm-msm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Robert Foss <robert.foss@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        matti.lehtimaki@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 1, 2022 at 8:31 PM Kalesh Singh <kaleshsingh@google.com> wrote:
+On Sun, 22 May 2022 at 18:28, Luca Weiss <luca@z3ntu.xyz> wrote:
 >
-> On Wed, Jun 1, 2022 at 8:02 AM Christian K=C3=B6nig
-> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >
-> > Am 01.06.22 um 00:48 schrieb Stephen Brennan:
-> > > Kalesh Singh <kaleshsingh@google.com> writes:
-> > >> On Tue, May 31, 2022 at 3:07 PM Stephen Brennan
-> > >> <stephen.s.brennan@oracle.com> wrote:
-> > >>> On 5/31/22 14:25, Kalesh Singh wrote:
-> > >>>> In order to identify the type of memory a process has pinned throu=
-gh
-> > >>>> its open fds, add the file path to fdinfo output. This allows
-> > >>>> identifying memory types based on common prefixes. e.g. "/memfd...=
-",
-> > >>>> "/dmabuf...", "/dev/ashmem...".
-> > >>>>
-> > >>>> Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCRE=
-DS
-> > >>>> the same as /proc/<pid>/maps which also exposes the file path of
-> > >>>> mappings; so the security permissions for accessing path is consis=
-tent
-> > >>>> with that of /proc/<pid>/maps.
-> > >>> Hi Kalesh,
-> > >> Hi Stephen,
-> > >>
-> > >> Thanks for taking a look.
-> > >>
-> > >>> I think I see the value in the size field, but I'm curious about pa=
-th,
-> > >>> which is available via readlink /proc/<pid>/fd/<n>, since those are
-> > >>> symlinks to the file themselves.
-> > >> This could work if we are root, but the file permissions wouldn't
-> > >> allow us to do the readlink on other processes otherwise. We want to
-> > >> be able to capture the system state in production environments from
-> > >> some trusted process with ptrace read capability.
-> > > Interesting, thanks for explaining. It seems weird to have a duplicat=
-e
-> > > interface for the same information but such is life.
-> >
-> > Yeah, the size change is really straight forward but for this one I'm
-> > not 100% sure either.
+> From: Matti Lehtim=C3=A4ki <matti.lehtimaki@gmail.com>
 >
-> The 2 concerns I think are:
->   1. Fun characters in the path names
->   2. If exposing the path is appropriate to begin with.
+> MSM8974 CCI is the same as MSM8916 except it has two masters.
 >
-> One way I think we can address both is to only expose the path for
-> anon inodes. Then we have well-known path formats and we don't expose
-> much about which files a process is accessing since these aren't real
-> paths.
->
-> +       if (is_anon_inode(inode)) {
-> +               seq_puts(m, "path:\t");
-> +               seq_file_path(m, file, "\n");
-> +               seq_putc(m, '\n');
-> +       }
->
-> Interested to hear thoughts on it.
+> Signed-off-by: Matti Lehtim=C3=A4ki <matti.lehtimaki@gmail.com>
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 
-Adding Christoph,
+Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
 
-To be able to identify types of shared memory processes pin through
-FDs in production builds, we would like to add a 'path' field to
-fdinfo of anon inodes. We could then use the common prefixes
-("/dmabuf", "/memfd", ...) to identify different types.
-
-Would appreciate any feedback from the FS perspective.
-
-Thanks,
-Kalesh
-
+> ---
+> To note, the cci_v1_5_data variable name is just a bit arbitrary and
+> isn't meant to reflect IP version "1.5". I'd be happy to change the
+> variable name to something else.
 >
-> >
-> > Probably best to ping some core fs developer before going further with =
-it.
+>  drivers/i2c/busses/i2c-qcom-cci.c | 35 +++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
 >
-> linux-fsdevel is cc'd here. Adding Al Vrio as well. Please let me know
-> if there are other parties I should include.
+> diff --git a/drivers/i2c/busses/i2c-qcom-cci.c b/drivers/i2c/busses/i2c-q=
+com-cci.c
+> index 5c7cc862f08f..a68f17eb9dd0 100644
+> --- a/drivers/i2c/busses/i2c-qcom-cci.c
+> +++ b/drivers/i2c/busses/i2c-qcom-cci.c
+> @@ -725,6 +725,40 @@ static const struct cci_data cci_v1_data =3D {
+>         },
+>  };
 >
-> >
-> > BTW: Any preferred branch to push this upstream? If not I can take it
-> > through drm-misc-next.
+> +static const struct cci_data cci_v1_5_data =3D {
+> +       .num_masters =3D 2,
+> +       .queue_size =3D { 64, 16 },
+> +       .quirks =3D {
+> +               .max_write_len =3D 10,
+> +               .max_read_len =3D 12,
+> +       },
+> +       .cci_clk_rate =3D  19200000,
+> +       .params[I2C_MODE_STANDARD] =3D {
+> +               .thigh =3D 78,
+> +               .tlow =3D 114,
+> +               .tsu_sto =3D 28,
+> +               .tsu_sta =3D 28,
+> +               .thd_dat =3D 10,
+> +               .thd_sta =3D 77,
+> +               .tbuf =3D 118,
+> +               .scl_stretch_en =3D 0,
+> +               .trdhld =3D 6,
+> +               .tsp =3D 1
+> +       },
+> +       .params[I2C_MODE_FAST] =3D {
+> +               .thigh =3D 20,
+> +               .tlow =3D 28,
+> +               .tsu_sto =3D 21,
+> +               .tsu_sta =3D 21,
+> +               .thd_dat =3D 13,
+> +               .thd_sta =3D 18,
+> +               .tbuf =3D 32,
+> +               .scl_stretch_en =3D 0,
+> +               .trdhld =3D 6,
+> +               .tsp =3D 3
+> +       },
+> +};
+> +
+>  static const struct cci_data cci_v2_data =3D {
+>         .num_masters =3D 2,
+>         .queue_size =3D { 64, 16 },
+> @@ -773,6 +807,7 @@ static const struct cci_data cci_v2_data =3D {
 >
-> No other dependencies for this, so drm-misc-next is good.
+>  static const struct of_device_id cci_dt_match[] =3D {
+>         { .compatible =3D "qcom,msm8916-cci", .data =3D &cci_v1_data},
+> +       { .compatible =3D "qcom,msm8974-cci", .data =3D &cci_v1_5_data},
+>         { .compatible =3D "qcom,msm8996-cci", .data =3D &cci_v2_data},
+>         { .compatible =3D "qcom,sdm845-cci", .data =3D &cci_v2_data},
+>         { .compatible =3D "qcom,sm8250-cci", .data =3D &cci_v2_data},
+> --
+> 2.36.0
 >
-> Thanks,
-> Kalesh
->
-> >
-> > Regards,
-> > Christian.
-> >
-> > >
-> > >>> File paths can contain fun characters like newlines or colons, whic=
-h
-> > >>> could make parsing out filenames in this text file... fun. How woul=
-d your
-> > >>> userspace parsing logic handle "/home/stephen/filename\nsize:\t4096=
-"? The
-> > >>> readlink(2) API makes that easy already.
-> > >> I think since we have escaped the "\n" (seq_file_path(m, file, "\n")=
-),
-> > > I really should have read through that function before commenting,
-> > > thanks for teaching me something new :)
-> > >
-> > > Stephen
-> > >
-> > >> then user space might parse this line like:
-> > >>
-> > >> if (strncmp(line, "path:\t", 6) =3D=3D 0)
-> > >>          char* path =3D line + 6;
-> > >>
-> > >>
-> > >> Thanks,
-> > >> Kalesh
-> > >>
-> > >>> Is the goal avoiding races (e.g. file descriptor 3 is closed and re=
-opened
-> > >>> to a different path between reading fdinfo and stating the fd)?
-> > >>>
-> > >>> Stephen
-> > >>>
-> > >>>> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > >>>> ---
-> > >>>>
-> > >>>> Changes from rfc:
-> > >>>>    - Split adding 'size' and 'path' into a separate patches, per C=
-hristian
-> > >>>>    - Fix indentation (use tabs) in documentaion, per Randy
-> > >>>>
-> > >>>>   Documentation/filesystems/proc.rst | 14 ++++++++++++--
-> > >>>>   fs/proc/fd.c                       |  4 ++++
-> > >>>>   2 files changed, 16 insertions(+), 2 deletions(-)
-> > >>>>
-> > >>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/fi=
-lesystems/proc.rst
-> > >>>> index 779c05528e87..591f12d30d97 100644
-> > >>>> --- a/Documentation/filesystems/proc.rst
-> > >>>> +++ b/Documentation/filesystems/proc.rst
-> > >>>> @@ -1886,14 +1886,16 @@ if precise results are needed.
-> > >>>>   3.8  /proc/<pid>/fdinfo/<fd> - Information about opened file
-> > >>>>   ---------------------------------------------------------------
-> > >>>>   This file provides information associated with an opened file. T=
-he regular
-> > >>>> -files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino=
-', and 'size'.
-> > >>>> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino'=
-, 'size',
-> > >>>> +and 'path'.
-> > >>>>
-> > >>>>   The 'pos' represents the current offset of the opened file in de=
-cimal
-> > >>>>   form [see lseek(2) for details], 'flags' denotes the octal O_xxx=
- mask the
-> > >>>>   file has been created with [see open(2) for details] and 'mnt_id=
-' represents
-> > >>>>   mount ID of the file system containing the opened file [see 3.5
-> > >>>>   /proc/<pid>/mountinfo for details]. 'ino' represents the inode n=
-umber of
-> > >>>> -the file, and 'size' represents the size of the file in bytes.
-> > >>>> +the file, 'size' represents the size of the file in bytes, and 'p=
-ath'
-> > >>>> +represents the file path.
-> > >>>>
-> > >>>>   A typical output is::
-> > >>>>
-> > >>>> @@ -1902,6 +1904,7 @@ A typical output is::
-> > >>>>        mnt_id: 19
-> > >>>>        ino:    63107
-> > >>>>        size:   0
-> > >>>> +     path:   /dev/null
-> > >>>>
-> > >>>>   All locks associated with a file descriptor are shown in its fdi=
-nfo too::
-> > >>>>
-> > >>>> @@ -1920,6 +1923,7 @@ Eventfd files
-> > >>>>        mnt_id: 9
-> > >>>>        ino:    63107
-> > >>>>        size:   0
-> > >>>> +     path:   anon_inode:[eventfd]
-> > >>>>        eventfd-count:  5a
-> > >>>>
-> > >>>>   where 'eventfd-count' is hex value of a counter.
-> > >>>> @@ -1934,6 +1938,7 @@ Signalfd files
-> > >>>>        mnt_id: 9
-> > >>>>        ino:    63107
-> > >>>>        size:   0
-> > >>>> +     path:   anon_inode:[signalfd]
-> > >>>>        sigmask:        0000000000000200
-> > >>>>
-> > >>>>   where 'sigmask' is hex value of the signal mask associated
-> > >>>> @@ -1949,6 +1954,7 @@ Epoll files
-> > >>>>        mnt_id: 9
-> > >>>>        ino:    63107
-> > >>>>        size:   0
-> > >>>> +     path:   anon_inode:[eventpoll]
-> > >>>>        tfd:        5 events:       1d data: ffffffffffffffff pos:0=
- ino:61af sdev:7
-> > >>>>
-> > >>>>   where 'tfd' is a target file descriptor number in decimal form,
-> > >>>> @@ -1968,6 +1974,7 @@ For inotify files the format is the followin=
-g::
-> > >>>>        mnt_id: 9
-> > >>>>        ino:    63107
-> > >>>>        size:   0
-> > >>>> +     path:   anon_inode:inotify
-> > >>>>        inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask=
-:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
-> > >>>>
-> > >>>>   where 'wd' is a watch descriptor in decimal form, i.e. a target =
-file
-> > >>>> @@ -1992,6 +1999,7 @@ For fanotify files the format is::
-> > >>>>        mnt_id: 9
-> > >>>>        ino:    63107
-> > >>>>        size:   0
-> > >>>> +     path:   anon_inode:[fanotify]
-> > >>>>        fanotify flags:10 event-flags:0
-> > >>>>        fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
-> > >>>>        fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mas=
-k:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-> > >>>> @@ -2018,6 +2026,7 @@ Timerfd files
-> > >>>>        mnt_id: 9
-> > >>>>        ino:    63107
-> > >>>>        size:   0
-> > >>>> +     path:   anon_inode:[timerfd]
-> > >>>>        clockid: 0
-> > >>>>        ticks: 0
-> > >>>>        settime flags: 01
-> > >>>> @@ -2042,6 +2051,7 @@ DMA Buffer files
-> > >>>>        mnt_id: 9
-> > >>>>        ino:    63107
-> > >>>>        size:   32768
-> > >>>> +     path:   /dmabuf:
-> > >>>>        count:  2
-> > >>>>        exp_name:  system-heap
-> > >>>>
-> > >>>> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> > >>>> index 464bc3f55759..8889a8ba09d4 100644
-> > >>>> --- a/fs/proc/fd.c
-> > >>>> +++ b/fs/proc/fd.c
-> > >>>> @@ -60,6 +60,10 @@ static int seq_show(struct seq_file *m, void *v=
-)
-> > >>>>        seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
-> > >>>>        seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)-=
->i_size);
-> > >>>>
-> > >>>> +     seq_puts(m, "path:\t");
-> > >>>> +     seq_file_path(m, file, "\n");
-> > >>>> +     seq_putc(m, '\n');
-> > >>>> +
-> > >>>>        /* show_fd_locks() never deferences files so a stale value =
-is safe */
-> > >>>>        show_fd_locks(m, file, files);
-> > >>>>        if (seq_has_overflowed(m))
-> > >>> --
-> > >>> To unsubscribe from this group and stop receiving emails from it, s=
-end an email to kernel-team+unsubscribe@android.com.
-> > >>>
-> > > _______________________________________________
-> > > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> > > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
-> >
