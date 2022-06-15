@@ -2,163 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D22454C8BA
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 14:39:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6461E54C98A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 15:15:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243411AbiFOMjo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 08:39:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44246 "EHLO
+        id S1346865AbiFONP2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 09:15:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239404AbiFOMjl (ORCPT
+        with ESMTP id S1348422AbiFONP1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 08:39:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9DB3F8AF;
-        Wed, 15 Jun 2022 05:39:40 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF5FE749;
-        Wed, 15 Jun 2022 14:39:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655296779;
-        bh=+4sibv0NLKCmgUSdkhcZhIkW4rY3rE29NjOjsS2gX0Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DZM2O5rht2zSW/iRez43ZSkkE4DEtaQP1sh5BPTKJ65PI4/sY+oqddva8833Y9lx0
-         gUvTguRugnKCrmNqwhC2Tdik36aYBk3nSOmPEXk9MH50yRPbA1RNH1TYqKtYYafCH+
-         X24GSbmmQF8rqdreTykHdIl8WA//OMNBtIGqdNBc=
-Date:   Wed, 15 Jun 2022 15:39:28 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>, mchehab@kernel.org,
-        stanimir.varbanov@linaro.org, tomi.valkeinen@ideasonboard.com,
-        robh+dt@kernel.org, nicolas@ndufresne.ca,
-        alexander.stein@ew.tq-group.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 3/9] vivid: add dynamic array test control
-Message-ID: <YqnTAE7dzhIJm8gL@pendragon.ideasonboard.com>
-References: <20220503093925.876640-1-xavier.roumegue@oss.nxp.com>
- <20220503093925.876640-4-xavier.roumegue@oss.nxp.com>
- <Yqj20J9QaAV6ZNes@pendragon.ideasonboard.com>
- <b508597d-3da5-5e1f-66a5-a9f7d6a2c352@xs4all.nl>
- <YqnIRWtyjtyz4gzj@pendragon.ideasonboard.com>
- <3afb8643-9e4d-bded-e788-ef024895dcb2@xs4all.nl>
+        Wed, 15 Jun 2022 09:15:27 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F2312A27B;
+        Wed, 15 Jun 2022 06:15:26 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id BF13A21BB9;
+        Wed, 15 Jun 2022 13:15:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1655298924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=17VEqNPV/TBk73G7tKfWD0AkIggznFYMqcz7zsD4S9c=;
+        b=c5CplPzuxQh5gnp4bD34uWkKLEOaOc1Tpwslt5ARBi5fVdHjWZ4prxmWoQqcdCpqAG1Yor
+        xmQuGVnUEOpCEt1XYqn7LUtFrFvMKUMl0YDT2F/jRq/vq+FW+bBxji/zHIwKJ8jaI2QMZs
+        rqLOKCpvqZTZhxAjHRYVGQZVY5XNs10=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 66BBD2C141;
+        Wed, 15 Jun 2022 13:15:24 +0000 (UTC)
+Date:   Wed, 15 Jun 2022 15:15:23 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, alexander.deucher@amd.com, daniel@ffwll.ch,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        hughd@google.com, andrey.grodzovsky@amd.com
+Subject: Re: [PATCH 03/13] mm: shmem: provide oom badness for shmem files
+Message-ID: <Yqnba1E2FSRVUATY@dhcp22.suse.cz>
+References: <YqMuq/ZrV8loC3jE@dhcp22.suse.cz>
+ <2e7e050e-04eb-0c0a-0675-d7f1c3ae7aed@amd.com>
+ <YqNSSFQELx/LeEHR@dhcp22.suse.cz>
+ <288528c3-411e-fb25-2f08-92d4bb9f1f13@gmail.com>
+ <Yqbq/Q5jz2ou87Jx@dhcp22.suse.cz>
+ <b8b9aba5-575e-8a34-e627-79bef4ed7f97@amd.com>
+ <YqcpZY3Xx7Mk2ROH@dhcp22.suse.cz>
+ <34daa8ab-a9f4-8f7b-0ea7-821bc36b9497@gmail.com>
+ <YqdFkfLVFUD5K6EK@dhcp22.suse.cz>
+ <9e170201-35df-cfcc-8d07-2f9693278829@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <3afb8643-9e4d-bded-e788-ef024895dcb2@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9e170201-35df-cfcc-8d07-2f9693278829@amd.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Wed 15-06-22 14:35:22, Christian König wrote:
+[...]
+> Even the classic mm_struct based accounting includes MM_SHMEMPAGES into the
+> badness. So accounting shared resources as badness to make a decision is
+> nothing new here.
 
-On Wed, Jun 15, 2022 at 02:27:57PM +0200, Hans Verkuil wrote:
-> On 6/15/22 13:53, Laurent Pinchart wrote:
-> > On Wed, Jun 15, 2022 at 11:14:43AM +0200, Hans Verkuil wrote:
-> >> Hi Laurent, Xavier,
-> >>
-> >> Ignore what I wrote before, I read it with the HEVC patch series in mind, not the dw100
-> >> series.
-> >>
-> >> So let me try again :-)
-> >>
-> >> On 6/14/22 23:00, Laurent Pinchart wrote:
-> >>> Hi Xavier and Hans,
-> >>>
-> >>> Thank you for the patch.
-> >>>
-> >>> On Tue, May 03, 2022 at 11:39:19AM +0200, Xavier Roumegue wrote:
-> >>>> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >>>>
-> >>>> Add a dynamic array test control to help test support for this
-> >>>> feature.
-> >>>>
-> >>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >>>> ---
-> >>>>  drivers/media/test-drivers/vivid/vivid-ctrls.c | 15 +++++++++++++++
-> >>>>  1 file changed, 15 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> >>>> index e7516dc1227b..7267892dc18a 100644
-> >>>> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> >>>> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> >>>> @@ -34,6 +34,7 @@
-> >>>>  #define VIVID_CID_U8_4D_ARRAY		(VIVID_CID_CUSTOM_BASE + 10)
-> >>>>  #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
-> >>>>  #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
-> >>>> +#define VIVID_CID_U32_DYN_ARRAY		(VIVID_CID_CUSTOM_BASE + 13)
-> >>>>  
-> >>>>  #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
-> >>>>  #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
-> >>>> @@ -189,6 +190,19 @@ static const struct v4l2_ctrl_config vivid_ctrl_u32_array = {
-> >>>>  	.dims = { 1 },
-> >>>>  };
-> >>>>  
-> >>>> +static const struct v4l2_ctrl_config vivid_ctrl_u32_dyn_array = {
-> >>>> +	.ops = &vivid_user_gen_ctrl_ops,
-> >>>> +	.id = VIVID_CID_U32_DYN_ARRAY,
-> >>>> +	.name = "U32 Dynamic Array",
-> >>>> +	.type = V4L2_CTRL_TYPE_U32,
-> >>>> +	.flags = V4L2_CTRL_FLAG_DYNAMIC_ARRAY,
-> >>>> +	.def = 50,
-> >>>> +	.min = 10,
-> >>>> +	.max = 90,
-> >>>> +	.step = 1,
-> >>>> +	.dims = { 100 },
-> >>>> +};
-> >>>
-> >>> To meaningfully test this, don't we need the vivid driver to change the
-> >>> dimension ? Or is it meant to only test changes made by the application
-> >>> ?
-> >>
-> >> As I understand it the dw100 driver needs a 2 dimensional array control.
-> >> The size is fixed for each resolution, but if the resolution changes, then
-> >> this control changes size as well, and it makes sense that when that happens
-> >> it is also reset to default values.
-> >>
-> >> So this isn't a dynamic array at all. It is a standard 2 dimensional array.
-> >>
-> >> What is missing in the control framework is a function similar to
-> >> v4l2_ctrl_modify_range() that can resize an array.
-> >>
-> >> v4l2_ctrl_modify_dimensions() would be a good name.
-> >>
-> >> I can make something for that if you both agree with this proposal.
-> > 
-> > From a userspace point of view, we only need to be able to set the
-> > control after setting the format. There's no need for control change
-> > events (but I don't mind if they're there of course, even if I think
-> > they won't be very usable in practice).
-> > 
-> > From an API point of view, I'd like a clear and documented behaviour for
-> > what happens to the control value when the format is changed. It can be
-> > a global behaviour, or a control-specific behaviour, I don't mind much.
+Yeah, it is nothing really new but it also doesn't mean it is an example
+worth following as this doesn't really work currently. Also please note
+that MM_SHMEMPAGES is counting at least something process specific as
+those pages are mapped in to the process (and with enough of wishful
+thinking unmapping can drop the last reference and free something up
+actually) . With generic per-file memory this is even more detached from
+process.
+
+> The difference is that this time the badness doesn't come from the memory
+> management subsystem, but rather from the I/O subsystem.
 > 
-> I'd say it is control specific. In this case you would reset the contents
-> to default values (presumably values that don't do any warping in this
-> case).
+> > This is also the reason why I am not really fan of the per file
+> > badness because it adds a notion of resource that is not process bound
+> > in general so it will add all sorts of weird runtime corner cases which
+> > are impossible to anticipate [*]. Maybe that will work in some scenarios
+> > but definitely not something to be done by default without users opting
+> > into that and being aware of consequences.
+> 
+> Would a kernel command line option to control the behavior be helpful here?
 
-Works for me. Let's then note in the core API that any control whose
-dimensions can change need to document how its value is affected.
-
-> >>>> +
-> >>>>  static const struct v4l2_ctrl_config vivid_ctrl_u16_matrix = {
-> >>>>  	.ops = &vivid_user_gen_ctrl_ops,
-> >>>>  	.id = VIVID_CID_U16_MATRIX,
-> >>>> @@ -1612,6 +1626,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
-> >>>>  	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
-> >>>>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
-> >>>>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
-> >>>> +	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NULL);
-> >>>>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
-> >>>>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_4d_array, NULL);
-> >>>>  
+I am not sure what would be the proper way to control that that would be
+future extensible. Kernel command line is certainly and option but if we
+want to extend that to module like or eBPF interface then it wouldn't
+stand a future test very quickly.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Michal Hocko
+SUSE Labs
