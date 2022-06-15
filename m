@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01B0C54D18F
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 21:26:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A64754D18D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 21:26:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346321AbiFOT00 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 15:26:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56954 "EHLO
+        id S1346446AbiFOT01 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 15:26:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346274AbiFOT0Z (ORCPT
+        with ESMTP id S1346274AbiFOT00 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 15:26:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2F6B39801
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 12:26:24 -0700 (PDT)
+        Wed, 15 Jun 2022 15:26:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D704C42E
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 12:26:25 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93B096BC;
-        Wed, 15 Jun 2022 21:26:21 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 415F36BE;
+        Wed, 15 Jun 2022 21:26:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1655321182;
-        bh=hVXytw8wuY+3GcvhQq2l0Wum1ciTw6phOszMwSDXyZc=;
+        bh=X6Bpa83mlbM05Ahsn9pbAKy7J8VGVgVBir46V1Ef+S0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MdCffjft1cI0YmIV1ngdjQIVgiHmKHjIp8+C6R6uv684N6C7bUGAiW2neHMtuYKPS
-         3CjjIFMTYsEqt27tnUKbs3TUfFufZnykGgEj5AnoMvpLkKlZtP/c4XexFW7J2tiGWN
-         wqwRTN7TlchIcedbhD4aeMXgi+qgEEabjHGDquus=
+        b=OW6XAVWj1WSqfHwKC68ip1N/zVnim2U/Q0IHTqfxpcqNPchx206lAFBgFn4D9HFlB
+         6MP8Wdsxn66Aeo9x8ESmcOV0VrcJ7fAHZybS+ZE4i84ujESfnCQ7QjReBztge9lkWd
+         LEqNrrP0xglbsXAHcopSX7OIzxtTsZ3fm4GS9Ol4=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Paul Elder <paul.elder@ideasonboard.com>,
         Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
         linux-imx@nxp.com
-Subject: [PATCH 1/4] media: imx: imx-mipi-csis: Set the subdev fwnode for endpoint matching
-Date:   Wed, 15 Jun 2022 22:25:59 +0300
-Message-Id: <20220615192602.25472-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 2/4] media: imx: imx-mipi-csis: Add version register
+Date:   Wed, 15 Jun 2022 22:26:00 +0300
+Message-Id: <20220615192602.25472-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220615192602.25472-1-laurent.pinchart@ideasonboard.com>
 References: <20220615192602.25472-1-laurent.pinchart@ideasonboard.com>
@@ -48,49 +48,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Endpoint matching is preferred over device matching with the async
-notifier framework. Set the fwnode in the v4l2_subdev for the CSIS to
-the endpoint connected to the next device.
+Register at offset 0x00 isn't documented, but the NXP BSP
+imx8-mipi-csi2-sam driver defines it as a version register. Tests on
+i.MX7D and i.MX8MP have confirmed this, with values matching the version
+of the IP core specified in the respective reference manuals.
+
+This commit doesn't make use of the version register at runtime as the
+compatible strings are enough to identify the IP core version.
+Nonetheless, capturing the information in register definitions that
+don't affect the code negatively is useful for future development.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/nxp/imx-mipi-csis.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/media/platform/nxp/imx-mipi-csis.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-index 80b1c021d14a..09a220c1bfe8 100644
+index 09a220c1bfe8..8674aaad5fa0 100644
 --- a/drivers/media/platform/nxp/imx-mipi-csis.c
 +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-@@ -1378,6 +1378,13 @@ static int mipi_csis_subdev_init(struct mipi_csis_device *csis)
+@@ -46,6 +46,11 @@
  
- 	sd->dev = csis->dev;
+ /* Register map definition */
  
-+	sd->fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(csis->dev),
-+						     1, 0, 0);
-+	if (!sd->fwnode) {
-+		dev_err(csis->dev, "Unable to retrieve endpoint for port@1\n");
-+		return -ENOENT;
-+	}
++/* CSIS version */
++#define MIPI_CSIS_VERSION			0x00
++#define MIPI_CSIS_VERSION_IMX7D			0x03030505
++#define MIPI_CSIS_VERSION_IMX8MP		0x03060301
 +
- 	csis->csis_fmt = &mipi_csis_formats[0];
- 	mipi_csis_init_cfg(sd, NULL);
- 
-@@ -1498,6 +1505,7 @@ static int mipi_csis_probe(struct platform_device *pdev)
- 	v4l2_async_unregister_subdev(&csis->sd);
- disable_clock:
- 	mipi_csis_clk_disable(csis);
-+	fwnode_handle_put(csis->sd.fwnode);
- 	mutex_destroy(&csis->lock);
- 
- 	return ret;
-@@ -1517,6 +1525,7 @@ static int mipi_csis_remove(struct platform_device *pdev)
- 	mipi_csis_runtime_suspend(&pdev->dev);
- 	mipi_csis_clk_disable(csis);
- 	media_entity_cleanup(&csis->sd.entity);
-+	fwnode_handle_put(csis->sd.fwnode);
- 	mutex_destroy(&csis->lock);
- 	pm_runtime_set_suspended(&pdev->dev);
- 
+ /* CSIS common control */
+ #define MIPI_CSIS_CMN_CTRL			0x04
+ #define MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW	BIT(16)
 -- 
 Regards,
 
