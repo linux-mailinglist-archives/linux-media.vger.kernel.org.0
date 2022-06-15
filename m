@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD3EA54CC4F
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:14:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C204854CC4C
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:14:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245139AbiFOPNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 11:13:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34018 "EHLO
+        id S1344363AbiFOPNS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 11:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231835AbiFOPNJ (ORCPT
+        with ESMTP id S243995AbiFOPNK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 11:13:09 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C51C413F56
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 08:13:07 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id o10so16643833edi.1
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 08:13:07 -0700 (PDT)
+        Wed, 15 Jun 2022 11:13:10 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9011F1403B
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 08:13:08 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id v19so16654692edd.4
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 08:13:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=eknO20DpjREAR8olUhraC51K66eHn6x17UHnd3DEaa8=;
-        b=AmMAjCkL1NHC4Kgh2d7Ej68VIr0rqKewUVWM1k4pz9MCWHVvzDnSfmCWRw4HPaZ0sB
-         WGK8K7ozPSLZP2MWzS2qcGJQDo9MpwwY41nsO5SI0wxJQ+IFLbApNy2V+dhqtCou//Vc
-         xnZaSg8coYHOjt2eRuRO26FMmUADPmWwxhivA=
+        bh=JhLoBlqgRdL7zGQaDBkJEiUo6xrYYgqrgV6p3n7v4gE=;
+        b=VHsDUL+8G+l9h6VR2ECsRIAsjXxhP+/yUMKyjhDtQk2Sw/qGLfN25P6aJQeB3Ta3wS
+         aRWHnuUAgcO/xYMaasg7Q4M+AM7P8JSwx2bqTHCXwWxzNbTqa3dNBqSx91gvtJcAIrIi
+         WMUbhHBliDvh0SgLIjCbSwgbaPPrXTrMi48aQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eknO20DpjREAR8olUhraC51K66eHn6x17UHnd3DEaa8=;
-        b=npUGsf0yXaBCaILLq9C1m5djM8LBxTl3h3AqhdS8XS6Q84qouf4eDEOOFkjOLNZgaR
-         nppknAB74A+fn6+o0XoT7z1oTmEMrQhLNj2wsb5VSHIo6k75A1Eios5F+dQwfpy4VbAe
-         9YWo8necE1br4lFyHmEofMG4pHhQoDL6u4yF5IrKUt6A6mCBe3egU5TQ8ZnW3HRwdlqb
-         9vlQcpuFNIe7DaaUgyld454gBecS+bwvtJqZzUZZiOr4ehoKBTfpGqcy650NoReoLrw3
-         Uz3SFbyfNiiy/WSjGDNufAJxE65VI5LwThItJQuenW6Lsve6qApOibHUNwf3GpNa3+JH
-         yAIQ==
-X-Gm-Message-State: AJIora/PXOIehtecImE+jrA2rYaszEDyO/u1H69ZQCVpYq24PkK6zhHZ
-        0l8nDOTGq8uWYujO5J6qGCJVC4YYFzIGoZaK
-X-Google-Smtp-Source: AGRyM1sCvqatdCAaqkPCaRz7lvvlNc/f7+EpXvbuKThokACKe8fUo2IjbEVrnuuB0mlVFrX+98cmQQ==
-X-Received: by 2002:a05:6402:e81:b0:432:7f12:1878 with SMTP id h1-20020a0564020e8100b004327f121878mr219454eda.179.1655305986455;
-        Wed, 15 Jun 2022 08:13:06 -0700 (PDT)
+        bh=JhLoBlqgRdL7zGQaDBkJEiUo6xrYYgqrgV6p3n7v4gE=;
+        b=gzTLzRjWr19aOi8PuGRZV6K+tPzgRMdGjgMoL32DWSVqTlFkB6/0URFp9LxM5rNFEF
+         kOg5U59XVEv9XtRa7YXxcsG+FSGH19IEuEtFhUJdpkSGwhPzDi2R+lIq2IazlkdGzt69
+         jkdMcIeLNs4DimbyeOisltxVvb4GVJZRiAXVaJ0MVRPXKeJrwLD+tdNdGpyl3tksYO8s
+         vAl/hXlRWKWiLpAP+W+mfn/mxW3GmY/YUfwB8IUc1X1CSvl4f03WNPWZRnniSUAiY7qE
+         uMFXwiPCjPQUU+YnG3epPgSdtHbP6mT7tLwNpScng3sCrb2jGvip9bf/VJGUydOchbB5
+         FkYw==
+X-Gm-Message-State: AJIora8BlXD5gj9hn14OHlc3K7c4zNKB8Rgjbj8qEtmHSpfyPd6/0Ao5
+        4XF5xXOsqJrxFixDW0OmVs1JEw==
+X-Google-Smtp-Source: AGRyM1tRkSTTg+6N8fUozmyqvF4O5etX5jvtgyGmyHMsEPxaOr3JOmT6UfDylpDQJq4g1QOkj9TUpw==
+X-Received: by 2002:a50:ec12:0:b0:42d:cbcf:a629 with SMTP id g18-20020a50ec12000000b0042dcbcfa629mr275214edr.224.1655305987113;
+        Wed, 15 Jun 2022 08:13:07 -0700 (PDT)
 Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id b25-20020aa7cd19000000b0042bd2012196sm9610264edw.85.2022.06.15.08.13.05
+        by smtp.gmail.com with ESMTPSA id b25-20020aa7cd19000000b0042bd2012196sm9610264edw.85.2022.06.15.08.13.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 15 Jun 2022 08:13:06 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
@@ -51,9 +51,9 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org, senozhatsky@chromium.org, yunkec@google.com
 Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v6 6/8] media: uvcvideo: Limit power line control for Chicony Easycamera
-Date:   Wed, 15 Jun 2022 17:12:57 +0200
-Message-Id: <20220615151259.77825-7-ribalda@chromium.org>
+Subject: [PATCH v6 7/8] media: uvcvideo: Limit power line control for Quanta cameras
+Date:   Wed, 15 Jun 2022 17:12:58 +0200
+Message-Id: <20220615151259.77825-8-ribalda@chromium.org>
 X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
 In-Reply-To: <20220615151259.77825-1-ribalda@chromium.org>
 References: <20220615151259.77825-1-ribalda@chromium.org>
@@ -61,7 +61,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,52 +69,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Another Chicony camera device does not implement the power line control
-correctly. Add a corresponding control mapping override.
+Two more cameras do not implement the power line control correctly. Add
+a corresponding control mapping override.
 
-Bus 001 Device 003: ID 04f2:b5eb Chicony Electronics Co., Ltd EasyCamera
+Bus 001 Device 003: ID 0408:4034 Quanta Computer, Inc. ACER HD User Facing
 Device Descriptor:
   bLength                18
   bDescriptorType         1
-  bcdUSB               2.00
+  bcdUSB               2.01
   bDeviceClass          239 Miscellaneous Device
   bDeviceSubClass         2
   bDeviceProtocol         1 Interface Association
   bMaxPacketSize0        64
-  idVendor           0x04f2 Chicony Electronics Co., Ltd
-  idProduct          0xb5eb
-  bcdDevice           90.45
-  iManufacturer           3 Chicony Electronics Co.,Ltd.
-  iProduct                1 EasyCamera
-  iSerial                 2 0001
+  idVendor           0x0408 Quanta Computer, Inc.
+  idProduct          0x4034
+  bcdDevice            0.01
+  iManufacturer           1 Quanta
+  iProduct                2 ACER HD User Facing
+  iSerial                 3 01.00.00
+  bNumConfigurations      1
+
+Bus 001 Device 003: ID 0408:4030 Quanta Computer, Inc. HD User Facing
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.01
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x0408 Quanta Computer, Inc.
+  idProduct          0x4030
+  bcdDevice            0.02
+  iManufacturer           1 Quanta
+  iProduct                2 HD User Facing
+  iSerial                 3 01.00.00
   bNumConfigurations      1
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/media/usb/uvc/uvc_driver.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 5b8a71a9edfb..d21de83021f5 100644
+index d21de83021f5..a862a9d6a2fd 100644
 --- a/drivers/media/usb/uvc/uvc_driver.c
 +++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2820,6 +2820,15 @@ static const struct usb_device_id uvc_ids[] = {
+@@ -2708,6 +2708,24 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
  	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTRICT_FRAME_RATE) },
- 	/* Chicony EasyCamera */
+ 	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
++	/* Quanta USB2.0 HD UVC Webcam */
 +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
 +				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x04f2,
-+	  .idProduct		= 0xb5eb,
++	  .idVendor		= 0x0408,
++	  .idProduct		= 0x4030,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 1,
++	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
++	/* Quanta USB2.0 HD UVC Webcam */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x0408,
++	  .idProduct		= 0x4034,
 +	  .bInterfaceClass	= USB_CLASS_VIDEO,
 +	  .bInterfaceSubClass	= 1,
 +	  .bInterfaceProtocol	= 0,
 +	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-+	/* Chicony EasyCamera */
+ 	/* LogiLink Wireless Webcam */
  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
  				| USB_DEVICE_ID_MATCH_INT_INFO,
- 	  .idVendor		= 0x04f2,
 -- 
 2.36.1.476.g0c4daa206d-goog
 
