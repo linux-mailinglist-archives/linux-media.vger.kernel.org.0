@@ -2,64 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 249C254D2EC
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 22:54:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42F4554D337
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 23:01:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348322AbiFOUwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 16:52:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46934 "EHLO
+        id S1343819AbiFOVBa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 17:01:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348429AbiFOUwA (ORCPT
+        with ESMTP id S236331AbiFOVB2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 16:52:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A10FF5522C
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 13:51:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655326318;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WUP87y8Z7pGtN31UM3/x+gSBcpA/s11Yx3hAsBBL4Ss=;
-        b=fyFSqJNULxoV1J5dpK/xrv+rJVvElj/sk5cRO22tebFGWf+v6ExKLNP3bOq3PW7D7gaomR
-        vgx2nC3bGKGTWZePbJ2nTuzeFcD61rHqDtFhSwVNcMtjVRZ2W/5gfcmwphXXJDT0rWEJ4I
-        f8+WsfYWlo1EaGyZCCbmghytswrD8bU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-4O7czqo7OhqDeaGDev3CFA-1; Wed, 15 Jun 2022 16:51:53 -0400
-X-MC-Unique: 4O7czqo7OhqDeaGDev3CFA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 340E4185A7A4;
-        Wed, 15 Jun 2022 20:51:53 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.27])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 998C1111F5;
-        Wed, 15 Jun 2022 20:51:51 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v2 40/40] media: atomisp: Add a notes.txt file
-Date:   Wed, 15 Jun 2022 22:50:37 +0200
-Message-Id: <20220615205037.16549-41-hdegoede@redhat.com>
-In-Reply-To: <20220615205037.16549-1-hdegoede@redhat.com>
-References: <20220615205037.16549-1-hdegoede@redhat.com>
+        Wed, 15 Jun 2022 17:01:28 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF975523A
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 14:01:27 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id s135so12447867pgs.10
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 14:01:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=CObWiQyDXBcqwHMSgHdgoQvJyOBsk+gMn1MuiTT1CH0=;
+        b=cngItkia7EkWCt0ltEP9ZhGPVKKsC0nN4Cr8cUw6Qo2zmZoDQ1HKdshxe8xGH1q7Dn
+         iDzGp/lsY3/7Gc5MMuCTAQklWssKAbe372mOQMmSCD2fYhr4jxWbME2NtqnD+FmfN5tr
+         yPs6Zi59Y0WpcJ1x1Zs7XLPd6RAlIkJK8odVjJ1fewVhP0BnuQHEuLdajx7NC3njxAR/
+         uNRv7RX0lrsHf71wet2D2goP3gGog3HyxPgTwOvchc/UxBozwq/qXs71+UQwOesjfWpg
+         J6K/Uee45BAP1yd05QRcAtjY6/mtu8UZDKcQYbGdILLAYepYOfGOGNCtK/s758sO2XAx
+         nakQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=CObWiQyDXBcqwHMSgHdgoQvJyOBsk+gMn1MuiTT1CH0=;
+        b=qYGHVMESAT8f6QwilwP8BShBhAi0bIHPKI+8/uff++fRhClCsEEAYxjflyajL1vaAJ
+         pEeG/PW762Ly9tf7ofWejQn/pc8OZXRnWI/r6kxUTLOZ9APbv8IXiHffyT41YZVe8bYg
+         DVT5Mm78EtYw0BxRaro85PN8/gj6m5fg5RD9LNz42k9+xHiQtYoZMKZiKoyYHqswWS0T
+         g1u6kFc/Sxys/PpzC6q1cDzcDtoWsrsT58ACxCAH/h6AKbkNDqkE8mBaFuqDHfsvjTlF
+         /qpASOyFFdRe1hfIe0OmdKvf9HRme9IRSVzl/SQ2vwO07jY3+A4axS7aMhzbf++9LIk9
+         1gTA==
+X-Gm-Message-State: AJIora9xu4DrkOiC2WlQ2B4qbQ4M0XxGezzFzixEqzloB0PCk1XlR5sF
+        W9gJ6gJ0RFsPCJceRaGPxRtrVA==
+X-Google-Smtp-Source: AGRyM1vlkaTy0djR/z8XJ2pgGlhSaqWPzSpi1MoXxukmAmXmDCE+vhaCXhq7SDizPPG0BYT0Y090XA==
+X-Received: by 2002:a05:6a00:b8c:b0:51c:2d3d:4595 with SMTP id g12-20020a056a000b8c00b0051c2d3d4595mr1454217pfj.80.1655326887080;
+        Wed, 15 Jun 2022 14:01:27 -0700 (PDT)
+Received: from [172.22.33.138] ([192.77.111.2])
+        by smtp.gmail.com with ESMTPSA id n46-20020a056a000d6e00b0051868418b06sm86756pfv.35.2022.06.15.14.01.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jun 2022 14:01:26 -0700 (PDT)
+Message-ID: <83e27382-6f97-015f-2ee1-f43820967093@linaro.org>
+Date:   Wed, 15 Jun 2022 14:01:25 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 4/4] dt-bindings: media: nxp,imx-mipi-csi2: i.MX8MP
+ support
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
+        linux-imx@nxp.com, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org
+References: <20220615192602.25472-1-laurent.pinchart@ideasonboard.com>
+ <20220615192602.25472-5-laurent.pinchart@ideasonboard.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220615192602.25472-5-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,52 +81,16 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a files documenting what I've learned about the driver while
-working on various cleanups.
+On 15/06/2022 12:26, Laurent Pinchart wrote:
+> The CSIS CSI-2 receiver in the i.MX8MP seems to be identical to the
+> version present in the i.MX8MM. Add a device-specific compatible string,
+> with a fallback to the i.MX8MM compatible.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/staging/media/atomisp/notes.txt | 30 +++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
- create mode 100644 drivers/staging/media/atomisp/notes.txt
 
-diff --git a/drivers/staging/media/atomisp/notes.txt b/drivers/staging/media/atomisp/notes.txt
-new file mode 100644
-index 000000000000..d128b792e05f
---- /dev/null
-+++ b/drivers/staging/media/atomisp/notes.txt
-@@ -0,0 +1,30 @@
-+Some notes about the working of the atomisp drivers (learned while working
-+on cleaning it up).
-+
-+The atomisp seems to be a generic DSP(ISP) like processor without a fixed
-+pipeline. It does not have its own memory, but instead uses main memory.
-+The ISP has its own address-space and main memory needs to be mapped into
-+its address space through the ISP's MMU.
-+
-+Memory is allocated by the hmm code. hmm_alloc() returns an ISP virtual
-+address. The hmm code keeps a list of all allocations and when necessary
-+the hmm code finds the backing hmm-buffer-object (hmm_bo) by looking
-+up the hmm_bo based on the ISP virtual address.
-+
-+The actual processing pipeline is made by loading one or more programs,
-+called binaries. The shisp_240??0_v21.bin firmware file contains many
-+different binaries. Binaries are picked by filling a ia_css_binary_descr
-+struct with various input and output parameters and then calling
-+ia_css_binary_find(). Some binaries support creating multiple outputs
-+(preview + video frame?) at the same time.
-+
-+For example for the /dev/video0 preview node load_preview_binaries()
-+from atomisp/pci/sh_css.c is called and then loads a preview and
-+optionally a scalar binary. Note when digital zoom is disabled
-+(it is enabled by default) only the preview binary is loaded.
-+So in this case a single binary handles the entire pipeline.
-+
-+Since getting a picture requires multiple processing steps,
-+this means that unlike in fixed pipelines the soft pipelines
-+on the ISP can do multiple processing steps in a single pipeline
-+element (in a single binary).
--- 
-2.36.0
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+
+Best regards,
+Krzysztof
