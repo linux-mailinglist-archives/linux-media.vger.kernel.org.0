@@ -2,111 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE4F254D293
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 22:31:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4AC754D2CD
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 22:45:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346656AbiFOUbA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 16:31:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54568 "EHLO
+        id S1346977AbiFOUo6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 16:44:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239653AbiFOUbA (ORCPT
+        with ESMTP id S1346906AbiFOUo5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 16:31:00 -0400
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A29F544FC
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 13:30:59 -0700 (PDT)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-100eb6f7782so18040493fac.2
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 13:30:59 -0700 (PDT)
+        Wed, 15 Jun 2022 16:44:57 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F25302E69A;
+        Wed, 15 Jun 2022 13:44:56 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id v19so17897388edd.4;
+        Wed, 15 Jun 2022 13:44:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CGPPd7PZu9HxKtdoxwqOJ2SMNchnSdrXD0y0lHK5RM0=;
-        b=k7lq/649HWyaLEl+V4GP0HGGDcXAP+RhRvBEADeIv7GUFO0qUVrNhFontAKLV3JBvt
-         UbDBedGWxkU3gwCqht3eXCQYJ8J23LpA18DaW+kcUUhGDVplOTg4+PKlS7HQFiXKkj5W
-         inHbFs70gJ0tCHEGajDCVSbWE2lDopKrg7nBs=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Tp4oIh2zYtBi2+RpvWEIz+CScSVPRmmdz9pJqOF/be0=;
+        b=frLOPTAHpOW6WM+y8qwoZMCwMS51iwCN9CSULQFC+7vgTcnCxnQHN9Xby4N7qbkAdo
+         LGs8h+xgkrkDVPqB7yJTZgIDNimJ6khTRoo5I3kER5tqQRN5I0wvjkU9wzFoNEoQz5eV
+         dg+yMeWxL5qd97o6PEsS9YeeV5pkWyIAfP2B5ChFUC0wvfX1H+j/8BPMYmSUiEg0IBAM
+         Bfhd7JN8oO7Q/TSmcUVQtBCfupH0MYL2QQnTyjlFtYiYlynHBzLA2J4cD0TOFtI3tKcb
+         07QmU1885KJnriYYcPA1mn58jFG8K1ZdEzpq4dJTCy4CZmP9LAZWxPzLt9B2GETu7oOE
+         cVtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CGPPd7PZu9HxKtdoxwqOJ2SMNchnSdrXD0y0lHK5RM0=;
-        b=RAarKJ2kbXeTjnXgj1Z6gDqJehdT0eVYNE6yx7/uNEThNWfYLFvp1QfHJ060sfC49J
-         yGwMxe7Sx0LrM6gbwY0T+0InQUtQ5zARBWrMGJRHd/JLjG8MJtiCkcAT0A451XaBxPMM
-         lh/7P8KnL4scPpP7zb0zZIeS1L7v2svrHvbdR4m8f1Du4JYBDbTK0OSfVR1/QuD+L13k
-         gaWA0Vp632rmg1Yoq7qUNsBbNb7NJ3QTkzhV4d7du/LKDAmV9aZehDq2Cm0rHhUg4Jb/
-         mgTIxsFYBn0FviZ3KR9c3xKahu8ofjwlzLe2NUv9WQG4JFpEo8OIelybcxBXQhsAhd7s
-         KCFQ==
-X-Gm-Message-State: AJIora+VlYNrlwubuWJDY4dpOgiks5oho4Bok2G3nQbeq7Z/LDOCAuxn
-        aAe+azCclCmo25P9yxwpGWvt3yisKRVARHTqNyS74fEtFuo=
-X-Google-Smtp-Source: AGRyM1uQi1TMDIgq4wQD38w0gj+e0oSvQLAqdIgjR30ifcAeVJd+TJKWOQNN+zZeiC0VAkmK67zEb03FcFdj9exTByA=
-X-Received: by 2002:a05:6870:3053:b0:f3:2997:659a with SMTP id
- u19-20020a056870305300b000f32997659amr876535oau.7.1655325058338; Wed, 15 Jun
- 2022 13:30:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Tp4oIh2zYtBi2+RpvWEIz+CScSVPRmmdz9pJqOF/be0=;
+        b=uDln9VdyR3PfOvfX/J7pJQYHsd21B8WS+Gm+6gVSnHgEG99VVf3WX6nbCjmDyu8ee4
+         VI7hIvi7KTJr6MOIi5lfXUyGJOUtn+3Ez59QmdiddV92bQ3i3JN19RaO37WRdes58GE0
+         po2VbEqUBB1Qz2GA6F5BAtfyC6uVW8pjp4BreZ5qyzB5HdCeInPscYKZh/xTuKaLl8ha
+         6c5/AC4vJHFFmhnbg4Lo7ikhqXIYemd5UnNqQRQ7MKYVlBmjONUJbmrAyVYbwiKXs0rq
+         ZxDyy+2G3NxZZ8T1+HHxjM4aQFYcrL8gv3Uac3wn/v6teaPWkOxF3L6bchlKb8gvQ6S4
+         qJ2w==
+X-Gm-Message-State: AJIora/In7A5Ipr7Ypjj7Hr2nLv7MJIisc+6EeDNQ7yR00VI2CCNBvrC
+        70upIAI7FyXJkxwIxv+hb8g=
+X-Google-Smtp-Source: AGRyM1uQSv1o4AubDZMBfsKjQPuH2QynVWB1oxR/lAPoCnd7YAvz8HbUwnIEOBUBdtfG4T0zFOerdA==
+X-Received: by 2002:aa7:c457:0:b0:42d:bd18:4ef with SMTP id n23-20020aa7c457000000b0042dbd1804efmr2116460edr.112.1655325895465;
+        Wed, 15 Jun 2022 13:44:55 -0700 (PDT)
+Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id h16-20020a1709060f5000b00711d0b41bcfsm6777291ejj.0.2022.06.15.13.44.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 13:44:55 -0700 (PDT)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
+Cc:     mchehab@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+        samuel@sholland.org, hverkuil-cisco@xs4all.nl,
+        benjamin.gaignard@collabora.com, nicolas.dufresne@collabora.com,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] media: cedrus: fix HEVC decoding
+Date:   Wed, 15 Jun 2022 22:44:34 +0200
+Message-Id: <20220615204436.137377-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220615104833.3963552-1-windhl@126.com> <Yqm6LvDGqaRMaUHa@kroah.com>
- <CAPM=9twCiqyakgPLz0v=7-abUhzLb8ZZH7-U65PV8qtQOP7Xww@mail.gmail.com>
-In-Reply-To: <CAPM=9twCiqyakgPLz0v=7-abUhzLb8ZZH7-U65PV8qtQOP7Xww@mail.gmail.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Wed, 15 Jun 2022 22:30:47 +0200
-Message-ID: <CAKMK7uG+TeATXctJaXBgSRxpinDdtOhGa+o2CMPaPtO1QyHtJA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] drivers: tty: serial: Add missing
- of_node_put() in serial-tegra.c
-To:     Dave Airlie <airlied@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-tegra@vger.kernel.org,
-        heliang <windhl@126.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-serial@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 15 Jun 2022 at 22:23, Dave Airlie <airlied@gmail.com> wrote:
->
-> On Wed, 15 Jun 2022 at 20:53, Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Wed, Jun 15, 2022 at 06:48:33PM +0800, heliang wrote:
-> > > In tegra_uart_init(), of_find_matching_node() will return a node
-> > > pointer with refcount incremented. We should use of_node_put()
-> > > when it is not used anymore.
-> > >
-> > > Signed-off-by: heliang <windhl@126.com>
-> >
-> > We need a real name please, one you sign documents with.
->
-> How do we enforce that? What if Wong, Adele or Beyonce submit a patch?
->
-> What happens if that patch gets reposted, with S-o-b: He Liang
-> <windhl@126.com> or Hel Iang, Heli Ang? Do you know any of those are
-> real names? What happens if they post a real name in
-> Mandarin/Thai/Cyrillic, can you validate it?
->
-> Really we require you have an identity attached to an email. If there
-> is a problem in the future, we'd prefer the email continues to work so
-> that you are contactable. If you are submitting a small amount of
-> changes it's probably never going to matter. If you are submitting
-> larger bodies of work of course it would be good to have a company or
-> larger org attached to track things down legally later, but again that
-> isn't always possible.
->
-> I don't think alienating the numerous developers who no longer use
-> their legal names are identified by one name, but haven't changed
-> their legal one yet people who get married and change their legal name
-> but don't change their contribution name and I could run this sentence
-> on forever.
+After detailed comparison of register names to vendor library I noticed
+that one register has completely different name. After some testing I
+discovered that it was misnamed and used incorrectly. This patch series
+fixes it. With that, 3 more reference bitstreams are now correctly
+decoded. It is also possible that this fixes instability issue I had
+after decoding such bitstreams. Running Fluster test suite very often
+locked up my board, but after applying this fix, I never experienced it
+again. It might still be completely coincidental, but I doubt this is
+the case.
 
-Yeah like absolute best case trying to "enforce" this just results in
-encouraging people to come up with entirely fake but English looking
-names for themselves. Which ... just no.
--Daniel
+Note: Patch 2 clashes with HEVC uAPI destaging. In current form, it can
+be easily backported. However, there are few users of Cedrus HEVC and
+skipping this fix wouldn't be that bad.
+
+Please let me know which way to go:
+1) wait for destaging, send rebased v2 and not care about backporting
+2) merge before destaging, but v9 of HEVC uAPI destaging would need to
+   be rebased.
+3) something else?
+
+Best regards,
+Jernej
+
+Jernej Skrabec (2):
+  media: cedrus: h265: Fix flag name
+  media: cedrus: h265: Fix logic for not low delay flag
+
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  | 29 ++++++++++++++++++-
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  |  3 +-
+ 2 files changed, 29 insertions(+), 3 deletions(-)
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.36.1
+
