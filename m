@@ -2,86 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A350A54CF9C
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 19:21:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E27C154CFF1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 19:32:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349694AbiFORV1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 13:21:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59032 "EHLO
+        id S1357735AbiFORcR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 13:32:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346981AbiFORV0 (ORCPT
+        with ESMTP id S1357457AbiFORb4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 13:21:26 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAB0A22BE0
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 10:21:25 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 149666601713;
-        Wed, 15 Jun 2022 18:21:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1655313684;
-        bh=I33Riumivsy9OR/meKZIX1PlcSQxIAu/ubmQySabLnE=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=G7um3QVse7r/ukWAbEo1t9keNjgdzFvdI155Fsldi4QWfLmb6fodv593jxAOTB4yp
-         6OASBiOMwDTqLSExQh/8KfgX0jaVnAoLVxcWFEfICdKbe+eQdQ7ddBzeIK0RXP+vfc
-         4AKsr4G7kOeWITeLevES4lYta3bWDEg0yzkU7pOVC+ZJ3JrNde6LgQUX4bpXvpCUue
-         mAcRKbCR3xwpTRPNLIlCTX4gt+KJgXMwYg61VNT52J8W1lrWbt4Fw8Wuwn0f/iA0fT
-         jNPaWhcwNRqDqFfsIQsy330ITyAbCXalEbn+ClxJA9OMJAhSiugq5B3lWjpl9f+vtV
-         rERmUWbVVJfOA==
-Message-ID: <da5af9cb6cf87cabbb53afb300bd2daf579c761d.camel@collabora.com>
-Subject: Re: [PATCH] mediatek: vcodec: return EINVAL if plane is too small
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Justin Green <greenjustin@chromium.org>,
-        linux-media@vger.kernel.org
-Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com, andrescj@chromium.org,
-        yunfei.dong@mediatek.com
-Date:   Wed, 15 Jun 2022 13:21:13 -0400
-In-Reply-To: <20220615153827.4137366-1-greenjustin@chromium.org>
-References: <20220615153827.4137366-1-greenjustin@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+        Wed, 15 Jun 2022 13:31:56 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFE5853A50
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 10:31:34 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 25so17171068edw.8
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 10:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=w3YUx2QLwqjC4yt6Na4HDX+YOsTdcO8b9CpzZpDW+SU=;
+        b=SumGg4ML2+ipUmc7XA+lq9lEeAMN0G+c1nkIb8xlQdeSVIXK7p8gchHLt4JMr6H2DB
+         oay1lq5P2vRcbJXDcviUhEXtOuH0wnMLPDb9TSVPWMFmqsCzv/3C5/PS3UIUNxLhWLFF
+         stiOnXVgBnI1zKc+m2gV4bh+ZP9jm2By0atDyoqFmq9V6owXGPdCIBexAyREiyN/lqWP
+         sE0WUW66Z3ial6A4UoLjgKhJjd15EU91IEkibIDuhAx6QDoDtHXsAnahe4K9HdlDUCRk
+         bV02tDWRCArcwrkIhFBPyvdeAp0V7KDoiMmXTmMmQR0oyvjc0mW2aORSBPxsiKFydKXZ
+         joRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w3YUx2QLwqjC4yt6Na4HDX+YOsTdcO8b9CpzZpDW+SU=;
+        b=c2yBOljO3IauwOgyZVg5WuG9//xkyMG672wloj3ukcQDJTYZtdr875AKAAnRZN4Mti
+         DPYG6C/R/scMVAOg3I6nTCQR+I4S9eQPocvasQUK1K0dBtH+9xbyXo1Kk/4CdbzGhH4A
+         iLYlyPHZrPCmNihqGmq4EqjAiyMH/lhrI0mBIWMrwVUG8MSbBsU8t41+hCY2u9g0Wd8U
+         EaEDmeQ2uUyKg4WFQPbjOmi6keiSupOdb3duZp1C5qQZ0UsT0LJJW4VLcQppIfeFXkCI
+         +IyaZDNHQQQnlOVaOIB9HAyge8wrwRgqOZmsfF22ez2zvefol54nDBjKLJxCTmZ7Yxxj
+         Xi3w==
+X-Gm-Message-State: AJIora+ValQ8wJDRspuybPSJvHAwTdyKNRFes7/Tm1FkkEas/VWP/z1p
+        50OfCmvHLsn77T2MF5CG20h8ZmVtBbMoB89RsMiWNA==
+X-Google-Smtp-Source: AGRyM1sS/o8uE5SIVvuRne76FHmKtTOxLuF/9qz0QiBkZZh/OtXHhO00qEM0M0U9FVkRkm0Vv+czaVupYJU60sZU7Ow=
+X-Received: by 2002:a05:6402:3325:b0:42d:e1d8:99e9 with SMTP id
+ e37-20020a056402332500b0042de1d899e9mr1033464eda.87.1655314293062; Wed, 15
+ Jun 2022 10:31:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220510235653.933868-1-tjmercier@google.com> <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+ <Yn6DpUsoSz1/15Kc@slm.duckdns.org> <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+ <YodHjYlMx1XGtM2+@slm.duckdns.org> <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
+In-Reply-To: <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Wed, 15 Jun 2022 10:31:21 -0700
+Message-ID: <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Shuah Khan <shuah@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+        John Stultz <jstultz@google.com>,
+        Carlos Llamas <cmllamas@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kernel-team@android.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 15 juin 2022 =C3=A0 11:38 -0400, Justin Green a =C3=A9crit=C2=
-=A0:
-> Modify vb2ops_vdec_buf_prepare to return EINVAL if the size of the plane
-> is less than the size of the image. Currently we just log an error and
-> return 0 anyway, which may cause a buffer overrun bug.
->=20
-> Signed-off-by: Justin Green <greenjustin@chromium.org>
-> Suggested-by: Andres Calderon Jaramillo <andrescj@chromium.org>
+On Fri, May 20, 2022 at 9:25 AM T.J. Mercier <tjmercier@google.com> wrote:
+>
+> On Fri, May 20, 2022 at 12:47 AM Tejun Heo <tj@kernel.org> wrote:
+> >
+> > Hello,
+> >
+> > On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
+> > > Thanks for your suggestion. This almost works. "dmabuf" as a key could
+> > > work, but I'd actually like to account for each heap. Since heaps can
+> > > be dynamically added, I can't accommodate every potential heap name by
+> > > hardcoding registrations in the misc controller.
+> >
+> > On its own, that's a pretty weak reason to be adding a separate gpu
+> > controller especially given that it doesn't really seem to be one with
+> > proper abstractions for gpu resources. We don't want to keep adding random
+> > keys to misc controller but can definitely add limited flexibility. What
+> > kind of keys do you need?
+> >
+> Well the dmabuf-from-heaps component of this is the initial use case.
+> I was envisioning we'd have additional keys as discussed here:
+> https://lore.kernel.org/lkml/20220328035951.1817417-1-tjmercier@google.com/T/#m82e5fe9d8674bb60160701e52dae4356fea2ddfa
+> So we'd end up with a well-defined core set of keys like "system", and
+> then drivers would be free to use their own keys for their own unique
+> purposes which could be complementary or orthogonal to the core set.
+> Yesterday I was talking with someone who is interested in limiting gpu
+> cores and bus IDs in addition to gpu memory. How to define core keys
+> is the part where it looks like there's trouble.
+>
+> For my use case it would be sufficient to have current and maximum
+> values for an arbitrary number of keys - one per heap. So the only
+> part missing from the misc controller (for my use case) is the ability
+> to register a new key at runtime as heaps are added. Instead of
+> keeping track of resources with enum misc_res_type, requesting a
+> resource handle/ID from the misc controller at runtime is what I think
+> would be required instead.
+>
+Quick update: I'm going to make an attempt to modify the misc
+controller to support a limited amount of dynamic resource
+registration/tracking in place of the new controller in this series.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Thanks everyone for the feedback.
+-T.J.
 
-> ---
->  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/dr=
-ivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> index 52e5d36aa912..191e13344c53 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> @@ -735,6 +735,7 @@ int vb2ops_vdec_buf_prepare(struct vb2_buffer *vb)
->  			mtk_v4l2_err("data will not fit into plane %d (%lu < %d)",
->  				i, vb2_plane_size(vb, i),
->  				q_data->sizeimage[i]);
-> +			return -EINVAL;
->  		}
->  		if (!V4L2_TYPE_IS_OUTPUT(vb->type))
->  			vb2_set_plane_payload(vb, i, q_data->sizeimage[i]);
-
+> > Thanks.
+> >
+> > --
+> > tejun
