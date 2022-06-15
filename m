@@ -2,140 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCA0054D2D1
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 22:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78DF154D2E7
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 22:50:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347137AbiFOUpC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 16:45:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39202 "EHLO
+        id S1345256AbiFOUur (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 16:50:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245376AbiFOUpA (ORCPT
+        with ESMTP id S1344041AbiFOUuq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 16:45:00 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18D5D2CE18;
-        Wed, 15 Jun 2022 13:44:59 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id fu3so25501592ejc.7;
-        Wed, 15 Jun 2022 13:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=UkPUwKTnaS1+NO9Nch9w26K0HXt37ZbuHwCJgvzas6w=;
-        b=KZTaP/UUBSfkhES3uwAifaBHD+8KYHaDPTIaHC0+kMWiVl0Dc4uQj3rHyguuW0b+e6
-         xn2qMFMVoYg0WdHpwEkLRsR8SHg7l/B/B64UMrTxDBHQg0P6se89zaIIJJvuyNzTP7/w
-         6R7wtGC5qIwCkTMRWOfvuQKys0nG5fqFfS3KkDp6XsKO+NEUGxFbjqt7QJNvpBNsLPky
-         DmG5EbDEUvJO88gfr2a6shjEq2I3cMZHIY5Vkque0II4Nyy5yC2VVUNU/xlp8qqJh6QK
-         fBHpPqfHDiL1YiM1Ty4YKVXPO8NrjUK2s16XzBB03W2tP9OhsfEkxn2DckHRMIK/2tcJ
-         VayQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UkPUwKTnaS1+NO9Nch9w26K0HXt37ZbuHwCJgvzas6w=;
-        b=tZKZoktsh3XIHyZmMwsh4XdiNU6PtHjAZT+w4voIMNp5Qa1GLc9wby9zZwgXSdnwNI
-         tzLQPIko38Nyl3718RAE/HAWO/Y1FISpjZmsJFnqxCmysSyZDPUf4vcPU24olGGOvpjV
-         ikWaa5xBHjfqqy6BlFmLDigJgdkIx9X9u948cIlz3iZclcG53l+pxxZtps0uJzRPr/tp
-         mS85Xno5glwaRoBLgoumW1FQ00mMs09owX45gFhVEvG71invto6UdJoc3fqsfIGDxCQp
-         hJC+uAoOzaHFrwCn3tsHRi+gIxEKY+CxL5Mlxrg0crPwzCtAmrqkyaKXDjxY+fJ0X0Xt
-         lQ9g==
-X-Gm-Message-State: AJIora+7rBR6iZ/WcjVxmAoH9hKj6aVx9SVzSrQA171He7GyTPkPPz2L
-        CeCz6QufpQkKa6ooHTZHOe5G9ZX987KFaQ==
-X-Google-Smtp-Source: AGRyM1vx9khoEZtrG2EZUYe5/IW0+vYV2Dvx6Hyuvnil2j5foF+MmkFd0Ik/E0DR03tXnXp2EQ0hFg==
-X-Received: by 2002:a17:907:ea6:b0:708:1282:cbe8 with SMTP id ho38-20020a1709070ea600b007081282cbe8mr1588469ejc.520.1655325897664;
-        Wed, 15 Jun 2022 13:44:57 -0700 (PDT)
-Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id h16-20020a1709060f5000b00711d0b41bcfsm6777291ejj.0.2022.06.15.13.44.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 13:44:57 -0700 (PDT)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
-        samuel@sholland.org, hverkuil-cisco@xs4all.nl,
-        benjamin.gaignard@collabora.com, nicolas.dufresne@collabora.com,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] media: cedrus: h265: Fix logic for not low delay flag
-Date:   Wed, 15 Jun 2022 22:44:36 +0200
-Message-Id: <20220615204436.137377-3-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220615204436.137377-1-jernej.skrabec@gmail.com>
-References: <20220615204436.137377-1-jernej.skrabec@gmail.com>
+        Wed, 15 Jun 2022 16:50:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9CED654FBA
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 13:50:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655326244;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=FUyr5N2CgvS2Z28ILcwk0UTYKxr+xY+nnqc9EbSifcU=;
+        b=H37JOsy6s5SFt4hxguqH62fFoflDKeItYPbB4ShY434BegIUU/FYHivmscBcscSm/ha5nm
+        g2IGFYhZ5b6GoM5Iq5wtUQTT7reGUYKDzcjlHGmiobEuZtcxzjGABgos2jlcvh19O9fWhJ
+        clOS0WLsyMKrEDztRQYZds0aMl7OX98=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-614-NlVzS3N9N0uOBjXLm9XxLw-1; Wed, 15 Jun 2022 16:50:40 -0400
+X-MC-Unique: NlVzS3N9N0uOBjXLm9XxLw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33E2985A585;
+        Wed, 15 Jun 2022 20:50:40 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.27])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 98558111F5;
+        Wed, 15 Jun 2022 20:50:38 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH v2 00/40] media: atomisp: Various hmm and other cleanups
+Date:   Wed, 15 Jun 2022 22:49:57 +0200
+Message-Id: <20220615205037.16549-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that we know real purpose of "not low delay" flag, logic for
-applying this flag should be fixed too. According to vendor and
-reference implementation, low delay is signaled when POC of current
-frame is lower than POC of at least one reference of a slice.
+Hi All,
 
-Implement mentioned logic and invert it to conform to flag meaning. Also
-don't apply flag for I frames. They don't have any reference.
+Here is v2 of my atomisp hmm (and other) cleanups series. As mentioned
+in the coverletter of v1, this is part of slowly working towards porting
+the code to videobuf2 to add/fix mmap support.
 
-This fixes decoding of 3 reference bitstreams.
+v2 addresses a few small remarks from Andy and adds Andy's Reviewed-by
+to all the patches, thank you Andy!
 
-Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 27 ++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+Regards,
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 2febdf7a97fe..3f50043093be 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -301,6 +301,31 @@ static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
- 		}
- }
- 
-+static int cedrus_h265_is_low_delay(struct cedrus_run *run)
-+{
-+	const struct v4l2_ctrl_hevc_slice_params *slice_params;
-+	const struct v4l2_hevc_dpb_entry *dpb;
-+	s32 poc;
-+	int i;
-+
-+	slice_params = run->h265.slice_params;
-+	poc = run->h265.decode_params->pic_order_cnt_val;
-+	dpb = run->h265.decode_params->dpb;
-+
-+	for (i = 0; i < slice_params->num_ref_idx_l0_active_minus1 + 1; i++)
-+		if (dpb[slice_params->ref_idx_l0[i]].pic_order_cnt[0] > poc)
-+			return 1;
-+
-+	if (slice_params->slice_type != V4L2_HEVC_SLICE_TYPE_B)
-+		return 0;
-+
-+	for (i = 0; i < slice_params->num_ref_idx_l1_active_minus1 + 1; i++)
-+		if (dpb[slice_params->ref_idx_l1[i]].pic_order_cnt[0] > poc)
-+			return 1;
-+
-+	return 0;
-+}
-+
- static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 			      struct cedrus_run *run)
- {
-@@ -571,7 +596,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 				V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED,
- 				slice_params->flags);
- 
--	if (decode_params->num_poc_st_curr_after == 0)
-+	if (slice_params->slice_type != V4L2_HEVC_SLICE_TYPE_I && !cedrus_h265_is_low_delay(run))
- 		reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_NOT_LOW_DELAY;
- 
- 	cedrus_write(dev, VE_DEC_H265_DEC_SLICE_HDR_INFO1, reg);
+Hans
+
+
+Hans de Goede (40):
+  media: atomisp: remove the unused RAW_BUF_STRIDE macro
+  media: atomisp: remove unused ia_css_frame_allocate_contiguous*()
+    functions
+  media: atomisp: drop contiguous argument from
+    ia_css_frame_allocate_with_buffer_size()
+  media: atomisp: drop contiguous argument from
+    frame_allocate_with_data()
+  media: atomisp: drop contiguous argument from frame_create()
+  media: atomisp: drop IA_CSS_FRAME_FORMAT_MIPI support from
+    ia_css_frame_init_planes()
+  media: atomisp: drop contiguous flag from struct ia_css_frame
+  media: atomisp: drop ATOMISP_MAP_FLAG_CONTIGUOUS
+  media: atomisp: remove hmm_pool_[un]register()
+  media: atomisp: remove dynamic and reserved pool code
+  media: atomisp: remove hmm pool code
+  media: atomisp: remove hmm_mem_stats
+  media: atomisp: remove pool related kernel cmdline options
+  media: atomisp: remove unused attribute argument from
+    ia_css_frame_map()
+  media: atomisp: drop hmm_page_type
+  media: atomisp: removed unused hmm_bo_get_page_info() function
+  media: atomisp: remove bogus comment above hmm_bo_allocated()
+    prototype
+  media: atomisp: remove private acceleration ioctls
+  media: atomisp: remove atomisp_acc.c
+  media: atomisp: remove unused atomisp_*css_* functions
+  media: atomisp: asc.acc.pipeline is always NULL
+  media: atomisp: remove no longer used atomisp_css_acc_done() function
+  media: atomisp: remove atomisp_is_acc_enabled()
+  media: atomisp: drop unused ATOMISP_ACC_FW_LOAD_* defines
+  media: atomisp: drop ATOMISP_MAP_FLAG_CLEARED
+  media: atomisp: drop unused ATOMISP_MAP_FLAG_* flags
+  media: atomisp: remove unused hmm address translation functions
+  media: atomisp: add hmm_create_from_userdata() helper
+  media: atomisp: Simplify hmm_alloc() calls
+  media: atomisp: drop highmem var/arg from the hmm code
+  media: atomisp: drop HMM_BO_SHARE type
+  media: atomisp: remove hmm_page_object
+  media: atomisp: fix __get_frame_info() error handling
+  media: atomisp: add error checking to atomisp_create_pipes_stream()
+  media: atomisp: add error logging to
+    atomisp_destroy_pipes_stream_force()
+  media: atomisp: use atomisp_create_pipes_stream() in more places
+  media: atomisp: use atomisp_css_update_stream() in more places
+  media: atomisp: use atomisp_destroy_pipes_stream_force() in more
+    places
+  media: atomisp: remove force argument from
+    __destroy_[stream[s]|pipe[s]]()
+  media: atomisp: Add a notes.txt file
+
+ drivers/staging/media/atomisp/Makefile        |   3 -
+ .../staging/media/atomisp/include/hmm/hmm.h   |  32 +-
+ .../media/atomisp/include/hmm/hmm_bo.h        |  37 +-
+ .../media/atomisp/include/hmm/hmm_common.h    |  26 -
+ .../media/atomisp/include/hmm/hmm_pool.h      | 116 ----
+ .../media/atomisp/include/linux/atomisp.h     | 146 ----
+ drivers/staging/media/atomisp/notes.txt       |  30 +
+ .../staging/media/atomisp/pci/atomisp_acc.c   | 625 ------------------
+ .../staging/media/atomisp/pci/atomisp_acc.h   | 120 ----
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  33 +-
+ .../media/atomisp/pci/atomisp_compat.h        |  29 +-
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 365 ++--------
+ .../atomisp/pci/atomisp_compat_ioctl32.h      |  58 --
+ .../staging/media/atomisp/pci/atomisp_drvfs.c |   7 +-
+ .../staging/media/atomisp/pci/atomisp_fops.c  |  13 -
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |  73 +-
+ .../staging/media/atomisp/pci/atomisp_ioctl.h |   1 -
+ .../media/atomisp/pci/atomisp_subdev.c        |   3 -
+ .../media/atomisp/pci/atomisp_subdev.h        |  10 -
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |  32 -
+ drivers/staging/media/atomisp/pci/hmm/hmm.c   | 186 +-----
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 261 ++------
+ .../media/atomisp/pci/hmm/hmm_dynamic_pool.c  | 234 -------
+ .../media/atomisp/pci/hmm/hmm_reserved_pool.c | 253 -------
+ .../media/atomisp/pci/ia_css_frame_public.h   |  40 --
+ .../kernels/sdis/sdis_1.0/ia_css_sdis.host.c  |   2 +-
+ .../kernels/sdis/sdis_2/ia_css_sdis2.host.c   |   2 +-
+ .../pci/isp/modes/interface/isp_const.h       |   6 -
+ .../pci/runtime/debug/src/ia_css_debug.c      |   2 -
+ .../runtime/frame/interface/ia_css_frame.h    |   7 +-
+ .../atomisp/pci/runtime/frame/src/frame.c     | 105 +--
+ .../pci/runtime/isp_param/src/isp_param.c     |   2 +-
+ .../atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c  |   3 +-
+ .../atomisp/pci/runtime/spctrl/src/spctrl.c   |   2 +-
+ drivers/staging/media/atomisp/pci/sh_css.c    |   5 -
+ .../media/atomisp/pci/sh_css_firmware.c       |   2 +-
+ .../staging/media/atomisp/pci/sh_css_mipi.c   |   3 +-
+ .../staging/media/atomisp/pci/sh_css_params.c |  47 +-
+ 38 files changed, 205 insertions(+), 2716 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/include/hmm/hmm_pool.h
+ create mode 100644 drivers/staging/media/atomisp/notes.txt
+ delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_acc.c
+ delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_acc.h
+ delete mode 100644 drivers/staging/media/atomisp/pci/hmm/hmm_dynamic_pool.c
+ delete mode 100644 drivers/staging/media/atomisp/pci/hmm/hmm_reserved_pool.c
+
 -- 
-2.36.1
+2.36.0
 
