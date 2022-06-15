@@ -2,112 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BFDC54CC6C
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 411AF54CC76
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 17:16:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346330AbiFOPPc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 11:15:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37582 "EHLO
+        id S1346897AbiFOPPi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 11:15:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344978AbiFOPP3 (ORCPT
+        with ESMTP id S234890AbiFOPPa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 11:15:29 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F29B3C707;
-        Wed, 15 Jun 2022 08:15:26 -0700 (PDT)
+        Wed, 15 Jun 2022 11:15:30 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D182E6BC
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 08:15:28 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5759F240005;
-        Wed, 15 Jun 2022 15:15:22 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 51A0D240009;
+        Wed, 15 Jun 2022 15:15:25 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     dave.stevenson@raspberrypi.com
 Cc:     Jacopo Mondi <jacopo@jmondi.org>, david.plowman@raspberrypi.com,
         laurent.pinchart@ideasonboard.com,
         Valentine Barshak <valentine.barshak@cogentembedded.com>,
         linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 0/5] media: ov5647: Reintroduce 8bpp modes from R-Car BSP
-Date:   Wed, 15 Jun 2022 17:14:52 +0200
-Message-Id: <20220615151457.415038-1-jacopo@jmondi.org>
+Subject: [PATCH 1/5] media: ov5647: Parse and register properties
+Date:   Wed, 15 Jun 2022 17:14:53 +0200
+Message-Id: <20220615151457.415038-2-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220615151457.415038-1-jacopo@jmondi.org>
+References: <20220615151457.415038-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-8 bpp mode was removed in commit 38c223081815 ("media: ov5647:
-Remove 640x480 SBGGR8 mode") as it hangs the sensor and no streaming
-was possible.
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-This series upports a few patches from Renesas R-Car 4.1.0 BSP which use
-8 bpp modes for ADAS applications.
+Parse device properties and register controls for them using the V4L2
+fwnode properties helpers.
 
-While at it, a few patches from the RPi BSP have been upported as well, as the
-series has been tested on a Pi.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+[increase number of controls reserved in the handler]
+Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+---
+ drivers/media/i2c/ov5647.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-As reported in the commit message of 3/5, a register quirk allows to capture
-8bpp modes with no hangs:
-
-Quoting:
-
--------------------------------------------------------------------------------
-Comparing the register table for the 10 bit full-size mode and the
-register table for the there introduced 8 bit full size mode, the main
-difference is in the value of register 0x3034, documented as:
-
-0x3034: Bit[7]:   Not used
-	Bit[6:4]: pll_charge_pump
-	Bit[3:0]: mipi_bit_mode
-		  0000: 8 bit mode
-		  0001: 10 bit mode
-		  Others: Reserved to future use
-
-However the value currently assigned to the register in all 10 bits
-modes contradicts the register description (0x3034=0x1a) suggesting that
-the documentation is possibly wrong and the lower and higher 4 bits are
-actually swapped.
-
-In facts, the 8 bits mode as added in the BSP commit assigns to register
-0x3034 the value 0x08, causing the sensor to hang.
-
-This patch uses for the register the same value as the 10 bits mode with
-BIT(4) cleared, resulting in correct streaming operations with the
-expected 15 FPS frame rate.
-
-pi@raspberrypi:~ $ v4l2-ctl --get-subdev-fmt pad=0 -d /dev/v4l-subdev0
-pi@raspberrypi:~ $ yavta -s2592x1944 -fSGBRG8 --capture=10 --skip=7 -F /dev/video0
-...
-Captured 10 frames in 0.631383 seconds (15.838237 fps, 79806470.803431 B/s).
-...
--------------------------------------------------------------------------------
-
-As reported in the same commit messages, frames as captured from the Pi are
-completely black, suggesting that some other setting is off.
-
-However the sensor does not hang anymore and it is worth re-enabling the modes
-as a base for further debugging.
-
-Thanks
-   j
-
-David Plowman (1):
-  media: ov5647: Support HFLIP and VFLIP
-
-Jacopo Mondi (3):
-  media: ov5647: Add 8 bit SGBRG8 full size mode
-  media: ov5647: Reintroduce 8 bit 640x480
-  media: ov5647: Add support for test patterns
-
-Laurent Pinchart (1):
-  media: ov5647: Parse and register properties
-
- drivers/media/i2c/ov5647.c | 411 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 393 insertions(+), 18 deletions(-)
-
---
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index d346d18ce629..98b72094ef68 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -1265,12 +1265,13 @@ static const struct v4l2_ctrl_ops ov5647_ctrl_ops = {
+ 	.s_ctrl = ov5647_s_ctrl,
+ };
+ 
+-static int ov5647_init_controls(struct ov5647 *sensor)
++static int ov5647_init_controls(struct ov5647 *sensor, struct device *dev)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
+ 	int hblank, exposure_max, exposure_def;
++	struct v4l2_fwnode_device_properties props;
+ 
+-	v4l2_ctrl_handler_init(&sensor->ctrls, 8);
++	v4l2_ctrl_handler_init(&sensor->ctrls, 10);
+ 
+ 	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+ 			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
+@@ -1314,6 +1315,11 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+ 					   sensor->mode->vts -
+ 					   sensor->mode->format.height);
+ 
++	v4l2_fwnode_device_parse(dev, &props);
++
++	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ov5647_ctrl_ops,
++					&props);
++
+ 	if (sensor->ctrls.error)
+ 		goto handler_free;
+ 
+@@ -1400,7 +1406,7 @@ static int ov5647_probe(struct i2c_client *client)
+ 
+ 	sensor->mode = OV5647_DEFAULT_MODE;
+ 
+-	ret = ov5647_init_controls(sensor);
++	ret = ov5647_init_controls(sensor, dev);
+ 	if (ret)
+ 		goto mutex_destroy;
+ 
+-- 
 2.35.1
 
