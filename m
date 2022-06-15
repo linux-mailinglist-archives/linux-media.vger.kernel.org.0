@@ -2,194 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F41E254D264
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 22:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD66254D26F
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 22:23:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237375AbiFOUQX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 16:16:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42860 "EHLO
+        id S235568AbiFOUXk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 16:23:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231604AbiFOUQV (ORCPT
+        with ESMTP id S231317AbiFOUXk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 16:16:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B3E4B86D;
-        Wed, 15 Jun 2022 13:16:20 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 940A75A9;
-        Wed, 15 Jun 2022 22:16:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655324178;
-        bh=v1jkPA/EFojabfAV7CqrNhRRtf1nu53ymbo3OjQaZ+A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AAYDj2ecF7Wh3k/aBm0G8psU0EIBwv4jaVsp1cZ4ba8hgolUoANUU95Wur/tNquvL
-         BcYLNq81dNw2GbgsDDtGcDCQwcl5Ks2g3SM5oOYeBfo58qVrDiw8VSp3XjJLnQjM/M
-         UWVqDCnd+FDZKd4fbr0oCPP3TEWoGpeVQTA3eA/Q=
-Date:   Wed, 15 Jun 2022 23:16:08 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@google.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, drinkcat@chromium.org, acourbot@chromium.org,
-        pihsun@chromium.org, menghui.lin@mediatek.com,
-        sj.huang@mediatek.com, ben.lok@mediatek.com, randy.wu@mediatek.com,
-        srv_heupstream@mediatek.com, Rex-BC Chen <Rex-BC.Chen@mediatek.com>
-Subject: Re: [V1] media: mtk-mdp3: Add Mediatek MDP3 Driver
-Message-ID: <Yqo+CPSNDeqFLPGB@pendragon.ideasonboard.com>
-References: <20210623091457.18002-1-moudy.ho@mediatek.com>
- <2735b66aef88ef5dc623702d27efc3a931d2fdd3.camel@ndufresne.ca>
+        Wed, 15 Jun 2022 16:23:40 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 262BF4FC43;
+        Wed, 15 Jun 2022 13:23:39 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 25so17772489edw.8;
+        Wed, 15 Jun 2022 13:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PXt3RdHLeGINg4yxXorienYktyDgObMjDMbWVl7BWsk=;
+        b=KXZ2+v4pB+2qbAYGzjRzDzf5N/FIVRKhj96xYwE1vF5kUN0OtkFe9xaDGtDanFONLy
+         hTPZE9BYpcQdjTudH/oFniRh8iBYS/c4UeqaUYPwh2lfS22ODF3u97tyELRsJAEAD6RQ
+         XzWUflxaDj9Iu61DuaeDp+azVZ6V13cNbqU61orL81dExdC116TjkX33GuszgTOcEEvU
+         GzVSKpsmN9Ed5bYW34e8z5P5bSZUO3hseQ9JF3OB2VQmBTRpr4mRhHHoSIsAF/FCWDuG
+         kBQq6IcC9BM5Dg/ILKxnsITQERCqOt1fO9wBv0c6m5vvEQHDWieBkMh2OPDFrT40CG/E
+         Gg5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PXt3RdHLeGINg4yxXorienYktyDgObMjDMbWVl7BWsk=;
+        b=foRJR4Z5O1Xn5NaUZ+zwvqUnHWCUQAYkiS0+3B4TRJkCcjijeH9VAfd46s8dPgByKC
+         VYJW6Ooblfc/0ow9ul+XxiH1QNyDcmUAznibiSnagW0k7vVXhqT0NAI+v19fWOYAiiui
+         QDc5i4YAjt6wmXXUMPHujkxZ5Fvd9kcjTjOidas4lEuH7z6xDya0RQ8RcbOtq7woOMCO
+         TNqBluKDFjTDpxtKO7fYznyLuVUD5GH5DGxmFPdcVAH0yvCIdW6RBOqQ3gwgVqX1gi39
+         9e7Sf97gkb0Q90KO+vYWsPXtaQePvZngDCHinKoMe5UWGEFm3hqFdXcDOEVIb1mgbhgT
+         qThQ==
+X-Gm-Message-State: AJIora/cw7V1qS/IP5j6UKWX0yqUDarjJxwypp3SSqGju42WvbHKKQ3D
+        CZuJaPVI1kc0x2fd8rf+y9YQQHeyGT3pe+KRw8A=
+X-Google-Smtp-Source: AGRyM1ttWT68UgN+Rc46Ac5PG1YpNjzWfiePHBmGn7NJyquiZSoFYih8qcY3rjMrbDxNpWSQCqulgS89b6u9UPfVJg8=
+X-Received: by 2002:a05:6402:3325:b0:42d:e1d8:99e9 with SMTP id
+ e37-20020a056402332500b0042de1d899e9mr1927169eda.87.1655324617605; Wed, 15
+ Jun 2022 13:23:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2735b66aef88ef5dc623702d27efc3a931d2fdd3.camel@ndufresne.ca>
+References: <20220615104833.3963552-1-windhl@126.com> <Yqm6LvDGqaRMaUHa@kroah.com>
+In-Reply-To: <Yqm6LvDGqaRMaUHa@kroah.com>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Thu, 16 Jun 2022 06:23:26 +1000
+Message-ID: <CAPM=9twCiqyakgPLz0v=7-abUhzLb8ZZH7-U65PV8qtQOP7Xww@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] drivers: tty: serial: Add missing
+ of_node_put() in serial-tegra.c
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     heliang <windhl@126.com>, linux-serial@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 15, 2022 at 03:55:14PM -0400, Nicolas Dufresne wrote:
-> Le mercredi 23 juin 2021 à 17:14 +0800, Moudy Ho a écrit :
-> > From: mtk18742 <moudy.ho@mediatek.com>
-> > 
-> > Add MDP3 driver for MT8183
-> > 
-> > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> > ---
-> >  drivers/media/platform/Kconfig                |   17 +
-> >  drivers/media/platform/Makefile               |    2 +
-> >  drivers/media/platform/mtk-mdp3/Makefile      |    9 +
-> >  drivers/media/platform/mtk-mdp3/isp_reg.h     |   37 +
-> >  .../media/platform/mtk-mdp3/mdp-platform.h    |   58 +
-> >  .../media/platform/mtk-mdp3/mdp_reg_ccorr.h   |   75 +
-> >  .../media/platform/mtk-mdp3/mdp_reg_rdma.h    |  206 +++
-> >  drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h |  109 ++
-> >  .../media/platform/mtk-mdp3/mdp_reg_wdma.h    |  125 ++
-> >  .../media/platform/mtk-mdp3/mdp_reg_wrot.h    |  115 ++
-> >  .../media/platform/mtk-mdp3/mmsys_config.h    |  188 +++
-> >  drivers/media/platform/mtk-mdp3/mmsys_mutex.h |   35 +
-> >  .../media/platform/mtk-mdp3/mmsys_reg_base.h  |   38 +
-> >  drivers/media/platform/mtk-mdp3/mtk-img-ipi.h |  282 ++++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   |  538 ++++++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.h   |   53 +
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 1437 +++++++++++++++++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |  157 ++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  266 +++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |   86 +
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-debug.c  |  973 +++++++++++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-debug.h  |   39 +
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  803 +++++++++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-m2m.h    |   42 +
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  748 +++++++++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-regs.h   |  373 +++++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-vpu.c    |  313 ++++
-> >  .../media/platform/mtk-mdp3/mtk-mdp3-vpu.h    |   79 +
-> >  28 files changed, 7203 insertions(+)
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/Makefile
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/isp_reg.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp-platform.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_ccorr.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rdma.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wdma.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wrot.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_config.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_mutex.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_reg_base.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-img-ipi.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-debug.c
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-debug.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.h
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c
-> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.h
+On Wed, 15 Jun 2022 at 20:53, Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Jun 15, 2022 at 06:48:33PM +0800, heliang wrote:
+> > In tegra_uart_init(), of_find_matching_node() will return a node
+> > pointer with refcount incremented. We should use of_node_put()
+> > when it is not used anymore.
+> >
+> > Signed-off-by: heliang <windhl@126.com>
+>
+> We need a real name please, one you sign documents with.
 
-[snip]
+How do we enforce that? What if Wong, Adele or Beyonce submit a patch?
 
-> > diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
-> > new file mode 100644
-> > index 000000000000..0c4c942b5f9c
-> > --- /dev/null
-> > +++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
-> > @@ -0,0 +1,748 @@
+What happens if that patch gets reposted, with S-o-b: He Liang
+<windhl@126.com> or Hel Iang, Heli Ang? Do you know any of those are
+real names? What happens if they post a real name in
+Mandarin/Thai/Cyrillic, can you validate it?
 
-[snip]
+Really we require you have an identity attached to an email. If there
+is a problem in the future, we'd prefer the email continues to work so
+that you are contactable. If you are submitting a small amount of
+changes it's probably never going to matter. If you are submitting
+larger bodies of work of course it would be good to have a company or
+larger org attached to track things down legally later, but again that
+isn't always possible.
 
-> > +static void mdp_prepare_buffer(struct img_image_buffer *b,
-> > +			       struct mdp_frame *frame, struct vb2_buffer *vb)
-> > +{
-> > +	struct v4l2_pix_format_mplane *pix_mp = &frame->format.fmt.pix_mp;
-> > +	unsigned int i;
-> > +
-> > +	b->format.colorformat = frame->mdp_fmt->mdp_color;
-> > +	b->format.ycbcr_prof = frame->ycbcr_prof;
-> > +	for (i = 0; i < pix_mp->num_planes; ++i) {
-> > +		u32 stride = mdp_fmt_get_stride(frame->mdp_fmt,
-> > +			pix_mp->plane_fmt[i].bytesperline, i);
-> > +
-> > +		b->format.plane_fmt[i].stride = stride;
-> > +		/*
-> > +		 * TODO(crbug.com/901264): The way to pass an offset within a
-> > +		 * DMA-buf is not defined in V4L2 specification, so we abuse
-> > +		 * data_offset for now. Fix it when we have the right interface,
-> > +		 * including any necessary validation and potential alignment
-> > +		 * issues.
-> > +		 */
-> > +		b->format.plane_fmt[i].size =
-> > +			mdp_fmt_get_plane_size(frame->mdp_fmt, stride,
-> > +					       pix_mp->height, i) -
-> > +					       vb->planes[i].data_offset;
-> > +		b->iova[i] = vb2_dma_contig_plane_dma_addr(vb, i) +
-> > +			     vb->planes[i].data_offset;
-> 
-> As the comment says, data_offset is not valdiated at all for capture devices and
-> is only validated so that (length - data_offset > 0) for OUTPUT devices. So this
-> is going out of spec and leave the door open for buffer overflow triggered by
-> users.
+I don't think alienating the numerous developers who no longer use
+their legal names are identified by one name, but haven't changed
+their legal one yet people who get married and change their legal name
+but don't change their contribution name and I could run this sentence
+on forever.
 
-And as documented by the TODO comment, it's clearly an API abuse. This
-can't go in as-is, we need to revive the v4l2_buffer extended API that
-Boris used to work on.
-
-> > +	}
-> > +	for (; i < MDP_COLOR_GET_PLANE_COUNT(b->format.colorformat); ++i) {
-> > +		u32 stride = mdp_fmt_get_stride_contig(frame->mdp_fmt,
-> > +			b->format.plane_fmt[0].stride, i);
-> > +
-> > +		b->format.plane_fmt[i].stride = stride;
-> > +		b->format.plane_fmt[i].size =
-> > +			mdp_fmt_get_plane_size(frame->mdp_fmt, stride,
-> > +					       pix_mp->height, i);
-> > +		b->iova[i] = b->iova[i - 1] + b->format.plane_fmt[i - 1].size;
-> > +	}
-> > +	b->usage = frame->usage;
-> > +}
-
--- 
-Regards,
-
-Laurent Pinchart
+Dave.
