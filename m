@@ -2,323 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E87B54D3CF
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 23:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 186C954D413
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jun 2022 23:59:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347518AbiFOVei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jun 2022 17:34:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57816 "EHLO
+        id S1350178AbiFOV7z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jun 2022 17:59:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345695AbiFOVeh (ORCPT
+        with ESMTP id S1349828AbiFOV7n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jun 2022 17:34:37 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B6EE562F7
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 14:34:36 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id fu3so25702989ejc.7
-        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 14:34:36 -0700 (PDT)
+        Wed, 15 Jun 2022 17:59:43 -0400
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-cy1gcc01bn2073.outbound.protection.outlook.com [52.100.19.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B551454BD7
+        for <linux-media@vger.kernel.org>; Wed, 15 Jun 2022 14:59:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UC+mLpZHb7If9TtBykEaMXsQYjCNZr6W7AcSFyc5Mmfl1rWfEevHYteM7j59vZcoaKfLN3Md6frAeA1xxMxzfEL9PRCs5YMVDuTjNWXU7l9JsZTa/aE4XWx6sA7y6CdWO4fJvqW8yftvUcAtYnxVzvaNodcn0MIqC4hlPmD1tbUXnQBSkeiVolpXtAxUCWv7piggCDGSDBvg6yssbjxUcIQi7raZ5rMZNjauwiCEKkuBfkWQ4yjMXdk8BYVUCFDX60FSVm7bH6DzuB4NU31tvaMERZuBQpceUNqXfVdm2HqxmLa78M9DEFQiei4GGq2PD2/ewB826DywtQETBM/3fA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lQsm62DnO3DRMaTO7/AWxijWtNxIrL/VW/Qe6xhipJU=;
+ b=bY2xbw0jUVtAEgDsOEYebXI4xnB1C9h1Nhef/vFA8Lwi4eI0i3A1BNBMlRXWE+Ul8GMwcnW5RXqnbl8n4t+QyxLHwYAbhMT1sRGfnRZV5JrNJwFdL6HfRQoDV9ezJUE4pI5ravPDnJfbUJl4xmQQdoRIlLpo2pbRTh7rUMvHnCSbu5kijWuVTMqi+EoHbPmqvQkTyBvGkWfWy3lrwuOEdJzMAo443yse3duiD/mr1xlE21HUoAr+RFgRf6aTAobeV9DYTauaNsAGt+Rm8Gq2DthhP6XqSqUtyLrmd366gvrPbSiQQredeP9VTw2jC7HI8aBEv2l88eN+5lCfYvLfPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=permerror (sender ip
+ is 91.151.71.70) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=solairedirect.co.za; dmarc=none action=none
+ header.from=solairedirect.co.za; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=a6DtLTLobod88Vbu2Jz+rOYgvjfuQls0C5Gm8b+A/Tg=;
-        b=rHCi8L1ybU8ft6fEpCxWYYb49UY3WV+YotC5AOOsPPjhfYdepujeSUDUs2hE2c8+eO
-         3rgQ5vXsQVMw3stQDK4cPswZIKYh5HpDvV8QJyMxNTh6EEfts24NCrcpuZCj4wT1TTbd
-         Aqwcv1WZHRhB8TzFGa8eq4On9gYoVUiki+cpQyWelUp5Mp6KOtYWECCVOYiM8e9cOrM+
-         VykVKLMw6lz2/24nCE6dNZj2bZk3r7IsVHkmCb6P0oW1KQSGj24GwWptpafXr/oOgZT7
-         M0tJaT8d5ZGQMv8esLVpXc22gVoGGTU8RolAeSx5WTnpN6oRizpFyThBqu4g1kP8WxvP
-         GeCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=a6DtLTLobod88Vbu2Jz+rOYgvjfuQls0C5Gm8b+A/Tg=;
-        b=NXh1Ikaa8MA3xCGLND9uoYbCgcysB4Ncuho5+x0sJFU6JdyWq3oRRhNu/ofFLQS822
-         mv/s5im5I8YQ5CwGCb2J0RG6+vTaJiYfGOyccLFyQ1pRgAlMZLvIaKckGBolF+Isa18C
-         nnuXuak7WQ01b/q2ajxPAjUd3k3kqa7PbTgnjiytTxHvSuCMqbRffdChT7B+Obz+6FdD
-         d6rOCUT7I8i9At33uH8ugmRbQAWkUKM8GEQlMjSnzr1f27ZBF3OCIKMDbYoMNcy6fQaX
-         DN/r2eVCpvj7Ss5QYnXfKyErAOi7DkMOc2iwufnXSfLYbIPBZgbiLPIqKEg29MpzF1M4
-         TRig==
-X-Gm-Message-State: AJIora90kCdBIf3M6ziU9EAwqbWlkXDgRtwNjkQetmK3yTA5oNMC8xSk
-        5wP2X4t4O78By5mX8K8nqS+trw==
-X-Google-Smtp-Source: AGRyM1sEaypWaSZznLFeKudXK3MocASE9sGxcs+HiLloGXAClszGFSbbgDZrUFR9E2nyOzY719LLug==
-X-Received: by 2002:a17:906:3e96:b0:711:5a8:5081 with SMTP id a22-20020a1709063e9600b0071105a85081mr1709484ejj.703.1655328874660;
-        Wed, 15 Jun 2022 14:34:34 -0700 (PDT)
-Received: from [192.168.1.12] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id u9-20020aa7d0c9000000b00433b5f22864sm248667edo.20.2022.06.15.14.34.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jun 2022 14:34:33 -0700 (PDT)
-Message-ID: <8a9a253a-de0a-eaa5-3b36-22fa817502a3@linaro.org>
-Date:   Thu, 16 Jun 2022 00:34:29 +0300
+ d=solairdirect.onmicrosoft.com; s=selector1-solairdirect-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lQsm62DnO3DRMaTO7/AWxijWtNxIrL/VW/Qe6xhipJU=;
+ b=7aT3DXzcveL+q4iNFkCwIx9pY3S1e58rK1UttBhq3Al18uACGji6g3bKCppzzW9VrJwgfq425SMBwf0GBeIP4nFJ3Pgp6lJ5UMkcLPuFyk3KiU17iz5OpPGsgGo2KokQopVMFjquNrF5+rse//7HM7gVGhroEo+NroKa/YyveYE=
+Received: from DB6PR0601CA0007.eurprd06.prod.outlook.com (2603:10a6:4:7b::17)
+ by AM5PR0601MB2545.eurprd06.prod.outlook.com (2603:10a6:203:42::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.13; Wed, 15 Jun
+ 2022 21:59:39 +0000
+Received: from DB5EUR01FT086.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:4:7b:cafe::42) by DB6PR0601CA0007.outlook.office365.com
+ (2603:10a6:4:7b::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14 via Frontend
+ Transport; Wed, 15 Jun 2022 21:59:39 +0000
+X-MS-Exchange-Authentication-Results: spf=permerror (sender IP is
+ 91.151.71.70) smtp.mailfrom=solairedirect.co.za; dkim=none (message not
+ signed) header.d=none;dmarc=none action=none header.from=solairedirect.co.za;
+Received-SPF: PermError (protection.outlook.com: domain of solairedirect.co.za
+ used an invalid SPF mechanism)
+Received: from SDSV152-VM.solairedirect.lan (91.151.71.70) by
+ DB5EUR01FT086.mail.protection.outlook.com (10.152.5.118) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5353.14 via Frontend Transport; Wed, 15 Jun 2022 21:59:38 +0000
+Received: from [206.72.197.122] ([206.72.197.122] unverified) by SDSV152-VM.solairedirect.lan with Microsoft SMTPSVC(8.5.9600.16384);
+         Thu, 16 Jun 2022 00:00:12 +0200
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2] media: venus: set ubwc configuration on specific video
- hardware
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        frkoenig@chromium.org, quic_dikshita@quicinc.com
-References: <1651225672-32243-1-git-send-email-quic_vgarodia@quicinc.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-In-Reply-To: <1651225672-32243-1-git-send-email-quic_vgarodia@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Hi
+To:     linux-media@vger.kernel.org
+From:   "Emerald Johansson" <marketing@solairedirect.co.za>
+Date:   Wed, 15 Jun 2022 17:59:34 -0400
+Reply-To: emjo680@gmail.com
+Message-ID: <SDSV152-VMtnmjEKhA900047019@SDSV152-VM.solairedirect.lan>
+X-OriginalArrivalTime: 15 Jun 2022 22:00:12.0511 (UTC) FILETIME=[497AF6F0:01D88103]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b2cb839f-0463-4b8b-9568-08da4f1a57fc
+X-MS-TrafficTypeDiagnostic: AM5PR0601MB2545:EE_
+X-Microsoft-Antispam-PRVS: <AM5PR0601MB254521EBE16DBF16A6DB28ADEBAD9@AM5PR0601MB2545.eurprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?VBwtgtCtF6eUNiYVEYU+D0EFQ4dHYhnohaaW2mXv0OXcwyMR3FtmDmoZQ0?=
+ =?iso-8859-1?Q?Da7gVqoCk7b0QCeFeIiSbwsBcZcL1iJVv+A44v4lb/gK7bajMqm2TTrMi9?=
+ =?iso-8859-1?Q?Gxu0ewqgP1AvbjHz6B/5ga+LHetj22jTQEn+paEFl+LmpFTDlEqVKYIVjo?=
+ =?iso-8859-1?Q?JXU7yzFvUZ5ReAlg+lwBAOWu/s94ujzwIwHphsuGJ9UztBZcyqWqBpW1wJ?=
+ =?iso-8859-1?Q?fGRKOzQWACulRtwMbVzqXI1sm/t636Y7MfGLvr9U5bbtIcnf88hKc/cBUB?=
+ =?iso-8859-1?Q?cPbXFKBQlYzY9AUhOOXTprMh4ZGDWr/3DHMsxwg9iAnDRiyIVmesificUx?=
+ =?iso-8859-1?Q?yd2RUgcFjU+bznWeD3LehuXG/llgvJoSJfBqn3Tx2cbEwwXtX1155TbWGR?=
+ =?iso-8859-1?Q?phSkx5CtbGCrhUVYej1Xvd4bnpzxIYjbGFA+WazsaufmuvaTu6b0lwH2Ua?=
+ =?iso-8859-1?Q?yqK43y42NevtcoZgj8SWSBcd+9ptwfMW7SnZSWPU7tHgkxQBFgA/zBDk80?=
+ =?iso-8859-1?Q?k1GntXgWHJpw2xcKfGMjvhGCObUaRKO9EmZGzwk2HcHzV6MLE50WUSYvLB?=
+ =?iso-8859-1?Q?VOEgSMa1Qhu6hA6VRsMZolKlHxG6lfd2cjddw/sOz7rBFIWvC26/e0429H?=
+ =?iso-8859-1?Q?Nqo/3JQXjKryij/tXcZwSaVL0lBjAvbWQJtbT8VY1BV6SulUDfEvWsPeud?=
+ =?iso-8859-1?Q?AdKGbCkhLdWsgQc0hZBLVMnVhN5Z6ciGZ44ABeIAORdj/It7eg8vkFnW3n?=
+ =?iso-8859-1?Q?K864qDSKkW8qUOzHVE1Mg8lfKSMjFTNCXN0JWlTc/bn5ZjvIPaAdUVc4Ip?=
+ =?iso-8859-1?Q?SGym3qEZD+goyJERkWxU03+AGNdHxnF8giS6KYOGs+tu6FMNKzfi+WN0lS?=
+ =?iso-8859-1?Q?ewwZWrMbjr7XRyxvpbH+neLQNZDctQiAyzom94Nc/yTKgNJscK8KXawdpW?=
+ =?iso-8859-1?Q?5AvK8dJLntxKZy1Z7OCkSnWtJ5CG31/0XdrwJFopx/Ia6luv/iQDN83hEV?=
+ =?iso-8859-1?Q?5CgTZZLY/BsrlPGXbDiW9gOITYot/ZSsx3eC9MVCu7w9L2rywQ4Xq+AZ59?=
+ =?iso-8859-1?Q?pRQx6CxPDjd8Qi3YS+1zws4=3D?=
+X-Forefront-Antispam-Report: CIP:91.151.71.70;CTRY:FR;LANG:en;SCL:5;SRV:;IPV:CAL;SFV:SPM;H:SDSV152-VM.solairedirect.lan;PTR:undef-71-70.c-si.fr;CAT:OSPM;SFS:(13230016)(136003)(39860400002)(396003)(346002)(36840700001)(40470700004)(46966006)(3480700007)(6666004)(82310400005)(2906002)(70586007)(8676002)(6916009)(70206006)(36860700001)(316002)(2860700004)(7116003)(40480700001)(81166007)(336012)(47076005)(356005)(40460700003)(186003)(86362001)(956004)(8936002)(41300700001)(508600001)(5660300002)(9686003)(26005)(4744005)(16900700008);DIR:OUT;SFP:1501;
+X-OriginatorOrg: solairedirect.co.za
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2022 21:59:38.9167
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2cb839f-0463-4b8b-9568-08da4f1a57fc
+X-MS-Exchange-CrossTenant-Id: 1c138fa9-0b91-4473-baea-5be5feac0f7e
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1c138fa9-0b91-4473-baea-5be5feac0f7e;Ip=[91.151.71.70];Helo=[SDSV152-VM.solairedirect.lan]
+X-MS-Exchange-CrossTenant-AuthSource: DB5EUR01FT086.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0601MB2545
+X-Spam-Status: No, score=4.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,FORGED_SPF_HELO,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vikash,
+I hope that you are at your best and doing well. The purpose of this letter=
+ is seeking for a pen pal like friendship and I'd love to and be honored to=
+ be friends with you if you do not mind.. If the Idea sounds OK with you, j=
+ust say yes and we can take it on from there. I look forward to hear hearin=
+g from you.. My name is Emerald From Sweden 36 years , this will mean a lot=
+ to me to hear back from you.
 
-Thanks for the patch! Few minor comments below.
+Warm Regards.
 
-On 4/29/22 12:47, Vikash Garodia wrote:
-> UBWC configuration parameters would vary across video hardware
-> generations. At the same time, driver is expected to configure
-> these parameters, without relying on video firmware to use the
-> default configurations.
-> Setting the configuration parameters for sc7280.
-> 
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/core.c       |  5 +++
->  drivers/media/platform/qcom/venus/core.h       | 18 +++++++++
->  drivers/media/platform/qcom/venus/hfi_cmds.c   |  9 +++++
->  drivers/media/platform/qcom/venus/hfi_cmds.h   |  1 +
->  drivers/media/platform/qcom/venus/hfi_helper.h | 20 ++++++++++
->  drivers/media/platform/qcom/venus/hfi_venus.c  | 54 ++++++++++++++++++++++++++
->  6 files changed, 107 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 877eca1..75d8e14 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -832,6 +832,10 @@ static const struct reg_val sm7280_reg_preset[] = {
->  	{ 0xb0088, 0 },
->  };
->  
-> +static const struct ubwc_config sc7280_ubwc_config[] = {
-
-ubwc_config shouldn't be an array, right?
-
-> +	{{1, 1, 1, 0, 0, 0}, 8, 32, 14, 0, 0},
-> +};
-> +
->  static const struct venus_resources sc7280_res = {
->  	.freq_tbl = sc7280_freq_table,
->  	.freq_tbl_size = ARRAY_SIZE(sc7280_freq_table),
-> @@ -841,6 +845,7 @@ static const struct venus_resources sc7280_res = {
->  	.bw_tbl_enc_size = ARRAY_SIZE(sc7280_bw_table_enc),
->  	.bw_tbl_dec = sc7280_bw_table_dec,
->  	.bw_tbl_dec_size = ARRAY_SIZE(sc7280_bw_table_dec),
-> +	.ubwc_conf = sc7280_ubwc_config,
->  	.clks = {"core", "bus", "iface"},
->  	.clks_num = 3,
->  	.vcodec0_clks = {"vcodec_core", "vcodec_bus"},
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index c3023340..ef71462 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -47,6 +47,23 @@ struct bw_tbl {
->  	u32 peak_10bit;
->  };
->  
-> +struct ubwc_config {
-
-I think it will be better to reuse stuct hfi_ubwc_config from
-hfi_helper.h. This will also simplify venus_sys_set_ubwc_config() body.
-
-> +	struct {
-> +		u32 max_channel_override : 1;
-> +		u32 mal_length_override : 1;
-> +		u32 hb_override : 1;
-> +		u32 bank_swzl_level_override : 1;
-> +		u32 bank_spreading_override : 1;
-> +		u32 reserved : 27;
-> +	} override_bit_info;
-> +
-> +	u32 max_channels;
-> +	u32 mal_length;
-> +	u32 highest_bank_bit;
-> +	u32 bank_swzl_level;
-> +	u32 bank_spreading;
-> +};
-> +
->  struct venus_resources {
->  	u64 dma_mask;
->  	const struct freq_tbl *freq_tbl;
-> @@ -57,6 +74,7 @@ struct venus_resources {
->  	unsigned int bw_tbl_dec_size;
->  	const struct reg_val *reg_tbl;
->  	unsigned int reg_tbl_size;
-> +	const struct ubwc_config *ubwc_conf;
->  	const char * const clks[VIDC_CLKS_NUM_MAX];
->  	unsigned int clks_num;
->  	const char * const vcodec0_clks[VIDC_VCODEC_CLKS_NUM_MAX];
-> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> index 4ecd444..036eaca 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> @@ -58,6 +58,15 @@ void pkt_sys_coverage_config(struct hfi_sys_set_property_pkt *pkt, u32 mode)
->  	pkt->data[1] = mode;
->  }
->  
-> +void pkt_sys_ubwc_config(struct hfi_sys_set_property_pkt *pkt, struct hfi_ubwc_config *hfi)
-> +{
-> +	pkt->hdr.size = struct_size(pkt, data, 1) + sizeof(*hfi);
-> +	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
-> +	pkt->num_properties = 1;
-> +	pkt->data[0] = HFI_PROPERTY_SYS_UBWC_CONFIG;
-> +	memcpy(&pkt->data[1], hfi, sizeof(*hfi));
-> +}
-> +
->  int pkt_sys_set_resource(struct hfi_sys_set_resource_pkt *pkt, u32 id, u32 size,
->  			 u32 addr, void *cookie)
->  {
-> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
-> index 327ed90..ce7179e 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_cmds.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
-> @@ -256,6 +256,7 @@ void pkt_sys_init(struct hfi_sys_init_pkt *pkt, u32 arch_type);
->  void pkt_sys_pc_prep(struct hfi_sys_pc_prep_pkt *pkt);
->  void pkt_sys_idle_indicator(struct hfi_sys_set_property_pkt *pkt, u32 enable);
->  void pkt_sys_power_control(struct hfi_sys_set_property_pkt *pkt, u32 enable);
-> +void pkt_sys_ubwc_config(struct hfi_sys_set_property_pkt *pkt, struct hfi_ubwc_config *hfi);
->  int pkt_sys_set_resource(struct hfi_sys_set_resource_pkt *pkt, u32 id, u32 size,
->  			 u32 addr, void *cookie);
->  int pkt_sys_unset_resource(struct hfi_sys_release_resource_pkt *pkt, u32 id,
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index 2daa88e..d2d6719 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -427,6 +427,7 @@
->  #define HFI_PROPERTY_SYS_CODEC_POWER_PLANE_CTRL			0x5
->  #define HFI_PROPERTY_SYS_IMAGE_VERSION				0x6
->  #define HFI_PROPERTY_SYS_CONFIG_COVERAGE			0x7
-> +#define HFI_PROPERTY_SYS_UBWC_CONFIG				0x8
->  
->  /*
->   * HFI_PROPERTY_PARAM_COMMON_START
-> @@ -626,6 +627,25 @@ struct hfi_debug_config {
->  	u32 mode;
->  };
->  
-> +struct hfi_ubwc_config {
-> +	u32 size;
-> +	u32 packet_type;
-> +	struct {
-> +		u32 max_channel_override : 1;
-> +		u32 mal_length_override : 1;
-> +		u32 hb_override : 1;
-> +		u32 bank_swzl_level_override : 1;
-> +		u32 bank_spreading_override : 1;
-> +		u32 reserved : 27;
-> +		} override_bit_info;
-
-Could you align '}'
-
-> +	u32 max_channels;
-> +	u32 mal_length;
-> +	u32 highest_bank_bit;
-> +	u32 bank_swzl_level;
-> +	u32 bank_spreading;
-> +	u32 reserved[2];
-> +};
-> +
->  struct hfi_enable {
->  	u32 enable;
->  };
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index 3a75a27..fa0fc91 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -904,6 +904,52 @@ static int venus_sys_set_power_control(struct venus_hfi_device *hdev,
->  	return 0;
->  }
->  
-> +static int venus_sys_set_ubwc_config(struct venus_hfi_device *hdev)
-> +{
-> +	struct hfi_sys_set_property_pkt *pkt;
-> +	u8 packet[IFACEQ_VAR_SMALL_PKT_SIZE];
-> +	struct hfi_ubwc_config *hfi;
-> +	const struct venus_resources *res = hdev->core->res;
-> +	const struct ubwc_config *ubwc_conf = res->ubwc_conf;
-> +	int ret;
-> +
-> +	hfi = kzalloc(sizeof(*hfi), GFP_KERNEL);
-
-You don't need to allocate memory, struct hfi_ubwc_config could be in stack.
-
-> +	if (!hfi)
-> +		return -ENOMEM;
-> +
-> +	pkt = (struct hfi_sys_set_property_pkt *)packet;
-> +
-> +	hfi->max_channels = ubwc_conf->max_channels;
-> +	hfi->override_bit_info.max_channel_override =
-> +		ubwc_conf->override_bit_info.max_channel_override;
-> +
-> +	hfi->mal_length = ubwc_conf->mal_length;
-> +	hfi->override_bit_info.mal_length_override =
-> +		ubwc_conf->override_bit_info.mal_length_override;
-> +
-> +	hfi->highest_bank_bit = ubwc_conf->highest_bank_bit;
-> +	hfi->override_bit_info.hb_override =
-> +		ubwc_conf->override_bit_info.hb_override;
-> +
-> +	hfi->bank_swzl_level = ubwc_conf->bank_swzl_level;
-> +	hfi->override_bit_info.bank_swzl_level_override =
-> +		ubwc_conf->override_bit_info.bank_swzl_level_override;
-> +
-> +	hfi->bank_spreading = ubwc_conf->bank_spreading;
-> +	hfi->override_bit_info.bank_spreading_override =
-> +		ubwc_conf->override_bit_info.bank_spreading_override;
-> +
-> +	pkt_sys_ubwc_config(pkt, hfi);
-> +
-> +	kfree(hfi);
-> +
-> +	ret = venus_iface_cmdq_write(hdev, pkt, false);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
->  static int venus_get_queue_size(struct venus_hfi_device *hdev,
->  				unsigned int index)
->  {
-> @@ -922,6 +968,7 @@ static int venus_get_queue_size(struct venus_hfi_device *hdev,
->  static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
->  {
->  	struct device *dev = hdev->core->dev;
-> +	const struct venus_resources *res = hdev->core->res;
->  	int ret;
->  
->  	ret = venus_sys_set_debug(hdev, venus_fw_debug);
-> @@ -945,6 +992,13 @@ static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
->  		dev_warn(dev, "setting hw power collapse ON failed (%d)\n",
->  			 ret);
->  
-> +	/* For specific venus core, it is mandatory to set the UBWC configuration */
-> +	if (res->ubwc_conf) {
-> +		ret = venus_sys_set_ubwc_config(hdev);
-> +		if (ret)
-> +			dev_warn(dev, "setting ubwc config failed (%d)\n", ret);
-> +	}
-> +
->  	return ret;
->  }
->  
-
--- 
-regards,
-Stan
+Emerald
