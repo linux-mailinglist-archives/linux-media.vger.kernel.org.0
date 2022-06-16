@@ -2,71 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49C3954ECD0
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 23:47:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF94754ECEF
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 23:57:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378485AbiFPVq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 17:46:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33508 "EHLO
+        id S231792AbiFPV5k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 17:57:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229901AbiFPVq6 (ORCPT
+        with ESMTP id S230174AbiFPV5i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 17:46:58 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C1C5F8D2;
-        Thu, 16 Jun 2022 14:46:57 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id m20so5154505ejj.10;
-        Thu, 16 Jun 2022 14:46:57 -0700 (PDT)
+        Thu, 16 Jun 2022 17:57:38 -0400
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 847DF9FC7
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 14:57:37 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id a10so2828439ioe.9
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 14:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XSQFRDEgINvllunQauaH/Y1t743uBR9C06AXn0bzorc=;
-        b=nmc/dM5JUlhcEft9FPy/eplFzUsCkuLjPVZaNRiDmWURygEBDqb0aXTLxiv9NR+RSo
-         ZT1QPR0WVGWlMe5AThCzwv/NynIvNYlQzsIjYKs9ml+iB3JQSu6xEoHifjwyT3hJ07js
-         OxM4WkhcfSJHbezMWWroMUjz92O5vIRIAxKPUYex+I/E0xEKtJpmpFlVJVj4Z1OsEHMS
-         2IYOUam0bpzAG0EPYHGp5HtuhIH4CyR+zYiKTEsA6wr4zM+7YWkDA9BvpOAfapuZB485
-         /CBHJnIkd9qvW5E0zjlxy4icjxzSoVjJwcZOneM61V9z2taSFVhfCa5NHSG40UN0bRT/
-         77mg==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=MlGxqbW39rYp8CPZjwUaVHU8zE4nejL508iW3z/QzHQ=;
+        b=fK91az+n8H2IcKqrYMmDz34AzqwnzCdwkJXbbfJYJT2NP8oZWPyfrKO9mEEFQiK/Tm
+         JdKAPbf5KUBZjIZXtPC0UAx5WiZhx/dbaRCg3ApX/1+0hgm8EutDcnpUvtTckJnh4Ph1
+         eC7yc1zpLg1dwnKi7XgcQlX3bwPvLGxnisUTs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XSQFRDEgINvllunQauaH/Y1t743uBR9C06AXn0bzorc=;
-        b=z8c5AhNW4jEB3altajq+P2yY4zR2v55fsi1x+HcJC0X6OaBx/XpFAP+NnnsAQ9A8tj
-         2x2VSPm8BUC7a6tNpEcjSY6i0Y5ZQPRR7qxCtIJIiGZr0xljBE2lKD9z9A5ZCwsIMMvF
-         VNfoF8xM3r8Kdhc4oa+Y0bB1h/6h5aMuiLoQrrVTdf1TYIhiOmYBRU6WglwlIUd8GRyz
-         6mbLFTotNLcfIZj3tzpro8EG0gko+iUqJ++kAydCv0hhXMW/WXO4UxEeZpcMlrcXA/U6
-         hb8lHbqLJJAARhZKeTcAlk8EyX3cjkNQoKe8S/68dfznYvaCq7C0wEYiyayLMzWbr+hs
-         DW+g==
-X-Gm-Message-State: AJIora9EuSTiHubhTcIt1/vErt6FrJYGCfiapM/Rx27BDlCSz3yrFagq
-        XRJyhDhZgdlqn1DW57tI+SQ=
-X-Google-Smtp-Source: AGRyM1s//zJocBYAERflvIMVweP8k36M2aFY3OToGe+LovnfFlApOLb64M0/TXuacgm6plsL0Roi4g==
-X-Received: by 2002:a17:906:4a13:b0:715:85cc:9224 with SMTP id w19-20020a1709064a1300b0071585cc9224mr6372285eju.267.1655416015665;
-        Thu, 16 Jun 2022 14:46:55 -0700 (PDT)
-Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id g8-20020a170906538800b006ff05d4726esm1262372ejo.50.2022.06.16.14.46.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jun 2022 14:46:55 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     mchehab@kernel.org, wens@csie.org, samuel@sholland.org,
-        benjamin.gaignard@collabora.com, nicolas.dufresne@collabora.com,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] media: cedrus: fix HEVC decoding
-Date:   Thu, 16 Jun 2022 23:46:52 +0200
-Message-ID: <3178102.44csPzL39Z@jernej-laptop>
-In-Reply-To: <39a83a7e-caaf-1dac-1072-72cd2f5d8bf5@xs4all.nl>
-References: <20220615204436.137377-1-jernej.skrabec@gmail.com> <39a83a7e-caaf-1dac-1072-72cd2f5d8bf5@xs4all.nl>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=MlGxqbW39rYp8CPZjwUaVHU8zE4nejL508iW3z/QzHQ=;
+        b=lsn0xMKGMsMqt8B6JRGeiRS8wx0tMHIvpvoYFNLPzO+ERm+licvyyZgP4m6MehsIS8
+         uwqMgJUafPGZUlxFPPRlaUfB93V20BU4jJ51xputlQvvnIqlzZqzEQeGuqfy93aO2KDp
+         XdF0qerO58giGHet4imgfg3qEpzFWtzdxDI29r2kAfmqwW3fzSt2EtMG4YQv01odnHd/
+         hknILbMHfdSYbydxawaXHQF509EHSnDU7fnzdXcWCWmHLre3TUZvsIP7DAnJ4A31Qzp9
+         obqLNLh0Fa4vJbn+CCYKiVVCNlO1xpHsX1hUDvc6Z1FZbisfCZhPJYLRVxlqruofibbF
+         lOXw==
+X-Gm-Message-State: AJIora9X7DqebH9XxBVVWUpaFHRtuUCz3T4Il86pheFMf7sqj0f2mrSq
+        f31QmH6Ek0JHUEbIgAQxRzandhg//BJWtQ==
+X-Google-Smtp-Source: AGRyM1u03rXjK/qDa4vASj/xUHNZDft3y3Y6u8JGRaSV3vGv5zs9jruvujxFk5sOIYR9/7iFnW8kDA==
+X-Received: by 2002:a05:6638:35a3:b0:331:e055:cf6e with SMTP id v35-20020a05663835a300b00331e055cf6emr4052797jal.250.1655416656933;
+        Thu, 16 Jun 2022 14:57:36 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id t6-20020a02c906000000b0033156d6016asm1381338jao.91.2022.06.16.14.57.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jun 2022 14:57:36 -0700 (PDT)
+Subject: Re: [PATCH 1/3] media: vimc: expand the names of vimc entity types
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Daniel Oakley <daniel.oakley@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20220616100747.48124-1-daniel.oakley@ideasonboard.com>
+ <20220616100747.48124-2-daniel.oakley@ideasonboard.com>
+ <02e4de58-9de7-56e7-d673-6c01f50da64b@linuxfoundation.org>
+ <f1bb9483-7199-3e3c-0d8c-89bc13be70f4@linuxfoundation.org>
+ <165541466600.2786155.16126381340154209662@Monstersaurus>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <9ea3155a-5099-e02d-3707-06b89395f8d1@linuxfoundation.org>
+Date:   Thu, 16 Jun 2022 15:57:36 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+In-Reply-To: <165541466600.2786155.16126381340154209662@Monstersaurus>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -75,67 +76,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne =C4=8Detrtek, 16. junij 2022 ob 09:14:05 CEST je Hans Verkuil napisal(a=
-):
-> On 6/15/22 22:44, Jernej Skrabec wrote:
-> > After detailed comparison of register names to vendor library I noticed
-> > that one register has completely different name. After some testing I
-> > discovered that it was misnamed and used incorrectly. This patch series
-> > fixes it. With that, 3 more reference bitstreams are now correctly
-> > decoded. It is also possible that this fixes instability issue I had
-> > after decoding such bitstreams. Running Fluster test suite very often
-> > locked up my board, but after applying this fix, I never experienced it
-> > again. It might still be completely coincidental, but I doubt this is
-> > the case.
-> >=20
-> > Note: Patch 2 clashes with HEVC uAPI destaging. In current form, it can
-> > be easily backported. However, there are few users of Cedrus HEVC and
-> > skipping this fix wouldn't be that bad.
-> >=20
-> > Please let me know which way to go:
-> > 1) wait for destaging, send rebased v2 and not care about backporting
->=20
-> Let's go with 1. There is not much point in backporting since destaging
-> the HEVC API will also change it, so userspace will need to adapt. It's
-> a staging driver anyway (although hopefully not for long).
->=20
-> If you post a v2 on top of the latest series from Benjamin, then that
-> should almost certainly work fine when Benjamin posts what will hopefully
-> be the final version of his series. When it is all OK, then I put both in
-> the same PR.
+On 6/16/22 3:24 PM, Kieran Bingham wrote:
+> Quoting Shuah Khan (2022-06-16 15:41:45)
+>> On 6/16/22 8:29 AM, Shuah Khan wrote:
+>>> On 6/16/22 4:07 AM, Daniel Oakley wrote:
+>>>> When introducing the lens controller, it became apparent that the vimc
+>>>> entity type names were hard to understand, e.g. vimc_len_type refers to the
+>>>> lens. The names of the vimc entity types have been expanded to make the
+>>>> code easier to understand. There is no functional change intended.
+>>>>
+>>>> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>>> Signed-off-by: Daniel Oakley <daniel.oakley@ideasonboard.com>
+>>>> ---
+>>>>    .../media/test-drivers/vimc/vimc-capture.c    | 270 ++++++------
+>>>>    drivers/media/test-drivers/vimc/vimc-common.h |  10 +-
+>>>>    drivers/media/test-drivers/vimc/vimc-core.c   |  22 +-
+>>>>    .../media/test-drivers/vimc/vimc-debayer.c    | 393 +++++++++---------
+>>>>    drivers/media/test-drivers/vimc/vimc-lens.c   |  82 ++--
+>>>>    drivers/media/test-drivers/vimc/vimc-scaler.c | 216 +++++-----
+>>>>    drivers/media/test-drivers/vimc/vimc-sensor.c | 307 +++++++-------
+>>>>    7 files changed, 652 insertions(+), 648 deletions(-)
+>>>>
+>>>
+>>> Thank you for the patch to improve code readability. Looks good to me.
+>>>
+>>> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+>>>
+>>
+>>
+>> Reviewed all three patches
+>>
+>> Mauro,
+>>
+>> Would you like me to send a pull request for these patches?
+> 
+> Hi Shuah,
+> 
+> Please note that I believe these patches are based on top of Yunke's not
+> yet accepted patches for the vimc-lens.
+> 
 
-I actually have several patches for Cedrus HEVC which I plan to send soon.=
-=20
-They would apply on top of series from Benjamin and would implement all=20
-missing decoding features, except maybe 10-bit support. I'll include these =
-two=20
-patches in that series.
+Yes. I am aware of that. I will make sure they are applied in the right
+order.
 
-Best regards,
-Jernej
-
->=20
-> Regards,
->=20
-> 	Hans
->=20
-> > 2) merge before destaging, but v9 of HEVC uAPI destaging would need to
-> >=20
-> >    be rebased.
-> >=20
-> > 3) something else?
-> >=20
-> > Best regards,
-> > Jernej
-> >=20
-> > Jernej Skrabec (2):
-> >   media: cedrus: h265: Fix flag name
-> >   media: cedrus: h265: Fix logic for not low delay flag
-> > =20
-> >  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 29 ++++++++++++++++++-
-> >  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  3 +-
-> >  2 files changed, 29 insertions(+), 3 deletions(-)
-
-
-
+thanks,
+-- Shuah
 
