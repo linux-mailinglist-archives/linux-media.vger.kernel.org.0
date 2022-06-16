@@ -2,131 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B810854EB08
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 22:25:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD43654EC7B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 23:24:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378582AbiFPUZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 16:25:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39706 "EHLO
+        id S1378766AbiFPVYb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 17:24:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378566AbiFPUZ3 (ORCPT
+        with ESMTP id S229538AbiFPVYa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 16:25:29 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EEB25B8BC;
-        Thu, 16 Jun 2022 13:25:28 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id n10so4853270ejk.5;
-        Thu, 16 Jun 2022 13:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=S51F3Je5QDB420YRCT+3HINCDkvBOXZdT2bwWLedeKE=;
-        b=BBO69XMOO3d5o5uHjrczeLA5BMwcMouFDIOARWkmT7GrhDj6Rh6l5caepWk2XyUIgc
-         8Gn6BFxCb/irQ78FHD46MDFyUe++lQlzDybuxYEKQruT4YzuMgS1/e1DVP7usIvj7Q9X
-         Ewj9G4WoKZNd0dvus4bQrhzYuebUrtVeyoGgpil8lVAyK7q1B+lzU0yXZOfLwflgtFFN
-         sW/TsuU5WcdYSz2jwALtvwoXQHEYjZufP3cwKXuQx5I5lUdTG07sSwrnEKNsClJM5x2E
-         XiY/uI/N0i8RQL7O/XkrKQa4DQicNwX95RPUS0nizP/gJn0YtQsFdS/AhuTcb3pg+zoy
-         luug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=S51F3Je5QDB420YRCT+3HINCDkvBOXZdT2bwWLedeKE=;
-        b=jXeE9Kr2eLvd3at1rjym2+MEpAmcDSB/irZDph983U/ad2FsozVEwsF0jo6zaCL/0q
-         RNKvLSizjGeb3t8/Yj7JSp7Dr4LeN/1RXoUAdfbJSMkSRdinb3Vbge2W4rYVpwS6uqWn
-         tRUDtoVZzHxQmka1Zm3X5d3GFIz4NaIum+2PMNRAzTp5SMVsisemi/vpyJwyN5oPH3q8
-         xOHSLvupXy7FhUKAJs0rtRglqwhL27A465egv7BOGqmeyBGfJu7TmQIVeOhFVEXqZ2HG
-         Z9RVeJsQQWWD9YRm6HxfyTy94nFyNNoAK2npiQDY3ltJdJkhCDYK+RLaLXlDNWAQLXKG
-         ydzg==
-X-Gm-Message-State: AJIora+3fGIxp1fYInzx85ldlue7mt9EJLVPLkLfwe56NC4XOBR57KbR
-        yeK51wjcI35ZfXXIxsFkD7w=
-X-Google-Smtp-Source: AGRyM1sDaGC+6BR752Es4zGOOLY2CRsRtcQIh1wgtcW8aG69QcftAAgu5n+sP0gTrl7CxcEdIodS2Q==
-X-Received: by 2002:a17:907:8b87:b0:715:e127:b64d with SMTP id tb7-20020a1709078b8700b00715e127b64dmr5996239ejc.481.1655411126677;
-        Thu, 16 Jun 2022 13:25:26 -0700 (PDT)
-Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id 21-20020a170906329500b006fe8a4ec62fsm1186760ejw.4.2022.06.16.13.25.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jun 2022 13:25:26 -0700 (PDT)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        benjamin.gaignard@collabora.com, nicolas.dufresne@collabora.com,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 7/7] media: hantro: sunxi: Enable 10-bit decoding
-Date:   Thu, 16 Jun 2022 22:25:13 +0200
-Message-Id: <20220616202513.351039-8-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220616202513.351039-1-jernej.skrabec@gmail.com>
-References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
+        Thu, 16 Jun 2022 17:24:30 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4523560D97
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 14:24:30 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4536B2E4;
+        Thu, 16 Jun 2022 23:24:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1655414668;
+        bh=guYaObE+enVQuun895Jx+m8JfTo1R2pApFrePOPzZYM=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=sbmVQiEGJMpkRCuCwl5MzqhrtDXvfiQJn5CGHO3cT84tIpUJweOxFojcRO8o1gJpK
+         kSkvK0LMqRoxCkf0HlZ2mbXpU0GY6yXb+T9BO96QBhmju1eV3TzMJtdunTCPuusVlh
+         904L/aCFGJWtW+0scRA/FOExnX68OcHOGnlN0Rzk=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <f1bb9483-7199-3e3c-0d8c-89bc13be70f4@linuxfoundation.org>
+References: <20220616100747.48124-1-daniel.oakley@ideasonboard.com> <20220616100747.48124-2-daniel.oakley@ideasonboard.com> <02e4de58-9de7-56e7-d673-6c01f50da64b@linuxfoundation.org> <f1bb9483-7199-3e3c-0d8c-89bc13be70f4@linuxfoundation.org>
+Subject: Re: [PATCH 1/3] media: vimc: expand the names of vimc entity types
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>
+To:     Daniel Oakley <daniel.oakley@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-media@vger.kernel.org
+Date:   Thu, 16 Jun 2022 22:24:26 +0100
+Message-ID: <165541466600.2786155.16126381340154209662@Monstersaurus>
+User-Agent: alot/0.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that infrastructure for 10-bit decoding exists, enable it for
-Allwinner H6.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Quoting Shuah Khan (2022-06-16 15:41:45)
+> On 6/16/22 8:29 AM, Shuah Khan wrote:
+> > On 6/16/22 4:07 AM, Daniel Oakley wrote:
+> >> When introducing the lens controller, it became apparent that the vimc
+> >> entity type names were hard to understand, e.g. vimc_len_type refers t=
+o the
+> >> lens. The names of the vimc entity types have been expanded to make the
+> >> code easier to understand. There is no functional change intended.
+> >>
+> >> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> >> Signed-off-by: Daniel Oakley <daniel.oakley@ideasonboard.com>
+> >> ---
+> >> =C2=A0 .../media/test-drivers/vimc/vimc-capture.c=C2=A0=C2=A0=C2=A0 | =
+270 ++++++------
+> >> =C2=A0 drivers/media/test-drivers/vimc/vimc-common.h |=C2=A0 10 +-
+> >> =C2=A0 drivers/media/test-drivers/vimc/vimc-core.c=C2=A0=C2=A0 |=C2=A0=
+ 22 +-
+> >> =C2=A0 .../media/test-drivers/vimc/vimc-debayer.c=C2=A0=C2=A0=C2=A0 | =
+393 +++++++++---------
+> >> =C2=A0 drivers/media/test-drivers/vimc/vimc-lens.c=C2=A0=C2=A0 |=C2=A0=
+ 82 ++--
+> >> =C2=A0 drivers/media/test-drivers/vimc/vimc-scaler.c | 216 +++++-----
+> >> =C2=A0 drivers/media/test-drivers/vimc/vimc-sensor.c | 307 +++++++----=
 ---
- drivers/staging/media/hantro/sunxi_vpu_hw.c | 27 +++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+> >> =C2=A0 7 files changed, 652 insertions(+), 648 deletions(-)
+> >>
+> >=20
+> > Thank you for the patch to improve code readability. Looks good to me.
+> >=20
+> > Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> >=20
+>=20
+>=20
+> Reviewed all three patches
+>=20
+> Mauro,
+>=20
+> Would you like me to send a pull request for these patches?
 
-diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-index fbeac81e59e1..02ce8b064a8f 100644
---- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
-+++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-@@ -23,12 +23,39 @@ static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
- 			.step_height = 32,
- 		},
- 	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_P010,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.postprocessed = true,
-+		.frmsize = {
-+			.min_width = FMT_MIN_WIDTH,
-+			.max_width = FMT_UHD_WIDTH,
-+			.step_width = 32,
-+			.min_height = FMT_MIN_HEIGHT,
-+			.max_height = FMT_UHD_HEIGHT,
-+			.step_height = 32,
-+		},
-+	},
- };
- 
- static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV12_4L4,
- 		.codec_mode = HANTRO_MODE_NONE,
-+		.match_depth = true,
-+		.frmsize = {
-+			.min_width = FMT_MIN_WIDTH,
-+			.max_width = FMT_UHD_WIDTH,
-+			.step_width = 32,
-+			.min_height = FMT_MIN_HEIGHT,
-+			.max_height = FMT_UHD_HEIGHT,
-+			.step_height = 32,
-+		},
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_P010_4L4,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.match_depth = true,
- 		.frmsize = {
- 			.min_width = FMT_MIN_WIDTH,
- 			.max_width = FMT_UHD_WIDTH,
--- 
-2.36.1
+Hi Shuah,
 
+Please note that I believe these patches are based on top of Yunke's not
+yet accepted patches for the vimc-lens.
+
+--
+Kieran
+
+
+>=20
+> thanks,
+> -- Shuah
