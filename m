@@ -2,110 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27A5C54E526
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 16:41:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25CBB54E532
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 16:43:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377692AbiFPOlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 10:41:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51016 "EHLO
+        id S233844AbiFPOng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 10:43:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377676AbiFPOlr (ORCPT
+        with ESMTP id S239233AbiFPOnV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 10:41:47 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD5848E72
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 07:41:46 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id d123so1674424iof.10
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 07:41:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:references:cc:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Kt9J4KlrMk3jVAjw+6wQklnpylV5YDAq0qnUYsBEcLQ=;
-        b=Fzj3TE0fQrLd+1DWJ2PPZjQtIx9jsrBw1ZwqsnJCCDBG03VS4IAWlIdcohE7Uhuj43
-         J8PQ4drl9LJuFshWY521LZSdwcIEU/ewCwXsEKOQGcgCN4RxegOJFhwTlwenESwmjIgx
-         CZYX8blV6wjR27RNaMMbSAi+lfk5e0KJpoqUU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Kt9J4KlrMk3jVAjw+6wQklnpylV5YDAq0qnUYsBEcLQ=;
-        b=E9dv5RCJJAghixqRd1aSvmH5O7dFFcfxxQktAIHvGgnzoVOoO8gmpcghOkMzEuIJcu
-         CJKfpS+Uhto28OAx95sasdM6vu4VkJyPCMNeCwH2HYRTmin4VO/7Rzhbpc4+CE49+V73
-         FJUqk5yrCuWT2LPNWZPoWbcqpypamgL8EUIR3GCXxZmvnkYUUleNwWlnqcTfYTnWwFT0
-         fQgeFOhgyMijRbzK0uTqHTG417KfUfz55IZHeNHDlvZKNFOpUIBUbObbnI4d/2ziXroi
-         LzMeH+39stW9riw35BWjRIxWAiF4ycSTBGNYPFBOrGjahVqkHcNAU1VlmaWqgjW1bQh1
-         TP4A==
-X-Gm-Message-State: AJIora9V61HLANqAhzNhFOwQ4yuC9xAFFV1Djgjr+F1n709p94gK5BQY
-        0AhLQSYAT6xtaKA4uIVqn2VS8A==
-X-Google-Smtp-Source: AGRyM1t2okRWmw7A71o8qBwZ0nzWJKBu62I50scVbytj1tTzQpN2sF34Ph+Ao1aYrFP9Zbwny8S1Rw==
-X-Received: by 2002:a05:6602:1541:b0:669:d432:6813 with SMTP id h1-20020a056602154100b00669d4326813mr2703880iow.15.1655390506175;
-        Thu, 16 Jun 2022 07:41:46 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id t1-20020a6b5f01000000b0066940fd6162sm1212219iob.51.2022.06.16.07.41.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jun 2022 07:41:45 -0700 (PDT)
-Subject: Re: [PATCH 1/3] media: vimc: expand the names of vimc entity types
-To:     Daniel Oakley <daniel.oakley@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20220616100747.48124-1-daniel.oakley@ideasonboard.com>
- <20220616100747.48124-2-daniel.oakley@ideasonboard.com>
- <02e4de58-9de7-56e7-d673-6c01f50da64b@linuxfoundation.org>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <f1bb9483-7199-3e3c-0d8c-89bc13be70f4@linuxfoundation.org>
-Date:   Thu, 16 Jun 2022 08:41:45 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Thu, 16 Jun 2022 10:43:21 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9559A1F2FB;
+        Thu, 16 Jun 2022 07:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1655390597; x=1686926597;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rWVbM8rJZf/kGgg+MoVGSQyw47/ojhqYjjLSMGPkWq8=;
+  b=Qp07RPqofw67tZXEz96gS6g8tEeiazAwkaQqFFa63e8ww2PUwjz+8o+A
+   mcgNv2l+9FGQPWwuMGHRdthChifidjU9R6A2uhwEZi2xJ3wmYyJ6H50S8
+   kbmpI41JVpVkm4Jd6pWu/ePdTlKefsGoz2VSiTEGySl8L68wNMufSthXv
+   peSUcUEZO2o791ZMk1+/oOqV1dzDnMhCCAzYWqEDiCHD2hLIfgwrO/WvS
+   azmOdmggMiXUzr2jXu9MAlitbeuaRPESCt9gkSOtgHg91eJQ1ez/8ghxK
+   XSAqeyDHRk1DMqZ0NeuZkIcag93SYXNJWx4fiAJqHoyVG+RTthIPH5aNi
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; 
+   d="scan'208";a="160662022"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 16 Jun 2022 07:43:17 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Thu, 16 Jun 2022 07:43:15 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2375.17 via Frontend Transport; Thu, 16 Jun 2022 07:43:13 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <linux-media@vger.kernel.org>
+CC:     <linux-kernel@vger.kernel.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH] media: atmel: atmel-isc-base: allow wb ctrls to be changed when isc is not configured
+Date:   Thu, 16 Jun 2022 17:42:59 +0300
+Message-ID: <20220616144259.226837-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <02e4de58-9de7-56e7-d673-6c01f50da64b@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/16/22 8:29 AM, Shuah Khan wrote:
-> On 6/16/22 4:07 AM, Daniel Oakley wrote:
->> When introducing the lens controller, it became apparent that the vimc
->> entity type names were hard to understand, e.g. vimc_len_type refers to the
->> lens. The names of the vimc entity types have been expanded to make the
->> code easier to understand. There is no functional change intended.
->>
->> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->> Signed-off-by: Daniel Oakley <daniel.oakley@ideasonboard.com>
->> ---
->>   .../media/test-drivers/vimc/vimc-capture.c    | 270 ++++++------
->>   drivers/media/test-drivers/vimc/vimc-common.h |  10 +-
->>   drivers/media/test-drivers/vimc/vimc-core.c   |  22 +-
->>   .../media/test-drivers/vimc/vimc-debayer.c    | 393 +++++++++---------
->>   drivers/media/test-drivers/vimc/vimc-lens.c   |  82 ++--
->>   drivers/media/test-drivers/vimc/vimc-scaler.c | 216 +++++-----
->>   drivers/media/test-drivers/vimc/vimc-sensor.c | 307 +++++++-------
->>   7 files changed, 652 insertions(+), 648 deletions(-)
->>
-> 
-> Thank you for the patch to improve code readability. Looks good to me.
-> 
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> 
+When attempting to change the white balance (WB) ctrls before starting
+streaming, e.g.:
 
+ # v4l2-ctl -L
 
-Reviewed all three patches
+User Controls
+..
+            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
+..
+ # v4l2-ctl --set-ctrl=blue_component_gain=500
+ # v4l2-ctl -L
+..
+            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=500 flags=slider
+..
 
-Mauro,
+These will not be written to the internal data struct and will not be
+written to the WB hardware module.
+Thus, after starting streaming, they will be reset to default:
 
-Would you like me to send a pull request for these patches?
+ # v4l2-ctl -L
+..
+            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
+..
 
-thanks,
--- Shuah
+It does not make much sense to not be able to configure the WB controls
+at all times. Even if the sensor would not be RAW Bayer (and in this case the
+WB module is unavailable), the user could configure the ISC itself, as the
+ISC should not care about the sensor format.
+Thus, when WB module is available (if the sensor changes format e.g.) it will
+be already configured as be user's desires.
+In consequence, remove the check in isc_s_awb_ctrl that will return if ISC
+does not know the sensor format.
+
+Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+---
+ drivers/media/platform/atmel/atmel-isc-base.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
+index afefd15c3326..72a27a5c0c1e 100644
+--- a/drivers/media/platform/atmel/atmel-isc-base.c
++++ b/drivers/media/platform/atmel/atmel-isc-base.c
+@@ -1527,10 +1527,6 @@ static int isc_s_awb_ctrl(struct v4l2_ctrl *ctrl)
+ 		else
+ 			ctrls->awb = ISC_WB_NONE;
+ 
+-		/* we did not configure ISC yet */
+-		if (!isc->config.sd_format)
+-			break;
+-
+ 		/* configure the controls with new values from v4l2 */
+ 		if (ctrl->cluster[ISC_CTRL_R_GAIN]->is_new)
+ 			ctrls->gain[ISC_HIS_CFG_MODE_R] = isc->r_gain_ctrl->val;
+-- 
+2.25.1
+
