@@ -2,95 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF43F54DE33
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 11:32:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4045354DE4C
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 11:39:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232596AbiFPJc0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 05:32:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54986 "EHLO
+        id S242186AbiFPJjm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 05:39:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbiFPJcZ (ORCPT
+        with ESMTP id S229497AbiFPJjl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 05:32:25 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9A842EC4;
-        Thu, 16 Jun 2022 02:32:23 -0700 (PDT)
-Received: from mail-yw1-f182.google.com ([209.85.128.182]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MYeV1-1oEZuf1cSR-00VfYY; Thu, 16 Jun 2022 11:32:22 +0200
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-317710edb9dso8697797b3.0;
-        Thu, 16 Jun 2022 02:32:22 -0700 (PDT)
-X-Gm-Message-State: AJIora9fqVp6myYkknHgftjL964lrmkv/lKiXLoAjp3evAoYyLHU9hq0
-        eTTPWSC98AydyDEFFAiXZALuJInud+XElSQ8NCg=
-X-Google-Smtp-Source: AGRyM1t+rYnU932lj7/HU4JR5qprU0KY/GlreHVE4NEXsPnhXVcmmLzoRwx6r2PEJHNrBFACi7+BZtuG+yVk/Tf6waU=
-X-Received: by 2002:a81:b03:0:b0:310:1375:fca9 with SMTP id
- 3-20020a810b03000000b003101375fca9mr4498663ywl.135.1655371940823; Thu, 16 Jun
- 2022 02:32:20 -0700 (PDT)
+        Thu, 16 Jun 2022 05:39:41 -0400
+Received: from m1524.mail.126.com (m1524.mail.126.com [220.181.15.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AE36A590AA;
+        Thu, 16 Jun 2022 02:39:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+        s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=NvABm
+        oW9BVpA9zlWemjuNdsmUdx21GxXSH5qKQJqKzU=; b=Tq+Xjb5BBH05+oT+0pAeg
+        4Tmxt6/vMciiPyeWkaDxtwyKmC89KM8M8vjFziEyH0JTRbHZdtzGyqSEKSsTOe4m
+        eV73gtyepBdy7qx6v6202+2I6T2PeziWsLzq1S3Vjz61Qz3sEbBwO844VJSbxRQc
+        LhctMwgsfQLTcH1pxn1zaA=
+Received: from windhl$126.com ( [124.16.139.61] ) by ajax-webmail-wmsvr24
+ (Coremail) ; Thu, 16 Jun 2022 17:39:24 +0800 (CST)
+X-Originating-IP: [124.16.139.61]
+Date:   Thu, 16 Jun 2022 17:39:24 +0800 (CST)
+From:   "Liang He" <windhl@126.com>
+To:     Conor.Dooley@microchip.com
+Cc:     airlied@gmail.com, daniel@ffwll.ch, gregkh@linuxfoundation.org,
+        linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-serial@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re:Re: [Linaro-mm-sig] Re: [PATCH] drivers: tty: serial: Add
+ missing of_node_put() in serial-tegra.c
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
+ Copyright (c) 2002-2022 www.mailtech.cn 126com
+In-Reply-To: <1f70f001-7bab-9146-b52c-2f75265137d9@microchip.com>
+References: <20220615104833.3963552-1-windhl@126.com>
+ <Yqm6LvDGqaRMaUHa@kroah.com>
+ <CAPM=9twCiqyakgPLz0v=7-abUhzLb8ZZH7-U65PV8qtQOP7Xww@mail.gmail.com>
+ <CAKMK7uG+TeATXctJaXBgSRxpinDdtOhGa+o2CMPaPtO1QyHtJA@mail.gmail.com>
+ <YqrtP2jS0Gg4pBRe@kroah.com>
+ <5911192c.6793.1816bb6a391.Coremail.windhl@126.com>
+ <1f70f001-7bab-9146-b52c-2f75265137d9@microchip.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-References: <20220616085254.2275372-1-arnd@kernel.org>
-In-Reply-To: <20220616085254.2275372-1-arnd@kernel.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 16 Jun 2022 11:32:03 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3O1CEuahB+VeKfFe3iycTwG=1RH2hq2eMn6rGwGA0p=g@mail.gmail.com>
-Message-ID: <CAK8P3a3O1CEuahB+VeKfFe3iycTwG=1RH2hq2eMn6rGwGA0p=g@mail.gmail.com>
-Subject: Re: [PATCH] media: sta2x11: remove VIRT_TO_BUS dependency
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Federico Vaga <federico.vaga@gmail.com>,
-        Giancarlo Asnaghi <giancarlo.asnaghi@st.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:CxMGqzE8sYNlG8QV17Ax+1sud7lh5ZtVu0WiatXtMIRRbPipUX+
- yxBURv+LAJI3HtE278zy+FY3XRRcWf+m6H8XmI45IbOYZqyhtgbnC7Wz3WEdusHhlaDjr1R
- NoSL2K4yuUX+lGJ+9Pz4q9aY4fpN/dc//coqbiMJcpuKTiJh5eDl+rtcFRk5luxPed++2lM
- 2Nd/QrgleizmaBojtjCgQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WFbAiaI9JLc=:ozkD7jpCS7i54g1bBChE4n
- 9rRXSjFAG2oXV87BCd5KSD4ahij2HChGDvPdeWqOuwpSpS/eRBD3rqd51DBsTad6iu7zuCTYZ
- 3hrHfE/mlQero1o8Ij+1Kf80PDRmkfICauP301iN4YF5PJUnE5St/XagUIBe28UfPP75S5XNO
- V5cURvMjjodHqnGtnD/TZ/8Sec2JXpoXmG+wZTA2rPZo2lwYoC3ziU3NcEk/MlnJZ8xDE+3mR
- +D43GU4GNuiIDwu66kL7ZEuO6Fzq6kpv2Cdz+NpvasRYDZy8lMiw8Rk4y87vkNjpfMicWpmAc
- htGczDsJbv11EtY65IM3SKmelL6VMfM2H/MWEq5rn04CWQDE3LfPvplIQslo2yMsbWW8wIGfy
- VOquQzKbyG1TE11qgFN9DoGPv3ZEvtd4Fh/HvKot6LTG9sbKEImW4okUDOl6WSqOh/9uZZdjc
- L2u9FfVeDTTB51l/e6iFjD/VvgABmkuXrb7LV9FOuy+lGrK00+E6auHLF57w+KWTC+0r4hb/Y
- kVkPFGwpunth9e7b+bJm97NAPMMx1Up545jlRqGVcPzGM/RtcF5alQHXXXx6pRles424275dQ
- hggIn9+dccpKHXe7/9ye6julSye2X4t8I0p9Gta35ufPGkw1xlUj26M62Ja1EdG83gA84hpXH
- TT2JVAVTXoa1fxAUChIT1/+MMspWo5imIGHRRXg5RtHayDUkE6UH0ljVKqOSisBQOMSiqmSE+
- xnESNtoOS9C1fiI0iKDFQCXKQK49NBpB71KBauIQluV7jRmXS4fg02BMDtyufpTVdubKbdBnR
- q3ghD56rJlGdcRrcZzV7wy0Uuc/lHtkhNTAkUa4n882HE+zgA+wxjsmUUoxCSuCYJQ4I3OArZ
- TX8iardBExSiLdKKuZpA==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Message-ID: <5bf0d156.721e.1816be1bcc3.Coremail.windhl@126.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: GMqowAC3vydN+qpiTk43AA--.11795W
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbiuBgiF2JVj4-zRwACsU
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 16, 2022 at 10:52 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> diff --git a/drivers/media/pci/sta2x11/Kconfig b/drivers/media/pci/sta2x11/Kconfig
-> index a96e170ab04e..118b922c08c3 100644
-> --- a/drivers/media/pci/sta2x11/Kconfig
-> +++ b/drivers/media/pci/sta2x11/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config STA2X11_VIP
->         tristate "STA2X11 VIP Video For Linux"
-> -       depends on PCI && VIDEO_DEV && VIRT_TO_BUS && I2C
-> +       depends on PCI && VIDEO_DEV && I2C
->         depends on STA2X11 || COMPILE_TEST
-
-As I resent this one out of series, I guess I should clarify: I would
-like to merge the patch to remove VIRT_TO_BUS through the
-asm-generic tree for 5.20, which would make STA2X11_VIP
-impossible to select, unless this patch gets applied as well.
-
-I can take the patch through the asm-generic tree as well if anyone
-cares about bisectibility here.
-
-         Arnd
+CgpBdCAyMDIyLTA2LTE2IDE3OjIwOjI0LCBDb25vci5Eb29sZXlAbWljcm9jaGlwLmNvbSB3cm90
+ZToKPk9uIDE2LzA2LzIwMjIgMDk6NTIsIExpYW5nIEhlIHdyb3RlOgo+PiBFWFRFUk5BTCBFTUFJ
+TDogRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBrbm93
+IHRoZSBjb250ZW50IGlzIHNhZmUKPj4gCj4+IEF0IDIwMjItMDYtMTYgMTY6NDM6NDMsICJHcmVn
+IEtIIiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+IHdyb3RlOgo+Pj4gT24gV2VkLCBKdW4g
+MTUsIDIwMjIgYXQgMTA6MzA6NDdQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPj4+PiBP
+biBXZWQsIDE1IEp1biAyMDIyIGF0IDIyOjIzLCBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5j
+b20+IHdyb3RlOgo+Pj4+Pgo+Pj4+PiBPbiBXZWQsIDE1IEp1biAyMDIyIGF0IDIwOjUzLCBHcmVn
+IEtIIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6Cj4+Pj4+Pgo+Pj4+Pj4gT24g
+V2VkLCBKdW4gMTUsIDIwMjIgYXQgMDY6NDg6MzNQTSArMDgwMCwgaGVsaWFuZyB3cm90ZToKPj4+
+Pj4+PiBJbiB0ZWdyYV91YXJ0X2luaXQoKSwgb2ZfZmluZF9tYXRjaGluZ19ub2RlKCkgd2lsbCBy
+ZXR1cm4gYSBub2RlCj4+Pj4+Pj4gcG9pbnRlciB3aXRoIHJlZmNvdW50IGluY3JlbWVudGVkLiBX
+ZSBzaG91bGQgdXNlIG9mX25vZGVfcHV0KCkKPj4+Pj4+PiB3aGVuIGl0IGlzIG5vdCB1c2VkIGFu
+eW1vcmUuCj4+Pj4+Pj4KPj4+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBoZWxpYW5nIDx3aW5kaGxAMTI2
+LmNvbT4KPj4+Pj4+Cj4+Pj4+PiBXZSBuZWVkIGEgcmVhbCBuYW1lIHBsZWFzZSwgb25lIHlvdSBz
+aWduIGRvY3VtZW50cyB3aXRoLgo+Pj4+Pgo+Pj4+PiBIb3cgZG8gd2UgZW5mb3JjZSB0aGF0PyBX
+aGF0IGlmIFdvbmcsIEFkZWxlIG9yIEJleW9uY2Ugc3VibWl0IGEgcGF0Y2g/Cj4+Pj4+Cj4+Pj4+
+IFdoYXQgaGFwcGVucyBpZiB0aGF0IHBhdGNoIGdldHMgcmVwb3N0ZWQsIHdpdGggUy1vLWI6IEhl
+IExpYW5nCj4+Pj4+IDx3aW5kaGxAMTI2LmNvbT4gb3IgSGVsIElhbmcsIEhlbGkgQW5nPyBEbyB5
+b3Uga25vdyBhbnkgb2YgdGhvc2UgYXJlCj4+Pj4+IHJlYWwgbmFtZXM/IFdoYXQgaGFwcGVucyBp
+ZiB0aGV5IHBvc3QgYSByZWFsIG5hbWUgaW4KPj4+Pj4gTWFuZGFyaW4vVGhhaS9DeXJpbGxpYywg
+Y2FuIHlvdSB2YWxpZGF0ZSBpdD8KPj4+Pj4KPj4+Pj4gUmVhbGx5IHdlIHJlcXVpcmUgeW91IGhh
+dmUgYW4gaWRlbnRpdHkgYXR0YWNoZWQgdG8gYW4gZW1haWwuIElmIHRoZXJlCj4+Pj4+IGlzIGEg
+cHJvYmxlbSBpbiB0aGUgZnV0dXJlLCB3ZSdkIHByZWZlciB0aGUgZW1haWwgY29udGludWVzIHRv
+IHdvcmsgc28KPj4+Pj4gdGhhdCB5b3UgYXJlIGNvbnRhY3RhYmxlLiBJZiB5b3UgYXJlIHN1Ym1p
+dHRpbmcgYSBzbWFsbCBhbW91bnQgb2YKPj4+Pj4gY2hhbmdlcyBpdCdzIHByb2JhYmx5IG5ldmVy
+IGdvaW5nIHRvIG1hdHRlci4gSWYgeW91IGFyZSBzdWJtaXR0aW5nCj4+Pj4+IGxhcmdlciBib2Rp
+ZXMgb2Ygd29yayBvZiBjb3Vyc2UgaXQgd291bGQgYmUgZ29vZCB0byBoYXZlIGEgY29tcGFueSBv
+cgo+Pj4+PiBsYXJnZXIgb3JnIGF0dGFjaGVkIHRvIHRyYWNrIHRoaW5ncyBkb3duIGxlZ2FsbHkg
+bGF0ZXIsIGJ1dCBhZ2FpbiB0aGF0Cj4+Pj4+IGlzbid0IGFsd2F5cyBwb3NzaWJsZS4KPj4+Pj4K
+Pj4+Pj4gSSBkb24ndCB0aGluayBhbGllbmF0aW5nIHRoZSBudW1lcm91cyBkZXZlbG9wZXJzIHdo
+byBubyBsb25nZXIgdXNlCj4+Pj4+IHRoZWlyIGxlZ2FsIG5hbWVzIGFyZSBpZGVudGlmaWVkIGJ5
+IG9uZSBuYW1lLCBidXQgaGF2ZW4ndCBjaGFuZ2VkCj4+Pj4+IHRoZWlyIGxlZ2FsIG9uZSB5ZXQg
+cGVvcGxlIHdobyBnZXQgbWFycmllZCBhbmQgY2hhbmdlIHRoZWlyIGxlZ2FsIG5hbWUKPj4+Pj4g
+YnV0IGRvbid0IGNoYW5nZSB0aGVpciBjb250cmlidXRpb24gbmFtZSBhbmQgSSBjb3VsZCBydW4g
+dGhpcyBzZW50ZW5jZQo+Pj4+PiBvbiBmb3JldmVyLgo+Pj4+Cj4+Pj4gWWVhaCBsaWtlIGFic29s
+dXRlIGJlc3QgY2FzZSB0cnlpbmcgdG8gImVuZm9yY2UiIHRoaXMganVzdCByZXN1bHRzIGluCj4+
+Pj4gZW5jb3VyYWdpbmcgcGVvcGxlIHRvIGNvbWUgdXAgd2l0aCBlbnRpcmVseSBmYWtlIGJ1dCBF
+bmdsaXNoIGxvb2tpbmcKPj4+PiBuYW1lcyBmb3IgdGhlbXNlbHZlcy4gV2hpY2ggLi4uIGp1c3Qg
+bm8uCj4+Pgo+Pj4gQWdyZWUsIGFnYWluLCBJJ2QgcHJlZmVyIHRvIHRha2UgcmVhbCBuYW1lcyBp
+biBuYXRpdmUgbGFuZ3VhZ2VzLCBvdXIKPj4+IHRvb2xzIGNhbiBoYW5kbGUgdGhhdCBqdXN0IGZp
+bmUuICBObyBuZWVkIHRvIG1ha2UgdXAgYW55dGhpbmcuCj4KPlNpbmNlIHRoaXMgaXMgdGhlIG9u
+bHkgbWFpbCBmcm9tIHRoaXMgY2hhaW4gaW4gbXkgaW5ib3ggYW5kIEkgYXNrZWQgdGhlCj5zYW1l
+IHF1ZXN0aW9uIGFzIEdyZWcgb24gb3RoZXIgcGF0Y2hlczoKPkkgdGhpbmsgaXQgaXMgcHJldHR5
+IHJlYXNvbmFibGUgdG8gL2Fzay8gaWYgc29tZXRoaW5nIGlzIG5vdCBhIHJlYWwgbmFtZQo+d2hl
+biB5b3Ugc2VlIHNvbWV0aGluZyBsaWtlICJoZWxpYW5nIDx3aW5kaGxAMTI2LmNvbT4iIHdoZXJl
+IHRoZXJlJ3MgYQo+Y2xlYXIgZGlmZmVyZW5jZS4gQW5kICJJdCBpcyBteSByZWFsIG5hbWUiIGlz
+IGEgcGVyZmVjdGx5IHJlYXNvbmFibGUKPnJlc3BvbnNlIC9zaHJ1Zy4KPlRydXN0IGJ1dCB2ZXJp
+ZnkgcmlnaHQ/IEl0J3Mgbm90IGxpa2UgSSdtIGdvbm5hIGFyZ3VlIHRoZSB0b3NzIHdpdGgKPnNv
+bWVvbmUgaWYgdGhleSBzYXkgaXQgaXMgdGhlaXIgcmVhbCBuYW1lLi4uCj4KPlRoYW5rcywKPkNv
+bmNodWJoYXIgOykKPgo+Pj4KPj4+IHRoYW5rcywKPj4+Cj4+PiBncmVnIGstaAo+PiAKPj4gaGks
+IEdyZWcgSy1ILAo+PiAKPj4gSSBoYXZlIHJlc2VudCBhIG5ldyBwYXRjaCBmb3IgbXkgY29tbWl0
+IG9mIHRlZ3JhX3VhcnRfaW5pdCgpIGJ1ZyB3aXRoIG15IHJlYWwgbmFtZSBmb3IgU29iLgo+PiAK
+Pj4gU28gdGhlcmUgaXMgYW55b3RoZXIgdGhpbmcgSSBzaG91bGQgZG8/Cj4KCgpTb3JyeSwgQ29u
+b3IgYW5kIEdyZXAgSy1ILgoKSSBkaWQgbm90IGV4cGxhaW4gY2xlYXJseSBhbmQgSSByZXNwZWN0
+IGFsbCB5b3VyIHN1Z2dlc3Rpb25zLgoKSSBoYXZlIHJlc2VudCB3aXRoICdMaWFuZyBIZScgYXMg
+bXkgcmVhbCBuYW1lIGZvciBhbGwgcGF0Y2hlcyB3aGljaCBJIHNlbnQgd2l0aCBoZWxpYW5nIHll
+c3RlcmRheS4KQW5kIEkgdXNlICdbUEFUQ0ggdjJdJyBmb3IgdGhlcmUgcmVzZW50IHBhdGNoZXMu
+CgpTb3JyeSBhZ2Fpbi4=
