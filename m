@@ -2,66 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAABE54E372
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 16:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2E4154E51B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 16:41:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377090AbiFPOba (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 10:31:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39198 "EHLO
+        id S1377732AbiFPOkv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 10:40:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230393AbiFPOb2 (ORCPT
+        with ESMTP id S230393AbiFPOkv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 10:31:28 -0400
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDAD13B3F8
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 07:31:27 -0700 (PDT)
-Received: by mail-ot1-x330.google.com with SMTP id c24-20020a9d4818000000b0060c2372addeso1112047otf.11
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 07:31:27 -0700 (PDT)
+        Thu, 16 Jun 2022 10:40:51 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7223D4615D
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 07:40:50 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id y79so1690049iof.2
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 07:40:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=subject:to:references:cc:from:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=J1Q67Iw7jkAAyddX1EAlkhQzYa/RpLBKldIrfTRAJgw=;
-        b=TpYYn9McHcVRC1h5C7LbUHqQHLFXLv1NGHeczqETZODcUZ07VcmEVs1AN0CL5KvYyw
-         CRen8iuZk1J+VnTt+mt3d7otP5trCd6J7dZDmEXc17M3xSOAiEWCF13Xii1TTG9mlNDu
-         1+jDBKNp4VqMHoJubqZzoa82kIVzbUVdNTfvA=
+        bh=Ia+aZunW3/SKqjznpRYEg/RHfjmMJDFiyZNqv2jirLM=;
+        b=aWEuyQubEhWx39MU3KZbPWljpQ/qpjkfdQhEOY8dEvXz9Dv6XPiWMtur5UqOnzFRQy
+         vpp+URjiRVZMzvxm6JaTw0xD7VHnibAcpg0VaKLvxawGtmvZGa7cd7G7sI9StgUNA6J4
+         WpOnwjvCzPLG7yelLNR61930G0Uis9Wy+Siog=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=J1Q67Iw7jkAAyddX1EAlkhQzYa/RpLBKldIrfTRAJgw=;
-        b=B0A9g1B3TuOHLDE8NSoEdfTQe76bIaOxa6If/d+XdaQb1EL2FLy5elXMHCLSQsn5VO
-         0f6jZd6FuEnc1s2HZqlaGRYxEzarAbmK20zoZvNh7sMkGVAg9KAJ8+RPxdn+9arno1SV
-         d2zuwq0TJ8aVGUf8iFnpJGhJegwXy1uhFBT9BWIwg9ARZHLKqpWjO9dMVeJAMZboDb0B
-         2ZljPdOJ+66GCVpgiHFUFv1sFh/YVkRmtyRDPN/4LBaHQb9yEKIY70TF2tPTRgUGyUJl
-         dQ8ZCiQgv8WzMYm3U0OdM2VrKZ/KF9/HIsh6e/8uWMNSvY953yKxc3KtkZthm+iKaIB0
-         dbZA==
-X-Gm-Message-State: AJIora/xx4Tatjj/VzovZ9PY95tgyvB2rrlItY8vXSDTFrU2aFQAzM6I
-        ZGBJUpRrNEl7MbMVTmrNmRy5nA==
-X-Google-Smtp-Source: AGRyM1tP1qLGEzRCiAH8XfeWeIIBmAJOWcGc9wWlpgQNNRDYG8uL6zrcFg888NM3XYEPL1Ob/+xF3Q==
-X-Received: by 2002:a05:6830:55:b0:60c:3192:695e with SMTP id d21-20020a056830005500b0060c3192695emr2147431otp.22.1655389886885;
-        Thu, 16 Jun 2022 07:31:26 -0700 (PDT)
+        bh=Ia+aZunW3/SKqjznpRYEg/RHfjmMJDFiyZNqv2jirLM=;
+        b=s3k93ynf6n2bv+Rr2bxBPDRLol11T5vDAGaqm2HScHeQIPLolHqmvgITRQWNQrdhcR
+         whqSFj5SY7bZ0sBTnDLN0qOwaxG3wdjWFeT51uXW1vWUH2p/v2N6e+CG1+h41ys5zOKE
+         a9MrmrL2croYpzNXMSeN/wJpMhKhwCqWAnyzAmcl/BSB07juRpzuu1SXgr7t5TqAHeyA
+         6IH3HzsD/z1keVIYc+tqaxFy/VJH+2N9qbRH8n7ldpsq0hB+iXKbORMqu00Vzt+fYh1H
+         PV720qmQV48EyA2dA1h+z83OzxQ0S9eUYY2rKybhvhe+55TLavHOwjzk/+41kjyM8KNY
+         50QQ==
+X-Gm-Message-State: AJIora+r0tXbyc0GWo6p1qgtNZIFYprQ5+jDiY/pX8CYNUvfQo3sUWgR
+        ORlUgm6MKXxB5lHDspYHSfIFaQ==
+X-Google-Smtp-Source: AGRyM1tPhQaikUpTVFtcjHR5FxDF4yAsDpc3fxELHipLjm9Paq/GPCnKnZmrMXbipHUY64yADzjGBQ==
+X-Received: by 2002:a05:6638:1415:b0:331:d318:83ab with SMTP id k21-20020a056638141500b00331d31883abmr2964368jad.126.1655390449856;
+        Thu, 16 Jun 2022 07:40:49 -0700 (PDT)
 Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id p84-20020aca5b57000000b0032ebb50538fsm879917oib.57.2022.06.16.07.31.26
+        by smtp.gmail.com with ESMTPSA id f13-20020a02cacd000000b0032be3784b9bsm941780jap.117.2022.06.16.07.40.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jun 2022 07:31:26 -0700 (PDT)
-Subject: Re: [PATCH 3/3] media: vimc: use data link entities enum to index the
- ent_config array
-To:     Daniel Oakley <daniel.oakley@ideasonboard.com>,
-        linux-media@vger.kernel.org,
+        Thu, 16 Jun 2022 07:40:49 -0700 (PDT)
+Subject: Re: [PATCH v1 0/2 RESEND] media: vimc: add ancillary lens
+To:     Yunke Cao <yunkec@google.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20220616100747.48124-1-daniel.oakley@ideasonboard.com>
- <20220616100747.48124-4-daniel.oakley@ideasonboard.com>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220610010111.3418214-1-yunkec@google.com>
 From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <f676bf50-5aef-f06f-82f8-9c7a93e18656@linuxfoundation.org>
-Date:   Thu, 16 Jun 2022 08:31:25 -0600
+Message-ID: <60301e64-6a74-8395-875a-13f917643baa@linuxfoundation.org>
+Date:   Thu, 16 Jun 2022 08:40:48 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20220616100747.48124-4-daniel.oakley@ideasonboard.com>
+In-Reply-To: <20220610010111.3418214-1-yunkec@google.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -75,24 +73,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/16/22 4:07 AM, Daniel Oakley wrote:
-> Future additions to the ent_config[] could break the association between
-> the index of the struct vimc_ent_config entries in the ent_config[] array,
-> and the index defined by the enum proposed in the previous patch. Using
-> designated initializers solves this by linking the 2 together clearly in
-> code and prevents the array not reflecting the enum. There is no
-> functional change intended.
+On 6/9/22 7:01 PM, Yunke Cao wrote:
+> Add a basic version of vimc lens.
+> Link lens with sensors using ancillary links.
+> Update vimc documentation to reflect this change.
 > 
-> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Daniel Oakley <daniel.oakley@ideasonboard.com>
-> ---
->   drivers/media/test-drivers/vimc/vimc-core.c | 22 ++++++++++-----------
->   1 file changed, 11 insertions(+), 11 deletions(-)
+> Yunke Cao (2):
+>    media: vimc: add ancillary lens
+>    media: vimc: documentation for lens
+> 
+>   Documentation/admin-guide/media/vimc.dot      |   4 +
+>   Documentation/admin-guide/media/vimc.rst      |   3 +
+>   drivers/media/test-drivers/vimc/Makefile      |   2 +-
+>   drivers/media/test-drivers/vimc/vimc-common.h |   1 +
+>   drivers/media/test-drivers/vimc/vimc-core.c   |  86 +++++++++++----
+>   drivers/media/test-drivers/vimc/vimc-lens.c   | 102 ++++++++++++++++++
+>   6 files changed, 177 insertions(+), 21 deletions(-)
+>   create mode 100644 drivers/media/test-drivers/vimc/vimc-lens.c
 > 
 
-Thank you for the patch to improve code readability. Looks good to me.
+Reviewed all three patches
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Mauro,
+
+Would you like me to send a pull request for these patches?
+
+Yunke, please make sure to run get_maintainers.pl and include everybody
+the scripts asks you to. Leaving out people causes delays in patch
+reviews and acceptance.
 
 thanks,
 -- Shuah
