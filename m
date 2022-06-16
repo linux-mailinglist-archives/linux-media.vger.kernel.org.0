@@ -2,76 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B27154DC52
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 09:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C410B54DC6F
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 10:05:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359075AbiFPH71 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 03:59:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49662 "EHLO
+        id S1359617AbiFPIFQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 04:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359454AbiFPH70 (ORCPT
+        with ESMTP id S1358959AbiFPIFL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 03:59:26 -0400
+        Thu, 16 Jun 2022 04:05:11 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E88755B88E
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 00:59:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED90B5D1A8
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 01:05:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1655366365; x=1686902365;
+  t=1655366709; x=1686902709;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=L+tPL642xoSqELoYjZzQr10gwoG3KMcWJQWSp9d9Hd0=;
-  b=XfmD42nTbRFL5Gzf5HnTemO5EfdTd6+72d230lrFcYo7pvyyLUv1HblD
-   qmnNl3zYKz9fWbXpTgR3Y7Gh0N3OK6hQOkkmSIFoyo7Y0MtUtaJMfjsMN
-   P6KKNODSok5//fmdRaOG44VIkzcDKQqKt+24Iol4ULjhKS+GC6STM1fsF
-   wPWsqoUIdj8U7UO7/Bred7QnoyPE/qCEKN4LoXbO3u/CwzWAN43FLTTGs
-   02KyYVDYOT4fOV3UIEuC56MXY+CBN2Fq/lul01iuyOF4iFoZtV0mN3Z8J
-   1Rq+D4ikwfk+Hf1L5FnbbYHhBVXhM9AQMvTfCG+9ViBmy80TRHP+8TqZG
+  bh=0nG76rL/Z/+MGOUZ/laO/4GyMPZzqtD/dzlRI+McaCg=;
+  b=GcnuDOykj9+W5/RchgerOiAI9FJt2yP7nPbj0nn4ZfT2T21OcRkkUJfB
+   A1y9j/baVc5S7ghAIVoH6A0h/yY4QInHipL77HPEAstajQwjsAW+DSEz3
+   D69NHqwK7pr0rUhhmRq6zAAL7Us5kW/bZbdoTDWQ4EdgGo+dDOCVamvpx
+   ctqjNGGW+k3IiMSQBfP04wEPs/MhtklapZ/bLEtaYpmE20c8TfIIGemA0
+   bO06uhjwlTTwcKvRdH1ejs39cwJDhaQ8MrKe9MqnU6XYRxHpPej+N7jvQ
+   rUztxGno84X2sW9dKNkXQCC1DfIlqSpM+ACsO594MR0ikcXvIpfWBdooo
    w==;
 X-IronPort-AV: E=Sophos;i="5.91,304,1647298800"; 
-   d="scan'208";a="24492156"
+   d="scan'208";a="24492362"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 16 Jun 2022 09:59:23 +0200
+  by mx1-pgp.tq-group.com with ESMTP; 16 Jun 2022 10:05:07 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 16 Jun 2022 09:59:23 +0200
+  Thu, 16 Jun 2022 10:05:07 +0200
 X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 16 Jun 2022 09:59:23 +0200
+        by tq-pgp-pr1.tq-net.de on Thu, 16 Jun 2022 10:05:07 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1655366363; x=1686902363;
+  t=1655366707; x=1686902707;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=L+tPL642xoSqELoYjZzQr10gwoG3KMcWJQWSp9d9Hd0=;
-  b=nl9LdQI+k2s3MF6/DACyzqqAN3JbwUOP00N+vANxjRTpqidAl25Enk38
-   dnd3lXo2pzrIZZ2A5dA4/ciE6v+XMJFH8hlJH8nAbPJAQGddr8ndxjQEr
-   Hp+8h5X0ZMf+gNPGNsdgQnrR0uFOOrhyA+YiAL5ry7H9PoMV+csNyf3Ci
-   57au4hqDCA5NGK8z/gooui3ywN0TixYZRsdeQGxL3oa/9UOEhjyW20mP/
-   eTKMGomGoNsyRS/2vagJpFlk/l1pT4imFcu7SwFzdzRHoL6S2NZheDyL4
-   Sl8zBgjhGjkC57M1YC6OAWNXVcW0TSp/kpvcLh2IoFpgjvuqjMbwkPSMU
-   Q==;
+  bh=0nG76rL/Z/+MGOUZ/laO/4GyMPZzqtD/dzlRI+McaCg=;
+  b=UfFkVY63YY9RIMjox3/TzEklHR8HdWH0n+jmu9RS+S9jucLsz8PpdiNa
+   quzUdhuvUYAbebksBQN09NJPAPcfdJQCl15qlwE+MU0YSHDpeapaYHtXI
+   sSKJnA8bf339E31r8dCCblVBE40aQf4nvWneOVYDojE7Ib6U/BLf96Izw
+   VkRrxyRa3CObs197Ndiy+mQygw7rr8X+yvToBY6GKkV3qQXa/Gk6H5GQe
+   ddanAa0nQCMxnHoIMVbk3yc8gHiUcnnb8ZVWRR8vTaolr/wKlQ3iFe+bN
+   EmtPqzIWNqOjt+uCJp0swx2wz65fRl3K9ayPn1AfOgGnwK0u3xm8hp/fr
+   w==;
 X-IronPort-AV: E=Sophos;i="5.91,304,1647298800"; 
-   d="scan'208";a="24492155"
+   d="scan'208";a="24492361"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 16 Jun 2022 09:59:22 +0200
+  by mx1.tq-group.com with ESMTP; 16 Jun 2022 10:05:07 +0200
 Received: from steina-w.localnet (unknown [10.123.49.12])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id B24C3280056;
-        Thu, 16 Jun 2022 09:59:22 +0200 (CEST)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id F3617280056;
+        Thu, 16 Jun 2022 10:05:06 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        linux-media@vger.kernel.org, dafna@fastmail.com, heiko@sntech.de,
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Paul Elder <paul.elder@ideasonboard.com>, dafna@fastmail.com,
+        heiko@sntech.de, laurent.pinchart@ideasonboard.com,
         jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
         djrscally@gmail.com, helen.koike@collabora.com,
         linux-rockchip@lists.infradead.org
-Subject: Re: (EXT) Re: (EXT) [PATCH 10/55] media: rkisp1: cap: Print debug message on failed link validation
-Date:   Thu, 16 Jun 2022 09:59:20 +0200
-Message-ID: <6138990.LvFx2qVVIh@steina-w>
+Subject: Re: (EXT) [PATCH 55/55] media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
+Date:   Thu, 16 Jun 2022 10:05:06 +0200
+Message-ID: <3553507.tdWV9SEqCh@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <Yqreoo/szj8FhH6r@pendragon.ideasonboard.com>
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com> <7310038.DvuYhMxLoT@steina-w> <Yqreoo/szj8FhH6r@pendragon.ideasonboard.com>
+In-Reply-To: <20220614191127.3420492-56-paul.elder@ideasonboard.com>
+References: <20220614191127.3420492-1-paul.elder@ideasonboard.com> <20220614191127.3420492-56-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -84,70 +85,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+Hello Paul,
 
-Am Donnerstag, 16. Juni 2022, 09:41:22 CEST schrieb Laurent Pinchart:
-> Hi Alexander,
+thanks for the patch.
+
+Am Dienstag, 14. Juni 2022, 21:11:27 CEST schrieb Paul Elder:
+> The ISP that is integrated in the i.MX8MP uses different bits in the
+> MRSZ_CTRL and SRSZ_CTRL registers for updating the configuration
+> compared to the on in the RK3399. In addition, it adds a new bit for
+> enabling crop. Add new definitions for these bits for i.MX8MP devices,
+> and update where they are set.
 > 
-> On Thu, Jun 16, 2022 at 09:32:17AM +0200, Alexander Stein wrote:
-> > Am Dienstag, 14. Juni 2022, 21:10:42 CEST schrieb Paul Elder:
-> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > 
-> > > When a link validation failure occurs, print a debug message to help
-> > > diagnosing the cause.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > > 
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-capture.c    | 10 +++++++++-
-> > >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > > b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c index
-> > > 94819e6c23e2..94a0d787a312 100644
-> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > > @@ -1294,8 +1294,16 @@ static int rkisp1_capture_link_validate(struct
-> > > media_link *link)
-> > > 
-> > >  	if (sd_fmt.format.height != cap->pix.fmt.height ||
-> > >  	
-> > >  	    sd_fmt.format.width != cap->pix.fmt.width ||
-> > > 
-> > > -	    sd_fmt.format.code != fmt->mbus)
-> > > +	    sd_fmt.format.code != fmt->mbus) {
-> > > +		dev_dbg(cap->rkisp1->dev,
-> > 
-> > I wonder if a dev_warn is more suitable here.
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> ---
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h   |  4 ++++
+>  .../media/platform/rockchip/rkisp1/rkisp1-resizer.c    | 10 ++++++++--
+>  2 files changed, 12 insertions(+), 2 deletions(-)
 > 
-> I usually recommend dev_dbg() for conditions that are triggered directly
-> by userspace, to avoid giving unpriviledged applications an(other) easy
-> way to flood the kernel log.
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h index
+> 34f4fe09c88d..24ad2ccec2a3 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> @@ -168,6 +168,10 @@
+>  #define RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO		BIT(9)
+>  #define RKISP1_CIF_RSZ_SCALER_FACTOR			BIT(16)
+> 
+> +#define RKISP1_CIF_RSZ_CTRL_CROP_ENABLE_IMX		BIT(8)
+> +#define RKISP1_CIF_RSZ_CTRL_CFG_UPD_IMX			BIT(9)
+> +#define RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO_IMX		BIT(10)
+> +
 
-Agreed, this is a sensible thing to do. I'm still wondering if this 
-information might be missing, when having a build without DYNAMIC_DEBUG.
-Nevertheless I'm fine to start with this debug output at least.
+Does it make sense to move this kind of information into struct rkisp1_info? 
+This way you can skip the if (isp_ver == ...) thing.
 
-Regards,
+Best regards,
 Alexander
 
-> > > +			"link '%s':%u -> '%s':%u not valid: 0x%04x/ 
-%ux%u != 0x%04x/%ux%u",
-> > > +			link->source->entity->name, link->source-
->index,
-> > > +			link->sink->entity->name, link->sink->index,
-> > > +			sd_fmt.format.code, sd_fmt.format.width,
-> > > +			sd_fmt.format.height, fmt->mbus, cap-
->pix.fmt.width,
-> > > +			cap->pix.fmt.height);
-> > > 
-> > >  		return -EPIPE;
-> > > 
-> > > +	}
-> > > 
-> > >  	return 0;
-> > >  
-> > >  }
+>  /* RSZ_CROP_[XY]_DIR */
+>  #define RKISP1_CIF_RSZ_CROP_XY_DIR(start, end)		((end) << 16 
+| (start) <<
+> 0)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c index
+> 08bf3aa8088f..29a31b18a082 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> @@ -209,9 +209,15 @@ static void rkisp1_rsz_update_shadow(struct
+> rkisp1_resizer *rsz, u32 ctrl_cfg = rkisp1_rsz_read(rsz,
+> RKISP1_CIF_RSZ_CTRL);
+> 
+>  	if (when == RKISP1_SHADOW_REGS_ASYNC)
+> -		ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO;
+> +		if (rsz->rkisp1->info->isp_ver == IMX8MP_V10)
+> +			ctrl_cfg |= 
+RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO_IMX;
+> +		else
+> +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO;
+>  	else
+> -		ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD;
+> +		if (rsz->rkisp1->info->isp_ver == IMX8MP_V10)
+> +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD_IMX;
+> +		else
+> +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD;
+> 
+>  	rkisp1_rsz_write(rsz, RKISP1_CIF_RSZ_CTRL, ctrl_cfg);
+>  }
 
 
 
