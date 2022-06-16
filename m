@@ -2,123 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF94754ECEF
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 23:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 742F754ED3B
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 00:24:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231792AbiFPV5k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 17:57:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41188 "EHLO
+        id S1378884AbiFPWYX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 18:24:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230174AbiFPV5i (ORCPT
+        with ESMTP id S229457AbiFPWYV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 17:57:38 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 847DF9FC7
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 14:57:37 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id a10so2828439ioe.9
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 14:57:37 -0700 (PDT)
+        Thu, 16 Jun 2022 18:24:21 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7725FF07
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 15:24:18 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id y19so5325853ejq.6
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 15:24:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=MlGxqbW39rYp8CPZjwUaVHU8zE4nejL508iW3z/QzHQ=;
-        b=fK91az+n8H2IcKqrYMmDz34AzqwnzCdwkJXbbfJYJT2NP8oZWPyfrKO9mEEFQiK/Tm
-         JdKAPbf5KUBZjIZXtPC0UAx5WiZhx/dbaRCg3ApX/1+0hgm8EutDcnpUvtTckJnh4Ph1
-         eC7yc1zpLg1dwnKi7XgcQlX3bwPvLGxnisUTs=
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=s5OVQxNBYmyEQ0OmaCMiLE8dcvy12XT+9uj6YfV0c7M=;
+        b=V7kHqBNdSi12xPeBhfaIA4C8WeNusqT1JThDMUUuzy19EBFoEVKJ2/UNjtsY2Bij3C
+         GBj/s38zp3vbo7WX6a6J8u49ZDbEa+otOpNDdO47/SHcGcOS4mXzF2NKcKolLkODp7ZV
+         G/kLA8v2g0bhg7Kmz4GIsP+2JTFbKAU3l4/YpidzxaFtGu2zoHmFddvquR0xqseNCXkg
+         +RYWGp+PogNA/lcHTt4BEZie4ySvZ/bH7rZXJGnTe69Bj5stpStnFXnfcgOBI3hPaXV4
+         /+Zgqdl3upX3iupiljH/6MBjdh2oNFFjaSNh8j85KA+tikFQH/bCfhW22iQ6HNUgNG5C
+         zllQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=MlGxqbW39rYp8CPZjwUaVHU8zE4nejL508iW3z/QzHQ=;
-        b=lsn0xMKGMsMqt8B6JRGeiRS8wx0tMHIvpvoYFNLPzO+ERm+licvyyZgP4m6MehsIS8
-         uwqMgJUafPGZUlxFPPRlaUfB93V20BU4jJ51xputlQvvnIqlzZqzEQeGuqfy93aO2KDp
-         XdF0qerO58giGHet4imgfg3qEpzFWtzdxDI29r2kAfmqwW3fzSt2EtMG4YQv01odnHd/
-         hknILbMHfdSYbydxawaXHQF509EHSnDU7fnzdXcWCWmHLre3TUZvsIP7DAnJ4A31Qzp9
-         obqLNLh0Fa4vJbn+CCYKiVVCNlO1xpHsX1hUDvc6Z1FZbisfCZhPJYLRVxlqruofibbF
-         lOXw==
-X-Gm-Message-State: AJIora9X7DqebH9XxBVVWUpaFHRtuUCz3T4Il86pheFMf7sqj0f2mrSq
-        f31QmH6Ek0JHUEbIgAQxRzandhg//BJWtQ==
-X-Google-Smtp-Source: AGRyM1u03rXjK/qDa4vASj/xUHNZDft3y3Y6u8JGRaSV3vGv5zs9jruvujxFk5sOIYR9/7iFnW8kDA==
-X-Received: by 2002:a05:6638:35a3:b0:331:e055:cf6e with SMTP id v35-20020a05663835a300b00331e055cf6emr4052797jal.250.1655416656933;
-        Thu, 16 Jun 2022 14:57:36 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id t6-20020a02c906000000b0033156d6016asm1381338jao.91.2022.06.16.14.57.36
+        bh=s5OVQxNBYmyEQ0OmaCMiLE8dcvy12XT+9uj6YfV0c7M=;
+        b=yqG46KChuAyJTdqVYBvqhuPqjBKfEw+3jWrddTW8Yc0vmrPDPYhMgciQiuhHcNiNQ0
+         iUqhTnNktNIEIucYKGKLvG1KXDQbWBHEdB1FmsWXABsDbtatbkAxVEsJ7bPjmeru16Zu
+         9rDZAM6jlXBavful1/SFpEllo+Y/xk1Q6pgWlfm5EPy+aXfQuWiGe9EcjV/bzs5blUI2
+         2nv2oKkgKYf6N0olsbIvKbX3gYqkGnqqhfFzhfThZD6SZXraQql8hGFl8Z3f5Fd/LQe1
+         7HKOkHYB9exR7W8GYsBS+FnJKwaUwmLCPKLNDFqG+1WWyemg2cGgd3uqGpFiOjwLT+pg
+         u3aA==
+X-Gm-Message-State: AJIora8IpaceLpI9Ld+8tFf1DPQfgfskPQ09YeAwCSXLvbhOAJn2yZp8
+        s1MjzBDcauawsOygxDrUUoKcazdy5FRvlA==
+X-Google-Smtp-Source: AGRyM1v4PTRpYJnGjT6DqWqt/rtDzyXA3kNaGhkSm5VBADyv1wVpQ5I4Cr3z61H+DiLds+uhcpAkVQ==
+X-Received: by 2002:a17:906:d84:b0:715:7f3d:403f with SMTP id m4-20020a1709060d8400b007157f3d403fmr6646452eji.406.1655418256867;
+        Thu, 16 Jun 2022 15:24:16 -0700 (PDT)
+Received: from [192.168.1.12] ([195.24.90.54])
+        by smtp.googlemail.com with ESMTPSA id c26-20020a170906171a00b006fed9a0eb17sm1249215eje.187.2022.06.16.15.24.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jun 2022 14:57:36 -0700 (PDT)
-Subject: Re: [PATCH 1/3] media: vimc: expand the names of vimc entity types
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Daniel Oakley <daniel.oakley@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20220616100747.48124-1-daniel.oakley@ideasonboard.com>
- <20220616100747.48124-2-daniel.oakley@ideasonboard.com>
- <02e4de58-9de7-56e7-d673-6c01f50da64b@linuxfoundation.org>
- <f1bb9483-7199-3e3c-0d8c-89bc13be70f4@linuxfoundation.org>
- <165541466600.2786155.16126381340154209662@Monstersaurus>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <9ea3155a-5099-e02d-3707-06b89395f8d1@linuxfoundation.org>
-Date:   Thu, 16 Jun 2022 15:57:36 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Thu, 16 Jun 2022 15:24:16 -0700 (PDT)
+Message-ID: <aa1334b2-49db-2425-6895-c186566374e8@linaro.org>
+Date:   Fri, 17 Jun 2022 01:24:14 +0300
 MIME-Version: 1.0
-In-Reply-To: <165541466600.2786155.16126381340154209662@Monstersaurus>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3] venus: Add support for SSR trigger using fault
+ injection
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+To:     Stephen Boyd <swboyd@chromium.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, quic_vgarodia@quicinc.com
+References: <1655377322-14195-1-git-send-email-quic_dikshita@quicinc.com>
+ <CAE-0n51HOy84c9osif0wXd90c5D_MQZ=9sa1g93iZHG3mWxREA@mail.gmail.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+In-Reply-To: <CAE-0n51HOy84c9osif0wXd90c5D_MQZ=9sa1g93iZHG3mWxREA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/16/22 3:24 PM, Kieran Bingham wrote:
-> Quoting Shuah Khan (2022-06-16 15:41:45)
->> On 6/16/22 8:29 AM, Shuah Khan wrote:
->>> On 6/16/22 4:07 AM, Daniel Oakley wrote:
->>>> When introducing the lens controller, it became apparent that the vimc
->>>> entity type names were hard to understand, e.g. vimc_len_type refers to the
->>>> lens. The names of the vimc entity types have been expanded to make the
->>>> code easier to understand. There is no functional change intended.
->>>>
->>>> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->>>> Signed-off-by: Daniel Oakley <daniel.oakley@ideasonboard.com>
->>>> ---
->>>>    .../media/test-drivers/vimc/vimc-capture.c    | 270 ++++++------
->>>>    drivers/media/test-drivers/vimc/vimc-common.h |  10 +-
->>>>    drivers/media/test-drivers/vimc/vimc-core.c   |  22 +-
->>>>    .../media/test-drivers/vimc/vimc-debayer.c    | 393 +++++++++---------
->>>>    drivers/media/test-drivers/vimc/vimc-lens.c   |  82 ++--
->>>>    drivers/media/test-drivers/vimc/vimc-scaler.c | 216 +++++-----
->>>>    drivers/media/test-drivers/vimc/vimc-sensor.c | 307 +++++++-------
->>>>    7 files changed, 652 insertions(+), 648 deletions(-)
->>>>
->>>
->>> Thank you for the patch to improve code readability. Looks good to me.
->>>
->>> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
->>>
->>
->>
->> Reviewed all three patches
->>
->> Mauro,
->>
->> Would you like me to send a pull request for these patches?
-> 
-> Hi Shuah,
-> 
-> Please note that I believe these patches are based on top of Yunke's not
-> yet accepted patches for the vimc-lens.
-> 
+Thanks Dikshita.
 
-Yes. I am aware of that. I will make sure they are applied in the right
-order.
+On 6/16/22 21:37, Stephen Boyd wrote:
+> Quoting Dikshita Agarwal (2022-06-16 04:02:02)
+>> Here we introduce a new fault injection for SSR trigger.
+>>
+>> To trigger the SSR:
+>>  echo 100 >  /sys/kernel/debug/venus/fail_ssr/probability
+>>  echo 1 >  /sys/kernel/debug/venus/fail_ssr/times
+>>
+>> Co-developed-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> 
+> This line should come last and the 's' should be capitalized.
 
-thanks,
--- Shuah
+Thanks Stephen, will fix that while applying.
 
+> 
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+> 
+> Code looks good
+> 
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+
+-- 
+regards,
+Stan
