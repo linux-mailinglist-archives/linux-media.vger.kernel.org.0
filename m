@@ -2,128 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1869454E9A7
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 20:49:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8A5454EA66
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 21:55:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377750AbiFPStP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 14:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47894 "EHLO
+        id S1377700AbiFPTzG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 15:55:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230118AbiFPStO (ORCPT
+        with ESMTP id S238054AbiFPTzE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 14:49:14 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70DA45370D
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 11:49:13 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC4352E4;
-        Thu, 16 Jun 2022 20:49:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655405352;
-        bh=/q+RaaXjK4PBDtHS34gUT7WPNOv/PVLQwSj/ysXUslg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=q+6DzhGFRkGbGeeiZ5bENZ3+5ax5pLVKuEiUE/s5YLEyGd2Z0WeyUERC7TgJtC3QA
-         hgChe22baz7+e3Uc1mQUJsvqM4Bq91vztta9RwGIvEVLKj0/TZn75Pmtkc5d+83TSi
-         v53V+uy/9t4zsbTefTZ2bcCTbhR/MGFRh1blU7z0=
-Date:   Thu, 16 Jun 2022 21:49:00 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>
-Subject: Re: [ANN] Media Summit at ELCE Dublin: Request for Topics
-Message-ID: <Yqt7HHKteqiz+L0v@pendragon.ideasonboard.com>
-References: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
- <CAPybu_2=MkqBeesQe56pw1nVCpaRyukH80ifk6zasbcykyq5bA@mail.gmail.com>
- <YqnQSU3geEdZ0SGo@pendragon.ideasonboard.com>
- <CAPybu_136RGzfTLyH2JTyKMsb74gUUH9=Ziog6j8c2ZQWftb_w@mail.gmail.com>
+        Thu, 16 Jun 2022 15:55:04 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 726A5580FF
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 12:55:03 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1o1va1-00021T-Pk; Thu, 16 Jun 2022 21:55:01 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1o1vZz-000vTF-Cb; Thu, 16 Jun 2022 21:55:00 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1o1vZz-00CW5i-Se; Thu, 16 Jun 2022 21:54:59 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, kernel@pengutronix.de
+Subject: [PATCH] usb: uvcvideo: remove unneeded goto
+Date:   Thu, 16 Jun 2022 21:54:54 +0200
+Message-Id: <20220616195454.2983249-1-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPybu_136RGzfTLyH2JTyKMsb74gUUH9=Ziog6j8c2ZQWftb_w@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+The goto statement in uvc_v4l2_try_format can simply be replaced by an
+direct return. There is no further user of the label, so remove it.
 
-On Thu, Jun 16, 2022 at 08:45:22PM +0200, Ricardo Ribalda Delgado wrote:
-> On Wed, Jun 15, 2022 at 2:28 PM Laurent Pinchart wrote:
-> > On Thu, Jun 09, 2022 at 12:29:32PM +0200, Ricardo Ribalda Delgado wrote:
-> > > On Mon, May 9, 2022 at 8:46 AM Hans Verkuil wrote:
-> > > >
-> > > > Hi all,
-> > > >
-> > > > Since countries are opening up again and travel is (at least for now!) a lot easier,
-> > > > I am considering a media summit during the ELCE in Dublin (Sep 13-16).
-> > > >
-> > > > See here for more details about the conference:
-> > > >
-> > > > https://events.linuxfoundation.org/open-source-summit-europe/
-> > > >
-> > > > Of course, this only makes sense if there is something to talk about. So please reply
-> > > > with any suggestions for topics!
-> > > >
-> > > > Also please let me know if you would expect to be at such a media summit in person.
-> > > > If only a few people would be there, then there isn't much point to this.
-> > > >
-> > > >
-> > > > I have two topics:
-> > > >
-> > > > 1) Discussion of the media subsystem development process: any bottlenecks, any ideas
-> > > >    for improvements?
-> > > >
-> > > > 2) I can give a presentation on the work I've done in the CTA-861 standard (used by
-> > > >    HDMI) and the edid-decode utility.
-> > > >
-> > > > I'd like to make a decision on whether or not it is worthwhile to do this in a week
-> > > > or two. If we wait too long it might be difficult to get a room for the summit.
-> > > >
-> > > > Regards,
-> > > >
-> > > >         Hans
-> > >
-> > > If all goes well, I will attend in person.
-> > >
-> > > I would like to propose a topic as well if there is still space for it:
-> > >
-> > > At ChromeOS we have been working on a new way to access cameras that
-> > > do not fit in the current V4L2/MC model.
-> > >
-> > > We want to introduce the project, start a discussion in the media
-> > > community and think together about the approach and how it fits in our
-> > > current ecosystem.
-> >
-> > I hope there will be space to discuss this topic :-) Could you maybe
-> > provide links to the talk you've given in Paris (video and slides) as
-> > well as to the public git tree ? We'll have a big agenda for the
-> > workshop, it will be important to focus on discussions and not
-> > presentations, so we should all prepare by reading material in advance.
-> >
-> 
-> The video of the presentation has not been produced yet. There is a
-> raw version with all the sessions of the day
-> https://www.youtube.com/watch?v=v--rVT4RsCE&t=26706s Will share with
-> the list the video once it is has been edited
-> 
-> The slides are here:
-> https://kernel-recipes.org/en/2022/talks/rethinking-the-kernel-camera-framework/
-> 
-> and the source code here:
-> https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/kcam
->  Although it is WIP at this moment.
-> 
-> If time allows I want to write a design doc before the workshop to
-> make the most of out it.
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+---
+ drivers/media/usb/uvc/uvc_v4l2.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thank you ! Much appreciated.
-
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 26cf0517e36195..957f44f44a9a14 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -254,7 +254,7 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+ 	ret = uvc_probe_video(stream, probe);
+ 	mutex_unlock(&stream->mutex);
+ 	if (ret < 0)
+-		goto done;
++		return ret;
+ 
+ 	/* After the probe, update fmt with the values returned from
+ 	 * negotiation with the device. Some devices return invalid bFormatIndex
+@@ -300,7 +300,6 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+ 	if (uvc_frame != NULL)
+ 		*uvc_frame = frame;
+ 
+-done:
+ 	return ret;
+ }
+ 
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
