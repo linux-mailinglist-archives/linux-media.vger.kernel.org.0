@@ -2,158 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AA3E54DF9F
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 13:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E9DE54DFE0
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 13:18:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbiFPLCT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 07:02:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47128 "EHLO
+        id S1358558AbiFPLSR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 07:18:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbiFPLCT (ORCPT
+        with ESMTP id S229566AbiFPLSQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 07:02:19 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AA825DD09;
-        Thu, 16 Jun 2022 04:02:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1655377338; x=1686913338;
-  h=from:to:cc:subject:date:message-id;
-  bh=7g/s2GiM6jmBG+/eoD9DO8AkGUDJbrWKyYBTl86tXM8=;
-  b=GoRfAYxQIsAF6IBFIoyn5iU3xBjcM3SqhJ9A5MWbSCdgSecU/d8Qjaak
-   cqPm1Y1EV18zRYD7sYV/Jg59L4sZxtemK1lBoRZPcvp5ZC1nxrN3OWMxf
-   yKyw905tUa9vWOiiioLDZ6+Uk9TKumH4H2fy63HdyZuWcfaBOX0knVcQ/
-   I=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 16 Jun 2022 04:02:18 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 16 Jun 2022 04:02:15 -0700
-X-QCInternal: smtphost
-Received: from hu-dikshita-hyd.qualcomm.com (HELO hu-sgudaval-hyd.qualcomm.com) ([10.213.110.13])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 16 Jun 2022 16:32:05 +0530
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
-        id 842E2460E; Thu, 16 Jun 2022 16:32:04 +0530 (+0530)
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, stanimir.varbanov@linaro.org,
-        quic_vgarodia@quicinc.com, swboyd@chromium.org,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: [PATCH v3] venus: Add support for SSR trigger using fault injection
-Date:   Thu, 16 Jun 2022 16:32:02 +0530
-Message-Id: <1655377322-14195-1-git-send-email-quic_dikshita@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 16 Jun 2022 07:18:16 -0400
+X-Greylist: delayed 170231 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 16 Jun 2022 04:18:14 PDT
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 653BC2AE3E;
+        Thu, 16 Jun 2022 04:18:14 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 3DD3A20223;
+        Thu, 16 Jun 2022 14:18:10 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1655378290;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UUep/sgKumAUsqr6plkU9Uit353tpr6e7VY52A43bZ0=;
+        b=YiAxJPvvV+VFDy2XSr6BR5cdbKzD76jQII3SIj5C6MB9vm2znMEgKDIWYzacLLMmF22BCa
+        2P4Fj4GcyFRd30U/MQKTPEhLpkqnHCaHQNhkFkSDyk922sVXWm3s5eQ+0goo4GUSvksfwL
+        vEOXB5MlTAnJd6t5jVutTxtM1GHdNHg=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9E3FB634C91;
+        Thu, 16 Jun 2022 14:18:09 +0300 (EEST)
+Date:   Thu, 16 Jun 2022 14:18:09 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Liu Ying <victor.liu@nxp.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, andrzej.hajda@intel.com,
+        narmstrong@baylibre.com, robert.foss@linaro.org,
+        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, lee.jones@linaro.org,
+        mchehab@kernel.org, marcel.ziswiler@toradex.com
+Subject: Re: [PATCH v9 00/14] Add some DRM bridge drivers support for
+ i.MX8qm/qxp SoCs
+Message-ID: <YqsRcUsdZzcwqplJ@valkosipuli.retiisi.eu>
+References: <20220611141421.718743-1-victor.liu@nxp.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220611141421.718743-1-victor.liu@nxp.com>
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1655378290;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UUep/sgKumAUsqr6plkU9Uit353tpr6e7VY52A43bZ0=;
+        b=e6Al/EFgjGfUA3ffYQXqQ+pB8jfciIVCkr/eD+HwQH6a28iLeoT9qnBnxvDrWlGDC1G4bC
+        TAL1Q6kVagX5RYOxNDpFWm5GRKyYpoyH/lbRI8lnU0IaxOt0UEHvsehRrdGh2jDjrCmlbF
+        dWaPE0w3Suw0AqxzNlPev6mdneTk4Fk=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1655378290; a=rsa-sha256; cv=none;
+        b=Ii1gQgxWnUvB0ovIO8owoWaYk7l8CClPi05NutKtp2BooN+OCcp1h+SO8xtvKtUi3AwY6S
+        JuYhzUIkO+r5g+PKmvZ96rYRNc2Rb5XPPu0FpKN5LohB6Xz3q40dZPfhsguz748iYkogqc
+        KmCsgUVajSzP3ZwLBJ46j70A4siyNrM=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Here we introduce a new fault injection for SSR trigger.
+On Sat, Jun 11, 2022 at 10:14:07PM +0800, Liu Ying wrote:
+> Patch 1/14 and 2/14 add bus formats used by pixel combiner.
 
-To trigger the SSR:
- echo 100 >  /sys/kernel/debug/venus/fail_ssr/probability
- echo 1 >  /sys/kernel/debug/venus/fail_ssr/times
+Thanks!
 
-Co-developed-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/core.c  | 15 ++++++++++++++-
- drivers/media/platform/qcom/venus/dbgfs.c |  9 +++++++++
- drivers/media/platform/qcom/venus/dbgfs.h | 13 +++++++++++++
- 3 files changed, 36 insertions(+), 1 deletion(-)
+For these:
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 877eca1..abfa5d6 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -265,6 +265,19 @@ static void venus_assign_register_offsets(struct venus_core *core)
- 	}
- }
- 
-+static irqreturn_t venus_isr_thread(int irq, void *dev_id)
-+{
-+	struct venus_core *core = dev_id;
-+	irqreturn_t ret;
-+
-+	ret = hfi_isr_thread(irq, dev_id);
-+
-+	if (ret == IRQ_HANDLED && venus_fault_inject_ssr())
-+		hfi_core_trigger_ssr(core, HFI_TEST_SSR_SW_ERR_FATAL);
-+
-+	return ret;
-+}
-+
- static int venus_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -320,7 +333,7 @@ static int venus_probe(struct platform_device *pdev)
- 	INIT_DELAYED_WORK(&core->work, venus_sys_error_handler);
- 	init_waitqueue_head(&core->sys_err_done);
- 
--	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, hfi_isr_thread,
-+	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, venus_isr_thread,
- 					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
- 					"venus", core);
- 	if (ret)
-diff --git a/drivers/media/platform/qcom/venus/dbgfs.c b/drivers/media/platform/qcom/venus/dbgfs.c
-index 52de47f..726f4b7 100644
---- a/drivers/media/platform/qcom/venus/dbgfs.c
-+++ b/drivers/media/platform/qcom/venus/dbgfs.c
-@@ -4,13 +4,22 @@
-  */
- 
- #include <linux/debugfs.h>
-+#include <linux/fault-inject.h>
- 
- #include "core.h"
- 
-+#ifdef CONFIG_FAULT_INJECTION
-+DECLARE_FAULT_ATTR(venus_ssr_attr);
-+#endif
-+
- void venus_dbgfs_init(struct venus_core *core)
- {
- 	core->root = debugfs_create_dir("venus", NULL);
- 	debugfs_create_x32("fw_level", 0644, core->root, &venus_fw_debug);
-+
-+#ifdef CONFIG_FAULT_INJECTION
-+	fault_create_debugfs_attr("fail_ssr", core->root, &venus_ssr_attr);
-+#endif
- }
- 
- void venus_dbgfs_deinit(struct venus_core *core)
-diff --git a/drivers/media/platform/qcom/venus/dbgfs.h b/drivers/media/platform/qcom/venus/dbgfs.h
-index b7b621a..c87c135 100644
---- a/drivers/media/platform/qcom/venus/dbgfs.h
-+++ b/drivers/media/platform/qcom/venus/dbgfs.h
-@@ -4,8 +4,21 @@
- #ifndef __VENUS_DBGFS_H__
- #define __VENUS_DBGFS_H__
- 
-+#include <linux/fault-inject.h>
-+
- struct venus_core;
- 
-+#ifdef CONFIG_FAULT_INJECTION
-+extern struct fault_attr venus_ssr_attr;
-+static inline bool venus_fault_inject_ssr(void)
-+{
-+	return should_fail(&venus_ssr_attr, 1);
-+}
-+#else
-+static inline bool venus_fault_inject_ssr(void) { return false; }
-+#endif
-+
-+
- void venus_dbgfs_init(struct venus_core *core);
- void venus_dbgfs_deinit(struct venus_core *core);
- 
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
 -- 
-2.7.4
-
+Sakari Ailus
