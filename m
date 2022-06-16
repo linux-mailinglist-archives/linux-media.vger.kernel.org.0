@@ -2,117 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25CBB54E532
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 16:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD9B954E6A7
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jun 2022 18:05:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233844AbiFPOng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jun 2022 10:43:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52736 "EHLO
+        id S1378015AbiFPQFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jun 2022 12:05:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239233AbiFPOnV (ORCPT
+        with ESMTP id S238923AbiFPQFS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jun 2022 10:43:21 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9559A1F2FB;
-        Thu, 16 Jun 2022 07:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1655390597; x=1686926597;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rWVbM8rJZf/kGgg+MoVGSQyw47/ojhqYjjLSMGPkWq8=;
-  b=Qp07RPqofw67tZXEz96gS6g8tEeiazAwkaQqFFa63e8ww2PUwjz+8o+A
-   mcgNv2l+9FGQPWwuMGHRdthChifidjU9R6A2uhwEZi2xJ3wmYyJ6H50S8
-   kbmpI41JVpVkm4Jd6pWu/ePdTlKefsGoz2VSiTEGySl8L68wNMufSthXv
-   peSUcUEZO2o791ZMk1+/oOqV1dzDnMhCCAzYWqEDiCHD2hLIfgwrO/WvS
-   azmOdmggMiXUzr2jXu9MAlitbeuaRPESCt9gkSOtgHg91eJQ1ez/8ghxK
-   XSAqeyDHRk1DMqZ0NeuZkIcag93SYXNJWx4fiAJqHoyVG+RTthIPH5aNi
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; 
-   d="scan'208";a="160662022"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 16 Jun 2022 07:43:17 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Thu, 16 Jun 2022 07:43:15 -0700
-Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2375.17 via Frontend Transport; Thu, 16 Jun 2022 07:43:13 -0700
-From:   Eugen Hristev <eugen.hristev@microchip.com>
-To:     <linux-media@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH] media: atmel: atmel-isc-base: allow wb ctrls to be changed when isc is not configured
-Date:   Thu, 16 Jun 2022 17:42:59 +0300
-Message-ID: <20220616144259.226837-1-eugen.hristev@microchip.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 16 Jun 2022 12:05:18 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CF1547561
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 09:05:14 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E0BC415;
+        Thu, 16 Jun 2022 18:05:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1655395511;
+        bh=sfgjD71mMMO2VKPZ8D/w2A2VjIx3RyrU4ZsbPNtOwls=;
+        h=From:To:Cc:Subject:Date:From;
+        b=V2X45dtxil8hUJgHpw+70aFLvpL+o9hq6riHi0+anGtNIkaEIjsYkPljW5ILRCl+3
+         g7NGbhMhYlBlxvEdcty7f5/ScKKPAtrYrcoBCIYOFLPbUSYXkh4Ws7cWwW+5VzHb7/
+         LlvK+jrJKKrp+ipmPkGavL3Las4+TOm0/Ib2u3xQ=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-rockchip@lists.infradead.org,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Florian Sylvestre <fsylvestre@baylibre.com>
+Subject: [PATCH 0/3] media: rkisp1: Improve DPCC configuration
+Date:   Thu, 16 Jun 2022 19:04:53 +0300
+Message-Id: <20220616160456.21549-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When attempting to change the white balance (WB) ctrls before starting
-streaming, e.g.:
+Hello,
 
- # v4l2-ctl -L
+This small patch series improves the configuration of the Defective
+Pixel Cluster Correction (DPCC) configuration. Please see individual
+patches for details.
 
-User Controls
-..
-            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
-..
- # v4l2-ctl --set-ctrl=blue_component_gain=500
- # v4l2-ctl -L
-..
-            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=500 flags=slider
-..
+The series is based on top of "[PATCH v4 00/21] media: rkisp1: Misc bug
+fixes and cleanups" ([1]).
 
-These will not be written to the internal data struct and will not be
-written to the WB hardware module.
-Thus, after starting streaming, they will be reset to default:
+[1] https://lore.kernel.org/linux-media/20220421234240.1694-1-laurent.pinchart@ideasonboard.com/
 
- # v4l2-ctl -L
-..
-            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
-..
+Laurent Pinchart (3):
+  media: rockchip: rkisp1: Set DPCC methods enable bits inside loop
+  media: rockchip: rkisp1: Mask invalid bits in DPCC parameters
+  media: rockchip: rkisp1: Define macros for DPCC configurations in UAPI
 
-It does not make much sense to not be able to configure the WB controls
-at all times. Even if the sensor would not be RAW Bayer (and in this case the
-WB module is unavailable), the user could configure the ISC itself, as the
-ISC should not care about the sensor format.
-Thus, when WB module is available (if the sensor changes format e.g.) it will
-be already configured as be user's desires.
-In consequence, remove the check in isc_s_awb_ctrl that will return if ISC
-does not know the sensor format.
+ .../platform/rockchip/rkisp1/rkisp1-params.c  | 52 ++++++++-----
+ .../platform/rockchip/rkisp1/rkisp1-regs.h    | 25 +++---
+ include/uapi/linux/rkisp1-config.h            | 77 +++++++++++++++----
+ 3 files changed, 104 insertions(+), 50 deletions(-)
 
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
----
- drivers/media/platform/atmel/atmel-isc-base.c | 4 ----
- 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-index afefd15c3326..72a27a5c0c1e 100644
---- a/drivers/media/platform/atmel/atmel-isc-base.c
-+++ b/drivers/media/platform/atmel/atmel-isc-base.c
-@@ -1527,10 +1527,6 @@ static int isc_s_awb_ctrl(struct v4l2_ctrl *ctrl)
- 		else
- 			ctrls->awb = ISC_WB_NONE;
- 
--		/* we did not configure ISC yet */
--		if (!isc->config.sd_format)
--			break;
--
- 		/* configure the controls with new values from v4l2 */
- 		if (ctrl->cluster[ISC_CTRL_R_GAIN]->is_new)
- 			ctrls->gain[ISC_HIS_CFG_MODE_R] = isc->r_gain_ctrl->val;
+base-commit: 4d846800b527933a46ffd5ff48b87f5a03ca087a
 -- 
-2.25.1
+Regards,
+
+Laurent Pinchart
 
