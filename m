@@ -2,129 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F23DB54FDD3
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 21:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9899654FE07
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 22:01:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234027AbiFQTj5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jun 2022 15:39:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52682 "EHLO
+        id S234538AbiFQUBY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jun 2022 16:01:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231890AbiFQTj5 (ORCPT
+        with ESMTP id S232790AbiFQUBT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jun 2022 15:39:57 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11CF753E22;
-        Fri, 17 Jun 2022 12:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655494796; x=1687030796;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5SgFd7WkR3Wqzp/vk0OtAaks+k5JfvTv93sayUfSxWw=;
-  b=Z+knRYh8YcCiIsKkymh6qnoUN65UV14wBTIh/3XTHtPo47VWSVsCXxPE
-   XISATpq9nSjv59EjJ/f8VG9erv+7hzcD0GmDpFdi5llXq0KRFcZDlbsxw
-   jMOPKIJZDpJCLFjzFwe00mKknquJMHPTsU0KKXZc8lcziS1B/OPemsoB1
-   Zs7opteSCH1a0sR7/RzqUjxqqIgkYxw8E7uzm/4aPRMLZ2PZ4Gl9Sg0I/
-   Gtw3O5/MShlQrZ8Al/yLSuzgfz3IbPZSeKTtJ4APqkzwArCvV7f/xe86f
-   GgxGPgmvYe7hEpdRKBAadOPVYOeS+2ded3/561zEDO+P/eTO7JBOjB0cS
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="343557983"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="343557983"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2022 12:39:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="642160152"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Jun 2022 12:39:53 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o2Hov-000Pi5-AF;
-        Fri, 17 Jun 2022 19:39:53 +0000
-Date:   Sat, 18 Jun 2022 03:39:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:31:34: warning:
- unused variable 'mtk_mdp_comp_dt_ids'
-Message-ID: <202206180318.LDlpyiIW-lkp@intel.com>
+        Fri, 17 Jun 2022 16:01:19 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECFCE5AA56
+        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 13:01:18 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id h187so6598619oif.4
+        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 13:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=JKe3jT9wj8kxwx+lhn3i+a4rhlIcM5Z5Ey30NiC2vMI=;
+        b=azcdpCrlSK5Mzv6JAhhMRpAPYC4iPGkeCqwr84C1qRMNwFRLyNPpqiDZaFzA4odr52
+         g4Vm6IR5RtXn/lVbSbz9hekYH9BHd4nVIcn5+irdsId7SEMFtC1BRRlKafOGkwhmrlpu
+         4ewcgSyMkJg9J07GEhKba3uGXzbOsnz+xItQ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JKe3jT9wj8kxwx+lhn3i+a4rhlIcM5Z5Ey30NiC2vMI=;
+        b=5fNYjcG7Mq/nNVrB362baoJuEdkIR0WD4g7pgvKXUf9++kxbJ5sseKGWaafKSpBCX6
+         IoGZylnACW2dxpAs7EhfG7gGUbP1JGjwfh6loO7CBv33F7XXzkpCQvWJ8w8iIuf7jB1+
+         lzUjZnj7vdMYZpxQPU2TDllNRcrnoVMKLQCbgY62VrCtQIgW4reGElI+GAjB2GfEaYnx
+         nJNBaIy54CIW6Ymrye5LWg+WcY1aCvcKb1zqCdEekwJUqfqRqi686Gwz5rOYFeRRaMco
+         Eu/gWxkozmRR12pvewY1owvpm68Q2u6OSd3I8Ie1gUbwvNGA2vLxyI2Jo8HvstNvobBf
+         wgGA==
+X-Gm-Message-State: AJIora/WcWw7QJCDvRkrY+iCGVqR/QFwUbcqbjLlaOmschO+cJGkkPGx
+        qE/Ba6+t1yqGjQJSsWFB+HEi4w==
+X-Google-Smtp-Source: AGRyM1tAZa7dgU3TCyDxf0HFFEP5WL9e4sJu/NA1JcR3g9GWwudOmn6xBb9hEnR0RXygYeJl5bowuA==
+X-Received: by 2002:a05:6808:14c9:b0:32f:4a7e:f3b2 with SMTP id f9-20020a05680814c900b0032f4a7ef3b2mr5865974oiw.241.1655496078272;
+        Fri, 17 Jun 2022 13:01:18 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id t23-20020a05683022f700b006060322125esm2997636otc.46.2022.06.17.13.01.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jun 2022 13:01:17 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] media: vimc: add ancillary lens
+To:     Yunke Cao <yunkec@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220617015745.3950197-1-yunkec@google.com>
+ <20220617015745.3950197-2-yunkec@google.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <177345ff-f601-e440-31e0-2c967736af6b@linuxfoundation.org>
+Date:   Fri, 17 Jun 2022 14:01:16 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220617015745.3950197-2-yunkec@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On 6/16/22 7:57 PM, Yunke Cao wrote:
+> Add a basic version of vimc lens.
+> The lens supports V4L2_CID_FOCUS_ABSOLUTE control.
+> Link the lens with vimc sensors using media-controller
+> ancillary links.
+> 
 
-FYI, the error/warning still remains.
+Commit log lines are usually ~75 charracters long. Make it easier
+to read.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   274295c6e53f8b8b8dfa8b24a3fcb8a9d670c22c
-commit: 2023a99811110aebba9eee4aa09ef7bd21a8a249 media: platform: rename mediatek/mtk-jpeg/ to mediatek/jpeg/
-date:   3 months ago
-config: mips-randconfig-c004-20220617 (https://download.01.org/0day-ci/archive/20220618/202206180318.LDlpyiIW-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d764aa7fc6b9cc3fbe960019018f5f9e941eb0a6)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2023a99811110aebba9eee4aa09ef7bd21a8a249
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2023a99811110aebba9eee4aa09ef7bd21a8a249
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/platform/mediatek/mdp/
+> This change can be used to test the recently added ancillary
+> links.
+> 
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Care to add instructions on how one would test ancillary with
+this feature?
 
-All warnings (new ones prefixed by >>):
+> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> Signed-off-by: Yunke Cao <yunkec@google.com>
+> ---
+>   drivers/media/test-drivers/vimc/Makefile      |   2 +-
+>   drivers/media/test-drivers/vimc/vimc-common.h |   1 +
+>   drivers/media/test-drivers/vimc/vimc-core.c   |  86 +++++++++++----
+>   drivers/media/test-drivers/vimc/vimc-lens.c   | 102 ++++++++++++++++++
+>   4 files changed, 170 insertions(+), 21 deletions(-)
+>   create mode 100644 drivers/media/test-drivers/vimc/vimc-lens.c
+> 
 
->> drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:31:34: warning: unused variable 'mtk_mdp_comp_dt_ids' [-Wunused-const-variable]
-   static const struct of_device_id mtk_mdp_comp_dt_ids[] = {
-                                    ^
-   1 warning generated.
-
-
-vim +/mtk_mdp_comp_dt_ids +31 drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  30  
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08 @31  static const struct of_device_id mtk_mdp_comp_dt_ids[] = {
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  32  	{
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  33  		.compatible = "mediatek,mt8173-mdp-rdma",
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  34  		.data = (void *)MTK_MDP_RDMA
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  35  	}, {
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  36  		.compatible = "mediatek,mt8173-mdp-rsz",
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  37  		.data = (void *)MTK_MDP_RSZ
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  38  	}, {
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  39  		.compatible = "mediatek,mt8173-mdp-wdma",
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  40  		.data = (void *)MTK_MDP_WDMA
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  41  	}, {
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  42  		.compatible = "mediatek,mt8173-mdp-wrot",
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  43  		.data = (void *)MTK_MDP_WROT
-55d80506c5f7c3 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Vincent Stehlé 2016-10-27  44  	},
-55d80506c5f7c3 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Vincent Stehlé 2016-10-27  45  	{ },
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  46  };
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  47  
-
-:::::: The code at line 31 was first introduced by commit
-:::::: c8eb2d7e8202fd9cb912f5d33cc34ede66dcb24a [media] media: Add Mediatek MDP Driver
-
-:::::: TO: Minghsiu Tsai <minghsiu.tsai@mediatek.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+thanks,
+-- Shuah
