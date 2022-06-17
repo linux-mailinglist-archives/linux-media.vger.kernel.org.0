@@ -2,57 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 535B154F12E
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 08:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42BF254F143
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 08:56:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380330AbiFQGqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jun 2022 02:46:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56096 "EHLO
+        id S1380352AbiFQG4r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jun 2022 02:56:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380314AbiFQGq1 (ORCPT
+        with ESMTP id S243756AbiFQG4q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jun 2022 02:46:27 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D05EA289AF
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 23:46:24 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id d129so3280462pgc.9
-        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 23:46:24 -0700 (PDT)
+        Fri, 17 Jun 2022 02:56:46 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2BFD5C36C
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 23:56:44 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id eo8so4990953edb.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Jun 2022 23:56:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=fQNGQ/zJse2gbHWfa6pF660SRacSRW0Fy9uu/huJD4Y=;
-        b=JPLW1+w8/z8WGKViSxKlFYB1DJFO5f4d4rwynmLj7wx/0qK2bG0tNVGdJOrTjCJVPW
-         d0ZiMJQDidl1w4ljJIZMpCkOlhOZkW6+5BzSe4i3dZhcyh+oDngZ/gJaVlL8+QGNmUTL
-         nqKpdtg55DdMsoRsLoHIj2LgXDVZ6dwdIBG8U=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sLhfCJ8PekgBeiM3KU80x7Qwq344wsuKnT/r+LcG2GM=;
+        b=e7KAaUnuA0HYGg2Lg9mBPj3DrKLEvfZUjQBilNBT6iFsQwiChqYLbSFMpt1CZw49hu
+         Uhh/Z4UzfmH1tgChFd4GYmJPuADEzaM36JeRF/stmNvDIRYGsPkJEfUx2gcYqjIzk+1Z
+         4pTq/kEcbLMa+GGo+ioysby8f4NVMsOllC4QI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=fQNGQ/zJse2gbHWfa6pF660SRacSRW0Fy9uu/huJD4Y=;
-        b=SogOtZ9YYNVP9qcAmXaXPjKcANErvwj0bH3m2YoSb0rBDtbMLzGAzCQWW9bETbT4L+
-         0SqLCn0pbl0F3Lae0AtOMQ/j4DAFCouuIdQ/MUpSOLY8oZIBDY7cMa0Pf+WWzBeiI9sn
-         WinEJC64HmS9StFrVhbMiXbRoXpOkB1IG884CMri4OuPnimVikkrmBEXfTjIR9niOcp6
-         h9UzVN74UAvN/NaXbzhW7HiPfvKpr/D6qiIihVALgDRDyDkgqQ1nrDhTDN7Q/sY+EC/G
-         8m2iuZ9FwAhmJstHqrtCLN+q0U9E0h4KGSvaatc9FekeMzKW4mk+bKpEXL2mUEZeTCvU
-         t18w==
-X-Gm-Message-State: AJIora91/R25Yo02EiNjRKpoWCfsqM0ouBgDZnj245DTZvXP5UkSln6G
-        Urj/RRm969avFbWXJ2dAmk6K9g==
-X-Google-Smtp-Source: AGRyM1uENT2OwXii6KksNBQ4MXQhZdrl+ulN/85OXID2dCsUxVB+lOZD0za0PfnLmxj1+jHPwjAROA==
-X-Received: by 2002:a63:80c8:0:b0:405:186f:fa39 with SMTP id j191-20020a6380c8000000b00405186ffa39mr7960592pgd.84.1655448384322;
-        Thu, 16 Jun 2022 23:46:24 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:e12:c024:d152:7ca])
-        by smtp.gmail.com with ESMTPSA id fs20-20020a17090af29400b001ea75a02805sm4833237pjb.52.2022.06.16.23.46.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jun 2022 23:46:23 -0700 (PDT)
-Date:   Fri, 17 Jun 2022 14:46:18 +0800
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sLhfCJ8PekgBeiM3KU80x7Qwq344wsuKnT/r+LcG2GM=;
+        b=2Z/hcn1iy6XLB+xVDxYSSj02/l4cQpMcYiYCiBHmp9M7EaJq8HIJVKpHlnD14NOciv
+         I6JHYl4GW/7ngexygjSgIaKhEnJOZBsclE9OOL7puOXiPSV+iI3hiv29D+x1Yug7Cazz
+         VcTYa4Cqb/22RgHuYoyH+dU5PloUzbEVP4knGZujj24L4dDKOzhOuTw66wIrrpf9HqG2
+         HrZ7jBZs3l+Q5LgkW0h+n8NPnWUMCKbWsHB4VE8DyZUteiIqJC+Ppd8h//ipbjisEwCc
+         npZ6lZ16Pa2ap60PnzieUiYzFZd9XRX3wOWrNv5gEi8yyKpAwfFKbhkqJ1nelpHJlMkb
+         EJ1w==
+X-Gm-Message-State: AJIora+bAcIHCaJiITubOZx2qAS3KTY7+qUgZ2K0/yFrGgzHZhwvhJ0h
+        f8gFL5oBz8BYzoCeFtGeD54rtocNHmdRzm6hgGrjmQ==
+X-Google-Smtp-Source: AGRyM1tIbRFLJsIG8ha9JMgB0N9ZCD+AhfPO/Aq8IF+A20gJm7k5xF0so9i5AD1klMG7BMMrL3Xu6QF5ZW0ApN7BiWc=
+X-Received: by 2002:a05:6402:6cc:b0:42d:bd2d:9f82 with SMTP id
+ n12-20020a05640206cc00b0042dbd2d9f82mr10669676edy.59.1655449003429; Thu, 16
+ Jun 2022 23:56:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220617032113.18576-1-yunfei.dong@mediatek.com>
+In-Reply-To: <20220617032113.18576-1-yunfei.dong@mediatek.com>
 From:   Chen-Yu Tsai <wenst@chromium.org>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
+Date:   Fri, 17 Jun 2022 14:56:32 +0800
+Message-ID: <CAGXv+5EZ+Mu1481gM9h0kgqO3a0xFKP8drvGv7gRp6=3NU2oKA@mail.gmail.com>
+Subject: Re: [PATCH] media: mediatek: vcodec: Fix non subdev architecture open
+ power fail
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
@@ -66,26 +67,15 @@ Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
         Hsin-Yi Wang <hsinyi@chromium.org>,
         Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Daniel Vetter <daniel@ffwll.ch>,
         dri-devel <dri-devel@lists.freedesktop.org>,
         Irui Wang <irui.wang@mediatek.com>,
         Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org,
         Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v7, 04/15] media: mtk-vcodec: Read max resolution from
- dec_capability
-Message-ID: <YqwjOurt2DCV6snP@google.com>
-References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
- <20220223034008.15781-5-yunfei.dong@mediatek.com>
- <cb7cf296bc7df7334f55cc51ef11b671572559ac.camel@ndufresne.ca>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cb7cf296bc7df7334f55cc51ef11b671572559ac.camel@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
@@ -96,121 +86,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Fri, Jun 17, 2022 at 11:21 AM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+>
+> According to subdev_bitmap bit value to open hardware power, need to
+> set subdev_bitmap value for non subdev architecture.
+>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-On Mon, Feb 28, 2022 at 04:29:15PM -0500, Nicolas Dufresne wrote:
-> Hi Yunfei,
-> 
-> this patch does not work unless userland calls enum_framesizes, which is
-> completely optional. See comment and suggestion below.
-> 
-> Le mercredi 23 février 2022 à 11:39 +0800, Yunfei Dong a écrit :
-> > Supported max resolution for different platforms are not the same: 2K
-> > or 4K, getting it according to dec_capability.
-> > 
-> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> > Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
-> > ---
-> >  .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 29 +++++++++++--------
-> >  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  4 +++
-> >  2 files changed, 21 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> > index 130ecef2e766..304f5afbd419 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> > @@ -445,7 +447,7 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
-> >  		return -EINVAL;
-> >  
-> >  	q_data->fmt = fmt;
-> > -	vidioc_try_fmt(f, q_data->fmt);
-> > +	vidioc_try_fmt(ctx, f, q_data->fmt);
-> >  	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-> >  		q_data->sizeimage[0] = pix_mp->plane_fmt[0].sizeimage;
-> >  		q_data->coded_width = pix_mp->width;
-> > @@ -545,6 +547,9 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
-> >  				fsize->stepwise.min_height,
-> >  				fsize->stepwise.max_height,
-> >  				fsize->stepwise.step_height);
-> > +
-> > +		ctx->max_width = fsize->stepwise.max_width;
-> > +		ctx->max_height = fsize->stepwise.max_height;
-> 
-> The spec does not require calling enum_fmt, so changing the maximum here is
-> incorrect (and fail with GStreamer). If userland never enum the framesizes, the
-> resolution get limited to 1080p.
-> 
-> As this only depends and the OUTPUT format and the device being open()
-> (condition being dev_capability being set and OUTPUT format being known / not
-> VP8), you could initialize the cxt max inside s_fmt(OUTPUT) instead, which is a
-> mandatory call. I have tested this change to verify this:
-> 
-> 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> index 044e3dfbdd8c..3e7c571526a4 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> @@ -484,6 +484,14 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
->  	if (fmt == NULL)
->  		return -EINVAL;
->  
-> +	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
-> +	    !(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED) &&
-> +	    fmt->fourcc != V4L2_PIX_FMT_VP8_FRAME) {
-> +		mtk_v4l2_debug(3, "4K is enabled");
-> +		ctx->max_width = VCODEC_DEC_4K_CODED_WIDTH;
-> +		ctx->max_height = VCODEC_DEC_4K_CODED_HEIGHT;
-> +	}
-> +
->  	q_data->fmt = fmt;
->  	vidioc_try_fmt(ctx, f, q_data->fmt);
->  	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-> @@ -574,15 +582,9 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
->  
->  		fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
->  		fsize->stepwise = dec_pdata->vdec_framesizes[i].stepwise;
-> -		if (!(ctx->dev->dec_capability &
-> -				VCODEC_CAPABILITY_4K_DISABLED) &&
-> -				fsize->pixel_format != V4L2_PIX_FMT_VP8_FRAME) {
-> -			mtk_v4l2_debug(3, "4K is enabled");
-> -			fsize->stepwise.max_width =
-> -					VCODEC_DEC_4K_CODED_WIDTH;
-> -			fsize->stepwise.max_height =
-> -					VCODEC_DEC_4K_CODED_HEIGHT;
-> -		}
-> +		fsize->stepwise.max_width = ctx->max_width;
-> +		fsize->stepwise.max_height = ctx->max_height;
-> +
+Fixes: c05bada35f01 ("media: mtk-vcodec: Add to support multi hardware decode")
 
-Recent testing on ChromeOS suggests this doesn't work. The spec implies
-that querying capabilities could happen before the output format is set.
-And also, supported frame sizes are detected for each given format,
-which may not be the one current set.
+?
 
-So the if block above has to be reintroduced in some form. I'll take a
-look at this.
-
-
-Regards
 ChenYu
-
->  		mtk_v4l2_debug(1, "%x, %d %d %d %d %d %d",
->  				ctx->dev->dec_capability,
->  				fsize->stepwise.min_width,
-> @@ -592,8 +594,6 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
->  				fsize->stepwise.max_height,
->  				fsize->stepwise.step_height);
->  
-> -		ctx->max_width = fsize->stepwise.max_width;
-> -		ctx->max_height = fsize->stepwise.max_height;
->  		return 0;
->  	}
->  
-> 
-> 
-> >  		return 0;
-> >  	}
-> >  
-
-[...]
-
