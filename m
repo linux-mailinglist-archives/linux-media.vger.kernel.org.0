@@ -2,112 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6771954F15F
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 09:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A804054F1D2
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 09:25:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232060AbiFQHFy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jun 2022 03:05:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42700 "EHLO
+        id S1379966AbiFQHZc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jun 2022 03:25:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380114AbiFQHFx (ORCPT
+        with ESMTP id S229664AbiFQHZb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jun 2022 03:05:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BF1C60D9D
-        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 00:05:53 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EA9E268;
-        Fri, 17 Jun 2022 09:05:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655449551;
-        bh=HN7A+5zHFMXk55nwXzancx5aMhenLkLPL0C1loQOviI=;
-        h=In-Reply-To:References:Subject:From:To:Date:From;
-        b=b5MoTC1HIlf6N05L0pj15L7XeL06BFBd0nXXh6oEFq5SgrETfJUkdduYAA2z2rx8y
-         oyYMV+TgzVibT5B+7iMtthd/dZuYTd0GrxsjT112qd9Vl3UTD65gDeSTtRzp0Pyg68
-         9GCbz2zmQD3Y+xllYVH38l/spMtxklI7ySu4bz80=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <9ea3155a-5099-e02d-3707-06b89395f8d1@linuxfoundation.org>
-References: <20220616100747.48124-1-daniel.oakley@ideasonboard.com> <20220616100747.48124-2-daniel.oakley@ideasonboard.com> <02e4de58-9de7-56e7-d673-6c01f50da64b@linuxfoundation.org> <f1bb9483-7199-3e3c-0d8c-89bc13be70f4@linuxfoundation.org> <165541466600.2786155.16126381340154209662@Monstersaurus> <9ea3155a-5099-e02d-3707-06b89395f8d1@linuxfoundation.org>
-Subject: Re: [PATCH 1/3] media: vimc: expand the names of vimc entity types
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Daniel Oakley <daniel.oakley@ideasonboard.com>,
+        Fri, 17 Jun 2022 03:25:31 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0A0363395;
+        Fri, 17 Jun 2022 00:25:29 -0700 (PDT)
+X-UUID: 0e751a183cc64816b450d6ec5e360921-20220617
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6,REQID:5b1351ad-06af-41b1-9619-599fc1b3c93c,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:-5
+X-CID-META: VersionHash:b14ad71,CLOUDID:5ec99cf6-e099-41ba-a32c-13b8bfe63214,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+        ,QS:nil,BEC:nil,COL:0
+X-UUID: 0e751a183cc64816b450d6ec5e360921-20220617
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 2140126871; Fri, 17 Jun 2022 15:25:24 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Fri, 17 Jun 2022 15:25:23 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 17 Jun 2022 15:25:22 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-media@vger.kernel.org
-Date:   Fri, 17 Jun 2022 08:05:48 +0100
-Message-ID: <165544954869.2786155.786044635537343355@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH, v2] media: mediatek: vcodec: Fix non subdev architecture open power fail
+Date:   Fri, 17 Jun 2022 15:25:21 +0800
+Message-ID: <20220617072521.21551-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Shuah Khan (2022-06-16 22:57:36)
-> On 6/16/22 3:24 PM, Kieran Bingham wrote:
-> > Quoting Shuah Khan (2022-06-16 15:41:45)
-> >> On 6/16/22 8:29 AM, Shuah Khan wrote:
-> >>> On 6/16/22 4:07 AM, Daniel Oakley wrote:
-> >>>> When introducing the lens controller, it became apparent that the vi=
-mc
-> >>>> entity type names were hard to understand, e.g. vimc_len_type refers=
- to the
-> >>>> lens. The names of the vimc entity types have been expanded to make =
-the
-> >>>> code easier to understand. There is no functional change intended.
-> >>>>
-> >>>> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> >>>> Signed-off-by: Daniel Oakley <daniel.oakley@ideasonboard.com>
-> >>>> ---
-> >>>>  =C2=A0 .../media/test-drivers/vimc/vimc-capture.c=C2=A0=C2=A0=C2=A0=
- | 270 ++++++------
-> >>>>  =C2=A0 drivers/media/test-drivers/vimc/vimc-common.h |=C2=A0 10 +-
-> >>>>  =C2=A0 drivers/media/test-drivers/vimc/vimc-core.c=C2=A0=C2=A0 |=C2=
-=A0 22 +-
-> >>>>  =C2=A0 .../media/test-drivers/vimc/vimc-debayer.c=C2=A0=C2=A0=C2=A0=
- | 393 +++++++++---------
-> >>>>  =C2=A0 drivers/media/test-drivers/vimc/vimc-lens.c=C2=A0=C2=A0 |=C2=
-=A0 82 ++--
-> >>>>  =C2=A0 drivers/media/test-drivers/vimc/vimc-scaler.c | 216 +++++---=
---
-> >>>>  =C2=A0 drivers/media/test-drivers/vimc/vimc-sensor.c | 307 +++++++-=
-------
-> >>>>  =C2=A0 7 files changed, 652 insertions(+), 648 deletions(-)
-> >>>>
-> >>>
-> >>> Thank you for the patch to improve code readability. Looks good to me.
-> >>>
-> >>> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> >>>
-> >>
-> >>
-> >> Reviewed all three patches
-> >>
-> >> Mauro,
-> >>
-> >> Would you like me to send a pull request for these patches?
-> >=20
-> > Hi Shuah,
-> >=20
-> > Please note that I believe these patches are based on top of Yunke's not
-> > yet accepted patches for the vimc-lens.
-> >=20
->=20
-> Yes. I am aware of that. I will make sure they are applied in the right
-> order.
->=20
-Aha, perfect, thanks - I had missed that you had already reviewed
-Yunke's patches before this.
+According to subdev_bitmap bit value to open hardware power, need to
+set subdev_bitmap value for non subdev architecture.
 
---
-Kieran
+Fixes: c05bada35f01 ("media: mtk-vcodec: Add to support multi hardware decode")
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+---
+compare with v1:
+- add "Fixes" label
+---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+index 995e6e2fb1ab..4103d7c1b638 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+@@ -386,6 +386,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 			mtk_v4l2_err("Main device of_platform_populate failed.");
+ 			goto err_reg_cont;
+ 		}
++	} else {
++		set_bit(MTK_VDEC_CORE, dev->subdev_bitmap);
+ 	}
+ 
+ 	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, -1);
+-- 
+2.18.0
 
-> thanks,
-> -- Shuah
->
