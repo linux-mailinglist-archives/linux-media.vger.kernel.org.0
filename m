@@ -2,88 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C63C154F537
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 12:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2034554F543
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 12:22:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381064AbiFQKUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jun 2022 06:20:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40940 "EHLO
+        id S1381209AbiFQKVs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jun 2022 06:21:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381810AbiFQKUP (ORCPT
+        with ESMTP id S1380211AbiFQKVs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jun 2022 06:20:15 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16BAF6A025;
-        Fri, 17 Jun 2022 03:20:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655461215; x=1686997215;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TtWxJFBWSC8dpEJIGL9p+xzotG0gM0wIrOqMj8vxH9U=;
-  b=BBamBPEuLV1Wmo/6D2ojDrTSv0cWiYnOZ9Gmqm0Q1kaNc7jxhV8zqKtK
-   Rlj5GwUH41hPXDCKHz96+yBEp+khMBYDSqwdWT6Qxduz57kjCjTXm9Jov
-   mDVHzIskHhsoHl6OUcy4MRPnRbNhaC6dPXYdDbRLYjlL0865txX6wAxG6
-   H+xMADe97SlvqGdzpyV/WtGPxskw5LERd4NtdiZitrrRYzi6koF2eZUFg
-   5K+I3EI5ql/ClaW1iw/uAdZDExo2vlw9btyEiCdqeKdhTA43/q3CTr1X1
-   b0gQT28lg2fsBdtHuEp4KLmUdqsevaH53ZO5P/73SjF7mnThTX5Hux4QV
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="365826031"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="365826031"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2022 03:20:14 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="675443283"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2022 03:20:13 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1o295G-000eyV-KM;
-        Fri, 17 Jun 2022 13:20:10 +0300
-Date:   Fri, 17 Jun 2022 13:20:10 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, djrscally@gmail.com,
-        sakari.ailus@linux.intel.com
-Subject: Re: [PATCH] media: ov7251: add missing clk_disable_unprepare() on
- error in ov7251_set_power_on()
-Message-ID: <YqxVWg21PsdkMz2Y@smile.fi.intel.com>
-References: <20220617013943.851327-1-yangyingliang@huawei.com>
+        Fri, 17 Jun 2022 06:21:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72DAC6A410
+        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 03:21:47 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11C3D2A5;
+        Fri, 17 Jun 2022 12:21:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1655461305;
+        bh=rYGcZb4Di7HFZpEYzbZFghSNtJzESkHWivz+zbzq8PA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UtPDJ/NS6pdq+R9qBzyoK+MAXp8/N1sUFD65CTa2+ym7Oi96XtmmeK3f6j463v3ab
+         REMvITN1SrPZ1ZcJ6gmhiHmDaE+wZprOiJ4BTNtLXlOF+5JzPWzNcP1Rr6bwtyB6ji
+         uCf8h9GOQQWdPfcJi859CoFwmx4rYS3rLNi3WjbI=
+Date:   Fri, 17 Jun 2022 13:21:32 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] usb: uvcvideo: remove unneeded goto
+Message-ID: <YqxVrOHlnI1QkhnY@pendragon.ideasonboard.com>
+References: <20220616195454.2983249-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220617013943.851327-1-yangyingliang@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220616195454.2983249-1-m.grzeschik@pengutronix.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 09:39:43AM +0800, Yang Yingliang wrote:
-> Add the missing clk_disable_unprepare() before return
-> from ov7251_set_power_on() in the error handling case.
+Hi Michael,
 
-...
+Thank you for the patch.
 
->  	if (ret < 0) {
->  		dev_err(ov7251->dev, "error during global init\n");
-> +		clk_disable_unprepare(ov7251->xclk);
->  		ov7251_regulators_disable(ov7251);
+On Thu, Jun 16, 2022 at 09:54:54PM +0200, Michael Grzeschik wrote:
+> The goto statement in uvc_v4l2_try_format can simply be replaced by an
+> direct return. There is no further user of the label, so remove it.
+> 
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-Logically it should go here. Please, read a code above this check.
+With s/usb: /media: / in the subject line,
 
->  		return ret;
->  	}
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I'll fix this when applying.
+
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 26cf0517e36195..957f44f44a9a14 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -254,7 +254,7 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+>  	ret = uvc_probe_video(stream, probe);
+>  	mutex_unlock(&stream->mutex);
+>  	if (ret < 0)
+> -		goto done;
+> +		return ret;
+>  
+>  	/* After the probe, update fmt with the values returned from
+>  	 * negotiation with the device. Some devices return invalid bFormatIndex
+> @@ -300,7 +300,6 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+>  	if (uvc_frame != NULL)
+>  		*uvc_frame = frame;
+>  
+> -done:
+>  	return ret;
+>  }
+>  
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Laurent Pinchart
