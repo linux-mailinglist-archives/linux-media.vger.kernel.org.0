@@ -2,91 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5917654F721
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 13:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EA9054F72B
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 14:04:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382197AbiFQL61 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jun 2022 07:58:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53534 "EHLO
+        id S1381751AbiFQMEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jun 2022 08:04:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382186AbiFQL6R (ORCPT
+        with ESMTP id S1381795AbiFQMEy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jun 2022 07:58:17 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F672B26F;
-        Fri, 17 Jun 2022 04:58:16 -0700 (PDT)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:faf2:1a12:f903:cc5e])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+        Fri, 17 Jun 2022 08:04:54 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07DAD6B7DA;
+        Fri, 17 Jun 2022 05:04:52 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:faf2:1a12:f903:cc5e] (unknown [IPv6:2a01:e0a:120:3210:faf2:1a12:f903:cc5e])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 433E56601856;
-        Fri, 17 Jun 2022 12:58:15 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 57E84660179A;
+        Fri, 17 Jun 2022 13:04:50 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1655467095;
-        bh=3gDGpkk06mAHtR7r2AdzFP7ojDo8eosyId0TYaAzb0k=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=V7ijhT1PVDl59M55MviVPo+G6c0DxIIFvfRu69WWtAtXq/iaVJqQQmk1H3Og4NeP7
-         9h5bCty+9M24d82c3OiJ52fVcagAyjAzEesEjqrBb002UmANOLi3tBXue4EDrdz2QM
-         na0bYj4KWvuB0ooFjuERsuY9w6yFrmzhBz5xqnuptTieA2IzMOLWdmz+PUpFTIPYip
-         /cBvjF9pRhcWNPiDDtqv08/g1pdl8Ei4U4a1HoiQbuBFeMpFlrInjkWdelRAmTLhaK
-         EJtjNHhBkIMb3hSwifY7alxjuuUp1AExSaiYr7V1TuO0JIMhuqvw//S7kuytSBEZXX
-         emR9803mvXbxw==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, andrzej.p@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH 7/7] media: hantro: Allows luma and chroma depth to be different
-Date:   Fri, 17 Jun 2022 13:58:02 +0200
-Message-Id: <20220617115802.396442-8-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
-References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
+        s=mail; t=1655467490;
+        bh=9LT9TBmpX+iklRTLTEkirvb5pG6BvIzQn9IYxu2sTaw=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=NyJ3FZJq1G1P2Gl7/FhAwV7gF4sq+eOFpT62CN+8ZaTweGSe7f/u8//yPqBwvLmyY
+         nepzxZmDcbjFrbQSWrRGnx8uxyV+ZK0xB2MRnA172wWAX+kmxk3Rvuwh8C//cpYWwk
+         iL4OPgwfYE2uTtDrl3mmlQmrxow4Z4QtGlG8XOG0LfQzf3KTON6BAEMM5EkNZTsfWK
+         94+7C0CL+bzU+Jx+faW0V3bqDZKymVLud1zjEjDSFLTqxZ7OGoMePB2SjKz2p6lDNz
+         jPlW3YTbxRlLz2gey+pscn0n4ZzXQKoTr34W5lsN0qF1BJfSi7v3ct+J5WcFZC0FUS
+         29DL/ZJIr9MIA==
+Message-ID: <5ad90377-a9b1-f73a-e15b-ae553202f2a8@collabora.com>
+Date:   Fri, 17 Jun 2022 14:04:48 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 0/7] media: hantro: Add 10-bit support
+Content-Language: en-US
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        nicolas.dufresne@collabora.com, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20220616202513.351039-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Luma and chroma depth are set on different hardware registers.
-Even if they aren't identical the bitstream can be compliant
-to HEVC specifications and decoded by the hardware.
 
-With this patch TSUNEQBD_A_MAIN10_Technicolor_2 conformance test
-is successfully decoded.
+Le 16/06/2022 à 22:25, Jernej Skrabec a écrit :
+> This series adds support for 10-bit format handling in Hantro driver.
+> Most patches adjust postproc behaviour to be more universal. There is
+> a lot of assumptions, which need to be replaced with more generalized.
+>
+> Tested on Allwinner H6. Tested with vp92-2-20-10bit-yuv420.webm sample,
+> which produces correct checksum.
+>
+> Please take a look.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/staging/media/hantro/hantro_hevc.c | 3 ---
- 1 file changed, 3 deletions(-)
+I have send a complementary series to this one to enable 10-bit
+for HEVC on Hantro/G2 on IMX8MQ.
+With these two patchset I'm able to decode all the 10-bit conformance
+test files.
 
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index 85688a4df166..26b1329893f7 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -156,9 +156,6 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
- 
- int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
- {
--	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
--		/* Luma and chroma bit depth mismatch */
--		return -EINVAL;
- 	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
- 		/* Only 8-bit and 10-bit is supported */
- 		return -EINVAL;
--- 
-2.32.0
+For this series:
+Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
+>
+> Best regards,
+> Jernej
+>
+> Changes from RFC:
+> - fixed typo in function name
+> - removed merged patch (P010 format)
+> - removed broken patch (sunxi frequency change)
+> - added new patch (media: hantro: postproc: Properly calculate chroma offset)
+> - added r-b from Ezequiel
+>
+> Ezequiel Garcia (1):
+>    media: Add P010 tiled format
+>
+> Jernej Skrabec (6):
+>    media: hantro: Support format filtering by depth
+>    media: hantro: postproc: Fix buffer size calculation
+>    media: hantro: postproc: Fix legacy regs configuration
+>    media: hantro: postproc: Properly calculate chroma offset
+>    media: hantro: Store VP9 bit depth in context
+>    media: hantro: sunxi: Enable 10-bit decoding
+>
+>   drivers/media/v4l2-core/v4l2-common.c         |  1 +
+>   drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+>   drivers/staging/media/hantro/hantro.h         |  4 ++
+>   drivers/staging/media/hantro/hantro_drv.c     | 23 +++++++++
+>   .../staging/media/hantro/hantro_g2_vp9_dec.c  |  8 ---
+>   .../staging/media/hantro/hantro_postproc.c    | 38 +++++++++++---
+>   drivers/staging/media/hantro/hantro_v4l2.c    | 50 +++++++++++++++++--
+>   drivers/staging/media/hantro/hantro_v4l2.h    |  3 ++
+>   drivers/staging/media/hantro/sunxi_vpu_hw.c   | 27 ++++++++++
+>   include/uapi/linux/videodev2.h                |  1 +
+>   10 files changed, 136 insertions(+), 20 deletions(-)
+>
