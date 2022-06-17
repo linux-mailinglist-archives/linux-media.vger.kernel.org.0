@@ -2,106 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9899654FE07
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 22:01:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5882854FEFE
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jun 2022 23:03:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234538AbiFQUBY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jun 2022 16:01:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40284 "EHLO
+        id S1383561AbiFQUmJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jun 2022 16:42:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232790AbiFQUBT (ORCPT
+        with ESMTP id S1383548AbiFQUl6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jun 2022 16:01:19 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECFCE5AA56
-        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 13:01:18 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id h187so6598619oif.4
-        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 13:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JKe3jT9wj8kxwx+lhn3i+a4rhlIcM5Z5Ey30NiC2vMI=;
-        b=azcdpCrlSK5Mzv6JAhhMRpAPYC4iPGkeCqwr84C1qRMNwFRLyNPpqiDZaFzA4odr52
-         g4Vm6IR5RtXn/lVbSbz9hekYH9BHd4nVIcn5+irdsId7SEMFtC1BRRlKafOGkwhmrlpu
-         4ewcgSyMkJg9J07GEhKba3uGXzbOsnz+xItQ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JKe3jT9wj8kxwx+lhn3i+a4rhlIcM5Z5Ey30NiC2vMI=;
-        b=5fNYjcG7Mq/nNVrB362baoJuEdkIR0WD4g7pgvKXUf9++kxbJ5sseKGWaafKSpBCX6
-         IoGZylnACW2dxpAs7EhfG7gGUbP1JGjwfh6loO7CBv33F7XXzkpCQvWJ8w8iIuf7jB1+
-         lzUjZnj7vdMYZpxQPU2TDllNRcrnoVMKLQCbgY62VrCtQIgW4reGElI+GAjB2GfEaYnx
-         nJNBaIy54CIW6Ymrye5LWg+WcY1aCvcKb1zqCdEekwJUqfqRqi686Gwz5rOYFeRRaMco
-         Eu/gWxkozmRR12pvewY1owvpm68Q2u6OSd3I8Ie1gUbwvNGA2vLxyI2Jo8HvstNvobBf
-         wgGA==
-X-Gm-Message-State: AJIora/WcWw7QJCDvRkrY+iCGVqR/QFwUbcqbjLlaOmschO+cJGkkPGx
-        qE/Ba6+t1yqGjQJSsWFB+HEi4w==
-X-Google-Smtp-Source: AGRyM1tAZa7dgU3TCyDxf0HFFEP5WL9e4sJu/NA1JcR3g9GWwudOmn6xBb9hEnR0RXygYeJl5bowuA==
-X-Received: by 2002:a05:6808:14c9:b0:32f:4a7e:f3b2 with SMTP id f9-20020a05680814c900b0032f4a7ef3b2mr5865974oiw.241.1655496078272;
-        Fri, 17 Jun 2022 13:01:18 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id t23-20020a05683022f700b006060322125esm2997636otc.46.2022.06.17.13.01.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jun 2022 13:01:17 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] media: vimc: add ancillary lens
-To:     Yunke Cao <yunkec@google.com>,
+        Fri, 17 Jun 2022 16:41:58 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0CC45C874;
+        Fri, 17 Jun 2022 13:39:26 -0700 (PDT)
+Received: from notapiano.myfiosgateway.com (pool-98-113-53-228.nycmny.fios.verizon.net [98.113.53.228])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id CABF76601797;
+        Fri, 17 Jun 2022 21:39:10 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1655498352;
+        bh=unOJLRCDw7ZgTYa/8lyD2J+JxtKXBgGo6Z3sHYVsN/8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XZ1pKxO8HcDYK1nHIJdH1GIT8ak5uIfYf37+VzFupVfJsNIC95X6RrjzhvnwWv+eL
+         1V5kGuBt0rMJU8N2FslzzJj+IQzzcxbeUyGz02gMuwdbzAy/NxNEfhX03BHTTPo0kd
+         iEZ7/eVobt29a+zVlMRMZZGwQD28ZeNLli4JaqRnpGXNvnuGYMLVfJlwQrzQ5PKhRU
+         PKOjMLScWEeqGZtCNW7JB+kJceemCwEfvLAwwlBN44YgrgZNRBE/3lHsmhMlva7QJQ
+         stYS3wC3VTM9qo9O3Fe2IGrp3nZtZC0APwZiZMHs0Y2+rnon+bgd5PJV82PG/gF9Ie
+         Umha8AdstBUlw==
+From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220617015745.3950197-1-yunkec@google.com>
- <20220617015745.3950197-2-yunkec@google.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <177345ff-f601-e440-31e0-2c967736af6b@linuxfoundation.org>
-Date:   Fri, 17 Jun 2022 14:01:16 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Rob Herring <robh@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH] media: mediatek: vcodec: Drop platform_get_resource(IORESOURCE_IRQ)
+Date:   Fri, 17 Jun 2022 16:39:06 -0400
+Message-Id: <20220617203906.2422868-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-In-Reply-To: <20220617015745.3950197-2-yunkec@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/16/22 7:57 PM, Yunke Cao wrote:
-> Add a basic version of vimc lens.
-> The lens supports V4L2_CID_FOCUS_ABSOLUTE control.
-> Link the lens with vimc sensors using media-controller
-> ancillary links.
-> 
+Commit a1a2b7125e10 ("of/platform: Drop static setup of IRQ resource
+from DT core") removed support for calling platform_get_resource(...,
+IORESOURCE_IRQ, ...) on DT-based drivers, but the probe() function of
+mtk-vcodec's encoder was still making use of it. This caused the encoder
+driver to fail probe.
 
-Commit log lines are usually ~75 charracters long. Make it easier
-to read.
+Since the platform_get_resource() call was only being used to check for
+the presence of the interrupt (its returned resource wasn't even used)
+and platform_get_irq() was already being used to get the IRQ, simply
+drop the use of platform_get_resource(IORESOURCE_IRQ) and handle the
+failure of platform_get_irq(), to get the driver probing again.
 
-> This change can be used to test the recently added ancillary
-> links.
-> 
+Fixes: a1a2b7125e10 ("of/platform: Drop static setup of IRQ resource from DT core")
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Care to add instructions on how one would test ancillary with
-this feature?
+---
+Tested on mt8192-asurada-spherion.
 
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Yunke Cao <yunkec@google.com>
-> ---
->   drivers/media/test-drivers/vimc/Makefile      |   2 +-
->   drivers/media/test-drivers/vimc/vimc-common.h |   1 +
->   drivers/media/test-drivers/vimc/vimc-core.c   |  86 +++++++++++----
->   drivers/media/test-drivers/vimc/vimc-lens.c   | 102 ++++++++++++++++++
->   4 files changed, 170 insertions(+), 21 deletions(-)
->   create mode 100644 drivers/media/test-drivers/vimc/vimc-lens.c
-> 
+ .../media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c   | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-thanks,
--- Shuah
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+index 95e8c29ccc65..b91c27e79796 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+@@ -272,14 +272,12 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 		goto err_res;
+ 	}
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+-	if (res == NULL) {
+-		dev_err(&pdev->dev, "failed to get irq resource");
+-		ret = -ENOENT;
++	dev->enc_irq = platform_get_irq(pdev, 0);
++	if (dev->enc_irq < 0) {
++		ret = dev->enc_irq;
+ 		goto err_res;
+ 	}
+ 
+-	dev->enc_irq = platform_get_irq(pdev, 0);
+ 	irq_set_status_flags(dev->enc_irq, IRQ_NOAUTOEN);
+ 	ret = devm_request_irq(&pdev->dev, dev->enc_irq,
+ 			       mtk_vcodec_enc_irq_handler,
+-- 
+2.36.1
+
