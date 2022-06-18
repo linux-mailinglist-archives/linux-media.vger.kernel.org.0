@@ -2,133 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A4D6550685
-	for <lists+linux-media@lfdr.de>; Sat, 18 Jun 2022 20:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07A7D5506BD
+	for <lists+linux-media@lfdr.de>; Sat, 18 Jun 2022 23:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbiFRSyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Jun 2022 14:54:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59594 "EHLO
+        id S231538AbiFRVAX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Jun 2022 17:00:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbiFRSyk (ORCPT
+        with ESMTP id S229451AbiFRVAV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Jun 2022 14:54:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5BFB2DF8
-        for <linux-media@vger.kernel.org>; Sat, 18 Jun 2022 11:54:38 -0700 (PDT)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48CD725B;
-        Sat, 18 Jun 2022 20:54:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655578476;
-        bh=W/VejVRv9d66+US5gmPY4HD+nIEoQxDUUIY4qe4AlGA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=fNC00IDL3FRpWGl+xngeIbZJKMjPPFjrzSV02jeDZ+tNERK5CAMpnZutSxnBnMamG
-         U0VUesJUu20DXGh4UhtBAicfrq+4B5S8L3uOzd/M/6+UNoZbyNlWefASNjiGfaDv4e
-         PlgvXTFFikj/rExJa9+t4h1rO1gMGA4w6/TNmrJU=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v2] media: Replace dependency on VIDEO_V4L2_SUBDEV_API with select
-Date:   Sat, 18 Jun 2022 21:54:19 +0300
-Message-Id: <20220618185419.14921-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.35.1
+        Sat, 18 Jun 2022 17:00:21 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 700D96404
+        for <linux-media@vger.kernel.org>; Sat, 18 Jun 2022 14:00:20 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id a17so4622738pls.6
+        for <linux-media@vger.kernel.org>; Sat, 18 Jun 2022 14:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=xHkP1OXpqTGpMnl3S8KzBKz/x+0DBa4e/hpnPNs2B4Y=;
+        b=REVvzCGiKIEVvk4+cZWRokvy1sp2PWlN2ceSL4fnA3ARgMAMjDk6YIFO5NlstDRBWs
+         93+KsCOc3HNZHvcokJRwYgmixXWVczCgSDkGDK/5I+i9hZhcJh09hslFPx+6/tcH9Byy
+         WWIVI2LkOxpDyWA+4p7Qsd1vMbr+SsuKvl64sxu1eUvVROggUN5Ge1UzzJhIulPT6MQq
+         tX94sswVUlU1bhNZPjxEH76qwN+QJV4d7wWV+jHH9X3WGRLlZkA/uCdyMBue83hwR7EQ
+         Zdc6jCfx9nJEVqMB3kuqVrP9kbYSpyQj0wm/c4YcxZFjFYHyjLVfYDmS3uCBeeNSPY2X
+         wPxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=xHkP1OXpqTGpMnl3S8KzBKz/x+0DBa4e/hpnPNs2B4Y=;
+        b=o44Df1PnBPVhsSJH20Ew8zC39mrlB4PigEkF3rFG5omAaxzqYOn1cNbnxpiWNSBt7z
+         W6dKi194GMClNd+JwtAUWSOSJHXlhVF/96n6h/2BEzCXwl7H0eC082w3xt3wmDw6CUVd
+         yG4hgquSX+KcHLMnMg815sRrUm67hLOafadHfbGlcpmlg2wiBFs0+3f1xCU70yPB4bDT
+         V7CGJGAJC5hcE1BPBjz20yMLXS6DqNn4eOOcHxa3cvYQRLoxg+89vZC5G4d7s4068hsi
+         zPE1iMIxgwfN0PmsvhFZUC2dU/FGx15tenbINTzyjZr0bNedCP47Kbaal+2a6Yvt9H/5
+         KUog==
+X-Gm-Message-State: AJIora9XCIPpSBvtN4GpK/TXmIVx8ks5RY/zxj6+quJGVgH/0QSlYvqc
+        52vFdTnTYHUz0UbmKQmWhm+iidxx1PD8gP8E9uk=
+X-Google-Smtp-Source: AGRyM1tGbsQAXCraSzNVrQ6U98rmnEHJGLyV+AeusIPpFG51xoKVeIPSPbxng+79YZx3Mj0gdIQqMHwZiK23Hi6R8+I=
+X-Received: by 2002:a17:902:c2d5:b0:16a:1263:9313 with SMTP id
+ c21-20020a170902c2d500b0016a12639313mr3541501pla.138.1655586019882; Sat, 18
+ Jun 2022 14:00:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Sender: zaring.kkipkalya@gmail.com
+Received: by 2002:a05:7300:80c8:b0:66:6a95:2d24 with HTTP; Sat, 18 Jun 2022
+ 14:00:19 -0700 (PDT)
+From:   Jackie Grayson <jackiegrayson08@gmail.com>
+Date:   Sat, 18 Jun 2022 09:00:19 -1200
+X-Google-Sender-Auth: VXphVZ8y9pESXdodmwDx5hG2xhE
+Message-ID: <CANmOZ0wGzM2K=FdkrmnEpY9w9PgJh-FLez7OjsEH1=CTTjNa9Q@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Good Day Beloved
 
-The VIDEO_V4L2_SUBDEV_API Kconfig symbol is mostly selected
-automatically, with a a handful of drivers still using it as a
-dependency. Fix them to use selection, and drop the symbol title text to
-not expose it for manual selection.
+   This letter might be a surprise to you, But I believe that you will
+be honest to fulfill my final wish. I bring peace and love to you. It
+is by the grace of god, I had no choice than to do what is lawful and
+right in the sight of God for eternal life and in the sight of man for
+witness of god=E2=80=99s mercy and glory upon my life. My dear, I sent this
+mail praying it will find you in a good condition, since I myself am
+in a very critical health condition in which I sleep every night
+without knowing if I may be alive to see the next day. I am Mrs,Jackie
+Grayson, a widow suffering from a long time illness. I have some funds
+I inherited from my late husband, the sum of ($11,500,000.00,)my
+Doctor told me recently that I have serious sickness which is a cancer
+problem. What disturbs me most is my stroke sickness. Having known my
+condition, I decided to donate this fund to a good person that will
+utilize it the way I am going to instruct herein.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
----
-Changes since v1:
+I need a very honest and God fearing person who can claim this money
+and use it for Charity works, for orphanages and gives justice and
+help to the poor, needy and widows says The Lord." Jeremiah 22:15-16.=E2=80=
+=9C
+and also build schools for less privilege that will be named after my
+late husband if possible and to promote the word of god and the effort
+that the house of god is maintained. I do not want a situation where
+this money will be used in an ungodly manner. That's why I'm making
+this decision. I'm not afraid of death,so I know where I'm going. I
+accept this decision because I do not have any child who will inherit
+this money after I die. Please I want your sincere and urgent answer
+to know if you will be able to execute this project, and I will give
+you more information on how the fund will be transferred to your bank
+account. May the grace, peace, love and the truth in the Word of god
+be with you and all those that you love and  care for.
 
-- Add missing selection of MEDIA_CONTROLLER
----
- drivers/media/i2c/Kconfig            | 4 +++-
- drivers/media/platform/atmel/Kconfig | 4 +++-
- drivers/media/v4l2-core/Kconfig      | 6 ++++--
- 3 files changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 2b20aa6c37b1..e58e85650d87 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -75,8 +75,10 @@ config VIDEO_HI847
- 
- config VIDEO_IMX208
- 	tristate "Sony IMX208 sensor support"
--	depends on I2C && VIDEO_DEV && VIDEO_V4L2_SUBDEV_API
-+	depends on I2C && VIDEO_DEV
- 	depends on MEDIA_CAMERA_SUPPORT
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
- 	help
- 	  This is a Video4Linux2 sensor driver for the Sony
- 	  IMX208 camera.
-diff --git a/drivers/media/platform/atmel/Kconfig b/drivers/media/platform/atmel/Kconfig
-index 83aebee0c8eb..f399dba62e17 100644
---- a/drivers/media/platform/atmel/Kconfig
-+++ b/drivers/media/platform/atmel/Kconfig
-@@ -20,12 +20,14 @@ config VIDEO_ATMEL_ISC
- config VIDEO_ATMEL_XISC
- 	tristate "ATMEL eXtended Image Sensor Controller (XISC) support"
- 	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK && VIDEO_V4L2_SUBDEV_API
-+	depends on VIDEO_DEV && COMMON_CLK
- 	depends on ARCH_AT91 || COMPILE_TEST
- 	select VIDEOBUF2_DMA_CONTIG
- 	select REGMAP_MMIO
- 	select V4L2_FWNODE
- 	select VIDEO_ATMEL_ISC_BASE
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
- 	help
- 	   This module makes the ATMEL eXtended Image Sensor Controller
- 	   available as a v4l2 device.
-diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-index 1be9a2cc947a..348559bc2468 100644
---- a/drivers/media/v4l2-core/Kconfig
-+++ b/drivers/media/v4l2-core/Kconfig
-@@ -9,7 +9,7 @@ config VIDEO_V4L2_I2C
- 	default y
- 
- config VIDEO_V4L2_SUBDEV_API
--	bool "V4L2 sub-device userspace API"
-+	bool
- 	depends on VIDEO_DEV && MEDIA_CONTROLLER
- 	help
- 	  Enables the V4L2 sub-device pad-level userspace API used to configure
-@@ -56,9 +56,11 @@ config V4L2_MEM2MEM_DEV
- # Used by LED subsystem flash drivers
- config V4L2_FLASH_LED_CLASS
- 	tristate "V4L2 flash API for LED flash class devices"
--	depends on VIDEO_DEV && VIDEO_V4L2_SUBDEV_API
-+	depends on VIDEO_DEV
- 	depends on LEDS_CLASS_FLASH
-+	select MEDIA_CONTROLLER
- 	select V4L2_ASYNC
-+	select VIDEO_V4L2_SUBDEV_API
- 	help
- 	  Say Y here to enable V4L2 flash API support for LED flash
- 	  class drivers.
--- 
-Regards,
-
-Laurent Pinchart
-
+I am waiting for your reply.
+May God Bless you,
+Mrs.Jackie Grayson,
+Written from the Hospital,
