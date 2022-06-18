@@ -2,105 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B93BC550771
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jun 2022 01:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 929B955079A
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jun 2022 01:59:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbiFRXUi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Jun 2022 19:20:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35468 "EHLO
+        id S229992AbiFRX7E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Jun 2022 19:59:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiFRXUh (ORCPT
+        with ESMTP id S229446AbiFRX7D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Jun 2022 19:20:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C202B4AC
-        for <linux-media@vger.kernel.org>; Sat, 18 Jun 2022 16:20:37 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 373E0993;
-        Sun, 19 Jun 2022 01:20:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655594435;
-        bh=HW//KFvb3Uk1kTukT6WoPhd8syVLHG4jvIVfhXbA0xg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pOim59snAyG18oMGuvXRytr9N1CrqP/+U0vv5GplDY/sj8Sppywrql/6qEBiSPa0M
-         ixcBxm2tmcQcb+aq9A8oAW61YbfYK3Ao3lnG7aA34UoZ1JYrVfcsDp47DnDGlDBfR8
-         tlklJYqTOCEY5/CnxwaY/SLcLZn/AkPPukWXCamI=
-Date:   Sun, 19 Jun 2022 02:20:21 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     linux-media@vger.kernel.org,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
-        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
-        Philippe CORNU <philippe.cornu@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] media: stm32: dcmi: Register V4L2 subdev nodes
-Message-ID: <Yq5dtc3MHz5gp5BK@pendragon.ideasonboard.com>
-References: <20220618222335.478205-1-marex@denx.de>
+        Sat, 18 Jun 2022 19:59:03 -0400
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 032F1E0B2
+        for <linux-media@vger.kernel.org>; Sat, 18 Jun 2022 16:59:02 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id E52A883F22;
+        Sun, 19 Jun 2022 01:59:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1655596741;
+        bh=YsS/YswDvO+DTZh7265vaCaRVqgA+2+VHnQ3SqipbgI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=nOe3w9a6u4XkhPOY0yrxCVJUghfKt+avpN/f/VDpzvQC9FUoPesVk5b0jzqGQv6jE
+         WCXvyh5mH3yc/04QxurNCW+zbo4N/G0ufggccSgxy7LTHJhD0271dzwaiyZACxMOb9
+         4aQrTGxFpgPnAXui4LBWvn3yEIc9woteQ4iTE8sAibblFTAIMw+SucmNwqAel53zTc
+         9nddFLuheDW8V/7IRPnJ9i/mMd+u+WQ7LWEAvHFGXLNjCO13ggdzkmNbLQbB3PvcOj
+         DV9BQ9wfvGKfIydCwTEbU5HuxF8KeYu6upbpDaClJxENURHjGRRgwkopjnViEhCknU
+         VHgfqYWiPZjEg==
+Message-ID: <42409710-0026-9051-bd31-6cdf7e2a7c51@denx.de>
+Date:   Sun, 19 Jun 2022 01:35:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220618222335.478205-1-marex@denx.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] media: mt9p031: Implement crop bounds get selection
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Stefan Riedmueller <s.riedmueller@phytec.de>
+References: <20220618222108.478082-1-marex@denx.de>
+ <Yq5chmhukcvv2rGd@pendragon.ideasonboard.com>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <Yq5chmhukcvv2rGd@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marek,
-
-Thank you for the patch.
-
-On Sun, Jun 19, 2022 at 12:23:35AM +0200, Marek Vasut wrote:
-> Unless the V4L2 device calls v4l2_device_register_subdev_nodes(),
-> the /dev/v4l-subdev* sub-device nodes are not registered and thus
-> not created. Add the missing call.
-
-This driver configures the subdevs internally. Exposing the subdev nodes
-to userspace would conflict with driver operation.
-
-If you need the subdev nodes only to query subdev information, you can
-use v4l2_device_register_ro_subdev_nodes(). Ideally I'd prefer this
-driver to expose subdev nodes to userspace and stop propagating formats
-internally, but that may break applications :-(
-
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Alain Volmat <alain.volmat@foss.st.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Amelie DELAUNAY <amelie.delaunay@foss.st.com>
-> Cc: Hugues FRUCHET <hugues.fruchet@foss.st.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Philippe CORNU <philippe.cornu@foss.st.com>
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->  drivers/media/platform/st/stm32/stm32-dcmi.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+On 6/19/22 01:15, Laurent Pinchart wrote:
+> Hi Marek,
 > 
-> diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
-> index 5f08ba47ea96b..56f4e04bc7c49 100644
-> --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
-> +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
-> @@ -1805,6 +1805,12 @@ static int dcmi_graph_notify_complete(struct v4l2_async_notifier *notifier)
->  
->  	dcmi->vdev->ctrl_handler = dcmi->source->ctrl_handler;
->  
-> +	ret = v4l2_device_register_subdev_nodes(&dcmi->v4l2_dev);
-> +	if (ret) {
-> +		dev_err(dcmi->dev, "Count not register subdev nodes\n");
-> +		return ret;
-> +	}
-> +
->  	ret = dcmi_formats_init(dcmi);
->  	if (ret) {
->  		dev_err(dcmi->dev, "No supported mediabus format found\n");
+> Thank you for the patch.
+> 
+> On Sun, Jun 19, 2022 at 12:21:08AM +0200, Marek Vasut wrote:
+>> Implement V4L2_SEL_TGT_CROP_BOUNDS query in get_selection subdev op
+>> for this sensor. This is required e.g. to bind it to STM32MP15x DCMI.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> Cc: Stefan Riedmueller <s.riedmueller@phytec.de>
+>> ---
+>>   drivers/media/i2c/mt9p031.c | 18 +++++++++++++-----
+>>   1 file changed, 13 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+>> index cbce8b88dbcf5..e73e814c60207 100644
+>> --- a/drivers/media/i2c/mt9p031.c
+>> +++ b/drivers/media/i2c/mt9p031.c
+>> @@ -623,12 +623,20 @@ static int mt9p031_get_selection(struct v4l2_subdev *subdev,
+>>   {
+>>   	struct mt9p031 *mt9p031 = to_mt9p031(subdev);
+>>   
+>> -	if (sel->target != V4L2_SEL_TGT_CROP)
+>> +	switch (sel->target) {
+>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+>> +		sel->r.left = MT9P031_COLUMN_START_DEF;
+>> +		sel->r.top = MT9P031_ROW_START_DEF;
+> 
+> Shouldn't this be MT9P031_COLUMN_START_MIN and MT9P031_ROW_START_MIN ?
+> 
+>> +		sel->r.width = MT9P031_WINDOW_WIDTH_DEF;
+>> +		sel->r.height = MT9P031_WINDOW_HEIGHT_DEF;
+> 
+> And here MT9P031_WINDOW_WIDTH_MAX and MT9P031_WINDOW_HEIGHT_MAX ?
 
--- 
-Regards,
-
-Laurent Pinchart
+What makes you think that ?
