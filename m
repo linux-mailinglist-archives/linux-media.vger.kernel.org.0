@@ -2,112 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE170550291
-	for <lists+linux-media@lfdr.de>; Sat, 18 Jun 2022 05:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DC20550360
+	for <lists+linux-media@lfdr.de>; Sat, 18 Jun 2022 09:29:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236861AbiFRDsI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jun 2022 23:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40312 "EHLO
+        id S233603AbiFRH3s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Jun 2022 03:29:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230316AbiFRDsH (ORCPT
+        with ESMTP id S232690AbiFRH3r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jun 2022 23:48:07 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 520AE11458
-        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 20:48:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655524086; x=1687060086;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+73wmu9w5PKNPb+oGwEav1hlCY7yULhdrIMFZgwiZXk=;
-  b=lFkcLDchyMlP/5WeHQafRIfLYdlJBeDmzqauLPlGqllFE94KgY1JV9aX
-   SR+xL7hAcE9Q+QKv7QGzqRJH1o8PBNdUzGlop3250fpm5uVOgpPSjZrQf
-   +5i/3Ud0JzlB6DSa39YXBue1NgcNbe17DdjKVWYBlZiAHDTbSG78UIvjE
-   pXDQx8hsx9nhfMUmfb2y0gy+LNIGbPuomL5XUwcQYcIc+CpTJq2LvhUqW
-   OtBP0gnSU1NaRfbPjhloBYgG0Dz28B1j6AUbj6tFyBFgTtrxDFYd83f1/
-   5IcGQbHk6u1CHcOQ5xR24Jv5pJutthZPFIIOPS6EbVQ0jrAnKBYwqL+eH
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="343617699"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="343617699"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2022 20:48:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="584241633"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 Jun 2022 20:48:03 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o2PRL-000PzX-5s;
-        Sat, 18 Jun 2022 03:48:03 +0000
-Date:   Sat, 18 Jun 2022 11:47:16 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Paul Gazzillo <paul@pgazz.com>,
-        Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-        kbuild-all@lists.01.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sat, 18 Jun 2022 03:29:47 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793B128E1D;
+        Sat, 18 Jun 2022 00:29:42 -0700 (PDT)
+X-UUID: 16e10fa87bcd43128c7520044efe22a3-20220618
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6,REQID:d0bb85f2-a5d7-49cd-86c3-f168342688c9,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
+        TION:release,TS:90
+X-CID-INFO: VERSION:1.1.6,REQID:d0bb85f2-a5d7-49cd-86c3-f168342688c9,OB:0,LOB:
+        0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
+        TION:quarantine,TS:90
+X-CID-META: VersionHash:b14ad71,CLOUDID:e99cfc48-4c92-421c-ad91-b806c0f58b2a,C
+        OID:b3d8fe10dc9c,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 16e10fa87bcd43128c7520044efe22a3-20220618
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1221594928; Sat, 18 Jun 2022 15:29:34 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Sat, 18 Jun 2022 15:29:32 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 18 Jun 2022 15:29:30 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] media: Replace dependency on VIDEO_V4L2_SUBDEV_API with
- select
-Message-ID: <202206181114.qnuagBIA-lkp@intel.com>
-References: <20220616163632.13562-1-laurent.pinchart@ideasonboard.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH] media: mediatek: vcodec: Initialize decoder parameters after getting dec_capability
+Date:   Sat, 18 Jun 2022 15:29:29 +0800
+Message-ID: <20220618072929.28783-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220616163632.13562-1-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
+        SPF_HELO_PASS,T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Need to get dec_capability from scp first, then initialize decoder
+supported format and other parameters according to dec_capability value.
 
-I love your patch! Perhaps something to improve:
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c     | 2 --
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 2 ++
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v5.19-rc2 next-20220617]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Laurent-Pinchart/media-Replace-dependency-on-VIDEO_V4L2_SUBDEV_API-with-select/20220617-003721
-base:   git://linuxtv.org/media_tree.git master
-config: (https://download.01.org/0day-ci/archive/20220618/202206181114.qnuagBIA-lkp@intel.com/config)
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/efc926771b1dc55aaa144308fd649aa1bc6e69ba
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Laurent-Pinchart/media-Replace-dependency-on-VIDEO_V4L2_SUBDEV_API-with-select/20220617-003721
-        git checkout efc926771b1dc55aaa144308fd649aa1bc6e69ba
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-           kismet --linux-ksrc=linux --selectees CONFIG_VIDEO_V4L2_SUBDEV_API --selectors CONFIG_VIDEO_IMX208 -a=x86_64
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=x86_64 olddefconfig
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API when selected by VIDEO_IMX208
-   
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-     Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && MEDIA_CONTROLLER [=n]
-     Selected by [y]:
-     - VIDEO_IMX208 [=y] && MEDIA_SUPPORT [=y] && I2C [=y] && VIDEO_DEV [=y] && MEDIA_CAMERA_SUPPORT [=y]
-
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+index 1465ddff1c6b..41589470da32 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+@@ -112,8 +112,6 @@ void mtk_vcodec_dec_set_default_params(struct mtk_vcodec_ctx *ctx)
+ {
+ 	struct mtk_q_data *q_data;
+ 
+-	ctx->dev->vdec_pdata->init_vdec_params(ctx);
+-
+ 	ctx->m2m_ctx->q_lock = &ctx->dev->dev_mutex;
+ 	ctx->fh.m2m_ctx = ctx->m2m_ctx;
+ 	ctx->fh.ctrl_handler = &ctx->ctrl_hdl;
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+index 4103d7c1b638..99d7b15f2b9d 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+@@ -208,6 +208,8 @@ static int fops_vcodec_open(struct file *file)
+ 
+ 		dev->dec_capability =
+ 			mtk_vcodec_fw_get_vdec_capa(dev->fw_handler);
++		ctx->dev->vdec_pdata->init_vdec_params(ctx);
++
+ 		mtk_v4l2_debug(0, "decoder capability %x", dev->dec_capability);
+ 	}
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.18.0
+
