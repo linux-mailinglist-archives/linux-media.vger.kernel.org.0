@@ -2,66 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D4A3550107
-	for <lists+linux-media@lfdr.de>; Sat, 18 Jun 2022 01:57:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE170550291
+	for <lists+linux-media@lfdr.de>; Sat, 18 Jun 2022 05:48:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234678AbiFQX4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jun 2022 19:56:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51036 "EHLO
+        id S236861AbiFRDsI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jun 2022 23:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383440AbiFQX4b (ORCPT
+        with ESMTP id S230316AbiFRDsH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jun 2022 19:56:31 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C88866AF0
-        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 16:56:22 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id h23so11327630ejj.12
-        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 16:56:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=smgH2pDBx1ofaZrM152FsxaiSpM+uoxslxM+FEyW34c=;
-        b=BeEQ4TJ+StpwEeRKtNhqEWyR6951KbaWIfursLBbX0/XJas5D2wzyKEk+BS1ToHLhM
-         1yea3fbBN1B05sTYEYC0j/VfjOmSdYMqyx6WBpE3PX4Z0Biddp9iTb4t/I3JF47MWy4u
-         x8QhELQHJrISgpvWPiEKiKy7EQUp1igOTHMzw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=smgH2pDBx1ofaZrM152FsxaiSpM+uoxslxM+FEyW34c=;
-        b=scevGXBi/3+lV6enVu9p7K/Qq56OPHAUEbt9HfriC4Sm/eDl8sVKjcnYjSRberWw4x
-         JpJlq6lmmTLpCRZyMsLeKtq+qegZtEUKqOd29L5VwMahECQcSInY24wiHePgKNJ0ap6p
-         P3ocrDko85YwTbweb/0dS6MMi99lmaHavRgEpbromoDMWSccYUXoYFPCUVyNMhjqyGqr
-         z+S36wJuo2YWJVywWVibVbUeGAghs7FtX1DCQS8yRlNoHdphpuyTEpNalJigthLJkq0+
-         DcK69WgBE9kzFZIsAk2LgK/OgjDnW8KLZD7UYFJ5mzgPXIk899BkzJNUmQTTuohjxEOD
-         Ws8Q==
-X-Gm-Message-State: AJIora/NTdHMN0+xuN/vnGhhQww/962e8dRghCz5HH3H1B8f9slU31Pp
-        JEZLhYYxJam2tIiPrsq8Y/fauA==
-X-Google-Smtp-Source: AGRyM1usF0zfm/ieUT9r1lbPRPzma4aEocNyIUPWHG/uKyyHfOm2qkqIawRoshKy0ZEENfPGxPRgyw==
-X-Received: by 2002:a17:907:1dd1:b0:715:73d2:df1f with SMTP id og17-20020a1709071dd100b0071573d2df1fmr11536181ejc.46.1655510180195;
-        Fri, 17 Jun 2022 16:56:20 -0700 (PDT)
-Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id z21-20020aa7d415000000b0043566884333sm1452538edq.63.2022.06.17.16.56.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jun 2022 16:56:19 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
+        Fri, 17 Jun 2022 23:48:07 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 520AE11458
+        for <linux-media@vger.kernel.org>; Fri, 17 Jun 2022 20:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655524086; x=1687060086;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+73wmu9w5PKNPb+oGwEav1hlCY7yULhdrIMFZgwiZXk=;
+  b=lFkcLDchyMlP/5WeHQafRIfLYdlJBeDmzqauLPlGqllFE94KgY1JV9aX
+   SR+xL7hAcE9Q+QKv7QGzqRJH1o8PBNdUzGlop3250fpm5uVOgpPSjZrQf
+   +5i/3Ud0JzlB6DSa39YXBue1NgcNbe17DdjKVWYBlZiAHDTbSG78UIvjE
+   pXDQx8hsx9nhfMUmfb2y0gy+LNIGbPuomL5XUwcQYcIc+CpTJq2LvhUqW
+   OtBP0gnSU1NaRfbPjhloBYgG0Dz28B1j6AUbj6tFyBFgTtrxDFYd83f1/
+   5IcGQbHk6u1CHcOQ5xR24Jv5pJutthZPFIIOPS6EbVQ0jrAnKBYwqL+eH
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="343617699"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="343617699"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2022 20:48:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="584241633"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 17 Jun 2022 20:48:03 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o2PRL-000PzX-5s;
+        Sat, 18 Jun 2022 03:48:03 +0000
+Date:   Sat, 18 Jun 2022 11:47:16 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Paul Gazzillo <paul@pgazz.com>,
+        Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+        kbuild-all@lists.01.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, senozhatsky@chromium.org, yunkec@google.com
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v8 9/9] media: uvcvideo: Limit power line control for Acer EasyCamera
-Date:   Sat, 18 Jun 2022 01:56:10 +0200
-Message-Id: <20220617235610.321917-10-ribalda@chromium.org>
-X-Mailer: git-send-email 2.37.0.rc0.104.g0611611a94-goog
-In-Reply-To: <20220617235610.321917-1-ribalda@chromium.org>
-References: <20220617235610.321917-1-ribalda@chromium.org>
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: Replace dependency on VIDEO_V4L2_SUBDEV_API with
+ select
+Message-ID: <202206181114.qnuagBIA-lkp@intel.com>
+References: <20220616163632.13562-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220616163632.13562-1-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,52 +70,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The device does not implement the power line control correctly. Add a
-corresponding control mapping override.
+Hi Laurent,
 
-Bus 001 Device 003: ID 5986:1172 Acer, Inc EasyCamera
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass          239 Miscellaneous Device
-  bDeviceSubClass         2
-  bDeviceProtocol         1 Interface Association
-  bMaxPacketSize0        64
-  idVendor           0x5986 Acer, Inc
-  idProduct          0x1172
-  bcdDevice           56.04
-  iManufacturer           3 Bison
-  iProduct                1 EasyCamera
-  iSerial                 2
-  bNumConfigurations      1
+I love your patch! Perhaps something to improve:
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v5.19-rc2 next-20220617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 387b85fa1998..e037d46b958e 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3240,6 +3240,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
-+	/* Acer EasyCamera */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x5986,
-+	  .idProduct		= 0x1172,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
- 	/* Intel RealSense D4M */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
+url:    https://github.com/intel-lab-lkp/linux/commits/Laurent-Pinchart/media-Replace-dependency-on-VIDEO_V4L2_SUBDEV_API-with-select/20220617-003721
+base:   git://linuxtv.org/media_tree.git master
+config: (https://download.01.org/0day-ci/archive/20220618/202206181114.qnuagBIA-lkp@intel.com/config)
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/efc926771b1dc55aaa144308fd649aa1bc6e69ba
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Laurent-Pinchart/media-Replace-dependency-on-VIDEO_V4L2_SUBDEV_API-with-select/20220617-003721
+        git checkout efc926771b1dc55aaa144308fd649aa1bc6e69ba
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+           kismet --linux-ksrc=linux --selectees CONFIG_VIDEO_V4L2_SUBDEV_API --selectors CONFIG_VIDEO_IMX208 -a=x86_64
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=x86_64 olddefconfig
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API when selected by VIDEO_IMX208
+   
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+     Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && MEDIA_CONTROLLER [=n]
+     Selected by [y]:
+     - VIDEO_IMX208 [=y] && MEDIA_SUPPORT [=y] && I2C [=y] && VIDEO_DEV [=y] && MEDIA_CAMERA_SUPPORT [=y]
+
 -- 
-2.37.0.rc0.104.g0611611a94-goog
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
