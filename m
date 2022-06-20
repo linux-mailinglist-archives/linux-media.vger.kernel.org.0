@@ -2,55 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25D415514A5
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jun 2022 11:44:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 211B75514EB
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jun 2022 11:53:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240848AbiFTJoL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jun 2022 05:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48962 "EHLO
+        id S240064AbiFTJw6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jun 2022 05:52:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239870AbiFTJoJ (ORCPT
+        with ESMTP id S240363AbiFTJww (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jun 2022 05:44:09 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C9D912AEE
-        for <linux-media@vger.kernel.org>; Mon, 20 Jun 2022 02:44:08 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0092B883;
-        Mon, 20 Jun 2022 11:44:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655718246;
-        bh=bwhdDDIn0wE1jCXQa2c1jI5Ynk/nP/b2jXFdZNQ4YcM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=a/7AT3DzSlrIME+rcykB4O5vb++KQcLnWQxb3+04dWw7PUKXwH/G9A+0PqAecM4uc
-         /wpUIUf2UbCw9INfSWRaiFXE8d6miOAj8rk/ek0OOv5QfOE72FE4GQomp4p1PbAdgR
-         PPy4AQpCEHcNSlTGNDquvmnCBnxXj7m6Rk4+sy1k=
-Message-ID: <0dc2d603-586e-be49-8f8d-1f52f1915813@ideasonboard.com>
-Date:   Mon, 20 Jun 2022 12:44:02 +0300
+        Mon, 20 Jun 2022 05:52:52 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A9ABD0;
+        Mon, 20 Jun 2022 02:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655718771; x=1687254771;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bbKxKH/SYPWm+cxwUF5Vsfm6/HyWDbMqK/8UZOAOmFs=;
+  b=cExCMGfslYwOpLdl/BqDNtvSMIwzwliE1u/domUMOpBndXW3c07zfc4x
+   54ItBHXGPLHfQdlHx6wCcILFkAHCIP4imTwt8ZcQu1nhLh/6yYwz/xJRU
+   FvjKbZEpF+PMtLDxUElNL7HEerTCmRkGL/sGIWbuV+60hzFnWwx6OozAl
+   ljRQJ6BrnrCpZNJmUv97tRwKRCSqJ+6LBx3XyDuoqCxWF/hhrLIw1g0eR
+   M/XfLxr0F+k2r5fP+IAsF7kdg00sN6f8yR5o5mO0ZelzLEHtw9h6MOPmq
+   F/SMbFbSbGZagW1T7fAgQ7LET5oNKvgLO2kSb5Ptno/btkhl77mjuqkFt
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="277402178"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="277402178"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 02:52:51 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="833039628"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 02:52:49 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o3E5O-000h48-Ro;
+        Mon, 20 Jun 2022 12:52:46 +0300
+Date:   Mon, 20 Jun 2022 12:52:46 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, djrscally@gmail.com,
+        sakari.ailus@linux.intel.com
+Subject: Re: [PATCH] media: ov7251: add missing clk_disable_unprepare() on
+ error in ov7251_set_power_on()
+Message-ID: <YrBDbjS8rAGM4t4u@smile.fi.intel.com>
+References: <20220617013943.851327-1-yangyingliang@huawei.com>
+ <YqxVWg21PsdkMz2Y@smile.fi.intel.com>
+ <a6731874-1c72-898e-fe8f-8d08d4a4d74e@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] media: stm32: dcmi: Switch to __v4l2_subdev_state_alloc()
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Marek Vasut <marex@denx.de>
-Cc:     linux-media@vger.kernel.org,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
-        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
-        Philippe CORNU <philippe.cornu@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-References: <20220618222442.478285-1-marex@denx.de>
- <Yq5c6dObTlmZr95P@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Yq5c6dObTlmZr95P@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a6731874-1c72-898e-fe8f-8d08d4a4d74e@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,35 +68,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, Jun 20, 2022 at 04:48:46PM +0800, Yang Yingliang wrote:
+> On 2022/6/17 18:20, Andy Shevchenko wrote:
+> > On Fri, Jun 17, 2022 at 09:39:43AM +0800, Yang Yingliang wrote:
 
-On 19/06/2022 02:16, Laurent Pinchart wrote:
-> Hi Marek,
-> 
-> CC'ing Tomi to get his opinion.
-> 
-> On Sun, Jun 19, 2022 at 12:24:42AM +0200, Marek Vasut wrote:
->> Any local subdev state should be allocated and free'd using
->> __v4l2_subdev_state_alloc()/__v4l2_subdev_state_free(), which
->> takes care of calling .init_cfg() subdev op. Without this,
->> subdev internal state might be uninitialized by the time
->> any other subdev op is called.
+...
 
-Does this fix a bug you have? Wasn't this broken even before the active 
-state, as init_cfg was not called?
+> > >   	if (ret < 0) {
+> > >   		dev_err(ov7251->dev, "error during global init\n");
+> > > +		clk_disable_unprepare(ov7251->xclk);
+> > >   		ov7251_regulators_disable(ov7251);
+> > Logically it should go here. Please, read a code above this check.
+> Do you mean print the error code on error path ?
 
-In any case, I think we have to do something like this, as the source 
-subdev might depend on a valid subdev state.
+The new code, you added, should be in correct order (reversed in comparison to
+resource allocation / registration).
 
-It's not very nice to have the drivers using __v4l2_subdev_state_alloc, 
-though. But if non-MC drivers are not going away, and if they are going 
-to be calling ops in other subdevs with V4L2_SUBDEV_FORMAT_TRY, they 
-need to pass a valid subdev state...
+> > >   		return ret;
+> > >   	}
 
-I don't see a better way right away, so I think this is fine.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Do we need a v4l2_subdev_call_state_try(), similar to 
-v4l2_subdev_call_state_active()? It would handle allocating the state, 
-calling the op and freeing the state.
 
-  Tomi
