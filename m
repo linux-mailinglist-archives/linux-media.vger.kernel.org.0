@@ -2,65 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 072BE552430
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jun 2022 20:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA7F552453
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jun 2022 20:58:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343564AbiFTSqw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jun 2022 14:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52764 "EHLO
+        id S243351AbiFTS6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jun 2022 14:58:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235019AbiFTSqw (ORCPT
+        with ESMTP id S236360AbiFTS6E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jun 2022 14:46:52 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA7B1A398;
-        Mon, 20 Jun 2022 11:46:50 -0700 (PDT)
+        Mon, 20 Jun 2022 14:58:04 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382DCCFF;
+        Mon, 20 Jun 2022 11:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655750810; x=1687286810;
+  t=1655751481; x=1687287481;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3cO+9b7DCuxN6a4z6JHt9DjUZ/m4m3onBWRNXNTs5m0=;
-  b=e8BRQMeZBm0KGhI9fhGSUqXQ7zE5HROVbvCBnNqS0d037yJGwpdrBbOe
-   J5rXrP+07hMnDKNOxk+kt3tF96H0g6nxsoFZ1qvN6rLdYefyH3gGR930i
-   ano1awVDQAc1fwUdhkKKkT5imIdJ0mPlrXjfQOULrj5DK1VqluCxILBBF
-   yMsrG9yP7nufX8+GaBdx+26QQ5WxtdJbnBvm9NHzsGlajLQ825Cv6oWxf
-   mLyqmsfiKh4tX6O0Vi+BEKtoqvBP+IUsupuuNcegpsXV7FOXca53N9KC1
-   KJoKYDQGi1qNFBI/t4HEamn5UqkyqlJSUJwpOrPsd2XCYG9AgiDVMOg1D
+  bh=x+gv9xpQam84+22/vjH7Q89E2WxB+XSOUwJeuL1wLrU=;
+  b=At6B3dAZny36B1yY0gCIeXagnKzNmS2dAb2wqvk/oP+CAbDZB4J3yCzf
+   3A/gUYxLM6sJbqgiiDWfi79c9tktMKMfQQaU89wLaDp1T0AMpxsxRxh51
+   qwP22Iz5uL93vv/Ax/XZPxPkxL1kAB5GXWtOIy7gFNOcBdMCvAGfafprQ
+   NoZYFn1vHKJabmf4TBO9lR96e0JNIIWtevrt2a2rBsIYNdDlgusKIWdHx
+   QvS4Rwr8/dTsud52mmDWP1Ow5QcDIttLzUMldeFSWUc18FPWjcdomBDhU
+   2FKBoq5+6X72OZBQ553N0nXQ/wy7Gsm5cn7pcQAB8RzL8+d2U/h/ahUQk
    Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="305393344"
+X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="260390706"
 X-IronPort-AV: E=Sophos;i="5.92,207,1650956400"; 
-   d="scan'208";a="305393344"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 11:46:50 -0700
+   d="scan'208";a="260390706"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 11:57:52 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,207,1650956400"; 
-   d="scan'208";a="654795752"
+   d="scan'208";a="643238919"
 Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Jun 2022 11:46:47 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 20 Jun 2022 11:57:50 -0700
 Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1o3MQB-000VIK-4w;
-        Mon, 20 Jun 2022 18:46:47 +0000
-Date:   Tue, 21 Jun 2022 02:46:41 +0800
+        id 1o3Mar-000VUF-Ga;
+        Mon, 20 Jun 2022 18:57:49 +0000
+Date:   Tue, 21 Jun 2022 02:56:56 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org,
         ays@melexis.com, mchehab@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, hyun.kwon@xilinx.com,
         laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
         kieran.bingham+renesas@ideasonboard.com, devicetree@vger.kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org
+Cc:     kbuild-all@lists.01.org
 Subject: Re: [PATCH 4/6] media: uapi: Add mlx7502x header file
-Message-ID: <202206210214.qdKFyz8R-lkp@intel.com>
+Message-ID: <202206210257.TVLhK9QZ-lkp@intel.com>
 References: <20220620162523.GA14039@vkh-ThinkPad-T490>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20220620162523.GA14039@vkh-ThinkPad-T490>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -75,8 +75,8 @@ I love your patch! Yet something to improve:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Volodymyr-Kharuk/media-i2c-mlx7502x-ToF-camera-support/20220621-003030
 base:   945a9a8e448b65bec055d37eba58f711b39f66f0
-config: x86_64-randconfig-a013-20220620 (https://download.01.org/0day-ci/archive/20220621/202206210214.qdKFyz8R-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project af6d2a0b6825e71965f3e2701a63c239fa0ad70f)
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20220621/202206210257.TVLhK9QZ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.3.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -86,7 +86,7 @@ reproduce (this is a W=1 build):
         git checkout 4c86ad4f2630e1b354d314a93800db2363826242
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=m68k prepare
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
