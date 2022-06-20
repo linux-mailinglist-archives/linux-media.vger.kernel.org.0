@@ -2,184 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83A68551184
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jun 2022 09:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E9E15511E9
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jun 2022 09:54:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239353AbiFTHah (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jun 2022 03:30:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34140 "EHLO
+        id S239605AbiFTHxz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jun 2022 03:53:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239176AbiFTHag (ORCPT
+        with ESMTP id S238483AbiFTHxy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jun 2022 03:30:36 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC5EEBF7B
-        for <linux-media@vger.kernel.org>; Mon, 20 Jun 2022 00:30:34 -0700 (PDT)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25K51gt4018043;
-        Mon, 20 Jun 2022 09:30:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : from : to
- : cc : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=yW3e6lowGvq9wKlL7VLyncIA4xYyfz7RwwfWY9OKuT8=;
- b=zHXvQ7/jHFhh8rhtt6yKc3oYCScPU99qqfdtqUsogilCYQOJHcRRwpGiUvZBOi3UzDWe
- EwLZlTrBl36L9ktnGHFDN1+5sFlg+vrpeOBLZfB3FFauphpCJuF7WdHEbfsZFb4eHkX6
- fGxr23cB4YSmPTV/6GR7XYqFhzGTuWdy+g7dw7pSrQwIDyC8RtUFvwH2EqBT3MuNESiR
- b0e91uhIP/l2blEMzcSZMTHbrsC3rzJH6b3+MNXJBJhLfA2oUhxYKvhdYPbHjUIfQytb
- 5r9R3MzwY6YNlWf5tziL5c35GSx819juBRurk8TwTN9ARSnVOFNjaDosvK8K3MshG+Ab uw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3gs6wh0q2m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 20 Jun 2022 09:30:26 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7143A10002A;
-        Mon, 20 Jun 2022 09:30:24 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 594C22132E8;
-        Mon, 20 Jun 2022 09:30:24 +0200 (CEST)
-Received: from [10.0.2.15] (10.75.127.117) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Mon, 20 Jun
- 2022 09:30:24 +0200
-Subject: Re: [PATCH v3 0/5] media: Add ST VGXY61 camera sensor driver
-From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-To:     <linux-media@vger.kernel.org>
-CC:     <alain.volmat@foss.st.com>, <hugues.fruchet@foss.st.com>,
-        <sylvain.petinot@foss.st.com>, <dave.stevenson@raspberrypi.com>,
-        <sakari.ailus@linux.intel.com>,
-        <laurent.pinchart@ideasonboard.com>,
-        <kieran.bingham@ideasonboard.com>
-References: <20220512074037.3829926-1-benjamin.mugnier@foss.st.com>
- <e920c5e2-dba1-bcf7-7d83-ee797ca51b49@foss.st.com>
-Message-ID: <5a4cbabe-c701-6ab3-adec-592289b7b52b@foss.st.com>
-Date:   Mon, 20 Jun 2022 09:30:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mon, 20 Jun 2022 03:53:54 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD59E021;
+        Mon, 20 Jun 2022 00:53:52 -0700 (PDT)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25K5oCr5030221;
+        Mon, 20 Jun 2022 07:53:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=5DeNVhRFY9IaDFAHFBTVgdcOUySyFbLzJQG9CwwfR5w=;
+ b=1JVm9SCo7yYKj1nGakqPh8J5n+2WqqUKcf+Jf4NleG6PgWTCrEwmw/P4Js2GHzTz/LZR
+ WkaLqwxg5fIoHjgn2g9KIDl7lEoG7sGFzfPSiMzB4r2D6bD17d7/hQy+wetOiQM6SgyL
+ 3Uxi6573XjfkNh8NqfxBbIHjuJakfFam7KtoQA+9XZ3xse+mM144nNLvYkjhEKZpoDJE
+ 4CbjHSWNpiXGelhofNDhJsu18sDFgv/svcTrfPjhMDwqiYEhlp4tf/xfNYnXKSzNtDXU
+ IMmVy7WC4bx/XWgqtIBTCf4AF/BAlfY6W6Edt4CvHBsARX2LjuAPD+O/aLWtgnURtxzy /g== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs6astk98-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 20 Jun 2022 07:53:22 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25K7oQr4021432;
+        Mon, 20 Jun 2022 07:53:22 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtd9t06c4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 20 Jun 2022 07:53:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cEC7PD/0F7im3flTDWyN3uo1g+kCosunWaA78i54rXw+cvSFReBGvoHlf3Iei9BDNczmu4yeEol5PCR9Q5Rv4ZdHJA66yZmzB+cgoQEy9+2mHUMv8vLVK5ZpZrYeCJfELHOVtDSTMAqhGxCivUgg/I6AlkWc+TefizP+P1ov8kWHXlVfN42VnDeL/8NxdOz5ogm2Eu2FTQo9i1n2S1OMTSBEMxGHEbO28fCTofD3Lu+OIZg6/iQRq25CP79AoBDFMKPw6FKmz9y+PY2/BnV3TnDBgQvjf8KUG40D7ahXM9w9YvqBki6N966cdWVQfgeTggyVJPj09SRawICDFKAoYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5DeNVhRFY9IaDFAHFBTVgdcOUySyFbLzJQG9CwwfR5w=;
+ b=gd2Wrf2YRxnaJU2nx/MibNrcen76HZnBZTtqxt778+26FYSbXDn3gsp9/hCrgQW0Ak3fFnFbDe7E5hxfQ6u2VEU27LO16XMYtffGbNz07OkWlDjZoeR5QBSW48Yfy6INgwt9o4fuYpCg7FDYduNqw/x93JQop/b3hRDPeUp7WVcdzAdb/G/JBZQKYGfWPmiTfADU1e96/1C16tV1vISTVtvAIVwWj1LEHg1Uo5kemWI3iMOPTB9TIwygiPb20GiQyZaFgZtWnNfOuIb4xuUYav9Y1OLd0tActPY8re/b6uS8MVOvG+ID/8ndDAh7zvvHcSwJGIcWyMYPu9colxaI1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5DeNVhRFY9IaDFAHFBTVgdcOUySyFbLzJQG9CwwfR5w=;
+ b=Gv6Qzxb4oKFHBOsM2VozjyNrY9VNDFM+Axl1lD4bJf4kc6xbgRDIJOpIQglCLzL5czVOhqgpL73LEY9NGrV8EHzvUBAzr8Gj4c3mOeyvlhuXGPmmWxoTUGR7NPkCACL29uCNfTRH9qx/4B6c5pa6Ta4SGZLFDyrY1Jw2ryVq83U=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by SN6PR10MB2654.namprd10.prod.outlook.com
+ (2603:10b6:805:40::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.20; Mon, 20 Jun
+ 2022 07:53:20 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5353.018; Mon, 20 Jun 2022
+ 07:53:19 +0000
+Date:   Mon, 20 Jun 2022 10:52:53 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Zhang Zekun <zhangzekun11@huawei.com>
+Cc:     ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, andrzej.p@collabora.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] media: rkvdec: Fix memset size error
+Message-ID: <20220620075253.GE16517@kadam>
+References: <20220617073101.101234-1-zhangzekun11@huawei.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220617073101.101234-1-zhangzekun11@huawei.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0011.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::23)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-In-Reply-To: <e920c5e2-dba1-bcf7-7d83-ee797ca51b49@foss.st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.117]
-X-ClientProxiedBy: GPXDAG2NODE5.st.com (10.75.127.69) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-20_05,2022-06-17_01,2022-02-23_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e39f6d25-3837-4069-34a9-08da5291f107
+X-MS-TrafficTypeDiagnostic: SN6PR10MB2654:EE_
+X-Microsoft-Antispam-PRVS: <SN6PR10MB2654DA2CB484C1A8DF08B7238EB09@SN6PR10MB2654.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: KrXD1o4bZ9eyihErp2cUKMK8CwAPZtqCeusbbJzUXv7vRtN4+Ba6PSArLU0NmgOT9kf6uXMki3Z1L7p+9TC4wDT9PtygfC0PKXqrhOPg1OCY6YCA0kvdVpUVxk4mzPTSNO4JymiCe1Ktzg92gxdJ0TWCJqnT6Uqnr2P4TKsViH9P1rSWO3qvmsBz3fuFoiD8mx+lzozuZfftvoM5cfsTJkODo4I4SkKVyKhWm+OUMxNuhmSBKUy4EBPEWUBDH4U+DLrZKQ0edfJ0pe3qJ5JINiguozmEHK0CR4aLF84NadCfDScuPsDh8AJDCHHaKa+VhRxNTGZNt5UldFdL7Dl2hF1vvafTUvUoXth5Ur8a0lse2y6MXlwCs/IBOpcbMSGVCYs0UftW9CWisx7FOtvIHz8k2n7ORsm84U6Gb6Ym6tq0ng75gXLv8dKFXNc4cByNVzHlB4SnueF4gslGQPIp/P+FMevBKmd4ijDPr9k11xNjJ1FXyWveW3iW31jj0D0oEg0fPWYxzbh3a6a5GIn2R6Nmb7JpiCoJBHN54gK3S7p9PZwjI1mvKjsxRCU7mUdXWWgNdqmb0VjGMFMjL3iKlCZ/sfT+SIAWYpwtxY5ILvvfrdB8RVZKkb3tSJmfdUKLsd1GddLw0L3RyHX/5VM95nl8MMPY/k7yyPTdLdCm4qP3iPzFkLNmwpfhsaLrKSs4T6tzynrinK3Xq9Fit7mn3w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(2906002)(1076003)(6506007)(186003)(6666004)(6916009)(38350700002)(38100700002)(316002)(86362001)(44832011)(66556008)(8936002)(33656002)(83380400001)(6486002)(4326008)(498600001)(66476007)(8676002)(66946007)(33716001)(5660300002)(7416002)(52116002)(6512007)(9686003)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Rr7VLJsor/PVKrfSHfWNv6duPVtaEnlp6mn6fJvEm2qo6eh8F6AUTmdwD23L?=
+ =?us-ascii?Q?hgRy2kdlUsr/DEVfTAKkNlOoMCKKI4tZZTrREHUuY5BAieBHPKU5xh3UKnKx?=
+ =?us-ascii?Q?u8q2CzRV6iVu75ZjVBihYx3ZfRZVPj3CvzjcFX0oqt5SAlGo8Em8OblrqhYr?=
+ =?us-ascii?Q?wVgWdGYX/kksZoWEmuUMQ+iGbcaXVDaiTEEEBp+F7w4KDzD/Av9/NXnnM3Az?=
+ =?us-ascii?Q?nTjvZPZDJsprFky06bruXjmbFKpEbahbpVresfhKLfEOuzlUTdRvYkP0mUD7?=
+ =?us-ascii?Q?ZQG7KhqjBcSezVzysEbs4EoGEGjYl3p1i99tsdj0/n76cX1AJlyFpEdu8sDb?=
+ =?us-ascii?Q?DKABdWXZnSZ5nqBzcsO9GI1cob8iq2qYEk2m/8T2U/TMF13NdXbFhEsj+SCL?=
+ =?us-ascii?Q?+i6sxJpo+uj0Jc5dd4z9cDMD8dIN2XI8X+oduz9cpdSNDNWUNEPBF2xl0FsI?=
+ =?us-ascii?Q?gBdcdc1BnQnC0IY/4jysPYsRQUBpJKxSKU/CHTEhpaYODTaXFD6cgyKj5uIr?=
+ =?us-ascii?Q?abRT7DjL0/Y8p5UNuzCqbAJflg35D+JIUzq4IE1XgBrX3+ZxkbrGculcmgIp?=
+ =?us-ascii?Q?MXkRhX3TQzKsxHOSFV8WjgzoVdP7YqsCwpLnn4BgLxuiYrf9DZS4gvLhnA8R?=
+ =?us-ascii?Q?zI/Od0ezO12otMdgAkC6Ito3n8GwZSk3uMRT5sDQTfATEPtBOHM8HQHxIvop?=
+ =?us-ascii?Q?+r6ZoQhSg007FeFYdlGDEbhKqrhshU0/bOspMY7SsgD2J2j/ZSUd38OTlXhp?=
+ =?us-ascii?Q?CHj/4M/UZB0WZozSsPEX+hmQiPXBkIpAsy3VxLcYOk/hbCdBt9S93Hvhj37/?=
+ =?us-ascii?Q?P6iuJImTuT0uDLX8KzgxziTLuM463kyti3oXMHq87aYUu4IXXoIQ0/NCEuAU?=
+ =?us-ascii?Q?k2L4NUNtB+c2iDfOf/cpIb2XNZFcwlTYiKjXHfbs+WInD+fxx6krMXi7bYp0?=
+ =?us-ascii?Q?wfB1hn8SMKW1w0OmQBuQ0ITd8E4iEHMQnO6rWWelRKAdwZxOLmNtZQ4jOX3V?=
+ =?us-ascii?Q?lAv+cLwKAP0Ye5eFN3eUFD+tEDmY1z7/6f2qAj39pAVgoGK6DfzqSIqyMguh?=
+ =?us-ascii?Q?wbTFwzbxXLUOhTae54GVc0FOU7Od+I8Kvk4Od4wqJRR0BYUP7iJ+TknuQ4mS?=
+ =?us-ascii?Q?iW4w6SFz43lUCmjUO9I/YmKeVnAty1IAZsaBNcS/4ATjHjRXBbfoIPlJvZT+?=
+ =?us-ascii?Q?sCn7DetmD08ejKoL3sTn8XWPDT7DEti4MitW++RNQlu120issqFRKoX14zzs?=
+ =?us-ascii?Q?ln9V7/JIuyPE9YnPQHNiKDxeTRpYiM4kUNGZCO7Jx/6lbATaM2I/6jeHSxur?=
+ =?us-ascii?Q?IemP/NxhCh15/KtWcDbzJOESNGBDM47QlNY8BilsEMMy/koppAZ5fNYmE2B8?=
+ =?us-ascii?Q?6sZ7JTQIyv9m+Xebts6fQOL2NNuZ9VJRx8R8XVKnhH6g+2QSrUDBQhUmU4h7?=
+ =?us-ascii?Q?ygRD9xF2/x62MWxB2QZlCLFd67kccC78LUhr8iaJcYf69xUMZ/OVfGB45KbR?=
+ =?us-ascii?Q?AVjVdggusC6gC7ftuabrYM3PlmF/37qRuGAmZd+bSbj4DTqPp4EANS0bk3um?=
+ =?us-ascii?Q?v6KC8cIsbGzlfBqYoTz7dOz1DseOC+R5YGPd/57x6lg8L47TTg/d1tV46wrL?=
+ =?us-ascii?Q?++WwcQ7rNSwpob3DmFKqC+Siyjx/bUFRgeAMDMvxPSNoX1K5bPrRqwKY69M/?=
+ =?us-ascii?Q?SVLH7VzErz3LyVCCP1YHDyo+2XfHl+hDOSH5Nb14S4MPxF5OquBC/a9BZXcm?=
+ =?us-ascii?Q?S+QcH0M2vfkNj7sonSe7tZeh/8P1yS4=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e39f6d25-3837-4069-34a9-08da5291f107
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2022 07:53:19.7144
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dX3OpsToDxH/7j2K1vRRE5ZvTKyvwZEHmLwf8qHCOyklCelE2Mzjf+3xQMnk9uTskPvbWv2yJ53wDzWzm/V/A+zBFi6Y2BIiT3f3b6itGRY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR10MB2654
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
+ definitions=2022-06-20_04:2022-06-17,2022-06-20 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=923 suspectscore=0
+ phishscore=0 malwarescore=0 mlxscore=0 spamscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206200036
+X-Proofpoint-ORIG-GUID: lWKcg74TzPatd2Wdi4UrTZnyCVLzC8MN
+X-Proofpoint-GUID: lWKcg74TzPatd2Wdi4UrTZnyCVLzC8MN
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi everyone,
-
-Can somebody have a look at this series?
-Thank you.
-
-Benjamin
-
-On 01/06/2022 09:20, Benjamin Mugnier wrote:
-> Hey,
+On Fri, Jun 17, 2022 at 07:31:01AM +0000, Zhang Zekun wrote:
+> 'dma_alloc_coherent()' alloc a 'RKVDEC_VP9_COUNT_SIZE' size area to
+> 'unsigned char *count_tbl', however, the memset() bellow only set
+> 'sizeof(*count_tbl)', which equals to 1, bytes to zero. This can
+>  cause unexpected error.
 > 
-> Gentle ping, so that you don't forget about me ;)
+> Fixes: f25709c4ff15 ("media: rkvdec: Add the VP9 backend")
+> Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec-vp9.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Benjamin
-> 
-> On 12/05/2022 09:40, Benjamin Mugnier wrote:
->> Hey,
->>
->> This series adds a driver for the ST VGXY61 camera sensor. This camera sensor is using the i2c bus
->> for control and the csi-2 bus for data.
->> These commits introduce the MEDIA_BUS_FMT_Y16_1X16 as a media bus format (1/5), reserve 16 user
->> controls for the driver (2/5), add a uapi header file to declare a control for the hdr mode (3/5),
->> dt bindings (3/5), and finally the driver (5/5).
->> Tested on DragonBoard 410c and on Raspberry Pi 4.
->>
->> Unfortunately, I was not able to do the freely configurable frame size as advised by Laurent, and
->> I'm stuck. I tried to mimic the ov5693 driver as it seems to work mostly the same but was not
->> successful.
->> I managed to implement the get_selection to set the sensor crop, and set the set_format call to the
->> same frame size. By doing that my captured frame has black lines appearing if I don't use the sensor
->> native resolution, and seem to have issues with matching the sensor internal frame size and the one
->> I want to display (as lines appear wider than they should be).
->> If anyone has an example driver for this please tell me. Any help is appreciated.
->> I hope this fixed frame sizes will be ok, and I could come back to it later once I figure it out.
->>
->> Thanks,
->>
->> Benjamin
->>
->> v2->v3:
->> - Fix errors in dt bindings
->> - Use alphabetical order where applicable
->> - Remove US_PER_MS macro
->> - Rename device specific macros
->> - Fix some control grabs not releasing
->> - Move user controls to public header and add documentation
->> - Rename set_framerate to set_framelength
->> - Rework i2c access
->> - Remove branchings that should never happen
->> - Rework pattern generator setting
->> - Update information on sensor rules of thumb
->> - Remove temperature control
->> - Remove suspend and resume
->> - Move mutex init to probe
->> - Move detect to probe
->> - Fix async_subdev_register order
->> - Support autosuspend
->> - Add init_cfg
->> - Fix controls not updating when sensor was off
->> - Various cleaning
->> - Rebase on master
->>
->> v1->v2:
->> - Move temperature control to v4l2-controls.h as a standard control
->> - Reserve controls in v4l2-controls.h for HDR control
->> - Remove GPIO strobbing controls
->> - Remove references to unused controls in sensor struct
->> - Use v4l2_find_nearest_size
->> - Use V4L2_COLORSPACE_RAW instead of V4L2_COLORSPACE_SRGB
->> - Fill ycbcr_enc, quantization, and xfer_func in v4l2_mbus_framefmt
->> - Change gain from formula to a register RAW write
->> - Change temperature control value directly
->> - Remove clock-name and clock-lanes from device tree bindings
->> - Declare crop zones in mode_info structure
->> - Remove frame_interval functions and add hblank and vblank instead
->> - Update controls dependencies on change
->> - Fix first exposure rule of thumb being too restrictive
->> - Disable hflip and vflip controls while streaming
->> - Change RGB media bus code to Y as the sensor is monochrome
->> - Add Y16 format to v4l2 media bus formats
->> - Add get_selection API
->> - Fix timeout errors while disabling streaming on high framerates
->> - Support pm_runtime
->> - Rebase on master
->>
->> Benjamin Mugnier (5):
->>   media: v4l: Add 1X16 16-bit greyscale media bus code definition
->>   media: v4l: ctrls: Add user control base for st-vgxy61 controls
->>   media: uapi: Add ST VGXY61 header file
->>   media: dt-bindings: media: i2c: Add ST VGXY61 camera sensor binding
->>   media: i2c: Add driver for ST VGXY61 camera sensor
->>
->>  .../bindings/media/i2c/st,st-vgxy61.yaml      |  117 +
->>  .../userspace-api/media/drivers/st-vgxy61.rst |   23 +
->>  .../media/v4l/subdev-formats.rst              |   37 +
->>  MAINTAINERS                                   |    9 +
->>  drivers/media/i2c/Kconfig                     |   10 +
->>  drivers/media/i2c/Makefile                    |    1 +
->>  drivers/media/i2c/st-vgxy61.c                 | 1940 +++++++++++++++++
->>  include/uapi/linux/media-bus-format.h         |    3 +-
->>  include/uapi/linux/st-vgxy61.h                |   15 +
->>  include/uapi/linux/v4l2-controls.h            |    5 +
->>  10 files changed, 2159 insertions(+), 1 deletion(-)
->>  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
->>  create mode 100644 Documentation/userspace-api/media/drivers/st-vgxy61.rst
->>  create mode 100644 drivers/media/i2c/st-vgxy61.c
->>  create mode 100644 include/uapi/linux/st-vgxy61.h
->>
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-vp9.c b/drivers/staging/media/rkvdec/rkvdec-vp9.c
+> index 311a12656072..3ad303a3de48 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec-vp9.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec-vp9.c
+> @@ -1026,7 +1026,7 @@ static int rkvdec_vp9_start(struct rkvdec_ctx *ctx)
+>  
+>  	vp9_ctx->count_tbl.size = RKVDEC_VP9_COUNT_SIZE;
+>  	vp9_ctx->count_tbl.cpu = count_tbl;
+> -	memset(count_tbl, 0, sizeof(*count_tbl));
+> +	memset(count_tbl, 0, RKVDEC_VP9_COUNT_SIZE);
+
+Just delete the memset instead like Robin said.  No Fixes tag required
+on this one.
+
+regards,
+dan carpenter
+
