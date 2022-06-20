@@ -2,151 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBAF0551F99
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jun 2022 17:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F5A5551FDF
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jun 2022 17:10:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241314AbiFTPBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jun 2022 11:01:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57206 "EHLO
+        id S243142AbiFTPJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jun 2022 11:09:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233869AbiFTPB3 (ORCPT
+        with ESMTP id S241187AbiFTPJR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jun 2022 11:01:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C73EB13DF0
-        for <linux-media@vger.kernel.org>; Mon, 20 Jun 2022 07:28:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 20 Jun 2022 11:09:17 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F36EA13EAC;
+        Mon, 20 Jun 2022 07:53:00 -0700 (PDT)
+Received: from notapiano (pool-98-113-53-228.nycmny.fios.verizon.net [98.113.53.228])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 06E22B811BE
-        for <linux-media@vger.kernel.org>; Mon, 20 Jun 2022 14:28:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78A10C3411B;
-        Mon, 20 Jun 2022 14:27:57 +0000 (UTC)
-Message-ID: <7a373ba9-4736-f726-a07e-38d9c5c9062c@xs4all.nl>
-Date:   Mon, 20 Jun 2022 16:27:55 +0200
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4726F66016AC;
+        Mon, 20 Jun 2022 15:52:58 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1655736779;
+        bh=xp4iD9VvxWQO3iGiqNjrIMxyQ6VBElMaMUahY/LVwS8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XNPFGstPolfiS0TNNLwD/ZuqLGWms3hLfb0mCuHXIBvhlPkfrbiHDXTKwQBkzrQo2
+         GnYcz5WCgY3LpG4tM1pnJ80w207ca795BCIQWOFF8KndwzN6Kd9UhZ5inCJlvlsqpX
+         D/w4hzylaPUB/JC+HZxJ51rima4VzY6PdhPgWJ9gmzKV+KpZ5tVJriJQQGW5pS5rPT
+         VLpt/6/BPRVw+Tlc74Fr9krCwGkk+WP0i2vsrACx9Kroamo82JveYuWTsAlcFPQO9O
+         yCDXTFeHuZEXH4CwbUlL2qDYsnorpIdaDe0CqiseTi5iG944mKGUHReQ3R7YUXc0eA
+         JW5IM7pU3haBg==
+Date:   Mon, 20 Jun 2022 10:52:54 -0400
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] media: mediatek: vcodec: Drop
+ platform_get_resource(IORESOURCE_IRQ)
+Message-ID: <20220620145254.p52iqrfloteof7py@notapiano>
+References: <20220617203906.2422868-1-nfraprado@collabora.com>
+ <8956bb3e-60d7-a882-3672-f2a2f0bf858d@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 16/55] media: v4l2-async: Add notifier operation to
- destroy asd instances
-Content-Language: en-US
-To:     Paul Elder <paul.elder@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        dafna@fastmail.com, heiko@sntech.de,
-        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
-        djrscally@gmail.com, helen.koike@collabora.com,
-        linux-rockchip@lists.infradead.org
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-17-paul.elder@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220614191127.3420492-17-paul.elder@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8956bb3e-60d7-a882-3672-f2a2f0bf858d@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/14/22 21:10, Paul Elder wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Mon, Jun 20, 2022 at 09:58:01AM +0200, AngeloGioacchino Del Regno wrote:
+> Il 17/06/22 22:39, Nícolas F. R. A. Prado ha scritto:
+> > Commit a1a2b7125e10 ("of/platform: Drop static setup of IRQ resource
+> > from DT core") removed support for calling platform_get_resource(...,
+> > IORESOURCE_IRQ, ...) on DT-based drivers, but the probe() function of
+> > mtk-vcodec's encoder was still making use of it. This caused the encoder
+> > driver to fail probe.
+> > 
+> > Since the platform_get_resource() call was only being used to check for
+> > the presence of the interrupt (its returned resource wasn't even used)
+> > and platform_get_irq() was already being used to get the IRQ, simply
+> > drop the use of platform_get_resource(IORESOURCE_IRQ) and handle the
+> > failure of platform_get_irq(), to get the driver probing again.
+> > 
+> > Fixes: a1a2b7125e10 ("of/platform: Drop static setup of IRQ resource from DT core")
+> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > 
+> > ---
+> > Tested on mt8192-asurada-spherion.
 > 
-> Drivers typically extend the v4l2_async_subdev structure by embedding it
-> in a driver-specific structure, to store per-subdev custom data. The
-> v4l2_async_subdev instances are freed by the v4l2-async framework, which
-> makes this mechanism cumbersome to use safely when custom data needs
-> special treatment to be destroyed (such as freeing additional memory, or
-> releasing references to kernel objects).
+> Yep, that's totally necessary... Except the Fixes tag should be wrong here,
+> as you're not fixing that commit, but the mtk-vcodec driver in relation to
+> what's happening due to said commit.
 > 
-> To ease this, add a .destroy() operation to the
-> v4l2_async_notifier_operations structure. The operation is called right
-> before the v4l2_async_subdev is freed, giving drivers a chance to
-> destroy data if needed.
+> I get that you're trying to tell everyone "this is an urgent fix", though,
+> and I agree that this *has to* get in v5.19 to avoid breaking this driver.
+
+The commit I'm pointing to in the Fixes tag [1] says "Now that all the DT
+drivers have switched to platform_get_irq() we can now safely drop the static
+setup of IRQ resource from DT core code.", and while there were patches by the
+author [2] to do the required changes on some drivers beforehand, some were
+missed, including the mtk-vcodec-enc driver which I fix here. I see at least one
+other driver that was missed [3], and it also used the same Fixes tag.
+
+I know that my change isn't meant to be part of the commit in the Fixes, but I
+still think it makes the most sense to keep this tag, since its meaning is that
+that commit broke the support for this driver and this commit fixes it. Wherever
+that commit is applied, this one should too to make sure the mtk-vcodec driver
+keeps working.
+
+Thanks,
+Nícolas
+
+[1] https://lore.kernel.org/all/20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[2] https://lore.kernel.org/all/20211220011524.17206-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[3] https://lore.kernel.org/all/20220609161457.69614-1-jean-philippe@linaro.org/
+
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Looks good!
-
-Regards,
-
-	Hans
-
-> ---
->  Documentation/driver-api/media/v4l2-subdev.rst |  6 ++++++
->  drivers/media/v4l2-core/v4l2-async.c           | 10 ++++++++++
->  include/media/v4l2-async.h                     |  2 ++
->  3 files changed, 18 insertions(+)
+> Finally, for the code:
 > 
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index cf3b52bdbfb9..6f8d79926aa5 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -243,6 +243,12 @@ notifier callback is called. After all subdevices have been located the
->  .complete() callback is called. When a subdevice is removed from the
->  system the .unbind() method is called. All three callbacks are optional.
->  
-> +Drivers can store any type of custom data in their driver-specific
-> +:c:type:`v4l2_async_subdev` wrapper. If any of that data requires special
-> +handling when the structure is freed, drivers must implement the ``.destroy()``
-> +notifier callback. The framework will call it right before freeing the
-> +:c:type:`v4l2_async_subdev`.
-> +
->  Calling subdev operations
->  ~~~~~~~~~~~~~~~~~~~~~~~~~
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index c6995718237a..735dede624b8 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -52,6 +52,15 @@ static int v4l2_async_nf_call_complete(struct v4l2_async_notifier *n)
->  	return n->ops->complete(n);
->  }
->  
-> +static void v4l2_async_nf_call_destroy(struct v4l2_async_notifier *n,
-> +				       struct v4l2_async_subdev *asd)
-> +{
-> +	if (!n->ops || !n->ops->destroy)
-> +		return;
-> +
-> +	n->ops->destroy(asd);
-> +}
-> +
->  static bool match_i2c(struct v4l2_async_notifier *notifier,
->  		      struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
->  {
-> @@ -626,6 +635,7 @@ static void __v4l2_async_nf_cleanup(struct v4l2_async_notifier *notifier)
->  		}
->  
->  		list_del(&asd->asd_list);
-> +		v4l2_async_nf_call_destroy(notifier, asd);
->  		kfree(asd);
->  	}
->  }
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index 13ff3ad948f4..25eb1d138c06 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -81,6 +81,7 @@ struct v4l2_async_subdev {
->   * @complete:	All subdevices have been probed successfully. The complete
->   *		callback is only executed for the root notifier.
->   * @unbind:	a subdevice is leaving
-> + * @destroy:	the asd is about to be freed
->   */
->  struct v4l2_async_notifier_operations {
->  	int (*bound)(struct v4l2_async_notifier *notifier,
-> @@ -90,6 +91,7 @@ struct v4l2_async_notifier_operations {
->  	void (*unbind)(struct v4l2_async_notifier *notifier,
->  		       struct v4l2_subdev *subdev,
->  		       struct v4l2_async_subdev *asd);
-> +	void (*destroy)(struct v4l2_async_subdev *asd);
->  };
->  
->  /**
-
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> 
+> ...but I think that you have to send a v2 that drops that Fixes tag.
+> 
+> Cheers,
+> Angelo
