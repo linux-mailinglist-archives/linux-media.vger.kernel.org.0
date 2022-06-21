@@ -2,378 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3FF5553690
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 17:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4565536F9
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 17:58:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351007AbiFUPqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jun 2022 11:46:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57880 "EHLO
+        id S1351510AbiFUP6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jun 2022 11:58:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351057AbiFUPqj (ORCPT
+        with ESMTP id S1353304AbiFUP5q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jun 2022 11:46:39 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2FC2CDFF
-        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 08:46:37 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id kq6so28335705ejb.11
-        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 08:46:37 -0700 (PDT)
+        Tue, 21 Jun 2022 11:57:46 -0400
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E1A389B
+        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 08:57:12 -0700 (PDT)
+Received: by mail-ot1-x32c.google.com with SMTP id e67-20020a9d01c9000000b0060c221b1420so10976165ote.0
+        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 08:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HAai0FfdqLrpftN9wmZ6NtWjQkykMlzlgrF66RvPQt8=;
-        b=rls3Nixofbt4S7WQKX2wm858F7z4EjkxC9tIwT2nkM+uOfC1IN0L/RdBe4PhBiD98Q
-         6ijONzSf+OYd5I4+CLPX4eNNsTVnn8yAE+sa2elU4hMg3I00VWBVYlStZIkJx4fuRn4g
-         nBbxnFo2tCT6PCMCrRohT0RIn3il9gLPuyplLTeEJt00Wp9homSsUH9hRvga0pEpS7d+
-         mcx+GI+spL6bpuSP3KYcl/3wBDWssomQPUFnAXeKg+7mEEyxn0MSCvhs4hk49tc63Y+B
-         MMc814Ma9XYM6WmkZIIMXHkb6kteB3ZFiuWMaQHG69xTva8hURV8xAFLjSdUkEPEkrZ6
-         B5RQ==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZFSg0tuJCHUlVKfP5BiklNxDr+62jGtSpH8uTPixkpI=;
+        b=IPPw80ba1pr12ciSUM8dybhk7/7RVf4Lr1mEAK8GXVpqzoHFp9fT7iFCHGHb2afhyY
+         5UIOJSljJT+PEAa0N8DYZqPiCJ4Aicq/VvsmA4y8Ja2yKXxNsbHIVZ7f4t4fMFtXG+34
+         McrNQQm9nVJ895wJMPgodiC+DPC6hRKD3lWy4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HAai0FfdqLrpftN9wmZ6NtWjQkykMlzlgrF66RvPQt8=;
-        b=tLIT8/OKZn4lQnV5yTHZK9ee8LRhIdstSe5PzHPGY6/7Bj2/GIyklNfSybhayZWUUn
-         CD6DTGV1zljDTaA/ThcXLw5zcRX7viIDkro1zMT+3jueYnj10qHaLu3oVVRQlkv0B0xu
-         vn066HLW3ZxeEDdhX5ffBHuL6GmbglxLJBxSTDQmQopgJAlsQHoZ3MWMOu3LgId/IuwB
-         0TMcDhtMhp5Bqzux2bXd+I4+lVQ03YWia3PsBq4NsSvY4b+CJF0r85Quj+EJ2M0+QoUT
-         CQSN26hBOA8RKgKRvKlCuCB+PHlid5fDwwti4VX7LfiHvxkysFlMsqNIXE7szAQnHoUK
-         bkWQ==
-X-Gm-Message-State: AJIora+h8YmVos43I9UGO0zZO4pH+6w3+yXEYcmbRkDjPxkvXxQm70oS
-        VoUBXCrF5KYxijsrEQPyp0/RP0di025pY202R4Wyyg==
-X-Google-Smtp-Source: AGRyM1ujnEZrNgrU9zwAv0fnczsHDWeW3XmHL1kotvz733UVwreqxU0J/ViQBFNpouZPT+LlUMMN13XJeicQsoROd1M=
-X-Received: by 2002:a17:906:51d0:b0:722:dbb7:5ac1 with SMTP id
- v16-20020a17090651d000b00722dbb75ac1mr5721598ejk.175.1655826396312; Tue, 21
- Jun 2022 08:46:36 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZFSg0tuJCHUlVKfP5BiklNxDr+62jGtSpH8uTPixkpI=;
+        b=DYDcSiLFe+uuLHK1Rda2wYf6bbz9jlJVa49mwxLXoBaIHL4j8s0v36XQtduSGpi1Jg
+         AKxFKRpnxBxqW/IU56P4P7DM6CQn6DC6xKWpf9Y/mXy2y7BRFR/E12sQ1GayTw+bcsEz
+         h3sWsTKQtS7PrJaEUupa5bpvZ0soRSIG913711fdakRTE8O9Cu1lty+oz7A2GO9eStF1
+         TwZ/V5/+O1hnyrjR28fPXc5mooaCYlPfnVKbYW6VJrhQOzpLHET21yJaupFMK8zXtDkn
+         lofsRVuKz261OPrAub9erm5Q+YrQPovli95SF+H9kk6b6+B6pbz7lt7rzrT1n+M9yL74
+         w7sA==
+X-Gm-Message-State: AJIora8ohjQJOId6CApQcvrtNogweGOYihUrsW/3+4KvzOv82CWvr+Lk
+        ehlci1wezIOuWqvVFMLP2cUKPA==
+X-Google-Smtp-Source: AGRyM1uaGW2QV7qfts3x60BPBwXGM0j7oGrEjN+6VN3FHviBDPqaKkMNhxs6dBTXjyIy7Smr3Fndug==
+X-Received: by 2002:a05:6830:1acd:b0:60c:2188:87ee with SMTP id r13-20020a0568301acd00b0060c218887eemr11323040otc.147.1655827031891;
+        Tue, 21 Jun 2022 08:57:11 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id bm17-20020a056820189100b0041b5d2f3c92sm9935809oob.24.2022.06.21.08.57.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jun 2022 08:57:11 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] media: vimc: add ancillary lens
+To:     Yunke Cao <yunkec@google.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220617015745.3950197-1-yunkec@google.com>
+ <20220617015745.3950197-2-yunkec@google.com>
+ <177345ff-f601-e440-31e0-2c967736af6b@linuxfoundation.org>
+ <CANqU6Fed=E1ogvR1ccwJA9bR_9VxU4QPd6PjvBAyRrMeQuRWfg@mail.gmail.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <610bc1b9-c013-46d7-4446-5a5eab4c2569@linuxfoundation.org>
+Date:   Tue, 21 Jun 2022 09:57:10 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20220616123150.5890-1-aford173@gmail.com>
-In-Reply-To: <20220616123150.5890-1-aford173@gmail.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 21 Jun 2022 16:46:21 +0100
-Message-ID: <CAPY8ntCmov0OY3tBabf7ndSVCNgeYeSy+e4E0sdaW54zZpoauw@mail.gmail.com>
-Subject: Re: [PATCH V2 1/2] media: i2c: imx219: Split common registers from
- mode tables
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CANqU6Fed=E1ogvR1ccwJA9bR_9VxU4QPd6PjvBAyRrMeQuRWfg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam
+On 6/19/22 7:57 PM, Yunke Cao wrote:
+> Hi Shuah,
+> 
+> Thanks for the review.
+> 
+> On Sat, Jun 18, 2022 at 5:01 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>
+>> On 6/16/22 7:57 PM, Yunke Cao wrote:
+>>> Add a basic version of vimc lens.
+>>> The lens supports V4L2_CID_FOCUS_ABSOLUTE control.
+>>> Link the lens with vimc sensors using media-controller
+>>> ancillary links.
+>>>
+>>
+>> Commit log lines are usually ~75 charracters long. Make it easier
+>> to read.
+> That's good to know. Thanks!
+> Should I send v3 and trim the commit log?
+> I'm thinking something like this:
+> 
+> The lens supports FOCUS_ABSOLUTE control.
+> Link the lens with sensors using ancillary links.
+> 
 
-Thanks for the patch, and sorry it's taken me a few days to get to it.
+Why is this necessary? How did you test this change? How could
+one use this feature?
 
-On Thu, 16 Jun 2022 at 13:31, Adam Ford <aford173@gmail.com> wrote:
->
-> There are four modes, and each mode has a table of registers.
-> Some of the registers are common to all modes, so create new
-> tables for these common registers to reduce duplicate code.
->
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
-> V2:  Merge the PLL table into the common table instead of having
->      two separate, common tables.
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index e10af3f74b38..a43eed143999 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -145,23 +145,60 @@ struct imx219_mode {
->         struct imx219_reg_list reg_list;
->  };
->
-> -/*
-> - * Register sets lifted off the i2C interface from the Raspberry Pi firmware
-> - * driver.
-> - * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
-> - */
-> -static const struct imx219_reg mode_3280x2464_regs[] = {
-> -       {0x0100, 0x00},
-> +/* To Access Addresses 3000-5fff, send the following commands */
-> +static const struct imx219_reg imx219_common_regs[] = {
-> +       {0x0100, 0x00}, /* Mode Select */
-> +
-> +       /* Access Command Sequence */
->         {0x30eb, 0x0c},
->         {0x30eb, 0x05},
->         {0x300a, 0xff},
->         {0x300b, 0xff},
->         {0x30eb, 0x05},
->         {0x30eb, 0x09},
-> -       {0x0114, 0x01},
-> -       {0x0128, 0x00},
-> -       {0x012a, 0x18},
-> +
-> +       /* PLL Clock Table */
-> +       {0x0301, 0x05}, /* VTPXCK_DIV */
-> +       {0x0303, 0x01}, /* VTSYSCK_DIV */
-> +       {0x0304, 0x03}, /* PREPLLCK_VT_DIV 0x03 = AUTO set */
-> +       {0x0305, 0x03}, /* PREPLLCK_OP_DIV 0x03 = AUTO set */
-> +       {0x0306, 0x00}, /* PLL_VT_MPY */
-> +       {0x0307, 0x39},
-> +       {0x030b, 0x01}, /* OP_SYS_CLK_DIV */
-> +       {0x030c, 0x00}, /* PLL_OP_MPY */
-> +       {0x030d, 0x72},
-> +
-> +       /* Undocumented registers */
-> +       {0x455e, 0x00},
-> +       {0x471e, 0x4b},
-> +       {0x4767, 0x0f},
-> +       {0x4750, 0x14},
-> +       {0x4540, 0x00},
-> +       {0x47b4, 0x14},
-> +       {0x4713, 0x30},
-> +       {0x478b, 0x10},
-> +       {0x478f, 0x10},
-> +       {0x4793, 0x10},
-> +       {0x4797, 0x0e},
-> +       {0x479b, 0x0e},
-> +
-> +       /* Frame Bank Register Group "A" */
-> +       {0x0162, 0x0d}, /* Line_Length_A */
-> +       {0x0163, 0x78},
+>>
+>>> This change can be used to test the recently added ancillary
+>>> links.
+>>>
+>>
+>> Care to add instructions on how one would test ancillary with
+>> this feature?
+> 
+> The lens shows up in the media topology. I documented it in 2/2.
+> Not sure what else is necessary here.
+> 
 
-Registers 0x0170 and 0x171 for X_ODD_INC_A and Y_ODD_INC_A are also
-common to all modes as 0x01. You could have modes with skipping, but
-currently there are none.
+Why is this necessary? How did you test this change? How could
+one use this feature?
 
-> +
-> +       /* Output setup registers */
-> +       {0x0114, 0x01}, /* CSI 2-Lane Mode */
-> +       {0x0128, 0x00}, /* DPHY Auto Mode */
-> +       {0x012a, 0x18}, /* EXCK_Freq */
->         {0x012b, 0x00},
-> +};
-> +
-> +/*
-> + * Register sets lifted off the i2C interface from the Raspberry Pi firmware
-> + * driver.
-> + * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
-> + */
-> +static const struct imx219_reg mode_3280x2464_regs[] = {
->         {0x0164, 0x00},
->         {0x0165, 0x00},
->         {0x0166, 0x0c},
-> @@ -176,51 +213,15 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
->         {0x016f, 0xa0},
->         {0x0170, 0x01},
->         {0x0171, 0x01},
-> -       {0x0174, 0x00},
-> +       {0x0174, 0x00}, /* No-Binning */
->         {0x0175, 0x00},
-> -       {0x0301, 0x05},
-> -       {0x0303, 0x01},
-> -       {0x0304, 0x03},
-> -       {0x0305, 0x03},
-> -       {0x0306, 0x00},
-> -       {0x0307, 0x39},
-> -       {0x030b, 0x01},
-> -       {0x030c, 0x00},
-> -       {0x030d, 0x72},
->         {0x0624, 0x0c},
->         {0x0625, 0xd0},
->         {0x0626, 0x09},
->         {0x0627, 0xa0},
-> -       {0x455e, 0x00},
-> -       {0x471e, 0x4b},
-> -       {0x4767, 0x0f},
-> -       {0x4750, 0x14},
-> -       {0x4540, 0x00},
-> -       {0x47b4, 0x14},
-> -       {0x4713, 0x30},
-> -       {0x478b, 0x10},
-> -       {0x478f, 0x10},
-> -       {0x4793, 0x10},
-> -       {0x4797, 0x0e},
-> -       {0x479b, 0x0e},
-> -       {0x0162, 0x0d},
-> -       {0x0163, 0x78},
->  };
->
->  static const struct imx219_reg mode_1920_1080_regs[] = {
-> -       {0x0100, 0x00},
-> -       {0x30eb, 0x05},
-> -       {0x30eb, 0x0c},
-> -       {0x300a, 0xff},
-> -       {0x300b, 0xff},
-> -       {0x30eb, 0x05},
-> -       {0x30eb, 0x09},
-> -       {0x0114, 0x01},
-> -       {0x0128, 0x00},
-> -       {0x012a, 0x18},
-> -       {0x012b, 0x00},
-> -       {0x0162, 0x0d},
-> -       {0x0163, 0x78},
->         {0x0164, 0x02},
->         {0x0165, 0xa8},
->         {0x0166, 0x0a},
-> @@ -235,47 +236,15 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
->         {0x016f, 0x38},
->         {0x0170, 0x01},
->         {0x0171, 0x01},
-> -       {0x0174, 0x00},
-> +       {0x0174, 0x00}, /* No-Binning */
->         {0x0175, 0x00},
-> -       {0x0301, 0x05},
-> -       {0x0303, 0x01},
-> -       {0x0304, 0x03},
-> -       {0x0305, 0x03},
-> -       {0x0306, 0x00},
-> -       {0x0307, 0x39},
-> -       {0x030b, 0x01},
-> -       {0x030c, 0x00},
-> -       {0x030d, 0x72},
->         {0x0624, 0x07},
->         {0x0625, 0x80},
->         {0x0626, 0x04},
->         {0x0627, 0x38},
-> -       {0x455e, 0x00},
-> -       {0x471e, 0x4b},
-> -       {0x4767, 0x0f},
-> -       {0x4750, 0x14},
-> -       {0x4540, 0x00},
-> -       {0x47b4, 0x14},
-> -       {0x4713, 0x30},
-> -       {0x478b, 0x10},
-> -       {0x478f, 0x10},
-> -       {0x4793, 0x10},
-> -       {0x4797, 0x0e},
-> -       {0x479b, 0x0e},
->  };
->
->  static const struct imx219_reg mode_1640_1232_regs[] = {
-> -       {0x0100, 0x00},
-> -       {0x30eb, 0x0c},
-> -       {0x30eb, 0x05},
-> -       {0x300a, 0xff},
-> -       {0x300b, 0xff},
-> -       {0x30eb, 0x05},
-> -       {0x30eb, 0x09},
-> -       {0x0114, 0x01},
-> -       {0x0128, 0x00},
-> -       {0x012a, 0x18},
-> -       {0x012b, 0x00},
->         {0x0164, 0x00},
->         {0x0165, 0x00},
->         {0x0166, 0x0c},
-> @@ -290,51 +259,15 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
->         {0x016f, 0xd0},
->         {0x0170, 0x01},
->         {0x0171, 0x01},
-> -       {0x0174, 0x01},
-> +       {0x0174, 0x01}, /* x2-Binning */
->         {0x0175, 0x01},
-> -       {0x0301, 0x05},
-> -       {0x0303, 0x01},
-> -       {0x0304, 0x03},
-> -       {0x0305, 0x03},
-> -       {0x0306, 0x00},
-> -       {0x0307, 0x39},
-> -       {0x030b, 0x01},
-> -       {0x030c, 0x00},
-> -       {0x030d, 0x72},
->         {0x0624, 0x06},
->         {0x0625, 0x68},
->         {0x0626, 0x04},
->         {0x0627, 0xd0},
-> -       {0x455e, 0x00},
-> -       {0x471e, 0x4b},
-> -       {0x4767, 0x0f},
-> -       {0x4750, 0x14},
-> -       {0x4540, 0x00},
-> -       {0x47b4, 0x14},
-> -       {0x4713, 0x30},
-> -       {0x478b, 0x10},
-> -       {0x478f, 0x10},
-> -       {0x4793, 0x10},
-> -       {0x4797, 0x0e},
-> -       {0x479b, 0x0e},
-> -       {0x0162, 0x0d},
-> -       {0x0163, 0x78},
->  };
->
->  static const struct imx219_reg mode_640_480_regs[] = {
-> -       {0x0100, 0x00},
-> -       {0x30eb, 0x05},
-> -       {0x30eb, 0x0c},
-> -       {0x300a, 0xff},
-> -       {0x300b, 0xff},
-> -       {0x30eb, 0x05},
-> -       {0x30eb, 0x09},
-> -       {0x0114, 0x01},
-> -       {0x0128, 0x00},
-> -       {0x012a, 0x18},
-> -       {0x012b, 0x00},
-> -       {0x0162, 0x0d},
-> -       {0x0163, 0x78},
->         {0x0164, 0x03},
->         {0x0165, 0xe8},
->         {0x0166, 0x08},
-> @@ -349,33 +282,12 @@ static const struct imx219_reg mode_640_480_regs[] = {
->         {0x016f, 0xe0},
->         {0x0170, 0x01},
->         {0x0171, 0x01},
-> -       {0x0174, 0x03},
-> +       {0x0174, 0x03}, /* x2-analog binning */
->         {0x0175, 0x03},
-> -       {0x0301, 0x05},
-> -       {0x0303, 0x01},
-> -       {0x0304, 0x03},
-> -       {0x0305, 0x03},
-> -       {0x0306, 0x00},
-> -       {0x0307, 0x39},
-> -       {0x030b, 0x01},
-> -       {0x030c, 0x00},
-> -       {0x030d, 0x72},
->         {0x0624, 0x06},
->         {0x0625, 0x68},
->         {0x0626, 0x04},
->         {0x0627, 0xd0},
-> -       {0x455e, 0x00},
-> -       {0x471e, 0x4b},
-> -       {0x4767, 0x0f},
-> -       {0x4750, 0x14},
-> -       {0x4540, 0x00},
-> -       {0x47b4, 0x14},
-> -       {0x4713, 0x30},
-> -       {0x478b, 0x10},
-> -       {0x478f, 0x10},
-> -       {0x4793, 0x10},
-> -       {0x4797, 0x0e},
-> -       {0x479b, 0x0e},
->  };
->
->  static const struct imx219_reg raw8_framefmt_regs[] = {
-> @@ -1041,6 +953,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
->         if (ret < 0)
->                 return ret;
->
-> +       /* Send the Manufacturing Header common to all modes */
+Take a look at the some of the other commit messages e.g:
+4a2e0a806cb58a4d3106add079488e0b56a221b6
+5f3fb5c54d67670fa6743d2434a5bd43a97c01de
 
-It's a table of common settings, not a manufacturing header.
-s/Send the Manufacturing Header/Send all registers that are
+This one is a good example of what would a commit log adding a
+new feature should include.
 
- Dave
+commit 9b4a9b31b9aeef262b4fa211f2083c30c4391df7
+Author: Pedro Terra <pedro@terraco.de>
+Date:   Tue Aug 31 19:48:22 2021 +0200
 
-> +       ret = imx219_write_regs(imx219, imx219_common_regs, ARRAY_SIZE(imx219_common_regs));
-> +       if (ret) {
-> +               dev_err(&client->dev, "%s failed to send mfg header\n", __func__);
-> +               goto err_rpm_put;
-> +       }
-> +
->         /* Apply default values of current mode */
->         reg_list = &imx219->mode->reg_list;
->         ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
-> --
-> 2.34.1
->
+     media: vimc: Enable set resolution at the scaler src pad
+
+thanks,
+-- Shuah
