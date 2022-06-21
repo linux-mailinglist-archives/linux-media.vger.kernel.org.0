@@ -2,33 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 559E2552A5D
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 06:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 038DF552A74
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 07:30:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344382AbiFUEre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jun 2022 00:47:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57274 "EHLO
+        id S244611AbiFUFal (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jun 2022 01:30:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233633AbiFUErc (ORCPT
+        with ESMTP id S229761AbiFUFak (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jun 2022 00:47:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639131FCCD
-        for <linux-media@vger.kernel.org>; Mon, 20 Jun 2022 21:47:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 01AFA60DF7
-        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 04:47:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B31DC3411D
-        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 04:47:28 +0000 (UTC)
-Date:   Tue, 21 Jun 2022 06:47:27 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220621044729.1B31DC3411D@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        Tue, 21 Jun 2022 01:30:40 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49E201AF1A;
+        Mon, 20 Jun 2022 22:30:40 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id g10-20020a17090a708a00b001ea8aadd42bso12274354pjk.0;
+        Mon, 20 Jun 2022 22:30:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kcv35DaYaLgEWO7GuEub/nuw7JLHG6pQnqj0PyOA+hQ=;
+        b=bARO0ogGSgRxtBWrsEnZNirjEcP5YEYjHoKrkzJy+MXTqBK+YwmEwOyAioZakqbR2c
+         NlUI9t8+gDa6jfzI4tc/kyqkcUG9mEpi4xVnwxpgei7xJIcp2XkTkqA8ykGv+2kjVsbX
+         HakR09+snsYfxn9FA2RiJjZbzm0Otyjq1qzzboDGovnFB9f19tPV8hfVxGUP+tY1DxkT
+         MY4AL/f3LlILJ5kpVI8UnARq7oBo6Auv5MwTnFciHmQeogH+H/0KfYTh4a1IBSK5TuXh
+         bzW9SpJwpmFtLVSvW94NUWapAfQ2egef2TleVZoPbMEonAEzfji8CnNWpguYcRLT8gCT
+         KBCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kcv35DaYaLgEWO7GuEub/nuw7JLHG6pQnqj0PyOA+hQ=;
+        b=smYDkubrq/tTeU9xTGY4bkezngwXC/dPjopusCTvDxRRIW8eaGkn7fcG1AQZtTb0hO
+         zHvztr7079czlAO5IZWbjiXoo5yqLIAulEaWMPvaMeB5uM+jKpHYf2/k4uoOHpOrj8tW
+         aCp6Je1jzV5KSig70EtmqGSV7UNVY1NAL2rCT+irdt0glw/31yiUKDpez3PGov66Saje
+         D59WrHNbby6M//x3dLPsjU0AqEpVT1NqLZsT2mf2Wt8qHMUP/1lCGuRZUFprXyMyd2zz
+         ImOVOpLq9hKYWsGF9MwxsYLJbYshC1xPK57PlRSs4PPR317DyvpLWHXTg9yhTyC5FLC7
+         nYxw==
+X-Gm-Message-State: AJIora/mX8Wimnv8+DfrIF5w0We8K9g+Ptn6mB2AqkFPO/C+gqUCU1Wy
+        75Su90V82Vd/6RAuf1ic8hm4hgAzHQa9f/Lm
+X-Google-Smtp-Source: AGRyM1sQRpIYijmco2TLELh7JSveUC+AYP20CGGqmvgscYugeA+ZTiBQ+DvX2wFfgvrTBMHLrOhMkA==
+X-Received: by 2002:a17:90a:b797:b0:1e0:ad13:ef39 with SMTP id m23-20020a17090ab79700b001e0ad13ef39mr31181444pjr.8.1655789439755;
+        Mon, 20 Jun 2022 22:30:39 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+        by smtp.googlemail.com with ESMTPSA id gm19-20020a17090b101300b001ec7954ae08sm7444534pjb.2.2022.06.20.22.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jun 2022 22:30:38 -0700 (PDT)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linmq006@gmail.com
+Subject: [PATCH] media: tw686x: Fix memory leak in tw686x_video_init
+Date:   Tue, 21 Jun 2022 09:30:30 +0400
+Message-Id: <20220621053030.6747-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,61 +70,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+video_device_alloc() allocates memory for vdev,
+when video_register_device() fails, it doesn't release the memory and
+leads to memory leak, call video_device_release() to fix this.
 
-Results of the daily build of media_tree:
+Fixes: 704a84ccdbf1 ("[media] media: Support Intersil/Techwell TW686x-based video capture cards")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/media/pci/tw686x/tw686x-video.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-date:			Tue Jun 21 05:00:19 CEST 2022
-media-tree git hash:	945a9a8e448b65bec055d37eba58f711b39f66f0
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	ef8c5223b4a5b2610e0dfbdff5257cf96c124f96
-edid-decode git hash:	582c935652b0303b87ddad4551e6f97f8bb883ac
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-30-g92122700-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8015-g1a0af070-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 1a541cf873a0024fd0b9f1fa5dc9806fd65e3ead
-host hardware:		x86_64
-host os:		5.18.0-1-rt-amd64
+diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
+index 6344a479119f..3ebf7a2c95f0 100644
+--- a/drivers/media/pci/tw686x/tw686x-video.c
++++ b/drivers/media/pci/tw686x/tw686x-video.c
+@@ -1280,8 +1280,10 @@ int tw686x_video_init(struct tw686x_dev *dev)
+ 		video_set_drvdata(vdev, vc);
+ 
+ 		err = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+-		if (err < 0)
++		if (err < 0) {
++			video_device_release(vdev);
+ 			goto error;
++		}
+ 		vc->num = vdev->num;
+ 	}
+ 
+-- 
+2.25.1
 
-linux-git-sh: OK
-linux-git-arm-stm32: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 2
-sparse: OK
-smatch: OK
-kerneldoc: OK
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
