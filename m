@@ -2,381 +2,348 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94D7F553829
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 18:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA6555388C
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 19:08:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353687AbiFUQpl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jun 2022 12:45:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58646 "EHLO
+        id S1353338AbiFURIz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jun 2022 13:08:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353615AbiFUQpj (ORCPT
+        with ESMTP id S1353280AbiFURIy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jun 2022 12:45:39 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324B82935E
-        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 09:45:37 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id e5so7834166wma.0
-        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 09:45:37 -0700 (PDT)
+        Tue, 21 Jun 2022 13:08:54 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC4D82459E;
+        Tue, 21 Jun 2022 10:08:52 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id g25so28819996ejh.9;
+        Tue, 21 Jun 2022 10:08:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=V4bwUD9URAvG9TnC6bTvCel9nYIn8pBzaujJmJwjfWg=;
-        b=OwGj9wf+/UPr5RAu60UVuMseqK5Za5SxdkXYGVGq+OPG0i+ltlI3VfEizOlZ80sHsV
-         VlouhI+GNZHc1M1tX3eSGszwDA4OH5e6WmDAbIxkTspZW7ZYX4Ca3dfCCoUKVPgGg8gw
-         F4JGOY6HC+h6WR1I2BQqBsNZrkue4/4y2q5gcRnis1NbAdJJQRnj4Mirp5rjgv6oQ6eb
-         h3invfU2IDlZfJicATADd6hEQ/ROwCA2WPHhZYtRbkiedsf2h/V+5pcx2fochIh/4sBW
-         Q1BYLww12muZYdnTBw0YiTwWEEjqhojS5WQOMg2cA7VYC57fsezA7E9H3drUyW45Gg1R
-         gMhQ==
+         :cc;
+        bh=l8RzNL5FmITqO5jFH45k+K4LGkhNwlEj+570vnHC/hM=;
+        b=hn5JGpsW+QEvo0IVxEeeVLazQO+9ry1zKUIEPL64EgvLPIUN9flG/JZHZvABtl6lpq
+         aQEKU+mSBd+HEgNWc3/3oXa59giiTDurjqd1fHqLdJPRq8CgVibQ2BOrOSZkqNpiN7qD
+         1APh2LrWSgPdyl6O0kYvUfSktzV9Bte4nWzk4quErGjYouwCpEnMjhi7eHcpgXV5tZpx
+         jrdVAL2JViVT+rAXUtNiiEe6NnlfWwsL+ruWFk65D0UnhFe3Wyj1c8wFGnWjvnRET8Vn
+         oCkK3FMcLlO7MbXOiDhXfw9jX/QPb0tXgtVjhBx+vn/pvbXyhLOiGcQfVxzBUCkrCDm7
+         dnTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=V4bwUD9URAvG9TnC6bTvCel9nYIn8pBzaujJmJwjfWg=;
-        b=4iV8/HNo3ixyxrNUxkr3R8fCaiDUPUmlyD3/Rh5rG/mbIXfQA5Conv88f9obE9m46d
-         zO9pSbpaO4pV26PeVW/uzY0YEaIDG1Mx2PJp8CpHn5kjyNlL5DNNzjMPfJ4qN0p3CPA8
-         p0V/+K8x15pf/aHwFpB2M2hgUMgprbmI7Ti6M8z3cI5G3gXzghDwHsWQuRkCEBa8kEwK
-         UFC860LdO1KnI40a+CBq8MPLme59kLmv9SJKWZxRiQPvryiQM+AuwOukqjk3RCYlYyof
-         wAecyFI6EWUdt4ME2u9Veq6GxAa2VK4U9EnonzrXIGQjbrz6m3gN5fv4ct8Af4J9zg20
-         qV3Q==
-X-Gm-Message-State: AJIora9NZ88pBXYXqXc7mlUFUru8UMHPuxZk/mAYha12/9PH7BWS0VFx
-        vW62pwudrzSTVS1ldCBZxgWL2dJbUKCfybu5beAHqA==
-X-Google-Smtp-Source: AGRyM1v5YZU2UycAZBfAyPppp3BGGAKhNEzsQK4vZV80Rn7R19quXW0OM0OZMXK7bHfx6X8glGiW5QEWdKeF8jmekbw=
-X-Received: by 2002:a7b:c92b:0:b0:39e:eabd:cfd8 with SMTP id
- h11-20020a7bc92b000000b0039eeabdcfd8mr22794903wml.178.1655829935413; Tue, 21
- Jun 2022 09:45:35 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=l8RzNL5FmITqO5jFH45k+K4LGkhNwlEj+570vnHC/hM=;
+        b=EHV6qERxYt5nqQ3BQTTu++3jkKa17Pd/CV+K4CN+aYg/zFR7dDEefSTKVaWPrUf0Wl
+         +fHEDK1bi0oc2sAuEig0/ghJQ4v1h5xvLdbTKn2a4HaW+RKHYeZIhJbNF+MUzlURJ79I
+         FLMPdYIofqGp0UdiWbp/NwivwkO0Ad5bn1j4mSNHCnpCz4597N3p+TQ04cfdNDvcVxXO
+         C9s8IFIAoilccSIj7SpAAG/VzTZOYBfm+Hx4FZI/odzUKsh79w/e0uXirHtmpS0v4CW0
+         SHMECZtotZ+ZwYACDxasDaDibnS3ZHQ5NlERNtAzoMt0YtEnnV9/PqwsB9JgQ7wh/E8d
+         UCsg==
+X-Gm-Message-State: AJIora+NnbixnDCDgnCMQ5w3I4NFnZQ4lTO+3bCGUo46ESQZoFopZhGI
+        Ects3Yr9cyE5uqlhJcHPPDSr6Zk+HOm0lgg7UlU=
+X-Google-Smtp-Source: AGRyM1s2Uog9uWjWvAVQB4ocqNYMfucJ6k0XN/lFMyAEg8IjdwafOuOvFibnFtSFYhmsyg2ZZCewHH1UsnLMnjEw+y4=
+X-Received: by 2002:a17:906:6d91:b0:715:7d4e:84a2 with SMTP id
+ h17-20020a1709066d9100b007157d4e84a2mr26776800ejt.504.1655831330933; Tue, 21
+ Jun 2022 10:08:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531212521.1231133-1-kaleshsingh@google.com>
- <20220531212521.1231133-3-kaleshsingh@google.com> <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
- <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
- <875yll1fp1.fsf@stepbren-lnx.us.oracle.com> <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
- <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com> <CAC_TJvd6znLxqRON8DTxwsFKmDh_crQyzWmBugS7JPFrPn12Vw@mail.gmail.com>
-In-Reply-To: <CAC_TJvd6znLxqRON8DTxwsFKmDh_crQyzWmBugS7JPFrPn12Vw@mail.gmail.com>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Tue, 21 Jun 2022 09:45:23 -0700
-Message-ID: <CAC_TJvfWos07gCJ2V8cdp29QKSgJrXv5g9b_jGfg42c6f8simw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     Stephen Brennan <stephen.s.brennan@oracle.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Colin Cross <ccross@google.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
+References: <20220616123150.5890-1-aford173@gmail.com> <20220616123150.5890-2-aford173@gmail.com>
+ <CAPY8ntCKYN=8PC4nrsjxAMKQ+s992JqS6wpRLf4z9RcH_3RpUg@mail.gmail.com>
+In-Reply-To: <CAPY8ntCKYN=8PC4nrsjxAMKQ+s992JqS6wpRLf4z9RcH_3RpUg@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Tue, 21 Jun 2022 12:08:37 -0500
+Message-ID: <CAHCN7xJZ0K6MrLSOXKhOBRxWDBZypM2ViqT8GrZftdVPvkpbzw@mail.gmail.com>
+Subject: Re: [PATCH V2 2/2] media: i2c: imx219: Support four-lane operation
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
+        Adam Ford-BE <aford@beaconembedded.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 15, 2022 at 10:00 AM Kalesh Singh <kaleshsingh@google.com> wrot=
-e:
+On Tue, Jun 21, 2022 at 11:05 AM Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
 >
-> On Wed, Jun 1, 2022 at 8:31 PM Kalesh Singh <kaleshsingh@google.com> wrot=
-e:
+> Hi Adam
+>
+> On Thu, 16 Jun 2022 at 13:31, Adam Ford <aford173@gmail.com> wrote:
 > >
-> > On Wed, Jun 1, 2022 at 8:02 AM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > >
-> > > Am 01.06.22 um 00:48 schrieb Stephen Brennan:
-> > > > Kalesh Singh <kaleshsingh@google.com> writes:
-> > > >> On Tue, May 31, 2022 at 3:07 PM Stephen Brennan
-> > > >> <stephen.s.brennan@oracle.com> wrote:
-> > > >>> On 5/31/22 14:25, Kalesh Singh wrote:
-> > > >>>> In order to identify the type of memory a process has pinned thr=
-ough
-> > > >>>> its open fds, add the file path to fdinfo output. This allows
-> > > >>>> identifying memory types based on common prefixes. e.g. "/memfd.=
-..",
-> > > >>>> "/dmabuf...", "/dev/ashmem...".
-> > > >>>>
-> > > >>>> Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSC=
-REDS
-> > > >>>> the same as /proc/<pid>/maps which also exposes the file path of
-> > > >>>> mappings; so the security permissions for accessing path is cons=
-istent
-> > > >>>> with that of /proc/<pid>/maps.
-> > > >>> Hi Kalesh,
-> > > >> Hi Stephen,
-> > > >>
-> > > >> Thanks for taking a look.
-> > > >>
-> > > >>> I think I see the value in the size field, but I'm curious about =
-path,
-> > > >>> which is available via readlink /proc/<pid>/fd/<n>, since those a=
-re
-> > > >>> symlinks to the file themselves.
-> > > >> This could work if we are root, but the file permissions wouldn't
-> > > >> allow us to do the readlink on other processes otherwise. We want =
-to
-> > > >> be able to capture the system state in production environments fro=
-m
-> > > >> some trusted process with ptrace read capability.
-> > > > Interesting, thanks for explaining. It seems weird to have a duplic=
-ate
-> > > > interface for the same information but such is life.
-> > >
-> > > Yeah, the size change is really straight forward but for this one I'm
-> > > not 100% sure either.
+> > The imx219 camera is capable of either two-lane or four-lane
+> > operation.  When operating in four-lane, both the pixel rate and
+> > link frequency change. Regardless of the mode, however, both
+> > frequencies remain fixed.
 > >
-> > The 2 concerns I think are:
-> >   1. Fun characters in the path names
-> >   2. If exposing the path is appropriate to begin with.
+> > Helper functions are needed to read and set pixel and link frequencies
+> > which also reduces the number of fixed registers in the table of modes.
 > >
-> > One way I think we can address both is to only expose the path for
-> > anon inodes. Then we have well-known path formats and we don't expose
-> > much about which files a process is accessing since these aren't real
-> > paths.
+> > Since the link frequency and number of lanes is extracted from the
+> > endpoint, move the endpoint handling into the probe function and
+> > out of the imx219_check_hwcfg.  This simplifies the imx219_check_hwcfg
+> > just a bit.
 > >
-> > +       if (is_anon_inode(inode)) {
-> > +               seq_puts(m, "path:\t");
-> > +               seq_file_path(m, file, "\n");
-> > +               seq_putc(m, '\n');
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > ---
+> > V2:  Replace if-else statements with ternary operator
+> >      Fix 4-lane Link Rate.
+> >      Fix checking the link rate so only the link rate for
+> >      the given number of lanes is permitted.
+> >
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index a43eed143999..0d9004a5c4d2 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -42,10 +42,16 @@
+> >  /* External clock frequency is 24.0M */
+> >  #define IMX219_XCLK_FREQ               24000000
+> >
+> > -/* Pixel rate is fixed at 182.4M for all the modes */
+> > +/* Pixel rate is fixed for all the modes */
+> >  #define IMX219_PIXEL_RATE              182400000
+> > +#define IMX219_PIXEL_RATE_4LANE                280800000
+> >
+> >  #define IMX219_DEFAULT_LINK_FREQ       456000000
+> > +#define IMX219_DEFAULT_LINK_FREQ_4LANE 363000000
+> > +
+> > +#define IMX219_REG_CSI_LANE_MODE       0x0114
+> > +#define IMX219_CSI_2_LANE_MODE         0x01
+> > +#define IMX219_CSI_4_LANE_MODE         0x03
+> >
+> >  /* V_TIMING internal */
+> >  #define IMX219_REG_VTS                 0x0160
+> > @@ -306,6 +312,10 @@ static const s64 imx219_link_freq_menu[] = {
+> >         IMX219_DEFAULT_LINK_FREQ,
+> >  };
+> >
+> > +static const s64 imx219_link_freq_4lane_menu[] = {
+> > +       IMX219_DEFAULT_LINK_FREQ_4LANE,
+> > +};
+> > +
+> >  static const char * const imx219_test_pattern_menu[] = {
+> >         "Disabled",
+> >         "Color Bars",
+> > @@ -481,6 +491,9 @@ struct imx219 {
+> >
+> >         /* Streaming on/off */
+> >         bool streaming;
+> > +
+> > +       /* Two or Four lanes */
+> > +       u8 lanes;
+> >  };
+> >
+> >  static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
+> > @@ -943,6 +956,13 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> >         return -EINVAL;
+> >  }
+> >
+> > +static int imx219_configure_lanes(struct imx219 *imx219)
+> > +{
+> > +       return imx219_write_reg(imx219, IMX219_REG_CSI_LANE_MODE,
+> > +                               IMX219_REG_VALUE_08BIT, (imx219->lanes == 2) ?
+> > +                               IMX219_CSI_2_LANE_MODE : IMX219_CSI_4_LANE_MODE);
+> > +};
+> > +
+> >  static int imx219_start_streaming(struct imx219 *imx219)
+> >  {
+> >         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+> > @@ -960,6 +980,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
+> >                 goto err_rpm_put;
+> >         }
+> >
+> > +       /* Configure two or four Lane mode */
+> > +       ret = imx219_configure_lanes(imx219);
+> > +       if (ret) {
+> > +               dev_err(&client->dev, "%s failed to configure lanes\n", __func__);
+> > +               goto err_rpm_put;
 > > +       }
+> > +
+> >         /* Apply default values of current mode */
+> >         reg_list = &imx219->mode->reg_list;
+> >         ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
+> > @@ -1191,6 +1218,11 @@ static const struct v4l2_subdev_internal_ops imx219_internal_ops = {
+> >         .open = imx219_open,
+> >  };
 > >
-> > Interested to hear thoughts on it.
+> > +static unsigned long imx219_get_pixel_rate(struct imx219 *imx219)
+> > +{
+> > +       return (imx219->lanes == 2) ? IMX219_PIXEL_RATE : IMX219_PIXEL_RATE_4LANE;
+> > +}
+> > +
+> >  /* Initialize control handlers */
+> >  static int imx219_init_controls(struct imx219 *imx219)
+> >  {
+> > @@ -1212,15 +1244,16 @@ static int imx219_init_controls(struct imx219 *imx219)
+> >         /* By default, PIXEL_RATE is read only */
+> >         imx219->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+> >                                                V4L2_CID_PIXEL_RATE,
+> > -                                              IMX219_PIXEL_RATE,
+> > -                                              IMX219_PIXEL_RATE, 1,
+> > -                                              IMX219_PIXEL_RATE);
+> > +                                              imx219_get_pixel_rate(imx219),
+> > +                                              imx219_get_pixel_rate(imx219), 1,
+> > +                                              imx219_get_pixel_rate(imx219));
+> >
+> >         imx219->link_freq =
+> >                 v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx219_ctrl_ops,
+> >                                        V4L2_CID_LINK_FREQ,
+> >                                        ARRAY_SIZE(imx219_link_freq_menu) - 1, 0,
+> > -                                      imx219_link_freq_menu);
+> > +                                      (imx219->lanes == 2) ? imx219_link_freq_menu :
+> > +                                      imx219_link_freq_4lane_menu);
+> >         if (imx219->link_freq)
+> >                 imx219->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> >
+> > @@ -1315,67 +1348,76 @@ static void imx219_free_controls(struct imx219 *imx219)
+> >         mutex_destroy(&imx219->mutex);
+> >  }
+> >
+> > -static int imx219_check_hwcfg(struct device *dev)
+> > +static int imx219_check_hwcfg(struct imx219 *imx219, u64 link_frequency)
+> >  {
+> > -       struct fwnode_handle *endpoint;
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+> > +
+> > +       /* Check the number of MIPI CSI2 data lanes */
+> > +       if (imx219->lanes != 2 && imx219->lanes != 4) {
+> > +               dev_err(&client->dev, "only 2 or 4 data lanes are currently supported\n");
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       if (link_frequency != ((imx219->lanes == 2) ?
+> > +                             IMX219_DEFAULT_LINK_FREQ : IMX219_DEFAULT_LINK_FREQ_4LANE)) {
+> > +               dev_err(&client->dev, "Link frequency not supported: %lld\n",
+> > +                       link_frequency);
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int imx219_probe(struct i2c_client *client)
+> > +{
+> > +       struct device *dev = &client->dev;
+> > +       struct imx219 *imx219;
+> >         struct v4l2_fwnode_endpoint ep_cfg = {
+> >                 .bus_type = V4L2_MBUS_CSI2_DPHY
+> >         };
+> > -       int ret = -EINVAL;
+> > +       struct fwnode_handle *endpoint;
+> > +       int ret = 0;
+> > +       u64 link_frequency = 0;
+> >
+> > +       imx219 = devm_kzalloc(&client->dev, sizeof(*imx219), GFP_KERNEL);
+> > +       if (!imx219)
+> > +               return -ENOMEM;
+> > +
+> > +       v4l2_i2c_subdev_init(&imx219->sd, client, &imx219_subdev_ops);
+> > +
+> > +       /* Fetch the endpoint to extract lanes and link-frequency */
+> >         endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+> >         if (!endpoint) {
+> >                 dev_err(dev, "endpoint node not found\n");
+> > -               return -EINVAL;
+> > +               ret = -EINVAL;
+> > +               goto fwnode_cleanup;
+> >         }
+> >
+> >         if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep_cfg)) {
+> >                 dev_err(dev, "could not parse endpoint\n");
+> > -               goto error_out;
+> > +               ret = -EINVAL;
+> > +               goto fwnode_cleanup;
+> >         }
+> >
+> > -       /* Check the number of MIPI CSI2 data lanes */
+> > -       if (ep_cfg.bus.mipi_csi2.num_data_lanes != 2) {
+> > -               dev_err(dev, "only 2 data lanes are currently supported\n");
+> > -               goto error_out;
+> > -       }
+> > +       imx219->lanes = ep_cfg.bus.mipi_csi2.num_data_lanes;
+> >
+> >         /* Check the link frequency set in device tree */
+> > -       if (!ep_cfg.nr_of_link_frequencies) {
+> > +       if (ep_cfg.nr_of_link_frequencies != 1) {
+> >                 dev_err(dev, "link-frequency property not found in DT\n");
+> > -               goto error_out;
+> > -       }
+> > -
+> > -       if (ep_cfg.nr_of_link_frequencies != 1 ||
+> > -           ep_cfg.link_frequencies[0] != IMX219_DEFAULT_LINK_FREQ) {
+> > -               dev_err(dev, "Link frequency not supported: %lld\n",
+> > -                       ep_cfg.link_frequencies[0]);
+> > -               goto error_out;
+> > +               ret = -EINVAL;
+> > +               goto fwnode_cleanup;
+> >         }
+> > +       link_frequency = ep_cfg.link_frequencies[0];
+> >
+> > -       ret = 0;
+> > -
+> > -error_out:
+> > +       /* Cleanup endpoint and handle any errors from above */
+> > +fwnode_cleanup:
+> >         v4l2_fwnode_endpoint_free(&ep_cfg);
+> >         fwnode_handle_put(endpoint);
 >
-> Adding Christoph,
+> Having a "goto" to the middle of a function, and then if(ret) return
+> ret; is horrid. Working with diffs has messed this up a bit which is
+> why I hadn't noticed it in the last patch set, but I was about to
+> comment that link_frequency doesn't need to be initialised to 0 above,
+> but it does due to this (except it should take the return path).
 >
-> To be able to identify types of shared memory processes pin through
-> FDs in production builds, we would like to add a 'path' field to
-> fdinfo of anon inodes. We could then use the common prefixes
-> ("/dmabuf", "/memfd", ...) to identify different types.
->
-> Would appreciate any feedback from the FS perspective.
+> I'm not quite sure why you need to move the fwnode calls out of
+> imx219_check_hwcfg. Pass in struct imx219 *imx219 and it can check the
 
-Hi all,
+It seemed more appropriate to me for probe to set the values instead
+of passing it to a helper function to set them.  Since the Probe
+function needed to extract the fwnode info to do this, I moved the
+calls out of the helper.
 
-If there are no objections to this, then I plan to respin the patch
-for just anonymous inodes. Please let me know if there are further
-concerns.
+> link_frequency and assign imx219->lanes with the values it was already
+> validating. You can drop the struct device *dev as it is available via
+> imx219->sd->dev, initialised by v4l2_i2c_subdev_init. The
+> v4l2_fwnode_endpoint_free and fwnode_handle_put can then remain at the
+> end of the function as common cleanup code.
+> Rename imx219_check_hwcfg to imx219_read_hwcfg if the name offends as
+> it is now doing more than just checking it.
 
-Thanks,
-Kalesh
+Would be you ok if we did it all in the probe function and drop this
+helper function?
 
 >
-> Thanks,
-> Kalesh
+>   Dave
 >
+> > -
+> > -       return ret;
+> > -}
+> > -
+> > -static int imx219_probe(struct i2c_client *client)
+> > -{
+> > -       struct device *dev = &client->dev;
+> > -       struct imx219 *imx219;
+> > -       int ret;
+> > -
+> > -       imx219 = devm_kzalloc(&client->dev, sizeof(*imx219), GFP_KERNEL);
+> > -       if (!imx219)
+> > -               return -ENOMEM;
+> > -
+> > -       v4l2_i2c_subdev_init(&imx219->sd, client, &imx219_subdev_ops);
+> > +       if (ret)
+> > +               return ret;
 > >
-> > >
-> > > Probably best to ping some core fs developer before going further wit=
-h it.
+> >         /* Check the hardware configuration in device tree */
+> > -       if (imx219_check_hwcfg(dev))
+> > +       if (imx219_check_hwcfg(imx219, link_frequency))
+> >                 return -EINVAL;
 > >
-> > linux-fsdevel is cc'd here. Adding Al Vrio as well. Please let me know
-> > if there are other parties I should include.
+> >         /* Get system clock (xclk) */
+> > --
+> > 2.34.1
 > >
-> > >
-> > > BTW: Any preferred branch to push this upstream? If not I can take it
-> > > through drm-misc-next.
-> >
-> > No other dependencies for this, so drm-misc-next is good.
-> >
-> > Thanks,
-> > Kalesh
-> >
-> > >
-> > > Regards,
-> > > Christian.
-> > >
-> > > >
-> > > >>> File paths can contain fun characters like newlines or colons, wh=
-ich
-> > > >>> could make parsing out filenames in this text file... fun. How wo=
-uld your
-> > > >>> userspace parsing logic handle "/home/stephen/filename\nsize:\t40=
-96"? The
-> > > >>> readlink(2) API makes that easy already.
-> > > >> I think since we have escaped the "\n" (seq_file_path(m, file, "\n=
-")),
-> > > > I really should have read through that function before commenting,
-> > > > thanks for teaching me something new :)
-> > > >
-> > > > Stephen
-> > > >
-> > > >> then user space might parse this line like:
-> > > >>
-> > > >> if (strncmp(line, "path:\t", 6) =3D=3D 0)
-> > > >>          char* path =3D line + 6;
-> > > >>
-> > > >>
-> > > >> Thanks,
-> > > >> Kalesh
-> > > >>
-> > > >>> Is the goal avoiding races (e.g. file descriptor 3 is closed and =
-reopened
-> > > >>> to a different path between reading fdinfo and stating the fd)?
-> > > >>>
-> > > >>> Stephen
-> > > >>>
-> > > >>>> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > > >>>> ---
-> > > >>>>
-> > > >>>> Changes from rfc:
-> > > >>>>    - Split adding 'size' and 'path' into a separate patches, per=
- Christian
-> > > >>>>    - Fix indentation (use tabs) in documentaion, per Randy
-> > > >>>>
-> > > >>>>   Documentation/filesystems/proc.rst | 14 ++++++++++++--
-> > > >>>>   fs/proc/fd.c                       |  4 ++++
-> > > >>>>   2 files changed, 16 insertions(+), 2 deletions(-)
-> > > >>>>
-> > > >>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/=
-filesystems/proc.rst
-> > > >>>> index 779c05528e87..591f12d30d97 100644
-> > > >>>> --- a/Documentation/filesystems/proc.rst
-> > > >>>> +++ b/Documentation/filesystems/proc.rst
-> > > >>>> @@ -1886,14 +1886,16 @@ if precise results are needed.
-> > > >>>>   3.8  /proc/<pid>/fdinfo/<fd> - Information about opened file
-> > > >>>>   --------------------------------------------------------------=
--
-> > > >>>>   This file provides information associated with an opened file.=
- The regular
-> > > >>>> -files have at least five fields -- 'pos', 'flags', 'mnt_id', 'i=
-no', and 'size'.
-> > > >>>> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'in=
-o', 'size',
-> > > >>>> +and 'path'.
-> > > >>>>
-> > > >>>>   The 'pos' represents the current offset of the opened file in =
-decimal
-> > > >>>>   form [see lseek(2) for details], 'flags' denotes the octal O_x=
-xx mask the
-> > > >>>>   file has been created with [see open(2) for details] and 'mnt_=
-id' represents
-> > > >>>>   mount ID of the file system containing the opened file [see 3.=
-5
-> > > >>>>   /proc/<pid>/mountinfo for details]. 'ino' represents the inode=
- number of
-> > > >>>> -the file, and 'size' represents the size of the file in bytes.
-> > > >>>> +the file, 'size' represents the size of the file in bytes, and =
-'path'
-> > > >>>> +represents the file path.
-> > > >>>>
-> > > >>>>   A typical output is::
-> > > >>>>
-> > > >>>> @@ -1902,6 +1904,7 @@ A typical output is::
-> > > >>>>        mnt_id: 19
-> > > >>>>        ino:    63107
-> > > >>>>        size:   0
-> > > >>>> +     path:   /dev/null
-> > > >>>>
-> > > >>>>   All locks associated with a file descriptor are shown in its f=
-dinfo too::
-> > > >>>>
-> > > >>>> @@ -1920,6 +1923,7 @@ Eventfd files
-> > > >>>>        mnt_id: 9
-> > > >>>>        ino:    63107
-> > > >>>>        size:   0
-> > > >>>> +     path:   anon_inode:[eventfd]
-> > > >>>>        eventfd-count:  5a
-> > > >>>>
-> > > >>>>   where 'eventfd-count' is hex value of a counter.
-> > > >>>> @@ -1934,6 +1938,7 @@ Signalfd files
-> > > >>>>        mnt_id: 9
-> > > >>>>        ino:    63107
-> > > >>>>        size:   0
-> > > >>>> +     path:   anon_inode:[signalfd]
-> > > >>>>        sigmask:        0000000000000200
-> > > >>>>
-> > > >>>>   where 'sigmask' is hex value of the signal mask associated
-> > > >>>> @@ -1949,6 +1954,7 @@ Epoll files
-> > > >>>>        mnt_id: 9
-> > > >>>>        ino:    63107
-> > > >>>>        size:   0
-> > > >>>> +     path:   anon_inode:[eventpoll]
-> > > >>>>        tfd:        5 events:       1d data: ffffffffffffffff pos=
-:0 ino:61af sdev:7
-> > > >>>>
-> > > >>>>   where 'tfd' is a target file descriptor number in decimal form=
-,
-> > > >>>> @@ -1968,6 +1974,7 @@ For inotify files the format is the follow=
-ing::
-> > > >>>>        mnt_id: 9
-> > > >>>>        ino:    63107
-> > > >>>>        size:   0
-> > > >>>> +     path:   anon_inode:inotify
-> > > >>>>        inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_ma=
-sk:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
-> > > >>>>
-> > > >>>>   where 'wd' is a watch descriptor in decimal form, i.e. a targe=
-t file
-> > > >>>> @@ -1992,6 +1999,7 @@ For fanotify files the format is::
-> > > >>>>        mnt_id: 9
-> > > >>>>        ino:    63107
-> > > >>>>        size:   0
-> > > >>>> +     path:   anon_inode:[fanotify]
-> > > >>>>        fanotify flags:10 event-flags:0
-> > > >>>>        fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:4000000=
-3
-> > > >>>>        fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_m=
-ask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-> > > >>>> @@ -2018,6 +2026,7 @@ Timerfd files
-> > > >>>>        mnt_id: 9
-> > > >>>>        ino:    63107
-> > > >>>>        size:   0
-> > > >>>> +     path:   anon_inode:[timerfd]
-> > > >>>>        clockid: 0
-> > > >>>>        ticks: 0
-> > > >>>>        settime flags: 01
-> > > >>>> @@ -2042,6 +2051,7 @@ DMA Buffer files
-> > > >>>>        mnt_id: 9
-> > > >>>>        ino:    63107
-> > > >>>>        size:   32768
-> > > >>>> +     path:   /dmabuf:
-> > > >>>>        count:  2
-> > > >>>>        exp_name:  system-heap
-> > > >>>>
-> > > >>>> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> > > >>>> index 464bc3f55759..8889a8ba09d4 100644
-> > > >>>> --- a/fs/proc/fd.c
-> > > >>>> +++ b/fs/proc/fd.c
-> > > >>>> @@ -60,6 +60,10 @@ static int seq_show(struct seq_file *m, void =
-*v)
-> > > >>>>        seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
-> > > >>>>        seq_printf(m, "size:\t%lli\n", (long long)file_inode(file=
-)->i_size);
-> > > >>>>
-> > > >>>> +     seq_puts(m, "path:\t");
-> > > >>>> +     seq_file_path(m, file, "\n");
-> > > >>>> +     seq_putc(m, '\n');
-> > > >>>> +
-> > > >>>>        /* show_fd_locks() never deferences files so a stale valu=
-e is safe */
-> > > >>>>        show_fd_locks(m, file, files);
-> > > >>>>        if (seq_has_overflowed(m))
-> > > >>> --
-> > > >>> To unsubscribe from this group and stop receiving emails from it,=
- send an email to kernel-team+unsubscribe@android.com.
-> > > >>>
-> > > > _______________________________________________
-> > > > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> > > > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.or=
-g
-> > >
