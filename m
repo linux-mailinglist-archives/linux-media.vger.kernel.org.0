@@ -2,326 +2,404 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C217B5534F6
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 16:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 987FA5534FE
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 16:53:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352036AbiFUOvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jun 2022 10:51:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56620 "EHLO
+        id S1351871AbiFUOxK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jun 2022 10:53:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352053AbiFUOvE (ORCPT
+        with ESMTP id S1351358AbiFUOxJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jun 2022 10:51:04 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59AEB275E2;
-        Tue, 21 Jun 2022 07:51:00 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5B97A6601688;
-        Tue, 21 Jun 2022 15:50:56 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1655823058;
-        bh=gH3pOctepXLG6QaAL9GIM0RulPRWKtbflyqgdZBkvXQ=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=k3h6myAq1nJnsdwQZrbuO1He4Rr0cYQHJV3zqTgVl/rAjkjpe/gn6p9WEGnax0yyZ
-         k/RHlWkJVinbdfuP8FNF5HeIZWqyTk7TdJKdil0lpqDXsyOyc8yovUewwrnSi9M4yt
-         2hdKp5rkd4BOjNIebPd1iOU80yhCGcR7crc6O+n0rz4MkK/Gc35VHgerW2rNyUkrfr
-         3Gik07h3iet+S3dVFJam+zuScuRRL7QQSYmS2rxTml+7gB74VrjpyRPZufZKlOk3Xr
-         UXzsKfpsHOwhIDDBclmnYoVQEaoNA4zBvV98oED8flogfW1pRoFpFOnmV2DPmAv+G0
-         o95pGnkQdVE1w==
-Message-ID: <65c2e2805b40b1d88ac9f380bda53c085bf612e6.camel@collabora.com>
-Subject: Re: [PATCH v8 14/17] media: hantro: Stop using Hantro dedicated
- control
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        andrzej.p@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-Date:   Tue, 21 Jun 2022 10:50:47 -0400
-In-Reply-To: <f6c636b6-f379-650a-cc7c-6f1e8b014455@collabora.com>
-References: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
-         <20220614083614.240641-15-benjamin.gaignard@collabora.com>
-         <b244e86d-06de-7423-d0df-e77485ce4c87@xs4all.nl>
-         <958ab30f9cfbb14e4a7ea55826064e6a20d5ffd2.camel@collabora.com>
-         <c5c6903d-ec7d-6218-35d3-2ac6caa9d2c5@xs4all.nl>
-         <ac31307f9186fc851f76889a66ffb007de88fa15.camel@collabora.com>
-         <f6c636b6-f379-650a-cc7c-6f1e8b014455@collabora.com>
+        Tue, 21 Jun 2022 10:53:09 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E809186CA
+        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 07:53:08 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id p63so10258266qkd.10
+        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 07:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=4CJokh7B1WxuOOnVzN+yThWg5pHH6UQSvVgZwzzPLXk=;
+        b=EOtY1/wStPDCBOI1q5ntdj6Qx1LIa9kGbnk2aqCuWx/umUgFEsfTa9EhYWjVkaiCTg
+         NIbgtPxYv2gRP2BkTbvZqgkIVn6H+yqglClOLEp7NW3kMsqMLLAfe4aT+wYjUVThH48J
+         Bx3TmVpKRRN+MYv9CG55KfDVDld4Z4Ck5C+Xe5oBZq6hn2z5cvoimLLL9p1Gs4M6zXCb
+         wcMT37eUkK7jhTWJEWv0Cry9HB/DpMkLrocxmUXtDbO335p9BSaTAsRdlFm8sayVM40u
+         JlSQEMgvMUMr5g/WtIAhRHoR94zt259CttnyDH3OQ7C/JhkvTIQZRmidHqGi5NAzFStC
+         fe5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=4CJokh7B1WxuOOnVzN+yThWg5pHH6UQSvVgZwzzPLXk=;
+        b=u1IxDvDSf9XDKW/quj9ErO9z5s7PJq58OxnexE1gYThXf0Rd+XtSw0jkZhxHNgDdHJ
+         8fGEwn93D1ZJkPzLx0ywDZqphFDX9z3Q67uik8+zGEY6A8yPz3Zd+we06jmnXYUBLQ8r
+         SF9pap5vBEjJVmzkxS/Kk24s2L+NHByhYCHxK4jOV48c60cy75WkKVbN60prvGqWP7W6
+         fofwYOeE3FjwX7hhZ33pcoxrOY6wCzeUhoSqLfz8IS0Zy/HlxU0WCfltkEKLfe+afEF5
+         Fq2ocTajbhXkadkwg5L0xAAemmbZln4y0RU7O2jwAQUQlSMIlQDGNsVZTEL3vVENqtKE
+         aWiQ==
+X-Gm-Message-State: AJIora+FtxzK55O75QIyM/WUqPs2R9MtOnalhVLU0tFS54oB4YtAt6zI
+        zw+WANf6ve0pULrZ2qPDlIu7lw==
+X-Google-Smtp-Source: AGRyM1sRE+GqAParHnU3dmSx9dZduWZRG37ok/V4XsNHxiJWm0NRbF062Y7A5bT43p/ISCL17Il+IA==
+X-Received: by 2002:a05:620a:3182:b0:6a7:3ac8:afb9 with SMTP id bi2-20020a05620a318200b006a73ac8afb9mr20066051qkb.482.1655823187281;
+        Tue, 21 Jun 2022 07:53:07 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id az32-20020a05620a172000b006a780aa9fc4sm14537410qkb.96.2022.06.21.07.53.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jun 2022 07:53:06 -0700 (PDT)
+Message-ID: <0f8f32e2b05a93f305e64a67177acd487a6966f4.camel@ndufresne.ca>
+Subject: Re: [PATCH v4, 3/3] media: mediatek: vcodec: add h264 decoder
+ driver for mt8186
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Tue, 21 Jun 2022 10:53:04 -0400
+In-Reply-To: <2e1584f4804c88c4ae9a460c7cb2d4a57ff72e7d.camel@mediatek.com>
+References: <20220512034620.30500-1-yunfei.dong@mediatek.com>
+         <20220512034620.30500-4-yunfei.dong@mediatek.com>
+         <7c0ab49b01c4e80835000eb1d3fd58db542385f2.camel@ndufresne.ca>
+         <2e1584f4804c88c4ae9a460c7cb2d4a57ff72e7d.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URI_DOTEDU autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 14 juin 2022 =C3=A0 18:46 +0200, Benjamin Gaignard a =C3=A9crit=C2=
-=A0:
-> Le 14/06/2022 =C3=A0 18:23, Nicolas Dufresne a =C3=A9crit=C2=A0:
-> > Le mardi 14 juin 2022 =C3=A0 17:47 +0200, Hans Verkuil a =C3=A9crit=C2=
-=A0:
-> > > On 6/14/22 17:43, Nicolas Dufresne wrote:
-> > > > Le mardi 14 juin 2022 =C3=A0 15:58 +0200, Hans Verkuil a =C3=A9crit=
-=C2=A0:
-> > > > > On 6/14/22 10:36, Benjamin Gaignard wrote:
-> > > > > > The number of bits to skip in the slice header can be computed
-> > > > > > in the driver by using sps, pps and decode_params information.
-> > > > > > This allow to remove Hantro dedicated control.
-> > > > > allow -> makes it possible
-> > > > >=20
-> > > > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.c=
-om>
-> > > > > > ---
-> > > > > >   drivers/staging/media/hantro/hantro_drv.c     | 36 ----------=
--
-> > > > > >   .../staging/media/hantro/hantro_g2_hevc_dec.c | 62 ++++++++++=
-++++++++-
-> > > > > >   include/media/hevc-ctrls.h                    | 13 ----
-> > > > > >   3 files changed, 61 insertions(+), 50 deletions(-)
-> > > > > >=20
-> > > > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/driver=
-s/staging/media/hantro/hantro_drv.c
-> > > > > > index 536c8c374952..5aac3a090480 100644
-> > > > > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > > > > @@ -304,26 +304,6 @@ static int hantro_jpeg_s_ctrl(struct v4l2_=
-ctrl *ctrl)
-> > > > > >   	return 0;
-> > > > > >   }
-> > > > > >  =20
-> > > > > > -static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > > > > -{
-> > > > > > -	struct hantro_ctx *ctx;
-> > > > > > -
-> > > > > > -	ctx =3D container_of(ctrl->handler,
-> > > > > > -			   struct hantro_ctx, ctrl_handler);
-> > > > > > -
-> > > > > > -	vpu_debug(1, "s_ctrl: id =3D %d, val =3D %d\n", ctrl->id, ctr=
-l->val);
-> > > > > > -
-> > > > > > -	switch (ctrl->id) {
-> > > > > > -	case V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP:
-> > > > > > -		ctx->hevc_dec.ctrls.hevc_hdr_skip_length =3D ctrl->val;
-> > > > > > -		break;
-> > > > > > -	default:
-> > > > > > -		return -EINVAL;
-> > > > > > -	}
-> > > > > > -
-> > > > > > -	return 0;
-> > > > > > -}
-> > > > > > -
-> > > > > >   static const struct v4l2_ctrl_ops hantro_ctrl_ops =3D {
-> > > > > >   	.try_ctrl =3D hantro_try_ctrl,
-> > > > > >   };
-> > > > > > @@ -332,10 +312,6 @@ static const struct v4l2_ctrl_ops hantro_j=
-peg_ctrl_ops =3D {
-> > > > > >   	.s_ctrl =3D hantro_jpeg_s_ctrl,
-> > > > > >   };
-> > > > > >  =20
-> > > > > > -static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops =3D {
-> > > > > > -	.s_ctrl =3D hantro_hevc_s_ctrl,
-> > > > > > -};
-> > > > > > -
-> > > > > >   #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_A=
-PP0 | \
-> > > > > >   					 V4L2_JPEG_ACTIVE_MARKER_COM | \
-> > > > > >   					 V4L2_JPEG_ACTIVE_MARKER_DQT | \
-> > > > > > @@ -487,18 +463,6 @@ static const struct hantro_ctrl controls[]=
- =3D {
-> > > > > >   		.cfg =3D {
-> > > > > >   			.id =3D V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
-> > > > > >   		},
-> > > > > > -	}, {
-> > > > > > -		.codec =3D HANTRO_HEVC_DECODER,
-> > > > > > -		.cfg =3D {
-> > > > > > -			.id =3D V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP,
-> > > > > > -			.name =3D "Hantro HEVC slice header skip bytes",
-> > > > > > -			.type =3D V4L2_CTRL_TYPE_INTEGER,
-> > > > > > -			.min =3D 0,
-> > > > > > -			.def =3D 0,
-> > > > > > -			.max =3D 0x100,
-> > > > > > -			.step =3D 1,
-> > > > > > -			.ops =3D &hantro_hevc_ctrl_ops,
-> > > > > > -		},
-> > > > > >   	}, {
-> > > > > >   		.codec =3D HANTRO_VP9_DECODER,
-> > > > > >   		.cfg =3D {
-> > > > > > diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c =
-b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > > > > > index d28653d04d20..3be8d6e60bf0 100644
-> > > > > > --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > > > > > +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > > > > > @@ -117,6 +117,66 @@ static void prepare_tile_info_buffer(struc=
-t hantro_ctx *ctx)
-> > > > > >   		vpu_debug(1, "%s: no chroma!\n", __func__);
-> > > > > >   }
-> > > > > >  =20
-> > > > > > +static unsigned int ceil_log2(unsigned int v)
-> > > > > > +{
-> > > > > > +	/* Compute Ceil(Log2(v))
-> > > > > > +	 * Derived from branchless code for integer log2(v) from:
-> > > > > > +	 * <http://graphics.stanford.edu/~seander/bithacks.html#Integ=
-erLog>
-> > > > > > +	 */
-> > > > > > +	unsigned int r, shift;
-> > > > > > +
-> > > > > > +	v--;
-> > > > > > +	r =3D (v > 0xFFFF) << 4;
-> > > > > > +	v >>=3D r;
-> > > > > > +	shift =3D (v > 0xFF) << 3;
-> > > > > > +	v >>=3D shift;
-> > > > > > +	r |=3D shift;
-> > > > > > +	shift =3D (v > 0xF) << 2;
-> > > > > > +	v >>=3D shift;
-> > > > > > +	r |=3D shift;
-> > > > > > +	shift =3D (v > 0x3) << 1;
-> > > > > > +	v >>=3D shift;
-> > > > > > +	r |=3D shift;
-> > > > > > +	r |=3D (v >> 1);
-> > > > > > +
-> > > > > > +	return r + 1;
-> > > > > > +}
-> > > > > Isn't this identical to fls(v - 1)? See also lib/math/reciprocal_=
-div.c
-> > > > > where this is used.
-> > > > Thanks for pointing this out, I was wondering if there was an equiv=
-alent, and
-> > > > never knew there was a relation between log2() and the "last set bi=
-t". Not sure
-> > > > about the -1 here though, can you extend ?
-> > > Based on how lib/math/reciprocal_div.c did it. Also, the ceil_log2 fu=
-nction
-> > > starts with v--, while fls doesn't. That said, it's wise to verify th=
-at that
-> > > is correct.
-> > Just for the reference, from lib/math/reciprocal_div.c:
-> >=20
-> > 	/* ceil(log2(d)) */
-> > 	l =3D fls(d - 1);
-> >=20
-> > Perhaps fls() return position starting from 1 rather then 0 ?
+Le mercredi 15 juin 2022 =C3=A0 19:33 +0800, yunfei.dong@mediatek.com a =C3=
+=A9crit=C2=A0:
+> Hi Nicolas,
 >=20
-> I have compare the results of ceil_log2(d) vs fls(d-1)
-> for values between 2 (because sps->num_short_term_ref_pic_sets > 1) and 1=
-6 (the maximum number of frames)
-> they are always the same so I will remove ceil_log2() and use fls().
+> Thanks for your comments.
+> On Mon, 2022-06-13 at 16:08 -0400, Nicolas Dufresne wrote:
+> > Le jeudi 12 mai 2022 =C3=A0 11:46 +0800, Yunfei Dong a =C3=A9crit :
+> > > Add h264 decode driver to support mt8186. For the architecture
+> > > is single core, need to add new interface to decode.
+> > >=20
+> > > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > > ---
+> > >  .../vcodec/vdec/vdec_h264_req_multi_if.c      | 177
+> > > +++++++++++++++++-
+> > >  1 file changed, 176 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git
+> > > a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_i
+> > > f.c
+> > > b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_i
+> > > f.c
+> > > index a96f203b5d54..1d9e753cf894 100644
+> > > ---
+> > > a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_i
+> > > f.c
+> > > +++
+> > > b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_i
+> > > f.c
+> > > @@ -140,6 +140,9 @@ struct vdec_h264_slice_share_info {
+> > >   * @vsi:		vsi used for lat
+> > >   * @vsi_core:		vsi used for core
+> > >   *
+> > > + * @vsi_ctx:		Local VSI data for this decoding
+> > > context
+> > > + * @h264_slice_param:	the parameters that hardware use to
+> > > decode
+> > > + *
+> > >   * @resolution_changed:resolution changed
+> > >   * @realloc_mv_buf:	reallocate mv buffer
+> > >   * @cap_num_planes:	number of capture queue plane
+> > > @@ -157,6 +160,9 @@ struct vdec_h264_slice_inst {
+> > >  	struct vdec_h264_slice_vsi *vsi;
+> > >  	struct vdec_h264_slice_vsi *vsi_core;
+> > > =20
+> > > +	struct vdec_h264_slice_vsi vsi_ctx;
+> > > +	struct vdec_h264_slice_lat_dec_param h264_slice_param;
+> > > +
+> > >  	unsigned int resolution_changed;
+> > >  	unsigned int realloc_mv_buf;
+> > >  	unsigned int cap_num_planes;
+> > > @@ -208,6 +214,61 @@ static int
+> > > vdec_h264_slice_fill_decode_parameters(struct vdec_h264_slice_inst
+> > > *i
+> > >  	return 0;
+> > >  }
+> > > =20
+> > > +static int get_vdec_sig_decode_parameters(struct
+> > > vdec_h264_slice_inst *inst)
+> > > +{
+> > > +	const struct v4l2_ctrl_h264_decode_params *dec_params;
+> > > +	const struct v4l2_ctrl_h264_sps *sps;
+> > > +	const struct v4l2_ctrl_h264_pps *pps;
+> > > +	const struct v4l2_ctrl_h264_scaling_matrix *scaling_matrix;
+> > > +	struct vdec_h264_slice_lat_dec_param *slice_param =3D &inst-
+> > > > h264_slice_param;
+> > > +	struct v4l2_h264_reflist_builder reflist_builder;
+> > > +	u8 *p0_reflist =3D slice_param->decode_params.ref_pic_list_p0;
+> > > +	u8 *b0_reflist =3D slice_param->decode_params.ref_pic_list_b0;
+> > > +	u8 *b1_reflist =3D slice_param->decode_params.ref_pic_list_b1;
+> > > +
+> > > +	dec_params =3D
+> > > +		mtk_vdec_h264_get_ctrl_ptr(inst->ctx,
+> > > V4L2_CID_STATELESS_H264_DECODE_PARAMS);
+> > > +	if (IS_ERR(dec_params))
+> > > +		return PTR_ERR(dec_params);
+> > > +
+> > > +	sps =3D mtk_vdec_h264_get_ctrl_ptr(inst->ctx,
+> > > V4L2_CID_STATELESS_H264_SPS);
+> > > +	if (IS_ERR(sps))
+> > > +		return PTR_ERR(sps);
+> > > +
+> > > +	pps =3D mtk_vdec_h264_get_ctrl_ptr(inst->ctx,
+> > > V4L2_CID_STATELESS_H264_PPS);
+> > > +	if (IS_ERR(pps))
+> > > +		return PTR_ERR(pps);
+> > > +
+> > > +	scaling_matrix =3D
+> > > +		mtk_vdec_h264_get_ctrl_ptr(inst->ctx,
+> > > V4L2_CID_STATELESS_H264_SCALING_MATRIX);
+> > > +	if (IS_ERR(scaling_matrix))
+> > > +		return PTR_ERR(scaling_matrix);
+> > > +
+> > > +	mtk_vdec_h264_update_dpb(dec_params, inst->dpb);
+> > > +
+> > > +	mtk_vdec_h264_copy_sps_params(&slice_param->sps, sps);
+> > > +	mtk_vdec_h264_copy_pps_params(&slice_param->pps, pps);
+> > > +	mtk_vdec_h264_copy_scaling_matrix(&slice_param->scaling_matrix,=20
+> > > scaling_matrix);
+> > > +
+> > > +	mtk_vdec_h264_copy_decode_params(&slice_param->decode_params,
+> > > dec_params, inst->dpb);
+> > > +	mtk_vdec_h264_fill_dpb_info(inst->ctx, &slice_param-
+> > > > decode_params,
+> > > +				    slice_param->h264_dpb_info);
+> > > +
+> > > +	/* Build the reference lists */
+> > > +	v4l2_h264_init_reflist_builder(&reflist_builder, dec_params,
+> > > sps, inst->dpb);
+> > > +	v4l2_h264_build_p_ref_list(&reflist_builder, p0_reflist);
+> > > +
+> > > +	v4l2_h264_build_b_ref_lists(&reflist_builder, b0_reflist,
+> > > b1_reflist);
+> > > +	/* Adapt the built lists to the firmware's expectations */
+> > > +	mtk_vdec_h264_fixup_ref_list(p0_reflist,
+> > > reflist_builder.num_valid);
+> > > +	mtk_vdec_h264_fixup_ref_list(b0_reflist,
+> > > reflist_builder.num_valid);
+> > > +	mtk_vdec_h264_fixup_ref_list(b1_reflist,
+> > > reflist_builder.num_valid);
+> > > +	memcpy(&inst->vsi_ctx.h264_slice_params, slice_param,
+> > > +	       sizeof(inst->vsi_ctx.h264_slice_params));
+> >=20
+> > This function looks very redundant across multiple variants, could
+> > you try and
+> > make a helper to reduce the duplication ?
+> >=20
+> At first, I try to add one helper function for single core and lat
+> decode.
+>=20
+> But these two hardware have big differences, need to add many condition
+> to separate. So just add new function for mt8186 single core
+> architecture.
 
-I've also check on my side few samples, and it indeed seems to be exactly t=
-he
-same.
+I still think you could have a very small helper that turns the reflist_bui=
+lder
+incantation (which are fully identical in all SoC), to be one line/call. It=
+ was
+annoying when I recently had to update this driver for some internal API ch=
+ange.
 
 >=20
-> Regards,
-> Benjamin
+> Best Regards,
+> Yunfei Dong
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static void vdec_h264_slice_fill_decode_reflist(struct
+> > > vdec_h264_slice_inst *inst,
+> > >  						struct
+> > > vdec_h264_slice_lat_dec_param *slice_param,
+> > >  						struct
+> > > vdec_h264_slice_share_info *share_info)
+> > > @@ -596,6 +657,120 @@ static int vdec_h264_slice_lat_decode(void
+> > > *h_vdec, struct mtk_vcodec_mem *bs,
+> > >  	return err;
+> > >  }
+> > > =20
+> > > +static int vdec_h264_slice_single_decode(void *h_vdec, struct
+> > > mtk_vcodec_mem *bs,
+> > > +					 struct vdec_fb *unused, bool
+> > > *res_chg)
+> > > +{
+> > > +	struct vdec_h264_slice_inst *inst =3D h_vdec;
+> > > +	struct vdec_vpu_inst *vpu =3D &inst->vpu;
+> > > +	struct mtk_video_dec_buf *src_buf_info, *dst_buf_info;
+> > > +	struct vdec_fb *fb;
+> > > +	unsigned char *buf;
+> > > +	unsigned int data[2], i;
+> > > +	u64 y_fb_dma, c_fb_dma;
+> > > +	struct mtk_vcodec_mem *mem;
+> > > +	int err, nal_start_idx;
+> > > +
+> > > +	/* bs NULL means flush decoder */
+> > > +	if (!bs)
+> > > +		return vpu_dec_reset(vpu);
+> > > +
+> > > +	fb =3D inst->ctx->dev->vdec_pdata->get_cap_buffer(inst->ctx);
+> > > +	src_buf_info =3D container_of(bs, struct mtk_video_dec_buf,
+> > > bs_buffer);
+> > > +	dst_buf_info =3D container_of(fb, struct mtk_video_dec_buf,
+> > > frame_buffer);
+> > > +
+> > > +	y_fb_dma =3D fb ? (u64)fb->base_y.dma_addr : 0;
+> > > +	c_fb_dma =3D fb ? (u64)fb->base_c.dma_addr : 0;
+> > > +	mtk_vcodec_debug(inst, "[h264-dec] [%d] y_dma=3D%llx c_dma=3D%llx",
+> > > +			 inst->ctx->decoded_frame_cnt, y_fb_dma,
+> > > c_fb_dma);
+> > > +
+> > > +	inst->vsi_ctx.dec.bs_buf_addr =3D (u64)bs->dma_addr;
+> > > +	inst->vsi_ctx.dec.bs_buf_size =3D bs->size;
+> > > +	inst->vsi_ctx.dec.y_fb_dma =3D y_fb_dma;
+> > > +	inst->vsi_ctx.dec.c_fb_dma =3D c_fb_dma;
+> > > +	inst->vsi_ctx.dec.vdec_fb_va =3D (u64)(uintptr_t)fb;
+> > > +
+> > > +	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb,
+> > > +				   &dst_buf_info->m2m_buf.vb, true);
+> > > +	err =3D get_vdec_sig_decode_parameters(inst);
+> > > +	if (err)
+> > > +		goto err_free_fb_out;
+> > > +
+> > > +	buf =3D (unsigned char *)bs->va;
+> > > +	nal_start_idx =3D mtk_vdec_h264_find_start_code(buf, bs->size);
+> > > +	if (nal_start_idx < 0) {
+> > > +		err =3D -EINVAL;
+> > > +		goto err_free_fb_out;
+> > > +	}
+> > > +	inst->vsi_ctx.dec.nal_info =3D buf[nal_start_idx];
+> > > +
+> > > +	*res_chg =3D inst->resolution_changed;
+> > > +	if (inst->resolution_changed) {
+> > > +		mtk_vcodec_debug(inst, "- resolution changed -");
+> > > +		if (inst->realloc_mv_buf) {
+> > > +			err =3D vdec_h264_slice_alloc_mv_buf(inst, &inst-
+> > > > ctx->picinfo);
+> > > +			inst->realloc_mv_buf =3D false;
+> > > +			if (err)
+> > > +				goto err_free_fb_out;
+> > > +		}
+> > > +		inst->resolution_changed =3D false;
+> > > +
+> > > +		for (i =3D 0; i < H264_MAX_MV_NUM; i++) {
+> > > +			mem =3D &inst->mv_buf[i];
+> > > +			inst->vsi_ctx.mv_buf_dma[i] =3D mem->dma_addr;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	memcpy(inst->vpu.vsi, &inst->vsi_ctx, sizeof(inst->vsi_ctx));
+> > > +	err =3D vpu_dec_start(vpu, data, 2);
+> > > +	if (err)
+> > > +		goto err_free_fb_out;
+> > > +
+> > > +	/* wait decoder done interrupt */
+> > > +	err =3D mtk_vcodec_wait_for_done_ctx(inst->ctx,
+> > > MTK_INST_IRQ_RECEIVED,
+> > > +					   WAIT_INTR_TIMEOUT_MS,
+> > > MTK_VDEC_CORE);
+> > > +	if (err)
+> > > +		mtk_vcodec_err(inst, "decode timeout: pic_%d",
+> > > +			       inst->ctx->decoded_frame_cnt);
+> > > +
+> > > +	inst->vsi->dec.timeout =3D !!err;
+> > > +	err =3D vpu_dec_end(vpu);
+> > > +	if (err)
+> > > +		goto err_free_fb_out;
+> > > +
+> > > +	memcpy(&inst->vsi_ctx, inst->vpu.vsi, sizeof(inst->vsi_ctx));
+> > > +	mtk_vcodec_debug(inst, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x
+> > > 0x%x 0x%x 0x%x",
+> > > +			 inst->ctx->decoded_frame_cnt,
+> > > +			 inst->vsi_ctx.dec.crc[0], inst-
+> > > > vsi_ctx.dec.crc[1],
+> > > +			 inst->vsi_ctx.dec.crc[2], inst-
+> > > > vsi_ctx.dec.crc[3],
+> > > +			 inst->vsi_ctx.dec.crc[4], inst-
+> > > > vsi_ctx.dec.crc[5],
+> > > +			 inst->vsi_ctx.dec.crc[6], inst-
+> > > > vsi_ctx.dec.crc[7]);
+> > > +
+> > > +	inst->ctx->decoded_frame_cnt++;
+> > > +	return 0;
+> > > +
+> > > +err_free_fb_out:
+> > > +	mtk_vcodec_err(inst, "dec frame number: %d err: %d",
+> > > +		       inst->ctx->decoded_frame_cnt, err);
+> > > +	return err;
+> > > +}
+> > > +
+> > > +static int vdec_h264_slice_decode(void *h_vdec, struct
+> > > mtk_vcodec_mem *bs,
+> > > +				  struct vdec_fb *unused, bool
+> > > *res_chg)
+> > > +{
+> > > +	struct vdec_h264_slice_inst *inst =3D h_vdec;
+> > > +	int ret;
+> > > +
+> > > +	if (!h_vdec)
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (inst->ctx->dev->vdec_pdata->hw_arch =3D=3D
+> > > MTK_VDEC_PURE_SINGLE_CORE)
+> > > +		ret =3D vdec_h264_slice_single_decode(h_vdec, bs, unused,
+> > > res_chg);
+> > > +	else
+> > > +		ret =3D vdec_h264_slice_lat_decode(h_vdec, bs, unused,
+> > > res_chg);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > >  static int vdec_h264_slice_get_param(void *h_vdec, enum
+> > > vdec_get_param_type type,
+> > >  				     void *out)
+> > >  {
+> > > @@ -620,7 +795,7 @@ static int vdec_h264_slice_get_param(void
+> > > *h_vdec, enum vdec_get_param_type type
+> > > =20
+> > >  const struct vdec_common_if vdec_h264_slice_multi_if =3D {
+> > >  	.init		=3D vdec_h264_slice_init,
+> > > -	.decode		=3D vdec_h264_slice_lat_decode,
+> > > +	.decode		=3D vdec_h264_slice_decode,
+> > >  	.get_param	=3D vdec_h264_slice_get_param,
+> > >  	.deinit		=3D vdec_h264_slice_deinit,
+> > >  };
+> >=20
+> >=20
 >=20
-> >=20
-> > Nicolas
-> >=20
-> > > Regards,
-> > >=20
-> > > 	Hans
-> > >=20
-> > > > > Regards,
-> > > > >=20
-> > > > > 	Hans
-> > > > >=20
-> > > > > > +
-> > > > > > +static int compute_header_skip_lenght(struct hantro_ctx *ctx)
-> > > > > > +{
-> > > > > > +	const struct hantro_hevc_dec_ctrls *ctrls =3D &ctx->hevc_dec.=
-ctrls;
-> > > > > > +	const struct v4l2_ctrl_hevc_decode_params *decode_params =3D =
-ctrls->decode_params;
-> > > > > > +	const struct v4l2_ctrl_hevc_sps *sps =3D ctrls->sps;
-> > > > > > +	const struct v4l2_ctrl_hevc_pps *pps =3D ctrls->pps;
-> > > > > > +	int skip =3D 0;
-> > > > > > +
-> > > > > > +	if (pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT)
-> > > > > > +		/* size of pic_output_flag */
-> > > > > > +		skip++;
-> > > > > > +
-> > > > > > +	if (sps->flags & V4L2_HEVC_SPS_FLAG_SEPARATE_COLOUR_PLANE)
-> > > > > > +		/* size of pic_order_cnt_lsb */
-> > > > > > +		skip +=3D 2;
-> > > > > > +
-> > > > > > +	if (!(decode_params->flags & V4L2_HEVC_DECODE_PARAM_FLAG_IDR_=
-PIC)) {
-> > > > > > +		/* size of pic_order_cnt_lsb */
-> > > > > > +		skip +=3D sps->log2_max_pic_order_cnt_lsb_minus4 + 4;
-> > > > > > +
-> > > > > > +		/* size of short_term_ref_pic_set_sps_flag */
-> > > > > > +		skip++;
-> > > > > > +
-> > > > > > +		if (decode_params->short_term_ref_pic_set_size)
-> > > > > > +			/* size of st_ref_pic_set( num_short_term_ref_pic_sets ) */
-> > > > > > +			skip +=3D decode_params->short_term_ref_pic_set_size;
-> > > > > > +		else if (sps->num_short_term_ref_pic_sets > 1)
-> > > > > > +			skip +=3D ceil_log2(sps->num_short_term_ref_pic_sets);
-> > > > > > +
-> > > > > > +		skip +=3D decode_params->long_term_ref_pic_set_size;
-> > > > > > +	}
-> > > > > > +
-> > > > > > +	return skip;
-> > > > > > +}
-> > > > > > +
-> > > > > >   static void set_params(struct hantro_ctx *ctx)
-> > > > > >   {
-> > > > > >   	const struct hantro_hevc_dec_ctrls *ctrls =3D &ctx->hevc_dec=
-.ctrls;
-> > > > > > @@ -134,7 +194,7 @@ static void set_params(struct hantro_ctx *c=
-tx)
-> > > > > >  =20
-> > > > > >   	hantro_reg_write(vpu, &g2_output_8_bits, 0);
-> > > > > >  =20
-> > > > > > -	hantro_reg_write(vpu, &g2_hdr_skip_length, ctrls->hevc_hdr_sk=
-ip_length);
-> > > > > > +	hantro_reg_write(vpu, &g2_hdr_skip_length, compute_header_ski=
-p_lenght(ctx));
-> > > > > >  =20
-> > > > > >   	min_log2_cb_size =3D sps->log2_min_luma_coding_block_size_mi=
-nus3 + 3;
-> > > > > >   	max_log2_ctb_size =3D min_log2_cb_size + sps->log2_diff_max_=
-min_luma_coding_block_size;
-> > > > > > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ct=
-rls.h
-> > > > > > index d6cb3779d190..efc0412ac41e 100644
-> > > > > > --- a/include/media/hevc-ctrls.h
-> > > > > > +++ b/include/media/hevc-ctrls.h
-> > > > > > @@ -467,17 +467,4 @@ struct v4l2_ctrl_hevc_scaling_matrix {
-> > > > > >   	__u8	scaling_list_dc_coef_32x32[2];
-> > > > > >   };
-> > > > > >  =20
-> > > > > > -/*  MPEG-class control IDs specific to the Hantro driver as de=
-fined by V4L2 */
-> > > > > > -#define V4L2_CID_CODEC_HANTRO_BASE				(V4L2_CTRL_CLASS_CODEC |=
- 0x1200)
-> > > > > > -/*
-> > > > > > - * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
-> > > > > > - * the number of data (in bits) to skip in the
-> > > > > > - * slice segment header.
-> > > > > > - * If non-IDR, the bits to be skipped go from syntax element "=
-pic_output_flag"
-> > > > > > - * to before syntax element "slice_temporal_mvp_enabled_flag".
-> > > > > > - * If IDR, the skipped bits are just "pic_output_flag"
-> > > > > > - * (separate_colour_plane_flag is not supported).
-> > > > > > - */
-> > > > > > -#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	(V4L2_CID_CODEC=
-_HANTRO_BASE + 0)
-> > > > > > -
-> > > > > >   #endif
 
