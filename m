@@ -2,66 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0F605537E9
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 18:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 949FF55380F
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jun 2022 18:40:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352902AbiFUQfG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jun 2022 12:35:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50112 "EHLO
+        id S1353975AbiFUQkA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jun 2022 12:40:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352486AbiFUQfF (ORCPT
+        with ESMTP id S1353383AbiFUQjv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jun 2022 12:35:05 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CF092A729
-        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 09:35:04 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id a10so7803850wmj.5
-        for <linux-media@vger.kernel.org>; Tue, 21 Jun 2022 09:35:04 -0700 (PDT)
+        Tue, 21 Jun 2022 12:39:51 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475B51C107;
+        Tue, 21 Jun 2022 09:39:30 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id s10so16085292ljh.12;
+        Tue, 21 Jun 2022 09:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Eg+EwYeQfLen8K8rKVkBgSycceBY/89PL9/DRUnl5b0=;
-        b=CDo0Tp5SqLceA6R+yfUF658/Y1p3KZcdoCRqpc4wHVOt+roqX5h6LttaoKlaig7igf
-         kuD3POYyOKZvnjbhGwvWX82pMKV5xsiVPQcSSyl5AbBKpHZsNN1ON2Wsa2jdpdFjN0hA
-         1BzakBzn8YkGSafJxIOi2SOH3i15j7DheqAlvfQoEO141T9pT1kFHuRt6g5xb5WAsgLX
-         GaEs75yvqy1Jp9fvoZr/Vk1sPM2t9OmbFo6vkpaNyLKUxmYJVBErIgamurO2+NDdyePW
-         yk6ZWzo6WFgbgq+NxG+CzCeukF2SD6bKNyaATYFpo2X1hB06ZmmVi9wvEqRuMbihCy9w
-         i46A==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=mhIiUkoVFz0wPW9tQouAUPqb2d9trqlO1mA9uf8w0Ks=;
+        b=FIjnHKZ++BZwbnW/IETfzzE9HdfruXLMCZ2afU8f8Ol9x8E7l51cySVPm4KWm5juQG
+         gvX77m5NrkZGy6opdeOW3LRwfEVZD3UiZOrJaMZQjx5mhQWDWWBzAgbL+4P6dmqW4Ybr
+         pnJWoWI7QHQJSteAPaPBGKo0nX8KMOGEJJStZWmxp4DZK/wrdSA5PXIfblpzcGzawRa1
+         MeB9sdH+if74n2gTXbLRxglLSaNkv5FQLHhjr8l1loJCZtcGUyvXakvtZV7uSTRiacct
+         DlG37LBGraBOSPqB4o8FlEBG3UbFB1lHDbrO6892U8ZlIb6y/14e/lKA5JIfPI67jtMv
+         Uu5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Eg+EwYeQfLen8K8rKVkBgSycceBY/89PL9/DRUnl5b0=;
-        b=FbWR4TQ0twgHHhoG1+pWxKKTkSCuWVYCi3nloKfy2frchRI7S8iph9pOB24HT9OaKt
-         AJMHKX9YG0ZmRRM+P1BkL+7rbP4MpE6LYZ+QOt6BPX7UqrrdS6OjS4xI/26VV7KmgT54
-         IS5Y/QutSrJA02uU9gdUJtbuC7K616ISDymQbliXs7grB2JQAcPQNLeZPjpFk/jhHAQ4
-         /FKhIl55854DiVlO78Ece4Af5kMfi1Cl7T5s3KQkfflfuSiStlSsbSFhjCE1iVu9wwbA
-         R9x7/mMJuM8decZvnTiGbW2vd8lfg/qggkQwxjRQBofINtdNLftdVQO7A4aKPapoogbD
-         3eeQ==
-X-Gm-Message-State: AJIora/nFh0AYCJ61UbieRFUE+VSuL4vsb+PwoUdcd2p3VxDIrJiNsy8
-        WYq4H0qZeX22OeqUe1D5IbRwNm9EpIk=
-X-Google-Smtp-Source: AGRyM1s0HrwQygnfrs3Qr9xRiB8YupbWgaF2awz9mMy4XrQzHNozoiRJRuKUBxi/zgoAI7RJYbGwxQ==
-X-Received: by 2002:a7b:c856:0:b0:39c:3b44:7ab0 with SMTP id c22-20020a7bc856000000b0039c3b447ab0mr31438076wml.117.1655829302744;
-        Tue, 21 Jun 2022 09:35:02 -0700 (PDT)
-Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id v184-20020a1cacc1000000b0039c454067ddsm18649887wme.15.2022.06.21.09.35.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 09:35:02 -0700 (PDT)
-From:   Daniel Scally <djrscally@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        paul.elder@ideasonboard.com
-Subject: [PATCH 2/2] media: entity: Use dedicated data link iterator
-Date:   Tue, 21 Jun 2022 17:34:57 +0100
-Message-Id: <20220621163457.766496-3-djrscally@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220621163457.766496-1-djrscally@gmail.com>
-References: <20220621163457.766496-1-djrscally@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=mhIiUkoVFz0wPW9tQouAUPqb2d9trqlO1mA9uf8w0Ks=;
+        b=TxdL8F/6NPd303tIJ8YeoHX5EUUNqfu8DhQU66Pbw4hpZCdhF2qTSFAhQIw1uiAPZ9
+         lTvNQPX8qdw+LnaaB0Dtu0uWJzZdZT2OgP0vpaV4wqDe94mXLW/ZVhlMWAftpVcK4cty
+         bPa8B8sid+NMP6QfVlqnmDs7HwxQ2+UQ253VhaUxyrq+hTKDbS6RuSzPRXnPcatxSAh/
+         3RkR/GF03ViZSxXJ8m6Y/AN3EOjt+Uvu9WzBQ+ugrcWn+p/hhiiBDgSyduual7JlTQOW
+         V4YpzYg5knYKam0DuT8IBE66LvYCb7yT1baqxX5ix9drdVRJWIb9B9ftssbdlkNo4Xe0
+         O4Ig==
+X-Gm-Message-State: AJIora94dO/37qy/99ItgO/KHUR31dJHauIo7tvfxbgJd3sErPDH1biO
+        +0AdvisoSP5XsiZmhx3SoIk=
+X-Google-Smtp-Source: AGRyM1tTeVIJS0PV6ghwi5oLN82VfE9B8lRb5DRIlTC+FNYEK1w9sU215ZQ3z+wF7iT6GuEnyQM6mw==
+X-Received: by 2002:a05:651c:160a:b0:25a:62a4:9085 with SMTP id f10-20020a05651c160a00b0025a62a49085mr8422999ljq.214.1655829568510;
+        Tue, 21 Jun 2022 09:39:28 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-136-92.dynamic.spd-mgts.ru. [109.252.136.92])
+        by smtp.googlemail.com with ESMTPSA id y19-20020a2e3213000000b0025a69521bbdsm1106096ljy.121.2022.06.21.09.39.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jun 2022 09:39:27 -0700 (PDT)
+Message-ID: <c1d7b5f0-32e0-df37-e447-c525e3a84253@gmail.com>
+Date:   Tue, 21 Jun 2022 19:39:21 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 17/22] drm/shmem-helper: Add generic memory shrinker
+Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, kernel@collabora.com
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-18-dmitry.osipenko@collabora.com>
+ <CAF6AEGt=EqeF+3UaYjxQCCFEabRFJwLbiWN9brGveYoHTYyZ7w@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <CAF6AEGt=EqeF+3UaYjxQCCFEabRFJwLbiWN9brGveYoHTYyZ7w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -70,46 +109,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Where iteration over links for an entity is clearly assuming that
-all of those links are data links, use the new iterator to guarantee
-that that assumption is met.
+20.06.2022 18:37, Rob Clark пишет:
+>> +static unsigned long
+>> +drm_gem_shmem_shrinker_scan_objects(struct shrinker *shrinker,
+>> +                                   struct shrink_control *sc)
+>> +{
+>> +       unsigned long nr_to_scan = sc->nr_to_scan;
+>> +       bool lock_contention = false;
+>> +       unsigned long freed;
+>> +
+>> +       /* purge as many objects as we can */
+>> +       freed = drm_gem_shmem_shrinker_run_objects_scan(shrinker, nr_to_scan,
+>> +                                                       &lock_contention, false);
+>> +
+>> +       /* evict as many objects as we can */
+>> +       if (freed < nr_to_scan)
+> oh, one other small note, both in scan_objects() and count_objects(),
+> you should check that get_nr_swap_pages()>0 before counting
+> evictable/willneed objects.  (And you probably want to keep separate
+> LRUs for dontneed vs willneed to accomplish that.)  At least for CrOS,
+> inside the VM there is no swap enabled (but instead we rely on zram
+> swap in the host.. plus vm-balloon to balance memory pressure between
+> host and guest)
 
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
----
- drivers/media/mc/mc-entity.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 11f5207f73aa..f46690fd141d 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -449,7 +449,7 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
- 		bitmap_zero(active, entity->num_pads);
- 		bitmap_fill(has_no_links, entity->num_pads);
- 
--		list_for_each_entry(link, &entity->links, list) {
-+		for_each_media_entity_data_link(entity, link) {
- 			struct media_pad *pad = link->sink->entity == entity
- 						? link->sink : link->source;
- 
-@@ -888,7 +888,7 @@ media_entity_find_link(struct media_pad *source, struct media_pad *sink)
- {
- 	struct media_link *link;
- 
--	list_for_each_entry(link, &source->entity->links, list) {
-+	for_each_media_entity_data_link(source->entity, link) {
- 		if (link->source->entity == source->entity &&
- 		    link->source->index == source->index &&
- 		    link->sink->entity == sink->entity &&
-@@ -904,7 +904,7 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad)
- {
- 	struct media_link *link;
- 
--	list_for_each_entry(link, &pad->entity->links, list) {
-+	for_each_media_entity_data_link(pad->entity, link) {
- 		if (!(link->flags & MEDIA_LNK_FL_ENABLED))
- 			continue;
- 
--- 
-2.25.1
-
+Noted, thank you!
