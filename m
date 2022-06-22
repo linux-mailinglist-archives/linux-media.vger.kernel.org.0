@@ -2,46 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C951C554AD2
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 15:21:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0F0B554B6B
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 15:35:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350659AbiFVNVb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jun 2022 09:21:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42328 "EHLO
+        id S1355672AbiFVNfs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jun 2022 09:35:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349975AbiFVNV1 (ORCPT
+        with ESMTP id S243581AbiFVNfn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jun 2022 09:21:27 -0400
-X-Greylist: delayed 521 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Jun 2022 06:21:24 PDT
-Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 825AF3122C;
-        Wed, 22 Jun 2022 06:21:24 -0700 (PDT)
-Received: from [10.36.2.165] (unknown [178.232.223.95])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Wed, 22 Jun 2022 09:35:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46F032FE43;
+        Wed, 22 Jun 2022 06:35:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.turbocat.net (Postfix) with ESMTPSA id B9F7726021A;
-        Wed, 22 Jun 2022 15:12:38 +0200 (CEST)
-Message-ID: <4883f0a7-6a1b-31bd-33fe-db8f6dcf73fa@selasky.org>
-Date:   Wed, 22 Jun 2022 15:12:32 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D6C4F61B0D;
+        Wed, 22 Jun 2022 13:35:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CABC7C34114;
+        Wed, 22 Jun 2022 13:35:38 +0000 (UTC)
+Message-ID: <0455d962-d13e-9d88-c513-282defe07dd2@xs4all.nl>
+Date:   Wed, 22 Jun 2022 15:35:36 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
+Subject: Re: [PATCH v10 0/5] media: atmel: atmel-isc: implement media
+ controller
 Content-Language: en-US
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org,
-        =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>
-References: <CANXPkT6mYusYe8O0dbq3vW+24SsUZ19PqhOL+wLFRnbFXwu0Zg@mail.gmail.com>
- <CANXPkT7nOhH+5bD0ycyRBT9FKQBBszCVuWkqp4tFtVRf2+8DFg@mail.gmail.com>
- <CANXPkT5k9Pw4ka6CihyCg0oTd-32Te-ox=f3=9rtCphVgrdctA@mail.gmail.com>
- <165590120140.1149771.2257818527859865760@Monstersaurus>
-From:   Hans Petter Selasky <hps@selasky.org>
-In-Reply-To: <165590120140.1149771.2257818527859865760@Monstersaurus>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Eugen.Hristev@microchip.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Claudiu.Beznea@microchip.com, Nicolas.Ferre@microchip.com,
+        jacopo@jmondi.org
+References: <20220503095127.48710-1-eugen.hristev@microchip.com>
+ <1da61f9c-0605-dc9d-63a3-21c18fcb74c7@xs4all.nl>
+ <a19d9e72-7609-1daa-93eb-fdedcaa672c4@microchip.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <a19d9e72-7609-1daa-93eb-fdedcaa672c4@microchip.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -50,59 +52,158 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Hi Eugen,
 
-The consumed variable should not be negative. This bug has been there 
-since the beginning of the GIT at Linux from what I can see.
+On 22/06/2022 14:25, Eugen.Hristev@microchip.com wrote:
+> On 6/22/22 2:53 PM, Hans Verkuil wrote:
+>> Hi Eugen,
+>>
+>> On 03/05/2022 11:51, Eugen Hristev wrote:
+>>> This series is a split from the series :
+>>> [PATCH v9 00/13] media: atmel: atmel-isc: implement media controller
+>>> and it includes the media controller part.
+>>> previous fixes were sent on a different patch series.
+>>>
+>>> As discussed on the ML, moving forward with having the media link validate at
+>>> start/stop streaming call.
+>>> I will test the patch :
+>>> [RFC PATCHv2] vb2: add support for (un)prepare_streaming queue ops
+>>> afterwards, but that patch requires moving my logic to the new vb2 callbacks.
+>>
+>> I'm looking at merging this series, but I would like to have the output of
+>> 'v4l2-compliance -m /dev/mediaX' to verify that the MC links etc. is all
+>> correct.
+> 
+> Hello Hans,
+> 
+> Please have a look at attached file . Unless you want me to add the 
+> whole output to the e-mail ?
 
-+1
+No, this is fine, thank you!
 
---HPS
+> 
+> I also added output of media-ctl -p for your convenience.
+> the subdev2 is a device and driver that is not upstream and has some 
+> compliance issues, they are reported by the v4l2-compliance tool, but 
+> they should not affect this series, it's a synopsys driver that was 
+> rejected on mainline a few years ago, I took it for internal usage, but 
+> it's not cleaned up nor worked a lot upon.
 
- From 108c6acb2cc4bc4314b96f6f254a04b2873a096c Mon Sep 17 00:00:00 2001
-From: YongSu Yoo <yongsuyoo0215@gmail.com>
-Date: Sun, 22 May 2022 04:53:12 +0000
-Subject: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
+OK, good to know.
 
-Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
+From the compliance output:
 
-The function dvb_ringbuffer_pkt_next in
-/linux-next/drviers/media/dvb-core/dvb_ringbuffer.c,
-which searches the idx of the next valid packet in the ring
-buffer of the ca->slot_info[slot].rx_buffer at
-/linux-next/drivers/media/dvb-core/dvb_ca_en50221.c,
-has the following problem.
-In calculating the amounts of the consumed address of the ring
-buffer, if the read address(rbuf->pread) of the ring buffer is
-smaller than the idx, the amounts of the searched address
-should be (idx - rbuf->pread),
-whereas if the read address(rbuf->pread) of the ring buffer is
-larger than the idx, the amounts of the consumed address should
-be (idx - rbuf->pread + rbug->size). But there exists an
-incorrect logic that the rbug-size was not properly added on
-(idx - rbug->pread) in the later case. With this commit, we
-fixed this bug.
----
-  drivers/media/dvb-core/dvb_ringbuffer.c | 4 +++-
-  1 file changed, 3 insertions(+), 1 deletion(-)
+	v4l2-compliance 1.22.1, 32 bits, 32-bit time_t
 
-diff --git a/drivers/media/dvb-core/dvb_ringbuffer.c 
-b/drivers/media/dvb-core/dvb_ringbuffer.c
-index d1d471af0636..7d4558de8e83 100644
---- a/drivers/media/dvb-core/dvb_ringbuffer.c
-+++ b/drivers/media/dvb-core/dvb_ringbuffer.c
-@@ -335,7 +335,9 @@ ssize_t dvb_ringbuffer_pkt_next(struct 
-dvb_ringbuffer *rbuf, size_t idx, size_t*
-  		idx = (idx + curpktlen + DVB_RINGBUFFER_PKTHDRSIZE) % rbuf->size;
-  	}
+This is an old v4l2-compliance version. Compile it directly from the
+v4l-utils git repo and check the output again.
 
--	consumed = (idx - rbuf->pread) % rbuf->size;
-+	consumed = (idx - rbuf->pread);
-+	if (consumed < 0)
-+		consumed += rbuf->size;
+	Compliance test for atmel_isc_commo device /dev/media0:
 
-  	while((dvb_ringbuffer_avail(rbuf) - consumed) > 
-DVB_RINGBUFFER_PKTHDRSIZE) {
+As you can see, the driver name is cut off. Isn't 'atmel-isc'
+a better name?
 
--- 
-2.17.1
+> 
+>>
+>> And one more question which may have been answered already in the past:
+>>
+>> Changing to the MC will break existing applications, doesn't it? Or did I
+>> miss something?
+>>
+> 
+> The existing applications will have to configure the pipeline now. It 
+> will no longer work by configuring just the top video node /dev/video0 .
+> They would have to use media-ctl for it, something similar with this set 
+> of commands:
+> 
+> media-ctl -d /dev/media0 --set-v4l2 '"imx219 
+> 1-0010":0[fmt:SRGGB10_1X10/1920x1080]'
+> media-ctl -d /dev/media0 --set-v4l2 
+> '"dw-csi.0":0[fmt:SRGGB10_1X10/1920x1080]'
+> media-ctl -d /dev/media0 --set-v4l2 '"csi2dc":0[fmt:SRGGB10_1X10/1920x1080]'
+> media-ctl -d /dev/media0 --set-v4l2 
+> '"atmel_isc_scaler":0[fmt:SRGGB10_1X10/1920x1080]'
+
+I'd like to see this documented in a new
+Documentation/admin-guide/media/atmel-isc.rst file. That can be a new patch.
+
+Regards,
+
+	Hans
+
+> 
+> Thank you for taking care of this !
+> 
+> Eugen
+> 
+>> Regards,
+>>
+>>          Hans
+>>
+>>>
+>>> Full series history:
+>>>
+>>> Changes in v10:
+>>> -> split the series into this first fixes part.
+>>> -> moved IO_MC addition from first patch to the second patch on the driver changes
+>>> -> edited commit messages
+>>> -> DT nodes now disabled by default.
+>>>
+>>> Changes in v9:
+>>> -> kernel robot reported isc_link_validate is not static, changed to static.
+>>>
+>>> Changes in v8:
+>>> -> scaler: modified crop bounds to have the exact source size
+>>>
+>>> Changes in v7:
+>>> -> scaler: modified crop bounds to have maximum isc size
+>>> -> format propagation: did small changes as per Jacopo review
+>>>
+>>>
+>>> Changes in v6:
+>>> -> worked a bit on scaler, added try crop and other changes as per Jacopo review
+>>> -> worked on isc-base enum_fmt , reworked as per Jacopo review
+>>>
+>>> Changes in v5:
+>>> -> removed patch that removed the 'stop' variable as it was still required
+>>> -> added two new trivial patches
+>>> -> reworked some parts of the scaler and format propagation after discussions with Jacopo
+>>>
+>>>
+>>> Changes in v4:
+>>> -> as reviewed by Hans, added new patch to remove the 'stop' variable and reworked
+>>> one patch that was using it
+>>> -> as reviewed by Jacopo, reworked some parts of the media controller implementation
+>>>
+>>>
+>>> Changes in v3:
+>>> - change in bindings, small fixes in csi2dc driver and conversion to mc
+>>> for the isc-base.
+>>> - removed some MAINTAINERS patches and used patterns in MAINTAINERS
+>>>
+>>> Changes in v2:
+>>> - integrated many changes suggested by Jacopo in the review of the v1 series.
+>>> - add a few new patches
+>>>
+>>> Eugen Hristev (5):
+>>>    media: atmel: atmel-isc: prepare for media controller support
+>>>    media: atmel: atmel-isc: implement media controller
+>>>    ARM: dts: at91: sama7g5: add nodes for video capture
+>>>    ARM: configs: at91: sama7: add xisc and csi2dc
+>>>    ARM: multi_v7_defconfig: add atmel video pipeline modules
+>>>
+>>>   arch/arm/boot/dts/sama7g5.dtsi                |  51 ++
+>>>   arch/arm/configs/multi_v7_defconfig           |   3 +
+>>>   arch/arm/configs/sama7_defconfig              |   2 +
+>>>   drivers/media/platform/atmel/Makefile         |   2 +-
+>>>   drivers/media/platform/atmel/atmel-isc-base.c | 485 +++++++++---------
+>>>   .../media/platform/atmel/atmel-isc-scaler.c   | 267 ++++++++++
+>>>   drivers/media/platform/atmel/atmel-isc.h      |  50 +-
+>>>   .../media/platform/atmel/atmel-sama5d2-isc.c  |  34 +-
+>>>   .../media/platform/atmel/atmel-sama7g5-isc.c  |  32 +-
+>>>   9 files changed, 685 insertions(+), 241 deletions(-)
+>>>   create mode 100644 drivers/media/platform/atmel/atmel-isc-scaler.c
+>>>
+>>
+> 
+
