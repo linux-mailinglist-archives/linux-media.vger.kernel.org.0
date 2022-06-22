@@ -2,63 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78E5C554678
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 14:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26F4655461A
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 14:10:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235199AbiFVLRL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jun 2022 07:17:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56640 "EHLO
+        id S1354942AbiFVLju (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jun 2022 07:39:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357187AbiFVLQ5 (ORCPT
+        with ESMTP id S241614AbiFVLjc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jun 2022 07:16:57 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7CD3BA79;
-        Wed, 22 Jun 2022 04:16:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655896614; x=1687432614;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MLLOeP/ifnd8x8DPdN0jA/knFVmnzPBL5uESewLgq68=;
-  b=PxC13SO71uBEcv6m4uBD4RrUx9kzPQIiL3Y+8M0TtAas1pNwiRbjCbDP
-   FlA7jL1vjbcnj50X2p+YhMEK/3DJ7YT/XKgb9/hOfS3UU4Tf2Piv7mEbj
-   d8xCkfSpnj+yLNonKCpvzTOgdH5VR510OVdJnXSlo8BuPpkyDfNKSfVHZ
-   upfSr6MOxGLpcyBN0uityuDFoPcwUUoq33F2S5/6MHkN6pCKHqQVeggQP
-   eWyB4lAR0F6vZ7cdsDqBTR5ppzVfEFJgF/9BUe7pC7bUz8tJuPlXoAJgZ
-   oUilmYOU1ZeBbkhT+ELOwpqqpRAIUkEn0YCUhVhBaQKpl1Vhg9wWuJqTh
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="281120406"
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; 
-   d="scan'208";a="281120406"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2022 04:16:53 -0700
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; 
-   d="scan'208";a="677489669"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2022 04:16:50 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1o3yLn-000sHA-U0;
-        Wed, 22 Jun 2022 14:16:47 +0300
-Date:   Wed, 22 Jun 2022 14:16:47 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, djrscally@gmail.com,
-        sakari.ailus@linux.intel.com
-Subject: Re: [PATCH -next v2] media: ov7251: add missing disable functions on
- error in ov7251_set_power_on()
-Message-ID: <YrL6H6Dfp/z3hNhl@smile.fi.intel.com>
-References: <20220622044243.2900783-1-yangyingliang@huawei.com>
+        Wed, 22 Jun 2022 07:39:32 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 037A43DA7A;
+        Wed, 22 Jun 2022 04:38:40 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id s185so10117424pgs.3;
+        Wed, 22 Jun 2022 04:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Xm/Cc+WjGF9w38efHz8/Fdpd8CEJGg3+KIj5FlQGUn4=;
+        b=kjyc3M4P88ac4PQDaSHnFeRSV92PtWd5FYdJuDyKlm7i2vrDqqEcuWo1WMvs2uP5jL
+         Bs8eTfIXWis+VCWswkAIbiyFg9rPT5uEec2oqyvdCvtGyHeCU35xsebKyWgjJrHn261q
+         8eHi3jS6PY7atMpqYKac3CeXGKzzu5uYOedsM86gX6OgzsULoCkGtgS8b/PKh5KK/3ta
+         7JUUKIKPVB+n2Yj6HHJpbitTw3rTUewR1jgxaYM9bT/21bP2C2n70RpDJ4HWW3FLM4U0
+         /rQH6JiaetT+R0trfcd51LsPn5YbmWo7AFbwhEv5+3ZorxdUzhtW9AVTF27XkEH2BlTn
+         ZdKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=Xm/Cc+WjGF9w38efHz8/Fdpd8CEJGg3+KIj5FlQGUn4=;
+        b=dvhBCkuQ3U2Hyqr0GVnUW8/7D5nQk9T+OGDbBuDP6/XpoIeQwJaJHr4Bho4r1RC3Sj
+         lcwZUeXYxKOIgzPfnDH1dbGqdWpd0qDfKA/vvOHMA8j2gvvuoUagXpyNPmt0Aobzg4Ra
+         0BtcOe9a7BI3dCvYLYFAbNOGYFqBbVHgbE0lNwD6FEvL1m7NkMvM1qLYicDK9HUH/xXh
+         KRC+psaq0SdSmOEYcwhZ/dsuzmBJouQZ6WXPr3TqU7EnRF5v2t4Cfp8ZW2QHgs0wK3id
+         8N6d/xjqEjB0Oke5SPgibXWeZBYlazcVzO4Xgy2fXl1emtZmrjWv+p1zvpM3bp+vpUsZ
+         XVaw==
+X-Gm-Message-State: AJIora/82PT0kiMcX4Dhf9W6Hgw3X8DGtJWfCAgOGJ+tvg2EONnJvfYe
+        3hrujiCHBFqM8SWFvyBDY+V6ucyhIZ+VJd/u6nvG2LO1/Qw=
+X-Google-Smtp-Source: AGRyM1uatdmC3STj9aZKvdy0Gb+9xl4YQYQ5ccF9nX7utIXXbPsFQZ/dfIB5p9n2nb+4r0gV+XsyrvZXlTt3kCmkOjA=
+X-Received: by 2002:a05:6a00:1a87:b0:51c:29f1:13a0 with SMTP id
+ e7-20020a056a001a8700b0051c29f113a0mr35297086pfv.13.1655897919907; Wed, 22
+ Jun 2022 04:38:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220622044243.2900783-1-yangyingliang@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+References: <CANXPkT6mYusYe8O0dbq3vW+24SsUZ19PqhOL+wLFRnbFXwu0Zg@mail.gmail.com>
+ <CANXPkT7nOhH+5bD0ycyRBT9FKQBBszCVuWkqp4tFtVRf2+8DFg@mail.gmail.com>
+In-Reply-To: <CANXPkT7nOhH+5bD0ycyRBT9FKQBBszCVuWkqp4tFtVRf2+8DFg@mail.gmail.com>
+From:   =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>
+Date:   Wed, 22 Jun 2022 20:39:20 +0900
+Message-ID: <CANXPkT5k9Pw4ka6CihyCg0oTd-32Te-ox=f3=9rtCphVgrdctA@mail.gmail.com>
+Subject: Re: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
+To:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,44 +68,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 22, 2022 at 12:42:43PM +0800, Yang Yingliang wrote:
-> Add the missing gpiod_set_value_cansleep() and clk_disable_unprepare()
-> before return from ov7251_set_power_on() in the error handling case.
+Dear Alls
 
-This makes sense to me from code flow perspective.
+How is my kernel modification going ?
+Can you check my kernel modification ?
+and give me the feedback ?
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-> Fixes: 9e1d3012cc10 ("media: i2c: Remove .s_power() from ov7251")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
-> v2:
->   - add gpiod_set_value_cansleep()
->   - also change the patch title and commit message
-> ---
->  drivers/media/i2c/ov7251.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
-> index 0e7be15bc20a..ad9689820ecc 100644
-> --- a/drivers/media/i2c/ov7251.c
-> +++ b/drivers/media/i2c/ov7251.c
-> @@ -934,6 +934,8 @@ static int ov7251_set_power_on(struct device *dev)
->  					ARRAY_SIZE(ov7251_global_init_setting));
->  	if (ret < 0) {
->  		dev_err(ov7251->dev, "error during global init\n");
-> +		gpiod_set_value_cansleep(ov7251->enable_gpio, 0);
-> +		clk_disable_unprepare(ov7251->xclk);
->  		ov7251_regulators_disable(ov7251);
->  		return ret;
->  	}
-> -- 
-> 2.25.1
-> 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+2022=EB=85=84 6=EC=9B=94 1=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 9:54, =
+=EC=9C=A0=EC=9A=A9=EC=88=98 <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=
+=9E=91=EC=84=B1:
+>
+> Dear Alls
+>
+> Can you check the Below E-mail ?
+> Can you share how is the below patch going ?
+>
+> ---------- Forwarded message ---------
+> =EB=B3=B4=EB=82=B8=EC=82=AC=EB=9E=8C: =EC=9C=A0=EC=9A=A9=EC=88=98 <yongsu=
+yoo0215@gmail.com>
+> Date: 2022=EB=85=84 5=EC=9B=94 22=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84=
+ 3:36
+> Subject: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
+> To: <mchehab@kernel.org>
+> Cc: <0215yys@hanmail.net>, <yongsu.yoo@lge.com>, =EC=9C=A0=EC=9A=A9=EC=88=
+=98 <yongsuyoo0215@gmail.com>
+>
+>
+> Dear Mauro Carvalho Chehab
+> My name is YongSu Yoo
+>
+> I found an incorrect logic at the function of dvb_ringbuffer_pkt_next in
+> /linux-next/drviers/media/dvb-core/dvb_ringbuffer.c.
+> I correct the bug like the attached file (
+> 0001-media-dvb_ringbuffer-Fix-a-bug-in-dvb_ringbuffer.c.patch ).
+> Please check the attached file.
+>
+> Thank you
