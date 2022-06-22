@@ -2,56 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82C395553B8
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 20:54:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0786D5554C6
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 21:41:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377699AbiFVSyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jun 2022 14:54:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40592 "EHLO
+        id S1359126AbiFVTjB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jun 2022 15:39:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377362AbiFVSxt (ORCPT
+        with ESMTP id S1359276AbiFVTid (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jun 2022 14:53:49 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 190EF39170;
-        Wed, 22 Jun 2022 11:53:49 -0700 (PDT)
+        Wed, 22 Jun 2022 15:38:33 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAE1C1E3DF;
+        Wed, 22 Jun 2022 12:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655924029; x=1687460029;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9mAOWFjQXMW4Rt3WcvW9GVCZ90S9lJN3oM8X4tRezUI=;
-  b=YybTW9rZxlQqu8hl3G2qdQFLlWrWCzWBzy00RIazJPM2JtIGaBm8E91k
-   fSpSfYAGAdFSsZZvvUVUKjAeDjgZamMGRmwlx9WYew//9uL6JASopI59K
-   rj+TuYNxOflZxJ8ha3Ksk941BMuKMq7O2UdyCpeUs2z4TUMvD76gUetSq
-   zj8Ahvdj93+ARkEIx0HAg9IjuvwQcuS1tbpTxbJs2m6ksqn93JvAZoElh
-   EtJzUFeRharWyHNwB1h12OfAmx1HIMRihAgEcXG5pLrAqV1VaTgRxSHoh
-   XNMIbDbgCGAv6RchJ7JyMFMuiTw7g4eI6g/MRdmvzPy7PDui+2erXJ1yj
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="260949237"
+  t=1655926705; x=1687462705;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=gbvWe3wuebpXvIG3UZFFzQ35e3K5lS8i3GMHJ5GABAs=;
+  b=GbL3x+4mUkmP8wU9N1DeXcOo18uu6Sp+I8+RXC0SOyf7MUY1e4gd9c7Q
+   3FLDEjf/3afHJzdQQDrm5bu0WA4eDZj25yLlI422pfozCkr9X2HddmTPY
+   kJfk6iqovFon69W55Nfotsj/5fd3WCO1sJmGIygsMl2LdAb4u+IuSxpx/
+   Xzf3a1qa9IFHOV/SiNwYcWgNLNNF3oDGMNG7Jv9KT9wVqpcf6JQpf4iG7
+   fw4Bjxj/5jrbBvIbnmlaVP3LlwAuhPr/lfrS48iv4xmk8SWruSAVxVH6Y
+   8LWm+0zsDzZvyr1bkaaGohA7jIllm+a3lscPAaI6GPO9y7rMRMS/KpKYK
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="305983081"
 X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; 
-   d="scan'208";a="260949237"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2022 11:53:49 -0700
+   d="scan'208";a="305983081"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2022 12:38:25 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; 
-   d="scan'208";a="834264901"
+   d="scan'208";a="715542085"
 Received: from bwalker-desk.ch.intel.com ([143.182.136.162])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Jun 2022 11:53:48 -0700
+  by orsmga004.jf.intel.com with ESMTP; 22 Jun 2022 12:38:25 -0700
 From:   Ben Walker <benjamin.walker@intel.com>
 To:     vkoul@kernel.org
 Cc:     dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH v3 07/15] media: pxa_camera: Use dmaengine_async_is_tx_complete
-Date:   Wed, 22 Jun 2022 11:53:46 -0700
-Message-Id: <20220622185346.3043590-1-benjamin.walker@intel.com>
+Subject: [PATCH v4 05/15] media: omap_vout: Use dmaengine_async_is_tx_complete
+Date:   Wed, 22 Jun 2022 12:37:43 -0700
+Message-Id: <20220622193753.3044206-6-benjamin.walker@intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220622193753.3044206-1-benjamin.walker@intel.com>
+References: <20220503200728.2321188-1-benjamin.walker@intel.com>
+ <20220622193753.3044206-1-benjamin.walker@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -59,39 +62,27 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Replace dma_async_is_tx_complete with dmaengine_async_is_tx_complete.
-The previous PAI will be removed in favor of the new one.
+The previous API will be removed in favor of the new one.
 
+Cc: linux-media@vger.kernel.org
 Signed-off-by: Ben Walker <benjamin.walker@intel.com>
 ---
- drivers/media/platform/intel/pxa_camera.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ drivers/media/platform/ti/omap/omap_vout_vrfb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/intel/pxa_camera.c b/drivers/media/platform/intel/pxa_camera.c
-index 35145e3348f0e..0880bf2baa339 100644
---- a/drivers/media/platform/intel/pxa_camera.c
-+++ b/drivers/media/platform/intel/pxa_camera.c
-@@ -1048,9 +1048,18 @@ static void pxa_camera_dma_irq(struct pxa_camera_dev *pcdev,
- 	}
- 	last_buf = list_entry(pcdev->capture.prev,
- 			      struct pxa_buffer, queue);
--	last_status = dma_async_is_tx_complete(pcdev->dma_chans[chan],
--					       last_buf->cookie[chan],
--					       NULL, &last_issued);
-+	last_status = dmaengine_async_is_tx_complete(pcdev->dma_chans[chan],
-+					       last_buf->cookie[chan]);
-+	/*
-+	 * Peek into the channel and read the last cookie that was issued.
-+	 * This is a layering violation - the dmaengine API does not officially
-+	 * provide this information. Since this camera driver is tightly coupled
-+	 * with a specific DMA device we know exactly how this cookie value will
-+	 * behave. Otherwise, this wouldn't be safe.
-+	 */
-+	last_issued = pcdev->dma_chans[chan]->cookie;
-+	barrier();
-+
- 	if (camera_status & overrun &&
- 	    last_status != DMA_COMPLETE) {
- 		dev_dbg(pcdev_to_dev(pcdev), "FIFO overrun! CISR: %x\n",
+diff --git a/drivers/media/platform/ti/omap/omap_vout_vrfb.c b/drivers/media/platform/ti/omap/omap_vout_vrfb.c
+index 0cfa0169875f0..b9d252d5ced7a 100644
+--- a/drivers/media/platform/ti/omap/omap_vout_vrfb.c
++++ b/drivers/media/platform/ti/omap/omap_vout_vrfb.c
+@@ -289,7 +289,7 @@ int omap_vout_prepare_vrfb(struct omap_vout_device *vout,
+ 					 vout->vrfb_dma_tx.tx_status == 1,
+ 					 VRFB_TX_TIMEOUT);
+ 
+-	status = dma_async_is_tx_complete(chan, cookie, NULL, NULL);
++	status = dmaengine_async_is_tx_complete(chan, cookie);
+ 
+ 	if (vout->vrfb_dma_tx.tx_status == 0) {
+ 		pr_err("%s: Timeout while waiting for DMA\n", __func__);
 -- 
 2.35.1
 
