@@ -2,70 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CBC2554134
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 06:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20AF55541C1
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 06:32:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356605AbiFVEJp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jun 2022 00:09:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41932 "EHLO
+        id S1356896AbiFVEcq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jun 2022 00:32:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231638AbiFVEJn (ORCPT
+        with ESMTP id S1356131AbiFVEcp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jun 2022 00:09:43 -0400
-Received: from smtpbg.qq.com (smtpbg138.qq.com [106.55.201.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8A060EC;
-        Tue, 21 Jun 2022 21:09:37 -0700 (PDT)
-X-QQ-mid: bizesmtp81t1655870968tn8rmo5g
-Received: from ubuntu.localdomain ( [106.117.99.132])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Wed, 22 Jun 2022 12:09:25 +0800 (CST)
-X-QQ-SSF: 01000000000000B0B000000A0000000
-X-QQ-FEAT: ArfJXynxbT1cyRpiEcN1yh7uYGTa/piEohXeXghTcreGUhbs9of9CPaALCTjr
-        g8DC5AMsXz3nNXDu8SSlSszDsxFQCwtjzWVYRJNjci5crhF27jWs/eytqw0CCtWTajH8192
-        NoFU9oxv0/pzUUqPfmgoTE4z2/3yC5fVm9OYSKVS6LuR7MPXzP9AIqBGcbjIsdnuDYi/Uk0
-        9XjJ6umntqA334yhTEvbor1GN5xSrdnnpR2nLnhl/4VPLgL8Nox2sQ6UWtsIoW83tXyHxyK
-        UMYKed04QUA8wprB9EaWNZmbtHV7gJnrMA71auAViw1q0eyVYZiBO7NvkbhgiWI+jeIYFn5
-        4ms4qYqS73jK/kloYIvgiK2uFDb1Q==
-X-QQ-GoodBg: 0
-From:   Jiang Jian <jiangjian@cdjrlc.com>
-To:     mchehab@kernel.org
-Cc:     hverkuil@xs4all.nl, jiangjian@cdjrlc.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: xirlink_cit: aligned '*' each line.
-Date:   Wed, 22 Jun 2022 12:09:23 +0800
-Message-Id: <20220622040923.7604-1-jiangjian@cdjrlc.com>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam10
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_PASS,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 22 Jun 2022 00:32:45 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5E435276;
+        Tue, 21 Jun 2022 21:32:44 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LSVlK6RjVzSgyD;
+        Wed, 22 Jun 2022 12:29:17 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 22 Jun 2022 12:32:41 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 22 Jun
+ 2022 12:32:41 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
+CC:     <mchehab@kernel.org>, <djrscally@gmail.com>,
+        <andriy.shevchenko@linux.intel.com>, <sakari.ailus@linux.intel.com>
+Subject: [PATCH -next v2] media: ov7251: add missing disable functions on error in ov7251_set_power_on()
+Date:   Wed, 22 Jun 2022 12:42:43 +0800
+Message-ID: <20220622044243.2900783-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Consider '*' alignment in the comments of function cit_model3_Packet1 declaration.
+Add the missing gpiod_set_value_cansleep() and clk_disable_unprepare()
+before return from ov7251_set_power_on() in the error handling case.
 
-Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
+Fixes: 9e1d3012cc10 ("media: i2c: Remove .s_power() from ov7251")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/media/usb/gspca/xirlink_cit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2:
+  - add gpiod_set_value_cansleep()
+  - also change the patch title and commit message
+---
+ drivers/media/i2c/ov7251.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/usb/gspca/xirlink_cit.c b/drivers/media/usb/gspca/xirlink_cit.c
-index cc87c24dd24c..acfb9a195106 100644
---- a/drivers/media/usb/gspca/xirlink_cit.c
-+++ b/drivers/media/usb/gspca/xirlink_cit.c
-@@ -817,7 +817,7 @@ static void cit_model2_Packet1(struct gspca_dev *gspca_dev, u16 v1, u16 v2)
-  * 00_d141_0124
-  * 00_0096_0127
-  * 00_fea8_0124
--*/
-+ */
- static void cit_model3_Packet1(struct gspca_dev *gspca_dev, u16 v1, u16 v2)
- {
- 	cit_write_reg(gspca_dev, 0x0078, 0x012d);
+diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
+index 0e7be15bc20a..ad9689820ecc 100644
+--- a/drivers/media/i2c/ov7251.c
++++ b/drivers/media/i2c/ov7251.c
+@@ -934,6 +934,8 @@ static int ov7251_set_power_on(struct device *dev)
+ 					ARRAY_SIZE(ov7251_global_init_setting));
+ 	if (ret < 0) {
+ 		dev_err(ov7251->dev, "error during global init\n");
++		gpiod_set_value_cansleep(ov7251->enable_gpio, 0);
++		clk_disable_unprepare(ov7251->xclk);
+ 		ov7251_regulators_disable(ov7251);
+ 		return ret;
+ 	}
 -- 
-2.17.1
+2.25.1
 
