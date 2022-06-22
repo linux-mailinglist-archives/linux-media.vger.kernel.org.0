@@ -2,74 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7641554E79
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 17:04:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F741554F17
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 17:25:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358953AbiFVPEP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jun 2022 11:04:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36772 "EHLO
+        id S1358635AbiFVPZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jun 2022 11:25:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358858AbiFVPD7 (ORCPT
+        with ESMTP id S236696AbiFVPZa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jun 2022 11:03:59 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211F83EA81
-        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 08:03:52 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-101ab23ff3fso19062893fac.1
-        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 08:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=vhZEVnaGNBjosB86GDUW8b2wHjB/+QU31bPXl36TqFE=;
-        b=lmXhPRDXrnlbYClAFJkfHZYdowqXsf1nTuDLZnU/Y1W/T6TJ8ApbIv950i47frAtN/
-         OtndHJQoWJG+weygm2GuosJduERMEzUHLtTF4oGKopzqXa+c5O1ob2p5JuwuGNaCZz0D
-         0k2iO6ZG6gpeVsjTt5A+NLMvCH8qDkpG8Ex3xIMBpunG6BNJWrlCGLJYo7boJK6pvBIx
-         W4x550ST0gVpK9sdxwL58OfMVVl7H7xG/39bSvJCxipLUGbdwSBY6WRzvY6hd28wfB/N
-         vDKUfqITg8PxsgA4g6gEDGmS0K0dBg3KSntFmGDvcmLKkvSy/F4e+TYysqkO/txSQBCJ
-         afFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=vhZEVnaGNBjosB86GDUW8b2wHjB/+QU31bPXl36TqFE=;
-        b=ooZkOWiyabFxYDx8cZS5NCg+Cvt4oOepFA8Eb8df3YUMNCi7XYy2j3ZW/gFlGDzLBm
-         ef9TbJCj902igfnbM570UNenrfUzVf936EySQv3msa5wALKIwjQsn8lTo9bXpyRXjLt4
-         CBgueDLj0Y+44z6S+PJQUHWewHThYrtfN1yLXxzMrFvqCCOIPZsWYufX8Bmz/zGpOlAA
-         xsJytwri4DWmFWnFvksgbY/JYLV0T/tbM6ru06WUpFRF1NrWnzTfB84bCRP4Bk+iAX8/
-         ywvF1dMPbmI/0wVLtDrKfIl5ARhgpw5PAo9oOGrR0BP0w2HFfuC8ALsTV+9fVnnD7T1M
-         8XMw==
-X-Gm-Message-State: AJIora/8NLyIFsGvTIH4gFehDkI+PVHgtwlFhJ8CedvIyvkpw90/AB2+
-        B7lLH/wPHGoUuwaP7tbYl3vCuufOfNrVdRBpqPElbdz5nt2y64JT
-X-Google-Smtp-Source: AGRyM1ulxotWsDV/SS5wzW6q4zt5LXu3F658bS4StYWI/FgPuIBqBz38zqk7aydOTm9FXxU+wDfnf428k+eRTEG/aD8=
-X-Received: by 2002:a17:90b:1988:b0:1ec:f52d:90d4 with SMTP id
- mv8-20020a17090b198800b001ecf52d90d4mr1796737pjb.70.1655910220864; Wed, 22
- Jun 2022 08:03:40 -0700 (PDT)
+        Wed, 22 Jun 2022 11:25:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 409A039160;
+        Wed, 22 Jun 2022 08:25:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D16F961655;
+        Wed, 22 Jun 2022 15:25:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 958B2C34114;
+        Wed, 22 Jun 2022 15:25:26 +0000 (UTC)
+Message-ID: <f14cd01b-e0fa-005c-0a90-3aaaa3dd7c12@xs4all.nl>
+Date:   Wed, 22 Jun 2022 17:25:24 +0200
 MIME-Version: 1.0
-Received: by 2002:a17:903:2308:b0:16a:1b3f:f74b with HTTP; Wed, 22 Jun 2022
- 08:03:40 -0700 (PDT)
-Reply-To: sales0212@asonmedsystemsinc.com
-From:   Prasad Ronni <lerwickfinance7@gmail.com>
-Date:   Wed, 22 Jun 2022 16:03:40 +0100
-Message-ID: <CAFkto5vTxj70kORZJZdwOGowXjsZ399eo6DJj=8T==7paSuHTw@mail.gmail.com>
-Subject: Service Needed.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] media: sta2x11: remove VIRT_TO_BUS dependency
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Federico Vaga <federico.vaga@gmail.com>,
+        Giancarlo Asnaghi <giancarlo.asnaghi@st.com>
+Cc:     =?UTF-8?Q?=c5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20220616085254.2275372-1-arnd@kernel.org>
+ <CAK8P3a3O1CEuahB+VeKfFe3iycTwG=1RH2hq2eMn6rGwGA0p=g@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CAK8P3a3O1CEuahB+VeKfFe3iycTwG=1RH2hq2eMn6rGwGA0p=g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Hi,
+On 16/06/2022 11:32, Arnd Bergmann wrote:
+> On Thu, Jun 16, 2022 at 10:52 AM Arnd Bergmann <arnd@kernel.org> wrote:
+>>
+>> diff --git a/drivers/media/pci/sta2x11/Kconfig b/drivers/media/pci/sta2x11/Kconfig
+>> index a96e170ab04e..118b922c08c3 100644
+>> --- a/drivers/media/pci/sta2x11/Kconfig
+>> +++ b/drivers/media/pci/sta2x11/Kconfig
+>> @@ -1,7 +1,7 @@
+>>  # SPDX-License-Identifier: GPL-2.0-only
+>>  config STA2X11_VIP
+>>         tristate "STA2X11 VIP Video For Linux"
+>> -       depends on PCI && VIDEO_DEV && VIRT_TO_BUS && I2C
+>> +       depends on PCI && VIDEO_DEV && I2C
+>>         depends on STA2X11 || COMPILE_TEST
+> 
+> As I resent this one out of series, I guess I should clarify: I would
+> like to merge the patch to remove VIRT_TO_BUS through the
+> asm-generic tree for 5.20, which would make STA2X11_VIP
+> impossible to select, unless this patch gets applied as well.
+> 
+> I can take the patch through the asm-generic tree as well if anyone
+> cares about bisectibility here.
+> 
+>          Arnd
 
-Are you currently open to work as our executive company representative
-on contractual basis working remotely? If yes, we will be happy to
-share more details. Looking forward to your response.
+I'll take this patch through the media subsystem for 5.20.
 
 Regards,
+
+	Hans
