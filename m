@@ -2,44 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF3DC554FB5
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 17:47:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61EAA555146
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 18:24:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359459AbiFVPrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jun 2022 11:47:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46092 "EHLO
+        id S1376375AbiFVQYv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jun 2022 12:24:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359452AbiFVPrB (ORCPT
+        with ESMTP id S1376660AbiFVQYe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jun 2022 11:47:01 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A27463C4AE;
-        Wed, 22 Jun 2022 08:46:59 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id D7DAA40015;
-        Wed, 22 Jun 2022 15:46:54 +0000 (UTC)
-Date:   Wed, 22 Jun 2022 17:46:52 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Eugen.Hristev@microchip.com, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Claudiu.Beznea@microchip.com,
-        Nicolas.Ferre@microchip.com
-Subject: Re: [PATCH v10 0/5] media: atmel: atmel-isc: implement media
- controller
-Message-ID: <20220622154652.o7be4tl64m4yrbxv@uno.localdomain>
-References: <20220503095127.48710-1-eugen.hristev@microchip.com>
- <1da61f9c-0605-dc9d-63a3-21c18fcb74c7@xs4all.nl>
- <a19d9e72-7609-1daa-93eb-fdedcaa672c4@microchip.com>
- <bc22469c-d1ab-72e2-8e9e-6bd42d66f3d9@microchip.com>
- <c1b8820d-5ff5-b6dd-bc22-35f8daf756db@xs4all.nl>
- <20220622141439.v2ozrctikjxd67ue@uno.localdomain>
- <01b837f6-f8a2-1f59-45c1-f746b741f2db@xs4all.nl>
+        Wed, 22 Jun 2022 12:24:34 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1830E403DC
+        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 09:24:28 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o439W-00Em5w-D2; Wed, 22 Jun 2022 16:24:26 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o439S-0013mL-Ny; Wed, 22 Jun 2022 16:24:23 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.20] Various fixes/enhancements (#84255)
+Date:   Wed, 22 Jun 2022 16:24:21 +0000
+Message-Id: <20220622162421.252807-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <d1fbef8e-e573-d9cc-57f2-7bd0fd14a85d@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <01b837f6-f8a2-1f59-45c1-f746b741f2db@xs4all.nl>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -48,228 +44,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+From: builder@linuxtv.org
 
-On Wed, Jun 22, 2022 at 04:55:27PM +0200, Hans Verkuil wrote:
-> Hi Eugen, Jacopo,
->
-> On 22/06/2022 16:14, Jacopo Mondi wrote:
-> > Hi Hans, Eugen
-> >
-> > On Wed, Jun 22, 2022 at 03:47:33PM +0200, Hans Verkuil wrote:
-> >> On 22/06/2022 14:42, Eugen.Hristev@microchip.com wrote:
-> >>> On 6/22/22 3:25 PM, Eugen Hristev - M18282 wrote:
-> >>>> On 6/22/22 2:53 PM, Hans Verkuil wrote:
-> >>>>> Hi Eugen,
-> >>>>>
-> >>>>> On 03/05/2022 11:51, Eugen Hristev wrote:
-> >>>>>> This series is a split from the series :
-> >>>>>> [PATCH v9 00/13] media: atmel: atmel-isc: implement media controller
-> >>>>>> and it includes the media controller part.
-> >>>>>> previous fixes were sent on a different patch series.
-> >>>>>>
-> >>>>>> As discussed on the ML, moving forward with having the media link validate at
-> >>>>>> start/stop streaming call.
-> >>>>>> I will test the patch :
-> >>>>>> [RFC PATCHv2] vb2: add support for (un)prepare_streaming queue ops
-> >>>>>> afterwards, but that patch requires moving my logic to the new vb2 callbacks.
-> >>>>>
-> >>>>> I'm looking at merging this series, but I would like to have the output of
-> >>>>> 'v4l2-compliance -m /dev/mediaX' to verify that the MC links etc. is all
-> >>>>> correct.
-> >>>>
-> >>>> Hello Hans,
-> >>>>
-> >>>> Please have a look at attached file . Unless you want me to add the
-> >>>> whole output to the e-mail ?
-> >>>>
-> >>>> I also added output of media-ctl -p for your convenience.
-> >>>> the subdev2 is a device and driver that is not upstream and has some
-> >>>> compliance issues, they are reported by the v4l2-compliance tool, but
-> >>>> they should not affect this series, it's a synopsys driver that was
-> >>>> rejected on mainline a few years ago, I took it for internal usage, but
-> >>>> it's not cleaned up nor worked a lot upon.
-> >>>>
-> >>>>>
-> >>>>> And one more question which may have been answered already in the past:
-> >>>>>
-> >>>>> Changing to the MC will break existing applications, doesn't it? Or did I
-> >>>>> miss something?
-> >>>>>
-> >>>>
-> >>>> The existing applications will have to configure the pipeline now. It
-> >>>> will no longer work by configuring just the top video node /dev/video0 .
-> >>>> They would have to use media-ctl for it, something similar with this set
-> >>>> of commands:
-> >>>
-> >>> To add on top of that, actually, the reality is that without the MC
-> >>> support in atmel-isc , some of our platforms do not work at all, because
-> >>> the csi2dc driver which is in the middle of the pipeline, is a MC
-> >>> driver. So it will not work without configuring it with MC anyway. It
-> >>> used to work in a very preliminary version of the csi2dc driver which I
-> >>> sent a few years ago, but that way of handling things was rejected.
-> >>> Hence I changed the csi2dc to being full-MC driver (requested for new
-> >>> drivers) and now I am completing the conversion for the whole pipeline.
-> >>> We are using this MC-centric approach in production for our products to
-> >>> be as close as possible to mainline, and backported it to our 5.15
-> >>> internal releases, which people are using right now.
-> >>
-> >> I'm not all that keen on breaking userspace for those who do NOT use the
-> >> Atmel BSP. Basically some platforms are currently broken, and with this patch
-> >> series some other platforms are broken, but at least can be fixed by changing
-> >> userspace.
-> >>
-> >> How feasible is it to do something similar that TI did for the cal driver?
-> >> (drivers/media/platform/ti/cal)
-> >>
-> >> I.e., based on a module option the MC is enabled or disabled. And if a
-> >> csi2dc is present, then the MC API is always enabled.
-> >>
-> >
-> > I think I have suggested Eugen to move to MC when he
-> > started looking in libcamera, so sorry for the intrusion but I feel
-> > a bit bad for not rising the point earlier and get him to v10
-> >
-> > I understand your point Hans, and when a vendor upstreaming code or a
-> > user requires to maintain compatibility, the burden of keeping more
-> > code in to handle the MC and non-MC cases is worth the complications.
->
-> Eugen, can you provide a list of platforms that will break with this
-> change and which platforms are currently broken without this series?
->
-> I'm trying to get a bit of a feel of the potential problems this change
-> will introduce.
->
-> >
-> > But if even the vendor wants to move to MC to allow more use-cases I
-> > think we have to acknolege that if you're running mainline on an
-> > embedded system you could expect to adjust your setup between kernel
-> > updates. The idea to document the media-ctl commands required to setup
-> > the pipeline it's helpful, and might help in the interim period until
-> > the platform is not supported by libcamera.
->
-> Well, I don't want Linus to start yelling at me for breaking userspace :-)
->
-> We have broken userspace API (intentionally) in the past, but only with
-> good reasons. And sometimes a driver is used so rarely that it is not worth
-> the effort to try and keep compatible.
->
-> As a developer I'd love to just forget about the old API, but as subsystem
-> maintainer I need good arguments.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/d1fbef8e-e573-d9cc-57f2-7bd0fd14a85d@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/218660/
+Build time: 00:43:07
+Link: https://lore.kernel.org/linux-media/d1fbef8e-e573-d9cc-57f2-7bd0fd14a85d@xs4all.nl
 
-I understand and I think these are all valid concerns. Finding a
-balance between new features and legacy is not easy.
+gpg: Signature made Wed 22 Jun 2022 03:23:22 PM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
->
-> Another option might be to take the TI cal approach, but have warnings that
-> it will be removed in, say, 2 years time. Or even make a copy of the driver
-> for the old platforms, and perhaps move that to staging to be removed eventually.
->
-> The idea of a sudden breakage when going from kernel K to K+1 doesn't sit
-> well with me, if there was a transition period of 1-2 years then that would be
-> better.
->
+Summary: got 4/32 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-If staging works for you that's probably the easiest option. Let's see
-what Eugen prefers!
+Error/warnings:
 
-> Regards,
->
-> 	Hans
->
-> >
-> > That said, if Eugen wants to give the flag a try I won't
-> > oppose :)
-> >
-> >
-> >> Regards,
-> >>
-> >> 	Hans
-> >>
-> >>>
-> >>>>
-> >>>> media-ctl -d /dev/media0 --set-v4l2 '"imx219
-> >>>> 1-0010":0[fmt:SRGGB10_1X10/1920x1080]'
-> >>>> media-ctl -d /dev/media0 --set-v4l2
-> >>>> '"dw-csi.0":0[fmt:SRGGB10_1X10/1920x1080]'
-> >>>> media-ctl -d /dev/media0 --set-v4l2 '"csi2dc":0[fmt:SRGGB10_1X10/1920x1080]'
-> >>>> media-ctl -d /dev/media0 --set-v4l2
-> >>>> '"atmel_isc_scaler":0[fmt:SRGGB10_1X10/1920x1080]'
-> >>>>
-> >>>> Thank you for taking care of this !
-> >>>>
-> >>>> Eugen
-> >>>>
-> >>>>> Regards,
-> >>>>>
-> >>>>>           Hans
-> >>>>>
-> >>>>>>
-> >>>>>> Full series history:
-> >>>>>>
-> >>>>>> Changes in v10:
-> >>>>>> -> split the series into this first fixes part.
-> >>>>>> -> moved IO_MC addition from first patch to the second patch on the driver changes
-> >>>>>> -> edited commit messages
-> >>>>>> -> DT nodes now disabled by default.
-> >>>>>>
-> >>>>>> Changes in v9:
-> >>>>>> -> kernel robot reported isc_link_validate is not static, changed to static.
-> >>>>>>
-> >>>>>> Changes in v8:
-> >>>>>> -> scaler: modified crop bounds to have the exact source size
-> >>>>>>
-> >>>>>> Changes in v7:
-> >>>>>> -> scaler: modified crop bounds to have maximum isc size
-> >>>>>> -> format propagation: did small changes as per Jacopo review
-> >>>>>>
-> >>>>>>
-> >>>>>> Changes in v6:
-> >>>>>> -> worked a bit on scaler, added try crop and other changes as per Jacopo review
-> >>>>>> -> worked on isc-base enum_fmt , reworked as per Jacopo review
-> >>>>>>
-> >>>>>> Changes in v5:
-> >>>>>> -> removed patch that removed the 'stop' variable as it was still required
-> >>>>>> -> added two new trivial patches
-> >>>>>> -> reworked some parts of the scaler and format propagation after discussions with Jacopo
-> >>>>>>
-> >>>>>>
-> >>>>>> Changes in v4:
-> >>>>>> -> as reviewed by Hans, added new patch to remove the 'stop' variable and reworked
-> >>>>>> one patch that was using it
-> >>>>>> -> as reviewed by Jacopo, reworked some parts of the media controller implementation
-> >>>>>>
-> >>>>>>
-> >>>>>> Changes in v3:
-> >>>>>> - change in bindings, small fixes in csi2dc driver and conversion to mc
-> >>>>>> for the isc-base.
-> >>>>>> - removed some MAINTAINERS patches and used patterns in MAINTAINERS
-> >>>>>>
-> >>>>>> Changes in v2:
-> >>>>>> - integrated many changes suggested by Jacopo in the review of the v1 series.
-> >>>>>> - add a few new patches
-> >>>>>>
-> >>>>>> Eugen Hristev (5):
-> >>>>>>     media: atmel: atmel-isc: prepare for media controller support
-> >>>>>>     media: atmel: atmel-isc: implement media controller
-> >>>>>>     ARM: dts: at91: sama7g5: add nodes for video capture
-> >>>>>>     ARM: configs: at91: sama7: add xisc and csi2dc
-> >>>>>>     ARM: multi_v7_defconfig: add atmel video pipeline modules
-> >>>>>>
-> >>>>>>    arch/arm/boot/dts/sama7g5.dtsi                |  51 ++
-> >>>>>>    arch/arm/configs/multi_v7_defconfig           |   3 +
-> >>>>>>    arch/arm/configs/sama7_defconfig              |   2 +
-> >>>>>>    drivers/media/platform/atmel/Makefile         |   2 +-
-> >>>>>>    drivers/media/platform/atmel/atmel-isc-base.c | 485 +++++++++---------
-> >>>>>>    .../media/platform/atmel/atmel-isc-scaler.c   | 267 ++++++++++
-> >>>>>>    drivers/media/platform/atmel/atmel-isc.h      |  50 +-
-> >>>>>>    .../media/platform/atmel/atmel-sama5d2-isc.c  |  34 +-
-> >>>>>>    .../media/platform/atmel/atmel-sama7g5-isc.c  |  32 +-
-> >>>>>>    9 files changed, 685 insertions(+), 241 deletions(-)
-> >>>>>>    create mode 100644 drivers/media/platform/atmel/atmel-isc-scaler.c
-> >>>>>>
-> >>>>>
-> >>>>
-> >>>
-> >>
->
+patches/0001-media-mediatek-vcodec-Fix-decoder-v4l2-bus_info-not-.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000012Kb sm_state_count = 543759
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 8 seconds
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5517 cx23885_dif_setup() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1725875
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 48 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0018-media-atmel-atmel-isc-base-allow-wb-ctrls-to-be-chan.patch:
+
+   checkpatch.pl:
+	$ cat patches/0018-media-atmel-atmel-isc-base-allow-wb-ctrls-to-be-chan.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:13: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0030-media-saa7164-Remove-duplicate-on-in-two-places.patch:
+
+   checkpatch.pl:
+	$ cat patches/0030-media-saa7164-Remove-duplicate-on-in-two-places.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:8: WARNING: Possible repeated word: 'on'
+
+patches/0031-media-av7110-Remove-duplicate-with-in-two-places.patch:
+
+   checkpatch.pl:
+	$ cat patches/0031-media-av7110-Remove-duplicate-with-in-two-places.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:8: WARNING: Possible repeated word: 'with'
+
+
+Error #512 when building PDF docs
+
