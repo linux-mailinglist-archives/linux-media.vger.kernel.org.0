@@ -2,105 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26F4655461A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 14:10:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 107DC554922
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jun 2022 14:17:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354942AbiFVLju (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jun 2022 07:39:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50408 "EHLO
+        id S232260AbiFVLyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jun 2022 07:54:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241614AbiFVLjc (ORCPT
+        with ESMTP id S1357257AbiFVLxx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jun 2022 07:39:32 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 037A43DA7A;
-        Wed, 22 Jun 2022 04:38:40 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id s185so10117424pgs.3;
-        Wed, 22 Jun 2022 04:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Xm/Cc+WjGF9w38efHz8/Fdpd8CEJGg3+KIj5FlQGUn4=;
-        b=kjyc3M4P88ac4PQDaSHnFeRSV92PtWd5FYdJuDyKlm7i2vrDqqEcuWo1WMvs2uP5jL
-         Bs8eTfIXWis+VCWswkAIbiyFg9rPT5uEec2oqyvdCvtGyHeCU35xsebKyWgjJrHn261q
-         8eHi3jS6PY7atMpqYKac3CeXGKzzu5uYOedsM86gX6OgzsULoCkGtgS8b/PKh5KK/3ta
-         7JUUKIKPVB+n2Yj6HHJpbitTw3rTUewR1jgxaYM9bT/21bP2C2n70RpDJ4HWW3FLM4U0
-         /rQH6JiaetT+R0trfcd51LsPn5YbmWo7AFbwhEv5+3ZorxdUzhtW9AVTF27XkEH2BlTn
-         ZdKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=Xm/Cc+WjGF9w38efHz8/Fdpd8CEJGg3+KIj5FlQGUn4=;
-        b=dvhBCkuQ3U2Hyqr0GVnUW8/7D5nQk9T+OGDbBuDP6/XpoIeQwJaJHr4Bho4r1RC3Sj
-         lcwZUeXYxKOIgzPfnDH1dbGqdWpd0qDfKA/vvOHMA8j2gvvuoUagXpyNPmt0Aobzg4Ra
-         0BtcOe9a7BI3dCvYLYFAbNOGYFqBbVHgbE0lNwD6FEvL1m7NkMvM1qLYicDK9HUH/xXh
-         KRC+psaq0SdSmOEYcwhZ/dsuzmBJouQZ6WXPr3TqU7EnRF5v2t4Cfp8ZW2QHgs0wK3id
-         8N6d/xjqEjB0Oke5SPgibXWeZBYlazcVzO4Xgy2fXl1emtZmrjWv+p1zvpM3bp+vpUsZ
-         XVaw==
-X-Gm-Message-State: AJIora/82PT0kiMcX4Dhf9W6Hgw3X8DGtJWfCAgOGJ+tvg2EONnJvfYe
-        3hrujiCHBFqM8SWFvyBDY+V6ucyhIZ+VJd/u6nvG2LO1/Qw=
-X-Google-Smtp-Source: AGRyM1uatdmC3STj9aZKvdy0Gb+9xl4YQYQ5ccF9nX7utIXXbPsFQZ/dfIB5p9n2nb+4r0gV+XsyrvZXlTt3kCmkOjA=
-X-Received: by 2002:a05:6a00:1a87:b0:51c:29f1:13a0 with SMTP id
- e7-20020a056a001a8700b0051c29f113a0mr35297086pfv.13.1655897919907; Wed, 22
- Jun 2022 04:38:39 -0700 (PDT)
+        Wed, 22 Jun 2022 07:53:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B3C32051;
+        Wed, 22 Jun 2022 04:53:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 737BFB81DDE;
+        Wed, 22 Jun 2022 11:53:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 980ACC34114;
+        Wed, 22 Jun 2022 11:53:48 +0000 (UTC)
+Message-ID: <1da61f9c-0605-dc9d-63a3-21c18fcb74c7@xs4all.nl>
+Date:   Wed, 22 Jun 2022 13:53:46 +0200
 MIME-Version: 1.0
-References: <CANXPkT6mYusYe8O0dbq3vW+24SsUZ19PqhOL+wLFRnbFXwu0Zg@mail.gmail.com>
- <CANXPkT7nOhH+5bD0ycyRBT9FKQBBszCVuWkqp4tFtVRf2+8DFg@mail.gmail.com>
-In-Reply-To: <CANXPkT7nOhH+5bD0ycyRBT9FKQBBszCVuWkqp4tFtVRf2+8DFg@mail.gmail.com>
-From:   =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>
-Date:   Wed, 22 Jun 2022 20:39:20 +0900
-Message-ID: <CANXPkT5k9Pw4ka6CihyCg0oTd-32Te-ox=f3=9rtCphVgrdctA@mail.gmail.com>
-Subject: Re: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
-To:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v10 0/5] media: atmel: atmel-isc: implement media
+ controller
+Content-Language: en-US
+To:     Eugen Hristev <eugen.hristev@microchip.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        claudiu.beznea@microchip.com, nicolas.ferre@microchip.com,
+        jacopo@jmondi.org
+References: <20220503095127.48710-1-eugen.hristev@microchip.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220503095127.48710-1-eugen.hristev@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Alls
+Hi Eugen,
 
-How is my kernel modification going ?
-Can you check my kernel modification ?
-and give me the feedback ?
+On 03/05/2022 11:51, Eugen Hristev wrote:
+> This series is a split from the series :
+> [PATCH v9 00/13] media: atmel: atmel-isc: implement media controller
+> and it includes the media controller part.
+> previous fixes were sent on a different patch series.
+> 
+> As discussed on the ML, moving forward with having the media link validate at
+> start/stop streaming call.
+> I will test the patch :
+> [RFC PATCHv2] vb2: add support for (un)prepare_streaming queue ops
+> afterwards, but that patch requires moving my logic to the new vb2 callbacks.
 
-2022=EB=85=84 6=EC=9B=94 1=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 9:54, =
-=EC=9C=A0=EC=9A=A9=EC=88=98 <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=
-=9E=91=EC=84=B1:
->
-> Dear Alls
->
-> Can you check the Below E-mail ?
-> Can you share how is the below patch going ?
->
-> ---------- Forwarded message ---------
-> =EB=B3=B4=EB=82=B8=EC=82=AC=EB=9E=8C: =EC=9C=A0=EC=9A=A9=EC=88=98 <yongsu=
-yoo0215@gmail.com>
-> Date: 2022=EB=85=84 5=EC=9B=94 22=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84=
- 3:36
-> Subject: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
-> To: <mchehab@kernel.org>
-> Cc: <0215yys@hanmail.net>, <yongsu.yoo@lge.com>, =EC=9C=A0=EC=9A=A9=EC=88=
-=98 <yongsuyoo0215@gmail.com>
->
->
-> Dear Mauro Carvalho Chehab
-> My name is YongSu Yoo
->
-> I found an incorrect logic at the function of dvb_ringbuffer_pkt_next in
-> /linux-next/drviers/media/dvb-core/dvb_ringbuffer.c.
-> I correct the bug like the attached file (
-> 0001-media-dvb_ringbuffer-Fix-a-bug-in-dvb_ringbuffer.c.patch ).
-> Please check the attached file.
->
-> Thank you
+I'm looking at merging this series, but I would like to have the output of
+'v4l2-compliance -m /dev/mediaX' to verify that the MC links etc. is all
+correct.
+
+And one more question which may have been answered already in the past:
+
+Changing to the MC will break existing applications, doesn't it? Or did I
+miss something?
+
+Regards,
+
+	Hans
+
+> 
+> Full series history:
+> 
+> Changes in v10:
+> -> split the series into this first fixes part.
+> -> moved IO_MC addition from first patch to the second patch on the driver changes
+> -> edited commit messages
+> -> DT nodes now disabled by default.
+> 
+> Changes in v9:
+> -> kernel robot reported isc_link_validate is not static, changed to static.
+> 
+> Changes in v8:
+> -> scaler: modified crop bounds to have the exact source size
+> 
+> Changes in v7:
+> -> scaler: modified crop bounds to have maximum isc size
+> -> format propagation: did small changes as per Jacopo review
+> 
+> 
+> Changes in v6:
+> -> worked a bit on scaler, added try crop and other changes as per Jacopo review
+> -> worked on isc-base enum_fmt , reworked as per Jacopo review
+> 
+> Changes in v5:
+> -> removed patch that removed the 'stop' variable as it was still required
+> -> added two new trivial patches
+> -> reworked some parts of the scaler and format propagation after discussions with Jacopo
+> 
+> 
+> Changes in v4:
+> -> as reviewed by Hans, added new patch to remove the 'stop' variable and reworked
+> one patch that was using it
+> -> as reviewed by Jacopo, reworked some parts of the media controller implementation
+> 
+> 
+> Changes in v3:
+> - change in bindings, small fixes in csi2dc driver and conversion to mc
+> for the isc-base.
+> - removed some MAINTAINERS patches and used patterns in MAINTAINERS
+> 
+> Changes in v2:
+> - integrated many changes suggested by Jacopo in the review of the v1 series.
+> - add a few new patches
+> 
+> Eugen Hristev (5):
+>   media: atmel: atmel-isc: prepare for media controller support
+>   media: atmel: atmel-isc: implement media controller
+>   ARM: dts: at91: sama7g5: add nodes for video capture
+>   ARM: configs: at91: sama7: add xisc and csi2dc
+>   ARM: multi_v7_defconfig: add atmel video pipeline modules
+> 
+>  arch/arm/boot/dts/sama7g5.dtsi                |  51 ++
+>  arch/arm/configs/multi_v7_defconfig           |   3 +
+>  arch/arm/configs/sama7_defconfig              |   2 +
+>  drivers/media/platform/atmel/Makefile         |   2 +-
+>  drivers/media/platform/atmel/atmel-isc-base.c | 485 +++++++++---------
+>  .../media/platform/atmel/atmel-isc-scaler.c   | 267 ++++++++++
+>  drivers/media/platform/atmel/atmel-isc.h      |  50 +-
+>  .../media/platform/atmel/atmel-sama5d2-isc.c  |  34 +-
+>  .../media/platform/atmel/atmel-sama7g5-isc.c  |  32 +-
+>  9 files changed, 685 insertions(+), 241 deletions(-)
+>  create mode 100644 drivers/media/platform/atmel/atmel-isc-scaler.c
+> 
+
