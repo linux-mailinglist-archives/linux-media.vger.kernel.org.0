@@ -2,326 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8222557677
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 11:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C261255767A
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 11:19:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230345AbiFWJTM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 05:19:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55392 "EHLO
+        id S230391AbiFWJTU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 23 Jun 2022 05:19:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230169AbiFWJTL (ORCPT
+        with ESMTP id S230229AbiFWJTT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 05:19:11 -0400
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B70FA46CBE;
-        Thu, 23 Jun 2022 02:19:08 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id A5CCB24000F;
-        Thu, 23 Jun 2022 09:19:05 +0000 (UTC)
-Date:   Thu, 23 Jun 2022 11:19:03 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugen.Hristev@microchip.com
-Cc:     hverkuil@xs4all.nl, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Claudiu.Beznea@microchip.com,
-        Nicolas.Ferre@microchip.com
-Subject: Re: [PATCH v10 0/5] media: atmel: atmel-isc: implement media
- controller
-Message-ID: <20220623091903.zedzu5dv3x557lsp@uno.localdomain>
-References: <20220503095127.48710-1-eugen.hristev@microchip.com>
- <1da61f9c-0605-dc9d-63a3-21c18fcb74c7@xs4all.nl>
- <a19d9e72-7609-1daa-93eb-fdedcaa672c4@microchip.com>
- <bc22469c-d1ab-72e2-8e9e-6bd42d66f3d9@microchip.com>
- <c1b8820d-5ff5-b6dd-bc22-35f8daf756db@xs4all.nl>
- <20220622141439.v2ozrctikjxd67ue@uno.localdomain>
- <01b837f6-f8a2-1f59-45c1-f746b741f2db@xs4all.nl>
- <20220622154652.o7be4tl64m4yrbxv@uno.localdomain>
- <22bdd0f6-9dd5-9719-c26d-0c4b417a2a58@microchip.com>
+        Thu, 23 Jun 2022 05:19:19 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 690CF47066
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 02:19:18 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o4Izc-00FkJ6-DN; Thu, 23 Jun 2022 09:19:16 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o4Izb-005tcu-1m; Thu, 23 Jun 2022 09:19:14 +0000
+Date:   Thu, 23 Jun 2022 09:19:14 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1751608910.0.1655975954414@builder.linuxtv.org>
+In-Reply-To: <2060757454.5.1655889559206@builder.linuxtv.org>
+References: <2060757454.5.1655889559206@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3938
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <22bdd0f6-9dd5-9719-c26d-0c4b417a2a58@microchip.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen,
+See <https://builder.linuxtv.org/job/media-build/3938/display/redirect>
 
-On Thu, Jun 23, 2022 at 08:39:48AM +0000, Eugen.Hristev@microchip.com wrote:
-> On 6/22/22 6:46 PM, Jacopo Mondi wrote:
-> > Hi Hans,
-> >
-> > On Wed, Jun 22, 2022 at 04:55:27PM +0200, Hans Verkuil wrote:
-> >> Hi Eugen, Jacopo,
-> >>
-> >> On 22/06/2022 16:14, Jacopo Mondi wrote:
-> >>> Hi Hans, Eugen
-> >>>
-> >>> On Wed, Jun 22, 2022 at 03:47:33PM +0200, Hans Verkuil wrote:
-> >>>> On 22/06/2022 14:42, Eugen.Hristev@microchip.com wrote:
-> >>>>> On 6/22/22 3:25 PM, Eugen Hristev - M18282 wrote:
-> >>>>>> On 6/22/22 2:53 PM, Hans Verkuil wrote:
-> >>>>>>> Hi Eugen,
-> >>>>>>>
-> >>>>>>> On 03/05/2022 11:51, Eugen Hristev wrote:
-> >>>>>>>> This series is a split from the series :
-> >>>>>>>> [PATCH v9 00/13] media: atmel: atmel-isc: implement media controller
-> >>>>>>>> and it includes the media controller part.
-> >>>>>>>> previous fixes were sent on a different patch series.
-> >>>>>>>>
-> >>>>>>>> As discussed on the ML, moving forward with having the media link validate at
-> >>>>>>>> start/stop streaming call.
-> >>>>>>>> I will test the patch :
-> >>>>>>>> [RFC PATCHv2] vb2: add support for (un)prepare_streaming queue ops
-> >>>>>>>> afterwards, but that patch requires moving my logic to the new vb2 callbacks.
-> >>>>>>>
-> >>>>>>> I'm looking at merging this series, but I would like to have the output of
-> >>>>>>> 'v4l2-compliance -m /dev/mediaX' to verify that the MC links etc. is all
-> >>>>>>> correct.
-> >>>>>>
-> >>>>>> Hello Hans,
-> >>>>>>
-> >>>>>> Please have a look at attached file . Unless you want me to add the
-> >>>>>> whole output to the e-mail ?
-> >>>>>>
-> >>>>>> I also added output of media-ctl -p for your convenience.
-> >>>>>> the subdev2 is a device and driver that is not upstream and has some
-> >>>>>> compliance issues, they are reported by the v4l2-compliance tool, but
-> >>>>>> they should not affect this series, it's a synopsys driver that was
-> >>>>>> rejected on mainline a few years ago, I took it for internal usage, but
-> >>>>>> it's not cleaned up nor worked a lot upon.
-> >>>>>>
-> >>>>>>>
-> >>>>>>> And one more question which may have been answered already in the past:
-> >>>>>>>
-> >>>>>>> Changing to the MC will break existing applications, doesn't it? Or did I
-> >>>>>>> miss something?
-> >>>>>>>
-> >>>>>>
-> >>>>>> The existing applications will have to configure the pipeline now. It
-> >>>>>> will no longer work by configuring just the top video node /dev/video0 .
-> >>>>>> They would have to use media-ctl for it, something similar with this set
-> >>>>>> of commands:
-> >>>>>
-> >>>>> To add on top of that, actually, the reality is that without the MC
-> >>>>> support in atmel-isc , some of our platforms do not work at all, because
-> >>>>> the csi2dc driver which is in the middle of the pipeline, is a MC
-> >>>>> driver. So it will not work without configuring it with MC anyway. It
-> >>>>> used to work in a very preliminary version of the csi2dc driver which I
-> >>>>> sent a few years ago, but that way of handling things was rejected.
-> >>>>> Hence I changed the csi2dc to being full-MC driver (requested for new
-> >>>>> drivers) and now I am completing the conversion for the whole pipeline.
-> >>>>> We are using this MC-centric approach in production for our products to
-> >>>>> be as close as possible to mainline, and backported it to our 5.15
-> >>>>> internal releases, which people are using right now.
-> >>>>
-> >>>> I'm not all that keen on breaking userspace for those who do NOT use the
-> >>>> Atmel BSP. Basically some platforms are currently broken, and with this patch
-> >>>> series some other platforms are broken, but at least can be fixed by changing
-> >>>> userspace.
-> >>>>
-> >>>> How feasible is it to do something similar that TI did for the cal driver?
-> >>>> (drivers/media/platform/ti/cal)
-> >>>>
-> >>>> I.e., based on a module option the MC is enabled or disabled. And if a
-> >>>> csi2dc is present, then the MC API is always enabled.
-> >>>>
-> >>>
-> >>> I think I have suggested Eugen to move to MC when he
-> >>> started looking in libcamera, so sorry for the intrusion but I feel
-> >>> a bit bad for not rising the point earlier and get him to v10
-> >>>
-> >>> I understand your point Hans, and when a vendor upstreaming code or a
-> >>> user requires to maintain compatibility, the burden of keeping more
-> >>> code in to handle the MC and non-MC cases is worth the complications.
-> >>
-> >> Eugen, can you provide a list of platforms that will break with this
-> >> change and which platforms are currently broken without this series?
->
-> Hi Hans,
->
-> Basically the sama5d2 platform (we have several versions of the chip :
-> sama5d21, sama5d27, sama5d29, in various packages, SIP, SoMs, on many
-> different boards ) would be broken. this is the old platform.
-> It would be broken if the sensor default format is a mismatch with the
-> default format of the ISC .  Basically the old code currently is
-> propagating all the frame information down to the sensor, thing that no
-> longer happens with this patch series.
->
-> The platform that needs MC is mainly sama7g5 , which has a longer
-> pipeline, supports CSI2 bus, and has more drivers (the csi2dc is one of
-> them ), some are not mainlined.
-> Future platforms , which are currently in prototyping, have a similar
-> pipeline with sama7g5, some have more complicated pipelines, but they
-> include the ISC and we plan to use the same driver.
->
-> >>
-> >> I'm trying to get a bit of a feel of the potential problems this change
-> >> will introduce.
-> >>
-> >>>
-> >>> But if even the vendor wants to move to MC to allow more use-cases I
-> >>> think we have to acknolege that if you're running mainline on an
-> >>> embedded system you could expect to adjust your setup between kernel
-> >>> updates. The idea to document the media-ctl commands required to setup
-> >>> the pipeline it's helpful, and might help in the interim period until
-> >>> the platform is not supported by libcamera.
-> >>
-> >> Well, I don't want Linus to start yelling at me for breaking userspace :-)
-> >>
-> >> We have broken userspace API (intentionally) in the past, but only with
-> >> good reasons. And sometimes a driver is used so rarely that it is not worth
-> >> the effort to try and keep compatible.
-> >>
-> >> As a developer I'd love to just forget about the old API, but as subsystem
-> >> maintainer I need good arguments.
-> >
-> > I understand and I think these are all valid concerns. Finding a
-> > balance between new features and legacy is not easy.
-> >
-> >>
-> >> Another option might be to take the TI cal approach, but have warnings that
-> >> it will be removed in, say, 2 years time. Or even make a copy of the driver
-> >> for the old platforms, and perhaps move that to staging to be removed eventually.
-> >>
-> >> The idea of a sudden breakage when going from kernel K to K+1 doesn't sit
-> >> well with me, if there was a transition period of 1-2 years then that would be
-> >> better.
-> >>
-> >
-> > If staging works for you that's probably the easiest option. Let's see
-> > what Eugen prefers!
->
-> Hi Jacopo,
->
-> How does the staging solution work ? I do not fully understand the
-> options here to make an educated choice
+Changes:
 
-Hans should probably tell, but my interepetation would be to move the
-existing driver (before this series) to drivers/staging/ and advance
-the existing one in drivers/media/ to MC support.
 
-Users of the old driver interface could keep using the one in (de)staging
-for a little longer.
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+Commit message: "versions.txt: IMON builds for 4.11 and up only"
+ > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3937' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
+[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@46344ec0'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins2237265053605292769.sh
++ make distclean
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
+	config-compat.h Module.symvers Module.markers modules.order \
+	*.unsigned .*.ko.unsigned.cmd
+rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
+	Kconfig Kconfig.kern .config .config.cmd .myconfig \
+	.kconfig.dep config-mycompat.h
+rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
+rm -f scripts/lxdialog scripts/kconfig
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
 
-Would changing the driver KConfig symbol name help making the change
-more evident maybe ? Users that upgrade to a new kernel will be
-notified about the new symbol instead of being silently moved to the new
-interface.
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
-Thanks
-  j
+Not aborted. It means that the licence was agreed. Proceeding...
 
->
-> Thanks for helping out,
->
-> Eugen
->
->
-> >
-> >> Regards,
-> >>
-> >>        Hans
-> >>
-> >>>
-> >>> That said, if Eugen wants to give the flag a try I won't
-> >>> oppose :)
-> >>>
-> >>>
-> >>>> Regards,
-> >>>>
-> >>>>     Hans
-> >>>>
-> >>>>>
-> >>>>>>
-> >>>>>> media-ctl -d /dev/media0 --set-v4l2 '"imx219
-> >>>>>> 1-0010":0[fmt:SRGGB10_1X10/1920x1080]'
-> >>>>>> media-ctl -d /dev/media0 --set-v4l2
-> >>>>>> '"dw-csi.0":0[fmt:SRGGB10_1X10/1920x1080]'
-> >>>>>> media-ctl -d /dev/media0 --set-v4l2 '"csi2dc":0[fmt:SRGGB10_1X10/1920x1080]'
-> >>>>>> media-ctl -d /dev/media0 --set-v4l2
-> >>>>>> '"atmel_isc_scaler":0[fmt:SRGGB10_1X10/1920x1080]'
-> >>>>>>
-> >>>>>> Thank you for taking care of this !
-> >>>>>>
-> >>>>>> Eugen
-> >>>>>>
-> >>>>>>> Regards,
-> >>>>>>>
-> >>>>>>>            Hans
-> >>>>>>>
-> >>>>>>>>
-> >>>>>>>> Full series history:
-> >>>>>>>>
-> >>>>>>>> Changes in v10:
-> >>>>>>>> -> split the series into this first fixes part.
-> >>>>>>>> -> moved IO_MC addition from first patch to the second patch on the driver changes
-> >>>>>>>> -> edited commit messages
-> >>>>>>>> -> DT nodes now disabled by default.
-> >>>>>>>>
-> >>>>>>>> Changes in v9:
-> >>>>>>>> -> kernel robot reported isc_link_validate is not static, changed to static.
-> >>>>>>>>
-> >>>>>>>> Changes in v8:
-> >>>>>>>> -> scaler: modified crop bounds to have the exact source size
-> >>>>>>>>
-> >>>>>>>> Changes in v7:
-> >>>>>>>> -> scaler: modified crop bounds to have maximum isc size
-> >>>>>>>> -> format propagation: did small changes as per Jacopo review
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>> Changes in v6:
-> >>>>>>>> -> worked a bit on scaler, added try crop and other changes as per Jacopo review
-> >>>>>>>> -> worked on isc-base enum_fmt , reworked as per Jacopo review
-> >>>>>>>>
-> >>>>>>>> Changes in v5:
-> >>>>>>>> -> removed patch that removed the 'stop' variable as it was still required
-> >>>>>>>> -> added two new trivial patches
-> >>>>>>>> -> reworked some parts of the scaler and format propagation after discussions with Jacopo
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>> Changes in v4:
-> >>>>>>>> -> as reviewed by Hans, added new patch to remove the 'stop' variable and reworked
-> >>>>>>>> one patch that was using it
-> >>>>>>>> -> as reviewed by Jacopo, reworked some parts of the media controller implementation
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>> Changes in v3:
-> >>>>>>>> - change in bindings, small fixes in csi2dc driver and conversion to mc
-> >>>>>>>> for the isc-base.
-> >>>>>>>> - removed some MAINTAINERS patches and used patterns in MAINTAINERS
-> >>>>>>>>
-> >>>>>>>> Changes in v2:
-> >>>>>>>> - integrated many changes suggested by Jacopo in the review of the v1 series.
-> >>>>>>>> - add a few new patches
-> >>>>>>>>
-> >>>>>>>> Eugen Hristev (5):
-> >>>>>>>>      media: atmel: atmel-isc: prepare for media controller support
-> >>>>>>>>      media: atmel: atmel-isc: implement media controller
-> >>>>>>>>      ARM: dts: at91: sama7g5: add nodes for video capture
-> >>>>>>>>      ARM: configs: at91: sama7: add xisc and csi2dc
-> >>>>>>>>      ARM: multi_v7_defconfig: add atmel video pipeline modules
-> >>>>>>>>
-> >>>>>>>>     arch/arm/boot/dts/sama7g5.dtsi                |  51 ++
-> >>>>>>>>     arch/arm/configs/multi_v7_defconfig           |   3 +
-> >>>>>>>>     arch/arm/configs/sama7_defconfig              |   2 +
-> >>>>>>>>     drivers/media/platform/atmel/Makefile         |   2 +-
-> >>>>>>>>     drivers/media/platform/atmel/atmel-isc-base.c | 485 +++++++++---------
-> >>>>>>>>     .../media/platform/atmel/atmel-isc-scaler.c   | 267 ++++++++++
-> >>>>>>>>     drivers/media/platform/atmel/atmel-isc.h      |  50 +-
-> >>>>>>>>     .../media/platform/atmel/atmel-sama5d2-isc.c  |  34 +-
-> >>>>>>>>     .../media/platform/atmel/atmel-sama7g5-isc.c  |  32 +-
-> >>>>>>>>     9 files changed, 685 insertions(+), 241 deletions(-)
-> >>>>>>>>     create mode 100644 drivers/media/platform/atmel/atmel-isc-scaler.c
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>
-> >>>>>
-> >>>>
-> >>
->
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2022-06-23 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2022-06-23 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  110M=0s
+
+2022-06-23 09:19:10 (110 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
