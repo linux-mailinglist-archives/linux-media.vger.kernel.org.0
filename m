@@ -2,51 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B56F557706
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 11:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 057DB557797
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 12:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231334AbiFWJqx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 05:46:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48894 "EHLO
+        id S231341AbiFWKNa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 06:13:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231260AbiFWJqq (ORCPT
+        with ESMTP id S231339AbiFWKN0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 05:46:46 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2076.outbound.protection.outlook.com [40.107.93.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F9149927;
-        Thu, 23 Jun 2022 02:46:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MZK6igHOncbPBToVCs7pu+pZIPG3qC2kT4itK6rVByw4bclDhDNr8jyjIHOzapRncN0boMA8MQjw8OW1PlfHiCaQWDsWykbcLdbkab/yDldAvcpcxUE60FvHHsVrRrQEil6RQ9eeEoMR62Mo5pPPuW3kfX4hJ7IZDQ+tPN4Bb2IAz4T36RjxupzaWgUrha+Y2BianE1pWv5Zl4YiczGSz758GAI6r1iC/g283Tm+vEmoTzZHXrdrFJWZaLBZYHE3iwLBs1XCaTMAyfyLeJo9bVt9G/fVV110Cm19Q4RHzgqowFazzgbIiNN5YmwDa1Icx1e5bfSOBNZGqUKksSWJYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=72KnPU5vd6eEO+7TboGsFs/zYg2m5DtKPBpwVRre1I8=;
- b=jPb3+LZhnhRCJG144PVxK6XipWW127aYzYvJBD48NTphEAJM8Y+ZhN41csRN3Qcca1juR6LHyNvwYzlIRFqMxTPpYDgaTE+aUwXIiQ/AccMSbD0esAp3YjYsDIm9b2S+JQPFYvcKHtr9gVZlCNV8irh4IOtnQYXKG1tq3PEApNpySDGof3LtWuu7AOkiH3nS9wUBWChWoUiMrqI07LNHkHFTndpgXXZbFCnluhGkCb119Ld3s+rHiDAaxRjZhHEfASgu5gXP7bgFxCFNf2KPrBq1eqLVX4fB/uN66xavAQ27rNnBliD/T46OA84Io1BoUcpNXRKrsVbFYuhrT1SHbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=72KnPU5vd6eEO+7TboGsFs/zYg2m5DtKPBpwVRre1I8=;
- b=E3a2QwWeXmT555kbezgy3JPHmLB7Yn8bcDVed2uGTia18AxItRQXm4hQ3saaHq95m6jDZgnl7aUGk3m/daRFcg1W4geJIVmxYDzeN0vAcCCE85zruMDZcp3rIuP9JVSDpklG0gmLvYJaW5h9PBkM1AIzUDetPtfgfVZ8zjd6hUo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MWHPR12MB1808.namprd12.prod.outlook.com (2603:10b6:300:114::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15; Thu, 23 Jun
- 2022 09:46:41 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5373.015; Thu, 23 Jun 2022
- 09:46:41 +0000
-Message-ID: <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
-Date:   Thu, 23 Jun 2022 11:46:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
+        Thu, 23 Jun 2022 06:13:26 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45CB949F13
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 03:13:24 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1o4Jpt-0003Vx-Ky; Thu, 23 Jun 2022 12:13:17 +0200
+Message-ID: <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
 Subject: Re: DMA-buf and uncached system memory
-Content-Language: en-US
-To:     Lucas Stach <l.stach@pengutronix.de>,
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
         Pekka Paalanen <ppaalanen@gmail.com>
 Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>,
         lkml <linux-kernel@vger.kernel.org>,
@@ -55,170 +32,139 @@ Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>,
         linaro-mm-sig@lists.linaro.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         linux-media <linux-media@vger.kernel.org>
+Date:   Thu, 23 Jun 2022 12:13:16 +0200
+In-Reply-To: <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
 References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
- <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
- <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
- <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
- <20220623101326.18beeab3@eldfell>
- <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
- <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
- <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
- <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
- <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
- <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6P195CA0030.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:209:81::43) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+         <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
+         <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
+         <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
+         <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
+         <20220623101326.18beeab3@eldfell>
+         <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
+         <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
+         <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
+         <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
+         <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
+         <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
+         <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: abdbb0ab-1ac8-4e60-d2d3-08da54fd46a1
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1808:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR12MB18088E57157691DCEC24277183B59@MWHPR12MB1808.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: y70lUBbk0rIFNhYPtBqqKQ9yW8YNPYn/ytym8mvk7ZbNg9Oeinm1l3Qici4rYzWD/jVJhGcsvCxkN5sDhFlX/zoz6wGYIjJ6ss6sU47yIJHlaOyMiovUXt8rBb1SGu14IiUVE+eyyf/i/Nf2XYEwvmrK2Lr8EjWIj4R2BoWc4g7XRcQStqJj/XaXElgn5gf8g8Zu7ILUlEhuv4ywT12/Vth8Vht2LehCyo1+/mf+nMltxPnYXTSFvv8Ie6VCSZhNCTatLU3m7qzyy9neOkjLeZccbUXvgihT+Pj8PyvvKTjOm7212ksMj5t9XK0xjmd0nBe1NPfE5sgQrhNrNEMH/MA0Nqqp41RJRwO5JUzY9tfM15aHdNXWEgXQse9lSwUh2y/yunAd0iZaHY9AY2JxvZNmiNFL8oZnnYoukLoiZD2bLGVtRbJ9ytw2GnRyumSCV1cU3zZwV9vOrpycT3eExgAATw8LnuD/mbZUsDDcgDQoyRGmCP4/Agi3sA9D1y1EHdvtZ4LYj1yicnxodUIAAS6jLVDIinSD2UDGpkXGh8fVOIxjo1IPhA5QLRLF7ii08n+mA3uJbwQsjDuGzRkWgpVRBkwEMK8LkPZJItpqjSEwzXTVkQ96tpYyYuiz8x11W3GzZeS3wi5tLX8OB7pX3h1e3UagaQQKLCPvuRIsb0O6lW6q3sd1vJcVqDcZ3B0Zi66cf4vzts2Nj5PgEa59db6eJD8CtCtESUGhyFvX7GpKGrzqbEuJapXNQOk9vAiouAr6uZ+16E+k5k8aDjeJRBuN0SWzbI1qJ/kxHdn0l94=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(86362001)(38100700002)(66946007)(31686004)(6512007)(5660300002)(6486002)(2906002)(316002)(6506007)(110136005)(66476007)(8936002)(31696002)(4326008)(8676002)(66556008)(83380400001)(478600001)(54906003)(41300700001)(36756003)(26005)(6666004)(186003)(2616005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RFVuOGIvdC9sWGk0b002em1hcDZqYzJYcFhXd09YSTdGRTBRTG5NMWhqaE9m?=
- =?utf-8?B?cEFtQ201QUNxUm1qbXpNWTFsVVYvRHo0R1Fvb0FqZHo0c1p4VnFMZElPZldY?=
- =?utf-8?B?RnhkT2Z2MVZzRVdXR1Fld21yQ1FoTVVVa1lxQkllcGExaDB4dmV4Z1Y5MUFD?=
- =?utf-8?B?TkpqaXFIZkFYb21jdGRzdXJDYkdJRzYwc1BjT2VCR1k4MFVTaVJpRnRtT2hE?=
- =?utf-8?B?UXdpV3hQbFhmRitXVWE5aWhaT2J5aDc2bC9TbzFHWGFPdDBsL3RUbTB1cSsx?=
- =?utf-8?B?YnI1ZjN1V1ZCUHhiTkp2bWxhcEhwemdhcW5RekxqMFdlNFo4MkZwQnBOdU8z?=
- =?utf-8?B?YUllZW1RQnJVaEgrcFFudlQzU3hPNUpWR1Fkek1SLzRFSzk2NzZmY0Z5Y0hz?=
- =?utf-8?B?Rm1aL0NibzZxeVhvWWhDWGNYWlQ3UE1WK3Nzd3FPL2ZLdjlFNUVNZm5yaDZn?=
- =?utf-8?B?S2tXcFk1WXc2ckxXTHNpenErRGtwY0xsRTVIalJCS3Q3Y1FucmU2a053Vy9Z?=
- =?utf-8?B?MWt5YzN3OVJYcWdQYUdLYWYweElDUEVoWmVnYXNWYzNET2FlMEZIWTlmK3lM?=
- =?utf-8?B?dVprWVZBaTgrSWFJeFpRWlJ2TXpCMDZpZzRYNSt3N0QrclFqRUFXQzBpQ3Yw?=
- =?utf-8?B?WUpNRUJTaHFySm5yanVNZGdaVERmaUJzYThEZEN6aWcxaGwvZzR2WTBkYTBz?=
- =?utf-8?B?eFhXWURoL1F6R2Rlc1owTFNxVUJ3YkhnbzBCZjFJdnlHRG4yOTltYThYR25q?=
- =?utf-8?B?VHcrUXl0ajhINGtEd3VyRXVEYlJma3I0MjFZc2V4YStUdmZQdlpnNlFOYkRI?=
- =?utf-8?B?d0Z5NGxyTWEwNmFOdlBZWU1USG1ZVnFKbGtFS3ozZ0ppemJjaXJVaURta1FH?=
- =?utf-8?B?WDM3V1NLNWhJOER6anFBb3E3V2xQWkZSbStWZUhCQWxYdTlVS2xBUHJoejgx?=
- =?utf-8?B?NndIeVJiZWFoeDl1TmVScDVIenlQOFl2T1RXNHBzNjJoeS9WTXZqWHZRNXJs?=
- =?utf-8?B?N1h6YnNOU0s2VUVsei8vblRVbDQ3WXRQUWNFMU0xc0NsdEhtMyt1VW42eTdq?=
- =?utf-8?B?NlZOWWpXb1ArV24yK0tEMHFWNWU5Y0hyaUU3Ry8rZEt0SDJxR3NuRjhxMk01?=
- =?utf-8?B?ZTNwWHJSekVteUNFbEdiMUtub0xsZmRwV0sxbGpVTzhOaWRxVFd6NXM1M3N1?=
- =?utf-8?B?V21pYUxDQUpyYnk5dW9oQWplWmduNHE5Mjl2WklZUVBLTEIwclVvbi83MDRi?=
- =?utf-8?B?dHM5bitvOTdieUJSU0JZMTRtaGlPMUpCWTE0aGs3ZEszUzcwT3kzb0drc0Jn?=
- =?utf-8?B?OTZRcWFUREN3OHJVcWtRc256RlNvbklGQU9PSEJtc0lwR2JrZ3cwSzNCcTdv?=
- =?utf-8?B?SFM0eW9pV1lUaE1rWnZ5V1dDYmgwaEdVeHYwd1ZQZmR4eEtsNC9IT3A1djVD?=
- =?utf-8?B?cUNhZDJSVTRVT0VLUlVpRGVLSFFYNVRIYmxVT21tYlR5cmk1a0ZQMGNnMVQ5?=
- =?utf-8?B?QktPakUyM3psTC9RNFJpK0gyKy9KZXJVa00xbXVMTGc3TnJYSEs3dllhVlNq?=
- =?utf-8?B?bFMrZ0NUdTZIVEluNmhXQllwUERCclpmV0xPNXpBeHFZdEdhbVRKMUJYNGpo?=
- =?utf-8?B?VEJPOUlWdTM1SkFkbXAxdlpIbXF6QmFYVVJ2TjFEZHFNZkJlNHlranYyNE5C?=
- =?utf-8?B?YlNTR0RzZ091alBqSXVPR3hzSTRYdEFxTEtwTWRjRmY3STBUT2hQOXVTcmk1?=
- =?utf-8?B?bnJxRE5pZ3dnTERycGhiaXI1T3Y0L0R1WUNXb0JzanpaZTZ5elVKQkNwZHVW?=
- =?utf-8?B?ZHpjcC9xYXc5Y0lpa1JrT0R6T0lZWnlGM0pnRWEvbzIyNTVvV0dYTk1WM3hk?=
- =?utf-8?B?MWJuM3h2OW80L3U4U2lEU0FPS3dlemt6dExNdG9oLzQ3ZG5iQXNoaHhxUi9a?=
- =?utf-8?B?QjZIOHRKMXFIMVZmQW5jbU5tTDNnRUhQd3FFWkwwQUZWU25iNXVuY2dLVVBS?=
- =?utf-8?B?dXN4VHZ5Wi9OZnowdUJGWWZVcG1jaVA3RS9EQklOSEtkSHpER0xVK3NjRVRx?=
- =?utf-8?B?OWg4NVRwOHlaS1lBNXhzL3o3UWVlb09QemJPNVBEVS9FV2JiendwRkxPUDFi?=
- =?utf-8?Q?Rkyb+IxlythpHS5dR3gALdtKf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abdbb0ab-1ac8-4e60-d2d3-08da54fd46a1
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 09:46:41.6847
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1oqnFI7gzuFa5f3KUhtL3ilGM3cslkBt8GetOakgCxwhhkzG0YLXx7zKFz318wPT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1808
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 23.06.22 um 11:33 schrieb Lucas Stach:
-> [SNIP]
->>>>> In the DMA API keeping things mapped is also a valid use-case, but then
->>>>> you need to do explicit domain transfers via the dma_sync_* family,
->>>>> which DMA-buf has not inherited. Again those sync are no-ops on cache
->>>>> coherent architectures, but do any necessary cache maintenance on non
->>>>> coherent arches.
->>>> Correct, yes. Coherency is mandatory for DMA-buf, you can't use
->>>> dma_sync_* on it when you are the importer.
->>>>
->>>> The exporter could of course make use of that because he is the owner of
->>>> the buffer.
->>> In the example given here with UVC video, you don't know that the
->>> buffer will be exported and needs to be coherent without
->>> synchronization points, due to the mapping cache at the DRM side. So
->>> V4L2 naturally allocates the buffers from CPU cached memory. If the
->>> expectation is that those buffers are device coherent without relying
->>> on the map/unmap_attachment calls, then V4L2 needs to always
->>> synchronize caches on DQBUF when the  buffer is allocated from CPU
->>> cached memory and a single DMA-buf attachment exists. And while writing
->>> this I realize that this is probably exactly what V4L2 should do...
->> No, the expectation is that the importer can deal with whatever the
->> exporter provides.
->>
->> If the importer can't access the DMA-buf coherently it's his job to
->> handle that gracefully.
-> How does the importer know that the memory behind the DMA-buf is in CPU
-> cached memory?
->
-> If you now tell me that an importer always needs to assume this and
-> reject the import if it can't do snooping, then any DMA-buf usage on
-> most ARM SoCs is currently invalid usage.
+Am Donnerstag, dem 23.06.2022 um 11:46 +0200 schrieb Christian König:
+> Am 23.06.22 um 11:33 schrieb Lucas Stach:
+> > [SNIP]
+> > > > > > In the DMA API keeping things mapped is also a valid use-case, but then
+> > > > > > you need to do explicit domain transfers via the dma_sync_* family,
+> > > > > > which DMA-buf has not inherited. Again those sync are no-ops on cache
+> > > > > > coherent architectures, but do any necessary cache maintenance on non
+> > > > > > coherent arches.
+> > > > > Correct, yes. Coherency is mandatory for DMA-buf, you can't use
+> > > > > dma_sync_* on it when you are the importer.
+> > > > > 
+> > > > > The exporter could of course make use of that because he is the owner of
+> > > > > the buffer.
+> > > > In the example given here with UVC video, you don't know that the
+> > > > buffer will be exported and needs to be coherent without
+> > > > synchronization points, due to the mapping cache at the DRM side. So
+> > > > V4L2 naturally allocates the buffers from CPU cached memory. If the
+> > > > expectation is that those buffers are device coherent without relying
+> > > > on the map/unmap_attachment calls, then V4L2 needs to always
+> > > > synchronize caches on DQBUF when the  buffer is allocated from CPU
+> > > > cached memory and a single DMA-buf attachment exists. And while writing
+> > > > this I realize that this is probably exactly what V4L2 should do...
+> > > No, the expectation is that the importer can deal with whatever the
+> > > exporter provides.
+> > > 
+> > > If the importer can't access the DMA-buf coherently it's his job to
+> > > handle that gracefully.
+> > How does the importer know that the memory behind the DMA-buf is in CPU
+> > cached memory?
+> > 
+> > If you now tell me that an importer always needs to assume this and
+> > reject the import if it can't do snooping, then any DMA-buf usage on
+> > most ARM SoCs is currently invalid usage.
+> 
+> Yes, exactly that. I've pointed out a couple of times now that a lot of 
+> ARM SoCs don't implement that the way we need it.
+> 
+> We already had tons of bug reports because somebody attached a random 
+> PCI root complex to an ARM SoC and expected it to work with for example 
+> an AMD GPU.
+> 
+> Non-cache coherent applications are currently not really supported by 
+> the DMA-buf framework in any way.
+> 
+I'm not talking about bolting on a PCIe root complex, with its implicit
+inherited "PCI is cache coherent" expectations to a ARM SoC, but just
+the standard VPU/GPU/display engines are not snooping on most ARM SoCs.
 
-Yes, exactly that. I've pointed out a couple of times now that a lot of 
-ARM SoCs don't implement that the way we need it.
+> > On most of the multimedia
+> > targeted ARM SoCs being unable to snoop the cache is the norm, not an
+> > exception.
+> > 
+> > > See for example on AMD/Intel hardware most of the engines can perfectly
+> > > deal with cache coherent memory accesses. Only the display engines can't.
+> > > 
+> > > So on import time we can't even say if the access can be coherent and
+> > > snoop the CPU cache or not because we don't know how the imported
+> > > DMA-buf will be used later on.
+> > > 
+> > So for those mixed use cases, wouldn't it help to have something
+> > similar to the dma_sync in the DMA-buf API, so your scanout usage can
+> > tell the exporter that it's going to do non-snoop access and any dirty
+> > cache lines must be cleaned? Signaling this to the exporter would allow
+> > to skip the cache maintenance if the buffer is in CPU uncached memory,
+> > which again is a default case for the ARM SoC world.
+> 
+> Well for the AMD and Intel use cases we at least have the opportunity to 
+> signal cache flushing, but I'm not sure if that counts for everybody.
+> 
+Sure, all the non-coherent arches have some way to do the cache
+maintenance in some explicit way. Non coherent and no cache maintenance
+instruction would be a recipe for desaster. ;)
 
-We already had tons of bug reports because somebody attached a random 
-PCI root complex to an ARM SoC and expected it to work with for example 
-an AMD GPU.
+> What we would rather do for those use cases is an indicator on the 
+> DMA-buf if the underlying backing store is CPU cached or not. The 
+> importer can then cleanly reject the use cases where it can't support 
+> CPU cache snooping.
+> 
+> This then results in the normal fallback paths which we have anyway for 
+> those use cases because DMA-buf sharing is not always possible.
+> 
+That's a very x86 centric world view you have there. 99% of DMA-buf
+uses on those cheap ARM SoCs is non-snooping. We can not do any
+fallbacks here, as the whole graphics world on those SoCs with their
+different IP cores mixed together depends on DMA-buf sharing working
+efficiently even when the SoC is mostly non coherent.
 
-Non-cache coherent applications are currently not really supported by 
-the DMA-buf framework in any way.
+In fact DMA-buf sharing works fine on most of those SoCs because
+everyone just assumes that all the accelerators don't snoop, so the
+memory shared via DMA-buf is mostly CPU uncached. It only falls apart
+for uses like the UVC cameras, where the shared buffer ends up being
+CPU cached.
 
-> On most of the multimedia
-> targeted ARM SoCs being unable to snoop the cache is the norm, not an
-> exception.
->
->> See for example on AMD/Intel hardware most of the engines can perfectly
->> deal with cache coherent memory accesses. Only the display engines can't.
->>
->> So on import time we can't even say if the access can be coherent and
->> snoop the CPU cache or not because we don't know how the imported
->> DMA-buf will be used later on.
->>
-> So for those mixed use cases, wouldn't it help to have something
-> similar to the dma_sync in the DMA-buf API, so your scanout usage can
-> tell the exporter that it's going to do non-snoop access and any dirty
-> cache lines must be cleaned? Signaling this to the exporter would allow
-> to skip the cache maintenance if the buffer is in CPU uncached memory,
-> which again is a default case for the ARM SoC world.
-
-Well for the AMD and Intel use cases we at least have the opportunity to 
-signal cache flushing, but I'm not sure if that counts for everybody.
-
-What we would rather do for those use cases is an indicator on the 
-DMA-buf if the underlying backing store is CPU cached or not. The 
-importer can then cleanly reject the use cases where it can't support 
-CPU cache snooping.
-
-This then results in the normal fallback paths which we have anyway for 
-those use cases because DMA-buf sharing is not always possible.
+Non-coherent without explicit domain transfer points is just not going
+to work. So why can't we solve the issue for DMA-buf in the same way as
+the DMA API already solved it years ago: by adding the equivalent of
+the dma_sync calls that do cache maintenance when necessary? On x86 (or
+any system where things are mostly coherent) you could still no-op them
+for the common case and only trigger cache cleaning if the importer
+explicitly says that is going to do a non-snooping access.
 
 Regards,
-Christian.
-
->
-> Regards,
-> Lucas
->
+Lucas
 
