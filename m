@@ -2,130 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E987556F31
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 01:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50836557239
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 06:58:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377538AbiFVXfa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jun 2022 19:35:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47920 "EHLO
+        id S232152AbiFWEqv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 00:46:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376355AbiFVXf1 (ORCPT
+        with ESMTP id S238333AbiFWDus (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jun 2022 19:35:27 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D79D3BBD2
-        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 16:35:24 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id v81so32922359ybe.0
-        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 16:35:24 -0700 (PDT)
+        Wed, 22 Jun 2022 23:50:48 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8643D3DA6B
+        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 20:50:46 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id g25so38292310ejh.9
+        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 20:50:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=o7RsO830fD0jUOzHDwoBp7BpixyxsVDMcbzJc/dPZr8=;
-        b=t72DVOYNRLlNIK0QWaS0yiZCgLQzJ+mww8RuMAa6SEu21pN2KF8In8tDLoWRqBsrNr
-         KNnBknGFobmW8lD5cwyGXZhMOKni4k712dl8T6Nb1Y74xZMaHi0Kq2qd81vV4LMVdjCT
-         9lXscB4gWNNBeBTqN53A7/SqtDjl+hdd0crwWDarrUqcrVVL1BKgKrobVA6tolIbU7CW
-         7qtcKBAh+hyL8KFEk0j6kpHlcnQQCy4LuyU4suQyqWqX68juFOOsbqaTH6uXvAorFBYR
-         T5EyqV/l5CVH064TgCz+CYYxgBqY/E+gzS5VZQ1S06ALNzSu8KP9nwKNPVFQO6FD4QXB
-         X3Ag==
+         :cc;
+        bh=EkKyTWCu629nMEHdFNbptooutbfUA4/TnE+Ay2cBeTk=;
+        b=MZ+ZBJ+075YeJab2Z38SqspmTsuzV22kvWs0oDrbgCpPUCy0S5cZmqdbVpkFCG4VMY
+         q2FvSp0oYLhLsR8UIJ3x5vc2rF1i0Rg4zuz4c9+BfxNiK0RT/jA/Thflg8GpMM59m9Fg
+         g6Zv0MzH2tHEFaNqF789CSRMggNM4NKdS0I4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=o7RsO830fD0jUOzHDwoBp7BpixyxsVDMcbzJc/dPZr8=;
-        b=T/TsalCPyQDp8HZ7r9t7xdejvSE4hFpuW6RR/zq36lR8djZjkHBPOU/AGXJdTiBHtP
-         Nd0pt7T4enpgEZmBQJYpHwwlD9egaPoCnUmL+kqSChapxyOCNkgbVQwMWQHBUNic7PV3
-         IgoZVmtZYC9yxznI6MD45Uyv6vmyfkLJzuqRmD/OoXvWpVgRLj6s22bPHD34hxJwjQqt
-         mO88CjmmzxNT0DW8TSY5q5v5drovTZpZaLToYWf9an3lHCeOwPmC2HV1HOUJyXHvebUL
-         SuOw7hf4FTzRk1dUvWtJegxP54MrvkP5bLUmcAI9lXf4QBsAX/U1rV2UDTXzKRqaJ0Hl
-         pPEA==
-X-Gm-Message-State: AJIora/b3VOZImEbQXDLvtdzBs1wljt/bNQAtltA/JzZJ2L5Idyee8xz
-        VmZ0mXMRXo4+/cQvGYb/KKDh0HOQUq5UvKWP1InhEg==
-X-Google-Smtp-Source: AGRyM1thlCmdsv9jRIXB0vx8z3s/GQ8/szb8lQCu3tvGCC9TxyNx0da3lTQTVZ/C/rnveNMpCk5dzQW1Wpv0FI0fIaQ=
-X-Received: by 2002:a25:b29e:0:b0:669:160e:7f38 with SMTP id
- k30-20020a25b29e000000b00669160e7f38mr6608657ybj.280.1655940923198; Wed, 22
- Jun 2022 16:35:23 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=EkKyTWCu629nMEHdFNbptooutbfUA4/TnE+Ay2cBeTk=;
+        b=K+YgYP5/bTL7PYWettp3ou74vaCuWRYkVPAd74bcjgjumMLEkdn36xLA3EOTFbnfot
+         2Cg3mS/S3b2P/nqXPFOI3OgnuocmjXkoexua/zmMTNMXE5KnEz1KzeNb8NN1hxq2YcJ+
+         8ZvyHGbKMSYCjkvWHHyLRJ6rQE1ub0BUBUcPSgRgqKoeM1sxNywrOTLNAWElkR2igoz3
+         uPPEJQJcboOqdKsND2gHmUYLlub8PH2/Vdy/tZG7Z9GKfNKeRwScy+GUirsqwEJ6UBRN
+         AYBagtada/304uSw1EzYs/iRz3T98X6c5Sf0INyMrrlhYE1Vr7Fmtb5UaN6Q3XDM3AUi
+         hudA==
+X-Gm-Message-State: AJIora+pAMmTiwdsvgWpIKyioUQqyN68rjS0AySj25xGlhRhIZu8XGWY
+        dhGS22CMNBAz1Mvr0ceNIQDURa3xuVtGgQZnzsjAj+cByOc=
+X-Google-Smtp-Source: AGRyM1sVSORghjjCvJa3JKdWdVzFkzY/RKVDx3S+DYXKStNi3Lz7s6kMPfvJvxThk3ktXC824PuqCbj4rwwrimxPZ8o=
+X-Received: by 2002:a17:906:f84:b0:711:eda5:db31 with SMTP id
+ q4-20020a1709060f8400b00711eda5db31mr5751742ejj.397.1655956245142; Wed, 22
+ Jun 2022 20:50:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com> <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
- <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
-In-Reply-To: <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
-From:   Daniel Stone <daniel@fooishbar.org>
-Date:   Thu, 23 Jun 2022 00:34:58 +0100
-Message-ID: <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
-Subject: Re: DMA-buf and uncached system memory
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Sharma, Shashank" <Shashank.Sharma@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>
+References: <20220622083624.3204916-1-hiroh@chromium.org>
+In-Reply-To: <20220622083624.3204916-1-hiroh@chromium.org>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Thu, 23 Jun 2022 11:50:34 +0800
+Message-ID: <CAGXv+5EEzvtBdeV2pU4cYbrnRNok=Pm-ioc66Og4=sOEuNrStA@mail.gmail.com>
+Subject: Re: [PATCH] media: mediatek: vcodec: Report supported bitrate modes
+To:     Hirokazu Honda <hiroh@chromium.org>
+Cc:     linux-media@vger.kernel.org, Irui.Wang@mediatek.com,
+        stevecho@chromium.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
-
-On Wed, 22 Jun 2022 at 20:39, Nicolas Dufresne <nicolas@ndufresne.ca> wrote=
-:
-> Le mardi 16 f=C3=A9vrier 2021 =C3=A0 10:25 +0100, Daniel Vetter a =C3=A9c=
-rit :
-> > So I think if AMD also guarantees to drop clean cachelines just do the
-> > same thing we do right now for intel integrated + discrete amd, but in
-> > reserve. It's fragile, but it does work.
+On Wed, Jun 22, 2022 at 4:37 PM Hirokazu Honda <hiroh@chromium.org> wrote:
 >
-> Sorry to disrupt, but if you pass V4L2 vmalloc data to Intel display driv=
-er, you
-> also get nice dirt on the screen. If you have a UVC webcam that produces =
-a pixel
-> format compatible with your display, you can reproduce the issue quite ea=
-sily
-> with:
+> The media driver supports constant bitrate mode only.
+> The supported rate control mode is reported through querymenu() and
+> s_ctrl() fails if non constant bitrate mode (e.g. VBR) is requested.
 >
->   gst-launch-1.0 v4l2src device=3D/dev/video0 ! kmssink
+> Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+> ---
+>  .../media/platform/mediatek/vcodec/mtk_vcodec_enc.c   | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 >
-> p.s. some frame-rate are less likely to exhibit the issue, make sure you =
-create
-> movement to see it.
-
-Right, this is because the UVC data in a vmalloc() area is not
-necessarily flushed from the CPU cache, and the importer expects it
-will be.
-
-> The only solution I could think of (not implemented) was to detect in the
-> attach() call what the importers can do (with dev->coherent_dma_mask if I
-> recall), and otherwise flush the cache immediately and start flushing the=
- cache
-> from now on signalling it for DQBUF (in vb2 workqueue or dqbuf ioctl, I d=
-on't
-> have an idea yet). I bet this idea is inapplicable to were you have fence=
-s, we
-> don't have that in v4l2.
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> index c21367038c34..98d451ce2545 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> @@ -50,6 +50,14 @@ static int vidioc_venc_s_ctrl(struct v4l2_ctrl *ctrl)
+>         int ret = 0;
 >
-> This idea was hinted by Robert Becket (now in CC), but perhaps I picked i=
-t up
-> wrong, explaining it wrong, etc. I'm no expert, just noticed there wasn't=
- really
-> a good plan for that, so one needs to make one up. I'm not aware oh an im=
-porter
-> could know how the memory was allocated by the exporter, and worst, how a=
-n
-> importer could figure-out that the export is going to produce buffer with=
- hot
-> CPU cache (UVC driver does memcpy from USB chunks of variable size to pro=
-duce a
-> fixed size image).
+>         switch (ctrl->id) {
+> +       case V4L2_CID_MPEG_VIDEO_BITRATE_MODE:
+> +               mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_BITRATE_MODE val= %d",
+> +                              ctrl->val);
+> +               if (ctrl->val != V4L2_MPEG_VIDEO_BITRATE_MODE_CBR) {
+> +                       mtk_v4l2_err("Unsupported bitrate mode =%d", ctrl->val);
+> +                       ret = -EINVAL;
 
-This is exactly what Christian was saying above.
+I wonder if this code will ever actually be hit. This driver uses
+v4l2_ctrl_handler, and IIUC all controls are prevalidated by the core
+before this callback is called.
 
-Cheers,
-Daniel
+
+ChenYu
+
+> +               }
+> +               break;
+>         case V4L2_CID_MPEG_VIDEO_BITRATE:
+>                 mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_BITRATE val = %d",
+>                                ctrl->val);
+> @@ -1373,6 +1381,9 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
+>                                0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
+>         v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_VP8_PROFILE,
+>                                V4L2_MPEG_VIDEO_VP8_PROFILE_0, 0, V4L2_MPEG_VIDEO_VP8_PROFILE_0);
+> +       v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
+> +                              V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
+> +                              0, V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
+>
+>
+>         if (handler->error) {
+> --
+> 2.37.0.rc0.104.g0611611a94-goog
+>
