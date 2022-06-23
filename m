@@ -2,169 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 057DB557797
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 12:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 608BB5577FD
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 12:36:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231341AbiFWKNa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 06:13:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45426 "EHLO
+        id S230253AbiFWKgC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 06:36:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231339AbiFWKN0 (ORCPT
+        with ESMTP id S230461AbiFWKf7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 06:13:26 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45CB949F13
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 03:13:24 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1o4Jpt-0003Vx-Ky; Thu, 23 Jun 2022 12:13:17 +0200
-Message-ID: <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
-Subject: Re: DMA-buf and uncached system memory
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linaro-mm-sig@lists.linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>
-Date:   Thu, 23 Jun 2022 12:13:16 +0200
-In-Reply-To: <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
-         <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
-         <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
-         <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
-         <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
-         <20220623101326.18beeab3@eldfell>
-         <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
-         <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
-         <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
-         <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
-         <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
-         <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
-         <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Thu, 23 Jun 2022 06:35:59 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8375A4AE3A;
+        Thu, 23 Jun 2022 03:35:58 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id i64so18707425pfc.8;
+        Thu, 23 Jun 2022 03:35:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=tVwbL6nVPQa+IvvtvNiiIvdVzr4byypsu+RDuuj+PyE=;
+        b=dvotv9yYIToSOJdOkjf4z5IpXImZfcOqikT6k+4twfSS9LKaDnpuGPFZBUYjhaMUE5
+         OMB5m4c3VSlHZ5Xxj/sk7diiUITXjeVwwn3T/2y1UFAloCn9DkN4P6/hVqs8GrEXXouh
+         7KPVaHs3T9h8/MsDeeMcjlk5mh9/WKwgyNDGiUVXS2lb/QE+WKcZyimdMaumYyudwYrU
+         uyC1IbrB7+oXV4kBGRlHjaHVlFdf2OSsZpew43fApQ1WuxsqovBB6b/6AHTz1rZPEWiU
+         /WIE+5yUr2YunTCRYuFOJbQ/YQfGnkyFTfZctVeXMWjr5s5Mf46lJuYLM5DUyYBem2Qv
+         8YSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=tVwbL6nVPQa+IvvtvNiiIvdVzr4byypsu+RDuuj+PyE=;
+        b=tFMaEt3MJfPD4pLD6i6FkjxMJgZdCGgdhqtGafS5hbsVSDH9kF9ZE64BB8XfR6HIZf
+         1oonTBkDlhfjdgKqKMe3wBx7QZrkWR6dqyM8IulZQVFDgoYUjjTj0jhDPhN6KMhWra0V
+         RJEzX38Brb/w8IfNSVcbMsVPPtw0obSjdWfw2Zostln28ONW56tVHj1QePzuhDg73F1C
+         aScbY/SVO959uI2T3mSqgJFMxml/YtRUhfJYZ0VIF6KXaixKcwiFvc9aECczOIqVYgsA
+         6mYRZhvrlxH736pc4BjP61Wl09OY6foo/dIhewRZgOBeQFAV0zd+SxqjU1o0hwEO0Zx3
+         vUtA==
+X-Gm-Message-State: AJIora/AFiKd6/JYVj0OAinD26/4mZV3kKZaQ/u3+W7AzNJCjJl+zjK4
+        PGUQ4w93I7LF7Hyxm4TeynMwnTfhH8W0yHN57q8=
+X-Google-Smtp-Source: AGRyM1v7Gvnbat5ZdugL79CKL7xNN70Bp+0Cwkn/A0cLe9T7RQunDUxGQMJHTfWll14ucXktLu3hRQ==
+X-Received: by 2002:a05:6a00:1a0e:b0:523:1e7c:e26e with SMTP id g14-20020a056a001a0e00b005231e7ce26emr39726732pfv.60.1655980557866;
+        Thu, 23 Jun 2022 03:35:57 -0700 (PDT)
+Received: from goorm.ap-northeast-2.compute.internal (ec2-15-164-162-188.ap-northeast-2.compute.amazonaws.com. [15.164.162.188])
+        by smtp.gmail.com with ESMTPSA id d5-20020a170902cec500b0016a4db1342esm3026608plg.193.2022.06.23.03.35.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jun 2022 03:35:57 -0700 (PDT)
+From:   YongSu Yoo <yongsuyoo0215@gmail.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org, hps@selasky.org,
+        kieran.bingham@ideasonboard.com
+Cc:     YongSu Yoo <yongsuyoo0215@gmail.com>
+Subject: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
+Date:   Thu, 23 Jun 2022 10:35:43 +0000
+Message-Id: <20220623103543.4138-1-yongsuyoo0215@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Donnerstag, dem 23.06.2022 um 11:46 +0200 schrieb Christian König:
-> Am 23.06.22 um 11:33 schrieb Lucas Stach:
-> > [SNIP]
-> > > > > > In the DMA API keeping things mapped is also a valid use-case, but then
-> > > > > > you need to do explicit domain transfers via the dma_sync_* family,
-> > > > > > which DMA-buf has not inherited. Again those sync are no-ops on cache
-> > > > > > coherent architectures, but do any necessary cache maintenance on non
-> > > > > > coherent arches.
-> > > > > Correct, yes. Coherency is mandatory for DMA-buf, you can't use
-> > > > > dma_sync_* on it when you are the importer.
-> > > > > 
-> > > > > The exporter could of course make use of that because he is the owner of
-> > > > > the buffer.
-> > > > In the example given here with UVC video, you don't know that the
-> > > > buffer will be exported and needs to be coherent without
-> > > > synchronization points, due to the mapping cache at the DRM side. So
-> > > > V4L2 naturally allocates the buffers from CPU cached memory. If the
-> > > > expectation is that those buffers are device coherent without relying
-> > > > on the map/unmap_attachment calls, then V4L2 needs to always
-> > > > synchronize caches on DQBUF when the  buffer is allocated from CPU
-> > > > cached memory and a single DMA-buf attachment exists. And while writing
-> > > > this I realize that this is probably exactly what V4L2 should do...
-> > > No, the expectation is that the importer can deal with whatever the
-> > > exporter provides.
-> > > 
-> > > If the importer can't access the DMA-buf coherently it's his job to
-> > > handle that gracefully.
-> > How does the importer know that the memory behind the DMA-buf is in CPU
-> > cached memory?
-> > 
-> > If you now tell me that an importer always needs to assume this and
-> > reject the import if it can't do snooping, then any DMA-buf usage on
-> > most ARM SoCs is currently invalid usage.
-> 
-> Yes, exactly that. I've pointed out a couple of times now that a lot of 
-> ARM SoCs don't implement that the way we need it.
-> 
-> We already had tons of bug reports because somebody attached a random 
-> PCI root complex to an ARM SoC and expected it to work with for example 
-> an AMD GPU.
-> 
-> Non-cache coherent applications are currently not really supported by 
-> the DMA-buf framework in any way.
-> 
-I'm not talking about bolting on a PCIe root complex, with its implicit
-inherited "PCI is cache coherent" expectations to a ARM SoC, but just
-the standard VPU/GPU/display engines are not snooping on most ARM SoCs.
+Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
 
-> > On most of the multimedia
-> > targeted ARM SoCs being unable to snoop the cache is the norm, not an
-> > exception.
-> > 
-> > > See for example on AMD/Intel hardware most of the engines can perfectly
-> > > deal with cache coherent memory accesses. Only the display engines can't.
-> > > 
-> > > So on import time we can't even say if the access can be coherent and
-> > > snoop the CPU cache or not because we don't know how the imported
-> > > DMA-buf will be used later on.
-> > > 
-> > So for those mixed use cases, wouldn't it help to have something
-> > similar to the dma_sync in the DMA-buf API, so your scanout usage can
-> > tell the exporter that it's going to do non-snoop access and any dirty
-> > cache lines must be cleaned? Signaling this to the exporter would allow
-> > to skip the cache maintenance if the buffer is in CPU uncached memory,
-> > which again is a default case for the ARM SoC world.
-> 
-> Well for the AMD and Intel use cases we at least have the opportunity to 
-> signal cache flushing, but I'm not sure if that counts for everybody.
-> 
-Sure, all the non-coherent arches have some way to do the cache
-maintenance in some explicit way. Non coherent and no cache maintenance
-instruction would be a recipe for desaster. ;)
+The function dvb_ringbuffer_pkt_next in
+/linux-next/drviers/media/dvb-core/dvb_ringbuffer.c,
+which searches the idx of the next valid packet in the ring
+buffer of the ca->slot_info[slot].rx_buffer at
+/linux-next/drivers/media/dvb-core/dvb_ca_en50221.c,
+has the following problem.
+In calculating the amounts of the consumed address of the ring
+buffer, if the read address(rbuf->pread) of the ring buffer is
+smaller than the idx, the amounts of the searched address
+should be (idx - rbuf->pread),
+whereas if the read address(rbuf->pread) of the ring buffer is
+larger than the idx, the amounts of the consumed address should
+be (idx - rbuf->pread + rbug->size). But there exists an
+incorrect logic that the rbug-size was not properly added on
+(idx - rbug->pread) in the later case. With this commit, we
+fixed this bug.
+---
+ drivers/media/dvb-core/dvb_ringbuffer.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> What we would rather do for those use cases is an indicator on the 
-> DMA-buf if the underlying backing store is CPU cached or not. The 
-> importer can then cleanly reject the use cases where it can't support 
-> CPU cache snooping.
-> 
-> This then results in the normal fallback paths which we have anyway for 
-> those use cases because DMA-buf sharing is not always possible.
-> 
-That's a very x86 centric world view you have there. 99% of DMA-buf
-uses on those cheap ARM SoCs is non-snooping. We can not do any
-fallbacks here, as the whole graphics world on those SoCs with their
-different IP cores mixed together depends on DMA-buf sharing working
-efficiently even when the SoC is mostly non coherent.
-
-In fact DMA-buf sharing works fine on most of those SoCs because
-everyone just assumes that all the accelerators don't snoop, so the
-memory shared via DMA-buf is mostly CPU uncached. It only falls apart
-for uses like the UVC cameras, where the shared buffer ends up being
-CPU cached.
-
-Non-coherent without explicit domain transfer points is just not going
-to work. So why can't we solve the issue for DMA-buf in the same way as
-the DMA API already solved it years ago: by adding the equivalent of
-the dma_sync calls that do cache maintenance when necessary? On x86 (or
-any system where things are mostly coherent) you could still no-op them
-for the common case and only trigger cache cleaning if the importer
-explicitly says that is going to do a non-snooping access.
-
-Regards,
-Lucas
+diff --git a/drivers/media/dvb-core/dvb_ringbuffer.c b/drivers/media/dvb-core/dvb_ringbuffer.c
+index d1d471af0636..7d4558de8e83 100644
+--- a/drivers/media/dvb-core/dvb_ringbuffer.c
++++ b/drivers/media/dvb-core/dvb_ringbuffer.c
+@@ -335,7 +335,9 @@ ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t*
+ 		idx = (idx + curpktlen + DVB_RINGBUFFER_PKTHDRSIZE) % rbuf->size;
+ 	}
+ 
+-	consumed = (idx - rbuf->pread) % rbuf->size;
++	consumed = (idx - rbuf->pread);
++	if (consumed < 0)
++		consumed += rbuf->size;
+ 
+ 	while((dvb_ringbuffer_avail(rbuf) - consumed) > DVB_RINGBUFFER_PKTHDRSIZE) {
+ 
+-- 
+2.17.1
 
