@@ -2,223 +2,476 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2108557878
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 13:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C92365578A4
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 13:24:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231231AbiFWLLJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 07:11:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35766 "EHLO
+        id S231246AbiFWLYW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 07:24:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbiFWLLI (ORCPT
+        with ESMTP id S231184AbiFWLYU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 07:11:08 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2080.outbound.protection.outlook.com [40.107.244.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B6948E6A;
-        Thu, 23 Jun 2022 04:11:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FB45glYhqnmxg7bzoiVl8GTrcENo6VLlFoDKqGhgaMJGDQqoBHXjoXHtf3AXqIulgIUem+3UGjaYii6WpjAmjCvFQax9D761JiMa87nKlZn6NXGcMbTA6a8wCheHcwmcPytj5Nnd2GkiWYzOaXG7YGlVO/iGkh1Hk8f2nObR/AacsAXofljVxrnlK47pq8ONctVbTnvW1mgluDwoUfig71B+hoTiNzflaFvTqqlf41mZm6iWgMivznpAtREQlvTh0jbm+ADeGkJhjot9C0dbHoXnkpaKc/m5xQTwYg/aEE4FNwnwX/0GmhqvI1gUNYwOo9eQ6ANCfB8dFO1R88D+sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iZmPe9T8HYP/sRmJXJqUnt4rxmom/RAuzEcGG4HMJGY=;
- b=NVJl44R74PxHEX6CDA9u2PScl1jUGFIo83V8cmmz90Bmc+BpO8NQumqrlR5AouEw2vBEyIILVeCl2C+Xeqiv0eVj5JJuRi09PllMrfUk9Ihd6qLFYXneJQxYEzzeRCpBK6AMv4hjIyS3zQBQU7pWZWcsCYAU0b0mo3pEAMzCjjaZtCWKl3mLK1a2KJCQ7B5G5t/4H9LWyjZldMsJ2VnqNgoyVuCszF2jNpBIGHOqsr1mMfbPMT+rsRDzC4o6G6lZynqGOYpqQa3S7GMkvagVaDN7ykfStGSVx+zgRE6j0vUW8s1UvPWvDWDxE93N0a9TZsJkGN7ms98AslQEz5BSgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iZmPe9T8HYP/sRmJXJqUnt4rxmom/RAuzEcGG4HMJGY=;
- b=0XtsdkipG1fZWfK0k8kLsuUbDfANS27U8P3giV4+vzUT0IjUapB+OSEHheOSsjL7CTOVCO+lPGor9lt9ObVwjxaH4HKES9YZpbTS8W5TG5WHfOPTH15XFoSnqmg7IL0CUnJOkkWweS/pXeXTqnVXL5uKZEcudHrR+Ma6r3pDyOc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Thu, 23 Jun
- 2022 11:11:04 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5373.015; Thu, 23 Jun 2022
- 11:11:04 +0000
-Message-ID: <6287f5f8-d9af-e03d-a2c8-ea8ddcbdc0d8@amd.com>
-Date:   Thu, 23 Jun 2022 13:10:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: DMA-buf and uncached system memory
-Content-Language: en-US
-To:     Lucas Stach <l.stach@pengutronix.de>,
-        Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linaro-mm-sig@lists.linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
- <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
- <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
- <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
- <20220623101326.18beeab3@eldfell>
- <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
- <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
- <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
- <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
- <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
- <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
- <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
- <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR04CA0001.eurprd04.prod.outlook.com
- (2603:10a6:206:1::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Thu, 23 Jun 2022 07:24:20 -0400
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F132649F95
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 04:24:16 -0700 (PDT)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-101e1a33fe3so16019182fac.11
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 04:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=e+TW875kuc7WhE5hvP+7KCPhrsMc2XaCOXp0AILpfWs=;
+        b=g2DlpKqJAUeXoYfJ/qcD+0bYrbudlcu/GOSRpswSroUQuBOpDfLjKel56H8M+PNFOO
+         fLrs+3byDeWCE/L4gaHXFg/KgKirLa8KO3i4TZrLypXMrBe3OnX+iPZSgt75Xig9TGsN
+         u4f8fbdeuVPhBaBjJwLEPFT2Gs+muLrAEUPIVuP6/qlJ1isNmLViy/awzSR4ZtCIRTLF
+         BeK9fSyd5BJaVYnzJatqO57o5E59P28v3jLk2+KqbpUlKNLRMcltD09eVgHSZ4GZb5nZ
+         i7oTSWOoEwedgId7gf/HZobBKTNHsiUgPIfNXMCI7YfVyLNslTlfelhk0dCxyh2G4clO
+         Tibw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=e+TW875kuc7WhE5hvP+7KCPhrsMc2XaCOXp0AILpfWs=;
+        b=u5FdgEYMusk1OPv4jsxbVS5CSDdAC7npCPgmTBHso+sM7508shYUpvDB/gjMPTv/Zm
+         D9juQCNZFF6tkPc1qS6HWB0+pSd/WBbV4/6weiV1SlgrshU8PUMR9Wf9vWbwQWA+mnbw
+         ph2D1haRv5YV3exMC2jylulpPaIGqAM9KggKsGXjy0KTZnjWqSg+JPC9i1CVExC8LCJU
+         6jxlisiayYSfIsRq3G+3qZ1ZUN40GQybNDz9wStWCRCvSAuaf8fjxScXOls8Itjt08WM
+         m/VEJSF9ImC26a6LzQghDCNuzpAHYh1cm5yOhU0dn3as1/1sEijj75rPZlGjCGOERjRM
+         mUIw==
+X-Gm-Message-State: AJIora+2TZReJYF4ux27D0A6JP3059Os9bDcuIT8BCFUrFts7ciP3lrR
+        2SzAJl/mnxEDcE8ORS45m9tlNQ==
+X-Google-Smtp-Source: AGRyM1tNSCO4caV3dp2xpO360WSS9JLtDxyoZonoCvjAZR7U+5iYfTn2+CWq2/ZDSeYwmdcpxun4Rw==
+X-Received: by 2002:a05:6870:4727:b0:101:c72f:e1e0 with SMTP id b39-20020a056870472700b00101c72fe1e0mr2216989oaq.251.1655983456238;
+        Thu, 23 Jun 2022 04:24:16 -0700 (PDT)
+Received: from eze-laptop ([186.13.97.222])
+        by smtp.gmail.com with ESMTPSA id r24-20020a9d30d8000000b006060322124csm12706503otg.28.2022.06.23.04.24.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jun 2022 04:24:14 -0700 (PDT)
+Date:   Thu, 23 Jun 2022 08:24:05 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        heiko@sntech.de, wens@csie.org, jernej.skrabec@gmail.com,
+        samuel@sholland.org, kernel@pengutronix.de,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com
+Subject: Re: [PATCH v2] media: hantro: Be more accurate on pixel formats
+ step_width constraints
+Message-ID: <YrRNVXDAqkWQPJAf@eze-laptop>
+References: <20220517122629.522211-1-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a482e23b-0270-4bae-2d9a-08da55091066
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4877:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4877CA46FDFD8CD8330826F683B59@DM6PR12MB4877.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZWnYly2+OBpRyqlmsOeF+I2xM1x1hiAmgWCRjv1fu8NGr/upjA4HIMsFRZicSUXDGAm2BC2Vd2HenRjdNktWLiE1gWih7Xjgi+nlfyVlvKYGbwE+Y647U+SDMESQEIb2kEJ7mS607flCV/5DJFVxdRSZWayiFjmh1azbJWFNUL1yibjZDTkkrF4DdA0ulfSJmeEChG6pw/LETnsSg8wVhedF31tpxckjUVGhQAJvK0lHu9nZoqs/+MAP0Nlhubma9wSnjBiNopqawzYUmfP/+SQl7MMqS22hlr7mX6eINEfysLcKEHIF/sHstMR9xa0eDcBhbBAqcidTEPziRShNbEIClMhFlyqVjVcERAgimRHe8TsH7ro1H6GImHX0vFqwmVRWK7OJhrhZ98/34BPpuPVFND13T9OOh2vonOnvZhD/OwWW46ye2HCjBC/mZRaCS/hIIytTpYADOvPbwnP0VVTpgMELsM6s/MnlgtqNreivC7185Jqlu52Uu79gpLroEpNccE49GJfItwCxIt7O7U77i0g+txk6gD3+r4JYsgoQgGArrMYQePc5JUx4fL1YX90vHaRv3wwlvhDgfjECqXD9FH4UqS/fhjB/w8fRe/zSzqUVot4WfveqBV8vUtjwpusS7usQNmK5JvdC42PVvZ1U82pxJmbjaYHcJ8OegywmN9uMuig4Qns1/TkUcca+A6L2Hqjr6I3hYTL3Ke7xC9XfNpSAN3c2dQVVvtk/tsULMPpDAYU0oAqs6r4mW2wepHwyxsdBF1SsVIezTxXmPjDreDIGBTp/4qUdTr/tJdY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(346002)(136003)(366004)(39860400002)(376002)(6486002)(478600001)(6666004)(186003)(6506007)(54906003)(26005)(8936002)(2616005)(31696002)(5660300002)(6512007)(86362001)(66476007)(4326008)(316002)(83380400001)(41300700001)(8676002)(66946007)(66556008)(38100700002)(31686004)(36756003)(2906002)(110136005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?enF3SHNpTkVFeEdqeWFYVlZ3YkpjU3paY1BvWWRMblFSWWpzYU9jZlMxemdi?=
- =?utf-8?B?VVFhRm9BdjNlMDhZaWkxdXY2WHZMTTcraG96MUlXZmRFMFJqSU1SVnBSNys0?=
- =?utf-8?B?c1RORGJoVDBibjNZeThJU0lVbUUvcTA4Ui92NWs0R3pHeWNaTm5RZDk0ajR1?=
- =?utf-8?B?YVFhUG80ZGEvMGRzb2VlK3EzcUM1SXh6UzhTdmExTVV6cnNYSS9OTE1jZnV3?=
- =?utf-8?B?OGNic2c4NUx5c0pmd09Id2RqUjhhamZlRGp2d3hNRGVkb3U5d3E0KzBxcDJt?=
- =?utf-8?B?WWN2NktURjFSLy82ekQwRnV3RXdFd0JHWGRvVlBiZURQWlJmYVNsbXRWUHhi?=
- =?utf-8?B?L3NnWllPVXFmcEFjR2FJNkE2WktGQU5RV1E0aXM1ME5Gd3RzcUNyTXQvMUJz?=
- =?utf-8?B?TzNtcVYrb2psaTB2cE8vd2l6a0ZOczZGK3U3T3M4VHJ0T015Y0xlQ0IwWWx2?=
- =?utf-8?B?ZXhmZjBLSlRLKy9Jd0xJM2RDYzdQdHlhQ2h1L3BrTm9sWjdnbm44WFZOWUdC?=
- =?utf-8?B?TFRqelpYUWk1czVuYk1kcjQ3aGFObEVQRFJXU2x0QkRaejZsWlFxMDcwSzZN?=
- =?utf-8?B?UVMvVnNCVEZTT2xwQ05OYzZhZkZzdFV6VTBjazRlMk9YR3NCRkRYSWhISWVx?=
- =?utf-8?B?RjR6NGxrMkxETjU1OGtMTEwrTnlWRXFBRU5GYmRqSzh3QWJUQzVqelJONFpz?=
- =?utf-8?B?aEhYbldNVG41c1ZuTVFWakM2MFlxRmNyS1BERytRWjlldTV2dVFNdXB5TzE2?=
- =?utf-8?B?d0FqMFhWZ01VOHptZUNaQnlXRjIxUXpwaGo5c3BWaWVQeVBlSnVseXVNWm5y?=
- =?utf-8?B?WnMxWlZHTkVhRWZnQXI2MFNqaElqNjZrY3ViekFhUkpUbUNEM09XbERTNTN1?=
- =?utf-8?B?WkVhQ2ExeXZFTmgzRnpTc3hIWXBoUVJuY1BSWmprWkkxZUU3ZGRDZDVrdmFv?=
- =?utf-8?B?MG9NUXp2N2pqMzljdWVXdTc5aFlUR1lrR3dmcnNaUzV5Ri9PY3o3MERYbHpQ?=
- =?utf-8?B?QWljNWhLaEh5eDJmSmtOL1c0TWJ6OXkzaytlbzZLN2lhcXhTbUZjcmkxWmRX?=
- =?utf-8?B?TkZkY1ZwNURlS1IxZHFWRnUxcEo5YklDRFd6NWNicVVYZklZbkF0Qy8rcDl4?=
- =?utf-8?B?azJaZHRFZ1liVG0vU25uRTluU3lVMEtwYld0OTZOOVNpeVhWL1dXZVJHT1c2?=
- =?utf-8?B?MFU5Z3JQcHE3azFXT0k0b0RIUFZ4NnFBNUpFbDNVcWdRa1A2b3FFSXp5anhV?=
- =?utf-8?B?aGFEdmZUbUxWLzNHRkdKbFhtcDJRUVpjSkw2VmswZHhzN2Y5Sk1xWXNIRzRn?=
- =?utf-8?B?WjBNWS9DOVpWUTlNY0lpUEN0dmFrb0ViL2w2RjJBdDh1b2wwZU1zL29iZlNj?=
- =?utf-8?B?bjg1RlRNN1JIcE82VE5NL1BiVzJ2MTZUb3huclJlM1hONmJRdnhmY1RCRStC?=
- =?utf-8?B?VmVMejZ3Ly8wL1lXNTc5dFZzNkRHK09aMjB5S3htbHJ1TFlnSTR6emh0aVh2?=
- =?utf-8?B?QWxvMU5JdnBVa3pwbE5oRnBDMHo1VEZ0NkJnYzlyLzFSWEhVWWZTamVUMHpt?=
- =?utf-8?B?REVHYksyNzhDTnI1ME95YVplbDloOFlObkZKQWRuOGRib24xdWhoSWFwZlRn?=
- =?utf-8?B?Q05lb3NmZm5tYVFQeXd4cTZLTG1sNEJNNkV5OGN2YkJsdHFncDdyWko5V2sz?=
- =?utf-8?B?eURaajZYRWt0dkJJeWdndmk4elZPQkVOM0ZnNm1NOUh0d3d5VGU0My8vd3RZ?=
- =?utf-8?B?elNzQjNzWmhyZS9CMFNNcktFckprQkhnQzY1cmRKWEZib0xNaDBYd0g4OUhw?=
- =?utf-8?B?eXMwNU9aaVk5U3pxczhNOWY2UlFUQkMwNHlmeGYrSXlzbU5jNUdIMllCRjBW?=
- =?utf-8?B?enlvQnp5WGV5elNvK0QyOVRlcHdYZ1lMMDVzMTM5Z2IyNkl5MndjZHEyWTJl?=
- =?utf-8?B?K0tmVmMyY0lRbk01TzRFVFFxcmJuazN0aHZwQytpTm1NNGdvbWRqWmNPeEMw?=
- =?utf-8?B?NERWb1NhWnQ3M1E2MG5hbTdQb3NqMHlEU3pHdmxTWWZ6c0g1Z2J5SjBINVdo?=
- =?utf-8?B?WnBOUlExa1EvVEMzVkU5d3dxQlNuY05PRE1qTlZSNlJFRXhPdk5xMmNrU0U1?=
- =?utf-8?Q?njyMa5CXnnkMy31/5rgX3/z07?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a482e23b-0270-4bae-2d9a-08da55091066
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 11:11:04.6888
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vhMi7gSCjWF3f23AzBSmGTUiP04FF2A3E6L/5L5aC2v4WvIiV8Eayb2II58gOeLo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4877
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220517122629.522211-1-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 23.06.22 um 12:13 schrieb Lucas Stach:
-> [SNIP]
->>> On most of the multimedia
->>> targeted ARM SoCs being unable to snoop the cache is the norm, not an
->>> exception.
->>>
->>>> See for example on AMD/Intel hardware most of the engines can perfectly
->>>> deal with cache coherent memory accesses. Only the display engines can't.
->>>>
->>>> So on import time we can't even say if the access can be coherent and
->>>> snoop the CPU cache or not because we don't know how the imported
->>>> DMA-buf will be used later on.
->>>>
->>> So for those mixed use cases, wouldn't it help to have something
->>> similar to the dma_sync in the DMA-buf API, so your scanout usage can
->>> tell the exporter that it's going to do non-snoop access and any dirty
->>> cache lines must be cleaned? Signaling this to the exporter would allow
->>> to skip the cache maintenance if the buffer is in CPU uncached memory,
->>> which again is a default case for the ARM SoC world.
->> Well for the AMD and Intel use cases we at least have the opportunity to
->> signal cache flushing, but I'm not sure if that counts for everybody.
->>
-> Sure, all the non-coherent arches have some way to do the cache
-> maintenance in some explicit way. Non coherent and no cache maintenance
-> instruction would be a recipe for desaster. ;)
->
->> What we would rather do for those use cases is an indicator on the
->> DMA-buf if the underlying backing store is CPU cached or not. The
->> importer can then cleanly reject the use cases where it can't support
->> CPU cache snooping.
->>
->> This then results in the normal fallback paths which we have anyway for
->> those use cases because DMA-buf sharing is not always possible.
->>
-> That's a very x86 centric world view you have there. 99% of DMA-buf
-> uses on those cheap ARM SoCs is non-snooping. We can not do any
-> fallbacks here, as the whole graphics world on those SoCs with their
-> different IP cores mixed together depends on DMA-buf sharing working
-> efficiently even when the SoC is mostly non coherent.
->
-> In fact DMA-buf sharing works fine on most of those SoCs because
-> everyone just assumes that all the accelerators don't snoop, so the
-> memory shared via DMA-buf is mostly CPU uncached. It only falls apart
-> for uses like the UVC cameras, where the shared buffer ends up being
-> CPU cached.
+Hi Benjamin,
 
-Well then the existing DMA-buf framework is not what you want to use for 
-this.
+On Tue, May 17, 2022 at 02:26:29PM +0200, Benjamin Gaignard wrote:
+> On Hantro G2 decoder on IMX8MQ strides requirements aren't the same
+> for NV12_4L4 and NV12 pixel formats. The first one use a 4 bytes padding
+> while the last one needs 8 bytes.
+> To be sure to provide the correct stride in all cases we need:
+> - to relax the constraints on codec formats so set step_width to 4
+> - use capture queue format and not the output queue format when applying
+>   the pixel format constraints.
+> - put the correct step_width constraints on each pixel format.
+> 
+> Move HEVC SPS validation in hantro_hevc.c to be able to perform it
+> when setting sps control and when starting to decode the bitstream.
+> Add a new test in HEVC SPS validation function to check if resolution
+> is still matching the hardware constraints.
+> 
+> With this SAODBLK_A_MainConcept_4 and SAODBLK_B_MainConcept_4 conformance
+> tests files are correctly decoded with both NV12 and NV12_4L4 pixel formats.
+> These two files have a resolution of 1016x760.
+> If step_width = 16 for the both pixel formats the selected capture
+> resolution is 1024x768 which is wrong for NV12_4L4 (which expect 1016x760)
+> on Hantro G2 on IMX8MQ (but correct for NV12).
+> 
+> For other variants than Hantro G2 on IMX8M keep the same step_width to avoid
+> regressions.
+> 
+> Fluster HEVC test score is now 128/147 vs 126/147 with the both pixel
+> formats as decoder output.
+> Fluster VP9 test score stay at 147/303.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 2:
+> - Add a HEVC SPS validation function to be used when
+>   setting the control and start decoding.
+>   I hope that is what Nicolas expects in his remark on v1.
+> 
+>  drivers/staging/media/hantro/hantro_drv.c     | 12 +++---
+>  drivers/staging/media/hantro/hantro_hevc.c    | 28 +++++++++++++
+>  drivers/staging/media/hantro/hantro_hw.h      |  2 +
+>  drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 40 +++++++++++++++++--
+>  .../staging/media/hantro/rockchip_vpu_hw.c    | 32 +++++++++++++++
+>  .../staging/media/hantro/sama5d4_vdec_hw.c    | 16 ++++++++
+>  drivers/staging/media/hantro/sunxi_vpu_hw.c   | 16 ++++++++
+>  8 files changed, 137 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 377dcc1d19de..5aac3a090480 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -253,6 +253,11 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+>  
+>  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+> +	struct hantro_ctx *ctx;
+> +
+> +	ctx = container_of(ctrl->handler,
+> +			   struct hantro_ctx, ctrl_handler);
+> +
+>  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+>  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+>  
+> @@ -268,12 +273,7 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
+>  		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+>  
+> -		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+> -			/* Luma and chroma bit depth mismatch */
+> -			return -EINVAL;
+> -		if (sps->bit_depth_luma_minus8 != 0)
+> -			/* Only 8-bit is supported */
+> -			return -EINVAL;
+> +		return hantro_hevc_validate_sps(ctx, sps);
 
-> Non-coherent without explicit domain transfer points is just not going
-> to work. So why can't we solve the issue for DMA-buf in the same way as
-> the DMA API already solved it years ago: by adding the equivalent of
-> the dma_sync calls that do cache maintenance when necessary? On x86 (or
-> any system where things are mostly coherent) you could still no-op them
-> for the common case and only trigger cache cleaning if the importer
-> explicitly says that is going to do a non-snooping access.
+This doesn't work. You cannot check the decoded format (vpu_dst_fmt) in .try_ctrl.
 
-Because DMA-buf is a framework for buffer sharing between cache coherent 
-devices which don't signal transitions.
+See:
+https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stateless-decoder.html.
 
-We intentionally didn't implemented any of the dma_sync_* functions 
-because that would break the intended use case.
+The CAPTURE format is set (VIDIOC_S_FMT) only after SPS is set (VIDIOC_S_EXT_CTRLS).
 
-You can of course use DMA-buf in an incoherent environment, but then you 
-can't expect that this works all the time.
+>  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+>  		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
+>  
+> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+> index 7fdec50dc853..6abef810b285 100644
+> --- a/drivers/staging/media/hantro/hantro_hevc.c
+> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+> @@ -154,6 +154,30 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
+>  	return -ENOMEM;
+>  }
+>  
+> +int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
+> +{
+> +	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+> +		/* Luma and chroma bit depth mismatch */
+> +		return -EINVAL;
+> +	if (sps->bit_depth_luma_minus8 != 0)
+> +		/* Only 8-bit is supported */
+> +		return -EINVAL;
+> +
+> +	/* for tile pixel format check if the width and height match
+> +	 * hardware constraints */
+> +	if (ctx->vpu_dst_fmt->fourcc == V4L2_PIX_FMT_NV12_4L4) {
+> +		if (ctx->dst_fmt.width !=
+> +		    ALIGN(sps->pic_width_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_width))
+> +			return -EINVAL;
+> +
+> +		if (ctx->dst_fmt.height !=
+> +		    ALIGN(sps->pic_height_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_height))
+> +			return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
+>  {
+>  	struct hantro_hevc_dec_hw_ctx *hevc_ctx = &ctx->hevc_dec;
+> @@ -177,6 +201,10 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
+>  	if (WARN_ON(!ctrls->sps))
+>  		return -EINVAL;
+>  
+> +	ret = hantro_hevc_validate_sps(ctx, ctrls->sps);
+> +	if (ret)
 
-This is documented behavior and so far we have bluntly rejected any of 
-the complains that it doesn't work on most ARM SoCs and I don't really 
-see a way to do this differently.
+This doesn't look correct, validations shouldn't happen here,
+since this is the .run callback.
 
-Regards,
-Christian.
+All validations need to happen as a result of TRY_FMT, TRY_CTRLS.
 
->
-> Regards,
-> Lucas
->
+> +		return ret;
+> +
+>  	ctrls->pps =
+>  		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_HEVC_PPS);
+>  	if (WARN_ON(!ctrls->pps))
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 994547fe41b9..0bba6378212d 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -341,6 +341,8 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+>  void hantro_hevc_ref_init(struct hantro_ctx *ctx);
+>  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+>  int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+> +int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps);
+> +
+>  
+>  static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
+>  {
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index 71a6279750bf..93d0dcf69f4a 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -260,7 +260,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+>  	} else if (ctx->is_encoder) {
+>  		vpu_fmt = ctx->vpu_dst_fmt;
+>  	} else {
+> -		vpu_fmt = ctx->vpu_src_fmt;
+> +		vpu_fmt = fmt;
 
+Seems this is the core of the fix, right?
+
+Instead of using the OUTPUT queue always, we now use the right queue.
+I wonder why we select any queue in the first place.
+
+Thanks,
+Ezequiel
+
+>  		/*
+>  		 * Width/height on the CAPTURE end of a decoder are ignored and
+>  		 * replaced by the OUTPUT ones.
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> index 9802508bade2..b6b2bf65e56d 100644
+> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -83,6 +83,14 @@ static const struct hantro_fmt imx8m_vpu_postproc_fmts[] = {
+>  		.fourcc = V4L2_PIX_FMT_YUYV,
+>  		.codec_mode = HANTRO_MODE_NONE,
+>  		.postprocessed = true,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 3840,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 2160,
+> +			.step_height = MB_DIM,
+> +		},
+>  	},
+>  };
+>  
+> @@ -90,6 +98,14 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_NV12,
+>  		.codec_mode = HANTRO_MODE_NONE,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 3840,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 2160,
+> +			.step_height = MB_DIM,
+> +		},
+>  	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
+> @@ -137,6 +153,14 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
+>  		.fourcc = V4L2_PIX_FMT_NV12,
+>  		.codec_mode = HANTRO_MODE_NONE,
+>  		.postprocessed = true,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 3840,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 2160,
+> +			.step_height = MB_DIM,
+> +		},
+>  	},
+>  };
+>  
+> @@ -144,6 +168,14 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_NV12_4L4,
+>  		.codec_mode = HANTRO_MODE_NONE,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 3840,
+> +			.step_width = 4,
+> +			.min_height = 48,
+> +			.max_height = 2160,
+> +			.step_height = 4,
+> +		},
+>  	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
+> @@ -152,10 +184,10 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+>  		.frmsize = {
+>  			.min_width = 48,
+>  			.max_width = 3840,
+> -			.step_width = MB_DIM,
+> +			.step_width = 4,
+>  			.min_height = 48,
+>  			.max_height = 2160,
+> -			.step_height = MB_DIM,
+> +			.step_height = 4,
+>  		},
+>  	},
+>  	{
+> @@ -165,10 +197,10 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+>  		.frmsize = {
+>  			.min_width = 48,
+>  			.max_width = 3840,
+> -			.step_width = MB_DIM,
+> +			.step_width = 4,
+>  			.min_height = 48,
+>  			.max_height = 2160,
+> -			.step_height = MB_DIM,
+> +			.step_height = 4,
+>  		},
+>  	},
+>  };
+> diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+> index fc96501f3bc8..efba7fcdf207 100644
+> --- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+> @@ -63,6 +63,14 @@ static const struct hantro_fmt rockchip_vpu1_postproc_fmts[] = {
+>  		.fourcc = V4L2_PIX_FMT_YUYV,
+>  		.codec_mode = HANTRO_MODE_NONE,
+>  		.postprocessed = true,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 1920,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 1088,
+> +			.step_height = MB_DIM,
+> +		},
+>  	},
+>  };
+>  
+> @@ -70,6 +78,14 @@ static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_NV12,
+>  		.codec_mode = HANTRO_MODE_NONE,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 1920,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 1088,
+> +			.step_height = MB_DIM,
+> +		},
+>  	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+> @@ -116,6 +132,14 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_NV12,
+>  		.codec_mode = HANTRO_MODE_NONE,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 4096,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 2304,
+> +			.step_height = MB_DIM,
+> +		},
+>  	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+> @@ -162,6 +186,14 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_NV12,
+>  		.codec_mode = HANTRO_MODE_NONE,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 1920,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 1088,
+> +			.step_height = MB_DIM,
+> +		},
+>  	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+> diff --git a/drivers/staging/media/hantro/sama5d4_vdec_hw.c b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+> index b2fc1c5613e1..07ee804e706b 100644
+> --- a/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+> +++ b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+> @@ -16,6 +16,14 @@ static const struct hantro_fmt sama5d4_vdec_postproc_fmts[] = {
+>  		.fourcc = V4L2_PIX_FMT_YUYV,
+>  		.codec_mode = HANTRO_MODE_NONE,
+>  		.postprocessed = true,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 1280,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 720,
+> +			.step_height = MB_DIM,
+> +		},
+>  	},
+>  };
+>  
+> @@ -23,6 +31,14 @@ static const struct hantro_fmt sama5d4_vdec_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_NV12,
+>  		.codec_mode = HANTRO_MODE_NONE,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 1280,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 720,
+> +			.step_height = MB_DIM,
+> +		},
+>  	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
+> diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+> index c0edd5856a0c..c2392c08febb 100644
+> --- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+> @@ -14,6 +14,14 @@ static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
+>  		.fourcc = V4L2_PIX_FMT_NV12,
+>  		.codec_mode = HANTRO_MODE_NONE,
+>  		.postprocessed = true,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 3840,
+> +			.step_width = 32,
+> +			.min_height = 48,
+> +			.max_height = 2160,
+> +			.step_height = 32,
+> +		},
+>  	},
+>  };
+>  
+> @@ -21,6 +29,14 @@ static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_NV12_4L4,
+>  		.codec_mode = HANTRO_MODE_NONE,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 3840,
+> +			.step_width = 32,
+> +			.min_height = 48,
+> +			.max_height = 2160,
+> +			.step_height = 32,
+> +		},
+>  	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
+> -- 
+> 2.32.0
+> 
