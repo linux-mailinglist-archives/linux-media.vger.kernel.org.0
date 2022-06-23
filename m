@@ -2,74 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C92365578A4
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 13:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FEBD5578AE
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 13:28:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231246AbiFWLYW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 07:24:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44456 "EHLO
+        id S230349AbiFWL2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 07:28:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231184AbiFWLYU (ORCPT
+        with ESMTP id S230257AbiFWL2F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 07:24:20 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F132649F95
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 04:24:16 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-101e1a33fe3so16019182fac.11
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 04:24:16 -0700 (PDT)
+        Thu, 23 Jun 2022 07:28:05 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 582401018
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 04:27:55 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id i15so30456175ybp.1
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 04:27:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=e+TW875kuc7WhE5hvP+7KCPhrsMc2XaCOXp0AILpfWs=;
-        b=g2DlpKqJAUeXoYfJ/qcD+0bYrbudlcu/GOSRpswSroUQuBOpDfLjKel56H8M+PNFOO
-         fLrs+3byDeWCE/L4gaHXFg/KgKirLa8KO3i4TZrLypXMrBe3OnX+iPZSgt75Xig9TGsN
-         u4f8fbdeuVPhBaBjJwLEPFT2Gs+muLrAEUPIVuP6/qlJ1isNmLViy/awzSR4ZtCIRTLF
-         BeK9fSyd5BJaVYnzJatqO57o5E59P28v3jLk2+KqbpUlKNLRMcltD09eVgHSZ4GZb5nZ
-         i7oTSWOoEwedgId7gf/HZobBKTNHsiUgPIfNXMCI7YfVyLNslTlfelhk0dCxyh2G4clO
-         Tibw==
+        d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=HQf7Xetq2qw6O5KGu3AbqobLNDGED8NEFyUud0J6jJM=;
+        b=VEN3Qne6XvMDufDpYDjue8IlCIvivVl8JFu/jLxgngalD1/GMI3oF0ptB6V7/xOt3K
+         56nk6EdjeK21hW+EgnPmUcQjhTOZu2L+nCHZ/dz7r5YcIt6BualYKr1jTrtCN6NK2GnI
+         5eO64xmF1te0Lg3+balozAi+GTh2Xnjc0UewkUU8P25Xf7ad2UW656SYSbbGFnqga39u
+         jccbLKVhWMro6OEjZj8SgFJXOS163jz+dK1yqRaOvVc5XCM+QHihtGx0Cz5Uq/K30XU5
+         4qSphkxZC9JI9PIYLmimuvhocycPMlHijZggDOE863PMPKGvpYdJ0RsYDD21fTqWOgSH
+         OkxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=e+TW875kuc7WhE5hvP+7KCPhrsMc2XaCOXp0AILpfWs=;
-        b=u5FdgEYMusk1OPv4jsxbVS5CSDdAC7npCPgmTBHso+sM7508shYUpvDB/gjMPTv/Zm
-         D9juQCNZFF6tkPc1qS6HWB0+pSd/WBbV4/6weiV1SlgrshU8PUMR9Wf9vWbwQWA+mnbw
-         ph2D1haRv5YV3exMC2jylulpPaIGqAM9KggKsGXjy0KTZnjWqSg+JPC9i1CVExC8LCJU
-         6jxlisiayYSfIsRq3G+3qZ1ZUN40GQybNDz9wStWCRCvSAuaf8fjxScXOls8Itjt08WM
-         m/VEJSF9ImC26a6LzQghDCNuzpAHYh1cm5yOhU0dn3as1/1sEijj75rPZlGjCGOERjRM
-         mUIw==
-X-Gm-Message-State: AJIora+2TZReJYF4ux27D0A6JP3059Os9bDcuIT8BCFUrFts7ciP3lrR
-        2SzAJl/mnxEDcE8ORS45m9tlNQ==
-X-Google-Smtp-Source: AGRyM1tNSCO4caV3dp2xpO360WSS9JLtDxyoZonoCvjAZR7U+5iYfTn2+CWq2/ZDSeYwmdcpxun4Rw==
-X-Received: by 2002:a05:6870:4727:b0:101:c72f:e1e0 with SMTP id b39-20020a056870472700b00101c72fe1e0mr2216989oaq.251.1655983456238;
-        Thu, 23 Jun 2022 04:24:16 -0700 (PDT)
-Received: from eze-laptop ([186.13.97.222])
-        by smtp.gmail.com with ESMTPSA id r24-20020a9d30d8000000b006060322124csm12706503otg.28.2022.06.23.04.24.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jun 2022 04:24:14 -0700 (PDT)
-Date:   Thu, 23 Jun 2022 08:24:05 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        heiko@sntech.de, wens@csie.org, jernej.skrabec@gmail.com,
-        samuel@sholland.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-Subject: Re: [PATCH v2] media: hantro: Be more accurate on pixel formats
- step_width constraints
-Message-ID: <YrRNVXDAqkWQPJAf@eze-laptop>
-References: <20220517122629.522211-1-benjamin.gaignard@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HQf7Xetq2qw6O5KGu3AbqobLNDGED8NEFyUud0J6jJM=;
+        b=7kMszGeh3unYCB/emruiUxgVhRi2Gh0kN1fdvv5wthoj5v6U1jHxV2SSTCijOA8wxt
+         208oChupbYcLP9AfMxH4ByO3We3Ji4NF2ve3ROtuX+8/RQd4XsWn2aBiX0ldhsAI+7Fh
+         0Mt14h74iGZHhxrylS9mNt1PLYa7igQ3i+YNWfnjebg9fdmL9c26Cn0SsQpyfQ4uKbTG
+         A4QEdiUg1P/D7jn89muCSmC4bmRddxZHsB7ju85i2affLMN9fXSSxbNZUuU0CRyZPwvS
+         MdLL2fKDxhTFO+85i/5bJc7Q0SnXmgO82GvDCS0ZrmRvVln+7M7YgpDbCRQS7OaVn3XK
+         4m0A==
+X-Gm-Message-State: AJIora+Z/p9Hd4Haf4TqcceZE8zV6dHa2cE2zvo5KJcdFWo8JcxlfFWt
+        z+8NaGNOrP7xFI8X9kUwqS4yjH0QHuL+jJnWJIDrHQ==
+X-Google-Smtp-Source: AGRyM1tqH9BZAOHPTjQSl2yFEhXyjX3QtI5AG18dKht12xn42EllI+c4QF+m43lD/JpEaOKNqaydDkuDMX/OPwRgqBs=
+X-Received: by 2002:a05:6902:c5:b0:669:1646:b07 with SMTP id
+ i5-20020a05690200c500b0066916460b07mr1220654ybs.553.1655983674521; Thu, 23
+ Jun 2022 04:27:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220517122629.522211-1-benjamin.gaignard@collabora.com>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com> <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
+ <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
+ <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
+ <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com> <20220623101326.18beeab3@eldfell>
+ <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com> <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
+ <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com> <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
+ <e691bccc-171d-f674-2817-13a945970f4a@amd.com> <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
+ <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com> <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
+ <6287f5f8-d9af-e03d-a2c8-ea8ddcbdc0d8@amd.com>
+In-Reply-To: <6287f5f8-d9af-e03d-a2c8-ea8ddcbdc0d8@amd.com>
+From:   Daniel Stone <daniel@fooishbar.org>
+Date:   Thu, 23 Jun 2022 12:27:26 +0100
+Message-ID: <CAPj87rOykZv7bjNhHPT4StrsPz8Y_DWqab4Ryq=Qqh77LS2e=Q@mail.gmail.com>
+Subject: Re: DMA-buf and uncached system memory
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Lucas Stach <l.stach@pengutronix.de>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linaro-mm-sig@lists.linaro.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,401 +81,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Christian,
 
-On Tue, May 17, 2022 at 02:26:29PM +0200, Benjamin Gaignard wrote:
-> On Hantro G2 decoder on IMX8MQ strides requirements aren't the same
-> for NV12_4L4 and NV12 pixel formats. The first one use a 4 bytes padding
-> while the last one needs 8 bytes.
-> To be sure to provide the correct stride in all cases we need:
-> - to relax the constraints on codec formats so set step_width to 4
-> - use capture queue format and not the output queue format when applying
->   the pixel format constraints.
-> - put the correct step_width constraints on each pixel format.
-> 
-> Move HEVC SPS validation in hantro_hevc.c to be able to perform it
-> when setting sps control and when starting to decode the bitstream.
-> Add a new test in HEVC SPS validation function to check if resolution
-> is still matching the hardware constraints.
-> 
-> With this SAODBLK_A_MainConcept_4 and SAODBLK_B_MainConcept_4 conformance
-> tests files are correctly decoded with both NV12 and NV12_4L4 pixel formats.
-> These two files have a resolution of 1016x760.
-> If step_width = 16 for the both pixel formats the selected capture
-> resolution is 1024x768 which is wrong for NV12_4L4 (which expect 1016x760)
-> on Hantro G2 on IMX8MQ (but correct for NV12).
-> 
-> For other variants than Hantro G2 on IMX8M keep the same step_width to avoid
-> regressions.
-> 
-> Fluster HEVC test score is now 128/147 vs 126/147 with the both pixel
-> formats as decoder output.
-> Fluster VP9 test score stay at 147/303.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> version 2:
-> - Add a HEVC SPS validation function to be used when
->   setting the control and start decoding.
->   I hope that is what Nicolas expects in his remark on v1.
-> 
->  drivers/staging/media/hantro/hantro_drv.c     | 12 +++---
->  drivers/staging/media/hantro/hantro_hevc.c    | 28 +++++++++++++
->  drivers/staging/media/hantro/hantro_hw.h      |  2 +
->  drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
->  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 40 +++++++++++++++++--
->  .../staging/media/hantro/rockchip_vpu_hw.c    | 32 +++++++++++++++
->  .../staging/media/hantro/sama5d4_vdec_hw.c    | 16 ++++++++
->  drivers/staging/media/hantro/sunxi_vpu_hw.c   | 16 ++++++++
->  8 files changed, 137 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 377dcc1d19de..5aac3a090480 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -253,6 +253,11 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->  
->  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
-> +	struct hantro_ctx *ctx;
-> +
-> +	ctx = container_of(ctrl->handler,
-> +			   struct hantro_ctx, ctrl_handler);
-> +
->  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
->  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
->  
-> @@ -268,12 +273,7 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
->  		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
->  
-> -		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-> -			/* Luma and chroma bit depth mismatch */
-> -			return -EINVAL;
-> -		if (sps->bit_depth_luma_minus8 != 0)
-> -			/* Only 8-bit is supported */
-> -			return -EINVAL;
-> +		return hantro_hevc_validate_sps(ctx, sps);
+On Thu, 23 Jun 2022 at 12:11, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+> > In fact DMA-buf sharing works fine on most of those SoCs because
+> > everyone just assumes that all the accelerators don't snoop, so the
+> > memory shared via DMA-buf is mostly CPU uncached. It only falls apart
+> > for uses like the UVC cameras, where the shared buffer ends up being
+> > CPU cached.
+>
+> Well then the existing DMA-buf framework is not what you want to use for
+> this.
+>
+> > Non-coherent without explicit domain transfer points is just not going
+> > to work. So why can't we solve the issue for DMA-buf in the same way as
+> > the DMA API already solved it years ago: by adding the equivalent of
+> > the dma_sync calls that do cache maintenance when necessary? On x86 (or
+> > any system where things are mostly coherent) you could still no-op them
+> > for the common case and only trigger cache cleaning if the importer
+> > explicitly says that is going to do a non-snooping access.
+>
+> Because DMA-buf is a framework for buffer sharing between cache coherent
+> devices which don't signal transitions.
+>
+> We intentionally didn't implemented any of the dma_sync_* functions
+> because that would break the intended use case.
+>
+> You can of course use DMA-buf in an incoherent environment, but then you
+> can't expect that this works all the time.
+>
+> This is documented behavior and so far we have bluntly rejected any of
+> the complains that it doesn't work on most ARM SoCs and I don't really
+> see a way to do this differently.
 
-This doesn't work. You cannot check the decoded format (vpu_dst_fmt) in .try_ctrl.
+For some strange reason, 'let's do buffer sharing but make sure it
+doesn't work on Arm' wasn't exactly the intention of the groups who
+came together under the Linaro umbrella to create dmabuf.
 
-See:
-https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stateless-decoder.html.
+If it's really your belief that dmabuf requires universal snooping, I
+recommend you send the patch to update the documentation, as well as
+to remove DRIVER_PRIME from, realistically, most non-PCIE drivers.
 
-The CAPTURE format is set (VIDIOC_S_FMT) only after SPS is set (VIDIOC_S_EXT_CTRLS).
-
->  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
->  		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
->  
-> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-> index 7fdec50dc853..6abef810b285 100644
-> --- a/drivers/staging/media/hantro/hantro_hevc.c
-> +++ b/drivers/staging/media/hantro/hantro_hevc.c
-> @@ -154,6 +154,30 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
->  	return -ENOMEM;
->  }
->  
-> +int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
-> +{
-> +	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-> +		/* Luma and chroma bit depth mismatch */
-> +		return -EINVAL;
-> +	if (sps->bit_depth_luma_minus8 != 0)
-> +		/* Only 8-bit is supported */
-> +		return -EINVAL;
-> +
-> +	/* for tile pixel format check if the width and height match
-> +	 * hardware constraints */
-> +	if (ctx->vpu_dst_fmt->fourcc == V4L2_PIX_FMT_NV12_4L4) {
-> +		if (ctx->dst_fmt.width !=
-> +		    ALIGN(sps->pic_width_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_width))
-> +			return -EINVAL;
-> +
-> +		if (ctx->dst_fmt.height !=
-> +		    ALIGN(sps->pic_height_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_height))
-> +			return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
->  {
->  	struct hantro_hevc_dec_hw_ctx *hevc_ctx = &ctx->hevc_dec;
-> @@ -177,6 +201,10 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
->  	if (WARN_ON(!ctrls->sps))
->  		return -EINVAL;
->  
-> +	ret = hantro_hevc_validate_sps(ctx, ctrls->sps);
-> +	if (ret)
-
-This doesn't look correct, validations shouldn't happen here,
-since this is the .run callback.
-
-All validations need to happen as a result of TRY_FMT, TRY_CTRLS.
-
-> +		return ret;
-> +
->  	ctrls->pps =
->  		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_HEVC_PPS);
->  	if (WARN_ON(!ctrls->pps))
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 994547fe41b9..0bba6378212d 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -341,6 +341,8 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
->  void hantro_hevc_ref_init(struct hantro_ctx *ctx);
->  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
->  int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
-> +int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps);
-> +
->  
->  static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
->  {
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> index 71a6279750bf..93d0dcf69f4a 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -260,7 +260,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->  	} else if (ctx->is_encoder) {
->  		vpu_fmt = ctx->vpu_dst_fmt;
->  	} else {
-> -		vpu_fmt = ctx->vpu_src_fmt;
-> +		vpu_fmt = fmt;
-
-Seems this is the core of the fix, right?
-
-Instead of using the OUTPUT queue always, we now use the right queue.
-I wonder why we select any queue in the first place.
-
-Thanks,
-Ezequiel
-
->  		/*
->  		 * Width/height on the CAPTURE end of a decoder are ignored and
->  		 * replaced by the OUTPUT ones.
-> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> index 9802508bade2..b6b2bf65e56d 100644
-> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> @@ -83,6 +83,14 @@ static const struct hantro_fmt imx8m_vpu_postproc_fmts[] = {
->  		.fourcc = V4L2_PIX_FMT_YUYV,
->  		.codec_mode = HANTRO_MODE_NONE,
->  		.postprocessed = true,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = MB_DIM,
-> +		},
->  	},
->  };
->  
-> @@ -90,6 +98,14 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12,
->  		.codec_mode = HANTRO_MODE_NONE,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
-> @@ -137,6 +153,14 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
->  		.fourcc = V4L2_PIX_FMT_NV12,
->  		.codec_mode = HANTRO_MODE_NONE,
->  		.postprocessed = true,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = MB_DIM,
-> +		},
->  	},
->  };
->  
-> @@ -144,6 +168,14 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12_4L4,
->  		.codec_mode = HANTRO_MODE_NONE,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = 4,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = 4,
-> +		},
->  	},
->  	{
->  		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
-> @@ -152,10 +184,10 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
->  		.frmsize = {
->  			.min_width = 48,
->  			.max_width = 3840,
-> -			.step_width = MB_DIM,
-> +			.step_width = 4,
->  			.min_height = 48,
->  			.max_height = 2160,
-> -			.step_height = MB_DIM,
-> +			.step_height = 4,
->  		},
->  	},
->  	{
-> @@ -165,10 +197,10 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
->  		.frmsize = {
->  			.min_width = 48,
->  			.max_width = 3840,
-> -			.step_width = MB_DIM,
-> +			.step_width = 4,
->  			.min_height = 48,
->  			.max_height = 2160,
-> -			.step_height = MB_DIM,
-> +			.step_height = 4,
->  		},
->  	},
->  };
-> diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> index fc96501f3bc8..efba7fcdf207 100644
-> --- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> @@ -63,6 +63,14 @@ static const struct hantro_fmt rockchip_vpu1_postproc_fmts[] = {
->  		.fourcc = V4L2_PIX_FMT_YUYV,
->  		.codec_mode = HANTRO_MODE_NONE,
->  		.postprocessed = true,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 1920,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 1088,
-> +			.step_height = MB_DIM,
-> +		},
->  	},
->  };
->  
-> @@ -70,6 +78,14 @@ static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12,
->  		.codec_mode = HANTRO_MODE_NONE,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 1920,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 1088,
-> +			.step_height = MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-> @@ -116,6 +132,14 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12,
->  		.codec_mode = HANTRO_MODE_NONE,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 4096,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 2304,
-> +			.step_height = MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-> @@ -162,6 +186,14 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12,
->  		.codec_mode = HANTRO_MODE_NONE,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 1920,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 1088,
-> +			.step_height = MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-> diff --git a/drivers/staging/media/hantro/sama5d4_vdec_hw.c b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-> index b2fc1c5613e1..07ee804e706b 100644
-> --- a/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-> +++ b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-> @@ -16,6 +16,14 @@ static const struct hantro_fmt sama5d4_vdec_postproc_fmts[] = {
->  		.fourcc = V4L2_PIX_FMT_YUYV,
->  		.codec_mode = HANTRO_MODE_NONE,
->  		.postprocessed = true,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 1280,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 720,
-> +			.step_height = MB_DIM,
-> +		},
->  	},
->  };
->  
-> @@ -23,6 +31,14 @@ static const struct hantro_fmt sama5d4_vdec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12,
->  		.codec_mode = HANTRO_MODE_NONE,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 1280,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 720,
-> +			.step_height = MB_DIM,
-> +		},
->  	},
->  	{
->  		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
-> diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> index c0edd5856a0c..c2392c08febb 100644
-> --- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> @@ -14,6 +14,14 @@ static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
->  		.fourcc = V4L2_PIX_FMT_NV12,
->  		.codec_mode = HANTRO_MODE_NONE,
->  		.postprocessed = true,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = 32,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = 32,
-> +		},
->  	},
->  };
->  
-> @@ -21,6 +29,14 @@ static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12_4L4,
->  		.codec_mode = HANTRO_MODE_NONE,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = 32,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = 32,
-> +		},
->  	},
->  	{
->  		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
-> -- 
-> 2.32.0
-> 
+Cheers,
+Daniel
