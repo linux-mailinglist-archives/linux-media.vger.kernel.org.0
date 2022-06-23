@@ -2,115 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50836557239
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 06:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A116557265
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 06:59:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232152AbiFWEqv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 00:46:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
+        id S229577AbiFWE7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 00:59:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238333AbiFWDus (ORCPT
+        with ESMTP id S230167AbiFWE6j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jun 2022 23:50:48 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8643D3DA6B
-        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 20:50:46 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id g25so38292310ejh.9
-        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 20:50:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EkKyTWCu629nMEHdFNbptooutbfUA4/TnE+Ay2cBeTk=;
-        b=MZ+ZBJ+075YeJab2Z38SqspmTsuzV22kvWs0oDrbgCpPUCy0S5cZmqdbVpkFCG4VMY
-         q2FvSp0oYLhLsR8UIJ3x5vc2rF1i0Rg4zuz4c9+BfxNiK0RT/jA/Thflg8GpMM59m9Fg
-         g6Zv0MzH2tHEFaNqF789CSRMggNM4NKdS0I4M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EkKyTWCu629nMEHdFNbptooutbfUA4/TnE+Ay2cBeTk=;
-        b=K+YgYP5/bTL7PYWettp3ou74vaCuWRYkVPAd74bcjgjumMLEkdn36xLA3EOTFbnfot
-         2Cg3mS/S3b2P/nqXPFOI3OgnuocmjXkoexua/zmMTNMXE5KnEz1KzeNb8NN1hxq2YcJ+
-         8ZvyHGbKMSYCjkvWHHyLRJ6rQE1ub0BUBUcPSgRgqKoeM1sxNywrOTLNAWElkR2igoz3
-         uPPEJQJcboOqdKsND2gHmUYLlub8PH2/Vdy/tZG7Z9GKfNKeRwScy+GUirsqwEJ6UBRN
-         AYBagtada/304uSw1EzYs/iRz3T98X6c5Sf0INyMrrlhYE1Vr7Fmtb5UaN6Q3XDM3AUi
-         hudA==
-X-Gm-Message-State: AJIora+pAMmTiwdsvgWpIKyioUQqyN68rjS0AySj25xGlhRhIZu8XGWY
-        dhGS22CMNBAz1Mvr0ceNIQDURa3xuVtGgQZnzsjAj+cByOc=
-X-Google-Smtp-Source: AGRyM1sVSORghjjCvJa3JKdWdVzFkzY/RKVDx3S+DYXKStNi3Lz7s6kMPfvJvxThk3ktXC824PuqCbj4rwwrimxPZ8o=
-X-Received: by 2002:a17:906:f84:b0:711:eda5:db31 with SMTP id
- q4-20020a1709060f8400b00711eda5db31mr5751742ejj.397.1655956245142; Wed, 22
- Jun 2022 20:50:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220622083624.3204916-1-hiroh@chromium.org>
-In-Reply-To: <20220622083624.3204916-1-hiroh@chromium.org>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Thu, 23 Jun 2022 11:50:34 +0800
-Message-ID: <CAGXv+5EEzvtBdeV2pU4cYbrnRNok=Pm-ioc66Og4=sOEuNrStA@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Report supported bitrate modes
-To:     Hirokazu Honda <hiroh@chromium.org>
-Cc:     linux-media@vger.kernel.org, Irui.Wang@mediatek.com,
-        stevecho@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Thu, 23 Jun 2022 00:58:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807FB4831E
+        for <linux-media@vger.kernel.org>; Wed, 22 Jun 2022 21:44:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1D21C61D8E
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 04:44:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4254BC3411B
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 04:44:34 +0000 (UTC)
+Date:   Thu, 23 Jun 2022 06:44:32 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20220623044434.4254BC3411B@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 22, 2022 at 4:37 PM Hirokazu Honda <hiroh@chromium.org> wrote:
->
-> The media driver supports constant bitrate mode only.
-> The supported rate control mode is reported through querymenu() and
-> s_ctrl() fails if non constant bitrate mode (e.g. VBR) is requested.
->
-> Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
-> ---
->  .../media/platform/mediatek/vcodec/mtk_vcodec_enc.c   | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> index c21367038c34..98d451ce2545 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> @@ -50,6 +50,14 @@ static int vidioc_venc_s_ctrl(struct v4l2_ctrl *ctrl)
->         int ret = 0;
->
->         switch (ctrl->id) {
-> +       case V4L2_CID_MPEG_VIDEO_BITRATE_MODE:
-> +               mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_BITRATE_MODE val= %d",
-> +                              ctrl->val);
-> +               if (ctrl->val != V4L2_MPEG_VIDEO_BITRATE_MODE_CBR) {
-> +                       mtk_v4l2_err("Unsupported bitrate mode =%d", ctrl->val);
-> +                       ret = -EINVAL;
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I wonder if this code will ever actually be hit. This driver uses
-v4l2_ctrl_handler, and IIUC all controls are prevalidated by the core
-before this callback is called.
+Results of the daily build of media_tree:
 
+date:			Thu Jun 23 05:00:07 CEST 2022
+media-tree git hash:	945a9a8e448b65bec055d37eba58f711b39f66f0
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	ef8c5223b4a5b2610e0dfbdff5257cf96c124f96
+edid-decode git hash:	582c935652b0303b87ddad4551e6f97f8bb883ac
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-31-g4880bd19-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8015-g1a0af070-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 91f84ece3e3913f585d616d95c62decf7ca58e1f
+host hardware:		x86_64
+host os:		5.18.0-1-rt-amd64
 
-ChenYu
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-powerpc64: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
 
-> +               }
-> +               break;
->         case V4L2_CID_MPEG_VIDEO_BITRATE:
->                 mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_BITRATE val = %d",
->                                ctrl->val);
-> @@ -1373,6 +1381,9 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
->                                0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
->         v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_VP8_PROFILE,
->                                V4L2_MPEG_VIDEO_VP8_PROFILE_0, 0, V4L2_MPEG_VIDEO_VP8_PROFILE_0);
-> +       v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
-> +                              V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
-> +                              0, V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
->
->
->         if (handler->error) {
-> --
-> 2.37.0.rc0.104.g0611611a94-goog
->
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
