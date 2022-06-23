@@ -2,96 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFC0A558914
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 21:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE2A955891F
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 21:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230464AbiFWTeu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 15:34:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54252 "EHLO
+        id S231342AbiFWTiB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 15:38:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230480AbiFWTeN (ORCPT
+        with ESMTP id S229543AbiFWThm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 15:34:13 -0400
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3424362739
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 12:14:54 -0700 (PDT)
-Received: by mail-qv1-xf31.google.com with SMTP id 88so1315161qva.9
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 12:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LQ+FXgAQqbDOwQR3BZm+KDkjcAZnz7yXFfElz9s/pME=;
-        b=QBzMWxY+H/caLIqEoe+CoE3sDnb+uR+HAlyhswEFMCd3ZzCwtKudNN9Y4P/4OeH7dB
-         QR/xPdM4Vvv9SuFZBnS26A7znWvngi4/tfg0tkSOX2ji8XD9mX5z93KjMkXtewD2NIYz
-         CHlTVB9p3dTLe995eGW5aGh3/JFlDCW77tlYY=
+        Thu, 23 Jun 2022 15:37:42 -0400
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3608DA182;
+        Thu, 23 Jun 2022 12:26:05 -0700 (PDT)
+Received: by mail-pf1-f177.google.com with SMTP id bo5so518653pfb.4;
+        Thu, 23 Jun 2022 12:26:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LQ+FXgAQqbDOwQR3BZm+KDkjcAZnz7yXFfElz9s/pME=;
-        b=0rpTKsqEZ/Em+y4wKAWYtE3pxdDwOOLNuYnzEK1Zkokjj5n9AlnnJkPB0euHqAe3Ns
-         +Y5JUhHQvNAzKQSNfB0K+f48sQ5ghsV1AJ1RYZ4/FVS40+5Igkc/4y4XsK+2E1bpF3Ym
-         EhOR95Hu5BLfgJmggITQETDT+hCH5M5VlAbLSwyZiL6Jqr0WoXLgaxLcS7xJDz2nDtOk
-         k079ZMK8si+KVKLovvvuYnIS3Df3NdHEi0iYYlBl08xTLDK/w2+LpwWoIC2cjsAZdwvH
-         KaLScSDlav+D5eCVOAQm/7HToV8vZXScnSdmLztDwtM8W8SvzzS8hfXhoW2q/cDPGOWb
-         xCWQ==
-X-Gm-Message-State: AJIora8yTAJs+V1CTYVcK5G68kobyYCu1P9zk3jEAp8Hg4Y3IqBtjy1M
-        vF1aGm81MTaq632VAjblRzUIrg0f0lTTgg==
-X-Google-Smtp-Source: AGRyM1tMb1Qg9uaycaZRQCr/fL4O/AdjZviaPQFcYecD3vlF0tr7RMtH0jtnEXB9X9mez2oUxPQ3YA==
-X-Received: by 2002:a05:6214:5292:b0:470:5123:d365 with SMTP id kj18-20020a056214529200b004705123d365mr13974464qvb.131.1656011693164;
-        Thu, 23 Jun 2022 12:14:53 -0700 (PDT)
-Received: from greenjustin3.nyc.corp.google.com ([2620:0:1003:314:ad2f:e281:a5ae:eabc])
-        by smtp.gmail.com with ESMTPSA id br8-20020a05620a460800b006a75fb69697sm244514qkb.72.2022.06.23.12.14.52
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=+Po9Dm3vumEX9STq43cTmihX9SdOY+/mYJ+qc0yciOo=;
+        b=sGAUs3OuNq/HpG0mGrjUfw8EV5ojeDk4MKCkeFJczsQMdL0CrRHfWEhCfsifSn7omK
+         3ToVGm8qKf5pNK5LovA7aB6DtNDXGvLU2smcPWpeWE0YmdeI5Wn8z1xHlrdPY7cnqeIz
+         VdVmRgNGcaed8Sd7j9dwkvwzNhT9JrMomEHP2hSfhCsRNQ9w4ccLuDgCxXucxjCm6XfN
+         Sgn4lbTdslKNzALsB8y/4oP+Fd1vAx3sfGjTcSDZyhP9V0XmXkbLVx9QUNUuCr25g263
+         s3EUJKP9ZWOFGyVdCBz0vB20wCvseQnqgJrJn0vxC0FxnTulBXaWhkv9hiHIitLtXCJK
+         z0Pg==
+X-Gm-Message-State: AJIora9oQxk20zjVrqRX85GjIRrBg1IPjcZGpANLetSc0Yft06NzRCuo
+        RmOkdOlEhlWOH87Tm3hEKzY=
+X-Google-Smtp-Source: AGRyM1uTX4ESJ0tw80Aa81RBvBg4Pcvvf5BGyKGi9W8AIdbExQbAaHbhTGHrArxaF0w8Iu1c5l0S6Q==
+X-Received: by 2002:a05:6a00:24cc:b0:50d:58bf:5104 with SMTP id d12-20020a056a0024cc00b0050d58bf5104mr42316787pfv.36.1656012364666;
+        Thu, 23 Jun 2022 12:26:04 -0700 (PDT)
+Received: from karthik-strix-linux.karthek.com ([117.208.185.194])
+        by smtp.gmail.com with ESMTPSA id h11-20020a63b00b000000b0040c99f8bcb7sm10095771pgf.58.2022.06.23.12.26.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jun 2022 12:14:52 -0700 (PDT)
-From:   Justin Green <greenjustin@chromium.org>
-To:     linux-media@vger.kernel.org
-Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com,
-        nicolas.dufresne@collabora.com, andrescj@chromium.org,
-        yunfei.dong@mediatek.com, Justin Green <greenjustin@chromium.org>,
-        Justin Green <greenjustin@google.com>
-Subject: [PATCH] mediatek/jpeg: validate data_offsets for v4l2 planes
-Date:   Thu, 23 Jun 2022 15:14:22 -0400
-Message-Id: <20220623191422.1157518-1-greenjustin@chromium.org>
-X-Mailer: git-send-email 2.37.0.rc0.104.g0611611a94-goog
+        Thu, 23 Jun 2022 12:26:04 -0700 (PDT)
+Date:   Fri, 24 Jun 2022 00:55:58 +0530
+From:   Karthik Alapati <mail@karthek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: media/atomisp: don't use index pointer for debug
+ messages
+Message-ID: <YrS+RmnyusG6JOTU@karthik-strix-linux.karthek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Validate V4L2 plane data_offset values. We need to make sure the size of
-the image we're encoding does not exceed the size of the buffer minus
-its offset.
+there are some debug messages which use index pointer of
+list which may not always point to the right entry as in
+the case where the required entry is not found and the
+list traversal completes with index pointer pointing
+to the last entry
 
-Signed-off-by: Justin Green <greenjustin@google.com>
+Signed-off-by: Karthik Alapati <mail@karthek.com>
 ---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index bc5b0a0168ec..8f5c1b9937bc 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -687,6 +687,10 @@ static int mtk_jpeg_buf_prepare(struct vb2_buffer *vb)
- 
- 	for (i = 0; i < q_data->fmt->colplanes; i++) {
- 		plane_fmt = q_data->pix_mp.plane_fmt[i];
-+                if (vb->planes[i].data_offset > vb2_plane_size(vb, i) ||
-+                    vb2_plane_size(vb, i) - vb->planes[i].data_offset
-+                    < plane_fmt.sizeimage)
-+                    return -EINVAL;
- 		if (ctx->enable_exif &&
- 		    q_data->fmt->fourcc == V4L2_PIX_FMT_JPEG)
- 			vb2_set_plane_payload(vb, i, plane_fmt.sizeimage +
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 97d5a528969b..ec030e3aeae5 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -956,7 +956,7 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 		asd->s3a_bufs_in_css[css_pipe_id]--;
+ 		atomisp_3a_stats_ready_event(asd, buffer.css_buffer.exp_id);
+ 		dev_dbg(isp->dev, "%s: s3a stat with exp_id %d is ready\n",
+-			__func__, s3a_buf->s3a_data->exp_id);
++			__func__, buffer.css_buffer.exp_id);
+ 		break;
+ 	case IA_CSS_BUFFER_TYPE_METADATA:
+ 		if (error)
+@@ -976,7 +976,7 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 		asd->metadata_bufs_in_css[stream_id][css_pipe_id]--;
+ 		atomisp_metadata_ready_event(asd, md_type);
+ 		dev_dbg(isp->dev, "%s: metadata with exp_id %d is ready\n",
+-			__func__, md_buf->metadata->exp_id);
++			__func__, buffer.css_buffer.exp_id);
+ 		break;
+ 	case IA_CSS_BUFFER_TYPE_DIS_STATISTICS:
+ 		list_for_each_entry_safe(dis_buf, _dis_buf_tmp,
+@@ -995,7 +995,7 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 		}
+ 		asd->dis_bufs_in_css--;
+ 		dev_dbg(isp->dev, "%s: dis stat with exp_id %d is ready\n",
+-			__func__, dis_buf->dis_data->exp_id);
++			__func__, buffer.css_buffer.exp_id);
+ 		break;
+ 	case IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME:
+ 	case IA_CSS_BUFFER_TYPE_SEC_VF_OUTPUT_FRAME:
 -- 
-2.37.0.rc0.104.g0611611a94-goog
+2.36.1
 
