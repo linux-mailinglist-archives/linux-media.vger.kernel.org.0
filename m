@@ -2,114 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEF8B5579AC
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 14:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78128557A13
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 14:15:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231819AbiFWMCA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 08:02:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42656 "EHLO
+        id S231570AbiFWMPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 08:15:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231684AbiFWMBh (ORCPT
+        with ESMTP id S231591AbiFWMO6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 08:01:37 -0400
-Received: from mail-oa1-x41.google.com (mail-oa1-x41.google.com [IPv6:2001:4860:4864:20::41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8913D4F1DE
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 05:00:21 -0700 (PDT)
-Received: by mail-oa1-x41.google.com with SMTP id 586e51a60fabf-f2a4c51c45so26305267fac.9
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 05:00:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=SH1826VGivRTcWTFt6CirTUpizldtIW6lapFTxm7Gbo=;
-        b=dL4ZdfjGobK7bZ5zNav1+xGQiGde1Zc7ClvHsT7kk6LqobgfylVSX6CBG5RjcoVDTa
-         P464n62qmhgQVmko817GDYihyl7pvjfwkgES8JkCRGmr9xxgu3PjHmBrdfIKpKF+gxtz
-         ck0sfdPmzNP6PJDK99aoAJqvIJ6MSx5TfjB1KlqaDZn92DOWiz08x3njQYk7p7AUH10T
-         y+GlFokIsHaKh5IwUNZgaGJCE9OJ9vSfBgmQkTnZzySftM6HqqxRqpOIYwT/wd75+23E
-         P9+fpjMOoHjPoNoGgly+tjBN6a3v4kxdZSCYsYXbKgVUjjGIp5B1Lh0sXido0MvDOb61
-         P1yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=SH1826VGivRTcWTFt6CirTUpizldtIW6lapFTxm7Gbo=;
-        b=8ELKD59lIFuyWNSkHdOWIZXYZ1OPGocfgo6xiWW48QOFyrh0SeH26JrjGpmrXngPeq
-         nEcYDO+/mJCsqEDsDRbWyRB/brP65hChWeESr9/idKViJnuZmIvCUxJ6XpMvbtVTCuMv
-         Bf0mkTRhgTA3P2kBEUREcry6alKvBJ1CXOZ9+c4OroKgUAjpQn4iLMz1C2dtoszcbDVf
-         X7p/iABy1Sa3SaQ+oJT0oKnup5Ww/ZLWdrYtUJAOuXIOwqaEsXCBXGQyjiOPAyjeywkH
-         B908JYkKqy5mY13H2Rerif+OB2A4VPNmxH/47QlM9BgusLgQ67D5ClvroP4deK+1r8YJ
-         /ObQ==
-X-Gm-Message-State: AJIora9YDhj3GYSm6kIDXjPyCHvyb9O3kkbDpLGXQpXCoQZ3a9Ie1xaI
-        vVNFlJSlk6726LBBmLWPVO3GXhiK3nJ1ho5u8Fg=
-X-Google-Smtp-Source: AGRyM1u9XqAMSItZNhegX/ZymFvhNBQP3xenHiWf00X4SNsH0rLed72zRQSP+YVxHt9F6Yhn4fsa6RzBdFD/GHKyBzE=
-X-Received: by 2002:a05:6870:311:b0:f2:d46a:b370 with SMTP id
- m17-20020a056870031100b000f2d46ab370mr2282258oaf.169.1655985618110; Thu, 23
- Jun 2022 05:00:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:e60e:0:0:0:0:0 with HTTP; Thu, 23 Jun 2022 05:00:17
- -0700 (PDT)
-Reply-To: ibnahmadmustafa.aseelfinance@gmail.com
-From:   "Ibn Ahmad Mustafa(ASEEL Islamic Finance)" <alexaziz900@gmail.com>
-Date:   Thu, 23 Jun 2022 13:00:17 +0100
-Message-ID: <CA+ZonYFVf4r4TP5OjTABRM+sUUb77Yi8rA2ZjaW7-M57GTtrGA@mail.gmail.com>
-Subject: LOAN AND INVESTMENT-ASEEL ISLAMIC FINANCE
-To:     undisclosed-recipients:;
+        Thu, 23 Jun 2022 08:14:58 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3FA520BC1
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 05:14:56 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1o4LjV-0003Qz-PU; Thu, 23 Jun 2022 14:14:49 +0200
+Message-ID: <3c088a9a511762f7868b10dbe431942d3724917a.camel@pengutronix.de>
+Subject: Re: DMA-buf and uncached system memory
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linaro-mm-sig@lists.linaro.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media <linux-media@vger.kernel.org>
+Date:   Thu, 23 Jun 2022 14:14:48 +0200
+In-Reply-To: <34a1efd9-5447-848b-c08c-de75b48e997e@amd.com>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+         <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
+         <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
+         <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
+         <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
+         <20220623101326.18beeab3@eldfell>
+         <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
+         <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
+         <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
+         <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
+         <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
+         <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
+         <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
+         <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
+         <6287f5f8-d9af-e03d-a2c8-ea8ddcbdc0d8@amd.com>
+         <f3c32cdd2ab4e76546c549b0cebba8e1d19d1cb0.camel@pengutronix.de>
+         <34a1efd9-5447-848b-c08c-de75b48e997e@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.7 required=5.0 tests=BAYES_80,DEAR_SOMETHING,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2001:4860:4864:20:0:0:0:41 listed in]
-        [list.dnswl.org]
-        *  2.0 BAYES_80 BODY: Bayes spam probability is 80 to 95%
-        *      [score: 0.9141]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [alexaziz900[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [alexaziz900[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *******
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Sir/Madam
+Am Donnerstag, dem 23.06.2022 um 13:54 +0200 schrieb Christian König:
+> Am 23.06.22 um 13:29 schrieb Lucas Stach:
+> > [SNIP]
+> > > Well then the existing DMA-buf framework is not what you want to use for
+> > > this.
+> > > 
+> > Sorry, but this is just ignoring reality. You try to flag 8+ years of
+> > DMA-buf usage on non-coherent arches as "you shouldn't do this". At
+> > this point there are probably a lot more users (drivers) of DMA-buf in
+> > the kernel for devices, which are used on non-coherent arches, than
+> > there are on coherent arches.
+> 
+> Well, it's my reality that people come up with bug reports about that 
+> and we have been pushing back on this with the explanation "Hey this is 
+> not supported" as long as I can think about it.
+> 
+> I mean I even had somebody from ARM which told me that this is not going 
+> to work with our GPUs on a specific SoC. That there are ARM internal use 
+> cases which just seem to work because all the devices are non-coherent 
+> is completely new to me.
+> 
+Yes, trying to hook up a peripheral that assumes cache snooping in some
+design details to a non coherent SoC may end up exploding in various
+ways. On the other hand you can work around most of those assumptions
+by marking the memory as uncached to the CPU, which may tank
+performance, but will work from a correctness PoV.
 
-I would like to introduce you to Aseel Islamic finance PJSC which is a
-private joint stock company that was
-established in 2006 and has built a leading market position for itself
-in the UAE's Islamic finance market which specializes in loan finance
-and investment activities in real estate, hospitality, industrial &
-sustainable technologies, strategic financial investments, specialized
-education, healthcare services, agriculture, manufacturing,
-mining,energy and additional environmentally sustainable projects.
+> I'm as much surprised as you are about this lack of agreement about such 
+> fundamental stuff.
+> 
+> > > > Non-coherent without explicit domain transfer points is just not going
+> > > > to work. So why can't we solve the issue for DMA-buf in the same way as
+> > > > the DMA API already solved it years ago: by adding the equivalent of
+> > > > the dma_sync calls that do cache maintenance when necessary? On x86 (or
+> > > > any system where things are mostly coherent) you could still no-op them
+> > > > for the common case and only trigger cache cleaning if the importer
+> > > > explicitly says that is going to do a non-snooping access.
+> > > Because DMA-buf is a framework for buffer sharing between cache coherent
+> > > devices which don't signal transitions.
+> > > 
+> > > We intentionally didn't implemented any of the dma_sync_* functions
+> > > because that would break the intended use case.
+> > > 
+> > Non coherent access, including your non-snoop scanout, and no domain
+> > transition signal just doesn't go together when you want to solve
+> > things in a generic way.
+> 
+> Yeah, that's the stuff I totally agree on.
+> 
+> See we absolutely do have the requirement of implementing coherent 
+> access without domain transitions for Vulkan and OpenGL+extensions.
+> 
+Coherent can mean 2 different things:
+1. CPU cached with snooping from the IO device
+2. CPU uncached
 
-I would love to send you further details with your consent.
+The Vulkan and GL "coherent" uses are really coherent without explicit
+domain transitions, so on non coherent arches that require the
+transitions the only way to implement this is by making the memory CPU
+uncached. Which from a performance PoV will probably not be what app
+developers expect, but will still expose the correct behavior.
 
-Regards.
+> When we now have to introduce domain transitions to get non coherent 
+> access working we are essentially splitting all the drivers into 
+> coherent and non-coherent ones.
+> 
+> That doesn't sounds like it would improve interop.
+> 
+> > Remember that in a fully (not only IO) coherent system the CPU isn't
+> > the only agent that may cache the content you are trying to access
+> > here. The dirty cacheline could reasonably still be sitting in a GPU or
+> > VPU cache, so you need some way to clean those cachelines, which isn't
+> > a magic "importer knows how to call CPU cache clean instructions".
+> 
+> IIRC we do already have/had a SYNC_IOCTL for cases like this, but (I 
+> need to double check as well, that's way to long ago) this was kicked 
+> out because of the requirements above.
+> 
+The DMA_BUF_IOCTL_SYNC is available in upstream, with the explicit
+documentation that "userspace can not rely on coherent access".
 
-Mr.Ahmad Ibn Mustafa
-International Business Coordinator
-Aseel Islamic Finance PJSC
-Telephone: 800-ASEEL(27335)
+> > > You can of course use DMA-buf in an incoherent environment, but then you
+> > > can't expect that this works all the time.
+> > > 
+> > > This is documented behavior and so far we have bluntly rejected any of
+> > > the complains that it doesn't work on most ARM SoCs and I don't really
+> > > see a way to do this differently.
+> > Can you point me to that part of the documentation? A quick grep for
+> > "coherent" didn't immediately turn something up within the DMA-buf
+> > dirs.
+> 
+> Search for "cache coherency management". It's quite a while ago, but I 
+> do remember helping to review that stuff.
+> 
+That only turns up the lines in DMA_BUF_IOCTL_SYNC doc, which are
+saying the exact opposite of the DMA-buf is always coherent.
+
+I also don't see why you think that both world views are so totally
+different. We could just require explicit domain transitions for non-
+snoop access, which would probably solve your scanout issue and would
+not be a problem for most ARM systems, where we could no-op this if the
+buffer is already in uncached memory and at the same time keep the "x86
+assumes cached + snooped access by default" semantics.
+
+Regards,
+Lucas
+
+
