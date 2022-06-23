@@ -2,55 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0675574D5
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 10:05:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C419255752A
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 10:14:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231225AbiFWIFJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 04:05:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49290 "EHLO
+        id S229872AbiFWIOA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 04:14:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231200AbiFWIE7 (ORCPT
+        with ESMTP id S229659AbiFWIN6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 04:04:59 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E84D9473AE
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 01:04:58 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1o4Hpc-00035t-7h; Thu, 23 Jun 2022 10:04:52 +0200
-Message-ID: <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
-Subject: Re: DMA-buf and uncached system memory
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linaro-mm-sig@lists.linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>
-Date:   Thu, 23 Jun 2022 10:04:49 +0200
-In-Reply-To: <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
-         <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
-         <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
-         <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
-         <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
-         <20220623101326.18beeab3@eldfell>
-         <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        Thu, 23 Jun 2022 04:13:58 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC4B46CBB;
+        Thu, 23 Jun 2022 01:13:57 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 8E3F31FB42;
+        Thu, 23 Jun 2022 08:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1655972036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aVJweXdz9Jf/NVEgCyaFEqirlfoYOjh6Fl7CRM17eqg=;
+        b=z/2fHE9Vhjo5lsBQhdQxp70kwGuZMxrAx7ktHeJzRtsjQo5A4AT8s4DuIcHqV18TGNjvz0
+        hjQziUU4dDLTSNjBW5fOjC4ccC9yH85cQPwouSx9D1N3nyBMTRg23sDZmvB9GpWZHrD+oW
+        S/OxO1vj1ZMAdiyBLHkrvdqf1s4NoEI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1655972036;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aVJweXdz9Jf/NVEgCyaFEqirlfoYOjh6Fl7CRM17eqg=;
+        b=7bTonw3Op5mC3r47udV9QcuK6VoYhDhv5oOs19KKiY4dgdRxg8Q/P99SdPAZ/9d0zdxQFe
+        gVGP+aDkG+o4H5Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6C1DE133A6;
+        Thu, 23 Jun 2022 08:13:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 08lzGcQgtGLCfAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 23 Jun 2022 08:13:56 +0000
+Message-ID: <58e11013-01ab-8a2c-732e-860ae83a3df6@suse.de>
+Date:   Thu, 23 Jun 2022 10:13:56 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: DMA-buf and uncached system memory
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org, lkml <linux-kernel@vger.kernel.org>
+Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ferUzV1300awBJHgsRuRCOIj"
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,55 +75,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Donnerstag, dem 23.06.2022 um 09:26 +0200 schrieb Christian König:
-> Am 23.06.22 um 09:13 schrieb Pekka Paalanen:
-> > On Thu, 23 Jun 2022 08:59:41 +0200
-> > Christian König <christian.koenig@amd.com> wrote:
-> > 
-> > > The exporter isn't doing anything wrong here. DMA-buf are supposed to be
-> > > CPU cached and can also be cache hot.
-> > Hi,
-> > 
-> > what is that statement based on?
-> 
-> On the design documentation of DMA-buf and the actual driver 
-> implementations.
-> 
-> Coherency and snooping of the CPU cache is mandatory for devices and 
-> root complexes in the PCI specification. Incoherent access is just an 
-> extension.
-> 
-> We inherited that by basing DMA-buf on the Linux kernel DMA-API which in 
-> turn is largely based on the PCI specification.
-> 
-> > Were the (mandatory for CPU access) cpu_access_begin/end functions &
-> > ioctls not supposed to ensure that CPU cache is up-to-date / CPU cache
-> > is fully flushed out?
-> 
-> No, those functions are to inform the exporter that the importer has 
-> started and finished accessing the buffer using the CPU.
-> 
-> There is no signaling in the other direction. In other words the 
-> exporter doesn't inform the importer about CPU accesses because it is 
-> the owner of the buffer.
-> 
-> It's the responsibility of the importer to make sure that it can 
-> actually access the data in the buffer. If it can't guarantee that the 
-> importer shouldn't import the buffer in the first place.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ferUzV1300awBJHgsRuRCOIj
+Content-Type: multipart/mixed; boundary="------------O8pK0OQ9gFlyUhIn2IOyy4Z1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ lkml <linux-kernel@vger.kernel.org>
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Message-ID: <58e11013-01ab-8a2c-732e-860ae83a3df6@suse.de>
+Subject: Re: DMA-buf and uncached system memory
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+In-Reply-To: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
 
-This is not really correct. DMA-buf inherited the the map/unmap part
-from the DMA API, which on cache coherent architecture is mostly a no-
-op or ties into the IOMMU implementation to set up the pagetables for
-the translation. On non cache coherent architectures this is the point
-where any any necessary cache maintenance happens. DRM breaks this
-model by caching the DMA-buf mapping for performance reasons.
+--------------O8pK0OQ9gFlyUhIn2IOyy4Z1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-In the DMA API keeping things mapped is also a valid use-case, but then
-you need to do explicit domain transfers via the dma_sync_* family,
-which DMA-buf has not inherited. Again those sync are no-ops on cache
-coherent architectures, but do any necessary cache maintenance on non
-coherent arches.
+SGkgQ2hyaXN0aWFuDQoNCkFtIDE1LjAyLjIxIHVtIDA5OjU4IHNjaHJpZWIgQ2hyaXN0aWFu
+IEvDtm5pZzoNCj4gSGkgZ3V5cywNCj4gDQo+IHdlIGFyZSBjdXJyZW50bHkgd29ya2luZyBh
+biBGcmVlc3luYyBhbmQgZGlyZWN0IHNjYW4gb3V0IGZyb20gc3lzdGVtIA0KPiBtZW1vcnkg
+b24gQU1EIEFQVXMgaW4gQStBIGxhcHRvcHMuDQo+IA0KPiBPbiBwcm9ibGVtIHdlIHN0dW1i
+bGVkIG92ZXIgaXMgdGhhdCBvdXIgZGlzcGxheSBoYXJkd2FyZSBuZWVkcyB0byBzY2FuIA0K
+PiBvdXQgZnJvbSB1bmNhY2hlZCBzeXN0ZW0gbWVtb3J5IGFuZCB3ZSBjdXJyZW50bHkgZG9u
+J3QgaGF2ZSBhIHdheSB0byANCj4gY29tbXVuaWNhdGUgdGhhdCB0aHJvdWdoIERNQS1idWYu
+DQo+IA0KPiBGb3Igb3VyIHNwZWNpZmljIHVzZSBjYXNlIGF0IGhhbmQgd2UgYXJlIGdvaW5n
+IHRvIGltcGxlbWVudCBzb21ldGhpbmcgDQo+IGRyaXZlciBzcGVjaWZpYywgYnV0IHRoZSBx
+dWVzdGlvbiBpcyBzaG91bGQgd2UgaGF2ZSBzb21ldGhpbmcgbW9yZSANCj4gZ2VuZXJpYyBm
+b3IgdGhpcz8NCg0KSSBoYWQgYSBwYXRjaHNldCBoZXJlIHRoYXQgZXh0ZW5kcyBpb3N5cy1t
+YXAgKGZvcm1lciBkbWEtYnVmLW1hcCkgd2l0aCANCmNhY2hpbmcgaW5mb3JtYXRpb24uIEkn
+bGwgcG9zdCBhIGNvcHkuDQoNClNvcnJ5IGZvciBiZWluZyBsYXRlIHRvIHJlcGx5Lg0KDQpC
+ZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBBZnRlciBhbGwgdGhlIHN5c3RlbSBtZW1v
+cnkgYWNjZXNzIHBhdHRlcm4gaXMgYSBQQ0llIGV4dGVuc2lvbiBhbmQgYXMgDQo+IHN1Y2gg
+c29tZXRoaW5nIGdlbmVyaWMuDQo+IA0KPiBSZWdhcmRzLA0KPiBDaHJpc3RpYW4uDQo+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IGRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QNCj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0K
+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxv
+cGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIu
+IDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJn
+KQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Regards,
-Lucas
+--------------O8pK0OQ9gFlyUhIn2IOyy4Z1--
 
+--------------ferUzV1300awBJHgsRuRCOIj
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmK0IMQFAwAAAAAACgkQlh/E3EQov+Bc
+fw//WLTSrJpOVDrFBR41LD8rDtxfVvpqOjzLHsqJW7bfTLi4cu/fyp82KRogBgbw7DQ09R0IL7jo
+gx6cYGc7sAxD69K+AJg6XdorFlkbfGAU5yS5pc3LqcuFlMKWti+LRuPaR7j0H+vKNkWYWRn9xBTJ
+UBXiIfCFTRvnUZUJskn1ZhTt7gMf0ef9YQK+uG17qsMn7l50HI7HYc5tqOfzShFx1/daDfhtPfp/
+zJt0adybMIeyzMGqUMFCxkVvsfB7Hr3Lt8wf9jwqeI1snM7RIXY7YBhObys4yieFhQY7ABTb34Iz
+r8L6Sz4I/idplvoORvDlA3749ljNxwITnc1tVes1CDyAIQ5MMzE4qt3iryhbQAyHm25yqTvcDqCX
+4eR8ozx0h39b+6j6RL8xJtPrhQc5IiU+HeuJooU6AVbZAuYIznWRpSp+t0/9yLgB7pNHMDfLAhZZ
++e1Fs4yUlgz6aQaw3d9edwIZLi/aRtXxejOrhULAbJyJLnQjhrx/Nvh6UYlgkHuHh5YtAGcAjZ8S
+GIXVa3z5bTZkA/AWhseL+hMyXs9wNA4ut9bVfwWYCDpwGkVUQM+C/fUEsoVcBqguSKKAj3Gad+6m
+dwuydLfeqCp5S6980FXloN+69T+tc2Gl+vT3KiICWfcox+B8efv3wZI9VPDELoDBc6p1IR3atvaW
+7Js=
+=fkQx
+-----END PGP SIGNATURE-----
+
+--------------ferUzV1300awBJHgsRuRCOIj--
