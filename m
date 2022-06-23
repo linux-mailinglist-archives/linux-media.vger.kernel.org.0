@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E659557DE4
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 16:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AFA8557DE7
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jun 2022 16:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231997AbiFWOcq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 10:32:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60024 "EHLO
+        id S231651AbiFWOcj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 10:32:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231922AbiFWOcm (ORCPT
+        with ESMTP id S231821AbiFWOci (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 10:32:42 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60050.outbound.protection.outlook.com [40.107.6.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC74457AA;
-        Thu, 23 Jun 2022 07:32:41 -0700 (PDT)
+        Thu, 23 Jun 2022 10:32:38 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2076.outbound.protection.outlook.com [40.107.20.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E7654578F;
+        Thu, 23 Jun 2022 07:32:37 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HSoOwPkWjZgiwo2Cu2nHa8NN9jMVwlsLKjE5umSzUNxPGGFG+51KrAEQRVXPCAo+Nq7zWiDmzqDa6dzUgSuOjey00wYW5nS+ZCbm2i5Sn8ejSWp39FjWsGKWTjtughmZEmd943UKiFDGEBYSZgZW3Rjvo1RLu2hZ8WTyG88oVssqt+s+1sERRZxL9lGyo+GItRa5bMdD/yjZ4eGljQaOikW6mObjC7zrikwov1pKk8W7OZX0Sw15g4JxxlxVsN+F4GZsLJg841OOYiZuLkCOXjETBrlqB3Ml1JF3+n9NBaX+41bfCi6G77/K45ePmCYv1nrfEBOLHddMW/GJQY8gtA==
+ b=YSHcRzYDMRKUJ6Zaa1cWqkZcSFnb3+g1yVKxOUECviT1haWAMV8OD/gy306cnAm629/ocEV+4p7r9QCvQFRgimF56BxHQiSzbhrMy0K8QukRhB/ie0bQitjq5IBLi9iuU9xTHG3fs6wFzTgwky3cpN2Rs+6cBMVwGOILZNFarA5OPrCqtCaWwwicTnMnoNEU1ovJdJIrtqr5T+KxaUEAFB/5HLt9wfgChFqtBKPmPq6oD62dNy6+0G4KlKsp/KwsMfMoYEZDvk8vS/YTc6efQndX2AMJWKGHPvTMj7vwrAlZM5D/bsK6B7MzCjUPyu5RacsRnjRP75PJiLlOwlNVjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bSI8Zchlb7oA/SbVZyz06UYEGIKzGCEke9peESwjz38=;
- b=mOQG8lTFU+nW56rkkfvAOS1mEQo99OWmPPU3zhxX3cH/AYjXyvCQcVA+y2HsqFKwh1UhY3YimO7hYG6PsNwPexDYS0ZfVG8kFyP8kMB9gNsWmHMyW/melfNnecLNyeUrEN9PHmv7NPQ6ZW8xqJ1gNlWKBPBfKhOHa5o0Cd/JWjIUjNuxeAyjLpTM5fqL9VxTiGCPgxisFfQAxy6xenklqQYWcG8yp5MkIFwfOiqG6IOXpJRaX9JyuGrbgZbnJJErd2PK4lOK1qp7iC23YLbaPWXA2Lek3XsFNz34LI+8M7jlgCjlJF4s6bGBcgygx1tj1sEjkS2dshfh0MwX2P7uWQ==
+ bh=ULeSZlXrL0YNE2ENtNtpWOEKX6Eein3Ov2R7ib1O4KU=;
+ b=AyZj8HkwJNNl8b2NyUaGUYomevoSiPW/jv+LqTamA19B1yJJQzoDk5ulmIqihQ8i2QrYNF7AkICiuZbTWveicgzQrmjsSCSR0WOLLTXC3yjKrCSNSkMYdKbYvK496dfbpfQu3A9zBY+4CgVu/r7rhzVVtBq8csqJZwaja6KpdSMmzfBc+Sv+wnYh5aBWv+tcD2qkItVsjVUIPs2XlMN9KHeyIVGcIdIdkpVn39imTOwsmAfvaEkIoH9vEIv65sphY0IXnB8d1NQNYT+iYpE/ukQQKoccou3FEMyHjg+By/weFu2csaMvcsH3gdUSRdR9tMt811qjBWKEibBM5bdgTQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bSI8Zchlb7oA/SbVZyz06UYEGIKzGCEke9peESwjz38=;
- b=k9twd1axdUgE3m515OaOWfwbdUVBNzcBtsbYNAXR5HePqoTcrMdUGHBAIXiIUXjeaNcDODgcgVC+WtxdCRR70FXpQpyvRgm6bw1P7+UEj7AXh8QZoKCjxZTLSpwNkYCzvuYdAyK8o+zQyrC9Xrecejm9FHanL5BUFCPJgaouY3o=
+ bh=ULeSZlXrL0YNE2ENtNtpWOEKX6Eein3Ov2R7ib1O4KU=;
+ b=LAn1xhU3z88ntNgp1/KD1qlzCQOWYru1RUiqXC1OGt+W3hxAGS0J8dMAFzvmZABb9iPTVVN+Izi2G+V8Vi6F9fNNOTtxB6yl8fhLHtllsMP36uUjj/lZKh7nb+jjoEifA+Z9JX4mSeYZUEqXZgkvA5JOI6DSYUfCrOeIdl44VOg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB8703.eurprd04.prod.outlook.com (2603:10a6:102:21e::22)
- by VI1PR0401MB2288.eurprd04.prod.outlook.com (2603:10a6:800:28::11) with
+ by DB8PR04MB6505.eurprd04.prod.outlook.com (2603:10a6:10:10d::32) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.16; Thu, 23 Jun
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.22; Thu, 23 Jun
  2022 14:32:34 +0000
 Received: from PAXPR04MB8703.eurprd04.prod.outlook.com
  ([fe80::9127:3fe0:f694:9485]) by PAXPR04MB8703.eurprd04.prod.outlook.com
@@ -47,9 +47,9 @@ To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         tomi.valkeinen@ideasonboard.com, robh+dt@kernel.org,
         nicolas@ndufresne.ca, alexander.stein@ew.tq-group.com
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v6 06/14] v4l2-ctrls: add v4l2_ctrl_modify_dimensions
-Date:   Thu, 23 Jun 2022 16:31:07 +0200
-Message-Id: <20220623143115.3185297-7-xavier.roumegue@oss.nxp.com>
+Subject: [PATCH v6 07/14] v4l2-ctrls: add event
+Date:   Thu, 23 Jun 2022 16:31:08 +0200
+Message-Id: <20220623143115.3185297-8-xavier.roumegue@oss.nxp.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220623143115.3185297-1-xavier.roumegue@oss.nxp.com>
 References: <20220623143115.3185297-1-xavier.roumegue@oss.nxp.com>
@@ -61,58 +61,58 @@ X-ClientProxiedBy: PR2P264CA0026.FRAP264.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e79a9518-5877-46ea-fe0a-08da55253660
-X-MS-TrafficTypeDiagnostic: VI1PR0401MB2288:EE_
+X-MS-Office365-Filtering-Correlation-Id: facf5141-af7e-4692-406b-08da552536b2
+X-MS-TrafficTypeDiagnostic: DB8PR04MB6505:EE_
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-Microsoft-Antispam-PRVS: <VI1PR0401MB228832CC767C04D46650B0FDBAB59@VI1PR0401MB2288.eurprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DB8PR04MB6505C99BA50159C5C905823ABAB59@DB8PR04MB6505.eurprd04.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HHo8VZR+VOpFcxRjaSrTXNCt65fedAOWM+vopoy7qpDVbnOTMIRP6iP2FOXPETQQRRiT2LPKdgna9S2u/Lszy4N9jfdATguqmP/D1Ws3WSjExiazLsb5CzjQktu/2wW2i/up3SELmb8rYKUd5qvfATIXTSfqJZigLLEI5kRuWun6f9ySfJvUI65o1JSO4RxHTYv4ZTeGrtXVM50bigrp7UWrgNrIkZx14d93nateXT6hCFV3GGPhqWmLK0AP2qjAJhJUIkhfbe0ejVJjfyjowoyZJnmHI6kP61q8na9GWxhzf/IBSJNYa7lHBVUIyIRy5lpihCHc82SvD7R2lxDtz/iCnql6wYqQC82o0+S2HGWX8sRAbEv8RUSTNlMSg9QCHtALa4PEEKzgpGnssQdDAvcDZPTwvG5XZi6LzsNf+LZQ+y0MrAvM4IvygekP7UMeToKlDZbCJJUKlOdheQ2aVgqzaaHryD5+LFrNsYiyI84VXMT7nURaLumenaEQO7PDKkNNkbXNUnziBE/TSLSKtXVfGUmA0bpO7oM2fUCTIo+3ZVed6P65B5VdLJR9ak3dRM6SSuq0vvTzau8xU/wqXci9nrV+m15Qt9jJ9lY/q11iZtwQAHmq0DlFxh15PjZzCTh85+JMwV/XzYn0Z8oj7PHIKXrcXKAUUSk+73tTIyVEASSwUcPRaq9ui2wgf0eyUVPo0fxVOe7WX7A+hDkhmw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(376002)(366004)(396003)(39860400002)(52116002)(66476007)(4326008)(6506007)(86362001)(2616005)(38100700002)(6666004)(41300700001)(66556008)(8676002)(66946007)(2906002)(316002)(1076003)(44832011)(478600001)(8936002)(83380400001)(7416002)(6512007)(5660300002)(186003)(6486002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: MH1WG4CisE0h5mdJ9fnBLJPIjE+gm+ijeQAXBhEML5dHKswefzmNd4YvLaHKrPmnCf+gdeepkF58MWr00Y7e4bbbHu9WRzkui3WDNk5EyMK1KJgt90Ia0822bNhtgxz7Fopao5TxpOU1Eisu9YEJk3nCzqyW2ymWP/fJnyM0VL9x2PZRugdU0nGBWe/6t93HuES3Sduo91I0WsKi7+Jv+t70uoYroNYUV0JmbkD7mkWC4zMnr7iZdMaThJ1mkNFtPmQzd6n6E2b3E4QlDVSaRZ0ahGXjKDIb27haN+lekqjTJqGoFK+Y5XFvuiwsUTwGncZgN8XDLWyHhNLskckALSk3sIHlf0T+gfQVBgBiLTxFNhdI+G2g7ARxwec7xXuaEyVl9OISpukzt3HUunGxPyCy8yqjbSw/6/AXPzb8m3V4mULbmOGdk/MZnOmLEu7/3MQM5CaRHnNh8Do8oBkpmNwvnWyvY0hJ/h0Pt1PfYGNlhcb9as20TFMQc9hXmd6eoCG7slu4VqLc+ldBg0Fe93AzOZaBjvBdQFAlIb9oDsAF9ZXo3eEpwvG+uWlMdI17ktwenlw9edGpxYz+KTqHqOmMMdwQ0BZBef5K/qD9be55A5sF/QwGu1k/+2D7IpvpqHIoBNz3Fgf/4hamQMG2ESQRfEe6Mk4G7djsmpl9UU54iCMk3zljU6fiGqfMMj38P2RG7R5JmAdMgElgGUP9iw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(136003)(376002)(366004)(396003)(346002)(2906002)(38100700002)(6666004)(66946007)(86362001)(1076003)(66556008)(44832011)(8676002)(66476007)(6486002)(316002)(4326008)(478600001)(6512007)(5660300002)(7416002)(186003)(2616005)(52116002)(6506007)(8936002)(41300700001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7OSdUO8UygMiAQScN32pmpQcHe6fhpOVCh9XGuBlTnpC6G3GK5C4Ma79sJXs?=
- =?us-ascii?Q?tPlcjRZZkD/+aMm7DDx0deg5/aZQqxm/SmPchgtpfK2u4ZzUxuIHEVlBU/Wj?=
- =?us-ascii?Q?wpOu7VVFOshhoayZgA4odtTcVrjBiodUMNmM7XoIM3lwcRi1xMucitUKypoS?=
- =?us-ascii?Q?nKlq0tG8JfdTU/q0X2TBZJc6qePItuCxOBkQBooX45i2qdGGXWdosMlVbjKv?=
- =?us-ascii?Q?58ah9yL+/5lgAw9kzOlyMNJ08Z56V1Gm0qr51Vy+GzO1lNWHpgU1LG/b2kHd?=
- =?us-ascii?Q?Qxbcf4nOxOinROiICF/lfAYhttlbnIz3XkbkBeuiYHuwDBiiuiRyLeBhJVAs?=
- =?us-ascii?Q?BU640cXfuFWXIdttLS1xXd3hiVlO7Llx9JxLfj8+1GYVS8uacb6/lhKyYbQZ?=
- =?us-ascii?Q?9L6LhQKQEI9oqbG5hlF70voc0HWEhCZV0R9pktdp781N7+AK4TSwDtyNqLJq?=
- =?us-ascii?Q?2ToAxmI7iRoOY5aHDzLaLwoA8YJNVh6iqmjbiQzbAy/2Tn7gKTIfRfOVlgKI?=
- =?us-ascii?Q?YANM74fm939rtohFbo2w7WaciB67O0mXUQWpAbLEJ7/xF/vYN0ihBDSaagwy?=
- =?us-ascii?Q?i9D7/05gt86nriJwVYsSQTkhcsIG2peKEyrvfYlb74UaeP7EdQZv5+QiDlcz?=
- =?us-ascii?Q?95MGI6AwwKFe4UtduIBmuI+kNC6nxTuGyJtRxeIJQUAO+5XxLt4wJycyWeNb?=
- =?us-ascii?Q?ppH0AQo+IfOwHw06WB3Ah/sFua+9hVf48OXOrDwQOBJw8kMgYbiN9pfjIuuz?=
- =?us-ascii?Q?WzDNxqeDNbx/EswWCBEdQjHpcBJasbzZqZBq5ZU3QuU1/rwnYQlvXIRqtlxh?=
- =?us-ascii?Q?4ECDpv70yruksN2w+SmR0up7RBo2CE8JbTaQAZNKjsAJT3Y5ffQIhbzvtsQf?=
- =?us-ascii?Q?PgLtLn9LjlUfpOyoGZuu1KZrv3FBKOUD6lobmvyEpNjF7pQ2xitBAWawjuNT?=
- =?us-ascii?Q?9SAwBg5RB4/N8jisW7+EIrx9VhPpLohMo5BsFOpGluZWsIm3+R+7+KYczzt0?=
- =?us-ascii?Q?Mwrd5aSxmnkYo4i4//hEVlbpbcpxaP+pie4FwluixZtKfRdJ5TTzOSomMRez?=
- =?us-ascii?Q?nGgAfmpN0k9cYUKgCg9Vgn/LCOwGA/fc7z5MtWkKmbCl8I9rZpfMNcBXA2fu?=
- =?us-ascii?Q?JmTt/8sIitEY9CirGZ1ahUlvlMl8VqJToB30jhG19ZuDh4lQu/GY/OhNHM5t?=
- =?us-ascii?Q?Yd4434JHtY7eA0v/nDemr9Wp5q67WN1X07In0AWGjoiTzBIJUVtf8Lka6ekX?=
- =?us-ascii?Q?tNnHwiOkOxq+BQWynCAZmhGX7dr2YP9tKCsOzArRTsi+zQdLKMakvxwdPpHC?=
- =?us-ascii?Q?USf69dn/l8UHrSfXtGhQf8dh0uH05xi7XnB4vhoeHezFnbSjxuRcZtitDPtQ?=
- =?us-ascii?Q?mCVbRVzX23lRDOrm0YDG24wmRWrreXh5Qg7Ji4CinXLwYOcevhcyRBCmQt3T?=
- =?us-ascii?Q?34g2XOluSO4bjegXGwxqLY9BdjggYgyPCaor+0ADo1AtCiXCupTCf1L/KQL4?=
- =?us-ascii?Q?1DIVWOyk0iEBlFBsqybDL6DHKLeVPbybyNbnVvcPFymx3bAU4eO2Vh9qHekn?=
- =?us-ascii?Q?OmG0g1YN4XTPIBr+DMbEeOhe+GMUoZn2DB2frM4QWeiI439h6j4dsaV7xksG?=
- =?us-ascii?Q?2bL86yd1ywtzV30rktoJry9Sea73JxIFHFXc2/5WPpeh0tju0OQuKiMyWwC7?=
- =?us-ascii?Q?UaTywpgzJBH9buD/LpaUsGkY2dYwMYxYmm70t3n2pvlkICr3H2lcmCiUAfdH?=
- =?us-ascii?Q?3rIHm8bDRGvVQ1hPFHWk7k9KXz/+rPMbfVvSlE10gCx5Q1U2YRtYs6uM6fIK?=
-X-MS-Exchange-AntiSpam-MessageData-1: j2rJZCBs0vrIIan0W5TQQDVy6nHtlKEyBs0=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ob+pt5El9u40eo6eWf/pGpMDFv6P0MqdwVTJIEDE5beDbMG4tC0O7+6Opeu7?=
+ =?us-ascii?Q?mTcotDE5g+B1ILN55Bo7ogNq0nXyh9e126n6mJnUhip8cTexkdlypO4ReOGI?=
+ =?us-ascii?Q?q3mSMVeEj2FleiYabW8cxbxbtmYnj2rch0TLSIBtzvCeiUpWBu6ujKxw3nHH?=
+ =?us-ascii?Q?qu1jnWbjCt/eWK31o/uxVEC/24KuuVFE5VAWIQS5MBM0TjwNEM3GDw7xNXBd?=
+ =?us-ascii?Q?0dWI1Lw9QjC57W4n0iOMw4SXmam0nh0xl+JUoI/S6qrMgh2mRbGdwwf6YUyK?=
+ =?us-ascii?Q?zsSNMa5rBg4SuUCb4vwXEverRcC0f6oivdxG6hAOmb8jlfmprcBo/luPe254?=
+ =?us-ascii?Q?yJs8eqlxukVUoZU2tnCZ9scvvkSwvqAk47zEv4t6O/H154Cdnwf4rqr6I6mu?=
+ =?us-ascii?Q?p1w6fSmy4M3YLJqGaNG7/wvgh3wKAfBlmWrcUx87kDdGF+HeRyAg9UqvQrx5?=
+ =?us-ascii?Q?8iYDRlM3un+hnq+NreR70h6I9seCPCbX7DwvUB14Y5i1gg83LvsXFTYwNo/3?=
+ =?us-ascii?Q?5N19WwAaO1BihQkpSRLkE0cBMCCovAguEb6vhg/7wOzI2F2CPUUOerfIYVuq?=
+ =?us-ascii?Q?rpcLfbvzqwz5ZQhYwUhRepCigUjfgRIPB+SZDYxd8IpGRopVP4orQzUjz2Am?=
+ =?us-ascii?Q?J9XUQR9hMV+EeGCIoAc+KwPjFUBFt1b3VbhAadt7OKFkp9h90d1nEei1SLCE?=
+ =?us-ascii?Q?0zxpDi1DXsv1qlZfqTYDaMTpLxi42C/W+g+jwtWg2aw48H5+nMSAnBBij3PS?=
+ =?us-ascii?Q?wyxxnP5jnrw5Y6wbZuiaJzFM3Txs/OnE+yUbYJVcJwU8hjSzrq+O1AvbIbCu?=
+ =?us-ascii?Q?iS5qtyn850ANFZvJd6NEf8tBcL3v/hlUiPyRydh48YcDQiZ7Dw26y97JpHU2?=
+ =?us-ascii?Q?wZNQXRZcgod5K9nQKzANI/FeY9go7QbymOX1+q0l9wShXnGpqjqbUOh6oItL?=
+ =?us-ascii?Q?HtXeNxP5Z4c81Qffj9iIs8TM4fxuOovsSKlZioSIkC6oLk6xwsggqA3SuRkP?=
+ =?us-ascii?Q?+EA99bpwL7dmghgOzOJhhQLHT66CoEHrxyMztyPkwhRKtGLkRgHh6lNyceVB?=
+ =?us-ascii?Q?DeVKg36WHn91+vEAZYR1oE54sLdSaZTMM+pjnjMmf+EAtr9CdlJ6Ern5Oupy?=
+ =?us-ascii?Q?GPXX+Ivqr/X3CIAWO3FjDRGPpXcbjN9cMufmMhLKx97inTv5m6/aDTY/Q/sk?=
+ =?us-ascii?Q?AXPIv+EiUEMQqFqj0l/ecTbZHqVIJ+si6fUxil1/EC312k8adsUjqq69g6zF?=
+ =?us-ascii?Q?/CuaIcNk2SFOfpukZdMr0KB0ORVJ2h9lbzJXYR/x8wk2kl+Z/jwoRAz8GQhU?=
+ =?us-ascii?Q?f6bw1uT4Gk4VSYx1gVTSvn2BJsb7vEzlTP5EsCobDdQroFgx7uTBxcWn89DS?=
+ =?us-ascii?Q?JGDXCkfBpm5vhPRD2xEtVb7QScF3k9BA8eESn70FVnvJHsrcXPUSJK2u3AdW?=
+ =?us-ascii?Q?ENZgoFALnkYjDl8ZiZYD7BpXmkpJtixLZY7RF/E5/QpAfETQTIQqrXzwMhPS?=
+ =?us-ascii?Q?dO1MipupMzj7LFCqeoAkdgvu4uGygY5aoq3UbmW6838Y+2YniPCWTwK3cTzk?=
+ =?us-ascii?Q?U1/O0p6K5oP80mYnZdWDTW6wHEj/qEk3dy2nv9nAQrhe35Qo4zrzJdQ+I19G?=
+ =?us-ascii?Q?WJdeLluKvH4YQqx6PlDAjJ5UFPw0mz+yEdLUwv0ayQU5bGMTntXXqQjzVyne?=
+ =?us-ascii?Q?rOp4W37CCCmiVGArINz+pCRFf8iYppBR4tqakIp89hmXB+D0mrgwVeY76Iy8?=
+ =?us-ascii?Q?EUX5Me6AfwHJgSyN8InYGyqgjmxC8iEPXEL+h54dgte2A0w+8FDFTZIYLq4K?=
+X-MS-Exchange-AntiSpam-MessageData-1: CaILAGk62DIgkICwO/ffMCuDVNHrydllJ4s=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e79a9518-5877-46ea-fe0a-08da55253660
+X-MS-Exchange-CrossTenant-Network-Message-Id: facf5141-af7e-4692-406b-08da552536b2
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8703.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 14:32:34.2385
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 14:32:34.8179
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PI2XVTobSMzUHd9MzEN/XbF9gl9FLIYlQCY0Xm1kOqbirXb0+oeWmaKAv3RHmmPbK/nA71Ej198128bu6ufmyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0401MB2288
+X-MS-Exchange-CrossTenant-UserPrincipalName: NahM0AWjCfql/e/0ny6cGV6anCw/MyOW2MKuyOJwl90F4xU+fgxhg30IMBiAB8fZ/eVB/bMbd2K440288hGtQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6505
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -126,105 +126,65 @@ From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-ctrls-api.c | 32 ++++++++++++++++++
- include/media/v4l2-ctrls.h               | 41 ++++++++++++++++++++++++
- 2 files changed, 73 insertions(+)
+ Documentation/userspace-api/media/v4l/vidioc-dqevent.rst     | 5 +++++
+ Documentation/userspace-api/media/videodev2.h.rst.exceptions | 1 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c                     | 2 ++
+ include/uapi/linux/videodev2.h                               | 1 +
+ 4 files changed, 9 insertions(+)
 
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+index 6eb40073c906..8db103760930 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+@@ -332,6 +332,11 @@ call.
+       - 0x0004
+       - This control event was triggered because the minimum, maximum,
+ 	step or the default value of the control changed.
++    * - ``V4L2_EVENT_CTRL_CH_DIMENSIONS``
++      - 0x0008
++      - This control event was triggered because the dimensions of the
++	control changed. Note that the number of dimensions remains the
++	same.
+ 
+ 
+ .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.5cm}|
+diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+index 9cbb7a0c354a..3597a354dc25 100644
+--- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
++++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+@@ -505,6 +505,7 @@ replace define V4L2_EVENT_PRIVATE_START event-type
+ replace define V4L2_EVENT_CTRL_CH_VALUE ctrl-changes-flags
+ replace define V4L2_EVENT_CTRL_CH_FLAGS ctrl-changes-flags
+ replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
++replace define V4L2_EVENT_CTRL_CH_DIMENSIONS ctrl-changes-flags
+ 
+ replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
+ 
 diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index 6f1b72c59e8e..8c49961c47de 100644
+index 8c49961c47de..77d25003ddee 100644
 --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
 +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -989,6 +989,38 @@ int __v4l2_ctrl_modify_range(struct v4l2_ctrl *ctrl,
+@@ -1017,6 +1017,8 @@ int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
+ 		ctrl->type_ops->init(ctrl, i, ctrl->p_cur);
+ 		ctrl->type_ops->init(ctrl, i, ctrl->p_new);
+ 	}
++	send_event(NULL, ctrl,
++		   V4L2_EVENT_CTRL_CH_VALUE | V4L2_EVENT_CTRL_CH_DIMENSIONS);
+ 	return 0;
  }
- EXPORT_SYMBOL(__v4l2_ctrl_modify_range);
+ EXPORT_SYMBOL(__v4l2_ctrl_modify_dimensions);
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 5c45ca18fac9..bf2fedda32ec 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -2397,6 +2397,7 @@ struct v4l2_event_vsync {
+ #define V4L2_EVENT_CTRL_CH_VALUE		(1 << 0)
+ #define V4L2_EVENT_CTRL_CH_FLAGS		(1 << 1)
+ #define V4L2_EVENT_CTRL_CH_RANGE		(1 << 2)
++#define V4L2_EVENT_CTRL_CH_DIMENSIONS		(1 << 3)
  
-+int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
-+				  u32 dims[V4L2_CTRL_MAX_DIMS])
-+{
-+	unsigned int elems = dims[0];
-+	unsigned int i;
-+	void *p_array;
-+
-+	if (!ctrl->is_array || ctrl->is_dyn_array)
-+		return -EINVAL;
-+
-+	for (i = 1; i < ctrl->nr_of_dims; i++)
-+		elems *= dims[i];
-+	if (elems == 0)
-+		return -EINVAL;
-+	p_array = kvzalloc(2 * elems * ctrl->elem_size, GFP_KERNEL);
-+	if (!p_array)
-+		return -ENOMEM;
-+	kvfree(ctrl->p_array);
-+	ctrl->p_array_alloc_elems = ctrl->elems = ctrl->new_elems = elems;
-+	ctrl->p_array = p_array;
-+	ctrl->p_new.p = p_array;
-+	ctrl->p_cur.p = p_array + elems * ctrl->elem_size;
-+	for (i = 0; i < ctrl->nr_of_dims; i++)
-+		ctrl->dims[i] = dims[i];
-+	for (i = 0; i < elems; i++) {
-+		ctrl->type_ops->init(ctrl, i, ctrl->p_cur);
-+		ctrl->type_ops->init(ctrl, i, ctrl->p_new);
-+	}
-+	return 0;
-+}
-+EXPORT_SYMBOL(__v4l2_ctrl_modify_dimensions);
-+
- /* Implement VIDIOC_QUERY_EXT_CTRL */
- int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctrl *qc)
- {
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index e0f32e8b886a..e02ce11a5844 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -963,6 +963,47 @@ static inline int v4l2_ctrl_modify_range(struct v4l2_ctrl *ctrl,
- 	return rval;
- }
- 
-+/**
-+ *__v4l2_ctrl_modify_dimensions() - Unlocked variant of v4l2_ctrl_modify_dimensions()
-+ *
-+ * @ctrl:	The control to update.
-+ * @dims:	The control's new dimensions.
-+ *
-+ * Update the dimensions of an array control on the fly.
-+ *
-+ * An error is returned if @dims is invalid for this control.
-+ *
-+ * The caller is responsible for acquiring the control handler mutex on behalf
-+ * of __v4l2_ctrl_modify_dimensions().
-+ */
-+int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
-+				  u32 dims[V4L2_CTRL_MAX_DIMS]);
-+
-+/**
-+ * v4l2_ctrl_modify_dimensions() - Update the dimensions of an array control.
-+ *
-+ * @ctrl:	The control to update.
-+ * @dims:	The control's new dimensions.
-+ *
-+ * Update the dimensions of a control on the fly.
-+ *
-+ * An error is returned if @dims is invalid for this control type.
-+ *
-+ * This function assumes that the control handler is not locked and will
-+ * take the lock itself.
-+ */
-+static inline int v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
-+					      u32 dims[V4L2_CTRL_MAX_DIMS])
-+{
-+	int rval;
-+
-+	v4l2_ctrl_lock(ctrl);
-+	rval = __v4l2_ctrl_modify_dimensions(ctrl, dims);
-+	v4l2_ctrl_unlock(ctrl);
-+
-+	return rval;
-+}
-+
- /**
-  * v4l2_ctrl_notify() - Function to set a notify callback for a control.
-  *
+ struct v4l2_event_ctrl {
+ 	__u32 changes;
 -- 
 2.36.1
 
