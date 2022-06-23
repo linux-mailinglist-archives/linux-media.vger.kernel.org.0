@@ -2,53 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E64AF558B12
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 00:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA6AF558B15
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 00:06:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbiFWWG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 18:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44130 "EHLO
+        id S229950AbiFWWGg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 18:06:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbiFWWG2 (ORCPT
+        with ESMTP id S229915AbiFWWGf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 18:06:28 -0400
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2112E563B6
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 15:06:24 -0700 (PDT)
-Received: by mail-pj1-x1049.google.com with SMTP id z13-20020a17090ab10d00b001ec86329c08so298763pjq.7
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 15:06:24 -0700 (PDT)
+        Thu, 23 Jun 2022 18:06:35 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2B4056C00
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 15:06:33 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-31382419c22so5891307b3.18
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 15:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=KwqDl7Ku0++kd3bGbvwgzs1gT1laIcj9GIfwKObRL9E=;
-        b=f8U/4xKGanNwrOdn737tuWhSmnZoG61m1qxfjiv5VkQ8UPtSqaWeibB404rrX79rJX
-         Sr8EwtDegZkmDOiQT1PYLi73vlNuyK3MEO3CteMf7qrTyzJdkDqEDsqiRCNCHSPQ5OpW
-         eesWhWqiGdmVom/8h4KWFRd14AnohMl03xMmbV6Ab1oeKOXQCzTP9OQoqz1l8U2F6/ec
-         VlqIw1iK8+IqtbCAOHrXtiW4tOefdgMl+CoajfkyUTpBuZ8kM+4EuI/xDArQ35ySZCKy
-         wRv8WwozJNFIjWw3i7yzruaQIY9s/ub55YNu2bl9iMISFr3cyMkNMY6hYWwYFcZJ8fYO
-         pNYw==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc:content-transfer-encoding;
+        bh=LuVwJu2XTJotGIIzCTAGr4F0lNY10/cZV2iS+VHdvuo=;
+        b=IoqZwDtQveOkId40Codht810g407pd1np3iZsZaGpC0V+df4/QXkWF3oB4Mp5XiG4z
+         AkHfVLodnJPGIXXOQOLZpEs3oP05HDStEn81Gzp/08IpMjXs+0WkBYIt5XFIGs4UBBt9
+         vDn9LYFjKXjjip1WPCH+zWI6ouiNaFo7GzIbYf9UpUCSYtX8reoBMCBcFfdoHjTENNmM
+         rb7T+ScF4HCojuFb8n6t9OTfcdLiboWa5W6743biCT0C/MQg55OQP00HVu/5M2H9xT2M
+         1lmQhJi74VDMDyRTyFxvnlsIezy7d1O119TmXhSw1uakyz4IwS29YleI9L5cXoCl9O+V
+         3mFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=KwqDl7Ku0++kd3bGbvwgzs1gT1laIcj9GIfwKObRL9E=;
-        b=vRVb4kXwWxy5H7cXj4ms8tpje56avnQmY6K7d0TkJVlpOJwCUR2sBoJUE5Fya1LwKI
-         TzSAOzMItSIaUEeLKUjv5OAWMKchDkRXV+NxeQHCreTm50ocuW/ZrsLBSTWmj+B17//q
-         d6XUa5a/0FVj8OtzQONvqKAyqVfOUzSAEGzZhU/BNX1+qkaxWkoHze+gmuDShLaXYur8
-         xfv+FBWOmQQsDFBEEWXdJ6dfO3Z7UpCMrSDXPH4hiyI5vv26DhqWrNH8SKawSBU4oz2U
-         XoflaMavGolXWZIVDKtQeZM02bbX8G2vFpm2/JtBOC368kKSHacgCkRA6kiLXhQer7Or
-         Gxeg==
-X-Gm-Message-State: AJIora+379ITsK47WhHU+KievNpFhApCB05wkuUwWQ8EG1FM0E+FubtR
-        nj8LQDZI5hva4yJfKloOiIXbYze+pZQvQOSX3A==
-X-Google-Smtp-Source: AGRyM1sO9ieUDBnlX+/hb6X4MjMKGW7axAjbZt6eLMihv8A9ry56mIpW47+iL+E9JFdzcNk6h+YievpjxofEabG5Zw==
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:content-transfer-encoding;
+        bh=LuVwJu2XTJotGIIzCTAGr4F0lNY10/cZV2iS+VHdvuo=;
+        b=VCokZpZwG7AklaC8TavCfepv42MPPWIHLA2Kd+HLvPVt/C0iozT1LKENflroDJY9E9
+         OHcRZrPcGaJJSBrFN1C73SlpofDqdvN0D2hD2m36z49UeGHh6NiLTsTHGUevEFjWEY5k
+         56YI99+Vggwe/jgx9JQ+s1J1Ug9jBKIPx62lnJKmwjO5W3J32pzFr78QnM6GwYc3jIP7
+         47u1hyyXBwg8psKO2JyX2ByiObccVt+rOODLWwpfQiMd2Kp1q8WuvOL9MzaDhd3yj7s+
+         nLWGvZHx2jF8F71EzCtikUA1f7xZAZRwCPZwL6iv7gaUTN+O0DeE//cEuiNqeM+ZO6rk
+         slGA==
+X-Gm-Message-State: AJIora9o+8VbdWDUWjpf9RiMN+k5e6gtbyCVgDszIqsN8d2pacjWM25q
+        OgcCqMG26S03X/Jju6fkDuZeBoLurE2Ks7Sk/g==
+X-Google-Smtp-Source: AGRyM1sUtTt9Hgz8VwrY8RPCyKlElkJLkRs2tNxEPPEXYBDiEywoCy3hLf1D/wC013YTlrfFlZGqN4FoX1llld8RZQ==
 X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:ac62:20a7:e3c5:c221])
- (user=kaleshsingh job=sendgmr) by 2002:a05:6a00:885:b0:510:950f:f787 with
- SMTP id q5-20020a056a00088500b00510950ff787mr42464806pfj.83.1656021983532;
- Thu, 23 Jun 2022 15:06:23 -0700 (PDT)
-Date:   Thu, 23 Jun 2022 15:06:05 -0700
-Message-Id: <20220623220613.3014268-1-kaleshsingh@google.com>
+ (user=kaleshsingh job=sendgmr) by 2002:a25:9305:0:b0:668:d3a8:cb0b with SMTP
+ id f5-20020a259305000000b00668d3a8cb0bmr11286577ybo.156.1656021993192; Thu,
+ 23 Jun 2022 15:06:33 -0700 (PDT)
+Date:   Thu, 23 Jun 2022 15:06:06 -0700
+In-Reply-To: <20220623220613.3014268-1-kaleshsingh@google.com>
+Message-Id: <20220623220613.3014268-2-kaleshsingh@google.com>
 Mime-Version: 1.0
+References: <20220623220613.3014268-1-kaleshsingh@google.com>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-Subject: [PATCH v2 0/2] procfs: Add file path and size to /proc/<pid>/fdinfo
+Subject: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
 From:   Kalesh Singh <kaleshsingh@google.com>
 To:     ckoenig.leichtzumerken@gmail.com, christian.koenig@amd.com,
         viro@zeniv.linux.org.uk, hch@infradead.org,
@@ -58,90 +62,166 @@ Cc:     ilkos@google.com, tjmercier@google.com, surenb@google.com,
         Jonathan Corbet <corbet@lwn.net>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Colin Cross <ccross@google.com>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
         Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Mike Rapoport <rppt@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+To be able to account the amount of memory a process is keeping pinned
+by open file descriptors add a 'size' field to fdinfo output.
 
-This is v2 of the fdinfo patches. The main update is adding path
-field only for files with anon inodes. Rebased on 5.19-rc3.
+dmabufs fds already expose a 'size' field for this reason, remove this
+and make it a common field for all fds. This allows tracking of
+other types of memory (e.g. memfd and ashmem in Android).
 
-The previous cover letter is copied below for convenience.
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+---
 
-Thanks,
-Kalesh
+Changes in v2:
+  - Add Christian's Reviewed-by
 
------------
+Changes from rfc:
+  - Split adding 'size' and 'path' into a separate patches, per Christian
+  - Split fdinfo seq_printf into separate lines, per Christian
+  - Fix indentation (use tabs) in documentaion, per Randy
 
-Processes can pin shared memory by keeping a handle to it through a
-file descriptor; for instance dmabufs, memfd, and ashmem (in Android).
-
-In the case of a memory leak, to identify the process pinning the
-memory, userspace needs to:
-  - Iterate the /proc/<pid>/fd/* for each process
-  - Do a readlink on each entry to identify the type of memory from
-    the file path.
-  - stat() each entry to get the size of the memory.
-
-The file permissions on /proc/<pid>/fd/* only allows for the owner
-or root to perform the operations above; and so is not suitable for
-capturing the system-wide state in a production environment.
-
-This issue was addressed for dmabufs by making /proc/*/fdinfo/*
-accessible to a process with PTRACE_MODE_READ_FSCREDS credentials[1]
-To allow the same kind of tracking for other types of shared memory,
-add the following fields to /proc/<pid>/fdinfo/<fd>:
-
-path - This allows identifying the type of memory based on common
-       prefixes: e.g. "/memfd...", "/dmabuf...", "/dev/ashmem..."
-
-       This was not an issued when dmabuf tracking was introduced
-       because the exp_name field of dmabuf fdinfo could be used
-       to distinguish dmabuf fds from other types.
-
-size - To track the amount of memory that is being pinned.
-
-       dmabufs expose size as an additional field in fdinfo. Remove
-       this and make it a common field for all fds.
-
-Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
--- the same as for /proc/<pid>/maps which also exposes the path and
-size for mapped memory regions.
-
-This allows for a system process with PTRACE_MODE_READ_FSCREDS to
-account the pinned per-process memory via fdinfo.
-
-
-Kalesh Singh (2):
-  procfs: Add 'size' to /proc/<pid>/fdinfo/
-  procfs: Add 'path' to /proc/<pid>/fdinfo/
-
- Documentation/filesystems/proc.rst | 22 ++++++++++++++++++++--
+ Documentation/filesystems/proc.rst | 12 ++++++++++--
  drivers/dma-buf/dma-buf.c          |  1 -
- fs/libfs.c                         |  9 +++++++++
- fs/proc/fd.c                       | 18 ++++++++++++++----
- include/linux/fs.h                 |  1 +
- 5 files changed, 44 insertions(+), 7 deletions(-)
+ fs/proc/fd.c                       |  9 +++++----
+ 3 files changed, 15 insertions(+), 7 deletions(-)
 
-
-base-commit: a111daf0c53ae91e71fd2bfe7497862d14132e3e
--- 
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems=
+/proc.rst
+index 1bc91fb8c321..779c05528e87 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1886,13 +1886,14 @@ if precise results are needed.
+ 3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
+ ---------------------------------------------------------------
+ This file provides information associated with an opened file. The regular
+-files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
++files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino', and 's=
+ize'.
++
+ The 'pos' represents the current offset of the opened file in decimal
+ form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
+ file has been created with [see open(2) for details] and 'mnt_id' represen=
+ts
+ mount ID of the file system containing the opened file [see 3.5
+ /proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
+-the file.
++the file, and 'size' represents the size of the file in bytes.
+=20
+ A typical output is::
+=20
+@@ -1900,6 +1901,7 @@ A typical output is::
+ 	flags:	0100002
+ 	mnt_id:	19
+ 	ino:	63107
++	size:	0
+=20
+ All locks associated with a file descriptor are shown in its fdinfo too::
+=20
+@@ -1917,6 +1919,7 @@ Eventfd files
+ 	flags:	04002
+ 	mnt_id:	9
+ 	ino:	63107
++	size:   0
+ 	eventfd-count:	5a
+=20
+ where 'eventfd-count' is hex value of a counter.
+@@ -1930,6 +1933,7 @@ Signalfd files
+ 	flags:	04002
+ 	mnt_id:	9
+ 	ino:	63107
++	size:   0
+ 	sigmask:	0000000000000200
+=20
+ where 'sigmask' is hex value of the signal mask associated
+@@ -1944,6 +1948,7 @@ Epoll files
+ 	flags:	02
+ 	mnt_id:	9
+ 	ino:	63107
++	size:   0
+ 	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev=
+:7
+=20
+ where 'tfd' is a target file descriptor number in decimal form,
+@@ -1962,6 +1967,7 @@ For inotify files the format is the following::
+ 	flags:	02000000
+ 	mnt_id:	9
+ 	ino:	63107
++	size:   0
+ 	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-byt=
+es:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+=20
+ where 'wd' is a watch descriptor in decimal form, i.e. a target file
+@@ -1985,6 +1991,7 @@ For fanotify files the format is::
+ 	flags:	02
+ 	mnt_id:	9
+ 	ino:	63107
++	size:   0
+ 	fanotify flags:10 event-flags:0
+ 	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+ 	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fha=
+ndle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+@@ -2010,6 +2017,7 @@ Timerfd files
+ 	flags:	02
+ 	mnt_id:	9
+ 	ino:	63107
++	size:   0
+ 	clockid: 0
+ 	ticks: 0
+ 	settime flags: 01
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 32f55640890c..5f2ae38c960f 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -378,7 +378,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m, str=
+uct file *file)
+ {
+ 	struct dma_buf *dmabuf =3D file->private_data;
+=20
+-	seq_printf(m, "size:\t%zu\n", dmabuf->size);
+ 	/* Don't count the temporary reference taken inside procfs seq_show */
+ 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+ 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 913bef0d2a36..464bc3f55759 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -54,10 +54,11 @@ static int seq_show(struct seq_file *m, void *v)
+ 	if (ret)
+ 		return ret;
+=20
+-	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n",
+-		   (long long)file->f_pos, f_flags,
+-		   real_mount(file->f_path.mnt)->mnt_id,
+-		   file_inode(file)->i_ino);
++	seq_printf(m, "pos:\t%lli\n", (long long)file->f_pos);
++	seq_printf(m, "flags:\t0%o\n", f_flags);
++	seq_printf(m, "mnt_id:\t%i\n", real_mount(file->f_path.mnt)->mnt_id);
++	seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
++	seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i_size);
+=20
+ 	/* show_fd_locks() never deferences files so a stale value is safe */
+ 	show_fd_locks(m, file, files);
+--=20
 2.37.0.rc0.161.g10f37bed90-goog
 
