@@ -2,85 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1A3855A115
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 20:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E24D55A274
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 22:18:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231231AbiFXSpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jun 2022 14:45:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43884 "EHLO
+        id S231146AbiFXURO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 16:17:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbiFXSpA (ORCPT
+        with ESMTP id S229614AbiFXURM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jun 2022 14:45:00 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84C0D69251
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 11:44:59 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id EC7BF5C01DA;
-        Fri, 24 Jun 2022 14:44:58 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 24 Jun 2022 14:44:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1656096298; x=1656182698; bh=ypiwYBpIpe
-        JpmzTJkBEfHBVu1ODaA8p0oTtzCYaBwp0=; b=czVY3c1pu0vF38D/Cncd1MXLH/
-        ncTTMWceqhcYr1tiU+KkNwFWfe/c1jYC9KwN8VoEmSaTrBJfSndJPRrpR69LiZHr
-        FwVtiWgjQfolsgMd4HazAnIUBlKrnHlFmUoQQU0T7QdDvULErNUOWRPsEEqRz9Qn
-        VztH30fMM3Py17WyXCZJ18fSON+BptZO7xpCnOpoqNLjfHzZ1uzj681Gk/cemDdn
-        Q6R/iz20znnLLvVPTjJ2hkoFTz1jaifoyFnFAaNXQG7gHJfRn6rDn1Q7yRwpII5m
-        +SywD2pXqPbKKqsviISepBRS3ech0CvhM8GSipUnhS1ILqIlR9J4bxUEzVKw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1656096298; x=1656182698; bh=ypiwYBpIpeJpmzTJkBEfHBVu1ODa
-        A8p0oTtzCYaBwp0=; b=LbIqJ89UYoO/QLAPAlKU2FNHJHGMpSyNi7/UwB+uWjvb
-        5v//RS6t66B+vFg22MHp88FJ0QikJE+PaqMLpK3sUWcQrIXfPZi9gZmWkVlZSynj
-        0kMVFoyCRDYTiVcl7edG2yjvMBY7o3n+BtkEU7TqYaMLaZQnJfa8C5w83qo/KVS9
-        j8qzcREx4B1DZ/nJxH+LZu0YK3HFXq4n1Y+xiRmWUeCcjMT6oZXDupqV0M8yTalU
-        8xjiZmt/H0gsHOoivwhbGgIlxICXgcCaB6JGTQhvfJwgMEmPctCeDBsnrtb/nGr+
-        qK45ZTptEHmEtcPdE6gsy9i6fGIrXvkpcHWEQ374TQ==
-X-ME-Sender: <xms:Kga2YmzQaxZ4I3LMukMjytB1pegtY1SfX-vikWi5FBzt9z9k3fUc2g>
-    <xme:Kga2YiTirnzUALycghIfVw2hY8Lz1uGIBo8ztaCUUzA_zLwxw46bwmPt9kwc6WPe1
-    hOTDRRr6BFRJECXIi8>
-X-ME-Received: <xmr:Kga2YoX5Mt7AW91lVV6YvZ1HD3AdY1gt0O6ymiFXi-R4UAO5Y49ZSA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledguddvjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeffrghf
-    nhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghsthhmrghilhdrtghomheqne
-    cuggftrfgrthhtvghrnhepvdehtdeludekgeevleefuedvudejieetheekvdfhteekffdu
-    jefhfedtudehvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:Kga2YsgnYQmcaCs-YeQs6hkzeMTWEZeAhZNR0CpyTEKst_A04vGQ6Q>
-    <xmx:Kga2YoBkv6DtV2NCxB-DJWukbGVEbtbaUkfWgge6gm08IZMJ5oN-PA>
-    <xmx:Kga2YtJmr4zq0f3JiwJ36U_2r19mZKyyZ9HaFO6aHz4UfUA8LMk-GQ>
-    <xmx:Kga2YmA95fDNTAuHXBtcuDcwC01txgYsqgZGjE1-2HOPsewUFNqqHQ>
-Feedback-ID: i0e894699:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Jun 2022 14:44:55 -0400 (EDT)
-Date:   Fri, 24 Jun 2022 21:44:53 +0300
-From:   Dafna Hirschfeld <dafna@fastmail.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        heiko@sntech.de, jeanmichel.hautbois@ideasonboard.com,
-        jacopo@jmondi.org, djrscally@gmail.com, helen.koike@collabora.com,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 15/55] media: rkisp1: Rename rkisp1_subdev_notifier() to
- rkisp1_subdev_notifier_register()
-Message-ID: <20220624184453.oct5t3zzrfisavns@guri>
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-16-paul.elder@ideasonboard.com>
+        Fri, 24 Jun 2022 16:17:12 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22952823B0
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:17:11 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id t5so6936259eje.1
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=A7KsArznjDszXEtjfLGnA6REJfLUYfQ3Oszk2m5SudA=;
+        b=DysS05ypy7Dj7deDljGrAOAbGl2Xyt4/z99Z0sAnWou95elElB1LSY5/Ts4Ksh/mXP
+         DLv6fOZpbapyMhr7MkdZvU+yZ2/QnFZ1mpgFnWqAY41HyRd5w3WAVUbpmAQFwqme6Ilf
+         NCYlIIWT8tJDBPd7kF3JbEbHU58J7PTZbpGK0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=A7KsArznjDszXEtjfLGnA6REJfLUYfQ3Oszk2m5SudA=;
+        b=Jhun1ES+DWp6ARJRDf4Bbe4zwFLDPryU4uaUfxUUDw907XI3dr6bi65G6w75ZrDbx8
+         2gkG4hoERm156XzlWCHe+xV8jTc7Wt5SObacHfdyc3uGbS2kHu8TKIi87ZdbvoO6nA1i
+         e+zLqYguINqJxaIeioIFTUshew4GwU4s16ad0mAFite99REb53R0q4h7Sm8VByuAYth9
+         Fi7Gj/jWM6ACvZfkwSVMe1/eu+Ttwxw4ioebG5YtVmxPrJRNswS80z1N7GzqCVTIzvvv
+         r+tX6XZ8NIjs9yJqdW/dbGaX8cXM11A1WUQpTOOR+YdY2Br47EZPOAd02LjpnrqCHqc7
+         SeoA==
+X-Gm-Message-State: AJIora/STYj4Ox8+UTow+XtAMOtBd5Y7q/u7GPAsxjR0drzheImQLty4
+        o+LN0QqsGiJgJOKSwa2gx8FcBw==
+X-Google-Smtp-Source: AGRyM1tbrhSpLiAB9dqU6edRxuLbyecMJr7L30I5wUrP26zUyqvNNkEwbuedAAWD5HRC48ej/oEHbg==
+X-Received: by 2002:a17:907:7d88:b0:726:2adb:2073 with SMTP id oz8-20020a1709077d8800b007262adb2073mr778546ejc.466.1656101829623;
+        Fri, 24 Jun 2022 13:17:09 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id w20-20020aa7dcd4000000b0042dc882c823sm2642667edu.70.2022.06.24.13.17.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jun 2022 13:17:08 -0700 (PDT)
+Date:   Fri, 24 Jun 2022 22:17:06 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Shuah Khan <shuah@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+        John Stultz <jstultz@google.com>,
+        Carlos Llamas <cmllamas@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kernel-team@android.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+Message-ID: <YrYbwu0iIAJJGXVg@phenom.ffwll.local>
+Mail-Followup-To: "T.J. Mercier" <tjmercier@google.com>,
+        Tejun Heo <tj@kernel.org>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>, Shuah Khan <shuah@kernel.org>,
+        John Stultz <jstultz@google.com>,
+        Carlos Llamas <cmllamas@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>, kernel-team@android.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kselftest@vger.kernel.org
+References: <20220510235653.933868-1-tjmercier@google.com>
+ <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+ <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
+ <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+ <YodHjYlMx1XGtM2+@slm.duckdns.org>
+ <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
+ <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220614191127.3420492-16-paul.elder@ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,42 +132,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15.06.2022 04:10, Paul Elder wrote:
->From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
->The function name isn't very clear, rename it to
->rkisp1_subdev_notifier_register().
->
->Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Wed, Jun 15, 2022 at 10:31:21AM -0700, T.J. Mercier wrote:
+> On Fri, May 20, 2022 at 9:25 AM T.J. Mercier <tjmercier@google.com> wrote:
+> >
+> > On Fri, May 20, 2022 at 12:47 AM Tejun Heo <tj@kernel.org> wrote:
+> > >
+> > > Hello,
+> > >
+> > > On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
+> > > > Thanks for your suggestion. This almost works. "dmabuf" as a key could
+> > > > work, but I'd actually like to account for each heap. Since heaps can
+> > > > be dynamically added, I can't accommodate every potential heap name by
+> > > > hardcoding registrations in the misc controller.
+> > >
+> > > On its own, that's a pretty weak reason to be adding a separate gpu
+> > > controller especially given that it doesn't really seem to be one with
+> > > proper abstractions for gpu resources. We don't want to keep adding random
+> > > keys to misc controller but can definitely add limited flexibility. What
+> > > kind of keys do you need?
+> > >
+> > Well the dmabuf-from-heaps component of this is the initial use case.
+> > I was envisioning we'd have additional keys as discussed here:
+> > https://lore.kernel.org/lkml/20220328035951.1817417-1-tjmercier@google.com/T/#m82e5fe9d8674bb60160701e52dae4356fea2ddfa
+> > So we'd end up with a well-defined core set of keys like "system", and
+> > then drivers would be free to use their own keys for their own unique
+> > purposes which could be complementary or orthogonal to the core set.
+> > Yesterday I was talking with someone who is interested in limiting gpu
+> > cores and bus IDs in addition to gpu memory. How to define core keys
+> > is the part where it looks like there's trouble.
+> >
+> > For my use case it would be sufficient to have current and maximum
+> > values for an arbitrary number of keys - one per heap. So the only
+> > part missing from the misc controller (for my use case) is the ability
+> > to register a new key at runtime as heaps are added. Instead of
+> > keeping track of resources with enum misc_res_type, requesting a
+> > resource handle/ID from the misc controller at runtime is what I think
+> > would be required instead.
+> >
+> Quick update: I'm going to make an attempt to modify the misc
+> controller to support a limited amount of dynamic resource
+> registration/tracking in place of the new controller in this series.
+> 
+> Thanks everyone for the feedback.
 
-Reviewed-by Dafna Hirschfeld <dafna@fastmail.com>
+Somehow I missed this entire chain here.
 
->---
-> drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->index 7bb1235cddea..386c1c17aec2 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->@@ -176,7 +176,7 @@ static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops =
-> 	.complete = rkisp1_subdev_notifier_complete,
-> };
->
->-static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
->+static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
-> {
-> 	struct v4l2_async_notifier *ntf = &rkisp1->notifier;
-> 	unsigned int next_id = 0;
->@@ -358,7 +358,7 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
-> 	if (ret)
-> 		goto error;
->
->-	ret = rkisp1_subdev_notifier(rkisp1);
->+	ret = rkisp1_subdev_notifier_register(rkisp1);
-> 	if (ret) {
-> 		dev_err(rkisp1->dev,
-> 			"Failed to register subdev notifier(%d)\n", ret);
->-- 
->2.30.2
->
+I'm not a fan, because I'm kinda hoping we could finally unify gpu memory
+account. Atm everyone just adds their one-off solution in a random corner:
+- total tracking in misc cgroup controller
+- dma-buf sysfs files (except apparently too slow so it'll get deleted
+  again)
+- random other stuff on open device files os OOM killer can see it
+
+This doesn't look good.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
