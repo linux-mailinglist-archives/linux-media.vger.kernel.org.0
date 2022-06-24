@@ -2,210 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9DE255A425
-	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 00:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3339255A48D
+	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 01:03:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231621AbiFXWCc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jun 2022 18:02:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54450 "EHLO
+        id S231407AbiFXXD2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 19:03:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiFXWCb (ORCPT
+        with ESMTP id S229450AbiFXXD2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jun 2022 18:02:31 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EF0F87D5A
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 15:02:30 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id w17so4814346wrg.7
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 15:02:29 -0700 (PDT)
+        Fri, 24 Jun 2022 19:03:28 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4248A51E54
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 16:03:27 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id u15so7497945ejc.10
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 16:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=bViPZBAMgiXFQeC0Ts9kGgYh0djVJEBJnUFAscIdXfs=;
-        b=Rz8Nx4ymy75hrX0gaCBI4344J1bwBh+sOZ0axM97pDdxTgAZCwKsYA02NUuNgyuZeG
-         qKht7O/JTqYnIz91prEg2+GBQqCdj3NY1VKMJIlEooRATP79woE+w3eDaKmVVDTxzbVf
-         iIVM0EFWFYWW3QEvxzfR51JtkpYZKX/LIyVms=
+        d=amarulasolutions.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6cfkuZG7idfXo7IqBBshTVExV9f6nwYcsNi86Vc+VE8=;
+        b=Jf1umRNAJXGAzvx2aJhV3LYpMPhv/cfl14mkSkn8vPCrmkBv73d/1y4FxzhU2iKUV+
+         yjY1dRKmznA3df5MGwSaDALIRD4DIyoJ32nqJX70v9kIBUHzxFl1EqPXdDy4ZR3SLFii
+         J7WoRYTVujZIbofiVaxjYVSe/PlXMPbIKrUzY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=bViPZBAMgiXFQeC0Ts9kGgYh0djVJEBJnUFAscIdXfs=;
-        b=zZ4Qg+H/tVQG7SafWHfcCBolb+uui/NKRu642La1mZ4OR79gEzDH2/b2Iw4mgYzgDZ
-         Fj7NTlnGHU7q0Z4SC3SpobZ8CljlSN/MxdOR3AGdoECUtsaQvmCGFFxbeReYUWyLS8pl
-         OEYe8N0H/oDqXbyR360E7mQpM6gR6DvRjW4qOBEy78kpqDh/Toxx6UluksCg1MybEk6Z
-         DSuZfpgWjGLnyfN4JPhv1+MtnY5EBkDnzhiqKJMDVGqn9P5bHV0rvLgo/4kXRSsbQ+jf
-         zLAVZn+5gp0fsIiMfsXp5UYnhlH7meL7tkZeIA+gVfyalIPhQ3TtMrm/7IviS+7VA9FE
-         Wn8g==
-X-Gm-Message-State: AJIora876ET2WXQ45H0tBOGXVMDElt6c8VsI6hjRLdUkvV7hJjvqSOA8
-        frOYB1gnJTg8pHQqtxyruSFktg==
-X-Google-Smtp-Source: AGRyM1s5n8eWyRmaa3id4LPoBE/bT384zG7zulVFh2/9XfPhNQr+6xueKkF3HpAXx+5+DdHBdYLKHQ==
-X-Received: by 2002:adf:e502:0:b0:21b:8de6:7f14 with SMTP id j2-20020adfe502000000b0021b8de67f14mr1062488wrm.3.1656108148577;
-        Fri, 24 Jun 2022 15:02:28 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id v17-20020a5d43d1000000b0021b95bcaf7fsm3328710wrr.59.2022.06.24.15.02.27
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6cfkuZG7idfXo7IqBBshTVExV9f6nwYcsNi86Vc+VE8=;
+        b=6NWUKx2U/9r4G4qp3CnD4pLzCcoWcB76u4xT6fFxV5kznBqM493rWU6m6nlh5c8s+A
+         GpqxWpIu3TSnKv31J+zvcF9LyRZVRAkb3v8XF/3L5p2vGphCH1GlACbxN/LXj//ENgNh
+         eUXFmHlg/prA67MA+4F5BsqOg7u57/VIQoy5csln4bkgfZDhs6+reG+PHfJBkJBq31b7
+         4n/NY3STFHBf5RFB84P1dVB/BgZigryzdXtXBDzPPCF0yyppsAIWw8COXBPVlAKjx3th
+         qNDe09uQDzv3EJxuidovk4cEbxXLDur/aiwGcr/LaVDh4kdvX8q/9ovEZWXo8lGMfzFj
+         CMVw==
+X-Gm-Message-State: AJIora8qzbuHt299RTnN7eZ+rwSKzF8lVa7J4El/VMsZdYhPyUBfM94d
+        GnT0b9aT+rJMPp6aXcqMHM98uQ==
+X-Google-Smtp-Source: AGRyM1uiH+TA8mgLMRLqrxaoa3+Ka0nZye81F+GVBEctnrrpf+eLxawoxqVb0gaqMbAmVOudU1TWcw==
+X-Received: by 2002:a17:907:6e8b:b0:726:2b16:d1b4 with SMTP id sh11-20020a1709076e8b00b007262b16d1b4mr1366379ejc.27.1656111805779;
+        Fri, 24 Jun 2022 16:03:25 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i.station (net-188-217-58-216.cust.vodafonedsl.it. [188.217.58.216])
+        by smtp.gmail.com with ESMTPSA id w1-20020aa7da41000000b004356a647d08sm2880291eds.94.2022.06.24.16.03.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jun 2022 15:02:27 -0700 (PDT)
-Date:   Sat, 25 Jun 2022 00:02:25 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Daniel Stone <daniel@fooishbar.org>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        "Sharma, Shashank" <Shashank.Sharma@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linaro-mm-sig@lists.linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>
-Subject: Re: [Linaro-mm-sig] Re: DMA-buf and uncached system memory
-Message-ID: <YrY0cQY1BTL5H7Xp@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        "Sharma, Shashank" <Shashank.Sharma@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linaro-mm-sig@lists.linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>
-References: <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
- <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
- <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
- <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
- <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
- <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
- <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
- <6287f5f8-d9af-e03d-a2c8-ea8ddcbdc0d8@amd.com>
- <CAPj87rOykZv7bjNhHPT4StrsPz8Y_DWqab4Ryq=Qqh77LS2e=Q@mail.gmail.com>
- <578953dd-6298-2bfe-a8fb-52004b84fd17@amd.com>
+        Fri, 24 Jun 2022 16:03:25 -0700 (PDT)
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] media: ov5693: cleanup code and add dts support
+Date:   Sat, 25 Jun 2022 01:03:00 +0200
+Message-Id: <20220624230307.3066530-1-tommaso.merciai@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <578953dd-6298-2bfe-a8fb-52004b84fd17@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 23, 2022 at 01:32:18PM +0200, Christian König wrote:
-> Am 23.06.22 um 13:27 schrieb Daniel Stone:
-> > Hi Christian,
-> > 
-> > On Thu, 23 Jun 2022 at 12:11, Christian König <christian.koenig@amd.com> wrote:
-> > > > In fact DMA-buf sharing works fine on most of those SoCs because
-> > > > everyone just assumes that all the accelerators don't snoop, so the
-> > > > memory shared via DMA-buf is mostly CPU uncached. It only falls apart
-> > > > for uses like the UVC cameras, where the shared buffer ends up being
-> > > > CPU cached.
-> > > Well then the existing DMA-buf framework is not what you want to use for
-> > > this.
-> > > 
-> > > > Non-coherent without explicit domain transfer points is just not going
-> > > > to work. So why can't we solve the issue for DMA-buf in the same way as
-> > > > the DMA API already solved it years ago: by adding the equivalent of
-> > > > the dma_sync calls that do cache maintenance when necessary? On x86 (or
-> > > > any system where things are mostly coherent) you could still no-op them
-> > > > for the common case and only trigger cache cleaning if the importer
-> > > > explicitly says that is going to do a non-snooping access.
-> > > Because DMA-buf is a framework for buffer sharing between cache coherent
-> > > devices which don't signal transitions.
-> > > 
-> > > We intentionally didn't implemented any of the dma_sync_* functions
-> > > because that would break the intended use case.
-> > > 
-> > > You can of course use DMA-buf in an incoherent environment, but then you
-> > > can't expect that this works all the time.
-> > > 
-> > > This is documented behavior and so far we have bluntly rejected any of
-> > > the complains that it doesn't work on most ARM SoCs and I don't really
-> > > see a way to do this differently.
-> > For some strange reason, 'let's do buffer sharing but make sure it
-> > doesn't work on Arm' wasn't exactly the intention of the groups who
-> > came together under the Linaro umbrella to create dmabuf.
-> > 
-> > If it's really your belief that dmabuf requires universal snooping, I
-> > recommend you send the patch to update the documentation, as well as
-> > to remove DRIVER_PRIME from, realistically, most non-PCIE drivers.
-> 
-> Well, to be honest I think that would indeed be necessary.
-> 
-> What we have created are essentially two different worlds, one for PCI
-> devices and one for the rest.
-> 
-> This was indeed not the intention, but it's a fact that basically all
-> DMA-buf based PCI drivers assume coherent access.
+Hi All,
+This series cleanup code on ov5693 driver and bring up dts support, also add
+documentation for ov5693 camera sensor
 
-dma-buf does not require universal snooping.
+Inspired by recently Quentin series:
 
-It does defacto require that all device access is coherent with all other
-device access, and consistent with the exporters notion of how cpu
-coherency is achieved. Not that coherent does not mean snooping, as long
-as all devices do unsnooped access and the exporter either does wc/uc or
-flushes caches that's perfectly fine, and how all the arm soc dma-buf
-sharing works.
+ - https://patchwork.kernel.org/project/linux-media/list/?series=64807
 
-We did originally have the wording in there that you have to map/unamp
-around every device access, but that got dropped because no one was doing
-that anyway.
+Tommaso Merciai (7):
+  media: ov5693: count num_supplies using array_size
+  media: ov5693: add dvdd into ov5693_supply_names array
+  media: ov5693: rename clk into xvclk
+  media: ov5693: move hw cfg functions into ov5693_check_hwcfg
+  media: ov5693: rename ov5693_check_hwcfg into ov5693_get_hwcfg
+  media: ov5693: add ov5693_of_match, dts support
+  media: dt-bindings: ov5693: document YAML binding
 
-Now where this totally breaks down is how we make this work, because the
-idea was that dma_buf_attach validates this all. Where this means all the
-hilarious reasons buffer sharing might not work:
-- wrong coherency mode (cpu cached or not)
-- not contiguous (we do check that, but only once we get the sg from
-  dma_buf_attachment_map, which strictly speaking is a bit too late but
-  most drivers do attach&map as one step so not that bad in practice)
-- whether the dma api will throw in bounce buffers or not
-- random shit like "oh this is in the wrong memory bank", which I think
-  never landed in upstream
+ .../bindings/media/i2c/ovti,ov5693.yaml       | 123 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/ov5693.c                    |  86 +++++++-----
+ 3 files changed, 176 insertions(+), 34 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
 
-p2p connectivity is about the only one that gets this right, yay. And the
-only reason we can even get it right is because all the information is
-exposed to drivers fully.
-
-The issue is that the device dma api refuses to share this information
-because it would "leak". Which sucks, because we have defacto build every
-single cross-device use-case of dma-buf on the assumption we can check
-this (up to gl/vk specs), but oh well.
-
-So in practice this gets sorted out by endless piles of hacks to make
-individual use-cases work.
-
-Oh and: This is definitely not limited to arm socs. x86 socs with intel
-at least have exactly all the same issues, and they get solved by adding
-various shitty hacks to the involved drivers (like i915+amdgpu). Luckily
-the intel camera driver isn't in upstream yet, since that would break a
-bunch of the hacks since suddently there will be now 2 cpu cache
-incoherent devices in an x86 system.
-
-Ideally someone fixes this, but I'm not hopeful.
-
-I recommend pouring more drinks.
-
-What is definitely not correct is claiming that dma-buf wasn't meant for
-this. We discussed cache coherency issues endless in budapest 12 or so
-years ago, I was there. It's just that the reality of the current
-implementation is falling short, and every time someone tries to fix it we
-get shouted down by dma api maintainers for looking behind their current.
-
-tldr; You have to magically know to not use cpu cached allocators on these
-machines.
-
-Aside: This is also why vgem alloates wc memory on x86. It's the least
-common denominator that works. arm unfortunately doesn't allow you to
-allocate wc memory, so there stuff is simply somewhat broken.
--Daniel
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
