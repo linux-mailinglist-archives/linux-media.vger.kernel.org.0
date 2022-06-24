@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77BD0559B3F
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 16:17:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ACC0559B62
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 16:21:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbiFXOR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jun 2022 10:17:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45470 "EHLO
+        id S231466AbiFXOVO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 10:21:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231895AbiFXORV (ORCPT
+        with ESMTP id S230234AbiFXOVN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jun 2022 10:17:21 -0400
+        Fri, 24 Jun 2022 10:21:13 -0400
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B99153A55
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 07:17:20 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 7861D32002D8;
-        Fri, 24 Jun 2022 10:17:16 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Fri, 24 Jun 2022 10:17:17 -0400
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A201D54FB7
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 07:21:12 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 62E663200392;
+        Fri, 24 Jun 2022 10:21:11 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Fri, 24 Jun 2022 10:21:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1656080235; x=1656166635; bh=UZO+6LZwuV
-        65rxjHuXD5fqHsft7utbD++dALaICTs5Y=; b=HRXKyx2Idq4un2eEi5eWOh6U0j
-        V9VY9EwFdXQQ0/u3z/cfd/sFJXnaIjTgkCoiT2utjWF/NNWO5S83phjuW65BfkCn
-        J6kSOzQvkmz/8JAku1aa6+C/WeIn//kDtDY+p4qLD918mpZa0mP/O1JAWBW7o44F
-        nQSvuP//H9HC13GbVoywVQ5QxxhLIyVka6XdCoYcPnZn21m6xrI/VqEPok4/Gz1S
-        ii8uyuxfiXUuS6EiYyQWHNgBd3tdafoB3mSQIXjKWMJOpzxTkhUkxMHfqRCfAtLY
-        X2+LpxBuZiEimHO6Q3wDm+IEB7GPe6CaVgwbBOkDjhR16XOS/KTqUg7Pejjw==
+        :subject:to:to; s=fm2; t=1656080470; x=1656166870; bh=06ugER3/EV
+        ur2CjgczapAghiL8yo30yXUocyiOMNz/E=; b=gMYaaq60CzbIB8dKg9UxPySlpE
+        68kUFjkPqYLE25KVh1bPWSFwP9RDulCs+G1VRuQkq3QXSkhy0P5+qtSDFAGm2wfS
+        PoqZnMr+Xki0L9LVxOdK3kZ9SjBZoIQ0xpy/1H/6iuAzPgtAfkcX3qrYkz1lW1Ni
+        Vz9FxSxyMJ7fUfwhU2bCiL4EOxcsC3jyWrb4AiDuUFFjaw0nOIjx0/q04Y43DGWj
+        KXOTDm8osA3VwlgmUhpdXlyYyOL73oK5gGSE4KlSHezIbOx5IEJTAb8c+3wQCF4g
+        JQHuplcQg1vFFVHypOh90kFvMCiAG2IGMANOSAbRMDgxexOLMIC+bH5USLQw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1656080235; x=1656166635; bh=UZO+6LZwuV65rxjHuXD5fqHsft7u
-        tbD++dALaICTs5Y=; b=FVwXlmN0lJ5YjZ+6USTKUSJyQKzRj3MV+xxgoO42G0+4
-        g4Ar8hImR2a/sZ26MTADeJat+2eth1C9/pbs5vSyG5jq6epPfaI2hGKF1LAiF0wU
-        jc0/bGAKh1FZgm4JGrMikAsRNNQ2bp/1X5C+MIugMdLXx0iwJ6dRLZxycppwR7oD
-        fbY4Huy4u/oWxm4ndsVCMjXH/T0NB75qzDjJ6fE4LrCsHNpnwXEy9+imJf3N5zOF
-        GXJ1HIFPXvIwRghJzLqoWDjqMeaHvqAdbqr/+rIZN+6U3Tb3XaUB6fQcWsSBj2yB
-        xoEISPFAP61kaW8lILAB8Mz+NByfuOaCLq63f2S3mA==
-X-ME-Sender: <xms:ase1Ys4LXgYFYuveBNp6tclhx0QoVP30lJfOxJGhGDjN_tIkJxx_0A>
-    <xme:ase1Yt42hAJOUTK3XPM3Dfp_9AUSTt9ZXKsj6iB2kv9IpJBKxdB_SbuuwJsy9-7h0
-    jY1hFRlrR2wguD6VD8>
-X-ME-Received: <xmr:ase1Yrcon-s2HEtwfvLA1RxhCm15PqcMOtlALmE4bU-h1ZTfRNrYfg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledgjeduucetufdoteggodetrfdotf
+        fm2; t=1656080470; x=1656166870; bh=06ugER3/EVur2CjgczapAghiL8yo
+        30yXUocyiOMNz/E=; b=FlOA7Ww36x/lLYKm3NJrtxZ5Q6wwkl1m7POnqCTUVp6G
+        aYYMIbaVq9zVJadmMAweG7U2rSq0GWUVjxtej02Z2TK8J6U9gGG58xOL16gSOQvD
+        NvFU9hMUeBCwaluALoySZq/f36aiCjK5QOyMLYjtJWtS4KgBEczTg8qtzzB8T1Fc
+        D5tjmYsIzkirsbDZYrvZhulRySVpSLlqZ66yPm+mIpcwdXdeJk7El4Gdl13d5xOk
+        M/vWi10xK+3M7mQ0KmGXLsUfp4fdCLsUDP0C5vUms4qPqXMJ5DZr7qJgn9T02PAL
+        4o0HPs8l5ckXHKLszJBDDTtdD9kSg326NZhYBhjexg==
+X-ME-Sender: <xms:Vsi1YksiFvKYVvlO3uGMaA61jFnxwhVyshK13-NzVOBSexYULX-tkQ>
+    <xme:Vsi1YhcYVuXFEMqbt0NQRxg7gSMbFSAdKWdtLhd8pPo2uOsZYaqc64iH6MFq0fijE
+    pffFGu7bQ5rsqX8lX0>
+X-ME-Received: <xmr:Vsi1YvxD4R1e1v6qT2YC0RZrNFoVAwbR39PYJPVIBLYuF-3rO4eguw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledgjeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
@@ -54,14 +54,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledgjeduucetufdoteggod
     ggtffrrghtthgvrhhnpedvhedtledukeegveelfeeuvddujeeiteehkedvhfetkeffudej
     hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpegurghfnhgrsehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:ase1YhIs8NDo5HQm8y7Sv_Nc4KpCU0ywqyRW-_gb8fUopYxQGoOQHw>
-    <xmx:ase1YgK0tjYsQj9Mnese2oV8uvWT6dnFypKF3kHrrYw4-j7D8V_LRA>
-    <xmx:ase1YiwNQ6ASuU3HsN-2G7qHZ0VcMzBsKeO7l9vM1B8mFjaUFpbAWQ>
-    <xmx:a8e1Ypo0AbsYt40_4V86FudF7yyogAKqOykeiSU8HoEuh4W5Rva_rg>
+X-ME-Proxy: <xmx:Vsi1YnPGMZU8N04HpEORvMdtcD3OUsemUZ7Pq6e0CrizvnRqoIQUiw>
+    <xmx:Vsi1Yk-VxCZwCSePxpjtiqucGy1o4UFEWxEGgaoRZYxqNjRWmg8g4Q>
+    <xmx:Vsi1YvUok8eb14UgQlOXqomHyH-UQxUzLKsSADQD0E7UJhjtVh3McQ>
+    <xmx:Vsi1YhPW4WPRTsMWlyhL3u7rc4irIzBdhAZb0uJ7RvK3Qk8VpIgY1A>
 Feedback-ID: i0e894699:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Jun 2022 10:17:11 -0400 (EDT)
-Date:   Fri, 24 Jun 2022 17:17:08 +0300
+ 24 Jun 2022 10:21:07 -0400 (EDT)
+Date:   Fri, 24 Jun 2022 17:21:04 +0300
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Paul Elder <paul.elder@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
@@ -69,14 +69,15 @@ Cc:     linux-media@vger.kernel.org,
         heiko@sntech.de, jeanmichel.hautbois@ideasonboard.com,
         jacopo@jmondi.org, djrscally@gmail.com, helen.koike@collabora.com,
         linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 02/55] media: rkisp1: Enable compilation on ARCH_MXC
-Message-ID: <20220624141708.v32f3j377aliygix@guri>
+Subject: Re: [PATCH 04/55] media: rkisp1: Disable runtime PM in probe error
+ path
+Message-ID: <20220624142104.zdrcwbyhlb436tru@guri>
 References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-3-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-5-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220614191127.3420492-3-paul.elder@ideasonboard.com>
+In-Reply-To: <20220614191127.3420492-5-paul.elder@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -90,31 +91,38 @@ X-Mailing-List: linux-media@vger.kernel.org
 On 15.06.2022 04:10, Paul Elder wrote:
 >From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
->The ISP used by the Rockchip RK3399 is also found in the NXP i.MX8MP.
->Enable compilation of the driver for the MXC architecture in addition to
->ARCH_ROCKCHIP.
+>If the v4l2_device_register() call fails, runtime PM is left enabled.
+>Fix it.
 >
 >Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->---
-> drivers/media/platform/rockchip/rkisp1/Kconfig | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/drivers/media/platform/rockchip/rkisp1/Kconfig b/drivers/media/platform/rockchip/rkisp1/Kconfig
->index dabd7e42c193..731c9acbf6ef 100644
->--- a/drivers/media/platform/rockchip/rkisp1/Kconfig
->+++ b/drivers/media/platform/rockchip/rkisp1/Kconfig
->@@ -3,7 +3,7 @@ config VIDEO_ROCKCHIP_ISP1
-> 	tristate "Rockchip Image Signal Processing v1 Unit driver"
-> 	depends on V4L_PLATFORM_DRIVERS
-> 	depends on VIDEO_DEV && OF
->-	depends on ARCH_ROCKCHIP || COMPILE_TEST
->+	depends on ARCH_ROCKCHIP || ARCH_MXC || COMPILE_TEST
 
 Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 
-> 	select MEDIA_CONTROLLER
-> 	select VIDEO_V4L2_SUBDEV_API
-> 	select VIDEOBUF2_DMA_CONTIG
+>---
+> drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
+>
+>diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>index 97d569968285..248f0172ca62 100644
+>--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>@@ -523,7 +523,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+>
+> 	ret = v4l2_device_register(rkisp1->dev, &rkisp1->v4l2_dev);
+> 	if (ret)
+>-		return ret;
+>+		goto err_pm_runtime_disable;
+>
+> 	ret = media_device_register(&rkisp1->media_dev);
+> 	if (ret) {
+>@@ -543,6 +543,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+> 	media_device_unregister(&rkisp1->media_dev);
+> err_unreg_v4l2_dev:
+> 	v4l2_device_unregister(&rkisp1->v4l2_dev);
+>+err_pm_runtime_disable:
+> 	pm_runtime_disable(&pdev->dev);
+> 	return ret;
+> }
 >-- 
 >2.30.2
 >
