@@ -2,250 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A21CB558B1D
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 00:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 150C7558CF8
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 03:49:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbiFWWGs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 18:06:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44356 "EHLO
+        id S230250AbiFXBtT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jun 2022 21:49:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230047AbiFWWGq (ORCPT
+        with ESMTP id S229476AbiFXBtS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 18:06:46 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A995C5DF21
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 15:06:44 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-317f6128c86so5717807b3.22
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 15:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=a2jg4UNQjviND3cH82kQJDjQu+6LwBTunrM4AXOvyQQ=;
-        b=GEqvezpitihwD1TDcPv/qNvBJOGfHHvcsuOZN512C3aYaCbS2r8hGXoqtFxTRaWRPH
-         ONl8vk6GXcTdTullSPSHeTQweqyptRyDMrz7r+0cehuL7f+HmxtyScPTTrul+ODzkU6L
-         NNk4Vd1huXBU/7OvU6cGpVx4N3IU6SgKjursyVHLc4xxYcLhKjxJyinTqR4Fi9oPvCLO
-         nVTMvb5EyVfxqZjUt2LvIg1y6pPENDp1ltIZFCXzKN1tnYrOaBZRHd3IuXe3LgYYeRu4
-         /dBMfFa7gyn9Fytx1/ODtSwfTOswRSRgxTFFAOki5A2+kW24OVc+8kXSBb2/tk8MvIsE
-         EHFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=a2jg4UNQjviND3cH82kQJDjQu+6LwBTunrM4AXOvyQQ=;
-        b=cxuIjnJ6MAjx630+KmFItO08/RQWOZygWXQ+L4gM7Z5TyjKSdTdVSfRZ/BH3bm+VV2
-         ZB0PMxQpcgVtACuZ3v/8f+2pcestFMB8kzyDgBLI4RxCQ51x0BB4euDMuNuzMYYjwP1m
-         CNPbMlSGjUti/JRd0znP3ArUKKKqv4qcpIM0gDWbdDA39uAK7993qwLi3hUkeHyG9t4c
-         3t3Yngp1mo78lXcEHYV9/drCErtfQ8890WEkIFZrT4Vves2YRMV935Ka38ySy7J7qBCf
-         oHXqzU2yw8jRQ1IQoiyawT7STTVMi/C7+Qv5gulWEzMdpTL4szColGxDxgfJh7zacdtB
-         V3pQ==
-X-Gm-Message-State: AJIora+MSbAkcP+f7y/tsWRR/iNCQz+QU19Ue5eZHmqj7shCOHFmqQdQ
-        u9rsUFmIEaESmU4fFMIcBN50hzPdM68l1eeN1w==
-X-Google-Smtp-Source: AGRyM1vSTrTtNaDILcKLNUvdvxUtr0gmEZ7meLNus5pJkbvDd0DxxtAacCrYBtze6AGzcMMeOrwshzpBaYuShELJSQ==
-X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:ac62:20a7:e3c5:c221])
- (user=kaleshsingh job=sendgmr) by 2002:a0d:c482:0:b0:317:8bf3:f07f with SMTP
- id g124-20020a0dc482000000b003178bf3f07fmr13205255ywd.11.1656022003907; Thu,
- 23 Jun 2022 15:06:43 -0700 (PDT)
-Date:   Thu, 23 Jun 2022 15:06:07 -0700
-In-Reply-To: <20220623220613.3014268-1-kaleshsingh@google.com>
-Message-Id: <20220623220613.3014268-3-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20220623220613.3014268-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-Subject: [PATCH v2 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
-From:   Kalesh Singh <kaleshsingh@google.com>
-To:     ckoenig.leichtzumerken@gmail.com, christian.koenig@amd.com,
-        viro@zeniv.linux.org.uk, hch@infradead.org,
-        stephen.s.brennan@oracle.com, David.Laight@ACULAB.COM
-Cc:     ilkos@google.com, tjmercier@google.com, surenb@google.com,
-        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Colin Cross <ccross@google.com>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 23 Jun 2022 21:49:18 -0400
+X-Greylist: delayed 126 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Jun 2022 18:49:17 PDT
+Received: from unicom146.biz-email.net (unicom146.biz-email.net [210.51.26.146])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78FE4F446
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 18:49:17 -0700 (PDT)
+Received: from ([60.208.111.195])
+        by unicom146.biz-email.net ((D)) with ASMTP (SSL) id SXT00008;
+        Fri, 24 Jun 2022 09:47:08 +0800
+Received: from localhost.localdomain (10.200.104.82) by
+ jtjnmail201612.home.langchao.com (10.100.2.12) with Microsoft SMTP Server id
+ 15.1.2308.27; Fri, 24 Jun 2022 09:47:08 +0800
+From:   Deming Wang <wangdeming@inspur.com>
+To:     <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Deming Wang <wangdeming@inspur.com>
+Subject: [PATCH] ovl: Modify the section of Return Value
+Date:   Thu, 23 Jun 2022 21:47:07 -0400
+Message-ID: <20220624014707.2057-1-wangdeming@inspur.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.200.104.82]
+tUid:   2022624094708aa64e8432438a3da5e1286aae8e3b087
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to identify the type of memory a process has pinned through
-its open fds, add the file path to fdinfo output. This allows
-identifying memory types based on common prefixes:
-  e.g. "/memfd...", "/dmabuf...", "/dev/ashmem...".
+Delete duplicate words of "the".
 
-To be cautious, only expose the paths for anonymous inodes, and this
-also avoids printing path names with strange characters.
-
-Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
-the same as /proc/<pid>/maps which also exposes the file path of
-mappings; so the security permissions for accessing path is consistent
-with that of /proc/<pid>/maps.
-
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+Signed-off-by: Deming Wang <wangdeming@inspur.com>
 ---
+ Documentation/userspace-api/media/dvb/frontend_f_open.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2:
-  - Only add path field for files with anon inodes.
-
-Changes from rfc:
-  - Split adding 'size' and 'path' into a separate patches, per Christian
-  - Fix indentation (use tabs) in documentaion, per Randy
-
- Documentation/filesystems/proc.rst | 10 ++++++++++
- fs/libfs.c                         |  9 +++++++++
- fs/proc/fd.c                       | 13 +++++++++++--
- include/linux/fs.h                 |  1 +
- 4 files changed, 31 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 779c05528e87..ca23a9af4845 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1907,6 +1907,9 @@ All locks associated with a file descriptor are shown in its fdinfo too::
+diff --git a/Documentation/userspace-api/media/dvb/frontend_f_open.rst b/Documentation/userspace-api/media/dvb/frontend_f_open.rst
+index bb37eded0870..70e169b8f601 100644
+--- a/Documentation/userspace-api/media/dvb/frontend_f_open.rst
++++ b/Documentation/userspace-api/media/dvb/frontend_f_open.rst
+@@ -91,7 +91,7 @@ appropriately.
+        -  The caller has no permission to access the device.
  
-     lock:       1: FLOCK  ADVISORY  WRITE 359 00:13:11691 0 EOF
+     -  - ``EBUSY``
+-       -  The the device driver is already in use.
++       -  The device driver is already in use.
  
-+Files with anonymous inodes have an additional 'path' field which represents
-+the anonymous file path.
-+
- The files such as eventfd, fsnotify, signalfd, epoll among the regular pos/flags
- pair provide additional information particular to the objects they represent.
- 
-@@ -1920,6 +1923,7 @@ Eventfd files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[eventfd]
- 	eventfd-count:	5a
- 
- where 'eventfd-count' is hex value of a counter.
-@@ -1934,6 +1938,7 @@ Signalfd files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[signalfd]
- 	sigmask:	0000000000000200
- 
- where 'sigmask' is hex value of the signal mask associated
-@@ -1949,6 +1954,7 @@ Epoll files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[eventpoll]
- 	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
- 
- where 'tfd' is a target file descriptor number in decimal form,
-@@ -1968,6 +1974,7 @@ For inotify files the format is the following::
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:inotify
- 	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
- 
- where 'wd' is a watch descriptor in decimal form, i.e. a target file
-@@ -1992,6 +1999,7 @@ For fanotify files the format is::
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[fanotify]
- 	fanotify flags:10 event-flags:0
- 	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
- 	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-@@ -2018,6 +2026,7 @@ Timerfd files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   0
-+	path:	anon_inode:[timerfd]
- 	clockid: 0
- 	ticks: 0
- 	settime flags: 01
-@@ -2042,6 +2051,7 @@ DMA Buffer files
- 	mnt_id:	9
- 	ino:	63107
- 	size:   32768
-+	path:	/dmabuf:
- 	count:  2
- 	exp_name:  system-heap
- 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index 31b0ddf01c31..6911749b4da7 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -1217,6 +1217,15 @@ void kfree_link(void *p)
- }
- EXPORT_SYMBOL(kfree_link);
- 
-+static const struct address_space_operations anon_aops = {
-+	.dirty_folio	= noop_dirty_folio,
-+};
-+
-+bool is_anon_inode(struct inode *inode)
-+{
-+	return inode->i_mapping->a_ops == &anon_aops;
-+}
-+
- struct inode *alloc_anon_inode(struct super_block *s)
- {
- 	static const struct address_space_operations anon_aops = {
-diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-index 464bc3f55759..5bac79a2fa51 100644
---- a/fs/proc/fd.c
-+++ b/fs/proc/fd.c
-@@ -23,6 +23,7 @@ static int seq_show(struct seq_file *m, void *v)
- 	struct files_struct *files = NULL;
- 	int f_flags = 0, ret = -ENOENT;
- 	struct file *file = NULL;
-+	struct inode *inode = NULL;
- 	struct task_struct *task;
- 
- 	task = get_proc_task(m->private);
-@@ -54,11 +55,19 @@ static int seq_show(struct seq_file *m, void *v)
- 	if (ret)
- 		return ret;
- 
-+	inode = file_inode(file);
-+
- 	seq_printf(m, "pos:\t%lli\n", (long long)file->f_pos);
- 	seq_printf(m, "flags:\t0%o\n", f_flags);
- 	seq_printf(m, "mnt_id:\t%i\n", real_mount(file->f_path.mnt)->mnt_id);
--	seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
--	seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i_size);
-+	seq_printf(m, "ino:\t%lu\n", inode->i_ino);
-+	seq_printf(m, "size:\t%lli\n", (long long)inode->i_size);
-+
-+	if (is_anon_inode(inode)) {
-+		seq_puts(m, "path:\t");
-+		seq_file_path(m, file, "\n");
-+		seq_putc(m, '\n');
-+	}
- 
- 	/* show_fd_locks() never deferences files so a stale value is safe */
- 	show_fd_locks(m, file, files);
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 9ad5e3520fae..73449e620b66 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3111,6 +3111,7 @@ extern void page_put_link(void *);
- extern int page_symlink(struct inode *inode, const char *symname, int len);
- extern const struct inode_operations page_symlink_inode_operations;
- extern void kfree_link(void *);
-+extern bool is_anon_inode(struct inode *inode);
- void generic_fillattr(struct user_namespace *, struct inode *, struct kstat *);
- void generic_fill_statx_attr(struct inode *inode, struct kstat *stat);
- extern int vfs_getattr_nosec(const struct path *, struct kstat *, u32, unsigned int);
+     -  - ``EMFILE``
+        -  The process already has the maximum number of files open.
 -- 
-2.37.0.rc0.161.g10f37bed90-goog
+2.27.0
 
