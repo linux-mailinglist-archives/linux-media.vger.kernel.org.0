@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FBE355A132
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 20:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1A3855A115
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 20:55:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbiFXSnm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jun 2022 14:43:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43078 "EHLO
+        id S231231AbiFXSpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 14:45:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiFXSnl (ORCPT
+        with ESMTP id S229873AbiFXSpA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jun 2022 14:43:41 -0400
+        Fri, 24 Jun 2022 14:45:00 -0400
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC7956FB1
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 11:43:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84C0D69251
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 11:44:59 -0700 (PDT)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 1EB215C01D5;
-        Fri, 24 Jun 2022 14:43:40 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id EC7BF5C01DA;
+        Fri, 24 Jun 2022 14:44:58 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 24 Jun 2022 14:43:40 -0400
+  by compute2.internal (MEProxy); Fri, 24 Jun 2022 14:44:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1656096220; x=1656182620; bh=/4h61kVDfN
-        jVyPQF/xQAyWCcFWmlO5sv/VgdDmfATag=; b=i18EgZ57AwmxBJLlXRC/hjJdKw
-        bICOy528JtwJuZL01Nl+BcZNrJG0lDY3PYTdrCYc4FXzEak48GVkBta5U1qVNKlf
-        kgRsGDB6dLLYdaDbLz7lC7UBjPu0O3ZJJ5KKabh7hLsNc3oZDkweAoZG61X8+dFE
-        3gholXq8BxV6wtlADQme6YEyxCqHr/2by/Yhr4p2Kv9D50vBJCQ5X9joGIIOpxKC
-        ZlothHsHzB86V33iSEYcOWFf+SAfACzYj5uTYBX8tPmNBmPebPpf0HUGPv6c3+Pk
-        FHY+Qd8y5WL9i7581lX1/iDed8FRwb6nGSUduriXMDs/vJSY2V8joI92bAvw==
+        :subject:to:to; s=fm2; t=1656096298; x=1656182698; bh=ypiwYBpIpe
+        JpmzTJkBEfHBVu1ODaA8p0oTtzCYaBwp0=; b=czVY3c1pu0vF38D/Cncd1MXLH/
+        ncTTMWceqhcYr1tiU+KkNwFWfe/c1jYC9KwN8VoEmSaTrBJfSndJPRrpR69LiZHr
+        FwVtiWgjQfolsgMd4HazAnIUBlKrnHlFmUoQQU0T7QdDvULErNUOWRPsEEqRz9Qn
+        VztH30fMM3Py17WyXCZJ18fSON+BptZO7xpCnOpoqNLjfHzZ1uzj681Gk/cemDdn
+        Q6R/iz20znnLLvVPTjJ2hkoFTz1jaifoyFnFAaNXQG7gHJfRn6rDn1Q7yRwpII5m
+        +SywD2pXqPbKKqsviISepBRS3ech0CvhM8GSipUnhS1ILqIlR9J4bxUEzVKw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1656096220; x=1656182620; bh=/4h61kVDfNjVyPQF/xQAyWCcFWml
-        O5sv/VgdDmfATag=; b=uieWWA/kTTWUyJYaOn0H506qAC+SKS+TNGV8YvisjQaq
-        5PiPZhg6iut2cLvolFZzPN1UtOkbMBLyPUVKKB0/4hDm+1anhNHmWT5A7qX/sorH
-        otCGdowXNDEE5QpYfNqeJ7IAC9ow38ausOUeHVDz7QH5P3UoMH2OBET1apP0qQ3r
-        1WN+6kxQvhhIxgPRlTJbk24QmYPrjHfarA/imfwGXZc0mwYUREdKV8ZsBUeMCrVE
-        sVzz1FoGXBnPnp9DQzfgvSgd5J8WdZ2R/9LuWCMEBD1mCxYyMchNNKQWaFEGQrJ/
-        gfQSLa/aU1zQlomuJXhUjgVrj6of+x5LWln+4sDFEw==
-X-ME-Sender: <xms:2wW2Yhd56LDoisGvPnZJZdqRZGDxCs8U1J0FwbzeKY0tP7H1tt59tQ>
-    <xme:2wW2YvNU8ApdXI4bj_yrObIMvcbubQ0haRN7dkWhUXnfghE8yyaKwXeefVrJoe2i_
-    IWXTQ-scyruEgZFR80>
-X-ME-Received: <xmr:2wW2YqjVCpYcuiS5cZo73FLS92py8RBwFtexc2rjSPOmNY8hqiy4jw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledguddvhecutefuodetggdotefrod
+        fm2; t=1656096298; x=1656182698; bh=ypiwYBpIpeJpmzTJkBEfHBVu1ODa
+        A8p0oTtzCYaBwp0=; b=LbIqJ89UYoO/QLAPAlKU2FNHJHGMpSyNi7/UwB+uWjvb
+        5v//RS6t66B+vFg22MHp88FJ0QikJE+PaqMLpK3sUWcQrIXfPZi9gZmWkVlZSynj
+        0kMVFoyCRDYTiVcl7edG2yjvMBY7o3n+BtkEU7TqYaMLaZQnJfa8C5w83qo/KVS9
+        j8qzcREx4B1DZ/nJxH+LZu0YK3HFXq4n1Y+xiRmWUeCcjMT6oZXDupqV0M8yTalU
+        8xjiZmt/H0gsHOoivwhbGgIlxICXgcCaB6JGTQhvfJwgMEmPctCeDBsnrtb/nGr+
+        qK45ZTptEHmEtcPdE6gsy9i6fGIrXvkpcHWEQ374TQ==
+X-ME-Sender: <xms:Kga2YmzQaxZ4I3LMukMjytB1pegtY1SfX-vikWi5FBzt9z9k3fUc2g>
+    <xme:Kga2YiTirnzUALycghIfVw2hY8Lz1uGIBo8ztaCUUzA_zLwxw46bwmPt9kwc6WPe1
+    hOTDRRr6BFRJECXIi8>
+X-ME-Received: <xmr:Kga2YoX5Mt7AW91lVV6YvZ1HD3AdY1gt0O6ymiFXi-R4UAO5Y49ZSA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledguddvjecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeffrghf
@@ -54,14 +54,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledguddvhecutefuodetgg
     cuggftrfgrthhtvghrnhepvdehtdeludekgeevleefuedvudejieetheekvdfhteekffdu
     jefhfedtudehvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
     hfrhhomhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:2wW2Yq9UVYp2SruEiIpJby7dKEsLjy3Wr_UbYtz28aEfZTEUcKcnDg>
-    <xmx:2wW2YtsMAqCeq-tbVbVXoeXRO0AA_Ve1Q5--rim8B7Fyh0rs3Umeow>
-    <xmx:2wW2YpHXNj13ZBQlq6hKKTPDxbF54Mj8BvZTzVlIJpkzFBpSv8HgIA>
-    <xmx:3AW2Yu8BNTjI8mH-bdREkhbW8EghpcVa6D21kue7BI5JCfXB1gaZhA>
+X-ME-Proxy: <xmx:Kga2YsgnYQmcaCs-YeQs6hkzeMTWEZeAhZNR0CpyTEKst_A04vGQ6Q>
+    <xmx:Kga2YoBkv6DtV2NCxB-DJWukbGVEbtbaUkfWgge6gm08IZMJ5oN-PA>
+    <xmx:Kga2YtJmr4zq0f3JiwJ36U_2r19mZKyyZ9HaFO6aHz4UfUA8LMk-GQ>
+    <xmx:Kga2YmA95fDNTAuHXBtcuDcwC01txgYsqgZGjE1-2HOPsewUFNqqHQ>
 Feedback-ID: i0e894699:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Jun 2022 14:43:36 -0400 (EDT)
-Date:   Fri, 24 Jun 2022 21:43:34 +0300
+ 24 Jun 2022 14:44:55 -0400 (EDT)
+Date:   Fri, 24 Jun 2022 21:44:53 +0300
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Paul Elder <paul.elder@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
@@ -69,14 +69,15 @@ Cc:     linux-media@vger.kernel.org,
         heiko@sntech.de, jeanmichel.hautbois@ideasonboard.com,
         jacopo@jmondi.org, djrscally@gmail.com, helen.koike@collabora.com,
         linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 14/55] media: rkisp1: Create internal links at probe time
-Message-ID: <20220624184334.gpupbgyjyotpbe4i@guri>
+Subject: Re: [PATCH 15/55] media: rkisp1: Rename rkisp1_subdev_notifier() to
+ rkisp1_subdev_notifier_register()
+Message-ID: <20220624184453.oct5t3zzrfisavns@guri>
 References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-15-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-16-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220614191127.3420492-15-paul.elder@ideasonboard.com>
+In-Reply-To: <20220614191127.3420492-16-paul.elder@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -90,155 +91,39 @@ X-Mailing-List: linux-media@vger.kernel.org
 On 15.06.2022 04:10, Paul Elder wrote:
 >From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
->There's no need to wait until all async subdevs are bound before
->creating internal links. Create them at probe time.
+>The function name isn't very clear, rename it to
+>rkisp1_subdev_notifier_register().
 >
 >Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 Reviewed-by Dafna Hirschfeld <dafna@fastmail.com>
 
 >---
-> .../platform/rockchip/rkisp1/rkisp1-dev.c     | 105 ++++++++----------
-> 1 file changed, 49 insertions(+), 56 deletions(-)
+> drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
 >
 >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->index 4501aea265cb..7bb1235cddea 100644
+>index 7bb1235cddea..386c1c17aec2 100644
 >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
 >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->@@ -109,50 +109,6 @@ struct rkisp1_isr_data {
->  * Sensor DT bindings
->  */
+>@@ -176,7 +176,7 @@ static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops =
+> 	.complete = rkisp1_subdev_notifier_complete,
+> };
 >
->-static int rkisp1_create_links(struct rkisp1_device *rkisp1)
->-{
->-	unsigned int i;
->-	int ret;
->-
->-	/* create ISP->RSZ->CAP links */
->-	for (i = 0; i < 2; i++) {
->-		struct media_entity *resizer =
->-			&rkisp1->resizer_devs[i].sd.entity;
->-		struct media_entity *capture =
->-			&rkisp1->capture_devs[i].vnode.vdev.entity;;
->-
->-		ret = media_create_pad_link(&rkisp1->isp.sd.entity,
->-					    RKISP1_ISP_PAD_SOURCE_VIDEO,
->-					    resizer, RKISP1_RSZ_PAD_SINK,
->-					    MEDIA_LNK_FL_ENABLED);
->-		if (ret)
->-			return ret;
->-
->-		ret = media_create_pad_link(resizer, RKISP1_RSZ_PAD_SRC,
->-					    capture, 0,
->-					    MEDIA_LNK_FL_ENABLED |
->-					    MEDIA_LNK_FL_IMMUTABLE);
->-		if (ret)
->-			return ret;
->-	}
->-
->-	/* params links */
->-	ret = media_create_pad_link(&rkisp1->params.vnode.vdev.entity, 0,
->-				    &rkisp1->isp.sd.entity,
->-				    RKISP1_ISP_PAD_SINK_PARAMS,
->-				    MEDIA_LNK_FL_ENABLED |
->-				    MEDIA_LNK_FL_IMMUTABLE);
->-	if (ret)
->-		return ret;
->-
->-	/* 3A stats links */
->-	return media_create_pad_link(&rkisp1->isp.sd.entity,
->-				     RKISP1_ISP_PAD_SOURCE_STATS,
->-				     &rkisp1->stats.vnode.vdev.entity, 0,
->-				     MEDIA_LNK_FL_ENABLED |
->-				     MEDIA_LNK_FL_IMMUTABLE);
->-}
->-
-> static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
-> 					struct v4l2_subdev *sd,
-> 					struct v4l2_async_subdev *asd)
->@@ -210,19 +166,8 @@ static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
+>-static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
+>+static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
 > {
-> 	struct rkisp1_device *rkisp1 =
-> 		container_of(notifier, struct rkisp1_device, notifier);
->-	int ret;
->-
->-	ret = rkisp1_create_links(rkisp1);
->-	if (ret)
->-		return ret;
->-
->-	ret = v4l2_device_register_subdev_nodes(&rkisp1->v4l2_dev);
->-	if (ret)
->-		return ret;
->-
->-	dev_dbg(rkisp1->dev, "Async subdev notifier completed\n");
->
->-	return 0;
->+	return v4l2_device_register_subdev_nodes(&rkisp1->v4l2_dev);
-> }
->
-> static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops = {
->@@ -332,6 +277,50 @@ static const struct dev_pm_ops rkisp1_pm_ops = {
->  * Core
->  */
->
->+static int rkisp1_create_links(struct rkisp1_device *rkisp1)
->+{
->+	unsigned int i;
->+	int ret;
->+
->+	/* create ISP->RSZ->CAP links */
->+	for (i = 0; i < 2; i++) {
->+		struct media_entity *resizer =
->+			&rkisp1->resizer_devs[i].sd.entity;
->+		struct media_entity *capture =
->+			&rkisp1->capture_devs[i].vnode.vdev.entity;;
->+
->+		ret = media_create_pad_link(&rkisp1->isp.sd.entity,
->+					    RKISP1_ISP_PAD_SOURCE_VIDEO,
->+					    resizer, RKISP1_RSZ_PAD_SINK,
->+					    MEDIA_LNK_FL_ENABLED);
->+		if (ret)
->+			return ret;
->+
->+		ret = media_create_pad_link(resizer, RKISP1_RSZ_PAD_SRC,
->+					    capture, 0,
->+					    MEDIA_LNK_FL_ENABLED |
->+					    MEDIA_LNK_FL_IMMUTABLE);
->+		if (ret)
->+			return ret;
->+	}
->+
->+	/* params links */
->+	ret = media_create_pad_link(&rkisp1->params.vnode.vdev.entity, 0,
->+				    &rkisp1->isp.sd.entity,
->+				    RKISP1_ISP_PAD_SINK_PARAMS,
->+				    MEDIA_LNK_FL_ENABLED |
->+				    MEDIA_LNK_FL_IMMUTABLE);
->+	if (ret)
->+		return ret;
->+
->+	/* 3A stats links */
->+	return media_create_pad_link(&rkisp1->isp.sd.entity,
->+				     RKISP1_ISP_PAD_SOURCE_STATS,
->+				     &rkisp1->stats.vnode.vdev.entity, 0,
->+				     MEDIA_LNK_FL_ENABLED |
->+				     MEDIA_LNK_FL_IMMUTABLE);
->+}
->+
-> static void rkisp1_entities_unregister(struct rkisp1_device *rkisp1)
-> {
-> 	rkisp1_params_unregister(rkisp1);
->@@ -365,6 +354,10 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
+> 	struct v4l2_async_notifier *ntf = &rkisp1->notifier;
+> 	unsigned int next_id = 0;
+>@@ -358,7 +358,7 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
 > 	if (ret)
 > 		goto error;
 >
->+	ret = rkisp1_create_links(rkisp1);
->+	if (ret)
->+		goto error;
->+
-> 	ret = rkisp1_subdev_notifier(rkisp1);
+>-	ret = rkisp1_subdev_notifier(rkisp1);
+>+	ret = rkisp1_subdev_notifier_register(rkisp1);
 > 	if (ret) {
 > 		dev_err(rkisp1->dev,
+> 			"Failed to register subdev notifier(%d)\n", ret);
 >-- 
 >2.30.2
 >
