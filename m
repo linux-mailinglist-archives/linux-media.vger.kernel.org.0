@@ -2,238 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0A2855A28F
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 22:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2389E55A2AD
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 22:33:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231420AbiFXUX4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jun 2022 16:23:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37936 "EHLO
+        id S231132AbiFXUdB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 16:33:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbiFXUXz (ORCPT
+        with ESMTP id S230224AbiFXUdA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jun 2022 16:23:55 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9488162C1E
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:23:53 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id e40so5013565eda.2
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:23:53 -0700 (PDT)
+        Fri, 24 Jun 2022 16:33:00 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 098DCE43
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:32:58 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id n1so4542920wrg.12
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rM6StsZ/3rmWNZ6eG3nFC9QNenxnUOTVwI/HAfEm2EQ=;
-        b=VYViBveaMX2iHovNjImE8ft1aL8oby/bDvJodcDA4y4Eo+tutY1hGinHsM3aKTvLEE
-         UKfzf6+eCMmxZ49Ku37S9pc+tHn/uh5pXrCXh3E8Ggw/FSYRFeIyB8RDclfGgyvtHmNh
-         MqpcvSiLK6jgmcJHZD8u3uLJ1nBF6f8mOUmtg=
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JOawYYsMmXVXjmJlEQmmHixFMSNq4rwAUlbsY6fSBgM=;
+        b=tg7SyNOOcpVv7QNLGjiD5KPi52/+81+/GdcF4vMbyPBIUjBBrCNv+tyegVY20uye/I
+         8Vyz/JGoeTKB1w5QEdFMlq0X9w98WbqAaklpSLN4EHbesVPHavlkpHILt1ZfuYLKpZ8W
+         QWm+Maw4GPgy2ApKPUsawPdD52CVDNryzSvuJBVG/RGE1Y030n422Z6wuG4tFFvBcR27
+         LjOjXsrh4klnn1DcCwwhoI0t8TTxE908V6t7zZjTqlwnAGdcuAOVwj1XL6eJ5KD7NEWR
+         SUf/6y2OeRLz1/Liz1zYe+r9C1qmHOr6YxgkPxXUsGyjo51BPVTKh4OJcFsWrx7rdii2
+         KEPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=rM6StsZ/3rmWNZ6eG3nFC9QNenxnUOTVwI/HAfEm2EQ=;
-        b=SzwFO1b+mWt7kXz40lAc8EqaMq7svOpH38g0YDlvJ4AtDLNaYywBXRGBKP+SdQIhuH
-         /oi1fXzRKdzKnS1Nn1fonnQpd3xt++vyfyUCk3sTbkq4lY2kWR4c2AG4Q78T5ZMMOrFL
-         OBYRAeIVRaUlRirzc+EeVYysuO/TX68TEHsg4UPOYuWW23d5LMCR1bvWQ92poIBBe8BC
-         k59OQEkirHEcRHCWVNx/ZcF6yNez+LaptQtISjxBJC12feXCf0XrrIt3AaGP/3uJJCYh
-         JcWg2ebxlRfKtYOIegd61rZ1qM4yZc8moZYugdvpFthC/g3pL0nDwW/QS/3S5D1gPfCe
-         EXTQ==
-X-Gm-Message-State: AJIora/XXnF3dV6pQMm8fM7SKjzcg9rwLhjhnhp4ATG5TyvxRDCo1B4I
-        S42591MfEY/NM0iYX90zaXmjHr0PuquQiQ==
-X-Google-Smtp-Source: AGRyM1uJnErMjUto5d2AkMD9qcjjZpgW235kvjYxoK3tSLlU8a0umCcexISHAvYdIuLK226BGQhyeA==
-X-Received: by 2002:a05:6402:4248:b0:435:9150:ccfb with SMTP id g8-20020a056402424800b004359150ccfbmr1101365edb.374.1656102232134;
-        Fri, 24 Jun 2022 13:23:52 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id z23-20020a170906435700b007094f98788csm1630637ejm.113.2022.06.24.13.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jun 2022 13:23:51 -0700 (PDT)
-Date:   Fri, 24 Jun 2022 22:23:49 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        David Airlie <airlied@linux.ie>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Herring <robh@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v6 17/22] drm/shmem-helper: Add generic memory shrinker
-Message-ID: <YrYdVRMjK4YS33hO@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Dmitry Osipenko <digetx@gmail.com>, linux-tegra@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kernel@collabora.com
-References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
- <20220526235040.678984-18-dmitry.osipenko@collabora.com>
- <CAF6AEGt61t2truYDCxm17hqUPV-UdEdHjLs+6vmj5RPoPuVBYg@mail.gmail.com>
- <3bb3dc53-69fc-8cdb-ae37-583b9b2660a3@collabora.com>
- <CAF6AEGus7R_i7RMWGmbawVi62xCk5mhLTWGq2QEkcWY+XaJBAQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JOawYYsMmXVXjmJlEQmmHixFMSNq4rwAUlbsY6fSBgM=;
+        b=g+TGBnyq0wK4tVLjN1/nwbX2reP/6/A03EJC/FXmtCPcik9lSCpnhuU6QoEeFR208a
+         AyLSdvLq067TbAYVPRPX6yDUWUGu+alirsOU0Ba6ex01cTl9VULEEJoH9chTWOUzaEfI
+         XzyNljnK8ApAzI5CURcuPZbHCLw2oD3zvTDDTkArjGvQIveUBwRZeW+IdcJw/AzdvjYE
+         VchWOOYmczXZJUfkhOzsCq4CxCEuRjiGVyquAllFh5q1N9iFGQtfxRxoCuSFoNgwE1ox
+         8YX6Mw3/4rAgIQwypeLnrujSY7+XbMMwxIAo9B37Xvae++EehhZShi9JIuWcn1jyew+K
+         K/9Q==
+X-Gm-Message-State: AJIora9KD/hC6aNKYVkaerDZdSZu0y9VDVPSParEHJlGSYU9Ee+Zldrs
+        HEkxbvXJXBcNP+Oqfq39yphFGwCuzo0qktZeBcyQ
+X-Google-Smtp-Source: AGRyM1sLPS9VvP6ADwx2J+StFzJT3dvaf4MBsF0swSWZC7Xkp/3biNCnrEVvva/rSqr0ebVtvt4hYokyoFIu+/3DmQ4=
+X-Received: by 2002:adf:efd2:0:b0:21b:91ae:68ca with SMTP id
+ i18-20020adfefd2000000b0021b91ae68camr833768wrp.514.1656102776455; Fri, 24
+ Jun 2022 13:32:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGus7R_i7RMWGmbawVi62xCk5mhLTWGq2QEkcWY+XaJBAQ@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220510235653.933868-1-tjmercier@google.com> <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+ <Yn6DpUsoSz1/15Kc@slm.duckdns.org> <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+ <YodHjYlMx1XGtM2+@slm.duckdns.org> <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
+ <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com> <YrYbwu0iIAJJGXVg@phenom.ffwll.local>
+In-Reply-To: <YrYbwu0iIAJJGXVg@phenom.ffwll.local>
+From:   John Stultz <jstultz@google.com>
+Date:   Fri, 24 Jun 2022 13:32:45 -0700
+Message-ID: <CANDhNCqGjaq-SFvWwkqnEFj4tJcRqCYupZ03wLyCexqTH5MqMg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+To:     "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Shuah Khan <shuah@kernel.org>,
+        John Stultz <jstultz@google.com>,
+        Carlos Llamas <cmllamas@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kernel-team@android.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
+Cc:     Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 08:18:04AM -0700, Rob Clark wrote:
-> On Mon, Jun 20, 2022 at 7:09 AM Dmitry Osipenko
-> <dmitry.osipenko@collabora.com> wrote:
-> >
-> > On 6/19/22 20:53, Rob Clark wrote:
-> > ...
-> > >> +static unsigned long
-> > >> +drm_gem_shmem_shrinker_count_objects(struct shrinker *shrinker,
-> > >> +                                    struct shrink_control *sc)
-> > >> +{
-> > >> +       struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
-> > >> +       struct drm_gem_shmem_object *shmem;
-> > >> +       unsigned long count = 0;
-> > >> +
-> > >> +       if (!mutex_trylock(&gem_shrinker->lock))
-> > >> +               return 0;
-> > >> +
-> > >> +       list_for_each_entry(shmem, &gem_shrinker->lru_evictable, madv_list) {
-> > >> +               count += shmem->base.size;
-> > >> +
-> > >> +               if (count >= SHRINK_EMPTY)
-> > >> +                       break;
-> > >> +       }
-> > >> +
-> > >> +       mutex_unlock(&gem_shrinker->lock);
+On Fri, Jun 24, 2022 at 1:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Wed, Jun 15, 2022 at 10:31:21AM -0700, T.J. Mercier wrote:
+> > On Fri, May 20, 2022 at 9:25 AM T.J. Mercier <tjmercier@google.com> wrote:
 > > >
-> > > As I mentioned on other thread, count_objects, being approximate but
-> > > lockless and fast is the important thing.  Otherwise when you start
-> > > hitting the shrinker on many threads, you end up serializing them all,
-> > > even if you have no pages to return to the system at that point.
-> >
-> > Daniel's point for dropping the lockless variant was that we're already
-> > in trouble if we're hitting shrinker too often and extra optimizations
-> > won't bring much benefits to us.
-> 
-> At least with zram swap (which I highly recommend using even if you
-> are not using a physical swap file/partition), swapin/out is actually
-> quite fast.  And if you are leaning on zram swap to fit 8GB of chrome
-> browser on a 4GB device, the shrinker gets hit quite a lot.  Lower
-> spec (4GB RAM) chromebooks can be under constant memory pressure and
-> can quite easily get into a situation where you are hitting the
-> shrinker on many threads simultaneously.  So it is pretty important
-> for all shrinkers in the system (not just drm driver) to be as
-> concurrent as possible.  As long as you avoid serializing reclaim on
-> all the threads, performance can still be quite good, but if you don't
-> performance will fall off a cliff.
-> 
-> jfwiw, we are seeing pretty good results (iirc 40-70% increase in open
-> tab counts) with the combination of eviction + multigen LRU[1] +
-> sizing zram swap to be 2x physical RAM
-> 
-> [1] https://lwn.net/Articles/856931/
-> 
-> > Alright, I'll add back the lockless variant (or will use yours
-> > drm_gem_lru) in the next revision. The code difference is very small
-> > after all.
-> >
-> > ...
-> > >> +               /* prevent racing with the dma-buf importing/exporting */
-> > >> +               if (!mutex_trylock(&gem_shrinker->dev->object_name_lock)) {
-> > >> +                       *lock_contention |= true;
-> > >> +                       goto resv_unlock;
-> > >> +               }
+> > > On Fri, May 20, 2022 at 12:47 AM Tejun Heo <tj@kernel.org> wrote:
+> > > >
+> > > > Hello,
+> > > >
+> > > > On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
+> > > > > Thanks for your suggestion. This almost works. "dmabuf" as a key could
+> > > > > work, but I'd actually like to account for each heap. Since heaps can
+> > > > > be dynamically added, I can't accommodate every potential heap name by
+> > > > > hardcoding registrations in the misc controller.
+> > > >
+> > > > On its own, that's a pretty weak reason to be adding a separate gpu
+> > > > controller especially given that it doesn't really seem to be one with
+> > > > proper abstractions for gpu resources. We don't want to keep adding random
+> > > > keys to misc controller but can definitely add limited flexibility. What
+> > > > kind of keys do you need?
+> > > >
+> > > Well the dmabuf-from-heaps component of this is the initial use case.
+> > > I was envisioning we'd have additional keys as discussed here:
+> > > https://lore.kernel.org/lkml/20220328035951.1817417-1-tjmercier@google.com/T/#m82e5fe9d8674bb60160701e52dae4356fea2ddfa
+> > > So we'd end up with a well-defined core set of keys like "system", and
+> > > then drivers would be free to use their own keys for their own unique
+> > > purposes which could be complementary or orthogonal to the core set.
+> > > Yesterday I was talking with someone who is interested in limiting gpu
+> > > cores and bus IDs in addition to gpu memory. How to define core keys
+> > > is the part where it looks like there's trouble.
 > > >
-> > > I'm not sure this is a good idea to serialize on object_name_lock.
-> > > Purgeable buffers should never be shared (imported or exported).  So
-> > > at best you are avoiding evicting and immediately swapping back in, in
-> > > a rare case, at the cost of serializing multiple threads trying to
-> > > reclaim pages in parallel.
+> > > For my use case it would be sufficient to have current and maximum
+> > > values for an arbitrary number of keys - one per heap. So the only
+> > > part missing from the misc controller (for my use case) is the ability
+> > > to register a new key at runtime as heaps are added. Instead of
+> > > keeping track of resources with enum misc_res_type, requesting a
+> > > resource handle/ID from the misc controller at runtime is what I think
+> > > would be required instead.
+> > >
+> > Quick update: I'm going to make an attempt to modify the misc
+> > controller to support a limited amount of dynamic resource
+> > registration/tracking in place of the new controller in this series.
 > >
-> > The object_name_lock shouldn't cause contention in practice. But objects
-> > are also pinned on attachment, hence maybe this lock is indeed
-> > unnecessary.. I'll re-check it.
-> 
-> I'm not worried about contention with export/import/etc, but
-> contention between multiple threads hitting the shrinker in parallel.
-> I guess since you are using trylock, it won't *block* the other
-> threads hitting shrinker, but they'll just end up looping in
-> do_shrink_slab() because they are hitting contention.
-> 
-> I'd have to do some experiments to see how it works out in practice,
-> but my gut feel is that it isn't a good idea
+> > Thanks everyone for the feedback.
+>
+> Somehow I missed this entire chain here.
+>
+> I'm not a fan, because I'm kinda hoping we could finally unify gpu memory
+> account. Atm everyone just adds their one-off solution in a random corner:
+> - total tracking in misc cgroup controller
+> - dma-buf sysfs files (except apparently too slow so it'll get deleted
+>   again)
+> - random other stuff on open device files os OOM killer can see it
+>
+> This doesn't look good.
 
-Yeah trylock on anything else than the object lock is No Good in the
-shrinker. And it really shouldn't be needed, since import/export should
-pin stuff as needed. Which should be protected by the dma_resv object
-lock. If not, we need to fix that.
+But I also think one could see it as "gpu memory" is the drm subsystem
+doing the same thing (in that it's artificially narrow to gpus). It
+seems we need something to account for buffers allocated by drivers,
+no matter which subsystem it was in (drm, v4l2, or networking or
+whatever).
 
-Picking a random drm-internal lock like this is definitely no good design.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+thanks
+-john
