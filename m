@@ -2,93 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9A955597DB
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 12:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE1C85598D1
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 13:46:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230501AbiFXKaI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jun 2022 06:30:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41944 "EHLO
+        id S231734AbiFXLpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 07:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230196AbiFXKaD (ORCPT
+        with ESMTP id S231713AbiFXLpH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jun 2022 06:30:03 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C5847C518;
-        Fri, 24 Jun 2022 03:30:02 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        Fri, 24 Jun 2022 07:45:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 016967B36C;
+        Fri, 24 Jun 2022 04:45:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D26366017E1;
-        Fri, 24 Jun 2022 11:29:59 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656066601;
-        bh=hKBlTlh6rJQp0/PqrIUPBQEzlcGlkHae7pIOm2+YUlo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=iYG3Nlzt+inCv41ww4oWe9xvhet5gZLdSI+PaSF1HwHO5txbqew+S5pL1N3BDoudr
-         OH/REp0e/Ko9kOQx4LhqttxGd+ZYJzXTQ4bkmljp8AZK1rQv92ASzG+x6TJMuiL2mZ
-         oxJUuf52ishxcC6x8emkjyn6iFRFyDjMpmiTtvh1G73HnHQi9aS/3SyNmOrRQAYV7r
-         wjHRgEdL2VY7s7REGv3bYgJluNLLEDg/1pPrpbB7+HGG0oiRByMFTCcoTddWplif3K
-         mj2yyT+ahLQrqOnr2E4VeW5zYOq1Bm6SqfaF9NxhQBgDOxvlqpJ6AFBN63OY88km6q
-         9HObPrJqpwNuA==
-Message-ID: <2c788189-275a-ac31-4f82-959c04e760e8@collabora.com>
-Date:   Fri, 24 Jun 2022 12:29:57 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 889376222A;
+        Fri, 24 Jun 2022 11:45:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 627FBC34114;
+        Fri, 24 Jun 2022 11:45:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1656071105;
+        bh=/2OHaS3MR1kb2k5L74fvco5RgmKK7foP/ilWbPMO+Es=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lGpUqG7MHtWZJ87v8qMZ8ChuH6aRq0Gij61Z4bVzYhrhQQ75WsPx7c69tzhoaYEa/
+         aE7zP6Dl4KJISHZSD46fhRnKFzXrLYqEaopQSxpqsXrgsHRUcnpFJ70meLA4RJo6rq
+         9ak1wnwEgWOwgHNYSlzSXlnmIkBDzsReYMuNiYRs=
+Date:   Fri, 24 Jun 2022 13:42:02 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     neal_liu@aspeedtech.com, balbi@kernel.org, joel@jms.id.au,
+        andrew@aj.id.au, sumit.semwal@linaro.org, christian.koenig@amd.com,
+        linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] usb: gadget: Fix unsigned comparison with less than zero
+Message-ID: <YrWjCnNJohij691b@kroah.com>
+References: <20220623084347.38207-1-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v19 2/4] dt-binding: mediatek: add bindings for MediaTek
- CCORR and WDMA
-Content-Language: en-US
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
-        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        allen-kh.cheng@mediatek.com, xiandong.wang@mediatek.com,
-        randy.wu@mediatek.com, jason-jh.lin@mediatek.com,
-        roy-cw.yeh@mediatek.com, river.cheng@mediatek.com,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        cellopoint.kai@gmail.com
-References: <20220624092359.11908-1-moudy.ho@mediatek.com>
- <20220624092359.11908-3-moudy.ho@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220624092359.11908-3-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220623084347.38207-1-jiapeng.chong@linux.alibaba.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 24/06/22 11:23, Moudy Ho ha scritto:
-> This patch adds DT binding documentation for MediaTek's CCORR and
-> WDMA components.
-> These components exist in both MediaTek's Media Data Path 3(MDP3) and DRM,
-> and the bindings are placed under the folder "./soc/mediatek" to prevent
-> duplicate builds.
+On Thu, Jun 23, 2022 at 04:43:47PM +0800, Jiapeng Chong wrote:
+> This was found by coccicheck:
 > 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> ./drivers/usb/gadget/udc/aspeed_udc.c:496:8-13: WARNING: Unsigned expression compared with zero: chunk >= 0.
 
+What does this mean?  Where is the error?
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Please explain the reason for changes, not just the output of a random
+tool that you ran on the code.
 
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+
+What commit does this fix?
+
+thanks,
+
+greg k-h
