@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1789855A286
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 22:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0A2855A28F
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 22:23:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231378AbiFXUV7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jun 2022 16:21:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36050 "EHLO
+        id S231420AbiFXUX4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 16:23:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231160AbiFXUV6 (ORCPT
+        with ESMTP id S229912AbiFXUXz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jun 2022 16:21:58 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDCCA8268C
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:21:56 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id u12so6873985eja.8
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:21:56 -0700 (PDT)
+        Fri, 24 Jun 2022 16:23:55 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9488162C1E
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:23:53 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id e40so5013565eda.2
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 13:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:mail-followup-to:references
          :mime-version:content-disposition:in-reply-to;
-        bh=aI/Wm30z63oEYhq+jLGxZI/tPMnn/tbFlzZ2xbhv+F4=;
-        b=DSfCIl93ErkZQTmodLqWf6MxjRIpF1ZnQis6V2AmfYLHN/rGtlxKfpfQusYdU3/UoQ
-         cGZ9t8NGw8N1UESLaZQtt9KE8BCcJRvCrZjHW4cY3x/vspkpF+H+OZ9YyYSAm/sR4To9
-         S80AKWsZyDrPVwQDWYceohfI1JDJJuzPD7o2I=
+        bh=rM6StsZ/3rmWNZ6eG3nFC9QNenxnUOTVwI/HAfEm2EQ=;
+        b=VYViBveaMX2iHovNjImE8ft1aL8oby/bDvJodcDA4y4Eo+tutY1hGinHsM3aKTvLEE
+         UKfzf6+eCMmxZ49Ku37S9pc+tHn/uh5pXrCXh3E8Ggw/FSYRFeIyB8RDclfGgyvtHmNh
+         MqpcvSiLK6jgmcJHZD8u3uLJ1nBF6f8mOUmtg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id
          :mail-followup-to:references:mime-version:content-disposition
          :in-reply-to;
-        bh=aI/Wm30z63oEYhq+jLGxZI/tPMnn/tbFlzZ2xbhv+F4=;
-        b=igBC4Na7GcJgMlrzfcR7XzOW3/L2WALpKO6JCOtQXsUK+u/aFO/NMbyMhKFidYCJMZ
-         JyUaGc6iEsygjoMf5QFZabqZkqJ5s2OqaISwvYjEBvUMc0nPzs+30chiTq2ExT9o3AP+
-         HRtX3oeBJK/5iQLR7JAnoMx0Si2PEZvO+Bu0df1HeS37/RLYVUzG2tcWoHkMLNk2GvSZ
-         kcmqHWOtJQ+/IcEIS7cJ36AKIdRFefy2ndeXoNYbN3a1425nO2kmB/o0xVwUa6QAY8a6
-         CPpEfxBPTK+tAbi14kmh7jDn4jrv7H8KevZdp7iRUrVDV50FSxGfbqCqk/W66DaLu8Lx
-         c1kA==
-X-Gm-Message-State: AJIora99QPrDjYIfO5COVc7e+CiLrAnzcO0ILDPlH39lvMoTIBTpD8cg
-        chmbXl7d2IntVQxvqFayaiNe/A==
-X-Google-Smtp-Source: AGRyM1vMLazEoSIRdqrX8zCM+3y9xklBh+nj+P3ouSsHUhI81GOe3I6uIj9foVrhcJrq+L6LjvY0lQ==
-X-Received: by 2002:a17:906:72d1:b0:722:e714:e9ff with SMTP id m17-20020a17090672d100b00722e714e9ffmr758067ejl.748.1656102115311;
-        Fri, 24 Jun 2022 13:21:55 -0700 (PDT)
+        bh=rM6StsZ/3rmWNZ6eG3nFC9QNenxnUOTVwI/HAfEm2EQ=;
+        b=SzwFO1b+mWt7kXz40lAc8EqaMq7svOpH38g0YDlvJ4AtDLNaYywBXRGBKP+SdQIhuH
+         /oi1fXzRKdzKnS1Nn1fonnQpd3xt++vyfyUCk3sTbkq4lY2kWR4c2AG4Q78T5ZMMOrFL
+         OBYRAeIVRaUlRirzc+EeVYysuO/TX68TEHsg4UPOYuWW23d5LMCR1bvWQ92poIBBe8BC
+         k59OQEkirHEcRHCWVNx/ZcF6yNez+LaptQtISjxBJC12feXCf0XrrIt3AaGP/3uJJCYh
+         JcWg2ebxlRfKtYOIegd61rZ1qM4yZc8moZYugdvpFthC/g3pL0nDwW/QS/3S5D1gPfCe
+         EXTQ==
+X-Gm-Message-State: AJIora/XXnF3dV6pQMm8fM7SKjzcg9rwLhjhnhp4ATG5TyvxRDCo1B4I
+        S42591MfEY/NM0iYX90zaXmjHr0PuquQiQ==
+X-Google-Smtp-Source: AGRyM1uJnErMjUto5d2AkMD9qcjjZpgW235kvjYxoK3tSLlU8a0umCcexISHAvYdIuLK226BGQhyeA==
+X-Received: by 2002:a05:6402:4248:b0:435:9150:ccfb with SMTP id g8-20020a056402424800b004359150ccfbmr1101365edb.374.1656102232134;
+        Fri, 24 Jun 2022 13:23:52 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id y22-20020a170906559600b00722e7919835sm1623844ejp.111.2022.06.24.13.21.53
+        by smtp.gmail.com with ESMTPSA id z23-20020a170906435700b007094f98788csm1630637ejm.113.2022.06.24.13.23.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jun 2022 13:21:54 -0700 (PDT)
-Date:   Fri, 24 Jun 2022 22:21:52 +0200
+        Fri, 24 Jun 2022 13:23:51 -0700 (PDT)
+Date:   Fri, 24 Jun 2022 22:23:49 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Rob Clark <robdclark@gmail.com>
 Cc:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
@@ -87,7 +87,7 @@ Cc:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
         linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
         intel-gfx@lists.freedesktop.org, kernel@collabora.com
 Subject: Re: [PATCH v6 17/22] drm/shmem-helper: Add generic memory shrinker
-Message-ID: <YrYc4IUHJWSbC6AX@phenom.ffwll.local>
+Message-ID: <YrYdVRMjK4YS33hO@phenom.ffwll.local>
 Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
         Dmitry Osipenko <dmitry.osipenko@collabora.com>,
         David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -126,10 +126,12 @@ Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
 References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
  <20220526235040.678984-18-dmitry.osipenko@collabora.com>
  <CAF6AEGt61t2truYDCxm17hqUPV-UdEdHjLs+6vmj5RPoPuVBYg@mail.gmail.com>
+ <3bb3dc53-69fc-8cdb-ae37-583b9b2660a3@collabora.com>
+ <CAF6AEGus7R_i7RMWGmbawVi62xCk5mhLTWGq2QEkcWY+XaJBAQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGt61t2truYDCxm17hqUPV-UdEdHjLs+6vmj5RPoPuVBYg@mail.gmail.com>
+In-Reply-To: <CAF6AEGus7R_i7RMWGmbawVi62xCk5mhLTWGq2QEkcWY+XaJBAQ@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -141,37 +143,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jun 19, 2022 at 10:53:03AM -0700, Rob Clark wrote:
-> On Thu, May 26, 2022 at 4:55 PM Dmitry Osipenko
+On Mon, Jun 20, 2022 at 08:18:04AM -0700, Rob Clark wrote:
+> On Mon, Jun 20, 2022 at 7:09 AM Dmitry Osipenko
 > <dmitry.osipenko@collabora.com> wrote:
-> > +       mutex_unlock(&gem_shrinker->lock);
+> >
+> > On 6/19/22 20:53, Rob Clark wrote:
+> > ...
+> > >> +static unsigned long
+> > >> +drm_gem_shmem_shrinker_count_objects(struct shrinker *shrinker,
+> > >> +                                    struct shrink_control *sc)
+> > >> +{
+> > >> +       struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
+> > >> +       struct drm_gem_shmem_object *shmem;
+> > >> +       unsigned long count = 0;
+> > >> +
+> > >> +       if (!mutex_trylock(&gem_shrinker->lock))
+> > >> +               return 0;
+> > >> +
+> > >> +       list_for_each_entry(shmem, &gem_shrinker->lru_evictable, madv_list) {
+> > >> +               count += shmem->base.size;
+> > >> +
+> > >> +               if (count >= SHRINK_EMPTY)
+> > >> +                       break;
+> > >> +       }
+> > >> +
+> > >> +       mutex_unlock(&gem_shrinker->lock);
+> > >
+> > > As I mentioned on other thread, count_objects, being approximate but
+> > > lockless and fast is the important thing.  Otherwise when you start
+> > > hitting the shrinker on many threads, you end up serializing them all,
+> > > even if you have no pages to return to the system at that point.
+> >
+> > Daniel's point for dropping the lockless variant was that we're already
+> > in trouble if we're hitting shrinker too often and extra optimizations
+> > won't bring much benefits to us.
 > 
-> As I mentioned on other thread, count_objects, being approximate but
-> lockless and fast is the important thing.  Otherwise when you start
-> hitting the shrinker on many threads, you end up serializing them all,
-> even if you have no pages to return to the system at that point.
-
-Yeah agreed, seems like I was wrong here :-) Atomic counter or something
-would also be in link the the lru_list stuff.
-
-It would be to record this in the kerneldoc for the shrinker structure
-though, to make sure this is all understood.
-
-> > +               /* prevent racing with the dma-buf importing/exporting */
-> > +               if (!mutex_trylock(&gem_shrinker->dev->object_name_lock)) {
-> > +                       *lock_contention |= true;
-> > +                       goto resv_unlock;
-> > +               }
+> At least with zram swap (which I highly recommend using even if you
+> are not using a physical swap file/partition), swapin/out is actually
+> quite fast.  And if you are leaning on zram swap to fit 8GB of chrome
+> browser on a 4GB device, the shrinker gets hit quite a lot.  Lower
+> spec (4GB RAM) chromebooks can be under constant memory pressure and
+> can quite easily get into a situation where you are hitting the
+> shrinker on many threads simultaneously.  So it is pretty important
+> for all shrinkers in the system (not just drm driver) to be as
+> concurrent as possible.  As long as you avoid serializing reclaim on
+> all the threads, performance can still be quite good, but if you don't
+> performance will fall off a cliff.
 > 
-> I'm not sure this is a good idea to serialize on object_name_lock.
-> Purgeable buffers should never be shared (imported or exported).  So
-> at best you are avoiding evicting and immediately swapping back in, in
-> a rare case, at the cost of serializing multiple threads trying to
-> reclaim pages in parallel.
+> jfwiw, we are seeing pretty good results (iirc 40-70% increase in open
+> tab counts) with the combination of eviction + multigen LRU[1] +
+> sizing zram swap to be 2x physical RAM
+> 
+> [1] https://lwn.net/Articles/856931/
+> 
+> > Alright, I'll add back the lockless variant (or will use yours
+> > drm_gem_lru) in the next revision. The code difference is very small
+> > after all.
+> >
+> > ...
+> > >> +               /* prevent racing with the dma-buf importing/exporting */
+> > >> +               if (!mutex_trylock(&gem_shrinker->dev->object_name_lock)) {
+> > >> +                       *lock_contention |= true;
+> > >> +                       goto resv_unlock;
+> > >> +               }
+> > >
+> > > I'm not sure this is a good idea to serialize on object_name_lock.
+> > > Purgeable buffers should never be shared (imported or exported).  So
+> > > at best you are avoiding evicting and immediately swapping back in, in
+> > > a rare case, at the cost of serializing multiple threads trying to
+> > > reclaim pages in parallel.
+> >
+> > The object_name_lock shouldn't cause contention in practice. But objects
+> > are also pinned on attachment, hence maybe this lock is indeed
+> > unnecessary.. I'll re-check it.
+> 
+> I'm not worried about contention with export/import/etc, but
+> contention between multiple threads hitting the shrinker in parallel.
+> I guess since you are using trylock, it won't *block* the other
+> threads hitting shrinker, but they'll just end up looping in
+> do_shrink_slab() because they are hitting contention.
+> 
+> I'd have to do some experiments to see how it works out in practice,
+> but my gut feel is that it isn't a good idea
 
-Yeah this sounds really bad. Plus this is a per-device lock, and doing
-those with trylock means the shrinker will fail to find shrinkable memory
-way too often. We need to engineer this out somehow.
+Yeah trylock on anything else than the object lock is No Good in the
+shrinker. And it really shouldn't be needed, since import/export should
+pin stuff as needed. Which should be protected by the dma_resv object
+lock. If not, we need to fix that.
+
+Picking a random drm-internal lock like this is definitely no good design.
 -Daniel
 -- 
 Daniel Vetter
