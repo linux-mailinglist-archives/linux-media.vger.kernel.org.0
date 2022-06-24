@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A5D0559B87
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 16:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6F05559B94
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 16:34:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232082AbiFXO36 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jun 2022 10:29:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58662 "EHLO
+        id S232308AbiFXOeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 10:34:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230073AbiFXO35 (ORCPT
+        with ESMTP id S231954AbiFXOeJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jun 2022 10:29:57 -0400
+        Fri, 24 Jun 2022 10:34:09 -0400
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 302D954F8E
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 07:29:57 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id E7795320085B;
-        Fri, 24 Jun 2022 10:29:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 24 Jun 2022 10:29:56 -0400
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C833585B
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 07:34:08 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 3BDC23200917;
+        Fri, 24 Jun 2022 10:34:07 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Fri, 24 Jun 2022 10:34:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1656080995; x=1656167395; bh=r6us2ddgzT
-        QDWr+S0Y6Dq63sK81RbLLdtWxyEFlbbag=; b=dq0D6P5FtLgLhaWdSUYDMAuhlM
-        s2mTohj6Sus/l/d7qnQfAM5VDK8k+J2sLTQ3eZsVItCcAdsYbi7p5yY5Xc1Vbwwg
-        IiAvvkQl8oeMjJIPVFHcLSoPkevdpncvqyQfNJ9STD+HHgr4vT1qhZZup+AkWq2v
-        Q+o49OweLkKEsvgcMl38IOEnj2FD+N3MJlIWRXmFRlyZBEPrmLLG47kB7Pff6x3e
-        vOarU5oOKGKDSYcIWPnOupUoJ1AxUAwP5xlq+NtyuactiuWw5wAr535/oYWJG3Ly
-        u+mrjdhXlxIrkh3QCOeO2cVe6mTmdal41IToCjWA7JNLZR8cWTJZRJahOS9g==
+        :subject:to:to; s=fm2; t=1656081246; x=1656167646; bh=PkrlNJehcq
+        0D5Fk1l5omSFwajqRzmyjNqnS3kbX+838=; b=kKTcVKJOTm/ol/OIA0GvYStFNE
+        WsNqbWyk5v8fR1QzcbIVDMs0orvMcyCU9gzBEU1u5tV1f+syXoNdz51m9m0VrF7C
+        uVDpz7K9ffjx+3P8olnSxzcqaBFRacSUQU7pMU9Rpv7PVgUJE2UNG593Hd6jjBAn
+        K5CW7ifbUaYyRc59ivQomn9LBsL/WHE4WSWdJqFxPj9vPoVqKakY1bq/T7TVh/YH
+        w235OIecx4dxObsy4/bYhOPEx6EHpLVElpB0iDQp0IpqjryRt0UDW9XcOLybq5Jg
+        FYnqsi+uMCwAAy94hLrFXaVQQxWtkHfpCgluI3f5j4kzPBJl95jNKVvxqCDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1656080995; x=1656167395; bh=r6us2ddgzTQDWr+S0Y6Dq63sK81R
-        bLLdtWxyEFlbbag=; b=mKy7Klnm+0l3BtruhLdyKws/oSc8KeqkGNOUsCAoWWIf
-        oJ/ecK5bN5LKi/WjxsEtQ5SJrTV7GqTRQ8ZtZWF9FPvk7GhnfJ0dnHWX4PbiuZk/
-        U23uoMEq6IRSrVq4IIaX4Vbhn+hMGO9uX5pl+3ClcKIx6+/+AFp2s15n3gQCPLCI
-        JbOXWqtcQ/y7VRlUBshD3289hqXSsBLxS/cUgjMUCYYCRSHr1zBpGj2J+ACixHzH
-        t942g0rUdnkOI0rv/V1nnmjFhTfVA7O+a+qqNtcRMLhJnoAcH3RwYgy5XujIkpja
-        kbgAhL1m2nbYGr3XoN+udFJj/mwi3dtDEUjOInUKYg==
-X-ME-Sender: <xms:Y8q1YtHGnow1d2L6dV-oW6qpEtGilJWqKt_Vt0b1w2QfDIcNLsndSg>
-    <xme:Y8q1YiWJ3FQ-n6JIynoAMum6GzFOO8dIZS14OHYAwLKB5wn4-yizYMCxfMT3zNTbH
-    bVIn0hnJYWe9c90ZrM>
-X-ME-Received: <xmr:Y8q1YvL6mcAASY2OrGwaObJlN_Uw8hKWSE74XzdweDC9Jwm1Jd2XQQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledgjeegucetufdoteggodetrfdotf
+        fm2; t=1656081246; x=1656167646; bh=PkrlNJehcq0D5Fk1l5omSFwajqRz
+        myjNqnS3kbX+838=; b=Xl4tzn1IYLF4k8HRQ/mYW/QL3qKJus5qVS1YbIubzlLS
+        uQTYMRN95SsDrGjrR3FRutWD7M+U1/WqRYEu+vwMsEHjoj280N0PhSBPbH5njWdO
+        WbDZmDNV8wfG7Tx+ojy0KzC7aXJSFlmZrVsethzWSD0lFC9u2sgvoG7KTW8+IjyR
+        kmyMBcRAiqP0ljTpnmqjtWdtCAHUhWEvWiOt+lnp2HMvYk7P+IVk2IXIfOTD5+xB
+        Lbdc8kuL8KfHdg4aGmVhghUA4iLiUgpTvGt5eGDZTEuJmO0iM/fiLKvrisX2s5Fu
+        D4n4E2dOnz5/oqLY1hOK8i2lcm3a6yYmVH/2o+4Niw==
+X-ME-Sender: <xms:Xsu1YjP-Mo9BMB2eiOpQSuK-Q5bNfnUgGuneDRJ0t2S4qptA9BNDMQ>
+    <xme:Xsu1Yt8pEqLQCGuij4uftmu8sqvuy71ID9EQHXv37vFffT68V8BFxeQ9iJy_WMNC3
+    D7iNfOE0P6FD9YhnqM>
+X-ME-Received: <xmr:Xsu1YiSGTkaIzq59uNBinw5GqzNvvYHPIun_SkE-cot-zXP7EdYo4w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledgjeehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
@@ -54,30 +54,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledgjeegucetufdoteggod
     ggtffrrghtthgvrhhnpedvhedtledukeegveelfeeuvddujeeiteehkedvhfetkeffudej
     hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpegurghfnhgrsehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:Y8q1YjGxANGpeMzLfQcrJbhnd987pAZApDBCC_q2oVP5kise7Wj4fA>
-    <xmx:Y8q1YjU87a_z_RuY1t30KwRP181wWzNyVxV85xS9iL9k2CvQ1YVXAg>
-    <xmx:Y8q1YuPc3ANny9lP6rj88N0fCAQJAcryDYF3nK5_wSr1ixicpAC74A>
-    <xmx:Y8q1YqGmPjw42i_OxJ8ld6ITYTgydbaswadslWQ9mw-lx8YdUPxjwg>
+X-ME-Proxy: <xmx:Xsu1YnvhBqINA_p-gI2j3vJBNjaZAdoc3WEP0PByymqiN88lAU66UA>
+    <xmx:Xsu1YrdHKu_0MoEVzd2tPKenhDbBBFjEM173auWxfHxulfVFFHqVjA>
+    <xmx:Xsu1Yj2PCSG0gsi1zyVQL7YWMiNJC3WK00uoRvYe9q31MupsU00QNw>
+    <xmx:Xsu1YtvpZdaVwGulxcRTTvMK7Uv2FENpLLRKr9RW27suWuv49Dc-WQ>
 Feedback-ID: i0e894699:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Jun 2022 10:29:52 -0400 (EDT)
-Date:   Fri, 24 Jun 2022 17:29:49 +0300
+ 24 Jun 2022 10:34:03 -0400 (EDT)
+Date:   Fri, 24 Jun 2022 17:34:00 +0300
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        heiko@sntech.de, jeanmichel.hautbois@ideasonboard.com,
-        jacopo@jmondi.org, djrscally@gmail.com, helen.koike@collabora.com,
+Cc:     linux-media@vger.kernel.org, heiko@sntech.de,
+        laurent.pinchart@ideasonboard.com,
+        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
+        djrscally@gmail.com, helen.koike@collabora.com,
         linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 06/55] media: rkisp1: Rename rkisp1_match_data to
- rkisp1_info
-Message-ID: <20220624142949.fx5z2tdcpjx2rrou@guri>
+Subject: Re: [PATCH 07/55] media: rkisp1: Save info pointer in rkisp1_device
+Message-ID: <20220624143400.ars53iairqqbdmq2@guri>
 References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-7-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-8-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220614191127.3420492-7-paul.elder@ideasonboard.com>
+In-Reply-To: <20220614191127.3420492-8-paul.elder@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -89,131 +88,111 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 15.06.2022 04:10, Paul Elder wrote:
->From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>To make it possible to use the rkisp1_info after probe time (for
+>instance to make code conditional on the ISP version), save it in the
+>main rkisp1_device structure. To achieve this, also move the info
+>structure into the common header, and document it.
 >
->The rkisp1_match_data structure contains device model-specific
->information. It it referenced from OF match data, but that's an
->implementation detail. Rename it to rkisp1_info to reflect its main
->purpose.
+>While at it, drop a NULL check in rkisp1_probe() for the match data as
+>it can't happen.
 >
+>Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 >Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Reviewed-by Dafna Hirschfeld <dafna@fastmail.com>
-
 >---
-> .../platform/rockchip/rkisp1/rkisp1-dev.c     | 34 +++++++++----------
-> 1 file changed, 17 insertions(+), 17 deletions(-)
+> .../platform/rockchip/rkisp1/rkisp1-common.h  | 22 +++++++++++++++++++
+> .../platform/rockchip/rkisp1/rkisp1-dev.c     | 15 +++----------
+> 2 files changed, 25 insertions(+), 12 deletions(-)
 >
+>diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+>index a67fe7b1dfa1..50d31a254b03 100644
+>--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+>+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+>@@ -91,6 +91,26 @@ enum rkisp1_isp_pad {
+> 	RKISP1_ISP_PAD_MAX
+> };
+>
+>+/*
+>+ * struct rkisp1_info - Model-specific ISP Information
+>+ *
+>+ * @clks: array of ISP clock names
+>+ * @clk_size: number of entries in the @clks array
+>+ * @isrs: array of ISP interrupt descriptors
+>+ * @isr_size: number of entires in the @isrs array
+>+ * @isp_ver: ISP version
+>+ *
+>+ * This structure contains information about the ISP specific to a particular
+>+ * ISP model, version, or integration in a particular SoC.
+>+ */
+>+struct rkisp1_info {
+>+	const char * const *clks;
+>+	unsigned int clk_size;
+>+	const struct rkisp1_isr_data *isrs;
+>+	unsigned int isr_size;
+>+	enum rkisp1_cif_isp_version isp_ver;
+>+};
+>+
+> /*
+>  * struct rkisp1_sensor_async - A container for the v4l2_async_subdev to add to the notifier
+>  *				of the v4l2-async API
+>@@ -395,6 +415,7 @@ struct rkisp1_debug {
+>  * @pipe:	   media pipeline
+>  * @stream_lock:   serializes {start/stop}_streaming callbacks between the capture devices.
+>  * @debug:	   debug params to be exposed on debugfs
+>+ * @info:	   version-specific ISP information
+>  */
+> struct rkisp1_device {
+> 	void __iomem *base_addr;
+>@@ -413,6 +434,7 @@ struct rkisp1_device {
+> 	struct media_pipeline pipe;
+> 	struct mutex stream_lock; /* serialize {start/stop}_streaming cb between capture devices */
+> 	struct rkisp1_debug debug;
+>+	const struct rkisp1_info *info;
+> };
+>
+> /*
 >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->index ba773c0784fb..258980ef4783 100644
+>index 258980ef4783..39ae35074062 100644
 >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
 >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->@@ -105,7 +105,7 @@ struct rkisp1_isr_data {
+>@@ -105,14 +105,6 @@ struct rkisp1_isr_data {
 > 	irqreturn_t (*isr)(int irq, void *ctx);
 > };
 >
->-struct rkisp1_match_data {
->+struct rkisp1_info {
-> 	const char * const *clks;
-> 	unsigned int clk_size;
-> 	const struct rkisp1_isr_data *isrs;
->@@ -420,7 +420,7 @@ static const struct rkisp1_isr_data px30_isp_isrs[] = {
-> 	{ "mipi", rkisp1_mipi_isr },
-> };
->
->-static const struct rkisp1_match_data px30_isp_match_data = {
->+static const struct rkisp1_info px30_isp_info = {
-> 	.clks = px30_isp_clks,
-> 	.clk_size = ARRAY_SIZE(px30_isp_clks),
-> 	.isrs = px30_isp_isrs,
->@@ -438,7 +438,7 @@ static const struct rkisp1_isr_data rk3399_isp_isrs[] = {
-> 	{ NULL, rkisp1_isr },
-> };
->
->-static const struct rkisp1_match_data rk3399_isp_match_data = {
->+static const struct rkisp1_info rk3399_isp_info = {
-> 	.clks = rk3399_isp_clks,
-> 	.clk_size = ARRAY_SIZE(rk3399_isp_clks),
-> 	.isrs = rk3399_isp_isrs,
->@@ -449,11 +449,11 @@ static const struct rkisp1_match_data rk3399_isp_match_data = {
-> static const struct of_device_id rkisp1_of_match[] = {
-> 	{
-> 		.compatible = "rockchip,px30-cif-isp",
->-		.data = &px30_isp_match_data,
->+		.data = &px30_isp_info,
-> 	},
-> 	{
-> 		.compatible = "rockchip,rk3399-cif-isp",
->-		.data = &rk3399_isp_match_data,
->+		.data = &rk3399_isp_info,
-> 	},
-> 	{},
-> };
->@@ -461,7 +461,7 @@ MODULE_DEVICE_TABLE(of, rkisp1_of_match);
->
-> static int rkisp1_probe(struct platform_device *pdev)
-> {
->-	const struct rkisp1_match_data *match_data;
->+	const struct rkisp1_info *info;
-> 	struct device *dev = &pdev->dev;
-> 	struct rkisp1_device *rkisp1;
-> 	struct v4l2_device *v4l2_dev;
->@@ -469,8 +469,8 @@ static int rkisp1_probe(struct platform_device *pdev)
+>-struct rkisp1_info {
+>-	const char * const *clks;
+>-	unsigned int clk_size;
+>-	const struct rkisp1_isr_data *isrs;
+>-	unsigned int isr_size;
+>-	enum rkisp1_cif_isp_version isp_ver;
+>-};
+>-
+> /* ----------------------------------------------------------------------------
+>  * Sensor DT bindings
+>  */
+>@@ -469,14 +461,13 @@ static int rkisp1_probe(struct platform_device *pdev)
 > 	int ret, irq;
 > 	u32 cif_id;
 >
->-	match_data = of_device_get_match_data(&pdev->dev);
->-	if (!match_data)
->+	info = of_device_get_match_data(&pdev->dev);
->+	if (!info)
-> 		return -ENODEV;
->
+>-	info = of_device_get_match_data(&pdev->dev);
+>-	if (!info)
+>-		return -ENODEV;
+>-
 > 	rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
->@@ -486,14 +486,14 @@ static int rkisp1_probe(struct platform_device *pdev)
-> 	if (IS_ERR(rkisp1->base_addr))
-> 		return PTR_ERR(rkisp1->base_addr);
+> 	if (!rkisp1)
+> 		return -ENOMEM;
 >
->-	for (i = 0; i < match_data->isr_size; i++) {
->-		irq = match_data->isrs[i].name
->-		    ? platform_get_irq_byname(pdev, match_data->isrs[i].name)
->+	for (i = 0; i < info->isr_size; i++) {
->+		irq = info->isrs[i].name
->+		    ? platform_get_irq_byname(pdev, info->isrs[i].name)
-> 		    : platform_get_irq(pdev, i);
-> 		if (irq < 0)
-> 			return irq;
+>+	info = of_device_get_match_data(dev);
+
+Why did you omit the check 'if(!info)'?
+
+thanks,
+Dafna
+
+>+	rkisp1->info = info;
+>+
+> 	dev_set_drvdata(dev, rkisp1);
+> 	rkisp1->dev = dev;
 >
->-		ret = devm_request_irq(dev, irq, match_data->isrs[i].isr, IRQF_SHARED,
->+		ret = devm_request_irq(dev, irq, info->isrs[i].isr, IRQF_SHARED,
-> 				       dev_driver_string(dev), dev);
-> 		if (ret) {
-> 			dev_err(dev, "request irq failed: %d\n", ret);
->@@ -501,12 +501,12 @@ static int rkisp1_probe(struct platform_device *pdev)
-> 		}
-> 	}
->
->-	for (i = 0; i < match_data->clk_size; i++)
->-		rkisp1->clks[i].id = match_data->clks[i];
->-	ret = devm_clk_bulk_get(dev, match_data->clk_size, rkisp1->clks);
->+	for (i = 0; i < info->clk_size; i++)
->+		rkisp1->clks[i].id = info->clks[i];
->+	ret = devm_clk_bulk_get(dev, info->clk_size, rkisp1->clks);
-> 	if (ret)
-> 		return ret;
->-	rkisp1->clk_size = match_data->clk_size;
->+	rkisp1->clk_size = info->clk_size;
->
-> 	pm_runtime_enable(&pdev->dev);
->
->@@ -519,7 +519,7 @@ static int rkisp1_probe(struct platform_device *pdev)
->
-> 	pm_runtime_put(&pdev->dev);
->
->-	rkisp1->media_dev.hw_revision = match_data->isp_ver;
->+	rkisp1->media_dev.hw_revision = info->isp_ver;
-> 	strscpy(rkisp1->media_dev.model, RKISP1_DRIVER_NAME,
-> 		sizeof(rkisp1->media_dev.model));
-> 	rkisp1->media_dev.dev = &pdev->dev;
 >-- 
 >2.30.2
 >
