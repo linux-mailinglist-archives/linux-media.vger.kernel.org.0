@@ -2,72 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 150C7558CF8
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 03:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1D5155902E
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jun 2022 06:45:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230250AbiFXBtT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jun 2022 21:49:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54674 "EHLO
+        id S229621AbiFXElV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 00:41:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbiFXBtS (ORCPT
+        with ESMTP id S229478AbiFXElV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jun 2022 21:49:18 -0400
-X-Greylist: delayed 126 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Jun 2022 18:49:17 PDT
-Received: from unicom146.biz-email.net (unicom146.biz-email.net [210.51.26.146])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78FE4F446
-        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 18:49:17 -0700 (PDT)
-Received: from ([60.208.111.195])
-        by unicom146.biz-email.net ((D)) with ASMTP (SSL) id SXT00008;
-        Fri, 24 Jun 2022 09:47:08 +0800
-Received: from localhost.localdomain (10.200.104.82) by
- jtjnmail201612.home.langchao.com (10.100.2.12) with Microsoft SMTP Server id
- 15.1.2308.27; Fri, 24 Jun 2022 09:47:08 +0800
-From:   Deming Wang <wangdeming@inspur.com>
-To:     <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Deming Wang <wangdeming@inspur.com>
-Subject: [PATCH] ovl: Modify the section of Return Value
-Date:   Thu, 23 Jun 2022 21:47:07 -0400
-Message-ID: <20220624014707.2057-1-wangdeming@inspur.com>
-X-Mailer: git-send-email 2.31.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.200.104.82]
-tUid:   2022624094708aa64e8432438a3da5e1286aae8e3b087
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Fri, 24 Jun 2022 00:41:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA7B353A7B
+        for <linux-media@vger.kernel.org>; Thu, 23 Jun 2022 21:41:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8AF71620FB
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 04:41:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77083C3411C
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 04:41:18 +0000 (UTC)
+Date:   Fri, 24 Jun 2022 06:41:16 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20220624044118.77083C3411C@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Delete duplicate words of "the".
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Deming Wang <wangdeming@inspur.com>
----
- Documentation/userspace-api/media/dvb/frontend_f_open.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Results of the daily build of media_tree:
 
-diff --git a/Documentation/userspace-api/media/dvb/frontend_f_open.rst b/Documentation/userspace-api/media/dvb/frontend_f_open.rst
-index bb37eded0870..70e169b8f601 100644
---- a/Documentation/userspace-api/media/dvb/frontend_f_open.rst
-+++ b/Documentation/userspace-api/media/dvb/frontend_f_open.rst
-@@ -91,7 +91,7 @@ appropriately.
-        -  The caller has no permission to access the device.
- 
-     -  - ``EBUSY``
--       -  The the device driver is already in use.
-+       -  The device driver is already in use.
- 
-     -  - ``EMFILE``
-        -  The process already has the maximum number of files open.
--- 
-2.27.0
+date:			Fri Jun 24 05:00:08 CEST 2022
+media-tree git hash:	945a9a8e448b65bec055d37eba58f711b39f66f0
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	ef8c5223b4a5b2610e0dfbdff5257cf96c124f96
+edid-decode git hash:	582c935652b0303b87ddad4551e6f97f8bb883ac
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-31-g4880bd19-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8015-g1a0af070-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 91f84ece3e3913f585d616d95c62decf7ca58e1f
+host hardware:		x86_64
+host os:		5.18.0-1-amd64
 
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-multi: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
