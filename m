@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3339255A48D
+	by mail.lfdr.de (Postfix) with ESMTP id 9E90E55A48E
 	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 01:03:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231407AbiFXXD2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jun 2022 19:03:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37322 "EHLO
+        id S231526AbiFXXDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jun 2022 19:03:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiFXXD2 (ORCPT
+        with ESMTP id S229454AbiFXXDa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jun 2022 19:03:28 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4248A51E54
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 16:03:27 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id u15so7497945ejc.10
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 16:03:27 -0700 (PDT)
+        Fri, 24 Jun 2022 19:03:30 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 249DE51E5D
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 16:03:29 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id pk21so7575799ejb.2
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 16:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6cfkuZG7idfXo7IqBBshTVExV9f6nwYcsNi86Vc+VE8=;
-        b=Jf1umRNAJXGAzvx2aJhV3LYpMPhv/cfl14mkSkn8vPCrmkBv73d/1y4FxzhU2iKUV+
-         yjY1dRKmznA3df5MGwSaDALIRD4DIyoJ32nqJX70v9kIBUHzxFl1EqPXdDy4ZR3SLFii
-         J7WoRYTVujZIbofiVaxjYVSe/PlXMPbIKrUzY=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rpdfidpXpaazosoDOCbj0RBJV66iHVFwcJEcEN756BA=;
+        b=cdPlkqVcoWoSFU8LRn4IpAsmIYKReNGfIdPxoZMdkRPq2WFoQ9nr5dwMnG5+weD/sD
+         J02wws+Qe4SgAoovSNOpaoRrnein1CmTagwuoj5Hqn6R/rFLDJRmczsefN1Sr14YtW4Q
+         IUJD4oJeb/wtkA8EmCsv/ei3y3hrvU0TUrwDs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6cfkuZG7idfXo7IqBBshTVExV9f6nwYcsNi86Vc+VE8=;
-        b=6NWUKx2U/9r4G4qp3CnD4pLzCcoWcB76u4xT6fFxV5kznBqM493rWU6m6nlh5c8s+A
-         GpqxWpIu3TSnKv31J+zvcF9LyRZVRAkb3v8XF/3L5p2vGphCH1GlACbxN/LXj//ENgNh
-         eUXFmHlg/prA67MA+4F5BsqOg7u57/VIQoy5csln4bkgfZDhs6+reG+PHfJBkJBq31b7
-         4n/NY3STFHBf5RFB84P1dVB/BgZigryzdXtXBDzPPCF0yyppsAIWw8COXBPVlAKjx3th
-         qNDe09uQDzv3EJxuidovk4cEbxXLDur/aiwGcr/LaVDh4kdvX8q/9ovEZWXo8lGMfzFj
-         CMVw==
-X-Gm-Message-State: AJIora8qzbuHt299RTnN7eZ+rwSKzF8lVa7J4El/VMsZdYhPyUBfM94d
-        GnT0b9aT+rJMPp6aXcqMHM98uQ==
-X-Google-Smtp-Source: AGRyM1uiH+TA8mgLMRLqrxaoa3+Ka0nZye81F+GVBEctnrrpf+eLxawoxqVb0gaqMbAmVOudU1TWcw==
-X-Received: by 2002:a17:907:6e8b:b0:726:2b16:d1b4 with SMTP id sh11-20020a1709076e8b00b007262b16d1b4mr1366379ejc.27.1656111805779;
-        Fri, 24 Jun 2022 16:03:25 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rpdfidpXpaazosoDOCbj0RBJV66iHVFwcJEcEN756BA=;
+        b=HMSHZHFs7hHeGdizyaMu39tCPIftTxQe8QXRPSKnzdexeZbM7TRKzMOgVHaNJEGIz/
+         0DwOyqMmKeMZuTc8+SlQ5z94fbz+dnFyRXuSE5NX4VdEVclhFpjwSZabx0Dv8H1VHFFo
+         Wo8kQ1uWgcyq1A0mvyhQO6P1Ln/LfGCQ1DhyVWKxti2pU/1iMqEj5+jJ3WAAEp4l45Q0
+         O1+Vr74L2UC3jSJ3gxmfQVjo0f3aRZYU49rIU4Db9+ujncOiEexnkeBPQ7TlpyRXugIJ
+         IBbuEUPUE673DBd7jugZOYE3tpcXRIOMPMhzQrrNwNUsHCHg3IGqLBKDBBvR67aw1R+m
+         MM9g==
+X-Gm-Message-State: AJIora9OAH/hRLDN/WxDDEWpr4EFyZ3QKZl3PchYjqg77KN29ESSe9S+
+        pZgTtewyHfNzZjQ3v7XFEZtfBtCYuXHZYg==
+X-Google-Smtp-Source: AGRyM1vhqjiGM7xH32xE7QgCpESMy0PxzCwGDtTt0aC5PvWyn9gqo5qu7GB847/gpS4mM9tg+ABWHA==
+X-Received: by 2002:a17:907:2d2a:b0:726:3527:60ac with SMTP id gs42-20020a1709072d2a00b00726352760acmr1262045ejc.661.1656111807720;
+        Fri, 24 Jun 2022 16:03:27 -0700 (PDT)
 Received: from tom-ThinkPad-T14s-Gen-2i.station (net-188-217-58-216.cust.vodafonedsl.it. [188.217.58.216])
-        by smtp.gmail.com with ESMTPSA id w1-20020aa7da41000000b004356a647d08sm2880291eds.94.2022.06.24.16.03.24
+        by smtp.gmail.com with ESMTPSA id w1-20020aa7da41000000b004356a647d08sm2880291eds.94.2022.06.24.16.03.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jun 2022 16:03:25 -0700 (PDT)
+        Fri, 24 Jun 2022 16:03:27 -0700 (PDT)
 From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
         quentin.schulz@theobroma-systems.com,
@@ -52,10 +52,12 @@ Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
         Daniel Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/7] media: ov5693: cleanup code and add dts support
-Date:   Sat, 25 Jun 2022 01:03:00 +0200
-Message-Id: <20220624230307.3066530-1-tommaso.merciai@amarulasolutions.com>
+Subject: [PATCH 1/7] media: ov5693: count num_supplies using array_size
+Date:   Sat, 25 Jun 2022 01:03:01 +0200
+Message-Id: <20220624230307.3066530-2-tommaso.merciai@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220624230307.3066530-1-tommaso.merciai@amarulasolutions.com>
+References: <20220624230307.3066530-1-tommaso.merciai@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -69,29 +71,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
-This series cleanup code on ov5693 driver and bring up dts support, also add
-documentation for ov5693 camera sensor
+Instead of hardcode OV5693_NUM_SUPPLIES in a define is better use
+ARRAY_SIZE function to count the number of supplies from
+ov5693_supply_names array
 
-Inspired by recently Quentin series:
+Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+---
+ drivers/media/i2c/ov5693.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
- - https://patchwork.kernel.org/project/linux-media/list/?series=64807
-
-Tommaso Merciai (7):
-  media: ov5693: count num_supplies using array_size
-  media: ov5693: add dvdd into ov5693_supply_names array
-  media: ov5693: rename clk into xvclk
-  media: ov5693: move hw cfg functions into ov5693_check_hwcfg
-  media: ov5693: rename ov5693_check_hwcfg into ov5693_get_hwcfg
-  media: ov5693: add ov5693_of_match, dts support
-  media: dt-bindings: ov5693: document YAML binding
-
- .../bindings/media/i2c/ovti,ov5693.yaml       | 123 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- drivers/media/i2c/ov5693.c                    |  86 +++++++-----
- 3 files changed, 176 insertions(+), 34 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-
+diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+index 117ff5403312..f410333c4c67 100644
+--- a/drivers/media/i2c/ov5693.c
++++ b/drivers/media/i2c/ov5693.c
+@@ -127,11 +127,15 @@
+ #define OV5693_LINK_FREQ_419_2MHZ		419200000
+ #define OV5693_PIXEL_RATE			167680000
+ 
+-/* Miscellaneous */
+-#define OV5693_NUM_SUPPLIES			2
+-
+ #define to_ov5693_sensor(x) container_of(x, struct ov5693_device, sd)
+ 
++static const char * const ov5693_supply_names[] = {
++	"avdd",		/* Analog power */
++	"dovdd",	/* Digital I/O power */
++};
++
++#define OV5693_NUM_SUPPLIES	ARRAY_SIZE(ov5693_supply_names)
++
+ struct ov5693_reg {
+ 	u32 reg;
+ 	u8 val;
+@@ -352,11 +356,6 @@ static const s64 link_freq_menu_items[] = {
+ 	OV5693_LINK_FREQ_419_2MHZ
+ };
+ 
+-static const char * const ov5693_supply_names[] = {
+-	"avdd",
+-	"dovdd",
+-};
+-
+ static const char * const ov5693_test_pattern_menu[] = {
+ 	"Disabled",
+ 	"Random Data",
 -- 
 2.25.1
 
