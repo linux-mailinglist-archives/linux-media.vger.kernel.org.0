@@ -2,117 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB95155ABDD
-	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 20:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03FEF55AC9B
+	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 22:35:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232937AbiFYSAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Jun 2022 14:00:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38656 "EHLO
+        id S233501AbiFYUf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Jun 2022 16:35:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231311AbiFYSAK (ORCPT
+        with ESMTP id S233240AbiFYUfz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Jun 2022 14:00:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76CAF1402B
-        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 11:00:08 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5608831A;
-        Sat, 25 Jun 2022 20:00:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656180006;
-        bh=MCaBH7JYDAQAejYxz4JDDGEMpG5ffm5wgGm/4ewwNz8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nFrdt8dYt6fsqYYkik6Z374s94gmp8kSkrdgHxFAKn1hF6oSwjaMi3JDoJfOCax2H
-         sYJMMMpUguDcMRSLGOjHkR/DJV4FZuaaJoEog03AljiXkezWvhtinpKbwT3zZOBkic
-         4yyr6cIEmyUHTYRqsjdmeEOlq2wWqPn3prjHIoEY=
-Date:   Sat, 25 Jun 2022 20:59:48 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, dafna@fastmail.com, heiko@sntech.de,
-        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
-        djrscally@gmail.com, helen.koike@collabora.com,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 01/55] media: rkisp1: debug: Add dump file in debugfs for
- MI buffer registers
-Message-ID: <YrdNFJnkU+MLtmtk@pendragon.ideasonboard.com>
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-2-paul.elder@ideasonboard.com>
- <YqpgMkK33+0IpxjR@pendragon.ideasonboard.com>
+        Sat, 25 Jun 2022 16:35:55 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9948213D2C
+        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 13:35:53 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id u15so11280329ejc.10
+        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 13:35:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=5ibzd/HltQFWXUhqB2ZPgR5KDRUPRWUvyYsOfNwKbfY=;
+        b=QRg8Wn9tuMwaH5zMhzagX7y+7r8khYhZVFXd66vWy12ReAr8MIM0zFmwG2HeHJ9Juw
+         57V6vul5SHR7XnYmojf58+iTEt9YiJIWrm7Ni1/qejh95Kq/nAFGflZmlNSlhCtOeX2S
+         fnB3TvLv10nrGc7uA4rKDbnpid/7PDbyWlAE7aHmf39Gh/xdhsXPuFLWUTZej7KU5MJX
+         yf0tPIub7tujKPlJUNyaPzjmWsx/fIr52DrJi+eNgXJZSHqNrciq9GzU0hasy9XemPyr
+         PuE0XokkeqmTNE+zagJT0HxEH84TGjMgcW90n2ppIRMVBBabyvLgMu+2Emd9JjY8+AxY
+         uiNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=5ibzd/HltQFWXUhqB2ZPgR5KDRUPRWUvyYsOfNwKbfY=;
+        b=5f5WVljQ3p4efIg2RTD15479EdPfWJIG6DtYpp6vvETGmE5KozvCzolU2emohnP93f
+         Ly9gYcT8ACi7SdUbEnRGwuB3Pne7bSQuwzvwT+GwMzeOvkVwJYauJSCr8ab6Yk1NQEgQ
+         lYFTFJxSf1zT8otauLxpIdPzJh0Q+oMj1SbUO3AWB/9+Uo7dZc2E9PX0sbc9H2T8IFe0
+         tQVp+vOzpLUO6OChbNsl1FyremGcSG7x5ZdkUFqITx+CT7IUSY9yx05UAGvm2jp1dM5f
+         bK/+ziWT2CZUBJk+/ArF8aqR246rpI8vOV3476nwZhZ6Ixs42ylDcwbm1IsQD4UfglsH
+         TaHg==
+X-Gm-Message-State: AJIora+Na76msgDZ61QS9Xd8MQzaC4BoXPtXdNNKJYGUn8x4m13r4/L9
+        gA+lcg22BanrFABkwt/92C6+XQ==
+X-Google-Smtp-Source: AGRyM1v81F3RG7MfyQz8Riw19Mirn3N6XSSPEn5oFuEJlC3FzZe7mHAPwIF1XCX9vhMSIremg7Y1bw==
+X-Received: by 2002:a17:906:a245:b0:708:ce69:e38b with SMTP id bi5-20020a170906a24500b00708ce69e38bmr5385559ejb.100.1656189352173;
+        Sat, 25 Jun 2022 13:35:52 -0700 (PDT)
+Received: from [192.168.0.239] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id z16-20020a1709060f1000b007238429996bsm2953529eji.91.2022.06.25.13.35.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Jun 2022 13:35:51 -0700 (PDT)
+Message-ID: <7b138ea1-735f-03b1-720b-d3934ad83060@linaro.org>
+Date:   Sat, 25 Jun 2022 22:35:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YqpgMkK33+0IpxjR@pendragon.ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 7/7] media: dt-bindings: ov5693: document YAML binding
+Content-Language: en-US
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220624230307.3066530-1-tommaso.merciai@amarulasolutions.com>
+ <20220624230307.3066530-8-tommaso.merciai@amarulasolutions.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220624230307.3066530-8-tommaso.merciai@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
-
-On Thu, Jun 16, 2022 at 01:41:56AM +0300, Laurent Pinchart wrote:
-> On Wed, Jun 15, 2022 at 04:10:33AM +0900, Paul Elder wrote:
-> > Add a register dump file in debugfs for some of the buffer-related
-> > registers in MI, for the base address, the size, and the offset. Also
-> > dump the appropriate shadow registers.
-> > 
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > ---
-> >  .../platform/rockchip/rkisp1/rkisp1-debug.c   | 21 +++++++++++++++++++
-> >  1 file changed, 21 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > index e76dc2b164b6..1a59c00fabdd 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > @@ -121,6 +121,24 @@ static int rkisp1_debug_dump_rsz_regs_show(struct seq_file *m, void *p)
-> >  }
-> >  DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_rsz_regs);
-> >  
-> > +static int rkisp1_debug_dump_mi_mp_y_offs_cnt_show(struct seq_file *m, void *p)
-> > +{
-> > +	static const struct rkisp1_debug_register registers[] = {
-> > +		RKISP1_DEBUG_REG(MI_MP_Y_BASE_AD_INIT),
-> > +		RKISP1_DEBUG_REG(MI_MP_Y_BASE_AD_INIT2),
-> > +		RKISP1_DEBUG_REG(MI_MP_Y_BASE_AD_SHD),
-> > +		RKISP1_DEBUG_REG(MI_MP_Y_SIZE_INIT),
-> > +		RKISP1_DEBUG_REG(MI_MP_Y_SIZE_INIT),
-> > +		RKISP1_DEBUG_REG(MI_MP_Y_SIZE_SHD),
-> > +		RKISP1_DEBUG_REG(MI_MP_Y_OFFS_CNT_SHD),
-> > +		{ /* Sentinel */ },
-> > +	};
-> > +	struct rkisp1_device *rkisp1 = m->private;
-> > +
-> > +	return rkisp1_debug_dump_regs(rkisp1, m, 0, registers);
-> > +}
-> > +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_mi_mp_y_offs_cnt);
-> > +
-> >  #define RKISP1_DEBUG_DATA_COUNT_BINS	32
-> >  #define RKISP1_DEBUG_DATA_COUNT_STEP	(4096 / RKISP1_DEBUG_DATA_COUNT_BINS)
-> >  
-> > @@ -214,6 +232,9 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
-> >  	debugfs_create_file("srsz", 0444, regs_dir,
-> >  			    &rkisp1->resizer_devs[RKISP1_SELFPATH],
-> >  			    &rkisp1_debug_dump_rsz_regs_fops);
-> > +
-> > +	debugfs_create_file("mi_mp_y_bufs", 0444, regs_dir, rkisp1,
-> > +			    &rkisp1_debug_dump_mi_mp_y_offs_cnt_fops);
+On 25/06/2022 01:03, Tommaso Merciai wrote:
+> This patch adds documentation of device tree in YAML schema for the
+> OV5693 CMOS image sensor from Omnivision
 > 
-> That's a very specialized file. I wonder if we should call it just
-> "mi_mp" if it needs to be extended later with other memory interface
-> registers for the main path. Or maybe even just "mi", to cover the self
-> path too ? The latter may be a tad too generic. What do you think ?
+> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> ---
+>  .../bindings/media/i2c/ovti,ov5693.yaml       | 123 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 124 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> new file mode 100644
+> index 000000000000..1ee70af40000
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> @@ -0,0 +1,123 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2022 Amarulasolutions
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV5693 CMOS Sensor
+> +
+> +maintainers:
+> +  - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> +
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
 
-Ping
+This goes after description.
 
-> >  }
-> >  
-> >  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
+> +
+> +description: |
+> +  The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
+> +  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
+> +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
+> +  Serial Camera Control Bus (SCCB) interface.
+> +
+> +  Supports images sizes: 5 Mpixel, EIS1080p, 1080p, 720p, VGA, QVGA
+> +
+> +  OV5693 is programmable through I2C and two-wire Serial Camera Control Bus (SCCB).
+> +  The sensor output is available via CSI-2 serial data output (up to 2-lane).
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov5693
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description:
+> +      System input clock (aka XVCLK). From 6 to 27 MHz.
+> +    maxItems: 1
+> +
+> +  dovdd-supply:
+> +    description:
+> +      Digital I/O voltage supply, 1.8V.
+> +
+> +  avdd-supply:
+> +    description:
+> +      Analog voltage supply, 2.8V.
+> +
+> +  dvdd-supply:
+> +    description:
+> +      Digital core voltage supply, 1.2V.
+> +
+> +  reset-gpios:
+> +    description:
+> +      The phandle and specifier for the GPIO that controls sensor reset.
+> +      This corresponds to the hardware pin XSHUTDN which is physically
+> +      active low.
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            minItems: 1
+> +            maxItems: 2
+> +
+> +          # Supports max data transfer of 900 Mbps per lane
+> +          link-frequencies: true
 
--- 
-Regards,
+This is not needed. Provided by video-interfaces.yaml.
 
-Laurent Pinchart
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - dovdd-supply
+> +  - avdd-supply
+> +  - dvdd-supply
+> +  - port
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/px30-cru.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/pinctrl/rockchip.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ov5693: camera@36 {
+> +            compatible = "ovti,ov5693";
+> +            reg = <0x36>;
+> +
+> +            reset-gpios = <&gpio2 RK_PB1 GPIO_ACTIVE_LOW>;
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&cif_clkout_m0>;
+> +
+> +            clocks = <&cru SCLK_CIF_OUT>;
+> +            assigned-clocks = <&cru SCLK_CIF_OUT>;
+> +            assigned-clock-rates = <19200000>;
+> +
+> +            avdd-supply = <&vcc_1v8>;
+> +            dvdd-supply = <&vcc_1v2>;
+> +            dovdd-supply = <&vcc_2v8>;
+> +
+> +            rotation = <90>;
+> +            orientation = <0>;
+> +
+> +            port {
+> +                ucam_out: endpoint {
+> +                    remote-endpoint = <&mipi_in_ucam>;
+> +                    data-lanes = <1 2>;
+> +                    link-frequencies = /bits/ 64 <450000000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> \ No newline at end of file
+
+^^^ This has to be fixed.
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+Best regards,
+Krzysztof
