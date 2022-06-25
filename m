@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B01155A6C8
-	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 06:06:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CB8D55A70E
+	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 06:28:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231300AbiFYEF2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Jun 2022 00:05:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53682 "EHLO
+        id S229757AbiFYE2j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Jun 2022 00:28:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbiFYEF0 (ORCPT
+        with ESMTP id S229520AbiFYE2i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Jun 2022 00:05:26 -0400
+        Sat, 25 Jun 2022 00:28:38 -0400
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18E14B7D3
-        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 21:05:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 748824DF68
+        for <linux-media@vger.kernel.org>; Fri, 24 Jun 2022 21:28:38 -0700 (PDT)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id CE65932004E7;
-        Sat, 25 Jun 2022 00:05:24 -0400 (EDT)
+        by mailout.west.internal (Postfix) with ESMTP id 339903200921;
+        Sat, 25 Jun 2022 00:28:37 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sat, 25 Jun 2022 00:05:25 -0400
+  by compute1.internal (MEProxy); Sat, 25 Jun 2022 00:28:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1656129924; x=1656216324; bh=OArguU+i8X
-        rGhEUuhYjgY9SoLxXxtMS4WQmT1tMBIOY=; b=pvFupkeViN3orn2ePglQN4Kspm
-        3EvUH5gTp9SPoeJRVwArVE0vL4ilTn7JIXG9dfLhBvy08W2UqD8rAdmi7uUgcON3
-        CLwxAMHEAUIUxlfNYqsdXGLHVR5BL2jFq7bkJfnJC8te15TzSEXA2GRPE+bWUt6J
-        DL9lslsNH+33YkrBg1RYDqrqnwxQIngeZ1tUgNabTaPCPN119to5CSb5n6UwaLmY
-        nTsohYFoMnyB3PavS1M6vt6m2epsy5zeDWi86FW1ZoIS9B71QWdLNJjn+MjOrfuK
-        lCJxoZ+k94luXkEYL4SPbyMbsRoqvVQHN1FF3Nocbctiu9VfE1BjBR/7Pwag==
+        :subject:to:to; s=fm2; t=1656131316; x=1656217716; bh=hvxEUS58aQ
+        Bvi7at1sMVHl1T8q5rv+ulpWwzOT/w/RQ=; b=peRG6hFhbsT+haDqboR0CW8TTV
+        46NWJrSSNBzrAoSDtHSoLiucO+koEg/Sj7kprPOfteVIhpgVmgVlfwZm9dmQLkoJ
+        njWRckBODcYlGVIfSOts9A32fX+LQsKuLdLElJFgfEXXrqXvp3pj3jI4HTFA9isG
+        LqeCZaYd57gwealZGFzdeRFhEuAuIhwxVUnqhGtkhjwBmvcaw697g6TpGqs4FMEd
+        GkrGgSADo4KL02fwkgZGH7fqPC+IP/XgwHdrPx0g9l6bDDIOVBKLmrbD67QveHhq
+        5Jsp/F/O3hbnsgv81ebjH9pjRN2iKhLihJBREkJiaVWGJnT9+hFUt6Lat51w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1656129924; x=1656216324; bh=OArguU+i8XrGhEUuhYjgY9SoLxXx
-        tMS4WQmT1tMBIOY=; b=tehyC1hmMP3iggWvxNDd7l/r5lOmi/RU30tUjgAL2t3g
-        2Gg6CiHaW8SblpjwLGnEctnzVVqcVtvQzrU6jklgHkciywwXlKeEzMZr6ir+LJKl
-        qLAUPUdJdp60u358S46w5+i20aA36PnWadhPnjKsep7bbDN8PNoX9emoXmy1pIm0
-        9FnYiBWA8eGc/7lxRK2Ocu61Kmc/QAa8Zq/d8LFVYams2Ll2v7CqZQY21ELpM77Z
-        ++AWZHS/RxSjAGT5tQRdBlc+69V9yPHwU+CmMtAnvzcF1qG0dMADgJIdsOYqAT84
-        pXZV6kwdzmZdo4PDdNxvmb4/LiSNkjuDrHwD3SYjEQ==
-X-ME-Sender: <xms:hIm2YpX1F0QoU5O0viXust-t5S3FKUnsUyK5BQNPBcOEQ1E0PIbKaw>
-    <xme:hIm2YpmKKWjm1x9eS91TyTnNCrwnzTWO1h9uOvqszBYU3eEin7TeA9lUbfVwhnYvd
-    pPEI2szmtS4szdr3x0>
-X-ME-Received: <xmr:hIm2YlbRoRbOj5MozJIl6o40SlsofWSBvFty3dvhP7L8FSpL-z8Gxw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegtddgkedtucetufdoteggodetrfdotf
+        fm2; t=1656131316; x=1656217716; bh=hvxEUS58aQBvi7at1sMVHl1T8q5r
+        v+ulpWwzOT/w/RQ=; b=I+/yjxIq1DcDlFVhUvCNVxzb2pX5tgirCqejVya41vTT
+        MNkTt9FD+QQ2TbxOojXOKo7G7DOLqB8f17/Ip6PTcbobpy3Pcr2hf3R47DwoS+/G
+        wXGanoka1uJ/fMPBBTltotjIGtGmK7Ilu6UMVRQEmPpXSUaR26nFCr0/DOiSIKEe
+        3z92J4kOxFEAJ4o6aL2xFMw9ElxCb9QfUYDPpWVMLMbTeFAWghkBflA+evu5/Ir2
+        0keXTOnLCpsy4bF0w8g6lWvcvqmCMTGIMUVc7tWNPWuy16vNdbbOOcZ0Ex4b1Oje
+        5ptDStVyH5RWpeZqHmWiXoAyGdXVDX4rD/bHitAHew==
+X-ME-Sender: <xms:9I62Yqd3CIaf1N-27f-bLzURDROB0NR79MR0S2ImGl2f1RP4NgU81w>
+    <xme:9I62YkMYBRW3CpUR9r-JfwV99WMMK7ktvCNrCHy3CufDaJYoTXN-A5wUMFodVVlNM
+    otFFjA9optN6qEjw9I>
+X-ME-Received: <xmr:9I62YrjeG_Zymdn_dDj2hG4MtW246eWkB3rhyT2BMVjAwJyQBISHFA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegtddgkeehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
@@ -54,14 +54,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegtddgkedtucetufdoteggod
     ggtffrrghtthgvrhhnpedvhedtledukeegveelfeeuvddujeeiteehkedvhfetkeffudej
     hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpegurghfnhgrsehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:hIm2YsXRJNnwE16Duqtkzj7_auw9duakB2hDl5Kxc4J1dX0RCsfzuw>
-    <xmx:hIm2YjkTBP3VAjX2-OhQxCfmdCzESHbccOG9tMlNk5p_-IjdccwXOQ>
-    <xmx:hIm2YpcBdAsheGPGo-E_tHiPJ_dn59dQtndi7TZ9RRJPdNUSbqAnxA>
-    <xmx:hIm2YhXtXuX8nq-79CosdKX7Hr5hDBBDJD-pVWBj1FCm24QJyj2Heg>
+X-ME-Proxy: <xmx:9I62Yn-QevoQQrTE5LAM1Xi_gZ0CspD0H7pB4yqlFQnVqOL3OsRD7A>
+    <xmx:9I62YmtkWVc9ezTbnAiZ9NpYxuPkasanz_M_58GuxRwloHNZa-MTPg>
+    <xmx:9I62YuF_0l6Ae6R42t1PQo28NzATKhbG2wVjMNoFAbSBclr9J1-CBw>
+    <xmx:9I62Yj85QXECJ1wKMVAEHudI4aNsI_z_TPbJStJeCJgDHHuJlTHmZQ>
 Feedback-ID: i0e894699:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 25 Jun 2022 00:05:21 -0400 (EDT)
-Date:   Sat, 25 Jun 2022 07:05:18 +0300
+ 25 Jun 2022 00:28:33 -0400 (EDT)
+Date:   Sat, 25 Jun 2022 07:28:30 +0300
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Paul Elder <paul.elder@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
@@ -69,15 +69,15 @@ Cc:     linux-media@vger.kernel.org,
         heiko@sntech.de, jeanmichel.hautbois@ideasonboard.com,
         jacopo@jmondi.org, djrscally@gmail.com, helen.koike@collabora.com,
         linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 22/55] media: rkisp1: csi: Move start delay to
- rkisp1_csi_start()
-Message-ID: <20220625040518.kbf2utnmpsartx56@guri>
+Subject: Re: [PATCH 23/55] media: rkisp1: csi: Pass sensor pointer to
+ rkisp1_csi_config()
+Message-ID: <20220625042830.rk5kjzguiepwwph6@guri>
 References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-23-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-24-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220614191127.3420492-23-paul.elder@ideasonboard.com>
+In-Reply-To: <20220614191127.3420492-24-paul.elder@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -91,60 +91,47 @@ X-Mailing-List: linux-media@vger.kernel.org
 On 15.06.2022 04:10, Paul Elder wrote:
 >From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
->The delay in rkisp1_isp_start() is related to to the CSI-2 receiver and
->the camera sensor. Move it where it belongs, to rkisp1_csi_start().
+>To prepare for the removal of the active_sensor field from the
+>rkisp1_device structure, pass the sensor pointer to the
+>rkisp1_csi_config() function instead of accessing it through
+>active_sensor.
 >
 >Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 Reviewed-by Dafna Hirschfeld <dafna@fastmail.com>
 
 >---
-> drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c | 7 +++++++
-> drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 6 ------
-> 2 files changed, 7 insertions(+), 6 deletions(-)
+> drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c | 7 ++++---
+> 1 file changed, 4 insertions(+), 3 deletions(-)
 >
 >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->index c1bb8c05543d..fcaffffd371b 100644
+>index fcaffffd371b..925274b9a3c4 100644
 >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
 >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->@@ -9,6 +9,7 @@
->  * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
->  */
+>@@ -19,11 +19,12 @@
+> #include "rkisp1-common.h"
+> #include "rkisp1-csi.h"
 >
->+#include <linux/delay.h>
-> #include <linux/device.h>
-> #include <linux/phy/phy.h>
-> #include <linux/phy/phy-mipi-dphy.h>
->@@ -120,6 +121,12 @@ int rkisp1_csi_start(struct rkisp1_csi *csi,
+>-static int rkisp1_csi_config(struct rkisp1_csi *csi)
+>+static int rkisp1_csi_config(struct rkisp1_csi *csi,
+>+			     struct rkisp1_sensor_async *sensor)
+> {
+> 	struct rkisp1_device *rkisp1 = csi->rkisp1;
+> 	const struct rkisp1_mbus_info *sink_fmt = rkisp1->isp.sink_fmt;
+>-	unsigned int lanes = rkisp1->active_sensor->lanes;
+>+	unsigned int lanes = sensor->lanes;
+> 	u32 mipi_ctrl;
 >
-> 	rkisp1_csi_enable(csi);
+> 	if (lanes < 1 || lanes > 4)
+>@@ -102,7 +103,7 @@ int rkisp1_csi_start(struct rkisp1_csi *csi,
+> 	s64 pixel_clock;
+> 	int ret;
 >
->+	/*
->+	 * CIF spec says to wait for sufficient time after enabling
->+	 * the MIPI interface and before starting the sensor output.
->+	 */
->+	usleep_range(1000, 1200);
->+
-> 	return 0;
-> }
+>-	ret = rkisp1_csi_config(csi);
+>+	ret = rkisp1_csi_config(csi, sensor);
+> 	if (ret)
+> 		return ret;
 >
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->index ecb8ca0ad670..3ea0deb6b792 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->@@ -365,12 +365,6 @@ static void rkisp1_isp_start(struct rkisp1_device *rkisp1)
-> 	       RKISP1_CIF_ISP_CTRL_ISP_ENABLE |
-> 	       RKISP1_CIF_ISP_CTRL_ISP_INFORM_ENABLE;
-> 	rkisp1_write(rkisp1, RKISP1_CIF_ISP_CTRL, val);
->-
->-	/*
->-	 * CIF spec says to wait for sufficient time after enabling
->-	 * the MIPI interface and before starting the sensor output.
->-	 */
->-	usleep_range(1000, 1200);
-> }
->
-> /* ----------------------------------------------------------------------------
 >-- 
 >2.30.2
 >
