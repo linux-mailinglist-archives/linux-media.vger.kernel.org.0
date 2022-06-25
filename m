@@ -2,84 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 507A755A7D4
-	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 09:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A35255A88B
+	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 11:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232128AbiFYHqI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Jun 2022 03:46:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56286 "EHLO
+        id S232212AbiFYJTV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 25 Jun 2022 05:19:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231527AbiFYHqH (ORCPT
+        with ESMTP id S231529AbiFYJTU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Jun 2022 03:46:07 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5165147382
-        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 00:46:06 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id AEBA75C013B;
-        Sat, 25 Jun 2022 03:46:05 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sat, 25 Jun 2022 03:46:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1656143165; x=1656229565; bh=cEs6C2BC++
-        5pMdT/eoZoDIMgovVE5MwyNHRcQFRcx8U=; b=NNNeiXwoLaHxJNHZP9eW8VtSq4
-        mYCpTVeOWc0Rmey68UlEJAWKL3M/m0nONu6kULDVCl2bPr+zJkCncNQ16PITBx8P
-        rnQTiwc1lxYFYgQZulN35g4hwWReoDxAdbc2Q5c8jQeCnvZTnKuSEb0BOai/3y2D
-        VbC1spE//8iYCQ0h22xCwWpuW4YDJek1J9hWFLov488fpS+HWjjHBIU72qZY5iaw
-        +0bGvcFAmMdcyPCtyllXJe3iIVImWmaBNLf+d7xgidfSjLwRxxy0HHuOybSYnMDa
-        H1ADbwitEJyKKicXCx7VDajZWXrHCnc7MkmPQv2Aq16fVkIaVM/vXc6+ttEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1656143165; x=1656229565; bh=cEs6C2BC++5pMdT/eoZoDIMgovVE
-        5MwyNHRcQFRcx8U=; b=iXdvU37DJDGS76nE7kvhcUj9455dg2uO9dlxwpuMAnKE
-        x5ryYPa0UR6KntvqCE5CMLGsQ6bcZUV6tRa6gA8SnwxRwsuN+0xYzGsTcljgUO71
-        VGTgZ6oBAeVV/LJN89OcjnWxxSHvIbS/w7Hy5VBpTSsqBoEJYhClEIZ7rQ1VWx3f
-        jGdCiaRJlaI8j9u8l1Q+y+UiL21wgUlTRJTreoBFjS9evmWVpTvl/ql5O0eVvT6V
-        8BGvPXUoLL8s3MyVDphYPqPkPeSWscA4TaRDPXd1iaDVRwEiRwJsQMQ6JUF+6Xyw
-        e04iAKo4DvAYZQR2ulXJYyZJSz2+k8ceXJtYtcUMMA==
-X-ME-Sender: <xms:Pb22YooHNnBpsoblKe297W2JpHpptrbALzmH0QaqyDUQ9XUfF5Nd0A>
-    <xme:Pb22YupN9Th4LWsSpBKCnAArTIoHAXGrN3iKSf46SfCDnUACYBULsNw1nk25JTMSE
-    7VWqfvHLxWfFl3W_Dk>
-X-ME-Received: <xmr:Pb22YtPAilsCMKxoKtoY4BSadPF8DEZE0PQTmAMhsilKaH0xNcXCQQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegtddguddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeffrghf
-    nhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghsthhmrghilhdrtghomheqne
-    cuggftrfgrthhtvghrnhepvdehtdeludekgeevleefuedvudejieetheekvdfhteekffdu
-    jefhfedtudehvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:Pb22Yv4XuaSuChpH23E6tb1DRinR5C1_liu1uJuQyf96N0wfNxEYzA>
-    <xmx:Pb22Yn4vyQz2FFHU2jStDOWkJt690k8uuYcjyc3aLvp8203Qjudx8Q>
-    <xmx:Pb22YvgIY7-ML5EoNd_LcEUEzNUFohmNwPFhoyeVIm4lpSKovB8Djw>
-    <xmx:Pb22YqYmVmHxwpjelH9iTeLbrJrGPTHUyMmBH17pGbm0WCTakRPZaQ>
-Feedback-ID: i0e894699:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 25 Jun 2022 03:46:02 -0400 (EDT)
-Date:   Sat, 25 Jun 2022 10:45:59 +0300
-From:   Dafna Hirschfeld <dafna@fastmail.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        heiko@sntech.de, jeanmichel.hautbois@ideasonboard.com,
-        jacopo@jmondi.org, djrscally@gmail.com, helen.koike@collabora.com,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 41/55] media: rkisp1: csi: Plumb the CSI RX subdev
-Message-ID: <20220625074559.2gikye7mzx4gmcpr@guri>
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-42-paul.elder@ideasonboard.com>
+        Sat, 25 Jun 2022 05:19:20 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57B842ED72
+        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 02:19:19 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o51wj-0013YC-IB; Sat, 25 Jun 2022 09:19:17 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o51wh-00BxOL-BE; Sat, 25 Jun 2022 09:19:14 +0000
+Date:   Sat, 25 Jun 2022 09:19:14 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <2064127439.0.1656148754705@builder.linuxtv.org>
+In-Reply-To: <742676497.0.1656062354870@builder.linuxtv.org>
+References: <742676497.0.1656062354870@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3940
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220614191127.3420492-42-paul.elder@ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,279 +47,192 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15.06.2022 04:11, Paul Elder wrote:
->From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
->Connect the CSI receiver subdevice into the rest of the driver. This
->includes:
+See <https://builder.linuxtv.org/job/media-build/3940/display/redirect>
 
-To make it clear where you put the csi, i'll add here
-'Connect the CSI subdevice between the source
-and the isp' or something like that.
+Changes:
 
-Also the sketch 'Media Topology' in rkisp1-dev.c should be updated.
-I'd also wonder if we should ignore src configuration of the isp entity
-since it must be identical to the sink of the csi.
 
->- calling the subdevice via the v4l2 subdev API
->- moving the async notifier for the sensor from the ISP to the CSI
->  receiver
->- in the ISP, create a media link to the CSI receiver, and remove the
->  media link creation to the sensor
->- in the CSI receiver, create a media link to the sensor
->
->Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
->Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->---
-> .../platform/rockchip/rkisp1/rkisp1-csi.c     | 34 ++++++++++++++++--
-> .../platform/rockchip/rkisp1/rkisp1-csi.h     |  6 ++--
-> .../platform/rockchip/rkisp1/rkisp1-dev.c     | 36 +++++++++----------
-> .../platform/rockchip/rkisp1/rkisp1-isp.c     | 21 ++---------
-> 4 files changed, 53 insertions(+), 44 deletions(-)
->
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->index 8182694a6fe0..96712b467dde 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->@@ -43,6 +43,34 @@ rkisp1_csi_get_pad_fmt(struct rkisp1_csi *csi,
-> 		return v4l2_subdev_get_try_format(&csi->sd, &state, pad);
-> }
->
->+int rkisp1_csi_link_sensor(struct rkisp1_device *rkisp1, struct v4l2_subdev *sd,
->+			   struct rkisp1_sensor_async *s_asd,
->+			   unsigned int source_pad)
->+{
->+	struct rkisp1_csi *csi = &rkisp1->csi;
->+	int ret;		
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+Commit message: "versions.txt: IMON builds for 4.11 and up only"
+ > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3939' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
+[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@7a07df9a'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins18407854585685195618.sh
++ make distclean
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
+	config-compat.h Module.symvers Module.markers modules.order \
+	*.unsigned .*.ko.unsigned.cmd
+rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
+	Kconfig Kconfig.kern .config .config.cmd .myconfig \
+	.kconfig.dep config-mycompat.h
+rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
+rm -f scripts/lxdialog scripts/kconfig
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
 
-extra space after 'ret;' ?
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
->+
->+	s_asd->pixel_rate_ctrl = v4l2_ctrl_find(sd->ctrl_handler,
->+						V4L2_CID_PIXEL_RATE);
->+	if (!s_asd->pixel_rate_ctrl) {
->+		dev_err(rkisp1->dev, "No pixel rate control in subdev %s\n",
->+			sd->name);
->+		return -EINVAL;
->+	}
->+
->+	/* Create the link from the sensor to the CSI receiver. */
->+	ret = media_create_pad_link(&sd->entity, source_pad,
->+				    &csi->sd.entity, RKISP1_CSI_PAD_SINK,
->+				    !s_asd->index ? MEDIA_LNK_FL_ENABLED : 0);
->+	if (ret) {
->+		dev_err(csi->rkisp1->dev, "failed to link src pad of %s\n",
->+			sd->name);
->+		return ret;
->+	}
->+
->+	return 0;
->+}
->+
-> static int rkisp1_csi_config(struct rkisp1_csi *csi,
-> 			     const struct rkisp1_sensor_async *sensor)
-> {
->@@ -118,8 +146,8 @@ static void rkisp1_csi_disable(struct rkisp1_csi *csi)
-> 		     val & (~RKISP1_CIF_MIPI_CTRL_OUTPUT_ENA));
-> }
->
->-int rkisp1_csi_start(struct rkisp1_csi *csi,
->-		     const struct rkisp1_sensor_async *sensor)
->+static int rkisp1_csi_start(struct rkisp1_csi *csi,
->+			    const struct rkisp1_sensor_async *sensor)
-> {
-> 	struct rkisp1_device *rkisp1 = csi->rkisp1;
-> 	union phy_configure_opts opts;
->@@ -155,7 +183,7 @@ int rkisp1_csi_start(struct rkisp1_csi *csi,
-> 	return 0;
-> }
->
->-void rkisp1_csi_stop(struct rkisp1_csi *csi)
->+static void rkisp1_csi_stop(struct rkisp1_csi *csi)
-> {
-> 	rkisp1_csi_disable(csi);
->
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
->index ddf8e5e08f55..eadcd24f65fb 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
->@@ -21,8 +21,8 @@ void rkisp1_csi_cleanup(struct rkisp1_device *rkisp1);
-> int rkisp1_csi_register(struct rkisp1_device *rkisp1);
-> void rkisp1_csi_unregister(struct rkisp1_device *rkisp1);
->
->-int rkisp1_csi_start(struct rkisp1_csi *csi,
->-		     const struct rkisp1_sensor_async *sensor);
->-void rkisp1_csi_stop(struct rkisp1_csi *csi);
->+int rkisp1_csi_link_sensor(struct rkisp1_device *rkisp1, struct v4l2_subdev *sd,
->+			   struct rkisp1_sensor_async *s_asd,
->+			   unsigned int source_pad);
->
-> #endif /* _RKISP1_CSI_H */
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->index faf2cd4c8149..a3e182c86bdd 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->@@ -17,6 +17,7 @@
-> #include <linux/pinctrl/consumer.h>
-> #include <linux/pm_runtime.h>
-> #include <media/v4l2-fwnode.h>
->+#include <media/v4l2-mc.h>
->
-> #include "rkisp1-common.h"
-> #include "rkisp1-csi.h"
->@@ -119,17 +120,8 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
-> 		container_of(asd, struct rkisp1_sensor_async, asd);
-> 	int source_pad;
->
->-	s_asd->pixel_rate_ctrl = v4l2_ctrl_find(sd->ctrl_handler,
->-						V4L2_CID_PIXEL_RATE);
->-	if (!s_asd->pixel_rate_ctrl) {
->-		dev_err(rkisp1->dev, "No pixel rate control in subdev %s\n",
->-			sd->name);
->-		return -EINVAL;
->-	}
->-
-> 	s_asd->sd = sd;
->
->-	/* Create the link to the sensor. */
-> 	source_pad = media_entity_get_fwnode_pad(&sd->entity, s_asd->source_ep,
-> 						 MEDIA_PAD_FL_SOURCE);
-> 	if (source_pad < 0) {
->@@ -138,10 +130,7 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
-> 		return source_pad;
-> 	}
->
->-	return media_create_pad_link(&sd->entity, source_pad,
->-				     &rkisp1->isp.sd.entity,
->-				     RKISP1_ISP_PAD_SINK_VIDEO,
->-				     !s_asd->index ? MEDIA_LNK_FL_ENABLED : 0);
->+	return rkisp1_csi_link_sensor(rkisp1, sd, s_asd, source_pad);
-> }
->
-> static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
->@@ -283,6 +272,14 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
-> 	unsigned int i;
-> 	int ret;
->
->+	/* Link the CSI receiver to the ISP. */
->+	ret = media_create_pad_link(&rkisp1->csi.sd.entity, RKISP1_CSI_PAD_SRC,
->+				    &rkisp1->isp.sd.entity,
->+				    RKISP1_ISP_PAD_SINK_VIDEO,
->+				    MEDIA_LNK_FL_ENABLED);
+Not aborted. It means that the licence was agreed. Proceeding...
 
-should this also be immutable?
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2022-06-25 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2022-06-25 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
->+	if (ret)
->+		return ret;
->+
-> 	/* create ISP->RSZ->CAP links */
-> 	for (i = 0; i < 2; i++) {
-> 		struct media_entity *resizer =
->@@ -364,13 +361,6 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
-> 	if (ret)
-> 		goto error;
->
->-	ret = rkisp1_subdev_notifier_register(rkisp1);
->-	if (ret) {
->-		dev_err(rkisp1->dev,
->-			"Failed to register subdev notifier(%d)\n", ret);
->-		goto error;
->-	}
->-
-> 	return 0;
->
-> error:
->@@ -534,10 +524,16 @@ static int rkisp1_probe(struct platform_device *pdev)
-> 	if (ret)
-> 		goto err_cleanup_csi;
->
->+	ret = rkisp1_subdev_notifier_register(rkisp1);
->+	if (ret)
->+		goto err_unreg_entities;
->+
-> 	rkisp1_debug_init(rkisp1);
->
-> 	return 0;
->
->+err_unreg_entities:
->+	rkisp1_entities_unregister(rkisp1);
-> err_cleanup_csi:
-> 	rkisp1_csi_cleanup(rkisp1);
-> err_unreg_media_dev:
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->index 5afb8be311c7..260c9ce0dca4 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->@@ -16,7 +16,6 @@
-> #include <media/v4l2-event.h>
->
-> #include "rkisp1-common.h"
->-#include "rkisp1-csi.h"
->
-> #define RKISP1_DEF_SINK_PAD_FMT MEDIA_BUS_FMT_SRGGB10_1X10
-> #define RKISP1_DEF_SRC_PAD_FMT MEDIA_BUS_FMT_YUYV8_2X8
->@@ -728,16 +727,12 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> {
-> 	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
-> 	struct rkisp1_device *rkisp1 = isp->rkisp1;
->-	const struct rkisp1_sensor_async *asd;
-> 	struct media_pad *source_pad;
-> 	int ret;
->
-> 	if (!enable) {
-> 		v4l2_subdev_call(rkisp1->source, video, s_stream, false);
->-
->-		rkisp1_csi_stop(&rkisp1->csi);
-> 		rkisp1_isp_stop(isp);
->-
-> 		return 0;
-> 	}
->
->@@ -754,30 +749,20 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> 		return -EPIPE;
-> 	}
->
->-	asd = container_of(rkisp1->source->asd, struct rkisp1_sensor_async,
->-			   asd);
->-
->-	if (asd->mbus_type != V4L2_MBUS_CSI2_DPHY)
->-		return -EINVAL;
->+	if (rkisp1->source != &rkisp1->csi.sd)
->+		return -EPIPE;
+     0K                                                       100% 74.1M=0s
 
-This is not very clear, 'source' should point to the remote source (the one outside this driver)
-so why should it be 'csi.sd' ?
-Or is it that now 'rkips1->source' might be either the remote source or csi? if so I think it is a bit confusing.
+2022-06-25 09:19:10 (74.1 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
->
-> 	isp->frame_sequence = -1;
-> 	mutex_lock(&isp->ops_lock);
->-	ret = rkisp1_config_cif(isp, asd->mbus_type, asd->mbus_flags);
->+	ret = rkisp1_config_cif(isp, V4L2_MBUS_CSI2_DPHY, 0);
-> 	if (ret)
-> 		goto mutex_unlock;
->
-> 	rkisp1_isp_start(isp);
->
->-	ret = rkisp1_csi_start(&rkisp1->csi, asd);
->-	if (ret) {
->-		rkisp1_isp_stop(isp);
->-		goto mutex_unlock;
->-	}
->-
-> 	ret = v4l2_subdev_call(rkisp1->source, video, s_stream, true);
-
-Now that isp should call 's_stream' for 'rkisp1->csi->sd' and not 'rkisp1->source'.
-
-thanks,
-Dafna
-
-> 	if (ret) {
-> 		rkisp1_isp_stop(isp);
->-		rkisp1_csi_stop(&rkisp1->csi);
-> 		goto mutex_unlock;
-> 	}
->
->-- 
->2.30.2
->
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
