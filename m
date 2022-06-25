@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10DF355A8A4
-	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 12:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2771F55A92F
+	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 13:06:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232226AbiFYKSo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Jun 2022 06:18:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35532 "EHLO
+        id S232624AbiFYLDp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Jun 2022 07:03:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230401AbiFYKSn (ORCPT
+        with ESMTP id S232527AbiFYLDo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Jun 2022 06:18:43 -0400
+        Sat, 25 Jun 2022 07:03:44 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A25EA3135E
-        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 03:18:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998BD15A15
+        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 04:03:42 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0A1631A;
-        Sat, 25 Jun 2022 12:18:38 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59A2B31A;
+        Sat, 25 Jun 2022 13:03:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656152319;
-        bh=nNoVgrGwB+rw5CDL62oSVWg3bQ2ZCPePXLNynI+lFC4=;
+        s=mail; t=1656155020;
+        bh=sAse/CVQdhGcf7d+u54+ldRBWOwvGdVx1EnmT2AvQ3Y=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PeTg7YAk4PIV9u+n6e0zb+EASGh9PYnONKkNa7N0DMaK+HYF/CgMPg8qwWMCqnvpM
-         NARkSnaI59lDBVuqvwV38tjyR7e3Ufx0MRvgUCJdQxg6T8BNHXiPIgw6QjVNWKngIi
-         aeL6WqpkPb5hneoKn1H2aFV24I+Aqe0GasDb4vCo=
-Date:   Sat, 25 Jun 2022 13:18:21 +0300
+        b=hBNp4Z+wKv7Sqq+3XxKnKBr8BEvxyxE5Q8iNAdLh0HI25GOVLWe6lQ8wqwxeS38FE
+         8ZFGP13ZE7Zm5HPYJd6b2zB8lctKnEyefevaLW7WBAFkj4JHYY9lvUib7zWyedWkDI
+         ZTblZaab5U2Ql4tJvyhOI03y69tu9Fdxo+XrEJZo=
+Date:   Sat, 25 Jun 2022 14:03:23 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Dafna Hirschfeld <dafna@fastmail.com>
 Cc:     Paul Elder <paul.elder@ideasonboard.com>,
@@ -33,15 +33,16 @@ Cc:     Paul Elder <paul.elder@ideasonboard.com>,
         jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
         djrscally@gmail.com, helen.koike@collabora.com,
         linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 18/55] media: rkisp1: Split CSI handling to separate file
-Message-ID: <Yrbg7WnX51Ph5iXq@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 40/55] media: rkisp1: csi: Implement a V4L2 subdev for
+ the CSI receiver
+Message-ID: <Yrbre/TAPHsrVIIx@pendragon.ideasonboard.com>
 References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-19-paul.elder@ideasonboard.com>
- <20220625034854.ofifsye75tubciuk@guri>
+ <20220614191127.3420492-41-paul.elder@ideasonboard.com>
+ <20220625070034.6odv6cyvqqigb2sa@guri>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220625034854.ofifsye75tubciuk@guri>
+In-Reply-To: <20220625070034.6odv6cyvqqigb2sa@guri>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -53,685 +54,456 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Dafna,
 
-On Sat, Jun 25, 2022 at 06:48:54AM +0300, Dafna Hirschfeld wrote:
-> On 15.06.2022 04:10, Paul Elder wrote:
-> > Not all ISP instances include a MIPI CSI-2 receiver. To prepare for
-> > making it optional, move code related to the CSI-2 receiver to a
-> > separate file.
-> > 
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  .../media/platform/rockchip/rkisp1/Makefile   |   1 +
-> >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  17 +-
-> >  .../platform/rockchip/rkisp1/rkisp1-csi.c     | 193 ++++++++++++++++++
-> >  .../platform/rockchip/rkisp1/rkisp1-csi.h     |  28 +++
-> >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  32 +--
-> >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 153 +-------------
-> >  6 files changed, 257 insertions(+), 167 deletions(-)
-> >  create mode 100644 drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> >  create mode 100644 drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
-> > 
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/Makefile b/drivers/media/platform/rockchip/rkisp1/Makefile
-> > index f7543a82aa10..b3844c4f7623 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/Makefile
-> > +++ b/drivers/media/platform/rockchip/rkisp1/Makefile
-> > @@ -2,6 +2,7 @@
-> > 
-> >  rockchip-isp1-y := rkisp1-capture.o \
-> >  		   rkisp1-common.o \
-> > +		   rkisp1-csi.o \
-> >  		   rkisp1-dev.o \
-> >  		   rkisp1-isp.o \
-> >  		   rkisp1-resizer.o \
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > index 60c5462e1746..a52fa9e0dd66 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > @@ -123,7 +123,6 @@ struct rkisp1_info {
-> >   * @mbus_flags:		media bus (V4L2_MBUS_*) flags
-> >   * @sd:			a pointer to v4l2_subdev struct of the sensor
-> >   * @pixel_rate_ctrl:	pixel rate of the sensor, used to initialize the phy
-> > - * @dphy:		a pointer to the phy
-> >   */
-> >  struct rkisp1_sensor_async {
-> >  	struct v4l2_async_subdev asd;
-> > @@ -134,7 +133,19 @@ struct rkisp1_sensor_async {
-> >  	unsigned int mbus_flags;
-> >  	struct v4l2_subdev *sd;
-> >  	struct v4l2_ctrl *pixel_rate_ctrl;
-> > +};
-> > +
-> > +/*
-> > + * struct rkisp1_csi - CSI receiver subdev
-> > + *
-> > + * @rkisp1: pointer to the rkisp1 device
-> > + * @dphy: a pointer to the phy
-> > + * @is_dphy_errctrl_disabled: if dphy errctrl is disabled (avoid endless interrupt)
-> > + */
-> > +struct rkisp1_csi {
-> > +	struct rkisp1_device *rkisp1;
+On Sat, Jun 25, 2022 at 10:00:34AM +0300, Dafna Hirschfeld wrote:
+> On 15.06.2022 04:11, Paul Elder wrote:
+> >The CSI receiver is a component separate from the ISP or the resizers.
+> >It is actually optional, not all device model include a CSI receiver. On
+> >some SoCs CSI-2 support can be provided through an external CSI-2
+> >receiver, connected to the ISP's parallel input.
+> >
+> >To support those use cases, create a V4L2 subdev to model the CSI
+> >receiver. It will allow the driver to handle both internal and external
+> >CSI receivers the same way.
+> >
+> >The next commit will plumb the CSI subdev to the rest of the driver,
+> >replacing direct function calls.
+> >
+> >Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> >Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >---
+> > .../platform/rockchip/rkisp1/rkisp1-common.h  |  17 ++
+> > .../platform/rockchip/rkisp1/rkisp1-csi.c     | 287 ++++++++++++++++++
+> > .../platform/rockchip/rkisp1/rkisp1-csi.h     |   4 +
+> > .../platform/rockchip/rkisp1/rkisp1-dev.c     |   5 +
+> > 4 files changed, 313 insertions(+)
+> >
+> >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> >index 3c55e922346e..0ab49d1feb55 100644
+> >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> >@@ -68,6 +68,13 @@ enum rkisp1_rsz_pad {
+> > 	RKISP1_RSZ_PAD_MAX
+> > };
+> >
+> >+/* enum for the csi receiver pads */
+> >+enum rkisp1_csi_pad {
+> >+	RKISP1_CSI_PAD_SINK,
+> >+	RKISP1_CSI_PAD_SRC,
+> >+	RKISP1_CSI_PAD_MAX
 > 
-> I think you missed initializing csi->rkips1
+> I'd call it RKISP1_CSI_PAD_NUM
 
-Indeed. It's probably fixed in a later patch as the series doesn't
-crash, but I'll fix it here.
+OK.
 
-> >  	struct phy *dphy;
-> > +	bool is_dphy_errctrl_disabled;
-> >  };
-> > 
-> >  /*
-> > @@ -147,7 +158,6 @@ struct rkisp1_sensor_async {
-> >   * @sink_fmt:			input format
-> >   * @src_fmt:			output format
-> >   * @ops_lock:			ops serialization
-> > - * @is_dphy_errctrl_disabled:	if dphy errctrl is disabled (avoid endless interrupt)
-> >   * @frame_sequence:		used to synchronize frame_id between video devices.
-> >   */
-> >  struct rkisp1_isp {
-> > @@ -157,7 +167,6 @@ struct rkisp1_isp {
-> >  	const struct rkisp1_mbus_info *sink_fmt;
-> >  	const struct rkisp1_mbus_info *src_fmt;
-> >  	struct mutex ops_lock; /* serialize the subdevice ops */
-> > -	bool is_dphy_errctrl_disabled;
-> >  	__u32 frame_sequence;
-> >  };
-> > 
-> > @@ -411,6 +420,7 @@ struct rkisp1_debug {
-> >   * @media_dev:	   media_device variable
-> >   * @notifier:	   a notifier to register on the v4l2-async API to be notified on the sensor
-> >   * @active_sensor: sensor in-use, set when streaming on
-> > + * @csi:	   internal CSI-2 receiver
-> >   * @isp:	   ISP sub-device
-> >   * @resizer_devs:  resizer sub-devices
-> >   * @capture_devs:  capture devices
-> > @@ -430,6 +440,7 @@ struct rkisp1_device {
-> >  	struct media_device media_dev;
-> >  	struct v4l2_async_notifier notifier;
-> >  	struct rkisp1_sensor_async *active_sensor;
-> > +	struct rkisp1_csi csi;
-> >  	struct rkisp1_isp isp;
-> >  	struct rkisp1_resizer resizer_devs[2];
-> >  	struct rkisp1_capture capture_devs[2];
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> > new file mode 100644
-> > index 000000000000..4af04296b625
-> > --- /dev/null
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> > @@ -0,0 +1,193 @@
-> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > +/*
-> > + * Rockchip ISP1 Driver - CSI-2 Receiver
-> > + *
-> > + * Copyright (C) 2019 Collabora, Ltd.
-> > + * Copyright (C) 2022 Ideas on Board
-> > + *
-> > + * Based on Rockchip ISP1 driver by Rockchip Electronics Co., Ltd.
-> > + * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
-> > + */
-> > +
-> > +#include <linux/device.h>
-> > +#include <linux/phy/phy.h>
-> > +#include <linux/phy/phy-mipi-dphy.h>
-> > +
-> > +#include <media/v4l2-ctrls.h>
-> > +
-> > +#include "rkisp1-common.h"
-> > +#include "rkisp1-csi.h"
-> > +
-> > +int rkisp1_config_mipi(struct rkisp1_csi *csi)
-> > +{
-> > +	struct rkisp1_device *rkisp1 = csi->rkisp1;
-> > +	const struct rkisp1_mbus_info *sink_fmt = rkisp1->isp.sink_fmt;
-> > +	unsigned int lanes = rkisp1->active_sensor->lanes;
-> > +	u32 mipi_ctrl;
-> > +
-> > +	if (lanes < 1 || lanes > 4)
-> > +		return -EINVAL;
-> > +
-> > +	mipi_ctrl = RKISP1_CIF_MIPI_CTRL_NUM_LANES(lanes - 1) |
-> > +		    RKISP1_CIF_MIPI_CTRL_SHUTDOWNLANES(0xf) |
-> > +		    RKISP1_CIF_MIPI_CTRL_ERR_SOT_SYNC_HS_SKIP |
-> > +		    RKISP1_CIF_MIPI_CTRL_CLOCKLANE_ENA;
-> > +
-> > +	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_CTRL, mipi_ctrl);
-> > +
-> > +	/* V12 could also use a newer csi2-host, but we don't want that yet */
-> > +	if (rkisp1->info->isp_ver == RKISP1_V12)
-> > +		rkisp1_write(rkisp1, RKISP1_CIF_ISP_CSI0_CTRL0, 0);
-> > +
-> > +	/* Configure Data Type and Virtual Channel */
-> > +	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMG_DATA_SEL,
-> > +		     RKISP1_CIF_MIPI_DATA_SEL_DT(sink_fmt->mipi_dt) |
-> > +		     RKISP1_CIF_MIPI_DATA_SEL_VC(0));
-> > +
-> > +	/* Clear MIPI interrupts */
-> > +	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_ICR, ~0);
+> >+};
+> >+
+> > /* enum for the capture id */
+> > enum rkisp1_stream_id {
+> > 	RKISP1_MAINPATH,
+> >@@ -141,11 +148,21 @@ struct rkisp1_sensor_async {
+> >  * @rkisp1: pointer to the rkisp1 device
+> >  * @dphy: a pointer to the phy
+> >  * @is_dphy_errctrl_disabled: if dphy errctrl is disabled (avoid endless interrupt)
+> >+ * @sd: v4l2_subdev variable
+> >+ * @pads: media pads
+> >+ * @pad_cfg: configurations for the pads
+> >+ * @ops_lock: a lock for the subdev ops
+> >+ * @source: source in-use, set when starting streaming
+> >  */
+> > struct rkisp1_csi {
+> > 	struct rkisp1_device *rkisp1;
+> > 	struct phy *dphy;
+> > 	bool is_dphy_errctrl_disabled;
+> >+	struct v4l2_subdev sd;
+> >+	struct media_pad pads[RKISP1_CSI_PAD_MAX];
+> >+	struct v4l2_subdev_pad_config pad_cfg[RKISP1_CSI_PAD_MAX];
+> >+	struct mutex ops_lock; /* serialize the subdevice ops */
+> >+	struct rkisp1_sensor_async *source;
+> > };
+> >
+> > /*
+> >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+> >index 425a3b014089..8182694a6fe0 100644
+> >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+> >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+> >@@ -15,10 +15,34 @@
+> > #include <linux/phy/phy-mipi-dphy.h>
+> >
+> > #include <media/v4l2-ctrls.h>
+> >+#include <media/v4l2-fwnode.h>
+> >
+> > #include "rkisp1-common.h"
+> > #include "rkisp1-csi.h"
+> >
+> >+#define RKISP1_CSI_DEV_NAME	RKISP1_DRIVER_NAME "_csi"
+> >+
+> >+#define RKISP1_CSI_DEF_FMT	MEDIA_BUS_FMT_SRGGB10_1X10
+> >+
+> >+static inline struct rkisp1_csi *to_rkisp1_csi(struct v4l2_subdev *sd)
+> >+{
+> >+	return container_of(sd, struct rkisp1_csi, sd);
+> >+}
+> >+
+> >+static struct v4l2_mbus_framefmt *
+> >+rkisp1_csi_get_pad_fmt(struct rkisp1_csi *csi,
+> >+		       struct v4l2_subdev_state *sd_state,
+> >+		       unsigned int pad, u32 which)
+> >+{
+> >+	struct v4l2_subdev_state state = {
+> >+		.pads = csi->pad_cfg
+> >+	};
 > 
-> new line here
+> newline here
 
-The new line was already missing, but as this patch contains more than
-just a code move, I'll fix it here instead of in a separate patch.
+I'm surprised checkpatch didn't warn. Fixed.
 
-> > +	/*
-> > +	 * Disable RKISP1_CIF_MIPI_ERR_DPHY interrupt here temporary for
-> > +	 * isp bus may be dead when switch isp.
-> > +	 */
-> > +	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC,
-> > +		     RKISP1_CIF_MIPI_FRAME_END | RKISP1_CIF_MIPI_ERR_CSI |
-> > +		     RKISP1_CIF_MIPI_ERR_DPHY |
-> > +		     RKISP1_CIF_MIPI_SYNC_FIFO_OVFLW(0x03) |
-> > +		     RKISP1_CIF_MIPI_ADD_DATA_OVFLW);
-> > +
-> > +	dev_dbg(rkisp1->dev, "\n  MIPI_CTRL 0x%08x\n"
-> > +		"  MIPI_IMG_DATA_SEL 0x%08x\n"
-> > +		"  MIPI_STATUS 0x%08x\n"
-> > +		"  MIPI_IMSC 0x%08x\n",
-> > +		rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL),
-> > +		rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMG_DATA_SEL),
-> > +		rkisp1_read(rkisp1, RKISP1_CIF_MIPI_STATUS),
-> > +		rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC));
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +int rkisp1_mipi_csi2_start(struct rkisp1_csi *csi,
-> > +			   struct rkisp1_sensor_async *sensor)
-> > +{
-> > +	struct rkisp1_device *rkisp1 = csi->rkisp1;
-> > +	union phy_configure_opts opts;
-> > +	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
-> > +	s64 pixel_clock;
-> > +
-> > +	pixel_clock = v4l2_ctrl_g_ctrl_int64(sensor->pixel_rate_ctrl);
-> > +	if (!pixel_clock) {
-> > +		dev_err(rkisp1->dev, "Invalid pixel rate value\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	phy_mipi_dphy_get_default_config(pixel_clock,
-> > +					 rkisp1->isp.sink_fmt->bus_width,
-> > +					 sensor->lanes, cfg);
-> > +	phy_set_mode(csi->dphy, PHY_MODE_MIPI_DPHY);
-> > +	phy_configure(csi->dphy, &opts);
-> > +	phy_power_on(csi->dphy);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +void rkisp1_mipi_csi2_stop(struct rkisp1_csi *csi)
-> > +{
-> > +	phy_power_off(csi->dphy);
-> > +}
-> > +
-> > +void rkisp1_mipi_start(struct rkisp1_csi *csi)
-> > +{
-> > +	struct rkisp1_device *rkisp1 = csi->rkisp1;
-> > +	u32 val;
-> > +
-> > +	val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL);
-> > +	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_CTRL,
-> > +		     val | RKISP1_CIF_MIPI_CTRL_OUTPUT_ENA);
-> > +}
-> > +
-> > +void rkisp1_mipi_stop(struct rkisp1_csi *csi)
-> > +{
-> > +	struct rkisp1_device *rkisp1 = csi->rkisp1;
-> > +	u32 val;
-> > +
-> > +	/* Mask and clear interrupts. */
-> > +	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC, 0);
-> > +	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_ICR, ~0);
-> > +
-> > +	val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL);
-> > +	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_CTRL,
-> > +		     val & (~RKISP1_CIF_MIPI_CTRL_OUTPUT_ENA));
-> > +}
-> > +
-> > +irqreturn_t rkisp1_mipi_isr(int irq, void *ctx)
-> > +{
-> > +	struct device *dev = ctx;
-> > +	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-> > +	u32 val, status;
-> > +
-> > +	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
-> > +	if (!status)
-> > +		return IRQ_NONE;
-> > +
-> > +	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_ICR, status);
-> > +
-> > +	/*
-> > +	 * Disable DPHY errctrl interrupt, because this dphy
-> > +	 * erctrl signal is asserted until the next changes
-> > +	 * of line state. This time is may be too long and cpu
-> > +	 * is hold in this interrupt.
-> > +	 */
-> > +	if (status & RKISP1_CIF_MIPI_ERR_CTRL(0x0f)) {
-> > +		val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC);
-> > +		rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC,
-> > +			     val & ~RKISP1_CIF_MIPI_ERR_CTRL(0x0f));
-> > +		rkisp1->csi.is_dphy_errctrl_disabled = true;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Enable DPHY errctrl interrupt again, if mipi have receive
-> > +	 * the whole frame without any error.
-> > +	 */
-> > +	if (status == RKISP1_CIF_MIPI_FRAME_END) {
-> > +		/*
-> > +		 * Enable DPHY errctrl interrupt again, if mipi have receive
-> > +		 * the whole frame without any error.
-> > +		 */
-> > +		if (rkisp1->csi.is_dphy_errctrl_disabled) {
-> > +			val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC);
-> > +			val |= RKISP1_CIF_MIPI_ERR_CTRL(0x0f);
-> > +			rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC, val);
-> > +			rkisp1->csi.is_dphy_errctrl_disabled = false;
-> > +		}
-> > +	} else {
-> > +		rkisp1->debug.mipi_error++;
-> > +	}
-> > +
-> > +	return IRQ_HANDLED;
-> > +}
-> > +
-> > +int rkisp1_csi_init(struct rkisp1_device *rkisp1)
-> > +{
-> > +	struct rkisp1_csi *csi = &rkisp1->csi;
-> > +
-> > +	csi->dphy = devm_phy_get(rkisp1->dev, "dphy");
-> > +	if (IS_ERR(csi->dphy)) {
-> > +		if (PTR_ERR(csi->dphy) != -EPROBE_DEFER)
-> > +		dev_err_probe(rkisp1->dev, PTR_ERR(csi->dphy),
-> > +			      "Couldn't get the MIPI D-PHY\n");
+> >+	if (which == V4L2_SUBDEV_FORMAT_TRY)
+> >+		return v4l2_subdev_get_try_format(&csi->sd, sd_state, pad);
+> >+	else
+> >+		return v4l2_subdev_get_try_format(&csi->sd, &state, pad);
+> >+}
+> >+
+> > static int rkisp1_csi_config(struct rkisp1_csi *csi,
+> > 			     const struct rkisp1_sensor_async *sensor)
+> > {
+> >@@ -185,6 +209,269 @@ irqreturn_t rkisp1_csi_isr(int irq, void *ctx)
+> > 	return IRQ_HANDLED;
+> > }
+> >
+> >+/* ----------------------------------------------------------------------------
+> >+ * Subdev pad operations
+> >+ */
+> >+
+> >+static void rkisp1_csi_set_src_fmt(struct rkisp1_csi *csi,
+> >+				   struct v4l2_subdev_state *sd_state,
+> >+				   struct v4l2_mbus_framefmt *format,
+> >+				   unsigned int which)
+> >+{
+> >+	struct v4l2_mbus_framefmt *sink_fmt;
+> >+
+> >+	/* We don't set the src format directly; take it from the sink format */
+> >+	sink_fmt = rkisp1_csi_get_pad_fmt(csi, sd_state, RKISP1_CSI_PAD_SINK,
+> >+					  which);
+> >+
+> >+	*format = *sink_fmt;
+> >+}
+> >+
+> >+static void rkisp1_csi_set_sink_fmt(struct rkisp1_csi *csi,
+> >+				    struct v4l2_subdev_state *sd_state,
+> >+				    struct v4l2_mbus_framefmt *format,
+> >+				    unsigned int which)
+> >+{
+> >+	const struct rkisp1_mbus_info *mbus_info;
+> >+	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
+> >+
+> >+	sink_fmt = rkisp1_csi_get_pad_fmt(csi, sd_state, RKISP1_CSI_PAD_SINK,
+> >+					  which);
+> >+	src_fmt = rkisp1_csi_get_pad_fmt(csi, sd_state, RKISP1_CSI_PAD_SRC,
+> >+					 which);
+> >+
+> >+	sink_fmt->code = format->code;
+> >+
+> >+	mbus_info = rkisp1_mbus_info_get_by_code(sink_fmt->code);
+> >+	if (!mbus_info || !(mbus_info->direction & RKISP1_ISP_SD_SINK)) {
+> >+		sink_fmt->code = RKISP1_CSI_DEF_FMT;
+> >+		mbus_info = rkisp1_mbus_info_get_by_code(sink_fmt->code);
+> >+	}
+> >+
+> >+	sink_fmt->width = clamp_t(u32, format->width,
+> >+				  RKISP1_ISP_MIN_WIDTH,
+> >+				  RKISP1_ISP_MAX_WIDTH);
+> >+	sink_fmt->height = clamp_t(u32, format->height,
+> >+				   RKISP1_ISP_MIN_HEIGHT,
+> >+				   RKISP1_ISP_MAX_HEIGHT);
+> >+
+> >+	/* Propagate to source pad */
+> >+	src_fmt->code = sink_fmt->code;
+> >+	src_fmt->width = sink_fmt->width;
+> >+	src_fmt->height = sink_fmt->height;
+> >+
 > 
-> indentation
+> why here you don't do '*src_fmt = *sink_fmt' instead of per field propaget ?
 
-Actually it's the if (...) that should be removed, dev_err_probe()
-handles that.
+You're right, the CSI-2 receiver doesn't change the format in any way,
+that would be easier.
 
-> > +		return PTR_ERR(csi->dphy);
-> > +	}
-> > +
-> > +	phy_init(csi->dphy);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +void rkisp1_csi_cleanup(struct rkisp1_device *rkisp1)
-> > +{
-> > +	struct rkisp1_csi *csi = &rkisp1->csi;
-> > +
-> > +	phy_exit(csi->dphy);
-> > +}
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
-> > new file mode 100644
-> > index 000000000000..d97a4ee5c002
-> > --- /dev/null
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
-> > @@ -0,0 +1,28 @@
-> > +/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
-> > +/*
-> > + * Rockchip ISP1 Driver - CSI-2 Receiver
-> > + *
-> > + * Copyright (C) 2019 Collabora, Ltd.
-> > + * Copyright (C) 2022 Ideas on Board
-> > + *
-> > + * Based on Rockchip ISP1 driver by Rockchip Electronics Co., Ltd.
-> > + * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
-> > + */
-> > +#ifndef _RKISP1_CSI_H
-> > +#define _RKISP1_CSI_H
-> > +
-> > +struct rkisp1_device;
-> > +struct rkisp1_sensor_async;
-> > +
-> > +int rkisp1_csi_init(struct rkisp1_device *rkisp1);
-> > +void rkisp1_csi_cleanup(struct rkisp1_device *rkisp1);
-> > +
-> > +int rkisp1_config_mipi(struct rkisp1_csi *csi);
-> > +
-> > +int rkisp1_mipi_csi2_start(struct rkisp1_csi *csi,
-> > +			   struct rkisp1_sensor_async *sensor);
-> > +void rkisp1_mipi_csi2_stop(struct rkisp1_csi *csi);
-> > +void rkisp1_mipi_start(struct rkisp1_csi *csi);
-> > +void rkisp1_mipi_stop(struct rkisp1_csi *csi);
+> >+	*format = *sink_fmt;
+> >+}
+> >+
+> >+static int rkisp1_csi_enum_mbus_code(struct v4l2_subdev *sd,
+> >+				     struct v4l2_subdev_state *sd_state,
+> >+				     struct v4l2_subdev_mbus_code_enum *code)
+> >+{
+> >+	unsigned int i;
+> >+	int pos = 0;
+> >+
+> >+	if (code->index >= rkisp1_mbus_info_length())
+> >+		return -EINVAL;
+> >+
+> >+	for (i = 0; i < rkisp1_mbus_info_length(); i++) {
+> >+		const struct rkisp1_mbus_info *fmt =
+> >+			rkisp1_mbus_info_get_by_index(i);
+> >+
+> >+		if (fmt->direction & RKISP1_ISP_SD_SINK)
+> >+			pos++;
+> >+
+> >+		if (code->index == pos - 1) {
+> >+			code->code = fmt->mbus_code;
+> >+			return 0;
+> >+		}
+> >+	}
+> >+
+> >+	return -EINVAL;
+> >+}
+> >+
+> >+static int rkisp1_csi_init_config(struct v4l2_subdev *sd,
+> >+				  struct v4l2_subdev_state *sd_state)
+> >+{
+> >+	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
+> >+
+> >+	sink_fmt = v4l2_subdev_get_try_format(sd, sd_state,
+> >+					      RKISP1_CSI_PAD_SRC);
 > 
-> some of the functions name here are *_csi_* and some are *_csi2_*
-> maybe choose consistent name?
+> last argument here should be RKISP1_CSI_PAD_SINK ?
+> 
+> >+	sink_fmt->width = RKISP1_DEFAULT_WIDTH;
+> >+	sink_fmt->height = RKISP1_DEFAULT_HEIGHT;
+> >+	sink_fmt->field = V4L2_FIELD_NONE;
+> >+	sink_fmt->code = RKISP1_CSI_DEF_FMT;
+> >+
+> >+	src_fmt = v4l2_subdev_get_try_format(sd, sd_state,
+> >+					     RKISP1_CSI_PAD_SINK);
+> 
+> last argument here should be RKISP1_CSI_PAD_SRC ?
 
-As you noted, this is fixed in a later patch.
+Yes, the two are swapped, I'll fix that.
 
-> > +
-> > +#endif /* _RKISP1_CSI_H */
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > index 0f3e45cdbf2a..373a1f00c10a 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > @@ -15,11 +15,11 @@
-> >  #include <linux/of_graph.h>
-> >  #include <linux/of_platform.h>
-> >  #include <linux/pinctrl/consumer.h>
-> > -#include <linux/phy/phy.h>
-> > -#include <linux/phy/phy-mipi-dphy.h>
-> > +#include <linux/pm_runtime.h>
-> >  #include <media/v4l2-fwnode.h>
-> > 
-> >  #include "rkisp1-common.h"
-> > +#include "rkisp1-csi.h"
-> > 
-> >  /*
-> >   * ISP Details
-> > @@ -128,14 +128,6 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
-> >  	}
-> > 
-> >  	s_asd->sd = sd;
-> > -	s_asd->dphy = devm_phy_get(rkisp1->dev, "dphy");
-> > -	if (IS_ERR(s_asd->dphy)) {
-> > -		if (PTR_ERR(s_asd->dphy) != -EPROBE_DEFER)
-> > -			dev_err(rkisp1->dev, "Couldn't get the MIPI D-PHY\n");
-> > -		return PTR_ERR(s_asd->dphy);
-> > -	}
-> > -
-> > -	phy_init(s_asd->dphy);
-> > 
-> >  	/* Create the link to the sensor. */
-> >  	source_pad = media_entity_get_fwnode_pad(&sd->entity, s_asd->source_ep,
-> > @@ -152,16 +144,6 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
-> >  				     !s_asd->index ? MEDIA_LNK_FL_ENABLED : 0);
-> >  }
-> > 
-> > -static void rkisp1_subdev_notifier_unbind(struct v4l2_async_notifier *notifier,
-> > -					  struct v4l2_subdev *sd,
-> > -					  struct v4l2_async_subdev *asd)
-> > -{
-> > -	struct rkisp1_sensor_async *s_asd =
-> > -		container_of(asd, struct rkisp1_sensor_async, asd);
-> > -
-> > -	phy_exit(s_asd->dphy);
-> > -}
-> > -
-> >  static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
-> >  {
-> >  	struct rkisp1_device *rkisp1 =
-> > @@ -180,7 +162,6 @@ static void rkisp1_subdev_notifier_destroy(struct v4l2_async_subdev *asd)
-> > 
-> >  static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops = {
-> >  	.bound = rkisp1_subdev_notifier_bound,
-> > -	.unbind = rkisp1_subdev_notifier_unbind,
-> >  	.complete = rkisp1_subdev_notifier_complete,
-> >  	.destroy = rkisp1_subdev_notifier_destroy,
-> >  };
-> > @@ -540,14 +521,20 @@ static int rkisp1_probe(struct platform_device *pdev)
-> >  		goto err_unreg_v4l2_dev;
-> >  	}
-> > 
-> > -	ret = rkisp1_entities_register(rkisp1);
-> > +	ret = rkisp1_csi_init(rkisp1);
-> >  	if (ret)
-> >  		goto err_unreg_media_dev;
-> > 
-> > +	ret = rkisp1_entities_register(rkisp1);
-> > +	if (ret)
-> > +		goto err_cleanup_csi;
-> > +
-> >  	rkisp1_debug_init(rkisp1);
-> > 
-> >  	return 0;
-> > 
-> > +err_cleanup_csi:
-> > +	rkisp1_csi_cleanup(rkisp1);
-> >  err_unreg_media_dev:
-> >  	media_device_unregister(&rkisp1->media_dev);
-> >  err_unreg_v4l2_dev:
-> > @@ -565,6 +552,7 @@ static int rkisp1_remove(struct platform_device *pdev)
-> >  	v4l2_async_nf_cleanup(&rkisp1->notifier);
-> > 
-> >  	rkisp1_entities_unregister(rkisp1);
-> > +	rkisp1_csi_cleanup(rkisp1);
-> >  	rkisp1_debug_cleanup(rkisp1);
-> > 
-> >  	media_device_unregister(&rkisp1->media_dev);
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > index 81138c676ac0..5eabb321e320 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > @@ -9,8 +9,6 @@
-> >   */
-> > 
-> >  #include <linux/iopoll.h>
-> > -#include <linux/phy/phy.h>
-> > -#include <linux/phy/phy-mipi-dphy.h>
-> >  #include <linux/pm_runtime.h>
-> >  #include <linux/videodev2.h>
-> >  #include <linux/vmalloc.h>
-> > @@ -18,6 +16,7 @@
-> >  #include <media/v4l2-event.h>
-> > 
-> >  #include "rkisp1-common.h"
-> > +#include "rkisp1-csi.h"
-> > 
-> >  #define RKISP1_DEF_SINK_PAD_FMT MEDIA_BUS_FMT_SRGGB10_1X10
-> >  #define RKISP1_DEF_SRC_PAD_FMT MEDIA_BUS_FMT_YUYV8_2X8
-> > @@ -265,55 +264,6 @@ static int rkisp1_config_dvp(struct rkisp1_device *rkisp1)
-> >  	return 0;
-> >  }
-> > 
-> > -static int rkisp1_config_mipi(struct rkisp1_device *rkisp1)
-> > -{
-> > -	const struct rkisp1_mbus_info *sink_fmt = rkisp1->isp.sink_fmt;
-> > -	unsigned int lanes = rkisp1->active_sensor->lanes;
-> > -	u32 mipi_ctrl;
-> > -
-> > -	if (lanes < 1 || lanes > 4)
-> > -		return -EINVAL;
-> > -
-> > -	mipi_ctrl = RKISP1_CIF_MIPI_CTRL_NUM_LANES(lanes - 1) |
-> > -		    RKISP1_CIF_MIPI_CTRL_SHUTDOWNLANES(0xf) |
-> > -		    RKISP1_CIF_MIPI_CTRL_ERR_SOT_SYNC_HS_SKIP |
-> > -		    RKISP1_CIF_MIPI_CTRL_CLOCKLANE_ENA;
-> > -
-> > -	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_CTRL, mipi_ctrl);
-> > -
-> > -	/* V12 could also use a newer csi2-host, but we don't want that yet */
-> > -	if (rkisp1->info->isp_ver == RKISP1_V12)
-> > -		rkisp1_write(rkisp1, RKISP1_CIF_ISP_CSI0_CTRL0, 0);
-> > -
-> > -	/* Configure Data Type and Virtual Channel */
-> > -	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMG_DATA_SEL,
-> > -		     RKISP1_CIF_MIPI_DATA_SEL_DT(sink_fmt->mipi_dt) |
-> > -		     RKISP1_CIF_MIPI_DATA_SEL_VC(0));
-> > -
-> > -	/* Clear MIPI interrupts */
-> > -	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_ICR, ~0);
-> > -	/*
-> > -	 * Disable RKISP1_CIF_MIPI_ERR_DPHY interrupt here temporary for
-> > -	 * isp bus may be dead when switch isp.
-> > -	 */
-> > -	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC,
-> > -		     RKISP1_CIF_MIPI_FRAME_END | RKISP1_CIF_MIPI_ERR_CSI |
-> > -		     RKISP1_CIF_MIPI_ERR_DPHY |
-> > -		     RKISP1_CIF_MIPI_SYNC_FIFO_OVFLW(0x03) |
-> > -		     RKISP1_CIF_MIPI_ADD_DATA_OVFLW);
-> > -
-> > -	dev_dbg(rkisp1->dev, "\n  MIPI_CTRL 0x%08x\n"
-> > -		"  MIPI_IMG_DATA_SEL 0x%08x\n"
-> > -		"  MIPI_STATUS 0x%08x\n"
-> > -		"  MIPI_IMSC 0x%08x\n",
-> > -		rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL),
-> > -		rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMG_DATA_SEL),
-> > -		rkisp1_read(rkisp1, RKISP1_CIF_MIPI_STATUS),
-> > -		rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC));
-> > -
-> > -	return 0;
-> > -}
-> > -
-> >  /* Configure MUX */
-> >  static int rkisp1_config_path(struct rkisp1_device *rkisp1)
-> >  {
-> > @@ -326,7 +276,7 @@ static int rkisp1_config_path(struct rkisp1_device *rkisp1)
-> >  		ret = rkisp1_config_dvp(rkisp1);
-> >  		dpcl |= RKISP1_CIF_VI_DPCL_IF_SEL_PARALLEL;
-> >  	} else if (sensor->mbus_type == V4L2_MBUS_CSI2_DPHY) {
-> > -		ret = rkisp1_config_mipi(rkisp1);
-> > +		ret = rkisp1_config_mipi(&rkisp1->csi);
-> >  		dpcl |= RKISP1_CIF_VI_DPCL_IF_SEL_MIPI;
-> >  	}
-> > 
-> > @@ -360,17 +310,14 @@ static void rkisp1_isp_stop(struct rkisp1_device *rkisp1)
-> >  	 * Stop ISP(isp) ->wait for ISP isp off
-> >  	 */
-> >  	/* stop and clear MI, MIPI, and ISP interrupts */
-> > -	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC, 0);
-> > -	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_ICR, ~0);
-> > -
-> >  	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IMSC, 0);
-> >  	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, ~0);
-> > 
-> >  	rkisp1_write(rkisp1, RKISP1_CIF_MI_IMSC, 0);
-> >  	rkisp1_write(rkisp1, RKISP1_CIF_MI_ICR, ~0);
-> > -	val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL);
-> > -	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_CTRL,
-> > -		     val & (~RKISP1_CIF_MIPI_CTRL_OUTPUT_ENA));
-> > +
-> > +	rkisp1_mipi_stop(&rkisp1->csi);
-> > +
-> >  	/* stop ISP */
-> >  	val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_CTRL);
-> >  	val &= ~(RKISP1_CIF_ISP_CTRL_ISP_INFORM_ENABLE |
-> > @@ -417,11 +364,9 @@ static void rkisp1_isp_start(struct rkisp1_device *rkisp1)
-> >  	rkisp1_config_clk(rkisp1);
-> > 
-> >  	/* Activate MIPI */
-> > -	if (sensor->mbus_type == V4L2_MBUS_CSI2_DPHY) {
-> > -		val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL);
-> > -		rkisp1_write(rkisp1, RKISP1_CIF_MIPI_CTRL,
-> > -			     val | RKISP1_CIF_MIPI_CTRL_OUTPUT_ENA);
-> > -	}
-> > +	if (sensor->mbus_type == V4L2_MBUS_CSI2_DPHY)
-> > +		rkisp1_mipi_start(&rkisp1->csi);
-> > +
-> >  	/* Activate ISP */
-> >  	val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_CTRL);
-> >  	val |= RKISP1_CIF_ISP_CTRL_ISP_CFG_UPD |
-> > @@ -814,35 +759,6 @@ static const struct v4l2_subdev_pad_ops rkisp1_isp_pad_ops = {
-> >   * Stream operations
-> >   */
-> > 
-> > -static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
-> > -				  struct rkisp1_sensor_async *sensor)
-> > -{
-> > -	struct rkisp1_device *rkisp1 =
-> > -		container_of(isp->sd.v4l2_dev, struct rkisp1_device, v4l2_dev);
-> > -	union phy_configure_opts opts;
-> > -	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
-> > -	s64 pixel_clock;
-> > -
-> > -	pixel_clock = v4l2_ctrl_g_ctrl_int64(sensor->pixel_rate_ctrl);
-> > -	if (!pixel_clock) {
-> > -		dev_err(rkisp1->dev, "Invalid pixel rate value\n");
-> > -		return -EINVAL;
-> > -	}
-> > -
-> > -	phy_mipi_dphy_get_default_config(pixel_clock, isp->sink_fmt->bus_width,
-> > -					 sensor->lanes, cfg);
-> > -	phy_set_mode(sensor->dphy, PHY_MODE_MIPI_DPHY);
-> > -	phy_configure(sensor->dphy, &opts);
-> > -	phy_power_on(sensor->dphy);
-> > -
-> > -	return 0;
-> > -}
-> > -
-> > -static void rkisp1_mipi_csi2_stop(struct rkisp1_sensor_async *sensor)
-> > -{
-> > -	phy_power_off(sensor->dphy);
-> > -}
-> > -
-> >  static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> >  {
-> >  	struct rkisp1_device *rkisp1 =
-> > @@ -856,7 +772,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> >  				 false);
-> > 
-> >  		rkisp1_isp_stop(rkisp1);
-> > -		rkisp1_mipi_csi2_stop(rkisp1->active_sensor);
-> > +		rkisp1_mipi_csi2_stop(&rkisp1->csi);
-> >  		return 0;
-> >  	}
-> > 
-> > @@ -878,7 +794,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> >  	if (ret)
-> >  		goto mutex_unlock;
-> > 
-> > -	ret = rkisp1_mipi_csi2_start(&rkisp1->isp, rkisp1->active_sensor);
-> > +	ret = rkisp1_mipi_csi2_start(&rkisp1->csi, rkisp1->active_sensor);
-> >  	if (ret)
-> >  		goto mutex_unlock;
-> > 
-> > @@ -888,7 +804,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> >  			       true);
-> >  	if (ret) {
-> >  		rkisp1_isp_stop(rkisp1);
-> > -		rkisp1_mipi_csi2_stop(rkisp1->active_sensor);
-> > +		rkisp1_mipi_csi2_stop(&rkisp1->csi);
-> >  		goto mutex_unlock;
-> >  	}
-> > 
-> > @@ -993,53 +909,6 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
-> >   * Interrupt handlers
-> >   */
-> > 
-> > -irqreturn_t rkisp1_mipi_isr(int irq, void *ctx)
-> > -{
-> > -	struct device *dev = ctx;
-> > -	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-> > -	u32 val, status;
-> > -
-> > -	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
-> > -	if (!status)
-> > -		return IRQ_NONE;
-> > -
-> > -	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_ICR, status);
-> > -
-> > -	/*
-> > -	 * Disable DPHY errctrl interrupt, because this dphy
-> > -	 * erctrl signal is asserted until the next changes
-> > -	 * of line state. This time is may be too long and cpu
-> > -	 * is hold in this interrupt.
-> > -	 */
-> > -	if (status & RKISP1_CIF_MIPI_ERR_CTRL(0x0f)) {
-> > -		val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC);
-> > -		rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC,
-> > -			     val & ~RKISP1_CIF_MIPI_ERR_CTRL(0x0f));
-> > -		rkisp1->isp.is_dphy_errctrl_disabled = true;
-> > -	}
-> > -
-> > -	/*
-> > -	 * Enable DPHY errctrl interrupt again, if mipi have receive
-> > -	 * the whole frame without any error.
-> > -	 */
-> > -	if (status == RKISP1_CIF_MIPI_FRAME_END) {
-> > -		/*
-> > -		 * Enable DPHY errctrl interrupt again, if mipi have receive
-> > -		 * the whole frame without any error.
-> > -		 */
-> > -		if (rkisp1->isp.is_dphy_errctrl_disabled) {
-> > -			val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC);
-> > -			val |= RKISP1_CIF_MIPI_ERR_CTRL(0x0f);
-> > -			rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC, val);
-> > -			rkisp1->isp.is_dphy_errctrl_disabled = false;
-> > -		}
-> > -	} else {
-> > -		rkisp1->debug.mipi_error++;
-> > -	}
-> > -
-> > -	return IRQ_HANDLED;
-> > -}
-> > -
-> >  static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
-> >  {
-> >  	struct v4l2_event event = {
+> >+	*src_fmt = *sink_fmt;
+> >+
+> >+	return 0;
+> >+}
+> >+
+> >+static int rkisp1_csi_get_fmt(struct v4l2_subdev *sd,
+> >+			      struct v4l2_subdev_state *sd_state,
+> >+			      struct v4l2_subdev_format *fmt)
+> >+{
+> >+	struct rkisp1_csi *csi = to_rkisp1_csi(sd);
+> >+
+> >+	mutex_lock(&csi->ops_lock);
+> >+	fmt->format = *rkisp1_csi_get_pad_fmt(csi, sd_state, fmt->pad,
+> >+					      fmt->which);
+> >+	mutex_unlock(&csi->ops_lock);
+> >+	return 0;
+> >+}
+> >+
+> >+static int rkisp1_csi_set_fmt(struct v4l2_subdev *sd,
+> >+			      struct v4l2_subdev_state *sd_state,
+> >+			      struct v4l2_subdev_format *fmt)
+> >+{
+> >+	struct rkisp1_csi *csi = to_rkisp1_csi(sd);
+> >+
+> >+	mutex_lock(&csi->ops_lock);
+> >+	if (fmt->pad == RKISP1_CSI_PAD_SINK)
+> >+		rkisp1_csi_set_sink_fmt(csi, sd_state, &fmt->format,
+> >+					fmt->which);
+> >+	else
+> >+		rkisp1_csi_set_src_fmt(csi, sd_state, &fmt->format,
+> >+				       fmt->which);
+> >+
+> >+	mutex_unlock(&csi->ops_lock);
+> >+	return 0;
+> >+}
+> >+
+> >+/* ----------------------------------------------------------------------------
+> >+ * Subdev video operations
+> >+ */
+> >+
+> >+static int rkisp1_csi_s_stream(struct v4l2_subdev *sd, int enable)
+> >+{
+> >+	struct rkisp1_csi *csi = to_rkisp1_csi(sd);
+> >+	struct rkisp1_device *rkisp1 = csi->rkisp1;
+> >+	struct media_pad *source_pad;
+> >+	struct v4l2_subdev *source;
+> >+	int ret;
+> >+
+> >+	if (!enable) {
+> >+		v4l2_subdev_call(csi->source->sd, video, s_stream,
+> >+				 false);
+> >+
+> >+		rkisp1_csi_stop(csi);
+> >+
+> >+		return ret;
+> 
+> ret is uninitialized here
+
+Fixed.
+ 
+> >+	}
+> >+
+> >+	source_pad = media_entity_remote_source_pad(&sd->entity);
+> >+	if (IS_ERR(source_pad)) {
+> >+		dev_dbg(rkisp1->dev, "Failed to get source for CSI: %d\n", ret);
+> 
+> here you should print 'ERR_PTR(source_pad)' instead of 'ret'
+
+Indeed.
+
+Thanks for catching all those mistakes.
+
+> >+		return -EPIPE;
+> >+	}
+> >+
+> >+	source = media_entity_to_v4l2_subdev(source_pad->entity);
+> >+	if (!source) {
+> >+		/* This should really not happen, so is not worth a message. */
+> >+		return -EPIPE;
+> >+	}
+> >+
+> >+	csi->source = container_of(source->asd, struct rkisp1_sensor_async,
+> >+				   asd);
+> >+
+> >+	if (csi->source->mbus_type != V4L2_MBUS_CSI2_DPHY)
+> >+		return -EINVAL;
+> >+
+> >+	mutex_lock(&csi->ops_lock);
+> >+	ret = rkisp1_csi_start(csi, csi->source);
+> >+	mutex_unlock(&csi->ops_lock);
+> >+	if (ret)
+> >+		return ret;
+> >+
+> >+	v4l2_subdev_call(csi->source->sd, video, s_stream, true);
+> >+
+> >+	return 0;
+> >+}
+> >+
+> >+/* ----------------------------------------------------------------------------
+> >+ * Registration
+> >+ */
+> >+
+> >+static const struct media_entity_operations rkisp1_csi_media_ops = {
+> >+	.link_validate = v4l2_subdev_link_validate,
+> >+};
+> >+
+> >+static const struct v4l2_subdev_video_ops rkisp1_csi_video_ops = {
+> >+	.s_stream = rkisp1_csi_s_stream,
+> >+};
+> >+
+> >+static const struct v4l2_subdev_pad_ops rkisp1_csi_pad_ops = {
+> >+	.enum_mbus_code = rkisp1_csi_enum_mbus_code,
+> >+	.init_cfg = rkisp1_csi_init_config,
+> >+	.get_fmt = rkisp1_csi_get_fmt,
+> >+	.set_fmt = rkisp1_csi_set_fmt,
+> >+};
+> >+
+> >+static const struct v4l2_subdev_ops rkisp1_csi_ops = {
+> >+	.video = &rkisp1_csi_video_ops,
+> >+	.pad = &rkisp1_csi_pad_ops,
+> >+};
+> >+
+> >+int rkisp1_csi_register(struct rkisp1_device *rkisp1)
+> >+{
+> >+	struct rkisp1_csi *csi = &rkisp1->csi;
+> >+	struct v4l2_subdev_state state = {};
+> >+	struct media_pad *pads;
+> >+	struct v4l2_subdev *sd;
+> >+	int ret;
+> >+
+> >+	csi->rkisp1 = rkisp1;
+> >+	mutex_init(&csi->ops_lock);
+> >+
+> >+	sd = &csi->sd;
+> >+	v4l2_subdev_init(sd, &rkisp1_csi_ops);
+> >+	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> >+	sd->entity.ops = &rkisp1_csi_media_ops;
+> >+	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> >+	sd->owner = THIS_MODULE;
+> >+	strscpy(sd->name, RKISP1_CSI_DEV_NAME, sizeof(sd->name));
+> >+
+> >+	pads = csi->pads;
+> >+	pads[RKISP1_CSI_PAD_SINK].flags = MEDIA_PAD_FL_SINK |
+> >+					  MEDIA_PAD_FL_MUST_CONNECT;
+> >+	pads[RKISP1_CSI_PAD_SRC].flags = MEDIA_PAD_FL_SOURCE |
+> >+					 MEDIA_PAD_FL_MUST_CONNECT;
+> >+
+> >+	ret = media_entity_pads_init(&sd->entity, RKISP1_CSI_PAD_MAX, pads);
+> >+	if (ret)
+> >+		goto error;
+> >+
+> >+	state.pads = csi->pad_cfg;
+> >+	rkisp1_csi_init_config(sd, &state);
+> >+
+> >+	ret = v4l2_device_register_subdev(&csi->rkisp1->v4l2_dev, sd);
+> >+	if (ret) {
+> >+		dev_err(sd->dev, "Failed to register csi receiver subdev\n");
+> >+		goto error;
+> >+	}
+> >+
+> >+	return 0;
+> >+
+> >+error:
+> >+	media_entity_cleanup(&sd->entity);
+> >+	mutex_destroy(&csi->ops_lock);
+> >+	csi->rkisp1 = NULL;
+> >+	return ret;
+> >+}
+> >+
+> >+void rkisp1_csi_unregister(struct rkisp1_device *rkisp1)
+> >+{
+> >+	struct rkisp1_csi *csi = &rkisp1->csi;
+> >+
+> >+	if (!csi->rkisp1)
+> >+		return;
+> >+
+> >+	v4l2_device_unregister_subdev(&csi->sd);
+> >+	media_entity_cleanup(&csi->sd.entity);
+> >+	mutex_destroy(&csi->ops_lock);
+> >+}
+> >+
+> > int rkisp1_csi_init(struct rkisp1_device *rkisp1)
+> > {
+> > 	struct rkisp1_csi *csi = &rkisp1->csi;
+> >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
+> >index 97ce7e7959ab..ddf8e5e08f55 100644
+> >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
+> >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
+> >@@ -13,10 +13,14 @@
+> >
+> > struct rkisp1_device;
+> > struct rkisp1_sensor_async;
+> >+struct v4l2_subdev;
+> >
+> > int rkisp1_csi_init(struct rkisp1_device *rkisp1);
+> > void rkisp1_csi_cleanup(struct rkisp1_device *rkisp1);
+> >
+> >+int rkisp1_csi_register(struct rkisp1_device *rkisp1);
+> >+void rkisp1_csi_unregister(struct rkisp1_device *rkisp1);
+> >+
+> > int rkisp1_csi_start(struct rkisp1_csi *csi,
+> > 		     const struct rkisp1_sensor_async *sensor);
+> > void rkisp1_csi_stop(struct rkisp1_csi *csi);
+> >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> >index 253220188abd..faf2cd4c8149 100644
+> >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> >@@ -324,6 +324,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+> >
+> > static void rkisp1_entities_unregister(struct rkisp1_device *rkisp1)
+> > {
+> >+	rkisp1_csi_unregister(rkisp1);
+> > 	rkisp1_params_unregister(rkisp1);
+> > 	rkisp1_stats_unregister(rkisp1);
+> > 	rkisp1_capture_devs_unregister(rkisp1);
+> >@@ -355,6 +356,10 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
+> > 	if (ret)
+> > 		goto error;
+> >
+> >+	ret = rkisp1_csi_register(rkisp1);
+> >+	if (ret)
+> >+		goto error;
+> >+
+> > 	ret = rkisp1_create_links(rkisp1);
+> > 	if (ret)
+> > 		goto error;
 
 -- 
 Regards,
