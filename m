@@ -2,235 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03FEF55AC9B
-	for <lists+linux-media@lfdr.de>; Sat, 25 Jun 2022 22:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F7A655AE09
+	for <lists+linux-media@lfdr.de>; Sun, 26 Jun 2022 03:47:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233501AbiFYUf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Jun 2022 16:35:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57866 "EHLO
+        id S233804AbiFZBpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Jun 2022 21:45:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233240AbiFYUfz (ORCPT
+        with ESMTP id S233781AbiFZBpA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Jun 2022 16:35:55 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9948213D2C
-        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 13:35:53 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id u15so11280329ejc.10
-        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 13:35:53 -0700 (PDT)
+        Sat, 25 Jun 2022 21:45:00 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E2FE0D2
+        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 18:44:58 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id m184so3324080wme.1
+        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 18:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=5ibzd/HltQFWXUhqB2ZPgR5KDRUPRWUvyYsOfNwKbfY=;
-        b=QRg8Wn9tuMwaH5zMhzagX7y+7r8khYhZVFXd66vWy12ReAr8MIM0zFmwG2HeHJ9Juw
-         57V6vul5SHR7XnYmojf58+iTEt9YiJIWrm7Ni1/qejh95Kq/nAFGflZmlNSlhCtOeX2S
-         fnB3TvLv10nrGc7uA4rKDbnpid/7PDbyWlAE7aHmf39Gh/xdhsXPuFLWUTZej7KU5MJX
-         yf0tPIub7tujKPlJUNyaPzjmWsx/fIr52DrJi+eNgXJZSHqNrciq9GzU0hasy9XemPyr
-         PuE0XokkeqmTNE+zagJT0HxEH84TGjMgcW90n2ppIRMVBBabyvLgMu+2Emd9JjY8+AxY
-         uiNw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/Xb5NuOLp/j9ntQT/YU4HfkFxSgqXKpMhTUxBBY0gEs=;
+        b=JUpWGi1fmS97xV+qyM4VZLiIsCCGZ4557nXq632K/v/Opqp/2NWoj9IrybGMSvTheD
+         Qsv15sbdWJj+Y7yLrCwj2qSp/xsqaDk+D2yqjBpu/9jn9hAq15D26INFCm88xwgZixnC
+         U3o5eBRI1h7LEDeHS3z4clLRtvqD4sZrsviOYykI9EWy/ej0MwbrLWxcM6aAvKZmMj4p
+         kyUI+7wpbuNTFLF4gQoWRHiYeYgbclrCAX6cDm8O6JGL627v9Ljs32QicZbNJeQ3ds5u
+         69nQYenGRzwFiFwgG/4FYFbH2KdtmolPObKq5Z5uKku1SndWpGUYNWmwuB5q/XBGLEjl
+         Vg5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=5ibzd/HltQFWXUhqB2ZPgR5KDRUPRWUvyYsOfNwKbfY=;
-        b=5f5WVljQ3p4efIg2RTD15479EdPfWJIG6DtYpp6vvETGmE5KozvCzolU2emohnP93f
-         Ly9gYcT8ACi7SdUbEnRGwuB3Pne7bSQuwzvwT+GwMzeOvkVwJYauJSCr8ab6Yk1NQEgQ
-         lYFTFJxSf1zT8otauLxpIdPzJh0Q+oMj1SbUO3AWB/9+Uo7dZc2E9PX0sbc9H2T8IFe0
-         tQVp+vOzpLUO6OChbNsl1FyremGcSG7x5ZdkUFqITx+CT7IUSY9yx05UAGvm2jp1dM5f
-         bK/+ziWT2CZUBJk+/ArF8aqR246rpI8vOV3476nwZhZ6Ixs42ylDcwbm1IsQD4UfglsH
-         TaHg==
-X-Gm-Message-State: AJIora+Na76msgDZ61QS9Xd8MQzaC4BoXPtXdNNKJYGUn8x4m13r4/L9
-        gA+lcg22BanrFABkwt/92C6+XQ==
-X-Google-Smtp-Source: AGRyM1v81F3RG7MfyQz8Riw19Mirn3N6XSSPEn5oFuEJlC3FzZe7mHAPwIF1XCX9vhMSIremg7Y1bw==
-X-Received: by 2002:a17:906:a245:b0:708:ce69:e38b with SMTP id bi5-20020a170906a24500b00708ce69e38bmr5385559ejb.100.1656189352173;
-        Sat, 25 Jun 2022 13:35:52 -0700 (PDT)
-Received: from [192.168.0.239] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id z16-20020a1709060f1000b007238429996bsm2953529eji.91.2022.06.25.13.35.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Jun 2022 13:35:51 -0700 (PDT)
-Message-ID: <7b138ea1-735f-03b1-720b-d3934ad83060@linaro.org>
-Date:   Sat, 25 Jun 2022 22:35:50 +0200
+        bh=/Xb5NuOLp/j9ntQT/YU4HfkFxSgqXKpMhTUxBBY0gEs=;
+        b=ualhnYJoVW+eUPDNBhB7gqIV26tXoH3e+iMvbJn0N1IxLPY1wTBAqC+GiaarUZN5dK
+         KIWFX1n8+53XqMPmOy6J1XnHUJ6ku06/tt0FQX/jHvfuDsIJb9ReQsGE/9H2riKqN56p
+         3u2I0mOU1Hdx2yTW9hNgOhyTPcKTXI7z9J3FtS508IF90os8Ghg2p6QlVyjpG+sAMf03
+         7sccvCBcmgfzcRHVjf/kvSFGYaEd6insTPz/z/jwTX6lbCl2raN90yQbwHVSn4wFWS6Q
+         1VhCv0Ua+ge3EDkN+GpuKDAchyOPz7mnQMduVPcq4X4s9OzjwaslP4UrqqpzGV/imI2V
+         mT5w==
+X-Gm-Message-State: AJIora+svBVsGai63xHEFZ+nlnBXhr0bWY05bD/SehN4cwhJQq4v1YoR
+        Yrp5sybHDlJtKq5453ojzGGK7YYoQu6N8534
+X-Google-Smtp-Source: AGRyM1vlxmsLNQURg1X0NlBIDcvPktrPFJML4o0WgzYXX6VCoy/CuAr2IgpmJj0nLqeF7+3gyquc3g==
+X-Received: by 2002:a7b:c450:0:b0:3a0:32ec:efa9 with SMTP id l16-20020a7bc450000000b003a032ecefa9mr11934544wmi.12.1656207897390;
+        Sat, 25 Jun 2022 18:44:57 -0700 (PDT)
+Received: from localhost.localdomain ([84.255.184.16])
+        by smtp.gmail.com with ESMTPSA id m22-20020a05600c3b1600b00397402ae674sm12489818wms.11.2022.06.25.18.44.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jun 2022 18:44:57 -0700 (PDT)
+From:   Mazin Al Haddad <mazinalhaddad05@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, sean@mess.org, mudongliangabcd@gmail.com,
+        skhan@linuxfoundation.org,
+        Mazin Al Haddad <mazinalhaddad05@gmail.com>,
+        syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
+Subject: [RFC PATCH] media: dvb-usb: fix memory leak in dvb_usb_adapter_init()
+Date:   Sun, 26 Jun 2022 04:44:24 +0300
+Message-Id: <20220626014423.86262-1-mazinalhaddad05@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 7/7] media: dt-bindings: ov5693: document YAML binding
-Content-Language: en-US
-To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
-        quentin.schulz@theobroma-systems.com,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220624230307.3066530-1-tommaso.merciai@amarulasolutions.com>
- <20220624230307.3066530-8-tommaso.merciai@amarulasolutions.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220624230307.3066530-8-tommaso.merciai@amarulasolutions.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/06/2022 01:03, Tommaso Merciai wrote:
-> This patch adds documentation of device tree in YAML schema for the
-> OV5693 CMOS image sensor from Omnivision
-> 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> ---
->  .../bindings/media/i2c/ovti,ov5693.yaml       | 123 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 124 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> new file mode 100644
-> index 000000000000..1ee70af40000
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> @@ -0,0 +1,123 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2022 Amarulasolutions
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OV5693 CMOS Sensor
-> +
-> +maintainers:
-> +  - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
+Fix a memory leak in dvb_usb_adapter_init() found by syzkaller. The 
+problem is due to the error path exiting before incrementing 
+num_adapters_initalized which is used to kfree() adapter's private data. 
+There are multiple error paths that dvb_usb_adapter_init() can exit from 
+including one before the problematic allocation itself. Fix it by adding a 
+variable to the dvb_usb_device struct that counts the successful 
+allocations for each dvb adapter's private data and use it to kfree the 
+objects in dvb_usb_adapter_exit.
 
-This goes after description.
+BUG: memory leak
+unreferenced object 0xffff8881172f1a00 (size 512):
+  comm "kworker/0:2", pid 139, jiffies 4294994873 (age 10.960s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff844af012>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:75 [inline]
+    [<ffffffff844af012>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
+    [<ffffffff844af012>] dvb_usb_device_init.cold+0x4e5/0x79e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
+    [<ffffffff830db21d>] dib0700_probe+0x8d/0x1b0 drivers/media/usb/dvb-usb/dib0700_core.c:883
+    [<ffffffff82d3fdc7>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
+    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
+    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
+    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
+    [<ffffffff8274af6a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:782
+    [<ffffffff8274b786>] __device_attach_driver+0xf6/0x140 drivers/base/dd.c:899
+    [<ffffffff82747c87>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:427
+    [<ffffffff8274b352>] __device_attach+0x122/0x260 drivers/base/dd.c:970
+    [<ffffffff827498f6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:487
+    [<ffffffff82745cdb>] device_add+0x5fb/0xdf0 drivers/base/core.c:3405
+    [<ffffffff82d3d202>] usb_set_configuration+0x8f2/0xb80 drivers/usb/core/message.c:2170
+    [<ffffffff82d4dbfc>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+    [<ffffffff82d3f49c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
+    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
+    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
+    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
 
-> +
-> +description: |
-> +  The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
-> +  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
-> +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
-> +  Serial Camera Control Bus (SCCB) interface.
-> +
-> +  Supports images sizes: 5 Mpixel, EIS1080p, 1080p, 720p, VGA, QVGA
-> +
-> +  OV5693 is programmable through I2C and two-wire Serial Camera Control Bus (SCCB).
-> +  The sensor output is available via CSI-2 serial data output (up to 2-lane).
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov5693
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description:
-> +      System input clock (aka XVCLK). From 6 to 27 MHz.
-> +    maxItems: 1
-> +
-> +  dovdd-supply:
-> +    description:
-> +      Digital I/O voltage supply, 1.8V.
-> +
-> +  avdd-supply:
-> +    description:
-> +      Analog voltage supply, 2.8V.
-> +
-> +  dvdd-supply:
-> +    description:
-> +      Digital core voltage supply, 1.2V.
-> +
-> +  reset-gpios:
-> +    description:
-> +      The phandle and specifier for the GPIO that controls sensor reset.
-> +      This corresponds to the hardware pin XSHUTDN which is physically
-> +      active low.
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            minItems: 1
-> +            maxItems: 2
-> +
-> +          # Supports max data transfer of 900 Mbps per lane
-> +          link-frequencies: true
+Link: https://syzkaller.appspot.com/bug?id=4d54f8bf7b98eecf6cd76ed5aaea883c5d9e502a
+Reported-by: syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
+Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+---
+ drivers/media/usb/dvb-usb/dvb-usb-init.c | 7 ++++++-
+ drivers/media/usb/dvb-usb/dvb-usb.h      | 1 +
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-This is not needed. Provided by video-interfaces.yaml.
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+index 61439c8f33ca..bbee86c70cc5 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
++++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+@@ -77,6 +77,7 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+ 				err("no memory for priv for adapter %d.", n);
+ 				return -ENOMEM;
+ 			}
++			d->num_adap_priv_initialized++;
+ 		}
+ 
+ 		ret = dvb_usb_adapter_stream_init(adap);
+@@ -125,8 +126,12 @@ static int dvb_usb_adapter_exit(struct dvb_usb_device *d)
+ 		dvb_usb_adapter_frontend_exit(&d->adapter[n]);
+ 		dvb_usb_adapter_dvb_exit(&d->adapter[n]);
+ 		dvb_usb_adapter_stream_exit(&d->adapter[n]);
+-		kfree(d->adapter[n].priv);
+ 	}
++
++	for (n = 0; n < d->num_adap_priv_initialized; n++)
++		kfree(d->adapter[n].priv);
++
++	d->num_adapters_initialized = 0;
+ 	d->num_adapters_initialized = 0;
+ 	d->state &= ~DVB_USB_STATE_DVB;
+ 	return 0;
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb.h b/drivers/media/usb/dvb-usb/dvb-usb.h
+index 0990aa4a17bb..1bfc33db3b52 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb.h
++++ b/drivers/media/usb/dvb-usb/dvb-usb.h
+@@ -483,6 +483,7 @@ struct dvb_usb_device {
+ 	struct i2c_adapter i2c_adap;
+ 
+ 	int                    num_adapters_initialized;
++	int		       num_adap_priv_initialized;
+ 	struct dvb_usb_adapter adapter[MAX_NO_OF_ADAPTER_PER_DEVICE];
+ 
+ 	/* remote control */
+-- 
+2.36.1
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - dovdd-supply
-> +  - avdd-supply
-> +  - dvdd-supply
-> +  - port
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/px30-cru.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/pinctrl/rockchip.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ov5693: camera@36 {
-> +            compatible = "ovti,ov5693";
-> +            reg = <0x36>;
-> +
-> +            reset-gpios = <&gpio2 RK_PB1 GPIO_ACTIVE_LOW>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&cif_clkout_m0>;
-> +
-> +            clocks = <&cru SCLK_CIF_OUT>;
-> +            assigned-clocks = <&cru SCLK_CIF_OUT>;
-> +            assigned-clock-rates = <19200000>;
-> +
-> +            avdd-supply = <&vcc_1v8>;
-> +            dvdd-supply = <&vcc_1v2>;
-> +            dovdd-supply = <&vcc_2v8>;
-> +
-> +            rotation = <90>;
-> +            orientation = <0>;
-> +
-> +            port {
-> +                ucam_out: endpoint {
-> +                    remote-endpoint = <&mipi_in_ucam>;
-> +                    data-lanes = <1 2>;
-> +                    link-frequencies = /bits/ 64 <450000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> \ No newline at end of file
-
-^^^ This has to be fixed.
-
-> diff --git a/MAINTAINERS b/MAINTAINERS
-Best regards,
-Krzysztof
