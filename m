@@ -2,115 +2,261 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9900055B1E7
-	for <lists+linux-media@lfdr.de>; Sun, 26 Jun 2022 14:34:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11F0955B246
+	for <lists+linux-media@lfdr.de>; Sun, 26 Jun 2022 15:52:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234132AbiFZMdy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Jun 2022 08:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59382 "EHLO
+        id S234599AbiFZNZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Jun 2022 09:25:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbiFZMdw (ORCPT
+        with ESMTP id S234449AbiFZNZ3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Jun 2022 08:33:52 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C6AFBE18
-        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 05:33:51 -0700 (PDT)
-Received: from jyty (dsl-hkibng31-58c389-173.dhcp.inet.fi [88.195.137.173])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: msmakela)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 530C21B002E4;
-        Sun, 26 Jun 2022 15:33:48 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1656246828;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=PDBtYfPDqfrfpEI3JnnzL7gTKig68fdctBVnyno5+s4=;
-        b=kenf1rQjinsSsqj/LFkHWwpHfli/31pppXIg5/j4R80hbmwZtCUZmAPzuslbdv80emNkO7
-        wKpIlYIPQ+rUejMzlWef25Av0hryHdVZHWEYfffoI1U1TG25xmwTJ0RiwYq9XH0m20RYf9
-        On7JyzkLCzWC5x8Q0TGBPlqytpkcD+z3PyaQObHzKJUnjO5dZKhxGWSV2P4OD1PzjtgyLW
-        IyvSFG/4tLGDx2qQorsAU/aJF1DuXaTcXWzgHsl2lRibqWS7E+5Mem8L3r7exGNEbrWlzJ
-        vWlNGf9Fxfq1AUZs9Z1hnGN6NVTvoOuYbSlB8hiu2PRkzIbN66SbeebKCalUMg==
-Date:   Sun, 26 Jun 2022 15:33:47 +0300
-From:   Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rtl28xxu: improve IR receiver
-Message-ID: <YrhSK5l0uQZT76Fi@jyty>
-References: <cover.1644683294.git.sean@mess.org>
- <704b3d7e5a7a95cbd5e4dfc25a41454e919aed95.1644683294.git.sean@mess.org>
+        Sun, 26 Jun 2022 09:25:29 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D1A4DD3
+        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 06:25:27 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id u12so13774806eja.8
+        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 06:25:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OiKv1lNjdaFLZKF/eedD2M8JeMTr8x3pdCy5XsNoJso=;
+        b=sE81NNX62DnaLHq0w5kjxuCsUeyc6GdfrT/xOXSu/chg7E4A65AzDGvddl10TAhh3I
+         wJp/WMKlWYprCvJDGB4hKolFV1uX8CwcYEZewLwOUWEDvAI2Zb30zizSSmJbWjtZn3ij
+         AWgEfyJdAP3s+1gEyVk2cZbHTlM08mEBdn3bEgFdehTbc49GA0HznSkDuws0BxnJ664M
+         uMm1yvwcj26jM5anLtSILwY3GTZ0Rh2qdRc7t9lNVv2534XQXl+iLxvO5SQK6LU4HjxA
+         xlLAtvefISbBbS5Du/4icfWR5KTXyKF22AemWlSChj/jT9uNz2OEla0z+1rsiF6/X+70
+         syeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OiKv1lNjdaFLZKF/eedD2M8JeMTr8x3pdCy5XsNoJso=;
+        b=Xtihn6TMZtFa9kA3GDS6oJ3zq9Y+6ZARZyHmjQCTnaRA7eG3iv1OmVoGWlf6ao0IFj
+         dCnX+2O81w+GqECGrb67zefxroM9k3cC6DtwD06Zby4Pd6mtKK4L51gjVyzf/VMpwxzU
+         j5tKG8X6YaO6z5toVaF73n+YtzqluVdUxC/9cDGdGRNVDDy2eesDhJXDDjDyuqovvl20
+         A0lcVgYbka8UCNhbU0o1hS2z3Msh3xeJrVOBQ9whUAVmQB1slDdaTz5yxCGAB8YjPl6e
+         aWC+S8hRl5GP8RlHDmDUwvScd6z0BkcAv0koP8uml6JPxoxRz+Dopz37ja/EL4jfmdB1
+         IN3A==
+X-Gm-Message-State: AJIora/3IGxu6oY7/LamwaMk2zPwE6yHDUVMTJ3UkoL5IrvzpCKKKMAZ
+        JFF+Dn6MFyHppMp/PGcWjdiBTw==
+X-Google-Smtp-Source: AGRyM1upixfxPfZKkPJqH/LO/z2QB9qeLPoWbsHiFCIaKTXf9/kbO7Il4k5nivWL/uxDsENz36Iw0w==
+X-Received: by 2002:a17:907:6e28:b0:722:e601:a0c0 with SMTP id sd40-20020a1709076e2800b00722e601a0c0mr8256634ejc.347.1656249926188;
+        Sun, 26 Jun 2022 06:25:26 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id h10-20020a50ed8a000000b00435728cd12fsm5924635edr.18.2022.06.26.06.25.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jun 2022 06:25:25 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: media: samsung,exynos5250-gsc: convert to dtschema
+Date:   Sun, 26 Jun 2022 15:25:22 +0200
+Message-Id: <20220626132522.86716-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <704b3d7e5a7a95cbd5e4dfc25a41454e919aed95.1644683294.git.sean@mess.org>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1656246828; a=rsa-sha256;
-        cv=none;
-        b=em3ja7B5NVq/4JUn3FaLEU+5abuUafk/AcXxIZSJXsX3hlvSs1OMJC65cC/omAH5Rs8QRX
-        KlkFugQUNZHPY0iaHrewLz5Cp+O03b1xlbJPAguc9meikUl0ud6qw4iZkuZLtAYjnLXBVt
-        Ch6lIsoTm53yhS+/VV+npLhJXnVvkC2ldEKJttyFP4B0vB0vZ4NRsXPBeWE2fOxoTkPweQ
-        jrdzd/DE2yoSFw/qHd7BY5R7+chYQ7G4VJCv5pK0fGBcaNqd5GXUeT2gtGlRZXFR++t4Rv
-        MGlFsotDOiiIyXayacwVIWukIOWByRZdugMNCRFglD0x0T8lSH3JbTOND0lczg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=msmakela smtp.mailfrom=marko.makela@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1656246828;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=PDBtYfPDqfrfpEI3JnnzL7gTKig68fdctBVnyno5+s4=;
-        b=OME6LU5V2kiorFZ1oVGpwOvYJHHCOv+6Jjkm2GVv7tOUQw2eC3/ZV01ZZN/0ZE/KaiJVAf
-        Ll0fZlonV9OdzWWnPIUgRLCwFnlQerx4lKGpMzSAO1lskm/w91r1Td0LjoN5JMW8OU60Xy
-        Ypp3MjJ1f8nnmKqrjHg9mm+gszET2KJFM5RVRMnJrAnbMyJOZYdh3BtF8cr6kOU0UOo8eG
-        Tb3Y1GYT8umnt82pqS0vplx0Ha/v0EXq2UtANiyG/F7gAQvNsM3VAUiWYmN9PQtsu5DX0x
-        TLhR7OAg3ZZyYZt12Kf1G/i8AsKRLpg5cuFrCI0Q/w4tzBkXLPeMqd2DhmwQPg==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sean,
+Convert the Samsung Exynos SoC G-Scaler bindings to DT schema.
 
-I finally took the time to get a deeper understanding of the infrared 
-remote control subsystem. I think that I now understand the translation 
-into key-down, key-up, and key-repeat events. For the RC5 protocol, 
-rc_repeat() will not be called by ir-rc5-decoder.c but instead, 
-ir_do_keydown() will handle the repeat. For lirc_scancode_event() it 
-will never set the LIRC_SCANCODE_FLAG_REPEAT bit, even if !new_event and 
-the protocol does support the toggle bit. That might qualify as a bug.
+Changes done during conversion:
+1. A typical (already used) properties like clocks, iommus and
+   power-domains.
+2. Require clocks, because they are essential for the block to operate.
+3. Describe the differences in clocks between the Exynos5250/5420 and
+   the Exynos5433 G-Scalers.  This includes the fifth Exynos5433 clock
+   "gsd" (GSCL Smart Deck) which was added to the DTS, but not to the
+   bindings and Linux driver.  Similarly to Exynos5433 DECON change [1],
+   the clock should be used.
 
-Sat, Feb 12, 2022 at 04:32:19PM +0000, Sean Young wrote:
->This device presents an IR buffer, which can be read and cleared.
->Clearing the buffer is racey with receiving IR, so wait until the IR
->message is finished before clearing it.
->
->This should minimize the chance of the buffer clear happening while
->IR is being received, although we cannot avoid this completely.
+[1] https://lore.kernel.org/all/6270db2d-667d-8d6f-9289-be92da486c25@samsung.com/
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/media/exynos5-gsc.txt |  38 ------
+ .../media/samsung,exynos5250-gsc.yaml         | 110 ++++++++++++++++++
+ 2 files changed, 110 insertions(+), 38 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/exynos5-gsc.txt
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml
 
-I just realized that this limitation of the interface may be causing 
-exactly what I was observing when I was testing this. If a constant 
-stream of data is being received because a button is being held down, a 
-buffer overflow or wrap-around glitch is inevitable, maybe expect if the 
-wrap-around occurs exactly at the 128-byte boundary.
+diff --git a/Documentation/devicetree/bindings/media/exynos5-gsc.txt b/Documentation/devicetree/bindings/media/exynos5-gsc.txt
+deleted file mode 100644
+index 1872688fa408..000000000000
+--- a/Documentation/devicetree/bindings/media/exynos5-gsc.txt
++++ /dev/null
+@@ -1,38 +0,0 @@
+-* Samsung Exynos5 G-Scaler device
+-
+-G-Scaler is used for scaling and color space conversion on Exynos5 SoCs.
+-
+-Required properties:
+-- compatible: should be one of
+-	      "samsung,exynos5250-gsc"
+-	      "samsung,exynos5420-gsc"
+-	      "samsung,exynos5433-gsc"
+-	      "samsung,exynos5-gsc" (deprecated)
+-- reg: should contain G-Scaler physical address location and length.
+-- interrupts: should contain G-Scaler interrupt number
+-
+-Optional properties:
+-- samsung,sysreg: handle to syscon used to control the system registers to
+-  set writeback input and destination
+-
+-Example:
+-
+-gsc_0:  gsc@13e00000 {
+-	compatible = "samsung,exynos5250-gsc";
+-	reg = <0x13e00000 0x1000>;
+-	interrupts = <0 85 0>;
+-};
+-
+-Aliases:
+-Each G-Scaler node should have a numbered alias in the aliases node,
+-in the form of gscN, N = 0...3. G-Scaler driver uses these aliases
+-to retrieve the device IDs using "of_alias_get_id()" call.
+-
+-Example:
+-
+-aliases {
+-	gsc0 =&gsc_0;
+-	gsc1 =&gsc_1;
+-	gsc2 =&gsc_2;
+-	gsc3 =&gsc_3;
+-};
+diff --git a/Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml b/Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml
+new file mode 100644
+index 000000000000..d12796c2e8a9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml
+@@ -0,0 +1,110 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/samsung,exynos5250-gsc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung Exynos SoC G-Scaler
++
++maintainers:
++  - Inki Dae <inki.dae@samsung.com>
++  - Joonyoung Shim <jy0922.shim@samsung.com>
++  - Krzysztof Kozlowski <krzk@kernel.org>
++  - Seung-Woo Kim <sw0312.kim@samsung.com
++
++description:
++  G-Scaler is used for scaling and color space conversion on Samsung Exynos
++  SoCs.
++
++  Each G-Scaler node should have a numbered alias in the aliases node, in the
++  form of gscN, N = 0...3.
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - samsung,exynos5250-gsc
++              - samsung,exynos5420-gsc
++          - const: samsung,exynos5-gsc
++      - enum:
++          - samsung,exynos5433-gsc
++      - const: samsung,exynos5-gsc
++        deprecated: True
++
++  clocks:
++    minItems: 1
++    maxItems: 5
++
++  clock-names:
++    minItems: 1
++    maxItems: 5
++
++  interrupts:
++    maxItems: 1
++
++  iommus:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  reg:
++    maxItems: 1
++
++  samsung,sysreg:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Syscon used to control the system registers to set writeback input and destination.
++
++required:
++  - compatible
++  - clocks
++  - clock-names
++  - interrupts
++  - reg
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - samsung,exynos5-gsc
++              - samsung,exynos5250-gsc
++              - samsung,exynos5420-gsc
++    then:
++      properties:
++        clocks:
++          maxItems: 1
++        clock-names:
++          items:
++            - const: gscl
++    else:
++      properties:
++        clocks:
++          minItems: 5
++        clock-names:
++          items:
++            - const: pclk
++            - const: aclk
++            - const: aclk_xiu
++            - const: aclk_gsclbend
++            - const: gsd
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/exynos5250.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    video-scaler@13e00000 {
++        compatible = "samsung,exynos5250-gsc", "samsung,exynos5-gsc";
++        reg = <0x13e00000 0x1000>;
++        interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>;
++        power-domains = <&pd_gsc>;
++        clocks = <&clock CLK_GSCL0>;
++        clock-names = "gscl";
++        iommus = <&sysmmu_gsc0>;
++    };
+-- 
+2.34.1
 
-How about the following improvement? If IR_RX_BC is a simple cursor to 
-the 128-byte IR_RX_BUF, then rtl2832u_rc_query() could avoid sending 
-refresh_tab[] but simply remember where the previous call left off. We 
-could always read the 128 bytes at IR_RX_BUF, and process everything 
-between the previous position reported by IR_RX_BC and the current 
-position reported by IR_RX_BC, and treat buf[] as a ring buffer.
-
-Last time I tested it, the patch was a significant improvement. I think 
-that "perfect" is the enemy of "good enough", and the patch should be 
-included in the kernel.
-
-Best regards,
-
-	Marko
