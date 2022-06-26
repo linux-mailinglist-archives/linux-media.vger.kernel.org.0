@@ -2,159 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F7A655AE09
-	for <lists+linux-media@lfdr.de>; Sun, 26 Jun 2022 03:47:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAAE755AE8F
+	for <lists+linux-media@lfdr.de>; Sun, 26 Jun 2022 06:14:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233804AbiFZBpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Jun 2022 21:45:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54460 "EHLO
+        id S233824AbiFZEFz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Jun 2022 00:05:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233781AbiFZBpA (ORCPT
+        with ESMTP id S229999AbiFZEFy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Jun 2022 21:45:00 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E2FE0D2
-        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 18:44:58 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id m184so3324080wme.1
-        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 18:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Xb5NuOLp/j9ntQT/YU4HfkFxSgqXKpMhTUxBBY0gEs=;
-        b=JUpWGi1fmS97xV+qyM4VZLiIsCCGZ4557nXq632K/v/Opqp/2NWoj9IrybGMSvTheD
-         Qsv15sbdWJj+Y7yLrCwj2qSp/xsqaDk+D2yqjBpu/9jn9hAq15D26INFCm88xwgZixnC
-         U3o5eBRI1h7LEDeHS3z4clLRtvqD4sZrsviOYykI9EWy/ej0MwbrLWxcM6aAvKZmMj4p
-         kyUI+7wpbuNTFLF4gQoWRHiYeYgbclrCAX6cDm8O6JGL627v9Ljs32QicZbNJeQ3ds5u
-         69nQYenGRzwFiFwgG/4FYFbH2KdtmolPObKq5Z5uKku1SndWpGUYNWmwuB5q/XBGLEjl
-         Vg5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Xb5NuOLp/j9ntQT/YU4HfkFxSgqXKpMhTUxBBY0gEs=;
-        b=ualhnYJoVW+eUPDNBhB7gqIV26tXoH3e+iMvbJn0N1IxLPY1wTBAqC+GiaarUZN5dK
-         KIWFX1n8+53XqMPmOy6J1XnHUJ6ku06/tt0FQX/jHvfuDsIJb9ReQsGE/9H2riKqN56p
-         3u2I0mOU1Hdx2yTW9hNgOhyTPcKTXI7z9J3FtS508IF90os8Ghg2p6QlVyjpG+sAMf03
-         7sccvCBcmgfzcRHVjf/kvSFGYaEd6insTPz/z/jwTX6lbCl2raN90yQbwHVSn4wFWS6Q
-         1VhCv0Ua+ge3EDkN+GpuKDAchyOPz7mnQMduVPcq4X4s9OzjwaslP4UrqqpzGV/imI2V
-         mT5w==
-X-Gm-Message-State: AJIora+svBVsGai63xHEFZ+nlnBXhr0bWY05bD/SehN4cwhJQq4v1YoR
-        Yrp5sybHDlJtKq5453ojzGGK7YYoQu6N8534
-X-Google-Smtp-Source: AGRyM1vlxmsLNQURg1X0NlBIDcvPktrPFJML4o0WgzYXX6VCoy/CuAr2IgpmJj0nLqeF7+3gyquc3g==
-X-Received: by 2002:a7b:c450:0:b0:3a0:32ec:efa9 with SMTP id l16-20020a7bc450000000b003a032ecefa9mr11934544wmi.12.1656207897390;
-        Sat, 25 Jun 2022 18:44:57 -0700 (PDT)
-Received: from localhost.localdomain ([84.255.184.16])
-        by smtp.gmail.com with ESMTPSA id m22-20020a05600c3b1600b00397402ae674sm12489818wms.11.2022.06.25.18.44.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jun 2022 18:44:57 -0700 (PDT)
-From:   Mazin Al Haddad <mazinalhaddad05@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, sean@mess.org, mudongliangabcd@gmail.com,
-        skhan@linuxfoundation.org,
-        Mazin Al Haddad <mazinalhaddad05@gmail.com>,
-        syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
-Subject: [RFC PATCH] media: dvb-usb: fix memory leak in dvb_usb_adapter_init()
-Date:   Sun, 26 Jun 2022 04:44:24 +0300
-Message-Id: <20220626014423.86262-1-mazinalhaddad05@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        Sun, 26 Jun 2022 00:05:54 -0400
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BC2411A20
+        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 21:05:53 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.west.internal (Postfix) with ESMTP id 1048932004F8;
+        Sun, 26 Jun 2022 00:05:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sun, 26 Jun 2022 00:05:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1656216349; x=
+        1656302749; bh=Fyqr39kqDTapjiaXukIEzLeA3TcvL5aGenhByxOZ9cw=; b=J
+        8AFFaMnVAhg2GawAI/FATO47FUO8xQBlsOcvbFN+Zmh5UmhZUv6XhHnsjHktTNH2
+        JNobrx56j5L/BIAicY8Itvn88GcCLI9eaNSg1xrQjS4KGwd9SipIHi8pW2kHU/iV
+        lY3nzcC4XlePD54BWAJlhtpnLXLxbsdN9JBHw69b5bzWRLVSiqtzKxwKAxE/Y7Ks
+        +8nzyqbrKt7O/zCF1YTG5J099s/WUUtQbcPS0FMGAEDxsvWHFgFJtxsGiDWUcLmm
+        Yur7Si9UffIUIRzfIrVKM4hlBclUAmaCsHuBbs6Lnn70ubIUd/D/pqgxstifqP9T
+        GA7D6T4MWQozAzY96eQGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656216349; x=
+        1656302749; bh=Fyqr39kqDTapjiaXukIEzLeA3TcvL5aGenhByxOZ9cw=; b=G
+        TC3KbjQah0w1uKFbwbl1a0bsQFYzkExHqIPwF49tUgVX7vqWXmkvb0xwvEA9i6rb
+        LexJ8hUAdkRaVdT6YujNw51wVAbJCh+PSqw9oF3v6HGP2Sbx5UPIyUoFgOe+avPt
+        QmUQWOsJYNo0NFsW5GVsRfYVh3v4rhuijqIm61zh6L+9PgruiD524aO1s34wJSRw
+        bIjgZZHmjSEGFtxkNHYs25QQ6KU5jL3GgV62zyDCAHL+kruY9+15vP1uooXPS86r
+        Tk5cpaV+dm4KGufqobqpkNlfDf/8l5DF97BTkNYvZLTUBqzeb0/GV0odcoeGrufQ
+        EgzoTILOCXQ6dFYQ2AbLg==
+X-ME-Sender: <xms:Hdu3YqLEH-KbHZvcCJXPhjCJA4U0aWKtYcyHsT4MJ4Xp1WfRl6gF-Q>
+    <xme:Hdu3YiJhftsREq35a1yrc5maQx2_OudHZdm_yQRs1m0ThCKnspCNAlSX94liXQko_
+    hgx6oi5YZPfpEYfLZ4>
+X-ME-Received: <xmr:Hdu3Yqs_zP79ovbnFhcGBI-hn_r0ZfiH__exoeSnSMDZgfUeTQTd4g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegvddgkedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeffrghf
+    nhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghsthhmrghilhdrtghomheqne
+    cuggftrfgrthhtvghrnhepteehkefgjeegledtgeffhedtkefgiefgtedvjeelueegudet
+    gedvgedufeevkefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghfnhgrsehfrghsthhm
+    rghilhdrtghomh
+X-ME-Proxy: <xmx:Hdu3YvYpsj4c_YZoitVxzEakbELpRXVOxBvpEXGZdUWhJmksuDWdmQ>
+    <xmx:Hdu3YhammgKatlBsNElt7tKmqJt3To_9o_re93miFkO2u8P1qzbS-Q>
+    <xmx:Hdu3YrAXP76bMeWXlkuoO2O6WCiHXLv8ECHtrhPllklUMio7dJFefQ>
+    <xmx:Hdu3Yt53qm1lp2IYBlToPYg9h7jC_45VNpMHxa9XCm2Ab2GIaO8sZw>
+Feedback-ID: i0e894699:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 26 Jun 2022 00:05:46 -0400 (EDT)
+Date:   Sun, 26 Jun 2022 07:05:43 +0300
+From:   Dafna Hirschfeld <dafna@fastmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, heiko@sntech.de,
+        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
+        djrscally@gmail.com, helen.koike@collabora.com,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 48/55] media: rkisp1: Add match data for i.MX8MP ISP
+Message-ID: <20220626040543.jswxbusyyydfoxfd@guri>
+References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-49-paul.elder@ideasonboard.com>
+ <Yq0NnksDldH1PDfp@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Yq0NnksDldH1PDfp@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix a memory leak in dvb_usb_adapter_init() found by syzkaller. The 
-problem is due to the error path exiting before incrementing 
-num_adapters_initalized which is used to kfree() adapter's private data. 
-There are multiple error paths that dvb_usb_adapter_init() can exit from 
-including one before the problematic allocation itself. Fix it by adding a 
-variable to the dvb_usb_device struct that counts the successful 
-allocations for each dvb adapter's private data and use it to kfree the 
-objects in dvb_usb_adapter_exit.
+On 18.06.2022 02:26, Laurent Pinchart wrote:
+>Hi Paul,
+>
+>Thank you for the patch.
+>
+>On Wed, Jun 15, 2022 at 04:11:20AM +0900, Paul Elder wrote:
+>> Add match data to the rkisp1 driver to match the i.MX8MP ISP.
+>>
+>> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+>> ---
+>>  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 22 +++++++++++++++++++
+>>  include/uapi/linux/rkisp1-config.h            |  3 +++
+>>  2 files changed, 25 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>> index 62fa2bd275fe..3a0115bdcee5 100644
+>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>> @@ -486,6 +486,24 @@ static const struct rkisp1_info rk3399_isp_info = {
+>>  	.features = RKISP1_FEATURE_MIPI_CSI2,
+>>  };
+>>
+>> +static const char * const imx8mp_isp_clks[] = {
+>> +	"isp",
+>> +	"hclk",
+>> +	"aclk",
+>> +};
+>> +
+>> +static const struct rkisp1_isr_data imx8mp_isp_isrs[] = {
+>> +	{ NULL, rkisp1_isr },
+>> +};
+>> +
+>> +static const struct rkisp1_info imx8mp_isp_info = {
+>> +	.clks = imx8mp_isp_clks,
+>> +	.clk_size = ARRAY_SIZE(imx8mp_isp_clks),
+>> +	.isrs = imx8mp_isp_isrs,
+>> +	.isr_size = ARRAY_SIZE(imx8mp_isp_isrs),
+>> +	.isp_ver = IMX8MP_V10,
+>> +};
+>> +
+>>  static const struct of_device_id rkisp1_of_match[] = {
+>>  	{
+>>  		.compatible = "rockchip,px30-cif-isp",
+>> @@ -495,6 +513,10 @@ static const struct of_device_id rkisp1_of_match[] = {
+>>  		.compatible = "rockchip,rk3399-cif-isp",
+>>  		.data = &rk3399_isp_info,
+>>  	},
+>> +	{
+>> +		.compatible = "fsl,imx8mp-isp",
+>> +		.data = &imx8mp_isp_info,
+>> +	},
+>>  	{},
+>>  };
+>>  MODULE_DEVICE_TABLE(of, rkisp1_of_match);
+>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+>> index 583ca0d9a79d..40677d47825c 100644
+>> --- a/include/uapi/linux/rkisp1-config.h
+>> +++ b/include/uapi/linux/rkisp1-config.h
+>> @@ -140,12 +140,15 @@
+>>   * @RKISP1_V11: declared in the original vendor code, but not used
+>>   * @RKISP1_V12: used at least in rk3326 and px30
+>>   * @RKISP1_V13: used at least in rk1808
+>> + * @IMX8MP_V10: used in at least imx8mp
+>>   */
+>>  enum rkisp1_cif_isp_version {
+>>  	RKISP1_V10 = 10,
+>>  	RKISP1_V11,
+>>  	RKISP1_V12,
+>>  	RKISP1_V13,
+>> +	/* TODO Choose a better version for this */
+>> +	IMX8MP_V10,
+>
+>Time to address this ? :-)
+>
+>Does anyone know where the current versioning scheme come from ?
 
-BUG: memory leak
-unreferenced object 0xffff8881172f1a00 (size 512):
-  comm "kworker/0:2", pid 139, jiffies 4294994873 (age 10.960s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff844af012>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:75 [inline]
-    [<ffffffff844af012>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
-    [<ffffffff844af012>] dvb_usb_device_init.cold+0x4e5/0x79e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
-    [<ffffffff830db21d>] dib0700_probe+0x8d/0x1b0 drivers/media/usb/dvb-usb/dib0700_core.c:883
-    [<ffffffff82d3fdc7>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
-    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
-    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
-    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
-    [<ffffffff8274af6a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:782
-    [<ffffffff8274b786>] __device_attach_driver+0xf6/0x140 drivers/base/dd.c:899
-    [<ffffffff82747c87>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:427
-    [<ffffffff8274b352>] __device_attach+0x122/0x260 drivers/base/dd.c:970
-    [<ffffffff827498f6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:487
-    [<ffffffff82745cdb>] device_add+0x5fb/0xdf0 drivers/base/core.c:3405
-    [<ffffffff82d3d202>] usb_set_configuration+0x8f2/0xb80 drivers/usb/core/message.c:2170
-    [<ffffffff82d4dbfc>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<ffffffff82d3f49c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
-    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
-    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
-    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
+It was added by Heiko Stübner, basically trying to figure out the
+versions from the vedor code,
+see https://lore.kernel.org/all/20210121144407.9045-6-dafna.hirschfeld@collabora.com/
 
-Link: https://syzkaller.appspot.com/bug?id=4d54f8bf7b98eecf6cd76ed5aaea883c5d9e502a
-Reported-by: syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
-Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
----
- drivers/media/usb/dvb-usb/dvb-usb-init.c | 7 ++++++-
- drivers/media/usb/dvb-usb/dvb-usb.h      | 1 +
- 2 files changed, 7 insertions(+), 1 deletion(-)
+thanks,
+Dafna
 
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-index 61439c8f33ca..bbee86c70cc5 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-@@ -77,6 +77,7 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
- 				err("no memory for priv for adapter %d.", n);
- 				return -ENOMEM;
- 			}
-+			d->num_adap_priv_initialized++;
- 		}
- 
- 		ret = dvb_usb_adapter_stream_init(adap);
-@@ -125,8 +126,12 @@ static int dvb_usb_adapter_exit(struct dvb_usb_device *d)
- 		dvb_usb_adapter_frontend_exit(&d->adapter[n]);
- 		dvb_usb_adapter_dvb_exit(&d->adapter[n]);
- 		dvb_usb_adapter_stream_exit(&d->adapter[n]);
--		kfree(d->adapter[n].priv);
- 	}
-+
-+	for (n = 0; n < d->num_adap_priv_initialized; n++)
-+		kfree(d->adapter[n].priv);
-+
-+	d->num_adapters_initialized = 0;
- 	d->num_adapters_initialized = 0;
- 	d->state &= ~DVB_USB_STATE_DVB;
- 	return 0;
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb.h b/drivers/media/usb/dvb-usb/dvb-usb.h
-index 0990aa4a17bb..1bfc33db3b52 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb.h
-+++ b/drivers/media/usb/dvb-usb/dvb-usb.h
-@@ -483,6 +483,7 @@ struct dvb_usb_device {
- 	struct i2c_adapter i2c_adap;
- 
- 	int                    num_adapters_initialized;
-+	int		       num_adap_priv_initialized;
- 	struct dvb_usb_adapter adapter[MAX_NO_OF_ADAPTER_PER_DEVICE];
- 
- 	/* remote control */
--- 
-2.36.1
-
+>
+>>  };
+>>
+>>  enum rkisp1_cif_isp_histogram_mode {
+>
+>-- 
+>Regards,
+>
+>Laurent Pinchart
