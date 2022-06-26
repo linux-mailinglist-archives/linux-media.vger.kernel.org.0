@@ -2,185 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAAE755AE8F
-	for <lists+linux-media@lfdr.de>; Sun, 26 Jun 2022 06:14:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0FF555B0CD
+	for <lists+linux-media@lfdr.de>; Sun, 26 Jun 2022 11:35:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233824AbiFZEFz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Jun 2022 00:05:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57990 "EHLO
+        id S234381AbiFZJTS convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 26 Jun 2022 05:19:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229999AbiFZEFy (ORCPT
+        with ESMTP id S234238AbiFZJTR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Jun 2022 00:05:54 -0400
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BC2411A20
-        for <linux-media@vger.kernel.org>; Sat, 25 Jun 2022 21:05:53 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id 1048932004F8;
-        Sun, 26 Jun 2022 00:05:49 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sun, 26 Jun 2022 00:05:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm2; t=1656216349; x=
-        1656302749; bh=Fyqr39kqDTapjiaXukIEzLeA3TcvL5aGenhByxOZ9cw=; b=J
-        8AFFaMnVAhg2GawAI/FATO47FUO8xQBlsOcvbFN+Zmh5UmhZUv6XhHnsjHktTNH2
-        JNobrx56j5L/BIAicY8Itvn88GcCLI9eaNSg1xrQjS4KGwd9SipIHi8pW2kHU/iV
-        lY3nzcC4XlePD54BWAJlhtpnLXLxbsdN9JBHw69b5bzWRLVSiqtzKxwKAxE/Y7Ks
-        +8nzyqbrKt7O/zCF1YTG5J099s/WUUtQbcPS0FMGAEDxsvWHFgFJtxsGiDWUcLmm
-        Yur7Si9UffIUIRzfIrVKM4hlBclUAmaCsHuBbs6Lnn70ubIUd/D/pqgxstifqP9T
-        GA7D6T4MWQozAzY96eQGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656216349; x=
-        1656302749; bh=Fyqr39kqDTapjiaXukIEzLeA3TcvL5aGenhByxOZ9cw=; b=G
-        TC3KbjQah0w1uKFbwbl1a0bsQFYzkExHqIPwF49tUgVX7vqWXmkvb0xwvEA9i6rb
-        LexJ8hUAdkRaVdT6YujNw51wVAbJCh+PSqw9oF3v6HGP2Sbx5UPIyUoFgOe+avPt
-        QmUQWOsJYNo0NFsW5GVsRfYVh3v4rhuijqIm61zh6L+9PgruiD524aO1s34wJSRw
-        bIjgZZHmjSEGFtxkNHYs25QQ6KU5jL3GgV62zyDCAHL+kruY9+15vP1uooXPS86r
-        Tk5cpaV+dm4KGufqobqpkNlfDf/8l5DF97BTkNYvZLTUBqzeb0/GV0odcoeGrufQ
-        EgzoTILOCXQ6dFYQ2AbLg==
-X-ME-Sender: <xms:Hdu3YqLEH-KbHZvcCJXPhjCJA4U0aWKtYcyHsT4MJ4Xp1WfRl6gF-Q>
-    <xme:Hdu3YiJhftsREq35a1yrc5maQx2_OudHZdm_yQRs1m0ThCKnspCNAlSX94liXQko_
-    hgx6oi5YZPfpEYfLZ4>
-X-ME-Received: <xmr:Hdu3Yqs_zP79ovbnFhcGBI-hn_r0ZfiH__exoeSnSMDZgfUeTQTd4g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegvddgkedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeffrghf
-    nhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghsthhmrghilhdrtghomheqne
-    cuggftrfgrthhtvghrnhepteehkefgjeegledtgeffhedtkefgiefgtedvjeelueegudet
-    gedvgedufeevkefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghfnhgrsehfrghsthhm
-    rghilhdrtghomh
-X-ME-Proxy: <xmx:Hdu3YvYpsj4c_YZoitVxzEakbELpRXVOxBvpEXGZdUWhJmksuDWdmQ>
-    <xmx:Hdu3YhammgKatlBsNElt7tKmqJt3To_9o_re93miFkO2u8P1qzbS-Q>
-    <xmx:Hdu3YrAXP76bMeWXlkuoO2O6WCiHXLv8ECHtrhPllklUMio7dJFefQ>
-    <xmx:Hdu3Yt53qm1lp2IYBlToPYg9h7jC_45VNpMHxa9XCm2Ab2GIaO8sZw>
-Feedback-ID: i0e894699:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 26 Jun 2022 00:05:46 -0400 (EDT)
-Date:   Sun, 26 Jun 2022 07:05:43 +0300
-From:   Dafna Hirschfeld <dafna@fastmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        linux-media@vger.kernel.org, heiko@sntech.de,
-        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
-        djrscally@gmail.com, helen.koike@collabora.com,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 48/55] media: rkisp1: Add match data for i.MX8MP ISP
-Message-ID: <20220626040543.jswxbusyyydfoxfd@guri>
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-49-paul.elder@ideasonboard.com>
- <Yq0NnksDldH1PDfp@pendragon.ideasonboard.com>
+        Sun, 26 Jun 2022 05:19:17 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A98E1C
+        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 02:19:16 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o5OQE-002WGM-Kw; Sun, 26 Jun 2022 09:19:14 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o5OQD-00Eydf-66; Sun, 26 Jun 2022 09:19:12 +0000
+Date:   Sun, 26 Jun 2022 09:19:12 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <472621312.0.1656235152543@builder.linuxtv.org>
+In-Reply-To: <2064127439.0.1656148754705@builder.linuxtv.org>
+References: <2064127439.0.1656148754705@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3941
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yq0NnksDldH1PDfp@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18.06.2022 02:26, Laurent Pinchart wrote:
->Hi Paul,
->
->Thank you for the patch.
->
->On Wed, Jun 15, 2022 at 04:11:20AM +0900, Paul Elder wrote:
->> Add match data to the rkisp1 driver to match the i.MX8MP ISP.
->>
->> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
->> ---
->>  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 22 +++++++++++++++++++
->>  include/uapi/linux/rkisp1-config.h            |  3 +++
->>  2 files changed, 25 insertions(+)
->>
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> index 62fa2bd275fe..3a0115bdcee5 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> @@ -486,6 +486,24 @@ static const struct rkisp1_info rk3399_isp_info = {
->>  	.features = RKISP1_FEATURE_MIPI_CSI2,
->>  };
->>
->> +static const char * const imx8mp_isp_clks[] = {
->> +	"isp",
->> +	"hclk",
->> +	"aclk",
->> +};
->> +
->> +static const struct rkisp1_isr_data imx8mp_isp_isrs[] = {
->> +	{ NULL, rkisp1_isr },
->> +};
->> +
->> +static const struct rkisp1_info imx8mp_isp_info = {
->> +	.clks = imx8mp_isp_clks,
->> +	.clk_size = ARRAY_SIZE(imx8mp_isp_clks),
->> +	.isrs = imx8mp_isp_isrs,
->> +	.isr_size = ARRAY_SIZE(imx8mp_isp_isrs),
->> +	.isp_ver = IMX8MP_V10,
->> +};
->> +
->>  static const struct of_device_id rkisp1_of_match[] = {
->>  	{
->>  		.compatible = "rockchip,px30-cif-isp",
->> @@ -495,6 +513,10 @@ static const struct of_device_id rkisp1_of_match[] = {
->>  		.compatible = "rockchip,rk3399-cif-isp",
->>  		.data = &rk3399_isp_info,
->>  	},
->> +	{
->> +		.compatible = "fsl,imx8mp-isp",
->> +		.data = &imx8mp_isp_info,
->> +	},
->>  	{},
->>  };
->>  MODULE_DEVICE_TABLE(of, rkisp1_of_match);
->> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
->> index 583ca0d9a79d..40677d47825c 100644
->> --- a/include/uapi/linux/rkisp1-config.h
->> +++ b/include/uapi/linux/rkisp1-config.h
->> @@ -140,12 +140,15 @@
->>   * @RKISP1_V11: declared in the original vendor code, but not used
->>   * @RKISP1_V12: used at least in rk3326 and px30
->>   * @RKISP1_V13: used at least in rk1808
->> + * @IMX8MP_V10: used in at least imx8mp
->>   */
->>  enum rkisp1_cif_isp_version {
->>  	RKISP1_V10 = 10,
->>  	RKISP1_V11,
->>  	RKISP1_V12,
->>  	RKISP1_V13,
->> +	/* TODO Choose a better version for this */
->> +	IMX8MP_V10,
->
->Time to address this ? :-)
->
->Does anyone know where the current versioning scheme come from ?
+See <https://builder.linuxtv.org/job/media-build/3941/display/redirect>
 
-It was added by Heiko Stübner, basically trying to figure out the
-versions from the vedor code,
-see https://lore.kernel.org/all/20210121144407.9045-6-dafna.hirschfeld@collabora.com/
+Changes:
 
-thanks,
-Dafna
 
->
->>  };
->>
->>  enum rkisp1_cif_isp_histogram_mode {
->
->-- 
->Regards,
->
->Laurent Pinchart
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+Commit message: "versions.txt: IMON builds for 4.11 and up only"
+ > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3940' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
+[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@6eea8985'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins11992306219688260809.sh
++ make distclean
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
+	config-compat.h Module.symvers Module.markers modules.order \
+	*.unsigned .*.ko.unsigned.cmd
+rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
+	Kconfig Kconfig.kern .config .config.cmd .myconfig \
+	.kconfig.dep config-mycompat.h
+rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
+rm -f scripts/lxdialog scripts/kconfig
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
+
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2022-06-26 09:19:08--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2022-06-26 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  148M=0s
+
+2022-06-26 09:19:09 (148 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
