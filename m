@@ -2,44 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0FF555B0CD
-	for <lists+linux-media@lfdr.de>; Sun, 26 Jun 2022 11:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4396F55B167
+	for <lists+linux-media@lfdr.de>; Sun, 26 Jun 2022 13:07:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234381AbiFZJTS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sun, 26 Jun 2022 05:19:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56102 "EHLO
+        id S234347AbiFZLHp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Jun 2022 07:07:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234238AbiFZJTR (ORCPT
+        with ESMTP id S234345AbiFZLHo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Jun 2022 05:19:17 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A98E1C
-        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 02:19:16 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o5OQE-002WGM-Kw; Sun, 26 Jun 2022 09:19:14 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o5OQD-00Eydf-66; Sun, 26 Jun 2022 09:19:12 +0000
-Date:   Sun, 26 Jun 2022 09:19:12 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <472621312.0.1656235152543@builder.linuxtv.org>
-In-Reply-To: <2064127439.0.1656148754705@builder.linuxtv.org>
-References: <2064127439.0.1656148754705@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3941
+        Sun, 26 Jun 2022 07:07:44 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528F9E029
+        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 04:07:43 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6A4947C;
+        Sun, 26 Jun 2022 13:07:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656241660;
+        bh=l5MwWhDeebXQoASP278Isyfeu3tY6emg+jOGo6Dfkcc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kD2NWrXX9B3rUaSes0mI09Dlb8d3kJpZegXAx+3M0KCc7Q7zQwbOAY51l+Fhk79/f
+         gEf4nQTFnVicfHb9qua9GRQIDC+77NLIiDf4Ytn5EjvTCuubAdiXsvfXVh9SyTd/oF
+         ztEDRHbKH6s8cIHU/3BPMZb2cp6IAAXeYCuBicy0=
+Date:   Sun, 26 Jun 2022 14:07:22 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dafna Hirschfeld <dafna@fastmail.com>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, heiko@sntech.de,
+        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
+        djrscally@gmail.com, helen.koike@collabora.com,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 48/55] media: rkisp1: Add match data for i.MX8MP ISP
+Message-ID: <Yrg96r2vRewNpMFl@pendragon.ideasonboard.com>
+References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-49-paul.elder@ideasonboard.com>
+ <Yq0NnksDldH1PDfp@pendragon.ideasonboard.com>
+ <20220626040543.jswxbusyyydfoxfd@guri>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220626040543.jswxbusyyydfoxfd@guri>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,192 +53,120 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3941/display/redirect>
+On Sun, Jun 26, 2022 at 07:05:43AM +0300, Dafna Hirschfeld wrote:
+> On 18.06.2022 02:26, Laurent Pinchart wrote:
+> > On Wed, Jun 15, 2022 at 04:11:20AM +0900, Paul Elder wrote:
+> >> Add match data to the rkisp1 driver to match the i.MX8MP ISP.
+> >>
+> >> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> >> ---
+> >>  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 22 +++++++++++++++++++
+> >>  include/uapi/linux/rkisp1-config.h            |  3 +++
+> >>  2 files changed, 25 insertions(+)
+> >>
+> >> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> >> index 62fa2bd275fe..3a0115bdcee5 100644
+> >> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> >> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> >> @@ -486,6 +486,24 @@ static const struct rkisp1_info rk3399_isp_info = {
+> >>  	.features = RKISP1_FEATURE_MIPI_CSI2,
+> >>  };
+> >>
+> >> +static const char * const imx8mp_isp_clks[] = {
+> >> +	"isp",
+> >> +	"hclk",
+> >> +	"aclk",
+> >> +};
+> >> +
+> >> +static const struct rkisp1_isr_data imx8mp_isp_isrs[] = {
+> >> +	{ NULL, rkisp1_isr },
+> >> +};
+> >> +
+> >> +static const struct rkisp1_info imx8mp_isp_info = {
+> >> +	.clks = imx8mp_isp_clks,
+> >> +	.clk_size = ARRAY_SIZE(imx8mp_isp_clks),
+> >> +	.isrs = imx8mp_isp_isrs,
+> >> +	.isr_size = ARRAY_SIZE(imx8mp_isp_isrs),
+> >> +	.isp_ver = IMX8MP_V10,
+> >> +};
+> >> +
+> >>  static const struct of_device_id rkisp1_of_match[] = {
+> >>  	{
+> >>  		.compatible = "rockchip,px30-cif-isp",
+> >> @@ -495,6 +513,10 @@ static const struct of_device_id rkisp1_of_match[] = {
+> >>  		.compatible = "rockchip,rk3399-cif-isp",
+> >>  		.data = &rk3399_isp_info,
+> >>  	},
+> >> +	{
+> >> +		.compatible = "fsl,imx8mp-isp",
+> >> +		.data = &imx8mp_isp_info,
+> >> +	},
+> >>  	{},
+> >>  };
+> >>  MODULE_DEVICE_TABLE(of, rkisp1_of_match);
+> >> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> >> index 583ca0d9a79d..40677d47825c 100644
+> >> --- a/include/uapi/linux/rkisp1-config.h
+> >> +++ b/include/uapi/linux/rkisp1-config.h
+> >> @@ -140,12 +140,15 @@
+> >>   * @RKISP1_V11: declared in the original vendor code, but not used
+> >>   * @RKISP1_V12: used at least in rk3326 and px30
+> >>   * @RKISP1_V13: used at least in rk1808
+> >> + * @IMX8MP_V10: used in at least imx8mp
+> >>   */
+> >>  enum rkisp1_cif_isp_version {
+> >>  	RKISP1_V10 = 10,
+> >>  	RKISP1_V11,
+> >>  	RKISP1_V12,
+> >>  	RKISP1_V13,
+> >> +	/* TODO Choose a better version for this */
+> >> +	IMX8MP_V10,
+> >
+> > Time to address this ? :-)
+> >
+> > Does anyone know where the current versioning scheme come from ?
+> 
+> It was added by Heiko Stübner, basically trying to figure out the
+> versions from the vedor code,
+> see https://lore.kernel.org/all/20210121144407.9045-6-dafna.hirschfeld@collabora.com/
 
-Changes:
+Is that public code ? Heiko, do you have any pointer to it ?
 
+As far as I understand, this ISP IP has been forked, and is now
+developed in parallel by Rockchip (for their own SoCs) and by
+VeriSilicon (under the name of ISP8000Nano). The versioning schemes on
+the two sides are different, and may have common roots. The fact that
+the ISP8000Nano can be customized at synthesis time also complicates
+this.
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3940' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@6eea8985'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins11992306219688260809.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+The question at hand is how to expose a single coherent versioning
+scheme to userspace in this driver. The hardware has a version
+identification register that we could use, but I don't know if it gives
+us enough information (as in guaranteeing that the same version value
+won't be used for different IP versions that would need to be
+distinguished from each other in userspace). The fact that Rockchip and
+VeriSilicon probably develop their own new versions without cooperating
+increases the risk of collision.
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+We will also have to tackle the question of UABI. Newer ISP versions
+will require extensions to the ISP parameters structure. The i.MX8MP has
+extra processing blocks that are not supported by the driver today. One
+option would be to duplicate the top-level rkisp1_params_cfg structure
+per ISP version, as well as a set of lower-level structure where
+appropriate (how to handle that easily and efficiently on the driver
+side will be interesting to figure out). Another option is to only add
+parameters to the end of the rkisp1_params_cfg structure, but I fear
+that won't scale. We'll end up with a large structure where lots of data
+will be irrelevant for any particular ISP version, and that will be
+error-prone.
 
-Not aborted. It means that the licence was agreed. Proceeding...
+Comments and idea will be appreciated.
 
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-06-26 09:19:08--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-06-26 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+> >>  };
+> >>
+> >>  enum rkisp1_cif_isp_histogram_mode {
 
-     0K                                                       100%  148M=0s
+-- 
+Regards,
 
-2022-06-26 09:19:09 (148 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+Laurent Pinchart
