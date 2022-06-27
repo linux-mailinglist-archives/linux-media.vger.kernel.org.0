@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 311D355DA8C
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5EB055DFD3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238347AbiF0PdF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jun 2022 11:33:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53012 "EHLO
+        id S238564AbiF0PeM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jun 2022 11:34:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238470AbiF0Pc2 (ORCPT
+        with ESMTP id S238576AbiF0Pdy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jun 2022 11:32:28 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA3941A819;
-        Mon, 27 Jun 2022 08:32:22 -0700 (PDT)
+        Mon, 27 Jun 2022 11:33:54 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44AF01A39B;
+        Mon, 27 Jun 2022 08:33:52 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4785566015CC;
-        Mon, 27 Jun 2022 16:32:20 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8A9F666015C9;
+        Mon, 27 Jun 2022 16:33:49 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656343941;
-        bh=WXEZVvmNgtbo2KYONmvEmxeWXTPTZqzrltifafKJ+n4=;
+        s=mail; t=1656344030;
+        bh=WzLxqB/YMSV3d8PSEanjQ/qOkirN2jSeH7M6yPLb6bY=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=adrQSZ/uZg0suZrYAzozhYTSpFm4WT2vOcUj3+/QOZDUu1fWDlGJl+q6Sg72FzpB2
-         +hCRiC/TyTU53rf3H++EJ1MsA9xUo9gV7B/VmeN+I60NzgARl+y2caDW2Ru+LgFA4R
-         DuukQBQ6BKO6ySxU4PtOKF/hRLGg1SmLdVcDaexoc42vOvr+bJaUwZz1GNge7hSdQF
-         z/AeCT5Rc6+HZ13t74CCLRuV02C8Wp6ZvGSwnxHVQQVHIfbzFmJRi2VGIBCpgw89wU
-         y2dMLOhKivyS1NMECe/gdrFCeJ4T3agBzjlrjy8aXG2gU2LJdj/jqun9V/HPD2f84y
-         FxWNy2i00/pvA==
-Message-ID: <f5e68826df868ae5a3cd5737fd9d7f7683bbad73.camel@collabora.com>
+        b=Kiw/fpDfzNHiUkjVs5KgG9+JKq/bEnX5sBvOJou4gARcDdyWQEWnOpE6wjVVzoT5R
+         PKlViGOxmcFVp2K64r3AqSr7C+D+lYPib6ILwuYE6mGtJ3BE610P8ggr9TkqmQ3YQl
+         GpXr8Jmr7yGCS34fBur97iMYWJdnQvN1XtskYxPPG/2zzOS/kbY7MEISCTzeTZE75p
+         cuvLUFQx5TxlsLizuLMqGDxch++RQLBcNTy9dyi3pL4LPcsoVlfpxuQ1R20KwmyQIE
+         nzmoBkV4nw/n65h/2D2lEH4/jkfOi/iI3dDispFKhCHkEN6UawbQqGRHuhEabZpRBm
+         yTTGP/y8FRr/g==
+Message-ID: <43f393d2dcdd0bfac66bfc420e9261d31b3ceedc.camel@collabora.com>
 Subject: Re: [PATCH 1/4] media: mediatek: vcodec: dec: Fix 4K frame size
  enumeration
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
@@ -46,7 +46,7 @@ Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
         Yunfei Dong <yunfei.dong@mediatek.com>
-Date:   Mon, 27 Jun 2022 11:32:09 -0400
+Date:   Mon, 27 Jun 2022 11:33:39 -0400
 In-Reply-To: <20220627112402.2332046-2-wenst@chromium.org>
 References: <20220627112402.2332046-1-wenst@chromium.org>
          <20220627112402.2332046-2-wenst@chromium.org>
@@ -63,8 +63,6 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Chen-Yu,
-
 Le lundi 27 juin 2022 =C3=A0 19:23 +0800, Chen-Yu Tsai a =C3=A9crit=C2=A0:
 > This partially reverts commit b018be06f3c7 ("media: mediatek: vcodec:
 > Read max resolution from dec_capability"). In this commit, the maximum
@@ -74,15 +72,6 @@ Le lundi 27 juin 2022 =C3=A0 19:23 +0800, Chen-Yu Tsai a =C3=A9crit=C2=A0:
 > However, frame size enumeration for output (coded) formats should not
 > depend on the format set, but should return supported resolutions for
 > the format requested by userspace.
-
-Good point. Though, I don't see any special casing for the CAPTURE case. As=
- this
-HW does not include a scaler, it must only return 1 resolution when being
-enumerated for CAPTURE side (or not implement that enumeration, but its
-complicated to half implement something in m2m). The return unique size sho=
-uld
-match what G_FMT(CAPTURE) would return.
-
 >=20
 > Fix this so that the driver returns the supported resolutions correctly,
 > even if the instance only has default settings, or if the output format
@@ -121,6 +110,11 @@ cc,
 > =20
 >  		mtk_vdec_framesizes[count_framesizes].fourcc =3D fourcc;
 >  		mtk_vdec_framesizes[count_framesizes].stepwise =3D stepwise_fhd;
+
+While at it, can you constify stepwise_fhd, it is scary to think that someo=
+ne
+could modify it and cause big headache.
+
 > +		if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED) &&
 > +		    fourcc !=3D V4L2_PIX_FMT_VP8_FRAME) {
 > +			mtk_vdec_framesizes[count_framesizes].stepwise.max_width =3D
@@ -128,14 +122,6 @@ cc,
 > +			mtk_vdec_framesizes[count_framesizes].stepwise.max_height =3D
 > +				VCODEC_DEC_4K_CODED_HEIGHT;
 > +		}
-
-I don't particularly like to see this special cased check being added into
-multiple places. Its also in your patch 2, and I think it exist in a third
-place. Could it be possible to have an internal helper to ensure we don't
-duplicate this logic ? Somehow, it seems there is something in common betwe=
-en
-set_default, try_fmt and this code.
-
 >  		num_framesizes++;
 >  		break;
 >  	case V4L2_PIX_FMT_MM21:
