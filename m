@@ -2,119 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E47755D940
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50A2555D7BE
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:18:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234260AbiF0KWa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jun 2022 06:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33730 "EHLO
+        id S233888AbiF0KpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jun 2022 06:45:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234255AbiF0KW3 (ORCPT
+        with ESMTP id S232895AbiF0KpA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jun 2022 06:22:29 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EE36264E
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 03:22:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 08F4ACE13B0
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 10:22:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C124C3411D;
-        Mon, 27 Jun 2022 10:22:23 +0000 (UTC)
-Message-ID: <acaaea9c-e98c-d589-35a9-610950a890fd@xs4all.nl>
-Date:   Mon, 27 Jun 2022 12:22:21 +0200
+        Mon, 27 Jun 2022 06:45:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16FF763B2
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 03:44:59 -0700 (PDT)
+Received: from pyrite.rasen.tech (softbank036240122163.bbtec.net [36.240.122.163])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41A571C82;
+        Mon, 27 Jun 2022 12:44:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656326697;
+        bh=JUTe1Y6WoD8DgWJv3i4rjflynR1VghSx9YpSwPME9r8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=aUViQXEwZwVEZbLhaQLkB6+Gk7U3NKtkEyLPtE8aNDFqZGMZAGPK7j1YmZgH3e6an
+         F+jt0k8CQl6ARS3mG4p5DX9BR8LNlqbsDtSIZRrQRPoCCjiyf+VzfpCJzuvow7ezyN
+         gQchYdn8/XP7F8DFhq5Fd+SXduF4+YQ2pSMLgtpo=
+From:   Paul Elder <paul.elder@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        laurent.pinchart@ideasonboard.com
+Subject: [PATCH] media: rkisp1: Support devices without self path
+Date:   Mon, 27 Jun 2022 19:44:29 +0900
+Message-Id: <20220627104429.1454717-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v8 3/6] staging: media: wave5: Add the v4l2 layer
-Content-Language: en-US
-To:     Nas Chung <nas.chung@chipsnmedia.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Robert Beckett <bob.beckett@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-References: <20220427114638.1638-1-nas.chung@chipsnmedia.com>
- <20220427114638.1638-4-nas.chung@chipsnmedia.com>
- <3e45e409-39de-de94-683a-81218f94095b@xs4all.nl>
- <SL2P216MB12469E4D85AB5A0D1CAB6CB7FBB99@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <SL2P216MB12469E4D85AB5A0D1CAB6CB7FBB99@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/06/2022 12:10, Nas Chung wrote:
-> Hi, Hans.
-> 
-> Thanks for the feedback.
-> 
-> I have one question for g_volatile, please refer the below.
-> 
->> -----Original Message-----
->> From: Hans Verkuil <hverkuil@xs4all.nl>
->> Sent: Wednesday, June 22, 2022 7:16 PM
->> To: Nas Chung <nas.chung@chipsnmedia.com>; linux-media@vger.kernel.org
->> Cc: Robert Beckett <bob.beckett@collabora.com>; Dafna Hirschfeld
->> <dafna.hirschfeld@collabora.com>
->> Subject: Re: [PATCH v8 3/6] staging: media: wave5: Add the v4l2 layer
->>
->> Hi Nas,
->>
->> Some review comments below:
->>
+Some hardware supported by the rkisp1 driver, such as the ISP in the
+i.MX8MP, don't have a self path. Add a feature flag for this, and
+massage the rest of the driver to support the lack of a self path.
 
-<snip>
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 
->>> +static int wave5_vpu_dec_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
->>> +{
->>> +	struct vpu_instance *inst = wave5_ctrl_to_vpu_inst(ctrl);
->>> +
->>> +	dev_dbg(inst->dev->dev, "name : %s\n", ctrl->name);
->>> +
->>> +	switch (ctrl->id) {
->>> +	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
->>> +		if (inst->state != VPU_INST_STATE_NONE && inst->state !=
->> VPU_INST_STATE_OPEN)
->>> +			ctrl->val = inst->min_dst_frame_buf_count;
->>
->> This isn't a volatile control, it's just a regular control. Whenever
->> inst->min_dst_frame_buf_count is changed by the driver it should also
->> update this control by calling v4l2_ctrl_s_ctrl().
->>
->> Volatile controls are for cases where the hardware is autonomously
->> changing a value (e.g. the gain when auto gain is enabled).
->>
->> But here the value is controlled by the driver, so it's not volatile.
->>
-> 
-> v4l2_ctrl_s_ctrl() returns EINVAL error, when I change the value of V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/V4L2_CID_MIN_BUFFERS_FOR_OUTPUT.
-> Is it possible to change the value for READ_ONLY interface?
+---
+This patch depends on "media: rkisp1: Cleanups and add support for
+i.MX8MP" [1], which in turn depends on v4 of "media: rkisp1: Misc bug fixes
+and cleanups" [2].
 
-Yes. The vivid driver does the same thing for the read only integer control that it creates.
+[1] https://lore.kernel.org/linux-media/20220625070034.6odv6cyvqqigb2sa@guri/T/
+[2] https://lore.kernel.org/linux-media/Ymbxs2p9Tuf331qM@pendragon.ideasonboard.com/T/
+---
+ .../media/platform/rockchip/rkisp1/rkisp1-capture.c   | 11 ++++++++---
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h    |  1 +
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c   | 10 +++++++---
+ .../media/platform/rockchip/rkisp1/rkisp1-resizer.c   |  7 +++++--
+ 4 files changed, 21 insertions(+), 8 deletions(-)
 
-Could it be that you set it to an out-of-range value?
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index 234b1f8488cb..9387996f64a4 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -711,6 +711,8 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
+ 	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
+ 	unsigned int i;
+ 	u32 status;
++	bool self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
++	unsigned int dev_count = ARRAY_SIZE(rkisp1->capture_devs) - (self_path ? 0 : 1);
+ 
+ 	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
+ 	if (!status)
+@@ -718,7 +720,7 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
+ 
+ 	rkisp1_write(rkisp1, RKISP1_CIF_MI_ICR, status);
+ 
+-	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); ++i) {
++	for (i = 0; i < dev_count; ++i) {
+ 		struct rkisp1_capture *cap = &rkisp1->capture_devs[i];
+ 
+ 		if (!(status & RKISP1_CIF_MI_FRAME(cap)))
+@@ -875,6 +877,7 @@ static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
+ {
+ 	struct rkisp1_device *rkisp1 = cap->rkisp1;
+ 	struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
++	bool has_self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
+ 
+ 	cap->ops->set_data_path(cap);
+ 	cap->ops->config(cap);
+@@ -892,7 +895,7 @@ static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
+ 	 * This's also required because the second FE maybe corrupt
+ 	 * especially when run at 120fps.
+ 	 */
+-	if (!other->is_streaming) {
++	if (has_self_path && !other->is_streaming) {
+ 		/* force cfg update */
+ 		rkisp1_write(rkisp1, RKISP1_CIF_MI_INIT,
+ 			     RKISP1_CIF_MI_INIT_SOFT_UPD);
+@@ -1447,8 +1450,10 @@ int rkisp1_capture_devs_register(struct rkisp1_device *rkisp1)
+ {
+ 	unsigned int i;
+ 	int ret;
++	bool self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
++	unsigned int dev_count = ARRAY_SIZE(rkisp1->capture_devs) - (self_path ? 0 : 1);
+ 
+-	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); i++) {
++	for (i = 0; i < dev_count; i++) {
+ 		struct rkisp1_capture *cap = &rkisp1->capture_devs[i];
+ 
+ 		rkisp1_capture_init(rkisp1, i);
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index 0b834579d08c..4a9e53aa3229 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -114,6 +114,7 @@ enum rkisp1_feature {
+ 	RKISP1_FEATURE_RSZ_CROP = BIT(2),
+ 	RKISP1_FEATURE_MAIN_STRIDE = BIT(3),
+ 	RKISP1_FEATURE_DMA_34BIT = BIT(4),
++	RKISP1_FEATURE_SELF_PATH = BIT(5),
+ };
+ 
+ /*
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 4c77aa2bc50a..721075849a25 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -328,6 +328,8 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+ {
+ 	unsigned int i;
+ 	int ret;
++	bool self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
++	unsigned int dev_count = self_path ? 2 : 1;
+ 
+ 	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+ 		/* Link the CSI receiver to the ISP. */
+@@ -341,7 +343,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+ 	}
+ 
+ 	/* create ISP->RSZ->CAP links */
+-	for (i = 0; i < 2; i++) {
++	for (i = 0; i < dev_count; i++) {
+ 		struct media_entity *resizer =
+ 			&rkisp1->resizer_devs[i].sd.entity;
+ 		struct media_entity *capture =
+@@ -466,7 +468,8 @@ static const struct rkisp1_info px30_isp_info = {
+ 	.isr_size = ARRAY_SIZE(px30_isp_isrs),
+ 	.isp_ver = RKISP1_V12,
+ 	.features = RKISP1_FEATURE_MIPI_CSI2
+-		  | RKISP1_FEATURE_DUAL_CROP,
++		  | RKISP1_FEATURE_DUAL_CROP
++		  | RKISP1_FEATURE_SELF_PATH,
+ };
+ 
+ static const char * const rk3399_isp_clks[] = {
+@@ -486,7 +489,8 @@ static const struct rkisp1_info rk3399_isp_info = {
+ 	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
+ 	.isp_ver = RKISP1_V10,
+ 	.features = RKISP1_FEATURE_MIPI_CSI2
+-		  | RKISP1_FEATURE_DUAL_CROP,
++		  | RKISP1_FEATURE_DUAL_CROP
++		  | RKISP1_FEATURE_SELF_PATH,
+ };
+ 
+ static const char * const imx8mp_isp_clks[] = {
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+index 29a31b18a082..fe699b49757c 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+@@ -673,6 +673,7 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct rkisp1_device *rkisp1 = rsz->rkisp1;
+ 	struct rkisp1_capture *other = &rkisp1->capture_devs[rsz->id ^ 1];
+ 	enum rkisp1_shadow_regs_when when = RKISP1_SHADOW_REGS_SYNC;
++	bool has_self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
+ 
+ 	if (!enable) {
+ 		if (rkisp1->info->features & RKISP1_FEATURE_DUAL_CROP)
+@@ -681,7 +682,7 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
+ 		return 0;
+ 	}
+ 
+-	if (other->is_streaming)
++	if (has_self_path && other->is_streaming)
+ 		when = RKISP1_SHADOW_REGS_ASYNC;
+ 
+ 	mutex_lock(&rsz->ops_lock);
+@@ -771,8 +772,10 @@ int rkisp1_resizer_devs_register(struct rkisp1_device *rkisp1)
+ {
+ 	unsigned int i;
+ 	int ret;
++	bool self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
++	unsigned int dev_count = ARRAY_SIZE(rkisp1->resizer_devs) - (self_path ? 0 : 1);
+ 
+-	for (i = 0; i < ARRAY_SIZE(rkisp1->resizer_devs); i++) {
++	for (i = 0; i < dev_count; i++) {
+ 		struct rkisp1_resizer *rsz = &rkisp1->resizer_devs[i];
+ 
+ 		rsz->rkisp1 = rkisp1;
+-- 
+2.30.2
 
-> 
-> Actually, min_dst_frame_buf_count value is updated by driver based on HW return value.
-> So, That's why I use the g_volatile function.
-
-It's not the same thing: you know when the value changes and you just update it in the control.
-
-A true volatile control will take a snapshot from the hardware whenever userspace reads it.
-
-E.g. hardware that automatically changes the gain will do so without informing userspace when
-the gain value changes, so when userspace tries to read the current gain control value it always
-has to ask the hardware what that value is. The VOLATILE flag means that the control framework
-can't return the cached value of the control, it always has to ask the hardware.
-
-Regards,
-
-	Hans
