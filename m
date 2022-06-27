@@ -2,113 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37F3355CAF5
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 14:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1326D55D374
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:12:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238717AbiF0Pnf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jun 2022 11:43:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40776 "EHLO
+        id S237665AbiF0QIk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jun 2022 12:08:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238616AbiF0Pnd (ORCPT
+        with ESMTP id S235860AbiF0QIi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jun 2022 11:43:33 -0400
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9399D13F32
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 08:43:32 -0700 (PDT)
-Received: by mail-oo1-xc2c.google.com with SMTP id f10-20020a4aa68a000000b0042579cb6238so1959659oom.7
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 08:43:32 -0700 (PDT)
+        Mon, 27 Jun 2022 12:08:38 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1389DE26
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 09:08:37 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id g26so20176344ejb.5
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 09:08:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jeCZll6JIiupq6wXz3EXbwPbyMk1/Nh9Hz5APWhATh4=;
-        b=Z4Fe5PDuAC7IWtUkQe0UlZIuJiyPoJwRad/UP9chj4hlqNmV/aImccqAgc+gNQAjLd
-         0HbJgHLMPWR+IFgoxxgYGcOBiPaaEBtQkPIr8arM4TbGv1k7BSCihk33MDFJCOT5YqR/
-         722gGgGVGvPNrND/4NkYz/Xg8WOM7xyaKvhV8=
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qwrNUsFFjx0kIkQOK6KscPYe6Gk789pm4yunG5LcclA=;
+        b=JWWB+9WHA5Yuc+abc36EnLEi/L3PeMuKG9xOsBDskAMlwdrsQwxwdERIRlRagCVIy5
+         EJho5GNMeMFquiaSsnDwuWEOboyZlNoVeOqQwYv8jZVcNAljBts3Oj8jSg9tlHxU6IoR
+         Oq85tXcn+3fVRHwzMhJHkICyHCZKWa98LgJkY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jeCZll6JIiupq6wXz3EXbwPbyMk1/Nh9Hz5APWhATh4=;
-        b=21TP8rdUGnjPAHLoliU7dRaTtQ3SAEz9/hA1zzALCVA6iqxs/3kYBLZcbP0LC0lGKc
-         akvLssb03+DtZ2X355YeVg5/EhRL2++ICAD7UyAHY2mM4Ab3DFe1TuQR6/B0iezRhOaq
-         mpWXf5g0skIuWnPMb0AuHWJfZx8Jgy6uLuxAuJYwA6lccWFjB15KlMtHcYyJ99XX/l7q
-         aRkleIUMtEQ4wCOPw4i0JQNRE1C6z0LYchhp976szZN3goUrmbESkFGwFq2fO+Aow5l2
-         DKVgPpwYiP//b3t6WRwI3LRS+u83zHqlkhQKDjLIBbqfZnU3T9Km4bT/7uhcZLy4YRCs
-         3TeQ==
-X-Gm-Message-State: AJIora+TLOrqY2IhnCYFV+phgT2VbARXDNRRRdrb9Rp87I8F5B/mcFQS
-        g/JPhpL2DjgRMPyl83ELvogBZatf4k1ufA==
-X-Google-Smtp-Source: AGRyM1uMw2tTloL/XMNSBy0j68LymUcxe/OES9u8zQFjwvzsmGnr0U96XIS4ReOMLmHtXL9WlKcxBg==
-X-Received: by 2002:a4a:9250:0:b0:425:796d:84c9 with SMTP id g16-20020a4a9250000000b00425796d84c9mr6054316ooh.65.1656344611753;
-        Mon, 27 Jun 2022 08:43:31 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id 22-20020aca1116000000b003263cf0f282sm5487511oir.26.2022.06.27.08.43.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jun 2022 08:43:31 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] media: vimc: add ancillary lens
-To:     Yunke Cao <yunkec@google.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220617015745.3950197-1-yunkec@google.com>
- <20220617015745.3950197-2-yunkec@google.com>
- <177345ff-f601-e440-31e0-2c967736af6b@linuxfoundation.org>
- <CANqU6Fed=E1ogvR1ccwJA9bR_9VxU4QPd6PjvBAyRrMeQuRWfg@mail.gmail.com>
- <610bc1b9-c013-46d7-4446-5a5eab4c2569@linuxfoundation.org>
- <CANqU6Fcspk-CWi3xYfUBg80vUWb1ZhJhr8G6YF9Nna6nrq_17Q@mail.gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <5ec4238c-080f-f2e6-9b30-6595f9afe92a@linuxfoundation.org>
-Date:   Mon, 27 Jun 2022 09:43:29 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qwrNUsFFjx0kIkQOK6KscPYe6Gk789pm4yunG5LcclA=;
+        b=kIHPaxYKJ3kzenYPYrnU2z1DO3v6Rg/KAFETpYAiSDeR8mxsWbHASLuHqcu2xRWe1d
+         VzOV3ZCavuBdAPkju/0xgHdhZVwxLwefqcpXCzIdAtWEazmeebCNzHLt2r84v9lGPaIa
+         m46NQ1T0wkFuQd/cNwA4bSxMzPHZhswFFlQ0UrSjTdTeS4nsl6zTURmglCzYxZvczZxv
+         hXGpo79w3L+H2g46CpLSj2kxBeduDHgxc3H2Nx69Ks5/JsqFg6wMN7I6vVlawW+1UD2S
+         g8lIb6B8cinqtknKVsZ5HBhIFaK5dQTCG62ov//SwyPxc8K44vsgRHcpjvGBCPjv/mcs
+         fWig==
+X-Gm-Message-State: AJIora9eXH1dzlDp/KyHNqN1Z+DGO82IRp36tBeTYSQ54vokPM/zKc2Z
+        H3rtWE7B6RhJ/LLQFzvZ2WkgnjIDvI6XMPKpKeKnbA==
+X-Google-Smtp-Source: AGRyM1sbwF/uUpyJYLZOvER/koGn3oJmZ4/B+2870vS3UWHeOqRcd1W7KoWRNLHKyQv3UbOhog7S7U6wlwqeHu53stA=
+X-Received: by 2002:a17:906:58c7:b0:722:f4bf:cb75 with SMTP id
+ e7-20020a17090658c700b00722f4bfcb75mr13820511ejs.450.1656346115529; Mon, 27
+ Jun 2022 09:08:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANqU6Fcspk-CWi3xYfUBg80vUWb1ZhJhr8G6YF9Nna6nrq_17Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20220627112402.2332046-1-wenst@chromium.org> <20220627112402.2332046-2-wenst@chromium.org>
+ <f5e68826df868ae5a3cd5737fd9d7f7683bbad73.camel@collabora.com>
+In-Reply-To: <f5e68826df868ae5a3cd5737fd9d7f7683bbad73.camel@collabora.com>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Tue, 28 Jun 2022 00:08:24 +0800
+Message-ID: <CAGXv+5GA04LBN0bnLDdL8g_+_8HXpc-KwtPxpXyXi_WgUOPrtQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: mediatek: vcodec: dec: Fix 4K frame size enumeration
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/26/22 7:30 PM, Yunke Cao wrote:
-> Hi Shuah,
-> 
-> Thanks for the pointers.
-> 
+On Mon, Jun 27, 2022 at 11:32 PM Nicolas Dufresne
+<nicolas.dufresne@collabora.com> wrote:
+>
+> Hi Chen-Yu,
+>
+> Le lundi 27 juin 2022 =C3=A0 19:23 +0800, Chen-Yu Tsai a =C3=A9crit :
+> > This partially reverts commit b018be06f3c7 ("media: mediatek: vcodec:
+> > Read max resolution from dec_capability"). In this commit, the maximum
+> > resolution ended up being a function of both the firmware capability an=
+d
+> > the current set format.
+> >
+> > However, frame size enumeration for output (coded) formats should not
+> > depend on the format set, but should return supported resolutions for
+> > the format requested by userspace.
+>
+> Good point. Though, I don't see any special casing for the CAPTURE case. =
+As this
+> HW does not include a scaler, it must only return 1 resolution when being
+> enumerated for CAPTURE side (or not implement that enumeration, but its
+> complicated to half implement something in m2m). The return unique size s=
+hould
+> match what G_FMT(CAPTURE) would return.
 
->>
->> Why is this necessary? How did you test this change? How could
->> one use this feature?
->>
-> 
-> Add lens to vimc driver and link them with sensors using ancillary links.
-> Provides an example of ancillary link usage.The lens supports
-> FOCUS_ABSOLUTE control.
-> 
-> Test example: With default vimc topology
->> media-ctl -p
-> Media controller API version 5.18.0
-> …
-> - entity 28: Lens A (0 pad, 0 link)
->               type V4L2 subdev subtype Lens flags 0
->               device node name /dev/v4l-subdev6
-> - entity 29: Lens B (0 pad, 0 link)
->               type V4L2 subdev subtype Lens flags 0
->               device node name /dev/v4l-subdev7
->>   v4l2-ctl -d /dev/v4l-subdev7 -C focus_absolute
-> focus_absolute: 0
-> 
+There are no frame sizes added for the capture formats, so this function
+effectively returns -EINVAL for any of them. This is also what rkvdec
+does: it only looks through the list of coded formats.
 
-Send me v3 with all of this information in the commit log and add
-this to document as well.
+Also, struct v4l2_frmsizeenum does not have a field saying whether it's
+capture or output side; it simply specifies a pixel format.
 
-thanks,
--- Shuah
+>
+> >
+> > Fix this so that the driver returns the supported resolutions correctly=
+,
+> > even if the instance only has default settings, or if the output format
+> > is currently set to VP8F, which does not support 4K.
+> >
+> > Fixes: b018be06f3c7 ("media: mediatek: vcodec: Read max resolution from=
+ dec_capability")
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> >  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c    | 2 --
+> >  .../platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c    | 7 +++++++
+> >  2 files changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/=
+drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> > index 5d6fdf18c3a6..fcb4b8131c49 100644
+> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> > @@ -595,8 +595,6 @@ static int vidioc_enum_framesizes(struct file *file=
+, void *priv,
+> >               fsize->type =3D V4L2_FRMSIZE_TYPE_STEPWISE;
+> >               fsize->stepwise =3D dec_pdata->vdec_framesizes[i].stepwis=
+e;
+> >
+> > -             fsize->stepwise.max_width =3D ctx->max_width;
+> > -             fsize->stepwise.max_height =3D ctx->max_height;
+> >               mtk_v4l2_debug(1, "%x, %d %d %d %d %d %d",
+> >                               ctx->dev->dec_capability,
+> >                               fsize->stepwise.min_width,
+> > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stat=
+eless.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c
+> > index 16d55785d84b..9a4d3e3658aa 100644
+> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c
+> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c
+> > @@ -360,6 +360,13 @@ static void mtk_vcodec_add_formats(unsigned int fo=
+urcc,
+> >
+> >               mtk_vdec_framesizes[count_framesizes].fourcc =3D fourcc;
+> >               mtk_vdec_framesizes[count_framesizes].stepwise =3D stepwi=
+se_fhd;
+> > +             if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DIS=
+ABLED) &&
+> > +                 fourcc !=3D V4L2_PIX_FMT_VP8_FRAME) {
+> > +                     mtk_vdec_framesizes[count_framesizes].stepwise.ma=
+x_width =3D
+> > +                             VCODEC_DEC_4K_CODED_WIDTH;
+> > +                     mtk_vdec_framesizes[count_framesizes].stepwise.ma=
+x_height =3D
+> > +                             VCODEC_DEC_4K_CODED_HEIGHT;
+> > +             }
+>
+> I don't particularly like to see this special cased check being added int=
+o
+> multiple places. Its also in your patch 2, and I think it exist in a thir=
+d
+> place. Could it be possible to have an internal helper to ensure we don't
+
+It's also in s_fmt(), so touched on in patch 4. I could also rewrite it so
+only this spot has the special case, and all the other places look though
+mtk_vdec_framesizes to get the maximum, like what I did for try_fmt in
+patch 3. What do you think?
+
+Ultimately I think it would be better to move framesizes into the
+(driver-specific) pixel format data structure. That is a bigger refactoring
+than a simple fix though.
+
+> duplicate this logic ? Somehow, it seems there is something in common bet=
+ween
+> set_default, try_fmt and this code.
+
+Yes. That is what I mentioned in chat about refactoring the ioctls and form=
+at
+handling code. set_default should really not set anything format specific,
+but instead call set_fmt with a default format.
+
+
+Regards
+ChenYu
+
+>
+> >               num_framesizes++;
+> >               break;
+> >       case V4L2_PIX_FMT_MM21:
+>
