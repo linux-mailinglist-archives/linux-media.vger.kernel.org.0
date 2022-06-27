@@ -2,61 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2DB255B4E3
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jun 2022 03:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C41655B4F5
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jun 2022 03:38:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbiF0BI2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Jun 2022 21:08:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51652 "EHLO
+        id S230025AbiF0BbD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Jun 2022 21:31:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbiF0BI1 (ORCPT
+        with ESMTP id S229753AbiF0BbC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Jun 2022 21:08:27 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2330A26E9
-        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 18:08:26 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id p7so12791427ybm.7
-        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 18:08:26 -0700 (PDT)
+        Sun, 26 Jun 2022 21:31:02 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639032673
+        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 18:31:01 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-3178acf2a92so71649187b3.6
+        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 18:31:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+cQ/A9UrgHlkyg30qgrVPCYaaM6oxInKcZzyqbHV+LQ=;
-        b=F2yh+y6/1y5d3o29co6qyNb2ZddjCr2h6M1/iSG3QpzUWxsie7oU5Ojm02ScC8TwoC
-         mRjI5ngS2arnN+rAnl5LPvyiQ8jnK7Dt+MBuYDKADhdZf9++nI1ebYB8swBbLZqitga2
-         6Z0Rtgq7NDLuw3ojSIPzp3B93tdMsInQzzHNZFoSL9vmzUe1GJIVY4vVMnHE3E6LBcO2
-         KxkhfIIvzJHzV22nuMSBB2dPD1NldAuJNwRQrkhy2A49T7HNbjRnHTgoX2bBu4nWHWce
-         Is+eHJIh5wXuTaB3ZZ8q/T2bAdn9fgV3nC6UykOuyfr5PQ07nAgAIApVzac8y41XKRgr
-         9RQA==
+         :cc:content-transfer-encoding;
+        bh=I7VJ+Ef59I/S/1ra/0+o/r4IfdPzo+3MZUOqiUm6eCw=;
+        b=KHzomc0ujei0qoWuvQDE4WDn1VSBJcV2TY30q74+tXbH8Y0qWMU3ndk/P0Jhso9jf1
+         /uqtc6XSjfH7d8Vl+rw1i/3lRozIWsLQGYTdOtmaXzOmHuICEuLGAkoj+wrCLrhTmBCn
+         QO5H2BeJla2BZoJU3DxhBy0wPIc9uN9ltC1ttnQyrmmZRBMeYCg81NbR4zUPTamgHuvO
+         4WY0Aoq+gDqa1RzCaXjxra8KkozErRQH6SXTG9sFyDRWt7hsEjLBUpzslL0jI75mHrgl
+         6100Aa0ZRBsOxHW9qMZAv7JQnTWUClyMa4iyyiLnLgpDQ3uCYdTy3+xCIlTcczTlL9Wv
+         tkWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+cQ/A9UrgHlkyg30qgrVPCYaaM6oxInKcZzyqbHV+LQ=;
-        b=07JzjWgC5rGN13xOHpwVamHwa0otlHTxwQ7+yPWByZonyVW2sYOZLkc2LuUETViJ5/
-         Q1usaBsZ9lAwKX5EeCvClzkPnxzqptANz6zeeWI6G6Cn7MVu0Sn4xoEbw9n9TMhs9Gdp
-         OvO/zVPczWjS32sVcWrpArFpKHfG+JPI3OUarX0XeBJysw1LL1mn6llqoVLzD8fClvhe
-         0TwlTRfBUhZXrF5icdEGBOfcRykCPYDyRmCa0GUXGtL6ZtbR40rqhC0Na+eEy6SGUNtm
-         n5RZdNivQAj/A7vMnmQka3t56AoTQQG2L9FSJv5/zxyKdTdKfpxX8d3tH6FGmfFqQlPl
-         SkQw==
-X-Gm-Message-State: AJIora+MkFSTiIm/AJCCBHxu1ggqOOtFRjlb2sY1L6vsmoCAEGKwjWzZ
-        lF1n2asMDl3TYU0cKZhsONLfh+Pig/qZcIJrDwWH6EbWUo8RlA==
-X-Google-Smtp-Source: AGRyM1sQCahuEsHlCffgqNAd5o84zl/YW3pJMUE6UBxHNUbejLHtKdaDzADKzsBERRJJk8IWFX1a2oNdxmBiZ7ZsKp0=
-X-Received: by 2002:a25:b2a8:0:b0:66c:8110:3331 with SMTP id
- k40-20020a25b2a8000000b0066c81103331mr11452174ybj.460.1656292105004; Sun, 26
- Jun 2022 18:08:25 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=I7VJ+Ef59I/S/1ra/0+o/r4IfdPzo+3MZUOqiUm6eCw=;
+        b=mzp2w1ZGbhOkwscJRqD3BuGspde3yglX1lCOWhf4ZyX/qHCcw89Bq4k0e1hv6RR9MM
+         FX0AM8S+i0KpiaLrwufWSApk+gfTYhUbuCwGl8pl927PpBJcpXSW1ePbAJtKTmKtXI2B
+         wf9X/lMtrY9X8Uz9V48dPWMOqNN5OyiXzavb8B0eRy1FYhMw/Hlw0iHoqc3H04sALm2w
+         CVmKYZJZs+OEwjs4gHQhnvcCRYWe+wWJSS0ZA8wBvm5kdFpnouVi4GOpSe1XvyaKnV7A
+         aUbe/60e3inWi8jrP4LpKm73i36T0EFc34DW5/I6qdZnnz+gPUmEGJiMA0EXfdZgxNYX
+         gITQ==
+X-Gm-Message-State: AJIora8ZHZUNc3GpVeRi+d2N8F8hqnl6TAw3M50/T+4TQDV5dV7Igo00
+        VfPjvXUtyaL7N4gr8279jH0DuDKVaqKSJNdWh5XlDA==
+X-Google-Smtp-Source: AGRyM1uf+37LwHywtWpq4gumsTdSxtZhth7l6SODU/V8Jb06OsmhrxAq34HaGFqc2VGD0bOIhqIzxOHujHNIZPpQ3Zc=
+X-Received: by 2002:a05:690c:90:b0:2f1:9b7a:ceec with SMTP id
+ be16-20020a05690c009000b002f19b7aceecmr12358673ywb.308.1656293460409; Sun, 26
+ Jun 2022 18:31:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220621061532.3108909-1-yunkec@google.com> <CANiDSCutn7RVDgSAfz-sEyAq71z-n7Kkd6Q4ABbXxtKZnyJ8Jg@mail.gmail.com>
-In-Reply-To: <CANiDSCutn7RVDgSAfz-sEyAq71z-n7Kkd6Q4ABbXxtKZnyJ8Jg@mail.gmail.com>
+References: <20220617015745.3950197-1-yunkec@google.com> <20220617015745.3950197-2-yunkec@google.com>
+ <177345ff-f601-e440-31e0-2c967736af6b@linuxfoundation.org>
+ <CANqU6Fed=E1ogvR1ccwJA9bR_9VxU4QPd6PjvBAyRrMeQuRWfg@mail.gmail.com> <610bc1b9-c013-46d7-4446-5a5eab4c2569@linuxfoundation.org>
+In-Reply-To: <610bc1b9-c013-46d7-4446-5a5eab4c2569@linuxfoundation.org>
 From:   Yunke Cao <yunkec@google.com>
-Date:   Mon, 27 Jun 2022 10:08:14 +0900
-Message-ID: <CANqU6FcMpoOc3Kzy+ALNs-1PvkGdhOeUes1JtCDXRDauScca+Q@mail.gmail.com>
-Subject: Re: [PATCH v2] media: uvcvideo: user entity get_cur in uvc_ctrl_set
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
+Date:   Mon, 27 Jun 2022 10:30:49 +0900
+Message-ID: <CANqU6Fcspk-CWi3xYfUBg80vUWb1ZhJhr8G6YF9Nna6nrq_17Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] media: vimc: add ancillary lens
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -68,173 +71,91 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks Ricardo for the review!
+Hi Shuah,
 
-On Wed, Jun 22, 2022 at 4:58 AM Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> Hi Yunke
->
-> Thanks for your patch
->
-> Another way to do it could be:
->
-> __uvc_ctrl_load_cur() {
-> if (loaded)
->    return
->    if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) {
->        memset
->        loaded = true;
->        return
->   }
-> ...
-> }
->
-> int __uvc_ctrl_get() {
-> if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
-> return -EACCES;
-> ....
-> }
->
-> Then you could even simplify more the code in uvc_ctrl_set, and limit
-> the m handling of the loaded flag.
->
->
-> if ( (ctrl->info.size * 8) != mapping->size)
->  ___uvc_ctrl_load_cur()
->
->
-> But It is probably just a matter of taste ;). It is up to you and
-> Laurent to pick what do you prefer.
->
-> Regards!
+Thanks for the pointers.
 
-Thanks for the suggestion. This does look cleaner. I like your idea better.
-Laurent, do you have any preference?
-
+On Wed, Jun 22, 2022 at 12:57 AM Shuah Khan <skhan@linuxfoundation.org> wro=
+te:
 >
+> On 6/19/22 7:57 PM, Yunke Cao wrote:
+> > Hi Shuah,
+> >
+> > Thanks for the review.
+> >
+> > On Sat, Jun 18, 2022 at 5:01 AM Shuah Khan <skhan@linuxfoundation.org> =
+wrote:
+> >>
+> >> On 6/16/22 7:57 PM, Yunke Cao wrote:
+> >>> Add a basic version of vimc lens.
+> >>> The lens supports V4L2_CID_FOCUS_ABSOLUTE control.
+> >>> Link the lens with vimc sensors using media-controller
+> >>> ancillary links.
+> >>>
+> >>
+> >> Commit log lines are usually ~75 charracters long. Make it easier
+> >> to read.
+> > That's good to know. Thanks!
+> > Should I send v3 and trim the commit log?
+> > I'm thinking something like this:
+> >
+> > The lens supports FOCUS_ABSOLUTE control.
+> > Link the lens with sensors using ancillary links.
+> >
 >
-> On Tue, 21 Jun 2022 at 08:15, Yunke Cao <yunkec@google.com> wrote:
-> >
-> > Entity controls should get_cur using an entity-defined function
-> > instead of via a query. Fix this in uvc_ctrl_set.
-> >
-> > Fixes: 65900c581d01 ("media: uvcvideo: Allow entity-defined get_info and get_cur")
-> > Signed-off-by: Yunke Cao <yunkec@google.com>
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> > Changelog since v1:
-> > -Factored out common logic into __uvc_ctrl_load_cur().
-> >
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 62 ++++++++++++++++++--------------
-> >  1 file changed, 35 insertions(+), 27 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 0e78233fc8a0..e25177c95571 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -963,36 +963,48 @@ static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
-> >         return value;
-> >  }
-> >
-> > -static int __uvc_ctrl_get(struct uvc_video_chain *chain,
-> > -       struct uvc_control *ctrl, struct uvc_control_mapping *mapping,
-> > -       s32 *value)
-> > +static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
-> > +                              struct uvc_control *ctrl)
-> >  {
-> > -       int ret;
-> > +       int ret = 0;
-> nit :  why do you init to 0?
+> Why is this necessary? How did you test this change? How could
+> one use this feature?
+>
 
-I will remove it in v3.
+Add lens to vimc driver and link them with sensors using ancillary links.
+Provides an example of ancillary link usage.The lens supports
+FOCUS_ABSOLUTE control.
 
-> >
-> >         if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
-> >                 return -EACCES;
-> >
-> > -       if (!ctrl->loaded) {
-> > -               if (ctrl->entity->get_cur) {
-> nit: is this spaced properly?
+Test example: With default vimc topology
+> media-ctl -p
+Media controller API version 5.18.0
+=E2=80=A6
+- entity 28: Lens A (0 pad, 0 link)
+             type V4L2 subdev subtype Lens flags 0
+             device node name /dev/v4l-subdev6
+- entity 29: Lens B (0 pad, 0 link)
+             type V4L2 subdev subtype Lens flags 0
+             device node name /dev/v4l-subdev7
+>  v4l2-ctl -d /dev/v4l-subdev7 -C focus_absolute
+focus_absolute: 0
 
-This is deleted code or am I looking in the wrong place.
-
-> > -                       ret = ctrl->entity->get_cur(chain->dev,
-> > -                               ctrl->entity,
-> > -                               ctrl->info.selector,
-> > -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > -                               ctrl->info.size);
-> > -               } else {
-> > -                       ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
-> > -                               ctrl->entity->id,
-> > -                               chain->dev->intfnum,
-> > -                               ctrl->info.selector,
-> > -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > -                               ctrl->info.size);
-> > -               }
-> > -               if (ret < 0)
-> > -                       return ret;
-> > +       if (ctrl->loaded)
-> > +               return 0;
-> >
-> > -               ctrl->loaded = 1;
-> > +       if (ctrl->entity->get_cur) {
-> > +               ret = ctrl->entity->get_cur(chain->dev,
-> > +                       ctrl->entity,
-> > +                       ctrl->info.selector,
-> > +                       uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > +                       ctrl->info.size);
-> > +       } else {
-> > +               ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
-> > +                                    ctrl->entity->id, chain->dev->intfnum,
-> > +                                    ctrl->info.selector,
-> > +                                    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > +                                    ctrl->info.size);
-> >         }
-> >
-> > +       if (ret < 0)
-> > +               return ret;
-> > +
-> > +       ctrl->loaded = 1;
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +static int __uvc_ctrl_get(struct uvc_video_chain *chain,
-> > +       struct uvc_control *ctrl, struct uvc_control_mapping *mapping,
-> > +       s32 *value)
-> > +{
-> nit: Is the alignment correct here?
-
-Will fix it in v3.
+Let me know what you think. Thanks!
 
 Best,
 Yunke
 
-> > +       int ret = __uvc_ctrl_load_cur(chain, ctrl);
-> > +
-> > +       if (ret < 0)
-> > +               return ret;
-> > +
-> >         *value = __uvc_ctrl_get_value(mapping,
-> >                                 uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+> >>
+> >>> This change can be used to test the recently added ancillary
+> >>> links.
+> >>>
+> >>
+> >> Care to add instructions on how one would test ancillary with
+> >> this feature?
 > >
-> > @@ -1788,11 +1800,7 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-> >                         memset(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> >                                 0, ctrl->info.size);
-> >                 } else {
-> > -                       ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
-> > -                               ctrl->entity->id, chain->dev->intfnum,
-> > -                               ctrl->info.selector,
-> > -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > -                               ctrl->info.size);
-> > +                       ret = __uvc_ctrl_load_cur(chain, ctrl);
-> >                         if (ret < 0)
-> >                                 return ret;
-> >                 }
-> > --
-> > 2.37.0.rc0.104.g0611611a94-goog
+> > The lens shows up in the media topology. I documented it in 2/2.
+> > Not sure what else is necessary here.
+> >
 >
+> Why is this necessary? How did you test this change? How could
+> one use this feature?
 >
+> Take a look at the some of the other commit messages e.g:
+> 4a2e0a806cb58a4d3106add079488e0b56a221b6
+> 5f3fb5c54d67670fa6743d2434a5bd43a97c01de
 >
-> --
-> Ricardo Ribalda
+> This one is a good example of what would a commit log adding a
+> new feature should include.
+>
+> commit 9b4a9b31b9aeef262b4fa211f2083c30c4391df7
+> Author: Pedro Terra <pedro@terraco.de>
+> Date:   Tue Aug 31 19:48:22 2021 +0200
+>
+>      media: vimc: Enable set resolution at the scaler src pad
+>
+> thanks,
+> -- Shuah
