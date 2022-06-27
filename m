@@ -2,211 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50A2555D7BE
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8197755D508
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:14:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233888AbiF0KpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jun 2022 06:45:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45298 "EHLO
+        id S234367AbiF0Kx4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jun 2022 06:53:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232895AbiF0KpA (ORCPT
+        with ESMTP id S233895AbiF0Kxz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jun 2022 06:45:00 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16FF763B2
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 03:44:59 -0700 (PDT)
-Received: from pyrite.rasen.tech (softbank036240122163.bbtec.net [36.240.122.163])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41A571C82;
-        Mon, 27 Jun 2022 12:44:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656326697;
-        bh=JUTe1Y6WoD8DgWJv3i4rjflynR1VghSx9YpSwPME9r8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=aUViQXEwZwVEZbLhaQLkB6+Gk7U3NKtkEyLPtE8aNDFqZGMZAGPK7j1YmZgH3e6an
-         F+jt0k8CQl6ARS3mG4p5DX9BR8LNlqbsDtSIZRrQRPoCCjiyf+VzfpCJzuvow7ezyN
-         gQchYdn8/XP7F8DFhq5Fd+SXduF4+YQ2pSMLgtpo=
-From:   Paul Elder <paul.elder@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        laurent.pinchart@ideasonboard.com
-Subject: [PATCH] media: rkisp1: Support devices without self path
-Date:   Mon, 27 Jun 2022 19:44:29 +0900
-Message-Id: <20220627104429.1454717-1-paul.elder@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
+        Mon, 27 Jun 2022 06:53:55 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79F84640E
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 03:53:54 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id B296610007F; Mon, 27 Jun 2022 11:53:52 +0100 (BST)
+Date:   Mon, 27 Jun 2022 11:53:52 +0100
+From:   Sean Young <sean@mess.org>
+To:     Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: rtl28xxu: improve IR receiver
+Message-ID: <YrmMQNPHkDGZ843v@gofer.mess.org>
+References: <cover.1644683294.git.sean@mess.org>
+ <704b3d7e5a7a95cbd5e4dfc25a41454e919aed95.1644683294.git.sean@mess.org>
+ <YrhSK5l0uQZT76Fi@jyty>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YrhSK5l0uQZT76Fi@jyty>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some hardware supported by the rkisp1 driver, such as the ISP in the
-i.MX8MP, don't have a self path. Add a feature flag for this, and
-massage the rest of the driver to support the lack of a self path.
+Hi Marko,
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+On Sun, Jun 26, 2022 at 03:33:47PM +0300, Marko Mäkelä wrote:
+> I finally took the time to get a deeper understanding of the infrared remote
+> control subsystem. I think that I now understand the translation into
+> key-down, key-up, and key-repeat events. For the RC5 protocol, rc_repeat()
+> will not be called by ir-rc5-decoder.c but instead, ir_do_keydown() will
+> handle the repeat. For lirc_scancode_event() it will never set the
+> LIRC_SCANCODE_FLAG_REPEAT bit, even if !new_event and the protocol does
+> support the toggle bit. That might qualify as a bug.
 
----
-This patch depends on "media: rkisp1: Cleanups and add support for
-i.MX8MP" [1], which in turn depends on v4 of "media: rkisp1: Misc bug fixes
-and cleanups" [2].
+You are right, this was missed. Patches welcome.
 
-[1] https://lore.kernel.org/linux-media/20220625070034.6odv6cyvqqigb2sa@guri/T/
-[2] https://lore.kernel.org/linux-media/Ymbxs2p9Tuf331qM@pendragon.ideasonboard.com/T/
----
- .../media/platform/rockchip/rkisp1/rkisp1-capture.c   | 11 ++++++++---
- .../media/platform/rockchip/rkisp1/rkisp1-common.h    |  1 +
- drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c   | 10 +++++++---
- .../media/platform/rockchip/rkisp1/rkisp1-resizer.c   |  7 +++++--
- 4 files changed, 21 insertions(+), 8 deletions(-)
+> Sat, Feb 12, 2022 at 04:32:19PM +0000, Sean Young wrote:
+> > This device presents an IR buffer, which can be read and cleared.
+> > Clearing the buffer is racey with receiving IR, so wait until the IR
+> > message is finished before clearing it.
+> > 
+> > This should minimize the chance of the buffer clear happening while
+> > IR is being received, although we cannot avoid this completely.
+> 
+> I just realized that this limitation of the interface may be causing exactly
+> what I was observing when I was testing this. If a constant stream of data
+> is being received because a button is being held down, a buffer overflow or
+> wrap-around glitch is inevitable, maybe expect if the wrap-around occurs
+> exactly at the 128-byte boundary.
+> 
+> How about the following improvement? If IR_RX_BC is a simple cursor to the
+> 128-byte IR_RX_BUF, then rtl2832u_rc_query() could avoid sending
+> refresh_tab[] but simply remember where the previous call left off. We could
+> always read the 128 bytes at IR_RX_BUF, and process everything between the
+> previous position reported by IR_RX_BC and the current position reported by
+> IR_RX_BC, and treat buf[] as a ring buffer.
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-index 234b1f8488cb..9387996f64a4 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-@@ -711,6 +711,8 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
- 	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
- 	unsigned int i;
- 	u32 status;
-+	bool self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
-+	unsigned int dev_count = ARRAY_SIZE(rkisp1->capture_devs) - (self_path ? 0 : 1);
- 
- 	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
- 	if (!status)
-@@ -718,7 +720,7 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
- 
- 	rkisp1_write(rkisp1, RKISP1_CIF_MI_ICR, status);
- 
--	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); ++i) {
-+	for (i = 0; i < dev_count; ++i) {
- 		struct rkisp1_capture *cap = &rkisp1->capture_devs[i];
- 
- 		if (!(status & RKISP1_CIF_MI_FRAME(cap)))
-@@ -875,6 +877,7 @@ static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
- {
- 	struct rkisp1_device *rkisp1 = cap->rkisp1;
- 	struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
-+	bool has_self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
- 
- 	cap->ops->set_data_path(cap);
- 	cap->ops->config(cap);
-@@ -892,7 +895,7 @@ static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
- 	 * This's also required because the second FE maybe corrupt
- 	 * especially when run at 120fps.
- 	 */
--	if (!other->is_streaming) {
-+	if (has_self_path && !other->is_streaming) {
- 		/* force cfg update */
- 		rkisp1_write(rkisp1, RKISP1_CIF_MI_INIT,
- 			     RKISP1_CIF_MI_INIT_SOFT_UPD);
-@@ -1447,8 +1450,10 @@ int rkisp1_capture_devs_register(struct rkisp1_device *rkisp1)
- {
- 	unsigned int i;
- 	int ret;
-+	bool self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
-+	unsigned int dev_count = ARRAY_SIZE(rkisp1->capture_devs) - (self_path ? 0 : 1);
- 
--	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); i++) {
-+	for (i = 0; i < dev_count; i++) {
- 		struct rkisp1_capture *cap = &rkisp1->capture_devs[i];
- 
- 		rkisp1_capture_init(rkisp1, i);
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index 0b834579d08c..4a9e53aa3229 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -114,6 +114,7 @@ enum rkisp1_feature {
- 	RKISP1_FEATURE_RSZ_CROP = BIT(2),
- 	RKISP1_FEATURE_MAIN_STRIDE = BIT(3),
- 	RKISP1_FEATURE_DMA_34BIT = BIT(4),
-+	RKISP1_FEATURE_SELF_PATH = BIT(5),
- };
- 
- /*
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index 4c77aa2bc50a..721075849a25 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -328,6 +328,8 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
- {
- 	unsigned int i;
- 	int ret;
-+	bool self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
-+	unsigned int dev_count = self_path ? 2 : 1;
- 
- 	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
- 		/* Link the CSI receiver to the ISP. */
-@@ -341,7 +343,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
- 	}
- 
- 	/* create ISP->RSZ->CAP links */
--	for (i = 0; i < 2; i++) {
-+	for (i = 0; i < dev_count; i++) {
- 		struct media_entity *resizer =
- 			&rkisp1->resizer_devs[i].sd.entity;
- 		struct media_entity *capture =
-@@ -466,7 +468,8 @@ static const struct rkisp1_info px30_isp_info = {
- 	.isr_size = ARRAY_SIZE(px30_isp_isrs),
- 	.isp_ver = RKISP1_V12,
- 	.features = RKISP1_FEATURE_MIPI_CSI2
--		  | RKISP1_FEATURE_DUAL_CROP,
-+		  | RKISP1_FEATURE_DUAL_CROP
-+		  | RKISP1_FEATURE_SELF_PATH,
- };
- 
- static const char * const rk3399_isp_clks[] = {
-@@ -486,7 +489,8 @@ static const struct rkisp1_info rk3399_isp_info = {
- 	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
- 	.isp_ver = RKISP1_V10,
- 	.features = RKISP1_FEATURE_MIPI_CSI2
--		  | RKISP1_FEATURE_DUAL_CROP,
-+		  | RKISP1_FEATURE_DUAL_CROP
-+		  | RKISP1_FEATURE_SELF_PATH,
- };
- 
- static const char * const imx8mp_isp_clks[] = {
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-index 29a31b18a082..fe699b49757c 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-@@ -673,6 +673,7 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
- 	struct rkisp1_device *rkisp1 = rsz->rkisp1;
- 	struct rkisp1_capture *other = &rkisp1->capture_devs[rsz->id ^ 1];
- 	enum rkisp1_shadow_regs_when when = RKISP1_SHADOW_REGS_SYNC;
-+	bool has_self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
- 
- 	if (!enable) {
- 		if (rkisp1->info->features & RKISP1_FEATURE_DUAL_CROP)
-@@ -681,7 +682,7 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
- 		return 0;
- 	}
- 
--	if (other->is_streaming)
-+	if (has_self_path && other->is_streaming)
- 		when = RKISP1_SHADOW_REGS_ASYNC;
- 
- 	mutex_lock(&rsz->ops_lock);
-@@ -771,8 +772,10 @@ int rkisp1_resizer_devs_register(struct rkisp1_device *rkisp1)
- {
- 	unsigned int i;
- 	int ret;
-+	bool self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
-+	unsigned int dev_count = ARRAY_SIZE(rkisp1->resizer_devs) - (self_path ? 0 : 1);
- 
--	for (i = 0; i < ARRAY_SIZE(rkisp1->resizer_devs); i++) {
-+	for (i = 0; i < dev_count; i++) {
- 		struct rkisp1_resizer *rsz = &rkisp1->resizer_devs[i];
- 
- 		rsz->rkisp1 = rkisp1;
--- 
-2.30.2
+This is a great idea. Very original.
 
+> Last time I tested it, the patch was a significant improvement. I think that
+> "perfect" is the enemy of "good enough", and the patch should be included in
+> the kernel.
+
+The idea sounds really good. I'll review/test the patch and get back to you.
+
+Thanks,
+
+Sean
