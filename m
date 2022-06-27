@@ -2,160 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C41655B4F5
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jun 2022 03:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 527B455B568
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jun 2022 04:56:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbiF0BbD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Jun 2022 21:31:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59030 "EHLO
+        id S231984AbiF0Czy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Jun 2022 22:55:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbiF0BbC (ORCPT
+        with ESMTP id S231939AbiF0Czx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Jun 2022 21:31:02 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639032673
-        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 18:31:01 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-3178acf2a92so71649187b3.6
-        for <linux-media@vger.kernel.org>; Sun, 26 Jun 2022 18:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=I7VJ+Ef59I/S/1ra/0+o/r4IfdPzo+3MZUOqiUm6eCw=;
-        b=KHzomc0ujei0qoWuvQDE4WDn1VSBJcV2TY30q74+tXbH8Y0qWMU3ndk/P0Jhso9jf1
-         /uqtc6XSjfH7d8Vl+rw1i/3lRozIWsLQGYTdOtmaXzOmHuICEuLGAkoj+wrCLrhTmBCn
-         QO5H2BeJla2BZoJU3DxhBy0wPIc9uN9ltC1ttnQyrmmZRBMeYCg81NbR4zUPTamgHuvO
-         4WY0Aoq+gDqa1RzCaXjxra8KkozErRQH6SXTG9sFyDRWt7hsEjLBUpzslL0jI75mHrgl
-         6100Aa0ZRBsOxHW9qMZAv7JQnTWUClyMa4iyyiLnLgpDQ3uCYdTy3+xCIlTcczTlL9Wv
-         tkWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=I7VJ+Ef59I/S/1ra/0+o/r4IfdPzo+3MZUOqiUm6eCw=;
-        b=mzp2w1ZGbhOkwscJRqD3BuGspde3yglX1lCOWhf4ZyX/qHCcw89Bq4k0e1hv6RR9MM
-         FX0AM8S+i0KpiaLrwufWSApk+gfTYhUbuCwGl8pl927PpBJcpXSW1ePbAJtKTmKtXI2B
-         wf9X/lMtrY9X8Uz9V48dPWMOqNN5OyiXzavb8B0eRy1FYhMw/Hlw0iHoqc3H04sALm2w
-         CVmKYZJZs+OEwjs4gHQhnvcCRYWe+wWJSS0ZA8wBvm5kdFpnouVi4GOpSe1XvyaKnV7A
-         aUbe/60e3inWi8jrP4LpKm73i36T0EFc34DW5/I6qdZnnz+gPUmEGJiMA0EXfdZgxNYX
-         gITQ==
-X-Gm-Message-State: AJIora8ZHZUNc3GpVeRi+d2N8F8hqnl6TAw3M50/T+4TQDV5dV7Igo00
-        VfPjvXUtyaL7N4gr8279jH0DuDKVaqKSJNdWh5XlDA==
-X-Google-Smtp-Source: AGRyM1uf+37LwHywtWpq4gumsTdSxtZhth7l6SODU/V8Jb06OsmhrxAq34HaGFqc2VGD0bOIhqIzxOHujHNIZPpQ3Zc=
-X-Received: by 2002:a05:690c:90:b0:2f1:9b7a:ceec with SMTP id
- be16-20020a05690c009000b002f19b7aceecmr12358673ywb.308.1656293460409; Sun, 26
- Jun 2022 18:31:00 -0700 (PDT)
+        Sun, 26 Jun 2022 22:55:53 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D5143885;
+        Sun, 26 Jun 2022 19:55:51 -0700 (PDT)
+X-UUID: 873b2e5b8af246f98b4a3f98904a208b-20220627
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6,REQID:d392d537-bd5d-437e-96ca-a596b17dec9a,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,A
+        CTION:release,TS:95
+X-CID-INFO: VERSION:1.1.6,REQID:d392d537-bd5d-437e-96ca-a596b17dec9a,OB:0,LOB:
+        0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,A
+        CTION:quarantine,TS:95
+X-CID-META: VersionHash:b14ad71,CLOUDID:d98890ea-f7af-4e69-92ee-0fd74a0c286c,C
+        OID:aba167f6f9b4,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 873b2e5b8af246f98b4a3f98904a208b-20220627
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1182116663; Mon, 27 Jun 2022 10:55:43 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Mon, 27 Jun 2022 10:55:43 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 27 Jun 2022 10:55:42 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        <angelogioacchino.delregno@collabora.com>,
+        <nicolas.dufresne@collabora.com>, <wenst@chromium.org>
+CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Tomasz Figa <tfiga@chromium.org>, <xia.jiang@mediatek.com>,
+        <maoguang.meng@mediatek.com>, kyrie wu <kyrie.wu@mediatek.com>,
+        <srv_heupstream@mediatek.com>
+Subject: [V4,0/8] Support multi-hardware jpeg decoder for MT8195
+Date:   Mon, 27 Jun 2022 10:55:32 +0800
+Message-ID: <20220627025540.8901-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220617015745.3950197-1-yunkec@google.com> <20220617015745.3950197-2-yunkec@google.com>
- <177345ff-f601-e440-31e0-2c967736af6b@linuxfoundation.org>
- <CANqU6Fed=E1ogvR1ccwJA9bR_9VxU4QPd6PjvBAyRrMeQuRWfg@mail.gmail.com> <610bc1b9-c013-46d7-4446-5a5eab4c2569@linuxfoundation.org>
-In-Reply-To: <610bc1b9-c013-46d7-4446-5a5eab4c2569@linuxfoundation.org>
-From:   Yunke Cao <yunkec@google.com>
-Date:   Mon, 27 Jun 2022 10:30:49 +0900
-Message-ID: <CANqU6Fcspk-CWi3xYfUBg80vUWb1ZhJhr8G6YF9Nna6nrq_17Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] media: vimc: add ancillary lens
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shuah,
+From: kyrie wu <kyrie.wu@mediatek.com>
 
-Thanks for the pointers.
+This series adds support for multi hardware jpeg decoding,
+by first adding use of_platform_populate to manage each hardware
+information: interrupt, clock, register bases and power.
+Secondly add decoding work queue to deal with the decoding requests
+of multi-hardware at the same time. Lastly, add output picture
+reorder function interface to eliminate the out of order images.
 
-On Wed, Jun 22, 2022 at 12:57 AM Shuah Khan <skhan@linuxfoundation.org> wro=
-te:
->
-> On 6/19/22 7:57 PM, Yunke Cao wrote:
-> > Hi Shuah,
-> >
-> > Thanks for the review.
-> >
-> > On Sat, Jun 18, 2022 at 5:01 AM Shuah Khan <skhan@linuxfoundation.org> =
-wrote:
-> >>
-> >> On 6/16/22 7:57 PM, Yunke Cao wrote:
-> >>> Add a basic version of vimc lens.
-> >>> The lens supports V4L2_CID_FOCUS_ABSOLUTE control.
-> >>> Link the lens with vimc sensors using media-controller
-> >>> ancillary links.
-> >>>
-> >>
-> >> Commit log lines are usually ~75 charracters long. Make it easier
-> >> to read.
-> > That's good to know. Thanks!
-> > Should I send v3 and trim the commit log?
-> > I'm thinking something like this:
-> >
-> > The lens supports FOCUS_ABSOLUTE control.
-> > Link the lens with sensors using ancillary links.
-> >
->
-> Why is this necessary? How did you test this change? How could
-> one use this feature?
->
+This series has been tested with both MT8195.
+Decoding worked for this chip.
 
-Add lens to vimc driver and link them with sensors using ancillary links.
-Provides an example of ancillary link usage.The lens supports
-FOCUS_ABSOLUTE control.
+Patch 1 Adds jpeg decoder dt-bindings for mt8195
 
-Test example: With default vimc topology
-> media-ctl -p
-Media controller API version 5.18.0
-=E2=80=A6
-- entity 28: Lens A (0 pad, 0 link)
-             type V4L2 subdev subtype Lens flags 0
-             device node name /dev/v4l-subdev6
-- entity 29: Lens B (0 pad, 0 link)
-             type V4L2 subdev subtype Lens flags 0
-             device node name /dev/v4l-subdev7
->  v4l2-ctl -d /dev/v4l-subdev7 -C focus_absolute
-focus_absolute: 0
+Patches 2 jpeg decoder builds three module for using Multi-HW,
+export some functions to make them visible by other modules.
 
-Let me know what you think. Thanks!
+Patch 3 use of_platform_populate to manage multi-hardware.
 
-Best,
-Yunke
+Patch 4 add jpeg decoding timeout function to judge hardware timeout.
 
-> >>
-> >>> This change can be used to test the recently added ancillary
-> >>> links.
-> >>>
-> >>
-> >> Care to add instructions on how one would test ancillary with
-> >> this feature?
-> >
-> > The lens shows up in the media topology. I documented it in 2/2.
-> > Not sure what else is necessary here.
-> >
->
-> Why is this necessary? How did you test this change? How could
-> one use this feature?
->
-> Take a look at the some of the other commit messages e.g:
-> 4a2e0a806cb58a4d3106add079488e0b56a221b6
-> 5f3fb5c54d67670fa6743d2434a5bd43a97c01de
->
-> This one is a good example of what would a commit log adding a
-> new feature should include.
->
-> commit 9b4a9b31b9aeef262b4fa211f2083c30c4391df7
-> Author: Pedro Terra <pedro@terraco.de>
-> Date:   Tue Aug 31 19:48:22 2021 +0200
->
->      media: vimc: Enable set resolution at the scaler src pad
->
-> thanks,
-> -- Shuah
+Patch 5 add decoding work queue to deal with multi-hardware decoding
+at the same time.
+
+Patch 6 add output picture reorder function to order images.
+
+Patch 7 refactor jpegdec func interface for HW working.
+
+Patch 8 add stop cmd function to deal with EOS operation.
+
+---
+This series patches dependent on:
+media_stage tree:
+[1]
+https://git.linuxtv.org/media_stage.git/commit/?id=b3627647f9ea7473d10fb08a95fd7c4133a17ca4
+
+patch1 new jpegdec dt-bindings included files
+[2] MM IOMMU binding:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
+
+[3] MT8195 power domain:
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=580579
+
+Changes compared with v3:
+- some modifications for patch v3's review comments.
+
+Changes compared with v2:
+- add stop cmd function.
+- some modifications for patch v1's review comments.
+
+Changes compared with v1:
+- new yaml file for mt8195 jpeg decoder.
+- some modifications for patch v1's review comments.
+
+kyrie wu (8):
+  dt-bindings: mediatek: Add mediatek,mt8195-jpgdec compatible
+  media: mtk-jpegdec: export jpeg decoder functions
+  media: mtk-jpegdec: manage jpegdec multi-hardware
+  media: mtk-jpegdec: add jpegdec timeout func interface
+  media: mtk-jpegdec: add jpeg decode worker interface
+  media: mtk-jpegdec: add output pic reorder interface
+  media: mtk-jpegdec: refactor jpegdec func interface
+  mtk-jpegdec: add stop cmd interface for jpgdec
+
+ .../media/mediatek,mt8195-jpegdec.yaml        | 176 ++++++++++
+ drivers/media/platform/mediatek/jpeg/Makefile |   5 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 246 +++++++++++++-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  47 +++
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 310 ++++++++++++++++--
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |   3 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |   1 +
+ 7 files changed, 754 insertions(+), 34 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+
+-- 
+2.18.0
+
