@@ -2,190 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1326D55D374
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:12:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9660555CBB9
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237665AbiF0QIk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jun 2022 12:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42144 "EHLO
+        id S239025AbiF0QMz convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 27 Jun 2022 12:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235860AbiF0QIi (ORCPT
+        with ESMTP id S239103AbiF0QM1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jun 2022 12:08:38 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1389DE26
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 09:08:37 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id g26so20176344ejb.5
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 09:08:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=qwrNUsFFjx0kIkQOK6KscPYe6Gk789pm4yunG5LcclA=;
-        b=JWWB+9WHA5Yuc+abc36EnLEi/L3PeMuKG9xOsBDskAMlwdrsQwxwdERIRlRagCVIy5
-         EJho5GNMeMFquiaSsnDwuWEOboyZlNoVeOqQwYv8jZVcNAljBts3Oj8jSg9tlHxU6IoR
-         Oq85tXcn+3fVRHwzMhJHkICyHCZKWa98LgJkY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qwrNUsFFjx0kIkQOK6KscPYe6Gk789pm4yunG5LcclA=;
-        b=kIHPaxYKJ3kzenYPYrnU2z1DO3v6Rg/KAFETpYAiSDeR8mxsWbHASLuHqcu2xRWe1d
-         VzOV3ZCavuBdAPkju/0xgHdhZVwxLwefqcpXCzIdAtWEazmeebCNzHLt2r84v9lGPaIa
-         m46NQ1T0wkFuQd/cNwA4bSxMzPHZhswFFlQ0UrSjTdTeS4nsl6zTURmglCzYxZvczZxv
-         hXGpo79w3L+H2g46CpLSj2kxBeduDHgxc3H2Nx69Ks5/JsqFg6wMN7I6vVlawW+1UD2S
-         g8lIb6B8cinqtknKVsZ5HBhIFaK5dQTCG62ov//SwyPxc8K44vsgRHcpjvGBCPjv/mcs
-         fWig==
-X-Gm-Message-State: AJIora9eXH1dzlDp/KyHNqN1Z+DGO82IRp36tBeTYSQ54vokPM/zKc2Z
-        H3rtWE7B6RhJ/LLQFzvZ2WkgnjIDvI6XMPKpKeKnbA==
-X-Google-Smtp-Source: AGRyM1sbwF/uUpyJYLZOvER/koGn3oJmZ4/B+2870vS3UWHeOqRcd1W7KoWRNLHKyQv3UbOhog7S7U6wlwqeHu53stA=
-X-Received: by 2002:a17:906:58c7:b0:722:f4bf:cb75 with SMTP id
- e7-20020a17090658c700b00722f4bfcb75mr13820511ejs.450.1656346115529; Mon, 27
- Jun 2022 09:08:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220627112402.2332046-1-wenst@chromium.org> <20220627112402.2332046-2-wenst@chromium.org>
- <f5e68826df868ae5a3cd5737fd9d7f7683bbad73.camel@collabora.com>
-In-Reply-To: <f5e68826df868ae5a3cd5737fd9d7f7683bbad73.camel@collabora.com>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Tue, 28 Jun 2022 00:08:24 +0800
-Message-ID: <CAGXv+5GA04LBN0bnLDdL8g_+_8HXpc-KwtPxpXyXi_WgUOPrtQ@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: mediatek: vcodec: dec: Fix 4K frame size enumeration
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Mon, 27 Jun 2022 12:12:27 -0400
+X-Greylist: delayed 1195 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 27 Jun 2022 09:12:18 PDT
+Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B32CE186DB
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 09:12:18 -0700 (PDT)
+Received: from [192.168.10.77] (unknown [112.65.61.252])
+        by kozue.soulik.info (Postfix) with ESMTPSA id 321F9100DB3;
+        Tue, 28 Jun 2022 01:06:33 +0900 (JST)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8BIT
+From:   ayaka <ayaka@soulik.info>
+Mime-Version: 1.0 (1.0)
+Subject: Proposal: A third buffer type for the reconstruction buffers in V4L2 M2M encoder
+Message-Id: <F81CE6D5-7081-477A-AA8D-9A9FC0228905@soulik.info>
+Date:   Tue, 28 Jun 2022 00:12:12 +0800
+Cc:     Randy Li <Randy.Li@synaptics.com>
+To:     linux-media@vger.kernel.org
+X-Mailer: iPad Mail (18D61)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 27, 2022 at 11:32 PM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> Hi Chen-Yu,
->
-> Le lundi 27 juin 2022 =C3=A0 19:23 +0800, Chen-Yu Tsai a =C3=A9crit :
-> > This partially reverts commit b018be06f3c7 ("media: mediatek: vcodec:
-> > Read max resolution from dec_capability"). In this commit, the maximum
-> > resolution ended up being a function of both the firmware capability an=
-d
-> > the current set format.
-> >
-> > However, frame size enumeration for output (coded) formats should not
-> > depend on the format set, but should return supported resolutions for
-> > the format requested by userspace.
->
-> Good point. Though, I don't see any special casing for the CAPTURE case. =
-As this
-> HW does not include a scaler, it must only return 1 resolution when being
-> enumerated for CAPTURE side (or not implement that enumeration, but its
-> complicated to half implement something in m2m). The return unique size s=
-hould
-> match what G_FMT(CAPTURE) would return.
+Hi All
 
-There are no frame sizes added for the capture formats, so this function
-effectively returns -EINVAL for any of them. This is also what rkvdec
-does: it only looks through the list of coded formats.
+I think we need a separate buffer queue that manages those reconstruction or auxiliary buffers for those V4L2 M2M drivers.
 
-Also, struct v4l2_frmsizeenum does not have a field saying whether it's
-capture or output side; it simply specifies a pixel format.
+There are some drivers already allocating internal buffers as the reconstruction buffers for its encoding instance. The driver/media/platform/chips-media is one here, its coda_alloc_context_buf() would allocate the max allowed references for its instance as the reconstruction buffers. You can't control the lifetime of the reconstruction buffer here, which means you can't control which buffers would be as the reference.
 
->
-> >
-> > Fix this so that the driver returns the supported resolutions correctly=
-,
-> > even if the instance only has default settings, or if the output format
-> > is currently set to VP8F, which does not support 4K.
-> >
-> > Fixes: b018be06f3c7 ("media: mediatek: vcodec: Read max resolution from=
- dec_capability")
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > ---
-> >  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c    | 2 --
-> >  .../platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c    | 7 +++++++
-> >  2 files changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/=
-drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > index 5d6fdf18c3a6..fcb4b8131c49 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > @@ -595,8 +595,6 @@ static int vidioc_enum_framesizes(struct file *file=
-, void *priv,
-> >               fsize->type =3D V4L2_FRMSIZE_TYPE_STEPWISE;
-> >               fsize->stepwise =3D dec_pdata->vdec_framesizes[i].stepwis=
-e;
-> >
-> > -             fsize->stepwise.max_width =3D ctx->max_width;
-> > -             fsize->stepwise.max_height =3D ctx->max_height;
-> >               mtk_v4l2_debug(1, "%x, %d %d %d %d %d %d",
-> >                               ctx->dev->dec_capability,
-> >                               fsize->stepwise.min_width,
-> > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stat=
-eless.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c
-> > index 16d55785d84b..9a4d3e3658aa 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c
-> > @@ -360,6 +360,13 @@ static void mtk_vcodec_add_formats(unsigned int fo=
-urcc,
-> >
-> >               mtk_vdec_framesizes[count_framesizes].fourcc =3D fourcc;
-> >               mtk_vdec_framesizes[count_framesizes].stepwise =3D stepwi=
-se_fhd;
-> > +             if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DIS=
-ABLED) &&
-> > +                 fourcc !=3D V4L2_PIX_FMT_VP8_FRAME) {
-> > +                     mtk_vdec_framesizes[count_framesizes].stepwise.ma=
-x_width =3D
-> > +                             VCODEC_DEC_4K_CODED_WIDTH;
-> > +                     mtk_vdec_framesizes[count_framesizes].stepwise.ma=
-x_height =3D
-> > +                             VCODEC_DEC_4K_CODED_HEIGHT;
-> > +             }
->
-> I don't particularly like to see this special cased check being added int=
-o
-> multiple places. Its also in your patch 2, and I think it exist in a thir=
-d
-> place. Could it be possible to have an internal helper to ensure we don't
+It may look not bad for a hardware encoder that has a control chip that could do some encoding bitrate control. For those stateless encoders, which are controlled by the user completely, it would be better to let the user decide the lifetime of a reconstruction buffer.
 
-It's also in s_fmt(), so touched on in patch 4. I could also rewrite it so
-only this spot has the special case, and all the other places look though
-mtk_vdec_framesizes to get the maximum, like what I did for try_fmt in
-patch 3. What do you think?
+For the SVC situation, a layer may refer to a buffer in another layer, which is encoded many times ago.
 
-Ultimately I think it would be better to move framesizes into the
-(driver-specific) pixel format data structure. That is a bigger refactoring
-than a simple fix though.
+I am not sure which way is better, I would implement one from the feedback. One is reusing V4L2_BUF_TYPE_VIDEO_OVERLAY, it would support REQ_BUFS, SET_FMT, GET_FMT, QBUF, and DQBUF besides the existing m2m operations. Another idea is extending those ioctls to the media node that the stateless m2m driver uses for allocation request_fd token.
 
-> duplicate this logic ? Somehow, it seems there is something in common bet=
-ween
-> set_default, try_fmt and this code.
+Please notice that the reconstruction could use a different pixel format than the one used in input frames. For example, Hantro H1 could use the NV12_4L4 in its reconstruction buffer and an FBC format in the later generation of chips-media's codecs.
+Also, there are some decoders having an online post-processor. This means it can't do pixel format transforming independently. The driver for those devices may need this.
 
-Yes. That is what I mentioned in chat about refactoring the ioctls and form=
-at
-handling code. set_default should really not set anything format specific,
-but instead call set_fmt with a default format.
-
-
-Regards
-ChenYu
-
->
-> >               num_framesizes++;
-> >               break;
-> >       case V4L2_PIX_FMT_MM21:
->
+Sincerely
+Randy
