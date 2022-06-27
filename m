@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AEDA55CBA3
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:00:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0447C55D37E
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:12:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234971AbiF0LZj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jun 2022 07:25:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45654 "EHLO
+        id S234830AbiF0LZu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jun 2022 07:25:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234872AbiF0LZG (ORCPT
+        with ESMTP id S234889AbiF0LZQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jun 2022 07:25:06 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA1D65B5
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 04:25:03 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id g20-20020a17090a579400b001ed52939d72so3663438pji.4
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 04:25:03 -0700 (PDT)
+        Mon, 27 Jun 2022 07:25:16 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F423A659F
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 04:25:05 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id n16-20020a17090ade9000b001ed15b37424so9109602pjv.3
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 04:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7dXRxtZvr+s2XVNzWzC29rU2+VQvIIaYQPfnDdLc66o=;
-        b=lCQwBZgKD56DJpohXiDdqChHVRMNjjSIqJXaJj7O+tImuokhzYLrf/x9F8WeAVXDLm
-         QqC1o5Dd3iwCQnUcchQy2Yzm2viR+3DCLfQGVlr9mtRWSOsI3uJUFUi3FhZoVvQcx7aq
-         FXZGJKa1Z/lT4IQCHxJq7hiO1ySSh4/+6HQk8=
+        bh=D2+1y0LCJVkrfpHsQlRGxEvdnIAFt/zhTxrdy/ouAhU=;
+        b=FRaInAGaTCaXwvPDQiOiybyVs1ZTq7aqp376IA6xTXMeo48fL1QiC0oNsa5/HetL55
+         9HUHwrtKWYZ1Pn3nxng6Lr66Ut1zka2dTP94nT+yTufd+icL2WJ59mHZ/iaNZK4dkxE7
+         7+g5zJGUIdsmMd22pGGmiLmu4Xk3PdkamGcOk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7dXRxtZvr+s2XVNzWzC29rU2+VQvIIaYQPfnDdLc66o=;
-        b=4IoKzgFLB5vGibM10bPPBHiYMFe8LGZhyvcHH77cpiMh10I4DAL5GLWzfVqHsvwdPE
-         rlGtDxRC/2OWJJdN/p2Y6fC5+eG/LI0Z+2fGgQ7mHi+pd5D2cJR3MPc7v4UyB9sfiU7q
-         O6AtuEtSmC1Ox8AHzKnU68b7CWZMcN6gHEVb3KMb+7a0EVc8j1YmFf3fEru2NJoKLkEk
-         eb8X3/O0H/9Mx41Dl0rIQzlZt5B3OdP+WNRuevwkj/IoOGUGkTjdygKuSJO9+cZXJ5jF
-         fpa2L5963bc98IccpinB9wyt2HVRrM2YnPGAi2HFXaSZWzwoVGVZpY1aXpRCpo4ewofi
-         VIZQ==
-X-Gm-Message-State: AJIora98npIv+3PEAfnSvRCySkIOkp59gNJE8RCx0KhC4+P3N2TJXIXB
-        EwASr6Qp/Vckb/zkncsz+3OFgQ==
-X-Google-Smtp-Source: AGRyM1viOHWHl84VVlTGqpixiZ6FlTpaaah53khsejDs3LQ40SRGD8i9SytWAXzQY+IU7V1myB2eqQ==
-X-Received: by 2002:a17:902:f10b:b0:16a:198f:bedb with SMTP id e11-20020a170902f10b00b0016a198fbedbmr14357909plb.16.1656329102608;
-        Mon, 27 Jun 2022 04:25:02 -0700 (PDT)
+        bh=D2+1y0LCJVkrfpHsQlRGxEvdnIAFt/zhTxrdy/ouAhU=;
+        b=IdveEg/ADQvlGZsAuMGFCguVHlwvYgcGq5x08vKcWcqJ25mlntzii9kiJIsrgtQztR
+         VMNqoha3XGBmR6Jzd58cY+0qNwGQKqElKTxaTxpksWXqv3mn/2FLX0wZS7aVu6+8MaXD
+         Pnm3SFSTxPFlBCEo6TC5I9ZJtY1tfHgjG96IRdx/9grdo0o8PDfNfRM1QE/+XZeVPbkk
+         V3I4aJBl54pf370+x6yCRqE5cfiN2X8SAtZ0eT6Pj8gCsnwQyrxHmZR9rUHsRjMqmIoW
+         Jx3b5+18vXBVKFvgqwg7x9t/ebM5U/U1wME4JjGXy22nDI5mgl6ruwTHzRMjyDTutHH8
+         IU1Q==
+X-Gm-Message-State: AJIora+Pk7WxvBsgzScRrwJOx0WJYhdpLtOorPO6RHuSH8xtJ/JCaDng
+        XFLj7r5PeRSnvubvjdHO90mBkQ==
+X-Google-Smtp-Source: AGRyM1vq1tIU8x5lkBrW/7ilQI/Txpt0kSZaL6oXEJkTV+khkTTmLOcOfrxjLLVXkYCHw9PaRKrIdA==
+X-Received: by 2002:a17:902:c2c6:b0:168:d8ce:90b2 with SMTP id c6-20020a170902c2c600b00168d8ce90b2mr14451592pla.110.1656329105228;
+        Mon, 27 Jun 2022 04:25:05 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:2dc1:c31b:b5ed:f3aa])
-        by smtp.gmail.com with ESMTPSA id lj4-20020a17090b344400b001ece32cbec9sm9246889pjb.24.2022.06.27.04.25.00
+        by smtp.gmail.com with ESMTPSA id lj4-20020a17090b344400b001ece32cbec9sm9246889pjb.24.2022.06.27.04.25.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 04:25:02 -0700 (PDT)
+        Mon, 27 Jun 2022 04:25:04 -0700 (PDT)
 From:   Chen-Yu Tsai <wenst@chromium.org>
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -57,9 +57,9 @@ Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
         Yunfei Dong <yunfei.dong@mediatek.com>
-Subject: [PATCH 2/4] media: mediatek: vcodec: dec: Set default max resolution based on format
-Date:   Mon, 27 Jun 2022 19:24:00 +0800
-Message-Id: <20220627112402.2332046-3-wenst@chromium.org>
+Subject: [PATCH 3/4] media: mediatek: vcodec: dec: Fix resolution clamping in TRY_FMT
+Date:   Mon, 27 Jun 2022 19:24:01 +0800
+Message-Id: <20220627112402.2332046-4-wenst@chromium.org>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 In-Reply-To: <20220627112402.2332046-1-wenst@chromium.org>
 References: <20220627112402.2332046-1-wenst@chromium.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,50 +76,82 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 In commit b018be06f3c7 ("media: mediatek: vcodec: Read max resolution
-from dec_capability") the driver ended up blindly setting the maximum
-resolution to 1080p, even if the hardware and default output format
-supported up to 4K. This would only be overridden by a subsequent
-S_FMT call.
+from dec_capability"), TRY_FMT clamps the resolution to the maximum
+that was previously set either by default 1080p or the limit set by a
+previous S_FMT call. This does not make sense when doing TRY_FMT for
+the output side, which may have different capabilities.
 
-Correctly initialize the maximum resolution based on the default output
-format.
+Instead, for the output side, find the maximum resolution based on the
+pixel format requested. For the capture side, continue to use the
+maximum resolution set by default or by a previous S_FMT call.
+
+The maximum resolution is found from the list of per-format frame
+sizes, so the patch "media: mediatek: vcodec: dec: Fix 4K frame size
+enumeration" is needed.
 
 Fixes: b018be06f3c7 ("media: mediatek: vcodec: Read max resolution from dec_capability")
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- .../media/platform/mediatek/vcodec/mtk_vcodec_dec.c  | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ .../platform/mediatek/vcodec/mtk_vcodec_dec.c | 28 +++++++++++++++----
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-index fcb4b8131c49..f1b82d4c5be5 100644
+index f1b82d4c5be5..ea951cb3b927 100644
 --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
 +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-@@ -169,6 +169,16 @@ void mtk_vcodec_dec_set_default_params(struct mtk_vcodec_ctx *ctx)
- 	q_data->sizeimage[0] = DFT_CFG_WIDTH * DFT_CFG_HEIGHT;
- 	q_data->bytesperline[0] = 0;
- 
-+	if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED) &&
-+	    q_data->fmt->fourcc != V4L2_PIX_FMT_VP8_FRAME) {
-+		mtk_v4l2_debug(3, "4K is enabled");
-+		ctx->max_width = VCODEC_DEC_4K_CODED_WIDTH;
-+		ctx->max_height = VCODEC_DEC_4K_CODED_HEIGHT;
-+	} else {
-+		ctx->max_width = MTK_VDEC_MAX_W;
-+		ctx->max_height = MTK_VDEC_MAX_H;
-+	}
+@@ -282,13 +282,29 @@ static int vidioc_try_fmt(struct mtk_vcodec_ctx *ctx, struct v4l2_format *f,
+ 			  const struct mtk_video_fmt *fmt)
+ {
+ 	struct v4l2_pix_format_mplane *pix_fmt_mp = &f->fmt.pix_mp;
++	const struct mtk_vcodec_dec_pdata *dec_pdata = ctx->dev->vdec_pdata;
++	unsigned int max_width, max_height;
++	int i;
 +
- 	q_data = &ctx->q_data[MTK_Q_DATA_DST];
- 	memset(q_data, 0, sizeof(struct mtk_q_data));
- 	q_data->visible_width = DFT_CFG_WIDTH;
-@@ -177,8 +187,6 @@ void mtk_vcodec_dec_set_default_params(struct mtk_vcodec_ctx *ctx)
- 	q_data->coded_height = DFT_CFG_HEIGHT;
- 	q_data->fmt = ctx->dev->vdec_pdata->default_cap_fmt;
- 	q_data->field = V4L2_FIELD_NONE;
--	ctx->max_width = MTK_VDEC_MAX_W;
--	ctx->max_height = MTK_VDEC_MAX_H;
++	if (V4L2_TYPE_IS_OUTPUT(f->type)) {
++		max_width = MTK_VDEC_MAX_W;
++		max_height = MTK_VDEC_MAX_H;
++		for (i = 0; i < *dec_pdata->num_framesizes; ++i)
++			if (f->fmt.pix_mp.pixelformat == dec_pdata->vdec_framesizes[i].fourcc) {
++				max_width = dec_pdata->vdec_framesizes[i].stepwise.max_width;
++				max_height = dec_pdata->vdec_framesizes[i].stepwise.max_height;
++			}
++	} else {
++		max_width = ctx->max_width;
++		max_height = ctx->max_height;
++	}
  
- 	v4l_bound_align_image(&q_data->coded_width,
- 				MTK_VDEC_MIN_W,
+ 	pix_fmt_mp->field = V4L2_FIELD_NONE;
+ 
+ 	pix_fmt_mp->width =
+-		clamp(pix_fmt_mp->width, MTK_VDEC_MIN_W, ctx->max_width);
++		clamp(pix_fmt_mp->width, MTK_VDEC_MIN_W, max_width);
+ 	pix_fmt_mp->height =
+-		clamp(pix_fmt_mp->height, MTK_VDEC_MIN_H, ctx->max_height);
++		clamp(pix_fmt_mp->height, MTK_VDEC_MIN_H, max_height);
+ 
+ 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+ 		pix_fmt_mp->num_planes = 1;
+@@ -306,16 +322,16 @@ static int vidioc_try_fmt(struct mtk_vcodec_ctx *ctx, struct v4l2_format *f,
+ 		tmp_h = pix_fmt_mp->height;
+ 		v4l_bound_align_image(&pix_fmt_mp->width,
+ 					MTK_VDEC_MIN_W,
+-					ctx->max_width, 6,
++					max_width, 6,
+ 					&pix_fmt_mp->height,
+ 					MTK_VDEC_MIN_H,
+-					ctx->max_height, 6, 9);
++					max_height, 6, 9);
+ 
+ 		if (pix_fmt_mp->width < tmp_w &&
+-			(pix_fmt_mp->width + 64) <= ctx->max_width)
++			(pix_fmt_mp->width + 64) <= max_width)
+ 			pix_fmt_mp->width += 64;
+ 		if (pix_fmt_mp->height < tmp_h &&
+-			(pix_fmt_mp->height + 64) <= ctx->max_height)
++			(pix_fmt_mp->height + 64) <= max_height)
+ 			pix_fmt_mp->height += 64;
+ 
+ 		mtk_v4l2_debug(0,
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 
