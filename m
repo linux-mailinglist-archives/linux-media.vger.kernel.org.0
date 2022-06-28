@@ -2,188 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBC6E55F02B
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 23:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC1EC55F05D
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 23:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231250AbiF1VHX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 17:07:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52616 "EHLO
+        id S231280AbiF1Vcl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 17:32:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229979AbiF1VHW (ORCPT
+        with ESMTP id S230282AbiF1Vci (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 17:07:22 -0400
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C463A195;
-        Tue, 28 Jun 2022 14:07:20 -0700 (PDT)
-Received: by mail-io1-f41.google.com with SMTP id l24so14093253ion.13;
-        Tue, 28 Jun 2022 14:07:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EdmVCCaapks5mqyJeNP/LvsCykQThbQW4f2v+GKWiVI=;
-        b=luJ0bqm1xTrfmE8BoMNLrxR9JqYYfDFfTLHwVm3QTmMoW5XZ/NJj240R3l8KnBUgwy
-         c32CjerCRsJ0z2eKmRRVH/mQVW3YdeCC0ca9M61HDQO2meRBphhdgYmdZqDuQfscQ4hs
-         uMffIZZlX3QTEsS4/FKy6/31fZN1Vrq7ly1xeZVVobc6w5qHGmHwjyi35pjRp3Yt9vCc
-         du5BTtdbR6kAP3pW4CyLLvJ9NxURzDL+t3A6s0ltBNVLMVVolFASdQEvPg6mBFWsshME
-         Eal7Zte+Le3NMK1J6B+ySXeOGOVhmVzc02T68U8ZhvGgobu6pJ1+qNnXhanJC/mEo/4R
-         rNrg==
-X-Gm-Message-State: AJIora8YHHJc+QcRGxMgt2ScXzCtC97OCHYmEWgjNZLEDy94h24pxOpr
-        PPzHZKKdkIGUiqSFSXKYkg==
-X-Google-Smtp-Source: AGRyM1uc+XPBhifMAguV92DxPvJZX6j7ZucXINm5C5uMzjXPcIlUdRqzojxywk4dF8WrqVqjSlCHzA==
-X-Received: by 2002:a05:6638:2589:b0:333:e976:d0c7 with SMTP id s9-20020a056638258900b00333e976d0c7mr50106jat.16.1656450440054;
-        Tue, 28 Jun 2022 14:07:20 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id b28-20020a026f5c000000b0032e70c4e12fsm6614611jae.28.2022.06.28.14.07.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 14:07:19 -0700 (PDT)
-Received: (nullmailer pid 977856 invoked by uid 1000);
-        Tue, 28 Jun 2022 21:07:16 -0000
-Date:   Tue, 28 Jun 2022 15:07:16 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     "kyrie.wu" <kyrie.wu@mediatek.com>
-Cc:     Irui Wang <irui.wang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        angelogioacchino.delregno@collabora.com,
-        nicolas.dufresne@collabora.com, wenst@chromium.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com, srv_heupstream@mediatek.com
-Subject: Re: [RESEND V9,1/7] dt-bindings: mediatek: Add mediatek,
- mt8195-jpgenc compatible
-Message-ID: <20220628210716.GA963202-robh@kernel.org>
-References: <20220614121024.31667-1-irui.wang@mediatek.com>
- <20220614121024.31667-2-irui.wang@mediatek.com>
- <20220617231139.GA2610098-robh@kernel.org>
- <329eb655ddb503e4327cbe3cffef625bb44630b1.camel@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <329eb655ddb503e4327cbe3cffef625bb44630b1.camel@mediatek.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        Tue, 28 Jun 2022 17:32:38 -0400
+X-Greylist: delayed 331 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Jun 2022 14:32:36 PDT
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16A783AA7A;
+        Tue, 28 Jun 2022 14:32:36 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 919EB3FD63;
+        Tue, 28 Jun 2022 23:27:03 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Score: -2.11
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
+Authentication-Results: pio-pvt-msa1.bahnhof.se (amavisd-new);
+        dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+        by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Dc2aFG-pVafs; Tue, 28 Jun 2022 23:27:02 +0200 (CEST)
+Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id AEB693FDAA;
+        Tue, 28 Jun 2022 23:26:58 +0200 (CEST)
+Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        by mail1.shipmail.org (Postfix) with ESMTPSA id 9AA06360156;
+        Tue, 28 Jun 2022 23:26:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+        t=1656451618; bh=ytcDsDZId1FXW7EIkS2vLuiS9VYbZskPayG7B85WlHM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=X+B+WnRob8hg5hOiIRj9AvbJ5diUA33ARcN993ZZQPEzHdlHsiKt8+qlYRCgjTyfG
+         ps+3/ZqSvyJeQdOXk/lQcIjKzkTFOGguhtbYDHn/RqNQYZuDiHB+kWuEW/Pt1GiM1j
+         Xu8V0jFNaU6WQL+FCf5BhdHiO2jnqOkkwTPYPEpw=
+Message-ID: <90fe74f6-a622-e4ae-3004-6f1bc1790247@shipmail.org>
+Date:   Tue, 28 Jun 2022 23:26:56 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
+Content-Language: en-US
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc:     intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+        kernel@collabora.com, linux-media@vger.kernel.org
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-15-dmitry.osipenko@collabora.com>
+ <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
+ <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
+ <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
+ <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+In-Reply-To: <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 02:04:38PM +0800, kyrie.wu wrote:
-> On Fri, 2022-06-17 at 17:11 -0600, Rob Herring wrote:
-> > On Tue, Jun 14, 2022 at 08:10:18PM +0800, Irui Wang wrote:
-> > > From: kyrie wu <kyrie.wu@mediatek.com>
-> > > 
-> > > Add mediatek,mt8195-jpgenc compatible to binding document.
-> > > 
-> > > Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
-> > > ---
-> > >  .../media/mediatek,mt8195-jpegenc.yaml        | 153
-> > > ++++++++++++++++++
-> > >  1 file changed, 153 insertions(+)
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/media/mediatek,mt8195-
-> > > jpegenc.yaml
-> > > 
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/media/mediatek,mt8195-
-> > > jpegenc.yaml
-> > > b/Documentation/devicetree/bindings/media/mediatek,mt8195-
-> > > jpegenc.yaml
-> > > new file mode 100644
-> > > index 000000000000..a7f9f723d5db
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-
-> > > jpegenc.yaml
-> > > @@ -0,0 +1,153 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: 
-> > > http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: MediaTek JPEG Encoder Device Tree Bindings
-> > > +
-> > > +maintainers:
-> > > +  - kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
-> > > +
-> > > +description: |-
-> > > +  MediaTek JPEG Encoder is the JPEG encode hardware present in
-> > > MediaTek SoCs
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - const: mediatek,mt8195-jpgenc
-> > > +
-> > > +  mediatek,jpegenc-multi-core:
-> > > +    type: boolean
-> > > +    description: |
-> > > +      Indicates whether the jpeg encoder has multiple cores or
-> > > not.
-> > > +
-> > > +  power-domains:
-> > > +    maxItems: 1
-> > > +
-> > > +  iommus:
-> > > +    maxItems: 4
-> > > +    description: |
-> > > +      Points to the respective IOMMU block with master port as
-> > > argument, see
-> > > +      Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> > > for details.
-> > > +      Ports are according to the HW.
-> > > +
-> > > +  "#address-cells":
-> > > +    const: 2
-> > > +
-> > > +  "#size-cells":
-> > > +    const: 2
-> > > +
-> > > +  ranges: true
-> > > +
-> > > +# Required child node:
-> > > +patternProperties:
-> > > +  "^jpgenc@[0-9a-f]+$":
-> > > +    type: object
-> > > +    description: |
-> > > +      The jpeg encoder hardware device node which should be added
-> > > as subnodes to
-> > > +      the main jpeg node.
-> > > +
-> > > +    properties:
-> > > +      compatible:
-> > > +        const: mediatek,mt8195-jpgenc-hw
-> > > +
-> > > +      reg:
-> > > +        maxItems: 1
-> > > +
-> > > +      hw_id:
-> > > +        description: |
-> > > +          Current jpegenc hw id.
-> > 
-> > Same question here. Surely, I asked sometime in the last 8 versions,
-> > but 
-> > no explanation here and I'm not going to go look for it.
-> Dear Rob,
-> I'm sorry for not giving an accurate explanation in time.
-> The MT8195 has own two encoding hardwares, we use hw_id to 
-> represent them.
-> hw_id = 0, for hardware 0, and hw_id = 1, repesents another one.
-> I will improve the description in the next version.
 
-Why do you care which one is which? 
+On 5/30/22 15:57, Dmitry Osipenko wrote:
+> On 5/30/22 16:41, Christian König wrote:
+>> Hi Dmitry,
+>>
+>> Am 30.05.22 um 15:26 schrieb Dmitry Osipenko:
+>>> Hello Christian,
+>>>
+>>> On 5/30/22 09:50, Christian König wrote:
+>>>> Hi Dmitry,
+>>>>
+>>>> First of all please separate out this patch from the rest of the series,
+>>>> since this is a complex separate structural change.
+>>> I assume all the patches will go via the DRM tree in the end since the
+>>> rest of the DRM patches in this series depend on this dma-buf change.
+>>> But I see that separation may ease reviewing of the dma-buf changes, so
+>>> let's try it.
+>> That sounds like you are underestimating a bit how much trouble this
+>> will be.
+>>
+>>>> I have tried this before and failed because catching all the locks in
+>>>> the right code paths are very tricky. So expect some fallout from this
+>>>> and make sure the kernel test robot and CI systems are clean.
+>>> Sure, I'll fix up all the reported things in the next iteration.
+>>>
+>>> BTW, have you ever posted yours version of the patch? Will be great if
+>>> we could compare the changed code paths.
+>> No, I never even finished creating it after realizing how much work it
+>> would be.
+>>
+>>>>> This patch introduces new locking convention for dma-buf users. From
+>>>>> now
+>>>>> on all dma-buf importers are responsible for holding dma-buf
+>>>>> reservation
+>>>>> lock around operations performed over dma-bufs.
+>>>>>
+>>>>> This patch implements the new dma-buf locking convention by:
+>>>>>
+>>>>>      1. Making dma-buf API functions to take the reservation lock.
+>>>>>
+>>>>>      2. Adding new locked variants of the dma-buf API functions for
+>>>>> drivers
+>>>>>         that need to manage imported dma-bufs under the held lock.
+>>>> Instead of adding new locked variants please mark all variants which
+>>>> expect to be called without a lock with an _unlocked postfix.
+>>>>
+>>>> This should make it easier to remove those in a follow up patch set and
+>>>> then fully move the locking into the importer.
+>>> Do we really want to move all the locks to the importers? Seems the
+>>> majority of drivers should be happy with the dma-buf helpers handling
+>>> the locking for them.
+>> Yes, I clearly think so.
+>>
+>>>>>      3. Converting all drivers to the new locking scheme.
+>>>> I have strong doubts that you got all of them. At least radeon and
+>>>> nouveau should grab the reservation lock in their ->attach callbacks
+>>>> somehow.
+>>> Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
+>>> lock already, seems they should be okay (?)
+>> You are looking at the wrong side. You need to fix the export code path,
+>> not the import ones.
+>>
+>> See for example attach on radeon works like this
+>> drm_gem_map_attach->drm_gem_pin->radeon_gem_prime_pin->radeon_bo_reserve->ttm_bo_reserve->dma_resv_lock.
+> Yeah, I was looking at the both sides, but missed this one.
 
-We generally don't do instance indices in DT, so figure out how not to 
-need this.
+Also i915 will run into trouble with attach. In particular since i915 
+starts a full ww transaction in its attach callback to be able to lock 
+other objects if migration is needed. I think i915 CI would catch this 
+in a selftest.
 
-Rob
+Perhaps it's worthwile to take a step back and figure out, if the 
+importer is required to lock, which callbacks might need a ww acquire 
+context?
+
+(And off-topic, Since we do a lot of fancy stuff under dma-resv locks 
+including waiting for fences and other locks, IMO taking these locks 
+uninterruptible should ring a warning bell)
+
+/Thomas
+
+>
+>> Same for nouveau and probably a few other exporters as well. That will
+>> certainly cause a deadlock if you don't fix it.
+>>
+>> I strongly suggest to do this step by step, first attach/detach and then
+>> the rest.
+> Thank you very much for the suggestions. I'll implement them in the next
+> version.
+>
