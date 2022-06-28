@@ -2,237 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A0F955DAA0
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:23:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C6F255D0CC
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:08:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243826AbiF1FWy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 01:22:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38006 "EHLO
+        id S245148AbiF1FpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 01:45:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244711AbiF1FWX (ORCPT
+        with ESMTP id S245128AbiF1Fo6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 01:22:23 -0400
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2057.outbound.protection.outlook.com [40.107.22.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB3E24944;
-        Mon, 27 Jun 2022 22:21:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kow9U74c2wiM5Ax05DAtsCghzHcq8rhbr+a0H4yDEdjrnx05gJHFJoUnvjHGROEheklhUMJQMs+z4M9BzOrOOjEkkLwKH6CmkEUmJ3/blztWSUFeY2jZgkNWdxBR/fCN5mgjgt4MDGr4XX4q1Pvu4pBhP6ASCSk4jRS6E/QE5LMVVBO3a7FXF5no/xWm7Qi5qVSIVBTyjYe6OknzRftX5eAE9vPgSWfpcVovOrPFWrD+vHCRUT2N9oJTLC94TvDXsycIJo87qdZNR8ODTzi67oRLePodYxdg3cMdVXUvFQPiynAiw06YSRR0c6yEo96hfIwolNCFKMQF6SI5CtaTCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=68IiFs5p4uk+/vScFAa8v/g/mZmXrVixunVAsnghXmY=;
- b=iBUldaEMIpNhbF2kpGAD7gXBgxTyIfCuBB5Znd9vgzfr7udE4oPGhkDFrTLWhjYNJk8FtOlpiwzNv44JiDHue0vM5sIWszKqsuZIE5ULV2OalHaDkZjE8lyo4NM1A+4w7ozWi1vRSXgn38qFbkl+6QaLUT+pOEXTDYqL1XEaJ6zObvqRRxSpL13ThLSSCJRe0L75Ua6HmNl9vZiBjWcjd4ef9LU3D8bISeAZa5KXyuAHRE4zRNZYaoYA6m2VuPWCB8N8kSccecDL77QJYWfzhOSFs4Wc7aarBhPJD7fI9Q1HQLpzuvvLujGGsQzEoc4BHLLIZztJVJhUjntv5lBhcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=68IiFs5p4uk+/vScFAa8v/g/mZmXrVixunVAsnghXmY=;
- b=JSZ7FOzvAOUu9X9j7nf4vPFGwI+EKIEBy23HNiTsKKsmbMpF3qsWNci2yXFImULzFumioetLE0GiD/kEtOyUvlbOT2GqOHQbx1X0CylqjMtVaqlXsKleBKHhy6KiSj2UqRU9P9zM6fizNDOJXEa2pOlWeDDryLFvLy5yAXrJDB8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by VI1PR04MB5168.eurprd04.prod.outlook.com (2603:10a6:803:56::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.18; Tue, 28 Jun
- 2022 05:21:27 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::3582:eb2f:9652:d98b]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::3582:eb2f:9652:d98b%5]) with mapi id 15.20.5373.018; Tue, 28 Jun 2022
- 05:21:27 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] media: amphion: defer setting last_buffer_dequeued until resolution changes are processed
-Date:   Tue, 28 Jun 2022 13:21:12 +0800
-Message-Id: <20220628052112.27350-1-ming.qian@nxp.com>
-X-Mailer: git-send-email 2.36.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0134.apcprd01.prod.exchangelabs.com
- (2603:1096:4:8f::14) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
+        Tue, 28 Jun 2022 01:44:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B4B61F2DA
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 22:44:56 -0700 (PDT)
+Received: from pyrite.rasen.tech (softbank036240122163.bbtec.net [36.240.122.163])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2262455A;
+        Tue, 28 Jun 2022 07:44:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656395093;
+        bh=VCUFBQEYwErE7b1UhmzaJheCxmrLFc7DwuF25K5f1TE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hWROlsuxJicapzqou76kt9EhByE04ViNY4EyASMwxuklQv2jnZk/cV1v6hr6Y9/Xd
+         GxE05N5+NAnlim45mK6TkqJZd3wtMkzG7TS/SN6pGO71W9YgvYCJwrCYpLlS97piye
+         cqQU7VXuVYkkWg0cChz1+xPMvkWIy725imuXX7pc=
+From:   Paul Elder <paul.elder@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        laurent.pinchart@ideasonboard.com
+Subject: [PATCH v2] media: rkisp1: Support devices without self path
+Date:   Tue, 28 Jun 2022 14:44:30 +0900
+Message-Id: <20220628054430.1349988-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 04fbb354-1cc2-43de-6113-08da58c60d4a
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5168:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hroPpnQmcS/9xpkMTpnqyaXN7Qt85gxG1Nzlkgkr3W9oj9FmprJl5Musdz5WJOWXsf7AOAB/c1kesRjvEQ/WvpaUdSd/MmuYTMkBGS0VU+jkF4ZGHo9tAgYJ0+LcCJnVm32rhz0InLObaNhJU5kXRDHTE5WYfjbYvFzfhyyI9oPR8Ptc4O2e1aW70R2xB3wbfn/ni8cnAvfVwFO/w6B/CWQ10HlUUpXkKgmKzITGWsGlBPGpuuPGblBdGmW58W1YYN5bE4WLez3pRr20ypfpYUz5atIIcl7jNRtTJTfhcMTVFUYY31GlEVDreGyayfyZ9YsVZ6qH+LOEZ4FAgAk+j/7ETLMZBPzYGcqG+yZqcu5IHYXIH4p2o0+p4dnPkaAENRP+Y6OHBmqiM4XLYs5jILqU5qjnHY67xZxBUPuCQ82kOxnVDrpvEHyPVtJb86r+oAmr/892IFwkt/RLi+8beuKzLH5dWRhtj1Q/6oHSSltAKSAwDWgBgNq5t22u2AJY0BGlDNbaF49tXaH/CgMplImOm86mtR8LNyQfgUf9DtrGBh+QZQ49HBJBEC1AudvBOte6gbN5lRDkOhfr3bT5PFtDTtmuiovBbgaqByGJjvd/ZRuvlGBkPBJU3bCt1E4sCrgMP7/vel9+zbxeJp3iVY9TOCpJfE9I9i7WjBqav/7tywDzfKP3Y3tvGqOikeKHpQ2SgwTE+/pNV/6y9IgrR760rDFjWYBW/iMbydKrTloUz/Jybd5TmcaF+0GJltODjRJrDLUkP7RDdBV0UBLRc9QY91b3qbmasKYzwMTVlRU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(346002)(39860400002)(366004)(376002)(6512007)(36756003)(26005)(83380400001)(8676002)(66476007)(66556008)(4326008)(66946007)(1076003)(2616005)(38100700002)(52116002)(316002)(86362001)(6506007)(478600001)(7416002)(38350700002)(5660300002)(6666004)(186003)(6486002)(44832011)(8936002)(41300700001)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qwpr+spgkR3Zpbc8fOPOM50sBKT27BkCm9zPRrJ5IMr4rn2Rf8PISxIsX83i?=
- =?us-ascii?Q?6SP2r3s0T3MBG1PU158PkTT97ZmEzWV8gSPSQYU+hAorKYBWTKnSK6FfdsFF?=
- =?us-ascii?Q?zMj1vySziDkAqJAUF5AAn3wnNlzjrY4vFM69cGLCQMv/OgjGGRf63ZnkJk0N?=
- =?us-ascii?Q?gPhkMStRPlnWNJfemR5CZ+Fvxowfz2hadpU27ZROjUV5PIhHFcqZ+UFrq67o?=
- =?us-ascii?Q?IfD74+Extv6fDYP1o28hC1ZDCuK36yqdEHKm/3Xfv7DliTzldEyBvXfPsKA/?=
- =?us-ascii?Q?n+lxjc86L40it0mDbwXHWnBh4qAntU5ikiD7JyJDIRTQqbGKHkuaGeeTPEyn?=
- =?us-ascii?Q?hEmcsrWNf9bgWqRZPTiykaGgy5fc/a91T5jJL8oBenFFt2xVcix93xzWxvuX?=
- =?us-ascii?Q?v3rzX9+o2w7Due6blpWucEwoxXMn+ZLH5Px778QeHkqTKQruqy9zi8UHXU+E?=
- =?us-ascii?Q?PQvvNGuoD3i6WC6+E6KnRv59KsFf4r3lUPljijsVmX57uuNMRmXS+N+zJSX3?=
- =?us-ascii?Q?DYvk4H9Q21+dKrHFDHvzVGGvItlGLWqObTn86OXlFVQl5chpuJxZ/D4IC1ML?=
- =?us-ascii?Q?9GvYFmV2fAPPbMOAT4TV3B1P3vuV2fdtUq17ghUMnB0ByxFw/eUZpvMQxH4K?=
- =?us-ascii?Q?rcMivaEEy3IDLbUGmxxUBoE4b0/bP0tVlVrjMul2zrihxfzqP4CA0gPeUBf9?=
- =?us-ascii?Q?4Nk1eZGUFeu4TUC/v3QlKDoYTCll0uolnttH8oLTSMDdWeCBQRsZQUVq4QH7?=
- =?us-ascii?Q?+t6rz0UTzwcc54M625TgNQDhuMrpF83Jho2pLqVwXwPjOd5E76l0sG5VtOsr?=
- =?us-ascii?Q?FzzuXZxUJv1xyWOArNe+ve7WHayN5AtTYfpmm5zdI90+nhQUZ8FULFtmGXW8?=
- =?us-ascii?Q?Q0N2mMmH//GT9b6vxhYjtKNbE7B6SPBGv9VI1GJIp91Cd/ckUb2br7LQMF2s?=
- =?us-ascii?Q?Qeyj6FB9S5HOOnEdDKh0c3oJkyvFTBhDkf04bi4Mvbp7IYZONn3QZ4BYr0T+?=
- =?us-ascii?Q?9trr3jGZhL6WRx0baulrA0NPqTA13tPVHAePz7oiLJiKqyFk33DPij9EtxXN?=
- =?us-ascii?Q?9tUyZDGw4H0oGH71pKWJ0mxrVQaz8d1lLaVlAhH8SsKUlAxEXSNzt86g9OJD?=
- =?us-ascii?Q?3TTeJyQZV71a1LOQ0AHcFg6MpnsDykyE1ex0jNND2XjEkf2lw3nNq6V913bC?=
- =?us-ascii?Q?EkuOZUhSK/DAF279Vd+AlTu8FtWihHTgbo0xrXZXV9q5v+d30U2LlsnEZ0TQ?=
- =?us-ascii?Q?jcPo3Bip2R8w6/O6+GOev5hJmXbaQpNGfRF7r6KI1p+oFiIZPjfEACVuQHOR?=
- =?us-ascii?Q?bpn/nUor1dtPII67p09YHrr5gfSbk4vKgl0b8n1KwRrQizGkBHCnV8HFlzCd?=
- =?us-ascii?Q?2xX2ywUHV/dzOE2dmUN8b+hMZvgkDgd//oLIHjSKhcc0fz1Y1vo4BZi6C5hq?=
- =?us-ascii?Q?MXTY3W1KVcvPuHv8PoQ5+XqYdHFNaQRCvcx2VtQBLhppnZGs9atjP1q6EqtL?=
- =?us-ascii?Q?0qlOGlQOIts28OAlqXmLL2vp09ai/0NKVvSbO6nrxP3aS4pMfnWMuxaGd7hn?=
- =?us-ascii?Q?L88vU8hFukDlmimCWSwZcxqyzgxC0FUf/sSGSnc1?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04fbb354-1cc2-43de-6113-08da58c60d4a
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2022 05:21:27.7812
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BxzWWi1hjLvnn39r+TOqQGwZkZiI6oRB14Smn4MdoC6DbeQrbg7jmw5s7ruHM3C6jpQV4UEBcBeJzR6a3n0H0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5168
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Don't set last_buffer_dequeued during dynamic resolution change,
-otherwise it may be cleared in handling resolution change,
-as streamoff may be called in dynamic resolution change.
+Some hardware supported by the rkisp1 driver, such as the ISP in the
+i.MX8MP, don't have a self path. Add a feature flag for this, and
+massage the rest of the driver to support the lack of a self path.
 
-Normally, this does not happen.
-But we encounter a special testcase,
-User issue V4L2_DEC_CMD_STOP after enqueue one buffer
-that only contains codec config header, but not any frame data.
-So VPU report the parsed resolution, then report the eos event.
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 
-So driver should notify user to handle resolution change first,
-after it's handled, set the last_buffer_dequeued.
-then the user can exit decoding normally.
-
-Otherwise the user may be stalled.
-
-Fixes: 6de8d628df6ef ("media: amphion: add v4l2 m2m vpu decoder stateful driver")
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
 ---
- drivers/media/platform/amphion/vdec.c     | 36 ++++++++++++++---------
- drivers/media/platform/amphion/vpu_v4l2.c |  2 +-
- 2 files changed, 23 insertions(+), 15 deletions(-)
+Changes in v2:
+- add rkisp1_path_count() helper to obtain the number of paths
+- fix forcing config update when there's no self path
 
-diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
-index 51218a41a5ac..1a00f1926b57 100644
---- a/drivers/media/platform/amphion/vdec.c
-+++ b/drivers/media/platform/amphion/vdec.c
-@@ -178,16 +178,6 @@ static int vdec_ctrl_init(struct vpu_inst *inst)
- 	return 0;
- }
- 
--static void vdec_set_last_buffer_dequeued(struct vpu_inst *inst)
--{
--	struct vdec_t *vdec = inst->priv;
--
--	if (vdec->eos_received) {
--		if (!vpu_set_last_buffer_dequeued(inst))
--			vdec->eos_received--;
--	}
--}
--
- static void vdec_handle_resolution_change(struct vpu_inst *inst)
+This patch depends on "media: rkisp1: Cleanups and add support for
+i.MX8MP" [1], which in turn depends on v4 of "media: rkisp1: Misc bug
+fixes and cleanups" [2].
+
+[1] https://lore.kernel.org/linux-media/20220625070034.6odv6cyvqqigb2sa@guri/T/
+[2] https://lore.kernel.org/linux-media/Ymbxs2p9Tuf331qM@pendragon.ideasonboard.com/T/
+---
+ .../platform/rockchip/rkisp1/rkisp1-capture.c     |  9 ++++++---
+ .../platform/rockchip/rkisp1/rkisp1-common.h      | 15 +++++++++++++++
+ .../media/platform/rockchip/rkisp1/rkisp1-dev.c   |  9 ++++++---
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c     |  6 ++++--
+ 4 files changed, 31 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index 234b1f8488cb..215be4034c52 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -709,6 +709,7 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
  {
- 	struct vdec_t *vdec = inst->priv;
-@@ -234,6 +224,21 @@ static int vdec_update_state(struct vpu_inst *inst, enum vpu_codec_state state,
- 	return 0;
- }
+ 	struct device *dev = ctx;
+ 	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
++	unsigned int dev_count = rkisp1_path_count(rkisp1);
+ 	unsigned int i;
+ 	u32 status;
  
-+static void vdec_set_last_buffer_dequeued(struct vpu_inst *inst)
+@@ -718,7 +719,7 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
+ 
+ 	rkisp1_write(rkisp1, RKISP1_CIF_MI_ICR, status);
+ 
+-	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); ++i) {
++	for (i = 0; i < dev_count; ++i) {
+ 		struct rkisp1_capture *cap = &rkisp1->capture_devs[i];
+ 
+ 		if (!(status & RKISP1_CIF_MI_FRAME(cap)))
+@@ -875,6 +876,7 @@ static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
+ {
+ 	struct rkisp1_device *rkisp1 = cap->rkisp1;
+ 	struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
++	bool has_self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
+ 
+ 	cap->ops->set_data_path(cap);
+ 	cap->ops->config(cap);
+@@ -892,7 +894,7 @@ static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
+ 	 * This's also required because the second FE maybe corrupt
+ 	 * especially when run at 120fps.
+ 	 */
+-	if (!other->is_streaming) {
++	if (!has_self_path || !other->is_streaming) {
+ 		/* force cfg update */
+ 		rkisp1_write(rkisp1, RKISP1_CIF_MI_INIT,
+ 			     RKISP1_CIF_MI_INIT_SOFT_UPD);
+@@ -1445,10 +1447,11 @@ rkisp1_capture_init(struct rkisp1_device *rkisp1, enum rkisp1_stream_id id)
+ 
+ int rkisp1_capture_devs_register(struct rkisp1_device *rkisp1)
+ {
++	unsigned int dev_count = rkisp1_path_count(rkisp1);
+ 	unsigned int i;
+ 	int ret;
+ 
+-	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); i++) {
++	for (i = 0; i < dev_count; i++) {
+ 		struct rkisp1_capture *cap = &rkisp1->capture_devs[i];
+ 
+ 		rkisp1_capture_init(rkisp1, i);
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index 0b834579d08c..f25d885c79ff 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -114,6 +114,7 @@ enum rkisp1_feature {
+ 	RKISP1_FEATURE_RSZ_CROP = BIT(2),
+ 	RKISP1_FEATURE_MAIN_STRIDE = BIT(3),
+ 	RKISP1_FEATURE_DMA_34BIT = BIT(4),
++	RKISP1_FEATURE_SELF_PATH = BIT(5),
+ };
+ 
+ /*
+@@ -552,6 +553,20 @@ unsigned int rkisp1_mbus_info_length(void);
+  */
+ const struct rkisp1_mbus_info *rkisp1_mbus_info_get_by_index(unsigned int index);
+ 
++/*
++ * rkisp1_path_count - Return the number of paths supported by the device
++ *
++ * Some devices only have a main path, while other device have both a main path
++ * and a self path. This function returns the number of paths that this device
++ * has, based on the feature flags. It should be used insted of checking
++ * ARRAY_SIZE of capture_devs/resizer_devs.
++ */
++static inline unsigned int rkisp1_path_count(struct rkisp1_device *rkisp1)
 +{
-+	struct vdec_t *vdec = inst->priv;
-+
-+	if (inst->state == VPU_CODEC_STATE_DYAMIC_RESOLUTION_CHANGE)
-+		return;
-+
-+	if (vdec->eos_received) {
-+		if (!vpu_set_last_buffer_dequeued(inst)) {
-+			vdec->eos_received--;
-+			vdec_update_state(inst, VPU_CODEC_STATE_DRAIN, 0);
-+		}
-+	}
++	bool has_self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
++	return has_self_path ? 2 : 1;
 +}
 +
- static int vdec_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
- {
- 	strscpy(cap->driver, "amphion-vpu", sizeof(cap->driver));
-@@ -493,6 +498,8 @@ static int vdec_drain(struct vpu_inst *inst)
+ /*
+  * rkisp1_sd_adjust_crop_rect - adjust a rectangle to fit into another rectangle.
+  *
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 4c77aa2bc50a..8fd9f67836a5 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -326,6 +326,7 @@ static const struct dev_pm_ops rkisp1_pm_ops = {
  
- static int vdec_cmd_start(struct vpu_inst *inst)
+ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
  {
-+	struct vdec_t *vdec = inst->priv;
-+
- 	switch (inst->state) {
- 	case VPU_CODEC_STATE_STARTED:
- 	case VPU_CODEC_STATE_DRAIN:
-@@ -503,6 +510,8 @@ static int vdec_cmd_start(struct vpu_inst *inst)
- 		break;
- 	}
- 	vpu_process_capture_buffer(inst);
-+	if (vdec->eos_received)
-+		vdec_set_last_buffer_dequeued(inst);
- 	return 0;
- }
++	unsigned int dev_count = rkisp1_path_count(rkisp1);
+ 	unsigned int i;
+ 	int ret;
  
-@@ -1204,7 +1213,6 @@ static void vdec_event_eos(struct vpu_inst *inst)
- 	vdec->eos_received++;
- 	vdec->fixed_fmt = false;
- 	inst->min_buffer_cap = VDEC_MIN_BUFFER_CAP;
--	vdec_update_state(inst, VPU_CODEC_STATE_DRAIN, 0);
- 	vdec_set_last_buffer_dequeued(inst);
- 	vpu_inst_unlock(inst);
- }
-@@ -1480,10 +1488,10 @@ static int vdec_stop_session(struct vpu_inst *inst, u32 type)
- 		vdec_update_state(inst, VPU_CODEC_STATE_SEEK, 0);
- 		vdec->drain = 0;
- 	} else {
--		if (inst->state != VPU_CODEC_STATE_DYAMIC_RESOLUTION_CHANGE)
-+		if (inst->state != VPU_CODEC_STATE_DYAMIC_RESOLUTION_CHANGE) {
- 			vdec_abort(inst);
--
--		vdec->eos_received = 0;
-+			vdec->eos_received = 0;
-+		}
- 		vdec_clear_slots(inst);
+@@ -341,7 +342,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
  	}
  
-diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-index da455e5ab337..8a3eed957ae6 100644
---- a/drivers/media/platform/amphion/vpu_v4l2.c
-+++ b/drivers/media/platform/amphion/vpu_v4l2.c
-@@ -500,8 +500,8 @@ static int vpu_vb2_start_streaming(struct vb2_queue *q, unsigned int count)
- 		  fmt->sizeimage[1], fmt->bytesperline[1],
- 		  fmt->sizeimage[2], fmt->bytesperline[2],
- 		  q->num_buffers);
--	ret = call_vop(inst, start, q->type);
- 	vb2_clear_last_buffer_dequeued(q);
-+	ret = call_vop(inst, start, q->type);
- 	if (ret)
- 		vpu_vb2_buffers_return(inst, q->type, VB2_BUF_STATE_QUEUED);
+ 	/* create ISP->RSZ->CAP links */
+-	for (i = 0; i < 2; i++) {
++	for (i = 0; i < dev_count; i++) {
+ 		struct media_entity *resizer =
+ 			&rkisp1->resizer_devs[i].sd.entity;
+ 		struct media_entity *capture =
+@@ -466,7 +467,8 @@ static const struct rkisp1_info px30_isp_info = {
+ 	.isr_size = ARRAY_SIZE(px30_isp_isrs),
+ 	.isp_ver = RKISP1_V12,
+ 	.features = RKISP1_FEATURE_MIPI_CSI2
+-		  | RKISP1_FEATURE_DUAL_CROP,
++		  | RKISP1_FEATURE_DUAL_CROP
++		  | RKISP1_FEATURE_SELF_PATH,
+ };
  
+ static const char * const rk3399_isp_clks[] = {
+@@ -486,7 +488,8 @@ static const struct rkisp1_info rk3399_isp_info = {
+ 	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
+ 	.isp_ver = RKISP1_V10,
+ 	.features = RKISP1_FEATURE_MIPI_CSI2
+-		  | RKISP1_FEATURE_DUAL_CROP,
++		  | RKISP1_FEATURE_DUAL_CROP
++		  | RKISP1_FEATURE_SELF_PATH,
+ };
+ 
+ static const char * const imx8mp_isp_clks[] = {
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+index 29a31b18a082..a18dacc84568 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+@@ -673,6 +673,7 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct rkisp1_device *rkisp1 = rsz->rkisp1;
+ 	struct rkisp1_capture *other = &rkisp1->capture_devs[rsz->id ^ 1];
+ 	enum rkisp1_shadow_regs_when when = RKISP1_SHADOW_REGS_SYNC;
++	bool has_self_path = rkisp1->info->features & RKISP1_FEATURE_SELF_PATH;
+ 
+ 	if (!enable) {
+ 		if (rkisp1->info->features & RKISP1_FEATURE_DUAL_CROP)
+@@ -681,7 +682,7 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
+ 		return 0;
+ 	}
+ 
+-	if (other->is_streaming)
++	if (has_self_path && other->is_streaming)
+ 		when = RKISP1_SHADOW_REGS_ASYNC;
+ 
+ 	mutex_lock(&rsz->ops_lock);
+@@ -769,10 +770,11 @@ static int rkisp1_rsz_register(struct rkisp1_resizer *rsz)
+ 
+ int rkisp1_resizer_devs_register(struct rkisp1_device *rkisp1)
+ {
++	unsigned int dev_count = rkisp1_path_count(rkisp1);
+ 	unsigned int i;
+ 	int ret;
+ 
+-	for (i = 0; i < ARRAY_SIZE(rkisp1->resizer_devs); i++) {
++	for (i = 0; i < dev_count; i++) {
+ 		struct rkisp1_resizer *rsz = &rkisp1->resizer_devs[i];
+ 
+ 		rsz->rkisp1 = rkisp1;
 -- 
-2.36.1
+2.30.2
 
