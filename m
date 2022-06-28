@@ -2,106 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4994255EF02
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 22:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35A3555EF0C
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 22:15:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231710AbiF1UOM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 16:14:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49456 "EHLO
+        id S232068AbiF1UPH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 16:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231690AbiF1UNq (ORCPT
+        with ESMTP id S231925AbiF1UOg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 16:13:46 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71953B03
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 13:07:06 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id p13so8927091ilq.0
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 13:07:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=58uGHT1wkzHcOwGiM/tG1YDR+EQL8zM7OJ1XHh2pbPM=;
-        b=V0XcDN8ArBGifZqV6c2hOOGD0Qc2jF94XC/4DZUC1UmOGJQLTywNpK3d4WPfEhMjMD
-         YTj3Z8ybEjUXBxof5IIAMvbPRf+ugOvghKLUtWRQAx1pEP1TDuMM5wwLniT2mArauVU6
-         djSzv/OJ11KZWbOLh1rNfO8D1AmlMkOXi5+KE=
+        Tue, 28 Jun 2022 16:14:36 -0400
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42D311EAC1;
+        Tue, 28 Jun 2022 13:08:42 -0700 (PDT)
+Received: by mail-qv1-f54.google.com with SMTP id n15so21651006qvh.12;
+        Tue, 28 Jun 2022 13:08:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=58uGHT1wkzHcOwGiM/tG1YDR+EQL8zM7OJ1XHh2pbPM=;
-        b=htOSRsfTlW9EwtU0aA+2fvOC2LDP+qgphkiEJl9VuHiVYluVB/IcJZZuhbHMRKuSb/
-         6edrTAHLszgN6WIfSXD6hCFoPpDb2emhmOEi51HGtBO2aab/gb9zHIJtED0DP3UdAHbS
-         hjQsTDdSzCH0srAWFXCGD00w/E41OrjCHlBT8GFvhBneEmi7AUXzZTZmm0UqE4p/V/JG
-         eTERBx9JCp5AEIptthdX6GwMic9b6ACo1p9n8pKJbiIiE04NvOa9FPZZQiRccdP7KdXo
-         /4ahQ9aXpc4U1F0Q6SIDWNFW7sgQCdlYdmyACygazsTd+j7FXSRnIsC17NiT495BkCa3
-         UOFQ==
-X-Gm-Message-State: AJIora9vK2xVl36nNxd/Y3ejq53PE3ZwuduerTLB/7jMuKhd4rG3jwX3
-        mRcz3bA5dsEwv6wbfplbrFchKw==
-X-Google-Smtp-Source: AGRyM1uT8icQziaBNgTHYDZxGDzvdLDwLHA2m3dikjlKd+7vyMjg5QZQhZLV+8CHczy76SKepcHqbA==
-X-Received: by 2002:a05:6e02:15c4:b0:2d7:aa1e:5b55 with SMTP id q4-20020a056e0215c400b002d7aa1e5b55mr11633315ilu.120.1656446825888;
-        Tue, 28 Jun 2022 13:07:05 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id r20-20020a5d9b94000000b0066952cfe3e2sm6954921iom.39.2022.06.28.13.07.05
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mR5sN43E7PB78R0HG49Z2XtIx/iPqm5I3CT9aDr5U1A=;
+        b=svSV3/neHaAGKJUby/pM4IFcIC1s61P1OSUfsSmyOFC4d1FemizH8lMEQRZts4fe1/
+         vQ0OzgqfnaIb3l9FZOU4Y4N9S3HfT7jFrU6CA9fY1QDk06EJupA0CLNPa9aqgW9dJhSo
+         kszDLHPu63Y470IdSeSoRxIgtiQ3PZ6U0mTbRZfd5EQ8Ju3G5lKg2gN8xaAPXKg5uDt1
+         3VF6j2IvJZn+/w01iyleRW0zhrCYkRkpxSSax33CiHeB2FxLbzeC71AscPV4bD/QZlkA
+         FU4gE/CNQLRhOZBGOH7lkQ3DERWwZl13KjQbHiCKEeo8BrZHkBxVRh1wDEX/YM6NNRWX
+         P9XA==
+X-Gm-Message-State: AJIora/e4ge118EyD30vS/9WAuxuzviAFjgGnApMsBEB3NY93rwbWQw0
+        Ni66DYfiQ39nZsQ9y9bGWHkmp+Zw0Lr0uw==
+X-Google-Smtp-Source: AGRyM1sOXNEPRbQQRO71EV1aIU0GtKBUND9DzNf4nv54wlaoQgCNnuFCS08b5t4O5k4cLLlbAWA1NA==
+X-Received: by 2002:a05:6214:410e:b0:470:4609:c87c with SMTP id kc14-20020a056214410e00b004704609c87cmr5110330qvb.62.1656446921288;
+        Tue, 28 Jun 2022 13:08:41 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id x8-20020a05620a258800b006a75a0ffc97sm11951638qko.3.2022.06.28.13.08.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jun 2022 13:07:05 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] media: vimc: add ancillary lens
-To:     Yunke Cao <yunkec@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220628005353.1719403-1-yunkec@google.com>
- <20220628005353.1719403-2-yunkec@google.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <fa8f343d-9f54-73d9-ef2c-1b6a4146898f@linuxfoundation.org>
-Date:   Tue, 28 Jun 2022 14:07:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Tue, 28 Jun 2022 13:08:40 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id l11so24058707ybu.13;
+        Tue, 28 Jun 2022 13:08:40 -0700 (PDT)
+X-Received: by 2002:a25:3288:0:b0:66c:8a91:74bb with SMTP id
+ y130-20020a253288000000b0066c8a9174bbmr20131416yby.89.1656446920367; Tue, 28
+ Jun 2022 13:08:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220628005353.1719403-2-yunkec@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <1651584010-10156-1-git-send-email-erosca@de.adit-jv.com>
+ <YripkuWiMOcOl8Qu@pendragon.ideasonboard.com> <20220628190534.GA22969@lxhi-065>
+ <YrtbgUhNS8Z1pgVA@pendragon.ideasonboard.com>
+In-Reply-To: <YrtbgUhNS8Z1pgVA@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 28 Jun 2022 22:08:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX7HzbUime4EOhtzcRV2YSA44qJRFXvu0LNtmpzgBJzRA@mail.gmail.com>
+Message-ID: <CAMuHMdX7HzbUime4EOhtzcRV2YSA44qJRFXvu0LNtmpzgBJzRA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2] media: renesas: vsp1: Add VSPD underrun detection
+ & tracing
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Eugen Friedrich <efriedrich@de.adit-jv.com>,
+        Eugeniu Rosca <rosca.eugeniu@gmail.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/27/22 6:53 PM, Yunke Cao wrote:
-> Add lens to vimc driver and link them with sensors using ancillary links.
-> Provides an example of ancillary link usage.The lens supports
-> FOCUS_ABSOLUTE control.
-> 
-> Test example: With default vimc topology
->> media-ctl -p
-> Media controller API version 5.18.0
-> ...
-> - entity 28: Lens A (0 pad, 0 link)
->               type V4L2 subdev subtype Lens flags 0
->               device node name /dev/v4l-subdev6
-> - entity 29: Lens B (0 pad, 0 link)
->               type V4L2 subdev subtype Lens flags 0
->               device node name /dev/v4l-subdev7
->> v4l2-ctl -d /dev/v4l-subdev7 -C focus_absolute
-> focus_absolute: 0
-> 
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Yunke Cao <yunkec@google.com>
-> ---
+Hi Laurent,
 
+On Tue, Jun 28, 2022 at 9:53 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Tue, Jun 28, 2022 at 09:05:34PM +0200, Eugeniu Rosca wrote:
+> > On So, Jun 26, 2022 at 09:46:42 +0300, Laurent Pinchart wrote:
+> > > On Tue, May 03, 2022 at 03:20:10PM +0200, Eugeniu Rosca wrote:
+> > > >
+> > > > Troubleshooting the above without the right tools becomes a nightmare.
+> > >
+> > > Having spent lots of time working in userspace recently, I can't agree
+> > > more.
+> >
+> > Thanks for the feedback and for endorsing the utility of this patch.
+> >
+> > > > +static int vspd_underrun[VSPD_MAX_NUM];
+> > > > +module_param_array(vspd_underrun, int, NULL, 0444);
+> > > > +MODULE_PARM_DESC(vspd_underrun, "VSPD underrun counter");
+> > >
+> > > Module parameters are not meant to convey information back to userspace.
+> > > This should be done through either a debugfs file or a sysfs file. Given
+> > > the debugging nature of this feature, I'd recommend the former.
+> >
+> > It is a bit unfortunate that we have to go the debugFS route, since I
+> > recall at least one Customer in the past, who disabled the debugFS in
+> > the end product, since it was the only available means to meet the
+> > stringent automotive requirements (w.r.t. KNL binary size). Anybody
+> > who has no choice but to disable debugFS will consequently not be able
+> > to take advantage of this patch in the production/release software.
+>
+> debugfs isn't meant to be enabled in production, so if you need a
+> solution for production environment, it's not an option indeed.
+>
+> > If there is no alternative, then for sure I can go this way.
+> >
+> > However, before submitting PATCH v3, would you consider SYSFS viable
+> > too, if keeping the module param is totally unacceptable?
+> >
+> > I was hoping to keep the number of external dependencies to the bare
+> > minimum, hence the initial choice of module param. Looking forward to
+> > your final suggestion/preference.
+>
+> sysfs would be my next recommendation. I don't think a Linux system can
+> meaningfully run without sysfs, so it shouldn't be an issue
+> dependency-wise.
 
-This patch is now queued for vimc pull request for Linux 5.20-rc1
-to be send to Mauro Chehab.
+Indeed, you can add a device attribute.
+But as that is not a debug feature, the attribute must be documented,
+and becomes ABI.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux.git/log/?h=vimc
+Gr{oetje,eeting}s,
 
-thanks,
--- Shuah
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
