@@ -2,206 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B243955F176
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 00:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E983355F1D4
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 01:13:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbiF1WiR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 18:38:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41646 "EHLO
+        id S230122AbiF1XLw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 19:11:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbiF1WiQ (ORCPT
+        with ESMTP id S229948AbiF1XLv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 18:38:16 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCBC4D113
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 15:38:14 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id o16-20020a05600c379000b003a02eaea815so307811wmr.0
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 15:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=D2xQiDloUPECELWlq78dtMk8sQX4Mz7K0pGe9yPKMGc=;
-        b=OpP84mIDDpru5A5sd+m/hLg4LXMxv18S6LfalFgSCro5gC5aX2kJrOAVb3syqigguo
-         8oGL+WAA+7jBv1o2/kR/eJA+AwAJU5BdoIB3/ql4h6SqIRiHHBNgyTqGnuc41dZcOgpS
-         8GODFCQAa+sX8LrqL8JWzP/PgAY/8ZBMz/OK9842UPNrneHpiHczXl7ZTRIwNXE7qo5L
-         1jhrX7WbggTT1LtgYqfgNI4KrXkFmpLJYyRoy8MnLmZ0UM6rNqKs1IJ0phUZcbz9D+o3
-         xbgEc1QeVYLnS15fY8Z2rTrrNwShaQD1Dt6SQf/tzey/enOHsHzoUrOi7sT+lSLcKgVg
-         gnKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=D2xQiDloUPECELWlq78dtMk8sQX4Mz7K0pGe9yPKMGc=;
-        b=4SI9L3h5ALlCKLjzAGR1zNbDfUbpm80EUjSf6gU/EPN00Gg8g9psRIx+IufmfPgv3l
-         gX0izk5GDEhgusJMoBal7T3uut/EnztlLq9I5tIbUW5m6m6Q2DT5rdpx5DXTjbc4d/CU
-         31W7Mlxsr0LnPPGQ/HeotvDGQwPp6jVTr3+uIuhxSlbv/k5OP4kjk3Seo+lkGBtYzEVR
-         W3SYivjBgu2vqSWH5wP7lCG2pb/fm2MLsKJhVGJbGeh4IpVmyNr3CtupLJ4S/M7ILU6u
-         bOTEXo6oJENN+VvV80U2TXGxm7rdvSgFpmN8cE3AP6mhW2X6ICfK+mUH2k/ajLTtJgbj
-         7Rrg==
-X-Gm-Message-State: AJIora8Qnu4WzYr+Vj/EM4oQNvQX6gmpFEHgux0/v1qkdXNrhHz9V059
-        h8QHRvNO+O0Qgv2tRHH2rl28S1epAeQEdn3/Rzs5Nw==
-X-Google-Smtp-Source: AGRyM1tXi+AtbN0W0GHt4S5SYwxRiDa2yaE7kTT3Z77WdS2mulzizwZgd2HMwe6MD30K5Tf3EqxcjladfBlTrx+MSF0=
-X-Received: by 2002:a05:600c:4f84:b0:39c:9897:5295 with SMTP id
- n4-20020a05600c4f8400b0039c98975295mr172377wmq.158.1656455893181; Tue, 28 Jun
- 2022 15:38:13 -0700 (PDT)
+        Tue, 28 Jun 2022 19:11:51 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 091D12CC89;
+        Tue, 28 Jun 2022 16:11:50 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru [109.252.118.164])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id F409E66015BE;
+        Wed, 29 Jun 2022 00:11:45 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656457908;
+        bh=BA41yYfLT+6vyzRskX6cnhL0zlM1lLgsIKATGMY5aeM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ZS/cW2rfL9Ygb/l35nyWmuYV3/6ynQOsxbTwnftEsGGSL+CV6X5iR3BiH0Baf2cUQ
+         8c3bWg8pxfzCivOLh+LdND7yk9jyyoGLDdl2Pon3cDspMYvvdnQM42yIcxbuHt/LdZ
+         lkbyAFEv4eVhlK9GPp5PkIzmRZH73ALKqkhcTDLNKTbqQ9XdrdmWXnO3sGp/vqmw1h
+         ZyVarCa2UvULBPKqtgJ6vNI1NToR5rP+LfAhPZ2qZlVNJrCzv1NPPS058AhUfhROoG
+         IDY/2Zv20X+iWcV832GGsJcXQ4b9UQjL/wOTpzmovXmkAj0vFuOgMOH7rJZkakmZ+Z
+         KwZ2Xj4IHgezA==
+Message-ID: <ce214fb9-c1bb-42db-a777-ccce15af388b@collabora.com>
+Date:   Wed, 29 Jun 2022 02:11:42 +0300
 MIME-Version: 1.0
-References: <20220623220613.3014268-1-kaleshsingh@google.com>
- <20220623220613.3014268-2-kaleshsingh@google.com> <Yrrrz7MxMu8OoEPU@bfoster>
-In-Reply-To: <Yrrrz7MxMu8OoEPU@bfoster>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Tue, 28 Jun 2022 15:38:02 -0700
-Message-ID: <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
-To:     Brian Foster <bfoster@redhat.com>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Stephen Brennan <stephen.s.brennan@oracle.com>,
-        David.Laight@aculab.com, Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 00/22] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Qiang Yu <yuq825@gmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:VIRTIO GPU DRIVER" 
+        <virtualization@lists.linux-foundation.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-tegra@vger.kernel.org,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
         "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        <linaro-mm-sig@lists.linaro.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        kernel@collabora.com
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <49cc6f0c-e90e-8edd-52e7-4188620e2c28@arm.com>
+ <f77c1c2d-d9f9-db00-906a-ec10b535621d@collabora.com>
+ <CAF6AEGsQBcHbU6Ps5fp5v6ANaZwMAtig-3i-ekQzwG=7BBDNwA@mail.gmail.com>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <CAF6AEGsQBcHbU6Ps5fp5v6ANaZwMAtig-3i-ekQzwG=7BBDNwA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 4:54 AM Brian Foster <bfoster@redhat.com> wrote:
->
-> On Thu, Jun 23, 2022 at 03:06:06PM -0700, Kalesh Singh wrote:
-> > To be able to account the amount of memory a process is keeping pinned
-> > by open file descriptors add a 'size' field to fdinfo output.
-> >
-> > dmabufs fds already expose a 'size' field for this reason, remove this
-> > and make it a common field for all fds. This allows tracking of
-> > other types of memory (e.g. memfd and ashmem in Android).
-> >
-> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > ---
-> >
-> > Changes in v2:
-> >   - Add Christian's Reviewed-by
-> >
-> > Changes from rfc:
-> >   - Split adding 'size' and 'path' into a separate patches, per Christi=
-an
-> >   - Split fdinfo seq_printf into separate lines, per Christian
-> >   - Fix indentation (use tabs) in documentaion, per Randy
-> >
-> >  Documentation/filesystems/proc.rst | 12 ++++++++++--
-> >  drivers/dma-buf/dma-buf.c          |  1 -
-> >  fs/proc/fd.c                       |  9 +++++----
-> >  3 files changed, 15 insertions(+), 7 deletions(-)
-> >
-> ...
-> > diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> > index 913bef0d2a36..464bc3f55759 100644
-> > --- a/fs/proc/fd.c
-> > +++ b/fs/proc/fd.c
-> > @@ -54,10 +54,11 @@ static int seq_show(struct seq_file *m, void *v)
-> >       if (ret)
-> >               return ret;
-> >
-> > -     seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n"=
-,
-> > -                (long long)file->f_pos, f_flags,
-> > -                real_mount(file->f_path.mnt)->mnt_id,
-> > -                file_inode(file)->i_ino);
-> > +     seq_printf(m, "pos:\t%lli\n", (long long)file->f_pos);
-> > +     seq_printf(m, "flags:\t0%o\n", f_flags);
-> > +     seq_printf(m, "mnt_id:\t%i\n", real_mount(file->f_path.mnt)->mnt_=
-id);
-> > +     seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
-> > +     seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i_siz=
-e);
->
-> Hi Kalesh,
->
-> Any reason not to use i_size_read() here?
+On 6/28/22 19:48, Rob Clark wrote:
+> On Tue, Jun 28, 2022 at 5:51 AM Dmitry Osipenko
+> <dmitry.osipenko@collabora.com> wrote:
+>>
+>> On 6/28/22 15:31, Robin Murphy wrote:
+>>> ----->8-----
+>>> [   68.295951] ======================================================
+>>> [   68.295956] WARNING: possible circular locking dependency detected
+>>> [   68.295963] 5.19.0-rc3+ #400 Not tainted
+>>> [   68.295972] ------------------------------------------------------
+>>> [   68.295977] cc1/295 is trying to acquire lock:
+>>> [   68.295986] ffff000008d7f1a0
+>>> (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_shmem_free+0x7c/0x198
+>>> [   68.296036]
+>>> [   68.296036] but task is already holding lock:
+>>> [   68.296041] ffff80000c14b820 (fs_reclaim){+.+.}-{0:0}, at:
+>>> __alloc_pages_slowpath.constprop.0+0x4d8/0x1470
+>>> [   68.296080]
+>>> [   68.296080] which lock already depends on the new lock.
+>>> [   68.296080]
+>>> [   68.296085]
+>>> [   68.296085] the existing dependency chain (in reverse order) is:
+>>> [   68.296090]
+>>> [   68.296090] -> #1 (fs_reclaim){+.+.}-{0:0}:
+>>> [   68.296111]        fs_reclaim_acquire+0xb8/0x150
+>>> [   68.296130]        dma_resv_lockdep+0x298/0x3fc
+>>> [   68.296148]        do_one_initcall+0xe4/0x5f8
+>>> [   68.296163]        kernel_init_freeable+0x414/0x49c
+>>> [   68.296180]        kernel_init+0x2c/0x148
+>>> [   68.296195]        ret_from_fork+0x10/0x20
+>>> [   68.296207]
+>>> [   68.296207] -> #0 (reservation_ww_class_mutex){+.+.}-{3:3}:
+>>> [   68.296229]        __lock_acquire+0x1724/0x2398
+>>> [   68.296246]        lock_acquire+0x218/0x5b0
+>>> [   68.296260]        __ww_mutex_lock.constprop.0+0x158/0x2378
+>>> [   68.296277]        ww_mutex_lock+0x7c/0x4d8
+>>> [   68.296291]        drm_gem_shmem_free+0x7c/0x198
+>>> [   68.296304]        panfrost_gem_free_object+0x118/0x138
+>>> [   68.296318]        drm_gem_object_free+0x40/0x68
+>>> [   68.296334]        drm_gem_shmem_shrinker_run_objects_scan+0x42c/0x5b8
+>>> [   68.296352]        drm_gem_shmem_shrinker_scan_objects+0xa4/0x170
+>>> [   68.296368]        do_shrink_slab+0x220/0x808
+>>> [   68.296381]        shrink_slab+0x11c/0x408
+>>> [   68.296392]        shrink_node+0x6ac/0xb90
+>>> [   68.296403]        do_try_to_free_pages+0x1dc/0x8d0
+>>> [   68.296416]        try_to_free_pages+0x1ec/0x5b0
+>>> [   68.296429]        __alloc_pages_slowpath.constprop.0+0x528/0x1470
+>>> [   68.296444]        __alloc_pages+0x4e0/0x5b8
+>>> [   68.296455]        __folio_alloc+0x24/0x60
+>>> [   68.296467]        vma_alloc_folio+0xb8/0x2f8
+>>> [   68.296483]        alloc_zeroed_user_highpage_movable+0x58/0x68
+>>> [   68.296498]        __handle_mm_fault+0x918/0x12a8
+>>> [   68.296513]        handle_mm_fault+0x130/0x300
+>>> [   68.296527]        do_page_fault+0x1d0/0x568
+>>> [   68.296539]        do_translation_fault+0xa0/0xb8
+>>> [   68.296551]        do_mem_abort+0x68/0xf8
+>>> [   68.296562]        el0_da+0x74/0x100
+>>> [   68.296572]        el0t_64_sync_handler+0x68/0xc0
+>>> [   68.296585]        el0t_64_sync+0x18c/0x190
+>>> [   68.296596]
+>>> [   68.296596] other info that might help us debug this:
+>>> [   68.296596]
+>>> [   68.296601]  Possible unsafe locking scenario:
+>>> [   68.296601]
+>>> [   68.296604]        CPU0                    CPU1
+>>> [   68.296608]        ----                    ----
+>>> [   68.296612]   lock(fs_reclaim);
+>>> [   68.296622] lock(reservation_ww_class_mutex);
+>>> [   68.296633]                                lock(fs_reclaim);
+>>> [   68.296644]   lock(reservation_ww_class_mutex);
+>>> [   68.296654]
+>>> [   68.296654]  *** DEADLOCK ***
+>>
+>> This splat could be ignored for now. I'm aware about it, although
+>> haven't looked closely at how to fix it since it's a kind of a lockdep
+>> misreporting.
+> 
+> The lockdep splat could be fixed with something similar to what I've
+> done in msm, ie. basically just not acquire the lock in the finalizer:
+> 
+> https://patchwork.freedesktop.org/patch/489364/
+> 
+> There is one gotcha to watch for, as danvet pointed out
+> (scan_objects() could still see the obj in the LRU before the
+> finalizer removes it), but if scan_objects() does the
+> kref_get_unless_zero() trick, it is safe.
 
-Hi Brian.
+Nice, thank you!
 
-Thanks for pointing this out. You are right, we should use
-i_size_read() here. I'll update in the next version.
-
->
-> Also not sure if it matters that much for your use case, but something
-> worth noting at least with shmem is that one can do something like:
->
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:               764 kB
-> # xfs_io -fc "falloc -k 0 10m" ./file
-> # ls -alh file
-> -rw-------. 1 root root 0 Jun 28 07:22 file
-> # stat file
->   File: file
->   Size: 0               Blocks: 20480      IO Block: 4096   regular empty=
- file
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:             11004 kB
->
-> ... where the resulting memory usage isn't reflected in i_size (but is
-> is in i_blocks/bytes).
-
-I tried a similar experiment a few times, but I don't see the same
-results. In my case, there is not any change in shmem. IIUC the
-fallocate is allocating the disk space not shared memory.
-
-cat /proc/meminfo > meminfo.start
-xfs_io -fc "falloc -k 0 50m" ./xfs_file
-cat /proc/meminfo > meminfo.stop
-tail -n +1 meminfo.st* | grep -i '=3D=3D\|Shmem:'
-
-=3D=3D> meminfo.start <=3D=3D
-Shmem:               484 kB
-=3D=3D> meminfo.stop <=3D=3D
-Shmem:               484 kB
-
-ls -lh xfs_file
--rw------- 1 root root 0 Jun 28 15:12 xfs_file
-
-stat xfs_file
-  File: xfs_file
-  Size: 0               Blocks: 102400     IO Block: 4096   regular empty f=
-ile
-
-Thanks,
-Kalesh
-
->
-> Brian
->
-> >
-> >       /* show_fd_locks() never deferences files so a stale value is saf=
-e */
-> >       show_fd_locks(m, file, files);
-> > --
-> > 2.37.0.rc0.161.g10f37bed90-goog
-> >
->
+-- 
+Best regards,
+Dmitry
