@@ -2,107 +2,267 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0652A55EEF7
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 22:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 999E855EF08
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 22:14:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbiF1UNL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 16:13:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49808 "EHLO
+        id S231956AbiF1UOA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 16:14:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232038AbiF1UMh (ORCPT
+        with ESMTP id S230417AbiF1UNn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 16:12:37 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70FEC3C72E
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 13:05:35 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id p9so8608132ilj.7
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 13:05:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:references:cc:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=75Cd31PsyTJcozjJNlb/AonFcdI38SlWjCO+qmrpC3o=;
-        b=hh0gioswK5Bcw/aQH4egTOBXIZ+mnD7ya4lthxbHMPomUSSqjpbx5h5AOfLh02oHJB
-         U4a3582odVPZxoacCRQTm4ZapA+lQUVPJxnnDXj5RXIjNW8C1UkJee/spEOtJRjXJxxz
-         KZg+oc0GJF/PJNKP3YaxUNOobL/q0RcuMoNts=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=75Cd31PsyTJcozjJNlb/AonFcdI38SlWjCO+qmrpC3o=;
-        b=yxpuCuPzMimjGQ/Tzy9+qkLFECKhPEWNYb96yQzvvB5iLzjUBc6hDnfgEq7nYJau/b
-         v1hJE30mCQ8AtZB7Ik4HCv8uauCFMecxpF0q4MCRy7L+IFqQzDDOY9nnN9CUURdeMwSa
-         VEuJ88Yn9k2NygwKGUA6IcwEJZRx1LLYFl5Ewg+Y1fOGiBsHjxbcNRd2LcaHsxhomD2U
-         6qdrXJzs4ntTSO6dOq7qXyLgCgTHVGaD/If/ymJotE/OT2jrXaTzMjFUcVNeYuGa2LyG
-         Xo9P5JyOCqujqGP+7dY9ktdirSJel5xC9Mi2/Q+kplycWfUB6oBCTIkN/+uVZ0lvW3Yo
-         FnyA==
-X-Gm-Message-State: AJIora9RMs6sOu8dPRMvC70NgdPg+vQrYXoGREIgOxFxpLrG2LXT4s7q
-        8BVJ2ctdT0M8oMZHPiu6VzBnOGcSZoV2mA==
-X-Google-Smtp-Source: AGRyM1tkFnMAPGPONEX7LfX1j5CHVzsGCbVtI/cMVcyXt75A+f/2pTbtDh3a3lbvPi0TbEzkLddAjg==
-X-Received: by 2002:a05:6e02:1608:b0:2d9:3f3e:f0c4 with SMTP id t8-20020a056e02160800b002d93f3ef0c4mr12005848ilu.249.1656446734078;
-        Tue, 28 Jun 2022 13:05:34 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id w18-20020a6bd612000000b00674fe816f79sm6866762ioa.7.2022.06.28.13.05.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jun 2022 13:05:33 -0700 (PDT)
-Subject: Re: [PATCH 3/3] media: vimc: use data link entities enum to index the
- ent_config array
-To:     Daniel Oakley <daniel.oakley@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20220616100747.48124-1-daniel.oakley@ideasonboard.com>
- <20220616100747.48124-4-daniel.oakley@ideasonboard.com>
- <f676bf50-5aef-f06f-82f8-9c7a93e18656@linuxfoundation.org>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <d9719b46-36d6-7007-1c3f-9f9ed9d6595c@linuxfoundation.org>
-Date:   Tue, 28 Jun 2022 14:05:33 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Tue, 28 Jun 2022 16:13:43 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCD4D3D1C6;
+        Tue, 28 Jun 2022 13:06:24 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E028266015D7;
+        Tue, 28 Jun 2022 21:06:21 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656446783;
+        bh=TdZlXY7G4aJxyYrkgVpZR/A2OrB/GZvyCVaGoq3crDM=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=IwQoFKE+jbvGYpioi2//05gMO6BMaZNEfQDrNZ8X6vsCp6LjC5N8EpyeVkLvYyOLI
+         Q3IXefbiND18EkYGch4mJzZLPSh+nm0Cf5rF0ueeR5AjkTY1+XPRRyMYao1fiB/CRN
+         aHw6asS1dphbfqTS2e8a6o3B+BSTX+T53IFI9HiG8pNRcsgSVjimn1R+iu+lxRK8vz
+         sIpbesj5Ya4xlWpy5ARluGflBN85x3I6i5jsiJli31r/37WVfXgalS62Za8s2E4FVm
+         75O+vVuVeU1+x8BfhWXmb2cdhj+9CWRKjRxCu5bUcQ4k0QN0sr+RcVMtac1LWn930K
+         +E42L2hbAGobw==
+Message-ID: <5af02115c95f96116b161464d3be8a210dad9d97.camel@collabora.com>
+Subject: Re: [PATCH v2 3/7] media: hantro: postproc: Fix buffer size
+ calculation
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, benjamin.gaignard@collabora.com,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Date:   Tue, 28 Jun 2022 16:06:13 -0400
+In-Reply-To: <3180111.44csPzL39Z@jernej-laptop>
+References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
+         <20220616202513.351039-4-jernej.skrabec@gmail.com>
+         <YrskKxCDwSulaGJ5@eze-laptop> <3180111.44csPzL39Z@jernej-laptop>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 MIME-Version: 1.0
-In-Reply-To: <f676bf50-5aef-f06f-82f8-9c7a93e18656@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/16/22 8:31 AM, Shuah Khan wrote:
-> On 6/16/22 4:07 AM, Daniel Oakley wrote:
->> Future additions to the ent_config[] could break the association between
->> the index of the struct vimc_ent_config entries in the ent_config[] array,
->> and the index defined by the enum proposed in the previous patch. Using
->> designated initializers solves this by linking the 2 together clearly in
->> code and prevents the array not reflecting the enum. There is no
->> functional change intended.
->>
->> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->> Signed-off-by: Daniel Oakley <daniel.oakley@ideasonboard.com>
->> ---
->>   drivers/media/test-drivers/vimc/vimc-core.c | 22 ++++++++++-----------
->>   1 file changed, 11 insertions(+), 11 deletions(-)
->>
-> 
-> Thank you for the patch to improve code readability. Looks good to me.
-> 
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> 
-> thanks,
-> -- Shuah
+Le mardi 28 juin 2022 =C3=A0 18:13 +0200, Jernej =C5=A0krabec a =C3=A9crit=
+=C2=A0:
+> Dne torek, 28. junij 2022 ob 17:54:19 CEST je Ezequiel Garcia napisal(a):
+> > Hi Jernej,
+> >=20
+> > On Thu, Jun 16, 2022 at 10:25:09PM +0200, Jernej Skrabec wrote:
+> > > When allocating aux buffers for postprocessing, it's assumed that bas=
+e
+> > > buffer size is the same as that of output. Coincidentally, that's tru=
+e
+> > > most of the time, but not always. 10-bit source also needs aux buffer
+> > > size which is appropriate for 10-bit native format, even if the outpu=
+t
+> > > format is 8-bit. Similarly, mv sizes and other extra buffer size also
+> > > depends on source width/height, not destination.
+> > >=20
+> > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> >=20
+> > I took a new look at this patch.
+> >=20
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > ---
+> > >=20
+> > >  .../staging/media/hantro/hantro_postproc.c    | 24 +++++++++++++----=
+--
+> > >  drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
+> > >  drivers/staging/media/hantro/hantro_v4l2.h    |  2 ++
+> > >  3 files changed, 20 insertions(+), 8 deletions(-)
+> > >=20
+> > > diff --git a/drivers/staging/media/hantro/hantro_postproc.c
+> > > b/drivers/staging/media/hantro/hantro_postproc.c index
+> > > ab168c1c0d28..b77cc55e43ea 100644
+> > > --- a/drivers/staging/media/hantro/hantro_postproc.c
+> > > +++ b/drivers/staging/media/hantro/hantro_postproc.c
+> > > @@ -12,6 +12,7 @@
+> > >=20
+> > >  #include "hantro_hw.h"
+> > >  #include "hantro_g1_regs.h"
+> > >  #include "hantro_g2_regs.h"
+> > >=20
+> > > +#include "hantro_v4l2.h"
+> > >=20
+> > >  #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
+> > >  { \
+> > >=20
+> > > @@ -174,18 +175,27 @@ int hantro_postproc_alloc(struct hantro_ctx *ct=
+x)
+> > >=20
+> > >  	struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
+> > >  	struct vb2_queue *cap_queue =3D &m2m_ctx->cap_q_ctx.q;
+> > >  	unsigned int num_buffers =3D cap_queue->num_buffers;
+> > >=20
+> > > +	struct v4l2_pix_format_mplane pix_mp;
+> > > +	const struct hantro_fmt *fmt;
+> > >=20
+> > >  	unsigned int i, buf_size;
+> > >=20
+> > > -	buf_size =3D ctx->dst_fmt.plane_fmt[0].sizeimage;
+> > > +	/* this should always pick native format */
+> > > +	fmt =3D hantro_get_default_fmt(ctx, false);
+> >=20
+> > Clearly this is correct.
+> >=20
+> > When the driver enables the post-processor it decodes a coded format (H=
+264,
+> > etc.) to a native format (NV12_4L4 or P010_4L4) and feeds this into the
+> > postprocessor engine to produce some other format (YUYV, NV12, etc.).
+> >=20
+> > The buffers allocated here should be taken from the native format,
+> > so it's correct to use hantro_get_default_fmt().
+> >=20
+> > > +	if (!fmt)
+> > > +		return -EINVAL;
+> > > +	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
+> > > +			    ctx->src_fmt.height);
+> >=20
+> > The issue comes at this point, where we negotiate the buffer size based=
+ on
+> > the source size (OUTPUT queue size), instead of negotiating based
+> > on the Native size.
+> >=20
+> >   Coded -> [ Decoder ] -> Native -> [ Post-processor ] -> Decoded
+>=20
+> I'm not sure what is the difference between source and native size? You m=
+ean=20
+> one coded in controls and one set via output format? IMO they should alwa=
+ys be=20
+> the same, otherwise it can be considered a bug in userspace application.
 
-These 3 patches are now queued for vimc pull request for Linux 5.20-rc1
-to be send to Mauro Chehab.
+Indeed the src_fmt should use coded width/height (as per spec). The driver =
+will
+then adapt to its own requirement resulting into the "native" width height =
+being
+returned. Notice that s_ctrl() should fail in case of miss-match (this is C=
+ODEC
+specific), or streamon() should fail if the codec specific control have nev=
+er
+been set (as we always initialise this, it will fail due to default being a=
+n
+invalid value anyway).
 
-https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux.git/log/?h=vimc
+As a side effect, when userland read the default format (G_FMT(CAPTURE), th=
+e
+width/height should match the src_dst for this driver. This is the native s=
+ize.
+The optional path that this driver enables is enumeration of CAPTURE format=
+ and
+frame sizes, combined with to select from these. The driver will create a
+secondary set of buffers in the case.
 
-thanks,
--- Shuah
+Nicolas
+
+>=20
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > So, while the patch is surely improving things, I wonder if it won't
+> > cause other issues.
+> >=20
+> > This reminds me we are still lacking a more complete test-suite for thi=
+s
+> > driver, so that we can validate changes and ensure there are no
+> > regressions.
+> >=20
+> > Perhaps we could hack Fluster to not only test the conformance,
+> > but also test the post-processor?
+> >=20
+> > Thanks,
+> > Ezequiel
+> >=20
+> > > +
+> > > +	buf_size =3D pix_mp.plane_fmt[0].sizeimage;
+> > >=20
+> > >  	if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_H264_SLICE)
+> > >=20
+> > > -		buf_size +=3D hantro_h264_mv_size(ctx->dst_fmt.width,
+> > > -						ctx-
+> > dst_fmt.height);
+> > > +		buf_size +=3D hantro_h264_mv_size(pix_mp.width,
+> > > +					=09
+> pix_mp.height);
+> > >=20
+> > >  	else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_VP9_FRAME)
+> > >=20
+> > > -		buf_size +=3D hantro_vp9_mv_size(ctx->dst_fmt.width,
+> > > -					       ctx-
+> > dst_fmt.height);
+> > > +		buf_size +=3D hantro_vp9_mv_size(pix_mp.width,
+> > > +					       pix_mp.height);
+> > >=20
+> > >  	else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_HEVC_SLICE)
+> > >=20
+> > > -		buf_size +=3D hantro_hevc_mv_size(ctx->dst_fmt.width,
+> > > -						ctx-
+> > dst_fmt.height);
+> > > +		buf_size +=3D hantro_hevc_mv_size(pix_mp.width,
+> > > +					=09
+> pix_mp.height);
+> > >=20
+> > >  	for (i =3D 0; i < num_buffers; ++i) {
+> > >  =09
+> > >  		struct hantro_aux_buf *priv =3D &ctx->postproc.dec_q[i];
+> > >=20
+> > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c
+> > > b/drivers/staging/media/hantro/hantro_v4l2.c index
+> > > 334f18a4120d..2c7a805289e7 100644
+> > > --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> > > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> > > @@ -118,7 +118,7 @@ hantro_find_format(const struct hantro_ctx *ctx, =
+u32
+> > > fourcc)>=20
+> > >  	return NULL;
+> > > =20
+> > >  }
+> > >=20
+> > > -static const struct hantro_fmt *
+> > > +const struct hantro_fmt *
+> > >=20
+> > >  hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
+> > >  {
+> > > =20
+> > >  	const struct hantro_fmt *formats;
+> > >=20
+> > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.h
+> > > b/drivers/staging/media/hantro/hantro_v4l2.h index
+> > > b17e84c82582..64f6f57e9d7a 100644
+> > > --- a/drivers/staging/media/hantro/hantro_v4l2.h
+> > > +++ b/drivers/staging/media/hantro/hantro_v4l2.h
+> > > @@ -23,5 +23,7 @@ extern const struct vb2_ops hantro_queue_ops;
+> > >=20
+> > >  void hantro_reset_fmts(struct hantro_ctx *ctx);
+> > >  int hantro_get_format_depth(u32 fourcc);
+> > >=20
+> > > +const struct hantro_fmt *
+> > > +hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)=
+;
+> > >=20
+> > >  #endif /* HANTRO_V4L2_H_ */
+>=20
+>=20
+>=20
+>=20
+
