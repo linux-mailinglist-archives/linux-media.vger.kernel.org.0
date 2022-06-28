@@ -2,265 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB7FB55C715
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 14:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A23B55CE85
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:05:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343747AbiF1HFK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 03:05:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42006 "EHLO
+        id S242948AbiF1H5m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 03:57:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343709AbiF1HFH (ORCPT
+        with ESMTP id S243712AbiF1H50 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 03:05:07 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2632728E14
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 00:04:35 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id fd6so16166972edb.5
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 00:04:35 -0700 (PDT)
+        Tue, 28 Jun 2022 03:57:26 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01D8A1B786
+        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 00:57:25 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-317765eb7ccso97827527b3.13
+        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 00:57:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=yWK2i+HyLRsoCZd+vTN29Q2YEjkKWRk+CQpa4XDa6BY=;
-        b=fOgLokJSTExyqOjCNm2VxyMHWEQDeV705+1o1af5yokGij64Z4nDxITK+ZMbEIQBvr
-         KgRmUxfl4VAjrnmHrMA6gG6pEsTaZ1VajlmM9lTd1dNtH8YtPH4lR5ZTHMnCbrcPa4BF
-         C3K8hGaPWmIOCmCkmsURro6qKh7wd2fmlZXZg=
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=4cS0V6zPUcG0dtGWhSVjGZTgbzblPxHVzGk2natZUFI=;
+        b=mCr1guAA7+0qR6WgmVGqFlqC7+kbsnpKXRkP7yKzxBqunhHncTpQZ7Jim5OQofW5pd
+         vlbOXkMDWOXP0CDMW5DcWS5RjaUNyhDB4HXUatRgp9GkOCxPZQQpIDVNLBwi6tkgdjuQ
+         yv4PfwtwzGr4CHe7JGeOUeHa4NTnLaLxy47gZ6yfL0nduJmhqf2eMJJcb/+YDybsxDO2
+         sa8w7uYEP6RCM4eclN11U5jlMqkj3PBmt4rUAsJ8QbQhN84TGchnu8/Xpl/CzESpLovu
+         1Zu50YZMVf2VtqagheC9dWRtqNvXEXxbFGTSJgm5FrVeHYq+QwpulurC0dJskQuQPF7N
+         gIUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yWK2i+HyLRsoCZd+vTN29Q2YEjkKWRk+CQpa4XDa6BY=;
-        b=OFO9vTeLX1Yo4tgXGJjbWhziHusDoRicUGPzqzDDtQljpeQkrdcLsblk0rxODx2dUQ
-         mzYX+BZr2qYSFi729pkBhtZUApU6CJm09lN0EDoiY10mg+MhrKyS0b/htGgATJbaz3PZ
-         8N0BlqfXcslHhaSw6oqOvKd2REx81s3+hU7NZvnpjPTehZGn+5ErDX3GFlrLAgICGZbQ
-         BjxKMyl5vIhSNq7Ef18WG4bmIU5h6f/Hec8dVUSTN71p2c4cohZ/AvpDcDHpGB9XWRQJ
-         l48qsEIMCcFX+Qqchw3apg7AAGbkttyFBvR1xjsfGL9Cj8dl0vn1/fUeOz/gFG1awux6
-         sptg==
-X-Gm-Message-State: AJIora+csfBVZXEWLXOpA7gUqvyt3vIb+byRQzUD3VH4XL0UCvirRMYN
-        jmtD0DCa2JmKW98SZFybrAHcTs2BLFgz9wF9lqpkZA==
-X-Google-Smtp-Source: AGRyM1t7TY1dIg6Bf+r11jbnnZRsYTZLxxtxdnijV+IZHWl/hdOH3aSsx56n1VZxEycMGDqZVRkU6+QDg1Pc/5XcKZ4=
-X-Received: by 2002:a05:6402:1cad:b0:437:8234:fdff with SMTP id
- cz13-20020a0564021cad00b004378234fdffmr14575130edb.99.1656399873651; Tue, 28
- Jun 2022 00:04:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220627112402.2332046-1-wenst@chromium.org> <20220627112402.2332046-2-wenst@chromium.org>
- <f5e68826df868ae5a3cd5737fd9d7f7683bbad73.camel@collabora.com>
- <CAGXv+5GA04LBN0bnLDdL8g_+_8HXpc-KwtPxpXyXi_WgUOPrtQ@mail.gmail.com> <f05953a93fb8f250f4da7c3384b6e1c43c7b1605.camel@collabora.com>
-In-Reply-To: <f05953a93fb8f250f4da7c3384b6e1c43c7b1605.camel@collabora.com>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Tue, 28 Jun 2022 15:04:22 +0800
-Message-ID: <CAGXv+5G-C1S3HKiMx5CjS_qqKN7kj+QfswG+u_O5sE4YAxZmYg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: mediatek: vcodec: dec: Fix 4K frame size enumeration
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=4cS0V6zPUcG0dtGWhSVjGZTgbzblPxHVzGk2natZUFI=;
+        b=gIIHYAwPdIv7fqYzKNWcLeIFj2WqRmiyDMUrVGElC3WR7bqRjLfWvpr90Av/MmkjWA
+         CCXe1YHOWTPvIt+ZHCX6nmH8CaRqcUrX6gM92xOUB2Ewc/QjS7PxC2e+a8pIEF7DYUko
+         G+UsdgzOFGNcG19XndJXQQSsOOK5cYnAVIRsqCdX6YLYGckeMdfTqvrx+VvOWtTnlqoU
+         zP0pKddHkcxy2X+m/b9g46K711Pd02IWNHFuOLImCzOsJqPsXzxN1x9eC8dheJpXzeJl
+         l8tHphJMMCGyXcKnOsu3H2QJ7HNHP9Ntuqho1wbDJlbfL9F1pdcZighgdYXtzNbHzMZJ
+         t5bw==
+X-Gm-Message-State: AJIora/LEcojvD5lqz+VfoRXxmsFcHj2XeU0l00G7HoWR7+71mUuF22O
+        Q0ObvcBZl2WDCpJbp8zN0pL1BHeMtVM=
+X-Google-Smtp-Source: AGRyM1vvZlVbUex4RjKMJHbBm3R9RSWTfZEJf34K2m64FYSQL3TcC/t1di6JajL3fGxgqdMRLQpJVkH8Y9A=
+X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:983d:14d6:e059:135f])
+ (user=yunkec job=sendgmr) by 2002:a25:428e:0:b0:66c:9ca8:565f with SMTP id
+ p136-20020a25428e000000b0066c9ca8565fmr14075842yba.650.1656403044290; Tue, 28
+ Jun 2022 00:57:24 -0700 (PDT)
+Date:   Tue, 28 Jun 2022 16:56:58 +0900
+Message-Id: <20220628075705.2278044-1-yunkec@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+Subject: [PATCH v7 0/7] media: Implement UVC v1.5 ROI
+From:   Yunke Cao <yunkec@google.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org, Yunke Cao <yunkec@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 3:28 AM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> Le mardi 28 juin 2022 =C3=A0 00:08 +0800, Chen-Yu Tsai a =C3=A9crit :
-> > On Mon, Jun 27, 2022 at 11:32 PM Nicolas Dufresne
-> > <nicolas.dufresne@collabora.com> wrote:
-> > >
-> > > Hi Chen-Yu,
-> > >
-> > > Le lundi 27 juin 2022 =C3=A0 19:23 +0800, Chen-Yu Tsai a =C3=A9crit :
-> > > > This partially reverts commit b018be06f3c7 ("media: mediatek: vcode=
-c:
-> > > > Read max resolution from dec_capability"). In this commit, the maxi=
-mum
-> > > > resolution ended up being a function of both the firmware capabilit=
-y and
-> > > > the current set format.
-> > > >
-> > > > However, frame size enumeration for output (coded) formats should n=
-ot
-> > > > depend on the format set, but should return supported resolutions f=
-or
-> > > > the format requested by userspace.
-> > >
-> > > Good point. Though, I don't see any special casing for the CAPTURE ca=
-se. As this
-> > > HW does not include a scaler, it must only return 1 resolution when b=
-eing
-> > > enumerated for CAPTURE side (or not implement that enumeration, but i=
-ts
-> > > complicated to half implement something in m2m). The return unique si=
-ze should
-> > > match what G_FMT(CAPTURE) would return.
-> >
-> > There are no frame sizes added for the capture formats, so this functio=
-n
-> > effectively returns -EINVAL for any of them. This is also what rkvdec
-> > does: it only looks through the list of coded formats.
->
-> This is effectively against the spec, ENOTTY would be the only alternativ=
-e to
-> not implementing both sides. Though, I'll agree with you, this bugs preda=
-tes
-> anything here. Perhaps you could at add MM21 to the switch and returns EN=
-OTTY
-> there ?
+This patch set implements UVC v1.5 region of interest using V4L2
+control API.
 
-I think you are slightly misreading the code? The switch/case is in the
-function that adds supported formats, not the ioctl callback.
+ROI control is consisted two uvc specific controls.
+1. A rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
+2. An auto control with type bitmask.
 
-But yeah, I can have the enum_framesizes callback match against capture
-formats and return -ENOTTY for them.
+V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
 
-For unmatched formats, either capture or output, is it still correct
-to return -EINVAL?
+Tested on two different usb cameras using v4l2-compliance, v4l2-ctl
+and calling ioctls.
 
-> >
-> > Also, struct v4l2_frmsizeenum does not have a field saying whether it's
-> > capture or output side; it simply specifies a pixel format.
->
-> Acked.
->
-> >
-> > >
-> > > >
-> > > > Fix this so that the driver returns the supported resolutions corre=
-ctly,
-> > > > even if the instance only has default settings, or if the output fo=
-rmat
-> > > > is currently set to VP8F, which does not support 4K.
-> > > >
-> > > > Fixes: b018be06f3c7 ("media: mediatek: vcodec: Read max resolution =
-from dec_capability")
-> > > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > > ---
-> > > >  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c    | 2 --
-> > > >  .../platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c    | 7 +++=
-++++
-> > > >  2 files changed, 7 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.=
-c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > > > index 5d6fdf18c3a6..fcb4b8131c49 100644
-> > > > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > > > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > > > @@ -595,8 +595,6 @@ static int vidioc_enum_framesizes(struct file *=
-file, void *priv,
-> > > >               fsize->type =3D V4L2_FRMSIZE_TYPE_STEPWISE;
-> > > >               fsize->stepwise =3D dec_pdata->vdec_framesizes[i].ste=
-pwise;
-> > > >
-> > > > -             fsize->stepwise.max_width =3D ctx->max_width;
-> > > > -             fsize->stepwise.max_height =3D ctx->max_height;
-> > > >               mtk_v4l2_debug(1, "%x, %d %d %d %d %d %d",
-> > > >                               ctx->dev->dec_capability,
-> > > >                               fsize->stepwise.min_width,
-> > > > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_=
-stateless.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_statele=
-ss.c
-> > > > index 16d55785d84b..9a4d3e3658aa 100644
-> > > > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_statele=
-ss.c
-> > > > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_statele=
-ss.c
-> > > > @@ -360,6 +360,13 @@ static void mtk_vcodec_add_formats(unsigned in=
-t fourcc,
-> > > >
-> > > >               mtk_vdec_framesizes[count_framesizes].fourcc =3D four=
-cc;
-> > > >               mtk_vdec_framesizes[count_framesizes].stepwise =3D st=
-epwise_fhd;
-> > > > +             if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K=
-_DISABLED) &&
-> > > > +                 fourcc !=3D V4L2_PIX_FMT_VP8_FRAME) {
-> > > > +                     mtk_vdec_framesizes[count_framesizes].stepwis=
-e.max_width =3D
-> > > > +                             VCODEC_DEC_4K_CODED_WIDTH;
-> > > > +                     mtk_vdec_framesizes[count_framesizes].stepwis=
-e.max_height =3D
-> > > > +                             VCODEC_DEC_4K_CODED_HEIGHT;
-> > > > +             }
-> > >
-> > > I don't particularly like to see this special cased check being added=
- into
-> > > multiple places. Its also in your patch 2, and I think it exist in a =
-third
-> > > place. Could it be possible to have an internal helper to ensure we d=
-on't
-> >
-> > It's also in s_fmt(), so touched on in patch 4. I could also rewrite it=
- so
-> > only this spot has the special case, and all the other places look thou=
-gh
-> > mtk_vdec_framesizes to get the maximum, like what I did for try_fmt in
-> > patch 3. What do you think?
->
-> I don't have a strong opinion, could be a totally internal (and unrelated=
- to any
-> ioctl naming) helper that does the right thing.
+1/7 add V4L2_CTRL_TYPE_RECT.
+2/7 and 3/7 support compound types in UVC.
+4/7 implement ROI in UVC.
+5/7 is a cherry-pick for Hans' implementation of
+V4L2_CTRL_WHICH_MIN/MAX_VAL in v4l2-core.
+6/7 support MIN/MAX in UVC.
+7/7 document the changes.
 
-According to offline discussions in chat, and looking at the code again,
-it seems we can get rid of ctx->max_{width,height} altogether.
+Changelog since v6:
+-Add patch 2 and 3 to support compound types properly in UVC and
+implement ROI on top of them.
+-Reorder the patches.
 
-The check will only exist in mtk_vcodec_add_formats(), and the resolution
-clamping will only happen in the try_fmt callback.
+Changelog since v5:
+-Add a __uvc_ctrl_get_p_rect_to_user instead of modifying
+ __uvc_ctrl_get.
+-Support V4L2_CTRL_FLAG_NEXT_COMPOUND correctly.
+-Fix formats.
 
-ChenYu
+Changelog since v4:
+-Cherry-pick the original patch
+ "v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL".
+-Split patch "media: uvcvideo: implement UVC v1.5 ROI" into two patches.
+ The codes for supporting min/max in uvc are in patch 4/5 now.
+-Minor fixes. Detailed changelog in patches
 
-> >
-> > Ultimately I think it would be better to move framesizes into the
-> > (driver-specific) pixel format data structure. That is a bigger refacto=
-ring
-> > than a simple fix though.
->
-> Agreed.
->
-> >
-> > > duplicate this logic ? Somehow, it seems there is something in common=
- between
-> > > set_default, try_fmt and this code.
-> >
-> > Yes. That is what I mentioned in chat about refactoring the ioctls and =
-format
-> > handling code. set_default should really not set anything format specif=
-ic,
-> > but instead call set_fmt with a default format.
->
-> So if this could have a simple helper that returns the max width/height f=
-or the
-> specified format and HW capability, I'm then fine with the series. If you=
- can
-> change the EINVAL (which means nothing is supported) into ENOTTY for the =
-MM21
-> case, I'd also be more confortable (even though still a bit odd, but no l=
-onger a
-> lie).
->
-> regards,
-> Nicolas
->
-> >
-> >
-> > Regards
-> > ChenYu
-> >
-> > >
-> > > >               num_framesizes++;
-> > > >               break;
-> > > >       case V4L2_PIX_FMT_MM21:
-> > >
->
+Changelog since v3:
+- Reordered/sliced the patches.
+  1. Add rect type.
+  2. Add min/max.
+  3. Add the roi controls (including init to default).
+  4. Document the roi controls.
+- Define the roi controls as uvc-specific in uvcvideo.h.
+- Modified documentation.
+- Removed the vivid change. Given the controls are now uvc-specific.
+  I'm not sure how valuable it is to add it in vivid. Let me know
+  otherwise.
+
+Hans Verkuil (1):
+  v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
+
+Yunke Cao (6):
+  media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+  media: uvcvideo: add uvc_ctrl_get_fixed for getting default value
+  media: uvcvideo: Add support for compound controls
+  media: uvcvideo: implement UVC v1.5 ROI
+  media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
+  media: uvcvideo: document UVC v1.5 ROI
+
+ .../userspace-api/media/drivers/uvcvideo.rst  |  61 +++
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  11 +-
+ .../media/videodev2.h.rst.exceptions          |   3 +
+ drivers/media/i2c/imx214.c                    |   5 +-
+ .../media/platform/qcom/venus/venc_ctrls.c    |   4 +
+ drivers/media/usb/uvc/uvc_ctrl.c              | 479 ++++++++++++++++--
+ drivers/media/usb/uvc/uvc_v4l2.c              |  20 +-
+ drivers/media/usb/uvc/uvcvideo.h              |  14 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      |  51 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 155 +++++-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
+ include/media/v4l2-ctrls.h                    |  34 +-
+ include/uapi/linux/usb/video.h                |   1 +
+ include/uapi/linux/uvcvideo.h                 |  13 +
+ include/uapi/linux/v4l2-controls.h            |   8 +
+ include/uapi/linux/videodev2.h                |   4 +
+ 16 files changed, 788 insertions(+), 79 deletions(-)
+
+-- 
+2.37.0.rc0.161.g10f37bed90-goog
+
