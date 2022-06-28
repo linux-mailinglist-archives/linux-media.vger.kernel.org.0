@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEFF155E3C7
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:38:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FC8555E411
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345979AbiF1MvY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 08:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46342 "EHLO
+        id S1345222AbiF1NL0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 09:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345976AbiF1MvT (ORCPT
+        with ESMTP id S245441AbiF1NLR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 08:51:19 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EDCB29CA2;
-        Tue, 28 Jun 2022 05:51:18 -0700 (PDT)
+        Tue, 28 Jun 2022 09:11:17 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD47645A;
+        Tue, 28 Jun 2022 06:11:15 -0700 (PDT)
 Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru [109.252.118.164])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7ABBC6601856;
-        Tue, 28 Jun 2022 13:51:14 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 714326601856;
+        Tue, 28 Jun 2022 14:11:10 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656420677;
-        bh=QW35y0ngxo74XEIz+a+5lGVgqnaeMkyQSyje1iFHTww=;
+        s=mail; t=1656421873;
+        bh=KNSZUjyY4CuF71/A7Usafn7IJCqpjpqnNb+s/bjmhpM=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=VIJvhDUJcm5yDx9PlWKbGQ74WtOgaDIRlnuWjRl3RSZ92ypNqOuh2I3bpjSz7OH4H
-         JGvnNJC8zmFqC7hT5uFxiAW5Dx635g6KUOblvf4uNCAiNufzsiyVGYH0HJTP6nChNV
-         uH74sFdDAuum+u5SJdOOqnitGC6cxSx+PBAfF6ZBFwIz6UCVPzpKzW6K802UU551PJ
-         9gd/kmz/LZafsmptA87YaQCQzcdNPvE77r/6v9FAzKaet4EK+0nCX6vqvEl0rlf6Gm
-         x1dq3kWwXK4S3yHxdJSm0xbxWEB4B/hMoLiQTHj6uc6GXhuywUCwPy1p9MPet+qr/A
-         GRvQWmyiyl8nA==
-Message-ID: <17318333-d9b1-9184-4147-7e3123a6fccb@collabora.com>
-Date:   Tue, 28 Jun 2022 15:51:11 +0300
+        b=JVdCL4pOrZRjPYlW1sSxr0ov8MYwr/h/jFUMEmO4yZZL0Thh0VqUNftTIaNvUwEmY
+         myolbgF/rRAWBiGj8as5x4lXrPgfvowspQRix7IvWX3ujENW9n/A9RgofDbIFplpJ1
+         XKBUEiGyhohLkxg095z15R9kLoSIzKX7UR4GwSE03H/Wl5+upu3XGKE9fggwC3rLAJ
+         YwztUDyhr9vdUcLY8PyCIUcj0FTuvMwiQySOEZvk1YLzw5WODsuuCzO2945ZS6eOcK
+         kbjoe/4U6aWPVrza0Q6OS9hOE9m0uzU59dItxkwobNx4NGuRgKEN7SpAkBhFBnLjES
+         o9MoSYPi5XeiA==
+Message-ID: <8c5d3cb0-70fa-81a7-33a2-50f45bf8f40e@collabora.com>
+Date:   Tue, 28 Jun 2022 16:11:07 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
@@ -82,7 +82,7 @@ References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
 From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
 In-Reply-To: <49cc6f0c-e90e-8edd-52e7-4188620e2c28@arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -93,64 +93,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello Robin,
+
 On 6/28/22 15:31, Robin Murphy wrote:
-> [  100.511411]
-> ==================================================================
-> [  100.511419] BUG: KASAN: use-after-free in irq_work_single+0xa4/0x110
-> [  100.511445] Write of size 4 at addr ffff0000107f5830 by task
-> glmark2-es2-drm/280
-> [  100.511458]
-> [  100.511464] CPU: 1 PID: 280 Comm: glmark2-es2-drm Not tainted
-> 5.19.0-rc3+ #400
-> [  100.511479] Hardware name: ARM LTD ARM Juno Development Platform/ARM
-> Juno Development Platform, BIOS EDK II Sep  3 2019
-> [  100.511489] Call trace:
-> [  100.511494]  dump_backtrace+0x1e4/0x1f0
-> [  100.511512]  show_stack+0x20/0x70
-> [  100.511523]  dump_stack_lvl+0x8c/0xb8
-> [  100.511543]  print_report+0x16c/0x668
-> [  100.511559]  kasan_report+0x80/0x208
-> [  100.511574]  kasan_check_range+0x100/0x1b8
-> [  100.511590]  __kasan_check_write+0x34/0x60
-> [  100.511607]  irq_work_single+0xa4/0x110
-> [  100.511619]  irq_work_run_list+0x6c/0x88
-> [  100.511632]  irq_work_run+0x28/0x48
-> [  100.511644]  ipi_handler+0x254/0x468
-> [  100.511664]  handle_percpu_devid_irq+0x11c/0x518
-> [  100.511681]  generic_handle_domain_irq+0x50/0x70
-> [  100.511699]  gic_handle_irq+0xd4/0x118
-> [  100.511711]  call_on_irq_stack+0x2c/0x58
-> [  100.511725]  do_interrupt_handler+0xc0/0xc8
-> [  100.511741]  el1_interrupt+0x40/0x68
-> [  100.511754]  el1h_64_irq_handler+0x18/0x28
-> [  100.511767]  el1h_64_irq+0x64/0x68
-> [  100.511778]  irq_work_queue+0xc0/0xd8
-> [  100.511790]  drm_sched_entity_fini+0x2c4/0x3b0
-> [  100.511805]  drm_sched_entity_destroy+0x2c/0x40
-> [  100.511818]  panfrost_job_close+0x44/0x1c0
-> [  100.511833]  panfrost_postclose+0x38/0x60
-> [  100.511845]  drm_file_free.part.0+0x33c/0x4b8
-> [  100.511862]  drm_close_helper.isra.0+0xc0/0xd8
-> [  100.511877]  drm_release+0xe4/0x1e0
-> [  100.511891]  __fput+0xf8/0x390
-> [  100.511904]  ____fput+0x18/0x28
-> [  100.511917]  task_work_run+0xc4/0x1e0
-> [  100.511929]  do_exit+0x554/0x1168
-> [  100.511945]  do_group_exit+0x60/0x108
-> [  100.511960]  __arm64_sys_exit_group+0x34/0x38
-> [  100.511977]  invoke_syscall+0x64/0x180
-> [  100.511993]  el0_svc_common.constprop.0+0x13c/0x170
-> [  100.512012]  do_el0_svc+0x48/0xe8
-> [  100.512028]  el0_svc+0x5c/0xe0
-> [  100.512038]  el0t_64_sync_handler+0xb8/0xc0
-> [  100.512051]  el0t_64_sync+0x18c/0x190
-> [  100.512064]
+>> Hello,
+>>
+>> This patchset introduces memory shrinker for the VirtIO-GPU DRM driver
+>> and adds memory purging and eviction support to VirtIO-GPU driver.
+>>
+>> The new dma-buf locking convention is introduced here as well.
+>>
+>> During OOM, the shrinker will release BOs that are marked as "not needed"
+>> by userspace using the new madvise IOCTL, it will also evict idling BOs
+>> to SWAP. The userspace in this case is the Mesa VirGL driver, it will
+>> mark
+>> the cached BOs as "not needed", allowing kernel driver to release memory
+>> of the cached shmem BOs on lowmem situations, preventing OOM kills.
+>>
+>> The Panfrost driver is switched to use generic memory shrinker.
+> 
+> I think we still have some outstanding issues here - Alyssa reported
+> some weirdness yesterday, so I just tried provoking a low-memory
+> condition locally with this series applied and a few debug options
+> enabled, and the results as below were... interesting.
 
-This one shall be fixed by [1] that is not in the RC kernel yet, please
-use linux-next.
+The warning and crash that you got actually are the minor issues.
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20220628&id=7d64c40a7d96190d9d06e240305389e025295916
+Alyssa caught an interesting PREEMPT_DEBUG issue in the shrinker that I
+haven't seen before.
+
+She is also experiencing another problem in the Panfrost driver with a
+bad shmem pages (I think). It is unrelated to this patchset and
+apparently require an extra setup for the reproduction.
 
 -- 
 Best regards,
