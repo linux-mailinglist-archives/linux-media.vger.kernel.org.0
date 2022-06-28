@@ -2,100 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE5255C814
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 14:55:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E543F55DF39
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:30:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236539AbiF1KWO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 06:22:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53946 "EHLO
+        id S244063AbiF1KYa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 06:24:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239882AbiF1KWJ (ORCPT
+        with ESMTP id S239377AbiF1KY3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 06:22:09 -0400
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CAEDCD
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 03:22:08 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 963E9240012;
-        Tue, 28 Jun 2022 10:22:05 +0000 (UTC)
-Date:   Tue, 28 Jun 2022 12:22:03 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-imx@nxp.com, kernel@pengutronix.de
-Subject: Re: [PATCH 2/7] media: v4l2-tpg: Add support for the new YUVA and
- YUVX formats
-Message-ID: <20220628102203.fsckmflch5tvprt6@uno.localdomain>
-References: <20220616183656.19089-1-laurent.pinchart@ideasonboard.com>
- <20220616183656.19089-3-laurent.pinchart@ideasonboard.com>
+        Tue, 28 Jun 2022 06:24:29 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F4030570
+        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 03:24:28 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o68OR-005cZu-3D; Tue, 28 Jun 2022 10:24:27 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o68OO-001aEB-9V; Tue, 28 Jun 2022 10:24:24 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v5.19] rkvdec: Disable H.264 error detection (#84395)
+Date:   Tue, 28 Jun 2022 10:24:24 +0000
+Message-Id: <20220628102424.377541-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <12cf7d53-232a-0ec6-7e05-d91e5c041c33@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220616183656.19089-3-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+From: builder@linuxtv.org
 
-On Thu, Jun 16, 2022 at 09:36:51PM +0300, Laurent Pinchart wrote:
-> Extend the TPG to support generating the newly added YUVA and YUVX pixel
-> formats.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/12cf7d53-232a-0ec6-7e05-d91e5c041c33@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/220310/
+Build time: 00:17:08
+Link: https://lore.kernel.org/linux-media/12cf7d53-232a-0ec6-7e05-d91e5c041c33@xs4all.nl
 
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+gpg: Signature made Tue 28 Jun 2022 10:00:02 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-Thanks
-   j
+Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-> ---
->  drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-> index 7607b516a7c4..29d24f8d7c28 100644
-> --- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-> +++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-> @@ -266,6 +266,8 @@ bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc)
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		tpg->color_enc = TGP_COLOR_ENC_YCBCR;
->  		break;
->  	case V4L2_PIX_FMT_YUV420M:
-> @@ -412,6 +414,8 @@ bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc)
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  	case V4L2_PIX_FMT_HSV32:
->  		tpg->twopixelsize[0] = 2 * 4;
->  		break;
-> @@ -1376,9 +1380,11 @@ static void gen_twopix(struct tpg_data *tpg,
->  		buf[0][offset + 3] = b_v;
->  		break;
->  	case V4L2_PIX_FMT_RGBX32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		alpha = 0;
->  		fallthrough;
->  	case V4L2_PIX_FMT_RGBA32:
-> +	case V4L2_PIX_FMT_YUVA32:
->  		buf[0][offset] = r_y_h;
->  		buf[0][offset + 1] = g_u_s;
->  		buf[0][offset + 2] = b_v;
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Error/warnings:
+
+patches/0001-media-rkvdec-Disable-H.264-error-detection.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000012Kb sm_state_count = 543759
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 8 seconds
+
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5517 cx23885_dif_setup() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1725875
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 49 seconds
+	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2878 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+
+Error #512 when building PDF docs
+
