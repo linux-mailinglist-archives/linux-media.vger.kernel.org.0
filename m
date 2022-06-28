@@ -2,68 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB74555E74F
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 18:32:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B476B55EA28
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 18:53:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236514AbiF1QWm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 12:22:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44272 "EHLO
+        id S233192AbiF1Quu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 12:50:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236537AbiF1QWG (ORCPT
+        with ESMTP id S1347322AbiF1Qtt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 12:22:06 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6629E37AB6;
-        Tue, 28 Jun 2022 09:13:40 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id fi2so26768216ejb.9;
-        Tue, 28 Jun 2022 09:13:40 -0700 (PDT)
+        Tue, 28 Jun 2022 12:49:49 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E5F237CC;
+        Tue, 28 Jun 2022 09:47:57 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id q9so18554206wrd.8;
+        Tue, 28 Jun 2022 09:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6Lx7tM7FvIRfnZKu78o7ZdG3s890VbwgJIMpBDQ1SB8=;
-        b=VWAFcug2fFdI2e8F8vBX6YDg0MzYOgFQTojwHJWJ8Jr/LwsxBu2ry4BIYLQNn/DbRD
-         IawwZNF/NMwS25ujAFZZbbdtB5MRhCmyJRnrrY7ONIAe9dtloYM4ctvGRv4L80xrj/P9
-         JjvO5VGg8TfMfjl0u69r2fWoT25FadBtqQtwMNZJZmanyDjNQDgZLPoFKFM5nGkeiw4W
-         s/1g+gD7LXQ/5Ut1e0a7dyvUXvz2VbmUXsvSng1J708ae0OEbXLAADwnUCFTUpMHxEZq
-         GYbhu8rC+xSYmRInlEKW7eTekO2xkOHI08O6aO0nPLse2EnNqESI2Buip6b0qEWCsdpK
-         JaoQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=n3HZDcdfLwNiQ/tf7zCGAV+A8ooVMIqgPIQ28MjTeog=;
+        b=e3zeLjiXoUYC1IVaQKWrsc2qKrKVYQG+FiwqsRzNz/YxbDT0nHSgZ8eR2tVfrLi0Hs
+         5GLXKpxS/5dpbABkwwBi+kl4n0khKod1v0GPWJ89X1h3TNUjfC7RS4740ITfxK5/nbrh
+         SHkGrTqHNILhXqHROw320nvIeM2Nre2164Aj2miAgQcaKDnte8RFr2pkEHfcg3h7Vbln
+         87QzWotvsNkfT2Db3zhU9670nwzLrALbqwb/9ZXx2DFpvoAA8Xva7TAYCeAEhYv0BfZt
+         Gn6YjailqEcJJ+mqGAUnmO0/+pJ+0fHuqqBi12yhe5oQnxR7ZUa+HprAzGiPrKPmAQgn
+         fCdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6Lx7tM7FvIRfnZKu78o7ZdG3s890VbwgJIMpBDQ1SB8=;
-        b=Ei6zdNh4ZAa0aehEELQLV1UZ1Zy+EBEtLOjPTD9V4R/3ji1eAwkWjS7k+LV8QWAksP
-         NP2fpz0VYBbEgUjqTTrXx/pHtGNKIToScZd7MS/CrWyW19qzyNBS/1Cbl+0KQOhUZSEP
-         3XvGtd6jIx2K9MmHTk1Nf7N14cvuWu9FUAeSFfiqpWg5fpHtCcdArAoSYN6IgSpAuZA2
-         dn10WLoG0ovuYAnemwhi54jrricUMMv5IOHqE/91FET3nupx+MVO7RNWkm/g4L+B8KQV
-         UqrjogVzXnYEPIyAGcyUi5Rs9kD9dwO+i1ZEjYKqeWQXHL1U9I/LDkoYuwTxuW7GUMO8
-         DsHQ==
-X-Gm-Message-State: AJIora/1kmkgpI8UoqceJpfPYt5nZJDdT1JDBohYPGx/spHRWgmhvRiG
-        9rHLrIedPdVXFGVam+kMiNs=
-X-Google-Smtp-Source: AGRyM1txh7PKe9jl713q+VzwJ2SumfGwKEpOgKcIAHEzirk7F73v58L8m9Qb7NNtanEUImj71zQq3A==
-X-Received: by 2002:a17:907:7285:b0:722:e371:72d5 with SMTP id dt5-20020a170907728500b00722e37172d5mr18921148ejc.731.1656432818741;
-        Tue, 28 Jun 2022 09:13:38 -0700 (PDT)
-Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id ci3-20020a170906c34300b00722ea7a7aeesm6593654ejb.51.2022.06.28.09.13.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 09:13:37 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, benjamin.gaignard@collabora.com,
-        nicolas.dufresne@collabora.com, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 3/7] media: hantro: postproc: Fix buffer size calculation
-Date:   Tue, 28 Jun 2022 18:13:35 +0200
-Message-ID: <3180111.44csPzL39Z@jernej-laptop>
-In-Reply-To: <YrskKxCDwSulaGJ5@eze-laptop>
-References: <20220616202513.351039-1-jernej.skrabec@gmail.com> <20220616202513.351039-4-jernej.skrabec@gmail.com> <YrskKxCDwSulaGJ5@eze-laptop>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=n3HZDcdfLwNiQ/tf7zCGAV+A8ooVMIqgPIQ28MjTeog=;
+        b=bvqv6H4UXkBG0ohPNWLl+sDnnFgqSW/Zgm2n6Vok9vlBA7elpiKyHgNQanm9WJaPdT
+         fcCpN+FOoxBApgJCiXwIVrhyOy/UTvfstXHkc2gL5gxKegiUzRQqI+4QsWJp1KCUK7nj
+         x6w8howNQW7n5QHU8+W/Mehwd29Y8zYb0TjhJkKpH8UI1AoqUI90ZD4fHACiQLAelqsz
+         b9j3Dvu2/oTUvnNhvqe3PHmvvNuZHoYUv6Oc0u/vSMXHVLaZc1eTgrcWpH22x5ZEvk3i
+         OAaiXTR8mwIxJG3dQGO70Y2HSLA2AElxb7b6EwMxLOjbTMhoWlta4CPib6vkz1cAymFN
+         ORDw==
+X-Gm-Message-State: AJIora/mdY2TxcSWGf/QFntd4VdLghBcpDHeymTzub8EloMoZtlYdxHS
+        buUNrovENftHdUiY2HFJhmPU5XwgmFtzkBxo5QI=
+X-Google-Smtp-Source: AGRyM1shfbz2wZj9C+y4AJcD4Xp16+D3E3FTqL5mLWkwiHI8GjKt117H2EdLaDQl5pCDFAKa86OSOaxFM0gmoOv0egA=
+X-Received: by 2002:a5d:6d8b:0:b0:21b:9814:793d with SMTP id
+ l11-20020a5d6d8b000000b0021b9814793dmr18409107wrs.344.1656434876256; Tue, 28
+ Jun 2022 09:47:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <49cc6f0c-e90e-8edd-52e7-4188620e2c28@arm.com> <f77c1c2d-d9f9-db00-906a-ec10b535621d@collabora.com>
+In-Reply-To: <f77c1c2d-d9f9-db00-906a-ec10b535621d@collabora.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Tue, 28 Jun 2022 09:48:09 -0700
+Message-ID: <CAF6AEGsQBcHbU6Ps5fp5v6ANaZwMAtig-3i-ekQzwG=7BBDNwA@mail.gmail.com>
+Subject: Re: [PATCH v6 00/22] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:VIRTIO GPU DRIVER" 
+        <virtualization@lists.linux-foundation.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-tegra@vger.kernel.org,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -74,168 +109,91 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne torek, 28. junij 2022 ob 17:54:19 CEST je Ezequiel Garcia napisal(a):
-> Hi Jernej,
-> 
-> On Thu, Jun 16, 2022 at 10:25:09PM +0200, Jernej Skrabec wrote:
-> > When allocating aux buffers for postprocessing, it's assumed that base
-> > buffer size is the same as that of output. Coincidentally, that's true
-> > most of the time, but not always. 10-bit source also needs aux buffer
-> > size which is appropriate for 10-bit native format, even if the output
-> > format is 8-bit. Similarly, mv sizes and other extra buffer size also
-> > depends on source width/height, not destination.
-> > 
-> > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> 
-> I took a new look at this patch.
-> 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > ---
-> > 
-> >  .../staging/media/hantro/hantro_postproc.c    | 24 +++++++++++++------
-> >  drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
-> >  drivers/staging/media/hantro/hantro_v4l2.h    |  2 ++
-> >  3 files changed, 20 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/hantro/hantro_postproc.c
-> > b/drivers/staging/media/hantro/hantro_postproc.c index
-> > ab168c1c0d28..b77cc55e43ea 100644
-> > --- a/drivers/staging/media/hantro/hantro_postproc.c
-> > +++ b/drivers/staging/media/hantro/hantro_postproc.c
-> > @@ -12,6 +12,7 @@
-> > 
-> >  #include "hantro_hw.h"
-> >  #include "hantro_g1_regs.h"
-> >  #include "hantro_g2_regs.h"
-> > 
-> > +#include "hantro_v4l2.h"
-> > 
-> >  #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
-> >  { \
-> > 
-> > @@ -174,18 +175,27 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
-> > 
-> >  	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-> >  	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
-> >  	unsigned int num_buffers = cap_queue->num_buffers;
-> > 
-> > +	struct v4l2_pix_format_mplane pix_mp;
-> > +	const struct hantro_fmt *fmt;
-> > 
-> >  	unsigned int i, buf_size;
-> > 
-> > -	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage;
-> > +	/* this should always pick native format */
-> > +	fmt = hantro_get_default_fmt(ctx, false);
-> 
-> Clearly this is correct.
-> 
-> When the driver enables the post-processor it decodes a coded format (H264,
-> etc.) to a native format (NV12_4L4 or P010_4L4) and feeds this into the
-> postprocessor engine to produce some other format (YUYV, NV12, etc.).
-> 
-> The buffers allocated here should be taken from the native format,
-> so it's correct to use hantro_get_default_fmt().
-> 
-> > +	if (!fmt)
-> > +		return -EINVAL;
-> > +	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
-> > +			    ctx->src_fmt.height);
-> 
-> The issue comes at this point, where we negotiate the buffer size based on
-> the source size (OUTPUT queue size), instead of negotiating based
-> on the Native size.
-> 
->   Coded -> [ Decoder ] -> Native -> [ Post-processor ] -> Decoded
+On Tue, Jun 28, 2022 at 5:51 AM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+>
+> On 6/28/22 15:31, Robin Murphy wrote:
+> > ----->8-----
+> > [   68.295951] ======================================================
+> > [   68.295956] WARNING: possible circular locking dependency detected
+> > [   68.295963] 5.19.0-rc3+ #400 Not tainted
+> > [   68.295972] ------------------------------------------------------
+> > [   68.295977] cc1/295 is trying to acquire lock:
+> > [   68.295986] ffff000008d7f1a0
+> > (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_shmem_free+0x7c/0x198
+> > [   68.296036]
+> > [   68.296036] but task is already holding lock:
+> > [   68.296041] ffff80000c14b820 (fs_reclaim){+.+.}-{0:0}, at:
+> > __alloc_pages_slowpath.constprop.0+0x4d8/0x1470
+> > [   68.296080]
+> > [   68.296080] which lock already depends on the new lock.
+> > [   68.296080]
+> > [   68.296085]
+> > [   68.296085] the existing dependency chain (in reverse order) is:
+> > [   68.296090]
+> > [   68.296090] -> #1 (fs_reclaim){+.+.}-{0:0}:
+> > [   68.296111]        fs_reclaim_acquire+0xb8/0x150
+> > [   68.296130]        dma_resv_lockdep+0x298/0x3fc
+> > [   68.296148]        do_one_initcall+0xe4/0x5f8
+> > [   68.296163]        kernel_init_freeable+0x414/0x49c
+> > [   68.296180]        kernel_init+0x2c/0x148
+> > [   68.296195]        ret_from_fork+0x10/0x20
+> > [   68.296207]
+> > [   68.296207] -> #0 (reservation_ww_class_mutex){+.+.}-{3:3}:
+> > [   68.296229]        __lock_acquire+0x1724/0x2398
+> > [   68.296246]        lock_acquire+0x218/0x5b0
+> > [   68.296260]        __ww_mutex_lock.constprop.0+0x158/0x2378
+> > [   68.296277]        ww_mutex_lock+0x7c/0x4d8
+> > [   68.296291]        drm_gem_shmem_free+0x7c/0x198
+> > [   68.296304]        panfrost_gem_free_object+0x118/0x138
+> > [   68.296318]        drm_gem_object_free+0x40/0x68
+> > [   68.296334]        drm_gem_shmem_shrinker_run_objects_scan+0x42c/0x5b8
+> > [   68.296352]        drm_gem_shmem_shrinker_scan_objects+0xa4/0x170
+> > [   68.296368]        do_shrink_slab+0x220/0x808
+> > [   68.296381]        shrink_slab+0x11c/0x408
+> > [   68.296392]        shrink_node+0x6ac/0xb90
+> > [   68.296403]        do_try_to_free_pages+0x1dc/0x8d0
+> > [   68.296416]        try_to_free_pages+0x1ec/0x5b0
+> > [   68.296429]        __alloc_pages_slowpath.constprop.0+0x528/0x1470
+> > [   68.296444]        __alloc_pages+0x4e0/0x5b8
+> > [   68.296455]        __folio_alloc+0x24/0x60
+> > [   68.296467]        vma_alloc_folio+0xb8/0x2f8
+> > [   68.296483]        alloc_zeroed_user_highpage_movable+0x58/0x68
+> > [   68.296498]        __handle_mm_fault+0x918/0x12a8
+> > [   68.296513]        handle_mm_fault+0x130/0x300
+> > [   68.296527]        do_page_fault+0x1d0/0x568
+> > [   68.296539]        do_translation_fault+0xa0/0xb8
+> > [   68.296551]        do_mem_abort+0x68/0xf8
+> > [   68.296562]        el0_da+0x74/0x100
+> > [   68.296572]        el0t_64_sync_handler+0x68/0xc0
+> > [   68.296585]        el0t_64_sync+0x18c/0x190
+> > [   68.296596]
+> > [   68.296596] other info that might help us debug this:
+> > [   68.296596]
+> > [   68.296601]  Possible unsafe locking scenario:
+> > [   68.296601]
+> > [   68.296604]        CPU0                    CPU1
+> > [   68.296608]        ----                    ----
+> > [   68.296612]   lock(fs_reclaim);
+> > [   68.296622] lock(reservation_ww_class_mutex);
+> > [   68.296633]                                lock(fs_reclaim);
+> > [   68.296644]   lock(reservation_ww_class_mutex);
+> > [   68.296654]
+> > [   68.296654]  *** DEADLOCK ***
+>
+> This splat could be ignored for now. I'm aware about it, although
+> haven't looked closely at how to fix it since it's a kind of a lockdep
+> misreporting.
 
-I'm not sure what is the difference between source and native size? You mean 
-one coded in controls and one set via output format? IMO they should always be 
-the same, otherwise it can be considered a bug in userspace application.
+The lockdep splat could be fixed with something similar to what I've
+done in msm, ie. basically just not acquire the lock in the finalizer:
 
-Best regards,
-Jernej
+https://patchwork.freedesktop.org/patch/489364/
 
-> 
-> So, while the patch is surely improving things, I wonder if it won't
-> cause other issues.
-> 
-> This reminds me we are still lacking a more complete test-suite for this
-> driver, so that we can validate changes and ensure there are no
-> regressions.
-> 
-> Perhaps we could hack Fluster to not only test the conformance,
-> but also test the post-processor?
-> 
-> Thanks,
-> Ezequiel
-> 
-> > +
-> > +	buf_size = pix_mp.plane_fmt[0].sizeimage;
-> > 
-> >  	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
-> > 
-> > -		buf_size += hantro_h264_mv_size(ctx->dst_fmt.width,
-> > -						ctx-
->dst_fmt.height);
-> > +		buf_size += hantro_h264_mv_size(pix_mp.width,
-> > +						
-pix_mp.height);
-> > 
-> >  	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
-> > 
-> > -		buf_size += hantro_vp9_mv_size(ctx->dst_fmt.width,
-> > -					       ctx-
->dst_fmt.height);
-> > +		buf_size += hantro_vp9_mv_size(pix_mp.width,
-> > +					       pix_mp.height);
-> > 
-> >  	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
-> > 
-> > -		buf_size += hantro_hevc_mv_size(ctx->dst_fmt.width,
-> > -						ctx-
->dst_fmt.height);
-> > +		buf_size += hantro_hevc_mv_size(pix_mp.width,
-> > +						
-pix_mp.height);
-> > 
-> >  	for (i = 0; i < num_buffers; ++i) {
-> >  	
-> >  		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
-> > 
-> > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c
-> > b/drivers/staging/media/hantro/hantro_v4l2.c index
-> > 334f18a4120d..2c7a805289e7 100644
-> > --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> > @@ -118,7 +118,7 @@ hantro_find_format(const struct hantro_ctx *ctx, u32
-> > fourcc)> 
-> >  	return NULL;
-> >  
-> >  }
-> > 
-> > -static const struct hantro_fmt *
-> > +const struct hantro_fmt *
-> > 
-> >  hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
-> >  {
-> >  
-> >  	const struct hantro_fmt *formats;
-> > 
-> > diff --git a/drivers/staging/media/hantro/hantro_v4l2.h
-> > b/drivers/staging/media/hantro/hantro_v4l2.h index
-> > b17e84c82582..64f6f57e9d7a 100644
-> > --- a/drivers/staging/media/hantro/hantro_v4l2.h
-> > +++ b/drivers/staging/media/hantro/hantro_v4l2.h
-> > @@ -23,5 +23,7 @@ extern const struct vb2_ops hantro_queue_ops;
-> > 
-> >  void hantro_reset_fmts(struct hantro_ctx *ctx);
-> >  int hantro_get_format_depth(u32 fourcc);
-> > 
-> > +const struct hantro_fmt *
-> > +hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream);
-> > 
-> >  #endif /* HANTRO_V4L2_H_ */
+There is one gotcha to watch for, as danvet pointed out
+(scan_objects() could still see the obj in the LRU before the
+finalizer removes it), but if scan_objects() does the
+kref_get_unless_zero() trick, it is safe.
 
-
-
-
+BR,
+-R
