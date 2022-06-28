@@ -2,53 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B257555D3FD
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 641F955DFBC
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:31:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345393AbiF1LIj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 07:08:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37002 "EHLO
+        id S1345395AbiF1LIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 07:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345392AbiF1LIi (ORCPT
+        with ESMTP id S1345392AbiF1LIk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 07:08:38 -0400
-Received: from KOR01-SL2-obe.outbound.protection.outlook.com (mail-sl2kor01on2112.outbound.protection.outlook.com [40.107.129.112])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF3732873A
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 04:08:37 -0700 (PDT)
+        Tue, 28 Jun 2022 07:08:40 -0400
+Received: from KOR01-SL2-obe.outbound.protection.outlook.com (mail-sl2kor01on2100.outbound.protection.outlook.com [40.107.129.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E123D29C81
+        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 04:08:39 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nnj4fPcf+FeJub0I64SN6/XjvACLrT2jY/U/aB3DHgdoEx3yNa8D0kGhr1Ne6fdLXUEsfNF5r1gIVueILPBTCcw2xsqinnfI6ayw4/7W1CRWYmyAm4L4xbfOxM2gPThwGRqYOL+MsvPdTnpD4LNJIjMp9C6jfgNd38kfwmEFdAKP3MPElaUOGwl2OOUNSeNx5RMA4xSq5rVVFUfc2tX89PHfCR3OCdBYS/NPWfaBOwttHE7XoaOOS4kUSCLV8UwuQ7Z0gDdmS7dPDHNc9Q+dnf/BcKcOJQo1eiSsV3P0UoeiJ/TWDesmiV4mcu4UqPi6PpufsTy4koml1YT1BEqg/g==
+ b=n8/UxmR4gQWVPxz80ezt2XBzEyKFhY1zHhOlgQsxNDn647oXk7P1G7YSAZPV2loTYFi2+WVEUAxTEdOkDwklRP8ilfLDUBhQJD2OWPi+43R7CLkm1+LXpySFnNxpigjHJD05+5RhYwUpRciV9TAuHJDWJOQ64AsGam0WW5jSBUnp37QLHXPl5MVEHFWsFgG9iPAYzJcU0Jd6StWQak6apdvpN11BFAXt9/ftMoSbKdu/RfTy7MNupGHQkEm5xJvXFNdIWWIRQdMK8Q9lr0rmCsgCpFBeDYdCSDxaHsT1gjLEfD5UNHQ6i4lUQlAx+Mx5r/iQ6M/vvEYErFtCiWXYHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UcBaZBmCbhe07jhiCziSVfZGy307gKU29CbLR4Ko8Jk=;
- b=mVNNQg6fodvURN7Fqs1aTHqXHnZFLbB2KTuYMPh2Uvy99Sw3QwFEuSDLkfSFzTLfmrXpfDzT2YNIMcetReLYr5XVV5ra1hoIivcq5xPME5NDDwEzUwFZ2UymJEzbGOnAkjlEWFeiz9ekImjiHQGyFgfkCFtooaDHNBYji9hAEJVAF8tZAhKgeltYrO501JEkvr2UuZdxu3BVGLlZlBpj8voXvpKBBLJP+1R6qKq7yLJiOLrrbuW0HrWrBQvgB2q9MtPDridAt1t53DBNJXeAnIoN4M5+V36Mko6GLKTdz0r3ZDMZo6mAA1LEgTHVspfW7mxsHmqqo6b2ZtMVOAcI5A==
+ bh=vgLa6NPuLOVp2A6Nuu0le+wowvjyfwV0pZN9jvbxYp4=;
+ b=C9Oj4AqO+U0+rVHubWY2x7Xn8pX7LxroSMMqv62XcAXybWYukAZoMPtWrl15uOzXwTT0gKXGs0z2Di4sSFq0TJLrDvCq7FNivVCHQhR07dAEqoQQEZ7hK1hdfqpo84JidOyiPv5TQjzKtfVnDtXtDe8xVs9mn3WriBVHg4L9t0Fkg7IE4jhlg2iE9p7MAnF6X6C8jyeU6MY0+WT77Gu6WLnrjVpVLMw2DNSKvt125k3Sx2hFIdc0ctgGa6ARJBA2oTkOmb0f+XVPiNb3uCrHBF6rYxRi11EDH4M3K6z0z8e6qPmK2si/MjM1wdp6Z9Mna8YQNdkg5igQ9M4CUd1jcQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
  header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=chipsnmedia.onmicrosoft.com; s=selector2-chipsnmedia-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UcBaZBmCbhe07jhiCziSVfZGy307gKU29CbLR4Ko8Jk=;
- b=ZJIMucqOQS170rzT9DqR+QppI91MdSaRmuz3JmgwzTcODRdbmAb0WcZosW7t8LctAwWqXyUPS14p0rbwS+QM8+lRYD3UzVWpOdSZ1xlNDVHzg2YmFfx8R3riMIC/TOEO1csQ37VQlOMurr9Ku5xwIcCeFlAy3SEyKEtOE1T5xRw=
+ bh=vgLa6NPuLOVp2A6Nuu0le+wowvjyfwV0pZN9jvbxYp4=;
+ b=WKXaHVHW4/l/tGC3FyOSC/OThArFvTat3d5HwC697AlxvdW64+zlLL40Yi6dnOn6WMYMmb5UkNbhvPF8lO51+ujdEOdMpCBfjyFUglrQ9/BTNfmTj0sx301g+006CUN+tDMk2XUdX2Gh1bTrvjolZIjo6y5m1BQ9zNqq+BJsOLw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
 Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
  PS2P216MB0386.KORP216.PROD.OUTLOOK.COM (2603:1096:300:28::10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5373.15; Tue, 28 Jun 2022 11:08:36 +0000
+ 15.20.5373.15; Tue, 28 Jun 2022 11:08:38 +0000
 Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
  ([fe80::60c1:b54d:bd3f:3617]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
  ([fe80::60c1:b54d:bd3f:3617%6]) with mapi id 15.20.5373.018; Tue, 28 Jun 2022
- 11:08:36 +0000
+ 11:08:38 +0000
 From:   Nas Chung <nas.chung@chipsnmedia.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, linux-staging@lists.linux.dev,
-        mchehab@kernel.org, Nas Chung <nas.chung@chipsnmedia.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
+        mchehab@kernel.org, Robert Beckett <bob.beckett@collabora.com>,
         Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Subject: [PATCH v9 4/6] staging: media: wave5: Add TODO file
-Date:   Tue, 28 Jun 2022 20:08:19 +0900
-Message-Id: <20220628110821.716-5-nas.chung@chipsnmedia.com>
+Subject: [PATCH v9 5/6] dt-bindings: media: staging: wave5: add yaml devicetree bindings
+Date:   Tue, 28 Jun 2022 20:08:20 +0900
+Message-Id: <20220628110821.716-6-nas.chung@chipsnmedia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220628110821.716-1-nas.chung@chipsnmedia.com>
 References: <20220628110821.716-1-nas.chung@chipsnmedia.com>
@@ -59,52 +58,52 @@ X-ClientProxiedBy: SL2P216CA0222.KORP216.PROD.OUTLOOK.COM
  (2603:1096:101:a::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 79e8cf13-9cce-43c5-54f5-08da58f68c77
+X-MS-Office365-Filtering-Correlation-Id: 6052f117-947e-4f17-90e6-08da58f68d3f
 X-MS-TrafficTypeDiagnostic: PS2P216MB0386:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kU5addaZAh8bF1lsYZnL9fZ+6Xxv9Yq2xy7A5st8RJtL+WhZ0j0YlpaYRumu9RtMdIMKAfLi5DPCfKrZd3FIx3JL2YmR5bc/zGb1Z29KmK1qUhJ1YiDIwZ4vpsUnOoF/itPlsntN2L6KaFIshACQ81AFk/kjZ2h1ZBB4lkU2Kh+6ABmh/YltvmDUSybIToqkBKl9M3qGbGEoUlYzZNA93Rn5vMvnDqYs98xzsS7d0eX9Y+7Jb/HHB1HWOpJwR/wmSuv1/jSzElS50sJpUs8D2OlZhuOXHsSY/F1A0l0XkNmIDUVp9OvgXlAiszxvY2I7zhrXXoHca2M3HWT9ycoT+6m0sTr2C7OKbiQtuD8GHIws5wawLJ/oBXquHntN5FiDhmssZZTwn5Suv8EidNuYVX5xpTjwULMy0xelfPNrtbo4orIOUAYnaQS+LcTIMM7xIRXLTmM/vj0W5hs2IepZT9+bRfiWfWCDnxiHu9TzCxngayvr7PHzRJSp7pjhEx/9kYB9/1zmtAZNDdvOf/xVlFFr6o5mvUX4bQc/f28uiioZ4A/orXigFtEAn44QWl9472NBRJt5fgAablUmX0VvEtGAWI4BHACtFAbXtVUWiUtf1fk172sbv91gZ2f6wQHcGdVGbP9/nf+ZCvu6fOXtqiRnjn4mf9MehuXiPSTMi06Y6YEa1fABj+cRrfVkIKqD3SBOER8QC1MQCnPnYydT5GE/s62gq0rPhS/8LJG5k2wcYOFZQfwJgQwot4B7ocnma/sL8FLwE2qtyM/7ih2UK+19O78pa14lm5Kkov1ijQE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(366004)(39850400004)(346002)(396003)(376002)(136003)(1076003)(66476007)(66556008)(4326008)(8676002)(6486002)(2616005)(66946007)(8936002)(6916009)(52116002)(6512007)(6506007)(186003)(6666004)(83380400001)(478600001)(54906003)(41300700001)(26005)(38100700002)(2906002)(86362001)(44832011)(5660300002)(36756003)(316002)(38350700002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: 0GMSn6qKWUnods43RpMXeo8FreVNw7A6I4GptVI47IIrkZBZcp/4MJOH49WgnfGY9KNv6SmZor5bveLi2xehEaupFQItntj7ynFXXtQ2mWiRQT1tRZOrcMrhQHhqkdj4remRhVoIN+ycr6kE2o8dDNbvyqbh/v0JmEyfksvnpYxFViqmFPEIbTPT3wn4gBeupQQvZXMg3hK3LlC3FqYLPr4dLKmvopG9zzTnEJmkNgv8CsoU0S9BrFxu6F5XHgNJhKKmAla2aliEKfR5R/dFPJKz5KL0yxR20WrrLxG8Fts+/mc9whbDy+PoHnm2tz4oc4kKGPyWrI9QQ+gmM84vXbO1vISSkrp+BD9tSOQ4eT+qGjiAAVpWc2uINKZj0W/bsDexWmQ03noqWvpIf6bJdRexIc7bOqv98JIL3t3vWF6p6m4YOWPkUUBtSI+ZUiAqb4WnN8aHtpl0KdnM/3E05ObU3jGfnA1YW7qCLWGDjkoKGDhq0cOMR+rnF0ZM105laLvVgzc7HlrHhHFZNyvKRrpNOM7Vje2NjSfmdnFzNHOjpehEGxRR9PHIuuYFnBlNTGb3GKRgaHtv7o2mQTQZbZSH1LUllZw3mg5iqvHXPIUFk1NuXETBJJPJ9HMxJERcgk73cIrfhZYQi0r/tBOcy178Vbq2nqDieSU0nKqn4x50X5mqXo2jRjYPyzsgKW+so4Ufys5TAMB0QFjFQb7cqbuMUKdmKP3fLNVuBKAbrC007pw2aR2eMK8DCQEOXU8Sh5QD2rd+T1UFhpEDo9J4loEV8xVzAnwMF10m1CAsDTf13WO255/PCu/DyFF3PzMuGdKoSm4swzKhtWWSl9q4gA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(366004)(39850400004)(346002)(396003)(376002)(136003)(1076003)(66476007)(66556008)(4326008)(8676002)(6486002)(2616005)(966005)(66946007)(8936002)(6916009)(52116002)(6512007)(6506007)(186003)(6666004)(83380400001)(478600001)(54906003)(41300700001)(26005)(38100700002)(2906002)(86362001)(44832011)(5660300002)(36756003)(316002)(38350700002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XbJvLZrCfyIS563OeYnRdxabFWlqk0rW/PYyMidfaMyVjoga+oiIDA5MZ5kp?=
- =?us-ascii?Q?57vshU/+FpBOd/pEqHnM3w9dH/aC498jCzcNV7JA4Z4QqmxaJYaixaJ0P06R?=
- =?us-ascii?Q?WYnfG6dP9lqeO+oEFzjvecPFVP602uztOSuzpGIrtosdLK/FvErPemNIU7aR?=
- =?us-ascii?Q?W6uNF6FAAvsneQ81knlQOMU7ypRmG3L2gwgSu0WtSq/L2M++uCI8mD0fXCSi?=
- =?us-ascii?Q?whBtUFA2XvyvQuUAm0loh1new9ozBUqBr36pbdYVg62/llW8ngVJXLNcald1?=
- =?us-ascii?Q?O6FalR1TXbT8U/RsdBgxKnFjVZ9jcxhAeY6Bi4RbUW7DqZipZA+4pLMkvLLX?=
- =?us-ascii?Q?rs9+EcQdd6AK93IGsxKXhNXOTYxYupSigBIujrlJxEJ38zqT65jv29O6QgEE?=
- =?us-ascii?Q?3MHy7wZXKvW7Pz+yTvipzwkS8HbuUHAf+nopIE5KmLe8W+NCK4XbSHSKudS8?=
- =?us-ascii?Q?K4/OrbcWbdSCqnYIas85D+KO52aWWfnz46hHTAD8VKqHpizyWoeIkXlzmY8W?=
- =?us-ascii?Q?cyf57WiMnTngdvkUCnWaWX0ZAxeRcprJ3qyejgIxXOVsVv9oxXhchLoMgUSW?=
- =?us-ascii?Q?XM5pCm9od9Gje/W8l8NFobIioxLCuHeOl9YjVMsJWUDqYLFD1DLCg8m/+0Qb?=
- =?us-ascii?Q?9+m/5bMW5LV9Ag8UUPHtQ53DQTH7ruH/UIKGplacm48Ri+fxq7jR7ESfcAmc?=
- =?us-ascii?Q?kAo0Elj6j23KMz6uCbFhyJSnMIjPh3t7h0+oeUZVeDr3ZlO+Fj5w5AgLTm5k?=
- =?us-ascii?Q?9C72lR81dKquGpiZaXmLFZc2hnTWLFQ5P+jyNckuMdEVPHArN5Yg+ARC9hcs?=
- =?us-ascii?Q?XnduXhg3CyqQrwh196b64qt0cLwPXj7VbWdmFBWZoLqFeoNbLDtGhEZ1o3Rp?=
- =?us-ascii?Q?5l0Dsk7uzMVC6SJrmMe7RD0UZ+YCYkXtM356ycBj/BGPD5YGBzyx6qE/vTas?=
- =?us-ascii?Q?5bsB57XGLjjh/bMMAFVK7KfLCPJ1FmE4XUHGmQle8/3CUzq+NomId6Bt2Sgt?=
- =?us-ascii?Q?I5k8dqJJs0GKO67kbG93LkGf9ZELS8PoPvGbFdNQ3Dp8Q8r8UUIR8UeKbPQG?=
- =?us-ascii?Q?rC00/PkSakahlctwAQOMZZ5Q7t2h7l5xTdHdAweJlIPnqItpX6IbqKXc8w0Z?=
- =?us-ascii?Q?MK1OdEyowaNR7O+yOZGl4y7Y7xDHvqDMnTNBxDDA3w8kGW+36Crx9Ls9CZRt?=
- =?us-ascii?Q?QQyo2nNC86mDFSvBRe5P35kAEd6hlm3y4Iv8FHQJzE4PWOdNF+Togg5cj0HA?=
- =?us-ascii?Q?+9ntvls4KFL8pMNmpxZAZ9FVYeSryxYIKlgtUXrd52FNV7MRfAbvK+3xZQF9?=
- =?us-ascii?Q?MWEJFXw8pumVyuEESfRg6lPP3j7UKkZ6NWuHQPj1ghFJ53o2NiOg2mNjtFHV?=
- =?us-ascii?Q?w09K0CHKUcBpKYcaciEvkKmFg52BWoloUFyW5mAc3lD1KVEkUm4JiEHkOoql?=
- =?us-ascii?Q?V3dqby6NwT+yD1Ze8a7IW0gwob6obkCFph88ZOOQ1LoCJ+PaHAydpoUgD80e?=
- =?us-ascii?Q?E8weq4iF32XGkY5wba0s8wOQPX8Hrz1keY+dj4si/O+cfTfa6O9L+ctck6Mz?=
- =?us-ascii?Q?VepfQaEoUzaN3fuJ6OoE6ITzbUS3tBlusBDkmxbrutJfSVB98UAG7D5Nl+WW?=
- =?us-ascii?Q?4g=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1OKoLr03wZtSZz5HhkuB+eZ8LHSdpZ4sVX4uQ8/qne5VQAF4pmhy/u1wDdMw?=
+ =?us-ascii?Q?ObqnZznXRzbS2Rk3ozeLW8ebd4mpP9axPYBuQkO1dXZIG9cWOOM5K/4keC5w?=
+ =?us-ascii?Q?lNeqFVvXISwiZk3UvssFBl2EGxDXTXZpe+71XRM6t29k0TBMGtIdv1+e9ajH?=
+ =?us-ascii?Q?PCebJxhWStfkEcpv5r0ywQRbYnat1bZil9ZMvkSwMjfzlPsnrglTbNXkcqDp?=
+ =?us-ascii?Q?Tg9wrwN+Egezojr7vR788tO9MZCU1kFJp2K0Dx2s+Qqa7U/B3o/I6opm078q?=
+ =?us-ascii?Q?XaayR0KSHYOpsV8aUMmMx0dK1T+mfjb6YYagv/korIjL7sWcz5H42baNy+k/?=
+ =?us-ascii?Q?aaPTBJ1a9XBc27e+9dqBJhMyg7MBwuftOQx43zwSCZ9D6Z3xBH3DiJ3Q0pZ3?=
+ =?us-ascii?Q?FAd/mV40uQQpOMI31bwut/UF5rjsF1ehTfMIIKhHA4byDUesAaRcnwMvag9S?=
+ =?us-ascii?Q?UAYPQ29wWIKUrzKXZYmTfrFgRywWwY1l94iHVn27t8/VmsIvx4G6YC0Uvt+u?=
+ =?us-ascii?Q?ez15EBzRb00+2gW84C8IAkYdITwF77h2VfMBGDmklY76RRiV690Jd+8BEtSC?=
+ =?us-ascii?Q?sBDGyiJmQ/itkkMdOk/G7CeTcg6WB+s4WlJNvaPYJuF5u932hcggokAgiYm7?=
+ =?us-ascii?Q?WT/lYc69dhDAR5gnrj5dkQDqgk9MSDl/ZrJUUjmvQypk3wexOn1N3xtUTb9A?=
+ =?us-ascii?Q?u/sGlucTlFHGRUBNvU+w+A2XDLRsGogB6IHr/gm3L1PaL6LW19IO2CQFWxLr?=
+ =?us-ascii?Q?nJNEnFtD0GGHQiM1k9WbFlUs1aBvjFaH6VhB5T4Vcr1YfiYObNaNqmnIIXEy?=
+ =?us-ascii?Q?jkm5ei3IswJkXhW0aevvvBdCmNlWP6bum31x0pBt2fIqH8CimdHFfXTqLUx6?=
+ =?us-ascii?Q?daNI78e/gLgAIUZf0daE7CWKc56Uy2trb+bmyff3OXsKFZDOe8sqqR5iuLtH?=
+ =?us-ascii?Q?dbQ5Uc9MQ+NRxdRh4A6XJOBWiYsjym+Jv5urnLrqzPAJC0UBLxwT+dCyCv5F?=
+ =?us-ascii?Q?dkCp9Jxe4Na0psa93uxBBm6LRUcSLqGdlwVvOdorkWuocZFyhw4YvnVUhl43?=
+ =?us-ascii?Q?E8kf092vYcBydAs8ZUVZnf2fuzwdNOQG2tZhM3imjKQBCdol1V1nE7OO05ZM?=
+ =?us-ascii?Q?b3y5cfCd0/RoIevjL8sgWk1zyrrNu2nknPrz88r6Jph44MaAwvHaRM7xyPLG?=
+ =?us-ascii?Q?bLzmVSoKHzXIculs3kFpBPHZcrY3xGBkNs4C4OkSFP+qbK0yO6JCdEGyohPe?=
+ =?us-ascii?Q?+b7ia1pw9LbMrTZ2wmFkRZaJFkYOefE9G3SRH2nIcU9RnfVhinuv6eopHvPf?=
+ =?us-ascii?Q?jMYsaefjyvbOpbpKCPsVSrIrGv78x0+tXDEa1gRUqR3GrvOtgk1pguzTypD+?=
+ =?us-ascii?Q?EVpjt9H3KRBBXZDhXBozzEWTjyBOfG7z1JYG0hTjQXC01REb7A3nv81idOwK?=
+ =?us-ascii?Q?c5k0kiqsNQWIXRnxpYsjL8IuMEQAlrcAyYIZo6WiVqxKktRAQzHOA+gBXe9G?=
+ =?us-ascii?Q?M40loPmfGoM/3iQOU0Gw8zKOw5Os+pglLU49wjnn1iHE4O5ci1E29JEkVN23?=
+ =?us-ascii?Q?hGEiYX1EFYuHTUn6JuAsGGgdOMdOMliprdKJjZmuRVFCRqsHm129tN6c0yGQ?=
+ =?us-ascii?Q?SA=3D=3D?=
 X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79e8cf13-9cce-43c5-54f5-08da58f68c77
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6052f117-947e-4f17-90e6-08da58f68d3f
 X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2022 11:08:36.8801
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2022 11:08:38.2236
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ly3Qcno2FGUURw4wNdi/pmvBTsfPzFjItXcDAMgxYgm8zdm/vE8JtMgaEUZeE8E2n1EUETb5KfMkBX6oLpniPCKSlxRtK6bGUTq/zXaRgU8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: fXv9T8PxZfy7Ks5SYYqRJ4kPwvCt4cnezSYL+z/q0piNp4pxT2seHuxBg5Dvos3R8vtdAx+jViA551GEksx7Q2vQgTKTd3mYWSTaZPCFcmo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS2P216MB0386
 X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,FORGED_SPF_HELO,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
@@ -115,58 +114,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a TODO file listing all that is need for destaging.
+From: Robert Beckett <bob.beckett@collabora.com>
+
+Add bindings for the wave5 chips&media codec driver
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
 Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 ---
- drivers/staging/media/wave5/TODO | 36 ++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 drivers/staging/media/wave5/TODO
+ .../bindings/staging/media/cnm,wave.yaml      | 73 +++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
 
-diff --git a/drivers/staging/media/wave5/TODO b/drivers/staging/media/wave5/TODO
+diff --git a/Documentation/devicetree/bindings/staging/media/cnm,wave.yaml b/Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
 new file mode 100644
-index 000000000000..308954740eb1
+index 000000000000..e18978cbba16
 --- /dev/null
-+++ b/drivers/staging/media/wave5/TODO
-@@ -0,0 +1,36 @@
-+* Handle interrupts better
++++ b/Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/staging/media/cnm,wave.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+Currently the interrupt handling uses an unusual design employing a kfifo to
-+transfer irq status to irq thread. This was done as a work around for dropped
-+interrupts seen with IRQF_ONESHOT based handling.
++title: Chips&Media Wave 5 Series multi-standard codec IP
 +
-+This needs further investigation and fixing properly, with the aid of
-+C&M and StarFive engineers.
++maintainers:
++  - Nas Chung <nas.chung@chipsnmedia.com>
++  - Robert Beckett <bob.beckett@collabora.com>
++  - Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 +
-+* appropriate error handling:
-+allocation failure, mutex acquire failure etc.
++description: |-
++  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
 +
-+* remove all unused struct fields
++properties:
++  compatible:
++    anyOf:
++      - items:
++        - enum:
++            - cnm,cm511-vpu
++            - cnm,cm517-vpu
++            - cnm,cm521-vpu
++            - cnm,cm521c-vpu
++            - cnm,cm521c-dual-vpu
++            - cnm,cm521e1-vpu
++            - cnm,cm537-vpu
++  reg:
++    maxItems: 1
 +
-+* change struct fields to 'bool' type or bitfield when appropriate
-+Likely good candidates are fields named '*_enable' , '*_on'
++  clocks:
++    minItems: 1
++    maxItems: 4
 +
-+* handle vdi_allocate_dma_memory failure , each function has to clean after itself
++  clock-names:
++    minItems: 1
++    maxItems: 4
 +
-+* make sure that 'u32', 's32' etc. are only used when reading/writing hw
-+and change s32 to u32 when s32 is not required
++  interrupts:
++    maxItems: 1
 +
-+* power management handling - add (runtime_)suspen/resume cb where the clock is enabled
++  power-domains:
++    maxItems: 1
 +
-+* fix checkpatch issues (mostly fixes , only left to fix MACRO_ARG_REUSE, LONG_LINE)
++  resets:
++    maxItems: 1
 +
-+* revise logic of wave5_vpu_(dec/enc)_register_framebuffer
++  sram:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: phandle pointing to the SRAM device node
++    maxItems: 1
 +
-+* check if the  normal kernel endianness/__swab32 routines are sufficient. (instead of the ones
-+implemented in the driver
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
 +
-+* Extended Codec Controls for encoder.
++additionalProperties: false
 +
-+implement extended codec control for HEVC/H264 encoder.
-+PROFILE/LEVEL/MIN_QP/MAX_QP/LOOP_FILTER/HFLIP/VFIIP/ROTATE/
-+GOP_SIZE/RC_ENABLE/I_PERIOD/BITRATE.
++examples:
++  - |
++    vpu: video-codec@12345678 {
++        compatible = "cnm,cm521-vpu";
++        reg = <0x12345678 0x1000>;
++        interrupts = <42>;
++        clocks = <&clks 42>;
++        clock-names = "vcodec";
++        sram = <&sram>;
++    };
++
 -- 
 2.30.2
 
