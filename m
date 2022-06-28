@@ -2,102 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC67655C516
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 14:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E74055DDD3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:28:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242375AbiF0Xx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jun 2022 19:53:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36066 "EHLO
+        id S237773AbiF1AyD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jun 2022 20:54:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242350AbiF0Xx0 (ORCPT
+        with ESMTP id S237329AbiF1AyC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jun 2022 19:53:26 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB440DE85
-        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 16:53:25 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E73B880A;
-        Tue, 28 Jun 2022 01:53:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656374004;
-        bh=/RdXMLSL0+Ps4T6yDx6aEcH5cB0IVGq7YmjkaDFAW3M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GzfcFjx7swtFHTsunA2sbnJ1caixBc0QvxaBpdk6/l8X83qD8zDS2x/00bIIxf3Ab
-         BWPYAmnOKZlXicbq7sKLKf+rC8HL168TdCUkAcBIS11G5b0v9FZEcH31T1FUXylBiY
-         O2fFViK7Njzq1lirSwsSwkElBmXYzArQ9iUZkMio=
-Date:   Tue, 28 Jun 2022 02:53:05 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-imx@nxp.com, kernel@pengutronix.de
-Subject: Re: [PATCH 3/7] media: vivid: Add support for the new YUVA and YUVX
- formats
-Message-ID: <YrpC4XnfV4ZKwLW5@pendragon.ideasonboard.com>
-References: <20220616183656.19089-1-laurent.pinchart@ideasonboard.com>
- <20220616183656.19089-4-laurent.pinchart@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220616183656.19089-4-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 27 Jun 2022 20:54:02 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9141D0D6
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 17:54:01 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2dc7bdd666fso89949417b3.7
+        for <linux-media@vger.kernel.org>; Mon, 27 Jun 2022 17:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=zBSTFP2A6NDvR/YmwvQ0gOlALdH/+xsbpwqQ8lAy5zg=;
+        b=jYz9JVSTMdf84gES4ZBeNDM5y7yCEf8m0UK7kR/NPa6TyR48QCQN/RjuhT2DzCmL8Y
+         +ohyemBNihGvI8j511voihA3V4RFTqPIZr+3j/ShZ2gQYlajYeHVjoYjpATEmtRUNArL
+         FL05V65DmJs3Qc+8bdun22Nsu1l3P3GYIlZNnLNzSAS1LhpURYpL75LFbm8MXzt9OPWe
+         gNIjeDi9B89n3GCUlU2bSMH3gSd/+wW8itQP+uGL4/M9e/Eh7G0lVfh5YKuWZ/EvKZvg
+         +02vBM3DjNpjAYcTWh+oMIgjHWfMgZPI0kGAjlK8/LBpGhai6s+p8yAWjTvdzqWAs7oC
+         WfLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=zBSTFP2A6NDvR/YmwvQ0gOlALdH/+xsbpwqQ8lAy5zg=;
+        b=f4ZPNlHQlQkq1YmKw/ikCudZtYgVUEVpfA0bMxNcaVt7zHaRE8I5z03KVwlcxxJpmT
+         /mI2oC3COXsF55upHxeRWhlQHqUyjiUlGk0O40tGweGokWXo6Qpx6BuCudTeS7g2lguF
+         GUoFZHR92kQy2wRWvOjO2r3X5dTScgGaewCuJgmmFtBRQ4d21SujCMbfVHdXBfm8FHI/
+         WctzfFbzIQxTSEnbK1zFaEnggUwg3U8iJYZ4lqnpJ97Br8emV0+RmnEQsZkp6hycdzKv
+         P4CWFu9W7vx+6RfLsr9JGEGhz9O8yrrx0YLGU8ioeLhZpbV8Zm5plW4MV+1thxMB6hvx
+         tJ8w==
+X-Gm-Message-State: AJIora8y55a+moU0JQx+GVcd2Kx9Kt6YddY7FbBVRsUVYa25wYjg8Oei
+        PoxbmHFF+m8oXqZDleWX1+CnQ+PTL3Y=
+X-Google-Smtp-Source: AGRyM1tJUy0aRdeIbYAJEQh2tH6ALhuL7X0S1taNJSlWtTBvTLlj9YABB9gXrbxRCkPeyTDPlEk3go5iPwc=
+X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:9c62:6600:c258:f14])
+ (user=yunkec job=sendgmr) by 2002:a25:2d1d:0:b0:66c:a759:e79a with SMTP id
+ t29-20020a252d1d000000b0066ca759e79amr10250749ybt.515.1656377640544; Mon, 27
+ Jun 2022 17:54:00 -0700 (PDT)
+Date:   Tue, 28 Jun 2022 09:53:51 +0900
+Message-Id: <20220628005353.1719403-1-yunkec@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+Subject: [PATCH v3 0/2] media:vimc:add ancillary lens
+From:   Yunke Cao <yunkec@google.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        Yunke Cao <yunkec@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Add a basic version of vimc lens.
+Link lens with sensors using ancillary links.
+Update vimc documentation to reflect this change.
 
-On Thu, Jun 16, 2022 at 09:36:52PM +0300, Laurent Pinchart wrote:
-> Extend vivid to support the newly added YUVA and YUVX pixel formats
-> through the TPG.
+Changelog from v2:
+-Add test information into commit log and documentation
 
-While the ISI driver itself can't be merged yet due to the dependency on
-the streams series, I was wondering if we could merge patches 1/7 to 3/7
-already. They add two new pixel formats needed by the driver, and having
-them upstream would help merging their support in libcamera. I'll keep
-working on the ISI driver (and the streams series) to get those in too.
+Changelog from v1:
+-Better commit log.
+-A bit more detailed documentation in 2/2.
 
-If you agree with that, could you review patches 2/7 and 3/7 (as well as
-1/7 if you desire) ? They are small.
+Yunke Cao (2):
+  media: vimc: add ancillary lens
+  media: vimc: documentation for lens
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../media/test-drivers/vivid/vivid-vid-common.c   | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-common.c b/drivers/media/test-drivers/vivid/vivid-vid-common.c
-> index 19701fe72030..38d788b5cf19 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-common.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-common.c
-> @@ -198,6 +198,21 @@ struct vivid_fmt vivid_formats[] = {
->  		.planes   = 1,
->  		.buffers = 1,
->  	},
-> +	{
-> +		.fourcc   = V4L2_PIX_FMT_YUVA32,
-> +		.vdownsampling = { 1 },
-> +		.bit_depth = { 32 },
-> +		.planes   = 1,
-> +		.buffers = 1,
-> +		.alpha_mask = 0xff000000,
-> +	},
-> +	{
-> +		.fourcc   = V4L2_PIX_FMT_YUVX32,
-> +		.vdownsampling = { 1 },
-> +		.bit_depth = { 32 },
-> +		.planes   = 1,
-> +		.buffers = 1,
-> +	},
->  	{
->  		.fourcc   = V4L2_PIX_FMT_GREY,
->  		.vdownsampling = { 1 },
+ Documentation/admin-guide/media/vimc.dot      |   4 +
+ Documentation/admin-guide/media/vimc.rst      |  19 ++++
+ drivers/media/test-drivers/vimc/Makefile      |   2 +-
+ drivers/media/test-drivers/vimc/vimc-common.h |   1 +
+ drivers/media/test-drivers/vimc/vimc-core.c   |  86 +++++++++++----
+ drivers/media/test-drivers/vimc/vimc-lens.c   | 102 ++++++++++++++++++
+ 6 files changed, 193 insertions(+), 21 deletions(-)
+ create mode 100644 drivers/media/test-drivers/vimc/vimc-lens.c
 
 -- 
-Regards,
+2.37.0.rc0.161.g10f37bed90-goog
 
-Laurent Pinchart
