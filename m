@@ -2,71 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D006455E0CD
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 15:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AE5255C814
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jun 2022 14:55:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344021AbiF1KCx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 06:02:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57392 "EHLO
+        id S236539AbiF1KWO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 06:22:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344201AbiF1KCc (ORCPT
+        with ESMTP id S239882AbiF1KWJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 06:02:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680E32F019
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 03:02:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E858861598
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 10:02:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5C63C3411D;
-        Tue, 28 Jun 2022 10:02:19 +0000 (UTC)
-Message-ID: <12cf7d53-232a-0ec6-7e05-d91e5c041c33@xs4all.nl>
-Date:   Tue, 28 Jun 2022 12:02:18 +0200
+        Tue, 28 Jun 2022 06:22:09 -0400
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CAEDCD
+        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 03:22:08 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 963E9240012;
+        Tue, 28 Jun 2022 10:22:05 +0000 (UTC)
+Date:   Tue, 28 Jun 2022 12:22:03 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        linux-imx@nxp.com, kernel@pengutronix.de
+Subject: Re: [PATCH 2/7] media: v4l2-tpg: Add support for the new YUVA and
+ YUVX formats
+Message-ID: <20220628102203.fsckmflch5tvprt6@uno.localdomain>
+References: <20220616183656.19089-1-laurent.pinchart@ideasonboard.com>
+ <20220616183656.19089-3-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT FIXES FOR v5.19] rkvdec: Disable H.264 error detection
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220616183656.19089-3-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix for rkvdec for 5.19.
+Hi Laurent
 
-Regards,
+On Thu, Jun 16, 2022 at 09:36:51PM +0300, Laurent Pinchart wrote:
+> Extend the TPG to support generating the newly added YUVA and YUVX pixel
+> formats.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-	Hans
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
-The following changes since commit d8e8aa866ed8636fd6c1017c3d9453eab2922496:
+Thanks
+   j
 
-  media: mediatek: vcodec: Report supported bitrate modes (2022-06-27 09:31:41 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.19b
-
-for you to fetch changes up to 0515bed7aa1621c030dd7814704a0ad25c544021:
-
-  media: rkvdec: Disable H.264 error detection (2022-06-28 11:58:48 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Nicolas Dufresne (1):
-      media: rkvdec: Disable H.264 error detection
-
- drivers/staging/media/rkvdec/rkvdec-h264.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> ---
+>  drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+> index 7607b516a7c4..29d24f8d7c28 100644
+> --- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+> +++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+> @@ -266,6 +266,8 @@ bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc)
+>  	case V4L2_PIX_FMT_XYUV32:
+>  	case V4L2_PIX_FMT_VUYA32:
+>  	case V4L2_PIX_FMT_VUYX32:
+> +	case V4L2_PIX_FMT_YUVA32:
+> +	case V4L2_PIX_FMT_YUVX32:
+>  		tpg->color_enc = TGP_COLOR_ENC_YCBCR;
+>  		break;
+>  	case V4L2_PIX_FMT_YUV420M:
+> @@ -412,6 +414,8 @@ bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc)
+>  	case V4L2_PIX_FMT_XYUV32:
+>  	case V4L2_PIX_FMT_VUYA32:
+>  	case V4L2_PIX_FMT_VUYX32:
+> +	case V4L2_PIX_FMT_YUVA32:
+> +	case V4L2_PIX_FMT_YUVX32:
+>  	case V4L2_PIX_FMT_HSV32:
+>  		tpg->twopixelsize[0] = 2 * 4;
+>  		break;
+> @@ -1376,9 +1380,11 @@ static void gen_twopix(struct tpg_data *tpg,
+>  		buf[0][offset + 3] = b_v;
+>  		break;
+>  	case V4L2_PIX_FMT_RGBX32:
+> +	case V4L2_PIX_FMT_YUVX32:
+>  		alpha = 0;
+>  		fallthrough;
+>  	case V4L2_PIX_FMT_RGBA32:
+> +	case V4L2_PIX_FMT_YUVA32:
+>  		buf[0][offset] = r_y_h;
+>  		buf[0][offset + 1] = g_u_s;
+>  		buf[0][offset + 2] = b_v;
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
