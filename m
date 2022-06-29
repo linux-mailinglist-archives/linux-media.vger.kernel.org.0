@@ -2,139 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57CCB55FF41
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 14:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ABA755FF6F
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 14:15:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbiF2MKO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 08:10:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41480 "EHLO
+        id S232796AbiF2MPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 08:15:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbiF2MKO (ORCPT
+        with ESMTP id S231552AbiF2MPB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 08:10:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A0537017;
-        Wed, 29 Jun 2022 05:10:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0AFB361B74;
-        Wed, 29 Jun 2022 12:10:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74F43C341C8;
-        Wed, 29 Jun 2022 12:10:10 +0000 (UTC)
-Message-ID: <26a83f6a-05a1-f67b-2de5-bd67ea50843d@xs4all.nl>
-Date:   Wed, 29 Jun 2022 14:10:08 +0200
+        Wed, 29 Jun 2022 08:15:01 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BC3A17E1F
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 05:15:00 -0700 (PDT)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83B953D7;
+        Wed, 29 Jun 2022 14:14:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656504898;
+        bh=EZDK1TwzqTNFYRiMQwsQrQlTtZPvzTHJWcXHPesoSA0=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Dq/1BcQg7w6k3GBh/Gqx7wrbQ65fxV7lZdyGsbC4osEQHCYpyvsHdA/k0d7nA38Vs
+         Z5qW95SVDCvQKW3LgZSJbgbMXMVtGZXwffh58ogREU3SYnjQlgKQl3qpKTPESTMel1
+         g0o4y2XsfzrkTtCK8BJybQ5NH5Ec7qSahc9s435w=
+Message-ID: <32f04271-4a9a-3291-cf36-ead0383db9ca@ideasonboard.com>
+Date:   Wed, 29 Jun 2022 15:14:54 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] media: amphion: only insert the first sequence startcode
- for vc1l format
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2] media: stm32: dcmi: Switch to
+ __v4l2_subdev_state_alloc()
 Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     Hans Verkuil <hverkuil@xs4all.nl>, Marek Vasut <marex@denx.de>,
+        linux-media@vger.kernel.org
+Cc:     Alain Volmat <alain.volmat@foss.st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
+        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philippe CORNU <philippe.cornu@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
         linux-arm-kernel@lists.infradead.org
-References: <20220628052017.26979-1-ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220628052017.26979-1-ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
+References: <20220627174156.66919-1-marex@denx.de>
+ <3ef88906-188d-52a6-c3bf-647bc4e36732@xs4all.nl>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <3ef88906-188d-52a6-c3bf-647bc4e36732@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/06/2022 07:20, Ming Qian wrote:
-> For some formats, the amphion vpu requires startcode
-> before sequence and frame, such as vc1, vp8.
+On 29/06/2022 12:41, Hans Verkuil wrote:
+> Hi Marek, Tomi, Laurent,
 > 
-> But for V4L2_PIX_FMT_VC1_ANNEX_L, only the first sequence startcode
-> is needed, the extra startcode will cause decoding error.
-> So after seek, we don't need to insert the sequence startcode.
+> On 27/06/2022 19:41, Marek Vasut wrote:
+>> Any local subdev state should be allocated and free'd using
+>> __v4l2_subdev_state_alloc()/__v4l2_subdev_state_free(), which
+>> takes care of calling .init_cfg() subdev op. Without this,
+>> subdev internal state might be uninitialized by the time
+>> any other subdev op is called.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Alain Volmat <alain.volmat@foss.st.com>
+>> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+>> Cc: Amelie DELAUNAY <amelie.delaunay@foss.st.com>
+>> Cc: Hugues FRUCHET <hugues.fruchet@foss.st.com>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Philippe CORNU <philippe.cornu@foss.st.com>
+>> Cc: linux-stm32@st-md-mailman.stormreply.com
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> ---
+>> V2: Add FIXME comment above __v4l2_subdev_state_alloc() calls
+>> ---
+>>   drivers/media/platform/st/stm32/stm32-dcmi.c | 59 ++++++++++++--------
+>>   1 file changed, 37 insertions(+), 22 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+>> index c604d672c2156..c68d32931b277 100644
+>> --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
+>> +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+>> @@ -996,22 +996,30 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+>>   			struct dcmi_framesize *sd_framesize)
+>>   {
+>>   	const struct dcmi_format *sd_fmt;
+>> +	static struct lock_class_key key;
+>>   	struct dcmi_framesize sd_fsize;
+>>   	struct v4l2_pix_format *pix = &f->fmt.pix;
+>> -	struct v4l2_subdev_pad_config pad_cfg;
+>> -	struct v4l2_subdev_state pad_state = {
+>> -		.pads = &pad_cfg
+>> -		};
+>> +	struct v4l2_subdev_state *sd_state;
+>>   	struct v4l2_subdev_format format = {
+>>   		.which = V4L2_SUBDEV_FORMAT_TRY,
+>>   	};
+>>   	bool do_crop;
+>>   	int ret;
+>>   
+>> +	/*
+>> +	 * FIXME: Drop this call, drivers are not supposed to use
+>> +	 * __v4l2_subdev_state_alloc().
+>> +	 */
+>> +	sd_state = __v4l2_subdev_state_alloc(dcmi->source, "dcmi:state->lock", &key);
+>> +	if (IS_ERR(sd_state))
+>> +		return PTR_ERR(sd_state);
+>> +
 > 
-> In other words, for V4L2_PIX_FMT_VC1_ANNEX_L,
-> the vpu doesn't support dynamic resolution change.
+> I've been reading the discussion for the v1 patch, and I seriously do not like this.
 
-Shouldn't V4L2_FMT_FLAG_DYN_RESOLUTION be removed from that format
-since it doesn't support this feature?
+I don't like it either.
 
-Regards,
+> My comments are not specifically for this patch, but for all cases where
+> __v4l2_subdev_state_alloc is called.
 
-	Hans
+Just to emphasize it: afaics this is not an issue with the subdev state. 
+This driver was already broken. Before the subdev state change the fix 
+would have been to call source subdev's init_cfg. Now 
+__v4l2_subdev_state_alloc handles calling init_cfg (along with a few 
+other inits).
 
+> It is now used in 4 drivers, so that's no longer a rare case, and the code isn't
+> exactly trivial either.
+
+Counting this one? I found 3 cases in v5.18-rc4:
+
+1) drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c:
+
+Allocates the state for v4l2_subdev_call, set_fmt, TRY.
+
+Here, a helper macro which does the alloc would be a solution.
+
+2) drivers/media/platform/renesas/vsp1/vsp1_entity.c:
+
+Allocates the state for storing internal active state.
+
+Here, I think, the easiest fix is for the driver to use the subdev state 
+properly.
+
+3) drivers/staging/media/tegra-video/vi.c:
+
+Allocates the state for v4l2_subdev_call, enum_frame_size and set_fmt, 
+TRY. Interestingly the code also calls get_selection but without passing 
+the state...
+
+This is a more interesting case as the source's subdev state is actually 
+modified by the driver. The driver calls enum_frame_size, then modifies 
+the state, then calls set_fmt. I'm not sure if that's really legal... 
+The driver directly modifies the state, instead of calling set_selection?
+
+> I think a helper function might be beneficial, but the real problem is with the
+> comment: it does not explain why you shouldn't use it and what needs to be done
+> to fix it.
+
+That is true. There's no single answer to that. I think instead of 
+trying to document that in the v4l2-subdev doc, we can enhance the 
+comments in those three call sites to explain how it needs to be fixed.
+
+> My suggestion would be to document that in the kerneldoc for this function in
+> media/v4l2-subdev.h, and then refer to that from this comment (and similar comments
+> in the other drivers that use this).
 > 
-> Fixes: 145e936380edb ("media: amphion: implement malone decoder rpc interface")
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  drivers/media/platform/amphion/vdec.c       | 1 +
->  drivers/media/platform/amphion/vpu.h        | 1 +
->  drivers/media/platform/amphion/vpu_malone.c | 2 ++
->  drivers/media/platform/amphion/vpu_rpc.h    | 7 ++++++-
->  4 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
-> index 09d4f27970ec..51218a41a5ac 100644
-> --- a/drivers/media/platform/amphion/vdec.c
-> +++ b/drivers/media/platform/amphion/vdec.c
-> @@ -731,6 +731,7 @@ static void vdec_stop_done(struct vpu_inst *inst)
->  	vdec->eos_received = 0;
->  	vdec->is_source_changed = false;
->  	vdec->source_change = 0;
-> +	inst->total_input_count = 0;
->  	vpu_inst_unlock(inst);
->  }
->  
-> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
-> index e56b96a7e5d3..f914de6ed81e 100644
-> --- a/drivers/media/platform/amphion/vpu.h
-> +++ b/drivers/media/platform/amphion/vpu.h
-> @@ -258,6 +258,7 @@ struct vpu_inst {
->  	struct vpu_format cap_format;
->  	u32 min_buffer_cap;
->  	u32 min_buffer_out;
-> +	u32 total_input_count;
->  
->  	struct v4l2_rect crop;
->  	u32 colorspace;
-> diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
-> index c62b49e85060..f4a488bf9880 100644
-> --- a/drivers/media/platform/amphion/vpu_malone.c
-> +++ b/drivers/media/platform/amphion/vpu_malone.c
-> @@ -1314,6 +1314,8 @@ static int vpu_malone_insert_scode_vc1_l_seq(struct malone_scode_t *scode)
->  	int size = 0;
->  	u8 rcv_seqhdr[MALONE_VC1_RCV_SEQ_HEADER_LEN];
->  
-> +	if (scode->inst->total_input_count)
-> +		return 0;
->  	scode->need_data = 0;
->  
->  	ret = vpu_malone_insert_scode_seq(scode, MALONE_CODEC_ID_VC1_SIMPLE, sizeof(rcv_seqhdr));
-> diff --git a/drivers/media/platform/amphion/vpu_rpc.h b/drivers/media/platform/amphion/vpu_rpc.h
-> index 25119e5e807e..7eb6f01e6ab5 100644
-> --- a/drivers/media/platform/amphion/vpu_rpc.h
-> +++ b/drivers/media/platform/amphion/vpu_rpc.h
-> @@ -312,11 +312,16 @@ static inline int vpu_iface_input_frame(struct vpu_inst *inst,
->  					struct vb2_buffer *vb)
->  {
->  	struct vpu_iface_ops *ops = vpu_core_get_iface(inst->core);
-> +	int ret;
->  
->  	if (!ops || !ops->input_frame)
->  		return -EINVAL;
->  
-> -	return ops->input_frame(inst->core->iface, inst, vb);
-> +	ret = ops->input_frame(inst->core->iface, inst, vb);
-> +	if (ret < 0)
-> +		return ret;
-> +	inst->total_input_count++;
-> +	return ret;
->  }
->  
->  static inline int vpu_iface_config_memory_resource(struct vpu_inst *inst,
+> And another question: are more drivers affected by this? Is it possible to
+> find those and fix them all?
 
+I think any driver that calls a source subdev's subdev ops which a 
+subdev state as a parameter (the ones that used to take 
+v4l2_subdev_pad_config), and does not call init_cfg is broken in the 
+same way. With some grepping, I couldn't find anyone calling init_cfg. 
+Finding those drivers which do those calls is a bit more difficult, but 
+can be done with some efforts.
+
+atmel-isc-base.c is one I found, and looks like it's doing something a 
+bit similar to the 3) case above.
+
+Perhaps the best way to solve this is just to remove the underscores 
+from __v4l2_subdev_state_alloc, and change all the drivers which create 
+temporary v4l2_subdev_states to use that (and the free) functions. And 
+also create the helper macro which can be used in those cases where the 
+call is simple (the state is not modified or accessed by the caller).
+
+It would've been nice to keep __v4l2_subdev_state_alloc internal to the 
+v4l2-subdev, but maybe the v4l2 drivers are not there yet. The non-MC 
+drivers seem to be doing all kinds of interesting things.
+
+  Tomi
