@@ -2,79 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 67626560B69
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 23:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC205560B99
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 23:20:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbiF2VJ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 17:09:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52996 "EHLO
+        id S230301AbiF2VUc convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 29 Jun 2022 17:20:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbiF2VJ4 (ORCPT
+        with ESMTP id S229741AbiF2VU3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 17:09:56 -0400
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85CA8286E0;
-        Wed, 29 Jun 2022 14:09:55 -0700 (PDT)
-Received: by mail-io1-f50.google.com with SMTP id u20so17277193iob.8;
-        Wed, 29 Jun 2022 14:09:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nCX26RJlBP+sKZaW9dC7qwlnorfKgdpacF1Ro/OGjvQ=;
-        b=cfj+mRR8cuwzwkIPzUz2fvG9UsjCVOAnyTC47xGJGFgHhClOD6ULqV4Ytbw2iZZvwW
-         PxoEQHbQFQcO7g4sFsb2D2BfNB46jZ5BQhVbiiUPuwRxHTj9eXUc4ttUxULcIOwycRvJ
-         2pddBsCi1mEeKKdaWMBrM2Dzfd7sPHzRdhl7SUEFFT+e883GYPF03jZyyjEjKTjP+PmN
-         kOtO83avLU2g4XiRjfv+PtPGyi4X7nJRyXr/lCyq7rBPahDi0pF8FnjexgfaSxKrYggt
-         yaDnlC8pabyYNDJPK41xjvStZeaF1x4tFE9zlDOKWF/BTkTOwXLru29eVfQ8CVVkYUZt
-         sfaA==
-X-Gm-Message-State: AJIora/fYWIeJ3+aJegTPWBGQWywRwVTsS3DP7HZZElJboVXMc4ZFCsF
-        5lZb4i4UGObvRHhVrKOt3WMAt7elag==
-X-Google-Smtp-Source: AGRyM1s1+EZnDDXifeQDhJuExBLrpNV2hMBSraaKfa4jGDVT2PmN10hy8xMv1Jmi7QNk0DE3Q1Oaaw==
-X-Received: by 2002:a02:c85c:0:b0:339:dc91:d486 with SMTP id r28-20020a02c85c000000b00339dc91d486mr3144022jao.199.1656536994754;
-        Wed, 29 Jun 2022 14:09:54 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id g24-20020a05663810f800b0033cbfb5202esm2205787jae.11.2022.06.29.14.09.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 14:09:54 -0700 (PDT)
-Received: (nullmailer pid 831594 invoked by uid 1000);
-        Wed, 29 Jun 2022 21:09:53 -0000
-Date:   Wed, 29 Jun 2022 15:09:53 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: dt-bindings: rc: Allow 'ir-receiver' node
- names
-Message-ID: <20220629210953.GA829883-robh@kernel.org>
-References: <20220606184944.1067068-1-robh@kernel.org>
+        Wed, 29 Jun 2022 17:20:29 -0400
+Received: from hostingweb31-40.netsons.net (hostingweb31-40.netsons.net [89.40.174.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C99113F79;
+        Wed, 29 Jun 2022 14:20:28 -0700 (PDT)
+Received: from [37.161.29.0] (port=43545 helo=[192.168.131.30])
+        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.95)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1o6f6m-000BzC-Qd;
+        Wed, 29 Jun 2022 23:20:25 +0200
+Message-ID: <d682fb60-c254-f89e-5d6d-cdf7aa752939@lucaceresoli.net>
+Date:   Wed, 29 Jun 2022 23:20:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220606184944.1067068-1-robh@kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Wolfram Sang <wsa@kernel.org>
+Cc:     linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
+        linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-mediatek@lists.infradead.org
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+Content-Language: en-US
+In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 06, 2022 at 01:49:43PM -0500, Rob Herring wrote:
-> Most existing 'gpio-ir-receiver' nodes use 'ir-receiver' for their node
-> name, so add it as an allowed node name.
+Hi,
+
+[keeping only individuals and lists in Cc to avoid bounces]
+
+On 28/06/22 16:03, Uwe Kleine-König wrote:
+> From: Uwe Kleine-König <uwe@kleine-koenig.org>
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/media/rc.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> The value returned by an i2c driver's remove function is mostly ignored.
+> (Only an error message is printed if the value is non-zero that the
+> error is ignored.)
+> 
+> So change the prototype of the remove function to return no value. This
+> way driver authors are not tempted to assume that passing an error to
+> the upper layer is a good idea. All drivers are adapted accordingly.
+> There is no intended change of behaviour, all callbacks were prepared to
+> return 0 before.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-It's been 3 weeks and no replies, so I've applied these to the DT tree.
+For versaclock:
 
-Rob
+> diff --git a/drivers/clk/clk-versaclock5.c b/drivers/clk/clk-versaclock5.c
+> index e7be3e54b9be..657493ecce4c 100644
+> --- a/drivers/clk/clk-versaclock5.c
+> +++ b/drivers/clk/clk-versaclock5.c
+> @@ -1138,7 +1138,7 @@ static int vc5_probe(struct i2c_client *client)
+>  	return ret;
+>  }
+>  
+> -static int vc5_remove(struct i2c_client *client)
+> +static void vc5_remove(struct i2c_client *client)
+>  {
+>  	struct vc5_driver_data *vc5 = i2c_get_clientdata(client);
+>  
+> @@ -1146,8 +1146,6 @@ static int vc5_remove(struct i2c_client *client)
+>  
+>  	if (vc5->chip_info->flags & VC5_HAS_INTERNAL_XTAL)
+>  		clk_unregister_fixed_rate(vc5->pin_xin);
+> -
+> -	return 0;
+>  }
+>  
+>  static int __maybe_unused vc5_suspend(struct device *dev)
 
+Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+-- 
+Luca
