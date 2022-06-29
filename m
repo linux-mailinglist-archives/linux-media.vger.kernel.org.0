@@ -2,212 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E81AD55FFC9
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 14:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47FE255FFC0
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 14:24:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232804AbiF2MVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 08:21:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54108 "EHLO
+        id S233313AbiF2MXz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 08:23:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231924AbiF2MVV (ORCPT
+        with ESMTP id S233109AbiF2MXx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 08:21:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66FC30544
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 05:21:20 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC9283D7;
-        Wed, 29 Jun 2022 14:21:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656505279;
-        bh=53v3k8hByNWfkMxAne8Ll0EBW8HCVXWhiXHa/u7UO4I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fM6hSw2y29VzIu1nckGrZTE+DYJ5Ys4nEPcHaj1K/uTp/0zy6zjc/RfBX+iPIFxU/
-         qrjSqFR56YJrw8lwSC5kMYootcHvMWuvG2YWLEGN3FEsWDYmyPIMNt98bErzDTwLYz
-         Epb3adjh3xn1JfLczip6rxrG0kIgkpFsshKXkgeg=
-Date:   Wed, 29 Jun 2022 15:20:59 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, Marek Vasut <marex@denx.de>,
-        linux-media@vger.kernel.org,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
-        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
-        Philippe CORNU <philippe.cornu@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] media: stm32: dcmi: Switch to
- __v4l2_subdev_state_alloc()
-Message-ID: <YrxDq5I3ZsEf8ruO@pendragon.ideasonboard.com>
-References: <20220627174156.66919-1-marex@denx.de>
- <3ef88906-188d-52a6-c3bf-647bc4e36732@xs4all.nl>
- <32f04271-4a9a-3291-cf36-ead0383db9ca@ideasonboard.com>
+        Wed, 29 Jun 2022 08:23:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 19EF931DDB
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 05:23:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1656505431;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EYDBXIB3xoIWC8aCI7RzeLW7qStzkUrLkNcQjH128XA=;
+        b=AjmeGh54ohC+B1d1Oaph0T5hVlPOXMM0wUoOuogkzluu6wRroIX6sCmtMsfBxSIrhO73A6
+        KG6XWRIZVRmGJWZAQygZGBypC7No8YfqZtQ8Kd4g/updeZUNcvOtAzE8a1qKceFR4EOqmd
+        ZMQDKIN1MLAd+pYOUtwY8hQPX7/tdsI=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-599-azK9aAaUMlKmEakdbRJ9KQ-1; Wed, 29 Jun 2022 08:23:50 -0400
+X-MC-Unique: azK9aAaUMlKmEakdbRJ9KQ-1
+Received: by mail-qk1-f198.google.com with SMTP id m15-20020a05620a290f00b006a74cf760b2so16290401qkp.20
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 05:23:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=EYDBXIB3xoIWC8aCI7RzeLW7qStzkUrLkNcQjH128XA=;
+        b=z+KdXg/AUdv7pOS7Y/rmyyn3qIU99l5uNMkz1slMnNJL17JkwOe6wNsXCXgP5J4/B0
+         W1ptY+BQm2OD1Bz7m2Xho9WdwbmW4ih3ZX6DPDce5HNAbU5IU0JzztTB7QVK3QHhFfEn
+         4wRgA4xUP458t8toB+Utq2ZWdf6TwBvELH33X8/HoXprovo9BbXHyGhQt9ndERmwhFqP
+         icT1Depr/jpuxXBEOI/KQuZvLpKfGfF1taLAgAbY7j4zrQoi5u9+C2kluK40vbnhQ8nY
+         E16ZnkNZ7leVFLxY4M/qdQrqaa+6fSspq3LSPpqmERgtFQdBCJwSVOtCHuwNm/tif+xT
+         RSkw==
+X-Gm-Message-State: AJIora93Fx74o7oIpI9QsMwogngk/RQKKKEHlEEJG3lN2DKxLURQndF6
+        ouYplGaE/9W0diesFBx+uW9z/2tTkJQ5J5QWcuOGOs0qy7r2EM9SWzOe053IxD0omm74VdB+DzI
+        cknkRBPpB0sQnK44UUmfTH18=
+X-Received: by 2002:a05:6214:268d:b0:472:aaf1:5f27 with SMTP id gm13-20020a056214268d00b00472aaf15f27mr694655qvb.110.1656505429150;
+        Wed, 29 Jun 2022 05:23:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u3h0V3fdhVV+HucGS5oArvomDWB3I4qcdeLL7MDHAtkOnDR5VNPMUAvyAUfaXGCeU2LIejWA==
+X-Received: by 2002:a05:6214:268d:b0:472:aaf1:5f27 with SMTP id gm13-20020a056214268d00b00472aaf15f27mr694617qvb.110.1656505428790;
+        Wed, 29 Jun 2022 05:23:48 -0700 (PDT)
+Received: from bfoster (c-24-61-119-116.hsd1.ma.comcast.net. [24.61.119.116])
+        by smtp.gmail.com with ESMTPSA id v123-20020a379381000000b006a6c230f5e0sm4399269qkd.31.2022.06.29.05.23.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 05:23:48 -0700 (PDT)
+Date:   Wed, 29 Jun 2022 08:23:45 -0400
+From:   Brian Foster <bfoster@redhat.com>
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Stephen Brennan <stephen.s.brennan@oracle.com>,
+        David.Laight@aculab.com, Ioannis Ilkos <ilkos@google.com>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
+Message-ID: <YrxEUbDkYLE6XF6x@bfoster>
+References: <20220623220613.3014268-1-kaleshsingh@google.com>
+ <20220623220613.3014268-2-kaleshsingh@google.com>
+ <Yrrrz7MxMu8OoEPU@bfoster>
+ <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <32f04271-4a9a-3291-cf36-ead0383db9ca@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 29, 2022 at 03:14:54PM +0300, Tomi Valkeinen wrote:
-> On 29/06/2022 12:41, Hans Verkuil wrote:
-> > Hi Marek, Tomi, Laurent,
-> > 
-> > On 27/06/2022 19:41, Marek Vasut wrote:
-> >> Any local subdev state should be allocated and free'd using
-> >> __v4l2_subdev_state_alloc()/__v4l2_subdev_state_free(), which
-> >> takes care of calling .init_cfg() subdev op. Without this,
-> >> subdev internal state might be uninitialized by the time
-> >> any other subdev op is called.
-> >>
-> >> Signed-off-by: Marek Vasut <marex@denx.de>
-> >> Cc: Alain Volmat <alain.volmat@foss.st.com>
-> >> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> >> Cc: Amelie DELAUNAY <amelie.delaunay@foss.st.com>
-> >> Cc: Hugues FRUCHET <hugues.fruchet@foss.st.com>
-> >> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Cc: Philippe CORNU <philippe.cornu@foss.st.com>
-> >> Cc: linux-stm32@st-md-mailman.stormreply.com
-> >> Cc: linux-arm-kernel@lists.infradead.org
-> >> ---
-> >> V2: Add FIXME comment above __v4l2_subdev_state_alloc() calls
-> >> ---
-> >>   drivers/media/platform/st/stm32/stm32-dcmi.c | 59 ++++++++++++--------
-> >>   1 file changed, 37 insertions(+), 22 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
-> >> index c604d672c2156..c68d32931b277 100644
-> >> --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
-> >> +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
-> >> @@ -996,22 +996,30 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
-> >>   			struct dcmi_framesize *sd_framesize)
-> >>   {
-> >>   	const struct dcmi_format *sd_fmt;
-> >> +	static struct lock_class_key key;
-> >>   	struct dcmi_framesize sd_fsize;
-> >>   	struct v4l2_pix_format *pix = &f->fmt.pix;
-> >> -	struct v4l2_subdev_pad_config pad_cfg;
-> >> -	struct v4l2_subdev_state pad_state = {
-> >> -		.pads = &pad_cfg
-> >> -		};
-> >> +	struct v4l2_subdev_state *sd_state;
-> >>   	struct v4l2_subdev_format format = {
-> >>   		.which = V4L2_SUBDEV_FORMAT_TRY,
-> >>   	};
-> >>   	bool do_crop;
-> >>   	int ret;
-> >>   
-> >> +	/*
-> >> +	 * FIXME: Drop this call, drivers are not supposed to use
-> >> +	 * __v4l2_subdev_state_alloc().
-> >> +	 */
-> >> +	sd_state = __v4l2_subdev_state_alloc(dcmi->source, "dcmi:state->lock", &key);
-> >> +	if (IS_ERR(sd_state))
-> >> +		return PTR_ERR(sd_state);
-> >> +
-> > 
-> > I've been reading the discussion for the v1 patch, and I seriously do not like this.
+On Tue, Jun 28, 2022 at 03:38:02PM -0700, Kalesh Singh wrote:
+> On Tue, Jun 28, 2022 at 4:54 AM Brian Foster <bfoster@redhat.com> wrote:
+> >
+> > On Thu, Jun 23, 2022 at 03:06:06PM -0700, Kalesh Singh wrote:
+> > > To be able to account the amount of memory a process is keeping pinned
+> > > by open file descriptors add a 'size' field to fdinfo output.
+> > >
+> > > dmabufs fds already expose a 'size' field for this reason, remove this
+> > > and make it a common field for all fds. This allows tracking of
+> > > other types of memory (e.g. memfd and ashmem in Android).
+> > >
+> > > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> > > Reviewed-by: Christian König <christian.koenig@amd.com>
+> > > ---
+> > >
+> > > Changes in v2:
+> > >   - Add Christian's Reviewed-by
+> > >
+> > > Changes from rfc:
+> > >   - Split adding 'size' and 'path' into a separate patches, per Christian
+> > >   - Split fdinfo seq_printf into separate lines, per Christian
+> > >   - Fix indentation (use tabs) in documentaion, per Randy
+> > >
+> > >  Documentation/filesystems/proc.rst | 12 ++++++++++--
+> > >  drivers/dma-buf/dma-buf.c          |  1 -
+> > >  fs/proc/fd.c                       |  9 +++++----
+> > >  3 files changed, 15 insertions(+), 7 deletions(-)
+> > >
+...
+> >
+> > Also not sure if it matters that much for your use case, but something
+> > worth noting at least with shmem is that one can do something like:
+> >
+> > # cat /proc/meminfo | grep Shmem:
+> > Shmem:               764 kB
+> > # xfs_io -fc "falloc -k 0 10m" ./file
+> > # ls -alh file
+> > -rw-------. 1 root root 0 Jun 28 07:22 file
+> > # stat file
+> >   File: file
+> >   Size: 0               Blocks: 20480      IO Block: 4096   regular empty file
+> > # cat /proc/meminfo | grep Shmem:
+> > Shmem:             11004 kB
+> >
+> > ... where the resulting memory usage isn't reflected in i_size (but is
+> > is in i_blocks/bytes).
 > 
-> I don't like it either.
+> I tried a similar experiment a few times, but I don't see the same
+> results. In my case, there is not any change in shmem. IIUC the
+> fallocate is allocating the disk space not shared memory.
 > 
-> > My comments are not specifically for this patch, but for all cases where
-> > __v4l2_subdev_state_alloc is called.
-> 
-> Just to emphasize it: afaics this is not an issue with the subdev state. 
-> This driver was already broken. Before the subdev state change the fix 
-> would have been to call source subdev's init_cfg. Now 
-> __v4l2_subdev_state_alloc handles calling init_cfg (along with a few 
-> other inits).
-> 
-> > It is now used in 4 drivers, so that's no longer a rare case, and the code isn't
-> > exactly trivial either.
-> 
-> Counting this one? I found 3 cases in v5.18-rc4:
-> 
-> 1) drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c:
-> 
-> Allocates the state for v4l2_subdev_call, set_fmt, TRY.
-> 
-> Here, a helper macro which does the alloc would be a solution.
-> 
-> 2) drivers/media/platform/renesas/vsp1/vsp1_entity.c:
-> 
-> Allocates the state for storing internal active state.
-> 
-> Here, I think, the easiest fix is for the driver to use the subdev state 
-> properly.
-> 
-> 3) drivers/staging/media/tegra-video/vi.c:
-> 
-> Allocates the state for v4l2_subdev_call, enum_frame_size and set_fmt, 
-> TRY. Interestingly the code also calls get_selection but without passing 
-> the state...
-> 
-> This is a more interesting case as the source's subdev state is actually 
-> modified by the driver. The driver calls enum_frame_size, then modifies 
-> the state, then calls set_fmt. I'm not sure if that's really legal... 
-> The driver directly modifies the state, instead of calling set_selection?
-> 
-> > I think a helper function might be beneficial, but the real problem is with the
-> > comment: it does not explain why you shouldn't use it and what needs to be done
-> > to fix it.
-> 
-> That is true. There's no single answer to that. I think instead of 
-> trying to document that in the v4l2-subdev doc, we can enhance the 
-> comments in those three call sites to explain how it needs to be fixed.
-> 
-> > My suggestion would be to document that in the kerneldoc for this function in
-> > media/v4l2-subdev.h, and then refer to that from this comment (and similar comments
-> > in the other drivers that use this).
-> > 
-> > And another question: are more drivers affected by this? Is it possible to
-> > find those and fix them all?
-> 
-> I think any driver that calls a source subdev's subdev ops which a 
-> subdev state as a parameter (the ones that used to take 
-> v4l2_subdev_pad_config), and does not call init_cfg is broken in the 
-> same way. With some grepping, I couldn't find anyone calling init_cfg. 
-> Finding those drivers which do those calls is a bit more difficult, but 
-> can be done with some efforts.
 
-A quick check identified the following files:
+Sorry, it was implied in my previous test was that I was running against
+tmpfs. So regardless of fs, the fallocate keep_size semantics shown in
+both cases is as expected: the underlying blocks are allocated and the
+inode size is unchanged.
 
-atmel-isc-base.c
-atmel-isi.c
-cxusb-analog.c
-fimc-capture.c
-mcam-core.c
-pxa_camera.c
-renesas-ceu.c
-saa7134-empress.c
-via-camera.c
+What wasn't totally clear to me when I read this patch was 1. whether
+tmpfs refers to Shmem and 2. whether tmpfs allowed this sort of
+operation. The test above seems to confirm both, however, right? E.g., a
+more detailed example:
 
-A few drivers with more complex call patterns may be missing.
+# mount | grep /tmp
+tmpfs on /tmp type tmpfs (rw,nosuid,nodev,seclabel,nr_inodes=1048576,inode64)
+# cat /proc/meminfo | grep Shmem:
+Shmem:              5300 kB
+# xfs_io -fc "falloc -k 0 1g" /tmp/file
+# stat /tmp/file 
+  File: /tmp/file
+  Size: 0               Blocks: 2097152    IO Block: 4096   regular empty file
+Device: 22h/34d Inode: 45          Links: 1
+Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
+Context: unconfined_u:object_r:user_tmp_t:s0
+Access: 2022-06-29 08:04:01.301307154 -0400
+Modify: 2022-06-29 08:04:01.301307154 -0400
+Change: 2022-06-29 08:04:01.451312834 -0400
+ Birth: 2022-06-29 08:04:01.301307154 -0400
+# cat /proc/meminfo | grep Shmem:
+Shmem:           1053876 kB
+# rm -f /tmp/file 
+# cat /proc/meminfo | grep Shmem:
+Shmem:              5300 kB
 
-> atmel-isc-base.c is one I found, and looks like it's doing something a 
-> bit similar to the 3) case above.
+So clearly this impacts Shmem.. was your test run against tmpfs or some
+other (disk based) fs?
+
+FWIW, I don't have any objection to exposing inode size if it's commonly
+useful information. My feedback was more just an fyi that i_size doesn't
+necessarily reflect underlying space consumption (whether it's memory or
+disk space) in more generic cases, because it sounds like that is really
+what you're after here. The opposite example to the above would be
+something like an 'xfs_io -fc "truncate 1t" /tmp/file', which shows a
+1TB inode size with zero additional shmem usage.
+
+Brian
+
+> cat /proc/meminfo > meminfo.start
+> xfs_io -fc "falloc -k 0 50m" ./xfs_file
+> cat /proc/meminfo > meminfo.stop
+> tail -n +1 meminfo.st* | grep -i '==\|Shmem:'
 > 
-> Perhaps the best way to solve this is just to remove the underscores 
-> from __v4l2_subdev_state_alloc, and change all the drivers which create 
-> temporary v4l2_subdev_states to use that (and the free) functions. And 
-> also create the helper macro which can be used in those cases where the 
-> call is simple (the state is not modified or accessed by the caller).
+> ==> meminfo.start <==
+> Shmem:               484 kB
+> ==> meminfo.stop <==
+> Shmem:               484 kB
+> 
+> ls -lh xfs_file
+> -rw------- 1 root root 0 Jun 28 15:12 xfs_file
+> 
+> stat xfs_file
+>   File: xfs_file
+>   Size: 0               Blocks: 102400     IO Block: 4096   regular empty file
+> 
+> Thanks,
+> Kalesh
+> 
+> >
+> > Brian
+> >
+> > >
+> > >       /* show_fd_locks() never deferences files so a stale value is safe */
+> > >       show_fd_locks(m, file, files);
+> > > --
+> > > 2.37.0.rc0.161.g10f37bed90-goog
+> > >
+> >
+> 
 
-As long as we prevent any new driver from using that API, that's fine
-with me.
-
-> It would've been nice to keep __v4l2_subdev_state_alloc internal to the 
-> v4l2-subdev, but maybe the v4l2 drivers are not there yet. The non-MC 
-> drivers seem to be doing all kinds of interesting things.
-
--- 
-Regards,
-
-Laurent Pinchart
