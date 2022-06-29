@@ -2,89 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D47685609E3
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 21:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96FE9560A1B
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 21:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbiF2TAl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 15:00:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45902 "EHLO
+        id S229989AbiF2TOP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 15:14:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbiF2TAk (ORCPT
+        with ESMTP id S229778AbiF2TOO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 15:00:40 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 633E31D337
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:00:38 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id 93-20020a9d02e6000000b0060c252ee7a4so12834871otl.13
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:00:38 -0700 (PDT)
+        Wed, 29 Jun 2022 15:14:14 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FF3539828
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:14:12 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id s124so23023499oia.0
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:14:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XANCxfETU1X+90CB+8QdrHZuxUsMStZ7sxeiI78YWI0=;
-        b=Pfi9XaRsdMVzmFoS8g4bijGAdYLPNiZX5G2nLuIu+FFApiFDqftIhy0m2ToaU/zKgL
-         Np8DdYrPLPygnuYrZxtb3DNMF4AZGmEepH1j3a8CAB80u+Ldpm/E4wheDB9QxfIQopD/
-         ZgJVV9JeT3mCpx7VPCUG4vVd+gHe10sRnQKSk=
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gsQHUW3cWs2ueLnrGdQ0Nv0XzCOV6whneenQWRvHie4=;
+        b=ZlOhcKNpZ9zQiwt3xlFdWeqTwZWp0lQSlaFoaAPZXxdNWv71svHTsiqzsYC4Drbhpq
+         Wc0HZNB8kAo2kZ3Nt624HdRHc0HL+MJk5jXtIXirtn/n4lsu5j206dUblyNN61/3hrml
+         WAmlBApCXfnVnewdkJRMOIYxioCT60h8dyMf1dBJREVU4xJLEsLQn2Ckw0O1ug2xtCaJ
+         7aaN1kMiHCaNa4pCL4KNDOEP9FrPREavCL4LrIlC+VPF21Phit+Q22Ejmt3QkJaDGYgG
+         lb/rNVoKBdLawYDkC7u11COo0vpcz2ZjNBXDr9bjtoWo6O0pnef+YUT+S5y80qRZrFGJ
+         Mhxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XANCxfETU1X+90CB+8QdrHZuxUsMStZ7sxeiI78YWI0=;
-        b=EHt87LbbIyvJhVN3CukBOgIgsSQ6tcpYvHn2vK5B1SExdoQgVwBbOmU7fGLnrJNyXR
-         ACc7hwpf9VARGnXDeunrd6GiIIYjyK8eMYa3Ceen+7dM8+77SvIxh9bWlccwwimdQyC3
-         qCBXPJ8o04iuNVcd5aAF4NcslHbTwQqEfShEWeyUqtaWfsmOg8f06NjhF+4KWXPVJ3fc
-         WQmhh4jW+maSuTrzE44huyFflKx2c4w4bGTQUJ4jWjkSq28mOGWxgbTmvLtu3UhTdBKp
-         TWgR5k/DJ8zIIWGw+DjJqYCCijUgmkFnyN2YyjuaniWZ0AbrPwbFxEHyhgrK4kbjfp1m
-         cCXQ==
-X-Gm-Message-State: AJIora/Wun3BXaULSsoQ3jR8Q5aU14Ey7asV2RHM10ty64xGXsteNkU9
-        AL40BiZiM24gkvGZnOpKLDT2lQ==
-X-Google-Smtp-Source: AGRyM1tjw49FI5kz2aRYhahxfht0fnwCbdGiJkQjKsHkxkmAzOKYpE5XAUMOZGVS7kV98l4pMV2e1A==
-X-Received: by 2002:a9d:2f42:0:b0:616:eb86:e8b4 with SMTP id h60-20020a9d2f42000000b00616eb86e8b4mr2210163otb.333.1656529237497;
-        Wed, 29 Jun 2022 12:00:37 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id j4-20020a4aa644000000b0035eb4e5a6besm9589897oom.20.2022.06.29.12.00.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 12:00:36 -0700 (PDT)
-Subject: Re: [RESEND PATCH v3 2/2] media: vimc: documentation for lens
-To:     Yunke Cao <yunkec@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220629020630.2865785-1-yunkec@google.com>
- <20220629020630.2865785-3-yunkec@google.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <b4943a26-e8b4-0f78-bfb9-e6e018537f28@linuxfoundation.org>
-Date:   Wed, 29 Jun 2022 13:00:36 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gsQHUW3cWs2ueLnrGdQ0Nv0XzCOV6whneenQWRvHie4=;
+        b=25d2OAk3hEOWQA2r+W+nrOaxQqGx/Ar+x2irJrac5A2916b9ibEZ6zcLVKp3ydQVYe
+         GCKghEAQAlSiPnpZcgCqY2qjVPvz40MwlO+ChdJiVDsw/BCpTbAu199Vmwzgm8j4Wyng
+         SeDHhdz1bxfKOVsyTYTXBz7xOAAhlCC4+ZMvi/NqvlGAVfHXejj6TCYTA3eD9GI3nrm9
+         Mfal+V3R5xfV0iTGjv6E8esH8LCAwp8mI2waQHtSZyjaID48qGMBVMac6qD0gDG4AcXS
+         sKmFYvtYFV808DarxzzwBBChBTWtR40Ll5tzAa0mNPNP4eUfZS9GkFajO8FRSpqnBTJL
+         lK8A==
+X-Gm-Message-State: AJIora9MqHfPkkZHNGcBiAYHRxyPeJkaEmOspnCe2RkRGKsacVYOPZ1w
+        hDEz37lz2RAwi/Nf+nY+Us+7BQ==
+X-Google-Smtp-Source: AGRyM1s3/6EZgU1A7RZ9zY9AkMLlI/H8FJYfZ6VvfW+D2DdP5k29qnFiyb2lgpv7W6hB0hZO8JiGKA==
+X-Received: by 2002:aca:3090:0:b0:335:b264:8bd7 with SMTP id w138-20020aca3090000000b00335b2648bd7mr2295348oiw.194.1656530051503;
+        Wed, 29 Jun 2022 12:14:11 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id b11-20020a9d60cb000000b00616dfd2c859sm3676390otk.59.2022.06.29.12.14.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 12:14:10 -0700 (PDT)
+Date:   Wed, 29 Jun 2022 16:14:05 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, benjamin.gaignard@collabora.com,
+        nicolas.dufresne@collabora.com, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 2/7] media: hantro: Support format filtering by depth
+Message-ID: <YrykfXBR9x9du2mP@eze-laptop>
+References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
+ <20220616202513.351039-3-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220629020630.2865785-3-yunkec@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220616202513.351039-3-jernej.skrabec@gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/28/22 8:06 PM, Yunke Cao wrote:
-> Add documentation for vimc-lens.
-> Add a lens into the vimc topology graph.
+Hi Jernej,
+
+On Thu, Jun 16, 2022 at 10:25:08PM +0200, Jernej Skrabec wrote:
+> In preparation for supporting 10-bit formats, add mechanism which will
+> filter formats based on pixel depth.
 > 
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> Signed-off-by: Yunke Cao <yunkec@google.com>
+> Hantro G2 supports only one decoding format natively and that is based
+> on bit depth of current video frame. Additionally, it makes no sense to
+> upconvert bitness, so filter those out too.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+Thanks,
+Ezequiel
+
 > ---
-This patch is now queued for vimc pull request for Linux 5.20-rc1
-to be send to Mauro Chehab.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux.git/log/?h=vimc
-
-thanks,
--- Shuah
+>  drivers/staging/media/hantro/hantro.h      |  4 ++
+>  drivers/staging/media/hantro/hantro_v4l2.c | 48 ++++++++++++++++++++--
+>  drivers/staging/media/hantro/hantro_v4l2.h |  1 +
+>  3 files changed, 50 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> index 26308bb29adc..2989ebc631cc 100644
+> --- a/drivers/staging/media/hantro/hantro.h
+> +++ b/drivers/staging/media/hantro/hantro.h
+> @@ -227,6 +227,7 @@ struct hantro_dev {
+>   *
+>   * @ctrl_handler:	Control handler used to register controls.
+>   * @jpeg_quality:	User-specified JPEG compression quality.
+> + * @bit_depth:		Bit depth of current frame
+>   *
+>   * @codec_ops:		Set of operations related to codec mode.
+>   * @postproc:		Post-processing context.
+> @@ -252,6 +253,7 @@ struct hantro_ctx {
+>  
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	int jpeg_quality;
+> +	int bit_depth;
+>  
+>  	const struct hantro_codec_ops *codec_ops;
+>  	struct hantro_postproc_ctx postproc;
+> @@ -277,6 +279,7 @@ struct hantro_ctx {
+>   * @enc_fmt:	Format identifier for encoder registers.
+>   * @frmsize:	Supported range of frame sizes (only for bitstream formats).
+>   * @postprocessed: Indicates if this format needs the post-processor.
+> + * @match_depth: Indicates if format bit depth must match video bit depth
+>   */
+>  struct hantro_fmt {
+>  	char *name;
+> @@ -287,6 +290,7 @@ struct hantro_fmt {
+>  	enum hantro_enc_fmt enc_fmt;
+>  	struct v4l2_frmsize_stepwise frmsize;
+>  	bool postprocessed;
+> +	bool match_depth;
+>  };
+>  
+>  struct hantro_reg {
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index 29cc61d53b71..334f18a4120d 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -64,6 +64,42 @@ hantro_get_postproc_formats(const struct hantro_ctx *ctx,
+>  	return ctx->dev->variant->postproc_fmts;
+>  }
+>  
+> +int hantro_get_format_depth(u32 fourcc)
+> +{
+> +	switch (fourcc) {
+> +	case V4L2_PIX_FMT_P010:
+> +	case V4L2_PIX_FMT_P010_4L4:
+> +		return 10;
+> +	default:
+> +		return 8;
+> +	}
+> +}
+> +
+> +static bool
+> +hantro_check_depth_match(const struct hantro_ctx *ctx,
+> +			 const struct hantro_fmt *fmt)
+> +{
+> +	int fmt_depth, ctx_depth = 8;
+> +
+> +	if (!fmt->match_depth && !fmt->postprocessed)
+> +		return true;
+> +
+> +	/* 0 means default depth, which is 8 */
+> +	if (ctx->bit_depth)
+> +		ctx_depth = ctx->bit_depth;
+> +
+> +	fmt_depth = hantro_get_format_depth(fmt->fourcc);
+> +
+> +	/*
+> +	 * Allow only downconversion for postproc formats for now.
+> +	 * It may be possible to relax that on some HW.
+> +	 */
+> +	if (!fmt->match_depth)
+> +		return fmt_depth <= ctx_depth;
+> +
+> +	return fmt_depth == ctx_depth;
+> +}
+> +
+>  static const struct hantro_fmt *
+>  hantro_find_format(const struct hantro_ctx *ctx, u32 fourcc)
+>  {
+> @@ -91,7 +127,8 @@ hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
+>  	formats = hantro_get_formats(ctx, &num_fmts);
+>  	for (i = 0; i < num_fmts; i++) {
+>  		if (bitstream == (formats[i].codec_mode !=
+> -				  HANTRO_MODE_NONE))
+> +				  HANTRO_MODE_NONE) &&
+> +		    hantro_check_depth_match(ctx, &formats[i]))
+>  			return &formats[i];
+>  	}
+>  	return NULL;
+> @@ -162,11 +199,13 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+>  	formats = hantro_get_formats(ctx, &num_fmts);
+>  	for (i = 0; i < num_fmts; i++) {
+>  		bool mode_none = formats[i].codec_mode == HANTRO_MODE_NONE;
+> +		fmt = &formats[i];
+>  
+>  		if (skip_mode_none == mode_none)
+>  			continue;
+> +		if (!hantro_check_depth_match(ctx, fmt))
+> +			continue;
+>  		if (j == f->index) {
+> -			fmt = &formats[i];
+>  			f->pixelformat = fmt->fourcc;
+>  			return 0;
+>  		}
+> @@ -182,8 +221,11 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+>  		return -EINVAL;
+>  	formats = hantro_get_postproc_formats(ctx, &num_fmts);
+>  	for (i = 0; i < num_fmts; i++) {
+> +		fmt = &formats[i];
+> +
+> +		if (!hantro_check_depth_match(ctx, fmt))
+> +			continue;
+>  		if (j == f->index) {
+> -			fmt = &formats[i];
+>  			f->pixelformat = fmt->fourcc;
+>  			return 0;
+>  		}
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.h b/drivers/staging/media/hantro/hantro_v4l2.h
+> index 18bc682c8556..b17e84c82582 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.h
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.h
+> @@ -22,5 +22,6 @@ extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
+>  extern const struct vb2_ops hantro_queue_ops;
+>  
+>  void hantro_reset_fmts(struct hantro_ctx *ctx);
+> +int hantro_get_format_depth(u32 fourcc);
+>  
+>  #endif /* HANTRO_V4L2_H_ */
+> -- 
+> 2.36.1
+> 
