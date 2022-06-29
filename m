@@ -2,138 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FE8E560A30
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 21:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CF79560AB5
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 21:56:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbiF2TUE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 15:20:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33584 "EHLO
+        id S230139AbiF2T4n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 15:56:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbiF2TUE (ORCPT
+        with ESMTP id S231237AbiF2T4h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 15:20:04 -0400
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D185D1A062
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:20:02 -0700 (PDT)
-Received: by mail-oo1-xc34.google.com with SMTP id i19-20020a4ad093000000b004256ad0893fso3305293oor.3
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:20:02 -0700 (PDT)
+        Wed, 29 Jun 2022 15:56:37 -0400
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2BAB3466C
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:56:35 -0700 (PDT)
+Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-101ab23ff3fso22935196fac.1
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=4IY1+lAO4Posxki4A8hl3XkQpihB9YLZGIPFUTvwakM=;
-        b=HYC4tZgofx/ozc5CMWDl+alXct7+6S+dQxMbkS7lfomOQqvqi3SXQLiewlzmyuDFi5
-         ahx6zd6QAWXzcAEyFdYv66RwYSGLUvergaae5ybUbKeDqvz2CTX/Ndc2OtlXbRWc4j5d
-         eeThbp/RaKvtBFN77MLPcUoSKe1H+Y6dnOd2QkkNDEZ2Rp8amwyvNtOkWJeCLdR0vYB0
-         dEHtmnqS4gFz4Atb5iAdYKjUblRRjPvf9dIO4R9l/6lcxRptDU3VE5h2HomzueMyU4fO
-         JIsE0TZOIHbQhl1l90yKlRQBW0qFzpa9rHVJqX2ghHY5pdpLQNdx9Ir79BVx0iBXdc7H
-         zBLA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xtdRhSHcHimjcfa9P8DWUGduGozUxk97f29FSzqKU1M=;
+        b=5TfzXq83oIyevEF+IeSWvMk0ZpiPfDEDEHO3GjO2kffbe0v1qsHB0TF9v3xvrEIewZ
+         duxgcAAsgG4Um2lP1p7aYrezoJDwzv692aJNTB2ZHEbfJghdRpMhqVxXH4vAdNB6GdVV
+         487j22Pa6VSMCkTSLWmrK6gI6Fb0te+uLGxr78vWARrqx8SlnYQO1EKHZMkbwQG3QFJC
+         M1CkrszxN8xYVcLIhEsvr9JH73phmzOFoxOunIjIrlt/6qielHMTEloT4SL3+Xk2XiOi
+         JH3Y+JwZ6O+l/58Cy5nqkJ8rWjd24vbta+ajUSTrYLpszC0YnXhofcvPn1/z5DTU+5KZ
+         vcRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4IY1+lAO4Posxki4A8hl3XkQpihB9YLZGIPFUTvwakM=;
-        b=Fs1mDcpQwtLfihIz4o54xjV52RiS+sydN5LmLTPXz7BnGn0/QmrSm2adyXAWPqSUWs
-         CKriz7gClVF9pCC1/sd/dlOFAYWs0yS68ui+5QR0+UZ1tb46lMOb6CJgOouWS1Y1DVH/
-         x+eU5ucnBVyJeqnBaRqXuVJqbTvgLiSyf9nft6Dv74WRY3W+ISSmoJMxojX6MsjGMGm1
-         86N8ScJ9X1o5d4Nb9rMJtrBZ/FQWoT1yto/O0Iq2ZFoKKYyKmQ86B7SN4wQ0xcq1zAZj
-         +hOi5pZmv0v02JOqpeXGlJG/aYn+uhtPiTwaGSckBvFQ4hFcfI2I2VIBq+IFlDzQe8cQ
-         A+Gg==
-X-Gm-Message-State: AJIora+qPUzPFEKbqvc+Pg4VfN3MhjWsN260QrWmNfZpYsGZknK1KZ4A
-        Gr2qV3/5wnMGQPiXRQt+k+xseQ==
-X-Google-Smtp-Source: AGRyM1szB2I5u75eF35Z9NNIRvSjg69yLzAkkdRofmHhMutfeUDBCRnOFjwrl8GRyQF4pR5pXgXnRg==
-X-Received: by 2002:a4a:2cc1:0:b0:425:8f67:36f5 with SMTP id o184-20020a4a2cc1000000b004258f6736f5mr2137665ooo.16.1656530402190;
-        Wed, 29 Jun 2022 12:20:02 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id y19-20020a9d7153000000b00612e4267634sm10092952otj.18.2022.06.29.12.19.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xtdRhSHcHimjcfa9P8DWUGduGozUxk97f29FSzqKU1M=;
+        b=aUDXXWV8zX7Iri/PVJcO7DAlQas8E7BPvwdv4pJwjgj16MGo2IZwVv6gQp/I94kRTr
+         WagEZcaHx0HLEWD6sxU2W3MircoYDB/O8r6HDSHwQw4sJt3Ve91Nj0PZzMTaqF6Gq5DW
+         jnbAm1RQ3tlsrYly3kKMPJcTUS68R8w9tsggvLSCAerHo9hqsu27eSopjJgiZQuZGe49
+         cSZKWNfn9cYg4LIQUwwtHiiKy6pNI18h7t097yEO+NHkqHWYXBG/tZPzhYia5UUf3jDH
+         9B7w+buK0+CTm3lJd7bXysKxj6uMHnmzvdmJF0idFJ72WscI1TeTHeUEhwDz44LExuyI
+         +eYw==
+X-Gm-Message-State: AJIora9eIEXbHSxpgnmIW7sucgnCGuJjQreugQaHvaPhyarPU6mrkkoB
+        mV2USi9PTw1MMonTmaOFybMd2ZzPklwMvEbe
+X-Google-Smtp-Source: AGRyM1s37hb7eYCfhTiM6cxfJWY2g9MwFk2rcYGA5QyZ0WxQhiUoZub24fc+kBX6l+1lngRgXdajQg==
+X-Received: by 2002:a05:6870:88a8:b0:101:6409:ae26 with SMTP id m40-20020a05687088a800b001016409ae26mr2895502oam.160.1656532595027;
+        Wed, 29 Jun 2022 12:56:35 -0700 (PDT)
+Received: from zeta-build.. ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id o31-20020a056870911f00b000f5e33aaa66sm11573057oae.0.2022.06.29.12.56.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 12:20:01 -0700 (PDT)
-Date:   Wed, 29 Jun 2022 16:19:55 -0300
+        Wed, 29 Jun 2022 12:56:34 -0700 (PDT)
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, benjamin.gaignard@collabora.com,
-        nicolas.dufresne@collabora.com, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 7/7] media: hantro: sunxi: Enable 10-bit decoding
-Message-ID: <Yryl24uu0CMKpFgQ@eze-laptop>
-References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
- <20220616202513.351039-8-jernej.skrabec@gmail.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Subject: [PATCH] hantro: Fix RK3399 H.264 format advertising
+Date:   Wed, 29 Jun 2022 16:56:23 -0300
+Message-Id: <20220629195624.45745-1-ezequiel@vanguardiasur.com.ar>
+X-Mailer: git-send-email 2.34.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220616202513.351039-8-jernej.skrabec@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jernej,
+Commit 1f82f2df523cb ("media: hantro: Enable H.264 on Rockchip VDPU2")
+enabled H.264 on some SoCs with VDPU2 cores. This had the side-effect
+of exposing H.264 coded format as supported on RK3399.
 
-On Thu, Jun 16, 2022 at 10:25:13PM +0200, Jernej Skrabec wrote:
-> Now that infrastructure for 10-bit decoding exists, enable it for
-> Allwinner H6.
-> 
+Fix this and clarify how the codec is explicitly disabled on RK399 on
+this driver.
 
-I don't have this hardware, but the patch seems OK.
+Fixes: 1f82f2df523cb ("media: hantro: Enable H.264 on Rockchip VDPU2")
+Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+---
+ .../staging/media/hantro/rockchip_vpu_hw.c    | 60 ++++++++++++++++---
+ 1 file changed, 53 insertions(+), 7 deletions(-)
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+index 098486b9ec27..26e16b5a6a70 100644
+--- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
++++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+@@ -182,7 +182,7 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
+ 	},
+ };
+ 
+-static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
++static const struct hantro_fmt rockchip_vdpu2_dec_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
+@@ -236,6 +236,47 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
+ 	},
+ };
+ 
++static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
++	{
++		.fourcc = V4L2_PIX_FMT_NV12,
++		.codec_mode = HANTRO_MODE_NONE,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
++		.codec_mode = HANTRO_MODE_MPEG2_DEC,
++		.max_depth = 2,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_VP8_FRAME,
++		.codec_mode = HANTRO_MODE_VP8_DEC,
++		.max_depth = 2,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
++	},
++};
++
+ static irqreturn_t rockchip_vpu1_vepu_irq(int irq, void *dev_id)
+ {
+ 	struct hantro_dev *vpu = dev_id;
+@@ -548,8 +589,8 @@ const struct hantro_variant rk3288_vpu_variant = {
+ 
+ const struct hantro_variant rk3328_vpu_variant = {
+ 	.dec_offset = 0x400,
+-	.dec_fmts = rk3399_vpu_dec_fmts,
+-	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
++	.dec_fmts = rockchip_vdpu2_dec_fmts,
++	.num_dec_fmts = ARRAY_SIZE(rockchip_vdpu2_dec_fmts),
+ 	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
+ 		 HANTRO_H264_DECODER,
+ 	.codec_ops = rk3399_vpu_codec_ops,
+@@ -560,6 +601,11 @@ const struct hantro_variant rk3328_vpu_variant = {
+ 	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names),
+ };
+ 
++/*
++ * H.264 decoding explicitly disabled in RK3399.
++ * This ensures userspace applications use the Rockchip VDEC core,
++ * which has better performance.
++ */
+ const struct hantro_variant rk3399_vpu_variant = {
+ 	.enc_offset = 0x0,
+ 	.enc_fmts = rockchip_vpu_enc_fmts,
+@@ -579,8 +625,8 @@ const struct hantro_variant rk3399_vpu_variant = {
+ 
+ const struct hantro_variant rk3568_vpu_variant = {
+ 	.dec_offset = 0x400,
+-	.dec_fmts = rk3399_vpu_dec_fmts,
+-	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
++	.dec_fmts = rockchip_vdpu2_dec_fmts,
++	.num_dec_fmts = ARRAY_SIZE(rockchip_vdpu2_dec_fmts),
+ 	.codec = HANTRO_MPEG2_DECODER |
+ 		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
+ 	.codec_ops = rk3399_vpu_codec_ops,
+@@ -596,8 +642,8 @@ const struct hantro_variant px30_vpu_variant = {
+ 	.enc_fmts = rockchip_vpu_enc_fmts,
+ 	.num_enc_fmts = ARRAY_SIZE(rockchip_vpu_enc_fmts),
+ 	.dec_offset = 0x400,
+-	.dec_fmts = rk3399_vpu_dec_fmts,
+-	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
++	.dec_fmts = rockchip_vdpu2_dec_fmts,
++	.num_dec_fmts = ARRAY_SIZE(rockchip_vdpu2_dec_fmts),
+ 	.codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
+ 		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
+ 	.codec_ops = rk3399_vpu_codec_ops,
+-- 
+2.31.1
 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/staging/media/hantro/sunxi_vpu_hw.c | 27 +++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> index fbeac81e59e1..02ce8b064a8f 100644
-> --- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> @@ -23,12 +23,39 @@ static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
->  			.step_height = 32,
->  		},
->  	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_P010,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +		.postprocessed = true,
-> +		.frmsize = {
-> +			.min_width = FMT_MIN_WIDTH,
-> +			.max_width = FMT_UHD_WIDTH,
-> +			.step_width = 32,
-> +			.min_height = FMT_MIN_HEIGHT,
-> +			.max_height = FMT_UHD_HEIGHT,
-> +			.step_height = 32,
-> +		},
-> +	},
->  };
->  
->  static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12_4L4,
->  		.codec_mode = HANTRO_MODE_NONE,
-> +		.match_depth = true,
-> +		.frmsize = {
-> +			.min_width = FMT_MIN_WIDTH,
-> +			.max_width = FMT_UHD_WIDTH,
-> +			.step_width = 32,
-> +			.min_height = FMT_MIN_HEIGHT,
-> +			.max_height = FMT_UHD_HEIGHT,
-> +			.step_height = 32,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_P010_4L4,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +		.match_depth = true,
->  		.frmsize = {
->  			.min_width = FMT_MIN_WIDTH,
->  			.max_width = FMT_UHD_WIDTH,
-> -- 
-> 2.36.1
-> 
