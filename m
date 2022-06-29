@@ -2,274 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D17EB5606DA
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 19:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFED55608D3
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 20:15:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230259AbiF2RB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 13:01:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46242 "EHLO
+        id S231562AbiF2SO6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 14:14:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229654AbiF2RBY (ORCPT
+        with ESMTP id S229513AbiF2SO5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 13:01:24 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70A4F38D8F
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 10:01:23 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-101d96fe0a5so22270793fac.2
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 10:01:23 -0700 (PDT)
+        Wed, 29 Jun 2022 14:14:57 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5DB3981D
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 11:14:56 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id d2so22486002ejy.1
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 11:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ef+4apwtIbdICqme2rXmW1mvBhsERAVWQJprylUXtXY=;
-        b=G42CbUs4Vmmb5Q0Gf4h3i/fhOzvaIMiB+WCejp/2bnJofeKf1EfIqxUApo/q2dgKeR
-         FMZj76Va5WB5JQFQ46dBJAytWdFbzf3cKrStbdLyi6oOCeLD8LWmvST9yfxYJvoYy4u4
-         SJNqKHr680iZHcDDoDpmsMUrT4HIuDGigN6phqAcN69BYWAE7WCIvQ6E3qRyYGolHNDI
-         p1v/MtUSyGwHMonO4Bly0xu7aeI8ZQTrm7a6UW9dtUSIK0QMbncHNx9iHXQMqtVvbKg4
-         3kK1Ze4ArGkUJ75NIufIag4ruRCAKvgP0g+i4VBgPRIzNP0jDjtW0zJqr6XSyDVdqA/L
-         ZBXQ==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=NziNT6MNguSPfaLeIkcj56yMTj39Rh5hBsiCp5bGSdg=;
+        b=LsJXJbFZRJTbiLn5URdeYDqyRrsEB9AjiEI3FZW3SzmJPnqEHB8mj08e0nd/gDZGmG
+         yV85LKcnG0crC9zMUr9MabIwVPSOeTF9EDD5yNon9vscKAHcZrKr2f5Pz004Kzt9Nt0A
+         iwYGWuOe+WgTlitjnO5rlk42Lj+ugdU+QxhRaI7pUAfE6PB1cH9chWg6aV4dT1yeIi8f
+         cT59NteWT13PRpe7EfiPKdXq4KhhA++yOm7qFr9DJ0o2wWTyT2Q481b7qAB3mq1UnNx7
+         +5ooICn20J01plV04b2utW5Il3MYdtLc/wxslTb0miKoOYpPjbnLFl8PUuAPHyLBTpI4
+         46Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ef+4apwtIbdICqme2rXmW1mvBhsERAVWQJprylUXtXY=;
-        b=Lu/A/x4L6SLnAKPzHLiNKzWjDiWxZJDzYH1k4YcQqhA+hRB/G/TaHKzoL6sRSqjIFW
-         Wbeajy9EJOS8KA4K2gMs30oaaI0d/dUKBqeT0gL1jDacxNZOSneYTMfqNx9r6ppknbaN
-         4awL1NIq3Mncb4qpoTQNj84mOF+/K4G0+YyCb0IB3B+yTpOqZDmfKJ9IotHRfkGgua+f
-         Jo0WSYk3oExKB6puB2R0FSWiM3gWgXOjhFMEkP20W8xxwMHBQZMSzFaVcFH9CHFLzqwd
-         4xR4kjH3zAv6Jy/Ur5LK47PvcyxQWLunKWCWY6xEcUekQz+s3qwJQy3gJ6xAVt1Qed3k
-         qAQQ==
-X-Gm-Message-State: AJIora+y84YNEpu+xfHTNYHK9EvkHJ9zLhi1zhvBSEUsJeOxYjbJa/RG
-        Gi949NKx/3fVAd/WEjhfJOv/rw==
-X-Google-Smtp-Source: AGRyM1uBXuRoIHaCMNvjM0X3TXsEmHfLKz9mV46S0kVY8b8/1/jTKZ6c1VetCC5svwotT9hmzFHoKA==
-X-Received: by 2002:a05:6870:45a1:b0:10b:8ee3:b3bd with SMTP id y33-20020a05687045a100b0010b8ee3b3bdmr1351076oao.9.1656522082649;
-        Wed, 29 Jun 2022 10:01:22 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id go13-20020a056870da0d00b00101f143d537sm11419179oab.26.2022.06.29.10.01.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 10:01:21 -0700 (PDT)
-Date:   Wed, 29 Jun 2022 14:01:16 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        p.zabel@pengutronix.de, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, benjamin.gaignard@collabora.com,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 3/7] media: hantro: postproc: Fix buffer size
- calculation
-Message-ID: <YryFXLQvxEizaVah@eze-laptop>
-References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
- <20220616202513.351039-4-jernej.skrabec@gmail.com>
- <YrskKxCDwSulaGJ5@eze-laptop>
- <3180111.44csPzL39Z@jernej-laptop>
- <5af02115c95f96116b161464d3be8a210dad9d97.camel@collabora.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=NziNT6MNguSPfaLeIkcj56yMTj39Rh5hBsiCp5bGSdg=;
+        b=UcYvIMfl/HsedIT8UKKG35fxlKHfhUkTS2xsa2qngoNcfuvT7PW6lxartscTx5gyrT
+         mHDTmx1dErBY5ANf8RAihfuoUfDet5KGbZt+K2RViefDRTBnsvGteoKBeq1tpixeBtjv
+         ucNHteX0AS+h9Zj6f2MTSM3sX4D620f3t7w0GStBosmafTGHtANN4EvPnWkmIZ/2WkOc
+         CbfOj1VOZT5qmwLJxpiUc7Ll86+k+Qi0Nkn2ma9dsklqNyALHYhLKxQ/g2BOkYIY9AlM
+         u03vngcEy5zhJwQ3bWRIaG+5g5loD+EpLlw7U3DG7oGyx/B5NGNw+EdW3vTyFZJLDuze
+         yUuA==
+X-Gm-Message-State: AJIora/tXFyKsYLimlUDG4AO0C9dF+8+Xwlmopku4UCvgTSnAFgAQM3i
+        G4ttgOoEX15Qd0zB9Jz1RtmEfXK00j3jKw==
+X-Google-Smtp-Source: AGRyM1u/G4E7GLqQZ4XLYwXSjMnjgtISwubh4x4xRbKvOAOKAMpyY7/fomUlsZKQ6WoUlSnXYLT94g==
+X-Received: by 2002:a17:907:3e86:b0:6f5:917:10cc with SMTP id hs6-20020a1709073e8600b006f5091710ccmr4703960ejc.53.1656526494727;
+        Wed, 29 Jun 2022 11:14:54 -0700 (PDT)
+Received: from [192.168.0.187] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id fx7-20020a170906b74700b0072232a898f1sm8030915ejb.103.2022.06.29.11.14.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jun 2022 11:14:54 -0700 (PDT)
+Message-ID: <673c2e59-d1c5-f6b8-df80-b5a46a7aa92e@linaro.org>
+Date:   Wed, 29 Jun 2022 20:14:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5af02115c95f96116b161464d3be8a210dad9d97.camel@collabora.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 5/6] media: dt-bindings: ov5693: document YAML binding
+Content-Language: en-US
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220629152933.422990-1-tommaso.merciai@amarulasolutions.com>
+ <20220629152933.422990-6-tommaso.merciai@amarulasolutions.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220629152933.422990-6-tommaso.merciai@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas, Jernej,
+On 29/06/2022 17:29, Tommaso Merciai wrote:
+> Add documentation of device tree in YAML schema for the OV5693
+> CMOS image sensor from Omnivision
+> 
+> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> ---
+> Changes since v1:
+>  - Fix allOf position as suggested by Krzysztof
+>  - Remove port description as suggested by Krzysztof
+>  - Fix EOF as suggested by Krzysztof
+> 
+> Changes since v2:
+>  - Fix commit body as suggested by Krzysztof
 
-On Tue, Jun 28, 2022 at 04:06:13PM -0400, Nicolas Dufresne wrote:
-> Le mardi 28 juin 2022 à 18:13 +0200, Jernej Škrabec a écrit :
-> > Dne torek, 28. junij 2022 ob 17:54:19 CEST je Ezequiel Garcia napisal(a):
-> > > Hi Jernej,
-> > > 
-> > > On Thu, Jun 16, 2022 at 10:25:09PM +0200, Jernej Skrabec wrote:
-> > > > When allocating aux buffers for postprocessing, it's assumed that base
-> > > > buffer size is the same as that of output. Coincidentally, that's true
-> > > > most of the time, but not always. 10-bit source also needs aux buffer
-> > > > size which is appropriate for 10-bit native format, even if the output
-> > > > format is 8-bit. Similarly, mv sizes and other extra buffer size also
-> > > > depends on source width/height, not destination.
-> > > > 
-> > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> > > 
-> > > I took a new look at this patch.
-> > > 
-> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > ---
-> > > > 
-> > > >  .../staging/media/hantro/hantro_postproc.c    | 24 +++++++++++++------
-> > > >  drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
-> > > >  drivers/staging/media/hantro/hantro_v4l2.h    |  2 ++
-> > > >  3 files changed, 20 insertions(+), 8 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/hantro/hantro_postproc.c
-> > > > b/drivers/staging/media/hantro/hantro_postproc.c index
-> > > > ab168c1c0d28..b77cc55e43ea 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_postproc.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_postproc.c
-> > > > @@ -12,6 +12,7 @@
-> > > > 
-> > > >  #include "hantro_hw.h"
-> > > >  #include "hantro_g1_regs.h"
-> > > >  #include "hantro_g2_regs.h"
-> > > > 
-> > > > +#include "hantro_v4l2.h"
-> > > > 
-> > > >  #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
-> > > >  { \
-> > > > 
-> > > > @@ -174,18 +175,27 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
-> > > > 
-> > > >  	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-> > > >  	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
-> > > >  	unsigned int num_buffers = cap_queue->num_buffers;
-> > > > 
-> > > > +	struct v4l2_pix_format_mplane pix_mp;
-> > > > +	const struct hantro_fmt *fmt;
-> > > > 
-> > > >  	unsigned int i, buf_size;
-> > > > 
-> > > > -	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage;
-> > > > +	/* this should always pick native format */
-> > > > +	fmt = hantro_get_default_fmt(ctx, false);
-> > > 
-> > > Clearly this is correct.
-> > > 
-> > > When the driver enables the post-processor it decodes a coded format (H264,
-> > > etc.) to a native format (NV12_4L4 or P010_4L4) and feeds this into the
-> > > postprocessor engine to produce some other format (YUYV, NV12, etc.).
-> > > 
-> > > The buffers allocated here should be taken from the native format,
-> > > so it's correct to use hantro_get_default_fmt().
-> > > 
-> > > > +	if (!fmt)
-> > > > +		return -EINVAL;
-> > > > +	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
-> > > > +			    ctx->src_fmt.height);
-> > > 
-> > > The issue comes at this point, where we negotiate the buffer size based on
-> > > the source size (OUTPUT queue size), instead of negotiating based
-> > > on the Native size.
-> > > 
-> > >   Coded -> [ Decoder ] -> Native -> [ Post-processor ] -> Decoded
-> > 
-> > I'm not sure what is the difference between source and native size? You mean 
-> > one coded in controls and one set via output format? IMO they should always be 
-> > the same, otherwise it can be considered a bug in userspace application.
-> 
-> Indeed the src_fmt should use coded width/height (as per spec). The driver will
-> then adapt to its own requirement resulting into the "native" width height being
-> returned. Notice that s_ctrl() should fail in case of miss-match (this is CODEC
-> specific), or streamon() should fail if the codec specific control have never
-> been set (as we always initialise this, it will fail due to default being an
-> invalid value anyway).
-> 
-> As a side effect, when userland read the default format (G_FMT(CAPTURE), the
-> width/height should match the src_dst for this driver. This is the native size.
-> The optional path that this driver enables is enumeration of CAPTURE format and
-> frame sizes, combined with to select from these. The driver will create a
-> secondary set of buffers in the case.
-> 
+You received a tag, so if you decided to send v3, you need to include it.
 
-OK, the patch looks good then.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Thanks,
-Ezequiel
 
-> Nicolas
-> 
-> > 
-> > Best regards,
-> > Jernej
-> > 
-> > > 
-> > > So, while the patch is surely improving things, I wonder if it won't
-> > > cause other issues.
-> > > 
-> > > This reminds me we are still lacking a more complete test-suite for this
-> > > driver, so that we can validate changes and ensure there are no
-> > > regressions.
-> > > 
-> > > Perhaps we could hack Fluster to not only test the conformance,
-> > > but also test the post-processor?
-> > > 
-> > > Thanks,
-> > > Ezequiel
-> > > 
-> > > > +
-> > > > +	buf_size = pix_mp.plane_fmt[0].sizeimage;
-> > > > 
-> > > >  	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
-> > > > 
-> > > > -		buf_size += hantro_h264_mv_size(ctx->dst_fmt.width,
-> > > > -						ctx-
-> > > dst_fmt.height);
-> > > > +		buf_size += hantro_h264_mv_size(pix_mp.width,
-> > > > +						
-> > pix_mp.height);
-> > > > 
-> > > >  	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
-> > > > 
-> > > > -		buf_size += hantro_vp9_mv_size(ctx->dst_fmt.width,
-> > > > -					       ctx-
-> > > dst_fmt.height);
-> > > > +		buf_size += hantro_vp9_mv_size(pix_mp.width,
-> > > > +					       pix_mp.height);
-> > > > 
-> > > >  	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
-> > > > 
-> > > > -		buf_size += hantro_hevc_mv_size(ctx->dst_fmt.width,
-> > > > -						ctx-
-> > > dst_fmt.height);
-> > > > +		buf_size += hantro_hevc_mv_size(pix_mp.width,
-> > > > +						
-> > pix_mp.height);
-> > > > 
-> > > >  	for (i = 0; i < num_buffers; ++i) {
-> > > >  	
-> > > >  		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
-> > > > 
-> > > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c
-> > > > b/drivers/staging/media/hantro/hantro_v4l2.c index
-> > > > 334f18a4120d..2c7a805289e7 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> > > > @@ -118,7 +118,7 @@ hantro_find_format(const struct hantro_ctx *ctx, u32
-> > > > fourcc)> 
-> > > >  	return NULL;
-> > > >  
-> > > >  }
-> > > > 
-> > > > -static const struct hantro_fmt *
-> > > > +const struct hantro_fmt *
-> > > > 
-> > > >  hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
-> > > >  {
-> > > >  
-> > > >  	const struct hantro_fmt *formats;
-> > > > 
-> > > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.h
-> > > > b/drivers/staging/media/hantro/hantro_v4l2.h index
-> > > > b17e84c82582..64f6f57e9d7a 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_v4l2.h
-> > > > +++ b/drivers/staging/media/hantro/hantro_v4l2.h
-> > > > @@ -23,5 +23,7 @@ extern const struct vb2_ops hantro_queue_ops;
-> > > > 
-> > > >  void hantro_reset_fmts(struct hantro_ctx *ctx);
-> > > >  int hantro_get_format_depth(u32 fourcc);
-> > > > 
-> > > > +const struct hantro_fmt *
-> > > > +hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream);
-> > > > 
-> > > >  #endif /* HANTRO_V4L2_H_ */
-> > 
-> > 
-> > 
-> > 
-> 
+Best regards,
+Krzysztof
