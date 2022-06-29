@@ -2,83 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70B2355FA39
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 10:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C200255FA44
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 10:22:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232658AbiF2IRs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 04:17:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60926 "EHLO
+        id S231409AbiF2IWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 04:22:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbiF2IRr (ORCPT
+        with ESMTP id S229609AbiF2IWL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 04:17:47 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7723BBC8;
-        Wed, 29 Jun 2022 01:17:46 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 981CD240006;
-        Wed, 29 Jun 2022 08:17:42 +0000 (UTC)
-Date:   Wed, 29 Jun 2022 10:17:41 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
-        quentin.schulz@theobroma-systems.com,
-        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] media: ov5693: add ov5693_of_match, dts support
-Message-ID: <20220629081741.mmgqr756i57y544x@uno.localdomain>
-References: <20220627150453.220292-1-tommaso.merciai@amarulasolutions.com>
- <20220627150453.220292-7-tommaso.merciai@amarulasolutions.com>
+        Wed, 29 Jun 2022 04:22:11 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F083BBDC;
+        Wed, 29 Jun 2022 01:22:10 -0700 (PDT)
+Received: from [192.168.2.145] (unknown [109.252.118.164])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 96AF966018F1;
+        Wed, 29 Jun 2022 09:22:05 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656490928;
+        bh=XVQSgsxJcmy7E9dO6ydXkj4ChuEFXc7MVQ+QygUQC8s=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=XDA5Kxe1tQjVWoYM/BGtNXeKxwfzbPWBe/P8pqnkFIaP99Cob4KetSZp2mOV5ryP3
+         u7HvrxECrEmyBllUyLM9aJt9NxlBWJIjI1vH3F6cyKv3t6zcOoQ5eEnHwrBxui1qxj
+         dhHHwgtCyjFiz0GVKfGTNTYY/r/P8cU6ccDNK3YajGTlvfcYzw3D0HBZvWZG99gBdw
+         g3iqha1unBFwIZIh55U+Qs/ChxM3VgIRVZFM+pX3989oy8OqosWoTMbE+652VhJgHQ
+         FAJaw4N5wVvjKnuA74fSOiQp7M9aReCv8cXtUS2LQKv6/MwDyHx8fBx07oNXwQjIzB
+         fo3DQeZjKtWZw==
+Message-ID: <c0273ac2-c87c-2612-03d4-dc52510b22f7@collabora.com>
+Date:   Wed, 29 Jun 2022 11:22:02 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220627150453.220292-7-tommaso.merciai@amarulasolutions.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 02/22] drm/gem: Move mapping of imported dma-bufs to
+ drm_gem_mmap_obj()
+Content-Language: en-US
+To:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+Cc:     intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+        kernel@collabora.com, linux-media@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-3-dmitry.osipenko@collabora.com>
+ <b8271f0c-d6a3-4194-1959-e112859756a3@shipmail.org>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <b8271f0c-d6a3-4194-1959-e112859756a3@shipmail.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+On 6/29/22 09:40, Thomas Hellström (Intel) wrote:
+> 
+> On 5/27/22 01:50, Dmitry Osipenko wrote:
+>> Drivers that use drm_gem_mmap() and drm_gem_mmap_obj() helpers don't
+>> handle imported dma-bufs properly, which results in mapping of something
+>> else than the imported dma-buf. For example, on NVIDIA Tegra we get a
+>> hard
+>> lockup when userspace writes to the memory mapping of a dma-buf that was
+>> imported into Tegra's DRM GEM.
+>>
+>> To fix this bug, move mapping of imported dma-bufs to drm_gem_mmap_obj().
+>> Now mmaping of imported dma-bufs works properly for all DRM drivers.
+> Same comment about Fixes: as in patch 1,
+>>
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>   drivers/gpu/drm/drm_gem.c              | 3 +++
+>>   drivers/gpu/drm/drm_gem_shmem_helper.c | 9 ---------
+>>   drivers/gpu/drm/tegra/gem.c            | 4 ++++
+>>   3 files changed, 7 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index 86d670c71286..7c0b025508e4 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -1038,6 +1038,9 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj,
+>> unsigned long obj_size,
+>>       if (obj_size < vma->vm_end - vma->vm_start)
+>>           return -EINVAL;
+>>   +    if (obj->import_attach)
+>> +        return dma_buf_mmap(obj->dma_buf, vma, 0);
+> 
+> If we start enabling mmaping of imported dma-bufs on a majority of
+> drivers in this way, how do we ensure that user-space is not blindly
+> using the object mmap without calling the needed DMA_BUF_IOCTL_SYNC
+> which is needed before and after cpu access of mmap'ed dma-bufs?
+> 
+> I was under the impression (admittedly without looking) that the few
+> drivers that actually called into dma_buf_mmap() had some private
+> user-mode driver code in place that ensured this happened.
 
-On Mon, Jun 27, 2022 at 05:04:52PM +0200, Tommaso Merciai wrote:
-> Add ov5693_of_match. Device tree support
->
-> Reviewed-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Since it's a userspace who does the mapping, then it should be a
+responsibility of userspace to do all the necessary syncing. I'm not
+sure whether anyone in userspace really needs to map imported dma-bufs
+in practice. Nevertheless, this use-case is broken and should be fixed
+by either allowing to do the mapping or prohibiting it.
 
-Missing Signed-off-by
-
-> ---
->  drivers/media/i2c/ov5693.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-> index 273caef467fe..0854226dc140 100644
-> --- a/drivers/media/i2c/ov5693.c
-> +++ b/drivers/media/i2c/ov5693.c
-> @@ -1532,10 +1532,17 @@ static const struct acpi_device_id ov5693_acpi_match[] = {
->  };
->  MODULE_DEVICE_TABLE(acpi, ov5693_acpi_match);
->
-> +static const struct of_device_id ov5693_of_match[] = {
-> +	{ .compatible = "ovti,ov5693", },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, ov5693_of_match);
-> +
->  static struct i2c_driver ov5693_driver = {
->  	.driver = {
->  		.name = "ov5693",
->  		.acpi_match_table = ov5693_acpi_match,
-> +		.of_match_table = ov5693_of_match,
->  		.pm = &ov5693_pm_ops,
->  	},
->  	.probe_new = ov5693_probe,
-> --
-> 2.25.1
->
+-- 
+Best regards,
+Dmitry
