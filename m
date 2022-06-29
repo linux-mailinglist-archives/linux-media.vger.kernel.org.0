@@ -2,117 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B05055F40A
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 05:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E593A55F556
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 06:41:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231591AbiF2DYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 23:24:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52874 "EHLO
+        id S229826AbiF2ElT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 00:41:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231676AbiF2DYQ (ORCPT
+        with ESMTP id S229475AbiF2ElS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 23:24:16 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32111D8;
-        Tue, 28 Jun 2022 20:24:05 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id h9-20020a17090a648900b001ecb8596e43so14674240pjj.5;
-        Tue, 28 Jun 2022 20:24:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Fj7BbdljqsoGparCST0EyCcPUKNtLNBlk+LCRCpdJLw=;
-        b=oFx79pTDKe/0K4DzWTg5WbhaY9GMAgsDaFSkH6r1vPW1HFdOJXqGQ5UZxgywHDM3Ir
-         0equTGt8PyPlERIlnTf5/BcxXxzGITpucSE2VIl8CV1o9ehzFCMhzuOGmi45/AK6qG76
-         /8w9TpCEjcwZrf18xju/rDZxtqGU8P6zQ25P+y1i5vCqEbFPPa98WvDxnH8cFtX3sIwJ
-         junUVkx5AYbgAFw0eC61vARiqpw1IzYsntMTivQEIBdgIUJa+1mBXf7au2lMkxwOomRF
-         Tq177jWJbMD53EgF/Vw9Bn+IKNlGCEHOCstQTlq+u9cuVkwNV5MjGVV2oNYBWWI67o+0
-         Kprw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Fj7BbdljqsoGparCST0EyCcPUKNtLNBlk+LCRCpdJLw=;
-        b=oXJlEWr9GORBnTsXKEBiPrTqXFmJCmxnu7Eo/itHVD/+d2QUCErNnoFyEEHD7Awpxd
-         X9TDcjBEeJqDOZ4b9mHB0EZzkkwaWSfy5wEgTb80yGw+xSpQyjs4sQ3aYFlvrb8eoCad
-         vkr6ZQUdt6PJz6i3XIwBvf0/Tv4YchtzS84riNvnquk7d8VL8etOhqXhDSqAVfAfjWF7
-         q1yTgemMYx5XBdK4fAY7n9Egu3tZMM1sLyXueNBnNgeMpDMZi+SXaX5p87Ly+W+xvUpr
-         asNXkkjYPrAUHA7GXXV4L/WprbOomuAK11H2VPyhlyZROLOJKoD5uaeQtZrPSE5eAU8P
-         +pHw==
-X-Gm-Message-State: AJIora/k8F4rc5Gm/NSxX7x+P6nAq2G1WPW/RjzZYOWwIhVq/ilMxMLm
-        5ZeL2xU9DHpIJqvbZ9Usm0M=
-X-Google-Smtp-Source: AGRyM1vsi7CgNn+hm6JA8nRBvn1UfsHiN+DuVQjG+D41n++oNdHScStsgrICm72S8/mDUKvSMDDq4A==
-X-Received: by 2002:a17:902:a701:b0:16a:65b:f9f1 with SMTP id w1-20020a170902a70100b0016a065bf9f1mr8387462plq.73.1656473045455;
-        Tue, 28 Jun 2022 20:24:05 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-13.three.co.id. [180.214.232.13])
-        by smtp.gmail.com with ESMTPSA id p9-20020a1709026b8900b0016372486febsm10011584plk.297.2022.06.28.20.24.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 20:24:04 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id E4C29103832; Wed, 29 Jun 2022 10:23:59 +0700 (WIB)
-Date:   Wed, 29 Jun 2022 10:23:58 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Alexander Potapenko <glider@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marco Elver <elver@google.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        kasan-dev@googlegroups.com, linaro-mm-sig@lists.linaro.org,
-        linux-cachefs@redhat.com, linux-fsdevel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mm@kvack.org,
-        linux-pm@vger.kernel.org, linux-sgx@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 00/22] Fix kernel-doc warnings at linux-next
-Message-ID: <YrvFzoH61feRFoxV@debian.me>
-References: <cover.1656409369.git.mchehab@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cover.1656409369.git.mchehab@kernel.org>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Wed, 29 Jun 2022 00:41:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E372E09A
+        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 21:41:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8B134B81BAF
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 04:41:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 005D7C34114
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 04:41:13 +0000 (UTC)
+Date:   Wed, 29 Jun 2022 06:41:12 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20220629044114.005D7C34114@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 10:46:04AM +0100, Mauro Carvalho Chehab wrote:
-> As we're currently discussing about making kernel-doc issues fatal when
-> CONFIG_WERROR is enable, let's fix all 60 kernel-doc warnings 
-> inside linux-next:
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-To be fair, besides triggering error on kernel-doc warnings, Sphinx
-warnings should also be errors on CONFIG_WERROR.
+Results of the daily build of media_tree:
 
--- 
-An old man doll... just what I always wanted! - Clara
+date:			Wed Jun 29 05:00:05 CEST 2022
+media-tree git hash:	d8e8aa866ed8636fd6c1017c3d9453eab2922496
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	ef8c5223b4a5b2610e0dfbdff5257cf96c124f96
+edid-decode git hash:	582c935652b0303b87ddad4551e6f97f8bb883ac
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8047-g2aeb5534-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 91f84ece3e3913f585d616d95c62decf7ca58e1f
+host hardware:		x86_64
+host os:		5.18.0-1-amd64
+
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-multi: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
