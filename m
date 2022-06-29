@@ -2,189 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FB55560AB8
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 21:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E1C5560ABC
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 21:59:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231206AbiF2T4r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 15:56:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33896 "EHLO
+        id S231286AbiF2T7I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 15:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231321AbiF2T4l (ORCPT
+        with ESMTP id S229564AbiF2T7I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 15:56:41 -0400
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8077344D0
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:56:38 -0700 (PDT)
-Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-fe023ab520so22851259fac.10
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 12:56:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HFVsl/vtb0LtmJV9xGBJtt1ahNXRk67SK3EVKVh221Y=;
-        b=2bDTaCV8ZCQCIRrnpkCX22dAcFMZJ7+gT8/WzMpC7HVM/PlpPLvKsmOrxKLKPRJJQk
-         cuSzgF8DqV04X21l3rBpAbPC2VRaqrL+Y6LkSgiuTXGlNiummHLeCPVCOXGChm7MUVWL
-         NwAvUjFmQox1LUPytEEKA/JKqqOft9xezoZmENyrijozNg5+MDFMu9jgFYi3Z/4Ml9yi
-         9q4xGO/3jrWr8TM0KQsAQ8i40Kd3PEW2NJJ/1+5EceIVAZxaJRGf1UNd1Zb9CR8zK8KH
-         /tg3LbNHkKWE/xxCWhqVrOnZzknXPXNWHF1NwpcDBdQmQzVyhZbA/LDVLS7/766IMiYH
-         Ivyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HFVsl/vtb0LtmJV9xGBJtt1ahNXRk67SK3EVKVh221Y=;
-        b=uNl0toPt1nP19CNeBbYrNmUUeUvoKq+Lgh90v3gUx8Npi6sVT+OsmHKYWnzhno6qLC
-         wIP4SzO9Xi43iZ+K3TMSq8ujpvXymKWwldvlDMY+wCrSAcjw8EPGOnL0vA8X3FbKv4B8
-         BuL1wz3uW9auy3LwmjoDzpkHHyDX3E19iUXZRiXNLVjW3Ar4nhucj+qTt6MJc1hNj6vj
-         E4eunoBQaz+K0z+7IbY4+XKtsea0WnADtbU/02uUlOdHn1pG5hEvJFgq7LTdKLzB7QUP
-         1IYSutBdjW7seCB7VaoMPWgfdXy35UcaAO8WB5fp9+jabQ0dAYaYOWCzIieQ7OH9tV6t
-         t6fg==
-X-Gm-Message-State: AJIora8J90K7cGakyRqdkw7sNQguufc62u+eHx7ZEAXjAaJANu+TK6/Z
-        Zg88+gMGIM9s/7TD5llHjnwzBxb88lnV1vpR
-X-Google-Smtp-Source: AGRyM1tdVlmyJFOkTxNm1ijpxn3o6ZeEXm82+gTn8R+BhZ7i9/hFTWVsYr3sigkQW2gU7Aycysy/Ow==
-X-Received: by 2002:a05:6870:b627:b0:102:f25:a460 with SMTP id cm39-20020a056870b62700b001020f25a460mr2982361oab.193.1656532597945;
-        Wed, 29 Jun 2022 12:56:37 -0700 (PDT)
-Received: from zeta-build.. ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id o31-20020a056870911f00b000f5e33aaa66sm11573057oae.0.2022.06.29.12.56.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 12:56:37 -0700 (PDT)
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: [PATCH] hantro: Remove incorrect HEVC SPS validation
-Date:   Wed, 29 Jun 2022 16:56:24 -0300
-Message-Id: <20220629195624.45745-2-ezequiel@vanguardiasur.com.ar>
-X-Mailer: git-send-email 2.34.3
-In-Reply-To: <20220629195624.45745-1-ezequiel@vanguardiasur.com.ar>
-References: <20220629195624.45745-1-ezequiel@vanguardiasur.com.ar>
+        Wed, 29 Jun 2022 15:59:08 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8BAE1158;
+        Wed, 29 Jun 2022 12:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656532746; x=1688068746;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qEM/SOD5szaqHarXP20oEjHBcoOWvf209vmnKr3JvEw=;
+  b=c3QasWYrnkfikKCgRyw8xStoyS6iaEO2PlDwk/Z2f4WdzeuV5U4BxBYh
+   u+Z+3QVf9/5Vk8CF1qytJ8IdcAPoSnZf+IqN+6FSnFtCfMeUjCwU1lo0P
+   vJ9uMTLzJFUAh6YnoxfpjlI8z7EMffT5oJTZbgaQ9P1sss2E4QHV/kXAE
+   RIU5EORvDJ/g6m4pB3qmaCop5Lq5l/CGURFGMykV3alEfA0ezDEkxOZ/z
+   Ld9YHM/KTyKNj03uzVWdmMcD1KwVGuFQPWKpG1hot8TNY3EE/XusIYmmM
+   0W84xydPZXU6JvNkei6BQbbR5uq58RR8wpVZxfVNVdDPc2cAaHS+49yaa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="280910040"
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
+   d="scan'208";a="280910040"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 12:59:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
+   d="scan'208";a="837270047"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 29 Jun 2022 12:59:03 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o6dq2-000BZw-Jj;
+        Wed, 29 Jun 2022 19:59:02 +0000
+Date:   Thu, 30 Jun 2022 03:58:38 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     sound-open-firmware@alsa-project.org, ntfs3@lists.linux.dev,
+        netdev@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
+        linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        amd-gfx@lists.freedesktop.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ c4ef528bd006febc7de444d9775b28706d924f78
+Message-ID: <62bcaeee.ScDDAGRuo2cD48ca%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, the driver tries to validat the HEVC SPS
-against the CAPTURE queue format (i.e. the decoded format).
-This is not correct, because typically the SPS control is set
-before the CAPTURE queue is negotiated.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: c4ef528bd006febc7de444d9775b28706d924f78  Add linux-next specific files for 20220629
 
-In addition to this, a format validation in hantro_hevc_dec_prepare_run()
-is also suboptimal, because hantro_hevc_dec_prepare_run() runs in the context
-of v4l2_m2m_ops.device_run, as part of a decoding job.
+Error/Warning reports:
 
-Format and control validations should happen before decoding starts,
-in the context of ioctls such as S_CTRL, S_FMT, or STREAMON.
+https://lore.kernel.org/linux-mm/202206292052.LsFui3zO-lkp@intel.com
 
-Remove the validation for now.
+Error/Warning: (recently discovered and may have been fixed)
 
-Fixes: 135ad96cb4d6b ("media: hantro: Be more accurate on pixel formats step_width constraints")
-Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
----
- drivers/staging/media/hantro/hantro_drv.c  | 12 ++++-----
- drivers/staging/media/hantro/hantro_hevc.c | 30 ----------------------
- drivers/staging/media/hantro/hantro_hw.h   |  1 -
- 3 files changed, 6 insertions(+), 37 deletions(-)
+arch/powerpc/kernel/interrupt.c:542:55: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+arch/powerpc/kernel/interrupt.c:542:55: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:1025:33: warning: variable 'pre_connection_type' set but not used [-Wunused-but-set-variable]
+drivers/pci/endpoint/functions/pci-epf-vntb.c:1247: undefined reference to `ntb_register_device'
+drivers/pci/endpoint/functions/pci-epf-vntb.c:174: undefined reference to `ntb_link_event'
+drivers/pci/endpoint/functions/pci-epf-vntb.c:262: undefined reference to `ntb_db_event'
+drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for 'pci_read' [-Wmissing-prototypes]
+drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for 'pci_write' [-Wmissing-prototypes]
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index afddf7ac0731..2387ca85ab54 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -253,11 +253,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
- 
- static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- {
--	struct hantro_ctx *ctx;
--
--	ctx = container_of(ctrl->handler,
--			   struct hantro_ctx, ctrl_handler);
--
- 	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
- 		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
- 
-@@ -273,7 +268,12 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- 	} else if (ctrl->id == V4L2_CID_MPEG_VIDEO_HEVC_SPS) {
- 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
- 
--		return hantro_hevc_validate_sps(ctx, sps);
-+		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-+			/* Luma and chroma bit depth mismatch */
-+			return -EINVAL;
-+		if (sps->bit_depth_luma_minus8 != 0)
-+			/* Only 8-bit is supported */
-+			return -EINVAL;
- 	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
- 		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
- 
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index bd924896e409..f86c98e19177 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -154,32 +154,6 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
- 	return -ENOMEM;
- }
- 
--int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
--{
--	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
--		/* Luma and chroma bit depth mismatch */
--		return -EINVAL;
--	if (sps->bit_depth_luma_minus8 != 0)
--		/* Only 8-bit is supported */
--		return -EINVAL;
--
--	/*
--	 * for tile pixel format check if the width and height match
--	 * hardware constraints
--	 */
--	if (ctx->vpu_dst_fmt->fourcc == V4L2_PIX_FMT_NV12_4L4) {
--		if (ctx->dst_fmt.width !=
--		    ALIGN(sps->pic_width_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_width))
--			return -EINVAL;
--
--		if (ctx->dst_fmt.height !=
--		    ALIGN(sps->pic_height_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_height))
--			return -EINVAL;
--	}
--
--	return 0;
--}
--
- int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
- {
- 	struct hantro_hevc_dec_hw_ctx *hevc_ctx = &ctx->hevc_dec;
-@@ -203,10 +177,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
- 	if (WARN_ON(!ctrls->sps))
- 		return -EINVAL;
- 
--	ret = hantro_hevc_validate_sps(ctx, ctrls->sps);
--	if (ret)
--		return ret;
--
- 	ctrls->pps =
- 		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_PPS);
- 	if (WARN_ON(!ctrls->pps))
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index a2e0f0836281..5edff0f0be20 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -359,7 +359,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
- void hantro_hevc_ref_init(struct hantro_ctx *ctx);
- dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
- int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
--int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps);
- 
- 
- static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+drivers/net/ethernet/microchip/lan743x_main.c:1238:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+drivers/soc/mediatek/mtk-mutex.c:799:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+drivers/staging/media/zoran/zr36016.c:430:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+drivers/staging/media/zoran/zr36050.c:829:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+drivers/staging/media/zoran/zr36060.c:869:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+drivers/thunderbolt/tmu.c:758:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+sound/soc/sof/intel/mtl.c:547:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- alpha-randconfig-r013-20220629
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-net-ethernet-microchip-lan743x_main.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|   |-- drivers-soc-mediatek-mtk-mutex.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+|   |-- drivers-staging-media-zoran-zr36016.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+|   |-- drivers-staging-media-zoran-zr36050.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+|   |-- drivers-staging-media-zoran-zr36060.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+|   |-- drivers-thunderbolt-tmu.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+|   `-- sound-soc-sof-intel-mtl.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+|-- arc-randconfig-r043-20220629
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- arm64-randconfig-r012-20220629
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:undefined-reference-to-ntb_db_event
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:undefined-reference-to-ntb_link_event
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:undefined-reference-to-ntb_register_device
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- i386-randconfig-m021
+|   `-- arch-x86-events-core.c-init_hw_perf_events()-warn:missing-error-code-err
+|-- i386-randconfig-s002-20220627
+|   |-- fs-ntfs3-attrib.c:sparse:sparse:cast-to-restricted-__le64
+|   |-- fs-ntfs3-attrib.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le64-usertype-alloc_size-got-unsigned-long-long-usertype
+|   |-- fs-ntfs3-attrib.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le64-usertype-data_size-got-unsigned-long-long-usertype
+|   `-- fs-ntfs3-attrib.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- ia64-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- microblaze-randconfig-r032-20220629
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|-- microblaze-randconfig-r033-20220629
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- mips-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- parisc-randconfig-r034-20220629
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|-- powerpc-allmodconfig
+|   |-- arch-powerpc-kernel-interrupt.c:warning:suggest-braces-around-empty-body-in-an-if-statement
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- powerpc-allnoconfig
+|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
+|-- sparc-randconfig-r011-20220629
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+|-- x86_64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+|   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+`-- x86_64-randconfig-m001
+    `-- arch-x86-events-core.c-init_hw_perf_events()-warn:missing-error-code-err
+
+elapsed time: 723m
+
+configs tested: 52
+configs skipped: 2
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+ia64                             allmodconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+alpha                            allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+m68k                             allyesconfig
+i386                                defconfig
+i386                             allyesconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+arc                  randconfig-r043-20220629
+s390                 randconfig-r044-20220629
+riscv                randconfig-r042-20220629
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-syz
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+
+clang tested configs:
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+x86_64                        randconfig-a012
+i386                          randconfig-a013
+i386                          randconfig-a015
+i386                          randconfig-a011
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+hexagon              randconfig-r045-20220629
+hexagon              randconfig-r041-20220629
+
 -- 
-2.31.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
