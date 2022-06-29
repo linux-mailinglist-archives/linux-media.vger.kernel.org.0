@@ -2,143 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37354560110
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 15:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CA80560129
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 15:21:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233559AbiF2NMP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 09:12:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45546 "EHLO
+        id S232665AbiF2NT4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 09:19:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229905AbiF2NMO (ORCPT
+        with ESMTP id S230192AbiF2NT4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 09:12:14 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F941DA75
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 06:12:10 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o6XUH-007Klw-6v; Wed, 29 Jun 2022 13:12:09 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o6XUF-00621G-0O; Wed, 29 Jun 2022 13:12:07 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.20] Various fixes, Allwinner A31/A83T CSI driver (#84435)
-Date:   Wed, 29 Jun 2022 13:12:06 +0000
-Message-Id: <20220629131206.1437684-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <c894bf0f-d61a-13ea-82a0-c078286d702a@xs4all.nl>
-References: 
+        Wed, 29 Jun 2022 09:19:56 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AD8B205C9
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 06:19:54 -0700 (PDT)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 801913D7;
+        Wed, 29 Jun 2022 15:19:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656508792;
+        bh=bB5fdSAc1we82ey8DR3H+I99xnRTr8h981Ct2V1ysfY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=lcsc540vQaQtkM7W+ZM9W3Y80qfGaGp2QCgNHi01hZMRy40qgRGJzMjXSGRYR+G1v
+         HkpvIo4N/1ZMeK9Ppc0ydwBRmliJsl/RowlLMNOmJ5C/fmg6f5puD41ujfRLdcOXRK
+         tnWYyn+ppK+oZqyh1fNHi/NX3kN6MZfqs7APFwjA=
+Message-ID: <bc25d400-abb9-0980-ef93-6af8f5a2e42c@ideasonboard.com>
+Date:   Wed, 29 Jun 2022 16:19:48 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2] media: stm32: dcmi: Switch to
+ __v4l2_subdev_state_alloc()
+Content-Language: en-US
+To:     Marek Vasut <marex@denx.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
+        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
+        Philippe CORNU <philippe.cornu@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+References: <20220627174156.66919-1-marex@denx.de>
+ <3ef88906-188d-52a6-c3bf-647bc4e36732@xs4all.nl>
+ <32f04271-4a9a-3291-cf36-ead0383db9ca@ideasonboard.com>
+ <YrxDq5I3ZsEf8ruO@pendragon.ideasonboard.com>
+ <df7060aa-b201-3d39-72e9-fcb575e7b43e@ideasonboard.com>
+ <a2e45188-54d2-1ef2-1d21-cf60d47aeb43@denx.de>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <a2e45188-54d2-1ef2-1d21-cf60d47aeb43@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 29/06/2022 15:39, Marek Vasut wrote:
+> On 6/29/22 14:26, Tomi Valkeinen wrote:
+> 
+> [...]
+> 
+>>>> Perhaps the best way to solve this is just to remove the underscores
+>>>> from __v4l2_subdev_state_alloc, and change all the drivers which create
+>>>> temporary v4l2_subdev_states to use that (and the free) functions. And
+>>>> also create the helper macro which can be used in those cases where the
+>>>> call is simple (the state is not modified or accessed by the caller).
+>>>
+>>> As long as we prevent any new driver from using that API, that's fine
+>>> with me.
+>>
+>> An alternative would be to keep the v4l2_subdev_state as a local 
+>> variable (allocated in the stack), and add a new function, 
+>> v4l2_subdev_state_local_init() or such. The function would initialize 
+>> the given state, expecting the allocatable fields to be already 
+>> allocated (state->pads, which in the above cases points to another 
+>> local variable, i.e. stack).
+>>
+>> This would prevent the need of a free call, which, while not complex 
+>> as such, might cause a bigger amount of changes in some cases to 
+>> handle the error paths correctly.
+>>
+>> Of course, if the above-mentioned macro works, then that's the easiest 
+>> solution. But that won't work for all drivers.
+> 
+> Don't you think a driver fix shouldn't involve "rework the subsystem" 
+> requirement to be applicable ?
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/c894bf0f-d61a-13ea-82a0-c078286d702a@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/220626/
-Build time: 00:33:15
-Link: https://lore.kernel.org/linux-media/c894bf0f-d61a-13ea-82a0-c078286d702a@xs4all.nl
+No, but we should think what's the best way to do the fix, if the fix
+is controversial. Otherwise we might just break things even worse.
+Adding the macro seems like a much better way, and far from "rework the
+subsystem". Granted, this was just a quick edit without testing so it may
+fail miserably...
 
-gpg: Signature made Wed 29 Jun 2022 12:33:21 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Can you try this out?
 
-Summary: got 9/17 patches with issues, being 3 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-cx18-Fix-typo-in-comments.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000008Kb sm_state_count = 543759
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 13 seconds
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5143 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2344 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1724941
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 68 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2831 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0002-media-gspca-drop-unexpected-word-is-in-the-comments.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-gspca-drop-unexpected-word-is-in-the-comments.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:11: WARNING: Possible repeated word: 'is'
-
-patches/0004-media-pvrusb2-drop-unexpected-word-a-in-comments.patch:
-
-   checkpatch.pl:
-	$ cat patches/0004-media-pvrusb2-drop-unexpected-word-a-in-comments.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:32: WARNING: Block comments use a trailing */ on a separate line
-
-patches/0005-media-platform-mtk-mdp-Fix-mdp_ipi_comm-structure-al.patch:
-
-   checkpatch.pl:
-	$ cat patches/0005-media-platform-mtk-mdp-Fix-mdp_ipi_comm-structure-al.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:45: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-
-patches/0008-media-Fix-incorrect-P010-chroma-order-description.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-media-Fix-incorrect-P010-chroma-order-description.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:29: ERROR: trailing statements should be on next line
-
-patches/0013-dt-bindings-media-Add-Allwinner-A31-MIPI-CSI-2-bindi.patch:
-
-   checkpatch.pl:
-	$ cat patches/0013-dt-bindings-media-Add-Allwinner-A31-MIPI-CSI-2-bindi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:19: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0014-media-sunxi-Add-support-for-the-A31-MIPI-CSI-2-contr.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
-
-   checkpatch.pl:
-	$ cat patches/0014-media-sunxi-Add-support-for-the-A31-MIPI-CSI-2-contr.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:63: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:69: WARNING: please write a help paragraph that fully describes the config symbol
-
-patches/0016-dt-bindings-media-Add-Allwinner-A83T-MIPI-CSI-2-bind.patch:
-
-   checkpatch.pl:
-	$ cat patches/0016-dt-bindings-media-Add-Allwinner-A83T-MIPI-CSI-2-bind.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:18: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0017-media-sunxi-Add-support-for-the-A83T-MIPI-CSI-2-cont.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
-
-   checkpatch.pl:
-	$ cat patches/0017-media-sunxi-Add-support-for-the-A83T-MIPI-CSI-2-cont.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:83: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:89: WARNING: please write a help paragraph that fully describes the config symbol
+Also, a bit unrelated thing: dcmi_get_sensor_format gets the active format
+from the source subdev, but dcmi_set_sensor_format sets the try format. That
+sounds like a bug. Is it on purpose?
 
 
-Error #512 when building PDF docs
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+index 09a743cd7004..eb831b5932e7 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+@@ -999,10 +999,6 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+  	const struct dcmi_format *sd_fmt;
+  	struct dcmi_framesize sd_fsize;
+  	struct v4l2_pix_format *pix = &f->fmt.pix;
+-	struct v4l2_subdev_pad_config pad_cfg;
+-	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
+  	struct v4l2_subdev_format format = {
+  		.which = V4L2_SUBDEV_FORMAT_TRY,
+  	};
+@@ -1037,8 +1033,7 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+  	}
+  
+  	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
+-	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
+-			       &pad_state, &format);
++	ret = v4l2_subdev_call_state_try(dcmi->source, pad, set_fmt, &format);
+  	if (ret < 0)
+  		return ret;
+  
+@@ -1187,10 +1182,6 @@ static int dcmi_set_sensor_format(struct stm32_dcmi *dcmi,
+  	struct v4l2_subdev_format format = {
+  		.which = V4L2_SUBDEV_FORMAT_TRY,
+  	};
+-	struct v4l2_subdev_pad_config pad_cfg;
+-	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
+  	int ret;
+  
+  	sd_fmt = find_format_by_fourcc(dcmi, pix->pixelformat);
+@@ -1203,8 +1194,7 @@ static int dcmi_set_sensor_format(struct stm32_dcmi *dcmi,
+  	}
+  
+  	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
+-	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
+-			       &pad_state, &format);
++	ret = v4l2_subdev_call_state_try(dcmi->source, pad, set_fmt, &format);
+  	if (ret < 0)
+  		return ret;
+  
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index b661e1817470..68676d173047 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1433,6 +1433,19 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
+  		__result;						\
+  	})
+  
++#define v4l2_subdev_call_state_try(sd, o, f, args...)                 \
++	({                                                            \
++		int __result;                                         \
++		static struct lock_class_key __key;                   \
++		const char *name = KBUILD_BASENAME                    \
++			":" __stringify(__LINE__) ":state->lock";     \
++		struct v4l2_subdev_state *state =                     \
++			__v4l2_subdev_state_alloc(sd, name, &__key);  \
++		__result = v4l2_subdev_call(sd, o, f, state, ##args); \
++		__v4l2_subdev_state_free(state);                      \
++		__result;                                             \
++	})
++
+  /**
+   * v4l2_subdev_has_op - Checks if a subdev defines a certain operation.
+   *
 
+
+  Tomi
