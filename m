@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9989555F31E
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 04:07:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 216E255F31F
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 04:07:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230378AbiF2CGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 22:06:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56432 "EHLO
+        id S230205AbiF2CG5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 22:06:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbiF2CGw (ORCPT
+        with ESMTP id S229623AbiF2CG4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 22:06:52 -0400
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD3431506
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 19:06:51 -0700 (PDT)
-Received: by mail-pg1-x54a.google.com with SMTP id h190-20020a636cc7000000b003fd5d5452cfso7434428pgc.8
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 19:06:51 -0700 (PDT)
+        Tue, 28 Jun 2022 22:06:56 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 262E8313B9
+        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 19:06:56 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-3177608c4a5so117823527b3.14
+        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 19:06:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=SU0n7bqVUddHuVe8oUuy+C72vb4K9+ZlwQmDrxkPWzY=;
-        b=j8NeFQWa5mNOoWlRUsOtsFTW0ElI8Ie1Kf06Yv30DhSnE6AdHI4cHNvyaN3zH1pfRp
-         73SLpne18KJsty3z6Da0kWpam1T09q/OMcluv3U2bFodiOIOjxGhxV//KvbFghTVdujA
-         Gh0ic/+Eg8aDgxChztfjx3mlbnQh6R4kd6qeNYW3i+deL57U14KpzcLImH2wD8YTQQjq
-         j9gSmYHBu/byqHoqm+BRExda9OKInuv61EXxlIqPUeDaCcYInmPPSx5SZ6fOGq4ZMHkR
-         BI+6pLHMX4YgnEjqh6a/gFmLh3ZRwXtIqo246/YiAYdG+rXOCuk1dT2e8fGFbZ0D/vqV
-         lsUQ==
+        bh=XeYzuFrl9tDoQyQHJwCTmLqFH6Zi8k8j4MajsnILx/c=;
+        b=JUeJheM1FAAFrtcDsq5ydKW/hmJjRjxn2lrVAXzpHmXnyLPEk0+0U1bSAGyia4lvB/
+         63TI1XRZHI6tbbxvZfTYpFQbPIJFGwy7eubnManFYHT0HZEszX492mEGTLWDFnWPJ3mX
+         8hax4A80H7uSU4/pXxZ7zvYIOvh901getHeKUV8LTKTm3CVVAaoRmYYju2OdpGqdjQG/
+         1Lpf5vc8rUA5UvzFZ/moDwZ4S1FYJihouQ/5/g9/RVIsKBWD9Zlj9ONHYzfACf7K4f2p
+         8huwylxaYjftgYgsqidvgrH9L3oD9Fgk4dLq61sXxTKbntZbDEgqweU30wRQLwnyJiok
+         7RTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=SU0n7bqVUddHuVe8oUuy+C72vb4K9+ZlwQmDrxkPWzY=;
-        b=UTX3LE249ObOlj3V05FEDltjOzXdS5eEgYTQCBIPGiAyKZMoFW+t0vE+hF1RR+dPxH
-         VbvgvOu6deBkDHKf9SrCLnjCLcvNWNHb/fJbM7SRu3YqgvSG5wvBHel/GGNx1WJ1uzt8
-         +Sywt95RLvmydEBJsvbtCZAvpa6z0tgBBBHsxgpQ/5fH0Y1196BtFviymVTz0g+1uSQM
-         IIARairJwFabH7XvmHOV0LYAj+45JFnc+i45jCxElugssXy2llEZKwOXSEfMoQIki5rX
-         Kr7czkdIGyz9ENmqmY2n48ClORgsClkQcRtYqZffb7LTi93mcsF9JTKjJFGnCOI0QAnl
-         WvxA==
-X-Gm-Message-State: AJIora/I+PVzmKnSzIGlnFlsquuXBDu31ECVPIjIvAhRn2ctW0czhxQn
-        myltYVNp1GJXEjPWNGj8sHhwa3qTBCw=
-X-Google-Smtp-Source: AGRyM1sKQ5plUIiCEyIJ9Pn16C/pkk/NwEQ91YZiVTGGWl9lTqUn35YszATQ2sFj2xo7M/NfeGndsR3e7Ck=
+        bh=XeYzuFrl9tDoQyQHJwCTmLqFH6Zi8k8j4MajsnILx/c=;
+        b=gqY0vzLkfWpSk7zfb9ZAst3C7YxY/TKysKvXbBVOho4/vh5IenHru4BdoXFpjiQu81
+         8IFVVALh6MEkwVQZSTMVf486M+7U0ik04yg2rfpWtwbZ4zFl3Uc3JNoKW0NXICxCnwPw
+         NVAOr43DkY6zocxgk410SDnNzAtRfHtjVMM8dtdyjjiYC8k1D4CX6nDvkRZ/XRGFO2Sv
+         XnAFjtKlZSi6m3Kwyv46D6mklHX8gx1FTN9oEvg73WlMK8SVC+ZhXflR3g23z3bgMDv8
+         +RJFt2mqlzg4QO3GvZ/tNmcmLcIfUJcN6R3Hgd9qN6R/5N2sMPiWrKvrXKeq5D2ZKFV8
+         73Ug==
+X-Gm-Message-State: AJIora+7X72lErOBrHtgN09QUaPoTXlHEON2ALZ/rGDIsFjc3YesCAYx
+        CJyV52FVA1G+YkEhsV/TxjPOC+LX0O4=
+X-Google-Smtp-Source: AGRyM1uBklqtX1fUmt5WTE7eKfKghrhKv0N8hwu53ENb4xEaKUXyBWdYey9s5aSNLE6uOiHxQDnUu61mFf8=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:983d:14d6:e059:135f])
- (user=yunkec job=sendgmr) by 2002:a17:903:18c:b0:16b:8f8a:335f with SMTP id
- z12-20020a170903018c00b0016b8f8a335fmr6375696plg.133.1656468410369; Tue, 28
- Jun 2022 19:06:50 -0700 (PDT)
-Date:   Wed, 29 Jun 2022 11:06:29 +0900
+ (user=yunkec job=sendgmr) by 2002:a81:1843:0:b0:317:8618:f24f with SMTP id
+ 64-20020a811843000000b003178618f24fmr1423991ywy.410.1656468415384; Tue, 28
+ Jun 2022 19:06:55 -0700 (PDT)
+Date:   Wed, 29 Jun 2022 11:06:30 +0900
 In-Reply-To: <20220629020630.2865785-1-yunkec@google.com>
-Message-Id: <20220629020630.2865785-2-yunkec@google.com>
+Message-Id: <20220629020630.2865785-3-yunkec@google.com>
 Mime-Version: 1.0
 References: <20220629020630.2865785-1-yunkec@google.com>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-Subject: [RESEND PATCH v3 1/2] media: vimc: add ancillary lens
+Subject: [RESEND PATCH v3 2/2] media: vimc: documentation for lens
 From:   Yunke Cao <yunkec@google.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Shuah Khan <skhan@linuxfoundation.org>,
@@ -70,315 +70,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add lens to vimc driver and link them with sensors using ancillary links.
-Provides an example of ancillary link usage.The lens supports
-FOCUS_ABSOLUTE control.
-
-Test example: With default vimc topology
-> media-ctl -p
-Media controller API version 5.18.0
-...
-- entity 28: Lens A (0 pad, 0 link)
-             type V4L2 subdev subtype Lens flags 0
-             device node name /dev/v4l-subdev6
-- entity 29: Lens B (0 pad, 0 link)
-             type V4L2 subdev subtype Lens flags 0
-             device node name /dev/v4l-subdev7
-> v4l2-ctl -d /dev/v4l-subdev7 -C focus_absolute
-focus_absolute: 0
+Add documentation for vimc-lens.
+Add a lens into the vimc topology graph.
 
 Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Signed-off-by: Yunke Cao <yunkec@google.com>
 ---
- drivers/media/test-drivers/vimc/Makefile      |   2 +-
- drivers/media/test-drivers/vimc/vimc-common.h |   1 +
- drivers/media/test-drivers/vimc/vimc-core.c   |  86 +++++++++++----
- drivers/media/test-drivers/vimc/vimc-lens.c   | 102 ++++++++++++++++++
- 4 files changed, 170 insertions(+), 21 deletions(-)
- create mode 100644 drivers/media/test-drivers/vimc/vimc-lens.c
+ Documentation/admin-guide/media/vimc.dot |  4 ++++
+ Documentation/admin-guide/media/vimc.rst | 19 +++++++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/drivers/media/test-drivers/vimc/Makefile b/drivers/media/test-drivers/vimc/Makefile
-index a53b2b532e9f..9b9631562473 100644
---- a/drivers/media/test-drivers/vimc/Makefile
-+++ b/drivers/media/test-drivers/vimc/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- vimc-y := vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
--		vimc-debayer.o vimc-scaler.o vimc-sensor.o
-+		vimc-debayer.o vimc-scaler.o vimc-sensor.o vimc-lens.o
+diff --git a/Documentation/admin-guide/media/vimc.dot b/Documentation/admin-guide/media/vimc.dot
+index 8e829c164626..92a5bb631235 100644
+--- a/Documentation/admin-guide/media/vimc.dot
++++ b/Documentation/admin-guide/media/vimc.dot
+@@ -5,9 +5,13 @@ digraph board {
+ 	n00000001 [label="{{} | Sensor A\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+ 	n00000001:port0 -> n00000005:port0 [style=bold]
+ 	n00000001:port0 -> n0000000b [style=bold]
++	n00000001 -> n00000002
++	n00000002 [label="{{} | Lens A\n/dev/v4l-subdev5 | {<port0>}}", shape=Mrecord, style=filled, fillcolor=green]
+ 	n00000003 [label="{{} | Sensor B\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+ 	n00000003:port0 -> n00000008:port0 [style=bold]
+ 	n00000003:port0 -> n0000000f [style=bold]
++	n00000003 -> n00000004
++	n00000004 [label="{{} | Lens B\n/dev/v4l-subdev6 | {<port0>}}", shape=Mrecord, style=filled, fillcolor=green]
+ 	n00000005 [label="{{<port0> 0} | Debayer A\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+ 	n00000005:port1 -> n00000015:port0
+ 	n00000008 [label="{{<port0> 0} | Debayer B\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+diff --git a/Documentation/admin-guide/media/vimc.rst b/Documentation/admin-guide/media/vimc.rst
+index 0b07f05dde25..3b4d2b36b4f3 100644
+--- a/Documentation/admin-guide/media/vimc.rst
++++ b/Documentation/admin-guide/media/vimc.rst
+@@ -53,6 +53,25 @@ vimc-sensor:
  
- obj-$(CONFIG_VIDEO_VIMC) += vimc.o
+ 	* 1 Pad source
  
-diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
-index ba1930772589..37f6b687ce10 100644
---- a/drivers/media/test-drivers/vimc/vimc-common.h
-+++ b/drivers/media/test-drivers/vimc/vimc-common.h
-@@ -171,6 +171,7 @@ extern struct vimc_ent_type vimc_sen_type;
- extern struct vimc_ent_type vimc_deb_type;
- extern struct vimc_ent_type vimc_sca_type;
- extern struct vimc_ent_type vimc_cap_type;
-+extern struct vimc_ent_type vimc_len_type;
- 
- /**
-  * vimc_pix_map_by_index - get vimc_pix_map struct by its index
-diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
-index 06edf9d4d92c..166323406c6b 100644
---- a/drivers/media/test-drivers/vimc/vimc-core.c
-+++ b/drivers/media/test-drivers/vimc/vimc-core.c
-@@ -24,7 +24,7 @@ MODULE_PARM_DESC(allocator, " memory allocator selection, default is 0.\n"
- 
- #define VIMC_MDEV_MODEL_NAME "VIMC MDEV"
- 
--#define VIMC_ENT_LINK(src, srcpad, sink, sinkpad, link_flags) {	\
-+#define VIMC_DATA_LINK(src, srcpad, sink, sinkpad, link_flags) {	\
- 	.src_ent = src,						\
- 	.src_pad = srcpad,					\
- 	.sink_ent = sink,					\
-@@ -32,8 +32,13 @@ MODULE_PARM_DESC(allocator, " memory allocator selection, default is 0.\n"
- 	.flags = link_flags,					\
- }
- 
--/* Structure which describes links between entities */
--struct vimc_ent_link {
-+#define VIMC_ANCILLARY_LINK(primary, ancillary) {	\
-+	.primary_ent = primary,			\
-+	.ancillary_ent = ancillary		\
-+}
++vimc-lens:
++	Ancillary lens for a sensor. Supports auto focus control. Linked to
++	a vimc-sensor using an ancillary link. The lens supports FOCUS_ABSOLUTE
++	control.
 +
-+/* Structure which describes data links between entities */
-+struct vimc_data_link {
- 	unsigned int src_ent;
- 	u16 src_pad;
- 	unsigned int sink_ent;
-@@ -41,12 +46,20 @@ struct vimc_ent_link {
- 	u32 flags;
- };
- 
-+/* Structure which describes ancillary links between entities */
-+struct vimc_ancillary_link {
-+	unsigned int primary_ent;
-+	unsigned int ancillary_ent;
-+};
++.. code-block:: bash
 +
- /* Structure which describes the whole topology */
- struct vimc_pipeline_config {
- 	const struct vimc_ent_config *ents;
- 	size_t num_ents;
--	const struct vimc_ent_link *links;
--	size_t num_links;
-+	const struct vimc_data_link *data_links;
-+	size_t num_data_links;
-+	const struct vimc_ancillary_link *ancillary_links;
-+	size_t num_ancillary_links;
- };
- 
- /* --------------------------------------------------------------------------
-@@ -91,32 +104,49 @@ static struct vimc_ent_config ent_config[] = {
- 		.name = "RGB/YUV Capture",
- 		.type = &vimc_cap_type
- 	},
-+	{
-+		.name = "Lens A",
-+		.type = &vimc_len_type
-+	},
-+	{
-+		.name = "Lens B",
-+		.type = &vimc_len_type
-+	},
- };
- 
--static const struct vimc_ent_link ent_links[] = {
-+static const struct vimc_data_link data_links[] = {
- 	/* Link: Sensor A (Pad 0)->(Pad 0) Debayer A */
--	VIMC_ENT_LINK(0, 0, 2, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-+	VIMC_DATA_LINK(0, 0, 2, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
- 	/* Link: Sensor A (Pad 0)->(Pad 0) Raw Capture 0 */
--	VIMC_ENT_LINK(0, 0, 4, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-+	VIMC_DATA_LINK(0, 0, 4, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
- 	/* Link: Sensor B (Pad 0)->(Pad 0) Debayer B */
--	VIMC_ENT_LINK(1, 0, 3, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-+	VIMC_DATA_LINK(1, 0, 3, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
- 	/* Link: Sensor B (Pad 0)->(Pad 0) Raw Capture 1 */
--	VIMC_ENT_LINK(1, 0, 5, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-+	VIMC_DATA_LINK(1, 0, 5, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
- 	/* Link: Debayer A (Pad 1)->(Pad 0) Scaler */
--	VIMC_ENT_LINK(2, 1, 7, 0, MEDIA_LNK_FL_ENABLED),
-+	VIMC_DATA_LINK(2, 1, 7, 0, MEDIA_LNK_FL_ENABLED),
- 	/* Link: Debayer B (Pad 1)->(Pad 0) Scaler */
--	VIMC_ENT_LINK(3, 1, 7, 0, 0),
-+	VIMC_DATA_LINK(3, 1, 7, 0, 0),
- 	/* Link: RGB/YUV Input (Pad 0)->(Pad 0) Scaler */
--	VIMC_ENT_LINK(6, 0, 7, 0, 0),
-+	VIMC_DATA_LINK(6, 0, 7, 0, 0),
- 	/* Link: Scaler (Pad 1)->(Pad 0) RGB/YUV Capture */
--	VIMC_ENT_LINK(7, 1, 8, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-+	VIMC_DATA_LINK(7, 1, 8, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-+};
++	media-ctl -p
++	...
++	- entity 28: Lens A (0 pad, 0 link)
++			type V4L2 subdev subtype Lens flags 0
++			device node name /dev/v4l-subdev6
++	- entity 29: Lens B (0 pad, 0 link)
++			type V4L2 subdev subtype Lens flags 0
++			device node name /dev/v4l-subdev7
++	v4l2-ctl -d /dev/v4l-subdev7 -C focus_absolute
++	focus_absolute: 0
 +
-+static const struct vimc_ancillary_link ancillary_links[] = {
-+	/* Link: Sensor A -> Lens A */
-+	VIMC_ANCILLARY_LINK(0, 9),
-+	/* Link: Sensor B -> Lens B */
-+	VIMC_ANCILLARY_LINK(1, 10),
- };
- 
- static struct vimc_pipeline_config pipe_cfg = {
--	.ents		= ent_config,
--	.num_ents	= ARRAY_SIZE(ent_config),
--	.links		= ent_links,
--	.num_links	= ARRAY_SIZE(ent_links)
-+	.ents		     = ent_config,
-+	.num_ents	     = ARRAY_SIZE(ent_config),
-+	.data_links	     = data_links,
-+	.num_data_links	     = ARRAY_SIZE(data_links),
-+	.ancillary_links     = ancillary_links,
-+	.num_ancillary_links = ARRAY_SIZE(ancillary_links),
- };
- 
- /* -------------------------------------------------------------------------- */
-@@ -135,8 +165,8 @@ static int vimc_create_links(struct vimc_device *vimc)
- 	int ret;
- 
- 	/* Initialize the links between entities */
--	for (i = 0; i < vimc->pipe_cfg->num_links; i++) {
--		const struct vimc_ent_link *link = &vimc->pipe_cfg->links[i];
-+	for (i = 0; i < vimc->pipe_cfg->num_data_links; i++) {
-+		const struct vimc_data_link *link = &vimc->pipe_cfg->data_links[i];
- 
- 		struct vimc_ent_device *ved_src =
- 			vimc->ent_devs[link->src_ent];
-@@ -150,6 +180,22 @@ static int vimc_create_links(struct vimc_device *vimc)
- 			goto err_rm_links;
- 	}
- 
-+	for (i = 0; i < vimc->pipe_cfg->num_ancillary_links; i++) {
-+		const struct vimc_ancillary_link *link = &vimc->pipe_cfg->ancillary_links[i];
 +
-+		struct vimc_ent_device *ved_primary =
-+			vimc->ent_devs[link->primary_ent];
-+		struct vimc_ent_device *ved_ancillary =
-+			vimc->ent_devs[link->ancillary_ent];
-+		struct media_link *ret_link =
-+			media_create_ancillary_link(ved_primary->ent, ved_ancillary->ent);
-+
-+		if (IS_ERR(ret_link)) {
-+			ret = PTR_ERR(link);
-+			goto err_rm_links;
-+		}
-+	}
-+
- 	return 0;
- 
- err_rm_links:
-diff --git a/drivers/media/test-drivers/vimc/vimc-lens.c b/drivers/media/test-drivers/vimc/vimc-lens.c
-new file mode 100644
-index 000000000000..dfe824d3addb
---- /dev/null
-+++ b/drivers/media/test-drivers/vimc/vimc-lens.c
-@@ -0,0 +1,102 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * vimc-lens.c Virtual Media Controller Driver
-+ * Copyright (C) 2022 Google, Inc
-+ * Author: yunkec@google.com (Yunke Cao)
-+ */
-+
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-subdev.h>
-+
-+#include "vimc-common.h"
-+
-+#define VIMC_LEN_MAX_FOCUS_POS	1023
-+#define VIMC_LEN_MAX_FOCUS_STEP	1
-+
-+struct vimc_len_device {
-+	struct vimc_ent_device ved;
-+	struct v4l2_subdev sd;
-+	struct v4l2_ctrl_handler hdl;
-+	u32 focus_absolute;
-+};
-+
-+static const struct v4l2_subdev_core_ops vimc_len_core_ops = {
-+	.log_status = v4l2_ctrl_subdev_log_status,
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
-+static const struct v4l2_subdev_ops vimc_len_ops = {
-+	.core = &vimc_len_core_ops
-+};
-+
-+static int vimc_len_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct vimc_len_device *vlen =
-+		container_of(ctrl->handler, struct vimc_len_device, hdl);
-+	if (ctrl->id == V4L2_CID_FOCUS_ABSOLUTE) {
-+		vlen->focus_absolute = ctrl->val;
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+
-+static const struct v4l2_ctrl_ops vimc_len_ctrl_ops = {
-+	.s_ctrl = vimc_len_s_ctrl,
-+};
-+
-+static struct vimc_ent_device *vimc_len_add(struct vimc_device *vimc,
-+					    const char *vcfg_name)
-+{
-+	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
-+	struct vimc_len_device *vlen;
-+	int ret;
-+
-+	/* Allocate the vlen struct */
-+	vlen = kzalloc(sizeof(*vlen), GFP_KERNEL);
-+	if (!vlen)
-+		return ERR_PTR(-ENOMEM);
-+
-+	v4l2_ctrl_handler_init(&vlen->hdl, 1);
-+
-+	v4l2_ctrl_new_std(&vlen->hdl, &vimc_len_ctrl_ops,
-+			  V4L2_CID_FOCUS_ABSOLUTE, 0,
-+			  VIMC_LEN_MAX_FOCUS_POS, VIMC_LEN_MAX_FOCUS_STEP, 0);
-+	vlen->sd.ctrl_handler = &vlen->hdl;
-+	if (vlen->hdl.error) {
-+		ret = vlen->hdl.error;
-+		goto err_free_vlen;
-+	}
-+	vlen->ved.dev = vimc->mdev.dev;
-+
-+	ret = vimc_ent_sd_register(&vlen->ved, &vlen->sd, v4l2_dev,
-+				   vcfg_name, MEDIA_ENT_F_LENS, 0,
-+				   NULL, &vimc_len_ops);
-+	if (ret)
-+		goto err_free_hdl;
-+
-+	return &vlen->ved;
-+
-+err_free_hdl:
-+	v4l2_ctrl_handler_free(&vlen->hdl);
-+err_free_vlen:
-+	kfree(vlen);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+static void vimc_len_release(struct vimc_ent_device *ved)
-+{
-+	struct vimc_len_device *vlen =
-+		container_of(ved, struct vimc_len_device, ved);
-+
-+	v4l2_ctrl_handler_free(&vlen->hdl);
-+	media_entity_cleanup(vlen->ved.ent);
-+	kfree(vlen);
-+}
-+
-+struct vimc_ent_type vimc_len_type = {
-+	.add = vimc_len_add,
-+	.release = vimc_len_release
-+};
+ vimc-debayer:
+ 	Transforms images in bayer format into a non-bayer format.
+ 	Exposes:
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 
