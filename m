@@ -2,237 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A65E755FBB2
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 11:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C36F55FC4D
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 11:43:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231835AbiF2JTU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 29 Jun 2022 05:19:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
+        id S233013AbiF2Jl1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 05:41:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231918AbiF2JTT (ORCPT
+        with ESMTP id S229824AbiF2JlZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 05:19:19 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2BB13631A
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 02:19:18 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o6Tqv-0075hz-45; Wed, 29 Jun 2022 09:19:17 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o6Tqt-007Emp-8v; Wed, 29 Jun 2022 09:19:14 +0000
-Date:   Wed, 29 Jun 2022 09:19:14 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <492599599.0.1656494354633@builder.linuxtv.org>
-In-Reply-To: <1560692231.0.1656407954030@builder.linuxtv.org>
-References: <1560692231.0.1656407954030@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3944
+        Wed, 29 Jun 2022 05:41:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033793B540
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 02:41:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 81C9D61E73
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 09:41:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EC37C3411E;
+        Wed, 29 Jun 2022 09:41:20 +0000 (UTC)
+Message-ID: <3ef88906-188d-52a6-c3bf-647bc4e36732@xs4all.nl>
+Date:   Wed, 29 Jun 2022 11:41:19 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] media: stm32: dcmi: Switch to
+ __v4l2_subdev_state_alloc()
+Content-Language: en-US
+To:     Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+Cc:     Alain Volmat <alain.volmat@foss.st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
+        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philippe CORNU <philippe.cornu@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20220627174156.66919-1-marex@denx.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220627174156.66919-1-marex@denx.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3944/display/redirect>
+Hi Marek, Tomi, Laurent,
 
-Changes:
+On 27/06/2022 19:41, Marek Vasut wrote:
+> Any local subdev state should be allocated and free'd using
+> __v4l2_subdev_state_alloc()/__v4l2_subdev_state_free(), which
+> takes care of calling .init_cfg() subdev op. Without this,
+> subdev internal state might be uninitialized by the time
+> any other subdev op is called.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Alain Volmat <alain.volmat@foss.st.com>
+> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> Cc: Amelie DELAUNAY <amelie.delaunay@foss.st.com>
+> Cc: Hugues FRUCHET <hugues.fruchet@foss.st.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Philippe CORNU <philippe.cornu@foss.st.com>
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+> V2: Add FIXME comment above __v4l2_subdev_state_alloc() calls
+> ---
+>  drivers/media/platform/st/stm32/stm32-dcmi.c | 59 ++++++++++++--------
+>  1 file changed, 37 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+> index c604d672c2156..c68d32931b277 100644
+> --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+> @@ -996,22 +996,30 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+>  			struct dcmi_framesize *sd_framesize)
+>  {
+>  	const struct dcmi_format *sd_fmt;
+> +	static struct lock_class_key key;
+>  	struct dcmi_framesize sd_fsize;
+>  	struct v4l2_pix_format *pix = &f->fmt.pix;
+> -	struct v4l2_subdev_pad_config pad_cfg;
+> -	struct v4l2_subdev_state pad_state = {
+> -		.pads = &pad_cfg
+> -		};
+> +	struct v4l2_subdev_state *sd_state;
+>  	struct v4l2_subdev_format format = {
+>  		.which = V4L2_SUBDEV_FORMAT_TRY,
+>  	};
+>  	bool do_crop;
+>  	int ret;
+>  
+> +	/*
+> +	 * FIXME: Drop this call, drivers are not supposed to use
+> +	 * __v4l2_subdev_state_alloc().
+> +	 */
+> +	sd_state = __v4l2_subdev_state_alloc(dcmi->source, "dcmi:state->lock", &key);
+> +	if (IS_ERR(sd_state))
+> +		return PTR_ERR(sd_state);
+> +
 
+I've been reading the discussion for the v1 patch, and I seriously do not like this.
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3943' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@287c9fb7'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins18337692973048829403.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+My comments are not specifically for this patch, but for all cases where
+__v4l2_subdev_state_alloc is called.
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+It is now used in 4 drivers, so that's no longer a rare case, and the code isn't
+exactly trivial either.
 
-Not aborted. It means that the licence was agreed. Proceeding...
+I think a helper function might be beneficial, but the real problem is with the
+comment: it does not explain why you shouldn't use it and what needs to be done
+to fix it.
 
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-06-29 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-06-29 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+My suggestion would be to document that in the kerneldoc for this function in
+media/v4l2-subdev.h, and then refer to that from this comment (and similar comments
+in the other drivers that use this).
 
-     0K                                                       100% 83.9M=0s
+And another question: are more drivers affected by this? Is it possible to
+find those and fix them all?
 
-2022-06-29 09:19:10 (83.9 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+Regards,
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+	Hans
+
+>  	sd_fmt = find_format_by_fourcc(dcmi, pix->pixelformat);
+>  	if (!sd_fmt) {
+> -		if (!dcmi->num_of_sd_formats)
+> -			return -ENODATA;
+> +		if (!dcmi->num_of_sd_formats) {
+> +			ret = -ENODATA;
+> +			goto done;
+> +		}
+>  
+>  		sd_fmt = dcmi->sd_formats[dcmi->num_of_sd_formats - 1];
+>  		pix->pixelformat = sd_fmt->fourcc;
+> @@ -1036,10 +1044,9 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+>  	}
+>  
+>  	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
+> -	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
+> -			       &pad_state, &format);
+> +	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt, sd_state, &format);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto done;
+>  
+>  	/* Update pix regarding to what sensor can do */
+>  	v4l2_fill_pix_format(pix, &format.format);
+> @@ -1079,7 +1086,9 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+>  	if (sd_framesize)
+>  		*sd_framesize = sd_fsize;
+>  
+> -	return 0;
+> +done:
+> +	__v4l2_subdev_state_free(sd_state);
+> +	return ret;
+>  }
+>  
+>  static int dcmi_set_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f)
+> @@ -1183,31 +1192,37 @@ static int dcmi_set_sensor_format(struct stm32_dcmi *dcmi,
+>  				  struct v4l2_pix_format *pix)
+>  {
+>  	const struct dcmi_format *sd_fmt;
+> +	static struct lock_class_key key;
+> +	struct v4l2_subdev_state *sd_state;
+>  	struct v4l2_subdev_format format = {
+>  		.which = V4L2_SUBDEV_FORMAT_TRY,
+>  	};
+> -	struct v4l2_subdev_pad_config pad_cfg;
+> -	struct v4l2_subdev_state pad_state = {
+> -		.pads = &pad_cfg
+> -		};
+>  	int ret;
+>  
+> +	/*
+> +	 * FIXME: Drop this call, drivers are not supposed to use
+> +	 * __v4l2_subdev_state_alloc().
+> +	 */
+> +	sd_state = __v4l2_subdev_state_alloc(dcmi->source, "dcmi:state->lock", &key);
+> +	if (IS_ERR(sd_state))
+> +		return PTR_ERR(sd_state);
+> +
+>  	sd_fmt = find_format_by_fourcc(dcmi, pix->pixelformat);
+>  	if (!sd_fmt) {
+> -		if (!dcmi->num_of_sd_formats)
+> -			return -ENODATA;
+> +		if (!dcmi->num_of_sd_formats) {
+> +			ret = -ENODATA;
+> +			goto done;
+> +		}
+>  
+>  		sd_fmt = dcmi->sd_formats[dcmi->num_of_sd_formats - 1];
+>  		pix->pixelformat = sd_fmt->fourcc;
+>  	}
+>  
+>  	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
+> -	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
+> -			       &pad_state, &format);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	return 0;
+> +	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt, sd_state, &format);
+> +done:
+> +	__v4l2_subdev_state_free(sd_state);
+> +	return ret;
+>  }
+>  
+>  static int dcmi_get_sensor_bounds(struct stm32_dcmi *dcmi,
+
