@@ -2,216 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02D1055FDE5
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 12:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 389E555FE33
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 13:06:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233199AbiF2Kvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 06:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58826 "EHLO
+        id S230026AbiF2LFD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 07:05:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233055AbiF2Kvu (ORCPT
+        with ESMTP id S232813AbiF2LEt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 06:51:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF852AE29;
-        Wed, 29 Jun 2022 03:51:49 -0700 (PDT)
-Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 248B3B90;
-        Wed, 29 Jun 2022 12:51:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656499902;
-        bh=9xtAjflwfRsZm3JtLlvi7xOgYHlks19nXesRmLhGUqQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UvrQqfd4utrKt9Lh3k7deYtNnsaUexVWHdNWlvKbb08Ac68VbQ8tmyMCzjShv3abr
-         KcYxdi9DwcoELY+SYhudkQ4yMn70jzW7Hh6+oMdw+26O7LHbEh1afwdKw342ZlmQni
-         NIebWh8clAz1F29SgoIEql7hA0Fme1ckFv1f9te0=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH 7/7] v4l: vsp1: debugfs: Add DLM directory
-Date:   Wed, 29 Jun 2022 11:51:35 +0100
-Message-Id: <20220629105135.2652773-8-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220629105135.2652773-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20220629105135.2652773-1-kieran.bingham+renesas@ideasonboard.com>
+        Wed, 29 Jun 2022 07:04:49 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6867A3D482
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 04:04:43 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id AB874801C3;
+        Wed, 29 Jun 2022 13:04:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1656500680;
+        bh=Itm2HcTS0UVX0IwR2cN/zN3rDcTcHySEnwbQlGTUGvE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=QWsrGxA6yKjNj+CN6I/xPwkYnROQoLKwfd5Srsnq11iN0gIm7LwDeA643vS6fKuh/
+         6STbhwSRX2slI7UnmbUOT940hulObf+w2F8qYjI5zRFRoLxDbGBxxzU0tB0qwtZcsm
+         M0/bc4HrluHnnZhHBveFaIwLNUHEoBaJeSYFSvNVh5bobIKd1fzG+yYrbWXaIxHAsh
+         +GJS56xgCScKjcY4Qz/z1TU5g5VSdBT6usTjq+Jqn+CKj91N72IT6ZD+0o9BFYvHzj
+         9xtVPGFycsmDpa6vPHoOcmRF6A3V9hpDyVsyB/3yqVFahASvTvWyngtBCApQ0Jym07
+         VCttic8lmeFHg==
+Message-ID: <c4abd47e-a721-b92f-c84a-bdb6436d997d@denx.de>
+Date:   Wed, 29 Jun 2022 13:04:39 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] media: stm32: dcmi: Switch to
+ __v4l2_subdev_state_alloc()
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     Alain Volmat <alain.volmat@foss.st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
+        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philippe CORNU <philippe.cornu@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20220627174156.66919-1-marex@denx.de>
+ <3ef88906-188d-52a6-c3bf-647bc4e36732@xs4all.nl>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <3ef88906-188d-52a6-c3bf-647bc4e36732@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Provide the ability to output a display list in use over debugfs.
+On 6/29/22 11:41, Hans Verkuil wrote:
+> Hi Marek, Tomi, Laurent,
 
-In the event that the hardware has hung, it should be possible to
-identify the current/most recent display list written to hardware by
-viewing the DLM->active file:
+Hi,
 
- cat /debugfs/fe9a0000.vsp/DLM/active
+[...]
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>   drivers/media/platform/st/stm32/stm32-dcmi.c | 59 ++++++++++++--------
+>>   1 file changed, 37 insertions(+), 22 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+>> index c604d672c2156..c68d32931b277 100644
+>> --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
+>> +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+>> @@ -996,22 +996,30 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+>>   			struct dcmi_framesize *sd_framesize)
+>>   {
+>>   	const struct dcmi_format *sd_fmt;
+>> +	static struct lock_class_key key;
+>>   	struct dcmi_framesize sd_fsize;
+>>   	struct v4l2_pix_format *pix = &f->fmt.pix;
+>> -	struct v4l2_subdev_pad_config pad_cfg;
+>> -	struct v4l2_subdev_state pad_state = {
+>> -		.pads = &pad_cfg
+>> -		};
+>> +	struct v4l2_subdev_state *sd_state;
+>>   	struct v4l2_subdev_format format = {
+>>   		.which = V4L2_SUBDEV_FORMAT_TRY,
+>>   	};
+>>   	bool do_crop;
+>>   	int ret;
+>>   
+>> +	/*
+>> +	 * FIXME: Drop this call, drivers are not supposed to use
+>> +	 * __v4l2_subdev_state_alloc().
+>> +	 */
+>> +	sd_state = __v4l2_subdev_state_alloc(dcmi->source, "dcmi:state->lock", &key);
+>> +	if (IS_ERR(sd_state))
+>> +		return PTR_ERR(sd_state);
+>> +
+> 
+> I've been reading the discussion for the v1 patch, and I seriously do not like this.
+> 
+> My comments are not specifically for this patch, but for all cases where
+> __v4l2_subdev_state_alloc is called.
+> 
+> It is now used in 4 drivers, so that's no longer a rare case, and the code isn't
+> exactly trivial either.
+> 
+> I think a helper function might be beneficial, but the real problem is with the
+> comment: it does not explain why you shouldn't use it and what needs to be done
+> to fix it.
+> 
+> My suggestion would be to document that in the kerneldoc for this function in
+> media/v4l2-subdev.h, and then refer to that from this comment (and similar comments
+> in the other drivers that use this).
 
---
-2021-05-05:
- - Don't store dentry pointers which are not used
+Would it be OK if I left the core rework/documentation to Tomi as a 
+subsequent patch to this one ?
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/media/platform/renesas/vsp1/vsp1_dl.c | 107 ++++++++++++++++++
- 1 file changed, 107 insertions(+)
+> And another question: are more drivers affected by this? Is it possible to
+> find those and fix them all?
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-index ad3fa1c9cc73..f75ecc5b485e 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-@@ -17,6 +17,8 @@
- #include "vsp1.h"
- #include "vsp1_dl.h"
- 
-+#include "vsp1_debugfs.h"
-+
- #define VSP1_DL_NUM_ENTRIES		256
- 
- #define VSP1_DLH_INT_ENABLE		(1 << 1)
-@@ -226,6 +228,8 @@ struct vsp1_dl_manager {
- 
- 	struct vsp1_dl_body_pool *pool;
- 	struct vsp1_dl_cmd_pool *cmdpool;
-+
-+	struct dentry *dbgroot;
- };
- 
- /* -----------------------------------------------------------------------------
-@@ -1086,6 +1090,105 @@ struct vsp1_dl_body *vsp1_dlm_dl_body_get(struct vsp1_dl_manager *dlm)
- 	return vsp1_dl_body_get(dlm->pool);
- }
- 
-+/* -----------------------------------------------------------------------------
-+ * Debugfs internal views
-+ */
-+
-+static void seq_print_list_body(struct seq_file *s, struct vsp1_dl_body *dlb)
-+{
-+	int i;
-+
-+	for (i = 0; i < dlb->num_entries; i++) {
-+		struct vsp1_dl_entry *e = &dlb->entries[i];
-+
-+		seq_printf(s, "0x%08x -> %s\n", e->data,
-+			   vsp1_reg_to_name(e->addr));
-+	}
-+}
-+
-+static void seq_printf_dl(struct seq_file *s, struct vsp1_dl_list *dl)
-+{
-+	struct vsp1_dl_body *dlb;
-+	struct vsp1_dl_list *child;
-+
-+	if (!dl)
-+		return;
-+
-+	seq_print_list_body(s, dl->body0);
-+
-+	list_for_each_entry(dlb, &dl->bodies, list)
-+		seq_print_list_body(s, dlb);
-+
-+	if (dl->has_chain)
-+		list_for_each_entry(child, &dl->chain, chain)
-+			seq_print_list_body(s, child->body0);
-+}
-+
-+static int vsp1_debugfs_dlm_active(struct seq_file *s, void *p)
-+{
-+	struct vsp1_dl_manager *dlm = s->private;
-+
-+	seq_printf_dl(s, dlm->active);
-+
-+	return 0;
-+}
-+
-+DEBUGFS_RO_ATTR(vsp1_debugfs_dlm_active);
-+
-+static int vsp1_debugfs_dlm_pending(struct seq_file *s, void *p)
-+{
-+	struct vsp1_dl_manager *dlm = s->private;
-+
-+	seq_printf_dl(s, dlm->pending);
-+
-+	return 0;
-+}
-+
-+DEBUGFS_RO_ATTR(vsp1_debugfs_dlm_pending);
-+
-+static int vsp1_debugfs_dlm_queued(struct seq_file *s, void *p)
-+{
-+	struct vsp1_dl_manager *dlm = s->private;
-+
-+	seq_printf_dl(s, dlm->queued);
-+
-+	return 0;
-+}
-+
-+DEBUGFS_RO_ATTR(vsp1_debugfs_dlm_queued);
-+
-+/* Debugfs initialised after entities are created */
-+static int vsp1_debugfs_init_dlm(struct vsp1_dl_manager *dlm)
-+{
-+	struct vsp1_device *vsp1 = dlm->vsp1;
-+
-+	dlm->dbgroot = debugfs_create_dir("DLM", vsp1->dbgroot);
-+	if (!dlm->dbgroot)
-+		return -ENOMEM;
-+
-+	/* dentry pointers discarded */
-+	debugfs_create_file("active", 0444, dlm->dbgroot, dlm,
-+			    &vsp1_debugfs_dlm_active_fops);
-+
-+	debugfs_create_file("pending", 0444, dlm->dbgroot, dlm,
-+			    &vsp1_debugfs_dlm_pending_fops);
-+
-+	debugfs_create_file("queued", 0444, dlm->dbgroot, dlm,
-+			    &vsp1_debugfs_dlm_queued_fops);
-+
-+	return 0;
-+}
-+
-+static void vsp1_debugfs_destroy_dlm(struct vsp1_dl_manager *dlm)
-+{
-+	debugfs_remove(dlm->dbgroot);
-+	dlm->dbgroot = NULL;
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Object creation and destruction
-+ */
-+
- struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
- 					unsigned int index,
- 					unsigned int prealloc)
-@@ -1149,6 +1252,8 @@ struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
- 		}
- 	}
- 
-+	vsp1_debugfs_init_dlm(dlm);
-+
- 	return dlm;
- }
- 
-@@ -1159,6 +1264,8 @@ void vsp1_dlm_destroy(struct vsp1_dl_manager *dlm)
- 	if (!dlm)
- 		return;
- 
-+	vsp1_debugfs_destroy_dlm(dlm);
-+
- 	list_for_each_entry_safe(dl, next, &dlm->free, list) {
- 		list_del(&dl->list);
- 		vsp1_dl_list_free(dl);
--- 
-2.34.1
-
+Probably, I only ran into it with the DCMI so far.
