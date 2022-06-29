@@ -2,182 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0BAF55FB7B
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 11:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E646F55FB93
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 11:16:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232513AbiF2JMm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 05:12:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52958 "EHLO
+        id S230207AbiF2JPU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 05:15:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230207AbiF2JMl (ORCPT
+        with ESMTP id S232370AbiF2JPT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 05:12:41 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2067.outbound.protection.outlook.com [40.107.92.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31A381D0FD;
-        Wed, 29 Jun 2022 02:12:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aD41KtCc2xID56lqgk6oZnsyA4IuHsVVVinhqSwSxvfXa4uI/TURNtBZmkkrww5Gzr4OLvCZUgsu8iDmefdVcCMNtb0gv04IHVx/zc4O2iDDPelydsXTNfqlNwtPk8DqULxBcLt9dnFW7SgcONKnWSsnxp+bn4bEbN6xueBrT/vQsKzVzxkoZ82Ip9IQ/cmWiTnYGuMke0sTNKCJgej+2L6ty+OIDODAec3jDMpQIBFt5aZGxUHBJLCVE2mZfT9hA8nrKDfWfNxFrjOXWUsLP2PAqY3CjXVgtrCVS0oxKUJWc6pS7p2nSJh/1dg6HnL2IjqxOTtxDPRCqhPdPif+Yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HKnjmI/D06DvqqJSU5BT8xKxvwJWeZgmuUEikkeXZrY=;
- b=isRtb3mFtsTw0kSIIUpRUPlKFOyLBrflKFvPrG+Gai3EIuhFzDBnMzmgsyGqA3lgD0cCBGJASZfmI7TSBK3T2tEx8vzDtmRMmRz5z5U4pryRtHVFggzCgVfytrj8vly/1P+CvE9JKL5Fk/wHXBM/81ezXH/LiiBPjFjpo6ILoVzPdDSNha9cum1XmrMkhQbycA5D21QS99zxBmQ3UwCTa85YlcvfDjkkjVOE59umfOqMMBrBnGY+Pg+ETUw0h7Hlkhvp7I8gtVa8xZouuyF46IKuSXpg/V0+EyRIvbQ0PfvSmX3XeeGf001Me7hJ7i5gCljhJkFgHP/O+DsoPD8pZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HKnjmI/D06DvqqJSU5BT8xKxvwJWeZgmuUEikkeXZrY=;
- b=N7Gw13+KMXJkIxI5CEmmQSTLYYiEe9RhjNzXcP6EBv8SPbDqKT7/UBoXrgBirnX5ae7EK9lV1SAW5Lvai6jLQszc9vt3BieBnLVY7LRcAHFHm01d8z7fCuhpvlznJ22Z1pQbwYw0mH0U2jQ2ymjvKYsNGIpNOFHNdrx8n8dI23Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MWHPR1201MB0141.namprd12.prod.outlook.com (2603:10b6:301:56::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.14; Wed, 29 Jun
- 2022 09:12:35 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5395.014; Wed, 29 Jun 2022
- 09:12:34 +0000
-Message-ID: <8499b1f1-cd39-5cb4-9fac-735e68393556@amd.com>
-Date:   Wed, 29 Jun 2022 11:12:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v1] Fix: SYNCOBJ TIMELINE Test failed.
-Content-Language: en-US
-To:     jie1zhan <jesse.zhang@amd.com>, broonie@kernel.org,
-        alsa-devel@alsa-project.org
-Cc:     Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com,
-        Sunil-kumar.Dommati@amd.com, ajitkumar.pandey@amd.com,
-        Nirmoy Das <nirmoy.das@linux.intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-References: <20220629060236.3283445-1-jesse.zhang@amd.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220629060236.3283445-1-jesse.zhang@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR04CA0137.eurprd04.prod.outlook.com
- (2603:10a6:20b:48a::12) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Wed, 29 Jun 2022 05:15:19 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED11A28E25
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 02:15:17 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id mf9so31375491ejb.0
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 02:15:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=L7wjVzwYiQNNDss7ZeyhgJmoh/+dTEb2fLiC8HBD/kk=;
+        b=bt1EKqzTrBt5h8uv3/tx1sCxbmzEk6oLQ3N+mybSM2M5wIY8sV+dJdem2fNUDAl6bX
+         9hUoGAaWDyNgrQyjCNTjMvNhLXjRzPTJ13QO2L9UB9tWN3kMqJY6Okc2EwPM8kxeoM47
+         oKknoyLf5gF7OzH8/0dPuGMt+YcBOYKEnYwCc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=L7wjVzwYiQNNDss7ZeyhgJmoh/+dTEb2fLiC8HBD/kk=;
+        b=G5EAWdZD5bPzbkd2uz5oV2dw4WpFIEN/jWiz69s7WreBLCNd8AAfy3DO8SELh0iZIf
+         kxEholjJvKdUyJIlvjNy0OYCBHrQlKHUmS4HzjzsYhznIFh6wtBdRJoAsFDhil/NvsK7
+         p0UyBCR3IIg7IlbEBdyI5S4lZyCnD2iOBH98zQ+XqLZFiZbWHGi2jaLwjIfyjuTPSUVk
+         teobkepfxwLE2NpODgUqh+A69lXkGuZFegIdDcj+IWEZQKgTpBcuZ+6Po2beoxVccRcv
+         bVphLPhsxUwb1hOgagUmXFFaQvtW4yDJZ9wfXN2ddBMVUq9ilSl6jLfrN00AH5/QYVEW
+         exng==
+X-Gm-Message-State: AJIora/UA+/n5fd6SF972JPSzkgL7w0ed6UJema0OAks76iujJP/5aTZ
+        iFjPnmVvZVvY+kF4TbLg9rCung==
+X-Google-Smtp-Source: AGRyM1tke9XKBdzZQLV5gX3xfKF5wJ/OjBVDZjKsRrNDkB5m8P24fXXPItsPsDZxmwic52HeVrjdMQ==
+X-Received: by 2002:a17:906:2bda:b0:726:3b59:3ea9 with SMTP id n26-20020a1709062bda00b007263b593ea9mr2217117ejg.43.1656494116450;
+        Wed, 29 Jun 2022 02:15:16 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-58-216.cust.vodafonedsl.it. [188.217.58.216])
+        by smtp.gmail.com with ESMTPSA id r1-20020aa7cb81000000b004357b717a96sm10977159edt.85.2022.06.29.02.15.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 02:15:16 -0700 (PDT)
+Date:   Wed, 29 Jun 2022 11:15:14 +0200
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Daniel Scally <djrscally@gmail.com>, linuxfancy@googlegroups.com,
+        linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/7] media: ov5693: move hw cfg functions into
+ ov5693_check_hwcfg
+Message-ID: <20220629091514.GB381128@tom-ThinkPad-T14s-Gen-2i>
+References: <20220627150453.220292-1-tommaso.merciai@amarulasolutions.com>
+ <20220627150453.220292-5-tommaso.merciai@amarulasolutions.com>
+ <20220629081635.zvdj6pzodg4rhrdf@uno.localdomain>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6e61abe0-4415-4f62-cda0-08da59af80ec
-X-MS-TrafficTypeDiagnostic: MWHPR1201MB0141:EE_
-X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z/UcpfzSfzv6i6bKL116Qx7BeTevDwuDtAqnIfq9K5F5TObuaSCnpshEYLEVN+y0S2hxNRRWWpW21fGqTltcOHAmVXtljVC4kzOfoiXKUEiarA6+nhM70iS+ac77VLIaUMfczJLkLp6jbPTqB1MYQxzz7KSBYsGrmxkYUFiQmpI5BUUgfas6yrOQST/YrpOqFDuwlLII5qRq+Zo7UOyYiId1bwb8QKcnPDfXy+zHxscXexR+evgnNfCLt+9jPdYQvO6C/UVOB5wHTVIPSU7x22tqg1B7cSvioVIjW8sUJEvJtTvCzqAIqE3yrFA3H35PzzuQ8QrLFqBDGBlrG0d9jj2g2o8nYshm+T9nk0WVz+/h+Py7CTHKLztI8Cs3uk4T0TlThzUuyyVANzwM0Jnb1LWRBmkYuWskpNO5KT7ud/opRZ9CCkPzAIcPk2dxDHs1hikPTJNZBWPHtRiRuAML5iSGPM0UbEW2qZoht4zZ204BBTeLqH4JxguHjwvqyHyuYIUdWJCenH0P/vD+w7PGDsKpUMlbCORl4/+IeHUr/Fdv6G1S62b0tI9jdqZ8xaMOdokLpb8EH9INVdJ93EyrRZqUVU9QVY8kHyVTF0cLcjpX2RJK2QDurTVepJM7Ic4lPTJN+gdGsDsuemLTyWCDZd+9l6hXOlsk2xXTYqEKZtq2TjssvRANPNd3t7E9UAzZQ644cPG93yTryS8+SI7BfyqnIwfVYAhlpP7MikRQ6HnMSCDWu+xNBjtY7uYh+PiqmrcbnaurdE5gOlOnner2udmKJPbF4dOaXOKzWDpwLPwet0b5AZDnPBSekQTZ6rs9BjaP9AtFI3eilkNq44OgtDDsafe8+G4XhpNIxd/ENgb8S2IwQeUaVFWw5dZVZOuc
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(366004)(376002)(396003)(346002)(39860400002)(31696002)(86362001)(38100700002)(8936002)(5660300002)(6486002)(478600001)(2906002)(41300700001)(7416002)(316002)(54906003)(6666004)(8676002)(4326008)(66476007)(66556008)(66946007)(66574015)(186003)(83380400001)(6506007)(2616005)(6512007)(36756003)(31686004)(45980500001)(43740500002)(414714003)(473944003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Uy9DRUR4S1h6Lzdhd3N2L2gyU2VMdHFXbFBwSE9lbFRMYkYwTlg4eDhWUDll?=
- =?utf-8?B?cWxGd09TWU1hK2pkeXhUUjFrTzk4YW00bUtMMWRwdzl3cEFmRVFYU2RtZkow?=
- =?utf-8?B?YmNnR0V4TzZzNjBuYWZkM1d2TjR3aU1ObGVPdjk3SWZxd1RyM3VDbzk1NjBn?=
- =?utf-8?B?KzVDSUdvT0xpVTg1bnEwMEhnM1pob1grdlhvUWtITDdoeVl0LzczSWpKT0o4?=
- =?utf-8?B?UFdxdy85cGxJNjNFVXhoc1JGRUJTcC9meHJoN0lYWjh6SGJ2RlBvcGFYc0g3?=
- =?utf-8?B?RzlJbG91Z0lHMExxeXQ4RVJUQmVWOEJoRDZkYWJndXUwaVNTa3JzeHlFOTFl?=
- =?utf-8?B?VHJ2OUhoL2hHZEFqOEdJZStrc2dRb0NBWTJPeGVodmF0VlBmZVNZM3ZXT2JX?=
- =?utf-8?B?Z1lvemY3eElzRG95LzVBSkk2bWlzTFFweldKbVpHaVlSVjl5Q2tKY2RsQ3Ev?=
- =?utf-8?B?VFlKSHduTFh3MmdpTTg3bFFyMXdnOHlBbE1PdFYxY3hpZDdoLzZnbFNqdXha?=
- =?utf-8?B?djlPZVNYczhNRExBbWU5MW5nRTZUZ2RCeW9KVnNiVFBUaWJJUUltZThDWVYv?=
- =?utf-8?B?OUhFbDZUNGRzWXFrUUluM0xKcXRPc0hvNktYVmkyTXUyZUtWWGFxUjhkd0ln?=
- =?utf-8?B?YXB0ZmV3YSt3V0dpUEVIb2VyV1dLWVl2c0lFdFRMdDU0NUNtVXVlOHBnS3hl?=
- =?utf-8?B?SjJkUHpRTGU1aXRCMXcyb213Z1NqT05uajZFbkxHZW5yd3V4R0htWVRQMzYy?=
- =?utf-8?B?cWdJZ3laL21Nd1VLbnI2ZlI0N1NQZjl3bHBwSndyREo2NUVSRm5JRE5mTW5R?=
- =?utf-8?B?QjUzc1pPWXpNV1haMEp3R2Z0VVQvZDMveG52cDRwZnAyU2NaRDhLZzV6MzNM?=
- =?utf-8?B?ZzFRbXp0b0JObjJ3NnR5Z0E0VCtrWTExTTVGRG1Dem1GTzl5R01sbkdkY2wx?=
- =?utf-8?B?dG1aNHE1OHNHVG01MjZYVzJDWVc3QzFreGRjMTl1NXZHV3I1a3JSNVFyQXd0?=
- =?utf-8?B?TW1YalNaWDVybkY5MjZwbnNHWnRhSVlIL3lIMHM3eUljL2gxeDJmS1o3S1da?=
- =?utf-8?B?dVE2am8wYzZNMTZDS0VUV0FFTGx4RFZzc3RnNVNpTnJTWTdRMUtrL3NZbTla?=
- =?utf-8?B?Zk04UUFVOGNTdGtwTzVCQVdhWmVBWndwSU5ZcC8xSSs3dFlvdTFxMjFkQ1Nu?=
- =?utf-8?B?M3JvRGsySXBNVUQzMmN0RHNoWmVsNDEwZWF0RHVsK2M5WWZLYzFWRjRmQ2ZJ?=
- =?utf-8?B?QU44ejkrbHNXYmwvejZnWE1vZEtSanU1REVjQ2ZKN0I3YkljRmVvRjlVaUJX?=
- =?utf-8?B?U05nZGlQeWNFNFhGYS9FRm02bjhZQzZmMHdmWktMNFNXYS8zb09mcE9xcmNn?=
- =?utf-8?B?aGhTWGNNVnBYd3ZqMVd2QUtIN3pVU3EyN0ViMWt3NVl5azhJWC9sTm13WWhn?=
- =?utf-8?B?blNvUHAyWkZjeFlwNUFuL3BlMCtSRkNMM0JuWG5RcTRkUUZTYmltR24xeWtJ?=
- =?utf-8?B?N0pIcUxod2dSZ2ZmSkk0dmh1L05aS1hrdC9kM1dBZkpPYXkxajVTMXZ3TW9h?=
- =?utf-8?B?eEZNSWxnVHVmdDkxbzdXSEZvcmdRMklLYWVudG5kdnJGcVlQbElDM0ZISi9J?=
- =?utf-8?B?cUR3bHE5ZlVyaThRTEI2Y0U3cERZYnVvcWY0YkF6NWJMKzl6NnVHcUF1UVVN?=
- =?utf-8?B?WjUrSU5WTTM3MjlMYlVmSkl2Z1hKbEIxVm9YREFzazJqU3czRzRjdVd6azh5?=
- =?utf-8?B?Zmw1UHNSd21sTi9abU5yYUQ0amJxRUMyODNyUjJNSHcyblNwSG1tZ0Z0QVlw?=
- =?utf-8?B?ckVNc3QyS1JzVW5DakVUWFBXbW4wOEFDTWtacEFWa0plY3FhbzNsbzAxY3dC?=
- =?utf-8?B?R3V0QXhtallTQXpkTkJtUU5wVVplc1JYNzVFbnVWVFo2aFdwSWNHN1BVK2xj?=
- =?utf-8?B?RGZ0NHI1SVlJMjdkNjRHOTlXeVY2RFM4ZTFoRFBWVHRveHluMWt6WFNXQXR4?=
- =?utf-8?B?aCsxdEZkK2YrUW1DcWdPM2FESTlhM0YwVUI3bFI1UDBKZDFxL1RJcFZBQnN5?=
- =?utf-8?B?T3hSeklJUGFEaVJsWnBFSDdaOXNOM2twRXhXcFcyR2tkUm9TUzI4dkF4aDZB?=
- =?utf-8?B?MlBLZHRIdUxkRGdNaUZFRUl0SDhBTUVqbjUwaVpCcVBvYXBxa3lnUWJCaDNB?=
- =?utf-8?Q?UW5Eb/xy7RVQVOTs2/UlsiCAt/CucRbRYgJqhFSnyghj?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e61abe0-4415-4f62-cda0-08da59af80ec
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 09:12:34.5841
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Iybp/BPA0GSNVfZr7eLMfXvVxSm3LV2y1EXVgXHC14QFpnx8JpocjTHu/3jM5TCs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0141
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220629081635.zvdj6pzodg4rhrdf@uno.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 29.06.22 um 08:02 schrieb jie1zhan:
->   The issue cause by the commit :
->
-> 721255b527(drm/syncobj: flatten dma_fence_chains on transfer).
->
-> Because it use the point of dma_fence incorrectly
->
-> Correct the point of dma_fence by fence array
+Hi Jacopo,
 
-Well that patch is just utterly nonsense as far as I can see.
+On Wed, Jun 29, 2022 at 10:16:35AM +0200, Jacopo Mondi wrote:
+> Hi Tommaso,
+> 
+> On Mon, Jun 27, 2022 at 05:04:50PM +0200, Tommaso Merciai wrote:
+> > Move hw configuration functions into ov5693_check_hwcfg. This is done to
+> > separe the code that handle the hw cfg from probe in a clean way
+> 
+> s/separe/separate/
+> 
+> You also seem to change the logic of the clk handling, please mention
+> this in the commit message, otherwise one could be fooled into
+> thinking you're only moving code around with no functional changes...
 
->
-> Signed-off-by: jie1zhan <jesse.zhang@amd.com>
->
-> Reviewed-by: Christian König <christian.koenig@amd.com>
->
-> Reviewed-by: Nirmoy Das <nirmoy.das@linux.intel.com>
+Right. I'll add some comments on support to get clock-frequency using
+fwnode_property_read_u32 in v3
 
-I have strong doubts that Nirmoy has reviewed this and I certainly 
-haven't reviewed it.
+> 
+> >
+> > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > ---
+> >  drivers/media/i2c/ov5693.c | 53 +++++++++++++++++++++++---------------
+> >  1 file changed, 32 insertions(+), 21 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+> > index d2adc5513a21..d5a934ace597 100644
+> > --- a/drivers/media/i2c/ov5693.c
+> > +++ b/drivers/media/i2c/ov5693.c
+> > @@ -1348,6 +1348,38 @@ static int ov5693_check_hwcfg(struct ov5693_device *ov5693)
+> >  	struct fwnode_handle *endpoint;
+> >  	unsigned int i;
+> >  	int ret;
+> > +	u32 xvclk_rate;
+> 
+> nit: move it up to maintain reverse-xmas-tree order (I know, it's an
+> annoying comment, but since variables are already declared in this order..)
 
-Christian.
+No problem :)
+I'll do it in v3.
 
-> ---
->   drivers/gpu/drm/drm_syncobj.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index 7e48dcd1bee4..d5db818f1c76 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -887,7 +887,7 @@ static int drm_syncobj_flatten_chain(struct dma_fence **f)
->   		goto free_fences;
->   
->   	dma_fence_put(*f);
-> -	*f = &array->base;
-> +	*f = array->fences[0];
->   	return 0;
->   
->   free_fences:
+> 
+> > +
+> > +	ov5693->xvclk = devm_clk_get(ov5693->dev, "xvclk");
+> 
+> Isn't this broken ?
+> 
+> if you use ov5693->xvclk to identify the ACPI vs OF use case shouldn't
+> you use the get_optionl() version ? Otherwise in the ACPI case you will have
+> -ENOENT if there's not 'xvclk' property and bail out.
 
+You are right, devm_clk_get_optional is the correct way.
+
+Thanks,
+Tommaso
+
+> 
+> Unless my understanding is wrong on ACPI we have "clock-frequency" and
+> on OF "xvclk" with an "assigned-clock-rates",
+> 
+> Dan you upstreamed this driver and I assume it was tested on ACPI ?
+> Can you clarify how this worked for you, as it seems the original code
+> wanted a mandatory "xvclk" ? Are there ACPI tables with an actual
+> 'xvclk' property ?
+> 
+> > +	if (IS_ERR(ov5693->xvclk))
+> > +		return dev_err_probe(ov5693->dev, PTR_ERR(ov5693->xvclk),
+> > +				     "failed to get xvclk: %ld\n",
+> > +				     PTR_ERR(ov5693->xvclk));
+> > +
+> > +	if (ov5693->xvclk) {
+> > +		xvclk_rate = clk_get_rate(ov5693->xvclk);
+> > +	} else {
+> > +		ret = fwnode_property_read_u32(fwnode, "clock-frequency",
+> > +					       &xvclk_rate);
+> > +
+> > +		if (ret) {
+> > +			dev_err(ov5693->dev, "can't get clock frequency");
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> > +	if (xvclk_rate != OV5693_XVCLK_FREQ)
+> > +		dev_warn(ov5693->dev, "Found clk freq %u, expected %u\n",
+> > +			 xvclk_rate, OV5693_XVCLK_FREQ);
+> > +
+> > +	ret = ov5693_configure_gpios(ov5693);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = ov5693_get_regulators(ov5693);
+> > +	if (ret)
+> > +		return dev_err_probe(ov5693->dev, ret,
+> > +				     "Error fetching regulators\n");
+> >
+> >  	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> >  	if (!endpoint)
+> > @@ -1390,7 +1422,6 @@ static int ov5693_check_hwcfg(struct ov5693_device *ov5693)
+> >  static int ov5693_probe(struct i2c_client *client)
+> >  {
+> >  	struct ov5693_device *ov5693;
+> > -	u32 xvclk_rate;
+> >  	int ret = 0;
+> >
+> >  	ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
+> > @@ -1408,26 +1439,6 @@ static int ov5693_probe(struct i2c_client *client)
+> >
+> >  	v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
+> >
+> > -	ov5693->xvclk = devm_clk_get(&client->dev, "xvclk");
+> > -	if (IS_ERR(ov5693->xvclk)) {
+> > -		dev_err(&client->dev, "Error getting clock\n");
+> > -		return PTR_ERR(ov5693->xvclk);
+> > -	}
+> > -
+> > -	xvclk_rate = clk_get_rate(ov5693->xvclk);
+> > -	if (xvclk_rate != OV5693_XVCLK_FREQ)
+> > -		dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
+> > -			 xvclk_rate, OV5693_XVCLK_FREQ);
+> > -
+> > -	ret = ov5693_configure_gpios(ov5693);
+> > -	if (ret)
+> > -		return ret;
+> > -
+> > -	ret = ov5693_get_regulators(ov5693);
+> > -	if (ret)
+> > -		return dev_err_probe(&client->dev, ret,
+> > -				     "Error fetching regulators\n");
+> > -
+> >  	ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> >  	ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
+> >  	ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> > --
+> > 2.25.1
+> >
+
+-- 
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
