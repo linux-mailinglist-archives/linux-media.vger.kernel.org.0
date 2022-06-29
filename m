@@ -2,95 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 625B755F322
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 04:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B05055F40A
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 05:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230409AbiF2CIC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jun 2022 22:08:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56914 "EHLO
+        id S231591AbiF2DYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jun 2022 23:24:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230359AbiF2CIB (ORCPT
+        with ESMTP id S231676AbiF2DYQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jun 2022 22:08:01 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D9D313B9
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 19:08:00 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-318889e6a2cso134991087b3.1
-        for <linux-media@vger.kernel.org>; Tue, 28 Jun 2022 19:08:00 -0700 (PDT)
+        Tue, 28 Jun 2022 23:24:16 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32111D8;
+        Tue, 28 Jun 2022 20:24:05 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id h9-20020a17090a648900b001ecb8596e43so14674240pjj.5;
+        Tue, 28 Jun 2022 20:24:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iaxx2mVOl0/WekbiOxEK1DBs+N3hD6yTv9XuQKXGu1M=;
-        b=snmlm8zTm4idfSay5cdiMQTZoJl6vnex6SHkWC4iwzwCA3Z5mELXLjfNIyeFxuSw0X
-         5eEun1jx1IomWHm3aAQQDgAJ9mUi3AWvW9jWc7nRNiLK3ISyv5lyULIrfjN6f/VzDIOm
-         gVySoKarRjlv6h+ql2o/Nwp92/U9L8axjpaonILKzbmXPgqjYUvXxtJz6CO6RDWqckHp
-         QCJDxj4MSgSLh9k5rv8KwhsBTCkGZ8QRMXtj71JtYHN4bkoVoYpTJzO2V8N/sAaK4FvF
-         v77XZYD9pAGmhQgwWmmDTFVmm3X07r3ed6/xj6/dVT9ThgkxogqQAEJeb++fgZm7nBXK
-         15dg==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Fj7BbdljqsoGparCST0EyCcPUKNtLNBlk+LCRCpdJLw=;
+        b=oFx79pTDKe/0K4DzWTg5WbhaY9GMAgsDaFSkH6r1vPW1HFdOJXqGQ5UZxgywHDM3Ir
+         0equTGt8PyPlERIlnTf5/BcxXxzGITpucSE2VIl8CV1o9ehzFCMhzuOGmi45/AK6qG76
+         /8w9TpCEjcwZrf18xju/rDZxtqGU8P6zQ25P+y1i5vCqEbFPPa98WvDxnH8cFtX3sIwJ
+         junUVkx5AYbgAFw0eC61vARiqpw1IzYsntMTivQEIBdgIUJa+1mBXf7au2lMkxwOomRF
+         Tq177jWJbMD53EgF/Vw9Bn+IKNlGCEHOCstQTlq+u9cuVkwNV5MjGVV2oNYBWWI67o+0
+         Kprw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iaxx2mVOl0/WekbiOxEK1DBs+N3hD6yTv9XuQKXGu1M=;
-        b=IFcNNHslOG917Og4atBKsFxd2onM/EAs4WAKnysv59Yj2o6PMFVTHz85kTfiXE/JUZ
-         dsOBaRENsrcX7sYJ6RRwqnhXo+1cFO9AFzPV15x7nHyDFo6naO9RBD3TSfa8s9xsJevz
-         7H0H1JLoUrPzyFllMzymhvi+WQGpMqvbpbTUsxMm+FvcyjGX516dbqUTPbi40RjGVmVu
-         BT28qwslRzObP561mJ4EZ+pDD/DssxfhL8aJTTgda8kEf3iPcT2mTV+KIU5ZWmA9SKTY
-         bihlpE+ELKDd1s0HS6k777tyhSDyt/BzlmGUH/FLivlROQOOkgQDADmtIEiX7ZQcUluN
-         IhDg==
-X-Gm-Message-State: AJIora9t69EpOsRHsay0WwD2GLVikfrzQJJX6L7tg3tYJvuBI6AQ6l/5
-        KXXfPvVwZGnJ52cL0tSWSyzaflhrsD3ttuoPb/VAfA==
-X-Google-Smtp-Source: AGRyM1tNcLlSOiZoBvMQFzz074e5kjsCYYpdJDDlSw52FbeuP7LYgL6gft9ICcY/NEFk9O6CYQKqUACTuHVA1zwl72U=
-X-Received: by 2002:a81:3645:0:b0:31c:1d57:791f with SMTP id
- d66-20020a813645000000b0031c1d57791fmr757481ywa.37.1656468479386; Tue, 28 Jun
- 2022 19:07:59 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Fj7BbdljqsoGparCST0EyCcPUKNtLNBlk+LCRCpdJLw=;
+        b=oXJlEWr9GORBnTsXKEBiPrTqXFmJCmxnu7Eo/itHVD/+d2QUCErNnoFyEEHD7Awpxd
+         X9TDcjBEeJqDOZ4b9mHB0EZzkkwaWSfy5wEgTb80yGw+xSpQyjs4sQ3aYFlvrb8eoCad
+         vkr6ZQUdt6PJz6i3XIwBvf0/Tv4YchtzS84riNvnquk7d8VL8etOhqXhDSqAVfAfjWF7
+         q1yTgemMYx5XBdK4fAY7n9Egu3tZMM1sLyXueNBnNgeMpDMZi+SXaX5p87Ly+W+xvUpr
+         asNXkkjYPrAUHA7GXXV4L/WprbOomuAK11H2VPyhlyZROLOJKoD5uaeQtZrPSE5eAU8P
+         +pHw==
+X-Gm-Message-State: AJIora/k8F4rc5Gm/NSxX7x+P6nAq2G1WPW/RjzZYOWwIhVq/ilMxMLm
+        5ZeL2xU9DHpIJqvbZ9Usm0M=
+X-Google-Smtp-Source: AGRyM1vsi7CgNn+hm6JA8nRBvn1UfsHiN+DuVQjG+D41n++oNdHScStsgrICm72S8/mDUKvSMDDq4A==
+X-Received: by 2002:a17:902:a701:b0:16a:65b:f9f1 with SMTP id w1-20020a170902a70100b0016a065bf9f1mr8387462plq.73.1656473045455;
+        Tue, 28 Jun 2022 20:24:05 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-13.three.co.id. [180.214.232.13])
+        by smtp.gmail.com with ESMTPSA id p9-20020a1709026b8900b0016372486febsm10011584plk.297.2022.06.28.20.24.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jun 2022 20:24:04 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id E4C29103832; Wed, 29 Jun 2022 10:23:59 +0700 (WIB)
+Date:   Wed, 29 Jun 2022 10:23:58 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Alexander Potapenko <glider@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marco Elver <elver@google.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        kasan-dev@googlegroups.com, linaro-mm-sig@lists.linaro.org,
+        linux-cachefs@redhat.com, linux-fsdevel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org,
+        linux-pm@vger.kernel.org, linux-sgx@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 00/22] Fix kernel-doc warnings at linux-next
+Message-ID: <YrvFzoH61feRFoxV@debian.me>
+References: <cover.1656409369.git.mchehab@kernel.org>
 MIME-Version: 1.0
-References: <20220628005353.1719403-1-yunkec@google.com> <20220628005353.1719403-3-yunkec@google.com>
- <75485861-f17c-001c-b656-881d3be22144@linuxfoundation.org>
-In-Reply-To: <75485861-f17c-001c-b656-881d3be22144@linuxfoundation.org>
-From:   Yunke Cao <yunkec@google.com>
-Date:   Wed, 29 Jun 2022 11:07:48 +0900
-Message-ID: <CANqU6Fe2=aS9JfnXGYAZ2W9KyArDy-50KoaKdNNvJz3zjqbDTg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] media: vimc: documentation for lens
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cover.1656409369.git.mchehab@kernel.org>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just resent the patches. Sorry about the inconvenience.
+On Tue, Jun 28, 2022 at 10:46:04AM +0100, Mauro Carvalho Chehab wrote:
+> As we're currently discussing about making kernel-doc issues fatal when
+> CONFIG_WERROR is enable, let's fix all 60 kernel-doc warnings 
+> inside linux-next:
+> 
 
-Thanks,
-Yunke
+To be fair, besides triggering error on kernel-doc warnings, Sphinx
+warnings should also be errors on CONFIG_WERROR.
 
-On Wed, Jun 29, 2022 at 4:57 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
->
-> On 6/27/22 6:53 PM, Yunke Cao wrote:
-> > Add documentation for vimc-lens.
-> > Add a lens into the vimc topology graph.
-> >
-> > Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> > Signed-off-by: Yunke Cao <yunkec@google.com>
-> > ---
-> >   Documentation/admin-guide/media/vimc.dot |  4 ++++
-> >   Documentation/admin-guide/media/vimc.rst | 19 +++++++++++++++++++
-> >   2 files changed, 23 insertions(+)
-> >
->
-> This patch failed to apply. Please rebase to the latest Linux 5.19-rc4
-> and resend.
->
-> thanks,
-> -- Shuah
->
+-- 
+An old man doll... just what I always wanted! - Clara
