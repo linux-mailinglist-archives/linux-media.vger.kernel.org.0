@@ -2,188 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94239560BF3
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 23:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC0D7560CF2
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 01:06:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbiF2Vty (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 17:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53426 "EHLO
+        id S230060AbiF2XGK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 19:06:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbiF2Vtx (ORCPT
+        with ESMTP id S229460AbiF2XGK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 17:49:53 -0400
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE767DF3
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 14:49:52 -0700 (PDT)
-Received: by mail-oi1-x22e.google.com with SMTP id w83so23484695oiw.1
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 14:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fi-uba-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=gvxGfzXvIEpT+Qlne4HBVykXhgHAAdCiVA/2CCgvaUw=;
-        b=kzQXU2dJor252JJAFcaAt6Rp6z8woVwC+XlWIclZraEKjuZFQ3yiVxissCZWhFEkG/
-         Zw7y3lOwiMlAL/FIi2MihDBWq8WW2SK3pQNMaisdZNDkQ68tzQ+MMl0USv1jBHn+qvkE
-         w6Uxf+1q/n6oSYHXKF3DZGzcgW2/iS1BgZ6MAEn9NMF0SaKsusWWr4W19o387hxElnwg
-         p41Cu5m1MU5cWZG3r8x+ntqRtH88GCq1JmSPhPi9IFg+4AvcQmEvDhCYltRp484560iQ
-         LBD2BE6vpwigEx8hosvr9RzYGT0M86nZWjmX0AJE2teY9YgYt7R5MqnZiGc31ApC3gtO
-         fi3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=gvxGfzXvIEpT+Qlne4HBVykXhgHAAdCiVA/2CCgvaUw=;
-        b=kJa0x7El6IhjV7BaNj7Rz1A7EUwk8miWs2drlUL6g4mU19fToznk7C8JEgoat3s9EO
-         2mlwY+vWnbSiSu2R2Mq6tIrYNPlTOIBH68S3xZw/Jda6u7U/WJPq5RWw9/GkeO1iU8Nf
-         TXe2V9L4Pgnj98hChsz8zgMknjL+wmqUxr70Y6NnjfO7qjszqxqEqKBok6TtZ8vBl8v5
-         nNOpVqecKTlckg+QhUJ129kYNjicCkZUo3n+eywwZkL5dh90TqnsfzQhnQaogZBn4PN/
-         CSHg9uXmyFVK564n0OxSvOdktpaFjdHkqgkQgmyKNdp61jiC0cxTfUyvbmFnCtebQi8N
-         YZ2A==
-X-Gm-Message-State: AJIora/UnfHJ9NRcR+ZkAUANszcb3noLgflnuDtYuRAITr6Gn4Zxn1Vk
-        mDGWtc8ohKo9ChkBEDtghRvzZp4/Sf6gFLtT
-X-Google-Smtp-Source: AGRyM1uUx+sltPSW197VribFoTckD8IGgpXtxi+sgWIrDDpWjipmv3rugy6CHjoriEn/sZGhjDn3lg==
-X-Received: by 2002:aca:618b:0:b0:32f:3e2c:60d1 with SMTP id v133-20020aca618b000000b0032f3e2c60d1mr3366067oib.123.1656539391397;
-        Wed, 29 Jun 2022 14:49:51 -0700 (PDT)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com. [209.85.160.46])
-        by smtp.gmail.com with ESMTPSA id a26-20020a9d725a000000b00616d713c062sm4843413otk.28.2022.06.29.14.49.50
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 14:49:50 -0700 (PDT)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-f2a4c51c45so23241190fac.9
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 14:49:50 -0700 (PDT)
-X-Received: by 2002:a05:6870:1485:b0:f3:bd4:aab0 with SMTP id
- k5-20020a056870148500b000f30bd4aab0mr3380440oab.229.1656539390020; Wed, 29
- Jun 2022 14:49:50 -0700 (PDT)
+        Wed, 29 Jun 2022 19:06:10 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEBF11DA7F;
+        Wed, 29 Jun 2022 16:06:08 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru [109.252.118.164])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 97A3B660177B;
+        Thu, 30 Jun 2022 00:06:04 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656543967;
+        bh=MHzNXwrpamEQJfSn517DbHauHiLavqph9+6FDdh8cW0=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=R3tBCTFOx5La3aI3IuCM416s6ri/Rh+h8/CoISbxHReBFWX7oD8ghFIqxKIheLH5w
+         K/nf9MDe20o+qs6uI9V4q7kgllcSj0UFzIr7895NwJrkgQscojZeKpuMoIZ/sXAhJ/
+         ByY76oOA2S/Qn7NuU44zmtC8ngpXqT/Sk6mv6EXPgD3t0Yu7tgBa91vpQ3RjptNtcQ
+         8wCG1+oVsnGfEAp76m0cvoIjw+tsFZcA1BMMt46ZPsluMUFRdOJVorWacWuPAU7oSR
+         BcNWnLcHirxsy7f3PCwGEKwWPOZCORt9oP3UUBVzLpplCao7w54md/Ljni//qJgOjB
+         FFn9vf973GUvQ==
+Message-ID: <467a1cee-ba8c-98f3-0398-2a7a5a90b5c3@collabora.com>
+Date:   Thu, 30 Jun 2022 02:06:01 +0300
 MIME-Version: 1.0
-References: <CALFMp8vtr3jjGApAoehc4vuS9mNprtGqrRd2+tSfCHbTTKj4og@mail.gmail.com>
-In-Reply-To: <CALFMp8vtr3jjGApAoehc4vuS9mNprtGqrRd2+tSfCHbTTKj4og@mail.gmail.com>
-From:   Juan Antonio Zuloaga Mellino <jzuloaga@fi.uba.ar>
-Date:   Wed, 29 Jun 2022 18:49:38 -0300
-X-Gmail-Original-Message-ID: <CALFMp8sXqJLw3MUvvAKztKWU_HyrSNEkDE0TA-UDDwVuwGF9AQ@mail.gmail.com>
-Message-ID: <CALFMp8sXqJLw3MUvvAKztKWU_HyrSNEkDE0TA-UDDwVuwGF9AQ@mail.gmail.com>
-Subject: Fwd: Help supporting IT9910 chipset
-To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,
-        T_SPF_PERMERROR autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 02/22] drm/gem: Move mapping of imported dma-bufs to
+ drm_gem_mmap_obj()
+Content-Language: en-US
+To:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+Cc:     intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+        kernel@collabora.com, linux-media@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-3-dmitry.osipenko@collabora.com>
+ <b8271f0c-d6a3-4194-1959-e112859756a3@shipmail.org>
+ <c0273ac2-c87c-2612-03d4-dc52510b22f7@collabora.com>
+ <b4086751-9bff-ea5e-93fc-ce2c513b129b@shipmail.org>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <b4086751-9bff-ea5e-93fc-ce2c513b129b@shipmail.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi. I've an ezcap295hd. It's an usb video grabber based on the IT9910
-chipset manufactured by ITE Tech. Inc.
+On 6/29/22 11:43, Thomas Hellström (Intel) wrote:
+> 
+> On 6/29/22 10:22, Dmitry Osipenko wrote:
+>> On 6/29/22 09:40, Thomas Hellström (Intel) wrote:
+>>> On 5/27/22 01:50, Dmitry Osipenko wrote:
+>>>> Drivers that use drm_gem_mmap() and drm_gem_mmap_obj() helpers don't
+>>>> handle imported dma-bufs properly, which results in mapping of
+>>>> something
+>>>> else than the imported dma-buf. For example, on NVIDIA Tegra we get a
+>>>> hard
+>>>> lockup when userspace writes to the memory mapping of a dma-buf that
+>>>> was
+>>>> imported into Tegra's DRM GEM.
+>>>>
+>>>> To fix this bug, move mapping of imported dma-bufs to
+>>>> drm_gem_mmap_obj().
+>>>> Now mmaping of imported dma-bufs works properly for all DRM drivers.
+>>> Same comment about Fixes: as in patch 1,
+>>>> Cc: stable@vger.kernel.org
+>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>> ---
+>>>>    drivers/gpu/drm/drm_gem.c              | 3 +++
+>>>>    drivers/gpu/drm/drm_gem_shmem_helper.c | 9 ---------
+>>>>    drivers/gpu/drm/tegra/gem.c            | 4 ++++
+>>>>    3 files changed, 7 insertions(+), 9 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>>>> index 86d670c71286..7c0b025508e4 100644
+>>>> --- a/drivers/gpu/drm/drm_gem.c
+>>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>>> @@ -1038,6 +1038,9 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj,
+>>>> unsigned long obj_size,
+>>>>        if (obj_size < vma->vm_end - vma->vm_start)
+>>>>            return -EINVAL;
+>>>>    +    if (obj->import_attach)
+>>>> +        return dma_buf_mmap(obj->dma_buf, vma, 0);
+>>> If we start enabling mmaping of imported dma-bufs on a majority of
+>>> drivers in this way, how do we ensure that user-space is not blindly
+>>> using the object mmap without calling the needed DMA_BUF_IOCTL_SYNC
+>>> which is needed before and after cpu access of mmap'ed dma-bufs?
+>>>
+>>> I was under the impression (admittedly without looking) that the few
+>>> drivers that actually called into dma_buf_mmap() had some private
+>>> user-mode driver code in place that ensured this happened.
+>> Since it's a userspace who does the mapping, then it should be a
+>> responsibility of userspace to do all the necessary syncing.
+> 
+> Sure, but nothing prohibits user-space to ignore the syncing thinking
+> "It works anyway", testing those drivers where the syncing is a NOP. And
+> when a driver that finally needs syncing is tested it's too late to fix
+> all broken user-space.
+> 
+>>   I'm not
+>> sure whether anyone in userspace really needs to map imported dma-bufs
+>> in practice. Nevertheless, this use-case is broken and should be fixed
+>> by either allowing to do the mapping or prohibiting it.
+>>
+> Then I'd vote for prohibiting it, at least for now. And for the future
+> moving forward we could perhaps revisit the dma-buf need for syncing,
+> requiring those drivers that actually need it to implement emulated
+> coherent memory which can be done not too inefficiently (vmwgfx being
+> one example).
 
-I wasn't able to find linux support for it. Is anybody working on it?
+Alright, I'll change it to prohibit the mapping. This indeed should be a
+better option.
 
-The chipset and device vendors were not helpful providing usb specs.
-But I attempted to reverse the usb communication on windows and it
-doesn't seem too complex.
-
-It has 3 endpoints, I inferred that it works as follows:
-
-ENDPOINT 1 Bulk OUT: Control Output
-ENDPOINT 2 Bulk IN: Control Input
-ENDPOINT 3 Bulk OUT: MPEG-TS Stream
-
-So far I was able to extract and play the video stream from a pcapng.
-
-I've some experience writing USB user space applications, but no
-experience writing kernel modules nor with the video4linux api.
-
-If nobody is working on this chipset I'd like to attempt to write a
-driver for it.
-
-Also, does anybody know of a module for a device similar to this one
-that I could base my driver on? It would be of great help.
-
-I'll leave lsusb output and attach a pcapng in case anybody wants to
-check it out.
-
-Regards.
-
-Juan Zuloaga
-
-/**********************************/
-pcapng:  https://drive.google.com/file/d/1SCSLbJPqrUZKC7QXBO_En-p6JBcy_nTG/view?usp=sharing
-/*********************************/
-
-Bus 003 Device 026: ID 048d:9910 Integrated Technology Express, Inc.
-IT9910 chipset based grabber
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass            0
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0        64
-  idVendor           0x048d Integrated Technology Express, Inc.
-  idProduct          0x9910 IT9910 chipset based grabber
-  bcdDevice            1.00
-  iManufacturer           1 ITE TECH. INC.
-  iProduct                2 ezcap HD Capture
-  iSerial                 3
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x0027
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0x80
-      (Bus Powered)
-    MaxPower              500mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           3
-      bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass      0
-      bInterfaceProtocol      0
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x83  EP 3 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-Device Qualifier (for other device speed):
-  bLength                10
-  bDescriptorType         6
-  bcdUSB               2.00
-  bDeviceClass            0
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0        64
-  bNumConfigurations      1
-Device Status:     0x0000
-  (Bus Powered)
+-- 
+Best regards,
+Dmitry
