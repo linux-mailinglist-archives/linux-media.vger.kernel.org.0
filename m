@@ -2,193 +2,473 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFDD856056C
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 18:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D65A5606D2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 18:58:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232318AbiF2QIG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 12:08:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50654 "EHLO
+        id S229907AbiF2Q6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 12:58:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231494AbiF2QIC (ORCPT
+        with ESMTP id S229616AbiF2Q6W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 12:08:02 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FB2AE69;
-        Wed, 29 Jun 2022 09:08:00 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id D94BD240002;
-        Wed, 29 Jun 2022 16:07:57 +0000 (UTC)
-Date:   Wed, 29 Jun 2022 18:07:56 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
-        quentin.schulz@theobroma-systems.com,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] media: ov5693: move hw cfg functions into
- ov5693_hwcfg
-Message-ID: <20220629160756.s6vh7r3uqj62oaqd@uno.localdomain>
-References: <20220629152933.422990-1-tommaso.merciai@amarulasolutions.com>
- <20220629152933.422990-5-tommaso.merciai@amarulasolutions.com>
+        Wed, 29 Jun 2022 12:58:22 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82D7A10AA
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 09:58:20 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id s124so22525944oia.0
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 09:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UuRxfl4DFAp4Bz+yqmgOFmLlpz07ZLfwvgFf+in5gmw=;
+        b=i4DjUJzXU2xyzdEZD9qhBfqe9Q8MmRiogRJ3PmdKjB45S/yU+9F3eUx28t5NsPEL2W
+         YNwWZebwXg/m/75pIXiSWAGvUczilI/a/VNJ/sBv4oycIY2jEbby80JzY0vLhZzfPsGA
+         6AFlUdmb1sqBBTaZ79oEsFc8w9E76lLYh63az2qtcDedjpgisGRsVvSDDUCw5WeIucmD
+         Ym47eMC3OkMte2Yj2xm/ff5yojOmVLUQfVOPAu5BiLTtCdDtencEoz9yuS9xR3ilMC32
+         AO1/IPKnB53fneIGTNzkY1YZd9ZY9f2q9WsrLvRousK8a0dDzCYDGgCsIUqAwOrcUxFQ
+         IkCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UuRxfl4DFAp4Bz+yqmgOFmLlpz07ZLfwvgFf+in5gmw=;
+        b=elRE6EJEGgBx50jbrW0yobEXJJhy9HqvX2Qc06bogreV40Zggkcu2KcQ4TRMs9APXA
+         FQ/kirR7pNt6s7mdjlEXOTn1UfITp1+r1K5XOUsp/6lFHtjkqXM/JHI97nOLFJ97Vp6Q
+         LAssDON5NWiRZI0cyewCPgJyHXQukdmk0+zpN6LNJwpw0pxp6v3Yu1T6V9KTHCwQ78Jf
+         wVGOkzKs+j38Wf1vI9r83c+/xWpk2ojat3asEErYHBekCykm5TQJePfkyfkYndL4p9Jy
+         ELuwbe24Vgo8ww0DYd5vvNvfbKqwO/o1ZZBeqWBvFTK+j/rWMuvr0y5cCR6T4phQUMZ7
+         2iUg==
+X-Gm-Message-State: AJIora94R9Mim50bdGk+hj04g+b9mMPUkqPZGmE2LtapFEkqUmKFHRAG
+        NGq0f7gcP49YRG3XYCusdCL1eg==
+X-Google-Smtp-Source: AGRyM1u2piqwgcp3lWfMzY4f8cO9Ys6HaMixhzydgv9ke50THElIrvCqCL70JdPymZR4qUXGgwGfvg==
+X-Received: by 2002:a05:6808:1b8d:b0:32f:7995:b32b with SMTP id cj13-20020a0568081b8d00b0032f7995b32bmr3622126oib.219.1656521899831;
+        Wed, 29 Jun 2022 09:58:19 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id i9-20020a9d4a89000000b00616d25dc933sm4942028otf.69.2022.06.29.09.58.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 09:58:19 -0700 (PDT)
+Date:   Wed, 29 Jun 2022 13:58:14 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Nas Chung <nas.chung@chipsnmedia.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        linux-staging@lists.linux.dev, mchehab@kernel.org,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Robert Beckett <bob.beckett@collabora.com>
+Subject: Re: [PATCH v9 2/6] staging: media: wave5: Add the vdi layer
+Message-ID: <YryEpshCDZI1OiZn@eze-laptop>
+References: <20220628110821.716-1-nas.chung@chipsnmedia.com>
+ <20220628110821.716-3-nas.chung@chipsnmedia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220629152933.422990-5-tommaso.merciai@amarulasolutions.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220628110821.716-3-nas.chung@chipsnmedia.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+Hi Nas,
 
-On Wed, Jun 29, 2022 at 05:29:31PM +0200, Tommaso Merciai wrote:
-> Move hw configuration functions into ov5693_hwcfg. This is done to
-> separate the code that handle the hw cfg from probe in a clean way.
-> Add also support to get clock from "clock-frequency" fwnode in
-> ov5675_hwcfg function
+Thanks a lot for taking care of the driver.
 
-Why ? :)
+I hope it can be merged soon, and de-staged soon too!
 
-What about:
-
-"Add support for ACPI-based platforms that specify the clock frequency by
-using the "clock-frequency" property instead of specifying a clock
-provider reference."
-
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-
-Not on this patch, but it seems you have not collected the tags
-received on the previous version of the series.
-
+On Tue, Jun 28, 2022 at 08:08:17PM +0900, Nas Chung wrote:
+> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> 
+> Add the vdi part of the wave5 codec driver.
+> The wave5-vdi.h header defines common helper functions such as writing/reading register and handling endianness.
+> 
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 > ---
-> Changes since v2:
->  - Fix commit body as suggested by Sakari, Jacopo
->  - Add details to commit body as suggested Jacopo
->  - Move ov5693_check_hwcfg into ov5693_hwcfg
->  - Fix xvclk_rate position as suggested Jacopo
-
-Also fixed a bug it seems :)
-
->
->  drivers/media/i2c/ov5693.c | 57 +++++++++++++++++++++++---------------
->  1 file changed, 34 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-> index d2adc5513a21..3c805a5a5181 100644
-> --- a/drivers/media/i2c/ov5693.c
-> +++ b/drivers/media/i2c/ov5693.c
-> @@ -1339,16 +1339,48 @@ static int ov5693_get_regulators(struct ov5693_device *ov5693)
->  				       ov5693->supplies);
->  }
->
-> -static int ov5693_check_hwcfg(struct ov5693_device *ov5693)
-> +static int ov5693_hwcfg(struct ov5693_device *ov5693)
->  {
->  	struct fwnode_handle *fwnode = dev_fwnode(ov5693->dev);
->  	struct v4l2_fwnode_endpoint bus_cfg = {
->  		.bus_type = V4L2_MBUS_CSI2_DPHY,
->  	};
->  	struct fwnode_handle *endpoint;
-> +	u32 xvclk_rate;
->  	unsigned int i;
->  	int ret;
->
-> +	ov5693->xvclk = devm_clk_get_optional(ov5693->dev, "xvclk");
-> +	if (IS_ERR(ov5693->xvclk))
-> +		return dev_err_probe(ov5693->dev, PTR_ERR(ov5693->xvclk),
-> +				     "failed to get xvclk: %ld\n",
-> +				     PTR_ERR(ov5693->xvclk));
+>  drivers/staging/media/wave5/wave5-vdi.c | 260 ++++++++++++++++++++++++
+>  drivers/staging/media/wave5/wave5-vdi.h |  81 ++++++++
+>  2 files changed, 341 insertions(+)
+>  create mode 100644 drivers/staging/media/wave5/wave5-vdi.c
+>  create mode 100644 drivers/staging/media/wave5/wave5-vdi.h
+> 
+> diff --git a/drivers/staging/media/wave5/wave5-vdi.c b/drivers/staging/media/wave5/wave5-vdi.c
+> new file mode 100644
+> index 000000000000..bbde868de42e
+> --- /dev/null
+> +++ b/drivers/staging/media/wave5/wave5-vdi.c
+> @@ -0,0 +1,260 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
+> +/*
+> + * Wave5 series multi-standard codec IP - low level access functions
+> + *
+> + * Copyright (C) 2021 CHIPS&MEDIA INC
+> + */
 > +
-> +	if (ov5693->xvclk) {
-> +		xvclk_rate = clk_get_rate(ov5693->xvclk);
-> +	} else {
-> +		ret = fwnode_property_read_u32(fwnode, "clock-frequency",
-> +					       &xvclk_rate);
+> +#include <linux/bug.h>
+> +#include "wave5-vdi.h"
+> +#include "wave5-vpu.h"
+> +#include "wave5-regdefine.h"
+> +#include <linux/delay.h>
 > +
+> +#define VDI_SRAM_BASE_ADDR 0x00
+> +
+> +#define VDI_SYSTEM_ENDIAN VDI_LITTLE_ENDIAN
+> +#define VDI_128BIT_BUS_SYSTEM_ENDIAN VDI_128BIT_LITTLE_ENDIAN
+> +
+> +static int wave5_vdi_allocate_common_memory(struct device *dev)
+> +{
+> +	int ret;
+> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
+> +
+> +	if (!vpu_dev->common_mem.vaddr) {
+> +		vpu_dev->common_mem.size = SIZE_COMMON;
+> +		ret = wave5_vdi_allocate_dma_memory(vpu_dev, &vpu_dev->common_mem);
 > +		if (ret) {
-> +			dev_err(ov5693->dev, "can't get clock frequency");
+> +			dev_err(dev, "unable to allocate common buffer\n");
 > +			return ret;
 > +		}
 > +	}
-
-This now looks good to me, thanks!
-
 > +
-> +	if (xvclk_rate != OV5693_XVCLK_FREQ)
-> +		dev_warn(ov5693->dev, "Found clk freq %u, expected %u\n",
-> +			 xvclk_rate, OV5693_XVCLK_FREQ);
+> +	dev_dbg(dev, "common_mem: daddr=%pad size=%zu vaddr=0x%p\n",
+> +		&vpu_dev->common_mem.daddr, vpu_dev->common_mem.size,
+> +			vpu_dev->common_mem.vaddr);
 > +
-> +	ret = ov5693_configure_gpios(ov5693);
-> +	if (ret)
+> +	return 0;
+> +}
+> +
+> +int wave5_vdi_init(struct device *dev)
+> +{
+> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
+> +	int i;
+> +	int ret;
+> +
+> +	ret = wave5_vdi_allocate_common_memory(dev);
+> +	if (ret < 0) {
+> +		dev_err(dev, "[VDI] fail to get vpu common buffer from driver\n");
 > +		return ret;
+> +	}
 > +
-> +	ret = ov5693_get_regulators(ov5693);
-> +	if (ret)
-> +		return dev_err_probe(ov5693->dev, ret,
-> +				     "Error fetching regulators\n");
+> +	if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
+> +		// if BIT processor is not running.
+> +		if (wave5_vdi_readl(vpu_dev, W5_VCPU_CUR_PC) == 0) {
+> +			for (i = 0; i < 64; i++)
+> +				wave5_vdi_write_register(vpu_dev, (i * 4) + 0x100, 0x0);
+> +		}
+> +	} else {
+> +		WARN_ONCE(1, "unsupported product code 0x%x\n", vpu_dev->product_code);
+> +	}
 > +
->  	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
->  	if (!endpoint)
->  		return -EPROBE_DEFER; /* Could be provided by cio2-bridge */
-> @@ -1390,7 +1422,6 @@ static int ov5693_check_hwcfg(struct ov5693_device *ov5693)
->  static int ov5693_probe(struct i2c_client *client)
->  {
->  	struct ov5693_device *ov5693;
-> -	u32 xvclk_rate;
->  	int ret = 0;
+> +	dev_dbg(dev, "[VDI] success to init driver\n");
+> +
+> +	return 0;
+> +}
+> +
+> +int wave5_vdi_release(struct device *dev)
+> +{
+> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
+> +
+> +	vpu_dev->vdb_register = NULL;
+> +	wave5_vdi_free_dma_memory(vpu_dev, &vpu_dev->common_mem);
+> +
+> +	return 0;
+> +}
+> +
+> +void wave5_vdi_write_register(struct vpu_device *vpu_dev, unsigned int addr, unsigned int data)
+> +{
+> +	writel(data, vpu_dev->vdb_register + addr);
+> +}
+> +
+> +unsigned int wave5_vdi_readl(struct vpu_device *vpu_dev, u32 addr)
+> +{
+> +	return readl(vpu_dev->vdb_register + addr);
+> +}
+> +
+> +int wave5_vdi_clear_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
 
-No need for ret to be intialized, but it was already like this...
+Nitpick: Just do memset when needed instead of calling wave5_vdi_clear_memory :-)
 
-The patch itself looks good
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> +{
+> +	if (!vb || !vb->vaddr) {
+> +		dev_err(vpu_dev->dev, "%s(): unable to clear unmapped buffer\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	memset(vb->vaddr, 0, vb->size);
+> +	return vb->size;
+> +}
+> +
+> +static void wave5_swap_endian(struct vpu_device *vpu_dev, u8 *data, int len, int endian);
+> +
+> +int wave5_vdi_write_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb, size_t offset,
+> +			   u8 *data, int len, int endian)
+> +{
+> +	if (!vb || !vb->vaddr) {
+> +		dev_err(vpu_dev->dev, "%s(): unable to write to unmapped buffer\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (offset > vb->size || len > vb->size || offset + len > vb->size) {
+> +		dev_err(vpu_dev->dev, "%s(): buffer too small\n", __func__);
+> +		return -ENOSPC;
+> +	}
+> +
+> +	wave5_swap_endian(vpu_dev, data, len, endian);
+> +	memcpy(vb->vaddr + offset, data, len);
+> +
+> +	return len;
+> +}
+> +
+> +int wave5_vdi_allocate_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
 
-Thanks
-  j
+This function is not local to this file (doesn't have a static keyword)
+but it's not declared in any header on this commit.
 
->
->  	ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
-> @@ -1400,7 +1431,7 @@ static int ov5693_probe(struct i2c_client *client)
->  	ov5693->client = client;
->  	ov5693->dev = &client->dev;
->
-> -	ret = ov5693_check_hwcfg(ov5693);
-> +	ret = ov5693_hwcfg(ov5693);
->  	if (ret)
->  		return ret;
->
-> @@ -1408,26 +1439,6 @@ static int ov5693_probe(struct i2c_client *client)
->
->  	v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
->
-> -	ov5693->xvclk = devm_clk_get(&client->dev, "xvclk");
-> -	if (IS_ERR(ov5693->xvclk)) {
-> -		dev_err(&client->dev, "Error getting clock\n");
-> -		return PTR_ERR(ov5693->xvclk);
-> -	}
-> -
-> -	xvclk_rate = clk_get_rate(ov5693->xvclk);
-> -	if (xvclk_rate != OV5693_XVCLK_FREQ)
-> -		dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
-> -			 xvclk_rate, OV5693_XVCLK_FREQ);
-> -
-> -	ret = ov5693_configure_gpios(ov5693);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = ov5693_get_regulators(ov5693);
-> -	if (ret)
-> -		return dev_err_probe(&client->dev, ret,
-> -				     "Error fetching regulators\n");
-> -
->  	ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->  	ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
->  	ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> --
-> 2.25.1
->
+Is it used out of this file? If yes, then it should be declared in some
+header.
+
+> +{
+> +	void *vaddr;
+> +	dma_addr_t daddr;
+> +
+> +	if (!vb->size) {
+> +		dev_err(vpu_dev->dev, "%s(): requested size==0\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	vaddr = dma_alloc_coherent(vpu_dev->dev, vb->size, &daddr, GFP_KERNEL);
+> +	if (!vaddr)
+> +		return -ENOMEM;
+> +	vb->vaddr = vaddr;
+> +	vb->daddr = daddr;
+> +
+> +	return 0;
+> +}
+> +
+> +void wave5_vdi_free_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
+
+Ditto above, should this be static?
+
+> +{
+> +	if (vb->size == 0)
+> +		return;
+> +
+> +	if (!vb->vaddr)
+> +		dev_err(vpu_dev->dev, "%s(): requested free of unmapped buffer\n", __func__);
+> +	else
+> +		dma_free_coherent(vpu_dev->dev, vb->size, vb->vaddr, vb->daddr);
+> +
+> +	memset(vb, 0, sizeof(*vb));
+> +}
+> +
+> +int wave5_vdi_convert_endian(struct vpu_device *vpu_dev, unsigned int endian)
+> +{
+> +	if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
+> +		switch (endian) {
+> +		case VDI_LITTLE_ENDIAN:
+> +			endian = 0x00;
+> +			break;
+> +		case VDI_BIG_ENDIAN:
+> +			endian = 0x0f;
+> +			break;
+> +		case VDI_32BIT_LITTLE_ENDIAN:
+> +			endian = 0x04;
+> +			break;
+> +		case VDI_32BIT_BIG_ENDIAN:
+> +			endian = 0x03;
+> +			break;
+> +		}
+> +	}
+> +
+> +	return (endian & 0x0f);
+> +}
+> +
+> +static void byte_swap(unsigned char *data, int len)
+> +{
+> +	u8 temp;
+> +	int i;
+> +
+> +	for (i = 0; i < len; i += 2) {
+> +		temp = data[i];
+> +		data[i] = data[i + 1];
+> +		data[i + 1] = temp;
+> +	}
+> +}
+> +
+> +static void word_swap(unsigned char *data, int len)
+> +{
+> +	u16 temp;
+> +	u16 *ptr = (u16 *)data;
+> +	int i;
+> +	s32 size = len / sizeof(uint16_t);
+> +
+> +	for (i = 0; i < size; i += 2) {
+> +		temp = ptr[i];
+> +		ptr[i] = ptr[i + 1];
+> +		ptr[i + 1] = temp;
+> +	}
+> +}
+> +
+> +static void dword_swap(unsigned char *data, int len)
+> +{
+> +	u32 temp;
+> +	u32 *ptr = (u32 *)data;
+> +	s32 size = len / sizeof(uint32_t);
+> +	int i;
+> +
+> +	for (i = 0; i < size; i += 2) {
+> +		temp = ptr[i];
+> +		ptr[i] = ptr[i + 1];
+> +		ptr[i + 1] = temp;
+> +	}
+> +}
+> +
+> +static void lword_swap(unsigned char *data, int len)
+> +{
+> +	u64 temp;
+> +	u64 *ptr = (u64 *)data;
+> +	s32 size = len / sizeof(uint64_t);
+> +	int i;
+> +
+> +	for (i = 0; i < size; i += 2) {
+> +		temp = ptr[i];
+> +		ptr[i] = ptr[i + 1];
+> +		ptr[i + 1] = temp;
+> +	}
+> +}
+> +
+> +static void wave5_swap_endian(struct vpu_device *vpu_dev, u8 *data, int len, int endian)
+> +{
+> +	int changes;
+> +	int sys_endian;
+> +	bool byte_change, word_change, dword_change, lword_change;
+> +
+> +	if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
+> +		sys_endian = VDI_128BIT_BUS_SYSTEM_ENDIAN;
+> +	} else {
+> +		dev_err(vpu_dev->dev, "unknown product id : %08x\n", vpu_dev->product_code);
+> +		return;
+> +	}
+> +
+> +	endian = wave5_vdi_convert_endian(vpu_dev, endian);
+> +	sys_endian = wave5_vdi_convert_endian(vpu_dev, sys_endian);
+> +	if (endian == sys_endian)
+> +		return;
+> +
+> +	changes = endian ^ sys_endian;
+> +	byte_change = changes & 0x01;
+> +	word_change = ((changes & 0x02) == 0x02);
+> +	dword_change = ((changes & 0x04) == 0x04);
+> +	lword_change = ((changes & 0x08) == 0x08);
+> +
+> +	if (byte_change)
+> +		byte_swap(data, len);
+> +	if (word_change)
+> +		word_swap(data, len);
+> +	if (dword_change)
+> +		dword_swap(data, len);
+> +	if (lword_change)
+> +		lword_swap(data, len);
+> +}
+> +
+> diff --git a/drivers/staging/media/wave5/wave5-vdi.h b/drivers/staging/media/wave5/wave5-vdi.h
+> new file mode 100644
+> index 000000000000..f26cab7ac845
+> --- /dev/null
+> +++ b/drivers/staging/media/wave5/wave5-vdi.h
+> @@ -0,0 +1,81 @@
+> +/* SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause) */
+> +/*
+> + * Wave5 series multi-standard codec IP - low level access functions
+> + *
+> + * Copyright (C) 2021 CHIPS&MEDIA INC
+> + */
+> +
+> +#ifndef _VDI_H_
+> +#define _VDI_H_
+> +
+> +#include "wave5-vpuconfig.h"
+> +#include <linux/string.h>
+> +#include <linux/slab.h>
+> +#include <linux/device.h>
+> +
+> +/************************************************************************/
+> +/* COMMON REGISTERS */
+> +/************************************************************************/
+> +#define VPU_PRODUCT_CODE_REGISTER 0x1044
+> +
+> +/* system register write */
+> +#define vpu_write_reg(VPU_INST, ADDR, DATA) wave5_vdi_write_register(VPU_INST, ADDR, DATA)
+> +// system register read
+> +#define vpu_read_reg(CORE, ADDR) wave5_vdi_readl(CORE, ADDR)
+
+Nitpick: These defines look redundant. Maybe just name wave5_vdi_write_register as
+vpu_write_reg, or just use writel.
+
+> +
+> +struct vpu_buf {
+> +	size_t size;
+> +	dma_addr_t daddr;
+> +	void *vaddr;
+> +};
+> +
+> +struct dma_vpu_buf {
+> +	size_t size;
+> +	dma_addr_t daddr;
+> +};
+> +
+> +enum endian_mode {
+> +	VDI_LITTLE_ENDIAN = 0, /* 64bit LE */
+> +	VDI_BIG_ENDIAN, /* 64bit BE */
+> +	VDI_32BIT_LITTLE_ENDIAN,
+> +	VDI_32BIT_BIG_ENDIAN,
+> +	/* WAVE PRODUCTS */
+> +	VDI_128BIT_LITTLE_ENDIAN = 16,
+> +	VDI_128BIT_LE_BYTE_SWAP,
+> +	VDI_128BIT_LE_WORD_SWAP,
+> +	VDI_128BIT_LE_WORD_BYTE_SWAP,
+> +	VDI_128BIT_LE_DWORD_SWAP,
+> +	VDI_128BIT_LE_DWORD_BYTE_SWAP,
+> +	VDI_128BIT_LE_DWORD_WORD_SWAP,
+> +	VDI_128BIT_LE_DWORD_WORD_BYTE_SWAP,
+> +	VDI_128BIT_BE_DWORD_WORD_BYTE_SWAP,
+> +	VDI_128BIT_BE_DWORD_WORD_SWAP,
+> +	VDI_128BIT_BE_DWORD_BYTE_SWAP,
+> +	VDI_128BIT_BE_DWORD_SWAP,
+> +	VDI_128BIT_BE_WORD_BYTE_SWAP,
+> +	VDI_128BIT_BE_WORD_SWAP,
+> +	VDI_128BIT_BE_BYTE_SWAP,
+> +	VDI_128BIT_BIG_ENDIAN = 31,
+> +	VDI_ENDIAN_MAX
+> +};
+> +
+> +#define VDI_128BIT_ENDIAN_MASK 0xf
+> +
+> +int wave5_vdi_init(struct device *dev);
+> +int wave5_vdi_release(struct device *dev);	//this function may be called only at system off.
+> +
+> +/**
+> + * @brief make clock stable before changing clock frequency
+> + * @detail before invoking vdi_set_clock_freg caller MUST invoke vdi_ready_change_clock
+> + *		function.
+> + * after changing clock frequency caller also invoke wave5_vdi_done_change_clock() function.
+> + * @return 0 failure
+> + * 1 success
+> + */
+> +int wave5_vdi_ready_change_clock(unsigned long core_idx);
+> +int wave5_vdi_set_change_clock(unsigned long core_idx, unsigned long clock_mask);
+> +int wave5_vdi_done_change_clock(unsigned long core_idx);
+> +int wave5_vdi_buffer_sync(struct device *dev, struct vpu_buf *vb, int dir);
+
+These functions seem not implemented. Maybe it's a leftover?
+
+Thanks,
+Ezequiel
+
+> +
+> +#endif //#ifndef _VDI_H_
+> +
+> -- 
+> 2.30.2
+> 
