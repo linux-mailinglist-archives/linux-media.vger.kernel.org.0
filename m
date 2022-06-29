@@ -2,296 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55D875604BF
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 17:38:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFDD856056C
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 18:09:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233461AbiF2PhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 11:37:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48850 "EHLO
+        id S232318AbiF2QIG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 12:08:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233431AbiF2PhR (ORCPT
+        with ESMTP id S231494AbiF2QIC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 11:37:17 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A567D3818C;
-        Wed, 29 Jun 2022 08:37:16 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru [109.252.118.164])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 77912660191F;
-        Wed, 29 Jun 2022 16:37:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656517034;
-        bh=1Pml/+GQJj4lTb2xPQ0+gCn/RVoDC41JqJVlxNLfVxo=;
-        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-        b=B3/RM3PEkye7m5Y/h1xpmK8qc29lWEwJZDqUZ3nhRHJCpKiBjJssAA+FAvvdQje6s
-         HjxiCC63nZzrRa9gCBTDrySHD8HvZihxqpl1i2Kvq0m/Upr68gGgDjO/ThrBZ9JTmO
-         riEK8uxzf7gaLI41+gxjnKhjzQjCrJayortxfHr/p1YHPgzIDakAANA6BqQ+IzjSu3
-         BWx5nXh5dp4av6t+I97TW8jW52cLWa1Uyr3sns6C1OSSCi+KRuuPttrciZaZJC/wK4
-         7IbTM2Um5ACfxcaGD13njMWeGZxub0CGTuhRFw3/OpwBJ331E8XLTyqBt4NgqYxTmP
-         bFPkjf43jAajQ==
-Message-ID: <f66a02b6-5e2d-5e28-8c92-0a76d53269f7@collabora.com>
-Date:   Wed, 29 Jun 2022 18:37:10 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
- offsets of capture buffers
-Content-Language: en-US
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Wed, 29 Jun 2022 12:08:02 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FB2AE69;
+        Wed, 29 Jun 2022 09:08:00 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id D94BD240002;
+        Wed, 29 Jun 2022 16:07:57 +0000 (UTC)
+Date:   Wed, 29 Jun 2022 18:07:56 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Daniel Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Boris Brezillon <bbrezillon@collabora.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Laura Nao <laura.nao@collabora.com>
-References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
- <a7c858461b99de2d4afad22d888acc3a74850240.camel@ndufresne.ca>
- <9ec970d6-ea09-802c-419b-b2ef26800990@collabora.com>
- <5be83f0b343c04d877a2c2d805fb5f71ca9973b1.camel@ndufresne.ca>
- <fe24d151-6097-aa8e-7691-5e4d81fa42c6@collabora.com>
- <f80128c50d3dacff0af70bd88521abae42476f85.camel@ndufresne.ca>
- <1c1fda82-334a-04ec-fc2e-d1ea2da466e9@xs4all.nl>
- <11bd51f2-ca35-4e01-95e9-ad35b37f26d8@collabora.com>
-In-Reply-To: <11bd51f2-ca35-4e01-95e9-ad35b37f26d8@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/6] media: ov5693: move hw cfg functions into
+ ov5693_hwcfg
+Message-ID: <20220629160756.s6vh7r3uqj62oaqd@uno.localdomain>
+References: <20220629152933.422990-1-tommaso.merciai@amarulasolutions.com>
+ <20220629152933.422990-5-tommaso.merciai@amarulasolutions.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220629152933.422990-5-tommaso.merciai@amarulasolutions.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Tommaso,
 
-On 5/19/22 13:22, Dmitry Osipenko wrote:
-...
->> On 3/25/22 13:32, Nicolas Dufresne wrote:
->>> Le jeudi 24 mars 2022 à 21:20 +0300, Dmitry Osipenko a écrit :
->>>> The root of the problem is that DRM UAPI is more flexible and allows to
->>>> customize offsets for both S/MPLANEs, while V4L doesn't allow to do it
->>>> at all. I'm exploring all the potential options, so far neither of the
->>>> proposed variants is ideal.
->>>
->>> In GStreamer kmssink, the way DRM is used, is that if you have 2 planes in your
->>> pixel format, but only received 1 DMABuf, we will pass this DMABuf twice (well
->>> GEM handles, but twice), with appropriate offset.
->>>
->>> With this in mind, the idea for V4L2 could be to always resort to MPLANE for
->>> this purpose. The tricky part for userland is that it needs to know the dual
->>> pixel format and map that accordingly. That is a bit difficult and this is
->>> something Helen was trying to address with the v4l2_buffer_ext (that and
->>> allowing space to store DRM Modifiers in the future).
->>
->> FYI: here is Helen's last patch series. Since Helen is no longer active in
->> the media subsystem, someone else who is sufficiently motivated would have to
->> take over.
->>
->> https://patchwork.linuxtv.org/project/linux-media/cover/20210114180738.1758707-1-helen.koike@collabora.com/
->>
->> I'm not enthusiastic about messing with data_offset: it was - in hindsight - a
->> bad idea.
-> 
-> I'm aware of the Helen's work. To me the addition of the new IOCTLs that
-> partially duplicate the older ones doesn't feel like the best approach.
-> But since you're good with it, then I'll try to refresh the Helen's work
-> for 5.20 and we'll see where it will go.
-> 
+On Wed, Jun 29, 2022 at 05:29:31PM +0200, Tommaso Merciai wrote:
+> Move hw configuration functions into ov5693_hwcfg. This is done to
+> separate the code that handle the hw cfg from probe in a clean way.
+> Add also support to get clock from "clock-frequency" fwnode in
+> ov5675_hwcfg function
 
-Hello Hans,
+Why ? :)
 
-I'm having hard time convincing myself that the addition of the new IOCTLs is the right approach for us. Helen was adding the new QBUF IOCTLs that supposed to:
+What about:
 
-1. Support DRM modifiers.
-2. Support per-plane dma-buf offsets.
-3. Support new features that "are good to have", like 64bit timestamp and unified multi/single planar formats. 
+"Add support for ACPI-based platforms that specify the clock frequency by
+using the "clock-frequency" property instead of specifying a clock
+provider reference."
 
-The idea of using DRM modifiers is obsoleted now. Mixing DRM with V4L will be a mess and nobody really needs that feature anymore because there are not that many compressed framebuffer formats needed by V4L drivers.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 
-The dma-buf offsets is the main thing that is really wanted by multiple users and we can support it by extending the current UAPI, which should be the best option IMO. It will be simple to implement and doesn't require much changes form the existing applications.
+Not on this patch, but it seems you have not collected the tags
+received on the previous version of the series.
 
-If we will ever really need to introduce a brand new UAPI, then I think it should be covering more things like deprecating the creation of multiple buffers at once, making buffers independent and reusable, ability to destroy buffer and etc. This will be a lot of work that doesn't worth the effort today since everybody in userspace already adapted to the current state of V4L.
+> ---
+> Changes since v2:
+>  - Fix commit body as suggested by Sakari, Jacopo
+>  - Add details to commit body as suggested Jacopo
+>  - Move ov5693_check_hwcfg into ov5693_hwcfg
+>  - Fix xvclk_rate position as suggested Jacopo
 
-I typed another variant of the patch that extends the struct v4l2_plane with the new buffer offset field and curious what you're thinking about it. It works fine by replacing the data_offset with the new buf_offset in the Tegra decoder driver since it already supports the data_offset which was previously unused because initially I thought that it was about buffer offsets when implemented V4L support for the Tegra driver. If we will agree on this approach then RKISP and MTK should be the next drivers that may get support for the dma-buf offsets.
+Also fixed a bug it seems :)
 
-Or maybe you have good arguments for the addition of new IOCTLs? Other ideas?
+>
+>  drivers/media/i2c/ov5693.c | 57 +++++++++++++++++++++++---------------
+>  1 file changed, 34 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+> index d2adc5513a21..3c805a5a5181 100644
+> --- a/drivers/media/i2c/ov5693.c
+> +++ b/drivers/media/i2c/ov5693.c
+> @@ -1339,16 +1339,48 @@ static int ov5693_get_regulators(struct ov5693_device *ov5693)
+>  				       ov5693->supplies);
+>  }
+>
+> -static int ov5693_check_hwcfg(struct ov5693_device *ov5693)
+> +static int ov5693_hwcfg(struct ov5693_device *ov5693)
+>  {
+>  	struct fwnode_handle *fwnode = dev_fwnode(ov5693->dev);
+>  	struct v4l2_fwnode_endpoint bus_cfg = {
+>  		.bus_type = V4L2_MBUS_CSI2_DPHY,
+>  	};
+>  	struct fwnode_handle *endpoint;
+> +	u32 xvclk_rate;
+>  	unsigned int i;
+>  	int ret;
+>
+> +	ov5693->xvclk = devm_clk_get_optional(ov5693->dev, "xvclk");
+> +	if (IS_ERR(ov5693->xvclk))
+> +		return dev_err_probe(ov5693->dev, PTR_ERR(ov5693->xvclk),
+> +				     "failed to get xvclk: %ld\n",
+> +				     PTR_ERR(ov5693->xvclk));
+> +
+> +	if (ov5693->xvclk) {
+> +		xvclk_rate = clk_get_rate(ov5693->xvclk);
+> +	} else {
+> +		ret = fwnode_property_read_u32(fwnode, "clock-frequency",
+> +					       &xvclk_rate);
+> +
+> +		if (ret) {
+> +			dev_err(ov5693->dev, "can't get clock frequency");
+> +			return ret;
+> +		}
+> +	}
 
-Here is the patch in question:
+This now looks good to me, thanks!
 
---- >8 ---
+> +
+> +	if (xvclk_rate != OV5693_XVCLK_FREQ)
+> +		dev_warn(ov5693->dev, "Found clk freq %u, expected %u\n",
+> +			 xvclk_rate, OV5693_XVCLK_FREQ);
+> +
+> +	ret = ov5693_configure_gpios(ov5693);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ov5693_get_regulators(ov5693);
+> +	if (ret)
+> +		return dev_err_probe(ov5693->dev, ret,
+> +				     "Error fetching regulators\n");
+> +
+>  	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
+>  	if (!endpoint)
+>  		return -EPROBE_DEFER; /* Could be provided by cio2-bridge */
+> @@ -1390,7 +1422,6 @@ static int ov5693_check_hwcfg(struct ov5693_device *ov5693)
+>  static int ov5693_probe(struct i2c_client *client)
+>  {
+>  	struct ov5693_device *ov5693;
+> -	u32 xvclk_rate;
+>  	int ret = 0;
 
-Subject: [PATCH] media: videobuf2: Introduce new buf_offset field for dma-buf
- memory planes
+No need for ret to be intialized, but it was already like this...
 
-Add new optional buf_offset field to struct v4l2_plane of the videdev2
-UAPI and support it in the V4L2 core. This new field designates the offset
-from the start of a memory plane's dma-buf.
+The patch itself looks good
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
-The primary user of this new field are downstream software stacks that
-transition to upstream kernel. ChromeOS is one of those stacks and Android
-might be the other. The downstream kernel fork of ChromeOS re-uses the
-data_offset field for the dma-buf offsets, but data_offset has a different
-meaning, and thus, this approach isn't acceptable for the upstream. The
-reason why it's needed by ChromeOS is the integration with GPU subsystem
-that uses DRM. In some cases there is disagreement between V4L and DRM
-drivers on the memory plane offsets, which is difficult to resolve without
-overriding the offsets in V4L.
+Thanks
+  j
 
-Since not all drivers will support the new buf_offset, the new capability
-flag "supports_mem_plane_offset" is added to the struct vb2_queue. Drivers
-supporting dma-buf offsets will have to explicitly enable the new capability.
-
-The buf_offset field is meant to be application-specific because there is
-no generic way for conveying the h/w requirements to userspace in V4L.
-
-Note that only drivers can validate the dma-buf offsets properly because
-of the different h/w alignment requirements. Hence we can't support the
-dma-buf offsets handling in the V4L core and it needs to be done within
-drivers in the buf_prepare() callback of the vb2_ops.
-
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/media/common/videobuf2/videobuf2-core.c |  2 ++
- drivers/media/common/videobuf2/videobuf2-v4l2.c | 10 ++++++++++
- include/media/videobuf2-core.h                  |  6 ++++++
- include/uapi/linux/videodev2.h                  |  5 ++++-
- 4 files changed, 22 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index b203c1e26353..431fe1c8578c 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -1278,6 +1278,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 		vb->planes[plane].bytesused = 0;
- 		vb->planes[plane].length = 0;
- 		vb->planes[plane].m.fd = 0;
-+		vb->planes[plane].buf_offset = 0;
- 		vb->planes[plane].data_offset = 0;
- 
- 		/* Acquire each plane's memory */
-@@ -1323,6 +1324,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 		vb->planes[plane].bytesused = planes[plane].bytesused;
- 		vb->planes[plane].length = planes[plane].length;
- 		vb->planes[plane].m.fd = planes[plane].m.fd;
-+		vb->planes[plane].buf_offset = planes[plane].buf_offset;
- 		vb->planes[plane].data_offset = planes[plane].data_offset;
- 	}
- 
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 075d24ebf44c..e79c8ec03d00 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -219,6 +219,13 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
- 					b->m.planes[plane].m.fd;
- 				planes[plane].length =
- 					b->m.planes[plane].length;
-+				planes[plane].buf_offset =
-+					b->m.planes[plane].buf_offset;
-+
-+				if (planes[plane].buf_offset && !q->supports_mem_plane_offset) {
-+					dprintk(q, 1, "dma-buf offset unsupported by the queue\n");
-+					return -EINVAL;
-+				}
- 			}
- 			break;
- 		default:
-@@ -294,6 +301,7 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
- 			break;
- 		}
- 
-+		planes[0].buf_offset = 0;
- 		planes[0].data_offset = 0;
- 		if (V4L2_TYPE_IS_OUTPUT(b->type)) {
- 			if (b->bytesused == 0)
-@@ -528,6 +536,7 @@ static void __fill_v4l2_buffer(struct vb2_buffer *vb, void *pb)
- 				pdst->m.userptr = psrc->m.userptr;
- 			else if (q->memory == VB2_MEMORY_DMABUF)
- 				pdst->m.fd = psrc->m.fd;
-+			pdst->buf_offset = psrc->buf_offset;
- 			pdst->data_offset = psrc->data_offset;
- 			memset(pdst->reserved, 0, sizeof(pdst->reserved));
- 		}
-@@ -612,6 +621,7 @@ static int __fill_vb2_buffer(struct vb2_buffer *vb, struct vb2_plane *planes)
- 			planes[plane].length = vbuf->planes[plane].length;
- 		}
- 		planes[plane].bytesused = vbuf->planes[plane].bytesused;
-+		planes[plane].buf_offset = vbuf->planes[plane].buf_offset;
- 		planes[plane].data_offset = vbuf->planes[plane].data_offset;
- 	}
- 	return 0;
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 5468b633b9d2..195381837a41 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -171,6 +171,8 @@ struct vb2_mem_ops {
-  *		descriptor associated with this plane.
-  * @data_offset:	offset in the plane to the start of data; usually 0,
-  *		unless there is a header in front of the data.
-+ * @buf_offset:	offset in the memory buffer to the start of plane; always 0
-+ *		for non-dmabuf buffers.
-  *
-  * Should contain enough information to be able to cover all the fields
-  * of &struct v4l2_plane at videodev2.h.
-@@ -188,6 +190,7 @@ struct vb2_plane {
- 		int		fd;
- 	} m;
- 	unsigned int		data_offset;
-+	unsigned int		buf_offset;
- };
- 
- /**
-@@ -506,6 +509,8 @@ struct vb2_buf_ops {
-  *		->finish().
-  * @non_coherent_mem: when set queue will attempt to allocate buffers using
-  *		non-coherent memory.
-+ * @supports_mem_plane_offset: when set, a non-zero buf_offset is allowed
-+ *		for dma-buf memory planes.
-  * @lock:	pointer to a mutex that protects the &struct vb2_queue. The
-  *		driver can set this to a mutex to let the v4l2 core serialize
-  *		the queuing ioctls. If the driver wants to handle locking
-@@ -586,6 +591,7 @@ struct vb2_queue {
- 	unsigned int			uses_requests:1;
- 	unsigned int			allow_cache_hints:1;
- 	unsigned int			non_coherent_mem:1;
-+	unsigned int			supports_mem_plane_offset:1;
- 
- 	struct mutex			*lock;
- 	void				*owner;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 5311ac4fde35..caf33fe0ae79 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -996,6 +996,8 @@ struct v4l2_requestbuffers {
-  * @m:			union of @mem_offset, @userptr and @fd
-  * @data_offset:	offset in the plane to the start of data; usually 0,
-  *			unless there is a header in front of the data
-+ * @buf_offset		offset in the memory buffer to the start of plane;
-+ *			always 0 for non-dmabuf buffers
-  * @reserved:		drivers and applications must zero this array
-  *
-  * Multi-planar buffers consist of one or more planes, e.g. an YCbCr buffer
-@@ -1012,7 +1014,8 @@ struct v4l2_plane {
- 		__s32		fd;
- 	} m;
- 	__u32			data_offset;
--	__u32			reserved[11];
-+	__u32			buf_offset;
-+	__u32			reserved[7];
- };
- 
- /**
--- 
-2.36.1
+>
+>  	ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
+> @@ -1400,7 +1431,7 @@ static int ov5693_probe(struct i2c_client *client)
+>  	ov5693->client = client;
+>  	ov5693->dev = &client->dev;
+>
+> -	ret = ov5693_check_hwcfg(ov5693);
+> +	ret = ov5693_hwcfg(ov5693);
+>  	if (ret)
+>  		return ret;
+>
+> @@ -1408,26 +1439,6 @@ static int ov5693_probe(struct i2c_client *client)
+>
+>  	v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
+>
+> -	ov5693->xvclk = devm_clk_get(&client->dev, "xvclk");
+> -	if (IS_ERR(ov5693->xvclk)) {
+> -		dev_err(&client->dev, "Error getting clock\n");
+> -		return PTR_ERR(ov5693->xvclk);
+> -	}
+> -
+> -	xvclk_rate = clk_get_rate(ov5693->xvclk);
+> -	if (xvclk_rate != OV5693_XVCLK_FREQ)
+> -		dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
+> -			 xvclk_rate, OV5693_XVCLK_FREQ);
+> -
+> -	ret = ov5693_configure_gpios(ov5693);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = ov5693_get_regulators(ov5693);
+> -	if (ret)
+> -		return dev_err_probe(&client->dev, ret,
+> -				     "Error fetching regulators\n");
+> -
+>  	ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>  	ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
+>  	ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> --
+> 2.25.1
+>
