@@ -2,67 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D65A5606D2
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 18:58:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D17EB5606DA
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 19:01:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbiF2Q6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 12:58:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43280 "EHLO
+        id S230259AbiF2RB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 13:01:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbiF2Q6W (ORCPT
+        with ESMTP id S229654AbiF2RBY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 12:58:22 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82D7A10AA
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 09:58:20 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id s124so22525944oia.0
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 09:58:20 -0700 (PDT)
+        Wed, 29 Jun 2022 13:01:24 -0400
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70A4F38D8F
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 10:01:23 -0700 (PDT)
+Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-101d96fe0a5so22270793fac.2
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 10:01:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UuRxfl4DFAp4Bz+yqmgOFmLlpz07ZLfwvgFf+in5gmw=;
-        b=i4DjUJzXU2xyzdEZD9qhBfqe9Q8MmRiogRJ3PmdKjB45S/yU+9F3eUx28t5NsPEL2W
-         YNwWZebwXg/m/75pIXiSWAGvUczilI/a/VNJ/sBv4oycIY2jEbby80JzY0vLhZzfPsGA
-         6AFlUdmb1sqBBTaZ79oEsFc8w9E76lLYh63az2qtcDedjpgisGRsVvSDDUCw5WeIucmD
-         Ym47eMC3OkMte2Yj2xm/ff5yojOmVLUQfVOPAu5BiLTtCdDtencEoz9yuS9xR3ilMC32
-         AO1/IPKnB53fneIGTNzkY1YZd9ZY9f2q9WsrLvRousK8a0dDzCYDGgCsIUqAwOrcUxFQ
-         IkCQ==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ef+4apwtIbdICqme2rXmW1mvBhsERAVWQJprylUXtXY=;
+        b=G42CbUs4Vmmb5Q0Gf4h3i/fhOzvaIMiB+WCejp/2bnJofeKf1EfIqxUApo/q2dgKeR
+         FMZj76Va5WB5JQFQ46dBJAytWdFbzf3cKrStbdLyi6oOCeLD8LWmvST9yfxYJvoYy4u4
+         SJNqKHr680iZHcDDoDpmsMUrT4HIuDGigN6phqAcN69BYWAE7WCIvQ6E3qRyYGolHNDI
+         p1v/MtUSyGwHMonO4Bly0xu7aeI8ZQTrm7a6UW9dtUSIK0QMbncHNx9iHXQMqtVvbKg4
+         3kK1Ze4ArGkUJ75NIufIag4ruRCAKvgP0g+i4VBgPRIzNP0jDjtW0zJqr6XSyDVdqA/L
+         ZBXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UuRxfl4DFAp4Bz+yqmgOFmLlpz07ZLfwvgFf+in5gmw=;
-        b=elRE6EJEGgBx50jbrW0yobEXJJhy9HqvX2Qc06bogreV40Zggkcu2KcQ4TRMs9APXA
-         FQ/kirR7pNt6s7mdjlEXOTn1UfITp1+r1K5XOUsp/6lFHtjkqXM/JHI97nOLFJ97Vp6Q
-         LAssDON5NWiRZI0cyewCPgJyHXQukdmk0+zpN6LNJwpw0pxp6v3Yu1T6V9KTHCwQ78Jf
-         wVGOkzKs+j38Wf1vI9r83c+/xWpk2ojat3asEErYHBekCykm5TQJePfkyfkYndL4p9Jy
-         ELuwbe24Vgo8ww0DYd5vvNvfbKqwO/o1ZZBeqWBvFTK+j/rWMuvr0y5cCR6T4phQUMZ7
-         2iUg==
-X-Gm-Message-State: AJIora94R9Mim50bdGk+hj04g+b9mMPUkqPZGmE2LtapFEkqUmKFHRAG
-        NGq0f7gcP49YRG3XYCusdCL1eg==
-X-Google-Smtp-Source: AGRyM1u2piqwgcp3lWfMzY4f8cO9Ys6HaMixhzydgv9ke50THElIrvCqCL70JdPymZR4qUXGgwGfvg==
-X-Received: by 2002:a05:6808:1b8d:b0:32f:7995:b32b with SMTP id cj13-20020a0568081b8d00b0032f7995b32bmr3622126oib.219.1656521899831;
-        Wed, 29 Jun 2022 09:58:19 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ef+4apwtIbdICqme2rXmW1mvBhsERAVWQJprylUXtXY=;
+        b=Lu/A/x4L6SLnAKPzHLiNKzWjDiWxZJDzYH1k4YcQqhA+hRB/G/TaHKzoL6sRSqjIFW
+         Wbeajy9EJOS8KA4K2gMs30oaaI0d/dUKBqeT0gL1jDacxNZOSneYTMfqNx9r6ppknbaN
+         4awL1NIq3Mncb4qpoTQNj84mOF+/K4G0+YyCb0IB3B+yTpOqZDmfKJ9IotHRfkGgua+f
+         Jo0WSYk3oExKB6puB2R0FSWiM3gWgXOjhFMEkP20W8xxwMHBQZMSzFaVcFH9CHFLzqwd
+         4xR4kjH3zAv6Jy/Ur5LK47PvcyxQWLunKWCWY6xEcUekQz+s3qwJQy3gJ6xAVt1Qed3k
+         qAQQ==
+X-Gm-Message-State: AJIora+y84YNEpu+xfHTNYHK9EvkHJ9zLhi1zhvBSEUsJeOxYjbJa/RG
+        Gi949NKx/3fVAd/WEjhfJOv/rw==
+X-Google-Smtp-Source: AGRyM1uBXuRoIHaCMNvjM0X3TXsEmHfLKz9mV46S0kVY8b8/1/jTKZ6c1VetCC5svwotT9hmzFHoKA==
+X-Received: by 2002:a05:6870:45a1:b0:10b:8ee3:b3bd with SMTP id y33-20020a05687045a100b0010b8ee3b3bdmr1351076oao.9.1656522082649;
+        Wed, 29 Jun 2022 10:01:22 -0700 (PDT)
 Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id i9-20020a9d4a89000000b00616d25dc933sm4942028otf.69.2022.06.29.09.58.17
+        by smtp.gmail.com with ESMTPSA id go13-20020a056870da0d00b00101f143d537sm11419179oab.26.2022.06.29.10.01.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 09:58:19 -0700 (PDT)
-Date:   Wed, 29 Jun 2022 13:58:14 -0300
+        Wed, 29 Jun 2022 10:01:21 -0700 (PDT)
+Date:   Wed, 29 Jun 2022 14:01:16 -0300
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Nas Chung <nas.chung@chipsnmedia.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        linux-staging@lists.linux.dev, mchehab@kernel.org,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>
-Subject: Re: [PATCH v9 2/6] staging: media: wave5: Add the vdi layer
-Message-ID: <YryEpshCDZI1OiZn@eze-laptop>
-References: <20220628110821.716-1-nas.chung@chipsnmedia.com>
- <20220628110821.716-3-nas.chung@chipsnmedia.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, benjamin.gaignard@collabora.com,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 3/7] media: hantro: postproc: Fix buffer size
+ calculation
+Message-ID: <YryFXLQvxEizaVah@eze-laptop>
+References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
+ <20220616202513.351039-4-jernej.skrabec@gmail.com>
+ <YrskKxCDwSulaGJ5@eze-laptop>
+ <3180111.44csPzL39Z@jernej-laptop>
+ <5af02115c95f96116b161464d3be8a210dad9d97.camel@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220628110821.716-3-nas.chung@chipsnmedia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5af02115c95f96116b161464d3be8a210dad9d97.camel@collabora.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -72,403 +81,195 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nas,
+Hi Nicolas, Jernej,
 
-Thanks a lot for taking care of the driver.
-
-I hope it can be merged soon, and de-staged soon too!
-
-On Tue, Jun 28, 2022 at 08:08:17PM +0900, Nas Chung wrote:
-> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+On Tue, Jun 28, 2022 at 04:06:13PM -0400, Nicolas Dufresne wrote:
+> Le mardi 28 juin 2022 à 18:13 +0200, Jernej Škrabec a écrit :
+> > Dne torek, 28. junij 2022 ob 17:54:19 CEST je Ezequiel Garcia napisal(a):
+> > > Hi Jernej,
+> > > 
+> > > On Thu, Jun 16, 2022 at 10:25:09PM +0200, Jernej Skrabec wrote:
+> > > > When allocating aux buffers for postprocessing, it's assumed that base
+> > > > buffer size is the same as that of output. Coincidentally, that's true
+> > > > most of the time, but not always. 10-bit source also needs aux buffer
+> > > > size which is appropriate for 10-bit native format, even if the output
+> > > > format is 8-bit. Similarly, mv sizes and other extra buffer size also
+> > > > depends on source width/height, not destination.
+> > > > 
+> > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > > 
+> > > I took a new look at this patch.
+> > > 
+> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > ---
+> > > > 
+> > > >  .../staging/media/hantro/hantro_postproc.c    | 24 +++++++++++++------
+> > > >  drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
+> > > >  drivers/staging/media/hantro/hantro_v4l2.h    |  2 ++
+> > > >  3 files changed, 20 insertions(+), 8 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/staging/media/hantro/hantro_postproc.c
+> > > > b/drivers/staging/media/hantro/hantro_postproc.c index
+> > > > ab168c1c0d28..b77cc55e43ea 100644
+> > > > --- a/drivers/staging/media/hantro/hantro_postproc.c
+> > > > +++ b/drivers/staging/media/hantro/hantro_postproc.c
+> > > > @@ -12,6 +12,7 @@
+> > > > 
+> > > >  #include "hantro_hw.h"
+> > > >  #include "hantro_g1_regs.h"
+> > > >  #include "hantro_g2_regs.h"
+> > > > 
+> > > > +#include "hantro_v4l2.h"
+> > > > 
+> > > >  #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
+> > > >  { \
+> > > > 
+> > > > @@ -174,18 +175,27 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+> > > > 
+> > > >  	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+> > > >  	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
+> > > >  	unsigned int num_buffers = cap_queue->num_buffers;
+> > > > 
+> > > > +	struct v4l2_pix_format_mplane pix_mp;
+> > > > +	const struct hantro_fmt *fmt;
+> > > > 
+> > > >  	unsigned int i, buf_size;
+> > > > 
+> > > > -	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage;
+> > > > +	/* this should always pick native format */
+> > > > +	fmt = hantro_get_default_fmt(ctx, false);
+> > > 
+> > > Clearly this is correct.
+> > > 
+> > > When the driver enables the post-processor it decodes a coded format (H264,
+> > > etc.) to a native format (NV12_4L4 or P010_4L4) and feeds this into the
+> > > postprocessor engine to produce some other format (YUYV, NV12, etc.).
+> > > 
+> > > The buffers allocated here should be taken from the native format,
+> > > so it's correct to use hantro_get_default_fmt().
+> > > 
+> > > > +	if (!fmt)
+> > > > +		return -EINVAL;
+> > > > +	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
+> > > > +			    ctx->src_fmt.height);
+> > > 
+> > > The issue comes at this point, where we negotiate the buffer size based on
+> > > the source size (OUTPUT queue size), instead of negotiating based
+> > > on the Native size.
+> > > 
+> > >   Coded -> [ Decoder ] -> Native -> [ Post-processor ] -> Decoded
+> > 
+> > I'm not sure what is the difference between source and native size? You mean 
+> > one coded in controls and one set via output format? IMO they should always be 
+> > the same, otherwise it can be considered a bug in userspace application.
 > 
-> Add the vdi part of the wave5 codec driver.
-> The wave5-vdi.h header defines common helper functions such as writing/reading register and handling endianness.
+> Indeed the src_fmt should use coded width/height (as per spec). The driver will
+> then adapt to its own requirement resulting into the "native" width height being
+> returned. Notice that s_ctrl() should fail in case of miss-match (this is CODEC
+> specific), or streamon() should fail if the codec specific control have never
+> been set (as we always initialise this, it will fail due to default being an
+> invalid value anyway).
 > 
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/wave5/wave5-vdi.c | 260 ++++++++++++++++++++++++
->  drivers/staging/media/wave5/wave5-vdi.h |  81 ++++++++
->  2 files changed, 341 insertions(+)
->  create mode 100644 drivers/staging/media/wave5/wave5-vdi.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vdi.h
+> As a side effect, when userland read the default format (G_FMT(CAPTURE), the
+> width/height should match the src_dst for this driver. This is the native size.
+> The optional path that this driver enables is enumeration of CAPTURE format and
+> frame sizes, combined with to select from these. The driver will create a
+> secondary set of buffers in the case.
 > 
-> diff --git a/drivers/staging/media/wave5/wave5-vdi.c b/drivers/staging/media/wave5/wave5-vdi.c
-> new file mode 100644
-> index 000000000000..bbde868de42e
-> --- /dev/null
-> +++ b/drivers/staging/media/wave5/wave5-vdi.c
-> @@ -0,0 +1,260 @@
-> +// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
-> +/*
-> + * Wave5 series multi-standard codec IP - low level access functions
-> + *
-> + * Copyright (C) 2021 CHIPS&MEDIA INC
-> + */
-> +
-> +#include <linux/bug.h>
-> +#include "wave5-vdi.h"
-> +#include "wave5-vpu.h"
-> +#include "wave5-regdefine.h"
-> +#include <linux/delay.h>
-> +
-> +#define VDI_SRAM_BASE_ADDR 0x00
-> +
-> +#define VDI_SYSTEM_ENDIAN VDI_LITTLE_ENDIAN
-> +#define VDI_128BIT_BUS_SYSTEM_ENDIAN VDI_128BIT_LITTLE_ENDIAN
-> +
-> +static int wave5_vdi_allocate_common_memory(struct device *dev)
-> +{
-> +	int ret;
-> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +
-> +	if (!vpu_dev->common_mem.vaddr) {
-> +		vpu_dev->common_mem.size = SIZE_COMMON;
-> +		ret = wave5_vdi_allocate_dma_memory(vpu_dev, &vpu_dev->common_mem);
-> +		if (ret) {
-> +			dev_err(dev, "unable to allocate common buffer\n");
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	dev_dbg(dev, "common_mem: daddr=%pad size=%zu vaddr=0x%p\n",
-> +		&vpu_dev->common_mem.daddr, vpu_dev->common_mem.size,
-> +			vpu_dev->common_mem.vaddr);
-> +
-> +	return 0;
-> +}
-> +
-> +int wave5_vdi_init(struct device *dev)
-> +{
-> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +	int i;
-> +	int ret;
-> +
-> +	ret = wave5_vdi_allocate_common_memory(dev);
-> +	if (ret < 0) {
-> +		dev_err(dev, "[VDI] fail to get vpu common buffer from driver\n");
-> +		return ret;
-> +	}
-> +
-> +	if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
-> +		// if BIT processor is not running.
-> +		if (wave5_vdi_readl(vpu_dev, W5_VCPU_CUR_PC) == 0) {
-> +			for (i = 0; i < 64; i++)
-> +				wave5_vdi_write_register(vpu_dev, (i * 4) + 0x100, 0x0);
-> +		}
-> +	} else {
-> +		WARN_ONCE(1, "unsupported product code 0x%x\n", vpu_dev->product_code);
-> +	}
-> +
-> +	dev_dbg(dev, "[VDI] success to init driver\n");
-> +
-> +	return 0;
-> +}
-> +
-> +int wave5_vdi_release(struct device *dev)
-> +{
-> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +
-> +	vpu_dev->vdb_register = NULL;
-> +	wave5_vdi_free_dma_memory(vpu_dev, &vpu_dev->common_mem);
-> +
-> +	return 0;
-> +}
-> +
-> +void wave5_vdi_write_register(struct vpu_device *vpu_dev, unsigned int addr, unsigned int data)
-> +{
-> +	writel(data, vpu_dev->vdb_register + addr);
-> +}
-> +
-> +unsigned int wave5_vdi_readl(struct vpu_device *vpu_dev, u32 addr)
-> +{
-> +	return readl(vpu_dev->vdb_register + addr);
-> +}
-> +
-> +int wave5_vdi_clear_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
 
-Nitpick: Just do memset when needed instead of calling wave5_vdi_clear_memory :-)
-
-> +{
-> +	if (!vb || !vb->vaddr) {
-> +		dev_err(vpu_dev->dev, "%s(): unable to clear unmapped buffer\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	memset(vb->vaddr, 0, vb->size);
-> +	return vb->size;
-> +}
-> +
-> +static void wave5_swap_endian(struct vpu_device *vpu_dev, u8 *data, int len, int endian);
-> +
-> +int wave5_vdi_write_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb, size_t offset,
-> +			   u8 *data, int len, int endian)
-> +{
-> +	if (!vb || !vb->vaddr) {
-> +		dev_err(vpu_dev->dev, "%s(): unable to write to unmapped buffer\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (offset > vb->size || len > vb->size || offset + len > vb->size) {
-> +		dev_err(vpu_dev->dev, "%s(): buffer too small\n", __func__);
-> +		return -ENOSPC;
-> +	}
-> +
-> +	wave5_swap_endian(vpu_dev, data, len, endian);
-> +	memcpy(vb->vaddr + offset, data, len);
-> +
-> +	return len;
-> +}
-> +
-> +int wave5_vdi_allocate_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
-
-This function is not local to this file (doesn't have a static keyword)
-but it's not declared in any header on this commit.
-
-Is it used out of this file? If yes, then it should be declared in some
-header.
-
-> +{
-> +	void *vaddr;
-> +	dma_addr_t daddr;
-> +
-> +	if (!vb->size) {
-> +		dev_err(vpu_dev->dev, "%s(): requested size==0\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	vaddr = dma_alloc_coherent(vpu_dev->dev, vb->size, &daddr, GFP_KERNEL);
-> +	if (!vaddr)
-> +		return -ENOMEM;
-> +	vb->vaddr = vaddr;
-> +	vb->daddr = daddr;
-> +
-> +	return 0;
-> +}
-> +
-> +void wave5_vdi_free_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
-
-Ditto above, should this be static?
-
-> +{
-> +	if (vb->size == 0)
-> +		return;
-> +
-> +	if (!vb->vaddr)
-> +		dev_err(vpu_dev->dev, "%s(): requested free of unmapped buffer\n", __func__);
-> +	else
-> +		dma_free_coherent(vpu_dev->dev, vb->size, vb->vaddr, vb->daddr);
-> +
-> +	memset(vb, 0, sizeof(*vb));
-> +}
-> +
-> +int wave5_vdi_convert_endian(struct vpu_device *vpu_dev, unsigned int endian)
-> +{
-> +	if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
-> +		switch (endian) {
-> +		case VDI_LITTLE_ENDIAN:
-> +			endian = 0x00;
-> +			break;
-> +		case VDI_BIG_ENDIAN:
-> +			endian = 0x0f;
-> +			break;
-> +		case VDI_32BIT_LITTLE_ENDIAN:
-> +			endian = 0x04;
-> +			break;
-> +		case VDI_32BIT_BIG_ENDIAN:
-> +			endian = 0x03;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return (endian & 0x0f);
-> +}
-> +
-> +static void byte_swap(unsigned char *data, int len)
-> +{
-> +	u8 temp;
-> +	int i;
-> +
-> +	for (i = 0; i < len; i += 2) {
-> +		temp = data[i];
-> +		data[i] = data[i + 1];
-> +		data[i + 1] = temp;
-> +	}
-> +}
-> +
-> +static void word_swap(unsigned char *data, int len)
-> +{
-> +	u16 temp;
-> +	u16 *ptr = (u16 *)data;
-> +	int i;
-> +	s32 size = len / sizeof(uint16_t);
-> +
-> +	for (i = 0; i < size; i += 2) {
-> +		temp = ptr[i];
-> +		ptr[i] = ptr[i + 1];
-> +		ptr[i + 1] = temp;
-> +	}
-> +}
-> +
-> +static void dword_swap(unsigned char *data, int len)
-> +{
-> +	u32 temp;
-> +	u32 *ptr = (u32 *)data;
-> +	s32 size = len / sizeof(uint32_t);
-> +	int i;
-> +
-> +	for (i = 0; i < size; i += 2) {
-> +		temp = ptr[i];
-> +		ptr[i] = ptr[i + 1];
-> +		ptr[i + 1] = temp;
-> +	}
-> +}
-> +
-> +static void lword_swap(unsigned char *data, int len)
-> +{
-> +	u64 temp;
-> +	u64 *ptr = (u64 *)data;
-> +	s32 size = len / sizeof(uint64_t);
-> +	int i;
-> +
-> +	for (i = 0; i < size; i += 2) {
-> +		temp = ptr[i];
-> +		ptr[i] = ptr[i + 1];
-> +		ptr[i + 1] = temp;
-> +	}
-> +}
-> +
-> +static void wave5_swap_endian(struct vpu_device *vpu_dev, u8 *data, int len, int endian)
-> +{
-> +	int changes;
-> +	int sys_endian;
-> +	bool byte_change, word_change, dword_change, lword_change;
-> +
-> +	if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
-> +		sys_endian = VDI_128BIT_BUS_SYSTEM_ENDIAN;
-> +	} else {
-> +		dev_err(vpu_dev->dev, "unknown product id : %08x\n", vpu_dev->product_code);
-> +		return;
-> +	}
-> +
-> +	endian = wave5_vdi_convert_endian(vpu_dev, endian);
-> +	sys_endian = wave5_vdi_convert_endian(vpu_dev, sys_endian);
-> +	if (endian == sys_endian)
-> +		return;
-> +
-> +	changes = endian ^ sys_endian;
-> +	byte_change = changes & 0x01;
-> +	word_change = ((changes & 0x02) == 0x02);
-> +	dword_change = ((changes & 0x04) == 0x04);
-> +	lword_change = ((changes & 0x08) == 0x08);
-> +
-> +	if (byte_change)
-> +		byte_swap(data, len);
-> +	if (word_change)
-> +		word_swap(data, len);
-> +	if (dword_change)
-> +		dword_swap(data, len);
-> +	if (lword_change)
-> +		lword_swap(data, len);
-> +}
-> +
-> diff --git a/drivers/staging/media/wave5/wave5-vdi.h b/drivers/staging/media/wave5/wave5-vdi.h
-> new file mode 100644
-> index 000000000000..f26cab7ac845
-> --- /dev/null
-> +++ b/drivers/staging/media/wave5/wave5-vdi.h
-> @@ -0,0 +1,81 @@
-> +/* SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause) */
-> +/*
-> + * Wave5 series multi-standard codec IP - low level access functions
-> + *
-> + * Copyright (C) 2021 CHIPS&MEDIA INC
-> + */
-> +
-> +#ifndef _VDI_H_
-> +#define _VDI_H_
-> +
-> +#include "wave5-vpuconfig.h"
-> +#include <linux/string.h>
-> +#include <linux/slab.h>
-> +#include <linux/device.h>
-> +
-> +/************************************************************************/
-> +/* COMMON REGISTERS */
-> +/************************************************************************/
-> +#define VPU_PRODUCT_CODE_REGISTER 0x1044
-> +
-> +/* system register write */
-> +#define vpu_write_reg(VPU_INST, ADDR, DATA) wave5_vdi_write_register(VPU_INST, ADDR, DATA)
-> +// system register read
-> +#define vpu_read_reg(CORE, ADDR) wave5_vdi_readl(CORE, ADDR)
-
-Nitpick: These defines look redundant. Maybe just name wave5_vdi_write_register as
-vpu_write_reg, or just use writel.
-
-> +
-> +struct vpu_buf {
-> +	size_t size;
-> +	dma_addr_t daddr;
-> +	void *vaddr;
-> +};
-> +
-> +struct dma_vpu_buf {
-> +	size_t size;
-> +	dma_addr_t daddr;
-> +};
-> +
-> +enum endian_mode {
-> +	VDI_LITTLE_ENDIAN = 0, /* 64bit LE */
-> +	VDI_BIG_ENDIAN, /* 64bit BE */
-> +	VDI_32BIT_LITTLE_ENDIAN,
-> +	VDI_32BIT_BIG_ENDIAN,
-> +	/* WAVE PRODUCTS */
-> +	VDI_128BIT_LITTLE_ENDIAN = 16,
-> +	VDI_128BIT_LE_BYTE_SWAP,
-> +	VDI_128BIT_LE_WORD_SWAP,
-> +	VDI_128BIT_LE_WORD_BYTE_SWAP,
-> +	VDI_128BIT_LE_DWORD_SWAP,
-> +	VDI_128BIT_LE_DWORD_BYTE_SWAP,
-> +	VDI_128BIT_LE_DWORD_WORD_SWAP,
-> +	VDI_128BIT_LE_DWORD_WORD_BYTE_SWAP,
-> +	VDI_128BIT_BE_DWORD_WORD_BYTE_SWAP,
-> +	VDI_128BIT_BE_DWORD_WORD_SWAP,
-> +	VDI_128BIT_BE_DWORD_BYTE_SWAP,
-> +	VDI_128BIT_BE_DWORD_SWAP,
-> +	VDI_128BIT_BE_WORD_BYTE_SWAP,
-> +	VDI_128BIT_BE_WORD_SWAP,
-> +	VDI_128BIT_BE_BYTE_SWAP,
-> +	VDI_128BIT_BIG_ENDIAN = 31,
-> +	VDI_ENDIAN_MAX
-> +};
-> +
-> +#define VDI_128BIT_ENDIAN_MASK 0xf
-> +
-> +int wave5_vdi_init(struct device *dev);
-> +int wave5_vdi_release(struct device *dev);	//this function may be called only at system off.
-> +
-> +/**
-> + * @brief make clock stable before changing clock frequency
-> + * @detail before invoking vdi_set_clock_freg caller MUST invoke vdi_ready_change_clock
-> + *		function.
-> + * after changing clock frequency caller also invoke wave5_vdi_done_change_clock() function.
-> + * @return 0 failure
-> + * 1 success
-> + */
-> +int wave5_vdi_ready_change_clock(unsigned long core_idx);
-> +int wave5_vdi_set_change_clock(unsigned long core_idx, unsigned long clock_mask);
-> +int wave5_vdi_done_change_clock(unsigned long core_idx);
-> +int wave5_vdi_buffer_sync(struct device *dev, struct vpu_buf *vb, int dir);
-
-These functions seem not implemented. Maybe it's a leftover?
+OK, the patch looks good then.
 
 Thanks,
 Ezequiel
 
-> +
-> +#endif //#ifndef _VDI_H_
-> +
-> -- 
-> 2.30.2
+> Nicolas
+> 
+> > 
+> > Best regards,
+> > Jernej
+> > 
+> > > 
+> > > So, while the patch is surely improving things, I wonder if it won't
+> > > cause other issues.
+> > > 
+> > > This reminds me we are still lacking a more complete test-suite for this
+> > > driver, so that we can validate changes and ensure there are no
+> > > regressions.
+> > > 
+> > > Perhaps we could hack Fluster to not only test the conformance,
+> > > but also test the post-processor?
+> > > 
+> > > Thanks,
+> > > Ezequiel
+> > > 
+> > > > +
+> > > > +	buf_size = pix_mp.plane_fmt[0].sizeimage;
+> > > > 
+> > > >  	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
+> > > > 
+> > > > -		buf_size += hantro_h264_mv_size(ctx->dst_fmt.width,
+> > > > -						ctx-
+> > > dst_fmt.height);
+> > > > +		buf_size += hantro_h264_mv_size(pix_mp.width,
+> > > > +						
+> > pix_mp.height);
+> > > > 
+> > > >  	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
+> > > > 
+> > > > -		buf_size += hantro_vp9_mv_size(ctx->dst_fmt.width,
+> > > > -					       ctx-
+> > > dst_fmt.height);
+> > > > +		buf_size += hantro_vp9_mv_size(pix_mp.width,
+> > > > +					       pix_mp.height);
+> > > > 
+> > > >  	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
+> > > > 
+> > > > -		buf_size += hantro_hevc_mv_size(ctx->dst_fmt.width,
+> > > > -						ctx-
+> > > dst_fmt.height);
+> > > > +		buf_size += hantro_hevc_mv_size(pix_mp.width,
+> > > > +						
+> > pix_mp.height);
+> > > > 
+> > > >  	for (i = 0; i < num_buffers; ++i) {
+> > > >  	
+> > > >  		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
+> > > > 
+> > > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c
+> > > > b/drivers/staging/media/hantro/hantro_v4l2.c index
+> > > > 334f18a4120d..2c7a805289e7 100644
+> > > > --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> > > > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> > > > @@ -118,7 +118,7 @@ hantro_find_format(const struct hantro_ctx *ctx, u32
+> > > > fourcc)> 
+> > > >  	return NULL;
+> > > >  
+> > > >  }
+> > > > 
+> > > > -static const struct hantro_fmt *
+> > > > +const struct hantro_fmt *
+> > > > 
+> > > >  hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
+> > > >  {
+> > > >  
+> > > >  	const struct hantro_fmt *formats;
+> > > > 
+> > > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.h
+> > > > b/drivers/staging/media/hantro/hantro_v4l2.h index
+> > > > b17e84c82582..64f6f57e9d7a 100644
+> > > > --- a/drivers/staging/media/hantro/hantro_v4l2.h
+> > > > +++ b/drivers/staging/media/hantro/hantro_v4l2.h
+> > > > @@ -23,5 +23,7 @@ extern const struct vb2_ops hantro_queue_ops;
+> > > > 
+> > > >  void hantro_reset_fmts(struct hantro_ctx *ctx);
+> > > >  int hantro_get_format_depth(u32 fourcc);
+> > > > 
+> > > > +const struct hantro_fmt *
+> > > > +hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream);
+> > > > 
+> > > >  #endif /* HANTRO_V4L2_H_ */
+> > 
+> > 
+> > 
+> > 
 > 
