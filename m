@@ -2,49 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2E0E5601CC
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 15:59:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28950560268
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 16:18:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230348AbiF2N7H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 09:59:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56834 "EHLO
+        id S229941AbiF2OQ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 10:16:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229952AbiF2N7G (ORCPT
+        with ESMTP id S229737AbiF2OQ4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 09:59:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA51322B22
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 06:59:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 65CBE61E4F
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 13:59:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF30C34114;
-        Wed, 29 Jun 2022 13:59:03 +0000 (UTC)
-Message-ID: <cdfc2039-42e6-e150-fdce-39eef38de15c@xs4all.nl>
-Date:   Wed, 29 Jun 2022 15:59:02 +0200
+        Wed, 29 Jun 2022 10:16:56 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 895F731DC2
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 07:16:55 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id k22so22703906wrd.6
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 07:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=vYc8OI8aKFBkOdpTUZLPMIgDfVBQgzr4QYoq3g5KO7c=;
+        b=kSXixZ0sKQAtdancSL/BPZKx2h+lAXVPuoDvN9Yp+zoXLWUaUASPzxYAZVCJKYvifV
+         8qpbu+qJ0D80ueFpVGSUlVNYeXZqFjKpfytyQmpuOgpWvjjO/j8KpnAUg13WRRUOBW7p
+         ExcjLaN46BW9/axGMa8PRb2oLFfn4XjMlezyWNNArjC7fpHl67FOzaKUHqWebro+olfy
+         jPUty8CPRstkrOFjGgI86hKOXIUpVJdCRkEalTS5yB+onRraMW1ymfLoBmHkGQMCU90F
+         OoDPSU3XSAMT8KqF++YYaJTrPU2qvAh2Lq0C/Q6g4AeyZNXryKGs/GaHBhj4beg8nGpP
+         Y+UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=vYc8OI8aKFBkOdpTUZLPMIgDfVBQgzr4QYoq3g5KO7c=;
+        b=SCqeTP5nkWVHC4P0/GDLEe/gRGUBKA218ZpfuSH/NBExGI98qznIe4i+GJLKRk8Svp
+         TdKvI8uN/6ArqK91eyBuEuE1iDyVGMQyplr9sF2ICzaxGn7lwJofufAuocjWMlfgnEDM
+         aypKyl98yOBH65C9/M6IGREUha/ComvLhu7wf6N0ok7E9zaiinKeXljWQa7wLi96JDPN
+         mctcBJ49VCFqHK0ye3hpTaRpD36UAMRm7W6mXHCOgtY/GQf5C8BsPL2rvr4Wlq6ffAO8
+         GdCsQSkKvkn5ybImVIljLNmEuQy2vl1plVrqQP5fNHDKuASl0i4VbZIAHFmnTSAyvb8f
+         zf5Q==
+X-Gm-Message-State: AJIora9mgqc63J4v2EMTfgpYSzqUSsYKQR3N60K5Z1MjrAydJL0xUxXA
+        YjzNzFkGVoroAjL+zAM5Nsn6IUOLoWE/d+eBTb8=
+X-Google-Smtp-Source: AGRyM1sKtDIbrmMVh/QUeaA0SeVcOwLVw54W8l3Jz9H3N512DAisIMF7VuaTmSPQEQ9cE70icqE6OtzddEWeoQCoGxQ=
+X-Received: by 2002:a5d:64ae:0:b0:21b:b923:7ad5 with SMTP id
+ m14-20020a5d64ae000000b0021bb9237ad5mr3280310wrp.460.1656512214098; Wed, 29
+ Jun 2022 07:16:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 5/7] media: v4l2: Sanitize colorspace values in the
- framework
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-imx@nxp.com, kernel@pengutronix.de
-References: <20220616183656.19089-1-laurent.pinchart@ideasonboard.com>
- <20220616183656.19089-6-laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220616183656.19089-6-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Reply-To: sgtkaylamanthey612@gmail.com
+Sender: gregorypaul612@gmail.com
+Received: by 2002:a5d:4a12:0:0:0:0:0 with HTTP; Wed, 29 Jun 2022 07:16:53
+ -0700 (PDT)
+From:   Kayla Manthey <sgtkaylamanthey612@gmail.com>
+Date:   Wed, 29 Jun 2022 14:16:53 +0000
+X-Google-Sender-Auth: 84fiBn9JsrDmEYY22_kXuRIjlYE
+Message-ID: <CAD-66CbiZKVW9-T64K=agvGxPSYwO-FzN=3+gdPo0icBmvfFQA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.3 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,108 +67,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/06/2022 20:36, Laurent Pinchart wrote:
-> Extend the format sanitization code in the framework to handle invalid
-> values for the colorspace-related fields.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Groetjes, ik hoop dat het goed met je gaat. Ik heb geen reactie van u
+ontvangen met betrekking tot mijn eerdere e-mails, controleer en
+beantwoord mij.
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
-
-	Hans
-
-> ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 65 +++++++++++++++++++++++-----
->  1 file changed, 55 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 18ed2227255a..24b5968e8f32 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1008,6 +1008,31 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
->  	return -EINVAL;
->  }
->  
-> +static void v4l_sanitize_colorspace(u32 pixelformat, u32 *colorspace,
-> +				    u32 *encoding, u32 *quantization,
-> +				    u32 *xfer_func)
-> +{
-> +	bool is_hsv = pixelformat == V4L2_PIX_FMT_HSV24 ||
-> +		      pixelformat == V4L2_PIX_FMT_HSV32;
-> +
-> +	if (!v4l2_is_colorspace_valid(*colorspace)) {
-> +		*colorspace = V4L2_COLORSPACE_DEFAULT;
-> +		*encoding = V4L2_YCBCR_ENC_DEFAULT;
-> +		*quantization = V4L2_QUANTIZATION_DEFAULT;
-> +		*xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> +	}
-> +
-> +	if ((!is_hsv && !v4l2_is_ycbcr_enc_valid(*encoding)) ||
-> +	    (is_hsv && !v4l2_is_hsv_enc_valid(*encoding)))
-> +		*encoding = V4L2_YCBCR_ENC_DEFAULT;
-> +
-> +	if (!v4l2_is_quant_valid(*quantization))
-> +		*quantization = V4L2_QUANTIZATION_DEFAULT;
-> +
-> +	if (!v4l2_is_xfer_func_valid(*xfer_func))
-> +		*xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> +}
-> +
->  static void v4l_sanitize_format(struct v4l2_format *fmt)
->  {
->  	unsigned int offset;
-> @@ -1027,20 +1052,40 @@ static void v4l_sanitize_format(struct v4l2_format *fmt)
->  	 * field to the magic value when the extended pixel format structure
->  	 * isn't used by applications.
->  	 */
-> +	if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-> +	    fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-> +		if (fmt->fmt.pix.priv != V4L2_PIX_FMT_PRIV_MAGIC) {
-> +			fmt->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
->  
-> -	if (fmt->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
-> -	    fmt->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-> -		return;
-> +			offset = offsetof(struct v4l2_pix_format, priv)
-> +			       + sizeof(fmt->fmt.pix.priv);
-> +			memset(((void *)&fmt->fmt.pix) + offset, 0,
-> +			       sizeof(fmt->fmt.pix) - offset);
-> +		}
-> +	}
->  
-> -	if (fmt->fmt.pix.priv == V4L2_PIX_FMT_PRIV_MAGIC)
-> -		return;
-> +	/* Replace invalid colorspace values with defaults. */
-> +	if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-> +	    fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-> +		v4l_sanitize_colorspace(fmt->fmt.pix.pixelformat,
-> +					&fmt->fmt.pix.colorspace,
-> +					&fmt->fmt.pix.ycbcr_enc,
-> +					&fmt->fmt.pix.quantization,
-> +					&fmt->fmt.pix.xfer_func);
-> +	} else if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
-> +		   fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-> +		u32 ycbcr_enc = fmt->fmt.pix_mp.ycbcr_enc;
-> +		u32 quantization = fmt->fmt.pix_mp.quantization;
-> +		u32 xfer_func = fmt->fmt.pix_mp.xfer_func;
->  
-> -	fmt->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
-> +		v4l_sanitize_colorspace(fmt->fmt.pix_mp.pixelformat,
-> +					&fmt->fmt.pix_mp.colorspace, &ycbcr_enc,
-> +					&quantization, &xfer_func);
->  
-> -	offset = offsetof(struct v4l2_pix_format, priv)
-> -	       + sizeof(fmt->fmt.pix.priv);
-> -	memset(((void *)&fmt->fmt.pix) + offset, 0,
-> -	       sizeof(fmt->fmt.pix) - offset);
-> +		fmt->fmt.pix_mp.ycbcr_enc = ycbcr_enc;
-> +		fmt->fmt.pix_mp.quantization = quantization;
-> +		fmt->fmt.pix_mp.xfer_func = xfer_func;
-> +	}
->  }
->  
->  static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
-
+Greetings, I hope you're OK. I haven't receive a response from you in
+regards to my previous emails, please check and reply me.
