@@ -2,124 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 910F75600A8
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 15:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6F2E5600E6
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 15:10:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233573AbiF2NBY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 09:01:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60318 "EHLO
+        id S233622AbiF2NDR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 09:03:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233509AbiF2NBX (ORCPT
+        with ESMTP id S233642AbiF2NDO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 09:01:23 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD91739153;
-        Wed, 29 Jun 2022 06:01:21 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id g7so10587693pjj.2;
-        Wed, 29 Jun 2022 06:01:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=HqNKV4bR45GvOqHjeBJQ3k55axq+VCZJ2whW1fAz/0M=;
-        b=Cmqk7U/Lx1CxmE+wKYCOQwkJGXpDJajm76ZxpXqESFNmz1ExgInYIhnpQ57v74j1Qw
-         cD6ju4aIsv/pcyIJu2qkK7+je4LU3DLEaJCeV4WwjXRa3equp/JCpMh+OCU2tj4LWSBg
-         XLGos3i5BPRzvj2/2LYH0d/kOIznBthdIlSapY8knNhDs4rM27qQNTJSVx+YmF5RqoWh
-         F9ZiFDn1lKonjn14cA/3FPywH1H6+asUp3rfoX97HOCODuix3kHUMVrV7TewyPi+zNjL
-         6Z2JhBglIkNMFfxWqGN5bedh9SvQlvyQM9v/N+EiKefhPkvpy3ZtJqKc/APx1A/ygYnM
-         r8ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=HqNKV4bR45GvOqHjeBJQ3k55axq+VCZJ2whW1fAz/0M=;
-        b=aTI13BOAvOrwP7hQW/P5XIVF2FE/Ds+RIRaE/4I/67HZwLm2puotdu+4GFZsPr8StF
-         BNwIEj8ZqdEdT8Va7DIO1telwC9Elnil4HKKHrAmf9lvqBK4lyQPqTXpIJwivblvvn4L
-         dp37YhEhUvR3ScBoIzSLwqngOIJhKm/C1MHv+KxxTz3e9BXJc6QOzAaXd2cql22p1ZmL
-         +bGjrDjYzXeZs3/ORAbXb3LhKqFcPUPhf0fIZoBtQyz9deivhMXRCMXStskLjKnPIBTS
-         0sVb0wTccNwtNMQUkMTo2GObo7zD/I8BbyFcywzsHWVZLShcZkugNtEVFSFvgcVlEArA
-         EANg==
-X-Gm-Message-State: AJIora+lhCNErjzIEGzP5vidrN4jDPdH+COog4uc58irhzNtxehzAcia
-        YtAZmbW2T2HV3OpzGjFRVQI=
-X-Google-Smtp-Source: AGRyM1ukLgzdPJmGd07DUSErX6n7geF03OhJc3b0yiu4cyfrWF0xZMcLfe41o0VtkMakIlFvQc3FRg==
-X-Received: by 2002:a17:90b:341:b0:1e0:cf43:df4f with SMTP id fh1-20020a17090b034100b001e0cf43df4fmr3860023pjb.126.1656507681308;
-        Wed, 29 Jun 2022 06:01:21 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id a6-20020a056a000c8600b0051c49fb62b7sm11735880pfv.165.2022.06.29.06.01.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 06:01:20 -0700 (PDT)
-Message-ID: <c3254669-cd71-48e5-665c-430b76f77baa@gmail.com>
-Date:   Wed, 29 Jun 2022 22:01:17 +0900
+        Wed, 29 Jun 2022 09:03:14 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E26C2181;
+        Wed, 29 Jun 2022 06:03:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 47FBBB823B9;
+        Wed, 29 Jun 2022 13:03:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB8EC341CD;
+        Wed, 29 Jun 2022 13:03:08 +0000 (UTC)
+Message-ID: <7f19f803-4af4-f90d-48d5-63fc0fc780a5@xs4all.nl>
+Date:   Wed, 29 Jun 2022 15:03:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
+ Thunderbird/91.10.0
+Subject: Re: [EXT] Re: [PATCH] media: amphion: only insert the first sequence
+ startcode for vc1l format
 Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] media: docs: Remove extraneous \endgroup from P010 table
+To:     Ming Qian <ming.qian@nxp.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>
+Cc:     "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <20220628052017.26979-1-ming.qian@nxp.com>
+ <26a83f6a-05a1-f67b-2de5-bd67ea50843d@xs4all.nl>
+ <AM6PR04MB6341531BD31885A7BA3126BBE7BB9@AM6PR04MB6341.eurprd04.prod.outlook.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <AM6PR04MB6341531BD31885A7BA3126BBE7BB9@AM6PR04MB6341.eurprd04.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The \endgroup command at the bottom of a table added in commit
-5374d8fb75f3 ("media: Add P010 video format") doesn't have a
-corresponding \begingroup command preceding it.
+On 29/06/2022 14:53, Ming Qian wrote:
+>> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Sent: Wednesday, June 29, 2022 8:10 PM
+>> To: Ming Qian <ming.qian@nxp.com>; mchehab@kernel.org
+>> Cc: shawnguo@kernel.org; robh+dt@kernel.org; s.hauer@pengutronix.de;
+>> kernel@pengutronix.de; festevam@gmail.com; dl-linux-imx <linux-
+>> imx@nxp.com>; linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> linux-arm-kernel@lists.infradead.org
+>> Subject: [EXT] Re: [PATCH] media: amphion: only insert the first sequence
+>> startcode for vc1l format
+>>
+>> Caution: EXT Email
+>>
+>> On 28/06/2022 07:20, Ming Qian wrote:
+>>> For some formats, the amphion vpu requires startcode before sequence
+>>> and frame, such as vc1, vp8.
+>>>
+>>> But for V4L2_PIX_FMT_VC1_ANNEX_L, only the first sequence startcode is
+>>> needed, the extra startcode will cause decoding error.
+>>> So after seek, we don't need to insert the sequence startcode.
+>>>
+>>> In other words, for V4L2_PIX_FMT_VC1_ANNEX_L, the vpu doesn't
+>> support
+>>> dynamic resolution change.
+>>
+>> Shouldn't V4L2_FMT_FLAG_DYN_RESOLUTION be removed from that format
+>> since it doesn't support this feature?
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+> 
+> I have a question, for format VC1L,  the V4L2_EVENT_SOURCE_CHANGE event still may be sent at the beginning,
+> If the parameters parsed from the first sequence header are different from those previously established.
+> 
+> So should I remove the V4L2_FMT_FLAG_DYN_RESOLUTION flag or not?
 
-This imbalance causes an build error in "make pdfdocs".
+Yes. That flag only applies if resolution changes can happen after the first
+frame was decoded. It does not apply to the initial resolution change which
+happens before decoding the first frame (i.e. after reading the header(s) at
+the start).
 
-Fix the issue by removing it.
+Regards,
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Fixes: 5374d8fb75f3 ("media: Add P010 video format")
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
----
-Hi Mauro,
+	Hans
 
-In my (bi-weekly) test of "make pdfdocs" against next-20220629,
-I encountered a build error of userspace-api.tex.
-
-This patch fixes it.
-
-This is relative to 'master' of git://linuxtv.org/media_tree.git
-as merged by Stephen.
-
-        Thanks, Akira
---
- Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-index a900ff66911a..997ce2d094fc 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-@@ -570,9 +570,6 @@ Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian ord
-       - Cb\ :sub:`11`
-       - Cr\ :sub:`11`
- 
--.. raw:: latex
--
--    \endgroup
- 
- Fully Planar YUV Formats
- ========================
-
-base-commit: 945a9a8e448b65bec055d37eba58f711b39f66f0
--- 
-2.25.1
+> 
+> Ming
+> 
+>>>
+>>> Fixes: 145e936380edb ("media: amphion: implement malone decoder rpc
+>>> interface")
+>>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+>>> ---
+>>>  drivers/media/platform/amphion/vdec.c       | 1 +
+>>>  drivers/media/platform/amphion/vpu.h        | 1 +
+>>>  drivers/media/platform/amphion/vpu_malone.c | 2 ++
+>>>  drivers/media/platform/amphion/vpu_rpc.h    | 7 ++++++-
+>>>  4 files changed, 10 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/media/platform/amphion/vdec.c
+>>> b/drivers/media/platform/amphion/vdec.c
+>>> index 09d4f27970ec..51218a41a5ac 100644
+>>> --- a/drivers/media/platform/amphion/vdec.c
+>>> +++ b/drivers/media/platform/amphion/vdec.c
+>>> @@ -731,6 +731,7 @@ static void vdec_stop_done(struct vpu_inst *inst)
+>>>       vdec->eos_received = 0;
+>>>       vdec->is_source_changed = false;
+>>>       vdec->source_change = 0;
+>>> +     inst->total_input_count = 0;
+>>>       vpu_inst_unlock(inst);
+>>>  }
+>>>
+>>> diff --git a/drivers/media/platform/amphion/vpu.h
+>>> b/drivers/media/platform/amphion/vpu.h
+>>> index e56b96a7e5d3..f914de6ed81e 100644
+>>> --- a/drivers/media/platform/amphion/vpu.h
+>>> +++ b/drivers/media/platform/amphion/vpu.h
+>>> @@ -258,6 +258,7 @@ struct vpu_inst {
+>>>       struct vpu_format cap_format;
+>>>       u32 min_buffer_cap;
+>>>       u32 min_buffer_out;
+>>> +     u32 total_input_count;
+>>>
+>>>       struct v4l2_rect crop;
+>>>       u32 colorspace;
+>>> diff --git a/drivers/media/platform/amphion/vpu_malone.c
+>>> b/drivers/media/platform/amphion/vpu_malone.c
+>>> index c62b49e85060..f4a488bf9880 100644
+>>> --- a/drivers/media/platform/amphion/vpu_malone.c
+>>> +++ b/drivers/media/platform/amphion/vpu_malone.c
+>>> @@ -1314,6 +1314,8 @@ static int
+>> vpu_malone_insert_scode_vc1_l_seq(struct malone_scode_t *scode)
+>>>       int size = 0;
+>>>       u8 rcv_seqhdr[MALONE_VC1_RCV_SEQ_HEADER_LEN];
+>>>
+>>> +     if (scode->inst->total_input_count)
+>>> +             return 0;
+>>>       scode->need_data = 0;
+>>>
+>>>       ret = vpu_malone_insert_scode_seq(scode,
+>>> MALONE_CODEC_ID_VC1_SIMPLE, sizeof(rcv_seqhdr)); diff --git
+>>> a/drivers/media/platform/amphion/vpu_rpc.h
+>>> b/drivers/media/platform/amphion/vpu_rpc.h
+>>> index 25119e5e807e..7eb6f01e6ab5 100644
+>>> --- a/drivers/media/platform/amphion/vpu_rpc.h
+>>> +++ b/drivers/media/platform/amphion/vpu_rpc.h
+>>> @@ -312,11 +312,16 @@ static inline int vpu_iface_input_frame(struct
+>> vpu_inst *inst,
+>>>                                       struct vb2_buffer *vb)  {
+>>>       struct vpu_iface_ops *ops = vpu_core_get_iface(inst->core);
+>>> +     int ret;
+>>>
+>>>       if (!ops || !ops->input_frame)
+>>>               return -EINVAL;
+>>>
+>>> -     return ops->input_frame(inst->core->iface, inst, vb);
+>>> +     ret = ops->input_frame(inst->core->iface, inst, vb);
+>>> +     if (ret < 0)
+>>> +             return ret;
+>>> +     inst->total_input_count++;
+>>> +     return ret;
+>>>  }
+>>>
+>>>  static inline int vpu_iface_config_memory_resource(struct vpu_inst *inst,
+> 
 
