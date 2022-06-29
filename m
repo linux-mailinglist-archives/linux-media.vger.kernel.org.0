@@ -2,78 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C28A5603A7
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 16:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95F7756049E
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 17:31:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233209AbiF2OyF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 10:54:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59018 "EHLO
+        id S233345AbiF2P3o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 11:29:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231582AbiF2OyD (ORCPT
+        with ESMTP id S229671AbiF2P3n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 10:54:03 -0400
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E4924F1F
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 07:54:01 -0700 (PDT)
-Date:   Wed, 29 Jun 2022 14:53:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-        s=protonmail2; t=1656514439; x=1656773639;
-        bh=jgx5qL+qt7rskFGOjzbeoMeHSUpyUNBp4rUtF20noHY=;
-        h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
-         References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
-         Feedback-ID:Message-ID;
-        b=RvNY50jFfbWs6i3uWd6/n0DzDoh2xDnOYu0beLZt6sSTpsrB8MWCVVUgJTJom3Uwl
-         WZ7ChuCxhpQkJE7GZc7HXyRnMAFb79ayGeHojQ06SA6mjh/lHqBKxQIVTskjkus9O0
-         nCgyQ1erYSfQy6UbK0XNLy2X6BVi5XBJ1gBCxO8Qw8oYnkCKjY7WVcuj+g804g7Twq
-         kERswDzm7RZkCejmB7BhqCqq2QXFwnEuwWw3BVA6iWGbbYpYQ0l6mf7NwPKLagYmoR
-         qL+oHWowC28FhXSArbHOnULpcuaeTAGnQZLFb5mHrwM9rvLCCihxdaqgX8tN99TWYp
-         2XSKslO0Pmgng==
-To:     Dennis Tsiang <dennis.tsiang@arm.com>
-From:   Simon Ser <contact@emersion.fr>
-Cc:     Pekka Paalanen <ppaalanen@gmail.com>,
-        Normunds Rieksts <Normunds.Rieksts@arm.com>, airlied@linux.ie,
-        tzimmermann@suse.de, Liviu Dudau <Liviu.Dudau@arm.com>,
-        linux-kernel@vger.kernel.org,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
-        david.harvey-macaulay@arm.com, Lisa Wu <lisa.wu@arm.com>,
-        nd <nd@arm.com>, sumit.semwal@linaro.org,
-        linux-media@vger.kernel.org
-Reply-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 0/1] [RFC] drm/fourcc: Add new unsigned R16_UINT/RG1616_UINT formats
-Message-ID: <o1qcCo8e19pmmNe-YJbPkmu4SBrOQ_E3u7eqdrcXUzdBccLtFswL_ARTpbrX9C10tippuy5ieXAsqdf7H47JuT7Hqa1NlizAPqVuRM0kRt4=@emersion.fr>
-In-Reply-To: <05513f59-0bd9-77cd-36d4-41027bc339be@arm.com>
-References: <AS8PR08MB81117652E417826E741154B8F8B99@AS8PR08MB8111.eurprd08.prod.outlook.com> <20220627175026.6a5dd239@eldfell> <05513f59-0bd9-77cd-36d4-41027bc339be@arm.com>
-Feedback-ID: 1358184:user:proton
+        Wed, 29 Jun 2022 11:29:43 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A7D2E9FB
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 08:29:42 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id u12so33284952eja.8
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 08:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1bQ5xBUeicswiCyCgoWOXSzl8HXEc/zsS/C+nRnRHLw=;
+        b=UXZZ5/4q4pr77stZG3P8VQIwogWOKHwYhIS5It2Sx9BolDzfNk+Yuc1JF2shx7UsAH
+         Xq++CtPNitIyfBZtlLUdWS0+ihvdKPDXE/hNZB2JAaIFmrA9MBdHD5rIaf8pLTaNdVoQ
+         F+XuyQyprFA7FPOhjdXRGx1NU6H4ttjF9igJI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1bQ5xBUeicswiCyCgoWOXSzl8HXEc/zsS/C+nRnRHLw=;
+        b=fdZ6TuMpE/wmU6ASRKBfhxL6nIuhOwYgxcWJN7OG/zbVncoc0tR6EjyACAzCp059tK
+         R2erg4Ua2ScNt5mD/6VEu3efiGeX0xThpTHY2bV1eM2kT0uUL9RdbzwiLz7IYhwArpcm
+         NcXz93czr2JNwl13YUjxi8zM3P5uCI14Kdw8lBKi2lUK0/9hf+zoM2mGlTU69Eaejc1E
+         tn/QKBAYXteJZDAGdKgDFnFlETy5R6CosswD6baZTz+v3lLQuFwDGIA2/EC4WjiSbFU8
+         lSijuiBxi9858B+8C6fi/uRfuMeiOLHMFZ7fyfB0XLsGpdP5XsRS81A1BwamT1o4fDkT
+         CqTg==
+X-Gm-Message-State: AJIora/hv+Sf5Dhtt75PaSBl6YEjvAz4+Q9ZRhFF8kT7CJOMviAQDGCN
+        9e7vGKBVOHwWE5jLuuBd97sZ5Q==
+X-Google-Smtp-Source: AGRyM1tDWQEMtvf4hXHgyrPUc2fqiuAcG98p75PvC0duiCzSjgsmt/Q90pY/bLmXO2KY88j/9Fz5pw==
+X-Received: by 2002:a17:907:60c9:b0:726:d038:9968 with SMTP id hv9-20020a17090760c900b00726d0389968mr3915400ejc.468.1656516581370;
+        Wed, 29 Jun 2022 08:29:41 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i.station (net-188-217-58-216.cust.vodafonedsl.it. [188.217.58.216])
+        by smtp.gmail.com with ESMTPSA id h1-20020a1709063c0100b006feec47dae9sm7821853ejg.157.2022.06.29.08.29.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 08:29:40 -0700 (PDT)
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     tommaso.merciai@amarulasolutions.com
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/6] media: ov5693: cleanup code and add dts support
+Date:   Wed, 29 Jun 2022 17:29:27 +0200
+Message-Id: <20220629152933.422990-1-tommaso.merciai@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wednesday, June 29th, 2022 at 16:46, Dennis Tsiang <dennis.tsiang@arm.co=
-m> wrote:
+Hi All,
+This series cleanup code on ov5693 driver and bring up dts support, also add
+documentation for ov5693 camera sensor
 
-> Thanks for your comments. This is not intended to be used for KMS, where
-> indeed there would be no difference. This proposal is for other Graphics
-> APIs such as Vulkan, which requires the application to be explicit
-> upfront about how they will interpret the data, whether that be UNORM,
-> UINT .etc. We want to be able to import dma_bufs which create a VkImage
-> with a "_UINT" VkFormat. However there is currently no explicit mapping
-> between the DRM fourccs + modifiers combos to "_UINT" VkFormats. One
-> solution is to encode that into the fourccs, which is what this RFC is
-> proposing.
+Inspired by recently Quentin series:
 
-As a general comment, I don't think it's reasonable to encode all of the
-VkFormat information inside DRM FourCC. For instance, VkFormat has SRGB/UNO=
-RM
-variants which describe whether pixel values are electrical or optical
-(IOW, EOTF-encoded or not). Moreover, other APIs may encode different
-information in their format enums.
+ - https://patchwork.kernel.org/project/linux-media/list/?series=64807
+
+Tommaso Merciai (6):
+  media: ov5693: count num_supplies using array_size
+  media: ov5693: add dvdd into ov5693_supply_names array
+  media: ov5693: rename clk into xvclk
+  media: ov5693: move hw cfg functions into ov5693_hwcfg
+  media: dt-bindings: ov5693: document YAML binding
+  media: ov5693: add ov5693_of_match, dts support
+
+ .../bindings/media/i2c/ovti,ov5693.yaml       | 106 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/ov5693.c                    |  86 ++++++++------
+ 3 files changed, 159 insertions(+), 34 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+
+-- 
+2.25.1
+
