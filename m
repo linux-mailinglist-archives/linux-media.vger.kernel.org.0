@@ -2,221 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E646F55FB93
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 11:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A65E755FBB2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 11:20:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbiF2JPU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 05:15:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
+        id S231835AbiF2JTU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 29 Jun 2022 05:19:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232370AbiF2JPT (ORCPT
+        with ESMTP id S231918AbiF2JTT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 05:15:19 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED11A28E25
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 02:15:17 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id mf9so31375491ejb.0
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 02:15:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=L7wjVzwYiQNNDss7ZeyhgJmoh/+dTEb2fLiC8HBD/kk=;
-        b=bt1EKqzTrBt5h8uv3/tx1sCxbmzEk6oLQ3N+mybSM2M5wIY8sV+dJdem2fNUDAl6bX
-         9hUoGAaWDyNgrQyjCNTjMvNhLXjRzPTJ13QO2L9UB9tWN3kMqJY6Okc2EwPM8kxeoM47
-         oKknoyLf5gF7OzH8/0dPuGMt+YcBOYKEnYwCc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=L7wjVzwYiQNNDss7ZeyhgJmoh/+dTEb2fLiC8HBD/kk=;
-        b=G5EAWdZD5bPzbkd2uz5oV2dw4WpFIEN/jWiz69s7WreBLCNd8AAfy3DO8SELh0iZIf
-         kxEholjJvKdUyJIlvjNy0OYCBHrQlKHUmS4HzjzsYhznIFh6wtBdRJoAsFDhil/NvsK7
-         p0UyBCR3IIg7IlbEBdyI5S4lZyCnD2iOBH98zQ+XqLZFiZbWHGi2jaLwjIfyjuTPSUVk
-         teobkepfxwLE2NpODgUqh+A69lXkGuZFegIdDcj+IWEZQKgTpBcuZ+6Po2beoxVccRcv
-         bVphLPhsxUwb1hOgagUmXFFaQvtW4yDJZ9wfXN2ddBMVUq9ilSl6jLfrN00AH5/QYVEW
-         exng==
-X-Gm-Message-State: AJIora/UA+/n5fd6SF972JPSzkgL7w0ed6UJema0OAks76iujJP/5aTZ
-        iFjPnmVvZVvY+kF4TbLg9rCung==
-X-Google-Smtp-Source: AGRyM1tke9XKBdzZQLV5gX3xfKF5wJ/OjBVDZjKsRrNDkB5m8P24fXXPItsPsDZxmwic52HeVrjdMQ==
-X-Received: by 2002:a17:906:2bda:b0:726:3b59:3ea9 with SMTP id n26-20020a1709062bda00b007263b593ea9mr2217117ejg.43.1656494116450;
-        Wed, 29 Jun 2022 02:15:16 -0700 (PDT)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-58-216.cust.vodafonedsl.it. [188.217.58.216])
-        by smtp.gmail.com with ESMTPSA id r1-20020aa7cb81000000b004357b717a96sm10977159edt.85.2022.06.29.02.15.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 02:15:16 -0700 (PDT)
-Date:   Wed, 29 Jun 2022 11:15:14 +0200
-From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Daniel Scally <djrscally@gmail.com>, linuxfancy@googlegroups.com,
-        linux-amarula@amarulasolutions.com,
-        quentin.schulz@theobroma-systems.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/7] media: ov5693: move hw cfg functions into
- ov5693_check_hwcfg
-Message-ID: <20220629091514.GB381128@tom-ThinkPad-T14s-Gen-2i>
-References: <20220627150453.220292-1-tommaso.merciai@amarulasolutions.com>
- <20220627150453.220292-5-tommaso.merciai@amarulasolutions.com>
- <20220629081635.zvdj6pzodg4rhrdf@uno.localdomain>
+        Wed, 29 Jun 2022 05:19:19 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2BB13631A
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 02:19:18 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o6Tqv-0075hz-45; Wed, 29 Jun 2022 09:19:17 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o6Tqt-007Emp-8v; Wed, 29 Jun 2022 09:19:14 +0000
+Date:   Wed, 29 Jun 2022 09:19:14 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <492599599.0.1656494354633@builder.linuxtv.org>
+In-Reply-To: <1560692231.0.1656407954030@builder.linuxtv.org>
+References: <1560692231.0.1656407954030@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3944
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220629081635.zvdj6pzodg4rhrdf@uno.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+See <https://builder.linuxtv.org/job/media-build/3944/display/redirect>
 
-On Wed, Jun 29, 2022 at 10:16:35AM +0200, Jacopo Mondi wrote:
-> Hi Tommaso,
-> 
-> On Mon, Jun 27, 2022 at 05:04:50PM +0200, Tommaso Merciai wrote:
-> > Move hw configuration functions into ov5693_check_hwcfg. This is done to
-> > separe the code that handle the hw cfg from probe in a clean way
-> 
-> s/separe/separate/
-> 
-> You also seem to change the logic of the clk handling, please mention
-> this in the commit message, otherwise one could be fooled into
-> thinking you're only moving code around with no functional changes...
+Changes:
 
-Right. I'll add some comments on support to get clock-frequency using
-fwnode_property_read_u32 in v3
 
-> 
-> >
-> > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> > ---
-> >  drivers/media/i2c/ov5693.c | 53 +++++++++++++++++++++++---------------
-> >  1 file changed, 32 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-> > index d2adc5513a21..d5a934ace597 100644
-> > --- a/drivers/media/i2c/ov5693.c
-> > +++ b/drivers/media/i2c/ov5693.c
-> > @@ -1348,6 +1348,38 @@ static int ov5693_check_hwcfg(struct ov5693_device *ov5693)
-> >  	struct fwnode_handle *endpoint;
-> >  	unsigned int i;
-> >  	int ret;
-> > +	u32 xvclk_rate;
-> 
-> nit: move it up to maintain reverse-xmas-tree order (I know, it's an
-> annoying comment, but since variables are already declared in this order..)
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+Commit message: "versions.txt: IMON builds for 4.11 and up only"
+ > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3943' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
+[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@287c9fb7'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins18337692973048829403.sh
++ make distclean
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
+	config-compat.h Module.symvers Module.markers modules.order \
+	*.unsigned .*.ko.unsigned.cmd
+rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
+	Kconfig Kconfig.kern .config .config.cmd .myconfig \
+	.kconfig.dep config-mycompat.h
+rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
+rm -f scripts/lxdialog scripts/kconfig
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
 
-No problem :)
-I'll do it in v3.
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
-> 
-> > +
-> > +	ov5693->xvclk = devm_clk_get(ov5693->dev, "xvclk");
-> 
-> Isn't this broken ?
-> 
-> if you use ov5693->xvclk to identify the ACPI vs OF use case shouldn't
-> you use the get_optionl() version ? Otherwise in the ACPI case you will have
-> -ENOENT if there's not 'xvclk' property and bail out.
+Not aborted. It means that the licence was agreed. Proceeding...
 
-You are right, devm_clk_get_optional is the correct way.
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2022-06-29 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2022-06-29 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-Thanks,
-Tommaso
+     0K                                                       100% 83.9M=0s
 
-> 
-> Unless my understanding is wrong on ACPI we have "clock-frequency" and
-> on OF "xvclk" with an "assigned-clock-rates",
-> 
-> Dan you upstreamed this driver and I assume it was tested on ACPI ?
-> Can you clarify how this worked for you, as it seems the original code
-> wanted a mandatory "xvclk" ? Are there ACPI tables with an actual
-> 'xvclk' property ?
-> 
-> > +	if (IS_ERR(ov5693->xvclk))
-> > +		return dev_err_probe(ov5693->dev, PTR_ERR(ov5693->xvclk),
-> > +				     "failed to get xvclk: %ld\n",
-> > +				     PTR_ERR(ov5693->xvclk));
-> > +
-> > +	if (ov5693->xvclk) {
-> > +		xvclk_rate = clk_get_rate(ov5693->xvclk);
-> > +	} else {
-> > +		ret = fwnode_property_read_u32(fwnode, "clock-frequency",
-> > +					       &xvclk_rate);
-> > +
-> > +		if (ret) {
-> > +			dev_err(ov5693->dev, "can't get clock frequency");
-> > +			return ret;
-> > +		}
-> > +	}
-> > +
-> > +	if (xvclk_rate != OV5693_XVCLK_FREQ)
-> > +		dev_warn(ov5693->dev, "Found clk freq %u, expected %u\n",
-> > +			 xvclk_rate, OV5693_XVCLK_FREQ);
-> > +
-> > +	ret = ov5693_configure_gpios(ov5693);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = ov5693_get_regulators(ov5693);
-> > +	if (ret)
-> > +		return dev_err_probe(ov5693->dev, ret,
-> > +				     "Error fetching regulators\n");
-> >
-> >  	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> >  	if (!endpoint)
-> > @@ -1390,7 +1422,6 @@ static int ov5693_check_hwcfg(struct ov5693_device *ov5693)
-> >  static int ov5693_probe(struct i2c_client *client)
-> >  {
-> >  	struct ov5693_device *ov5693;
-> > -	u32 xvclk_rate;
-> >  	int ret = 0;
-> >
-> >  	ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
-> > @@ -1408,26 +1439,6 @@ static int ov5693_probe(struct i2c_client *client)
-> >
-> >  	v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
-> >
-> > -	ov5693->xvclk = devm_clk_get(&client->dev, "xvclk");
-> > -	if (IS_ERR(ov5693->xvclk)) {
-> > -		dev_err(&client->dev, "Error getting clock\n");
-> > -		return PTR_ERR(ov5693->xvclk);
-> > -	}
-> > -
-> > -	xvclk_rate = clk_get_rate(ov5693->xvclk);
-> > -	if (xvclk_rate != OV5693_XVCLK_FREQ)
-> > -		dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
-> > -			 xvclk_rate, OV5693_XVCLK_FREQ);
-> > -
-> > -	ret = ov5693_configure_gpios(ov5693);
-> > -	if (ret)
-> > -		return ret;
-> > -
-> > -	ret = ov5693_get_regulators(ov5693);
-> > -	if (ret)
-> > -		return dev_err_probe(&client->dev, ret,
-> > -				     "Error fetching regulators\n");
-> > -
-> >  	ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> >  	ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
-> >  	ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> > --
-> > 2.25.1
-> >
+2022-06-29 09:19:10 (83.9 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
--- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
-
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
