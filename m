@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F62C55FDF1
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 12:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02D1055FDE5
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jun 2022 12:54:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233153AbiF2Kvv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 06:51:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58806 "EHLO
+        id S233199AbiF2Kvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 06:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233016AbiF2Kvt (ORCPT
+        with ESMTP id S233055AbiF2Kvu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 06:51:49 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6B3B2654D;
-        Wed, 29 Jun 2022 03:51:48 -0700 (PDT)
+        Wed, 29 Jun 2022 06:51:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF852AE29;
+        Wed, 29 Jun 2022 03:51:49 -0700 (PDT)
 Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1EAA8B8;
-        Wed, 29 Jun 2022 12:51:41 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 248B3B90;
+        Wed, 29 Jun 2022 12:51:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1656499902;
-        bh=/ODml13RqBS0DDohC1cVSiUhCPL+LfhlCXeGHrabxhU=;
+        bh=9xtAjflwfRsZm3JtLlvi7xOgYHlks19nXesRmLhGUqQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ny3mxfWpJZnww8kqv1pdRntIOtMZoPbDZfVzFEDG+C2eaha6JtJDHihI36pJ5vfSl
-         ecejjAjTKjOI16COFQrwDx2oLFGpvnuHhV7dyYwsuMhFasAk7mRaocrhi+8XuY1yHu
-         Ytsx13P7alamhFOB+/p0MTGL7xTUne9UoNtFxOi4=
+        b=UvrQqfd4utrKt9Lh3k7deYtNnsaUexVWHdNWlvKbb08Ac68VbQ8tmyMCzjShv3abr
+         KcYxdi9DwcoELY+SYhudkQ4yMn70jzW7Hh6+oMdw+26O7LHbEh1afwdKw342ZlmQni
+         NIebWh8clAz1F29SgoIEql7hA0Fme1ckFv1f9te0=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
         Eugeniu Rosca <erosca@de.adit-jv.com>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH 6/7] v4l: vsp1: Provide video node debugfs entries
-Date:   Wed, 29 Jun 2022 11:51:34 +0100
-Message-Id: <20220629105135.2652773-7-kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH 7/7] v4l: vsp1: debugfs: Add DLM directory
+Date:   Wed, 29 Jun 2022 11:51:35 +0100
+Message-Id: <20220629105135.2652773-8-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220629105135.2652773-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20220629105135.2652773-1-kieran.bingham+renesas@ideasonboard.com>
@@ -47,198 +47,171 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Expose a debugfs file for each video node such that useful statistics
-and performance metrics can be identified
+Provide the ability to output a display list in use over debugfs.
+
+In the event that the hardware has hung, it should be possible to
+identify the current/most recent display list written to hardware by
+viewing the DLM->active file:
+
+ cat /debugfs/fe9a0000.vsp/DLM/active
+
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+--
+2021-05-05:
+ - Don't store dentry pointers which are not used
 
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- drivers/media/platform/renesas/vsp1/vsp1.h    |  1 +
- .../platform/renesas/vsp1/vsp1_debugfs.c      | 39 +++++++++++++++++++
- .../platform/renesas/vsp1/vsp1_debugfs.h      |  8 ++++
- .../media/platform/renesas/vsp1/vsp1_video.c  | 14 ++++++-
- .../media/platform/renesas/vsp1/vsp1_video.h  |  9 +++++
- 5 files changed, 70 insertions(+), 1 deletion(-)
+ drivers/media/platform/renesas/vsp1/vsp1_dl.c | 107 ++++++++++++++++++
+ 1 file changed, 107 insertions(+)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
-index 1951d350b60a..774f006d9b6a 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1.h
-@@ -38,6 +38,7 @@ struct vsp1_rwpf;
- struct vsp1_sru;
- struct vsp1_uds;
- struct vsp1_uif;
-+struct vsp1_video;
- 
- #define VSP1_MAX_LIF		2
- #define VSP1_MAX_RPF		5
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_debugfs.c b/drivers/media/platform/renesas/vsp1/vsp1_debugfs.c
-index 0340acd3209b..fbee914de47c 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_debugfs.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_debugfs.c
-@@ -17,6 +17,7 @@
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+index ad3fa1c9cc73..f75ecc5b485e 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+@@ -17,6 +17,8 @@
  #include "vsp1.h"
- #include "vsp1_rwpf.h"
- #include "vsp1_pipe.h"
-+#include "vsp1_video.h"
+ #include "vsp1_dl.h"
  
- #include "vsp1_debugfs.h"
++#include "vsp1_debugfs.h"
++
+ #define VSP1_DL_NUM_ENTRIES		256
  
-@@ -522,3 +523,41 @@ void vsp1_debugfs_remove(struct vsp1_device *vsp1)
- 	debugfs_remove_recursive(vsp1->dbgroot);
- 	vsp1_device_put(vsp1);
+ #define VSP1_DLH_INT_ENABLE		(1 << 1)
+@@ -226,6 +228,8 @@ struct vsp1_dl_manager {
+ 
+ 	struct vsp1_dl_body_pool *pool;
+ 	struct vsp1_dl_cmd_pool *cmdpool;
++
++	struct dentry *dbgroot;
+ };
+ 
+ /* -----------------------------------------------------------------------------
+@@ -1086,6 +1090,105 @@ struct vsp1_dl_body *vsp1_dlm_dl_body_get(struct vsp1_dl_manager *dlm)
+ 	return vsp1_dl_body_get(dlm->pool);
  }
-+
-+
-+/*
-+ * VSP1 Video Debugfs nodes
+ 
++/* -----------------------------------------------------------------------------
++ * Debugfs internal views
 + */
-+static int vsp1_video_stats(struct seq_file *s, void *p)
++
++static void seq_print_list_body(struct seq_file *s, struct vsp1_dl_body *dlb)
 +{
-+	struct vsp1_video *video = s->private;
++	int i;
 +
-+	seq_puts(s, "Reading from a struct vsp1_video node\n");
++	for (i = 0; i < dlb->num_entries; i++) {
++		struct vsp1_dl_entry *e = &dlb->entries[i];
 +
-+	seq_printf(s,	" buffer_queued %d\n"
-+			" buffer_done %d\n"
-+			" buffer_failed %d\n",
-+			video->statistics.buffer_queued,
-+			video->statistics.buffer_done,
-+			video->statistics.buffer_failed);
++		seq_printf(s, "0x%08x -> %s\n", e->data,
++			   vsp1_reg_to_name(e->addr));
++	}
++}
++
++static void seq_printf_dl(struct seq_file *s, struct vsp1_dl_list *dl)
++{
++	struct vsp1_dl_body *dlb;
++	struct vsp1_dl_list *child;
++
++	if (!dl)
++		return;
++
++	seq_print_list_body(s, dl->body0);
++
++	list_for_each_entry(dlb, &dl->bodies, list)
++		seq_print_list_body(s, dlb);
++
++	if (dl->has_chain)
++		list_for_each_entry(child, &dl->chain, chain)
++			seq_print_list_body(s, child->body0);
++}
++
++static int vsp1_debugfs_dlm_active(struct seq_file *s, void *p)
++{
++	struct vsp1_dl_manager *dlm = s->private;
++
++	seq_printf_dl(s, dlm->active);
 +
 +	return 0;
 +}
 +
-+DEBUGFS_RO_ATTR(vsp1_video_stats);
++DEBUGFS_RO_ATTR(vsp1_debugfs_dlm_active);
 +
-+void vsp1_debugfs_create_video_stats(struct vsp1_video *video, const char *name)
++static int vsp1_debugfs_dlm_pending(struct seq_file *s, void *p)
 +{
-+	struct vsp1_device *vsp1 = video->vsp1;
++	struct vsp1_dl_manager *dlm = s->private;
 +
-+	/* dentry pointer discarded */
-+	video->debugfs_file = debugfs_create_file(name,
-+					0444, vsp1->dbgroot, video,
-+					&vsp1_video_stats_fops);
++	seq_printf_dl(s, dlm->pending);
++
++	return 0;
 +}
 +
-+void vsp1_debugfs_cleanup_video_stats(struct vsp1_video *video)
++DEBUGFS_RO_ATTR(vsp1_debugfs_dlm_pending);
++
++static int vsp1_debugfs_dlm_queued(struct seq_file *s, void *p)
 +{
-+	debugfs_remove(video->debugfs_file);
-+	video->debugfs_file = NULL;
++	struct vsp1_dl_manager *dlm = s->private;
++
++	seq_printf_dl(s, dlm->queued);
++
++	return 0;
 +}
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_debugfs.h b/drivers/media/platform/renesas/vsp1/vsp1_debugfs.h
-index c2a7f232ed44..2a6aac0a5940 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_debugfs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_debugfs.h
-@@ -32,6 +32,10 @@
- int vsp1_debugfs_init(struct vsp1_device *vsp1);
- void vsp1_debugfs_remove(struct vsp1_device *vsp1);
- char *vsp1_reg_to_name(u32 offset);
 +
-+void vsp1_debugfs_create_video_stats(struct vsp1_video *video,
-+		const char *name);
-+void vsp1_debugfs_cleanup_video_stats(struct vsp1_video *video);
- #else
- static inline int vsp1_debugfs_init(struct vsp1_device *vsp1)
- {
-@@ -44,6 +48,10 @@ static inline char *vsp1_reg_to_name(u32 offset)
- {
- 	return "<>";
- }
++DEBUGFS_RO_ATTR(vsp1_debugfs_dlm_queued);
 +
-+static inline vsp1_debugfs_create_video_stats(struct vsp1_video *video,
-+		const char *name) { };
-+static inline vsp1_debugfs_cleanup_video_stats(struct vsp1_video *video) { };
- #endif /* CONFIG_DEBUG_FS */
- 
- #endif /* __VSP1_DEBUGFS_H__ */
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-index 51219b1b6ea9..813be13bb84b 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-@@ -25,6 +25,7 @@
- 
- #include "vsp1.h"
- #include "vsp1_brx.h"
-+#include "vsp1_debugfs.h"
- #include "vsp1_dl.h"
- #include "vsp1_entity.h"
- #include "vsp1_hgo.h"
-@@ -342,6 +343,7 @@ vsp1_video_complete_buffer(struct vsp1_video *video)
- 		vb2_set_plane_payload(&done->buf.vb2_buf, i,
- 				      vb2_plane_size(&done->buf.vb2_buf, i));
- 	vb2_buffer_done(&done->buf.vb2_buf, VB2_BUF_STATE_DONE);
-+	video->statistics.buffer_done++;
- 
- 	return next;
- }
-@@ -768,6 +770,8 @@ static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
- 	list_add_tail(&buf->queue, &video->irqqueue);
- 	spin_unlock_irqrestore(&video->irqlock, flags);
- 
-+	video->statistics.buffer_queued++;
++/* Debugfs initialised after entities are created */
++static int vsp1_debugfs_init_dlm(struct vsp1_dl_manager *dlm)
++{
++	struct vsp1_device *vsp1 = dlm->vsp1;
 +
- 	if (!empty)
- 		return;
- 
-@@ -839,8 +843,10 @@ static void vsp1_video_release_buffers(struct vsp1_video *video)
- 
- 	/* Remove all buffers from the IRQ queue. */
- 	spin_lock_irqsave(&video->irqlock, flags);
--	list_for_each_entry(buffer, &video->irqqueue, queue)
-+	list_for_each_entry(buffer, &video->irqqueue, queue) {
- 		vb2_buffer_done(&buffer->buf.vb2_buf, VB2_BUF_STATE_ERROR);
-+		video->statistics.buffer_failed++;
-+	}
- 	INIT_LIST_HEAD(&video->irqqueue);
- 	spin_unlock_irqrestore(&video->irqlock, flags);
- }
-@@ -1310,6 +1316,9 @@ struct vsp1_video *vsp1_video_create(struct vsp1_device *vsp1,
- 		goto error;
++	dlm->dbgroot = debugfs_create_dir("DLM", vsp1->dbgroot);
++	if (!dlm->dbgroot)
++		return -ENOMEM;
++
++	/* dentry pointers discarded */
++	debugfs_create_file("active", 0444, dlm->dbgroot, dlm,
++			    &vsp1_debugfs_dlm_active_fops);
++
++	debugfs_create_file("pending", 0444, dlm->dbgroot, dlm,
++			    &vsp1_debugfs_dlm_pending_fops);
++
++	debugfs_create_file("queued", 0444, dlm->dbgroot, dlm,
++			    &vsp1_debugfs_dlm_queued_fops);
++
++	return 0;
++}
++
++static void vsp1_debugfs_destroy_dlm(struct vsp1_dl_manager *dlm)
++{
++	debugfs_remove(dlm->dbgroot);
++	dlm->dbgroot = NULL;
++}
++
++/* -----------------------------------------------------------------------------
++ * Object creation and destruction
++ */
++
+ struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
+ 					unsigned int index,
+ 					unsigned int prealloc)
+@@ -1149,6 +1252,8 @@ struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
+ 		}
  	}
  
-+	/* Create a Video debugfs node */
-+	vsp1_debugfs_create_video_stats(video, video->video.name);
++	vsp1_debugfs_init_dlm(dlm);
 +
- 	return video;
- 
- error:
-@@ -1319,6 +1328,9 @@ struct vsp1_video *vsp1_video_create(struct vsp1_device *vsp1,
- 
- void vsp1_video_cleanup(struct vsp1_video *video)
- {
-+	/* Remove any debugfs entries */
-+	vsp1_debugfs_cleanup_video_stats(video);
-+
- 	if (video_is_registered(&video->video))
- 		video_unregister_device(&video->video);
- 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.h b/drivers/media/platform/renesas/vsp1/vsp1_video.h
-index f3cf5e2fdf5a..a9499822c7d6 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_video.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_video.h
-@@ -28,6 +28,12 @@ to_vsp1_vb2_buffer(struct vb2_v4l2_buffer *vbuf)
- 	return container_of(vbuf, struct vsp1_vb2_buffer, buf);
+ 	return dlm;
  }
  
-+struct vsp1_video_stats {
-+	u32 buffer_queued;
-+	u32 buffer_done;
-+	u32 buffer_failed;
-+};
-+
- struct vsp1_video {
- 	struct list_head list;
- 	struct vsp1_device *vsp1;
-@@ -44,6 +50,9 @@ struct vsp1_video {
- 	struct vb2_queue queue;
- 	spinlock_t irqlock;
- 	struct list_head irqqueue;
-+
-+	struct dentry *debugfs_file;
-+	struct vsp1_video_stats statistics;
- };
+@@ -1159,6 +1264,8 @@ void vsp1_dlm_destroy(struct vsp1_dl_manager *dlm)
+ 	if (!dlm)
+ 		return;
  
- static inline struct vsp1_video *to_vsp1_video(struct video_device *vdev)
++	vsp1_debugfs_destroy_dlm(dlm);
++
+ 	list_for_each_entry_safe(dl, next, &dlm->free, list) {
+ 		list_del(&dl->list);
+ 		vsp1_dl_list_free(dl);
 -- 
 2.34.1
 
