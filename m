@@ -2,122 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34C285612FF
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 09:13:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E082561377
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 09:45:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232660AbiF3HNK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 03:13:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41188 "EHLO
+        id S233128AbiF3Hpb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 03:45:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232006AbiF3HNI (ORCPT
+        with ESMTP id S232259AbiF3Hpa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 03:13:08 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3B3C32;
-        Thu, 30 Jun 2022 00:13:06 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 2190F1B0011F;
-        Thu, 30 Jun 2022 10:13:01 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1656573181;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=V1GwN0phV9CjwytxwcYqLBT2uIOvBqBalT04SfuO9pw=;
-        b=Gthv/RBugMz0hoKp2zMArTAEwk55ve2VoWRwSJijYDKS7hkdXHXFCUqcY+kyilCiA6m1Rz
-        iQG742j+7Qsuzcty4uPmq7EneOAsj+H1+5cKQGVIxAlfy7vjdEU7gA9aWf63frO0FPLDTf
-        3DTOODnFj0lW0W86cWXU2+PVSx6WQG5WmLGdbXmEl46oaMWyuydMkKg/lKVKl0gCf8NjVz
-        7Wz2b+ZAzBUBG1t7EBhHh68LQIfc14qPsVe4bCFAtG/yvHj0NivFsCfo4yQe1ztf2pgU63
-        4HXMMCId/iSGdFmgYMFHN2CHnw+feEtDwoT/ITAcV//2rXEn23a8Hic3N8YWdg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AA1A0634C92;
-        Thu, 30 Jun 2022 10:13:00 +0300 (EEST)
-Date:   Thu, 30 Jun 2022 10:13:00 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Joe Perches <joe@perches.com>
-Subject: Re: [PATCH v8 2/2] On Semi AR0521 sensor driver
-Message-ID: <Yr1M/EKiB3O3QwKJ@valkosipuli.retiisi.eu>
-References: <m3pmn66pie.fsf@t19.piap.pl>
- <m3h78i6p4t.fsf@t19.piap.pl>
- <20220301093107.ihokyp4xptkzpbpc@uno.localdomain>
- <m38rtt7sx7.fsf@t19.piap.pl>
- <20220301143044.2l4vlwbnh5n3g5ng@uno.localdomain>
- <m37d7ufrzx.fsf@t19.piap.pl>
- <m3pmkryywn.fsf@t19.piap.pl>
- <YrziTabYLlZ2bX+1@valkosipuli.retiisi.eu>
- <m34k027p0t.fsf@t19.piap.pl>
+        Thu, 30 Jun 2022 03:45:30 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3DB13A70A
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 00:45:29 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id pk21so37349454ejb.2
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 00:45:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1bQ5xBUeicswiCyCgoWOXSzl8HXEc/zsS/C+nRnRHLw=;
+        b=MqUApkH3IhdDDAQERHu8jscTu/xWLn5Y6gjqmoblfKwDcuQh0Lipffts8j53u3Fv5o
+         u1RyUJkoGiP/8EDBK1hsHMOJBPVm9ACoUFvIHdK7v5uigsMbGHYH5Z7OFps0GQlwlk5b
+         SqS3lJduk87pseVscd1HrlxZduxRrlfoINkNw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1bQ5xBUeicswiCyCgoWOXSzl8HXEc/zsS/C+nRnRHLw=;
+        b=XYzG8AzAdB7NTQ7Jb7606LaX6nivmC0BTK9lNB8V045+VGI9k1md0vTJDF2h7nDwXo
+         iBXmFdQ1IQiNTGcBH9oN4z/ZtTFgndiPPFsbXaorL2RetCDsqtsYjss6Ylf9CWhZlM7M
+         wHdgN9hAkNyhuxahpg/92379DtnCbqS8BuFuUraf+O8qqyX5qhpVrPgQYn+FXsnxKMjo
+         Bsw+ct9r86Rkjo1UGEAbTKYnvKzox8f2HuOTplQ+2ez+HTWRMp3JwqPa3fakTzgvDZFP
+         XEOnV5u5qcMACWprBHkozizA8TxPBuRmqDlx9piRyoIQwXlgbGq7cAbp+u421Ovqky67
+         TwAA==
+X-Gm-Message-State: AJIora+p8Vd4U9m7VFkrbdNXu60i/zPq/eGvukxpdD9o5mwNGETbiPcm
+        8F0SASJoGefBHKf06KgjVjyvjg==
+X-Google-Smtp-Source: AGRyM1uCrkNlFcdv5mI1wZbzA78y48xRik4PhDZD5io5u7jyAp3cvz7Y/r51YYwfJ+xH6Rd1t9QMqQ==
+X-Received: by 2002:a17:906:dc93:b0:726:a75b:f60f with SMTP id cs19-20020a170906dc9300b00726a75bf60fmr7346462ejc.564.1656575128346;
+        Thu, 30 Jun 2022 00:45:28 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i.station (net-188-217-58-216.cust.vodafonedsl.it. [188.217.58.216])
+        by smtp.gmail.com with ESMTPSA id b13-20020aa7c90d000000b0043564320274sm12594731edt.19.2022.06.30.00.45.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 00:45:28 -0700 (PDT)
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     tommaso.merciai@amarulasolutions.com
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/6] media: ov5693: cleanup code and add dts support
+Date:   Thu, 30 Jun 2022 09:45:19 +0200
+Message-Id: <20220630074525.481790-1-tommaso.merciai@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <m34k027p0t.fsf@t19.piap.pl>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1656573181; a=rsa-sha256;
-        cv=none;
-        b=iNiVeHwqQQCk57kl0NoRN7AguPz2HMb/sFxpOcl4beY4fUoi9OcESZ6qqcPfvpRAqtZHJ0
-        XrY9m2BVlddYYnggQOwWQ88Z2EqUYAHDAaoAqdXKvSRgBBoW8Q55+ubixGp2jth5UX3gkN
-        0m65w+4fBK0K5igDTgp85oTNJPEqG4TyOw9LsfNY3mKSPcDTpdmWkF8K2K9lO/OddGaVBf
-        zz+DsxX6rhAgbIr3Ijo7MwV7gefyU2mei6OqDdzREP4+UM7KuWwoloiVEOwenVsKCThmgK
-        aTj1N4gB8++3+SFfyhh0jaGIs5Ourn2wCZgC/IpHh/5X1MSpmWoNLKIov2QvOg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1656573181;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=V1GwN0phV9CjwytxwcYqLBT2uIOvBqBalT04SfuO9pw=;
-        b=JO0K2X5dwYwNpWk6APkpLLdieikNGykTZsqK41tRLOiduIIpi5t5h/IvkYpy5XbjjR4DHO
-        rQAkX/1zPmqSEYOsF4pT3Be2xJrk+8Egq77tRpQcFQrGsREgjjHVkxk5oHk97j+fpjxt+J
-        +qElXiXSuraUMQ2MM45K38dVjcrkJy+WNjWbwQ1d3szGiWo24BAgzb1ARk3nguqjXrlIXE
-        B+3AufbJzusn/5LV6iCOTKdVlOKCVq5jJBQrUPo0+XW4TXpekUdqOSMsZA9gWEduXH36UU
-        t05XeVWkE86wsbXTroceYLc2YhexrkOcyBrFj6P0hzzWHM0F/9/xsxuDEJ0AOQ==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 30, 2022 at 06:29:06AM +0200, Krzysztof Hałasa wrote:
-> Hi Sakari,
-> 
-> Sakari Ailus <sakari.ailus@iki.fi> writes:
-> 
-> > I've
-> > applied it with these changes:
-> >
-> > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-> ...
-> > @@ -1056,4 +1058,4 @@ module_i2c_driver(ar0521_i2c_driver);
-> >  
-> >  MODULE_DESCRIPTION("AR0521 MIPI Camera subdev driver");
-> >  MODULE_AUTHOR("Krzysztof Hałasa <khalasa@piap.pl>");
-> > -MODULE_LICENSE("GPL v2");
-> > +MODULE_LICENSE("GPL");
-> 
-> Why did you change this? Are now "GPL v2" tags forbidden in
-> drivers/media?
+Hi All,
+This series cleanup code on ov5693 driver and bring up dts support, also add
+documentation for ov5693 camera sensor
 
-It merely exists for compatibility reasons.
+Inspired by recently Quentin series:
+
+ - https://patchwork.kernel.org/project/linux-media/list/?series=64807
+
+Tommaso Merciai (6):
+  media: ov5693: count num_supplies using array_size
+  media: ov5693: add dvdd into ov5693_supply_names array
+  media: ov5693: rename clk into xvclk
+  media: ov5693: move hw cfg functions into ov5693_hwcfg
+  media: dt-bindings: ov5693: document YAML binding
+  media: ov5693: add ov5693_of_match, dts support
+
+ .../bindings/media/i2c/ovti,ov5693.yaml       | 106 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/ov5693.c                    |  86 ++++++++------
+ 3 files changed, 159 insertions(+), 34 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
 
 -- 
-Sakari Ailus
+2.25.1
+
