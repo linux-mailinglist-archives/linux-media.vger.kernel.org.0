@@ -2,33 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD496561059
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 06:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83BFA56106F
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 07:02:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbiF3Elb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 00:41:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50398 "EHLO
+        id S231300AbiF3FCo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 01:02:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbiF3Ela (ORCPT
+        with ESMTP id S229520AbiF3FCm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 00:41:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3792E3CFD7
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 21:41:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 30 Jun 2022 01:02:42 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 384E924F25;
+        Wed, 29 Jun 2022 22:02:40 -0700 (PDT)
+Received: from localhost (x52716227.dyn.telefonica.de [82.113.98.39])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C2A4562110
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 04:41:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4323C34115
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 04:41:27 +0000 (UTC)
-Date:   Thu, 30 Jun 2022 06:41:26 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220630044127.D4323C34115@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        (Authenticated sender: sebastianfricke)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8E0EA660180F;
+        Thu, 30 Jun 2022 06:02:37 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656565357;
+        bh=C0MEJ8RoUHajonH88jeHPrnptqSc55tkjzGmwr0LYVw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gRetQotZF6BpIIlQHx+BrzBr5wPQXgziE0uiSghLBZLROLehQjeU01spqEGxoDV5W
+         UwjtfCh07eAvMUlb99DfwclnyeB2sLg1oBWTy7b1K0g4A5cOMtPbM+DP+OJ6qeBi2p
+         FWFPbDgdTqwI732K3lbfdkj8tXiZlpnIL1+aSTmwoDpOh2kS5oLO0xfi8u19pYpMU8
+         YgwSIkKuv+FxRi0E2OitNNTdobLplVP1H7r/u4bjW+OVYMyDn//hS9dl3MQxj6MroW
+         sliVqlP3EBTLqBKUN1IqwPnt1IVUyKrBGq7tQKSlVEPWZQua05YiYK67ABXsSj9MV2
+         XzQSJfttGwLMw==
+Date:   Thu, 30 Jun 2022 07:02:32 +0200
+From:   Sebastian Fricke <sebastian.fricke@collabora.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH] hantro: Remove incorrect HEVC SPS validation
+Message-ID: <20220630050232.bpntbghouslye3l3@basti-XPS-13-9310>
+References: <20220629195624.45745-1-ezequiel@vanguardiasur.com.ar>
+ <20220629195624.45745-2-ezequiel@vanguardiasur.com.ar>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220629195624.45745-2-ezequiel@vanguardiasur.com.ar>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,61 +57,132 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hey Ezequiel,
 
-Results of the daily build of media_tree:
+On 29.06.2022 16:56, Ezequiel Garcia wrote:
+>Currently, the driver tries to validat the HEVC SPS
 
-date:			Thu Jun 30 05:00:05 CEST 2022
-media-tree git hash:	d8e8aa866ed8636fd6c1017c3d9453eab2922496
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	33ad0c66db3aac8a9d72864ac84a2fb65d7a6878
-edid-decode git hash:	582c935652b0303b87ddad4551e6f97f8bb883ac
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8047-g2aeb5534-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 91f84ece3e3913f585d616d95c62decf7ca58e1f
-host hardware:		x86_64
-host os:		5.18.0-1-amd64
+s/validat/validate/
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-multi: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 2
-sparse: OK
-smatch: OK
-kerneldoc: OK
+>against the CAPTURE queue format (i.e. the decoded format).
+>This is not correct, because typically the SPS control is set
+>before the CAPTURE queue is negotiated.
+>
+>In addition to this, a format validation in hantro_hevc_dec_prepare_run()
+>is also suboptimal, because hantro_hevc_dec_prepare_run() runs in the context
+>of v4l2_m2m_ops.device_run, as part of a decoding job.
+>
+>Format and control validations should happen before decoding starts,
+>in the context of ioctls such as S_CTRL, S_FMT, or STREAMON.
+>
+>Remove the validation for now.
 
-Detailed results are available here:
+Couldn't we add a small wrapper around STREAMON to perform that
+validation? I feel like "remove the validation for now", seems like a
+vague statement.
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+Greetings,
+Sebastian
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+>
+>Fixes: 135ad96cb4d6b ("media: hantro: Be more accurate on pixel formats step_width constraints")
+>Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>---
+> drivers/staging/media/hantro/hantro_drv.c  | 12 ++++-----
+> drivers/staging/media/hantro/hantro_hevc.c | 30 ----------------------
+> drivers/staging/media/hantro/hantro_hw.h   |  1 -
+> 3 files changed, 6 insertions(+), 37 deletions(-)
+>
+>diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+>index afddf7ac0731..2387ca85ab54 100644
+>--- a/drivers/staging/media/hantro/hantro_drv.c
+>+++ b/drivers/staging/media/hantro/hantro_drv.c
+>@@ -253,11 +253,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+>
+> static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+> {
+>-	struct hantro_ctx *ctx;
+>-
+>-	ctx = container_of(ctrl->handler,
+>-			   struct hantro_ctx, ctrl_handler);
+>-
+> 	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+> 		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+>
+>@@ -273,7 +268,12 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+> 	} else if (ctrl->id == V4L2_CID_MPEG_VIDEO_HEVC_SPS) {
+> 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+>
+>-		return hantro_hevc_validate_sps(ctx, sps);
+>+		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+>+			/* Luma and chroma bit depth mismatch */
+>+			return -EINVAL;
+>+		if (sps->bit_depth_luma_minus8 != 0)
+>+			/* Only 8-bit is supported */
+>+			return -EINVAL;
+> 	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+> 		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
+>
+>diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+>index bd924896e409..f86c98e19177 100644
+>--- a/drivers/staging/media/hantro/hantro_hevc.c
+>+++ b/drivers/staging/media/hantro/hantro_hevc.c
+>@@ -154,32 +154,6 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
+> 	return -ENOMEM;
+> }
+>
+>-int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
+>-{
+>-	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+>-		/* Luma and chroma bit depth mismatch */
+>-		return -EINVAL;
+>-	if (sps->bit_depth_luma_minus8 != 0)
+>-		/* Only 8-bit is supported */
+>-		return -EINVAL;
+>-
+>-	/*
+>-	 * for tile pixel format check if the width and height match
+>-	 * hardware constraints
+>-	 */
+>-	if (ctx->vpu_dst_fmt->fourcc == V4L2_PIX_FMT_NV12_4L4) {
+>-		if (ctx->dst_fmt.width !=
+>-		    ALIGN(sps->pic_width_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_width))
+>-			return -EINVAL;
+>-
+>-		if (ctx->dst_fmt.height !=
+>-		    ALIGN(sps->pic_height_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_height))
+>-			return -EINVAL;
+>-	}
+>-
+>-	return 0;
+>-}
+>-
+> int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
+> {
+> 	struct hantro_hevc_dec_hw_ctx *hevc_ctx = &ctx->hevc_dec;
+>@@ -203,10 +177,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
+> 	if (WARN_ON(!ctrls->sps))
+> 		return -EINVAL;
+>
+>-	ret = hantro_hevc_validate_sps(ctx, ctrls->sps);
+>-	if (ret)
+>-		return ret;
+>-
+> 	ctrls->pps =
+> 		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_PPS);
+> 	if (WARN_ON(!ctrls->pps))
+>diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>index a2e0f0836281..5edff0f0be20 100644
+>--- a/drivers/staging/media/hantro/hantro_hw.h
+>+++ b/drivers/staging/media/hantro/hantro_hw.h
+>@@ -359,7 +359,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+> void hantro_hevc_ref_init(struct hantro_ctx *ctx);
+> dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+> int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+>-int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps);
+>
+>
+> static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
+>-- 
+>2.31.1
+>
