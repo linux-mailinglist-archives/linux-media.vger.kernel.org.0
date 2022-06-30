@@ -2,55 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EB7356159F
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 11:03:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5396C5615B9
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 11:12:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234023AbiF3JCm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 05:02:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59842 "EHLO
+        id S233856AbiF3JM4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 05:12:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233142AbiF3JCi (ORCPT
+        with ESMTP id S233779AbiF3JMy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 05:02:38 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2B661706C
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 02:02:36 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id g26so37656436ejb.5
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 02:02:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=AuX+nwwpodOtG7VZE2TdaEnnhPouf9ZrSdTVqXsU+ig=;
-        b=CaihvbeC2HmOqUT6dUv6vr0GzxLYSnFaJDmC2EsTjgumm/ahXQJ/BaRsIrbhZ5LOZY
-         Rt18eoHfD4Xlfe6dT4xpG3/CzaZ6S6hPZ3smgCmwPc9Nmq9CuopHZTRWBIfpVMKeqoW5
-         bDXVawcsoG97BYCMwn6o5YjXBM/g4i05KBGkk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AuX+nwwpodOtG7VZE2TdaEnnhPouf9ZrSdTVqXsU+ig=;
-        b=FAlmgZJfz6tHrocSTqJ8a4WmwiNYLzs09yxqGjb/OVqGLryVoGVPiwgWKUNB7ld8vf
-         UqJpJj6REXkJwFkypkb2nHpO+8f+xtbqNM2FU85OhLjKHinercvNAUVQhD2Hib9qzYrZ
-         R3V9F1INxR9bcmG8jyNDnJmXfmmGJ+KJCXLy9pMrVOcvXto17DSMAYXgDTFTOWNwpce3
-         IUhhetSFQ+LR1t8juWU+7kHzLNW655U3mKyvdJHa6IarYvUDuT1osT7aJfCFRf8cqiOk
-         1KZLG12zF5EnjdL/Z6Rvc6XWCZbk3S5yUYByVeH99iNTFu7QxUYNCiN0ix6DdO7Y9ZXs
-         F4sw==
-X-Gm-Message-State: AJIora+Aox0pwOi3hE++4MeB3jtGKGo5XFvVWGovIk9kvgtrfTZr8Vv0
-        WQ+NQuDgKdKEEyCIuTokOTPlyg==
-X-Google-Smtp-Source: AGRyM1tXWxKnM/M8nLspQhorpZ0PWjNgd4FquIdzACE6n4U6axIeUQxojfcLODarerHspVkGB2CpDw==
-X-Received: by 2002:a17:907:a40f:b0:726:a8f5:1031 with SMTP id sg15-20020a170907a40f00b00726a8f51031mr7834385ejc.185.1656579755519;
-        Thu, 30 Jun 2022 02:02:35 -0700 (PDT)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-58-216.cust.vodafonedsl.it. [188.217.58.216])
-        by smtp.gmail.com with ESMTPSA id jz27-20020a17090775fb00b007246492658asm8704234ejc.117.2022.06.30.02.02.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 02:02:35 -0700 (PDT)
-Date:   Thu, 30 Jun 2022 11:02:32 +0200
-From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        Thu, 30 Jun 2022 05:12:54 -0400
+X-Greylist: delayed 34499 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 30 Jun 2022 02:12:51 PDT
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43051CB2F;
+        Thu, 30 Jun 2022 02:12:51 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id EE9532006F;
+        Thu, 30 Jun 2022 12:12:48 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1656580369;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TLRwBn9UXXli3PGpjsfVklActhmxiReU97C0QNKDOvY=;
+        b=kvhWddh1DbwrpFE9ab7GwdbQp8KfiJMvhCj7vhXB8E8M8wB4Nv3aVaeJ9kt8Vs/pJXd4SN
+        l6m+j+bxG3gmMzMV5pAIJAykRkig9oURWnQROzE3f6kxBa2UzVV8DonhR+EF/UUBiomZLY
+        K0zXyKoZNHo6CoMZ4vRhpUTqoLi07pc=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C9FCC634C91;
+        Thu, 30 Jun 2022 12:12:47 +0300 (EEST)
+Date:   Thu, 30 Jun 2022 12:12:47 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
         quentin.schulz@theobroma-systems.com,
-        Sakari Ailus <sakari.ailus@iki.fi>,
         Daniel Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -58,56 +51,63 @@ Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 5/6] media: dt-bindings: ov5693: document YAML binding
-Message-ID: <20220630090232.GC482517@tom-ThinkPad-T14s-Gen-2i>
+Message-ID: <Yr1pD2U2ilXXXX+Q@valkosipuli.retiisi.eu>
 References: <20220630074525.481790-1-tommaso.merciai@amarulasolutions.com>
  <20220630074525.481790-6-tommaso.merciai@amarulasolutions.com>
  <167f09c1-795d-1471-20f7-9f4df29355ed@linaro.org>
+ <20220630090232.GC482517@tom-ThinkPad-T14s-Gen-2i>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <167f09c1-795d-1471-20f7-9f4df29355ed@linaro.org>
+In-Reply-To: <20220630090232.GC482517@tom-ThinkPad-T14s-Gen-2i>
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1656580369;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TLRwBn9UXXli3PGpjsfVklActhmxiReU97C0QNKDOvY=;
+        b=lpVpDPsRoS4PajOnLBBgfcJw9triksPg+5Em1BSvH7k+/EZaTkjASpVVQnohNS5yNlOTbU
+        gB6aGDJ+Mw0sFTjOA3xO4AhLpEtL9sy3zMoQDG8uyrCfhOu3g4TjZTZpAqVxBWMYZcdEYp
+        1xtKwJ5uD3QXguCMHOm55Tae+0RPMNE=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1656580369; a=rsa-sha256; cv=none;
+        b=JyMc3AwKN7Uwp6GUIzZIVTyHMWwOSIMn7Ry0CzODoxYahGuBI9dogP/fqFwoeq3UQYmxVH
+        PlJFDVco74sl6swfZKKWiVeyQ5u1m3FFV0zFqCcbFR+ehIxTOX+Z8S3ZBxj25QQ9dFQwGr
+        8m1tXRBFZUppPGnbb+yMgadYo+pXy80=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 30, 2022 at 10:07:19AM +0200, Krzysztof Kozlowski wrote:
-> On 30/06/2022 09:45, Tommaso Merciai wrote:
-> > Add documentation of device tree in YAML schema for the OV5693
-> > CMOS image sensor from Omnivision
+On Thu, Jun 30, 2022 at 11:02:32AM +0200, Tommaso Merciai wrote:
+> On Thu, Jun 30, 2022 at 10:07:19AM +0200, Krzysztof Kozlowski wrote:
+> > On 30/06/2022 09:45, Tommaso Merciai wrote:
+> > > Add documentation of device tree in YAML schema for the OV5693
+> > > CMOS image sensor from Omnivision
+> > > 
+> > > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > Reviewed-by: Sakari Ailus <sakari.ailus@iki.fi>
 > > 
-> > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Reviewed-by: Sakari Ailus <sakari.ailus@iki.fi>
+> > How Sakari's tag appeared here? There was no email from him.
 > 
-> How Sakari's tag appeared here? There was no email from him.
-
-Sakari made me some review on v2, but I think he forgot to add the mailing
-list in cc. ( I suppose :) )
-
-Let me know if I need to remove this.
-
-Regards,
-Tommaso
-
-
+> Sakari made me some review on v2, but I think he forgot to add the mailing
+> list in cc. ( I suppose :) )
 > 
-> Best regards,
-> Krzysztof
+> Let me know if I need to remove this.
+
+You're only supposed to put these tags into patches if you get them in
+written form as part of the review, signalling acceptance of the patch in
+various forms. Just commenting a patch does not imply this.
+
+Please also see Documentation/process/submitting-patches.rst for more
+information on how to use the tags.
 
 -- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
-
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+Sakari Ailus
