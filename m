@@ -2,116 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8921256216B
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 19:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77F3E562259
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 20:52:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236426AbiF3RlB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 13:41:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36278 "EHLO
+        id S235988AbiF3SwK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 14:52:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236417AbiF3Rk7 (ORCPT
+        with ESMTP id S233100AbiF3SwJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 13:40:59 -0400
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA09933A3F
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 10:40:58 -0700 (PDT)
-Received: by mail-ot1-x32c.google.com with SMTP id 7-20020a9d0107000000b00616935dd045so15215266otu.6
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 10:40:58 -0700 (PDT)
+        Thu, 30 Jun 2022 14:52:09 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F21C42BB3A
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 11:52:07 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id g26so40723253ejb.5
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 11:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        d=konsulko.com; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=L5LM24Isd3avLAri00yP0uUJEwQfm2+0rT9x5MHEIdM=;
-        b=CYPltZ+rQkyqU6YuIXsNiiWskIjHVxrB/8nXlilwqtOY2j444buUx9aqaDKXm/seRU
-         Lbic5cyhoH2aORYYmQ2gZmLolgdIdEaxhuVAkwt4pUiyPHYFa1grN4ivgvQ51gbFE+cl
-         K3xLj9DTg/GOvfhYfVbmCZ6GI2LZCKR2qm1YQKWpbkPgLiT20hi+22ftMucyg3cMND1U
-         6Nqh8uB3nR8nMPdKOvTpXdABL2MnL/VqskpxgNbM83/dTVbfLoMXD53KXFsWn+tZSN9d
-         jSfB2MTv4STv28slG+Eut8KsVG6q+0dRV+AxOCjVqKTlS9Y1qpz5VUHJiigVcxNwJbWH
-         nuyg==
+        bh=Do7RjztahZ4fYoSqpcyDDxtngxR6k87sqG5r92OIfls=;
+        b=r9nNrQsY2NJaHt8wKiJPrxsb+41RBpUzJA6RHYPowULXJKg1FhgfqtF0Tk18WORIFj
+         PzRv6GwNeonnjmXZ2QTIVD/Ge8Q9hsSDzEUraFXyJ0KNQaXAb1KJSLoOBgBDSTlZtYec
+         IEL2JRbei9Oa02qPfQq5fPvwoGHnpHvnLh0jM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=L5LM24Isd3avLAri00yP0uUJEwQfm2+0rT9x5MHEIdM=;
-        b=Joc0ZdF/XuL5ceSsaCyESBfmRmpZUtd3eMaF/UGJuXUAsCIo9I/A4Yfpm4wahIBjTQ
-         OWOxLuUNL2o1Ve9KsUkhdjz6lNxzCzbHQd+pO4A5QetL/7qzImf1qGoxENI94jQR6d4G
-         0r7ELCeckLZIxAkTNBs5WZ/stlq888lAfRMIbfgo3chY3cMiDQi2iPm1J1Qw9+4KIATO
-         DbfTdtYF5sFHwfEHdgjuIizEPqfvQ/S4EbrCho+aoomhg9fqCDHVoiVszyaxHwMRCzeG
-         5vdgZE1dHR40ulrZ/1KOR/1XsRQoPHKUVYQ5b0stRGg9BNpUTN78kjnTwaTOfF2yIZVA
-         cRIA==
-X-Gm-Message-State: AJIora+ZuKyIGSPTJfzneWr0HvXpoQOdVtQ0MMfv7+dsooP5+x5Ao1/Z
-        bhUdPqzmU6kkL+OzhTpwCYYZ0A==
-X-Google-Smtp-Source: AGRyM1tFASk+uZEoikN/WRKV1KRqzG4udU6NKGy6hPh5tqzDkXxffJW3Qzy6XpqeMuezapvfPhGgZA==
-X-Received: by 2002:a9d:3f1:0:b0:616:80b3:47e8 with SMTP id f104-20020a9d03f1000000b0061680b347e8mr4387751otf.213.1656610858062;
-        Thu, 30 Jun 2022 10:40:58 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id c68-20020a4a4f47000000b0035f6cf71391sm11153701oob.43.2022.06.30.10.40.53
+        bh=Do7RjztahZ4fYoSqpcyDDxtngxR6k87sqG5r92OIfls=;
+        b=zmJCYyOdQZhHvWKlHJ4LOxulwhNrdi/pm8fH/3m6Mg8OY5VscKt16Ipnk2r1peWK+F
+         bRfA25xyD6gDsNuamLX+hxI9YokTly4J8/OO8opQ5zyrhQMzqzwIURiSQZ77wD5lYKMh
+         loavgLpHy0pF347zRjJ0pcYgLymdhuNqRJhoO9nUXSYAbfcUfpS45Dssiw8yvM7ATeZG
+         bc+AZ6Zjj9csEVmFM3qhGV6lfs5VhaETPkHWohgVXS5I/Xu1fRW+IhU0Cy/uaFl/hcBJ
+         riiUI5rbm/KGPy/ahED4AlsGL5QS1M+CJ8XyeYvC+BmGEATi6HQkfp4EDA9SnEn8P+yd
+         C/ug==
+X-Gm-Message-State: AJIora/9HXGBAtjGjh/9cjKYwv6Ewp/mwSzwLs/vHBJCaBu9bUSjl1jO
+        jE/KxNlmnNnKvvmsq//iU4SVTg==
+X-Google-Smtp-Source: AGRyM1vgAukM0oFmJB+q4Opa+rdj/EMLW04Gz/sKernFFxIuFiClpUkZefL+B4sTpX1v6PsCaavbCg==
+X-Received: by 2002:a17:906:2001:b0:6f3:bd7f:d878 with SMTP id 1-20020a170906200100b006f3bd7fd878mr10029787ejo.133.1656615126542;
+        Thu, 30 Jun 2022 11:52:06 -0700 (PDT)
+Received: from carbon.gago.life (78-83-68-78.spectrumnet.bg. [78.83.68.78])
+        by smtp.gmail.com with ESMTPSA id z4-20020a1709060f0400b00722f069fd40sm9361324eji.159.2022.06.30.11.52.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 10:40:57 -0700 (PDT)
-Date:   Thu, 30 Jun 2022 14:40:51 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-Subject: Re: [PATCH 7/7] media: hantro: Allows luma and chroma depth to be
- different
-Message-ID: <Yr3gI8L/o9DIYPWK@eze-laptop>
-References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
- <20220617115802.396442-8-benjamin.gaignard@collabora.com>
+        Thu, 30 Jun 2022 11:52:06 -0700 (PDT)
+Date:   Thu, 30 Jun 2022 21:52:05 +0300
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, jacopo@jmondi.org
+Subject: Re: hooking Sony 47MPixel sensor to NXP imx8m-mini MIPI CSI2
+Message-ID: <Yr3w1T7s/7DTgZVd@carbon.gago.life>
+References: <YrwFf7Jw2/yDlcDq@carbon.lan>
+ <YrwNKiJA+cnm7pGr@pendragon.ideasonboard.com>
+ <YrwRROJbH/P5lYi+@carbon.lan>
+ <YrzzbwYr+ztrXbgZ@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220617115802.396442-8-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <YrzzbwYr+ztrXbgZ@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 01:58:02PM +0200, Benjamin Gaignard wrote:
-> Luma and chroma depth are set on different hardware registers.
-> Even if they aren't identical the bitstream can be compliant
-> to HEVC specifications and decoded by the hardware.
+On 22-06-30 03:50:55, Laurent Pinchart wrote:
 > 
-> With this patch TSUNEQBD_A_MAIN10_Technicolor_2 conformance test
-> is successfully decoded.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> For an i.MX8MM I'd try running the mainline kernel directly. If that doesn't
+> work, I would backport the camera drivers from mainline to the v5.15 NXP
+> kernel. As far as I know, the v5.18 branch isn't an official BSP release (I'm
+> actually not sure what it's for).
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+The 5.15 NXP kernel got released sometime in June, but the CSI capture drivers
+are pretty much the same as in their older versions.  So sad...
 
-Thanks,
-Ezequiel
+Nevermind, i'll share any good news here as well as the imx492 driver code as
+soon i am certain it can successfully stream in at least one mode.
 
-> ---
->  drivers/staging/media/hantro/hantro_hevc.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-> index 85688a4df166..26b1329893f7 100644
-> --- a/drivers/staging/media/hantro/hantro_hevc.c
-> +++ b/drivers/staging/media/hantro/hantro_hevc.c
-> @@ -156,9 +156,6 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
->  
->  int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
->  {
-> -	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-> -		/* Luma and chroma bit depth mismatch */
-> -		return -EINVAL;
->  	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
->  		/* Only 8-bit and 10-bit is supported */
->  		return -EINVAL;
-> -- 
-> 2.32.0
-> 
+BTW, the 'fec' section in Variscite's var-som-symphony DT is broken for v5.18
+(mainline) kernels. I am not certain whom should i send the patch.  Would that
+be Rob Herring or should i just use 'git blame' to identify the victim? :)
+
+
+cheers,
+Petko
