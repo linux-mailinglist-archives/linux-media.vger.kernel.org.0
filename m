@@ -2,116 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4398560E10
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 02:32:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 526AC560E13
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 02:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229734AbiF3Ab4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 20:31:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56500 "EHLO
+        id S230019AbiF3Adx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 20:33:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbiF3Abz (ORCPT
+        with ESMTP id S229925AbiF3Adw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 20:31:55 -0400
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B8832A27E
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 17:31:53 -0700 (PDT)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 94B3183A1C;
-        Thu, 30 Jun 2022 02:31:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1656549111;
-        bh=tVLvSda3Qj47bsCkOqwNC9U/U5+2aIfXr0bDqC5Gudo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ihHv2IBGL3T09PJeJvJWZQbs0j3KbhQ4bqHnC5oiJoJmWzhaTpXXC8VWcct88hacp
-         UNCgWvFz0KZ1MBX1pd/YonrdYUjpsRKN+zqic0/XSjizx06QMmOrrtjfb1O/jpUzv9
-         63KJDlS/+POpvbmpICOSk69H+9fbbTxSQ9pgHQViw5q79xgJHygB2hcqIUlKuj109Y
-         1gIThpfN7e9f1ZMD4HH4S0MT4x9pvo89syLejckJCbX7usrOJPLinQ3m7vKClom1Vz
-         RhUx8zLxqlhFsAfgFpLBmLMqHpgvtZREVlYb18K/xWytD0ADLYoPrjTAHm+UsJ0zBQ
-         TD8AocgD4lJqA==
-Message-ID: <cfebef46-0b37-f54c-ec9a-9283eaa54a87@denx.de>
-Date:   Thu, 30 Jun 2022 02:31:50 +0200
+        Wed, 29 Jun 2022 20:33:52 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0168222B26
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 17:33:50 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o6i7x-0082CQ-9s; Thu, 30 Jun 2022 00:33:49 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1o6i7u-00989x-S1; Thu, 30 Jun 2022 00:33:46 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR 5.20] Ar0521 driver, ov5640 driver improvements (#84446)
+Date:   Thu, 30 Jun 2022 00:33:46 +0000
+Message-Id: <20220630003346.2176271-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YrziQwGBS9CWAcpQ@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] media: stm32: dcmi: Switch to
- __v4l2_subdev_state_alloc()
-Content-Language: en-US
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
-        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
-        Philippe CORNU <philippe.cornu@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-References: <20220627174156.66919-1-marex@denx.de>
- <3ef88906-188d-52a6-c3bf-647bc4e36732@xs4all.nl>
- <32f04271-4a9a-3291-cf36-ead0383db9ca@ideasonboard.com>
- <YrxDq5I3ZsEf8ruO@pendragon.ideasonboard.com>
- <df7060aa-b201-3d39-72e9-fcb575e7b43e@ideasonboard.com>
- <a2e45188-54d2-1ef2-1d21-cf60d47aeb43@denx.de>
- <bc25d400-abb9-0980-ef93-6af8f5a2e42c@ideasonboard.com>
-From:   Marek Vasut <marex@denx.de>
-In-Reply-To: <bc25d400-abb9-0980-ef93-6af8f5a2e42c@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/29/22 15:19, Tomi Valkeinen wrote:
-> On 29/06/2022 15:39, Marek Vasut wrote:
->> On 6/29/22 14:26, Tomi Valkeinen wrote:
->>
->> [...]
->>
->>>>> Perhaps the best way to solve this is just to remove the underscores
->>>>> from __v4l2_subdev_state_alloc, and change all the drivers which 
->>>>> create
->>>>> temporary v4l2_subdev_states to use that (and the free) functions. And
->>>>> also create the helper macro which can be used in those cases where 
->>>>> the
->>>>> call is simple (the state is not modified or accessed by the caller).
->>>>
->>>> As long as we prevent any new driver from using that API, that's fine
->>>> with me.
->>>
->>> An alternative would be to keep the v4l2_subdev_state as a local 
->>> variable (allocated in the stack), and add a new function, 
->>> v4l2_subdev_state_local_init() or such. The function would initialize 
->>> the given state, expecting the allocatable fields to be already 
->>> allocated (state->pads, which in the above cases points to another 
->>> local variable, i.e. stack).
->>>
->>> This would prevent the need of a free call, which, while not complex 
->>> as such, might cause a bigger amount of changes in some cases to 
->>> handle the error paths correctly.
->>>
->>> Of course, if the above-mentioned macro works, then that's the 
->>> easiest solution. But that won't work for all drivers.
->>
->> Don't you think a driver fix shouldn't involve "rework the subsystem" 
->> requirement to be applicable ?
-> 
-> No, but we should think what's the best way to do the fix, if the fix
-> is controversial. Otherwise we might just break things even worse.
-> Adding the macro seems like a much better way, and far from "rework the
-> subsystem". Granted, this was just a quick edit without testing so it may
-> fail miserably...
-> 
-> Can you try this out?
+From: builder@linuxtv.org
 
-It seems to work as well. How shall we proceed ?
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YrziQwGBS9CWAcpQ@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/220753/
+Build time: 00:50:10
+Link: https://lore.kernel.org/linux-media/YrziQwGBS9CWAcpQ@valkosipuli.retiisi.eu
+
+gpg: Signature made Wed 29 Jun 2022 11:25:15 PM UTC
+gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+
+Summary: got 4/35 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-ov7251-Fix-multiple-problems-in-s_stream-callback.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000008Kb sm_state_count = 543759
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 10 seconds
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:4901 cx23885_dif_setup() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	../drivers/media/dvb-frontends/mb86a16.c: ../drivers/media/dvb-frontends/mb86a16.c:1394 mb86a16_set_fe() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:1935 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1723290
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 93 seconds
+	../drivers/media/pci/cx88/cx88-dvb.c: ../drivers/media/pci/cx88/cx88-dvb.c:1626 dvb_register() error: we previously assumed 'fe1->dvb.frontend' could be null (see line 1086)
+	../drivers/media/pci/saa7134/saa7134-dvb.c: ../drivers/media/pci/saa7134/saa7134-dvb.c:1935 dvb_init() parse error: turning off implications after 60 seconds
+	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2799 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0010-media-ov5640-Add-LINK_FREQ-control.patch:
+
+   checkpatch.pl:
+	$ cat patches/0010-media-ov5640-Add-LINK_FREQ-control.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:58: CHECK: Alignment should match open parenthesis
+
+patches/0034-dt-bindings-Add-bindings-for-On-Semi-AR0521-camera-s.patch:
+
+   checkpatch.pl:
+	$ cat patches/0034-dt-bindings-Add-bindings-for-On-Semi-AR0521-camera-s.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:22: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0035-On-Semi-AR0521-sensor-driver.patch:
+
+   checkpatch.pl:
+	$ cat patches/0035-On-Semi-AR0521-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:611: CHECK: Alignment should match open parenthesis
+	-:628: CHECK: Macro argument reuse 'a' - possible side-effects?
+	-:897: CHECK: Alignment should match open parenthesis
+	-:1123: CHECK: Please use a blank line after function/struct/union/enum declarations
+
+
+Error #512 when building PDF docs
+
