@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85DD05626BC
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 01:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76D36562692
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 01:18:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231615AbiF3XKT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 19:10:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58394 "EHLO
+        id S231699AbiF3XKe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 19:10:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231611AbiF3XKR (ORCPT
+        with ESMTP id S231629AbiF3XKc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 19:10:17 -0400
+        Thu, 30 Jun 2022 19:10:32 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1141F58FEB
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 16:09:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3FD2F655
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 16:10:18 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C72129C2;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA1DC29C5;
         Fri,  1 Jul 2022 01:07:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656630475;
-        bh=9iYJDYOcoybSSWilvt8kFrCDq+BQruA7N6Nbnxahh6M=;
+        s=mail; t=1656630476;
+        bh=EGJRYXr/iwJn9j9cWZE4tZvFBGtzzsX/yK0fTVPTQoc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iEzT1XnvA//fviNoRtt5AZC5biBmNWNgLN5qYJdo6MyYPFutJgos4cnTJCsoK7ZK6
-         gxP3lSfrhdZBkCb+BOA0gi3U5fYjIKtXshMGR3ckkb1+H1puJDmjsdX3s6uNLzvSw6
-         ozZtmfMxzP96y4456p6W5+zycYcUJL8XFM+jfY+Q=
+        b=cTyFgZdCEP4Km6qLiJTT0K3rDCkAnSCmVKYUdV+t0P/JGucQKQJjfrBZDAEXphcMr
+         2fdxU1G/9NPnh0zp9Uo3+oy32SuTi307Mv2E08RbJxrdaukAg1An55Yn5sZOpB3yCV
+         iLVP6g8Dw5xmQ8gOEFwOJVnhnn6rbyVZBJsL8iFo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-rockchip@lists.infradead.org,
@@ -32,9 +32,9 @@ Cc:     linux-rockchip@lists.infradead.org,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: [PATCH v2 28/55] media: rkisp1: isp: Rename rkisp1_device.active_sensor to source
-Date:   Fri,  1 Jul 2022 02:06:46 +0300
-Message-Id: <20220630230713.10580-29-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 29/55] media: rkisp1: isp: Add container_of wrapper to cast subdev to rkisp1_isp
+Date:   Fri,  1 Jul 2022 02:06:47 +0300
+Message-Id: <20220630230713.10580-30-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
 References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
@@ -49,116 +49,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The active_sensor field of the rkisp1_device structure points to the ASD
-data for the active source. The source may however not be a sensor, so
-the naming is a bit confusing. Furthermore, the driver doesn't need to
-access the full ASD from the active_sensor field, only the subdev
-pointer is needed, when stopping streaming.
-
-Rename the field to source, and turn it into a v4l2_subdev pointer.
+Replace manual container_of() calls with a static inline wrapper to
+increase readability.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 ---
- .../platform/rockchip/rkisp1/rkisp1-common.h  |  4 +--
- .../platform/rockchip/rkisp1/rkisp1-isp.c     | 27 +++++++++----------
- 2 files changed, 14 insertions(+), 17 deletions(-)
+ .../media/platform/rockchip/rkisp1/rkisp1-isp.c   | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index d07c5c8e5b0d..ee9e724f4bf2 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -410,7 +410,7 @@ struct rkisp1_debug {
-  * @v4l2_dev:	   v4l2_device variable
-  * @media_dev:	   media_device variable
-  * @notifier:	   a notifier to register on the v4l2-async API to be notified on the sensor
-- * @active_sensor: sensor in-use, set when streaming on
-+ * @source:        source subdev in-use, set when starting streaming
-  * @csi:	   internal CSI-2 receiver
-  * @isp:	   ISP sub-device
-  * @resizer_devs:  resizer sub-devices
-@@ -430,7 +430,7 @@ struct rkisp1_device {
- 	struct v4l2_device v4l2_dev;
- 	struct media_device media_dev;
- 	struct v4l2_async_notifier notifier;
--	struct rkisp1_sensor_async *active_sensor;
-+	struct v4l2_subdev *source;
- 	struct rkisp1_csi csi;
- 	struct rkisp1_isp isp;
- 	struct rkisp1_resizer resizer_devs[2];
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 501996fffca0..944b6ea11853 100644
+index 944b6ea11853..9f4fb984194d 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -58,7 +58,7 @@
-  * Helpers
+@@ -370,6 +370,11 @@ static void rkisp1_isp_start(struct rkisp1_device *rkisp1)
+  * Subdev pad operations
   */
  
--static struct v4l2_subdev *rkisp1_get_remote_sensor(struct v4l2_subdev *sd)
-+static struct v4l2_subdev *rkisp1_get_remote_source(struct v4l2_subdev *sd)
++static inline struct rkisp1_isp *to_rkisp1_isp(struct v4l2_subdev *sd)
++{
++	return container_of(sd, struct rkisp1_isp, sd);
++}
++
+ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
+ 				     struct v4l2_subdev_state *sd_state,
+ 				     struct v4l2_subdev_mbus_code_enum *code)
+@@ -625,7 +630,7 @@ static int rkisp1_isp_get_fmt(struct v4l2_subdev *sd,
+ 			      struct v4l2_subdev_state *sd_state,
+ 			      struct v4l2_subdev_format *fmt)
  {
- 	struct media_pad *local, *remote;
- 	struct media_entity *sensor_me;
-@@ -749,12 +749,11 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+-	struct rkisp1_isp *isp = container_of(sd, struct rkisp1_isp, sd);
++	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
+ 
+ 	mutex_lock(&isp->ops_lock);
+ 	fmt->format = *rkisp1_isp_get_pad_fmt(isp, sd_state, fmt->pad,
+@@ -638,7 +643,7 @@ static int rkisp1_isp_set_fmt(struct v4l2_subdev *sd,
+ 			      struct v4l2_subdev_state *sd_state,
+ 			      struct v4l2_subdev_format *fmt)
+ {
+-	struct rkisp1_isp *isp = container_of(sd, struct rkisp1_isp, sd);
++	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
+ 
+ 	mutex_lock(&isp->ops_lock);
+ 	if (fmt->pad == RKISP1_ISP_PAD_SINK_VIDEO)
+@@ -659,7 +664,7 @@ static int rkisp1_isp_get_selection(struct v4l2_subdev *sd,
+ 				    struct v4l2_subdev_state *sd_state,
+ 				    struct v4l2_subdev_selection *sel)
+ {
+-	struct rkisp1_isp *isp = container_of(sd, struct rkisp1_isp, sd);
++	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
+ 	int ret = 0;
+ 
+ 	if (sel->pad != RKISP1_ISP_PAD_SOURCE_VIDEO &&
+@@ -701,7 +706,7 @@ static int rkisp1_isp_set_selection(struct v4l2_subdev *sd,
+ {
  	struct rkisp1_device *rkisp1 =
  		container_of(sd->v4l2_dev, struct rkisp1_device, v4l2_dev);
- 	struct rkisp1_isp *isp = &rkisp1->isp;
--	struct v4l2_subdev *sensor_sd;
-+	struct rkisp1_sensor_async *asd;
+-	struct rkisp1_isp *isp = container_of(sd, struct rkisp1_isp, sd);
++	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
+ 	int ret = 0;
+ 
+ 	if (sel->target != V4L2_SEL_TGT_CROP)
+@@ -748,7 +753,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct rkisp1_device *rkisp1 =
+ 		container_of(sd->v4l2_dev, struct rkisp1_device, v4l2_dev);
+-	struct rkisp1_isp *isp = &rkisp1->isp;
++	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
+ 	struct rkisp1_sensor_async *asd;
  	int ret;
  
- 	if (!enable) {
--		v4l2_subdev_call(rkisp1->active_sensor->sd, video, s_stream,
--				 false);
-+		v4l2_subdev_call(rkisp1->source, video, s_stream, false);
- 
- 		rkisp1_csi_stop(&rkisp1->csi);
- 		rkisp1_isp_stop(rkisp1);
-@@ -762,35 +761,33 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
- 		return 0;
- 	}
- 
--	sensor_sd = rkisp1_get_remote_sensor(sd);
--	if (!sensor_sd) {
--		dev_warn(rkisp1->dev, "No link between isp and sensor\n");
-+	rkisp1->source = rkisp1_get_remote_source(sd);
-+	if (!rkisp1->source) {
-+		dev_warn(rkisp1->dev, "No link between isp and source\n");
- 		return -ENODEV;
- 	}
- 
--	rkisp1->active_sensor = container_of(sensor_sd->asd,
--					     struct rkisp1_sensor_async, asd);
-+	asd = container_of(rkisp1->source->asd, struct rkisp1_sensor_async,
-+			   asd);
- 
--	if (rkisp1->active_sensor->mbus_type != V4L2_MBUS_CSI2_DPHY)
-+	if (asd->mbus_type != V4L2_MBUS_CSI2_DPHY)
- 		return -EINVAL;
- 
- 	rkisp1->isp.frame_sequence = -1;
- 	mutex_lock(&isp->ops_lock);
--	ret = rkisp1_config_cif(rkisp1, rkisp1->active_sensor->mbus_type,
--				rkisp1->active_sensor->mbus_flags);
-+	ret = rkisp1_config_cif(rkisp1, asd->mbus_type, asd->mbus_flags);
- 	if (ret)
- 		goto mutex_unlock;
- 
- 	rkisp1_isp_start(rkisp1);
- 
--	ret = rkisp1_csi_start(&rkisp1->csi, rkisp1->active_sensor);
-+	ret = rkisp1_csi_start(&rkisp1->csi, asd);
- 	if (ret) {
- 		rkisp1_isp_stop(rkisp1);
- 		goto mutex_unlock;
- 	}
- 
--	ret = v4l2_subdev_call(rkisp1->active_sensor->sd, video, s_stream,
--			       true);
-+	ret = v4l2_subdev_call(rkisp1->source, video, s_stream, true);
- 	if (ret) {
- 		rkisp1_isp_stop(rkisp1);
- 		rkisp1_csi_stop(&rkisp1->csi);
 -- 
 Regards,
 
