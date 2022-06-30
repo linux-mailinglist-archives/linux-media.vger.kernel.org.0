@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7203B56215B
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 19:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02E1A562163
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 19:40:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236498AbiF3RfO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 13:35:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59106 "EHLO
+        id S235900AbiF3Rie (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 13:38:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236478AbiF3RfK (ORCPT
+        with ESMTP id S235667AbiF3Rie (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 13:35:10 -0400
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE9E431367
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 10:35:07 -0700 (PDT)
-Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-101d2e81bceso250783fac.0
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 10:35:07 -0700 (PDT)
+        Thu, 30 Jun 2022 13:38:34 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 477942A94A
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 10:38:33 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id be10so177625oib.7
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 10:38:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=TvnWQVWBqHCFvzeuhdV7clHAx5dh+MQYePzQD0+y7Uc=;
-        b=H+O2K3BiOmZ+iqTzP8zSGWs+YhD8kbBM9gCO4EZmWjmuqQ/9IIrumNFeCy//6VjU1w
-         yM6Q02DG/+NgZ80SHDKhMAbHXn9b6ohS/6PY13azn70NcyE6uqmHRstHJuNDoH3Un1Ph
-         37YXniXZA3pAShQCYFnsyRE26Im/37hnjk+v0HaZ7R9t7wEZ1G5eS9ISp7JgISS7I2hN
-         A9anibvuevrFfzTUSdar4tlT8kFla1X/nfr02qpm1Bj09lMFURTKRufmPUwlY2MjRZmy
-         KG++nNE8wBAwIkQMYixHiXkCRlaAb/+iz/QfRiAHDg4laMF0zX7xn13/RzBQnBHr9917
-         wDkQ==
+        bh=yRt2uPyCTkr3L23mkOV5jzWQCVWH61bPdgdKUhINZi0=;
+        b=dUxjXs4MlHvfXO9xVNfCPOq2IDb3+NDw6so8BPXnwxWxhv51RZ3Uh49XkRLb1PVquF
+         vXPqYQo3o0XU/wDvQ6ceawvxHBXRA6/9tMKO96IJn9b6JEOhHhvB7nlxlfKd9UN9caB8
+         7Ah2Jx6IJa/TbkshlWuKPbumjWqYC/OTi4pxLgsAHTP7xDZfpOjn7w5sOBs2ai7IWgs7
+         BOf2Oevb9NpBtcNPYKn8VcOL0QZQmrHo6tDKPFmhyIOpgm1J7r+3HxURB250+u3OgUGt
+         QjSBPh2z9yjLRsQFWdO+axuYy17ZZf3rGj9pUwmzGv3kzSIwUgE9cyYMMEYSkGjVZdsr
+         Jehg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=TvnWQVWBqHCFvzeuhdV7clHAx5dh+MQYePzQD0+y7Uc=;
-        b=Pfpab0PnBHCIG7ShGpnY697++7mxFgearBIz72gtLoBp8pkyDlYx3lMB/AXpfv/4GB
-         k+Vgjw5HqqB6AI0obz7hsenzakPEeQZl6q/w9zzVNO33m/zMBvII8ZUJ6SRwxWeUD0pn
-         evQb/gdDvdEtMHw0W7eaFjiIYZjG+Ooq796L8SkR+iQBeFw8HtmaAwDkgLk5lbk7FNqD
-         nODFZubqrA8q+EUBEPHxNh18vkg+SmtbM1B4WetAEzf7fKZo946EZWxZqPVQMtzV87XC
-         1D6jItQzg6lVmx8OpE5slNVQcaORCp0iYV9DKo+Yz6nDGWqZ73t2VhcsVjMmq6xJA7DB
-         LwiQ==
-X-Gm-Message-State: AJIora/xqCkQVeW1Nq94WU7cYmNeEni1IYBAkcFohfztshvI0gIhQIm/
-        OvSnb4hisB+Sr/h+fPQEADK7zQ==
-X-Google-Smtp-Source: AGRyM1v7vHSixqg0jIsfWA3Xuzr25gaoV363cLZK0Dvg5ZZL2eE9La/e2ncLhw7ZXvNyB6nXsNZz3g==
-X-Received: by 2002:a05:6870:cd02:b0:108:a476:f2ac with SMTP id qk2-20020a056870cd0200b00108a476f2acmr7067746oab.184.1656610507002;
-        Thu, 30 Jun 2022 10:35:07 -0700 (PDT)
+        bh=yRt2uPyCTkr3L23mkOV5jzWQCVWH61bPdgdKUhINZi0=;
+        b=iq9x5vxJUyov6ym7MCw6vPVLNuXTpmWQPLNyloqx0m2iTFwZ9Wws9z2QGvmQZQooMy
+         APJQ/h0XyU4a+z+Q9mc7NOq6t4/ovYm4lJkFQb3sKXrLES/7MP449oG6Hi10Bh3kUSxq
+         wSQ5cxPeAG0xsbvYhfYGQTsSpGazNTDnPCYqJJ/pJfEJHbHTNJqA7DAgGpZWpVz4GBH6
+         nYC+GQiforPLE2BSA5imFLLGngTfHo7ojHUqFEIHV7F+Kx016Y8D6DKmL0wJRREZcNR8
+         yzTYgSAJmd4dzOgw/i5s/Wr5BV3XxJwb8Aqtdflh4DgW68jLQvDtVcpG9WY5J6Fu/Zd3
+         HVOA==
+X-Gm-Message-State: AJIora9qHVTFt1bK5QXwha636amEB4XbzM5VIawKMBrmJT8vsYn0cjgC
+        fo0v0dJMk0/1QeSbtvCHXE7uVQ==
+X-Google-Smtp-Source: AGRyM1sMFzpdDko0W+UJF+RaaGAmUzY7TXCDlzU+R3T3PNpyAfQe5AIXUZ1C8LrlBLBZuPyCeeNW5A==
+X-Received: by 2002:aca:c282:0:b0:32f:546:61ff with SMTP id s124-20020acac282000000b0032f054661ffmr5879809oif.39.1656610711298;
+        Thu, 30 Jun 2022 10:38:31 -0700 (PDT)
 Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id o7-20020a056871078700b000e686d1386dsm14181497oap.7.2022.06.30.10.35.02
+        by smtp.gmail.com with ESMTPSA id c13-20020aca1c0d000000b003351dbf5e36sm10269648oic.43.2022.06.30.10.38.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 10:35:06 -0700 (PDT)
-Date:   Thu, 30 Jun 2022 14:35:00 -0300
+        Thu, 30 Jun 2022 10:38:30 -0700 (PDT)
+Date:   Thu, 30 Jun 2022 14:38:24 -0300
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
@@ -60,19 +60,17 @@ Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
         kernel@collabora.com
-Subject: Re: [PATCH 4/7] media: hantro: postproc: Configure output regs to
- support 10bit
-Message-ID: <Yr3exPUv0OVKgwlk@eze-laptop>
+Subject: Re: [PATCH 5/7] media: Hantro: HEVC: Allows 10-bit bitstream
+Message-ID: <Yr3fkPrQXqT+UZNa@eze-laptop>
 References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
- <20220617115802.396442-5-benjamin.gaignard@collabora.com>
+ <20220617115802.396442-6-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220617115802.396442-5-benjamin.gaignard@collabora.com>
+In-Reply-To: <20220617115802.396442-6-benjamin.gaignard@collabora.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -81,68 +79,45 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Benjamin,
 
-On Fri, Jun 17, 2022 at 01:57:59PM +0200, Benjamin Gaignard wrote:
-> Move output format setting in postproc and make sure that
-> 8/10bit configuration is correctly set.
+On Fri, Jun 17, 2022 at 01:58:00PM +0200, Benjamin Gaignard wrote:
+> Stop limiting HEVC support to 8-bits bitstreams also
+> accept 10-bits bitstreams.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/staging/media/hantro/hantro_hevc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+> index e06837108a09..85688a4df166 100644
+> --- a/drivers/staging/media/hantro/hantro_hevc.c
+> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+> @@ -159,8 +159,8 @@ int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc
+
+I'd like to go back to checking the SPS control directly
+in hantro_try_ctrl. I believe the best and most reasonable
+place to validate the controls would be TRY_CTRL.
+
+See https://patchwork.linuxtv.org/project/linux-media/patch/20220629195624.45745-2-ezequiel@vanguardiasur.com.ar/.
+
+>  	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+>  		/* Luma and chroma bit depth mismatch */
+>  		return -EINVAL;
+> -	if (sps->bit_depth_luma_minus8 != 0)
+> -		/* Only 8-bit is supported */
+> +	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
+> +		/* Only 8-bit and 10-bit is supported */
+
+Having said that, the change looks good:
 
 Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
 Thanks,
 Ezequiel
 
-> ---
->  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 --
->  drivers/staging/media/hantro/hantro_postproc.c    | 7 ++++++-
->  2 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> index 8407ad45b7b7..c929f2974a01 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> @@ -167,8 +167,6 @@ static void set_params(struct hantro_ctx *ctx)
->  	hantro_reg_write(vpu, &g2_bit_depth_y_minus8, sps->bit_depth_luma_minus8);
->  	hantro_reg_write(vpu, &g2_bit_depth_c_minus8, sps->bit_depth_chroma_minus8);
+>  		return -EINVAL;
 >  
-> -	hantro_reg_write(vpu, &g2_output_8_bits, 0);
-> -
->  	hantro_reg_write(vpu, &g2_hdr_skip_length, compute_header_skip_lenght(ctx));
->  
->  	min_log2_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
-> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-> index a0928c508434..09d8cf942689 100644
-> --- a/drivers/staging/media/hantro/hantro_postproc.c
-> +++ b/drivers/staging/media/hantro/hantro_postproc.c
-> @@ -114,6 +114,7 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
->  	struct hantro_dev *vpu = ctx->dev;
->  	struct vb2_v4l2_buffer *dst_buf;
->  	int down_scale = down_scale_factor(ctx);
-> +	int out_depth;
->  	size_t chroma_offset;
->  	dma_addr_t dst_dma;
->  
-> @@ -132,8 +133,9 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
->  		hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
->  		hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
->  	}
-> +
-> +	out_depth = hantro_get_format_depth(ctx->dst_fmt.pixelformat);
->  	if (ctx->dev->variant->legacy_regs) {
-> -		int out_depth = hantro_get_format_depth(ctx->dst_fmt.pixelformat);
->  		u8 pp_shift = 0;
->  
->  		if (out_depth > 8)
-> @@ -141,6 +143,9 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
->  
->  		hantro_reg_write(ctx->dev, &g2_rs_out_bit_depth, out_depth);
->  		hantro_reg_write(ctx->dev, &g2_pp_pix_shift, pp_shift);
-> +	} else {
-> +		hantro_reg_write(vpu, &g2_output_8_bits, out_depth > 8 ? 0 : 1);
-> +		hantro_reg_write(vpu, &g2_output_format, out_depth > 8 ? 1 : 0);
->  	}
->  	hantro_reg_write(vpu, &g2_out_rs_e, 1);
->  }
+>  	ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
 > -- 
 > 2.32.0
 > 
