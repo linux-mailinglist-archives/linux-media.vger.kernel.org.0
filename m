@@ -2,42 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1A155626D9
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 01:19:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 480C45626ED
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 01:19:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232035AbiF3XLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 19:11:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59404 "EHLO
+        id S232046AbiF3XLS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 19:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232034AbiF3XLP (ORCPT
+        with ESMTP id S232040AbiF3XLP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 30 Jun 2022 19:11:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBBD110551;
-        Thu, 30 Jun 2022 16:11:00 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A385258FF2
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 16:11:04 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59ADCD24;
-        Fri,  1 Jul 2022 01:08:04 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 318C72A34;
+        Fri,  1 Jul 2022 01:08:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656630484;
-        bh=UO6yiqlbKWLK2QZVfa94bRYu5Tm4S6nvLjYgFBUA5io=;
+        s=mail; t=1656630485;
+        bh=UEfIQtXWJv6I5V6EujAB2Hz3ww+vMurxFEnHVWpljWk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DANhgPIOXJeWsadSLN68WkSa7k+Q2amqpyTR190WXqMkPEHqwnIHNN8vxgZcgG1F9
-         Q+YPFYmg+kJcgXPjayOA0fbwPG3vriZ1bWJ4su8aT7AZxb14zvqnfMsQkiy5tVtJhd
-         VWjP0EQkSkePqrR8/C086jSKvuKrQX7ATJ1I16r4=
+        b=ZDxsgy0XfOBbk8Tps6kWdELwr1i+tmoVvpPMBmPbNx3IjGoGce7l+//7WnR29HFX/
+         CfDBqBJhj/5wohPvMSwnaXPx6tJ5VWxs/1Ex+v3sd9pawdwmZljyNCtpu4artg1W9L
+         y7F+NTMrmTuQbJHQYdzOP4N8rlkcZAo0FP+jttEg=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-rockchip@lists.infradead.org,
         Dafna Hirschfeld <dafna@fastmail.com>,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-Subject: [PATCH v2 42/55] dt-bindings: media: rkisp1: Add port for parallel interface
-Date:   Fri,  1 Jul 2022 02:07:00 +0300
-Message-Id: <20220630230713.10580-43-laurent.pinchart@ideasonboard.com>
+        Paul Elder <paul.elder@ideasonboard.com>
+Subject: [PATCH v2 43/55] media: rkisp1: Support the ISP parallel input
+Date:   Fri,  1 Jul 2022 02:07:01 +0300
+Message-Id: <20220630230713.10580-44-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
 References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
@@ -54,50 +51,190 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Paul Elder <paul.elder@ideasonboard.com>
 
-The rkisp1 can take an input on the parallel interface. Add a port for
-it, and update the required field. At least one port is required, and
-both may be specified.
+The ISP has a parallel input, exposed through port 1 in the device tree
+node. While the driver supports configuring the ISP for the parallel and
+BT.656 input modes, the DT parsing code, the subdev bound handler and
+the ISP stream start handler only support the CSI input. Extend them to
+support the parallel input.
 
 Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../bindings/media/rockchip-isp1.yaml         | 23 +++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 +
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     | 68 ++++++++++++++++---
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 18 ++++-
+ 3 files changed, 77 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-index d1489b177331..b3661d7d4357 100644
---- a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-@@ -84,8 +84,27 @@ properties:
-                 minItems: 1
-                 maxItems: 4
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index 84832e1367ff..e436f1572566 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -130,6 +130,7 @@ struct rkisp1_info {
+  * @mbus_flags:		media bus (V4L2_MBUS_*) flags
+  * @sd:			a pointer to v4l2_subdev struct of the sensor
+  * @pixel_rate_ctrl:	pixel rate of the sensor, used to initialize the phy
++ * @port:		port number (0: MIPI, 1: Parallel)
+  */
+ struct rkisp1_sensor_async {
+ 	struct v4l2_async_subdev asd;
+@@ -140,6 +141,7 @@ struct rkisp1_sensor_async {
+ 	unsigned int mbus_flags;
+ 	struct v4l2_subdev *sd;
+ 	struct v4l2_ctrl *pixel_rate_ctrl;
++	unsigned int port;
+ };
  
--    required:
--      - port@0
-+      port@1:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: connection point for input on the parallel interface
-+
-+        properties:
-+          bus-type:
-+            enum: [5, 6]
-+
-+          endpoint:
-+            $ref: video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+        required:
-+          - bus-type
-+
-+    anyOf:
-+      - required:
-+          - port@0
-+      - required:
-+          - port@1
+ /*
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 0eb37ba557ce..1dcade2fd2a7 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -129,6 +129,7 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+ 	struct rkisp1_sensor_async *s_asd =
+ 		container_of(asd, struct rkisp1_sensor_async, asd);
+ 	int source_pad;
++	int ret;
  
- required:
-   - compatible
+ 	s_asd->sd = sd;
+ 
+@@ -140,7 +141,20 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+ 		return source_pad;
+ 	}
+ 
+-	return rkisp1_csi_link_sensor(rkisp1, sd, s_asd, source_pad);
++	if (s_asd->port == 0)
++		return rkisp1_csi_link_sensor(rkisp1, sd, s_asd, source_pad);
++
++	ret = media_create_pad_link(&sd->entity, source_pad,
++				    &rkisp1->isp.sd.entity,
++				    RKISP1_ISP_PAD_SINK_VIDEO,
++				    !s_asd->index ? MEDIA_LNK_FL_ENABLED : 0);
++	if (ret) {
++		dev_err(rkisp1->dev, "failed to link source pad of %s\n",
++			sd->name);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
+@@ -178,12 +192,33 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+ 	ntf->ops = &rkisp1_subdev_notifier_ops;
+ 
+ 	fwnode_graph_for_each_endpoint(fwnode, ep) {
+-		struct v4l2_fwnode_endpoint vep = {
+-			.bus_type = V4L2_MBUS_CSI2_DPHY
+-		};
++		struct fwnode_handle *port;
++		struct v4l2_fwnode_endpoint vep = { };
+ 		struct rkisp1_sensor_async *rk_asd;
+ 		struct fwnode_handle *source;
++		u32 reg = 0;
+ 
++		/* Select the bus type based on the port. */
++		port = fwnode_get_parent(ep);
++		fwnode_property_read_u32(port, "reg", &reg);
++		fwnode_handle_put(port);
++
++		switch (reg) {
++		case 0:
++			vep.bus_type = V4L2_MBUS_CSI2_DPHY;
++			break;
++
++		case 1:
++			/*
++			 * Parallel port. The bus-type property in DT is
++			 * mandatory for port 1, it will be used to determine if
++			 * it's PARALLEL or BT656.
++			 */
++			vep.bus_type = V4L2_MBUS_UNKNOWN;
++			break;
++		}
++
++		/* Parse the endpoint and validate the bus type. */
+ 		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+ 		if (ret) {
+ 			dev_err(rkisp1->dev, "failed to parse endpoint %pfw\n",
+@@ -191,6 +226,17 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+ 			break;
+ 		}
+ 
++		if (vep.base.port == 1) {
++			if (vep.bus_type != V4L2_MBUS_PARALLEL &&
++			    vep.bus_type != V4L2_MBUS_BT656) {
++				dev_err(rkisp1->dev,
++					"port 1 must be parallel or BT656\n");
++				ret = -EINVAL;
++				break;
++			}
++		}
++
++		/* Add the async subdev to the notifier. */
+ 		source = fwnode_graph_get_remote_endpoint(ep);
+ 		if (!source) {
+ 			dev_err(rkisp1->dev,
+@@ -211,11 +257,17 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+ 		rk_asd->index = index++;
+ 		rk_asd->source_ep = source;
+ 		rk_asd->mbus_type = vep.bus_type;
+-		rk_asd->mbus_flags = vep.bus.mipi_csi2.flags;
+-		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
++		rk_asd->port = vep.base.port;
+ 
+-		dev_dbg(rkisp1->dev, "registered ep id %d with %d lanes\n",
+-			vep.base.id, rk_asd->lanes);
++		if (vep.bus_type == V4L2_MBUS_CSI2_DPHY) {
++			rk_asd->mbus_flags = vep.bus.mipi_csi2.flags;
++			rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
++		} else {
++			rk_asd->mbus_flags = vep.bus.parallel.flags;
++		}
++
++		dev_dbg(rkisp1->dev, "registered ep id %d, bus type %u, %u lanes\n",
++			vep.base.id, rk_asd->mbus_type, rk_asd->lanes);
+ 	}
+ 
+ 	if (ret) {
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+index ea0bbccb5aee..383a3ec83ca9 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+@@ -729,6 +729,8 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct rkisp1_device *rkisp1 = isp->rkisp1;
+ 	struct media_pad *source_pad;
+ 	struct media_pad *sink_pad;
++	enum v4l2_mbus_type mbus_type;
++	u32 mbus_flags;
+ 	int ret;
+ 
+ 	if (!enable) {
+@@ -751,12 +753,22 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+ 		return -EPIPE;
+ 	}
+ 
+-	if (rkisp1->source != &rkisp1->csi.sd)
+-		return -EPIPE;
++	if (rkisp1->source == &rkisp1->csi.sd) {
++		mbus_type = V4L2_MBUS_CSI2_DPHY;
++		mbus_flags = 0;
++	} else {
++		const struct rkisp1_sensor_async *asd;
++
++		asd = container_of(rkisp1->source->asd,
++				   struct rkisp1_sensor_async, asd);
++
++		mbus_type = asd->mbus_type;
++		mbus_flags = asd->mbus_flags;
++	}
+ 
+ 	isp->frame_sequence = -1;
+ 	mutex_lock(&isp->ops_lock);
+-	ret = rkisp1_config_cif(isp, V4L2_MBUS_CSI2_DPHY, 0);
++	ret = rkisp1_config_cif(isp, mbus_type, mbus_flags);
+ 	if (ret)
+ 		goto mutex_unlock;
+ 
 -- 
 Regards,
 
