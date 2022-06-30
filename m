@@ -2,191 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42EC1561702
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 12:00:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9F7561750
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 12:09:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233765AbiF3J75 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 05:59:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34556 "EHLO
+        id S234744AbiF3KJx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 06:09:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232829AbiF3J7z (ORCPT
+        with ESMTP id S232411AbiF3KJw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 05:59:55 -0400
-Received: from knet-dmarc.kensnet.org (knetgate.kensnet.org [80.168.136.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D76E43EFA
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 02:59:54 -0700 (PDT)
-Received: from knetgate.kensnet.org ([192.168.122.1])
-        by knet-dmarc.kensnet.org (8.14.4/8.14.4) with ESMTP id 25U9xb9F025824
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Thu, 30 Jun 2022 10:59:38 +0100
-DKIM-Filter: OpenDKIM Filter v2.11.0 knet-dmarc.kensnet.org 25U9xb9F025824
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kensnet.org;
-        s=default; t=1656583178;
-        bh=vzAgLbG26wb13hEbG4erRyevdbvyvlD4AuceSAXQl3k=;
-        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
-        b=qVY8uaBbpYg/92zTTF1TZK/fwuS+/EExSpZzqIxFrDw+cSPgSAuGppj9Q7eeERIwd
-         H9z7Ba5u5Q0skGssWn8epPcWtlZK756mtqaijOTlAe5J9Sk9NjTuZVb7cuEyhllHJk
-         +A+QhUrrkJMjd40tXa21mMkUVtmpBrN9dG8AeoOc=
-Received: from localhost.localdomain ([172.16.0.45])
-        (authenticated bits=0)
-        by knetgate.kensnet.org (8.14.4/8.14.4) with ESMTP id 25U9xbL7029010
-        (version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-        Thu, 30 Jun 2022 10:59:38 +0100
-Subject: Re: HauppaugeTV-quadHD DVB-T & HVR5525 mpeg risc op code error
-From:   Ken Smith <kens@kensnet.org>
-To:     Martin Burnicki <martin.burnicki@burnicki.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Brad Love <brad@nextdimension.cc>
-References: <20200423155908.GA22613@gofer.mess.org>
- <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
- <20200423163559.GB23006@gofer.mess.org>
- <0cd2436c-0a39-0f85-929e-5d8f333b5027@burnicki.net>
- <20200425114147.GA3037@gofer.mess.org>
- <4aa38e2a-6b98-6530-69d9-d945a467bf0b@burnicki.net>
- <1a2d9e15-55e2-88a7-d197-208a8ce99218@burnicki.net>
- <20200427080751.GA5925@gofer.mess.org>
- <e7d8aeb8-124a-f7b3-d469-4c47f182f067@burnicki.net>
- <0fc5d43f-7928-1649-220b-45916b189d8f@burnicki.net>
- <20200430164934.GA16730@gofer.mess.org>
- <49697978-c4ef-66fe-94ac-17117540c111@kensnet.org>
- <5744615d-1126-418a-1c39-95df385605ac@burnicki.net>
- <7d749461-e52d-66de-fbcc-491d9ca035bb@kensnet.org>
- <b7e10c51-4fae-f939-286c-5364251757e3@kensnet.org>
-Organization: K-Net Technology
-Message-ID: <bb720767-fb5d-fd0d-f72f-a7325b37dc90@kensnet.org>
-Date:   Thu, 30 Jun 2022 10:59:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.0
+        Thu, 30 Jun 2022 06:09:52 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA641273;
+        Thu, 30 Jun 2022 03:09:51 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id q9so26520468wrd.8;
+        Thu, 30 Jun 2022 03:09:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=aEi52rAKRZGKuKlHNzJFi9trcKiCjqJ5mBhWrvY9RWU=;
+        b=QOYuiKTo/xpDNF6RQC0OLHZ7XjOmumfqnu32brFBuO91B4NyETFc0Eb9gABmnPngTe
+         JH+sgookHLXrrEZKrKaesZXRAcYnNySeby0ml6OasS8i1zjH8coF0u6uqQOizr3IYrQs
+         Pz54+FIRsup3ZyLbtZdmZIN/YNqVIbvVB2c3h3QLPCadQgBt/Hh7rUi7vQm5jd3G8HJj
+         4czLIE0lhhzOUT+YQ7TGNJnL3N5hs6o8DR41OeI+ed2VndZJYu3ruSTadTqESO0iPSW4
+         9rmrnqhp4/nq4QWlP1kmq7As03PlmD4mEI30Iiwey9jtNBZ17oGCIT34QmBf/bB4YW7k
+         R3rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=aEi52rAKRZGKuKlHNzJFi9trcKiCjqJ5mBhWrvY9RWU=;
+        b=BFA3kJkyEVdBxlxJPk1kA/qOR8AJ5o63GLZiWPp/hn7sBW5dD8c19EdIR3UTmo6KRT
+         jVTCkKi0NOyVGs4joxmkurwafZK/XHfk8fCgnp2iYjf60ISsQ6mqpKH+xJ08Z3L97z/R
+         ZRxkoUYkBUk6i/NBMNwwBBGYHltC6DaPSJF7/H9zR8iewclmB8mZkg8E4GxJIseBdnnm
+         kBor2qQvfDw9djbgNYt+/LIzQkfxsxoyRe+xQhlzrOOMZJWf9orUTHjQXYs/PAU5MIhC
+         BYLSQouJh3X+RQYsCPFlF/QeZkJw21vkgDidYoiZRnkq913kVwKxqg5z6rUBZXvUm0Nw
+         k4Uw==
+X-Gm-Message-State: AJIora+CG5vUH/EbMJFPIp2bbY8VPJIl0+qmXplPkqvNXzxfcSAVXECl
+        RnqE2PLsIagFrwkZF7ADgmc=
+X-Google-Smtp-Source: AGRyM1tkxQQhFI/4L94pxAE+TTmDdAsP4keILlyzIgMtnausNzfjeQm2k3gFl/OcWtdzjC7LJTlxLg==
+X-Received: by 2002:a5d:526b:0:b0:21a:3c94:cf36 with SMTP id l11-20020a5d526b000000b0021a3c94cf36mr7299419wrc.535.1656583790131;
+        Thu, 30 Jun 2022 03:09:50 -0700 (PDT)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id 12-20020a05600c020c00b003a04b0bcb43sm5959334wmi.40.2022.06.30.03.09.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jun 2022 03:09:49 -0700 (PDT)
+Message-ID: <7bc81026-957e-caf9-c04b-7ad3b9b5d367@gmail.com>
+Date:   Thu, 30 Jun 2022 11:09:48 +0100
 MIME-Version: 1.0
-In-Reply-To: <b7e10c51-4fae-f939-286c-5364251757e3@kensnet.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-kensnet-MailScanner-Information: Please contact the ISP for more information
-X-kensnet-MailScanner-ID: 25U9xbL7029010
-X-kensnet-MailScanner: Found to be clean
-X-kensnet-MailScanner-From: kens@kensnet.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4 1/6] media: ov5693: count num_supplies using array_size
+Content-Language: en-US
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220630074525.481790-1-tommaso.merciai@amarulasolutions.com>
+ <20220630074525.481790-2-tommaso.merciai@amarulasolutions.com>
+From:   Daniel Scally <djrscally@gmail.com>
+In-Reply-To: <20220630074525.481790-2-tommaso.merciai@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ken Smith wrote:
-> Ken Smith wrote:
->>
->>>>
->>>> Hi, I'd like to resurrect this thread (copied below). I have a 
->>>> system showing this error. Its a HP ML350 server with 2x Xeon 5675 
->>>> running Rocky Linux 8.5. It has a Hauppauge HVR5525 card that uses 
->>>> the same cx23885 kernel module as the quadHD card discussed above. 
->>>> The HVR5525 is a dual DVB-T2/DVB-S2 card.
->>>>
->>>> In other threads I read about the dma_reset_workaround option. That 
->>>> option did not appear to be in the version included in standard 
->>>> kernel in Rocky 8.5. I have loaded a 5.4 kernel and compiled the 
->>>> DVB media modules from .git source and set dma_reset_workaround=2 
->>>> in a file in modprobe.d. The built module shows version 0.0.4
->>>>
->>>> Sadly the error remains. The system runs MythTV v.31. The main 
->>>> symptom is occasional aborted recordings. Although the card does 
->>>> appear to recover, not requiring a reboot/cold restart.
->>>>
->>>> I'd appreciate some assistance with this. What information can I 
->>>> provide to help to trace this.
->>>
->>> I'm also maintaining a driver which started to show problems on 
->>> systems with new CPUs and chipsets quite some time ago, for example 
->>> on some Ryzen CPUs. In my case it turned out that the problem was 
->>> because my driver accessed memory locations on a my PCI card 
->>> directly via a pointer.
->>>
->>> Looks like the problem occurred because the CPU/chipset "optimized" 
->>> and re-ordered the execution of some machine instructions. There are 
->>> "barrier" instructions that can be inserted in the source code to 
->>> avoid this, but my original code didn't use them because the driver 
->>> had been working on many systems for a long time.
->>>
->>> Anyway, the low level functions provided by the kernel to access 
->>> registers on a peripheral are implemented to use those barriers, so 
->>> simply using those primitives (writel, readl and friends) instead of 
->>> accessing the registers directly via a pointer (*p = cmd; val = 
->>> *(p+1) ) fixed the problem for my driver.
->>>
->>> All the symptoms described here for the cx23885 module make me 
->>> assume that the problem is very similar, i.e. due to a missing 
->>> barrier instruction somewhere in the source code. Unfortunately I'm 
->>> not familiar with the Linux media driver stuff, so I don't know 
->>> where I could start to look for a missing barrier instruction.
->>>
->>> The only workaround that fixed the problem for me, and that I'm 
->>> still using, is to load the cx23885 module with a high debug level, 
->>> by putting a line
->>>
->>> options cx23885 debug=8
->>>
->>> into a file
->>>
->>> /etc/modprobe.d/cx23885.conf
->>>
->>> This produces a HUGE amount of kernel log messages (dmesg), but with 
->>> lower debug levels the driver still didn't work reliably.
->>>
->>> To make this stable for a long time, I changed /var/log/ to NOT 
->>> point to my SSD but to a real hard disk, and I created a cronjob 
->>> file in /etc/etc/cron.d/ with the line
->>>
->>> 1 0-23 * * * root rm -f /var/log/kern.log*
->>>
->>> to periodically remove the huge kernel log files.
->>>
->>> This hack works for me since this has been discussed on this ML 
->>> years ago.
->>>
->>>
->>> Martin
->> Thank you Martin and Robert.
->>
->> I've been doing some testing today. intel_iommu=off and 
->> dma_reset_workaround=2 or dma_reset_workaround=0 didn't change the 
->> symptoms.
->>
->> This system has journald. I initially set debug=1 to see where the 
->> messages go and I see what you mean about the volume of messages. I 
->> need to work out how to divert this torrent to /dev/null if that 
->> option is to be workable.
->>
->> I fully understand your comment about out of order instructions, 
->> Martin. Looks like this driver may need the same attention as the one 
->> you maintain. One option for me is to move the HVR5525 to a lower 
->> power machine and run that as a slave MythBackend.
->>
->> Many thanks
->>
->>
-> Update on this. I have moved the two DVBS2 tuners from the the ML350 
-> Server to a mini PC that has an i3 processor and I'm using that as a 
-> MythTV Slave Backend. It has logged three "mpeg risc op code error" 
-> events since I started it last Friday and so far no aborted 
-> recordings. This is a workaround fix that I'll live with for now. I 
-> noticed some recent patches for that module being published.
+Hello - sorry, hadn't had much time to look  at this series.
+
+On 30/06/2022 08:45, Tommaso Merciai wrote:
+> Instead of hardcode OV5693_NUM_SUPPLIES in a define is better use
+> ARRAY_SIZE function to count the number of supplies from
+> ov5693_supply_names array
 >
-> Thanks Ken
+> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+
+Reviewed-by: Daniel Scally <djrscally@gmail.com>
+
+> ---
+> Changes since v3:
+>  - Add reviewed-by tag, suggested by Jacopo, Krzysztof
 >
-Update to close out this thread. The Hauppauge HVR-5525 capture cards 
-were not stable with the current DVB Media tree on either a ML350 with a 
-Xeon or on an i3 powered PC. For the moment I've switched to using TBS 
-cards.
-
-:-) Ken
-
-
-
--- 
-This message has been scanned for viruses and
-dangerous content by MailScanner, and is
-believed to be clean.
-
+>  drivers/media/i2c/ov5693.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+> index 117ff5403312..f410333c4c67 100644
+> --- a/drivers/media/i2c/ov5693.c
+> +++ b/drivers/media/i2c/ov5693.c
+> @@ -127,11 +127,15 @@
+>  #define OV5693_LINK_FREQ_419_2MHZ		419200000
+>  #define OV5693_PIXEL_RATE			167680000
+>  
+> -/* Miscellaneous */
+> -#define OV5693_NUM_SUPPLIES			2
+> -
+>  #define to_ov5693_sensor(x) container_of(x, struct ov5693_device, sd)
+>  
+> +static const char * const ov5693_supply_names[] = {
+> +	"avdd",		/* Analog power */
+> +	"dovdd",	/* Digital I/O power */
+> +};
+> +
+> +#define OV5693_NUM_SUPPLIES	ARRAY_SIZE(ov5693_supply_names)
+> +
+>  struct ov5693_reg {
+>  	u32 reg;
+>  	u8 val;
+> @@ -352,11 +356,6 @@ static const s64 link_freq_menu_items[] = {
+>  	OV5693_LINK_FREQ_419_2MHZ
+>  };
+>  
+> -static const char * const ov5693_supply_names[] = {
+> -	"avdd",
+> -	"dovdd",
+> -};
+> -
+>  static const char * const ov5693_test_pattern_menu[] = {
+>  	"Disabled",
+>  	"Random Data",
