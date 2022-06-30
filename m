@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE2B5561BF9
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 15:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 472B7561BCA
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 15:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235596AbiF3NuF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 09:50:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49728 "EHLO
+        id S235190AbiF3NuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 09:50:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235474AbiF3NtM (ORCPT
+        with ESMTP id S235481AbiF3NtO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 09:49:12 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F214344F8
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 06:48:45 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id g26so39121144ejb.5
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 06:48:45 -0700 (PDT)
+        Thu, 30 Jun 2022 09:49:14 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395F634B97
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 06:48:46 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id fd6so26628690edb.5
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 06:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ctpa/T2vVk1WErHGmcuqVVZ1P5/ZM5PQkEWqW8vXr7A=;
-        b=QWHMm6Rv+FtY91S2WQN+wWSdGk5S+1HjGiFpU56tVt5eNsTLFjV0VtdEBwwFl2SMfU
-         FB9VFX90c+uREFxecu7xHH+lB8bpJ2kWphGm8H9gfjC1uQrnFsMTt59dSC3SMiBfduaQ
-         0flOFeBchkgjBAjirTzkfxmyBhGikH6i5IAdc=
+        bh=ROC0BgtK/N+kzsuCvrmnTVmfs20tFROFRODZongU+to=;
+        b=NaoC0xFuRq2ObQvdXuPj82w4yVCM/A/ZMWn+W0zeWYsDUTYGGbQJdNxBJqYyAbTzCT
+         qcFAuggucFIZvrj9SpxMx/AS8vGpx1GzK/cA9mktGtrnKV4DV3CsYHfYhWHkavX5gAbx
+         U/Mtc6Q7FM9kqfsf1I9SsvzlZpEq/sgXxdi9k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ctpa/T2vVk1WErHGmcuqVVZ1P5/ZM5PQkEWqW8vXr7A=;
-        b=0G5FUV1Uj/Dkh4i7dbPzPdrZkKqwU6nwiDhxBdNGk2OkRAFhf0D9dI11dj0r3u+JC2
-         6WkmgOY+mpK6dpdoulGj2maXetimaeDbwkivyzJ+1FtNTVWQ3XqeheV6wbRYRCdeHnOy
-         AMV1KIJH481RDO77IQ+deBiioak74CoHTUlmSy+6dwHM3LZPoFqQqbw4qE4FHlpWYxuA
-         2x89c0JvQ0YZz3nUrcdnn6xtGfJ02CjAFR9c3u0m859HNmhZ5QdrMMlnkhubWlnr8SsC
-         PxIieU2+NuuSrBSZY2xLZaDvHaLY2JsGLbJmdb8VItoBjSW0KahsfYnpivN2r8JZohqR
-         r8EA==
-X-Gm-Message-State: AJIora+Lw3KdMANGZBkDtHqo1BUzmxRfmjA90+Gdx2CXmhitddr4vn7l
-        NzWa3EzLWH8lsZ60sWfN74CKRw==
-X-Google-Smtp-Source: AGRyM1tl742IH4K4tuQ/XGHDZg4XSsuoE/udHOGl0i4J+cjgZcY/NrutYCDCorUvQi0EY0/51otDIA==
-X-Received: by 2002:a17:907:3dac:b0:722:e6ab:8d9 with SMTP id he44-20020a1709073dac00b00722e6ab08d9mr9931791ejc.20.1656596923839;
-        Thu, 30 Jun 2022 06:48:43 -0700 (PDT)
+        bh=ROC0BgtK/N+kzsuCvrmnTVmfs20tFROFRODZongU+to=;
+        b=YdiPmo52FdOENn9zUxoCmWpBQ9OzFHawNmxCfwPpNuMGA6UwarAqlpH14TZrDRF3l2
+         2xpB8yF7eG3rRXaBlFzXGhyCOryWmEpXKF9WOUzOQLjFoagTb7R/W5Eo5I4cCD8x0gVN
+         WvE2xRIz46DQ7DPOvVv5OZev7lBRfkQ8HkHjRQNwp1cQq3gt8IT6LGTEn5FMp7KS3O0V
+         L1R9XBbtfTH6HAtfYA/JWkh94UWnmhJ1d05eXFY5zj2S2KLoyGTdNKPNS4rxVLrZ/neA
+         BySOZNdQaUfVzBsMkLENGZT0x+OjXGaK3k3Ks9ntAXvurq2UQ4FNfIzJ8qI7h6fysEPe
+         BOlA==
+X-Gm-Message-State: AJIora+lz9lFfC357KxNltwp9ESllCuQnUVNxEG0MmCkam9dHd+Tc605
+        ZC1846Q3vJjV5R4FFtPc7iRu8w==
+X-Google-Smtp-Source: AGRyM1s9h/6dn4X3QmybTx+NQeRd1kfhotuKgCuC0FQY7rw9ZwgAgS9szjrVgzUwVvo9Sc+uvVDy0g==
+X-Received: by 2002:aa7:d294:0:b0:435:5d12:867f with SMTP id w20-20020aa7d294000000b004355d12867fmr11725808edq.147.1656596925203;
+        Thu, 30 Jun 2022 06:48:45 -0700 (PDT)
 Received: from tom-ThinkPad-T14s-Gen-2i.station (net-188-217-58-216.cust.vodafonedsl.it. [188.217.58.216])
-        by smtp.gmail.com with ESMTPSA id k5-20020a1709067ac500b006fee526ed72sm9130288ejo.217.2022.06.30.06.48.43
+        by smtp.gmail.com with ESMTPSA id k5-20020a1709067ac500b006fee526ed72sm9130288ejo.217.2022.06.30.06.48.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 06:48:43 -0700 (PDT)
+        Thu, 30 Jun 2022 06:48:44 -0700 (PDT)
 From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 To:     tommaso.merciai@amarulasolutions.com
 Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
@@ -53,9 +53,9 @@ Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
         Daniel Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 3/6] media: ov5693: rename clk into xvclk
-Date:   Thu, 30 Jun 2022 15:48:32 +0200
-Message-Id: <20220630134835.592521-4-tommaso.merciai@amarulasolutions.com>
+Subject: [PATCH v5 4/6] media: ov5693: add support for acpi clock-frequency prop
+Date:   Thu, 30 Jun 2022 15:48:33 +0200
+Message-Id: <20220630134835.592521-5-tommaso.merciai@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220630134835.592521-1-tommaso.merciai@amarulasolutions.com>
 References: <20220630134835.592521-1-tommaso.merciai@amarulasolutions.com>
@@ -71,81 +71,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename clk pdata pointer into xvclk (system clock input).
-Same for clk_rate into xvclk_rate. This is more explicit
+Add support for ACPI-based platforms that specify the clock frequency by
+using the "clock-frequency" property instead of specifying a clock
+provider reference
 
 Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
-Changes since v3:
- - Add reviewed-by tag, suggested by Jacopo, Krzysztof
+Changes since v2:
+ - Fix commit body as suggested by Sakari, Jacopo
+ - Add details to commit body as suggested by Jacopo
+ - Move ov5693_check_hwcfg into ov5693_hwcfg
+ - Fix xvclk_rate position as suggested by Jacopo
+ - Use devm_clk_get_optional instead of devm_clk_get as suggested Jacopo
 
- drivers/media/i2c/ov5693.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Changes since v3:
+ - Fix commit body as suggested by Jacopo
+ - Add reviewed-by tags, suggested by Jacopo, Krzysztof
+
+Changes since v4:
+ - Remove wrong Sakari reviewed-by tag, suggested by Krzysztof, Sakari
+ - Revert ov5693_check_hwcfg function changes. Keep clk init on probe function
+as suggested by Sakari
+ - Fix commit body
+ - Fix commit msg
+
+ drivers/media/i2c/ov5693.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-index 9e84468d920e..d2adc5513a21 100644
+index d2adc5513a21..701468267f20 100644
 --- a/drivers/media/i2c/ov5693.c
 +++ b/drivers/media/i2c/ov5693.c
-@@ -157,7 +157,7 @@ struct ov5693_device {
- 	struct gpio_desc *reset;
- 	struct gpio_desc *powerdown;
- 	struct regulator_bulk_data supplies[OV5693_NUM_SUPPLIES];
--	struct clk *clk;
-+	struct clk *xvclk;
- 
- 	struct ov5693_mode {
- 		struct v4l2_rect crop;
-@@ -794,7 +794,7 @@ static void ov5693_sensor_powerdown(struct ov5693_device *ov5693)
- 
- 	regulator_bulk_disable(OV5693_NUM_SUPPLIES, ov5693->supplies);
- 
--	clk_disable_unprepare(ov5693->clk);
-+	clk_disable_unprepare(ov5693->xvclk);
- }
- 
- static int ov5693_sensor_powerup(struct ov5693_device *ov5693)
-@@ -804,7 +804,7 @@ static int ov5693_sensor_powerup(struct ov5693_device *ov5693)
- 	gpiod_set_value_cansleep(ov5693->reset, 1);
- 	gpiod_set_value_cansleep(ov5693->powerdown, 1);
- 
--	ret = clk_prepare_enable(ov5693->clk);
-+	ret = clk_prepare_enable(ov5693->xvclk);
- 	if (ret) {
- 		dev_err(ov5693->dev, "Failed to enable clk\n");
- 		goto fail_power;
-@@ -1390,7 +1390,7 @@ static int ov5693_check_hwcfg(struct ov5693_device *ov5693)
- static int ov5693_probe(struct i2c_client *client)
- {
- 	struct ov5693_device *ov5693;
--	u32 clk_rate;
-+	u32 xvclk_rate;
- 	int ret = 0;
- 
- 	ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
-@@ -1408,16 +1408,16 @@ static int ov5693_probe(struct i2c_client *client)
+@@ -1408,13 +1408,25 @@ static int ov5693_probe(struct i2c_client *client)
  
  	v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
  
--	ov5693->clk = devm_clk_get(&client->dev, "xvclk");
--	if (IS_ERR(ov5693->clk)) {
-+	ov5693->xvclk = devm_clk_get(&client->dev, "xvclk");
-+	if (IS_ERR(ov5693->xvclk)) {
- 		dev_err(&client->dev, "Error getting clock\n");
--		return PTR_ERR(ov5693->clk);
-+		return PTR_ERR(ov5693->xvclk);
+-	ov5693->xvclk = devm_clk_get(&client->dev, "xvclk");
+-	if (IS_ERR(ov5693->xvclk)) {
+-		dev_err(&client->dev, "Error getting clock\n");
+-		return PTR_ERR(ov5693->xvclk);
++	ov5693->xvclk = devm_clk_get_optional(&client->dev, "xvclk");
++	if (IS_ERR(ov5693->xvclk))
++		return dev_err_probe(&client->dev, PTR_ERR(ov5693->xvclk),
++				     "failed to get xvclk: %ld\n",
++				     PTR_ERR(ov5693->xvclk));
++
++	if (ov5693->xvclk) {
++		xvclk_rate = clk_get_rate(ov5693->xvclk);
++	} else {
++		ret = fwnode_property_read_u32(dev_fwnode(&client->dev),
++				     "clock-frequency",
++				     &xvclk_rate);
++
++		if (ret) {
++			dev_err(&client->dev, "can't get clock frequency");
++			return ret;
++		}
  	}
  
--	clk_rate = clk_get_rate(ov5693->clk);
--	if (clk_rate != OV5693_XVCLK_FREQ)
-+	xvclk_rate = clk_get_rate(ov5693->xvclk);
-+	if (xvclk_rate != OV5693_XVCLK_FREQ)
+-	xvclk_rate = clk_get_rate(ov5693->xvclk);
+ 	if (xvclk_rate != OV5693_XVCLK_FREQ)
  		dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
--			 clk_rate, OV5693_XVCLK_FREQ);
-+			 xvclk_rate, OV5693_XVCLK_FREQ);
- 
- 	ret = ov5693_configure_gpios(ov5693);
- 	if (ret)
+ 			 xvclk_rate, OV5693_XVCLK_FREQ);
 -- 
 2.25.1
 
