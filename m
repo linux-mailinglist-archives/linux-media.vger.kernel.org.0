@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26EE55626E6
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 01:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99CCC5626A6
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 01:18:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232111AbiF3XLh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S232183AbiF3XLh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 30 Jun 2022 19:11:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59708 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232159AbiF3XLf (ORCPT
+        with ESMTP id S232148AbiF3XLg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 19:11:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D99F10551
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 16:11:30 -0700 (PDT)
+        Thu, 30 Jun 2022 19:11:36 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AFEA58FEC
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 16:11:35 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38BFC2A4F;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6A162A52;
         Fri,  1 Jul 2022 01:08:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656630489;
-        bh=/3AoZhQqUQbVZqavOWitWJhADZEuur7NZVJYIoJ7AxI=;
+        s=mail; t=1656630490;
+        bh=RgfjRP3xtF4BEUq8UXAwU/oRJ8HeZ4l5c+IaMtG2Iwk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nHX9h4A1ujCObg8sNJQKBaWxiuw3EUs+qvNbV3neRLL/Ksamt3YCXPXCujosiWWmk
-         6HJATJft01fqLGNDU7D8IfapB25DJzmlajhr4TDA2yOCbbgdlvEwCWpnCFJXQ/Zu6Y
-         Dnv6d4uWGgqwm9Mz2+4FdjaMpbtj45iWDCCne55U=
+        b=Sl0mhHCJXaGpvY/9K0DQ8sMFUM22xpzs/pSTXKpBFOdWLaPPed+cG0VSE6f/3FBW8
+         0UQPqoiZoKfgose0eVZEXNXhsRxN6zGyauxeAR9Vq7I8xO14KlcTLJ3efacVgCT+vp
+         Qb3ca9n8g+I4cVB2p/c6uYrUa/FuLS8I1PLaMdkw=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-rockchip@lists.infradead.org,
@@ -32,9 +32,9 @@ Cc:     linux-rockchip@lists.infradead.org,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: [PATCH v2 49/55] media: rkisp1: Configure gasket on i.MX8MP
-Date:   Fri,  1 Jul 2022 02:07:07 +0300
-Message-Id: <20220630230713.10580-50-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 50/55] media: rkisp1: Add and set registers for crop for i.MX8MP
+Date:   Fri,  1 Jul 2022 02:07:08 +0300
+Message-Id: <20220630230713.10580-51-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
 References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
@@ -49,260 +49,172 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The i.MX8MP has a gasket between the CSI-2 receiver and the ISP.
-Configure and enable it when starting the ISP, and disable it when
-stopping.
+From: Paul Elder <paul.elder@ideasonboard.com>
+
+The ISP version in the i.MX8MP has a separate set of registers for crop
+that is currently not handled. Add a feature flag to determine which
+type of crop the ISP supports and set the crop registers based on that.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 ---
- .../platform/rockchip/rkisp1/rkisp1-common.h  |   5 +
- .../platform/rockchip/rkisp1/rkisp1-dev.c     |  16 +++
- .../platform/rockchip/rkisp1/rkisp1-isp.c     | 128 +++++++++++++++++-
- 3 files changed, 147 insertions(+), 2 deletions(-)
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 ++
+ .../platform/rockchip/rkisp1/rkisp1-debug.c   | 14 +++++++++++++-
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     |  7 +++++--
+ .../platform/rockchip/rkisp1/rkisp1-regs.h    |  9 +++++++++
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c | 19 +++++++++++++++++--
+ 5 files changed, 46 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index dedfcf3466c8..7e2aa0a2b86d 100644
+index 7e2aa0a2b86d..18a48ecda173 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -24,6 +24,7 @@
- #include "rkisp1-regs.h"
- 
- struct dentry;
-+struct regmap;
+@@ -110,6 +110,8 @@ enum rkisp1_isp_pad {
+  */
+ enum rkisp1_feature {
+ 	RKISP1_FEATURE_MIPI_CSI2 = BIT(0),
++	RKISP1_FEATURE_DUAL_CROP = BIT(1),
++	RKISP1_FEATURE_RSZ_CROP = BIT(2),
+ };
  
  /*
-  * flags on the 'direction' field in struct rkisp1_mbus_info' that indicate
-@@ -442,6 +443,8 @@ struct rkisp1_debug {
-  * @dev:	   a pointer to the struct device
-  * @clk_size:	   number of clocks
-  * @clks:	   array of clocks
-+ * @gasket:	   the gasket - i.MX8MP only
-+ * @gasket_id:	   the gasket ID (0 or 1) - i.MX8MP only
-  * @v4l2_dev:	   v4l2_device variable
-  * @media_dev:	   media_device variable
-  * @notifier:	   a notifier to register on the v4l2-async API to be notified on the sensor
-@@ -462,6 +465,8 @@ struct rkisp1_device {
- 	struct device *dev;
- 	unsigned int clk_size;
- 	struct clk_bulk_data clks[RKISP1_MAX_BUS_CLK];
-+	struct regmap *gasket;
-+	unsigned int gasket_id;
- 	struct v4l2_device v4l2_dev;
- 	struct media_device media_dev;
- 	struct v4l2_async_notifier notifier;
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+index 1a59c00fabdd..2d4e1d3f8adb 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+@@ -115,9 +115,21 @@ static int rkisp1_debug_dump_rsz_regs_show(struct seq_file *m, void *p)
+ 		RKISP1_DEBUG_SHD_REG(RSZ_PHASE_VC),
+ 		{ /* Sentinel */ },
+ 	};
++	static const struct rkisp1_debug_register crop_registers[] = {
++		RKISP1_DEBUG_SHD_REG(RSZ_CROP_X_DIR),
++		RKISP1_DEBUG_SHD_REG(RSZ_CROP_Y_DIR),
++		RKISP1_DEBUG_REG(RSZ_FRAME_RATE),
++		RKISP1_DEBUG_REG(RSZ_FORMAT_CONV_CTRL),
++		{ /* Sentinel */ },
++	};
+ 	struct rkisp1_resizer *rsz = m->private;
+ 
+-	return rkisp1_debug_dump_regs(rsz->rkisp1, m, rsz->regs_base, registers);
++	rkisp1_debug_dump_regs(rsz->rkisp1, m, rsz->regs_base, registers);
++	if (rsz->rkisp1->info->features & RKISP1_FEATURE_RSZ_CROP)
++		rkisp1_debug_dump_regs(rsz->rkisp1, m, rsz->regs_base,
++				       crop_registers);
++
++	return 0;
+ }
+ DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_rsz_regs);
+ 
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index a41f89807dd7..b6643020b831 100644
+index b6643020b831..003bd7db54b9 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -10,6 +10,7 @@
+@@ -475,7 +475,8 @@ static const struct rkisp1_info px30_isp_info = {
+ 	.isrs = px30_isp_isrs,
+ 	.isr_size = ARRAY_SIZE(px30_isp_isrs),
+ 	.isp_ver = RKISP1_V12,
+-	.features = RKISP1_FEATURE_MIPI_CSI2,
++	.features = RKISP1_FEATURE_MIPI_CSI2
++		  | RKISP1_FEATURE_DUAL_CROP,
+ };
  
- #include <linux/clk.h>
- #include <linux/interrupt.h>
-+#include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
-@@ -579,6 +580,21 @@ static int rkisp1_probe(struct platform_device *pdev)
- 		return ret;
- 	rkisp1->clk_size = info->clk_size;
+ static const char * const rk3399_isp_clks[] = {
+@@ -494,7 +495,8 @@ static const struct rkisp1_info rk3399_isp_info = {
+ 	.isrs = rk3399_isp_isrs,
+ 	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
+ 	.isp_ver = RKISP1_V10,
+-	.features = RKISP1_FEATURE_MIPI_CSI2,
++	.features = RKISP1_FEATURE_MIPI_CSI2
++		  | RKISP1_FEATURE_DUAL_CROP,
+ };
  
-+	if (info->isp_ver == IMX8MP_V10) {
-+		unsigned int id;
-+
-+		rkisp1->gasket = syscon_regmap_lookup_by_phandle_args(dev->of_node,
-+								      "fsl,blk-ctrl",
-+								      1, &id);
-+		if (IS_ERR(rkisp1->gasket)) {
-+			ret = PTR_ERR(rkisp1->gasket);
-+			dev_err(dev, "failed to get gasket: %d\n", ret);
-+			return ret;
-+		}
-+
-+		rkisp1->gasket_id = id;
-+	}
-+
- 	pm_runtime_enable(&pdev->dev);
+ static const char * const imx8mp_isp_clks[] = {
+@@ -513,6 +515,7 @@ static const struct rkisp1_info imx8mp_isp_info = {
+ 	.isrs = imx8mp_isp_isrs,
+ 	.isr_size = ARRAY_SIZE(imx8mp_isp_isrs),
+ 	.isp_ver = IMX8MP_V10,
++	.features = RKISP1_FEATURE_RSZ_CROP,
+ };
  
- 	ret = pm_runtime_resume_and_get(&pdev->dev);
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 383a3ec83ca9..a3c7d4d88387 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -10,6 +10,7 @@
+ static const struct of_device_id rkisp1_of_match[] = {
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+index dd3e6c38be67..1fc54ab22b6d 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+@@ -168,6 +168,9 @@
+ #define RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO		BIT(9)
+ #define RKISP1_CIF_RSZ_SCALER_FACTOR			BIT(16)
  
- #include <linux/iopoll.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
- #include <linux/videodev2.h>
- #include <linux/vmalloc.h>
++/* RSZ_CROP_[XY]_DIR */
++#define RKISP1_CIF_RSZ_CROP_XY_DIR(start, end)		((end) << 16 | (start) << 0)
++
+ /* MI_IMSC - MI_MIS - MI_RIS - MI_ICR - MI_ISR */
+ #define RKISP1_CIF_MI_FRAME(stream)			BIT((stream)->id)
+ #define RKISP1_CIF_MI_MBLK_LINE				BIT(2)
+@@ -926,6 +929,12 @@
+ #define RKISP1_CIF_RSZ_PHASE_HC_SHD		0x004C
+ #define RKISP1_CIF_RSZ_PHASE_VY_SHD		0x0050
+ #define RKISP1_CIF_RSZ_PHASE_VC_SHD		0x0054
++#define RKISP1_CIF_RSZ_CROP_X_DIR		0x0058
++#define RKISP1_CIF_RSZ_CROP_Y_DIR		0x005C
++#define RKISP1_CIF_RSZ_CROP_X_DIR_SHD		0x0060
++#define RKISP1_CIF_RSZ_CROP_Y_DIR_SHD		0x0064
++#define RKISP1_CIF_RSZ_FRAME_RATE		0x0068
++#define RKISP1_CIF_RSZ_FORMAT_CONV_CTRL		0x006C
  
-@@ -87,6 +88,115 @@ rkisp1_isp_get_pad_crop(struct rkisp1_isp *isp,
- 		return v4l2_subdev_get_try_crop(&isp->sd, &state, pad);
- }
- 
-+/* -----------------------------------------------------------------------------
-+ * Media block control (i.MX8MP only)
-+ */
-+
-+#define ISP_DEWARP_CONTROL				0x0138
-+
-+#define ISP_DEWARP_CONTROL_MIPI_CSI2_HS_POLARITY	BIT(22)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_RISING	(0 << 20)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_NEGATIVE	(1 << 20)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_POSITIVE	(2 << 20)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_FALLING	(3 << 20)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_MASK	GENMASK(21, 20)
-+#define ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE	BIT(19)
-+#define ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE(dt)	((dt) << 13)
-+#define ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE_MASK	GENMASK(18, 13)
-+
-+#define ISP_DEWARP_CONTROL_MIPI_CSI1_HS_POLARITY	BIT(12)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_RISING	(0 << 10)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_NEGATIVE	(1 << 10)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_POSITIVE	(2 << 10)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_FALLING	(3 << 10)
-+#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_MASK	GENMASK(11, 10)
-+#define ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE	BIT(9)
-+#define ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE(dt)	((dt) << 3)
-+#define ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE_MASK	GENMASK(8, 3)
-+
-+#define ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE		BIT(1)
-+#define ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE		BIT(0)
-+
-+static int rkisp1_gasket_enable(struct rkisp1_device *rkisp1,
-+				struct media_pad *source)
-+{
-+	struct v4l2_subdev *source_sd;
-+	struct v4l2_mbus_frame_desc fd;
-+	unsigned int dt;
-+	u32 mask;
-+	u32 val;
-+	int ret;
-+
-+	/*
-+	 * Configure and enable the gasket with the CSI-2 data type. Set the
-+	 * vsync polarity as active high, as that is what the ISP is configured
-+	 * to expect in ISP_ACQ_PROP. Enable left justification, as the i.MX8MP
-+	 * ISP has a 16-bit wide input and expects data to be left-aligned.
-+	 */
-+
-+	source_sd = media_entity_to_v4l2_subdev(source->entity);
-+	ret = v4l2_subdev_call(source_sd, pad, get_frame_desc,
-+			       source->index, &fd);
-+	if (ret) {
-+		dev_err(rkisp1->dev,
-+			"failed to get frame descriptor from '%s':%u: %d\n",
-+			source_sd->name, 0, ret);
-+		return ret;
-+	}
-+
-+	if (fd.num_entries != 1) {
-+		dev_err(rkisp1->dev, "invalid frame descriptor for '%s':%u\n",
-+			source_sd->name, 0);
-+		return -EINVAL;
-+	}
-+
-+	dt = fd.entry[0].bus.csi2.dt;
-+
-+	if (rkisp1->gasket_id == 0) {
-+		mask = ISP_DEWARP_CONTROL_MIPI_CSI1_HS_POLARITY
-+		     | ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_MASK
-+		     | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
-+		     | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE_MASK
-+		     | ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE;
-+		val = ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_POSITIVE
-+		    | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
-+		    | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE(dt);
-+	} else {
-+		mask = ISP_DEWARP_CONTROL_MIPI_CSI2_HS_POLARITY
-+		     | ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_MASK
-+		     | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
-+		     | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE_MASK
-+		     | ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE;
-+		val = ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_POSITIVE
-+		    | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
-+		    | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE(dt);
-+	}
-+
-+	regmap_update_bits(rkisp1->gasket, ISP_DEWARP_CONTROL, mask, val);
-+
-+	return 0;
-+}
-+
-+static void rkisp1_gasket_disable(struct rkisp1_device *rkisp1)
-+{
-+	u32 mask;
-+	u32 val;
-+
-+	if (rkisp1->gasket_id == 1) {
-+		mask = ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
-+		     | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE_MASK
-+		     | ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE;
-+		val = ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE;
-+	} else {
-+		mask = ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
-+		     | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE_MASK
-+		     | ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE;
-+		val = ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE;
-+	}
-+
-+	regmap_update_bits(rkisp1->gasket, ISP_DEWARP_CONTROL, mask, val);
-+}
-+
- /* ----------------------------------------------------------------------------
-  * Camera Interface registers configurations
-  */
-@@ -303,6 +413,9 @@ static void rkisp1_isp_stop(struct rkisp1_isp *isp)
- 		     RKISP1_CIF_VI_IRCL_MIPI_SW_RST |
- 		     RKISP1_CIF_VI_IRCL_ISP_SW_RST);
- 	rkisp1_write(rkisp1, RKISP1_CIF_VI_IRCL, 0x0);
-+
-+	if (rkisp1->info->isp_ver == IMX8MP_V10)
-+		rkisp1_gasket_disable(rkisp1);
- }
- 
- static void rkisp1_config_clk(struct rkisp1_isp *isp)
-@@ -327,19 +440,28 @@ static void rkisp1_config_clk(struct rkisp1_isp *isp)
- 	}
- }
- 
--static void rkisp1_isp_start(struct rkisp1_isp *isp)
-+static int rkisp1_isp_start(struct rkisp1_isp *isp, struct media_pad *source)
+ #define RKISP1_CIF_MI_BASE			0x00001400
+ #define RKISP1_CIF_MI_CTRL			(RKISP1_CIF_MI_BASE + 0x00000000)
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+index f4caa8f684aa..08bf3aa8088f 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+@@ -244,6 +244,7 @@ static void rkisp1_rsz_config_regs(struct rkisp1_resizer *rsz,
  {
- 	struct rkisp1_device *rkisp1 = isp->rkisp1;
- 	u32 val;
-+	int ret;
+ 	u32 ratio, rsz_ctrl = 0;
+ 	unsigned int i;
++	u32 val;
  
- 	rkisp1_config_clk(isp);
+ 	/* No phase offset */
+ 	rkisp1_rsz_write(rsz, RKISP1_CIF_RSZ_PHASE_HY, 0);
+@@ -292,6 +293,18 @@ static void rkisp1_rsz_config_regs(struct rkisp1_resizer *rsz,
  
-+	if (rkisp1->info->isp_ver == IMX8MP_V10) {
-+		ret = rkisp1_gasket_enable(rkisp1, source);
-+		if (ret)
-+			return ret;
+ 	rkisp1_rsz_write(rsz, RKISP1_CIF_RSZ_CTRL, rsz_ctrl);
+ 
++	if (rsz->rkisp1->info->features & RKISP1_FEATURE_RSZ_CROP) {
++		val = RKISP1_CIF_RSZ_CROP_XY_DIR(src_y->left, src_y->left + src_y->width - 1);
++		rkisp1_rsz_write(rsz, RKISP1_CIF_RSZ_CROP_X_DIR, val);
++		val = RKISP1_CIF_RSZ_CROP_XY_DIR(src_y->top, src_y->top + src_y->height - 1);
++		rkisp1_rsz_write(rsz, RKISP1_CIF_RSZ_CROP_Y_DIR, val);
++
++		val = RKISP1_CIF_RSZ_FORMAT_CONV_CTRL_RSZ_INPUT_FORMAT_YCBCR_422
++		    | RKISP1_CIF_RSZ_FORMAT_CONV_CTRL_RSZ_OUTPUT_FORMAT_YCBCR_420
++		    | RKISP1_CIF_RSZ_FORMAT_CONV_CTRL_RSZ_PACK_FORMAT_SEMI_PLANAR;
++		rkisp1_rsz_write(rsz, RKISP1_CIF_RSZ_FORMAT_CONV_CTRL, val);
 +	}
 +
- 	/* Activate ISP */
- 	val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_CTRL);
- 	val |= RKISP1_CIF_ISP_CTRL_ISP_CFG_UPD |
- 	       RKISP1_CIF_ISP_CTRL_ISP_ENABLE |
- 	       RKISP1_CIF_ISP_CTRL_ISP_INFORM_ENABLE;
- 	rkisp1_write(rkisp1, RKISP1_CIF_ISP_CTRL, val);
-+
-+	return 0;
+ 	rkisp1_rsz_update_shadow(rsz, when);
  }
  
- /* ----------------------------------------------------------------------------
-@@ -772,7 +894,9 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
- 	if (ret)
- 		goto mutex_unlock;
+@@ -656,7 +669,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
+ 	enum rkisp1_shadow_regs_when when = RKISP1_SHADOW_REGS_SYNC;
  
--	rkisp1_isp_start(isp);
-+	ret = rkisp1_isp_start(isp, source_pad);
-+	if (ret)
-+		goto mutex_unlock;
+ 	if (!enable) {
+-		rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
++		if (rkisp1->info->features & RKISP1_FEATURE_DUAL_CROP)
++			rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
+ 		rkisp1_rsz_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
+ 		return 0;
+ 	}
+@@ -666,7 +680,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
  
- 	ret = v4l2_subdev_call(rkisp1->source, video, s_stream, true);
- 	if (ret) {
+ 	mutex_lock(&rsz->ops_lock);
+ 	rkisp1_rsz_config(rsz, when);
+-	rkisp1_dcrop_config(rsz);
++	if (rkisp1->info->features & RKISP1_FEATURE_DUAL_CROP)
++		rkisp1_dcrop_config(rsz);
+ 
+ 	mutex_unlock(&rsz->ops_lock);
+ 	return 0;
 -- 
 Regards,
 
