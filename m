@@ -2,105 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E9315619CD
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 14:04:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10AFE561B82
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 15:42:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235200AbiF3MD6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 08:03:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48198 "EHLO
+        id S235126AbiF3NmY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 09:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235159AbiF3MDz (ORCPT
+        with ESMTP id S230223AbiF3NmX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 08:03:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BE06274796
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 05:03:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656590632;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DjTtG+0RqCMHzX5eN04DCnK0F3ZDM8TYHV+E49O0lmQ=;
-        b=LS0EYls6K5EBVVuTfy/b5axXzE6gm8NgtyRsrwPeMxHP99xBEv5bFaB/LFIfvN68pwRAFv
-        dWqVER3IK0c/JF5n33iRo85WV4Ls9lNBPZQK/LY1VcWs+K5mwKauA2222PrVtxHMOmQoeS
-        bF8vVFv1pNGrK0cDUqZJWYaQiurE0EU=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-199-aizUuu33MJy6ftVJ5rTG2Q-1; Thu, 30 Jun 2022 08:03:51 -0400
-X-MC-Unique: aizUuu33MJy6ftVJ5rTG2Q-1
-Received: by mail-qk1-f197.google.com with SMTP id i10-20020a05620a404a00b006a7609f54c6so19010514qko.7
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 05:03:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=DjTtG+0RqCMHzX5eN04DCnK0F3ZDM8TYHV+E49O0lmQ=;
-        b=tOcSGjFd1QIDX9CB0v3LEXNWBJBT+i8URNtn8ojSB6fEJNdkuD3Boubcug8gDExLQ9
-         GvmFeCUZnBWj5nrTE8N1jxInHKfvhc7z5Tel+XMNWWkg18UWlYO55KwADy4H6+XaEGRg
-         WUzHI0dYZMM5LGgg5AmMdwbhbuGdTyYthQdBRooTIoKR+2kCIJxSI127NvMFnfFxFS4T
-         JZZemQG18eIWucn9c/CnXvov0+6pdkHaEfYZz6aRqQXv76mMLA95qc0FH6POKUT3s4t5
-         y1cKmX8VO6QNKAQmGc62BKUXfB+vjGBxmN8vd2TUonyrRSbLnDXdZa5Rsp/QlqAApHej
-         WTJA==
-X-Gm-Message-State: AJIora9aiuSdzwcFj93LgoMb8q6d1OYLejQG4P63tkELeHMuEdEJG9yy
-        xQ9Pv+TRM4RFWKsnNwtOE78SiHBrgcfMyzJGtlU+V5695dkPWivIb97GUQza44nAC+P/ArW+QSl
-        fGcUKTHWysNBxi8rPGT5x1vc=
-X-Received: by 2002:ae9:c203:0:b0:6b1:17a5:a56d with SMTP id j3-20020ae9c203000000b006b117a5a56dmr5905561qkg.705.1656590631292;
-        Thu, 30 Jun 2022 05:03:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v/N7n/XGyXmbJYFqomZ9zL/F0CDIeQsBh9Np3+S6wqPRl66MueeztNc8Po6I4gTfRI19vlIg==
-X-Received: by 2002:ae9:c203:0:b0:6b1:17a5:a56d with SMTP id j3-20020ae9c203000000b006b117a5a56dmr5905529qkg.705.1656590630960;
-        Thu, 30 Jun 2022 05:03:50 -0700 (PDT)
-Received: from bfoster (c-24-61-119-116.hsd1.ma.comcast.net. [24.61.119.116])
-        by smtp.gmail.com with ESMTPSA id h18-20020ac87772000000b002f905347586sm12662055qtu.14.2022.06.30.05.03.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 05:03:50 -0700 (PDT)
-Date:   Thu, 30 Jun 2022 08:03:47 -0400
-From:   Brian Foster <bfoster@redhat.com>
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Stephen Brennan <stephen.s.brennan@oracle.com>,
-        David.Laight@aculab.com, Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
-Message-ID: <Yr2RI3dJ0B4TALE5@bfoster>
-References: <20220623220613.3014268-1-kaleshsingh@google.com>
- <20220623220613.3014268-2-kaleshsingh@google.com>
- <Yrrrz7MxMu8OoEPU@bfoster>
- <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
- <YrxEUbDkYLE6XF6x@bfoster>
- <CAC_TJvcRd7=9xGXP5-t8v3g5iFWtYANpGA-nTqaGZBVTwa=07w@mail.gmail.com>
- <Yr2NngYE2qX8WzPV@bfoster>
+        Thu, 30 Jun 2022 09:42:23 -0400
+Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E1020F55;
+        Thu, 30 Jun 2022 06:42:20 -0700 (PDT)
+Received: from [10.36.2.165] (unknown [178.232.223.95])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by mail.turbocat.net (Postfix) with ESMTPSA id 40BEA26029F;
+        Thu, 30 Jun 2022 15:42:18 +0200 (CEST)
+Message-ID: <a3d44193-68f1-81a6-6baa-19e8403c5cd6@selasky.org>
+Date:   Thu, 30 Jun 2022 15:42:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
+Content-Language: en-US
+To:     =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20220623103543.4138-1-yongsuyoo0215@gmail.com>
+ <CANXPkT49g7_YaL3rABY5Uhohz=EPgPqOL2tb6K4SHsWmshtysw@mail.gmail.com>
+From:   Hans Petter Selasky <hps@selasky.org>
+In-Reply-To: <CANXPkT49g7_YaL3rABY5Uhohz=EPgPqOL2tb6K4SHsWmshtysw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yr2NngYE2qX8WzPV@bfoster>
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -108,185 +47,21 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 30, 2022 at 07:48:46AM -0400, Brian Foster wrote:
-> On Wed, Jun 29, 2022 at 01:43:11PM -0700, Kalesh Singh wrote:
-> > On Wed, Jun 29, 2022 at 5:23 AM Brian Foster <bfoster@redhat.com> wrote:
-> > >
-> > > On Tue, Jun 28, 2022 at 03:38:02PM -0700, Kalesh Singh wrote:
-> > > > On Tue, Jun 28, 2022 at 4:54 AM Brian Foster <bfoster@redhat.com> wrote:
-> > > > >
-> > > > > On Thu, Jun 23, 2022 at 03:06:06PM -0700, Kalesh Singh wrote:
-> > > > > > To be able to account the amount of memory a process is keeping pinned
-> > > > > > by open file descriptors add a 'size' field to fdinfo output.
-> > > > > >
-> > > > > > dmabufs fds already expose a 'size' field for this reason, remove this
-> > > > > > and make it a common field for all fds. This allows tracking of
-> > > > > > other types of memory (e.g. memfd and ashmem in Android).
-> > > > > >
-> > > > > > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > > > > > Reviewed-by: Christian K�nig <christian.koenig@amd.com>
-> > > > > > ---
-> > > > > >
-> > > > > > Changes in v2:
-> > > > > >   - Add Christian's Reviewed-by
-> > > > > >
-> > > > > > Changes from rfc:
-> > > > > >   - Split adding 'size' and 'path' into a separate patches, per Christian
-> > > > > >   - Split fdinfo seq_printf into separate lines, per Christian
-> > > > > >   - Fix indentation (use tabs) in documentaion, per Randy
-> > > > > >
-> > > > > >  Documentation/filesystems/proc.rst | 12 ++++++++++--
-> > > > > >  drivers/dma-buf/dma-buf.c          |  1 -
-> > > > > >  fs/proc/fd.c                       |  9 +++++----
-> > > > > >  3 files changed, 15 insertions(+), 7 deletions(-)
-> > > > > >
-> > > ...
-> > > > >
-> > > > > Also not sure if it matters that much for your use case, but something
-> > > > > worth noting at least with shmem is that one can do something like:
-> > > > >
-> > > > > # cat /proc/meminfo | grep Shmem:
-> > > > > Shmem:               764 kB
-> > > > > # xfs_io -fc "falloc -k 0 10m" ./file
-> > > > > # ls -alh file
-> > > > > -rw-------. 1 root root 0 Jun 28 07:22 file
-> > > > > # stat file
-> > > > >   File: file
-> > > > >   Size: 0               Blocks: 20480      IO Block: 4096   regular empty file
-> > > > > # cat /proc/meminfo | grep Shmem:
-> > > > > Shmem:             11004 kB
-> > > > >
-> > > > > ... where the resulting memory usage isn't reflected in i_size (but is
-> > > > > is in i_blocks/bytes).
-> > > >
-> > > > I tried a similar experiment a few times, but I don't see the same
-> > > > results. In my case, there is not any change in shmem. IIUC the
-> > > > fallocate is allocating the disk space not shared memory.
-> > > >
-> > >
-> > > Sorry, it was implied in my previous test was that I was running against
-> > > tmpfs. So regardless of fs, the fallocate keep_size semantics shown in
-> > > both cases is as expected: the underlying blocks are allocated and the
-> > > inode size is unchanged.
-> > >
-> > > What wasn't totally clear to me when I read this patch was 1. whether
-> > > tmpfs refers to Shmem and 2. whether tmpfs allowed this sort of
-> > > operation. The test above seems to confirm both, however, right? E.g., a
-> > > more detailed example:
-> > >
-> > > # mount | grep /tmp
-> > > tmpfs on /tmp type tmpfs (rw,nosuid,nodev,seclabel,nr_inodes=1048576,inode64)
-> > > # cat /proc/meminfo | grep Shmem:
-> > > Shmem:              5300 kB
-> > > # xfs_io -fc "falloc -k 0 1g" /tmp/file
-> > > # stat /tmp/file
-> > >   File: /tmp/file
-> > >   Size: 0               Blocks: 2097152    IO Block: 4096   regular empty file
-> > > Device: 22h/34d Inode: 45          Links: 1
-> > > Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
-> > > Context: unconfined_u:object_r:user_tmp_t:s0
-> > > Access: 2022-06-29 08:04:01.301307154 -0400
-> > > Modify: 2022-06-29 08:04:01.301307154 -0400
-> > > Change: 2022-06-29 08:04:01.451312834 -0400
-> > >  Birth: 2022-06-29 08:04:01.301307154 -0400
-> > > # cat /proc/meminfo | grep Shmem:
-> > > Shmem:           1053876 kB
-> > > # rm -f /tmp/file
-> > > # cat /proc/meminfo | grep Shmem:
-> > > Shmem:              5300 kB
-> > >
-> > > So clearly this impacts Shmem.. was your test run against tmpfs or some
-> > > other (disk based) fs?
-> > 
-> > Hi Brian,
-> > 
-> > Thanks for clarifying. My issue was tmpfs not mounted at /tmp in my system:
-> > 
-> > ==> meminfo.start <==
-> > Shmem:               572 kB
-> > ==> meminfo.stop <==
-> > Shmem:             51688 kB
-> > 
+On 6/26/22 23:11, 유용수 wrote:
+> Hi ~
 > 
-> Ok, makes sense.
+> How is this patch going ?
+> Can you share current status ?
 > 
-> > >
-> > > FWIW, I don't have any objection to exposing inode size if it's commonly
-> > > useful information. My feedback was more just an fyi that i_size doesn't
-> > > necessarily reflect underlying space consumption (whether it's memory or
-> > > disk space) in more generic cases, because it sounds like that is really
-> > > what you're after here. The opposite example to the above would be
-> > > something like an 'xfs_io -fc "truncate 1t" /tmp/file', which shows a
-> > > 1TB inode size with zero additional shmem usage.
-> > 
-> > From these cases, it seems the more generic way to do this is by
-> > calculating the actual size consumed using the blocks. (i_blocks *
-> > 512). So in the latter example  'xfs_io -fc "truncate 1t" /tmp/file'
-> > the size consumed would be zero. Let me know if it sounds ok to you
-> > and I can repost the updated version.
-> > 
-> 
-> That sounds a bit more useful to me if you're interested in space usage,
-> or at least I don't have a better idea for you. ;)
-> 
-> One thing to note is that I'm not sure whether all fs' use i_blocks
-> reliably. E.g., XFS populates stat->blocks via a separate block counter
-> in the XFS specific inode structure (see xfs_vn_getattr()). A bunch of
-> other fs' seem to touch it so perhaps that is just an outlier. You could
-> consider fixing that up, perhaps make a ->getattr() call to avoid it, or
-> just use the field directly if it's useful enough as is and there are no
-> other objections. Something to think about anyways..
+> Thank you
 > 
 
-Oh, I wonder if you're looking for similar "file rss" information this
-series wants to collect/expose..?
+Hi Yongsu,
 
-https://lore.kernel.org/linux-fsdevel/20220624080444.7619-1-christian.koenig@amd.com/#r
+Linux guys can sometimes take a long time to include patches speaking 
+weeks and months. For now I've added your patch to multimedia/webcamd 
+(v5.17.1.1) which runs under FreeBSD 13.1 (not Linux).
 
-Brian
+https://github.com/hselasky/webcamd/commit/0e4d4959a2aea2e6a88d316eb943592fe0b23d09
 
-> Brian
-> 
-> > Thanks,
-> > Kalesh
-> > 
-> > >
-> > > Brian
-> > >
-> > > > cat /proc/meminfo > meminfo.start
-> > > > xfs_io -fc "falloc -k 0 50m" ./xfs_file
-> > > > cat /proc/meminfo > meminfo.stop
-> > > > tail -n +1 meminfo.st* | grep -i '==\|Shmem:'
-> > > >
-> > > > ==> meminfo.start <==
-> > > > Shmem:               484 kB
-> > > > ==> meminfo.stop <==
-> > > > Shmem:               484 kB
-> > > >
-> > > > ls -lh xfs_file
-> > > > -rw------- 1 root root 0 Jun 28 15:12 xfs_file
-> > > >
-> > > > stat xfs_file
-> > > >   File: xfs_file
-> > > >   Size: 0               Blocks: 102400     IO Block: 4096   regular empty file
-> > > >
-> > > > Thanks,
-> > > > Kalesh
-> > > >
-> > > > >
-> > > > > Brian
-> > > > >
-> > > > > >
-> > > > > >       /* show_fd_locks() never deferences files so a stale value is safe */
-> > > > > >       show_fd_locks(m, file, files);
-> > > > > > --
-> > > > > > 2.37.0.rc0.161.g10f37bed90-goog
-> > > > > >
-> > > > >
-> > > >
-> > >
-> > > --
-> > > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
-> > >
-> > 
-
+--HPS
