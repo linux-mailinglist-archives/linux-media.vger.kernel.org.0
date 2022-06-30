@@ -2,41 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 526AC560E13
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 02:34:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5CE4560E4F
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 02:51:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230019AbiF3Adx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jun 2022 20:33:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57804 "EHLO
+        id S231347AbiF3AvV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jun 2022 20:51:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229925AbiF3Adw (ORCPT
+        with ESMTP id S231370AbiF3AvT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jun 2022 20:33:52 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0168222B26
-        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 17:33:50 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o6i7x-0082CQ-9s; Thu, 30 Jun 2022 00:33:49 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o6i7u-00989x-S1; Thu, 30 Jun 2022 00:33:46 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR 5.20] Ar0521 driver, ov5640 driver improvements (#84446)
-Date:   Thu, 30 Jun 2022 00:33:46 +0000
-Message-Id: <20220630003346.2176271-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YrziQwGBS9CWAcpQ@valkosipuli.retiisi.eu>
-References: 
+        Wed, 29 Jun 2022 20:51:19 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A55BB40903
+        for <linux-media@vger.kernel.org>; Wed, 29 Jun 2022 17:51:17 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 299FA59D;
+        Thu, 30 Jun 2022 02:51:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656550275;
+        bh=I+E677ZTEQSWmwn7f6B2xfiyOv/i5Ih4ZR08Oqq/GQw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dveQDGkf5+Pw0su6nouy1jbA1TBFCviCOLBBTtH8WkTY4xxfLShOS/FZQHLSDAFEk
+         jIKjC5snCSiIzvBwUZqmB//w6S0C5MhKA0eBm+mWjramFqEEfIba3Sf5qbQ21rKrLA
+         owAM3yx4XSERMmTupkfEpM1zhAsDJQxxWYI9YIO8=
+Date:   Thu, 30 Jun 2022 03:50:55 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Petko Manolov <petko.manolov@konsulko.com>
+Cc:     linux-media@vger.kernel.org, jacopo@jmondi.org
+Subject: Re: hooking Sony 47MPixel sensor to NXP imx8m-mini MIPI CSI2
+Message-ID: <YrzzbwYr+ztrXbgZ@pendragon.ideasonboard.com>
+References: <YrwFf7Jw2/yDlcDq@carbon.lan>
+ <YrwNKiJA+cnm7pGr@pendragon.ideasonboard.com>
+ <YrwRROJbH/P5lYi+@carbon.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YrwRROJbH/P5lYi+@carbon.lan>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,69 +47,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Petko,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YrziQwGBS9CWAcpQ@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/220753/
-Build time: 00:50:10
-Link: https://lore.kernel.org/linux-media/YrziQwGBS9CWAcpQ@valkosipuli.retiisi.eu
+On Wed, Jun 29, 2022 at 11:45:56AM +0300, Petko Manolov wrote:
+> On 22-06-29 11:28:26, Laurent Pinchart wrote:
+> > On Wed, Jun 29, 2022 at 10:55:43AM +0300, Petko Manolov wrote:
+> > > 	Hi guys,
+> > > 
+> > > First, i'd like to apologize for the noise and sending this email directly.
+> > 
+> > Your support request is directed to the linux-media mailing list, CC'ing
+> > appropriate developers is a good practice to make sure we notice, there's
+> > nothing to apologize for.
+> 
+> Well, it could still be annoyance.
+> 
+> > > I am trying to hook Sony IMX492 sensor to v5.10 imx8m-mini based platform.
+> > > The capture driver does not support Bayer GBRG 10 and 12bit pixel format, so
+> > > i had to add these.  I also stumbled upon a bug in mx6s_capture.c which, i
+> > > assume, is completely out of interest here as it's related to a vendor tree.
+> > 
+> > I'm surprised you stumbled upon one bug only :-) I always advise to stay away
+> > from BSP code as much as possible.
+> 
+> I am certain there is a bunch of these, but this particular one was hard not to
+> notice immediately, being NULL pointer dereference. :)
+> 
+> > > I got as far as sensor is registering with the capture mipi csi driver and,
+> > > if HW is properly set up on both sides, should be streaming.  While my
+> > > confidence is pretty high about the IMX492 setup i can't say the same about
+> > > the recipient part.
+> > > 
+> > > So here is my question: how stable are NXP's MIPI CSI2 and CSI2 bridge
+> > > drivers in v5.18?  Would it be better to switch to this version instead of
+> > > hacking madly at the v5.10 vendor code?
+> > 
+> > I consider them more stable than the vendor code. If there are issues there,
+> > we can help fixing them.
+> 
+> I might be mistaken, but at least in terms of media drivers code in NXP's 5.18
+> seems either pretty close to mainline or maybe the same.  What's your advice,
+> shall i use their (5.18.x+fslc) branch or take only the device-tree, if needed?
 
-gpg: Signature made Wed 29 Jun 2022 11:25:15 PM UTC
-gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+For an i.MX8MM I'd try running the mainline kernel directly. If that
+doesn't work, I would backport the camera drivers from mainline to the
+v5.15 NXP kernel. As far as I know, the v5.18 branch isn't an official
+BSP release (I'm actually not sure what it's for).
 
-Summary: got 4/35 patches with issues, being 1 at build time, plus one error when buinding PDF document
+> > > I've already published the code here.  Once the development is done the
+> > > intent is to mainline Sony IMX492 sensor driver.
+> > 
+> > That's great ! I'm looking forward to that.
+> 
+> Sure, that's the goal here.
 
-Error/warnings:
+-- 
+Regards,
 
-patches/0001-ov7251-Fix-multiple-problems-in-s_stream-callback.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000008Kb sm_state_count = 543759
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 10 seconds
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:4901 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/dvb-frontends/mb86a16.c: ../drivers/media/dvb-frontends/mb86a16.c:1394 mb86a16_set_fe() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:1935 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1723290
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 93 seconds
-	../drivers/media/pci/cx88/cx88-dvb.c: ../drivers/media/pci/cx88/cx88-dvb.c:1626 dvb_register() error: we previously assumed 'fe1->dvb.frontend' could be null (see line 1086)
-	../drivers/media/pci/saa7134/saa7134-dvb.c: ../drivers/media/pci/saa7134/saa7134-dvb.c:1935 dvb_init() parse error: turning off implications after 60 seconds
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2799 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0010-media-ov5640-Add-LINK_FREQ-control.patch:
-
-   checkpatch.pl:
-	$ cat patches/0010-media-ov5640-Add-LINK_FREQ-control.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:58: CHECK: Alignment should match open parenthesis
-
-patches/0034-dt-bindings-Add-bindings-for-On-Semi-AR0521-camera-s.patch:
-
-   checkpatch.pl:
-	$ cat patches/0034-dt-bindings-Add-bindings-for-On-Semi-AR0521-camera-s.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:22: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0035-On-Semi-AR0521-sensor-driver.patch:
-
-   checkpatch.pl:
-	$ cat patches/0035-On-Semi-AR0521-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:611: CHECK: Alignment should match open parenthesis
-	-:628: CHECK: Macro argument reuse 'a' - possible side-effects?
-	-:897: CHECK: Alignment should match open parenthesis
-	-:1123: CHECK: Please use a blank line after function/struct/union/enum declarations
-
-
-Error #512 when building PDF docs
-
+Laurent Pinchart
