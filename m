@@ -2,39 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23B795626A1
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 01:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1A155626D9
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 01:19:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232095AbiF3XLP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 19:11:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59210 "EHLO
+        id S232035AbiF3XLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 19:11:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231976AbiF3XLD (ORCPT
+        with ESMTP id S232034AbiF3XLP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 19:11:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA32910578
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 16:10:56 -0700 (PDT)
+        Thu, 30 Jun 2022 19:11:15 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBBD110551;
+        Thu, 30 Jun 2022 16:11:00 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4D062A0D;
-        Fri,  1 Jul 2022 01:08:03 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59ADCD24;
+        Fri,  1 Jul 2022 01:08:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1656630484;
-        bh=E7wx+Givrops2Em5viTqLD4swjZIINgoU1dEi9o0D1w=;
+        bh=UO6yiqlbKWLK2QZVfa94bRYu5Tm4S6nvLjYgFBUA5io=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZE8F4EA0CTWcPBH8plI4ZwBHXCoR8BveE26IMBd4ZhcyExaei9nNRZptVr4JHnAew
-         pcteKGme5IaN/S/NIS9EBYUSdcDyU0ZCxHRtO48fFQUEvqCL4E6bsr1rU2KV8xob3a
-         W6mvpOx8LaghssgE3yCL0Nh8nmnvN8RrYEp2iANQ=
+        b=DANhgPIOXJeWsadSLN68WkSa7k+Q2amqpyTR190WXqMkPEHqwnIHNN8vxgZcgG1F9
+         Q+YPFYmg+kJcgXPjayOA0fbwPG3vriZ1bWJ4su8aT7AZxb14zvqnfMsQkiy5tVtJhd
+         VWjP0EQkSkePqrR8/C086jSKvuKrQX7ATJ1I16r4=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-rockchip@lists.infradead.org,
         Dafna Hirschfeld <dafna@fastmail.com>,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
-        Paul Elder <paul.elder@ideasonboard.com>
-Subject: [PATCH v2 41/55] media: rkisp1: Use fwnode_graph_for_each_endpoint
-Date:   Fri,  1 Jul 2022 02:06:59 +0300
-Message-Id: <20220630230713.10580-42-laurent.pinchart@ideasonboard.com>
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org
+Subject: [PATCH v2 42/55] dt-bindings: media: rkisp1: Add port for parallel interface
+Date:   Fri,  1 Jul 2022 02:07:00 +0300
+Message-Id: <20220630230713.10580-43-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
 References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
@@ -51,112 +54,50 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Paul Elder <paul.elder@ideasonboard.com>
 
-When registering the notifier, replace the manual while loop with
-fwnode_graph_for_each_endpoint. This simplifies error handling.
+The rkisp1 can take an input on the parallel interface. Add a port for
+it, and update the required field. At least one port is required, and
+both may be specified.
 
 Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../platform/rockchip/rkisp1/rkisp1-dev.c     | 44 +++++++++----------
- 1 file changed, 20 insertions(+), 24 deletions(-)
+ .../bindings/media/rockchip-isp1.yaml         | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index c3a7ab70bbef..0eb37ba557ce 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -168,29 +168,28 @@ static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops =
- static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
- {
- 	struct v4l2_async_notifier *ntf = &rkisp1->notifier;
--	unsigned int next_id = 0;
-+	struct fwnode_handle *fwnode = dev_fwnode(rkisp1->dev);
-+	struct fwnode_handle *ep;
- 	unsigned int index = 0;
--	int ret;
-+	int ret = 0;
+diff --git a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+index d1489b177331..b3661d7d4357 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+@@ -84,8 +84,27 @@ properties:
+                 minItems: 1
+                 maxItems: 4
  
- 	v4l2_async_nf_init(ntf);
- 
--	while (1) {
-+	ntf->ops = &rkisp1_subdev_notifier_ops;
+-    required:
+-      - port@0
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: connection point for input on the parallel interface
 +
-+	fwnode_graph_for_each_endpoint(fwnode, ep) {
- 		struct v4l2_fwnode_endpoint vep = {
- 			.bus_type = V4L2_MBUS_CSI2_DPHY
- 		};
- 		struct rkisp1_sensor_async *rk_asd;
--		struct fwnode_handle *source = NULL;
--		struct fwnode_handle *ep;
--
--		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
--						     0, next_id,
--						     FWNODE_GRAPH_ENDPOINT_NEXT);
--		if (!ep)
--			break;
-+		struct fwnode_handle *source;
- 
- 		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
--		if (ret)
--			goto err_parse;
-+		if (ret) {
-+			dev_err(rkisp1->dev, "failed to parse endpoint %pfw\n",
-+				ep);
-+			break;
-+		}
- 
- 		source = fwnode_graph_get_remote_endpoint(ep);
- 		if (!source) {
-@@ -198,14 +197,15 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
- 				"endpoint %pfw has no remote endpoint\n",
- 				ep);
- 			ret = -ENODEV;
--			goto err_parse;
-+			break;
- 		}
- 
- 		rk_asd = v4l2_async_nf_add_fwnode(ntf, source,
- 						  struct rkisp1_sensor_async);
- 		if (IS_ERR(rk_asd)) {
-+			fwnode_handle_put(source);
- 			ret = PTR_ERR(rk_asd);
--			goto err_parse;
-+			break;
- 		}
- 
- 		rk_asd->index = index++;
-@@ -216,27 +216,23 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
- 
- 		dev_dbg(rkisp1->dev, "registered ep id %d with %d lanes\n",
- 			vep.base.id, rk_asd->lanes);
-+	}
- 
--		next_id = vep.base.id + 1;
--
--		fwnode_handle_put(ep);
--
--		continue;
--err_parse:
-+	if (ret) {
- 		fwnode_handle_put(ep);
--		fwnode_handle_put(source);
- 		v4l2_async_nf_cleanup(ntf);
- 		return ret;
- 	}
- 
--	if (next_id == 0)
-+	if (!index)
- 		dev_dbg(rkisp1->dev, "no remote subdevice found\n");
--	ntf->ops = &rkisp1_subdev_notifier_ops;
++        properties:
++          bus-type:
++            enum: [5, 6]
 +
- 	ret = v4l2_async_nf_register(&rkisp1->v4l2_dev, ntf);
- 	if (ret) {
- 		v4l2_async_nf_cleanup(ntf);
- 		return ret;
- 	}
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
 +
- 	return 0;
- }
++        required:
++          - bus-type
++
++    anyOf:
++      - required:
++          - port@0
++      - required:
++          - port@1
  
+ required:
+   - compatible
 -- 
 Regards,
 
