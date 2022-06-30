@@ -2,44 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0F42561619
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 11:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD83B56164F
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jun 2022 11:30:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233318AbiF3JTt convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 30 Jun 2022 05:19:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45194 "EHLO
+        id S233277AbiF3J3m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jun 2022 05:29:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234362AbiF3JTh (ORCPT
+        with ESMTP id S233674AbiF3J3l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 05:19:37 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F19403C9
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 02:19:21 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o6qKV-008Xnh-CH; Thu, 30 Jun 2022 09:19:19 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o6qKT-00D3qb-8i; Thu, 30 Jun 2022 09:19:16 +0000
-Date:   Thu, 30 Jun 2022 09:19:16 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <5751795.11.1656580756643@builder.linuxtv.org>
-In-Reply-To: <492599599.0.1656494354633@builder.linuxtv.org>
-References: <492599599.0.1656494354633@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3945
+        Thu, 30 Jun 2022 05:29:41 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B0D342EC5
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 02:29:40 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF42945F;
+        Thu, 30 Jun 2022 11:29:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656581377;
+        bh=tC/SSpxwnrEDPrdGYjcVAjjVEeL8jBMR9pnLCA52pD0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XtCFlcWoMMe6d3ORQ4KWdN1WyPjZLEppa+IfuL2vKX4h30Mcqk8h4smImlO7hXQIX
+         1vIyKZV6Gc/LCS2NQToP0ssxiaXlOWb9rumbWsdIPIujeywEVWsS+cj28DELe5Ieyj
+         WpKDQ6PG7c3t/knrBm8ZmIOjHXkAHedCfzvfC04I=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] v4l2 utils: Support V4L2_PIX_FMT_YUV[AX]32
+Date:   Thu, 30 Jun 2022 12:29:04 +0300
+Message-Id: <20220630092904.19053-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,192 +43,236 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3945/display/redirect>
+Add support for the V4L2_PIX_FMT_YUVA32 and V4L2_PIX_FMT_YUVX32 pixel
+formats in the v4l2-ctl, v4l2-compliance, qvidcap and qv4l2 utilities.
 
-Changes:
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+This patch depends on the addition of the new YUVA32 and YUVX32 pixel
+formats to the kernel, which I plan to post a pull request for in the
+near future.
 
+While working on this, I've noticed what could be a bug in the qv4l2 GL
+shaders. It seems to me that at least the V4L2_PIX_FMT_VUYA32 and
+V4L2_PIX_FMT_VUYX32 formats are not correctly handled. Hans, could you
+have a look at this ?
+---
+ utils/qv4l2/capture-win-gl.cpp             | 17 +++++++++++++++++
+ utils/qv4l2/qv4l2.cpp                      |  2 ++
+ utils/qvidcap/capture.cpp                  |  4 ++++
+ utils/qvidcap/paint.cpp                    | 10 ++++++++++
+ utils/qvidcap/v4l2-convert.glsl            |  6 ++++++
+ utils/v4l2-compliance/v4l2-test-colors.cpp |  4 ++++
+ utils/v4l2-ctl/v4l2-ctl.cpp                |  2 ++
+ 7 files changed, 45 insertions(+)
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3944' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@3d4ebe07'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins4807323086585454329.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+diff --git a/utils/qv4l2/capture-win-gl.cpp b/utils/qv4l2/capture-win-gl.cpp
+index 05659259d42f..6cbeb426b6ba 100644
+--- a/utils/qv4l2/capture-win-gl.cpp
++++ b/utils/qv4l2/capture-win-gl.cpp
+@@ -196,6 +196,8 @@ void CaptureWinGLEngine::setColorspace(unsigned colorspace, unsigned xfer_func,
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 	case V4L2_PIX_FMT_HSV24:
+ 	case V4L2_PIX_FMT_HSV32:
+ 		is_rgb = false;
+@@ -415,6 +417,8 @@ bool CaptureWinGLEngine::hasNativeFormat(__u32 format)
+ 		V4L2_PIX_FMT_XYUV32,
+ 		V4L2_PIX_FMT_VUYA32,
+ 		V4L2_PIX_FMT_VUYX32,
++		V4L2_PIX_FMT_YUVA32,
++		V4L2_PIX_FMT_YUVX32,
+ 		V4L2_PIX_FMT_GREY,
+ 		V4L2_PIX_FMT_Z16,
+ 		V4L2_PIX_FMT_INZI,
+@@ -483,6 +487,8 @@ void CaptureWinGLEngine::changeShader()
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		shader_YUV_packed(m_frameFormat);
+ 		break;
+ 
+@@ -651,6 +657,8 @@ void CaptureWinGLEngine::paintGL()
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		render_YUV_packed(m_frameFormat);
+ 		break;
+ 
+@@ -2100,6 +2108,13 @@ void CaptureWinGLEngine::shader_YUV_packed(__u32 format)
+ 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_frameWidth, m_frameHeight, 0,
+ 			     GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, NULL);
+ 		break;
++	case V4L2_PIX_FMT_YUVA32:
++		hasAlpha = true;
++		// fall-through
++	case V4L2_PIX_FMT_YUVX32:
++		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_frameWidth, m_frameHeight, 0,
++			     GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, NULL);
++		break;
+ 	}
+ 
+ 	checkError("Packed YUV shader");
+@@ -2173,6 +2188,8 @@ void CaptureWinGLEngine::render_YUV_packed(__u32 format)
+ 		break;
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_frameWidth, m_frameHeight,
+ 				GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, m_frameData);
+ 		break;
+diff --git a/utils/qv4l2/qv4l2.cpp b/utils/qv4l2/qv4l2.cpp
+index d9141ad1372d..4cbaa98e0ee0 100644
+--- a/utils/qv4l2/qv4l2.cpp
++++ b/utils/qv4l2/qv4l2.cpp
+@@ -1567,12 +1567,14 @@ void ApplicationWindow::capStart(bool start)
+ 	case V4L2_PIX_FMT_YUV32:
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		dstFmt = QImage::Format_RGB32;
+ 		break;
+ 	case V4L2_PIX_FMT_ARGB32:
+ 	case V4L2_PIX_FMT_ABGR32:
+ 	case V4L2_PIX_FMT_AYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
++	case V4L2_PIX_FMT_YUVA32:
+ 		dstFmt = QImage::Format_ARGB32;
+ 		break;
+ 	case V4L2_PIX_FMT_INZI:
+diff --git a/utils/qvidcap/capture.cpp b/utils/qvidcap/capture.cpp
+index cfcbb89660e5..0b4c4115cf1b 100644
+--- a/utils/qvidcap/capture.cpp
++++ b/utils/qvidcap/capture.cpp
+@@ -57,6 +57,8 @@ const __u32 formats[] = {
+ 	V4L2_PIX_FMT_XYUV32,
+ 	V4L2_PIX_FMT_VUYA32,
+ 	V4L2_PIX_FMT_VUYX32,
++	V4L2_PIX_FMT_YUVA32,
++	V4L2_PIX_FMT_YUVX32,
+ 	V4L2_PIX_FMT_RGB32,
+ 	V4L2_PIX_FMT_XRGB32,
+ 	V4L2_PIX_FMT_ARGB32,
+@@ -882,6 +884,8 @@ bool CaptureWin::updateV4LFormat(const cv4l_fmt &fmt)
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		m_is_rgb = false;
+ 		m_accepts_srgb = false;
+ 		break;
+diff --git a/utils/qvidcap/paint.cpp b/utils/qvidcap/paint.cpp
+index 745e40031149..c5aadb09ffa4 100644
+--- a/utils/qvidcap/paint.cpp
++++ b/utils/qvidcap/paint.cpp
+@@ -159,6 +159,8 @@ void CaptureWin::paintGL()
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		render_YUV_packed(m_v4l_fmt.g_pixelformat());
+ 		break;
+ 
+@@ -355,6 +357,8 @@ static const struct define defines[] = {
+ 	DEF(V4L2_PIX_FMT_XYUV32),
+ 	DEF(V4L2_PIX_FMT_VUYA32),
+ 	DEF(V4L2_PIX_FMT_VUYX32),
++	DEF(V4L2_PIX_FMT_YUVA32),
++	DEF(V4L2_PIX_FMT_YUVX32),
+ 	DEF(V4L2_PIX_FMT_RGB32),
+ 	DEF(V4L2_PIX_FMT_XRGB32),
+ 	DEF(V4L2_PIX_FMT_ARGB32),
+@@ -595,6 +599,8 @@ void CaptureWin::changeShader()
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		shader_YUV_packed();
+ 		break;
+ 
+@@ -945,6 +951,8 @@ void CaptureWin::shader_YUV_packed()
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_v4l_fmt.g_width(), m_v4l_fmt.g_height(), 0,
+ 			     GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+ 		break;
+@@ -1310,6 +1318,8 @@ void CaptureWin::render_YUV_packed(__u32 format)
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_v4l_fmt.g_width(), m_v4l_fmt.g_height(),
+ 				GL_RGBA, GL_UNSIGNED_BYTE, m_curData[0]);
+ 		break;
+diff --git a/utils/qvidcap/v4l2-convert.glsl b/utils/qvidcap/v4l2-convert.glsl
+index 458901c43838..8bd5694b3165 100644
+--- a/utils/qvidcap/v4l2-convert.glsl
++++ b/utils/qvidcap/v4l2-convert.glsl
+@@ -292,6 +292,12 @@ void main()
+ 	yuv.r = color.b;
+ 	yuv.g = color.g;
+ 	yuv.b = color.r;
++#elif PIXFMT == V4L2_PIX_FMT_YUVA32 || PIXFMT == V4L2_PIX_FMT_YUVX32
++	vec4 color = texture(tex, xy);
++#if PIXFMT == V4L2_PIX_FMT_YUVA32
++	alpha = color.a;
++#endif
++	yuv = color.rgb;
+ #elif PIXFMT == V4L2_PIX_FMT_YUV565
+ 	yuv = texture(tex, xy).rgb;
+ #elif PIXFMT == V4L2_PIX_FMT_YUV422P || PIXFMT == V4L2_PIX_FMT_YUV420 || PIXFMT == V4L2_PIX_FMT_YVU420 || \
+diff --git a/utils/v4l2-compliance/v4l2-test-colors.cpp b/utils/v4l2-compliance/v4l2-test-colors.cpp
+index 887b2fd418d7..87bf0cd7f3ab 100644
+--- a/utils/v4l2-compliance/v4l2-test-colors.cpp
++++ b/utils/v4l2-compliance/v4l2-test-colors.cpp
+@@ -200,6 +200,8 @@ static void getColor(const cv4l_fmt &fmt, __u8 * const planes[3],
+ 		break;
+ 	case V4L2_PIX_FMT_RGBX32:
+ 	case V4L2_PIX_FMT_RGBA32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 		v32 = p8[4 * x + 2] + (p8[4 * x + 1] << 8) +
+ 		      (p8[4 * x] << 16) + (p8[4 * x + 3] << 24);
+ 		break;
+@@ -386,6 +388,8 @@ static void getColor(const cv4l_fmt &fmt, __u8 * const planes[3],
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 	case V4L2_PIX_FMT_YUYV:
+ 	case V4L2_PIX_FMT_UYVY:
+ 	case V4L2_PIX_FMT_YVYU:
+diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+index 6bf0a1c7d201..577cf37ec901 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+@@ -345,6 +345,8 @@ static bool is_rgb_or_hsv(__u32 pixelformat)
+ 	case V4L2_PIX_FMT_XYUV32:
+ 	case V4L2_PIX_FMT_VUYA32:
+ 	case V4L2_PIX_FMT_VUYX32:
++	case V4L2_PIX_FMT_YUVA32:
++	case V4L2_PIX_FMT_YUVX32:
+ 	case V4L2_PIX_FMT_YUV410:
+ 	case V4L2_PIX_FMT_YUV420:
+ 	case V4L2_PIX_FMT_HI240:
+-- 
+Regards,
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+Laurent Pinchart
 
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-06-30 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-06-30 09:19:10--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100% 61.5M=0s
-
-2022-06-30 09:19:10 (61.5 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
