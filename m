@@ -2,151 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2266562DE9
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 10:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8FF3562E87
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 10:40:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233633AbiGAIWt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Jul 2022 04:22:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49882 "EHLO
+        id S233905AbiGAIj0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Jul 2022 04:39:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234348AbiGAIWA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 04:22:00 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93B3C70AFB
-        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 01:21:33 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id n16-20020a17090ade9000b001ed15b37424so1967100pjv.3
-        for <linux-media@vger.kernel.org>; Fri, 01 Jul 2022 01:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=I+uUN8YmF6Y3SMg45UrmTSTfreR+Uuwz5CwiR64yruQ=;
-        b=ai3Ck45InrudUZgQWOt7Efro+1T4l8qeSZrIoa5VX0J5lQUZUvtOWQji0YMj37k3zg
-         hAb2l8LXQJ7wf4HcLU5fpbPV5AoadiebA5ojy+FCW1TwljfqL04dqdpGsNFt8OcNH5co
-         zMNl9alI9601sDUayUWxUJNzqnyUh7k28gVgpL5Px8ahRbeWq7SU+iOxN+MCLoptgTBp
-         ITbDdXOwOW3/YpfHq2QUtFZt2SLmOU7AJrOksQwK+TKjG90hxHC89OBzVJZ/52Hhnb+r
-         Ff+VEsOQ38lcF2bJgWBXSUUctNQd/YTk9tTOIz0+XfxFAGhZCJv1Fu3UR0LmArlQ0SCP
-         MZIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=I+uUN8YmF6Y3SMg45UrmTSTfreR+Uuwz5CwiR64yruQ=;
-        b=7WZC3ZeFa2T+fMaDHBiAKWiCR+rKwQ18fUm9+inhCNepjZ+cW52vxLQYKyhNiMcZOk
-         RbBpcfZ1pVDqlkGGXWfzZT8mgkACClWQCoTdG8DmxV9KDYrGcPVIwI3bPBbmKn5Cp0Zs
-         z2V73XFtfRGgYuz6XGurTBsYudcRjyUJ2LX/8OKdjORVgi9f3b8y82QgSN6TAs3zjKln
-         zDdrCXYYWljR3Q/fWtWYLCJmqkBwb219WlQTfAsAn1R4fj23xicu2AgJ4c+QvaFQey7r
-         lcRx1UcOmjgewU3hZFOq9fGWgLj4LRGbS2Xx2YrTA1Riu6BhBlAGeeRBSTugLY7cKic9
-         7qTA==
-X-Gm-Message-State: AJIora9JqMoQk3ZNGzwkvZ7OnfeWTsj8sA9bH1RdL3aD+XwLY/xnyjZa
-        F5WKMMQNrDl28SYBd17RXdoUGA==
-X-Google-Smtp-Source: AGRyM1sF4UOt+eefyjUdDM65skipT1RPGgPcN3j7d+pLAC1n7IhL0v/+hLjDRiJ6xNliShlWFibWdQ==
-X-Received: by 2002:a17:90b:1a81:b0:1ed:3c0:3abb with SMTP id ng1-20020a17090b1a8100b001ed03c03abbmr15494279pjb.5.1656663692462;
-        Fri, 01 Jul 2022 01:21:32 -0700 (PDT)
-Received: from localhost ([122.172.201.58])
-        by smtp.gmail.com with ESMTPSA id g29-20020aa79f1d000000b0051c4f6d2d95sm15033596pfr.106.2022.07.01.01.21.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jul 2022 01:21:32 -0700 (PDT)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH V2 17/30] media: venus: Migrate to dev_pm_opp_set_config()
-Date:   Fri,  1 Jul 2022 13:50:12 +0530
-Message-Id: <989d085e6ff7ca6196e7076bba3aad8ac8851b00.1656660185.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
-In-Reply-To: <cover.1656660185.git.viresh.kumar@linaro.org>
-References: <cover.1656660185.git.viresh.kumar@linaro.org>
+        with ESMTP id S234051AbiGAIjZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 04:39:25 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB1871254
+        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 01:39:23 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E13325C;
+        Fri,  1 Jul 2022 10:39:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656664759;
+        bh=YosOc4bryU8HRWr5iT9lcVkOL+hL1YEuNGFAb6rfAbc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aDw60PZcphfv+InErsHxKwInNjycKnnr3nxUPk6Z9X9z058lxCHiUM9CGS74pxDuV
+         6sO4FTpOLFo7qPsq8cWPuvrzWvA2Ap8nl/OhVh9Q8NHzC+yv0KoeBUWc6uG4KHFmWU
+         FRpOSOEFGryVMgXrD4I87dVd34WxiO9yYPfVQsgk=
+Date:   Fri, 1 Jul 2022 11:38:58 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dafna Hirschfeld <dafna@fastmail.com>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, heiko@sntech.de,
+        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
+        djrscally@gmail.com, helen.koike@collabora.com,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 53/55] media: rkisp1: Shift DMA buffer addresses on
+ i.MX8MP
+Message-ID: <Yr6yoqE/HMlaYOlB@pendragon.ideasonboard.com>
+References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-54-paul.elder@ideasonboard.com>
+ <YrhFHt+PsaWXsTUD@pendragon.ideasonboard.com>
+ <20220701055342.ryvwbfltt5eemysg@guri>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220701055342.ryvwbfltt5eemysg@guri>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The OPP core now provides a unified API for setting all configuration
-types, i.e. dev_pm_opp_set_config().
+Hi Dafna,
 
-Lets start using it.
+On Fri, Jul 01, 2022 at 08:53:42AM +0300, Dafna Hirschfeld wrote:
+> On 26.06.2022 14:38, Laurent Pinchart wrote:
+> > On Wed, Jun 15, 2022 at 04:11:25AM +0900, Paul Elder wrote:
+> >> On the ISP that is integrated in the i.MX8MP, the DMA base addresses are
+> >> encoded in 34-bit. Shift them to the left by 2 bits so that they can be
+> >
+> > I think you meant right, not left.
+> >
+> >> contained in 32 bits.
+> >
+> > The important part here is that this is how the address is encoded in
+> > the hardware. I suppose it's obvious, otherwise it woudln't work at all,
+> > but maybe it could be explained more explicitly ?
+> >
+> > On the ISP that is integrated in the i.MX8MP, DMA addresses have been
+> > extended to 34 bits, with the 32 MSBs stored in the DMA address
+> > registers and the 2 LSBs set to 0. Shift the buffer addresses right by 2
+> > on that platform.
+> 
+> If the 32 MSB are all stored in the in the dma address then why do we
+> need to shift?
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- drivers/media/platform/qcom/venus/pm_helpers.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+On Rokchip SoCs the DMA address is 32-bit wide, and stored as-is in the
+registers. On i.MX8MP, the DMA address is 34-bit, and must be aligned to
+a multiple of 4 bytes, so the two LSBs are guaranteed to be 0. The DMA
+registers are still 32-bit wide, and store bits [33:2] of the DMA
+addresses, hence the shift.
 
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index cb48c5ff3dee..f68cc938ebff 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.c
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -294,12 +294,16 @@ static int load_scale_v1(struct venus_inst *inst)
- static int core_get_v1(struct venus_core *core)
- {
- 	int ret;
-+	struct dev_pm_opp_config config = {
-+		.clk_names = (const char *[]){ "core" },
-+		.clk_count = 1,
-+	};
- 
- 	ret = core_clks_get(core);
- 	if (ret)
- 		return ret;
- 
--	ret = devm_pm_opp_set_clkname(core->dev, "core");
-+	ret = devm_pm_opp_set_config(core->dev, &config);
- 	if (ret)
- 		return ret;
- 
-@@ -862,6 +866,10 @@ static int vcodec_domains_get(struct venus_core *core)
- 	const struct venus_resources *res = core->res;
- 	struct device *pd;
- 	unsigned int i;
-+	struct dev_pm_opp_config config = {
-+		.genpd_names = res->opp_pmdomain,
-+		.virt_devs = &opp_virt_dev,
-+	};
- 
- 	if (!res->vcodec_pmdomains_num)
- 		goto skip_pmdomains;
-@@ -879,7 +887,7 @@ static int vcodec_domains_get(struct venus_core *core)
- 		return 0;
- 
- 	/* Attach the power domain for setting performance state */
--	ret = devm_pm_opp_attach_genpd(dev, res->opp_pmdomain, &opp_virt_dev);
-+	ret = devm_pm_opp_set_config(dev, &config);
- 	if (ret)
- 		goto opp_attach_err;
- 
-@@ -978,6 +986,10 @@ static int core_get_v4(struct venus_core *core)
- 	struct device *dev = core->dev;
- 	const struct venus_resources *res = core->res;
- 	int ret;
-+	struct dev_pm_opp_config config = {
-+		.clk_names = (const char *[]){ "core" },
-+		.clk_count = 1,
-+	};
- 
- 	ret = core_clks_get(core);
- 	if (ret)
-@@ -1003,7 +1015,7 @@ static int core_get_v4(struct venus_core *core)
- 	if (legacy_binding)
- 		return 0;
- 
--	ret = devm_pm_opp_set_clkname(dev, "core");
-+	ret = devm_pm_opp_set_config(dev, &config);
- 	if (ret)
- 		return ret;
- 
+> >> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> >
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> >> ---
+> >>  .../platform/rockchip/rkisp1/rkisp1-capture.c | 19 +++++++++++--------
+> >>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
+> >>  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  3 ++-
+> >>  3 files changed, 14 insertions(+), 9 deletions(-)
+> >>
+> >> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> >> index 35cec263c563..234b1f8488cb 100644
+> >> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> >> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> >> @@ -624,6 +624,9 @@ static void rkisp1_dummy_buf_destroy(struct rkisp1_capture *cap)
+> >>
+> >>  static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
+> >>  {
+> >> +	u8 shift = cap->rkisp1->info->features & RKISP1_FEATURE_DMA_34BIT ?
+> >> +		   2 : 0;
+> >> +
+> >>  	cap->buf.curr = cap->buf.next;
+> >>  	cap->buf.next = NULL;
+> >>
+> >> @@ -636,7 +639,7 @@ static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
+> >>  		buff_addr = cap->buf.next->buff_addr;
+> >>
+> >>  		rkisp1_write(cap->rkisp1, cap->config->mi.y_base_ad_init,
+> >> -			     buff_addr[RKISP1_PLANE_Y]);
+> >> +			     buff_addr[RKISP1_PLANE_Y] >> shift);
+> >>  		/*
+> >>  		 * In order to support grey format we capture
+> >>  		 * YUV422 planar format from the camera and
+> >> @@ -645,17 +648,17 @@ static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
+> >>  		if (cap->pix.cfg->fourcc == V4L2_PIX_FMT_GREY) {
+> >>  			rkisp1_write(cap->rkisp1,
+> >>  				     cap->config->mi.cb_base_ad_init,
+> >> -				     cap->buf.dummy.dma_addr);
+> >> +				     cap->buf.dummy.dma_addr >> shift);
+> >>  			rkisp1_write(cap->rkisp1,
+> >>  				     cap->config->mi.cr_base_ad_init,
+> >> -				     cap->buf.dummy.dma_addr);
+> >> +				     cap->buf.dummy.dma_addr >> shift);
+> >>  		} else {
+> >>  			rkisp1_write(cap->rkisp1,
+> >>  				     cap->config->mi.cb_base_ad_init,
+> >> -				     buff_addr[RKISP1_PLANE_CB]);
+> >> +				     buff_addr[RKISP1_PLANE_CB] >> shift);
+> >>  			rkisp1_write(cap->rkisp1,
+> >>  				     cap->config->mi.cr_base_ad_init,
+> >> -				     buff_addr[RKISP1_PLANE_CR]);
+> >> +				     buff_addr[RKISP1_PLANE_CR] >> shift);
+> >>  		}
+> >>  	} else {
+> >>  		/*
+> >> @@ -663,11 +666,11 @@ static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
+> >>  		 * throw data if there is no available buffer.
+> >>  		 */
+> >>  		rkisp1_write(cap->rkisp1, cap->config->mi.y_base_ad_init,
+> >> -			     cap->buf.dummy.dma_addr);
+> >> +			     cap->buf.dummy.dma_addr >> shift);
+> >>  		rkisp1_write(cap->rkisp1, cap->config->mi.cb_base_ad_init,
+> >> -			     cap->buf.dummy.dma_addr);
+> >> +			     cap->buf.dummy.dma_addr >> shift);
+> >>  		rkisp1_write(cap->rkisp1, cap->config->mi.cr_base_ad_init,
+> >> -			     cap->buf.dummy.dma_addr);
+> >> +			     cap->buf.dummy.dma_addr >> shift);
+> >>  	}
+> >>
+> >>  	/* Set plane offsets */
+> >> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> >> index 96657e55a5b0..0b834579d08c 100644
+> >> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> >> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> >> @@ -113,6 +113,7 @@ enum rkisp1_feature {
+> >>  	RKISP1_FEATURE_DUAL_CROP = BIT(1),
+> >>  	RKISP1_FEATURE_RSZ_CROP = BIT(2),
+> >>  	RKISP1_FEATURE_MAIN_STRIDE = BIT(3),
+> >> +	RKISP1_FEATURE_DMA_34BIT = BIT(4),
+> 
+> doc this field
+
+Looks like only RKISP1_FEATURE_MIPI_CSI2 is documented. We'll fix that
+in v3.
+
+> >>  };
+> >>
+> >>  /*
+> >> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> >> index d68a805e8b6b..4c77aa2bc50a 100644
+> >> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> >> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> >> @@ -506,7 +506,8 @@ static const struct rkisp1_info imx8mp_isp_info = {
+> >>  	.isr_size = ARRAY_SIZE(imx8mp_isp_isrs),
+> >>  	.isp_ver = IMX8MP_V10,
+> >>  	.features = RKISP1_FEATURE_RSZ_CROP
+> >> -		  | RKISP1_FEATURE_MAIN_STRIDE,
+> >> +		  | RKISP1_FEATURE_MAIN_STRIDE
+> >> +		  | RKISP1_FEATURE_DMA_34BIT,
+> >>  };
+> >>
+> >>  static const struct of_device_id rkisp1_of_match[] = {
+
 -- 
-2.31.1.272.g89b43f80a514
+Regards,
 
+Laurent Pinchart
