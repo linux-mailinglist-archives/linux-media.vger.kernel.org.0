@@ -2,79 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48125563299
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 13:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4221E563293
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 13:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235138AbiGALbj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Jul 2022 07:31:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33430 "EHLO
+        id S234666AbiGAL34 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Jul 2022 07:29:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231261AbiGALbi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 07:31:38 -0400
-Received: from jari.cn (unknown [218.92.28.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C49B8814BF;
-        Fri,  1 Jul 2022 04:31:37 -0700 (PDT)
-Received: by ajax-webmail-localhost.localdomain (Coremail) ; Fri, 1 Jul 2022
- 19:26:07 +0800 (GMT+08:00)
-X-Originating-IP: [182.148.13.66]
-Date:   Fri, 1 Jul 2022 19:26:07 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   "XueBing Chen" <chenxuebing@jari.cn>
-To:     sumit.semwal@linaro.org, christian.koenig@amd.com
-Cc:     gustavo@padovan.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Subject:  [PATCH] dma-buf/sync_file: use strscpy to replace strlcpy
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT6.0.1 build 20210329(c53f3fee)
- Copyright (c) 2002-2022 www.mailtech.cn
- mispb-4e503810-ca60-4ec8-a188-7102c18937cf-zhkzyfz.cn
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S231261AbiGAL3z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 07:29:55 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6DE182380
+        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 04:29:53 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4642C25C;
+        Fri,  1 Jul 2022 13:29:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656674991;
+        bh=XgcTw8PU6I3n9hYJoCLdk4qKokseuI1tXq5PoF/JwYo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W3pAjBPaZNtpFWgLpHMfsLPQChJxVa4r6yLfqY5WF7b9Ud5LDRvlRX3aDcflSr0JU
+         LtZ0ppPCJRDcJMvdgxNfVK2Qf9t6a6hLk2buE1UwGv/cSKlgPHEpIJ8/vqtDhJ+8H5
+         0Bsz+fdCWxo46d2PBkw+gnmqldEehk/1b7VNxqtU=
+Date:   Fri, 1 Jul 2022 14:29:30 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dafna Hirschfeld <dafna@fastmail.com>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, heiko@sntech.de,
+        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
+        djrscally@gmail.com, helen.koike@collabora.com,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 17/55] media: rkisp1: Fix sensor source pad retrieval at
+ bound time
+Message-ID: <Yr7amhpamdtasEHA@pendragon.ideasonboard.com>
+References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-18-paul.elder@ideasonboard.com>
+ <20220701043641.bo3sgetazko3fwoi@guri>
 MIME-Version: 1.0
-Message-ID: <6aad3bff.d1a.181b982d1b1.Coremail.chenxuebing@jari.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: AQAAfwD3AG_P2b5i5PdFAA--.865W
-X-CM-SenderInfo: hfkh05pxhex0nj6mt2flof0/1tbiAQAICmFEYxsvOAAQsZ
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
-X-Spam-Status: No, score=2.2 required=5.0 tests=BAYES_00,RCVD_IN_PBL,RDNS_NONE,
-        T_SCC_BODY_TEXT_LINE,T_SPF_HELO_PERMERROR,T_SPF_PERMERROR,XPRIO
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220701043641.bo3sgetazko3fwoi@guri>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ClRoZSBzdHJsY3B5IHNob3VsZCBub3QgYmUgdXNlZCBiZWNhdXNlIGl0IGRvZXNuJ3QgbGltaXQg
-dGhlIHNvdXJjZQpsZW5ndGguIFByZWZlcnJlZCBpcyBzdHJzY3B5LgoKU2lnbmVkLW9mZi1ieTog
-WHVlQmluZyBDaGVuIDxjaGVueHVlYmluZ0BqYXJpLmNuPgotLS0KIGRyaXZlcnMvZG1hLWJ1Zi9z
-eW5jX2ZpbGUuYyB8IDggKysrKy0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyks
-IDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL3N5bmNfZmlsZS5j
-IGIvZHJpdmVycy9kbWEtYnVmL3N5bmNfZmlsZS5jCmluZGV4IDNlYmVjMTlhOGUwMi4uYWY1Nzc5
-OWM4NmNlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2RtYS1idWYvc3luY19maWxlLmMKKysrIGIvZHJp
-dmVycy9kbWEtYnVmL3N5bmNfZmlsZS5jCkBAIC0xMzIsNyArMTMyLDcgQEAgRVhQT1JUX1NZTUJP
-TChzeW5jX2ZpbGVfZ2V0X2ZlbmNlKTsKIGNoYXIgKnN5bmNfZmlsZV9nZXRfbmFtZShzdHJ1Y3Qg
-c3luY19maWxlICpzeW5jX2ZpbGUsIGNoYXIgKmJ1ZiwgaW50IGxlbikKIHsKIAlpZiAoc3luY19m
-aWxlLT51c2VyX25hbWVbMF0pIHsKLQkJc3RybGNweShidWYsIHN5bmNfZmlsZS0+dXNlcl9uYW1l
-LCBsZW4pOworCQlzdHJzY3B5KGJ1Ziwgc3luY19maWxlLT51c2VyX25hbWUsIGxlbik7CiAJfSBl
-bHNlIHsKIAkJc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UgPSBzeW5jX2ZpbGUtPmZlbmNlOwogCkBA
-IC0xNzIsNyArMTcyLDcgQEAgc3RhdGljIHN0cnVjdCBzeW5jX2ZpbGUgKnN5bmNfZmlsZV9tZXJn
-ZShjb25zdCBjaGFyICpuYW1lLCBzdHJ1Y3Qgc3luY19maWxlICphLAogCQlyZXR1cm4gTlVMTDsK
-IAl9CiAJc3luY19maWxlLT5mZW5jZSA9IGZlbmNlOwotCXN0cmxjcHkoc3luY19maWxlLT51c2Vy
-X25hbWUsIG5hbWUsIHNpemVvZihzeW5jX2ZpbGUtPnVzZXJfbmFtZSkpOworCXN0cnNjcHkoc3lu
-Y19maWxlLT51c2VyX25hbWUsIG5hbWUsIHNpemVvZihzeW5jX2ZpbGUtPnVzZXJfbmFtZSkpOwog
-CXJldHVybiBzeW5jX2ZpbGU7CiB9CiAKQEAgLTI2Miw5ICsyNjIsOSBAQCBzdGF0aWMgbG9uZyBz
-eW5jX2ZpbGVfaW9jdGxfbWVyZ2Uoc3RydWN0IHN5bmNfZmlsZSAqc3luY19maWxlLAogc3RhdGlj
-IGludCBzeW5jX2ZpbGxfZmVuY2VfaW5mbyhzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZSwKIAkJCQkg
-c3RydWN0IHN5bmNfZmVuY2VfaW5mbyAqaW5mbykKIHsKLQlzdHJsY3B5KGluZm8tPm9ial9uYW1l
-LCBmZW5jZS0+b3BzLT5nZXRfdGltZWxpbmVfbmFtZShmZW5jZSksCisJc3Ryc2NweShpbmZvLT5v
-YmpfbmFtZSwgZmVuY2UtPm9wcy0+Z2V0X3RpbWVsaW5lX25hbWUoZmVuY2UpLAogCQlzaXplb2Yo
-aW5mby0+b2JqX25hbWUpKTsKLQlzdHJsY3B5KGluZm8tPmRyaXZlcl9uYW1lLCBmZW5jZS0+b3Bz
-LT5nZXRfZHJpdmVyX25hbWUoZmVuY2UpLAorCXN0cnNjcHkoaW5mby0+ZHJpdmVyX25hbWUsIGZl
-bmNlLT5vcHMtPmdldF9kcml2ZXJfbmFtZShmZW5jZSksCiAJCXNpemVvZihpbmZvLT5kcml2ZXJf
-bmFtZSkpOwogCiAJaW5mby0+c3RhdHVzID0gZG1hX2ZlbmNlX2dldF9zdGF0dXMoZmVuY2UpOwot
-LSAKMi4yNS4xCg==
+Hi Dafna,
+
+On Fri, Jul 01, 2022 at 07:36:41AM +0300, Dafna Hirschfeld wrote:
+> On 15.06.2022 04:10, Paul Elder wrote:
+> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > When a sensor is bound, its source pad is retrieved in the .bound()
+> > operation with a call to media_entity_get_fwnode_pad(). The function
+> > should be called with the source endpoint fwnode of the sensor, but is
+> > instead called with the sensor's device fwnode.
+> > 
+> > Fix this, which involves storing a reference to the source endpoint
+> > fwnode in the rkisp1_sensor_async structure, and thus implementing the
+> > subdev notifier .destroy() operation to release the reference.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 ++
+> >  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 28 ++++++++++++++++---
+> >  2 files changed, 26 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> > index ba11baf75fa9..60c5462e1746 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> > @@ -117,6 +117,7 @@ struct rkisp1_info {
+> >   *
+> >   * @asd:		async_subdev variable for the sensor
+> >   * @index:		index of the sensor (counting sensor found in DT)
+> > + * @source_ep:		fwnode for the sensor source endpoint
+> >   * @lanes:		number of lanes
+> >   * @mbus_type:		type of bus (currently only CSI2 is supported)
+> >   * @mbus_flags:		media bus (V4L2_MBUS_*) flags
+> > @@ -127,6 +128,7 @@ struct rkisp1_info {
+> >  struct rkisp1_sensor_async {
+> >  	struct v4l2_async_subdev asd;
+> >  	unsigned int index;
+> > +	struct fwnode_handle *source_ep;
+> >  	unsigned int lanes;
+> >  	enum v4l2_mbus_type mbus_type;
+> >  	unsigned int mbus_flags;
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> > index 386c1c17aec2..0f3e45cdbf2a 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> > @@ -138,7 +138,7 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+> >  	phy_init(s_asd->dphy);
+> > 
+> >  	/* Create the link to the sensor. */
+> > -	source_pad = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
+> > +	source_pad = media_entity_get_fwnode_pad(&sd->entity, s_asd->source_ep,
+> >  						 MEDIA_PAD_FL_SOURCE);
+> >  	if (source_pad < 0) {
+> >  		dev_err(rkisp1->dev, "failed to find source pad for %s\n",
+> > @@ -170,10 +170,19 @@ static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
+> >  	return v4l2_device_register_subdev_nodes(&rkisp1->v4l2_dev);
+> >  }
+> > 
+> > +static void rkisp1_subdev_notifier_destroy(struct v4l2_async_subdev *asd)
+> > +{
+> > +	struct rkisp1_sensor_async *rk_asd =
+> > +		container_of(asd, struct rkisp1_sensor_async, asd);
+> > +
+> > +	fwnode_handle_put(rk_asd->source_ep);
+> > +}
+> > +
+> >  static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops = {
+> >  	.bound = rkisp1_subdev_notifier_bound,
+> >  	.unbind = rkisp1_subdev_notifier_unbind,
+> >  	.complete = rkisp1_subdev_notifier_complete,
+> > +	.destroy = rkisp1_subdev_notifier_destroy,
+> >  };
+> > 
+> >  static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+> > @@ -190,6 +199,7 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+> >  			.bus_type = V4L2_MBUS_CSI2_DPHY
+> >  		};
+> >  		struct rkisp1_sensor_async *rk_asd;
+> > +		struct fwnode_handle *source = NULL;
+> >  		struct fwnode_handle *ep;
+> > 
+> >  		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
+> > @@ -202,15 +212,24 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+> >  		if (ret)
+> >  			goto err_parse;
+> > 
+> > -		rk_asd = v4l2_async_nf_add_fwnode_remote(ntf, ep,
+> > -							 struct
+> > -							 rkisp1_sensor_async);
+> > +		source = fwnode_graph_get_remote_endpoint(ep);
+> > +		if (!source) {
+> > +			dev_err(rkisp1->dev,
+> > +				"endpoint %pfw has no remote endpoint\n",
+> > +				ep);
+> > +			ret = -ENODEV;
+> > +			goto err_parse;
+> > +		}
+> > +
+> > +		rk_asd = v4l2_async_nf_add_fwnode(ntf, source,
+> > +						  struct rkisp1_sensor_async);
+> >  		if (IS_ERR(rk_asd)) {
+> >  			ret = PTR_ERR(rk_asd);
+> >  			goto err_parse;
+> >  		}
+> > 
+> >  		rk_asd->index = index++;
+> > +		rk_asd->source_ep = source;
+> 
+> here do 'source = NULL', see reason below
+> 
+> >  		rk_asd->mbus_type = vep.bus_type;
+> >  		rk_asd->mbus_flags = vep.bus.mipi_csi2.flags;
+> >  		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
+> > @@ -225,6 +244,7 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+> >  		continue;
+> >  err_parse:
+> >  		fwnode_handle_put(ep);
+> > +		fwnode_handle_put(source);
+> 
+> if v4l2_fwnode_endpoint_parse fails then here you put the source of previous iteration
+
+source is a variable local to the loop, and it's initialized to NULL in
+the declaration, so it will be reset to NULL at every iteration.
+
+> >  		v4l2_async_nf_cleanup(ntf);
+> >  		return ret;
+> >  	}
+
+-- 
+Regards,
+
+Laurent Pinchart
