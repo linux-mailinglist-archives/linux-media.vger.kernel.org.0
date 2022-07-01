@@ -2,155 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBD0F56341E
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 15:10:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9040563432
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 15:16:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235090AbiGANK3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Jul 2022 09:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38876 "EHLO
+        id S229792AbiGANQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Jul 2022 09:16:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229999AbiGANK1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 09:10:27 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7FD43ADF
-        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 06:10:20 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id q132so3937276ybg.10
-        for <linux-media@vger.kernel.org>; Fri, 01 Jul 2022 06:10:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=93Mj4Iau0zpmP/JMwi/VFSHRM8pmBMuEnMbb4W4iqXI=;
-        b=UUCeOLLSa8JxepsV6kbA1FCpTxZVNNOcRM6cLxnQj7WL62ivtMfBPCez7Gpugi+NdL
-         VmxfTuKRVEf4VR4Wc6uhRq6c1ihOtEZ/3LpSNAXvMDWX6p6PoyUu2ZPGap3qBomly4UR
-         f5rPFPHk6kFebaxaGoDQHMzC8gVIcG9TkQOLk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=93Mj4Iau0zpmP/JMwi/VFSHRM8pmBMuEnMbb4W4iqXI=;
-        b=yOqVd2HA+649vAqEOGPu1R3U0i/eJAsIbNOALMfsH5/11dQYt1sTBWVFWsY3JK0Aq+
-         FiQ2DvzFB5HezWrcr/0PZPryMZNWwdnB6uaCxUKjwueocHk5VOUSymBdW+lBVEcuTSlw
-         ldMHtCyelGJkS/Vrr/TPq6KBA6wKILeseGdDyGaiZfyhogUYI3n2TJVIDgcgwK+wEW2s
-         jTw1QhLLck6HKA1fzDrvUEQCnv7A4H/14LCgqhgooM8FP6sZa6a9oLu03dun9Xu+e5p0
-         TcmUARuU0aLT/hknFYFxQ0EBE+H6OUMz+CsVfQlDFrWlbbGUE/KXLLyYH6LgCP4eSsEi
-         m88w==
-X-Gm-Message-State: AJIora+PZfoAkzaUSXYwa2fg0gugjT6oPcDoeu4L9LRlBt22gcSJOkWX
-        fgBDPL1YklvEPkA1G7CpsBQQqA2A/TDfdP7OuMwtPw==
-X-Google-Smtp-Source: AGRyM1uWKenMTsIZlQbeXynKt3mVEKH67yHcrh73gv2A0rWP5WfpVj+e/Wz0OfAPf2Dh6QAOgEjdx2kaTlA2uoioq8s=
-X-Received: by 2002:a25:81c5:0:b0:66d:55b5:d250 with SMTP id
- n5-20020a2581c5000000b0066d55b5d250mr14906967ybm.501.1656681019536; Fri, 01
- Jul 2022 06:10:19 -0700 (PDT)
+        with ESMTP id S229716AbiGANQ0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 09:16:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9AD57248
+        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 06:16:22 -0700 (PDT)
+Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3460E25C;
+        Fri,  1 Jul 2022 15:16:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656681379;
+        bh=BTAsJ88TkOoNMvV7flDaA1+vqyaiHi9S7sUfqiTFoVg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YRPEK0dhk8L08X7kFcH/IwAJm2rfzyL+2V5xXRp5lE1RThW4c+PpGYjEj60uL66Kc
+         C3L+Sbr4gvoZah7iU1RKMwX/LLHZDUcLbOeEn1NiKlmKSWeDy4Da2Owrm6FfCxuApL
+         tYsKdtmeVFXBnHVwO5CJbA+raYiygWZ1WyFF45fU=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 1/2] media: subdev: Add v4l2_subdev_call_state_try() macro
+Date:   Fri,  1 Jul 2022 16:15:58 +0300
+Message-Id: <20220701131559.66715-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220701105237.932332-1-wenst@chromium.org> <e601a375-cc80-40cd-9791-e44e9d37cec0@email.android.com>
-In-Reply-To: <e601a375-cc80-40cd-9791-e44e9d37cec0@email.android.com>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Fri, 1 Jul 2022 21:10:08 +0800
-Message-ID: <CAGXv+5Hrc6RageAu1YMBCA22r0kz+-C+9qO=qdDEmn_QhSCB3w@mail.gmail.com>
-Subject: Re: [PATCH 0/6] media: mediatek-vcodec: Fix capability fields again
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 1, 2022 at 8:45 PM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> Hi Chen,
->
-> Le 1 juill. 2022 06 h 52, Chen-Yu Tsai <wenst@chromium.org> a =C3=A9crit =
-:
->
-> Hi everyone,
->
-> The previous round of changes to the mtk-vcodec driver's returned
-> capabilities caused some issues for ChromeOS. In particular, the
-> ChromeOS stateless video decoder uses the "Driver Name" field to
-> match a video device to its media device. As the field was only
-> changed for the video device and not the media device, a match
-> could no longer be found.
->
->
-> This match is not specified in the spec. If you feel like it should, perh=
-aps consider specifying it first. To me it's nice if they match, but it's f=
-or now just cosmetic.
+Add a helper macro for the situations where a non-MC driver needs to
+call a state-operation (operation which takes a subdev state as a
+parameter) in try-context in another subdev.
 
-Right. Even for cosmetic reasons I think my changes make sense though.
-Fixing the matching is another thing.
+The macro allocates a new subdev state for the called subdev and frees
+the state afterwards.
 
-> Though this requires some discussion, as userland is expected to enumerat=
-e the media device and find the video device by walking the topology. This =
-is the only specified way to match both.
+An example use case is a media platform driver testing if a
+v4l2_subdev_format would be accepted by a source subdev.
 
-AFAICT, v4l2-ctl does similar matching, though by bus_info. Maybe it's
-out of convenience?
+This should not be used in MC drivers.
 
-ChenYu
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+ include/media/v4l2-subdev.h | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
->
->
-> While fixing this, I found that the current info used for the fields
-> don't make a lot of sense, and tried to fix them in this series.
->
-> Patch 1 reverts the driver name field change. It also makes it
-> explicit that the field really should match the driver name.
->
-> Patch 2 changes the value for the card name, making it a free form
-> string that includes the SoC model.
->
-> Patch 3 removes setting the bus_info field, instead using the default
-> value derived from the underlying |struct device| as set by the V4L2
-> core.
->
-> Patches 4 through 6 do the same as 1 through 3 respectively, but for
-> the encoder side.
->
-> This series is based on next-20220701, and was tested on mainline on
-> MT8183 Juniper, and on ChromeOS v5.10, on which we have a whole bunch
-> of backports pending, on MT8195 Tomato.
->
-> Please have a look.
->
->
-> Thanks
-> ChenYu
->
-> Chen-Yu Tsai (6):
->   media: mediatek: vcodec: Revert driver name change in decoder
->     capabilities
->   media: mediatek: vcodec: Use meaningful decoder card name including
->     chip name
->   media: mediatek: vcodec: Use default bus_info for decoder capability
->   media: mediatek: vcodec: Revert driver name change in encoder
->     capabilities
->   media: mediatek: vcodec: Use meaningful encoder card name including
->     chip name
->   media: mediatek: vcodec: Use default bus_info for encoder capability
->
-> drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 7 ++++---
-> drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h | 1 +
-> drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 7 ++++---
-> 3 files changed, 9 insertions(+), 6 deletions(-)
->
-> --
-> 2.37.0.rc0.161.g10f37bed90-goog
->
->
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index b661e1817470..9689f38a0af1 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1433,6 +1433,40 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
+ 		__result;						\
+ 	})
+ 
++/**
++ * v4l2_subdev_call_state_try - call an operation of a v4l2_subdev which
++ *				takes state as a parameter, passing the
++ *				subdev a newly allocated try state.
++ *
++ * @sd: pointer to the &struct v4l2_subdev
++ * @o: name of the element at &struct v4l2_subdev_ops that contains @f.
++ *     Each element there groups a set of callbacks functions.
++ * @f: callback function to be called.
++ *     The callback functions are defined in groups, according to
++ *     each element at &struct v4l2_subdev_ops.
++ * @args: arguments for @f.
++ *
++ * This is similar to v4l2_subdev_call_state_active(), except that as this
++ * version allocates a new state, this is only usable for
++ * V4L2_SUBDEV_FORMAT_TRY use cases.
++ *
++ * Note: only legacy non-MC drivers may need this macro.
++ */
++#define v4l2_subdev_call_state_try(sd, o, f, args...)                 \
++	({                                                            \
++		int __result;                                         \
++		static struct lock_class_key __key;                   \
++		const char *name = KBUILD_BASENAME                    \
++			":" __stringify(__LINE__) ":state->lock";     \
++		struct v4l2_subdev_state *state =                     \
++			__v4l2_subdev_state_alloc(sd, name, &__key);  \
++		v4l2_subdev_lock_state(state);                        \
++		__result = v4l2_subdev_call(sd, o, f, state, ##args); \
++		v4l2_subdev_unlock_state(state);                      \
++		__v4l2_subdev_state_free(state);                      \
++		__result;                                             \
++	})
++
+ /**
+  * v4l2_subdev_has_op - Checks if a subdev defines a certain operation.
+  *
+-- 
+2.34.1
+
