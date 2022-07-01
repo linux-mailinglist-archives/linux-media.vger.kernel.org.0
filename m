@@ -2,190 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8FF3562E87
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 10:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39F58562EBC
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 10:48:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233905AbiGAIj0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Jul 2022 04:39:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47272 "EHLO
+        id S234138AbiGAIrR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Jul 2022 04:47:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234051AbiGAIjZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 04:39:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB1871254
-        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 01:39:23 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E13325C;
-        Fri,  1 Jul 2022 10:39:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656664759;
-        bh=YosOc4bryU8HRWr5iT9lcVkOL+hL1YEuNGFAb6rfAbc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aDw60PZcphfv+InErsHxKwInNjycKnnr3nxUPk6Z9X9z058lxCHiUM9CGS74pxDuV
-         6sO4FTpOLFo7qPsq8cWPuvrzWvA2Ap8nl/OhVh9Q8NHzC+yv0KoeBUWc6uG4KHFmWU
-         FRpOSOEFGryVMgXrD4I87dVd34WxiO9yYPfVQsgk=
-Date:   Fri, 1 Jul 2022 11:38:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna@fastmail.com>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        linux-media@vger.kernel.org, heiko@sntech.de,
-        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
-        djrscally@gmail.com, helen.koike@collabora.com,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 53/55] media: rkisp1: Shift DMA buffer addresses on
- i.MX8MP
-Message-ID: <Yr6yoqE/HMlaYOlB@pendragon.ideasonboard.com>
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-54-paul.elder@ideasonboard.com>
- <YrhFHt+PsaWXsTUD@pendragon.ideasonboard.com>
- <20220701055342.ryvwbfltt5eemysg@guri>
+        with ESMTP id S232764AbiGAIrR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 04:47:17 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 991EC735A0;
+        Fri,  1 Jul 2022 01:47:15 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5FFB220015;
+        Fri,  1 Jul 2022 08:47:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1656665233;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tCKiu9UVJfksHqgDLzozOfGbaUpNB7t/2OMHm7HVzjc=;
+        b=PKR6wnsqRd5W9qPKz+LIaEvioP/9C+wbOgTd6SC+Z0WenLwqtVEd9+IMm7IOnFq/ZIQRp5
+        IoexIv7cUOXK0I4dg18iVKxDDpa4MjvVLoZpI1ECwCw67XWjTpaUiBH2LBpH0sVP8F1ep/
+        rYd038j4mBXtzPhCEcnafds3P3xBHhxEupo4HQMPMdIujpxFxIw3GqlynjvCGQz5DL1k1h
+        LAsND+4U6thEgQtSrwjW9q1hyp1FmispmvSg3ZWGNvnYKz+Ac+E6H72U+lrM1XXddl1FDh
+        IgayEjMo/EMxCZS4BC/g6nbYdhCcTmUD6t+dM3mGT0DKPC2RPhjqCi9iE+8x1Q==
+Date:   Fri, 1 Jul 2022 10:47:10 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     mchehab@kernel.org, hverkuil@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org, wens@csie.org,
+        jernej.skrabec@gmail.com, samuel@sholland.org,
+        nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com
+Subject: Re: [PATCH 3/7] media: hantro: HEVC: Fix chroma offset computation
+Message-ID: <Yr60jj4OOAM6plWC@aptenodytes>
+References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
+ <20220617115802.396442-4-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="a0X7j1VNZJp1Rx4A"
 Content-Disposition: inline
-In-Reply-To: <20220701055342.ryvwbfltt5eemysg@guri>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220617115802.396442-4-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
 
-On Fri, Jul 01, 2022 at 08:53:42AM +0300, Dafna Hirschfeld wrote:
-> On 26.06.2022 14:38, Laurent Pinchart wrote:
-> > On Wed, Jun 15, 2022 at 04:11:25AM +0900, Paul Elder wrote:
-> >> On the ISP that is integrated in the i.MX8MP, the DMA base addresses are
-> >> encoded in 34-bit. Shift them to the left by 2 bits so that they can be
-> >
-> > I think you meant right, not left.
-> >
-> >> contained in 32 bits.
-> >
-> > The important part here is that this is how the address is encoded in
-> > the hardware. I suppose it's obvious, otherwise it woudln't work at all,
-> > but maybe it could be explained more explicitly ?
-> >
-> > On the ISP that is integrated in the i.MX8MP, DMA addresses have been
-> > extended to 34 bits, with the 32 MSBs stored in the DMA address
-> > registers and the 2 LSBs set to 0. Shift the buffer addresses right by 2
-> > on that platform.
-> 
-> If the 32 MSB are all stored in the in the dma address then why do we
-> need to shift?
+--a0X7j1VNZJp1Rx4A
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Rokchip SoCs the DMA address is 32-bit wide, and stored as-is in the
-registers. On i.MX8MP, the DMA address is 34-bit, and must be aligned to
-a multiple of 4 bytes, so the two LSBs are guaranteed to be 0. The DMA
-registers are still 32-bit wide, and store bits [33:2] of the DMA
-addresses, hence the shift.
+Hi Benjamin,
 
-> >> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> >> ---
-> >>  .../platform/rockchip/rkisp1/rkisp1-capture.c | 19 +++++++++++--------
-> >>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
-> >>  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  3 ++-
-> >>  3 files changed, 14 insertions(+), 9 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> >> index 35cec263c563..234b1f8488cb 100644
-> >> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> >> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> >> @@ -624,6 +624,9 @@ static void rkisp1_dummy_buf_destroy(struct rkisp1_capture *cap)
-> >>
-> >>  static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
-> >>  {
-> >> +	u8 shift = cap->rkisp1->info->features & RKISP1_FEATURE_DMA_34BIT ?
-> >> +		   2 : 0;
-> >> +
-> >>  	cap->buf.curr = cap->buf.next;
-> >>  	cap->buf.next = NULL;
-> >>
-> >> @@ -636,7 +639,7 @@ static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
-> >>  		buff_addr = cap->buf.next->buff_addr;
-> >>
-> >>  		rkisp1_write(cap->rkisp1, cap->config->mi.y_base_ad_init,
-> >> -			     buff_addr[RKISP1_PLANE_Y]);
-> >> +			     buff_addr[RKISP1_PLANE_Y] >> shift);
-> >>  		/*
-> >>  		 * In order to support grey format we capture
-> >>  		 * YUV422 planar format from the camera and
-> >> @@ -645,17 +648,17 @@ static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
-> >>  		if (cap->pix.cfg->fourcc == V4L2_PIX_FMT_GREY) {
-> >>  			rkisp1_write(cap->rkisp1,
-> >>  				     cap->config->mi.cb_base_ad_init,
-> >> -				     cap->buf.dummy.dma_addr);
-> >> +				     cap->buf.dummy.dma_addr >> shift);
-> >>  			rkisp1_write(cap->rkisp1,
-> >>  				     cap->config->mi.cr_base_ad_init,
-> >> -				     cap->buf.dummy.dma_addr);
-> >> +				     cap->buf.dummy.dma_addr >> shift);
-> >>  		} else {
-> >>  			rkisp1_write(cap->rkisp1,
-> >>  				     cap->config->mi.cb_base_ad_init,
-> >> -				     buff_addr[RKISP1_PLANE_CB]);
-> >> +				     buff_addr[RKISP1_PLANE_CB] >> shift);
-> >>  			rkisp1_write(cap->rkisp1,
-> >>  				     cap->config->mi.cr_base_ad_init,
-> >> -				     buff_addr[RKISP1_PLANE_CR]);
-> >> +				     buff_addr[RKISP1_PLANE_CR] >> shift);
-> >>  		}
-> >>  	} else {
-> >>  		/*
-> >> @@ -663,11 +666,11 @@ static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
-> >>  		 * throw data if there is no available buffer.
-> >>  		 */
-> >>  		rkisp1_write(cap->rkisp1, cap->config->mi.y_base_ad_init,
-> >> -			     cap->buf.dummy.dma_addr);
-> >> +			     cap->buf.dummy.dma_addr >> shift);
-> >>  		rkisp1_write(cap->rkisp1, cap->config->mi.cb_base_ad_init,
-> >> -			     cap->buf.dummy.dma_addr);
-> >> +			     cap->buf.dummy.dma_addr >> shift);
-> >>  		rkisp1_write(cap->rkisp1, cap->config->mi.cr_base_ad_init,
-> >> -			     cap->buf.dummy.dma_addr);
-> >> +			     cap->buf.dummy.dma_addr >> shift);
-> >>  	}
-> >>
-> >>  	/* Set plane offsets */
-> >> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> >> index 96657e55a5b0..0b834579d08c 100644
-> >> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> >> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> >> @@ -113,6 +113,7 @@ enum rkisp1_feature {
-> >>  	RKISP1_FEATURE_DUAL_CROP = BIT(1),
-> >>  	RKISP1_FEATURE_RSZ_CROP = BIT(2),
-> >>  	RKISP1_FEATURE_MAIN_STRIDE = BIT(3),
-> >> +	RKISP1_FEATURE_DMA_34BIT = BIT(4),
-> 
-> doc this field
+On Fri 17 Jun 22, 13:57, Benjamin Gaignard wrote:
+> The chroma offset depends of the bitstream depth.
+> Make sure that ctx->bit_depth is used to compute it.
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/=
+staging/media/hantro/hantro_g2_hevc_dec.c
+> index 9eac133bda68..8407ad45b7b7 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -12,7 +12,7 @@
+> =20
+>  static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
+>  {
+> -	return ctx->dst_fmt.width * ctx->dst_fmt.height;
+> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
 
-Looks like only RKISP1_FEATURE_MIPI_CSI2 is documented. We'll fix that
-in v3.
+Is this a case for DIV_ROUND_UP or are you sure the rounded-down size is al=
+ways
+sufficient?
 
-> >>  };
-> >>
-> >>  /*
-> >> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> >> index d68a805e8b6b..4c77aa2bc50a 100644
-> >> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> >> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> >> @@ -506,7 +506,8 @@ static const struct rkisp1_info imx8mp_isp_info = {
-> >>  	.isr_size = ARRAY_SIZE(imx8mp_isp_isrs),
-> >>  	.isp_ver = IMX8MP_V10,
-> >>  	.features = RKISP1_FEATURE_RSZ_CROP
-> >> -		  | RKISP1_FEATURE_MAIN_STRIDE,
-> >> +		  | RKISP1_FEATURE_MAIN_STRIDE
-> >> +		  | RKISP1_FEATURE_DMA_34BIT,
-> >>  };
-> >>
-> >>  static const struct of_device_id rkisp1_of_match[] = {
+Cheers,
 
--- 
-Regards,
+Paul
 
-Laurent Pinchart
+>  }
+> =20
+>  static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
+> --=20
+> 2.32.0
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--a0X7j1VNZJp1Rx4A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK+tI4ACgkQ3cLmz3+f
+v9FI6gf+OMP0FLYqOVzpR7SYs1HX+twVAKRGc9qUg00x8P8t2OXlXvlkxE9qN+bW
+A1e9/jH6hE4ngt7bK+DZHrpf9eSYHA8axTSTu2ftFceFjMydrJLcG3GjYW+xDgdF
+CBUjb8sPZXZAD5qb2nPyk6+wPonGYQNpx5Zcxxq/n1kaa2xEv99pgVXFB11Sl71S
+PGPt2X0N50/BboLoDDEm/eTHGMAtitTh6M5JVKK/rlaHUMVmh6+sdzcQ3J3pWUIP
+asPKQQVQt1d/UvbkJBWfPj9/sWuzTm3t2B6WIq3IlinVruUWBGSZGM1sEUVauZvk
+xsAwJqD/PUfhZIAKHmr+oYze+ZAjGA==
+=OrxB
+-----END PGP SIGNATURE-----
+
+--a0X7j1VNZJp1Rx4A--
