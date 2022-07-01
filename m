@@ -2,108 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52472562F62
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 11:03:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 099A1562FB4
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 11:20:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234582AbiGAJDZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Jul 2022 05:03:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46364 "EHLO
+        id S233682AbiGAJTd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Jul 2022 05:19:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233522AbiGAJDY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 05:03:24 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D3CA1571A;
-        Fri,  1 Jul 2022 02:03:23 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:2a18:eef7:517c:3467] (unknown [IPv6:2a01:e0a:120:3210:2a18:eef7:517c:3467])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 099BA66015B2;
-        Fri,  1 Jul 2022 10:03:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656666201;
-        bh=HeVABiQifDKZmsejKzWKuWsrRSudGKBJZ7pqrByEerQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=nwQ+wI922KmSe3X33SneWndU3TbI/sjRvPQJ8Dr5Xx5e+O3qg5hog/1NfrfSZLLa+
-         uiofarX6QER7SRj2Socni4uPTSAQWRCqvBlpKKJW9qGo5lGcEk2o08vW2y1EogP2yf
-         Er5jCtdTUH1iSLSOQe/5IZo2K3fmdvkTD8DY16m2Bto4fPs3QeAcL2Otxzd/KusWTh
-         +5WhbyviowG4guFPNMai5QO1z1hlQI4fVdmiSKw2/rCJl+CsdHNDVuFp5LAVwrEHsh
-         QhTDO0SZt/zk+9K5tTKjKTU+cWKKVLKpaDNBmWwyxA41gdiPS+vybDFYccNgp4oEzr
-         H6JM/1lzE99Gw==
-Message-ID: <37145626-1a7e-2aba-4f3c-4d0574729a41@collabora.com>
-Date:   Fri, 1 Jul 2022 11:03:18 +0200
+        with ESMTP id S232834AbiGAJTc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 05:19:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E643451B2B
+        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 02:19:30 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E91025C;
+        Fri,  1 Jul 2022 11:19:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656667168;
+        bh=PiwUbyUV4xv77mPNNleUvrhzAfhgzSm779hMBHQ+4Gg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RiEXrSsWz0vix7wNf+yys2R/x1h13eceuCys6fj5t5lAhhu5jNftyK0bC4LuhdCOe
+         +Tu/z/P72YCiYjCsZwtygPEaRLAr41uxYTkDFXWKG3jtv4ymXqbH4uiXzst9oxO67r
+         XzMNgrns7ZJkZx+hlqFiINQkl4r8WXb5DQqIK/ls=
+Date:   Fri, 1 Jul 2022 12:19:07 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dafna Hirschfeld <dafna@fastmail.com>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, heiko@sntech.de,
+        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
+        djrscally@gmail.com, helen.koike@collabora.com,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 43/55] dt-bindings: media: rkisp1: Add port for parallel
+ interface
+Message-ID: <Yr68C1T5Pai8m/O+@pendragon.ideasonboard.com>
+References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-44-paul.elder@ideasonboard.com>
+ <20220701052222.a7rtl5hivr4oy7bk@guri>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/7] media: hantro: HEVC: Fix chroma offset computation
-Content-Language: en-US
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
- <20220617115802.396442-4-benjamin.gaignard@collabora.com>
- <Yr60jj4OOAM6plWC@aptenodytes>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <Yr60jj4OOAM6plWC@aptenodytes>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220701052222.a7rtl5hivr4oy7bk@guri>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Dafna,
 
-Le 01/07/2022 à 10:47, Paul Kocialkowski a écrit :
-> Hi Benjamin,
->
-> On Fri 17 Jun 22, 13:57, Benjamin Gaignard wrote:
->> The chroma offset depends of the bitstream depth.
->> Make sure that ctx->bit_depth is used to compute it.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> index 9eac133bda68..8407ad45b7b7 100644
->> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> @@ -12,7 +12,7 @@
->>   
->>   static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
->>   {
->> -	return ctx->dst_fmt.width * ctx->dst_fmt.height;
->> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
-> Is this a case for DIV_ROUND_UP or are you sure the rounded-down size is always
-> sufficient?
+On Fri, Jul 01, 2022 at 08:22:22AM +0300, Dafna Hirschfeld wrote:
+> On 15.06.2022 04:11, Paul Elder wrote:
+> > The rkisp1 can take an input on the parallel interface. Add a port for
+> > it, and update the required field. At least one port is required, and
+> > both may be specified.
+> >
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > ---
+> >  .../bindings/media/rockchip-isp1.yaml         | 23 +++++++++++++++++--
+> >  1 file changed, 21 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+> > index d1489b177331..b3661d7d4357 100644
+> > --- a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+> > +++ b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+> > @@ -84,8 +84,27 @@ properties:
+> >                  minItems: 1
+> >                  maxItems: 4
+> > 
+> > -    required:
+> > -      - port@0
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        unevaluatedProperties: false
+> > +        description: connection point for input on the parallel interface
+> > +
+> > +        properties:
+> > +          bus-type:
+> > +            enum: [5, 6]
+> > +
+> > +          endpoint:
+> > +            $ref: video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +        required:
+> > +          - bus-type
+> > +
+> > +    anyOf:
+> > +      - required:
+> > +          - port@0
+> > +      - required:
+> > +          - port@1
+> > 
+> >  required:
+> >    - compatible
+> 
+> Could be nice to add an example
 
-No need of DIV_ROUND_UP here because it could affect the chroma offset when
-using decoder tiled format and add extra bytes between luma and chroma planes.
+I don't have a real-life example of a parallel sensor connected to a
+RK3399, but the i.MX8MP connects its CSI-2 receiver to the parallel
+input of the ISP. I'll add an example to the other DT bindings patch
+that adds the compatible string for the i.MX8MP, is that OK ?
 
+-- 
 Regards,
-Benjamin
 
-> Cheers,
->
-> Paul
->
->>   }
->>   
->>   static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
->> -- 
->> 2.32.0
->>
+Laurent Pinchart
