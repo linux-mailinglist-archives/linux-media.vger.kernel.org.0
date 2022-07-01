@@ -2,120 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F81A5636FC
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 17:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A34F6563881
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 19:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230413AbiGAPej (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Jul 2022 11:34:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33234 "EHLO
+        id S232032AbiGARTs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Jul 2022 13:19:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbiGAPei (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 11:34:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8D1839680
-        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 08:34:37 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6F8D25C;
-        Fri,  1 Jul 2022 17:34:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656689676;
-        bh=mPIqF6gu9mPasjaWE//4N4ta6bfRNDjy/PYjAQBh/Cc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jkqMYNHJRZTgsJlJ7BhkjzlGXC8Io/1FueW87GhcmR4kWpWQ7n7ZUFL9AAMh8jkq1
-         KrvO79YCy2u9NKgjyr/PxRb5rhzithjfck4peWMqy3WxzhfcbWYJnALivebyxJesxU
-         7RMadIqYFj+XH0iRiMHg0xjzWLju6apsrlNIywuM=
-Date:   Fri, 1 Jul 2022 18:34:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH 2/2] media: stm32: dcmi: Fix subdev op call with
- uninitialized state
-Message-ID: <Yr8T9vdBKxP+HHfn@pendragon.ideasonboard.com>
-References: <20220701131559.66715-1-tomi.valkeinen@ideasonboard.com>
- <20220701131559.66715-2-tomi.valkeinen@ideasonboard.com>
+        with ESMTP id S229664AbiGARTs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 13:19:48 -0400
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0134531DC5;
+        Fri,  1 Jul 2022 10:19:47 -0700 (PDT)
+Received: by mail-io1-f50.google.com with SMTP id r133so2896579iod.3;
+        Fri, 01 Jul 2022 10:19:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=1ICeVaYUEaNVqqQDgCp0YahEpS5ttm9c51O2La87iQY=;
+        b=cz6USwxA6RByyqT3nXgT5+Esl3+Y2WQDHBJ1VWJue8CKqTS2769G1fvrAgCIMvW7Tk
+         FmyvNsMTg51Oi4gsLwH/Q5ibgCtm3EobKes3rYSV1OlbUsAKHGJS4nGzEJIVXIRGU6ZE
+         kYwz+KM3b+ZEk0Nc2cAxNnd5p4ZyH8FZ0er/t9mp4EtLXfgzCPrc6uj5xTxYQY7y7mKV
+         q3V1FBNq/XSPjMdl3RBxVd9KNKq7cD8+7ny4Bk6AcLtbsn3WnaYJkuDhdgJBK8m8H705
+         /NyBAmlHGOmTmvJHZZ0O0R+FIWJW6CCvi46CDM7GZl0YT1KKTpbf9owiifLL/mI3DVfj
+         anlA==
+X-Gm-Message-State: AJIora/GmpwsHQyL0p2Xj8DcPSHOoxRMRNkwC9iF/0mnZouYWhpT1T1r
+        E07P+6G02pOvVS7qr5Wj/A==
+X-Google-Smtp-Source: AGRyM1tOPvOoBYnjXOMTWZevc6/prF/DoW7LfDDYDLJUmL3WxSHteDqogJhK4OGcpcZIvwc9wErrZw==
+X-Received: by 2002:a6b:794d:0:b0:66c:ec39:7d83 with SMTP id j13-20020a6b794d000000b0066cec397d83mr8205468iop.199.1656695986259;
+        Fri, 01 Jul 2022 10:19:46 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id c21-20020a023315000000b00339e7ec8a39sm10392997jae.7.2022.07.01.10.19.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Jul 2022 10:19:45 -0700 (PDT)
+Received: (nullmailer pid 1164541 invoked by uid 1000);
+        Fri, 01 Jul 2022 17:19:44 -0000
+Date:   Fri, 1 Jul 2022 11:19:44 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-media@vger.kernel.org,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] dt-bindings: media: samsung,s5pv210-jpeg: convert to
+ dtschema
+Message-ID: <20220701171944.GA1164482-robh@kernel.org>
+References: <20220629120803.61965-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220701131559.66715-2-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220629120803.61965-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Fri, Jul 01, 2022 at 04:15:59PM +0300, Tomi Valkeinen wrote:
-> stm32-dcmi calls its source subdev with v4l2_subdev_call() using a
-> v4l2_subdev_state constructed on stack. This means that init_cfg is
-> never called for that state, and a source subdev that depends on the
-> init_cfg call may break.
+On Wed, 29 Jun 2022 14:08:03 +0200, Krzysztof Kozlowski wrote:
+> Convert the Samsung SoC JPEG codec bindings to DT schema.
 > 
-> A new macro has been added for this particular purpose, which properly
-> initializes the state, so let's use v4l2_subdev_call_state_try() here.
+> The original bindings were quite old and incomplete, so change during
+> conversion:
+> 1. Add typical (already used) properties like iommus and power domains.
+> 2. Document samsung,exynos4212-jpeg compatible (already used in DTS and
+>    driver).
+> 3. List clocks per each variant.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  drivers/media/platform/st/stm32/stm32-dcmi.c | 14 ++------------
->  1 file changed, 2 insertions(+), 12 deletions(-)
+>  .../bindings/media/exynos-jpeg-codec.txt      |  16 ---
+>  .../bindings/media/samsung,s5pv210-jpeg.yaml  | 123 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  3 files changed, 124 insertions(+), 16 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/exynos-jpeg-codec.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/samsung,s5pv210-jpeg.yaml
 > 
-> diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
-> index 09a743cd7004..eb831b5932e7 100644
-> --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
-> +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
-> @@ -999,10 +999,6 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
->  	const struct dcmi_format *sd_fmt;
->  	struct dcmi_framesize sd_fsize;
->  	struct v4l2_pix_format *pix = &f->fmt.pix;
-> -	struct v4l2_subdev_pad_config pad_cfg;
-> -	struct v4l2_subdev_state pad_state = {
-> -		.pads = &pad_cfg
-> -		};
->  	struct v4l2_subdev_format format = {
->  		.which = V4L2_SUBDEV_FORMAT_TRY,
->  	};
-> @@ -1037,8 +1033,7 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
->  	}
->  
->  	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
-> -	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
-> -			       &pad_state, &format);
-> +	ret = v4l2_subdev_call_state_try(dcmi->source, pad, set_fmt, &format);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -1187,10 +1182,6 @@ static int dcmi_set_sensor_format(struct stm32_dcmi *dcmi,
->  	struct v4l2_subdev_format format = {
->  		.which = V4L2_SUBDEV_FORMAT_TRY,
->  	};
-> -	struct v4l2_subdev_pad_config pad_cfg;
-> -	struct v4l2_subdev_state pad_state = {
-> -		.pads = &pad_cfg
-> -		};
->  	int ret;
->  
->  	sd_fmt = find_format_by_fourcc(dcmi, pix->pixelformat);
-> @@ -1203,8 +1194,7 @@ static int dcmi_set_sensor_format(struct stm32_dcmi *dcmi,
->  	}
->  
->  	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
-> -	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
-> -			       &pad_state, &format);
-> +	ret = v4l2_subdev_call_state_try(dcmi->source, pad, set_fmt, &format);
->  	if (ret < 0)
->  		return ret;
->  
 
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Rob Herring <robh@kernel.org>
