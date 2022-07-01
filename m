@@ -2,118 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B676C56296C
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 05:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C48C562A91
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 06:36:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233911AbiGADLI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jun 2022 23:11:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60464 "EHLO
+        id S229736AbiGAEgx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Jul 2022 00:36:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233849AbiGADK7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jun 2022 23:10:59 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0906D64D65
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 20:10:35 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id s188so1656911oib.6
-        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 20:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ifsT2wWYpR3GIDej6kj9iuP5yZJl2zk/c+ZcBDquvTw=;
-        b=DDdHHzPUj6tFM3Ado8BDbAXR1U26zWTe596bqmQ+wliUkAycKWe8nh/xaLuyN5+n2m
-         MkSS20r3t6l2QBmxiYnXdE2ojj1h+c7tM8TEtkrV3Bc0uw5crJ1aXaRgn4J7a2CWZn75
-         EXABTWG1upx+Itdm4FfqWQJhB/m89c6kUsy9ZTAr61gpt6szAZIvRcI6DB3COTImR/+6
-         0DbSS+izNcy4A4GZr0uivE7PsU4AZY9Q8jhSsnxt9c8njk+6YhntErSsIvF3DotMNY9+
-         had/UYOLX6kH+xLBpJtHKQztJC8AMv54fU9BLmBqd54Kv350XV1oTPke/zIaa0VXybCn
-         TSjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ifsT2wWYpR3GIDej6kj9iuP5yZJl2zk/c+ZcBDquvTw=;
-        b=N6uf0qjzlsnHFMt5IkS1btpT9+/NSJyWi8a270imBWxHCZnm+CZzjCIrcRytyfmBAT
-         X4Ay73AsC+ijWlV15u3auM2oWMtBsGxDrVcuvWpE7nb4qMl1BIpPcqCB0w2sVr3BRfGc
-         3h1ZgESIX6PEiaz7VwO2m2eUY47LOeGmik4jDe5gz+3OyvF4UtNBR6+dJ9krbzqWCJwd
-         o4Uebc5PfrIC+ban+zXOUoZga6TGYzOcysNL+L9hl4L9PHupXK3hmpgZON9xvdeD+uES
-         DRnZpmkpoaBbTZ8LSWVHYA7FBPpVdcziA3EbleQb0w2wQRAlJfTiiPh+0RCAXHGxBQV6
-         DJJg==
-X-Gm-Message-State: AJIora9U8w3n1W9pHmwgAMnIlp2uiMdGFeVeKRg8S1sWgjbQVIWMa7a6
-        QdsHWF6c4D0XTdCIkyFHZLbbQw==
-X-Google-Smtp-Source: AGRyM1tPh3ymkg591521d/uHcA5BmIIn6/MhffzQolzJ3zLSYJ/eM4iUBUrmz60HDpTZg0p3+dct2g==
-X-Received: by 2002:aca:3b06:0:b0:32e:8bb7:bef7 with SMTP id i6-20020aca3b06000000b0032e8bb7bef7mr7365838oia.246.1656645034261;
-        Thu, 30 Jun 2022 20:10:34 -0700 (PDT)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id i16-20020a05683033f000b00616b835f5e7sm10387117otu.43.2022.06.30.20.10.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 20:10:30 -0700 (PDT)
-Date:   Thu, 30 Jun 2022 22:10:27 -0500
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, hverkuil@xs4all.nl, robert.foss@linaro.org,
-        jonathan@marek.ca, andrey.konovalov@linaro.org,
-        todor.too@gmail.com, agross@kernel.org, jgrahsl@snap.com,
-        hfink@snap.com, vladimir.zapolskiy@linaro.org,
-        dmitry.baryshkov@linaro.org, konrad.dybcio@somainline.org
-Subject: Re: [PATCH v3 3/5] arm64: dts: qcom: sm8250: camss: Define ports
- address/size cells
-Message-ID: <Yr5lo799md1XcAkU@builder.lan>
-References: <20220606132029.2221257-1-bryan.odonoghue@linaro.org>
- <20220606132029.2221257-4-bryan.odonoghue@linaro.org>
+        with ESMTP id S229549AbiGAEgw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 00:36:52 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62495675A0
+        for <linux-media@vger.kernel.org>; Thu, 30 Jun 2022 21:36:51 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 22E895C00C9;
+        Fri,  1 Jul 2022 00:36:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Fri, 01 Jul 2022 00:36:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1656650208; x=1656736608; bh=WnBgrnf9TK
+        KXhLuH5ml1t97t1F6KrIgS/NWBIjpmGrw=; b=mt7BQ7p/Yn45SJJvb2SxEq0MW6
+        Dy2wutm1MepAOzQnk1OqeLzf33+CRooci02YDGtPJMBF7TaX/FuU/w15t7pUhDrC
+        7734wpPFCxzzi+t5+8yC9mjqhbreN9iXei1ZEeOAd7c3cy4KTX6H04nvm6PnxsfO
+        s3tiB8pbIuOZ2+g0QQi8RhSA1HSdS0z/dPfgHxj85bCyiNc5Az1aQ7fgZ2qDJzJo
+        EIr35Ths2E5/9ZJNdti1NXy6R7/Gl07ezPDTUIMEjBdqVByfxFpJl6Td607uGdqb
+        gYWOfjgYLLOBID4pJKAFbR6ZbuiTwibW099ajGlobm/na9FWeDWXbls389Bw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1656650208; x=1656736608; bh=WnBgrnf9TKKXhLuH5ml1t97t1F6K
+        rIgS/NWBIjpmGrw=; b=Ko7YQZ1DfxK4jL8PT1C65YBzXbAg4D1wlbdoZkMM8lfK
+        G5TnyNQ5thfE4kKDMsXQ4450g4ex2eOknpl0vdSdPWYh5OdBMGanPNuEpxYUHi+q
+        HXmpZOCm/LQiNUIHNAVXYHJkp9ELhDuW88n5TKMk4K+rwobz0wfsFZMlTD5MoypS
+        rq16XoNwUfB8MaRbPw/h7Ra3xJoDejHUgDrQqkRBqOk1xSQSU2BlXwfaJJdRnX3j
+        DqWgFETx5v/yLcSgPq12BcwAGZ+E3eBFGn3qjHPiHoTn4Kn+WYc/bmpY86DbfkbU
+        pxAJ0aaGc/G51vtATOS3J8/aF9pRdwW8cvz9czVWww==
+X-ME-Sender: <xms:33m-YrCdztfziJVydebwDz6dJNN5lMn8MQ05PwEHmFJL86p8kYs9iA>
+    <xme:33m-Yhhg28peYplEvlgscz-OkKeu_TjjzHzZT0IcGutXvWvCi4k7nGV1vHhV8Wlun
+    a_bl7knIl7mSTbYjxY>
+X-ME-Received: <xmr:33m-YmnSPdW7aQeG7Q5WiW3LyV-zx1JPPPl5aygOhCX3Z7-lq3TXFw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehvddgkeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
+    rgcujfhirhhstghhfhgvlhguuceouggrfhhnrgesfhgrshhtmhgrihhlrdgtohhmqeenuc
+    ggtffrrghtthgvrhhnpedvhedtledukeegveelfeeuvddujeeiteehkedvhfetkeffudej
+    hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegurghfnhgrsehfrghsthhmrghilhdrtghomh
+X-ME-Proxy: <xmx:33m-YtxYDKITD5yYQ_7z-MUtHmAjrmlAnveaMIVov_WsfuXPnFQS5g>
+    <xmx:33m-YgRCKwaoohh27ifsch6edDKFN7wQN1ZckdAchmYJRV64a77jLw>
+    <xmx:33m-YgZQUVLDfs546-i072SausQ7axykd2chTwa8_kTrTIL5sOcD5g>
+    <xmx:4Hm-YlQgvbVnaCutoT2gH5KX6TW98B6jirkw1mnwbJJdDiji2rmxvg>
+Feedback-ID: i0e894699:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 1 Jul 2022 00:36:44 -0400 (EDT)
+Date:   Fri, 1 Jul 2022 07:36:41 +0300
+From:   Dafna Hirschfeld <dafna@fastmail.com>
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        heiko@sntech.de, jeanmichel.hautbois@ideasonboard.com,
+        jacopo@jmondi.org, djrscally@gmail.com, helen.koike@collabora.com,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 17/55] media: rkisp1: Fix sensor source pad retrieval at
+ bound time
+Message-ID: <20220701043641.bo3sgetazko3fwoi@guri>
+References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-18-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220606132029.2221257-4-bryan.odonoghue@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220614191127.3420492-18-paul.elder@ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon 06 Jun 08:20 CDT 2022, Bryan O'Donoghue wrote:
+On 15.06.2022 04:10, Paul Elder wrote:
+>From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+>When a sensor is bound, its source pad is retrieved in the .bound()
+>operation with a call to media_entity_get_fwnode_pad(). The function
+>should be called with the source endpoint fwnode of the sensor, but is
+>instead called with the sensor's device fwnode.
+>
+>Fix this, which involves storing a reference to the source endpoint
+>fwnode in the rkisp1_sensor_async structure, and thus implementing the
+>subdev notifier .destroy() operation to release the reference.
+>
+>Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>---
+> .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 ++
+> .../platform/rockchip/rkisp1/rkisp1-dev.c     | 28 ++++++++++++++++---
+> 2 files changed, 26 insertions(+), 4 deletions(-)
+>
+>diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+>index ba11baf75fa9..60c5462e1746 100644
+>--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+>+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+>@@ -117,6 +117,7 @@ struct rkisp1_info {
+>  *
+>  * @asd:		async_subdev variable for the sensor
+>  * @index:		index of the sensor (counting sensor found in DT)
+>+ * @source_ep:		fwnode for the sensor source endpoint
+>  * @lanes:		number of lanes
+>  * @mbus_type:		type of bus (currently only CSI2 is supported)
+>  * @mbus_flags:		media bus (V4L2_MBUS_*) flags
+>@@ -127,6 +128,7 @@ struct rkisp1_info {
+> struct rkisp1_sensor_async {
+> 	struct v4l2_async_subdev asd;
+> 	unsigned int index;
+>+	struct fwnode_handle *source_ep;
+> 	unsigned int lanes;
+> 	enum v4l2_mbus_type mbus_type;
+> 	unsigned int mbus_flags;
+>diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>index 386c1c17aec2..0f3e45cdbf2a 100644
+>--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>@@ -138,7 +138,7 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+> 	phy_init(s_asd->dphy);
+>
+> 	/* Create the link to the sensor. */
+>-	source_pad = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
+>+	source_pad = media_entity_get_fwnode_pad(&sd->entity, s_asd->source_ep,
+> 						 MEDIA_PAD_FL_SOURCE);
+> 	if (source_pad < 0) {
+> 		dev_err(rkisp1->dev, "failed to find source pad for %s\n",
+>@@ -170,10 +170,19 @@ static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
+> 	return v4l2_device_register_subdev_nodes(&rkisp1->v4l2_dev);
+> }
+>
+>+static void rkisp1_subdev_notifier_destroy(struct v4l2_async_subdev *asd)
+>+{
+>+	struct rkisp1_sensor_async *rk_asd =
+>+		container_of(asd, struct rkisp1_sensor_async, asd);
+>+
+>+	fwnode_handle_put(rk_asd->source_ep);
+>+}
+>+
+> static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops = {
+> 	.bound = rkisp1_subdev_notifier_bound,
+> 	.unbind = rkisp1_subdev_notifier_unbind,
+> 	.complete = rkisp1_subdev_notifier_complete,
+>+	.destroy = rkisp1_subdev_notifier_destroy,
+> };
+>
+> static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+>@@ -190,6 +199,7 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+> 			.bus_type = V4L2_MBUS_CSI2_DPHY
+> 		};
+> 		struct rkisp1_sensor_async *rk_asd;
+>+		struct fwnode_handle *source = NULL;
+> 		struct fwnode_handle *ep;
+>
+> 		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
+>@@ -202,15 +212,24 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+> 		if (ret)
+> 			goto err_parse;
+>
+>-		rk_asd = v4l2_async_nf_add_fwnode_remote(ntf, ep,
+>-							 struct
+>-							 rkisp1_sensor_async);
+>+		source = fwnode_graph_get_remote_endpoint(ep);
+>+		if (!source) {
+>+			dev_err(rkisp1->dev,
+>+				"endpoint %pfw has no remote endpoint\n",
+>+				ep);
+>+			ret = -ENODEV;
+>+			goto err_parse;
+>+		}
+>+
+>+		rk_asd = v4l2_async_nf_add_fwnode(ntf, source,
+>+						  struct rkisp1_sensor_async);
+> 		if (IS_ERR(rk_asd)) {
+> 			ret = PTR_ERR(rk_asd);
+> 			goto err_parse;
+> 		}
+>
+> 		rk_asd->index = index++;
+>+		rk_asd->source_ep = source;
 
-> The ports {} address and size cells definition is the same for every
-> derived 8250 board so, we should define it in the core sm8250.dtsi.
-> 
-> Suggested-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/sm8250.dtsi | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> index 2bc11cad3a44..aa9a13364865 100644
-> --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> @@ -3395,6 +3395,11 @@ camss: camss@ac6a000 {
->  					     "cam_hf_0_mnoc",
->  					     "cam_sf_0_mnoc",
->  					     "cam_sf_icp_mnoc";
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
+here do 'source = NULL', see reason below
 
-Adding these without subnodes that make use of them will cause
-dtbs_check to complain.
+> 		rk_asd->mbus_type = vep.bus_type;
+> 		rk_asd->mbus_flags = vep.bus.mipi_csi2.flags;
+> 		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
+>@@ -225,6 +244,7 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+> 		continue;
+> err_parse:
+> 		fwnode_handle_put(ep);
+>+		fwnode_handle_put(source);
 
-So although it would save a little bit of duplication, let's add them
-when/where it's needed.
+if v4l2_fwnode_endpoint_parse fails then here you put the source of previous iteration
 
-Regards,
-Bjorn
+thanks,
+Dafna
 
-> +			};
->  		};
->  
->  		camcc: clock-controller@ad00000 {
-> -- 
-> 2.36.1
-> 
+> 		v4l2_async_nf_cleanup(ntf);
+> 		return ret;
+> 	}
+>-- 
+>2.30.2
+>
