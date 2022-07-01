@@ -2,91 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 766E15636EC
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 17:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F81A5636FC
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 17:34:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230443AbiGAPbH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Jul 2022 11:31:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57438 "EHLO
+        id S230413AbiGAPej (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Jul 2022 11:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiGAPbF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 11:31:05 -0400
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C27BA2558A;
-        Fri,  1 Jul 2022 08:31:04 -0700 (PDT)
-Received: by mail-il1-f169.google.com with SMTP id h20so1599884ilj.13;
-        Fri, 01 Jul 2022 08:31:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DW6OoI9ck7pg2WGkEj/Pza3ljDH6aP6yay+QPKIoSAY=;
-        b=72I0nxI1hO1IiCezi2PYAB1+SRstq2UxhOTcoRy+HHDStwKz2ThfPDrpTdr6iu9YA5
-         at5oxKWASi+phjADd0bG3WCdcV76YkiMmXHCl9lXxjgQ8kPB+TWk1JZNiAXsezm+iMi+
-         iUexzr72AUH3ui1pfaha9lzEWHSNYRypORao0xzbOB1et7T4r+kzimFtgb9sZlwZ3rDG
-         QIPtivXOBqP7nCBiAHn5G2xqkmDkYYi/xEFl+fYSxPq3cMN8urSt0RZ2qF3wWxPKj4Ph
-         tLh1OMzo4PbfhAkOMgRQoe+a3j8JzzM0aWrMJZBO6dpIO+gSVyNOAphzFg0oLYC39Wu/
-         eIEQ==
-X-Gm-Message-State: AJIora+21RMgpnVKvQ4vqZdwpB6i4QluHH/ukk42omZ8GX3R/u9tBqX6
-        oPd/TxEygI9AI/8tj9lh3wtzQ31ADg==
-X-Google-Smtp-Source: AGRyM1vjWw9m4eWVGZ6vgiHQ5P0wZ0Ayk7sZG+ShF80xwbJewoL7/fwhv/c/x4vCvL2pv3kBenXPSw==
-X-Received: by 2002:a05:6e02:b44:b0:2da:7b63:34aa with SMTP id f4-20020a056e020b4400b002da7b6334aamr8922805ilu.281.1656689464065;
-        Fri, 01 Jul 2022 08:31:04 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id d137-20020a02628f000000b00339c5bff7c0sm9735893jac.134.2022.07.01.08.31.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jul 2022 08:31:03 -0700 (PDT)
-Received: (nullmailer pid 984299 invoked by uid 1000);
-        Fri, 01 Jul 2022 15:31:02 -0000
-Date:   Fri, 1 Jul 2022 09:31:02 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Irui Wang <irui.wang@mediatek.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        angelogioacchino.delregno@collabora.com,
-        nicolas.dufresne@collabora.com, wenst@chromium.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com, kyrie wu <kyrie.wu@mediatek.com>,
-        srv_heupstream@mediatek.com
-Subject: Re: [V10,1/7] dt-bindings: mediatek: Add mediatek, mt8195-jpgenc
- compatible
-Message-ID: <20220701153102.GA981371-robh@kernel.org>
-References: <20220627025625.8956-1-irui.wang@mediatek.com>
- <20220627025625.8956-2-irui.wang@mediatek.com>
+        with ESMTP id S229559AbiGAPei (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 11:34:38 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8D1839680
+        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 08:34:37 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6F8D25C;
+        Fri,  1 Jul 2022 17:34:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656689676;
+        bh=mPIqF6gu9mPasjaWE//4N4ta6bfRNDjy/PYjAQBh/Cc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jkqMYNHJRZTgsJlJ7BhkjzlGXC8Io/1FueW87GhcmR4kWpWQ7n7ZUFL9AAMh8jkq1
+         KrvO79YCy2u9NKgjyr/PxRb5rhzithjfck4peWMqy3WxzhfcbWYJnALivebyxJesxU
+         7RMadIqYFj+XH0iRiMHg0xjzWLju6apsrlNIywuM=
+Date:   Fri, 1 Jul 2022 18:34:14 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH 2/2] media: stm32: dcmi: Fix subdev op call with
+ uninitialized state
+Message-ID: <Yr8T9vdBKxP+HHfn@pendragon.ideasonboard.com>
+References: <20220701131559.66715-1-tomi.valkeinen@ideasonboard.com>
+ <20220701131559.66715-2-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220627025625.8956-2-irui.wang@mediatek.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220701131559.66715-2-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 27, 2022 at 10:56:19AM +0800, Irui Wang wrote:
-> From: kyrie wu <kyrie.wu@mediatek.com>
+Hi Tomi,
+
+Thank you for the patch.
+
+On Fri, Jul 01, 2022 at 04:15:59PM +0300, Tomi Valkeinen wrote:
+> stm32-dcmi calls its source subdev with v4l2_subdev_call() using a
+> v4l2_subdev_state constructed on stack. This means that init_cfg is
+> never called for that state, and a source subdev that depends on the
+> init_cfg call may break.
 > 
-> Add mediatek,mt8195-jpgenc compatible to binding document.
-
-Same comments as the decoder.
-
+> A new macro has been added for this particular purpose, which properly
+> initializes the state, so let's use v4l2_subdev_call_state_try() here.
 > 
-> Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Also, this needs your S-o-b too.
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
->  .../media/mediatek,mt8195-jpegenc.yaml        | 154 ++++++++++++++++++
->  1 file changed, 154 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
+>  drivers/media/platform/st/stm32/stm32-dcmi.c | 14 ++------------
+>  1 file changed, 2 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+> index 09a743cd7004..eb831b5932e7 100644
+> --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+> @@ -999,10 +999,6 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+>  	const struct dcmi_format *sd_fmt;
+>  	struct dcmi_framesize sd_fsize;
+>  	struct v4l2_pix_format *pix = &f->fmt.pix;
+> -	struct v4l2_subdev_pad_config pad_cfg;
+> -	struct v4l2_subdev_state pad_state = {
+> -		.pads = &pad_cfg
+> -		};
+>  	struct v4l2_subdev_format format = {
+>  		.which = V4L2_SUBDEV_FORMAT_TRY,
+>  	};
+> @@ -1037,8 +1033,7 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+>  	}
+>  
+>  	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
+> -	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
+> -			       &pad_state, &format);
+> +	ret = v4l2_subdev_call_state_try(dcmi->source, pad, set_fmt, &format);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -1187,10 +1182,6 @@ static int dcmi_set_sensor_format(struct stm32_dcmi *dcmi,
+>  	struct v4l2_subdev_format format = {
+>  		.which = V4L2_SUBDEV_FORMAT_TRY,
+>  	};
+> -	struct v4l2_subdev_pad_config pad_cfg;
+> -	struct v4l2_subdev_state pad_state = {
+> -		.pads = &pad_cfg
+> -		};
+>  	int ret;
+>  
+>  	sd_fmt = find_format_by_fourcc(dcmi, pix->pixelformat);
+> @@ -1203,8 +1194,7 @@ static int dcmi_set_sensor_format(struct stm32_dcmi *dcmi,
+>  	}
+>  
+>  	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
+> -	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
+> -			       &pad_state, &format);
+> +	ret = v4l2_subdev_call_state_try(dcmi->source, pad, set_fmt, &format);
+>  	if (ret < 0)
+>  		return ret;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
