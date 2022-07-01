@@ -2,95 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 655DE563105
-	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 12:09:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2382B5631BB
+	for <lists+linux-media@lfdr.de>; Fri,  1 Jul 2022 12:44:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233929AbiGAKJb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Jul 2022 06:09:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33438 "EHLO
+        id S236995AbiGAKoS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Jul 2022 06:44:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233332AbiGAKJ2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 06:09:28 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B3A1175A1
-        for <linux-media@vger.kernel.org>; Fri,  1 Jul 2022 03:09:26 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o7DaW-009yZF-UZ; Fri, 01 Jul 2022 10:09:24 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o7DaU-00DqEU-ET; Fri, 01 Jul 2022 10:09:22 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.20] Venus updates (#84527)
-Date:   Fri,  1 Jul 2022 10:09:22 +0000
-Message-Id: <20220701100922.3299000-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220701094059.82319-1-stanimir.varbanov@linaro.org>
-References: 
+        with ESMTP id S237014AbiGAKoK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Jul 2022 06:44:10 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72ED97D1D2;
+        Fri,  1 Jul 2022 03:44:00 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru [109.252.118.164])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id EF4536601596;
+        Fri,  1 Jul 2022 11:43:55 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656672238;
+        bh=i4sbwr4hhjkUIAG7olH1BdTwsBlNFqkIOpYSjFNHV/w=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ULKCbZZHPga04p61cEES7RO/PSbb0r9MTw2jLhk1vi7BxkUF2s/2oUlr45wDJ32Zl
+         hIi0EggvcohKCTYDuxjdSAD59R7x9Ho2wjo4+6Ny8R8XDP/2VnA+4rXHqSae59y5RQ
+         u5g9F4c0oWXgkQsy4x9ghsH1A+H0ASGLlB/xYvVhJTwQ62LFKi02GoHFAf3sMxSS6Y
+         geLgbeGzXOFcaOwO/w4rVpiXrZFLjie0W6FtGRjOo0ip0CObSJ6s7RbR690zd9JtQj
+         nYXKDpzfPVg8bswZlSutaJYkriJpXv9aMGuffojK4WnalY6TM+1VIHOnL0NBjdCTlr
+         +nAwSqj+vBJNw==
+Message-ID: <0d88cf7c-61e5-d7a8-a6ba-83388114a1fa@collabora.com>
+Date:   Fri, 1 Jul 2022 13:43:53 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
+Content-Language: en-US
+To:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc:     intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+        kernel@collabora.com, linux-media@vger.kernel.org
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-15-dmitry.osipenko@collabora.com>
+ <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
+ <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
+ <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
+ <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
+ <90fe74f6-a622-e4ae-3004-6f1bc1790247@shipmail.org>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <90fe74f6-a622-e4ae-3004-6f1bc1790247@shipmail.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 6/29/22 00:26, Thomas Hellström (Intel) wrote:
+> 
+> On 5/30/22 15:57, Dmitry Osipenko wrote:
+>> On 5/30/22 16:41, Christian König wrote:
+>>> Hi Dmitry,
+>>>
+>>> Am 30.05.22 um 15:26 schrieb Dmitry Osipenko:
+>>>> Hello Christian,
+>>>>
+>>>> On 5/30/22 09:50, Christian König wrote:
+>>>>> Hi Dmitry,
+>>>>>
+>>>>> First of all please separate out this patch from the rest of the
+>>>>> series,
+>>>>> since this is a complex separate structural change.
+>>>> I assume all the patches will go via the DRM tree in the end since the
+>>>> rest of the DRM patches in this series depend on this dma-buf change.
+>>>> But I see that separation may ease reviewing of the dma-buf changes, so
+>>>> let's try it.
+>>> That sounds like you are underestimating a bit how much trouble this
+>>> will be.
+>>>
+>>>>> I have tried this before and failed because catching all the locks in
+>>>>> the right code paths are very tricky. So expect some fallout from this
+>>>>> and make sure the kernel test robot and CI systems are clean.
+>>>> Sure, I'll fix up all the reported things in the next iteration.
+>>>>
+>>>> BTW, have you ever posted yours version of the patch? Will be great if
+>>>> we could compare the changed code paths.
+>>> No, I never even finished creating it after realizing how much work it
+>>> would be.
+>>>
+>>>>>> This patch introduces new locking convention for dma-buf users. From
+>>>>>> now
+>>>>>> on all dma-buf importers are responsible for holding dma-buf
+>>>>>> reservation
+>>>>>> lock around operations performed over dma-bufs.
+>>>>>>
+>>>>>> This patch implements the new dma-buf locking convention by:
+>>>>>>
+>>>>>>      1. Making dma-buf API functions to take the reservation lock.
+>>>>>>
+>>>>>>      2. Adding new locked variants of the dma-buf API functions for
+>>>>>> drivers
+>>>>>>         that need to manage imported dma-bufs under the held lock.
+>>>>> Instead of adding new locked variants please mark all variants which
+>>>>> expect to be called without a lock with an _unlocked postfix.
+>>>>>
+>>>>> This should make it easier to remove those in a follow up patch set
+>>>>> and
+>>>>> then fully move the locking into the importer.
+>>>> Do we really want to move all the locks to the importers? Seems the
+>>>> majority of drivers should be happy with the dma-buf helpers handling
+>>>> the locking for them.
+>>> Yes, I clearly think so.
+>>>
+>>>>>>      3. Converting all drivers to the new locking scheme.
+>>>>> I have strong doubts that you got all of them. At least radeon and
+>>>>> nouveau should grab the reservation lock in their ->attach callbacks
+>>>>> somehow.
+>>>> Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
+>>>> lock already, seems they should be okay (?)
+>>> You are looking at the wrong side. You need to fix the export code path,
+>>> not the import ones.
+>>>
+>>> See for example attach on radeon works like this
+>>> drm_gem_map_attach->drm_gem_pin->radeon_gem_prime_pin->radeon_bo_reserve->ttm_bo_reserve->dma_resv_lock.
+>>>
+>> Yeah, I was looking at the both sides, but missed this one.
+> 
+> Also i915 will run into trouble with attach. In particular since i915
+> starts a full ww transaction in its attach callback to be able to lock
+> other objects if migration is needed. I think i915 CI would catch this
+> in a selftest.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20220701094059.82319-1-stanimir.varbanov@linaro.org/
-Build log: https://builder.linuxtv.org/job/patchwork/221152/
-Build time: 00:21:32
-Link: https://lore.kernel.org/linux-media/20220701094059.82319-1-stanimir.varbanov@linaro.org
+Seems it indeed it should deadlock. But i915 selftests apparently
+should've caught it and they didn't, I'll re-check what happened.
 
-gpg: Signature made Fri 01 Jul 2022 09:26:14 AM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
-gpg: Note: This key has expired!
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+> Perhaps it's worthwile to take a step back and figure out, if the
+> importer is required to lock, which callbacks might need a ww acquire
+> context?
 
-Summary: got 2/2 patches with issues, being 2 at build time, plus one error when buinding PDF document
+I'll take this into account, thanks.
 
-Error/warnings:
+> (And off-topic, Since we do a lot of fancy stuff under dma-resv locks
+> including waiting for fences and other locks, IMO taking these locks
+> uninterruptible should ring a warning bell)
 
-patches/0001-venus-Add-support-for-SSR-trigger-using-fault-inject.patch:
+I had the same thought and had a version that used the interruptible
+locking variant, but then decided to fall back to the uninterruptible,
+don't remember why. I'll revisit this.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000008Kb sm_state_count = 543759
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 9 seconds
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5495 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1725875
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 52 seconds
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0001-venus-Add-support-for-SSR-trigger-using-fault-inject.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:104: CHECK: Please don't use multiple blank lines
-
-patches/0002-media-venus-hfi_platform-Correct-supported-codecs-fo.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-
-
-Error #512 when building PDF docs
-
+-- 
+Best regards,
+Dmitry
