@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB8D1563F38
-	for <lists+linux-media@lfdr.de>; Sat,  2 Jul 2022 11:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 098E8564661
+	for <lists+linux-media@lfdr.de>; Sun,  3 Jul 2022 11:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231334AbiGBJTX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 2 Jul 2022 05:19:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39528 "EHLO
+        id S232106AbiGCJTV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 3 Jul 2022 05:19:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiGBJTW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Jul 2022 05:19:22 -0400
+        with ESMTP id S231890AbiGCJTU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Jul 2022 05:19:20 -0400
 Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF95DE0FC
-        for <linux-media@vger.kernel.org>; Sat,  2 Jul 2022 02:19:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC6BBF5
+        for <linux-media@vger.kernel.org>; Sun,  3 Jul 2022 02:19:19 -0700 (PDT)
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1o7ZHb-00BN9n-6f; Sat, 02 Jul 2022 09:19:19 +0000
+        id 1o7vl6-00CjPG-GM; Sun, 03 Jul 2022 09:19:16 +0000
 Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1o7ZHZ-002G5L-M8; Sat, 02 Jul 2022 09:19:17 +0000
-Date:   Sat, 2 Jul 2022 09:19:16 +0000 (UTC)
+        id 1o7vl5-005HUR-3V; Sun, 03 Jul 2022 09:19:14 +0000
+Date:   Sun, 3 Jul 2022 09:19:14 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1424164090.0.1656753557002@builder.linuxtv.org>
-In-Reply-To: <1687316076.0.1656667154724@builder.linuxtv.org>
-References: <1687316076.0.1656667154724@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3947
+Message-ID: <1619579748.0.1656839954464@builder.linuxtv.org>
+In-Reply-To: <1424164090.0.1656753557002@builder.linuxtv.org>
+References: <1424164090.0.1656753557002@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3948
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
@@ -46,7 +46,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3947/display/redirect>
+See <https://builder.linuxtv.org/job/media-build/3948/display/redirect>
 
 Changes:
 
@@ -76,12 +76,12 @@ No credentials specified
 The recommended git tool is: NONE
 No credentials specified
 [GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3946' that contains recorded Git commits
+[GitCheckoutListener] Found previous build 'media-build #3947' that contains recorded Git commits
 [GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
 [GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@4a051ed6'
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@6268e7de'
 [GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins8363303082203288878.sh
+[media-build] $ /bin/sh -xe /tmp/jenkins11379859426471372201.sh
 + make distclean
 make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
 make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
@@ -136,20 +136,20 @@ From git://linuxtv.org/media_build
 Already up to date.
 make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-07-02 09:19:11--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+--2022-07-03 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
 Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
 Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
 HTTP request sent, awaiting response... 301 Moved Permanently
 Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-07-02 09:19:12--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+--2022-07-03 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
 Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 105 [application/x-bzip2]
 Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-     0K                                                       100% 80.6M=0s
+     0K                                                       100%  113M=0s
 
-2022-07-02 09:19:12 (80.6 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+2022-07-03 09:19:10 (113 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
 make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
