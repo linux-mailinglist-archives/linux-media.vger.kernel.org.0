@@ -2,67 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4090F565A8A
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 18:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E286565A98
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 18:05:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233792AbiGDQAD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 12:00:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43122 "EHLO
+        id S234446AbiGDQFj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 12:05:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232622AbiGDQAC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 12:00:02 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B663BA
-        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 09:00:01 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id x1so10373933qtv.8
-        for <linux-media@vger.kernel.org>; Mon, 04 Jul 2022 09:00:01 -0700 (PDT)
+        with ESMTP id S233720AbiGDQFi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 12:05:38 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7647E099
+        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 09:05:37 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id p11so7027581qkg.12
+        for <linux-media@vger.kernel.org>; Mon, 04 Jul 2022 09:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=NF2ZMZsGp1VtNummOog/xQmlja5rA+lmeIJuDNn7Rxg=;
-        b=NYc0pAvHKp8mDQc2Kctg9B47elEH2gzrV/uNBz6M6SRSzCCFakjj+mes4AwHIlyYM5
-         ZKAtvekUYzEWJAjsyh1j846wh8mSeXcKkZl/JfS71tIfWSbC9IDzLE3Vfibwwfj9bEkT
-         7hPz5hSKHkn5KNhMT4+WbAOFQDIjx+vPmmoYRNN5cicMYmsynhCzwE0KIYlPPK94srSn
-         oeMfMw4RdpJxCHcH+mbv0TeLxWucZoke80uzDhwX67CyP1GuB4C9Nj8oZcAkfndsxJMI
-         xrDwdPK9M31kvmiWR6u0WpTojS/KxkX7EDvFsRXNWLBKv2Mnrs5q70i/r1D9EioZVSLk
-         W36A==
+        bh=ILiPYCnR1Ay3FEgk2Uo0AF/TasoSIbuVs6Xs1VhuKcA=;
+        b=2Or7ArxHC2w727HWd3eTwhy2H5YmDdrCibjJHyZq2QqcCBI1GkUGipq3hCFJNGs3rO
+         FRW7x3m79IDg517c4XgguQOqueRUShKlbMpZU2qzaZCttLICcEltt5Dr3Sy/BIUGbw8q
+         QtKwHjLm65PEXKrzQuI4Zhs4Ru9ccoq/ipRKtD2PI/XTWHZ2lB1c1cJFj9eiQJBzRoCy
+         o+pSIG0w9OykEj5oexwxKgaM4uPbm6AD8SIJ1+8w/auiKjrldBdezAOHeTjf+Ukgzosn
+         djnJ6FOSqwWjbLlTn9qBa9Zing5CHrgRvmYPLApi3v0+EzSxA5AkBvIG+SSFA/wecQjj
+         mW+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=NF2ZMZsGp1VtNummOog/xQmlja5rA+lmeIJuDNn7Rxg=;
-        b=iVzxhHXLNpLMep5V72QS2NN1Crsvw21vxqUtG6C0KBMPOgXcSLOfyR/RCd8oAHBCwl
-         oEDKlXJl60oKwO49VMJiyVV9Fv8Yol6L6BMnw74UMEDW9rbP0BUOYFhLZPu0104876v7
-         LYX7gWtfISetE00gAALZx2EpIefaiaqGaS0kxGZ6mvbYNAIIata4cvrwlvnD3hvl9yD8
-         XZjFUCgHv8+1RlxwBkbluScm/389lQGA6vAzQY2HAdTOkTDn5czaX3i7/sAtEj9rt5o/
-         JMT0uXx4LoAhKNBzy90Jljj1Uhn0X7EveCHgAkV/oHHIN3WNxESBsXaEuf4uJ0D3mHsL
-         RK7g==
-X-Gm-Message-State: AJIora9S5cpWwQcIpPKz5xm3zU2i4YMaR/LSy77S4UywB5fhLyhC2QSC
-        yqNsMeArOKFvdleLfK3GaO5Bng==
-X-Google-Smtp-Source: AGRyM1uk54xq+s3dnTxnkewvytBp3W/dthtaMHU7SdvPHQkJr7TQwMN7p1mx/ETr8/ifi0Zxw8S3mg==
-X-Received: by 2002:a05:6214:27cb:b0:472:efee:1719 with SMTP id ge11-20020a05621427cb00b00472efee1719mr7561770qvb.57.1656950400652;
-        Mon, 04 Jul 2022 09:00:00 -0700 (PDT)
+        bh=ILiPYCnR1Ay3FEgk2Uo0AF/TasoSIbuVs6Xs1VhuKcA=;
+        b=MaNCgK8lbQ4CFYs1ZuH+sbsm3PRajjlQXu+wzdfjth8v5/MZAICoJDEV0RlBO2icFd
+         xU18F6QaHEdMSTfYj75LsbavpinZxfxkEVezQNjOPw2sEQr4s4244nffpruH/5QpN62/
+         a+XoTNWYV6sZtRea8shVBpC//mkuGEOHGUuZ9MGffiIkX39pp9gaUkojnOqHX9oL0Y7v
+         Gn8LmtkSJalTG1hHilW7RECsBOPQkgYUzNJqs65eeK7X1vRA/YKmVCHJ93HF0W31C1CP
+         OvVfUYX+DLcZVhIhcHSXY38lnx9eVr4DIQr0XlMVtUlj+95cAc60Yq+b2ytz+lH6ZdU5
+         VY2w==
+X-Gm-Message-State: AJIora9vgg8EnSDuRSUx3reYs4iMjDecaQag4vmwyYGxItPdoS709V6Q
+        3R/C/DfHwUVTmUslcO6QRNrOWQ==
+X-Google-Smtp-Source: AGRyM1uuDHPTXWLItXdsm6fmkRBRA8X4Ap9qJyVgaT677qZsCuxPXg74slHMJUXSYen9IhIpbY8KVw==
+X-Received: by 2002:a05:620a:24d0:b0:6af:bc2:5217 with SMTP id m16-20020a05620a24d000b006af0bc25217mr20049113qkn.666.1656950737005;
+        Mon, 04 Jul 2022 09:05:37 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id bs11-20020a05620a470b00b006b1eb3a8364sm11317407qkb.5.2022.07.04.08.59.59
+        by smtp.gmail.com with ESMTPSA id o16-20020a05620a2a1000b006a68fdc2d18sm21505731qkp.130.2022.07.04.09.05.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 08:59:59 -0700 (PDT)
-Message-ID: <5e8c50cdc031bffd96b19929508f034d1263c8b7.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/3] media: videobuf2: Add a transfer error event
+        Mon, 04 Jul 2022 09:05:36 -0700 (PDT)
+Message-ID: <6e54af5243d324c5df1c9ec18d4b091fbd52150f.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: amphion: only insert the first sequence
+ startcode for vc1l format
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     michael@rodin.online, erosca@de.adit-jv.com,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Date:   Mon, 04 Jul 2022 11:59:58 -0400
-In-Reply-To: <20220628180024.451258-2-mrodin@de.adit-jv.com>
-References: <YqEO3/KekkZhVjW+@oden.dyn.berto.se>
-         <20220628180024.451258-1-mrodin@de.adit-jv.com>
-         <20220628180024.451258-2-mrodin@de.adit-jv.com>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Date:   Mon, 04 Jul 2022 12:05:35 -0400
+In-Reply-To: <20220628052017.26979-1-ming.qian@nxp.com>
+References: <20220628052017.26979-1-ming.qian@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
@@ -76,95 +73,99 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Micheal,
+Hi Ming,
 
-thanks for your work, I have some questions below ...
+Le mardi 28 juin 2022 =C3=A0 13:20 +0800, Ming Qian a =C3=A9crit=C2=A0:
+> For some formats, the amphion vpu requires startcode
+> before sequence and frame, such as vc1, vp8.
 
-Le mardi 28 juin 2022 =C3=A0 20:00 +0200, Michael Rodin a =C3=A9crit=C2=A0:
-> From: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se>
+I'm not sure why VP8 is being mentioned here. There is no specified sartcod=
+e for
+VP8, and no split of headers either.
+
 >=20
-> Add a new V4L2_EVENT_XFER_ERROR event to signal if an error happens durin=
-g
-> video transfer.
+> But for V4L2_PIX_FMT_VC1_ANNEX_L, only the first sequence startcode
+> is needed, the extra startcode will cause decoding error.
+> So after seek, we don't need to insert the sequence startcode.
 >=20
-> The use-case that sparked this new event is to signal to the video
-> device driver that an error has happen on the CSI-2 bus from the CSI-2
-> receiver subdevice.
+> In other words, for V4L2_PIX_FMT_VC1_ANNEX_L,
+> the vpu doesn't support dynamic resolution change.
 >=20
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> [mrodin@de.adit-jv.com: adapted information what to do if this new event =
-is received]
-> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+> Fixes: 145e936380edb ("media: amphion: implement malone decoder rpc inter=
+face")
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
 > ---
->  .../userspace-api/media/v4l/vidioc-dqevent.rst         | 10 ++++++++++
->  .../userspace-api/media/videodev2.h.rst.exceptions     |  1 +
->  include/uapi/linux/videodev2.h                         |  1 +
->  3 files changed, 12 insertions(+)
+>  drivers/media/platform/amphion/vdec.c       | 1 +
+>  drivers/media/platform/amphion/vpu.h        | 1 +
+>  drivers/media/platform/amphion/vpu_malone.c | 2 ++
+>  drivers/media/platform/amphion/vpu_rpc.h    | 7 ++++++-
+>  4 files changed, 10 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/D=
-ocumentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> index 6eb40073c906..3cf0b4859784 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> @@ -182,6 +182,16 @@ call.
->  	the regions changes. This event has a struct
->  	:c:type:`v4l2_event_motion_det`
->  	associated with it.
-> +    * - ``V4L2_EVENT_XFER_ERROR``
-
-I'm not sure why this event is specific to XFER. Is there uses cases were a
-future implementation would have both XFER and RECEIVER error ?
-
-> +      - 7
-> +      - This event is triggered when an transfer error is detected while
-> +	streaming. For example if an error is detected on a video bus in
-> +	the pipeline. If a driver receives this event from an upstream
-> +	subdevice, it has to forward the event to userspace. The streaming
-> +	application has to check if the transfer error is unrecoverable,
-> +	i.e. no new buffers can be dequeued from the kernel after the
-> +	expected time. If the error is unrecoverable, the streaming
-> +	application should restart streaming if it wants to continue.
-
-The process to determine if an error is recoverable or not isn't clear to m=
-e. As
-an application developer, I would not know what to do here. Recoverable err=
-or
-already have a designed mechanism, it consist of marking done a buffer with=
- the
-flag V4L2_BUF_FLAG_ERROR. I would like to understand what the existing mech=
-anism
-needed to be replaced, and the placement should be documented.
-
-Nicolas
-
->      * - ``V4L2_EVENT_PRIVATE_START``
->        - 0x08000000
->        - Base event number for driver-private events.
-> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions=
- b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> index 9cbb7a0c354a..25bde61a1519 100644
-> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> @@ -500,6 +500,7 @@ replace define V4L2_EVENT_CTRL event-type
->  replace define V4L2_EVENT_FRAME_SYNC event-type
->  replace define V4L2_EVENT_SOURCE_CHANGE event-type
->  replace define V4L2_EVENT_MOTION_DET event-type
-> +replace define V4L2_EVENT_XFER_ERROR event-type
->  replace define V4L2_EVENT_PRIVATE_START event-type
+> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platfo=
+rm/amphion/vdec.c
+> index 09d4f27970ec..51218a41a5ac 100644
+> --- a/drivers/media/platform/amphion/vdec.c
+> +++ b/drivers/media/platform/amphion/vdec.c
+> @@ -731,6 +731,7 @@ static void vdec_stop_done(struct vpu_inst *inst)
+>  	vdec->eos_received =3D 0;
+>  	vdec->is_source_changed =3D false;
+>  	vdec->source_change =3D 0;
+> +	inst->total_input_count =3D 0;
+>  	vpu_inst_unlock(inst);
+>  }
 > =20
->  replace define V4L2_EVENT_CTRL_CH_VALUE ctrl-changes-flags
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 5311ac4fde35..44db724d4541 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -2385,6 +2385,7 @@ struct v4l2_streamparm {
->  #define V4L2_EVENT_FRAME_SYNC			4
->  #define V4L2_EVENT_SOURCE_CHANGE		5
->  #define V4L2_EVENT_MOTION_DET			6
-> +#define V4L2_EVENT_XFER_ERROR			7
->  #define V4L2_EVENT_PRIVATE_START		0x08000000
+> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platfor=
+m/amphion/vpu.h
+> index e56b96a7e5d3..f914de6ed81e 100644
+> --- a/drivers/media/platform/amphion/vpu.h
+> +++ b/drivers/media/platform/amphion/vpu.h
+> @@ -258,6 +258,7 @@ struct vpu_inst {
+>  	struct vpu_format cap_format;
+>  	u32 min_buffer_cap;
+>  	u32 min_buffer_out;
+> +	u32 total_input_count;
 > =20
->  /* Payload for V4L2_EVENT_VSYNC */
+>  	struct v4l2_rect crop;
+>  	u32 colorspace;
+> diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/=
+platform/amphion/vpu_malone.c
+> index c62b49e85060..f4a488bf9880 100644
+> --- a/drivers/media/platform/amphion/vpu_malone.c
+> +++ b/drivers/media/platform/amphion/vpu_malone.c
+> @@ -1314,6 +1314,8 @@ static int vpu_malone_insert_scode_vc1_l_seq(struct=
+ malone_scode_t *scode)
+>  	int size =3D 0;
+>  	u8 rcv_seqhdr[MALONE_VC1_RCV_SEQ_HEADER_LEN];
+> =20
+> +	if (scode->inst->total_input_count)
+> +		return 0;
+>  	scode->need_data =3D 0;
+> =20
+>  	ret =3D vpu_malone_insert_scode_seq(scode, MALONE_CODEC_ID_VC1_SIMPLE, =
+sizeof(rcv_seqhdr));
+> diff --git a/drivers/media/platform/amphion/vpu_rpc.h b/drivers/media/pla=
+tform/amphion/vpu_rpc.h
+> index 25119e5e807e..7eb6f01e6ab5 100644
+> --- a/drivers/media/platform/amphion/vpu_rpc.h
+> +++ b/drivers/media/platform/amphion/vpu_rpc.h
+> @@ -312,11 +312,16 @@ static inline int vpu_iface_input_frame(struct vpu_=
+inst *inst,
+>  					struct vb2_buffer *vb)
+>  {
+>  	struct vpu_iface_ops *ops =3D vpu_core_get_iface(inst->core);
+> +	int ret;
+> =20
+>  	if (!ops || !ops->input_frame)
+>  		return -EINVAL;
+> =20
+> -	return ops->input_frame(inst->core->iface, inst, vb);
+> +	ret =3D ops->input_frame(inst->core->iface, inst, vb);
+> +	if (ret < 0)
+> +		return ret;
+> +	inst->total_input_count++;
+> +	return ret;
+>  }
+> =20
+>  static inline int vpu_iface_config_memory_resource(struct vpu_inst *inst=
+,
 
