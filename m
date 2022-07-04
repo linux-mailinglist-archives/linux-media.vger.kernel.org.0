@@ -2,114 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89153564EE9
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 09:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C917565005
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 10:49:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232163AbiGDHng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 03:43:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33962 "EHLO
+        id S232847AbiGDIth (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 04:49:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232817AbiGDHne (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 03:43:34 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00049B65
-        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 00:43:32 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id n8so10651185eda.0
-        for <linux-media@vger.kernel.org>; Mon, 04 Jul 2022 00:43:32 -0700 (PDT)
+        with ESMTP id S231544AbiGDItg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 04:49:36 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AECD1145
+        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 01:49:35 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id r1so7974990plo.10
+        for <linux-media@vger.kernel.org>; Mon, 04 Jul 2022 01:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=3mDMx+lqr/CB4KDPw8hpRtuWR5uMIJKfrG2Ow5pdlg8=;
-        b=ZIkt24FMV+l3jfb9U6HkTBo3NXxRMtlKm2dKbxpHOym5TBK9r4UUK+Z4a4BvzcQ4db
-         GGAlDmkQSaJ1+j3O+pnfXsNnWP4FXfgECVpB5fG2qkBF8Vo9jQSS8WZfJW7DyDWZ67hB
-         eCOmacr8ELP+JG2yke/NjyYfbKwL1drU1SDuLRIWKIeTjEEhCqp4v4kq8okggMYNTrB1
-         r4+b2WWaYbKScpUwlgJGj5L/BAB+1OTOYrjMwJ6+exN04I9xAKG5tHfL99RfTfA8tKvV
-         tzpn25hZYjDWngWI+QblMLgrybkg8xqkRDEYGCrv9L4Y5kqnF6ifv0JnW4eR+dRlnOst
-         zs2w==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xnEriNYuJ+gQuwuDEbWWl/0zL8PaLW5rMUygXWAZFe8=;
+        b=QWTmYN34OAag4G/WUeu87bDQWcWiFQu5Nx192xyHrdPvROX9gfPYARTnBXhE9NyU2n
+         XHwz50ysJ/Ck85II8/6GH9qLRkQcElfBt7j9GSphZr4LRcClPpq8n6kXqLUVAUldLxJA
+         jTC115rf3RHCznW80jLlV6q/gxp4RB4umoaRc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=3mDMx+lqr/CB4KDPw8hpRtuWR5uMIJKfrG2Ow5pdlg8=;
-        b=fTTq4NIWyqs3EdTEf94Z++g0HQL0Evm0cw8QmXGHfQlm7Mis74tbrmozukHqNSneXj
-         OFTQyu38efXgoLqCDhgR9s9XjB3SjzCvoRPAh5Jz7seQ8pIloqlKa0KwhA8GfpKY6IJz
-         EzYdgCoTBEQWUJxR3wquA+nK4xSgjpTlcX/4i8vdOfR3+ADLRzsu+Mkx0pTZ50vIwEVe
-         +8nPItqOxgK4Dy36ckvVtglfUhXta3SNhHRsrTo/Quz03cHBsD+NgXk2Tm67XbGRdwp9
-         ilges/BQ5gDO74YyfK+w9WeGP4VIS8RqCvhrEWekp3qzV6DsAH7cJ+5O7ogqRcL5MCND
-         lNNQ==
-X-Gm-Message-State: AJIora8/q5kTXrHgG2w/1YeX3z0p17iZvaiSA7/VBRe3lsuJyIKM2qOz
-        9FcT9AdUhoyeBF+wNzDanUTkW8vYZ400FIN5LWE=
-X-Google-Smtp-Source: AGRyM1u7zB8Gan74M9M0rPr4Ahx8kOMtOaHGvdlAMJ933ppgoYvPLvdRfp5N120SpqI8tXkNKw4RD1toVxPsh7tmHLI=
-X-Received: by 2002:a05:6402:1459:b0:437:9282:2076 with SMTP id
- d25-20020a056402145900b0043792822076mr36393784edx.6.1656920611520; Mon, 04
- Jul 2022 00:43:31 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xnEriNYuJ+gQuwuDEbWWl/0zL8PaLW5rMUygXWAZFe8=;
+        b=BhBz0nH/onkVgWkl5o4dPSHFVzETw64GLrQjKlLPuFsl7AwQW4i+DcQScde710v/74
+         CmjYMmIdvj9TZjk8P1iKsmeDXYq2M9yTS8SXDbJEeNai+A2fXo/oZq1OOdox3zMGCBjB
+         BaaV81xxSS8n93dIO3JBmjmNJFDohtq3BmBiUe0PXL+tdUfbVMFtIOEJRMWM/LNVEXkC
+         L1hCBu46cgfTwxwXxA+BXaPtd95reNDVdaZxpYSICd8pCD2VBApgxqtJYZ/sA+z85Ox3
+         Cadw4FjXud2Wh3poFlu4ZIMVbOmuGQLuXuUdqHmef2XLCfbGUEP3MvYJFz75l7xs5/jF
+         eYPA==
+X-Gm-Message-State: AJIora+DiVBV2CEKRQyj0AHd/G4FIfbRtnjMHD1zN46KSR7PLTK6bN6k
+        TtNOtRRGHYYW7UksUSH0T8TP8w==
+X-Google-Smtp-Source: AGRyM1snabMZLbYQYTTtsCz88Vow5ixcBi7ao2OpFSlj0Wz3Sy8FxpBgdIuAx7cueZJSeCsvVK3kEA==
+X-Received: by 2002:a17:90b:474b:b0:1ef:86ac:2a58 with SMTP id ka11-20020a17090b474b00b001ef86ac2a58mr5842915pjb.26.1656924575113;
+        Mon, 04 Jul 2022 01:49:35 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:bdd0:6a17:90d3:15e4])
+        by smtp.gmail.com with ESMTPSA id x3-20020a170902a38300b0016be4d78792sm1347926pla.257.2022.07.04.01.49.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jul 2022 01:49:34 -0700 (PDT)
+From:   Chen-Yu Tsai <wenst@chromium.org>
+To:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH] media: mediatek: vcodec: Initialize decoder parameters for each instance
+Date:   Mon,  4 Jul 2022 16:49:30 +0800
+Message-Id: <20220704084930.1625768-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 MIME-Version: 1.0
-Received: by 2002:a17:907:7814:0:0:0:0 with HTTP; Mon, 4 Jul 2022 00:43:30
- -0700 (PDT)
-Reply-To: anthomytallo2022@gmail.com
-From:   SWIFT FUND ADVANCE LOAN <hadonard3@gmail.com>
-Date:   Mon, 4 Jul 2022 15:43:30 +0800
-Message-ID: <CAHr7wv=xrDwEv4AsUA-cUziFk7nrUHRmDdoLN+HPiC9rUwPXKA@mail.gmail.com>
-Subject: WINTER GIFTS
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UPPERCASE_50_75 autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:531 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5076]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [anthomytallo2022[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [hadonard3[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [hadonard3[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 UPPERCASE_50_75 message body is 50-75% uppercase
-        *  2.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The decoder parameters are stored in each instance's context data. This
+needs to be initialized per-instance, but a previous fix incorrectly
+changed it to only be initialized for the first opened instance. This
+resulted in subsequent instances not correctly signaling the requirement
+for the Requests API.
+
+Fix this by calling the initializing function outside of the
+v4l2_fh_is_singular() conditional block.
+
+Fixes: faddaa735c20 ("media: mediatek: vcodec: Initialize decoder parameters after getting dec_capability")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+This was found during backport of mtk-vcodec patches onto the ChromeOS
+v5.10 kernel, which caused one of our tests that does multiple concurrent
+decodes to fail, as some decoder instances didn't have their
+requires_requests and supports_requests flags marked correctly.
+Evidently my previous testing of culprit patch was not thorough enough.
+
+This fixes commit faddaa735c20 ("media: mediatek: vcodec: Initialize decoder
+parameters after getting dec_capability") in the media stage repo. This
+could either be queued up after it, or squashed into it.
+
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+index 55dffb61e58c..e0b6ae9d6caa 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+@@ -208,11 +208,12 @@ static int fops_vcodec_open(struct file *file)
+ 
+ 		dev->dec_capability =
+ 			mtk_vcodec_fw_get_vdec_capa(dev->fw_handler);
+-		ctx->dev->vdec_pdata->init_vdec_params(ctx);
+ 
+ 		mtk_v4l2_debug(0, "decoder capability %x", dev->dec_capability);
+ 	}
+ 
++	ctx->dev->vdec_pdata->init_vdec_params(ctx);
++
+ 	list_add(&ctx->list, &dev->ctx_list);
+ 
+ 	mutex_unlock(&dev->dev_mutex);
 -- 
-GET YOUR FINANCIAL LOAN FREEDOM WITH US
-Financial Loan Services Available Here"
-EVERYTHING KEEP INCREASING BUT OUR 2% INTEREST RATE NEVER INCREASE.
-Home Loan
-Personal Loan
-Business Loan
-Project Loan
-Housing Loan
-Loan Against Property
-Cash Loan
-Secured/Unsecured Loan
-CASH LOAN FOR MANUFACTURERS/SHOPKEEPERS FOR BUSINESSES
-CONTACT DETAILS:?
-WhatsApp Message:27618036433
-E-Mail: fredrichvanstadens@gmail.com
-Loan's world"?
+2.37.0.rc0.161.g10f37bed90-goog
+
