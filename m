@@ -2,125 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1CCD5658AB
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 16:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78C3F565A38
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 17:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234125AbiGDOeH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 10:34:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34414 "EHLO
+        id S234602AbiGDPo4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 11:44:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231759AbiGDOeE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 10:34:04 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 988981136
-        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 07:34:03 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id r18so11934622edb.9
-        for <linux-media@vger.kernel.org>; Mon, 04 Jul 2022 07:34:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XU/si2OudxpMibSqn9Lq87kwtqlJQ7SnogcNrsl/AzA=;
-        b=s3JEtG3oAnSlkTIpUvw6vEj9MvtOwSM36hPU7p5U/iuLa3b6fNXdjMkbfEPMWZhDaN
-         jMEGBmArVuiaVrm8Lx46W/RlGVi19F8hgWk8dxVw5gwy3yGTyUDAI1Hs+iEaMkSO9b2j
-         xzQlzfNeysJAAt/VYnmGqdqelXqUORmtciut3ho3+hkttcgBzEuc888ur+ZZF94Hlpdg
-         WdI3bE9G0aWPuAwf7yVThGJ3uppgUzk5i+B/ZmgKRWjlYwLyZg1Yrk+Nw4q0kR4n55If
-         H7efuUmbfI06/MqWk24amtyaJlgxmUi/azxOPST1xleLmhaMIQyu+5Y1J5TLMJPyL5QP
-         LYug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XU/si2OudxpMibSqn9Lq87kwtqlJQ7SnogcNrsl/AzA=;
-        b=m4TAXx6093fHQKUFBu4cvPL2NFhU7rlNJ6ftBtkz6gINk5YmecLd3uTZB8PxeIAci/
-         qGQJeaaKMpgWjfZmJ0nuox8synwu92a646sXE2cbEs/7VgeenyLqWCoQOaAuhthWRdNP
-         6N+gCis9PgvgdYR49AoD6yqhyY03rLNILf5ARsAoAvQAG7/Kl6MwGJwqa1oSkZv+xUMc
-         +JjRA8/wIF4RCmH5ebraNE6EzTxlsWusnFb5oKulYaizLE6Z9opBDL9iPjFHec4g1eco
-         wIAKY92lWqaX8x1MC2w38L9eg9Nvkf1M8msAnGXuOgcM/7nBLKtwTKyQeqSuudE/qhPK
-         +2eQ==
-X-Gm-Message-State: AJIora/yTIi2b308edyvQoX1qSzIt0sYownW2YgNPpJXhQDQQ8hbFqsS
-        vO7qGgyMMz47PiX2rBmMLM//kiIia139XdGQaz8Q7IpcCC6pMw==
-X-Google-Smtp-Source: AGRyM1sU+Y9dvWotDYGXP/0592qT4wzBpkL3CvYygXrxfJoDl4SvJKYJ07VrM7r4EGGqL2jdL80dhFXvm35WO9uZAMs=
-X-Received: by 2002:a05:6402:2789:b0:435:ac82:e8c3 with SMTP id
- b9-20020a056402278900b00435ac82e8c3mr39093288ede.250.1656945242166; Mon, 04
- Jul 2022 07:34:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220704094437.468395-1-vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20220704094437.468395-1-vladimir.zapolskiy@linaro.org>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Mon, 4 Jul 2022 16:33:50 +0200
-Message-ID: <CAG3jFyvD+0Q4sYWZ69sF8AG+mQ5Ytjj+ND9-Hi4ZjzWN-Vq+Ng@mail.gmail.com>
-Subject: Re: [PATCH] media: camss: Clean up received buffers on failed start
- of streaming
-To:     Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc:     Todor Tomov <todor.too@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+        with ESMTP id S234270AbiGDPoo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 11:44:44 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 740B41E6;
+        Mon,  4 Jul 2022 08:44:13 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca [66.171.169.34])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id AC33466015CF;
+        Mon,  4 Jul 2022 16:44:09 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656949451;
+        bh=T0jdgrAyHCTaLPYprZARiSvG27dAijlSDfp7uHdeNpY=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=f/smC5qK/a7kfrVFv3B/D+docBl4EQbeLo9oSRMcQJkp43qS39AOZW7J81g5d+m6h
+         kmW6CnsaAMC8kAQdOGFEhwUTMQ9I91R3n3uaVqWWin3+KJ6iFI7ItwwFKv9IxRVYMy
+         VmYmcOtlUwvzjYRKopx7WCASUljYlLKieHdFPWSntv2VWIFeMImNtXBT+e1/ZS1S50
+         JU9NweKFQWnSlVCuDJB+PjMzvBD7jDtbCGjcO14HSGWo3z6V6CZLdcBLKvpcyfHV3D
+         hefh5ZRU/mulv6r6O10RdtZ7m5aKjk0sfMk2sfxRJfjnygFLtWFCXgK5liKgJ8t+x4
+         wQW/GDR+42WpQ==
+Message-ID: <e7247c9af96be6565b8bc33760f3767e1bf2073f.camel@collabora.com>
+Subject: Re: [PATCH 6/7] media: hantro: imx8m: Enable 10bit decoding
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, samuel@sholland.org,
+        andrzej.p@collabora.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com
+Date:   Mon, 04 Jul 2022 11:43:59 -0400
+In-Reply-To: <16bb6fe6-0d95-d4d1-f7c7-f2ca61f7bdcc@collabora.com>
+References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
+         <20220617115802.396442-7-benjamin.gaignard@collabora.com>
+         <Yr3gDuzOXk58wTnd@eze-laptop>
+         <16bb6fe6-0d95-d4d1-f7c7-f2ca61f7bdcc@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+MIME-Version: 1.0
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 4 Jul 2022 at 11:44, Vladimir Zapolskiy
-<vladimir.zapolskiy@linaro.org> wrote:
->
-> It is required to return the received buffers, if streaming can not be
-> started. For instance media_pipeline_start() may fail with EPIPE, if
-> a link validation between entities is not passed, and in such a case
-> a user gets a kernel warning:
->
->   WARNING: CPU: 1 PID: 520 at drivers/media/common/videobuf2/videobuf2-core.c:1592 vb2_start_streaming+0xec/0x160
->   <snip>
->   Call trace:
->    vb2_start_streaming+0xec/0x160
->    vb2_core_streamon+0x9c/0x1a0
->    vb2_ioctl_streamon+0x68/0xbc
->    v4l_streamon+0x30/0x3c
->    __video_do_ioctl+0x184/0x3e0
->    video_usercopy+0x37c/0x7b0
->    video_ioctl2+0x24/0x40
->    v4l2_ioctl+0x4c/0x70
->
-> The fix is to correct the error path in video_start_streaming() of camss.
->
-> Fixes: 0ac2586c410f ("media: camss: Add files which handle the video device nodes")
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> ---
->  drivers/media/platform/qcom/camss/camss-video.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-> index b5f12ec5c50c..d272ffa02112 100644
-> --- a/drivers/media/platform/qcom/camss/camss-video.c
-> +++ b/drivers/media/platform/qcom/camss/camss-video.c
-> @@ -495,7 +495,7 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
->
->         ret = media_pipeline_start(&vdev->entity, &video->pipe);
->         if (ret < 0)
-> -               return ret;
-> +               goto flush_buffers;
->
->         ret = video_check_format(video);
->         if (ret < 0)
-> @@ -524,6 +524,7 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
->  error:
->         media_pipeline_stop(&vdev->entity);
->
-> +flush_buffers:
->         video->ops->flush_buffers(video, VB2_BUF_STATE_QUEUED);
->
->         return ret;
-> --
-> 2.33.0
->
+Le vendredi 01 juillet 2022 =C3=A0 09:01 +0200, Benjamin Gaignard a =C3=A9c=
+rit=C2=A0:
+> Le 30/06/2022 =C3=A0 19:40, Ezequiel Garcia a =C3=A9crit=C2=A0:
+> > Hi Benjamin,
+> >=20
+> > On Fri, Jun 17, 2022 at 01:58:01PM +0200, Benjamin Gaignard wrote:
+> > > Expose 10bit pixel formats to enable 10bit decoding in IMX8M SoCs.
+> > >=20
+> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > Looks good to me.
+> >=20
+> > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> >=20
+> > Have you checked Fluster tests passess using both P010 and P010_4L4?
+> > It would be good to double-check.
+>=20
+> It isn't possible to check P010_4L4 with fluster because GStreamer
+> videoconvert element doesn't support this format.
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+I can offert to work on this. If you can send me offline some picture dump,=
+ so I
+can validate, that would help.
+
+>=20
+> Regards,
+> Benjamin
+>=20
+> >=20
+> > Thanks a lot,
+> > Ezequiel
+> >=20
+> > > ---
+> > >   drivers/staging/media/hantro/imx8m_vpu_hw.c | 27 ++++++++++++++++++=
++++
+> > >   1 file changed, 27 insertions(+)
+> > >=20
+> > > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/st=
+aging/media/hantro/imx8m_vpu_hw.c
+> > > index 77f574fdfa77..b390228fd3b4 100644
+> > > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > @@ -162,12 +162,39 @@ static const struct hantro_fmt imx8m_vpu_g2_pos=
+tproc_fmts[] =3D {
+> > >   			.step_height =3D MB_DIM,
+> > >   		},
+> > >   	},
+> > > +	{
+> > > +		.fourcc =3D V4L2_PIX_FMT_P010,
+> > > +		.codec_mode =3D HANTRO_MODE_NONE,
+> > > +		.postprocessed =3D true,
+> > > +		.frmsize =3D {
+> > > +			.min_width =3D FMT_MIN_WIDTH,
+> > > +			.max_width =3D FMT_UHD_WIDTH,
+> > > +			.step_width =3D MB_DIM,
+> > > +			.min_height =3D FMT_MIN_HEIGHT,
+> > > +			.max_height =3D FMT_UHD_HEIGHT,
+> > > +			.step_height =3D MB_DIM,
+> > > +		},
+> > > +	},
+> > >   };
+> > >  =20
+> > >   static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] =3D {
+> > >   	{
+> > >   		.fourcc =3D V4L2_PIX_FMT_NV12_4L4,
+> > >   		.codec_mode =3D HANTRO_MODE_NONE,
+> > > +		.match_depth =3D true,
+> > > +		.frmsize =3D {
+> > > +			.min_width =3D FMT_MIN_WIDTH,
+> > > +			.max_width =3D FMT_UHD_WIDTH,
+> > > +			.step_width =3D TILE_MB_DIM,
+> > > +			.min_height =3D FMT_MIN_HEIGHT,
+> > > +			.max_height =3D FMT_UHD_HEIGHT,
+> > > +			.step_height =3D TILE_MB_DIM,
+> > > +		},
+> > > +	},
+> > > +	{
+> > > +		.fourcc =3D V4L2_PIX_FMT_P010_4L4,
+> > > +		.codec_mode =3D HANTRO_MODE_NONE,
+> > > +		.match_depth =3D true,
+> > >   		.frmsize =3D {
+> > >   			.min_width =3D FMT_MIN_WIDTH,
+> > >   			.max_width =3D FMT_UHD_WIDTH,
+> > > --=20
+> > > 2.32.0
+> > >=20
+
