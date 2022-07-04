@@ -2,41 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 623A556530E
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 13:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD08565576
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 14:34:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233537AbiGDLIK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 07:08:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55802 "EHLO
+        id S233728AbiGDMd6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 08:33:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbiGDLIK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 07:08:10 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7C6EE20
-        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 04:08:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9E56FB80EDD
-        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 11:08:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFF3EC3411E;
-        Mon,  4 Jul 2022 11:08:05 +0000 (UTC)
-Message-ID: <274c46e9-7d10-ad92-dec4-978b5a85b36e@xs4all.nl>
-Date:   Mon, 4 Jul 2022 13:08:04 +0200
+        with ESMTP id S233629AbiGDMdw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 08:33:52 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 609AC11445;
+        Mon,  4 Jul 2022 05:33:49 -0700 (PDT)
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Lc4tX0mVJzkWqL;
+        Mon,  4 Jul 2022 20:31:48 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by dggpeml500022.china.huawei.com
+ (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 4 Jul
+ 2022 20:33:46 +0800
+From:   Zhang Zekun <zhangzekun11@huawei.com>
+To:     <Larry.Finger@lwfinger.net>, <phil@philpotter.co.uk>,
+        <paskripkin@gmail.com>, <gregkh@linuxfoundation.org>,
+        <martin@kaiser.cx>, <straube.linux@gmail.com>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <xuqiang36@huawei.com>
+Subject: [PATCH -next] staging: r8188eu: use 'is_zero_ether_addr' to identify an empty address
+Date:   Mon, 4 Jul 2022 12:31:40 +0000
+Message-ID: <20220704123140.100128-1-zhangzekun11@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] v4l2 utils: Support V4L2_PIX_FMT_YUV[AX]32
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-References: <20220630092904.19053-1-laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220630092904.19053-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500022.china.huawei.com (7.185.36.66)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -45,242 +48,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Use 'is_zero_ether_addr' to identify an empty ethernet address, intead
+of using 'memcpy' directly.
 
-On 6/30/22 11:29, Laurent Pinchart wrote:
-> Add support for the V4L2_PIX_FMT_YUVA32 and V4L2_PIX_FMT_YUVX32 pixel
-> formats in the v4l2-ctl, v4l2-compliance, qvidcap and qv4l2 utilities.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> This patch depends on the addition of the new YUVA32 and YUVX32 pixel
-> formats to the kernel, which I plan to post a pull request for in the
-> near future.
-> 
-> While working on this, I've noticed what could be a bug in the qv4l2 GL
-> shaders. It seems to me that at least the V4L2_PIX_FMT_VUYA32 and
-> V4L2_PIX_FMT_VUYX32 formats are not correctly handled. Hans, could you
-> have a look at this ?
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-It looks good to me. Do you actually see something wrong? I've tested with
-vivid and qv4l2, but you may be testing with another driver.
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index cce0575e93b7..365f5b2786cf 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -3513,7 +3513,6 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
+ 	u32	p2p_ielen;
+ 	struct	wifidirect_info	*pwdinfo = &padapter->wdinfo;
+ 	u8	result = P2P_STATUS_SUCCESS;
+-	u8	empty_addr[ETH_ALEN] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+ 
+ 	frame_body = (unsigned char *)(pframe + sizeof(struct ieee80211_hdr_3addr));
+ 
+@@ -3551,7 +3550,7 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
+ 
+ 		/*	Commented by Kurt 20120113 */
+ 		/*	Get peer_dev_addr here if peer doesn't issue prov_disc frame. */
+-		if (!memcmp(pwdinfo->rx_prov_disc_info.peerDevAddr, empty_addr, ETH_ALEN))
++		if (is_zero_ether_addr(pwdinfo->rx_prov_disc_info.peerDevAddr))
+ 			memcpy(pwdinfo->rx_prov_disc_info.peerDevAddr, GetAddr2Ptr(pframe), ETH_ALEN);
+ 
+ 		result = process_p2p_group_negotation_req(pwdinfo, frame_body, len);
+-- 
+2.17.1
 
-Regards,
-
-	Hans
-
-> ---
->  utils/qv4l2/capture-win-gl.cpp             | 17 +++++++++++++++++
->  utils/qv4l2/qv4l2.cpp                      |  2 ++
->  utils/qvidcap/capture.cpp                  |  4 ++++
->  utils/qvidcap/paint.cpp                    | 10 ++++++++++
->  utils/qvidcap/v4l2-convert.glsl            |  6 ++++++
->  utils/v4l2-compliance/v4l2-test-colors.cpp |  4 ++++
->  utils/v4l2-ctl/v4l2-ctl.cpp                |  2 ++
->  7 files changed, 45 insertions(+)
-> 
-> diff --git a/utils/qv4l2/capture-win-gl.cpp b/utils/qv4l2/capture-win-gl.cpp
-> index 05659259d42f..6cbeb426b6ba 100644
-> --- a/utils/qv4l2/capture-win-gl.cpp
-> +++ b/utils/qv4l2/capture-win-gl.cpp
-> @@ -196,6 +196,8 @@ void CaptureWinGLEngine::setColorspace(unsigned colorspace, unsigned xfer_func,
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  	case V4L2_PIX_FMT_HSV24:
->  	case V4L2_PIX_FMT_HSV32:
->  		is_rgb = false;
-> @@ -415,6 +417,8 @@ bool CaptureWinGLEngine::hasNativeFormat(__u32 format)
->  		V4L2_PIX_FMT_XYUV32,
->  		V4L2_PIX_FMT_VUYA32,
->  		V4L2_PIX_FMT_VUYX32,
-> +		V4L2_PIX_FMT_YUVA32,
-> +		V4L2_PIX_FMT_YUVX32,
->  		V4L2_PIX_FMT_GREY,
->  		V4L2_PIX_FMT_Z16,
->  		V4L2_PIX_FMT_INZI,
-> @@ -483,6 +487,8 @@ void CaptureWinGLEngine::changeShader()
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		shader_YUV_packed(m_frameFormat);
->  		break;
->  
-> @@ -651,6 +657,8 @@ void CaptureWinGLEngine::paintGL()
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		render_YUV_packed(m_frameFormat);
->  		break;
->  
-> @@ -2100,6 +2108,13 @@ void CaptureWinGLEngine::shader_YUV_packed(__u32 format)
->  		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_frameWidth, m_frameHeight, 0,
->  			     GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, NULL);
->  		break;
-> +	case V4L2_PIX_FMT_YUVA32:
-> +		hasAlpha = true;
-> +		// fall-through
-> +	case V4L2_PIX_FMT_YUVX32:
-> +		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_frameWidth, m_frameHeight, 0,
-> +			     GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, NULL);
-> +		break;
->  	}
->  
->  	checkError("Packed YUV shader");
-> @@ -2173,6 +2188,8 @@ void CaptureWinGLEngine::render_YUV_packed(__u32 format)
->  		break;
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_frameWidth, m_frameHeight,
->  				GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, m_frameData);
->  		break;
-> diff --git a/utils/qv4l2/qv4l2.cpp b/utils/qv4l2/qv4l2.cpp
-> index d9141ad1372d..4cbaa98e0ee0 100644
-> --- a/utils/qv4l2/qv4l2.cpp
-> +++ b/utils/qv4l2/qv4l2.cpp
-> @@ -1567,12 +1567,14 @@ void ApplicationWindow::capStart(bool start)
->  	case V4L2_PIX_FMT_YUV32:
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		dstFmt = QImage::Format_RGB32;
->  		break;
->  	case V4L2_PIX_FMT_ARGB32:
->  	case V4L2_PIX_FMT_ABGR32:
->  	case V4L2_PIX_FMT_AYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
-> +	case V4L2_PIX_FMT_YUVA32:
->  		dstFmt = QImage::Format_ARGB32;
->  		break;
->  	case V4L2_PIX_FMT_INZI:
-> diff --git a/utils/qvidcap/capture.cpp b/utils/qvidcap/capture.cpp
-> index cfcbb89660e5..0b4c4115cf1b 100644
-> --- a/utils/qvidcap/capture.cpp
-> +++ b/utils/qvidcap/capture.cpp
-> @@ -57,6 +57,8 @@ const __u32 formats[] = {
->  	V4L2_PIX_FMT_XYUV32,
->  	V4L2_PIX_FMT_VUYA32,
->  	V4L2_PIX_FMT_VUYX32,
-> +	V4L2_PIX_FMT_YUVA32,
-> +	V4L2_PIX_FMT_YUVX32,
->  	V4L2_PIX_FMT_RGB32,
->  	V4L2_PIX_FMT_XRGB32,
->  	V4L2_PIX_FMT_ARGB32,
-> @@ -882,6 +884,8 @@ bool CaptureWin::updateV4LFormat(const cv4l_fmt &fmt)
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		m_is_rgb = false;
->  		m_accepts_srgb = false;
->  		break;
-> diff --git a/utils/qvidcap/paint.cpp b/utils/qvidcap/paint.cpp
-> index 745e40031149..c5aadb09ffa4 100644
-> --- a/utils/qvidcap/paint.cpp
-> +++ b/utils/qvidcap/paint.cpp
-> @@ -159,6 +159,8 @@ void CaptureWin::paintGL()
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		render_YUV_packed(m_v4l_fmt.g_pixelformat());
->  		break;
->  
-> @@ -355,6 +357,8 @@ static const struct define defines[] = {
->  	DEF(V4L2_PIX_FMT_XYUV32),
->  	DEF(V4L2_PIX_FMT_VUYA32),
->  	DEF(V4L2_PIX_FMT_VUYX32),
-> +	DEF(V4L2_PIX_FMT_YUVA32),
-> +	DEF(V4L2_PIX_FMT_YUVX32),
->  	DEF(V4L2_PIX_FMT_RGB32),
->  	DEF(V4L2_PIX_FMT_XRGB32),
->  	DEF(V4L2_PIX_FMT_ARGB32),
-> @@ -595,6 +599,8 @@ void CaptureWin::changeShader()
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		shader_YUV_packed();
->  		break;
->  
-> @@ -945,6 +951,8 @@ void CaptureWin::shader_YUV_packed()
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_v4l_fmt.g_width(), m_v4l_fmt.g_height(), 0,
->  			     GL_RGBA, GL_UNSIGNED_BYTE, NULL);
->  		break;
-> @@ -1310,6 +1318,8 @@ void CaptureWin::render_YUV_packed(__u32 format)
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_v4l_fmt.g_width(), m_v4l_fmt.g_height(),
->  				GL_RGBA, GL_UNSIGNED_BYTE, m_curData[0]);
->  		break;
-> diff --git a/utils/qvidcap/v4l2-convert.glsl b/utils/qvidcap/v4l2-convert.glsl
-> index 458901c43838..8bd5694b3165 100644
-> --- a/utils/qvidcap/v4l2-convert.glsl
-> +++ b/utils/qvidcap/v4l2-convert.glsl
-> @@ -292,6 +292,12 @@ void main()
->  	yuv.r = color.b;
->  	yuv.g = color.g;
->  	yuv.b = color.r;
-> +#elif PIXFMT == V4L2_PIX_FMT_YUVA32 || PIXFMT == V4L2_PIX_FMT_YUVX32
-> +	vec4 color = texture(tex, xy);
-> +#if PIXFMT == V4L2_PIX_FMT_YUVA32
-> +	alpha = color.a;
-> +#endif
-> +	yuv = color.rgb;
->  #elif PIXFMT == V4L2_PIX_FMT_YUV565
->  	yuv = texture(tex, xy).rgb;
->  #elif PIXFMT == V4L2_PIX_FMT_YUV422P || PIXFMT == V4L2_PIX_FMT_YUV420 || PIXFMT == V4L2_PIX_FMT_YVU420 || \
-> diff --git a/utils/v4l2-compliance/v4l2-test-colors.cpp b/utils/v4l2-compliance/v4l2-test-colors.cpp
-> index 887b2fd418d7..87bf0cd7f3ab 100644
-> --- a/utils/v4l2-compliance/v4l2-test-colors.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-colors.cpp
-> @@ -200,6 +200,8 @@ static void getColor(const cv4l_fmt &fmt, __u8 * const planes[3],
->  		break;
->  	case V4L2_PIX_FMT_RGBX32:
->  	case V4L2_PIX_FMT_RGBA32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  		v32 = p8[4 * x + 2] + (p8[4 * x + 1] << 8) +
->  		      (p8[4 * x] << 16) + (p8[4 * x + 3] << 24);
->  		break;
-> @@ -386,6 +388,8 @@ static void getColor(const cv4l_fmt &fmt, __u8 * const planes[3],
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  	case V4L2_PIX_FMT_YUYV:
->  	case V4L2_PIX_FMT_UYVY:
->  	case V4L2_PIX_FMT_YVYU:
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-> index 6bf0a1c7d201..577cf37ec901 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-> @@ -345,6 +345,8 @@ static bool is_rgb_or_hsv(__u32 pixelformat)
->  	case V4L2_PIX_FMT_XYUV32:
->  	case V4L2_PIX_FMT_VUYA32:
->  	case V4L2_PIX_FMT_VUYX32:
-> +	case V4L2_PIX_FMT_YUVA32:
-> +	case V4L2_PIX_FMT_YUVX32:
->  	case V4L2_PIX_FMT_YUV410:
->  	case V4L2_PIX_FMT_YUV420:
->  	case V4L2_PIX_FMT_HI240:
