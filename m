@@ -2,121 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C252B565130
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 11:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A06256518E
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 12:03:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbiGDJoq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 05:44:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40306 "EHLO
+        id S234040AbiGDKAs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 06:00:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233550AbiGDJoo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 05:44:44 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89235E94
-        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 02:44:43 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id t24so14848026lfr.4
-        for <linux-media@vger.kernel.org>; Mon, 04 Jul 2022 02:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LmdZpfhul7AYz3qW3RlxL4bqH00e3NuUlI2WNhk7Mn8=;
-        b=U2yH96tWFNOybcVxh4dfrZVVAFCcl7ZROLLuLwli+5ycQKzpJvOPETxhUeMAyQpGZe
-         tj56S0OmYqEXjBJP43yz5iaxytRUTRZ6w3/VFTWUW/PbSDKSMrfG642JDXHkUJ/Wa2Hr
-         X8EMGxirynH79U9Wdwq4CcL8nYicrSD4BR0FZ9HZaWH2Uds/C7oOLvDAEnobo9EECQxt
-         P93EKZpNRgYdnpsaeLjWa1rGvc2CXaPVLnxBgn37wmZzeRNaLqQj6iTFhKrsKXNd9s+2
-         MablvIJbAuqFQv8xRJesVmbuPX+AQVtXVglm03BfLM/2pA+dcIt5IlSjyqfApm0+L7RY
-         Odtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LmdZpfhul7AYz3qW3RlxL4bqH00e3NuUlI2WNhk7Mn8=;
-        b=byNrTICz6Ccwk7KbxRFRxnNNgevREInyGoszXDMPtqhH4G2M40YivAOhIpXY3SAJfh
-         eoZ/V5aI41omtVgwoL9hyChdBTMcskzlWYRqkfpoyb6y3cXzq5ushPe21i3MFAXtSrPF
-         ggsjBDgGfsgfDpz3OBqfsrzpWxwL7QWvBJ5vYppC0+2HYHCQqFMEOayzMN8ycy+eO3a3
-         Ratp2SAJOsQT6axAtla/vaEmPx0M8Ztv1SbExG4U7Ngv1IiCNLJHPOz/S/tkRvOb0Ur9
-         25TY4Wtqmx3VK0zMFOq5D1qtfRDfd0R3RryBplhv2bmQtzygBSGBtNAD+tdB5Czbvfd5
-         +xYQ==
-X-Gm-Message-State: AJIora9nvqJAWieb1SW3NJPfbzvOPF9HCeiEKBv1rL0ustRn9QYsIyq3
-        OfQtpNZC7E94sJTBmEF66aycSw==
-X-Google-Smtp-Source: AGRyM1tYuNf56EgZ3K5y1zSmnh/3A9NAy3fnjug/zGIClMQdPs9SY7ng7KgVHxFZ0ZOuqKsOB+0AKw==
-X-Received: by 2002:ac2:596f:0:b0:481:1aa9:aa4e with SMTP id h15-20020ac2596f000000b004811aa9aa4emr18535519lfp.84.1656927881877;
-        Mon, 04 Jul 2022 02:44:41 -0700 (PDT)
-Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id u9-20020a2e1409000000b002554b7b9a16sm4872619ljd.73.2022.07.04.02.44.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 02:44:41 -0700 (PDT)
-From:   Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To:     Robert Foss <robert.foss@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH] media: camss: Clean up received buffers on failed start of streaming
-Date:   Mon,  4 Jul 2022 12:44:37 +0300
-Message-Id: <20220704094437.468395-1-vladimir.zapolskiy@linaro.org>
-X-Mailer: git-send-email 2.33.0
+        with ESMTP id S234030AbiGDKAm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 06:00:42 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20FFCDEBC
+        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 03:00:41 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 630F11002A4; Mon,  4 Jul 2022 11:00:38 +0100 (BST)
+Date:   Mon, 4 Jul 2022 11:00:38 +0100
+From:   Sean Young <sean@mess.org>
+To:     Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: rtl28xxu: improve IR receiver
+Message-ID: <YsK6Rlk/ODYUE2/F@gofer.mess.org>
+References: <cover.1644683294.git.sean@mess.org>
+ <704b3d7e5a7a95cbd5e4dfc25a41454e919aed95.1644683294.git.sean@mess.org>
+ <YrhSK5l0uQZT76Fi@jyty>
+ <YrmMQNPHkDGZ843v@gofer.mess.org>
+ <YrqfTnY4Azqt44e4@jyty>
+ <Yr/+g/j20kb5kzki@gofer.mess.org>
+ <YsHLlg9CccrEzOjL@jyty>
+ <YsKVA4bKNuRUOZpf@gofer.mess.org>
+ <YsKwwVaFYrOxMhZw@jyty>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <YsKwwVaFYrOxMhZw@jyty>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It is required to return the received buffers, if streaming can not be
-started. For instance media_pipeline_start() may fail with EPIPE, if
-a link validation between entities is not passed, and in such a case
-a user gets a kernel warning:
+Hi Marko,
 
-  WARNING: CPU: 1 PID: 520 at drivers/media/common/videobuf2/videobuf2-core.c:1592 vb2_start_streaming+0xec/0x160
-  <snip>
-  Call trace:
-   vb2_start_streaming+0xec/0x160
-   vb2_core_streamon+0x9c/0x1a0
-   vb2_ioctl_streamon+0x68/0xbc
-   v4l_streamon+0x30/0x3c
-   __video_do_ioctl+0x184/0x3e0
-   video_usercopy+0x37c/0x7b0
-   video_ioctl2+0x24/0x40
-   v4l2_ioctl+0x4c/0x70
+On Mon, Jul 04, 2022 at 12:20:01PM +0300, Marko Mäkelä wrote:
+> Mon, Jul 04, 2022 at 08:21:39AM +0100, Sean Young wrote:
+> > On Sun, Jul 03, 2022 at 08:02:14PM +0300, Marko Mäkelä wrote:
+> > > For protocols that do not use a toggle bit, the last parameter of
+> > > rc_keydown() will usually be toggle=0, and explicit calls to rc_repeat()
+> > > will be issued when needed. For those protocols, I thought that we would not
+> > > want rc_keydown() to set any LIRC_SCANCODE_FLAG_REPEAT flag under any
+> > > circumstances.
+> > 
+> > Toggle and repeat are distinct concepts.
+> > 
+> > rc_repeat() is for protocols which have a special repeat message, which
+> > carry no information other that "repeat the last message". However,
+> > all protocols repeat. Whether they use a special repeat message or not.
+> > 
+> > It's right that if a protocol repeats a message, LIRC_SCANCODE_FLAG_REPEAT
+> > is set.
+> 
+> Is it right to set the flag when a message is being repeated due to user
+> effort (repeatedly pressing and releasing a button, instead of holding the
+> button down)?
 
-The fix is to correct the error path in video_start_streaming() of camss.
+The problem here is that the nec repeat is used by some remotes, but not
+others. Some nec remotes repeat the entire code every time. Our generic nec
+decoder cannot distinguish between the two. So, our nec decoder interprets
+both a nec repeat and a repeated code as "button being held down".
 
-Fixes: 0ac2586c410f ("media: camss: Add files which handle the video device nodes")
-Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
----
- drivers/media/platform/qcom/camss/camss-video.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+rc5 is a much nicer protocol and explicitly uses a toggle bit to specify
+the button has been released/pressed. Some protocols use more than one
+bit for toggle, in case a toggle was lost due to packet loss.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index b5f12ec5c50c..d272ffa02112 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -495,7 +495,7 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
- 
- 	ret = media_pipeline_start(&vdev->entity, &video->pipe);
- 	if (ret < 0)
--		return ret;
-+		goto flush_buffers;
- 
- 	ret = video_check_format(video);
- 	if (ret < 0)
-@@ -524,6 +524,7 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
- error:
- 	media_pipeline_stop(&vdev->entity);
- 
-+flush_buffers:
- 	video->ops->flush_buffers(video, VB2_BUF_STATE_QUEUED);
- 
- 	return ret;
--- 
-2.33.0
+> If it is, is it consistent to avoid setting the flag when a
+> protocol uses a toggle bit (say, RC5)?
 
+No, RC5 repeats the same message if a button is being held down with the same
+toggle value. We should get a LIRC_SCANCODE_FLAG_REPEAT in this case.
+
+> In that case, the toggle bit would
+> change its value each time the button is pressed, and your suggested change
+> to rc_keydown() would not set the repeat flag.
+
+If we can distinguish between press/release vs hold then it is not a repeat.
+If it is being held down. then it is a repeat.
+
+> As far as I understand, the change that you suggested would set the
+> LIRC_SCANCODE_FLAG_REPEAT if I repeatedly press a button on the NEC protocol
+> remote control, but not on an RC5 remote control.
+
+RC5 too.
+
+> I tested the attached patch (which was created on 5.19-rc5, which failed to
+> boot on my system for unrelated reasons) on Linux 5.17, on top of your fixes
+> to rtl28xxu and rc-core.
+
+You'll need to fix this.
+
+> One might think that it is not necessary to make difference between long
+> button presses (which should generate repeat events) and short button
+> presses that are quickly repeated by the user. I can think of a user-space
+> application that would intentionally ignore repeat events for some buttons
+> where it would make little sense. For example, when the number button 1 is
+> pressed for a long time, the application might choose not to repeat the
+> keypress, but "demand" multiple separate button presses by the user, if the
+> channel should really be switched to 11, 111, or 1111. The intention of
+> ignoring "repeat" events would be to avoid "punishing" users who are
+> pressing a button longer, possibly compensating for unreliable IR signal
+> reception.
+
+The input layer create autorepeat key events for keys that are being held
+down.
+
+> If the user wants to quickly switch to channel 111 by quickly pressing the
+> button three times, it should not be misreported as an auto-repeated event,
+> but reported as 3 LIRC events without the "repeat" flag, and as 3 pairs of
+> keydown and keyup events.
+
+Ideally yes, if we can distinguish between the two.
+
+FWIW I'm (slowly) working on new tooling that allows you specify the IR 
+protocol in IRP format. This would allow you say for NEC:
+
+{38.4k,564}<1,-1|1,-3>(16,-8,D:8,S:8,F:8,~F:8,1,^108m)* [D:0..255,S:0..255=255-D,F:0..255]
+
+For remotes that repeat the entire code each time, and
+
+{38.4k,564}<1,-1|1,-3>(16,-8,D:8,S:8,F:8,~F:8,1,^108m,(16,-4,1,^108m)*) [D:0..255,S:0..255=255-D,F:0..255]]]
+
+For remotes that send nec repeats. This would be compiled down BPF. I'm
+still working on the decoder and I haven't started on the BPF compilation
+side yet (the encoder is fully working).
+
+See https://github.com/seanyoung/cir/
+
+> On the other hand, there should be no reason for an application to not honor
+> repeat events for a volume button. That is of course up to the application
+> to decide, not the kernel.
+
+Well, that's not the way things work. Keys have autorepeats which are
+generated kernel-side. I think libinput wants to change this to user
+space but certainly not application side.
+
+> If you agree that this patch is on the right track, an interface for the new
+> function rc_keydown_or_repeat() may have to be exposed to the BPF interface
+> as well.
+
+I'm not sure why that is needed.
+
+
+Sean
