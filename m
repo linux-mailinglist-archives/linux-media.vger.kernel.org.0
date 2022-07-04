@@ -2,244 +2,369 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57D27565DBF
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 21:04:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67D40565DE9
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 21:17:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231562AbiGDTEq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 15:04:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56030 "EHLO
+        id S234796AbiGDTRP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 15:17:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbiGDTEo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 15:04:44 -0400
-X-Greylist: delayed 93743 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 04 Jul 2022 12:04:42 PDT
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB0394
-        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 12:04:42 -0700 (PDT)
-Received: from jyty (dsl-hkibng31-58c389-173.dhcp.inet.fi [88.195.137.173])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: msmakela)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id D7F7E1B00276;
-        Mon,  4 Jul 2022 22:04:39 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1656961479;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jC/gHgEGsyjhw8jPioPBo8UnmhMFB7XMUxi/LR8UBEo=;
-        b=f0AU+SZ9dt+18KYT7iRFxBSvzAIj4ft/resvu4u1NIuASbXyHbUCJHrJW7mVZNa/6INYEe
-        JyDktTf1wk2CoxJYmTYVd9ptiQU56faSQxUApxzyUrpdHwpYmOv6Vci208InkftnXIUyGc
-        5UD8sWGWFHMS5HmN+QoYKTSCSbIJbxvkm8Ig1hH1hqP089DolCd6JUMmcfDvGiqcD66uHh
-        yHK7Ph7vUKSz2i8iddIHxnHxalvUix9TM58IEizn/RHgQm1/iqexDZ0KDUjud4xxV+jWu8
-        2IFIo/hjoJzb7ZY010K02K0JfqWKEaUyOmtbecLmGKUQ1JNeWPNDcjUNbxP7NQ==
-Date:   Mon, 4 Jul 2022 22:04:38 +0300
-From:   Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
-To:     Sean Young <sean@mess.org>
+        with ESMTP id S234759AbiGDTRM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 15:17:12 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A07DFE1
+        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 12:17:11 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1CC28D0;
+        Mon,  4 Jul 2022 21:17:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656962230;
+        bh=ypyfTIX+Q/z5XJCBTbkmvP1iD46TWUhlZ6For0hOFnU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Du8e+AN1u1/Nj1KoSc/Nw7xviPDZeYEWyq2BMBG1dnu78afhqk9ytkZ+i+nUuGxZQ
+         3PW24ItoAK9CwoxNi/W2LtLFfndMsOQ8R7hmDAj/0Q6asiCWPGryfr8SYz2s0iDzFK
+         Icu6GzG9sWDaw9/RLAlYok7nJKZTyvezcTiOYWYc=
+Date:   Mon, 4 Jul 2022 22:16:47 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rtl28xxu: improve IR receiver
-Message-ID: <YsM5xhEXb6rzl1X9@jyty>
-References: <cover.1644683294.git.sean@mess.org>
- <704b3d7e5a7a95cbd5e4dfc25a41454e919aed95.1644683294.git.sean@mess.org>
- <YrhSK5l0uQZT76Fi@jyty>
- <YrmMQNPHkDGZ843v@gofer.mess.org>
- <YrqfTnY4Azqt44e4@jyty>
- <Yr/+g/j20kb5kzki@gofer.mess.org>
- <YsHLlg9CccrEzOjL@jyty>
- <YsKVA4bKNuRUOZpf@gofer.mess.org>
- <YsKwwVaFYrOxMhZw@jyty>
- <YsK6Rlk/ODYUE2/F@gofer.mess.org>
+Subject: Re: [PATCH] v4l2 utils: Support V4L2_PIX_FMT_YUV[AX]32
+Message-ID: <YsM8n5M/qMtNsy/g@pendragon.ideasonboard.com>
+References: <20220630092904.19053-1-laurent.pinchart@ideasonboard.com>
+ <274c46e9-7d10-ad92-dec4-978b5a85b36e@xs4all.nl>
+ <YsME1ejsZ2wqFZ/E@pendragon.ideasonboard.com>
+ <6fddd306-5003-2915-3c3f-1a6e143c718f@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="cLwnVj2EukfdE3MP"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YsK6Rlk/ODYUE2/F@gofer.mess.org>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1656961479; a=rsa-sha256;
-        cv=none;
-        b=aYVh5knqSEqHXvdu/cbe5152WZr+h/CsQeKmKet0kdEUqMjcalu/xPDBEYh4xgacuFWu53
-        2LuLpF0ZMVRK4ovofdivM9yJ4SNjD2SQyCnyMdGK7ZrGEB17JM0x3A8Q74a9IXSDH/Mf0+
-        rrGbfrnUj6zveAbckRSI0e7k6GhxQWLWi+qtjrvXYvCs6M+9VSPwcO57m9t8PcPt7VXit4
-        Y6XC9TxrYK+QDcdHN//lWQfPGjF+0+DOFUqcCSusuvvtFgD33rRxIDtYB2ddq70Zog/io/
-        f30Kz0h26ABzZ0xP0xF97H/QfyMm8SoXAdYPaUnx7e9pisFW6yddZdRxX9guyA==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=msmakela smtp.mailfrom=marko.makela@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1656961479;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jC/gHgEGsyjhw8jPioPBo8UnmhMFB7XMUxi/LR8UBEo=;
-        b=nOJQ/NzCIIeXYdOIlJDt/rv3BvbrebTu/UZLupXnjDLFJQl6JoPxdVND3PLNMfOu5wy5nD
-        Nhxi+RCMle1vyBkfumDQdsnH4pj7Bci+Z2zhNEOejIXBSD932pCijUAcFeRzASduk1n5Lk
-        BrsvUukDtmhqqPVasvhXIHuVokELDPydsp1gNmehAkfAnxiNMzv/750nGRczhVUN5IMjCn
-        nmrWU/IjXWnkzuE/6lQrKDOVAj5wakguEUbj1PH2i1ucUgrYKVJP4JxFRTdM4hdjKnfKOQ
-        lT7yOnYnQbtnLbQ/Cdn63Ev7vmGDVlzdYV/krwBReQpnaEcHBDGsHZpmw5BlSw==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <6fddd306-5003-2915-3c3f-1a6e143c718f@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
---cLwnVj2EukfdE3MP
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+On Mon, Jul 04, 2022 at 08:49:28PM +0200, Hans Verkuil wrote:
+> On 7/4/22 20:23, Laurent Pinchart wrote:
+> > On Mon, Jul 04, 2022 at 01:08:04PM +0200, Hans Verkuil wrote:
+> >> On 6/30/22 11:29, Laurent Pinchart wrote:
+> >>> Add support for the V4L2_PIX_FMT_YUVA32 and V4L2_PIX_FMT_YUVX32 pixel
+> >>> formats in the v4l2-ctl, v4l2-compliance, qvidcap and qv4l2 utilities.
+> >>>
+> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>> ---
+> >>> This patch depends on the addition of the new YUVA32 and YUVX32 pixel
+> >>> formats to the kernel, which I plan to post a pull request for in the
+> >>> near future.
+> >>>
+> >>> While working on this, I've noticed what could be a bug in the qv4l2 GL
+> >>> shaders. It seems to me that at least the V4L2_PIX_FMT_VUYA32 and
+> >>> V4L2_PIX_FMT_VUYX32 formats are not correctly handled. Hans, could you
+> >>> have a look at this ?
+> >>
+> >> It looks good to me. Do you actually see something wrong? I've tested with
+> >> vivid and qv4l2, but you may be testing with another driver.
+> > 
+> > I haven't tested it, only read the code. Here's how the texture is
+> > configured, first in CaptureWinGLEngine::shader_YUV_packed():
+> > 
+> >         case V4L2_PIX_FMT_AYUV32:
+> >                 hasAlpha = true;
+> >                 // fall-through
+> >         case V4L2_PIX_FMT_YUV32:
+> >         case V4L2_PIX_FMT_XYUV32:
+> >                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_frameWidth, m_frameHeight, 0,
+> >                              GL_BGRA, GL_UNSIGNED_INT_8_8_8_8, NULL);
+> >                 break;
+> >         case V4L2_PIX_FMT_VUYA32:
+> >                 hasAlpha = true;
+> >                 // fall-through
+> >         case V4L2_PIX_FMT_VUYX32:
+> >                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_frameWidth, m_frameHeight, 0,
+> >                              GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, NULL);
+> >                 break;
+> > 
+> > And then in CaptureWinGLEngine::render_YUV_packed():
+> > 
+> >         case V4L2_PIX_FMT_YUV32:
+> >         case V4L2_PIX_FMT_AYUV32:
+> >         case V4L2_PIX_FMT_XYUV32:
+> >                 glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_frameWidth, m_frameHeight,
+> >                                 GL_BGRA, GL_UNSIGNED_INT_8_8_8_8, m_frameData);
+> >                 break;
+> >         case V4L2_PIX_FMT_VUYA32:
+> >         case V4L2_PIX_FMT_VUYX32:
+> >                 glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_frameWidth, m_frameHeight,
+> >                                 GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, m_frameData);
+> >                 break;
+> > 
+> > So, as far as I understand, for V4L2_PIX_FMT_VUYA32, the combination of
+> > GL_BGRA and GL_UNSIGNED_INT_8_8_8_8_REV specify the components order in
+> > memory as A, R, G, B (BGRA reversed). This thus map
+> > 
+> > V -> A
+> > U -> R
+> > Y -> G
+> > A -> B
+> 
+> VUYA is the order in memory (first byte V, second U, etc). GL_UNSIGNED_INT_8_8_8_8_REV
+> reads this as, effectively, big-endian order, and GL_BGRA then interprets the unsigned
+> int from MSB to the LSB, so:
+> 
+> V -> B
+> U -> G
+> Y -> R
+> A -> A
+> 
+> At least, I think that was the reason. In any case, I know it is correct, since it works
+> with vivid and this pixelformat.
 
-Hi Sean,
+You're right, now that I re-read this, I wonder how I got it wrong.
 
-Mon, Jul 04, 2022 at 11:00:38AM +0100, Sean Young wrote:
->Hi Marko,
->
->On Mon, Jul 04, 2022 at 12:20:01PM +0300, Marko Mäkelä wrote:
->> Mon, Jul 04, 2022 at 08:21:39AM +0100, Sean Young wrote:
->> > On Sun, Jul 03, 2022 at 08:02:14PM +0300, Marko Mäkelä wrote:
->> > > For protocols that do not use a toggle bit, the last parameter of
->> > > rc_keydown() will usually be toggle=0, and explicit calls to rc_repeat()
->> > > will be issued when needed. For those protocols, I thought that we would not
->> > > want rc_keydown() to set any LIRC_SCANCODE_FLAG_REPEAT flag under any
->> > > circumstances.
->> >
->> > Toggle and repeat are distinct concepts.
->> >
->> > rc_repeat() is for protocols which have a special repeat message, which
->> > carry no information other that "repeat the last message". However,
->> > all protocols repeat. Whether they use a special repeat message or not.
->> >
->> > It's right that if a protocol repeats a message, LIRC_SCANCODE_FLAG_REPEAT
->> > is set.
->>
->> Is it right to set the flag when a message is being repeated due to user
->> effort (repeatedly pressing and releasing a button, instead of holding the
->> button down)?
->
->The problem here is that the nec repeat is used by some remotes, but 
->not others. Some nec remotes repeat the entire code every time. Our 
->generic nec decoder cannot distinguish between the two. So, our nec 
->decoder interprets both a nec repeat and a repeated code as "button 
->being held down".
+By the way, is there a reason why glTexImage2D() uses GL_RGBA and
+GL_UNSIGNED_INT_8_8_8_8 while glTexSubImage2D() uses GL_BGRA and
+GL_UNSIGNED_INT_8_8_8_8_REV ?
 
-I see. My experience of remote control protocols is mostly limited to 
-RC5.
+> I also strongly suspect it will be wrong on a big-endian architecture.
+> 
+> But yes, it is very confusing. In qvidcap I abandoned the use of GL_UNSIGNED_INT_8_8_8_8
+> and just use GL_UNSIGNED_BYTE. It makes it easier to understand. On of these days (hah!)
+> qv4l2 should start using the qvidcap openGL code.
 
->> As far as I understand, the change that you suggested would set the
->> LIRC_SCANCODE_FLAG_REPEAT if I repeatedly press a button on the NEC protocol
->> remote control, but not on an RC5 remote control.
->
->RC5 too.
+The code in qvidcap is a bit nicer indeed, and also more compatible with
+OpenGL ES 2.0. Many open-source GPU drivers for embedded devices will
+have trouble with qv4l2.
 
-I think that it is depends on the implementation of the firmware that 
-runs on the remote control unit. If the button is released and quickly 
-pressed again so that no keyboard matrix scan was scheduled to run in 
-between, then the firmware could report it as a repeat event.  
-Alternatively, every second IR message could be lost, so that the 
-receiver would observe the same toggle bit value for every IR message 
-that it receives.
+> > But he shader unconditionally maps the components as follows:
+> > 
+> >         codeHead += "   float y = color.r;"
+> >                     "   float u = color.g - 0.5;"
+> >                     "   float v = color.b - 0.5;";
+> > 
+> > What am I missing ?
+> > 
+> >>> ---
+> >>>  utils/qv4l2/capture-win-gl.cpp             | 17 +++++++++++++++++
+> >>>  utils/qv4l2/qv4l2.cpp                      |  2 ++
+> >>>  utils/qvidcap/capture.cpp                  |  4 ++++
+> >>>  utils/qvidcap/paint.cpp                    | 10 ++++++++++
+> >>>  utils/qvidcap/v4l2-convert.glsl            |  6 ++++++
+> >>>  utils/v4l2-compliance/v4l2-test-colors.cpp |  4 ++++
+> >>>  utils/v4l2-ctl/v4l2-ctl.cpp                |  2 ++
+> >>>  7 files changed, 45 insertions(+)
+> >>>
+> >>> diff --git a/utils/qv4l2/capture-win-gl.cpp b/utils/qv4l2/capture-win-gl.cpp
+> >>> index 05659259d42f..6cbeb426b6ba 100644
+> >>> --- a/utils/qv4l2/capture-win-gl.cpp
+> >>> +++ b/utils/qv4l2/capture-win-gl.cpp
+> >>> @@ -196,6 +196,8 @@ void CaptureWinGLEngine::setColorspace(unsigned colorspace, unsigned xfer_func,
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  	case V4L2_PIX_FMT_HSV24:
+> >>>  	case V4L2_PIX_FMT_HSV32:
+> >>>  		is_rgb = false;
+> >>> @@ -415,6 +417,8 @@ bool CaptureWinGLEngine::hasNativeFormat(__u32 format)
+> >>>  		V4L2_PIX_FMT_XYUV32,
+> >>>  		V4L2_PIX_FMT_VUYA32,
+> >>>  		V4L2_PIX_FMT_VUYX32,
+> >>> +		V4L2_PIX_FMT_YUVA32,
+> >>> +		V4L2_PIX_FMT_YUVX32,
+> >>>  		V4L2_PIX_FMT_GREY,
+> >>>  		V4L2_PIX_FMT_Z16,
+> >>>  		V4L2_PIX_FMT_INZI,
+> >>> @@ -483,6 +487,8 @@ void CaptureWinGLEngine::changeShader()
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		shader_YUV_packed(m_frameFormat);
+> >>>  		break;
+> >>>  
+> >>> @@ -651,6 +657,8 @@ void CaptureWinGLEngine::paintGL()
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		render_YUV_packed(m_frameFormat);
+> >>>  		break;
+> >>>  
+> >>> @@ -2100,6 +2108,13 @@ void CaptureWinGLEngine::shader_YUV_packed(__u32 format)
+> >>>  		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_frameWidth, m_frameHeight, 0,
+> >>>  			     GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, NULL);
+> >>>  		break;
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +		hasAlpha = true;
+> >>> +		// fall-through
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>> +		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_frameWidth, m_frameHeight, 0,
+> >>> +			     GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, NULL);
+> >>> +		break;
+> >>>  	}
+> >>>  
+> >>>  	checkError("Packed YUV shader");
+> >>> @@ -2173,6 +2188,8 @@ void CaptureWinGLEngine::render_YUV_packed(__u32 format)
+> >>>  		break;
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_frameWidth, m_frameHeight,
+> >>>  				GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, m_frameData);
+> >>>  		break;
+> >>> diff --git a/utils/qv4l2/qv4l2.cpp b/utils/qv4l2/qv4l2.cpp
+> >>> index d9141ad1372d..4cbaa98e0ee0 100644
+> >>> --- a/utils/qv4l2/qv4l2.cpp
+> >>> +++ b/utils/qv4l2/qv4l2.cpp
+> >>> @@ -1567,12 +1567,14 @@ void ApplicationWindow::capStart(bool start)
+> >>>  	case V4L2_PIX_FMT_YUV32:
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		dstFmt = QImage::Format_RGB32;
+> >>>  		break;
+> >>>  	case V4L2_PIX_FMT_ARGB32:
+> >>>  	case V4L2_PIX_FMT_ABGR32:
+> >>>  	case V4L2_PIX_FMT_AYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>>  		dstFmt = QImage::Format_ARGB32;
+> >>>  		break;
+> >>>  	case V4L2_PIX_FMT_INZI:
+> >>> diff --git a/utils/qvidcap/capture.cpp b/utils/qvidcap/capture.cpp
+> >>> index cfcbb89660e5..0b4c4115cf1b 100644
+> >>> --- a/utils/qvidcap/capture.cpp
+> >>> +++ b/utils/qvidcap/capture.cpp
+> >>> @@ -57,6 +57,8 @@ const __u32 formats[] = {
+> >>>  	V4L2_PIX_FMT_XYUV32,
+> >>>  	V4L2_PIX_FMT_VUYA32,
+> >>>  	V4L2_PIX_FMT_VUYX32,
+> >>> +	V4L2_PIX_FMT_YUVA32,
+> >>> +	V4L2_PIX_FMT_YUVX32,
+> >>>  	V4L2_PIX_FMT_RGB32,
+> >>>  	V4L2_PIX_FMT_XRGB32,
+> >>>  	V4L2_PIX_FMT_ARGB32,
+> >>> @@ -882,6 +884,8 @@ bool CaptureWin::updateV4LFormat(const cv4l_fmt &fmt)
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		m_is_rgb = false;
+> >>>  		m_accepts_srgb = false;
+> >>>  		break;
+> >>> diff --git a/utils/qvidcap/paint.cpp b/utils/qvidcap/paint.cpp
+> >>> index 745e40031149..c5aadb09ffa4 100644
+> >>> --- a/utils/qvidcap/paint.cpp
+> >>> +++ b/utils/qvidcap/paint.cpp
+> >>> @@ -159,6 +159,8 @@ void CaptureWin::paintGL()
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		render_YUV_packed(m_v4l_fmt.g_pixelformat());
+> >>>  		break;
+> >>>  
+> >>> @@ -355,6 +357,8 @@ static const struct define defines[] = {
+> >>>  	DEF(V4L2_PIX_FMT_XYUV32),
+> >>>  	DEF(V4L2_PIX_FMT_VUYA32),
+> >>>  	DEF(V4L2_PIX_FMT_VUYX32),
+> >>> +	DEF(V4L2_PIX_FMT_YUVA32),
+> >>> +	DEF(V4L2_PIX_FMT_YUVX32),
+> >>>  	DEF(V4L2_PIX_FMT_RGB32),
+> >>>  	DEF(V4L2_PIX_FMT_XRGB32),
+> >>>  	DEF(V4L2_PIX_FMT_ARGB32),
+> >>> @@ -595,6 +599,8 @@ void CaptureWin::changeShader()
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		shader_YUV_packed();
+> >>>  		break;
+> >>>  
+> >>> @@ -945,6 +951,8 @@ void CaptureWin::shader_YUV_packed()
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_v4l_fmt.g_width(), m_v4l_fmt.g_height(), 0,
+> >>>  			     GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+> >>>  		break;
+> >>> @@ -1310,6 +1318,8 @@ void CaptureWin::render_YUV_packed(__u32 format)
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_v4l_fmt.g_width(), m_v4l_fmt.g_height(),
+> >>>  				GL_RGBA, GL_UNSIGNED_BYTE, m_curData[0]);
+> >>>  		break;
+> >>> diff --git a/utils/qvidcap/v4l2-convert.glsl b/utils/qvidcap/v4l2-convert.glsl
+> >>> index 458901c43838..8bd5694b3165 100644
+> >>> --- a/utils/qvidcap/v4l2-convert.glsl
+> >>> +++ b/utils/qvidcap/v4l2-convert.glsl
+> >>> @@ -292,6 +292,12 @@ void main()
+> >>>  	yuv.r = color.b;
+> >>>  	yuv.g = color.g;
+> >>>  	yuv.b = color.r;
+> >>> +#elif PIXFMT == V4L2_PIX_FMT_YUVA32 || PIXFMT == V4L2_PIX_FMT_YUVX32
+> >>> +	vec4 color = texture(tex, xy);
+> >>> +#if PIXFMT == V4L2_PIX_FMT_YUVA32
+> >>> +	alpha = color.a;
+> >>> +#endif
+> >>> +	yuv = color.rgb;
+> >>>  #elif PIXFMT == V4L2_PIX_FMT_YUV565
+> >>>  	yuv = texture(tex, xy).rgb;
+> >>>  #elif PIXFMT == V4L2_PIX_FMT_YUV422P || PIXFMT == V4L2_PIX_FMT_YUV420 || PIXFMT == V4L2_PIX_FMT_YVU420 || \
+> >>> diff --git a/utils/v4l2-compliance/v4l2-test-colors.cpp b/utils/v4l2-compliance/v4l2-test-colors.cpp
+> >>> index 887b2fd418d7..87bf0cd7f3ab 100644
+> >>> --- a/utils/v4l2-compliance/v4l2-test-colors.cpp
+> >>> +++ b/utils/v4l2-compliance/v4l2-test-colors.cpp
+> >>> @@ -200,6 +200,8 @@ static void getColor(const cv4l_fmt &fmt, __u8 * const planes[3],
+> >>>  		break;
+> >>>  	case V4L2_PIX_FMT_RGBX32:
+> >>>  	case V4L2_PIX_FMT_RGBA32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  		v32 = p8[4 * x + 2] + (p8[4 * x + 1] << 8) +
+> >>>  		      (p8[4 * x] << 16) + (p8[4 * x + 3] << 24);
+> >>>  		break;
+> >>> @@ -386,6 +388,8 @@ static void getColor(const cv4l_fmt &fmt, __u8 * const planes[3],
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  	case V4L2_PIX_FMT_YUYV:
+> >>>  	case V4L2_PIX_FMT_UYVY:
+> >>>  	case V4L2_PIX_FMT_YVYU:
+> >>> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+> >>> index 6bf0a1c7d201..577cf37ec901 100644
+> >>> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
+> >>> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+> >>> @@ -345,6 +345,8 @@ static bool is_rgb_or_hsv(__u32 pixelformat)
+> >>>  	case V4L2_PIX_FMT_XYUV32:
+> >>>  	case V4L2_PIX_FMT_VUYA32:
+> >>>  	case V4L2_PIX_FMT_VUYX32:
+> >>> +	case V4L2_PIX_FMT_YUVA32:
+> >>> +	case V4L2_PIX_FMT_YUVX32:
+> >>>  	case V4L2_PIX_FMT_YUV410:
+> >>>  	case V4L2_PIX_FMT_YUV420:
+> >>>  	case V4L2_PIX_FMT_HI240:
 
->>I tested the attached patch (which was created on 5.19-rc5, which 
->>failed to boot on my system for unrelated reasons) on Linux 5.17, on 
->>top of your fixes to rtl28xxu and rc-core.
->
->You'll need to fix this.
-
-The 5.19-rc5 boot failure could have been related to LUKS setup on that 
-machine, because a kernel panic message was displayed before I was being 
-prompted for an encryption key. The modules would not have been loaded 
-at that point, so I do not think that it is related to my modifications.
-
-When compiled for the v5.17 kernel release tag on another computer, the 
-patch that implements rc_keydown_or_repeat() worked for me.
-
-It does not look like there are many changes in drivers/media/rc between 
-5.17 and 5.19.
-
->>If the user wants to quickly switch to channel 111 by quickly pressing 
->>the button three times, it should not be misreported as an 
->>auto-repeated event, but reported as 3 LIRC events without the 
->>"repeat" flag, and as 3 pairs of keydown and keyup events.
->
->Ideally yes, if we can distinguish between the two.
-
-Okay, I understand that we indeed cannot always do that.
-
->See https://github.com/seanyoung/cir/
-
-This could open up many possibilities. Would the decoded events also be 
-available via some low-level interface to user-space programs, in 
-addition to the input event driver?
-
->>On the other hand, there should be no reason for an application to not 
->>honor repeat events for a volume button. That is of course up to the 
->>application to decide, not the kernel.
->
->Well, that's not the way things work. Keys have autorepeats which are 
->generated kernel-side. I think libinput wants to change this to user 
->space but certainly not application side.
-
-It is how https://tvdr.de works. I have been using it via two 
-interfaces: a built-in LIRC interface, and vdr-plugin-remote for the 
-Linux input device driver. In http://git.tvdr.de/vdr.git you can find 
-that in some cases, normal key-presses are being distinguished from 
-repeat events (git grep -w k_Repeat). This is the reason why I brought 
-up the missing LIRC_SCANCODE_FLAG_REPEAT in the RC5 protocol decoder: 
-VDR with the LIRC interface would observe that the user is repeatedly 
-pressing a button even when the button is being held down.
-
->> If you agree that this patch is on the right track, an interface for the new
->> function rc_keydown_or_repeat() may have to be exposed to the BPF interface
->> as well.
->
->I'm not sure why that is needed.
-
-I am attaching a minimal version of the patch, just one hunk, like you 
-suggested earlier. I did not observe any bad effects with either remote 
-control unit I tested it with: RC5 and NEC, again, on the rtl28xxu and 
-with your two commits, on the v5.17 tag.
-
-Best regards,
-
-	Marko
-
---cLwnVj2EukfdE3MP
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-media-rc-Always-report-LIRC-repeat-flag.patch"
-
-From 7bdda9eccd704076297a0d0802c8638b4562c703 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Marko=20M=C3=A4kel=C3=A4?= <marko.makela@mariadb.com>
-Date: Mon, 4 Jul 2022 21:56:08 +0300
-Subject: [PATCH] media: rc: Always report LIRC repeat flag
-
-The flag LIRC_SCANCODE_FLAG_REPEAT was never set by rc_keydown().
-Previously it was only set by rc_repeat(), but not all protocol
-decoders invoke that function.
----
- drivers/media/rc/rc-main.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-index f27f6b383816..d875d84ea221 100644
---- a/drivers/media/rc/rc-main.c
-+++ b/drivers/media/rc/rc-main.c
-@@ -786,7 +786,8 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
- 			  dev->last_toggle   != toggle);
- 	struct lirc_scancode sc = {
- 		.scancode = scancode, .rc_proto = protocol,
--		.flags = toggle ? LIRC_SCANCODE_FLAG_TOGGLE : 0,
-+		.flags = (toggle ? LIRC_SCANCODE_FLAG_TOGGLE : 0) |
-+		(!new_event ? LIRC_SCANCODE_FLAG_REPEAT : 0),
- 		.keycode = keycode
- 	};
- 
 -- 
-2.36.1
+Regards,
 
-
---cLwnVj2EukfdE3MP--
+Laurent Pinchart
