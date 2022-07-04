@@ -2,126 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAB5F565289
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 12:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84B4C5652DA
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 12:57:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233815AbiGDKk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 06:40:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36144 "EHLO
+        id S231544AbiGDK5U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 06:57:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233626AbiGDKkY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 06:40:24 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C094EE28
-        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 03:40:23 -0700 (PDT)
-Received: from pyrite.rasen.tech (softbank036240127029.bbtec.net [36.240.127.29])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A2BD735;
-        Mon,  4 Jul 2022 12:40:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656931221;
-        bh=FBbORzZsd8t52d0M/dDiUORF/AbuoFadWA61eG2I6qA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H5QB0atoH0TzlWiG1NLFf1G36m6ky5E2rSuuWesfYP7+vxpOP+MVaHktFdlkZv+1C
-         QFjjvTvYtnxASGNl6QDyJkW80Gi4cKq3+87wwGiyJZU09SDmGZ5w+0UVN/0w7Hh5jv
-         4q1pboKQ6m4WcWWHiBSo9iSimd1unZD0vq2RCMao=
-Date:   Mon, 4 Jul 2022 19:40:11 +0900
-From:   paul.elder@ideasonboard.com
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, dafna@fastmail.com, heiko@sntech.de,
-        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
-        djrscally@gmail.com, helen.koike@collabora.com,
-        linux-rockchip@lists.infradead.org
-Subject: Re: (EXT) [PATCH 55/55] media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
-Message-ID: <20220704104011.GF3886060@pyrite.rasen.tech>
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-56-paul.elder@ideasonboard.com>
- <3553507.tdWV9SEqCh@steina-w>
- <Yq0INaUi1yaB0d8F@pendragon.ideasonboard.com>
+        with ESMTP id S232228AbiGDK5S (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 06:57:18 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2D00F5B4
+        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 03:57:17 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id r9so10589547ljp.9
+        for <linux-media@vger.kernel.org>; Mon, 04 Jul 2022 03:57:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=24EtemxVLj76p6FHt7x5hSsqqbPeIvgrJ85Gzsoq1fA=;
+        b=uVie8MqTNIkbJQCyaY0q57zRzXqdSBAYsd1YZuZbPUnK61WJqRFCK1DDPTtRwuSiWB
+         5SNh7jlE7prHaqVVUjVktQcAWL6/z4i+k49hoxJ4xKa2kVvptEz1AZqeDEHZx4Wkh66s
+         RdlPVOfaca8C83kbYFKxv6+XXx3rNDsuPgkYJRKdAM2B92/ucyNvLmXBVYi9fLh1Bidr
+         xfQXD7NaE5V1p9pg5W5K5K8QUaAI2HrcKfBLwN2cb8JkdnPQookX+ONDY+ltjwX4bh3Y
+         VwzWsm48232UkyUR44i1p4xG1xWoGFA1AphtqXVpuEo7Z0xfEBB+2/sx6xcbTnVisYsT
+         MXrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=24EtemxVLj76p6FHt7x5hSsqqbPeIvgrJ85Gzsoq1fA=;
+        b=57fgBw6ueXfs5zYYgmezfol5aTJUT/Cv5UYlFKYW7PxBF23/acV9GsB0T5mkIo2KlQ
+         qeAtql4zVkevkrfJv3OxpjjlDf8L0MxdncZDh7psM6wSe9g0Kthz6QqGfKbZoXtEOxPI
+         O+uRs0ZenA7kUfxLJAAwLjtSSIZ7lZgqEsALiXKt6aI7pZRnJmQSHZFi/eowWOy22fU0
+         ssJw6iBohCrP92NLMzG1rCb83RJyFlhVxXQLo7AiIg1FSbNiKV5hhjpJZguwGTkCPJT9
+         709k37hWHQuxGHDONp+lf5VoBy/ARVESDFJEMJ2zzfejM1tLTbhqKUbDVz43xp2s7bwq
+         EWiw==
+X-Gm-Message-State: AJIora/KvdNGPuASf2fUlffKrE1EtJaxqSlhIvS5KtMxxV0En9IMiqPv
+        tLrq1KlHn1SJVqY+kKFkRlZ/Rg==
+X-Google-Smtp-Source: AGRyM1t1Rau0tktu2rQDrthibdA4uIfJne0lVH/uqnef5bVNfZJ/ZBKamcSOMGwBXRAf1LeSMnHxig==
+X-Received: by 2002:a05:651c:4d1:b0:25b:b6ab:5b56 with SMTP id e17-20020a05651c04d100b0025bb6ab5b56mr17068928lji.84.1656932236019;
+        Mon, 04 Jul 2022 03:57:16 -0700 (PDT)
+Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id o4-20020a2e9444000000b0025a6d6c269esm4948741ljh.41.2022.07.04.03.57.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jul 2022 03:57:15 -0700 (PDT)
+From:   Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To:     Robert Foss <robert.foss@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: [PATCH] media: camss: Do not attach an already attached power domain on MSM8916 platform
+Date:   Mon,  4 Jul 2022 13:57:12 +0300
+Message-Id: <20220704105712.469657-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yq0INaUi1yaB0d8F@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+The change to dynamically allocated power domains neglected a case of
+CAMSS on MSM8916 platform, where a single VFE power domain is neither
+attached, linked or managed in runtime in any way explicitly.
 
-On Sat, Jun 18, 2022 at 02:03:17AM +0300, Laurent Pinchart wrote:
-> Hi Alexander,
-> 
-> On Thu, Jun 16, 2022 at 10:05:06AM +0200, Alexander Stein wrote:
-> > Am Dienstag, 14. Juni 2022, 21:11:27 CEST schrieb Paul Elder:
-> > > The ISP that is integrated in the i.MX8MP uses different bits in the
-> > > MRSZ_CTRL and SRSZ_CTRL registers for updating the configuration
-> > > compared to the on in the RK3399. In addition, it adds a new bit for
-> > > enabling crop. Add new definitions for these bits for i.MX8MP devices,
-> > > and update where they are set.
-> > > 
-> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > > ---
-> > >  drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h   |  4 ++++
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-resizer.c    | 10 ++++++++--
-> > >  2 files changed, 12 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> > > b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h index
-> > > 34f4fe09c88d..24ad2ccec2a3 100644
-> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> > > @@ -168,6 +168,10 @@
-> > >  #define RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO		BIT(9)
-> > >  #define RKISP1_CIF_RSZ_SCALER_FACTOR			BIT(16)
-> > > 
-> > > +#define RKISP1_CIF_RSZ_CTRL_CROP_ENABLE_IMX		BIT(8)
-> > > +#define RKISP1_CIF_RSZ_CTRL_CFG_UPD_IMX			BIT(9)
-> > > +#define RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO_IMX		BIT(10)
-> > > +
-> > 
-> > Does it make sense to move this kind of information into struct rkisp1_info? 
-> > This way you can skip the if (isp_ver == ...) thing.
-> 
-> Good question. Paul, what do you think ? If it doesn't get moved to the
-> structure, I think I'd condition it by the RKISP1_FEATURE_RSZ_CROP
-> feature bit instead of a version check, as it seems closely related. I'm
-> actually leaning towards the latter.
+This is a special case and it shall be kept as is, because the power
+domain management is done outside of the driver, and it's very different
+in comparison to all other platforms supported by CAMSS.
 
-Yeah I think the latter too.
+Fixes: 929684b7ef4d ("media: camss: Allocate power domain resources dynamically")
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+---
+ drivers/media/platform/qcom/camss/camss.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index bf716b171c02..9e2899a0cdf4 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -1684,6 +1684,14 @@ static int camss_configure_pd(struct camss *camss)
+ 		return camss->genpd_num;
+ 	}
+ 
++	/*
++	 * If a platform device has just one power domain, then it is attached
++	 * at platform_probe() level, thus there shall be no need and even no
++	 * option to attach it again, this is the case for CAMSS on MSM8916.
++	 */
++	if (camss->genpd_num == 1)
++		return 0;
++
+ 	camss->genpd = devm_kmalloc_array(dev, camss->genpd_num,
+ 					  sizeof(*camss->genpd), GFP_KERNEL);
+ 	if (!camss->genpd)
+@@ -1923,6 +1931,9 @@ void camss_delete(struct camss *camss)
+ 
+ 	pm_runtime_disable(camss->dev);
+ 
++	if (camss->genpd_num == 1)
++		return;
++
+ 	for (i = 0; i < camss->genpd_num; i++) {
+ 		device_link_del(camss->genpd_link[i]);
+ 		dev_pm_domain_detach(camss->genpd[i], true);
+-- 
+2.33.0
 
-Paul
-
-> 
-> > >  /* RSZ_CROP_[XY]_DIR */
-> > >  #define RKISP1_CIF_RSZ_CROP_XY_DIR(start, end)		((end) << 16 | (start) << 0)
-> > > 
-> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> > > b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c index
-> > > 08bf3aa8088f..29a31b18a082 100644
-> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> > > @@ -209,9 +209,15 @@ static void rkisp1_rsz_update_shadow(struct
-> > > rkisp1_resizer *rsz, u32 ctrl_cfg = rkisp1_rsz_read(rsz,
-> > > RKISP1_CIF_RSZ_CTRL);
-> > > 
-> > >  	if (when == RKISP1_SHADOW_REGS_ASYNC)
-> > > -		ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO;
-> > > +		if (rsz->rkisp1->info->isp_ver == IMX8MP_V10)
-> > > +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO_IMX;
-> > > +		else
-> > > +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO;
-> > >  	else
-> > > -		ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD;
-> > > +		if (rsz->rkisp1->info->isp_ver == IMX8MP_V10)
-> > > +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD_IMX;
-> > > +		else
-> > > +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD;
-> > > 
-> > >  	rkisp1_rsz_write(rsz, RKISP1_CIF_RSZ_CTRL, ctrl_cfg);
-> > >  }
