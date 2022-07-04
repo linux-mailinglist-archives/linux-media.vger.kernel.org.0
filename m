@@ -2,212 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 169C7565E1C
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 21:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 456AA565F5B
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 00:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233120AbiGDTkd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 15:40:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47202 "EHLO
+        id S229784AbiGDWIV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 18:08:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbiGDTkc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 15:40:32 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5348BE00F;
-        Mon,  4 Jul 2022 12:40:30 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca [66.171.169.34])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B5165660199A;
-        Mon,  4 Jul 2022 20:40:26 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656963628;
-        bh=nNZa7Ge5MHVKSzxBaBt+mXeh5k5ePRYOAg+X8XLySH4=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=eruSIePRQZDm8Ne6Q3JCzJYO4I/2i42H4ighHZIUZPsW4j5ybJQFO/HpxAeFIjEaa
-         TsMqdPXipksdbSR//jj/PvOVqUEuz2U9Js2S6F6K6Rb6KUiC6k+rDHTWFjzr+6+RNi
-         VXeeswjL5JjfsUNA2cnsqE9KOycsiHjZ9q6ETTa05y+SMTtXutv8eU/29RgAANrvTQ
-         GF5OsiKwqO96SQuWmvgUdnPDTZQdRkcKacH+uze9IhkGVDbg1A9xQUSMLKDnu4k75n
-         8+WHp5yVIK+F2WhKruhqFrLpHw3bkM/Bio1rfZb/ytyuADnkGtlGyWtt5Ja44T1HMk
-         eho8sO2JQmPWQ==
-Message-ID: <cbdf14457647730569c9ac186965e98f67582ec0.camel@collabora.com>
-Subject: Re: [PATCH v9 00/17] Move HEVC stateless controls out of staging
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        andrzej.p@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-Date:   Mon, 04 Jul 2022 15:40:17 -0400
-In-Reply-To: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
-References: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+        with ESMTP id S229719AbiGDWIU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 18:08:20 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF8C412627
+        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 15:08:17 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id t25so17631028lfg.7
+        for <linux-media@vger.kernel.org>; Mon, 04 Jul 2022 15:08:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a34faQtwagl20LrpWELh2gVhWLFPcXFobQBVS2MYvUM=;
+        b=BmPaZMzmINyiXzdBJ1CkiXt6rp0AucG7wVHWs+yErIAGPvQUd3BdoYl4xY4WdXk2Nh
+         APvlTMuijWgZ95wQFa7uJbliJKvVFYQO1o7KOImx+UbLUsv9uvM9eT5G7xYv3iciFs6r
+         /FSS2CL81qYZPcAdv/ufvIjP3iHZdQ+y/zCsT4fVsVOq6pJZrHft/oh/+C+6t8gAz2do
+         9t61lwF6Kq+gHRM0yRUcDq+NW7E+Xyb3ukbkXmXYL/5ZthQxld7nWO20vaAU8FMLhSw7
+         4xvoH59qpT/l8sd9oCUDwkAFCDRspNEJpKap/JZj0h2Zg9TA5oYI5aZBt7K6kEXXFpyB
+         zQIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a34faQtwagl20LrpWELh2gVhWLFPcXFobQBVS2MYvUM=;
+        b=GeKVYcAA4U68bU3xXwxz1nAp2ZNEuPgcOTNrnjst8Pyc1SfZs4Toy1lVtj/iVZIRQU
+         iYeEbPxDuae/af9VHTSGfMmkv/ZmgNIbeqB6GiOdaMeZoqaLEZALKaOqI80f21riT8FG
+         FhlILr0/u1p/hwL9DfdI4BBF5apiqv4gs3l3GcmFmJ7NGDTwtK+HLf8ElB/xsFsVq5X+
+         AI/T5l+UoDdDAtwLiHGjt6kWhtK7fGxPNLBTuOU3eGRnIPl2r2kDDM5F+2mP4UR6OY4G
+         ubEB7mcGAgiaKYTCR9WT8q8b4OC9Ae6ugNm4Sac9gwA3IPbdBvJlcKvO3kZs5dyfHNKb
+         4Gwg==
+X-Gm-Message-State: AJIora89W0Wkakq3AX3n33DgnEQ0fy4RRPwsvLEqRVUNlh5fnufOKVYg
+        KDYovs1xqAZ4tih+TQsduXf1OQ==
+X-Google-Smtp-Source: AGRyM1s5qdCw9sHSYyY+4oX9sJnPEq2SyUJJKeGHJC5ARAOe5WA/3fb8iJX/Wjcmf+Z6SKXVb1Bc2A==
+X-Received: by 2002:a05:6512:2508:b0:480:f1cb:64a5 with SMTP id be8-20020a056512250800b00480f1cb64a5mr21167875lfb.0.1656972496056;
+        Mon, 04 Jul 2022 15:08:16 -0700 (PDT)
+Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id h18-20020a05651c125200b0025a91928236sm5230329ljh.90.2022.07.04.15.08.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jul 2022 15:08:15 -0700 (PDT)
+From:   Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To:     Robert Foss <robert.foss@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: [PATCH v2] media: camss: Do not attach an already attached power domain on MSM8916 platform
+Date:   Tue,  5 Jul 2022 01:08:14 +0300
+Message-Id: <20220704220814.629130-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Everyone,
+The change to dynamically allocated power domains neglected a case of
+CAMSS on MSM8916 platform, where a single VFE power domain is neither
+attached, linked or managed in runtime in any way explicitly.
 
-Le vendredi 17 juin 2022 =C3=A0 10:35 +0200, Benjamin Gaignard a =C3=A9crit=
-=C2=A0:
-> This series aims to make HEVC uapi stable and usable for hardware
-> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
-> and 2 out of the tree drivers (rkvdec and RPI).
+This is a special case and it shall be kept as is, because the power
+domain management is done outside of the driver, and it's very different
+in comparison to all other platforms supported by CAMSS.
 
-As of today, we have 2 userland implementation (GStreamer and FFMPEG) that =
-we
-have been testing with. We have this API working for Hantro G2 and Cedrus. =
-There
-is still some driver stability issues, but what matters for an uAPI is the
-conformance and this seems to go quite well everywhere. We also have a WIP =
-of
-rkvdec (derived from LibreELEC fork) that should get to the mailing list an=
-d is
-based on this series. With all the review that already taken place this see=
-ms
-more then enough to conclude this API is ready. So for the entire series:
+Fixes: 6b1814e26989 ("media: camss: Allocate power domain resources dynamically")
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+---
+Changes from v1 to v2:
+* corrected the fixed commit id, which is found on media/master
 
-Acked-by: Nicolas Dufresne <nicolas.dufresne.com>
+ drivers/media/platform/qcom/camss/camss.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-p.s. I didn't link anything due to lack of time, ping me if you need any of=
- the
-referred items, test results, etc.
-
->=20
-> version 9:
-> - Reword some commit message
-> - Use fls()
-> - Remove useless padding at the end of hevc structures
-> - Reword all _minus* field description
-> - change CVS to codec video sequence
-> - Fix various typo
-> - Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
-> - fix the waring reported by 'scripts/kernel-doc -none
->   include/uapi/linux/v4l2-controls.h'
->=20
-> This version has been tested with these branches:
-> - GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/=
--/tree/HEVC_aligned_with_kernel_5.15
-> - Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tr=
-ee/HEVC_UAPI_V9
->=20
-> With patches to decode 10-bits bitstream and produce P010 frames the Flus=
-ter score=20
-> which was 77/147 before, is now 141/147.
-> The 10-bits series will comes after this because of it dependency to
-> uAPI change. If you are curious you can find the WIP branch here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP=
-_HEVC_UAPI_V9
->=20
-> The 6 failing tests are:
-> - PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hard=
-ware.
-> - WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but s=
-ome=20
->   difference exist on 5 decoded frames. Some pixels values are no the sam=
-e=20
->   the very end of few lines.
->=20
-> version 8:
-> - Same than v7 but rebased on media_stage/master
->=20
-> version 7:
-> - Apply Jernej patches for Cedrus about bit offset definition and
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
-> - Based on media_tree/master
->=20
-> version 6:
-> - Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
->   in v4l2_ctrl_hevc_decode_params structure.
-> - Change slice_pic_order_cnt type to s32 to match with PoC type.
-> - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
-> - Add a define for max slices count
-> - Stop using Hantro dedicated control.
->=20
-> version 5:
-> - Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
->   hevc_dpb_entry structure
-> - Add defines for SEI pic_struct values (patch 4)
-> - Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
-> - Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
->   documentation (patch 8)
-> - Rebased on v5-18-rc1
->=20
-> Version 4:
-> - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_param=
-s
-> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
-> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
-> - Fix space/tab issue in kernel-doc
-> - Add patch to change data_bit_offset definition
-> - Fix hantro-media SPDX license
-> - put controls under stateless section in v4l2-ctrls-defs.c
->=20
-> Benjamin Gaignard (14):
->   media: uapi: HEVC: Add missing fields in HEVC controls
->   media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
->     prefix
->   media: uapi: HEVC: Change pic_order_cnt definition in
->     v4l2_hevc_dpb_entry
->   media: uapi: HEVC: Add SEI pic struct flags
->   media: uapi: HEVC: Add documentation to uAPI structure
->   media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
->     dynamic array
->   media: uapi: Move parsed HEVC pixel format out of staging
->   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
->   media: uapi: Move the HEVC stateless control type out of staging
->   media: controls: Log HEVC stateless control in .std_log
->   media: hantro: Stop using Hantro dedicated control
->   media: uapi: HEVC: fix padding in v4l2 control structures
->   media: uapi: Change data_bit_offset definition
->   media: uapi: move HEVC stateless controls out of staging
->=20
-> Hans Verkuil (3):
->   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->   v4l2-ctrls: add support for dynamically allocated arrays.
->   vivid: add dynamic array test control
->=20
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
->  .../media/v4l/pixfmt-compressed.rst           |   7 +-
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
->  .../media/v4l/vidioc-queryctrl.rst            |   8 +
->  .../media/videodev2.h.rst.exceptions          |   6 +
->  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 ++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
->  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  62 +-
->  .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
->  drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
->  drivers/staging/media/hantro/hantro_hw.h      |   4 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
->  .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
->  include/media/hevc-ctrls.h                    | 250 -----
->  include/media/v4l2-ctrls.h                    |  48 +-
->  include/uapi/linux/v4l2-controls.h            | 459 +++++++++
->  include/uapi/linux/videodev2.h                |  13 +
->  24 files changed, 1826 insertions(+), 1226 deletions(-)
->  delete mode 100644 include/media/hevc-ctrls.h
->=20
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 932968e5f1e5..7a929f19e79b 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -1465,6 +1465,14 @@ static int camss_configure_pd(struct camss *camss)
+ 		return camss->genpd_num;
+ 	}
+ 
++	/*
++	 * If a platform device has just one power domain, then it is attached
++	 * at platform_probe() level, thus there shall be no need and even no
++	 * option to attach it again, this is the case for CAMSS on MSM8916.
++	 */
++	if (camss->genpd_num == 1)
++		return 0;
++
+ 	camss->genpd = devm_kmalloc_array(dev, camss->genpd_num,
+ 					  sizeof(*camss->genpd), GFP_KERNEL);
+ 	if (!camss->genpd)
+@@ -1698,6 +1706,9 @@ void camss_delete(struct camss *camss)
+ 
+ 	pm_runtime_disable(camss->dev);
+ 
++	if (camss->genpd_num == 1)
++		return;
++
+ 	for (i = 0; i < camss->genpd_num; i++) {
+ 		device_link_del(camss->genpd_link[i]);
+ 		dev_pm_domain_detach(camss->genpd[i], true);
+-- 
+2.33.0
 
