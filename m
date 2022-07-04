@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16A5C565754
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 15:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26E08565784
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 15:38:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233389AbiGDNcw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 09:32:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39504 "EHLO
+        id S233859AbiGDNio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 09:38:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233381AbiGDNcG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 09:32:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C2D611A00;
-        Mon,  4 Jul 2022 06:28:52 -0700 (PDT)
+        with ESMTP id S233494AbiGDNin (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 09:38:43 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43D8810A5;
+        Mon,  4 Jul 2022 06:38:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B3CB614FE;
-        Mon,  4 Jul 2022 13:28:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 539A5C3411E;
-        Mon,  4 Jul 2022 13:28:51 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E3817B80D01;
+        Mon,  4 Jul 2022 13:38:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF81C3411E;
+        Mon,  4 Jul 2022 13:38:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1656941331;
-        bh=XIwtnQ6NKPC0BfotMk1G0wnhG2C7UeF+3OA9DWRZ//g=;
+        s=korg; t=1656941920;
+        bh=sX7TxP424twppRN1f/ZzLHQ8nFFTfUPTC9wPXPhX3Hk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tcT4komz/hxh0ygo8sCYDhSPVVT+eRWQ/66Fml13ZZRD+jR8ATYL53Xe9E4Y5tpY1
-         uUqmREr/LbnFrqaEb2ZHAuQin+nuCUur3GirmiUpaYuyYXzIoHO/TBQFKaFYOY+NfL
-         uVhllpZSmwdH2pvxKJaGdA1x4VUjdro8CUiZvUZ8=
-Date:   Mon, 4 Jul 2022 15:27:01 +0200
+        b=ra4jra+raOcTf1THMILW6OB7aZ6DT4eeTMnRU52o1MtnzmNDD3Oea+p95DTX6shvI
+         VMfXlVDD5BSE/zM0EEb51Qtl6ITvqoWDu1gKsgSKMFJz6Kx2i6/WhP0fSmhzTv6ipb
+         uLIA60f3yG4fTZKl9RZ55QU+Jypn/c1BA5XEbbck=
+Date:   Mon, 4 Jul 2022 15:38:37 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Zhang Zekun <zhangzekun11@huawei.com>
 Cc:     Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
@@ -38,12 +38,13 @@ Cc:     Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
         xuqiang36@huawei.com
 Subject: Re: [PATCH -next] staging: r8188eu: use 'is_zero_ether_addr' to
  identify an empty address
-Message-ID: <YsLqpSGHoehauWjs@kroah.com>
+Message-ID: <YsLtXYa4kRYEEaX/@kroah.com>
 References: <20220704123140.100128-1-zhangzekun11@huawei.com>
+ <YsLqpSGHoehauWjs@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220704123140.100128-1-zhangzekun11@huawei.com>
+In-Reply-To: <YsLqpSGHoehauWjs@kroah.com>
 X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -54,14 +55,22 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 04, 2022 at 12:31:40PM +0000, Zhang Zekun wrote:
-> Use 'is_zero_ether_addr' to identify an empty ethernet address, intead
-> of using 'memcpy' directly.
+On Mon, Jul 04, 2022 at 03:27:01PM +0200, Greg KH wrote:
+> On Mon, Jul 04, 2022 at 12:31:40PM +0000, Zhang Zekun wrote:
+> > Use 'is_zero_ether_addr' to identify an empty ethernet address, intead
+> > of using 'memcpy' directly.
+> > 
+> > Reported-by: Hulk Robot <hulkci@huawei.com>
 > 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
+> I am now just going to ignore all patch submissions with this line in it
+> based on a total lack of responses by the developers using it.  See
+> https://lore.kernel.org/r/Yr7DQJTPrSWTOa0c@kroah.com for why.
 
-I am now just going to ignore all patch submissions with this line in it
-based on a total lack of responses by the developers using it.  See
-https://lore.kernel.org/r/Yr7DQJTPrSWTOa0c@kroah.com for why.
+And now just ignore patches from your domain, see:
+	https://lore.kernel.org/r/YsLq5vXtJgLWCqqz@kroah.com
+for why (patches sent totally ignoring previous requests.)
+
+Please work with the open source developers in your company to fix this
+broken process, as it is causing more problems for me than it is worth.
 
 greg k-h
