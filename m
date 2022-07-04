@@ -2,181 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70F04565F7B
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 00:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9377565F89
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 00:55:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231877AbiGDWo2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 18:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42228 "EHLO
+        id S230128AbiGDWzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jul 2022 18:55:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiGDWo1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 18:44:27 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76843B52;
-        Mon,  4 Jul 2022 15:44:26 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-119-232.nat.spd-mgts.ru [109.252.119.232])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8554E660199E;
-        Mon,  4 Jul 2022 23:44:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656974665;
-        bh=GphHsd4+TzSAb7tj4o+YMEvu0hP9uR9DEZi//JxrDEU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TIETcXt54Z6zAdCbC52DXacxsnFDzGdC3JpBIsizmA7N//ZHlPueCwy+HM8YdAAb2
-         HUI9viWT++O6etVqrNckxFUgP9ozk1r55Cb+PUEXrb9WRcAzHpJE00AbqEgjt9blxt
-         RLJPB3XA3/+NfDsNwvjz2N41JPYRlCQxI6JAKkkmyIz1E91Q4VSjNoW8LqOHM8EB8q
-         BQtx36ekmIe1Jt7JJZIQ79AGm28biDD4zfoAXWLmsCdqmX/9y9h9W6jOIDRVw65pq1
-         TNelVxwhjBX9if0FXgHlKZ/rVDPcxkXat5eT5ZTW/eMhrDqRk/HMeHceHosUPvp2Bo
-         sroGV1SbIfvsw==
-Message-ID: <3e9fbf88-c1bd-d336-b0e0-86fb208a952e@collabora.com>
-Date:   Tue, 5 Jul 2022 01:44:20 +0300
+        with ESMTP id S229456AbiGDWzg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 18:55:36 -0400
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2067.outbound.protection.outlook.com [40.107.10.67])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1102D1C5
+        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 15:55:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hmfiUDi4sWWBMEWS+QT1lenah6JX2bMwjRmF8D2WSeGJ2wSTxzr2nTY1qUh7OcH0MLi68V1a7kzwz3TwkW8r/8qqps8W/OjUEt6LGvPu+WTWc3i9EG+A9a/3WBerXHrRPFB4Y/K3mesECI5y8sYJYqJ3COZfcP6qk00L+jA/L6o752g2Hauxv2QIHhpYrYREMKzWuqVcZnsfWm50KDzTKB1DFApkqnc+/qkOre53e79P3EBC8qYrspxgR0hoY7CZNKvm2cVAtHeaobjncutKn09DPRS5X3fPFyzTNYwrtfL/MaLeFLlhMWXe5Wau0yHJ18imEA8c1qOBUvKIvPhkWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T7KMI23q3sYHUD5pJqdFg/nUroqHI6rR72Pq4+IkMAE=;
+ b=cSUPdeXWhegm6Z0SO+lh+ldHQ71TUQJQ7ughdlZ5IMcIGpszo1mid4ec4d/AydVDA/NR8TeZmqRQ16g8Dkvf3QUCLIfdaGff7BUVkgvnWSX0ancDtq9d42l/xry6+jGbNpD5M/qqbr2watMQ5M7P9kA5KYzxo+2mhap+SsfC1SXvqBa+EUpepw/TFm+MtOttWX8JFRAQJ8oNmolYs5Pi8YGTwA3EEIQ7xH4Yck0znkMaaLL3yhJzR1IQApbFNj1pGbdBcQ7ev8OuwWwJYI8LlDnYbYsr0Jh5fSh8KlOJT5U9e5rflJAltJBQaZbZQGm+470+nrSLCwaKDHECaJpJew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ziath.com; dmarc=pass action=none header.from=ziath.com;
+ dkim=pass header.d=ziath.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziathoffice.onmicrosoft.com; s=selector1-ziathoffice-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T7KMI23q3sYHUD5pJqdFg/nUroqHI6rR72Pq4+IkMAE=;
+ b=QFR+4UGyKC8DuAb0LY9d/mY3ozyB9C8G6QYjAaxWMKX8PdjbOzccsENAGbU8L9fkdC5wFyr8T971OVPxllwRovXd1oedDo4vlITOgM2DofqtVK4fyQSS/DRFqnPRQGNvi9ZkR1TS84WcXPNfGRT9UKSOFPlJZ/SW8kHumjeOFp0=
+Received: from LO0P123MB6617.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:24a::7)
+ by CWLP123MB3492.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:69::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Mon, 4 Jul
+ 2022 22:55:34 +0000
+Received: from LO0P123MB6617.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::39ef:4123:cdfd:cd28]) by LO0P123MB6617.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::39ef:4123:cdfd:cd28%5]) with mapi id 15.20.5395.021; Mon, 4 Jul 2022
+ 22:55:33 +0000
+From:   Neil Benn <neil.benn@ziath.com>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: New Logitech C270 Model
+Thread-Topic: New Logitech C270 Model
+Thread-Index: AQHYj/j/aylyTLCNy0CAfgT/1GI61A==
+Date:   Mon, 4 Jul 2022 22:55:33 +0000
+Message-ID: <LO0P123MB661754838A2DD31F70DCC12EFCBE9@LO0P123MB6617.GBRP123.PROD.OUTLOOK.COM>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ziath.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 97280ed2-a39d-489d-0a12-08da5e104d89
+x-ms-traffictypediagnostic: CWLP123MB3492:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nN5E+w/MdgBgok2UAS1OyDJmU0eTKzfqqvcXfXI79FYFLb02F+76u3XbM2fVwt6nCJ5/Z4TeqABNZt8gBuBgxNNqqO6LevSoqVaD8+cer9nH9EAHLu9e9Lrt2kA9PHkaZuAf7k2UfJVEuSvDvX0RnkQK+Wj+SoInQR3qJt0q2vnBlWGFQ/pIzRBQ+cKa5afoe4ArW4BysHHnq+/yW9cacSy+JsrOvD5JzUQeP48hys4L8azhWcu0bCI7NJA6LQRAcZ1D9/nUXL6rf3HIOW2fXWrDF3twdNmc/FBUbkuekLmNmDcygq/wuYnw2nwG0zLCxiC/otoRpAi6EGppcuOvCXMm+n+3YWjWucB+Ju3RsHbse2EH2f9oTc5ZMP/3DwVCXdLgvRSQXCGX6/qDvfRhNLMiUyBvE/dXN6h5KvlmzpAnHlZeRca4qhzlBToir19GTZ5RIRSmPNPEwNkXs8u9vR/VN1b6kyJ0ftArXpvobZOMZVi/OPV+m50R2pPXDXp+w/A9QmqnPQi5l82E5XILrd+S2fNC5bJ2JMAOKL/tYojdY1a8Q9Z+Z/J4YqvhyFpfRseoF7VgXv2hqUe7SPtZZ6ZDJviIQ+hA9NMNyF/H0fbRcoAN5vVjS+Timjt3VQUiYjOdAyYA2nymUmMRsMuVU/cc09opulwj5bSqroOWt/zKFQKzn1W+H97YhV7JLtnLMKGCnOwcH3fDndu3dzJ4pOysUDjyfDnKXfx6O2nKrfV9a8LAoBETVjOfeFlZvSBrEA3qlqyMxcXXSooAQa+dKjHPl3+9s6gMkSflav1mGdRJxLBOAeWhDqnawpbztnXm
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO0P123MB6617.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(39830400003)(34036004)(376002)(366004)(136003)(396003)(346002)(8936002)(508600001)(5660300002)(55016003)(52536014)(186003)(7696005)(6506007)(26005)(86362001)(9686003)(33656002)(2906002)(44832011)(83380400001)(41300700001)(41320700001)(38100700002)(6916009)(66556008)(76116006)(316002)(66446008)(66476007)(66946007)(8676002)(64756008)(122000001)(38070700005)(71200400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?nkN3JcB4iQDR4eIZ7OaTvB4heQIW/sE89TVSCpJW55CU4Qb7Lwd4c7AmE7?=
+ =?iso-8859-1?Q?2hK8Ua7AXeqkEuE0SmQhrQsjORysrQnMg7FHgKYIkzTdk81QcpXEdPke43?=
+ =?iso-8859-1?Q?dU2Rjb+qUTlp19tmNk3tI170mjJTrLYF8tVpkSi6CCe/rDTm3jXtBFZgf0?=
+ =?iso-8859-1?Q?K0MAYTrCwk2bh7AmhlqPz+Pe0XyuktynKSrp1gflRH1sT9pjgdFpYrCAEW?=
+ =?iso-8859-1?Q?zb0IY4X5NV3vjB82eXv9L8d+urmNOYM6UhSt7CZMeiktigD34JGP9g+AWj?=
+ =?iso-8859-1?Q?e7+Lj13GUMrNVqk7YBFglNl+ZLTVPyW1KlZq/bwqhrwbuxuttPlWuxWqOh?=
+ =?iso-8859-1?Q?JTTTakBfhXN5BV7cocogzjJIX6Khg1xomoov7X/alk6QiG2s+bKDEtL/ub?=
+ =?iso-8859-1?Q?Xqfc+BSVpowdcWVdgEj49TfdtebZJaUoMFD6VzK/4+TUMVmg8k2OHxHXH7?=
+ =?iso-8859-1?Q?d9k2C95RqMilcMF1DeMxvfHkUuEi/HMA3k8rW7kAxvXDsJguITRmcA8KlE?=
+ =?iso-8859-1?Q?mroghh14BVLJRo0IXkhAhgv2vedWgXlyjDtKtK9pw3SiGccLbshyrp1F95?=
+ =?iso-8859-1?Q?Gcyx1cB2uIIk/oesdfLKp8L+MuNiGWLl5EKGdHchJ08+vh/YSLkqIOiXTr?=
+ =?iso-8859-1?Q?XeOdF2hS5L9NFsDv1fnAmy7gMNjUD/0i0OgkwgGMG343PElqNhqKx30OHB?=
+ =?iso-8859-1?Q?x4lSyvrK9PZfSWxO7Dexe0FlfHcPK4i4RTZf3gw6KYhmcgvFHaO1gmNlbh?=
+ =?iso-8859-1?Q?jieeL4dhNT8y1Cz1wRhhBlxBiZdikLHoXhk3h5+2BbX5ddlvNqBtz9YRR5?=
+ =?iso-8859-1?Q?ZZHNQdK+0m0NtiGqsS5s/FvuDRw1WHQ1S2ivBlxvyqtcpHTktsrltS8GfO?=
+ =?iso-8859-1?Q?S2BXxk9tyFO39roeou9YPBQOEs8dEeoIqRdhoTsel7BZmZtVqc02FkUNjf?=
+ =?iso-8859-1?Q?hc+tBgPkRcjAEc05pJ64sryTmW+F4xQE/gw8yFwSUvyx1BkyM61RPENE44?=
+ =?iso-8859-1?Q?4m82Ssewfgaeq2HYtymwUJisxAMVMb2rrWxPTfu0wzFFnX575gxyXY3caK?=
+ =?iso-8859-1?Q?8v5DuhjgjwPW/hmNvWfSb9PQcdsqYITY36Jymd4PQ6H7mB98Ai5QZ+FKMU?=
+ =?iso-8859-1?Q?G3disAfqLIXUSa+We8B6o4p1ZD6gYAs2VdNotccVEXX3Wt/6IhVgBEz9NQ?=
+ =?iso-8859-1?Q?loU3rSg7HV0GAq3N+4dz5+gDMei5ZDVlXnClMx/IOmQx7qk45SYGkGO+sH?=
+ =?iso-8859-1?Q?I9SvVyeZIUSwYsonTmcTNt5IBeOz68TYzLjc1iB8vbwI3fWkYcOy3o7ZI6?=
+ =?iso-8859-1?Q?I4TPuDlhWwBG89IuRdpIiWqk5elRTC+lnNZNeUY8EhkBro5OWFjEoGwEGc?=
+ =?iso-8859-1?Q?qyRJK1nOVO/jz0CpGMPQrSCPh1jvGn31HjGGRfPvRymZ7XX0Z3u/TWVm0z?=
+ =?iso-8859-1?Q?ZJlOESArdL271oPPnSTdFpXjemDpmTfnfubiFp1vb4shnVLSgccv7+fO83?=
+ =?iso-8859-1?Q?1aogahcyDYJMk64FYMK/cLxs8IT083t/09i50J5wBTEjaS36NMt/cZx8nJ?=
+ =?iso-8859-1?Q?ROAY+RW53iDg1YB4FwO8zR/BOKlV0cZmx7I0fktNQF+h/xFGlV1LckE2n1?=
+ =?iso-8859-1?Q?TPRaf421qhqeQKh5hZNA5ugVqdfMFYqn92?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v6 02/22] drm/gem: Move mapping of
- imported dma-bufs to drm_gem_mmap_obj()
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Cc:     intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
-        kernel@collabora.com, linux-media@vger.kernel.org,
-        David Airlie <airlied@linux.ie>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Herring <robh@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Emil Velikov <"emil.l.veli kov"@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
- <20220526235040.678984-3-dmitry.osipenko@collabora.com>
- <b8271f0c-d6a3-4194-1959-e112859756a3@shipmail.org>
- <c0273ac2-c87c-2612-03d4-dc52510b22f7@collabora.com>
- <b4086751-9bff-ea5e-93fc-ce2c513b129b@shipmail.org>
- <467a1cee-ba8c-98f3-0398-2a7a5a90b5c3@collabora.com>
- <0335814b-dc11-4a54-9f24-bb4e9dbef35c@amd.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <0335814b-dc11-4a54-9f24-bb4e9dbef35c@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-OriginatorOrg: ziath.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LO0P123MB6617.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97280ed2-a39d-489d-0a12-08da5e104d89
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jul 2022 22:55:33.9192
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5fbb4c2b-111d-4722-93d2-2a62d785eb95
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: megbe0i3LtS2wf6I/Pk5GPadvK7fJCTtTQxT9tZtwSjxfPX7H/XoTWjTABdvcB18sm7Wjc9/bKTdI+ZKCCQs+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB3492
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/4/22 15:33, Christian König wrote:
-> Am 30.06.22 um 01:06 schrieb Dmitry Osipenko:
->> On 6/29/22 11:43, Thomas Hellström (Intel) wrote:
->>> On 6/29/22 10:22, Dmitry Osipenko wrote:
->>>> On 6/29/22 09:40, Thomas Hellström (Intel) wrote:
->>>>> On 5/27/22 01:50, Dmitry Osipenko wrote:
->>>>>> Drivers that use drm_gem_mmap() and drm_gem_mmap_obj() helpers don't
->>>>>> handle imported dma-bufs properly, which results in mapping of
->>>>>> something
->>>>>> else than the imported dma-buf. For example, on NVIDIA Tegra we get a
->>>>>> hard
->>>>>> lockup when userspace writes to the memory mapping of a dma-buf that
->>>>>> was
->>>>>> imported into Tegra's DRM GEM.
->>>>>>
->>>>>> To fix this bug, move mapping of imported dma-bufs to
->>>>>> drm_gem_mmap_obj().
->>>>>> Now mmaping of imported dma-bufs works properly for all DRM drivers.
->>>>> Same comment about Fixes: as in patch 1,
->>>>>> Cc: stable@vger.kernel.org
->>>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/drm_gem.c              | 3 +++
->>>>>>     drivers/gpu/drm/drm_gem_shmem_helper.c | 9 ---------
->>>>>>     drivers/gpu/drm/tegra/gem.c            | 4 ++++
->>>>>>     3 files changed, 7 insertions(+), 9 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>>>>> index 86d670c71286..7c0b025508e4 100644
->>>>>> --- a/drivers/gpu/drm/drm_gem.c
->>>>>> +++ b/drivers/gpu/drm/drm_gem.c
->>>>>> @@ -1038,6 +1038,9 @@ int drm_gem_mmap_obj(struct drm_gem_object
->>>>>> *obj,
->>>>>> unsigned long obj_size,
->>>>>>         if (obj_size < vma->vm_end - vma->vm_start)
->>>>>>             return -EINVAL;
->>>>>>     +    if (obj->import_attach)
->>>>>> +        return dma_buf_mmap(obj->dma_buf, vma, 0);
->>>>> If we start enabling mmaping of imported dma-bufs on a majority of
->>>>> drivers in this way, how do we ensure that user-space is not blindly
->>>>> using the object mmap without calling the needed DMA_BUF_IOCTL_SYNC
->>>>> which is needed before and after cpu access of mmap'ed dma-bufs?
->>>>>
->>>>> I was under the impression (admittedly without looking) that the few
->>>>> drivers that actually called into dma_buf_mmap() had some private
->>>>> user-mode driver code in place that ensured this happened.
->>>> Since it's a userspace who does the mapping, then it should be a
->>>> responsibility of userspace to do all the necessary syncing.
->>> Sure, but nothing prohibits user-space to ignore the syncing thinking
->>> "It works anyway", testing those drivers where the syncing is a NOP. And
->>> when a driver that finally needs syncing is tested it's too late to fix
->>> all broken user-space.
->>>
->>>>    I'm not
->>>> sure whether anyone in userspace really needs to map imported dma-bufs
->>>> in practice. Nevertheless, this use-case is broken and should be fixed
->>>> by either allowing to do the mapping or prohibiting it.
->>>>
->>> Then I'd vote for prohibiting it, at least for now. And for the future
->>> moving forward we could perhaps revisit the dma-buf need for syncing,
->>> requiring those drivers that actually need it to implement emulated
->>> coherent memory which can be done not too inefficiently (vmwgfx being
->>> one example).
->> Alright, I'll change it to prohibit the mapping. This indeed should be a
->> better option.
-> 
-> Oh, yes please. But I would expect that some people start screaming.
-> 
-> Over time I've got tons of TTM patches because people illegally tried to
-> mmap() imported DMA-bufs in their driver.
-> 
-> Anyway this is probably the right thing to do and we can work on fixing
-> the fallout later on.
-
-I already sent out the patch [1] that prohibits the mapping. Would be
-great if you all could take a look and give a r-b, thanks in advance.
-
-[1] https://patchwork.freedesktop.org/patch/492148/
-
--- 
-Best regards,
-Dmitry
+Hello,=0A=
+=0A=
+  Please accept my apologies, if this is the wrong place to ask but it is s=
+o specialist I doubt I'll get much traction outside of this group.=0A=
+=0A=
+  Logitech recently changed the C270 camera with a totally new board that b=
+ehaves in subtle yet important ways - it is noticeable because the new boar=
+d is blue whereas the old one is green.  We've got some V4L code that uses =
+ioctl DQBUF and QBUF to grab frames from the C270 unit, we have two units c=
+onnected and they are both streaming at 1280x960 with an fps of 5.  With th=
+e old, green, board this has been working for years.  However on the new, b=
+lue, board we can only stream 1 camera in a process - if we try to stream t=
+wo we have constant EAGAIN errno reported.=0A=
+=0A=
+  Is this something seen before?  It seems weird that the new revision of t=
+he logitech C270 causes the issue.=0A=
+=0A=
+  Again, apologies if this is very specific and not of interest but I was h=
+oping someone wiser than me would have some advice!=0A=
+=0A=
+Regards,=0A=
+=0A=
+Neil=0A=
+=0A=
+--=0A=
+Neil Benn MSc=0A=
+Ziath Ltd=0A=
+Phone: +44 (0) 1223 855021=0A=
+mmunication is strictly prohibited. If you have received this communication=
+ in error, please notify Ziath Ltd immediately by email at=A0info@ziath.com=
+. Thank you.=0A=
