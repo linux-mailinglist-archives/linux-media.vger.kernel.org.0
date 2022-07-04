@@ -2,133 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01D08564C29
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 05:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24303564C34
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jul 2022 05:52:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230281AbiGDDrn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Jul 2022 23:47:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59070 "EHLO
+        id S231580AbiGDDw5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Jul 2022 23:52:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiGDDrl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Jul 2022 23:47:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B4826261
-        for <linux-media@vger.kernel.org>; Sun,  3 Jul 2022 20:47:40 -0700 (PDT)
-Received: from pyrite.rasen.tech (softbank036240127029.bbtec.net [36.240.127.29])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9E5149C;
-        Mon,  4 Jul 2022 05:47:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656906459;
-        bh=3owNVlxAfMqL4mpltnsUmaXbTbZEXD/Ct0vbjMKQDbw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tyShK0yWBNb/HyEQ/C+6N88g1ADs9o8dHfuLTF6gg4V3xUPuOs1L2UrsdE3ENb8vg
-         bKu7TVrwpMaFt67BCwip+z2kEasj/M+UmSfIc/dbEvNlQW26d9eenTwDOn/pnzkNXB
-         ZZywifpoTkmZ8fG2Nu/1dYZMZVMPLbunVx6vedj4=
-Date:   Mon, 4 Jul 2022 12:47:28 +0900
-From:   paul.elder@ideasonboard.com
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, dafna@fastmail.com, heiko@sntech.de,
-        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
-        djrscally@gmail.com, helen.koike@collabora.com,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 03/55] media: rkisp1: debug: Add debugfs files to monitor
- MI and ISP interrupts
-Message-ID: <20220704034728.GB3886060@pyrite.rasen.tech>
-References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
- <20220614191127.3420492-4-paul.elder@ideasonboard.com>
- <Yqp854dMgW+deHam@pendragon.ideasonboard.com>
+        with ESMTP id S229461AbiGDDwz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Jul 2022 23:52:55 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B94E26D9;
+        Sun,  3 Jul 2022 20:52:50 -0700 (PDT)
+X-UUID: dee92e9303ed433c8dfffdd29b6e8ad2-20220704
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.7,REQID:78e3c066-32ee-4c05-b792-54b58b0d3671,OB:20,L
+        OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
+        CTION:release,TS:45
+X-CID-INFO: VERSION:1.1.7,REQID:78e3c066-32ee-4c05-b792-54b58b0d3671,OB:20,LOB
+        :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:45
+X-CID-META: VersionHash:87442a2,CLOUDID:968f82d6-5d6d-4eaf-a635-828a3ee48b7c,C
+        OID:37d60373517a,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: dee92e9303ed433c8dfffdd29b6e8ad2-20220704
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <ck.hu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1049489092; Mon, 04 Jul 2022 11:52:42 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Mon, 4 Jul 2022 11:52:40 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 4 Jul 2022 11:52:40 +0800
+Message-ID: <d76f77e50adbf44afbb1c32d8b30c7ee543beafb.camel@mediatek.com>
+Subject: Re: [PATCH v20 3/4] arm64: dts: mt8183: add Mediatek MDP3 nodes
+From:   CK Hu <ck.hu@mediatek.com>
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <xiandong.wang@mediatek.com>,
+        <randy.wu@mediatek.com>, <jason-jh.lin@mediatek.com>,
+        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <cellopoint.kai@gmail.com>
+Date:   Mon, 4 Jul 2022 11:52:40 +0800
+In-Reply-To: <20220630091408.6438-4-moudy.ho@mediatek.com>
+References: <20220630091408.6438-1-moudy.ho@mediatek.com>
+         <20220630091408.6438-4-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yqp854dMgW+deHam@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi, Moudy:
 
-On Thu, Jun 16, 2022 at 03:44:23AM +0300, Laurent Pinchart wrote:
-> Hi Paul,
+On Thu, 2022-06-30 at 17:14 +0800, Moudy Ho wrote:
+> Add device nodes for Media Data Path 3 (MDP3) modules.
 > 
-> Thank you for the patch.
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> ---
+>  arch/arm64/boot/dts/mediatek/mt8183.dtsi | 79
+> +++++++++++++++++++++++-
+>  1 file changed, 78 insertions(+), 1 deletion(-)
 > 
-> On Wed, Jun 15, 2022 at 04:10:35AM +0900, Paul Elder wrote:
-> > Add files in debugfs to monitor some of the interrupts of the MI and
-> > ISP. Add the appropriate holder variables in the rkisp1_debug struct as
-> > well.
-> > 
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > ---
-> >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  9 +++++++++
-> >  .../platform/rockchip/rkisp1/rkisp1-debug.c   | 20 +++++++++++++++++++
-> >  2 files changed, 29 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > index 4243ff5e2197..a67fe7b1dfa1 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > @@ -364,6 +364,15 @@ struct rkisp1_debug {
-> >  	unsigned long stats_error;
-> >  	unsigned long stop_timeout[2];
-> >  	unsigned long frame_drop[2];
-> > +	unsigned long mi_irq_mblk_line_count;
-> > +	unsigned long mi_irq_fill_mp_y_count;
-> > +	unsigned long mi_irq_frame_count;
-> > +	unsigned long mi_irq_wrap_mp_y_count;
-> > +	unsigned long mi_irq_wrap_mp_cb_count;
-> > +	unsigned long mi_irq_wrap_mp_cr_count;
-> > +	unsigned long isp_irq_v_start_count;
-> > +	unsigned long isp_irq_frame_count;
-> > +	unsigned long isp_irq_frame_in_count;
-> >  };
-> >  
-> >  /*
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > index 1a59c00fabdd..02854e8ea1a4 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > @@ -220,6 +220,26 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
-> >  	debugfs_create_file("input_status", 0444, debug->debugfs_dir, rkisp1,
-> >  			    &rkisp1_debug_input_status_fops);
-> >  
-> > +	debugfs_create_ulong("mi_irq_mblk_line_count", 0444, debug->debugfs_dir,
-> > +			     &debug->mi_irq_mblk_line_count);
-> > +	debugfs_create_ulong("mi_irq_fill_mp_y_count", 0444, debug->debugfs_dir,
-> > +			     &debug->mi_irq_fill_mp_y_count);
-> > +	debugfs_create_ulong("mi_irq_frame_count", 0444, debug->debugfs_dir,
-> > +			     &debug->mi_irq_frame_count);
-> > +	debugfs_create_ulong("mi_irq_wrap_mp_y_count", 0444, debug->debugfs_dir,
-> > +			     &debug->mi_irq_wrap_mp_y_count);
-> > +	debugfs_create_ulong("mi_irq_wrap_mp_cb_count", 0444, debug->debugfs_dir,
-> > +			     &debug->mi_irq_wrap_mp_cb_count);
-> > +	debugfs_create_ulong("mi_irq_wrap_mp_cr_count", 0444, debug->debugfs_dir,
-> > +			     &debug->mi_irq_wrap_mp_cr_count);
-> > +
-> > +	debugfs_create_ulong("isp_irq_v_start_count", 0444, debug->debugfs_dir,
-> > +			     &debug->isp_irq_v_start_count);
-> > +	debugfs_create_ulong("isp_irq_frame_count", 0444, debug->debugfs_dir,
-> > +			     &debug->isp_irq_frame_count);
-> > +	debugfs_create_ulong("isp_irq_frame_in_count", 0444, debug->debugfs_dir,
-> > +			     &debug->isp_irq_frame_in_count);
-> 
-> It's nice to expose these through debugfs, but it looks like you never
-> actually set any of those fields :-) I think you could just drop this
-> patch.
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> index 9485c1efc87c..938f0c4b7525 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> @@ -1691,6 +1691,50 @@
+>  			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX
+> 0 0x1000>;
+>  		};
+>  
+> +		mdp3-rdma0@14001000 {
+> +			compatible = "mediatek,mt8183-mdp3-rdma";
+> +			reg = <0 0x14001000 0 0x1000>;
+> +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX
+> 0x1000 0x1000>;
+> +			power-domains = <&spm
+> MT8183_POWER_DOMAIN_DISP>;
+> +			clocks = <&mmsys CLK_MM_MDP_RDMA0>,
+> +				 <&mmsys CLK_MM_MDP_RSZ1>;
+> +			iommus = <&iommu M4U_PORT_MDP_RDMA0>;
+> +			mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST 0>,
+> +				 <&gce 21 CMDQ_THR_PRIO_LOWEST 0>;
+> +		};
+> +
+> +		mdp3-rsz0@14003000 {
+> +			compatible = "mediatek,mt8183-mdp3-rsz";
+> +			reg = <0 0x14003000 0 0x1000>;
+> +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX
+> 0x3000 0x1000>;
+> +			clocks = <&mmsys CLK_MM_MDP_RSZ0>;
+> +		};
+> +
+> +		mdp3-rsz1@14004000 {
+> +			compatible = "mediatek,mt8183-mdp3-rsz";
+> +			reg = <0 0x14004000 0 0x1000>;
+> +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX
+> 0x4000 0x1000>;
+> +			clocks = <&mmsys CLK_MM_MDP_RSZ1>;
+> +		};
+> +
+> +		mdp3-wrot0@14005000 {
+> +			compatible = "mediatek,mt8183-mdp3-wrot";
+> +			reg = <0 0x14005000 0 0x1000>;
+> +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX
+> 0x5000 0x1000>;
+> +			power-domains = <&spm
+> MT8183_POWER_DOMAIN_DISP>;
+> +			clocks = <&mmsys CLK_MM_MDP_WROT0>;
+> +			iommus = <&iommu M4U_PORT_MDP_WROT0>;
+> +		};
+> +
+> +		mdp3-wdma@14006000 {
+> +			compatible = "mediatek,mt8183-mdp3-wdma";
+> +			reg = <0 0x14006000 0 0x1000>;
+> +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX
+> 0x6000 0x1000>;
+> +			power-domains = <&spm
+> MT8183_POWER_DOMAIN_DISP>;
+> +			clocks = <&mmsys CLK_MM_MDP_WDMA0>;
+> +			iommus = <&iommu M4U_PORT_MDP_WDMA0>;
+> +		};
+> +
+>  		ovl0: ovl@14008000 {
+>  			compatible = "mediatek,mt8183-disp-ovl";
+>  			reg = <0 0x14008000 0 0x1000>;
+> @@ -1809,7 +1853,33 @@
+>  			interrupts = <GIC_SPI 217 IRQ_TYPE_LEVEL_LOW>;
+>  			power-domains = <&spm
+> MT8183_POWER_DOMAIN_DISP>;
+>  			mediatek,gce-events =
+> <CMDQ_EVENT_MUTEX_STREAM_DONE0>,
+> -					      <CMDQ_EVENT_MUTEX_STREAM_
+> DONE1>;
+> +					      <CMDQ_EVENT_MUTEX_STREAM_
+> DONE1>,
+> +					      <CMDQ_EVENT_MDP_RDMA0_SOF
+> >,
+> +					      <CMDQ_EVENT_MDP_RDMA0_EOF
+> >,
 
-Oops, you're right :p
+This event is sent from MDP_RDMA0 to GCE, so move this event to
+MDP_RDMA0 node.
 
-Yeah we can drop it.
+> +					      <CMDQ_EVENT_MDP_RSZ0_SOF>
+> ,
+> +					      <CMDQ_EVENT_MDP_RSZ1_SOF>
+> ,
+> +					      <CMDQ_EVENT_MDP_TDSHP_SOF
+> >,
+> +					      <CMDQ_EVENT_MDP_WROT0_SOF
+> >,
+> +					      <CMDQ_EVENT_MDP_WROT0_EOF
+> >,
+> +					      <CMDQ_EVENT_MDP_WDMA0_SOF
+> >,
+> +					      <CMDQ_EVENT_MDP_WDMA0_EOF
+> >,
 
+This event is sent from MDP_WDMA0 to GCE, so move this event to
+MDP_WDMA0 node.
 
-Paul
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_0>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_1>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_2>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_3>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_4>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_5>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_6>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_7>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_8>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_9>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_10>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_11>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_12>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_13>,
+> +					      <CMDQ_EVENT_ISP_FRAME_DON
+> E_P2_14>,
+> +					      <CMDQ_EVENT_WPE_A_DONE>,
 
-> 
-> > +
-> >  	regs_dir = debugfs_create_dir("regs", debug->debugfs_dir);
-> >  
-> >  	debugfs_create_file("core", 0444, regs_dir, rkisp1,
+This event is sent from WPE_A to GCE, so move this event to WPE_A node.
+
+Regards,
+CK
+
+> +					      <CMDQ_EVENT_SPE_B_DONE>;
+>  			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX
+> 0x6000 0x1000>;
+>  		};
+>  
+> @@ -1834,6 +1904,13 @@
+>  			power-domains = <&spm
+> MT8183_POWER_DOMAIN_DISP>;
+>  		};
+>  
+> +		mdp3-ccorr@1401c000 {
+> +			compatible = "mediatek,mt8183-mdp3-ccorr";
+> +			reg = <0 0x1401c000 0 0x1000>;
+> +			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX
+> 0xc000 0x1000>;
+> +			clocks = <&mmsys CLK_MM_MDP_CCORR>;
+> +		};
+> +
+>  		imgsys: syscon@15020000 {
+>  			compatible = "mediatek,mt8183-imgsys",
+> "syscon";
+>  			reg = <0 0x15020000 0 0x1000>;
+
