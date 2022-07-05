@@ -2,65 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47CCA566ECB
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 14:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00843566EED
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 15:08:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229967AbiGEMzi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jul 2022 08:55:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52480 "EHLO
+        id S231708AbiGENIB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 09:08:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237002AbiGEMyl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 08:54:41 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E4062873D
-        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 05:28:15 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id r18so15037732edb.9
-        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 05:28:14 -0700 (PDT)
+        with ESMTP id S230461AbiGENHm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 09:07:42 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35BE22ED66
+        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 05:34:34 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id k30so6954065edk.8
+        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 05:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8M8W3el23nTdsEVF7vUfbGyLGfsRauW/NFEt/AQw2YA=;
-        b=tWw+e/DdWDygSY37p0tZze+64WDqzncXLkboCNCE9GXHGvbyB+72Zsno/FPEqY95lD
-         9XtYHj4L9ByLVSW/vvRey2s3vrhQ+w3Y+knB5VzHtZ2Kywe6L8FCcbG+Vo8xJVl65iVp
-         NhzgaQQZUkWzuuWvnqq3ienSNd0vVc/TOOg+E=
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Wqq6YhYJdrCEUWBrIxoQDPJ/29L5AB67g46BfHWDGLQ=;
+        b=UGR09iyBQZgZlBk0pRuwl8nQ+/a5/gkiyJlWtxsDctw3xJC8t92dSzDjQb2vZ0+PZ7
+         TLzQRXqFNxNIyx66oNgkIlNMU2LZn4ASJk3hl9R1347oYtrLGQ3dH0GeTYN19jZn7uYc
+         wb3ltnk+oFEtOBHNFvJdW+9RbPizi4pNJlqERJDc7Rzgn7F9WYWx509GFKwa6esOxBtG
+         RsJr/T/DdjejIFoE1v5W0JOW3FzrDVuzSJAXUX0LJyRJHP85OE/vGRp2df9GuwNLGntO
+         4UK5XsQMHy2c89i3AKj74Fga4SQUyIgVfxDVSNdqpPZOEIem7gYVNBlLtmkumwUdpjng
+         difg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8M8W3el23nTdsEVF7vUfbGyLGfsRauW/NFEt/AQw2YA=;
-        b=oOOB6eebgS9j1ykKVfD8f8/9mG22ioWGXYd60HBhM+H4JG7OdMSmwubezgnNwAdM6x
-         ApRT/9WogzEfYhq6R8aLvuQLsy1SZmqVLBggUul7ER+qkH9rtx53ipgvaDi/ahiJINrf
-         EQ4IrHrGFn/R3VtRDJRCBwUS2M7SIHQnFlD/r35XnSVia2tU4VIHlOk0ig7Eg6ApH2on
-         xoxqKEUjRMpjnV5/kfKrPyCEiXpQyNN7uqECijn+yQgrAqxro/ROWVw0tq9Jwbt0Xw3B
-         ybh1nHC6lcVqGH0dRGKhnUNnwLqajO4+WmjHh8izwUDq5i8LLCRXNZPbyt6GJ1NMJMYF
-         BJ+A==
-X-Gm-Message-State: AJIora/WhcWHdrKABLnvRqLTN2SrIf6FDAhjQusq0t9tiKoyilcD9oVI
-        CkeKuBFh8BPpUcAKZh96th6ncGxZ9RDJow==
-X-Google-Smtp-Source: AGRyM1u16TAeGBzvprCxI4Xmw1s+jP1VMuNusGXs1B9XzwQl5efAZH0C7suQJy7/NDgjO+iSnif3QA==
-X-Received: by 2002:a05:6402:510b:b0:437:28b0:8988 with SMTP id m11-20020a056402510b00b0043728b08988mr46905098edd.260.1657024057325;
-        Tue, 05 Jul 2022 05:27:37 -0700 (PDT)
-Received: from p310.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id ek5-20020a056402370500b0043a253973aasm5524088edb.10.2022.07.05.05.27.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 05:27:36 -0700 (PDT)
-Date:   Tue, 5 Jul 2022 15:30:41 +0300
-From:   Petko Manolov <petko.manolov@konsulko.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, jacopo@jmondi.org
-Subject: Re: hooking Sony 47MPixel sensor to NXP imx8m-mini MIPI CSI2
-Message-ID: <YsQu8XxEj2zKPsJG@p310.k.g>
-References: <YrwFf7Jw2/yDlcDq@carbon.lan>
- <YrwNKiJA+cnm7pGr@pendragon.ideasonboard.com>
- <YrwRROJbH/P5lYi+@carbon.lan>
- <YrzzbwYr+ztrXbgZ@pendragon.ideasonboard.com>
- <Yr3w1T7s/7DTgZVd@carbon.gago.life>
- <Yr38wcjA24QkZSRQ@pendragon.ideasonboard.com>
- <YsQHwUCLlombAj85@p310.k.g>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Wqq6YhYJdrCEUWBrIxoQDPJ/29L5AB67g46BfHWDGLQ=;
+        b=3dtCDcFicCXwvFOJUI6JNAGPhJc7vxA+QzfAlMRudLgoiVrHW+Ni7PIlZuESjysB0C
+         EQ0M6HaGRByOYDekM+tFsQPe8SCwy/7QSGsEPCaHK6JBL+a73nmBpwKUlTK2c7OSK3S1
+         lRQ6774CbU7uPc9ZBswlocqQKAKWsy0rEPs2Yeud1LRJydNGfp5QYJuYrvgaSpSVCNwi
+         A6HQPIk2vnJSAJIbPOulYUkOred4z+4AdkHVWbtXSGTxGY6unptYQ3PwvO4YV9RqNw7P
+         SGAs9KdeEWY/1ZW/S/7gxY9wiEUuL9z1Ojf2CBt57Z8dlPhT441vItmk3bCJYFQSCJlO
+         tWWQ==
+X-Gm-Message-State: AJIora/kovg6FUCLYp2QaLoxAec/ulrTjqWUaPTWzUUjQyRME15AlK4E
+        5s6eYtS42G1C2GHvlTtTRT2zCdIm++NM3WVVeROrzQ==
+X-Google-Smtp-Source: AGRyM1sXYzZzKcvIuVIjzy8GYuHnTha12H6MJ2hH92DZDU+YBnfl1rkWGMyQXfrpOjEHHdtAlREo8dFTxkMpQRPJKMU=
+X-Received: by 2002:a05:6402:4021:b0:439:7588:cebf with SMTP id
+ d33-20020a056402402100b004397588cebfmr32370605eda.136.1657024472814; Tue, 05
+ Jul 2022 05:34:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YsQHwUCLlombAj85@p310.k.g>
+References: <20220628021909.14620-1-ming.qian@nxp.com> <a834a00ba3c4fa8a08290c55d264307fdcf6fabd.camel@ndufresne.ca>
+In-Reply-To: <a834a00ba3c4fa8a08290c55d264307fdcf6fabd.camel@ndufresne.ca>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 5 Jul 2022 13:34:16 +0100
+Message-ID: <CAPY8ntC8-d7zupr=mNHdc053RV1Z1yjnmqbV=13AaT2gmMSrKw@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2: add V4L2_BUF_FLAG_CODECCONFIG flag
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Ming Qian <ming.qian@nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -71,40 +76,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22-07-05 12:43:41, Petko Manolov wrote:
-> On 22-06-30 22:42:57, Laurent Pinchart wrote:
-> > On Thu, Jun 30, 2022 at 09:52:05PM +0300, Petko Manolov wrote:
-> > > On 22-06-30 03:50:55, Laurent Pinchart wrote:
-> > > > 
-> > > > For an i.MX8MM I'd try running the mainline kernel directly. If that 
-> > > > doesn't work, I would backport the camera drivers from mainline to the 
-> > > > v5.15 NXP kernel. As far as I know, the v5.18 branch isn't an official 
-> > > > BSP release (I'm actually not sure what it's for).
-> > > 
-> > > The 5.15 NXP kernel got released sometime in June, but the CSI capture 
-> > > drivers are pretty much the same as in their older versions.  So sad...
-> > > 
-> > > Nevermind, i'll share any good news here as well as the imx492 driver code 
-> > > as soon i am certain it can successfully stream in at least one mode.
-> > > 
-> > > BTW, the 'fec' section in Variscite's var-som-symphony DT is broken for 
-> > > v5.18 (mainline) kernels. I am not certain whom should i send the patch.  
-> > > Would that be Rob Herring or should i just use 'git blame' to identify the 
-> > > victim? :)
-> > 
-> > scripts/get_maintainer.pl is your friend for that.
-> 
-> Done, sent a patch for review to lkml and Rob.
+Hi Ming and Nicolas
 
-Still waiting for the storm to come... ;)
+On Mon, 4 Jul 2022 at 16:53, Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+>
+> Le mardi 28 juin 2022 =C3=A0 10:19 +0800, Ming Qian a =C3=A9crit :
+> > By setting the V4L2_BUF_FLAG_CODECCONFIG flag,
+> > user-space should be able to hint decoder
+> > the vb2 only contains codec config header,
+> > but does not contain any frame data.
+> > It's only used for parsing header, and can't be decoded.
+>
+> This is copied from OMX specification. I think we we import this, we shou=
+ld at
+> least refer to the original.
+>
+> >
+> > Current, it's usually used by android.
+> >
+> > Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> > ---
+> >  Documentation/userspace-api/media/v4l/buffer.rst | 9 +++++++++
+> >  include/uapi/linux/videodev2.h                   | 2 ++
+> >  2 files changed, 11 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documen=
+tation/userspace-api/media/v4l/buffer.rst
+> > index 4638ec64db00..acdc4556f4f4 100644
+> > --- a/Documentation/userspace-api/media/v4l/buffer.rst
+> > +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+> > @@ -607,6 +607,15 @@ Buffer Flags
+> >       the format. Any subsequent call to the
+> >       :ref:`VIDIOC_DQBUF <VIDIOC_QBUF>` ioctl will not block anymore,
+> >       but return an ``EPIPE`` error code.
+> > +    * .. _`V4L2-BUF-FLAG-CODECCONFIG`:
+> > +
+> > +      - ``V4L2_BUF_FLAG_CODECCONFIG``
+> > +      - 0x00200000
+> > +      - This flag may be set when the buffer only contains codec confi=
+g
+> > +    header, but does not contain any frame data. Usually the codec con=
+fig
+> > +    header is merged to the next idr frame, with the flag
+> > +    ``V4L2_BUF_FLAG_KEYFRAME``, but there is still some scenes that wi=
+ll
+> > +    split the header and queue it separately.
+>
+> I think the documentation is clear. Now, if a driver uses this, will exis=
+ting
+> userland (perhaps good to check GStreamer, FFMPEG and Chromium ?) will br=
+eak ?
+> So we need existing driver to do this when flagged to, and just copy/appe=
+nd when
+> the userland didn't opt-in that feature ?
 
-> Banged on var-som-symphony DT enough to get imx492 detected (on 5.19.0-rc4) by 
-> its driver.  imx-mipi-csis also looks happy enough.  Both drivers finish their 
-> probe() successfully.  However, i don't see /dev/video0, any ideas what might 
-> be the reason?
+The commit text says it is for userspace feeding data into a video
+decoder, so it's a userspace choice instead of driver.
 
-Please ignore the above.  I had to enable VIDEO_IMX7_CSI for the right driver to 
-get loaded.  What a mess.
+For encoders there is already V4L2_CID_MPEG_VIDEO_HEADER_MODE [1]
+which allows for V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE or
+V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME. FFmpeg selects
+_SEPARATE by default [2], whilst the default is normally
+_JOINED_WITH_1ST_FRAME.
 
+It does raise the question as to whether all decoders will support
+header byte only buffers, and does there need to be a capabilities
+flag to denote that it is supported.
+And should encoders in V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE mode set
+it on the headers only buffers?
 
-		Petko
+A number of undefined elements of how this should be implemented/used :-(
+
+  Dave
+
+[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrl=
+s-codec.html
+[2] https://github.com/FFmpeg/FFmpeg/blob/master/libavcodec/v4l2_m2m_enc.c#=
+L196
+
+> >      * .. _`V4L2-BUF-FLAG-REQUEST-FD`:
+> >
+> >        - ``V4L2_BUF_FLAG_REQUEST_FD``
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videod=
+ev2.h
+> > index 5311ac4fde35..8708ef257710 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -1131,6 +1131,8 @@ static inline __u64 v4l2_timeval_to_ns(const stru=
+ct timeval *tv)
+> >  #define V4L2_BUF_FLAG_TSTAMP_SRC_SOE         0x00010000
+> >  /* mem2mem encoder/decoder */
+> >  #define V4L2_BUF_FLAG_LAST                   0x00100000
+> > +/* Buffer only contains codec header */
+> > +#define V4L2_BUF_FLAG_CODECCONFIG            0x00200000
+> >  /* request_fd is valid */
+> >  #define V4L2_BUF_FLAG_REQUEST_FD             0x00800000
+> >
+>
