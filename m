@@ -2,72 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4499A566677
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 11:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0295D566767
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 12:09:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230430AbiGEJqd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jul 2022 05:46:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36522 "EHLO
+        id S231472AbiGEKJC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 06:09:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230136AbiGEJqb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 05:46:31 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49533F21
-        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 02:46:25 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id q8so1371615ljj.10
-        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 02:46:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=O6MEO0JJbH7cz1Tl/SAwZ8G+cePN006H4WF8z0ANT+4=;
-        b=NsdgOMMefg43xzXySytXzkaOWCiQDywgfKaxVtTOXWljFe1QM2Vue7LPhe/noCUGy/
-         R8tBksN4d2w/5gc0Xk7yG74rdp/JjJjRBsmgLCJE46L/85wk+4Mb5IFd9BwOJw8V5uGE
-         X7KcVNKU0dHBhhUO0ndIOmpMYFr8Mh9MvNtVweBYfGpPDNb8ekoepuUBGpsqHNuqfgwD
-         HCEDpSIOzZoexUSQqT1S5cZ5+6MdO+F0gpc71nwcZDfpgwz+6DM5niX8sdvFbtwmxH0N
-         DqfmvnUOrFdmrrGngPj5ubuntSNIAqLaw3w5vTCGlO1oGsuGyiZATKT4ZOMs659ciMTc
-         pBdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=O6MEO0JJbH7cz1Tl/SAwZ8G+cePN006H4WF8z0ANT+4=;
-        b=b3MvyGen34uUgllpl6I0kktVU9vcymogkkVy6FGIc2ruvZMUQZBjzN4129MRMfxNdG
-         t5mMJ41AdLBamcH7b7RIV+R2caponbYpJoOpvvIgkPS5Vx0Y6IN9yLQEqSMVVu09qxCi
-         UBp3+mNSRDMjud+A02MD27Mof8oVWaAvZYFGWVpO42Qr9+PzCM0gbiXNbablA39/6EqO
-         +cb3cZg0q8UZVJzJfnNknzvZfjIkLKzd4fkiuxTYg6VszQD6UAiCWT4AA2Ap+0qhtUHo
-         RphZYDQA9vMUWBsEBJ9dFQhQJ7Eh1p4ckeo9myjLcBGetKc2J8kLHeMckO23ldxZ10h9
-         Zr5g==
-X-Gm-Message-State: AJIora/sBLjsPdO3ovJcoze7LCbP/UVuzPiK9s/0Y6ktwi1eCjlG/sno
-        aNTiNM9dseF3WtPniyhLkgYx/BuwdUfV/A==
-X-Google-Smtp-Source: AGRyM1s1YEvSwgqBA7P2+jN0DTKVnOPIdB7UmJd1sQu71vpyLv5nhiZHutfVP5lF9/LVMKHz1Dy1TA==
-X-Received: by 2002:a2e:bc0b:0:b0:25a:89a6:8370 with SMTP id b11-20020a2ebc0b000000b0025a89a68370mr18400483ljf.262.1657014383897;
-        Tue, 05 Jul 2022 02:46:23 -0700 (PDT)
-Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
-        by smtp.gmail.com with ESMTPSA id d10-20020ac24c8a000000b0048313e26b95sm429857lfl.130.2022.07.05.02.46.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 02:46:23 -0700 (PDT)
-Date:   Tue, 5 Jul 2022 11:46:22 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, michael@rodin.online,
-        erosca@de.adit-jv.com
-Subject: Re: [PATCH v2 0/3] Improve error handling in the rcar-vin driver
-Message-ID: <YsQIbr9QYGBDoIWT@oden.dyn.berto.se>
-References: <YqEO3/KekkZhVjW+@oden.dyn.berto.se>
- <20220628180024.451258-1-mrodin@de.adit-jv.com>
+        with ESMTP id S229885AbiGEKI6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 06:08:58 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9546613F56;
+        Tue,  5 Jul 2022 03:08:56 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 4BB4A1F91F;
+        Tue,  5 Jul 2022 10:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1657015735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=qvMJ4J1/LuqJ2bm7BlZIoOLJOYmWh+4Rpvkk33SZGOA=;
+        b=eByb4sSPqg6rRuVWR7Uyol2qkXUh2FlAJZJl6kQB2+c8EEhcdaxtq/jkX0dVzdvL/5s6D3
+        /efNTsY/bdasP3pVQxu6qP4nvHO+zcS4O9fblGgs1NR89rSYgTvYETM292rGHy3CrhOSj+
+        qGcOFU+GGl+mKHAF54mbZA9ZrTUJOaY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1657015735;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=qvMJ4J1/LuqJ2bm7BlZIoOLJOYmWh+4Rpvkk33SZGOA=;
+        b=jKWTp5GMggeoLloojImrUvPvKkYL+8GQzQSR8Qi8VzqCYEK46zUKh7GMjl/cO3qvfPDiP7
+        DHXFfHIde+vxx5CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2E2AF1339A;
+        Tue,  5 Jul 2022 10:08:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id VBGsCbYNxGK1BQAAMHmgww
+        (envelope-from <jdelvare@suse.de>); Tue, 05 Jul 2022 10:08:54 +0000
+Date:   Tue, 5 Jul 2022 12:08:52 +0200
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Wolfram Sang <wsa@kernel.org>, Guenter Roeck <groeck@chromium.org>,
+        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
+        linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+Message-ID: <20220705120852.049dc235@endymion.delvare>
+In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+        <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220628180024.451258-1-mrodin@de.adit-jv.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,41 +93,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+On Tue, 28 Jun 2022 16:03:12 +0200, Uwe Kleine-K=C3=B6nig wrote:
+> From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
+>=20
+> The value returned by an i2c driver's remove function is mostly ignored.
+> (Only an error message is printed if the value is non-zero that the
+> error is ignored.)
+>=20
+> So change the prototype of the remove function to return no value. This
+> way driver authors are not tempted to assume that passing an error to
+> the upper layer is a good idea. All drivers are adapted accordingly.
+> There is no intended change of behaviour, all callbacks were prepared to
+> return 0 before.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
 
-Thanks for your persistent work with this series.
+That's a huge change for a relatively small benefit, but if this is
+approved by the I2C core maintainer then fine with me. For:
 
-On 2022-06-28 20:00:19 +0200, Michael Rodin wrote:
-> Hello,
-> 
-> this series is a followup to the other series [1] started by Niklas Söderlund
-> where only the first patch has been merged. The overall idea is to be more
-> compliant with the Renesas hardware manual which requires a reset or stop
-> of capture in the VIN module before reset of CSI2. Another goal is to be
-> more resilient with respect to non-critical CSI2 errors so the driver does
-> not end in an endless restart loop. Compared to the previous version [2] of
-> this series the patch 3 is replaced based on the conclusion in [3] so now
-> userspace has to take care of figuring out if a transfer error was harmless
-> or unrecoverable. Other patches are adapted accordingly so no assumptions
-> about criticality of transfer errors are made in the kernel and the
-> decision is left up to userspace.
+>  drivers/hwmon/adc128d818.c                                | 4 +---
+>  drivers/hwmon/adt7470.c                                   | 3 +--
+>  drivers/hwmon/asb100.c                                    | 6 ++----
+>  drivers/hwmon/asc7621.c                                   | 4 +---
+>  drivers/hwmon/dme1737.c                                   | 4 +---
+>  drivers/hwmon/f75375s.c                                   | 5 ++---
+>  drivers/hwmon/fschmd.c                                    | 6 ++----
+>  drivers/hwmon/ftsteutates.c                               | 3 +--
+>  drivers/hwmon/ina209.c                                    | 4 +---
+>  drivers/hwmon/ina3221.c                                   | 4 +---
+>  drivers/hwmon/jc42.c                                      | 3 +--
+>  drivers/hwmon/mcp3021.c                                   | 4 +---
+>  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
+>  drivers/hwmon/pcf8591.c                                   | 3 +--
+>  drivers/hwmon/smm665.c                                    | 3 +--
+>  drivers/hwmon/tps23861.c                                  | 4 +---
+>  drivers/hwmon/w83781d.c                                   | 4 +---
+>  drivers/hwmon/w83791d.c                                   | 6 ++----
+>  drivers/hwmon/w83792d.c                                   | 6 ++----
+>  drivers/hwmon/w83793.c                                    | 6 ++----
+>  drivers/hwmon/w83795.c                                    | 4 +---
+>  drivers/hwmon/w83l785ts.c                                 | 6 ++----
+>  drivers/i2c/i2c-core-base.c                               | 6 +-----
+>  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
+>  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
+>  drivers/i2c/i2c-smbus.c                                   | 3 +--
+>  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
+>  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
+>  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
 
-I like this solution as it truly pushes the decision to user-space. What 
-bugs me a little bit is that we don't have a way to communicate errors 
-that we know are unrecoverable (it was for this case the work in this 
-area started) and ones that could be recoverable (the use-case added on 
-top).
+Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
-I would also like to hear what Hans thinks as he had good suggestions 
-for how to handle the cases we know can't be recovers in [4].
-
-> 
-> [1] https://lore.kernel.org/linux-renesas-soc/20211108160220.767586-1-niklas.soderlund+renesas@ragnatech.se/
-> [2] https://lore.kernel.org/all/1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com/
-> [3] https://lore.kernel.org/all/YqEO3%2FKekkZhVjW+@oden.dyn.berto.se/
-
-4. https://lore.kernel.org/all/1fddc966-5a23-63b4-185e-c17aa6d65b54@xs4all.nl/
-
--- 
-Kind Regards,
-Niklas Söderlund
+--=20
+Jean Delvare
+SUSE L3 Support
