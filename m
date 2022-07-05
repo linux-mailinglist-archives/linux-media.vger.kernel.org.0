@@ -2,83 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 794FC566BA8
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 14:09:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47CCA566ECB
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 14:55:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234327AbiGEMJV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jul 2022 08:09:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53346 "EHLO
+        id S229967AbiGEMzi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 08:55:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235313AbiGEMI6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 08:08:58 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 219251583E
-        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 05:08:57 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id z25so2617081lfr.2
-        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 05:08:57 -0700 (PDT)
+        with ESMTP id S237002AbiGEMyl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 08:54:41 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E4062873D
+        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 05:28:15 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id r18so15037732edb.9
+        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 05:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ihhr+go3H6HNgFbSksIx63Cidh++W2IwUum3O7T/3gk=;
-        b=It5uTRFw2c8H1LR8TfaJKFKMA1hKtnruFe2SdrSsC7xUf8XjoruTXCJRNB5KxAm9+4
-         NzwTDfmPtbsDAdaji7gkFBjYYIqr+ylikcW6DqWjuAJWQQ64rXQ/aDymH4AQjE95w93A
-         edQjCBwR1LZwqfekoQ1N6cZzPcjs4j5LWOeaGfB71BdmcFZ0Cix+lMlIxlO6wzgm/fGA
-         Uek3CaYmRIHb+PYdESrgnFB3vZV5nMkB+E84xsOvEFD4YlyjWmuGswMcxYjxdtjWwxZu
-         3U6UIpQRd9sgdzyb4bPW3SWi3adHjSYjfpcWwONpKuKe7JblrGM/Y3Ommt6t5dYEeEck
-         zXXg==
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8M8W3el23nTdsEVF7vUfbGyLGfsRauW/NFEt/AQw2YA=;
+        b=tWw+e/DdWDygSY37p0tZze+64WDqzncXLkboCNCE9GXHGvbyB+72Zsno/FPEqY95lD
+         9XtYHj4L9ByLVSW/vvRey2s3vrhQ+w3Y+knB5VzHtZ2Kywe6L8FCcbG+Vo8xJVl65iVp
+         NhzgaQQZUkWzuuWvnqq3ienSNd0vVc/TOOg+E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ihhr+go3H6HNgFbSksIx63Cidh++W2IwUum3O7T/3gk=;
-        b=dFpfRCENkVB1xiTscGWwEMfEXp5ShZNs65dT8urkkgxKBcWcKqNZorxieJxhxOhA5H
-         uXMnSN7DuP0QG/xZvcbedtkAyPRpD/Y1H65tdq1y/QuHz1mQhgjcenbBqbzXKlQX7E3j
-         FMbAyxUo2ipHcJtT3RaEKhRrEYz2Xj0XD26cXY0fo0vPJqyLfQVHM4Yoysdocp1ntt1a
-         TcwZugER11BvjQOA1gWWFG7lL5bMYShbcu0tCsMomrNP5N5YTvzJgG48NufUwmJez/BQ
-         Ah7zIno+X0De1VJRcEcHzKx8nhwCNefHHNxxsPkNwVoGrZTrAXZpcODeTT9OzEl/Y2G5
-         yRRA==
-X-Gm-Message-State: AJIora+Hobb/9pJjTGe/T4o/X4H1x3uOwAikkO6QSUngBWguEQTsSYk/
-        1qvdfcHV3rX2m6oTNNzxwoC+qg==
-X-Google-Smtp-Source: AGRyM1tFWsgMJ/MlaFpyOPsBIAszroay69w97JtxjVrtk8RsY2Y9SlOtd9egItDMdymBkfNWyLdwsg==
-X-Received: by 2002:a05:6512:2393:b0:47f:8f12:3a93 with SMTP id c19-20020a056512239300b0047f8f123a93mr21458936lfv.209.1657022935496;
-        Tue, 05 Jul 2022 05:08:55 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id s21-20020a056512315500b0047f6e91d4fesm3275915lfi.141.2022.07.05.05.08.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jul 2022 05:08:54 -0700 (PDT)
-Message-ID: <97d9ccf9-71f8-c97d-ce56-8aeb1a3db194@linaro.org>
-Date:   Tue, 5 Jul 2022 14:08:52 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8M8W3el23nTdsEVF7vUfbGyLGfsRauW/NFEt/AQw2YA=;
+        b=oOOB6eebgS9j1ykKVfD8f8/9mG22ioWGXYd60HBhM+H4JG7OdMSmwubezgnNwAdM6x
+         ApRT/9WogzEfYhq6R8aLvuQLsy1SZmqVLBggUul7ER+qkH9rtx53ipgvaDi/ahiJINrf
+         EQ4IrHrGFn/R3VtRDJRCBwUS2M7SIHQnFlD/r35XnSVia2tU4VIHlOk0ig7Eg6ApH2on
+         xoxqKEUjRMpjnV5/kfKrPyCEiXpQyNN7uqECijn+yQgrAqxro/ROWVw0tq9Jwbt0Xw3B
+         ybh1nHC6lcVqGH0dRGKhnUNnwLqajO4+WmjHh8izwUDq5i8LLCRXNZPbyt6GJ1NMJMYF
+         BJ+A==
+X-Gm-Message-State: AJIora/WhcWHdrKABLnvRqLTN2SrIf6FDAhjQusq0t9tiKoyilcD9oVI
+        CkeKuBFh8BPpUcAKZh96th6ncGxZ9RDJow==
+X-Google-Smtp-Source: AGRyM1u16TAeGBzvprCxI4Xmw1s+jP1VMuNusGXs1B9XzwQl5efAZH0C7suQJy7/NDgjO+iSnif3QA==
+X-Received: by 2002:a05:6402:510b:b0:437:28b0:8988 with SMTP id m11-20020a056402510b00b0043728b08988mr46905098edd.260.1657024057325;
+        Tue, 05 Jul 2022 05:27:37 -0700 (PDT)
+Received: from p310.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id ek5-20020a056402370500b0043a253973aasm5524088edb.10.2022.07.05.05.27.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 05:27:36 -0700 (PDT)
+Date:   Tue, 5 Jul 2022 15:30:41 +0300
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, jacopo@jmondi.org
+Subject: Re: hooking Sony 47MPixel sensor to NXP imx8m-mini MIPI CSI2
+Message-ID: <YsQu8XxEj2zKPsJG@p310.k.g>
+References: <YrwFf7Jw2/yDlcDq@carbon.lan>
+ <YrwNKiJA+cnm7pGr@pendragon.ideasonboard.com>
+ <YrwRROJbH/P5lYi+@carbon.lan>
+ <YrzzbwYr+ztrXbgZ@pendragon.ideasonboard.com>
+ <Yr3w1T7s/7DTgZVd@carbon.gago.life>
+ <Yr38wcjA24QkZSRQ@pendragon.ideasonboard.com>
+ <YsQHwUCLlombAj85@p310.k.g>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 02/20] dt-bindings: media: s5p-mfc: Convert s5p-mfc.txt to
- new DT schema
-Content-Language: en-US
-To:     Smitha T Murthy <smitha.t@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
-        dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
-        mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
-        andi@etezian.org, alim.akhtar@samsung.com,
-        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
-        linux-fsd@tesla.com
-References: <20220517125548.14746-1-smitha.t@samsung.com>
- <CGME20220517125554epcas5p4e87a71471525056281f1578f4f80f760@epcas5p4.samsung.com>
- <20220517125548.14746-3-smitha.t@samsung.com>
- <6c2ea5f7-3cc0-d43c-c667-18c25b64ff72@linaro.org>
- <01e601d89064$a212a590$e637f0b0$@samsung.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <01e601d89064$a212a590$e637f0b0$@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YsQHwUCLlombAj85@p310.k.g>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -87,60 +71,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/07/2022 13:44, Smitha T Murthy wrote:
+On 22-07-05 12:43:41, Petko Manolov wrote:
+> On 22-06-30 22:42:57, Laurent Pinchart wrote:
+> > On Thu, Jun 30, 2022 at 09:52:05PM +0300, Petko Manolov wrote:
+> > > On 22-06-30 03:50:55, Laurent Pinchart wrote:
+> > > > 
+> > > > For an i.MX8MM I'd try running the mainline kernel directly. If that 
+> > > > doesn't work, I would backport the camera drivers from mainline to the 
+> > > > v5.15 NXP kernel. As far as I know, the v5.18 branch isn't an official 
+> > > > BSP release (I'm actually not sure what it's for).
+> > > 
+> > > The 5.15 NXP kernel got released sometime in June, but the CSI capture 
+> > > drivers are pretty much the same as in their older versions.  So sad...
+> > > 
+> > > Nevermind, i'll share any good news here as well as the imx492 driver code 
+> > > as soon i am certain it can successfully stream in at least one mode.
+> > > 
+> > > BTW, the 'fec' section in Variscite's var-som-symphony DT is broken for 
+> > > v5.18 (mainline) kernels. I am not certain whom should i send the patch.  
+> > > Would that be Rob Herring or should i just use 'git blame' to identify the 
+> > > victim? :)
+> > 
+> > scripts/get_maintainer.pl is your friend for that.
 > 
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski [mailto:krzysztof.kozlowski@linaro.org]
->> Sent: Tuesday, May 17, 2022 7:26 PM
->> To: Smitha T Murthy <smitha.t@samsung.com>; linux-arm-
->> kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
->> kernel@vger.kernel.org; devicetree@vger.kernel.org
->> Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
->> mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
->> ezequiel@vanguardiasur.com.ar; jernej.skrabec@gmail.com;
->> benjamin.gaignard@collabora.com; stanimir.varbanov@linaro.org;
->> dillon.minfei@gmail.com; david.plowman@raspberrypi.com;
->> mark.rutland@arm.com; robh+dt@kernel.org; krzk+dt@kernel.org;
->> andi@etezian.org; alim.akhtar@samsung.com; aswani.reddy@samsung.com;
->> pankaj.dubey@samsung.com; linux-fsd@tesla.com
->> Subject: Re: [PATCH 02/20] dt-bindings: media: s5p-mfc: Convert s5p-mfc.txt
->> to new DT schema
->>
->> On 17/05/2022 14:55, Smitha T Murthy wrote:
->>> Adds DT schema for s5p-mfc in yaml format.
->>>
->>
->> Thank you for your patch. There is something to discuss/improve.
->>
-> 
-> Thank you for the review. 
-> 
+> Done, sent a patch for review to lkml and Rob.
 
-You responded after two months, I don't remember what I reviewed... Two
-months periods between resends do not really help to usptream.
+Still waiting for the storm to come... ;)
 
-> 
->>> +                compatible = "samsung,mfc-v12";
->>
->> Does not look like you tested the bindings. Please run `make
->> dt_binding_check` (see Documentation/devicetree/bindings/writing-
->> schema.rst for instructions).
->> Be sure to test your bindings before sending them.
->>
-> 
-> I did do make dtbs and dt_binding_check using v2022.3, I will recheck post these changes.
-> 
->>> +                reg = <0x12880000 0x10000>;
->>> +                clock-names = "mfc";
->>> +                interrupts = <0 137 4>;
->>
->> Use interrupt defines.
->>
-> 
-> When I use interrupt defines I get errors as "1.	Syntax error: This was due to interrupts field has some macro reference and needed to give absolute value.", hence I gave absolute values.
+> Banged on var-som-symphony DT enough to get imx492 detected (on 5.19.0-rc4) by 
+> its driver.  imx-mipi-csis also looks happy enough.  Both drivers finish their 
+> probe() successfully.  However, i don't see /dev/video0, any ideas what might 
+> be the reason?
 
-Look at other DT schema files...
+Please ignore the above.  I had to enable VIDEO_IMX7_CSI for the right driver to 
+get loaded.  What a mess.
 
-Best regards,
-Krzysztof
+
+		Petko
