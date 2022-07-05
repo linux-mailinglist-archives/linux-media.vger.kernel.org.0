@@ -2,67 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7224F56740D
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 18:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 344C8567484
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 18:37:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232312AbiGEQT1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jul 2022 12:19:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47632 "EHLO
+        id S230123AbiGEQht (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 12:37:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbiGEQT0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 12:19:26 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DA431C919
-        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 09:19:25 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id z41so15979695ede.1
-        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 09:19:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jYZi8rRbHn8tW6ukNBHgDr7LhwZ5zS5lnEhO2Ak2igg=;
-        b=QdHnGJG9DT6rEloPFwd7YvkIKVolkTouLjq7lM8+wlzBwMERfD6toyZW0AOVQ9kJ6y
-         A6k3Tp1xU+pX4IW/wcYcCWYsS8wLqb1HR3gD3CIm7wv2c6PxUokCiMrBLo8PLilvsdzk
-         jyYwJ6OpM/61mtYOvZTLCdPJULcv98E670xeA+W3ZgiiGt4ZfMmJKooScLo4v3HCFtDk
-         9ATpc+IgFXU8mIGzi3XyAyUiXCPREbw/Dhjc1v9hDh873301doPIx2K5A+1q9VSVYk+G
-         2i28wkXV7j7jVi4MiBbv57h/Yt040xIP93Ij/WjDvsobOIJT9aWjYt7EzoHgSo/mQXzn
-         3obg==
+        with ESMTP id S229658AbiGEQhr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 12:37:47 -0400
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A21CC21;
+        Tue,  5 Jul 2022 09:37:47 -0700 (PDT)
+Received: by mail-io1-f47.google.com with SMTP id n7so1062920ioo.7;
+        Tue, 05 Jul 2022 09:37:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jYZi8rRbHn8tW6ukNBHgDr7LhwZ5zS5lnEhO2Ak2igg=;
-        b=PBWjtmEslrwBHwUdS5rlAb4Z5NuLBEW7myX13UtVc5dQ8GQJpf7St/h+gK0EkumzuW
-         CuC4myZAf3IK4tR/31JUXtsfrH6RUcOKYKMf5rLGenENeaCyDHINVwxFT9TaRLzCrziJ
-         +1Q3uiQwQUNbK6JdvJhXvd8Z2bXaypTuFpTKTLqvgSD55aJqSBaoBRBDGcmrFnjPSu4T
-         yn48A8r/GhfUNnYbsneknMNJcFLiRHE+JdWnrMOl0yVATHCxz5/oI7TotlIpuCsnbdTv
-         C8UIOLkKBOhVd0y7nOShiqSH6Ich73nB4mAB3Nn0gEDWzHg5jGZHdXJ6vhvBfryvSzgt
-         b0hw==
-X-Gm-Message-State: AJIora+OoRQbA/k74xK2kSLaLSn+4K+zsIDwu0b60YGZEQ6b9KdNbXFG
-        fdR0fGVsL/rGe6UKeiFO7wwjh2UvougS3GR6gqr0ew==
-X-Google-Smtp-Source: AGRyM1uB27HRZg8W8xYPv7TCcAhKGqKs//KSawcHJS04Mu1OQie7j0MwhR7ZT74oMo0NdgDgHW3BxQMkqVF5lv2at3c=
-X-Received: by 2002:aa7:cdc2:0:b0:43a:7255:5274 with SMTP id
- h2-20020aa7cdc2000000b0043a72555274mr8914387edw.159.1657037963909; Tue, 05
- Jul 2022 09:19:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220704220814.629130-1-vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20220704220814.629130-1-vladimir.zapolskiy@linaro.org>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Tue, 5 Jul 2022 18:19:12 +0200
-Message-ID: <CAG3jFyvXt1AdJLBU55phM1matF3VRdu8re1tFkJdgtEFrPbVuw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: camss: Do not attach an already attached power
- domain on MSM8916 platform
-To:     Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc:     Todor Tomov <todor.too@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=c55GW3JhZSSyCs5z2S50t5xP4aI3+vGX0Hxqnl5VHBw=;
+        b=J87nGFJ+CFcHxdhHFsw04/cV1jJirPSLEgTzw0yA4Gwh3BByqKS1PuL6EMXV11szcJ
+         H37r4vXxtgvATUSVl9pT5n3s1Oybid864hD34l6aTvdDQtdzVQz/05vkZXKNdMInCSQa
+         /S4PHWBwdIzKSY+wPOrihrzEjpm6eQ6v29ZyRJwMsdlvrUmAoKPmHmtz/vb6BLRob+Uv
+         Yx4eNwCbXocBw87CjFCTSLgXrukU2ybM8HLwhadYIj41N9E0+q17PjWhlusjM/r6NYZ3
+         5yOo4awm7MhSTON0KrQWOdt88Zem0Gg2SP3Wy6qgSKp1J2pcV9u/og7PXMOaut2TkJdW
+         LGKw==
+X-Gm-Message-State: AJIora+oq3BzB5GRxA7R1ApaAv6UTJ4ic5nr61eJ+OIjNhnjQfzl6rLs
+        YnqUoFSn9/zwYc1Rb8L084dYitbtbg==
+X-Google-Smtp-Source: AGRyM1vY4x7KgFkloP8FcLuexH2ZmYRLJDRXCJ33C28v5rVjyEV6dX4JIuxxIftRTQsK9XuPc/RFMA==
+X-Received: by 2002:a6b:f20f:0:b0:675:5519:744b with SMTP id q15-20020a6bf20f000000b006755519744bmr18448319ioh.202.1657039066422;
+        Tue, 05 Jul 2022 09:37:46 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id m9-20020a02cdc9000000b00331fdc68ccesm14830816jap.140.2022.07.05.09.37.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 09:37:46 -0700 (PDT)
+Received: (nullmailer pid 2234555 invoked by uid 1000);
+        Tue, 05 Jul 2022 16:37:44 -0000
+Date:   Tue, 5 Jul 2022 10:37:44 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-staging@lists.linux.dev,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Maxime Ripard <mripard@kernel.org>,
+        linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v5 2/6] dt-bindings: media: sun6i-a31-csi: Add ISP output
+ port
+Message-ID: <20220705163744.GA2234496-robh@kernel.org>
+References: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
+ <20220704173523.76729-3-paul.kocialkowski@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220704173523.76729-3-paul.kocialkowski@bootlin.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,57 +75,21 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 5 Jul 2022 at 00:08, Vladimir Zapolskiy
-<vladimir.zapolskiy@linaro.org> wrote:
->
-> The change to dynamically allocated power domains neglected a case of
-> CAMSS on MSM8916 platform, where a single VFE power domain is neither
-> attached, linked or managed in runtime in any way explicitly.
->
-> This is a special case and it shall be kept as is, because the power
-> domain management is done outside of the driver, and it's very different
-> in comparison to all other platforms supported by CAMSS.
->
-> Fixes: 6b1814e26989 ("media: camss: Allocate power domain resources dynamically")
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+On Mon, 04 Jul 2022 19:35:19 +0200, Paul Kocialkowski wrote:
+> Some Allwinner devices come with an Image Signal Processor (ISP) that
+> allows processing camera data to produce good-looking images,
+> especially from raw bayer representations.
+> 
+> The ISP does not have a dedicated capture path: it is fed directly by
+> one of the CSI controllers, which can be selected at run-time.
+> 
+> Represent this possibility as a graph connection between the CSI
+> controller and the ISP in the device-tree bindings.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
-> Changes from v1 to v2:
-> * corrected the fixed commit id, which is found on media/master
->
->  drivers/media/platform/qcom/camss/camss.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 932968e5f1e5..7a929f19e79b 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -1465,6 +1465,14 @@ static int camss_configure_pd(struct camss *camss)
->                 return camss->genpd_num;
->         }
->
-> +       /*
-> +        * If a platform device has just one power domain, then it is attached
-> +        * at platform_probe() level, thus there shall be no need and even no
-> +        * option to attach it again, this is the case for CAMSS on MSM8916.
-> +        */
-> +       if (camss->genpd_num == 1)
-> +               return 0;
-> +
->         camss->genpd = devm_kmalloc_array(dev, camss->genpd_num,
->                                           sizeof(*camss->genpd), GFP_KERNEL);
->         if (!camss->genpd)
-> @@ -1698,6 +1706,9 @@ void camss_delete(struct camss *camss)
->
->         pm_runtime_disable(camss->dev);
->
-> +       if (camss->genpd_num == 1)
-> +               return;
-> +
->         for (i = 0; i < camss->genpd_num; i++) {
->                 device_link_del(camss->genpd_link[i]);
->                 dev_pm_domain_detach(camss->genpd[i], true);
-> --
-> 2.33.0
->
+>  .../devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml    | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Acked-by: Rob Herring <robh@kernel.org>
