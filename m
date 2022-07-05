@@ -2,42 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 530C2567008
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 15:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F68E567013
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 15:58:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231167AbiGENzz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jul 2022 09:55:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47936 "EHLO
+        id S232657AbiGEN5I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 09:57:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231149AbiGENzn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 09:55:43 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5739526111;
-        Tue,  5 Jul 2022 06:36:40 -0700 (PDT)
+        with ESMTP id S232607AbiGEN4q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 09:56:46 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C96519294;
+        Tue,  5 Jul 2022 06:38:58 -0700 (PDT)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 606E166017ED;
-        Tue,  5 Jul 2022 14:36:37 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2A98C66017ED;
+        Tue,  5 Jul 2022 14:38:56 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1657028198;
-        bh=MMAIKfIlvMstdET+wRsyi4fUW3MunCrNX2414UwQPPg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=VQxrkYI9vMJx7WXdp6vo47VkS6KfiUMdRHp51GzjLkJMhBq91peUvURdCodFuYnQm
-         w+0G+4nRzWUPtcjz4W6SX1QLkZMlp4U/hlU0bX/iBuzYUrZwxRHkEXUnWWRhQJ55Dp
-         5E1n2PrFbmpPJQq9xIFFTzUT1tz7hISXe9A1mkZL2QPqJBEoByRWvpK1GjFxFOCtsS
-         QYuC0rnn1p4b5lM1mEL0OLU8nlmdnMBBaALbY+HJ3yvkt9WgwLMRzngcoNjPouJqsm
-         YO0qto9xV+IXNZmiXJEwMJigIa8OVbjphTLTrHDQShyct8O6v9oxxgmJSuXR+Ai+YU
-         W8207CDB+HWoA==
-Message-ID: <2248d7b1-7986-26f8-044f-d4d7a5eb478d@collabora.com>
-Date:   Tue, 5 Jul 2022 15:36:34 +0200
+        s=mail; t=1657028337;
+        bh=cCaR8fci2yEtntwZvpQO67vieDISc5qkkSCR/OlSkFo=;
+        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+        b=grgekmrTnjwHzxlt2uJItwn+3UQ/Taw/0qYZjLz620nD9P6ZbEL8YGfwwHjWsPj5w
+         AUhDZb5NrweW/WonOwH4xwjzop/6ac0Rn7Rg+388xV3973k2LI1eecLlkvhSdTpwcj
+         wsU1kMMs6fPnZl5hEQGyJyXDLGB9I3lsRHtKYDx/8Tc9xr3HNuB7TPrrjzOidB1CbQ
+         7Hac9AyB3iIV6r1emE43RPVuxNLM3gKf53haMAPRdDFJ9f4EB0056QO0mvCUKJeNAJ
+         h3JDZkpe9A3lT7fUz8ZAfOk+Irfi9l/WHDbb25akTtl/kih88uIkDVM3qfMVLo6oKd
+         /E3a8CJI6bm5Q==
+Message-ID: <17361540-3ec8-8428-08d2-2970835791e2@collabora.com>
+Date:   Tue, 5 Jul 2022 15:38:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PV4,3/8] media: mtk-jpegdec: manage jpegdec multi-hardware
+Subject: Re: [V10,0/7] Enable two hardware jpeg encoder for MT8195
 Content-Language: en-US
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
 To:     Irui Wang <irui.wang@mediatek.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -52,13 +54,11 @@ Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
         Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
         maoguang.meng@mediatek.com, kyrie wu <kyrie.wu@mediatek.com>,
         srv_heupstream@mediatek.com
-References: <20220627025540.8901-1-irui.wang@mediatek.com>
- <20220627025540.8901-4-irui.wang@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220627025540.8901-4-irui.wang@mediatek.com>
+References: <20220627025625.8956-1-irui.wang@mediatek.com>
+ <b12d2df4-73e8-a558-582f-200236bd6560@collabora.com>
+In-Reply-To: <b12d2df4-73e8-a558-582f-200236bd6560@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -69,354 +69,140 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 27/06/22 04:55, Irui Wang ha scritto:
-> From: kyrie wu <kyrie.wu@mediatek.com>
+Il 05/07/22 14:56, AngeloGioacchino Del Regno ha scritto:
+> Il 27/06/22 04:56, Irui Wang ha scritto:
+>> From: kyrie wu <kyrie.wu@mediatek.com>
+>>
+>> This series adds support for multi hardware jpeg encoding, by first
+>> adding use of_platform_populate to manage each hardware information:
+>> interrupt, clock, register bases and power. Secondly add encoding
+>> work queue to deal with the encoding requestsof multi-hardware
+>> at the same time. Lastly, add output picture reorder function
+>> interface to eliminate the out of order images.
+>>
+>> This series has been tested with MT8195 Gstreamer.
+>> Encoding worked for this chip.
+>>
 > 
-> manage each hardware information, including irq/clk/power.
-> the hardware includes HW0/HW1/HW2.
+> Hello Irui,
 > 
-> Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
-> ---
->   drivers/media/platform/mediatek/jpeg/Makefile |   5 +-
->   .../platform/mediatek/jpeg/mtk_jpeg_core.c    |  25 ++-
->   .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  38 ++++
->   .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 168 ++++++++++++++++++
->   4 files changed, 232 insertions(+), 4 deletions(-)
+> Unfortunately, I can't reproduce your successful test with gstreamer: when
+> I try to encode a jpeg with videotestsrc input, I get a kernel panic.
 > 
-> diff --git a/drivers/media/platform/mediatek/jpeg/Makefile b/drivers/media/platform/mediatek/jpeg/Makefile
-> index 69703db4b0a5..26e84852523e 100644
-> --- a/drivers/media/platform/mediatek/jpeg/Makefile
-> +++ b/drivers/media/platform/mediatek/jpeg/Makefile
-> @@ -1,9 +1,10 @@
->   # SPDX-License-Identifier: GPL-2.0-only
->   obj-$(CONFIG_VIDEO_MEDIATEK_JPEG) += mtk_jpeg.o \
-> -	mtk-jpeg-enc-hw.o
-> +	mtk-jpeg-enc-hw.o \
-> +	mtk-jpeg-dec-hw.o
->   
->   mtk_jpeg-y := mtk_jpeg_core.o \
-> -		 mtk_jpeg_dec_hw.o \
->   		 mtk_jpeg_dec_parse.o
->   
->   mtk-jpeg-enc-hw-y := mtk_jpeg_enc_hw.o
-> +mtk-jpeg-dec-hw-y := mtk_jpeg_dec_hw.o
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index 2696651b457b..5683df94ac6a 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -1467,8 +1467,14 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
->   	jpeg->variant = of_device_get_match_data(jpeg->dev);
->   
->   	if (of_property_read_bool(pdev->dev.of_node,
-> -				  "mediatek,jpegenc-multi-core")) {
-> +				  "mediatek,jpegenc-multi-core"))
->   		jpeg->is_jpgenc_multihw = true;
-> +
-> +	if (of_property_read_bool(pdev->dev.of_node,
-> +				  "mediatek,jpegdec-multi-core"))
-> +		jpeg->is_jpgdec_multihw = true;
-> +
-> +	if (jpeg->is_jpgenc_multihw || jpeg->is_jpgdec_multihw) {
->   		ret = devm_of_platform_populate(&pdev->dev);
->   		if (ret) {
->   			v4l2_err(&jpeg->v4l2_dev, "Master of platform populate failed.");
-> @@ -1476,7 +1482,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
->   		}
->   	}
->   
-> -	if (!jpeg->is_jpgenc_multihw) {
-> +	if (!jpeg->is_jpgenc_multihw || jpeg->is_jpgdec_multihw) {
+> To reproduce this behavior, please run the following:
+> 
+> gst-launch-1.0 videotestsrc ! v4l2jpegenc ! filesink location=hwenctest.jpg
+> 
+> 
 
 
-That's never going to work. I'm sure that you were meaning:
+Adding context: I've just discovered that this issue is due to a little overlook
+in the probe function, which I've pointed out in the review for the specific patch
+that's introducing the typo.
 
-	if (!jpeg->is_jpgenc_multihw && !jpeg->is_jpgdec_multihw) {
+After fixing a one-liner, there's no more kernel panic, but another issue was
+discovered regarding runtime PM:
+
+[  184.309766] mtk-jpeg soc:jpgenc_master: Runtime PM usage count underflow!
+
+[  184.317970] mtk-jpeg soc:jpgenc_master: Runtime PM usage count underflow!
+
+[  184.326128] mtk-jpeg soc:jpgenc_master: Runtime PM usage count underflow!
 
 
 
->   		INIT_DELAYED_WORK(&jpeg->job_timeout_work,
->   				  mtk_jpeg_job_timeout_work);
->   
-> @@ -1693,6 +1699,17 @@ static const struct mtk_jpeg_variant mtk8195_jpegenc_drvdata = {
->   	.cap_q_default_fourcc = V4L2_PIX_FMT_JPEG,
->   };
->   
-> +static const struct mtk_jpeg_variant mtk8195_jpegdec_drvdata = {
-> +	.formats = mtk_jpeg_dec_formats,
-> +	.num_formats = MTK_JPEG_DEC_NUM_FORMATS,
-> +	.qops = &mtk_jpeg_dec_qops,
-> +	.m2m_ops = &mtk_jpeg_dec_m2m_ops,
-> +	.dev_name = "mtk-jpeg-dec",
-> +	.ioctl_ops = &mtk_jpeg_dec_ioctl_ops,
-> +	.out_q_default_fourcc = V4L2_PIX_FMT_JPEG,
-> +	.cap_q_default_fourcc = V4L2_PIX_FMT_YUV420M,
-> +};
-> +
->   #if defined(CONFIG_OF)
->   static const struct of_device_id mtk_jpeg_match[] = {
->   	{
-> @@ -1711,6 +1728,10 @@ static const struct of_device_id mtk_jpeg_match[] = {
->   		.compatible = "mediatek,mt8195-jpgenc",
->   		.data = &mtk8195_jpegenc_drvdata,
->   	},
-> +	{
-> +		.compatible = "mediatek,mt8195-jpgdec",
-> +		.data = &mtk8195_jpegdec_drvdata,
-> +	},
->   	{},
->   };
->   
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> index f8415b6b1618..29cd71fd713e 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> @@ -102,6 +102,13 @@ enum mtk_jpegenc_hw_id {
->   	MTK_JPEGENC_HW_MAX,
->   };
->   
-> +enum mtk_jpegdec_hw_id {
-> +	MTK_JPEGDEC_HW0,
-> +	MTK_JPEGDEC_HW1,
-> +	MTK_JPEGDEC_HW2,
-> +	MTK_JPEGDEC_HW_MAX,
-> +};
-> +
->   /**
->    * struct mtk_vcodec_clk - Structure used to store vcodec clock information
->    */
-> @@ -110,6 +117,14 @@ struct mtk_jpegenc_clk {
->   	int clk_num;
->   };
->   
-> +/**
-> + * struct mtk_vcodec_clk - Structure used to store vcodec clock information
 
-This is not struct mtk_vcodec_clk, but mtk_jpegdec_clk. Please fix.
+> Here's the panic log:
+> 
+> [  342.567211] Unable to handle kernel NULL pointer dereference at virtual address 
+> 0000000000000108
+> 
+> [  342.576014] Mem abort info:
+> 
+> [  342.578805]   ESR = 0x0000000096000004
+> 
+> [  342.582552]   EC = 0x25: DABT (current EL), IL = 32 bits
+> 
+> [  342.587863]   SET = 0, FnV = 0
+> 
+> [  342.590919]   EA = 0, S1PTW = 0
+> 
+> [  342.594062]   FSC = 0x04: level 0 translation fault
+> 
+> [  342.598941] Data abort info:
+> 
+> [  342.601826]   ISV = 0, ISS = 0x00000004
+> 
+> [  342.605668]   CM = 0, WnR = 0
+> 
+> [  342.608643] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000119029000
+> 
+> [  342.615094] [0000000000000108] pgd=0000000000000000, p4d=0000000000000000
+> 
+> [  342.621907] Internal error: Oops: 96000004 [#1] SMP
+> 
+> [  342.626800] Modules linked in: cdc_ether usbnet r8152 af_alg qrtr mt7921e 
+> mt7921_common mt76_connac_lib mt76 mac80211 btusb btrtl btintel btmtk btbcm 
+> bluetooth cfg80211 mtk_vcodec_dec_hw uvcvideo snd_sof_mt8195 ecdh_generic 
+> mtk_vcodec_dec ecc mtk_adsp_common videobuf2_vmalloc snd_sof_xtensa_dsp rfkill 
+> snd_sof_of v4l2_vp9 panfrost mtk_jpeg snd_sof v4l2_h264 mtk_jpeg_enc_hw 8021q 
+> mtk_vcodec_common cros_ec_sensors gpu_sched cros_ec_lid_angle mtk_jpeg_dec_hw 
+> hid_multitouch snd_sof_utils cros_ec_sensors_core crct10dif_ce garp 
+> cros_usbpd_logger sbs_battery mrp stp llc ipmi_devintf ipmi_msghandler fuse ipv6
+> 
+> [  342.680332] CPU: 3 PID: 180 Comm: kworker/u16:6 Tainted: G        W 
+> 5.19.0-rc3-next-20220622+ #814
+> 
+> [  342.689982] Hardware name: MediaTek Tomato (rev2) board (DT)
+> 
+> [  342.695637] Workqueue: mtk-jpeg mtk_jpegenc_worker [mtk_jpeg]
+> 
+> [  342.701402] pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> 
+> [  342.708360] pc : mtk_jpegenc_worker+0x6c/0x3e0 [mtk_jpeg]
+> 
+> [  342.713763] lr : mtk_jpegenc_worker+0x64/0x3e0 [mtk_jpeg]
+> 
+> [  342.719166] sp : ffff8000093cbcd0
+> 
+> [  342.722478] x29: ffff8000093cbcd0 x28: ffffb1f341cdb000 x27: ffff6089885d0505
+> 
+> [  342.729618] x26: ffffb1f341ce1ee0 x25: ffffb1f341d0a2d0 x24: ffff60899078d000
+> 
+> [  342.736758] x23: ffffb1f2e869c590 x22: ffff608990785458 x21: ffff60898a0ea120
+> 
+> [  342.743898] x20: ffff60898a0ea080 x19: ffff60898a0ea080 x18: 0000000000000000
+> 
+> [  342.751038] x17: 0000000000000000 x16: ffffb1f3405a58c0 x15: 0000aaaac092a3d0
+> 
+> [  342.758178] x14: 0000000000000000 x13: 0000000000000c5f x12: 071c71c71c71c71c
+> 
+> [  342.765318] x11: 0000000000000c5f x10: 00000000000027a0 x9 : ffffb1f33f32ce9c
+> 
+> [  342.772458] x8 : fefefefefefefeff x7 : 0000000000000018 x6 : ffffb1f2e8699804
+> 
+> [  342.779597] x5 : 0000000000000000 x4 : 0000000000000001 x3 : ffff608985d3c570
+> 
+> [  342.786737] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
+> 
+> [  342.793876] Call trace:
+> 
+> [  342.796319]  mtk_jpegenc_worker+0x6c/0x3e0 [mtk_jpeg]
+> 
+> [  342.801376]  process_one_work+0x294/0x664
+> 
+> [  342.805392]  worker_thread+0x7c/0x45c
+> 
+> [  342.809055]  kthread+0x104/0x110
+> 
+> [  342.812283]  ret_from_fork+0x10/0x20
+> 
+> [  342.815863] Code: aa1503e0 9400037e f9415662 aa0003e1 (b9410840)
+> 
+> [  342.821956] ---[ end trace 0000000000000000 ]---
+> 
+> 
+> Regards,
+> Angelo
 
-> + */
-> +struct mtk_jpegdec_clk {
-> +	struct clk_bulk_data *clks;
-> +	int clk_num;
-> +};
-> +
->   /**
->    * struct mtk_jpegenc_comp_dev - JPEG COREX abstraction
->    * @dev:		JPEG device
-> @@ -139,6 +154,25 @@ struct mtk_jpegenc_comp_dev {
->   	spinlock_t hw_lock;
->   };
->   
-> +/**
-> + * struct mtk_jpegdec_comp_dev - JPEG COREX abstraction
-> + * @dev:		        JPEG device
-> + * @plat_dev:		    platform device data
-> + * @reg_base:		    JPEG registers mapping
-> + * @master_dev:		    mtk_jpeg_dev device
-> + * @jdec_clk:	        mtk_jpegdec_clk
 
-Please fix indentation.
-
-> + * @jpegdec_irq:	    jpeg decode irq num
-> + */
-> +struct mtk_jpegdec_comp_dev {
-> +	struct device *dev;
-> +	struct platform_device *plat_dev;
-> +	void __iomem *reg_base;
-> +	struct mtk_jpeg_dev *master_dev;
-> +	struct mtk_jpegdec_clk jdec_clk;
-> +	int jpegdec_irq;
-> +	int hw_id;
-> +};
-> +
->   /**
->    * struct mtk_jpeg_dev - JPEG IP abstraction
->    * @lock:		the mutex protecting this structure
-> @@ -171,6 +205,10 @@ struct mtk_jpeg_dev {
->   	bool is_jpgenc_multihw;
->   	wait_queue_head_t enc_hw_wq;
->   	atomic_t enchw_rdy;
-> +
-> +	void __iomem *reg_decbase[MTK_JPEGDEC_HW_MAX];
-> +	struct mtk_jpegdec_comp_dev *dec_hw_dev[MTK_JPEGDEC_HW_MAX];
-> +	bool is_jpgdec_multihw;
->   };
->   
->   /**
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> index d2f25f43e852..fc98fe122874 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> @@ -5,9 +5,24 @@
->    *         Rick Chang <rick.chang@mediatek.com>
->    */
->   
-> +#include <linux/clk.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/irq.h>
->   #include <linux/io.h>
->   #include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/slab.h>
-> +#include <media/media-device.h>
->   #include <media/videobuf2-core.h>
-> +#include <media/videobuf2-v4l2.h>
-> +#include <media/v4l2-mem2mem.h>
-> +#include <media/v4l2-dev.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-fh.h>
-> +#include <media/v4l2-event.h>
->   
->   #include "mtk_jpeg_core.h"
->   #include "mtk_jpeg_dec_hw.h"
-> @@ -24,6 +39,16 @@ enum mtk_jpeg_color {
->   	MTK_JPEG_COLOR_400		= 0x00110000
->   };
->   
-> +#if defined(CONFIG_OF)
-> +static const struct of_device_id mtk_jpegdec_hw_ids[] = {
-> +	{
-> +		.compatible = "mediatek,mt8195-jpgdec-hw",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, mtk_jpegdec_hw_ids);
-> +#endif
-> +
->   static inline int mtk_jpeg_verify_align(u32 val, int align, u32 reg)
->   {
->   	if (val & (align - 1)) {
-> @@ -414,3 +439,146 @@ void mtk_jpeg_dec_set_config(void __iomem *base,
->   	mtk_jpeg_dec_set_pause_mcu_idx(base, config->total_mcu);
->   }
->   EXPORT_SYMBOL_GPL(mtk_jpeg_dec_set_config);
-> +
-> +static irqreturn_t mtk_jpegdec_hw_irq_handler(int irq, void *priv)
-> +{
-> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-> +	struct mtk_jpeg_src_buf *jpeg_src_buf;
-> +	enum vb2_buffer_state buf_state;
-> +	struct mtk_jpeg_ctx *ctx;
-> +	u32 dec_irq_ret;
-> +	u32 irq_status;
-> +	int i;
-> +
-> +	struct mtk_jpegdec_comp_dev *jpeg = priv;
-> +	struct mtk_jpeg_dev *master_jpeg = jpeg->master_dev;
-> +
-> +	irq_status = mtk_jpeg_dec_get_int_status(jpeg->reg_base);
-> +	dec_irq_ret = mtk_jpeg_dec_enum_result(irq_status);
-> +	if (dec_irq_ret >= MTK_JPEG_DEC_RESULT_UNDERFLOW)
-> +		mtk_jpeg_dec_reset(jpeg->reg_base);
-> +	if (dec_irq_ret != MTK_JPEG_DEC_RESULT_EOF_DONE)
-> +		return IRQ_NONE;
-> +
-> +	ctx = v4l2_m2m_get_curr_priv(master_jpeg->m2m_dev);
-> +	if (!ctx) {
-> +		dev_err(jpeg->dev, "Context is NULL\n");
-> +		return IRQ_HANDLED;
-> +	}
-> +
-> +	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-> +	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
-> +	jpeg_src_buf =
-> +		container_of(src_buf, struct mtk_jpeg_src_buf, b);
-> +
-> +	for (i = 0; i < dst_buf->vb2_buf.num_planes; i++)
-> +		vb2_set_plane_payload(&dst_buf->vb2_buf, i,
-> +				      jpeg_src_buf->dec_param.comp_size[i]);
-> +
-> +	buf_state = VB2_BUF_STATE_DONE;
-> +
-> +	v4l2_m2m_buf_done(src_buf, buf_state);
-> +	v4l2_m2m_buf_done(dst_buf, buf_state);
-> +	v4l2_m2m_job_finish(master_jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> +	pm_runtime_put(ctx->jpeg->dev);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int mtk_jpegdec_hw_init_irq(struct mtk_jpegdec_comp_dev *dev)
-> +{
-> +	struct platform_device *pdev = dev->plat_dev;
-> +	int ret;
-> +
-> +	dev->jpegdec_irq = platform_get_irq(pdev, 0);
-> +	if (dev->jpegdec_irq < 0) {
-> +		dev_err(&pdev->dev, "Failed to get irq resource");
-> +		return dev->jpegdec_irq;
-> +	}
-> +
-> +	ret = devm_request_irq(&pdev->dev,
-> +			       dev->jpegdec_irq,
-> +			       mtk_jpegdec_hw_irq_handler,
-> +			       0,
-> +			       pdev->name, dev);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to devm_request_irq %d (%d)",
-> +			dev->jpegdec_irq, ret);
-> +		return -ENOENT;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_jpegdec_hw_probe(struct platform_device *pdev)
-> +{
-> +	struct mtk_jpegdec_clk *jpegdec_clk;
-> +	struct mtk_jpeg_dev *master_dev;
-> +	struct mtk_jpegdec_comp_dev *dev;
-> +	int ret;
-> +
-> +	struct device *decs = &pdev->dev;
-> +
-> +	if (!decs->parent)
-> +		return -EPROBE_DEFER;
-> +
-> +	master_dev = dev_get_drvdata(decs->parent);
-> +	if (!master_dev)
-> +		return -EPROBE_DEFER;
-> +
-> +	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
-> +	if (!dev)
-> +		return -ENOMEM;
-> +
-> +	dev->plat_dev = pdev;
-> +	dev->dev = &pdev->dev;
-> +	jpegdec_clk = &dev->jdec_clk;
-> +
-> +	jpegdec_clk->clk_num = devm_clk_bulk_get_all(&pdev->dev,
-> +						     &jpegdec_clk->clks);
-> +	if (jpegdec_clk->clk_num < 0)
-> +		return dev_err_probe(&pdev->dev,
-> +				      jpegdec_clk->clk_num,
-> +				      "Failed to get jpegdec clock count.\n");
-> +
-> +	dev->reg_base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(dev->reg_base))
-> +		return PTR_ERR(dev->reg_base);
-> +
-> +	ret = mtk_jpegdec_hw_init_irq(dev);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev,
-> +				     ret,
-> +				     "Failed to register JPEGDEC irq handler.\n");
-> +
-> +	of_property_read_u32(decs->of_node, "hw_id",
-> +			     &dev->hw_id);
-
-ret = of_property_read_u32( ..... )
-if (ret)
-	return ret;
-
-P.S.: Is it really important to get the hw_id from devicetree?
-is there any difference between HW0, HW1, HW2?
-
-Can we start decoding the first frame on HW1 or on HW2 instead of HW0?
-Does this hardware really need to work in HW0->1->2 specific sequence?
-
-Regards,
-Angelo
