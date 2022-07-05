@@ -2,94 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 478FA566580
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 10:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0089566581
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 10:54:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231153AbiGEIyU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jul 2022 04:54:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55396 "EHLO
+        id S231202AbiGEIyd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 04:54:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbiGEIyT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 04:54:19 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1516B116B
-        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 01:54:18 -0700 (PDT)
-Received: from localhost (dsl-hkibng31-58c389-173.dhcp.inet.fi [88.195.137.173])
+        with ESMTP id S229933AbiGEIyb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 04:54:31 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CC1EDFBA;
+        Tue,  5 Jul 2022 01:54:29 -0700 (PDT)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:6610:ee84:2ba:7917])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: msmakela)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 02F1E20191;
-        Tue,  5 Jul 2022 11:54:13 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1657011254;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=sfC6G4taA3+DNf0Uc1lz77iXINmBfKFzBeXvcki9CZM=;
-        b=nv69mqyDw9YNVHGNzAaj49XustuC6Vb6C+RFDjyYTSaLQotDoD8xgYCrBUO6gabJrM1xJc
-        jEtKbcB4EvSijiM9Qd1HlFF9v7+ENkFysYdPJICRJVCKgBlxrynKow32UBO2zEDOF5QB6t
-        XLxrxZk+Ravhb0SeoebI+ljNDpPH9Nw=
-From:   =?UTF-8?q?Marko=20M=C3=A4kel=C3=A4?= <marko.makela@iki.fi>
-To:     linux-media@vger.kernel.org
-Cc:     Sean Young <sean@mess.org>,
-        =?UTF-8?q?Marko=20M=C3=A4kel=C3=A4?= <marko.makela@iki.fi>
-Subject: [PATCH] media: rc: Always report LIRC repeat flag
-Date:   Tue,  5 Jul 2022 11:53:58 +0300
-Message-Id: <20220705085358.44418-1-marko.makela@iki.fi>
-X-Mailer: git-send-email 2.36.1
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id A66C7660180F;
+        Tue,  5 Jul 2022 09:54:27 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1657011268;
+        bh=MBzgqHdSZRvB6rJVKH3yJTlp+CNTNNydwqek24ljDwA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KFShzg/37zg5dX+J+wbUDr+8HqgJDwpWU1lm8ZbUYzHaOpSHpPHhUtLQjva+DIXYP
+         XgClSI//+YY9gxBae/P2k5+VZAifG/pXyPxo7FRIdgijvXh5NFBY+QR1FJGGNthBYF
+         a8WmeHrSl9ucL6+iasdqzm18nc+nS0VlMv3Ud4IrCR7/TBfD7B959ePq6TVT6IwOev
+         Dmeh6Fc7FB9H0qWa4XCfUKWGf0t7S0VfdIrBe9r/hNzG6TGuf3ZyCcMsjW3GE6kHxb
+         EpeZfE80wFqh0bU3w0aZCu/okfju9LkTJjMA6DiUyy9tfhHkXtkkWWFROY3YldXDXS
+         lK01HPa7lhZPg==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     mchehab@kernel.org, hverkuil@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, samuel@sholland.org,
+        nicolas.dufresne@collabora.com, andrzej.p@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v10 00/17] Move HEVC stateless controls out of staging
+Date:   Tue,  5 Jul 2022 10:54:03 +0200
+Message-Id: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1657011254;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=sfC6G4taA3+DNf0Uc1lz77iXINmBfKFzBeXvcki9CZM=;
-        b=H1Z7aHjf+agGhLtXUGks5C+SMDGD7tyoMMYE+E/sBXF4BOmu0W+4QfF4Ws+v1DE8oX0qIV
-        E057ZGKA8L04SqdaJK1flufQyF+J+HuH0jtaOWbPU2V9ng6gsGL2CtQWFfKjDDQSOLZZ3b
-        etLweF/qiVm0kBvlkw4X8QloUkcdLQg=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=msmakela smtp.mailfrom=marko.makela@iki.com
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1657011254; a=rsa-sha256; cv=none;
-        b=TwLvVnjRMYczhxM9Y+EsMz2qnQW18bWjsWcSvZjZeBAjhEU3lEagXWTdC6wgzeJLh6W1kK
-        hUN4n9aAiD8ml938syUUyn3xmETV8QCoV+T4FLDz9mCPsKy4TdBHTBzekw2TwQzk1FwLvM
-        HMf2ELkuDQyO1EVCp6Dl8AdU2T5RsEw=
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The flag LIRC_SCANCODE_FLAG_REPEAT was never set by rc_keydown().
-Previously it was only set by rc_repeat(), but not all protocol
-decoders invoke that function.
+This series aims to make HEVC uapi stable and usable for hardware
+decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+and 2 out of the tree drivers (rkvdec and RPI).
 
-Signed-off-by: Marko Mäkelä <marko.makela@iki.fi>
----
- drivers/media/rc/rc-main.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+version 10:
+- Rebased on media_stage/master
+- Add Acked-by tag from Nicolas
+- Add Tested-by tag from Jernej
+- Fix typo in patch 14
 
-diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-index b90438a71c80..d914197245eb 100644
---- a/drivers/media/rc/rc-main.c
-+++ b/drivers/media/rc/rc-main.c
-@@ -786,7 +786,8 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
- 			  dev->last_toggle   != toggle);
- 	struct lirc_scancode sc = {
- 		.scancode = scancode, .rc_proto = protocol,
--		.flags = toggle ? LIRC_SCANCODE_FLAG_TOGGLE : 0,
-+		.flags = (toggle ? LIRC_SCANCODE_FLAG_TOGGLE : 0) |
-+		(!new_event ? LIRC_SCANCODE_FLAG_REPEAT : 0),
- 		.keycode = keycode
- 	};
- 
+This version has been tested with these branches:
+- GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+- Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAPI_V10
+
+With patches to decode 10-bits bitstream and produce P010 frames the Fluster score 
+which was 77/147 before, is now 141/147.
+The 10-bits series will comes after this because of it dependency to
+uAPI change. If you are curious you can find the WIP branch here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HEVC_UAPI_V10
+
+The 6 failing tests are:
+- PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hardware.
+- WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but some 
+  difference exist on 5 decoded frames. Some pixels values are no the same 
+  the very end of few lines.
+
+version 9:
+- Reword some commit message
+- Use fls()
+- Remove useless padding at the end of hevc structures
+- Reword all _minus* field description
+- change CVS to codec video sequence
+- Fix various typo
+- Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
+- fix the waring reported by 'scripts/kernel-doc -none
+  include/uapi/linux/v4l2-controls.h'
+
+version 8:
+- Same than v7 but rebased on media_stage/master
+
+version 7:
+- Apply Jernej patches for Cedrus about bit offset definition and
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
+- Based on media_tree/master
+
+version 6:
+- Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+  in v4l2_ctrl_hevc_decode_params structure.
+- Change slice_pic_order_cnt type to s32 to match with PoC type.
+- Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+- Add a define for max slices count
+- Stop using Hantro dedicated control.
+
+version 5:
+- Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
+  hevc_dpb_entry structure
+- Add defines for SEI pic_struct values (patch 4)
+- Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
+- Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
+  documentation (patch 8)
+- Rebased on v5-18-rc1
+
+Version 4:
+- Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+- Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+- Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+- Fix space/tab issue in kernel-doc
+- Add patch to change data_bit_offset definition
+- Fix hantro-media SPDX license
+- put controls under stateless section in v4l2-ctrls-defs.c 
+
+Benjamin Gaignard (14):
+  media: uapi: HEVC: Add missing fields in HEVC controls
+  media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+    prefix
+  media: uapi: HEVC: Change pic_order_cnt definition in
+    v4l2_hevc_dpb_entry
+  media: uapi: HEVC: Add SEI pic struct flags
+  media: uapi: HEVC: Add documentation to uAPI structure
+  media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+    dynamic array
+  media: uapi: Move parsed HEVC pixel format out of staging
+  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+  media: uapi: Move the HEVC stateless control type out of staging
+  media: controls: Log HEVC stateless control in .std_log
+  media: hantro: Stop using Hantro dedicated control
+  media: uapi: HEVC: fix padding in v4l2 control structures
+  media: uapi: Change data_bit_offset definition
+  media: uapi: move HEVC stateless controls out of staging
+
+Hans Verkuil (3):
+  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+  v4l2-ctrls: add support for dynamically allocated arrays.
+  vivid: add dynamic array test control
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
+ .../media/v4l/pixfmt-compressed.rst           |   7 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../media/videodev2.h.rst.exceptions          |   6 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 ++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  62 +-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
+ drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
+ include/media/hevc-ctrls.h                    | 250 -----
+ include/media/v4l2-ctrls.h                    |  48 +-
+ include/uapi/linux/v4l2-controls.h            | 459 +++++++++
+ include/uapi/linux/videodev2.h                |  13 +
+ 24 files changed, 1826 insertions(+), 1226 deletions(-)
+ delete mode 100644 include/media/hevc-ctrls.h
+
 -- 
-2.36.1
+2.32.0
 
