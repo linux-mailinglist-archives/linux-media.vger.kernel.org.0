@@ -2,174 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00843566EED
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 15:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CE4E566F4F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 15:36:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231708AbiGENIB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jul 2022 09:08:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58168 "EHLO
+        id S230288AbiGENgA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 09:36:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230461AbiGENHm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 09:07:42 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35BE22ED66
-        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 05:34:34 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id k30so6954065edk.8
-        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 05:34:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Wqq6YhYJdrCEUWBrIxoQDPJ/29L5AB67g46BfHWDGLQ=;
-        b=UGR09iyBQZgZlBk0pRuwl8nQ+/a5/gkiyJlWtxsDctw3xJC8t92dSzDjQb2vZ0+PZ7
-         TLzQRXqFNxNIyx66oNgkIlNMU2LZn4ASJk3hl9R1347oYtrLGQ3dH0GeTYN19jZn7uYc
-         wb3ltnk+oFEtOBHNFvJdW+9RbPizi4pNJlqERJDc7Rzgn7F9WYWx509GFKwa6esOxBtG
-         RsJr/T/DdjejIFoE1v5W0JOW3FzrDVuzSJAXUX0LJyRJHP85OE/vGRp2df9GuwNLGntO
-         4UK5XsQMHy2c89i3AKj74Fga4SQUyIgVfxDVSNdqpPZOEIem7gYVNBlLtmkumwUdpjng
-         difg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Wqq6YhYJdrCEUWBrIxoQDPJ/29L5AB67g46BfHWDGLQ=;
-        b=3dtCDcFicCXwvFOJUI6JNAGPhJc7vxA+QzfAlMRudLgoiVrHW+Ni7PIlZuESjysB0C
-         EQ0M6HaGRByOYDekM+tFsQPe8SCwy/7QSGsEPCaHK6JBL+a73nmBpwKUlTK2c7OSK3S1
-         lRQ6774CbU7uPc9ZBswlocqQKAKWsy0rEPs2Yeud1LRJydNGfp5QYJuYrvgaSpSVCNwi
-         A6HQPIk2vnJSAJIbPOulYUkOred4z+4AdkHVWbtXSGTxGY6unptYQ3PwvO4YV9RqNw7P
-         SGAs9KdeEWY/1ZW/S/7gxY9wiEUuL9z1Ojf2CBt57Z8dlPhT441vItmk3bCJYFQSCJlO
-         tWWQ==
-X-Gm-Message-State: AJIora/kovg6FUCLYp2QaLoxAec/ulrTjqWUaPTWzUUjQyRME15AlK4E
-        5s6eYtS42G1C2GHvlTtTRT2zCdIm++NM3WVVeROrzQ==
-X-Google-Smtp-Source: AGRyM1sXYzZzKcvIuVIjzy8GYuHnTha12H6MJ2hH92DZDU+YBnfl1rkWGMyQXfrpOjEHHdtAlREo8dFTxkMpQRPJKMU=
-X-Received: by 2002:a05:6402:4021:b0:439:7588:cebf with SMTP id
- d33-20020a056402402100b004397588cebfmr32370605eda.136.1657024472814; Tue, 05
- Jul 2022 05:34:32 -0700 (PDT)
+        with ESMTP id S230244AbiGENfq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 09:35:46 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1525E6EEA0;
+        Tue,  5 Jul 2022 05:57:35 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id B95BD66019D1;
+        Tue,  5 Jul 2022 13:56:53 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1657025814;
+        bh=mmPoxIRR9ChlnYGyGbRq7S9ABg48kE//DWKGRNjh5Ro=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=XwGOvaVxerCStoz0xLNMGU+RIiNH3JC1aj01myuSPataEtZUNi8XagF0yQM8EMZSU
+         YKSWFuNtgsG/uMRF6hKryUZQjcHiRXkuZCJ95jIZ/O2vswv6EbpFesC/ODEWsLYF+/
+         oFfFX33Jz3pSjrYQ6qwCIVNGKhJtwkqhG1t9iCUXer5rMxuLz1b3d94KYCrGeTPi7N
+         rABSpZtJFdl1SJojdPzNt6mlcL5rINuKHZ4NrBhHBAGEtuMSiEn+qTW05O19tsaYlj
+         wWdaOoKTFPK1gYW8dj0J5/awWfftDTzwVr5Qc7ISMwwn5ArKIbFaFy/45eSw3NlZbS
+         A2cQEc8lXFO8w==
+Message-ID: <b12d2df4-73e8-a558-582f-200236bd6560@collabora.com>
+Date:   Tue, 5 Jul 2022 14:56:51 +0200
 MIME-Version: 1.0
-References: <20220628021909.14620-1-ming.qian@nxp.com> <a834a00ba3c4fa8a08290c55d264307fdcf6fabd.camel@ndufresne.ca>
-In-Reply-To: <a834a00ba3c4fa8a08290c55d264307fdcf6fabd.camel@ndufresne.ca>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 5 Jul 2022 13:34:16 +0100
-Message-ID: <CAPY8ntC8-d7zupr=mNHdc053RV1Z1yjnmqbV=13AaT2gmMSrKw@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: add V4L2_BUF_FLAG_CODECCONFIG flag
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Ming Qian <ming.qian@nxp.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [V10,0/7] Enable two hardware jpeg encoder for MT8195
+Content-Language: en-US
+To:     Irui Wang <irui.wang@mediatek.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Shawn Guo <shawnguo@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        nicolas.dufresne@collabora.com, wenst@chromium.org
+Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
+        maoguang.meng@mediatek.com, kyrie wu <kyrie.wu@mediatek.com>,
+        srv_heupstream@mediatek.com
+References: <20220627025625.8956-1-irui.wang@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220627025625.8956-1-irui.wang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming and Nicolas
+Il 27/06/22 04:56, Irui Wang ha scritto:
+> From: kyrie wu <kyrie.wu@mediatek.com>
+> 
+> This series adds support for multi hardware jpeg encoding, by first
+> adding use of_platform_populate to manage each hardware information:
+> interrupt, clock, register bases and power. Secondly add encoding
+> work queue to deal with the encoding requestsof multi-hardware
+> at the same time. Lastly, add output picture reorder function
+> interface to eliminate the out of order images.
+> 
+> This series has been tested with MT8195 Gstreamer.
+> Encoding worked for this chip.
+> 
 
-On Mon, 4 Jul 2022 at 16:53, Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
->
-> Le mardi 28 juin 2022 =C3=A0 10:19 +0800, Ming Qian a =C3=A9crit :
-> > By setting the V4L2_BUF_FLAG_CODECCONFIG flag,
-> > user-space should be able to hint decoder
-> > the vb2 only contains codec config header,
-> > but does not contain any frame data.
-> > It's only used for parsing header, and can't be decoded.
->
-> This is copied from OMX specification. I think we we import this, we shou=
-ld at
-> least refer to the original.
->
-> >
-> > Current, it's usually used by android.
-> >
-> > Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> > ---
-> >  Documentation/userspace-api/media/v4l/buffer.rst | 9 +++++++++
-> >  include/uapi/linux/videodev2.h                   | 2 ++
-> >  2 files changed, 11 insertions(+)
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documen=
-tation/userspace-api/media/v4l/buffer.rst
-> > index 4638ec64db00..acdc4556f4f4 100644
-> > --- a/Documentation/userspace-api/media/v4l/buffer.rst
-> > +++ b/Documentation/userspace-api/media/v4l/buffer.rst
-> > @@ -607,6 +607,15 @@ Buffer Flags
-> >       the format. Any subsequent call to the
-> >       :ref:`VIDIOC_DQBUF <VIDIOC_QBUF>` ioctl will not block anymore,
-> >       but return an ``EPIPE`` error code.
-> > +    * .. _`V4L2-BUF-FLAG-CODECCONFIG`:
-> > +
-> > +      - ``V4L2_BUF_FLAG_CODECCONFIG``
-> > +      - 0x00200000
-> > +      - This flag may be set when the buffer only contains codec confi=
-g
-> > +    header, but does not contain any frame data. Usually the codec con=
-fig
-> > +    header is merged to the next idr frame, with the flag
-> > +    ``V4L2_BUF_FLAG_KEYFRAME``, but there is still some scenes that wi=
-ll
-> > +    split the header and queue it separately.
->
-> I think the documentation is clear. Now, if a driver uses this, will exis=
-ting
-> userland (perhaps good to check GStreamer, FFMPEG and Chromium ?) will br=
-eak ?
-> So we need existing driver to do this when flagged to, and just copy/appe=
-nd when
-> the userland didn't opt-in that feature ?
+Hello Irui,
 
-The commit text says it is for userspace feeding data into a video
-decoder, so it's a userspace choice instead of driver.
+Unfortunately, I can't reproduce your successful test with gstreamer: when
+I try to encode a jpeg with videotestsrc input, I get a kernel panic.
 
-For encoders there is already V4L2_CID_MPEG_VIDEO_HEADER_MODE [1]
-which allows for V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE or
-V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME. FFmpeg selects
-_SEPARATE by default [2], whilst the default is normally
-_JOINED_WITH_1ST_FRAME.
+To reproduce this behavior, please run the following:
 
-It does raise the question as to whether all decoders will support
-header byte only buffers, and does there need to be a capabilities
-flag to denote that it is supported.
-And should encoders in V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE mode set
-it on the headers only buffers?
+gst-launch-1.0 videotestsrc ! v4l2jpegenc ! filesink location=hwenctest.jpg
 
-A number of undefined elements of how this should be implemented/used :-(
 
-  Dave
+Here's the panic log:
 
-[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrl=
-s-codec.html
-[2] https://github.com/FFmpeg/FFmpeg/blob/master/libavcodec/v4l2_m2m_enc.c#=
-L196
+[  342.567211] Unable to handle kernel NULL pointer dereference at virtual address 
+0000000000000108
 
-> >      * .. _`V4L2-BUF-FLAG-REQUEST-FD`:
-> >
-> >        - ``V4L2_BUF_FLAG_REQUEST_FD``
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videod=
-ev2.h
-> > index 5311ac4fde35..8708ef257710 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -1131,6 +1131,8 @@ static inline __u64 v4l2_timeval_to_ns(const stru=
-ct timeval *tv)
-> >  #define V4L2_BUF_FLAG_TSTAMP_SRC_SOE         0x00010000
-> >  /* mem2mem encoder/decoder */
-> >  #define V4L2_BUF_FLAG_LAST                   0x00100000
-> > +/* Buffer only contains codec header */
-> > +#define V4L2_BUF_FLAG_CODECCONFIG            0x00200000
-> >  /* request_fd is valid */
-> >  #define V4L2_BUF_FLAG_REQUEST_FD             0x00800000
-> >
->
+[  342.576014] Mem abort info:
+
+[  342.578805]   ESR = 0x0000000096000004
+
+[  342.582552]   EC = 0x25: DABT (current EL), IL = 32 bits
+
+[  342.587863]   SET = 0, FnV = 0
+
+[  342.590919]   EA = 0, S1PTW = 0
+
+[  342.594062]   FSC = 0x04: level 0 translation fault
+
+[  342.598941] Data abort info:
+
+[  342.601826]   ISV = 0, ISS = 0x00000004
+
+[  342.605668]   CM = 0, WnR = 0
+
+[  342.608643] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000119029000
+
+[  342.615094] [0000000000000108] pgd=0000000000000000, p4d=0000000000000000
+
+[  342.621907] Internal error: Oops: 96000004 [#1] SMP
+
+[  342.626800] Modules linked in: cdc_ether usbnet r8152 af_alg qrtr mt7921e 
+mt7921_common mt76_connac_lib mt76 mac80211 btusb btrtl btintel btmtk btbcm 
+bluetooth cfg80211 mtk_vcodec_dec_hw uvcvideo snd_sof_mt8195 ecdh_generic 
+mtk_vcodec_dec ecc mtk_adsp_common videobuf2_vmalloc snd_sof_xtensa_dsp rfkill 
+snd_sof_of v4l2_vp9 panfrost mtk_jpeg snd_sof v4l2_h264 mtk_jpeg_enc_hw 8021q 
+mtk_vcodec_common cros_ec_sensors gpu_sched cros_ec_lid_angle mtk_jpeg_dec_hw 
+hid_multitouch snd_sof_utils cros_ec_sensors_core crct10dif_ce garp 
+cros_usbpd_logger sbs_battery mrp stp llc ipmi_devintf ipmi_msghandler fuse ipv6
+
+[  342.680332] CPU: 3 PID: 180 Comm: kworker/u16:6 Tainted: G        W 
+5.19.0-rc3-next-20220622+ #814
+
+[  342.689982] Hardware name: MediaTek Tomato (rev2) board (DT)
+
+[  342.695637] Workqueue: mtk-jpeg mtk_jpegenc_worker [mtk_jpeg]
+
+[  342.701402] pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+
+[  342.708360] pc : mtk_jpegenc_worker+0x6c/0x3e0 [mtk_jpeg]
+
+[  342.713763] lr : mtk_jpegenc_worker+0x64/0x3e0 [mtk_jpeg]
+
+[  342.719166] sp : ffff8000093cbcd0
+
+[  342.722478] x29: ffff8000093cbcd0 x28: ffffb1f341cdb000 x27: ffff6089885d0505
+
+[  342.729618] x26: ffffb1f341ce1ee0 x25: ffffb1f341d0a2d0 x24: ffff60899078d000
+
+[  342.736758] x23: ffffb1f2e869c590 x22: ffff608990785458 x21: ffff60898a0ea120
+
+[  342.743898] x20: ffff60898a0ea080 x19: ffff60898a0ea080 x18: 0000000000000000
+
+[  342.751038] x17: 0000000000000000 x16: ffffb1f3405a58c0 x15: 0000aaaac092a3d0
+
+[  342.758178] x14: 0000000000000000 x13: 0000000000000c5f x12: 071c71c71c71c71c
+
+[  342.765318] x11: 0000000000000c5f x10: 00000000000027a0 x9 : ffffb1f33f32ce9c
+
+[  342.772458] x8 : fefefefefefefeff x7 : 0000000000000018 x6 : ffffb1f2e8699804
+
+[  342.779597] x5 : 0000000000000000 x4 : 0000000000000001 x3 : ffff608985d3c570
+
+[  342.786737] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
+
+[  342.793876] Call trace:
+
+[  342.796319]  mtk_jpegenc_worker+0x6c/0x3e0 [mtk_jpeg]
+
+[  342.801376]  process_one_work+0x294/0x664
+
+[  342.805392]  worker_thread+0x7c/0x45c
+
+[  342.809055]  kthread+0x104/0x110
+
+[  342.812283]  ret_from_fork+0x10/0x20
+
+[  342.815863] Code: aa1503e0 9400037e f9415662 aa0003e1 (b9410840)
+
+[  342.821956] ---[ end trace 0000000000000000 ]---
+
+
+Regards,
+Angelo
