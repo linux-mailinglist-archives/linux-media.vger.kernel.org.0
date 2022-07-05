@@ -2,122 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20B91566614
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 11:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3E4E566649
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 11:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230402AbiGEJ1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jul 2022 05:27:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51420 "EHLO
+        id S230152AbiGEJkf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 05:40:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231208AbiGEJ1E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 05:27:04 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732AAB1EB
-        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 02:27:00 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 5B0E710029D; Tue,  5 Jul 2022 10:26:58 +0100 (BST)
-Date:   Tue, 5 Jul 2022 10:26:58 +0100
-From:   Sean Young <sean@mess.org>
-To:     Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rtl28xxu: improve IR receiver
-Message-ID: <YsQD4nqMq8FYpE6E@gofer.mess.org>
-References: <YrmMQNPHkDGZ843v@gofer.mess.org>
- <YrqfTnY4Azqt44e4@jyty>
- <Yr/+g/j20kb5kzki@gofer.mess.org>
- <YsHLlg9CccrEzOjL@jyty>
- <YsKVA4bKNuRUOZpf@gofer.mess.org>
- <YsKwwVaFYrOxMhZw@jyty>
- <YsK6Rlk/ODYUE2/F@gofer.mess.org>
- <YsM5xhEXb6rzl1X9@jyty>
- <YsPnfBYnW2GJk4Hn@gofer.mess.org>
- <YsP68l7IuktIiMLD@jyty>
+        with ESMTP id S230139AbiGEJkb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 05:40:31 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5624E11A3C
+        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 02:40:26 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id lw20so20655600ejb.4
+        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 02:40:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eVDIofOrUUcwMYGlHAM16/DdXg5h/K6bRiFH8cfnhcM=;
+        b=gc4SemvwlGzkkzLoURTEA41vG8g+/bTrhyDi1XIPLHNXPXRYxtYvMWnSqHs3XPdDWX
+         AQgPxXv4Jj+VnyZbLFfeJS425hmOkJdl9EsE2Tka2Nj6HiP4pfLaaNbBAK6hwzkAKh1O
+         x3LqdTcGAfPTH+t0nPbKVlG8iQaJP29mLM0FU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eVDIofOrUUcwMYGlHAM16/DdXg5h/K6bRiFH8cfnhcM=;
+        b=yGO11u9Rn687ms61x0o0wa/cIrFIt2oFrfEgi+vmIolAyII4CGJgvTGvzdDrFOdT37
+         +wgVBbHcbuSIaTEYjQO5oEug5pR9TS4THgwnF/DlP7HHh3MOZkGr4UZ4soU0omdb/6jb
+         C7UjGG/FrzCoq0kwtnLB4/ZzVi2Rr53gUqbDgQvZgBExNj+2yEPH1zZFPAkS7z3tJQIi
+         DWOJArPtQ1hLkunPbQM4ToeAYzYGAyX6QYsgyMw64eVRWEaY1/7ALp5up3yIetnzcidB
+         XOFM0kJHyMIIHo2/rR+rvKRywx14eavhtYdtuaEek87eLOduJKd/Uc8B0qj9w78f/BuD
+         STaw==
+X-Gm-Message-State: AJIora+jrYcGW4UGsYjBSKIH6yGLtBwqZR6wqhmKpZeujQz9VY9AUBmx
+        SEhu4GCIztb6db8KNtkYDDEG5Bg+u8+RRw==
+X-Google-Smtp-Source: AGRyM1vzsU2kifoKgR2rS3njXY+ag6q8a1tiVieSmxxxXRRPNZ6P8nKVI8xF+rhe9m/vJfvikNiwbw==
+X-Received: by 2002:a17:906:2dd:b0:712:1293:3dd8 with SMTP id 29-20020a17090602dd00b0071212933dd8mr32669296ejk.448.1657014024922;
+        Tue, 05 Jul 2022 02:40:24 -0700 (PDT)
+Received: from p310.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id y20-20020a17090629d400b00704cf66d415sm15602892eje.13.2022.07.05.02.40.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 02:40:24 -0700 (PDT)
+Date:   Tue, 5 Jul 2022 12:43:29 +0300
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, jacopo@jmondi.org
+Subject: Re: hooking Sony 47MPixel sensor to NXP imx8m-mini MIPI CSI2
+Message-ID: <YsQHwUCLlombAj85@p310.k.g>
+References: <YrwFf7Jw2/yDlcDq@carbon.lan>
+ <YrwNKiJA+cnm7pGr@pendragon.ideasonboard.com>
+ <YrwRROJbH/P5lYi+@carbon.lan>
+ <YrzzbwYr+ztrXbgZ@pendragon.ideasonboard.com>
+ <Yr3w1T7s/7DTgZVd@carbon.gago.life>
+ <Yr38wcjA24QkZSRQ@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YsP68l7IuktIiMLD@jyty>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <Yr38wcjA24QkZSRQ@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marko,
-
-On Tue, Jul 05, 2022 at 11:48:50AM +0300, Marko Mäkelä wrote:
-> Tue, Jul 05, 2022 at 08:25:48AM +0100, Sean Young wrote:
-> > On Mon, Jul 04, 2022 at 10:04:38PM +0300, Marko Mäkelä wrote:
-> > > Mon, Jul 04, 2022 at 11:00:38AM +0100, Sean Young wrote:
-> > > > On Mon, Jul 04, 2022 at 12:20:01PM +0300, Marko Mäkelä wrote:
-> > > > > Mon, Jul 04, 2022 at 08:21:39AM +0100, Sean Young wrote:
-> > > > > > On Sun, Jul 03, 2022 at 08:02:14PM +0300, Marko Mäkelä wrote:
-> > > > > I tested the attached patch (which was created on 5.19-rc5, which
-> > > > > failed to boot on my system for unrelated reasons) on Linux 5.17, on
-> > > > > top of your fixes to rtl28xxu and rc-core.
-> > > >
-> > > > You'll need to fix this.
+On 22-06-30 22:42:57, Laurent Pinchart wrote:
+> On Thu, Jun 30, 2022 at 09:52:05PM +0300, Petko Manolov wrote:
+> > On 22-06-30 03:50:55, Laurent Pinchart wrote:
 > > > 
-> > > The 5.19-rc5 boot failure could have been related to LUKS setup on that
-> > > machine, because a kernel panic message was displayed before I was being
-> > > prompted for an encryption key. The modules would not have been loaded at
-> > > that point, so I do not think that it is related to my modifications.
-> > > 
-> > > When compiled for the v5.17 kernel release tag on another computer, the
-> > > patch that implements rc_keydown_or_repeat() worked for me.
-> > > 
-> > > It does not look like there are many changes in drivers/media/rc between
-> > > 5.17 and 5.19.
+> > > For an i.MX8MM I'd try running the mainline kernel directly. If that doesn't
+> > > work, I would backport the camera drivers from mainline to the v5.15 NXP
+> > > kernel. As far as I know, the v5.18 branch isn't an official BSP release (I'm
+> > > actually not sure what it's for).
 > > 
-> > Your patch needs a `Signed-off-by` and it should not be attached, it should
-> > be inline in your email.
+> > The 5.15 NXP kernel got released sometime in June, but the CSI capture drivers
+> > are pretty much the same as in their older versions.  So sad...
+> > 
+> > Nevermind, i'll share any good news here as well as the imx492 driver code as
+> > soon i am certain it can successfully stream in at least one mode.
+> > 
+> > BTW, the 'fec' section in Variscite's var-som-symphony DT is broken for v5.18
+> > (mainline) kernels. I am not certain whom should i send the patch.  Would that
+> > be Rob Herring or should i just use 'git blame' to identify the victim? :)
 > 
-> Thank you for your patience. I hope that I got it right. It would be my very
-> first patch submission to the Linux kernel. I did not see it appear on this
-> list archive yet. You are Cc'd.
+> scripts/get_maintainer.pl is your friend for that.
 
-Thanks, I'll have a look.
+Done, sent a patch for review to lkml and Rob.
 
-> > > > See https://github.com/seanyoung/cir/
-> > > 
-> > > This could open up many possibilities. Would the decoded events also be
-> > > available via some low-level interface to user-space programs, in addition
-> > > to the input event driver?
-> > 
-> > The plan was for it to run once, generate an eBPF program, attach that an
-> > exit. The eBPF program sends the decoded stuff to the lirc chardev in
-> > this struct:
-> > 
-> > https://www.kernel.org/doc/html/latest/userspace-api/media/rc/lirc-dev-intro.html#data-types-used-by-lirc-mode-scancode
-> > 
-> > This is the struct you're amending with LIRC_SCANCODE_FLAG_REPEAT.
-> > 
-> > Will that be sufficient for your needs?
-> 
-> I think that it should cover the most common types of remote control units.
-
-That is the hope.
-
-> I can name an example of a complex IR remote control, which I think would be
-> challenging to repurpose for controlling anything else than the original
-> type of device. But, I would think that something Bluetooth or WLAN based on
-> a touchscreen device will replace IR in such applications.  The remote
-> control of my air conditioner presents all settings on a local LCD. On every
-> change, maybe after a short timeout of inactivity, it will send a long IR
-> message with all the settings. The 32 bits of keycode or 64 bits of scancode
-> would not be sufficient for that.
-
-There certainly can be an eBPF decoder for this type of IR, but I'm not sure
-what the use case is, because it's not key information. Maybe there is
-something else in eBPF which is more suitable.
-
-BTW I'm sure it's possible to control an air conditioner with the cir tool
-above, using the IRP language. Would be great to see something like that.
-Transmission is already working, so just requires reverse engineering the
-protocol and writing some IRP for it. :)
+Banged on var-som-symphony DT enough to get imx492 detected (on 5.19.0-rc4) by 
+its driver.  imx-mipi-csis also looks happy enough.  Both drivers finish their 
+probe() successfully.  However, i don't see /dev/video0, any ideas what might be 
+the reason?
 
 
-Sean
+thanks,
+Petko
