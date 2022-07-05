@@ -2,57 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAD4D566587
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 10:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BED0156657F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 10:54:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230206AbiGEIyh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jul 2022 04:54:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55544 "EHLO
+        id S231182AbiGEIyM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 04:54:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231194AbiGEIyd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 04:54:33 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 483C8EE12;
-        Tue,  5 Jul 2022 01:54:32 -0700 (PDT)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:6610:ee84:2ba:7917])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8289A66019A9;
-        Tue,  5 Jul 2022 09:54:30 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1657011271;
-        bh=74m1fNyKKTWNkvvgOeIYSIUU2D5I7i5Y9LQkpaIM6SY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LMyNVaWJ+9x+1beTSaA1VQ6u6UF/WW9gp7fms57pDRz278Gsb88c+rF6M9884Z42U
-         RydbPZZyOyHia3WJzLfdt0EfOnuwmlultsZ3Y5/cYPT6IpzND3/pjitNuXZYXLBPL0
-         ZLQ3KJWoouCXDpp6qlsnW7A4un9Ns24W+19W9QmEVZEB/Bw32TiwKMUGsFRP3mG3YI
-         F4TiemRY+rCqeVpg8z1TT9DLNdfgeEFXFEb6VOU8PvwF4Xfr8YGK9Bvbb//1Jv3By+
-         jdQtGqkzbCCmrkykgQSUui6k/bMk+4BKyYHc5G0fU+k5RTotQOklEwTDv5XpGfQNBC
-         elp1FOdmBHwCQ==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, andrzej.p@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v10 04/17] media: uapi: HEVC: Add missing fields in HEVC controls
-Date:   Tue,  5 Jul 2022 10:54:07 +0200
-Message-Id: <20220705085420.272912-5-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
-References: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
+        with ESMTP id S231153AbiGEIyL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 04:54:11 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C2BE0AA
+        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 01:54:10 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id a4so19489483lfm.0
+        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 01:54:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=nw9QBM4EqJ5xwWd7RpoMZnENK7E50AzGM8TkgpvVQ1Q=;
+        b=d1fwHYEmbnabD5ZdDwrH4VvmxM9Ml+tOGAwnvpZG9eDqyg5tEbLny+kh4RGuiQ4UR8
+         +Nt5ezNZn2cbhDaEEdoerjHlXY9EbJM9dbwyNZLPlbIg/lstUrldwZOBj4sGAJVniL4H
+         d80bFizstmm6dVswuHgLABEPmt9jxdiCt6D0fACpbZxFFgyNJ+dwXhbO7iCNIv2nJCeA
+         /tw4YcVdOSyGZ3tn4Ob0vXYchzin8dZJ2TKdPJcBOzcsOAmUrXUYEim/9ZcU6lZTa/C/
+         JiHCyb4QuW3tKr2msoD+LlCfF7taXtNP4mI0EG1odVtvSt+tFRHG12PG7SDBTZIXrWdj
+         gV2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=nw9QBM4EqJ5xwWd7RpoMZnENK7E50AzGM8TkgpvVQ1Q=;
+        b=36jKXWf+t6taQVxwmNHEF1b1i4msBf+0WPesxbYZsgy/uIpd0mOtQG6f2fkUW+qFiB
+         KniaXgGbveQsRXbgSIgPcDlJr9L/UFtiWI9KG3DrRHQQxLmvTKjFy6wSRLrPHtzyYieA
+         jjNW18l61as5jvexwaaAut9D7u6MaTdXyLzHb+n9XiEhYztl73qwu4I0slYMGyEYv7Wq
+         ysBejklcSfjnVRKC5w9Tr62hCThVtsV5rarDbDZgElQsH9QnFIOzF1lKjVmJPMlaaH0N
+         QiE3xI/jA8k98wiF4xnaXATAknyBon4a39bXQGFPgXszV6/1Jjp5DbweiGXnezbakfgu
+         Zjpg==
+X-Gm-Message-State: AJIora+CqBfR2cCJH0SKq8Ijm1iKPMwPQl9nFcRqrMT9BLuMa6ExURLh
+        374duP77s1Ja/DYllYS25cCDTgbCgI2I2NTCgwU=
+X-Google-Smtp-Source: AGRyM1vCZh6kTc1MZ3RSIqFNCtMIr9dt+zHGKzX/lFdYUs1vlcEUDX7A7AM+oGVMHuBRVULg+2VDZjHXpU24lzPMjug=
+X-Received: by 2002:a05:6512:22d3:b0:481:1ed7:bf12 with SMTP id
+ g19-20020a05651222d300b004811ed7bf12mr21299164lfu.179.1657011248424; Tue, 05
+ Jul 2022 01:54:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+Reply-To: sgtkalamanthey@gmail.com
+Sender: ismaelmaiga093@gmail.com
+Received: by 2002:a05:6504:188b:0:0:0:0 with HTTP; Tue, 5 Jul 2022 01:54:07
+ -0700 (PDT)
+From:   Kayla Manthey <sgtkalamanthey@gmail.com>
+Date:   Tue, 5 Jul 2022 01:54:07 -0700
+X-Google-Sender-Auth: z5quX2ekq7npA-ZRKTcxvCdjKco
+Message-ID: <CAB3qZ4hJ9zaTobNHXbfskSRrSANGH6CkNRnB5a2bx8=Y3_sAKg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,125 +67,6 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Complete the HEVC controls with missing fields from H.265 specifications.
-Even if these fields aren't used by the current mainlined drivers
-they will be required for (at least) the rkvdec driver.
-
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
-version 9:
-- fix typo
-
- .../media/v4l/ext-ctrls-codec.rst             | 32 +++++++++++++++++++
- include/media/hevc-ctrls.h                    |  8 ++++-
- 2 files changed, 39 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 6183f43f4d73..cff742142a55 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -2683,6 +2683,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     :stub-columns: 0
-     :widths:       1 1 2
- 
-+    * - __u8
-+      - ``video_parameter_set_id``
-+      - Specifies the value of the vps_video_parameter_set_id of the active VPS
-+        as described in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
-+        of H.265 specifications.
-+    * - __u8
-+      - ``seq_parameter_set_id``
-+      - Provides an identifier for the SPS for reference by other syntax elements
-+        as described in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
-+        of H.265 specifications.
-     * - __u16
-       - ``pic_width_in_luma_samples``
-       -
-@@ -2822,6 +2832,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     :stub-columns: 0
-     :widths:       1 1 2
- 
-+    * - __u8
-+      - ``pic_parameter_set_id``
-+      - Identifies the PPS for reference by other syntax elements.
-     * - __u8
-       - ``num_extra_slice_header_bits``
-       -
-@@ -3048,6 +3061,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     * - __u8
-       - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-       - The list of L1 reference elements as indices in the DPB.
-+    * - __u16
-+      - ``short_term_ref_pic_set_size``
-+      - Specifies the size, in bits, of the short-term reference picture set, described as st_ref_pic_set()
-+        in the specification, included in the slice header or SPS (section 7.3.6.1).
-+    * - __u16
-+      - ``long_term_ref_pic_set_size``
-+      - Specifies the size, in bits, of the long-term reference picture set include in the slice header
-+        or SPS. It is the number of bits in the conditional block if(long_term_ref_pics_present_flag)
-+        in section 7.3.6.1 of the specification.
-     * - __u8
-       - ``padding``
-       - Applications and drivers must set this to zero.
-@@ -3385,6 +3407,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-       - ``pic_order_cnt_val``
-       - PicOrderCntVal as described in section 8.3.1 "Decoding process
-         for picture order count" of the specification.
-+    * - __u16
-+      - ``short_term_ref_pic_set_size``
-+      - Specifies the size, in bits, of the short-term reference picture set, of the first slice
-+        described as st_ref_pic_set() in the specification, included in the slice header
-+        or SPS (section 7.3.6.1).
-+    * - __u16
-+      - ``long_term_ref_pic_set_size``
-+      - Specifies the size, in bits, of the long-term reference picture set, of the first slice
-+        included in the slice header or SPS. It is the number of bits in the conditional block
-+        if(long_term_ref_pics_present_flag) in section 7.3.6.1 of the specification.
-     * - __u8
-       - ``num_active_dpb_entries``
-       - The number of entries in ``dpb``.
-diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-index 01ccda48d8c5..752a8d10782c 100644
---- a/include/media/hevc-ctrls.h
-+++ b/include/media/hevc-ctrls.h
-@@ -58,6 +58,8 @@ enum v4l2_mpeg_video_hevc_start_code {
- /* The controls are not stable at the moment and will likely be reworked. */
- struct v4l2_ctrl_hevc_sps {
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
-+	__u8	video_parameter_set_id;
-+	__u8	seq_parameter_set_id;
- 	__u16	pic_width_in_luma_samples;
- 	__u16	pic_height_in_luma_samples;
- 	__u8	bit_depth_luma_minus8;
-@@ -108,6 +110,7 @@ struct v4l2_ctrl_hevc_sps {
- 
- struct v4l2_ctrl_hevc_pps {
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
-+	__u8	pic_parameter_set_id;
- 	__u8	num_extra_slice_header_bits;
- 	__u8	num_ref_idx_l0_default_active_minus1;
- 	__u8	num_ref_idx_l1_default_active_minus1;
-@@ -199,7 +202,8 @@ struct v4l2_ctrl_hevc_slice_params {
- 	__u32	slice_segment_addr;
- 	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
- 	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
--
-+	__u16	short_term_ref_pic_set_size;
-+	__u16	long_term_ref_pic_set_size;
- 	__u8	padding;
- 
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
-@@ -214,6 +218,8 @@ struct v4l2_ctrl_hevc_slice_params {
- 
- struct v4l2_ctrl_hevc_decode_params {
- 	__s32	pic_order_cnt_val;
-+	__u16	short_term_ref_pic_set_size;
-+	__u16	long_term_ref_pic_set_size;
- 	__u8	num_active_dpb_entries;
- 	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
- 	__u8	num_poc_st_curr_before;
--- 
-2.32.0
-
+Powitanie! czy dosta=C5=82e=C5=9B moje poprzednie e-maile? prosz=C4=99 spra=
+wdzi=C4=87 i
+odpowiedzie=C4=87 mi
