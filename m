@@ -2,124 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F9A45661DD
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 05:31:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA4A15663EB
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jul 2022 09:26:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234353AbiGEDa0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jul 2022 23:30:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52814 "EHLO
+        id S230347AbiGEHZx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jul 2022 03:25:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229751AbiGEDaY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jul 2022 23:30:24 -0400
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D20711A3A
-        for <linux-media@vger.kernel.org>; Mon,  4 Jul 2022 20:30:23 -0700 (PDT)
-Received: by mail-il1-f197.google.com with SMTP id g9-20020a056e020d0900b002d958b2a86dso5185925ilj.14
-        for <linux-media@vger.kernel.org>; Mon, 04 Jul 2022 20:30:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=ynRC0sSNdaIF1+UHlgNLr18vUL3idRfXFywroLUCYAo=;
-        b=N+bguNZvGckzKqx6ckmG3XwZOXVLhp6oYzTsWhU80KZgUiCUqgxWw6WkiqCo6M1saH
-         P+K1ARYbY2WMCoM7IHTURL+7y3ysag74fBmn1cTsZBOnkYEGP8KVu5Av7dPHVJULCbjS
-         mVv1J4vGzSpGM6EDxXjDcGmy4RCqSoq+0UixUrJjt5xxXZkPkSU81bO0W73j9+mu2NfC
-         fYPlMD3splzumQK2JBAyUvvqxWDXGw6xy99EZqF7Nl13xoO6FZ59zi6bX1pAtc1uMVpe
-         mk+ktnC/5nNXcefbdtkTO10QOkFUdcHS9k4LP3XTkSS6AES7x9PjAAcwe98pS6pwSxHp
-         x8UA==
-X-Gm-Message-State: AJIora9RpKjsCjo2SIjnevh0ub6zd24aHdH3Peqt1EulgGzFzNY5vFIE
-        wgi+5WknHMpDbFVz0VDIPk6lgENiY48J5UnppG68lImP1DBQ
-X-Google-Smtp-Source: AGRyM1sKbP4p8bAEF6c10sUWkv/ZtZLd7fLBs/X+LiBlTtKuDiwuh/oKzvAQ9qKg5/iPJotKU0K4qEgvEPrAdjWmyjR+SYdt92wb
+        with ESMTP id S231182AbiGEHZv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jul 2022 03:25:51 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7400A2615
+        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 00:25:50 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 8E4661002A0; Tue,  5 Jul 2022 08:25:48 +0100 (BST)
+Date:   Tue, 5 Jul 2022 08:25:48 +0100
+From:   Sean Young <sean@mess.org>
+To:     Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: rtl28xxu: improve IR receiver
+Message-ID: <YsPnfBYnW2GJk4Hn@gofer.mess.org>
+References: <704b3d7e5a7a95cbd5e4dfc25a41454e919aed95.1644683294.git.sean@mess.org>
+ <YrhSK5l0uQZT76Fi@jyty>
+ <YrmMQNPHkDGZ843v@gofer.mess.org>
+ <YrqfTnY4Azqt44e4@jyty>
+ <Yr/+g/j20kb5kzki@gofer.mess.org>
+ <YsHLlg9CccrEzOjL@jyty>
+ <YsKVA4bKNuRUOZpf@gofer.mess.org>
+ <YsKwwVaFYrOxMhZw@jyty>
+ <YsK6Rlk/ODYUE2/F@gofer.mess.org>
+ <YsM5xhEXb6rzl1X9@jyty>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:144d:b0:2da:b8f7:402a with SMTP id
- p13-20020a056e02144d00b002dab8f7402amr18234924ilo.178.1656991822474; Mon, 04
- Jul 2022 20:30:22 -0700 (PDT)
-Date:   Mon, 04 Jul 2022 20:30:22 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f978d305e3067837@google.com>
-Subject: [syzbot] WARNING in send_packet/usb_submit_urb
-From:   syzbot <syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, sean@mess.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YsM5xhEXb6rzl1X9@jyty>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Marko,
 
-syzbot found the following issue on:
+On Mon, Jul 04, 2022 at 10:04:38PM +0300, Marko Mäkelä wrote:
+> Mon, Jul 04, 2022 at 11:00:38AM +0100, Sean Young wrote:
+> > On Mon, Jul 04, 2022 at 12:20:01PM +0300, Marko Mäkelä wrote:
+> > > Mon, Jul 04, 2022 at 08:21:39AM +0100, Sean Young wrote:
+> > > > On Sun, Jul 03, 2022 at 08:02:14PM +0300, Marko Mäkelä wrote:
+> > > I tested the attached patch (which was created on 5.19-rc5, which
+> > > failed to boot on my system for unrelated reasons) on Linux 5.17, on
+> > > top of your fixes to rtl28xxu and rc-core.
+> > 
+> > You'll need to fix this.
+> 
+> The 5.19-rc5 boot failure could have been related to LUKS setup on that
+> machine, because a kernel panic message was displayed before I was being
+> prompted for an encryption key. The modules would not have been loaded at
+> that point, so I do not think that it is related to my modifications.
+> 
+> When compiled for the v5.17 kernel release tag on another computer, the
+> patch that implements rc_keydown_or_repeat() worked for me.
+> 
+> It does not look like there are many changes in drivers/media/rc between
+> 5.17 and 5.19.
 
-HEAD commit:    1a0e93df1e10 Merge tag 'for-linus' of git://git.kernel.org..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=14135814080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=833001d0819ddbc9
-dashboard link: https://syzkaller.appspot.com/bug?extid=0c3cb6dc05fbbdc3ad66
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10d12414080000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1231e6f0080000
+Your patch needs a `Signed-off-by` and it should not be attached, it should
+be inline in your email.
 
-Bisection is inconclusive: the issue happens on the oldest tested release.
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#no-mime-no-links-no-compression-no-attachments-just-plain-text
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10febf98080000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=12febf98080000
-console output: https://syzkaller.appspot.com/x/log.txt?x=14febf98080000
+> > See https://github.com/seanyoung/cir/
+> 
+> This could open up many possibilities. Would the decoded events also be
+> available via some low-level interface to user-space programs, in addition
+> to the input event driver?
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com
+The plan was for it to run once, generate an eBPF program, attach that an
+exit. The eBPF program sends the decoded stuff to the lirc chardev in
+this struct:
 
-------------[ cut here ]------------
-URB ffff888016985200 submitted while active
-WARNING: CPU: 0 PID: 3621 at drivers/usb/core/urb.c:378 usb_submit_urb+0x14e2/0x18a0 drivers/usb/core/urb.c:378
-Modules linked in:
-CPU: 0 PID: 3621 Comm: syz-executor844 Not tainted 5.19.0-rc4-syzkaller-00044-g1a0e93df1e10 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/18/2022
-RIP: 0010:usb_submit_urb+0x14e2/0x18a0 drivers/usb/core/urb.c:378
-Code: 89 de e8 01 bf ee fb 84 db 0f 85 a9 f3 ff ff e8 f4 c2 ee fb 4c 89 fe 48 c7 c7 80 ef 6e 8a c6 05 d1 14 1b 08 01 e8 1d 8b a6 03 <0f> 0b e9 87 f3 ff ff 41 be ed ff ff ff e9 7c f3 ff ff e8 c7 c2 ee
-RSP: 0018:ffffc90002f8fd40 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff88801dd08000 RSI: ffffffff8160cfb8 RDI: fffff520005f1f9a
-RBP: ffff8880214eba00 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000080000000 R11: 0000000000000001 R12: ffff888016985200
-R13: ffff88801722a128 R14: 00000000fffffff0 R15: ffff888016985200
-FS:  00007f5133ccc700(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f5133ccc718 CR3: 0000000070f6b000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- send_packet+0x422/0xbc0 drivers/media/rc/imon.c:642
- vfd_write+0x2d9/0x550 drivers/media/rc/imon.c:991
- vfs_write+0x269/0xac0 fs/read_write.c:589
- ksys_write+0x127/0x250 fs/read_write.c:644
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x46/0xb0
-RIP: 0033:0x7f5133d400b9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 81 14 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f5133ccc318 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f5133dc44d8 RCX: 00007f5133d400b9
-RDX: 0000000000000001 RSI: 0000000020000180 RDI: 0000000000000004
-RBP: 00007f5133dc44d0 R08: 0000000000000000 R09: 0000000000000000
-R10: 00007f5133ccc700 R11: 0000000000000246 R12: ab0847687fc4f2a2
-R13: 00007ffe90898ecf R14: 00007f5133ccc400 R15: 0000000000022000
- </TASK>
+https://www.kernel.org/doc/html/latest/userspace-api/media/rc/lirc-dev-intro.html#data-types-used-by-lirc-mode-scancode
+
+This is the struct you're amending with LIRC_SCANCODE_FLAG_REPEAT.
+
+Will that be sufficient for your needs?
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Sean
