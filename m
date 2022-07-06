@@ -2,70 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ED38568F46
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jul 2022 18:35:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E865B568F52
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jul 2022 18:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233265AbiGFQfp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jul 2022 12:35:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60594 "EHLO
+        id S233470AbiGFQjX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Jul 2022 12:39:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233518AbiGFQfo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jul 2022 12:35:44 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF1221C128
-        for <linux-media@vger.kernel.org>; Wed,  6 Jul 2022 09:35:41 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id y10-20020a9d634a000000b006167f7ce0c5so12235349otk.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Jul 2022 09:35:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Uk0kx353H+gGEfDDNFmV1k9XciWZTV5g6S3ovbgNaYc=;
-        b=YJKB5C3B+x1QVqxOvu4ZEuub9YHmbaK6VTNdRIVaG4j11rXHrsGru+2ZdvBcqIcRor
-         AfENnfpnfwPkKG0JE+Tb0OW47lQ8LR4lvqxt/6YYyM1IqSdKFIQaJ09tPExxFFzXXqSg
-         0bLp28tElsJcFM9fcr5TCzIrwh8CvNtZ2p3ukUOnTmtz88x8454kFO+wm26p3wTR9XT4
-         g4ID060RRkxEhQP1BbLO9uzenBnSczHm5ZenT0IDY9NuTrCh5uhOpnXPy4pKYSeNcd5G
-         otsYWRRE2qEDvWI8BeI+AndgKu5mS2QpYjkhDo+r29CpOxp0fuP9p2smoNBSPEItMNtb
-         2Hyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Uk0kx353H+gGEfDDNFmV1k9XciWZTV5g6S3ovbgNaYc=;
-        b=PeP2hy/fwHNxWU2CtUoeETxredoCfxU4XHIBvqc0+LOlWlsukPYrh3wFuUJ1tLPmCa
-         y0ADAwvFbLFGpZSPbTGRpYa1bg44Vc77X7GsGXLLS+6XWASRwqhNanWYbRPbHxlPJRmS
-         2QnPHeqkqAjbFEgEtFwnTJv42GjTd/LVssJSSg/UfaSVDZpbChBKxkT2B0P6pGHYZOIy
-         cNsSA5eqqSpYiXmc4RGp2JdjV96+FOhV+xYSOb4dj67bC0aJ3qiY05NJakRVkCbPsP46
-         KwrD1+3XBSWQ2ZjqZVdTeAVW3jn2WN5A+5c4n103SJUnOsV3dPJOB8nJ3ndZZW0N3Ko+
-         58mQ==
-X-Gm-Message-State: AJIora/fBFDbsiNQjt7mU5/wof4Y1iQosqJB1Onqa++RULNvIZZfA1zs
-        CFbAe7C5I9b9AosXnZayOLiOAllLIR8iVT3r3eo=
-X-Google-Smtp-Source: AGRyM1siBXyrfTNOvJeEopCAc1iebbkqBPyuLgJpLyAg5DlJRsNwL8MxhVa5zJEcn04SSdtRp46aFzUkw0s/b4jFfFs=
-X-Received: by 2002:a05:6830:18e2:b0:616:cc95:a2b3 with SMTP id
- d2-20020a05683018e200b00616cc95a2b3mr17761807otf.280.1657125341354; Wed, 06
- Jul 2022 09:35:41 -0700 (PDT)
+        with ESMTP id S229780AbiGFQjW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jul 2022 12:39:22 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A5A193E2
+        for <linux-media@vger.kernel.org>; Wed,  6 Jul 2022 09:39:21 -0700 (PDT)
+Received: from jyty (dsl-hkibng31-58c389-173.dhcp.inet.fi [88.195.137.173])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: msmakela)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id EAE361B000E0;
+        Wed,  6 Jul 2022 19:39:18 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1657125559;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=OJKu3T93I7FN1qmY9C9o9ITEDknM/aIzkcz5D6Fo2yE=;
+        b=vDJGlB1GnFEIXIdsx7XLATV9ADKWjCsOayVsPlSWC096g/RkNamw8dRxFcqIN8pggaYDx3
+        +kShKhH1COXc6BJKuEf6PUYWFuxltwK4YgquzQG/AXJlGNwqLEHCX561y7N4wBeU8J1uGL
+        olJZ4DQXLyzLYnEJb7uZyLAD657PhZj0zaXC4Y/KBiBHWZcPIqAxegxWSr3gSwc2v42aRw
+        +KwgBMaeFqjXq63TaJreDaFfKiopPh+aheeelbTpDy3Er+IrxkmCmghDj1E5BZ7cOIGxAf
+        xkC/FuVOOA0rlSJSbA+tq/24e1dDWYchD/K6y5unj1Uvh2BDiksXLJlJvi4afQ==
+Date:   Wed, 6 Jul 2022 19:39:17 +0300
+From:   Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: rc: Always report LIRC repeat flag
+Message-ID: <YsW6tegch5+yNOub@jyty>
+References: <20220705085358.44418-1-marko.makela@iki.fi>
+ <YsR4W3B6JErTCDrS@gofer.mess.org>
 MIME-Version: 1.0
-Received: by 2002:a4a:4545:0:0:0:0:0 with HTTP; Wed, 6 Jul 2022 09:35:40 -0700 (PDT)
-Reply-To: sgtkaylla202@gmail.com
-From:   Kayla Manthey <avrielharry73@gmail.com>
-Date:   Wed, 6 Jul 2022 16:35:40 +0000
-Message-ID: <CAFSKFDbjJwCryRpWuGZmjqwjjbrEqORSnYsDHOUtZn8b2TUtrQ@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=4.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YsR4W3B6JErTCDrS@gofer.mess.org>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1657125559; a=rsa-sha256;
+        cv=none;
+        b=vVGpf+b+79tKclWoH05mYHfwqlOGN94+fdFo4Md0fjCGRWLX5TaskKtf1rpNeKvebQdhL6
+        X8Fs3Eb2zqx8aO3tqW4YMwkm3xVQEj0mhCI7BBl226kHNtmrMhBHtK6ij2NFtTg+5/Z4Pp
+        gueTTr5CGd1urgdfnOP4f5Liqq6fBxgE4vTK2QCG4WNDJ/ccDEesg88cfHOa5DAm6KDq28
+        trADkoQrNDgutDp8jQHIeG4zJ9F+CIf1llK5FSdi9dANgqTGKH//KDSS9uzfLitTniNBhC
+        AgWzRagxW4O3gHvIGStZ7pfz4QDtOhwocmcZbkaLGae0vw/SqxbZfZceTvwR7A==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=msmakela smtp.mailfrom=marko.makela@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1657125559;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=OJKu3T93I7FN1qmY9C9o9ITEDknM/aIzkcz5D6Fo2yE=;
+        b=lMCWUstdTepl9HliO7bm0fs8E4yQCKvtMdsgvbSLfyDC4ji8t67R2Gkxw6nhVwxLyADWUc
+        p6hqX67lrr5ilK7xdcn2QdZsY13meVDRtNxUb1Oipo2S/k/wdN3h2iHFeiYWTnpx4Oj0ib
+        01BSYC7sg5sR7p4ChXNSJ7/G7xN+6zLv4cvaaotZ8hCfIPVE92dQY/FNgiZMpBbzWz2F6o
+        nN8zsM/YgNYKqB1zsduMYsnFTuXqI9uZCWPKUt14G78Os0xCaQtvn2VpTz1WD0EYv12BGJ
+        0mjW/+lEVp8Jv7NN8k8g+7HDXvELJtldHKThc34mSul9PDZuoUKE4vSHya5f2w==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-LS0gDQrQl9C00YDQsNCy0L4g0LTRgNCw0LPQsA0K0JLQtSDQvNC+0LvQsNC8LCDQtNCw0LvQuCDR
-mNCwINC00L7QsdC40LLRgtC1INC80L7RmNCw0YLQsCDQv9GA0LXRgtGF0L7QtNC90LAg0L/QvtGA
-0LDQutCwLCDQstC4INCx0LvQsNCz0L7QtNCw0YDQsNC8Lg0K
+Hi Sean,
+
+Tue, Jul 05, 2022 at 06:43:55PM +0100, Sean Young wrote:
+>On Tue, Jul 05, 2022 at 11:53:58AM +0300, Marko Mäkelä wrote:
+>> The flag LIRC_SCANCODE_FLAG_REPEAT was never set by rc_keydown().
+>> Previously it was only set by rc_repeat(), but not all protocol
+>> decoders invoke that function.
+>
+>This should say _why_ you are making this change, not _what_ the change
+>is.
+
+How would you find the following?
+
+---
+media: lirc: ensure lirc device receives repeats
+
+Commit de142c32410649e64d44928505ffad2176a96a9e ("media: lirc: implement
+reading scancode") would never set the LIRC_SCANCODE_FLAG_REPEAT flag in 
+the LIRC messages.
+
+Commit b66218fddfd29f315a103db811152ab0c95fb054
+("media: lirc: ensure lirc device receives nec repeats") fixed it up for
+those protocol drivers that may call rc_repeat().
+---
+
+Would you prefer to be mentioned as a co-developer?
+
+Best regards,
+
+	Marko
