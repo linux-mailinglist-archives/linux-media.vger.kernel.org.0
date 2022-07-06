@@ -2,94 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8ABF567D6D
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jul 2022 06:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E246567DDB
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jul 2022 07:34:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229839AbiGFEmU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jul 2022 00:42:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54684 "EHLO
+        id S231154AbiGFFem (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Jul 2022 01:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiGFEmT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jul 2022 00:42:19 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DF017AA3
-        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 21:42:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C6849B81A27
-        for <linux-media@vger.kernel.org>; Wed,  6 Jul 2022 04:42:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 158E6C3411C
-        for <linux-media@vger.kernel.org>; Wed,  6 Jul 2022 04:42:14 +0000 (UTC)
-Date:   Wed, 06 Jul 2022 06:42:13 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20220706044215.158E6C3411C@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229598AbiGFFel (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jul 2022 01:34:41 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2DB820F55
+        for <linux-media@vger.kernel.org>; Tue,  5 Jul 2022 22:34:40 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id s21so9674791pjq.4
+        for <linux-media@vger.kernel.org>; Tue, 05 Jul 2022 22:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oKugON8W2AXb8/foS49g/nmwaLHb/Gu5gZSfrbOn1gs=;
+        b=BhcDUrgos44tc5w9+4nYzaQpIu+yVMRhCn7z6foDxGJ7jris2BjKXCDcYIKZA4S4Hs
+         iPh9xAnhqek9qKQkZdcc3c2ztREMC1ci8YawvVJsLU8mZVHMuHG4y9MBeTxeJ6tC+UrA
+         0JS+nHQkEUUUhCubKINsJ9OG9kduWatz2yJdA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oKugON8W2AXb8/foS49g/nmwaLHb/Gu5gZSfrbOn1gs=;
+        b=O7Y9r1U7yD/KpjlpFPx2Aacqxu1mbCEJ+FQyyYxUPTgogcg2Pq0PIEJWuM3Mde3+jU
+         GmG6P6y3GhYsFWIBrgAtEjKVyAPrVXOqNfEV96mcOvCpE07zNInt6rWUIuYFt/xCgQ+1
+         JtA0hwMWtbYCy8v1HNJD8Y7cmGV4JRVYUTjSWLAlNEbv7hogYaLtuWgSESzfshAA2a6D
+         sTGJNiS0wTWocxGjyiiiwRB7zen6WmdQXeWKGxyYaaVK+NUWmkOU+EMmf0pytdbpV852
+         jCuXx7IGg3tSOWg+g3DIo+v1NQeJ1vfmMPmIGQFd08Hij//7RRgX3wj6291PQvOE9Cf8
+         KyGw==
+X-Gm-Message-State: AJIora/CXCRhXmVcaKHIs6lDADfw9GtIfxDCIfGOF/8lhLDnQcUWXky+
+        TfpFc93ge6foDveI3Mmpjj6eWQ==
+X-Google-Smtp-Source: AGRyM1vm/XCRleXBhsGxZBZicviHxMlEw6R9qk+Imp4+WCV2azoZhkwEz6cNM9794WrkoaxRl0L08w==
+X-Received: by 2002:a17:90b:1e02:b0:1ec:d979:4a8e with SMTP id pg2-20020a17090b1e0200b001ecd9794a8emr45449771pjb.181.1657085680475;
+        Tue, 05 Jul 2022 22:34:40 -0700 (PDT)
+Received: from chromium.org ([2401:fa00:8f:203:ebe3:37b4:669a:d932])
+        by smtp.gmail.com with ESMTPSA id m7-20020a1709026bc700b0016b8b5ef703sm17430212plt.55.2022.07.05.22.34.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 22:34:39 -0700 (PDT)
+Date:   Wed, 6 Jul 2022 14:34:36 +0900
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH 3/3] media: vsp1: Use vb2_queue_is_busy()
+Message-ID: <YsUe7J0XDS979KBM@chromium.org>
+References: <20220318211446.11543-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220318211446.11543-4-laurent.pinchart+renesas@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220318211446.11543-4-laurent.pinchart+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Laurent,
 
-Results of the daily build of media_tree:
+On Fri, Mar 18, 2022 at 11:14:46PM +0200, Laurent Pinchart wrote:
+> Use the new vb2_queue_is_busy() helper to replace the open-coded
+> version.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_video.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> index 8f53abc71db2..4da70b2b0869 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> @@ -1032,7 +1032,7 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	struct vsp1_pipeline *pipe;
+>  	int ret;
+>  
+> -	if (video->queue.owner && video->queue.owner != file->private_data)
+> +	if (vb2_queue_is_busy(&video->queue, file))
+>  		return -EBUSY;
+>  
+>  	/*
 
-date:			Wed Jul  6 05:00:07 CEST 2022
-media-tree git hash:	81e005842d0b8167c059553a1c29c36d8a7a9329
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	33ad0c66db3aac8a9d72864ac84a2fb65d7a6878
-edid-decode git hash:	582c935652b0303b87ddad4551e6f97f8bb883ac
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-30-g92122700-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8015-g1a0af070-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 91f84ece3e3913f585d616d95c62decf7ca58e1f
-host hardware:		x86_64
-host os:		5.18.0-2-amd64
+Thanks for the patch and really sorry for the long delay. Finally
+catching up with my backlog.
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-multi: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-kerneldoc: OK
+An alternative would be to have all the stream start code placed under
+the vb2 start_streaming callback, symmetrically to
+what the driver already does with streamoff/stop_streaming. That would
+eliminate the need to export the symbol from the vb2 framework.
 
-Detailed results are available here:
+Have you considered that option?
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Best regards,
+Tomasz
