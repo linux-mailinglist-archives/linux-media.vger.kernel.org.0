@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CBE356AEB7
+	by mail.lfdr.de (Postfix) with ESMTP id 6551756AEB8
 	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 00:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236841AbiGGWru (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 18:47:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42766 "EHLO
+        id S236155AbiGGWrv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 18:47:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236155AbiGGWrt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 18:47:49 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0EF606B9
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 15:47:48 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id o4so28243573wrh.3
-        for <linux-media@vger.kernel.org>; Thu, 07 Jul 2022 15:47:48 -0700 (PDT)
+        with ESMTP id S236843AbiGGWru (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 18:47:50 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B58ED61D60
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 15:47:49 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id ay25so1820847wmb.1
+        for <linux-media@vger.kernel.org>; Thu, 07 Jul 2022 15:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pr7tskyshjOtUfrAvBKNPyBApqCLGXVUJZDWHNfZwSc=;
-        b=FrizMJrglTDErxPiNwTNXVfYOF8//4zESmFrlS5SsTd1a6xwCKFdl1nEDt2RZikEoI
-         ReED5BtdxfiJCqTFnRhp+p9yftz2S/8W0wrxRYMQfcVVuI+a9giqvN/vK33VkKzwPjEo
-         bXe12et0bqqEyo0XgJq87Cz332vydB5txTZMqG0HfAWQcsEWifQSim1TlhmzXXSdsID8
-         Q7Tl77NQMYHiRQcTkLo1acSVVfZsonaxPIqOL9x9dsxQFgZZC5XnMv9Jz86aS/o1vowB
-         IM8ZWO13ZZ0nqR5RtLWUKJ/8hRFBVxO7vxxkNKWk9b+RrOf/GJI+JLKglgapFFfvomW/
-         oqMg==
+        bh=82R/3qdmhrdFpqaMvdtyb8vBQDUGY1kfr47RRdbZrBs=;
+        b=c6rS2NWWW8Rzct7v5X/6rlH2X0rzJ+Md4fs3f+5ggCa6lUp4TqdTV2KCL6wERKvieT
+         Tyl8ZqDZ9DnfAGkH81vU/UE8Urfsa9EMnv543lqV/Z0LP4DfNI0QxBcPomklkmlmE7Y4
+         dWRlLjL8SClz1yOJZ+oAymBguLLPUVVZGylYSTey0L4vDAWD0LfJTBugng0ZHnPlh7Fm
+         s4jCSnHcYGfCDqWCiTMHxqaIoRr+I88Sh7VPjE/ErEdnsTlNMomiN9OwfzxTmPko2lCj
+         D4uX1jxET9NphQ2MFszH0Ke5eyjOuXhKMsGJuknOlvj5mLGSHaNQYaP+n7JhP7A9MxPk
+         7yOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pr7tskyshjOtUfrAvBKNPyBApqCLGXVUJZDWHNfZwSc=;
-        b=ik81pmpPTo+envZlMmBFA1L7aktHGBaRS9zcTpcHFaOwll97RxFylh3g0e7HaezV4P
-         pBOBl3eZOn2Sq0IfUljHO2V38kc9gCeY9sISCXA/ou0BwLhvQW5Sbj4Np2IYAGcTccfN
-         O/hd0WnfsEnssDqxEoDnnY+bCo1lNIBNeAOXeNzQFZI8XdO2UxcmsmK1MQcd1kro/YGl
-         FYcCv2WXa09DTWQIov6wRlqou3IUtYhs1EmsJM/qC9+eAe1cQAVFQsqzxz0GahshKLRJ
-         ZyZuZrXwPSdfNsjA4zSY3GVCBrF0rYQ5UfDI5bj7oSdUZAtUPUR9pl+FG0YWpuO3W4JG
-         lL+Q==
-X-Gm-Message-State: AJIora+fqYo0ioMhB3iEMo9vqrDY32o05GOGUdfic88ivuB5W061Pu6H
-        V7Qm9mlusGms0OwzC/vAfzJrvsD+koA=
-X-Google-Smtp-Source: AGRyM1t6m3ET0Mn3gWFvS0IrNPe+0KE3zfbzGU7j+74x5xj8S9pk55GBQOnfC1XQuKkk+3pGJXuSwA==
-X-Received: by 2002:a5d:528e:0:b0:21b:b85b:5873 with SMTP id c14-20020a5d528e000000b0021bb85b5873mr194089wrv.191.1657234066952;
-        Thu, 07 Jul 2022 15:47:46 -0700 (PDT)
+        bh=82R/3qdmhrdFpqaMvdtyb8vBQDUGY1kfr47RRdbZrBs=;
+        b=veVIO2/e+8nI8Qq503rn14IeEH/Nk1CJRnj3+p1TI7NoogsZPabrXBaGp8PnOiGJSJ
+         WM0+NEx7zWn0mxhMq1QFvVSqSJiCiPsBLKOKkiefg0pSzG7o8MKeWUD7RTIW00OTFwGG
+         owmXr0YQdjadlu0juNBAA8fQQ48malu17oz1LMuXb0Zci1bb/BjOLHzLkBJOPE51FsuF
+         Q5aGh2MpjSWifR5eNZYNuiCwtVqR6Ad98OIJb+o/fkfflEwvtChATDvs9gfLfSBgvvsh
+         flSeQ4O5NtgHK3+6agkkBeKgWGdc9hzCg1Ri7RUIWmpX5t6s7yx4EHo4rHeGJLhxBEOD
+         T/rw==
+X-Gm-Message-State: AJIora9vkabpdvD0IRy+qD/EK7hPGPpwPfETyZVqRT4Ba81ptnkaCmyG
+        cUw3YYjY1/mS1VLGi/AmBdO4OlcnjAc=
+X-Google-Smtp-Source: AGRyM1tLUGpT0mNNGO2vu9H1APeF5kZiuYFmi6pGcpQFoGLqnI3R7sJ1JsbvWMScm5a/1ixpPP9SBw==
+X-Received: by 2002:a05:600c:240c:b0:3a2:c47f:2b49 with SMTP id 12-20020a05600c240c00b003a2c47f2b49mr7057870wmp.54.1657234067818;
+        Thu, 07 Jul 2022 15:47:47 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id be12-20020a05600c1e8c00b0039c4d022a44sm241694wmb.1.2022.07.07.15.47.46
+        by smtp.gmail.com with ESMTPSA id be12-20020a05600c1e8c00b0039c4d022a44sm241694wmb.1.2022.07.07.15.47.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 15:47:46 -0700 (PDT)
+        Thu, 07 Jul 2022 15:47:47 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
         paul.elder@ideasonboard.com, jacopo@jmondi.org
-Subject: [PATCH v2 1/2] media: entity: Add iterator for entity data links
-Date:   Thu,  7 Jul 2022 23:47:32 +0100
-Message-Id: <20220707224733.347899-2-djrscally@gmail.com>
+Subject: [PATCH v2 2/2] media: entity: Use dedicated data link iterator
+Date:   Thu,  7 Jul 2022 23:47:33 +0100
+Message-Id: <20220707224733.347899-3-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220707224733.347899-1-djrscally@gmail.com>
 References: <20220707224733.347899-1-djrscally@gmail.com>
@@ -69,93 +69,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Iterating over the links for an entity is a somewhat common need
-through the media subsystem, but generally the assumption is that
-they will all be data links. To meet that assumption add a new macro
-that iterates through an entity's links and skips non-data links.
+Where iteration over links for an entity is clearly assuming that
+all of those links are data links, use the new iterator to guarantee
+that that assumption is met.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
-Changes since v1 (suggested by Jacopo and Laurent):
-
-	- Simplified __media_entity_next_link()
-	- Added the link_type param to __media_entity_next_link()
-	- Moved __media_entity_next_link() to mc-entity.c rather than
-	  media-entity.h
-
- drivers/media/mc/mc-entity.c | 16 ++++++++++++++++
- include/media/media-entity.h | 29 +++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+ drivers/media/mc/mc-entity.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 11f5207f73aa..a247d5679930 100644
+index a247d5679930..cebb905260d3 100644
 --- a/drivers/media/mc/mc-entity.c
 +++ b/drivers/media/mc/mc-entity.c
-@@ -9,6 +9,7 @@
-  */
+@@ -450,7 +450,7 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+ 		bitmap_zero(active, entity->num_pads);
+ 		bitmap_fill(has_no_links, entity->num_pads);
  
- #include <linux/bitmap.h>
-+#include <linux/list.h>
- #include <linux/property.h>
- #include <linux/slab.h>
- #include <media/media-entity.h>
-@@ -1051,3 +1052,18 @@ struct media_link *media_create_ancillary_link(struct media_entity *primary,
- 	return link;
- }
- EXPORT_SYMBOL_GPL(media_create_ancillary_link);
-+
-+struct media_link *__media_entity_next_link(struct media_entity *entity,
-+					    struct media_link *link,
-+					    unsigned long link_type)
-+{
-+	link = link ? list_next_entry(link, list)
-+		    : list_first_entry(&entity->links, typeof(*link), list);
-+
-+	list_for_each_entry_from(link, &entity->links, list)
-+		if ((link->flags & MEDIA_LNK_FL_LINK_TYPE) == link_type)
-+			return link;
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(__media_entity_next_link);
-diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index a9a1c0ec5d1c..903c9368c50d 100644
---- a/include/media/media-entity.h
-+++ b/include/media/media-entity.h
-@@ -1140,4 +1140,33 @@ struct media_link *
- media_create_ancillary_link(struct media_entity *primary,
- 			    struct media_entity *ancillary);
+-		list_for_each_entry(link, &entity->links, list) {
++		for_each_media_entity_data_link(entity, link) {
+ 			struct media_pad *pad = link->sink->entity == entity
+ 						? link->sink : link->source;
  
-+/**
-+ * __media_entity_next_link() - iterate through a &media_entity's links,
-+ *
-+ * @entity:	pointer to the &media_entity
-+ * @link:	pointer to a &media_link to hold the iterated values
-+ * @link_type:	one of the MEDIA_LNK_FL_LINK_TYPE flags
-+ *
-+ * Return the next link against an entity matching a specific link type. This
-+ * allows iteration through an entity's links whilst guaranteeing all of the
-+ * returned links are of the given type.
-+ */
-+struct media_link *__media_entity_next_link(struct media_entity *entity,
-+					    struct media_link *link,
-+					    unsigned long link_type);
-+
-+/**
-+ * for_each_media_entity_data_link() - Iterate through an entity's data links
-+ *
-+ * @entity:	pointer to the &media_entity
-+ * @link:	pointer to a &media_link to hold the iterated values
-+ *
-+ * Iterate over a &media_entity's data links
-+ */
-+#define for_each_media_entity_data_link(entity, link)			\
-+	for (link = __media_entity_next_link(entity, NULL,		\
-+					     MEDIA_LNK_FL_DATA_LINK);	\
-+	     link;							\
-+	     link = __media_entity_next_link(entity, link,		\
-+					     MEDIA_LNK_FL_DATA_LINK))
- #endif
+@@ -889,7 +889,7 @@ media_entity_find_link(struct media_pad *source, struct media_pad *sink)
+ {
+ 	struct media_link *link;
+ 
+-	list_for_each_entry(link, &source->entity->links, list) {
++	for_each_media_entity_data_link(source->entity, link) {
+ 		if (link->source->entity == source->entity &&
+ 		    link->source->index == source->index &&
+ 		    link->sink->entity == sink->entity &&
+@@ -905,7 +905,7 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad)
+ {
+ 	struct media_link *link;
+ 
+-	list_for_each_entry(link, &pad->entity->links, list) {
++	for_each_media_entity_data_link(pad->entity, link) {
+ 		if (!(link->flags & MEDIA_LNK_FL_ENABLED))
+ 			continue;
+ 
 -- 
 2.25.1
 
