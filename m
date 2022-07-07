@@ -2,143 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 726FA56AC76
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 22:08:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B47C356ADE6
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 23:48:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236619AbiGGUHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 16:07:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46564 "EHLO
+        id S236893AbiGGVrb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 17:47:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236518AbiGGUHq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 16:07:46 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C12860501;
-        Thu,  7 Jul 2022 13:07:45 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id n10so2509441wrc.4;
-        Thu, 07 Jul 2022 13:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rTCSXAVDcHhaWmF5B1mtYzKPQt4FAy2X4j0BObLT6Xs=;
-        b=IeURnp416D4+YsTeFKP2dgsRCa/QZTTbliByXDOLciA/80Uy5ICS87ZoiMZ3O59n2n
-         pj4mBx9veTy4ym/9LoDGKlSQSDVMi4U+VXiKCMrPGzHzJpOhL0bfZ7Y3PSFhprcuzqWP
-         Kja9EN3vE9GVptFD3uu8YOyIEYaJwh/fSVOXkrAzjsQozGYIkLrizM+lAeVOcyg04e6t
-         lDAG6JQ06DeC+u3KciW2NQj3T1X/pBM3XBXlOHiEHOYrSaxNuAUXlSg5ECzS0itAy7YA
-         53I2Bfv+CLcK3u+rqhU0jbvYEg6oN5smI8O22ZHL+dLCzyApmOeR1d4HQO8m1mSnAGxF
-         Ld7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rTCSXAVDcHhaWmF5B1mtYzKPQt4FAy2X4j0BObLT6Xs=;
-        b=buxEGvScTIvqF4eH4cXJzKoZbA9+wYwc31EjcC7LT6/SfSk04foXdjF4/sEId03TXq
-         1EQv9kyhQ7EdNDQLQnLhnlo99xBXnG68zQaSm767ooeI3hjnZ4VNACh4FEZESsWmgTCR
-         8uManJcSthiXlHhaRWXG88TSGfSmC6Eqv5qK67ENHaiKqXyGD8u15eEqxl/BbJ5TuV9L
-         KhzT4SNPcvnR1/5wITpFAUa0QKyPuD46PNvBb5x9af3bWJ7Q0zqquGy/oZVH+zIdtADu
-         0iKADBesb96xQoIR9R6O1ZtpGAlmptPWED5vxrg+A4S3RMj4JkBY88HWA5JGNTkWPqXA
-         KSGQ==
-X-Gm-Message-State: AJIora/HxsASj2y2jsqo6hv3huzIoEJRT9qwdIzcnEnz/9E8qBeyCo0/
-        R/dhlSmkaRd3ae1uaaVFqGc=
-X-Google-Smtp-Source: AGRyM1vip8b5inVLn8Zh2y8lxHZ//ajL4cRb/xdWnfmA56uw+IgIBLYInrGJCfNuexzpzmxCqScMFg==
-X-Received: by 2002:a5d:4e04:0:b0:21d:6ec3:38a2 with SMTP id p4-20020a5d4e04000000b0021d6ec338a2mr17906129wrt.362.1657224463909;
-        Thu, 07 Jul 2022 13:07:43 -0700 (PDT)
-Received: from localhost.localdomain (host-79-53-109-127.retail.telecomitalia.it. [79.53.109.127])
-        by smtp.gmail.com with ESMTPSA id n17-20020a05600c3b9100b0039ee391a024sm25096752wms.14.2022.07.07.13.07.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 13:07:42 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Martiros Shakhzadyan <vrzh@vrzh.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [RESEND PATCH 3/3] staging: media: atomisp: Use kmap_local_page() in hmm_store()
-Date:   Thu,  7 Jul 2022 22:07:18 +0200
-Message-Id: <20220707200718.26398-4-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220707200718.26398-1-fmdefrancesco@gmail.com>
-References: <20220707200718.26398-1-fmdefrancesco@gmail.com>
+        with ESMTP id S236879AbiGGVr3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 17:47:29 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FB6330F63
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 14:47:29 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B1D9DD00;
+        Thu,  7 Jul 2022 23:47:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657230446;
+        bh=nM19EOLpimc401Ml0+BRbDPw4Q23Wx0EwxuqiKtDdE8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=X+8d0qoNlTM4Xt2X4KGTplLIrpC6t5siDkqWcnulMhV3VPECqXXJv5stBOKH7BkyF
+         HJN/ipMSArHCrrZojOFNyYh+VoHoSfK0eYhrOqsyfFVJph80oU2KiHvf0BxiGFdFKo
+         jxlWd86djeNomRbWVZCldFWkZhwJVg5+MZ6/Agl8=
+Date:   Fri, 8 Jul 2022 00:47:00 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Petko Manolov <petko.manolov@konsulko.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-media@vger.kernel.org, jacopo@jmondi.org
+Subject: Re: Re: Re: hooking Sony 47MPixel sensor to NXP imx8m-mini MIPI CSI2
+Message-ID: <YsdUVAr/MJjDRObd@pendragon.ideasonboard.com>
+References: <YrwFf7Jw2/yDlcDq@carbon.lan>
+ <12352558.O9o76ZdvQC@steina-w>
+ <YsRVAV8a48CwpaSY@p310.k.g>
+ <2450654.irdbgypaU6@steina-w>
+ <YsWJBEPhp9WhiYe1@p310.k.g>
+ <YsWTXnTpeM+mCImc@pendragon.ideasonboard.com>
+ <YsXh/arQZXnaeGAi@carbon.gago.life>
+ <YsYC6eMtotq7FR2i@pendragon.ideasonboard.com>
+ <YsbO74eGybz7uFBe@carbon.gago.life>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YsbO74eGybz7uFBe@carbon.gago.life>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The use of kmap() is being deprecated in favor of kmap_local_page()
-where it is feasible. The same is true for kmap_atomic().
+Hi Petko,
 
-In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
-context and, if so, it calls kmap_atomic(), if not, it calls kmap().
+On Thu, Jul 07, 2022 at 03:17:51PM +0300, Petko Manolov wrote:
+> On 22-07-07 00:47:21, Laurent Pinchart wrote:
+> > 
+> > MEDIA_BUS_FMT_* are media bus formats, they describe the format of data as it
+> > gets transmitted on buses between entities. The main purposes of those formats
+> > are configuration of entities in the pipeline (an IP core will need to be
+> > configured differently if it receives 10-bit raw data or 12-bit raw data for
+> > instance), and validation of the pipeline configuration (the format on the
+> > output of an entity must match the format on the input of the next entity).
+> > 
+> > V4L2_PIX_FMT_* are pixel formats, and they describe the format of data as
+> > stored in memory. They're only meaningful for the DMA engines at the end of
+> > the pipeline, and while they're related to the media bus formats (the DMA
+> > engine can't write to memory, for instance, V4L2_PIX_FMT_YUYV if it receives
+> > MEDIA_BUS_FMT_SGRBG10 from the previous entity), there's no fixed 1:1 mapping
+> > between the two formats. The mapping is device-dependent. For instance, a DMA
+> > engine that receives YUV 4:2:2 data in the form of MEDIA_BUS_FMT_YUYV8_1X16
+> > could support writing it in different pixel formats, such as
+> > V4L2_PIX_FMT_YUYV, V4L2_PIX_FMT_NV12, V4L2_PIX_FMT_NV16, ...
+> 
+> Thanks for these details.
+> 
+> I was wondering why V4L2_PIX_FMT_SGBRG12 would not be used for
+> MEDIA_BUS_FMT_SGBRG12_1X12 bus formats, but i guess the answer i can extract
+> from the info above is "device dependent".
 
-First of all, in_atomic() shouldn't be used in drivers. This macro
-cannot always detect atomic context; in particular, it cannot know
-about held spinlocks in non-preemptible kernels.
+And I think it's also wrong in the imx7-media-csi driver. I've sent a
+pull request ([1]) for v5.20 that should fix this, in particular in
+patch "staging: media: imx: imx7-media-csi: Fix list of supported
+formats" ([2]).
 
-Notwithstanding what it is said above, this code doesn't need to care
-whether or not it is executing in atomic context. It can simply use
-kmap_local_page() / kunmap_local() that can instead do the mapping /
-unmapping regardless of the context.
+[1] https://lore.kernel.org/linux-media/YsbEoobPgKoYcZUs@pendragon.ideasonboard.com/
+[2] https://lore.kernel.org/linux-media/20220510115859.19777-46-laurent.pinchart@ideasonboard.com/
 
-With kmap_local_page(), the mapping is per thread, CPU local and not
-globally visible. Therefore, hmm_store()() is a function where the use
-of kmap_local_page() in place of both kmap() and kmap_atomic() is
-correctly suited.
+> > I have work in progress patches that address issues with the imx7-csi-bridge
+> > driver, once they land we could look into this. I'm afraid I'm a bit slow
+> > these days due to covid.
+> 
+> Quick recovery!  Looking forward to these patches.
 
-Convert the calls of kmap() / kunmap() and kmap_atomic() /
-kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
-unnecessary tests which test if the code is in atomic context.
+Thank you. The pull request has been sent, so this should be fixed in
+v5.20.
 
-Tested-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+> For me, changing VID_MEM_LIMIT to 512MB works OK for the moment.  I am not yet
+> certain how this constant is related to the global CMA parameter.  In the
+> default kernel config CMA is 32MB, while VID_MEM_LIMIT is 64MB.  Isn't this
+> wrong?
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index 46ac082cd3f1..54188197c3dc 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -482,10 +482,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
- 		idx = (virt - bo->start) >> PAGE_SHIFT;
- 		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
- 
--		if (in_atomic())
--			des = (char *)kmap_atomic(bo->page_obj[idx].page);
--		else
--			des = (char *)kmap(bo->page_obj[idx].page);
-+		des = (char *)kmap_local_page(bo->page_obj[idx].page);
- 
- 		if (!des) {
- 			dev_err(atomisp_dev,
-@@ -512,14 +509,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
- 
- 		clflush_cache_range(des, len);
- 
--		if (in_atomic())
--			/*
--			 * Note: kunmap_atomic requires return addr from
--			 * kmap_atomic, not the page. See linux/highmem.h
--			 */
--			kunmap_atomic(des - offset);
--		else
--			kunmap(bo->page_obj[idx].page);
-+		kunmap_local(des);
- 	}
- 
- 	return 0;
+There's no real rule about the maximum amount of memory V4L2 driver
+can/should allocate. Every driver sets its own limits (and some drivers
+don't set a limit at all). 64MB is clearly too little. Feel free to
+submit a patch to increase this in the imx7-media-csi driver (on top of
+[1] to avoid conflicts).
+
 -- 
-2.36.1
+Regards,
 
+Laurent Pinchart
