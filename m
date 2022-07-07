@@ -2,96 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 974165696DB
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 02:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E45556971E
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 03:02:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234610AbiGGAYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jul 2022 20:24:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54456 "EHLO
+        id S234388AbiGGBB6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Jul 2022 21:01:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234274AbiGGAYM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jul 2022 20:24:12 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C171EAE6
-        for <linux-media@vger.kernel.org>; Wed,  6 Jul 2022 17:24:10 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o9FJP-000875-Qg; Thu, 07 Jul 2022 00:24:07 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o9FJL-00DUIX-Fw; Thu, 07 Jul 2022 00:24:04 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.20] Miscellaneous fixes (#84623)
-Date:   Thu,  7 Jul 2022 00:24:02 +0000
-Message-Id: <20220707002402.3214683-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YsYgd6mD34avoIKe@pendragon.ideasonboard.com>
-References: 
+        with ESMTP id S234307AbiGGBB5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jul 2022 21:01:57 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E2B2D1CE;
+        Wed,  6 Jul 2022 18:01:55 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id g126so1825062pfb.3;
+        Wed, 06 Jul 2022 18:01:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=VIGPj4rVRvxRmGjzajy7JLwRvjlm/OlZ/IQ+zB8PolQ=;
+        b=VsF8zBLrrTAsVg90E851X0ASp+KiZKRL8z2U+FO30fBLXg8Iod8MZ1qmN7geVzJH3/
+         vm5zY1dWtbPkn409SJi5MgrQXziLKmmR9YiNUk4tj3JcUxovRTl/cmsCL2h1jDzhaWpC
+         ptpEXWQQBivB5FK64qJdMbHNCZy6XZIz+x92gd9vC0eo8tuxgXyr3QHtstUTI9V9tPzK
+         MEi7SR1u1LIC7L5VlIkKXk0AwvIty7L6jvZ2AlecLJfiibsbs1NXds9bv2jZDPoEgduS
+         lZFhgyd9wIcMzJj9ZHeylIl+nl8yTDUGDvK1L+2GRLt4R9Es6Fp2jRfoYqDSznm0iSFm
+         YgZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=VIGPj4rVRvxRmGjzajy7JLwRvjlm/OlZ/IQ+zB8PolQ=;
+        b=WHfsmBBbVv0zCS0QuPgC+OlplYdhiExpAoxtj2YBtflJiWFwE4VJaDxPfnmQ3nUfm9
+         wDlrrtqNleTENeNY61n35M96NhrUV+6KsHb8FXs+GEWVKGMDiwk2xYaDwlRvd4oMwHiZ
+         X3gsalZBj/pYpRb+n9ev8rnldTeWUXXBq/4NsdbaM6tt6H3kOQ0RRGKyx5O1te+mQ6xZ
+         RBDBV/NXUhW9iTCCIlgCk9eJEko8yzuL/b6UIyVBSbsNSyayL+tNoJABdHbzri3pq7o4
+         5zpDK+b2WJ4zKODT3g2fZBs8IQ7FBmpeaMPRJQL6aiZ7cF+4qBIJCdc7WzZ03oUxYozp
+         S48Q==
+X-Gm-Message-State: AJIora/fn6zmvdViLENe3KaaR4fSNAZbtbC6vwZKZvPm5pYRAP6cFlJy
+        D6pe+WBfLmrWR1Vuxa962NI=
+X-Google-Smtp-Source: AGRyM1uu4T1H+2wc6LQb7IJVSvu9RmvYTaxgXQxl79JFt5CO6Y9Kq5Z1t6OWBcLjz9xZ1uPr9FDqag==
+X-Received: by 2002:a17:90b:8d:b0:1ef:74c8:1541 with SMTP id bb13-20020a17090b008d00b001ef74c81541mr1785443pjb.103.1657155715387;
+        Wed, 06 Jul 2022 18:01:55 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id j17-20020a170902da9100b0016be7a89ac9sm6896975plx.94.2022.07.06.18.01.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Jul 2022 18:01:54 -0700 (PDT)
+Message-ID: <edaf107b-da65-9b90-aed9-bbedff9c7783@gmail.com>
+Date:   Thu, 7 Jul 2022 10:01:49 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] media: docs: Remove extraneous \endgroup from P010 table
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <c3254669-cd71-48e5-665c-430b76f77baa@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <c3254669-cd71-48e5-665c-430b76f77baa@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Wed, 29 Jun 2022 22:01:17 +0900, Akira Yokosawa wrote:
+> The \endgroup command at the bottom of a table added in commit
+> 5374d8fb75f3 ("media: Add P010 video format") doesn't have a
+> corresponding \begingroup command preceding it.
+> 
+> This imbalance causes an build error in "make pdfdocs".
+> 
+> Fix the issue by removing it.
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Fixes: 5374d8fb75f3 ("media: Add P010 video format")
+> Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> Hi Mauro,
+> 
+> In my (bi-weekly) test of "make pdfdocs" against next-20220629,
+> I encountered a build error of userspace-api.tex.
+> 
+> This patch fixes it.
+> 
+> This is relative to 'master' of git://linuxtv.org/media_tree.git
+> as merged by Stephen.
+Gentle ping, Mauro.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YsYgd6mD34avoIKe@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/222758/
-Build time: 00:24:52
-Link: https://lore.kernel.org/linux-media/YsYgd6mD34avoIKe@pendragon.ideasonboard.com
+I assume the offending patch is destined for the next merge window.
+If it lands as is, "make pdfdocs" will end up in: 
 
-gpg: Signature made Wed 06 Jul 2022 11:52:45 PM UTC
-gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
+> Latexmk: Errors, so I did not complete making targets
 
-Summary: got 3/6 patches with issues, being 1 at build time, plus one error when buinding PDF document
+> Collected error summary (may duplicate other messages):
 
-Error/warnings:
+>   xelatex: Command for 'xelatex' gave return code 1
 
-patches/0001-media-dt-bindings-mt9p031-Add-MT9P006-compatible-str.patch:
+>       Refer to 'userspace-api.log' for details
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000008Kb sm_state_count = 543759
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 8 seconds
+> Latexmk: Use the -f option to force complete processing,
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5561 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1725875
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 47 seconds
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+>  unless error was exceeding maximum runs, or warnings treated as errors.
 
-patches/0003-media-mt9p031-Move-open-subdev-op-init-code-into-ini.patch:
+> make[2]: *** [Makefile:29: userspace-api.pdf] Error 12
 
-   checkpatch.pl:
-	$ cat patches/0003-media-mt9p031-Move-open-subdev-op-init-code-into-ini.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:31: CHECK: Comparison to NULL could be written "!sd_state"
+> make[1]: *** [Documentation/Makefile:115: pdfdocs] Error 2
 
-patches/0005-media-Fix-incorrect-P010-chroma-order-description.patch:
-
-   checkpatch.pl:
-	$ cat patches/0005-media-Fix-incorrect-P010-chroma-order-description.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:27: ERROR: trailing statements should be on next line
+> make: *** [Makefile:1686: pdfdocs] Error 2
 
 
-Error #512 when building PDF docs
+Here is the relevant part from the middle of userspace-api.log:
 
+> ! Extra \endgroup.
+> l.27734 \endgroup
+>                 
+> Things are pretty mixed up, but I think the worst is over.
+
+Or am I missing something?
+
+        Thanks, Akira
+
+> 
+>         Thanks, Akira
+> --
+>  Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> index a900ff66911a..997ce2d094fc 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> @@ -570,9 +570,6 @@ Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian ord
+>        - Cb\ :sub:`11`
+>        - Cr\ :sub:`11`
+>  
+> -.. raw:: latex
+> -
+> -    \endgroup
+>  
+>  Fully Planar YUV Formats
+>  ========================
+> 
+> base-commit: 945a9a8e448b65bec055d37eba58f711b39f66f0
