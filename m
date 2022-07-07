@@ -2,182 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60CF856AE5C
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 00:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 021B156AEBA
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 00:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236996AbiGGWZ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 18:25:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53678 "EHLO
+        id S236617AbiGGWrt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 18:47:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236883AbiGGWZ2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 18:25:28 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF8161D78
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 15:25:26 -0700 (PDT)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E891756D;
-        Fri,  8 Jul 2022 00:25:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657232725;
-        bh=xv3Ul7xTtFbu0UXz9tmvD/jNWhFvIkTIYq9eLoYUl7M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=wc69P+u8HGUCG3LdvWl5jh0jLQ1AII8t0BT6aKfB6DLabq7Rn7HrgiE3ehhavvnmw
-         qKlZ9cmWmMC3hrrRaUZLEjvIA38CxU95h/43oYAMQJRUP6trAJut0oxo59temZZxV9
-         G8UFv9w136q7XYA8nH5axCPe5ZNH3nfwDo3IKDak=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        with ESMTP id S229541AbiGGWrs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 18:47:48 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D58561D5D
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 15:47:47 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id r129-20020a1c4487000000b003a2d053adcbso136893wma.4
+        for <linux-media@vger.kernel.org>; Thu, 07 Jul 2022 15:47:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MgjKjyfpijXaCjwFjdyrPNLh1wmtO01bdt7K6TEvAl8=;
+        b=kokn1GqReFHN1kVN9OFI8kMMi4X91cyYAO5OruKcDbnmGYSc2ABX0OKtbqwoPjFdUs
+         cqRxqzuChnufO5kQLK+EB21Z482JTnNd69/HWmf+3p6H319VPsT5V3sKzrWzz/dZ74ir
+         rTOqFqgv1NP6TUb+66koROJ69ZH8L0n3Uhg74U/DaVWnNh9sydKpWlNOx0dAZK0U80cR
+         OfPD+cjPyB6u6zQvjf2yX9EbnQmIvDUOeCp6Yq/V05l4C4yCkqwgeJFjmH5+f7pzPSeo
+         ErixBLoTTu7t8SiuKUAhxBFMa7dHHS3ry2im7OsRrAuqDdsEB2JZtWnSsB3ki1W+R2JQ
+         gnjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MgjKjyfpijXaCjwFjdyrPNLh1wmtO01bdt7K6TEvAl8=;
+        b=VlEzF6ZWsS0RhH9ZQp/hbDPs9vr7NWn9a8WEY1HdMDs4h5eOusZOrWWUwXN781OToK
+         PdJUc+QnFIrl1n9F3cf0dklArfTMsdnpFqEG2ofrGvJVv+LikdMS0aKOYDz2+1cnm7Uv
+         aBgoohcIEd4Xq4a1obz8kMX3OuicgEwyr5gdsnGgo4gN2Qj4bt0MTQZkVq6biXglirVT
+         nOWXyQ5lmX1+C22ASz23122rxDZT8EROQFRFJCS2adf1V+E2bdu6hHaI1wLyI+CEepxP
+         MZ1fQNjcLpc8bQdGgEkvgefENvl3vIaBhOu3T7b3BwlatWg2XihBWYABfcP4mUoo0qlM
+         TpMw==
+X-Gm-Message-State: AJIora+leJKF3PPkhbeCUrHLpwDGD17s2aoeSlFxPRx08wsRXGkcYfvn
+        SyMZokog9aMqgIRAkHfFH9m1mofzTIk=
+X-Google-Smtp-Source: AGRyM1uIisCxamyQl27Zek2wzhkvFxeiMYYQDpWoSJWe41hy+LOzmC691gUroxT65vEfjgu9M5vYpw==
+X-Received: by 2002:a05:600c:1991:b0:3a1:9fc4:b67d with SMTP id t17-20020a05600c199100b003a19fc4b67dmr157199wmq.49.1657234066147;
+        Thu, 07 Jul 2022 15:47:46 -0700 (PDT)
+Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id be12-20020a05600c1e8c00b0039c4d022a44sm241694wmb.1.2022.07.07.15.47.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 15:47:45 -0700 (PDT)
+From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org
-Cc:     Yunke Cao <yunkec@google.com>,
-        Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v4] media: uvcvideo: Use entity get_cur in uvc_ctrl_set
-Date:   Fri,  8 Jul 2022 01:24:55 +0300
-Message-Id: <20220707222455.21149-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.35.1
+Cc:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        paul.elder@ideasonboard.com, jacopo@jmondi.org
+Subject: [PATCH v2 0/2] Add iterator for an entity's data links
+Date:   Thu,  7 Jul 2022 23:47:31 +0100
+Message-Id: <20220707224733.347899-1-djrscally@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yunke Cao <yunkec@google.com>
+There are a bunch of places in the kernel where code iterates over an entity's
+links to perform some action. Those almost invariably have the implicit
+assumption that those links are data links, which might not be true following
+the introduction of ancillary links. Add a dedicated iterator that skips any
+non data links for use instead, which will allow that assumption to hold true.
 
-Entity controls should get_cur using an entity-defined function
-instead of via a query. Fix this in uvc_ctrl_set.
+Daniel Scally (2):
+  media: entity: Add iterator for entity data links
+  media: entity: Use dedicated data link iterator
 
-Fixes: 65900c581d01 ("media: uvcvideo: Allow entity-defined get_info and get_cur")
-Signed-off-by: Yunke Cao <yunkec@google.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Changes since v3:
+ drivers/media/mc/mc-entity.c | 22 +++++++++++++++++++---
+ include/media/media-entity.h | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+), 3 deletions(-)
 
-- Reflow code in __uvc_ctrl_load_cur()
-
-Changelog since v2:
-
-- Move the logic of setting ctrl_data to 0 into load_cur.
-- Do not initialize ret=0.
-- Fix __uvc_ctrl_get() spacing.
-- Fix typo in the title.
----
- drivers/media/usb/uvc/uvc_ctrl.c | 83 ++++++++++++++++++--------------
- 1 file changed, 46 insertions(+), 37 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 0e78233fc8a0..44071040d764 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -963,35 +963,55 @@ static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
- 	return value;
- }
- 
-+static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
-+			       struct uvc_control *ctrl)
-+{
-+	u8 *data;
-+	int ret;
-+
-+	if (ctrl->loaded)
-+		return 0;
-+
-+	data = uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT);
-+
-+	if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0) {
-+		memset(data, 0, ctrl->info.size);
-+		ctrl->loaded = 1;
-+
-+		return 0;
-+	}
-+
-+	if (ctrl->entity->get_cur)
-+		ret = ctrl->entity->get_cur(chain->dev, ctrl->entity,
-+					    ctrl->info.selector, data,
-+					    ctrl->info.size);
-+	else
-+		ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
-+				     ctrl->entity->id, chain->dev->intfnum,
-+				     ctrl->info.selector, data,
-+				     ctrl->info.size);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	ctrl->loaded = 1;
-+
-+	return ret;
-+}
-+
- static int __uvc_ctrl_get(struct uvc_video_chain *chain,
--	struct uvc_control *ctrl, struct uvc_control_mapping *mapping,
--	s32 *value)
-+			  struct uvc_control *ctrl,
-+			  struct uvc_control_mapping *mapping,
-+			  s32 *value)
- {
- 	int ret;
- 
- 	if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
- 		return -EACCES;
- 
--	if (!ctrl->loaded) {
--		if (ctrl->entity->get_cur) {
--			ret = ctrl->entity->get_cur(chain->dev,
--				ctrl->entity,
--				ctrl->info.selector,
--				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
--				ctrl->info.size);
--		} else {
--			ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
--				ctrl->entity->id,
--				chain->dev->intfnum,
--				ctrl->info.selector,
--				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
--				ctrl->info.size);
--		}
--		if (ret < 0)
--			return ret;
--
--		ctrl->loaded = 1;
--	}
-+	ret = __uvc_ctrl_load_cur(chain, ctrl);
-+	if (ret < 0)
-+		return ret;
- 
- 	*value = __uvc_ctrl_get_value(mapping,
- 				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-@@ -1783,21 +1803,10 @@ int uvc_ctrl_set(struct uvc_fh *handle,
- 	 * needs to be loaded from the device to perform the read-modify-write
- 	 * operation.
- 	 */
--	if (!ctrl->loaded && (ctrl->info.size * 8) != mapping->size) {
--		if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0) {
--			memset(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
--				0, ctrl->info.size);
--		} else {
--			ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
--				ctrl->entity->id, chain->dev->intfnum,
--				ctrl->info.selector,
--				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
--				ctrl->info.size);
--			if (ret < 0)
--				return ret;
--		}
--
--		ctrl->loaded = 1;
-+	if ((ctrl->info.size * 8) != mapping->size) {
-+		ret = __uvc_ctrl_load_cur(chain, ctrl);
-+		if (ret < 0)
-+			return ret;
- 	}
- 
- 	/* Backup the current value in case we need to rollback later. */
 -- 
-Regards,
-
-Laurent Pinchart
+2.25.1
 
