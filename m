@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B7E8569FCA
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 12:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4619656A01A
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 12:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232388AbiGGK1w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 06:27:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53672 "EHLO
+        id S234132AbiGGKiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 06:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232195AbiGGK1v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 06:27:51 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916432A260
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 03:27:47 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id b9so2445639pfp.10
-        for <linux-media@vger.kernel.org>; Thu, 07 Jul 2022 03:27:47 -0700 (PDT)
+        with ESMTP id S233305AbiGGKiW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 06:38:22 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9A032068
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 03:38:21 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id o18so16540955pgu.9
+        for <linux-media@vger.kernel.org>; Thu, 07 Jul 2022 03:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=s01JHVcqayCgEqhqHx7u8geLLfvm7N1pIgEYPcD4UCQ=;
-        b=HYMkPZUMNaYMVrx9HavtmILboCXy9XKoZXhJ67NoA0w25TandL1LozfaT5K8776Rxj
-         GFCoKxKK0qCF+WfedLpaAZLDbdaN2Mh+AF4fagpNPTfOqdPCFHZOzK/wQdGjskxsZOmk
-         ymRFfJ7KMODG+PRjrOOKhxWdZQf9/il3pTwfk=
+        bh=+OvvoQpRMUBXNwZMipObHdm5ZbPPau13auF+4YgO+uQ=;
+        b=dieFHrPL/5r5YBocpAbCrENsMjL6T5giDlGVEg2cOTONGcG6J8X5FPum0E7qPM8bGO
+         ot6zYWEANBSpuVnkC4dYlmsCdN5VXZd9+Q1QgFIl4jYPeV4B89HxMj7M9+vYRTfDh2eD
+         6yt2TKV8O9d38MgLk/Ynf1u7Pk8WJXYGQ1AQ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=s01JHVcqayCgEqhqHx7u8geLLfvm7N1pIgEYPcD4UCQ=;
-        b=c+4f7rtkclcJKUd9M9E6z1J0Dz5Je+8uNBm6MmNPdh97n27kvJpophhrEAwUDeexcx
-         q4R112R6nVPcuheHwadb9ga1P6Pk3ewE6o+QlErWvXNXnkcFTOfp4iCZRIRTlNkC3ybq
-         Y00KyB8tmki8AZIV3xqODLnTb0gcVfKOVpyf2rnNNuhiTFosDoFOLtQDrph1r4wBkLSc
-         j/ILaGArK3FYpcAmaSq8iWbXG/AyhklvJMsJsp0jF1yuL0VmSJJ4xJ19lKvNH6Ba8fWL
-         qiksdxKKjJ6DQi4CZZL3wXXrkef5XO3utAQKFW2upX4xxY0Ib9Tyrhk7NVfw1ygXYfGQ
-         9NAg==
-X-Gm-Message-State: AJIora8Ut8M7s89z49aZaEKtmKHq74oxD0nKMq9X1UPLBCjlhGKYu1DW
-        4XVrjFOunerjxZ5rp8cXQ1LAAA==
-X-Google-Smtp-Source: AGRyM1tTbNM00buEWNj+mMZqtXT1rOVJjgiENRPle2178m2fMIYgDcVQisiVjwDhZS5ODqZ/jEhfVQ==
-X-Received: by 2002:a05:6a00:a8b:b0:4cd:6030:4df3 with SMTP id b11-20020a056a000a8b00b004cd60304df3mr8449781pfl.40.1657189667099;
-        Thu, 07 Jul 2022 03:27:47 -0700 (PDT)
+        bh=+OvvoQpRMUBXNwZMipObHdm5ZbPPau13auF+4YgO+uQ=;
+        b=w4LqUTp5qS+MvNjv34zx2HwHsXs3IA3PPi1nfOzupt1bD8ky609Ke1CcSTwmJRz8yu
+         LkU5vkNIdd18N33zuZMy1R3bDH3qfQoyvKaMIJK7LEKKqB7UcCkcLDozv5p+TL0CV6Wo
+         Xcqcqea/CPumqft7GwgcO6ATw0/0vxiBjzc8pfYMbMobEiFcNV7eSFWplN1pvsGMoAyU
+         bXnX0aKsxBtfjWRJYgtAd5vHtT7rLrSi1JuW/7L2hgt8AW/UooN6o12Yfet0kFJ+6QUv
+         dsaiLNzvCJISna6Wbl/AOKuWnIkxZJxXJz3d92qatxtXqDIewrPTaYnX0dnJvNLJ/HcQ
+         K6qg==
+X-Gm-Message-State: AJIora+N7RgYU3SbXSlempglJG8Xs/FwkDD8fl6mjuh/uXQFHywUVAyh
+        VFQ9fgyUuB25JmMoFXutFRpgoQ==
+X-Google-Smtp-Source: AGRyM1tX5KDrP3gS1b/LTZGEMPL0jXG+GGlQtZRm43aRLJMV5y9lrNjwz8/dF6z9DfY+LGljrFbMgQ==
+X-Received: by 2002:a17:902:db11:b0:16b:9057:8007 with SMTP id m17-20020a170902db1100b0016b90578007mr50015661plx.49.1657190301278;
+        Thu, 07 Jul 2022 03:38:21 -0700 (PDT)
 Received: from chromium.org ([2401:fa00:8f:203:e189:4251:f442:cb5b])
-        by smtp.gmail.com with ESMTPSA id i72-20020a62874b000000b0051b9d15fc18sm26578750pfe.156.2022.07.07.03.27.43
+        by smtp.gmail.com with ESMTPSA id z3-20020a170902ccc300b0016be368fb30sm8625566ple.212.2022.07.07.03.38.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 03:27:45 -0700 (PDT)
-Date:   Thu, 7 Jul 2022 19:27:41 +0900
+        Thu, 07 Jul 2022 03:38:20 -0700 (PDT)
+Date:   Thu, 7 Jul 2022 19:38:17 +0900
 From:   Tomasz Figa <tfiga@chromium.org>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
@@ -54,15 +54,13 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v11 34/36] media: v4l2-subdev: Add
- v4l2_subdev_state_xlate_streams() helper
-Message-ID: <Ysa1HZh5f38iXDHf@chromium.org>
+Subject: Re: [PATCH v11 00/36] v4l: routing and streams support
+Message-ID: <Ysa3mVW7Mf95ZMcR@chromium.org>
 References: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
- <20220301161156.1119557-35-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220301161156.1119557-35-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -73,97 +71,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi, Laurent,
-
-On Tue, Mar 01, 2022 at 06:11:54PM +0200, Tomi Valkeinen wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Tue, Mar 01, 2022 at 06:11:20PM +0200, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Add a helper function to translate streams between two pads of a subdev,
-> using the subdev's internal routing table.
+> Here's v11 of the streams series (used to be "multiplexed streams").
 > 
-
-Thanks for the patch! Please see my comments inline.
-
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 25 +++++++++++++++++++++++++
->  include/media/v4l2-subdev.h           | 23 +++++++++++++++++++++++
->  2 files changed, 48 insertions(+)
+> v10 can be found from:
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index e30338a53088..6a9fc62dacbf 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1529,6 +1529,31 @@ v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_opposite_stream_format);
->  
-> +u64 v4l2_subdev_state_xlate_streams(const struct v4l2_subdev_state *state,
-> +				    u32 pad0, u32 pad1, u64 *streams)
-> +{
-> +	const struct v4l2_subdev_krouting *routing = &state->routing;
-> +	struct v4l2_subdev_route *route;
-> +	u64 streams0 = 0;
-> +	u64 streams1 = 0;
-> +
-> +	for_each_active_route(routing, route) {
-> +		if (route->sink_pad == pad0 && route->source_pad == pad1 &&
-> +		    (*streams & BIT(route->sink_stream))) {
-> +			streams0 |= BIT(route->sink_stream);
-> +			streams1 |= BIT(route->source_stream);
-> +		}
-> +		if (route->source_pad == pad0 && route->sink_pad == pad1 &&
-> +		    (*streams & BIT(route->source_stream))) {
-> +			streams0 |= BIT(route->source_stream);
-> +			streams1 |= BIT(route->sink_stream);
-> +		}
-> +	}
-> +
-> +	*streams = streams0;
-> +	return streams1;
-> +}
-> +
->  int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->  			struct v4l2_subdev_format *format)
->  {
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 1eced0f47296..992debe116ac 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1497,6 +1497,29 @@ struct v4l2_mbus_framefmt *
->  v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
->  					     u32 pad, u32 stream);
->  
-> +/**
-> + * v4l2_subdev_state_xlate_streams() - Translate streams from one pad to another
-> + *
-> + * @state: Subdevice state
-> + * @pad0: The first pad
-> + * @pad1: The second pad
-> + * @streams: Streams bitmask on the first pad
-> + *
-> + * Streams on sink pads of a subdev are routed to source pads as expressed in
-> + * the subdev state routing table. Stream numbers don't necessarily match on
-> + * the sink and source side of a route. This function translates stream numbers
-> + * on @pad0, expressed as a bitmask in @streams, to the corresponding streams
-> + * on @pad1 using the routing table from the @state. It returns the stream mask
-> + * on @pad1, and updates @streams with the streams that have been found in the
-> + * routing table.
-> + *
-> + * @pad0 and @pad1 must be a sink and a source, in any order.
-> + *
-> + * Return: The bitmask of streams of @pad1 that are routed to @streams on @pad0.
+> https://lore.kernel.org/all/20211130141536.891878-1-tomi.valkeinen@ideasonboard.com/
+> 
+> This series is based on the v5 of the subdev active state:
+> 
+> https://lore.kernel.org/all/20220301105548.305191-1-tomi.valkeinen@ideasonboard.com/
+> 
+> My work branch with additional drivers can be found from:
+> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git streams/work-v11
+> 
+> And there's also the v4l-utils series to add support to v4l2-ctl and
+> media-ctl:
+> 
+> https://lore.kernel.org/all/20211130141815.892354-1-tomi.valkeinen@ideasonboard.com/
+> 
+> The main changes compared to v10:
+> 
+> - Rebased on the v5 of the active state series, which has different
+>   locking system than what we had in v10 of this series.
+> - Moved code around in v4l2-subdev.[ch] so that the functions are inside
+>   the correct ifdefs
+> - A better route validation helper v4l2_subdev_routing_validate
+> - Subdev enable/disable_streams ops (see "media: v4l2-subdev: Add subdev
+>   .(enable|disable)_streams() operations")
+> 
+> There are still some comments I haven't addressed from the v10 review,
+> and I'd like to change the route flags a bit. We've also thought about
+> adding more support for drivers that don't need multiple streams but
+> would still use the new streams APIs to simplify the drivers.
+> 
+> However, as the v10 is already quite old, and I posted the v5 for the
+> active state, I thought it's better to also post the current version of
+> the streams series.
 
-It might be just me, but somehow I associate "translate" with turning a
-name from one namespace into a corresponding name from another
-namespace. In this case I initially assumed that this function is
-supposed to accept stream IDs from pad0 and return corresponding
-stream IDs from pad1. However, it looks like this is move like - "tell
-me which streams on pad1 are connected to the given pad0 streams". Is
-this correct?
+Thanks Tomi and everyone for working on this series. With the few nits I
+posted addressed:
 
-If yes, maybe v4l2_subdev_state_get_routed_streams() be a better name?
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 
 Best regards,
 Tomasz
