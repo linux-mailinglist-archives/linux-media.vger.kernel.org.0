@@ -2,121 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4619656A01A
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 12:38:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F1D656A03E
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 12:45:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234132AbiGGKiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 06:38:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33110 "EHLO
+        id S233804AbiGGKpH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 06:45:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233305AbiGGKiW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 06:38:22 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9A032068
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 03:38:21 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id o18so16540955pgu.9
-        for <linux-media@vger.kernel.org>; Thu, 07 Jul 2022 03:38:21 -0700 (PDT)
+        with ESMTP id S231710AbiGGKpG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 06:45:06 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7BA4D16F
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 03:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=+OvvoQpRMUBXNwZMipObHdm5ZbPPau13auF+4YgO+uQ=;
-        b=dieFHrPL/5r5YBocpAbCrENsMjL6T5giDlGVEg2cOTONGcG6J8X5FPum0E7qPM8bGO
-         ot6zYWEANBSpuVnkC4dYlmsCdN5VXZd9+Q1QgFIl4jYPeV4B89HxMj7M9+vYRTfDh2eD
-         6yt2TKV8O9d38MgLk/Ynf1u7Pk8WJXYGQ1AQ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+OvvoQpRMUBXNwZMipObHdm5ZbPPau13auF+4YgO+uQ=;
-        b=w4LqUTp5qS+MvNjv34zx2HwHsXs3IA3PPi1nfOzupt1bD8ky609Ke1CcSTwmJRz8yu
-         LkU5vkNIdd18N33zuZMy1R3bDH3qfQoyvKaMIJK7LEKKqB7UcCkcLDozv5p+TL0CV6Wo
-         Xcqcqea/CPumqft7GwgcO6ATw0/0vxiBjzc8pfYMbMobEiFcNV7eSFWplN1pvsGMoAyU
-         bXnX0aKsxBtfjWRJYgtAd5vHtT7rLrSi1JuW/7L2hgt8AW/UooN6o12Yfet0kFJ+6QUv
-         dsaiLNzvCJISna6Wbl/AOKuWnIkxZJxXJz3d92qatxtXqDIewrPTaYnX0dnJvNLJ/HcQ
-         K6qg==
-X-Gm-Message-State: AJIora+N7RgYU3SbXSlempglJG8Xs/FwkDD8fl6mjuh/uXQFHywUVAyh
-        VFQ9fgyUuB25JmMoFXutFRpgoQ==
-X-Google-Smtp-Source: AGRyM1tX5KDrP3gS1b/LTZGEMPL0jXG+GGlQtZRm43aRLJMV5y9lrNjwz8/dF6z9DfY+LGljrFbMgQ==
-X-Received: by 2002:a17:902:db11:b0:16b:9057:8007 with SMTP id m17-20020a170902db1100b0016b90578007mr50015661plx.49.1657190301278;
-        Thu, 07 Jul 2022 03:38:21 -0700 (PDT)
-Received: from chromium.org ([2401:fa00:8f:203:e189:4251:f442:cb5b])
-        by smtp.gmail.com with ESMTPSA id z3-20020a170902ccc300b0016be368fb30sm8625566ple.212.2022.07.07.03.38.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 03:38:20 -0700 (PDT)
-Date:   Thu, 7 Jul 2022 19:38:17 +0900
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v11 00/36] v4l: routing and streams support
-Message-ID: <Ysa3mVW7Mf95ZMcR@chromium.org>
-References: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1657190704; x=1688726704;
+  h=subject:from:to:cc:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=8i0KiZnnTEvukfs71VLtM78jYB05xcW36D8RuTcv8ls=;
+  b=E9XWVrJxP9uGumEmhXi2Br8VWmrsAGggqODJh2RukNsJ9ULlvl2/2zno
+   6ReDtssjTyngsbHnBmymfgppKbUICSEK0mh3ikJlAs9ABvN0SAyfXrUUv
+   O38qfvXR/Ra8XXptBwhlTrc+8/YJuXst7zQH9HpcspE17053Hima5+CQM
+   BjmD6YgULnEAUrBjCiY207tZKtVARz/olcDQxq32acHo64oHm+mEo7yT2
+   FL8ATj1hjuw12J8Xq3r8eZlHV/qWqHDelxpiey94gFXSty5TZ/uhi7R2P
+   2cw3WSXnUi72KZxT6d7pPsGCe22so3QZS7iyviB8lTh3RYaTESUcpElxC
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.92,252,1650924000"; 
+   d="scan'208";a="24914421"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 07 Jul 2022 12:45:02 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 07 Jul 2022 12:45:02 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 07 Jul 2022 12:45:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1657190702; x=1688726702;
+  h=from:to:cc:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding:subject;
+  bh=8i0KiZnnTEvukfs71VLtM78jYB05xcW36D8RuTcv8ls=;
+  b=ERKEFLveO1z755vRJ/qSDARKhb+TtkG8o76BQhk/epxgGxni908l23u9
+   PPZ9ImfsEq3aP52184R4mRO2O2gPWOryCKDw1RcF7FEsyrIfsgOahInbV
+   XDA/3CDp/i0jNnv0oCDeJ76nM6234PcHNzfdurFi6soLX0MDxsnRiBPk3
+   HCMvGwIvhhCXJX5qQpJAHCrjnzKip6pEP2jQZJRX8FwmNMYv79KWfdLP4
+   5Frd6E831meYZYjC/smVbshs6oaXcWmeH3oZCcjQzhPBy7Wts7P09sUQh
+   29u0rA3Yl+LZtJJ4amAYjDwE5tCEBeu9v9pApBeg5uodEu8/jHE8dA3SW
+   w==;
+X-IronPort-AV: E=Sophos;i="5.92,252,1650924000"; 
+   d="scan'208";a="24914419"
+Subject: Re: Re: [PATCH 00/50] staging: media: imx: Prepare destaging of
+ imx7-media-csi
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 07 Jul 2022 12:45:02 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 81108280075;
+        Thu,  7 Jul 2022 12:45:01 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        kernel@pengutronix.de
+Date:   Thu, 07 Jul 2022 12:45:01 +0200
+Message-ID: <4780760.ElGaqSPkdT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <YsYnm46fqQx1WFxU@pendragon.ideasonboard.com>
+References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com> <8064452.T7Z3S40VBb@steina-w> <YsYnm46fqQx1WFxU@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 01, 2022 at 06:11:20PM +0200, Tomi Valkeinen wrote:
-> Hi,
-> 
-> Here's v11 of the streams series (used to be "multiplexed streams").
-> 
-> v10 can be found from:
-> 
-> https://lore.kernel.org/all/20211130141536.891878-1-tomi.valkeinen@ideasonboard.com/
-> 
-> This series is based on the v5 of the subdev active state:
-> 
-> https://lore.kernel.org/all/20220301105548.305191-1-tomi.valkeinen@ideasonboard.com/
-> 
-> My work branch with additional drivers can be found from:
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git streams/work-v11
-> 
-> And there's also the v4l-utils series to add support to v4l2-ctl and
-> media-ctl:
-> 
-> https://lore.kernel.org/all/20211130141815.892354-1-tomi.valkeinen@ideasonboard.com/
-> 
-> The main changes compared to v10:
-> 
-> - Rebased on the v5 of the active state series, which has different
->   locking system than what we had in v10 of this series.
-> - Moved code around in v4l2-subdev.[ch] so that the functions are inside
->   the correct ifdefs
-> - A better route validation helper v4l2_subdev_routing_validate
-> - Subdev enable/disable_streams ops (see "media: v4l2-subdev: Add subdev
->   .(enable|disable)_streams() operations")
-> 
-> There are still some comments I haven't addressed from the v10 review,
-> and I'd like to change the route flags a bit. We've also thought about
-> adding more support for drivers that don't need multiple streams but
-> would still use the new streams APIs to simplify the drivers.
-> 
-> However, as the v10 is already quite old, and I posted the v5 for the
-> active state, I thought it's better to also post the current version of
-> the streams series.
+Hello Laurent,
 
-Thanks Tomi and everyone for working on this series. With the few nits I
-posted addressed:
+Am Donnerstag, 7. Juli 2022, 02:23:55 CEST schrieb Laurent Pinchart:
+> Hi Alexander,
+> 
+> On Wed, May 11, 2022 at 03:36:14PM +0200, Alexander Stein wrote:
+> > Hello Laurent,
+> > 
+> > thanks for pushing out this huge set.
+> > 
+> > Am Dienstag, 10. Mai 2022, 13:58:09 CEST schrieb Laurent Pinchart:
+> > > Hello,
+> > > 
+> > > This patch series prepares the imx7-media-csi for destaging by
+> > > decoupling it from the helpers shared with the i.MX6 IPUv3.
+> > > 
+> > > The strategy Paul and I have followed is to import copies of helper code
+> > > and, refactor it within the imx7-media-csi driver, and repeat until no
+> > > more shared helpers are used. There is still room for refactoring and
+> > > simplification of the imx7-media-csi driver, but I believe it is now in
+> > > a state clean enough to be moved out of staging.
+> > > 
+> > > The series also includes a few fixes or improvements in supported
+> > > formats that are now made possible thanks to this refactoring. See
+> > > patches 45/50 and 46/50 for details.
+> > > 
+> > > The code size has grown as a result. This is partly offset by code in
+> > > the shared helpers that can be removed or simplified, but I haven't
+> > > starting working on that. The helpers are now used for the i.MX6 IPUv3
+> > > only, so I will leave this exercise to anyone who would be interested in
+> > > destaging that driver as well.
+> > > 
+> > > Some of the items in the TODO file related to the imx7-media-csi driver
+> > > have been addressed. The two remaining items are frame interval monitor
+> > > support and restricting the list of supported formats to the SoC
+> > > version. The former isn't a destaging blocker in my opinion, as the
+> > > feature can be added later if desired (and frame interval monitoring
+> > > should then be moved to the V4L2 core). I believe the latter could also
+> > > be addressed after destaging the driver, but in any case, this is a
+> > > discussion for a future destaging series (which may come as soon as this
+> > > one is accepted).
+> > > 
+> > > Alexander, this also could greatly simplify your "[PATCH v3 0/8]
+> > > imx7/imx8mm media / csi patches" series.
+> > 
+> > Thanks for putting me on CC. I'll try to get my system running your
+> > patches
+> > ASAP.
+> 
+> As only minor changes were needed, I ended up posting v1.1 of the
+> corresponding patches instead of spamming everybody with a full v2. For
+> your convenience, I've pushed the result to
+> 
+> 	git://linuxtv.org/pinchartl/media.git imx7/destage
+> 
+> I know it's a bit of a short notice, but I'd like to send a pull request
+> in time for v5.20, when do you think you would be able to test the
+> series ?
 
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+I happen to have my setup already available, so I could test your updated 
+series pretty fast.
+Accessing imx327 still works for WIP config. So
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
 Best regards,
-Tomasz
+Alexander
+
+
 
