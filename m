@@ -2,169 +2,229 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32960569CD4
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 10:14:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4895569CCF
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 10:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235379AbiGGIJV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 04:09:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55586 "EHLO
+        id S233053AbiGGIMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 04:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235287AbiGGIIq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 04:08:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC77C4D165;
-        Thu,  7 Jul 2022 01:08:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 057A961F51;
-        Thu,  7 Jul 2022 08:08:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C8D2C3411E;
-        Thu,  7 Jul 2022 08:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1657181316;
-        bh=Mzw+guaGxcvS7S4YlQr9bq/AYy4U/puT8v9DMSRjm+c=;
+        with ESMTP id S235427AbiGGIMs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 04:12:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1EE4B6C
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 01:12:47 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5815D326;
+        Thu,  7 Jul 2022 10:12:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657181565;
+        bh=9oQlqjB8cZA3m2KxbNkrUxAkxRVNFCFNMpV4+qosPF4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o8T0RPLH1+QXuxRGiOx0iOcZa4PNW1RYnmq0rwqP4JlY+PYLChMX98BzUOmDLYQt5
-         WHtgniPDP3fJS/IKoiVXIaVBC8g4rRYZFs4Es7HO3CMez5153+NrgRKDzbP84fxvsI
-         PrLKzhYgkU2Ze+gIXne4sqvbIkFu3tT1lxy0BeOk=
-Date:   Thu, 7 Jul 2022 10:08:33 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        virtualization@lists.linux-foundation.org,
-        usbb2k-api-dev@nongnu.org, tipc-discussion@lists.sourceforge.net,
-        target-devel@vger.kernel.org, sound-open-firmware@alsa-project.org,
-        samba-technical@lists.samba.org, rds-devel@oss.oracle.com,
-        patches@opensource.cirrus.com, osmocom-net-gprs@lists.osmocom.org,
-        openipmi-developer@lists.sourceforge.net, nvdimm@lists.linux.dev,
-        ntb@lists.linux.dev, netfilter-devel@vger.kernel.org,
-        netdev@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
-        megaraidlinux.pdl@broadcom.com, linuxppc-dev@lists.ozlabs.org,
-        linux1394-devel@lists.sourceforge.net, linux-x25@vger.kernel.org,
-        linux-wpan@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-unionfs@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-        linux-sctp@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-raid@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-perf-users@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-parport@lists.infradead.org,
-        linux-parisc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-nfc@lists.01.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-mm@kvack.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-fpga@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
-        legousb-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-        keyrings@vger.kernel.org, isdn4linux@listserv.isdn4linux.de,
-        iommu@lists.linux.dev, iommu@lists.linux-foundation.org,
-        intel-wired-lan@lists.osuosl.org, greybus-dev@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, dm-devel@redhat.com,
-        devicetree@vger.kernel.org, dev@openvswitch.org,
-        dccp@vger.kernel.org, damon@lists.linux.dev,
-        coreteam@netfilter.org, cgroups@vger.kernel.org,
-        ceph-devel@vger.kernel.org, ath11k@lists.infradead.org,
-        apparmor@lists.ubuntu.com, amd-gfx@lists.freedesktop.org,
-        alsa-devel@alsa-project.org,
-        accessrunner-general@lists.sourceforge.net
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 088b9c375534d905a4d337c78db3b3bfbb52c4a0
-Message-ID: <YsaUgfPbOg7WuBuB@kroah.com>
-References: <62c683a2.g1VSVt6BrQC6ZzOz%lkp@intel.com>
+        b=Z4GXomKrBJAVV3yTZ5LAVPRb6SwHvxV3Q+IaO9llwbTT2xmLtQw7BFyRdkuvg/+Vd
+         M6PnEg94DrWxdGQNQe2S/0Glh84fQJyFYzjGt6Unl5I+TFonzvQ8eGcYlT3+r78IQi
+         z5fDAEcHfW9pzA6Yh1lCf7SOL4K11oTFYXvzeCUo=
+Date:   Thu, 7 Jul 2022 11:12:19 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Yunke Cao <yunkec@google.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: uvcvideo: user entity get_cur in uvc_ctrl_set
+Message-ID: <YsaVY+g+xoE0klAW@pendragon.ideasonboard.com>
+References: <20220621061532.3108909-1-yunkec@google.com>
+ <CANiDSCutn7RVDgSAfz-sEyAq71z-n7Kkd6Q4ABbXxtKZnyJ8Jg@mail.gmail.com>
+ <CANqU6FcMpoOc3Kzy+ALNs-1PvkGdhOeUes1JtCDXRDauScca+Q@mail.gmail.com>
+ <YsYdGKXODOqdTpUp@pendragon.ideasonboard.com>
+ <CANqU6FcJmWZp9hmZk+Mv8E_Jt9sx89yG1pMmtM5fdeWKUDqbkA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <62c683a2.g1VSVt6BrQC6ZzOz%lkp@intel.com>
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CANqU6FcJmWZp9hmZk+Mv8E_Jt9sx89yG1pMmtM5fdeWKUDqbkA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 07, 2022 at 02:56:34PM +0800, kernel test robot wrote:
-> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> branch HEAD: 088b9c375534d905a4d337c78db3b3bfbb52c4a0  Add linux-next specific files for 20220706
-> 
-> Error/Warning reports:
-> 
-> https://lore.kernel.org/linux-doc/202207070644.x48XOOvs-lkp@intel.com
-> 
-> Error/Warning: (recently discovered and may have been fixed)
-> 
-> Documentation/arm/google/chromebook-boot-flow.rst: WARNING: document isn't included in any toctree
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1108): undefined reference to `__aeabi_ddiv'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1124): undefined reference to `__aeabi_ui2d'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1164): undefined reference to `__aeabi_dmul'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1170): undefined reference to `__aeabi_dadd'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1180): undefined reference to `__aeabi_dsub'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1190): undefined reference to `__aeabi_d2uiz'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x162c): undefined reference to `__aeabi_d2iz'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x16b0): undefined reference to `__aeabi_i2d'
-> dc_dmub_srv.c:(.text+0x10f8): undefined reference to `__aeabi_ui2d'
-> dc_dmub_srv.c:(.text+0x464): undefined reference to `__floatunsidf'
-> dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x33c): undefined reference to `__floatunsidf'
-> drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for 'pci_read' [-Wmissing-prototypes]
-> drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for 'pci_write' [-Wmissing-prototypes]
-> drivers/vfio/vfio_iommu_type1.c:2141:35: warning: cast to smaller integer type 'enum iommu_cap' from 'void *' [-Wvoid-pointer-to-enum-cast]
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x34c): undefined reference to `__floatunsidf'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x378): undefined reference to `__divdf3'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x38c): undefined reference to `__muldf3'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3a0): undefined reference to `__adddf3'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3b4): undefined reference to `__subdf3'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3d4): undefined reference to `__fixunsdfsi'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x750): undefined reference to `__fixdfsi'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x7c0): undefined reference to `__floatsidf'
-> powerpc-linux-ld: drivers/pci/endpoint/functions/pci-epf-vntb.c:174: undefined reference to `ntb_link_event'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x468): undefined reference to `__divdf3'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x46c): undefined reference to `__muldf3'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x470): undefined reference to `__adddf3'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x474): undefined reference to `__subdf3'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x478): undefined reference to `__fixunsdfsi'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x47c): undefined reference to `__fixdfsi'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x480): undefined reference to `__floatsidf'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x60c): undefined reference to `__floatunsidf'
-> 
-> Unverified Error/Warning (likely false positive, please contact us if interested):
-> 
-> arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code 'err'
-> drivers/android/binder.c:1481:19-23: ERROR: from is NULL but dereferenced.
-> drivers/android/binder.c:2920:29-33: ERROR: target_thread is NULL but dereferenced.
-> drivers/android/binder.c:353:25-35: ERROR: node -> proc is NULL but dereferenced.
-> drivers/android/binder.c:4888:16-20: ERROR: t is NULL but dereferenced.
-> drivers/base/regmap/regmap.c:1996:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/char/random.c:869:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/firmware/arm_scmi/clock.c:394:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/firmware/arm_scmi/powercap.c:376:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/vega10_powertune.c:1214:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/gpu/drm/amd/display/dc/os_types.h: drm/drm_print.h is included more than once.
-> drivers/gpu/drm/bridge/ite-it66121.c:1398:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/greybus/operation.c:617:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+Hi Yunke,
 
-<snip>
+On Thu, Jul 07, 2022 at 01:54:52PM +0900, Yunke Cao wrote:
+> On Thu, Jul 7, 2022 at 8:39 AM Laurent Pinchart wrote:
+> > On Mon, Jun 27, 2022 at 10:08:14AM +0900, Yunke Cao wrote:
+> > > On Wed, Jun 22, 2022 at 4:58 AM Ricardo Ribalda wrote:
+> > > >
+> > > > Hi Yunke
+> > > >
+> > > > Thanks for your patch
+> > > >
+> > > > Another way to do it could be:
+> > > >
+> > > > __uvc_ctrl_load_cur() {
+> > > > if (loaded)
+> > > >    return
+> > > >    if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) {
+> > > >        memset
+> > > >        loaded = true;
+> > > >        return
+> > > >   }
+> > > > ...
+> > > > }
+> > > >
+> > > > int __uvc_ctrl_get() {
+> > > > if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
+> > > > return -EACCES;
+> > > > ....
+> > > > }
+> > > >
+> > > > Then you could even simplify more the code in uvc_ctrl_set, and limit
+> > > > the m handling of the loaded flag.
+> > > >
+> > > >
+> > > > if ( (ctrl->info.size * 8) != mapping->size)
+> > > >  ___uvc_ctrl_load_cur()
+> > > >
+> > > >
+> > > > But It is probably just a matter of taste ;). It is up to you and
+> > > > Laurent to pick what do you prefer.
+> > > >
+> > > > Regards!
+> > >
+> > > Thanks for the suggestion. This does look cleaner. I like your idea better.
+> > > Laurent, do you have any preference?
+> >
+> > I agree, it looks cleaner.
+> >
+> > Do I understand correctly that this patch will currently have no effect,
+> > given that only the fake GPIO entity has a .get_cur() function, and that
+> > entity doesn't expose any control that can be set ?
+> 
+> Yes, That's my understanding as well. Ricardo, please correct me if I'm wrong.
+> Do we still want to merge this? If so, I will send v3 shortly.
 
-When the compiler crashes, why are you blaming all of these different
-mailing lists?  Perhaps you need to fix your compiler :)
+It's cleaner and will prevent future problems in case more users of
+.get_cur() appear, so I think the patch has value.
 
-thanks,
+> > > > On Tue, 21 Jun 2022 at 08:15, Yunke Cao <yunkec@google.com> wrote:
+> > > > >
+> > > > > Entity controls should get_cur using an entity-defined function
+> > > > > instead of via a query. Fix this in uvc_ctrl_set.
+> > > > >
+> > > > > Fixes: 65900c581d01 ("media: uvcvideo: Allow entity-defined get_info and get_cur")
+> > > > > Signed-off-by: Yunke Cao <yunkec@google.com>
+> > > > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > ---
+> > > > > Changelog since v1:
+> > > > > -Factored out common logic into __uvc_ctrl_load_cur().
+> > > > >
+> > > > >  drivers/media/usb/uvc/uvc_ctrl.c | 62 ++++++++++++++++++--------------
+> > > > >  1 file changed, 35 insertions(+), 27 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > index 0e78233fc8a0..e25177c95571 100644
+> > > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > @@ -963,36 +963,48 @@ static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
+> > > > >         return value;
+> > > > >  }
+> > > > >
+> > > > > -static int __uvc_ctrl_get(struct uvc_video_chain *chain,
+> > > > > -       struct uvc_control *ctrl, struct uvc_control_mapping *mapping,
+> > > > > -       s32 *value)
+> > > > > +static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
+> > > > > +                              struct uvc_control *ctrl)
+> > > > >  {
+> > > > > -       int ret;
+> > > > > +       int ret = 0;
+> > > > nit :  why do you init to 0?
+> > >
+> > > I will remove it in v3.
+> > >
+> > > > >
+> > > > >         if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
+> > > > >                 return -EACCES;
+> > > > >
+> > > > > -       if (!ctrl->loaded) {
+> > > > > -               if (ctrl->entity->get_cur) {
+> > > > nit: is this spaced properly?
+> > >
+> > > This is deleted code or am I looking in the wrong place.
+> > >
+> > > > > -                       ret = ctrl->entity->get_cur(chain->dev,
+> > > > > -                               ctrl->entity,
+> > > > > -                               ctrl->info.selector,
+> > > > > -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> > > > > -                               ctrl->info.size);
+> > > > > -               } else {
+> > > > > -                       ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
+> > > > > -                               ctrl->entity->id,
+> > > > > -                               chain->dev->intfnum,
+> > > > > -                               ctrl->info.selector,
+> > > > > -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> > > > > -                               ctrl->info.size);
+> > > > > -               }
+> > > > > -               if (ret < 0)
+> > > > > -                       return ret;
+> > > > > +       if (ctrl->loaded)
+> > > > > +               return 0;
+> > > > >
+> > > > > -               ctrl->loaded = 1;
+> > > > > +       if (ctrl->entity->get_cur) {
+> > > > > +               ret = ctrl->entity->get_cur(chain->dev,
+> > > > > +                       ctrl->entity,
+> > > > > +                       ctrl->info.selector,
+> > > > > +                       uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> > > > > +                       ctrl->info.size);
+> > > > > +       } else {
+> > > > > +               ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
+> > > > > +                                    ctrl->entity->id, chain->dev->intfnum,
+> > > > > +                                    ctrl->info.selector,
+> > > > > +                                    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> > > > > +                                    ctrl->info.size);
+> > > > >         }
+> > > > >
+> > > > > +       if (ret < 0)
+> > > > > +               return ret;
+> > > > > +
+> > > > > +       ctrl->loaded = 1;
+> > > > > +
+> > > > > +       return ret;
+> > > > > +}
+> > > > > +
+> > > > > +static int __uvc_ctrl_get(struct uvc_video_chain *chain,
+> > > > > +       struct uvc_control *ctrl, struct uvc_control_mapping *mapping,
+> > > > > +       s32 *value)
+> > > > > +{
+> > > > nit: Is the alignment correct here?
+> > >
+> > > Will fix it in v3.
+> > >
+> > > > > +       int ret = __uvc_ctrl_load_cur(chain, ctrl);
+> > > > > +
+> > > > > +       if (ret < 0)
+> > > > > +               return ret;
+> > > > > +
+> > > > >         *value = __uvc_ctrl_get_value(mapping,
+> > > > >                                 uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+> > > > >
+> > > > > @@ -1788,11 +1800,7 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+> > > > >                         memset(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> > > > >                                 0, ctrl->info.size);
+> > > > >                 } else {
+> > > > > -                       ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
+> > > > > -                               ctrl->entity->id, chain->dev->intfnum,
+> > > > > -                               ctrl->info.selector,
+> > > > > -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> > > > > -                               ctrl->info.size);
+> > > > > +                       ret = __uvc_ctrl_load_cur(chain, ctrl);
+> > > > >                         if (ret < 0)
+> > > > >                                 return ret;
+> > > > >                 }
 
-greg k-h
+-- 
+Regards,
+
+Laurent Pinchart
