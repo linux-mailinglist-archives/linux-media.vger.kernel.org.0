@@ -2,169 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3079356AA4A
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 20:15:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC7B656AC84
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 22:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235635AbiGGSPT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 14:15:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43042 "EHLO
+        id S236391AbiGGUHk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 16:07:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235182AbiGGSPS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 14:15:18 -0400
-X-Greylist: delayed 535 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 07 Jul 2022 11:15:17 PDT
-Received: from vault.bonstra.fr.eu.org (vault.bonstra.fr.eu.org [51.158.68.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61EEB27CEB
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 11:15:17 -0700 (PDT)
-Received: from val.bonstra.fr.eu.org (unknown [192.168.128.2])
-        by vault.bonstra.fr.eu.org (Postfix) with ESMTP id 813D8BFB13;
-        Thu,  7 Jul 2022 18:06:19 +0000 (UTC)
-Received: from [IPV6:fd7b:45cc:aa3d::3] (vlad.gr1 [IPv6:fd7b:45cc:aa3d::3])
-        by val.bonstra.fr.eu.org (Postfix) with ESMTPSA id E7321F07F;
-        Thu,  7 Jul 2022 20:06:18 +0200 (CEST)
-Authentication-Results: val; dmarc=fail (p=reject dis=none) header.from=bonstra.fr.eu.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bonstra.fr.eu.org;
-        s=dkim1; t=1657217179; x=1658426779;
-        bh=f0TVdAY/dYO8FA5A04yHKk2pnNYRm2EHLKbCevJOLL0=;
-        h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
-        b=tiOSq6iYQxMdU1okYcP0DY42unBU5lsU0/cqt4m9YT+pzMkvzAaa4+k30JTQYx5Z+
-         5SqRDPbY0ma7U+rapKN/u8TF3JGtnQyBKm3oJgqGMkm1M4BpnW8WnUlXb4JRon3ix4
-         W/QtZuC8WPQDa/6dgC2sFZpEzmS41+kHLOflr1lPM8y3Dk6vUK9vXBgC6DF1G+0AWO
-         KclFVS+7zbNklCy7+8j7fe/uyElX8yyZNRYZRVpJnb1+cy0vfyB9++9QCTnPsjwRLe
-         5I7psrSLY8kE1a77Azxn5iXojndQGzMRJUu7fwI+Wsht2bodARw/mHOIBVqUweM/AB
-         iK7qJ3uCmdV+g==
-Content-Type: multipart/mixed; boundary="------------skNra0DffOPh6XpKdwe4fASd"
-Message-ID: <0ab3655e-452e-979a-d035-f63c1161e668@bonstra.fr.eu.org>
-Date:   Thu, 7 Jul 2022 20:06:10 +0200
+        with ESMTP id S236019AbiGGUHj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 16:07:39 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 758C25C9E9;
+        Thu,  7 Jul 2022 13:07:37 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id q9so27804681wrd.8;
+        Thu, 07 Jul 2022 13:07:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UFb/vVTHpa3YmcpTqh1lfRYgalrYlOtPO+3lLKx7e2w=;
+        b=GRVmiFJd3x6IvVxVUAvexPqEe1BIH/ydII5rQVpCfECXWFdDLVbC0CkVpi3URstvFx
+         SIIkJbBtkW5kyU/4SQszTwmD/+FayV+yCJTniXICKSLR+xkzwl/o6sn+6ciOjpfkv5U9
+         iaWwNYSQFK41TalfJNN6/fTwGAgmqkOWoXAcaQRC4MijpK+qK+7d8/A7xwBxnw8TEe/C
+         fC4GX9lTrLRiHcWYw2IJk5pqRpJWq6RGaY00V4Icb/eu5r/80qkqrIvaA/IOTDFBJdNc
+         e8IagkcRYVqASRasxb/qGS+8V4J+6xLmJ/oNyIj3hb7iqcLQivDQwDZp1HsFMn/ERPFQ
+         sL+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UFb/vVTHpa3YmcpTqh1lfRYgalrYlOtPO+3lLKx7e2w=;
+        b=dKQxhu/B1N3Wtr8/u+ZBkYcBSF9Lcv05vT9Sioa6oDKd4r0w0ulpUJQmSVDPv+VUr2
+         B4komGQUOsOrfATvlesL3k53dkx3EBw9rtbJyldfEb0fUK5pksyua2UMzz0r8KPkNPAy
+         E5enzM/kPwVWVy/uBj7xq6OwHHhDFAsT7xrkoJPTrnL5jm8V7Fm0BRxawTbfOzQUCUCX
+         QJlrW8zzWPWyN6dwF54b6+CaI/rFzLDuABWUl7y+omGvTMUKcPLNQ1GD488MzkD8RtZg
+         6I8aIC3FPWCvgpK6AeCeTlgq59WyWC+i/bYgfNKRwWOBGLJKaRdsTQ1Cbuvwq6WZg2Hx
+         3tXA==
+X-Gm-Message-State: AJIora/75sx0CKlFVQyjmvC/szzpMyQQQiUsC5PnKoxle9+qpGuoJvvn
+        JXHT2yn7V+yCSKAT/jfwDPA=
+X-Google-Smtp-Source: AGRyM1uVn2DUfu47zHuV+A0ZwIoNSEY3jvQTT71rKq6YEHsh99Q9rdGTiuSk3+fVCiwUR87mDnXbxw==
+X-Received: by 2002:adf:f646:0:b0:21d:7000:95b1 with SMTP id x6-20020adff646000000b0021d700095b1mr17651897wrp.486.1657224455913;
+        Thu, 07 Jul 2022 13:07:35 -0700 (PDT)
+Received: from localhost.localdomain (host-79-53-109-127.retail.telecomitalia.it. [79.53.109.127])
+        by smtp.gmail.com with ESMTPSA id n17-20020a05600c3b9100b0039ee391a024sm25096752wms.14.2022.07.07.13.07.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 13:07:34 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Martiros Shakhzadyan <vrzh@vrzh.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [RESEND PATCH 0/3] staging: media: atomisp: Convert to kmap_local_page()
+Date:   Thu,  7 Jul 2022 22:07:15 +0200
+Message-Id: <20220707200718.26398-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: Fwd: Help supporting IT9910 chipset
-Content-Language: en-IE
-To:     Juan Antonio Zuloaga Mellino <jzuloaga@fi.uba.ar>
-References: <CALFMp8vtr3jjGApAoehc4vuS9mNprtGqrRd2+tSfCHbTTKj4og@mail.gmail.com>
- <CALFMp8sXqJLw3MUvvAKztKWU_HyrSNEkDE0TA-UDDwVuwGF9AQ@mail.gmail.com>
-From:   "Hugo \"Bonstra\" Grostabussiat" <bonstra@bonstra.fr.eu.org>
-Cc:     linux-media@vger.kernel.org
-In-Reply-To: <CALFMp8sXqJLw3MUvvAKztKWU_HyrSNEkDE0TA-UDDwVuwGF9AQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------skNra0DffOPh6XpKdwe4fASd
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+After waiting months, I'm resending three conversions to
+kmap_local_page(). I'd like to ask if there is anything which prevents
+these patches from being accepted.
 
-Le 29/06/2022 à 23:49, Juan Antonio Zuloaga Mellino a écrit :
-> Hi. I've an ezcap295hd. It's an usb video grabber based on the IT9910
-> chipset manufactured by ITE Tech. Inc.
-> 
-> I wasn't able to find linux support for it. Is anybody working on it?
+Please note that these patches were submitted on April 2022.
 
-I did some reverse engineering on my IT9910 based video grabber, a 
-generic model labeled "Awisio Game Capture v5".
+For you convenience here are the links to the patches, the "Reviewed-by:" 
+and "Tested-by:" tags:
 
-I wrote a ugly Rust program to test my findings: 
-https://github.com/Bonstra/it9910-stream-example
-For my device, it is enough to output the MPEG TS stream to stdout, and 
-pipe it into mpv.
-It is possible that it won't work for other IT9910 devices because of 
-differences in the firmware.
+[PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+https://lore.kernel.org/lkml/20220413225531.9425-1-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/Yli+R7iLZKqO8kVP@iweiny-desk3/
+https://lore.kernel.org/lkml/2d096f20-dbaa-1d49-96e9-a7ae6c19f7fe@redhat.com/
 
-There is still some work to do to understand the meaning of various data 
-blobs used as-is in the test program.
+[PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_set()
+https://lore.kernel.org/lkml/20220413212210.18494-1-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/YldNhErgt53RqYp7@iweiny-desk3/
+https://lore.kernel.org/lkml/0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.com/
 
-I also attempted to list all the USB properties I could find. I attached 
-that tentative list to this email. Stay away from the firmware update 
-properties :)
+[PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
+https://lore.kernel.org/lkml/20220408223129.3844-1-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.com/
 
-I don't plan on writing a Linux driver, at least not until I understand 
-the inner workings of that device.
+Fabio M. De Francesco (3):
+  staging: media: atomisp: Convert kmap() to kmap_local_page()
+  staging: media: atomisp: Use kmap_local_page() in hmm_set()
+  staging: media: atomisp: Use kmap_local_page() in hmm_store()
 
-I hope the resources I provided will help.
+ drivers/staging/media/atomisp/pci/hmm/hmm.c | 22 ++++++---------------
+ 1 file changed, 6 insertions(+), 16 deletions(-)
 
-Regards
---
-Hugo
---------------skNra0DffOPh6XpKdwe4fASd
-Content-Type: text/plain; charset=UTF-8; name="it9910-usb-props.txt"
-Content-Disposition: attachment; filename="it9910-usb-props.txt"
-Content-Transfer-Encoding: base64
+-- 
+2.36.1
 
-PSBVU0IgcHJvcGVydHkgcmVxdWVzdHMgPQoKT2Zmc2V0CU5hbWUJCVNpemUJRGVzY3JpcHRp
-b24KMHgwMAlsZW4JCTQJTGVuZ3RoIG9mIGZ1bGwgcHJvcGVydHkgcmVxdWVzdAoweDA0CW9w
-Y29kZQkJMglPcGVyYXRpb24gY29kZQoweDA2CXNpZwkJMgkweDk5MTAKMHgwOAlvcGVyYXRp
-b24JNAkweDEgPSBHRVQsIDB4MiA9IFNFVAoweDBjCXNlcQkJMglTZXF1ZW5jZSBudW1iZXIK
-MHgwZQlzaWcJCTIJMHg5OTEwCjB4MTAJZGF0YQkJbGVuLTE2CURhdGEKCj09IE9wY29kZXMg
-PT0KCj09PSBSZWJvb3QgKDB4MSkgPT09CgpMZW5ndGg6IDB4MTAKU3VwcG9ydGVkIG9wZXJh
-dGlvbnM6CglHRVQgKDEpOiBVbmtub3duCglTRVQgKDIpOiBZZXMKCj09PSBHZXQvU2V0IHN0
-YXRlICgweDIpID09PQoKTGVuZ3RoOiAweDE0ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VU
-ICgxKTogVW5rbm93bgoJU0VUICgyKTogWWVzCgpPZmZzZXQJTmFtZQkJU2l6ZQlEZXNjcmlw
-dGlvbgoweDEwCT8JCTQJPwoKPT09IEdldC9TZXQgc291cmNlICgweDMpID09PQoKTGVuZ3Ro
-OiAweDE4ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VUICgxKTogWWVzCglTRVQgKDIpOiBZ
-ZXMKCk9mZnNldAlOYW1lCQlTaXplCURlc2NyaXB0aW9uCjB4MTAJYXVkaW9fc291cmNlCTQJ
-QXVkaW8gc291cmNlOgoJCQkJMDogRGlnaXRhbCAxCgkJCQkxOiBEaWdpdGFsIDIgKHJlc2Vy
-dmVkKQoJCQkJMjogQW5hbG9nCjB4MTQJdmlkZW9fc291cmNlCTQJVmlkZW8gc291cmNlOgoJ
-CQkJMDogRGlnaXRhbAoJCQkJMTogQW5hbG9nIFlyWWJZCgkJCQkyOiBBbmFsb2cgY29tcG9z
-aXRlCgkJCQkzOiBBbmFsb2cgUy9WaWRlbwoJCQkJNDogQW5hbG9nIFJHQgoKPT09IFNldCBm
-aXJtd2FyZSBzaXplICgweDUpID09PQoKTGVuZ3RoOiAweDE0ClN1cHBvcnRlZCBvcGVyYXRp
-b25zOgoJR0VUICgxKTogVW5rbm93bgoJU0VUICgyKTogWWVzCgpPZmZzZXQJTmFtZQkJU2l6
-ZQlEZXNjcmlwdGlvbgoweDEwCWZpcm13YXJlX3NpemUJNAlGaXJtd2FyZSBzaXplLCBJIGd1
-ZXNzCgo9PT0gU2V0IGZpcm13YXJlIGRhdGEgKDB4NikgPT09CgpMZW5ndGg6IDB4MTAgbWlu
-LCAweDIwMCBtYXgKU3VwcG9ydGVkIG9wZXJhdGlvbnM6CglHRVQgKDEpOiBVbmtub3duCglT
-RVQgKDIpOiBZZXMKCk9mZnNldAlOYW1lCQlTaXplCQlEZXNjcmlwdGlvbgoweDEwCWZpcm13
-YXJlX2RhdGEJMCB0byAweDFmMAlGaXJtd2FyZSBkYXRhCgo9PT0gR2V0IGZpcm13YXJlIHN0
-YXR1cyAoMHg4KSA9PT0KCkxlbmd0aDogMHgxNApTdXBwb3J0ZWQgb3BlcmF0aW9uczoKCUdF
-VCAoMSk6IFllcwoJU0VUICgyKTogVW5saWtlbHkKCk9mZnNldAlOYW1lCQlTaXplCURlc2Ny
-aXB0aW9uCjB4MTAJZmlybXdhcmVfc3RhdHVzCTQJRmlybXdhcmUgc3RhdHVzLCBJIGd1ZXNz
-Cgo9PT0gR2V0IHByb2ZpbGUgKDB4YSkgPT09CgpMZW5ndGg6IDB4MTAsIDB4MTQKU3VwcG9y
-dGVkIG9wZXJhdGlvbnM6CglHRVQgKDEpOiBZZXMKCVNFVCAoMik6ID8KClJlcXVlc3QgKDB4
-MTAgYnl0ZXMpOgpPZmZzZXQJTmFtZQkJU2l6ZQlEZXNjcmlwdGlvbgoKUmVzcG9uc2UgKDB4
-MTQgYnl0ZXMpOgpPZmZzZXQJTmFtZQkJU2l6ZQlEZXNjcmlwdGlvbgoweDEwCXByb2ZpbGUJ
-CTB4NAlEZXZpY2UgcHJvZmlsZSAoZmVhdHVyZXMsIGV0Yy4uLikKCUJJVCgxKQk/CglCSVQo
-MCkJPwoKPT09IEdldC9TZXQgYnJpZ2h0bmVzcyAoMHgxMDEpID09PQoKTGVuZ3RoOiAweDE4
-ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VUICgxKTogWWVzCglTRVQgKDIpOiBZZXMKCk9m
-ZnNldAlOYW1lCQlTaXplCURlc2NyaXB0aW9uCjB4MTAJdW5rCQk0CTAKMHgxNAlicmlnaHRu
-ZXNzCTQJQnJpZ2h0bmVzcyB2YWx1ZSAoMC0xMDApCgo9PT0gR2V0L1NldCBjb250cmFzdCAo
-MHgxMDIpID09PQoKTGVuZ3RoOiAweDE4ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VUICgx
-KTogWWVzCglTRVQgKDIpOiBZZXMKCk9mZnNldAlOYW1lCQlTaXplCURlc2NyaXB0aW9uCjB4
-MTAJdW5rCQk0CTAKMHgxNAljb250cmFzdAk0CUNvbnRyYXN0IHZhbHVlICgwLTEwMCkKCj09
-PSBHZXQvU2V0IGh1ZSAoMHgxMDMpID09PQoKTGVuZ3RoOiAweDE4ClN1cHBvcnRlZCBvcGVy
-YXRpb25zOgoJR0VUICgxKTogWWVzCglTRVQgKDIpOiBZZXMKCk9mZnNldAlOYW1lCQlTaXpl
-CURlc2NyaXB0aW9uCjB4MTAJdW5rCQk0CTAKMHgxNAlodWUJCTQJSHVlIHZhbHVlICgwLTEw
-MCkKCj09PSBHZXQvU2V0IHNhdHVyYXRpb24gKDB4MTA0KSA9PT0KCkxlbmd0aDogMHgxOApT
-dXBwb3J0ZWQgb3BlcmF0aW9uczoKCUdFVCAoMSk6IFllcwoJU0VUICgyKTogWWVzCgpPZmZz
-ZXQJTmFtZQkJU2l6ZQlEZXNjcmlwdGlvbgoweDEwCXVuawkJNAkwCjB4MTQJaHVlCQk0CVNh
-dHVyYXRpb24gdmFsdWUgKDAtMTAwKQoKPT09ID8gKDB4MjAwKSA9PT0KCkxlbmd0aDogMHgx
-NApTdXBwb3J0ZWQgb3BlcmF0aW9uczoKCUdFVCAoMSk6ID8KCVNFVCAoMik6IFllcwoKT2Zm
-c2V0CU5hbWUJCVNpemUJRGVzY3JpcHRpb24KCj09PSBHZXQgdmlkZW8gY29tcHJlc3Npb24g
-aW5mbyAoMHgyMDEpID09PQoKTGVuZ3RoOiAweDFjClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJ
-R0VUICgxKTogWWVzCglTRVQgKDIpOiBVbmtub3duCgpPZmZzZXQJTmFtZQkJU2l6ZQlEZXNj
-cmlwdGlvbgoweDAJdW5rCQk0CVN0cmVhbSBpbmRleD8KMHg0CWtleV9mcmFtZXJhdGUJNAlE
-ZWZhdWx0S2V5RnJhbWVSYXRlIChEZWZhdWx0UEZyYW1lUmF0ZSBpcyBEZWZhdWx0S2V5RnJh
-bWVSYXRlIC0gMSkKMHg4CXF1YWxpdHkJCTQJRGVmYXVsdFF1YWxpdHkKCj09PSBHZXQgdmlk
-ZW8gY29tcHJlc3Npb24ga2V5ZnJhbWUgcmF0ZSAoMHgyMDIpID09PQoKTGVuZ3RoOiAweDE4
-ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VUICgxKTogWWVzCglTRVQgKDIpOiBZZXMKCk9m
-ZnNldAlOYW1lCQlTaXplCURlc2NyaXB0aW9uCjB4MAlzdHJlYW1faWR4CTQJU3RyZWFtIGlu
-ZGV4CjB4NAlrZXlmcmFtZV9yYXRlCTQJS2V5ZnJhbWUgcmF0ZQoKPT09IEdldCB2aWRlbyBj
-b21wcmVzc2lvbiBxdWFsaXR5ICgweDIwMykgPT09CgpMZW5ndGg6IDB4MTgKU3VwcG9ydGVk
-IG9wZXJhdGlvbnM6CglHRVQgKDEpOiBZZXMKCVNFVCAoMik6IFllcwoKT2Zmc2V0CU5hbWUJ
-CVNpemUJRGVzY3JpcHRpb24KMHgwCXN0cmVhbV9pZHgJNAlTdHJlYW0gaW5kZXgKMHg0CXF1
-YWxpdHkJCTQJUXVhbGl0eSB2YWx1ZSBmcm9tIDAgKHdvcnN0KSB0byAxMDAwMCAoYmVzdCkK
-Cj09PSA/ICgweDJmMCkgPT09CgpMZW5ndGg6IDB4OWUKU3VwcG9ydGVkIG9wZXJhdGlvbnM6
-CglHRVQgKDEpOiBZZXMKCVNFVCAoMik6ID8KCk9mZnNldAlOYW1lCQlTaXplCURlc2NyaXB0
-aW9uCgo9PT0gR2V0L1NldCBQQyBncmFiYmVyICgweGUwMDEpID09PQoKTGVuZ3RoOiAweDFj
-LDB4NGMsMHgyMDAKU3VwcG9ydGVkIG9wZXJhdGlvbnM6CglHRVQgKDEpOiBZZXMKCVNFVCAo
-Mik6IFllcwoKT2Zmc2V0CU5hbWUJCVNpemUJRGVzY3JpcHRpb24KCj09PSBHZXQgdGltZXN0
-YW1wPyAoMHhmMDAxKSA9PT0KCkdldCBlbGFwc2VkIG1pbGxpc2Vjb25kcyBzaW5jZSBsYXN0
-IGdldCB0aW1lc3RhbXAgcmVxdWVzdC4KCkxlbmd0aDogMHgxNApTdXBwb3J0ZWQgb3BlcmF0
-aW9uczoKCUdFVCAoMSk6IFllcwoJU0VUICgyKTogPwoKT2Zmc2V0CU5hbWUJCVNpemUJRGVz
-Y3JpcHRpb24KMHgwMAltaWxsaXMJCTQJTnVtYmVyIG9mIGVsYXBzZWQgbWlsbGlzZWNvbmRz
-IHNpbmNlIGxhc3QgY2FsbAoK
-
---------------skNra0DffOPh6XpKdwe4fASd--
