@@ -2,113 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EACA56A1C9
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 14:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC80956A1D3
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 14:17:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235228AbiGGMOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 08:14:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49560 "EHLO
+        id S235443AbiGGMR4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 08:17:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235105AbiGGMOu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 08:14:50 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F23A16593
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 05:14:48 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o9QP9-000mFw-04; Thu, 07 Jul 2022 12:14:47 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o9QP6-00H1F5-SC; Thu, 07 Jul 2022 12:14:44 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.20] Prepare destaging of imx7-media-csi (#84629)
-Date:   Thu,  7 Jul 2022 12:14:44 +0000
-Message-Id: <20220707121444.4056305-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YsbEoobPgKoYcZUs@pendragon.ideasonboard.com>
-References: 
+        with ESMTP id S231406AbiGGMRz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 08:17:55 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32344205DC
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 05:17:54 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id r6so11471786edd.7
+        for <linux-media@vger.kernel.org>; Thu, 07 Jul 2022 05:17:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=60N8M/nRnM//t+C1HJLgQyIh2MzYGHSkKBYpJ2zSJko=;
+        b=Kds6zwJqERFx4b+AMgYRkkipOmZn/9MKCL6MujKN+VIeXuM/+8dQgVkb+V07WtkS3V
+         VAwuJQG3beibjuh5o4sxO9Nev3j2Bwe/Ufw6YM3MG1gjB4sEK62bAoZzAHUBVHX3W9BO
+         iQhkmwHEs1X7hspnzMTOMCg03JsnAy1rk2sGE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=60N8M/nRnM//t+C1HJLgQyIh2MzYGHSkKBYpJ2zSJko=;
+        b=UstAdCWdHuMmEN/5BvDL+2nscB3HxVuqvcght1zyBWY10uVcQLBCliBvqYiCwJuuH4
+         KaN9CnHvhu9eshIlFNC11bdkzeLFMwS6iyRyrD1U3NrVsT2EDp5WZqGjJpi8CLSn3RcG
+         8L5GplsoV6WHTsMCLowKyf7uNyGH618IQBU6wrLkELsd4PoxPGnf+dEPBxuWASbYx7Il
+         BXLbZB6os2R3F5QSuO2S2GESzfIGviqSdTJhGFCjr2lnjdGozC3sneus+g5na6XNIzh6
+         fvtezl0TWXbFigQJyr1VGmbLd8v8NI9D0fCO4eCyQfUROUQk5rR4f+f2frCV00bdX50g
+         qhAw==
+X-Gm-Message-State: AJIora+NYCwQ3ly/qfEWSiyoyqPZ8oGKMAc0rpGYhzmbqZMHEC+Ga/zR
+        i7d37rt9ftQT5V2i5k8GDi+RZvUBQZEBiQ==
+X-Google-Smtp-Source: AGRyM1sZIR4+21LWH+CSarN9dij84q5dNBCR/Bzh3HG24ea+ENbR1sp36BADeX2CcaTWpxspjJhGeA==
+X-Received: by 2002:a05:6402:510e:b0:435:9052:3b16 with SMTP id m14-20020a056402510e00b0043590523b16mr64156983edd.20.1657196272737;
+        Thu, 07 Jul 2022 05:17:52 -0700 (PDT)
+Received: from carbon.gago.life (78-83-68-78.spectrumnet.bg. [78.83.68.78])
+        by smtp.gmail.com with ESMTPSA id g1-20020a170906538100b0072a55ebbc77sm10794721ejo.66.2022.07.07.05.17.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 05:17:52 -0700 (PDT)
+Date:   Thu, 7 Jul 2022 15:17:51 +0300
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-media@vger.kernel.org, jacopo@jmondi.org
+Subject: Re: Re: Re: hooking Sony 47MPixel sensor to NXP imx8m-mini MIPI CSI2
+Message-ID: <YsbO74eGybz7uFBe@carbon.gago.life>
+References: <YrwFf7Jw2/yDlcDq@carbon.lan>
+ <12352558.O9o76ZdvQC@steina-w>
+ <YsRVAV8a48CwpaSY@p310.k.g>
+ <2450654.irdbgypaU6@steina-w>
+ <YsWJBEPhp9WhiYe1@p310.k.g>
+ <YsWTXnTpeM+mCImc@pendragon.ideasonboard.com>
+ <YsXh/arQZXnaeGAi@carbon.gago.life>
+ <YsYC6eMtotq7FR2i@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YsYC6eMtotq7FR2i@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 22-07-07 00:47:21, Laurent Pinchart wrote:
+> 
+> MEDIA_BUS_FMT_* are media bus formats, they describe the format of data as it
+> gets transmitted on buses between entities. The main purposes of those formats
+> are configuration of entities in the pipeline (an IP core will need to be
+> configured differently if it receives 10-bit raw data or 12-bit raw data for
+> instance), and validation of the pipeline configuration (the format on the
+> output of an entity must match the format on the input of the next entity).
+> 
+> V4L2_PIX_FMT_* are pixel formats, and they describe the format of data as
+> stored in memory. They're only meaningful for the DMA engines at the end of
+> the pipeline, and while they're related to the media bus formats (the DMA
+> engine can't write to memory, for instance, V4L2_PIX_FMT_YUYV if it receives
+> MEDIA_BUS_FMT_SGRBG10 from the previous entity), there's no fixed 1:1 mapping
+> between the two formats. The mapping is device-dependent. For instance, a DMA
+> engine that receives YUV 4:2:2 data in the form of MEDIA_BUS_FMT_YUYV8_1X16
+> could support writing it in different pixel formats, such as
+> V4L2_PIX_FMT_YUYV, V4L2_PIX_FMT_NV12, V4L2_PIX_FMT_NV16, ...
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YsbEoobPgKoYcZUs@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/222893/
-Build time: 00:36:24
-Link: https://lore.kernel.org/linux-media/YsbEoobPgKoYcZUs@pendragon.ideasonboard.com
+Thanks for these details.
 
-gpg: Signature made Thu 07 Jul 2022 11:33:24 AM UTC
-gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
+I was wondering why V4L2_PIX_FMT_SGBRG12 would not be used for
+MEDIA_BUS_FMT_SGBRG12_1X12 bus formats, but i guess the answer i can extract
+from the info above is "device dependent".
 
-Summary: got 5/50 patches with issues, being 1 at build time
+> I have work in progress patches that address issues with the imx7-csi-bridge
+> driver, once they land we could look into this. I'm afraid I'm a bit slow
+> these days due to covid.
 
-Error/warnings:
+Quick recovery!  Looking forward to these patches.
 
-patches/0001-staging-media-imx-imx7-media-csi-Initialize-locks-ea.patch:
+For me, changing VID_MEM_LIMIT to 512MB works OK for the moment.  I am not yet
+certain how this constant is related to the global CMA parameter.  In the
+default kernel config CMA is 32MB, while VID_MEM_LIMIT is 64MB.  Isn't this
+wrong?
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000008Kb sm_state_count = 543759
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 7 seconds
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5561 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1725875
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 48 seconds
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2878 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0003-staging-media-imx-imx7-media-csi-Import-notifier-hel.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-staging-media-imx-imx7-media-csi-Import-notifier-hel.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:211: CHECK: Alignment should match open parenthesis
-
-patches/0030-staging-media-imx-imx7-media-csi-Decouple-from-imx_m.patch:
-
-   checkpatch.pl:
-	$ cat patches/0030-staging-media-imx-imx7-media-csi-Decouple-from-imx_m.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:66: WARNING: Possible unnecessary 'out of memory' message
-
-patches/0033-staging-media-imx-imx7-media-csi-Import-format-helpe.patch:
-
-   checkpatch.pl:
-	$ cat patches/0033-staging-media-imx-imx7-media-csi-Import-format-helpe.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:70: ERROR: Macros with complex values should be enclosed in parentheses
-	-:91: CHECK: Lines should not end with a '('
-	-:99: CHECK: Lines should not end with a '('
-	-:146: CHECK: Lines should not end with a '('
-	-:207: CHECK: Lines should not end with a '('
-	-:218: CHECK: Lines should not end with a '('
-	-:229: CHECK: Lines should not end with a '('
-	-:240: CHECK: Lines should not end with a '('
-	-:251: CHECK: Lines should not end with a '('
-
-patches/0043-staging-media-imx-imx7-media-csi-Inline-imx7_csi_ini.patch:
-
-   checkpatch.pl:
-	$ cat patches/0043-staging-media-imx-imx7-media-csi-Inline-imx7_csi_ini.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:88: CHECK: Alignment should match open parenthesis
-
+		Petko
