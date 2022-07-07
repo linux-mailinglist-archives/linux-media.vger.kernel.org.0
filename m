@@ -2,48 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B47C356ADE6
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 23:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D93F456AE4D
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 00:23:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236893AbiGGVrb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 17:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53222 "EHLO
+        id S236920AbiGGWWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 18:22:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236879AbiGGVr3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 17:47:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FB6330F63
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 14:47:29 -0700 (PDT)
+        with ESMTP id S237054AbiGGWWe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 18:22:34 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD51F61D44
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 15:22:32 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B1D9DD00;
-        Thu,  7 Jul 2022 23:47:26 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E5C956D;
+        Fri,  8 Jul 2022 00:22:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657230446;
-        bh=nM19EOLpimc401Ml0+BRbDPw4Q23Wx0EwxuqiKtDdE8=;
+        s=mail; t=1657232550;
+        bh=z2aKlY4jQcZl3GH/YpxyQaBYXsMiZnWV4vFjKYGGTxc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X+8d0qoNlTM4Xt2X4KGTplLIrpC6t5siDkqWcnulMhV3VPECqXXJv5stBOKH7BkyF
-         HJN/ipMSArHCrrZojOFNyYh+VoHoSfK0eYhrOqsyfFVJph80oU2KiHvf0BxiGFdFKo
-         jxlWd86djeNomRbWVZCldFWkZhwJVg5+MZ6/Agl8=
-Date:   Fri, 8 Jul 2022 00:47:00 +0300
+        b=IsFi314X4+kK983ro8+2truR/y/JNYGJ6iu9UXNhZsgFsUY7NJ/uheTkp2p7baEQo
+         35q+S6zpCv3OpycMUmD4AuTfTefAu/UL6lqglbWjkaFqU6+Sg4io6EyOmOqHTHToR8
+         wxuePgn44HgDu7OPtVdFnQP3id5p47kOJATZLwT8=
+Date:   Fri, 8 Jul 2022 01:22:04 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Petko Manolov <petko.manolov@konsulko.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, jacopo@jmondi.org
-Subject: Re: Re: Re: hooking Sony 47MPixel sensor to NXP imx8m-mini MIPI CSI2
-Message-ID: <YsdUVAr/MJjDRObd@pendragon.ideasonboard.com>
-References: <YrwFf7Jw2/yDlcDq@carbon.lan>
- <12352558.O9o76ZdvQC@steina-w>
- <YsRVAV8a48CwpaSY@p310.k.g>
- <2450654.irdbgypaU6@steina-w>
- <YsWJBEPhp9WhiYe1@p310.k.g>
- <YsWTXnTpeM+mCImc@pendragon.ideasonboard.com>
- <YsXh/arQZXnaeGAi@carbon.gago.life>
- <YsYC6eMtotq7FR2i@pendragon.ideasonboard.com>
- <YsbO74eGybz7uFBe@carbon.gago.life>
+To:     Yunke Cao <yunkec@google.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3] media: uvcvideo: use entity get_cur in uvc_ctrl_set
+Message-ID: <YsdcjHSixBrwerlq@pendragon.ideasonboard.com>
+References: <20220707085331.283402-1-yunkec@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YsbO74eGybz7uFBe@carbon.gago.life>
+In-Reply-To: <20220707085331.283402-1-yunkec@google.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -53,61 +46,161 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Petko,
+Hi Yunke,
 
-On Thu, Jul 07, 2022 at 03:17:51PM +0300, Petko Manolov wrote:
-> On 22-07-07 00:47:21, Laurent Pinchart wrote:
-> > 
-> > MEDIA_BUS_FMT_* are media bus formats, they describe the format of data as it
-> > gets transmitted on buses between entities. The main purposes of those formats
-> > are configuration of entities in the pipeline (an IP core will need to be
-> > configured differently if it receives 10-bit raw data or 12-bit raw data for
-> > instance), and validation of the pipeline configuration (the format on the
-> > output of an entity must match the format on the input of the next entity).
-> > 
-> > V4L2_PIX_FMT_* are pixel formats, and they describe the format of data as
-> > stored in memory. They're only meaningful for the DMA engines at the end of
-> > the pipeline, and while they're related to the media bus formats (the DMA
-> > engine can't write to memory, for instance, V4L2_PIX_FMT_YUYV if it receives
-> > MEDIA_BUS_FMT_SGRBG10 from the previous entity), there's no fixed 1:1 mapping
-> > between the two formats. The mapping is device-dependent. For instance, a DMA
-> > engine that receives YUV 4:2:2 data in the form of MEDIA_BUS_FMT_YUYV8_1X16
-> > could support writing it in different pixel formats, such as
-> > V4L2_PIX_FMT_YUYV, V4L2_PIX_FMT_NV12, V4L2_PIX_FMT_NV16, ...
+Thank you for the patch.
+
+On Thu, Jul 07, 2022 at 05:53:31PM +0900, Yunke Cao wrote:
+> Entity controls should get_cur using an entity-defined function
+> instead of via a query. Fix this in uvc_ctrl_set.
 > 
-> Thanks for these details.
+> Fixes: 65900c581d01 ("media: uvcvideo: Allow entity-defined get_info and get_cur")
 > 
-> I was wondering why V4L2_PIX_FMT_SGBRG12 would not be used for
-> MEDIA_BUS_FMT_SGBRG12_1X12 bus formats, but i guess the answer i can extract
-> from the info above is "device dependent".
-
-And I think it's also wrong in the imx7-media-csi driver. I've sent a
-pull request ([1]) for v5.20 that should fix this, in particular in
-patch "staging: media: imx: imx7-media-csi: Fix list of supported
-formats" ([2]).
-
-[1] https://lore.kernel.org/linux-media/YsbEoobPgKoYcZUs@pendragon.ideasonboard.com/
-[2] https://lore.kernel.org/linux-media/20220510115859.19777-46-laurent.pinchart@ideasonboard.com/
-
-> > I have work in progress patches that address issues with the imx7-csi-bridge
-> > driver, once they land we could look into this. I'm afraid I'm a bit slow
-> > these days due to covid.
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Yunke Cao <yunkec@google.com>
+> ---
+> Changelog since v2:
+> -Move the logic of setting ctrl_data to 0 into load_cur.
+> -Do not initialize ret=0.
+> -Fix __uvc_ctrl_get() spacing.
+> -Fix typo in the title.
 > 
-> Quick recovery!  Looking forward to these patches.
+> Changelog since v1:
+> -Factored out common logic into __uvc_ctrl_load_cur().
+> 
+>  drivers/media/usb/uvc/uvc_ctrl.c | 85 ++++++++++++++++++--------------
+>  1 file changed, 48 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 0e78233fc8a0..181ce4b5db1e 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -963,35 +963,57 @@ static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
+>  	return value;
+>  }
+>  
+> +static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
+> +			       struct uvc_control *ctrl)
+> +{
+> +	int ret;
+> +
+> +	if (ctrl->loaded)
+> +		return 0;
+> +
+> +	if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0) {
+> +		memset(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> +		       0, ctrl->info.size);
+> +		ctrl->loaded = 1;
+> +
+> +		return 0;
+> +	}
+> +
+> +	if (ctrl->entity->get_cur) {
+> +		ret = ctrl->entity->get_cur(chain->dev,
+> +			ctrl->entity,
+> +			ctrl->info.selector,
+> +			uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> +			ctrl->info.size);
 
-Thank you. The pull request has been sent, so this should be fixed in
-v5.20.
+I'll take this as an opportunity to realign the code:
 
-> For me, changing VID_MEM_LIMIT to 512MB works OK for the moment.  I am not yet
-> certain how this constant is related to the global CMA parameter.  In the
-> default kernel config CMA is 32MB, while VID_MEM_LIMIT is 64MB.  Isn't this
-> wrong?
+	u8 *data;
 
-There's no real rule about the maximum amount of memory V4L2 driver
-can/should allocate. Every driver sets its own limits (and some drivers
-don't set a limit at all). 64MB is clearly too little. Feel free to
-submit a patch to increase this in the imx7-media-csi driver (on top of
-[1] to avoid conflicts).
+	...
+
+	data = uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT);
+
+	if (ctrl->entity->get_cur)
+		ret = ctrl->entity->get_cur(chain->dev, ctrl->entity,
+					    ctrl->info.selector, data,
+					    ctrl->info.size);
+	else
+		...
+
+I'll send a v4 for your review :-)
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	} else {
+> +		ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
+> +				     ctrl->entity->id, chain->dev->intfnum,
+> +				     ctrl->info.selector,
+> +				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> +				     ctrl->info.size);
+> +	}
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ctrl->loaded = 1;
+> +
+> +	return ret;
+> +}
+> +
+>  static int __uvc_ctrl_get(struct uvc_video_chain *chain,
+> -	struct uvc_control *ctrl, struct uvc_control_mapping *mapping,
+> -	s32 *value)
+> +			  struct uvc_control *ctrl,
+> +			  struct uvc_control_mapping *mapping,
+> +			  s32 *value)
+>  {
+>  	int ret;
+>  
+>  	if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
+>  		return -EACCES;
+>  
+> -	if (!ctrl->loaded) {
+> -		if (ctrl->entity->get_cur) {
+> -			ret = ctrl->entity->get_cur(chain->dev,
+> -				ctrl->entity,
+> -				ctrl->info.selector,
+> -				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> -				ctrl->info.size);
+> -		} else {
+> -			ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
+> -				ctrl->entity->id,
+> -				chain->dev->intfnum,
+> -				ctrl->info.selector,
+> -				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> -				ctrl->info.size);
+> -		}
+> -		if (ret < 0)
+> -			return ret;
+> -
+> -		ctrl->loaded = 1;
+> -	}
+> +	ret = __uvc_ctrl_load_cur(chain, ctrl);
+> +	if (ret < 0)
+> +		return ret;
+>  
+>  	*value = __uvc_ctrl_get_value(mapping,
+>  				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+> @@ -1783,21 +1805,10 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+>  	 * needs to be loaded from the device to perform the read-modify-write
+>  	 * operation.
+>  	 */
+> -	if (!ctrl->loaded && (ctrl->info.size * 8) != mapping->size) {
+> -		if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0) {
+> -			memset(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> -				0, ctrl->info.size);
+> -		} else {
+> -			ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
+> -				ctrl->entity->id, chain->dev->intfnum,
+> -				ctrl->info.selector,
+> -				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> -				ctrl->info.size);
+> -			if (ret < 0)
+> -				return ret;
+> -		}
+> -
+> -		ctrl->loaded = 1;
+> +	if ((ctrl->info.size * 8) != mapping->size) {
+> +		ret = __uvc_ctrl_load_cur(chain, ctrl);
+> +		if (ret < 0)
+> +			return ret;
+>  	}
+>  
+>  	/* Backup the current value in case we need to rollback later. */
 
 -- 
 Regards,
