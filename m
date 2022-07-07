@@ -2,40 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E22256A8F7
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 19:03:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3079356AA4A
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 20:15:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236475AbiGGRDM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 13:03:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42516 "EHLO
+        id S235635AbiGGSPT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 14:15:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235809AbiGGRDL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 13:03:11 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB8874D14E
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 10:03:10 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o9UuD-0013pM-5g; Thu, 07 Jul 2022 17:03:09 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1o9UuB-000o8O-1j; Thu, 07 Jul 2022 17:03:07 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL] Linux Media vimc update for 5.20-rc1 (#84630)
-Date:   Thu,  7 Jul 2022 17:03:06 +0000
-Message-Id: <20220707170306.192670-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <7e719640-80e6-b3ab-751a-156b8e74d87b@linuxfoundation.org>
-References: 
+        with ESMTP id S235182AbiGGSPS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 14:15:18 -0400
+X-Greylist: delayed 535 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 07 Jul 2022 11:15:17 PDT
+Received: from vault.bonstra.fr.eu.org (vault.bonstra.fr.eu.org [51.158.68.104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61EEB27CEB
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 11:15:17 -0700 (PDT)
+Received: from val.bonstra.fr.eu.org (unknown [192.168.128.2])
+        by vault.bonstra.fr.eu.org (Postfix) with ESMTP id 813D8BFB13;
+        Thu,  7 Jul 2022 18:06:19 +0000 (UTC)
+Received: from [IPV6:fd7b:45cc:aa3d::3] (vlad.gr1 [IPv6:fd7b:45cc:aa3d::3])
+        by val.bonstra.fr.eu.org (Postfix) with ESMTPSA id E7321F07F;
+        Thu,  7 Jul 2022 20:06:18 +0200 (CEST)
+Authentication-Results: val; dmarc=fail (p=reject dis=none) header.from=bonstra.fr.eu.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bonstra.fr.eu.org;
+        s=dkim1; t=1657217179; x=1658426779;
+        bh=f0TVdAY/dYO8FA5A04yHKk2pnNYRm2EHLKbCevJOLL0=;
+        h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+        b=tiOSq6iYQxMdU1okYcP0DY42unBU5lsU0/cqt4m9YT+pzMkvzAaa4+k30JTQYx5Z+
+         5SqRDPbY0ma7U+rapKN/u8TF3JGtnQyBKm3oJgqGMkm1M4BpnW8WnUlXb4JRon3ix4
+         W/QtZuC8WPQDa/6dgC2sFZpEzmS41+kHLOflr1lPM8y3Dk6vUK9vXBgC6DF1G+0AWO
+         KclFVS+7zbNklCy7+8j7fe/uyElX8yyZNRYZRVpJnb1+cy0vfyB9++9QCTnPsjwRLe
+         5I7psrSLY8kE1a77Azxn5iXojndQGzMRJUu7fwI+Wsht2bodARw/mHOIBVqUweM/AB
+         iK7qJ3uCmdV+g==
+Content-Type: multipart/mixed; boundary="------------skNra0DffOPh6XpKdwe4fASd"
+Message-ID: <0ab3655e-452e-979a-d035-f63c1161e668@bonstra.fr.eu.org>
+Date:   Thu, 7 Jul 2022 20:06:10 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: Fwd: Help supporting IT9910 chipset
+Content-Language: en-IE
+To:     Juan Antonio Zuloaga Mellino <jzuloaga@fi.uba.ar>
+References: <CALFMp8vtr3jjGApAoehc4vuS9mNprtGqrRd2+tSfCHbTTKj4og@mail.gmail.com>
+ <CALFMp8sXqJLw3MUvvAKztKWU_HyrSNEkDE0TA-UDDwVuwGF9AQ@mail.gmail.com>
+From:   "Hugo \"Bonstra\" Grostabussiat" <bonstra@bonstra.fr.eu.org>
+Cc:     linux-media@vger.kernel.org
+In-Reply-To: <CALFMp8sXqJLw3MUvvAKztKWU_HyrSNEkDE0TA-UDDwVuwGF9AQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -43,99 +55,116 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+This is a multi-part message in MIME format.
+--------------skNra0DffOPh6XpKdwe4fASd
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/7e719640-80e6-b3ab-751a-156b8e74d87b@linuxfoundation.org/
-Build log: https://builder.linuxtv.org/job/patchwork/222946/
-Build time: 00:27:01
-Link: https://lore.kernel.org/linux-media/7e719640-80e6-b3ab-751a-156b8e74d87b@linuxfoundation.org
+Le 29/06/2022 à 23:49, Juan Antonio Zuloaga Mellino a écrit :
+> Hi. I've an ezcap295hd. It's an usb video grabber based on the IT9910
+> chipset manufactured by ITE Tech. Inc.
+> 
+> I wasn't able to find linux support for it. Is anybody working on it?
 
-gpg: Signature made Thu 07 Jul 2022 04:16:22 PM UTC
-gpg:                using RSA key 3D92B29BF459B8E086780FE40B0244C40D0D431C
-gpg: Good signature from "Shuah Khan <shuah@gonehiking.org>" [full]
-gpg:                 aka "Shuah Khan <shuah@kernel.org>" [unknown]
-gpg:                 aka "Shuah Khan (gmail) <shuahkhan@gmail.com>" [full]
-gpg:                 aka "Shuah Khan (Linux Foundation work address) <skhan@linuxfoundation.org>" [unknown]
+I did some reverse engineering on my IT9910 based video grabber, a 
+generic model labeled "Awisio Game Capture v5".
 
-Summary: got 4/5 patches with issues, being 4 at build time, plus one error when buinding PDF document
+I wrote a ugly Rust program to test my findings: 
+https://github.com/Bonstra/it9910-stream-example
+For my device, it is enough to output the MPEG TS stream to stdout, and 
+pipe it into mpv.
+It is possible that it won't work for other IT9910 devices because of 
+differences in the firmware.
 
-Error/warnings:
+There is still some work to do to understand the meaning of various data 
+blobs used as-is in the test program.
 
-patches/0001-media-vimc-add-ancillary-lens.patch:
+I also attempted to list all the USB properties I could find. I attached 
+that tentative list to this email. Stay away from the firmware update 
+properties :)
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: OOM: 3000012Kb sm_state_count = 543759
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() warn: Function too hairy.  No more merges.
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3534 atomisp_cp_general_isp_parameters() parse error: __split_smt: function too hairy.  Giving up after 8 seconds
+I don't plan on writing a Linux driver, at least not until I understand 
+the inner workings of that device.
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5077 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1725875
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 51 seconds
-	../drivers/media/test-drivers/vimc/vimc-core.c: ../drivers/media/test-drivers/vimc/vimc-core.c:194 vimc_create_links() warn: passing a valid pointer to 'PTR_ERR'
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2818 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1961 vivid_create_instance() parse error: turning off implications after 60 seconds
+I hope the resources I provided will help.
 
-   checkpatch.pl:
-	$ cat patches/0001-media-vimc-add-ancillary-lens.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:209: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+Regards
+--
+Hugo
+--------------skNra0DffOPh6XpKdwe4fASd
+Content-Type: text/plain; charset=UTF-8; name="it9910-usb-props.txt"
+Content-Disposition: attachment; filename="it9910-usb-props.txt"
+Content-Transfer-Encoding: base64
 
-patches/0002-media-vimc-expand-the-names-of-vimc-entity-types.patch:
+PSBVU0IgcHJvcGVydHkgcmVxdWVzdHMgPQoKT2Zmc2V0CU5hbWUJCVNpemUJRGVzY3JpcHRp
+b24KMHgwMAlsZW4JCTQJTGVuZ3RoIG9mIGZ1bGwgcHJvcGVydHkgcmVxdWVzdAoweDA0CW9w
+Y29kZQkJMglPcGVyYXRpb24gY29kZQoweDA2CXNpZwkJMgkweDk5MTAKMHgwOAlvcGVyYXRp
+b24JNAkweDEgPSBHRVQsIDB4MiA9IFNFVAoweDBjCXNlcQkJMglTZXF1ZW5jZSBudW1iZXIK
+MHgwZQlzaWcJCTIJMHg5OTEwCjB4MTAJZGF0YQkJbGVuLTE2CURhdGEKCj09IE9wY29kZXMg
+PT0KCj09PSBSZWJvb3QgKDB4MSkgPT09CgpMZW5ndGg6IDB4MTAKU3VwcG9ydGVkIG9wZXJh
+dGlvbnM6CglHRVQgKDEpOiBVbmtub3duCglTRVQgKDIpOiBZZXMKCj09PSBHZXQvU2V0IHN0
+YXRlICgweDIpID09PQoKTGVuZ3RoOiAweDE0ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VU
+ICgxKTogVW5rbm93bgoJU0VUICgyKTogWWVzCgpPZmZzZXQJTmFtZQkJU2l6ZQlEZXNjcmlw
+dGlvbgoweDEwCT8JCTQJPwoKPT09IEdldC9TZXQgc291cmNlICgweDMpID09PQoKTGVuZ3Ro
+OiAweDE4ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VUICgxKTogWWVzCglTRVQgKDIpOiBZ
+ZXMKCk9mZnNldAlOYW1lCQlTaXplCURlc2NyaXB0aW9uCjB4MTAJYXVkaW9fc291cmNlCTQJ
+QXVkaW8gc291cmNlOgoJCQkJMDogRGlnaXRhbCAxCgkJCQkxOiBEaWdpdGFsIDIgKHJlc2Vy
+dmVkKQoJCQkJMjogQW5hbG9nCjB4MTQJdmlkZW9fc291cmNlCTQJVmlkZW8gc291cmNlOgoJ
+CQkJMDogRGlnaXRhbAoJCQkJMTogQW5hbG9nIFlyWWJZCgkJCQkyOiBBbmFsb2cgY29tcG9z
+aXRlCgkJCQkzOiBBbmFsb2cgUy9WaWRlbwoJCQkJNDogQW5hbG9nIFJHQgoKPT09IFNldCBm
+aXJtd2FyZSBzaXplICgweDUpID09PQoKTGVuZ3RoOiAweDE0ClN1cHBvcnRlZCBvcGVyYXRp
+b25zOgoJR0VUICgxKTogVW5rbm93bgoJU0VUICgyKTogWWVzCgpPZmZzZXQJTmFtZQkJU2l6
+ZQlEZXNjcmlwdGlvbgoweDEwCWZpcm13YXJlX3NpemUJNAlGaXJtd2FyZSBzaXplLCBJIGd1
+ZXNzCgo9PT0gU2V0IGZpcm13YXJlIGRhdGEgKDB4NikgPT09CgpMZW5ndGg6IDB4MTAgbWlu
+LCAweDIwMCBtYXgKU3VwcG9ydGVkIG9wZXJhdGlvbnM6CglHRVQgKDEpOiBVbmtub3duCglT
+RVQgKDIpOiBZZXMKCk9mZnNldAlOYW1lCQlTaXplCQlEZXNjcmlwdGlvbgoweDEwCWZpcm13
+YXJlX2RhdGEJMCB0byAweDFmMAlGaXJtd2FyZSBkYXRhCgo9PT0gR2V0IGZpcm13YXJlIHN0
+YXR1cyAoMHg4KSA9PT0KCkxlbmd0aDogMHgxNApTdXBwb3J0ZWQgb3BlcmF0aW9uczoKCUdF
+VCAoMSk6IFllcwoJU0VUICgyKTogVW5saWtlbHkKCk9mZnNldAlOYW1lCQlTaXplCURlc2Ny
+aXB0aW9uCjB4MTAJZmlybXdhcmVfc3RhdHVzCTQJRmlybXdhcmUgc3RhdHVzLCBJIGd1ZXNz
+Cgo9PT0gR2V0IHByb2ZpbGUgKDB4YSkgPT09CgpMZW5ndGg6IDB4MTAsIDB4MTQKU3VwcG9y
+dGVkIG9wZXJhdGlvbnM6CglHRVQgKDEpOiBZZXMKCVNFVCAoMik6ID8KClJlcXVlc3QgKDB4
+MTAgYnl0ZXMpOgpPZmZzZXQJTmFtZQkJU2l6ZQlEZXNjcmlwdGlvbgoKUmVzcG9uc2UgKDB4
+MTQgYnl0ZXMpOgpPZmZzZXQJTmFtZQkJU2l6ZQlEZXNjcmlwdGlvbgoweDEwCXByb2ZpbGUJ
+CTB4NAlEZXZpY2UgcHJvZmlsZSAoZmVhdHVyZXMsIGV0Yy4uLikKCUJJVCgxKQk/CglCSVQo
+MCkJPwoKPT09IEdldC9TZXQgYnJpZ2h0bmVzcyAoMHgxMDEpID09PQoKTGVuZ3RoOiAweDE4
+ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VUICgxKTogWWVzCglTRVQgKDIpOiBZZXMKCk9m
+ZnNldAlOYW1lCQlTaXplCURlc2NyaXB0aW9uCjB4MTAJdW5rCQk0CTAKMHgxNAlicmlnaHRu
+ZXNzCTQJQnJpZ2h0bmVzcyB2YWx1ZSAoMC0xMDApCgo9PT0gR2V0L1NldCBjb250cmFzdCAo
+MHgxMDIpID09PQoKTGVuZ3RoOiAweDE4ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VUICgx
+KTogWWVzCglTRVQgKDIpOiBZZXMKCk9mZnNldAlOYW1lCQlTaXplCURlc2NyaXB0aW9uCjB4
+MTAJdW5rCQk0CTAKMHgxNAljb250cmFzdAk0CUNvbnRyYXN0IHZhbHVlICgwLTEwMCkKCj09
+PSBHZXQvU2V0IGh1ZSAoMHgxMDMpID09PQoKTGVuZ3RoOiAweDE4ClN1cHBvcnRlZCBvcGVy
+YXRpb25zOgoJR0VUICgxKTogWWVzCglTRVQgKDIpOiBZZXMKCk9mZnNldAlOYW1lCQlTaXpl
+CURlc2NyaXB0aW9uCjB4MTAJdW5rCQk0CTAKMHgxNAlodWUJCTQJSHVlIHZhbHVlICgwLTEw
+MCkKCj09PSBHZXQvU2V0IHNhdHVyYXRpb24gKDB4MTA0KSA9PT0KCkxlbmd0aDogMHgxOApT
+dXBwb3J0ZWQgb3BlcmF0aW9uczoKCUdFVCAoMSk6IFllcwoJU0VUICgyKTogWWVzCgpPZmZz
+ZXQJTmFtZQkJU2l6ZQlEZXNjcmlwdGlvbgoweDEwCXVuawkJNAkwCjB4MTQJaHVlCQk0CVNh
+dHVyYXRpb24gdmFsdWUgKDAtMTAwKQoKPT09ID8gKDB4MjAwKSA9PT0KCkxlbmd0aDogMHgx
+NApTdXBwb3J0ZWQgb3BlcmF0aW9uczoKCUdFVCAoMSk6ID8KCVNFVCAoMik6IFllcwoKT2Zm
+c2V0CU5hbWUJCVNpemUJRGVzY3JpcHRpb24KCj09PSBHZXQgdmlkZW8gY29tcHJlc3Npb24g
+aW5mbyAoMHgyMDEpID09PQoKTGVuZ3RoOiAweDFjClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJ
+R0VUICgxKTogWWVzCglTRVQgKDIpOiBVbmtub3duCgpPZmZzZXQJTmFtZQkJU2l6ZQlEZXNj
+cmlwdGlvbgoweDAJdW5rCQk0CVN0cmVhbSBpbmRleD8KMHg0CWtleV9mcmFtZXJhdGUJNAlE
+ZWZhdWx0S2V5RnJhbWVSYXRlIChEZWZhdWx0UEZyYW1lUmF0ZSBpcyBEZWZhdWx0S2V5RnJh
+bWVSYXRlIC0gMSkKMHg4CXF1YWxpdHkJCTQJRGVmYXVsdFF1YWxpdHkKCj09PSBHZXQgdmlk
+ZW8gY29tcHJlc3Npb24ga2V5ZnJhbWUgcmF0ZSAoMHgyMDIpID09PQoKTGVuZ3RoOiAweDE4
+ClN1cHBvcnRlZCBvcGVyYXRpb25zOgoJR0VUICgxKTogWWVzCglTRVQgKDIpOiBZZXMKCk9m
+ZnNldAlOYW1lCQlTaXplCURlc2NyaXB0aW9uCjB4MAlzdHJlYW1faWR4CTQJU3RyZWFtIGlu
+ZGV4CjB4NAlrZXlmcmFtZV9yYXRlCTQJS2V5ZnJhbWUgcmF0ZQoKPT09IEdldCB2aWRlbyBj
+b21wcmVzc2lvbiBxdWFsaXR5ICgweDIwMykgPT09CgpMZW5ndGg6IDB4MTgKU3VwcG9ydGVk
+IG9wZXJhdGlvbnM6CglHRVQgKDEpOiBZZXMKCVNFVCAoMik6IFllcwoKT2Zmc2V0CU5hbWUJ
+CVNpemUJRGVzY3JpcHRpb24KMHgwCXN0cmVhbV9pZHgJNAlTdHJlYW0gaW5kZXgKMHg0CXF1
+YWxpdHkJCTQJUXVhbGl0eSB2YWx1ZSBmcm9tIDAgKHdvcnN0KSB0byAxMDAwMCAoYmVzdCkK
+Cj09PSA/ICgweDJmMCkgPT09CgpMZW5ndGg6IDB4OWUKU3VwcG9ydGVkIG9wZXJhdGlvbnM6
+CglHRVQgKDEpOiBZZXMKCVNFVCAoMik6ID8KCk9mZnNldAlOYW1lCQlTaXplCURlc2NyaXB0
+aW9uCgo9PT0gR2V0L1NldCBQQyBncmFiYmVyICgweGUwMDEpID09PQoKTGVuZ3RoOiAweDFj
+LDB4NGMsMHgyMDAKU3VwcG9ydGVkIG9wZXJhdGlvbnM6CglHRVQgKDEpOiBZZXMKCVNFVCAo
+Mik6IFllcwoKT2Zmc2V0CU5hbWUJCVNpemUJRGVzY3JpcHRpb24KCj09PSBHZXQgdGltZXN0
+YW1wPyAoMHhmMDAxKSA9PT0KCkdldCBlbGFwc2VkIG1pbGxpc2Vjb25kcyBzaW5jZSBsYXN0
+IGdldCB0aW1lc3RhbXAgcmVxdWVzdC4KCkxlbmd0aDogMHgxNApTdXBwb3J0ZWQgb3BlcmF0
+aW9uczoKCUdFVCAoMSk6IFllcwoJU0VUICgyKTogPwoKT2Zmc2V0CU5hbWUJCVNpemUJRGVz
+Y3JpcHRpb24KMHgwMAltaWxsaXMJCTQJTnVtYmVyIG9mIGVsYXBzZWQgbWlsbGlzZWNvbmRz
+IHNpbmNlIGxhc3QgY2FsbAoK
 
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vimc/vimc-core.c: ../drivers/media/test-drivers/vimc/vimc-core.c:194 vimc_create_links() warn: passing a valid pointer to 'PTR_ERR'
-
-   checkpatch.pl:
-	$ cat patches/0002-media-vimc-expand-the-names-of-vimc-entity-types.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:53: CHECK: Alignment should match open parenthesis
-	-:62: CHECK: Alignment should match open parenthesis
-	-:74: CHECK: Alignment should match open parenthesis
-	-:87: CHECK: Alignment should match open parenthesis
-	-:96: CHECK: Alignment should match open parenthesis
-	-:116: WARNING: quoted string split across lines
-	-:140: CHECK: Alignment should match open parenthesis
-	-:149: CHECK: Alignment should match open parenthesis
-	-:189: CHECK: Alignment should match open parenthesis
-	-:280: CHECK: Alignment should match open parenthesis
-	-:367: CHECK: Alignment should match open parenthesis
-	-:417: CHECK: Alignment should match open parenthesis
-	-:976: WARNING: quoted string split across lines
-	-:1602: CHECK: Alignment should match open parenthesis
-	-:1618: CHECK: Alignment should match open parenthesis
-	-:1627: CHECK: Alignment should match open parenthesis
-	-:1636: CHECK: Alignment should match open parenthesis
-	-:1650: CHECK: Alignment should match open parenthesis
-	-:1665: CHECK: Alignment should match open parenthesis
-	-:1679: CHECK: Alignment should match open parenthesis
-	-:1721: CHECK: Alignment should match open parenthesis
-	-:1730: CHECK: Alignment should match open parenthesis
-	-:1748: CHECK: Alignment should match open parenthesis
-	-:1760: CHECK: Alignment should match open parenthesis
-	-:1773: CHECK: Alignment should match open parenthesis
-	-:1793: CHECK: Alignment should match open parenthesis
-	-:1884: CHECK: Alignment should match open parenthesis
-	-:1921: CHECK: Alignment should match open parenthesis
-	-:1955: CHECK: Alignment should match open parenthesis
-	-:2174: WARNING: quoted string split across lines
-
-patches/0003-media-vimc-enumerate-data-link-entities-for-clarity.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vimc/vimc-core.c: ../drivers/media/test-drivers/vimc/vimc-core.c:214 vimc_create_links() warn: passing a valid pointer to 'PTR_ERR'
-
-patches/0004-media-vimc-use-data-link-entities-enum-to-index-the-.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vimc/vimc-core.c: ../drivers/media/test-drivers/vimc/vimc-core.c:214 vimc_create_links() warn: passing a valid pointer to 'PTR_ERR'
-
-
-Error #512 when building PDF docs
-
+--------------skNra0DffOPh6XpKdwe4fASd--
