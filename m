@@ -2,49 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B19E56A11C
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 13:35:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C7E656A146
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 13:51:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235439AbiGGLfW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 07:35:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43936 "EHLO
+        id S234756AbiGGLvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 07:51:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234443AbiGGLfT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 07:35:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38F0231DEF
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 04:35:18 -0700 (PDT)
+        with ESMTP id S232060AbiGGLvQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 07:51:16 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D19B433378
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 04:51:14 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7DFF9D00;
-        Thu,  7 Jul 2022 13:35:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65B9BD00;
+        Thu,  7 Jul 2022 13:51:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657193716;
-        bh=NHlgyEobzjtn7h5ZJSBJqIyc8XzvkKEUztvt+Lf8KAM=;
+        s=mail; t=1657194672;
+        bh=ttFizf9QabHuTvJxAhWK1YwUKuqRP1Sd+rQ+z8nbdUk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CMzs4yzPcVQJRw/UNps9l2aoaLm+Q6zjeym3a3jrjbKed1a2gc+Bumj78+MG3F9ze
-         ZX/+5ld9nJ5XyxzytM1PT93RU2I8SfTSKkghNQ2VBAS2UvQaMmCnYjb7OFqXjlkmdW
-         f1qKk1CXVD/ukqotibZH6dpMCRyCl2mtjU/La3eA=
-Date:   Thu, 7 Jul 2022 14:34:50 +0300
+        b=ZSCuxYbXb9ojUmEZi8HHater5m5DR+ftbqpEExp4Ijvx2Tggs5NFGJRPJtSxXZp/n
+         E+CEdTwNItM5Pm4fGwace+6io1MFcpmww4KKIkL9hKcHby92H1VuItA96ZQ7bU2JyY
+         Nb82tVzJ2cDt0l1+FcaQs1pDbTD7f7hmAZ2XB54Y=
+Date:   Thu, 7 Jul 2022 14:50:46 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        kernel@pengutronix.de
-Subject: Re: Re: [PATCH 00/50] staging: media: imx: Prepare destaging of
- imx7-media-csi
-Message-ID: <YsbE2oyv85Cm99/O@pendragon.ideasonboard.com>
-References: <20220510115859.19777-1-laurent.pinchart@ideasonboard.com>
- <8064452.T7Z3S40VBb@steina-w>
- <YsYnm46fqQx1WFxU@pendragon.ideasonboard.com>
- <4780760.ElGaqSPkdT@steina-w>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, dafna@fastmail.com, heiko@sntech.de,
+        jeanmichel.hautbois@ideasonboard.com, jacopo@jmondi.org,
+        djrscally@gmail.com, helen.koike@collabora.com,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 37/55] media: mc-entity: Add a new helper function to get
+ a remote pad
+Message-ID: <YsbIltES0oblIsDb@pendragon.ideasonboard.com>
+References: <20220614191127.3420492-1-paul.elder@ideasonboard.com>
+ <20220614191127.3420492-38-paul.elder@ideasonboard.com>
+ <6a718a13-e441-f093-d86e-5480d0a46103@xs4all.nl>
+ <Yrc/Qs7dtciy22dv@pendragon.ideasonboard.com>
+ <c8f5c146-10d2-dcc8-f492-62fa34a1d648@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <4780760.ElGaqSPkdT@steina-w>
+In-Reply-To: <c8f5c146-10d2-dcc8-f492-62fa34a1d648@xs4all.nl>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -54,72 +53,191 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
+Hi Hans,
 
-On Thu, Jul 07, 2022 at 12:45:01PM +0200, Alexander Stein wrote:
-> Am Donnerstag, 7. Juli 2022, 02:23:55 CEST schrieb Laurent Pinchart:
-> > On Wed, May 11, 2022 at 03:36:14PM +0200, Alexander Stein wrote:
-> > > Hello Laurent,
-> > > 
-> > > thanks for pushing out this huge set.
-> > > 
-> > > Am Dienstag, 10. Mai 2022, 13:58:09 CEST schrieb Laurent Pinchart:
-> > > > Hello,
-> > > > 
-> > > > This patch series prepares the imx7-media-csi for destaging by
-> > > > decoupling it from the helpers shared with the i.MX6 IPUv3.
-> > > > 
-> > > > The strategy Paul and I have followed is to import copies of helper code
-> > > > and, refactor it within the imx7-media-csi driver, and repeat until no
-> > > > more shared helpers are used. There is still room for refactoring and
-> > > > simplification of the imx7-media-csi driver, but I believe it is now in
-> > > > a state clean enough to be moved out of staging.
-> > > > 
-> > > > The series also includes a few fixes or improvements in supported
-> > > > formats that are now made possible thanks to this refactoring. See
-> > > > patches 45/50 and 46/50 for details.
-> > > > 
-> > > > The code size has grown as a result. This is partly offset by code in
-> > > > the shared helpers that can be removed or simplified, but I haven't
-> > > > starting working on that. The helpers are now used for the i.MX6 IPUv3
-> > > > only, so I will leave this exercise to anyone who would be interested in
-> > > > destaging that driver as well.
-> > > > 
-> > > > Some of the items in the TODO file related to the imx7-media-csi driver
-> > > > have been addressed. The two remaining items are frame interval monitor
-> > > > support and restricting the list of supported formats to the SoC
-> > > > version. The former isn't a destaging blocker in my opinion, as the
-> > > > feature can be added later if desired (and frame interval monitoring
-> > > > should then be moved to the V4L2 core). I believe the latter could also
-> > > > be addressed after destaging the driver, but in any case, this is a
-> > > > discussion for a future destaging series (which may come as soon as this
-> > > > one is accepted).
-> > > > 
-> > > > Alexander, this also could greatly simplify your "[PATCH v3 0/8]
-> > > > imx7/imx8mm media / csi patches" series.
-> > > 
-> > > Thanks for putting me on CC. I'll try to get my system running your
-> > > patches
-> > > ASAP.
+On Thu, Jul 07, 2022 at 08:52:16AM +0200, Hans Verkuil wrote:
+> On 6/25/22 19:00, Laurent Pinchart wrote:
+> > On Fri, Jun 17, 2022 at 01:48:05PM +0200, Hans Verkuil wrote:
+> >> On 6/14/22 21:11, Paul Elder wrote:
+> >>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>>
+> >>> The media_entity_remote_pad() helper function returns the first remote
+> >>> pad it find connected to a given pad. Beside being possibly ill-named
+> >>> (as it operates on a pad, not an entity) and non-deterministic (as it
+> >>> stops at the first enabled link), the fact that it returns the first
+> >>> match makes it unsuitable for drivers that need to guarantee that a
+> >>> single link is enabled, for instance when an entity can process data
+> >>> from one of multiple sources at a time.
+> >>
+> >> Question: of all the callers of this function, are there any that really
+> >> need media_entity_remote_pad() instead of media_pad_remote_pad_unique()?
+> >>
+> >> Would it be possible to replace all callers of the old function with the
+> >> new function? If that's the case, then the _unique suffix can be dropped,
+> >> since that would effectively be the default. And if a function is needed
+> >> to handle the case where there are multiple enabled links, then a new
+> >> function should be created.
 > > 
-> > As only minor changes were needed, I ended up posting v1.1 of the
-> > corresponding patches instead of spamming everybody with a full v2. For
-> > your convenience, I've pushed the result to
-> > 
-> > 	git://linuxtv.org/pinchartl/media.git imx7/destage
-> > 
-> > I know it's a bit of a short notice, but I'd like to send a pull request
-> > in time for v5.20, when do you think you would be able to test the
-> > series ?
+> > I don't think so. media_entity_remote_pad() operates on a pad, switching
+> > to media_pad_remote_pad_unique() wouldn't work on subdevs that have
+> > multiple sink or source pads with one active link each.
 > 
-> I happen to have my setup already available, so I could test your updated 
-> series pretty fast.
-> Accessing imx327 still works for WIP config. So
-> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Do we have those today in the mainline kernel? Just checking...
 
-Thanks a lot for the quick testing. I've now sent the pull request.
+Re-reading my reply, it seems I may have been mistaken. We may be able
+to ditch media_pad_remote_pad_first() and replace it with
+media_pad_remote_pad_unique() (at least in the majority of cases), but
+we'll need to carefully review each user.
 
-Do you plan to submit a new version of your patches on top of this ?
+> >> Also, media_entity_remote_pad() should really be renamed to
+> >> media_pad_remote_pad_first() or something like that, right? I'm not saying
+> >> you should, but that's really what it does, as I understand it.
+> > 
+> > Yes, I think that would make sense, and it would freethe
+> > media_entity_remote_pad() name, so the new function wouldn't need the
+> > _unique suffix. I'll give it a try.
+> > 
+> >>> For those use cases, add a new helper function,
+> >>> media_entity_remote_pad_unique(), that operates on an entity and returns
+> >>> a remote pad, with a guarantee that only one link is enabled. To ease
+> >>> its use in drivers, also add an inline wrapper that locates source pads
+> >>> specifically. A wrapper that locates sink pads can easily be added when
+> >>> needed.
+> >>>
+> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>> ---
+> >>>  Documentation/driver-api/media/mc-core.rst |  4 +-
+> >>>  drivers/media/mc/mc-entity.c               | 38 ++++++++++++++++++
+> >>>  include/media/media-entity.h               | 45 ++++++++++++++++++++++
+> >>>  3 files changed, 85 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
+> >>> index 02481a2513b9..a2d1e32e3abb 100644
+> >>> --- a/Documentation/driver-api/media/mc-core.rst
+> >>> +++ b/Documentation/driver-api/media/mc-core.rst
+> >>> @@ -186,8 +186,8 @@ is required and the graph structure can be freed normally.
+> >>>  
+> >>>  Helper functions can be used to find a link between two given pads, or a pad
+> >>>  connected to another pad through an enabled link
+> >>> -:c:func:`media_entity_find_link()` and
+> >>> -:c:func:`media_entity_remote_pad()`.
+> >>> +(:c:func:`media_entity_find_link()`, :c:func:`media_entity_remote_pad()` and
+> >>> +:c:func:`media_entity_remote_source_pad()`).
+> >>>  
+> >>>  Use count and power handling
+> >>>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> >>> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> >>> index 11f5207f73aa..1febf5a86be6 100644
+> >>> --- a/drivers/media/mc/mc-entity.c
+> >>> +++ b/drivers/media/mc/mc-entity.c
+> >>> @@ -9,6 +9,7 @@
+> >>>   */
+> >>>  
+> >>>  #include <linux/bitmap.h>
+> >>> +#include <linux/list.h>
+> >>>  #include <linux/property.h>
+> >>>  #include <linux/slab.h>
+> >>>  #include <media/media-entity.h>
+> >>> @@ -920,6 +921,43 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad)
+> >>>  }
+> >>>  EXPORT_SYMBOL_GPL(media_entity_remote_pad);
+> >>>  
+> >>> +struct media_pad *
+> >>> +media_entity_remote_pad_unique(const struct media_entity *entity,
+> >>> +			       unsigned int type)
+> >>> +{
+> >>> +	struct media_pad *pad = NULL;
+> >>> +	struct media_link *link;
+> >>> +
+> >>> +	list_for_each_entry(link, &entity->links, list) {
+> >>> +		struct media_pad *local_pad;
+> >>> +		struct media_pad *remote_pad;
+> >>> +
+> >>> +		if (!(link->flags & MEDIA_LNK_FL_ENABLED))
+> >>> +			continue;
+> >>> +
+> >>> +		if (type == MEDIA_PAD_FL_SOURCE) {
+> >>> +			local_pad = link->sink;
+> >>> +			remote_pad = link->source;
+> >>> +		} else {
+> >>> +			local_pad = link->source;
+> >>> +			remote_pad = link->sink;
+> >>> +		}
+> >>> +
+> >>> +		if (local_pad->entity == entity) {
+> >>> +			if (pad)
+> >>> +				return ERR_PTR(-ENOTUNIQ);
+> >>> +
+> >>> +			pad = remote_pad;
+> >>> +		}
+> >>> +	}
+> >>> +
+> >>> +	if (!pad)
+> >>> +		return ERR_PTR(-ENOLINK);
+> >>> +
+> >>> +	return pad;
+> >>> +}
+> >>> +EXPORT_SYMBOL_GPL(media_entity_remote_pad_unique);
+> >>> +
+> >>>  static void media_interface_init(struct media_device *mdev,
+> >>>  				 struct media_interface *intf,
+> >>>  				 u32 gobj_type,
+> >>> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> >>> index a9a1c0ec5d1c..33d5f52719a0 100644
+> >>> --- a/include/media/media-entity.h
+> >>> +++ b/include/media/media-entity.h
+> >>> @@ -859,6 +859,51 @@ struct media_link *media_entity_find_link(struct media_pad *source,
+> >>>   */
+> >>>  struct media_pad *media_entity_remote_pad(const struct media_pad *pad);
+> >>>  
+> >>> +/**
+> >>> + * media_entity_remote_pad_unique - Find a remote pad connected to an entity
+> >>> + * @entity: The entity
+> >>> + * @type: The type of pad to find (MEDIA_PAD_FL_SINK or MEDIA_PAD_FL_SOURCE)
+> >>> + *
+> >>> + * Search for and return a remote pad of @type connected to @entity through an
+> >>> + * enabled link. If multiple (or no) remote pads match these criteria, an error
+> >>> + * is returned.
+> >>> + *
+> >>> + * The uniqueness constraint makes this helper function suitable for entities
+> >>> + * that support a single active source or sink at a time.
+> >>> + *
+> >>> + * Return: A pointer to the remote pad, or one of the following error pointers
+> >>> + * if an error occurs:
+> >>> + *
+> >>> + * * -ENOTUNIQ - Multiple links are enabled
+> >>> + * * -ENOLINK - No connected pad found
+> >>> + */
+> >>> +struct media_pad *
+> >>> +media_entity_remote_pad_unique(const struct media_entity *entity,
+> >>> +			       unsigned int type);
+> >>> +
+> >>> +/**
+> >>> + * media_entity_remote_source_pad - Find a remote source pad connected to an entity
+> >>> + * @entity: The entity
+> >>> + *
+> >>> + * Search for and return a remote source pad connected to @entity through an
+> >>> + * enabled link. If multiple (or no) remote pads match these criteria, an error
+> >>> + * is returned.
+> >>> + *
+> >>> + * The uniqueness constraint makes this helper function suitable for entities
+> >>> + * that support a single active source at a time.
+> >>> + *
+> >>> + * Return: A pointer to the remote pad, or one of the following error pointers
+> >>> + * if an error occurs:
+> >>> + *
+> >>> + * * -ENOTUNIQ - Multiple links are enabled
+> >>> + * * -ENOLINK - No connected pad found
+> >>> + */
+> >>> +static inline struct media_pad *
+> >>> +media_entity_remote_source_pad(const struct media_entity *entity)
+> >>> +{
+> >>> +	return media_entity_remote_pad_unique(entity, MEDIA_PAD_FL_SOURCE);
+> >>> +}
+> >>> +
+> >>>  /**
+> >>>   * media_entity_is_streaming - Test if an entity is part of a streaming pipeline
+> >>>   * @entity: The entity
 
 -- 
 Regards,
