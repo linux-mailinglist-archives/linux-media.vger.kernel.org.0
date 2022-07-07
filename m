@@ -2,172 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2264B56A4C2
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 16:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96BD656A4CD
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 16:03:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234299AbiGGOBf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 10:01:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58690 "EHLO
+        id S234799AbiGGODE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 10:03:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbiGGOBe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 10:01:34 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6296D5FE3
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 07:01:33 -0700 (PDT)
-Received: from pyrite.rasen.tech (softbank036240121080.bbtec.net [36.240.121.80])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E6C9D00;
-        Thu,  7 Jul 2022 16:01:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657202491;
-        bh=H4rKsBz4IjNS7Kp7ZNu5FJukwXZLZotPCtfu7H/vUU8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PEPS0cwR1B7vYiX+pNH6Eboa8tMRVZZsBBWtc1q9Z0zCPgH7Ndn03DcKk3PscKyne
-         i04S2SBvrcWkpwjWk2lm3hFLJ2jeE0BkZJXmgaJQdmNfErn8XMw/RC95FaPg98JaiM
-         6x71sjnQEntcxYOViHNn/8JIVhwFMcGQ/bJ9/hiE=
-Date:   Thu, 7 Jul 2022 23:01:23 +0900
-From:   paul.elder@ideasonboard.com
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Helen Koike <helen.koike@collabora.com>
-Subject: Re: [PATCH v2 18/55] media: rkisp1: Fix sensor source pad retrieval
- at bound time
-Message-ID: <20220707140123.GM3886060@pyrite.rasen.tech>
-References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
- <20220630230713.10580-19-laurent.pinchart@ideasonboard.com>
+        with ESMTP id S235106AbiGGODC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 10:03:02 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB9A2408D;
+        Thu,  7 Jul 2022 07:03:01 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id g126so5153510pfb.3;
+        Thu, 07 Jul 2022 07:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=afbiyF16Fd4Ewaaf3EKKCpvpR7aHAsNAQp7K3TuQXs4=;
+        b=EzpeppBfdoHkOWruUNAYNHzOi8S5lBuVkWR/uarc/O7MDVJ2qM1NUNdy3hxzZeKinw
+         1f6tPe15AftcBiSP1Sugt5jiQpAKlLcyz+gPyHgHTvK6IkiuSg6SYHkmzqBCpGaHkm3K
+         GirawtqITR+EFkG0pF8QxPm0bxzk97EH7JYJxQXFRi4d1kRfsZVOuxKRapjByLByJ3DF
+         qAVqAZfaAfJT+F8T/W2rPtPmXy6/uaYwejGaDWQ5Frl3XCXwsQlqWF67lU3BIXdseGBS
+         CTJ5pH+oR76s++4uNTCxHCZwHNyWF4xdxY3ay2k5fQlKGRbstnEbIjnAVDZkl7wMQgN9
+         oSpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=afbiyF16Fd4Ewaaf3EKKCpvpR7aHAsNAQp7K3TuQXs4=;
+        b=z/OhwksyOp469scWVs4PaYhNC01pXiyHvOwOAPTqy+pvH2sZnN6XRZ28vSAujPutvg
+         AQGgZhLZ6b3oc+7LSlfFt5U0/C+XJmECqeCtvLa4OnsKYoIxPft0iiHX4dtUOUVVNUB7
+         o72nh0ELJf3U9b+yyqEedzG2zEcK016yJwvgjxBOYlp6WuNXVcI+F2+gmAIiXH9GEXmI
+         e0vcR+88sWEl5sqYG3UvOQtrtLFGVXKrKxZQO0pdrK7dgKYQvLkQtqOvnIUOjXNMCnTL
+         ZOSG6KMdU1kw0QUexsBYdIFk/iqmwXqSO9SNDDktXRZnojoCdRBSKzl/F4iaHlhna0VS
+         T/iA==
+X-Gm-Message-State: AJIora+ocuIwxhLJzHhnnSu+WxjiLc3tnw/dFIKUzzDFT6j9ccAbwr5i
+        VaOjjRnKKhvxqeBmGOblA/WrVTwMxpHjaNmP
+X-Google-Smtp-Source: AGRyM1uGEg1zRLKU3mt/8yK/HfEqKFBdv1eoQpzxhqHLW6DjIp1gLh6JEsU/RWRdBfoHFypH/TfaNQ==
+X-Received: by 2002:a17:90b:4c8f:b0:1ec:cdd0:41b7 with SMTP id my15-20020a17090b4c8f00b001eccdd041b7mr5420238pjb.119.1657202580508;
+        Thu, 07 Jul 2022 07:03:00 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id k127-20020a632485000000b004148cbdd4e5sm1215293pgk.57.2022.07.07.07.02.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 07:02:59 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Thu, 7 Jul 2022 07:02:58 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     kernel test robot <lkp@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        virtualization@lists.linux-foundation.org,
+        usbb2k-api-dev@nongnu.org, tipc-discussion@lists.sourceforge.net,
+        target-devel@vger.kernel.org, sound-open-firmware@alsa-project.org,
+        samba-technical@lists.samba.org, rds-devel@oss.oracle.com,
+        patches@opensource.cirrus.com, osmocom-net-gprs@lists.osmocom.org,
+        openipmi-developer@lists.sourceforge.net, nvdimm@lists.linux.dev,
+        ntb@lists.linux.dev, netfilter-devel@vger.kernel.org,
+        netdev@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
+        megaraidlinux.pdl@broadcom.com, linuxppc-dev@lists.ozlabs.org,
+        linux1394-devel@lists.sourceforge.net, linux-x25@vger.kernel.org,
+        linux-wpan@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-unionfs@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+        linux-sctp@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-raid@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-perf-users@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-parport@lists.infradead.org,
+        linux-parisc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-nfc@lists.01.org, linux-mtd@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
+        legousb-devel@lists.sourceforge.net, kvm@vger.kernel.org,
+        keyrings@vger.kernel.org, isdn4linux@listserv.isdn4linux.de,
+        iommu@lists.linux.dev, iommu@lists.linux-foundation.org,
+        intel-wired-lan@lists.osuosl.org, greybus-dev@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, dm-devel@redhat.com,
+        devicetree@vger.kernel.org, dev@openvswitch.org,
+        dccp@vger.kernel.org, damon@lists.linux.dev,
+        coreteam@netfilter.org, cgroups@vger.kernel.org,
+        ceph-devel@vger.kernel.org, ath11k@lists.infradead.org,
+        apparmor@lists.ubuntu.com, amd-gfx@lists.freedesktop.org,
+        alsa-devel@alsa-project.org,
+        accessrunner-general@lists.sourceforge.net
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 088b9c375534d905a4d337c78db3b3bfbb52c4a0
+Message-ID: <20220707140258.GA3492673@roeck-us.net>
+References: <62c683a2.g1VSVt6BrQC6ZzOz%lkp@intel.com>
+ <YsaUgfPbOg7WuBuB@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220630230713.10580-19-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YsaUgfPbOg7WuBuB@kroah.com>
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Thu, Jul 07, 2022 at 10:08:33AM +0200, Greg KH wrote:
 
-On Fri, Jul 01, 2022 at 02:06:36AM +0300, Laurent Pinchart wrote:
-> When a sensor is bound, its source pad is retrieved in the .bound()
-> operation with a call to media_entity_get_fwnode_pad(). The function
-> should be called with the source endpoint fwnode of the sensor, but is
-> instead called with the sensor's device fwnode.
+[ ... ]
+> > 
+> > Unverified Error/Warning (likely false positive, please contact us if interested):
+> > 
+> > arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code 'err'
+> > drivers/android/binder.c:1481:19-23: ERROR: from is NULL but dereferenced.
+> > drivers/android/binder.c:2920:29-33: ERROR: target_thread is NULL but dereferenced.
+> > drivers/android/binder.c:353:25-35: ERROR: node -> proc is NULL but dereferenced.
+> > drivers/android/binder.c:4888:16-20: ERROR: t is NULL but dereferenced.
+> > drivers/base/regmap/regmap.c:1996:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/char/random.c:869:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/firmware/arm_scmi/clock.c:394:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/firmware/arm_scmi/powercap.c:376:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/vega10_powertune.c:1214:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/gpu/drm/amd/display/dc/os_types.h: drm/drm_print.h is included more than once.
+> > drivers/gpu/drm/bridge/ite-it66121.c:1398:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/greybus/operation.c:617:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
 > 
-> Fix this, which involves storing a reference to the source endpoint
-> fwnode in the rkisp1_sensor_async structure, and thus implementing the
-> subdev notifier .destroy() operation to release the reference.
+> <snip>
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 ++
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 28 ++++++++++++++++---
->  2 files changed, 26 insertions(+), 4 deletions(-)
+> When the compiler crashes, why are you blaming all of these different
+> mailing lists?  Perhaps you need to fix your compiler :)
 > 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index b0896b508db3..f08b3dec1465 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -117,6 +117,7 @@ struct rkisp1_info {
->   *
->   * @asd:		async_subdev variable for the sensor
->   * @index:		index of the sensor (counting sensor found in DT)
-> + * @source_ep:		fwnode for the sensor source endpoint
->   * @lanes:		number of lanes
->   * @mbus_type:		type of bus (currently only CSI2 is supported)
->   * @mbus_flags:		media bus (V4L2_MBUS_*) flags
-> @@ -127,6 +128,7 @@ struct rkisp1_info {
->  struct rkisp1_sensor_async {
->  	struct v4l2_async_subdev asd;
->  	unsigned int index;
-> +	struct fwnode_handle *source_ep;
->  	unsigned int lanes;
->  	enum v4l2_mbus_type mbus_type;
->  	unsigned int mbus_flags;
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index 2e68f35e8ea5..813c013139ea 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -138,7 +138,7 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
->  	phy_init(s_asd->dphy);
->  
->  	/* Create the link to the sensor. */
-> -	source_pad = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
-> +	source_pad = media_entity_get_fwnode_pad(&sd->entity, s_asd->source_ep,
->  						 MEDIA_PAD_FL_SOURCE);
->  	if (source_pad < 0) {
->  		dev_err(rkisp1->dev, "failed to find source pad for %s\n",
-> @@ -170,10 +170,19 @@ static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
->  	return v4l2_device_register_subdev_nodes(&rkisp1->v4l2_dev);
->  }
->  
-> +static void rkisp1_subdev_notifier_destroy(struct v4l2_async_subdev *asd)
-> +{
-> +	struct rkisp1_sensor_async *rk_asd =
-> +		container_of(asd, struct rkisp1_sensor_async, asd);
-> +
-> +	fwnode_handle_put(rk_asd->source_ep);
-> +}
-> +
->  static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops = {
->  	.bound = rkisp1_subdev_notifier_bound,
->  	.unbind = rkisp1_subdev_notifier_unbind,
->  	.complete = rkisp1_subdev_notifier_complete,
-> +	.destroy = rkisp1_subdev_notifier_destroy,
->  };
->  
->  static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
-> @@ -190,6 +199,7 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
->  			.bus_type = V4L2_MBUS_CSI2_DPHY
->  		};
->  		struct rkisp1_sensor_async *rk_asd;
-> +		struct fwnode_handle *source = NULL;
->  		struct fwnode_handle *ep;
->  
->  		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
-> @@ -202,15 +212,24 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
->  		if (ret)
->  			goto err_parse;
->  
-> -		rk_asd = v4l2_async_nf_add_fwnode_remote(ntf, ep,
-> -							 struct
-> -							 rkisp1_sensor_async);
-> +		source = fwnode_graph_get_remote_endpoint(ep);
-> +		if (!source) {
-> +			dev_err(rkisp1->dev,
-> +				"endpoint %pfw has no remote endpoint\n",
-> +				ep);
-> +			ret = -ENODEV;
-> +			goto err_parse;
 
-source is error here so you don't need to fwnode_handle_put() it later I
-think.
+To be fair, it says above "likely false positive, please contact us
+if interested". Also, the 32-bit build errors _are_ real, and the NULL
+dereferences in the binder driver are at the very least suspicious.
 
-
-Paul
-
-> +		}
-> +
-> +		rk_asd = v4l2_async_nf_add_fwnode(ntf, source,
-> +						  struct rkisp1_sensor_async);
->  		if (IS_ERR(rk_asd)) {
->  			ret = PTR_ERR(rk_asd);
->  			goto err_parse;
->  		}
->  
->  		rk_asd->index = index++;
-> +		rk_asd->source_ep = source;
->  		rk_asd->mbus_type = vep.bus_type;
->  		rk_asd->mbus_flags = vep.bus.mipi_csi2.flags;
->  		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
-> @@ -225,6 +244,7 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
->  		continue;
->  err_parse:
->  		fwnode_handle_put(ep);
-> +		fwnode_handle_put(source);
->  		v4l2_async_nf_cleanup(ntf);
->  		return ret;
->  	}
+Guenter
