@@ -2,139 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4216456A0E9
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 13:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF8AE56A115
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 13:34:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235217AbiGGLJ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 07:09:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58102 "EHLO
+        id S235433AbiGGLeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 07:34:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234746AbiGGLJ5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 07:09:57 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71E1932EDF
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 04:09:54 -0700 (PDT)
-Received: from jyty (dsl-hkibng31-58c389-173.dhcp.inet.fi [88.195.137.173])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: msmakela)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 9B0EE200A4;
-        Thu,  7 Jul 2022 14:09:50 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1657192190;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xF6Dw4nPaf2kJ49VMp44mRVl/8p5lLCAenxMST215hE=;
-        b=BJY7jIKQFjzwX3fxrL7Bu4A4xZa9Yp6AxpVwv7jDFRCuKaXh3bgR/KnMII9shN/CVW0V41
-        VZOBxxdRrVqyRV/TXmLlyC5ap7b4nHHfxs7dntDhUpv8ysDeoP99hMmAXWb+Y+Tk53m3th
-        RMyV64Go24/ZNnj2vcI0dwVQ16ntXS0=
-Date:   Thu, 7 Jul 2022 14:09:49 +0300
-From:   Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: rc: Always report LIRC repeat flag
-Message-ID: <Ysa+/QLY8AYrDr6m@jyty>
-References: <20220705085358.44418-1-marko.makela@iki.fi>
- <YsR4W3B6JErTCDrS@gofer.mess.org>
- <YsW6tegch5+yNOub@jyty>
- <Ysaf5haqAeLl+on+@gofer.mess.org>
+        with ESMTP id S235430AbiGGLeX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 07:34:23 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5EB62FFC8
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 04:34:21 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09BD8D00
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 13:34:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657193660;
+        bh=dcgg/F4Vpyt6WTJTjAv+OsJfObVTUi7y+zC/JanjN24=;
+        h=Date:From:To:Subject:From;
+        b=p6ehVVfTPhgnetGpnS5LvH/kG0JWRQeOWsIZMIXZ/DCvn3sckhEf6igkPY0thkKaZ
+         Flk8IgZN2T1uPGew83Fz9DPVRIAAFSwc/aKYQ5+a4byYTwEKphRNey1mCIoaB8q5SC
+         Cg03wmCe/vJAVIWmZMKWUvmByPM68UMtMIwx4E0s=
+Date:   Thu, 7 Jul 2022 14:33:54 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.20] Prepare destaging of imx7-media-csi
+Message-ID: <YsbEoobPgKoYcZUs@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Ysaf5haqAeLl+on+@gofer.mess.org>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1657192190;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xF6Dw4nPaf2kJ49VMp44mRVl/8p5lLCAenxMST215hE=;
-        b=lfsDjccYH2D5Nuu8gvsGRZAjuZLei1mAlHTEBZt5EWzsGvEde4CUY2O2j7zDUthB+GS7Lt
-        zVG3/KBiwtbTPNIl1VL3QMhBf9/q7PebNXk1PPII6FPi1h+Ze6rnrmCvygadZ33Y9xwWBu
-        QCwpwvYt/vvOU67IfRukgYWYoWFnCyg=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=msmakela smtp.mailfrom=marko.makela@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1657192190; a=rsa-sha256; cv=none;
-        b=iQvg9F7MUZ6KTaA8FCkPXmK2SeSXpsbVfXHi99g+LRj3UtG3GFiIdwFh1FIrRUs1KrGddw
-        P8P+MEXlOPSGZQH+OWHBDZAV61PYHjn1YrcxK2eQK+m31ymg6ZTncbqif6GphVG1hg6Igw
-        NF1KjdgICGyN+qxWKPL/TzTrf/2U3Rk=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sean,
+Hi Mauro,
 
-Thu, Jul 07, 2022 at 09:57:10AM +0100, Sean Young wrote:
->Hi Marko,
->
->On Wed, Jul 06, 2022 at 07:39:17PM +0300, Marko Mäkelä wrote:
->> Tue, Jul 05, 2022 at 06:43:55PM +0100, Sean Young wrote:
->> > On Tue, Jul 05, 2022 at 11:53:58AM +0300, Marko Mäkelä wrote:
->> > > The flag LIRC_SCANCODE_FLAG_REPEAT was never set by rc_keydown().
->> > > Previously it was only set by rc_repeat(), but not all protocol
->> > > decoders invoke that function.
->> >
->> > This should say _why_ you are making this change, not _what_ the change
->> > is.
->>
->> How would you find the following?
->>
->> ---
->> media: lirc: ensure lirc device receives repeats
->>
->> Commit de142c32410649e64d44928505ffad2176a96a9e ("media: lirc: implement
->> reading scancode") would never set the LIRC_SCANCODE_FLAG_REPEAT flag in the
->> LIRC messages.
->>
->> Commit b66218fddfd29f315a103db811152ab0c95fb054
->> ("media: lirc: ensure lirc device receives nec repeats") fixed it up for
->> those protocol drivers that may call rc_repeat().
->> ---
->
->That's no good. See:
->
->https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
->
->The heading is called "Describe your changes".
+The following changes since commit a111daf0c53ae91e71fd2bfe7497862d14132e3e:
 
-I see. A quick read of "git log --oneline drivers/media/rc" suggests 
-that the first line of the commit message is expected to be a summary 
-_what_ the change is, not _why_ it was made. Would the commit message be 
-acceptable after adding a "why" part right after the heading line, like 
-this? If not, I would appreciate specific suggestions.
+  Linux 5.19-rc3 (2022-06-19 15:06:47 -0500)
 
----
-media: lirc: ensure lirc device receives repeats
+are available in the Git repository at:
 
-For remote controls using RC5 and similar protocols that include a
-"toggle" flag, the LIRC device never set the "repeat" flag to distinguish
-repeated messages that were sent several times per second due to a
-long keypress, and messages sent due to repeated short keypresses.
+  git://linuxtv.org/pinchartl/media.git tags/imx7-next-20220707
 
-While a user-space program may implement logic around the "toggle" flag
-to distinguish long keypresses, it would be simpler to be able to rely 
-on the "repeat" flag for any type of protocol.
+for you to fetch changes up to 9807fbcb3a46df948d19111c1a1edac8ee9e1883:
 
-Commit de142c32410649e64d44928505ffad2176a96a9e ("media: lirc: implement
-reading scancode") would never set the LIRC_SCANCODE_FLAG_REPEAT flag in
-the LIRC messages.
+  staging: media: imx: imx7-media-csi: Drop usage of shared helpers (2022-07-07 14:33:17 +0300)
 
-Commit b66218fddfd29f315a103db811152ab0c95fb054
-("media: lirc: ensure lirc device receives nec repeats") fixed it up for
-those protocol drivers that may call rc_repeat().
----
+----------------------------------------------------------------
+Prepare destaging of imx7-media-csi
 
-Best regards,
+----------------------------------------------------------------
+Laurent Pinchart (48):
+      staging: media: imx: imx7-media-csi: Initialize locks early on
+      staging: media: imx: imx7-media-csi: Split imx_media_dev from probe()
+      staging: media: imx: imx7-media-csi: Import notifier helpers
+      staging: media: imx: imx7-media-csi: Drop duplicate link creation
+      staging: media: imx: imx7-media-csi: Drop the imx_media notifier
+      staging: media: imx: imx7-media-csi: Don't populate vdev lists
+      staging: media: imx: imx7-media-csi: Drop unused frame_interval
+      staging: media: imx: imx7-media-csi: Move format init to probe time
+      staging: media: imx: imx7-media-csi: Import video device helpers
+      staging: media: imx: imx7-media-csi: Drop legacy video device support
+      staging: media: imx: imx7-media-csi: Drop unused controls support
+      staging: media: imx: imx7-media-csi: Reorganize imx7_csi structure
+      staging: media: imx: imx7-media-csi: Fold capture_priv into imx7_csi
+      staging: media: imx: imx7-media-csi: Ensure consistent function prefix
+      staging: media: imx: imx7-media-csi: Don't set subdev group id
+      staging: media: imx: imx7-media-csi: Import imx_media_dev_init() helper
+      staging: media: imx: imx7-media-csi: Embed imx_media_dev in imx7_csi
+      staging: media: imx: imx7-media-csi: Drop imx_media_add_video_device call
+      staging: media: imx: imx7-media-csi: Don't initialize unused fields
+      staging: media: imx: imx7-media-csi: Inline imx_media_pipeline_pad()
+      staging: media: imx: imx7-media-csi: Import imx_media_pipeline_set_stream()
+      staging: media: imx: imx7-media-csi: Avoid unnecessary casts
+      staging: media: imx: imx7-media-csi: Inline pipeline start/stop
+      staging: media: imx: imx7-media-csi: Fold imx_media_dev into imx7_csi
+      staging: media: imx: imx7-media-csi: Decouple from imx_media_buffer
+      staging: media: imx: imx7-media-csi: Fold imx_media_video_dev into imx7_csi
+      staging: media: imx: imx7-media-csi: Store imx7_csi in drv data
+      staging: media: imx: imx7-media-csi: Decouple from imx_media_dma_buf
+      staging: media: imx: imx7-media-csi: Decouple from shared macros
+      staging: media: imx: imx7-media-csi: Drop error message on alloc failure
+      staging: media: imx: imx7-media-csi: Import format helpers
+      staging: media: imx: imx7-media-csi: Replace ipu_color_space with bool yuv field
+      staging: media: imx: imx7-media-csi: Drop IC support from imx7_csi_try_colorimetry()
+      staging: media: imx: imx7-media-csi: Drop IPU-only formats
+      staging: media: imx: imx7-media-csi: Drop unsupported YUV and RGB formats
+      staging: media: imx: imx7-media-csi: Make default formats consistent
+      staging: media: imx: imx7-media-csi: Define macro for default mbus code
+      staging: media: imx: imx7-media-csi: Simplify default mbus code in try_fmt
+      staging: media: imx: imx7-media-csi: Drop YUV/RGB/BAYER format selectors
+      staging: media: imx: imx7-media-csi: Drop unneeded imx7_csi_pixfmt fields
+      staging: media: imx: imx7-media-csi: Inline imx7_csi_init_mbus_fmt()
+      staging: media: imx: imx7-media-csi: Simplify default format in try_fmt
+      staging: media: imx: imx7-media-csi: Fix list of supported formats
+      staging: media: imx: imx7-media-csi: Add V4L2_PIX_FMT_Y14 support
+      staging: media: imx: imx7-media-csi: Drop unneeded pixel format validation
+      staging: media: imx: imx7-media-csi: Inline imx7_csi_enum_pixel_formats()
+      staging: media: imx: imx7-media-csi: Drop V4L2 events support
+      staging: media: imx: imx7-media-csi: Drop usage of shared helpers
 
-	Marko
+Paul Elder (2):
+      staging: media: imx: imx7-media-csi: Move misc init out of probe()
+      staging: media: imx: imx7-media-csi: Remove imx_media_of_add_csi
+
+ drivers/staging/media/imx/imx7-media-csi.c | 1381 ++++++++++++++++++++++++----
+ 1 file changed, 1183 insertions(+), 198 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
