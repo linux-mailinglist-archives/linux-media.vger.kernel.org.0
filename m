@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7139569B00
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 08:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8801E569B1D
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jul 2022 09:03:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234993AbiGGG6F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jul 2022 02:58:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52088 "EHLO
+        id S235114AbiGGHCv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jul 2022 03:02:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234923AbiGGG6A (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 02:58:00 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F5E62CDFF
-        for <linux-media@vger.kernel.org>; Wed,  6 Jul 2022 23:57:59 -0700 (PDT)
+        with ESMTP id S235186AbiGGHCb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jul 2022 03:02:31 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61AFF31DEC
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 00:01:51 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 33251B81F50
-        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 06:57:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7325AC341C0;
-        Thu,  7 Jul 2022 06:57:55 +0000 (UTC)
-Message-ID: <e57a422b-8baa-2d46-fe01-b28e973b0b99@xs4all.nl>
-Date:   Thu, 7 Jul 2022 08:57:54 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id 134C0B81F50
+        for <linux-media@vger.kernel.org>; Thu,  7 Jul 2022 07:01:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F97EC3411E;
+        Thu,  7 Jul 2022 07:01:47 +0000 (UTC)
+Message-ID: <f905cf1b-0201-12b9-4183-6d28d79d3b29@xs4all.nl>
+Date:   Thu, 7 Jul 2022 09:01:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v2 03/55] media: mc-entity: Add a new helper function to
- get a remote pad
+Subject: Re: [PATCH v2 04/55] media: mc-entity: Add a new helper function to
+ get a remote pad for a pad
 Content-Language: en-US
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org
@@ -38,9 +38,9 @@ Cc:     linux-rockchip@lists.infradead.org,
         Paul Elder <paul.elder@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
 References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
- <20220630230713.10580-4-laurent.pinchart@ideasonboard.com>
+ <20220630230713.10580-5-laurent.pinchart@ideasonboard.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220630230713.10580-4-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220630230713.10580-5-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
@@ -56,133 +56,114 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 7/1/22 01:06, Laurent Pinchart wrote:
-> The media_entity_remote_pad() helper function returns the first remote
+> The newly added media_entity_remote_source_pad() helper function handles
 
-The function name is now out of date after the previous patch, it should
-be media_entity_remote_pad_first().
+Same here: this should be media_entity_remote_source_pad_unique().
+
+> use cases where the entity has a link enabled uniqueness constraint
+> covering all pads. There are use cases where the constraint covers a
+> specific pad only. Add a new media_pad_remote_pad_unique() function to
+> handle this. It operates as media_entity_remote_source_pad(), but on a
+
+Ditto.
+
+The commit message of this and the previous patch must be updated, either
+in a new v3 or separate v2.1 follow-up patches for these two, or before
+making a PR. It's very confusing to mix old and new names :-)
 
 Regards,
 
 	Hans
 
-> pad it find connected to a given pad. Beside being possibly
-> non-deterministic (as it stops at the first enabled link), the fact that
-> it returns the first match makes it unsuitable for drivers that need to
-> guarantee that a single link is enabled, for instance when an entity can
-> process data from one of multiple sources at a time.
-> 
-> For those use cases, add a new helper function,
-> media_entity_remote_pad_unique(), that operates on an entity and returns
-> a remote pad, with a guarantee that only one link is enabled. To ease
-> its use in drivers, also add an inline wrapper that locates source pads
-> specifically. A wrapper that locates sink pads can easily be added when
-> needed.
+> given pad instead of on the entity.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
 > Changes since v1:
 > 
-> - Rename media_entity_remote_source_pad() to
->   media_entity_remote_source_pad_unique()
-> - Skip non-data links
+> - Rename media_pad_remote_pad() to media_pad_remote_pad_unique()
 > ---
->  Documentation/driver-api/media/mc-core.rst |  3 +-
->  drivers/media/mc/mc-entity.c               | 40 +++++++++++++++++++
->  include/media/media-entity.h               | 46 ++++++++++++++++++++++
->  3 files changed, 88 insertions(+), 1 deletion(-)
+>  Documentation/driver-api/media/mc-core.rst |  5 ++--
+>  drivers/media/mc/mc-entity.c               | 31 ++++++++++++++++++++++
+>  include/media/media-entity.h               | 18 +++++++++++++
+>  3 files changed, 52 insertions(+), 2 deletions(-)
 > 
 > diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
-> index 6eea6a3b6441..66801506b2dd 100644
+> index 66801506b2dd..644911936ad9 100644
 > --- a/Documentation/driver-api/media/mc-core.rst
 > +++ b/Documentation/driver-api/media/mc-core.rst
-> @@ -186,7 +186,8 @@ is required and the graph structure can be freed normally.
+> @@ -186,8 +186,9 @@ is required and the graph structure can be freed normally.
 >  
 >  Helper functions can be used to find a link between two given pads, or a pad
 >  connected to another pad through an enabled link
-> -:c:func:`media_entity_find_link()` and :c:func:`media_pad_remote_pad_first()`.
-> +(:c:func:`media_entity_find_link()`, :c:func:`media_pad_remote_pad_first()` and
-> +:c:func:`media_entity_remote_source_pad_unique()`).
+> -(:c:func:`media_entity_find_link()`, :c:func:`media_pad_remote_pad_first()` and
+> -:c:func:`media_entity_remote_source_pad_unique()`).
+> +(:c:func:`media_entity_find_link()`, :c:func:`media_pad_remote_pad_first()`n
+> +:c:func:`media_entity_remote_source_pad_unique()` and
+> +:c:func:`media_pad_remote_pad_unique()`).
 >  
 >  Use count and power handling
 >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 55076fea7b58..bd7145932137 100644
+> index bd7145932137..7082403d5800 100644
 > --- a/drivers/media/mc/mc-entity.c
 > +++ b/drivers/media/mc/mc-entity.c
-> @@ -9,6 +9,7 @@
->   */
->  
->  #include <linux/bitmap.h>
-> +#include <linux/list.h>
->  #include <linux/property.h>
->  #include <linux/slab.h>
->  #include <media/media-entity.h>
-> @@ -920,6 +921,45 @@ struct media_pad *media_pad_remote_pad_first(const struct media_pad *pad)
+> @@ -960,6 +960,37 @@ media_entity_remote_pad_unique(const struct media_entity *entity,
 >  }
->  EXPORT_SYMBOL_GPL(media_pad_remote_pad_first);
+>  EXPORT_SYMBOL_GPL(media_entity_remote_pad_unique);
 >  
-> +struct media_pad *
-> +media_entity_remote_pad_unique(const struct media_entity *entity,
-> +			       unsigned int type)
+> +struct media_pad *media_pad_remote_pad_unique(const struct media_pad *pad)
 > +{
-> +	struct media_pad *pad = NULL;
+> +	struct media_pad *found_pad = NULL;
 > +	struct media_link *link;
 > +
-> +	list_for_each_entry(link, &entity->links, list) {
-> +		struct media_pad *local_pad;
+> +	list_for_each_entry(link, &pad->entity->links, list) {
 > +		struct media_pad *remote_pad;
 > +
-> +		if (((link->flags & MEDIA_LNK_FL_LINK_TYPE) !=
-> +		     MEDIA_LNK_FL_DATA_LINK) ||
-> +		    !(link->flags & MEDIA_LNK_FL_ENABLED))
+> +		if (!(link->flags & MEDIA_LNK_FL_ENABLED))
 > +			continue;
 > +
-> +		if (type == MEDIA_PAD_FL_SOURCE) {
-> +			local_pad = link->sink;
+> +		if (link->sink == pad)
 > +			remote_pad = link->source;
-> +		} else {
-> +			local_pad = link->source;
+> +		else if (link->source == pad)
 > +			remote_pad = link->sink;
-> +		}
+> +		else
+> +			continue;
 > +
-> +		if (local_pad->entity == entity) {
-> +			if (pad)
-> +				return ERR_PTR(-ENOTUNIQ);
+> +		if (found_pad)
+> +			return ERR_PTR(-ENOTUNIQ);
 > +
-> +			pad = remote_pad;
-> +		}
+> +		found_pad = remote_pad;
 > +	}
 > +
-> +	if (!pad)
+> +	if (!found_pad)
 > +		return ERR_PTR(-ENOLINK);
 > +
-> +	return pad;
+> +	return found_pad;
 > +}
-> +EXPORT_SYMBOL_GPL(media_entity_remote_pad_unique);
+> +EXPORT_SYMBOL_GPL(media_pad_remote_pad_unique);
 > +
 >  static void media_interface_init(struct media_device *mdev,
 >  				 struct media_interface *intf,
 >  				 u32 gobj_type,
 > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index ab84476b25c8..aecd1691b297 100644
+> index aecd1691b297..cd0690cff4c2 100644
 > --- a/include/media/media-entity.h
 > +++ b/include/media/media-entity.h
-> @@ -859,6 +859,52 @@ struct media_link *media_entity_find_link(struct media_pad *source,
+> @@ -859,6 +859,24 @@ struct media_link *media_entity_find_link(struct media_pad *source,
 >   */
 >  struct media_pad *media_pad_remote_pad_first(const struct media_pad *pad);
 >  
 > +/**
-> + * media_entity_remote_pad_unique - Find a remote pad connected to an entity
-> + * @entity: The entity
-> + * @type: The type of pad to find (MEDIA_PAD_FL_SINK or MEDIA_PAD_FL_SOURCE)
+> + * media_pad_remote_pad_unique - Find a remote pad connected to a pad
+> + * @pad: The pad
 > + *
-> + * Search for and return a remote pad of @type connected to @entity through an
-> + * enabled link. If multiple (or no) remote pads match these criteria, an error
-> + * is returned.
+> + * Search for and return a remote pad connected to @pad through an enabled
+> + * link. If multiple (or no) remote pads are found, an error is returned.
 > + *
 > + * The uniqueness constraint makes this helper function suitable for entities
-> + * that support a single active source or sink at a time.
+> + * that support a single active source at a time on a given pad.
 > + *
 > + * Return: A pointer to the remote pad, or one of the following error pointers
 > + * if an error occurs:
@@ -190,34 +171,8 @@ Regards,
 > + * * -ENOTUNIQ - Multiple links are enabled
 > + * * -ENOLINK - No connected pad found
 > + */
-> +struct media_pad *
-> +media_entity_remote_pad_unique(const struct media_entity *entity,
-> +			       unsigned int type);
-> +
-> +/**
-> + * media_entity_remote_source_pad_unique - Find a remote source pad connected to
-> + *	an entity
-> + * @entity: The entity
-> + *
-> + * Search for and return a remote source pad connected to @entity through an
-> + * enabled link. If multiple (or no) remote pads match these criteria, an error
-> + * is returned.
-> + *
-> + * The uniqueness constraint makes this helper function suitable for entities
-> + * that support a single active source at a time.
-> + *
-> + * Return: A pointer to the remote pad, or one of the following error pointers
-> + * if an error occurs:
-> + *
-> + * * -ENOTUNIQ - Multiple links are enabled
-> + * * -ENOLINK - No connected pad found
-> + */
-> +static inline struct media_pad *
-> +media_entity_remote_source_pad_unique(const struct media_entity *entity)
-> +{
-> +	return media_entity_remote_pad_unique(entity, MEDIA_PAD_FL_SOURCE);
-> +}
+> +struct media_pad *media_pad_remote_pad_unique(const struct media_pad *pad);
 > +
 >  /**
->   * media_entity_is_streaming - Test if an entity is part of a streaming pipeline
+>   * media_entity_remote_pad_unique - Find a remote pad connected to an entity
 >   * @entity: The entity
