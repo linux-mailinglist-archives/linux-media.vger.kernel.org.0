@@ -2,74 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25B9056B1E3
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 07:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A14356B242
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 07:36:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237257AbiGHE7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jul 2022 00:59:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59306 "EHLO
+        id S237046AbiGHFf5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jul 2022 01:35:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237088AbiGHE7w (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 00:59:52 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B4E376EAD;
-        Thu,  7 Jul 2022 21:59:51 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id sb34so35764761ejc.11;
-        Thu, 07 Jul 2022 21:59:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qbzU1NEw9jssixWhWJrvAWfUIVJG59WeLpo6y3ejNL8=;
-        b=ZWDRcARnh37E7hLpPiJw+bSbMNdnbTvwSIG8mJQuN9AJLUetbtk70FdGBlQgFPRZcG
-         eCHryFyoOT2l6irvv4WjXHqUMJrc+CAvCGHhJiYS8bh+8GMQvdAG8icBHZNmsfal/sFQ
-         3JGbAb2ZaC37PYZ00KpCj9J3uDvZDxkmOmfBMNGW0BqnYFOmBN6KWwuxxmDIXJ2Jd8BY
-         eJLxh5CjUDjSHKra9WClVwi21aMVLk5/2g+oAoAKr+fOsKcehl1cmIrn4ERhl6Lw9G8M
-         E12aylIE90bli3DwOzaMe0BJNU8sgAwjc+v4WTYuhAI9A730h4hEOh4YDdTwbUlGp6Kc
-         w+tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qbzU1NEw9jssixWhWJrvAWfUIVJG59WeLpo6y3ejNL8=;
-        b=JmrQ3MiG5DpY7IpRop2VO+j2Yn6OfXOPutq4ll9GPbBGap5EGnFFaYT719ovI5tZy2
-         GDUVbTm7/B5TYxz8JV+4h7jKbrplaEeeC1MouK87uqXH/aHJ6jROWur/T0y6LXvhp1Lz
-         FLad0sIRunRx/l0VcaHhrkplGqgfWECKaCKUyi33C8h0J1j8I3GH6U1N40id8JV/1VZc
-         rmlzeiIEZQ57feafLcYr6VwFUb/9TagpMbAXWxadmCSoDnXENwtCPq3A9TYC6zFdHI3r
-         9Ag9/jsyGE0yZ1esbTR7zzRHGlUg1tVPvybwNais9dUS8sVK5exgIem/D4KNSVWseLGt
-         3tBA==
-X-Gm-Message-State: AJIora+rrTdViKXfZexSDp95+lAXVxctE4LvsHBBhhHDE/aGjXk+VP4G
-        8XfWQGXENgjanjsL0PonfnE=
-X-Google-Smtp-Source: AGRyM1tB1j1dl+dJsTCR1/AayROaNRUAdCtoaXF2DONWEedudqNFFhQj8RHgrNXfonLTu2a8K6WC2g==
-X-Received: by 2002:a17:906:20c6:b0:718:cc95:ccaf with SMTP id c6-20020a17090620c600b00718cc95ccafmr1676983ejc.714.1657256389600;
-        Thu, 07 Jul 2022 21:59:49 -0700 (PDT)
-Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id l10-20020a1709063d2a00b0072ae8fb13e6sm2553165ejf.126.2022.07.07.21.59.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 21:59:49 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v11 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Date:   Fri, 08 Jul 2022 06:59:47 +0200
-Message-ID: <4722279.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <20220706093803.158810-12-benjamin.gaignard@collabora.com>
-References: <20220706093803.158810-1-benjamin.gaignard@collabora.com> <20220706093803.158810-12-benjamin.gaignard@collabora.com>
+        with ESMTP id S230147AbiGHFfz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 01:35:55 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B449426AFC;
+        Thu,  7 Jul 2022 22:35:48 -0700 (PDT)
+X-UUID: 17bb8d15316e4e4f80e080164af5ba3d-20220708
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8,REQID:2a6a6774-90f1-4a00-bae0-af0bb8878e4a,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+        ON:release,TS:0
+X-CID-META: VersionHash:0f94e32,CLOUDID:5425e186-57f0-47ca-ba27-fe8c57fbf305,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+        ,QS:nil,BEC:nil,COL:0
+X-UUID: 17bb8d15316e4e4f80e080164af5ba3d-20220708
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1840264530; Fri, 08 Jul 2022 13:35:44 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 8 Jul 2022 13:35:43 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 8 Jul 2022 13:35:42 +0800
+Message-ID: <42c0fd8acfb5a99fd33cb5245a54ed9037124f4f.camel@mediatek.com>
+Subject: Re: [PATCH] media: mediatek: vcodec: Initialize decoder parameters
+ for each instance
+From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To:     Chen-Yu Tsai <wenst@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Date:   Fri, 8 Jul 2022 13:35:42 +0800
+In-Reply-To: <20220704084930.1625768-1-wenst@chromium.org>
+References: <20220704084930.1625768-1-wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR,UNPARSEABLE_RELAY
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,135 +63,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Chen-Yu,
 
-Dne sreda, 06. julij 2022 ob 11:37:57 CEST je Benjamin Gaignard napisal(a):
-> The number of 'entry point offset' can be very variable.
-> Instead of using a large static array define a v4l2 dynamic array
-> of U32 (V4L2_CTRL_TYPE_U32).
-> The number of entry point offsets is reported by the elems field
-> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
-> field.
+Thanks for your patch.
+
+Reviewed-by: Yunfei Dong <yunfei.dong@mediatek.com>
+
+Best Regards,
+Yunfei Dong
+
+On Mon, 2022-07-04 at 16:49 +0800, Chen-Yu Tsai wrote:
+> The decoder parameters are stored in each instance's context data.
+> This
+> needs to be initialized per-instance, but a previous fix incorrectly
+> changed it to only be initialized for the first opened instance. This
+> resulted in subsequent instances not correctly signaling the
+> requirement
+> for the Requests API.
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Clarification looks good to me :)
-
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
+> Fix this by calling the initializing function outside of the
+> v4l2_fh_is_singular() conditional block.
+> 
+> Fixes: faddaa735c20 ("media: mediatek: vcodec: Initialize decoder
+> parameters after getting dec_capability")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 > ---
-> version 11:
-> - Be more verbose about num_entry_point_offsets field usage.
+> This was found during backport of mtk-vcodec patches onto the
+> ChromeOS
+> v5.10 kernel, which caused one of our tests that does multiple
+> concurrent
+> decodes to fail, as some decoder instances didn't have their
+> requires_requests and supports_requests flags marked correctly.
+> Evidently my previous testing of culprit patch was not thorough
+> enough.
 > 
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst   | 15 +++++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c         |  5 +++++
->  include/media/hevc-ctrls.h                        |  5 ++++-
->  3 files changed, 24 insertions(+), 1 deletion(-)
+> This fixes commit faddaa735c20 ("media: mediatek: vcodec: Initialize
+> decoder
+> parameters after getting dec_capability") in the media stage repo.
+> This
+> could either be queued up after it, or squashed into it.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
-> c2e0adece613..59e751c38d06 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3010,6 +3010,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->      * - __u32
->        - ``data_bit_offset``
->        - Offset (in bits) to the video data in the current slice data.
-> +    * - __u32
-> +      - ``num_entry_point_offsets``
-> +      - Specifies the number of entry point offset syntax elements in the
-> slice header. +        This field must be set even if
-> V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS +        control isn't used.
-> Additionally, if entry point offsets control is needed +        and if
-> submitting multiple slices at once, length of entry point offsets +       
-> array must be sum of num_entry_point_offsets of all slices in that job. * -
-> __u8
->        - ``nal_unit_type``
->        - Specifies the coding type of the slice (B, P or I).
-> @@ -3150,6 +3157,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
->      \normalsize
-> 
-> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
-> +    Specifies entry point offsets in bytes.
-> +    This control is a dynamically sized array. The number of entry point
-> +    offsets is reported by the ``elems`` field.
-> +    This bitstream parameter is defined according to :ref:`hevc`.
-> +    They are described in section 7.4.7.1 "General slice segment header
-> +    semantics" of the specification.
+> diff --git
+> a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> index 55dffb61e58c..e0b6ae9d6caa 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> @@ -208,11 +208,12 @@ static int fops_vcodec_open(struct file *file)
+>  
+>  		dev->dec_capability =
+>  			mtk_vcodec_fw_get_vdec_capa(dev->fw_handler);
+> -		ctx->dev->vdec_pdata->init_vdec_params(ctx);
+>  
+>  		mtk_v4l2_debug(0, "decoder capability %x", dev-
+> >dec_capability);
+>  	}
+>  
+> +	ctx->dev->vdec_pdata->init_vdec_params(ctx);
 > +
->  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->      Specifies the HEVC scaling matrix parameters used for the scaling
-> process for transform coefficients.
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
-> d594efbcbb93..e22921e7ea61 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return 
-"HEVC Decode
-> Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return 
-"HEVC Decode
-> Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:		return 
-"HEVC Start Code";
-> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return 
-"HEVC Entry
-> Point Offsets";
-> 
->  	/* Colorimetry controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! 
-*/
-> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
-> v4l2_ctrl_type *type, case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
->  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->  		break;
-> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
-> +		*type = V4L2_CTRL_TYPE_U32;
-> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-> +		break;
->  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
->  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
->  		break;
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index a372c184689e..3a6601a46ced 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -20,6 +20,7 @@
->  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE 
-+ 1012)
->  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
->  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
-> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE +
-> 1017)
-> 
->  /* enum v4l2_ctrl_type type values */
->  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
-> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
->   *
->   * @bit_size: size (in bits) of the current slice data
->   * @data_bit_offset: offset (in bits) to the video data in the current
-> slice data + * @num_entry_point_offsets: specifies the number of entry
-> point offset syntax + *			     elements in the slice 
-header.
->   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
->   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the
-> NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
-> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
->  struct v4l2_ctrl_hevc_slice_params {
->  	__u32	bit_size;
->  	__u32	data_bit_offset;
-> -
-> +	__u32	num_entry_point_offsets;
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->  	__u8	nal_unit_type;
->  	__u8	nuh_temporal_id_plus1;
-
-
-
+>  	list_add(&ctx->list, &dev->ctx_list);
+>  
+>  	mutex_unlock(&dev->dev_mutex);
 
