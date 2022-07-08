@@ -2,148 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DDB556B77B
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 12:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E97B56B780
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 12:47:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238013AbiGHKod (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jul 2022 06:44:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49520 "EHLO
+        id S237762AbiGHKpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jul 2022 06:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237998AbiGHKoa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 06:44:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E5EF814BE
-        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 03:44:25 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A1F056D;
-        Fri,  8 Jul 2022 12:44:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657277063;
-        bh=ScQRSCflIYPNeBkaKEEZMcKRlbazExb19Tnzj41CNKg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wTIbE9J+D8Q1wSOlTNlb21ozUgG9TVdiKL0/WrRg0dL5ZiL7fVbNKBk4TcijUo2Jh
-         ii4ewXn1RzNcYmkUzsnzvchHYiMnn+ubaRZS3jnj3oFmVz+IiDj9xVv1Bbeuoy3TPz
-         eHEBiSzB8PkMQnLa8dlDlCzGzK4Jv4D558cd/dMw=
-Date:   Fri, 8 Jul 2022 13:43:57 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Subject: Re: [PATCH 8/8] vivid: add pixel_array test control
-Message-ID: <YsgKbQsqsCiAVpJB@pendragon.ideasonboard.com>
-References: <20220628120523.2915913-1-hverkuil-cisco@xs4all.nl>
- <20220628120523.2915913-9-hverkuil-cisco@xs4all.nl>
+        with ESMTP id S238006AbiGHKpT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 06:45:19 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D692714D
+        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 03:45:18 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id z12-20020a17090a7b8c00b001ef84000b8bso1515175pjc.1
+        for <linux-media@vger.kernel.org>; Fri, 08 Jul 2022 03:45:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8FGuAafZHqfrP28YvJIs+zNrzq+lDdIf2d0BaQEypgw=;
+        b=kAn9QxId/nVRVVDl4BWaJvyUT7nw0/Wj9Dt7rLTYAw6GgnyPkzXbYgoEJmw5Djd/EU
+         6ySb21MhRFifBS1Z0bp2RHFXH8ws5efoziPWD2jYhsCxl4Tbuw8CbYQ4sP7LSl/BQ0Q0
+         1/c4LLsIslOSV0juwTx1wa9ywgmT915jt8wXk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8FGuAafZHqfrP28YvJIs+zNrzq+lDdIf2d0BaQEypgw=;
+        b=x241sM+4vt5dx3BLBva831y2bzCye4GyacnNy6dfwhdBv1uPYwYEEFEuWviaTeu7Ue
+         Cqu2KJJU3x8EgX04UB4enMcjuwoq5j7XqaTxM+He0xbVtfIDkzVACzd+jzza1/rcL0VH
+         OkNgjYPTeHC1BsLKXekn90yL9qvaYXQYcrR1qwxas+H3HJChUXUBofphLO6D5VOrkimw
+         qHxL37hgNu8dfm+Tv5gyBZ4f2C3SOtVE9aj6uebFSQjLKEaS1VxSStNLeDin9jdcNpuQ
+         cTz1jYoXMiCPxP+NCOAflvp8+rp6nKIcffGH3rQB3EatoB66gkkqg2Y3PVPj6e3t2U4U
+         2+0A==
+X-Gm-Message-State: AJIora+hi95q3wUJrI3UN3s5FtE51v/kdhSAAYZJHLFdxfPXNrkppQ+2
+        iFkljDIZYqhN7pupehAqVWQL2w==
+X-Google-Smtp-Source: AGRyM1vkm3nbZ0roWIsSOm7IfBhet7ILyiwzMy3G/yPRpSMF9I28WxxzEmcHesEkeKJMzES2L1Jf6g==
+X-Received: by 2002:a17:90a:e98d:b0:1ef:7863:b7d2 with SMTP id v13-20020a17090ae98d00b001ef7863b7d2mr3256468pjy.101.1657277118450;
+        Fri, 08 Jul 2022 03:45:18 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:db98:ad5d:ca9:da58])
+        by smtp.gmail.com with ESMTPSA id m6-20020a635806000000b0040c9213a414sm27216187pgb.46.2022.07.08.03.45.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jul 2022 03:45:18 -0700 (PDT)
+From:   Chen-Yu Tsai <wenst@chromium.org>
+To:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH v2 0/2] media: mediatek-vcodec: Fix capability fields again
+Date:   Fri,  8 Jul 2022 18:44:49 +0800
+Message-Id: <20220708104451.3901064-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220628120523.2915913-9-hverkuil-cisco@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi everyone,
 
-Thank you for the patch.
+This is v2 of my mtk-vcodec capabilities fixes series.
 
-On Tue, Jun 28, 2022 at 02:05:23PM +0200, Hans Verkuil wrote:
-> This control will change dimensions according to the source resolution.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/media/test-drivers/vivid/vivid-core.h    |  1 +
->  drivers/media/test-drivers/vivid/vivid-ctrls.c   | 14 ++++++++++++++
->  drivers/media/test-drivers/vivid/vivid-vid-cap.c |  4 ++++
->  3 files changed, 19 insertions(+)
-> 
-> diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
-> index 176b72cb143b..e7b23ebc705e 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-core.h
-> +++ b/drivers/media/test-drivers/vivid/vivid-core.h
-> @@ -227,6 +227,7 @@ struct vivid_dev {
->  	struct v4l2_ctrl		*bitmask;
->  	struct v4l2_ctrl		*int_menu;
->  	struct v4l2_ctrl		*ro_int32;
-> +	struct v4l2_ctrl		*pixel_array;
->  	struct v4l2_ctrl		*test_pattern;
->  	struct v4l2_ctrl		*colorspace;
->  	struct v4l2_ctrl		*rgb_range_cap;
-> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> index a78d676575bc..f98a651842ce 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> @@ -35,6 +35,7 @@
->  #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
->  #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
->  #define VIVID_CID_U32_DYN_ARRAY		(VIVID_CID_CUSTOM_BASE + 13)
-> +#define VIVID_CID_U8_PIXEL_ARRAY	(VIVID_CID_CUSTOM_BASE + 14)
->  
->  #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
->  #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
-> @@ -228,6 +229,18 @@ static const struct v4l2_ctrl_config vivid_ctrl_u8_4d_array = {
->  	.dims = { 2, 3, 4, 5 },
->  };
->  
-> +static const struct v4l2_ctrl_config vivid_ctrl_u8_pixel_array = {
-> +	.ops = &vivid_user_gen_ctrl_ops,
-> +	.id = VIVID_CID_U8_PIXEL_ARRAY,
-> +	.name = "U8 Pixel Array",
-> +	.type = V4L2_CTRL_TYPE_U8,
-> +	.def = 0x80,
-> +	.min = 0x00,
-> +	.max = 0xff,
-> +	.step = 1,
-> +	.dims = { 640, 360 },
-> +};
-> +
->  static const char * const vivid_ctrl_menu_strings[] = {
->  	"Menu Item 0 (Skipped)",
->  	"Menu Item 1",
-> @@ -1642,6 +1655,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
->  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NULL);
->  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
->  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_4d_array, NULL);
-> +	dev->pixel_array = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_pixel_array, NULL);
->  
->  	if (dev->has_vid_cap) {
->  		/* Image Processing Controls */
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> index b9caa4b26209..6dc4091fcabb 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> @@ -381,6 +381,7 @@ static enum tpg_pixel_aspect vivid_get_pixel_aspect(const struct vivid_dev *dev)
->  void vivid_update_format_cap(struct vivid_dev *dev, bool keep_controls)
->  {
->  	struct v4l2_bt_timings *bt = &dev->dv_timings_cap[dev->input].bt;
-> +	u32 dims[V4L2_CTRL_MAX_DIMS] = {};
->  	unsigned size;
->  	u64 pixelclock;
->  
-> @@ -459,6 +460,9 @@ void vivid_update_format_cap(struct vivid_dev *dev, bool keep_controls)
->  	tpg_s_video_aspect(&dev->tpg, vivid_get_video_aspect(dev));
->  	tpg_s_pixel_aspect(&dev->tpg, vivid_get_pixel_aspect(dev));
->  	tpg_update_mv_step(&dev->tpg);
-> +	dims[0] = dev->src_rect.width;
-> +	dims[1] = dev->src_rect.height;
-> +	v4l2_ctrl_modify_dimensions(dev->pixel_array, dims);
+Changes since v1:
+- Squashed 3 patches into one, as Hans recommended
 
-The implementation looks fine, but calling the init function (twice) on
-each element will make vivid_update_format_cap() pretty slow. How about
-going for a downsampled resolution here ?
+The previous round of changes to the mtk-vcodec driver's returned
+capabilities caused some issues for ChromeOS. In particular, the
+ChromeOS stateless video decoder uses the "Driver Name" field to
+match a video device to its media device. As the field was only
+changed for the video device and not the media device, a match
+could no longer be found.
 
-Also, this made me wonder if v4l2_ctrl_modify_dimensions() should return
-without doing anything if the new dimensions are identical to the
-current ones.
+While fixing this, I found that the current info used for the fields
+don't make a lot of sense, and tried to fix them in this series.
 
->  }
->  
->  /* Map the field to something that is valid for the current input */
+Patch 1 fixes the capabilities for the decoder. The driver name field
+change is reverted and made explicit that the field really should match
+the driver name. The card name is made a user readable string that
+includes the SoC model. The bus_info field is dropped and the default
+value from the V4L2 core is used.
+
+Patch 2 does the same, but for the encoder size. And since the last
+reference to MTK_VCODEC_DRV_NAME is removed, the macro is removed as
+well.
+
+This series is based on next-20220708, and was tested on mainline on
+MT8183 Juniper, and on ChromeOS v5.10, on which we have a whole bunch
+of backports pending, on MT8195 Tomato.
+
+Please have a look.
+
+
+Thanks
+ChenYu
+
+Chen-Yu Tsai (2):
+  media: mediatek: vcodec: Make decoder capability fields fit
+    requirements
+  media: mediatek: vcodec: Make encoder capability fields fit
+    requirements
+
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 7 ++++---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h | 1 -
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 7 ++++---
+ 3 files changed, 8 insertions(+), 7 deletions(-)
 
 -- 
-Regards,
+2.37.0.rc0.161.g10f37bed90-goog
 
-Laurent Pinchart
