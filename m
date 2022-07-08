@@ -2,283 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EB1656BECF
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 20:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A89EB56BF16
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 20:35:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238681AbiGHQLr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jul 2022 12:11:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54212 "EHLO
+        id S239008AbiGHQWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jul 2022 12:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238272AbiGHQLq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 12:11:46 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D36E76958;
-        Fri,  8 Jul 2022 09:11:45 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id n8so27472658eda.0;
-        Fri, 08 Jul 2022 09:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CZGOyWzX4aGGV8YDTIG3/SXgM/jJGVj0i4XRm3yHlMw=;
-        b=ctafkzvWgcOV2OzM2mLtdqBu7r8vX9aewGOA/8GwOzCIFL+mMxcHzGdOsaCvK7zKYn
-         UaZN9TECi4qWzJsTOw6mgVk/xaEWk0Yp77cEBxfZM8h7+uEUg93qoRI3nPOC9U1JTWLl
-         c2ZQHV/03lLI48bGOUni0PcbJUCaRPL9Sh9Y8N8MMZ3sD4oXVZdWliAwYaqN5qZgkUDw
-         0jGrd7AaU3jiQ8cxzy1Oo/c2VRl/+FLvuS1enJvYV40/o8OKz3v1mD9d++CGqV+sUIpV
-         sSeCHEd6pS8ZBvTkFwA2dNhOAnF5tQ/x18hOH1wF6aGbt4jWev0/c2xc+hWwzYEJ1rzZ
-         V3MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CZGOyWzX4aGGV8YDTIG3/SXgM/jJGVj0i4XRm3yHlMw=;
-        b=ZJzIqGDtH6dPDO9p6xrA95gx6nliAR081R7zp7riSrRInQspnsqKY2zbch9xyDoFGl
-         +X9KfOHBd6k15/1Nc5dTUymFihMCAjPnKqrBqoalaxG3m2U+YTyDdpfpGfWvKpZCd2hb
-         nyZMs7Tqc5VSzoSkE992nKxdJETcpkr56NpFjHgjFr3pNC7+VqI8SSdU5vO7bbIwt1Uz
-         q26K+9RWNKRjivdt5tasfv9/EULzrPKNAzZyCoP/HZKvOFKXCRBxxN513dILrRTx0/uT
-         HahcczeJU/PsTMXm5UjIHh/Vw+zaiKoRrLrZUDfJRmtfahFTXu8D5AVuWBBsjZ6NchmJ
-         i7jQ==
-X-Gm-Message-State: AJIora/eliqItrdGG0ww56OAtibHvHLlv/YrmIwj0VTxhEGYJfOG0upS
-        bYEp0cYslq3/0MBzelFpiwQ=
-X-Google-Smtp-Source: AGRyM1ur758Eyy5WK7DxbjtchEZ7mQrm9eCpKtxjRiabkDClljIhvXmYP8vDdeEYt0k+Bk+V/SzuuQ==
-X-Received: by 2002:a05:6402:5c8:b0:433:545f:a811 with SMTP id n8-20020a05640205c800b00433545fa811mr5869270edx.101.1657296703871;
-        Fri, 08 Jul 2022 09:11:43 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id bu23-20020a170906a15700b006fec56c57f3sm20658400ejb.178.2022.07.08.09.11.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 09:11:43 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+        with ESMTP id S238954AbiGHQWP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 12:22:15 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E2D41A056;
+        Fri,  8 Jul 2022 09:22:14 -0700 (PDT)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:3cab:61a1:2b1f:896b])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6038D66019F2;
+        Fri,  8 Jul 2022 17:22:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1657297333;
+        bh=o7ebIOjpMgtPQ39JcRXc/Ro+io5jN2W2nv9fLX75sa0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=muvNRQdER9IO0S1c15PPAB4e2sDqHgkuf17AHlvI1jTz5o+yznWgHJlb6i1uCLsgx
+         T6Qi5g4pkCErYbraJWiaNdC29wQDYJ092xVfAfJcl6DJxAJuYqy1GGL8GbA7vEddo4
+         8bgWSxYq7d8gYDmyeKEtoO+Q7WEYdY5VevdVasK0VlwkDY58yoeBhAirnFc1rwyYyf
+         hpE8jl/ilPJojysCmasE0kB1QAC43mm3arPgl7QIFVitiSALHaYNaPEaWYwqOrdqDW
+         nNWqjhX9fpFYisJrj8/x+doEOq0lQB76LRE3b50ZlKymF3dCF6whPHFR4MxVNKysrg
+         LFqCP3YJnm6Hw==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     mchehab@kernel.org, hverkuil@xs4all.nl,
         ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
         gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, samuel@sholland.org,
+        nicolas.dufresne@collabora.com, andrzej.p@collabora.com
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com
-Subject: Re: Re: [PATCH v12 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Date:   Fri, 08 Jul 2022 18:11:42 +0200
-Message-ID: <4604967.rnE6jSC6OK@kista>
-In-Reply-To: <5e346689-5a0c-8fc7-129d-53a6f28e5349@collabora.com>
-References: <20220708120554.495495-1-benjamin.gaignard@collabora.com> <2106581.irdbgypaU6@jernej-laptop> <5e346689-5a0c-8fc7-129d-53a6f28e5349@collabora.com>
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v13 00/17] Move HEVC stateless controls out of staging
+Date:   Fri,  8 Jul 2022 18:21:39 +0200
+Message-Id: <20220708162156.815772-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 08. julij 2022 ob 18:00:24 CEST je Benjamin Gaignard napisal(a):
-> Le 08/07/2022 =C3=A0 16:02, Jernej =C5=A0krabec a =C3=A9crit :
-> > Hi Benjamin!
-> >=20
-> > Dne petek, 08. julij 2022 ob 14:05:48 CEST je Benjamin Gaignard=20
-napisal(a):
-> >> The number of 'entry point offset' can be very variable.
-> >> Instead of using a large static array define a v4l2 dynamic array
-> >> of U32 (V4L2_CTRL_TYPE_U32).
-> >> The number of entry point offsets is reported by the elems field
-> >> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
-> >> field.
-> >>=20
-> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> >> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> >> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >> ---
-> >> version 12:
-> >> - Reword num_entry_point_offsets documentation
-> >>=20
-> >>   .../userspace-api/media/v4l/ext-ctrls-codec.rst     | 13 +++++++++++=
-++
-> >>   drivers/media/v4l2-core/v4l2-ctrls-defs.c           |  5 +++++
-> >>   include/media/hevc-ctrls.h                          |  5 ++++-
-> >>   3 files changed, 22 insertions(+), 1 deletion(-)
-> >>=20
-> >> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
-> >> c2e0adece613..0cd967126fdf 100644
-> >> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >> @@ -3010,6 +3010,11 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> >>=20
-> >>       * - __u32
-> >>      =20
-> >>         - ``data_bit_offset``
-> >>         - Offset (in bits) to the video data in the current slice data.
-> >>=20
-> >> +    * - __u32
-> >> +      - ``num_entry_point_offsets``
-> >> +      - Specifies the number of entry point offset syntax elements in
-> >> the
-> >> slice header. +        When the driver supports it, the
-> >> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS`` +        must be set.
-> >>=20
-> >>       * - __u8
-> >>      =20
-> >>         - ``nal_unit_type``
-> >>         - Specifies the coding type of the slice (B, P or I).
-> >>=20
-> >> @@ -3150,6 +3155,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> >>=20
-> >>       \normalsize
-> >>=20
-> >> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
-> >> +    Specifies entry point offsets in bytes.
-> >> +    This control is a dynamically sized array. The number of entry po=
-int
-> >> +    offsets is reported by the ``elems`` field.
-> >> +    This bitstream parameter is defined according to :ref:`hevc`.
-> >> +    They are described in section 7.4.7.1 "General slice segment head=
-er
-> >> +    semantics" of the specification.
-> >=20
-> > You forgot to update above description per Ezequiel comment.
->=20
-> No it was num_entry_point_offsets which was needed to be updated
-> not this control.
+This series aims to make HEVC uapi stable and usable for hardware
+decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+and 2 out of the tree drivers (rkvdec and RPI).
 
-Both needs to be updated. Ezequiel said:
+version 13:
+- Reword num_entry_point_offsets field and control usage (yes, again)
 
-"I would add Jernej's clarification about the length of the control
-here, where the control is documented."
+version 12:
+- Fix commit message in patch "HEVC: fix padding in v4l2 control
+  structures"
+- Reword num_entry_point_offsets field usage.
 
-""
-This control is a dynamically sized array. The number of entry point
-offsets is reported by the ``elems`` field.
-This bitstream parameter is defined according to :ref:`hevc`.
-They are described in section 7.4.7.1 "General slice segment header
-semantics" of the specification.
-When multiple slices are submitted in a request, the length
-of this array must be the sum of num_entry_point_offsets
-of all the slices in the request.
-""
+version 11:
+- Be more verbose about num_entry_point_offsets field usage.
+- Fix various typos in "Add documentation to uAPI structure" patch.
 
-Best regards,
-Jernej
+version 10:
+- Rebased on media_stage/master
+- Add Acked-by tag from Nicolas
+- Add Tested-by tag from Jernej
+- Fix typo in patch 14
 
->=20
-> Regards,
-> Benjamin
->=20
-> > Best regards,
-> > Jernej
-> >=20
-> >> +
-> >>=20
-> >>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
-> >>  =20
-> >>       Specifies the HEVC scaling matrix parameters used for the scaling
-> >>=20
-> >> process for transform coefficients.
-> >> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
-> >> d594efbcbb93..e22921e7ea61 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >>=20
-> >>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return
-> >=20
-> > "HEVC Decode
-> >=20
-> >> Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return
-> >=20
-> > "HEVC Decode
-> >=20
-> >> Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:		return
-> >=20
-> > "HEVC Start Code";
-> >=20
-> >> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return
-> >=20
-> > "HEVC Entry
-> >=20
-> >> Point Offsets";
-> >>=20
-> >>   	/* Colorimetry controls */
-> >>   	/* Keep the order of the 'case's the same as in v4l2-controls.h!
-> >=20
-> > */
-> >=20
-> >> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name,
-> >> enum
-> >>=20
-> >> v4l2_ctrl_type *type, case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
-> >>   		*type =3D V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
-> >>   		break;
-> >>=20
-> >> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
-> >> +		*type =3D V4L2_CTRL_TYPE_U32;
-> >> +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-> >> +		break;
-> >>=20
-> >>   	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
-> >>   		*type =3D V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
-> >>   		break;
-> >>=20
-> >> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> >> index a372c184689e..3a6601a46ced 100644
-> >> --- a/include/media/hevc-ctrls.h
-> >> +++ b/include/media/hevc-ctrls.h
-> >> @@ -20,6 +20,7 @@
-> >>=20
-> >>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS=09
-(V4L2_CID_CODEC_BASE
-> >=20
-> > + 1012)
-> >=20
-> >>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE=20
-+
-> >>   1015)
-> >>   #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 10=
-16)
-> >>=20
-> >> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_B=
-ASE
-> >> +
-> >> 1017)
-> >>=20
-> >>   /* enum v4l2_ctrl_type type values */
-> >>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
-> >>=20
-> >> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
-> >>=20
-> >>    *
-> >>    * @bit_size: size (in bits) of the current slice data
-> >>    * @data_bit_offset: offset (in bits) to the video data in the curre=
-nt
-> >>=20
-> >> slice data + * @num_entry_point_offsets: specifies the number of entry
-> >> point offset syntax + *			     elements in the slice
-> >=20
-> > header.
-> >=20
-> >>    * @nal_unit_type: specifies the coding type of the slice (B, P or I)
-> >>    * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier f=
-or
-> >>    the
-> >>=20
-> >> NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
-> >> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
-> >>=20
-> >>   struct v4l2_ctrl_hevc_slice_params {
-> >>  =20
-> >>   	__u32	bit_size;
-> >>   	__u32	data_bit_offset;
-> >>=20
-> >> -
-> >> +	__u32	num_entry_point_offsets;
-> >>=20
-> >>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
-> >>   	__u8	nal_unit_type;
-> >>   	__u8	nuh_temporal_id_plus1;
+This version has been tested with these branches:
+- GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+- Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAPI_V10
 
+With patches to decode 10-bits bitstream and produce P010 frames the Fluster score 
+which was 77/147 before, is now 141/147.
+The 10-bits series will comes after this because of it dependency to
+uAPI change. If you are curious you can find the WIP branch here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HEVC_UAPI_V10
+
+The 6 failing tests are:
+- PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hardware.
+- WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but some 
+  difference exist on 5 decoded frames. Some pixels values are no the same 
+  the very end of few lines.
+
+version 9:
+- Reword some commit message
+- Use fls()
+- Remove useless padding at the end of hevc structures
+- Reword all _minus* field description
+- change CVS to codec video sequence
+- Fix various typo
+- Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
+- fix the waring reported by 'scripts/kernel-doc -none
+  include/uapi/linux/v4l2-controls.h'
+
+version 8:
+- Same than v7 but rebased on media_stage/master
+
+version 7:
+- Apply Jernej patches for Cedrus about bit offset definition and
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
+- Based on media_tree/master
+
+version 6:
+- Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+  in v4l2_ctrl_hevc_decode_params structure.
+- Change slice_pic_order_cnt type to s32 to match with PoC type.
+- Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+- Add a define for max slices count
+- Stop using Hantro dedicated control.
+
+version 5:
+- Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
+  hevc_dpb_entry structure
+- Add defines for SEI pic_struct values (patch 4)
+- Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
+- Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
+  documentation (patch 8)
+- Rebased on v5-18-rc1
+
+Version 4:
+- Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+- Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+- Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+- Fix space/tab issue in kernel-doc
+- Add patch to change data_bit_offset definition
+- Fix hantro-media SPDX license
+- put controls under stateless section in v4l2-ctrls-defs.c 
+ 
+Benjamin Gaignard (14):
+  media: uapi: HEVC: Add missing fields in HEVC controls
+  media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+    prefix
+  media: uapi: HEVC: Change pic_order_cnt definition in
+    v4l2_hevc_dpb_entry
+  media: uapi: HEVC: Add SEI pic struct flags
+  media: uapi: HEVC: Add documentation to uAPI structure
+  media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+    dynamic array
+  media: uapi: Move parsed HEVC pixel format out of staging
+  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+  media: uapi: Move the HEVC stateless control type out of staging
+  media: controls: Log HEVC stateless control in .std_log
+  media: hantro: Stop using Hantro dedicated control
+  media: uapi: HEVC: fix padding in v4l2 control structures
+  media: uapi: Change data_bit_offset definition
+  media: uapi: move HEVC stateless controls out of staging
+
+Hans Verkuil (3):
+  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+  v4l2-ctrls: add support for dynamically allocated arrays.
+  vivid: add dynamic array test control
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 902 ++++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
+ .../media/v4l/pixfmt-compressed.rst           |   7 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../media/videodev2.h.rst.exceptions          |   6 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 +++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  62 +-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
+ drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
+ include/media/hevc-ctrls.h                    | 250 -----
+ include/media/v4l2-ctrls.h                    |  48 +-
+ include/uapi/linux/v4l2-controls.h            | 459 +++++++++
+ include/uapi/linux/videodev2.h                |  13 +
+ 24 files changed, 1831 insertions(+), 1226 deletions(-)
+ delete mode 100644 include/media/hevc-ctrls.h
+
+-- 
+2.32.0
 
