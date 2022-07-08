@@ -2,225 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96B0656B852
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 13:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAF2456B898
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 13:35:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237533AbiGHLVc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jul 2022 07:21:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48846 "EHLO
+        id S237616AbiGHLdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jul 2022 07:33:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237028AbiGHLVb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 07:21:31 -0400
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08552904C9
-        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 04:21:30 -0700 (PDT)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-10bf634bc50so19780077fac.3
-        for <linux-media@vger.kernel.org>; Fri, 08 Jul 2022 04:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Fk+P4TpRe3CkZlCcO0VHdUg0ryTXyZTgaMiJH+Gu2l0=;
-        b=argv1qd1G6LzdfJmh4AdxiqvYZnhJtEFgQwb0QzxhzYB374qlJySF3NWM1GXJVbhjZ
-         ULCW9mtoB9PunLPSGfLVmDcvI59acA37YEISlN/vouFPihAgix7R1PzrR9w9mXw4WqTR
-         bBFi8gTexx6FkTohlb0sbSXwjkS41XQfPhIeLujyWpAybWHOKQAmsxpBtWHdvy+UiwhY
-         tof4IEsS+00CAweN+sDP8QcX2lxVX0FQh1V7SDLzMcqQkJFEpZ27sKh6N7uy1ElMUK3e
-         8dTjjQuo3AFcoCC/L0GCW0JdALrZSpo8ahjNpLFdWEnvGGfWHFMcxD+8Qj0DP4ZlWmW+
-         K02g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Fk+P4TpRe3CkZlCcO0VHdUg0ryTXyZTgaMiJH+Gu2l0=;
-        b=CLWFs2HHfTmxHO38Mtxz0YIdZsWa76TALOEuzUMnAV6llYiZMGBupJbgE0azngRZwY
-         oK4NhBF4jtx+ADwuKk0+mLq/bc+KxxvC10z3k/I2szzML8ASsFvH7f9i4fnKWdm3Xak1
-         Zo9415PnPqMP0jgne1jGhxHBwCW3EJnbeewZNGI4z/YBAOTE94Fdpigg7oXb9PvnLx2C
-         TY/ei1EPHMuS3OfNRirhok48KUiZIfWE6LGu4a80aACvFqOKZwGA3KZxJQFlk0EXkyjG
-         X9ercOfkUh2iWgJ5bvGxiQ5xl+z4GyRb9Q1rlfDAxEoouNeMUGIUzB0wtaUwwTcelW9i
-         7Hrg==
-X-Gm-Message-State: AJIora9uNeSPpJYVqtB0uiXrC/p6w9hKk1OyvcWGXINIJQzcIzGdOyQN
-        cTN1Ox/16rXrE+g3LupuHq5Gjg==
-X-Google-Smtp-Source: AGRyM1sXR0J8jPl5Fc/3xvMemjbnmlkd8jlz3vdBxTtjmgJOzf2uiSpuOTxN5lDSQZTgcY4nTaWm6w==
-X-Received: by 2002:a05:6871:80a:b0:10b:e1fa:17a with SMTP id q10-20020a056871080a00b0010be1fa017amr1651937oap.262.1657279289345;
-        Fri, 08 Jul 2022 04:21:29 -0700 (PDT)
-Received: from eze-laptop ([186.13.97.246])
-        by smtp.gmail.com with ESMTPSA id z23-20020a4ad1b7000000b0035eb4e5a6b6sm17976802oor.12.2022.07.08.04.21.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 04:21:28 -0700 (PDT)
-Date:   Fri, 8 Jul 2022 08:21:23 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH 6/8] rkvdec: Use vb2_find_buffer
-Message-ID: <YsgTM1zYMDHa2HJd@eze-laptop>
-References: <20220706182657.210650-1-ezequiel@vanguardiasur.com.ar>
- <20220706182657.210650-7-ezequiel@vanguardiasur.com.ar>
- <CAAFQd5BSDnZ6MyXfcRWNM9f9WF82sjPX3F1ZjYjcOuz3b1fPkw@mail.gmail.com>
+        with ESMTP id S237568AbiGHLdf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 07:33:35 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72261DF2E
+        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 04:33:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 15D1DB825CC
+        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 11:33:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D2D8C341C0;
+        Fri,  8 Jul 2022 11:33:29 +0000 (UTC)
+Message-ID: <bec3dc62-1c8e-a471-85ab-a906e31a3f39@xs4all.nl>
+Date:   Fri, 8 Jul 2022 13:33:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5BSDnZ6MyXfcRWNM9f9WF82sjPX3F1ZjYjcOuz3b1fPkw@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 7/8] v4l2-ctrls: add change flag for when dimensions
+ change
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+References: <20220628120523.2915913-1-hverkuil-cisco@xs4all.nl>
+ <20220628120523.2915913-8-hverkuil-cisco@xs4all.nl>
+ <YsgJ1OpWCERSVqrB@pendragon.ideasonboard.com>
+ <c02fe42a-5694-06b4-c140-1e42ca9fe8ac@xs4all.nl>
+ <YsgP4myG11m+UsCF@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <YsgP4myG11m+UsCF@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
 
-On Fri, Jul 08, 2022 at 01:40:53PM +0900, Tomasz Figa wrote:
-> Hi Ezequiel,
+
+On 7/8/22 13:07, Laurent Pinchart wrote:
+> Hi Hans,
 > 
-> On Thu, Jul 7, 2022 at 3:27 AM Ezequiel Garcia
-> <ezequiel@vanguardiasur.com.ar> wrote:
-> >
-> > Use the newly introduced vb2_find_buffer API to get a vb2_buffer
-> > given a buffer timestamp.
-> >
-> > Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> > ---
-> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 41 ++++++++--------------
-> >  drivers/staging/media/rkvdec/rkvdec-vp9.c  | 10 +++---
-> >  2 files changed, 19 insertions(+), 32 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > index 2992fb87cf72..4af5a831bde0 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > @@ -109,7 +109,7 @@ struct rkvdec_h264_run {
-> >         const struct v4l2_ctrl_h264_sps *sps;
-> >         const struct v4l2_ctrl_h264_pps *pps;
-> >         const struct v4l2_ctrl_h264_scaling_matrix *scaling_matrix;
-> > -       int ref_buf_idx[V4L2_H264_NUM_DPB_ENTRIES];
-> > +       struct vb2_buffer *ref_buf[V4L2_H264_NUM_DPB_ENTRIES];
+> On Fri, Jul 08, 2022 at 12:59:41PM +0200, Hans Verkuil wrote:
+>> On 7/8/22 12:41, Laurent Pinchart wrote:
+>>> On Tue, Jun 28, 2022 at 02:05:22PM +0200, Hans Verkuil wrote:
+>>>> Add a new V4L2_EVENT_CTRL_CH_DIMENSIONS change flag that is issued
+>>>> when the dimensions of an array change as a result of a
+>>>> __v4l2_ctrl_modify_dimensions() call.
+>>>>
+>>>> This will inform userspace that there are new dimensions.
+>>>
+>>> While this is easy to add, I'm not sure it will actually be useful in
+>>> real use cases. Should we delay adding this new API until someone
+>>> actually needs it ?
+>>
+>> Well, there is a user: dw100. This driver can change dimensions, so any
+>> userspace application that subscribes to such a control has to be able to
+>> know that the dimensions of that control have changed. Otherwise it will
+>> not be able to correctly obtain the control's value.
 > 
-> How do we guarantee that those pointers remain valid through the
-> lifetime of this structure?
+> I meant a userspace user, not a kernelspace user. Sure, we have test
+> applications that can listen for events, but my experience with
+> libcamera showed me that the control events API is not very usable
+> beside test applications. We don't use it at all in libcamera for that
+> reason, and I think this new event would have the same fate if we don't
+> have a real userspace user to show it's done correctly.
+
+We (Cisco) use control events all the time to detect HDMI signal changes,
+among others.
+
+It all depends on your use case. In this case the event flag IS used
+by the framework, and is well defined. Whether userspace needs to use it
+is another matter, and that's something you cannot predict.
+
+The problem is when adding API defines that are not used at all in the
+kernel, but that's not the case here.
+
+And frankly, it makes no sense if there is a flag to indicate that the
+control range changed, but not that the control dimensions changed. It
+should be there.
+
+Regards,
+
+	Hans
+
 > 
-
-The rkvdec_h264_run is populated in .device_run, and used to program
-the hardware for each decode job.
-
-So these videobuf2 buffer won't outlive a given decode job. The vb2
-queue can't be released (so buffers can't be released) while
-a job is runnning (i.e. the driver is in a "streaming" state).
-
-We should be good, right?
-
-Thanks for the review,
-Ezequiel
-
-> Best regards,
-> Tomasz
+>> It's not really about this specific driver, it is about the new control
+>> feature where dimensions of an array can change. It's also consistent
+>> with the other control event change flags.
+>>
+>>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>>> ---
+>>>>  Documentation/userspace-api/media/v4l/vidioc-dqevent.rst     | 5 +++++
+>>>>  Documentation/userspace-api/media/videodev2.h.rst.exceptions | 1 +
+>>>>  drivers/media/v4l2-core/v4l2-ctrls-api.c                     | 2 ++
+>>>>  include/uapi/linux/videodev2.h                               | 1 +
+>>>>  4 files changed, 9 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>>> index 6eb40073c906..8db103760930 100644
+>>>> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>>> @@ -332,6 +332,11 @@ call.
+>>>>        - 0x0004
+>>>>        - This control event was triggered because the minimum, maximum,
+>>>>  	step or the default value of the control changed.
+>>>> +    * - ``V4L2_EVENT_CTRL_CH_DIMENSIONS``
+>>>> +      - 0x0008
+>>>> +      - This control event was triggered because the dimensions of the
+>>>> +	control changed. Note that the number of dimensions remains the
+>>>> +	same.
+>>>>  
+>>>>  
+>>>>  .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.5cm}|
+>>>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>>> index 0b91200776f8..274474425b05 100644
+>>>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>>> @@ -506,6 +506,7 @@ replace define V4L2_EVENT_PRIVATE_START event-type
+>>>>  replace define V4L2_EVENT_CTRL_CH_VALUE ctrl-changes-flags
+>>>>  replace define V4L2_EVENT_CTRL_CH_FLAGS ctrl-changes-flags
+>>>>  replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
+>>>> +replace define V4L2_EVENT_CTRL_CH_DIMENSIONS ctrl-changes-flags
+>>>>  
+>>>>  replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
+>>>>  
+>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+>>>> index 16be31966cb1..47f69de9a067 100644
+>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
+>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+>>>> @@ -1019,6 +1019,8 @@ int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
+>>>>  		ctrl->type_ops->init(ctrl, i, ctrl->p_cur);
+>>>>  		ctrl->type_ops->init(ctrl, i, ctrl->p_new);
+>>>>  	}
+>>>> +	send_event(NULL, ctrl,
+>>>> +		   V4L2_EVENT_CTRL_CH_VALUE | V4L2_EVENT_CTRL_CH_DIMENSIONS);
+>>>
+>>> Sending V4L2_EVENT_CTRL_CH_VALUE propably belongs to the previous patch
+>>> already.
+>>
+>> True.
+>>
+>>>>  	return 0;
+>>>>  }
+>>>>  EXPORT_SYMBOL(__v4l2_ctrl_modify_dimensions);
+>>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>>>> index 9018aa984db3..3971af623c56 100644
+>>>> --- a/include/uapi/linux/videodev2.h
+>>>> +++ b/include/uapi/linux/videodev2.h
+>>>> @@ -2398,6 +2398,7 @@ struct v4l2_event_vsync {
+>>>>  #define V4L2_EVENT_CTRL_CH_VALUE		(1 << 0)
+>>>>  #define V4L2_EVENT_CTRL_CH_FLAGS		(1 << 1)
+>>>>  #define V4L2_EVENT_CTRL_CH_RANGE		(1 << 2)
+>>>> +#define V4L2_EVENT_CTRL_CH_DIMENSIONS		(1 << 3)
+>>>>  
+>>>>  struct v4l2_event_ctrl {
+>>>>  	__u32 changes;
 > 
-> >  };
-> >
-> >  struct rkvdec_h264_ctx {
-> > @@ -742,17 +742,16 @@ static void lookup_ref_buf_idx(struct rkvdec_ctx *ctx,
-> >                 struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-> >                 const struct v4l2_h264_dpb_entry *dpb = run->decode_params->dpb;
-> >                 struct vb2_queue *cap_q = &m2m_ctx->cap_q_ctx.q;
-> > -               int buf_idx = -1;
-> > +               struct vb2_buffer *buf = NULL;
-> >
-> >                 if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE) {
-> > -                       buf_idx = vb2_find_timestamp(cap_q,
-> > -                                                    dpb[i].reference_ts, 0);
-> > -                       if (buf_idx < 0)
-> > +                       buf = vb2_find_buffer(cap_q, dpb[i].reference_ts);
-> > +                       if (!buf)
-> >                                 pr_debug("No buffer for reference_ts %llu",
-> >                                          dpb[i].reference_ts);
-> >                 }
-> >
-> > -               run->ref_buf_idx[i] = buf_idx;
-> > +               run->ref_buf[i] = buf;
-> >         }
-> >  }
-> >
-> > @@ -805,7 +804,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
-> >                         if (WARN_ON(ref->index >= ARRAY_SIZE(dec_params->dpb)))
-> >                                 continue;
-> >
-> > -                       dpb_valid = run->ref_buf_idx[ref->index] >= 0;
-> > +                       dpb_valid = run->ref_buf[ref->index] != NULL;
-> >                         bottom = ref->fields == V4L2_H264_BOTTOM_FIELD_REF;
-> >
-> >                         set_ps_field(hw_rps, DPB_INFO(i, j),
-> > @@ -881,24 +880,6 @@ static const u32 poc_reg_tbl_bottom_field[16] = {
-> >         RKVDEC_REG_H264_POC_REFER2(1)
-> >  };
-> >
-> > -static struct vb2_buffer *
-> > -get_ref_buf(struct rkvdec_ctx *ctx, struct rkvdec_h264_run *run,
-> > -           unsigned int dpb_idx)
-> > -{
-> > -       struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-> > -       struct vb2_queue *cap_q = &m2m_ctx->cap_q_ctx.q;
-> > -       int buf_idx = run->ref_buf_idx[dpb_idx];
-> > -
-> > -       /*
-> > -        * If a DPB entry is unused or invalid, address of current destination
-> > -        * buffer is returned.
-> > -        */
-> > -       if (buf_idx < 0)
-> > -               return &run->base.bufs.dst->vb2_buf;
-> > -
-> > -       return vb2_get_buffer(cap_q, buf_idx);
-> > -}
-> > -
-> >  static void config_registers(struct rkvdec_ctx *ctx,
-> >                              struct rkvdec_h264_run *run)
-> >  {
-> > @@ -971,8 +952,14 @@ static void config_registers(struct rkvdec_ctx *ctx,
-> >
-> >         /* config ref pic address & poc */
-> >         for (i = 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
-> > -               struct vb2_buffer *vb_buf = get_ref_buf(ctx, run, i);
-> > -
-> > +               struct vb2_buffer *vb_buf = run->ref_buf[i];
-> > +
-> > +               /*
-> > +                * If a DPB entry is unused or invalid, address of current destination
-> > +                * buffer is returned.
-> > +                */
-> > +               if (!vb_buf)
-> > +                       vb_buf = &dst_buf->vb2_buf;
-> >                 refer_addr = vb2_dma_contig_plane_dma_addr(vb_buf, 0);
-> >
-> >                 if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec-vp9.c b/drivers/staging/media/rkvdec/rkvdec-vp9.c
-> > index c2f42e76be10..d8c1c0db15c7 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec-vp9.c
-> > +++ b/drivers/staging/media/rkvdec/rkvdec-vp9.c
-> > @@ -383,17 +383,17 @@ get_ref_buf(struct rkvdec_ctx *ctx, struct vb2_v4l2_buffer *dst, u64 timestamp)
-> >  {
-> >         struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-> >         struct vb2_queue *cap_q = &m2m_ctx->cap_q_ctx.q;
-> > -       int buf_idx;
-> > +       struct vb2_buffer *buf;
-> >
-> >         /*
-> >          * If a ref is unused or invalid, address of current destination
-> >          * buffer is returned.
-> >          */
-> > -       buf_idx = vb2_find_timestamp(cap_q, timestamp, 0);
-> > -       if (buf_idx < 0)
-> > -               return vb2_to_rkvdec_decoded_buf(&dst->vb2_buf);
-> > +       buf = vb2_find_buffer(cap_q, timestamp);
-> > +       if (!buf)
-> > +               buf = &dst->vb2_buf;
-> >
-> > -       return vb2_to_rkvdec_decoded_buf(vb2_get_buffer(cap_q, buf_idx));
-> > +       return vb2_to_rkvdec_decoded_buf(buf);
-> >  }
-> >
-> >  static dma_addr_t get_mv_base_addr(struct rkvdec_decoded_buffer *buf)
-> > --
-> > 2.34.3
-> >
