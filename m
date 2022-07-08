@@ -2,114 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 019EF56B3BF
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 09:43:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40F3256B463
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 10:25:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237453AbiGHHmc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jul 2022 03:42:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50714 "EHLO
+        id S237621AbiGHIZL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jul 2022 04:25:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237436AbiGHHmb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 03:42:31 -0400
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA7457D1CE
-        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 00:42:30 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id E83EB10008B; Fri,  8 Jul 2022 08:42:28 +0100 (BST)
-Date:   Fri, 8 Jul 2022 08:42:28 +0100
-From:   Sean Young <sean@mess.org>
-To:     Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: rc: Always report LIRC repeat flag
-Message-ID: <Ysff5PEy580LIg8w@gofer.mess.org>
-References: <20220705085358.44418-1-marko.makela@iki.fi>
- <YsR4W3B6JErTCDrS@gofer.mess.org>
- <YsW6tegch5+yNOub@jyty>
- <Ysaf5haqAeLl+on+@gofer.mess.org>
- <Ysa+/QLY8AYrDr6m@jyty>
+        with ESMTP id S237648AbiGHIZG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 04:25:06 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958788238F;
+        Fri,  8 Jul 2022 01:25:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AF79DB824C3;
+        Fri,  8 Jul 2022 08:24:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 757ADC341C0;
+        Fri,  8 Jul 2022 08:24:56 +0000 (UTC)
+Message-ID: <22136ebe-b3b4-797f-beb0-3fb73d617dbe@xs4all.nl>
+Date:   Fri, 8 Jul 2022 10:24:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Ysa+/QLY8AYrDr6m@jyty>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] media: amphion: only insert the first sequence
+ startcode for vc1l format
+Content-Language: en-US
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20220630013041.1251-1-ming.qian@nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220630013041.1251-1-ming.qian@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marko,
+Hi Ming Qian,
 
-On Thu, Jul 07, 2022 at 02:09:49PM +0300, Marko Mäkelä wrote:
-> Thu, Jul 07, 2022 at 09:57:10AM +0100, Sean Young wrote:
-> > On Wed, Jul 06, 2022 at 07:39:17PM +0300, Marko Mäkelä wrote:
-> > > Tue, Jul 05, 2022 at 06:43:55PM +0100, Sean Young wrote:
-> > > > On Tue, Jul 05, 2022 at 11:53:58AM +0300, Marko Mäkelä wrote:
-> > > > > The flag LIRC_SCANCODE_FLAG_REPEAT was never set by rc_keydown().
-> > > > > Previously it was only set by rc_repeat(), but not all protocol
-> > > > > decoders invoke that function.
-> > > >
-> > > > This should say _why_ you are making this change, not _what_ the change
-> > > > is.
-> > > 
-> > > How would you find the following?
-> > > 
-> > > ---
-> > > media: lirc: ensure lirc device receives repeats
-> > > 
-> > > Commit de142c32410649e64d44928505ffad2176a96a9e ("media: lirc: implement
-> > > reading scancode") would never set the LIRC_SCANCODE_FLAG_REPEAT flag in the
-> > > LIRC messages.
-> > > 
-> > > Commit b66218fddfd29f315a103db811152ab0c95fb054
-> > > ("media: lirc: ensure lirc device receives nec repeats") fixed it up for
-> > > those protocol drivers that may call rc_repeat().
-> > > ---
-> > 
-> > That's no good. See:
-> > 
-> > https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
-> > 
-> > The heading is called "Describe your changes".
+Since the v1 has already been merged, this patch no longer applies.
+
+Can you make a v3 on top of https://git.linuxtv.org/media_stage.git/?
+
+The only change that a v3 has to do is the removal of V4L2_FMT_FLAG_DYN_RESOLUTION.
+
+Regards,
+
+	Hans
+
+On 6/30/22 03:30, Ming Qian wrote:
+> For some formats, the amphion vpu requires startcode
+> before sequence and frame, such as vc1, vp8.
 > 
-> I see. A quick read of "git log --oneline drivers/media/rc" suggests that
-> the first line of the commit message is expected to be a summary _what_ the
-> change is, not _why_ it was made. Would the commit message be acceptable
-> after adding a "why" part right after the heading line, like this? If not, I
-> would appreciate specific suggestions.
-
-This is much better, thank you.
-
+> But for V4L2_PIX_FMT_VC1_ANNEX_L, only the first sequence startcode
+> is needed, the extra startcode will cause decoding error.
+> So after seek, we don't need to insert the sequence startcode.
+> 
+> In other words, for V4L2_PIX_FMT_VC1_ANNEX_L,
+> the vpu doesn't support dynamic resolution change.
+> 
+> Fixes: 145e936380edb ("media: amphion: implement malone decoder rpc interface")
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
 > ---
-> media: lirc: ensure lirc device receives repeats
+> v2
+> - remove V4L2_FMT_FLAG_DYN_RESOLUTION from the format V4L2_PIX_FMT_VC1_ANNEX_L
+>  drivers/media/platform/amphion/vdec.c       | 2 +-
+>  drivers/media/platform/amphion/vpu.h        | 1 +
+>  drivers/media/platform/amphion/vpu_malone.c | 2 ++
+>  drivers/media/platform/amphion/vpu_rpc.h    | 7 ++++++-
+>  4 files changed, 10 insertions(+), 2 deletions(-)
 > 
-> For remote controls using RC5 and similar protocols that include a
-> "toggle" flag, the LIRC device never set the "repeat" flag to distinguish
-> repeated messages that were sent several times per second due to a
-> long keypress, and messages sent due to repeated short keypresses.
-> 
-> While a user-space program may implement logic around the "toggle" flag
-> to distinguish long keypresses, it would be simpler to be able to rely on
-> the "repeat" flag for any type of protocol.
-
-I'm not sure how relevant the toggle is. This change is relevant for all 
-protocols that do not use rc_repeat() and simply repeat the original
-message when a key is being held down. This includes the sony protocol, 
-imon, and the nec protocol (in case the remote does *not* use the repeat
-message).
-
-> Commit de142c32410649e64d44928505ffad2176a96a9e ("media: lirc: implement
-> reading scancode") would never set the LIRC_SCANCODE_FLAG_REPEAT flag in
-> the LIRC messages.
-> 
-> Commit b66218fddfd29f315a103db811152ab0c95fb054
-> ("media: lirc: ensure lirc device receives nec repeats") fixed it up for
-> those protocol drivers that may call rc_repeat().
-> ---
-
-Thanks
-
-Sean
+> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
+> index 09d4f27970ec..6eab9e711cba 100644
+> --- a/drivers/media/platform/amphion/vdec.c
+> +++ b/drivers/media/platform/amphion/vdec.c
+> @@ -104,7 +104,6 @@ static const struct vpu_format vdec_formats[] = {
+>  		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_L,
+>  		.num_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_MPEG2,
+> @@ -731,6 +730,7 @@ static void vdec_stop_done(struct vpu_inst *inst)
+>  	vdec->eos_received = 0;
+>  	vdec->is_source_changed = false;
+>  	vdec->source_change = 0;
+> +	inst->total_input_count = 0;
+>  	vpu_inst_unlock(inst);
+>  }
+>  
+> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
+> index e56b96a7e5d3..f914de6ed81e 100644
+> --- a/drivers/media/platform/amphion/vpu.h
+> +++ b/drivers/media/platform/amphion/vpu.h
+> @@ -258,6 +258,7 @@ struct vpu_inst {
+>  	struct vpu_format cap_format;
+>  	u32 min_buffer_cap;
+>  	u32 min_buffer_out;
+> +	u32 total_input_count;
+>  
+>  	struct v4l2_rect crop;
+>  	u32 colorspace;
+> diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
+> index c62b49e85060..f4a488bf9880 100644
+> --- a/drivers/media/platform/amphion/vpu_malone.c
+> +++ b/drivers/media/platform/amphion/vpu_malone.c
+> @@ -1314,6 +1314,8 @@ static int vpu_malone_insert_scode_vc1_l_seq(struct malone_scode_t *scode)
+>  	int size = 0;
+>  	u8 rcv_seqhdr[MALONE_VC1_RCV_SEQ_HEADER_LEN];
+>  
+> +	if (scode->inst->total_input_count)
+> +		return 0;
+>  	scode->need_data = 0;
+>  
+>  	ret = vpu_malone_insert_scode_seq(scode, MALONE_CODEC_ID_VC1_SIMPLE, sizeof(rcv_seqhdr));
+> diff --git a/drivers/media/platform/amphion/vpu_rpc.h b/drivers/media/platform/amphion/vpu_rpc.h
+> index 25119e5e807e..7eb6f01e6ab5 100644
+> --- a/drivers/media/platform/amphion/vpu_rpc.h
+> +++ b/drivers/media/platform/amphion/vpu_rpc.h
+> @@ -312,11 +312,16 @@ static inline int vpu_iface_input_frame(struct vpu_inst *inst,
+>  					struct vb2_buffer *vb)
+>  {
+>  	struct vpu_iface_ops *ops = vpu_core_get_iface(inst->core);
+> +	int ret;
+>  
+>  	if (!ops || !ops->input_frame)
+>  		return -EINVAL;
+>  
+> -	return ops->input_frame(inst->core->iface, inst, vb);
+> +	ret = ops->input_frame(inst->core->iface, inst, vb);
+> +	if (ret < 0)
+> +		return ret;
+> +	inst->total_input_count++;
+> +	return ret;
+>  }
+>  
+>  static inline int vpu_iface_config_memory_resource(struct vpu_inst *inst,
