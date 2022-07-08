@@ -2,127 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CF2756BD41
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 18:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D409C56BDB5
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 18:08:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238318AbiGHPzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jul 2022 11:55:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39968 "EHLO
+        id S238937AbiGHQAb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jul 2022 12:00:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238664AbiGHPzd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 11:55:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B48BC70E56
-        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 08:55:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657295730;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=oKdAwSdJ/bJ3Bw0hAeddnXNTwTE7lsij6rfMDatygts=;
-        b=Oq7nES0XGNZaG3dsXlsTtUcNZViQw2BHoi5YYhM5+m8SGZP1q1I+1Ewd0S9hEl9n58iaEw
-        Zz8QoQ8hn9KeHP6IEjZnjH1GprUdsv9RsiaxJLn7WZoZqSaF0Mu4d7BKAMRGHEhgpDDI1J
-        dRq/RMVrF63K2J9F2tQSYM4Kq5ZDcn0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-599-xBTiB-N_O4ezxr6v16X4Rg-1; Fri, 08 Jul 2022 11:55:29 -0400
-X-MC-Unique: xBTiB-N_O4ezxr6v16X4Rg-1
-Received: by mail-ed1-f69.google.com with SMTP id o13-20020a056402438d00b0043aa846b2d2so1735633edc.8
-        for <linux-media@vger.kernel.org>; Fri, 08 Jul 2022 08:55:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=oKdAwSdJ/bJ3Bw0hAeddnXNTwTE7lsij6rfMDatygts=;
-        b=qLCo9Y3LrV5dIXF9zYaQNjCAYDEYtOm0/aOQv4Pcb8WsNB9Qa5x2mEBfZnaxr+Idsk
-         ZaGCC837+rHbP5Y4r0owr0GIX1ZLq8GqwvGmK/pyLOqty7w/yM3XhN2oDIiE7UxDVJw6
-         fGSF9OkWuXyGZDmRI2UKHGaPt3SoD9wq2zVAcOTc6SHltiRvOClxTysWPX/88f2aVlIW
-         YU0Y1vb03VPODmLBZnZZZoD6lGFLcDMtAyq5LeqkjJr/m4E/K888V8AXDwG3ecfle2Zt
-         Dbr+y5A/pKZtLphS2VUNbZ3N4rwFdmSeXHVoMq0n0jc51RTjUgeJ6C1b2j1afA4iENNS
-         IFEQ==
-X-Gm-Message-State: AJIora+eDwfRaZxFF9kzF0i4DhKzVvRFIxSJfE7XNsOnyRIuoYkyywgt
-        pYAP4+1xOZ4b/hL95uP+nUbd5UWQeNTgHw6GDA9Q74Gt2EbHWwk8uzJG04towPcH4AjgkVH1f1V
-        lApUY/LKXscP5ph5pe+x0Qf0=
-X-Received: by 2002:a05:6402:248c:b0:437:afe7:818b with SMTP id q12-20020a056402248c00b00437afe7818bmr5677237eda.239.1657295728243;
-        Fri, 08 Jul 2022 08:55:28 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tS6ezXylb9NB8yOq946U7TpYv2hDEboyPOJ0JMfhIrtFj8VcfNQ8NXJAahocj9nZjCtYa/Kw==
-X-Received: by 2002:a05:6402:248c:b0:437:afe7:818b with SMTP id q12-20020a056402248c00b00437afe7818bmr5677225eda.239.1657295728101;
-        Fri, 08 Jul 2022 08:55:28 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id fd5-20020a056402388500b00436f3107bdasm29009592edb.38.2022.07.08.08.55.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Jul 2022 08:55:27 -0700 (PDT)
-Message-ID: <becfe58a-b4c3-4ae1-4ab2-456057ac7d22@redhat.com>
-Date:   Fri, 8 Jul 2022 17:55:26 +0200
+        with ESMTP id S238914AbiGHQA3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 12:00:29 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D3556D571;
+        Fri,  8 Jul 2022 09:00:28 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:3cab:61a1:2b1f:896b] (unknown [IPv6:2a01:e0a:120:3210:3cab:61a1:2b1f:896b])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 76C0B66019F2;
+        Fri,  8 Jul 2022 17:00:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1657296027;
+        bh=e0/jiW3XfT4O/Zq416vlwfO7YhtF1rfLZdEy+RlBmfc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=TkizvFEqK/XB/KEc40AR6NU3n5lURvLcLZoZFdfZXjSvmZoHM+usmnUXa1V0R2o1M
+         0OUslPg3PJ8RMh6qGnIaSBNekSI5mjaaLinjBG5ag8sF0/Kcmpq7WS4tdqi7yelo+v
+         SvZTkr5WQv7N64GGlpQiUSuBKblYXLwNh1Cw1JqBtflgPFpBp9xUN5u4sByHvLcMVI
+         ddxL/X974xcXTr9LBm1qoIEK4ah1DiHG3kJN1dAmNHbtpB7pjbDe65w+pGvCaFdlxj
+         zehF4fwRvcvkaMc2R9W46pJNNszISMUzQktns9jVYuDgR3/w3NzX/sZf81GddnVpfn
+         vSbpQSkgA3MQw==
+Message-ID: <5e346689-5a0c-8fc7-129d-53a6f28e5349@collabora.com>
+Date:   Fri, 8 Jul 2022 18:00:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RESEND PATCH 0/3] staging: media: atomisp: Convert to
- kmap_local_page()
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v12 11/17] media: uapi: Add
+ V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
 Content-Language: en-US
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Martiros Shakhzadyan <vrzh@vrzh.net>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
-References: <20220707200718.26398-1-fmdefrancesco@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220707200718.26398-1-fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        mchehab@kernel.org, hverkuil@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
+        nicolas.dufresne@collabora.com, andrzej.p@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com
+References: <20220708120554.495495-1-benjamin.gaignard@collabora.com>
+ <20220708120554.495495-12-benjamin.gaignard@collabora.com>
+ <2106581.irdbgypaU6@jernej-laptop>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <2106581.irdbgypaU6@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On 7/7/22 22:07, Fabio M. De Francesco wrote:
-> After waiting months, I'm resending three conversions to
-> kmap_local_page(). I'd like to ask if there is anything which prevents
-> these patches from being accepted.
-> 
-> Please note that these patches were submitted on April 2022.
-> 
-> For you convenience here are the links to the patches, the "Reviewed-by:" 
-> and "Tested-by:" tags:
-> 
-> [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
-> https://lore.kernel.org/lkml/20220413225531.9425-1-fmdefrancesco@gmail.com/
-> https://lore.kernel.org/lkml/Yli+R7iLZKqO8kVP@iweiny-desk3/
-> https://lore.kernel.org/lkml/2d096f20-dbaa-1d49-96e9-a7ae6c19f7fe@redhat.com/
-> 
-> [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_set()
-> https://lore.kernel.org/lkml/20220413212210.18494-1-fmdefrancesco@gmail.com/
-> https://lore.kernel.org/lkml/YldNhErgt53RqYp7@iweiny-desk3/
-> https://lore.kernel.org/lkml/0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.com/
-> 
-> [PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
-> https://lore.kernel.org/lkml/20220408223129.3844-1-fmdefrancesco@gmail.com/
-> https://lore.kernel.org/lkml/b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.com/
-> 
-> Fabio M. De Francesco (3):
->   staging: media: atomisp: Convert kmap() to kmap_local_page()
->   staging: media: atomisp: Use kmap_local_page() in hmm_set()
->   staging: media: atomisp: Use kmap_local_page() in hmm_store()
+Le 08/07/2022 à 16:02, Jernej Škrabec a écrit :
+> Hi Benjamin!
+>
+> Dne petek, 08. julij 2022 ob 14:05:48 CEST je Benjamin Gaignard napisal(a):
+>> The number of 'entry point offset' can be very variable.
+>> Instead of using a large static array define a v4l2 dynamic array
+>> of U32 (V4L2_CTRL_TYPE_U32).
+>> The number of entry point offsets is reported by the elems field
+>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+>> field.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> ---
+>> version 12:
+>> - Reword num_entry_point_offsets documentation
+>>
+>>   .../userspace-api/media/v4l/ext-ctrls-codec.rst     | 13 +++++++++++++
+>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c           |  5 +++++
+>>   include/media/hevc-ctrls.h                          |  5 ++++-
+>>   3 files changed, 22 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
+>> c2e0adece613..0cd967126fdf 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -3010,6 +3010,11 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>       * - __u32
+>>         - ``data_bit_offset``
+>>         - Offset (in bits) to the video data in the current slice data.
+>> +    * - __u32
+>> +      - ``num_entry_point_offsets``
+>> +      - Specifies the number of entry point offset syntax elements in the
+>> slice header. +        When the driver supports it, the
+>> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS`` +        must be set.
+>>       * - __u8
+>>         - ``nal_unit_type``
+>>         - Specifies the coding type of the slice (B, P or I).
+>> @@ -3150,6 +3155,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>
+>>       \normalsize
+>>
+>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>> +    Specifies entry point offsets in bytes.
+>> +    This control is a dynamically sized array. The number of entry point
+>> +    offsets is reported by the ``elems`` field.
+>> +    This bitstream parameter is defined according to :ref:`hevc`.
+>> +    They are described in section 7.4.7.1 "General slice segment header
+>> +    semantics" of the specification.
+> You forgot to update above description per Ezequiel comment.
 
-Thanks, the entire series looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+No it was num_entry_point_offsets which was needed to be updated
+not this control.
 
 Regards,
+Benjamin
 
-Hans
-
+>
+> Best regards,
+> Jernej
+>
+>> +
+>>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>>       Specifies the HEVC scaling matrix parameters used for the scaling
+>> process for transform coefficients.
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
+>> d594efbcbb93..e22921e7ea61 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return
+> "HEVC Decode
+>> Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return
+> "HEVC Decode
+>> Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:		return
+> "HEVC Start Code";
+>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return
+> "HEVC Entry
+>> Point Offsets";
+>>
+>>   	/* Colorimetry controls */
+>>   	/* Keep the order of the 'case's the same as in v4l2-controls.h!
+> */
+>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
+>> v4l2_ctrl_type *type, case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>>   		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>>   		break;
+>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+>> +		*type = V4L2_CTRL_TYPE_U32;
+>> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+>> +		break;
+>>   	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>>   		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>>   		break;
+>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>> index a372c184689e..3a6601a46ced 100644
+>> --- a/include/media/hevc-ctrls.h
+>> +++ b/include/media/hevc-ctrls.h
+>> @@ -20,6 +20,7 @@
+>>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE
+> + 1012)
+>>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>>   #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE +
+>> 1017)
+>>
+>>   /* enum v4l2_ctrl_type type values */
+>>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+>> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
+>>    *
+>>    * @bit_size: size (in bits) of the current slice data
+>>    * @data_bit_offset: offset (in bits) to the video data in the current
+>> slice data + * @num_entry_point_offsets: specifies the number of entry
+>> point offset syntax + *			     elements in the slice
+> header.
+>>    * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>>    * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the
+>> NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+>> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
+>>   struct v4l2_ctrl_hevc_slice_params {
+>>   	__u32	bit_size;
+>>   	__u32	data_bit_offset;
+>> -
+>> +	__u32	num_entry_point_offsets;
+>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>>   	__u8	nal_unit_type;
+>>   	__u8	nuh_temporal_id_plus1;
+>
+>
+>
