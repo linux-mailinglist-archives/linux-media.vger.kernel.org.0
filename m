@@ -2,39 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEF2C56B5ED
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 11:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B71A956B5FE
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 11:54:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237734AbiGHJrF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jul 2022 05:47:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36204 "EHLO
+        id S237796AbiGHJy0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jul 2022 05:54:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237111AbiGHJrF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 05:47:05 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44477796BB
-        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 02:47:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D2E8EB82567
-        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 09:47:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD6DC341C0;
-        Fri,  8 Jul 2022 09:47:00 +0000 (UTC)
-Message-ID: <eee537a2-86a1-dd81-af2e-9f18e9272f5c@xs4all.nl>
-Date:   Fri, 8 Jul 2022 11:46:59 +0200
+        with ESMTP id S237731AbiGHJyZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 05:54:25 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69FBD823BB
+        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 02:54:23 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id s204so4949621oif.5
+        for <linux-media@vger.kernel.org>; Fri, 08 Jul 2022 02:54:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vEaJ5po9Za//FEsrnkPxw8yZtxSE9rhk4WCBsPOWM7o=;
+        b=IKPynV5CRGV7vLXVINTPyxkKjJie+puMmQK+dPjIBcPew6KRz2RR05MmLQG9MQGwK6
+         4lhKjJMDx0RhUt1VGaTH/NQvXq0/hjYiY6MaLRdMInpaOH3E8VXCXBbupYvOBIXXvfcX
+         rdHsJPLSGFljCjcLKPVLBv9pO/Vj64ltNtjPloOoU0OT35mWSxBaN4rKPhcT8actbOiI
+         H9G2S4h3fz0vfo/q1kc9d/xmS5Bs1U1RHp6iOmFpatIy4ZTpgvXV4LG6mhATxYpO5Zfa
+         R4q1vFDGI1WVz6fOL3ckOwlc7NzapmEGuUv67cmI+GSYJIv6CcNcAPdZG/q41zI06Vwf
+         59ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vEaJ5po9Za//FEsrnkPxw8yZtxSE9rhk4WCBsPOWM7o=;
+        b=BqGNlbUajg8Sid3z+AguXuTHDtdkoxALnPnSeDmEA8qPR3DoDvsGkJ+oTSS1KCovqv
+         HPZjQXJCNB46CmkAizz1vz67PG8ZbiNsbSGCCg2cQmUrF1ZRgYv1AFEh+P0Eqt7cXPF1
+         ICU/rPAS3DuwMSXQoCQEiVxQNRFaaZ2mlZmybiEt/+EZLKj8EqTKZcu8hZHqnxuvpZNE
+         6X704hqmNFq9qJ2iBSynCetvdCobpr5Cv4pkNt4K4uGrKX+6mfU3l8asBnyqm0HP6MpW
+         EPTI5xDo1eKCeL4mnEksmGvm3IwG8tXy1EX87XvMJzsZc0av6LWfT8OrgYn+kV1NpF5j
+         rg6w==
+X-Gm-Message-State: AJIora/kDVXml3wUFd5J8M9Qs/QtqxpnadpX6bmatCs+KvUJTT3UHi1y
+        mNS6eR4hRPI8JSaEPWFdPgrGuQ==
+X-Google-Smtp-Source: AGRyM1v4wJ7JVr6gpnAq37NLXMjnCZVAR1q0WYYm/dBK+pZJG0d6tLmmRs6CSDsDhSuogKiYR+xGfw==
+X-Received: by 2002:a05:6808:eca:b0:2f9:c581:3f76 with SMTP id q10-20020a0568080eca00b002f9c5813f76mr1328601oiv.138.1657274062762;
+        Fri, 08 Jul 2022 02:54:22 -0700 (PDT)
+Received: from eze-laptop ([186.13.97.246])
+        by smtp.gmail.com with ESMTPSA id b11-20020a9d60cb000000b00616dfd2c859sm11916643otk.59.2022.07.08.02.54.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jul 2022 02:54:21 -0700 (PDT)
+Date:   Fri, 8 Jul 2022 06:54:13 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, samuel@sholland.org,
+        nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com
+Subject: Re: [PATCH v11 13/17] media: controls: Log HEVC stateless control in
+ .std_log
+Message-ID: <Ysf+xcbuIyYy7HIn@eze-laptop>
+References: <20220706093803.158810-1-benjamin.gaignard@collabora.com>
+ <20220706093803.158810-14-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>, Ming Qian <ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.20] Various fixes/enhancements
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220706093803.158810-14-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,60 +77,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit c0ab2901fc68a274b4e5e6436892806e6785babe:
+On Wed, Jul 06, 2022 at 11:37:59AM +0200, Benjamin Gaignard wrote:
+> Simply print the type of the control.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-  media: venus: hfi_platform: Correct supported codecs for sc7280 (2022-07-07 09:21:08 +0100)
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.20i
-
-for you to fetch changes up to 756e3fd847f452897dcd85866050a52d8678c8bd:
-
-  media: amphion: only insert the first sequence startcode for vc1l format (2022-07-08 11:25:11 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Akira Yokosawa (1):
-      media: docs: Remove extraneous \endgroup from P010 table
-
-Chen-Yu Tsai (7):
-      media: mediatek: vcodec: decoder: Const-ify stepwise_fhd
-      media: mediatek: vcodec: decoder: Fix 4K frame size enumeration
-      media: mediatek: vcodec: decoder: Skip alignment for default resolution
-      media: mediatek: vcodec: decoder: Fix resolution clamping in TRY_FMT
-      media: mediatek: vcodec: decoder: Drop max_{width,height} from mtk_vcodec_ctx
-      media: mediatek: vcodec: decoder: Embed framesize inside mtk_video_fmt
-      media: mediatek: vcodec: Initialize decoder parameters for each instance
-
-Ezequiel Garcia (1):
-      hantro: Fix RK3399 H.264 format advertising
-
-Krzysztof Kozlowski (1):
-      dt-bindings: media: samsung,s5pv210-jpeg: convert to dtschema
-
-Ming Qian (3):
-      media: amphion: defer setting last_buffer_dequeued until resolution changes are processed
-      media: amphion: sync buffer status with firmware during abort
-      media: amphion: only insert the first sequence startcode for vc1l format
-
- Documentation/devicetree/bindings/media/exynos-jpeg-codec.txt     |  16 ---------
- Documentation/devicetree/bindings/media/samsung,s5pv210-jpeg.yaml | 123 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst       |   3 --
- MAINTAINERS                                                       |   1 +
- drivers/media/platform/amphion/vdec.c                             |  47 +++++++++++++++++--------
- drivers/media/platform/amphion/vpu.h                              |   1 +
- drivers/media/platform/amphion/vpu_malone.c                       |   2 ++
- drivers/media/platform/amphion/vpu_rpc.h                          |   7 +++-
- drivers/media/platform/amphion/vpu_v4l2.c                         |   2 +-
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c           |  54 +++++++++++-----------------
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c       |   3 +-
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c  |  29 ++++-----------
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c |  30 +++++++---------
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h           |  20 +----------
- drivers/staging/media/hantro/rockchip_vpu_hw.c                    |  60 +++++++++++++++++++++++++++----
- 15 files changed, 262 insertions(+), 136 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/exynos-jpeg-codec.txt
- create mode 100644 Documentation/devicetree/bindings/media/samsung,s5pv210-jpeg.yaml
+> ---
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index ff8a61f24d0a..c5c5407584ff 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -307,6 +307,21 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+>  	case V4L2_CTRL_TYPE_VP9_FRAME:
+>  		pr_cont("VP9_FRAME");
+>  		break;
+> +	case V4L2_CTRL_TYPE_HEVC_SPS:
+> +		pr_cont("HEVC_SPS");
+> +		break;
+> +	case V4L2_CTRL_TYPE_HEVC_PPS:
+> +		pr_cont("HEVC_PPS");
+> +		break;
+> +	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+> +		pr_cont("HEVC_SLICE_PARAMS");
+> +		break;
+> +	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
+> +		pr_cont("HEVC_SCALING_MATRIX");
+> +		break;
+> +	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
+> +		pr_cont("HEVC_DECODE_PARAMS");
+> +		break;
+>  	default:
+>  		pr_cont("unknown type %d", ctrl->type);
+>  		break;
+> -- 
+> 2.32.0
+> 
