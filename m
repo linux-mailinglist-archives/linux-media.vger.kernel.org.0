@@ -2,198 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5031556B4A5
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 10:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 426CE56B4AD
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 10:45:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237754AbiGHIms (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jul 2022 04:42:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42878 "EHLO
+        id S237571AbiGHIpl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jul 2022 04:45:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237267AbiGHIms (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 04:42:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E3C3823AF;
-        Fri,  8 Jul 2022 01:42:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S237447AbiGHIpl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 04:45:41 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8414814B6
+        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 01:45:37 -0700 (PDT)
+Received: from localhost (dsl-hkibng31-58c389-173.dhcp.inet.fi [88.195.137.173])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B42C9626A2;
-        Fri,  8 Jul 2022 08:42:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B44C6C341C0;
-        Fri,  8 Jul 2022 08:42:44 +0000 (UTC)
-Message-ID: <9df23a2d-b5c3-ddd5-8594-afc6f36d2350@xs4all.nl>
-Date:   Fri, 8 Jul 2022 10:42:43 +0200
+        (Authenticated sender: msmakela)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 392CE20050;
+        Fri,  8 Jul 2022 11:45:33 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1657269933;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=0YH5pEDRJV8p2mgUkO3oryf9R5a7GNM9nJT9y3333uI=;
+        b=UlEQnh5ZILSofJQXSorLaNftwij2gH64z+IYuLJSxq7Lnn6nYtM7Hw8WJ98FxY6pOxVqXG
+        oEC5RY9TpbyRSuqK96xkwKbxI3u9upCTvPRBLi//X3JySYxPppMEXSFdWl4GKM1LQE2tvj
+        7hvX19gV4iF8HtHrCwE0GfcwNA34gxI=
+From:   =?UTF-8?q?Marko=20M=C3=A4kel=C3=A4?= <marko.makela@iki.fi>
+To:     linux-media@vger.kernel.org
+Cc:     Sean Young <sean@mess.org>,
+        =?UTF-8?q?Marko=20M=C3=A4kel=C3=A4?= <marko.makela@iki.fi>
+Subject: [PATCH] media: lirc: ensure lirc device receives repeats
+Date:   Fri,  8 Jul 2022 11:44:59 +0300
+Message-Id: <20220708084459.7472-1-marko.makela@iki.fi>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <Ysff5PEy580LIg8w@gofer.mess.org>
+References: <Ysff5PEy580LIg8w@gofer.mess.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] hantro: Remove incorrect HEVC SPS validation
-Content-Language: en-US
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-References: <20220629195624.45745-1-ezequiel@vanguardiasur.com.ar>
- <20220629195624.45745-2-ezequiel@vanguardiasur.com.ar>
- <20220630050232.bpntbghouslye3l3@basti-XPS-13-9310>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220630050232.bpntbghouslye3l3@basti-XPS-13-9310>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1657269933;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=0YH5pEDRJV8p2mgUkO3oryf9R5a7GNM9nJT9y3333uI=;
+        b=I8eHsCjBMEHrPfGjTR3RDELrhQCue2sFSnfh4hxC5sQJcT1dfrR6UeFi9+o760mAGA0c7f
+        NYKHxc/JaDSeJD5Iu1vNa1CsaY/ffXfEX5PWZE1k+xAMAUGHLnTJKrOdsxYzMXi9vfRYVA
+        nKmm+5WyARaCR0YnKAe4aMakTSyrkrw=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=msmakela smtp.mailfrom=marko.makela@iki.com
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1657269933; a=rsa-sha256; cv=none;
+        b=WWzFJbHo/Bn5aT8xWnY4sYG+lCDFKMJEIVuWwD2LfH2gDMQmBc7VLR/o/oqfKkGEVZ3fMg
+        QZ/ksl8yonse2Q3/RnGcmSCYKwdbn2tpL6GIlzM+mwDX56ILzJnG6K7st6JZUyB6cOQy2v
+        XHvemhACjwbFQCRhf5vNYWQt1VKJYDw=
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Pressing a button on a remote control unit will typically lead to
+messages being sent several times per second until the button is released.
 
+Some remote control units indicate long key presses by sending
+special "repeat" messages, for which the protocol driver calls
+rc_repeat(). Other units repeat the same message over and over,
+which will be handled by calling rc_keydown().
 
-On 6/30/22 07:02, Sebastian Fricke wrote:
-> Hey Ezequiel,
-> 
-> On 29.06.2022 16:56, Ezequiel Garcia wrote:
->> Currently, the driver tries to validat the HEVC SPS
-> 
-> s/validat/validate/
-> 
->> against the CAPTURE queue format (i.e. the decoded format).
->> This is not correct, because typically the SPS control is set
->> before the CAPTURE queue is negotiated.
->>
->> In addition to this, a format validation in hantro_hevc_dec_prepare_run()
->> is also suboptimal, because hantro_hevc_dec_prepare_run() runs in the context
->> of v4l2_m2m_ops.device_run, as part of a decoding job.
->>
->> Format and control validations should happen before decoding starts,
->> in the context of ioctls such as S_CTRL, S_FMT, or STREAMON.
->>
->> Remove the validation for now.
-> 
-> Couldn't we add a small wrapper around STREAMON to perform that
-> validation? I feel like "remove the validation for now", seems like a
-> vague statement.
+The function rc_keydown() never set the LIRC "repeat" flag to distinguish
+repeated messages that were sent due to a long keypress, and messages
+sent due to repeated short keypresses. While a user-space program may
+implement special logic to distinguish long keypresses, it is much simpler
+to be able to rely on the flag.
 
-I agree. Basically two things happen in this patch: two sanity checks
-for the SPS control are moved to try_ctrl, and that part looks good.
+Commit de142c32410649e64d44928505ffad2176a96a9e ("media: lirc: implement
+reading scancode") would never set the LIRC_SCANCODE_FLAG_REPEAT flag.
+Commit b66218fddfd29f315a103db811152ab0c95fb054
+("media: lirc: ensure lirc device receives nec repeats") fixed it up for
+rc_repeat() but not rc_keydown().
 
-So that can be a separate patch.
+Signed-off-by: Marko Mäkelä <marko.makela@iki.fi>
+Co-developed-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/rc-main.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-The second part is the removal of the format+control validation, but it
-is not clear why removing it altogether is wrong. Shouldn't it still be
-done somewhere? And if not, why not?
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index b90438a71c80..d914197245eb 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -786,7 +786,8 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
+ 			  dev->last_toggle   != toggle);
+ 	struct lirc_scancode sc = {
+ 		.scancode = scancode, .rc_proto = protocol,
+-		.flags = toggle ? LIRC_SCANCODE_FLAG_TOGGLE : 0,
++		.flags = (toggle ? LIRC_SCANCODE_FLAG_TOGGLE : 0) |
++		(!new_event ? LIRC_SCANCODE_FLAG_REPEAT : 0),
+ 		.keycode = keycode
+ 	};
+ 
+-- 
+2.36.1
 
-Regards,
-
-	Hans
-
-> 
-> Greetings,
-> Sebastian
-> 
->>
->> Fixes: 135ad96cb4d6b ("media: hantro: Be more accurate on pixel formats step_width constraints")
->> Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
->> ---
->> drivers/staging/media/hantro/hantro_drv.c  | 12 ++++-----
->> drivers/staging/media/hantro/hantro_hevc.c | 30 ----------------------
->> drivers/staging/media/hantro/hantro_hw.h   |  1 -
->> 3 files changed, 6 insertions(+), 37 deletions(-)
->>
->> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->> index afddf7ac0731..2387ca85ab54 100644
->> --- a/drivers/staging/media/hantro/hantro_drv.c
->> +++ b/drivers/staging/media/hantro/hantro_drv.c
->> @@ -253,11 +253,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->>
->> static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->> {
->> -    struct hantro_ctx *ctx;
->> -
->> -    ctx = container_of(ctrl->handler,
->> -               struct hantro_ctx, ctrl_handler);
->> -
->>     if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
->>         const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
->>
->> @@ -273,7 +268,12 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->>     } else if (ctrl->id == V4L2_CID_MPEG_VIDEO_HEVC_SPS) {
->>         const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
->>
->> -        return hantro_hevc_validate_sps(ctx, sps);
->> +        if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
->> +            /* Luma and chroma bit depth mismatch */
->> +            return -EINVAL;
->> +        if (sps->bit_depth_luma_minus8 != 0)
->> +            /* Only 8-bit is supported */
->> +            return -EINVAL;
->>     } else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
->>         const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
->>
->> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
->> index bd924896e409..f86c98e19177 100644
->> --- a/drivers/staging/media/hantro/hantro_hevc.c
->> +++ b/drivers/staging/media/hantro/hantro_hevc.c
->> @@ -154,32 +154,6 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
->>     return -ENOMEM;
->> }
->>
->> -int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
->> -{
->> -    if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
->> -        /* Luma and chroma bit depth mismatch */
->> -        return -EINVAL;
->> -    if (sps->bit_depth_luma_minus8 != 0)
->> -        /* Only 8-bit is supported */
->> -        return -EINVAL;
->> -
->> -    /*
->> -     * for tile pixel format check if the width and height match
->> -     * hardware constraints
->> -     */
->> -    if (ctx->vpu_dst_fmt->fourcc == V4L2_PIX_FMT_NV12_4L4) {
->> -        if (ctx->dst_fmt.width !=
->> -            ALIGN(sps->pic_width_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_width))
->> -            return -EINVAL;
->> -
->> -        if (ctx->dst_fmt.height !=
->> -            ALIGN(sps->pic_height_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_height))
->> -            return -EINVAL;
->> -    }
->> -
->> -    return 0;
->> -}
->> -
->> int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
->> {
->>     struct hantro_hevc_dec_hw_ctx *hevc_ctx = &ctx->hevc_dec;
->> @@ -203,10 +177,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
->>     if (WARN_ON(!ctrls->sps))
->>         return -EINVAL;
->>
->> -    ret = hantro_hevc_validate_sps(ctx, ctrls->sps);
->> -    if (ret)
->> -        return ret;
->> -
->>     ctrls->pps =
->>         hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_PPS);
->>     if (WARN_ON(!ctrls->pps))
->> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
->> index a2e0f0836281..5edff0f0be20 100644
->> --- a/drivers/staging/media/hantro/hantro_hw.h
->> +++ b/drivers/staging/media/hantro/hantro_hw.h
->> @@ -359,7 +359,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
->> void hantro_hevc_ref_init(struct hantro_ctx *ctx);
->> dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
->> int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
->> -int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps);
->>
->>
->> static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
->> -- 
->> 2.31.1
->>
