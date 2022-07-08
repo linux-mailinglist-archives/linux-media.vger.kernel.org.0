@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E97B56B780
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 12:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99D6056B775
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jul 2022 12:47:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237762AbiGHKpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jul 2022 06:45:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50904 "EHLO
+        id S238025AbiGHKpd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jul 2022 06:45:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238006AbiGHKpT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 06:45:19 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D692714D
-        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 03:45:18 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id z12-20020a17090a7b8c00b001ef84000b8bso1515175pjc.1
-        for <linux-media@vger.kernel.org>; Fri, 08 Jul 2022 03:45:18 -0700 (PDT)
+        with ESMTP id S238019AbiGHKpX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jul 2022 06:45:23 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5128684EF3
+        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 03:45:21 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id ju17so12602217pjb.3
+        for <linux-media@vger.kernel.org>; Fri, 08 Jul 2022 03:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8FGuAafZHqfrP28YvJIs+zNrzq+lDdIf2d0BaQEypgw=;
-        b=kAn9QxId/nVRVVDl4BWaJvyUT7nw0/Wj9Dt7rLTYAw6GgnyPkzXbYgoEJmw5Djd/EU
-         6ySb21MhRFifBS1Z0bp2RHFXH8ws5efoziPWD2jYhsCxl4Tbuw8CbYQ4sP7LSl/BQ0Q0
-         1/c4LLsIslOSV0juwTx1wa9ywgmT915jt8wXk=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=WLbLav8l8KNdtyThB58u5SXfgbP0TLoaQoo90nnZjIw=;
+        b=H6/aHv6DkkKB7cF5JsVlhpayBbZOXG0Cvl2/XYn64znFK/MtS4mC8I+s8YOK2HZeNh
+         vMd9G+Wj5czYkhTnCdL+qqshd9r7aQ8bymOl+Fnj+kQlPGsJf44BDjJ6c7KKXX0NhIVe
+         TevhgQUDyNHbPllQFobkTv9YW3fA2KaAxYBsc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8FGuAafZHqfrP28YvJIs+zNrzq+lDdIf2d0BaQEypgw=;
-        b=x241sM+4vt5dx3BLBva831y2bzCye4GyacnNy6dfwhdBv1uPYwYEEFEuWviaTeu7Ue
-         Cqu2KJJU3x8EgX04UB4enMcjuwoq5j7XqaTxM+He0xbVtfIDkzVACzd+jzza1/rcL0VH
-         OkNgjYPTeHC1BsLKXekn90yL9qvaYXQYcrR1qwxas+H3HJChUXUBofphLO6D5VOrkimw
-         qHxL37hgNu8dfm+Tv5gyBZ4f2C3SOtVE9aj6uebFSQjLKEaS1VxSStNLeDin9jdcNpuQ
-         cTz1jYoXMiCPxP+NCOAflvp8+rp6nKIcffGH3rQB3EatoB66gkkqg2Y3PVPj6e3t2U4U
-         2+0A==
-X-Gm-Message-State: AJIora+hi95q3wUJrI3UN3s5FtE51v/kdhSAAYZJHLFdxfPXNrkppQ+2
-        iFkljDIZYqhN7pupehAqVWQL2w==
-X-Google-Smtp-Source: AGRyM1vkm3nbZ0roWIsSOm7IfBhet7ILyiwzMy3G/yPRpSMF9I28WxxzEmcHesEkeKJMzES2L1Jf6g==
-X-Received: by 2002:a17:90a:e98d:b0:1ef:7863:b7d2 with SMTP id v13-20020a17090ae98d00b001ef7863b7d2mr3256468pjy.101.1657277118450;
-        Fri, 08 Jul 2022 03:45:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WLbLav8l8KNdtyThB58u5SXfgbP0TLoaQoo90nnZjIw=;
+        b=QsflSkMsmWEmCkv6tEPqcctGqiAN/lTKU+PnkFmcaWz9WLueThIVy+B/X+i9PgMoLM
+         QM4dnrbLjA4T5VAL2YsflZck4sCidU+f7TAOEE8IyEoa+599ne+/vspw4J3rVvIWxCek
+         0YN96yzvX/h5Sw3sya5giFtonAomVXLmaS28rmoz0YHa0VpIER7fDF65GJYqueLTgW/8
+         6Q3SgSDiUFgL+zyZOFsCQpUZK/PMHfP2dmMXumRlrE1KLqBg/DQbfAB7wtjwxbhKWaOj
+         RtjUojpWjtGKAvt2VPve4oY8ATRNtrk3lWwbwju0NJ8zq+G0av7XZlWq4HsACu831qzj
+         E2bg==
+X-Gm-Message-State: AJIora9W0bAMsCYAcmCaSofDX8rgOnoDgT5jKR3YheEckp/PCKCliBtc
+        a6EE6TWe+byobgmGzx1gHgb1rr1KkqjGhw==
+X-Google-Smtp-Source: AGRyM1t7zh3BjpjgCpMwcYmLHbsBzl4/5XcKIXOUoFXqM0owdePl7ODco0/D1d+2ouSx2TTV0ocSHw==
+X-Received: by 2002:a17:902:a589:b0:16b:c227:d7f9 with SMTP id az9-20020a170902a58900b0016bc227d7f9mr2892816plb.29.1657277120859;
+        Fri, 08 Jul 2022 03:45:20 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:db98:ad5d:ca9:da58])
-        by smtp.gmail.com with ESMTPSA id m6-20020a635806000000b0040c9213a414sm27216187pgb.46.2022.07.08.03.45.16
+        by smtp.gmail.com with ESMTPSA id m6-20020a635806000000b0040c9213a414sm27216187pgb.46.2022.07.08.03.45.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 03:45:18 -0700 (PDT)
+        Fri, 08 Jul 2022 03:45:20 -0700 (PDT)
 From:   Chen-Yu Tsai <wenst@chromium.org>
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -57,15 +57,17 @@ Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v2 0/2] media: mediatek-vcodec: Fix capability fields again
-Date:   Fri,  8 Jul 2022 18:44:49 +0800
-Message-Id: <20220708104451.3901064-1-wenst@chromium.org>
+Subject: [PATCH v2 1/2] media: mediatek: vcodec: Make decoder capability fields fit requirements
+Date:   Fri,  8 Jul 2022 18:44:50 +0800
+Message-Id: <20220708104451.3901064-2-wenst@chromium.org>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+In-Reply-To: <20220708104451.3901064-1-wenst@chromium.org>
+References: <20220708104451.3901064-1-wenst@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,54 +75,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi everyone,
+This partially reverts commit a8a7a278c56ad3b4ddd4db9a960e0537d032b0b3,
+and changes things so that the capability string fields of the decoder
+conform to their requirements.
 
-This is v2 of my mtk-vcodec capabilities fixes series.
+This recent change caused ChromeOS's decoder to no longer function. This
+is due to ChromeOS using the driver name field to match the video device
+with its accompanying media device. After the change, they no longer
+matched.
 
-Changes since v1:
-- Squashed 3 patches into one, as Hans recommended
+The driver name field should contain the actual driver name, not some
+otherwise unused string macro from the driver. To make this clear,
+copy the name from the driver's name field.
 
-The previous round of changes to the mtk-vcodec driver's returned
-capabilities caused some issues for ChromeOS. In particular, the
-ChromeOS stateless video decoder uses the "Driver Name" field to
-match a video device to its media device. As the field was only
-changed for the video device and not the media device, a match
-could no longer be found.
+The card name for the video decoder previously held a static platform
+name that was fixed to match MT8173. This obviously doesn't make sense
+for newer chips. Since commit a8a7a278c56a ("media: mediatek: vcodec:
+Change decoder v4l2 capability value"), this field was changed to hold
+the driver's name, or "mtk-vcodec-dec". This doesn't make much sense
+either, since this still doesn't reflect what chip this is.
 
-While fixing this, I found that the current info used for the fields
-don't make a lot of sense, and tried to fix them in this series.
+Instead, fill in the card name with "MTxxxx video decoder" with the
+proper chip number.
 
-Patch 1 fixes the capabilities for the decoder. The driver name field
-change is reverted and made explicit that the field really should match
-the driver name. The card name is made a user readable string that
-includes the SoC model. The bus_info field is dropped and the default
-value from the V4L2 core is used.
+Since commit f2d8b6917f3b ("media: v4l: ioctl: Set bus_info in
+v4l_querycap()"), the V4L2 core provides a default value for the
+bus_info field for platform and PCI devices. This value will match
+the default value for media devices added by commit cef699749f37
+("media: mc: Set bus_info in media_device_init()"). These defaults
+are stable and device-specific.
 
-Patch 2 does the same, but for the encoder size. And since the last
-reference to MTK_VCODEC_DRV_NAME is removed, the macro is removed as
-well.
+Drop the custom capability bus_info from the mtk-vcodec decoder
+driver, and use the defaults. This also fixes the long standing
+issue where the media device used for the stateless decoder didn't
+have its bus_info set, and would never match its accompanying video
+device.
 
-This series is based on next-20220708, and was tested on mainline on
-MT8183 Juniper, and on ChromeOS v5.10, on which we have a whole bunch
-of backports pending, on MT8195 Tomato.
-
-Please have a look.
-
-
-Thanks
-ChenYu
-
-Chen-Yu Tsai (2):
-  media: mediatek: vcodec: Make decoder capability fields fit
-    requirements
-  media: mediatek: vcodec: Make encoder capability fields fit
-    requirements
-
+Fixes: a8a7a278c56a ("media: mediatek: vcodec: Change decoder v4l2 capability value")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 7 ++++---
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h | 1 -
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 7 ++++---
- 3 files changed, 8 insertions(+), 7 deletions(-)
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+index 5d6fdf18c3a6..209de1ec02e4 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+@@ -243,11 +243,12 @@ static int mtk_vcodec_dec_get_chip_name(void *priv)
+ static int vidioc_vdec_querycap(struct file *file, void *priv,
+ 				struct v4l2_capability *cap)
+ {
++	struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
++	struct device *dev = &ctx->dev->plat_dev->dev;
+ 	int platform_name = mtk_vcodec_dec_get_chip_name(priv);
+ 
+-	strscpy(cap->driver, MTK_VCODEC_DRV_NAME, sizeof(cap->driver));
+-	strscpy(cap->card, MTK_VCODEC_DEC_NAME, sizeof(cap->card));
+-	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:mt%d-dec", platform_name);
++	strscpy(cap->driver, dev->driver->name, sizeof(cap->driver));
++	snprintf(cap->card, sizeof(cap->card), "MT%d video decoder", platform_name);
+ 
+ 	return 0;
+ }
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 
