@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C745D56CA74
-	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 17:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EEBF56CA78
+	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 17:59:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbiGIP45 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Jul 2022 11:56:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42356 "EHLO
+        id S229450AbiGIP7X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Jul 2022 11:59:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbiGIP44 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 11:56:56 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2159211C06
-        for <linux-media@vger.kernel.org>; Sat,  9 Jul 2022 08:56:56 -0700 (PDT)
+        with ESMTP id S229379AbiGIP7X (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 11:59:23 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C85101EC
+        for <linux-media@vger.kernel.org>; Sat,  9 Jul 2022 08:59:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657382216; x=1688918216;
+  t=1657382362; x=1688918362;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=/FTukGAHdJv7n0ZUyCB1QihtAUuiv4DWZXStk2vvFOw=;
-  b=GCR6c3Pvf5gJWZcIQyeNegvha80drw0xvFvyCdk49HPdcgGrHnY0CMrB
-   3Q+te0OBN62oLBveT4CwhJ6qy8InTcwRLS9muyI+0jJp0Q+C1DWpKTOrE
-   D/BgPaj96E4kmviW499Fv7dUraaJAQy6yPoene2Pm7bOFvLBSLMDVkRdI
-   RX2cihuNMZuI3UpZ0W8wEnlIr0BghAp10po4wvwCbcmezW4PI6odL7MyC
-   jaAcmRK0nPFjHOm5X+45MHsz2d5vxu1KL192yLtBCqIn6iVjSr8iSdppZ
-   /xICFYxYXienju6FCQgODfKLzf3mAVISXm8ro0QDc9G6FkQMefuMJX0Zz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10403"; a="370753838"
+  bh=is7HLdfJ6jI8Hu0HKhPpIJ7LyktCgiqRPC0T43eGvjk=;
+  b=MjWdFfAXitDmepDBbhq5/EUOSIULXy8zl1CJugpUQapQKhdoStqGnajN
+   Y+cmnhuulEHH10hcajYWaCwwzFQ6ZTpHcd2bF7OX1w7Dq1rZskTpzci6K
+   bgn0DDCsa31IFufJJ1LSwJWVBS23MzGq6RNa+xH6la0FBPgwQr9qHL6be
+   T/bJoin11XYwsHq6B6ST7t30TwwcXSijrmI8zJvx2ic7m5jFQ5f7R7dbu
+   nzYl0LHgLrPiOL+6fr7B+TX9xFFP7vus+/gTQsSi9G3Z2SmhuS7rDC7hl
+   n5KKN1v6yAhlqXRwh2v8Nz1juP4V18+OtqPPn+6/mv5qMw1onEXl/FG/E
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10403"; a="285570170"
 X-IronPort-AV: E=Sophos;i="5.92,258,1650956400"; 
-   d="scan'208";a="370753838"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2022 08:56:55 -0700
+   d="scan'208";a="285570170"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2022 08:59:22 -0700
 X-IronPort-AV: E=Sophos;i="5.92,258,1650956400"; 
-   d="scan'208";a="771094760"
+   d="scan'208";a="569277323"
 Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2022 08:56:53 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2022 08:59:20 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id BB8CC20146;
-        Sat,  9 Jul 2022 18:56:51 +0300 (EEST)
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id D4DAF20146;
+        Sat,  9 Jul 2022 18:59:18 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1oACrA-00Cj4a-4o; Sat, 09 Jul 2022 18:58:56 +0300
+        id 1oACtX-00Cj7N-8F; Sat, 09 Jul 2022 19:01:23 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, djrscally@gmail.com,
         mchehab@kernel.org
-Subject: [PATCH 1/1] v4l: async: Also match secondary fwnode endpoints
-Date:   Sat,  9 Jul 2022 18:58:55 +0300
-Message-Id: <20220709155855.3033151-1-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 1/1] v4l: async: Also match secondary fwnode endpoints
+Date:   Sat,  9 Jul 2022 19:01:23 +0300
+Message-Id: <20220709160123.3033324-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -71,13 +71,13 @@ heterogenously (endpoint vs. device) matched.
 Fixes: 1f391df44607 ("media: v4l2-async: Use endpoints in __v4l2_async_nf_add_fwnode_remote()")
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
-This should go to v5.19.
+With correct indentation this time.
 
  drivers/media/v4l2-core/v4l2-async.c | 49 ++++++++++++++++------------
  1 file changed, 28 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index c6995718237a4..8db1c900e59e2 100644
+index c6995718237a4..2db5d7a8af82b 100644
 --- a/drivers/media/v4l2-core/v4l2-async.c
 +++ b/drivers/media/v4l2-core/v4l2-async.c
 @@ -66,8 +66,10 @@ static bool match_i2c(struct v4l2_async_notifier *notifier,
@@ -89,7 +89,7 @@ index c6995718237a4..8db1c900e59e2 100644
 +static bool
 +match_fwnode_one(struct v4l2_async_notifier *notifier,
 +		 struct v4l2_subdev *sd, struct fwnode_handle *sd_fwnode,
-+		struct v4l2_async_subdev *asd)
++		 struct v4l2_async_subdev *asd)
  {
  	struct fwnode_handle *other_fwnode;
  	struct fwnode_handle *dev_fwnode;
