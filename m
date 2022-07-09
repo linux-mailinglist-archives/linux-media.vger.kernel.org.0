@@ -2,107 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF33556CAB7
-	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 18:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4776256CB1E
+	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 20:50:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbiGIQq4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Jul 2022 12:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36816 "EHLO
+        id S229503AbiGISuE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Jul 2022 14:50:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiGIQqz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 12:46:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B24120A4;
-        Sat,  9 Jul 2022 09:46:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8E0CB60F40;
-        Sat,  9 Jul 2022 16:46:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63481C3411C;
-        Sat,  9 Jul 2022 16:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657385214;
-        bh=nhQge+HRyXaWCUN57TcS9nHh2S2Nlsi4P8r8FUfHZHE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=U3gePJoxxzBd3VmKhoooo4vix4ueROdXcwSJeiOMejhROwk1Dp+LBKuYpNhR0uAMR
-         D3g7Gdvb4ifwK2cnb24+KMWWKGXoLBqXPmHDWmG2jQNuVV7utHp/+k6fk/uSBleidv
-         oSTkB+6cf5/h1Y8RKLh6XcTOczUFlMnTn2W6qKAHqfJz4eyJNMSWungD2Wa0kcWbJm
-         zX0ui4hWIL7sL8SQmIP74noOe23quRTiuMWDKno7y66XV43VKvBMTUywrXailxyT22
-         70eGVTdLGfiFbQmXBLTnG9aAZhh77fXkaUf8XyDtzSQCRR5c4OZAclkwQMBIha90t2
-         3ncYRd+fq4Eng==
-Date:   Sat, 9 Jul 2022 17:46:45 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Martiros Shakhzadyan <vrzh@vrzh.net>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [RESEND PATCH 0/3] staging: media: atomisp: Convert to
- kmap_local_page()
-Message-ID: <20220709174645.080fc795@sal.lan>
-In-Reply-To: <becfe58a-b4c3-4ae1-4ab2-456057ac7d22@redhat.com>
-References: <20220707200718.26398-1-fmdefrancesco@gmail.com>
-        <becfe58a-b4c3-4ae1-4ab2-456057ac7d22@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        with ESMTP id S229448AbiGISuD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 14:50:03 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A5111479
+        for <linux-media@vger.kernel.org>; Sat,  9 Jul 2022 11:50:01 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4FABE47C;
+        Sat,  9 Jul 2022 20:49:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657392599;
+        bh=9HHbUwSL+h2RgS9FN4hhw3wyTeWo+6vYu9kbvJ2z7D8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CTuetifGr8GRjlUKAiqRdrxp5UFZ2T6z/xV+yZlYW0HRXxRbZopgozoo6xzIqjL1h
+         j/5qD3pR/1XDy7VWRoTRck2A05qzodZFi9FZ5LRTIIRaMWEbp9WiFf+NFvx8Q+lZZU
+         SH3P5FX80Bfre4Wy5Pt9hfhRMEnfYM5FRRP2V54I=
+Date:   Sat, 9 Jul 2022 21:49:32 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, djrscally@gmail.com,
+        mchehab@kernel.org
+Subject: Re: [PATCH v2 1/1] v4l: async: Also match secondary fwnode endpoints
+Message-ID: <YsnNvKobdSRQxCKj@pendragon.ideasonboard.com>
+References: <20220709160123.3033324-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220709160123.3033324-1-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 8 Jul 2022 17:55:26 +0200
-Hans de Goede <hdegoede@redhat.com> escreveu:
+Hi Sakari,
 
-> Hi,
-> 
-> On 7/7/22 22:07, Fabio M. De Francesco wrote:
-> > After waiting months, I'm resending three conversions to
-> > kmap_local_page(). I'd like to ask if there is anything which prevents
-> > these patches from being accepted.
-> > 
-> > Please note that these patches were submitted on April 2022.
-> > 
-> > For you convenience here are the links to the patches, the "Reviewed-by:" 
-> > and "Tested-by:" tags:
-> > 
-> > [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
-> > https://lore.kernel.org/lkml/20220413225531.9425-1-fmdefrancesco@gmail.com/
-> > https://lore.kernel.org/lkml/Yli+R7iLZKqO8kVP@iweiny-desk3/
-> > https://lore.kernel.org/lkml/2d096f20-dbaa-1d49-96e9-a7ae6c19f7fe@redhat.com/
-> > 
-> > [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_set()
-> > https://lore.kernel.org/lkml/20220413212210.18494-1-fmdefrancesco@gmail.com/
-> > https://lore.kernel.org/lkml/YldNhErgt53RqYp7@iweiny-desk3/
-> > https://lore.kernel.org/lkml/0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.com/
-> > 
-> > [PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
-> > https://lore.kernel.org/lkml/20220408223129.3844-1-fmdefrancesco@gmail.com/
-> > https://lore.kernel.org/lkml/b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.com/
-> > 
-> > Fabio M. De Francesco (3):
-> >   staging: media: atomisp: Convert kmap() to kmap_local_page()
-> >   staging: media: atomisp: Use kmap_local_page() in hmm_set()
-> >   staging: media: atomisp: Use kmap_local_page() in hmm_store()  
-> 
-> Thanks, the entire series looks good to me:
-> 
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Thank you for the patch.
 
-Yesterday, I applied all pending patches at media-stage, including those. 
-Please check if  everything is ok, as I had to solve some trivial 
-conflicts.
+On Sat, Jul 09, 2022 at 07:01:23PM +0300, Sakari Ailus wrote:
+> For camera sensor devices the firmware information comes from non-DT (or
 
+Did you mean "camera sensor devices whose formation information comes
+from non-DT" ?
+
+> some ACPI variants), the kernel makes the information visible to the
+> drivers in a form similar to DT. This takes place through device's
+> secondary fwnodes, in which case also the secondary fwnode needs to be
+> heterogenously (endpoint vs. device) matched.
+> 
+> Fixes: 1f391df44607 ("media: v4l2-async: Use endpoints in __v4l2_async_nf_add_fwnode_remote()")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> With correct indentation this time.
+> 
+>  drivers/media/v4l2-core/v4l2-async.c | 49 ++++++++++++++++------------
+>  1 file changed, 28 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index c6995718237a4..2db5d7a8af82b 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -66,8 +66,10 @@ static bool match_i2c(struct v4l2_async_notifier *notifier,
+>  #endif
+>  }
+>  
+> -static bool match_fwnode(struct v4l2_async_notifier *notifier,
+> -			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> +static bool
+> +match_fwnode_one(struct v4l2_async_notifier *notifier,
+> +		 struct v4l2_subdev *sd, struct fwnode_handle *sd_fwnode,
+> +		 struct v4l2_async_subdev *asd)
+>  {
+>  	struct fwnode_handle *other_fwnode;
+>  	struct fwnode_handle *dev_fwnode;
+> @@ -75,22 +77,6 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>  	bool sd_fwnode_is_ep;
+>  	struct device *dev;
+>  
+> -	/*
+> -	 * Both the subdev and the async subdev can provide either an endpoint
+> -	 * fwnode or a device fwnode. Start with the simple case of direct
+> -	 * fwnode matching.
+> -	 */
+> -	if (sd->fwnode == asd->match.fwnode)
+> -		return true;
+> -
+> -	/*
+> -	 * Check the same situation for any possible secondary assigned to the
+> -	 * subdev's fwnode
+> -	 */
+> -	if (!IS_ERR_OR_NULL(sd->fwnode->secondary) &&
+> -	    sd->fwnode->secondary == asd->match.fwnode)
+> -		return true;
+
+This check is now gone, is it not needed ?
+
+> -
+>  	/*
+>  	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
+>  	 * endpoint or a device. If they're of the same type, there's no match.
+> @@ -99,7 +85,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>  	 * ACPI. This won't make a difference, as drivers should not try to
+>  	 * match unconnected endpoints.
+>  	 */
+> -	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd->fwnode);
+> +	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd_fwnode);
+>  	asd_fwnode_is_ep = fwnode_graph_is_endpoint(asd->match.fwnode);
+>  
+>  	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
+> @@ -110,11 +96,11 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>  	 * parent of the endpoint fwnode, and compare it with the other fwnode.
+>  	 */
+>  	if (sd_fwnode_is_ep) {
+> -		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
+> +		dev_fwnode = fwnode_graph_get_port_parent(sd_fwnode);
+>  		other_fwnode = asd->match.fwnode;
+>  	} else {
+>  		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
+> -		other_fwnode = sd->fwnode;
+> +		other_fwnode = sd_fwnode;
+>  	}
+>  
+>  	fwnode_handle_put(dev_fwnode);
+> @@ -143,6 +129,27 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>  	return true;
+>  }
+>  
+> +static bool match_fwnode(struct v4l2_async_notifier *notifier,
+> +			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> +{
+> +	/*
+> +	 * Both the subdev and the async subdev can provide either an endpoint
+> +	 * fwnode or a device fwnode. Start with the simple case of direct
+> +	 * fwnode matching.
+> +	 */
+> +	if (sd->fwnode == asd->match.fwnode)
+> +		return true;
+> +
+> +	if (match_fwnode_one(notifier, sd, sd->fwnode, asd))
+> +		return true;
+> +
+> +	/* Also check the secondary fwnode. */
+> +	if (IS_ERR_OR_NULL(sd->fwnode->secondary))
+> +		return false;
+> +
+> +	return match_fwnode_one(notifier, sd, sd->fwnode->secondary, asd);
+> +}
+> +
+>  static LIST_HEAD(subdev_list);
+>  static LIST_HEAD(notifier_list);
+>  static DEFINE_MUTEX(list_lock);
+
+-- 
 Regards,
-Mauro
+
+Laurent Pinchart
