@@ -2,138 +2,368 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CAF556C8E5
-	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 12:15:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CFA256C9AC
+	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 15:51:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229477AbiGIKPA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Jul 2022 06:15:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41274 "EHLO
+        id S229642AbiGINvF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Jul 2022 09:51:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiGIKO7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 06:14:59 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F40BA3CBF4;
-        Sat,  9 Jul 2022 03:14:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AC7AEB819C8;
-        Sat,  9 Jul 2022 10:14:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3137C3411C;
-        Sat,  9 Jul 2022 10:14:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657361696;
-        bh=MaZXRxOK6UJq6NwF+fwB1/nqC7zlw5QYTccaa+9Ayaw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=WsaGeSqiIL5eSPoZZjxC5QZezQPx9Sb47SKeE4YEgd3DsuDB9BJbBu9peP8MZkvrm
-         881Q2qPsk6lrzMghJszE9g24ys0Vn4hoESk/MqSwTba2foYSh4YxLO1VQTLiNGCfrx
-         DQEuc2snQ2fhq5zNkB+WOMZIsJPFB6fULphu6rAscDeKlBjOeAR0fh+po2G9+YKUHm
-         6kNEeqXzfst0hLnvY1VcIGyibDrqZKULauinZbOkpgOGxw8jAhbixZ1KZf9doop/yr
-         ddFSijafi/bbZTH+e4aodsY4GonqVfYayVhMWUybcJBAYMsADymAIfqVxkRecAUmwb
-         lvtey2U7SIpMA==
-Date:   Sat, 9 Jul 2022 11:14:50 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        "Hans Verkuil" <hverkuil@xs4all.nl>
-Subject: Re: [GIT PULL] Linux Media vimc update for 5.20-rc1
-Message-ID: <20220709111450.12e1dd61@sal.lan>
-In-Reply-To: <7e719640-80e6-b3ab-751a-156b8e74d87b@linuxfoundation.org>
-References: <7e719640-80e6-b3ab-751a-156b8e74d87b@linuxfoundation.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        with ESMTP id S229460AbiGINvE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 09:51:04 -0400
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8D4B3C17F;
+        Sat,  9 Jul 2022 06:51:03 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id n9so698316ilq.12;
+        Sat, 09 Jul 2022 06:51:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cMrQxh/P5Iy9K8Q4TNZI4P0CEcaPHRQrvet4cwyCSTA=;
+        b=js+7E5FEvu2Gg7CCR9gM1CdmcGst6Mh9QYoSJZcqtf8l+xWLSfXDeXpCKDztq9hxBE
+         syUfxCsmPMrJ/hiHkxqTmHcUJMLq9+g/P0bfUWmvSqB5xEoQkH5eoXpj6/0aBtVhR7TS
+         VAwqZUXkX9g/7AA9iawNL7oWEwsr4BfLBTiZeIkskVCQpuW/RKIiVeVflq5HnHOy892a
+         TSILiKbHCnhSLseXeHYqfFsxCZSoA3vhFI9vYdmOAOO4zGLSv6FH4bOA3T7Gfvvc3f6q
+         p/FPrv9GIOLyWSHnVf8LlpHW57JOhz6RveDQ6VcNWgjsHrO8hZva2Zmgv+4qSbxfdbKF
+         5sCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cMrQxh/P5Iy9K8Q4TNZI4P0CEcaPHRQrvet4cwyCSTA=;
+        b=U/TnBra3kTVPAJ64sDDnU9kNdF2CT2kf8Pw0dlh25M0VjJSE3j+B5raoEgXJ8tXv6i
+         0KzGAOBrwhqnExYd39Brpgu1ouFlWnM7bjQmO73zIvFdlcVscsrtOBgW1+D5ZaDJTkub
+         s88Wshu+pW8FloQVToa1VpocruyCNdnZ64eAck9EeRVUP1dLtxfqFrIiI+Wz1UdNGubC
+         P3Aw6518REw6MHCcCmdWegAgJNIv8AFZiKs4kkMna11O2bgDKDf2K0443AF1sV1qinS1
+         fNeDCn73vSDVOqde6eN91D/4iXJV0yC9i7oWD2YeAuUd++lqybTJ7aAGY0T6FmOaOU2y
+         EaWA==
+X-Gm-Message-State: AJIora8mJ3JHV8vl9IgGI80rZvtrHdkVEyEp4qwunULxho5z3Gniz61N
+        BslIMhUgkRpeXJwgrlUglzMbFH/oOLUuTQ==
+X-Google-Smtp-Source: AGRyM1uC8/YoqNiUS7Ob5+R2NEN1K6qGviVEMbvn9JwuBR+8Wm7RrMrpu0Q9XQma/COn/fEtN/vyLg==
+X-Received: by 2002:a05:6e02:b21:b0:2dc:6d2d:5a61 with SMTP id e1-20020a056e020b2100b002dc6d2d5a61mr1272502ilu.273.1657374662529;
+        Sat, 09 Jul 2022 06:51:02 -0700 (PDT)
+Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:4a65:3ca1:59ec:e66b])
+        by smtp.gmail.com with ESMTPSA id p133-20020a02298b000000b0033f3e34f3b4sm635441jap.150.2022.07.09.06.51.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Jul 2022 06:51:01 -0700 (PDT)
+From:   Adam Ford <aford173@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     dave.stevenson@raspberrypi.com, mchehab@kernel.org,
+        linux-kernel@vger.kernel.org, Adam Ford <aford173@gmail.com>
+Subject: [PATCH 1/2] media: i2c: imx219: Split common registers from mode tables
+Date:   Sat,  9 Jul 2022 08:50:51 -0500
+Message-Id: <20220709135052.3850913-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shuah,
+There are four modes, and each mode has a table of registers.
+Some of the registers are common to all modes, so create new
+tables for these common registers to reduce duplicate code.
 
-Em Thu, 7 Jul 2022 10:28:37 -0600
-Shuah Khan <skhan@linuxfoundation.org> escreveu:
+Signed-off-by: Adam Ford <aford173@gmail.com>
+---
+V3:  Change some of the comments to better reflect their description
+     Add a few more entries to the imx219_common_regs table.
 
-> Hi Mauro,
-> 
-> Please pull the following vimc update for Linux 5.20-rc1.
-> 
-> This vimc update Linux Media 5.20-rc1 consists of enhancement and
-> cleanup patches:
-> 
-> - add lens to vimc driver and links it with sensors using ancillary
->    links.
-> - add documentation for lens
-> - changes to make the code readable and maintainable.
-> 
-> diff is attached.
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index e10af3f74b38..faa5dab3c2ec 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -145,23 +145,61 @@ struct imx219_mode {
+ 	struct imx219_reg_list reg_list;
+ };
+ 
+-/*
+- * Register sets lifted off the i2C interface from the Raspberry Pi firmware
+- * driver.
+- * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
+- */
+-static const struct imx219_reg mode_3280x2464_regs[] = {
+-	{0x0100, 0x00},
++static const struct imx219_reg imx219_common_regs[] = {
++	{0x0100, 0x00},	/* Mode Select */
++
++	/* To Access Addresses 3000-5fff, send the following commands */
+ 	{0x30eb, 0x0c},
+ 	{0x30eb, 0x05},
+ 	{0x300a, 0xff},
+ 	{0x300b, 0xff},
+ 	{0x30eb, 0x05},
+ 	{0x30eb, 0x09},
+-	{0x0114, 0x01},
+-	{0x0128, 0x00},
+-	{0x012a, 0x18},
++
++	/* PLL Clock Table */
++	{0x0301, 0x05},	/* VTPXCK_DIV */
++	{0x0303, 0x01},	/* VTSYSCK_DIV */
++	{0x0304, 0x03},	/* PREPLLCK_VT_DIV 0x03 = AUTO set */
++	{0x0305, 0x03}, /* PREPLLCK_OP_DIV 0x03 = AUTO set */
++	{0x0306, 0x00},	/* PLL_VT_MPY */
++	{0x0307, 0x39},
++	{0x030b, 0x01},	/* OP_SYS_CLK_DIV */
++	{0x030c, 0x00},	/* PLL_OP_MPY */
++	{0x030d, 0x72},
++
++	/* Undocumented registers */
++	{0x455e, 0x00},
++	{0x471e, 0x4b},
++	{0x4767, 0x0f},
++	{0x4750, 0x14},
++	{0x4540, 0x00},
++	{0x47b4, 0x14},
++	{0x4713, 0x30},
++	{0x478b, 0x10},
++	{0x478f, 0x10},
++	{0x4793, 0x10},
++	{0x4797, 0x0e},
++	{0x479b, 0x0e},
++
++	/* Frame Bank Register Group "A" */
++	{0x0162, 0x0d},	/* Line_Length_A */
++	{0x0163, 0x78},
++	{0x0170, 0x01}, /* X_ODD_INC_A */
++	{0x0171, 0x01}, /* Y_ODD_INC_A */
++
++	/* Output setup registers */
++	{0x0114, 0x01},	/* CSI 2-Lane Mode */
++	{0x0128, 0x00},	/* DPHY Auto Mode */
++	{0x012a, 0x18},	/* EXCK_Freq */
+ 	{0x012b, 0x00},
++};
++
++/*
++ * Register sets lifted off the i2C interface from the Raspberry Pi firmware
++ * driver.
++ * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
++ */
++static const struct imx219_reg mode_3280x2464_regs[] = {
+ 	{0x0164, 0x00},
+ 	{0x0165, 0x00},
+ 	{0x0166, 0x0c},
+@@ -174,53 +212,15 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
+ 	{0x016d, 0xd0},
+ 	{0x016e, 0x09},
+ 	{0x016f, 0xa0},
+-	{0x0170, 0x01},
+-	{0x0171, 0x01},
+-	{0x0174, 0x00},
++	{0x0174, 0x00},	/* No-Binning */
+ 	{0x0175, 0x00},
+-	{0x0301, 0x05},
+-	{0x0303, 0x01},
+-	{0x0304, 0x03},
+-	{0x0305, 0x03},
+-	{0x0306, 0x00},
+-	{0x0307, 0x39},
+-	{0x030b, 0x01},
+-	{0x030c, 0x00},
+-	{0x030d, 0x72},
+ 	{0x0624, 0x0c},
+ 	{0x0625, 0xd0},
+ 	{0x0626, 0x09},
+ 	{0x0627, 0xa0},
+-	{0x455e, 0x00},
+-	{0x471e, 0x4b},
+-	{0x4767, 0x0f},
+-	{0x4750, 0x14},
+-	{0x4540, 0x00},
+-	{0x47b4, 0x14},
+-	{0x4713, 0x30},
+-	{0x478b, 0x10},
+-	{0x478f, 0x10},
+-	{0x4793, 0x10},
+-	{0x4797, 0x0e},
+-	{0x479b, 0x0e},
+-	{0x0162, 0x0d},
+-	{0x0163, 0x78},
+ };
+ 
+ static const struct imx219_reg mode_1920_1080_regs[] = {
+-	{0x0100, 0x00},
+-	{0x30eb, 0x05},
+-	{0x30eb, 0x0c},
+-	{0x300a, 0xff},
+-	{0x300b, 0xff},
+-	{0x30eb, 0x05},
+-	{0x30eb, 0x09},
+-	{0x0114, 0x01},
+-	{0x0128, 0x00},
+-	{0x012a, 0x18},
+-	{0x012b, 0x00},
+-	{0x0162, 0x0d},
+-	{0x0163, 0x78},
+ 	{0x0164, 0x02},
+ 	{0x0165, 0xa8},
+ 	{0x0166, 0x0a},
+@@ -233,49 +233,15 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
+ 	{0x016d, 0x80},
+ 	{0x016e, 0x04},
+ 	{0x016f, 0x38},
+-	{0x0170, 0x01},
+-	{0x0171, 0x01},
+-	{0x0174, 0x00},
++	{0x0174, 0x00},	/* No-Binning */
+ 	{0x0175, 0x00},
+-	{0x0301, 0x05},
+-	{0x0303, 0x01},
+-	{0x0304, 0x03},
+-	{0x0305, 0x03},
+-	{0x0306, 0x00},
+-	{0x0307, 0x39},
+-	{0x030b, 0x01},
+-	{0x030c, 0x00},
+-	{0x030d, 0x72},
+ 	{0x0624, 0x07},
+ 	{0x0625, 0x80},
+ 	{0x0626, 0x04},
+ 	{0x0627, 0x38},
+-	{0x455e, 0x00},
+-	{0x471e, 0x4b},
+-	{0x4767, 0x0f},
+-	{0x4750, 0x14},
+-	{0x4540, 0x00},
+-	{0x47b4, 0x14},
+-	{0x4713, 0x30},
+-	{0x478b, 0x10},
+-	{0x478f, 0x10},
+-	{0x4793, 0x10},
+-	{0x4797, 0x0e},
+-	{0x479b, 0x0e},
+ };
+ 
+ static const struct imx219_reg mode_1640_1232_regs[] = {
+-	{0x0100, 0x00},
+-	{0x30eb, 0x0c},
+-	{0x30eb, 0x05},
+-	{0x300a, 0xff},
+-	{0x300b, 0xff},
+-	{0x30eb, 0x05},
+-	{0x30eb, 0x09},
+-	{0x0114, 0x01},
+-	{0x0128, 0x00},
+-	{0x012a, 0x18},
+-	{0x012b, 0x00},
+ 	{0x0164, 0x00},
+ 	{0x0165, 0x00},
+ 	{0x0166, 0x0c},
+@@ -288,53 +254,15 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+ 	{0x016d, 0x68},
+ 	{0x016e, 0x04},
+ 	{0x016f, 0xd0},
+-	{0x0170, 0x01},
+-	{0x0171, 0x01},
+-	{0x0174, 0x01},
++	{0x0174, 0x01},	/* x2-Binning */
+ 	{0x0175, 0x01},
+-	{0x0301, 0x05},
+-	{0x0303, 0x01},
+-	{0x0304, 0x03},
+-	{0x0305, 0x03},
+-	{0x0306, 0x00},
+-	{0x0307, 0x39},
+-	{0x030b, 0x01},
+-	{0x030c, 0x00},
+-	{0x030d, 0x72},
+ 	{0x0624, 0x06},
+ 	{0x0625, 0x68},
+ 	{0x0626, 0x04},
+ 	{0x0627, 0xd0},
+-	{0x455e, 0x00},
+-	{0x471e, 0x4b},
+-	{0x4767, 0x0f},
+-	{0x4750, 0x14},
+-	{0x4540, 0x00},
+-	{0x47b4, 0x14},
+-	{0x4713, 0x30},
+-	{0x478b, 0x10},
+-	{0x478f, 0x10},
+-	{0x4793, 0x10},
+-	{0x4797, 0x0e},
+-	{0x479b, 0x0e},
+-	{0x0162, 0x0d},
+-	{0x0163, 0x78},
+ };
+ 
+ static const struct imx219_reg mode_640_480_regs[] = {
+-	{0x0100, 0x00},
+-	{0x30eb, 0x05},
+-	{0x30eb, 0x0c},
+-	{0x300a, 0xff},
+-	{0x300b, 0xff},
+-	{0x30eb, 0x05},
+-	{0x30eb, 0x09},
+-	{0x0114, 0x01},
+-	{0x0128, 0x00},
+-	{0x012a, 0x18},
+-	{0x012b, 0x00},
+-	{0x0162, 0x0d},
+-	{0x0163, 0x78},
+ 	{0x0164, 0x03},
+ 	{0x0165, 0xe8},
+ 	{0x0166, 0x08},
+@@ -347,35 +275,12 @@ static const struct imx219_reg mode_640_480_regs[] = {
+ 	{0x016d, 0x80},
+ 	{0x016e, 0x01},
+ 	{0x016f, 0xe0},
+-	{0x0170, 0x01},
+-	{0x0171, 0x01},
+-	{0x0174, 0x03},
++	{0x0174, 0x03},	/* x2-analog binning */
+ 	{0x0175, 0x03},
+-	{0x0301, 0x05},
+-	{0x0303, 0x01},
+-	{0x0304, 0x03},
+-	{0x0305, 0x03},
+-	{0x0306, 0x00},
+-	{0x0307, 0x39},
+-	{0x030b, 0x01},
+-	{0x030c, 0x00},
+-	{0x030d, 0x72},
+ 	{0x0624, 0x06},
+ 	{0x0625, 0x68},
+ 	{0x0626, 0x04},
+ 	{0x0627, 0xd0},
+-	{0x455e, 0x00},
+-	{0x471e, 0x4b},
+-	{0x4767, 0x0f},
+-	{0x4750, 0x14},
+-	{0x4540, 0x00},
+-	{0x47b4, 0x14},
+-	{0x4713, 0x30},
+-	{0x478b, 0x10},
+-	{0x478f, 0x10},
+-	{0x4793, 0x10},
+-	{0x4797, 0x0e},
+-	{0x479b, 0x0e},
+ };
+ 
+ static const struct imx219_reg raw8_framefmt_regs[] = {
+@@ -1041,6 +946,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	/* Send all registers that are common to all modes */
++	ret = imx219_write_regs(imx219, imx219_common_regs, ARRAY_SIZE(imx219_common_regs));
++	if (ret) {
++		dev_err(&client->dev, "%s failed to send mfg header\n", __func__);
++		goto err_rpm_put;
++	}
++
+ 	/* Apply default values of current mode */
+ 	reg_list = &imx219->mode->reg_list;
+ 	ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
+-- 
+2.34.1
 
-Please also send the patches individually to the media ML, as reviews
-happen using them.
-
-Hans,
-
-Please let me know if you prefer to apply those on your tree, or if
-I should apply on mine a couple of days after Shuah post the patches
-at the ML.
-
-Regards,
-Mauro
-
-> 
-> thanks,
-> -- Shuah
-> 
-> ----------------------------------------------------------------
-> The following changes since commit 03c765b0e3b4cb5063276b086c76f7a612856a9a:
-> 
->    Linux 5.19-rc4 (2022-06-26 14:22:10 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux tags/linux-vimc-5.20-rc1
-> 
-> for you to fetch changes up to 55c592e9cff59e0d1c4069b7fe649b02ddf6c36b:
-> 
->    media: vimc: documentation for lens (2022-06-29 12:58:21 -0600)
-> 
-> ----------------------------------------------------------------
-> linux-media-vimc-5.20-rc1
-> 
-> This vimc update Linux Media 5.20-rc1 consists of enhancement and
-> cleanup patches:
-> 
-> - add lens to vimc driver and links it with sensors using ancillary
->    links.
-> - add documentation for lens
-> - changes to make the code readable and maintainable.
-> 
-> ----------------------------------------------------------------
-> Daniel Oakley (3):
->        media: vimc: expand the names of vimc entity types
->        media: vimc: enumerate data link entities for clarity
->        media: vimc: use data link entities enum to index the ent_config array
-> 
-> Yunke Cao (2):
->        media: vimc: add ancillary lens
->        media: vimc: documentation for lens
-> 
->   Documentation/admin-guide/media/vimc.dot       |   4 +
->   Documentation/admin-guide/media/vimc.rst       |  19 ++
->   drivers/media/test-drivers/vimc/Makefile       |   2 +-
->   drivers/media/test-drivers/vimc/vimc-capture.c | 270 ++++++++---------
->   drivers/media/test-drivers/vimc/vimc-common.h  |   9 +-
->   drivers/media/test-drivers/vimc/vimc-core.c    | 142 ++++++---
->   drivers/media/test-drivers/vimc/vimc-debayer.c | 393 +++++++++++++------------
->   drivers/media/test-drivers/vimc/vimc-lens.c    | 102 +++++++
->   drivers/media/test-drivers/vimc/vimc-scaler.c  | 216 +++++++-------
->   drivers/media/test-drivers/vimc/vimc-sensor.c  | 307 +++++++++----------
->   10 files changed, 830 insertions(+), 634 deletions(-)
->   create mode 100644 drivers/media/test-drivers/vimc/vimc-lens.c
-> ----------------------------------------------------------------
