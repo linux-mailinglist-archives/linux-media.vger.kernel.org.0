@@ -2,94 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD87056C6EC
-	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 06:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD1956C7B0
+	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 09:31:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbiGIEot (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Jul 2022 00:44:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40728 "EHLO
+        id S229505AbiGIHbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Jul 2022 03:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiGIEor (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 00:44:47 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A117A3CBDB
-        for <linux-media@vger.kernel.org>; Fri,  8 Jul 2022 21:44:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 393E1B8255E
-        for <linux-media@vger.kernel.org>; Sat,  9 Jul 2022 04:44:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CF4CC3411C
-        for <linux-media@vger.kernel.org>; Sat,  9 Jul 2022 04:44:42 +0000 (UTC)
-Date:   Sat, 09 Jul 2022 06:44:40 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        with ESMTP id S229379AbiGIHbO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 03:31:14 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A0046A9C1
+        for <linux-media@vger.kernel.org>; Sat,  9 Jul 2022 00:31:13 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id j22so1113196ejs.2
+        for <linux-media@vger.kernel.org>; Sat, 09 Jul 2022 00:31:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DkJh6K/gynycKlJ+AKKxc0fFpl6fhu5Jh+eT0rsme6s=;
+        b=k8ulsJfM544DWa6loULmnoy61LP9WGL4U6hsYsNIWOZXhic5StElgfgOxOiZTM9JoL
+         j93qYf3uGR1mpXL2OUNKJXy2LcIJTVn6TkRcv6c8hVnHa3ejsVYTTZtTJhjgp4JJD5Bs
+         oxMlLg3JfGcdyETgkMH9aezsFVXwBCd5kuQxQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DkJh6K/gynycKlJ+AKKxc0fFpl6fhu5Jh+eT0rsme6s=;
+        b=ythtx0Gn9BT5sRkpnLVY0b+AWc24pDSTD9R5H+GrQQIMJCLiiw1NdS6AgVPl08XlmL
+         eUmSp+CG0Fi3ab12SEoo86iANkQ42i2vUH2q5DL+Q0MC9Yn47JjS40Lt0vPxNcRIYaxM
+         OV1mH3EwmGS5lSfHaCyoJlEx47Bc28zk1fwLc75Nay3U+1swiwQWYVQLFTvx8JSDbB29
+         BiIz9OMcG/7MJSTnDLcOXiP0oLDlV/15E/FoclxjK9oDNzAlQez2Z1LDmtpfauCglaeK
+         3t407qR61KA7Qtis9TXEFSjYi5ZXnIL4fncRPGv/+ZiyO/4A6MSn31RUeaLGClMqKzSg
+         VpeA==
+X-Gm-Message-State: AJIora9AJUQQ4u603kxbzXx8qf3aoOZL4Ag8KE+0Nrr5x13k+89weLQE
+        uCTnUKXhYDZaDorZqgcNEJehRu+p0UlkXw==
+X-Google-Smtp-Source: AGRyM1u8XQp1SNJkt0Zbmr+RkAO+a8YE25NrODr0PwPtctp4KQZYHfjC8Vss0a3sctuX9WF+S1mpfA==
+X-Received: by 2002:a17:907:2c67:b0:72b:17ae:c721 with SMTP id ib7-20020a1709072c6700b0072b17aec721mr7528521ejc.557.1657351871586;
+        Sat, 09 Jul 2022 00:31:11 -0700 (PDT)
+Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id f10-20020a05640214ca00b0043a09f6fc24sm520248edx.47.2022.07.09.00.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Jul 2022 00:31:11 -0700 (PDT)
+From:   Petko Manolov <petko.manolov@konsulko.com>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20220709044442.7CF4CC3411C@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Cc:     laurent.pinchart@ideasonboard.com,
+        Petko Manolov <petko.manolov@konsulko.com>
+Subject: [PATCH v1 0/1] staging: media: imx: imx7-media-csi: Increase video mem limit
+Date:   Sat,  9 Jul 2022 10:30:59 +0300
+Message-Id: <20220709073100.158374-1-petko.manolov@konsulko.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Some high resolution sensors require larger amounts of RAM than the default
+IMX7_CSI_VIDEO_MEM_LIMIT value.  Increasing it to 512MB so IMX492 and such can
+run in 8192x5556 mode.
 
-Results of the daily build of media_tree:
+Based on git://linuxtv.org/pinchartl/media.git tags/imx7-next-20220707
 
-date:			Sat Jul  9 05:00:08 CEST 2022
-media-tree git hash:	e670f5d672ef3d00b0b8c69eff09a019e6dd4ef9
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	33ad0c66db3aac8a9d72864ac84a2fb65d7a6878
-edid-decode git hash:	582c935652b0303b87ddad4551e6f97f8bb883ac
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8093-gc82b58a1-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d4d7757a52e4d94afde49d3080442d11dda83573
-host hardware:		x86_64
-host os:		5.18.0-2-amd64
+Petko Manolov (1):
+  staging: media: imx: imx7-media-csi: Increase video mem limit
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_AR0521
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 3
-sparse: OK
-smatch: ERRORS
-kerneldoc: OK
+ drivers/staging/media/imx/imx7-media-csi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Detailed results are available here:
+-- 
+2.30.2
 
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
