@@ -2,168 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4776256CB1E
-	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 20:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBBBD56CB3D
+	for <lists+linux-media@lfdr.de>; Sat,  9 Jul 2022 21:14:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229503AbiGISuE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Jul 2022 14:50:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58656 "EHLO
+        id S229582AbiGITOt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Jul 2022 15:14:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiGISuD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 14:50:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A5111479
-        for <linux-media@vger.kernel.org>; Sat,  9 Jul 2022 11:50:01 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4FABE47C;
-        Sat,  9 Jul 2022 20:49:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657392599;
-        bh=9HHbUwSL+h2RgS9FN4hhw3wyTeWo+6vYu9kbvJ2z7D8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CTuetifGr8GRjlUKAiqRdrxp5UFZ2T6z/xV+yZlYW0HRXxRbZopgozoo6xzIqjL1h
-         j/5qD3pR/1XDy7VWRoTRck2A05qzodZFi9FZ5LRTIIRaMWEbp9WiFf+NFvx8Q+lZZU
-         SH3P5FX80Bfre4Wy5Pt9hfhRMEnfYM5FRRP2V54I=
-Date:   Sat, 9 Jul 2022 21:49:32 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, djrscally@gmail.com,
-        mchehab@kernel.org
-Subject: Re: [PATCH v2 1/1] v4l: async: Also match secondary fwnode endpoints
-Message-ID: <YsnNvKobdSRQxCKj@pendragon.ideasonboard.com>
-References: <20220709160123.3033324-1-sakari.ailus@linux.intel.com>
+        with ESMTP id S229587AbiGITOs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Jul 2022 15:14:48 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 201D52229D
+        for <linux-media@vger.kernel.org>; Sat,  9 Jul 2022 12:14:47 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id a21so1231113qtw.10
+        for <linux-media@vger.kernel.org>; Sat, 09 Jul 2022 12:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=yFjPBwfof55JxbmPqLU/8pTY0KXsIbs+GUr373EysuM=;
+        b=aPW2jAvVmuhNLR+c5htyB+zDi4OnTDULd1fxcN3eSTbHwJNEOOJgmj3fTYWk7vHHCh
+         l1fvjuAxY3beLoJuryNCjix4noRjXUJ96flcnt0Ag3b/W7KNFAm6awKYiAo5K47q8kWt
+         MeFmGc9M8gY62wmfmmi0RFya1KWEiH8+8MA4GFRapC/d8t8rVojKnISibCYnqA3uIC9n
+         OPokFty2m5Y+Xj/czcYf58YtbU8T9JXUP4t4rrmkkaMmP4OIbOeI4cVOaGhhAia+7wfo
+         rXUbuw846m1yySMZtfQrB/2vW8Mtx5yT0sCSD4sS3Ihg0txQGl/NxBD/U+Hb53LHRXY1
+         dNlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=yFjPBwfof55JxbmPqLU/8pTY0KXsIbs+GUr373EysuM=;
+        b=Y3ihFiqktg9kIjUC0lFSWNzT2ddPmjoEez0b7CHhRD+68Ac6rHIsT7K3wUC5MzE60N
+         EI19fM01oc4KqE8+fixlHGPJqsfwXTUNA41LFgSlNI1t7jAO7sXsQ0MLQsCnpu/1B/DK
+         OQHUeuzZW80x1HEhcm06UdDWcYFaSyPxLW1NpNl1kk/HCRyxoml2DyUjjhfVEq34LLOM
+         pRhZECGVOFteHLv9YABZ88NZKXoqBr9quPy6Z4RmpsOYzCqXvUNnEAED2bBn4tgVHDAX
+         SKp6jlIXq8eTAakKxV2oybD87CjFfKQPRDNKzsWv2MPdiBFUlJgyv+g8dlBN/5fiw8ox
+         6mqQ==
+X-Gm-Message-State: AJIora+dPgTkHmLTyGHlq7pzNDprUGDV17x3p73wqYv44+WfubtpkDj0
+        qZBWrAiGGZhWDacu1klqqi2Q0IT3i0ZS6DTj9rk=
+X-Google-Smtp-Source: AGRyM1s8Uc00XbGXmfBqcFMckxxCmi4IWvyOr3ucunfbRWdYVZlLl2PNQoJuWPow7udoUHd+a9F0Wn05n+xiL+FYTck=
+X-Received: by 2002:a05:622a:490:b0:31d:2a47:c221 with SMTP id
+ p16-20020a05622a049000b0031d2a47c221mr8350459qtx.212.1657394086000; Sat, 09
+ Jul 2022 12:14:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220709160123.3033324-1-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6214:1d2f:0:0:0:0 with HTTP; Sat, 9 Jul 2022 12:14:45
+ -0700 (PDT)
+Reply-To: stanleydenford100@gmail.com
+From:   Stanley Denford <sanjosarees@gmail.com>
+Date:   Sat, 9 Jul 2022 12:14:45 -0700
+Message-ID: <CAMXaW2gae6RAtp72J5LXGYzLEfkMuOjz02J257wSZbQ6xT4MmQ@mail.gmail.com>
+Subject: Good day
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Sat, Jul 09, 2022 at 07:01:23PM +0300, Sakari Ailus wrote:
-> For camera sensor devices the firmware information comes from non-DT (or
-
-Did you mean "camera sensor devices whose formation information comes
-from non-DT" ?
-
-> some ACPI variants), the kernel makes the information visible to the
-> drivers in a form similar to DT. This takes place through device's
-> secondary fwnodes, in which case also the secondary fwnode needs to be
-> heterogenously (endpoint vs. device) matched.
-> 
-> Fixes: 1f391df44607 ("media: v4l2-async: Use endpoints in __v4l2_async_nf_add_fwnode_remote()")
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> With correct indentation this time.
-> 
->  drivers/media/v4l2-core/v4l2-async.c | 49 ++++++++++++++++------------
->  1 file changed, 28 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index c6995718237a4..2db5d7a8af82b 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -66,8 +66,10 @@ static bool match_i2c(struct v4l2_async_notifier *notifier,
->  #endif
->  }
->  
-> -static bool match_fwnode(struct v4l2_async_notifier *notifier,
-> -			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> +static bool
-> +match_fwnode_one(struct v4l2_async_notifier *notifier,
-> +		 struct v4l2_subdev *sd, struct fwnode_handle *sd_fwnode,
-> +		 struct v4l2_async_subdev *asd)
->  {
->  	struct fwnode_handle *other_fwnode;
->  	struct fwnode_handle *dev_fwnode;
-> @@ -75,22 +77,6 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  	bool sd_fwnode_is_ep;
->  	struct device *dev;
->  
-> -	/*
-> -	 * Both the subdev and the async subdev can provide either an endpoint
-> -	 * fwnode or a device fwnode. Start with the simple case of direct
-> -	 * fwnode matching.
-> -	 */
-> -	if (sd->fwnode == asd->match.fwnode)
-> -		return true;
-> -
-> -	/*
-> -	 * Check the same situation for any possible secondary assigned to the
-> -	 * subdev's fwnode
-> -	 */
-> -	if (!IS_ERR_OR_NULL(sd->fwnode->secondary) &&
-> -	    sd->fwnode->secondary == asd->match.fwnode)
-> -		return true;
-
-This check is now gone, is it not needed ?
-
-> -
->  	/*
->  	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
->  	 * endpoint or a device. If they're of the same type, there's no match.
-> @@ -99,7 +85,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  	 * ACPI. This won't make a difference, as drivers should not try to
->  	 * match unconnected endpoints.
->  	 */
-> -	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd->fwnode);
-> +	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd_fwnode);
->  	asd_fwnode_is_ep = fwnode_graph_is_endpoint(asd->match.fwnode);
->  
->  	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
-> @@ -110,11 +96,11 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  	 * parent of the endpoint fwnode, and compare it with the other fwnode.
->  	 */
->  	if (sd_fwnode_is_ep) {
-> -		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
-> +		dev_fwnode = fwnode_graph_get_port_parent(sd_fwnode);
->  		other_fwnode = asd->match.fwnode;
->  	} else {
->  		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
-> -		other_fwnode = sd->fwnode;
-> +		other_fwnode = sd_fwnode;
->  	}
->  
->  	fwnode_handle_put(dev_fwnode);
-> @@ -143,6 +129,27 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  	return true;
->  }
->  
-> +static bool match_fwnode(struct v4l2_async_notifier *notifier,
-> +			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> +{
-> +	/*
-> +	 * Both the subdev and the async subdev can provide either an endpoint
-> +	 * fwnode or a device fwnode. Start with the simple case of direct
-> +	 * fwnode matching.
-> +	 */
-> +	if (sd->fwnode == asd->match.fwnode)
-> +		return true;
-> +
-> +	if (match_fwnode_one(notifier, sd, sd->fwnode, asd))
-> +		return true;
-> +
-> +	/* Also check the secondary fwnode. */
-> +	if (IS_ERR_OR_NULL(sd->fwnode->secondary))
-> +		return false;
-> +
-> +	return match_fwnode_one(notifier, sd, sd->fwnode->secondary, asd);
-> +}
-> +
->  static LIST_HEAD(subdev_list);
->  static LIST_HEAD(notifier_list);
->  static DEFINE_MUTEX(list_lock);
-
 -- 
-Regards,
+Good day, How are you doing today
 
-Laurent Pinchart
+I am Stanley Denford, a Client Relations officer. I got your name and
+contact information in my quest for her existing extended family, I am
+writing to you on highly confidential grounds with mutual benefit in
+respect to the estate of Frances...
+
+The estate is worth millions of Dollars.I'd appreciate it if you get back
+to me by confirming to me if this medium is safe and confidential enough to
+enable me divulge to you details on why I contacted you.
+
+Regards,
+Stanley Denford
