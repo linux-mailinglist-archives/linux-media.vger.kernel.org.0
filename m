@@ -2,160 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3062F56CE07
-	for <lists+linux-media@lfdr.de>; Sun, 10 Jul 2022 10:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4879D56CE60
+	for <lists+linux-media@lfdr.de>; Sun, 10 Jul 2022 11:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbiGJImd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Jul 2022 04:42:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54324 "EHLO
+        id S229568AbiGJJTW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 10 Jul 2022 05:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbiGJImT (ORCPT
+        with ESMTP id S229505AbiGJJTV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Jul 2022 04:42:19 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0045193EF
-        for <linux-media@vger.kernel.org>; Sun, 10 Jul 2022 01:42:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657442534; x=1688978534;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LPs3GoQwRQEe8O2XnjKksjntHcvzai+LCTiiFyQqvd4=;
-  b=H/Oyvng4rRJHIZiUHzEJVGRGcz10itOQj8FN6SbVhHVddR2pZakXTwzl
-   P5Ebe97B2iuokHB9MYO0M2PzwJtYcZ4Z8ms2iUwHuOlZylAx14wNhr4TU
-   EA8yVGELeYUX/aL3NiWthXNZnBZVsV3dAAhyvj4kaAUot4lxGWpb/piW9
-   QqCVYwjwogag1QqCgRM9p9pNsHwaYZGLITFkQaphG3+zaniqQXFxVCBkP
-   v38LhalkbuMbgEmnZcFrwr5Z+fPNmp43f8bPHpuDQvt3d/LBuBbl7tDEJ
-   fI0XM0zKZe2mZxJhZtezIKMLUs8hH7Xc8EYKadQJNJMPHWjq3WN+7q/X+
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10403"; a="285620469"
-X-IronPort-AV: E=Sophos;i="5.92,260,1650956400"; 
-   d="scan'208";a="285620469"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2022 01:42:13 -0700
-X-IronPort-AV: E=Sophos;i="5.92,260,1650956400"; 
-   d="scan'208";a="771215654"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2022 01:42:12 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 907C6201C5;
-        Sun, 10 Jul 2022 11:42:10 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1oASY4-00Cmyw-GI; Sun, 10 Jul 2022 11:44:16 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, djrscally@gmail.com,
-        mchehab@kernel.org
-Subject: [PATCH v3 1/1] v4l: async: Also match secondary fwnode endpoints
-Date:   Sun, 10 Jul 2022 11:44:16 +0300
-Message-Id: <20220710084416.3048177-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+        Sun, 10 Jul 2022 05:19:21 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A83CE02C
+        for <linux-media@vger.kernel.org>; Sun, 10 Jul 2022 02:19:20 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oAT5y-004n3g-5U; Sun, 10 Jul 2022 09:19:18 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oAT5w-000gFO-9t; Sun, 10 Jul 2022 09:19:15 +0000
+Date:   Sun, 10 Jul 2022 09:19:14 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1969408593.0.1657444755522@builder.linuxtv.org>
+In-Reply-To: <1130806832.0.1657358355185@builder.linuxtv.org>
+References: <1130806832.0.1657358355185@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3955
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For camera sensor devices the firmware information of which comes from
-non-DT (or some ACPI variants), the kernel makes the information visible
-to the drivers in a form similar to DT. This takes place through device's
-secondary fwnodes, in which case also the secondary fwnode needs to be
-heterogenously (endpoint vs. device) matched.
+See <https://builder.linuxtv.org/job/media-build/3955/display/redirect>
 
-Fixes: 1f391df44607 ("media: v4l2-async: Use endpoints in __v4l2_async_nf_add_fwnode_remote()")
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-since v2:
+Changes:
 
-- Also check direct match with secondary fwnode.
 
- drivers/media/v4l2-core/v4l2-async.c | 35 +++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 14 deletions(-)
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+Commit message: "versions.txt: IMON builds for 4.11 and up only"
+ > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3954' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
+[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@5d8dd19f'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins17644852836268730244.sh
++ make distclean
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
+	config-compat.h Module.symvers Module.markers modules.order \
+	*.unsigned .*.ko.unsigned.cmd
+rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
+	Kconfig Kconfig.kern .config .config.cmd .myconfig \
+	.kconfig.dep config-mycompat.h
+rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
+rm -f scripts/lxdialog scripts/kconfig
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
 
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index c6995718237a4..b16f3ce8e5ef1 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -66,8 +66,10 @@ static bool match_i2c(struct v4l2_async_notifier *notifier,
- #endif
- }
- 
--static bool match_fwnode(struct v4l2_async_notifier *notifier,
--			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-+static bool
-+match_fwnode_one(struct v4l2_async_notifier *notifier,
-+		 struct v4l2_subdev *sd, struct fwnode_handle *sd_fwnode,
-+		 struct v4l2_async_subdev *asd)
- {
- 	struct fwnode_handle *other_fwnode;
- 	struct fwnode_handle *dev_fwnode;
-@@ -80,15 +82,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
- 	 * fwnode or a device fwnode. Start with the simple case of direct
- 	 * fwnode matching.
- 	 */
--	if (sd->fwnode == asd->match.fwnode)
--		return true;
--
--	/*
--	 * Check the same situation for any possible secondary assigned to the
--	 * subdev's fwnode
--	 */
--	if (!IS_ERR_OR_NULL(sd->fwnode->secondary) &&
--	    sd->fwnode->secondary == asd->match.fwnode)
-+	if (sd_fwnode == asd->match.fwnode)
- 		return true;
- 
- 	/*
-@@ -99,7 +93,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
- 	 * ACPI. This won't make a difference, as drivers should not try to
- 	 * match unconnected endpoints.
- 	 */
--	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd->fwnode);
-+	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd_fwnode);
- 	asd_fwnode_is_ep = fwnode_graph_is_endpoint(asd->match.fwnode);
- 
- 	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
-@@ -110,11 +104,11 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
- 	 * parent of the endpoint fwnode, and compare it with the other fwnode.
- 	 */
- 	if (sd_fwnode_is_ep) {
--		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
-+		dev_fwnode = fwnode_graph_get_port_parent(sd_fwnode);
- 		other_fwnode = asd->match.fwnode;
- 	} else {
- 		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
--		other_fwnode = sd->fwnode;
-+		other_fwnode = sd_fwnode;
- 	}
- 
- 	fwnode_handle_put(dev_fwnode);
-@@ -143,6 +137,19 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
- 	return true;
- }
- 
-+static bool match_fwnode(struct v4l2_async_notifier *notifier,
-+			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-+{
-+	if (match_fwnode_one(notifier, sd, sd->fwnode, asd))
-+		return true;
-+
-+	/* Also check the secondary fwnode. */
-+	if (IS_ERR_OR_NULL(sd->fwnode->secondary))
-+		return false;
-+
-+	return match_fwnode_one(notifier, sd, sd->fwnode->secondary, asd);
-+}
-+
- static LIST_HEAD(subdev_list);
- static LIST_HEAD(notifier_list);
- static DEFINE_MUTEX(list_lock);
--- 
-2.30.2
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2022-07-10 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2022-07-10 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  206M=0s
+
+2022-07-10 09:19:10 (206 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
