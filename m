@@ -2,214 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 431F756FEC6
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 12:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A469956FEFB
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 12:34:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230243AbiGKKWV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 06:22:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41478 "EHLO
+        id S230146AbiGKKeM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 06:34:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230258AbiGKKVx (ORCPT
+        with ESMTP id S230265AbiGKKdp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 06:21:53 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A9708238B;
-        Mon, 11 Jul 2022 02:37:08 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id DD15820012;
-        Mon, 11 Jul 2022 09:37:00 +0000 (UTC)
-Date:   Mon, 11 Jul 2022 11:36:59 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
-        quentin.schulz@theobroma-systems.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] media: dt-bindings: ov5693: document YAML binding
-Message-ID: <20220711093659.mf7i4uqtrejtfong@uno.localdomain>
-References: <20220630134835.592521-1-tommaso.merciai@amarulasolutions.com>
- <20220630134835.592521-6-tommaso.merciai@amarulasolutions.com>
+        Mon, 11 Jul 2022 06:33:45 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A29A0269
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 02:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657532648; x=1689068648;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Oe/XODLv1UaxdK3Sbwj3NNq6O7UMtWycoDr8lsimQ5Y=;
+  b=CrgiBCVfFe7xITgKdhjxDyFT/e3YtQl1o9z/tUkeAt6e946zNCsnHy3+
+   0LNPC6gWIJn0m7nsj+rFGDPiLBWYf59FgLOAbvZlxKX4mhucX0/aYJq0s
+   f+MoAdbDh1iateez+DK7v3eNps7RRlooUQb7S5E3DIC9E6Q9C2RNaN+nQ
+   QsN/2vsyhGl80b6lNhYhDbYM0evpvElh5GIfFU+CSxdqFpN6dbsX3O0i8
+   WV1VNIThM68ZYdAXP18M6MYjdP0iN9Tq5iL+i+UyYTDeBuG2s+SGoQbra
+   16/gp7P9OEoUw2nhP6M0avibYaL7Kel9daBrSq8fiuhYg4NsNRJPXhZ/Q
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10404"; a="310222195"
+X-IronPort-AV: E=Sophos;i="5.92,262,1650956400"; 
+   d="scan'208";a="310222195"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 02:44:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,262,1650956400"; 
+   d="scan'208";a="737032843"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2022 02:44:06 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 11 Jul 2022 02:44:06 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Mon, 11 Jul 2022 02:44:06 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Mon, 11 Jul 2022 02:44:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UdoVSPibK4p8fPsT05V8uhUueHUkpb37gqMbWholAXsLSVueI6YtC7KiBqcy3oNq/3mQ04yjES7xdJfs8zyIQMhAuQRIkZja0Y7tRqmHQcwIjkq7GruWrJCTWw8R1Uy9koDijwew21m/Z6gYbwgs1dBlXxc5Nql4fsR3jy9LqPke9sy328xZkYvs26jR325fIjyr+SiXG7woelSQq4fk+Z2AKRKe0IEcKZjHRtXlpLWpgAnHq+9QPKJz1cjywVo7F4Vu3/kctlOGyxgbEFan23iXK/7F+lqEVMiwVeQTMZSWqKQ7MfU0iibjtGh/Efi/KlHUm7u/qtA9QVBMNaSlcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=307eZTO2gMa6iqwCdOgV2YwpZY1M4wMqgMAkW9Y/oBU=;
+ b=eFbF3Z6F5H6lJvpXwh4AmokuFcZVXjBZ5YYSBkziRw9+7WoocyGWSYJfCn1tvoLZK3gCpbrmuqHI0J3lhAZIjH9W0owLJh8fjkBQ5QBQwD+P3YpNRsSUL60baSbf5UjYk+MF5uXUtBpLGYgEKYA86SOT9q7dnyyVOSJAqGQsjYffuhU1qEeV7JGKNb/lKMusy6jIsO0UTWXxWg4CrLlhvmvbvMSmIflOFzen3bptsAUOUfIIkhMeb/lVCSckW9LfPsSfYssVpzvlVjmGEZpzoOGJvTsT8nvFn55JRkP/m9k3+ll2YyuXRLALN4xADfC28f4TQ4/RBSN3QeapGn1jdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
+ by SN6PR11MB3280.namprd11.prod.outlook.com (2603:10b6:805:bb::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.21; Mon, 11 Jul
+ 2022 09:44:05 +0000
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::d84a:6462:d08d:d35a]) by BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::d84a:6462:d08d:d35a%4]) with mapi id 15.20.5417.026; Mon, 11 Jul 2022
+ 09:44:04 +0000
+Message-ID: <f67d23e2-3953-7717-9c41-65075929525c@intel.com>
+Date:   Mon, 11 Jul 2022 11:44:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 3/5] dma-buf: return only unsignaled fences in
+ dma_fence_unwrap_for_each v3
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+CC:     <daniel@ffwll.ch>, <linaro-mm-sig@lists.linaro.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20220506141009.18047-1-christian.koenig@amd.com>
+ <20220506141009.18047-3-christian.koenig@amd.com>
+From:   Karolina Drobnik <karolina.drobnik@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20220506141009.18047-3-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM6P195CA0065.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:209:87::42) To BY5PR11MB4243.namprd11.prod.outlook.com
+ (2603:10b6:a03:1c8::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220630134835.592521-6-tommaso.merciai@amarulasolutions.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: be77f56e-227b-4b3e-abbc-08da6321e49c
+X-MS-TrafficTypeDiagnostic: SN6PR11MB3280:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qBYn98tWkFrRsUp3pOpsqZqfPMypYxogcl5wK4H7Dudw1D5qOVX3BsUk66+ksaTGp9ZxfmPXScfaavjKr48CcwUo3gN9mrzdhM/Dh3ihI3NkMHbK6SzMaS2lwIBlrew/sal5N7QM7vuy7zzHgGLnxkIHWuqg1lnsVxaxgZz0elmxgBccaRrbWlwTquaH7Rd5et+bScO4gm3jUAaQiqSzyoIvRdbRsS9fxP2VTSM0yz7i1H1jGqi6ZJfoe5VMOpJUeVArctBsHENO6ApaMrkuiCF3Axn4XdWg5tde2FoJPuRGUibPXeeFkL3mxubYx1IDYwdPJgQwg/teQqSTcBU25eOnfu0o8QXLgCjohCks6MJKrztbIKCRci6f9Uv6IYOGpfOBfDI273JiMwxFYx3xtl15mj/ZrKmm9esr8M2aPpucVOZX/xaAfyHHBO/rvpgqkpL1fCGqbAvoohhn3dnebc44X/yfe3hE8XLFooRqW3MnsYDoAO6voqG7dcQwuXQCdV2Kv6JvTfKW0p0rJAwq/7pSOdBLjKT51bDlXUp/SyWBRgvMgrCtKMjoR4h1kNY+d5OngFy8ivzPGp4ruZerYi4faXxeszIunUSmBYxFgtjJ7Wxi6lu7k6k4E6oMj22N96hny8aJPS2/Q45L1KF82YUu2oDp4eQoTtKT15Mfjft2WnVvhgMjNtS8LrGkS4vLG4+vE2MM9pneVr5vO2hNPP0aO1MxMfUkmhldOMjv7Vd7CFylwwNcDg6R+wdU/ir0zScqFeyagNCdQHkYD53up1lvcJBZa+AwvbtItSFS9nic7F24JJ7KGUI+9jxjHZLZxHUDHh6i8RQAluBKvT6E/gX+8gkWqMFMFIR71gJ4dck=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4243.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(376002)(396003)(366004)(39860400002)(346002)(136003)(5660300002)(8936002)(478600001)(966005)(53546011)(186003)(26005)(6512007)(86362001)(2616005)(6486002)(66574015)(31696002)(2906002)(41300700001)(44832011)(6506007)(83380400001)(66946007)(36916002)(8676002)(4326008)(66556008)(38100700002)(36756003)(82960400001)(66476007)(6916009)(316002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?azc3cy96T0I0L3Z1UTQ2dzdVQTQxY1crdWRkZC9zckdmbVd6RWo2QWlVTG40?=
+ =?utf-8?B?akl6WTZnbUptT0VlaFIybnhRUUl4ZEtqT2RYaGZIeHVHN3Nld3JEVERvSVl4?=
+ =?utf-8?B?bm82M1lSVkd4YzhzN204MENTNWE0R2ZacVZsZDJYeElibUtOZWczb1Z0NTJH?=
+ =?utf-8?B?WXdsek9yaVlObVZXN0xBZVMwVHF3dWhPdDZnTnZwRTdrQnRmK1JLMW5xR2dM?=
+ =?utf-8?B?MUJsVE5RVmdNT0M5YjBiU3JrZmozNXh3T3lJZHNnT1B0MVNPajBGbWlBVUNM?=
+ =?utf-8?B?aUd6YzBuKzdUbm9iS3BZZk9SZ1VkZ2RUNk04bXJHS0RsYnBrWTF4bW5OeXo4?=
+ =?utf-8?B?Z1J6amsyVXJBZ3JYOG5IL09MR2poSEk1eFduTXpVd3NPUmI1WVBOem1KV201?=
+ =?utf-8?B?OUZOMHA2Y1BSRVlQb05EMU1CUldoQUZ3RDE1eU1jVk0wdXZicVNQSFBqbHZH?=
+ =?utf-8?B?R01ZYXZMelJlVTNiMkE1dUtJQzhhSzcxN0ZaMytHeXR4SSt2ZEt0YlNxK1or?=
+ =?utf-8?B?ODl2dkVDVEliQ3NYMjVHemFUbW9mNXRhY1lFWVZkZGhmSHBDT1N0RHBSMXND?=
+ =?utf-8?B?SlhyeHJvY0pybnhjRXdtSGxyK2VhbVRCaHRVeUNZejkyV2FTNTFxcGJ2OHIw?=
+ =?utf-8?B?K2l0NFpMclEvSzJPL09zV01rNUpDaDVzREVUVEdFU3p0djJxcnFIWWxEWU9H?=
+ =?utf-8?B?N3R5UTY4UzI0OTlLcGYvTmxCTFNVSHNHL2xDS2N1aVhOWUZzdW8zZDlOZXZZ?=
+ =?utf-8?B?b2ZqZW14SENQV05EU0NTL1dPekZqOGhUcTlPM3VxVU9oMmxxVGhJWGR4d2Jj?=
+ =?utf-8?B?eE1jb084OFp1bmJ3bGI4ajB0QTZmL2NtT2JHWWJvaUVPYW82Qk1mMk9LSG9r?=
+ =?utf-8?B?STllZ0plVnZMNzkvcmQ4Sm9ONjhNNmRSUDVvaEZoSzByN1B5MGxHODhndTdZ?=
+ =?utf-8?B?ZWJ0NVBGajNEaTYzdXFWTnI0YWlFazBoa2p3RmdBMkprSmZDM0lKOFlqZklV?=
+ =?utf-8?B?TTg0V01FWkk1cXUybHM2UDdweW0ramVTNUFyaHdYeHRiOTZpZHJ2dGhaOThD?=
+ =?utf-8?B?bWF6SlRXSWxZYTQ1dTl4TnU0K1EwczNxNE16L2ZpTG5EZDBzS2k5Z1Y2SnN2?=
+ =?utf-8?B?dWY5dmhNSWpwUUl5ejVoMUVIVjBhRDVoblErS2dCa1VwVnRCOTFUTkZ3UGdC?=
+ =?utf-8?B?cVVWMDBUQUZQRWhZMWZXN3oxUVQ2ME5NVURkZG5Pbm1iWFVraFpnTWlsdFhq?=
+ =?utf-8?B?WmZDUkxjR3BHMituZUpaVnNacndFNWhBZUluYWMyaHpMc3JacjhhU0dUY3hx?=
+ =?utf-8?B?eXFEOWswd1ZXNlMzNzcrQnJLaC8reU9LZ1VmNGp4MjRKeWx2bldQQktyT1JJ?=
+ =?utf-8?B?Q21rQU1SSmFPYlhvSkFMNWxadEJ6anJ3ckFUcHRNTWdOeUVyanhRSXBZR3Fp?=
+ =?utf-8?B?MFVqRTVBdWJneUxMTkhMcUZSTzFQKzFSMmJEUnhKZzdITmI0eEZweFdzZ1lH?=
+ =?utf-8?B?aTJKb09TYkZnd1NDdGxTbzUrZU80T3hURGFtTzJKVHU2dWh1SkRna1YwZklD?=
+ =?utf-8?B?blJCcXlxdDN2N3RoOEo4bkxNY1dUbllta3JqSUJNSjNHVnl0OFErZ2x5ay9M?=
+ =?utf-8?B?aW1BUkJVY3NuNU1QUjNvdlM3dTMwd25PVE9VSWdpS0pFTlFxSmpteEdqMVBY?=
+ =?utf-8?B?SUVzd2k1amwrblRYR1NxSExEQXcyV0ZqaDRVbi9ERzhPejBaWkw0dEpMOWZI?=
+ =?utf-8?B?eDU3azlBekhteXBDd2tGczl0NDNTRGZ0N2RlNUU2RmxZNFZMVVRHaHo0aHlZ?=
+ =?utf-8?B?Ym5zL25NK0oxa3lleXAzS29JcE00bkZoaEV6VFhwY0JkcVBQOEJWdWFkWWxn?=
+ =?utf-8?B?U2pOVytpVzhBSUxHOWhRWG9FcFNFcFVuTHlHS09WMEY4dnJvRDBCRFNKS0Vh?=
+ =?utf-8?B?QjlUUUZNdTRBTW05NnlOU3NOWGhoVEM2RUs0NFd3ZXFTSHpFdG1vQm94YXFn?=
+ =?utf-8?B?OTFFaUE3dDd5YkJ3S3dBREtsbEhSdWdycUhWMWYwMUNqTldSdW9pNklSWDcr?=
+ =?utf-8?B?cVV3eDdwMFRwbjF3RlYrTTZ2NmxSTTRtVXkwRkk4c0VLK1Q0UTc0S1FhQnFq?=
+ =?utf-8?B?eVVwNVI5enJxTmVMMnRlMVdJTzF5T3ZvWTljYUU4dXIwanp2WWJ3S1hPU0h0?=
+ =?utf-8?B?T0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: be77f56e-227b-4b3e-abbc-08da6321e49c
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2022 09:44:04.7827
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e2NI99CCYc6rQNYx+Y+Zv3QTevCClPiaRH3AbAyXCFq4kW/g1o/zfQ6ebxUjbdi1JUyaklzXRmL1KAHnu4PWU+tNWt0n5INSl329Orf5ntA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3280
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso, Krzysztof,
+Hi Christian,
 
-   This has been reviewed by Krzysztof already, so I guess it's fine,
-but let me ask anyway
+I'm sorry for digging this one out so late.
 
-On Thu, Jun 30, 2022 at 03:48:34PM +0200, Tommaso Merciai wrote:
-> Add documentation of device tree in YAML schema for the OV5693
-> CMOS image sensor from Omnivision
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On 06.05.2022 16:10, Christian König wrote:
+> dma_fence_chain containers cleanup signaled fences automatically, so
+> filter those out from arrays as well.
+> 
+> v2: fix missing walk over the array
+> v3: massively simplify the patch and actually update the description.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
-> Changes since v1:
->  - Fix allOf position as suggested by Krzysztof
->  - Remove port description as suggested by Krzysztof
->  - Fix EOF as suggested by Krzysztof
->
-> Changes since v2:
->  - Fix commit body as suggested by Krzysztof
->
-> Changes since v3:
->  - Add reviewed-by tags, suggested by Jacopo, Krzysztof
->
-> Changes since v4:
->  - Remove wrong Sakari reviewed-by tag, suggested by Krzysztof, Sakari
->
->  .../bindings/media/i2c/ovti,ov5693.yaml       | 106 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 107 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
->
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> new file mode 100644
-> index 000000000000..b83c9fc04023
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> @@ -0,0 +1,106 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2022 Amarulasolutions
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OV5693 CMOS Sensor
-> +
-> +maintainers:
-> +  - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> +
-> +description: |
-> +  The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
-> +  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
-> +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
-> +  Serial Camera Control Bus (SCCB) interface.
-> +
-> +  OV5693 is controlled via I2C and two-wire Serial Camera Control Bus (SCCB).
-> +  The sensor output is available via CSI-2 serial data output (up to 2-lane).
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov5693
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description:
-> +      System input clock (aka XVCLK). From 6 to 27 MHz.
-> +    maxItems: 1
-> +
-> +  dovdd-supply:
-> +    description:
-> +      Digital I/O voltage supply, 1.8V.
-> +
-> +  avdd-supply:
-> +    description:
-> +      Analog voltage supply, 2.8V.
-> +
-> +  dvdd-supply:
-> +    description:
-> +      Digital core voltage supply, 1.2V.
-> +
-> +  reset-gpios:
-> +    description:
-> +      The phandle and specifier for the GPIO that controls sensor reset.
-> +      This corresponds to the hardware pin XSHUTDN which is physically
-> +      active low.
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - dovdd-supply
-> +  - avdd-supply
-> +  - dvdd-supply
+>   include/linux/dma-fence-unwrap.h | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/dma-fence-unwrap.h b/include/linux/dma-fence-unwrap.h
+> index e7c219da4ed7..a4d342fef8e0 100644
+> --- a/include/linux/dma-fence-unwrap.h
+> +++ b/include/linux/dma-fence-unwrap.h
+> @@ -43,9 +43,13 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor);
+>    * Unwrap dma_fence_chain and dma_fence_array containers and deep dive into all
+>    * potential fences in them. If @head is just a normal fence only that one is
+>    * returned.
+> + *
+> + * Note that signalled fences are opportunistically filtered out, which
+> + * means the iteration is potentially over no fence at all.
+>    */
+>   #define dma_fence_unwrap_for_each(fence, cursor, head)			\
+>   	for (fence = dma_fence_unwrap_first(head, cursor); fence;	\
+> -	     fence = dma_fence_unwrap_next(cursor))
+> +	     fence = dma_fence_unwrap_next(cursor))			\
+> +		if (!dma_fence_is_signaled(fence))
+>   
+>   #endif
 
-Should supplies be made mandatory ? Sensors are often powered by fixed
-rails. Do we want DTS writers to create "fixed-regulators" for all of
-them ? The fact the regulator framework creates dummies if there's no
-entry in .dts for a regulator makes me think it's fine to have them
-optional, but I understand how Linux works should not be an indication
-of how a bindings should look like.
+It looks like this particular patch affects merging Sync Fences, which 
+is reflected by failing IGT test (igt@sw_sync)[1]. The failing subtests are:
+   - sync_merge - merging different fences on the same timeline, neither
+		 single nor merged fences are signaled
 
-> +  - port
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/px30-cru.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/pinctrl/rockchip.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ov5693: camera@36 {
-> +            compatible = "ovti,ov5693";
-> +            reg = <0x36>;
-> +
-> +            reset-gpios = <&gpio2 RK_PB1 GPIO_ACTIVE_LOW>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&cif_clkout_m0>;
-> +
-> +            clocks = <&cru SCLK_CIF_OUT>;
-> +            assigned-clocks = <&cru SCLK_CIF_OUT>;
-> +            assigned-clock-rates = <19200000>;
-> +
-> +            avdd-supply = <&vcc_1v8>;
-> +            dvdd-supply = <&vcc_1v2>;
-> +            dovdd-supply = <&vcc_2v8>;
-> +
-> +            rotation = <90>;
-> +            orientation = <0>;
-> +
-> +            port {
-> +                ucam_out: endpoint {
-> +                    remote-endpoint = <&mipi_in_ucam>;
-> +                    data-lanes = <1 2>;
-> +                    link-frequencies = /bits/ 64 <450000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1fc9ead83d2a..844307cb20c4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14719,6 +14719,7 @@ M:	Daniel Scally <djrscally@gmail.com>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
->  F:	drivers/media/i2c/ov5693.c
->
->  OMNIVISION OV5695 SENSOR DRIVER
-> --
-> 2.25.1
->
+   - sync_merge_same - merging the fence with itself on the same
+		 timeline, the fence didn't signal at all
+
+   - sync_multi_timeline_wait - merging different fences on different
+		 timelines; the subtest checks if counting fences of
+		 various states works. Currently, it can only see 2
+		 active fences, 0 signaling (should be 2 active,
+		 1 signaling)
+
+Reverting this commit on the top of drm-tip fixes the issue, but I'm not 
+sure if it wouldn't impact other places in the code. Please let me know 
+if I can be of any help.
+
+All the best,
+Karolina
+
+---------------------
+[1] - reproducible locally, but can be also seen in the CI:
+https://intel-gfx-ci.01.org/tree/drm-tip/index.html?testfilter=igt@sw_sync
