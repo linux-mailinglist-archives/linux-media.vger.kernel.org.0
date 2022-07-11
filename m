@@ -2,90 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4813F56D80C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 10:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D858B56FB8B
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 11:32:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbiGKIby (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 04:31:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37354 "EHLO
+        id S232672AbiGKJcO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 05:32:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229944AbiGKIbt (ORCPT
+        with ESMTP id S232563AbiGKJbe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 04:31:49 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2581F2E6
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 01:31:49 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oAopV-0066nT-8C; Mon, 11 Jul 2022 08:31:45 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oAopS-000sXc-UJ; Mon, 11 Jul 2022 08:31:42 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.20] mediatek vcodec capability fixes (#84699)
-Date:   Mon, 11 Jul 2022 08:31:42 +0000
-Message-Id: <20220711083142.209610-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <689df1f7-b562-c4c3-e78b-0350ced2fa71@xs4all.nl>
-References: 
+        Mon, 11 Jul 2022 05:31:34 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 944CB74DC3
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 02:17:12 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id bu42so7723968lfb.0
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 02:17:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=uJtXuRvdgMPQ1UnDvhoOm/1EA7XoOpO+RRB/+tZI2oI=;
+        b=sDcaOypRR7yO+xtRmQGTq9WiuyfG8Ly2V27pjiKC3a0XERSnVVerKNe+E8fW9lDU7O
+         SQM5rV4qroLaUSTj5jbdR4HtD+QzUrvn5cjAYOHuLms9bCFzgcmEUYuSUtGh6N7OTVpF
+         +Z8ziEwxjKsBZ68xw3GkteRriytvhoyxOnbekvsu+mtrb0cNcVkuTWyQHQq69O+FHMBF
+         ir8a27N57e1Xkm/yoLKLQv8i9qkU+FCxiVgUVUKW05p0y38h7cYKy8UtoJccpv/XnUFw
+         tVQZIPTWEuxibT1uaziba9zUR1Ui26QnHL1lILjvGJhf8yDocE+cuUuzLDEauVlE1X9U
+         Jk6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=uJtXuRvdgMPQ1UnDvhoOm/1EA7XoOpO+RRB/+tZI2oI=;
+        b=rECgkxWCZoNz9mC8RGvvSVpAbKLR51xaAHmvxpMMm8XjGy7TM0yh8Ne3xl469IVBeH
+         gS79Y/LM5B8lzOLFzwCMJHsp5Gmw17GknB32Qo6RMhuPaYf1RhSYfgV127SJv3jNydTc
+         GlmddCCXH2b+g/55dQBv18CoAnhZE0Rm9voL3ET94je3CE4x1uAoQ66bDpv5zArc7A+8
+         nGqsGs9DnZGj2sMNL+ipqHHNQAd5h8MwXTWVGlIt2FKCV0h9CM7EAyqkXKzFJBn9j1e6
+         hmTATFbsz666OjganVP6NNel157lNghVZIeqY3v32L1koU5tUOmQQstak0xlSuDiUK2X
+         4x/g==
+X-Gm-Message-State: AJIora/erAXDS1iPQ2uRYxm8Tlp83jAxvzyY0FnOWp2bQapcqtFyVJRk
+        8dZ467ulUhrPdi7qWFThuItslQ==
+X-Google-Smtp-Source: AGRyM1uoJemPp3B8wL5ggdfxU6hbjp4QvOS3TChZ6cMs9Ji5rhldcYajVkYUbMKg2XQROAz6HaT2Yg==
+X-Received: by 2002:a05:6512:3b06:b0:481:507e:e3a0 with SMTP id f6-20020a0565123b0600b00481507ee3a0mr11986657lfv.616.1657531030032;
+        Mon, 11 Jul 2022 02:17:10 -0700 (PDT)
+Received: from [10.0.0.8] (fwa5cab-55.bb.online.no. [88.92.171.55])
+        by smtp.gmail.com with ESMTPSA id v16-20020a056512049000b00489c665af61sm1427018lfq.274.2022.07.11.02.17.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Jul 2022 02:17:09 -0700 (PDT)
+Message-ID: <5490fe33-2c0a-3af2-2b62-cce9f607003a@linaro.org>
+Date:   Mon, 11 Jul 2022 11:17:07 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 2/6] media: dt-bindings: media: Add compatible for ov9281
+Content-Language: en-US
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20220711081639.150153-1-alexander.stein@ew.tq-group.com>
+ <20220711081639.150153-3-alexander.stein@ew.tq-group.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220711081639.150153-3-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 11/07/2022 10:16, Alexander Stein wrote:
+> This is a slightly different hardware with identical software interface.
+> 
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/689df1f7-b562-c4c3-e78b-0350ced2fa71@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/223932/
-Build time: 00:18:33
-Link: https://lore.kernel.org/linux-media/689df1f7-b562-c4c3-e78b-0350ced2fa71@xs4all.nl
 
-gpg: Signature made Mon 11 Jul 2022 07:57:34 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Summary: got 2/2 patches with issues, being 1 at build time
 
-Error/warnings:
-
-patches/0001-media-mediatek-vcodec-Make-decoder-capability-fields.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5583 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1725875
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 49 seconds
-	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-
-   checkpatch.pl:
-	$ cat patches/0001-media-mediatek-vcodec-Make-decoder-capability-fields.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit a8a7a278c56a ("media: mediatek: vcodec: Change decoder v4l2 capability value")'
-
-patches/0002-media-mediatek-vcodec-Make-encoder-capability-fields.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-mediatek-vcodec-Make-encoder-capability-fields.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit fd9f8050e355 ("media: mediatek: vcodec: Change encoder v4l2 capability value")'
-
+Best regards,
+Krzysztof
