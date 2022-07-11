@@ -2,175 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4996E5708E0
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 19:31:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8025157098B
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 19:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbiGKRbd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 13:31:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35102 "EHLO
+        id S231529AbiGKRyI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 13:54:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230149AbiGKRbc (ORCPT
+        with ESMTP id S229953AbiGKRyG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 13:31:32 -0400
-X-Greylist: delayed 28464 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Jul 2022 10:31:30 PDT
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F40F61B27;
-        Mon, 11 Jul 2022 10:31:30 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6C06720008;
-        Mon, 11 Jul 2022 17:31:25 +0000 (UTC)
-Date:   Mon, 11 Jul 2022 19:31:23 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Yassine Oudjana <yassine.oudjana@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Yassine Oudjana <y.oudjana@protonmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] media: i2c: ak7375: Add regulator management
-Message-ID: <20220711173123.55abjsli3tmqgegj@uno.localdomain>
-References: <20220711144039.232196-1-y.oudjana@protonmail.com>
- <20220711144039.232196-4-y.oudjana@protonmail.com>
+        Mon, 11 Jul 2022 13:54:06 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EA632B81
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 10:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657562045; x=1689098045;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Sn+tREDp9OPABkn0L3sdk+qIfKrb07jv39YSCkkGtP0=;
+  b=Cfe7fsL7CYQI7yKQZI3aVM4s8WuO7kHOWZQ3isa3kLC34aJz214J0+vf
+   bi4vWJGRCdZfo5pPdmoFiqaNx2yeHQ9LFPAetlprAxSxkN7PJukR5gtL6
+   BPWNYIEA3S74dAc/BFp+86JALDWc9nq2fkL/GwGHQv6c2D4aG6qDe7gm6
+   mBJXZXUi/Cw3/BfyBJazo/d3eujhEXUBd7VYHiNm3wxtBGBbbtVQKiWYx
+   PAGWMMXOMNgGtHQCWh+pl5dFPS+nAVWnvwvbP0gZwkCNCb/ttYFcPvq49
+   KNPtTwCIOvAiw4Zpo2PRYXn7dO+NXzgBJktXiHWDHHJ4xUF7Q7ZrJuKtP
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="285473098"
+X-IronPort-AV: E=Sophos;i="5.92,263,1650956400"; 
+   d="scan'208";a="285473098"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 10:54:04 -0700
+X-IronPort-AV: E=Sophos;i="5.92,263,1650956400"; 
+   d="scan'208";a="592340632"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 10:54:03 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 38B3A20F61;
+        Mon, 11 Jul 2022 20:54:01 +0300 (EEST)
+Date:   Mon, 11 Jul 2022 17:54:01 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Daniel Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
+        paul.elder@ideasonboard.com, jacopo@jmondi.org
+Subject: Re: [PATCH v2 1/2] media: entity: Add iterator for entity data links
+Message-ID: <YsxjuZ/74Jc+Etan@paasikivi.fi.intel.com>
+References: <20220707224733.347899-1-djrscally@gmail.com>
+ <20220707224733.347899-2-djrscally@gmail.com>
+ <YsxNHubdOE/hKxl/@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220711144039.232196-4-y.oudjana@protonmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <YsxNHubdOE/hKxl/@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yassine,
+Hi Laurent, Daniel,
 
-On Mon, Jul 11, 2022 at 06:40:39PM +0400, Yassine Oudjana wrote:
-> From: Yassine Oudjana <y.oudjana@protonmail.com>
->
-> Make the driver get needed regulators on probe and enable/disable
-> them on runtime PM callbacks.
->
-> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> ---
-> Changes since v1:
->   - Reorganize variable declaration
->   - Change the power-on delay range to 3000-3500 microseconds.
->
->  drivers/media/i2c/ak7375.c | 39 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
->
-> diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-> index 40b1a4aa846c..c2b2542a0056 100644
-> --- a/drivers/media/i2c/ak7375.c
-> +++ b/drivers/media/i2c/ak7375.c
-> @@ -6,6 +6,7 @@
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->
-> @@ -23,17 +24,32 @@
->   */
->  #define AK7375_CTRL_STEPS	64
->  #define AK7375_CTRL_DELAY_US	1000
-> +/*
-> + * The vcm takes around 3 ms to power on and start taking
-> + * I2C messages. This value was found experimentally due to
-> + * lack of documentation.
-> + */
-> +#define AK7375_POWER_DELAY_US	3000
->
->  #define AK7375_REG_POSITION	0x0
->  #define AK7375_REG_CONT		0x2
->  #define AK7375_MODE_ACTIVE	0x0
->  #define AK7375_MODE_STANDBY	0x40
->
-> +static const char * const ak7375_supply_names[] = {
-> +	"vdd",
-> +	"vio",
-> +};
-> +
-> +#define AK7375_NUM_SUPPLIES ARRAY_SIZE(ak7375_supply_names)
-> +
->  /* ak7375 device structure */
->  struct ak7375_device {
->  	struct v4l2_ctrl_handler ctrls_vcm;
->  	struct v4l2_subdev sd;
->  	struct v4l2_ctrl *focus;
-> +	struct regulator_bulk_data supplies[AK7375_NUM_SUPPLIES];
-> +
->  	/* active or standby mode */
->  	bool active;
->  };
-> @@ -133,12 +149,24 @@ static int ak7375_probe(struct i2c_client *client)
->  {
->  	struct ak7375_device *ak7375_dev;
->  	int ret;
-> +	int i;
->
->  	ak7375_dev = devm_kzalloc(&client->dev, sizeof(*ak7375_dev),
->  				  GFP_KERNEL);
->  	if (!ak7375_dev)
->  		return -ENOMEM;
->
-> +	for (i = 0; i < AK7375_NUM_SUPPLIES; i++)
-> +		ak7375_dev->supplies[i].supply = ak7375_supply_names[i];
-> +
-> +	ret = devm_regulator_bulk_get(&client->dev, AK7375_NUM_SUPPLIES,
-> +				      ak7375_dev->supplies);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Failed to get regulators: %pe",
-> +			ERR_PTR(ret));
+On Mon, Jul 11, 2022 at 07:17:34PM +0300, Laurent Pinchart wrote:
+> Hi Daniel,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Jul 07, 2022 at 11:47:32PM +0100, Daniel Scally wrote:
+> > Iterating over the links for an entity is a somewhat common need
+> > through the media subsystem, but generally the assumption is that
+> > they will all be data links. To meet that assumption add a new macro
+> > that iterates through an entity's links and skips non-data links.
+> > 
+> > Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> > ---
+> > Changes since v1 (suggested by Jacopo and Laurent):
+> > 
+> > 	- Simplified __media_entity_next_link()
+> > 	- Added the link_type param to __media_entity_next_link()
+> > 	- Moved __media_entity_next_link() to mc-entity.c rather than
+> > 	  media-entity.h
+> > 
+> >  drivers/media/mc/mc-entity.c | 16 ++++++++++++++++
+> >  include/media/media-entity.h | 29 +++++++++++++++++++++++++++++
+> >  2 files changed, 45 insertions(+)
+> > 
+> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > index 11f5207f73aa..a247d5679930 100644
+> > --- a/drivers/media/mc/mc-entity.c
+> > +++ b/drivers/media/mc/mc-entity.c
+> > @@ -9,6 +9,7 @@
+> >   */
+> >  
+> >  #include <linux/bitmap.h>
+> > +#include <linux/list.h>
+> >  #include <linux/property.h>
+> >  #include <linux/slab.h>
+> >  #include <media/media-entity.h>
+> > @@ -1051,3 +1052,18 @@ struct media_link *media_create_ancillary_link(struct media_entity *primary,
+> >  	return link;
+> >  }
+> >  EXPORT_SYMBOL_GPL(media_create_ancillary_link);
+> > +
+> > +struct media_link *__media_entity_next_link(struct media_entity *entity,
+> > +					    struct media_link *link,
+> > +					    unsigned long link_type)
+> > +{
+> > +	link = link ? list_next_entry(link, list)
+> > +		    : list_first_entry(&entity->links, typeof(*link), list);
+> > +
+> > +	list_for_each_entry_from(link, &entity->links, list)
+> > +		if ((link->flags & MEDIA_LNK_FL_LINK_TYPE) == link_type)
+> > +			return link;
+> > +
+> > +	return NULL;
+> > +}
+> > +EXPORT_SYMBOL_GPL(__media_entity_next_link);
+> > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> > index a9a1c0ec5d1c..903c9368c50d 100644
+> > --- a/include/media/media-entity.h
+> > +++ b/include/media/media-entity.h
+> > @@ -1140,4 +1140,33 @@ struct media_link *
+> >  media_create_ancillary_link(struct media_entity *primary,
+> >  			    struct media_entity *ancillary);
+> >  
+> > +/**
+> > + * __media_entity_next_link() - iterate through a &media_entity's links,
+> 
+> s/iterate/Iterate/
+> s/,$//
+> 
+> > + *
+> > + * @entity:	pointer to the &media_entity
+> > + * @link:	pointer to a &media_link to hold the iterated values
+> > + * @link_type:	one of the MEDIA_LNK_FL_LINK_TYPE flags
+> > + *
+> > + * Return the next link against an entity matching a specific link type. This
+> > + * allows iteration through an entity's links whilst guaranteeing all of the
+> > + * returned links are of the given type.
+> > + */
+> > +struct media_link *__media_entity_next_link(struct media_entity *entity,
+> > +					    struct media_link *link,
+> > +					    unsigned long link_type);
+> > +
+> > +/**
+> > + * for_each_media_entity_data_link() - Iterate through an entity's data links
+> > + *
+> > + * @entity:	pointer to the &media_entity
+> > + * @link:	pointer to a &media_link to hold the iterated values
+> > + *
+> > + * Iterate over a &media_entity's data links
+> > + */
+> > +#define for_each_media_entity_data_link(entity, link)			\
+> > +	for (link = __media_entity_next_link(entity, NULL,		\
+> > +					     MEDIA_LNK_FL_DATA_LINK);	\
+> > +	     link;							\
+> > +	     link = __media_entity_next_link(entity, link,		\
+> > +					     MEDIA_LNK_FL_DATA_LINK))
+> 
+> Missing one blank line here.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Why are you using %pe here ? Your return value is not a pointer
-(Also, missing \n at the end of the string)
+Added with these addressed.
 
-From Documentation/core-api/printk-formats.rst:
-	%pe	-ENOSPC
-
-For printing error pointers (i.e. a pointer for which IS_ERR() is true)
-as a symbolic error name. Error values for which no symbolic name is
-known are printed in decimal, while a non-ERR_PTR passed as the
-argument to %pe gets treated as ordinary %p.
-
-> +		return ret;
-> +	}
-> +
->  	v4l2_i2c_subdev_init(&ak7375_dev->sd, client, &ak7375_ops);
->  	ak7375_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->  	ak7375_dev->sd.internal_ops = &ak7375_int_ops;
-> @@ -210,6 +238,10 @@ static int __maybe_unused ak7375_vcm_suspend(struct device *dev)
->  	if (ret)
->  		dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
->
-> +	ret = regulator_bulk_disable(AK7375_NUM_SUPPLIES, ak7375_dev->supplies);
-> +	if (ret)
-> +		return ret;
-> +
->  	ak7375_dev->active = false;
->
->  	return 0;
-> @@ -230,6 +262,13 @@ static int __maybe_unused ak7375_vcm_resume(struct device *dev)
->  	if (ak7375_dev->active)
->  		return 0;
->
-> +	ret = regulator_bulk_enable(AK7375_NUM_SUPPLIES, ak7375_dev->supplies);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Wait for vcm to become ready */
-> +	usleep_range(AK7375_POWER_DELAY_US, AK7375_POWER_DELAY_US + 500);
-> +
->  	ret = ak7375_i2c_write(ak7375_dev, AK7375_REG_CONT,
->  		AK7375_MODE_ACTIVE, 1);
->  	if (ret) {
-> --
-> 2.37.0
->
+-- 
+Sakari Ailus
