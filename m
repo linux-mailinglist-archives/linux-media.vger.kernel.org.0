@@ -2,242 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3814570841
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 18:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB6D9570877
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 18:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231311AbiGKQZq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 12:25:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47804 "EHLO
+        id S230320AbiGKQiC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 12:38:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbiGKQZn (ORCPT
+        with ESMTP id S229908AbiGKQh5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 12:25:43 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB92B52E67;
-        Mon, 11 Jul 2022 09:25:40 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7FC34C0002;
-        Mon, 11 Jul 2022 16:25:35 +0000 (UTC)
-Date:   Mon, 11 Jul 2022 18:25:33 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Yassine Oudjana <yassine.oudjana@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Yassine Oudjana <y.oudjana@protonmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] media: i2c: ak7375: Add regulator management
-Message-ID: <20220711162533.fycvqnaffk4tdfda@uno.localdomain>
-References: <20220711042838.213351-1-y.oudjana@protonmail.com>
- <20220711042838.213351-4-y.oudjana@protonmail.com>
- <20220711133423.w6yzbcfqwv2muu34@uno.localdomain>
- <TM0VER.DLTH01AKOV622@gmail.com>
+        Mon, 11 Jul 2022 12:37:57 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2079.outbound.protection.outlook.com [40.107.22.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6902E7A53B
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 09:37:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UlsxjmqVqacwU9SYL9UM9JD3gqeDcKjoOiW1hdkOhhYD3F5BD8G1P1/wNzJ0vYd2PtxVYBQjADBFtwJ+YBtSN+1xMMiTfRzM2MwzuF29ENJ/tOGrV54A0vL7iq+qjVitwsN5dLc81JJal3fE1x7OfSwlB2IMXW0Fbif3619rjteyD3CSxmklqQdD7tG9lSwFL+zEzDvOMwqCS9cROQwdbySTsBEd3kd8CcDvZVfHsw0Bq0vbKxgrluYExf/M5Snuv9kPofGVN278RXOoBZEgk9fwDlcvP3ANlGjrWnNVdepxurAonfo6+pB6soZ+f7F/m4IplP1iDDpkYckqNJm6gQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zHe35JFhVHw6/OeozF7GFo4Uvw/cVrrZin7r6e3bZTY=;
+ b=OQ6+jcNKPADk8vRBhorfpvx5YCOxP1RN9WfNWqnirP7LbW8Af0bOWpmG/hDsIP5+3M6Bb2IM0I5X3r7ZLU+MI2z8CElbFhSerLCunahOODpODRUoDx1/gM1hivqN+ga9s9Hl/JtNpruw1ypMrvq+zjIiaGQohfmQTyLKE7HgJasLwp8i3aMcV3GaG/KaZgnd2r05WmOmCXMbDX7PMxeOkaVGzMWE+s/9cTwPqnvUnJrekYiPDayRFMAI9eYkaIw8BK4hkOcXOlL32KKfrwRdhu9m5LMmlnTX3EPiSyM9EuYGV0k0r3+L3FxFhH1/FmxL4tCX8gFSXk08eW4sjHsDYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zHe35JFhVHw6/OeozF7GFo4Uvw/cVrrZin7r6e3bZTY=;
+ b=kf+uN1gC+2dXIy9XmMLoxjJ2iwCwEjfDnQNNjnKkYZvKlA/fbq1j32RIhdpqBhPLMNdk3UTP6seHqTT7+hHb+irOE80TzDQM3oWZPLkyoSGRr/arPsDGtvZ8nVrPpq76GWJhz/lATRTRi9BGcBo7mlbNMRegI60gTc1sr/Hhl9c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from AM4PR0802MB2131.eurprd08.prod.outlook.com
+ (2603:10a6:200:5c::22) by AM8PR08MB6546.eurprd08.prod.outlook.com
+ (2603:10a6:20b:355::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.15; Mon, 11 Jul
+ 2022 16:37:53 +0000
+Received: from AM4PR0802MB2131.eurprd08.prod.outlook.com
+ ([fe80::dcaa:905c:ff8:1f5b]) by AM4PR0802MB2131.eurprd08.prod.outlook.com
+ ([fe80::dcaa:905c:ff8:1f5b%9]) with mapi id 15.20.5417.026; Mon, 11 Jul 2022
+ 16:37:53 +0000
+Message-ID: <7f32db4b-7355-ec48-2e9f-b1db6c24a560@wolfvision.net>
+Date:   Mon, 11 Jul 2022 18:37:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 44/46] media: rkisp1: Add infrastructure to support ISP
+ features
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20220711124248.2683-1-laurent.pinchart@ideasonboard.com>
+ <20220711124248.2683-45-laurent.pinchart@ideasonboard.com>
+From:   Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org
+In-Reply-To: <20220711124248.2683-45-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0144.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:40::23) To AM4PR0802MB2131.eurprd08.prod.outlook.com
+ (2603:10a6:200:5c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TM0VER.DLTH01AKOV622@gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: da6e3e8d-8021-4ca3-26ea-08da635bb34c
+X-MS-TrafficTypeDiagnostic: AM8PR08MB6546:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YKoGXNvifDR0bxr1dwqBJBVFblJk8UeT5jMHp75cLeyjNiCBYJscqkWsEmL2DAwUQeAgOvdPEZZMA4uASfxFqeLjnvADo2S5mtwSsX4Ncnj6SzAM8P/go1gtQJdL+TQYUKSox1w7CR4JEpOlq0iSvy5GPGV7QO7RV0sIuDWHSS6iWbYkGIttnfoCiDSD4wGY3ncrma5qlp4JTi7pA3q0hJNTIrM5xR1mqFrkIhZM0+amY5OPAj5mGvrHpD3AoaoDbczG1SbVvl7N7sydnOzYpTjMO83webbRJcCJ+NKnkmxjNZtdixOf5HQRNuoP2DWbRDFE5BUTxVCQp63pLeV3UiZHn44XKnWOdSyRFpuJyGPRQul7ApIbieQUiHtoXIJRy0MS7JlNog4fgAxWseq1a3cZq08JdDboVdecSXFfPlFWgFXCtEg4j9bwxvn98AJeoj6hc8lrCdMvg6ib/QSvxDKwEcdA8r4ZzIljIcvHQGWgv6uHXcp9iz+/AXW6oYOKrebTBOE2n09M0o4Kdam3hE4gjPAklajvA2wCgiLY6KU4dMDdMhe+T9Bhd6VCguMN60pOss+L8rtHR6smwvXl4d+qJ3Tg1J7ZKWIzu/UCko2uGpLnHRJjTYE8Ca+XDcXbAtyX90+/VbkJ5eMjR87Ds6qfepFlwTB8fN2OdR+wt4F9AGx623uY5+acYMcD6zxuZPqGyw2iN/qrbyK4+1BUxgyVM0mVlqRgVXz9Fqu0EF28F7fZYRZfwWr5vT3W5cKR5+1wQ2Hc9DrgsbLTS3PSvMjyPUkjx34+jFX6Fz+Nvt0R3BDvR4ZJIu7vTuIX4C1EItt7ssx4MuR2pl39Qx6WmA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM4PR0802MB2131.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(396003)(346002)(366004)(39850400004)(136003)(66946007)(478600001)(4744005)(44832011)(31686004)(6486002)(38100700002)(36756003)(2906002)(4326008)(8676002)(41300700001)(54906003)(6916009)(8936002)(5660300002)(316002)(66556008)(52116002)(2616005)(186003)(6512007)(53546011)(31696002)(6506007)(86362001)(66476007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YmhRUmE4WWFsTDU4S21KNmFFUmtYUlJUT2FlOFJkbTJEOHE0U1k2OGlZTTdR?=
+ =?utf-8?B?OStGMkRzb1YvSGlMblU4VmlQM2MwUXZDQ3F3RzE4Z2FNeWVnK0NMYmhGWUxO?=
+ =?utf-8?B?bzdzb01TV0NRREltaXhsSEVmclNFYnV2NVBSZjBLMFU4Y3hGZFFFbDc5di9G?=
+ =?utf-8?B?QUNRREQ3L0xjVVI2UUIwZ2U5L000QmVBNHIrYWFhcGs3aDFkNm13UllBNWlO?=
+ =?utf-8?B?My93TitkS0VKeC9VdjUxdWxMRlJtNEVlUXQwTXYvUTY2eFFCSEphTysvNHJa?=
+ =?utf-8?B?bFV0YlM4VTBUNXpSd3lQZHQxOS9SUU9CZmxUREJrTW9zYmI4SXdmK0JRQnJK?=
+ =?utf-8?B?WHNXQmQwQ09Ycy9BN0hjUFNVZlFkS3NxQVROa0NGbnlJRE5vLzNjUkU4bkhB?=
+ =?utf-8?B?am42cmkyLzEzNlY1WFdlNkNiVjVyL2xzaG9XT1Y3ZkluNi8rTVlmVXdRYkkz?=
+ =?utf-8?B?enlGcHdiNXZvQ29PcmFMTU1mTlROYzhCZUlhdkhoZFJXTzc0eTd5RFRyTElj?=
+ =?utf-8?B?SlZOSDhId2FYZHZqcWtVelFzOXZZNmV3RHhXREthcFZOOVpjcFpwMjFwNGlp?=
+ =?utf-8?B?dnM1UFBhODY1TU5tSk14WW9ST1FWMzZHaWo5NFJSVnV5SzFIYzk3Yk1rTzkw?=
+ =?utf-8?B?QjV3ME5xNU45dXdXL0hjT3IwUlN2R25WSHg2NFJQakdBdUJ2WFNHd2xDaU1Y?=
+ =?utf-8?B?MGpFcGRncXMzZXNUcjZ5ZThLand5VHNCSUpWZ2Jjc0JrWmpzVWZ1V0FBb2ox?=
+ =?utf-8?B?Q296WGtSeHBTTHhzcWNCVXJ2WW81VGNhc0lWWnEvOTVSclZsb21hNllpdDZa?=
+ =?utf-8?B?OEEzTU04SzNxNHhFdURqOWo2ZmRSYm4ra2Z4NHJVWkpJUkJVVWl4MXQ5WlJL?=
+ =?utf-8?B?WFo5UzFaRXQ4a0Y5Nktra1BzQnZacERpakI4UmxKZ0p3MWpqWUJKRHUwNDk4?=
+ =?utf-8?B?MXFaUGMvL0RmRVYzMWJnekdhRVRvdER1aU85NkR5Z251NGNKcGMvMUJVQW10?=
+ =?utf-8?B?SENGNCtST0V2L0dGOUpSbkgydmN3VVZNMzVlRW9BMVk5eU1GakQ0VFZyMlB6?=
+ =?utf-8?B?U292ZC9JeFBKT2RJOG1KRHhMNGlQNHRmeFVTK01pK3pPZHB2Y01uRWNUWFhv?=
+ =?utf-8?B?Wk1RRkdINzBVUzVsWTdjR2pXOHpEelZtQkw3dCtyK1ZFelJMckFiUHRHNHQr?=
+ =?utf-8?B?bTdkZlI2amt1RGttVGlvZ1FvMUZFc2NUbldCQjN1VEdVdUl4b0pVT29IVXhO?=
+ =?utf-8?B?R29qT2s4STZibHJhclBqeUd2TVk0c3JCK2NXa3VSNFpTdTZBNjFuREhtTzVC?=
+ =?utf-8?B?eDc2QVUyTGI3cWFvS2tOVWticW83bHNrNmhsZ2JxOWYxbnp3U0VWb3NCcXlm?=
+ =?utf-8?B?RzlSNXF5SVc1UUtzbkVGd3FjR2dXUWtSdThzQ1JwUW1JQllNdHF4MGtJbWtQ?=
+ =?utf-8?B?OUhDWFFDQU5hTzJJeHJNSFRneXNyWDhka0hKYnpmVDk2NXVGVTVJeDQxMHBj?=
+ =?utf-8?B?N05kTDVJQ3htU3VvOE1VUXVFbFVRK1ltM3VVZ01WYTgxK3h0THF0cE1XaVZh?=
+ =?utf-8?B?RngwNkYyTnlrVzdzcXJyby9EVkVtMXkzQ3NseEtxR284RzFFOHg5ZERkRUVT?=
+ =?utf-8?B?bHRkaHdpWUNkREhkbjJURDczZGlHSU9ZWDk4T3NhK2pVOUVLMHM2eVd2b3JR?=
+ =?utf-8?B?d0FMZTFDTFhYK3k4TjlUcjVVR0tjQ01IZHczSEFiUUZxczB3Si9QYmthRFpT?=
+ =?utf-8?B?dWNwTzRWS2NIckIydFB1UEJ4NTlmaVJpdHhoMjJXVDdiVGtBa2pyZ0tvMTZ3?=
+ =?utf-8?B?ZFpEdXhKblZYRUliai9aazVaTVZZcXJ5aDhnYlgrK3Q5TTdVeHl5ZDZkT3JK?=
+ =?utf-8?B?NWswSGwxUEg4U1l1WUhsSGVpck1IeEMxN3FuZjVvU2U3VFFYU3Bac2xKUURt?=
+ =?utf-8?B?RG9WTXM0TU8wYjdTMG9rdHU3TjdERG4waC9oN1YwYUZMRGFhV214b1p5UTRC?=
+ =?utf-8?B?dXk2dkxuK3p0azBPa0JVd09BT2lPVUxZc2RKQ2JxK2hHamU1WmI0QXRsdjhE?=
+ =?utf-8?B?ZDJxbHluMjhxNHlVOHNNOXF1MEFuZkRhTmVGUktqZmNuR0t2NGJoSlY5dDRx?=
+ =?utf-8?B?YUJVQjVsMUxxeURNQk1lS3dXNjJQTVpjYWhQWGQ1L2VsK21uVHJVVG94TFVS?=
+ =?utf-8?B?a2xPZitJbzRmV3YxYkZvdjZ1L0haclJkSm5CR0tXZkh5Rnc4a1p0cFRCcHJr?=
+ =?utf-8?B?TXFjT3BzRzJ2VWtoYUkwZ1hTVFpBPT0=?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: da6e3e8d-8021-4ca3-26ea-08da635bb34c
+X-MS-Exchange-CrossTenant-AuthSource: AM4PR0802MB2131.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2022 16:37:52.9351
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xg+7pB9GEYYymwVUPBQMvnFeBLfi30XGknKLkP+JwWsyMZopskUuaA/PRbdeQASPtE2YbeCD6Z7kdhZvez91VygFhRDAHU8Y8IDEBp5S7s8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6546
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yassine
+Hello Laurent,
 
-On Mon, Jul 11, 2022 at 06:08:53PM +0400, Yassine Oudjana wrote:
->
-> On Mon, Jul 11 2022 at 15:34:23 +0200, Jacopo Mondi <jacopo@jmondi.org>
-> wrote:
-> > Hello Yassine
-> >
-> > On Mon, Jul 11, 2022 at 08:28:39AM +0400, Yassine Oudjana wrote:
-> > >  From: Yassine Oudjana <y.oudjana@protonmail.com>
-> > >
-> > >  Make the driver get needed regulators on probe and enable/disable
-> > >  them on runtime PM callbacks.
-> > >
-> > >  Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> > >  ---
-> > >   drivers/media/i2c/ak7375.c | 39
-> > > ++++++++++++++++++++++++++++++++++++++
-> > >   1 file changed, 39 insertions(+)
-> > >
-> > >  diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-> > >  index 40b1a4aa846c..59d5cb00e3ba 100644
-> > >  --- a/drivers/media/i2c/ak7375.c
-> > >  +++ b/drivers/media/i2c/ak7375.c
-> > >  @@ -6,6 +6,7 @@
-> > >   #include <linux/i2c.h>
-> > >   #include <linux/module.h>
-> > >   #include <linux/pm_runtime.h>
-> > >  +#include <linux/regulator/consumer.h>
-> > >   #include <media/v4l2-ctrls.h>
-> > >   #include <media/v4l2-device.h>
-> > >
-> > >  @@ -23,17 +24,32 @@
-> > >    */
-> > >   #define AK7375_CTRL_STEPS	64
-> > >   #define AK7375_CTRL_DELAY_US	1000
-> > >  +/*
-> > >  + * The vcm takes around 3 ms to power on and start taking
-> > >  + * I2C messages. This value was found experimentally due to
-> > >  + * lack of documentation. 2 ms is added as a safety margin.
-> > >  + */
-> > >  +#define AK7375_POWER_DELAY_US	5000
-> > >
-> > >   #define AK7375_REG_POSITION	0x0
-> > >   #define AK7375_REG_CONT		0x2
-> > >   #define AK7375_MODE_ACTIVE	0x0
-> > >   #define AK7375_MODE_STANDBY	0x40
-> > >
-> > >  +static const char * const ak7375_supply_names[] = {
-> > >  +	"vdd",
-> > >  +	"vio",
-> > >  +};
-> > >  +
-> > >  +#define AK7375_NUM_SUPPLIES ARRAY_SIZE(ak7375_supply_names)
-> > >  +
-> > >   /* ak7375 device structure */
-> > >   struct ak7375_device {
-> > >   	struct v4l2_ctrl_handler ctrls_vcm;
-> > >   	struct v4l2_subdev sd;
-> > >   	struct v4l2_ctrl *focus;
-> > >  +	struct regulator_bulk_data supplies[AK7375_NUM_SUPPLIES];
-> > >  +
-> > >   	/* active or standby mode */
-> > >   	bool active;
-> > >   };
-> > >  @@ -132,6 +148,7 @@ static int ak7375_init_controls(struct
-> > > ak7375_device *dev_vcm)
-> > >   static int ak7375_probe(struct i2c_client *client)
-> > >   {
-> > >   	struct ak7375_device *ak7375_dev;
-> > >  +	int i;
-> >
-> > I would have moved this one down to maintain variable declaration
-> > in the in-famous reverse-xmas-tree ordering. Up to you.
->
-> I'm used to declaring variables in the order of first use,
-> but I don't really mind it either way. I'll move it down.
->
-> >
-> > >   	int ret;
-> > >
-> > >   	ak7375_dev = devm_kzalloc(&client->dev, sizeof(*ak7375_dev),
-> > >  @@ -139,6 +156,17 @@ static int ak7375_probe(struct i2c_client
-> > > *client)
-> > >   	if (!ak7375_dev)
-> > >   		return -ENOMEM;
-> > >
-> > >  +	for (i = 0; i < AK7375_NUM_SUPPLIES; i++)
-> > >  +		ak7375_dev->supplies[i].supply = ak7375_supply_names[i];
-> > >  +
-> > >  +	ret = devm_regulator_bulk_get(&client->dev, AK7375_NUM_SUPPLIES,
-> > >  +				      ak7375_dev->supplies);
-> > >  +	if (ret) {
-> > >  +		dev_err(&client->dev, "Failed to get regulators: %pe",
-> > >  +			ERR_PTR(ret));
-> > >  +		return ret;
-> > >  +	}
-> > >  +
-> > >   	v4l2_i2c_subdev_init(&ak7375_dev->sd, client, &ak7375_ops);
-> > >   	ak7375_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > >   	ak7375_dev->sd.internal_ops = &ak7375_int_ops;
-> > >  @@ -210,6 +238,10 @@ static int __maybe_unused
-> > > ak7375_vcm_suspend(struct device *dev)
-> > >   	if (ret)
-> > >   		dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
-> > >
-> > >  +	ret = regulator_bulk_disable(AK7375_NUM_SUPPLIES,
-> > > ak7375_dev->supplies);
-> > >  +	if (ret)
-> > >  +		return ret;
-> > >  +
-> > >   	ak7375_dev->active = false;
-> > >
-> > >   	return 0;
-> > >  @@ -230,6 +262,13 @@ static int __maybe_unused
-> > > ak7375_vcm_resume(struct device *dev)
-> > >   	if (ak7375_dev->active)
-> > >   		return 0;
-> > >
-> > >  +	ret = regulator_bulk_enable(AK7375_NUM_SUPPLIES,
-> > > ak7375_dev->supplies);
-> > >  +	if (ret)
-> > >  +		return ret;
-> > >  +
-> > >  +	/* Wait for vcm to become ready */
-> > >  +	usleep_range(AK7375_POWER_DELAY_US, AK7375_POWER_DELAY_US + 10);
-> > >  +
-> >
-> > Isn't 10usec a very small delay to be given to usleep_range() for a
-> > delay of at least 3msec ? Also assuming 5msec just to be safe seems a
-> > little arbitrary. Adding 2 milliseconds in the wakeup path introduces
-> > a non-negligible delay.
->
-> I must admit that I didn't give it too much thought. I just
-> did it similar to the other delay used in this driver
-> (AK7375_CTRL_DELAY_US). As for adding 2ms, I don't know what
-> the worst case wake-up time is since I don't have a datasheet
-> on hand, so I just wanted to stay safe. Also, this driver
+On 7/11/22 14:42, Laurent Pinchart wrote:
+> [...]
+>  /*
+>   * struct rkisp1_info - Model-specific ISP Information
+>   *
+> @@ -106,6 +119,7 @@ enum rkisp1_isp_pad {
+>   * @isrs: array of ISP interrupt descriptors
+>   * @isr_size: number of entries in the @isrs array
+>   * @isp_ver: ISP version
+> + * @features: bitmatk of rkisp1_feature features implemented by the ISP
 
-Oh sorry, I missed in the comment the value was found experimentally
-an it's not documented..
+s/bitmatk/bitmask ?
 
-> doesn't really recover if it fails to resume (which is what
-> used to happen before adding a delay). Rounding up to 5ms
-> felt good enough.
->
-> >
-> > It's likely a detail, but according to
-> > Documentation/timers/timers-howto.rst
-> >
-> >         Since usleep_range is built on top of hrtimers, the
-> >         wakeup will be very precise (ish), thus a simple
-> >         usleep function would likely introduce a large number
-> >         of undesired interrupts.
-> >
-> >         With the introduction of a range, the scheduler is
-> >         free to coalesce your wakeup with any other wakeup
-> >         that may have happened for other reasons, or at the
-> >         worst case, fire an interrupt for your upper bound.
-> >
-> >         The larger a range you supply, the greater a chance
-> >         that you will not trigger an interrupt; this should
-> >         be balanced with what is an acceptable upper bound on
-> >         delay / performance for your specific code path. Exact
-> >         tolerances here are very situation specific, thus it
-> >         is left to the caller to determine a reasonable range.
-> >
-> > If you have a min of 3msec I would try with a range of (3000, 3500).
-> > What do you think ?
->
-> Seems good. I haven't yet had it fail to power on within 3ms of
-> turning on regulators so I guess there is no reason to worry about it.
->
-
-Ok then :) There's anyway a comment that says the value comes from
-practical experience, so if anything bad happens, it's easy to track
-it down to that
-
-Thanks
-  j
-
-> > >
-> > >   	ret = ak7375_i2c_write(ak7375_dev, AK7375_REG_CONT,
-> > >   		AK7375_MODE_ACTIVE, 1);
-> > >   	if (ret) {
-> > >  --
-> > >  2.37.0
-> >
->
-> Thanks for the review,
-> Yassine
->
->
+> [...]
+Best regards,
+Michael
