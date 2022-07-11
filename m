@@ -2,246 +2,354 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5460E5701FB
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:25:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8377F57021A
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:32:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbiGKMZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 08:25:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49942 "EHLO
+        id S230107AbiGKMcu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 08:32:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231691AbiGKMZ0 (ORCPT
+        with ESMTP id S229629AbiGKMct (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 08:25:26 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2088.outbound.protection.outlook.com [40.107.220.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869E64D14A
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:25:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oJWCzUJm3CfNBOLkBKC3CBUfDbDY+RKpUNCZKnLoOPo3hoyxaHhGl1z9eZPmClJApHn4ezUStkZ+4Y7ZjnD3bRINb+gbIPi/74OGi/Kfn5ESlupRyNqE/HGDS4pdCiYKuJXgP/XycQbKbalITpYRWc87xqnOzvE9FLeJfjibQD8ARQSR9e3A8tVqPdWNG5w67/9UcT5AWbGSjtKB2vC/m1Y03jumvWamRPkAHVeFHvql3GTwd5eND0qVsufmtDFdDM47RjtqjVCCFlrJmB2K+QXjny9uFuywnZe7KZkGHiZl8WOpDq4Q782NoEfb6gssJHOR+XyPOxrNXFC/MJkIJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JUPecrCVA5XyS6JocfeNrDqI3zWnquh86F4NIYZzyrU=;
- b=MckZ/BzQla/BM0l9Z8/JFZd7IHwpgpfPx3pd6ecSa4Kgk1q9ct20GoBpGf2JPLJB3t4XM8lsxPEtLqb2pCAZwzBUXU2Ws7HsZKZBmZJDXaImLpfG+3GCLx6ieigJ/ugs7CqaPnU9IafGSYQXMn159YPRHdu1roea9+1sP/2b0bWX54aJDMpoqDTJ4HEzDyTwkfdPaXuMLlkjyB/6alQDlT7cZseobYkCP9MDLEBs3vCBLst+bozY1FUCdDHu8tWp9yaBYMaIy7zw7TQsN6DyX6+J7KmjQTbtU5AhnUR2s36nHw7nxKsBrEq3X93MBjWlOn7xzbNhhy4TQ0BbkjwcmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JUPecrCVA5XyS6JocfeNrDqI3zWnquh86F4NIYZzyrU=;
- b=E1tCBTUaBy4SOIHUIScLRubjQcTjXVCvm86mZRVmX/JgfeO9PmONgKhuOUcKrGizfDqogps63s9pH4iPTEEzsRZDpXXR6VHIAW5y1HvN3h+3DNYOczPoLujxkndrDcvsKb/m/KaN86TCawpAzMwILaTOq78qDxo8D8JteZudRtk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH7PR12MB5593.namprd12.prod.outlook.com (2603:10b6:510:133::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.26; Mon, 11 Jul
- 2022 12:25:20 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5417.025; Mon, 11 Jul 2022
- 12:25:20 +0000
-Message-ID: <b28cca8f-ea2c-bab9-0de7-b469df121e09@amd.com>
-Date:   Mon, 11 Jul 2022 14:25:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/5] dma-buf: return only unsignaled fences in
- dma_fence_unwrap_for_each v3
-Content-Language: en-US
-To:     Karolina Drobnik <karolina.drobnik@intel.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     daniel@ffwll.ch, linaro-mm-sig@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-References: <20220506141009.18047-1-christian.koenig@amd.com>
- <20220506141009.18047-3-christian.koenig@amd.com>
- <f67d23e2-3953-7717-9c41-65075929525c@intel.com>
- <4c9598f0-4ba7-c18e-2ccd-f508769a72e9@amd.com>
- <fe4cfc97-ca20-b28d-8369-5cd404f27e19@intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <fe4cfc97-ca20-b28d-8369-5cd404f27e19@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0043.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::15) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Mon, 11 Jul 2022 08:32:49 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53BF04E841
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:32:48 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id b11so8539076eju.10
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hx4Xj0vKM3i9b8JRtUJiv/sbaqsj2HeLHhMvN2rvbzQ=;
+        b=InkBM8ViDKm5aLb2MeT/zAOxVF3eGAC8WlnxhjWChE7n2CDLvHpCe3Dq+yAnlWY6y5
+         op0wpFNoTFP1AXUj0T5v2K8D4abTewJPr26cMOYUUGI2dz2GvGghJxuuSMSlRRKm68qS
+         fBIllUi8s5VTs6u0fczmV+Gy3C/hJFD1sLOnGNDY/2tR+JLiWaK9SMpHm5b4XrwCEFea
+         KruUDwljlzZF2DhfpSyArfYq9nTxQ8udeAM0Aw7SZE/saGyCdscgpovFlPcNS5oN1hBI
+         orvTarntKuH2FOtLUxG4AQI3V1yi2zV1EN5AnftGKZV3CUBjHsuRIgUzXnwjYAyU8W3G
+         9EGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hx4Xj0vKM3i9b8JRtUJiv/sbaqsj2HeLHhMvN2rvbzQ=;
+        b=rdwfJ0EaGa6mtGGrWymG0K4QuK49RihUGFc2UV0r71jq+lG+65FrnCn4iHix+AH9Ly
+         HeGomFwVUj3oO+waTOStvy2OiqnU/zZO93jHdEaSY+cfv7++9/5Y9AnW03vFmFXBqbej
+         QGneAM6HhBDi7RVm3YpufRuRlkl0x0pNCCz68+Jzf8Y7VSk0WPwW3vRX7ekOGQSoV9/G
+         68VlCWYptRRo7gLcmdbAAiH9IcSWG7PKRFDjXOtagdTevLMT4G6ifM40FCdD5bzxH7lq
+         jw2eCbkG2NQXe0ialxudl4BjukTIwCpI5mwKPDNlmZxJ9woB0q/k7Oug6cqH6N2kDdfL
+         764w==
+X-Gm-Message-State: AJIora8iamDBZ0pOLVylNIsrtK0dBLJHtIgEY2O279orYTszhv3aUo0a
+        fmtvpvsLxyBw+3slY+UZFayYoIYu0nGtcYJZhuP/yA==
+X-Google-Smtp-Source: AGRyM1t2GYOvYiSczm91nCPcsRJRH4FqjR9E7NVKZ+m4L5fqZwnWxrxafS/w6hG5adH2Z02J62sZu85S85XMttB+tZA=
+X-Received: by 2002:a17:906:2086:b0:717:4e91:f1db with SMTP id
+ 6-20020a170906208600b007174e91f1dbmr18061273ejq.345.1657542766827; Mon, 11
+ Jul 2022 05:32:46 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d7b870bb-966a-4b62-4432-08da63386b79
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5593:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CAKWagQ6VEwAWcqrJ+MCW/RaOsXa4a702M7xGVZ2+AndUuexmFZ/QoJOeKAwpa6eun5CC9ObC1oMKaSEtMKCbLWIoPexGBJykIPeRijnRt84e1NF/VnYoUPxpAmBnHuhnen+7JbUAH40OMRwOnVGdIvSrPgWjJlJ/MsCK69Oh2a2lnJ5/73+MIKnAH7/x+BcVkktsGb1fFoavxktg5sKuDGiwzjOFOZGrW7yeZLt7io/HTBkSnv0el+fDkeTnPaM/y9GjLOHtsuGXkhoyMc42mdAUPT0gjbTE1BkrHxVh76nKjpJoX7GNwjCDpWuZOns3vpUk3S7B6aITqXuMI/Vh30DMV7PEgQa6JiDEsXNfkQ03OP5IKflPkxOd10Ex93dSV04hkuwCg6p6LzqZfwvcmcNBBkkRptoNm/5ZsMru6MWmL/nyqzYzVySlzNrI85R7ZW0HBi80ZRfAgsJAfRBu4an+4e3hAsdJarQ3xK4d8GN9S14ZURqKYjORbJ/yvs0wANH/aSzwM1OjUuEtnemqqDMmhtQLGbS788adGu9aafuFgJgVo+bMG+bhXkYu80GKRhsAUNozysq94cR0kEJhvU6DrW+th2OlIkjXeEvx0V+KxK+eiE7RWlOhWSkFT5x91jZSRu0w9zcpDpVhiIbQ2xOpqfgt8nF3l9n1k3hInzSUMSc3liku9cmPA7LPuiT+oqxr1Gaq9fA9RWNXHTdybT7/y4RKZL5fN5kCWJvI75g2VDo39xe2pauQccyWI28gVO7mtbrgeJVe7vgCyK72LhCyCTTo2RLLGuA+7Qcnb0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(346002)(396003)(376002)(366004)(39860400002)(2616005)(66574015)(186003)(8676002)(4326008)(45080400002)(6666004)(31696002)(41300700001)(66946007)(66556008)(66476007)(478600001)(86362001)(26005)(6486002)(966005)(316002)(6512007)(110136005)(53546011)(31686004)(6506007)(2906002)(83380400001)(38100700002)(36756003)(8936002)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXA5MUc1Y2svRmx5RS9QWXNnSlR1WlZVMlBTNkZkVCt4dHRjNzlEMmtqSVhy?=
- =?utf-8?B?QjZrL29CTytkYWp0eFBxWmIweTFhbElqMndTWDZUSHNSeGN5TVV4NmZpNFM4?=
- =?utf-8?B?MXpwYm9senN3bkl1SHAzanNpNUpVOFBveFZEZVh3UkJ2THBzYjB3Nnl3NEhL?=
- =?utf-8?B?amZ5ZUlWRTB4dFpiM2ZYdzBLRk1sQjIvZStlQ1ZnVHNzNlFCOTBHbC9tajIx?=
- =?utf-8?B?djZ5cStZU2pneVoxZ3p1R1JHWDA0SzVDUXdXVlZ4VHF6NFFDNEFIWGNPeG9n?=
- =?utf-8?B?VU44WG05eTByaDh5RDVsYVNNeWpka1RyZ01sbjk0czNxRE82MFFCSFJ2RThC?=
- =?utf-8?B?b05wZGZqS3ErUHVKUmxDV3FZR1ZKenF2dytxL3hLMU56MVRqV09KVFFnckdt?=
- =?utf-8?B?NkpqVGRyMmdNYXdzTU1lQWZNSVdUK21ISTBmSHplek0ybUgvaUhNMjlJb0U2?=
- =?utf-8?B?T3BnZXlTbDU4cVRUcndMSmJScWZ0M2lJbTFmY0ljODRJZHhXdVd0K1RYNGFU?=
- =?utf-8?B?NTd0SUdWbHBEZHNhMmpzdmNib0RaYXFLTDlpVm5LdENyN1ZXVjBYU3pHcVQr?=
- =?utf-8?B?WThOOVl4TnV6SS9XSUhuVDdDdVkrVCsxYzV3UFgzSmU2NGRPL0p4R2dwcld5?=
- =?utf-8?B?NHBiZm52c3VLSWRNYnN0UkgzUVhCVW9WeXEwR3dEUnFmVHhrWnhMOTdmOXhm?=
- =?utf-8?B?aTZtTVJadVVEbzVQbThIWW92VkRWVUhKTWdubWF6UHNENUZCZUc1M0FpSDBz?=
- =?utf-8?B?Y1pRQmswejJsSDU4aGl6ZWp1djcrb2hOK0UzUHFKYjZzMkN3UGkrbGdxdHFp?=
- =?utf-8?B?RnN4RDgrNy9RZnFJUW9vL3lMbjd4V0wwYTZIS3dZaS9EdEtrMTdvNjh5VGdB?=
- =?utf-8?B?WjJybllRa2FjU1JlQU92YTZDMkJuaE43UTVQMXFqaUg0MnB3elJRTDRiYkNr?=
- =?utf-8?B?TlEyekpIQjZSL2c3M2Qxd2d1eEFBbHhJMXBHMlFjMk51VkNid0VMbVFMeng1?=
- =?utf-8?B?OTUxOHhQQlpKZ2hYeTlQYkdGNC9jR3ZWS3Z3THh1RFBlOTlYTzlUZFdsZldT?=
- =?utf-8?B?S081cThpNmJ0SlhwN3A3MHFsemE0VVJSNDlFQWhFRzdrL0JBM204bmh3UEIr?=
- =?utf-8?B?WWhnY3NoZCtNamdSTGNFQkdnVTYyRmVIcGcwcmFOWmJYOW5wTmVvTWFuUnpp?=
- =?utf-8?B?QWRFTmMxWmE1SDlKNWtTZDdlVGc2R1djalIzeWFCUWc3OWVELzNEay9Cd1Rv?=
- =?utf-8?B?YnhmMExRL1A5R3ljZklHWXR3YVMxUW96My9NL25qZG5UTVZGQTZOd1VaY204?=
- =?utf-8?B?N2FhdmhVK3l3SS9CN29MUGkzTi9yMDFVZnFmL3FZcFNjaU9DTklMV1dWZGwr?=
- =?utf-8?B?V0F2ejRqMGQ3YWozQ05VaWJTY2t5ZTJhZVA0SFNBV3RmYU1LRjduY29mdTdF?=
- =?utf-8?B?aU5BVU1iME0reHRWQWJxY1pTS0U2T3R3WTVweTNKQkQwZzNIQ2xOcjdGZlhS?=
- =?utf-8?B?c2pDRUQrU2dML05wNUpXSE9oNVJieTNHeWQzVEowcWV2WU8vQ3NlU2JESDNF?=
- =?utf-8?B?Z09OUlhRWkNCempldGROOWVHN3VGWEN4V2V0MEQ1ZnlmOHh6eWZxdTZsajFY?=
- =?utf-8?B?L3NQaGkrb09LYzlKcmt4UU1nczlFTHp4aWUwbTYremlwUC9xOU5TRDlWTit1?=
- =?utf-8?B?WGliRVhlTWxGT3VaT21qaVdkYm5qTUVPRU4xZG54STFJbFdwSGZIeloxS3oy?=
- =?utf-8?B?WCt1Q1VIdzZTbDBNazEzU2d3VG81bmoyKzJpalVkRGVSenM0YUdxSk83RTBO?=
- =?utf-8?B?QmMyMktqcXF0VmljMGJqaWhCR0dDd1VFSENrLzFoOHN4cmN6OE93N1ZKK1pV?=
- =?utf-8?B?dVFkMGYrMklRNm5STHZtcFZlWG9pUU1tSTFxUEJIRlZmaGh5QlJNaWRBRTZi?=
- =?utf-8?B?RXdwRzZUcVhaTDBRWTNNL290bXJkZm91SFRGUnJkS2wwcWVMclZtOFVCWlU0?=
- =?utf-8?B?WTNCNGpLYlJHSUl5QXpYNnIwOXVNeWQ4dFZ1OTJEMWlxbkVzK1FvUE9SOVlm?=
- =?utf-8?B?NmdyblZ2UG16c3FoUlViYTFTMEQ0RHRpdGdGaEJTTFlBaHlwYTRkemJtclll?=
- =?utf-8?Q?1E+AVPYLfu0DsyZJyKAaj+0A+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7b870bb-966a-4b62-4432-08da63386b79
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2022 12:25:20.0336
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t17eCjUMN+aK/DB9Z4mYPCvoYUVM2YOsJvndI3NHCNTQrSQBJ4fO5BAFqgUuVTNB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5593
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220125171129.472775-1-aford173@gmail.com> <20220125171129.472775-8-aford173@gmail.com>
+ <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm> <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
+ <c11a58ecc5da2e206fc2b942980223a04a103f19.camel@puri.sm> <17c5ef22479cfea3f43dce1885f6613f1bef8064.camel@pengutronix.de>
+ <2f25ea965289f6fdcd5fc0f12f445b174637ce74.camel@puri.sm>
+In-Reply-To: <2f25ea965289f6fdcd5fc0f12f445b174637ce74.camel@puri.sm>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Mon, 11 Jul 2022 09:32:35 -0300
+Message-ID: <CAAEAJfACXrhHwF-Z9ygnZTUgKBQ3u1jHNDaMhgivq_rDr8xTNw@mail.gmail.com>
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2 VPU's
+ with vpu-blk-ctrl
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     Lucas Stach <l.stach@pengutronix.de>,
+        Adam Ford <aford173@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Chris Healy <cphealy@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Karolina,
+Hi Martin,
 
-Am 11.07.22 um 14:17 schrieb Karolina Drobnik:
-> Hi Christian,
+On Mon, Jul 11, 2022 at 6:53 AM Martin Kepplinger
+<martin.kepplinger@puri.sm> wrote:
 >
-> On 11.07.2022 11:57, Christian König wrote:
->> Hi Karolina,
->>
->> Am 11.07.22 um 11:44 schrieb Karolina Drobnik:
->>> Hi Christian,
->>>
->>> I'm sorry for digging this one out so late.
->>>
->>> On 06.05.2022 16:10, Christian König wrote:
->>>> dma_fence_chain containers cleanup signaled fences automatically, so
->>>> filter those out from arrays as well.
->>>>
->>>> v2: fix missing walk over the array
->>>> v3: massively simplify the patch and actually update the description.
->>>>
->>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>> ---
->>>>   include/linux/dma-fence-unwrap.h | 6 +++++-
->>>>   1 file changed, 5 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/include/linux/dma-fence-unwrap.h 
->>>> b/include/linux/dma-fence-unwrap.h
->>>> index e7c219da4ed7..a4d342fef8e0 100644
->>>> --- a/include/linux/dma-fence-unwrap.h
->>>> +++ b/include/linux/dma-fence-unwrap.h
->>>> @@ -43,9 +43,13 @@ struct dma_fence *dma_fence_unwrap_next(struct 
->>>> dma_fence_unwrap *cursor);
->>>>    * Unwrap dma_fence_chain and dma_fence_array containers and deep 
->>>> dive into all
->>>>    * potential fences in them. If @head is just a normal fence only 
->>>> that one is
->>>>    * returned.
->>>> + *
->>>> + * Note that signalled fences are opportunistically filtered out, 
->>>> which
->>>> + * means the iteration is potentially over no fence at all.
->>>>    */
->>>>   #define dma_fence_unwrap_for_each(fence, cursor, head)            \
->>>>       for (fence = dma_fence_unwrap_first(head, cursor); fence;    \
->>>> -         fence = dma_fence_unwrap_next(cursor))
->>>> +         fence = dma_fence_unwrap_next(cursor)) \
->>>> +        if (!dma_fence_is_signaled(fence))
->>>>     #endif
->>>
->>> It looks like this particular patch affects merging Sync Fences, 
->>> which is reflected by failing IGT test (igt@sw_sync)[1]. The failing 
->>> subtests are:
->>>   - sync_merge - merging different fences on the same timeline, neither
->>>          single nor merged fences are signaled
->>>
->>>   - sync_merge_same - merging the fence with itself on the same
->>>          timeline, the fence didn't signal at all
->>>
->>>   - sync_multi_timeline_wait - merging different fences on different
->>>          timelines; the subtest checks if counting fences of
->>>          various states works. Currently, it can only see 2
->>>          active fences, 0 signaling (should be 2 active,
->>>          1 signaling)
->>>
->>> Reverting this commit on the top of drm-tip fixes the issue, but I'm 
->>> not sure if it wouldn't impact other places in the code. Please let 
->>> me know if I can be of any help.
->>
->>
->> Thanks for letting me know. Not sure what's going on here, but I can 
->> take a look today if time permits.
+> Am Dienstag, dem 26.04.2022 um 12:43 +0200 schrieb Lucas Stach:
+> > Am Dienstag, dem 26.04.2022 um 09:38 +0200 schrieb Martin Kepplinger:
+> > > Am Montag, dem 25.04.2022 um 17:34 +0200 schrieb Lucas Stach:
+> > > > Hi Martin,
+> > > >
+> > > > Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin
+> > > > Kepplinger:
+> > > > > Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
+> > > > > > With the Hantro G1 and G2 now setup to run independently,
+> > > > > > update
+> > > > > > the device tree to allow both to operate.  This requires the
+> > > > > > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> > > > > > certain clock enabled to handle the gating of the G1 and G2
+> > > > > > fuses, the clock-parents and clock-rates for the various
+> > > > > > VPU's
+> > > > > > to be moved into the pgc_vpu because they cannot get re-
+> > > > > > parented
+> > > > > > once enabled, and the pgc_vpu is the highest in the chain.
+> > > > > >
+> > > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > > > > >
+> > > > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > > index 2df2510d0118..549b2440f55d 100644
+> > > > > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
+> > > > > >                                         pgc_vpu: power-
+> > > > > > domain@6 {
+> > > > > >                                                 #power-
+> > > > > > domain-
+> > > > > > cells =
+> > > > > > <0>;
+> > > > > >                                                 reg =
+> > > > > > <IMX8M_POWER_DOMAIN_VPU>;
+> > > > > > -                                               clocks =
+> > > > > > <&clk
+> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > > > > +                                               clocks =
+> > > > > > <&clk
+> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>,
+> > > > > > +
+> > > > > > <&clk
+> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > > > > +
+> > > > > > <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > > > > +                                               assigned-
+> > > > > > clocks =
+> > > > > > <&clk IMX8MQ_CLK_VPU_G1>,
+> > > > > > +
+> > > > > >
+> > > > > > <&clk IMX8MQ_CLK_VPU_G2>,
+> > > > > > +
+> > > > > >
+> > > > > > <&clk IMX8MQ_CLK_VPU_BUS>,
+> > > > > > +
+> > > > > >
+> > > > > > <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> > > > > > +                                               assigned-
+> > > > > > clock-
+> > > > > > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >     <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >     <&clk IMX8MQ_SYS1_PLL_800M>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >     <&clk IMX8MQ_VPU_PLL>;
+> > > > > > +                                               assigned-
+> > > > > > clock-
+> > > > > > rates
+> > > > > > = <600000000>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >   <600000000>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >   <800000000>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >   <0>;
+> > > > > >                                         };
+> > > > > >
+> > > > > >                                         pgc_disp:
+> > > > > > power-domain@7
+> > > > > > {
+> > > > > > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
+> > > > > >                         status = "disabled";
+> > > > > >                 };
+> > > > > >
+> > > > > > -               vpu: video-codec@38300000 {
+> > > > > > -                       compatible = "nxp,imx8mq-vpu";
+> > > > > > -                       reg = <0x38300000 0x10000>,
+> > > > > > -                             <0x38310000 0x10000>,
+> > > > > > -                             <0x38320000 0x10000>;
+> > > > > > -                       reg-names = "g1", "g2", "ctrl";
+> > > > > > -                       interrupts = <GIC_SPI 7
+> > > > > > IRQ_TYPE_LEVEL_HIGH>,
+> > > > > > -                                    <GIC_SPI 8
+> > > > > > IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > -                       interrupt-names = "g1", "g2";
+> > > > > > +               vpu_g1: video-codec@38300000 {
+> > > > > > +                       compatible = "nxp,imx8mq-vpu-g1";
+> > > > > > +                       reg = <0x38300000 0x10000>;
+> > > > > > +                       interrupts = <GIC_SPI 7
+> > > > > > IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > +                       clocks = <&clk
+> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>;
+> > > > > > +                       power-domains = <&vpu_blk_ctrl
+> > > > > > IMX8MQ_VPUBLK_PD_G1>;
+> > > > > > +               };
+> > > > > > +
+> > > > > > +               vpu_g2: video-codec@38310000 {
+> > > > > > +                       compatible = "nxp,imx8mq-vpu-g2";
+> > > > > > +                       reg = <0x38310000 0x10000>;
+> > > > > > +                       interrupts = <GIC_SPI 8
+> > > > > > IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > +                       clocks = <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > > > > +                       power-domains = <&vpu_blk_ctrl
+> > > > > > IMX8MQ_VPUBLK_PD_G2>;
+> > > > > > +               };
+> > > > > > +
+> > > > > > +               vpu_blk_ctrl: blk-ctrl@38320000 {
+> > > > > > +                       compatible = "fsl,imx8mq-vpu-blk-
+> > > > > > ctrl";
+> > > > > > +                       reg = <0x38320000 0x100>;
+> > > > > > +                       power-domains = <&pgc_vpu>,
+> > > > > > <&pgc_vpu>,
+> > > > > > <&pgc_vpu>;
+> > > > > > +                       power-domain-names = "bus", "g1",
+> > > > > > "g2";
+> > > > > >                         clocks = <&clk
+> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > > > > -                                <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>,
+> > > > > > -                                <&clk
+> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > > > > -                       clock-names = "g1", "g2", "bus";
+> > > > > > -                       assigned-clocks = <&clk
+> > > > > > IMX8MQ_CLK_VPU_G1>,
+> > > > > > -                                         <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2>,
+> > > > > > -                                         <&clk
+> > > > > > IMX8MQ_CLK_VPU_BUS>,
+> > > > > > -                                         <&clk
+> > > > > > IMX8MQ_VPU_PLL_BYPASS>;
+> > > > > > -                       assigned-clock-parents = <&clk
+> > > > > > IMX8MQ_VPU_PLL_OUT>,
+> > > > > > -                                                <&clk
+> > > > > > IMX8MQ_VPU_PLL_OUT>,
+> > > > > > -                                                <&clk
+> > > > > > IMX8MQ_SYS1_PLL_800M>,
+> > > > > > -                                                <&clk
+> > > > > > IMX8MQ_VPU_PLL>;
+> > > > > > -                       assigned-clock-rates = <600000000>,
+> > > > > > <600000000>,
+> > > > > > -                                              <800000000>,
+> > > > > > <0>;
+> > > > > > -                       power-domains = <&pgc_vpu>;
+> > > > > > +                                <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > > > > +                       clock-names = "g1", "g2";
+> > > > > > +                       #power-domain-cells = <1>;
+> > > > > >                 };
+> > > > > >
+> > > > > >                 pcie0: pcie@33800000 {
+> > > > >
+> > > > > With this update, when testing suspend to ram on imx8mq, I get:
+> > > > >
+> > > > > buck4: failed to disable: -ETIMEDOUT
+> > > > >
+> > > > > where buck4 is power-supply of pgc_vpu. And thus the transition
+> > > > > to
+> > > > > suspend (and resuming) fails.
+> > > > >
+> > > > > Have you tested system suspend after the imx8m-blk-ctrl update
+> > > > > on
+> > > > > imx8mq?
+> > > >
+> > > > I haven't tested system suspend, don't know if anyone else did.
+> > > > However
+> > > > I guess that this is just uncovering a preexisting issue in the
+> > > > system
+> > > > suspend sequencing, which you would also hit if the video
+> > > > decoders
+> > > > were
+> > > > active at system suspend time.
+> > > >
+> > > > My guess is that the regulator disable fails, due to the power
+> > > > domains
+> > > > being disabled quite late in the suspend sequence, where i2c
+> > > > communication with the PMIC is no longer possible due to i2c
+> > > > being
+> > > > suspended already or something like that. Maybe you can dig in a
+> > > > bit
+> > > > on
+> > > > the actual sequence on your system and we can see how we can
+> > > > rework
+> > > > things to suspend the power domains at a time where communication
+> > > > with
+> > > > the PMIC is still possible?
+> > >
+> > > What exactly would you like to see? Here's all gpcv2 regulators
+> > > disabling on suspend. (gpu (domain 5) is disabled by runtime pm
+> > > often):
+> > >
+> > > [   47.138700] imx-pgc imx-pgc-domain.5: disabling regulator
+> > > [   47.298071] Freezing user space processes ... (elapsed 0.008
+> > > seconds) done.
+> > > [   47.313432] OOM killer disabled.
+> > > [   47.316670] Freezing remaining freezable tasks ... (elapsed
+> > > 2.221
+> > > seconds) done.
+> > > [   49.672052] imx8m-blk-ctrl 38320000.blk-ctrl:
+> > > imx8m_blk_ctrl_suspend
+> > > start
+> > > [   49.704417] imx-pgc imx-pgc-domain.0: disabling regulator
+> > > [   49.711114] imx-pgc imx-pgc-domain.6: disabling regulator
+> > > [   49.819064] buck4: failed to disable: -ETIMEDOUT
+> > >
+> > > The stack looks pretty much the same for all of them, from
+> > > pm_suspend()
+> > > over genpd_suspend_noiry().
+> >
+> > So the GPU domain is already suspended before the system suspend,
+> > probably due to short runtime PM timeouts.
+> >
+> > Can you please check at which point the i2c subsystem is suspended? I
+> > think we are already past that point when running the PM domain
+> > suspend
+> > from a _noirq callback. I'll take a look on how we can properly
+> > change
+> > this ordering.
+> >
+> > Regards,
+> > Lucas
+> >
 >
-> The reproduction with IGTs should be quite easy. You'll need to 
-> clone/download the IGT code and follow instructions for Building[1] 
-> the project (make sure you have meson and ninja installed):
+> hi Lucas, sorry for not following up on this for so long. This fixes
+> suspend/resume for me:
 >
-> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Figt-gpu-tools&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9a9587aefd2d4ac2d86208da63375cb6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637931386683611766%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=4WsMutcFJ2HwBqld%2BTv9N1Tx6cbFMwJJZ6kjm5rbfoI%3D&amp;reserved=0
+> https://lore.kernel.org/linux-arm-kernel/20220711094549.3445566-1-martin.kepplinger@puri.sm/T/#t
 >
-> Once you have it up and running, go to <igt path>/build/tests, and run 
-> the subtests:
+> thank you for you help so far,
 >
->   ./sw_sync --run sync_merge
->   ./sw_sync --run sync_merge_same
->   ./sw_sync --run sync_multi_timeline_wait
->
-> You can run all the subtests with ./sw_sync, but I think these are the 
-> most relevant to you.
 
-Thanks, I've already managed to reproduce it.
+Thanks a lot for keeping us posted. The fix for suspend/resume
+looks great!
 
-Not sure what's going on here, but could be that the test case was never 
-correct in the first place. Need to double check.
-
-Thanks,
-Christian.
-
->
-> Many thanks,
-> Karolina
->
-> ------------------
-> [1] - 
-> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Figt-gpu-tools%23building&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9a9587aefd2d4ac2d86208da63375cb6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637931386683611766%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=FV0Ao6ra8EOyr4cOs4N7mCmpOEUUObTrgyOrd0tvEV8%3D&amp;reserved=0
->
->> Do you have a description how to easy reproduce this? E.g. how to run 
->> just those specific igts?
->>
->> Thanks,
->> Christian.
->>
->>>
->>> All the best,
->>> Karolina
->>>
-
+Ezequiel
