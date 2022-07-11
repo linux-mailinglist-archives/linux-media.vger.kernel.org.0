@@ -2,92 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8181057018A
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ED725701A2
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:04:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231443AbiGKMCm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 08:02:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56244 "EHLO
+        id S231271AbiGKMEm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 08:04:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231244AbiGKMCg (ORCPT
+        with ESMTP id S230105AbiGKMEl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 08:02:36 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF6F83DBF9
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:02:27 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id y11so1756544lfs.6
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:02:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/rappI+jRHTVuP1fFDqK1XDoQzLaLz1pV5QzHwd5BWU=;
-        b=RFj91ySRbmVSTF+rJP3CRaDqrgp10TZHGcD/+qhSmHOUVcUanncoh2s4CcmS7bDH/z
-         yP/3zeG9G4uCPEtTy+71krgWQZhpXOF779qcHGN05jac6oUtoZzDafh9KGd03IFn7pBv
-         hng/gZIUQvVDmcEBj4FKIq1YXVJVx3G8+xNHcsTmeWnlfqH+EUDSHwDGJOUJme+tqmpn
-         2XCT1gapQRhpyvn9pnPnxgiYGKeGQAoNF1bhLo4gdmQleJDD7JE7N/+o+9QPN+SXT0Ux
-         DyFnV8IX5VkEw60oiKOnk0B3EhT+ny1lj0+fB1K/HgybLX1UswmF6fl3RPs73xpL5Qm0
-         fLmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/rappI+jRHTVuP1fFDqK1XDoQzLaLz1pV5QzHwd5BWU=;
-        b=IMmHSUI9eC6uxVeHcsMZEs53N8Yxk4HeZfhzVe0DB6hmU2taTWPB4dX447vjpt7fi8
-         BYrbZcq3TPYv+84EiqM04gbQG4O4bx2sTQbsMGBN3k3q9HaeaTxlQBuWyByWCLydtRM8
-         fp8qaV/jyKqRVCTTw6IJQ80jyeyd9BPRAS2w8SHYMAO4EXntIldMGvsTg7wSgx0CvpgN
-         OJhPy1lKEsbqdsaVl8Jd1Uq2fCiA36eEDNeHLYUTKSCL+YwwTUD7OEjNhNfPf0AWPVIf
-         pFDIw4NVXIH5zocyt9Ei4c/Y475VUkGwvuuQ3c5DZSuaxArNyqcf9zRRyEcA7EwYOcph
-         UacA==
-X-Gm-Message-State: AJIora/k/u/R3s+Xaja7zxj4TiVwJFbie2l9U9I4mfptX+9lEokMI+FU
-        xutpTFKMt9TbFDmrk6rXDdbh7g==
-X-Google-Smtp-Source: AGRyM1tNgR5GmQvLjxWA47o0znprtxZrIDw74DDBkkFdC928TaPbMIJ9aiRutSUnODGG4SNWD8qxbw==
-X-Received: by 2002:a05:6512:1082:b0:489:cdfa:1fae with SMTP id j2-20020a056512108200b00489cdfa1faemr6926204lfg.251.1657540946182;
-        Mon, 11 Jul 2022 05:02:26 -0700 (PDT)
-Received: from [10.0.0.8] (fwa5cab-55.bb.online.no. [88.92.171.55])
-        by smtp.gmail.com with ESMTPSA id y16-20020a05651c107000b002554dce4048sm1729674ljm.53.2022.07.11.05.02.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jul 2022 05:02:25 -0700 (PDT)
-Message-ID: <3de9a73c-9dba-63d6-a890-64b861e2c6da@linaro.org>
-Date:   Mon, 11 Jul 2022 14:02:23 +0200
+        Mon, 11 Jul 2022 08:04:41 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A72CD11C
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:04:40 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42ADA326;
+        Mon, 11 Jul 2022 14:04:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657541077;
+        bh=kohtYCBqjedD034cw6pp1EIO4lNH1yHH1Q5bUGoDebI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jIrrqEzNIw6rk82M5eEYDwc8JaHwyoKqRUqJqcmT+fUfaDWbpMnk/rVj1/7fIPFy6
+         c5sWmRufFLL4x6kWRgaSuTytVBCAXugnP4UZ5DjihgtaBM6oi5k04EgW9pPFDWNptX
+         uxzbPfV2ku2/gI16C8FnJdEkYmmOh0KsYr+CM6TY=
+Date:   Mon, 11 Jul 2022 15:04:10 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dafna Hirschfeld <dafna@fastmail.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
+Subject: Re: [PATCH v2 46/55] media: rkisp1: debug: Add dump file in debugfs
+ for MI buffer registers
+Message-ID: <YswRuuTUpVSkTPm4@pendragon.ideasonboard.com>
+References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
+ <20220630230713.10580-47-laurent.pinchart@ideasonboard.com>
+ <20220711025107.xkws7mliucwxjjgn@guri>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 4/6] media: dt-bindings: media: ov9282: Add power supply
- properties
-Content-Language: en-US
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        "Paul J . Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20220711081639.150153-1-alexander.stein@ew.tq-group.com>
- <20220711081639.150153-5-alexander.stein@ew.tq-group.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220711081639.150153-5-alexander.stein@ew.tq-group.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220711025107.xkws7mliucwxjjgn@guri>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/07/2022 10:16, Alexander Stein wrote:
-> Add regulators for each power domain.
+Hi Dafna,
+
+On Mon, Jul 11, 2022 at 05:51:07AM +0300, Dafna Hirschfeld wrote:
+> On 01.07.2022 02:07, Laurent Pinchart wrote:
+> >From: Paul Elder <paul.elder@ideasonboard.com>
+> >
+> >Add a register dump file in debugfs for some of the buffer-related
+> >registers in MI, for the base address, the size, and the offset. Also
+> >dump the appropriate shadow registers.
+> >
+> >Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> >---
+> > .../platform/rockchip/rkisp1/rkisp1-debug.c   | 21 +++++++++++++++++++
+> > 1 file changed, 21 insertions(+)
+> >
+> >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> >index e76dc2b164b6..1a59c00fabdd 100644
+> >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> >@@ -121,6 +121,24 @@ static int rkisp1_debug_dump_rsz_regs_show(struct seq_file *m, void *p)
+> > }
+> > DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_rsz_regs);
+> >
+> >+static int rkisp1_debug_dump_mi_mp_y_offs_cnt_show(struct seq_file *m, void *p)
+> >+{
+> >+	static const struct rkisp1_debug_register registers[] = {
+> >+		RKISP1_DEBUG_REG(MI_MP_Y_BASE_AD_INIT),
+> >+		RKISP1_DEBUG_REG(MI_MP_Y_BASE_AD_INIT2),
+> >+		RKISP1_DEBUG_REG(MI_MP_Y_BASE_AD_SHD),
+> >+		RKISP1_DEBUG_REG(MI_MP_Y_SIZE_INIT),
+> >+		RKISP1_DEBUG_REG(MI_MP_Y_SIZE_INIT),
+> >+		RKISP1_DEBUG_REG(MI_MP_Y_SIZE_SHD),
+> >+		RKISP1_DEBUG_REG(MI_MP_Y_OFFS_CNT_SHD),
+> >+		{ /* Sentinel */ },
+> >+	};
+> >+	struct rkisp1_device *rkisp1 = m->private;
+> >+
+> >+	return rkisp1_debug_dump_regs(rkisp1, m, 0, registers);
+> >+}
+> >+DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_mi_mp_y_offs_cnt);
+> >+
+> > #define RKISP1_DEBUG_DATA_COUNT_BINS	32
+> > #define RKISP1_DEBUG_DATA_COUNT_STEP	(4096 / RKISP1_DEBUG_DATA_COUNT_BINS)
+> >
+> >@@ -214,6 +232,9 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+> > 	debugfs_create_file("srsz", 0444, regs_dir,
+> > 			    &rkisp1->resizer_devs[RKISP1_SELFPATH],
+> > 			    &rkisp1_debug_dump_rsz_regs_fops);
+> >+
+> >+	debugfs_create_file("mi_mp_y_bufs", 0444, regs_dir, rkisp1,
+> >+			    &rkisp1_debug_dump_mi_mp_y_offs_cnt_fops);
 > 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> You didn't change the file name as Laurent suggested
 
+I've fixed that locally, will be included in v3.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > }
+> >
+> > void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
 
+-- 
+Regards,
 
-Best regards,
-Krzysztof
+Laurent Pinchart
