@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A72F56D2FB
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 04:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD51756D305
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 04:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbiGKC3a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Jul 2022 22:29:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37724 "EHLO
+        id S229476AbiGKCjf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Jul 2022 22:39:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiGKC33 (ORCPT
+        with ESMTP id S229463AbiGKCjd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Jul 2022 22:29:29 -0400
+        Sun, 10 Jul 2022 22:39:33 -0400
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6E09640B
-        for <linux-media@vger.kernel.org>; Sun, 10 Jul 2022 19:29:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13C30165A4
+        for <linux-media@vger.kernel.org>; Sun, 10 Jul 2022 19:39:33 -0700 (PDT)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id 37AF6320029B;
-        Sun, 10 Jul 2022 22:29:26 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sun, 10 Jul 2022 22:29:26 -0400
+        by mailout.west.internal (Postfix) with ESMTP id 1499632002B6;
+        Sun, 10 Jul 2022 22:39:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Sun, 10 Jul 2022 22:39:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1657506565; x=1657592965; bh=CCBY9d9Um0
-        Hx5Dv0S6QBP9R5oXD6ecN3f+4ds/Nn9eo=; b=VZyG1eJHfMrzi6a1LVxodT6pOU
-        8JIsvB4Z176b8DBHR2RLPDnWNYE7usLoTa+RTQ6qhiJ80lwau1OgGmH2ib6YfwN2
-        9DNjRo4e7J6ORwkluzH4duUY4WciNUcTSTO0//DxA8e+pVSXN3aFoLWr54j4bS9T
-        LeGF6FwkL4GtjGFcKKlf//dAg2tgLIU9CxF00/P8wEhK4df9NiR2fX0T4awtIrmM
-        +6RERVwV+rXsE/0yFsqFddDEZspwsubHOipuWyBJVOBksXh69xK751clvIMwah4B
-        s7acsGPW4DP1+lELFxz7F/EdDDnVo0VoWrtPFNyH1L/WbVG0RO6xzRJOmhZw==
+        :subject:to:to; s=fm3; t=1657507171; x=1657593571; bh=KLIhSz+wR2
+        VqtiP+szDKIFQ0eWo0giVSSA30hYeleH8=; b=KAYoAI7xIW7BX6aEGKh2rexWbr
+        KB2X8wxJABdFm10D8smqJcY2Ap2PVT0gC2tzZTZLFgha5FOiFD+8KUujCQdFw/G6
+        XSRkW/hG46hV+Ex30AFPzvWp7TCfPRdPE7U+3bwvMy1MfORzRCBbb4RZbHkvUZRS
+        U4yoQDEyPzMDmPWxHGBDbIJyW3csN5oFyGsoykTb5NxJbFitxV1WgjeswwUlhMYv
+        n5Xt4D1WPFbu6C/2CscCPiNav4w6+hWJeAB5kJWpwDjtwSgqVkshAaKvS7GmJUPZ
+        QAe6pFmFWj6E+OuGSoY5Q7LbMApSyjoepuXHQTNvZG/FKeaUjejl079n25eg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1657506565; x=1657592965; bh=CCBY9d9Um0Hx5Dv0S6QBP9R5oXD6
-        ecN3f+4ds/Nn9eo=; b=tvvldkt4bWDMxIkUqSpylJYIekNMAhSLG0K4OwO3RKCV
-        fwkhY951C/58gBCH3Y+f+fFp7o9aXrBcAtkjqtOmtwUh1ae3knL8iuISohhIjfM5
-        DHeAUg76AfuspZgl5/gp+u+6CVJhCNC57gaYgioZPd6N7SuYw7/EL0I85Z9RwidP
-        a2HqDrL3/MuuFSafKBXthbUbZ/wZ/qjPKrz1CQd21fZXguyjWzhtl8Cr3Cz/PJYY
-        WP7E7JtlrgquCYOYWzwHzXAB8KB8DkCtJhdIkxOxK28jsZtI8scn55v4wvE3XFvc
-        uEhRNQkgbaZVIGt8nfKM823wfzQRrQ7iSwUQ2gUYdg==
-X-ME-Sender: <xms:BYvLYuJkFJbX_aldDJLmpkF62GVfQ8pJjgVeX2G7b8eyJbKZcshmpA>
-    <xme:BYvLYmIcoH33nzj88-OR1GFNskc7rxyWwpKHpoUGfg8CmJWihhYjizWBfjjAoqMIG
-    1NNgkkzSGGjYWP4-E0>
-X-ME-Received: <xmr:BYvLYut5ZHStFvS8oTSSjKzjHPVZSmKvPYX2mjoZxxSL5AhBWD4KMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejvddgieduucetufdoteggodetrfdotf
+        fm3; t=1657507171; x=1657593571; bh=KLIhSz+wR2VqtiP+szDKIFQ0eWo0
+        giVSSA30hYeleH8=; b=klWWuQMwU2VNa1QTr7aWr34J8tS5wAy8QcgTQQdOMEcw
+        sgVekxaC7DSkC2r1bIRqINXgBsPH/fldEYxsNDsW+iosmhhHuG88lNMgsAN5we+R
+        LNd+PtZjDeSDbu0iMN0W9qOSxV6F9fFWp32lJ+C4BynbRGc1ms55sefksWTH53VX
+        0HlPBZrW4L/v+zXWDxfeTMvNSX7a5UzS2bFxLYkZG9AtveU/VnPx3zWaZCNjuCwD
+        42ruSd0IEN5hpKytK02+IhYMtbC39FycT3ge/txMTkzQZkMWaKFBP3ruXO90HmBZ
+        5xT4F+BO/aj7lnwmtExlWUbmm8LvHEjsBHgQjhkBuA==
+X-ME-Sender: <xms:Y43LYhWukn7SVvPw0oEXq2ZwTSuwloh85F97XguF09MpQhdsXgiREw>
+    <xme:Y43LYhkZLaZ7D0C3bB7uFpQPSTk5_zH7pIRI8FT9VkQdfyWenUgMhFlGVa4xEcmyh
+    BJ-RYIfCmbzcgENGR4>
+X-ME-Received: <xmr:Y43LYtZ9LA76Iv8yiJgxZnmjTApRMGQ6ij78vqqirfzgDSrn9ILp4g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejvddgieefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
@@ -55,29 +55,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejvddgieduucetufdoteggod
     lefhteduudfgjeenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucevlhhush
     htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghfnhgrsehfrghs
     thhmrghilhdrtghomh
-X-ME-Proxy: <xmx:BYvLYjZ32EcYeR7Kv-lpvuVjxU1wEILyxpY8afVVf0En_9spXlGUWg>
-    <xmx:BYvLYlYKUQiV7BvhtZdo3fx9fz1IZAXkk5mvvg4LZGtBcy82bHwzVg>
-    <xmx:BYvLYvBG-fXDd_gGCbLALqR9aps9wqig91gO87RcGIh_rkKJQuGEiA>
-    <xmx:BYvLYkW1tNX67_28j9RJf-UXoBVuIuNpo27KvAKZwhCrtTmnJTPPww>
+X-ME-Proxy: <xmx:Y43LYkVEK9wDAaAcZ5ITRSmGDUiNLWOrZ66DtiFs5CHW9NGbSuVjYg>
+    <xmx:Y43LYrnToZ_UX86qAD3etYlnCgyHf76ceFbTIiuJigszxtbHchIy9w>
+    <xmx:Y43LYhf4kXmY9BI7E7lfiJrafMPipzOeiLwEu1_tKcCH5p0D92jFOw>
+    <xmx:Y43LYkBllAuIi4qy2nWdk3rHYTKMNJwRJ7T_ENsvP1Y8NIHQbBMjhw>
 Feedback-ID: i0e894699:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 10 Jul 2022 22:29:22 -0400 (EDT)
-Date:   Mon, 11 Jul 2022 05:29:19 +0300
+ 10 Jul 2022 22:39:29 -0400 (EDT)
+Date:   Mon, 11 Jul 2022 05:39:26 +0300
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH v2 44/55] media: rkisp1: Add infrastructure to support
- ISP features
-Message-ID: <20220711022919.hh3yvmlkioefgdrd@guri>
+Subject: Re: [PATCH v2 45/55] media: rkisp1: Make the internal CSI-2 receiver
+ optional
+Message-ID: <20220711023926.zg45nxcj3el5l2z2@guri>
 References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
- <20220630230713.10580-45-laurent.pinchart@ideasonboard.com>
+ <20220630230713.10580-46-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220630230713.10580-45-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220630230713.10580-46-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -89,84 +89,119 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 01.07.2022 02:07, Laurent Pinchart wrote:
->Different ISP versions implement different sets of features. The driver
->already takes the version into account in several places, but this
->approach won't scale well for features that are found in different
->versions. Introduce a new mechanism using a features bitmask in the
->rkisp1_info structure to indicate which features the ISP support.
->
->The first feature bit tells if the ISP has an internal CSI-2 receiver,
->which is not available in all ISP versions.
+>Not all ISP versions integrate a MIPI CSI-2 receiver.
 >
 >Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 
 >---
-> .../platform/rockchip/rkisp1/rkisp1-common.h      | 15 +++++++++++++++
-> .../media/platform/rockchip/rkisp1/rkisp1-dev.c   |  2 ++
-> 2 files changed, 17 insertions(+)
+> .../platform/rockchip/rkisp1/rkisp1-dev.c     | 50 +++++++++++++------
+> 1 file changed, 34 insertions(+), 16 deletions(-)
 >
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
->index e436f1572566..dedfcf3466c8 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
->@@ -98,6 +98,19 @@ enum rkisp1_isp_pad {
-> 	RKISP1_ISP_PAD_MAX
-> };
->
->+/*
->+ * enum rkisp1_feature - ISP features
->+ *
->+ * @RKISP1_FEATURE_MIPI_CSI2: The ISP has an internal MIPI CSI-2 receiver
->+ *
->+ * The ISP features are stored in a bitmask in &rkisp1_info.features and allow
->+ * the driver to implement support for features present in some ISP versions
->+ * only.
->+ */
->+enum rkisp1_feature {
->+	RKISP1_FEATURE_MIPI_CSI2 = BIT(0),
->+};
->+
-> /*
->  * struct rkisp1_info - Model-specific ISP Information
->  *
->@@ -106,6 +119,7 @@ enum rkisp1_isp_pad {
->  * @isrs: array of ISP interrupt descriptors
->  * @isr_size: number of entries in the @isrs array
->  * @isp_ver: ISP version
->+ * @features: bitmatk of rkisp1_feature features implemented by the ISP
->  *
->  * This structure contains information about the ISP specific to a particular
->  * ISP model, version, or integration in a particular SoC.
->@@ -116,6 +130,7 @@ struct rkisp1_info {
-> 	const struct rkisp1_isr_data *isrs;
-> 	unsigned int isr_size;
-> 	enum rkisp1_cif_isp_version isp_ver;
->+	unsigned int features;
-> };
->
-> /*
 >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->index 1dcade2fd2a7..bc278b49fefc 100644
+>index bc278b49fefc..f2475c6235ea 100644
 >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
 >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->@@ -460,6 +460,7 @@ static const struct rkisp1_info px30_isp_info = {
-> 	.isrs = px30_isp_isrs,
-> 	.isr_size = ARRAY_SIZE(px30_isp_isrs),
-> 	.isp_ver = RKISP1_V12,
->+	.features = RKISP1_FEATURE_MIPI_CSI2,
-> };
+>@@ -205,6 +205,14 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
 >
-> static const char * const rk3399_isp_clks[] = {
->@@ -478,6 +479,7 @@ static const struct rkisp1_info rk3399_isp_info = {
-> 	.isrs = rk3399_isp_isrs,
-> 	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
-> 	.isp_ver = RKISP1_V10,
->+	.features = RKISP1_FEATURE_MIPI_CSI2,
-> };
+> 		switch (reg) {
+> 		case 0:
+>+			/* MIPI CSI-2 port */
+>+			if (!(rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)) {
+>+				dev_err(rkisp1->dev,
+>+					"internal CSI must be available for port 0\n");
+>+				ret = -EINVAL;
+>+				break;
+>+			}
+>+
+> 			vep.bus_type = V4L2_MBUS_CSI2_DPHY;
+> 			break;
 >
-> static const struct of_device_id rkisp1_of_match[] = {
+>@@ -330,13 +338,16 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+> 	unsigned int i;
+> 	int ret;
+>
+>-	/* Link the CSI receiver to the ISP. */
+>-	ret = media_create_pad_link(&rkisp1->csi.sd.entity, RKISP1_CSI_PAD_SRC,
+>-				    &rkisp1->isp.sd.entity,
+>-				    RKISP1_ISP_PAD_SINK_VIDEO,
+>-				    MEDIA_LNK_FL_ENABLED);
+>-	if (ret)
+>-		return ret;
+>+	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+>+		/* Link the CSI receiver to the ISP. */
+>+		ret = media_create_pad_link(&rkisp1->csi.sd.entity,
+>+					    RKISP1_CSI_PAD_SRC,
+>+					    &rkisp1->isp.sd.entity,
+>+					    RKISP1_ISP_PAD_SINK_VIDEO,
+>+					    MEDIA_LNK_FL_ENABLED);
+>+		if (ret)
+>+			return ret;
+>+	}
+>
+> 	/* create ISP->RSZ->CAP links */
+> 	for (i = 0; i < 2; i++) {
+>@@ -379,7 +390,8 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+>
+> static void rkisp1_entities_unregister(struct rkisp1_device *rkisp1)
+> {
+>-	rkisp1_csi_unregister(rkisp1);
+>+	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
+>+		rkisp1_csi_unregister(rkisp1);
+> 	rkisp1_params_unregister(rkisp1);
+> 	rkisp1_stats_unregister(rkisp1);
+> 	rkisp1_capture_devs_unregister(rkisp1);
+>@@ -411,9 +423,11 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
+> 	if (ret)
+> 		goto error;
+>
+>-	ret = rkisp1_csi_register(rkisp1);
+>-	if (ret)
+>-		goto error;
+>+	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+>+		ret = rkisp1_csi_register(rkisp1);
+>+		if (ret)
+>+			goto error;
+>+	}
+>
+> 	ret = rkisp1_create_links(rkisp1);
+> 	if (ret)
+>@@ -576,9 +590,11 @@ static int rkisp1_probe(struct platform_device *pdev)
+> 		goto err_unreg_v4l2_dev;
+> 	}
+>
+>-	ret = rkisp1_csi_init(rkisp1);
+>-	if (ret)
+>-		goto err_unreg_media_dev;
+>+	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+>+		ret = rkisp1_csi_init(rkisp1);
+>+		if (ret)
+>+			goto err_unreg_media_dev;
+>+	}
+>
+> 	ret = rkisp1_entities_register(rkisp1);
+> 	if (ret)
+>@@ -595,7 +611,8 @@ static int rkisp1_probe(struct platform_device *pdev)
+> err_unreg_entities:
+> 	rkisp1_entities_unregister(rkisp1);
+> err_cleanup_csi:
+>-	rkisp1_csi_cleanup(rkisp1);
+>+	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
+>+		rkisp1_csi_cleanup(rkisp1);
+> err_unreg_media_dev:
+> 	media_device_unregister(&rkisp1->media_dev);
+> err_unreg_v4l2_dev:
+>@@ -613,7 +630,8 @@ static int rkisp1_remove(struct platform_device *pdev)
+> 	v4l2_async_nf_cleanup(&rkisp1->notifier);
+>
+> 	rkisp1_entities_unregister(rkisp1);
+>-	rkisp1_csi_cleanup(rkisp1);
+>+	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
+>+		rkisp1_csi_cleanup(rkisp1);
+> 	rkisp1_debug_cleanup(rkisp1);
+>
+> 	media_device_unregister(&rkisp1->media_dev);
 >-- 
 >Regards,
 >
