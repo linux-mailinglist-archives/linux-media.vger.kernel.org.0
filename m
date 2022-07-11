@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C75DD570307
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB44957030B
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:44:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231862AbiGKMoC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 08:44:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44106 "EHLO
+        id S231947AbiGKMoV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 08:44:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231933AbiGKMnw (ORCPT
+        with ESMTP id S229687AbiGKMn5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 08:43:52 -0400
+        Mon, 11 Jul 2022 08:43:57 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E024D1903D
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:43:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2037220BDF
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:43:53 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3F871C09;
-        Mon, 11 Jul 2022 14:43:27 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50E3811F0;
+        Mon, 11 Jul 2022 14:43:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1657543408;
-        bh=4W5h8ZyhDD2s+cMAmd4iAng4SMJHn0OJPbEVgJX1vhQ=;
+        bh=kWkLLGS53gqIKKyiDhPv1Xi07M4xf4u2hdkaOTTK98c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B4lOjcfpk2YKpu3jKmNGGh57CkAhs1oRe7bDBdTyP0yHN9mET1/wPdCuFSjmIxbZG
-         yhll117W7bvxQaglvYadAxgdDwomqq+PqsT9EM8LpRaTqOM3RdwvRMrCnLRf0CsE5u
-         +PjdmxdkJYAfZn+8hcuE4Ve2mPjCFR3+luHKSmMI=
+        b=SLLjnKaRHAuwVh4bDMw1To4qweiFhYz29bw2T01g2aiUy+P/FMY1uSQJJu8MfdFZE
+         zu6nyyWYTnzR7kWaQBG6LmhwScH6w3Md8dJx/o/DFlyOKwhVRkM5u1Wmhft/7vaAkm
+         3B2VsYcP15ivJFiFnDuydsrHUj3a+Px7GdUw3jRM=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-rockchip@lists.infradead.org,
@@ -32,9 +32,9 @@ Cc:     linux-rockchip@lists.infradead.org,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: [PATCH v3 14/46] media: rkisp1: Reject sensors without pixel rate control at bound time
-Date:   Mon, 11 Jul 2022 15:42:16 +0300
-Message-Id: <20220711124248.2683-15-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 15/46] media: rkisp1: Create link from sensor to ISP at notifier bound time
+Date:   Mon, 11 Jul 2022 15:42:17 +0300
+Message-Id: <20220711124248.2683-16-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220711124248.2683-1-laurent.pinchart@ideasonboard.com>
 References: <20220711124248.2683-1-laurent.pinchart@ideasonboard.com>
@@ -49,50 +49,185 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The rkisp1 driver requires the sensor to implement the pixel rate
-control. Trying to operate without it will cause an error when starting
-streaming. Catch the issue earlier, at bound time.
+Links from sensors to the ISP can be created as sensors are bound. Move
+the link creation from rkisp1_create_links() to the bound notifier, and
+clean up the rkisp1_create_links() function while at it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 ---
- drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 6 ++++++
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 5 -----
- 2 files changed, 6 insertions(+), 5 deletions(-)
+Changes since v1:
 
+- Fix double semicolon
+---
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 +
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     | 87 ++++++++-----------
+ 2 files changed, 40 insertions(+), 49 deletions(-)
+
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index 63eb376d9913..b0896b508db3 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -116,6 +116,7 @@ struct rkisp1_info {
+  *				of the v4l2-async API
+  *
+  * @asd:		async_subdev variable for the sensor
++ * @index:		index of the sensor (counting sensor found in DT)
+  * @lanes:		number of lanes
+  * @mbus_type:		type of bus (currently only CSI2 is supported)
+  * @mbus_flags:		media bus (V4L2_MBUS_*) flags
+@@ -125,6 +126,7 @@ struct rkisp1_info {
+  */
+ struct rkisp1_sensor_async {
+ 	struct v4l2_async_subdev asd;
++	unsigned int index;
+ 	unsigned int lanes;
+ 	enum v4l2_mbus_type mbus_type;
+ 	unsigned int mbus_flags;
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index 39ae35074062..7fc617d51f44 100644
+index 7fc617d51f44..1b3c3881ca89 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -190,6 +190,12 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+@@ -111,72 +111,46 @@ struct rkisp1_isr_data {
+ 
+ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+ {
+-	struct media_entity *source, *sink;
+-	unsigned int flags, source_pad;
+-	struct v4l2_subdev *sd;
+ 	unsigned int i;
+ 	int ret;
+ 
+-	/* sensor links */
+-	flags = MEDIA_LNK_FL_ENABLED;
+-	list_for_each_entry(sd, &rkisp1->v4l2_dev.subdevs, list) {
+-		if (sd == &rkisp1->isp.sd ||
+-		    sd == &rkisp1->resizer_devs[RKISP1_MAINPATH].sd ||
+-		    sd == &rkisp1->resizer_devs[RKISP1_SELFPATH].sd)
+-			continue;
+-
+-		ret = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
+-						  MEDIA_PAD_FL_SOURCE);
+-		if (ret < 0) {
+-			dev_err(rkisp1->dev, "failed to find src pad for %s\n",
+-				sd->name);
+-			return ret;
+-		}
+-		source_pad = ret;
+-
+-		ret = media_create_pad_link(&sd->entity, source_pad,
+-					    &rkisp1->isp.sd.entity,
+-					    RKISP1_ISP_PAD_SINK_VIDEO,
+-					    flags);
+-		if (ret)
+-			return ret;
+-
+-		flags = 0;
+-	}
+-
+-	flags = MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE;
+-
+ 	/* create ISP->RSZ->CAP links */
+ 	for (i = 0; i < 2; i++) {
+-		source = &rkisp1->isp.sd.entity;
+-		sink = &rkisp1->resizer_devs[i].sd.entity;
+-		ret = media_create_pad_link(source, RKISP1_ISP_PAD_SOURCE_VIDEO,
+-					    sink, RKISP1_RSZ_PAD_SINK,
++		struct media_entity *resizer =
++			&rkisp1->resizer_devs[i].sd.entity;
++		struct media_entity *capture =
++			&rkisp1->capture_devs[i].vnode.vdev.entity;
++
++		ret = media_create_pad_link(&rkisp1->isp.sd.entity,
++					    RKISP1_ISP_PAD_SOURCE_VIDEO,
++					    resizer, RKISP1_RSZ_PAD_SINK,
+ 					    MEDIA_LNK_FL_ENABLED);
+ 		if (ret)
+ 			return ret;
+ 
+-		source = sink;
+-		sink = &rkisp1->capture_devs[i].vnode.vdev.entity;
+-		ret = media_create_pad_link(source, RKISP1_RSZ_PAD_SRC,
+-					    sink, 0, flags);
++		ret = media_create_pad_link(resizer, RKISP1_RSZ_PAD_SRC,
++					    capture, 0,
++					    MEDIA_LNK_FL_ENABLED |
++					    MEDIA_LNK_FL_IMMUTABLE);
+ 		if (ret)
+ 			return ret;
+ 	}
+ 
+ 	/* params links */
+-	source = &rkisp1->params.vnode.vdev.entity;
+-	sink = &rkisp1->isp.sd.entity;
+-	ret = media_create_pad_link(source, 0, sink,
+-				    RKISP1_ISP_PAD_SINK_PARAMS, flags);
++	ret = media_create_pad_link(&rkisp1->params.vnode.vdev.entity, 0,
++				    &rkisp1->isp.sd.entity,
++				    RKISP1_ISP_PAD_SINK_PARAMS,
++				    MEDIA_LNK_FL_ENABLED |
++				    MEDIA_LNK_FL_IMMUTABLE);
+ 	if (ret)
+ 		return ret;
+ 
+ 	/* 3A stats links */
+-	source = &rkisp1->isp.sd.entity;
+-	sink = &rkisp1->stats.vnode.vdev.entity;
+-	return media_create_pad_link(source, RKISP1_ISP_PAD_SOURCE_STATS,
+-				     sink, 0, flags);
++	return media_create_pad_link(&rkisp1->isp.sd.entity,
++				     RKISP1_ISP_PAD_SOURCE_STATS,
++				     &rkisp1->stats.vnode.vdev.entity, 0,
++				     MEDIA_LNK_FL_ENABLED |
++				     MEDIA_LNK_FL_IMMUTABLE);
+ }
+ 
+ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+@@ -187,6 +161,7 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+ 		container_of(notifier, struct rkisp1_device, notifier);
+ 	struct rkisp1_sensor_async *s_asd =
+ 		container_of(asd, struct rkisp1_sensor_async, asd);
++	int source_pad;
  
  	s_asd->pixel_rate_ctrl = v4l2_ctrl_find(sd->ctrl_handler,
  						V4L2_CID_PIXEL_RATE);
-+	if (!s_asd->pixel_rate_ctrl) {
-+		dev_err(rkisp1->dev, "No pixel rate control in subdev %s\n",
+@@ -206,7 +181,19 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+ 
+ 	phy_init(s_asd->dphy);
+ 
+-	return 0;
++	/* Create the link to the sensor. */
++	source_pad = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
++						 MEDIA_PAD_FL_SOURCE);
++	if (source_pad < 0) {
++		dev_err(rkisp1->dev, "failed to find source pad for %s\n",
 +			sd->name);
-+		return -EINVAL;
++		return source_pad;
 +	}
 +
- 	s_asd->sd = sd;
- 	s_asd->dphy = devm_phy_get(rkisp1->dev, "dphy");
- 	if (IS_ERR(s_asd->dphy)) {
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 689885ac2e84..56781b53dd83 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -823,11 +823,6 @@ static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
- 	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
- 	s64 pixel_clock;
++	return media_create_pad_link(&sd->entity, source_pad,
++				     &rkisp1->isp.sd.entity,
++				     RKISP1_ISP_PAD_SINK_VIDEO,
++				     !s_asd->index ? MEDIA_LNK_FL_ENABLED : 0);
+ }
  
--	if (!sensor->pixel_rate_ctrl) {
--		dev_warn(rkisp1->dev, "No pixel rate control in sensor subdev\n");
--		return -EPIPE;
--	}
--
- 	pixel_clock = v4l2_ctrl_g_ctrl_int64(sensor->pixel_rate_ctrl);
- 	if (!pixel_clock) {
- 		dev_err(rkisp1->dev, "Invalid pixel rate value\n");
+ static void rkisp1_subdev_notifier_unbind(struct v4l2_async_notifier *notifier,
+@@ -248,6 +235,7 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
+ {
+ 	struct v4l2_async_notifier *ntf = &rkisp1->notifier;
+ 	unsigned int next_id = 0;
++	unsigned int index = 0;
+ 	int ret;
+ 
+ 	v4l2_async_nf_init(ntf);
+@@ -277,6 +265,7 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
+ 			goto err_parse;
+ 		}
+ 
++		rk_asd->index = index++;
+ 		rk_asd->mbus_type = vep.bus_type;
+ 		rk_asd->mbus_flags = vep.bus.mipi_csi2.flags;
+ 		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
 -- 
 Regards,
 
