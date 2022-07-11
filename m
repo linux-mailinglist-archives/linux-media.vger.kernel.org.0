@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4750057032A
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:45:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E96857032C
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:45:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232011AbiGKMpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 08:45:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43364 "EHLO
+        id S232034AbiGKMpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 08:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231993AbiGKMpI (ORCPT
+        with ESMTP id S232009AbiGKMpJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 08:45:08 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C4CDDECB
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:44:41 -0700 (PDT)
+        Mon, 11 Jul 2022 08:45:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C726320BDF
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:44:42 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3EED7289D;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D13B12B64;
         Mon, 11 Jul 2022 14:43:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657543421;
-        bh=XD6clsK9KPXg3dG8jB/BN5HedvdeIhuKVgeBfjCIkOc=;
+        s=mail; t=1657543422;
+        bh=N3hccJTZaKwLIucsH11uAzhxQ0X+ZEraF0MdIfMal/k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mDdAVmZLShU/o13gdtFcm2JplXPxKzMy7Z6yQukoT+Tx7CQwAWIBqMsLL1pR9CM0j
-         f+T5extbi3+JXHLpO8m1pKRrpOxu8Jf6Zt4H1PTiHTuUj7FeYq8G0xlFR8r5/phQQa
-         RzHynfWYw6RjWa60fTHP32OCTP6oHU+ezsSJ+9z8=
+        b=sZ0Qzm2yWyxUpjkK4m5a3ltcFchO0PvnwqKUvqBrIr+uIzLiqWS0dszVfqfX//sHV
+         msY0ZCHEFYbvwBCOZ/KOI8QLF+R80wWN/Sg3KJleZZ4xK7pVeLl1LOcs9HGNTsnVqb
+         RZo2+cGvaJu/AjD/y2bKX8ZbIg4f5Y7d8TWec9qA=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-rockchip@lists.infradead.org,
@@ -32,9 +32,9 @@ Cc:     linux-rockchip@lists.infradead.org,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: [PATCH v3 36/46] media: rkisp1: isp: Constify various local variables
-Date:   Mon, 11 Jul 2022 15:42:38 +0300
-Message-Id: <20220711124248.2683-37-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 37/46] media: rkisp1: isp: Rename rkisp1_get_remote_source()
+Date:   Mon, 11 Jul 2022 15:42:39 +0300
+Message-Id: <20220711124248.2683-38-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220711124248.2683-1-laurent.pinchart@ideasonboard.com>
 References: <20220711124248.2683-1-laurent.pinchart@ideasonboard.com>
@@ -49,57 +49,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A set of local variables point to structure that are not meant to be
-modified. Constify them.
+Rename the rkisp1_get_remote_source() function to
+rkisp1_isp_get_source() to use a consistent rkisp1_isp_* prefix for all
+ISP functions, and drop the "remote" as the source can't be local.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 ---
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 944d7bfa9b41..2ba227b2f6a1 100644
+index 2ba227b2f6a1..37623b73b1d9 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -113,7 +113,7 @@ rkisp1_isp_get_pad_crop(struct rkisp1_isp *isp,
+@@ -58,7 +58,7 @@
+  * Helpers
   */
- static void rkisp1_config_ism(struct rkisp1_isp *isp)
- {
--	struct v4l2_rect *src_crop =
-+	const struct v4l2_rect *src_crop =
- 		rkisp1_isp_get_pad_crop(isp, NULL,
- 					RKISP1_ISP_PAD_SOURCE_VIDEO,
- 					V4L2_SUBDEV_FORMAT_ACTIVE);
-@@ -146,8 +146,8 @@ static int rkisp1_config_isp(struct rkisp1_isp *isp,
- 	u32 isp_ctrl = 0, irq_mask = 0, acq_mult = 0, acq_prop = 0;
- 	const struct rkisp1_mbus_info *sink_fmt = isp->sink_fmt;
- 	const struct rkisp1_mbus_info *src_fmt = isp->src_fmt;
--	struct v4l2_mbus_framefmt *sink_frm;
--	struct v4l2_rect *sink_crop;
-+	const struct v4l2_mbus_framefmt *sink_frm;
-+	const struct v4l2_rect *sink_crop;
  
- 	sink_frm = rkisp1_isp_get_pad_fmt(isp, NULL,
- 					  RKISP1_ISP_PAD_SINK_VIDEO,
-@@ -557,7 +557,7 @@ static void rkisp1_isp_set_sink_crop(struct rkisp1_isp *isp,
- 				     struct v4l2_rect *r, unsigned int which)
+-static struct v4l2_subdev *rkisp1_get_remote_source(struct v4l2_subdev *sd)
++static struct v4l2_subdev *rkisp1_isp_get_source(struct v4l2_subdev *sd)
  {
- 	struct v4l2_rect *sink_crop, *src_crop;
--	struct v4l2_mbus_framefmt *sink_fmt;
-+	const struct v4l2_mbus_framefmt *sink_fmt;
+ 	struct media_pad *local, *remote;
+ 	struct media_entity *sensor_me;
+@@ -754,7 +754,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+ 		return 0;
+ 	}
  
- 	sink_crop = rkisp1_isp_get_pad_crop(isp, sd_state,
- 					    RKISP1_ISP_PAD_SINK_VIDEO,
-@@ -742,7 +742,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
- 	struct rkisp1_device *rkisp1 = isp->rkisp1;
--	struct rkisp1_sensor_async *asd;
-+	const struct rkisp1_sensor_async *asd;
- 	int ret;
- 
- 	if (!enable) {
+-	rkisp1->source = rkisp1_get_remote_source(sd);
++	rkisp1->source = rkisp1_isp_get_source(sd);
+ 	if (!rkisp1->source) {
+ 		dev_warn(rkisp1->dev, "No link between isp and source\n");
+ 		return -ENODEV;
 -- 
 Regards,
 
