@@ -2,81 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 224A556D2A4
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 03:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DCBD56D2A8
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 03:38:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229702AbiGKBdv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Jul 2022 21:33:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39494 "EHLO
+        id S229739AbiGKBiV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Jul 2022 21:38:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229687AbiGKBdu (ORCPT
+        with ESMTP id S229749AbiGKBiU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Jul 2022 21:33:50 -0400
+        Sun, 10 Jul 2022 21:38:20 -0400
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9048FB851
-        for <linux-media@vger.kernel.org>; Sun, 10 Jul 2022 18:33:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D5D5175A0
+        for <linux-media@vger.kernel.org>; Sun, 10 Jul 2022 18:38:17 -0700 (PDT)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 93F543200124;
-        Sun, 10 Jul 2022 21:33:47 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sun, 10 Jul 2022 21:33:48 -0400
+        by mailout.west.internal (Postfix) with ESMTP id 3921E32002F9;
+        Sun, 10 Jul 2022 21:38:16 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sun, 10 Jul 2022 21:38:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1657503227; x=1657589627; bh=h9V6Qcon/L
-        p8/s6bjRW+bFR5ZnlJ2oHkaSmDdClm+cw=; b=VTO6HBWNTOdvXclpBkFg45ffEj
-        9/apKtgFnpkPZ+oZEKuX/J17DhRYOy7fiZ/3P2W6aadtOUlvV+DhwSKfD0+TbMAo
-        GrekL+7/vSmNJkyhFUwosfWGl5ajHqkWyZVz9MiVcVnrKc8QCjxxymTr9unbWzCW
-        GdcpATyaDtpFJ4K155sD99Uw7/89nlzJZpkIBTLoa/L/1+z4TvOs/Qq+PazApQiw
-        eiK3zF5/Az/wGv7TB4VZZydcPDhkMfO0ubn4AHxHc8FgxUFeNvdDZrEmb2Rn8K3o
-        +UkbxodSDulZIZu52Z2Vi1Wm2GYm5BGh/9lzwzPtNlO4XyH54idNwDNMACbg==
+        :subject:to:to; s=fm3; t=1657503495; x=1657589895; bh=fU5pyebLqz
+        JXq3xPC9UQRDzrTYaTazzmxNOCSIfErAk=; b=NULvAOlLRol7ahbPJu0RgRcjwy
+        jftD19NQB0/E/hgonYssdQFpC49+j1FefqchmusPD5an6pF03dJ1DzAWUSg0oife
+        xszge9tU5Zvpztk+QOab+38549dEVuzX60yPyi21Kvys1oJpd4JGK74xdM5tdl2O
+        3y/ZMeyO7fDV+JGfIT9w5ee2DaHE3o1ET2iXD+Hf+FstILtZnDwfc1kh98jYtzkK
+        QRpsueXlbWpVXozlm+9lXhqup1jqw7nJ2PcZ41WUQZ6tQVznMPQ6Pgl4LS861pJk
+        PXHgn3g0qhNZgiSyLXk7+hz3O/dBF/1oUdMd5EH8ewGTO/cyNT3Zd60W7/2g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1657503227; x=1657589627; bh=h9V6Qcon/Lp8/s6bjRW+bFR5ZnlJ
-        2oHkaSmDdClm+cw=; b=Qxk3iMOoN0ubIR2r1mDiysb0k2tmA0L0Gmm0bRthPNkp
-        zeo7sTDI3nc26wFnfug29bSnzF8Yd5ARkJBbvAMaTxukCc33VgWHbr/rrT6hXxr8
-        QslbgzpVaEm3KOvZ6xVxaufAi+Z9lLXifE7EwlyNXzBlWWmtiZEfatzOC7KxTfHv
-        1bWGOFhlu7dsSFhOg5PpmcuHZ1kpJLi+Bk0XHoxppc7tivK1YPexRLzXVIMy0rAx
-        dkD05ywZllqCUaa4RQzWgE+oUCrQztpRG+nnQl+6qBQP4GEfzzijTEmuyJs7A7i3
-        r7yIjvVICc3T0nHIhHdai7GgK2/TpDH12ir63tBFOw==
-X-ME-Sender: <xms:-n3LYmQb6Zwl7P8CCDJmRqDM6wNuTDlZ0D1j2b7D2rQOPUnstXvWtg>
-    <xme:-n3LYrydAn4hzOIO6i2ZbaQtN5G7G5laJ_cnFyJNNcPd8UT0Djm8At8lpHidxixvV
-    Y11IRV7egY3EaR76p4>
-X-ME-Received: <xmr:-n3LYj1phGl57sTa9SffmvTkZlHEdOnBt9JwOwO0pRNFghTMX_Z9TA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejvddggeelucetufdoteggodetrfdotf
+        fm3; t=1657503495; x=1657589895; bh=fU5pyebLqzJXq3xPC9UQRDzrTYaT
+        azzmxNOCSIfErAk=; b=O/XyNT1Lzvbfbi7ugzr+gATsboAFFjlbd5256LkGrHbi
+        3DOxzz0+N0WmH2LQZ7zx2EwMptFuocRhx4TkD7e99OLYmX2JLSbKn3gcZ+cNgzBm
+        G6235WLcGmuBGOPye/hPYNvQh+XmWv05VSxpOADCdQ8pYqPwKTGpsaTsCYQE4dbS
+        jgfulm7XtYTl2FYUaCUXLs7RogLdgXAncEGmF9vbZGOGOdS9O4AspK7GUeU6otIb
+        al4a2hY2pVYDw9qfF3CVbQnqIBXP7qiRjGQureLD4EHRQXDQCv6wwqRoINnqKuxz
+        0WAQzuH6FAGmD0poowe0W85PA0W1R58FUsaXIVGbMw==
+X-ME-Sender: <xms:B3_LYlZTSId27tkTnOHeTDKxoYAJ5c2Tu3P0kIqTrLd3LKlcidyV-A>
+    <xme:B3_LYsbb6EPjRvJsbRhROepvwG0xnTkTshbn7ue1XQBaSY-YQ5Vc-U5N8IyFRQ1ol
+    7wYaeGi08GC7yOZKvE>
+X-ME-Received: <xmr:B3_LYn_PgWUntg9chDlG0IlIM3XF3RKfP4LUjlepU2ecDvDPD597mA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejvddghedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
     rgcujfhirhhstghhfhgvlhguuceouggrfhhnrgesfhgrshhtmhgrihhlrdgtohhmqeenuc
-    ggtffrrghtthgvrhhnpeehiedvjeehvdffleekffdvjedvieehhedttefhvddtueefueek
-    lefhteduudfgjeenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghfnhgrsehfrghs
-    thhmrghilhdrtghomh
-X-ME-Proxy: <xmx:-n3LYiAJDRMBSH6w5wq-ajnmUNDM5Tlq4XVnBZ7UUHhBpJht8QNmbQ>
-    <xmx:-n3LYvhmgzjUef0WT0fN1spUYVrChyOtpTc4njijt5kc9pgdEfCikA>
-    <xmx:-n3LYupD_JseVLPMUe4lZMHZWEINAp4O47somQMmyAV0658Wt-UeZA>
-    <xmx:-33LYvcjNP3hiI-VZVREp4U_vvcerDghJPO12K94hETsHyJRnHTJrw>
+    ggtffrrghtthgvrhhnpeevtdffuedtvedugfehvdfhheevkefhheejvdffveffffdtgfdt
+    feetffdvheejhfenucffohhmrghinhepsggrshgvrdhiugdpihhnfhhrrgguvggrugdroh
+    hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegu
+    rghfnhgrsehfrghsthhmrghilhdrtghomh
+X-ME-Proxy: <xmx:B3_LYjrfqIjgNWeJbI2dRH9y611PeWUwsJKCIjT2c95UsYA-GIxDew>
+    <xmx:B3_LYgrsMDrOsUVAj4QqkJWVicN6oh8-1Hbd3ztf2g4c82KZVHexug>
+    <xmx:B3_LYpQYBIGHjLaoBm0IFB8kgHqHebmymWzjrs1_XaMdORC37hdVGA>
+    <xmx:B3_LYplWOuo9l58BOyrxLhskmQNwB3vuzcPBDdACdgp8abXkxPomuA>
 Feedback-ID: i0e894699:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 10 Jul 2022 21:33:44 -0400 (EDT)
-Date:   Mon, 11 Jul 2022 04:33:41 +0300
+ 10 Jul 2022 21:38:13 -0400 (EDT)
+Date:   Mon, 11 Jul 2022 04:38:10 +0300
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH v2 40/55] media: rkisp1: csi: Plumb the CSI RX subdev
-Message-ID: <20220711013341.i2pm77oirfdzrwsj@guri>
+Subject: Re: [PATCH v2 41/55] media: rkisp1: Use
+ fwnode_graph_for_each_endpoint
+Message-ID: <20220711013810.5pphbuzbekbccmfa@guri>
 References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com>
- <20220630230713.10580-41-laurent.pinchart@ideasonboard.com>
+ <20220630230713.10580-42-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220630230713.10580-41-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220630230713.10580-42-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -88,301 +89,116 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 01.07.2022 02:06, Laurent Pinchart wrote:
->Connect the CSI receiver subdevice between the sensors and the ISP. This
->includes:
+>From: Paul Elder <paul.elder@ideasonboard.com>
 >
->- Calling the subdevice via the v4l2 subdev API
->- Moving the async notifier for the sensor from the ISP to the CSI
->  receiver
->- In the ISP, create a media link to the CSI receiver, and remove the
->  media link creation to the sensor
->- In the CSI receiver, create a media link to the sensor
+>When registering the notifier, replace the manual while loop with
+>fwnode_graph_for_each_endpoint. This simplifies error handling.
 >
 >Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
->Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Reviewed-by Dafna Hirschfeld <dafna@fastmail.com>
+Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 
 >---
->Changes since v1:
+> .../platform/rockchip/rkisp1/rkisp1-dev.c     | 44 +++++++++----------
+> 1 file changed, 20 insertions(+), 24 deletions(-)
 >
->- Clarify commit message
->- Update the media device topology
->- Fix white space
->---
-> .../platform/rockchip/rkisp1/rkisp1-csi.c     | 34 ++++++++-
-> .../platform/rockchip/rkisp1/rkisp1-csi.h     |  6 +-
-> .../platform/rockchip/rkisp1/rkisp1-dev.c     | 70 ++++++++++---------
-> .../platform/rockchip/rkisp1/rkisp1-isp.c     | 21 +-----
-> 4 files changed, 75 insertions(+), 56 deletions(-)
->
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->index 173a0550af5c..6d904bbef424 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->@@ -44,6 +44,34 @@ rkisp1_csi_get_pad_fmt(struct rkisp1_csi *csi,
-> 		return v4l2_subdev_get_try_format(&csi->sd, &state, pad);
-> }
->
->+int rkisp1_csi_link_sensor(struct rkisp1_device *rkisp1, struct v4l2_subdev *sd,
->+			   struct rkisp1_sensor_async *s_asd,
->+			   unsigned int source_pad)
->+{
->+	struct rkisp1_csi *csi = &rkisp1->csi;
->+	int ret;
->+
->+	s_asd->pixel_rate_ctrl = v4l2_ctrl_find(sd->ctrl_handler,
->+						V4L2_CID_PIXEL_RATE);
->+	if (!s_asd->pixel_rate_ctrl) {
->+		dev_err(rkisp1->dev, "No pixel rate control in subdev %s\n",
->+			sd->name);
->+		return -EINVAL;
->+	}
->+
->+	/* Create the link from the sensor to the CSI receiver. */
->+	ret = media_create_pad_link(&sd->entity, source_pad,
->+				    &csi->sd.entity, RKISP1_CSI_PAD_SINK,
->+				    !s_asd->index ? MEDIA_LNK_FL_ENABLED : 0);
->+	if (ret) {
->+		dev_err(csi->rkisp1->dev, "failed to link src pad of %s\n",
->+			sd->name);
->+		return ret;
->+	}
->+
->+	return 0;
->+}
->+
-> static int rkisp1_csi_config(struct rkisp1_csi *csi,
-> 			     const struct rkisp1_sensor_async *sensor)
-> {
->@@ -120,8 +148,8 @@ static void rkisp1_csi_disable(struct rkisp1_csi *csi)
-> 		     val & (~RKISP1_CIF_MIPI_CTRL_OUTPUT_ENA));
-> }
->
->-int rkisp1_csi_start(struct rkisp1_csi *csi,
->-		     const struct rkisp1_sensor_async *sensor)
->+static int rkisp1_csi_start(struct rkisp1_csi *csi,
->+			    const struct rkisp1_sensor_async *sensor)
-> {
-> 	struct rkisp1_device *rkisp1 = csi->rkisp1;
-> 	union phy_configure_opts opts;
->@@ -157,7 +185,7 @@ int rkisp1_csi_start(struct rkisp1_csi *csi,
-> 	return 0;
-> }
->
->-void rkisp1_csi_stop(struct rkisp1_csi *csi)
->+static void rkisp1_csi_stop(struct rkisp1_csi *csi)
-> {
-> 	rkisp1_csi_disable(csi);
->
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
->index ddf8e5e08f55..eadcd24f65fb 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
->@@ -21,8 +21,8 @@ void rkisp1_csi_cleanup(struct rkisp1_device *rkisp1);
-> int rkisp1_csi_register(struct rkisp1_device *rkisp1);
-> void rkisp1_csi_unregister(struct rkisp1_device *rkisp1);
->
->-int rkisp1_csi_start(struct rkisp1_csi *csi,
->-		     const struct rkisp1_sensor_async *sensor);
->-void rkisp1_csi_stop(struct rkisp1_csi *csi);
->+int rkisp1_csi_link_sensor(struct rkisp1_device *rkisp1, struct v4l2_subdev *sd,
->+			   struct rkisp1_sensor_async *s_asd,
->+			   unsigned int source_pad);
->
-> #endif /* _RKISP1_CSI_H */
 >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->index 5428e19e818f..c3a7ab70bbef 100644
+>index c3a7ab70bbef..0eb37ba557ce 100644
 >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
 >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->@@ -17,6 +17,7 @@
-> #include <linux/pinctrl/consumer.h>
-> #include <linux/pm_runtime.h>
-> #include <media/v4l2-fwnode.h>
->+#include <media/v4l2-mc.h>
->
-> #include "rkisp1-common.h"
-> #include "rkisp1-csi.h"
->@@ -67,18 +68,28 @@
->  *
->  * Media Topology
->  * --------------
->- *      +----------+     +----------+
->- *      | Sensor 2 |     | Sensor X |
->- *      ------------ ... ------------
->- *      |    0     |     |    0     |
->- *      +----------+     +----------+      +-----------+
->- *                  \      |               |  params   |
->- *                   \     |               | (output)  |
->- *    +----------+    \    |               +-----------+
->- *    | Sensor 1 |     v   v                     |
->- *    ------------      +------+------+          |
->- *    |    0     |----->|  0   |  1   |<---------+
->- *    +----------+      |------+------|
->+ *
->+ *          +----------+       +----------+
->+ *          | Sensor 1 |       | Sensor X |
->+ *          ------------  ...  ------------
->+ *          |    0     |       |    0     |
->+ *          +----------+       +----------+
->+ *               |                  |
->+ *                \----\       /----/
->+ *                     |       |
->+ *                     v       v
->+ *                  +-------------+
->+ *                  |      0      |
->+ *                  ---------------
->+ *                  |  CSI-2 RX   |
->+ *                  ---------------         +-----------+
->+ *                  |      1      |         |  params   |
->+ *                  +-------------+         | (output)  |
->+ *                         |               +-----------+
->+ *                         v                     |
->+ *                      +------+------+          |
->+ *                      |  0   |  1   |<---------+
->+ *                      |------+------|
->  *                      |     ISP     |
->  *                      |------+------|
->  *        +-------------|  2   |  3   |----------+
->@@ -119,17 +130,8 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
-> 		container_of(asd, struct rkisp1_sensor_async, asd);
-> 	int source_pad;
->
->-	s_asd->pixel_rate_ctrl = v4l2_ctrl_find(sd->ctrl_handler,
->-						V4L2_CID_PIXEL_RATE);
->-	if (!s_asd->pixel_rate_ctrl) {
->-		dev_err(rkisp1->dev, "No pixel rate control in subdev %s\n",
->-			sd->name);
->-		return -EINVAL;
->-	}
->-
-> 	s_asd->sd = sd;
->
->-	/* Create the link to the sensor. */
-> 	source_pad = media_entity_get_fwnode_pad(&sd->entity, s_asd->source_ep,
-> 						 MEDIA_PAD_FL_SOURCE);
-> 	if (source_pad < 0) {
->@@ -138,10 +140,7 @@ static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
-> 		return source_pad;
-> 	}
->
->-	return media_create_pad_link(&sd->entity, source_pad,
->-				     &rkisp1->isp.sd.entity,
->-				     RKISP1_ISP_PAD_SINK_VIDEO,
->-				     !s_asd->index ? MEDIA_LNK_FL_ENABLED : 0);
->+	return rkisp1_csi_link_sensor(rkisp1, sd, s_asd, source_pad);
-> }
->
-> static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
->@@ -283,6 +282,14 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
-> 	unsigned int i;
-> 	int ret;
->
->+	/* Link the CSI receiver to the ISP. */
->+	ret = media_create_pad_link(&rkisp1->csi.sd.entity, RKISP1_CSI_PAD_SRC,
->+				    &rkisp1->isp.sd.entity,
->+				    RKISP1_ISP_PAD_SINK_VIDEO,
->+				    MEDIA_LNK_FL_ENABLED);
->+	if (ret)
->+		return ret;
->+
-> 	/* create ISP->RSZ->CAP links */
-> 	for (i = 0; i < 2; i++) {
-> 		struct media_entity *resizer =
->@@ -364,13 +371,6 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
-> 	if (ret)
-> 		goto error;
->
->-	ret = rkisp1_subdev_notifier_register(rkisp1);
->-	if (ret) {
->-		dev_err(rkisp1->dev,
->-			"Failed to register subdev notifier(%d)\n", ret);
->-		goto error;
->-	}
->-
-> 	return 0;
->
-> error:
->@@ -534,10 +534,16 @@ static int rkisp1_probe(struct platform_device *pdev)
-> 	if (ret)
-> 		goto err_cleanup_csi;
->
->+	ret = rkisp1_subdev_notifier_register(rkisp1);
->+	if (ret)
->+		goto err_unreg_entities;
->+
-> 	rkisp1_debug_init(rkisp1);
->
-> 	return 0;
->
->+err_unreg_entities:
->+	rkisp1_entities_unregister(rkisp1);
-> err_cleanup_csi:
-> 	rkisp1_csi_cleanup(rkisp1);
-> err_unreg_media_dev:
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->index d7e2802d11f5..ea0bbccb5aee 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->@@ -16,7 +16,6 @@
-> #include <media/v4l2-event.h>
->
-> #include "rkisp1-common.h"
->-#include "rkisp1-csi.h"
->
-> #define RKISP1_DEF_SINK_PAD_FMT MEDIA_BUS_FMT_SRGGB10_1X10
-> #define RKISP1_DEF_SRC_PAD_FMT MEDIA_BUS_FMT_YUYV8_2X8
->@@ -728,17 +727,13 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+>@@ -168,29 +168,28 @@ static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops =
+> static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
 > {
-> 	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
-> 	struct rkisp1_device *rkisp1 = isp->rkisp1;
->-	const struct rkisp1_sensor_async *asd;
-> 	struct media_pad *source_pad;
-> 	struct media_pad *sink_pad;
-> 	int ret;
+> 	struct v4l2_async_notifier *ntf = &rkisp1->notifier;
+>-	unsigned int next_id = 0;
+>+	struct fwnode_handle *fwnode = dev_fwnode(rkisp1->dev);
+>+	struct fwnode_handle *ep;
+> 	unsigned int index = 0;
+>-	int ret;
+>+	int ret = 0;
 >
-> 	if (!enable) {
-> 		v4l2_subdev_call(rkisp1->source, video, s_stream, false);
+> 	v4l2_async_nf_init(ntf);
+>
+>-	while (1) {
+>+	ntf->ops = &rkisp1_subdev_notifier_ops;
+>+
+>+	fwnode_graph_for_each_endpoint(fwnode, ep) {
+> 		struct v4l2_fwnode_endpoint vep = {
+> 			.bus_type = V4L2_MBUS_CSI2_DPHY
+> 		};
+> 		struct rkisp1_sensor_async *rk_asd;
+>-		struct fwnode_handle *source = NULL;
+>-		struct fwnode_handle *ep;
 >-
->-		rkisp1_csi_stop(&rkisp1->csi);
-> 		rkisp1_isp_stop(isp);
+>-		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
+>-						     0, next_id,
+>-						     FWNODE_GRAPH_ENDPOINT_NEXT);
+>-		if (!ep)
+>-			break;
+>+		struct fwnode_handle *source;
+>
+> 		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+>-		if (ret)
+>-			goto err_parse;
+>+		if (ret) {
+>+			dev_err(rkisp1->dev, "failed to parse endpoint %pfw\n",
+>+				ep);
+>+			break;
+>+		}
+>
+> 		source = fwnode_graph_get_remote_endpoint(ep);
+> 		if (!source) {
+>@@ -198,14 +197,15 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+> 				"endpoint %pfw has no remote endpoint\n",
+> 				ep);
+> 			ret = -ENODEV;
+>-			goto err_parse;
+>+			break;
+> 		}
+>
+> 		rk_asd = v4l2_async_nf_add_fwnode(ntf, source,
+> 						  struct rkisp1_sensor_async);
+> 		if (IS_ERR(rk_asd)) {
+>+			fwnode_handle_put(source);
+> 			ret = PTR_ERR(rk_asd);
+>-			goto err_parse;
+>+			break;
+> 		}
+>
+> 		rk_asd->index = index++;
+>@@ -216,27 +216,23 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+>
+> 		dev_dbg(rkisp1->dev, "registered ep id %d with %d lanes\n",
+> 			vep.base.id, rk_asd->lanes);
+>+	}
+>
+>-		next_id = vep.base.id + 1;
 >-
-> 		return 0;
+>-		fwnode_handle_put(ep);
+>-
+>-		continue;
+>-err_parse:
+>+	if (ret) {
+> 		fwnode_handle_put(ep);
+>-		fwnode_handle_put(source);
+> 		v4l2_async_nf_cleanup(ntf);
+> 		return ret;
 > 	}
 >
->@@ -756,30 +751,20 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> 		return -EPIPE;
-> 	}
->
->-	asd = container_of(rkisp1->source->asd, struct rkisp1_sensor_async,
->-			   asd);
->-
->-	if (asd->mbus_type != V4L2_MBUS_CSI2_DPHY)
->-		return -EINVAL;
->+	if (rkisp1->source != &rkisp1->csi.sd)
->+		return -EPIPE;
->
-> 	isp->frame_sequence = -1;
-> 	mutex_lock(&isp->ops_lock);
->-	ret = rkisp1_config_cif(isp, asd->mbus_type, asd->mbus_flags);
->+	ret = rkisp1_config_cif(isp, V4L2_MBUS_CSI2_DPHY, 0);
-> 	if (ret)
-> 		goto mutex_unlock;
->
-> 	rkisp1_isp_start(isp);
->
->-	ret = rkisp1_csi_start(&rkisp1->csi, asd);
->-	if (ret) {
->-		rkisp1_isp_stop(isp);
->-		goto mutex_unlock;
->-	}
->-
-> 	ret = v4l2_subdev_call(rkisp1->source, video, s_stream, true);
+>-	if (next_id == 0)
+>+	if (!index)
+> 		dev_dbg(rkisp1->dev, "no remote subdevice found\n");
+>-	ntf->ops = &rkisp1_subdev_notifier_ops;
+>+
+> 	ret = v4l2_async_nf_register(&rkisp1->v4l2_dev, ntf);
 > 	if (ret) {
-> 		rkisp1_isp_stop(isp);
->-		rkisp1_csi_stop(&rkisp1->csi);
-> 		goto mutex_unlock;
+> 		v4l2_async_nf_cleanup(ntf);
+> 		return ret;
 > 	}
+>+
+> 	return 0;
+> }
 >
 >-- 
 >Regards,
