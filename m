@@ -2,190 +2,319 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15CC95705F8
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 16:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD844570621
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 16:49:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231745AbiGKOmH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 10:42:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36070 "EHLO
+        id S231732AbiGKOtb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 10:49:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231609AbiGKOl6 (ORCPT
+        with ESMTP id S231971AbiGKOt3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 10:41:58 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41E8C6D2FE;
-        Mon, 11 Jul 2022 07:41:51 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id va17so9261528ejb.0;
-        Mon, 11 Jul 2022 07:41:50 -0700 (PDT)
+        Mon, 11 Jul 2022 10:49:29 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7BB4DF49
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 07:49:27 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id h23so9203969ejj.12
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 07:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=OGhZTj5ZWGv/eTym6XOpCg2bZQb8uWXBpna96uNZQLA=;
-        b=pLXX7QjLGzJMlrsyc7zv0canr2KOOS+gjDPGHDNPiUiqPlMRg3H4yA4NHLCg28lv6l
-         Sw6VhScDmz5ipC5Em63Q1TJiKd8tU9x6HjwogT7UrlSS82yOEaFG3RZoKiD7LOaRvXj0
-         uCIV5w1cyStDGjwb6PdYzdvNIRZqej0owWzc2LuP3ZWcw8AppIwEi51Sq7xWtGjrRYrn
-         6Snp9U8EZVktyg/0/NRmgiwPdGkW5TcaA8pc/SUHjCE6e28pk99thQB1vBupYy42D5QG
-         JZOyjnKRmZhsDo+ltCSjPGU9FOj+tHAWDMOnnhEbFRYsACmXKESkMStoPlw1nHu1qu9J
-         FsmQ==
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Qi/Ki/anv7OubNnIYr0XldagjTwZd4rr8bwwS58D72Q=;
+        b=i00eQXXaoGMEJ8DA0K3m+dyAuq/QN79dlLyXkKT0TIz/ZmyOiwYTt0VZcO0ewhJQhZ
+         AA/tbadaaWrfDUbVgUgJCEeQMCeW0CfcicCXOeLCeLOnHIuOwa3Oxy/BY8QziGeOIVFa
+         L/ayZc+0aJFBHRTK1hj40zCK6/20zA4tzYW8o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OGhZTj5ZWGv/eTym6XOpCg2bZQb8uWXBpna96uNZQLA=;
-        b=k55o1rMeUJfqEDuy/UqFs16XKHhAUoDq8K+x0ctS5uvg2vOR0gY5pdQB6OryUf6Hpi
-         H7TW/K3SEwR/UdjXlRgBdsKbQ/Nf/yjeZNWubxfsr7QgnAwO9xGLnZztDjviZWB58hyM
-         wA0HdORVOX13+zBCan3/9SgGZzqMMrd2Y0HkLZLNRHIbhxGfix54ofAU+uO2dUKUK3XZ
-         f3vfVM8RS1Yns8wgaiIjTV9EnoQ/OC0Kw104FMKM1ZeBeVE+KPa7gDW47Gz9RActT2/6
-         IRe0iDe17OIU7xi9JHTtybAb7/4xwijyG68cjlw+ZFFv83LgDKuDsdfXtsvVLe6DJpK0
-         Vsfg==
-X-Gm-Message-State: AJIora9qulF5omWERkgj9alaHk7dTq9iHOBuLw0KW8JZPo/M2dBXdPQY
-        6KxMjm+qmyNvFXEfKPwLK3I/matCtigZL/+D
-X-Google-Smtp-Source: AGRyM1vl9kBGEmWp2DTA164KVmbJv1lySwAvttmKioVX7GsaVLslW4UHHcVKMosu7TifmP8HU6Rr+Q==
-X-Received: by 2002:a17:907:1361:b0:72b:3554:4f7 with SMTP id yo1-20020a170907136100b0072b355404f7mr13449704ejb.420.1657550509279;
-        Mon, 11 Jul 2022 07:41:49 -0700 (PDT)
-Received: from localhost.localdomain (89-39-107-113.hosted-by-worldstream.net. [89.39.107.113])
-        by smtp.gmail.com with ESMTPSA id cm10-20020a0564020c8a00b00436f3107bdasm4461390edb.38.2022.07.11.07.41.46
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Qi/Ki/anv7OubNnIYr0XldagjTwZd4rr8bwwS58D72Q=;
+        b=AuYxI86qWzxhkeFyctlRk3jz1HzPTi3bFbwoDx30QV+qQ+Q4h4kmcDsnNJMnMf9D2L
+         Mfp2joSZbi9fPXJI/lZT/sFfxM60gaCTfbY8ipUQigXf0VHbEWEMKCOrcfhtQPy5gTfE
+         CnNdw0GewIk0TXxSXOAUhbwfoo1LaK1xGrt0eF9wogjsEOBHj0Gh/w/rwjKwpW3MZywk
+         L4HtHUSNORv2j7ecjFxrP6nKXaQjiQC5masL97B6hJ8fHaHD9PJWSA7Y4KaGUoLt+aZj
+         jj0+xAJ+Ow9FT6gLLiws8R10eWn+A1tRfVNqe000bpQF2NH8YPWQJZrVY6POenIepdHH
+         aQNA==
+X-Gm-Message-State: AJIora+QN1K0THBhHipNTVHfFxkbO3b+LcVslAg0FYvTNcKaR0Yn7jx2
+        Sc6SdzI/wNiAVPAaeK2WAKQ/iA==
+X-Google-Smtp-Source: AGRyM1vQ+Nre/BUBHCQiULN7frVsOc55Cr98OCiFT+lp3w6feq+ZvbdqZ+CXEheBYDfwFjViIi6Iag==
+X-Received: by 2002:a17:907:2c68:b0:72b:3a2c:e5b5 with SMTP id ib8-20020a1709072c6800b0072b3a2ce5b5mr12227786ejc.619.1657550965961;
+        Mon, 11 Jul 2022 07:49:25 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-59-144.cust.vodafonedsl.it. [188.217.59.144])
+        by smtp.gmail.com with ESMTPSA id j11-20020a50ed0b000000b0043a6b86f024sm4390379eds.67.2022.07.11.07.49.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jul 2022 07:41:48 -0700 (PDT)
-From:   Yassine Oudjana <yassine.oudjana@gmail.com>
-X-Google-Original-From: Yassine Oudjana <y.oudjana@protonmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mon, 11 Jul 2022 07:49:25 -0700 (PDT)
+Date:   Mon, 11 Jul 2022 16:49:23 +0200
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>
-Cc:     Yassine Oudjana <y.oudjana@protonmail.com>,
-        Yassine Oudjana <yassine.oudjana@gmail.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] media: i2c: ak7375: Add regulator management
-Date:   Mon, 11 Jul 2022 18:40:39 +0400
-Message-Id: <20220711144039.232196-4-y.oudjana@protonmail.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220711144039.232196-1-y.oudjana@protonmail.com>
-References: <20220711144039.232196-1-y.oudjana@protonmail.com>
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 5/6] media: dt-bindings: ov5693: document YAML binding
+Message-ID: <20220711144923.GB66765@tom-ThinkPad-T14s-Gen-2i>
+References: <20220630134835.592521-1-tommaso.merciai@amarulasolutions.com>
+ <20220630134835.592521-6-tommaso.merciai@amarulasolutions.com>
+ <20220711093659.mf7i4uqtrejtfong@uno.localdomain>
+ <20220711111108.GA66765@tom-ThinkPad-T14s-Gen-2i>
+ <20220711123629.xcknkluu3wwokoz3@uno.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220711123629.xcknkluu3wwokoz3@uno.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yassine Oudjana <y.oudjana@protonmail.com>
+On Mon, Jul 11, 2022 at 02:36:29PM +0200, Jacopo Mondi wrote:
+> Hi Tommaso
+> 
+> On Mon, Jul 11, 2022 at 01:11:08PM +0200, Tommaso Merciai wrote:
+> > Hi Jacopo,
+> > Thanks for your review.
+> >
+> > On Mon, Jul 11, 2022 at 11:36:59AM +0200, Jacopo Mondi wrote:
+> > > Hi Tommaso, Krzysztof,
+> > >
+> > >    This has been reviewed by Krzysztof already, so I guess it's fine,
+> > > but let me ask anyway
+> > >
+> > > On Thu, Jun 30, 2022 at 03:48:34PM +0200, Tommaso Merciai wrote:
+> > > > Add documentation of device tree in YAML schema for the OV5693
+> > > > CMOS image sensor from Omnivision
+> > > >
+> > > > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > > ---
+> > > > Changes since v1:
+> > > >  - Fix allOf position as suggested by Krzysztof
+> > > >  - Remove port description as suggested by Krzysztof
+> > > >  - Fix EOF as suggested by Krzysztof
+> > > >
+> > > > Changes since v2:
+> > > >  - Fix commit body as suggested by Krzysztof
+> > > >
+> > > > Changes since v3:
+> > > >  - Add reviewed-by tags, suggested by Jacopo, Krzysztof
+> > > >
+> > > > Changes since v4:
+> > > >  - Remove wrong Sakari reviewed-by tag, suggested by Krzysztof, Sakari
+> > > >
+> > > >  .../bindings/media/i2c/ovti,ov5693.yaml       | 106 ++++++++++++++++++
+> > > >  MAINTAINERS                                   |   1 +
+> > > >  2 files changed, 107 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..b83c9fc04023
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > > > @@ -0,0 +1,106 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +# Copyright (c) 2022 Amarulasolutions
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Omnivision OV5693 CMOS Sensor
+> > > > +
+> > > > +maintainers:
+> > > > +  - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > > > +
+> > > > +description: |
+> > > > +  The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
+> > > > +  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
+> > > > +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
+> > > > +  Serial Camera Control Bus (SCCB) interface.
+> > > > +
+> > > > +  OV5693 is controlled via I2C and two-wire Serial Camera Control Bus (SCCB).
+> > > > +  The sensor output is available via CSI-2 serial data output (up to 2-lane).
+> > > > +
+> > > > +allOf:
+> > > > +  - $ref: /schemas/media/video-interface-devices.yaml#
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    const: ovti,ov5693
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clocks:
+> > > > +    description:
+> > > > +      System input clock (aka XVCLK). From 6 to 27 MHz.
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  dovdd-supply:
+> > > > +    description:
+> > > > +      Digital I/O voltage supply, 1.8V.
+> > > > +
+> > > > +  avdd-supply:
+> > > > +    description:
+> > > > +      Analog voltage supply, 2.8V.
+> > > > +
+> > > > +  dvdd-supply:
+> > > > +    description:
+> > > > +      Digital core voltage supply, 1.2V.
+> > > > +
+> > > > +  reset-gpios:
+> > > > +    description:
+> > > > +      The phandle and specifier for the GPIO that controls sensor reset.
+> > > > +      This corresponds to the hardware pin XSHUTDN which is physically
+> > > > +      active low.
+> > > > +    maxItems: 1
+> > > > +
+> > > > +required:
+> > > > +  - compatible
+> > > > +  - reg
+> > > > +  - clocks
+> > > > +  - dovdd-supply
+> > > > +  - avdd-supply
+> > > > +  - dvdd-supply
+> > >
+> > > Should supplies be made mandatory ? Sensors are often powered by fixed
+> > > rails. Do we want DTS writers to create "fixed-regulators" for all of
+> > > them ? The fact the regulator framework creates dummies if there's no
+> > > entry in .dts for a regulator makes me think it's fine to have them
+> > > optional, but I understand how Linux works should not be an indication
+> > > of how a bindings should look like.
+> >
+> > You are right, this depends on hw design and yes in many cases sensors are
+> > powered by fixed rails.
+> > But let me say, I see some design in wich I have to handle these signals and
+> > in fact are mandatory.
+> 
+> It's fine if you have to handle them, my question is it if it should
+> be -mandatory- to specify them
+> 
+> >
+> > I check also in others binding's doc like:
+> >
+> >  - Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+> >  - Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> >  - Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+> >  ...
+> >
+> > These keep this information.
+> >
+> > Anyway, You suggest to drop off:
+> >
+> >  - dovdd-supply
+> >  - avdd-supply
+> >  - dvdd-supply
+> >
+> > From required properties, right?
+> 
+> Yes, I wonder if they should be required. As usual there's a
+> bunch of different styles in media/i2c/ and it's not always easy to
+> distinguish which ones are actually intended from the ones which are
+> instead the result of copying the existing.
 
-Make the driver get needed regulators on probe and enable/disable
-them on runtime PM callbacks.
+Got it.
+Let me know if we need v6 with your suggestion.
 
-Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
----
-Changes since v1:
-  - Reorganize variable declaration
-  - Change the power-on delay range to 3000-3500 microseconds.
+Tommaso
 
- drivers/media/i2c/ak7375.c | 39 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+> 
+> 
+> >
+> > Tommmaso
+> >
+> > >
+> > > > +  - port
+> > > > +
+> > > > +unevaluatedProperties: false
+> > > > +
+> > > > +examples:
+> > > > +  - |
+> > > > +    #include <dt-bindings/clock/px30-cru.h>
+> > > > +    #include <dt-bindings/gpio/gpio.h>
+> > > > +    #include <dt-bindings/pinctrl/rockchip.h>
+> > > > +
+> > > > +    i2c {
+> > > > +        #address-cells = <1>;
+> > > > +        #size-cells = <0>;
+> > > > +
+> > > > +        ov5693: camera@36 {
+> > > > +            compatible = "ovti,ov5693";
+> > > > +            reg = <0x36>;
+> > > > +
+> > > > +            reset-gpios = <&gpio2 RK_PB1 GPIO_ACTIVE_LOW>;
+> > > > +            pinctrl-names = "default";
+> > > > +            pinctrl-0 = <&cif_clkout_m0>;
+> > > > +
+> > > > +            clocks = <&cru SCLK_CIF_OUT>;
+> > > > +            assigned-clocks = <&cru SCLK_CIF_OUT>;
+> > > > +            assigned-clock-rates = <19200000>;
+> > > > +
+> > > > +            avdd-supply = <&vcc_1v8>;
+> > > > +            dvdd-supply = <&vcc_1v2>;
+> > > > +            dovdd-supply = <&vcc_2v8>;
+> > > > +
+> > > > +            rotation = <90>;
+> > > > +            orientation = <0>;
+> > > > +
+> > > > +            port {
+> > > > +                ucam_out: endpoint {
+> > > > +                    remote-endpoint = <&mipi_in_ucam>;
+> > > > +                    data-lanes = <1 2>;
+> > > > +                    link-frequencies = /bits/ 64 <450000000>;
+> > > > +                };
+> > > > +            };
+> > > > +        };
+> > > > +    };
+> > > > +
+> > > > +...
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > index 1fc9ead83d2a..844307cb20c4 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -14719,6 +14719,7 @@ M:	Daniel Scally <djrscally@gmail.com>
+> > > >  L:	linux-media@vger.kernel.org
+> > > >  S:	Maintained
+> > > >  T:	git git://linuxtv.org/media_tree.git
+> > > > +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > > >  F:	drivers/media/i2c/ov5693.c
+> > > >
+> > > >  OMNIVISION OV5695 SENSOR DRIVER
+> > > > --
+> > > > 2.25.1
+> > > >
+> >
+> > --
+> > Tommaso Merciai
+> > Embedded Linux Engineer
+> > tommaso.merciai@amarulasolutions.com
+> > __________________________________
+> >
+> > Amarula Solutions SRL
+> > Via Le Canevare 30, 31100 Treviso, Veneto, IT
+> > T. +39 042 243 5310
+> > info@amarulasolutions.com
+> > www.amarulasolutions.com
 
-diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-index 40b1a4aa846c..c2b2542a0056 100644
---- a/drivers/media/i2c/ak7375.c
-+++ b/drivers/media/i2c/ak7375.c
-@@ -6,6 +6,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- 
-@@ -23,17 +24,32 @@
-  */
- #define AK7375_CTRL_STEPS	64
- #define AK7375_CTRL_DELAY_US	1000
-+/*
-+ * The vcm takes around 3 ms to power on and start taking
-+ * I2C messages. This value was found experimentally due to
-+ * lack of documentation.
-+ */
-+#define AK7375_POWER_DELAY_US	3000
- 
- #define AK7375_REG_POSITION	0x0
- #define AK7375_REG_CONT		0x2
- #define AK7375_MODE_ACTIVE	0x0
- #define AK7375_MODE_STANDBY	0x40
- 
-+static const char * const ak7375_supply_names[] = {
-+	"vdd",
-+	"vio",
-+};
-+
-+#define AK7375_NUM_SUPPLIES ARRAY_SIZE(ak7375_supply_names)
-+
- /* ak7375 device structure */
- struct ak7375_device {
- 	struct v4l2_ctrl_handler ctrls_vcm;
- 	struct v4l2_subdev sd;
- 	struct v4l2_ctrl *focus;
-+	struct regulator_bulk_data supplies[AK7375_NUM_SUPPLIES];
-+
- 	/* active or standby mode */
- 	bool active;
- };
-@@ -133,12 +149,24 @@ static int ak7375_probe(struct i2c_client *client)
- {
- 	struct ak7375_device *ak7375_dev;
- 	int ret;
-+	int i;
- 
- 	ak7375_dev = devm_kzalloc(&client->dev, sizeof(*ak7375_dev),
- 				  GFP_KERNEL);
- 	if (!ak7375_dev)
- 		return -ENOMEM;
- 
-+	for (i = 0; i < AK7375_NUM_SUPPLIES; i++)
-+		ak7375_dev->supplies[i].supply = ak7375_supply_names[i];
-+
-+	ret = devm_regulator_bulk_get(&client->dev, AK7375_NUM_SUPPLIES,
-+				      ak7375_dev->supplies);
-+	if (ret) {
-+		dev_err(&client->dev, "Failed to get regulators: %pe",
-+			ERR_PTR(ret));
-+		return ret;
-+	}
-+
- 	v4l2_i2c_subdev_init(&ak7375_dev->sd, client, &ak7375_ops);
- 	ak7375_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	ak7375_dev->sd.internal_ops = &ak7375_int_ops;
-@@ -210,6 +238,10 @@ static int __maybe_unused ak7375_vcm_suspend(struct device *dev)
- 	if (ret)
- 		dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
- 
-+	ret = regulator_bulk_disable(AK7375_NUM_SUPPLIES, ak7375_dev->supplies);
-+	if (ret)
-+		return ret;
-+
- 	ak7375_dev->active = false;
- 
- 	return 0;
-@@ -230,6 +262,13 @@ static int __maybe_unused ak7375_vcm_resume(struct device *dev)
- 	if (ak7375_dev->active)
- 		return 0;
- 
-+	ret = regulator_bulk_enable(AK7375_NUM_SUPPLIES, ak7375_dev->supplies);
-+	if (ret)
-+		return ret;
-+
-+	/* Wait for vcm to become ready */
-+	usleep_range(AK7375_POWER_DELAY_US, AK7375_POWER_DELAY_US + 500);
-+
- 	ret = ak7375_i2c_write(ak7375_dev, AK7375_REG_CONT,
- 		AK7375_MODE_ACTIVE, 1);
- 	if (ret) {
 -- 
-2.37.0
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
 
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
