@@ -2,271 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ADB0570284
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:38:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A200E5702E6
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231700AbiGKMir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 08:38:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33344 "EHLO
+        id S231663AbiGKMlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 08:41:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231481AbiGKMi3 (ORCPT
+        with ESMTP id S231894AbiGKMle (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 08:38:29 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9235F5A2FB;
-        Mon, 11 Jul 2022 05:37:24 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id D81BC100010;
-        Mon, 11 Jul 2022 12:36:31 +0000 (UTC)
-Date:   Mon, 11 Jul 2022 14:36:29 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
-        quentin.schulz@theobroma-systems.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] media: dt-bindings: ov5693: document YAML binding
-Message-ID: <20220711123629.xcknkluu3wwokoz3@uno.localdomain>
-References: <20220630134835.592521-1-tommaso.merciai@amarulasolutions.com>
- <20220630134835.592521-6-tommaso.merciai@amarulasolutions.com>
- <20220711093659.mf7i4uqtrejtfong@uno.localdomain>
- <20220711111108.GA66765@tom-ThinkPad-T14s-Gen-2i>
+        Mon, 11 Jul 2022 08:41:34 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538A527B31
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657543278; x=1689079278;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Z+kapo5dnbFedt+f2HcQKTJrZdJNpomPB/C4P6C9jy0=;
+  b=KtMzCKMrg0vrm7YCXpsGq+LHDVkxMNdQnsXAAbe8mJSsMAcw5D9iILF3
+   PA4p3vNEEywm6oyOMW0XecZWnGS0ahqwkDk0QAPvUsBPq5OqxkTL/Ru49
+   HEvzWcSmEPu9KHsAEn774LnMSZAN8Ga4WHIBMcPujJuv6QfQ/LbV7q+HG
+   cEfZqfJ0QbxVBkNSobXp8SiVioiUCWHMO2wSV+XqR53wgQxt+ngVUVh8A
+   lzJ5AW/0OcKZ46qtKnQdFUvcW/jJgorU8yPTtVSMOO5lCLHn7aqSE93qV
+   8Y8YWPM8kJYVXuWKg41HHc9K7awzQOcV8VMqg1R0qlAL/tzggjYIBWUzO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10404"; a="265058145"
+X-IronPort-AV: E=Sophos;i="5.92,262,1650956400"; 
+   d="scan'208";a="265058145"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 05:41:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,262,1650956400"; 
+   d="scan'208";a="662535467"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmsmga004.fm.intel.com with ESMTP; 11 Jul 2022 05:41:10 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 11 Jul 2022 05:41:10 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 11 Jul 2022 05:41:10 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Mon, 11 Jul 2022 05:41:10 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.177)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Mon, 11 Jul 2022 05:41:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DH96jnAF0iPmU/XWt9Q8EBsuFsZ7bam7AXfuEoD3IqgwMp/+1WS7q3Z7xDYAM9nudT+K/M+OsY5ju9aVfUvEQjd9CDagZp0lUJvx/Yo2VVW3K8KVglYJ/MM5R9pcT3tQqwcwOarXKIUPxUrufrX+m3IaYoUFYc3OPOz2bGXcCthBgF/+DNT/SOMy6fdeddmD0TyFBie51rkfYgsGTMCi04ExnpXcjOWX6uw5L+f+MsC7NxhIdM86gVuTVwA1Gi1cgvHQGHUTJR6jCK35EGl3KLRHu4O0GOz4TudZAjXQaWOcZ3ZyWGHsyupVaFHRXQOjVyvNTsLB+mOhjp/s8Vt8SQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n1mJksXUCSbb4RJv0de3PQrtQHOXZM0MX2Bv2X4mPhc=;
+ b=ccSLncFZJbyls+OJJno6NCvONd+hfPC+ov7AsrOG0fRZbvxRxjd7/THirMdWz1TkiJU8y+6Rq5xiIH4uVJXG9MAxGRkhEzwmn2t0WudXVKptXVv0W2VuFd9Hwo4kvK6GZ2r7yWyWE7uzNkRykZtsJiGUDhns49sWf36YwnLNlNQKVpi/+3O53E+HmBHXhln+iRT/fHvfkJV0e8MmNYiaAO1RTg8yzj41g6Fb1ffPUMqQGcxi3IKFK2cQUlh+DajXp9THW9EQsOF5wY3g+caWtd96zgdy3r2NcZiyD6PyDQOB+tEDjOYn2XlKPDlgGFkviWNV15L+T0qjbRfxgnfSGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
+ by DM5PR11MB1259.namprd11.prod.outlook.com (2603:10b6:3:15::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5417.23; Mon, 11 Jul 2022 12:41:08 +0000
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::d84a:6462:d08d:d35a]) by BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::d84a:6462:d08d:d35a%4]) with mapi id 15.20.5417.026; Mon, 11 Jul 2022
+ 12:41:08 +0000
+Message-ID: <e1604e52-42e0-f98e-3f0d-72a2b00943ca@intel.com>
+Date:   Mon, 11 Jul 2022 14:41:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 3/5] dma-buf: return only unsignaled fences in
+ dma_fence_unwrap_for_each v3
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+CC:     <linaro-mm-sig@lists.linaro.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>
+References: <20220506141009.18047-1-christian.koenig@amd.com>
+ <20220506141009.18047-3-christian.koenig@amd.com>
+ <f67d23e2-3953-7717-9c41-65075929525c@intel.com>
+ <4c9598f0-4ba7-c18e-2ccd-f508769a72e9@amd.com>
+ <fe4cfc97-ca20-b28d-8369-5cd404f27e19@intel.com>
+ <b28cca8f-ea2c-bab9-0de7-b469df121e09@amd.com>
+From:   Karolina Drobnik <karolina.drobnik@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <b28cca8f-ea2c-bab9-0de7-b469df121e09@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0053.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::6) To BY5PR11MB4243.namprd11.prod.outlook.com
+ (2603:10b6:a03:1c8::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220711111108.GA66765@tom-ThinkPad-T14s-Gen-2i>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 824ac85d-9d21-476f-50b7-08da633aa07e
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1259:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Losb/F6SCLx/Z2E/S1JzodHMrKGq86rs32W+xtOI/sIbXh7of0SJVvLXZc+PYYAcj/c5rPDzPu89NQRVUSNAIRzg09ag6YoAH+U0Q6gX9vWbSYlYwTY5Be4D5dziP2rT9cekS49mlckzw6Hiy15xCQIIoTDi902UPDs6EL2W46o8h8xs/MpdPg5wyAwgZ0wrDB9ReJD0Mrrz1YZo/T6bp8zOceyrIswu/V82Bg7afku6nu7kS6MhfMKwRRNLW8/uKzNkMvA2aSK69ycLKAecj/XGgOGOl1GCDXRT1PQwM5S8Qzv6d/Js5el3b7uFntRgL4okU4xia/4ic0IsQD596lyX5sp2Y1zpq+XrHAwj9EkLSY8KcZYJ9dA2Ki3OoGK+DnQiyyTxecJvGnjH0gj43ts7bfxiLZyk653HRo3LYJomveqvYTrIUUvX3I2tSUwq3HFSFJiI8Xdbk4K8U4TVloI01aJBZOfH6I8ATKhDBzbQLlmKHNDZQrDaDMD7jnxHHspphhsSSD9l9A3SHXdB6haGODMg2xSEL8LgG85oJia/2smWfFcWZkCLP+TOUhTtchUPB2iYx6bnNspWNYs2y7YSrNaKjr7TGDN/0vRDKCAmMTurLyzfeTw67H/RCG4X+D2QISc8HE5qCPLfqTnVqCsbuzprE+pt61AufISEqR2RSPn69wI0NcM5QbNDp63xdJdvxDjKV/oFemQUdzgNeWzWoU0TfDzohwruJFJFKVWADX0dmskwQQF/k+6GC/2u9xUYSSgW9tcJ+wLF7QReVgARbMCWv04drunVaA22qzA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4243.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(346002)(39860400002)(366004)(376002)(136003)(83380400001)(66574015)(38100700002)(66476007)(66946007)(8676002)(2616005)(66556008)(4326008)(186003)(31696002)(82960400001)(86362001)(8936002)(2906002)(44832011)(5660300002)(966005)(316002)(6486002)(6506007)(53546011)(6512007)(41300700001)(26005)(6666004)(110136005)(36756003)(31686004)(478600001)(45080400002)(36916002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aytnL2FLdGVXZ3RnY3FVOVptWGRNTStpQ296ZzZONDA3MERIWW9meUdzNGUv?=
+ =?utf-8?B?TTh2ZjVVdC9zTm9vcXFZcUNTU3pDanBmNWhtdmtJMDlpQmtKKzBWQXZlNnJC?=
+ =?utf-8?B?cXFXUWlIa0F3WVZzWlBHbHVBb2ZKUGplSFRQVFNqbFI5SmhsTHp4WGlWeE4w?=
+ =?utf-8?B?QytobXFxM3YveVF1VjFleHdMUG5qRkpiSDBxc3MvQ2dDdmNXSUdkSGl2Z1hY?=
+ =?utf-8?B?a1lGNWc0SlNkRG1xYW55SUdFSnQwOEl4dDlZU0Y0U08vN2ZqZ1ZhVURhSkVn?=
+ =?utf-8?B?b2pDYU9aZ09Vc2FwY2JWTVRzSWtuZDhHQ2g0RkdaS2VDaDNDRnFYREVrcUMz?=
+ =?utf-8?B?MDZvckQ4eXBXRVc2akJXVmdPS1Mrc1dFdkxXdzJqcDg3anAvYzNVUjRCOG1a?=
+ =?utf-8?B?VE00TDFYQ3RlcXFWd2lCMHBZSUNOeVYraVRiTFN4Rk5qVWRHM2FlUGdhQTRx?=
+ =?utf-8?B?MVRucFJRMUx3K2Z3ekZWSk02aitmbnI1RHJpQVBSd1pXOERLN21Ta09XUUNG?=
+ =?utf-8?B?K3YxbEU5VHBXWVJORnZ0Sm1ucFV2b3Nhb0hhSVMxZy9XT200TDJlN1RRVVJM?=
+ =?utf-8?B?MzF3UDVjZjB1eUdvb1FzSmhNQXVqd3dheUY5STlzaW9HMkk4aGtQQndteG40?=
+ =?utf-8?B?ejk0d244NnJxeG50ZUhiVTVtTUlyWnFKaktIWE1TaVdoVVpVTy9GdjcvUlp1?=
+ =?utf-8?B?K25VS0xSYmx5UEx3Lzd5ODRFWEs5WDFpVzd0WFd2ZFNhWTRTbUtyWTNpMWxz?=
+ =?utf-8?B?Vjk2Q1JEY1pJcmZXKzNUY0UvUzZtYStib2hWVlNkM0ViRkp2b1J5cllRR1Vj?=
+ =?utf-8?B?S0lBc2VKS1lhMStwRjN1MkU2dGF4bjh5akVvQWd5MmUxRXNkTlphNGRVT3BT?=
+ =?utf-8?B?bDA3ZHA5RDA0ZEtlRXNvc3gyNWZkby9vZkpoUlFaKzExVWUxWFBxRyt1OFlY?=
+ =?utf-8?B?N1NCSmJGQlJFWlpYWmtTVjluY2F6UTZMZFM4ajhXU0VNbjMvTE92eFBQQVN4?=
+ =?utf-8?B?NU8rbWZqZDEwbXdtak5VZFNhQXd5WUsyVzlTVEt2TVhnMmVvcDkyWENYTHZ2?=
+ =?utf-8?B?c1FpaVNZblVoeUphV0tuWk95VVJQNHlwRUFzcmh0TFlYdDhVKzNGOGFmR2c2?=
+ =?utf-8?B?TWZraFZrYk1YcFQwWXQraXhsSWZQalk5Q09jVkRnTmZiMGttSGdta3FveFd4?=
+ =?utf-8?B?c2hxZzI2bG5PeUE1UjlsNzdmUzRVRzlxUFdDUWIrcUhjT1hGV3ZpSmp6bDNQ?=
+ =?utf-8?B?M2hONzE2Z2VhTmhQbEYxUnEySklsd3U1VVNrdXFNSnBmODZwTGJSUTN5Q2U0?=
+ =?utf-8?B?ZXF6a0N1MHBmbGlXNUQ2emNyVjZuOEVpem9LSWgzRXdxTDZ5c21MUW5ncFp1?=
+ =?utf-8?B?MDlRT1NSUWQyWkVRZUxyTURVRzMwVWYrL3JaZkx5b2h3dDl2WnIrSFNPYlZV?=
+ =?utf-8?B?c1hKSDlpMDBBSks0aXdJOE11K1FJT1NzMmI2WS9zZE14ajF6R0QyU2poMWlD?=
+ =?utf-8?B?T0NIWC91eEtyeU4zZ0VGUTZZMlVKUFQyeFZvNWt1WlpRQmc4Snh2azk1aUN4?=
+ =?utf-8?B?Z0pZbTJpNFhaS3ZHVEVPVS9XOU03M2ttWUxTbHZhQkdtUTVZbHF1Unp5NHVp?=
+ =?utf-8?B?T3BoTS90b29WRFM2Y29Eek9oK3Z2NlV5bXJyYldrNDJqUHpGMHVab2xBNlp5?=
+ =?utf-8?B?M0pUcEU0Ym1HWHZMd1hBZkVIbXR0d0dHcThUNmpTa2ZYQTNFb3h3NDhoQlZH?=
+ =?utf-8?B?MFBTM3pzdXdlUTR0MExCRG94Tm54RFl4a2F0dXpQUzVncTIwUlMvUFhad290?=
+ =?utf-8?B?VTliZzhqa3NtaS9uc1I0K09GWm1yVU1kbmFhT05kR25ycUJBamV2UHpWTEJD?=
+ =?utf-8?B?cWJzT1lORVgyUW5HcWdHY1V4Zy85QjFsZUZwdmhqR2JQWmY4SXlXaDN2UlRr?=
+ =?utf-8?B?KzZyR2t2VHFQODdyTzFJUnI0eXF2R2pDdTYva1BxNThXR2FDNlBJNEZ0V1dX?=
+ =?utf-8?B?VjhHbjllM1R6d1d1ZEdxeFhWSVFjbzB6a2M1eVVrbEMyTzQxNHB6cEFwSU4r?=
+ =?utf-8?B?T3gyQldyUU9xMXpYc2RwbnpHZVFlRnBhV0pCRFdpUHJHaDJkWm4yOEZkSUZk?=
+ =?utf-8?B?TjU1a3Z4eEE2KzJvK3p6Lzc5OTN2Z0tJSVVYVnZja2ZVUnpOclJWYUNmQTBZ?=
+ =?utf-8?B?Wmc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 824ac85d-9d21-476f-50b7-08da633aa07e
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2022 12:41:08.0419
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rg1JfbRDb+AdE7CwStRzy1wvwXfLUqQ6YA/lnzq7P/xKlaxJg8xaRQ8I9fzaJ6trb5cXiqzNQkXPncyw7kghHMNiM0BIJpVXQ0aL/NTlBIU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1259
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso
+Hi Christian,
 
-On Mon, Jul 11, 2022 at 01:11:08PM +0200, Tommaso Merciai wrote:
-> Hi Jacopo,
-> Thanks for your review.
->
-> On Mon, Jul 11, 2022 at 11:36:59AM +0200, Jacopo Mondi wrote:
-> > Hi Tommaso, Krzysztof,
-> >
-> >    This has been reviewed by Krzysztof already, so I guess it's fine,
-> > but let me ask anyway
-> >
-> > On Thu, Jun 30, 2022 at 03:48:34PM +0200, Tommaso Merciai wrote:
-> > > Add documentation of device tree in YAML schema for the OV5693
-> > > CMOS image sensor from Omnivision
-> > >
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > ---
-> > > Changes since v1:
-> > >  - Fix allOf position as suggested by Krzysztof
-> > >  - Remove port description as suggested by Krzysztof
-> > >  - Fix EOF as suggested by Krzysztof
-> > >
-> > > Changes since v2:
-> > >  - Fix commit body as suggested by Krzysztof
-> > >
-> > > Changes since v3:
-> > >  - Add reviewed-by tags, suggested by Jacopo, Krzysztof
-> > >
-> > > Changes since v4:
-> > >  - Remove wrong Sakari reviewed-by tag, suggested by Krzysztof, Sakari
-> > >
-> > >  .../bindings/media/i2c/ovti,ov5693.yaml       | 106 ++++++++++++++++++
-> > >  MAINTAINERS                                   |   1 +
-> > >  2 files changed, 107 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> > > new file mode 100644
-> > > index 000000000000..b83c9fc04023
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> > > @@ -0,0 +1,106 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +# Copyright (c) 2022 Amarulasolutions
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Omnivision OV5693 CMOS Sensor
-> > > +
-> > > +maintainers:
-> > > +  - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> > > +
-> > > +description: |
-> > > +  The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
-> > > +  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
-> > > +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
-> > > +  Serial Camera Control Bus (SCCB) interface.
-> > > +
-> > > +  OV5693 is controlled via I2C and two-wire Serial Camera Control Bus (SCCB).
-> > > +  The sensor output is available via CSI-2 serial data output (up to 2-lane).
-> > > +
-> > > +allOf:
-> > > +  - $ref: /schemas/media/video-interface-devices.yaml#
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: ovti,ov5693
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    description:
-> > > +      System input clock (aka XVCLK). From 6 to 27 MHz.
-> > > +    maxItems: 1
-> > > +
-> > > +  dovdd-supply:
-> > > +    description:
-> > > +      Digital I/O voltage supply, 1.8V.
-> > > +
-> > > +  avdd-supply:
-> > > +    description:
-> > > +      Analog voltage supply, 2.8V.
-> > > +
-> > > +  dvdd-supply:
-> > > +    description:
-> > > +      Digital core voltage supply, 1.2V.
-> > > +
-> > > +  reset-gpios:
-> > > +    description:
-> > > +      The phandle and specifier for the GPIO that controls sensor reset.
-> > > +      This corresponds to the hardware pin XSHUTDN which is physically
-> > > +      active low.
-> > > +    maxItems: 1
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - dovdd-supply
-> > > +  - avdd-supply
-> > > +  - dvdd-supply
-> >
-> > Should supplies be made mandatory ? Sensors are often powered by fixed
-> > rails. Do we want DTS writers to create "fixed-regulators" for all of
-> > them ? The fact the regulator framework creates dummies if there's no
-> > entry in .dts for a regulator makes me think it's fine to have them
-> > optional, but I understand how Linux works should not be an indication
-> > of how a bindings should look like.
->
-> You are right, this depends on hw design and yes in many cases sensors are
-> powered by fixed rails.
-> But let me say, I see some design in wich I have to handle these signals and
-> in fact are mandatory.
+On 11.07.2022 14:25, Christian König wrote:
+> Hi Karolina,
+> 
+> Am 11.07.22 um 14:17 schrieb Karolina Drobnik:
+>> Hi Christian,
+>>
+>> On 11.07.2022 11:57, Christian König wrote:
+>>> Hi Karolina,
+>>>
+>>> Am 11.07.22 um 11:44 schrieb Karolina Drobnik:
+>>>> Hi Christian,
+>>>>
+>>>> I'm sorry for digging this one out so late.
+>>>>
+>>>> On 06.05.2022 16:10, Christian König wrote:
+>>>>> dma_fence_chain containers cleanup signaled fences automatically, so
+>>>>> filter those out from arrays as well.
+>>>>>
+>>>>> v2: fix missing walk over the array
+>>>>> v3: massively simplify the patch and actually update the description.
+>>>>>
+>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>>> ---
+>>>>>   include/linux/dma-fence-unwrap.h | 6 +++++-
+>>>>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/include/linux/dma-fence-unwrap.h 
+>>>>> b/include/linux/dma-fence-unwrap.h
+>>>>> index e7c219da4ed7..a4d342fef8e0 100644
+>>>>> --- a/include/linux/dma-fence-unwrap.h
+>>>>> +++ b/include/linux/dma-fence-unwrap.h
+>>>>> @@ -43,9 +43,13 @@ struct dma_fence *dma_fence_unwrap_next(struct 
+>>>>> dma_fence_unwrap *cursor);
+>>>>>    * Unwrap dma_fence_chain and dma_fence_array containers and deep 
+>>>>> dive into all
+>>>>>    * potential fences in them. If @head is just a normal fence only 
+>>>>> that one is
+>>>>>    * returned.
+>>>>> + *
+>>>>> + * Note that signalled fences are opportunistically filtered out, 
+>>>>> which
+>>>>> + * means the iteration is potentially over no fence at all.
+>>>>>    */
+>>>>>   #define dma_fence_unwrap_for_each(fence, cursor, head)            \
+>>>>>       for (fence = dma_fence_unwrap_first(head, cursor); fence;    \
+>>>>> -         fence = dma_fence_unwrap_next(cursor))
+>>>>> +         fence = dma_fence_unwrap_next(cursor)) \
+>>>>> +        if (!dma_fence_is_signaled(fence))
+>>>>>     #endif
+>>>>
+>>>> It looks like this particular patch affects merging Sync Fences, 
+>>>> which is reflected by failing IGT test (igt@sw_sync)[1]. The failing 
+>>>> subtests are:
+>>>>   - sync_merge - merging different fences on the same timeline, neither
+>>>>          single nor merged fences are signaled
+>>>>
+>>>>   - sync_merge_same - merging the fence with itself on the same
+>>>>          timeline, the fence didn't signal at all
+>>>>
+>>>>   - sync_multi_timeline_wait - merging different fences on different
+>>>>          timelines; the subtest checks if counting fences of
+>>>>          various states works. Currently, it can only see 2
+>>>>          active fences, 0 signaling (should be 2 active,
+>>>>          1 signaling)
+>>>>
+>>>> Reverting this commit on the top of drm-tip fixes the issue, but I'm 
+>>>> not sure if it wouldn't impact other places in the code. Please let 
+>>>> me know if I can be of any help.
+>>>
+>>>
+>>> Thanks for letting me know. Not sure what's going on here, but I can 
+>>> take a look today if time permits.
+>>
+>> The reproduction with IGTs should be quite easy. You'll need to 
+>> clone/download the IGT code and follow instructions for Building[1] 
+>> the project (make sure you have meson and ninja installed):
+>>
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Figt-gpu-tools&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9a9587aefd2d4ac2d86208da63375cb6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637931386683611766%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=4WsMutcFJ2HwBqld%2BTv9N1Tx6cbFMwJJZ6kjm5rbfoI%3D&amp;reserved=0 
+>>
+>>
+>> Once you have it up and running, go to <igt path>/build/tests, and run 
+>> the subtests:
+>>
+>>   ./sw_sync --run sync_merge
+>>   ./sw_sync --run sync_merge_same
+>>   ./sw_sync --run sync_multi_timeline_wait
+>>
+>> You can run all the subtests with ./sw_sync, but I think these are the 
+>> most relevant to you.
+> 
+> Thanks, I've already managed to reproduce it.
+> 
+> Not sure what's going on here, but could be that the test case was never 
+> correct in the first place. Need to double check.
 
-It's fine if you have to handle them, my question is it if it should
-be -mandatory- to specify them
+That's also a possibility, but I couldn't verify it before writing to 
+you, as it's not my area of expertise.
 
->
-> I check also in others binding's doc like:
->
->  - Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
->  - Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
->  - Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
->  ...
->
-> These keep this information.
->
-> Anyway, You suggest to drop off:
->
->  - dovdd-supply
->  - avdd-supply
->  - dvdd-supply
->
-> From required properties, right?
+Thanks for taking a look at this.
 
-Yes, I wonder if they should be required. As usual there's a
-bunch of different styles in media/i2c/ and it's not always easy to
-distinguish which ones are actually intended from the ones which are
-instead the result of copying the existing.
+All the best,
+Karolina
 
-
->
-> Tommmaso
->
-> >
-> > > +  - port
-> > > +
-> > > +unevaluatedProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/clock/px30-cru.h>
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +    #include <dt-bindings/pinctrl/rockchip.h>
-> > > +
-> > > +    i2c {
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +
-> > > +        ov5693: camera@36 {
-> > > +            compatible = "ovti,ov5693";
-> > > +            reg = <0x36>;
-> > > +
-> > > +            reset-gpios = <&gpio2 RK_PB1 GPIO_ACTIVE_LOW>;
-> > > +            pinctrl-names = "default";
-> > > +            pinctrl-0 = <&cif_clkout_m0>;
-> > > +
-> > > +            clocks = <&cru SCLK_CIF_OUT>;
-> > > +            assigned-clocks = <&cru SCLK_CIF_OUT>;
-> > > +            assigned-clock-rates = <19200000>;
-> > > +
-> > > +            avdd-supply = <&vcc_1v8>;
-> > > +            dvdd-supply = <&vcc_1v2>;
-> > > +            dovdd-supply = <&vcc_2v8>;
-> > > +
-> > > +            rotation = <90>;
-> > > +            orientation = <0>;
-> > > +
-> > > +            port {
-> > > +                ucam_out: endpoint {
-> > > +                    remote-endpoint = <&mipi_in_ucam>;
-> > > +                    data-lanes = <1 2>;
-> > > +                    link-frequencies = /bits/ 64 <450000000>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 1fc9ead83d2a..844307cb20c4 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -14719,6 +14719,7 @@ M:	Daniel Scally <djrscally@gmail.com>
-> > >  L:	linux-media@vger.kernel.org
-> > >  S:	Maintained
-> > >  T:	git git://linuxtv.org/media_tree.git
-> > > +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> > >  F:	drivers/media/i2c/ov5693.c
-> > >
-> > >  OMNIVISION OV5695 SENSOR DRIVER
-> > > --
-> > > 2.25.1
-> > >
->
-> --
-> Tommaso Merciai
-> Embedded Linux Engineer
-> tommaso.merciai@amarulasolutions.com
-> __________________________________
->
-> Amarula Solutions SRL
-> Via Le Canevare 30, 31100 Treviso, Veneto, IT
-> T. +39 042 243 5310
-> info@amarulasolutions.com
-> www.amarulasolutions.com
+> Thanks,
+> Christian.
+> 
+>>
+>> Many thanks,
+>> Karolina
+>>
+>> ------------------
+>> [1] - 
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Figt-gpu-tools%23building&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9a9587aefd2d4ac2d86208da63375cb6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637931386683611766%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=FV0Ao6ra8EOyr4cOs4N7mCmpOEUUObTrgyOrd0tvEV8%3D&amp;reserved=0 
+>>
+>>
+>>> Do you have a description how to easy reproduce this? E.g. how to run 
+>>> just those specific igts?
+>>>
+>>> Thanks,
+>>> Christian.
+>>>
+>>>>
+>>>> All the best,
+>>>> Karolina
+>>>>
+> 
