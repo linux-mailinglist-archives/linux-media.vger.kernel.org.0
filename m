@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C07256FFC2
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 13:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 367C456FFC8
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 13:12:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbiGKLMQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 07:12:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50380 "EHLO
+        id S229975AbiGKLMV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 07:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbiGKLMB (ORCPT
+        with ESMTP id S229665AbiGKLMC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 07:12:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD5C32D96
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 03:21:26 -0700 (PDT)
+        Mon, 11 Jul 2022 07:12:02 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8588732DA7
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 03:21:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2726061375
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 10:21:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A20F0C341C0;
-        Mon, 11 Jul 2022 10:21:24 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2CD28B80EA0
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 10:21:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE59C34115;
+        Mon, 11 Jul 2022 10:21:25 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 7/8] v4l2-ctrls: add change flag for when dimensions change
-Date:   Mon, 11 Jul 2022 12:21:10 +0200
-Message-Id: <20220711102111.2688139-8-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2 8/8] vivid: add pixel_array test control
+Date:   Mon, 11 Jul 2022 12:21:11 +0200
+Message-Id: <20220711102111.2688139-9-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220711102111.2688139-1-hverkuil-cisco@xs4all.nl>
 References: <20220711102111.2688139-1-hverkuil-cisco@xs4all.nl>
@@ -44,74 +44,99 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a new V4L2_EVENT_CTRL_CH_DIMENSIONS change flag that is issued
-when the dimensions of an array change as a result of a
-__v4l2_ctrl_modify_dimensions() call.
-
-This will inform userspace that there are new dimensions.
+This control will change dimensions according to the source resolution.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- Documentation/userspace-api/media/v4l/vidioc-dqevent.rst     | 5 +++++
- Documentation/userspace-api/media/videodev2.h.rst.exceptions | 1 +
- drivers/media/v4l2-core/v4l2-ctrls-api.c                     | 3 ++-
- include/uapi/linux/videodev2.h                               | 1 +
- 4 files changed, 9 insertions(+), 1 deletion(-)
+ drivers/media/test-drivers/vivid/vivid-core.h    |  5 ++++-
+ drivers/media/test-drivers/vivid/vivid-ctrls.c   | 14 ++++++++++++++
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c |  4 ++++
+ 3 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-index 6eb40073c906..8db103760930 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-@@ -332,6 +332,11 @@ call.
-       - 0x0004
-       - This control event was triggered because the minimum, maximum,
- 	step or the default value of the control changed.
-+    * - ``V4L2_EVENT_CTRL_CH_DIMENSIONS``
-+      - 0x0008
-+      - This control event was triggered because the dimensions of the
-+	control changed. Note that the number of dimensions remains the
-+	same.
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
+index 176b72cb143b..bfcfb3515901 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.h
++++ b/drivers/media/test-drivers/vivid/vivid-core.h
+@@ -35,7 +35,9 @@
+ #define MAX_HEIGHT 2160
+ /* The minimum image width/height */
+ #define MIN_WIDTH  16
+-#define MIN_HEIGHT 16
++#define MIN_HEIGHT MIN_WIDTH
++/* Pixel Array control divider */
++#define PIXEL_ARRAY_DIV MIN_WIDTH
+ /* The data_offset of plane 0 for the multiplanar formats */
+ #define PLANE0_DATA_OFFSET 128
  
+@@ -227,6 +229,7 @@ struct vivid_dev {
+ 	struct v4l2_ctrl		*bitmask;
+ 	struct v4l2_ctrl		*int_menu;
+ 	struct v4l2_ctrl		*ro_int32;
++	struct v4l2_ctrl		*pixel_array;
+ 	struct v4l2_ctrl		*test_pattern;
+ 	struct v4l2_ctrl		*colorspace;
+ 	struct v4l2_ctrl		*rgb_range_cap;
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index a78d676575bc..92b1a7598470 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -35,6 +35,7 @@
+ #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
+ #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
+ #define VIVID_CID_U32_DYN_ARRAY		(VIVID_CID_CUSTOM_BASE + 13)
++#define VIVID_CID_U8_PIXEL_ARRAY	(VIVID_CID_CUSTOM_BASE + 14)
  
- .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.5cm}|
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index 0b91200776f8..274474425b05 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -506,6 +506,7 @@ replace define V4L2_EVENT_PRIVATE_START event-type
- replace define V4L2_EVENT_CTRL_CH_VALUE ctrl-changes-flags
- replace define V4L2_EVENT_CTRL_CH_FLAGS ctrl-changes-flags
- replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
-+replace define V4L2_EVENT_CTRL_CH_DIMENSIONS ctrl-changes-flags
+ #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
+ #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
+@@ -228,6 +229,18 @@ static const struct v4l2_ctrl_config vivid_ctrl_u8_4d_array = {
+ 	.dims = { 2, 3, 4, 5 },
+ };
  
- replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
++static const struct v4l2_ctrl_config vivid_ctrl_u8_pixel_array = {
++	.ops = &vivid_user_gen_ctrl_ops,
++	.id = VIVID_CID_U8_PIXEL_ARRAY,
++	.name = "U8 Pixel Array",
++	.type = V4L2_CTRL_TYPE_U8,
++	.def = 0x80,
++	.min = 0x00,
++	.max = 0xff,
++	.step = 1,
++	.dims = { 640 / PIXEL_ARRAY_DIV, 360 / PIXEL_ARRAY_DIV },
++};
++
+ static const char * const vivid_ctrl_menu_strings[] = {
+ 	"Menu Item 0 (Skipped)",
+ 	"Menu Item 1",
+@@ -1642,6 +1655,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_4d_array, NULL);
++	dev->pixel_array = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_pixel_array, NULL);
  
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index 878da8592106..67fbdccda2d8 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -1020,7 +1020,8 @@ int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
- 	for (i = 0; i < elems; i++)
- 		ctrl->type_ops->init(ctrl, i, ctrl->p_cur);
- 	cur_to_new(ctrl);
--	send_event(NULL, ctrl, V4L2_EVENT_CTRL_CH_VALUE);
-+	send_event(NULL, ctrl, V4L2_EVENT_CTRL_CH_VALUE |
-+			       V4L2_EVENT_CTRL_CH_DIMENSIONS);
- 	return 0;
+ 	if (dev->has_vid_cap) {
+ 		/* Image Processing Controls */
+diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+index b9caa4b26209..86b158eeb2d8 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+@@ -381,6 +381,7 @@ static enum tpg_pixel_aspect vivid_get_pixel_aspect(const struct vivid_dev *dev)
+ void vivid_update_format_cap(struct vivid_dev *dev, bool keep_controls)
+ {
+ 	struct v4l2_bt_timings *bt = &dev->dv_timings_cap[dev->input].bt;
++	u32 dims[V4L2_CTRL_MAX_DIMS] = {};
+ 	unsigned size;
+ 	u64 pixelclock;
+ 
+@@ -459,6 +460,9 @@ void vivid_update_format_cap(struct vivid_dev *dev, bool keep_controls)
+ 	tpg_s_video_aspect(&dev->tpg, vivid_get_video_aspect(dev));
+ 	tpg_s_pixel_aspect(&dev->tpg, vivid_get_pixel_aspect(dev));
+ 	tpg_update_mv_step(&dev->tpg);
++	dims[0] = roundup(dev->src_rect.width, PIXEL_ARRAY_DIV);
++	dims[1] = roundup(dev->src_rect.height, PIXEL_ARRAY_DIV);
++	v4l2_ctrl_modify_dimensions(dev->pixel_array, dims);
  }
- EXPORT_SYMBOL(__v4l2_ctrl_modify_dimensions);
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 9018aa984db3..3971af623c56 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -2398,6 +2398,7 @@ struct v4l2_event_vsync {
- #define V4L2_EVENT_CTRL_CH_VALUE		(1 << 0)
- #define V4L2_EVENT_CTRL_CH_FLAGS		(1 << 1)
- #define V4L2_EVENT_CTRL_CH_RANGE		(1 << 2)
-+#define V4L2_EVENT_CTRL_CH_DIMENSIONS		(1 << 3)
  
- struct v4l2_event_ctrl {
- 	__u32 changes;
+ /* Map the field to something that is valid for the current input */
 -- 
 2.35.1
 
