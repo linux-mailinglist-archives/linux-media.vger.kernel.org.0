@@ -2,297 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A200E5702E6
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:41:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCEC55702EF
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:43:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231663AbiGKMlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 08:41:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34050 "EHLO
+        id S231718AbiGKMn2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 08:43:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231894AbiGKMle (ORCPT
+        with ESMTP id S231738AbiGKMnY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 08:41:34 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538A527B31
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657543278; x=1689079278;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Z+kapo5dnbFedt+f2HcQKTJrZdJNpomPB/C4P6C9jy0=;
-  b=KtMzCKMrg0vrm7YCXpsGq+LHDVkxMNdQnsXAAbe8mJSsMAcw5D9iILF3
-   PA4p3vNEEywm6oyOMW0XecZWnGS0ahqwkDk0QAPvUsBPq5OqxkTL/Ru49
-   HEvzWcSmEPu9KHsAEn774LnMSZAN8Ga4WHIBMcPujJuv6QfQ/LbV7q+HG
-   cEfZqfJ0QbxVBkNSobXp8SiVioiUCWHMO2wSV+XqR53wgQxt+ngVUVh8A
-   lzJ5AW/0OcKZ46qtKnQdFUvcW/jJgorU8yPTtVSMOO5lCLHn7aqSE93qV
-   8Y8YWPM8kJYVXuWKg41HHc9K7awzQOcV8VMqg1R0qlAL/tzggjYIBWUzO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10404"; a="265058145"
-X-IronPort-AV: E=Sophos;i="5.92,262,1650956400"; 
-   d="scan'208";a="265058145"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 05:41:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,262,1650956400"; 
-   d="scan'208";a="662535467"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Jul 2022 05:41:10 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 11 Jul 2022 05:41:10 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 11 Jul 2022 05:41:10 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 11 Jul 2022 05:41:10 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.177)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 11 Jul 2022 05:41:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DH96jnAF0iPmU/XWt9Q8EBsuFsZ7bam7AXfuEoD3IqgwMp/+1WS7q3Z7xDYAM9nudT+K/M+OsY5ju9aVfUvEQjd9CDagZp0lUJvx/Yo2VVW3K8KVglYJ/MM5R9pcT3tQqwcwOarXKIUPxUrufrX+m3IaYoUFYc3OPOz2bGXcCthBgF/+DNT/SOMy6fdeddmD0TyFBie51rkfYgsGTMCi04ExnpXcjOWX6uw5L+f+MsC7NxhIdM86gVuTVwA1Gi1cgvHQGHUTJR6jCK35EGl3KLRHu4O0GOz4TudZAjXQaWOcZ3ZyWGHsyupVaFHRXQOjVyvNTsLB+mOhjp/s8Vt8SQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n1mJksXUCSbb4RJv0de3PQrtQHOXZM0MX2Bv2X4mPhc=;
- b=ccSLncFZJbyls+OJJno6NCvONd+hfPC+ov7AsrOG0fRZbvxRxjd7/THirMdWz1TkiJU8y+6Rq5xiIH4uVJXG9MAxGRkhEzwmn2t0WudXVKptXVv0W2VuFd9Hwo4kvK6GZ2r7yWyWE7uzNkRykZtsJiGUDhns49sWf36YwnLNlNQKVpi/+3O53E+HmBHXhln+iRT/fHvfkJV0e8MmNYiaAO1RTg8yzj41g6Fb1ffPUMqQGcxi3IKFK2cQUlh+DajXp9THW9EQsOF5wY3g+caWtd96zgdy3r2NcZiyD6PyDQOB+tEDjOYn2XlKPDlgGFkviWNV15L+T0qjbRfxgnfSGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
- by DM5PR11MB1259.namprd11.prod.outlook.com (2603:10b6:3:15::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5417.23; Mon, 11 Jul 2022 12:41:08 +0000
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::d84a:6462:d08d:d35a]) by BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::d84a:6462:d08d:d35a%4]) with mapi id 15.20.5417.026; Mon, 11 Jul 2022
- 12:41:08 +0000
-Message-ID: <e1604e52-42e0-f98e-3f0d-72a2b00943ca@intel.com>
-Date:   Mon, 11 Jul 2022 14:41:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 3/5] dma-buf: return only unsignaled fences in
- dma_fence_unwrap_for_each v3
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-CC:     <linaro-mm-sig@lists.linaro.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>
-References: <20220506141009.18047-1-christian.koenig@amd.com>
- <20220506141009.18047-3-christian.koenig@amd.com>
- <f67d23e2-3953-7717-9c41-65075929525c@intel.com>
- <4c9598f0-4ba7-c18e-2ccd-f508769a72e9@amd.com>
- <fe4cfc97-ca20-b28d-8369-5cd404f27e19@intel.com>
- <b28cca8f-ea2c-bab9-0de7-b469df121e09@amd.com>
-From:   Karolina Drobnik <karolina.drobnik@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <b28cca8f-ea2c-bab9-0de7-b469df121e09@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0053.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::6) To BY5PR11MB4243.namprd11.prod.outlook.com
- (2603:10b6:a03:1c8::16)
+        Mon, 11 Jul 2022 08:43:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EED35C347
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:43:21 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06F97440;
+        Mon, 11 Jul 2022 14:43:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657543399;
+        bh=UF5OR9sUx6aAgl5nCUcunq3OND0Y0Omg472/thjqoSU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PUHVDVGgbJuB+wuxaUlgmybKf31NrhZC+R8sTz0borX9kpxZ9iOD+VFpabPOESp86
+         pCJXNVPTq5mR5bLdqBcvEmsv9U6eBgRaGWG7+KzBndjcd//1NrF1wJHcfP9vWzhkzr
+         F87eK3xcOANogc7IApGrtUH3P48yc8QdJIcHe/ME=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-rockchip@lists.infradead.org,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
+Subject: [PATCH v3 00/46] media: rkisp1: Cleanups to prepare for i.MX8MP support
+Date:   Mon, 11 Jul 2022 15:42:02 +0300
+Message-Id: <20220711124248.2683-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 824ac85d-9d21-476f-50b7-08da633aa07e
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1259:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Losb/F6SCLx/Z2E/S1JzodHMrKGq86rs32W+xtOI/sIbXh7of0SJVvLXZc+PYYAcj/c5rPDzPu89NQRVUSNAIRzg09ag6YoAH+U0Q6gX9vWbSYlYwTY5Be4D5dziP2rT9cekS49mlckzw6Hiy15xCQIIoTDi902UPDs6EL2W46o8h8xs/MpdPg5wyAwgZ0wrDB9ReJD0Mrrz1YZo/T6bp8zOceyrIswu/V82Bg7afku6nu7kS6MhfMKwRRNLW8/uKzNkMvA2aSK69ycLKAecj/XGgOGOl1GCDXRT1PQwM5S8Qzv6d/Js5el3b7uFntRgL4okU4xia/4ic0IsQD596lyX5sp2Y1zpq+XrHAwj9EkLSY8KcZYJ9dA2Ki3OoGK+DnQiyyTxecJvGnjH0gj43ts7bfxiLZyk653HRo3LYJomveqvYTrIUUvX3I2tSUwq3HFSFJiI8Xdbk4K8U4TVloI01aJBZOfH6I8ATKhDBzbQLlmKHNDZQrDaDMD7jnxHHspphhsSSD9l9A3SHXdB6haGODMg2xSEL8LgG85oJia/2smWfFcWZkCLP+TOUhTtchUPB2iYx6bnNspWNYs2y7YSrNaKjr7TGDN/0vRDKCAmMTurLyzfeTw67H/RCG4X+D2QISc8HE5qCPLfqTnVqCsbuzprE+pt61AufISEqR2RSPn69wI0NcM5QbNDp63xdJdvxDjKV/oFemQUdzgNeWzWoU0TfDzohwruJFJFKVWADX0dmskwQQF/k+6GC/2u9xUYSSgW9tcJ+wLF7QReVgARbMCWv04drunVaA22qzA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4243.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(346002)(39860400002)(366004)(376002)(136003)(83380400001)(66574015)(38100700002)(66476007)(66946007)(8676002)(2616005)(66556008)(4326008)(186003)(31696002)(82960400001)(86362001)(8936002)(2906002)(44832011)(5660300002)(966005)(316002)(6486002)(6506007)(53546011)(6512007)(41300700001)(26005)(6666004)(110136005)(36756003)(31686004)(478600001)(45080400002)(36916002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aytnL2FLdGVXZ3RnY3FVOVptWGRNTStpQ296ZzZONDA3MERIWW9meUdzNGUv?=
- =?utf-8?B?TTh2ZjVVdC9zTm9vcXFZcUNTU3pDanBmNWhtdmtJMDlpQmtKKzBWQXZlNnJC?=
- =?utf-8?B?cXFXUWlIa0F3WVZzWlBHbHVBb2ZKUGplSFRQVFNqbFI5SmhsTHp4WGlWeE4w?=
- =?utf-8?B?QytobXFxM3YveVF1VjFleHdMUG5qRkpiSDBxc3MvQ2dDdmNXSUdkSGl2Z1hY?=
- =?utf-8?B?a1lGNWc0SlNkRG1xYW55SUdFSnQwOEl4dDlZU0Y0U08vN2ZqZ1ZhVURhSkVn?=
- =?utf-8?B?b2pDYU9aZ09Vc2FwY2JWTVRzSWtuZDhHQ2g0RkdaS2VDaDNDRnFYREVrcUMz?=
- =?utf-8?B?MDZvckQ4eXBXRVc2akJXVmdPS1Mrc1dFdkxXdzJqcDg3anAvYzNVUjRCOG1a?=
- =?utf-8?B?VE00TDFYQ3RlcXFWd2lCMHBZSUNOeVYraVRiTFN4Rk5qVWRHM2FlUGdhQTRx?=
- =?utf-8?B?MVRucFJRMUx3K2Z3ekZWSk02aitmbnI1RHJpQVBSd1pXOERLN21Ta09XUUNG?=
- =?utf-8?B?K3YxbEU5VHBXWVJORnZ0Sm1ucFV2b3Nhb0hhSVMxZy9XT200TDJlN1RRVVJM?=
- =?utf-8?B?MzF3UDVjZjB1eUdvb1FzSmhNQXVqd3dheUY5STlzaW9HMkk4aGtQQndteG40?=
- =?utf-8?B?ejk0d244NnJxeG50ZUhiVTVtTUlyWnFKaktIWE1TaVdoVVpVTy9GdjcvUlp1?=
- =?utf-8?B?K25VS0xSYmx5UEx3Lzd5ODRFWEs5WDFpVzd0WFd2ZFNhWTRTbUtyWTNpMWxz?=
- =?utf-8?B?Vjk2Q1JEY1pJcmZXKzNUY0UvUzZtYStib2hWVlNkM0ViRkp2b1J5cllRR1Vj?=
- =?utf-8?B?S0lBc2VKS1lhMStwRjN1MkU2dGF4bjh5akVvQWd5MmUxRXNkTlphNGRVT3BT?=
- =?utf-8?B?bDA3ZHA5RDA0ZEtlRXNvc3gyNWZkby9vZkpoUlFaKzExVWUxWFBxRyt1OFlY?=
- =?utf-8?B?N1NCSmJGQlJFWlpYWmtTVjluY2F6UTZMZFM4ajhXU0VNbjMvTE92eFBQQVN4?=
- =?utf-8?B?NU8rbWZqZDEwbXdtak5VZFNhQXd5WUsyVzlTVEt2TVhnMmVvcDkyWENYTHZ2?=
- =?utf-8?B?c1FpaVNZblVoeUphV0tuWk95VVJQNHlwRUFzcmh0TFlYdDhVKzNGOGFmR2c2?=
- =?utf-8?B?TWZraFZrYk1YcFQwWXQraXhsSWZQalk5Q09jVkRnTmZiMGttSGdta3FveFd4?=
- =?utf-8?B?c2hxZzI2bG5PeUE1UjlsNzdmUzRVRzlxUFdDUWIrcUhjT1hGV3ZpSmp6bDNQ?=
- =?utf-8?B?M2hONzE2Z2VhTmhQbEYxUnEySklsd3U1VVNrdXFNSnBmODZwTGJSUTN5Q2U0?=
- =?utf-8?B?ZXF6a0N1MHBmbGlXNUQ2emNyVjZuOEVpem9LSWgzRXdxTDZ5c21MUW5ncFp1?=
- =?utf-8?B?MDlRT1NSUWQyWkVRZUxyTURVRzMwVWYrL3JaZkx5b2h3dDl2WnIrSFNPYlZV?=
- =?utf-8?B?c1hKSDlpMDBBSks0aXdJOE11K1FJT1NzMmI2WS9zZE14ajF6R0QyU2poMWlD?=
- =?utf-8?B?T0NIWC91eEtyeU4zZ0VGUTZZMlVKUFQyeFZvNWt1WlpRQmc4Snh2azk1aUN4?=
- =?utf-8?B?Z0pZbTJpNFhaS3ZHVEVPVS9XOU03M2ttWUxTbHZhQkdtUTVZbHF1Unp5NHVp?=
- =?utf-8?B?T3BoTS90b29WRFM2Y29Eek9oK3Z2NlV5bXJyYldrNDJqUHpGMHVab2xBNlp5?=
- =?utf-8?B?M0pUcEU0Ym1HWHZMd1hBZkVIbXR0d0dHcThUNmpTa2ZYQTNFb3h3NDhoQlZH?=
- =?utf-8?B?MFBTM3pzdXdlUTR0MExCRG94Tm54RFl4a2F0dXpQUzVncTIwUlMvUFhad290?=
- =?utf-8?B?VTliZzhqa3NtaS9uc1I0K09GWm1yVU1kbmFhT05kR25ycUJBamV2UHpWTEJD?=
- =?utf-8?B?cWJzT1lORVgyUW5HcWdHY1V4Zy85QjFsZUZwdmhqR2JQWmY4SXlXaDN2UlRr?=
- =?utf-8?B?KzZyR2t2VHFQODdyTzFJUnI0eXF2R2pDdTYva1BxNThXR2FDNlBJNEZ0V1dX?=
- =?utf-8?B?VjhHbjllM1R6d1d1ZEdxeFhWSVFjbzB6a2M1eVVrbEMyTzQxNHB6cEFwSU4r?=
- =?utf-8?B?T3gyQldyUU9xMXpYc2RwbnpHZVFlRnBhV0pCRFdpUHJHaDJkWm4yOEZkSUZk?=
- =?utf-8?B?TjU1a3Z4eEE2KzJvK3p6Lzc5OTN2Z0tJSVVYVnZja2ZVUnpOclJWYUNmQTBZ?=
- =?utf-8?B?Wmc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 824ac85d-9d21-476f-50b7-08da633aa07e
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2022 12:41:08.0419
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rg1JfbRDb+AdE7CwStRzy1wvwXfLUqQ6YA/lnzq7P/xKlaxJg8xaRQ8I9fzaJ6trb5cXiqzNQkXPncyw7kghHMNiM0BIJpVXQ0aL/NTlBIU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1259
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christian,
+Hello,
 
-On 11.07.2022 14:25, Christian König wrote:
-> Hi Karolina,
-> 
-> Am 11.07.22 um 14:17 schrieb Karolina Drobnik:
->> Hi Christian,
->>
->> On 11.07.2022 11:57, Christian König wrote:
->>> Hi Karolina,
->>>
->>> Am 11.07.22 um 11:44 schrieb Karolina Drobnik:
->>>> Hi Christian,
->>>>
->>>> I'm sorry for digging this one out so late.
->>>>
->>>> On 06.05.2022 16:10, Christian König wrote:
->>>>> dma_fence_chain containers cleanup signaled fences automatically, so
->>>>> filter those out from arrays as well.
->>>>>
->>>>> v2: fix missing walk over the array
->>>>> v3: massively simplify the patch and actually update the description.
->>>>>
->>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>> ---
->>>>>   include/linux/dma-fence-unwrap.h | 6 +++++-
->>>>>   1 file changed, 5 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/include/linux/dma-fence-unwrap.h 
->>>>> b/include/linux/dma-fence-unwrap.h
->>>>> index e7c219da4ed7..a4d342fef8e0 100644
->>>>> --- a/include/linux/dma-fence-unwrap.h
->>>>> +++ b/include/linux/dma-fence-unwrap.h
->>>>> @@ -43,9 +43,13 @@ struct dma_fence *dma_fence_unwrap_next(struct 
->>>>> dma_fence_unwrap *cursor);
->>>>>    * Unwrap dma_fence_chain and dma_fence_array containers and deep 
->>>>> dive into all
->>>>>    * potential fences in them. If @head is just a normal fence only 
->>>>> that one is
->>>>>    * returned.
->>>>> + *
->>>>> + * Note that signalled fences are opportunistically filtered out, 
->>>>> which
->>>>> + * means the iteration is potentially over no fence at all.
->>>>>    */
->>>>>   #define dma_fence_unwrap_for_each(fence, cursor, head)            \
->>>>>       for (fence = dma_fence_unwrap_first(head, cursor); fence;    \
->>>>> -         fence = dma_fence_unwrap_next(cursor))
->>>>> +         fence = dma_fence_unwrap_next(cursor)) \
->>>>> +        if (!dma_fence_is_signaled(fence))
->>>>>     #endif
->>>>
->>>> It looks like this particular patch affects merging Sync Fences, 
->>>> which is reflected by failing IGT test (igt@sw_sync)[1]. The failing 
->>>> subtests are:
->>>>   - sync_merge - merging different fences on the same timeline, neither
->>>>          single nor merged fences are signaled
->>>>
->>>>   - sync_merge_same - merging the fence with itself on the same
->>>>          timeline, the fence didn't signal at all
->>>>
->>>>   - sync_multi_timeline_wait - merging different fences on different
->>>>          timelines; the subtest checks if counting fences of
->>>>          various states works. Currently, it can only see 2
->>>>          active fences, 0 signaling (should be 2 active,
->>>>          1 signaling)
->>>>
->>>> Reverting this commit on the top of drm-tip fixes the issue, but I'm 
->>>> not sure if it wouldn't impact other places in the code. Please let 
->>>> me know if I can be of any help.
->>>
->>>
->>> Thanks for letting me know. Not sure what's going on here, but I can 
->>> take a look today if time permits.
->>
->> The reproduction with IGTs should be quite easy. You'll need to 
->> clone/download the IGT code and follow instructions for Building[1] 
->> the project (make sure you have meson and ninja installed):
->>
->> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Figt-gpu-tools&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9a9587aefd2d4ac2d86208da63375cb6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637931386683611766%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=4WsMutcFJ2HwBqld%2BTv9N1Tx6cbFMwJJZ6kjm5rbfoI%3D&amp;reserved=0 
->>
->>
->> Once you have it up and running, go to <igt path>/build/tests, and run 
->> the subtests:
->>
->>   ./sw_sync --run sync_merge
->>   ./sw_sync --run sync_merge_same
->>   ./sw_sync --run sync_multi_timeline_wait
->>
->> You can run all the subtests with ./sw_sync, but I think these are the 
->> most relevant to you.
-> 
-> Thanks, I've already managed to reproduce it.
-> 
-> Not sure what's going on here, but could be that the test case was never 
-> correct in the first place. Need to double check.
+This series cleans up, reworks and extends the rkisp1 driver to prepare
+for support of the ISP found in the NXP i.MX8MP SoC.
 
-That's also a possibility, but I couldn't verify it before writing to 
-you, as it's not my area of expertise.
+The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
+and in the NXP i.MX8MP have the same origin, and have slightly diverged
+over time as they are now independently developed (as far as I
+understand) by Rockchip and VeriSilicon. The latter is marketed under
+the name "ISP8000Nano", and is close enough to the RK3399 ISP that it
+can easily be supported by the same driver.
 
-Thanks for taking a look at this.
+This series starts with a few changes to the V4L2 async framework
+(01/46) and MC core helpers (02/46 to 04/46) to support the rest of the
+changes. It continues with various cleanups and reworks in order to
+support CSI-2 receivers external to the ISP as found in the i.MX8MP
+(05/46 to 45/46). Patch 46/46 is a small additional debugging improvement.
 
-All the best,
-Karolina
+Compared to v2, i.MX8MP support has been left out as a few issues still
+need to be solved. This preparatory series targets v5.20, while i.MX8MP
+support will be for v5.21. Review comments have been taken into account.
 
-> Thanks,
-> Christian.
-> 
->>
->> Many thanks,
->> Karolina
->>
->> ------------------
->> [1] - 
->> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Figt-gpu-tools%23building&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9a9587aefd2d4ac2d86208da63375cb6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637931386683611766%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=FV0Ao6ra8EOyr4cOs4N7mCmpOEUUObTrgyOrd0tvEV8%3D&amp;reserved=0 
->>
->>
->>> Do you have a description how to easy reproduce this? E.g. how to run 
->>> just those specific igts?
->>>
->>> Thanks,
->>> Christian.
->>>
->>>>
->>>> All the best,
->>>> Karolina
->>>>
-> 
+Dafna, only patches 38/46, 39/46 and 46/46 are missing your reviews.
+Would you be able to have a look ?
+
+Laurent Pinchart (38):
+  media: v4l2-async: Add notifier operation to destroy asd instances
+  media: mc-entity: Rename media_entity_remote_pad() to
+    media_pad_remote_pad_first()
+  media: mc-entity: Add a new helper function to get a remote pad
+  media: mc-entity: Add a new helper function to get a remote pad for a
+    pad
+  media: rkisp1: Enable compilation on ARCH_MXC
+  media: rkisp1: Disable runtime PM in probe error path
+  media: rkisp1: Read the ID register at probe time instead of streamon
+  media: rkisp1: Rename rkisp1_match_data to rkisp1_info
+  media: rkisp1: Access ISP version from info pointer
+  media: rkisp1: cap: Print debug message on failed link validation
+  media: rkisp1: Move sensor .s_stream() call to ISP
+  media: rkisp1: Reject sensors without pixel rate control at bound time
+  media: rkisp1: Create link from sensor to ISP at notifier bound time
+  media: rkisp1: Create internal links at probe time
+  media: rkisp1: Rename rkisp1_subdev_notifier() to
+    rkisp1_subdev_notifier_register()
+  media: rkisp1: Fix sensor source pad retrieval at bound time
+  media: rkisp1: isp: Start CSI-2 receiver before ISP
+  media: rkisp1: csi: Handle CSI-2 RX configuration fully in
+    rkisp1-csi.c
+  media: rkisp1: csi: Rename CSI functions with a common rkisp1_csi
+    prefix
+  media: rkisp1: csi: Move start delay to rkisp1_csi_start()
+  media: rkisp1: csi: Pass sensor pointer to rkisp1_csi_config()
+  media: rkisp1: csi: Constify argument to rkisp1_csi_start()
+  media: rkisp1: isp: Don't initialize ret to 0 in rkisp1_isp_s_stream()
+  media: rkisp1: isp: Pass mbus type and flags to rkisp1_config_cif()
+  media: rkisp1: isp: Rename rkisp1_device.active_sensor to source
+  media: rkisp1: isp: Add container_of wrapper to cast subdev to
+    rkisp1_isp
+  media: rkisp1: isp: Add rkisp1_device backpointer to rkisp1_isp
+  media: rkisp1: isp: Pass rkisp1_isp pointer to internal ISP functions
+  media: rkisp1: isp: Move input configuration to rkisp1_config_isp()
+  media: rkisp1: isp: Merge ISP_ACQ_PROP configuration in single
+    variable
+  media: rkisp1: isp: Initialize some variables at declaration time
+  media: rkisp1: isp: Fix whitespace issues
+  media: rkisp1: isp: Constify various local variables
+  media: rkisp1: isp: Rename rkisp1_get_remote_source()
+  media: rkisp1: isp: Disallow multiple active sources
+  media: rkisp1: csi: Plumb the CSI RX subdev
+  media: rkisp1: Add infrastructure to support ISP features
+  media: rkisp1: Make the internal CSI-2 receiver optional
+
+Paul Elder (8):
+  media: rkisp1: Save info pointer in rkisp1_device
+  media: rkisp1: Make rkisp1_isp_mbus_info common
+  media: rkisp1: Split CSI handling to separate file
+  media: rkisp1: csi: Implement a V4L2 subdev for the CSI receiver
+  media: rkisp1: Use fwnode_graph_for_each_endpoint
+  dt-bindings: media: rkisp1: Add port for parallel interface
+  media: rkisp1: Support the ISP parallel input
+  media: rkisp1: debug: Add dump file in debugfs for MI main path
+    registers
+
+ .../bindings/media/rockchip-isp1.yaml         |  23 +-
+ Documentation/driver-api/media/mc-core.rst    |   5 +-
+ .../driver-api/media/v4l2-subdev.rst          |   6 +
+ drivers/media/i2c/adv748x/adv748x.h           |   2 +-
+ drivers/media/i2c/tvp5150.c                   |   2 +-
+ drivers/media/mc/mc-entity.c                  |  75 ++-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   2 +-
+ .../media/platform/qcom/camss/camss-csid.c    |   6 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |   2 +-
+ .../media/platform/qcom/camss/camss-ispif.c   |   4 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c |   2 +-
+ .../media/platform/qcom/camss/camss-video.c   |   6 +-
+ drivers/media/platform/qcom/camss/camss.c     |   2 +-
+ .../platform/renesas/rcar-vin/rcar-core.c     |   2 +-
+ .../platform/renesas/rcar-vin/rcar-csi2.c     |   2 +-
+ .../platform/renesas/rcar-vin/rcar-dma.c      |   2 +-
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |   2 +-
+ .../media/platform/renesas/vsp1/vsp1_entity.c |   4 +-
+ .../media/platform/renesas/vsp1/vsp1_video.c  |   2 +-
+ .../media/platform/rockchip/rkisp1/Kconfig    |   2 +-
+ .../media/platform/rockchip/rkisp1/Makefile   |   1 +
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |  22 +-
+ .../platform/rockchip/rkisp1/rkisp1-common.c  | 143 +++++
+ .../platform/rockchip/rkisp1/rkisp1-common.h  | 109 +++-
+ .../platform/rockchip/rkisp1/rkisp1-csi.c     | 536 ++++++++++++++++
+ .../platform/rockchip/rkisp1/rkisp1-csi.h     |  28 +
+ .../platform/rockchip/rkisp1/rkisp1-debug.c   |  21 +
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     | 431 +++++++------
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 571 +++++-------------
+ .../platform/rockchip/rkisp1/rkisp1-params.c  |   2 +-
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c |  14 +-
+ .../platform/rockchip/rkisp1/rkisp1-stats.c   |   4 +-
+ .../platform/samsung/exynos4-is/common.c      |   2 +-
+ .../samsung/exynos4-is/fimc-capture.c         |   6 +-
+ .../samsung/exynos4-is/fimc-isp-video.c       |   2 +-
+ .../platform/samsung/exynos4-is/fimc-lite.c   |   2 +-
+ .../platform/samsung/exynos4-is/media-dev.c   |   2 +-
+ .../samsung/s3c-camif/camif-capture.c         |   2 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |   6 +-
+ .../platform/sunxi/sun6i-csi/sun6i_video.c    |   4 +-
+ drivers/media/platform/ti/cal/cal-camerarx.c  |   2 +-
+ drivers/media/platform/ti/cal/cal-video.c     |   2 +-
+ drivers/media/platform/ti/omap3isp/isp.c      |   6 +-
+ drivers/media/platform/ti/omap3isp/ispccdc.c  |   2 +-
+ drivers/media/platform/ti/omap3isp/ispccp2.c  |   2 +-
+ drivers/media/platform/ti/omap3isp/ispcsi2.c  |   2 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.c |   4 +-
+ drivers/media/platform/video-mux.c            |   2 +-
+ .../media/platform/xilinx/xilinx-csi2rxss.c   |   2 +-
+ drivers/media/platform/xilinx/xilinx-dma.c    |   4 +-
+ .../media/test-drivers/vimc/vimc-streamer.c   |   2 +-
+ drivers/media/v4l2-core/v4l2-async.c          |  10 +
+ .../staging/media/imx/imx-media-dev-common.c  |   2 +-
+ drivers/staging/media/imx/imx-media-utils.c   |   2 +-
+ drivers/staging/media/omap4iss/iss.c          |   6 +-
+ drivers/staging/media/omap4iss/iss_csi2.c     |   2 +-
+ drivers/staging/media/omap4iss/iss_video.c    |   2 +-
+ drivers/staging/media/tegra-video/vi.c        |   4 +-
+ include/media/media-entity.h                  |  68 ++-
+ include/media/v4l2-async.h                    |   2 +
+ 60 files changed, 1479 insertions(+), 710 deletions(-)
+ create mode 100644 drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
+
+
+base-commit: d8e8aa866ed8636fd6c1017c3d9453eab2922496
+-- 
+Regards,
+
+Laurent Pinchart
+
