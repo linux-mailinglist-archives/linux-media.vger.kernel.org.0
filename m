@@ -2,354 +2,271 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8377F57021A
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ADB0570284
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jul 2022 14:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230107AbiGKMcu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 08:32:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56750 "EHLO
+        id S231700AbiGKMir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 08:38:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbiGKMct (ORCPT
+        with ESMTP id S231481AbiGKMi3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 08:32:49 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53BF04E841
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:32:48 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id b11so8539076eju.10
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 05:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hx4Xj0vKM3i9b8JRtUJiv/sbaqsj2HeLHhMvN2rvbzQ=;
-        b=InkBM8ViDKm5aLb2MeT/zAOxVF3eGAC8WlnxhjWChE7n2CDLvHpCe3Dq+yAnlWY6y5
-         op0wpFNoTFP1AXUj0T5v2K8D4abTewJPr26cMOYUUGI2dz2GvGghJxuuSMSlRRKm68qS
-         fBIllUi8s5VTs6u0fczmV+Gy3C/hJFD1sLOnGNDY/2tR+JLiWaK9SMpHm5b4XrwCEFea
-         KruUDwljlzZF2DhfpSyArfYq9nTxQ8udeAM0Aw7SZE/saGyCdscgpovFlPcNS5oN1hBI
-         orvTarntKuH2FOtLUxG4AQI3V1yi2zV1EN5AnftGKZV3CUBjHsuRIgUzXnwjYAyU8W3G
-         9EGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hx4Xj0vKM3i9b8JRtUJiv/sbaqsj2HeLHhMvN2rvbzQ=;
-        b=rdwfJ0EaGa6mtGGrWymG0K4QuK49RihUGFc2UV0r71jq+lG+65FrnCn4iHix+AH9Ly
-         HeGomFwVUj3oO+waTOStvy2OiqnU/zZO93jHdEaSY+cfv7++9/5Y9AnW03vFmFXBqbej
-         QGneAM6HhBDi7RVm3YpufRuRlkl0x0pNCCz68+Jzf8Y7VSk0WPwW3vRX7ekOGQSoV9/G
-         68VlCWYptRRo7gLcmdbAAiH9IcSWG7PKRFDjXOtagdTevLMT4G6ifM40FCdD5bzxH7lq
-         jw2eCbkG2NQXe0ialxudl4BjukTIwCpI5mwKPDNlmZxJ9woB0q/k7Oug6cqH6N2kDdfL
-         764w==
-X-Gm-Message-State: AJIora8iamDBZ0pOLVylNIsrtK0dBLJHtIgEY2O279orYTszhv3aUo0a
-        fmtvpvsLxyBw+3slY+UZFayYoIYu0nGtcYJZhuP/yA==
-X-Google-Smtp-Source: AGRyM1t2GYOvYiSczm91nCPcsRJRH4FqjR9E7NVKZ+m4L5fqZwnWxrxafS/w6hG5adH2Z02J62sZu85S85XMttB+tZA=
-X-Received: by 2002:a17:906:2086:b0:717:4e91:f1db with SMTP id
- 6-20020a170906208600b007174e91f1dbmr18061273ejq.345.1657542766827; Mon, 11
- Jul 2022 05:32:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220125171129.472775-1-aford173@gmail.com> <20220125171129.472775-8-aford173@gmail.com>
- <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm> <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
- <c11a58ecc5da2e206fc2b942980223a04a103f19.camel@puri.sm> <17c5ef22479cfea3f43dce1885f6613f1bef8064.camel@pengutronix.de>
- <2f25ea965289f6fdcd5fc0f12f445b174637ce74.camel@puri.sm>
-In-Reply-To: <2f25ea965289f6fdcd5fc0f12f445b174637ce74.camel@puri.sm>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Mon, 11 Jul 2022 09:32:35 -0300
-Message-ID: <CAAEAJfACXrhHwF-Z9ygnZTUgKBQ3u1jHNDaMhgivq_rDr8xTNw@mail.gmail.com>
-Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2 VPU's
- with vpu-blk-ctrl
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     Lucas Stach <l.stach@pengutronix.de>,
-        Adam Ford <aford173@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Chris Healy <cphealy@gmail.com>,
-        kernel test robot <lkp@intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mon, 11 Jul 2022 08:38:29 -0400
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9235F5A2FB;
+        Mon, 11 Jul 2022 05:37:24 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id D81BC100010;
+        Mon, 11 Jul 2022 12:36:31 +0000 (UTC)
+Date:   Mon, 11 Jul 2022 14:36:29 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 5/6] media: dt-bindings: ov5693: document YAML binding
+Message-ID: <20220711123629.xcknkluu3wwokoz3@uno.localdomain>
+References: <20220630134835.592521-1-tommaso.merciai@amarulasolutions.com>
+ <20220630134835.592521-6-tommaso.merciai@amarulasolutions.com>
+ <20220711093659.mf7i4uqtrejtfong@uno.localdomain>
+ <20220711111108.GA66765@tom-ThinkPad-T14s-Gen-2i>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220711111108.GA66765@tom-ThinkPad-T14s-Gen-2i>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+Hi Tommaso
 
-On Mon, Jul 11, 2022 at 6:53 AM Martin Kepplinger
-<martin.kepplinger@puri.sm> wrote:
+On Mon, Jul 11, 2022 at 01:11:08PM +0200, Tommaso Merciai wrote:
+> Hi Jacopo,
+> Thanks for your review.
 >
-> Am Dienstag, dem 26.04.2022 um 12:43 +0200 schrieb Lucas Stach:
-> > Am Dienstag, dem 26.04.2022 um 09:38 +0200 schrieb Martin Kepplinger:
-> > > Am Montag, dem 25.04.2022 um 17:34 +0200 schrieb Lucas Stach:
-> > > > Hi Martin,
-> > > >
-> > > > Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin
-> > > > Kepplinger:
-> > > > > Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
-> > > > > > With the Hantro G1 and G2 now setup to run independently,
-> > > > > > update
-> > > > > > the device tree to allow both to operate.  This requires the
-> > > > > > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
-> > > > > > certain clock enabled to handle the gating of the G1 and G2
-> > > > > > fuses, the clock-parents and clock-rates for the various
-> > > > > > VPU's
-> > > > > > to be moved into the pgc_vpu because they cannot get re-
-> > > > > > parented
-> > > > > > once enabled, and the pgc_vpu is the highest in the chain.
-> > > > > >
-> > > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> > > > > >
-> > > > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > > index 2df2510d0118..549b2440f55d 100644
-> > > > > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
-> > > > > >                                         pgc_vpu: power-
-> > > > > > domain@6 {
-> > > > > >                                                 #power-
-> > > > > > domain-
-> > > > > > cells =
-> > > > > > <0>;
-> > > > > >                                                 reg =
-> > > > > > <IMX8M_POWER_DOMAIN_VPU>;
-> > > > > > -                                               clocks =
-> > > > > > <&clk
-> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > > > > > +                                               clocks =
-> > > > > > <&clk
-> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>,
-> > > > > > +
-> > > > > > <&clk
-> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
-> > > > > > +
-> > > > > > <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > > > +                                               assigned-
-> > > > > > clocks =
-> > > > > > <&clk IMX8MQ_CLK_VPU_G1>,
-> > > > > > +
-> > > > > >
-> > > > > > <&clk IMX8MQ_CLK_VPU_G2>,
-> > > > > > +
-> > > > > >
-> > > > > > <&clk IMX8MQ_CLK_VPU_BUS>,
-> > > > > > +
-> > > > > >
-> > > > > > <&clk IMX8MQ_VPU_PLL_BYPASS>;
-> > > > > > +                                               assigned-
-> > > > > > clock-
-> > > > > > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >     <&clk IMX8MQ_VPU_PLL_OUT>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >     <&clk IMX8MQ_SYS1_PLL_800M>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >     <&clk IMX8MQ_VPU_PLL>;
-> > > > > > +                                               assigned-
-> > > > > > clock-
-> > > > > > rates
-> > > > > > = <600000000>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >   <600000000>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >   <800000000>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >   <0>;
-> > > > > >                                         };
-> > > > > >
-> > > > > >                                         pgc_disp:
-> > > > > > power-domain@7
-> > > > > > {
-> > > > > > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
-> > > > > >                         status = "disabled";
-> > > > > >                 };
-> > > > > >
-> > > > > > -               vpu: video-codec@38300000 {
-> > > > > > -                       compatible = "nxp,imx8mq-vpu";
-> > > > > > -                       reg = <0x38300000 0x10000>,
-> > > > > > -                             <0x38310000 0x10000>,
-> > > > > > -                             <0x38320000 0x10000>;
-> > > > > > -                       reg-names = "g1", "g2", "ctrl";
-> > > > > > -                       interrupts = <GIC_SPI 7
-> > > > > > IRQ_TYPE_LEVEL_HIGH>,
-> > > > > > -                                    <GIC_SPI 8
-> > > > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > -                       interrupt-names = "g1", "g2";
-> > > > > > +               vpu_g1: video-codec@38300000 {
-> > > > > > +                       compatible = "nxp,imx8mq-vpu-g1";
-> > > > > > +                       reg = <0x38300000 0x10000>;
-> > > > > > +                       interrupts = <GIC_SPI 7
-> > > > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > +                       clocks = <&clk
-> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>;
-> > > > > > +                       power-domains = <&vpu_blk_ctrl
-> > > > > > IMX8MQ_VPUBLK_PD_G1>;
-> > > > > > +               };
-> > > > > > +
-> > > > > > +               vpu_g2: video-codec@38310000 {
-> > > > > > +                       compatible = "nxp,imx8mq-vpu-g2";
-> > > > > > +                       reg = <0x38310000 0x10000>;
-> > > > > > +                       interrupts = <GIC_SPI 8
-> > > > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > +                       clocks = <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > > > +                       power-domains = <&vpu_blk_ctrl
-> > > > > > IMX8MQ_VPUBLK_PD_G2>;
-> > > > > > +               };
-> > > > > > +
-> > > > > > +               vpu_blk_ctrl: blk-ctrl@38320000 {
-> > > > > > +                       compatible = "fsl,imx8mq-vpu-blk-
-> > > > > > ctrl";
-> > > > > > +                       reg = <0x38320000 0x100>;
-> > > > > > +                       power-domains = <&pgc_vpu>,
-> > > > > > <&pgc_vpu>,
-> > > > > > <&pgc_vpu>;
-> > > > > > +                       power-domain-names = "bus", "g1",
-> > > > > > "g2";
-> > > > > >                         clocks = <&clk
-> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
-> > > > > > -                                <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>,
-> > > > > > -                                <&clk
-> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > > > > > -                       clock-names = "g1", "g2", "bus";
-> > > > > > -                       assigned-clocks = <&clk
-> > > > > > IMX8MQ_CLK_VPU_G1>,
-> > > > > > -                                         <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2>,
-> > > > > > -                                         <&clk
-> > > > > > IMX8MQ_CLK_VPU_BUS>,
-> > > > > > -                                         <&clk
-> > > > > > IMX8MQ_VPU_PLL_BYPASS>;
-> > > > > > -                       assigned-clock-parents = <&clk
-> > > > > > IMX8MQ_VPU_PLL_OUT>,
-> > > > > > -                                                <&clk
-> > > > > > IMX8MQ_VPU_PLL_OUT>,
-> > > > > > -                                                <&clk
-> > > > > > IMX8MQ_SYS1_PLL_800M>,
-> > > > > > -                                                <&clk
-> > > > > > IMX8MQ_VPU_PLL>;
-> > > > > > -                       assigned-clock-rates = <600000000>,
-> > > > > > <600000000>,
-> > > > > > -                                              <800000000>,
-> > > > > > <0>;
-> > > > > > -                       power-domains = <&pgc_vpu>;
-> > > > > > +                                <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > > > +                       clock-names = "g1", "g2";
-> > > > > > +                       #power-domain-cells = <1>;
-> > > > > >                 };
-> > > > > >
-> > > > > >                 pcie0: pcie@33800000 {
-> > > > >
-> > > > > With this update, when testing suspend to ram on imx8mq, I get:
-> > > > >
-> > > > > buck4: failed to disable: -ETIMEDOUT
-> > > > >
-> > > > > where buck4 is power-supply of pgc_vpu. And thus the transition
-> > > > > to
-> > > > > suspend (and resuming) fails.
-> > > > >
-> > > > > Have you tested system suspend after the imx8m-blk-ctrl update
-> > > > > on
-> > > > > imx8mq?
-> > > >
-> > > > I haven't tested system suspend, don't know if anyone else did.
-> > > > However
-> > > > I guess that this is just uncovering a preexisting issue in the
-> > > > system
-> > > > suspend sequencing, which you would also hit if the video
-> > > > decoders
-> > > > were
-> > > > active at system suspend time.
-> > > >
-> > > > My guess is that the regulator disable fails, due to the power
-> > > > domains
-> > > > being disabled quite late in the suspend sequence, where i2c
-> > > > communication with the PMIC is no longer possible due to i2c
-> > > > being
-> > > > suspended already or something like that. Maybe you can dig in a
-> > > > bit
-> > > > on
-> > > > the actual sequence on your system and we can see how we can
-> > > > rework
-> > > > things to suspend the power domains at a time where communication
-> > > > with
-> > > > the PMIC is still possible?
+> On Mon, Jul 11, 2022 at 11:36:59AM +0200, Jacopo Mondi wrote:
+> > Hi Tommaso, Krzysztof,
+> >
+> >    This has been reviewed by Krzysztof already, so I guess it's fine,
+> > but let me ask anyway
+> >
+> > On Thu, Jun 30, 2022 at 03:48:34PM +0200, Tommaso Merciai wrote:
+> > > Add documentation of device tree in YAML schema for the OV5693
+> > > CMOS image sensor from Omnivision
 > > >
-> > > What exactly would you like to see? Here's all gpcv2 regulators
-> > > disabling on suspend. (gpu (domain 5) is disabled by runtime pm
-> > > often):
+> > > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > ---
+> > > Changes since v1:
+> > >  - Fix allOf position as suggested by Krzysztof
+> > >  - Remove port description as suggested by Krzysztof
+> > >  - Fix EOF as suggested by Krzysztof
 > > >
-> > > [   47.138700] imx-pgc imx-pgc-domain.5: disabling regulator
-> > > [   47.298071] Freezing user space processes ... (elapsed 0.008
-> > > seconds) done.
-> > > [   47.313432] OOM killer disabled.
-> > > [   47.316670] Freezing remaining freezable tasks ... (elapsed
-> > > 2.221
-> > > seconds) done.
-> > > [   49.672052] imx8m-blk-ctrl 38320000.blk-ctrl:
-> > > imx8m_blk_ctrl_suspend
-> > > start
-> > > [   49.704417] imx-pgc imx-pgc-domain.0: disabling regulator
-> > > [   49.711114] imx-pgc imx-pgc-domain.6: disabling regulator
-> > > [   49.819064] buck4: failed to disable: -ETIMEDOUT
+> > > Changes since v2:
+> > >  - Fix commit body as suggested by Krzysztof
 > > >
-> > > The stack looks pretty much the same for all of them, from
-> > > pm_suspend()
-> > > over genpd_suspend_noiry().
+> > > Changes since v3:
+> > >  - Add reviewed-by tags, suggested by Jacopo, Krzysztof
+> > >
+> > > Changes since v4:
+> > >  - Remove wrong Sakari reviewed-by tag, suggested by Krzysztof, Sakari
+> > >
+> > >  .../bindings/media/i2c/ovti,ov5693.yaml       | 106 ++++++++++++++++++
+> > >  MAINTAINERS                                   |   1 +
+> > >  2 files changed, 107 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > > new file mode 100644
+> > > index 000000000000..b83c9fc04023
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > > @@ -0,0 +1,106 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +# Copyright (c) 2022 Amarulasolutions
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Omnivision OV5693 CMOS Sensor
+> > > +
+> > > +maintainers:
+> > > +  - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > > +
+> > > +description: |
+> > > +  The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
+> > > +  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
+> > > +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
+> > > +  Serial Camera Control Bus (SCCB) interface.
+> > > +
+> > > +  OV5693 is controlled via I2C and two-wire Serial Camera Control Bus (SCCB).
+> > > +  The sensor output is available via CSI-2 serial data output (up to 2-lane).
+> > > +
+> > > +allOf:
+> > > +  - $ref: /schemas/media/video-interface-devices.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: ovti,ov5693
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    description:
+> > > +      System input clock (aka XVCLK). From 6 to 27 MHz.
+> > > +    maxItems: 1
+> > > +
+> > > +  dovdd-supply:
+> > > +    description:
+> > > +      Digital I/O voltage supply, 1.8V.
+> > > +
+> > > +  avdd-supply:
+> > > +    description:
+> > > +      Analog voltage supply, 2.8V.
+> > > +
+> > > +  dvdd-supply:
+> > > +    description:
+> > > +      Digital core voltage supply, 1.2V.
+> > > +
+> > > +  reset-gpios:
+> > > +    description:
+> > > +      The phandle and specifier for the GPIO that controls sensor reset.
+> > > +      This corresponds to the hardware pin XSHUTDN which is physically
+> > > +      active low.
+> > > +    maxItems: 1
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - dovdd-supply
+> > > +  - avdd-supply
+> > > +  - dvdd-supply
 > >
-> > So the GPU domain is already suspended before the system suspend,
-> > probably due to short runtime PM timeouts.
-> >
-> > Can you please check at which point the i2c subsystem is suspended? I
-> > think we are already past that point when running the PM domain
-> > suspend
-> > from a _noirq callback. I'll take a look on how we can properly
-> > change
-> > this ordering.
-> >
-> > Regards,
-> > Lucas
-> >
+> > Should supplies be made mandatory ? Sensors are often powered by fixed
+> > rails. Do we want DTS writers to create "fixed-regulators" for all of
+> > them ? The fact the regulator framework creates dummies if there's no
+> > entry in .dts for a regulator makes me think it's fine to have them
+> > optional, but I understand how Linux works should not be an indication
+> > of how a bindings should look like.
 >
-> hi Lucas, sorry for not following up on this for so long. This fixes
-> suspend/resume for me:
->
-> https://lore.kernel.org/linux-arm-kernel/20220711094549.3445566-1-martin.kepplinger@puri.sm/T/#t
->
-> thank you for you help so far,
->
+> You are right, this depends on hw design and yes in many cases sensors are
+> powered by fixed rails.
+> But let me say, I see some design in wich I have to handle these signals and
+> in fact are mandatory.
 
-Thanks a lot for keeping us posted. The fix for suspend/resume
-looks great!
+It's fine if you have to handle them, my question is it if it should
+be -mandatory- to specify them
 
-Ezequiel
+>
+> I check also in others binding's doc like:
+>
+>  - Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+>  - Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+>  - Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+>  ...
+>
+> These keep this information.
+>
+> Anyway, You suggest to drop off:
+>
+>  - dovdd-supply
+>  - avdd-supply
+>  - dvdd-supply
+>
+> From required properties, right?
+
+Yes, I wonder if they should be required. As usual there's a
+bunch of different styles in media/i2c/ and it's not always easy to
+distinguish which ones are actually intended from the ones which are
+instead the result of copying the existing.
+
+
+>
+> Tommmaso
+>
+> >
+> > > +  - port
+> > > +
+> > > +unevaluatedProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/clock/px30-cru.h>
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +    #include <dt-bindings/pinctrl/rockchip.h>
+> > > +
+> > > +    i2c {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        ov5693: camera@36 {
+> > > +            compatible = "ovti,ov5693";
+> > > +            reg = <0x36>;
+> > > +
+> > > +            reset-gpios = <&gpio2 RK_PB1 GPIO_ACTIVE_LOW>;
+> > > +            pinctrl-names = "default";
+> > > +            pinctrl-0 = <&cif_clkout_m0>;
+> > > +
+> > > +            clocks = <&cru SCLK_CIF_OUT>;
+> > > +            assigned-clocks = <&cru SCLK_CIF_OUT>;
+> > > +            assigned-clock-rates = <19200000>;
+> > > +
+> > > +            avdd-supply = <&vcc_1v8>;
+> > > +            dvdd-supply = <&vcc_1v2>;
+> > > +            dovdd-supply = <&vcc_2v8>;
+> > > +
+> > > +            rotation = <90>;
+> > > +            orientation = <0>;
+> > > +
+> > > +            port {
+> > > +                ucam_out: endpoint {
+> > > +                    remote-endpoint = <&mipi_in_ucam>;
+> > > +                    data-lanes = <1 2>;
+> > > +                    link-frequencies = /bits/ 64 <450000000>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 1fc9ead83d2a..844307cb20c4 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -14719,6 +14719,7 @@ M:	Daniel Scally <djrscally@gmail.com>
+> > >  L:	linux-media@vger.kernel.org
+> > >  S:	Maintained
+> > >  T:	git git://linuxtv.org/media_tree.git
+> > > +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > >  F:	drivers/media/i2c/ov5693.c
+> > >
+> > >  OMNIVISION OV5695 SENSOR DRIVER
+> > > --
+> > > 2.25.1
+> > >
+>
+> --
+> Tommaso Merciai
+> Embedded Linux Engineer
+> tommaso.merciai@amarulasolutions.com
+> __________________________________
+>
+> Amarula Solutions SRL
+> Via Le Canevare 30, 31100 Treviso, Veneto, IT
+> T. +39 042 243 5310
+> info@amarulasolutions.com
+> www.amarulasolutions.com
