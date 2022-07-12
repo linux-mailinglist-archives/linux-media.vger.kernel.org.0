@@ -2,123 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B7A571B5F
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 15:34:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D0FC571C03
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 16:14:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbiGLNeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jul 2022 09:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49204 "EHLO
+        id S229628AbiGLOOV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 10:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233094AbiGLNeN (ORCPT
+        with ESMTP id S229534AbiGLOOR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jul 2022 09:34:13 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0129F9B9C9
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:34:10 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id mi10so2535705qvb.1
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=ACcVEjWAl0l8BCPeGNEBMR96Vi6sSgqEYdNkLpYgsf0=;
-        b=xb8y8B0q4vFneb5wFxkhbTICKHFpaId6bsu7EZunPzwvjN9/LBwV+lPsydD5Eup8/h
-         Dc5K0R2CZA/NVLTSUrnTQ0Qkpj61Q+aZvVZsI3RRq/d7o1EOS4w8mqlWpqv4N6+1RO43
-         JziY3aVKbKZsF90XTDGFL1B3gyi07L3sYO2jzy04MbLdYtB3m08o1ZU9HCTYVS8DvGS5
-         ljgMNkIuxbJWs6lvwRx5NWv6vKsZY+B8D7LxuZZNLgTbCl7Li3YO8QHcXkXC9k5Yzc2Q
-         JUWu5eXkMFyraSVFKSQQ8DApGZlPNiqOq9iePUdnCCca3csa69dzwRDQF03OzC11abb5
-         sjiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=ACcVEjWAl0l8BCPeGNEBMR96Vi6sSgqEYdNkLpYgsf0=;
-        b=LYK04v++yJFQoJsllxUnH5M5mQFI38xzHeDg5LMSsgRlduWYoUZ95X+RMXm9RA1Ros
-         X6550qhBWnp0frDijzOxqipoFiNAXNAyoQels5EsWceHRjb50Di4VnHGHgztI3MtnyT0
-         Uh2/Wz/2ArC91DPsyeqlMIeNFCO6r2d3EgGGzDSNHjOOwS+H7HT0nldOQgbj+F4mXjNA
-         iN7AJGSomVTHzN3H+MVwYF391gevzeZqDszr2+9tFADdjQDXwK4pwOr34E/hqlHaYP1t
-         8JrNzJcugn/T6f2OWADFfBBam5IL7kNqXwy66xtLcJFkrVGyVeLELGa97Je2OOT0Xwd/
-         jZPQ==
-X-Gm-Message-State: AJIora8ipJnpJRLVzuJxAXd4h75unfIPqswopHkfQJAXMhBmNw9lNlM/
-        gjigifblDnDhgDQ4Sfq/lri9aQ==
-X-Google-Smtp-Source: AGRyM1tR9QQjMICvEvriS3rUrQeRvEnCkxrSDR9p9b3QC/NKJyXkOuzupjLq2xmjuWFbvpwWCe4AvA==
-X-Received: by 2002:a0c:f3ce:0:b0:473:3c5:d378 with SMTP id f14-20020a0cf3ce000000b0047303c5d378mr17519526qvm.48.1657632848339;
-        Tue, 12 Jul 2022 06:34:08 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id g7-20020a05620a40c700b006b1490619cdsm9354056qko.99.2022.07.12.06.34.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 06:34:07 -0700 (PDT)
-Message-ID: <b06c71d090ae7eaa3cd047bb0067f566371bac3a.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/7] venus : Add default values for the control
- V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Viswanath Boma <quic_vboma@quicinc.com>,
-        video.upstream.external@qti.qualcomm.com,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Tue, 12 Jul 2022 09:34:06 -0400
-In-Reply-To: <20220712122347.6781-1-quic_vboma@quicinc.com>
-References: <20220712122347.6781-1-quic_vboma@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+        Tue, 12 Jul 2022 10:14:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A8A339B
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 07:14:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C6F2D6188A
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 14:14:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFBEDC3411C;
+        Tue, 12 Jul 2022 14:14:14 +0000 (UTC)
+Message-ID: <7eeafa6e-c205-ed8f-d701-35807b0cd7ae@xs4all.nl>
+Date:   Tue, 12 Jul 2022 16:14:12 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCHv2] media: venus: venus_helper_get_bufreq(): req is never
+ NULL
+Content-Language: en-US
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+References: <d9184cd6-6cef-0df4-5247-8119d7bdb25b@xs4all.nl>
+ <7ba24360-d038-70ed-95e2-9b8261cfd428@linaro.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <7ba24360-d038-70ed-95e2-9b8261cfd428@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 12 juillet 2022 =C3=A0 17:53 +0530, Viswanath Boma a =C3=A9crit=C2=
-=A0:
-> From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->=20
->  V4l2 encoder compliance expecting default values of colormetry for the c=
-ontrol.
 
-nit: colormetry -> colorimetry
 
->=20
-> Change-Id: I1db0d4940b54e033d646ce39d60dc488afba8d58
-> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/venc_ctrls.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/med=
-ia/platform/qcom/venus/venc_ctrls.c
-> index ea5805e71c143..37ba7d97f99b2 100644
-> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> @@ -352,6 +352,8 @@ static const struct v4l2_ctrl_ops venc_ctrl_ops =3D {
->  int venc_ctrl_init(struct venus_inst *inst)
->  {
->  	int ret;
-> +	struct v4l2_ctrl_hdr10_mastering_display p_hdr10_mastering =3D { {34000=
-, 13250, 7500 },
-> +	{ 16000, 34500, 3000 }, 15635,	16450, 10000000, 500 };
+On 7/12/22 15:08, Stanimir Varbanov wrote:
+> Hi Hans,
+> 
+> Thanks for the patch!
+> 
+> On 7/12/22 13:47, Hans Verkuil wrote:
+>> Fix a smatch error:
+>>
+>> drivers/media/platform/qcom/venus/helpers.c: drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+>>
+>> After checking how venus_helper_get_bufreq() is called it is clear that
+>> req is never NULL, so just drop the checks.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>  drivers/media/platform/qcom/venus/helpers.c | 6 ++----
+>>  1 file changed, 2 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+>> index 5c1104379c49..60de4200375d 100644
+>> --- a/drivers/media/platform/qcom/venus/helpers.c
+>> +++ b/drivers/media/platform/qcom/venus/helpers.c
+>> @@ -671,8 +671,7 @@ int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
+>>  	unsigned int i;
+>>  	int ret;
+>>  
+>> -	if (req)
+>> -		memset(req, 0, sizeof(*req));
+>> +	memset(req, 0, sizeof(*req));
+> 
+> I wonder, can we just return EINVAL if req == NULL? By that way we could
+> avoid future errors.
 
-What is the origin of these values ? Should this be done in the control
-framework instead ?
+We can, but it makes no sense for this function to be called with a NULL
+pointer for req, if you do, then it is a driver bug. I.e, we don't test if
+inst is NULL either.
 
-> =20
->  	ret =3D v4l2_ctrl_handler_init(&inst->ctrl_handler, 58);
->  	if (ret)
-> @@ -580,7 +582,7 @@ int venc_ctrl_init(struct venus_inst *inst)
-> =20
->  	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
->  				   V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY,
-> -				   v4l2_ctrl_ptr_create(NULL));
-> +				   v4l2_ctrl_ptr_create((void *)&p_hdr10_mastering));
-> =20
->  	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
->  			  V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD, 0,
+I thought about it, but decided that it would just add unnecessary overhead
+in this specific case.
 
+If you still want this, then I can post a v3.
+
+Regards,
+
+	Hans
+
+> 
+>>  
+>>  	if (type == HFI_BUFFER_OUTPUT || type == HFI_BUFFER_OUTPUT2)
+>>  		req->count_min = inst->fw_min_cnt;
+>> @@ -694,8 +693,7 @@ int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
+>>  		if (hprop.bufreq[i].type != type)
+>>  			continue;
+>>  
+>> -		if (req)
+>> -			memcpy(req, &hprop.bufreq[i], sizeof(*req));
+>> +		memcpy(req, &hprop.bufreq[i], sizeof(*req));
+>>  		ret = 0;
+>>  		break;
+>>  	}
+> 
