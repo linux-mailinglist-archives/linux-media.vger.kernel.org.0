@@ -2,65 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BF3F57288E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 23:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAC0C5728A2
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 23:29:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbiGLVZT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jul 2022 17:25:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59996 "EHLO
+        id S233061AbiGLV3F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 17:29:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231430AbiGLVZR (ORCPT
+        with ESMTP id S229697AbiGLV3A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jul 2022 17:25:17 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E265CD3F0;
-        Tue, 12 Jul 2022 14:25:15 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id k30so11743050edk.8;
-        Tue, 12 Jul 2022 14:25:14 -0700 (PDT)
+        Tue, 12 Jul 2022 17:29:00 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C56C9125;
+        Tue, 12 Jul 2022 14:28:58 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id b11so16563943eju.10;
+        Tue, 12 Jul 2022 14:28:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tBChpcrNJ7uqMkrlYvpxSCbNo0rDEKF5+LZTTXtJt14=;
-        b=Ywi86ClERDeLuKNgFXaQC9C0Am+AWfURZcVsReXCWgtWBy1GfoVl0R6WPPPTlHQErG
-         jvoRgofZ0r3jKGOSWj0M8PBwVMxTkkaRoo9gXi9CDdA9GorEEpP7oqu+ssUCkREX1Ovs
-         peY1IMAAGlLTZkp+oCV6xVzieZqlH9W3ODaeDlSQZn4/bx/A/Fv291MUyKaxtF+VIsMc
-         K+SDlZDCHgMvG4FKXPZPY8CN2X7fsz+eS3QTTKj7DrL5OXrQ6HD0C08KH6DrA5HHQtgU
-         53jzf3YbyqCBEx9/MbYCtQmxXiEr6k3msPTAUICZe6d/xtuVMXyaCKrho0FDfkPU2CAv
-         DEgA==
+        bh=BknaE/Kld0FnjC1aUofNUzwSa+QGAFkBMskakzse0z8=;
+        b=oN5XoqcVxMnycuXA07RCPGjZGDbKv2XzrtoJdpEJqM+T/yQqztcOiBEJz+KqUqqJga
+         kw+SX/a38LI8HrpIyvN00Sbql19iG/4qDMO5R7dVKWLrNZjZ/E32SM4Ct8/1sjlnQEvY
+         jgrD6Usb1wE4swF5y3adFtdK17D5h5AYUAjgGh/JcsuDFRQPGc3krlBvRWHgeV2FqwN6
+         xxHG4wI1ZSJHbHvfA9ksmdK3ND3XVYsJVUcmpkbzGs8o0eU+i+pf2oTxtDfcO2p+SzWu
+         BcSKR36gyCkwm6wLNXFThR7tMjPOh084ssJxilJ4bp2NcqjfmpdRq5ufZU69xOQ4AF9a
+         EjLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=tBChpcrNJ7uqMkrlYvpxSCbNo0rDEKF5+LZTTXtJt14=;
-        b=uUWTgVAyYIFL8rDsPI0gh093U4fDn7yarH8xGf/86FB2zHJkMiruQxU4w9kbeEBDIG
-         G8oi46tK940yZQrIeL1D7BAGIIWfAj3zg5EXD90pAg5HYZr1XbRC0eTFBDqJzJzwNku+
-         JVo0QtLi1zKHN93Z4vfptw7ZrsUMJDUF60r6nkrzApSFGFsB1ZBeWP6K9ioJaR1tiw/H
-         NJpcxCpASeflli6XAQtyCtofQYJr1GNCe1OU5Feb7mR5hX7yKa+rceWfZ13ibcPkBj+Z
-         1KmlAbYr4jGdnOndBnatdLKPrC324pJj9HudE7TASze2hEU173T4IauGDYlnqXJedsA7
-         r74Q==
-X-Gm-Message-State: AJIora+ZeWtaSBmbaHoVSlbr1OFs/pltwtiXezkEKBXNq+ZusxRFQt7E
-        TxSMIU0UznWBk8kEC3PmozU=
-X-Google-Smtp-Source: AGRyM1s+hQS+QLnU/6lQQ0tzxXZ5MhaAO+TPHGDbqYL360sXVhmOZtETjA1glKjKTh/Rh8MDdn6VUQ==
-X-Received: by 2002:a05:6402:4395:b0:43a:c694:907d with SMTP id o21-20020a056402439500b0043ac694907dmr161122edc.310.1657661113418;
-        Tue, 12 Jul 2022 14:25:13 -0700 (PDT)
+        bh=BknaE/Kld0FnjC1aUofNUzwSa+QGAFkBMskakzse0z8=;
+        b=bqG07SDVtPeK/s3LHrGLIzma6XioLSiy+aEe2tEDGsIX1DUmTgYbmDoSVXBebtGKwV
+         HOgcKfxWvVIEfxjOqdykPHPeE/+LsSkGayPcrVYaied3z1ykqmAV/95POAVFoKYWuMtM
+         WmCYMlCrX1uXoWZsNUV12HLAbS9bW6jJ/LrWRn8W/t6EeOdDnbZDmjwDS8udtHGzZKwW
+         Lm4XI/aNSmma0R5ZVsSeMKzSKTav9+HtXQfL21Jq+ushgT6icEIyYdOLcQfzbTU+xyn/
+         XlC+iGtLDbj+fkoNZT4RG7DPORc2Kh7LhYTb3leWySEYndiCQuOSgM748E+nqnk4cXSI
+         MpKw==
+X-Gm-Message-State: AJIora/fQGACKRJJSoxgWC/mb5sLpKBbg1sDVMXHtWvBC58x3MH+LoJS
+        5Zdg5QHR0+wguGEHlqrVVqa8N2kTkK/YmA==
+X-Google-Smtp-Source: AGRyM1ty94Bi/kThUyYCtcONkfQEatSMxB4zQNDcet6s1fIeNCkp6cZN9Ip6+R4/UZLfNCXrGMqLvg==
+X-Received: by 2002:a17:907:d18:b0:726:3172:2266 with SMTP id gn24-20020a1709070d1800b0072631722266mr129773ejc.476.1657661337442;
+        Tue, 12 Jul 2022 14:28:57 -0700 (PDT)
 Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id r17-20020a056402019100b0043a9144d8ecsm6650252edv.71.2022.07.12.14.25.11
+        by smtp.gmail.com with ESMTPSA id c17-20020a056402121100b00437e08d319csm6572339edw.61.2022.07.12.14.28.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 14:25:12 -0700 (PDT)
+        Tue, 12 Jul 2022 14:28:56 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        samuel@sholland.org, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+To:     mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        samuel@sholland.org
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH 5/7] media: cedrus: h265: Add a couple of error checks
-Date:   Tue, 12 Jul 2022 23:25:00 +0200
-Message-ID: <37675481.J2Yia2DhmK@kista>
-In-Reply-To: <YsyWnzdTZ0bC733i@eze-laptop>
-References: <20220620175517.648767-1-jernej.skrabec@gmail.com> <20220620175517.648767-6-jernej.skrabec@gmail.com> <YsyWnzdTZ0bC733i@eze-laptop>
+Subject: Re: [PATCH 0/7] media: cedrus: h265: Implement tiles support
+Date:   Tue, 12 Jul 2022 23:28:55 +0200
+Message-ID: <12371972.VsHLxoZxqI@kista>
+In-Reply-To: <20220620175517.648767-1-jernej.skrabec@gmail.com>
+References: <20220620175517.648767-1-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -74,92 +74,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel.
-
-Dne ponedeljek, 11. julij 2022 ob 23:31:11 CEST je Ezequiel Garcia napisal(a):
-> On Mon, Jun 20, 2022 at 07:55:15PM +0200, Jernej Skrabec wrote:
-> > Now that we have infrastructure for reporting errors, let's add two
-> > checks, which will make sure slice can be actually decoded.
-> > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > ---
-> > 
-> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > cfde4ccf6011..99020b9f9ff8 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+Dne ponedeljek, 20. junij 2022 ob 19:55:10 CEST je Jernej Skrabec napisal(a):
+> Now that we have full and stable HEVC uAPI, let's implement last big
+> missing piece of HEVC in Cedrus - tiles support. This is done in
+> last patch. Before that, there are bug fixes (patch 1 & 2, previously
+> submitted separately in [1]), error handling improvements (patch 3, 4)
+> and added helper for dealing with dynamic arrays (patch 5).
 > 
-> Now that you've allowed setup to fail, I would suggest
-> to have some documentation/comments on struct cedrus_dec_ops,
-> to set the expectation/rules for each ops, including the
-> call paths for each operation, which of them are allowed to sleep,
-> etc.
-
-Documentation can be always added, but it should be separate patch.
-
+> These patches are based on top of [2].
 > 
-> > @@ -435,9 +435,17 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > struct cedrus_run *run)> 
-> >  	 * instead of start of slice data. Padding is 8 bits at most (one 
-bit
-> >  	 set to 1 and * at most seven bits set to 0), so we have to 
-inspect
-> >  	 only one byte before slice data. */
-> > 
-> > +
-> > +	if (slice_params->data_byte_offset == 0)
-> > +		return -EOPNOTSUPP;
-> > +
+> Final fluster score with this series is 125/147. 11 bitstreams are
+> MAIN10, which is not yet properly supported. 5 bitstreams need better
+> memory management with auxiliary buffers (wip patches exists). 4 are
+> too big and 2 probably fails due to ffmpeg implementation.
 > 
-> AFAICS, cedrus_h265_setup is called from .device_run.
-> We've been discussing control validation before, and I think the
-> ideal place to do that is v4l2_ctrl_ops.s_ctrl, if that's
-> at all possible.
-
-Yeah, this particular check can be moved to s_ctrl handler.
-
+> Used ffmpeg source is in [3].
 > 
-> Driver's mem2mem device_run are executed in the context
-> of a work_struct and the failure won't really get reported
-> up the stack.
-
-Well, at least there will be a notice in dmesg. Not ideal, I know.
-
+> Note - Cedrus driver currently supports only one slice per request since
+> HW takes data for 1 slice only. This can be improved by loading data for
+> next slice automatically after HW signalled end of decoding. Something
+> for later.
 > 
-> >  	padding = (u8 *)vb2_plane_vaddr(&run->src->vb2_buf, 0) +
-> >  	
-> >  		slice_params->data_byte_offset - 1;
-> > 
-> > +	/* at least one bit must be set in that byte */
-> > +	if (*padding == 0)
-> > +		return -EINVAL;
-> > +
+> Please take a look.
 > 
-> Maybe this is something to check at cedrus_buf_prepare(),
-> when the buffer is queued?
+> Best regards,
+> Jernej
+> 
+> [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=8187
+> [2] https://patchwork.linuxtv.org/project/linux-media/list/?series=8208
+> [3] https://github.com/jernejsk/FFmpeg/commits/hevc-mainline
+> 
+> Jernej Skrabec (7):
+>   media: cedrus: h265: Fix flag name
+>   media: cedrus: h265: Fix logic for not low delay flag
+>   media: cedrus: Improve error messages for controls
+>   media: cedrus: Add error handling for failed setup
+>   media: cedrus: h265: Add a couple of error checks
+>   media: cedrus: Add helper for determining number of elements
+>   media: cedrus: h265: Implement support for tiles
 
-I don't think so. This check is HEVC specific, but cedrus_buf_prepare() is not 
-and we need to have slice control ready, which I'm not sure is the case for 
-cedrus_buf_prepare().
+Hi Hans,
+
+do you mind picking patch 6 and 7? They are reviewed and don't depend on patch 
+5.
 
 Best regards,
 Jernej
 
-> 
-> Thanks,
-> Ezequiel
-> 
-> >  	for (count = 0; count < 8; count++)
-> >  	
-> >  		if (*padding & (1 << count))
-> >  		
-> >  			break;
-> > 
-> > --
-> > 2.36.1
+
 
 
