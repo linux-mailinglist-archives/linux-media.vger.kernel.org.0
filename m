@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9735A570E8D
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 02:04:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DD0D570E8A
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 02:04:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbiGLADn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 20:03:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39706 "EHLO
+        id S231571AbiGLADp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 20:03:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231394AbiGLADf (ORCPT
+        with ESMTP id S231432AbiGLADm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 20:03:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33B35BAA
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 17:03:32 -0700 (PDT)
+        Mon, 11 Jul 2022 20:03:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F11A025E8;
+        Mon, 11 Jul 2022 17:03:36 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 741011381;
-        Tue, 12 Jul 2022 02:03:26 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 212FD176F;
+        Tue, 12 Jul 2022 02:03:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657584206;
-        bh=Lq+YZgkv3OzOOxMqLZm8rU2vBQQrXUCKRJJ8V0NMTeo=;
+        s=mail; t=1657584207;
+        bh=0knKqc06oNkI6P0abfLrv6NID0TqEcItjUUajrpzW0o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YC1oSUU3+rOFYAW2SceT6/mciEjYKYWGFBPKMNuuBCCa9IpFee1A5a8oZ3gbNKPv7
-         uvXtIDeakf5JukJattV9zjxvnkxSY1H/y0C/6l2efa/CpEl+k+gQ9LuZJf94K77D8N
-         +tFxEr8W6rsioPG1S7fCLPjl62zBLEZgxAE79pBw=
+        b=dg2FsEJ+pk1rdbb9DDweK/6aBXkFWgsyVPMXE4G+zhpi81/WCafMOJXE+7bil4Le9
+         JubgyFcEn/prH5y0+/VSze4hOoYOFYppo2Y+3qP/zs7QSeqJTrQCyhTtjqNUrfgC7q
+         9baO3bDuhqgSvYuUtB7/5SxJYMShuhim8QlMkQRk=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Jacopo Mondi <jacopo@jmondi.org>,
         Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-imx@nxp.com, kernel@pengutronix.de
-Subject: [PATCH v2 5/7] media: v4l2: Sanitize colorspace values in the framework
-Date:   Tue, 12 Jul 2022 03:02:49 +0300
-Message-Id: <20220712000251.13607-6-laurent.pinchart@ideasonboard.com>
+        linux-imx@nxp.com, kernel@pengutronix.de,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v2 6/7] dt-bindings: media: Add i.MX8 ISI DT bindings
+Date:   Tue, 12 Jul 2022 03:02:50 +0300
+Message-Id: <20220712000251.13607-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220712000251.13607-1-laurent.pinchart@ideasonboard.com>
 References: <20220712000251.13607-1-laurent.pinchart@ideasonboard.com>
@@ -49,103 +51,177 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Extend the format sanitization code in the framework to handle invalid
-values for the colorspace-related fields.
+The Image Sensing Interface (ISI) combines image processing pipelines
+with DMA engines to process and capture frames originating from a
+variety of sources. The inputs to the ISI go through Pixel Link
+interfaces, and their number and nature is SoC-dependent. They cover
+both capture interfaces (MIPI CSI-2 RX, HDMI RX) and memory inputs.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 65 +++++++++++++++++++++++-----
- 1 file changed, 55 insertions(+), 10 deletions(-)
+Changes since v1:
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 18ed2227255a..24b5968e8f32 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1008,6 +1008,31 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
- 	return -EINVAL;
- }
- 
-+static void v4l_sanitize_colorspace(u32 pixelformat, u32 *colorspace,
-+				    u32 *encoding, u32 *quantization,
-+				    u32 *xfer_func)
-+{
-+	bool is_hsv = pixelformat == V4L2_PIX_FMT_HSV24 ||
-+		      pixelformat == V4L2_PIX_FMT_HSV32;
+- Fix compatible string checks in conditional schema
+- Fix interrupts property handling
+---
+ .../bindings/media/nxp,imx8-isi.yaml          | 148 ++++++++++++++++++
+ 1 file changed, 148 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+new file mode 100644
+index 000000000000..390dfa03026b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+@@ -0,0 +1,148 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/nxp,imx8-isi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	if (!v4l2_is_colorspace_valid(*colorspace)) {
-+		*colorspace = V4L2_COLORSPACE_DEFAULT;
-+		*encoding = V4L2_YCBCR_ENC_DEFAULT;
-+		*quantization = V4L2_QUANTIZATION_DEFAULT;
-+		*xfer_func = V4L2_XFER_FUNC_DEFAULT;
-+	}
++title: i.MX8 Image Sensing Interface
 +
-+	if ((!is_hsv && !v4l2_is_ycbcr_enc_valid(*encoding)) ||
-+	    (is_hsv && !v4l2_is_hsv_enc_valid(*encoding)))
-+		*encoding = V4L2_YCBCR_ENC_DEFAULT;
++maintainers:
++  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 +
-+	if (!v4l2_is_quant_valid(*quantization))
-+		*quantization = V4L2_QUANTIZATION_DEFAULT;
++description: |
++  The Image Sensing Interface (ISI) combines image processing pipelines with
++  DMA engines to process and capture frames originating from a variety of
++  sources. The inputs to the ISI go through Pixel Link interfaces, and their
++  number and nature is SoC-dependent. They cover both capture interfaces (MIPI
++  CSI-2 RX, HDMI RX, ...) and display engine outputs for writeback support.
 +
-+	if (!v4l2_is_xfer_func_valid(*xfer_func))
-+		*xfer_func = V4L2_XFER_FUNC_DEFAULT;
-+}
++properties:
++  compatible:
++    enum:
++      - fsl,imx8mn-isi
++      - fsl,imx8mp-isi
 +
- static void v4l_sanitize_format(struct v4l2_format *fmt)
- {
- 	unsigned int offset;
-@@ -1027,20 +1052,40 @@ static void v4l_sanitize_format(struct v4l2_format *fmt)
- 	 * field to the magic value when the extended pixel format structure
- 	 * isn't used by applications.
- 	 */
-+	if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	    fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-+		if (fmt->fmt.pix.priv != V4L2_PIX_FMT_PRIV_MAGIC) {
-+			fmt->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
- 
--	if (fmt->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
--	    fmt->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
--		return;
-+			offset = offsetof(struct v4l2_pix_format, priv)
-+			       + sizeof(fmt->fmt.pix.priv);
-+			memset(((void *)&fmt->fmt.pix) + offset, 0,
-+			       sizeof(fmt->fmt.pix) - offset);
-+		}
-+	}
- 
--	if (fmt->fmt.pix.priv == V4L2_PIX_FMT_PRIV_MAGIC)
--		return;
-+	/* Replace invalid colorspace values with defaults. */
-+	if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	    fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-+		v4l_sanitize_colorspace(fmt->fmt.pix.pixelformat,
-+					&fmt->fmt.pix.colorspace,
-+					&fmt->fmt.pix.ycbcr_enc,
-+					&fmt->fmt.pix.quantization,
-+					&fmt->fmt.pix.xfer_func);
-+	} else if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
-+		   fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-+		u32 ycbcr_enc = fmt->fmt.pix_mp.ycbcr_enc;
-+		u32 quantization = fmt->fmt.pix_mp.quantization;
-+		u32 xfer_func = fmt->fmt.pix_mp.xfer_func;
- 
--	fmt->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
-+		v4l_sanitize_colorspace(fmt->fmt.pix_mp.pixelformat,
-+					&fmt->fmt.pix_mp.colorspace, &ycbcr_enc,
-+					&quantization, &xfer_func);
- 
--	offset = offsetof(struct v4l2_pix_format, priv)
--	       + sizeof(fmt->fmt.pix.priv);
--	memset(((void *)&fmt->fmt.pix) + offset, 0,
--	       sizeof(fmt->fmt.pix) - offset);
-+		fmt->fmt.pix_mp.ycbcr_enc = ycbcr_enc;
-+		fmt->fmt.pix_mp.quantization = quantization;
-+		fmt->fmt.pix_mp.xfer_func = xfer_func;
-+	}
- }
- 
- static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: The AXI clock
++      - description: The APB clock
++      # TODO: Check if the per-channel ipg_proc_clk clocks need to be specified
++      # as well, in case some SoCs have the ability to control them separately.
++      # This may be the case of the i.MX8[DQ]X(P)
++
++  clock-names:
++    items:
++      - const: axi
++      - const: apb
++
++  fsl,blk-ctrl:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      A phandle referencing the block control that contains the CSIS to ISI
++      gasket.
++
++  interrupts: true
++
++  power-domains: true
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    description: |
++      Ports represent the Pixel Link inputs to the ISI. Their number and
++      assignment are model-dependent. Each port shall have a single endpoint.
++
++    patternProperties:
++      "^port@[0-9]$":
++        $ref: /schemas/graph.yaml#/properties/port
++        unevaluatedProperties: false
++
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - fsl,blk-ctrl
++  - ports
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx8mn-isi
++    then:
++      properties:
++        interrupts:
++          maxItems: 1
++        ports:
++          properties:
++            port@0:
++              description: MIPI CSI-2 RX
++          required:
++            - port@0
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx8mp-isi
++    then:
++      properties:
++        interrupts:
++          maxItems: 2
++        ports:
++          properties:
++            port@0:
++              description: MIPI CSI-2 RX 0
++            port@1:
++              description: MIPI CSI-2 RX 1
++          required:
++            - port@0
++            - port@1
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8mp-clock.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    isi@32e00000 {
++        compatible = "fsl,imx8mp-isi";
++        reg = <0x32e00000 0x4000>;
++        interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
++                 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
++        clock-names = "axi", "apb";
++        fsl,blk-ctrl = <&media_blk_ctrl>;
++        power-domains = <&mediamix_pd>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                isi_in_0: endpoint {
++                    remote-endpoint = <&mipi_csi_0_out>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++                isi_in_1: endpoint {
++                    remote-endpoint = <&mipi_csi_1_out>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 Regards,
 
