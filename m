@@ -2,121 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23620571CF4
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 16:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 625FE571EC1
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 17:17:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233476AbiGLOjy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jul 2022 10:39:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59800 "EHLO
+        id S232873AbiGLPRr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 11:17:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233404AbiGLOjv (ORCPT
+        with ESMTP id S229821AbiGLPRX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jul 2022 10:39:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5740BAAB5
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 07:39:48 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EA5A25B;
-        Tue, 12 Jul 2022 16:39:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657636786;
-        bh=u0ow13esJwuiXCBONFIemgWQjr1DnyY8R5hfSHicOTM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EuxMloimoHJIGwVFLHaZS7za+7hHaQFNZuJcg2RcdNdZ/jO4dFt0J5RHZjAgcSTRm
-         6WHeGFoHiRGi6MJBfWJLjqUzBmYS8zfKGWfIGGUb2+fW35Qic9e2kBEurLLV91EHd+
-         pVMTZyN4gskzG6Lc8AtOfaRv7wymm8XfhSsaW940=
-Date:   Tue, 12 Jul 2022 17:39:17 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <kernel@pengutronix.de>
-Subject: Re: [PATCH v2 7/7] media: nxp: Add i.MX8 ISI driver
-Message-ID: <Ys2Hle/HvOG7OKDc@pendragon.ideasonboard.com>
-References: <20220712000251.13607-1-laurent.pinchart@ideasonboard.com>
- <20220712000251.13607-8-laurent.pinchart@ideasonboard.com>
- <CAHCN7xL_uSOxNCUMiRBzU354_Pb+DSvPMVtemFhaCmxPzwe7TQ@mail.gmail.com>
+        Tue, 12 Jul 2022 11:17:23 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33BCACC024
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 08:12:23 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id e28so10876092lfj.4
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 08:12:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=FiFkU4mtsNMfFIb99Kyl4YKF0xVr8LFESHMNv5yOiro=;
+        b=EQ/TF9qYYwlLAcO2ZviT1k6qc/VqInz5ERRkhyrsBi6dF+xJhJORcGJz7gMRx/PjKl
+         p/C+PwHpO3s1AbBKfptcD8VVn1ui73ew69bGaWVROOf2+pr97zI4T1BDm1VunZL8NJnk
+         f63yaybXdjvzlnkcmKhrRwuX3XiwqaFJ9DKzKKSZEdCCqNp9kuYS+/6QkM1ORYvsfqg2
+         g4BLvWwKZsWigB5JrPcBZ4bp5aOI1g7OViJTOxiv7JSOrlMGwsaEgckqEMKm+PVXregE
+         MgqoQVQMOZeexN3A/otCm4oZqyhluKsMbpqXBG7HfbH2+2qviyOfRa9MoQ1JYrT/WaIQ
+         sCTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=FiFkU4mtsNMfFIb99Kyl4YKF0xVr8LFESHMNv5yOiro=;
+        b=6eyHlQiEJIBnCJSzpHq5Y9f1mJOIflVOozV456kNDjG/vKb5bvFDNhfkG9T2JQPeo4
+         cLHHYjYb7ctBhODlrnk5uKfGvdguJ8ocRLxOFuQTES/+3JvbxRW9N7xWvyMABWYrtmwt
+         iyESIb/dWu24USVNTVSMqF0eDU7KtbJIYZ+9DAeCJHfpSj5LYw5FqBrE7nWLGoYT5w0L
+         DX3u9yxYAlmGZofVliVeeXcvhViJLKznw2kOVHBC8jGQCM7atVYUJuxYfATBA44399/e
+         j4e5oxiqg18bA3ck5IpC4yx1IsCRAnq5mlOeYAaOUTIq+ujRbk0duIDIWHefKG/5pWzp
+         aEpg==
+X-Gm-Message-State: AJIora8MV32iEqTfP26jdlwHB8ohmuQi1ciWgMwBjC00jaDzHSwxgmL5
+        ZfK726T4al8dUibbxYvR9qQS+g==
+X-Google-Smtp-Source: AGRyM1t0l7x/rCjC6lSD6LEP8zBtApvjhPsSOa6RpcuLkpgzQsIqIo44tpbIn6jIqUtwKONToFV0JQ==
+X-Received: by 2002:a05:6512:2241:b0:479:6426:15af with SMTP id i1-20020a056512224100b00479642615afmr14829398lfu.631.1657638741569;
+        Tue, 12 Jul 2022 08:12:21 -0700 (PDT)
+Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
+        by smtp.gmail.com with ESMTPSA id c5-20020ac25f65000000b00489dd78bdacsm1388358lfc.299.2022.07.12.08.12.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Jul 2022 08:12:20 -0700 (PDT)
+Message-ID: <82d4507a-d092-8cb0-2e88-4290661d114d@linaro.org>
+Date:   Tue, 12 Jul 2022 17:12:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xL_uSOxNCUMiRBzU354_Pb+DSvPMVtemFhaCmxPzwe7TQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: document OV4689 DT
+ bindings
+Content-Language: en-US
+To:     Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220712141925.678595-1-mike.rudenko@gmail.com>
+ <20220712141925.678595-2-mike.rudenko@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220712141925.678595-2-mike.rudenko@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
-
-On Tue, Jul 12, 2022 at 07:29:45AM -0500, Adam Ford wrote:
-> On Mon, Jul 11, 2022 at 7:06 PM Laurent Pinchart wrote:
-> >
-> > The Image Sensing Interface (ISI) combines image processing pipelines
-> > with DMA engines to process and capture frames originating from a
-> > variety of sources. The inputs to the ISI go through Pixel Link
-> > interfaces, and their number and nature is SoC-dependent. They cover
-> > both capture interfaces (MIPI CSI-2 RX, HDMI RX) and memory inputs.
+On 12/07/2022 16:19, Mikhail Rudenko wrote:
+> Add device-tree binding documentation for OV4689 image sensor driver,
+> and the relevant MAINTAINERS entries.
 > 
-> I have a patch set pending this which adds the functionality to the
-> Nano which I have tested using an OV5640 camera.  If/when this gets
-> accepted, I can submit the corresponding Nano patches.
-
-It will probably take a bit of time due to the dependency on the V4L2
-streams series, but I'm quite hopeful :-)
-
-> I haven't tried all possible video formats due to the limitations of
-> the camera I used, but for those that I tried:
+> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+> ---
+>  .../bindings/media/i2c/ovti,ov4689.yaml       | 122 ++++++++++++++++++
+>  MAINTAINERS                                   |   7 +
+>  2 files changed, 129 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
 > 
-> Tested-by: Adam Ford <aford173@gmail.com> #imx8mn-beacon
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> new file mode 100644
+> index 000000000000..6bdebe5862b4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> @@ -0,0 +1,122 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov4689.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV4689 CMOS Sensor Device Tree Bindings
 
-Thank you. By the way, we have developed libcamera support for the ISI,
-you can find it at [1]. It will get merged in the main libcamera
-repository once the patches get accepted in the kernel.
+s/Device Tree Bindings//
 
-[1] https://gitlab.com/ideasonboard/nxp/libcamera/-/tree/pinchartl/simple/imx8
+> +
+> +maintainers:
+> +  - Mikhail Rudenko <mike.rudenko@gmail.com>
+> +
+> +description: |-
 
-> > Signed-off-by: Christian Hemp <c.hemp@phytec.de>
-> > Signed-off-by: Dong Aisheng <aisheng.dong@nxp.com>
-> > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
-> > ---
-> >  MAINTAINERS                                   |    7 +
-> >  drivers/media/platform/nxp/Kconfig            |    2 +
-> >  drivers/media/platform/nxp/Makefile           |    1 +
-> >  drivers/media/platform/nxp/imx8-isi/Kconfig   |   22 +
-> >  drivers/media/platform/nxp/imx8-isi/Makefile  |    9 +
-> >  .../platform/nxp/imx8-isi/imx8-isi-core.c     |  646 +++++++
-> >  .../platform/nxp/imx8-isi/imx8-isi-core.h     |  394 +++++
-> >  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c |  529 ++++++
-> >  .../platform/nxp/imx8-isi/imx8-isi-debug.c    |  109 ++
-> >  .../media/platform/nxp/imx8-isi/imx8-isi-hw.c |  651 +++++++
-> >  .../platform/nxp/imx8-isi/imx8-isi-m2m.c      |  858 ++++++++++
-> >  .../platform/nxp/imx8-isi/imx8-isi-pipe.c     |  867 ++++++++++
-> >  .../platform/nxp/imx8-isi/imx8-isi-regs.h     |  418 +++++
-> >  .../platform/nxp/imx8-isi/imx8-isi-video.c    | 1513 +++++++++++++++++
-> >  14 files changed, 6026 insertions(+)
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/Kconfig
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/Makefile
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h
-> >  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+No need for -
 
--- 
-Regards,
+> +  The Omnivision OV4689 is a high performance, 1/3-inch, 4 megapixel
+> +  image sensor. Ihis chip supports high frame rate speeds up to 90 fps
+> +  at 2688x1520 resolution. It is programmable through an I2C
+> +  interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
+> +  connection.
+> +
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov4689
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description:
+> +      External clock for the sensor.
 
-Laurent Pinchart
+This goes to clocks instead.
+
+> +    items:
+> +      - const: xclk
+
+No need for clock-names for such case.
+
+> +
+> +  dovdd-supply:
+> +    description:
+> +      Definition of the regulator used as Digital I/O voltage supply.
+
+s/Definition of the regulator used as //
+
+It's redundant...
+
+> +
+> +  avdd-supply:
+> +    description:
+> +      Definition of the regulator used as Analog voltage supply.
+
+Ditto
+
+> +
+> +  dvdd-supply:
+> +    description:
+> +      Definition of the regulator used as Digital core voltage supply.
+
+Ditto
+
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Reference to the GPIO connected to the powerdown pin (active low).
+
+s/Reference to the//
+
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Reference to the GPIO connected to the reset pin (active low).
+
+The same.
+
+> +
+> +  orientation: true
+> +
+> +  rotation: true
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +    description:
+> +      Output port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+
+Best regards,
+Krzysztof
