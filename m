@@ -2,254 +2,399 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A8E6571A73
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 14:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6154E571A8F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 14:54:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233267AbiGLMtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jul 2022 08:49:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37086 "EHLO
+        id S232851AbiGLMyk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 08:54:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233268AbiGLMtM (ORCPT
+        with ESMTP id S229908AbiGLMyj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jul 2022 08:49:12 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD98A33A04
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 05:49:10 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id a9so13733976lfk.11
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 05:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=qrqtlheWpIuiLv0pU8Fpifgo1zn85e8H4UeJO5Ls16I=;
-        b=FsHjn5jCWzYtIPEb1roZuo0d61/+hwQ3DFDw/MZyL6os5i/FL7GpyBo34CaLOoXf0J
-         Ec5Dc59BBL5nCM9THF6ZYf+Y65wBWMPyF81nXvqevjBY8Qzv+iwCbBPaAzwBlzmUoSNJ
-         qjXh5gwTzi5izYe7QeQ0HGoPcwZiDIX1PrpNt6CXJ+w00UJkOyu1NO89LyCh02uArby+
-         a88wcG0yFTg0CFJWKSHa4MYGCGuGTyj0YKGcHV6CCEnxL6UnjW+isOK6Yz8bVPwawPzR
-         n7wRlSappDHSaPdIc1aj+sGC9UTOvU/XAwN0JU+RN9/f1j9cKyhyPhb/PlrHc+5zqGfc
-         lTFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=qrqtlheWpIuiLv0pU8Fpifgo1zn85e8H4UeJO5Ls16I=;
-        b=nhCJ/XYyaJODoFWUMKT6DEFdm/Ko1RdWESyt4IQmWF3+1Y4H2mitnX40Hg0+NIUrgq
-         BmUKeXCn5ycXTnQK4ivv9HmpkGQUH9yPX3IAhjilmf+EwYENpct50+XfKcpiAtd3F1PY
-         x2ffLVdsOdzNQtLdXHkhHSkZzHlGGoxdUNdXqpvbbh483PJkFGf67AS4QbBedutwCe6a
-         W9Cg2jDBVNCuhS0Zvn4GPkyO3Vyz36Ko4MLmglGU3Af7ctOvMW1yEmmJTES/L3yn8jqe
-         byYb0pmVYjyMDLm8LE0ZJGN1hQN2aMDgW+bIrRuyjWbzNQNtkmyCPYtcBDEAVquCB914
-         Uqnw==
-X-Gm-Message-State: AJIora9uAfvbYCuFA2KtwpjbEyqW4tCA4uOkyk0vOHgg7anx77IAAgMN
-        rnfiP8FiwC3WbLEJstAbsUXhKA==
-X-Google-Smtp-Source: AGRyM1v2BjKNQ4OAZh9N8FS2QOSHH4dLEcFyRiwRJk0YA5cVWE75802fGVBUoW5WrBHJr1y1b2SU3A==
-X-Received: by 2002:a05:6512:ba6:b0:489:d128:837e with SMTP id b38-20020a0565120ba600b00489d128837emr9402801lfv.544.1657630149122;
-        Tue, 12 Jul 2022 05:49:09 -0700 (PDT)
-Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
-        by smtp.gmail.com with ESMTPSA id 3-20020a2e0503000000b0025d39993856sm2419436ljf.127.2022.07.12.05.49.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jul 2022 05:49:08 -0700 (PDT)
-Message-ID: <3359e1bc-54c4-0b10-af9f-05e9f2fb2162@linaro.org>
-Date:   Tue, 12 Jul 2022 14:49:06 +0200
+        Tue, 12 Jul 2022 08:54:39 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 449C37172E
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 05:54:37 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oBFPP-007h8H-DO; Tue, 12 Jul 2022 12:54:35 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oBFPN-006wkC-7o; Tue, 12 Jul 2022 12:54:33 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.20] hantro/cedrus/vb2 updates (#84790)
+Date:   Tue, 12 Jul 2022 12:54:33 +0000
+Message-Id: <20220712125433.1655734-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <55858df1-6d8a-befe-5301-809665b9f2e3@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 6/7] dt-bindings: media: Add i.MX8 ISI DT bindings
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-imx@nxp.com, kernel@pengutronix.de,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220712000251.13607-1-laurent.pinchart@ideasonboard.com>
- <20220712000251.13607-7-laurent.pinchart@ideasonboard.com>
- <d8b124f4-9ed7-7cc1-a978-60997696646f@linaro.org>
- <Ys1MKFknchDYKR/1@pendragon.ideasonboard.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Ys1MKFknchDYKR/1@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/07/2022 12:25, Laurent Pinchart wrote:
-> Hi Krzysztof,
-> 
-> On Tue, Jul 12, 2022 at 09:49:45AM +0200, Krzysztof Kozlowski wrote:
->> On 12/07/2022 02:02, Laurent Pinchart wrote:
->>> The Image Sensing Interface (ISI) combines image processing pipelines
->>> with DMA engines to process and capture frames originating from a
->>> variety of sources. The inputs to the ISI go through Pixel Link
->>> interfaces, and their number and nature is SoC-dependent. They cover
->>> both capture interfaces (MIPI CSI-2 RX, HDMI RX) and memory inputs.
->>>
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> ---
->>> Changes since v1:
->>>
->>> - Fix compatible string checks in conditional schema
->>> - Fix interrupts property handling
->>> ---
->>>  .../bindings/media/nxp,imx8-isi.yaml          | 148 ++++++++++++++++++
->>>  1 file changed, 148 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
->>> new file mode 100644
->>> index 000000000000..390dfa03026b
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
->>> @@ -0,0 +1,148 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/media/nxp,imx8-isi.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: i.MX8 Image Sensing Interface
->>> +
->>> +maintainers:
->>> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> +
->>> +description: |
->>> +  The Image Sensing Interface (ISI) combines image processing pipelines with
->>> +  DMA engines to process and capture frames originating from a variety of
->>> +  sources. The inputs to the ISI go through Pixel Link interfaces, and their
->>> +  number and nature is SoC-dependent. They cover both capture interfaces (MIPI
->>> +  CSI-2 RX, HDMI RX, ...) and display engine outputs for writeback support.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - fsl,imx8mn-isi
->>> +      - fsl,imx8mp-isi
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  clocks:
->>> +    items:
->>> +      - description: The AXI clock
->>> +      - description: The APB clock
->>> +      # TODO: Check if the per-channel ipg_proc_clk clocks need to be specified
->>> +      # as well, in case some SoCs have the ability to control them separately.
->>> +      # This may be the case of the i.MX8[DQ]X(P)
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: axi
->>> +      - const: apb
->>> +
->>> +  fsl,blk-ctrl:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description:
->>> +      A phandle referencing the block control that contains the CSIS to ISI
->>> +      gasket.
->>> +
->>> +  interrupts: true
->>
->> Need generic constraints - min/maxItems.
-> 
-> I can't set maxItems here, as the value depends on the compatible
-> string. It's set below as part of the "allOf". I could set minItems to
-> 1, but I don't really see a point in doing so.
+From: builder@linuxtv.org
 
-Of course you can, just like all other files could.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/55858df1-6d8a-befe-5301-809665b9f2e3@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/224254/
+Build time: 00:55:46
+Link: https://lore.kernel.org/linux-media/55858df1-6d8a-befe-5301-809665b9f2e3@xs4all.nl
 
-https://elixir.bootlin.com/linux/v5.19-rc6/source/Documentation/devicetree/bindings/clock/samsung,exynos7-clock.yaml#L57
+gpg: Signature made Tue 12 Jul 2022 11:42:41 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-> 
->>> +
->>> +  power-domains: true
->>
->> Ditto.
-> 
-> I'll fix this one.
-> 
->>> +
->>> +  ports:
->>> +    $ref: /schemas/graph.yaml#/properties/ports
->>> +    description: |
->>> +      Ports represent the Pixel Link inputs to the ISI. Their number and
->>> +      assignment are model-dependent. Each port shall have a single endpoint.
->>> +
->>> +    patternProperties:
->>> +      "^port@[0-9]$":
->>> +        $ref: /schemas/graph.yaml#/properties/port
->>> +        unevaluatedProperties: false
->>> +
->>> +    unevaluatedProperties: false
->>
->> At least one port is always required?
-> 
-> That's a fair assumption I think. How would you express that ? There's
-> no patternRequired as far as I know. Note that the device-dependent
-> ports are described in the "allOf" section below, where "required" is
-> set per device model.
+Summary: got 12/19 patches with issues, being 12 at build time, plus one error when buinding PDF document
 
-required:
- - port@0
+Error/warnings:
 
-> 
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - interrupts
->>> +  - clocks
->>> +  - clock-names
->>> +  - fsl,blk-ctrl
->>> +  - ports
->>> +
->>> +allOf:
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            const: fsl,imx8mn-isi
->>> +    then:
->>> +      properties:
->>> +        interrupts:
->>> +          maxItems: 1
->>> +        ports:
->>> +          properties:
->>> +            port@0:
->>> +              description: MIPI CSI-2 RX
->>> +          required:
->>> +            - port@0
->>> +
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            const: fsl,imx8mp-isi
->>> +    then:
->>> +      properties:
->>> +        interrupts:
->>> +          maxItems: 2
->>
->> You need to describe the items.
-> 
-> It's one interrupt per pipeline. Can I add the description to the
-> generic interrupts property instead of documenting each item
-> individually ? Something along the lines of
-> 
->   interrupts:
->     description: Processing pipeline interrupts, one per pipeline
-> 
+patches/0001-media-Add-P010-tiled-format.patch:
 
-This sounds good, thanks!
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5539 cx23885_dif_setup() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1725875
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 48 seconds
+	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
+	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
+	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2854 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+   checkpatch.pl:
+	$ cat patches/0001-media-Add-P010-tiled-format.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:73: WARNING: line length of 165 exceeds 100 columns
+	-:85: ERROR: trailing statements should be on next line
+	-:97: WARNING: line length of 107 exceeds 100 columns
+
+patches/0009-media-cedrus-h265-Fix-logic-for-not-low-delay-flag.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0010-media-cedrus-Improve-error-messages-for-controls.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0011-media-cedrus-Add-error-handling-for-failed-setup.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0012-videobuf2-Introduce-vb2_find_buffer.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000032Kb sm_state_count = 1725875
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 48 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0013-mediatek-vcodec-Use-vb2_find_buffer.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0014-tegra-vde-Use-vb2_find_buffer.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0015-vicodec-Use-vb2_find_buffer.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0016-hantro-Use-vb2_find_buffer.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0017-rkvdec-Use-vb2_find_buffer.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0017-rkvdec-Use-vb2_find_buffer.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:57: CHECK: Comparison to NULL could be written "run->ref_buf[ref->index]"
+
+patches/0018-cedrus-Use-vb2_find_buffer.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0018-cedrus-Use-vb2_find_buffer.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:50: WARNING: please, no spaces at the start of a line
+	-:51: WARNING: please, no spaces at the start of a line
+	-:54: WARNING: please, no spaces at the start of a line
+	-:55: WARNING: please, no spaces at the start of a line
+
+patches/0019-videobuf2-Remove-vb2_find_timestamp.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1725875
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 49 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:316:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	../drivers/staging/media/sunxi/cedrus/cedrus_h265.c:323:40: error: ‘const struct v4l2_hevc_dpb_entry’ has no member named ‘pic_order_cnt_val’; did you mean ‘pic_order_cnt’?
+	make[6]: *** [../scripts/Makefile.build:249: drivers/staging/media/sunxi/cedrus/cedrus_h265.o] Error 1
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi/cedrus] Error 2
+	make[4]: *** [../scripts/Makefile.build:466: drivers/staging/media/sunxi] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:466: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:466: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1843: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
 
-Best regards,
-Krzysztof
+Error #512 when building PDF docs
+
