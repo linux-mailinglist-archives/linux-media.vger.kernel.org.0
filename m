@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CF8B5722CB
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 20:40:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2BBD572356
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 20:47:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbiGLSkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jul 2022 14:40:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59958 "EHLO
+        id S234377AbiGLSq2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 14:46:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbiGLSkN (ORCPT
+        with ESMTP id S234306AbiGLSpp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jul 2022 14:40:13 -0400
+        Tue, 12 Jul 2022 14:45:45 -0400
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEFBBBFAD8
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 11:40:11 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id BFE8C320085B;
-        Tue, 12 Jul 2022 14:40:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 12 Jul 2022 14:40:11 -0400
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998D0DC18F
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 11:42:42 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 8B3143200893;
+        Tue, 12 Jul 2022 14:42:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 12 Jul 2022 14:42:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1657651210; x=1657737610; bh=NFNE4MbAxB
-        VPNePWdnmzXfx84AckvsRTsSxOKfaAQW8=; b=f0fVXog+nz0ZPON90vxMB5fDih
-        d16tXIpLAFdhnoQjyhEI5cg6IRj9rhT7pEUE7ky5cgFYFnMHVgZOsXhOYOjBebp7
-        hR1jhiPikeiWbr+BYwD1+fCmh/zqANX4Vj97T7z9IKtfNe5SmS+InZpIA/lyOouu
-        qnt1+XX+q31PqfWPK4B/UtF1lNjMdXcY3Fnecum0wuFV0jbr6n8fPQ/7lpPPz/LH
-        36VipkzpFzXRyyzhih1bFSpCL9GeO/OS93UUZlNaULZU5iraS6ExPm3ZI3QiUFHJ
-        kW91Gyue5l8Bi/8cfiCQWBYXSrDlaKRxFYUaieBJmf8VbErWPI3jzYf0+7Jw==
+        :subject:to:to; s=fm3; t=1657651361; x=1657737761; bh=HpjzQni4lQ
+        mNhSxmuAfTDeTcCNmiq8c1Rj6unWmum/c=; b=X8i2jvWR+B05rPqKOvOPCf56se
+        YcyHQufSI7sBqFJlENYtCLlkb+XQKAO9qmgoZM2qYc8J3Svti8KcvmgCql13y1Is
+        ePC0Sm066WcJuWzTeNw6luwI5BTSkA2o6ajz8qi9cXp4yUzBGtZUiuf89YJXQmsh
+        P+oS8Ms/pntHL4z48ahltsPYVp8Sznnlc19Tdq+8/69qwYr4vRkPMtNaWYZW23Wd
+        QEEaMCMEEMg0U7/lweD8rYSCmIMKilNnKqvV/uhotb9/S3Ey/vDmjeCCSjBwdFv7
+        O9WAWWIMFcF06UKL6dltD81SF05XuCnuniTgbbTrplng/grd6htf4KLwj1fQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1657651210; x=1657737610; bh=NFNE4MbAxBVPNePWdnmzXfx84Ack
-        vsRTsSxOKfaAQW8=; b=bmKVN7Q+S77C5W0S6ibS7EscXenH4hlSD59KlHf4xUXQ
-        aGaQgRct3PdqVx7GlLImmOwQV5mTWEJYE9l0aswRXJ9VlZxKUMMoA2zl1ARNYAT8
-        Bp+BXU6XBO0+YLMlhRQ0lFf9rEsY/CYzUhinYSX1PYpc0d8jTUynghF84LIGijA9
-        iayQ/oy8acW9bs7JXaJA7n78rNTAaN6l9NIBqhcm9iuAccTeXuiQA5C0Ur6IEjan
-        Ifk3rPx3ygUwqITo8keeu1PYeaqzD020ce+dTUkWDgAyDQueKsc/aeXOJgxGS1XD
-        Mqnf/viWBy2WDmOpF//10mhzOV00Ty9ESKNZjWsD9A==
-X-ME-Sender: <xms:CcDNYkTYPIFCU_gd0aO7K1PSMIbMIZzbFCiKq-Nd88PzGjIQK5iSpQ>
-    <xme:CcDNYhxJ208kIc_QdM3uIZOcEGnEgX_ez0n57bUzEPZ0CIOgJBC77WHhaHRpuaItI
-    8cCdbBNZrOJjGAVKjg>
-X-ME-Received: <xmr:CcDNYh2hPampANgTlkZNJWzohfpcw4erLphj5MnCtivjYGEwH2pHVw>
+        fm3; t=1657651361; x=1657737761; bh=HpjzQni4lQmNhSxmuAfTDeTcCNmi
+        q8c1Rj6unWmum/c=; b=F4KbEX5RsiiuSrCVY4tZVFknfJ2krKQxuRpht7hIO2An
+        SpEmx+UlCcME+gSZ3AW0AMIydW0+sxbfF3TuC/TOGMEQS5PPe1Q5YLIbC5LwguQC
+        w9a8g++4vUEKiRinBXTc0MQHheOlWuJ/3IwacaptvcxVVjpMP774MNKflMrZpqsj
+        oZS8iNXf4M6WiSHgx0IbPkd0zyNSGvUYE/iGRYPMLwK0OySGUahzbrNzQSTiX2UY
+        cyJHK4KMIlsUmn3lVYg5GmOKR6ig+sJXHOuFj0MD6JFeudrHjuGOBnX4eVFZVD2p
+        iO9MQN2FfMKaA/SNo+Q8xuFNkgTm1KZBeIT170Nr1w==
+X-ME-Sender: <xms:oMDNYtlKkj-TiSI0RBU50H8u6EEDqn63lGDAs__Dgjd4bnI9OA9p3w>
+    <xme:oMDNYo3wivbpcXUsDtFxaptOheF-N5JzV7WVPPI2F8MC5LDIc_FxxXUkuCg8_I6mp
+    2YUKfV_E0UfLXZIaUI>
+X-ME-Received: <xmr:oMDNYjpyo8wk5spmjkDVBifFPxpoW94YgwcXeMAM9rlJU3wFfpNLlg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgudeftdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -54,29 +54,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgudeftdcutefuodetgg
     cuggftrfgrthhtvghrnhepvdehtdeludekgeevleefuedvudejieetheekvdfhteekffdu
     jefhfedtudehvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
     hfrhhomhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:CcDNYoATnV8FON4OW7FKmzrhl6YYiJa3OwHTICJdeo65_G6nNJJ9Gg>
-    <xmx:CcDNYtgRqgv2gQ0l0R-0alJvUzIKpLih46x6T7HcjluK6WNOsZqc-Q>
-    <xmx:CcDNYkpFeAc8rcgZRoUqwKMxsB5EhVtjjQnBPlWjU0C8I07y5K4OBg>
-    <xmx:CsDNYtfVDeY3kbvMnLqnneE6wIKg-cKElF4pbI5P0xaKL37PoaJDfA>
+X-ME-Proxy: <xmx:ocDNYtkqk9ixAJ0lJyzuLKKth5BP14EBhLIaf42rSdrx_e_VWgxZOg>
+    <xmx:ocDNYr34d1lAYZRm_BITRizsugOCmO4yH4KM9VFUYZ8bmyIQvYvQPg>
+    <xmx:ocDNYstSsZbXdvZAHk54EKW3cDUPb3PgZC8mfl-AJL2eelwcsWkokQ>
+    <xmx:ocDNYmRsynxb8p_VtWhGsEIJMo59yDU5P5lhRkLO1ne8O3frhofL5Q>
 Feedback-ID: i0e894699:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Jul 2022 14:40:08 -0400 (EDT)
-Date:   Tue, 12 Jul 2022 21:40:05 +0300
+ 12 Jul 2022 14:42:38 -0400 (EDT)
+Date:   Tue, 12 Jul 2022 21:42:36 +0300
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH v3 38/46] media: rkisp1: isp: Disallow multiple active
- sources
-Message-ID: <20220712184005.nwnlflsupgie6owf@guri>
+Subject: Re: [PATCH v3 46/46] media: rkisp1: debug: Add dump file in debugfs
+ for MI main path registers
+Message-ID: <20220712184236.fr5xrmtqicwycsir@guri>
 References: <20220711124248.2683-1-laurent.pinchart@ideasonboard.com>
- <20220711124248.2683-39-laurent.pinchart@ideasonboard.com>
+ <20220711124248.2683-47-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220711124248.2683-39-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220711124248.2683-47-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -88,89 +88,63 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 11.07.2022 15:42, Laurent Pinchart wrote:
->The ISP supports multiple source subdevs, but can only capture from a
->single one at a time. The source is selected through link setup. The
->driver finds the active source in its .s_stream() handler using the
->media_entity_remote_pad() function. This fails to reject invalid
->configurations with multiple active sources. Fix it by using the
->media_pad_remote_pad_unique() helper instead, and inline
->rkisp1_isp_get_source() in rkisp1_isp_s_stream() as the function is
->small and has a single caller.
+>From: Paul Elder <paul.elder@ideasonboard.com>
 >
->Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
->---
->Changes since v2:
+>Add a register dump file in debugfs for some of the buffer-related
+>registers for the main path in MI (for the base address, the size, and
+>the offset). Also dump the corresponding shadow registers.
 >
->- Update media_pad_remote_pad_unique() function name in commit message
->---
-> .../platform/rockchip/rkisp1/rkisp1-isp.c     | 30 ++++++++-----------
-> 1 file changed, 13 insertions(+), 17 deletions(-)
->
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->index 37623b73b1d9..d7e2802d11f5 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->@@ -58,20 +58,6 @@
->  * Helpers
->  */
->
->-static struct v4l2_subdev *rkisp1_isp_get_source(struct v4l2_subdev *sd)
->-{
->-	struct media_pad *local, *remote;
->-	struct media_entity *sensor_me;
->-
->-	local = &sd->entity.pads[RKISP1_ISP_PAD_SINK_VIDEO];
->-	remote = media_pad_remote_pad_first(local);
->-	if (!remote)
->-		return NULL;
->-
->-	sensor_me = remote->entity;
->-	return media_entity_to_v4l2_subdev(sensor_me);
->-}
->-
-> static struct v4l2_mbus_framefmt *
-> rkisp1_isp_get_pad_fmt(struct rkisp1_isp *isp,
-> 		       struct v4l2_subdev_state *sd_state,
->@@ -743,6 +729,8 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> 	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
-> 	struct rkisp1_device *rkisp1 = isp->rkisp1;
-> 	const struct rkisp1_sensor_async *asd;
->+	struct media_pad *source_pad;
->+	struct media_pad *sink_pad;
-> 	int ret;
->
-> 	if (!enable) {
->@@ -754,10 +742,18 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> 		return 0;
-> 	}
->
->-	rkisp1->source = rkisp1_isp_get_source(sd);
-
-so 'rkisp1->source' is the source of the isp right? and in addition you later
-add csi->source for the csi source. Maybe move rkisp1->source field to rkisp1_isp
-to make it clear it is the isp source.
-Just a suggestion. If you don't feel like, then:
+>Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 
 Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 
->+	sink_pad = &isp->pads[RKISP1_ISP_PAD_SINK_VIDEO];
->+	source_pad = media_pad_remote_pad_unique(sink_pad);
->+	if (IS_ERR(source_pad)) {
->+		dev_dbg(rkisp1->dev, "Failed to get source for ISP: %ld\n",
->+			PTR_ERR(source_pad));
->+		return -EPIPE;
->+	}
->+
->+	rkisp1->source = media_entity_to_v4l2_subdev(source_pad->entity);
-> 	if (!rkisp1->source) {
->-		dev_warn(rkisp1->dev, "No link between isp and source\n");
->-		return -ENODEV;
->+		/* This should really not happen, so is not worth a message. */
->+		return -EPIPE;
-> 	}
+>---
+>Changes since v2:
 >
-> 	asd = container_of(rkisp1->source->asd, struct rkisp1_sensor_async,
+>- Rename file from mi_mp_y_bufs to mi_mp
+>---
+> .../platform/rockchip/rkisp1/rkisp1-debug.c   | 21 +++++++++++++++++++
+> 1 file changed, 21 insertions(+)
+>
+>diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+>index e76dc2b164b6..71df3dc95e6f 100644
+>--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+>+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+>@@ -121,6 +121,24 @@ static int rkisp1_debug_dump_rsz_regs_show(struct seq_file *m, void *p)
+> }
+> DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_rsz_regs);
+>
+>+static int rkisp1_debug_dump_mi_mp_show(struct seq_file *m, void *p)
+>+{
+>+	static const struct rkisp1_debug_register registers[] = {
+>+		RKISP1_DEBUG_REG(MI_MP_Y_BASE_AD_INIT),
+>+		RKISP1_DEBUG_REG(MI_MP_Y_BASE_AD_INIT2),
+>+		RKISP1_DEBUG_REG(MI_MP_Y_BASE_AD_SHD),
+>+		RKISP1_DEBUG_REG(MI_MP_Y_SIZE_INIT),
+>+		RKISP1_DEBUG_REG(MI_MP_Y_SIZE_INIT),
+>+		RKISP1_DEBUG_REG(MI_MP_Y_SIZE_SHD),
+>+		RKISP1_DEBUG_REG(MI_MP_Y_OFFS_CNT_SHD),
+>+		{ /* Sentinel */ },
+>+	};
+>+	struct rkisp1_device *rkisp1 = m->private;
+>+
+>+	return rkisp1_debug_dump_regs(rkisp1, m, 0, registers);
+>+}
+>+DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_mi_mp);
+>+
+> #define RKISP1_DEBUG_DATA_COUNT_BINS	32
+> #define RKISP1_DEBUG_DATA_COUNT_STEP	(4096 / RKISP1_DEBUG_DATA_COUNT_BINS)
+>
+>@@ -214,6 +232,9 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+> 	debugfs_create_file("srsz", 0444, regs_dir,
+> 			    &rkisp1->resizer_devs[RKISP1_SELFPATH],
+> 			    &rkisp1_debug_dump_rsz_regs_fops);
+>+
+>+	debugfs_create_file("mi_mp", 0444, regs_dir, rkisp1,
+>+			    &rkisp1_debug_dump_mi_mp_fops);
+> }
+>
+> void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
 >-- 
 >Regards,
 >
