@@ -2,125 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAC0C5728A2
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 23:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A22F657293F
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 00:24:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233061AbiGLV3F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jul 2022 17:29:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
+        id S233342AbiGLWY3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 18:24:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229697AbiGLV3A (ORCPT
+        with ESMTP id S233311AbiGLWY1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jul 2022 17:29:00 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C56C9125;
-        Tue, 12 Jul 2022 14:28:58 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id b11so16563943eju.10;
-        Tue, 12 Jul 2022 14:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BknaE/Kld0FnjC1aUofNUzwSa+QGAFkBMskakzse0z8=;
-        b=oN5XoqcVxMnycuXA07RCPGjZGDbKv2XzrtoJdpEJqM+T/yQqztcOiBEJz+KqUqqJga
-         kw+SX/a38LI8HrpIyvN00Sbql19iG/4qDMO5R7dVKWLrNZjZ/E32SM4Ct8/1sjlnQEvY
-         jgrD6Usb1wE4swF5y3adFtdK17D5h5AYUAjgGh/JcsuDFRQPGc3krlBvRWHgeV2FqwN6
-         xxHG4wI1ZSJHbHvfA9ksmdK3ND3XVYsJVUcmpkbzGs8o0eU+i+pf2oTxtDfcO2p+SzWu
-         BcSKR36gyCkwm6wLNXFThR7tMjPOh084ssJxilJ4bp2NcqjfmpdRq5ufZU69xOQ4AF9a
-         EjLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BknaE/Kld0FnjC1aUofNUzwSa+QGAFkBMskakzse0z8=;
-        b=bqG07SDVtPeK/s3LHrGLIzma6XioLSiy+aEe2tEDGsIX1DUmTgYbmDoSVXBebtGKwV
-         HOgcKfxWvVIEfxjOqdykPHPeE/+LsSkGayPcrVYaied3z1ykqmAV/95POAVFoKYWuMtM
-         WmCYMlCrX1uXoWZsNUV12HLAbS9bW6jJ/LrWRn8W/t6EeOdDnbZDmjwDS8udtHGzZKwW
-         Lm4XI/aNSmma0R5ZVsSeMKzSKTav9+HtXQfL21Jq+ushgT6icEIyYdOLcQfzbTU+xyn/
-         XlC+iGtLDbj+fkoNZT4RG7DPORc2Kh7LhYTb3leWySEYndiCQuOSgM748E+nqnk4cXSI
-         MpKw==
-X-Gm-Message-State: AJIora/fQGACKRJJSoxgWC/mb5sLpKBbg1sDVMXHtWvBC58x3MH+LoJS
-        5Zdg5QHR0+wguGEHlqrVVqa8N2kTkK/YmA==
-X-Google-Smtp-Source: AGRyM1ty94Bi/kThUyYCtcONkfQEatSMxB4zQNDcet6s1fIeNCkp6cZN9Ip6+R4/UZLfNCXrGMqLvg==
-X-Received: by 2002:a17:907:d18:b0:726:3172:2266 with SMTP id gn24-20020a1709070d1800b0072631722266mr129773ejc.476.1657661337442;
-        Tue, 12 Jul 2022 14:28:57 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id c17-20020a056402121100b00437e08d319csm6572339edw.61.2022.07.12.14.28.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 14:28:56 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        samuel@sholland.org
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/7] media: cedrus: h265: Implement tiles support
-Date:   Tue, 12 Jul 2022 23:28:55 +0200
-Message-ID: <12371972.VsHLxoZxqI@kista>
-In-Reply-To: <20220620175517.648767-1-jernej.skrabec@gmail.com>
-References: <20220620175517.648767-1-jernej.skrabec@gmail.com>
+        Tue, 12 Jul 2022 18:24:27 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4125439BB1
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 15:24:26 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C64966C8;
+        Wed, 13 Jul 2022 00:24:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657664664;
+        bh=WX3Hst1gxTcshmW5I8EtmMO5XGUO1Cm59ce+Hd3cWg0=;
+        h=Date:From:To:Cc:Subject:From;
+        b=QFIMcbKxXbAIe3X15c4x5huyh2fZQSwMzitsPPfCJl7roEDbSjVbMiymM1XR+nNRz
+         COB9k9udt1XrTaU9n/jVnjYMz8my4YvNSm+a5axG+W2gvlHfIa6qdbBhBgwmnOhX6B
+         elOS/Q6y8NoIAimrP+vGEU7hsrpVe9GRXk5rX59c=
+Date:   Wed, 13 Jul 2022 01:23:54 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
+Subject: [GIT PULL FOR v5.20] rkisp1 refactoring to prepare for i.MX8MP
+ support
+Message-ID: <Ys30elcTTEnlu7c7@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne ponedeljek, 20. junij 2022 ob 19:55:10 CEST je Jernej Skrabec napisal(a):
-> Now that we have full and stable HEVC uAPI, let's implement last big
-> missing piece of HEVC in Cedrus - tiles support. This is done in
-> last patch. Before that, there are bug fixes (patch 1 & 2, previously
-> submitted separately in [1]), error handling improvements (patch 3, 4)
-> and added helper for dealing with dynamic arrays (patch 5).
-> 
-> These patches are based on top of [2].
-> 
-> Final fluster score with this series is 125/147. 11 bitstreams are
-> MAIN10, which is not yet properly supported. 5 bitstreams need better
-> memory management with auxiliary buffers (wip patches exists). 4 are
-> too big and 2 probably fails due to ffmpeg implementation.
-> 
-> Used ffmpeg source is in [3].
-> 
-> Note - Cedrus driver currently supports only one slice per request since
-> HW takes data for 1 slice only. This can be improved by loading data for
-> next slice automatically after HW signalled end of decoding. Something
-> for later.
-> 
-> Please take a look.
-> 
-> Best regards,
-> Jernej
-> 
-> [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=8187
-> [2] https://patchwork.linuxtv.org/project/linux-media/list/?series=8208
-> [3] https://github.com/jernejsk/FFmpeg/commits/hevc-mainline
-> 
-> Jernej Skrabec (7):
->   media: cedrus: h265: Fix flag name
->   media: cedrus: h265: Fix logic for not low delay flag
->   media: cedrus: Improve error messages for controls
->   media: cedrus: Add error handling for failed setup
->   media: cedrus: h265: Add a couple of error checks
->   media: cedrus: Add helper for determining number of elements
->   media: cedrus: h265: Implement support for tiles
+Hi Mauro,
 
-Hi Hans,
+The following changes since commit d8e8aa866ed8636fd6c1017c3d9453eab2922496:
 
-do you mind picking patch 6 and 7? They are reviewed and don't depend on patch 
-5.
+  media: mediatek: vcodec: Report supported bitrate modes (2022-06-27 09:31:41 +0100)
 
-Best regards,
-Jernej
+are available in the Git repository at:
 
+  git://linuxtv.org/pinchartl/media.git tags/v4l2-next-20220713
 
+for you to fetch changes up to e1d80e557bcd56e00e7503cc394a16b88e9f282c:
 
+  media: rkisp1: debug: Add dump file in debugfs for MI main path registers (2022-07-12 22:40:01 +0300)
 
+----------------------------------------------------------------
+rkisp1 refactoring to prepare for i.MX8MP support
+
+----------------------------------------------------------------
+Laurent Pinchart (38):
+      media: v4l2-async: Add notifier operation to destroy asd instances
+      media: mc-entity: Rename media_entity_remote_pad() to media_pad_remote_pad_first()
+      media: mc-entity: Add a new helper function to get a remote pad
+      media: mc-entity: Add a new helper function to get a remote pad for a pad
+      media: rkisp1: Enable compilation on ARCH_MXC
+      media: rkisp1: Disable runtime PM in probe error path
+      media: rkisp1: Read the ID register at probe time instead of streamon
+      media: rkisp1: Rename rkisp1_match_data to rkisp1_info
+      media: rkisp1: Access ISP version from info pointer
+      media: rkisp1: cap: Print debug message on failed link validation
+      media: rkisp1: Move sensor .s_stream() call to ISP
+      media: rkisp1: Reject sensors without pixel rate control at bound time
+      media: rkisp1: Create link from sensor to ISP at notifier bound time
+      media: rkisp1: Create internal links at probe time
+      media: rkisp1: Rename rkisp1_subdev_notifier() to rkisp1_subdev_notifier_register()
+      media: rkisp1: Fix sensor source pad retrieval at bound time
+      media: rkisp1: isp: Start CSI-2 receiver before ISP
+      media: rkisp1: csi: Handle CSI-2 RX configuration fully in rkisp1-csi.c
+      media: rkisp1: csi: Rename CSI functions with a common rkisp1_csi prefix
+      media: rkisp1: csi: Move start delay to rkisp1_csi_start()
+      media: rkisp1: csi: Pass sensor pointer to rkisp1_csi_config()
+      media: rkisp1: csi: Constify argument to rkisp1_csi_start()
+      media: rkisp1: isp: Don't initialize ret to 0 in rkisp1_isp_s_stream()
+      media: rkisp1: isp: Pass mbus type and flags to rkisp1_config_cif()
+      media: rkisp1: isp: Rename rkisp1_device.active_sensor to source
+      media: rkisp1: isp: Add container_of wrapper to cast subdev to rkisp1_isp
+      media: rkisp1: isp: Add rkisp1_device backpointer to rkisp1_isp
+      media: rkisp1: isp: Pass rkisp1_isp pointer to internal ISP functions
+      media: rkisp1: isp: Move input configuration to rkisp1_config_isp()
+      media: rkisp1: isp: Merge ISP_ACQ_PROP configuration in single variable
+      media: rkisp1: isp: Initialize some variables at declaration time
+      media: rkisp1: isp: Fix whitespace issues
+      media: rkisp1: isp: Constify various local variables
+      media: rkisp1: isp: Rename rkisp1_get_remote_source()
+      media: rkisp1: isp: Disallow multiple active sources
+      media: rkisp1: csi: Plumb the CSI RX subdev
+      media: rkisp1: Add infrastructure to support ISP features
+      media: rkisp1: Make the internal CSI-2 receiver optional
+
+Paul Elder (8):
+      media: rkisp1: Save info pointer in rkisp1_device
+      media: rkisp1: Make rkisp1_isp_mbus_info common
+      media: rkisp1: Split CSI handling to separate file
+      media: rkisp1: csi: Implement a V4L2 subdev for the CSI receiver
+      media: rkisp1: Use fwnode_graph_for_each_endpoint
+      dt-bindings: media: rkisp1: Add port for parallel interface
+      media: rkisp1: Support the ISP parallel input
+      media: rkisp1: debug: Add dump file in debugfs for MI main path registers
+
+ .../devicetree/bindings/media/rockchip-isp1.yaml   |  23 +-
+ Documentation/driver-api/media/mc-core.rst         |   5 +-
+ Documentation/driver-api/media/v4l2-subdev.rst     |   6 +
+ drivers/media/i2c/adv748x/adv748x.h                |   2 +-
+ drivers/media/i2c/tvp5150.c                        |   2 +-
+ drivers/media/mc/mc-entity.c                       |  75 ++-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c      |   2 +-
+ drivers/media/platform/qcom/camss/camss-csid.c     |   6 +-
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   2 +-
+ drivers/media/platform/qcom/camss/camss-ispif.c    |   4 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +-
+ drivers/media/platform/qcom/camss/camss-video.c    |   6 +-
+ drivers/media/platform/qcom/camss/camss.c          |   2 +-
+ .../media/platform/renesas/rcar-vin/rcar-core.c    |   2 +-
+ .../media/platform/renesas/rcar-vin/rcar-csi2.c    |   2 +-
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c |   2 +-
+ .../media/platform/renesas/rcar-vin/rcar-v4l2.c    |   2 +-
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c  |   4 +-
+ drivers/media/platform/renesas/vsp1/vsp1_video.c   |   2 +-
+ drivers/media/platform/rockchip/rkisp1/Kconfig     |   2 +-
+ drivers/media/platform/rockchip/rkisp1/Makefile    |   1 +
+ .../platform/rockchip/rkisp1/rkisp1-capture.c      |  22 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-common.c | 143 ++++++
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h | 109 +++-
+ .../media/platform/rockchip/rkisp1/rkisp1-csi.c    | 536 +++++++++++++++++++
+ .../media/platform/rockchip/rkisp1/rkisp1-csi.h    |  28 +
+ .../media/platform/rockchip/rkisp1/rkisp1-debug.c  |  21 +
+ .../media/platform/rockchip/rkisp1/rkisp1-dev.c    | 431 +++++++++-------
+ .../media/platform/rockchip/rkisp1/rkisp1-isp.c    | 571 +++++----------------
+ .../media/platform/rockchip/rkisp1/rkisp1-params.c |   2 +-
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c      |  14 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-stats.c  |   4 +-
+ drivers/media/platform/samsung/exynos4-is/common.c |   2 +-
+ .../platform/samsung/exynos4-is/fimc-capture.c     |   6 +-
+ .../platform/samsung/exynos4-is/fimc-isp-video.c   |   2 +-
+ .../media/platform/samsung/exynos4-is/fimc-lite.c  |   2 +-
+ .../media/platform/samsung/exynos4-is/media-dev.c  |   2 +-
+ .../platform/samsung/s3c-camif/camif-capture.c     |   2 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c       |   6 +-
+ .../media/platform/sunxi/sun6i-csi/sun6i_video.c   |   4 +-
+ drivers/media/platform/ti/cal/cal-camerarx.c       |   2 +-
+ drivers/media/platform/ti/cal/cal-video.c          |   2 +-
+ drivers/media/platform/ti/omap3isp/isp.c           |   6 +-
+ drivers/media/platform/ti/omap3isp/ispccdc.c       |   2 +-
+ drivers/media/platform/ti/omap3isp/ispccp2.c       |   2 +-
+ drivers/media/platform/ti/omap3isp/ispcsi2.c       |   2 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.c      |   4 +-
+ drivers/media/platform/video-mux.c                 |   2 +-
+ drivers/media/platform/xilinx/xilinx-csi2rxss.c    |   2 +-
+ drivers/media/platform/xilinx/xilinx-dma.c         |   4 +-
+ drivers/media/test-drivers/vimc/vimc-streamer.c    |   2 +-
+ drivers/media/v4l2-core/v4l2-async.c               |  10 +
+ drivers/staging/media/imx/imx-media-dev-common.c   |   2 +-
+ drivers/staging/media/imx/imx-media-utils.c        |   2 +-
+ drivers/staging/media/omap4iss/iss.c               |   6 +-
+ drivers/staging/media/omap4iss/iss_csi2.c          |   2 +-
+ drivers/staging/media/omap4iss/iss_video.c         |   2 +-
+ drivers/staging/media/tegra-video/vi.c             |   4 +-
+ include/media/media-entity.h                       |  68 ++-
+ include/media/v4l2-async.h                         |   2 +
+ 60 files changed, 1479 insertions(+), 710 deletions(-)
+ create mode 100644 drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp1/rkisp1-csi.h
+
+-- 
+Regards,
+
+Laurent Pinchart
