@@ -2,159 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53AF1571B30
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 15:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33B7A571B5F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 15:34:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231804AbiGLN1T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jul 2022 09:27:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40730 "EHLO
+        id S229691AbiGLNeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 09:34:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbiGLN1S (ORCPT
+        with ESMTP id S233094AbiGLNeN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jul 2022 09:27:18 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45E86AE389
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:27:16 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id ez10so14270566ejc.13
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:27:16 -0700 (PDT)
+        Tue, 12 Jul 2022 09:34:13 -0400
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0129F9B9C9
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:34:10 -0700 (PDT)
+Received: by mail-qv1-xf32.google.com with SMTP id mi10so2535705qvb.1
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=omKDGKrDnZ/IkPXT5RBomOOPrYkiPKJbtYb6UMrNSaM=;
-        b=TdIaTQTUpJe1Qw/zD95bu1yP1ZupdD6IiMyhad4UyI1OuxFJ2RWEVQXV6yPb0tat+I
-         e9KgLx+90JCtfHZgNqv1WXvRgyzvc9Im/j3q1Oy5f+xbPluB41jYJbEVkhte0mN/3Ooh
-         X2KSsTRVRO1BR9AS7JvKV6kEPhjiRCBNBcrBlJi1Brn6VqHGN2cYs8WEGumBrNu68GSV
-         FpQSMxE9Vn4MYm4KMjvc5V6j7K2rPgJKntgD4zngMfwPBy3F418VvH6n2dFxxa8GQW1n
-         QD6NknDzPlnCASKL3zadtNcKd/aC0AYe/w7B+bgTG0B8I1063JlPu9mQbfQpgZTbnxfE
-         yTZg==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=ACcVEjWAl0l8BCPeGNEBMR96Vi6sSgqEYdNkLpYgsf0=;
+        b=xb8y8B0q4vFneb5wFxkhbTICKHFpaId6bsu7EZunPzwvjN9/LBwV+lPsydD5Eup8/h
+         Dc5K0R2CZA/NVLTSUrnTQ0Qkpj61Q+aZvVZsI3RRq/d7o1EOS4w8mqlWpqv4N6+1RO43
+         JziY3aVKbKZsF90XTDGFL1B3gyi07L3sYO2jzy04MbLdYtB3m08o1ZU9HCTYVS8DvGS5
+         ljgMNkIuxbJWs6lvwRx5NWv6vKsZY+B8D7LxuZZNLgTbCl7Li3YO8QHcXkXC9k5Yzc2Q
+         JUWu5eXkMFyraSVFKSQQ8DApGZlPNiqOq9iePUdnCCca3csa69dzwRDQF03OzC11abb5
+         sjiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=omKDGKrDnZ/IkPXT5RBomOOPrYkiPKJbtYb6UMrNSaM=;
-        b=0bD6oCaiEH95L/0RaSw/H+ZLHn9yRB5p2Be3aAAuAtHuutQ4AIacGC3jLap1EN3XtG
-         Ysm/D660wdagnuyuCGFaOfs1W2Q/UyLQT1FrQohuh3uVLYYQDOZ2iabBn3LUHw4+Wcwv
-         T5+MCmGAlLB3Jq/G4M0QdlVFz0tItEgBqDAgeua0dCRTarWQicmeo6cRQ3ZcqZ66IaCH
-         crTfVttBeY4GFAiQmyhlAnClmEAcl94CeAoYJjHkQ0TTdp8kRJ6WUnlIGrray7FHBtRi
-         x5cWsbkB6BJQuZIxHsQT9X2VKPiSBVLF45CUfp8vklvd0hyEVC0SMTJVj90QXgJCh2rh
-         iKAA==
-X-Gm-Message-State: AJIora9J+Af4FEIhpJUnQVXXZ52Yooz7D3OUBOYEXhNrI3Tnzy9RmyL/
-        AG4RVRCF+0Q/Cz/zoDc9wj4FNmwt3NeZJxW8Xn0=
-X-Google-Smtp-Source: AGRyM1vOjvHM7mJAaDS7p1aTNG5U9p4boViVosKcsmm6k5RlVqpv6fPQo4roJps+C/WvQc7z+WABdeKSoMHsgw7D5EY=
-X-Received: by 2002:a17:907:2888:b0:72b:8f41:1405 with SMTP id
- em8-20020a170907288800b0072b8f411405mr168023ejc.564.1657632434858; Tue, 12
- Jul 2022 06:27:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220712102849.1562-1-christian.koenig@amd.com>
- <6570e584-7ddc-4029-0555-276020750dd2@intel.com> <f4804bb1-4f0e-2755-6b00-8aa0ba1c5c90@amd.com>
-In-Reply-To: <f4804bb1-4f0e-2755-6b00-8aa0ba1c5c90@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 12 Jul 2022 09:27:03 -0400
-Message-ID: <CADnq5_Mv=4G1qb7J7a2nm=7cVWSbRxrRBBNKpaeajKOj_cGp3g@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: revert "return only unsignaled fences in
- dma_fence_unwrap_for_each v3"
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Karolina Drobnik <karolina.drobnik@intel.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        linux-media <linux-media@vger.kernel.org>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=ACcVEjWAl0l8BCPeGNEBMR96Vi6sSgqEYdNkLpYgsf0=;
+        b=LYK04v++yJFQoJsllxUnH5M5mQFI38xzHeDg5LMSsgRlduWYoUZ95X+RMXm9RA1Ros
+         X6550qhBWnp0frDijzOxqipoFiNAXNAyoQels5EsWceHRjb50Di4VnHGHgztI3MtnyT0
+         Uh2/Wz/2ArC91DPsyeqlMIeNFCO6r2d3EgGGzDSNHjOOwS+H7HT0nldOQgbj+F4mXjNA
+         iN7AJGSomVTHzN3H+MVwYF391gevzeZqDszr2+9tFADdjQDXwK4pwOr34E/hqlHaYP1t
+         8JrNzJcugn/T6f2OWADFfBBam5IL7kNqXwy66xtLcJFkrVGyVeLELGa97Je2OOT0Xwd/
+         jZPQ==
+X-Gm-Message-State: AJIora8ipJnpJRLVzuJxAXd4h75unfIPqswopHkfQJAXMhBmNw9lNlM/
+        gjigifblDnDhgDQ4Sfq/lri9aQ==
+X-Google-Smtp-Source: AGRyM1tR9QQjMICvEvriS3rUrQeRvEnCkxrSDR9p9b3QC/NKJyXkOuzupjLq2xmjuWFbvpwWCe4AvA==
+X-Received: by 2002:a0c:f3ce:0:b0:473:3c5:d378 with SMTP id f14-20020a0cf3ce000000b0047303c5d378mr17519526qvm.48.1657632848339;
+        Tue, 12 Jul 2022 06:34:08 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id g7-20020a05620a40c700b006b1490619cdsm9354056qko.99.2022.07.12.06.34.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jul 2022 06:34:07 -0700 (PDT)
+Message-ID: <b06c71d090ae7eaa3cd047bb0067f566371bac3a.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/7] venus : Add default values for the control
+ V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Viswanath Boma <quic_vboma@quicinc.com>,
+        video.upstream.external@qti.qualcomm.com,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 12 Jul 2022 09:34:06 -0400
+In-Reply-To: <20220712122347.6781-1-quic_vboma@quicinc.com>
+References: <20220712122347.6781-1-quic_vboma@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 12, 2022 at 8:06 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Hi Karolina,
->
-> Am 12.07.22 um 14:04 schrieb Karolina Drobnik:
-> > Hi Christian,
-> >
-> > On 12.07.2022 12:28, Christian K=C3=B6nig wrote:
-> >> This reverts commit 8f61973718485f3e89bc4f408f929048b7b47c83.
-> >>
-> >> It turned out that this is not correct. Especially the sync_file info
-> >> IOCTL needs to see even signaled fences to correctly report back their
-> >> status to userspace.
-> >>
-> >> Instead add the filter in the merge function again where it makes sens=
-e.
-> >>
-> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >
-> > After applying the patch, fence merging works and all sw_sync subtests
-> > are passing. Thanks for taking care of this.
-> >
-> > Tested-by: Karolina Drobnik <karolina.drobnik@intel.com>
->
-> can anybody give me an rb or at least an Acked-by as well so that I can
-> push this upstream?
+Le mardi 12 juillet 2022 =C3=A0 17:53 +0530, Viswanath Boma a =C3=A9crit=C2=
+=A0:
+> From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>=20
+>  V4l2 encoder compliance expecting default values of colormetry for the c=
+ontrol.
 
-Patch makes sense.
+nit: colormetry -> colorimetry
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+>=20
+> Change-Id: I1db0d4940b54e033d646ce39d60dc488afba8d58
+> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/venus/venc_ctrls.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/med=
+ia/platform/qcom/venus/venc_ctrls.c
+> index ea5805e71c143..37ba7d97f99b2 100644
+> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
+> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+> @@ -352,6 +352,8 @@ static const struct v4l2_ctrl_ops venc_ctrl_ops =3D {
+>  int venc_ctrl_init(struct venus_inst *inst)
+>  {
+>  	int ret;
+> +	struct v4l2_ctrl_hdr10_mastering_display p_hdr10_mastering =3D { {34000=
+, 13250, 7500 },
+> +	{ 16000, 34500, 3000 }, 15635,	16450, 10000000, 500 };
 
->
-> Thanks,
-> Christian.
->
-> >
-> >> ---
-> >>   drivers/dma-buf/dma-fence-unwrap.c | 3 ++-
-> >>   include/linux/dma-fence-unwrap.h   | 6 +-----
-> >>   2 files changed, 3 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/dma-buf/dma-fence-unwrap.c
-> >> b/drivers/dma-buf/dma-fence-unwrap.c
-> >> index 502a65ea6d44..7002bca792ff 100644
-> >> --- a/drivers/dma-buf/dma-fence-unwrap.c
-> >> +++ b/drivers/dma-buf/dma-fence-unwrap.c
-> >> @@ -72,7 +72,8 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned
-> >> int num_fences,
-> >>       count =3D 0;
-> >>       for (i =3D 0; i < num_fences; ++i) {
-> >>           dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
-> >> -            ++count;
-> >> +            if (!dma_fence_is_signaled(tmp))
-> >> +                ++count;
-> >>       }
-> >>         if (count =3D=3D 0)
-> >> diff --git a/include/linux/dma-fence-unwrap.h
-> >> b/include/linux/dma-fence-unwrap.h
-> >> index 390de1ee9d35..66b1e56fbb81 100644
-> >> --- a/include/linux/dma-fence-unwrap.h
-> >> +++ b/include/linux/dma-fence-unwrap.h
-> >> @@ -43,14 +43,10 @@ struct dma_fence *dma_fence_unwrap_next(struct
-> >> dma_fence_unwrap *cursor);
-> >>    * Unwrap dma_fence_chain and dma_fence_array containers and deep
-> >> dive into all
-> >>    * potential fences in them. If @head is just a normal fence only
-> >> that one is
-> >>    * returned.
-> >> - *
-> >> - * Note that signalled fences are opportunistically filtered out, whi=
-ch
-> >> - * means the iteration is potentially over no fence at all.
-> >>    */
-> >>   #define dma_fence_unwrap_for_each(fence, cursor, head)            \
-> >>       for (fence =3D dma_fence_unwrap_first(head, cursor); fence;    \
-> >> -         fence =3D dma_fence_unwrap_next(cursor))            \
-> >> -        if (!dma_fence_is_signaled(fence))
-> >> +         fence =3D dma_fence_unwrap_next(cursor))
-> >>     struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences=
-,
-> >>                          struct dma_fence **fences,
->
+What is the origin of these values ? Should this be done in the control
+framework instead ?
+
+> =20
+>  	ret =3D v4l2_ctrl_handler_init(&inst->ctrl_handler, 58);
+>  	if (ret)
+> @@ -580,7 +582,7 @@ int venc_ctrl_init(struct venus_inst *inst)
+> =20
+>  	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
+>  				   V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY,
+> -				   v4l2_ctrl_ptr_create(NULL));
+> +				   v4l2_ctrl_ptr_create((void *)&p_hdr10_mastering));
+> =20
+>  	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
+>  			  V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD, 0,
+
