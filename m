@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C841570EC7
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 02:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C13BD570F37
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 03:08:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231876AbiGLARI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 20:17:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54230 "EHLO
+        id S231911AbiGLBIQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jul 2022 21:08:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbiGLAQu (ORCPT
+        with ESMTP id S229633AbiGLBIP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 20:16:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58993CBF3
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 17:15:32 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5BDAD739
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 02:15:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657584931;
-        bh=hxaung+gygdjLjDBS72L7gtntiQCzI5UqdhPPUkcNl0=;
-        h=Date:From:To:Subject:From;
-        b=SSsM2rLP7caWEksORDMxyK1xcCPc5yEbO7GYagZ0l130nlWOERkqVf0d/6K+0ERaS
-         F2NqOyaiYahjG2rnv9M1dIH3uuB0LAD4Wk2hmP/3Hh2BlzBAaly1yM210ecUIkgony
-         B7GCmCLf0osh//fd9CkXhH94SPqzlsmmngXBqNqs=
-Date:   Tue, 12 Jul 2022 03:15:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.20] New pixel formats and colorspace improvements
-Message-ID: <Ysy9CA0OHfW7h/p1@pendragon.ideasonboard.com>
+        Mon, 11 Jul 2022 21:08:15 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B02F22AE2D
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 18:08:13 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oB4Nn-0072B2-Ry; Tue, 12 Jul 2022 01:08:11 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oB4Nl-003yCj-Cw; Tue, 12 Jul 2022 01:08:09 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.20] New pixel formats and colorspace improvements (#84785)
+Date:   Tue, 12 Jul 2022 01:08:09 +0000
+Message-Id: <20220712010809.946363-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <Ysy9CA0OHfW7h/p1@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,41 +44,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-The following changes since commit d8e8aa866ed8636fd6c1017c3d9453eab2922496:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Ysy9CA0OHfW7h/p1@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/224123/
+Build time: 00:45:59
+Link: https://lore.kernel.org/linux-media/Ysy9CA0OHfW7h/p1@pendragon.ideasonboard.com
 
-  media: mediatek: vcodec: Report supported bitrate modes (2022-06-27 09:31:41 +0100)
+gpg: Signature made Tue 12 Jul 2022 12:14:12 AM UTC
+gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-are available in the Git repository at:
+Summary: got 2/5 patches with issues, being 2 at build time, plus one error when buinding PDF document
 
-  git://linuxtv.org/pinchartl/media.git tags/v4l2-next-20220712
+Error/warnings:
 
-for you to fetch changes up to 47a166d60cdaca08f91f258bddc9a2e8ff4d785f:
+patches/0001-media-v4l-Add-packed-YUV-4-4-4-YUVA-and-YUVX-pixel-f.patch:
 
-  media: v4l2: Sanitize colorspace values in the framework (2022-07-12 03:12:31 +0300)
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-----------------------------------------------------------------
-- Add new YUVA and YUVX pixel formats
-- Improve colorspace sanity checks
+    allyesconfig: return code #0:
+	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5429 cx23885_dif_setup() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000032Kb sm_state_count = 1725875
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 51 seconds
+	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
+	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
+	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2885 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-----------------------------------------------------------------
-Laurent Pinchart (5):
-      media: v4l: Add packed YUV 4:4:4 YUVA and YUVX pixel formats
-      media: v4l2-tpg: Add support for the new YUVA and YUVX formats
-      media: vivid: Add support for the new YUVA and YUVX formats
-      media: v4l2: Make colorspace validity checks more future-proof
-      media: v4l2: Sanitize colorspace values in the framework
+   checkpatch.pl:
+	$ cat patches/0001-media-v4l-Add-packed-YUV-4-4-4-YUVA-and-YUVX-pixel-f.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:58: ERROR: trailing statements should be on next line
+	-:59: ERROR: trailing statements should be on next line
 
- .../userspace-api/media/v4l/pixfmt-packed-yuv.rst  | 20 +++++++
- drivers/media/common/v4l2-tpg/v4l2-tpg-core.c      |  6 ++
- .../media/test-drivers/vivid/vivid-vid-common.c    | 15 +++++
- drivers/media/v4l2-core/v4l2-ioctl.c               | 67 ++++++++++++++++++----
- include/media/v4l2-common.h                        |  6 +-
- include/uapi/linux/videodev2.h                     | 24 ++++++++
- 6 files changed, 125 insertions(+), 13 deletions(-)
+patches/0004-media-v4l2-Make-colorspace-validity-checks-more-futu.patch:
 
--- 
-Regards,
+    allyesconfig: return code #0:
+	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5495 cx23885_dif_setup() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1725874
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 49 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
+	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
+	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2858 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-Laurent Pinchart
+
+Error #512 when building PDF docs
+
