@@ -2,76 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 625FE571EC1
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 17:17:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55022571F09
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 17:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232873AbiGLPRr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jul 2022 11:17:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51090 "EHLO
+        id S233180AbiGLPZt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 11:25:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229821AbiGLPRX (ORCPT
+        with ESMTP id S233061AbiGLPZs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jul 2022 11:17:23 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33BCACC024
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 08:12:23 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id e28so10876092lfj.4
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 08:12:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=FiFkU4mtsNMfFIb99Kyl4YKF0xVr8LFESHMNv5yOiro=;
-        b=EQ/TF9qYYwlLAcO2ZviT1k6qc/VqInz5ERRkhyrsBi6dF+xJhJORcGJz7gMRx/PjKl
-         p/C+PwHpO3s1AbBKfptcD8VVn1ui73ew69bGaWVROOf2+pr97zI4T1BDm1VunZL8NJnk
-         f63yaybXdjvzlnkcmKhrRwuX3XiwqaFJ9DKzKKSZEdCCqNp9kuYS+/6QkM1ORYvsfqg2
-         g4BLvWwKZsWigB5JrPcBZ4bp5aOI1g7OViJTOxiv7JSOrlMGwsaEgckqEMKm+PVXregE
-         MgqoQVQMOZeexN3A/otCm4oZqyhluKsMbpqXBG7HfbH2+2qviyOfRa9MoQ1JYrT/WaIQ
-         sCTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=FiFkU4mtsNMfFIb99Kyl4YKF0xVr8LFESHMNv5yOiro=;
-        b=6eyHlQiEJIBnCJSzpHq5Y9f1mJOIflVOozV456kNDjG/vKb5bvFDNhfkG9T2JQPeo4
-         cLHHYjYb7ctBhODlrnk5uKfGvdguJ8ocRLxOFuQTES/+3JvbxRW9N7xWvyMABWYrtmwt
-         iyESIb/dWu24USVNTVSMqF0eDU7KtbJIYZ+9DAeCJHfpSj5LYw5FqBrE7nWLGoYT5w0L
-         DX3u9yxYAlmGZofVliVeeXcvhViJLKznw2kOVHBC8jGQCM7atVYUJuxYfATBA44399/e
-         j4e5oxiqg18bA3ck5IpC4yx1IsCRAnq5mlOeYAaOUTIq+ujRbk0duIDIWHefKG/5pWzp
-         aEpg==
-X-Gm-Message-State: AJIora8MV32iEqTfP26jdlwHB8ohmuQi1ciWgMwBjC00jaDzHSwxgmL5
-        ZfK726T4al8dUibbxYvR9qQS+g==
-X-Google-Smtp-Source: AGRyM1t0l7x/rCjC6lSD6LEP8zBtApvjhPsSOa6RpcuLkpgzQsIqIo44tpbIn6jIqUtwKONToFV0JQ==
-X-Received: by 2002:a05:6512:2241:b0:479:6426:15af with SMTP id i1-20020a056512224100b00479642615afmr14829398lfu.631.1657638741569;
-        Tue, 12 Jul 2022 08:12:21 -0700 (PDT)
-Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
-        by smtp.gmail.com with ESMTPSA id c5-20020ac25f65000000b00489dd78bdacsm1388358lfc.299.2022.07.12.08.12.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jul 2022 08:12:20 -0700 (PDT)
-Message-ID: <82d4507a-d092-8cb0-2e88-4290661d114d@linaro.org>
-Date:   Tue, 12 Jul 2022 17:12:18 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: document OV4689 DT
- bindings
-Content-Language: en-US
-To:     Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Tue, 12 Jul 2022 11:25:48 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40F009FEE;
+        Tue, 12 Jul 2022 08:25:46 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5E1C22000F;
+        Tue, 12 Jul 2022 15:25:40 +0000 (UTC)
+Date:   Tue, 12 Jul 2022 17:25:38 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        quentin.schulz@theobroma-systems.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20220712141925.678595-1-mike.rudenko@gmail.com>
- <20220712141925.678595-2-mike.rudenko@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220712141925.678595-2-mike.rudenko@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Subject: Re: [PATCH v5 5/6] media: dt-bindings: ov5693: document YAML binding
+Message-ID: <20220712152538.jh4ufxik7icllox6@uno.localdomain>
+References: <20220630134835.592521-1-tommaso.merciai@amarulasolutions.com>
+ <20220630134835.592521-6-tommaso.merciai@amarulasolutions.com>
+ <20220711093659.mf7i4uqtrejtfong@uno.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220711093659.mf7i4uqtrejtfong@uno.localdomain>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,126 +49,182 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/07/2022 16:19, Mikhail Rudenko wrote:
-> Add device-tree binding documentation for OV4689 image sensor driver,
-> and the relevant MAINTAINERS entries.
-> 
-> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
-> ---
->  .../bindings/media/i2c/ovti,ov4689.yaml       | 122 ++++++++++++++++++
->  MAINTAINERS                                   |   7 +
->  2 files changed, 129 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-> new file mode 100644
-> index 000000000000..6bdebe5862b4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-> @@ -0,0 +1,122 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov4689.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OV4689 CMOS Sensor Device Tree Bindings
+Hi Krzysztof
+   could you have a look at the below question ?
 
-s/Device Tree Bindings//
+If no need to resend from Tommaso I think the series could be
+collected for v5.20.
 
-> +
-> +maintainers:
-> +  - Mikhail Rudenko <mike.rudenko@gmail.com>
-> +
-> +description: |-
+On Mon, Jul 11, 2022 at 11:37:05AM +0200, Jacopo Mondi wrote:
+> Hi Tommaso, Krzysztof,
+>
+>    This has been reviewed by Krzysztof already, so I guess it's fine,
+> but let me ask anyway
+>
+> On Thu, Jun 30, 2022 at 03:48:34PM +0200, Tommaso Merciai wrote:
+> > Add documentation of device tree in YAML schema for the OV5693
+> > CMOS image sensor from Omnivision
+> >
+> > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > ---
+> > Changes since v1:
+> >  - Fix allOf position as suggested by Krzysztof
+> >  - Remove port description as suggested by Krzysztof
+> >  - Fix EOF as suggested by Krzysztof
+> >
+> > Changes since v2:
+> >  - Fix commit body as suggested by Krzysztof
+> >
+> > Changes since v3:
+> >  - Add reviewed-by tags, suggested by Jacopo, Krzysztof
+> >
+> > Changes since v4:
+> >  - Remove wrong Sakari reviewed-by tag, suggested by Krzysztof, Sakari
+> >
+> >  .../bindings/media/i2c/ovti,ov5693.yaml       | 106 ++++++++++++++++++
+> >  MAINTAINERS                                   |   1 +
+> >  2 files changed, 107 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > new file mode 100644
+> > index 000000000000..b83c9fc04023
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > @@ -0,0 +1,106 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +# Copyright (c) 2022 Amarulasolutions
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Omnivision OV5693 CMOS Sensor
+> > +
+> > +maintainers:
+> > +  - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> > +
+> > +description: |
+> > +  The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
+> > +  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
+> > +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
+> > +  Serial Camera Control Bus (SCCB) interface.
+> > +
+> > +  OV5693 is controlled via I2C and two-wire Serial Camera Control Bus (SCCB).
+> > +  The sensor output is available via CSI-2 serial data output (up to 2-lane).
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/media/video-interface-devices.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: ovti,ov5693
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    description:
+> > +      System input clock (aka XVCLK). From 6 to 27 MHz.
+> > +    maxItems: 1
+> > +
+> > +  dovdd-supply:
+> > +    description:
+> > +      Digital I/O voltage supply, 1.8V.
+> > +
+> > +  avdd-supply:
+> > +    description:
+> > +      Analog voltage supply, 2.8V.
+> > +
+> > +  dvdd-supply:
+> > +    description:
+> > +      Digital core voltage supply, 1.2V.
+> > +
+> > +  reset-gpios:
+> > +    description:
+> > +      The phandle and specifier for the GPIO that controls sensor reset.
+> > +      This corresponds to the hardware pin XSHUTDN which is physically
+> > +      active low.
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - dovdd-supply
+> > +  - avdd-supply
+> > +  - dvdd-supply
+>
+> Should supplies be made mandatory ? Sensors are often powered by fixed
+> rails. Do we want DTS writers to create "fixed-regulators" for all of
+> them ? The fact the regulator framework creates dummies if there's no
+> entry in .dts for a regulator makes me think it's fine to have them
+> optional, but I understand how Linux works should not be an indication
+> of how a bindings should look like.
+>
 
-No need for -
+This question ^ :)
 
-> +  The Omnivision OV4689 is a high performance, 1/3-inch, 4 megapixel
-> +  image sensor. Ihis chip supports high frame rate speeds up to 90 fps
-> +  at 2688x1520 resolution. It is programmable through an I2C
-> +  interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
-> +  connection.
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov4689
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    description:
-> +      External clock for the sensor.
+Thanks
+  j
 
-This goes to clocks instead.
-
-> +    items:
-> +      - const: xclk
-
-No need for clock-names for such case.
-
-> +
-> +  dovdd-supply:
-> +    description:
-> +      Definition of the regulator used as Digital I/O voltage supply.
-
-s/Definition of the regulator used as //
-
-It's redundant...
-
-> +
-> +  avdd-supply:
-> +    description:
-> +      Definition of the regulator used as Analog voltage supply.
-
-Ditto
-
-> +
-> +  dvdd-supply:
-> +    description:
-> +      Definition of the regulator used as Digital core voltage supply.
-
-Ditto
-
-> +
-> +  powerdown-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Reference to the GPIO connected to the powerdown pin (active low).
-
-s/Reference to the//
-
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Reference to the GPIO connected to the reset pin (active low).
-
-The same.
-
-> +
-> +  orientation: true
-> +
-> +  rotation: true
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +    description:
-> +      Output port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-
-Best regards,
-Krzysztof
+> > +  - port
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/px30-cru.h>
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    #include <dt-bindings/pinctrl/rockchip.h>
+> > +
+> > +    i2c {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        ov5693: camera@36 {
+> > +            compatible = "ovti,ov5693";
+> > +            reg = <0x36>;
+> > +
+> > +            reset-gpios = <&gpio2 RK_PB1 GPIO_ACTIVE_LOW>;
+> > +            pinctrl-names = "default";
+> > +            pinctrl-0 = <&cif_clkout_m0>;
+> > +
+> > +            clocks = <&cru SCLK_CIF_OUT>;
+> > +            assigned-clocks = <&cru SCLK_CIF_OUT>;
+> > +            assigned-clock-rates = <19200000>;
+> > +
+> > +            avdd-supply = <&vcc_1v8>;
+> > +            dvdd-supply = <&vcc_1v2>;
+> > +            dovdd-supply = <&vcc_2v8>;
+> > +
+> > +            rotation = <90>;
+> > +            orientation = <0>;
+> > +
+> > +            port {
+> > +                ucam_out: endpoint {
+> > +                    remote-endpoint = <&mipi_in_ucam>;
+> > +                    data-lanes = <1 2>;
+> > +                    link-frequencies = /bits/ 64 <450000000>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 1fc9ead83d2a..844307cb20c4 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -14719,6 +14719,7 @@ M:	Daniel Scally <djrscally@gmail.com>
+> >  L:	linux-media@vger.kernel.org
+> >  S:	Maintained
+> >  T:	git git://linuxtv.org/media_tree.git
+> > +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> >  F:	drivers/media/i2c/ov5693.c
+> >
+> >  OMNIVISION OV5695 SENSOR DRIVER
+> > --
+> > 2.25.1
+> >
