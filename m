@@ -2,101 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C13BD570F37
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 03:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FE44571119
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 06:10:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231911AbiGLBIQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jul 2022 21:08:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35178 "EHLO
+        id S229635AbiGLEKl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 00:10:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbiGLBIP (ORCPT
+        with ESMTP id S229542AbiGLEKk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jul 2022 21:08:15 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B02F22AE2D
-        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 18:08:13 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oB4Nn-0072B2-Ry; Tue, 12 Jul 2022 01:08:11 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oB4Nl-003yCj-Cw; Tue, 12 Jul 2022 01:08:09 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.20] New pixel formats and colorspace improvements (#84785)
-Date:   Tue, 12 Jul 2022 01:08:09 +0000
-Message-Id: <20220712010809.946363-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <Ysy9CA0OHfW7h/p1@pendragon.ideasonboard.com>
-References: 
+        Tue, 12 Jul 2022 00:10:40 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C0F2A95D
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 21:10:37 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id j22so12195962ejs.2
+        for <linux-media@vger.kernel.org>; Mon, 11 Jul 2022 21:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eZ36M3ygQAgeVojZ3PMZJGgunCJGBslLWkL1qYl7GEg=;
+        b=Qgjphs8rsWnnZDWk1iY1zvcVE5b9sRnHJY0iuUGjwSwPdvLDAEcIdCfmxZoXxz0960
+         dwA8k4+bMnmR2anoeaea+pXOrDMkzvFTdK242O7Vg1GZ/KFqWGiu7MC53Sp0CrQCwApA
+         h5bQkXzQPvh08qPCxrPP5aYRUF/2sAFTTeN9c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eZ36M3ygQAgeVojZ3PMZJGgunCJGBslLWkL1qYl7GEg=;
+        b=y8BoG+RDrKuDlJfnwrq2x9OiyCBrhX5Hs/wLD3+euk01601nL9Zv88goPTKKQax/Na
+         Rhp/Xyx0me1uLdgVS+90ZfiFDyz1ANVDVjg+Ix7829et7lc9lNAlKf3iWGIKVJHa1naN
+         DyMJUUxhQG7TS5LCgnX4mt1pDRYOwkDGDGv84Zfn91QhfsZbi+y0ZkQPXeCAATuZieXm
+         AJNDL4IIMuXDzbBo6QC0Hnd9Y/VyOJcv8DtS4B+PvB8tUMSLLXRfvs/bpUKIsLxkWcOL
+         coM7YIj/xxRykyrXW3Bih+3aiWy8jcz7mm941yrD5WWvzf5mYqpP2jpyjJd/qq5yqSCf
+         uJmQ==
+X-Gm-Message-State: AJIora/LDJVkTwerBtq/XqA6MfZy3dKvqQNRqV2l+kQk+a/wcYlkfBgJ
+        HEwcvjbN/jm5p8opgmMhUPhxML+SiwZWlg==
+X-Google-Smtp-Source: AGRyM1v+yELeXAz0v4YOBxCeA2Hv+jkS+HRGGdd0WrDBglN3CN0LByCVSnMfiDRqHNZfkuRJyC3H0w==
+X-Received: by 2002:a17:906:844b:b0:72b:54b9:b97d with SMTP id e11-20020a170906844b00b0072b54b9b97dmr8601665ejy.229.1657599036338;
+        Mon, 11 Jul 2022 21:10:36 -0700 (PDT)
+Received: from carbon.gago.life (78-83-68-78.spectrumnet.bg. [78.83.68.78])
+        by smtp.gmail.com with ESMTPSA id pv20-20020a170907209400b0072b3464c043sm3332186ejb.116.2022.07.11.21.10.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jul 2022 21:10:35 -0700 (PDT)
+Date:   Tue, 12 Jul 2022 07:10:35 +0300
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] staging: media: imx: imx7-media-csi: Increase
+ video mem limit
+Message-ID: <Ysz0O5ZajnDm8Occ@carbon.gago.life>
+References: <20220709073100.158374-1-petko.manolov@konsulko.com>
+ <20220709073100.158374-2-petko.manolov@konsulko.com>
+ <YsynnMUcdhDBIIIz@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YsynnMUcdhDBIIIz@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 22-07-12 01:43:40, Laurent Pinchart wrote:
+> Hi Petko,
+> 
+> Thank you for the patch.
+> 
+> On Sat, Jul 09, 2022 at 10:31:00AM +0300, Petko Manolov wrote:
+> > Some high resolution (like Sony IMX492 47Mpix) sensors requre large amount space
+> > for buffering.  64MB is far from sufficient so this patch increases the limit to
+> > 512MB.
+> > 
+> > Signed-off-by: Petko Manolov <petko.manolov@konsulko.com>
+> > ---
+> >  drivers/staging/media/imx/imx7-media-csi.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > index 0066af8d111f..c62f893cd769 100644
+> > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > @@ -160,7 +160,7 @@
+> >  
+> >  #define IMX7_CSI_VIDEO_NAME		"imx-capture"
+> >  /* In bytes, per queue */
+> > -#define IMX7_CSI_VIDEO_MEM_LIMIT	SZ_64M
+> > +#define IMX7_CSI_VIDEO_MEM_LIMIT	SZ_512M
+> 
+> The limit is really something that the V4L2 core should handle (or assist
+> with). In the meantime,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Ysy9CA0OHfW7h/p1@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/224123/
-Build time: 00:45:59
-Link: https://lore.kernel.org/linux-media/Ysy9CA0OHfW7h/p1@pendragon.ideasonboard.com
+Thanks for the review.
 
-gpg: Signature made Tue 12 Jul 2022 12:14:12 AM UTC
-gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
-
-Summary: got 2/5 patches with issues, being 2 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-v4l-Add-packed-YUV-4-4-4-YUVA-and-YUVX-pixel-f.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5429 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000032Kb sm_state_count = 1725875
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 51 seconds
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2885 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0001-media-v4l-Add-packed-YUV-4-4-4-YUVA-and-YUVX-pixel-f.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:58: ERROR: trailing statements should be on next line
-	-:59: ERROR: trailing statements should be on next line
-
-patches/0004-media-v4l2-Make-colorspace-validity-checks-more-futu.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5495 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1725874
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 49 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2858 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+This "limit" isn't actually a limit, but a constant used in very few
+calculations. Perhaps this is a number that will be better handled by more
+knowledgeable part of the system.
 
 
-Error #512 when building PDF docs
+		Petko
 
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> >  #define IMX7_CSI_VIDEO_EOF_TIMEOUT	2000
+> >  
+> >  #define IMX7_CSI_DEF_MBUS_CODE		MEDIA_BUS_FMT_UYVY8_2X8
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
