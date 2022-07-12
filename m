@@ -2,124 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0C2E571AD7
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 15:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C0ED571ADC
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jul 2022 15:12:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbiGLNIq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jul 2022 09:08:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52190 "EHLO
+        id S229677AbiGLNMG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jul 2022 09:12:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232972AbiGLNI0 (ORCPT
+        with ESMTP id S229491AbiGLNMF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jul 2022 09:08:26 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACD3B6DA1
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:08:14 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id os14so14225355ejb.4
-        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:08:14 -0700 (PDT)
+        Tue, 12 Jul 2022 09:12:05 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D73D49748E
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:12:04 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id g1so10032805edb.12
+        for <linux-media@vger.kernel.org>; Tue, 12 Jul 2022 06:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=99ArxJ74Up+Rl9qxGK9C9Bp8YVC2rxW4MHDig6MxA8Y=;
-        b=n1zx8Cnyq8VKBNPvtKwlWDnRkBtXs5wUKRAEDFTm0J9VCWwd4ep6TLgxySGSVueeV3
-         IFtrIO2Qh0b1SpOpviSMc5A2+URhNsHJDP4lGQKwGhyeyxEUd81Av/I4k8RtM9tm8GRC
-         4yQ6yRVpGeCLOH7+JnLfPb/TEprdFl9+4e0uh6xfJmnnByU73ktJeCDzGbWp/foZgZa+
-         z27QiZk5dn3KydS9IYV+B4ZgvJmu1zh6L38EakEatyH/SdKlJ6bLCq/ujhgw6xllN5tm
-         yGEgpyyySQWf9xycRvKxbtjo93a0cp7LyF/iqeV1m6xrtJ7moGcU4F8K5S0csYv9elmT
-         R3Qg==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4p3+nMdxXOcLWjmxhjndQqNO8ytplsp5R1Ujj58aRFY=;
+        b=HWcxqHWsB9k6MSItWPcW5gG2GL9eiqoCYaloDZUuEEu38jQYrDxMM+zOwFxZwxgLwI
+         bx6eD6zc8ssqmQst9WD+c7byDZapuN5BM14OCPX7U7P5rQAw4SkPoGldJpqeeDO3l0Xq
+         WFvfyEkD/MDACqypgRlUFxOCsgRgT8J/sjPWg1WzR01HV2W75scn737Lo5mp1RbWFoDu
+         PkM23k/5kOD324slz2kbY1MrvcE8O08OHk7/KnhJF2hS1WlT5BQL570mlnynvHy3hh9v
+         5n9P4Afn6jqy8n+mOoJGrzXqnOgIWaP7TXSpDYcILnTdTPgpnPMPoljciaas9sZAYBLa
+         ydQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=99ArxJ74Up+Rl9qxGK9C9Bp8YVC2rxW4MHDig6MxA8Y=;
-        b=Usfsk+PRoCGHu2tD8SbyjME8O9lCEflkYMADQHwk5Gcdbto+7KgSalqHbw/iOTqXT4
-         ocqNsrTtDswNlrr43uJJkTHD3UVNPpeLaUOY81TWiCBeggK4Oer32PhXjtHRIVvaw3wr
-         b2lFSeKE51uOCM65gMdIgB6UVd8iejYjLZOcVtUsycfNTtVuA59VxegsHdxIaSKOm25v
-         k+USEUdo396P+6OXkPp76n6HvtC+qwriub8+OZL/M4xWxVBwAdLYnpUIzeHxiXlOIPYW
-         4CqYRc7D7XzhxpoXmf6eNqikCa3HrHzqXim+/uhdUsMv0gLPyAKaPo9Ytz2VUIEkltKO
-         2r/Q==
-X-Gm-Message-State: AJIora9naAjiXYa7VTdG12GcQexaTVTr0BWV79LirugoCT/geKfd0JZO
-        alTDE/Nmeq3Rv4kIaadlkvI2qCdf2t6vYOtI
-X-Google-Smtp-Source: AGRyM1u9Fb3EbUPRii9+SCTdJbPohxi4miYFp4XttTH6g9x31IKlVyeeSdd2athTVTsl6+GpDMLtFA==
-X-Received: by 2002:a17:906:49:b0:6f3:bb5e:54a8 with SMTP id 9-20020a170906004900b006f3bb5e54a8mr23064954ejg.534.1657631293484;
-        Tue, 12 Jul 2022 06:08:13 -0700 (PDT)
-Received: from [192.168.1.11] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id y26-20020a056402135a00b00435a742e350sm6038843edw.75.2022.07.12.06.08.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jul 2022 06:08:13 -0700 (PDT)
-Message-ID: <7ba24360-d038-70ed-95e2-9b8261cfd428@linaro.org>
-Date:   Tue, 12 Jul 2022 16:08:11 +0300
+        bh=4p3+nMdxXOcLWjmxhjndQqNO8ytplsp5R1Ujj58aRFY=;
+        b=fKcJ6hI3SWWEahrEjcGFjiUrdjn3aq62r4TtiN0UlnYNKbqzULg1pL4GXEqZwg9k8Q
+         d9tjXwtQfqglJhybkkUHbXpVA8PBdMDz2i2DobORHrmWq6tIODLTbDDeI8f7w4DY/qzy
+         FB1nx2VqH5jxIdiiVWydt5HGMWBBOTqTp/YJ/12O5ave5GdpwRRl3wHh9Gx1QqhvqQsH
+         Adv9maC4+DfmFfwo5kcMcmp0tFXHaoX1iPFArHF8DuzCKJpjqeXA+ftIaH4GWNdT46BN
+         CSz32zzVlRawPQNFQepkIqgGfsXrDELwKfc1AS/YwARVwhsMHvgi06n3xRx4Z7X69Hrp
+         5Rlg==
+X-Gm-Message-State: AJIora/JMDVlvXEwkhgSBkFTZUPnfP5XbI1Kz2f2Safk/c4qqQbFlOhr
+        qmquO0I1g1OHGLr95yWyHoI=
+X-Google-Smtp-Source: AGRyM1v/o2kQHITVKSrypm+vpUMGwGeHYFKGaQRtIkHnbzNuqBL4jsc6AE227tObZSiqLbCliR8hxg==
+X-Received: by 2002:a05:6402:4488:b0:43a:7b6e:4b04 with SMTP id er8-20020a056402448800b0043a7b6e4b04mr31783384edb.202.1657631523487;
+        Tue, 12 Jul 2022 06:12:03 -0700 (PDT)
+Received: from able.fritz.box (p57b0bd9f.dip0.t-ipconnect.de. [87.176.189.159])
+        by smtp.gmail.com with ESMTPSA id 26-20020a170906311a00b0070e238ff66fsm3775274ejx.96.2022.07.12.06.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jul 2022 06:12:03 -0700 (PDT)
+From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
+        <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To:     sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        daniel@ffwll.ch, bas@basnieuwenhuizen.nl
+Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] dma-buf/dma_resv_usage: update explicit sync documentation
+Date:   Tue, 12 Jul 2022 15:12:01 +0200
+Message-Id: <20220712131201.131475-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCHv2] media: venus: venus_helper_get_bufreq(): req is never
- NULL
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-References: <d9184cd6-6cef-0df4-5247-8119d7bdb25b@xs4all.nl>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-In-Reply-To: <d9184cd6-6cef-0df4-5247-8119d7bdb25b@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Make it clear that DMA_RESV_USAGE_BOOKMARK can be used for explicit synced
+user space submissions as well and document the rules around adding the
+same fence with different usages.
 
-Thanks for the patch!
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ include/linux/dma-resv.h | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-On 7/12/22 13:47, Hans Verkuil wrote:
-> Fix a smatch error:
-> 
-> drivers/media/platform/qcom/venus/helpers.c: drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-> 
-> After checking how venus_helper_get_bufreq() is called it is clear that
-> req is never NULL, so just drop the checks.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/media/platform/qcom/venus/helpers.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 5c1104379c49..60de4200375d 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -671,8 +671,7 @@ int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
->  	unsigned int i;
->  	int ret;
->  
-> -	if (req)
-> -		memset(req, 0, sizeof(*req));
-> +	memset(req, 0, sizeof(*req));
-
-I wonder, can we just return EINVAL if req == NULL? By that way we could
-avoid future errors.
-
->  
->  	if (type == HFI_BUFFER_OUTPUT || type == HFI_BUFFER_OUTPUT2)
->  		req->count_min = inst->fw_min_cnt;
-> @@ -694,8 +693,7 @@ int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
->  		if (hprop.bufreq[i].type != type)
->  			continue;
->  
-> -		if (req)
-> -			memcpy(req, &hprop.bufreq[i], sizeof(*req));
-> +		memcpy(req, &hprop.bufreq[i], sizeof(*req));
->  		ret = 0;
->  		break;
->  	}
-
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index c8ccbc94d5d2..264e27e56dff 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -62,6 +62,11 @@ struct dma_resv_list;
+  * For example when asking for WRITE fences then the KERNEL fences are returned
+  * as well. Similar when asked for READ fences then both WRITE and KERNEL
+  * fences are returned as well.
++ *
++ * Already used fences can be promoted in the sense that a fence with
++ * DMA_RESV_USAGE_BOOKMARK could become DMA_RESV_USAGE_READ by adding it again
++ * with this usage. But fences can never be degraded in the sense that a fence
++ * with DMA_RESV_USAGE_WRITE could become DMA_RESV_USAGE_READ.
+  */
+ enum dma_resv_usage {
+ 	/**
+@@ -98,10 +103,15 @@ enum dma_resv_usage {
+ 	 * @DMA_RESV_USAGE_BOOKKEEP: No implicit sync.
+ 	 *
+ 	 * This should be used by submissions which don't want to participate in
+-	 * implicit synchronization.
++	 * any implicit synchronization.
++	 *
++	 * The most common case are preemption fences, page table updates, TLB
++	 * flushes as well as explicit synced user submissions.
+ 	 *
+-	 * The most common case are preemption fences as well as page table
+-	 * updates and their TLB flushes.
++	 * Explicit synced user user submissions can be promoted to
++	 * DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE as needed using
++	 * dma_buf_import_sync_file() when implicit synchronization should
++	 * become necessary after initial adding of the fence.
+ 	 */
+ 	DMA_RESV_USAGE_BOOKKEEP
+ };
 -- 
-regards,
-Stan
+2.25.1
+
