@@ -2,75 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C5F8573B72
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 18:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6417573B8C
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 18:47:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236215AbiGMQpO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 12:45:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
+        id S231749AbiGMQrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jul 2022 12:47:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbiGMQpM (ORCPT
+        with ESMTP id S229916AbiGMQrr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 12:45:12 -0400
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24AFA26542
-        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 09:45:09 -0700 (PDT)
-Received: by mail-ot1-x330.google.com with SMTP id n12-20020a9d64cc000000b00616ebd87fc4so8723051otl.7
-        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 09:45:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=I7OsLXqH/9Te2vd5tdFip+Lxyy07Bn8K3zDG4t0Ezcc=;
-        b=hAx+fSrAw38bjYwAO1Esy2LLER4aocavVMjR9aB3tMBTWR0qAncmKsogUxpydf8s3N
-         QCMWVRcIRLjkPfSfqRjPpD60mMtAPFOYBd+f5PMPvzzrrmjGCMyFCkSXfQkPJyGZ57Cb
-         6xQ3xGUlRysPLHADNHM+sB0orRw8bZnSs00Zr8aO+d7iMty6aTKL8Ypsx/V8WLYdBWtR
-         9ki5UC6Ha/HsXR7wVH33LG67FCZhInQrbkWjwcB+NxloRNrBLaXxVWFnY3NOF3MqDPEc
-         dENbPWO0A7v5HmywQK3mL5EKScFDyxG93o8gI+A90kZNmlg3zakGQNOfZ6aP/QhMBCsB
-         ZO3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=I7OsLXqH/9Te2vd5tdFip+Lxyy07Bn8K3zDG4t0Ezcc=;
-        b=juPkT3MXytqhMefPxV2ynt5x6OvCF1kolZLLVQ4It/3G9jb8JdvC0Ow8kxU7qNAn+G
-         sG+vfwzYxMS10tgviHAvOl+pxU1+rm9R+i4TnwJQY7nkJpmUuj3DfLmUapblsEYda7H+
-         sf0iGHzW7a6om+dceH0ktvEzPSX86R9bGvUU6Y2kbptElxcKZso4m9vC4eMehkPTO/58
-         csqk2bn/tBVAFbw0uklaL9hoQtGX5/SCnNYDboDRwac3kp9bvd5k8xhv+8TfgXBoOZGr
-         qThAmFbuQwdLZg6s37k1RG+YwWf6NBvVN/YzAR1DUsAdIvIFnKo+rx17ME+1PFnmHLj8
-         XEbg==
-X-Gm-Message-State: AJIora/i1wZVvMxxnp76hCfEBMoD2rsjd63Iwbq+qgFhnFdVCNT+wZwF
-        WBDSMLPZBkSGGOUgqRbtXIrXKg==
-X-Google-Smtp-Source: AGRyM1sZyletAlpOLLvqspKneS9GbsFMhbPODCXHsv0X3czopt/lO/s2OwjXWhLFoptQ5UEqamDkNA==
-X-Received: by 2002:a05:6830:3686:b0:61c:4a56:5c8b with SMTP id bk6-20020a056830368600b0061c4a565c8bmr1723947otb.49.1657730708440;
-        Wed, 13 Jul 2022 09:45:08 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id u17-20020a056870305100b000f325409614sm6176741oau.13.2022.07.13.09.45.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 09:45:07 -0700 (PDT)
-Date:   Wed, 13 Jul 2022 13:45:01 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc:     mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        samuel@sholland.org, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH 5/7] media: cedrus: h265: Add a couple of error checks
-Message-ID: <Ys72jfI1QdGm+q0g@eze-laptop>
-References: <20220620175517.648767-1-jernej.skrabec@gmail.com>
- <20220620175517.648767-6-jernej.skrabec@gmail.com>
- <YsyWnzdTZ0bC733i@eze-laptop>
- <37675481.J2Yia2DhmK@kista>
+        Wed, 13 Jul 2022 12:47:47 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9BD26542;
+        Wed, 13 Jul 2022 09:47:46 -0700 (PDT)
+Received: from localhost (dynamic-002-247-252-243.2.247.pool.telefonica.de [2.247.252.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sebastianfricke)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id F0F9A660191C;
+        Wed, 13 Jul 2022 17:47:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1657730865;
+        bh=YY0SF8ACOy++/6KLqLeY23PR1J7MM7rGU9Fx306RNY8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NcIbmv1zSjSklUsfdhwcLQan0DPvf66OR4IjVavTBYI6PCejTA2RasdXgp+HU3gRs
+         av0OjSBDaSFIpIidDdNMucidiUtS7kAUp+LDJKd8ADKZE5xGi7pNxwLVMsI0Fm4H0Q
+         Mjw17x/bv1Ot06A/7duvXuvkSz7rftuRPxnL9x5IlFnG9cu0cYg3A4c2ZayPKnlR0V
+         pHjpMEhBgXAg3UM9T+XVFtZok/8oAoVxN11gYjgT/7WgTv/n+ovsL8qtj94cPoXU7m
+         kCX09cwdPvtkbgK3jZRHsL7664axIH/FJ7i6TQ9Ud5EqhvF2nOiSD6pR7tm0yMmAHA
+         x6vJG/ht8Nh1w==
+Date:   Wed, 13 Jul 2022 18:47:41 +0200
+From:   Sebastian Fricke <sebastian.fricke@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     jernej.skrabec@gmail.com, knaerzche@gmail.com,
+        kernel@collabora.com, bob.beckett@collabora.com,
+        ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        nicolas.dufresne@collabora.com, Yury Norov <yury.norov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 0/6] RkVDEC HEVC driver
+Message-ID: <20220713164741.qvib2fsld5232evq@basti-XPS-13-9310>
+References: <20220713162449.133738-1-sebastian.fricke@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <37675481.J2Yia2DhmK@kista>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+In-Reply-To: <20220713162449.133738-1-sebastian.fricke@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,120 +59,138 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jernej,
+Hello everyone,
 
-On Tue, Jul 12, 2022 at 11:25:00PM +0200, Jernej Škrabec wrote:
-> Hi Ezequiel.
-> 
-> Dne ponedeljek, 11. julij 2022 ob 23:31:11 CEST je Ezequiel Garcia napisal(a):
-> > On Mon, Jun 20, 2022 at 07:55:15PM +0200, Jernej Skrabec wrote:
-> > > Now that we have infrastructure for reporting errors, let's add two
-> > > checks, which will make sure slice can be actually decoded.
-> > > 
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > ---
-> > > 
-> > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > > cfde4ccf6011..99020b9f9ff8 100644
-> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > 
-> > Now that you've allowed setup to fail, I would suggest
-> > to have some documentation/comments on struct cedrus_dec_ops,
-> > to set the expectation/rules for each ops, including the
-> > call paths for each operation, which of them are allowed to sleep,
-> > etc.
-> 
-> Documentation can be always added, but it should be separate patch.
-> 
+sorry for this mess...
+I have created two mail clusters by accident because I spotted during my
+review of the patches while sending them that I forgot to recreate PATCH
+3 after fixing a small issue. I then restarted git send-email with
+patches 3 - 6, which didn't attach them to the previous mails :/.
 
-Of course, this wasn't a comment meant to block the patch in any way.
+Sorry again, I can send a proper version 2 once we have the first review
+coming in.
 
-> > 
-> > > @@ -435,9 +435,17 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > > struct cedrus_run *run)> 
-> > >  	 * instead of start of slice data. Padding is 8 bits at most (one 
-> bit
-> > >  	 set to 1 and * at most seven bits set to 0), so we have to 
-> inspect
-> > >  	 only one byte before slice data. */
-> > > 
-> > > +
-> > > +	if (slice_params->data_byte_offset == 0)
-> > > +		return -EOPNOTSUPP;
-> > > +
-> > 
-> > AFAICS, cedrus_h265_setup is called from .device_run.
-> > We've been discussing control validation before, and I think the
-> > ideal place to do that is v4l2_ctrl_ops.s_ctrl, if that's
-> > at all possible.
-> 
-> Yeah, this particular check can be moved to s_ctrl handler.
-> 
-> > 
-> > Driver's mem2mem device_run are executed in the context
-> > of a work_struct and the failure won't really get reported
-> > up the stack.
-> 
-> Well, at least there will be a notice in dmesg. Not ideal, I know.
-> 
-> > 
-> > >  	padding = (u8 *)vb2_plane_vaddr(&run->src->vb2_buf, 0) +
-> > >  	
-> > >  		slice_params->data_byte_offset - 1;
-> > > 
-> > > +	/* at least one bit must be set in that byte */
-> > > +	if (*padding == 0)
-> > > +		return -EINVAL;
-> > > +
-> > 
-> > Maybe this is something to check at cedrus_buf_prepare(),
-> > when the buffer is queued?
-> 
-> I don't think so. This check is HEVC specific, but cedrus_buf_prepare() is not 
-> and we need to have slice control ready, which I'm not sure is the case for 
-> cedrus_buf_prepare().
-> 
+Greetings,
+Sebastian
 
-Hm... this is indeed a special case. The buffer contents
-depend on a control, and both buffer and control are part of the same
-request.
-
-At least the decoding job would fail, and would get signaled
-by the dequeued CAPTURE buffers and the V4L2_BUF_FLAG_ERROR flag,
-which makes perfect sense.
-
-In general vb2_ops.buf_prepare() is called for each
-buffer (either through VIDIOC_QBUF or through MEDIA_REQUEST_IOC_QUEUE),
-so for some buffer validations .buf_prepare() _might_ work better 
-than .device_run for validation.
-
-In any case, the patch looks good, I don't think these
-comments should block the patch:
-
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-
-Thanks,
-Ezequiel
-
-> Best regards,
-> Jernej
-> 
-> > 
-> > Thanks,
-> > Ezequiel
-> > 
-> > >  	for (count = 0; count < 8; count++)
-> > >  	
-> > >  		if (*padding & (1 << count))
-> > >  		
-> > >  			break;
-> > > 
-> > > --
-> > > 2.36.1
-> 
-> 
+On 13.07.2022 18:24, Sebastian Fricke wrote:
+>Implement the HEVC codec variation for the RkVDEC driver. Currently only
+>the RK3399 is supported, but it is possible to enable the RK3288 as it
+>also supports this codec.
+>
+>Based on top of the media tree @ef7fcbbb9eabbe86d2287484bf366dd1821cc6b8
+>and the HEVC uABI MR by Benjamin Gaignard.
+>(https://patchwork.linuxtv.org/project/linux-media/list/?series=8360)
+>
+>Tested with the GStreamer V4L2 HEVC plugin:
+>(https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079)
+>
+>Current Fluster score:
+>`Ran 131/147 tests successfully               in 278.568 secs`
+>with
+>`python3 fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-HEVC_V1 -j1`
+>
+>failed conformance tests:
+>- DBLK_D_VIXS_2 (Success on Hantro G2)
+>- DSLICE_A_HHI_5 (Success on Hantro G2)
+>- EXT_A_ericsson_4 (Success on Hantro G2)
+>- PICSIZE_A_Bossen_1 (Hardware limitation)
+>- PICSIZE_B_Bossen_1 (Hardware limitation)
+>- PICSIZE_C_Bossen_1 (Hardware limitation)
+>- PICSIZE_D_Bossen_1 (Hardware limitation)
+>- PPS_A_qualcomm_7 (Success on Hantro G2)
+>- SAODBLK_A_MainConcept_4 (Success on Hantro G2)
+>- SAODBLK_B_MainConcept_4 (Success on Hantro G2)
+>- SLIST_B_Sony_9 (Success on Hantro G2)
+>- SLIST_D_Sony_9 (Success on Hantro G2)
+>- TSUNEQBD_A_MAIN10_Technicolor_2 (Success on Hantro G2)
+>- VPSSPSPPS_A_MainConcept_1 (Success on Hantro G2)
+>- WPP_D_ericsson_MAIN10_2 (Fail on Hantro G2)
+>- WPP_D_ericsson_MAIN_2 (Fail on Hantro G2)
+>
+>Not tested with FFMpeg so far.
+>
+>Known issues:
+>- Unable to reliably decode multiple videos concurrently
+>- The SAODBLK_* tests timeout if the timeout time in fluster is lower than 120
+>- Currently the uv_virstride is calculated in a manner that is hardcoded
+>for the two available formats NV12 and NV15. (@config_registers)
+>
+>Notable design decisions:
+>- I opted for a bitfield to represent the PPS memory blob as it is the
+>perfect tool for that job. It describes the memory layout with any
+>additional required documentation, is easy to read and a native language
+>tool for that job
+>- The RPS memory blob is created using a bitmap implementation, which
+>uses a common Kernel API to avoid reinventing the wheel and to keep the
+>code clean.
+>- I deliberatly opted against the macro solution used in H264, which
+>declares Macros in mid function and declares the fields of the memory
+>blob as macros as well. And I would be glad to refactor the H264 code if
+>desired by the maintainer to use common Kernel APIs and native language
+>elements.
+>- The giant static array of cabac values is moved to a separate c file,
+>I did so because a separate .h file would be incorrect as it doesn't
+>expose anything of any value for any other file than the rkvdec-hevc.c
+>file. Other options were:
+>  - Calculating the values instead of storing the results (doesn't seem
+>  to be worth it)
+>  - Supply them via firmware (Adding firmware makes the whole software
+>  way more complicated and the usage of the driver less obvious)
+>
+>Ignored Checkpatch warnings (as it fits to the current style of the file):
+>```
+>WARNING: line length of 162 exceeds 100 columns
+>#115: FILE: drivers/media/v4l2-core/v4l2-common.c:265:
+>+               { .format = V4L2_PIX_FMT_NV15,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 5, 5, 0, 0 }, .hdiv = 2, .vdiv = 2,
+>
+>ERROR: trailing statements should be on next line
+>#128: FILE: drivers/media/v4l2-core/v4l2-ioctl.c:1305:
+>+       case V4L2_PIX_FMT_NV15:         descr = "10-bit Y/CbCr 4:2:0 (Packed)"; break;
+>```
+>
+>v4l2-compliance test:
+>```
+>Total for rkvdec device /dev/video3: 46, Succeeded: 46, Failed: 0, Warnings: 0
+>```
+>
+>kselftest module run for the bitmap changes:
+>```
+>$ sudo insmod /usr/lib/modules/5.19.0-rc3-finalseries/kernel/lib/test_bitmap.ko
+>[   71.751716] test_bitmap: parselist: 14: input is '0-2047:128/256' OK, Time: 1750
+>[   71.751787] test_bitmap: bitmap_print_to_pagebuf: input is '0-32767
+>[   71.751787] ', Time: 6708
+>[   71.760373] test_bitmap: set_value: 6/6 tests correct
+>```
+>
+>Jonas Karlman (2):
+>  media: v4l2: Add NV15 pixel format
+>  media: v4l2-common: Add helpers to calculate bytesperline and
+>    sizeimage
+>
+>Sebastian Fricke (4):
+>  bitops: bitmap helper to set variable length values
+>  staging: media: rkvdec: Add valid pixel format check
+>  staging: media: rkvdec: Enable S_CTRL IOCTL
+>  staging: media: rkvdec: Add HEVC backend
+>
+> .../media/v4l/pixfmt-yuv-planar.rst           |   53 +
+> drivers/media/v4l2-core/v4l2-common.c         |   79 +-
+> drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+> drivers/staging/media/rkvdec/Makefile         |    2 +-
+> drivers/staging/media/rkvdec/TODO             |   22 +-
+> .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1844 +++++++++++++++++
+> drivers/staging/media/rkvdec/rkvdec-hevc.c    |  859 ++++++++
+> drivers/staging/media/rkvdec/rkvdec-regs.h    |    1 +
+> drivers/staging/media/rkvdec/rkvdec.c         |  182 +-
+> drivers/staging/media/rkvdec/rkvdec.h         |    3 +
+> include/linux/bitmap.h                        |   39 +
+> include/uapi/linux/videodev2.h                |    1 +
+> lib/test_bitmap.c                             |   47 +
+> 13 files changed, 3066 insertions(+), 67 deletions(-)
+> create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
+> create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
+>
+>-- 
+>2.25.1
+>
