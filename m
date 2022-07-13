@@ -2,182 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCE5D57326D
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 11:28:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D0E25732AF
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 11:31:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231944AbiGMJ2M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 05:28:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41284 "EHLO
+        id S235731AbiGMJah (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jul 2022 05:30:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230442AbiGMJ2L (ORCPT
+        with ESMTP id S235422AbiGMJaZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 05:28:11 -0400
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E77F1E0C;
-        Wed, 13 Jul 2022 02:28:09 -0700 (PDT)
-Received: by mail-qv1-f52.google.com with SMTP id mi10so4418347qvb.1;
-        Wed, 13 Jul 2022 02:28:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RuFFYxmqMjCJ8pz73zGncdvFFI6WJ0UAqWokCvCbxfc=;
-        b=KVKhZaBIqFGBmpI8gsC+TAU9mC0vjMozW3XLpxunqQUeSwL+Uznz2VQmwpULFU5BjG
-         XyX5TSBwVgiH41I6DJp1B7Qn+Tr3KqtsXAQ3G9+06YnUA6MuDovcthI0G2WHEa743f0N
-         jdFYn/yWRHnEWAb7PUJse7KU8sSChDp+W7hFEg7NXp7m/CjYMfuR6EcOtfHVI4oxRrAQ
-         zZSacgjZDV91uGC/MRCatdw1aku0jKJgVAkAzFnHU95NwpE5yC+DVLV/3H+z/ONBRUFI
-         +dA63JJFZq44x3pf27+Va4nV5dviSN9Q0RUJHRUoQjFA5bX9JJnvaJEe68oZf2mu8vRI
-         SGYg==
-X-Gm-Message-State: AJIora9FafFSLPJhmjGc9HLNJRVcd1GT3izW31wlleufnDt4SbCUx+y6
-        lCcsSg+mMXnlj/fEVW1XJL7TMOiPH7ZTMQ==
-X-Google-Smtp-Source: AGRyM1vXo0w+MMlwHADe/UQ5Mxg3mUsjpdx1hiccs4hFDcwGbC1BQr/zKka3731cDB2jHmQXOekjTg==
-X-Received: by 2002:a05:6214:20a7:b0:473:4571:3721 with SMTP id 7-20020a05621420a700b0047345713721mr1964941qvd.60.1657704488624;
-        Wed, 13 Jul 2022 02:28:08 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id t16-20020ac85310000000b003177969a48fsm9274131qtn.21.2022.07.13.02.28.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jul 2022 02:28:08 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-31c89653790so106045077b3.13;
-        Wed, 13 Jul 2022 02:28:08 -0700 (PDT)
-X-Received: by 2002:a0d:c787:0:b0:31b:a963:e1de with SMTP id
- j129-20020a0dc787000000b0031ba963e1demr2947064ywd.283.1657704487775; Wed, 13
- Jul 2022 02:28:07 -0700 (PDT)
+        Wed, 13 Jul 2022 05:30:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C268F2E21;
+        Wed, 13 Jul 2022 02:30:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 029CF61CC6;
+        Wed, 13 Jul 2022 09:30:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57719C385A5;
+        Wed, 13 Jul 2022 09:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657704622;
+        bh=KEI5HMlpCOrMUecDm6ehTcV2JBjxp5VNyS4qBhBdw24=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bBIJjsCGdafvwdRqD7Ea6g4x6iQyquNNjsn/HU14xKgcfVBdbtzmt3ttMITOCWE4k
+         kuyGNFByCAJ2IuVrolN9ECMO8KxNbvOaXOh5nO4Mqv/7bqyvPC3pykJeqi38LzkaTP
+         3pM5IwwwCBGOHUaAgiXIO5bDu5pIDE1nduCs9VYO3l8IYKdbru1VxvSOF1rmqQS1kl
+         9paq/s89MRM8P5LbDtFhAnEPRIdstpfDBPb6/zJBrSMyLDAOsxAV9bpmxu46xSdpmN
+         GFOVs5gL99v0ASPLRxzcTvZfV+pbRXrK7pkmQUZqsbWycTsutJ8/7znxbqp90QIOE+
+         vFhV8xixrMc3w==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+        (envelope-from <mchehab@kernel.org>)
+        id 1oBYhH-0050L9-Fb;
+        Wed, 13 Jul 2022 10:30:19 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= 
+        <thomas.hellstrom@linux.intel.com>,
+        Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
+        Alan Previn <alan.previn.teres.alexis@intel.com>,
+        Andi Shyti <andi.shyti@linux.intel.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Ashutosh Dixit <ashutosh.dixit@intel.com>,
+        Ayaz A Siddiqui <ayaz.siddiqui@intel.com>,
+        Borislav Petkov <bp@suse.de>,
+        Casey Bowman <casey.g.bowman@intel.com>,
+        Chris Wilson <chris.p.wilson@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        John Harrison <John.C.Harrison@Intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Matt Atwood <matthew.s.atwood@intel.com>,
+        Matt Roper <matthew.d.roper@intel.com>,
+        Matthew Auld <matthew.auld@intel.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Michael Cheng <michael.cheng@intel.com>,
+        Michal Wajdeczko <michal.wajdeczko@intel.com>,
+        Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
+        Ramalingam C <ramalingam.c@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+        Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH 00/21] Fix performance regressions with TLB and add GuC support
+Date:   Wed, 13 Jul 2022 10:29:57 +0100
+Message-Id: <cover.1657703926.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
- <20220531141958.575616-3-biju.das.jz@bp.renesas.com> <20220713081856.GA14683@pengutronix.de>
- <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Jul 2022 11:27:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com>
-Message-ID: <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com>
-Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+TLB invalidation is a slow operation. It should not be doing lightly, as it
+causes performance regressions, like this:
 
-On Wed, Jul 13, 2022 at 11:18 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
-> > deassert/assert reset line
-> >
-> > On Tue, May 31, 2022 at 03:19:55PM +0100, Biju Das wrote:
-> > > As the resets DT property is mandatory, and is present in all .dtsi in
-> > > mainline, add support to perform deassert/assert using reference
-> > > counted reset handle.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > > v10->v11:
-> > >  * To avoid lock-up on R-Car Gen2, added poll for reset status after
-> > deassert.
-> >
-> > I didn't look at this earlier because of my preexisting R-b.
-> > It looks to me like this should be moved into the reset driver.
->
-> OK, sorry, I should have removed Rb tag while sending this patch.
->
-> > [...]
-> > > @@ -631,13 +634,33 @@ static int __maybe_unused
-> > vsp1_pm_runtime_resume(struct device *dev)
-> > >     struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > >     int ret;
-> > >
-> > > +   ret = reset_control_deassert(vsp1->rstc);
-> > > +   if (ret < 0)
-> > > +           return ret;
-> > > +
-> > > +   /*
-> > > +    * On R-Car Gen2, vsp1 register access after deassert can cause
-> > > +    * lock-up. Therefore, we need to poll the status of the reset to
-> > > +    * avoid lock-up.
-> > > +    */
-> > > +   ret = read_poll_timeout_atomic(reset_control_status, ret, ret == 0,
-> > 1,
-> > > +                                  100, false, vsp1->rstc);
-> >
-> > So the reset driver does not follow the reset API documentation ("After
-> > calling this function, the reset is guaranteed to be deasserted." [1])?
-> > If so, this status polling should be moved into the reset driver.
-> >
->
-> Sure, will move it to reset driver. Geert also suggested same thing[1]
+[178.821002] i915 0000:00:02.0: [drm] *ERROR* rcs0 TLB invalidation did not complete in 4ms!
 
-Actually I suggested handling this in the VSP driver, as VSP seems
-to be "special".
+This series contain 
 
->
-> [1]
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220504184406.93788-1-biju.das.jz@bp.renesas.com/
->
->
-> > Also, why use the atomic poll variant here? As far as I can tell, this
-> > driver doesn't call pm_runtime_irq_safe. The reset_control_deassert() API
-> > does not guarantee that the driver implementation doesn't sleep, either.
->
-> As per [1], I2C driver uses atomic one, so just used the same here.
->
-> OK, will use non atomic variant in deassert().
->
-> Do you recommend to fix the reset as well as per [1]?
->
-> >
-> > [...]
-> > > @@ -825,6 +848,11 @@ static int vsp1_probe(struct platform_device
-> > *pdev)
-> > >     if (irq < 0)
-> > >             return irq;
-> > >
-> > > +   vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
-> > > +   if (IS_ERR(vsp1->rstc))
-> > > +           return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
-> > > +                                "failed to get reset control\n");
-> > > +
-> >
-> > What about the other consumers of this shared reset? Don't they need the
-> > status poll you added here as well?
->
-> This lockup issue happens only on Gen2 SoC's. Gen3 SoC's are not affected.
+1) some patches that makes TLB invalidation to happen only on
+active, non-wedged engines, doing cache invalidation in batch 
+and only when GT objects are exposed to userspace:
 
-We are not sure about that.  On R-Car Gen3, accesses to registers
-while a device is not clocked/ready usually do not cause an imprecise
-external abort in Linux, unlike on R-Car Gen2.  But perhaps the
-abort is caught by the firmware, and nullified?
+  drm/i915/gt: Ignore TLB invalidations on idle engines
+  drm/i915/gt: Only invalidate TLBs exposed to user manipulation
+  drm/i915/gt: Skip TLB invalidations once wedged
+  drm/i915/gt: Batch TLB invalidations
+  drm/i915/gt: Move TLB invalidation to its own file
 
-> RZ/G2L SoC is Gen3 variant, and it is the only consumer for shared reset as reset lines are shared between DU and VSPD. Other SoC's have explicit reset for VSP.
+2) It fixes two bugs, being the first a workaround:
 
-Gr{oetje,eeting}s,
+  drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
+  drm/i915: Invalidate the TLBs on each GT
 
-                        Geert
+  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+3) It adds GuC support. Besides providing TLB invalidation on some
+additional hardware, this should also help serializing GuC operations
+with TLB invalidation:
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
+  drm/i915/guc: Define CTB based TLB invalidation routines
+  drm/i915: Add platform macro for selective tlb flush
+  drm/i915: Define GuC Based TLB invalidation routines
+  drm/i915: Add generic interface for tlb invalidation for XeHP
+  drm/i915: Use selective tlb invalidations where supported
+
+4) It adds the corresponding kernel-doc markups for the kAPI
+used for TLB invalidation.
+
+While I could have split this into smaller pieces, I'm opting to send
+them altogether, in order for CI trybot to better verify what issues
+will be closed with this series.
+
+---
+
+Chris Wilson (7):
+  drm/i915/gt: Ignore TLB invalidations on idle engines
+  drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
+  drm/i915/gt: Only invalidate TLBs exposed to user manipulation
+  drm/i915/gt: Skip TLB invalidations once wedged
+  drm/i915/gt: Batch TLB invalidations
+  drm/i915/gt: Move TLB invalidation to its own file
+  drm/i915: Invalidate the TLBs on each GT
+
+Mauro Carvalho Chehab (8):
+  drm/i915/gt: document with_intel_gt_pm_if_awake()
+  drm/i915/gt: describe the new tlb parameter at i915_vma_resource
+  drm/i915/guc: use kernel-doc for enum intel_guc_tlb_inval_mode
+  drm/i915/guc: document the TLB invalidation struct members
+  drm/i915: document tlb field at struct drm_i915_gem_object
+  drm/i915/gt: document TLB cache invalidation functions
+  drm/i915/guc: describe enum intel_guc_tlb_invalidation_type
+  drm/i915/guc: document TLB cache invalidation functions
+
+Piotr Piórkowski (1):
+  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
+
+Prathap Kumar Valsan (5):
+  drm/i915/guc: Define CTB based TLB invalidation routines
+  drm/i915: Add platform macro for selective tlb flush
+  drm/i915: Define GuC Based TLB invalidation routines
+  drm/i915: Add generic interface for tlb invalidation for XeHP
+  drm/i915: Use selective tlb invalidations where supported
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  28 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   1 +
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 125 +-------
+ drivers/gpu/drm/i915/gt/intel_gt.h            |   2 -
+ .../gpu/drm/i915/gt/intel_gt_buffer_pool.h    |   3 +-
+ drivers/gpu/drm/i915/gt/intel_gt_defines.h    |  11 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h         |  10 +
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   8 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |  22 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   8 +-
+ drivers/gpu/drm/i915/gt/intel_tlb.c           | 295 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_tlb.h           |  30 ++
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  54 ++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 232 ++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  36 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  24 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   9 +
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  91 +++++-
+ drivers/gpu/drm/i915/i915_drv.h               |   4 +-
+ drivers/gpu/drm/i915/i915_pci.c               |   1 +
+ drivers/gpu/drm/i915/i915_vma.c               |  46 ++-
+ drivers/gpu/drm/i915/i915_vma.h               |   2 +
+ drivers/gpu/drm/i915/i915_vma_resource.c      |   9 +-
+ drivers/gpu/drm/i915/i915_vma_resource.h      |   6 +-
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ 27 files changed, 910 insertions(+), 155 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_defines.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.h
+
+-- 
+2.36.1
+
+
