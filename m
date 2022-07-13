@@ -2,227 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8493557324E
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 11:18:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A945573251
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 11:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234696AbiGMJSO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 05:18:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34228 "EHLO
+        id S235235AbiGMJTV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 13 Jul 2022 05:19:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235776AbiGMJSL (ORCPT
+        with ESMTP id S234431AbiGMJTU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 05:18:11 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2138.outbound.protection.outlook.com [40.107.113.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAA2AF272F;
-        Wed, 13 Jul 2022 02:18:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mpe869yE48Ex/mVgI06BMRLTGr5lc+xXimxIavQcI0Ouwil1WGBhRP56Uj095NdYmENgdDyseKvqgVv+y8WdhFarLCiD+sFpz/MzCj176zSi1ZI+Oq7waMvZ2/4QC/SdGiOh23ArtJV7xDmIkkqLEWUP+pFnP5d8XpSepNxyeBJS/cy5GvCvrtSy1T2irU43J7mkEwDTfK902YEAGfYnDHws2e/eGEDmj1uUBeDv80h5KM2XAJe1v0tvfI4039IqTsqwB2XSbQh8n0EaT7RY4mxouwIDzcn9paTKoivOheCaeDgVRxL7znxhNr+cBxS7/+VAj/b5rFZ50qTpno56NA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vMgJUylj27F9zxCrODThs+IxYAJV7fVU4jdGlaX6RrU=;
- b=MkZHEycihZu51VJbNv2417Rder+4L+jTh6Az/U+T8bjH8/vUmJL7QF7OtCElyAZM7tGNsqJuyEXFGZUR72g5ltPXZWKd6mB0+m8Nutvibr+MIUCjqjbICG7eg0OSsVUEt+X1T62hKrri+CEc06U7zJstJ5MCozGgsazuQqFHXSeAk6d8ZenF9ykU4pHWom2+Tl39XyThKDAeJZYlYCoioJQIhXcwpJvoGbiIn2+pUzln4pIVRwYTV8BOG5haNpLtndZAJ7HUt767KVeNX0Rt7V/HEQBarZ0s4Y7brlSshlldkArFBC+GiNQhxnWYx9LlK6A+30YxhP+4acrSx8PovQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vMgJUylj27F9zxCrODThs+IxYAJV7fVU4jdGlaX6RrU=;
- b=tmSiJO51Jr0upL6TieeRy7X0J0k02W2M/2OpWEBr8W4+gVST9JHMAylhredzN2DQFcwReUBtQQ5//hvmaIuQa//9xLGMItwwtyOXQ+1Zk8l25aXVPM+qHKcdYUxNIrJbtR/241D7jabV6En9n1jpJba0eRiObmVW+x5oNq2dTbQ=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB8785.jpnprd01.prod.outlook.com (2603:1096:400:17d::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.20; Wed, 13 Jul
- 2022 09:18:04 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::dc06:eb07:874:ecce]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::dc06:eb07:874:ecce%8]) with mapi id 15.20.5417.026; Wed, 13 Jul 2022
- 09:18:04 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v11 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-Thread-Topic: [PATCH v11 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-Thread-Index: AQHYdPmLaH3LWDeTz0+X1dy9H4VIWa18OHAAgAAKlXA=
-Date:   Wed, 13 Jul 2022 09:18:04 +0000
-Message-ID: <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
- <20220531141958.575616-3-biju.das.jz@bp.renesas.com>
- <20220713081856.GA14683@pengutronix.de>
-In-Reply-To: <20220713081856.GA14683@pengutronix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 59822273-7a24-40c9-4672-08da64b09762
-x-ms-traffictypediagnostic: TYCPR01MB8785:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8kgfhMqnEK5UN8nxzPB+k8lsWn8hXkF09a+8XpWGr9NOKz8+6sEWJKrBdsMB8QZfQjPedtCsXbNckdLKYkfRFm/4yabgUX+H2xAl8NZpSs4qIYnrPxc8tsFtvjXeooEn9Lsip5fEW6NsIXmI2gE/FoC93oA6wHkaPLn7tvYajNCCzFTE4INBMJhvWKR6Nx+9U1AiTNT8Za8w855WTkQIBT2yXTy12pY11cctLwkEV4wcnkKa3832woO+73IkGfWUWw0Q3EpRxu5i17AypzWqiWoTzO0qccCyxV58NfwV74SiNMJehHZL8IH8wjeH5e810kFRVc3A2l1cSaa2HZVCbnlAORMA5HhwiHAX+EHok+qLlWXATrQ14gTj9cmkffNsBdb2lYyISk2xbFHeDR9b21aSDCuk70iCaWECjk8ghZse5c6vAcOGuBzPXNbHFUe3Ks/kkISm6Y4sB+x+MZ1zfyDNMlLwnHIU+vVtj5gEimVFdwFYxyjmLgP8WlCboxj+3/xsqiFqTVkK2wBjL/aG99gnCnZZjXOqyyIJ5jUY9ESezNTG3A5LX5mxPYVSn9eGkd1b3Yq5iILgo7h/1JEP+yqJs5krbYiTMvelD4ThW0o5Nk7zKif4gq9dZjOBFpxfesI5N/sFmicFfKpkTYTnnHNX59KEDlunJ4oeVW53xRoh8OjN4ewngAzzKd0YSYN6XgJL3kC8qls8pb+ckloVeZM8dHidMUK6mksCGQZV1RMDsHhg9e6G2J7DBzIC6bJsKf0AEqYlZrPtVR6XjL7uwetnVJQmXSC7LuHYsO3RIqavdeY1PBzD7/Lg52+vQMUc+lP7MGVCQ5rmzZHZ7hxdnJNzFjwgslxc6555aisiylI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(396003)(366004)(39860400002)(136003)(346002)(41300700001)(122000001)(478600001)(26005)(7696005)(54906003)(107886003)(66946007)(186003)(6506007)(9686003)(38100700002)(38070700005)(76116006)(6916009)(71200400001)(966005)(66556008)(83380400001)(5660300002)(8936002)(2906002)(52536014)(55016003)(86362001)(4326008)(316002)(8676002)(64756008)(66476007)(66446008)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JRXnvDQBj67q0dMThY9eunnzFVpk40iDG7Ut0HDJF7HSir8GLRZLX6ydOVcN?=
- =?us-ascii?Q?F4Lf4Ng6IjNcG+M4Ekas8OAgA17bV8FGqFyI4tUMc0HT0S1pJh03nSmkUArW?=
- =?us-ascii?Q?t+IeFon1Ib0EyiQPNLwvxyUymByMAzEPXKoo4pMvMXUxEysUxrKPh683HJ84?=
- =?us-ascii?Q?32t3O7/JfexFy9np33K9Kz74DMzN8GI0LFcY+h9BnEReauw/yGpm60VfFo91?=
- =?us-ascii?Q?hzYRUV/IxOQi5s5HhqFvJ7t+zdBLxflBzTjO6GozNm8dHrb44tUMti3rs7G6?=
- =?us-ascii?Q?382ps638M6giJPpx5NZGsS42FW8rTsJqMJ+ZUyQqQ9oXpplG23rgHVR+vkPy?=
- =?us-ascii?Q?Iw4Ampvo5sEw0eznpbsUIyEOJuP9NgJNliW1K/xK32QkdX+TC4sW2rdB3LOf?=
- =?us-ascii?Q?4GWHKfaupTTugMdf7SLJa9mGDYDwij5G+FfKOFrxTpqrehCXuQF7snSfBSBd?=
- =?us-ascii?Q?/7yg5K+bOiqf1lFHweM2ivkl6WG3L3NbapgpQuK7zon2Pleq81ymR7zH3zrZ?=
- =?us-ascii?Q?y8T0H0XAd7u3dFpU75Syp4HXtmaF9vghcYUT926VC3FvXFJGz4ab7U6sLBzU?=
- =?us-ascii?Q?g5JBO42iyZ9E+m0FvTyuEFq4r6cAsy5GDpLTS5fE3X6Ti0Es3vVkyVcDL1oN?=
- =?us-ascii?Q?uK6d3lPQBzH7Am1sd8vvkb+m0rVbHEdpzv6i2EpugCESLStRUk3ECz4+33PG?=
- =?us-ascii?Q?PqhuMRpLIWbeV8Tms3ZNh44H9vHIDwut4uFb0yNDDxx0QvEblPZwRXb41ar2?=
- =?us-ascii?Q?NwdjE/dqMyBqgZQN/jyd2Am+qJ1m42SVwFWxEeyl26S7xIVlVfVkqt/MilbT?=
- =?us-ascii?Q?GnFSpMOlPd/iq3oqbUYZEeDro0AQ6EU5MpvAGB/qvLogDIyxuEnX/KPoYDIG?=
- =?us-ascii?Q?0RtqARvMhm/kIy6piYvOaAMkbj1nnPJ8ldnGkX7A3BPKJxNeJpjDJ5INfUMS?=
- =?us-ascii?Q?0KzL5zAb/+3GOj98odYLztmBe8vlWfQ2/5z7FcV7BZVQRgDdkmWZFMi/C4nm?=
- =?us-ascii?Q?TEfzjdPi++KBy0JUEQWoPmn5BY3OpOXqfLqbFtvNBTN61lskj/eY22EIXDJu?=
- =?us-ascii?Q?3HNOB8d+bzFssjgq7GPudrTy7dI93TBIfqC5mdUWTII6odO5M7SzDfpwGX+I?=
- =?us-ascii?Q?ZsgshJcHMGO0kA7rSsgDY84gopHKR3YHKBexaAJW4zVJHV4A+VWrlkjpfNQW?=
- =?us-ascii?Q?2MJGx8uT9QH+0fENAMx15ZfYjL8u10qROXlch1Mf+KX0slYeW8aaYIoS5xYw?=
- =?us-ascii?Q?PQdt4U4aNFolZWr7PfDRt4RfgFh0A85RT4ikhjD1Pi6ga+91GIIL5BeuywVp?=
- =?us-ascii?Q?aM3oPeNyU0diV36TsjBB9EW18LTExc3oZzL9gB5FpRL1btK2ePtkjVwpYXto?=
- =?us-ascii?Q?pkDBIIRb4sT8/aLjeLwgd+lZyWTM9y1VY2FlFXLr+iBiTNlqrV2JZB0Rf7tR?=
- =?us-ascii?Q?DJQ4/+4gVZuDCgMWAjyh9vNbI2awr8iuD9A+QAUYNrw6eb5aVSDjNW96DWDL?=
- =?us-ascii?Q?5Zkze3QgR5nwlM/ZQZ0Kv44iPezoLTkcPW3ybSMw/uVoNndaCFqaWXu/Wx7n?=
- =?us-ascii?Q?pfOqhuBq/7v6B9NoKCM06KToXUJTv3kBm31aRYlkcLqOYB9dQ+lsQst0TsNT?=
- =?us-ascii?Q?ww=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 13 Jul 2022 05:19:20 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C9737D781
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 02:19:18 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oBYWa-008sfR-Sd; Wed, 13 Jul 2022 09:19:17 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oBYWZ-00GwvQ-CO; Wed, 13 Jul 2022 09:19:14 +0000
+Date:   Wed, 13 Jul 2022 09:19:14 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <258108812.0.1657703954690@builder.linuxtv.org>
+In-Reply-To: <892148521.0.1657617554592@builder.linuxtv.org>
+References: <892148521.0.1657617554592@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3958
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59822273-7a24-40c9-4672-08da64b09762
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2022 09:18:04.2543
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DHb5yNS9Tz37/WyFNwb2vxkgcslPmlCFR2zEb72PsICNYV6wjk5IL0ywl2ooB+rkFMqh1MC9u3eJWA9jCqTxg8JiB3KDX63YwPt5E7ChZiA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8785
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Phil,
+See <https://builder.linuxtv.org/job/media-build/3958/display/redirect>
 
-Thanks for the feedback.
-
-> Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
-> deassert/assert reset line
->=20
-> Hi Biju,
->=20
-> On Tue, May 31, 2022 at 03:19:55PM +0100, Biju Das wrote:
-> > As the resets DT property is mandatory, and is present in all .dtsi in
-> > mainline, add support to perform deassert/assert using reference
-> > counted reset handle.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > v10->v11:
-> >  * To avoid lock-up on R-Car Gen2, added poll for reset status after
-> deassert.
->=20
-> I didn't look at this earlier because of my preexisting R-b.
-> It looks to me like this should be moved into the reset driver.
-
-OK, sorry, I should have removed Rb tag while sending this patch.
-
-> [...]
-> > @@ -631,13 +634,33 @@ static int __maybe_unused
-> vsp1_pm_runtime_resume(struct device *dev)
-> >  	struct vsp1_device *vsp1 =3D dev_get_drvdata(dev);
-> >  	int ret;
-> >
-> > +	ret =3D reset_control_deassert(vsp1->rstc);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	/*
-> > +	 * On R-Car Gen2, vsp1 register access after deassert can cause
-> > +	 * lock-up. Therefore, we need to poll the status of the reset to
-> > +	 * avoid lock-up.
-> > +	 */
-> > +	ret =3D read_poll_timeout_atomic(reset_control_status, ret, ret =3D=
-=3D 0,
-> 1,
-> > +				       100, false, vsp1->rstc);
->=20
-> So the reset driver does not follow the reset API documentation ("After
-> calling this function, the reset is guaranteed to be deasserted." [1])?
-> If so, this status polling should be moved into the reset driver.
->
-
-Sure, will move it to reset driver. Geert also suggested same thing[1]
-
-[1]
-https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220504184406=
-.93788-1-biju.das.jz@bp.renesas.com/
-
-=20
-> Also, why use the atomic poll variant here? As far as I can tell, this
-> driver doesn't call pm_runtime_irq_safe. The reset_control_deassert() API
-> does not guarantee that the driver implementation doesn't sleep, either.
-
-As per [1], I2C driver uses atomic one, so just used the same here.
-
-OK, will use non atomic variant in deassert().
-
-Do you recommend to fix the reset as well as per [1]?
-
->=20
-> [...]
-> > @@ -825,6 +848,11 @@ static int vsp1_probe(struct platform_device
-> *pdev)
-> >  	if (irq < 0)
-> >  		return irq;
-> >
-> > +	vsp1->rstc =3D devm_reset_control_get_shared(&pdev->dev, NULL);
-> > +	if (IS_ERR(vsp1->rstc))
-> > +		return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
-> > +				     "failed to get reset control\n");
-> > +
->=20
-> What about the other consumers of this shared reset? Don't they need the
-> status poll you added here as well?
-
-This lockup issue happens only on Gen2 SoC's. Gen3 SoC's are not affected.
-
-RZ/G2L SoC is Gen3 variant, and it is the only consumer for shared reset as=
- reset lines are shared between DU and VSPD. Other SoC's have explicit rese=
-t for VSP.
-
-Cheers,
-Biju
+Changes:
 
 
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+Commit message: "versions.txt: IMON builds for 4.11 and up only"
+ > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3957' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
+[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@580927cf'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins12337204048959462803.sh
++ make distclean
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
+	config-compat.h Module.symvers Module.markers modules.order \
+	*.unsigned .*.ko.unsigned.cmd
+rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
+	Kconfig Kconfig.kern .config .config.cmd .myconfig \
+	.kconfig.dep config-mycompat.h
+rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
+rm -f scripts/lxdialog scripts/kconfig
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
+
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2022-07-13 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2022-07-13 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100% 67.0M=0s
+
+2022-07-13 09:19:10 (67.0 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
