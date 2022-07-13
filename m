@@ -2,70 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 67A4357300C
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 10:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D705A5730E6
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 10:22:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233044AbiGMIFg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 04:05:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35900 "EHLO
+        id S235389AbiGMIWn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jul 2022 04:22:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230364AbiGMIFg (ORCPT
+        with ESMTP id S235390AbiGMIWZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 04:05:36 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B86E146E
-        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 01:05:35 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id l23so18457318ejr.5
-        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 01:05:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=FH2CUkr39K9tYj33cKGhozXLfFjGPC2MS2KESbmwvHg=;
-        b=hRP4p1qA4SbOzGr36aykU8GdBuvAHgnX7ZD50cV335gQkk3jbndoU6CRwEb7w+/jL3
-         iJh6BqxmdckUvNM+niIB2OOV1Si3zXa519RXAlm8a5wQIbVthOsQCQ0xcTT4PwS7b+Ca
-         gb/zVysnWBgmy7zLB8P/7IgeIMD4mVNxaegPwrlub4DvnUHtht4iypiCBjs/5XDisENP
-         /a4TvJoNX9DXtBzXRF0KDToYERLXiFVIRS7JyGvRJXJywSnWKJHEL3vFE/Bdvve0IxlP
-         WVzu3g2eZYpDew6OQNVQkeFxiN2KTLsAwb5DzesLiqylu2KlEy56n+VUS4qmLES52Os6
-         eqZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=FH2CUkr39K9tYj33cKGhozXLfFjGPC2MS2KESbmwvHg=;
-        b=NJ1eWt84HVSIP4SiXxH+1unxRHKCWydlRHd5V9rEE5WB1zkef3TnGY1OcJecgRF/jc
-         8Yjw57YzQNs+ISPIxGvb81Vo8MTFCngVUk9EaMD0qC3WH9iTJcPIsR6qpa7OG3OHxUC7
-         ZAAOzrzC8xsdYj3U+VP0hbYCsn60/2r9J1ZecwOMi27JkwZBB2IVqU8BO39kohce+6pI
-         InQXboqeBPgyKZXn9a/sUVhUClfGzQ9YMZXfUr2CnT9MRWPIBXP3k4TTqyFddzPPhN7E
-         qgvpi6B/S1ifjY5GPMpxk2DKJU2m4E5hFdpb6mHF5ToHiCg6jkvDpNWz7Lq53ngTtCi4
-         vlmA==
-X-Gm-Message-State: AJIora/uxg9maxp55b1neiGVerbC5WEO6pD7pJZMI+1erHSqP7TujAqY
-        D85dmrctPUHnnVMn+O2N8uNfdw==
-X-Google-Smtp-Source: AGRyM1vmXypvilqkmeA2w7ipHHrg/mb6SKIIgK2/O/evfFXo+c/F5xBQmN0zK/FACYKI+qfRbA7yrw==
-X-Received: by 2002:a17:907:6e13:b0:72b:509e:bd6b with SMTP id sd19-20020a1709076e1300b0072b509ebd6bmr2230626ejc.202.1657699533878;
-        Wed, 13 Jul 2022 01:05:33 -0700 (PDT)
-Received: from [192.168.1.11] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id kv21-20020a17090778d500b0070abf371274sm4633505ejc.136.2022.07.13.01.05.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jul 2022 01:05:33 -0700 (PDT)
-Message-ID: <5d2d6d5b-5b01-9578-d598-5e0e96dc7f0f@linaro.org>
-Date:   Wed, 13 Jul 2022 11:05:31 +0300
+        Wed, 13 Jul 2022 04:22:25 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09043E4769
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 01:19:00 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1oBXaD-0000Gm-Lj; Wed, 13 Jul 2022 10:18:57 +0200
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1oBXaC-0004Er-CS; Wed, 13 Jul 2022 10:18:56 +0200
+Date:   Wed, 13 Jul 2022 10:18:56 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
+ deassert/assert reset line
+Message-ID: <20220713081856.GA14683@pengutronix.de>
+References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
+ <20220531141958.575616-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCHv2] media: venus: venus_helper_get_bufreq(): req is never
- NULL
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-References: <d9184cd6-6cef-0df4-5247-8119d7bdb25b@xs4all.nl>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-In-Reply-To: <d9184cd6-6cef-0df4-5247-8119d7bdb25b@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220531141958.575616-3-biju.das.jz@bp.renesas.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -74,23 +61,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Biju,
 
-
-On 7/12/22 13:47, Hans Verkuil wrote:
-> Fix a smatch error:
+On Tue, May 31, 2022 at 03:19:55PM +0100, Biju Das wrote:
+> As the resets DT property is mandatory, and is present in all .dtsi
+> in mainline, add support to perform deassert/assert using reference
+> counted reset handle.
 > 
-> drivers/media/platform/qcom/venus/helpers.c: drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-> 
-> After checking how venus_helper_get_bufreq() is called it is clear that
-> req is never NULL, so just drop the checks.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/platform/qcom/venus/helpers.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+> v10->v11:
+>  * To avoid lock-up on R-Car Gen2, added poll for reset status after deassert.
 
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+I didn't look at this earlier because of my preexisting R-b.
+It looks to me like this should be moved into the reset driver.
 
--- 
-regards,
-Stan
+[...]
+> @@ -631,13 +634,33 @@ static int __maybe_unused vsp1_pm_runtime_resume(struct device *dev)
+>  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+>  	int ret;
+>  
+> +	ret = reset_control_deassert(vsp1->rstc);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/*
+> +	 * On R-Car Gen2, vsp1 register access after deassert can cause
+> +	 * lock-up. Therefore, we need to poll the status of the reset to
+> +	 * avoid lock-up.
+> +	 */
+> +	ret = read_poll_timeout_atomic(reset_control_status, ret, ret == 0, 1,
+> +				       100, false, vsp1->rstc);
+
+So the reset driver does not follow the reset API documentation ("After
+calling this function, the reset is guaranteed to be deasserted." [1])?
+If so, this status polling should be moved into the reset driver.
+
+Also, why use the atomic poll variant here? As far as I can tell, this
+driver doesn't call pm_runtime_irq_safe. The reset_control_deassert()
+API does not guarantee that the driver implementation doesn't sleep,
+either.
+
+[1] https://docs.kernel.org/driver-api/reset.html?highlight=reset_control_deassert#c.reset_control_deassert
+
+[...]
+> @@ -825,6 +848,11 @@ static int vsp1_probe(struct platform_device *pdev)
+>  	if (irq < 0)
+>  		return irq;
+>  
+> +	vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
+> +	if (IS_ERR(vsp1->rstc))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
+> +				     "failed to get reset control\n");
+> +
+
+What about the other consumers of this shared reset? Don't they need
+the status poll you added here as well?
+
+regards
+Philipp
