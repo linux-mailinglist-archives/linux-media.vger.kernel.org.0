@@ -2,237 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A945573251
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 11:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCE5D57326D
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 11:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235235AbiGMJTV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 13 Jul 2022 05:19:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35742 "EHLO
+        id S231944AbiGMJ2M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jul 2022 05:28:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234431AbiGMJTU (ORCPT
+        with ESMTP id S230442AbiGMJ2L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 05:19:20 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C9737D781
-        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 02:19:18 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oBYWa-008sfR-Sd; Wed, 13 Jul 2022 09:19:17 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oBYWZ-00GwvQ-CO; Wed, 13 Jul 2022 09:19:14 +0000
-Date:   Wed, 13 Jul 2022 09:19:14 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <258108812.0.1657703954690@builder.linuxtv.org>
-In-Reply-To: <892148521.0.1657617554592@builder.linuxtv.org>
-References: <892148521.0.1657617554592@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3958
+        Wed, 13 Jul 2022 05:28:11 -0400
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E77F1E0C;
+        Wed, 13 Jul 2022 02:28:09 -0700 (PDT)
+Received: by mail-qv1-f52.google.com with SMTP id mi10so4418347qvb.1;
+        Wed, 13 Jul 2022 02:28:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RuFFYxmqMjCJ8pz73zGncdvFFI6WJ0UAqWokCvCbxfc=;
+        b=KVKhZaBIqFGBmpI8gsC+TAU9mC0vjMozW3XLpxunqQUeSwL+Uznz2VQmwpULFU5BjG
+         XyX5TSBwVgiH41I6DJp1B7Qn+Tr3KqtsXAQ3G9+06YnUA6MuDovcthI0G2WHEa743f0N
+         jdFYn/yWRHnEWAb7PUJse7KU8sSChDp+W7hFEg7NXp7m/CjYMfuR6EcOtfHVI4oxRrAQ
+         zZSacgjZDV91uGC/MRCatdw1aku0jKJgVAkAzFnHU95NwpE5yC+DVLV/3H+z/ONBRUFI
+         +dA63JJFZq44x3pf27+Va4nV5dviSN9Q0RUJHRUoQjFA5bX9JJnvaJEe68oZf2mu8vRI
+         SGYg==
+X-Gm-Message-State: AJIora9FafFSLPJhmjGc9HLNJRVcd1GT3izW31wlleufnDt4SbCUx+y6
+        lCcsSg+mMXnlj/fEVW1XJL7TMOiPH7ZTMQ==
+X-Google-Smtp-Source: AGRyM1vXo0w+MMlwHADe/UQ5Mxg3mUsjpdx1hiccs4hFDcwGbC1BQr/zKka3731cDB2jHmQXOekjTg==
+X-Received: by 2002:a05:6214:20a7:b0:473:4571:3721 with SMTP id 7-20020a05621420a700b0047345713721mr1964941qvd.60.1657704488624;
+        Wed, 13 Jul 2022 02:28:08 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id t16-20020ac85310000000b003177969a48fsm9274131qtn.21.2022.07.13.02.28.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Jul 2022 02:28:08 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-31c89653790so106045077b3.13;
+        Wed, 13 Jul 2022 02:28:08 -0700 (PDT)
+X-Received: by 2002:a0d:c787:0:b0:31b:a963:e1de with SMTP id
+ j129-20020a0dc787000000b0031ba963e1demr2947064ywd.283.1657704487775; Wed, 13
+ Jul 2022 02:28:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
+ <20220531141958.575616-3-biju.das.jz@bp.renesas.com> <20220713081856.GA14683@pengutronix.de>
+ <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 13 Jul 2022 11:27:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com>
+Message-ID: <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com>
+Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
+ deassert/assert reset line
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3958/display/redirect>
+Hi Biju,
 
-Changes:
+On Wed, Jul 13, 2022 at 11:18 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
+> > deassert/assert reset line
+> >
+> > On Tue, May 31, 2022 at 03:19:55PM +0100, Biju Das wrote:
+> > > As the resets DT property is mandatory, and is present in all .dtsi in
+> > > mainline, add support to perform deassert/assert using reference
+> > > counted reset handle.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > > v10->v11:
+> > >  * To avoid lock-up on R-Car Gen2, added poll for reset status after
+> > deassert.
+> >
+> > I didn't look at this earlier because of my preexisting R-b.
+> > It looks to me like this should be moved into the reset driver.
+>
+> OK, sorry, I should have removed Rb tag while sending this patch.
+>
+> > [...]
+> > > @@ -631,13 +634,33 @@ static int __maybe_unused
+> > vsp1_pm_runtime_resume(struct device *dev)
+> > >     struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> > >     int ret;
+> > >
+> > > +   ret = reset_control_deassert(vsp1->rstc);
+> > > +   if (ret < 0)
+> > > +           return ret;
+> > > +
+> > > +   /*
+> > > +    * On R-Car Gen2, vsp1 register access after deassert can cause
+> > > +    * lock-up. Therefore, we need to poll the status of the reset to
+> > > +    * avoid lock-up.
+> > > +    */
+> > > +   ret = read_poll_timeout_atomic(reset_control_status, ret, ret == 0,
+> > 1,
+> > > +                                  100, false, vsp1->rstc);
+> >
+> > So the reset driver does not follow the reset API documentation ("After
+> > calling this function, the reset is guaranteed to be deasserted." [1])?
+> > If so, this status polling should be moved into the reset driver.
+> >
+>
+> Sure, will move it to reset driver. Geert also suggested same thing[1]
 
+Actually I suggested handling this in the VSP driver, as VSP seems
+to be "special".
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3957' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@580927cf'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins12337204048959462803.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+>
+> [1]
+> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220504184406.93788-1-biju.das.jz@bp.renesas.com/
+>
+>
+> > Also, why use the atomic poll variant here? As far as I can tell, this
+> > driver doesn't call pm_runtime_irq_safe. The reset_control_deassert() API
+> > does not guarantee that the driver implementation doesn't sleep, either.
+>
+> As per [1], I2C driver uses atomic one, so just used the same here.
+>
+> OK, will use non atomic variant in deassert().
+>
+> Do you recommend to fix the reset as well as per [1]?
+>
+> >
+> > [...]
+> > > @@ -825,6 +848,11 @@ static int vsp1_probe(struct platform_device
+> > *pdev)
+> > >     if (irq < 0)
+> > >             return irq;
+> > >
+> > > +   vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
+> > > +   if (IS_ERR(vsp1->rstc))
+> > > +           return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
+> > > +                                "failed to get reset control\n");
+> > > +
+> >
+> > What about the other consumers of this shared reset? Don't they need the
+> > status poll you added here as well?
+>
+> This lockup issue happens only on Gen2 SoC's. Gen3 SoC's are not affected.
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+We are not sure about that.  On R-Car Gen3, accesses to registers
+while a device is not clocked/ready usually do not cause an imprecise
+external abort in Linux, unlike on R-Car Gen2.  But perhaps the
+abort is caught by the firmware, and nullified?
 
-Not aborted. It means that the licence was agreed. Proceeding...
+> RZ/G2L SoC is Gen3 variant, and it is the only consumer for shared reset as reset lines are shared between DU and VSPD. Other SoC's have explicit reset for VSP.
 
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-07-13 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-07-13 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+Gr{oetje,eeting}s,
 
-     0K                                                       100% 67.0M=0s
+                        Geert
 
-2022-07-13 09:19:10 (67.0 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
