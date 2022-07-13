@@ -2,80 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BEA2573D67
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 21:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B2B9573D6C
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 21:59:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236966AbiGMTzm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 15:55:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34942 "EHLO
+        id S236974AbiGMT7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jul 2022 15:59:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236975AbiGMTzl (ORCPT
+        with ESMTP id S231772AbiGMT7b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 15:55:41 -0400
+        Wed, 13 Jul 2022 15:59:31 -0400
 Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9442630555
-        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 12:55:40 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43FD927CFA
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 12:59:30 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 0FA7E1B0029D;
-        Wed, 13 Jul 2022 22:55:38 +0300 (EEST)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id D63EA1B00358
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 22:59:28 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1657742138;
+        t=1657742368;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=PKDkzAyZehK1KIpGxBzCYZvoWfnyIYsFQKIUomeInJU=;
-        b=V+TgxdXDvX+BRaXihGNllY+f6mAsHIdhg5bxKNkoqwIcS9pP0bEeq9iHLEcxQDaAJJhttc
-        hwgrmbzhM2gy90/5ve2Xyx5QLqwtAwjM721YjxRM5VH5hJJ1XLmoYGMbW1R5k8l7a939Bz
-        LPzI3+YAsjVM966cSSRfhnpQmkGTtdMHxo+CrwbHvrwnahplmZ3y7lDjysQSEIK+cFs00b
-        u3q//gMa7FRsuGrXA3UmgXF3FnNm662SL7+MYsXVx4g7NkxMSIcrulnpIAFLTlyWhyln7f
-        SjtJqU/6MpN3q6huf9Jg39CcN9kfRABBdB1zKRS5ryhY1kyrxc9HIpqxDS1LBQ==
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=u+NiCzyMjkHHmiHuh84SY92MgKkUvt3O8K7k27v7dS4=;
+        b=Sn0mn+1Y2xxTlYgy3vdr8T2r2bmt7GGQRpVttGnN9fcLJVgMo800ArbSVqUrNI/ZcuI4iQ
+        yfkFO/peqppoYTwVxEaRrvTbQIAbG034JoAaELkpBbpECKgz9LzbZDPyCnBVp4YnsKEBZB
+        tzbDrjObzddV9kddMSwqvxoO6fs8Qxk1q3qWw7m8tP5y+qFuZuO7WHisFTeU7L7WyUSP16
+        XOeCInjJMkptd0myKVBFvENycnVF4ojo/GjaDOydxythDeZRxooTBmLiMcg+xX62rxtBh4
+        6uzTgFL4UHAkVClOXczmVTyDYoxQRNvvusW+Sm+JzLwEx5Gy+JlF0hNV46+SUg==
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A8DDB634D60;
-        Wed, 13 Jul 2022 22:55:37 +0300 (EEST)
-Date:   Wed, 13 Jul 2022 22:55:37 +0300
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8549F634C98
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 22:59:28 +0300 (EEST)
+Date:   Wed, 13 Jul 2022 22:59:28 +0300
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/1] v4l: Kconfig: Drop subdev API option help text
-Message-ID: <Ys8jOdPmRPCUP7u8@valkosipuli.retiisi.eu>
-References: <20220713173920.222394-1-sakari.ailus@linux.intel.com>
- <Ys8GxF91rx32ZRAX@pendragon.ideasonboard.com>
- <Ys8d54l85k8Cwxne@pendragon.ideasonboard.com>
- <Ys8fzV1H8iFwqoHA@valkosipuli.retiisi.eu>
- <Ys8hNg87Ar9MTryZ@pendragon.ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 5.20] More V4L2 patches
+Message-ID: <Ys8kICeZqicfr0mC@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ys8hNg87Ar9MTryZ@pendragon.ideasonboard.com>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1657742138; a=rsa-sha256;
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1657742368; a=rsa-sha256;
         cv=none;
-        b=o16g0mUID3GKcOBrcVehdgKRk4DNR0uXoHqW48l4u50O/3S0qHx9T1yggH/kXEAR75CjxK
-        cduSGE2A7iBCqXvrcWsZBw9maUuZi/bujNaMUHMiAIr198SEitFcB+Jv/Y2gLcKYa6Zsn4
-        oyYvOz205/TnQjXKdrwUC5aT6wNKrbicIT3mTyFzw+A1Tntg6VJ0ynljFj2rjaC1e0D7Pg
-        Ghjcb4WSO6iofk5XdvL6jEbETLTXlr3ik2axbVD6orU/Kv1XihP2jcu48iUysynBseY5Xs
-        wiQZqeeaZ58V390/TfqWZYoxS4iZXGrBnTYPTjBfdmm4fAUTL0mY8h0+4BT+jw==
+        b=EFSkTUbBNiBnP+iWG0luZx5HBXjZ/CGXP9vRLO1ZDzeiqE5F1XRA1fGowcRLFcFCWsQ373
+        ZfsutavfqWhTqVgzEWg5394NNVDMMNxFgYehVDiInyKQ+TBiN+EMJy9eq9swDnt9/NWB0v
+        Iimrpc1Z1453TklUGbg44uRgYFqlwJipMPWw63Qv0sNoG4GVI7aRD7V4+la64SlFLprMqq
+        SbUs6Up1oTaesbHurNrtjXOUseNx/D+ajZjOXbPI/PZhvrXDWNJQ3wGWmukVTUNFw0zv+O
+        ZxBcXCsUoX8wr6dp6CvqDBq2HOLM0IIOiBHI+aNYhEpR0Bn8dx0uaC4E881zMg==
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1657742138;
+        s=lahtoruutu; t=1657742368;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=PKDkzAyZehK1KIpGxBzCYZvoWfnyIYsFQKIUomeInJU=;
-        b=QCF4RseEEggyeuvY8X3gXXPdrWpKzWpIlnGb69/J2nW8D7FJ7xnhYj6W6hmhp/b6nr/uML
-        wIfyEznBGFG0M3h10IyFIkwhnYfX1bsezMwjXs6NSo30Es7uE4zOLEqTIaPUTf/QcsWPef
-        8+q27m86UcZFBkXXSsyVMHNTmypB6AzVXP1dPoUA8EVRZtwNAysKih6uSec2/F9XffRKC9
-        QK+xqgZQUQ/N0q47vyHkY07qLakMVmFg1I1b2yA5QnZGXaVDp1XbwzTHDRBOq2X+I5Pzn7
-        69XghdvEhy1mGffG0qr9sXJc/UmdrL3XqM9y+2mjtgIOD5dk7givpL3+dMOrCQ==
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=u+NiCzyMjkHHmiHuh84SY92MgKkUvt3O8K7k27v7dS4=;
+        b=dlK8/KXhS0gXzHaFoI9bda9hDpAycBDJ5sgyCFxrg5mooZV6lVo5GLpBuqMrfaz85z6V+w
+        JDQ/FvrgaHL1QGB1XdOYEwMbFGvjIpulvt14yWMIQoGwcfYgiWtOq07xDZj3kEEg1ygGHs
+        8MFsKKxjqd9dFaXN4lZcONbR8TVM0IvetTxLbHRP3bJFV0UsTTKQbnbaGdsQXq70bPpQO/
+        d56/VyEkDY4hyWkeyB0kqWE+WRHeDGsXSsn+1q37M0roVNZ23UnFKccwK7GzT2E0Td+VM0
+        GFxhq7VdFDbz8i+l6gPLJgnhZmxI8F2mw/wMKEsg+9F5EWspC1WOCLLsVQh+ng==
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -86,34 +76,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 13, 2022 at 10:47:02PM +0300, Laurent Pinchart wrote:
-> On Wed, Jul 13, 2022 at 10:41:01PM +0300, Sakari Ailus wrote:
-> > On Wed, Jul 13, 2022 at 10:32:55PM +0300, Laurent Pinchart wrote:
-> > > On Wed, Jul 13, 2022 at 08:54:12PM +0300, Laurent Pinchart wrote:
-> > > > Hi Sakari,
-> > > > 
-> > > > Thank you for the patch.
-> > > > 
-> > > > On Wed, Jul 13, 2022 at 08:39:20PM +0300, Sakari Ailus wrote:
-> > > > > The config option text was recently removed, also remove the help text.
-> > > > > 
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > 
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > 
-> > > Actually, on second thought, isn't it useful to keep the help text as
-> > > documentation ?
-> > 
-> > We haven't generally done that for other such options either. This was
-> > intended for end users IMO.
-> 
-> I don't have a strong opinion, but this came to my attention when
-> reviewing your patch that adds selection of GENERIC_PHY_MIPI_DPHY for
-> sun6i. The GENERIC_PHY_MIPI_DPHY symbol isn't user-selectable but has a
-> help text. A short documentation is useful in my opinion.
+Hi Mauro,
 
-I'll leave it ouf of the next pull request then. We can later on decide to
-merge it if we like.
+Here's another set of V4L2 patches for 5.20. Hopefully it's not too late
+for that yet.
+
+Here are a few fixes and improvements to existing APIs and drivers. No new
+drivers are included.
+
+Please pull.
+
+
+The following changes since commit e670f5d672ef3d00b0b8c69eff09a019e6dd4ef9:
+
+  media: amphion: only insert the first sequence startcode for vc1l format (2022-07-08 18:18:49 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.20-2.1-signed
+
+for you to fetch changes up to e927c9847d7aeb12c5853a4d84d58723f5b5db36:
+
+  media: ov5693: add ov5693_of_match, dts support (2022-07-13 22:57:29 +0300)
+
+----------------------------------------------------------------
+More V4L2 patches for 5.20
+
+----------------------------------------------------------------
+Daniel Scally (2):
+      media: entity: Add iterator for entity data links
+      media: entity: Use dedicated data link iterator
+
+Hans Verkuil (1):
+      ar0521: fix Kconfig: VIDEO_V4L2 -> VIDEO_DEV
+
+Laurent Pinchart (1):
+      media: Replace dependency on VIDEO_V4L2_SUBDEV_API with select
+
+Marek Vasut (1):
+      media: mt9p031: Implement crop bounds get selection
+
+Sakari Ailus (1):
+      media: sunxi: Depend on GENERIC_PHY_MIPI_DPHY
+
+Tomi Valkeinen (2):
+      media: subdev: Add v4l2_subdev_call_state_try() macro
+      media: stm32: dcmi: Fix subdev op call with uninitialized state
+
+Tommaso Merciai (6):
+      media: ov5693: count num_supplies using array_size
+      media: ov5693: add dvdd into ov5693_supply_names array
+      media: ov5693: rename clk into xvclk
+      media: ov5693: add support for acpi clock-frequency prop
+      media: dt-bindings: ov5693: document YAML binding
+      media: ov5693: add ov5693_of_match, dts support
+
+Yang Yingliang (1):
+      media: ov7251: add missing disable functions on error in ov7251_set_power_on()
+
+ .../devicetree/bindings/media/i2c/ovti,ov5693.yaml | 124 +++++++++++++++++++++
+ MAINTAINERS                                        |   1 +
+ drivers/media/i2c/Kconfig                          |   6 +-
+ drivers/media/i2c/mt9p031.c                        |  20 +++-
+ drivers/media/i2c/ov5693.c                         |  57 ++++++----
+ drivers/media/i2c/ov7251.c                         |   2 +
+ drivers/media/mc/mc-entity.c                       |  22 +++-
+ drivers/media/platform/atmel/Kconfig               |   4 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c       |  14 +--
+ .../media/platform/sunxi/sun6i-mipi-csi2/Kconfig   |   1 +
+ .../platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig    |   1 +
+ drivers/media/v4l2-core/Kconfig                    |   6 +-
+ include/media/media-entity.h                       |  30 +++++
+ include/media/v4l2-subdev.h                        |  34 ++++++
+ 14 files changed, 278 insertions(+), 44 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
 
 -- 
 Sakari Ailus
