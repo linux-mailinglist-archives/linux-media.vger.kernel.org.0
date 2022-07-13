@@ -2,246 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDCCD5735E6
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 13:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74C2F573750
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 15:25:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233523AbiGML7u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 07:59:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50278 "EHLO
+        id S235766AbiGMNY6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jul 2022 09:24:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbiGML7t (ORCPT
+        with ESMTP id S230450AbiGMNY5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 07:59:49 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45351F32F6;
-        Wed, 13 Jul 2022 04:59:48 -0700 (PDT)
+        Wed, 13 Jul 2022 09:24:57 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BCECD62
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 06:24:55 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id v14so15502264wra.5
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 06:24:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1657713588; x=1689249588;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=dgsaYpf/vsoYhmP9tn9UVNlFtNHTVqtvjpcLY3JOMKg=;
-  b=HLT9GzbW3lIG81rd4rN7FHI2ROF9sEIG7qRmflNuKxYWMQc1+0rJrBao
-   9VUfxwRbKmrs6ICgZYZS2uuwhESyPtESTmuHN1bbnsf/vNmpWDIoqokCz
-   8edx+Lv3ZIm9+V5VLoMkIjoMOi7gVSEtth9AXd7bpB486S+BUcV/xdqqz
-   w=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 13 Jul 2022 04:59:48 -0700
-X-QCInternal: smtphost
-Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
-  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2022 04:59:48 -0700
-Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 13 Jul 2022 04:59:45 -0700
-From:   Vikash Garodia <quic_vgarodia@quicinc.com>
-To:     <stanimir.varbanov@linaro.org>, <linux-media@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <frkoenig@chromium.org>, <quic_dikshita@quicinc.com>,
-        <quic_vgarodia@quicinc.com>
-Subject: [PATCH v3] media: venus: set ubwc configuration on specific video hardware
-Date:   Wed, 13 Jul 2022 17:29:36 +0530
-Message-ID: <1657713576-21525-1-git-send-email-quic_vgarodia@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=yLLf2RupUAGZKj8nEeG0LSBEp5u3/qfodgo6k8ZYoVQ=;
+        b=IbphrEpSNyolpp1NbysNG4wrCuerEaN0u+GrfUaqkpgfE2iwK3cWmYy5Ry5eOZHA/F
+         LpuuNbiojQmj2LcHHHU3aN+H/UBSjVSM6jFoPjBfVaRodQkzp6RC86qbAhYJSkclrcgq
+         ktdFqKZGBsC0k5DM8MkPias9TS5byU5qDy1TU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yLLf2RupUAGZKj8nEeG0LSBEp5u3/qfodgo6k8ZYoVQ=;
+        b=Hlg/0Z2RrAgyaXvF2UbeAqVwQbKF53LLFrimRk1poF0ZabM5M3HfnCvzCB7t6+R1kf
+         Wc5SoIGh02cfB4dayFPBrI2mzWZ74zWme/6Go22+kZwvAtoSwv+BSFxEqrFLS7xGtEOi
+         OU8cOnmpgQIlB2dn6mIzBLP0xTVNKfVNuND6aMQ7eW2ZSr7PUyA4e/4+EmA3dL1EaCOu
+         d6VliQyEZPqUUm84WOaZqZQQeoW0iXGJlzqMpQgTEfhXB5MIeU/olyMusmpStTUdSZ/n
+         JL7sn1g0LzOJqAYV/o9BvqV+mQjNerkyGhmNBazEtjxNFVml99HjCY2c7I+y1lbPGp/3
+         cmHA==
+X-Gm-Message-State: AJIora8snZZRKWwiC7b8MqV3peKOF4lRF1skxVSQe46VrxqO/kvGA2Y/
+        ZneeVqsjJMNJn6xp732pzVCHtg==
+X-Google-Smtp-Source: AGRyM1sJgKfY+g8GvrSMzl/KBZW/B0KYhfoYIllSy9Fh3tv9EC2rCfNnX5e5CdMZTgruAmdrENUrQQ==
+X-Received: by 2002:a5d:4145:0:b0:21d:68ab:3bf with SMTP id c5-20020a5d4145000000b0021d68ab03bfmr3241320wrq.641.1657718693965;
+        Wed, 13 Jul 2022 06:24:53 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-51-7.cust.vodafonedsl.it. [188.217.51.7])
+        by smtp.gmail.com with ESMTPSA id ay15-20020a05600c1e0f00b003a2fb1224d9sm1886641wmb.19.2022.07.13.06.24.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 06:24:53 -0700 (PDT)
+Date:   Wed, 13 Jul 2022 15:24:51 +0200
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
+        quentin.schulz@theobroma-systems.com,
+        Daniel Scally <djrscally@gmail.com>,
+        linuxfancy@googlegroups.com, linux-amarula@amarulasolutions.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 5/6] media: dt-bindings: ov5693: document YAML binding
+Message-ID: <20220713132451.GA1725944@tom-ThinkPad-T14s-Gen-2i>
+References: <20220712163349.1308540-1-tommaso.merciai@amarulasolutions.com>
+ <20220712163349.1308540-6-tommaso.merciai@amarulasolutions.com>
+ <1657664975.862137.2476655.nullmailer@robh.at.kernel.org>
+ <20220713064845.GA1386778@tom-ThinkPad-T14s-Gen-2i>
+ <87086513-787c-3b0d-80df-b90ebdc3a28c@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87086513-787c-3b0d-80df-b90ebdc3a28c@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-UBWC configuration parameters would vary across video hardware
-generations. At the same time, driver is expected to configure these
-parameters, without relying on video firmware to use the default
-configurations.
-Setting the configuration parameters for sc7280.
+On Wed, Jul 13, 2022 at 08:52:34AM +0200, Krzysztof Kozlowski wrote:
+> On 13/07/2022 08:48, Tommaso Merciai wrote:
+> > Hi Rob,
+> > 
+> > On Tue, Jul 12, 2022 at 04:29:35PM -0600, Rob Herring wrote:
+> >> On Tue, 12 Jul 2022 18:33:48 +0200, Tommaso Merciai wrote:
+> >>> Add documentation of device tree in YAML schema for the OV5693
+> >>> CMOS image sensor from Omnivision
+> >>>
+> >>> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> >>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>> ---
+> >>> Changes since v1:
+> >>>  - Fix allOf position as suggested by Krzysztof
+> >>>  - Remove port description as suggested by Krzysztof
+> >>>  - Fix EOF as suggested by Krzysztof
+> >>>
+> >>> Changes since v2:
+> >>>  - Fix commit body as suggested by Krzysztof
+> >>>
+> >>> Changes since v3:
+> >>>  - Add reviewed-by tags, suggested by Jacopo, Krzysztof
+> >>>
+> >>> Changes since v4:
+> >>>  - Remove wrong Sakari reviewed-by tag, suggested by Krzysztof, Sakari
+> >>>
+> >>> Changes since v5:
+> >>>  - Remove dovdd-supply, avdd-supply, dvdd-supply from required properties
+> >>> as suggested by Jacopo
+> >>>
+> >>>  .../bindings/media/i2c/ovti,ov5693.yaml       | 103 ++++++++++++++++++
+> >>>  MAINTAINERS                                   |   1 +
+> >>>  2 files changed, 104 insertions(+)
+> >>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> >>>
+> >>
+> >> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> >> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> >>
+> >> yamllint warnings/errors:
+> >>
+> >> dtschema/dtc warnings/errors:
+> >> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.example.dtb: camera@36: Unevaluated properties are not allowed ('port' was unexpected)
+> >> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> >>
+> >> doc reference errors (make refcheckdocs):
+> >>
+> >> See https://patchwork.ozlabs.org/patch/
+> >>
+> >> This check can fail if there are any dependencies. The base for a patch
+> >> series is generally the most recent rc1.
+> >>
+> >> If you already ran 'make dt_binding_check' and didn't see the above
+> >> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> >> date:
+> >>
+> >> pip3 install dtschema --upgrade
+> >>
+> >> Please check and re-submit.
+> >>
+> > 
+> > I run:
+> > 
+> > pip3 install dtschema --upgrade
+> > 
+> > Then I check .yaml using:
+> > 
+> > make DT_CHECKER_FLAGS=-m dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+> > DTEX    Documentation/devicetree/bindings/media/i2c/ovti,ov5693.example.dts
+> > LINT    Documentation/devicetree/bindings
+> > CHKDT   Documentation/devicetree/bindings/processed-schema.json
+> > SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+> > DTC     Documentation/devicetree/bindings/media/i2c/ovti,ov5693.example.dtb
+> > CHECK   Documentation/devicetree/bindings/media/i2c/ovti,ov5693.example.dtb
+> > 
+> > No error on my side. I'm missing something?
+> 
+> Rob's check are running newer dtschema, from master branch. The error he
+> reports is about missing port, although I thought it is coming from
+> video-interface-devices.
 
-Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
----
-Change since v2:
+Hi Krzysztof, 
+Thanks for the info! :)
 
- Review comments addressed(from Stanimir)
+Regards,
+Tommaso
+ 
+> 
+> Best regards,
+> Krzysztof
 
- drivers/media/platform/qcom/venus/core.c       |  5 +++++
- drivers/media/platform/qcom/venus/core.h       |  2 ++
- drivers/media/platform/qcom/venus/hfi_cmds.c   |  9 +++++++++
- drivers/media/platform/qcom/venus/hfi_cmds.h   |  1 +
- drivers/media/platform/qcom/venus/hfi_helper.h | 20 ++++++++++++++++++++
- drivers/media/platform/qcom/venus/hfi_venus.c  | 26 ++++++++++++++++++++++++++
- 6 files changed, 63 insertions(+)
-
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 877eca1..b08b98e 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -832,6 +832,10 @@ static const struct reg_val sm7280_reg_preset[] = {
- 	{ 0xb0088, 0 },
- };
- 
-+static const struct hfi_ubwc_config sc7280_ubwc_config = {
-+	0, 0, {1, 1, 1, 0, 0, 0}, 8, 32, 14, 0, 0, {0, 0}
-+};
-+
- static const struct venus_resources sc7280_res = {
- 	.freq_tbl = sc7280_freq_table,
- 	.freq_tbl_size = ARRAY_SIZE(sc7280_freq_table),
-@@ -841,6 +845,7 @@ static const struct venus_resources sc7280_res = {
- 	.bw_tbl_enc_size = ARRAY_SIZE(sc7280_bw_table_enc),
- 	.bw_tbl_dec = sc7280_bw_table_dec,
- 	.bw_tbl_dec_size = ARRAY_SIZE(sc7280_bw_table_dec),
-+	.ubwc_conf = &sc7280_ubwc_config,
- 	.clks = {"core", "bus", "iface"},
- 	.clks_num = 3,
- 	.vcodec0_clks = {"vcodec_core", "vcodec_bus"},
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index d338255..32551c2 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -16,6 +16,7 @@
- #include "dbgfs.h"
- #include "hfi.h"
- #include "hfi_platform.h"
-+#include "hfi_helper.h"
- 
- #define VDBGL	"VenusLow : "
- #define VDBGM	"VenusMed : "
-@@ -57,6 +58,7 @@ struct venus_resources {
- 	unsigned int bw_tbl_dec_size;
- 	const struct reg_val *reg_tbl;
- 	unsigned int reg_tbl_size;
-+	const struct hfi_ubwc_config *ubwc_conf;
- 	const char * const clks[VIDC_CLKS_NUM_MAX];
- 	unsigned int clks_num;
- 	const char * const vcodec0_clks[VIDC_VCODEC_CLKS_NUM_MAX];
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index 4ecd444..930b743 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -58,6 +58,15 @@ void pkt_sys_coverage_config(struct hfi_sys_set_property_pkt *pkt, u32 mode)
- 	pkt->data[1] = mode;
- }
- 
-+void pkt_sys_ubwc_config(struct hfi_sys_set_property_pkt *pkt, const struct hfi_ubwc_config *hfi)
-+{
-+	pkt->hdr.size = struct_size(pkt, data, 1) + sizeof(*hfi);
-+	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
-+	pkt->num_properties = 1;
-+	pkt->data[0] = HFI_PROPERTY_SYS_UBWC_CONFIG;
-+	memcpy(&pkt->data[1], hfi, sizeof(*hfi));
-+}
-+
- int pkt_sys_set_resource(struct hfi_sys_set_resource_pkt *pkt, u32 id, u32 size,
- 			 u32 addr, void *cookie)
- {
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
-index 327ed90..99bc0b6 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.h
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
-@@ -256,6 +256,7 @@ void pkt_sys_init(struct hfi_sys_init_pkt *pkt, u32 arch_type);
- void pkt_sys_pc_prep(struct hfi_sys_pc_prep_pkt *pkt);
- void pkt_sys_idle_indicator(struct hfi_sys_set_property_pkt *pkt, u32 enable);
- void pkt_sys_power_control(struct hfi_sys_set_property_pkt *pkt, u32 enable);
-+void pkt_sys_ubwc_config(struct hfi_sys_set_property_pkt *pkt, const struct hfi_ubwc_config *hfi);
- int pkt_sys_set_resource(struct hfi_sys_set_resource_pkt *pkt, u32 id, u32 size,
- 			 u32 addr, void *cookie);
- int pkt_sys_unset_resource(struct hfi_sys_release_resource_pkt *pkt, u32 id,
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index 2daa88e..d2d6719 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -427,6 +427,7 @@
- #define HFI_PROPERTY_SYS_CODEC_POWER_PLANE_CTRL			0x5
- #define HFI_PROPERTY_SYS_IMAGE_VERSION				0x6
- #define HFI_PROPERTY_SYS_CONFIG_COVERAGE			0x7
-+#define HFI_PROPERTY_SYS_UBWC_CONFIG				0x8
- 
- /*
-  * HFI_PROPERTY_PARAM_COMMON_START
-@@ -626,6 +627,25 @@ struct hfi_debug_config {
- 	u32 mode;
- };
- 
-+struct hfi_ubwc_config {
-+	u32 size;
-+	u32 packet_type;
-+	struct {
-+		u32 max_channel_override : 1;
-+		u32 mal_length_override : 1;
-+		u32 hb_override : 1;
-+		u32 bank_swzl_level_override : 1;
-+		u32 bank_spreading_override : 1;
-+		u32 reserved : 27;
-+		} override_bit_info;
-+	u32 max_channels;
-+	u32 mal_length;
-+	u32 highest_bank_bit;
-+	u32 bank_swzl_level;
-+	u32 bank_spreading;
-+	u32 reserved[2];
-+};
-+
- struct hfi_enable {
- 	u32 enable;
- };
-diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-index 9a34662..2ad40b3 100644
---- a/drivers/media/platform/qcom/venus/hfi_venus.c
-+++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-@@ -904,6 +904,24 @@ static int venus_sys_set_power_control(struct venus_hfi_device *hdev,
- 	return 0;
- }
- 
-+static int venus_sys_set_ubwc_config(struct venus_hfi_device *hdev)
-+{
-+	struct hfi_sys_set_property_pkt *pkt;
-+	u8 packet[IFACEQ_VAR_SMALL_PKT_SIZE];
-+	const struct venus_resources *res = hdev->core->res;
-+	int ret;
-+
-+	pkt = (struct hfi_sys_set_property_pkt *)packet;
-+
-+	pkt_sys_ubwc_config(pkt, res->ubwc_conf);
-+
-+	ret = venus_iface_cmdq_write(hdev, pkt, false);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
- static int venus_get_queue_size(struct venus_hfi_device *hdev,
- 				unsigned int index)
- {
-@@ -922,6 +940,7 @@ static int venus_get_queue_size(struct venus_hfi_device *hdev,
- static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
- {
- 	struct device *dev = hdev->core->dev;
-+	const struct venus_resources *res = hdev->core->res;
- 	int ret;
- 
- 	ret = venus_sys_set_debug(hdev, venus_fw_debug);
-@@ -945,6 +964,13 @@ static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
- 		dev_warn(dev, "setting hw power collapse ON failed (%d)\n",
- 			 ret);
- 
-+	/* For specific venus core, it is mandatory to set the UBWC configuration */
-+	if (res->ubwc_conf) {
-+		ret = venus_sys_set_ubwc_config(hdev);
-+		if (ret)
-+			dev_warn(dev, "setting ubwc config failed (%d)\n", ret);
-+	}
-+
- 	return ret;
- }
- 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
 
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
