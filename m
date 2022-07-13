@@ -2,119 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C27465734BD
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 12:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E809F5734E1
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 13:04:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235596AbiGMK4K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 06:56:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48928 "EHLO
+        id S235461AbiGMLEe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jul 2022 07:04:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235498AbiGMK4K (ORCPT
+        with ESMTP id S233370AbiGMLE3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 06:56:10 -0400
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6639BFF5A2;
-        Wed, 13 Jul 2022 03:56:09 -0700 (PDT)
-Received: by mail-qt1-f172.google.com with SMTP id y3so11495827qtv.5;
-        Wed, 13 Jul 2022 03:56:09 -0700 (PDT)
+        Wed, 13 Jul 2022 07:04:29 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 811922DD6
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 04:04:26 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id va17so19268832ejb.0
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 04:04:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H2vdEBeueCC46NEWMBS7OX+jq1Oi+DQhvA6z4iqsUEA=;
+        b=DNDAHNKEieUFuTtZbUpAgzPTvaU9lShge8WP4TdpH1/bnKSW8AbZU2J525O6YlOb9m
+         m0lzulZG0vQt8+Bl+68l04hrV3SS1kqsnQ9FrxWI+P1zN8TKS/2gCQBEOfph8EypdSN0
+         W4VDX2EBJ8aJ9WrLsvZRCqyYQwseX+UAqXn1dzDLrTrv/7cBzegBwueApqcQjEDwlZrh
+         6rLT/RyXjfcihoM/k6HEwUvbnQ7McrD/3nWKx4XcldetGFZLKA/izPR98oMslejGz+s/
+         CsCJD7jDiIR1OMRuidWoKJG2mBhGwyHztJNgln111Uh1SMvcb7t3Dqp7/djGiOJ8B70g
+         QF4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nOiTLY7H3mOgy3upz5I1zJ8BCOeea4/fz964UtSygqo=;
-        b=uB1JsbaWZOpbw1z5J18IihkKEswaznWVoKj9J+paKjgO8gqITtOEylM8gWcwavnPpM
-         NU6/nCm8H621jyzpAPRivzNrjRGnSzmR7YUrmMAI+YpXhM/WVvu7pPpr6spQSHAXeYTX
-         gpjLohMGiiadqOJl/sGH+2ob7Na9WrzDrk+EmWc7saULqcJ39wqCizgnEXDIKx8R1cge
-         vWhz6Qz+ynGO0f0zvvpFsSaCG5Kc1Cr4fq9lgf7nH0m9PdJvqmK+UfF9cANog5wT6KZ9
-         edr8slRn8wsQ+jzeOI+ZW7Afj7tB9WwkUVyMc21PDsT0SpyzQCbcLeA2VvR+9JNmaULj
-         FVNA==
-X-Gm-Message-State: AJIora/a8ocu1OQzHc+uFQmseVLeFJKaNp7ec87Tmc9MTXdNJR7c5Jua
-        0L9SKh7YPR0At+pZIelEabN+BqbVh3cbDQ==
-X-Google-Smtp-Source: AGRyM1v/H6aiD+uJPLbQc9H97/xaWhCuG8+CdOLtY43iIbO1JNxwmRXvm816xCLjBfMSRp7YmLazvw==
-X-Received: by 2002:ac8:5c96:0:b0:31e:c39f:3d63 with SMTP id r22-20020ac85c96000000b0031ec39f3d63mr2269298qta.552.1657709768391;
-        Wed, 13 Jul 2022 03:56:08 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id x21-20020a05620a0b5500b006af147d4876sm7411056qkg.30.2022.07.13.03.56.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jul 2022 03:56:08 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id f73so18575766yba.10;
-        Wed, 13 Jul 2022 03:56:07 -0700 (PDT)
-X-Received: by 2002:a25:bc8e:0:b0:66e:fe43:645c with SMTP id
- e14-20020a25bc8e000000b0066efe43645cmr3149289ybk.202.1657709767646; Wed, 13
- Jul 2022 03:56:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
- <20220531141958.575616-3-biju.das.jz@bp.renesas.com> <20220713081856.GA14683@pengutronix.de>
- <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com> <20220713103216.GA10829@pengutronix.de>
-In-Reply-To: <20220713103216.GA10829@pengutronix.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Jul 2022 12:55:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX9ULJVzxsBqkZvg2_XoxJPGqmduhjM9j_PCJDk-PdmqQ@mail.gmail.com>
-Message-ID: <CAMuHMdX9ULJVzxsBqkZvg2_XoxJPGqmduhjM9j_PCJDk-PdmqQ@mail.gmail.com>
-Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H2vdEBeueCC46NEWMBS7OX+jq1Oi+DQhvA6z4iqsUEA=;
+        b=bScCPshTJeHIR0Lh3nsVU9YOdaLbri7LgG9iTYPsQYi9uqV0TmIRnNGGLBtLleGfUg
+         8NbTPdlZxA8DRzCsO1Twsy7W9UfkpZgGNB0hetnBxOKt7i3PsWG5GE9KxTy4F7oY55Aw
+         mhD/YDc1MqYNm5GwEVC/ITTdowa/pMFQqr/igWx1mGc3z4L6HtcHAWweekHy28KXRzUt
+         wlZbrmhRFeD+vvGTYjeQ4iw7lYzbBlZubLDcS3odFdwx56kdKe9+QqURdk9IjwNVbapB
+         rAUinACxQt6hbxcOwpZJoPy2U+4FPPBodGNOl4v47YgwrmkYTX3LL5nwQQyIZGpw6WGU
+         RMEQ==
+X-Gm-Message-State: AJIora/2XNRIOnrrLJGb1ZIkOOpl+ShuaSPTC5EmbDi01/0MmB3LIFpU
+        bRlsYJvMoXvn/8eaRv3ycrHlGnpW51qwPRtY
+X-Google-Smtp-Source: AGRyM1siCcodgLk2eqCklipBMPlX8f7MouuAxxO8N52rGtleY3n6Ljnokw4lELEJvxBEQlLbcxH1nQ==
+X-Received: by 2002:a17:906:9bef:b0:72b:40d1:4276 with SMTP id de47-20020a1709069bef00b0072b40d14276mr2760266ejc.360.1657710264871;
+        Wed, 13 Jul 2022 04:04:24 -0700 (PDT)
+Received: from localhost.localdomain ([195.24.90.54])
+        by smtp.gmail.com with ESMTPSA id c9-20020aa7d609000000b0043a75f62155sm7801152edr.86.2022.07.13.04.04.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 04:04:24 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH 0/2] FIx compile-testing of Venus
+Date:   Wed, 13 Jul 2022 14:03:49 +0300
+Message-Id: <20220713110351.827446-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+Hello,
 
-On Wed, Jul 13, 2022 at 12:32 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> On Wed, Jul 13, 2022 at 11:27:56AM +0200, Geert Uytterhoeven wrote:
-> [...]
-> > Actually I suggested handling this in the VSP driver, as VSP seems
-> > to be "special".
-> >
-> > >
-> > > [1]
-> > > https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220504184406.93788-1-biju.das.jz@bp.renesas.com/
->
-> So reset_control_status never actually returns 1 and the polling loop is
-> not necessary at all?
->
-> If it's just the status register read that fixes things for VSP, could
-> it be that the deasserting register write to the reset controller
-> and the following register writes to VSP are not ordered somewhere at
-> the interconnect and the read issued to the reset controller just
-> guarantees that order?
+Here are two patches to fix COMPILE_TEST testing of Venus
+driver on x86.
 
-The udelay() also works.
+The first one is fixing Venus compilation. The second patch is
+fixing unmet dependencies seen on QCOM smem driver when
+dependent driver (like Venus) is enabled.
 
-While the reset may be deasserted immediately (at the reset controller
-level), the VSP may need some additional time to settle/initialize
-(at the VSP level).
+Comments are welcome!
 
-Reset is known to work on other blocks on the same SoC, so that's
-why I suggested handling this in the VSP driver instead, like we
-already do for i2c.
+regards,
+Stan
 
-Gr{oetje,eeting}s,
+Stanimir Varbanov (2):
+  venus: kconfig: Fix compile-testing on x86 platforms
+  soc: qcom: smem: Fix compile-testing on dependent drivers
 
-                        Geert
+ drivers/media/platform/qcom/venus/Kconfig | 4 +++-
+ drivers/soc/qcom/Kconfig                  | 2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-- 
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
