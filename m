@@ -2,113 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8672573DD8
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 22:34:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D85F7573DE8
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 22:42:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237082AbiGMUeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 16:34:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59266 "EHLO
+        id S236919AbiGMUmV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jul 2022 16:42:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237089AbiGMUeG (ORCPT
+        with ESMTP id S230026AbiGMUmU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 16:34:06 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 547FB19C0A;
-        Wed, 13 Jul 2022 13:34:04 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0EA3305;
-        Wed, 13 Jul 2022 22:34:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657744441;
-        bh=FFwKvZARwFweAz3vNc8sElgRVMXjGCwOCjO0OsDEu50=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kPDYTDWX5yiehF1r+ifUzzeNpGgCbE5IoIwK2MyTFRPultI/FEKG4ScMh0FwRqMG6
-         DFqQBsuKJFObmWuYQtM0cgSu/p3tg4nN5W6uqqDwSlueENAcJzOOJvpktU1naYtH3i
-         C42+v1Ty0UynNgSREV9kEJC5gvtqeJXaYdJMHrLs=
-Date:   Wed, 13 Jul 2022 23:33:32 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Wed, 13 Jul 2022 16:42:20 -0400
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE29D3121C;
+        Wed, 13 Jul 2022 13:42:19 -0700 (PDT)
+Received: by mail-qk1-x72c.google.com with SMTP id f14so9576126qkm.0;
+        Wed, 13 Jul 2022 13:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=EgA3xZH3t9Zi9zRLOrZeaQRW5jyanhvvZI8yTDXgSs4=;
+        b=e3pT9sVk4ebu5rxOkVvi3A5vzXF3/bx9rOT9OycSA2cJYBt0jTTnMtcmx66L1h8f3K
+         HgERgnUfpUdtrTCrL5qNcQm2LccwN85lIvfgA0H8jmjV9qPJlelJn995PeGUUNhZLHbV
+         yAZ5NMYOrjY73ZZwlPTBbuw/49518KwjQx1mwAVnBgVR5uZi6w8RRD3RKnXlSjSJoxbZ
+         PdYzpYTrxHm3q7zwOiSFisCq4AIuWwktIaZFDkXHaZO/YvcLaBjFiqtcEBxanSMt4h9s
+         UK9CvmS6OOZNcnJPNFpXhtKERK1US62God8WWgp294lvESo3sP+0hEpqkdnLot/0KZtp
+         g8jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EgA3xZH3t9Zi9zRLOrZeaQRW5jyanhvvZI8yTDXgSs4=;
+        b=GgAVxYJKH7pnTeu1Ugd4jtCVORCGzxhBN1ME9l45VyzvTMdGRGZRbq/pRe5Cs9U1ds
+         7+Kdfqx00QVvl7eQFs3PXiOTlg68oiBekpc2ThAwqHpw6zEiEEW7/z1gL+5i4Ra/aGwl
+         zy+VepSvAM75iA8p7H9afZMxqF+id2socF9mQzFSHhUAFd6lWT7T/iSWTkYOJnjGFaXK
+         jVLYhd1GBTb4PqWyLCCtfNfCZe8szfqW/fkkwg7+2S13gF/ubO3zAFC9rFk8ImT4tx8W
+         wPFFF8xOOWbCqDdWv5waxrvCUkrclCfcQhmkOSe/HoD++w+WhQ7quWSvbukiNHNCUleh
+         6tvw==
+X-Gm-Message-State: AJIora9lBstuyyvkuXEbOjZkNL8Xq0MGCwe2aTglgHnQqAN8488O3nJk
+        37VtzqmPVQPEsHb3aXMpeRw=
+X-Google-Smtp-Source: AGRyM1v52gaCFcbVPmIqwbN58q5YtVm3AqVJBDc6aU4aFpenuHjRPorXmWi30FmHMGI23odMN4w6eQ==
+X-Received: by 2002:a37:806:0:b0:6b5:c19d:bbfc with SMTP id 6-20020a370806000000b006b5c19dbbfcmr90053qki.155.1657744938660;
+        Wed, 13 Jul 2022 13:42:18 -0700 (PDT)
+Received: from localhost ([2601:4c1:c100:1230:7360:5d5d:6684:e04b])
+        by smtp.gmail.com with ESMTPSA id m6-20020ac807c6000000b00315a5fa4bf6sm10194336qth.7.2022.07.13.13.42.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 13:42:18 -0700 (PDT)
+Date:   Wed, 13 Jul 2022 13:42:17 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>, knaerzche@gmail.com,
+        Collabora Kernel ML <kernel@collabora.com>,
+        bob.beckett@collabora.com,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rkisp1: Add NV16M and NV61M to output formats
-Message-ID: <Ys8sHPPeZ8oQutJC@pendragon.ideasonboard.com>
-References: <20220713072458.3425576-1-paul.elder@ideasonboard.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        linux-staging@lists.linux.dev, nicolas.dufresne@collabora.com,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 3/6] bitops: bitmap helper to set variable length values
+Message-ID: <Ys8uKUKErpoWL873@yury-laptop>
+References: <20220713163201.136202-1-sebastian.fricke@collabora.com>
+ <Ys8Txuq9/u/EL6sj@yury-laptop>
+ <CAHp75VeOLfKw4-+Dpn54yy6j=tdiBNA_2Kvhj7mUUjTD-M_vYA@mail.gmail.com>
+ <Ys8gpl3m+vvEM7Sy@yury-laptop>
+ <CAHp75VeGSWoq-a10nA9NLKBEX7L_eiL0zPMJHUbX=c64wG8hkg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220713072458.3425576-1-paul.elder@ideasonboard.com>
+In-Reply-To: <CAHp75VeGSWoq-a10nA9NLKBEX7L_eiL0zPMJHUbX=c64wG8hkg@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
-
-Thank you for the patch.
-
-On Wed, Jul 13, 2022 at 04:24:58PM +0900, Paul Elder wrote:
-> Add support for NV16M and NV61M as output formats. As NV16, NV61, NV12M
-> and NV21M are already supported, the infrastructure is already in place
-> to support NV16M and NV61M, so it is sufficient to simply add relevant
-> entries to the list of output formats.
+On Wed, Jul 13, 2022 at 10:14:24PM +0200, Andy Shevchenko wrote:
+> On Wed, Jul 13, 2022 at 9:44 PM Yury Norov <yury.norov@gmail.com> wrote:
+> > On Wed, Jul 13, 2022 at 09:10:33PM +0200, Andy Shevchenko wrote:
+> > > On Wed, Jul 13, 2022 at 8:56 PM Yury Norov <yury.norov@gmail.com> wrote:
+> > > > On Wed, Jul 13, 2022 at 06:31:59PM +0200, Sebastian Fricke wrote:
+> > >
+> > > ...
+> > >
+> > > > I'd suggest you to try implementing
+> > > >         bitmap_copy_from(dst, src, dst_off, len)
+> > > > or even
+> > > >         bitmap_copy_from(dst, dst_off, src, src_off, len)
+> > > > if you expect that you'll need more flexibility in the future.
+> > >
+> > > Do you think it would be useful?
+> > >
+> > > We have bitmap_replace() & bitmap_remap(). Wouldn't that be enough?
+> >
+> > bitmap_replace and bitmap_remap have no an 'offset' parameter.
 > 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-capture.c | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
+> True.
 > 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index fee2aaacb26b..43547ab55fab 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -110,6 +110,16 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
->  		.uv_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_NV16M,
-> +		.uv_swap = 0,
-> +		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_NV61M,
-> +		.uv_swap = 1,
-> +		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_YVU422M,
->  		.uv_swap = 1,
-> @@ -237,6 +247,18 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
->  		.write_format = RKISP1_MI_CTRL_SP_WRITE_SPLA,
->  		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_NV16M,
-> +		.uv_swap = 0,
-> +		.write_format = RKISP1_MI_CTRL_SP_WRITE_SPLA,
-> +		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
-> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_NV61M,
-> +		.uv_swap = 1,
-> +		.write_format = RKISP1_MI_CTRL_SP_WRITE_SPLA,
-> +		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
-> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_YVU422M,
->  		.uv_swap = 1,
+> But then it's a bit too generic to have this src_off, no?
 
--- 
-Regards,
+That's why I said:
 
-Laurent Pinchart
+> > > > if you expect that you'll need more flexibility in the future.
+
+My preferred option is bitmap_copy_from(dst, src, dst_off, len).
+
+> I would rather expect for asymmetrical bitmaps that the other side
+> will be either one of the fixed width types (it makes sense to have
+> for 32- or 64-bit arguments.
+
+Look at patch #6 - it copies 1,4,5,9,10,32,37... - pretty much a random
+number number of bits.
+ 
+> When you have a source bitmap of x bits and  you would like to copy it
+> into a y-bit one, I would think that either you have a small amount of
+> bits in x anyway, or x is a full-sized bitmap (same order as y).
+
+It sounds like a speculation to me. Why shouldn't we let people to
+copy with an offset any number of bits? 
+
+> Also
+> keep in mind that granularity is long, so less than long it makes no
+> sense.
+> 
+>   bitmap_copy_from_T(unsigned long *map, start, len, T src),
+> 
+> where T is type, start is the offset in map, len is the amount of bits
+> from src starting from 0. That's what is required in most of the cases
+> I believe.
+
+But not in Sebastian's case, according to patch #6.
+
+Thanks,
+Yury
