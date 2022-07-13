@@ -2,96 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8664D573CFE
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 21:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 011E1573D03
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 21:12:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235042AbiGMTLM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 15:11:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35998 "EHLO
+        id S236838AbiGMTMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jul 2022 15:12:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbiGMTLL (ORCPT
+        with ESMTP id S229604AbiGMTMN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 15:11:11 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27311EC5F;
-        Wed, 13 Jul 2022 12:11:10 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id i206so3853028ybc.5;
-        Wed, 13 Jul 2022 12:11:10 -0700 (PDT)
+        Wed, 13 Jul 2022 15:12:13 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 811621EEEA
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 12:12:10 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id r18so15315519edb.9
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 12:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uX6Kc2kAxANJpf80UpilSQ2SInJgmyK49SONOFQNv5c=;
-        b=iqVLGZ4UHwqB4eZdQyeXhiOEO+3NmpiA/ZmKUZ3pojmgFsncTkpWmPWEH6+ykG18ae
-         mHYXJpDCYYAX+LOCja5quKdYDeVwQBkzP5VSKjvA+JOqHRBeG0ePsnW3S6y8aZMwu+Xv
-         us7pMqfk3SeJPMf4E8N6+/hDpkiDabfhM6Xus346kN48d+1zkrjBRPjbWfCPS2NGUJVf
-         OT/KyT3Vo5ti4qLNEhIuyE1W6+6HvnH+ENqkryha0rdTdP2IyVbgzSxvuJlXWF9HGYDN
-         ND6a5hAb2qfk94K/GM/VejQ+ISdNeM7+bhoN96fn8G7yXSbzZP7/52zcbjLwybjCTJOY
-         8LwA==
+        bh=PLq+vxmSJZQVlzojHgHWzYyGYj9NCZYGnKKKS15nhgc=;
+        b=z+8/nuDj0YhTITREu8tEiSYhUaWtxa2u8s/WCri+GGAhIqC1JlOWNr5amsXORQhXvC
+         HIjrp0W+dC6fYVhLJKT+zqPvpxBtXVbp5QUhil9xtDc9gq6HbcU1o/Av4IlXLCjJ5llM
+         YBYmLJc5gwMUNbqCkOvUx+7S8DxrCJZp0WqnPxLynzfopX5/QBU/GlyE22MUUgPuPwEZ
+         YUzweQU4YvgVe010Jf1Tj2yM79HPjV+GDG1DzxV0mn//ddaGYYgso77VgA6wl9Cnceov
+         NyVS1PjEJgD/kOTaQSkTPG+cdImEbh3mU2gEU3pSs8lCD/S9namtcGgmYawjdFqtiMYs
+         c18g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uX6Kc2kAxANJpf80UpilSQ2SInJgmyK49SONOFQNv5c=;
-        b=7Si0YeJ4WC8UN7+3qkM3URyXvOuTUyDg9rbRBaK2kqFMnWmMSJ8gvuCq5shx/f+/yi
-         eok9NEKz9i4nWmTVVr9xJY0XE2yDp9R73rQXZEAH5cSxr3gMPvJ+dgej4Vcp2Eysnxs0
-         qAPWbwBE8vSXy2+Hcj8Vt2MwXy58ygw8FZvXN3TPCdqAcXCSgDECF0dWf4g8UZwVtjfD
-         L8so3tuOB6YByXQvxRCGdD8NFAq0KTlWid1uedb8lPRJNvOEHIvTVZGQb/wf+t8ZHHkJ
-         4YS3fmqQvFTd+d6cKL5JVBD7bXfy5QKvLIwNUL/ITIr4BnteL46m2YAnXlo5C+dmKoKx
-         8mdA==
-X-Gm-Message-State: AJIora8lwddCcr9w29VWfN6SSseSlr9kZAQzHl/2owlekJ9QE0s+x0oH
-        xj+hTYoW8rx3Jv1aywtxJnI/lWX+zGaiAJYgXuA=
-X-Google-Smtp-Source: AGRyM1ubtEnBQBhsUQ4cfAfwgVqIR998ItYnbTDQhKD2W4fja/tTb/hnXkjG4PQuVLspPo/Bt6mh1j4EftGpjQ1ATcI=
-X-Received: by 2002:a05:6902:686:b0:66e:627f:4d29 with SMTP id
- i6-20020a056902068600b0066e627f4d29mr4782371ybt.385.1657739470007; Wed, 13
- Jul 2022 12:11:10 -0700 (PDT)
+        bh=PLq+vxmSJZQVlzojHgHWzYyGYj9NCZYGnKKKS15nhgc=;
+        b=39xPZu0R3akJ2mZ14juAlBqVFz3nMyQYNt9SGSF00MnbbAMoPaaPzTGyLZoVUZPDny
+         +dAlJcQ8cWA3cm9Fpaua9qim6kpLfJaM+yiMappeP0dFw4RwpgLj/j2MoPzvHEL3olOb
+         m/DC2c8M+hYd5nP5bNa9WKqnZrpEPi3sxzmSYZ/iAOz0I3IqpEFhlbqNuj217wC/eMOP
+         1O1XJ1EwPPL/RPnK5wviHLusrMcigEmEbRacMDRDc03SbuKUcbRjZaN5V2toFJoUxp9h
+         WjTpfaxgA0KzPGYuOCkExfSv83VrktOQ35XOYvtj371zt9L5h8uQA7Xz/fD9ve+wY+SY
+         Eo0Q==
+X-Gm-Message-State: AJIora/+StBJHAOUUKiNkYRRWnMQsnpm95i5gA9oLdLNnfHWWeA5Czze
+        nUm3d++UrR0MLCna0RTEpYh8rZeNgaBgFmEIgidENA==
+X-Google-Smtp-Source: AGRyM1ubxyRQpxoVT6CAxq4vQ0utB7Mdt4cgjhd5Fh5373cKkbymnqNFUGq1gmsYNG8qOCThsrxESBTdiHe6Uajwe7M=
+X-Received: by 2002:a05:6402:4396:b0:43a:77b5:41f7 with SMTP id
+ o22-20020a056402439600b0043a77b541f7mr6804147edc.45.1657739529010; Wed, 13
+ Jul 2022 12:12:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220713163201.136202-1-sebastian.fricke@collabora.com> <Ys8Txuq9/u/EL6sj@yury-laptop>
-In-Reply-To: <Ys8Txuq9/u/EL6sj@yury-laptop>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 13 Jul 2022 21:10:33 +0200
-Message-ID: <CAHp75VeOLfKw4-+Dpn54yy6j=tdiBNA_2Kvhj7mUUjTD-M_vYA@mail.gmail.com>
-Subject: Re: [PATCH 3/6] bitops: bitmap helper to set variable length values
-To:     Yury Norov <yury.norov@gmail.com>
-Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>, knaerzche@gmail.com,
+References: <20220713163201.136202-1-sebastian.fricke@collabora.com> <20220713163201.136202-3-sebastian.fricke@collabora.com>
+In-Reply-To: <20220713163201.136202-3-sebastian.fricke@collabora.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Wed, 13 Jul 2022 16:11:57 -0300
+Message-ID: <CAAEAJfAD49kc_zQsjKjB+v5PNcQXTEyT_fL98a2cSyzhTuk1Zg@mail.gmail.com>
+Subject: Re: [PATCH 5/6] staging: media: rkvdec: Enable S_CTRL IOCTL
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Alex Bee <knaerzche@gmail.com>,
         Collabora Kernel ML <kernel@collabora.com>,
-        bob.beckett@collabora.com,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Robert Beckett <bob.beckett@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-staging@lists.linux.dev, nicolas.dufresne@collabora.com,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Yury Norov <yury.norov@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 13, 2022 at 8:56 PM Yury Norov <yury.norov@gmail.com> wrote:
-> On Wed, Jul 13, 2022 at 06:31:59PM +0200, Sebastian Fricke wrote:
+Hi Sebastian,
 
-...
+On Wed, Jul 13, 2022 at 1:33 PM Sebastian Fricke
+<sebastian.fricke@collabora.com> wrote:
+>
+> Enable user-space to set the SPS of the current byte-stream on the
+> decoder. This action will trigger the decoder to pick the optimal
+> pixel-format for the capture queue.
+>
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec.c | 60 ++++++++++++++++++++-------
+>  1 file changed, 46 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index 2625e0a736f4..f84579f764ab 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -27,6 +27,17 @@
+>  #include "rkvdec.h"
+>  #include "rkvdec-regs.h"
+>
+> +static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
+> +                                      struct v4l2_pix_format_mplane *pix_mp)
+> +{
+> +       v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
+> +                           pix_mp->width, pix_mp->height);
+> +       pix_mp->plane_fmt[0].sizeimage += 128 *
+> +               DIV_ROUND_UP(pix_mp->width, 16) *
+> +               DIV_ROUND_UP(pix_mp->height, 16);
+> +       pix_mp->field = V4L2_FIELD_NONE;
+> +}
+> +
+>  /*
+>   * Fetch the optimal pixel-format directly from the codec variation. If the
+>   * valid_fmt callback is not implemented, then the context variable valid_fmt
+> @@ -44,6 +55,27 @@ static int rkvdec_get_valid_fmt(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
+>         return 0;
+>  }
+>
+> +static int rkvdec_set_valid_fmt(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
+> +{
+> +       struct v4l2_pix_format_mplane *pix_mp;
+> +
+> +       switch (ctrl->id) {
+> +       case V4L2_CID_STATELESS_H264_SPS:
+> +       case V4L2_CID_STATELESS_VP9_FRAME:
+> +       case V4L2_CID_STATELESS_HEVC_SPS:
+> +               ctx->valid_fmt = rkvdec_get_valid_fmt(ctx, ctrl);
+> +
+> +               pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
+> +               pix_mp->pixelformat = ctx->valid_fmt;
+> +               rkvdec_fill_decoded_pixfmt(ctx, pix_mp);
+> +               break;
+> +       default:
+> +               dev_err(ctx->dev->dev, "Unsupported stateless control ID: %x\n", ctrl->id);
+> +               return -EINVAL;
+> +       };
+> +       return 0;
+> +}
+> +
+>  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>         struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+> @@ -58,8 +90,18 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>         return 0;
+>  }
+>
+> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +       struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+> +
+> +       if (!ctx->valid_fmt)
+> +               return rkvdec_set_valid_fmt(ctx, ctrl);
 
-> I'd suggest you to try implementing
->         bitmap_copy_from(dst, src, dst_off, len)
-> or even
->         bitmap_copy_from(dst, dst_off, src, src_off, len)
-> if you expect that you'll need more flexibility in the future.
+We've discussed this approach with Jonas.
+See "[PATCH v2 10/12] media: rkvdec: Lock capture pixel format in
+s_ctrl and s_fmt".
 
-Do you think it would be useful?
+https://lore.kernel.org/all/f26407dbf3efc6cc046daaabdbe75c516743a187.camel@collabora.com/
 
-We have bitmap_replace() & bitmap_remap(). Wouldn't that be enough?
+The outcome of the discussion is:
+* setting SPS resets the CAPTURE format (as per the spec).
+* the application uses ENUM/TRY/S_FMT to negotiate a format, and uses
+SPS to filter formats.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Thanks!
+Ezequiel
