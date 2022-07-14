@@ -2,140 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93548573EF7
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jul 2022 23:26:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E67257453D
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 08:47:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237499AbiGMV0h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jul 2022 17:26:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49442 "EHLO
+        id S232166AbiGNGrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 02:47:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231769AbiGMV0g (ORCPT
+        with ESMTP id S229455AbiGNGrU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jul 2022 17:26:36 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688391F63C
-        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 14:26:35 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oBjsP-009ZQD-P7; Wed, 13 Jul 2022 21:26:33 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oBjsN-00G6vG-Ls; Wed, 13 Jul 2022 21:26:31 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR 5.20] More V4L2 patches (#84834)
-Date:   Wed, 13 Jul 2022 21:26:31 +0000
-Message-Id: <20220713212631.3839812-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <Ys8kICeZqicfr0mC@valkosipuli.retiisi.eu>
-References: 
+        Thu, 14 Jul 2022 02:47:20 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BC3E22515
+        for <linux-media@vger.kernel.org>; Wed, 13 Jul 2022 23:47:19 -0700 (PDT)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 880C6383;
+        Thu, 14 Jul 2022 08:47:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657781235;
+        bh=dShaQtskYlhTVXxNApboKwkDF9MPtEjDsrG/KxZxlew=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Z0IwZlOWOeLS5Uv2pyD1UI84nkJBTmYPL0qZQi54d/3VXINiNwEnP/k2CCBKgJFqy
+         LyOiNNECaDTcM+f/hWy3Y49GcaCQ+VBVIDwuzMScIfOJPWUeQ117y5kVdZ8zP3bqeI
+         scff2qWQKkmRZ3y65e6mQ1AefLoSafYKf9DPdgFQ=
+Message-ID: <69a59451-738b-248a-82c9-2e57ef0163f4@ideasonboard.com>
+Date:   Thu, 14 Jul 2022 09:47:12 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v11 22/36] media: subdev: Add [GS]_ROUTING subdev ioctls
+ and operations
+Content-Language: en-US
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>
+References: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
+ <20220301161156.1119557-23-tomi.valkeinen@ideasonboard.com>
+ <YsakLCHbfKF3R7vd@chromium.org>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <YsakLCHbfKF3R7vd@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Tomasz,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Ys8kICeZqicfr0mC@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/224599/
-Build time: 00:23:08
-Link: https://lore.kernel.org/linux-media/Ys8kICeZqicfr0mC@valkosipuli.retiisi.eu
+On 07/07/2022 12:15, Tomasz Figa wrote:
+> Hi Tomi, Laurent,
+> 
+> On Tue, Mar 01, 2022 at 06:11:42PM +0200, Tomi Valkeinen wrote:
+>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
+>> Add support for subdev internal routing. A route is defined as a single
+>> stream from a sink pad to a source pad.
+>>
+>> The userspace can configure the routing via two new ioctls,
+>> VIDIOC_SUBDEV_G_ROUTING and VIDIOC_SUBDEV_S_ROUTING, and subdevs can
+>> implement the functionality with v4l2_subdev_pad_ops.set_routing().
+> 
+> Thanks for the patch! Please check my comment inline.
+> 
+>>
+>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+>>
+>> - Add sink and source streams for multiplexed links
+>> - Copy the argument back in case of an error. This is needed to let the
+>>    caller know the number of routes.
+>>
+>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>
+>> - Expand and refine documentation.
+>> - Make the 'routes' pointer a __u64 __user pointer so that a compat32
+>>    version of the ioctl is not required.
+>> - Add struct v4l2_subdev_krouting to be used for subdevice operations.
+>>
+>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>
+>> - Fix typecasing warnings
+>> - Check sink & source pad types
+>> - Add 'which' field
+>> - Add V4L2_SUBDEV_ROUTE_FL_SOURCE
+>> - Routing to subdev state
+>> - Dropped get_routing subdev op
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-ioctl.c  | 25 ++++++++-
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 73 +++++++++++++++++++++++++++
+>>   include/media/v4l2-subdev.h           | 22 ++++++++
+>>   include/uapi/linux/v4l2-subdev.h      | 57 +++++++++++++++++++++
+>>   4 files changed, 176 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> index 642cb90f457c..add3b28d446e 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> @@ -16,6 +16,7 @@
+>>   #include <linux/kernel.h>
+>>   #include <linux/version.h>
+>>   
+>> +#include <linux/v4l2-subdev.h>
+>>   #include <linux/videodev2.h>
+>>   
+>>   #include <media/v4l2-common.h>
+>> @@ -3093,6 +3094,21 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
+>>   		ret = 1;
+>>   		break;
+>>   	}
+>> +
+>> +	case VIDIOC_SUBDEV_G_ROUTING:
+>> +	case VIDIOC_SUBDEV_S_ROUTING: {
+>> +		struct v4l2_subdev_routing *routing = parg;
+>> +
+>> +		if (routing->num_routes > 256)
+> 
+> Should we define and document this constant?
 
-gpg: Signature made Wed 13 Jul 2022 07:57:51 PM UTC
-gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+It's just an arbitrary high number as a sanity check. We don't have any 
+specific reason to limit the number of routes. If we publicize it to the 
+userspace, then the userspace might depend on it. On the other hand, 
+failing mystically when num-routes > 256 is also not so nice (not that 
+we have any drivers that go there, 8 has been the max so far).
 
-Summary: got 5/15 patches with issues, being 3 at build time, plus one error when buinding PDF document
+I think we should just keep it here internally, and try to make sure to 
+increase it if we ever get drivers that might support more routes.
 
-Error/warnings:
+>> +			return -EINVAL;
+>> +
+>> +		*user_ptr = u64_to_user_ptr(routing->routes);
+>> +		*kernel_ptr = (void **)&routing->routes;
+>> +		*array_size = sizeof(struct v4l2_subdev_route)
+>> +			    * routing->num_routes;
+>> +		ret = 1;
+>> +		break;
+>> +	}
+>>   	}
+>>   
+>>   	return ret;
+>> @@ -3356,8 +3372,15 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+>>   	/*
+>>   	 * Some ioctls can return an error, but still have valid
+>>   	 * results that must be returned.
+>> +	 *
+>> +	 * FIXME: subdev IOCTLS are partially handled here and partially in
+>> +	 * v4l2-subdev.c and the 'always_copy' flag can only be set for IOCTLS
+>> +	 * defined here as part of the 'v4l2_ioctls' array. As
+>> +	 * VIDIOC_SUBDEV_G_ROUTING needs to return results to applications even
+>> +	 * in case of failure, but it is not defined here as part of the
+>> +	 * 'v4l2_ioctls' array, insert an ad-hoc check to address that.
+>>   	 */
+>> -	if (err < 0 && !always_copy)
+>> +	if (err < 0 && !always_copy && cmd != VIDIOC_SUBDEV_G_ROUTING)
+>>   		goto out;
+>>   
+>>   out_array_args:
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index 3ad24093abe9..89c97bde4575 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -377,6 +377,10 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+>>   	case VIDIOC_SUBDEV_S_SELECTION:
+>>   		which = ((struct v4l2_subdev_selection *)arg)->which;
+>>   		break;
+>> +	case VIDIOC_SUBDEV_G_ROUTING:
+>> +	case VIDIOC_SUBDEV_S_ROUTING:
+>> +		which = ((struct v4l2_subdev_routing *)arg)->which;
+>> +		break;
+>>   	}
+>>   
+>>   	return which == V4L2_SUBDEV_FORMAT_TRY ?
+>> @@ -692,6 +696,74 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   	case VIDIOC_SUBDEV_QUERYSTD:
+>>   		return v4l2_subdev_call(sd, video, querystd, arg);
+>>   
+>> +	case VIDIOC_SUBDEV_G_ROUTING: {
+>> +		struct v4l2_subdev_routing *routing = arg;
+>> +		struct v4l2_subdev_krouting *krouting;
+>> +
+>> +		if (!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED))
+>> +			return -ENOIOCTLCMD;
+>> +
+>> +		memset(routing->reserved, 0, sizeof(routing->reserved));
+>> +
+>> +		krouting = &state->routing;
+>> +
+>> +		if (routing->num_routes < krouting->num_routes) {
+>> +			routing->num_routes = krouting->num_routes;
+>> +			return -ENOSPC;
+>> +		}
+>> +
+>> +		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+>> +		       krouting->routes,
+>> +		       krouting->num_routes * sizeof(*krouting->routes));
+>> +		routing->num_routes = krouting->num_routes;
+>> +
+>> +		return 0;
+>> +	}
+>> +
+>> +	case VIDIOC_SUBDEV_S_ROUTING: {
+>> +		struct v4l2_subdev_routing *routing = arg;
+>> +		struct v4l2_subdev_route *routes =
+>> +			(struct v4l2_subdev_route *)(uintptr_t)routing->routes;
+>> +		struct v4l2_subdev_krouting krouting = {};
+>> +		unsigned int i;
+>> +
+>> +		if (!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED))
+>> +			return -ENOIOCTLCMD;
+>> +
+>> +		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+>> +			return -EPERM;
+>> +
+>> +		memset(routing->reserved, 0, sizeof(routing->reserved));
+>> +
+>> +		for (i = 0; i < routing->num_routes; ++i) {
+>> +			const struct v4l2_subdev_route *route = &routes[i];
+>> +			const struct media_pad *pads = sd->entity.pads;
+>> +
+>> +			/* Do not check sink pad for source routes */
+>> +			if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE)) {
+>> +				if (route->sink_pad >= sd->entity.num_pads)
+>> +					return -EINVAL;
+>> +
+>> +				if (!(pads[route->sink_pad].flags &
+>> +				      MEDIA_PAD_FL_SINK))
+>> +					return -EINVAL;
+>> +			}
+>> +
+>> +			if (route->source_pad >= sd->entity.num_pads)
+>> +				return -EINVAL;
+>> +
+>> +			if (!(pads[route->source_pad].flags &
+>> +			      MEDIA_PAD_FL_SOURCE))
+>> +				return -EINVAL;
+>> +		}
+>> +
+>> +		krouting.num_routes = routing->num_routes;
+>> +		krouting.routes = routes;
+>> +
+>> +		return v4l2_subdev_call(sd, pad, set_routing, state,
+>> +					routing->which, &krouting);
+>> +	}
+>> +
+>>   	default:
+>>   		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
+>>   	}
+>> @@ -979,6 +1051,7 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
+>>   
+>>   	mutex_destroy(&state->_lock);
+>>   
+>> +	kfree(state->routing.routes);
+> 
+> Do we have any guarantee that this array was allocated with kmalloc()?
+> Maybe kvfree() could be more appropriate here?
 
-patches/0001-media-sunxi-Depend-on-GENERIC_PHY_MIPI_DPHY.patch:
+The array is allocated with kmemdup() in v4l2_subdev_set_routing().
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5253 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2344 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000020Kb sm_state_count = 1724941
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 68 seconds
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/pci/cx88/cx88-dvb.c: ../drivers/media/pci/cx88/cx88-dvb.c:1626 dvb_register() error: we previously assumed 'fe1->dvb.frontend' could be null (see line 1086)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2846 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0005-media-subdev-Add-v4l2_subdev_call_state_try-macro.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5121 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2328 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1724941
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 70 seconds
-	../drivers/media/pci/cx88/cx88-dvb.c: ../drivers/media/pci/cx88/cx88-dvb.c:1626 dvb_register() error: we previously assumed 'fe1->dvb.frontend' could be null (see line 1086)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2831 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0005-media-subdev-Add-v4l2_subdev_call_state_try-macro.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:54: CHECK: Macro argument reuse 'sd' - possible side-effects?
-
-patches/0008-media-entity-Add-iterator-for-entity-data-links.patch:
-
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5143 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2362 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1724887
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 68 seconds
-	../drivers/media/dvb-frontends/mb86a16.c: ../drivers/media/dvb-frontends/mb86a16.c:1471 mb86a16_set_fe() parse error: turning off implications after 60 seconds
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2799 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0008-media-entity-Add-iterator-for-entity-data-links.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:81: CHECK: Macro argument reuse 'entity' - possible side-effects?
-	-:81: CHECK: Macro argument reuse 'link' - possible side-effects?
-
-patches/0009-media-entity-Use-dedicated-data-link-iterator.patch:
-
-   checkpatch.pl:
-	$ cat patches/0009-media-entity-Use-dedicated-data-link-iterator.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:8: WARNING: Possible repeated word: 'that'
-
-patches/0013-media-ov5693-add-support-for-acpi-clock-frequency-pr.patch:
-
-   checkpatch.pl:
-	$ cat patches/0013-media-ov5693-add-support-for-acpi-clock-frequency-pr.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:39: CHECK: Alignment should match open parenthesis
-
-
-Error #512 when building PDF docs
-
+  Tomi
