@@ -2,212 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E217575252
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 17:58:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F0257557E
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 20:57:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232131AbiGNP6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 11:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59750 "EHLO
+        id S240866AbiGNS4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 14:56:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238278AbiGNP6l (ORCPT
+        with ESMTP id S240871AbiGNS4k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 11:58:41 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29EEFBC98;
-        Thu, 14 Jul 2022 08:58:37 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id E52801C0002;
-        Thu, 14 Jul 2022 15:58:32 +0000 (UTC)
-Date:   Thu, 14 Jul 2022 17:58:31 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Yassine Oudjana <yassine.oudjana@gmail.com>
-Cc:     Lee Jackson <info@arducam.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Yassine Oudjana <y.oudjana@protonmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] media: i2c: ak7375: Add regulator management
-Message-ID: <20220714155831.c2nzbimf5oyndtdn@uno.localdomain>
-References: <20220711144039.232196-1-y.oudjana@protonmail.com>
- <20220711144039.232196-4-y.oudjana@protonmail.com>
- <20220713073951.qrg3slmvqbibwc5o@uno.localdomain>
- <WIK0FR.TSG3JTBEBBDN@gmail.com>
+        Thu, 14 Jul 2022 14:56:40 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E1B552FDE;
+        Thu, 14 Jul 2022 11:56:39 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id bx13so3253316ljb.1;
+        Thu, 14 Jul 2022 11:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=I+jRCsbhWxs4TKxqJzQgQaeI3aEXSHWJMTuLT4iRT3Q=;
+        b=czNASMqeU+srNnAAhlHPGcffIbPDqRFnLihGD0XFSNfr8kR5CH1Ky3lN+XYSxsHROM
+         lQicd2XY4af6mwvtng/Tew/YAoPI0XFKCoy6y77Uv+QxvJE72PIUPA7ECnlLW4U/fL83
+         tEZwG9x9nIxYYKveeDTXicPDjd+US3yrSONZAF1FIjXhUN7ZzwTPQpQ7lBwHkDOssdq0
+         hFgrx9gH/2SB/Zgv1F9NK0j7x3pfpWLnVy6L2y76T5++DuaDg5a0JnUUNVLZNaQeg4DZ
+         5wFjRemKVGgwWzjDC65UKYvDC5cty25kA5+0sng0BqxcqE2TjFVpbSCIkleouf/RhvLq
+         8Q9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=I+jRCsbhWxs4TKxqJzQgQaeI3aEXSHWJMTuLT4iRT3Q=;
+        b=FfBxvs8VtP7VAVjtJPNZ7tw63J+tIrTejkO7pkXImuIl3mG7PlQMxBgaqS2msSu/s3
+         opjSNvVNxAo2Z8vsG0db+GXSfelDv32LV3dps6uxKk4SvKuUrOfckeVAN9V7UQW9IdPd
+         PK4M/KZ4EJGLr55oGwVceIH1dXM0+HRIIih5AiXDEasR6Nppb5SmAEotpmXMsXg9xhFR
+         ugLqEIgAg6xWNeg6lBHLHnraqX7Vd6vlbkYOhf3b8+pnm0VVpG8LhwQyLc7ZVz3qf7Nm
+         xbxHvy8MOOji55q1YhvuoY6Ve3hhmCIpxYIGweicS7S+oqm8hmV+GmIasJts+yIYLHfD
+         YTlg==
+X-Gm-Message-State: AJIora9LFYExt7DgpohqKgWo9RERd2i+BZ3rGatn6+YCcrEaQHKIlEIh
+        h97ySQ9W8yg/W9T8D8HDN9A=
+X-Google-Smtp-Source: AGRyM1vNpkQa0X3eFgXBGerGcc6TjM+Mj1qmUj55J5sTQRxev4jQsb4jj+WwgZdck8Km05bMmlxcHg==
+X-Received: by 2002:a2e:a608:0:b0:25d:5363:35a4 with SMTP id v8-20020a2ea608000000b0025d536335a4mr5384558ljp.132.1657824997544;
+        Thu, 14 Jul 2022 11:56:37 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-119-232.nat.spd-mgts.ru. [109.252.119.232])
+        by smtp.googlemail.com with ESMTPSA id k1-20020a2eb741000000b0025d542731ffsm401246ljo.5.2022.07.14.11.56.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jul 2022 11:56:36 -0700 (PDT)
+Message-ID: <0d4f6b3a-16ab-6289-0b56-490cf8667a65@gmail.com>
+Date:   Thu, 14 Jul 2022 21:56:30 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <WIK0FR.TSG3JTBEBBDN@gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 3/8] tegra-vde: Use vb2_find_buffer
+Content-Language: en-US
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+References: <20220711211141.349902-1-ezequiel@vanguardiasur.com.ar>
+ <20220711211141.349902-4-ezequiel@vanguardiasur.com.ar>
+From:   Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <20220711211141.349902-4-ezequiel@vanguardiasur.com.ar>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Yassine
+12.07.2022 00:11, Ezequiel Garcia пишет:
+> Use the newly introduced vb2_find_buffer API to get a vb2_buffer
+> given a buffer timestamp.
+> 
+> Cc: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> Acked-by: Tomasz Figa <tfiga@chromium.org>
+> ---
+>  drivers/media/platform/nvidia/tegra-vde/h264.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/nvidia/tegra-vde/h264.c b/drivers/media/platform/nvidia/tegra-vde/h264.c
+> index 88f81a134ba0..204e474d57f7 100644
+> --- a/drivers/media/platform/nvidia/tegra-vde/h264.c
+> +++ b/drivers/media/platform/nvidia/tegra-vde/h264.c
+> @@ -659,20 +659,19 @@ static struct vb2_buffer *get_ref_buf(struct tegra_ctx *ctx,
+>  {
+>  	const struct v4l2_h264_dpb_entry *dpb = ctx->h264.decode_params->dpb;
+>  	struct vb2_queue *cap_q = &ctx->fh.m2m_ctx->cap_q_ctx.q;
+> -	int buf_idx = -1;
+> +	struct vb2_buffer *vb = NULL;
+>  
+>  	if (dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+> -		buf_idx = vb2_find_timestamp(cap_q,
+> -					     dpb[dpb_idx].reference_ts, 0);
+> +		vb = vb2_find_buffer(cap_q, dpb[dpb_idx].reference_ts);
+>  
+>  	/*
+>  	 * If a DPB entry is unused or invalid, address of current destination
+>  	 * buffer is returned.
+>  	 */
+> -	if (buf_idx < 0)
+> +	if (!vb)
+>  		return &dst->vb2_buf;
+>  
+> -	return vb2_get_buffer(cap_q, buf_idx);
+> +	return vb;
+>  }
+>  
+>  static int tegra_vde_validate_vb_size(struct tegra_ctx *ctx,
 
-On Thu, Jul 14, 2022 at 06:06:32PM +0400, Yassine Oudjana wrote:
->
-> On Wed, Jul 13 2022 at 09:39:51 +0200, Jacopo Mondi <jacopo@jmondi.org>
-> wrote:
-> > Hi Yassine
-> >
-> > On Mon, Jul 11, 2022 at 06:40:39PM +0400, Yassine Oudjana wrote:
-> > >  From: Yassine Oudjana <y.oudjana@protonmail.com>
-> > >
-> > >  Make the driver get needed regulators on probe and enable/disable
-> > >  them on runtime PM callbacks.
-> > >
-> > >  Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> >
-> > Have you seen this ?
-> > https://github.com/ArduCAM/IMX519_AK7375/blob/main/AK7375/0002-media-i2c-ak7375-driver-add-optional-regulator-suppo.patch#L172
-> >
-> > It claims
-> > +	* Initialisation delay between VDD low->high and the moment
-> > +	* when the i2c command is available.
-> > +	* From the datasheet, it should be 10ms + 2ms (max power
-> > +	* up sequence duration)
-> >
-> > 10ms seems like a long time, it would be nice to have the datasheet to
-> > cross-check.
->
-> It does seem quite long. I couldn't find a datasheet anywhere
-> so the value I discovered is the best I have. I've added the
-> author of that patch to CC; maybe they have some info to
-> contribute.
->
-
-I have now tested these patches with an Arducam IMX519 camera.
-Using a 3msec delay I get failures in the establishing i2c
-communications (I only tested 2 times though).
-
-With 10milliseconds (which I concur is a lot) I get stable results.
-Let's see if we can get more info from who has the manual.
-
-Thanks
-  j
-
-> >
-> > Thanks
-> >    j
-> >
-> > >  ---
-> > >  Changes since v1:
-> > >    - Reorganize variable declaration
-> > >    - Change the power-on delay range to 3000-3500 microseconds.
-> > >
-> > >   drivers/media/i2c/ak7375.c | 39
-> > > ++++++++++++++++++++++++++++++++++++++
-> > >   1 file changed, 39 insertions(+)
-> > >
-> > >  diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-> > >  index 40b1a4aa846c..c2b2542a0056 100644
-> > >  --- a/drivers/media/i2c/ak7375.c
-> > >  +++ b/drivers/media/i2c/ak7375.c
-> > >  @@ -6,6 +6,7 @@
-> > >   #include <linux/i2c.h>
-> > >   #include <linux/module.h>
-> > >   #include <linux/pm_runtime.h>
-> > >  +#include <linux/regulator/consumer.h>
-> > >   #include <media/v4l2-ctrls.h>
-> > >   #include <media/v4l2-device.h>
-> > >
-> > >  @@ -23,17 +24,32 @@
-> > >    */
-> > >   #define AK7375_CTRL_STEPS	64
-> > >   #define AK7375_CTRL_DELAY_US	1000
-> > >  +/*
-> > >  + * The vcm takes around 3 ms to power on and start taking
-> > >  + * I2C messages. This value was found experimentally due to
-> > >  + * lack of documentation.
-> > >  + */
-> > >  +#define AK7375_POWER_DELAY_US	3000
-> > >
-> > >   #define AK7375_REG_POSITION	0x0
-> > >   #define AK7375_REG_CONT		0x2
-> > >   #define AK7375_MODE_ACTIVE	0x0
-> > >   #define AK7375_MODE_STANDBY	0x40
-> > >
-> > >  +static const char * const ak7375_supply_names[] = {
-> > >  +	"vdd",
-> > >  +	"vio",
-> > >  +};
-> > >  +
-> > >  +#define AK7375_NUM_SUPPLIES ARRAY_SIZE(ak7375_supply_names)
-> > >  +
-> > >   /* ak7375 device structure */
-> > >   struct ak7375_device {
-> > >   	struct v4l2_ctrl_handler ctrls_vcm;
-> > >   	struct v4l2_subdev sd;
-> > >   	struct v4l2_ctrl *focus;
-> > >  +	struct regulator_bulk_data supplies[AK7375_NUM_SUPPLIES];
-> > >  +
-> > >   	/* active or standby mode */
-> > >   	bool active;
-> > >   };
-> > >  @@ -133,12 +149,24 @@ static int ak7375_probe(struct i2c_client
-> > > *client)
-> > >   {
-> > >   	struct ak7375_device *ak7375_dev;
-> > >   	int ret;
-> > >  +	int i;
-> > >
-> > >   	ak7375_dev = devm_kzalloc(&client->dev, sizeof(*ak7375_dev),
-> > >   				  GFP_KERNEL);
-> > >   	if (!ak7375_dev)
-> > >   		return -ENOMEM;
-> > >
-> > >  +	for (i = 0; i < AK7375_NUM_SUPPLIES; i++)
-> > >  +		ak7375_dev->supplies[i].supply = ak7375_supply_names[i];
-> > >  +
-> > >  +	ret = devm_regulator_bulk_get(&client->dev, AK7375_NUM_SUPPLIES,
-> > >  +				      ak7375_dev->supplies);
-> > >  +	if (ret) {
-> > >  +		dev_err(&client->dev, "Failed to get regulators: %pe",
-> > >  +			ERR_PTR(ret));
-> > >  +		return ret;
-> > >  +	}
-> > >  +
-> > >   	v4l2_i2c_subdev_init(&ak7375_dev->sd, client, &ak7375_ops);
-> > >   	ak7375_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > >   	ak7375_dev->sd.internal_ops = &ak7375_int_ops;
-> > >  @@ -210,6 +238,10 @@ static int __maybe_unused
-> > > ak7375_vcm_suspend(struct device *dev)
-> > >   	if (ret)
-> > >   		dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
-> > >
-> > >  +	ret = regulator_bulk_disable(AK7375_NUM_SUPPLIES,
-> > > ak7375_dev->supplies);
-> > >  +	if (ret)
-> > >  +		return ret;
-> > >  +
-> > >   	ak7375_dev->active = false;
-> > >
-> > >   	return 0;
-> > >  @@ -230,6 +262,13 @@ static int __maybe_unused
-> > > ak7375_vcm_resume(struct device *dev)
-> > >   	if (ak7375_dev->active)
-> > >   		return 0;
-> > >
-> > >  +	ret = regulator_bulk_enable(AK7375_NUM_SUPPLIES,
-> > > ak7375_dev->supplies);
-> > >  +	if (ret)
-> > >  +		return ret;
-> > >  +
-> > >  +	/* Wait for vcm to become ready */
-> > >  +	usleep_range(AK7375_POWER_DELAY_US, AK7375_POWER_DELAY_US + 500);
-> > >  +
-> > >   	ret = ak7375_i2c_write(ak7375_dev, AK7375_REG_CONT,
-> > >   		AK7375_MODE_ACTIVE, 1);
-> > >   	if (ret) {
-> > >  --
-> > >  2.37.0
-> > >
->
->
+Acked-by: Dmitry Osipenko <digetx@gmail.com>
