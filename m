@@ -2,73 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0FF3575118
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 16:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D3C7575191
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 17:18:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239178AbiGNOvl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 10:51:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58014 "EHLO
+        id S232135AbiGNPSz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 11:18:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236976AbiGNOvk (ORCPT
+        with ESMTP id S231937AbiGNPSy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 10:51:40 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B05851404;
-        Thu, 14 Jul 2022 07:51:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=xa5RQmHCM2NCaGhtbRl+Zd37a4LSUMe5pWmo4ZyYNKI=; b=J5hgWJWOm0LWJGedGMgRLjPnry
-        KTMNjKYYx/assHiJeTw9xVzMMYpdWqj0OE0fsz3p7fmdpnWhkTyA6AFHbj/7s2VTjoZ3oCk6+VMRS
-        SHLvur27nTYD3Z/zevVxwpCAASwqRV8s4O/XoFFN4tAasYBU6764ye+gQU6cI8sUYsHbQjv5Pzq2X
-        53TfyqyXzuulUA7YbeNQEnBwZFmLdvkFsZjoh4XtIqviZ7flfHKFq4SEl2N6a5hExCyq25ot/TtZH
-        0cpqyDWxUmd4//xmszaY06HayvyFt7Kz1sdX+mKWrpVLrGG3ND9e1gQ3fTsihqfynXHFEr4V+5M60
-        tiPT5HgA==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oC0Bg-00FMlR-OE; Thu, 14 Jul 2022 14:51:32 +0000
-Message-ID: <f418dc88-96e8-99bb-dfc0-1da277b7f0ee@infradead.org>
-Date:   Thu, 14 Jul 2022 07:51:30 -0700
+        Thu, 14 Jul 2022 11:18:54 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E85C16585
+        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 08:18:53 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id w12so2810417edd.13
+        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 08:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=gMcljGA6RiIJUly46ZYJ3RBh9KuEdw+92MnNFHCOp10=;
+        b=R72Bc8MY0G1R3mxYmkpyVQKx64mh2Rgtxe1UcjXrt0u2MDwepMuMktPPW7bkAFjvVC
+         A38GWgzUi0AEddsnUnGceeFoVfbl5eusnHGrdiPY7d7EbeWDVdpBvIhw8Q+C19P3LtK7
+         v21dE/mH8Hpymm0BI1o2ZFeX8LhLxqnv+dULY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=gMcljGA6RiIJUly46ZYJ3RBh9KuEdw+92MnNFHCOp10=;
+        b=1j6rXZUsqpDFrz3csfJ8RR2QzMIXTFE8QuFGjwxY1CzUgyGIvIHQYC3nLLYuLnp+O/
+         B3GN+6zNCu0vzhb+Wzi2LhjLkdbLRN+kwwvg7vu6BImm8KRrtkJkEN8QERnaD8UUaHQw
+         CwqUAtL24KLHJnkYm8Nib+DbAj+cVH7Xuiz0CuKTiv2gOeaG20d6bPPM0t6aazzlX0Tb
+         GRc17roHqMYyZ2I6FBp/z2yx4YDN3riRksaByubpiMf7acXBVuFDWNOI4LAwaaJkOFDA
+         dfw+qde3T06Rujd6p2VPVQPV3ikH5mlYiR0z952hqwRuxQFInKeDrll20RAmWfJzpbe0
+         QmGg==
+X-Gm-Message-State: AJIora++lEyyOo7/ZyLXVQB5mcSYozZQpBaeXmpbiR2bJXEJh5nfU50E
+        XXYiJw+w/jXqx+ubJqX14Qvor36GXE+eCA==
+X-Google-Smtp-Source: AGRyM1sh3Sque0W088iyV0FQe0d5u5edxXI9r1lEsd+ssZc5NznBI8wNuC3tIvh7B55YJXYeYYenyg==
+X-Received: by 2002:a05:6402:3551:b0:43a:a5c0:2fbc with SMTP id f17-20020a056402355100b0043aa5c02fbcmr12686523edd.288.1657811931881;
+        Thu, 14 Jul 2022 08:18:51 -0700 (PDT)
+Received: from p310.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id bq1-20020a056402214100b0043a422801f8sm1194659edb.87.2022.07.14.08.18.51
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jul 2022 08:18:51 -0700 (PDT)
+Date:   Thu, 14 Jul 2022 18:22:09 +0300
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     linux-media@vger.kernel.org
+Subject: properly set test pattern to a sub-device
+Message-ID: <YtA0oTgCRlRP8K53@p310.k.g>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v22 4/4] media: platform: mtk-mdp3: add Mediatek MDP3
- driver
-Content-Language: en-US
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
-        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        allen-kh.cheng@mediatek.com, xiandong.wang@mediatek.com,
-        randy.wu@mediatek.com, jason-jh.lin@mediatek.com,
-        roy-cw.yeh@mediatek.com, river.cheng@mediatek.com,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        cellopoint.kai@gmail.com
-References: <20220714092153.16686-1-moudy.ho@mediatek.com>
- <20220714092153.16686-5-moudy.ho@mediatek.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220714092153.16686-5-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,41 +63,21 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-	
+	Hi guys,
 
-On 7/14/22 02:21, Moudy Ho wrote:
-> diff --git a/drivers/media/platform/mediatek/mdp3/Kconfig b/drivers/media/platform/mediatek/mdp3/Kconfig
-> new file mode 100644
-> index 000000000000..6640763c7c5e
-> --- /dev/null
-> +++ b/drivers/media/platform/mediatek/mdp3/Kconfig
-> @@ -0,0 +1,20 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config VIDEO_MEDIATEK_MDP3
-> +	tristate "Mediatek MDP v3 driver"
-> +	depends on MTK_IOMMU || COMPLIE_TEST
+I've got a long pipeline of four entities and need to make the imx492 sensor 
+stream out a test pattern.  When i do:
 
-	                        COMPILE_TEST
+	v4l2-ctl -d /dev/v4l-subdev2 --set-ctrl=test_pattern=2
 
-> +	depends on VIDEO_DEV
-> +	depends on ARCH_MEDIATEK || COMPILE_TEST
-> +	depends on MTK_MMSYS
-> +	depends on HAS_DMA
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	select V4L2_MEM2MEM_DEV
-> +	select VIDEO_MEDIATEK_VPU
-> +	select MTK_CMDQ
-> +	select MTK_SCP
-> +	default n
-> +	help
-> +	    It is a v4l2 driver and present in Mediatek MT8183 SoC.
-> +	    The driver supports for scaling and color space conversion.
+I can see the driver acknowledging the switch to test pattern 2.  However, when 
+start streaming with:
 
-	  The driver supports scaling and color space conversion.
+	v4l2-ctl -d /dev/video0 --stream-mmap --stream-to=frame.raw --stream-count=1
 
-> +
-> +	    To compile this driver as a module, choose M here: the
-> +	    module will be called mtk-mdp3.
+the driver reports setting the test pattern to the default 0.  How should this 
+be done properly?
 
--- 
-~Randy
+
+thanks,
+Petko
