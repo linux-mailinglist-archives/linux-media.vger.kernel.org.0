@@ -2,169 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C9CD574750
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 10:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 500BA574762
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 10:42:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234904AbiGNIk1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 04:40:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36930 "EHLO
+        id S235469AbiGNImO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 04:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbiGNIk0 (ORCPT
+        with ESMTP id S236882AbiGNImF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 04:40:26 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 271C8300
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 01:40:25 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id D762C1F90D;
-        Thu, 14 Jul 2022 08:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1657788023; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XMT+SlB8Ut70ivi8XSup3U4g2ZN+9QVsgWqieVMmRKw=;
-        b=vHwFgVXXs/DvDsQFutHA5eSi6GXcYt5Y0Fg3WB5rN544RsGVN2+PJzXTFERAGJ1nVnSrgN
-        AlIvjjBPG7kmzoPUFhVmZr9SeBzSJw/bICBgN5D0KtPZMev0HgSzeDdQc4dQGM5F0hXwAv
-        HQXurHKUX/CL/AUzlyC47iZo/29knSA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1657788023;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XMT+SlB8Ut70ivi8XSup3U4g2ZN+9QVsgWqieVMmRKw=;
-        b=95a5ze+3dt9rqbkn1dPNHxPxHYS6qdVd6g4VyMAB0jUk/+dja9sDh5b1U6OwZBO5mpRNrf
-        47A4xQpslmvopHCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AF7FD13A61;
-        Thu, 14 Jul 2022 08:40:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id N9K1KXfWz2IrFQAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 14 Jul 2022 08:40:23 +0000
-Message-ID: <5b8aa549-c2f1-19b2-d0f4-26d4ea1a7ade@suse.de>
-Date:   Thu, 14 Jul 2022 10:40:23 +0200
+        Thu, 14 Jul 2022 04:42:05 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613A91D0E3
+        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 01:42:00 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id bn33so1306954ljb.13
+        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 01:42:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=2esk9TdP6kdtHrSrnymcj6el8b1LRAbpAWkkLqJtl+Q=;
+        b=QDY5mi3VIPpcKyFZhKZjk/KSiRRe16p/xCNRaSTyE6aOIVnY7Eoa1LCzB4pvzePsu4
+         OuXzzOzB0Hp4/7IiNtsGFu5/VGOz0UoDfBPUY0FMOOUDHGWHF6Lt/FfuK8/EX9HEUIPZ
+         LpOjPBk17d9pRExewm/BS3YZpvlUlnfs9ocNWNzzFIb4PWmhBX9DTQJus1Zw3Mq67TBx
+         KqB7EC27vMSKGI5yU6Z5Y0zrYSBPfJfOlGTDbPMNW01ZuKk/He6r+AROyg6XFJ+FxUcL
+         4l1DpDfzGopAyCdRU4HYaKK50UgoV+NE8MhM/JEx9WqzHe1WTmPSkUkeGeb7VMF8tmeI
+         f75Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=2esk9TdP6kdtHrSrnymcj6el8b1LRAbpAWkkLqJtl+Q=;
+        b=7zCsjnMD3OSRIElDU/gN8AXA7WfPl4a44x0PAP1EHEirqGtxNU8GrGicVoyUwjAyED
+         fXzP24w/96kUpaF2s+A+9Koqw0V4RKqfMnZMLOWGDl4+lMPAOaXamI6L7w9Z/3Ys10O4
+         pG+2dEKiuAV5YB+mFij6zJk3yL6XMotOEIGY3ACenAGEbvuaKK0L1OBbKZ6t2Z/ynGF/
+         qMz2zURk743B/HhH32YajNTkLgaCglfUYIeqGmdyh9kNAWEecfXdER7TOAw3MZd42Ro/
+         +hLu+VjihP07HuKM9YKgEum6OkVTxq6VoMKPpIIUGAlnWN0FkmIcYFHdMW1RY7OgDQcL
+         RHOQ==
+X-Gm-Message-State: AJIora/RqTX2P72eujX8puDX5n4zYT4H6Ze/o7G5xPpsGoYE6nJv1j6L
+        ZNrub74UhDh/UVaQL/QGNS+bjQ==
+X-Google-Smtp-Source: AGRyM1v/BYdsHg1HmjFFrY68+2Ov3PsFKUBHW91Dw9/ABXYMjZxuScitqUVCt4TauEg+rSdSSQgLeg==
+X-Received: by 2002:a2e:8507:0:b0:25d:68a9:c417 with SMTP id j7-20020a2e8507000000b0025d68a9c417mr4018996lji.459.1657788118698;
+        Thu, 14 Jul 2022 01:41:58 -0700 (PDT)
+Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
+        by smtp.gmail.com with ESMTPSA id q8-20020a056512210800b00489e812f05asm244158lfr.21.2022.07.14.01.41.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jul 2022 01:41:58 -0700 (PDT)
+Message-ID: <80453ac7-3593-c1c1-a35c-6e660850de44@linaro.org>
+Date:   Thu, 14 Jul 2022 10:41:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] dma-buf: revert "return only unsignaled fences in
- dma_fence_unwrap_for_each v3"
+Subject: Re: [PATCH v2 5/6] media: dt-bindings: media: i2c: Add mlx7502x
+ camera sensor binding
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        karolina.drobnik@intel.com, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org
-Cc:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220712102849.1562-1-christian.koenig@amd.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220712102849.1562-1-christian.koenig@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------D0ERVH3qnEPM40ls2zPMt6NI"
+To:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org
+Cc:     Andrii Kyselov <ays@melexis.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org
+References: <cover.1657786765.git.vkh@melexis.com>
+ <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------D0ERVH3qnEPM40ls2zPMt6NI
-Content-Type: multipart/mixed; boundary="------------IP0LwrCgTyVa30mK2W6n4pF1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- karolina.drobnik@intel.com, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <5b8aa549-c2f1-19b2-d0f4-26d4ea1a7ade@suse.de>
-Subject: Re: [PATCH] dma-buf: revert "return only unsignaled fences in
- dma_fence_unwrap_for_each v3"
-References: <20220712102849.1562-1-christian.koenig@amd.com>
-In-Reply-To: <20220712102849.1562-1-christian.koenig@amd.com>
+On 14/07/2022 10:34, Volodymyr Kharuk wrote:
+> Add device tree binding of the mlx7502x and update MAINTAINERS
+> 
+> Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
 
---------------IP0LwrCgTyVa30mK2W6n4pF1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Wrong subject prefix. Remove trailing "binding".
 
-SGkgQ2hyaXN0aWFuDQoNCkFtIDEyLjA3LjIyIHVtIDEyOjI4IHNjaHJpZWIgQ2hyaXN0aWFu
-IEvDtm5pZzoNCj4gVGhpcyByZXZlcnRzIGNvbW1pdCA4ZjYxOTczNzE4NDg1ZjNlODliYzRm
-NDA4ZjkyOTA0OGI3YjQ3YzgzLg0KDQpJIG9ubHkgZm91bmQgdGhpcyBjb21taXQgaW4gZHJt
-LW1pc2MtbmV4dC4gU2hvdWxkIHRoZSByZXZlcnQgYmUgDQpjaGVycnktcGlja2VkIGludG8g
-ZHJtLW1pc2MtbmV4dC1maXhlcz8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4g
-SXQgdHVybmVkIG91dCB0aGF0IHRoaXMgaXMgbm90IGNvcnJlY3QuIEVzcGVjaWFsbHkgdGhl
-IHN5bmNfZmlsZSBpbmZvDQo+IElPQ1RMIG5lZWRzIHRvIHNlZSBldmVuIHNpZ25hbGVkIGZl
-bmNlcyB0byBjb3JyZWN0bHkgcmVwb3J0IGJhY2sgdGhlaXINCj4gc3RhdHVzIHRvIHVzZXJz
-cGFjZS4NCj4gDQo+IEluc3RlYWQgYWRkIHRoZSBmaWx0ZXIgaW4gdGhlIG1lcmdlIGZ1bmN0
-aW9uIGFnYWluIHdoZXJlIGl0IG1ha2VzIHNlbnNlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTog
-Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiAtLS0NCj4g
-ICBkcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLXVud3JhcC5jIHwgMyArKy0NCj4gICBpbmNs
-dWRlL2xpbnV4L2RtYS1mZW5jZS11bndyYXAuaCAgIHwgNiArLS0tLS0NCj4gICAyIGZpbGVz
-IGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLXVud3JhcC5jIGIvZHJpdmVycy9k
-bWEtYnVmL2RtYS1mZW5jZS11bndyYXAuYw0KPiBpbmRleCA1MDJhNjVlYTZkNDQuLjcwMDJi
-Y2E3OTJmZiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1mZW5jZS11bndy
-YXAuYw0KPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLXVud3JhcC5jDQo+IEBA
-IC03Miw3ICs3Miw4IEBAIHN0cnVjdCBkbWFfZmVuY2UgKl9fZG1hX2ZlbmNlX3Vud3JhcF9t
-ZXJnZSh1bnNpZ25lZCBpbnQgbnVtX2ZlbmNlcywNCj4gICAJY291bnQgPSAwOw0KPiAgIAlm
-b3IgKGkgPSAwOyBpIDwgbnVtX2ZlbmNlczsgKytpKSB7DQo+ICAgCQlkbWFfZmVuY2VfdW53
-cmFwX2Zvcl9lYWNoKHRtcCwgJml0ZXJbaV0sIGZlbmNlc1tpXSkNCj4gLQkJCSsrY291bnQ7
-DQo+ICsJCQlpZiAoIWRtYV9mZW5jZV9pc19zaWduYWxlZCh0bXApKQ0KPiArCQkJCSsrY291
-bnQ7DQo+ICAgCX0NCj4gICANCj4gICAJaWYgKGNvdW50ID09IDApDQo+IGRpZmYgLS1naXQg
-YS9pbmNsdWRlL2xpbnV4L2RtYS1mZW5jZS11bndyYXAuaCBiL2luY2x1ZGUvbGludXgvZG1h
-LWZlbmNlLXVud3JhcC5oDQo+IGluZGV4IDM5MGRlMWVlOWQzNS4uNjZiMWU1NmZiYjgxIDEw
-MDY0NA0KPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1mZW5jZS11bndyYXAuaA0KPiArKysg
-Yi9pbmNsdWRlL2xpbnV4L2RtYS1mZW5jZS11bndyYXAuaA0KPiBAQCAtNDMsMTQgKzQzLDEw
-IEBAIHN0cnVjdCBkbWFfZmVuY2UgKmRtYV9mZW5jZV91bndyYXBfbmV4dChzdHJ1Y3QgZG1h
-X2ZlbmNlX3Vud3JhcCAqY3Vyc29yKTsNCj4gICAgKiBVbndyYXAgZG1hX2ZlbmNlX2NoYWlu
-IGFuZCBkbWFfZmVuY2VfYXJyYXkgY29udGFpbmVycyBhbmQgZGVlcCBkaXZlIGludG8gYWxs
-DQo+ICAgICogcG90ZW50aWFsIGZlbmNlcyBpbiB0aGVtLiBJZiBAaGVhZCBpcyBqdXN0IGEg
-bm9ybWFsIGZlbmNlIG9ubHkgdGhhdCBvbmUgaXMNCj4gICAgKiByZXR1cm5lZC4NCj4gLSAq
-DQo+IC0gKiBOb3RlIHRoYXQgc2lnbmFsbGVkIGZlbmNlcyBhcmUgb3Bwb3J0dW5pc3RpY2Fs
-bHkgZmlsdGVyZWQgb3V0LCB3aGljaA0KPiAtICogbWVhbnMgdGhlIGl0ZXJhdGlvbiBpcyBw
-b3RlbnRpYWxseSBvdmVyIG5vIGZlbmNlIGF0IGFsbC4NCj4gICAgKi8NCj4gICAjZGVmaW5l
-IGRtYV9mZW5jZV91bndyYXBfZm9yX2VhY2goZmVuY2UsIGN1cnNvciwgaGVhZCkJCQlcDQo+
-ICAgCWZvciAoZmVuY2UgPSBkbWFfZmVuY2VfdW53cmFwX2ZpcnN0KGhlYWQsIGN1cnNvcik7
-IGZlbmNlOwlcDQo+IC0JICAgICBmZW5jZSA9IGRtYV9mZW5jZV91bndyYXBfbmV4dChjdXJz
-b3IpKQkJCVwNCj4gLQkJaWYgKCFkbWFfZmVuY2VfaXNfc2lnbmFsZWQoZmVuY2UpKQ0KPiAr
-CSAgICAgZmVuY2UgPSBkbWFfZmVuY2VfdW53cmFwX25leHQoY3Vyc29yKSkNCj4gICANCj4g
-ICBzdHJ1Y3QgZG1hX2ZlbmNlICpfX2RtYV9mZW5jZV91bndyYXBfbWVyZ2UodW5zaWduZWQg
-aW50IG51bV9mZW5jZXMsDQo+ICAgCQkJCQkgICBzdHJ1Y3QgZG1hX2ZlbmNlICoqZmVuY2Vz
-LA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUs
-IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0K
-R2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+> ---
+>  .../bindings/media/i2c/melexis,mlx7502x.yaml  | 146 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 147 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> new file mode 100644
+> index 000000000000..4ac91f7a26b6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> @@ -0,0 +1,146 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/melexis,mlx7502x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Melexis ToF 7502x MIPI CSI-2 Sensor
+> +
+> +maintainers:
+> +  - Volodymyr Kharuk <vkh@melexis.com>
+> +
+> +description: |-
+> +  Melexis ToF 7502x sensors has a CSI-2 output. It supports 2 and 4 lanes,
+> +  and mipi speeds are 300, 600, 704, 800, 904, 960Mbs. Supported format is RAW12.
+> +  Sensor 75026 is QVGA, while 75027 is VGA sensor.
+> +  If you use compatible = "melexis,mlx7502x", then autodetect will be called.
+> +
+> +properties:
+> +  compatible:
+> +    items:
 
---------------IP0LwrCgTyVa30mK2W6n4pF1--
+No items. You have just one item.
 
---------------D0ERVH3qnEPM40ls2zPMt6NI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> +      - enum:
+> +          - melexis,mlx7502x
+> +          - melexis,mlx75026
+> +          - melexis,mlx75027
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  assigned-clocks: true
+> +  assigned-clock-parents: true
+> +  assigned-clock-rates: true
 
------BEGIN PGP SIGNATURE-----
+These are not needed.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLP1ncFAwAAAAAACgkQlh/E3EQov+CU
-DQ/+Pzf5WiJKT0aKmC6Z1BTwyhfQ2x5FfBH6DmKEJ06AUK5qNonl2WPUJYsafmagXxDEFyH/qxQ4
-4k94QFImtj5wN1+sOjTn/PqNvxHKaN/yyR4zilgdAt0G5ayUPgzUz3arkWaa0V6C3AyRQ0Bl3lyt
-hizplf4YbbnyMwQHrMhcEDtY8D3rVQeyx4vn2+CJBoupVxqrtNLjjEIvMP85dbFgADJjsZlSEmv7
-5nyt09nLsKd4SCNNXRWOSuqEYh/E682wsf8oU8VYZq3aYD/ksM58cOgOCeGveszlLYTIXP0lC4K7
-EEggqX6ZKIUM4LhQoYHhmaFQFuReXx6Fquaq6OppWEDfq9IXQPtER/RxUEfppmQYysxUiZdkCK3M
-ZOyyGEpn/AEB+lyFIxgW0LJXC4J5aLHYitjGvqhSCP+msBsmIhkRv1fdDjg3TpXr6g6irj0l2KRr
-NlEVm+xENHKqvQXypaSrd1JOSou18u2wsPjBjbF0YF30pnoFMOIqdqtGyeG8/alWj+i9JQzccFqh
-I90hJGTQAghTw7ry+yhtxdINXf08dY5dHr1k/jRzKAgTWQm5FBQfT5OAt3bMza+BCj9Eoicenit0
-X36FIaa8MF2D3AJsABP9WK4z4bDEQPylGSo6GAljf7mZvATYdRnC7nl+PsYDS8FBedZ+0SVw8eKa
-STc=
-=lvcz
------END PGP SIGNATURE-----
+> +
+> +  clocks:
+> +    description: Clock frequency 8MHz
+> +    maxItems: 1
+> +
+> +  vdda-supply:
+> +    description:
+> +      Definition of the regulator used as analog power supply(2.7V).
 
---------------D0ERVH3qnEPM40ls2zPMt6NI--
+s/Definition of the regulator used as //
+(redundant)
+
+> +
+> +  vddif-supply:
+> +    description:
+> +      Definition of the regulator used as interface power supply(1.8V).
+
+s/Definition of the regulator used as //
+
+> +
+> +  vddd-supply:
+> +    description:
+> +      Definition of the regulator used as digital power supply(1.2V).
+
+s/Definition of the regulator used as //
+
+> +
+> +  vdmix-supply:
+> +    description:
+> +      Definition of the regulator used as mixed driver power supply(1.2V).
+
+s/Definition of the regulator used as //
+
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: Reset Sensor GPIO Control (active low)
+> +
+> +  melexis,trig-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Hardware Trigger GPIO Control (active low)
+> +      When the hardware trigger mode is enabled, this GPIO is used to generate
+> +      a low level impulse for about 100us. The impulse triggers a new
+> +      measurement cycle.
+> +
+> +  melexis,leden-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Led driver enable GPIO Control (active high)
+> +      This GPIO notifies the illumination driver when it is safe to use led
+> +      signals from the sensor.
+> +
+> +  port:
+> +    description: MIPI CSI-2 transmitter port
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            oneOf:
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +
+> +          clock-noncontinuous: true
+> +          link-frequencies: true
+
+You do not need these two, they come from video-interfaces.yaml
+
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - port
+> +
+
+
+
+Best regards,
+Krzysztof
