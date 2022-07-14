@@ -2,120 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8760574CBD
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 14:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA150574CD2
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 14:06:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236997AbiGNMEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 08:04:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47170 "EHLO
+        id S238893AbiGNMGg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 08:06:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231788AbiGNMEy (ORCPT
+        with ESMTP id S238696AbiGNMGc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 08:04:54 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B9E5C379
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 05:04:53 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22CA2383;
-        Thu, 14 Jul 2022 14:04:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657800291;
-        bh=RLCJUV8udXSay0jFV/96zf7AK8++W8rQb8vJV3IR5tw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=e1ockQbq+kCI9Th8e1EOMAZ+6thSssOTnS897nxISqtHdzPr6Ps4KjJv2r/haobTd
-         oCs42G93fX230Zmetwb4dkHSg6uzeTSHIePL/uR/Lt76sdi0Fidqb88wCWbhpr0Xra
-         tEJbbHVLmiDm94O2R4U6ulbAnB/ej/J47b4aHyRQ=
-Message-ID: <cb4af9ef-8c48-30ab-f286-8aac370f7e6e@ideasonboard.com>
-Date:   Thu, 14 Jul 2022 15:04:38 +0300
+        Thu, 14 Jul 2022 08:06:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B08AC5C9E1;
+        Thu, 14 Jul 2022 05:06:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 215A461DE7;
+        Thu, 14 Jul 2022 12:06:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC46C3411C;
+        Thu, 14 Jul 2022 12:06:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657800390;
+        bh=ioPt7kFKeifnjLXg/GVO5rsw0/XP4QklnHiUNXNykLo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Z7ro75iW1UoM7wHwaMx+qUHZI6vArOYbghmPbHedqR5hF+6JUW3pQMHJzbKJIjfeN
+         rDZ8bY/IlvHm53HAUe67A8TPgkjjMFbp+d8q00Wxd4hV+FZRuiKwbhGDZCJY4EsT5j
+         hsxaEQvBoeRs5G+JTdVUFRrRYRQFGTI4abDDjb6yUKdGQ4VMkW+IX4a1Y10yNtFj0D
+         nsI88zyDDDGmEMEAI2dzJe+hmO724/ZjwBdKnutsxKwLSPCF7kL5X6E/nBfBTq+ukc
+         BKaZC+FZP5Jk/riC30i7E6Qb1DvX8/AKB8HlO8luQXnvkFlY5WP6MIQ5Kh3fdU7kTA
+         Z4iCW7eROb5JQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+        (envelope-from <mchehab@kernel.org>)
+        id 1oBxbv-0059sS-OX;
+        Thu, 14 Jul 2022 13:06:27 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2 00/21] Fix performance regressions with TLB and add GuC support
+Date:   Thu, 14 Jul 2022 13:06:05 +0100
+Message-Id: <cover.1657800199.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 3/4] media-ctl: add support for routes and streams
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20211130141815.892354-1-tomi.valkeinen@ideasonboard.com>
- <20211130141815.892354-4-tomi.valkeinen@ideasonboard.com>
- <YjhXTuUF+sZUKgNb@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <YjhXTuUF+sZUKgNb@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/03/2022 12:45, Laurent Pinchart wrote:
+TLB invalidation is a slow operation. It should not be doing lightly, as it
+causes performance regressions, like this:
 
->> @@ -455,16 +477,51 @@ static void media_print_topology_dot(struct media_device *media)
->>   }
->>   
->>   static void media_print_pad_text(struct media_entity *entity,
->> -				 const struct media_pad *pad)
->> +				 const struct media_pad *pad,
->> +				 struct v4l2_subdev_route *routes,
->> +				 unsigned int num_routes)
->>   {
->> +	unsigned int i;
->> +
->>   	if (media_entity_type(entity) != MEDIA_ENT_T_V4L2_SUBDEV)
->>   		return;
->>   
->> -	v4l2_subdev_print_format(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
->> -	v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
->> +	if (!routes) {
->> +		v4l2_subdev_print_format(entity, pad->index, 0, V4L2_SUBDEV_FORMAT_ACTIVE);
->> +		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
->> +
->> +		if (pad->flags & MEDIA_PAD_FL_SOURCE)
->> +			v4l2_subdev_print_subdev_dv(entity);
->> +
->> +		return;
->> +	}
->> +
->> +	for (i = 0; i < num_routes; ++i) {
->> +		const struct v4l2_subdev_route *r = &routes[i];
->> +		unsigned int stream;
->> +
->> +		if (!(r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
->> +			continue;
->>   
->> -	if (pad->flags & MEDIA_PAD_FL_SOURCE)
->> -		v4l2_subdev_print_subdev_dv(entity);
->> +		if (pad->flags & MEDIA_PAD_FL_SINK) {
->> +			if (r->sink_pad != pad->index)
->> +				continue;
->> +
->> +			stream = r->sink_stream;
->> +		} else {
->> +			if (r->source_pad != pad->index)
->> +				continue;
->> +
->> +			stream = r->source_stream;
->> +		}
->> +
->> +		v4l2_subdev_print_format(entity, pad->index, stream, V4L2_SUBDEV_FORMAT_ACTIVE);
->> +		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
->> +
->> +		if (pad->flags & MEDIA_PAD_FL_SOURCE)
->> +			v4l2_subdev_print_subdev_dv(entity);
-> 
-> If a subdev has multiple routes coming from the same pad/stream
-> (corresponding to the 1-N stream duplication use case), you will print
-> the same format for the sink pad/stream multiple times.
+[178.821002] i915 0000:00:02.0: [drm] *ERROR* rcs0 TLB invalidation did not complete in 4ms!
 
-Right. I'll change it to print only streams that haven't been printed 
-before.
+This series contain 
 
-  Tomi
+1) some patches that makes TLB invalidation to happen only on
+active, non-wedged engines, doing cache invalidation in batch 
+and only when GT objects are exposed to userspace:
+
+  drm/i915/gt: Ignore TLB invalidations on idle engines
+  drm/i915/gt: Only invalidate TLBs exposed to user manipulation
+  drm/i915/gt: Skip TLB invalidations once wedged
+  drm/i915/gt: Batch TLB invalidations
+  drm/i915/gt: Move TLB invalidation to its own file
+
+2) It fixes two bugs, being the first a workaround:
+
+  drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
+  drm/i915: Invalidate the TLBs on each GT
+
+  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
+
+3) It adds GuC support. Besides providing TLB invalidation on some
+additional hardware, this should also help serializing GuC operations
+with TLB invalidation:
+
+  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
+  drm/i915/guc: Define CTB based TLB invalidation routines
+  drm/i915: Add platform macro for selective tlb flush
+  drm/i915: Define GuC Based TLB invalidation routines
+  drm/i915: Add generic interface for tlb invalidation for XeHP
+  drm/i915: Use selective tlb invalidations where supported
+
+4) It adds the corresponding kernel-doc markups for the kAPI
+used for TLB invalidation.
+
+While I could have split this into smaller pieces, I'm opting to send
+them altogether, in order for CI trybot to better verify what issues
+will be closed with this series.
+
+---
+
+v2:
+  - no changes. Just rebased on the top of drm-tip: 2022y-07m-14d-08h-35m-36s,
+   as CI trybot was having troubles applying it. Hopefully, it will now work.
+
+Chris Wilson (7):
+  drm/i915/gt: Ignore TLB invalidations on idle engines
+  drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
+  drm/i915/gt: Only invalidate TLBs exposed to user manipulation
+  drm/i915/gt: Skip TLB invalidations once wedged
+  drm/i915/gt: Batch TLB invalidations
+  drm/i915/gt: Move TLB invalidation to its own file
+  drm/i915: Invalidate the TLBs on each GT
+
+Mauro Carvalho Chehab (8):
+  drm/i915/gt: document with_intel_gt_pm_if_awake()
+  drm/i915/gt: describe the new tlb parameter at i915_vma_resource
+  drm/i915/guc: use kernel-doc for enum intel_guc_tlb_inval_mode
+  drm/i915/guc: document the TLB invalidation struct members
+  drm/i915: document tlb field at struct drm_i915_gem_object
+  drm/i915/gt: document TLB cache invalidation functions
+  drm/i915/guc: describe enum intel_guc_tlb_invalidation_type
+  drm/i915/guc: document TLB cache invalidation functions
+
+Piotr Piórkowski (1):
+  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
+
+Prathap Kumar Valsan (5):
+  drm/i915/guc: Define CTB based TLB invalidation routines
+  drm/i915: Add platform macro for selective tlb flush
+  drm/i915: Define GuC Based TLB invalidation routines
+  drm/i915: Add generic interface for tlb invalidation for XeHP
+  drm/i915: Use selective tlb invalidations where supported
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  28 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   1 +
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 125 +-------
+ drivers/gpu/drm/i915/gt/intel_gt.h            |   2 -
+ .../gpu/drm/i915/gt/intel_gt_buffer_pool.h    |   3 +-
+ drivers/gpu/drm/i915/gt/intel_gt_defines.h    |  11 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h         |  10 +
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   8 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |  22 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   8 +-
+ drivers/gpu/drm/i915/gt/intel_tlb.c           | 295 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_tlb.h           |  30 ++
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  54 ++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 232 ++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  36 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  24 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   9 +
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  91 +++++-
+ drivers/gpu/drm/i915/i915_drv.h               |   4 +-
+ drivers/gpu/drm/i915/i915_pci.c               |   1 +
+ drivers/gpu/drm/i915/i915_vma.c               |  46 ++-
+ drivers/gpu/drm/i915/i915_vma.h               |   2 +
+ drivers/gpu/drm/i915/i915_vma_resource.c      |   9 +-
+ drivers/gpu/drm/i915/i915_vma_resource.h      |   6 +-
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ 27 files changed, 910 insertions(+), 155 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_defines.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.h
+
+-- 
+2.36.1
+
+
