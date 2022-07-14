@@ -2,51 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94BDC574A1E
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 12:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35775574A9B
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 12:30:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238006AbiGNKHQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 06:07:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46896 "EHLO
+        id S237762AbiGNKaC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 06:30:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237998AbiGNKHK (ORCPT
+        with ESMTP id S229768AbiGNKaB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 06:07:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9413A509D2;
-        Thu, 14 Jul 2022 03:07:09 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DF4C383;
-        Thu, 14 Jul 2022 12:07:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657793226;
-        bh=MVl5aU7IJeIW69QWt0zAFuc+51OhBV0nnSKU72uq4J0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vyuMw9eNI5ZzkQaYFsk+eRFRLlklk8Qv+B4wLK8DRQo1YzGMcuZ+vOrWWuyjTGQpA
-         eJev8YXJsVEU2D5w4dtPpCiMWCGaj/bnVHph9nC34X0wEt3Mf5d2/46m+s3B+KnL9u
-         244ZFfpA50laLlvgy5cGgnqMYXrhy2AZ8jFfFN00=
-Date:   Thu, 14 Jul 2022 13:06:35 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Volodymyr Kharuk <vkh@melexis.com>
-Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] media: dt-bindings: media: i2c: Add mlx7502x
- camera sensor binding
-Message-ID: <Ys/qq4hIQ25KXB2/@pendragon.ideasonboard.com>
-References: <cover.1657786765.git.vkh@melexis.com>
- <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
+        Thu, 14 Jul 2022 06:30:01 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A16443E60
+        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 03:29:57 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oBw6V-00AK1u-PF; Thu, 14 Jul 2022 10:29:55 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oBw6T-001r3e-L6; Thu, 14 Jul 2022 10:29:53 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.20] Venus updates - part2 (#84855)
+Date:   Thu, 14 Jul 2022 10:29:53 +0000
+Message-Id: <20220714102953.442236-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220714100219.897127-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,212 +44,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Volodymyr,
+From: builder@linuxtv.org
 
-Thank you for the patch.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20220714100219.897127-1-stanimir.varbanov@linaro.org/
+Build log: https://builder.linuxtv.org/job/patchwork/224748/
+Build time: 00:21:59
+Link: https://lore.kernel.org/linux-media/20220714100219.897127-1-stanimir.varbanov@linaro.org
 
-On Thu, Jul 14, 2022 at 11:34:47AM +0300, Volodymyr Kharuk wrote:
-> Add device tree binding of the mlx7502x and update MAINTAINERS
-> 
-> Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
-> ---
->  .../bindings/media/i2c/melexis,mlx7502x.yaml  | 146 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 147 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> new file mode 100644
-> index 000000000000..4ac91f7a26b6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> @@ -0,0 +1,146 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/melexis,mlx7502x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Melexis ToF 7502x MIPI CSI-2 Sensor
-> +
-> +maintainers:
-> +  - Volodymyr Kharuk <vkh@melexis.com>
-> +
-> +description: |-
-> +  Melexis ToF 7502x sensors has a CSI-2 output. It supports 2 and 4 lanes,
-> +  and mipi speeds are 300, 600, 704, 800, 904, 960Mbs. Supported format is RAW12.
-> +  Sensor 75026 is QVGA, while 75027 is VGA sensor.
-> +  If you use compatible = "melexis,mlx7502x", then autodetect will be called.
+gpg: Signature made Thu 14 Jul 2022 09:21:47 AM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-I'd move this last line as a description of the compatible property, but
-I'm also not sure this should be mentioned in the DT bindings, as it's a
-driver implementation detail. I'm actually not sure we should support it
-with three different compatible values as proposed, as without this
-documentation users will have a hard time figuring out what compatible
-value to pick.
+Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-One option would be to support the following three compatible values:
+Error/warnings:
 
-	compatible = "melexis,mlx75026", "melexis,mlx7502x";
-	compatible = "melexis,mlx75027", "melexis,mlx7502x";
-	compatible = "melexis,mlx7502x";
+patches/0001-media-venus-venus_helper_get_bufreq-req-is-never-NUL.patch:
 
-The last one only would trigger autodetection. I'm still not sure how to
-document that properly in bindings though.
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - melexis,mlx7502x
-> +          - melexis,mlx75026
-> +          - melexis,mlx75027
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  assigned-clocks: true
-> +  assigned-clock-parents: true
-> +  assigned-clock-rates: true
-> +
-> +  clocks:
-> +    description: Clock frequency 8MHz
-> +    maxItems: 1
-> +
-> +  vdda-supply:
-> +    description:
-> +      Definition of the regulator used as analog power supply(2.7V).
-> +
-> +  vddif-supply:
-> +    description:
-> +      Definition of the regulator used as interface power supply(1.8V).
-> +
-> +  vddd-supply:
-> +    description:
-> +      Definition of the regulator used as digital power supply(1.2V).
-> +
-> +  vdmix-supply:
-> +    description:
-> +      Definition of the regulator used as mixed driver power supply(1.2V).
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Reset Sensor GPIO Control (active low)
-> +
-> +  melexis,trig-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Hardware Trigger GPIO Control (active low)
-> +      When the hardware trigger mode is enabled, this GPIO is used to generate
-> +      a low level impulse for about 100us. The impulse triggers a new
-> +      measurement cycle.
-> +
-> +  melexis,leden-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Led driver enable GPIO Control (active high)
-> +      This GPIO notifies the illumination driver when it is safe to use led
-> +      signals from the sensor.
+    allyesconfig: return code #0:
+	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5385 cx23885_dif_setup() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1725875
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 56 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
+	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
+	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-As far as I understand this isn't an input of the sensor, but a signal
-that is driven by the driver and controls the separate illuminator. It
-shouldn't be specified in this binding, as it's not a property of the
-sensor. You should instead have a DT node for the illumination driver.
 
-> +  port:
-> +    description: MIPI CSI-2 transmitter port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            oneOf:
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +
-> +          clock-noncontinuous: true
-> +          link-frequencies: true
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - port
+Error #512 when building PDF docs
 
-Let's make the supplies mandatory too, as the chip can't operate without
-them.
-
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        mlx7502x: camera@57 {
-> +            compatible = "melexis,mlx7502x";
-> +            reg = <0x57>;
-> +            clocks = <&mlx7502x_clk>;
-> +
-> +            assigned-clocks = <&mlx7502x_clk>;
-> +            assigned-clock-parents = <&mlx7502x_clk_parent>;
-> +            assigned-clock-rates = <8000000>;
-> +
-> +            vddd-supply = <&mlx_7502x_reg>;
-> +
-> +            reset-gpios = <&gpio_exp 6 GPIO_ACTIVE_HIGH>;
-> +            melexis,trig-gpios = <&gpio_exp 2 GPIO_ACTIVE_HIGH>;
-> +            melexis,leden-gpios = <&gpio_exp 7 GPIO_ACTIVE_HIGH>;
-> +
-> +            port {
-> +                mlx7502x_out_mipi_csi2: endpoint {
-> +                    remote-endpoint = <&mipi_csi2_from_mlx7502x>;
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 < 960000000
-> +                                                   904000000
-> +                                                   800000000
-> +                                                   704000000
-> +                                                   600000000
-> +                                                   300000000 >;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1a68d888ee14..b00a726bb3db 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12678,6 +12678,7 @@ M:	Volodymyr Kharuk <vkh@melexis.com>
->  L:	linux-media@vger.kernel.org
->  S:	Supported
->  W:	http://www.melexis.com
-> +F:	Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
->  F:	include/uapi/linux/mlx7502x.h
->  
->  MELFAS MIP4 TOUCHSCREEN DRIVER
-
--- 
-Regards,
-
-Laurent Pinchart
