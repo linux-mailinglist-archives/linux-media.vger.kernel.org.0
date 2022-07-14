@@ -2,238 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48C265747DA
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 11:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F03E5747FE
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 11:13:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbiGNJKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 05:10:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60332 "EHLO
+        id S237709AbiGNJNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 05:13:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbiGNJKY (ORCPT
+        with ESMTP id S237690AbiGNJNP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 05:10:24 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1745A1EEC4
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 02:10:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657789823; x=1689325823;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=4V3DPEFZ0+N/JMvFKqEVFiVSDiAYe8ds+Q5qfhSx0hk=;
-  b=XTb8z45+8J/axHq9goWTWoalmry/7cuCxgjwNHwaTCG2ewFb7/lduE1j
-   pC4nBE/3+YuSXDfOMQ/RaW20V6kk/CNtioW4/tvCq5W4ldWQXBk8tJJwj
-   gmvuasGaPdQrbVi3UAFUhckiAASEU0W3zUrjfotvNJA4a3wpf7iDcxp0l
-   eFAmNkDxgBdpof/ssg7NDGnBGE+GXeRfSRpAV1OjU4gw0DHZYwZS6uvGM
-   I55LKj0wNfOODpmpKqfl8HKXLJicMS+dXYfa1AWIPTxExmb55XAQ6/Tjy
-   nf7YdFX+Nuju3jhqsUnsjxlEIIIbxj0zGB1nJShfUziZBWjuMf7BrlPhp
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="347141444"
-X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
-   d="scan'208";a="347141444"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 02:10:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
-   d="scan'208";a="922998879"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.188]) ([10.238.232.188])
-  by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2022 02:10:16 -0700
-Subject: Re: [PATCH] media: dw9768: activate runtime PM and turn off device
-To:     Tomasz Figa <tfiga@chromium.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-Cc:     "Cao, Bingbu" <bingbu.cao@intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-References: <1634278119-32158-1-git-send-email-bingbu.cao@intel.com>
- <CAAFQd5Aykfdj-HPzsQOyQpbGBRhtTsoRm78XgpuGkFUx1joTMA@mail.gmail.com>
- <DM8PR11MB565395F554C6D1C4978EBC2A998E9@DM8PR11MB5653.namprd11.prod.outlook.com>
- <CAAFQd5B9hZNn4UuB8h0RLUwSxwTFGC219LFe8jGE1jDd+EfosA@mail.gmail.com>
- <CAAFQd5B_LTXa=ECg0wRzGLqGJaiz3HrY_C9BJgByj4QFTJzu-Q@mail.gmail.com>
- <64cf6ebd-03d4-3cc2-5eed-bc723eb3214a@linux.intel.com>
- <CAAFQd5DnBTKKeY1Mr6np2Q6BUo=-RcZHHJ+GsSK-BDAtYLJ1Gg@mail.gmail.com>
- <Yla2owgZ9sSBazDF@paasikivi.fi.intel.com>
- <CAAFQd5DZGPWmZgRYjdwzk7Mm3OAviDrH24NyWxEredcgA2TMTQ@mail.gmail.com>
- <YlbR3uQLiXoJcrhQ@paasikivi.fi.intel.com>
- <CAAFQd5CTnHi60OYbSq-UiSozAww7SZZtTA9OBm83AeVzkettiw@mail.gmail.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <e3d1fcab-75a8-1617-c93b-111dd8df66b9@linux.intel.com>
-Date:   Thu, 14 Jul 2022 17:08:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAAFQd5CTnHi60OYbSq-UiSozAww7SZZtTA9OBm83AeVzkettiw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+        Thu, 14 Jul 2022 05:13:15 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2055.outbound.protection.outlook.com [40.107.94.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91DB237F7
+        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 02:13:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XYk5ySgQKsnr7MPVmmbUBRhDhFJmKwx6rUxza9aDxbklb+T3W5zPz9+PGsPsIhLSnK3pV42u1fdudXa3L6g4K6EjTula4VHNT4PmiPSMzydC/3nsuDp23Q1WHoeQNXEKGrzsVHLqK425wv23KTJcx8JsMfBjO5xU5sZ/JC8N+Gg1NLW52AnsOMmFzxNj5MSInrU6Y7JC9ShgW/cFn4FYDEvuPfBbivapoFYxIbTmUB/dxTAHHjijAsj1gGHATdxJRUtAME2IjO0ivYskDANwxfRBxXdaKvOe3WySrpOr+8s0wuc/j1P8LlMBwVYfbXuPqIMcZHcSS8JOpBVTUY3bDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JWMTMT+KU1gDyurIiQHQKrXQb1nYB+26FqiV7yebWUw=;
+ b=jLEAX8mWvoeLZaTJUZT/LtEjROlXJKFEb5QZY5apt/uNMksumHct8aPGkgXAmWIlmKWGRcrnBApQpgobz3lgL3puv++TESdO8e+ficJoIj8VEGD4j8oaS/7uzVIOnmANPSQgH7/z6xSTj3U43QcFIS3MXD80fwaU1l/PidS8d1EFAkRFfeG0EQ7TwBQ3yrwI0s6UY6Veo+MJ8t0HZlM6YMqn1Uvjs3U1Ytc4fYwMP8CGnLdpWanhUZX80GOXKB5BCmJ0pRFFQJ2KygG4ovc6KazFtYG8eYM6o4bv7q5p1SIQyUgvV+TlgccsvAUT7y/8CNKWixSvDKlCOc9rl3HLVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JWMTMT+KU1gDyurIiQHQKrXQb1nYB+26FqiV7yebWUw=;
+ b=tGbKlDTCdU9AQEDXlU9heINgOCaeW9csVO2eX+d43ufmI1VBZF4BgOaH0tL92CaFAUWdDQZX3Vglq12Ous1nJzIAxwtvSDX6mApWhobDEAb5y+tgdQGzIQ+6oIXNSVHjUrJI3QNOZ1/tEeAoPN/Q8kejlOi5bJnv/AQZgfWDxsQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN2PR12MB3533.namprd12.prod.outlook.com (2603:10b6:208:107::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.20; Thu, 14 Jul
+ 2022 09:13:11 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5438.013; Thu, 14 Jul 2022
+ 09:13:11 +0000
+Message-ID: <25194bfc-4670-02a9-f494-9eab41fd0b74@amd.com>
+Date:   Thu, 14 Jul 2022 11:13:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] dma-buf: revert "return only unsignaled fences in
+ dma_fence_unwrap_for_each v3"
 Content-Language: en-US
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        karolina.drobnik@intel.com, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org
+References: <20220712102849.1562-1-christian.koenig@amd.com>
+ <5b8aa549-c2f1-19b2-d0f4-26d4ea1a7ade@suse.de>
+ <e3accc2e-75e5-459a-ea72-116e44f73238@amd.com>
+ <b16e783a-e7a2-09d5-a8c0-b3b8d18a3e1f@suse.de>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <b16e783a-e7a2-09d5-a8c0-b3b8d18a3e1f@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-ClientProxiedBy: FR3P281CA0097.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a1::15) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fce2a93b-868f-4397-daae-08da657912ef
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3533:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3Fbqei3L5qBjUcLmqbGWYHy6V8PLoeydpF5AnVT0mb3ythg3rKmYTW7UE3hZcoxE/VJYUe7sqduwc3ym2sy2IIwLleruPsqOIinXnglz+Z8cCkoj3iCprIePwbQyWSpSvoHUZy5pSSontJom8JCZ0PpEJz7snz2quZjo8RcKCIXrVcDTEjsr6KcrxpqsQgprmUWX+0FDVs/rxqjHqWsPkhc2hAdEH9DAwuwkPK0XzjbedJqGBfgme7BGsWWv3oak7FlK1gAj12+szdNrbhGFv//9HR6qYvU5cf7lygoDhoa/erVvF0f/Y7d0tkv5Dfq7JULR6/HinD+nJNbvH7Uw6WSZy8qRxTbzic22jBV1ZfhY52+exQKe9csfswVQ90K9Tnh3eRMfCg9UI4swxqP1ZzEqVdsIUcyVQlYkcjL1Mmgaofn8wdlUQWqGpnFcNIQWUL2Nst3MgClEf3q400gWPGBUOsYuogPZJMtlljgFWkEq8bOVvXBeCGejfqrBu8FUZnvVQuxVFTekYlY/n0zcbcApzxhb7HRiJ3q2h3OYKMBgJSOMTea3zT1xwv/QrEJp9KZKrB2j2Fhs45OR1HMvgwXDBb02BtpjAeJw0bB3gPK5r3M1MdPvAzBGQP6eupvVburzlSwH6CVsWNlVkCAoyovtJQN6DtncYlPCIGNsyXesgpSS3ePpDvy8TUsHjBk2cInOc81tKrvxiCbk6YzSRVZD8ZbG2v/mjYi4DHCzXIbaSYRIgDm5FItyiLM0vbNGBwQP3qTvhZsZgkrPLL+E6mxne0tM1Wybz/cKt2EgC8SyCtLqYpX30M5PGBOq2o3iXXSfL6W1humDgRuEyQ+PS95ZNr7SMR1HNmyxyMseQQo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(366004)(346002)(39860400002)(396003)(136003)(186003)(6506007)(66574015)(6666004)(41300700001)(2616005)(26005)(6512007)(2906002)(38100700002)(83380400001)(478600001)(86362001)(8676002)(31696002)(316002)(5660300002)(31686004)(66946007)(6486002)(110136005)(66556008)(36756003)(66476007)(8936002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVYrejMrVEZsMlNSSTErMFRqQ2ZTc0hyQWhVbXhkOWFRbjVnK25mVFIwS29D?=
+ =?utf-8?B?OUJ4MGhUdHVRL21kV0dXcHdzTVJDUnVmeG8wanVIcVpIOC84dWF4SjBVWlln?=
+ =?utf-8?B?c0NIbC9lRjN0ZEx4aEVhek9GSVNOL2JrSGV6MysrOERsUWZVV05Eby9QOUNx?=
+ =?utf-8?B?ckdEQ0xjYnFsQjV1TC8wamk2b2liWWlOMGUvd1BwdVhITjRCaU9ubTg5ZjJN?=
+ =?utf-8?B?MVFDdWtsQ2sxU1M3NS80L1haMjI4UkQza0ZoQkYxbC9DTFNyaUVpb0ZiKzJo?=
+ =?utf-8?B?cUhZd1h0R2xZRHcwS1g1bldOSDNmQ1ovUjhBSFR2eURDLy9MaGI5eFprRnAy?=
+ =?utf-8?B?NFlNNGtnSWJPbkR1eEtNQWNaY1plSlVSaUVMK2t5Y2RNTzdXM08wOThaRXV0?=
+ =?utf-8?B?bStWZUE2RzZtaFU0YzdwakpqYjc4M2VyYWJ0aHlxZ1dHWjk4QW1GcnE1cWVm?=
+ =?utf-8?B?dkFYMmx2RStvRWVrZndENkoxeldLV0dOUnZpOUhxS3FMQXF3Y2NZSW4ramU3?=
+ =?utf-8?B?bW4vRUhUSmZxd2hzZEE1anIrVERDQnA5allDTU00NUJBRjl3N2loandoMktM?=
+ =?utf-8?B?aE9OcUxxaUplV082eU5FZHllcmg5ekJSK3hPaUNtVm53b2pHeXRnWDg3NjQ2?=
+ =?utf-8?B?YmtoRGhQWjVzNDZ4Y280a0RJR2puK21wUFFIUlV2YkNBN2RwYjQxeEtvc2l1?=
+ =?utf-8?B?N1NFNld3TE9mbHk2Y29aaGpxNk9iRUpGR0drVzF1akwydWRCbFY5UkpwTE10?=
+ =?utf-8?B?MGJVNHhMZUk1Q1VDd0RHeDZud3ZOZFZnZGRrUXd6NkhpRU5kQXRha1dXZUdp?=
+ =?utf-8?B?S0E2OThxUDlRMVRSelVLRUlQYnQ0SnhNYUF3anZubkdsVE1DQ2M0VWdoUEtO?=
+ =?utf-8?B?VHRSS3pOMHlOd0tRRnRiYmRsV0FiOFRxMDZQVmNFbVdFaE1ac242OCtYZFl3?=
+ =?utf-8?B?MjdxME9XV1RuRWwzTlZURnV0T25mbUxSWTFkNEt0OFBDeWExNjY5YjQya2FP?=
+ =?utf-8?B?dnpicXFhNEpTUkZDSmdOd3hWZ2NQK1BkSmtJbWNjY0UvbXhyUE9xbzR3bkZW?=
+ =?utf-8?B?N3ZhVmlNWW4rdUVlRjhnOFVRVDhqTURqa1dvbjhoMUpMNDJpRG1ucUh2ZlAr?=
+ =?utf-8?B?cC9uS1RlQXFKdHk1NWdLTUZJeHRrTWYvOUQ1aGFENWJZUko4S0FsdmFxMGUr?=
+ =?utf-8?B?QmI4OFVvZzNSMkxTRzlLOW5Tb2UzRG5ManlsemFocWVTVVFzVUk5eFUrZkxZ?=
+ =?utf-8?B?S2xkMzJkMktqdkxEZnNPQkcwMkxaTS90Qkx3NjVjQWFOcmc0KzNiZ09XYzcx?=
+ =?utf-8?B?ZGY0WlhJb2VBZ2h6eVZTdDM1ZFZqNm9WcGhNdG1mUFFOVGR5ODZzU2I0aHli?=
+ =?utf-8?B?bk11WllWOUw4dDFXb0pFWGNId1JHTXVkd05nMTN0czhHRlcwdzIzMTR3b2pI?=
+ =?utf-8?B?WjRVOHl2aXpmeVpxN3cwUWIwU1Mwd2N0RWYrVkVUeWt4SCtOb0ZkNlBjYWZx?=
+ =?utf-8?B?VVVKNEhvbHdmQkQrd0hHZ0FOZkxNOU1ELy81MDZpVjdER05jU05lNmJRMjRD?=
+ =?utf-8?B?Z1ZkOTFibjJRUzhQaml1ZlJXeThBYlJJbFB0ODRZU1R5RFNVMms3MkVDZDgz?=
+ =?utf-8?B?V1YvOXdvMnZlcENwYXB2K0VhaUVFYUhUL2E2K0RESDlVMmJDVEt2Y0Z4REt5?=
+ =?utf-8?B?b2xrQ1R4MUVsc3plYlUvekxqdzZ1cHdzcm1aSDRpc0wzQ2JHaGFqaEJmQzR4?=
+ =?utf-8?B?bk9wbkUwdzVQcjNVV2dpUFlzMmNmQ3NDOGpXZzNPUFhyc2REeCtqVisyNzdP?=
+ =?utf-8?B?THJWWWt2cWI4SnZwcHBhUlNpMDExczcyVnB0MW50aDhKbjkyUUlJY1ZOYjVs?=
+ =?utf-8?B?RHFtRENHcXJiaCt3elQvd0luemZRVlpqNjZ1TTFXSERUUEMwMXRnOHhFOVFE?=
+ =?utf-8?B?di9zNUFmMFdEeEF6aERKUmJ0bmVBeHIzdzRFYWFaaXgwNzRpaXR0QXFkaGZs?=
+ =?utf-8?B?aXNIYW5UdGpqbVI2OG40UFI3SWpwYUljVTRvNVhkdmZRWGV5a2I1UUJzeE1l?=
+ =?utf-8?B?RHYraEdMclNJYXhpNWpiNWZ5cGN2OE4veDhiYnl3eFRpUWR6Unh5TlorYXow?=
+ =?utf-8?Q?q/+xXL7rPduliX7KjgswT3+Nh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fce2a93b-868f-4397-daae-08da657912ef
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2022 09:13:11.2628
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dYkMELlMBdl7L9zx5fAjYvOoaEUAnG18X0fluP4N283o8SXffdjhOagWZ1qt+ghE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3533
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Tomasz and Sakari,
-
-Is there any conclusion of this support for both OF and
-ACPI platform? 
-
-
-On 4/13/22 9:44 PM, Tomasz Figa wrote:
-> On Wed, Apr 13, 2022 at 10:36 PM sakari.ailus@linux.intel.com
-> <sakari.ailus@linux.intel.com> wrote:
+Am 14.07.22 um 11:06 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 14.07.22 um 10:49 schrieb Christian König:
+>> Hi Thomas,
 >>
->> Hi Tomasz,
->>
->> On Wed, Apr 13, 2022 at 09:17:47PM +0900, Tomasz Figa wrote:
->>> On Wed, Apr 13, 2022 at 8:40 PM sakari.ailus@linux.intel.com
->>> <sakari.ailus@linux.intel.com> wrote:
->>>>
->>>> Hi Tomasz, Bingbu,
->>>>
->>>> On Tue, Apr 12, 2022 at 08:15:08PM +0900, Tomasz Figa wrote:
->>>>> On Tue, Apr 12, 2022 at 8:05 PM Bingbu Cao <bingbu.cao@linux.intel.com> wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> On 4/12/22 5:39 PM, Tomasz Figa wrote:
->>>>>>> On Tue, Nov 16, 2021 at 1:57 PM Tomasz Figa <tfiga@chromium.org> wrote:
->>>>>>>>
->>>>>>>> On Fri, Nov 5, 2021 at 9:52 PM Cao, Bingbu <bingbu.cao@intel.com> wrote:
->>>>>>>>>
->>>>>>>>>> -----Original Message-----
->>>>>>>>>> From: Tomasz Figa <tfiga@chromium.org>
->>>>>>>>>> Sent: Friday, November 5, 2021 2:55 PM
->>>>>>>>>> To: Cao, Bingbu <bingbu.cao@intel.com>
->>>>>>>>>> Cc: linux-media@vger.kernel.org; sakari.ailus@linux.intel.com;
->>>>>>>>>> dongchun.zhu@mediatek.com; Qiu, Tian Shu <tian.shu.qiu@intel.com>;
->>>>>>>>>> bingbu.cao@linux.intel.com
->>>>>>>>>> Subject: Re: [PATCH] media: dw9768: activate runtime PM and turn off
->>>>>>>>>> device
->>>>>>>>>>
->>>>>>>>>> On Fri, Oct 15, 2021 at 3:12 PM Bingbu Cao <bingbu.cao@intel.com> wrote:
->>>>>>>>>>>
->>>>>>>>>>> When dw9768 working with ACPI systems, the dw9768 was turned by
->>>>>>>>>>> i2c-core during probe, driver need activate the PM runtime and ask
->>>>>>>>>>> runtime PM to turn off the device.
->>>>>>>>>>>
->>>>>>>>>>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
->>>>>>>>>>> ---
->>>>>>>>>>>  drivers/media/i2c/dw9768.c | 6 ++++++
->>>>>>>>>>>  1 file changed, 6 insertions(+)
->>>>>>>>>>>
->>>>>>>>>>> diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
->>>>>>>>>>> index c086580efac7..65c6acf3ced9 100644
->>>>>>>>>>> --- a/drivers/media/i2c/dw9768.c
->>>>>>>>>>> +++ b/drivers/media/i2c/dw9768.c
->>>>>>>>>>> @@ -469,6 +469,11 @@ static int dw9768_probe(struct i2c_client
->>>>>>>>>>> *client)
->>>>>>>>>>>
->>>>>>>>>>>         dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
->>>>>>>>>>>
->>>>>>>>>>> +       /*
->>>>>>>>>>> +        * Device is already turned on by i2c-core with ACPI domain PM.
->>>>>>>>>>> +        * Attempt to turn off the device to satisfy the privacy LED
->>>>>>>>>> concerns.
->>>>>>>>>>> +        */
->>>>>>>>>>> +       pm_runtime_set_active(dev);
->>>>>>>>>>
->>>>>>>>>> This driver is used by non-ACPI systems as well. This change will make
->>>>>>>>>> the PM core not call the runtime_resume() callback provided by the
->>>>>>>>>> driver and the power would never be turned on on such systems.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>>> Wasn't the intention of Sakari's ACPI patches to allow bypassing the
->>>>>>>>>> ACPI domain power on at boot up and eliminate the need for this change?
->>>>>>>>>
->>>>>>>>> Tomasz, thanks for your review.
->>>>>>>>>
->>>>>>>>> The comment here is invalid, it should not be strongly related to the privacy
->>>>>>>>> LED concern. Anyway, the device should be turned off on ACPI and non-ACPI
->>>>>>>>> systems even without Sakari's changes.
->>>>>>>>>
->>>>>>>>> I am wondering how the driver work with PM core on non-ACPI system.
->>>>>>>>>
->>>>>>>>
->>>>>>>> On non-ACPI systems it's the driver which handles the power sequencing
->>>>>>>> of the chip so the regulators wouldn't be implicitly enabled by the
->>>>>>>> subsystem before (unless they're shared with some other device and the
->>>>>>>> corresponding driver enabled them).
->>>>>>>
->>>>>>> It looks like this patch made into Linus' tree and broke the driver on
->>>>>>> ARM devices. Could we please revert it?
->>>>>>
->>>>>> If revert the patch, the device will not work on ACPI system, is there some
->>>>>> other solution? Have no details about the failure on ARM device.
->>>>>>
->>>>>
->>>>> I believe it worked on ACPI systems, just runtime PM wasn't suspending
->>>>> the device.
->>>>>
->>>>> That said, if my comment above was addressed instead of being ignored,
->>>>> this regression wouldn't have happened. The problem is described in my
->>>>> previous messages, please get back to them and address the issue I
->>>>> pointed out.
->>>>
->>>> First of all, thanks for catching this.
->>>>
->>>> What I believe happened was that the patch was merged to my tree before you
->>>> commented on it and then I missed the related follow-up discussion.
->>>>
->>>> Looking at the patch itself, it seems fine as such but there's a problem
->>>> with the driver to begin with: the device isn't powered on in probe on DT
->>>> systems but still its runtime suspend callback is called through
->>>> pm_runtime_idle().
->>>>
->>>> Normally calling the RT suspend callback is what we want, but in this case
->>>> disabling a regulator that wasn't enabled is a problem.
->>>>
->>>> There also seems to be a problem in error handling... and the driver does
->>>> not support probing while powered off on ACPI. Oh well.
->>>>
->>>> Let's revert the patch now but it seems there's something to fix
->>>> afterwards.
+>> Am 14.07.22 um 10:40 schrieb Thomas Zimmermann:
+>>> Hi Christian
 >>>
->>> Thanks Sakari.
+>>> Am 12.07.22 um 12:28 schrieb Christian König:
+>>>> This reverts commit 8f61973718485f3e89bc4f408f929048b7b47c83.
 >>>
->>> One of possible ways to fix this would be to always turn on the
->>> regulators in the probe, although it would result in the privacy LED
->>> blinking issue on our ARM systems.
->>>
->>> I wonder if we're missing something in how the ACPI runtime PM works
->>> on Linux. It sounds strange to me that the driver needs to be aware of
->>> the ACPI internals and know that the default boot-up state is powered
+>>> I only found this commit in drm-misc-next. Should the revert be 
+>>> cherry-picked into drm-misc-next-fixes?
 >>
->> Not really ACPI internals, just that the I涎 devices are powered on for
->> probe.
-> 
-> Do you mean the dev_pm_domain_attach() call at [1]?
-> I suspect that it wouldn't have any effect on anything other than ACPI.
-> That said, I guess it's indeed a design decision in the I2C subsystem...
-> 
-> One thing that could help here would be adding a .sync callback to
-> acpi_general_pm_domain, which would turn off the ACPI companion device
-> if dev is suspended.
-> 
-> [1] https://elixir.bootlin.com/linux/latest/source/drivers/i2c/i2c-core-base.c#L544
-> 
+>> yes for all three patches you just pinged me.
 >>
->>> on. Maybe there is another function that we could call instead of
->>> pm_runtime_set_active()+pm_runtime_idle() that would only shut down
->>> the PM domain, while leaving the device itself alone?
->>
->> Laurent recently complained about the complexities of supporting runtime PM
->> on drivers with both OF and ACPI support. I was planning to reply, will
->> include you.
-> 
-> That would be great, thanks!
-> 
-> Best regards,
-> Tomasz
-> 
+>> I've already tried to push them to drm-misc-next-fixes, but the 
+>> patches somehow wouldn't apply. I think the -next-fixes branch was 
+>> somehow lagging behind.
+>
+> I just forwarded drm-misc-next-fixes to the latest state of drm-next. 
+> Chances are, these patches will apply now.
 
--- 
-Best regards,
-Bingbu Cao
+Thanks, should I cherry pick them or are you going to do it?
+
+And can we somehow make sure that when the drm-misc-next is merged into 
+drm-next for upstreaming that drm-misc-next-fixes is up to date as well? 
+That would make things much easier.
+
+Thanks,
+Christian.
+
+>
+> Best regards
+> Thomas
+>
+>>
+>> Thanks,
+>> Christian.
+>>
+>>>
+>>> Best regards
+>>> Thomas
+>>>
+>>>>
+>>>> It turned out that this is not correct. Especially the sync_file info
+>>>> IOCTL needs to see even signaled fences to correctly report back their
+>>>> status to userspace.
+>>>>
+>>>> Instead add the filter in the merge function again where it makes 
+>>>> sense.
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>   drivers/dma-buf/dma-fence-unwrap.c | 3 ++-
+>>>>   include/linux/dma-fence-unwrap.h   | 6 +-----
+>>>>   2 files changed, 3 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/drivers/dma-buf/dma-fence-unwrap.c 
+>>>> b/drivers/dma-buf/dma-fence-unwrap.c
+>>>> index 502a65ea6d44..7002bca792ff 100644
+>>>> --- a/drivers/dma-buf/dma-fence-unwrap.c
+>>>> +++ b/drivers/dma-buf/dma-fence-unwrap.c
+>>>> @@ -72,7 +72,8 @@ struct dma_fence 
+>>>> *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>>>       count = 0;
+>>>>       for (i = 0; i < num_fences; ++i) {
+>>>>           dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
+>>>> -            ++count;
+>>>> +            if (!dma_fence_is_signaled(tmp))
+>>>> +                ++count;
+>>>>       }
+>>>>         if (count == 0)
+>>>> diff --git a/include/linux/dma-fence-unwrap.h 
+>>>> b/include/linux/dma-fence-unwrap.h
+>>>> index 390de1ee9d35..66b1e56fbb81 100644
+>>>> --- a/include/linux/dma-fence-unwrap.h
+>>>> +++ b/include/linux/dma-fence-unwrap.h
+>>>> @@ -43,14 +43,10 @@ struct dma_fence *dma_fence_unwrap_next(struct 
+>>>> dma_fence_unwrap *cursor);
+>>>>    * Unwrap dma_fence_chain and dma_fence_array containers and deep 
+>>>> dive into all
+>>>>    * potential fences in them. If @head is just a normal fence only 
+>>>> that one is
+>>>>    * returned.
+>>>> - *
+>>>> - * Note that signalled fences are opportunistically filtered out, 
+>>>> which
+>>>> - * means the iteration is potentially over no fence at all.
+>>>>    */
+>>>>   #define dma_fence_unwrap_for_each(fence, cursor, head)            \
+>>>>       for (fence = dma_fence_unwrap_first(head, cursor); fence;    \
+>>>> -         fence = dma_fence_unwrap_next(cursor)) \
+>>>> -        if (!dma_fence_is_signaled(fence))
+>>>> +         fence = dma_fence_unwrap_next(cursor))
+>>>>     struct dma_fence *__dma_fence_unwrap_merge(unsigned int 
+>>>> num_fences,
+>>>>                          struct dma_fence **fences,
+>>>
+>>
+>
+
