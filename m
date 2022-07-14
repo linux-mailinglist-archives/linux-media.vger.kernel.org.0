@@ -2,26 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F361575246
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 17:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E217575252
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 17:58:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240052AbiGNP4w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 11:56:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57856 "EHLO
+        id S232131AbiGNP6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 11:58:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240084AbiGNP4v (ORCPT
+        with ESMTP id S238278AbiGNP6l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 11:56:51 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD124A831;
-        Thu, 14 Jul 2022 08:56:49 -0700 (PDT)
+        Thu, 14 Jul 2022 11:58:41 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29EEFBC98;
+        Thu, 14 Jul 2022 08:58:37 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id B064D60007;
-        Thu, 14 Jul 2022 15:56:42 +0000 (UTC)
-Date:   Thu, 14 Jul 2022 17:56:41 +0200
+        by mail.gandi.net (Postfix) with ESMTPSA id E52801C0002;
+        Thu, 14 Jul 2022 15:58:32 +0000 (UTC)
+Date:   Thu, 14 Jul 2022 17:58:31 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Yassine Oudjana <yassine.oudjana@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc:     Lee Jackson <info@arducam.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Tianshu Qiu <tian.shu.qiu@intel.com>,
@@ -30,15 +31,15 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 3/3] media: i2c: ak7375: Add regulator management
-Message-ID: <20220714155641.evcukqkdffipfnbk@uno.localdomain>
+Message-ID: <20220714155831.c2nzbimf5oyndtdn@uno.localdomain>
 References: <20220711144039.232196-1-y.oudjana@protonmail.com>
  <20220711144039.232196-4-y.oudjana@protonmail.com>
- <20220711173123.55abjsli3tmqgegj@uno.localdomain>
- <52K0FR.YCGQA83H5U3W@gmail.com>
+ <20220713073951.qrg3slmvqbibwc5o@uno.localdomain>
+ <WIK0FR.TSG3JTBEBBDN@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <52K0FR.YCGQA83H5U3W@gmail.com>
+In-Reply-To: <WIK0FR.TSG3JTBEBBDN@gmail.com>
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
@@ -48,13 +49,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yassine,
+Hello Yassine
 
-On Thu, Jul 14, 2022 at 05:56:29PM +0400, Yassine Oudjana wrote:
+On Thu, Jul 14, 2022 at 06:06:32PM +0400, Yassine Oudjana wrote:
 >
-> On Mon, Jul 11 2022 at 19:31:23 +0200, Jacopo Mondi <jacopo@jmondi.org>
+> On Wed, Jul 13 2022 at 09:39:51 +0200, Jacopo Mondi <jacopo@jmondi.org>
 > wrote:
-> > Hi Yassine,
+> > Hi Yassine
 > >
 > > On Mon, Jul 11, 2022 at 06:40:39PM +0400, Yassine Oudjana wrote:
 > > >  From: Yassine Oudjana <y.oudjana@protonmail.com>
@@ -63,6 +64,39 @@ On Thu, Jul 14, 2022 at 05:56:29PM +0400, Yassine Oudjana wrote:
 > > >  them on runtime PM callbacks.
 > > >
 > > >  Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+> >
+> > Have you seen this ?
+> > https://github.com/ArduCAM/IMX519_AK7375/blob/main/AK7375/0002-media-i2c-ak7375-driver-add-optional-regulator-suppo.patch#L172
+> >
+> > It claims
+> > +	* Initialisation delay between VDD low->high and the moment
+> > +	* when the i2c command is available.
+> > +	* From the datasheet, it should be 10ms + 2ms (max power
+> > +	* up sequence duration)
+> >
+> > 10ms seems like a long time, it would be nice to have the datasheet to
+> > cross-check.
+>
+> It does seem quite long. I couldn't find a datasheet anywhere
+> so the value I discovered is the best I have. I've added the
+> author of that patch to CC; maybe they have some info to
+> contribute.
+>
+
+I have now tested these patches with an Arducam IMX519 camera.
+Using a 3msec delay I get failures in the establishing i2c
+communications (I only tested 2 times though).
+
+With 10milliseconds (which I concur is a lot) I get stable results.
+Let's see if we can get more info from who has the manual.
+
+Thanks
+  j
+
+> >
+> > Thanks
+> >    j
+> >
 > > >  ---
 > > >  Changes since v1:
 > > >    - Reorganize variable declaration
@@ -137,37 +171,6 @@ On Thu, Jul 14, 2022 at 05:56:29PM +0400, Yassine Oudjana wrote:
 > > >  +	if (ret) {
 > > >  +		dev_err(&client->dev, "Failed to get regulators: %pe",
 > > >  +			ERR_PTR(ret));
-> >
-> > Why are you using %pe here ? Your return value is not a pointer
->
-> In order to have it print a symbolic error name instead of a value
-> with CONFIG_SYMBOLIC_ERRNAME=y. There is no format code for an
-> error integer (or at least I couldn't find one mentioned anywhere
-> in the docs), so instead I use %pe then wrap `ret` in ERR_PTR().
->
-
-Ah nice, sorry I didn't realize. I grepped around in drivers/media and
-saw it only used with pointer values, but I actually missed two
-drivers that wrap ret in ERR_PTR() like you're doing here.
-
-> > (Also, missing \n at the end of the string)
->
-> That wasn't intentional. I'll fix it.
->
-
-That's indeed minor.
-Let me reply to the other email about delays..
-
-
-> >
-> > From Documentation/core-api/printk-formats.rst:
-> > 	%pe	-ENOSPC
-> >
-> > For printing error pointers (i.e. a pointer for which IS_ERR() is true)
-> > as a symbolic error name. Error values for which no symbolic name is
-> > known are printed in decimal, while a non-ERR_PTR passed as the
-> > argument to %pe gets treated as ordinary %p.
-> >
 > > >  +		return ret;
 > > >  +	}
 > > >  +
