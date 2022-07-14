@@ -2,110 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BA89574A0E
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 12:04:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94BDC574A1E
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 12:07:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237922AbiGNKEZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 06:04:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44642 "EHLO
+        id S238006AbiGNKHQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 06:07:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237845AbiGNKEW (ORCPT
+        with ESMTP id S237998AbiGNKHK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 06:04:22 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB18EE0B0
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 03:04:21 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id r18so1713429edb.9
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 03:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3gJCgtGNZiORtLkYjwhKz4qTM8uZfME9uCiyiRcJ6JI=;
-        b=kp8DJhxb7tZs8geuKd0TULnRiJRFOzCGQjbcKqBHV4gl82BdcvoYqucB0K9haI3uzJ
-         GKrM91vonwwwzgaSXcFPkhrvAm2DL5MyypRp80s3m1SFtxpMR4pcFeuMuwijOaro8WSm
-         Wn3yOEqQlt6FHoX1ltLmySTD2bb8xJ/c62wK+fMMm/QMh7M5IWCqdxQTVV2tWs8vuHfO
-         OFGil9XXQ/vKO0VRBXiom6H6PGK0Sazgbv+Dv0/4EhuWE6alvmJPi9SML0c35/ZfYj0Y
-         9/Pe39uAHhX7AlOHjAJ6L5IPpYQVo/9zfjhtvbZs586uwp+a/HWv7QXtca+vEcobA8Sy
-         4Gmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3gJCgtGNZiORtLkYjwhKz4qTM8uZfME9uCiyiRcJ6JI=;
-        b=6iIThjdLOhgDPBb0z/RN0M927zzHhwiABKcAPR5zi+/7baWuTMB8QWy4HndCUlrmXL
-         /tJMvXKDb9Y9AS17DfnI9ynPzZbyInWVjIymrfshbVmb74jmb6BOXv175CgoTvigKle0
-         LPfWwsyKt/kOJart/9fEARGJGjgOPe7imnAJw1nSF6iKBx2AJISxGnZ+d6SjIiKjZWa2
-         Q3/ZI4E5tACZsyy1Bk4XKbdIuzegRtSL5f1g/ZCcajyTv4En78/mXV54uc4r2SBFzo7h
-         jgeezkTGEeGsG3+dr62qeRNCpBdOLVrjU+wM27bLEOMTb/+eu3QWi/rf89yceF/SSQH5
-         bvOA==
-X-Gm-Message-State: AJIora9Bpb6Mep8hVxk1dfnrvaN1+6AO67zdjsVz1vBRWlvWOY9IESMg
-        T5b5NsuiEb84/hQjNC4v9dLHsm6DnbPhYYUn
-X-Google-Smtp-Source: AGRyM1sRWDng2+U3s6i7lds3adM8cjnf8RTv3i8yWDTsLicQocniHW0SS/qx+45PlAAucYzqGAkrkg==
-X-Received: by 2002:a05:6402:e8b:b0:439:7a9d:f39d with SMTP id h11-20020a0564020e8b00b004397a9df39dmr11253985eda.295.1657793060178;
-        Thu, 14 Jul 2022 03:04:20 -0700 (PDT)
-Received: from localhost.localdomain ([195.24.90.54])
-        by smtp.gmail.com with ESMTPSA id 18-20020a170906201200b006f3ef214e13sm498541ejo.121.2022.07.14.03.03.55
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 03:04:19 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.20] Venus updates - part2
-Date:   Thu, 14 Jul 2022 13:02:19 +0300
-Message-Id: <20220714100219.897127-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Thu, 14 Jul 2022 06:07:10 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9413A509D2;
+        Thu, 14 Jul 2022 03:07:09 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DF4C383;
+        Thu, 14 Jul 2022 12:07:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657793226;
+        bh=MVl5aU7IJeIW69QWt0zAFuc+51OhBV0nnSKU72uq4J0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vyuMw9eNI5ZzkQaYFsk+eRFRLlklk8Qv+B4wLK8DRQo1YzGMcuZ+vOrWWuyjTGQpA
+         eJev8YXJsVEU2D5w4dtPpCiMWCGaj/bnVHph9nC34X0wEt3Mf5d2/46m+s3B+KnL9u
+         244ZFfpA50laLlvgy5cGgnqMYXrhy2AZ8jFfFN00=
+Date:   Thu, 14 Jul 2022 13:06:35 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Volodymyr Kharuk <vkh@melexis.com>
+Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] media: dt-bindings: media: i2c: Add mlx7502x
+ camera sensor binding
+Message-ID: <Ys/qq4hIQ25KXB2/@pendragon.ideasonboard.com>
+References: <cover.1657786765.git.vkh@melexis.com>
+ <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Volodymyr,
 
-Two more patches for 5.20:
+Thank you for the patch.
 
- * Fix smatch error.
- * Add UBWC configuration for sc7280.
+On Thu, Jul 14, 2022 at 11:34:47AM +0300, Volodymyr Kharuk wrote:
+> Add device tree binding of the mlx7502x and update MAINTAINERS
+> 
+> Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
+> ---
+>  .../bindings/media/i2c/melexis,mlx7502x.yaml  | 146 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 147 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> new file mode 100644
+> index 000000000000..4ac91f7a26b6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> @@ -0,0 +1,146 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/melexis,mlx7502x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Melexis ToF 7502x MIPI CSI-2 Sensor
+> +
+> +maintainers:
+> +  - Volodymyr Kharuk <vkh@melexis.com>
+> +
+> +description: |-
+> +  Melexis ToF 7502x sensors has a CSI-2 output. It supports 2 and 4 lanes,
+> +  and mipi speeds are 300, 600, 704, 800, 904, 960Mbs. Supported format is RAW12.
+> +  Sensor 75026 is QVGA, while 75027 is VGA sensor.
+> +  If you use compatible = "melexis,mlx7502x", then autodetect will be called.
 
-Please pull.
+I'd move this last line as a description of the compatible property, but
+I'm also not sure this should be mentioned in the DT bindings, as it's a
+driver implementation detail. I'm actually not sure we should support it
+with three different compatible values as proposed, as without this
+documentation users will have a hard time figuring out what compatible
+value to pick.
 
-regards,
-Stan
+One option would be to support the following three compatible values:
 
-The following changes since commit d8e8aa866ed8636fd6c1017c3d9453eab2922496:
+	compatible = "melexis,mlx75026", "melexis,mlx7502x";
+	compatible = "melexis,mlx75027", "melexis,mlx7502x";
+	compatible = "melexis,mlx7502x";
 
-  media: mediatek: vcodec: Report supported bitrate modes (2022-06-27 09:31:41 +0100)
+The last one only would trigger autodetection. I'm still not sure how to
+document that properly in bindings though.
 
-are available in the Git repository at:
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - melexis,mlx7502x
+> +          - melexis,mlx75026
+> +          - melexis,mlx75027
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  assigned-clocks: true
+> +  assigned-clock-parents: true
+> +  assigned-clock-rates: true
+> +
+> +  clocks:
+> +    description: Clock frequency 8MHz
+> +    maxItems: 1
+> +
+> +  vdda-supply:
+> +    description:
+> +      Definition of the regulator used as analog power supply(2.7V).
+> +
+> +  vddif-supply:
+> +    description:
+> +      Definition of the regulator used as interface power supply(1.8V).
+> +
+> +  vddd-supply:
+> +    description:
+> +      Definition of the regulator used as digital power supply(1.2V).
+> +
+> +  vdmix-supply:
+> +    description:
+> +      Definition of the regulator used as mixed driver power supply(1.2V).
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: Reset Sensor GPIO Control (active low)
+> +
+> +  melexis,trig-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Hardware Trigger GPIO Control (active low)
+> +      When the hardware trigger mode is enabled, this GPIO is used to generate
+> +      a low level impulse for about 100us. The impulse triggers a new
+> +      measurement cycle.
+> +
+> +  melexis,leden-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Led driver enable GPIO Control (active high)
+> +      This GPIO notifies the illumination driver when it is safe to use led
+> +      signals from the sensor.
 
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.20-part2
+As far as I understand this isn't an input of the sensor, but a signal
+that is driven by the driver and controls the separate illuminator. It
+shouldn't be specified in this binding, as it's not a property of the
+sensor. You should instead have a DT node for the illumination driver.
 
-for you to fetch changes up to 0e936b5c9b4dc475be9292b7d42f6e87f1459b2b:
+> +  port:
+> +    description: MIPI CSI-2 transmitter port
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            oneOf:
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +
+> +          clock-noncontinuous: true
+> +          link-frequencies: true
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - port
 
-  media: venus: set ubwc configuration on specific video hardware (2022-07-14 12:16:58 +0300)
+Let's make the supplies mandatory too, as the chip can't operate without
+them.
 
-----------------------------------------------------------------
-Venus updates for v5.20 part2
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        mlx7502x: camera@57 {
+> +            compatible = "melexis,mlx7502x";
+> +            reg = <0x57>;
+> +            clocks = <&mlx7502x_clk>;
+> +
+> +            assigned-clocks = <&mlx7502x_clk>;
+> +            assigned-clock-parents = <&mlx7502x_clk_parent>;
+> +            assigned-clock-rates = <8000000>;
+> +
+> +            vddd-supply = <&mlx_7502x_reg>;
+> +
+> +            reset-gpios = <&gpio_exp 6 GPIO_ACTIVE_HIGH>;
+> +            melexis,trig-gpios = <&gpio_exp 2 GPIO_ACTIVE_HIGH>;
+> +            melexis,leden-gpios = <&gpio_exp 7 GPIO_ACTIVE_HIGH>;
+> +
+> +            port {
+> +                mlx7502x_out_mipi_csi2: endpoint {
+> +                    remote-endpoint = <&mipi_csi2_from_mlx7502x>;
+> +                    data-lanes = <1 2 3 4>;
+> +                    link-frequencies = /bits/ 64 < 960000000
+> +                                                   904000000
+> +                                                   800000000
+> +                                                   704000000
+> +                                                   600000000
+> +                                                   300000000 >;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1a68d888ee14..b00a726bb3db 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12678,6 +12678,7 @@ M:	Volodymyr Kharuk <vkh@melexis.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Supported
+>  W:	http://www.melexis.com
+> +F:	Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+>  F:	include/uapi/linux/mlx7502x.h
+>  
+>  MELFAS MIP4 TOUCHSCREEN DRIVER
 
-----------------------------------------------------------------
-Hans Verkuil (1):
-      media: venus: venus_helper_get_bufreq(): req is never NULL
+-- 
+Regards,
 
-Vikash Garodia (1):
-      media: venus: set ubwc configuration on specific video hardware
-
- drivers/media/platform/qcom/venus/core.c       |  5 +++++
- drivers/media/platform/qcom/venus/core.h       |  2 ++
- drivers/media/platform/qcom/venus/helpers.c    |  6 ++----
- drivers/media/platform/qcom/venus/hfi_cmds.c   |  9 +++++++++
- drivers/media/platform/qcom/venus/hfi_cmds.h   |  1 +
- drivers/media/platform/qcom/venus/hfi_helper.h | 20 ++++++++++++++++++++
- drivers/media/platform/qcom/venus/hfi_venus.c  | 26 ++++++++++++++++++++++++++
- 7 files changed, 65 insertions(+), 4 deletions(-)
+Laurent Pinchart
