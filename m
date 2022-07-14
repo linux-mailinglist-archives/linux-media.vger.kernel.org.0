@@ -2,525 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D68DB574F13
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 15:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16AD757502A
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 15:58:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239664AbiGNNXK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 09:23:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49388 "EHLO
+        id S240357AbiGNN6a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 09:58:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239773AbiGNNWt (ORCPT
+        with ESMTP id S240366AbiGNN6J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 09:22:49 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF4161D4E
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 06:22:15 -0700 (PDT)
-Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ACA8B10F6;
-        Thu, 14 Jul 2022 15:21:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657804913;
-        bh=+4Dy2UU9Wh7ezTY9cuURq7ahnsEuHwwPd2eKjNc3L0Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LrzSLZMVaGO3M/HkH1d1CX9Da4mWGKUzCxBC+aH0KbiUirJSFngCk0DIKC07d3wCN
-         xQkcVdWUk9MDK6kD8H6TQaCnuBBavrmaPv1XrGW7rpv8n7o8jCXNNFVh7/20PRbweJ
-         /ue+Jp9vBS05/neFL5T1n+Bi3KFQHtqX2oFs8uOQ=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>, satish.nagireddy@getcruise.com
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2 4/4] v4l2-ctl/compliance: add routing and streams multiplexed streams
-Date:   Thu, 14 Jul 2022 16:21:16 +0300
-Message-Id: <20220714132116.132498-5-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220714132116.132498-1-tomi.valkeinen@ideasonboard.com>
-References: <20220714132116.132498-1-tomi.valkeinen@ideasonboard.com>
+        Thu, 14 Jul 2022 09:58:09 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B279B5A2C2;
+        Thu, 14 Jul 2022 06:56:41 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id os14so3591502ejb.4;
+        Thu, 14 Jul 2022 06:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:subject:to:cc:message-id:in-reply-to:references
+         :mime-version;
+        bh=huOHFhiKYChVhaBgp849ZBbjkKqaUG8zLm+rmNlDftc=;
+        b=blSp5PU5j+OZQzk3d1rGLs8WlNo8uk5FatkT9uyCo9BlnV8uqZ8lGYqlLQyasQLYMF
+         TYcGi1u+5HAda3RbB1L1GCVu9sDzeSC088i8dZEFu2LdTCfumbNhjZFTSrZG8rzaKbWt
+         mP4tQLsJm1OBZXh21aGjxUWgBAq4Ib2pofDWSY1LOQiAWLbfM0AQzVVKWpHBKCxRkcnB
+         D9HkxdYUHPxR44ywvm31SylQfMrwrzz27rHTlYmRK7QjSoVbkZpMOeRzxOCU45dZ7SYP
+         WnvsmcNx1PIVhRATbc5ZgX9rCeHhGg6zZ9gr62nE88UcGgTP7/0hvmqhCbUhaEBJH/jD
+         LhZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:subject:to:cc:message-id:in-reply-to
+         :references:mime-version;
+        bh=huOHFhiKYChVhaBgp849ZBbjkKqaUG8zLm+rmNlDftc=;
+        b=X+CaZz6hb9K6Xpd4WElin95Eh9kG0mppiGJX6K/FiQxRbxu2C31Yg2QPOVnKAa5KxD
+         0G6CwUyGa5A4suU8y2WG/HngcLuMXLzJnFpv97n1iHeoxBkzX5Fs5y5S+dygFlkGHhGo
+         qQ/QCmBR8dgWm0j5cZuP4J0qTHyUqbtd1tLLU4TBQzMfl8nchGeOsAYICOIfev4DM1gy
+         SRTy+ps9UqgadxQ351A6grqNNTPNdnj+sYOXYxKRSD5aA0TOnGu1wx4hhSspEI8fly+0
+         cIH9vXkrU3wLQR/+HKTV9IpHcF2XXEwwbmYZqMrRuxVSCIrMpIBvxy3b7T6l4g5KwbOI
+         uHuw==
+X-Gm-Message-State: AJIora+IMkqiJ+vjjwwk6bNaWrLYFpdCu8PhIQ/9bq22GQPoxXv4C3cJ
+        qA7OObjWhF54JNbfHa+GEEo=
+X-Google-Smtp-Source: AGRyM1s6di3Gdf6v/Alu4+Ie2FZrOpMo07l8U/qYGbgGQuw4Qj4dYQe7twBb7qv3UijaEAj+W+9mPw==
+X-Received: by 2002:a17:906:5055:b0:6ff:1dfb:1e2c with SMTP id e21-20020a170906505500b006ff1dfb1e2cmr9073337ejk.200.1657807000145;
+        Thu, 14 Jul 2022 06:56:40 -0700 (PDT)
+Received: from [192.168.11.247] (185-165-241-34.hosted-by-worldstream.net. [185.165.241.34])
+        by smtp.gmail.com with ESMTPSA id v18-20020a170906293200b007052b183d51sm723690ejd.132.2022.07.14.06.56.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jul 2022 06:56:39 -0700 (PDT)
+Date:   Thu, 14 Jul 2022 17:56:29 +0400
+From:   Yassine Oudjana <yassine.oudjana@gmail.com>
+Subject: Re: [PATCH v2 3/3] media: i2c: ak7375: Add regulator management
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Message-Id: <52K0FR.YCGQA83H5U3W@gmail.com>
+In-Reply-To: <20220711173123.55abjsli3tmqgegj@uno.localdomain>
+References: <20220711144039.232196-1-y.oudjana@protonmail.com>
+        <20220711144039.232196-4-y.oudjana@protonmail.com>
+        <20220711173123.55abjsli3tmqgegj@uno.localdomain>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii; format=flowed
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add basic support for routing and streams.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- utils/common/v4l2-info.cpp                  |   2 +
- utils/v4l2-compliance/v4l2-compliance.cpp   | 124 ++++++++++++++++----
- utils/v4l2-compliance/v4l2-compliance.h     |   8 +-
- utils/v4l2-compliance/v4l2-test-subdevs.cpp |  43 ++++++-
- 4 files changed, 143 insertions(+), 34 deletions(-)
+On Mon, Jul 11 2022 at 19:31:23 +0200, Jacopo Mondi <jacopo@jmondi.org> 
+wrote:
+> Hi Yassine,
+> 
+> On Mon, Jul 11, 2022 at 06:40:39PM +0400, Yassine Oudjana wrote:
+>>  From: Yassine Oudjana <y.oudjana@protonmail.com>
+>> 
+>>  Make the driver get needed regulators on probe and enable/disable
+>>  them on runtime PM callbacks.
+>> 
+>>  Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+>>  ---
+>>  Changes since v1:
+>>    - Reorganize variable declaration
+>>    - Change the power-on delay range to 3000-3500 microseconds.
+>> 
+>>   drivers/media/i2c/ak7375.c | 39 
+>> ++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 39 insertions(+)
+>> 
+>>  diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
+>>  index 40b1a4aa846c..c2b2542a0056 100644
+>>  --- a/drivers/media/i2c/ak7375.c
+>>  +++ b/drivers/media/i2c/ak7375.c
+>>  @@ -6,6 +6,7 @@
+>>   #include <linux/i2c.h>
+>>   #include <linux/module.h>
+>>   #include <linux/pm_runtime.h>
+>>  +#include <linux/regulator/consumer.h>
+>>   #include <media/v4l2-ctrls.h>
+>>   #include <media/v4l2-device.h>
+>> 
+>>  @@ -23,17 +24,32 @@
+>>    */
+>>   #define AK7375_CTRL_STEPS	64
+>>   #define AK7375_CTRL_DELAY_US	1000
+>>  +/*
+>>  + * The vcm takes around 3 ms to power on and start taking
+>>  + * I2C messages. This value was found experimentally due to
+>>  + * lack of documentation.
+>>  + */
+>>  +#define AK7375_POWER_DELAY_US	3000
+>> 
+>>   #define AK7375_REG_POSITION	0x0
+>>   #define AK7375_REG_CONT		0x2
+>>   #define AK7375_MODE_ACTIVE	0x0
+>>   #define AK7375_MODE_STANDBY	0x40
+>> 
+>>  +static const char * const ak7375_supply_names[] = {
+>>  +	"vdd",
+>>  +	"vio",
+>>  +};
+>>  +
+>>  +#define AK7375_NUM_SUPPLIES ARRAY_SIZE(ak7375_supply_names)
+>>  +
+>>   /* ak7375 device structure */
+>>   struct ak7375_device {
+>>   	struct v4l2_ctrl_handler ctrls_vcm;
+>>   	struct v4l2_subdev sd;
+>>   	struct v4l2_ctrl *focus;
+>>  +	struct regulator_bulk_data supplies[AK7375_NUM_SUPPLIES];
+>>  +
+>>   	/* active or standby mode */
+>>   	bool active;
+>>   };
+>>  @@ -133,12 +149,24 @@ static int ak7375_probe(struct i2c_client 
+>> *client)
+>>   {
+>>   	struct ak7375_device *ak7375_dev;
+>>   	int ret;
+>>  +	int i;
+>> 
+>>   	ak7375_dev = devm_kzalloc(&client->dev, sizeof(*ak7375_dev),
+>>   				  GFP_KERNEL);
+>>   	if (!ak7375_dev)
+>>   		return -ENOMEM;
+>> 
+>>  +	for (i = 0; i < AK7375_NUM_SUPPLIES; i++)
+>>  +		ak7375_dev->supplies[i].supply = ak7375_supply_names[i];
+>>  +
+>>  +	ret = devm_regulator_bulk_get(&client->dev, AK7375_NUM_SUPPLIES,
+>>  +				      ak7375_dev->supplies);
+>>  +	if (ret) {
+>>  +		dev_err(&client->dev, "Failed to get regulators: %pe",
+>>  +			ERR_PTR(ret));
+> 
+> Why are you using %pe here ? Your return value is not a pointer
 
-diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
-index b8f2c865..62c61844 100644
---- a/utils/common/v4l2-info.cpp
-+++ b/utils/common/v4l2-info.cpp
-@@ -111,6 +111,8 @@ static std::string subdevcap2s(unsigned cap)
- 
- 	if (cap & V4L2_SUBDEV_CAP_RO_SUBDEV)
- 		s += "\t\tRead-Only Sub-Device\n";
-+	if (cap & V4L2_SUBDEV_CAP_MPLEXED)
-+		s += "\t\tSub-Device supports Multiplexed Streams\n";
- 	return s;
- }
- 
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index 8d0e94e9..667e8232 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1224,6 +1224,10 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 	if (node.is_subdev()) {
- 		bool has_source = false;
- 		bool has_sink = false;
-+		struct v4l2_subdev_routing sd_routing[2] = {};
-+		struct v4l2_subdev_route sd_routes[2][256] = {};
-+		bool has_routes = !!(subdevcap.capabilities & V4L2_SUBDEV_CAP_MPLEXED);
-+		int ret;
- 
- 		node.frame_interval_pad = -1;
- 		node.enum_frame_interval_pad = -1;
-@@ -1235,6 +1239,22 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		}
- 		node.is_passthrough_subdev = has_source && has_sink;
- 
-+		if (has_routes) {
-+			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
-+				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
-+
-+				sd_routing[which].which = which;
-+				sd_routing[which].routes = (__u64)sd_routes[which];
-+				sd_routing[which].num_routes = 256;
-+
-+				ret = doioctl(&node, VIDIOC_SUBDEV_G_ROUTING, &sd_routing[which]);
-+				if (ret) {
-+					fail("VIDIOC_SUBDEV_G_ROUTING: failed to get routing\n");
-+					sd_routing[which].num_routes = 0;
-+				}
-+			}
-+		}
-+
- 		for (unsigned pad = 0; pad < node.entity.pads; pad++) {
- 			printf("Sub-Device ioctls (%s Pad %u):\n",
- 			       (node.pads[pad].flags & MEDIA_PAD_FL_SINK) ?
-@@ -1244,32 +1264,86 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 			node.has_subdev_enum_fival = 0;
- 			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
- 			     which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
--				printf("\ttest %s VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: %s\n",
--				       which ? "Active" : "Try",
--				       ok(testSubDevEnum(&node, which, pad)));
--				printf("\ttest %s VIDIOC_SUBDEV_G/S_FMT: %s\n",
--				       which ? "Active" : "Try",
--				       ok(testSubDevFormat(&node, which, pad)));
--				printf("\ttest %s VIDIOC_SUBDEV_G/S_SELECTION/CROP: %s\n",
--				       which ? "Active" : "Try",
--				       ok(testSubDevSelection(&node, which, pad)));
--				if (which)
--					printf("\ttest VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: %s\n",
--					       ok(testSubDevFrameInterval(&node, pad)));
-+				struct v4l2_subdev_routing dummy_routing;
-+				struct v4l2_subdev_route dummy_routes[1];
-+
-+				const struct v4l2_subdev_routing *routing;
-+				const struct v4l2_subdev_route *routes;
-+
-+				if (has_routes) {
-+					routing = &sd_routing[which];
-+					routes = sd_routes[which];
-+				} else {
-+					dummy_routing.num_routes = 1;
-+					dummy_routing.routes = (__u64)&dummy_routes;
-+					dummy_routes[0].source_pad = pad;
-+					dummy_routes[0].source_stream = 0;
-+					dummy_routes[0].sink_pad = pad;
-+					dummy_routes[0].sink_stream = 0;
-+					dummy_routes[0].flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE;
-+
-+					routing = &dummy_routing;
-+					routes = dummy_routes;
-+				}
-+
-+				for (unsigned i = 0; i < routing->num_routes; ++i) {
-+					const struct v4l2_subdev_route *r = &routes[i];
-+					unsigned stream;
-+
-+					if (!(r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+						continue;
-+
-+					if ((node.pads[pad].flags & MEDIA_PAD_FL_SINK) &&
-+					    (r->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE))
-+						continue;
-+
-+					if ((node.pads[pad].flags & MEDIA_PAD_FL_SINK) &&
-+					    (r->sink_pad == pad))
-+						stream = r->sink_stream;
-+					else if ((node.pads[pad].flags & MEDIA_PAD_FL_SOURCE) &&
-+					    (r->source_pad == pad))
-+						stream = r->source_stream;
-+					else
-+						continue;
-+
-+					printf("\t%s Stream %u\n",which ? "Active" : "Try",
-+					       stream);
-+
-+					printf("\ttest %s VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: %s\n",
-+					       which ? "Active" : "Try",
-+					       ok(testSubDevEnum(&node, which, pad, stream)));
-+					printf("\ttest %s VIDIOC_SUBDEV_G/S_FMT: %s\n",
-+					       which ? "Active" : "Try",
-+					       ok(testSubDevFormat(&node, which, pad, stream)));
-+					printf("\ttest %s VIDIOC_SUBDEV_G/S_SELECTION/CROP: %s\n",
-+					       which ? "Active" : "Try",
-+					       ok(testSubDevSelection(&node, which, pad, stream)));
-+					if (which)
-+						printf("\ttest VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: %s\n",
-+						       ok(testSubDevFrameInterval(&node, pad, stream)));
-+				}
-+			}
-+
-+			/*
-+			 * These tests do not make sense for subdevs with multiplexed streams,
-+			 * as the try & active cases may have different routing and thus different
-+			 * behavior.
-+			 */
-+			if (!has_routes) {
-+				if (node.has_subdev_enum_code && node.has_subdev_enum_code < 3)
-+					fail("VIDIOC_SUBDEV_ENUM_MBUS_CODE: try/active mismatch\n");
-+				if (node.has_subdev_enum_fsize && node.has_subdev_enum_fsize < 3)
-+					fail("VIDIOC_SUBDEV_ENUM_FRAME_SIZE: try/active mismatch\n");
-+				if (node.has_subdev_enum_fival && node.has_subdev_enum_fival < 3)
-+					fail("VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: try/active mismatch\n");
-+				if (node.has_subdev_fmt && node.has_subdev_fmt < 3)
-+					fail("VIDIOC_SUBDEV_G/S_FMT: try/active mismatch\n");
-+				if (node.has_subdev_selection && node.has_subdev_selection < 3)
-+					fail("VIDIOC_SUBDEV_G/S_SELECTION: try/active mismatch\n");
-+				if (node.has_subdev_selection &&
-+				    node.has_subdev_selection != node.has_subdev_fmt)
-+					fail("VIDIOC_SUBDEV_G/S_SELECTION: fmt/selection mismatch\n");
- 			}
--			if (node.has_subdev_enum_code && node.has_subdev_enum_code < 3)
--				fail("VIDIOC_SUBDEV_ENUM_MBUS_CODE: try/active mismatch\n");
--			if (node.has_subdev_enum_fsize && node.has_subdev_enum_fsize < 3)
--				fail("VIDIOC_SUBDEV_ENUM_FRAME_SIZE: try/active mismatch\n");
--			if (node.has_subdev_enum_fival && node.has_subdev_enum_fival < 3)
--				fail("VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: try/active mismatch\n");
--			if (node.has_subdev_fmt && node.has_subdev_fmt < 3)
--				fail("VIDIOC_SUBDEV_G/S_FMT: try/active mismatch\n");
--			if (node.has_subdev_selection && node.has_subdev_selection < 3)
--				fail("VIDIOC_SUBDEV_G/S_SELECTION: try/active mismatch\n");
--			if (node.has_subdev_selection &&
--			    node.has_subdev_selection != node.has_subdev_fmt)
--				fail("VIDIOC_SUBDEV_G/S_SELECTION: fmt/selection mismatch\n");
- 			printf("\n");
- 		}
- 	}
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index 507187eb..d449b7fa 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -366,10 +366,10 @@ int testDecoder(struct node *node);
- 
- // SubDev ioctl tests
- int testSubDevCap(struct node *node);
--int testSubDevEnum(struct node *node, unsigned which, unsigned pad);
--int testSubDevFormat(struct node *node, unsigned which, unsigned pad);
--int testSubDevSelection(struct node *node, unsigned which, unsigned pad);
--int testSubDevFrameInterval(struct node *node, unsigned pad);
-+int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned stream);
-+int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream);
-+int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream);
-+int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream);
- 
- // Buffer ioctl tests
- int testReqBufs(struct node *node);
-diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-index f3d85771..e87cd051 100644
---- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-@@ -25,7 +25,7 @@
- 
- #include "v4l2-compliance.h"
- 
--#define VALID_SUBDEV_CAPS (V4L2_SUBDEV_CAP_RO_SUBDEV)
-+#define VALID_SUBDEV_CAPS (V4L2_SUBDEV_CAP_RO_SUBDEV | V4L2_SUBDEV_CAP_MPLEXED)
- 
- int testSubDevCap(struct node *node)
- {
-@@ -54,6 +54,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
- 	memset(&fie, 0, sizeof(fie));
- 	fie.which = which;
- 	fie.pad = pad;
-+	fie.stream = 0;
- 	fie.code = code;
- 	fie.width = width;
- 	fie.height = height;
-@@ -83,6 +84,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
- 	memset(&fie, 0xff, sizeof(fie));
- 	fie.which = which;
- 	fie.pad = pad;
-+	fie.stream = 0;
- 	fie.code = code;
- 	fie.width = width;
- 	fie.height = height;
-@@ -128,6 +130,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	memset(&fse, 0, sizeof(fse));
- 	fse.which = which;
- 	fse.pad = pad;
-+	fse.stream = 0;
- 	fse.code = code;
- 	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse);
- 	node->has_subdev_enum_fsize |= (ret != ENOTTY) << which;
-@@ -137,6 +140,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 		memset(&fie, 0, sizeof(fie));
- 		fie.which = which;
- 		fie.pad = pad;
-+		fie.stream = 0;
- 		fie.code = code;
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
- 		return ret;
-@@ -152,6 +156,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	memset(&fse, 0xff, sizeof(fse));
- 	fse.which = which;
- 	fse.pad = pad;
-+	fse.stream = 0;
- 	fse.code = code;
- 	fse.index = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse));
-@@ -195,7 +200,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	return 0;
- }
- 
--int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
-+int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned stream)
- {
- 	struct v4l2_subdev_mbus_code_enum mbus_core_enum;
- 	unsigned num_codes;
-@@ -204,6 +209,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 	memset(&mbus_core_enum, 0, sizeof(mbus_core_enum));
- 	mbus_core_enum.which = which;
- 	mbus_core_enum.pad = pad;
-+	mbus_core_enum.stream = stream;
- 	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum);
- 	node->has_subdev_enum_code |= (ret != ENOTTY) << which;
- 	if (ret == ENOTTY) {
-@@ -214,8 +220,10 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 		memset(&fie, 0, sizeof(fie));
- 		fse.which = which;
- 		fse.pad = pad;
-+		fse.stream = stream;
- 		fie.which = which;
- 		fie.pad = pad;
-+		fie.stream = stream;
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse) != ENOTTY);
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
- 		return ret;
-@@ -226,16 +234,19 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 	mbus_core_enum.index = ~0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum) != EINVAL);
- 	mbus_core_enum.pad = node->entity.pads;
-+	mbus_core_enum.stream = stream;
- 	mbus_core_enum.index = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum) != EINVAL);
- 	memset(&mbus_core_enum, 0xff, sizeof(mbus_core_enum));
- 	mbus_core_enum.which = which;
- 	mbus_core_enum.pad = pad;
-+	mbus_core_enum.stream = stream;
- 	mbus_core_enum.index = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum));
- 	fail_on_test(check_0(mbus_core_enum.reserved, sizeof(mbus_core_enum.reserved)));
- 	fail_on_test(mbus_core_enum.code == ~0U);
- 	fail_on_test(mbus_core_enum.pad != pad);
-+	fail_on_test(mbus_core_enum.stream != stream);
- 	fail_on_test(mbus_core_enum.index);
- 	fail_on_test(mbus_core_enum.which != which);
- 	do {
-@@ -252,6 +263,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 		fail_on_test(!mbus_core_enum.code);
- 		fail_on_test(mbus_core_enum.which != which);
- 		fail_on_test(mbus_core_enum.pad != pad);
-+		fail_on_test(mbus_core_enum.stream != stream);
- 		fail_on_test(mbus_core_enum.index != i);
- 
- 		ret = testSubDevEnumFrameSize(node, which, pad, mbus_core_enum.code);
-@@ -260,7 +272,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 	return 0;
- }
- 
--int testSubDevFrameInterval(struct node *node, unsigned pad)
-+int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream)
- {
- 	struct v4l2_subdev_frame_interval fival;
- 	struct v4l2_fract ival;
-@@ -268,6 +280,7 @@ int testSubDevFrameInterval(struct node *node, unsigned pad)
- 
- 	memset(&fival, 0xff, sizeof(fival));
- 	fival.pad = pad;
-+	fival.stream = stream;
- 	ret = doioctl(node, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival);
- 	if (ret == ENOTTY) {
- 		fail_on_test(node->enum_frame_interval_pad >= 0);
-@@ -279,6 +292,7 @@ int testSubDevFrameInterval(struct node *node, unsigned pad)
- 	node->frame_interval_pad = pad;
- 	fail_on_test(check_0(fival.reserved, sizeof(fival.reserved)));
- 	fail_on_test(fival.pad != pad);
-+	fail_on_test(fival.stream != stream);
- 	fail_on_test(!fival.interval.numerator);
- 	fail_on_test(!fival.interval.denominator);
- 	fail_on_test(fival.interval.numerator == ~0U || fival.interval.denominator == ~0U);
-@@ -290,20 +304,25 @@ int testSubDevFrameInterval(struct node *node, unsigned pad)
- 	}
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival));
- 	fail_on_test(fival.pad != pad);
-+	fail_on_test(fival.stream != stream);
- 	fail_on_test(ival.numerator != fival.interval.numerator);
- 	fail_on_test(ival.denominator != fival.interval.denominator);
- 	fail_on_test(check_0(fival.reserved, sizeof(fival.reserved)));
- 	memset(&fival, 0, sizeof(fival));
- 	fival.pad = pad;
-+	fival.stream = stream;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival));
- 	fail_on_test(fival.pad != pad);
-+	fail_on_test(fival.stream != stream);
- 	fail_on_test(ival.numerator != fival.interval.numerator);
- 	fail_on_test(ival.denominator != fival.interval.denominator);
- 
- 	fival.pad = node->entity.pads;
-+	fival.stream = stream;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival) != EINVAL);
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival) != EINVAL);
- 	fival.pad = pad;
-+	fival.stream = stream;
- 	fival.interval = ival;
- 	fival.interval.numerator = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival));
-@@ -340,7 +359,7 @@ static int checkMBusFrameFmt(struct node *node, struct v4l2_mbus_framefmt &fmt)
- 	return 0;
- }
- 
--int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
-+int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream)
- {
- 	struct v4l2_subdev_format fmt;
- 	struct v4l2_subdev_format s_fmt;
-@@ -349,6 +368,7 @@ int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
- 	memset(&fmt, 0, sizeof(fmt));
- 	fmt.which = which;
- 	fmt.pad = pad;
-+	fmt.stream = stream;
- 	ret = doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt);
- 	node->has_subdev_fmt |= (ret != ENOTTY) << which;
- 	if (ret == ENOTTY) {
-@@ -359,14 +379,17 @@ int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt) != EINVAL);
- 	fmt.which = 0;
- 	fmt.pad = node->entity.pads;
-+	fmt.stream = stream;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt) != EINVAL);
- 	memset(&fmt, 0xff, sizeof(fmt));
- 	fmt.which = which;
- 	fmt.pad = pad;
-+	fmt.stream = stream;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt));
- 	fail_on_test(check_0(fmt.reserved, sizeof(fmt.reserved)));
- 	fail_on_test(fmt.which != which);
- 	fail_on_test(fmt.pad != pad);
-+	fail_on_test(fmt.stream != stream);
- 	fail_on_test(checkMBusFrameFmt(node, fmt.format));
- 	s_fmt = fmt;
- 	memset(s_fmt.reserved, 0xff, sizeof(s_fmt.reserved));
-@@ -379,6 +402,7 @@ int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
- 	fail_on_test(ret && ret != ENOTTY);
- 	fail_on_test(s_fmt.which != which);
- 	fail_on_test(s_fmt.pad != pad);
-+	fail_on_test(s_fmt.stream != stream);
- 	if (ret) {
- 		warn("VIDIOC_SUBDEV_G_FMT is supported but not VIDIOC_SUBDEV_S_FMT\n");
- 		return 0;
-@@ -423,7 +447,7 @@ static target_info targets[] = {
- 	{ ~0U },
- };
- 
--int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
-+int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream)
- {
- 	struct v4l2_subdev_selection sel;
- 	struct v4l2_subdev_selection s_sel;
-@@ -435,10 +459,12 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 	targets[V4L2_SEL_TGT_NATIVE_SIZE].readonly = is_sink;
- 	memset(&crop, 0, sizeof(crop));
- 	crop.pad = pad;
-+	crop.stream = stream;
- 	crop.which = which;
- 	memset(&sel, 0, sizeof(sel));
- 	sel.which = which;
- 	sel.pad = pad;
-+	sel.stream = stream;
- 	sel.target = V4L2_SEL_TGT_CROP;
- 	ret = doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel);
- 	node->has_subdev_selection |= (ret != ENOTTY) << which;
-@@ -451,6 +477,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 	fail_on_test(check_0(crop.reserved, sizeof(crop.reserved)));
- 	fail_on_test(crop.which != which);
- 	fail_on_test(crop.pad != pad);
-+	fail_on_test(crop.stream != stream);
- 	fail_on_test(memcmp(&crop.rect, &sel.r, sizeof(sel.r)));
- 
- 	for (unsigned tgt = 0; targets[tgt].target != ~0U; tgt++) {
-@@ -458,6 +485,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 		memset(&sel, 0xff, sizeof(sel));
- 		sel.which = which;
- 		sel.pad = pad;
-+		sel.stream = stream;
- 		sel.target = tgt;
- 		ret = doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel);
- 		targets[tgt].found = !ret;
-@@ -469,6 +497,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 		fail_on_test(check_0(sel.reserved, sizeof(sel.reserved)));
- 		fail_on_test(sel.which != which);
- 		fail_on_test(sel.pad != pad);
-+		fail_on_test(sel.stream != stream);
- 		fail_on_test(sel.target != tgt);
- 		fail_on_test(!sel.r.width);
- 		fail_on_test(sel.r.width == ~0U);
-@@ -480,9 +509,11 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel) != EINVAL);
- 		sel.which = 0;
- 		sel.pad = node->entity.pads;
-+		sel.stream = stream;
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel) != EINVAL);
- 		sel.which = which;
- 		sel.pad = pad;
-+		sel.stream = stream;
- 		s_sel = sel;
- 		memset(s_sel.reserved, 0xff, sizeof(s_sel.reserved));
- 		ret = doioctl(node, VIDIOC_SUBDEV_S_SELECTION, &s_sel);
-@@ -496,6 +527,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 				fail_on_test(check_0(crop.reserved, sizeof(crop.reserved)));
- 				fail_on_test(crop.which != which);
- 				fail_on_test(crop.pad != pad);
-+				fail_on_test(crop.stream != stream);
- 				fail_on_test(memcmp(&crop.rect, &sel.r, sizeof(sel.r)));
- 			}
- 		}
-@@ -504,6 +536,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 		fail_on_test(!ret && targets[tgt].readonly);
- 		fail_on_test(s_sel.which != which);
- 		fail_on_test(s_sel.pad != pad);
-+		fail_on_test(s_sel.stream != stream);
- 		if (ret && !targets[tgt].readonly && tgt != V4L2_SEL_TGT_NATIVE_SIZE)
- 			warn("VIDIOC_SUBDEV_G_SELECTION is supported for target %u but not VIDIOC_SUBDEV_S_SELECTION\n", tgt);
- 		if (ret)
--- 
-2.34.1
+In order to have it print a symbolic error name instead of a value
+with CONFIG_SYMBOLIC_ERRNAME=y. There is no format code for an
+error integer (or at least I couldn't find one mentioned anywhere
+in the docs), so instead I use %pe then wrap `ret` in ERR_PTR().
+
+> (Also, missing \n at the end of the string)
+
+That wasn't intentional. I'll fix it.
+
+> 
+> From Documentation/core-api/printk-formats.rst:
+> 	%pe	-ENOSPC
+> 
+> For printing error pointers (i.e. a pointer for which IS_ERR() is 
+> true)
+> as a symbolic error name. Error values for which no symbolic name is
+> known are printed in decimal, while a non-ERR_PTR passed as the
+> argument to %pe gets treated as ordinary %p.
+> 
+>>  +		return ret;
+>>  +	}
+>>  +
+>>   	v4l2_i2c_subdev_init(&ak7375_dev->sd, client, &ak7375_ops);
+>>   	ak7375_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>>   	ak7375_dev->sd.internal_ops = &ak7375_int_ops;
+>>  @@ -210,6 +238,10 @@ static int __maybe_unused 
+>> ak7375_vcm_suspend(struct device *dev)
+>>   	if (ret)
+>>   		dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
+>> 
+>>  +	ret = regulator_bulk_disable(AK7375_NUM_SUPPLIES, 
+>> ak7375_dev->supplies);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>   	ak7375_dev->active = false;
+>> 
+>>   	return 0;
+>>  @@ -230,6 +262,13 @@ static int __maybe_unused 
+>> ak7375_vcm_resume(struct device *dev)
+>>   	if (ak7375_dev->active)
+>>   		return 0;
+>> 
+>>  +	ret = regulator_bulk_enable(AK7375_NUM_SUPPLIES, 
+>> ak7375_dev->supplies);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	/* Wait for vcm to become ready */
+>>  +	usleep_range(AK7375_POWER_DELAY_US, AK7375_POWER_DELAY_US + 500);
+>>  +
+>>   	ret = ak7375_i2c_write(ak7375_dev, AK7375_REG_CONT,
+>>   		AK7375_MODE_ACTIVE, 1);
+>>   	if (ret) {
+>>  --
+>>  2.37.0
+>> 
+
 
