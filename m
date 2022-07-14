@@ -2,75 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C99CB5747AF
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 11:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48C265747DA
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 11:10:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231372AbiGNJGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 05:06:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55688 "EHLO
+        id S229835AbiGNJKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 05:10:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbiGNJGD (ORCPT
+        with ESMTP id S229719AbiGNJKY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 05:06:03 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3BCE10FEE
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 02:06:02 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 5D11F34B34;
-        Thu, 14 Jul 2022 09:06:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1657789561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=rneVqqvNkU1lCsrVXJD1UQj3t+VTBR1nfRYfa7CJYkc=;
-        b=XAXw75Kpvt6MYf8zjtDns5sH8nc1XRjWnZgYouFAIv6UdyVllA/XP0u6JkPd3LM/O6onlu
-        VHaCM2KR3AFSfFU3PLDkpP0TJpMrnKJXi5XHQ3rpQ27/BlQSaokQyeHezwDED63eAvbO6d
-        CxZxNAFKf04DvM2n/uvxuNO0Ds2fA74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1657789561;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=rneVqqvNkU1lCsrVXJD1UQj3t+VTBR1nfRYfa7CJYkc=;
-        b=Sgv+AWlNIFtInavpZbj4fthznhh7tsGClBQDLdjxlIGMxXw9YI44nzukq5230fAfXh6ons
-        WTQTmyrrrrDw7oCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 349D213A61;
-        Thu, 14 Jul 2022 09:06:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id LsD3C3ncz2KqIAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 14 Jul 2022 09:06:01 +0000
-Message-ID: <b16e783a-e7a2-09d5-a8c0-b3b8d18a3e1f@suse.de>
-Date:   Thu, 14 Jul 2022 11:06:00 +0200
+        Thu, 14 Jul 2022 05:10:24 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1745A1EEC4
+        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 02:10:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657789823; x=1689325823;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=4V3DPEFZ0+N/JMvFKqEVFiVSDiAYe8ds+Q5qfhSx0hk=;
+  b=XTb8z45+8J/axHq9goWTWoalmry/7cuCxgjwNHwaTCG2ewFb7/lduE1j
+   pC4nBE/3+YuSXDfOMQ/RaW20V6kk/CNtioW4/tvCq5W4ldWQXBk8tJJwj
+   gmvuasGaPdQrbVi3UAFUhckiAASEU0W3zUrjfotvNJA4a3wpf7iDcxp0l
+   eFAmNkDxgBdpof/ssg7NDGnBGE+GXeRfSRpAV1OjU4gw0DHZYwZS6uvGM
+   I55LKj0wNfOODpmpKqfl8HKXLJicMS+dXYfa1AWIPTxExmb55XAQ6/Tjy
+   nf7YdFX+Nuju3jhqsUnsjxlEIIIbxj0zGB1nJShfUziZBWjuMf7BrlPhp
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="347141444"
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
+   d="scan'208";a="347141444"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 02:10:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
+   d="scan'208";a="922998879"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.188]) ([10.238.232.188])
+  by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2022 02:10:16 -0700
+Subject: Re: [PATCH] media: dw9768: activate runtime PM and turn off device
+To:     Tomasz Figa <tfiga@chromium.org>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+Cc:     "Cao, Bingbu" <bingbu.cao@intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+References: <1634278119-32158-1-git-send-email-bingbu.cao@intel.com>
+ <CAAFQd5Aykfdj-HPzsQOyQpbGBRhtTsoRm78XgpuGkFUx1joTMA@mail.gmail.com>
+ <DM8PR11MB565395F554C6D1C4978EBC2A998E9@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <CAAFQd5B9hZNn4UuB8h0RLUwSxwTFGC219LFe8jGE1jDd+EfosA@mail.gmail.com>
+ <CAAFQd5B_LTXa=ECg0wRzGLqGJaiz3HrY_C9BJgByj4QFTJzu-Q@mail.gmail.com>
+ <64cf6ebd-03d4-3cc2-5eed-bc723eb3214a@linux.intel.com>
+ <CAAFQd5DnBTKKeY1Mr6np2Q6BUo=-RcZHHJ+GsSK-BDAtYLJ1Gg@mail.gmail.com>
+ <Yla2owgZ9sSBazDF@paasikivi.fi.intel.com>
+ <CAAFQd5DZGPWmZgRYjdwzk7Mm3OAviDrH24NyWxEredcgA2TMTQ@mail.gmail.com>
+ <YlbR3uQLiXoJcrhQ@paasikivi.fi.intel.com>
+ <CAAFQd5CTnHi60OYbSq-UiSozAww7SZZtTA9OBm83AeVzkettiw@mail.gmail.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <e3d1fcab-75a8-1617-c93b-111dd8df66b9@linux.intel.com>
+Date:   Thu, 14 Jul 2022 17:08:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] dma-buf: revert "return only unsignaled fences in
- dma_fence_unwrap_for_each v3"
+In-Reply-To: <CAAFQd5CTnHi60OYbSq-UiSozAww7SZZtTA9OBm83AeVzkettiw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        karolina.drobnik@intel.com, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org
-References: <20220712102849.1562-1-christian.koenig@amd.com>
- <5b8aa549-c2f1-19b2-d0f4-26d4ea1a7ade@suse.de>
- <e3accc2e-75e5-459a-ea72-116e44f73238@amd.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <e3accc2e-75e5-459a-ea72-116e44f73238@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------XPkFX4C3NVZnEzUkxuc2ZhXD"
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,114 +75,165 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------XPkFX4C3NVZnEzUkxuc2ZhXD
-Content-Type: multipart/mixed; boundary="------------SsqBmTukjqEeBF0GrExtPvTL";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- karolina.drobnik@intel.com, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-Message-ID: <b16e783a-e7a2-09d5-a8c0-b3b8d18a3e1f@suse.de>
-Subject: Re: [PATCH] dma-buf: revert "return only unsignaled fences in
- dma_fence_unwrap_for_each v3"
-References: <20220712102849.1562-1-christian.koenig@amd.com>
- <5b8aa549-c2f1-19b2-d0f4-26d4ea1a7ade@suse.de>
- <e3accc2e-75e5-459a-ea72-116e44f73238@amd.com>
-In-Reply-To: <e3accc2e-75e5-459a-ea72-116e44f73238@amd.com>
+Tomasz and Sakari,
 
---------------SsqBmTukjqEeBF0GrExtPvTL
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Is there any conclusion of this support for both OF and
+ACPI platform? 
 
-SGkNCg0KQW0gMTQuMDcuMjIgdW0gMTA6NDkgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBIaSBUaG9tYXMsDQo+IA0KPiBBbSAxNC4wNy4yMiB1bSAxMDo0MCBzY2hyaWViIFRob21h
-cyBaaW1tZXJtYW5uOg0KPj4gSGkgQ2hyaXN0aWFuDQo+Pg0KPj4gQW0gMTIuMDcuMjIgdW0g
-MTI6Mjggc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0KPj4+IFRoaXMgcmV2ZXJ0cyBjb21t
-aXQgOGY2MTk3MzcxODQ4NWYzZTg5YmM0ZjQwOGY5MjkwNDhiN2I0N2M4My4NCj4+DQo+PiBJ
-IG9ubHkgZm91bmQgdGhpcyBjb21taXQgaW4gZHJtLW1pc2MtbmV4dC4gU2hvdWxkIHRoZSBy
-ZXZlcnQgYmUgDQo+PiBjaGVycnktcGlja2VkIGludG8gZHJtLW1pc2MtbmV4dC1maXhlcz8N
-Cj4gDQo+IHllcyBmb3IgYWxsIHRocmVlIHBhdGNoZXMgeW91IGp1c3QgcGluZ2VkIG1lLg0K
-PiANCj4gSSd2ZSBhbHJlYWR5IHRyaWVkIHRvIHB1c2ggdGhlbSB0byBkcm0tbWlzYy1uZXh0
-LWZpeGVzLCBidXQgdGhlIHBhdGNoZXMgDQo+IHNvbWVob3cgd291bGRuJ3QgYXBwbHkuIEkg
-dGhpbmsgdGhlIC1uZXh0LWZpeGVzIGJyYW5jaCB3YXMgc29tZWhvdyANCj4gbGFnZ2luZyBi
-ZWhpbmQuDQoNCkkganVzdCBmb3J3YXJkZWQgZHJtLW1pc2MtbmV4dC1maXhlcyB0byB0aGUg
-bGF0ZXN0IHN0YXRlIG9mIGRybS1uZXh0LiANCkNoYW5jZXMgYXJlLCB0aGVzZSBwYXRjaGVz
-IHdpbGwgYXBwbHkgbm93Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBUaGFu
-a3MsDQo+IENocmlzdGlhbi4NCj4gDQo+Pg0KPj4gQmVzdCByZWdhcmRzDQo+PiBUaG9tYXMN
-Cj4+DQo+Pj4NCj4+PiBJdCB0dXJuZWQgb3V0IHRoYXQgdGhpcyBpcyBub3QgY29ycmVjdC4g
-RXNwZWNpYWxseSB0aGUgc3luY19maWxlIGluZm8NCj4+PiBJT0NUTCBuZWVkcyB0byBzZWUg
-ZXZlbiBzaWduYWxlZCBmZW5jZXMgdG8gY29ycmVjdGx5IHJlcG9ydCBiYWNrIHRoZWlyDQo+
-Pj4gc3RhdHVzIHRvIHVzZXJzcGFjZS4NCj4+Pg0KPj4+IEluc3RlYWQgYWRkIHRoZSBmaWx0
-ZXIgaW4gdGhlIG1lcmdlIGZ1bmN0aW9uIGFnYWluIHdoZXJlIGl0IG1ha2VzIHNlbnNlLg0K
-Pj4+DQo+Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtv
-ZW5pZ0BhbWQuY29tPg0KPj4+IC0tLQ0KPj4+IMKgIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVu
-Y2UtdW53cmFwLmMgfCAzICsrLQ0KPj4+IMKgIGluY2x1ZGUvbGludXgvZG1hLWZlbmNlLXVu
-d3JhcC5owqDCoCB8IDYgKy0tLS0tDQo+Pj4gwqAgMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2Vy
-dGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9kbWEtYnVmL2RtYS1mZW5jZS11bndyYXAuYyANCj4+PiBiL2RyaXZlcnMvZG1hLWJ1Zi9k
-bWEtZmVuY2UtdW53cmFwLmMNCj4+PiBpbmRleCA1MDJhNjVlYTZkNDQuLjcwMDJiY2E3OTJm
-ZiAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLXVud3JhcC5j
-DQo+Pj4gKysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1mZW5jZS11bndyYXAuYw0KPj4+IEBA
-IC03Miw3ICs3Miw4IEBAIHN0cnVjdCBkbWFfZmVuY2UgKl9fZG1hX2ZlbmNlX3Vud3JhcF9t
-ZXJnZSh1bnNpZ25lZCANCj4+PiBpbnQgbnVtX2ZlbmNlcywNCj4+PiDCoMKgwqDCoMKgIGNv
-dW50ID0gMDsNCj4+PiDCoMKgwqDCoMKgIGZvciAoaSA9IDA7IGkgPCBudW1fZmVuY2VzOyAr
-K2kpIHsNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZG1hX2ZlbmNlX3Vud3JhcF9mb3JfZWFj
-aCh0bXAsICZpdGVyW2ldLCBmZW5jZXNbaV0pDQo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgKytjb3VudDsNCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoIWRtYV9mZW5j
-ZV9pc19zaWduYWxlZCh0bXApKQ0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgKytjb3VudDsNCj4+PiDCoMKgwqDCoMKgIH0NCj4+PiDCoCDCoMKgwqDCoMKgIGlmIChj
-b3VudCA9PSAwKQ0KPj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1mZW5jZS11
-bndyYXAuaCANCj4+PiBiL2luY2x1ZGUvbGludXgvZG1hLWZlbmNlLXVud3JhcC5oDQo+Pj4g
-aW5kZXggMzkwZGUxZWU5ZDM1Li42NmIxZTU2ZmJiODEgMTAwNjQ0DQo+Pj4gLS0tIGEvaW5j
-bHVkZS9saW51eC9kbWEtZmVuY2UtdW53cmFwLmgNCj4+PiArKysgYi9pbmNsdWRlL2xpbnV4
-L2RtYS1mZW5jZS11bndyYXAuaA0KPj4+IEBAIC00MywxNCArNDMsMTAgQEAgc3RydWN0IGRt
-YV9mZW5jZSAqZG1hX2ZlbmNlX3Vud3JhcF9uZXh0KHN0cnVjdCANCj4+PiBkbWFfZmVuY2Vf
-dW53cmFwICpjdXJzb3IpOw0KPj4+IMKgwqAgKiBVbndyYXAgZG1hX2ZlbmNlX2NoYWluIGFu
-ZCBkbWFfZmVuY2VfYXJyYXkgY29udGFpbmVycyBhbmQgZGVlcCANCj4+PiBkaXZlIGludG8g
-YWxsDQo+Pj4gwqDCoCAqIHBvdGVudGlhbCBmZW5jZXMgaW4gdGhlbS4gSWYgQGhlYWQgaXMg
-anVzdCBhIG5vcm1hbCBmZW5jZSBvbmx5IA0KPj4+IHRoYXQgb25lIGlzDQo+Pj4gwqDCoCAq
-IHJldHVybmVkLg0KPj4+IC0gKg0KPj4+IC0gKiBOb3RlIHRoYXQgc2lnbmFsbGVkIGZlbmNl
-cyBhcmUgb3Bwb3J0dW5pc3RpY2FsbHkgZmlsdGVyZWQgb3V0LCB3aGljaA0KPj4+IC0gKiBt
-ZWFucyB0aGUgaXRlcmF0aW9uIGlzIHBvdGVudGlhbGx5IG92ZXIgbm8gZmVuY2UgYXQgYWxs
-Lg0KPj4+IMKgwqAgKi8NCj4+PiDCoCAjZGVmaW5lIGRtYV9mZW5jZV91bndyYXBfZm9yX2Vh
-Y2goZmVuY2UsIGN1cnNvciwgaGVhZCnCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+PiDC
-oMKgwqDCoMKgIGZvciAoZmVuY2UgPSBkbWFfZmVuY2VfdW53cmFwX2ZpcnN0KGhlYWQsIGN1
-cnNvcik7IGZlbmNlO8KgwqDCoCBcDQo+Pj4gLcKgwqDCoMKgwqDCoMKgwqAgZmVuY2UgPSBk
-bWFfZmVuY2VfdW53cmFwX25leHQoY3Vyc29yKSnCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwN
-Cj4+PiAtwqDCoMKgwqDCoMKgwqAgaWYgKCFkbWFfZmVuY2VfaXNfc2lnbmFsZWQoZmVuY2Up
-KQ0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgIGZlbmNlID0gZG1hX2ZlbmNlX3Vud3JhcF9uZXh0
-KGN1cnNvcikpDQo+Pj4gwqAgwqAgc3RydWN0IGRtYV9mZW5jZSAqX19kbWFfZmVuY2VfdW53
-cmFwX21lcmdlKHVuc2lnbmVkIGludCBudW1fZmVuY2VzLA0KPj4+IMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZG1hX2ZlbmNlICoq
-ZmVuY2VzLA0KPj4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
-RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
---------------SsqBmTukjqEeBF0GrExtPvTL--
+On 4/13/22 9:44 PM, Tomasz Figa wrote:
+> On Wed, Apr 13, 2022 at 10:36 PM sakari.ailus@linux.intel.com
+> <sakari.ailus@linux.intel.com> wrote:
+>>
+>> Hi Tomasz,
+>>
+>> On Wed, Apr 13, 2022 at 09:17:47PM +0900, Tomasz Figa wrote:
+>>> On Wed, Apr 13, 2022 at 8:40 PM sakari.ailus@linux.intel.com
+>>> <sakari.ailus@linux.intel.com> wrote:
+>>>>
+>>>> Hi Tomasz, Bingbu,
+>>>>
+>>>> On Tue, Apr 12, 2022 at 08:15:08PM +0900, Tomasz Figa wrote:
+>>>>> On Tue, Apr 12, 2022 at 8:05 PM Bingbu Cao <bingbu.cao@linux.intel.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On 4/12/22 5:39 PM, Tomasz Figa wrote:
+>>>>>>> On Tue, Nov 16, 2021 at 1:57 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>>>>>>>>
+>>>>>>>> On Fri, Nov 5, 2021 at 9:52 PM Cao, Bingbu <bingbu.cao@intel.com> wrote:
+>>>>>>>>>
+>>>>>>>>>> -----Original Message-----
+>>>>>>>>>> From: Tomasz Figa <tfiga@chromium.org>
+>>>>>>>>>> Sent: Friday, November 5, 2021 2:55 PM
+>>>>>>>>>> To: Cao, Bingbu <bingbu.cao@intel.com>
+>>>>>>>>>> Cc: linux-media@vger.kernel.org; sakari.ailus@linux.intel.com;
+>>>>>>>>>> dongchun.zhu@mediatek.com; Qiu, Tian Shu <tian.shu.qiu@intel.com>;
+>>>>>>>>>> bingbu.cao@linux.intel.com
+>>>>>>>>>> Subject: Re: [PATCH] media: dw9768: activate runtime PM and turn off
+>>>>>>>>>> device
+>>>>>>>>>>
+>>>>>>>>>> On Fri, Oct 15, 2021 at 3:12 PM Bingbu Cao <bingbu.cao@intel.com> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> When dw9768 working with ACPI systems, the dw9768 was turned by
+>>>>>>>>>>> i2c-core during probe, driver need activate the PM runtime and ask
+>>>>>>>>>>> runtime PM to turn off the device.
+>>>>>>>>>>>
+>>>>>>>>>>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+>>>>>>>>>>> ---
+>>>>>>>>>>>  drivers/media/i2c/dw9768.c | 6 ++++++
+>>>>>>>>>>>  1 file changed, 6 insertions(+)
+>>>>>>>>>>>
+>>>>>>>>>>> diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+>>>>>>>>>>> index c086580efac7..65c6acf3ced9 100644
+>>>>>>>>>>> --- a/drivers/media/i2c/dw9768.c
+>>>>>>>>>>> +++ b/drivers/media/i2c/dw9768.c
+>>>>>>>>>>> @@ -469,6 +469,11 @@ static int dw9768_probe(struct i2c_client
+>>>>>>>>>>> *client)
+>>>>>>>>>>>
+>>>>>>>>>>>         dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
+>>>>>>>>>>>
+>>>>>>>>>>> +       /*
+>>>>>>>>>>> +        * Device is already turned on by i2c-core with ACPI domain PM.
+>>>>>>>>>>> +        * Attempt to turn off the device to satisfy the privacy LED
+>>>>>>>>>> concerns.
+>>>>>>>>>>> +        */
+>>>>>>>>>>> +       pm_runtime_set_active(dev);
+>>>>>>>>>>
+>>>>>>>>>> This driver is used by non-ACPI systems as well. This change will make
+>>>>>>>>>> the PM core not call the runtime_resume() callback provided by the
+>>>>>>>>>> driver and the power would never be turned on on such systems.
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>> Wasn't the intention of Sakari's ACPI patches to allow bypassing the
+>>>>>>>>>> ACPI domain power on at boot up and eliminate the need for this change?
+>>>>>>>>>
+>>>>>>>>> Tomasz, thanks for your review.
+>>>>>>>>>
+>>>>>>>>> The comment here is invalid, it should not be strongly related to the privacy
+>>>>>>>>> LED concern. Anyway, the device should be turned off on ACPI and non-ACPI
+>>>>>>>>> systems even without Sakari's changes.
+>>>>>>>>>
+>>>>>>>>> I am wondering how the driver work with PM core on non-ACPI system.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> On non-ACPI systems it's the driver which handles the power sequencing
+>>>>>>>> of the chip so the regulators wouldn't be implicitly enabled by the
+>>>>>>>> subsystem before (unless they're shared with some other device and the
+>>>>>>>> corresponding driver enabled them).
+>>>>>>>
+>>>>>>> It looks like this patch made into Linus' tree and broke the driver on
+>>>>>>> ARM devices. Could we please revert it?
+>>>>>>
+>>>>>> If revert the patch, the device will not work on ACPI system, is there some
+>>>>>> other solution? Have no details about the failure on ARM device.
+>>>>>>
+>>>>>
+>>>>> I believe it worked on ACPI systems, just runtime PM wasn't suspending
+>>>>> the device.
+>>>>>
+>>>>> That said, if my comment above was addressed instead of being ignored,
+>>>>> this regression wouldn't have happened. The problem is described in my
+>>>>> previous messages, please get back to them and address the issue I
+>>>>> pointed out.
+>>>>
+>>>> First of all, thanks for catching this.
+>>>>
+>>>> What I believe happened was that the patch was merged to my tree before you
+>>>> commented on it and then I missed the related follow-up discussion.
+>>>>
+>>>> Looking at the patch itself, it seems fine as such but there's a problem
+>>>> with the driver to begin with: the device isn't powered on in probe on DT
+>>>> systems but still its runtime suspend callback is called through
+>>>> pm_runtime_idle().
+>>>>
+>>>> Normally calling the RT suspend callback is what we want, but in this case
+>>>> disabling a regulator that wasn't enabled is a problem.
+>>>>
+>>>> There also seems to be a problem in error handling... and the driver does
+>>>> not support probing while powered off on ACPI. Oh well.
+>>>>
+>>>> Let's revert the patch now but it seems there's something to fix
+>>>> afterwards.
+>>>
+>>> Thanks Sakari.
+>>>
+>>> One of possible ways to fix this would be to always turn on the
+>>> regulators in the probe, although it would result in the privacy LED
+>>> blinking issue on our ARM systems.
+>>>
+>>> I wonder if we're missing something in how the ACPI runtime PM works
+>>> on Linux. It sounds strange to me that the driver needs to be aware of
+>>> the ACPI internals and know that the default boot-up state is powered
+>>
+>> Not really ACPI internals, just that the I涎 devices are powered on for
+>> probe.
+> 
+> Do you mean the dev_pm_domain_attach() call at [1]?
+> I suspect that it wouldn't have any effect on anything other than ACPI.
+> That said, I guess it's indeed a design decision in the I2C subsystem...
+> 
+> One thing that could help here would be adding a .sync callback to
+> acpi_general_pm_domain, which would turn off the ACPI companion device
+> if dev is suspended.
+> 
+> [1] https://elixir.bootlin.com/linux/latest/source/drivers/i2c/i2c-core-base.c#L544
+> 
+>>
+>>> on. Maybe there is another function that we could call instead of
+>>> pm_runtime_set_active()+pm_runtime_idle() that would only shut down
+>>> the PM domain, while leaving the device itself alone?
+>>
+>> Laurent recently complained about the complexities of supporting runtime PM
+>> on drivers with both OF and ACPI support. I was planning to reply, will
+>> include you.
+> 
+> That would be great, thanks!
+> 
+> Best regards,
+> Tomasz
+> 
 
---------------XPkFX4C3NVZnEzUkxuc2ZhXD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLP3HgFAwAAAAAACgkQlh/E3EQov+DO
-1BAAr//wC7+MDlw1XMfSpY716SwTDnRvi+lkaDDsG6T0opDlsNxXPKg82cBh+gHtwIaHGnkRE+Kv
-ElYicLXZ5rIPwwlT+C0Sp2Co77/Hsyq0sCuzqrhG4rTRHcYvPh0yqnMcrTA5u4rWKp3u0JAdDjGV
-rWwCzjAdAeoDrakm+auvna6rO++f2sK2KVnQ4vXdSP0901Y3py7i2JIKM9oEIdB9TlCXKKUx/gzF
-UafCAnZEQUKHQLtOTWM2YLXSDyKZ94EoQmYev0SoYXBKYxBR9wBr3yzbHB6mH3f8BmsealEr8+kZ
-R5GuHK+lPLJjGo8LjAkj8F4ayr28urS/dAmX5dRPgSyGIo14qFb0WeSrHuVRISCLUZmxrjxqIMIe
-P5CcAihULw5m01kVRvBTrsuTIZG05jBlms4I4gtKcsMg0MT7EwiRre13mfpODR9/qhE9u5yjBhsd
-0uuADYtnz3kkKDKMygF0FOMjOmPNlmUKnlyXAFpTUgHpxEgm1/NfUdTXTEP140YI1vpLI/CW94+W
-1X30lYCE2YySMPQLFeNheTodA8Es3h9Kgc03FR/L7nfV7fy5/gQ8F4QqSk9v2WA4zhQynA4lwhry
-0KWYGEd2Yyec3rBSouNIS+nVh77yuJvYUtbQ88Was6xXaEHeKPiHjvB9yubz4Gh2yo4BmaLH1ds5
-v9Y=
-=croK
------END PGP SIGNATURE-----
-
---------------XPkFX4C3NVZnEzUkxuc2ZhXD--
+-- 
+Best regards,
+Bingbu Cao
