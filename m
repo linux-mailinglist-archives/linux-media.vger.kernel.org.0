@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 595015746D5
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 10:35:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 761195746D8
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jul 2022 10:35:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235168AbiGNIfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 04:35:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58742 "EHLO
+        id S235697AbiGNIfF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 04:35:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235545AbiGNIfA (ORCPT
+        with ESMTP id S235301AbiGNIfC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 04:35:00 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C61F3C8EA
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 01:34:59 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id l22-20020a05600c4f1600b003a2e10c8cdeso3073059wmq.1
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 01:34:59 -0700 (PDT)
+        Thu, 14 Jul 2022 04:35:02 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 918DB3DBD2
+        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 01:35:01 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id bu1so1540268wrb.9
+        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 01:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=melexis.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=525hSq4AqE/ODq1x1H64Ic6C0Ftmupp+tEU4L66GSTA=;
-        b=d/Vosp39ghLBw/KoZ0pCSfzVp/CjqUhzYOzfCGEo2/Iq+U0/mNbEi5KeTkL/0vyHBo
-         BNfsV4J+3MyEHJkgt9Q2nTEPx/0WC6t8fSSE+sPlq672yqkqI1fL5xrTqYRVLJuMNMEv
-         kdYGYrTFySE/vaw6J8jbxyL8fdveoF43USFLCanktyvwmSGnht4fTHTL3qa/nnc6ouh0
-         Qs2IrXFAa2ABaBMU9zw89M9lWV7Yvh4DsKrXoiKAzmGC3s/6ql+iUMV57eQ/gXlTYqfn
-         QHFcJtSVVtoVpttR/dBBsG4UQgsUuE9DepaDvgOGlnFsANWMzcmVxebfX+PWXfl8lOva
-         5QNw==
+        bh=HIfVkfWDWEihtJOSMcOP3bxYCtkKaDBe3n5wTHFJ/g8=;
+        b=r303vIAhOO24cg7W65OvThs26PX6Nn5/U2NEc7XcX9hkQJr76/eAchj6ugb2t4L63L
+         2w5D4tzJbQs3l7c890pU+bkGASqz7EwUvmJ3Pv9hPs/Yhv6EPZqWFP1wKOFuFGyIQ+Zq
+         cDzY2U6LpOOcJzeJsHDQtdwFTM1hY0obx/QiIE8BsOOzGjdhq+LHRbtgmeuYXIegTZ9I
+         ZabiQG7Q1eUZs8eDEI0ibGatZTiKSRRFLlJarr0JJHEZOLk17D2qrUEEyH/8lRPS6aPn
+         9Z/CErdZyEAtUY0dGsI8JypFWiRtuhqjXD61Kiw+J/DY4SUvEBaKp6EEP2waUAfkmVbD
+         LXkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=525hSq4AqE/ODq1x1H64Ic6C0Ftmupp+tEU4L66GSTA=;
-        b=beEHIUu+NkiCtWzU5mYM3S/Py0oLb5ljklvGjmw2PwsJAxDy/YdorkKxmMjZl9OLAZ
-         nilUWOvwuQC35QqKCd5qFUBSxor1nsezAAuGXuscCr2PDqNhTd9yTRJQ5j8Gm/16aS4X
-         b6n6YnucLhOom2/zNM3Le3kJh+bXIeHxfo2kmpEIUZ/ZpTnM30Xxi+hHCelnO/aBnwFL
-         c48MqSooTL82BEIkJgSSkeAm3pZxV39WusUCDxDoNHdAOQXgy1EfZxhQBgzOrhsenXBu
-         ZnLihW8G8FJT+2PsOVS+9eozOAR+NacqfmD9l7tEdT3MMThQ1hENantar/5OeSFAjoug
-         rwkw==
-X-Gm-Message-State: AJIora8dBOAiRsjYJiv8J7NIOwCdcCJpQ0ZTo4e4B72NJeIMVJ/xOmNJ
-        3hgbCTOiIvLalWnUW92DXsZeKXMh+xxeFcQLM55i5P0OXmZj7I/Rf7WewGln0B2Yz1029Ck4+qb
-        Pw8DFNheD7sOjjf5y06wSR4i1TyX6Q9CEY3nzzPgyPGrfm5xkXLYRc3NIjSrf7nxg6D/UIeqj
-X-Google-Smtp-Source: AGRyM1ukbb5VcNdvsjkgLLpNy5yzcTeBLFKa+l16FbiGprgUgnTR1SG1xSys2FsLI7/N56ZALmZi7w==
-X-Received: by 2002:a05:600c:41c7:b0:3a2:e8fd:fe52 with SMTP id t7-20020a05600c41c700b003a2e8fdfe52mr7816162wmh.123.1657787698142;
-        Thu, 14 Jul 2022 01:34:58 -0700 (PDT)
+        bh=HIfVkfWDWEihtJOSMcOP3bxYCtkKaDBe3n5wTHFJ/g8=;
+        b=UUNpRovKFgDMaZxq8f1V0TKmsWqg1TU/DLKSfFr7cnmiWrvvxh5Pj2rSYiinfwjUWd
+         48nXqJnaehT995SQC7rvDmUya7y10m72EOluWY/mokqpkKkzMHPwmRg1pClGRLo2kAif
+         43YK23Ybpi40ULa0jIctLZCw3ubKtXt2eq7HuIyNOmEhpLWmZvIk2Xc+A5giNjg1G/qy
+         HfgiNgWAiRjvt/C9+3do0xqn8zBpg5gKadfPHmUqzfzGf3YZiwsJ3lmc4XgxUYIKTmzo
+         eyq4NtUyh4/TH8MjoQvv9DlEe+txA2ENpzuoXnwwUEfp2uGwQfqFEHfE71ycX1XqV684
+         hkUw==
+X-Gm-Message-State: AJIora+SW3Xsn4X9h7f1cudD9YoN2VxHDAw+ZzDeeMlWb2DdVYs46lNr
+        jcvCPl6fd8jchwWFMdKJ3zrlOAiDl++vNTXcdZmDieRmDMKvKWcs3nZ7Q8YQpnhvZlQ2i2YQp7J
+        bD4hA8S7NsViKYBWTW6Pe6y7sm5XAHCGer1j14f2XJUfTSHitGM0m+vJzBPGbDBHUj8p/2Cch
+X-Google-Smtp-Source: AGRyM1t2s6arbrxJoeBRWY8Kzvb9ENF8TacREy/uNg7ZYGfKwvIXxc8b0bPmKuD7ULZqNjQ+ixN5Gg==
+X-Received: by 2002:a05:6000:1367:b0:21d:75cd:5ae8 with SMTP id q7-20020a056000136700b0021d75cd5ae8mr7204188wrz.282.1657787700128;
+        Thu, 14 Jul 2022 01:35:00 -0700 (PDT)
 Received: from melexis ([194.44.50.167])
-        by smtp.gmail.com with ESMTPSA id d14-20020adffd8e000000b0021d6a23fdf3sm856587wrr.15.2022.07.14.01.34.55
+        by smtp.gmail.com with ESMTPSA id f1-20020adff981000000b0021d6d74a0ecsm843890wrr.96.2022.07.14.01.34.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 01:34:57 -0700 (PDT)
+        Thu, 14 Jul 2022 01:34:59 -0700 (PDT)
 From:   Volodymyr Kharuk <vkh@melexis.com>
 To:     linux-media@vger.kernel.org
 Cc:     Volodymyr Kharuk <vkh@melexis.com>,
@@ -61,9 +61,9 @@ Cc:     Volodymyr Kharuk <vkh@melexis.com>,
         Michal Simek <michal.simek@xilinx.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         devicetree@vger.kernel.org
-Subject: [PATCH v2 2/6] media: xilinx: video: Add 1X12 greyscale format
-Date:   Thu, 14 Jul 2022 11:34:44 +0300
-Message-Id: <e2ea1840b666ad0b4ff169b4f58c85bc0291af59.1657786765.git.vkh@melexis.com>
+Subject: [PATCH v2 3/6] media: v4l: ctrls: Add user control base for mlx7502x
+Date:   Thu, 14 Jul 2022 11:34:45 +0300
+Message-Id: <756a637c14f95b9a52c4feb0a00b8f90c221e94c.1657786765.git.vkh@melexis.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1657786765.git.vkh@melexis.com>
 References: <cover.1657786765.git.vkh@melexis.com>
@@ -71,7 +71,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,26 +79,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Extend the xilinx video driver with Y12_1X12 greyscale format
+Add a control base for mlx7502x and reserve 16 controls.
+ToF sensor requires a bunch of new user controls.
 
 Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
 ---
- drivers/media/platform/xilinx/xilinx-vip.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/uapi/linux/v4l2-controls.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/platform/xilinx/xilinx-vip.c b/drivers/media/platform/xilinx/xilinx-vip.c
-index a0073122798f..5b214bf7f93a 100644
---- a/drivers/media/platform/xilinx/xilinx-vip.c
-+++ b/drivers/media/platform/xilinx/xilinx-vip.c
-@@ -40,6 +40,8 @@ static const struct xvip_video_format xvip_video_formats[] = {
- 	  1, V4L2_PIX_FMT_SGBRG8 },
- 	{ XVIP_VF_MONO_SENSOR, 8, "bggr", MEDIA_BUS_FMT_SBGGR8_1X8,
- 	  1, V4L2_PIX_FMT_SBGGR8 },
-+	{ XVIP_VF_MONO_SENSOR, 12, "mono", MEDIA_BUS_FMT_Y12_1X12,
-+	  2, V4L2_PIX_FMT_Y12 },
- };
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index dfff69ed88f7..8f68d5b53430 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -225,6 +225,12 @@ enum v4l2_colorfx {
+  */
+ #define V4L2_CID_USER_ISL7998X_BASE		(V4L2_CID_USER_BASE + 0x1180)
  
- /**
++/*
++ * The base for Melexis ToF 7502x driver controls.
++ * We reserve 16 controls for this driver.
++ */
++#define V4L2_CID_USER_MLX7502X_BASE		(V4L2_CID_USER_BASE + 0x1190)
++
+ /* MPEG-class control IDs */
+ /* The MPEG controls are applicable to all codec controls
+  * and the 'MPEG' part of the define is historical */
 -- 
 BR,
 Volodymyr Kharuk
