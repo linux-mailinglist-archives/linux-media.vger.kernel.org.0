@@ -2,139 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BA60575FBE
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 13:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FD435760B0
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 13:42:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbiGOLIK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jul 2022 07:08:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60630 "EHLO
+        id S233273AbiGOLmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jul 2022 07:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbiGOLIJ (ORCPT
+        with ESMTP id S229551AbiGOLl7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jul 2022 07:08:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1927868BE
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 04:08:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D71262285
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 11:08:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E8ACC34115;
-        Fri, 15 Jul 2022 11:08:03 +0000 (UTC)
-Message-ID: <4f7af7d8-acc3-0dcb-38c3-2d728adb603f@xs4all.nl>
-Date:   Fri, 15 Jul 2022 13:08:02 +0200
+        Fri, 15 Jul 2022 07:41:59 -0400
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C11187C30;
+        Fri, 15 Jul 2022 04:41:56 -0700 (PDT)
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        by ni.piap.pl (Postfix) with ESMTPSA id 638BBC3F3EC9;
+        Fri, 15 Jul 2022 13:41:52 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 638BBC3F3EC9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1657885312; bh=6WgQL5dDQgGCkY5eOoqGlM0sZqSYnTYubq8pAl/7Hec=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=bnRjuirYKpLgrdjRlDwjPz1wtIiqmTWPOo0WEvq+Z2DGevfhNxjtec9GQPpPrJAcu
+         2Yse6OgcVKi22OcVj/Bg406bhRmX1vJNbE9LYZi5EiEPS6AIfRuQ0HXBMwJry4o15W
+         /xA+Cbv6wxR0zJ7MFEBriw+t6tGB//nS8/sXNeHQ=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <mchehab@kernel.org>
+Subject: Re: [PATCH -next] media: ar0521: fix error return code in
+ ar0521_power_on()
+References: <20220715085924.1881607-1-yangyingliang@huawei.com>
+Sender: khalasa@piap.pl
+Date:   Fri, 15 Jul 2022 13:41:52 +0200
+In-Reply-To: <20220715085924.1881607-1-yangyingliang@huawei.com> (Yang
+        Yingliang's message of "Fri, 15 Jul 2022 16:59:24 +0800")
+Message-ID: <m3zghaeh6n.fsf@t19.piap.pl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [ANN] Media Summit at OSS Europe in Dublin: September 12
-Content-Language: en-US
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Sean Young <sean@mess.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        paul.kocialkowski@bootlin.com,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-References: <54d42d4e-5994-68a2-4a21-770167d5405a@xs4all.nl>
- <CAPY8ntAuNjyXGOB64ix7g+Tz512XhkE_q2-mxVWfu4GhTShhUQ@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <CAPY8ntAuNjyXGOB64ix7g+Tz512XhkE_q2-mxVWfu4GhTShhUQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, license restriction
+X-KLMS-AntiPhishing: not scanned, license restriction
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, license restriction
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Yang Yingliang <yangyingliang@huawei.com> writes:
 
-On 7/15/22 12:34, Dave Stevenson wrote:
-> Hi Hans
-> 
-> On Fri, 15 Jul 2022 at 09:15, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> Hi all,
->>
->> The Linux Foundation organized a meeting room for us to use on Monday September 12
->> at the Convention Centre Dublin. It is co-located with the Open Source Summit Europe,
->> see https://events.linuxfoundation.org/open-source-summit-europe/ for more info.
->>
->> To attend this Media Summit no registration is required for the OSSE, but you do need
->> to register with me by sending me an email. There is a maximum of 20 participants.
-> 
-> I hadn't realised you were looking at the Monday for the Media Summit,
-> so have currently booked to travel on Monday afternoon.
-> 
-> If the image sensor related stuff I raised can be scheduled for after
-> about 11am, then I should be able to rearrange to be there.
-> The stateful encoder stuff is also of interest.
+> Return error code if ar0521_write_regs() fails in ar0521_power_on().
+>
+> Fixes: 852b50aeed15 ("media: On Semi AR0521 sensor driver")
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 
-That shouldn't be a problem, certainly not for the sensor stuff, unless I
-get similar requests that conflict with this.
+Right, thanks.
 
-Regards,
+Acked-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
 
-	Hans
+> +++ b/drivers/media/i2c/ar0521.c
+> @@ -757,8 +757,9 @@ static int ar0521_power_on(struct device *dev)
+>  	usleep_range(4500, 5000); /* min 45000 clocks */
+>=20=20
+>  	for (cnt =3D 0; cnt < ARRAY_SIZE(initial_regs); cnt++)
+> -		if (ar0521_write_regs(sensor, initial_regs[cnt].data,
+> -				      initial_regs[cnt].count))
+> +		ret =3D ar0521_write_regs(sensor, initial_regs[cnt].data,
+> +					initial_regs[cnt].count);
+> +		if (ret)
+>  			goto off;
 
-> 
->   Dave
-> 
->> I send out a request for topics in May and got quite a few replies:
->>
->> https://lore.kernel.org/all/a7007268a65846674b82a108215992d39b430b38.camel@ndufresne.ca/T/
->>
->> If you have more ideas for topics, then reply either to that message (preferred) or this
->> one.
->>
->> See here for more details about the conference:
->>
->> https://events.linuxfoundation.org/open-source-summit-europe/
->>
->> It is primarily meant for media developers to meet face-to-face. Whether there will
->> be a possibility to participate remotely is not certain at this time. Past experience
->> shows that meetings like this are a poor fit for remote attendance, unless you have
->> a meeting room that is designed for such purposes, which we don't have.
->>
->> The actual agenda will depend on who will attend, I hope to be able to put that
->> together around mid August. But the link above with the 'Request for Topics' thread
->> will give a good indication of what to expect.
->>
->> So, if you want to attend, then let me know by email. Please reply as soon as possible,
->> even if you are not entirely certain yet if you can attend.
->>
->> The health and safety regulations will be those of the OSSE LF:
->>
->> https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/
->>
->> Code of conduct:
->>
->> https://events.linuxfoundation.org/open-source-summit-europe/attend/code-of-conduct/
->>
->> A final note: the total cost is at most $650 (depends on the number of people):
->> that's for a whiteboard, powerstrips and refreshments (coffee, tea, soda, water).
->>
->> It would be nice if this can be sponsored by one or more companies. I'll ask
->> my manager if Cisco can contribute to this (once he's back from vacation), but
->> if other companies want to contribute as well, then let me know and we can
->> split the bill. And start off the meeting with a nice slide saying: "Sponsored by:".
->>
->> Regards,
->>
->>         Hans
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
