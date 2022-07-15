@@ -2,305 +2,289 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1319B576474
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 17:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56965576481
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 17:36:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230266AbiGOPc5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jul 2022 11:32:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37024 "EHLO
+        id S233403AbiGOPgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jul 2022 11:36:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbiGOPcz (ORCPT
+        with ESMTP id S233147AbiGOPgP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jul 2022 11:32:55 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D9E19034
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 08:32:51 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id ss3so9558072ejc.11
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 08:32:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=melexis.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=v9+MIpPsQlOm0JZE/Y1pTuUdRuzfwlvTTL81jN8pkm8=;
-        b=jqiSaDJfEZZwOkjth8dc1PDHXNYprAy9taDzrx5dJgdINQGsG74OKEcT6KnltuTyq+
-         1PhCmmfo77mRSdOlCo5l6Xuae3SsHUIqmB1fyIrneJ517Jy89gyQqhfc+rT6EP3oC0uh
-         dJWUvCXTpw4u0jjbovdQO15RSiveBfB0cuUgHmnlzcy3QyaTcr9hmdnnQTRS8t3fS4Tf
-         W6iC4x6960QX0OVtHfvzvfses3pI+ABIvVj9dZvQZocLB+hwAGqWECOWtZrfeDYeI7Ri
-         9Utl3cNukwKAlWze22+LBHrchrvh5EBDd+mPsLx0GuhJgUQYB+3hnA7NfBP+jzIhnPH1
-         yhOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=v9+MIpPsQlOm0JZE/Y1pTuUdRuzfwlvTTL81jN8pkm8=;
-        b=HAHlx7OiiDlP7omlo2snrxbi+pbFv5FkYdnv7Z1jgwJlhG6TBIzNUAQWR4lInGyOd8
-         /BqWU96a+sgJzEsA0fJ85ekHgDP0vZzAbn3Kv5A3IKVnLrXv0YXu7J57FvYCIwc/zdle
-         DnWctBQLumftFXFrJ9qw7hs66ZJHSpmtETuls0tFtxN3BrqFuL1Tvx0QUSQw8osPu3Kp
-         iLknxAbd8IHfdNQbZpJtw2tGEMns2lWmz50nPy3XGBTE0l+S2HktBkCFJiUpv7w2UywX
-         cKUIvNtEAlr0Z8RgkzQ6wEIKhHb84J1JL6pz9Z3BuqsdgnoAwOPghzVcxYX4FzMzwG1J
-         gBeQ==
-X-Gm-Message-State: AJIora/pEooOErSjF2h1KvFOrRdTkUCctklf5gSwN4Z6cfTVZ4qm1hGC
-        RdY5+fzzgz71ZEThmM7HuOQRFw==
-X-Google-Smtp-Source: AGRyM1sypL3wJZTJC/4Mvsx7SDEnY9nUm+LH4m4esA+eguo8MCq37+5YuRyrAZ+I1C/A5qzBxAR6MQ==
-X-Received: by 2002:a17:906:5d04:b0:722:f46c:b891 with SMTP id g4-20020a1709065d0400b00722f46cb891mr14372921ejt.4.1657899170037;
-        Fri, 15 Jul 2022 08:32:50 -0700 (PDT)
-Received: from vkh-ThinkPad-T490 ([194.44.56.171])
-        by smtp.gmail.com with ESMTPSA id js1-20020a170906ca8100b00718d18a1860sm2126709ejb.61.2022.07.15.08.32.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jul 2022 08:32:49 -0700 (PDT)
-Date:   Fri, 15 Jul 2022 18:32:43 +0300
-From:   Volodymyr Kharuk <vkh@melexis.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] media: dt-bindings: media: i2c: Add mlx7502x
- camera sensor binding
-Message-ID: <20220715153243.GA18207@vkh-ThinkPad-T490>
-References: <cover.1657786765.git.vkh@melexis.com>
- <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
- <Ys/qq4hIQ25KXB2/@pendragon.ideasonboard.com>
+        Fri, 15 Jul 2022 11:36:15 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73BF855092;
+        Fri, 15 Jul 2022 08:36:14 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 285B266015B6;
+        Fri, 15 Jul 2022 16:36:11 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1657899372;
+        bh=mjl2CHsK8OJyoPzlMniTRyLaHQrcz06eR01e4ukasMA=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=Yk0A4u7Xj3cGMN8T/r+L7HisSLtpW7ddZ73RI8AXjN0Dnh0J1A2VbzsneevyWcrAR
+         rVa5L9lCVmk1N7IM1U6AntDgxFaB6+sRTQWE1hTL6nHmAqhP4dsH9IcvM+xjC9+8iQ
+         QkRUFGNJvqMG8gRkwJQD3dfKohS2E0eCObj0t8yNRiEAeIUKdfGrAo+r8Gpsrbljy5
+         IaRdmstcB3UR5jS1KYJgDIaPQlFyuqDdVSjYAKHibshlfphso9/68NAZ0rSub/al/H
+         eX+QM5X4Opw/Z723mSkReDkMjUk/Es5rH5EkqUcBuXBCtFtE4EizfDkonVydgC8cOm
+         rIrpXGCe0T5qA==
+Message-ID: <f05896551f8545af3c7352a6bd38248e038b61d2.camel@collabora.com>
+Subject: Re: [PATCH 0/6] RkVDEC HEVC driver
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     jernej.skrabec@gmail.com, knaerzche@gmail.com,
+        kernel@collabora.com, bob.beckett@collabora.com,
+        ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        Yury Norov <yury.norov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Date:   Fri, 15 Jul 2022 11:36:01 -0400
+In-Reply-To: <7be996ee-9977-129b-08e2-12bde7ac9cd7@arm.com>
+References: <20220713162449.133738-1-sebastian.fricke@collabora.com>
+         <7be996ee-9977-129b-08e2-12bde7ac9cd7@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ys/qq4hIQ25KXB2/@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Le vendredi 15 juillet 2022 =C3=A0 12:04 +0100, Robin Murphy a =C3=A9crit=
+=C2=A0:
+> On 2022-07-13 17:24, Sebastian Fricke wrote:
+> > Implement the HEVC codec variation for the RkVDEC driver. Currently onl=
+y
+> > the RK3399 is supported, but it is possible to enable the RK3288 as it
+> > also supports this codec.
+> >=20
+> > Based on top of the media tree @ef7fcbbb9eabbe86d2287484bf366dd1821cc6b=
+8
+> > and the HEVC uABI MR by Benjamin Gaignard.
+> > (https://patchwork.linuxtv.org/project/linux-media/list/?series=3D8360)
+> >=20
+> > Tested with the GStreamer V4L2 HEVC plugin:
+> > (https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/10=
+79)
+> >=20
+> > Current Fluster score:
+> > `Ran 131/147 tests successfully               in 278.568 secs`
+> > with
+> > `python3 fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-HEV=
+C_V1 -j1`
+> >=20
+> > failed conformance tests:
+> > - DBLK_D_VIXS_2 (Success on Hantro G2)
+> > - DSLICE_A_HHI_5 (Success on Hantro G2)
+> > - EXT_A_ericsson_4 (Success on Hantro G2)
+> > - PICSIZE_A_Bossen_1 (Hardware limitation)
+> > - PICSIZE_B_Bossen_1 (Hardware limitation)
+> > - PICSIZE_C_Bossen_1 (Hardware limitation)
+> > - PICSIZE_D_Bossen_1 (Hardware limitation)
+> > - PPS_A_qualcomm_7 (Success on Hantro G2)
+> > - SAODBLK_A_MainConcept_4 (Success on Hantro G2)
+> > - SAODBLK_B_MainConcept_4 (Success on Hantro G2)
+> > - SLIST_B_Sony_9 (Success on Hantro G2)
+> > - SLIST_D_Sony_9 (Success on Hantro G2)
+> > - TSUNEQBD_A_MAIN10_Technicolor_2 (Success on Hantro G2)
+> > - VPSSPSPPS_A_MainConcept_1 (Success on Hantro G2)
+> > - WPP_D_ericsson_MAIN10_2 (Fail on Hantro G2)
+> > - WPP_D_ericsson_MAIN_2 (Fail on Hantro G2)
+> >=20
+> > Not tested with FFMpeg so far.
+> >=20
+> > Known issues:
+> > - Unable to reliably decode multiple videos concurrently
+> > - The SAODBLK_* tests timeout if the timeout time in fluster is lower t=
+han 120
+> > - Currently the uv_virstride is calculated in a manner that is hardcode=
+d
+> > for the two available formats NV12 and NV15. (@config_registers)
+> >=20
+> > Notable design decisions:
+> > - I opted for a bitfield to represent the PPS memory blob as it is the
+> > perfect tool for that job. It describes the memory layout with any
+> > additional required documentation, is easy to read and a native languag=
+e
+> > tool for that job
+>=20
+> Can I point out how terrible an idea this is? The C language gives=20
+> virtually zero guarantee about how bitfields are actually represented in=
+=20
+> memory. Platform ABIs (e.g. [1]) might nail things down a bit more, but=
+=20
+> different platforms are free to make completely different choices so=20
+> portability still goes out the window. Even for a single platform,=20
+> different compilers (or at worst even different version of one compiler)=
+=20
+> can still make incompatible choices e.g. WRT alignment of packed=20
+> members. Even if you narrow the scope as far as a specific version of=20
+> AArch64 GCC, I think this is still totally broken for big-endian.
+>=20
+> The fact that you've had to use nonsensical types to trick a compiler=20
+> into meeting your expectations should already be a clue to how fragile=
+=20
+> this is in general.
+>=20
+> > - The RPS memory blob is created using a bitmap implementation, which
+> > uses a common Kernel API to avoid reinventing the wheel and to keep the
+> > code clean.
+>=20
+> Similarly, Linux bitmaps are designed for use as, well, bitmaps. Abusing=
+=20
+> them as a data interchange format for bit-aligned numerical values is=20
+> far from "clean" semantically. And I'm pretty sure it's also broken for=
+=20
+> big-endian.
+>=20
+> This kind of stuff may be standard practice in embedded development=20
+> where you're targeting a specific MCU with a specific toolchain, but I=
+=20
+> don't believe it's suitable for upstream Linux. It would take pretty=20
+> much the same number of lines to use GENMASK definitions and bitfield.h=
+=20
+> helpers to pack values into words which can then be written to memory in=
+=20
+> a guaranteed format and endianness (certainly for the PPS; for the RPS=
+=20
+> it may well end up a bit longer, but would be self-documenting and=20
+> certainly more readable than those loops). It mostly just means that for=
+=20
+> any field which crosses a word boundary you'll end up with 2 definitions=
+=20
+> and 2 assignments, which is hardly a problem (and in some ways more=20
+> honest about what's actually going on).
 
-Thank you for your review,
+Thanks for the feedback, in multimedia (unlike register programming), we do=
+n't
+really consider bitstreams as bitmap or bitfield. What we do really expect =
+is to
+use bit writer helpers (and sometimes a bit reader though we try and avoid =
+the
+second one in the  kernel). Its more of less a cursor (a bit position) into=
+ a
+memory that advance while writing. A bit writer should help protect against
+overflow too.
 
-On Thu, Jul 14, 2022 at 01:06:35PM +0300, Laurent Pinchart wrote:
-> Hi Volodymyr,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Jul 14, 2022 at 11:34:47AM +0300, Volodymyr Kharuk wrote:
-> > Add device tree binding of the mlx7502x and update MAINTAINERS
-> > 
-> > Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
-> > ---
-> >  .../bindings/media/i2c/melexis,mlx7502x.yaml  | 146 ++++++++++++++++++
-> >  MAINTAINERS                                   |   1 +
-> >  2 files changed, 147 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> > new file mode 100644
-> > index 000000000000..4ac91f7a26b6
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> > @@ -0,0 +1,146 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/melexis,mlx7502x.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Melexis ToF 7502x MIPI CSI-2 Sensor
-> > +
-> > +maintainers:
-> > +  - Volodymyr Kharuk <vkh@melexis.com>
-> > +
-> > +description: |-
-> > +  Melexis ToF 7502x sensors has a CSI-2 output. It supports 2 and 4 lanes,
-> > +  and mipi speeds are 300, 600, 704, 800, 904, 960Mbs. Supported format is RAW12.
-> > +  Sensor 75026 is QVGA, while 75027 is VGA sensor.
-> > +  If you use compatible = "melexis,mlx7502x", then autodetect will be called.
-> 
-> I'd move this last line as a description of the compatible property, but
-> I'm also not sure this should be mentioned in the DT bindings, as it's a
-> driver implementation detail. I'm actually not sure we should support it
-> with three different compatible values as proposed, as without this
-> documentation users will have a hard time figuring out what compatible
-> value to pick.
-> 
-> One option would be to support the following three compatible values:
-> 
-> 	compatible = "melexis,mlx75026", "melexis,mlx7502x";
-> 	compatible = "melexis,mlx75027", "melexis,mlx7502x";
-> 	compatible = "melexis,mlx7502x";
-> 
-> The last one only would trigger autodetection. I'm still not sure how to
-> document that properly in bindings though.
-> 
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - melexis,mlx7502x
-> > +          - melexis,mlx75026
-> > +          - melexis,mlx75027
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  assigned-clocks: true
-> > +  assigned-clock-parents: true
-> > +  assigned-clock-rates: true
-> > +
-> > +  clocks:
-> > +    description: Clock frequency 8MHz
-> > +    maxItems: 1
-> > +
-> > +  vdda-supply:
-> > +    description:
-> > +      Definition of the regulator used as analog power supply(2.7V).
-> > +
-> > +  vddif-supply:
-> > +    description:
-> > +      Definition of the regulator used as interface power supply(1.8V).
-> > +
-> > +  vddd-supply:
-> > +    description:
-> > +      Definition of the regulator used as digital power supply(1.2V).
-> > +
-> > +  vdmix-supply:
-> > +    description:
-> > +      Definition of the regulator used as mixed driver power supply(1.2V).
-> > +
-> > +  reset-gpios:
-> > +    maxItems: 1
-> > +    description: Reset Sensor GPIO Control (active low)
-> > +
-> > +  melexis,trig-gpios:
-> > +    maxItems: 1
-> > +    description:
-> > +      Hardware Trigger GPIO Control (active low)
-> > +      When the hardware trigger mode is enabled, this GPIO is used to generate
-> > +      a low level impulse for about 100us. The impulse triggers a new
-> > +      measurement cycle.
-> > +
-> > +  melexis,leden-gpios:
-> > +    maxItems: 1
-> > +    description:
-> > +      Led driver enable GPIO Control (active high)
-> > +      This GPIO notifies the illumination driver when it is safe to use led
-> > +      signals from the sensor.
-> 
-> As far as I understand this isn't an input of the sensor, but a signal
-> that is driven by the driver and controls the separate illuminator. It
-> shouldn't be specified in this binding, as it's not a property of the
-> sensor. You should instead have a DT node for the illumination driver.
-Yes, you are right. There are illuminators, which are not ready to accept
-the signal from the sensor, if pin levels are not right. So I need to
-notify illuminator somehow.  Can the illumination driver be as a V4L2
-subdevice? Then I can notify the illuminator via s_stream. In another
-case it can damage the illuminator. What do you think?
-> 
-> > +  port:
-> > +    description: MIPI CSI-2 transmitter port
-> > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        $ref: /schemas/media/video-interfaces.yaml#
-> > +        unevaluatedProperties: false
-> > +
-> > +        properties:
-> > +          data-lanes:
-> > +            oneOf:
-> > +              - items:
-> > +                  - const: 1
-> > +                  - const: 2
-> > +              - items:
-> > +                  - const: 1
-> > +                  - const: 2
-> > +                  - const: 3
-> > +                  - const: 4
-> > +
-> > +          clock-noncontinuous: true
-> > +          link-frequencies: true
-> > +
-> > +        required:
-> > +          - data-lanes
-> > +          - link-frequencies
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - port
-> 
-> Let's make the supplies mandatory too, as the chip can't operate without
-> them.
-Ok
-> 
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        mlx7502x: camera@57 {
-> > +            compatible = "melexis,mlx7502x";
-> > +            reg = <0x57>;
-> > +            clocks = <&mlx7502x_clk>;
-> > +
-> > +            assigned-clocks = <&mlx7502x_clk>;
-> > +            assigned-clock-parents = <&mlx7502x_clk_parent>;
-> > +            assigned-clock-rates = <8000000>;
-> > +
-> > +            vddd-supply = <&mlx_7502x_reg>;
-> > +
-> > +            reset-gpios = <&gpio_exp 6 GPIO_ACTIVE_HIGH>;
-> > +            melexis,trig-gpios = <&gpio_exp 2 GPIO_ACTIVE_HIGH>;
-> > +            melexis,leden-gpios = <&gpio_exp 7 GPIO_ACTIVE_HIGH>;
-> > +
-> > +            port {
-> > +                mlx7502x_out_mipi_csi2: endpoint {
-> > +                    remote-endpoint = <&mipi_csi2_from_mlx7502x>;
-> > +                    data-lanes = <1 2 3 4>;
-> > +                    link-frequencies = /bits/ 64 < 960000000
-> > +                                                   904000000
-> > +                                                   800000000
-> > +                                                   704000000
-> > +                                                   600000000
-> > +                                                   300000000 >;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 1a68d888ee14..b00a726bb3db 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -12678,6 +12678,7 @@ M:	Volodymyr Kharuk <vkh@melexis.com>
-> >  L:	linux-media@vger.kernel.org
-> >  S:	Supported
-> >  W:	http://www.melexis.com
-> > +F:	Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> >  F:	include/uapi/linux/mlx7502x.h
-> >  
-> >  MELFAS MIP4 TOUCHSCREEN DRIVER
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+When writing lets say a chain of 8 bits from a char, a proper helper is exp=
+ected
+to be very explicit on the ordering (write_u8_le/be or something better wor=
+ded).
+I would rather like to see all these blobs written this way personally then
+having a cleared buffer and writing using bit offsets.
 
--- 
---
-Volodymyr Kharuk
+Perhaps I may suggest to start with implementing just that inside this driv=
+er?
+It isn't very hard, and then the implementation can be reduced later and sh=
+ared
+later, with whatever exists without deviating from the intent of the existi=
+ng
+API ? I do believe that having this in linux-media can be useful in the fut=
+ure.
+We will notably need to extend such a helper with multimedia specific codin=
+g
+technique (golomb, boolean coding, etc.) for use in stateless encoder drive=
+rs.
+
+Nicolas
+
+>=20
+> Thanks,
+> Robin.
+>=20
+> [1]=20
+> https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst#bit-=
+fields
+>=20
+> > - I deliberatly opted against the macro solution used in H264, which
+> > declares Macros in mid function and declares the fields of the memory
+> > blob as macros as well. And I would be glad to refactor the H264 code i=
+f
+> > desired by the maintainer to use common Kernel APIs and native language
+> > elements.
+> > - The giant static array of cabac values is moved to a separate c file,
+> > I did so because a separate .h file would be incorrect as it doesn't
+> > expose anything of any value for any other file than the rkvdec-hevc.c
+> > file. Other options were:
+> >    - Calculating the values instead of storing the results (doesn't see=
+m
+> >    to be worth it)
+> >    - Supply them via firmware (Adding firmware makes the whole software
+> >    way more complicated and the usage of the driver less obvious)
+> >=20
+> > Ignored Checkpatch warnings (as it fits to the current style of the fil=
+e):
+> > ```
+> > WARNING: line length of 162 exceeds 100 columns
+> > #115: FILE: drivers/media/v4l2-core/v4l2-common.c:265:
+> > +               { .format =3D V4L2_PIX_FMT_NV15,    .pixel_enc =3D V4L2=
+_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, 5, 0, =
+0 }, .hdiv =3D 2, .vdiv =3D 2,
+> >=20
+> > ERROR: trailing statements should be on next line
+> > #128: FILE: drivers/media/v4l2-core/v4l2-ioctl.c:1305:
+> > +       case V4L2_PIX_FMT_NV15:         descr =3D "10-bit Y/CbCr 4:2:0 =
+(Packed)"; break;
+> > ```
+> >=20
+> > v4l2-compliance test:
+> > ```
+> > Total for rkvdec device /dev/video3: 46, Succeeded: 46, Failed: 0, Warn=
+ings: 0
+> > ```
+> >=20
+> > kselftest module run for the bitmap changes:
+> > ```
+> > $ sudo insmod /usr/lib/modules/5.19.0-rc3-finalseries/kernel/lib/test_b=
+itmap.ko
+> > [   71.751716] test_bitmap: parselist: 14: input is '0-2047:128/256' OK=
+, Time: 1750
+> > [   71.751787] test_bitmap: bitmap_print_to_pagebuf: input is '0-32767
+> > [   71.751787] ', Time: 6708
+> > [   71.760373] test_bitmap: set_value: 6/6 tests correct
+> > ```
+> >=20
+> > Jonas Karlman (2):
+> >    media: v4l2: Add NV15 pixel format
+> >    media: v4l2-common: Add helpers to calculate bytesperline and
+> >      sizeimage
+> >=20
+> > Sebastian Fricke (4):
+> >    bitops: bitmap helper to set variable length values
+> >    staging: media: rkvdec: Add valid pixel format check
+> >    staging: media: rkvdec: Enable S_CTRL IOCTL
+> >    staging: media: rkvdec: Add HEVC backend
+> >=20
+> >   .../media/v4l/pixfmt-yuv-planar.rst           |   53 +
+> >   drivers/media/v4l2-core/v4l2-common.c         |   79 +-
+> >   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+> >   drivers/staging/media/rkvdec/Makefile         |    2 +-
+> >   drivers/staging/media/rkvdec/TODO             |   22 +-
+> >   .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1844 ++++++++++++++++=
++
+> >   drivers/staging/media/rkvdec/rkvdec-hevc.c    |  859 ++++++++
+> >   drivers/staging/media/rkvdec/rkvdec-regs.h    |    1 +
+> >   drivers/staging/media/rkvdec/rkvdec.c         |  182 +-
+> >   drivers/staging/media/rkvdec/rkvdec.h         |    3 +
+> >   include/linux/bitmap.h                        |   39 +
+> >   include/uapi/linux/videodev2.h                |    1 +
+> >   lib/test_bitmap.c                             |   47 +
+> >   13 files changed, 3066 insertions(+), 67 deletions(-)
+> >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
+> >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
+> >=20
+>=20
 
