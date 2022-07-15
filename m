@@ -2,167 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FBFE575808
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 01:25:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AD4D57587A
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 02:05:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232807AbiGNXZe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 19:25:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46816 "EHLO
+        id S241096AbiGOAFQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 20:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbiGNXZc (ORCPT
+        with ESMTP id S241063AbiGOAFP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 19:25:32 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 112BD13DC9
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 16:25:32 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id 75so5864982ybf.4
-        for <linux-media@vger.kernel.org>; Thu, 14 Jul 2022 16:25:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jsfy5lbS5mir5FM0znMsW2Hm4Sw52m7s1CxVQDDtySI=;
-        b=moYdohtoFUk5pbkei9u2uHILmJglEY5lLaZIiMiyJhpHiy5uemLBxOL/pARcUtpFaH
-         Y1P2x0P0WkM9KOyI7R7XbPCHEypkdAr7aQRHgYhxLLVt8XS5IJKVgItNMR6JHjjhU0Yi
-         wu8HuegykQn0Yki6FxXimcb0BOmngdDqDS7+iWipG0HRDVL7yBSyTridvEivi0rW/keF
-         rTcQBY7pNImmdmU7zWG4naY3NSm7ey9hcJqM7oR/SIX/mPMM7E+WfI7SpdicoMu5voVD
-         24iJwWsNRl5x1iqG5vJpwqstF9kHS4ggB15AVNFe7C5ANZ0bidm7yDxdo+741C8+DhGS
-         6pIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jsfy5lbS5mir5FM0znMsW2Hm4Sw52m7s1CxVQDDtySI=;
-        b=6OZcPRk5t4cg2uOBAx3F8y+d+xOM4jl+CHjvtcph3ZDiA2Lr2slOzv1sKDle7gUli4
-         G/LK9VVBeaqmo3mBfzLWRrqmMuNKuoH6dhUsyGLKElssjVKgOggRGS2lq+qCbhCcgdOj
-         98NySC2Gqk8Y8yVtV/riYv5/HyIOGNpfvn4wSD/hHRBmA0+8j4ZwbmL5CaW+9cSr+lTZ
-         JB4r5/hBWqdxwLnJWYImqc0A1XmN3bcex2da1qyQNQIOe6iycHzaPUcwnbKEKwhDVtw4
-         IlgkV9eSMVeP2pGxm+pqhvE3He2nuAfNgepEb+DAOtYghrcQx5a1gJJnNBIwU9bfwTVi
-         Oxlg==
-X-Gm-Message-State: AJIora/153YyOAOnKwfaoCUZwTD6/UpNu1ykdkPqOyard3YS6GDp4RfS
-        2itzUKnpkvE+gZLTTAKTRnD68uR6yHQ5G8/4IHQ/HQ==
-X-Google-Smtp-Source: AGRyM1tZLI9FohXOwi06564wgs3mzPO1mrrEBbpMrSUSXe6+9nU8095j55OYee1R70XtBslJVn49+4tMe8JNo9/rLzM=
-X-Received: by 2002:a25:bfc8:0:b0:66e:e26a:c911 with SMTP id
- q8-20020a25bfc8000000b0066ee26ac911mr11314054ybm.19.1657841131109; Thu, 14
- Jul 2022 16:25:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220628075705.2278044-1-yunkec@google.com>
-In-Reply-To: <20220628075705.2278044-1-yunkec@google.com>
-From:   Yunke Cao <yunkec@google.com>
-Date:   Fri, 15 Jul 2022 08:25:20 +0900
-Message-ID: <CANqU6Ff_eRZ5ORfpi7NmcagcS18moOk9isBUMkpPLwGgXfLhgA@mail.gmail.com>
-Subject: Re: [PATCH v7 0/7] media: Implement UVC v1.5 ROI
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Thu, 14 Jul 2022 20:05:15 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 622E8735B6;
+        Thu, 14 Jul 2022 17:05:13 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2DB69DA;
+        Fri, 15 Jul 2022 02:05:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657843510;
+        bh=eUrWlueduRgSkr9QAPg6mJaG55bmEBeshRDPqeUsPhM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=t+ys3+MLbVdT5iTS6NTWCpHz2R2ecFFLvH78hMoP1bCBqV2mo10mZexYRSrVHjbYU
+         GWBBMHR6M0jGcPcPiCqI/Nzq2TqdHia5FWD5f6IlWXqxDTqAmebfa/q0yV+gzc68RV
+         BI5KJTGx+8rBVCIso+Dsuboay3jPlBa6SC4PgyVw=
+Date:   Fri, 15 Jul 2022 03:04:39 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org, jernej.skrabec@gmail.com,
+        knaerzche@gmail.com, kernel@collabora.com,
+        bob.beckett@collabora.com, ezequiel@vanguardiasur.com.ar,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, Jonas Karlman <jonas@kwiboo.se>,
+        Yury Norov <yury.norov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Ming Qian <ming.qian@nxp.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH 1/6] media: v4l2: Add NV15 pixel format
+Message-ID: <YtCvF+kAfeiTduW+@pendragon.ideasonboard.com>
+References: <20220713162449.133738-1-sebastian.fricke@collabora.com>
+ <20220713162449.133738-2-sebastian.fricke@collabora.com>
+ <Ys8OzDzXmmCHI9qb@pendragon.ideasonboard.com>
+ <acded11db2957b4e9d4f8df44f82dc1babe7aae0.camel@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <acded11db2957b4e9d4f8df44f82dc1babe7aae0.camel@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Thu, Jul 14, 2022 at 09:02:38AM -0400, Nicolas Dufresne wrote:
+> Le mercredi 13 juillet 2022 à 21:28 +0300, Laurent Pinchart a écrit :
+> > Hi Sebastian and Jonas,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Wed, Jul 13, 2022 at 06:24:46PM +0200, Sebastian Fricke wrote:
+> > > From: Jonas Karlman <jonas@kwiboo.se>
+> > > 
+> > > Add the NV15 pixel format used by the Rockchip Video Decoder for 10-bit
+> > > buffers.
+> > > 
+> > > NV15 is a packed 10-bit 4:2:0 Y/CbCr format similar to P010 and P210 but
+> > > has no padding between components. Instead, luminance and chrominance
+> > > samples are grouped into 4s so that each group is packed into an integer
+> > > number of bytes:
+> > > 
+> > > YYYY = UVUV = 4 * 10 bits = 40 bits = 5 bytes
+> > > 
+> > > The '15' suffix refers to the optimum effective bits per pixel which is
+> > > achieved when the total number of luminance samples is a multiple of 8
+> > > for NV15.
+> > > 
+> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > > ---
+> > >  .../media/v4l/pixfmt-yuv-planar.rst           | 53 +++++++++++++++++++
+> > >  drivers/media/v4l2-core/v4l2-common.c         |  2 +
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+> > >  include/uapi/linux/videodev2.h                |  1 +
+> > >  4 files changed, 57 insertions(+)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> > > index a900ff66911a..42ab3fe4667f 100644
+> > > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> > > @@ -79,6 +79,13 @@ All components are stored with the same number of bits per component.
+> > >        - Cr, Cb
+> > >        - Yes
+> > >        - Linear
+> > > +    * - V4L2_PIX_FMT_NV15
+> > > +      - 'NV15'
+> > > +      - 15
+> > > +      - 4:2:0
+> > > +      - Cb, Cr
+> > > +      - Yes
+> > > +      - Linear
+> > >      * - V4L2_PIX_FMT_NV12M
+> > >        - 'NM12'
+> > >        - 8
+> > > @@ -176,6 +183,7 @@ horizontally.
+> > >  
+> > >  .. _V4L2-PIX-FMT-NV12:
+> > >  .. _V4L2-PIX-FMT-NV21:
+> > > +.. _V4L2-PIX-FMT-NV15:
+> > >  .. _V4L2-PIX-FMT-NV12M:
+> > >  .. _V4L2-PIX-FMT-NV21M:
+> > >  .. _V4L2-PIX-FMT-P010:
+> > > @@ -570,6 +578,51 @@ Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian ord
+> > >        - Cb\ :sub:`11`
+> > >        - Cr\ :sub:`11`
+> > >  
+> > > +.. _V4L2_PIX_FMT_NV15:
+> > > +
+> > > +NV15
+> > > +----
+> > > +
+> > > +Like P010 but a packed 10-bit 4:2:0 semi-planar Y/CbCr format without padding between components.
+> > 
+> > "packed 10-bit semi-planar" sounds confusing, as "packed YUV" usually
+> > refers to YUYV-style formats, but I'm not sure how to express that
+> > better.
+> 
+> Perhaps:
+> 
+> "Similar to P010 (10-bit 4:":0 semi-planer Y/CbCr), though unlike P010, the
+> there is not padding between components."
+> 
+> > > +Instead, luminance and chrominance samples are grouped into 4s so that each group is packed into an integer
+> > > +number of bytes:
+> > 
+> > Could you please wrap the description at 80 columns ?
+> > 
+> > > +YYYY = UVUV = 4 * 10 bits = 40 bits = 5 bytes
+> > > +
+> > > +.. flat-table:: Sample 4x4 NV15 Image
+> > > +    :header-rows:  0
+> > > +    :stub-columns: 0
+> > > +
+> > > +    * - start + 0:
+> > > +      - Y'\ :sub:`00`
+> > > +      - Y'\ :sub:`01`
+> > > +      - Y'\ :sub:`02`
+> > > +      - Y'\ :sub:`03`
+> > > +    * - start + 8:
+> > > +      - Y'\ :sub:`10`
+> > > +      - Y'\ :sub:`11`
+> > > +      - Y'\ :sub:`12`
+> > > +      - Y'\ :sub:`13`
+> > > +    * - start + 16:
+> > > +      - Y'\ :sub:`20`
+> > > +      - Y'\ :sub:`21`
+> > > +      - Y'\ :sub:`22`
+> > > +      - Y'\ :sub:`23`
+> > > +    * - start + 24:
+> > > +      - Y'\ :sub:`30`
+> > > +      - Y'\ :sub:`31`
+> > > +      - Y'\ :sub:`32`
+> > > +      - Y'\ :sub:`33`
+> > > +    * - start + 32:
+> > > +      - Cb\ :sub:`00`
+> > > +      - Cr\ :sub:`00`
+> > > +      - Cb\ :sub:`01`
+> > > +      - Cr\ :sub:`01`
+> > > +    * - start + 40:
+> > > +      - Cb\ :sub:`10`
+> > > +      - Cr\ :sub:`10`
+> > > +      - Cb\ :sub:`11`
+> > > +      - Cr\ :sub:`11`
+> > 
+> > This doesn't look right. You need to describe the data at the bit level,
+> > so show how the 10-bit samples are packed into bytes.
+> 
+> A word of NV15 is 40 bits, so 1 word of NV12 is 5 bytes, 4 pixels. I believe
+> there is no choice here but to describe 4 pixels for Y plane, and 4 pixels for
+> CbCr plane. This might be a bit big though.
 
-Do you have time to review this version? Ricardo has already reviewed
-it, I hope it is easier to review now.
+I agree, it may not be the prettiest, but I'd rather have a larger table
+than a format that is understood differently by different drivers. Been
+there, done that, not again :-)
 
-Thanks in advance!
-Yunke
+> > > +
+> > >  .. raw:: latex
+> > >  
+> > >      \endgroup
+> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > > index 1e38ad8906a2..23a0cb02ea3a 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > @@ -262,6 +262,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+> > >  		/* YUV planar formats */
+> > >  		{ .format = V4L2_PIX_FMT_NV12,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+> > >  		{ .format = V4L2_PIX_FMT_NV21,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+> > > +		{ .format = V4L2_PIX_FMT_NV15,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 5, 5, 0, 0 }, .hdiv = 2, .vdiv = 2,
+> > > +		  .block_w = { 4, 2, 0, 0 }, .block_h = { 1, 1, 0, 0 } },
+> > >  		{ .format = V4L2_PIX_FMT_NV16,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+> > >  		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+> > >  		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > index e2526701294e..9e5510cb255e 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > @@ -1302,6 +1302,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+> > >  	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 (M420)"; break;
+> > >  	case V4L2_PIX_FMT_NV12:		descr = "Y/CbCr 4:2:0"; break;
+> > >  	case V4L2_PIX_FMT_NV21:		descr = "Y/CrCb 4:2:0"; break;
+> > > +	case V4L2_PIX_FMT_NV15:		descr = "10-bit Y/CbCr 4:2:0 (Packed)"; break;
+> > >  	case V4L2_PIX_FMT_NV16:		descr = "Y/CbCr 4:2:2"; break;
+> > >  	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
+> > >  	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
+> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > > index 5a73b92ffe4d..47ff34d6b79f 100644
+> > > --- a/include/uapi/linux/videodev2.h
+> > > +++ b/include/uapi/linux/videodev2.h
+> > > @@ -598,6 +598,7 @@ struct v4l2_pix_format {
+> > >  /* two planes -- one Y, one Cr + Cb interleaved  */
+> > >  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
+> > >  #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 4:2:0  */
+> > > +#define V4L2_PIX_FMT_NV15    v4l2_fourcc('N', 'V', '1', '5') /* 15  Y/CbCr 4:2:0 10-bit packed */
+> > >  #define V4L2_PIX_FMT_NV16    v4l2_fourcc('N', 'V', '1', '6') /* 16  Y/CbCr 4:2:2  */
+> > >  #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
+> > >  #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
 
+-- 
+Regards,
 
-
-On Tue, Jun 28, 2022 at 4:57 PM Yunke Cao <yunkec@google.com> wrote:
->
-> This patch set implements UVC v1.5 region of interest using V4L2
-> control API.
->
-> ROI control is consisted two uvc specific controls.
-> 1. A rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
-> 2. An auto control with type bitmask.
->
-> V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
->
-> Tested on two different usb cameras using v4l2-compliance, v4l2-ctl
-> and calling ioctls.
->
-> 1/7 add V4L2_CTRL_TYPE_RECT.
-> 2/7 and 3/7 support compound types in UVC.
-> 4/7 implement ROI in UVC.
-> 5/7 is a cherry-pick for Hans' implementation of
-> V4L2_CTRL_WHICH_MIN/MAX_VAL in v4l2-core.
-> 6/7 support MIN/MAX in UVC.
-> 7/7 document the changes.
->
-> Changelog since v6:
-> -Add patch 2 and 3 to support compound types properly in UVC and
-> implement ROI on top of them.
-> -Reorder the patches.
->
-> Changelog since v5:
-> -Add a __uvc_ctrl_get_p_rect_to_user instead of modifying
->  __uvc_ctrl_get.
-> -Support V4L2_CTRL_FLAG_NEXT_COMPOUND correctly.
-> -Fix formats.
->
-> Changelog since v4:
-> -Cherry-pick the original patch
->  "v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL".
-> -Split patch "media: uvcvideo: implement UVC v1.5 ROI" into two patches.
->  The codes for supporting min/max in uvc are in patch 4/5 now.
-> -Minor fixes. Detailed changelog in patches
->
-> Changelog since v3:
-> - Reordered/sliced the patches.
->   1. Add rect type.
->   2. Add min/max.
->   3. Add the roi controls (including init to default).
->   4. Document the roi controls.
-> - Define the roi controls as uvc-specific in uvcvideo.h.
-> - Modified documentation.
-> - Removed the vivid change. Given the controls are now uvc-specific.
->   I'm not sure how valuable it is to add it in vivid. Let me know
->   otherwise.
->
-> Hans Verkuil (1):
->   v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
->
-> Yunke Cao (6):
->   media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
->   media: uvcvideo: add uvc_ctrl_get_fixed for getting default value
->   media: uvcvideo: Add support for compound controls
->   media: uvcvideo: implement UVC v1.5 ROI
->   media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
->   media: uvcvideo: document UVC v1.5 ROI
->
->  .../userspace-api/media/drivers/uvcvideo.rst  |  61 +++
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  11 +-
->  .../media/videodev2.h.rst.exceptions          |   3 +
->  drivers/media/i2c/imx214.c                    |   5 +-
->  .../media/platform/qcom/venus/venc_ctrls.c    |   4 +
->  drivers/media/usb/uvc/uvc_ctrl.c              | 479 ++++++++++++++++--
->  drivers/media/usb/uvc/uvc_v4l2.c              |  20 +-
->  drivers/media/usb/uvc/uvcvideo.h              |  14 +
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      |  51 +-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 155 +++++-
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
->  include/media/v4l2-ctrls.h                    |  34 +-
->  include/uapi/linux/usb/video.h                |   1 +
->  include/uapi/linux/uvcvideo.h                 |  13 +
->  include/uapi/linux/v4l2-controls.h            |   8 +
->  include/uapi/linux/videodev2.h                |   4 +
->  16 files changed, 788 insertions(+), 79 deletions(-)
->
-> --
-> 2.37.0.rc0.161.g10f37bed90-goog
->
+Laurent Pinchart
