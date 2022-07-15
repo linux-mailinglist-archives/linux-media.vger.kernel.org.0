@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1251D5763F7
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 17:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC9C1576406
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 17:03:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231901AbiGOPAS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jul 2022 11:00:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42758 "EHLO
+        id S232055AbiGOPDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jul 2022 11:03:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231618AbiGOPAP (ORCPT
+        with ESMTP id S232133AbiGOPDa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jul 2022 11:00:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F95C7AC34
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 08:00:14 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95A1B993
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 17:00:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657897212;
-        bh=+itADVrnQsTsbyb0ifPLmoJkv3ZDeYGxlVL3sYx1BbE=;
-        h=Date:From:To:Subject:From;
-        b=XAd3s30u9Afd7xg6sn1HKLYo2ThmxF2GFGsl6I7BOX8G4LRArqG+kdgGfskmwZYj+
-         WwrVsXCREFcJpuqdtfsfHB8BQBZN3n9fVADuRX/X40ed+C3mng/lI6KJ/DwEqNsC+P
-         dLZaHxJa5XjSUeNap+mxjL+6tZ6vRIC7MUwosTf4=
-Date:   Fri, 15 Jul 2022 17:59:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.20] Miscellaneous uvcvideo improvements and fixes
-Message-ID: <YtGA3W+wwzQIE74a@pendragon.ideasonboard.com>
+        Fri, 15 Jul 2022 11:03:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D79ED7BE1A
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 08:03:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7319961FD8
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 15:03:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49BE0C34115;
+        Fri, 15 Jul 2022 15:03:28 +0000 (UTC)
+Message-ID: <7b7eb926-9600-0116-b983-bc18613e7674@xs4all.nl>
+Date:   Fri, 15 Jul 2022 17:03:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.20] v3: hantro/cedrus/vb2 updates
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,61 +44,91 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+This PR sits on top of the stateless HEVC uAPI series:
 
-I realized I forgot to send a pull request for the uvcvideo driver. In
-case there's still time, here it is.
+https://patchwork.linuxtv.org/project/linux-media/patch/8409c576-e2f3-489a-23df-dc16386aac13@xs4all.nl/
 
-The following changes since commit b228cf38f0b72d797fab60386da7ee935e033aac:
+This series adds hantro 10 bit encoding, various cedrus fixes,
+and the series replacing vb2_find_timestamp with vb2_find_buffer.
 
-  media: venus: set ubwc configuration on specific video hardware (2022-07-15 15:41:55 +0100)
+Changes since v2: dropped "cedrus: Use vb2_find_buffer" and
+"videobuf2: Remove vb2_find_timestamp()" since the first cedrus patch introduced
+a regression. This can be added later.
+
+Changes since v1: added the last three patches of the cedrus series
+(https://patchwork.linuxtv.org/project/linux-media/list/?series=8237) after
+Ezequiel reviewed those as well.
+
+Regards,
+
+	Hans
+
+The following changes since commit bb0b9dfa3ba6b403d2f8ce39a024668e6b6e63c7:
+
+  media: uapi: move HEVC stateless controls out of staging (2022-07-15 16:49:13 +0200)
 
 are available in the Git repository at:
 
-  git://linuxtv.org/pinchartl/media.git tags/uvc-next-20220715
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.20j
 
-for you to fetch changes up to 13fadd1df43b955d176d9039de8f6fbbf9be529c:
+for you to fetch changes up to 185b34bc5169424c65f3e7aa742cb96f955ebe42:
 
-  usb: gadget: uvc: Fix list double add in uvcg_video_pump (2022-07-15 17:55:41 +0300)
-
-----------------------------------------------------------------
-Miscellaneous uvcvideo improvements and fixes
+  rkvdec: Use vb2_find_buffer (2022-07-15 16:49:14 +0200)
 
 ----------------------------------------------------------------
-Dan Vacura (1):
-      usb: gadget: uvc: Fix list double add in uvcg_video_pump
+Tag branch
 
-Laurent Pinchart (3):
-      media: uvcvideo: Fix comment blocks style
-      media: uvcvideo: Replace broken URL
-      usb: gadget: uvc: Fix comment blocks style
+----------------------------------------------------------------
+Ezequiel Garcia (7):
+      media: Add P010 tiled format
+      videobuf2: Introduce vb2_find_buffer()
+      mediatek: vcodec: Use vb2_find_buffer
+      tegra-vde: Use vb2_find_buffer
+      vicodec: Use vb2_find_buffer
+      hantro: Use vb2_find_buffer
+      rkvdec: Use vb2_find_buffer
 
-Michael Grzeschik (1):
-      media: uvcvideo: Remove unneeded goto
+Jernej Skrabec (13):
+      media: hantro: Support format filtering by depth
+      media: hantro: postproc: Fix buffer size calculation
+      media: hantro: postproc: Fix legacy regs configuration
+      media: hantro: postproc: Properly calculate chroma offset
+      media: hantro: Store VP9 bit depth in context
+      media: hantro: sunxi: Enable 10-bit decoding
+      media: cedrus: h265: Fix flag name
+      media: cedrus: h265: Fix logic for not low delay flag
+      media: cedrus: Improve error messages for controls
+      media: cedrus: Add error handling for failed setup
+      media: cedrus: h265: Add a couple of error checks
+      media: cedrus: Add helper for determining number of elements
+      media: cedrus: h265: Implement support for tiles
 
-Ricardo Ribalda (7):
-      media: uvcvideo: Add missing value for power_line_frequency
-      media: uvcvideo: Add support for per-device control mapping overrides
-      media: uvcvideo: Limit power line control for Quanta UVC Webcam
-      media: uvcvideo: Limit power line control for Chicony Easycamera
-      media: uvcvideo: Limit power line control for Chicony Easycamera
-      media: uvcvideo: Limit power line control for Quanta cameras
-      media: uvcvideo: Limit power line control for Acer EasyCamera
-
- drivers/media/usb/uvc/uvc_ctrl.c        | 112 ++++++++++++++++++++-----
- drivers/media/usb/uvc/uvc_driver.c      | 143 +++++++++++++++++++++++++++-----
- drivers/media/usb/uvc/uvc_isight.c      |  13 ++-
- drivers/media/usb/uvc/uvc_queue.c       |   6 +-
- drivers/media/usb/uvc/uvc_status.c      |   6 +-
- drivers/media/usb/uvc/uvc_v4l2.c        |  18 ++--
- drivers/media/usb/uvc/uvc_video.c       |  96 ++++++++++++++-------
- drivers/media/usb/uvc/uvcvideo.h        |  16 ++--
- drivers/usb/gadget/function/f_uvc.c     |  30 ++++---
- drivers/usb/gadget/function/uvc_queue.c |   6 +-
- drivers/usb/gadget/function/uvc_video.c |  15 +++-
- 11 files changed, 348 insertions(+), 113 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst        |  18 ++++++--
+ drivers/media/common/videobuf2/videobuf2-v4l2.c                    |  12 +++++
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c |   7 ++-
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c      |   7 ++-
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c  |   8 ++--
+ drivers/media/platform/nvidia/tegra-vde/h264.c                     |   9 ++--
+ drivers/media/test-drivers/vicodec/vicodec-core.c                  |   8 +---
+ drivers/media/v4l2-core/v4l2-common.c                              |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c                               |   1 +
+ drivers/staging/media/hantro/hantro.h                              |   4 ++
+ drivers/staging/media/hantro/hantro_drv.c                          |  29 ++++++++++--
+ drivers/staging/media/hantro/hantro_g2_vp9_dec.c                   |  18 +++-----
+ drivers/staging/media/hantro/hantro_postproc.c                     |  38 ++++++++++++----
+ drivers/staging/media/hantro/hantro_v4l2.c                         |  50 +++++++++++++++++++--
+ drivers/staging/media/hantro/hantro_v4l2.h                         |   3 ++
+ drivers/staging/media/hantro/sunxi_vpu_hw.c                        |  27 +++++++++++
+ drivers/staging/media/rkvdec/rkvdec-h264.c                         |  41 ++++++-----------
+ drivers/staging/media/rkvdec/rkvdec-vp9.c                          |  10 ++---
+ drivers/staging/media/sunxi/cedrus/cedrus.c                        |  28 +++++++++++-
+ drivers/staging/media/sunxi/cedrus/cedrus.h                        |   7 ++-
+ drivers/staging/media/sunxi/cedrus/cedrus_dec.c                    |  27 ++++++++---
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c                   |   5 ++-
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c                   | 154 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c                  |   4 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_regs.h                   |   3 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_vp8.c                    |   5 ++-
+ include/media/videobuf2-v4l2.h                                     |  10 +++++
+ include/uapi/linux/videodev2.h                                     |   1 +
+ 28 files changed, 421 insertions(+), 114 deletions(-)
