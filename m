@@ -2,135 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D986575CB1
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 09:50:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF03575CB0
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 09:50:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232336AbiGOHtS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jul 2022 03:49:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48696 "EHLO
+        id S231678AbiGOHtX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jul 2022 03:49:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232292AbiGOHtL (ORCPT
+        with ESMTP id S229730AbiGOHtW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jul 2022 03:49:11 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB7DB26109;
-        Fri, 15 Jul 2022 00:49:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1657871350; x=1689407350;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7/YwaUnYvtErt4hvGUG8S2dvqzopMiwsOQ51LI01u30=;
-  b=EQmBjnCwodid8pP04xL4WupZN/pe8DI3/sOGoJX1x6O2UxfIKfM9zvHP
-   E0xOPzkb0aWR5XQUxEVtc7yzUUP05ZQ8+tAErvGKuLqPzYdnH0AN1HPch
-   E0/rx5spWomCITmGwAo/PjHsd5ZxU+HXSY91coVzX5w4W0/9CUJd/HgAt
-   PZvJEXRL1pe+H43MFLPZBKdpNtaPb0YazG/7AgBSZWrg6sLwBrGBvqDEF
-   TM7wdSjh1ysIxt+gmIp7p26gQvSA0IZPsfnN3YOeRX5Xm74bIagO85sps
-   810J4ziohV4w2p5kPlM2ddyEUf6Hfsg+k9XiQkDpCMjF+lriHEnhGSt/2
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.92,273,1650924000"; 
-   d="scan'208";a="25069093"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 15 Jul 2022 09:49:05 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 15 Jul 2022 09:49:05 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 15 Jul 2022 09:49:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1657871345; x=1689407345;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7/YwaUnYvtErt4hvGUG8S2dvqzopMiwsOQ51LI01u30=;
-  b=DhkAnUjmOOjcepAeVCGiV2H8oEMemHVpWqpFCr6i9B38l76zLLCVNtht
-   OS/wVLIw9fDcAxbWk5g5eqZ00eb3faWV2n/qoyAyRSCuM3CgPQysPjmlH
-   aOuWWRekMYCT1bf/gcNrhCv0IiBGPlZbLDII0Jvuo/rUp7h5XE8NlGsTL
-   UaqW69pwiVFSeMeqJxHIhPnAZbE64RHVwYWO+/VD/x6PsKymKfkrYGYfy
-   kDU+Wgy64awQq7P84aTcf/AG06dPnM8d1EdbTvIKc1sJ9Y3ihJCzZyex4
-   D127Jxfg0Pmhnau+wrDaZyfmPl5FXzmneIOGRtUt69flWklz9QBBRv9E6
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.92,273,1650924000"; 
-   d="scan'208";a="25069092"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 15 Jul 2022 09:49:05 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id F247A280056;
-        Fri, 15 Jul 2022 09:49:04 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v2 6/6] media: i2c: ov9282: Fix device detection
-Date:   Fri, 15 Jul 2022 09:48:58 +0200
-Message-Id: <20220715074858.875808-7-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220715074858.875808-1-alexander.stein@ew.tq-group.com>
-References: <20220715074858.875808-1-alexander.stein@ew.tq-group.com>
+        Fri, 15 Jul 2022 03:49:22 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26DD926128
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 00:49:20 -0700 (PDT)
+Received: from pyrite.rasen.tech (softbank036240121080.bbtec.net [36.240.121.80])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB09A9DA;
+        Fri, 15 Jul 2022 09:49:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1657871358;
+        bh=Bt/pJcRuoKsM/OI6zV1vuU32ogiLivegrT1nhtUhFKw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uW/vtrURVcYWV51DaLEXEktZ0ncawK1ldlMrlBjFhAvZMRldunzCEPYXSWAuVsC6V
+         hitlY+C6+9lhqkqUflECfY2am8/gQsq57KteGfI1i3iz89P4e3uasfRoJbgkzUt4vg
+         fcbtai7SorlV8+2ETz198GiOof/NClXyh06p5kgY=
+Date:   Fri, 15 Jul 2022 16:49:11 +0900
+From:   paul.elder@ideasonboard.com
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Florian Sylvestre <fsylvestre@baylibre.com>
+Subject: Re: [PATCH 3/3] media: rockchip: rkisp1: Define macros for DPCC
+ configurations in UAPI
+Message-ID: <20220715074911.GF3411283@pyrite.rasen.tech>
+References: <20220616160456.21549-1-laurent.pinchart@ideasonboard.com>
+ <20220616160456.21549-4-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220616160456.21549-4-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Apparently the Vision Components model (VC MIPI OV9281) does not support
-address auto-increment, so probe fails with:
-ov9282 2-0060: chip id mismatch: 9281!=92ff
-Instead do two 1 byte reads and combine the result.
+Hi Laurent,
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-Changes in v2:
-* Fix commit message
-* Add comment about prevented auto-increment
-* Return early if reading ID register failed
-* Reorder ID registers, smaller register number first
+On Thu, Jun 16, 2022 at 07:04:56PM +0300, Laurent Pinchart wrote:
+> Extend the UAPI rkisp1-config.h header with macros for all DPCC
+> configuration fields. While at it, clarify of fix issues in the DPCC
+> documentation.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
- drivers/media/i2c/ov9282.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 263cdffc558f..532791304c3d 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -761,11 +761,24 @@ static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
- static int ov9282_detect(struct ov9282 *ov9282)
- {
- 	int ret;
-+	u32 id[2];
- 	u32 val;
- 
--	ret = ov9282_read_reg(ov9282, OV9282_REG_ID, 2, &val);
-+	/*
-+	 * Some vendors prevent auto-increment, so each register has to
-+	 * be read separately
-+	 */
-+	ret = ov9282_read_reg(ov9282, OV9282_REG_ID,
-+			      1, &id[0]);
- 	if (ret)
- 		return ret;
-+	ret = ov9282_read_reg(ov9282, OV9282_REG_ID + 1,
-+			      1, &id[1]);
-+	if (ret)
-+		return ret;
-+
-+	val = id[1];
-+	val |= (id[0] << 8);
- 
- 	if (val != OV9282_ID) {
- 		dev_err(ov9282->dev, "chip id mismatch: %x!=%x",
--- 
-2.25.1
-
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  1 -
+>  include/uapi/linux/rkisp1-config.h            | 77 +++++++++++++++----
+>  2 files changed, 61 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> index dc01f968c19d..a931f7216e9b 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> @@ -620,7 +620,6 @@
+>  /* DPCC */
+>  #define RKISP1_CIF_ISP_DPCC_MODE_DPCC_ENABLE		BIT(0)
+>  #define RKISP1_CIF_ISP_DPCC_MODE_GRAYSCALE_MODE		BIT(1)
+> -#define RKISP1_CIF_ISP_DPCC_MODE_STAGE1_ENABLE		BIT(2)
+>  #define RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_MASK		GENMASK(3, 0)
+>  #define RKISP1_CIF_ISP_DPCC_SET_USE_MASK		GENMASK(3, 0)
+>  #define RKISP1_CIF_ISP_DPCC_METHODS_SET_MASK		0x00001f1f
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index 583ca0d9a79d..730673ecc63d 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -117,7 +117,46 @@
+>  /*
+>   * Defect Pixel Cluster Correction
+>   */
+> -#define RKISP1_CIF_ISP_DPCC_METHODS_MAX       3
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_MAX				3
+> +
+> +#define RKISP1_CIF_ISP_DPCC_MODE_STAGE1_ENABLE			(1U << 2)
+> +
+> +#define RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_STAGE1_INCL_G_CENTER	(1U << 0)
+> +#define RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_STAGE1_INCL_RB_CENTER	(1U << 1)
+> +#define RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_STAGE1_G_3X3		(1U << 2)
+> +#define RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_STAGE1_RB_3X3		(1U << 3)
+> +
+> +/* 0-2 for sets 1-3 */
+> +#define RKISP1_CIF_ISP_DPCC_SET_USE_STAGE1_USE_SET(n)		((n) << 0)
+> +#define RKISP1_CIF_ISP_DPCC_SET_USE_STAGE1_USE_FIX_SET		(1U << 3)
+> +
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_PG_GREEN_ENABLE		(1U << 0)
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_LC_GREEN_ENABLE		(1U << 1)
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_RO_GREEN_ENABLE		(1U << 2)
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_RND_GREEN_ENABLE	(1U << 3)
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_RG_GREEN_ENABLE		(1U << 4)
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_PG_RED_BLUE_ENABLE	(1U << 8)
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_LC_RED_BLUE_ENABLE	(1U << 9)
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_RO_RED_BLUE_ENABLE	(1U << 10)
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_RND_RED_BLUE_ENABLE	(1U << 11)
+> +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_RG_RED_BLUE_ENABLE	(1U << 12)
+> +
+> +#define RKISP1_CIF_ISP_DPCC_LINE_THRESH_G(v)			((v) << 0)
+> +#define RKISP1_CIF_ISP_DPCC_LINE_THRESH_RB(v)			((v) << 8)
+> +#define RKISP1_CIF_ISP_DPCC_LINE_MAD_FAC_G(v)			((v) << 0)
+> +#define RKISP1_CIF_ISP_DPCC_LINE_MAD_FAC_RB(v)			((v) << 8)
+> +#define RKISP1_CIF_ISP_DPCC_PG_FAC_G(v)				((v) << 0)
+> +#define RKISP1_CIF_ISP_DPCC_PG_FAC_RB(v)			((v) << 8)
+> +#define RKISP1_CIF_ISP_DPCC_RND_THRESH_G(v)			((v) << 0)
+> +#define RKISP1_CIF_ISP_DPCC_RND_THRESH_RB(v)			((v) << 8)
+> +#define RKISP1_CIF_ISP_DPCC_RG_FAC_G(v)				((v) << 0)
+> +#define RKISP1_CIF_ISP_DPCC_RG_FAC_RB(v)			((v) << 8)
+> +
+> +#define RKISP1_CIF_ISP_DPCC_RO_LIMITS_n_G(n, v)			((v) << ((n) * 4))
+> +#define RKISP1_CIF_ISP_DPCC_RO_LIMITS_n_RB(n, v)		((v) << ((n) * 4 + 2))
+> +
+> +#define RKISP1_CIF_ISP_DPCC_RND_OFFS_n_G(n, v)			((v) << ((n) * 4))
+> +#define RKISP1_CIF_ISP_DPCC_RND_OFFS_n_RB(n, v)			((v) << ((n) * 4 + 2))
+>  
+>  /*
+>   * Denoising pre filter
+> @@ -249,16 +288,20 @@ struct rkisp1_cif_isp_bls_config {
+>  };
+>  
+>  /**
+> - * struct rkisp1_cif_isp_dpcc_methods_config - Methods Configuration used by DPCC
+> + * struct rkisp1_cif_isp_dpcc_methods_config - DPCC methods set configuration
+>   *
+> - * Methods Configuration used by Defect Pixel Cluster Correction
+> + * This structure stores the configuration of one set of methods for the DPCC
+> + * algorithm. Multiple methods can be selected in each set (independently for
+> + * the Green and Red/Blue components) through the @method field, the result is
+> + * the logical AND of all enabled methods. The remaining fields set thresholds
+> + * and factors for each method.
+>   *
+> - * @method: Method enable bits
+> - * @line_thresh: Line threshold
+> - * @line_mad_fac: Line MAD factor
+> - * @pg_fac: Peak gradient factor
+> - * @rnd_thresh: Rank Neighbor Difference threshold
+> - * @rg_fac: Rank gradient factor
+> + * @method: Method enable bits (RKISP1_CIF_ISP_DPCC_METHODS_SET_*)
+> + * @line_thresh: Line threshold (RKISP1_CIF_ISP_DPCC_LINE_THRESH_*)
+> + * @line_mad_fac: Line Mean Absolute Difference factor (RKISP1_CIF_ISP_DPCC_LINE_MAD_FAC_*)
+> + * @pg_fac: Peak gradient factor (RKISP1_CIF_ISP_DPCC_PG_FAC_*)
+> + * @rnd_thresh: Rank Neighbor Difference threshold (RKISP1_CIF_ISP_DPCC_RND_THRESH_*)
+> + * @rg_fac: Rank gradient factor (RKISP1_CIF_ISP_DPCC_RG_FAC_*)
+>   */
+>  struct rkisp1_cif_isp_dpcc_methods_config {
+>  	__u32 method;
+> @@ -272,14 +315,16 @@ struct rkisp1_cif_isp_dpcc_methods_config {
+>  /**
+>   * struct rkisp1_cif_isp_dpcc_config - Configuration used by DPCC
+>   *
+> - * Configuration used by Defect Pixel Cluster Correction
+> + * Configuration used by Defect Pixel Cluster Correction. Three sets of methods
+> + * can be configured and selected through the @set_use field. The result is the
+> + * logical OR of all enabled sets.
+>   *
+> - * @mode: dpcc output mode
+> - * @output_mode: whether use hard coded methods
+> - * @set_use: stage1 methods set
+> - * @methods: methods config
+> - * @ro_limits: rank order limits
+> - * @rnd_offs: differential rank offsets for rank neighbor difference
+> + * @mode: DPCC mode (RKISP1_CIF_ISP_DPCC_MODE_*)
+> + * @output_mode: Interpolation output mode (RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_*)
+> + * @set_use: Methods sets selection (RKISP1_CIF_ISP_DPCC_SET_USE_*)
+> + * @methods: Methods sets configuration
+> + * @ro_limits: Rank order limits (RKISP1_CIF_ISP_DPCC_RO_LIMITS_*)
+> + * @rnd_offs: Differential rank offsets for rank neighbor difference (RKISP1_CIF_ISP_DPCC_RND_OFFS_*)
+>   */
+>  struct rkisp1_cif_isp_dpcc_config {
+>  	__u32 mode;
