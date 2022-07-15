@@ -2,88 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55AFF575940
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 03:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D91F4575A06
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 05:39:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232611AbiGOBym (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jul 2022 21:54:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45770 "EHLO
+        id S240857AbiGODjI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jul 2022 23:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231929AbiGOByl (ORCPT
+        with ESMTP id S229481AbiGODjI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jul 2022 21:54:41 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDC1F24F36;
-        Thu, 14 Jul 2022 18:54:39 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id e16so3412972pfm.11;
-        Thu, 14 Jul 2022 18:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=ukuk4UUTau+M7hloRbOEtJ/RljdTGD7URDkjl7/1nZU=;
-        b=VmP0wFGqB1AlcvqLtcnfEFilpp7NXdUTh85ygKrSB4mi1CoCUviCJrePqN9O4C8Hwn
-         RY7Ag0QHziv3kcjWF1gdK+eM8cbHxb6Z/SuoHNDMotG9NodgdKL9gV57bbqzMNimRS5F
-         jUV/FZ8N5hVF27UiMZdS9vZH0xeXonRwilVzduHIpST4BnLIuBrxbsTmHWhx3jcYfY8G
-         OKImIBYNlMD8JPLY2Nb17ml9sKzFEtYYh5gzTEaSVZz58SygCYp0+1WV5u4t+Bsq4bTe
-         +38T+OWb6okMBKTsSS74u99i9SMfb6+T8ooJGehACGwhjvaYP90USD6pGFa7bRGVWoWT
-         sL5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=ukuk4UUTau+M7hloRbOEtJ/RljdTGD7URDkjl7/1nZU=;
-        b=ZX9mLcYUxGKSFLJFTJTaIwKVxiiHccmTLK8kUs7iWmYQs97w4PmDpqToavJXz1n8iE
-         Ze8FCvdC/8vD+bl+b3P1ky2MynyU1hC4v/YEz9tPJ7aR6RVVI7R24j/TEhmMY8fGPLFL
-         UnqFvAScG0yh1ECufhDWDh30SS1iZcdsI7Lm1npZyvtYquKhZI52QZ4G9bp7VbqA2dy0
-         IyNe/l4POQz3a2YYzbgHknan8BnWNUQee05Xyd8dNxsd29Vrw1mPfcD6T37C2f2XrYNI
-         p3HfO+DubBWLT0xHYMgiuOaXLuWvt/L+DUJTTihdzReHIYxQ9XdxmRwhpJkFHHn7MlV9
-         r0wg==
-X-Gm-Message-State: AJIora9cIPoPyBp0qNwMeqfbkQi7O+KpyRBzDC6WyT5Oxo++iUuhTH7k
-        m9/wiiZcvIUeIYsT4dK+gV8vjmX6OtK8fDEhS8b5s5t050sbxRs=
-X-Google-Smtp-Source: AGRyM1vrifDFY3bikPBsvz7LwbrJQoyRLXnB1BpXInbo4fN0lh0lOVCEejbSFgkMQh0indMvihZC2h4bQadUMDUGzns=
-X-Received: by 2002:a05:6a02:113:b0:412:a7c0:da8e with SMTP id
- bg19-20020a056a02011300b00412a7c0da8emr10350315pgb.113.1657850079268; Thu, 14
- Jul 2022 18:54:39 -0700 (PDT)
+        Thu, 14 Jul 2022 23:39:08 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239A93C156;
+        Thu, 14 Jul 2022 20:39:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657856347; x=1689392347;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HwTOzRZgpchjVAnzo1ayeKj1m6sUUSaoUdc2ecYTIgc=;
+  b=eEXIDnOFLPxRzzX5gM/P8WNytCmw35B4sv+YD+c6v3ZY+SPYLY4AL6er
+   2e8YZZQYli3rbEj3b2ITYsunqWUhmK+LEPkBNtVgUXjATyqPtJ6DsxJhX
+   HAM/+Dtb5qjw7IAJQ6Ht3PE0pCJ7vxcOyQg4PCT04+/qTw9V3n5/APT+9
+   qAYU+6FN3EygD9Qj08oEdmfO1feuKF654kijCNLbwtMcX5hleqXE263/7
+   f2XWsz+lZeE+e6CIqlcaMvrWIB9l32mFJBXoOkQ3mow7xYbqzxAYg256S
+   dhz/xHoOENKOydDegi8zS0Y9G9mpf1NWZkt8WqZBSRWFfJ9ndGDX1TNDp
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="266104791"
+X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
+   d="scan'208";a="266104791"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 20:39:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
+   d="scan'208";a="664035241"
+Received: from lkp-server01.sh.intel.com (HELO fd2c14d642b4) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Jul 2022 20:39:00 -0700
+Received: from kbuild by fd2c14d642b4 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oCCAN-0001UL-FC;
+        Fri, 15 Jul 2022 03:38:59 +0000
+Date:   Fri, 15 Jul 2022 11:38:52 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas_os@shipmail.org>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 4/6] dma-buf: Acquire wait-wound context on attachment
+Message-ID: <202207151112.Yi2gyyRX-lkp@intel.com>
+References: <20220715005244.42198-5-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
-From:   Zheyu Ma <zheyuma97@gmail.com>
-Date:   Fri, 15 Jul 2022 09:54:28 +0800
-Message-ID: <CAMhUBj=bs8rbiPGX1qOv9FSU8m=TdRZqqJGvRcynKbaWwf_A-A@mail.gmail.com>
-Subject: [BUG] media: cx88-alsa: Found a bug at the probe time
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220715005244.42198-5-dmitry.osipenko@collabora.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Dmitry,
 
-I found a bug in the driver cx88-alsa.
+I love your patch! Yet something to improve:
 
-When the driver fails in the function snd_cx88_create() at the probe
-time, it will cause a UAF bug as follows:
+[auto build test ERROR on next-20220714]
+[also build test ERROR on v5.19-rc6]
+[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next media-tree/master linus/master v5.19-rc6 v5.19-rc5 v5.19-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[   24.343899] Trying to free already-free IRQ 0
-[   24.344815] WARNING: CPU: 7 PID: 389 at kernel/irq/manage.c:1895
-free_irq+0x3a4/0x7c0
-[   24.348448] RIP: 0010:free_irq+0x3a4/0x7c0
-[   24.356716] Call Trace:
-[   24.357124]  snd_cx88_dev_free+0x71/0x100 [cx88_alsa]
-[   24.358008]  release_card_device+0x7d/0x190
-[   24.358699]  device_release+0x97/0x1c0
-[   24.359022]  kobject_put+0x144/0x1c0
-[   24.359329]  snd_card_free+0xec/0x150
-[   24.360078]  cx88_audio_initdev+0x8f4/0xce0 [cx88_alsa]
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Move-all-drivers-to-a-common-dma-buf-locking-convention/20220715-085556
+base:    37b355fdaf31ee18bda9a93c2a438dc1cbf57ec9
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20220715/202207151112.Yi2gyyRX-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/ed55f535b8492ef30d7e94aae5811c772403ab4f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Osipenko/Move-all-drivers-to-a-common-dma-buf-locking-convention/20220715-085556
+        git checkout ed55f535b8492ef30d7e94aae5811c772403ab4f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-Since I'm not familiar with the driver, could you please give me some
-hints to fix it?
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-regards,
+All errors (new ones prefixed by >>):
 
-Zheyu Ma
+>> drivers/gpu/drm/i915/i915_gem_ww.c:52:6: error: no previous prototype for 'i915_gem_ww_ctx_fini2' [-Werror=missing-prototypes]
+      52 | void i915_gem_ww_ctx_fini2(struct i915_gem_ww_ctx *ww)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +/i915_gem_ww_ctx_fini2 +52 drivers/gpu/drm/i915/i915_gem_ww.c
+
+    51	
+  > 52	void i915_gem_ww_ctx_fini2(struct i915_gem_ww_ctx *ww)
+    53	{
+    54		i915_gem_ww_ctx_unlock_all(ww);
+    55		WARN_ON(ww->contended);
+    56	}
+    57	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
