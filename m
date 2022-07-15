@@ -2,174 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDD5F575EAC
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 11:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEDD8575EAA
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 11:37:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231916AbiGOJgx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jul 2022 05:36:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53292 "EHLO
+        id S231572AbiGOJfV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jul 2022 05:35:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230138AbiGOJgx (ORCPT
+        with ESMTP id S230136AbiGOJfV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jul 2022 05:36:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1417D7E801;
-        Fri, 15 Jul 2022 02:36:52 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2762993;
-        Fri, 15 Jul 2022 11:36:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657877809;
-        bh=EHp0moRQn0J8P7EHzWyn0c8ze5yNEDJeYxMsaQuPATE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g3jynj5FamzNz5y8dhscZqUhd3ppCWL2VxIXuuh1yttPoVxA6hgjM/muWkPSakqbh
-         JGP+OCmzWfKhGFTu0mlKyaGtWMjLxcrLkOM2flcELvnxJMwuyFoNt8Ws73tYBna5pw
-         kJBM2WiIZUy45Y+cK1M/rpTtIWMpmqVEBORH/zM0=
-Date:   Fri, 15 Jul 2022 12:36:18 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Volodymyr Kharuk <vkh@melexis.com>
-Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Subject: Re: [PATCH v2 4/6] media: uapi: Add mlx7502x header file
-Message-ID: <YtE1EgvDpfLdbWnD@pendragon.ideasonboard.com>
-References: <cover.1657786765.git.vkh@melexis.com>
- <0765b2ef8eea43dce67232a109e9f8b338aa06bd.1657786765.git.vkh@melexis.com>
- <Ys/wh1wUvQlmpHrg@pendragon.ideasonboard.com>
- <20220715085720.GA2295@vkh-ThinkPad-T490>
+        Fri, 15 Jul 2022 05:35:21 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F9F7B7BD
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 02:35:20 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id y4so5569898edc.4
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 02:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=qz1vaI806twjHVRbeoVX2v+eCO93gVEBsIYf7vs9iMo=;
+        b=dVMZ0dpveVKCqU1iCzIbWnHOZf4iaSOdcHDy3GCFIY3ElZcU/HpW4hb9xhncDHC8ep
+         /TxUBWxioaJXT7zXMVUzx3UpLMimy/0TECfbR830LA6bwg2m9qxBgLzjhpDPFqMhLfEF
+         gqVDhKm0Ik/0NWpekDeG20LJFIuQg+kaX+omY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=qz1vaI806twjHVRbeoVX2v+eCO93gVEBsIYf7vs9iMo=;
+        b=05pO6TDX0TljjVQtBm4NX1nIYz+rABGvPgnlXcZdC++GXv9erm7exMGAaYYUhm5qCT
+         w60qx/8fH14bjQTXZpMI7Eap+JuGj0B/U2YzCeWJR5Nxxz24QKV+3oSX8ayyViGfuKTk
+         9Pmknz26JzBsf1sOwJR0Nrap1We1yB5EEaqmwx0UormeObU02vD/koc3LZrdkZf5QBoi
+         0kagVU6nfqGF0zMIb2+plOvgfVbCjRamThSdaWK+oc5fVFGXWx5noC6qnz6IZBMqqvGV
+         w8gpCpkPDGLO+FiT6YpF9w/qOtD5O9xqMkbcAQINH0ex95rF7xT5AakodP5yJy4WCeuA
+         2ZWQ==
+X-Gm-Message-State: AJIora9FGNbfRrmHJwpga9aiz1JbUEFA7AL76bK56riBSmXACm15BGcF
+        cQYzOkfAdKi7BaOy3Tn1NNpOXw5MjTLihA==
+X-Google-Smtp-Source: AGRyM1v/FF04Lg+9GEW9eFE/WizVpBNK2itanZ85z1pcFV4GmAFQvSc4ARpc7UhfexsYqn5+zS4hvA==
+X-Received: by 2002:a05:6402:274c:b0:43a:9204:95fb with SMTP id z12-20020a056402274c00b0043a920495fbmr17977101edd.259.1657877718604;
+        Fri, 15 Jul 2022 02:35:18 -0700 (PDT)
+Received: from p310.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id q10-20020a1709063d4a00b0072b3182368fsm1804936ejf.77.2022.07.15.02.35.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jul 2022 02:35:17 -0700 (PDT)
+Date:   Fri, 15 Jul 2022 12:38:36 +0300
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: properly set test pattern to a sub-device
+Message-ID: <YtE1nHBo2aQ7k+sB@p310.k.g>
+References: <YtA0oTgCRlRP8K53@p310.k.g>
+ <165784088978.3944957.6816198396634347236@Monstersaurus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/mixed; boundary="zwwx0yeiznfSMct4"
 Content-Disposition: inline
-In-Reply-To: <20220715085720.GA2295@vkh-ThinkPad-T490>
+In-Reply-To: <165784088978.3944957.6816198396634347236@Monstersaurus>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
 
-CC'ing Benjamin Mugnier who I recall expressed an interest in ToF
-sensors (if I recall incorrectly, my apologies).
+--zwwx0yeiznfSMct4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Jul 15, 2022 at 11:57:20AM +0300, Volodymyr Kharuk wrote:
-> On Thu, Jul 14, 2022 at 01:31:35PM +0300, Laurent Pinchart wrote:
-> > On Thu, Jul 14, 2022 at 11:34:46AM +0300, Volodymyr Kharuk wrote:
-> > > Define user controls for mlx7502x driver and update MAINTAINERS
-> > > 
-> > > Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
-> > > ---
-> > >  MAINTAINERS                   |  7 +++++++
-> > >  include/uapi/linux/mlx7502x.h | 31 +++++++++++++++++++++++++++++++
-> > >  2 files changed, 38 insertions(+)
-> > >  create mode 100644 include/uapi/linux/mlx7502x.h
-> > > 
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index ef3ec334fae9..1a68d888ee14 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -12673,6 +12673,13 @@ S:	Supported
-> > >  W:	http://www.melexis.com
-> > >  F:	drivers/iio/temperature/mlx90632.c
-> > >  
-> > > +MELEXIS MLX7502X DRIVER
-> > > +M:	Volodymyr Kharuk <vkh@melexis.com>
-> > > +L:	linux-media@vger.kernel.org
-> > > +S:	Supported
-> > > +W:	http://www.melexis.com
-> > > +F:	include/uapi/linux/mlx7502x.h
-> > > +
-> > >  MELFAS MIP4 TOUCHSCREEN DRIVER
-> > >  M:	Sangwon Jee <jeesw@melfas.com>
-> > >  S:	Supported
-> > > diff --git a/include/uapi/linux/mlx7502x.h b/include/uapi/linux/mlx7502x.h
-> > > new file mode 100644
-> > > index 000000000000..44386f3d6f5a
-> > > --- /dev/null
-> > > +++ b/include/uapi/linux/mlx7502x.h
-> > > @@ -0,0 +1,31 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > +/*
-> > > + * Melexis 7502x ToF cameras driver.
-> > > + *
-> > > + * Copyright (C) 2021 Melexis N.V.
-> > > + *
-> > > + */
-> > > +
-> > > +#ifndef __UAPI_MLX7502X_H_
-> > > +#define __UAPI_MLX7502X_H_
-> > > +
-> > > +#include <linux/v4l2-controls.h>
-> > > +
-> > 
-> > These controls should be documented, in
-> > Documentation/userspace-api/media/drivers/.
+On 22-07-15 00:21:29, Kieran Bingham wrote:
 > 
-> Ok, will do in v3
-> 
-> > > +/* number of phases per frame: 1..8 */
-> > > +#define V4L2_CID_MLX7502X_PHASE_NUMBER  (V4L2_CID_USER_MLX7502X_BASE + 0)
-> > > +/* shift of each phase in frame, this is an array of 8 elements, each 16bits */
-> > > +#define V4L2_CID_MLX7502X_PHASE_SEQ	(V4L2_CID_USER_MLX7502X_BASE + 1)
-> > > +/* frequency modulation in MHz */
-> > > +#define V4L2_CID_MLX7502X_FMOD		(V4L2_CID_USER_MLX7502X_BASE + 2)
-> > > +/* time integration of each phase in us */
-> > > +#define V4L2_CID_MLX7502X_TINT		(V4L2_CID_USER_MLX7502X_BASE + 3)
-> > 
-> > Are these control very device-specific, or are they concept that apply
-> > in general to ToF sensors ? Same for V4L2_CID_MLX7502X_OUTPUT_MODE.
-> 
-> These controls(except V4L2_CID_MLX7502X_OUTPUT_MODE) are general for ToF
-> sensors. Do you think we should standardize them?
+> As I understand it - it shouldn't be happening, so I suspect it's something in 
+> your CSI2 receiver driver initialising some defaults perhaps.
 
-I would really really like to see control standardization for ToF
-sensors, yes :-)
+I've attached 'media-ctl -p' output for clarity.  This is imx8m-mini based board 
+on 5.19.0-rc6.
 
-Do you know of any public litterature that explains the operating
-principles of ToF sensors ? I don't expect most of the V4L2 developers
-to be familiar with the concept, so something that could bring us up to
-speed on ToF would be useful for the discussion.
+When selecting a test pattern with:
 
-> Note that the control V4L2_CID_MLX7502X_TINT is similar to
-> V4L2_CID_EXPOSURE, but the way it is done in ToF is different. They don't
-> have a shutter. So I gave a separate control name. Is it ok?
+	v4l2-ctl -d /dev/v4l-subdev2 --set-ctrl=test_pattern=2
 
-Yes, I think that's fine.
+I get this from v4l2-ctl:
 
-> > > +/* mode could sw(sending i2c packet), hw(pin triggering), and continuous(self triggering) */
-> > > +#define V4L2_CID_MLX7502X_TRIGGER_MODE	(V4L2_CID_USER_MLX7502X_BASE + 4)
-> > > +/* in case sw or hw trigger mode is used */
-> > > +#define V4L2_CID_MLX7502X_TRIGGER	(V4L2_CID_USER_MLX7502X_BASE + 5)
-> > 
-> > Trigger control is likely something we need to standardize at the V4L2
-> > level.
-> 
-> Ok, then I'll remove these controls for now and I will back with this as
-> a separate patch.
-> 
-> > > +/* this is related to the taps in ToF cameras, usually A minus B is the best option */
-> > > +#define V4L2_CID_MLX7502X_OUTPUT_MODE	(V4L2_CID_USER_MLX7502X_BASE + 6)
-> > > +/* ToF camers has its own temperature sensor, which can be read out only during streaming */
-> > > +#define V4L2_CID_MLX7502X_TEMPERATURE	(V4L2_CID_USER_MLX7502X_BASE + 7)
-> > 
-> > This should probably use the proposed temperature control from
-> > https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
-> 
-> Ok, then I'll remove these controls for now.
-> 
-> > > +
-> > > +#endif /* __UAPI_MLX7502X_H_ */
+	VIDIOC_S_EXT_CTRLS: failed: Invalid argument
+	test_pattern: Invalid argument
 
--- 
-Regards,
+but the fun part is that my .s_ctrl() routine receives V4L2_CID_TEST_PATTERN and 
+ctrl->val is indeed 2, hence i'm setting sensor registers according to this 
+data.
 
-Laurent Pinchart
+I (falsely) assumed this would be a 'sticky' attribute so when i ask the 
+receiver driver (/dev/video0) to start streaming, it wouldn't change the test 
+pattern value under my feet.  Instead the imx492 driver once again receive 
+V4L2_CID_TEST_PATTERN, this time with ctrl->val == 0, which kind of ruins all 
+the fun.
+
+Following you advice, i tried to find which CSI2 driver might be the culprit. 
+None of the relevant drivers in drivers/staging/media/imx have v4l2_ctrl_ops 
+callback registered.  If that's what i am supposed to look for, which now seems 
+unlikely.
+
+Do you have other recommendations about what (and where) should i look next?
+
+
+		Petko
+
+--zwwx0yeiznfSMct4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename=mctl
+
+Media controller API version 5.19.0
+
+Media device information
+------------------------
+driver          imx7-csi
+model           imx-media
+serial          
+bus info        platform:32e20000.csi
+hw revision     0x0
+driver version  5.19.0
+
+Device topology
+- entity 1: csi (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+	pad0: Sink
+		[fmt:SGBRG12_1X12/8192x4320 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+		<- "csis-32e30000.mipi-csi":1 [ENABLED,IMMUTABLE]
+	pad1: Source
+		[fmt:SGBRG12_1X12/8192x4320 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+		-> "csi capture":0 [ENABLED,IMMUTABLE]
+
+- entity 4: csi capture (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+	pad0: Sink
+		<- "csi":1 [ENABLED,IMMUTABLE]
+
+- entity 10: csis-32e30000.mipi-csi (2 pads, 2 links)
+             type V4L2 subdev subtype Unknown flags 0
+             device node name /dev/v4l-subdev1
+	pad0: Sink
+		[fmt:SGBRG12_1X12/8192x4320 field:none colorspace:raw]
+		<- "imx492 1-0010":0 [ENABLED]
+	pad1: Source
+		[fmt:SGBRG12_1X12/8192x4320 field:none colorspace:raw]
+		-> "csi":0 [ENABLED,IMMUTABLE]
+
+- entity 15: imx492 1-0010 (1 pad, 1 link)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev2
+	pad0: Source
+		[fmt:SGBRG12_1X12/8192x4320 field:none colorspace:raw xfer:none]
+		-> "csis-32e30000.mipi-csi":0 [ENABLED]
+
+
+--zwwx0yeiznfSMct4--
