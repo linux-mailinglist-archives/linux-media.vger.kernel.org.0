@@ -2,70 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41CC85760DA
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 13:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A76515760F4
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 13:57:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234666AbiGOLs5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jul 2022 07:48:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42810 "EHLO
+        id S230055AbiGOL5P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jul 2022 07:57:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233144AbiGOLsu (ORCPT
+        with ESMTP id S229691AbiGOL5O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jul 2022 07:48:50 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 899741144D
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 04:48:47 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id oy13so8567992ejb.1
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 04:48:47 -0700 (PDT)
+        Fri, 15 Jul 2022 07:57:14 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B4EF89EB7
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 04:57:13 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id os14so8592358ejb.4
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 04:57:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=cdH5B1vSB1L8HwoPaLd5k9y/wu8/TUxAVecCz+RBuus=;
-        b=pBzYJSxI7FZyGMkxN9p15LAeEH3XMycglCRDwWhHjBg876H4zxr8kFH0rMXw2CHTaS
-         hU1f0yEKJb8Et4gQlmL9oIHBcnKqw2GUfwfnnC+pKGt0GXldMObpdEIxPlYnMqPY79kw
-         88vFebYDMT1wvIWvMt0NnRWmVnX/8bYklM5lwg7KcxvnehpDskQLkZk/l0+PybYe7Nax
-         WqLNLMhjR4tIjSGXI0LcLYNiT8PlTz9q+PEQUgNLVS24fASj0rlNfNncl5OEKrQk/UeO
-         II1vU8utodxosolleWrFPBRdkUDzzi+TBQl2DYZvNpny1+SXykEq6Ilma7uE+alpI1Sv
-         2Cxg==
+         :cc;
+        bh=qbK16Gbm94nbzaReVK0X7evWgKmmaW9SJjy+LYIFtn4=;
+        b=jfBLjYyRASV7mMdiUXspW7Opso/aSZihTIYAPpHd3l1yAH8qgoHujxz2PFeWkw32/w
+         IQ13kd+LbCq+U9oOm1RpwqQycvLz9VBoeYN9gV4lv4QbKTOGjtSUUnxOpJEMSBFvz/hO
+         uY/MP9TwIJkCKFpb4Zi16YOHm7kLgHKZT2+X5xSbig36lIVGmBmf7ujlW+Sjtd1PaOaL
+         aiSLIvgXrzCBnkCG9FO3v91jLOzh0MJDb6kgAQ9qzWG2+qESYEtEatAb5jPf+ZwhzGGz
+         a0sEL+Dea+w9B+H85ohoh3aISrSRknxewWgRcgb2WWIn3xTI6yt9bnTcxl4d+l5HLE4J
+         6aew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cdH5B1vSB1L8HwoPaLd5k9y/wu8/TUxAVecCz+RBuus=;
-        b=NJ2DeYH6VZwfJBts2o+ammC647iQf1HuNioe39/Z0UbaJA3Oh4V+R2wNLVKoj5ddhS
-         pfsy5vHOFH3aov5Lj+GIlFCpXZ9/XgBTX7EPB1SFhwwE+sfRP2ZsYr1SR1E3CidJnFuN
-         T5aOR0NzYQJtu5lB07adBUR39DtrE8/csRerISToVoubm2RPTV0oPG7ulug4Zem8dni7
-         2v4Gf6VDQ9C40W6Ntz2MA4+X+0uk30VeyPxrdoESjNOB1immHRpH1ntnu0+TnmJAY6Jm
-         K6ywVeAyJ9A7UbFACRKDTc9qoqjZcoazACUYO8KkLmpyHRuxjGxk4OaX6MlBai8CKUXy
-         f0Uw==
-X-Gm-Message-State: AJIora8QJt85ppfm07SvSTiwTW3yPpY/KMbn/UiR8KOlZuICfldZ5+06
-        XY3CkYeI1wQRIMejGReLPcCzsi1rOt2Ks/q0wkMMVw==
-X-Google-Smtp-Source: AGRyM1v2YuDKjAYPRpfv9msxqP4Lr3c4dt07SND13Cld9U1s+ur5tZmLU3eyXIf/RO/6SNnau6LIRZgPLqKjdvyRVc4=
-X-Received: by 2002:a17:907:7394:b0:72b:44ff:5cec with SMTP id
- er20-20020a170907739400b0072b44ff5cecmr13945351ejc.670.1657885725624; Fri, 15
- Jul 2022 04:48:45 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=qbK16Gbm94nbzaReVK0X7evWgKmmaW9SJjy+LYIFtn4=;
+        b=K+6Kjw1P1OOpkFGzJVJodcr/7lsWq3xnvFe8v8ip9egZT5GFOrB38p9J2SGVqcVXWL
+         IaT45oeG25mrh8X+kEFi+d+jGMHpL/Y6LfgW1EfIK/qttHlFpdJ6zf6bmc8v3jqPBjn8
+         d1Zytvy4/HuRJgp5rp2vsR/xr5fcXzGzzK8POO+8SVxQThu59+9c1RVqx+05JPihoZ5h
+         Jx7vFm8TlkFP6cgbAeWbSHSJaRJ9cOcP5SpxJG8f3Unrx9QoQvG+QgaLP8nPZrlOjqiY
+         L+45yM8rQgUECB3moaZEnXnXD1dTQn6v/5Mvbh9cDq6drBT8kooJMbAb0d4Pcrhr1IYg
+         tkWQ==
+X-Gm-Message-State: AJIora91OCFCYkFk+87JVozv48GSOB5fb9p20xNcu4Voem9W/fHE4Pdp
+        9c7XzB+PDGs5+J64yXL4BeqaS/Bk/UaNhmgWIHk=
+X-Google-Smtp-Source: AGRyM1uB44efMwdgCPmEY0TptcIfhmj+nZIYRITbZ20616qp8vlU5GISCeFCeHP40vySRcA8iZ2JN1n/6+iS91VJaUk=
+X-Received: by 2002:a17:906:7e43:b0:72b:52de:b039 with SMTP id
+ z3-20020a1709067e4300b0072b52deb039mr13558541ejr.198.1657886231753; Fri, 15
+ Jul 2022 04:57:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220711211141.349902-1-ezequiel@vanguardiasur.com.ar>
- <20220711211141.349902-8-ezequiel@vanguardiasur.com.ar> <5da2b3547f86e74c86a95300df82609a0cf7406e.camel@ndufresne.ca>
-In-Reply-To: <5da2b3547f86e74c86a95300df82609a0cf7406e.camel@ndufresne.ca>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Fri, 15 Jul 2022 08:48:34 -0300
-Message-ID: <CAAEAJfDuX9Dq6QCtZhO_yoBZh6mgtePx5SwjeQgzZjkUiG8-zw@mail.gmail.com>
-Subject: Re: [PATCH v2 7/8] cedrus: Use vb2_find_buffer
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <20220630230713.10580-1-laurent.pinchart@ideasonboard.com> <20220630230713.10580-49-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220630230713.10580-49-laurent.pinchart@ideasonboard.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Fri, 15 Jul 2022 06:56:57 -0500
+Message-ID: <CAHCN7xKVzrExUvK+fEKiTXV71J5K-VOcqxVFrew0f2dN5mjAOQ@mail.gmail.com>
+Subject: Re: [PATCH v2 48/55] media: rkisp1: Add match data for i.MX8MP ISP
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,364 +71,91 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
-
-Thanks a lot for the test and the bug report.
-
-On Thu, Jul 14, 2022 at 4:26 PM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
-te:
+On Thu, Jun 30, 2022 at 6:27 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Ezequiel,
+> From: Paul Elder <paul.elder@ideasonboard.com>
 >
-> I started testing with these patches and found some NULL dreferences, see=
- my
-> comment inline...
->
-> Le lundi 11 juillet 2022 =C3=A0 18:11 -0300, Ezequiel Garcia a =C3=A9crit=
- :
-> > Use the newly introduced vb2_find_buffer API to get a vb2_buffer
-> > given a buffer timestamp.
-> >
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> > Acked-by: Tomasz Figa <tfiga@chromium.org>
-> > ---
-> >  drivers/staging/media/sunxi/cedrus/cedrus.h   | 24 ++++++-----
-> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 16 +++----
-> >  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 16 +++----
-> >  .../staging/media/sunxi/cedrus/cedrus_mpeg2.c | 28 ++++--------
-> >  .../staging/media/sunxi/cedrus/cedrus_vp8.c   | 43 ++++---------------
-> >  5 files changed, 46 insertions(+), 81 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stag=
-ing/media/sunxi/cedrus/cedrus.h
-> > index 3bc094eb497f..c054dbe3d3bc 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > @@ -233,19 +233,23 @@ static inline dma_addr_t cedrus_buf_addr(struct v=
-b2_buffer *buf,
-> >  }
-> >
-> >  static inline dma_addr_t cedrus_dst_buf_addr(struct cedrus_ctx *ctx,
-> > -                                          int index, unsigned int plan=
-e)
-> > +                                          struct vb2_buffer *buf,
-> > +                                          unsigned int plane)
-> >  {
-> > -     struct vb2_buffer *buf =3D NULL;
-> > -     struct vb2_queue *vq;
-> > -
-> > -     if (index < 0)
-> > -             return 0;
-> > +     return buf ? cedrus_buf_addr(buf, &ctx->dst_fmt, plane) : 0;
-> > +}
-> >
-> > -     vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTU=
-RE);
-> > -     if (vq)
-> > -             buf =3D vb2_get_buffer(vq, index);
-> > +static inline void cedrus_write_ref_buf_addr(struct cedrus_ctx *ctx,
-> > +                                          struct vb2_queue *q,
-> > +                                          u64 timestamp,
-> > +                                          u32 luma_reg,
-> > +                                          u32 chroma_reg)
-> > +{
-> > +       struct cedrus_dev *dev =3D ctx->dev;
-> > +       struct vb2_buffer *buf =3D vb2_find_buffer(q, timestamp);
-> >
-> > -     return buf ? cedrus_buf_addr(buf, &ctx->dst_fmt, plane) : 0;
-> > +       cedrus_write(dev, luma_reg, cedrus_dst_buf_addr(ctx, buf, 0));
-> > +       cedrus_write(dev, chroma_reg, cedrus_dst_buf_addr(ctx, buf, 1))=
-;
-> >  }
-> >
-> >  static inline struct cedrus_buffer *
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers=
-/staging/media/sunxi/cedrus/cedrus_h264.c
-> > index d8fb93035470..0559efeac125 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > @@ -111,16 +111,16 @@ static void cedrus_write_frame_list(struct cedrus=
-_ctx *ctx,
-> >       for (i =3D 0; i < ARRAY_SIZE(decode->dpb); i++) {
-> >               const struct v4l2_h264_dpb_entry *dpb =3D &decode->dpb[i]=
-;
-> >               struct cedrus_buffer *cedrus_buf;
-> > -             int buf_idx;
-> > +             struct vb2_buffer *buf;
-> >
-> >               if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
-> >                       continue;
-> >
-> > -             buf_idx =3D vb2_find_timestamp(cap_q, dpb->reference_ts, =
-0);
-> > -             if (buf_idx < 0)
-> > +             buf =3D vb2_find_buffer(cap_q, dpb->reference_ts);
-> > +             if (!buf)
-> >                       continue;
-> >
-> > -             cedrus_buf =3D vb2_to_cedrus_buffer(cap_q->bufs[buf_idx])=
-;
-> > +             cedrus_buf =3D vb2_to_cedrus_buffer(buf);
-> >               position =3D cedrus_buf->codec.h264.position;
-> >               used_dpbs |=3D BIT(position);
-> >
-> > @@ -186,7 +186,7 @@ static void _cedrus_write_ref_list(struct cedrus_ct=
-x *ctx,
-> >               const struct v4l2_h264_dpb_entry *dpb;
-> >               const struct cedrus_buffer *cedrus_buf;
-> >               unsigned int position;
-> > -             int buf_idx;
-> > +             struct vb2_buffer *buf;
-> >               u8 dpb_idx;
-> >
-> >               dpb_idx =3D ref_list[i].index;
-> > @@ -195,11 +195,11 @@ static void _cedrus_write_ref_list(struct cedrus_=
-ctx *ctx,
-> >               if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> >                       continue;
-> >
-> > -             buf_idx =3D vb2_find_timestamp(cap_q, dpb->reference_ts, =
-0);
-> > -             if (buf_idx < 0)
-> > +             buf =3D vb2_find_buffer(cap_q, dpb->reference_ts);
-> > +             if (!buf)
-> >                       continue;
-> >
-> > -             cedrus_buf =3D vb2_to_cedrus_buffer(cap_q->bufs[buf_idx])=
-;
-> > +             cedrus_buf =3D vb2_to_cedrus_buffer(buf);
-> >               position =3D cedrus_buf->codec.h264.position;
-> >
-> >               sram_array[i] |=3D position << 1;
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers=
-/staging/media/sunxi/cedrus/cedrus_h265.c
-> > index 44f385be9f6c..60cc13e4d0a9 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > @@ -102,14 +102,14 @@ static void cedrus_h265_frame_info_write_single(s=
-truct cedrus_ctx *ctx,
-> >                                               unsigned int index,
-> >                                               bool field_pic,
-> >                                               u32 pic_order_cnt[],
-> > -                                             int buffer_index)
-> > +                                             struct vb2_buffer *buf)
-> >  {
-> >       struct cedrus_dev *dev =3D ctx->dev;
-> > -     dma_addr_t dst_luma_addr =3D cedrus_dst_buf_addr(ctx, buffer_inde=
-x, 0);
-> > -     dma_addr_t dst_chroma_addr =3D cedrus_dst_buf_addr(ctx, buffer_in=
-dex, 1);
-> > +     dma_addr_t dst_luma_addr =3D cedrus_dst_buf_addr(ctx, buf, 0);
-> > +     dma_addr_t dst_chroma_addr =3D cedrus_dst_buf_addr(ctx, buf, 1);
-> >       dma_addr_t mv_col_buf_addr[2] =3D {
-> > -             cedrus_h265_frame_info_mv_col_buf_addr(ctx, buffer_index,=
- 0),
-> > -             cedrus_h265_frame_info_mv_col_buf_addr(ctx, buffer_index,
-> > +             cedrus_h265_frame_info_mv_col_buf_addr(ctx, buf->index, 0=
-),
-> > +             cedrus_h265_frame_info_mv_col_buf_addr(ctx, buf->index,
-> >                                                      field_pic ? 1 : 0)
->
-> Previously, -1 would be passed to cedrus_h265_frame_info_mv_col_buf_addr(=
-),
-> which would not find a buffer at that index, and would return 0. Now the =
-code
-> will crash with a NULL pointer deref.
+> Add match data to the rkisp1 driver to match the i.MX8MP ISP.
 >
 
-Is it really correct to pass -1 to cedrus_h265_frame_info_mv_col_buf_addr?
-It seems it get casted into an unsigned type and then used to calculate
-an address for DMA.
+I am testing this series on an i.MX8MP with two Sony IMX219 cameras in
+4-lane mode.
+From what I can tell, the ISP_1 doesn't enumerate if ISP_0 is already
+enumerated.  My guess is that the name of the ISP is hard-coded so the
+second instance isn't able to load because the names conflict.  I
+don't see any errors, so it's just a guess.
 
-static inline dma_addr_t
-cedrus_h265_frame_info_mv_col_buf_addr(struct cedrus_ctx *ctx,
-                                       unsigned int index, unsigned int fie=
-ld)
-{
-        return ctx->codec.h265.mv_col_buf_addr + index *
-               ctx->codec.h265.mv_col_buf_unit_size +
-               field * ctx->codec.h265.mv_col_buf_unit_size / 2;
-}
 
-Fixing the driver to go back to the previous behavior is trivial,
-but this looks odd.
 
-Jernej, Paul, any thoughts?
-
-Thanks,
-Ezequiel
-
-> >       };
-> >       u32 offset =3D VE_DEC_H265_SRAM_OFFSET_FRAME_INFO +
-> > @@ -141,7 +141,7 @@ static void cedrus_h265_frame_info_write_dpb(struct=
- cedrus_ctx *ctx,
-> >       unsigned int i;
-> >
-> >       for (i =3D 0; i < num_active_dpb_entries; i++) {
-> > -             int buffer_index =3D vb2_find_timestamp(vq, dpb[i].timest=
-amp, 0);
-> > +             struct vb2_buffer *buf =3D vb2_find_buffer(vq, dpb[i].tim=
-estamp);
-> >               u32 pic_order_cnt[2] =3D {
-> >                       dpb[i].pic_order_cnt[0],
-> >                       dpb[i].pic_order_cnt[1]
-> > @@ -149,7 +149,7 @@ static void cedrus_h265_frame_info_write_dpb(struct=
- cedrus_ctx *ctx,
-> >
-> >               cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_=
-pic,
-> >                                                   pic_order_cnt,
-> > -                                                 buffer_index);
-> > +                                                 buf);
-> >       }
-> >  }
-> >
-> > @@ -616,7 +616,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ct=
-x,
-> >       cedrus_h265_frame_info_write_single(ctx, output_pic_list_index,
-> >                                           slice_params->pic_struct !=3D=
- 0,
-> >                                           pic_order_cnt,
-> > -                                         run->dst->vb2_buf.index);
-> > +                                         &run->dst->vb2_buf);
-> >
-> >       cedrus_write(dev, VE_DEC_H265_OUTPUT_FRAME_IDX, output_pic_list_i=
-ndex);
-> >
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/driver=
-s/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > index 5dad2f296c6d..22d6cae9a710 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > @@ -54,13 +54,9 @@ static void cedrus_mpeg2_setup(struct cedrus_ctx *ct=
-x, struct cedrus_run *run)
-> >       const struct v4l2_ctrl_mpeg2_picture *pic;
-> >       const struct v4l2_ctrl_mpeg2_quantisation *quantisation;
-> >       dma_addr_t src_buf_addr, dst_luma_addr, dst_chroma_addr;
-> > -     dma_addr_t fwd_luma_addr, fwd_chroma_addr;
-> > -     dma_addr_t bwd_luma_addr, bwd_chroma_addr;
-> >       struct cedrus_dev *dev =3D ctx->dev;
-> >       struct vb2_queue *vq;
-> >       const u8 *matrix;
-> > -     int forward_idx;
-> > -     int backward_idx;
-> >       unsigned int i;
-> >       u32 reg;
-> >
-> > @@ -123,27 +119,19 @@ static void cedrus_mpeg2_setup(struct cedrus_ctx =
-*ctx, struct cedrus_run *run)
-> >       cedrus_write(dev, VE_DEC_MPEG_PICBOUNDSIZE, reg);
-> >
-> >       /* Forward and backward prediction reference buffers. */
-> > -
-> >       vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTU=
-RE);
-> >
-> > -     forward_idx =3D vb2_find_timestamp(vq, pic->forward_ref_ts, 0);
-> > -     fwd_luma_addr =3D cedrus_dst_buf_addr(ctx, forward_idx, 0);
-> > -     fwd_chroma_addr =3D cedrus_dst_buf_addr(ctx, forward_idx, 1);
-> > -
-> > -     cedrus_write(dev, VE_DEC_MPEG_FWD_REF_LUMA_ADDR, fwd_luma_addr);
-> > -     cedrus_write(dev, VE_DEC_MPEG_FWD_REF_CHROMA_ADDR, fwd_chroma_add=
-r);
-> > -
-> > -     backward_idx =3D vb2_find_timestamp(vq, pic->backward_ref_ts, 0);
-> > -     bwd_luma_addr =3D cedrus_dst_buf_addr(ctx, backward_idx, 0);
-> > -     bwd_chroma_addr =3D cedrus_dst_buf_addr(ctx, backward_idx, 1);
-> > -
-> > -     cedrus_write(dev, VE_DEC_MPEG_BWD_REF_LUMA_ADDR, bwd_luma_addr);
-> > -     cedrus_write(dev, VE_DEC_MPEG_BWD_REF_CHROMA_ADDR, bwd_chroma_add=
-r);
-> > +     cedrus_write_ref_buf_addr(ctx, vq, pic->forward_ref_ts,
-> > +                               VE_DEC_MPEG_FWD_REF_LUMA_ADDR,
-> > +                               VE_DEC_MPEG_FWD_REF_CHROMA_ADDR);
-> > +     cedrus_write_ref_buf_addr(ctx, vq, pic->backward_ref_ts,
-> > +                               VE_DEC_MPEG_BWD_REF_LUMA_ADDR,
-> > +                               VE_DEC_MPEG_BWD_REF_CHROMA_ADDR);
-> >
-> >       /* Destination luma and chroma buffers. */
-> >
-> > -     dst_luma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.inde=
-x, 0);
-> > -     dst_chroma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.in=
-dex, 1);
-> > +     dst_luma_addr =3D cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf, 0)=
-;
-> > +     dst_chroma_addr =3D cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf, =
-1);
-> >
-> >       cedrus_write(dev, VE_DEC_MPEG_REC_LUMA, dst_luma_addr);
-> >       cedrus_write(dev, VE_DEC_MPEG_REC_CHROMA, dst_chroma_addr);
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/=
-staging/media/sunxi/cedrus/cedrus_vp8.c
-> > index f4016684b32d..196cf692186d 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-> > @@ -661,7 +661,6 @@ static void cedrus_vp8_setup(struct cedrus_ctx *ctx=
-,
-> >       dma_addr_t luma_addr, chroma_addr;
-> >       dma_addr_t src_buf_addr;
-> >       int header_size;
-> > -     int qindex;
-> >       u32 reg;
-> >
-> >       cedrus_engine_enable(ctx, CEDRUS_CODEC_VP8);
-> > @@ -805,43 +804,17 @@ static void cedrus_vp8_setup(struct cedrus_ctx *c=
-tx,
-> >       reg |=3D VE_VP8_LF_DELTA0(slice->lf.mb_mode_delta[0]);
-> >       cedrus_write(dev, VE_VP8_MODE_LF_DELTA, reg);
-> >
-> > -     luma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.index, 0=
-);
-> > -     chroma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.index,=
- 1);
-> > +     luma_addr =3D cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf, 0);
-> > +     chroma_addr =3D cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf, 1);
-> >       cedrus_write(dev, VE_VP8_REC_LUMA, luma_addr);
-> >       cedrus_write(dev, VE_VP8_REC_CHROMA, chroma_addr);
-> >
-> > -     qindex =3D vb2_find_timestamp(cap_q, slice->last_frame_ts, 0);
-> > -     if (qindex >=3D 0) {
-> > -             luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
-> > -             chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1);
-> > -             cedrus_write(dev, VE_VP8_FWD_LUMA, luma_addr);
-> > -             cedrus_write(dev, VE_VP8_FWD_CHROMA, chroma_addr);
-> > -     } else {
-> > -             cedrus_write(dev, VE_VP8_FWD_LUMA, 0);
-> > -             cedrus_write(dev, VE_VP8_FWD_CHROMA, 0);
-> > -     }
-> > -
-> > -     qindex =3D vb2_find_timestamp(cap_q, slice->golden_frame_ts, 0);
-> > -     if (qindex >=3D 0) {
-> > -             luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
-> > -             chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1);
-> > -             cedrus_write(dev, VE_VP8_BWD_LUMA, luma_addr);
-> > -             cedrus_write(dev, VE_VP8_BWD_CHROMA, chroma_addr);
-> > -     } else {
-> > -             cedrus_write(dev, VE_VP8_BWD_LUMA, 0);
-> > -             cedrus_write(dev, VE_VP8_BWD_CHROMA, 0);
-> > -     }
-> > -
-> > -     qindex =3D vb2_find_timestamp(cap_q, slice->alt_frame_ts, 0);
-> > -     if (qindex >=3D 0) {
-> > -             luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
-> > -             chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1);
-> > -             cedrus_write(dev, VE_VP8_ALT_LUMA, luma_addr);
-> > -             cedrus_write(dev, VE_VP8_ALT_CHROMA, chroma_addr);
-> > -     } else {
-> > -             cedrus_write(dev, VE_VP8_ALT_LUMA, 0);
-> > -             cedrus_write(dev, VE_VP8_ALT_CHROMA, 0);
-> > -     }
-> > +     cedrus_write_ref_buf_addr(ctx, cap_q, slice->last_frame_ts,
-> > +                               VE_VP8_FWD_LUMA, VE_VP8_FWD_CHROMA);
-> > +     cedrus_write_ref_buf_addr(ctx, cap_q, slice->golden_frame_ts,
-> > +                               VE_VP8_BWD_LUMA, VE_VP8_BWD_CHROMA);
-> > +     cedrus_write_ref_buf_addr(ctx, cap_q, slice->alt_frame_ts,
-> > +                               VE_VP8_ALT_LUMA, VE_VP8_ALT_CHROMA);
-> >
-> >       cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8 |
-> >                    VE_H264_CTRL_DECODE_ERR_INT |
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 22 +++++++++++++++++++
+>  include/uapi/linux/rkisp1-config.h            |  3 +++
+>  2 files changed, 25 insertions(+)
+>
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index f2475c6235ea..a41f89807dd7 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -496,6 +496,24 @@ static const struct rkisp1_info rk3399_isp_info = {
+>         .features = RKISP1_FEATURE_MIPI_CSI2,
+>  };
+>
+> +static const char * const imx8mp_isp_clks[] = {
+> +       "isp",
+> +       "hclk",
+> +       "aclk",
+> +};
+> +
+> +static const struct rkisp1_isr_data imx8mp_isp_isrs[] = {
+> +       { NULL, rkisp1_isr },
+> +};
+> +
+> +static const struct rkisp1_info imx8mp_isp_info = {
+> +       .clks = imx8mp_isp_clks,
+> +       .clk_size = ARRAY_SIZE(imx8mp_isp_clks),
+> +       .isrs = imx8mp_isp_isrs,
+> +       .isr_size = ARRAY_SIZE(imx8mp_isp_isrs),
+> +       .isp_ver = IMX8MP_V10,
+> +};
+> +
+>  static const struct of_device_id rkisp1_of_match[] = {
+>         {
+>                 .compatible = "rockchip,px30-cif-isp",
+> @@ -505,6 +523,10 @@ static const struct of_device_id rkisp1_of_match[] = {
+>                 .compatible = "rockchip,rk3399-cif-isp",
+>                 .data = &rk3399_isp_info,
+>         },
+> +       {
+> +               .compatible = "fsl,imx8mp-isp",
+> +               .data = &imx8mp_isp_info,
+> +       },
+>         {},
+>  };
+>  MODULE_DEVICE_TABLE(of, rkisp1_of_match);
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index 583ca0d9a79d..40677d47825c 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -140,12 +140,15 @@
+>   * @RKISP1_V11: declared in the original vendor code, but not used
+>   * @RKISP1_V12: used at least in rk3326 and px30
+>   * @RKISP1_V13: used at least in rk1808
+> + * @IMX8MP_V10: used in at least imx8mp
+>   */
+>  enum rkisp1_cif_isp_version {
+>         RKISP1_V10 = 10,
+>         RKISP1_V11,
+>         RKISP1_V12,
+>         RKISP1_V13,
+> +       /* TODO Choose a better version for this */
+> +       IMX8MP_V10,
+>  };
+>
+>  enum rkisp1_cif_isp_histogram_mode {
+> --
+> Regards,
+>
+> Laurent Pinchart
 >
