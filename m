@@ -2,133 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC9C1576406
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 17:03:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BC76576408
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 17:03:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232055AbiGOPDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jul 2022 11:03:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44598 "EHLO
+        id S232194AbiGOPDi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jul 2022 11:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232133AbiGOPDa (ORCPT
+        with ESMTP id S232147AbiGOPDh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jul 2022 11:03:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D79ED7BE1A
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 08:03:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7319961FD8
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 15:03:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49BE0C34115;
-        Fri, 15 Jul 2022 15:03:28 +0000 (UTC)
-Message-ID: <7b7eb926-9600-0116-b983-bc18613e7674@xs4all.nl>
-Date:   Fri, 15 Jul 2022 17:03:26 +0200
+        Fri, 15 Jul 2022 11:03:37 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A65707BE19
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 08:03:33 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id j22so9468423ejs.2
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 08:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=melexis.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=p6CP8onopPD155/MIJJvmZwsD6iKmjXwq6TGpLz4mfI=;
+        b=hQia2dU1v8vS2fRfBhTKvB0RzbDCiYNzunNtQDiM1EMQql2ps5CpylbwJk/64QFLop
+         SASu/mIWVL84rmDgWpxEpM4z+aoOoS49QYrVVS/iIMzL+3qJ5iqd4tH4wceETsXcAM8b
+         EQC3vX1cZmZhgRFmfRjyMl4Gt5e39n4b/xnvfibbPpCn1/fco+pAl8+4L7bOqKoSS8vb
+         Rbzit5G3w5rpyYcjdL3Zbc1gCap1TSowh5YFa6deEYcL9pbF/zNLgXpVo1phEgoaRf/Y
+         ggorsKEui8/N4guc+HWY9tI3/LJ3ponaZE8CzIA5o6VabNDWtIZoUU0ujHJ+u/lfD7CS
+         tvkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=p6CP8onopPD155/MIJJvmZwsD6iKmjXwq6TGpLz4mfI=;
+        b=vd541oFh2VlaHC9QZMNqDbx6241ZaoJOGZBOc8NMltDab42ZY2IqyI9kxB49TOBT6U
+         I91+yQ1e5V+VtfWNCPCDmokdZadOyJGaqHZYvEPsuqmD/ex21oWYWIfDdi4iil14Y3H4
+         xqoLh3t67X121QX8q8T59GH7RToeZ23iY3EMP/sDNQWvjBxsu7F1Z/Ij8xGOsUSRySbY
+         XSl6y7E0K88LqBMFhg1tcadzvts+HDb/LxIHPwY1bBvZDGxhlxxv6xkdscODjggUOmLu
+         vRf0pFMuKfzPu4DRka82l3vasMz4GOALWeAXvb4pLkizXInwdHRfccFWDoP8YWcy2oOI
+         rdfg==
+X-Gm-Message-State: AJIora/q1UWQapaTpQGnGbN25SgmHZdPj8HMxhGHkpG2dpMPA1cLJw+w
+        W40zlz5AByx+xnf0oqBHx1m0rA==
+X-Google-Smtp-Source: AGRyM1u/Ac7XPT3CGow6rGqwOjkMVNynv+ceFHuR2a9Sx0/sdd1qDnla4xm1qnZHAB9JTg/O41aNxw==
+X-Received: by 2002:a17:906:14d:b0:711:ff36:b1af with SMTP id 13-20020a170906014d00b00711ff36b1afmr13950885ejh.422.1657897412168;
+        Fri, 15 Jul 2022 08:03:32 -0700 (PDT)
+Received: from vkh-ThinkPad-T490 ([194.44.56.171])
+        by smtp.gmail.com with ESMTPSA id t10-20020a05640203ca00b0043a26e3db72sm3000594edw.54.2022.07.15.08.03.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jul 2022 08:03:31 -0700 (PDT)
+Date:   Fri, 15 Jul 2022 18:03:29 +0300
+From:   Volodymyr Kharuk <vkh@melexis.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: Re: [PATCH v2 4/6] media: uapi: Add mlx7502x header file
+Message-ID: <20220715150329.GA14041@vkh-ThinkPad-T490>
+References: <cover.1657786765.git.vkh@melexis.com>
+ <0765b2ef8eea43dce67232a109e9f8b338aa06bd.1657786765.git.vkh@melexis.com>
+ <Ys/wh1wUvQlmpHrg@pendragon.ideasonboard.com>
+ <20220715085720.GA2295@vkh-ThinkPad-T490>
+ <YtE1EgvDpfLdbWnD@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.20] v3: hantro/cedrus/vb2 updates
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YtE1EgvDpfLdbWnD@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This PR sits on top of the stateless HEVC uAPI series:
+On Fri, Jul 15, 2022 at 12:36:18PM +0300, Laurent Pinchart wrote:
+> Hello,
+> 
+> CC'ing Benjamin Mugnier who I recall expressed an interest in ToF
+> sensors (if I recall incorrectly, my apologies).
+> 
+> On Fri, Jul 15, 2022 at 11:57:20AM +0300, Volodymyr Kharuk wrote:
+> > On Thu, Jul 14, 2022 at 01:31:35PM +0300, Laurent Pinchart wrote:
+> > > On Thu, Jul 14, 2022 at 11:34:46AM +0300, Volodymyr Kharuk wrote:
+> > > > Define user controls for mlx7502x driver and update MAINTAINERS
+> > > > 
+> > > > Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
+> > > > ---
+> > > >  MAINTAINERS                   |  7 +++++++
+> > > >  include/uapi/linux/mlx7502x.h | 31 +++++++++++++++++++++++++++++++
+> > > >  2 files changed, 38 insertions(+)
+> > > >  create mode 100644 include/uapi/linux/mlx7502x.h
+> > > > 
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > index ef3ec334fae9..1a68d888ee14 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -12673,6 +12673,13 @@ S:	Supported
+> > > >  W:	http://www.melexis.com
+> > > >  F:	drivers/iio/temperature/mlx90632.c
+> > > >  
+> > > > +MELEXIS MLX7502X DRIVER
+> > > > +M:	Volodymyr Kharuk <vkh@melexis.com>
+> > > > +L:	linux-media@vger.kernel.org
+> > > > +S:	Supported
+> > > > +W:	http://www.melexis.com
+> > > > +F:	include/uapi/linux/mlx7502x.h
+> > > > +
+> > > >  MELFAS MIP4 TOUCHSCREEN DRIVER
+> > > >  M:	Sangwon Jee <jeesw@melfas.com>
+> > > >  S:	Supported
+> > > > diff --git a/include/uapi/linux/mlx7502x.h b/include/uapi/linux/mlx7502x.h
+> > > > new file mode 100644
+> > > > index 000000000000..44386f3d6f5a
+> > > > --- /dev/null
+> > > > +++ b/include/uapi/linux/mlx7502x.h
+> > > > @@ -0,0 +1,31 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > > > +/*
+> > > > + * Melexis 7502x ToF cameras driver.
+> > > > + *
+> > > > + * Copyright (C) 2021 Melexis N.V.
+> > > > + *
+> > > > + */
+> > > > +
+> > > > +#ifndef __UAPI_MLX7502X_H_
+> > > > +#define __UAPI_MLX7502X_H_
+> > > > +
+> > > > +#include <linux/v4l2-controls.h>
+> > > > +
+> > > 
+> > > These controls should be documented, in
+> > > Documentation/userspace-api/media/drivers/.
+> > 
+> > Ok, will do in v3
+> > 
+> > > > +/* number of phases per frame: 1..8 */
+> > > > +#define V4L2_CID_MLX7502X_PHASE_NUMBER  (V4L2_CID_USER_MLX7502X_BASE + 0)
+> > > > +/* shift of each phase in frame, this is an array of 8 elements, each 16bits */
+> > > > +#define V4L2_CID_MLX7502X_PHASE_SEQ	(V4L2_CID_USER_MLX7502X_BASE + 1)
+> > > > +/* frequency modulation in MHz */
+> > > > +#define V4L2_CID_MLX7502X_FMOD		(V4L2_CID_USER_MLX7502X_BASE + 2)
+> > > > +/* time integration of each phase in us */
+> > > > +#define V4L2_CID_MLX7502X_TINT		(V4L2_CID_USER_MLX7502X_BASE + 3)
+> > > 
+> > > Are these control very device-specific, or are they concept that apply
+> > > in general to ToF sensors ? Same for V4L2_CID_MLX7502X_OUTPUT_MODE.
+> > 
+> > These controls(except V4L2_CID_MLX7502X_OUTPUT_MODE) are general for ToF
+> > sensors. Do you think we should standardize them?
+> 
+> I would really really like to see control standardization for ToF
+> sensors, yes :-)
+Sounds great :)
+> 
+> Do you know of any public litterature that explains the operating
+> principles of ToF sensors ? I don't expect most of the V4L2 developers
+> to be familiar with the concept, so something that could bring us up to
+> speed on ToF would be useful for the discussion.
 
-https://patchwork.linuxtv.org/project/linux-media/patch/8409c576-e2f3-489a-23df-dc16386aac13@xs4all.nl/
+Here what I have:
+1. ToF Basics from Melexis
+https://media.melexis.com/-/media/files/documents/application-notes/time-of-flight-basics-application-note-melexis.pdf
+2. ToF Basics from TI
+https://www.ti.com/lit/wp/sloa190b/sloa190b.pdf?ts=1657842732275&ref_url=https%253A%252F%252Fwww.google.com%252F
+2. ToF systems from TI
+https://www.ti.com/lit/ug/sbau219d/sbau219d.pdf
+4. This more related to ToF algorithms
+https://hal.inria.fr/hal-00725654/document
 
-This series adds hantro 10 bit encoding, various cedrus fixes,
-and the series replacing vb2_find_timestamp with vb2_find_buffer.
+I hope it helps.
+> 
+> > Note that the control V4L2_CID_MLX7502X_TINT is similar to
+> > V4L2_CID_EXPOSURE, but the way it is done in ToF is different. They don't
+> > have a shutter. So I gave a separate control name. Is it ok?
+> 
+> Yes, I think that's fine.
+> 
+> > > > +/* mode could sw(sending i2c packet), hw(pin triggering), and continuous(self triggering) */
+> > > > +#define V4L2_CID_MLX7502X_TRIGGER_MODE	(V4L2_CID_USER_MLX7502X_BASE + 4)
+> > > > +/* in case sw or hw trigger mode is used */
+> > > > +#define V4L2_CID_MLX7502X_TRIGGER	(V4L2_CID_USER_MLX7502X_BASE + 5)
+> > > 
+> > > Trigger control is likely something we need to standardize at the V4L2
+> > > level.
+> > 
+> > Ok, then I'll remove these controls for now and I will back with this as
+> > a separate patch.
+> > 
+> > > > +/* this is related to the taps in ToF cameras, usually A minus B is the best option */
+> > > > +#define V4L2_CID_MLX7502X_OUTPUT_MODE	(V4L2_CID_USER_MLX7502X_BASE + 6)
+> > > > +/* ToF camers has its own temperature sensor, which can be read out only during streaming */
+> > > > +#define V4L2_CID_MLX7502X_TEMPERATURE	(V4L2_CID_USER_MLX7502X_BASE + 7)
+> > > 
+> > > This should probably use the proposed temperature control from
+> > > https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
+> > 
+> > Ok, then I'll remove these controls for now.
+> > 
+> > > > +
+> > > > +#endif /* __UAPI_MLX7502X_H_ */
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
-Changes since v2: dropped "cedrus: Use vb2_find_buffer" and
-"videobuf2: Remove vb2_find_timestamp()" since the first cedrus patch introduced
-a regression. This can be added later.
-
-Changes since v1: added the last three patches of the cedrus series
-(https://patchwork.linuxtv.org/project/linux-media/list/?series=8237) after
-Ezequiel reviewed those as well.
-
-Regards,
-
-	Hans
-
-The following changes since commit bb0b9dfa3ba6b403d2f8ce39a024668e6b6e63c7:
-
-  media: uapi: move HEVC stateless controls out of staging (2022-07-15 16:49:13 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.20j
-
-for you to fetch changes up to 185b34bc5169424c65f3e7aa742cb96f955ebe42:
-
-  rkvdec: Use vb2_find_buffer (2022-07-15 16:49:14 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Ezequiel Garcia (7):
-      media: Add P010 tiled format
-      videobuf2: Introduce vb2_find_buffer()
-      mediatek: vcodec: Use vb2_find_buffer
-      tegra-vde: Use vb2_find_buffer
-      vicodec: Use vb2_find_buffer
-      hantro: Use vb2_find_buffer
-      rkvdec: Use vb2_find_buffer
-
-Jernej Skrabec (13):
-      media: hantro: Support format filtering by depth
-      media: hantro: postproc: Fix buffer size calculation
-      media: hantro: postproc: Fix legacy regs configuration
-      media: hantro: postproc: Properly calculate chroma offset
-      media: hantro: Store VP9 bit depth in context
-      media: hantro: sunxi: Enable 10-bit decoding
-      media: cedrus: h265: Fix flag name
-      media: cedrus: h265: Fix logic for not low delay flag
-      media: cedrus: Improve error messages for controls
-      media: cedrus: Add error handling for failed setup
-      media: cedrus: h265: Add a couple of error checks
-      media: cedrus: Add helper for determining number of elements
-      media: cedrus: h265: Implement support for tiles
-
- Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst        |  18 ++++++--
- drivers/media/common/videobuf2/videobuf2-v4l2.c                    |  12 +++++
- drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c |   7 ++-
- drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c      |   7 ++-
- drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c  |   8 ++--
- drivers/media/platform/nvidia/tegra-vde/h264.c                     |   9 ++--
- drivers/media/test-drivers/vicodec/vicodec-core.c                  |   8 +---
- drivers/media/v4l2-core/v4l2-common.c                              |   1 +
- drivers/media/v4l2-core/v4l2-ioctl.c                               |   1 +
- drivers/staging/media/hantro/hantro.h                              |   4 ++
- drivers/staging/media/hantro/hantro_drv.c                          |  29 ++++++++++--
- drivers/staging/media/hantro/hantro_g2_vp9_dec.c                   |  18 +++-----
- drivers/staging/media/hantro/hantro_postproc.c                     |  38 ++++++++++++----
- drivers/staging/media/hantro/hantro_v4l2.c                         |  50 +++++++++++++++++++--
- drivers/staging/media/hantro/hantro_v4l2.h                         |   3 ++
- drivers/staging/media/hantro/sunxi_vpu_hw.c                        |  27 +++++++++++
- drivers/staging/media/rkvdec/rkvdec-h264.c                         |  41 ++++++-----------
- drivers/staging/media/rkvdec/rkvdec-vp9.c                          |  10 ++---
- drivers/staging/media/sunxi/cedrus/cedrus.c                        |  28 +++++++++++-
- drivers/staging/media/sunxi/cedrus/cedrus.h                        |   7 ++-
- drivers/staging/media/sunxi/cedrus/cedrus_dec.c                    |  27 ++++++++---
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c                   |   5 ++-
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c                   | 154 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
- drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c                  |   4 +-
- drivers/staging/media/sunxi/cedrus/cedrus_regs.h                   |   3 +-
- drivers/staging/media/sunxi/cedrus/cedrus_vp8.c                    |   5 ++-
- include/media/videobuf2-v4l2.h                                     |  10 +++++
- include/uapi/linux/videodev2.h                                     |   1 +
- 28 files changed, 421 insertions(+), 114 deletions(-)
+-- 
+--
+Volodymyr Kharuk
