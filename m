@@ -2,245 +2,1236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43ECC575F40
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 12:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7837D575F53
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 12:25:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231933AbiGOKVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jul 2022 06:21:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56372 "EHLO
+        id S230367AbiGOKZq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jul 2022 06:25:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230052AbiGOKVG (ORCPT
+        with ESMTP id S230151AbiGOKZl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jul 2022 06:21:06 -0400
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70048.outbound.protection.outlook.com [40.107.7.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E3A852FCE;
-        Fri, 15 Jul 2022 03:21:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=SS4aFzs3k+hQ33+NWocWc4qaeey311RwNBurYFOkekOu7zdOmOXCRGRa8+icOli2LqxkH2Ck069TvtjPvm800kzQDvq9Gp3eGZ9+M6fqDSAg2vDegbzIh9PpEtw/jy4DcMTj6gG97pCSUCenFXgcjSyy2IoXA8QqQo/887JmqNBi4Jk1qCRyQ1+kUADgiJ8AJGbgio8I8unwhjvwJIGJnJasSX2298I05GOby2H438sYQZzX8QIdEpzGyXP7FLn9Q42bzcY/sH/Mcnz0lJi4mtVH/rTUIMyVisgrnbJUVWYBBvrvfE4R7a9FRcoEK12/ugBIyxiCezObPqoc1DrwVQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lDFHUzg14dB647fDKDIvt6NAJ1ASW5xn0P4HlzbE4Tg=;
- b=VDVIf0XEwWEWlHE44wxdYhX5NYYNVSsVEOPKmJMkY8aXNgRm01O72Z2MQbBs9lHAM8CWLSJRbRbGcTi3jaiUaRtbuYab6yIygsKWzKyl/oI02sb3TryLXvEsWdLJZlpOHyn7mc8Bdr1okUvznHm2KgkAznshLW3EhruslXMMM9b9JS9ZHIZVhKDxIBDmhcjDvo7CrdwmhXr++LZc7+M/A7MMo9k3Nb34sn9r/ZV0BJBLaIw7suRlGdfb9XmMdV5qw+kDLL+5BruinC/0z4NKkOZWLvlpfZKGelGhFJ6b/dhWOUisqwXqMt5HV/SAWwrb0TLQjYVUpNjrBzZP2R4rPA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lDFHUzg14dB647fDKDIvt6NAJ1ASW5xn0P4HlzbE4Tg=;
- b=BXZnV0MaytjPrKEF0wd1OAzFKJEeJ45zJPgOzL3iIcOoJ/h0UVN2+TFicePY+Ctd88ArnnhfLVY315ZGYtZLhT5oF6Ui1s/Ffa1ov+2+rqpCYCbEovrHUBcGwXA6vyDWr9cZcyA/fB/qWPYMrQXVZ9c6Xe5kGNEqz0X5heFsYn4=
-Received: from DB6PR0601CA0027.eurprd06.prod.outlook.com (2603:10a6:4:17::13)
- by DB6PR0802MB2152.eurprd08.prod.outlook.com (2603:10a6:4:83::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.23; Fri, 15 Jul
- 2022 10:21:00 +0000
-Received: from DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:4:17:cafe::3a) by DB6PR0601CA0027.outlook.office365.com
- (2603:10a6:4:17::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14 via Frontend
- Transport; Fri, 15 Jul 2022 10:21:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT012.mail.protection.outlook.com (100.127.142.126) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5438.12 via Frontend Transport; Fri, 15 Jul 2022 10:21:00 +0000
-Received: ("Tessian outbound cc6a8ab50b6b:v123"); Fri, 15 Jul 2022 10:21:00 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 5f14568ab85f9ba8
-X-CR-MTA-TID: 64aa7808
-Received: from 8c6cbe42f280.2
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 3A9011D8-FAC4-4CB8-9F3B-E8B1D348B968.1;
-        Fri, 15 Jul 2022 10:20:54 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 8c6cbe42f280.2
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 15 Jul 2022 10:20:54 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l+CsUhfJool+aZRQyx3EWpGSyB2ATYlqdaQlzVbLb/GN8+DdQuhSsA1heZoNVT3o1m9mhZNyrkQfPFfIEBM9yWO1GDwcn5Kfg6bPBCNyd44P4QCl/sF9lLupJyInwIRQzYMmlYf42lT45vQ196Ghm2lm13tV6s6J2v1klMq1Q1LRR7wnMVeoULTUd7YtHi3QkmsR4M3zq+HpznMSo14FumNh75BClr1GxEnkAal46kvp2mWIu26LRzm1Mf+A59oEtubFI18++cUpMOQz7//1ed5F4VbuiqobTr5yQm4hRKcb7xYoE7008TI6OpLThz8JuBcLfK9RY3gqWu1pNq4r9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lDFHUzg14dB647fDKDIvt6NAJ1ASW5xn0P4HlzbE4Tg=;
- b=NF9kgYYiSIvWOjtooDtTemq8A2VZxSldEtAvhgbydi/IvmHCN31dqiHhY3wnT1pS2IyC//nksYpULY/DM3zNYDFRKJvdAbalYTk88ILzdAnY67Jrjew5cHjlVM3KlLtqHMz9xt9BUcXDBIUSXESBiOnMtu5/+dNsNT65Vu9XzE5ltkmTJL5tDmtQYlxnfzwlBZvtnNE/sa0YWISQ0T1wvxQNjd0yGYfrR+QCYfLjj056cQWK3PMLiUVgPcr1rKDKbwOqkbEqmphPLdSTvL9d40pbNMQpv4SHft6BjmQ3hpq0Yxzr5IGX243vCzg59qgvmbSvqf5Y8Zh72WOjUT1byA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lDFHUzg14dB647fDKDIvt6NAJ1ASW5xn0P4HlzbE4Tg=;
- b=BXZnV0MaytjPrKEF0wd1OAzFKJEeJ45zJPgOzL3iIcOoJ/h0UVN2+TFicePY+Ctd88ArnnhfLVY315ZGYtZLhT5oF6Ui1s/Ffa1ov+2+rqpCYCbEovrHUBcGwXA6vyDWr9cZcyA/fB/qWPYMrQXVZ9c6Xe5kGNEqz0X5heFsYn4=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from AS8PR08MB8111.eurprd08.prod.outlook.com (2603:10a6:20b:54d::22)
- by AM5PR0801MB1876.eurprd08.prod.outlook.com (2603:10a6:203:42::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Fri, 15 Jul
- 2022 10:20:51 +0000
-Received: from AS8PR08MB8111.eurprd08.prod.outlook.com
- ([fe80::29cb:67e5:c030:38a6]) by AS8PR08MB8111.eurprd08.prod.outlook.com
- ([fe80::29cb:67e5:c030:38a6%4]) with mapi id 15.20.5417.026; Fri, 15 Jul 2022
- 10:20:51 +0000
-Message-ID: <7e8856ac-40a1-6fec-042c-c2a01775beeb@arm.com>
-Date:   Fri, 15 Jul 2022 11:20:48 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/1] [RFC] drm/fourcc: Add new unsigned
- R16_UINT/RG1616_UINT formats
-Content-Language: en-US
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Simon Ser <contact@emersion.fr>,
-        Normunds Rieksts <Normunds.Rieksts@arm.com>, airlied@linux.ie,
-        tzimmermann@suse.de, Liviu Dudau <Liviu.Dudau@arm.com>,
-        linux-kernel@vger.kernel.org,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
-        david.harvey-macaulay@arm.com, Lisa Wu <lisa.wu@arm.com>,
-        nd <nd@arm.com>, sumit.semwal@linaro.org,
-        linux-media@vger.kernel.org
-References: <AS8PR08MB81117652E417826E741154B8F8B99@AS8PR08MB8111.eurprd08.prod.outlook.com>
- <20220627175026.6a5dd239@eldfell>
- <05513f59-0bd9-77cd-36d4-41027bc339be@arm.com>
- <o1qcCo8e19pmmNe-YJbPkmu4SBrOQ_E3u7eqdrcXUzdBccLtFswL_ARTpbrX9C10tippuy5ieXAsqdf7H47JuT7Hqa1NlizAPqVuRM0kRt4=@emersion.fr>
- <20220630104725.602bff9a@eldfell>
-From:   Dennis Tsiang <dennis.tsiang@arm.com>
-In-Reply-To: <20220630104725.602bff9a@eldfell>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P265CA0080.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2bd::10) To AS8PR08MB8111.eurprd08.prod.outlook.com
- (2603:10a6:20b:54d::22)
+        Fri, 15 Jul 2022 06:25:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7405482F8E;
+        Fri, 15 Jul 2022 03:25:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E1EA0621D5;
+        Fri, 15 Jul 2022 10:25:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEACBC34115;
+        Fri, 15 Jul 2022 10:25:35 +0000 (UTC)
+Message-ID: <0066ae29-5eff-983c-ff49-ca80dc714cd9@xs4all.nl>
+Date:   Fri, 15 Jul 2022 12:25:33 +0200
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: c0143923-08aa-4558-7a95-08da664bb6e4
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1876:EE_|DBAEUR03FT012:EE_|DB6PR0802MB2152:EE_
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: nCq+VuDDxefKa+/dz+xlk/VAVQulq+SGrTpxD1B2XLh9orcUzedpnCJixBe7G6NcM65o51akt9tJRvMzOzATDeBSS7IKa8JGjLeh0p/vGIFR10hqz+loNm++BnctUKuLyys/1qJlyGlEa7pIBnXLjg1AUlyhMKJuw6DYIkNfkOqHw1JQUvjkPgeepK0Z/8xYauVddyG4nhi8C4u2Ym/lo7oGN7Y0zqnIJNEhrpmZre8w0DxXjyoB8ggsdwHnPhF147XFCll2+hQiRd2iB+sDHtwsvXj8oFwR5BqPwNXcSdMevT7X1VmKjqoTYlCmUFPbmyI9aEUEy6L19KYx1R6+cEjZIelAEnE3xt8r7VrQ38ctphH1v6JFYTOStXJ95h5ZIuzmIsfWwP6iXvat08Gh09jzJa1cPNVdo8pRhDVyJl1ANtPHdGFIXfRBJaRpaDkkBulsNJT0r/8fzTUx3fkXY+/oHOWBv3/GAHAoV+xWNXXKVcFo8bQtoUcHQ09tr+dREDo162tWLvTTNQpNOn4m7UMlV4lb+jJD8vjMziBZv2kTXYnIdiuJSz7Mmg0unczzsr1zyAa9hm6B9CvYimSSxIuJZoJFR/1VgrJ3dVuxsS3/p1U9HE14aSR3D5aWgwmQAd4bPh2JobUGRMGzTUknMM1tXpSFYvvNY12e51yzedK7EeDHBAtUDXUt6s3DjyD5F/Q1VDcTfNPNoyve1QBFuQ314dmKPJOZJ/o3r+ql4GBQ6t8rdE1gIjjSCUPEcraj4qGBzC6ocXVWW/ZfQd8T+CI7VDCFOTsoai6hu7RS03fvf8afrDtbVqs7huQdVTkn7pUppvIv5sBI++LKNjCHCalvxQeo54qZ+wG1oIZfGIaI7WzGISVthuWNorCx9s8r
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB8111.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(376002)(39860400002)(366004)(396003)(7416002)(4326008)(8936002)(6506007)(44832011)(2906002)(5660300002)(8676002)(31696002)(86362001)(83380400001)(66476007)(38100700002)(6486002)(478600001)(36756003)(6916009)(316002)(66946007)(54906003)(26005)(66574015)(53546011)(41300700001)(66556008)(186003)(6666004)(31686004)(966005)(2616005)(6512007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1876
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: d1e1b94a-891f-4110-3631-08da664bb13c
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ttZIAjPFon6b+9zRmR3Y6LrSyBdvyf52ADbjOrbNknOF116GPv6/MQTB2LuAzc0q3GVkZ9uT0AmHxQ2Y/PJupiVN9kRbau2t8XTKvr3pekzb9l8mCW+yoRuvTo38eHuMRZP10wA8FPn2gKejkYGSBLD5R/EuTY4hMmGmynuq4ALDjCeAv/jUc63MCoFuOOOArkf8oKBcT7lo02LPN7Kk/cM3lK/JE9n7hMfmxGKBDsIUhP0zS2sTqr058SVwDggLSKBTk9ijNiQh5zBlmEGwPJ4y6f9nTCkS+K42ZrYKcVdpWlFF+LhG/LNrXJKBogqWuQHBbzVHYrIJ7hVaBmQQfbfKiATRJA4Omi24/N3Bmgzppx8QTJcse98AW14gFarVJ3GVUdPY6pUMAX5jp0XL8nsvn8Lyh8tDxw8kCY9FhfdFAV9a/DyVAjAvJi/WR7YsP9bSzGqBC6Do5rXKmRyGiUQcDgSxi9Zk60E8XoI9KhnAO+V9hsqb9lVtr/LF3aXmesanXIObB8FU+Tqj3D1JEMRXKJ6zySFubrXKGoLe/tP6CYzmWTDi5Fp/URPsM9b3q29h449/ksY85c155c0UukAlGwLxcl/6fLYQAgVS1P1L7zsOwLmjYCVAZM8btBdEydX29oeJUrfsLSVi6fEa4vXKq10irOXvbCWh0yqRKTbw+yFshmh+VfURR6WpxM9g6hafekWsZPMpw7WQrMAgcTe7ucs8X8Y3wu4yFISiiXhzojN4fsnufOtEcWu6QuBkTgRhJgMa84RKD8p3qN96ZTYnrB1UZZQswrw0ZNRZxIs2VoW1SLR+246Brn7FY5tm9EtqgUFvadXX9zLfEpEdhe2qzAi6x9D5Y3jINQhsfg/CLloJkIpWMMXW7if1RvDX
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(346002)(376002)(136003)(396003)(40470700004)(36840700001)(46966006)(186003)(6512007)(26005)(83380400001)(66574015)(2616005)(2906002)(41300700001)(40480700001)(31686004)(36756003)(82310400005)(53546011)(36860700001)(6506007)(6666004)(44832011)(82740400003)(54906003)(81166007)(356005)(5660300002)(6862004)(8936002)(478600001)(450100002)(47076005)(966005)(70206006)(70586007)(336012)(4326008)(8676002)(6486002)(31696002)(316002)(86362001)(40460700003)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2022 10:21:00.3353
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0143923-08aa-4558-7a95-08da664bb6e4
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0802MB2152
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FORGED_SPF_HELO,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,UNPARSEABLE_RELAY
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 5/6] media: dw100: Add i.MX8MP dw100 dewarper driver
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+Cc:     mchehab@kernel.org, stanimir.varbanov@linaro.org,
+        tomi.valkeinen@ideasonboard.com, robh+dt@kernel.org,
+        nicolas@ndufresne.ca, alexander.stein@ew.tq-group.com,
+        ezequiel@vanguardiasur.com.ar, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20220713211124.2677275-1-xavier.roumegue@oss.nxp.com>
+ <20220713211124.2677275-6-xavier.roumegue@oss.nxp.com>
+ <YtCNsx0gl8PkHoOu@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <YtCNsx0gl8PkHoOu@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/06/2022 08:47, Pekka Paalanen wrote:
-> On Wed, 29 Jun 2022 14:53:49 +0000
-> Simon Ser <contact@emersion.fr> wrote:
->
->> On Wednesday, June 29th, 2022 at 16:46, Dennis Tsiang <dennis.tsiang@arm=
-.com> wrote:
->>
->>> Thanks for your comments. This is not intended to be used for KMS, wher=
-e
->>> indeed there would be no difference. This proposal is for other Graphic=
-s
->>> APIs such as Vulkan, which requires the application to be explicit
->>> upfront about how they will interpret the data, whether that be UNORM,
->>> UINT .etc. We want to be able to import dma_bufs which create a VkImage
->>> with a "_UINT" VkFormat. However there is currently no explicit mapping
->>> between the DRM fourccs + modifiers combos to "_UINT" VkFormats. One
->>> solution is to encode that into the fourccs, which is what this RFC is
->>> proposing.
->>
->> As a general comment, I don't think it's reasonable to encode all of the
->> VkFormat information inside DRM FourCC. For instance, VkFormat has SRGB/=
-UNORM
->> variants which describe whether pixel values are electrical or optical
->> (IOW, EOTF-encoded or not). Moreover, other APIs may encode different
->> information in their format enums.
->
-> Yeah, do not add any of that information to the DRM pixel format codes.
->
-> There is *so much* other stuff you also need to define than what's
-> already mentioned, and which bits you need for the API at hand depends
-> totally on the API at hand. After the API has defined some parts of the
-> metadata, the API user has to take care of the remaining parts of the
-> metadata in other ways, like dynamic range or color space.
->
-> Besides, when you deal with dmabuf, you already need to pass a lot of
-> metadata explicitly, like the pixel format, width, height, stride,
-> modifier, etc. so it's better to add more of those (like we will be
-> doing in Wayland, and not specific to dmabuf even) than to try make
-> pixel formats a huge mess through combinatorial explosion and sometimes
-> partial and sometimes conflicting image metadata.
->
-> You might be able to get a glimpse of what all metadata there could be
-> by reading
-> https://gitlab.freedesktop.org/pq/color-and-hdr/-/blob/main/doc/pixels_co=
-lor.md
-> .
->
-> Compare Vulkan formats to e.g.
-> https://docs.microsoft.com/en-us/windows/win32/api/dxgicommon/ne-dxgicomm=
-on-dxgi_color_space_type
-> and you'll see that while DXGI color space enumeration is mostly about
-> other stuff, it also has overlap with Vulkan formats I think, at least
-> the SRGB vs. not part.
->
-> Btw. practically all buffers you see used, especially if they are 8
-> bpc, they are almost guaranteed to be "SRGB" non-linearly encoded, but
-> do you ever see that fact being explicitly communicated?
->
-> Then there is the question that if you have an SRGB-encoded buffer, do
-> you want to read out SRGB-encoded or linear values? That depends on
-> what you are doing with the buffer, so if you always mapped dmabuf to
-> Vulkan SRGB formats (or always to non-SRGB formats), then you need some
-> other way in Vulkan for the app to say whether to sample encoded or
-> linear (electrical or optical) values. And whether texture filtering is
-> done in encoded or linear space, because that makes a difference too.
->
-> IOW, there are cases where the format mapping depends on the user of the
-> buffer and not only on the contents of the buffer.
->
-> Therefore you simply cannot create a static mapping table between two
-> format definition systems when the two systems are fundamentally
-> different, like Vulkan and DRM fourcc.
->
->
-> Thanks,
-> pq
 
-Thanks all for your comments. We'll look into an alternative approach to
-achieve what we need.
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose, or store or copy the information in =
-any medium. Thank you.
+
+On 7/14/22 23:42, Laurent Pinchart wrote:
+> Hi Xavier,
+> 
+> Thank you for the patch.
+> 
+> You're nearly there :-)
+> 
+> On Wed, Jul 13, 2022 at 11:11:23PM +0200, Xavier Roumegue wrote:
+>> Add a V4L2 mem-to-mem driver for the Vivante DW100 Dewarp Processor IP
+>> core found on i.MX8MP SoC.
+>>
+>> The processor core applies a programmable geometrical transformation on
+>> input images to correct distorsion introduced by lenses.
+>> The transformation function is exposed as a grid map with 16x16 pixel
+>> macroblocks indexed using X, Y vertex coordinates.
+>>
+>> The dewarping map can be set from application through a dedicated v4l2
+>> control. If not set or invalid, the driver computes an identity map
+>> prior to starting the processing engine.
+>>
+>> The driver supports scaling, cropping and pixel format conversion.
+>>
+>> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+>> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+<snip>
+
+>> +static int dw100_try_fmt(struct v4l2_format *f)
+>> +{
+>> +	struct v4l2_pix_format_mplane *pix = &f->fmt.pix_mp;
+>> +	const struct dw100_fmt *fmt;
+>> +
+>> +	fmt = dw100_find_format(f);
+>> +	if (!fmt) {
+>> +		f->fmt.pix_mp.pixelformat = formats[0].fourcc;
+>> +		fmt = dw100_find_format(f);
+> 
+> 		fmt = &formats[0];
+> 		pix->pixelformat = fmt->fourcc;
+> 
+>> +	}
+>> +
+>> +	v4l2_apply_frmsize_constraints(&pix->width, &pix->height,
+>> +				       &dw100_frmsize_stepwise);
+>> +
+>> +	v4l2_fill_pixfmt_mp(pix, fmt->fourcc, pix->width, pix->height);
+>> +
+>> +	pix->field = V4L2_FIELD_NONE;
+>> +
+>> +	if (pix->colorspace == V4L2_COLORSPACE_DEFAULT)
+>> +		pix->colorspace = V4L2_COLORSPACE_REC709;
+>> +	if (pix->xfer_func == V4L2_XFER_FUNC_DEFAULT)
+>> +		pix->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(pix->colorspace);
+>> +	if (pix->ycbcr_enc == V4L2_YCBCR_ENC_DEFAULT)
+>> +		pix->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(pix->colorspace);
+>> +	if (pix->quantization == V4L2_QUANTIZATION_DEFAULT)
+>> +		pix->quantization =
+>> +			V4L2_MAP_QUANTIZATION_DEFAULT(false, pix->colorspace,
+>> +						      pix->ycbcr_enc);
+> 
+> There's a little problem here. When this function is called for the
+> capture video node, it will happilly accept any colorspace, while the
+> DW100 can't do colorspace conversion (as far as I understand).
+> 
+> I'm actually not entirely sure how try_fmt is supposed to behave on M2M
+> devices, if it is meant to be constrained, when operating on the capture
+> node, by the current format on the output node. Hans may know. If that's
+> the correct behaviour, I would here write
+
+Yes, it is constrained by the output format. So in this case try_fmt would
+copy the output format colorimetry fields, since the HW doesn't do colorspace
+conversion.
+
+> 
+> 	if (fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+> 		if (pix->colorspace == V4L2_COLORSPACE_DEFAULT)
+> 			pix->colorspace = V4L2_COLORSPACE_REC709;
+> 		if (pix->xfer_func == V4L2_XFER_FUNC_DEFAULT)
+> 			pix->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(pix->colorspace);
+> 		if (pix->ycbcr_enc == V4L2_YCBCR_ENC_DEFAULT)
+> 			pix->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(pix->colorspace);
+> 		if (pix->quantization == V4L2_QUANTIZATION_DEFAULT)
+> 			pix->quantization =
+> 				V4L2_MAP_QUANTIZATION_DEFAULT(false, pix->colorspace,
+> 							      pix->ycbcr_enc);
+> 	} else {
+> 		/*
+> 		 * The DW100 can't perform colorspace conversion, the colorspace
+> 		 * on the capture queue must be identical to the output queue.
+> 		 */
+> 		const struct dw100_q_data *q_data =
+> 			dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+> 
+> 		pix->colorspace = q_data->pix_fmt.colorspace;
+> 		pix->xfer_func = q_data->pix_fmt.xfer_func;
+> 		pix->ycbcr_enc = q_data->pix_fmt.ycbcr_enc;
+> 		pix->quantization = q_data->pix_fmt.quantization;
+> 	}
+> 
+> (There should really be a helper for the first branch of the if, and
+> actually something for the second branch too)
+> 
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int dw100_s_fmt(struct dw100_ctx *ctx, struct v4l2_format *f)
+>> +{
+>> +	struct dw100_q_data *q_data;
+>> +	struct vb2_queue *vq;
+>> +
+>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+>> +	if (!vq)
+>> +		return -EINVAL;
+>> +
+>> +	q_data = dw100_get_q_data(ctx, f->type);
+>> +	if (!q_data)
+>> +		return -EINVAL;
+>> +
+>> +	if (vb2_is_busy(vq)) {
+>> +		dev_dbg(&ctx->dw_dev->pdev->dev, "%s queue busy\n", __func__);
+>> +		return -EBUSY;
+>> +	}
+>> +
+>> +	q_data->fmt = dw100_find_format(f);
+>> +	q_data->pix_fmt = f->fmt.pix_mp;
+>> +	q_data->crop.top = 0;
+>> +	q_data->crop.left = 0;
+>> +	q_data->crop.width = f->fmt.pix_mp.width;
+>> +	q_data->crop.height = f->fmt.pix_mp.height;
+>> +
+>> +	/* Propagate buffers encoding */
+>> +
+>> +	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+>> +		struct dw100_q_data *dst_q_data =
+>> +			dw100_get_q_data(ctx,
+>> +					 V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+>> +
+>> +		dst_q_data->pix_fmt.colorspace = q_data->pix_fmt.colorspace;
+>> +		dst_q_data->pix_fmt.ycbcr_enc = q_data->pix_fmt.ycbcr_enc;
+>> +		dst_q_data->pix_fmt.quantization = q_data->pix_fmt.quantization;
+>> +		dst_q_data->pix_fmt.xfer_func = q_data->pix_fmt.xfer_func;
+> 
+> Similar to the question above, should a M2M device propagate the full
+> format from output to capture ? Hans ?
+
+Not the full format, but enough to keep the current capture format
+valid for the new output format.
+
+V4L2 does not specify exactly what should happen, other than that
+the state of the formats (output and capture) must be valid for the
+hardware. It is up to the driver to decide whether to copy the
+output format to the capture format, or just update the fields
+required to keep things consistent (the colorimetry fields in this case).
+
+In general the preference is to make the minimum amount of changes
+to keep things valid, and I think that makes sense as well for this
+driver.
+
+Regards,
+
+	Hans
+
+> 
+>> +	}
+>> +
+>> +	dev_dbg(&ctx->dw_dev->pdev->dev,
+>> +		"Setting format for type %u, wxh: %ux%u, fmt: %u\n",
+> 
+> %p4cc for the pixel format
+> 
+>> +		f->type, q_data->pix_fmt.width, q_data->pix_fmt.height,
+>> +		q_data->pix_fmt.pixelformat);
+> 
+> And this needs to become
+> 
+> 		&q_data->pix_fmt.pixelformat);
+> 
+> There's at least one other location where this could be done too.
+> 
+>> +
+>> +	if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+>> +		int ret;
+>> +		u32 dims[V4L2_CTRL_MAX_DIMS] = {};
+>> +		struct v4l2_ctrl *ctrl = ctx->ctrls[DW100_CTRL_DEWARPING_MAP];
+>> +
+>> +		dims[0] =
+>> +			dw100_get_n_vertices_from_length(q_data->pix_fmt.width);
+>> +		dims[1] =
+>> +			dw100_get_n_vertices_from_length(q_data->pix_fmt.height);
+> 
+> This is one of the cases where I think it's totally fine to go over the
+> 80 columns limit to 82 :-)
+> 
+> I trust that the next version will address all these comments correctly,
+> so
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+>> +
+>> +		v4l2_ctrl_lock(ctrl);
+>> +		ctx->user_map_is_valid = false;
+>> +		ret = __v4l2_ctrl_modify_dimensions(ctrl, dims);
+>> +		v4l2_ctrl_unlock(ctrl);
+>> +
+>> +		if (ret) {
+>> +			dev_err(&ctx->dw_dev->pdev->dev,
+>> +				"Modifying LUT dimensions failed with error %d\n",
+>> +				ret);
+>> +			return ret;
+>> +		}
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int dw100_try_fmt_vid_cap(struct file *file, void *priv,
+>> +				 struct v4l2_format *f)
+>> +{
+>> +	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+>> +		return -EINVAL;
+>> +
+>> +	return dw100_try_fmt(f);
+>> +}
+>> +
+>> +static int dw100_s_fmt_vid_cap(struct file *file, void *priv,
+>> +			       struct v4l2_format *f)
+>> +{
+>> +	struct dw100_ctx *ctx = dw100_file2ctx(file);
+>> +	int ret;
+>> +
+>> +	ret = dw100_try_fmt_vid_cap(file, priv, f);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = dw100_s_fmt(ctx, f);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int dw100_try_fmt_vid_out(struct file *file, void *priv,
+>> +				 struct v4l2_format *f)
+>> +{
+>> +	if (f->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+>> +		return -EINVAL;
+>> +
+>> +	return dw100_try_fmt(f);
+>> +}
+>> +
+>> +static int dw100_s_fmt_vid_out(struct file *file, void *priv,
+>> +			       struct v4l2_format *f)
+>> +{
+>> +	struct dw100_ctx *ctx = dw100_file2ctx(file);
+>> +	int ret;
+>> +
+>> +	ret = dw100_try_fmt_vid_out(file, priv, f);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = dw100_s_fmt(ctx, f);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int dw100_g_selection(struct file *file, void *fh,
+>> +			     struct v4l2_selection *sel)
+>> +{
+>> +	struct dw100_ctx *ctx = dw100_file2ctx(file);
+>> +	struct dw100_q_data *src_q_data;
+>> +
+>> +	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+>> +		return -EINVAL;
+>> +
+>> +	src_q_data = dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+>> +
+>> +	switch (sel->target) {
+>> +	case V4L2_SEL_TGT_CROP_DEFAULT:
+>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+>> +		sel->r.top = 0;
+>> +		sel->r.left = 0;
+>> +		sel->r.width = src_q_data->pix_fmt.width;
+>> +		sel->r.height = src_q_data->pix_fmt.height;
+>> +		break;
+>> +	case V4L2_SEL_TGT_CROP:
+>> +		sel->r.top = src_q_data->crop.top;
+>> +		sel->r.left = src_q_data->crop.left;
+>> +		sel->r.width = src_q_data->crop.width;
+>> +		sel->r.height = src_q_data->crop.height;
+>> +		break;
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int dw100_s_selection(struct file *file, void *fh,
+>> +			     struct v4l2_selection *sel)
+>> +{
+>> +	struct dw100_ctx *ctx = dw100_file2ctx(file);
+>> +	struct dw100_q_data *src_q_data;
+>> +	u32 qscalex, qscaley, qscale;
+>> +	int x, y, w, h;
+>> +	unsigned int wframe, hframe;
+>> +
+>> +	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+>> +		return -EINVAL;
+>> +
+>> +	src_q_data = dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+>> +
+>> +	dev_dbg(&ctx->dw_dev->pdev->dev,
+>> +		">>> Buffer Type: %u Target: %u Rect: %ux%u@%d.%d\n",
+>> +		sel->type, sel->target,
+>> +		sel->r.width, sel->r.height, sel->r.left, sel->r.top);
+>> +
+>> +	switch (sel->target) {
+>> +	case V4L2_SEL_TGT_CROP:
+>> +		wframe = src_q_data->pix_fmt.width;
+>> +		hframe = src_q_data->pix_fmt.height;
+>> +
+>> +		sel->r.top = clamp_t(int, sel->r.top, 0, hframe - DW100_MIN_H);
+>> +		sel->r.left = clamp_t(int, sel->r.left, 0, wframe - DW100_MIN_W);
+>> +		sel->r.height =
+>> +			clamp(sel->r.height, DW100_MIN_H, hframe - sel->r.top);
+>> +		sel->r.width =
+>> +			clamp(sel->r.width, DW100_MIN_W, wframe - sel->r.left);
+>> +
+>> +		/* UQ16.16 for float operations */
+>> +		qscalex = (sel->r.width << 16) / wframe;
+>> +		qscaley = (sel->r.height << 16) / hframe;
+>> +		y = sel->r.top;
+>> +		x = sel->r.left;
+>> +		if (qscalex == qscaley) {
+>> +			qscale = qscalex;
+>> +		} else {
+>> +			switch (sel->flags) {
+>> +			case 0:
+>> +				qscale = (qscalex + qscaley) / 2;
+>> +				break;
+>> +			case V4L2_SEL_FLAG_GE:
+>> +				qscale = max(qscaley, qscalex);
+>> +				break;
+>> +			case V4L2_SEL_FLAG_LE:
+>> +				qscale = min(qscaley, qscalex);
+>> +				break;
+>> +			case V4L2_SEL_FLAG_LE | V4L2_SEL_FLAG_GE:
+>> +				return -ERANGE;
+>> +			default:
+>> +				return -EINVAL;
+>> +			}
+>> +		}
+>> +
+>> +		w = (u32)((((u64)wframe << 16) * qscale) >> 32);
+>> +		h = (u32)((((u64)hframe << 16) * qscale) >> 32);
+>> +		x = x + (sel->r.width  - w) / 2;
+>> +		y = y + (sel->r.height  - h) / 2;
+>> +		x = min(wframe - w, (unsigned int)max(0, x));
+>> +		y = min(hframe - h, (unsigned int)max(0, y));
+>> +
+>> +		sel->r.top = y;
+>> +		sel->r.left = x;
+>> +		sel->r.width = w;
+>> +		sel->r.height = h;
+>> +
+>> +		src_q_data->crop.top = sel->r.top;
+>> +		src_q_data->crop.left = sel->r.left;
+>> +		src_q_data->crop.width = sel->r.width;
+>> +		src_q_data->crop.height = sel->r.height;
+>> +		break;
+>> +
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	dev_dbg(&ctx->dw_dev->pdev->dev,
+>> +		"<<< Buffer Type: %u Target: %u Rect: %ux%u@%d.%d\n",
+>> +		sel->type, sel->target,
+>> +		sel->r.width, sel->r.height, sel->r.left, sel->r.top);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct v4l2_ioctl_ops dw100_ioctl_ops = {
+>> +	.vidioc_querycap		= dw100_querycap,
+>> +
+>> +	.vidioc_enum_fmt_vid_cap	= dw100_enum_fmt_vid,
+>> +	.vidioc_enum_framesizes		= dw100_enum_framesizes,
+>> +	.vidioc_g_fmt_vid_cap_mplane	= dw100_g_fmt_vid,
+>> +	.vidioc_try_fmt_vid_cap_mplane	= dw100_try_fmt_vid_cap,
+>> +	.vidioc_s_fmt_vid_cap_mplane	= dw100_s_fmt_vid_cap,
+>> +
+>> +	.vidioc_enum_fmt_vid_out	= dw100_enum_fmt_vid,
+>> +	.vidioc_g_fmt_vid_out_mplane	= dw100_g_fmt_vid,
+>> +	.vidioc_try_fmt_vid_out_mplane	= dw100_try_fmt_vid_out,
+>> +	.vidioc_s_fmt_vid_out_mplane	= dw100_s_fmt_vid_out,
+>> +
+>> +	.vidioc_g_selection		= dw100_g_selection,
+>> +	.vidioc_s_selection		= dw100_s_selection,
+>> +	.vidioc_reqbufs			= v4l2_m2m_ioctl_reqbufs,
+>> +	.vidioc_querybuf		= v4l2_m2m_ioctl_querybuf,
+>> +	.vidioc_qbuf			= v4l2_m2m_ioctl_qbuf,
+>> +	.vidioc_dqbuf			= v4l2_m2m_ioctl_dqbuf,
+>> +	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
+>> +	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
+>> +	.vidioc_expbuf			= v4l2_m2m_ioctl_expbuf,
+>> +
+>> +	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
+>> +	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
+>> +
+>> +	.vidioc_subscribe_event		= v4l2_ctrl_subscribe_event,
+>> +	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
+>> +};
+>> +
+>> +static void dw100_job_finish(struct dw100_device *dw_dev, bool with_error)
+>> +{
+>> +	struct dw100_ctx *curr_ctx;
+>> +	struct vb2_v4l2_buffer *src_vb, *dst_vb;
+>> +	enum vb2_buffer_state buf_state;
+>> +
+>> +	curr_ctx = v4l2_m2m_get_curr_priv(dw_dev->m2m_dev);
+>> +
+>> +	if (!curr_ctx) {
+>> +		dev_err(&dw_dev->pdev->dev,
+>> +			"Instance released before the end of transaction\n");
+>> +		return;
+>> +	}
+>> +
+>> +	src_vb = v4l2_m2m_src_buf_remove(curr_ctx->fh.m2m_ctx);
+>> +	dst_vb = v4l2_m2m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
+>> +
+>> +	if (likely(!with_error))
+>> +		buf_state = VB2_BUF_STATE_DONE;
+>> +	else
+>> +		buf_state = VB2_BUF_STATE_ERROR;
+>> +
+>> +	v4l2_m2m_buf_done(src_vb, buf_state);
+>> +	v4l2_m2m_buf_done(dst_vb, buf_state);
+>> +
+>> +	dev_dbg(&dw_dev->pdev->dev, "Finishing transaction with%s error(s)\n",
+>> +		with_error ? "" : "out");
+>> +
+>> +	v4l2_m2m_job_finish(dw_dev->m2m_dev, curr_ctx->fh.m2m_ctx);
+>> +}
+>> +
+>> +static void dw100_hw_reset(struct dw100_device *dw_dev)
+>> +{
+>> +	u32 val;
+>> +
+>> +	val = dw100_read(dw_dev, DW100_DEWARP_CTRL);
+>> +	val |= DW100_DEWARP_CTRL_ENABLE;
+>> +	val |= DW100_DEWARP_CTRL_SOFT_RESET;
+>> +	dw100_write(dw_dev, DW100_DEWARP_CTRL, val);
+>> +	val &= ~DW100_DEWARP_CTRL_SOFT_RESET;
+>> +	dw100_write(dw_dev, DW100_DEWARP_CTRL, val);
+>> +}
+>> +
+>> +static void _dw100_hw_set_master_bus_enable(struct dw100_device *dw_dev,
+>> +					    unsigned int enable)
+>> +{
+>> +	u32 val;
+>> +
+>> +	dev_dbg(&dw_dev->pdev->dev, "%sable master bus\n",
+>> +		enable ? "En" : "Dis");
+>> +
+>> +	val = dw100_read(dw_dev, DW100_BUS_CTRL);
+>> +
+>> +	if (enable)
+>> +		val |= DW100_BUS_CTRL_AXI_MASTER_ENABLE;
+>> +	else
+>> +		val &= ~DW100_BUS_CTRL_AXI_MASTER_ENABLE;
+>> +
+>> +	dw100_write(dw_dev, DW100_BUS_CTRL, val);
+>> +}
+>> +
+>> +static void dw100_hw_master_bus_enable(struct dw100_device *dw_dev)
+>> +{
+>> +	_dw100_hw_set_master_bus_enable(dw_dev, 1);
+>> +}
+>> +
+>> +static void dw100_hw_master_bus_disable(struct dw100_device *dw_dev)
+>> +{
+>> +	_dw100_hw_set_master_bus_enable(dw_dev, 0);
+>> +}
+>> +
+>> +static void dw100_hw_dewarp_start(struct dw100_device *dw_dev)
+>> +{
+>> +	u32 val;
+>> +
+>> +	val = dw100_read(dw_dev, DW100_DEWARP_CTRL);
+>> +
+>> +	dev_dbg(&dw_dev->pdev->dev, "Starting Hardware CTRL:0x%08x\n", val);
+>> +	dw100_write(dw_dev, DW100_DEWARP_CTRL, val | DW100_DEWARP_CTRL_START);
+>> +	dw100_write(dw_dev, DW100_DEWARP_CTRL, val);
+>> +}
+>> +
+>> +static void dw100_hw_init_ctrl(struct dw100_device *dw_dev)
+>> +{
+>> +	u32 val;
+>> +	/*
+>> +	 * Input format YUV422_SP
+>> +	 * Output format YUV422_SP
+>> +	 * No hardware handshake (SW)
+>> +	 * No automatic double src buffering (Single)
+>> +	 * No automatic double dst buffering (Single)
+>> +	 * No Black Line
+>> +	 * Prefetch image pixel traversal
+>> +	 */
+>> +
+>> +	val = DW100_DEWARP_CTRL_ENABLE
+>> +	    /* Valid only for auto prefetch mode*/
+>> +	    | DW100_DEWARP_CTRL_PREFETCH_THRESHOLD(32);
+>> +
+>> +	/*
+>> +	 * Calculation mode required to support any scaling factor,
+>> +	 * but x4 slower than traversal mode.
+>> +	 *
+>> +	 * DW100_DEWARP_CTRL_PREFETCH_MODE_TRAVERSAL
+>> +	 * DW100_DEWARP_CTRL_PREFETCH_MODE_CALCULATION
+>> +	 * DW100_DEWARP_CTRL_PREFETCH_MODE_AUTO
+>> +	 *
+>> +	 * TODO: Find heuristics requiring calculation mode
+>> +	 */
+>> +	val |= DW100_DEWARP_CTRL_PREFETCH_MODE_CALCULATION;
+>> +
+>> +	dw100_write(dw_dev, DW100_DEWARP_CTRL, val);
+>> +}
+>> +
+>> +static void dw100_hw_set_pixel_boundary(struct dw100_device *dw_dev)
+>> +{
+>> +	u32 val;
+>> +
+>> +	val = DW100_BOUNDARY_PIXEL_V(128)
+>> +		| DW100_BOUNDARY_PIXEL_U(128)
+>> +		| DW100_BOUNDARY_PIXEL_Y(0);
+>> +
+>> +	dw100_write(dw_dev, DW100_BOUNDARY_PIXEL, val);
+>> +}
+>> +
+>> +static void dw100_hw_set_scale(struct dw100_device *dw_dev, u8 scale)
+>> +{
+>> +	dev_dbg(&dw_dev->pdev->dev, "Setting scale factor to %u\n", scale);
+>> +
+>> +	dw100_write(dw_dev, DW100_SCALE_FACTOR, scale);
+>> +}
+>> +
+>> +static void dw100_hw_set_roi(struct dw100_device *dw_dev, u32 x, u32 y)
+>> +{
+>> +	u32 val;
+>> +
+>> +	dev_dbg(&dw_dev->pdev->dev, "Setting ROI region to %u.%u\n", x, y);
+>> +
+>> +	val = DW100_ROI_START_X(x) | DW100_ROI_START_Y(y);
+>> +
+>> +	dw100_write(dw_dev, DW100_ROI_START, val);
+>> +}
+>> +
+>> +static void dw100_hw_set_src_crop(struct dw100_device *dw_dev,
+>> +				  const struct dw100_q_data *src_q_data,
+>> +				  const struct dw100_q_data *dst_q_data)
+>> +{
+>> +	const struct v4l2_rect *rect = &src_q_data->crop;
+>> +	u32 src_scale, qscale, left_scale, top_scale;
+>> +
+>> +	/* HW Scale is UQ1.7 encoded */
+>> +	src_scale = (rect->width << 7) / src_q_data->pix_fmt.width;
+>> +	dw100_hw_set_scale(dw_dev, src_scale);
+>> +
+>> +	qscale = (dst_q_data->pix_fmt.width << 7)  / src_q_data->pix_fmt.width;
+>> +
+>> +	left_scale = ((rect->left << 7) * qscale) >> 14;
+>> +	top_scale = ((rect->top << 7) * qscale) >> 14;
+>> +
+>> +	dw100_hw_set_roi(dw_dev, left_scale, top_scale);
+>> +}
+>> +
+>> +static void dw100_hw_set_source(struct dw100_device *dw_dev,
+>> +				const struct dw100_q_data *q_data,
+>> +				struct vb2_buffer *buffer)
+>> +{
+>> +	u32 width, height, stride, fourcc, val;
+>> +	const struct dw100_fmt *fmt = q_data->fmt;
+>> +	dma_addr_t addr_y = vb2_dma_contig_plane_dma_addr(buffer, 0);
+>> +	dma_addr_t addr_uv;
+>> +
+>> +	width =  q_data->pix_fmt.width;
+>> +	height = q_data->pix_fmt.height;
+>> +	stride = q_data->pix_fmt.plane_fmt[0].bytesperline;
+>> +	fourcc = q_data->fmt->fourcc;
+>> +
+>> +	if (q_data->pix_fmt.num_planes == 2)
+>> +		addr_uv = vb2_dma_contig_plane_dma_addr(buffer, 1);
+>> +	else
+>> +		addr_uv = addr_y + (stride * height);
+>> +
+>> +	dev_dbg(&dw_dev->pdev->dev,
+>> +		"Set HW source registers for %ux%u - stride %u, pixfmt: %x, dma:%pad\n",
+>> +		width, height, stride, fourcc, &addr_y);
+>> +
+>> +	/* Pixel Format */
+>> +	val = dw100_read(dw_dev, DW100_DEWARP_CTRL);
+>> +
+>> +	val &= ~DW100_DEWARP_CTRL_INPUT_FORMAT_MASK;
+>> +	val |= DW100_DEWARP_CTRL_INPUT_FORMAT(fmt->reg_format);
+>> +
+>> +	dw100_write(dw_dev, DW100_DEWARP_CTRL, val);
+>> +
+>> +	/* Swap */
+>> +	val = dw100_read(dw_dev, DW100_SWAP_CONTROL);
+>> +
+>> +	val &= ~DW100_SWAP_CONTROL_SRC_MASK;
+>> +	/*
+>> +	 * Data swapping is performed only on Y plane for source image.
+>> +	 */
+>> +	if (fmt->reg_swap_uv &&
+>> +	    fmt->reg_format == DW100_DEWARP_CTRL_FORMAT_YUV422_PACKED)
+>> +		val |= DW100_SWAP_CONTROL_SRC(DW100_SWAP_CONTROL_Y
+>> +					      (DW100_SWAP_CONTROL_BYTE));
+>> +
+>> +	dw100_write(dw_dev, DW100_SWAP_CONTROL, val);
+>> +
+>> +	/* Image resolution */
+>> +	dw100_write(dw_dev, DW100_SRC_IMG_SIZE,
+>> +		    DW100_IMG_SIZE_WIDTH(width) | DW100_IMG_SIZE_HEIGHT(height));
+>> +
+>> +	dw100_write(dw_dev,  DW100_SRC_IMG_STRIDE, stride);
+>> +
+>> +	/* Buffers */
+>> +	dw100_write(dw_dev, DW100_SRC_IMG_Y_BASE, DW100_IMG_Y_BASE(addr_y));
+>> +	dw100_write(dw_dev, DW100_SRC_IMG_UV_BASE, DW100_IMG_UV_BASE(addr_uv));
+>> +}
+>> +
+>> +static void dw100_hw_set_destination(struct dw100_device *dw_dev,
+>> +				     const struct dw100_q_data *q_data,
+>> +				     const struct dw100_fmt *ifmt,
+>> +				     struct vb2_buffer *buffer)
+>> +{
+>> +	u32 width, height, stride, fourcc, val, size_y, size_uv;
+>> +	const struct dw100_fmt *fmt = q_data->fmt;
+>> +	dma_addr_t addr_y, addr_uv;
+>> +
+>> +	width =  q_data->pix_fmt.width;
+>> +	height = q_data->pix_fmt.height;
+>> +	stride = q_data->pix_fmt.plane_fmt[0].bytesperline;
+>> +	fourcc = fmt->fourcc;
+>> +
+>> +	addr_y = vb2_dma_contig_plane_dma_addr(buffer, 0);
+>> +	size_y = q_data->pix_fmt.plane_fmt[0].sizeimage;
+>> +
+>> +	if (q_data->pix_fmt.num_planes == 2) {
+>> +		addr_uv = vb2_dma_contig_plane_dma_addr(buffer, 1);
+>> +		size_uv = q_data->pix_fmt.plane_fmt[1].sizeimage;
+>> +	} else {
+>> +		addr_uv = addr_y + ALIGN(stride * height, 16);
+>> +		size_uv = size_y;
+>> +		if (fmt->reg_format == DW100_DEWARP_CTRL_FORMAT_YUV420_SP)
+>> +			size_uv /= 2;
+>> +	}
+>> +
+>> +	dev_dbg(&dw_dev->pdev->dev,
+>> +		"Set HW source registers for %ux%u - stride %u, pixfmt: %x, dma:%pad\n",
+>> +		width, height, stride, fourcc, &addr_y);
+>> +
+>> +	/* Pixel Format */
+>> +	val = dw100_read(dw_dev, DW100_DEWARP_CTRL);
+>> +
+>> +	val &= ~DW100_DEWARP_CTRL_OUTPUT_FORMAT_MASK;
+>> +	val |= DW100_DEWARP_CTRL_OUTPUT_FORMAT(fmt->reg_format);
+>> +
+>> +	dw100_write(dw_dev, DW100_DEWARP_CTRL, val);
+>> +
+>> +	/* Swap */
+>> +	val = dw100_read(dw_dev, DW100_SWAP_CONTROL);
+>> +
+>> +	val &= ~DW100_SWAP_CONTROL_DST_MASK;
+>> +
+>> +	/*
+>> +	 * Avoid to swap twice
+>> +	 */
+>> +	if (fmt->reg_swap_uv ^
+>> +	    (ifmt->reg_swap_uv && ifmt->reg_format !=
+>> +	     DW100_DEWARP_CTRL_FORMAT_YUV422_PACKED)) {
+>> +		if (fmt->reg_format == DW100_DEWARP_CTRL_FORMAT_YUV422_PACKED)
+>> +			val |= DW100_SWAP_CONTROL_DST(DW100_SWAP_CONTROL_Y
+>> +						      (DW100_SWAP_CONTROL_BYTE));
+>> +		else
+>> +			val |= DW100_SWAP_CONTROL_DST(DW100_SWAP_CONTROL_UV
+>> +						      (DW100_SWAP_CONTROL_BYTE));
+>> +	}
+>> +
+>> +	dw100_write(dw_dev, DW100_SWAP_CONTROL, val);
+>> +
+>> +	/* Image resolution */
+>> +	dw100_write(dw_dev, DW100_DST_IMG_SIZE,
+>> +		    DW100_IMG_SIZE_WIDTH(width) | DW100_IMG_SIZE_HEIGHT(height));
+>> +	dw100_write(dw_dev, DW100_DST_IMG_STRIDE, stride);
+>> +	dw100_write(dw_dev, DW100_DST_IMG_Y_BASE, DW100_IMG_Y_BASE(addr_y));
+>> +	dw100_write(dw_dev, DW100_DST_IMG_UV_BASE, DW100_IMG_UV_BASE(addr_uv));
+>> +	dw100_write(dw_dev, DW100_DST_IMG_Y_SIZE1, DW100_DST_IMG_Y_SIZE(size_y));
+>> +	dw100_write(dw_dev, DW100_DST_IMG_UV_SIZE1,
+>> +		    DW100_DST_IMG_UV_SIZE(size_uv));
+>> +}
+>> +
+>> +static void dw100_hw_set_mapping(struct dw100_device *dw_dev, dma_addr_t addr,
+>> +				 u32 width, u32 height)
+>> +{
+>> +	dev_dbg(&dw_dev->pdev->dev,
+>> +		"Set HW mapping registers for %ux%u addr:%pad",
+>> +		width, height, &addr);
+>> +
+>> +	dw100_write(dw_dev, DW100_MAP_LUT_ADDR, DW100_MAP_LUT_ADDR_ADDR(addr));
+>> +	dw100_write(dw_dev, DW100_MAP_LUT_SIZE, DW100_MAP_LUT_SIZE_WIDTH(width)
+>> +		    | DW100_MAP_LUT_SIZE_HEIGHT(height));
+>> +}
+>> +
+>> +static void dw100_hw_clear_irq(struct dw100_device *dw_dev, unsigned int irq)
+>> +{
+>> +	dw100_write(dw_dev, DW100_INTERRUPT_STATUS,
+>> +		    DW100_INTERRUPT_STATUS_INT_CLEAR(irq));
+>> +}
+>> +
+>> +static void dw100_hw_enable_irq(struct dw100_device *dw_dev)
+>> +{
+>> +	dw100_write(dw_dev, DW100_INTERRUPT_STATUS,
+>> +		    DW100_INTERRUPT_STATUS_INT_ENABLE_MASK);
+>> +}
+>> +
+>> +static void dw100_hw_disable_irq(struct dw100_device *dw_dev)
+>> +{
+>> +	dw100_write(dw_dev, DW100_INTERRUPT_STATUS, 0);
+>> +}
+>> +
+>> +static u32 dw_hw_get_pending_irqs(struct dw100_device *dw_dev)
+>> +{
+>> +	u32 val;
+>> +
+>> +	val = dw100_read(dw_dev, DW100_INTERRUPT_STATUS);
+>> +
+>> +	return DW100_INTERRUPT_STATUS_INT_STATUS(val);
+>> +}
+>> +
+>> +static irqreturn_t dw100_irq_handler(int irq, void *dev_id)
+>> +{
+>> +	struct dw100_device *dw_dev = dev_id;
+>> +	u32 pending_irqs, err_irqs, frame_done_irq;
+>> +	bool with_error = true;
+>> +
+>> +	pending_irqs = dw_hw_get_pending_irqs(dw_dev);
+>> +	frame_done_irq = pending_irqs & DW100_INTERRUPT_STATUS_INT_FRAME_DONE;
+>> +	err_irqs = DW100_INTERRUPT_STATUS_INT_ERR_STATUS(pending_irqs);
+>> +
+>> +	if (frame_done_irq) {
+>> +		dev_dbg(&dw_dev->pdev->dev, "Frame done interrupt\n");
+>> +		with_error = false;
+>> +		err_irqs &= ~DW100_INTERRUPT_STATUS_INT_ERR_STATUS
+>> +			(DW100_INTERRUPT_STATUS_INT_ERR_FRAME_DONE);
+>> +	}
+>> +
+>> +	if (err_irqs)
+>> +		dev_err(&dw_dev->pdev->dev, "Interrupt error: %#x\n", err_irqs);
+>> +
+>> +	dw100_hw_disable_irq(dw_dev);
+>> +	dw100_hw_master_bus_disable(dw_dev);
+>> +	dw100_hw_clear_irq(dw_dev, pending_irqs |
+>> +			   DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT);
+>> +
+>> +	dw100_job_finish(dw_dev, with_error);
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+>> +static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
+>> +			struct vb2_v4l2_buffer *out_vb)
+>> +{
+>> +	struct dw100_device *dw_dev = ctx->dw_dev;
+>> +
+>> +	out_vb->sequence =
+>> +		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)->sequence++;
+>> +	in_vb->sequence =
+>> +		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)->sequence++;
+>> +
+>> +	dev_dbg(&ctx->dw_dev->pdev->dev,
+>> +		"Starting queues %p->%p, sequence %u->%u\n",
+>> +		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+>> +				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE),
+>> +		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+>> +				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
+>> +		in_vb->sequence, out_vb->sequence);
+>> +
+>> +	v4l2_m2m_buf_copy_metadata(in_vb, out_vb, true);
+>> +
+>> +	/* Now, let's deal with hardware ... */
+>> +	dw100_hw_master_bus_disable(dw_dev);
+>> +	dw100_hw_init_ctrl(dw_dev);
+>> +	dw100_hw_set_pixel_boundary(dw_dev);
+>> +	dw100_hw_set_src_crop(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
+>> +			      &ctx->q_data[DW100_QUEUE_DST]);
+>> +	dw100_hw_set_source(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
+>> +			    &in_vb->vb2_buf);
+>> +	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
+>> +				 ctx->q_data[DW100_QUEUE_SRC].fmt,
+>> +				 &out_vb->vb2_buf);
+>> +	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
+>> +			     ctx->map_width, ctx->map_height);
+>> +	dw100_hw_enable_irq(dw_dev);
+>> +	dw100_hw_dewarp_start(dw_dev);
+>> +
+>> +	/* Enable Bus */
+>> +	dw100_hw_master_bus_enable(dw_dev);
+>> +}
+>> +
+>> +static void dw100_device_run(void *priv)
+>> +{
+>> +	struct dw100_ctx *ctx = priv;
+>> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+>> +
+>> +	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+>> +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+>> +
+>> +	dw100_start(ctx, src_buf, dst_buf);
+>> +}
+>> +
+>> +static const struct v4l2_m2m_ops dw100_m2m_ops = {
+>> +	.device_run	= dw100_device_run,
+>> +};
+>> +
+>> +static struct video_device *dw100_init_video_device(struct dw100_device *dw_dev)
+>> +{
+>> +	struct video_device *vfd = &dw_dev->vfd;
+>> +
+>> +	vfd->vfl_dir = VFL_DIR_M2M;
+>> +	vfd->fops = &dw100_fops;
+>> +	vfd->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+>> +	vfd->ioctl_ops = &dw100_ioctl_ops;
+>> +	vfd->minor = -1;
+>> +	vfd->release = video_device_release_empty;
+>> +	vfd->v4l2_dev = &dw_dev->v4l2_dev;
+>> +	vfd->lock = &dw_dev->vfd_mutex;
+>> +
+>> +	strscpy(vfd->name, DRV_NAME, sizeof(vfd->name));
+>> +	mutex_init(vfd->lock);
+>> +	video_set_drvdata(vfd, dw_dev);
+>> +
+>> +	return vfd;
+>> +}
+>> +
+>> +static int dw100_dump_regs_show(struct seq_file *m, void *private)
+>> +{
+>> +	struct dw100_device *dw_dev = m->private;
+>> +	int ret;
+>> +
+>> +	ret = pm_runtime_resume_and_get(&dw_dev->pdev->dev);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	ret = dw100_dump_regs(m);
+>> +
+>> +	pm_runtime_put_sync(&dw_dev->pdev->dev);
+>> +
+>> +	return ret;
+>> +}
+>> +DEFINE_SHOW_ATTRIBUTE(dw100_dump_regs);
+>> +
+>> +static void dw100_debugfs_init(struct dw100_device *dw_dev)
+>> +{
+>> +	dw_dev->debugfs_root =
+>> +		debugfs_create_dir(dev_name(&dw_dev->pdev->dev), NULL);
+>> +
+>> +	debugfs_create_file("dump_regs", 0600, dw_dev->debugfs_root, dw_dev,
+>> +			    &dw100_dump_regs_fops);
+>> +}
+>> +
+>> +static void dw100_debugfs_exit(struct dw100_device *dw_dev)
+>> +{
+>> +	debugfs_remove_recursive(dw_dev->debugfs_root);
+>> +}
+>> +
+>> +static int dw100_probe(struct platform_device *pdev)
+>> +{
+>> +	struct dw100_device *dw_dev;
+>> +	struct video_device *vfd;
+>> +	struct resource *res;
+>> +	int ret, irq;
+>> +
+>> +	dw_dev = devm_kzalloc(&pdev->dev, sizeof(*dw_dev), GFP_KERNEL);
+>> +	if (!dw_dev)
+>> +		return -ENOMEM;
+>> +	dw_dev->pdev = pdev;
+>> +
+>> +	ret = devm_clk_bulk_get_all(&pdev->dev, &dw_dev->clks);
+>> +	if (ret < 0) {
+>> +		dev_err(&pdev->dev, "Unable to get clocks: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +	dw_dev->num_clks = ret;
+>> +
+>> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>> +	dw_dev->mmio = devm_ioremap_resource(&pdev->dev, res);
+>> +	if (IS_ERR(dw_dev->mmio))
+>> +		return PTR_ERR(dw_dev->mmio);
+>> +
+>> +	irq = platform_get_irq(pdev, 0);
+>> +	if (irq < 0)
+>> +		return irq;
+>> +
+>> +	platform_set_drvdata(pdev, dw_dev);
+>> +
+>> +	pm_runtime_enable(&pdev->dev);
+>> +	ret = pm_runtime_resume_and_get(&pdev->dev);
+>> +	if (ret < 0) {
+>> +		dev_err(&pdev->dev, "Unable to resume the device: %d\n", ret);
+>> +		goto err_pm;
+>> +	}
+>> +
+>> +	pm_runtime_put_sync(&pdev->dev);
+>> +
+>> +	ret = devm_request_irq(&pdev->dev, irq, dw100_irq_handler, IRQF_ONESHOT,
+>> +			       dev_name(&pdev->dev), dw_dev);
+>> +	if (ret < 0) {
+>> +		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	ret = v4l2_device_register(&pdev->dev, &dw_dev->v4l2_dev);
+>> +	if (ret)
+>> +		goto err_pm;
+>> +
+>> +	vfd = dw100_init_video_device(dw_dev);
+>> +
+>> +	dw_dev->m2m_dev = v4l2_m2m_init(&dw100_m2m_ops);
+>> +	if (IS_ERR(dw_dev->m2m_dev)) {
+>> +		dev_err(&pdev->dev, "Failed to init mem2mem device\n");
+>> +		ret = PTR_ERR(dw_dev->m2m_dev);
+>> +		goto err_v4l2;
+>> +	}
+>> +
+>> +	dw_dev->mdev.dev = &pdev->dev;
+>> +	strscpy(dw_dev->mdev.model, "dw100", sizeof(dw_dev->mdev.model));
+>> +	media_device_init(&dw_dev->mdev);
+>> +	dw_dev->v4l2_dev.mdev = &dw_dev->mdev;
+>> +
+>> +	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
+>> +	if (ret) {
+>> +		dev_err(&pdev->dev, "Failed to register video device\n");
+>> +		goto err_m2m;
+>> +	}
+>> +
+>> +	ret = v4l2_m2m_register_media_controller(dw_dev->m2m_dev, vfd,
+>> +						 MEDIA_ENT_F_PROC_VIDEO_SCALER);
+>> +	if (ret) {
+>> +		dev_err(&pdev->dev, "Failed to init mem2mem media controller\n");
+>> +		goto error_v4l2;
+>> +	}
+>> +
+>> +	ret = media_device_register(&dw_dev->mdev);
+>> +	if (ret) {
+>> +		dev_err(&pdev->dev, "Failed to register mem2mem media device\n");
+>> +		goto error_m2m_mc;
+>> +	}
+>> +
+>> +	dw100_debugfs_init(dw_dev);
+>> +
+>> +	dev_info(&pdev->dev,
+>> +		 "dw100 v4l2 m2m registered as /dev/video%u\n", vfd->num);
+>> +
+>> +	return 0;
+>> +
+>> +error_m2m_mc:
+>> +	v4l2_m2m_unregister_media_controller(dw_dev->m2m_dev);
+>> +error_v4l2:
+>> +	video_unregister_device(vfd);
+>> +err_m2m:
+>> +	v4l2_m2m_release(dw_dev->m2m_dev);
+>> +err_v4l2:
+>> +	v4l2_device_unregister(&dw_dev->v4l2_dev);
+>> +err_pm:
+>> +	pm_runtime_disable(&pdev->dev);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int dw100_remove(struct platform_device *pdev)
+>> +{
+>> +	struct dw100_device *dw_dev = platform_get_drvdata(pdev);
+>> +
+>> +	dw100_debugfs_exit(dw_dev);
+>> +
+>> +	pm_runtime_disable(&pdev->dev);
+>> +
+>> +	media_device_unregister(&dw_dev->mdev);
+>> +	v4l2_m2m_unregister_media_controller(dw_dev->m2m_dev);
+>> +	media_device_cleanup(&dw_dev->mdev);
+>> +
+>> +	video_unregister_device(&dw_dev->vfd);
+>> +	mutex_destroy(dw_dev->vfd.lock);
+>> +	v4l2_m2m_release(dw_dev->m2m_dev);
+>> +	v4l2_device_unregister(&dw_dev->v4l2_dev);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int __maybe_unused dw100_runtime_suspend(struct device *dev)
+>> +{
+>> +	struct dw100_device *dw_dev = dev_get_drvdata(dev);
+>> +
+>> +	clk_bulk_disable_unprepare(dw_dev->num_clks, dw_dev->clks);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int __maybe_unused dw100_runtime_resume(struct device *dev)
+>> +{
+>> +	int ret;
+>> +	struct dw100_device *dw_dev = dev_get_drvdata(dev);
+>> +
+>> +	ret = clk_bulk_prepare_enable(dw_dev->num_clks, dw_dev->clks);
+>> +
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	dw100_hw_reset(dw_dev);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct dev_pm_ops dw100_pm = {
+>> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+>> +				pm_runtime_force_resume)
+>> +	SET_RUNTIME_PM_OPS(dw100_runtime_suspend,
+>> +			   dw100_runtime_resume, NULL)
+>> +};
+>> +
+>> +static const struct of_device_id dw100_dt_ids[] = {
+>> +	{ .compatible = "nxp,imx8mp-dw100", .data = NULL },
+>> +	{ },
+>> +};
+>> +MODULE_DEVICE_TABLE(of, dw100_dt_ids);
+>> +
+>> +static struct platform_driver dw100_driver = {
+>> +	.probe		= dw100_probe,
+>> +	.remove		= dw100_remove,
+>> +	.driver		= {
+>> +		.name	= DRV_NAME,
+>> +		.pm = &dw100_pm,
+>> +		.of_match_table = dw100_dt_ids,
+>> +	},
+>> +};
+>> +
+>> +module_platform_driver(dw100_driver);
+>> +
+>> +MODULE_DESCRIPTION("DW100 Hardware dewarper");
+>> +MODULE_AUTHOR("Xavier Roumegue <Xavier.Roumegue@oss.nxp.com>");
+>> +MODULE_LICENSE("GPL");
+>> diff --git a/drivers/media/platform/nxp/dw100/dw100_regs.h b/drivers/media/platform/nxp/dw100/dw100_regs.h
+>> new file mode 100644
+>> index 000000000000..e85dfeff9056
+>> --- /dev/null
+>> +++ b/drivers/media/platform/nxp/dw100/dw100_regs.h
+>> @@ -0,0 +1,117 @@
+>> +/* SPDX-License-Identifier: GPL-2.0+ */
+>> +/*
+>> + * DW100 Hardware dewarper
+>> + *
+>> + * Copyright 2022 NXP
+>> + * Author: Xavier Roumegue (xavier.roumegue@oss.nxp.com)
+>> + */
+>> +
+>> +#ifndef _DW100_REGS_H_
+>> +#define _DW100_REGS_H_
+>> +
+>> +/* AHB register offset */
+>> +#define DW100_DEWARP_ID			0x00
+>> +#define DW100_DEWARP_CTRL		0x04
+>> +#define DW100_DEWARP_CTRL_ENABLE			BIT(0)
+>> +#define DW100_DEWARP_CTRL_START				BIT(1)
+>> +#define DW100_DEWARP_CTRL_SOFT_RESET			BIT(2)
+>> +#define DW100_DEWARP_CTRL_FORMAT_YUV422_SP		0UL
+>> +#define DW100_DEWARP_CTRL_FORMAT_YUV422_PACKED		1UL
+>> +#define DW100_DEWARP_CTRL_FORMAT_YUV420_SP		2UL
+>> +#define DW100_DEWARP_CTRL_INPUT_FORMAT_MASK		GENMASK(5, 4)
+>> +#define DW100_DEWARP_CTRL_INPUT_FORMAT(x)		((x) << 4)
+>> +#define DW100_DEWARP_CTRL_OUTPUT_FORMAT(x)		((x) << 6)
+>> +#define DW100_DEWARP_CTRL_OUTPUT_FORMAT_MASK		GENMASK(7, 6)
+>> +#define DW100_DEWARP_CTRL_SRC_AUTO_SHADOW		BIT(8)
+>> +#define DW100_DEWARP_CTRL_HW_HANDSHAKE			BIT(9)
+>> +#define DW100_DEWARP_CTRL_DST_AUTO_SHADOW		BIT(10)
+>> +#define DW100_DEWARP_CTRL_SPLIT_LINE			BIT(11)
+>> +#define DW100_DEWARP_CTRL_PREFETCH_MODE_MASK		GENMASK(17, 16)
+>> +#define DW100_DEWARP_CTRL_PREFETCH_MODE_TRAVERSAL	(0UL << 16)
+>> +#define DW100_DEWARP_CTRL_PREFETCH_MODE_CALCULATION	(1UL << 16)
+>> +#define DW100_DEWARP_CTRL_PREFETCH_MODE_AUTO		(2UL << 16)
+>> +#define DW100_DEWARP_CTRL_PREFETCH_THRESHOLD_MASK	GENMASK(24, 18)
+>> +#define DW100_DEWARP_CTRL_PREFETCH_THRESHOLD(x)		((x) << 18)
+>> +
+>> +#define DW100_MAP_LUT_ADDR		0x08
+>> +#define DW100_MAP_LUT_ADDR_ADDR(addr)	(((addr) >> 4) & GENMASK(29, 0))
+>> +#define DW100_MAP_LUT_SIZE		0x0c
+>> +#define DW100_MAP_LUT_SIZE_WIDTH(w)	(((w) & GENMASK(10, 0)) << 0)
+>> +#define DW100_MAP_LUT_SIZE_HEIGHT(h)	(((h) & GENMASK(10, 0)) << 16)
+>> +#define DW100_SRC_IMG_Y_BASE		0x10
+>> +#define DW100_IMG_Y_BASE(base)		(((base) >> 4) & GENMASK(29, 0))
+>> +#define DW100_SRC_IMG_UV_BASE		0x14
+>> +#define DW100_IMG_UV_BASE(base)		(((base) >> 4) & GENMASK(29, 0))
+>> +#define DW100_SRC_IMG_SIZE		0x18
+>> +#define DW100_IMG_SIZE_WIDTH(w)		(((w) & GENMASK(12, 0)) << 0)
+>> +#define DW100_IMG_SIZE_HEIGHT(h)	(((h) & GENMASK(12, 0)) << 16)
+>> +
+>> +#define DW100_SRC_IMG_STRIDE		0x1c
+>> +#define DW100_MAP_LUT_ADDR2		0x20
+>> +#define DW100_MAP_LUT_SIZE2		0x24
+>> +#define DW100_SRC_IMG_Y_BASE2		0x28
+>> +#define DW100_SRC_IMG_UV_BASE2		0x2c
+>> +#define DW100_SRC_IMG_SIZE2		0x30
+>> +#define DW100_SRC_IMG_STRIDE2		0x34
+>> +#define DW100_DST_IMG_Y_BASE		0x38
+>> +#define DW100_DST_IMG_UV_BASE		0x3c
+>> +#define DW100_DST_IMG_SIZE		0x40
+>> +#define DW100_DST_IMG_STRIDE		0x44
+>> +#define DW100_DST_IMG_Y_BASE2		0x48
+>> +#define DW100_DST_IMG_UV_BASE2		0x4c
+>> +#define DW100_DST_IMG_SIZE2		0x50
+>> +#define DW100_DST_IMG_STRIDE2		0x54
+>> +#define DW100_SWAP_CONTROL		0x58
+>> +#define DW100_SWAP_CONTROL_BYTE		BIT(0)
+>> +#define DW100_SWAP_CONTROL_SHORT	BIT(1)
+>> +#define DW100_SWAP_CONTROL_WORD		BIT(2)
+>> +#define DW100_SWAP_CONTROL_LONG		BIT(3)
+>> +#define DW100_SWAP_CONTROL_Y(x)		(((x) & GENMASK(3, 0)) << 0)
+>> +#define DW100_SWAP_CONTROL_UV(x)	(((x) & GENMASK(3, 0)) << 4)
+>> +#define DW100_SWAP_CONTROL_SRC(x)	(((x) & GENMASK(7, 0)) << 0)
+>> +#define DW100_SWAP_CONTROL_DST(x)	(((x) & GENMASK(7, 0)) << 8)
+>> +#define DW100_SWAP_CONTROL_SRC2(x)	(((x) & GENMASK(7, 0)) << 16)
+>> +#define DW100_SWAP_CONTROL_DST2(x)	(((x) & GENMASK(7, 0)) << 24)
+>> +#define DW100_SWAP_CONTROL_SRC_MASK	GENMASK(7, 0)
+>> +#define DW100_SWAP_CONTROL_DST_MASK	GENMASK(15, 8)
+>> +#define DW100_SWAP_CONTROL_SRC2_MASK	GENMASK(23, 16)
+>> +#define DW100_SWAP_CONTROL_DST2_MASK	GENMASK(31, 24)
+>> +#define DW100_VERTICAL_SPLIT_LINE	0x5c
+>> +#define DW100_HORIZON_SPLIT_LINE	0x60
+>> +#define DW100_SCALE_FACTOR		0x64
+>> +#define DW100_ROI_START			0x68
+>> +#define DW100_ROI_START_X(x)		(((x) & GENMASK(12, 0)) << 0)
+>> +#define DW100_ROI_START_Y(y)		(((y) & GENMASK(12, 0)) << 16)
+>> +#define DW100_BOUNDARY_PIXEL		0x6c
+>> +#define DW100_BOUNDARY_PIXEL_V(v)	(((v) & GENMASK(7, 0)) << 0)
+>> +#define DW100_BOUNDARY_PIXEL_U(u)	(((u) & GENMASK(7, 0)) << 8)
+>> +#define DW100_BOUNDARY_PIXEL_Y(y)	(((y) & GENMASK(7, 0)) << 16)
+>> +
+>> +#define DW100_INTERRUPT_STATUS		0x70
+>> +#define DW100_INTERRUPT_STATUS_INT_FRAME_DONE		BIT(0)
+>> +#define DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT		BIT(1)
+>> +#define DW100_INTERRUPT_STATUS_INT_ERR_AXI_RESP		BIT(2)
+>> +#define DW100_INTERRUPT_STATUS_INT_ERR_X		BIT(3)
+>> +#define DW100_INTERRUPT_STATUS_INT_ERR_MB_FETCH		BIT(4)
+>> +#define DW100_INTERRUPT_STATUS_INT_ERR_FRAME2		BIT(5)
+>> +#define DW100_INTERRUPT_STATUS_INT_ERR_FRAME3		BIT(6)
+>> +#define DW100_INTERRUPT_STATUS_INT_ERR_FRAME_DONE	BIT(7)
+>> +#define DW100_INTERRUPT_STATUS_INT_ERR_STATUS(x)	(((x) >> 1) & 0x7f)
+>> +#define DW100_INTERRUPT_STATUS_INT_STATUS(x)		((x) & 0xff)
+>> +
+>> +#define DW100_INTERRUPT_STATUS_INT_ENABLE_MASK		GENMASK(15, 8)
+>> +#define DW100_INTERRUPT_STATUS_INT_ENABLE(x)		(((x) & GENMASK(7, 0)) << 8)
+>> +#define DW100_INTERRUPT_STATUS_FRAME_BUSY		BIT(16)
+>> +#define DW100_INTERRUPT_STATUS_INT_CLEAR(x)		(((x) & GENMASK(7, 0)) << 24)
+>> +#define DW100_BUS_CTRL			0x74
+>> +#define DW100_BUS_CTRL_AXI_MASTER_ENABLE	BIT(31)
+>> +#define DW100_BUS_CTRL1			0x78
+>> +#define DW100_BUS_TIME_OUT_CYCLE	0x7c
+>> +#define DW100_DST_IMG_Y_SIZE1		0x80
+>> +#define DW100_DST_IMG_Y_SIZE(sz)	(((sz) >> 4) & GENMASK(29, 0))
+>> +#define DW100_DST_IMG_UV_SIZE(sz)	(((sz) >> 4) & GENMASK(29, 0))
+>> +#define DW100_DST_IMG_UV_SIZE1		0x84
+>> +#define DW100_DST_IMG_Y_SIZE2		0x88
+>> +#define DW100_DST_IMG_UV_SIZE2		0x8c
+>> +
+>> +#endif /* _DW100_REGS_H_ */
+> 
