@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2DC957667B
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 19:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92EDF57667D
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jul 2022 20:00:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbiGOR7t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jul 2022 13:59:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33132 "EHLO
+        id S229629AbiGOSAS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jul 2022 14:00:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiGOR7s (ORCPT
+        with ESMTP id S229450AbiGOSAQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jul 2022 13:59:48 -0400
+        Fri, 15 Jul 2022 14:00:16 -0400
 Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FCAE42AD0
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 10:59:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0550342AD0
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 11:00:15 -0700 (PDT)
 Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1oCPbO-00CHEO-Jn; Fri, 15 Jul 2022 17:59:46 +0000
+        id 1oCPbq-00CHFG-HR; Fri, 15 Jul 2022 18:00:14 +0000
 Received: from ip6-localhost ([::1] helo=localhost.localdomain)
         by slave0 with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1oCPbM-00Aeqj-BK; Fri, 15 Jul 2022 17:59:44 +0000
+        id 1oCPbo-00AhNK-4M; Fri, 15 Jul 2022 18:00:12 +0000
 From:   Jenkins <jenkins@linuxtv.org>
 To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
 Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.20] Miscellaneous uvcvideo improvements and fixes (#84898)
-Date:   Fri, 15 Jul 2022 17:59:44 +0000
-Message-Id: <20220715175944.2540259-1-jenkins@linuxtv.org>
+Subject: Re: [GIT PULL FOR v5.20] v3: hantro/cedrus/vb2 updates (#84899)
+Date:   Fri, 15 Jul 2022 18:00:12 +0000
+Message-Id: <20220715180012.2549968-1-jenkins@linuxtv.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YtGA3W+wwzQIE74a@pendragon.ideasonboard.com>
+In-Reply-To: <7b7eb926-9600-0116-b983-bc18613e7674@xs4all.nl>
 References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -46,10 +46,10 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: builder@linuxtv.org
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YtGA3W+wwzQIE74a@pendragon.ideasonboard.com/
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/7b7eb926-9600-0116-b983-bc18613e7674@xs4all.nl/
 Build log: https://builder.linuxtv.org/job/patchwork/225090/
 Build time: 00:00:00
-Link: https://lore.kernel.org/linux-media/YtGA3W+wwzQIE74a@pendragon.ideasonboard.com
+Link: https://lore.kernel.org/linux-media/7b7eb926-9600-0116-b983-bc18613e7674@xs4all.nl
 
 Build aborted due to a fatal error:
-FAILED: can't fetch patches from b228cf38f0b72d797fab60386da7ee935e033aac to 13fadd1df43b955d176d9039de8f6fbbf9be529c
+FAILED: probably the tree doesn't exist
