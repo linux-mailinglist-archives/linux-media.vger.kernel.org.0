@@ -2,136 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99E18576CC3
-	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 11:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB184576CDE
+	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 11:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231627AbiGPJ2y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Jul 2022 05:28:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50960 "EHLO
+        id S232221AbiGPJe1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Jul 2022 05:34:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231883AbiGPJ2x (ORCPT
+        with ESMTP id S231927AbiGPJe0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Jul 2022 05:28:53 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4974E013;
-        Sat, 16 Jul 2022 02:28:49 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id C6B68202B9;
-        Sat, 16 Jul 2022 12:28:46 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1657963726;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=p05g2JQKkBK9/C2od8mJWwhH6CARhop8sa56RkQcfW8=;
-        b=xJzqQ59ggOobD05ybTWofxUjSPteY0XaFMBRL0WZ3NdAUtFkG5xZmt/UH0cY2lV60qj1Lw
-        C25fGruCEEmehrsy70VPDVc+LbXxLFfBsjEtSChqp033zLAo4VIIOyLw4wY5JV0waoxCm3
-        1V0jdG6O4Y8P+ViYu4SIoszp0tqCkxo=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1D7E1634D5E;
-        Sat, 16 Jul 2022 12:28:46 +0300 (EEST)
-Date:   Sat, 16 Jul 2022 12:28:45 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
+        Sat, 16 Jul 2022 05:34:26 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8C4EFA;
+        Sat, 16 Jul 2022 02:34:19 -0700 (PDT)
+X-UUID: 7c3d04953ac4499f80cfcfc984a6bbb7-20220716
+X-CID-UNFAMILIAR: 1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8,REQID:3d1e8b93-3694-41e6-a6da-1ac5f70148d7,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,A
+        CTION:release,TS:95
+X-CID-INFO: VERSION:1.1.8,REQID:3d1e8b93-3694-41e6-a6da-1ac5f70148d7,OB:0,LOB:
+        0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,A
+        CTION:quarantine,TS:95
+X-CID-META: VersionHash:0f94e32,CLOUDID:83d5a6d7-5d6d-4eaf-a635-828a3ee48b7c,C
+        OID:68c961e9a692,Recheck:0,SF:28|16|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 7c3d04953ac4499f80cfcfc984a6bbb7-20220716
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1846794100; Sat, 16 Jul 2022 17:34:13 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Sat, 16 Jul 2022 17:34:11 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Sat, 16 Jul 2022 17:34:10 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v3 2/6] dt-bindings: Use new video interface bus type
- macros in examples
-Message-ID: <YtKEzS6j0/45E7tP@valkosipuli.retiisi.eu>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-3-laurent.pinchart@ideasonboard.com>
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        <angelogioacchino.delregno@collabora.com>,
+        <nicolas.dufresne@collabora.com>, <wenst@chromium.org>,
+        kyrie wu <kyrie.wu@mediatek.com>
+CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Tomasz Figa <tfiga@chromium.org>, <xia.jiang@mediatek.com>,
+        <maoguang.meng@mediatek.com>, <srv_heupstream@mediatek.com>
+Subject: [V5,0/8] Support multi-hardware jpeg decoder for MT8195
+Date:   Sat, 16 Jul 2022 17:34:00 +0800
+Message-ID: <20220716093408.29734-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220615221410.27459-3-laurent.pinchart@ideasonboard.com>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1657963726;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=p05g2JQKkBK9/C2od8mJWwhH6CARhop8sa56RkQcfW8=;
-        b=HE2Vvi2HOVel765S3EHbm8gjv26CEl6v6LhtN1LqPoojWFtL3khNN7hIwFscrDadz1NCTN
-        znTHxDtE+qgxfUOR09rfl7QPjOz1QcfLwwqHOLCmKfD1wYoKkt5hxo0lrk9TvjM4q4goZn
-        Qsr85Oc9WwuE4V2BRO9foSasb5JGEHk=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1657963726; a=rsa-sha256; cv=none;
-        b=EV15RjFtJPTEV21NGwQ8m+XyGp6cjFUKUutDeVdMfmai9HbdEuD/VZsshexAehlRDGsaHr
-        G+zxRDggpqZbfPCbNWt9wiovlGFI1jrApV6XXd836m5qwql0sYyeZkuX0KvxOLXeZX9uDI
-        FK6K7+A8yQsmL4i5rd/AarioYXJwSVM=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_PASS,T_SPF_HELO_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+From: kyrie wu <kyrie.wu@mediatek.com>
 
-On Thu, Jun 16, 2022 at 01:14:06AM +0300, Laurent Pinchart wrote:
-> Now that a header exists with macros for the media interface bus-type
-> values, replace hardcoding numerical constants with the corresponding
-> macros in the DT binding examples.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes since v2:
-> 
-> - Go back to PARALLEL
-> 
-> Changes since v1:
-> 
-> - Rename PARALLEL to BT601
-> ---
->  .../devicetree/bindings/display/bridge/analogix,anx7625.yaml  | 1 +
->  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml     | 3 ++-
->  Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml  | 3 ++-
->  .../devicetree/bindings/media/marvell,mmp2-ccic.yaml          | 3 ++-
->  Documentation/devicetree/bindings/media/microchip,xisc.yaml   | 3 ++-
->  Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml    | 4 +++-
->  6 files changed, 12 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> index 35a48515836e..b0e5585f93e2 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> @@ -118,6 +118,7 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
->  
->      i2c0 {
->          #address-cells = <1>;
+This series adds support for multi hardware jpeg decoding,
+by first adding use of_platform_populate to manage each hardware
+information: interrupt, clock, register bases and power.
+Secondly add decoding work queue to deal with the decoding requests
+of multi-hardware at the same time. Lastly, add output picture
+reorder function interface to eliminate the out of order images.
 
-The definition doesn't seem to be used here. Is there a need to include
-this?
+This series has been tested with both MT8195.
+Decoding worked for this chip.
 
-I could drop this chunk while applying. There's just one trivial change
-elsewhere in this patch to make.
+Patch 1 Adds jpeg decoder dt-bindings for mt8195
+
+Patches 2 jpeg decoder builds three module for using Multi-HW,
+export some functions to make them visible by other modules.
+
+Patch 3 use of_platform_populate to manage multi-hardware.
+
+Patch 4 add jpeg decoding timeout function to judge hardware timeout.
+
+Patch 5 add decoding work queue to deal with multi-hardware decoding
+at the same time.
+
+Patch 6 add output picture reorder function to order images.
+
+Patch 7 refactor jpegdec func interface for HW working.
+
+Patch 8 add stop cmd function to deal with EOS operation.
+
+---
+This series patches dependent on:
+media_stage tree:
+[1]
+https://git.linuxtv.org/media_stage.git/commit/?id=b3627647f9ea7473d10fb08a95fd7c4133a17ca4
+
+patch1 new jpegdec dt-bindings included files
+[2] MM IOMMU binding:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
+
+[3] MT8195 power domain:
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=580579
+
+Changes compared with v4:
+- some modifications for patch v4's review comments.
+- fix Gstreamer test errors.
+
+Changes compared with v3:
+- some modifications for patch v3's review comments.
+
+Changes compared with v2:
+- add stop cmd function.
+- some modifications for patch v1's review comments.
+
+Changes compared with v1:
+- new yaml file for mt8195 jpeg decoder.
+- some modifications for patch v1's review comments.
+
+kyrie wu (8):
+  dt-bindings: mediatek: Add mediatek,mt8195-jpgdec compatible
+  media: mtk-jpegdec: export jpeg decoder functions
+  media: mtk-jpegdec: manage jpegdec multi-hardware
+  media: mtk-jpegdec: add jpegdec timeout func interface
+  media: mtk-jpegdec: add jpeg decode worker interface
+  media: mtk-jpegdec: add output pic reorder interface
+  media: mtk-jpegdec: refactor jpegdec func interface
+  mtk-jpegdec: add stop cmd interface for jpgdec
+
+ .../media/mediatek,mt8195-jpegdec.yaml        | 160 +++++++++
+ drivers/media/platform/mediatek/jpeg/Makefile |   5 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 232 ++++++++++++-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  46 +++
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 317 ++++++++++++++++--
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |   3 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |   1 +
+ 7 files changed, 732 insertions(+), 32 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
 
 -- 
-Kind regards,
+2.18.0
 
-Sakari Ailus
