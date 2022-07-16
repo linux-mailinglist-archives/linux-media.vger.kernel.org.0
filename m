@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B83C576DA1
-	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 13:48:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A62E576DA3
+	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 13:50:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbiGPLsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Jul 2022 07:48:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40818 "EHLO
+        id S230501AbiGPLuZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Jul 2022 07:50:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiGPLsV (ORCPT
+        with ESMTP id S230474AbiGPLuY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Jul 2022 07:48:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A501DA66
-        for <linux-media@vger.kernel.org>; Sat, 16 Jul 2022 04:48:20 -0700 (PDT)
+        Sat, 16 Jul 2022 07:50:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99BF721E1F
+        for <linux-media@vger.kernel.org>; Sat, 16 Jul 2022 04:50:23 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 876106E0;
-        Sat, 16 Jul 2022 13:48:17 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 497046E0;
+        Sat, 16 Jul 2022 13:50:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1657972097;
-        bh=mZ5rcksLVqIrAYnKdzzfgI+bFe9rNt9SPFqUM6Q2ypo=;
+        s=mail; t=1657972221;
+        bh=+FKgBte36O9JHEFQ7+RIN7qE3/ujeQfKosbgaVQ73Ow=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K0/cSjBWMGWOaDlkzDO6m0+Sn8BgJo/ws+AiSwZfLtsrGvwPU3O4BuCFtv7G3fPLx
-         +IxIbt9aQR9xZ9s8plvB5xEvN/VQ1lu2+dOu50E38xCqVaw4OLwHgIkzDGc6stk4AF
-         rBEXyhos69BgYa0RinBHqlz+mgES1dQUs9AMU9ZQ=
-Date:   Sat, 16 Jul 2022 14:47:45 +0300
+        b=eP9VxPw4efMZ8BnUZKRXvw6N6uHhlMDsFo4OanGoaeUTn7wQj1t/ivflhrb5YZgjc
+         ZhD40/+2EORFts02FFQE2hLqLcAUZ65VzAqBWJRRkvlol0OxXWKXpPbDWsXJgz9MYq
+         Rt33xjoozwZaMWBm8lNfSi7gMOlMrKGSk6DP4bQw=
+Date:   Sat, 16 Jul 2022 14:49:49 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Dafna Hirschfeld <dafna@fastmail.com>
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
@@ -33,14 +33,14 @@ Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         Florian Sylvestre <fsylvestre@baylibre.com>
 Subject: Re: [PATCH 2/3] media: rockchip: rkisp1: Mask invalid bits in DPCC
  parameters
-Message-ID: <YtKlYSxp5JP/nI6k@pendragon.ideasonboard.com>
+Message-ID: <YtKl3coiUuG8fISt@pendragon.ideasonboard.com>
 References: <20220616160456.21549-1-laurent.pinchart@ideasonboard.com>
  <20220616160456.21549-3-laurent.pinchart@ideasonboard.com>
- <20220716055648.unpih6bsy6cpj5ld@guri>
+ <20220716061247.dil4rt6zac2jzu6y@guri>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220716055648.unpih6bsy6cpj5ld@guri>
+In-Reply-To: <20220716061247.dil4rt6zac2jzu6y@guri>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -50,9 +50,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
-
-On Sat, Jul 16, 2022 at 08:56:48AM +0300, Dafna Hirschfeld wrote:
+On Sat, Jul 16, 2022 at 09:12:47AM +0300, Dafna Hirschfeld wrote:
 > On 16.06.2022 19:04, Laurent Pinchart wrote:
 > > Restrict the DPCC configuration that can be set by userspace to valid
 > > register bits. To do so, reorganize the related register macros to
@@ -77,6 +75,15 @@ On Sat, Jul 16, 2022 at 08:56:48AM +0300, Dafna Hirschfeld wrote:
 > > +	 * The enable bit is controlled in rkisp1_isp_isr_other_config() and
 > > +	 * must be preserved. The grayscale mode should be configured
 > > +	 * automatically based on the media bus code on the ISP sink pad, so
+> 
+> I see you add RKISP1_CIF_ISP_DPCC_MODE_GRAYSCALE_MODE in this patch.
+> Shouldn't you add a patch that set/unset it according to the isp sink pad
+> as this doc says?
+
+I should, but the driver doesn't support (yet) greyscale sensors
+(MEDIA_BUS_FMT_Y8_1X8 and other bus widths are not mentioned anywhere),
+so I can't do that yet.
+
 > > +	 * only the STAGE1_ENABLE bit can be set by userspace.
 > > +	 */
 > >  	mode = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_DPCC_MODE);
@@ -178,25 +185,6 @@ On Sat, Jul 16, 2022 at 08:56:48AM +0300, Dafna Hirschfeld wrote:
 > > +#define RKISP1_CIF_ISP_DPCC_MODE_STAGE1_ENABLE		BIT(2)
 > > +#define RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_MASK		GENMASK(3, 0)
 > > +#define RKISP1_CIF_ISP_DPCC_SET_USE_MASK		GENMASK(3, 0)
-> 
-> Why are these two masks use GENMASK and other don't?
-
-Good question. Probably because the above two are new and I didn't think
-about changing the other ones.
-
-For RKISP1_CIF_ISP_DPCC_METHODS_SET_MASK, would you rather keep
-
-#define RKISP1_CIF_ISP_DPCC_METHODS_SET_MASK		0x00001f1f
-
-or have
-
-#define RKISP1_CIF_ISP_DPCC_METHODS_SET_MASK		(GENMASK(12 ,8) | GENMASK(4, 0))
-
-? I think the former is easier to read and match against datasheets, but
-I don't mind much either way.
-
-> Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
-> 
 > > +#define RKISP1_CIF_ISP_DPCC_METHODS_SET_MASK		0x00001f1f
 > > +#define RKISP1_CIF_ISP_DPCC_LINE_THRESH_MASK		0x0000ffff
 > > +#define RKISP1_CIF_ISP_DPCC_LINE_MAD_FAC_MASK		0x00003f3f
