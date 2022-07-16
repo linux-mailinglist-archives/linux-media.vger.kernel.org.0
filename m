@@ -2,95 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3153576BE4
-	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 06:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C8A3576BE6
+	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 06:50:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231448AbiGPEm6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Jul 2022 00:42:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59068 "EHLO
+        id S229587AbiGPEuB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Jul 2022 00:50:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiGPEmv (ORCPT
+        with ESMTP id S229548AbiGPEuA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Jul 2022 00:42:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9763C31937
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 21:42:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 659B460A56
-        for <linux-media@vger.kernel.org>; Sat, 16 Jul 2022 04:42:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72EECC34114
-        for <linux-media@vger.kernel.org>; Sat, 16 Jul 2022 04:42:47 +0000 (UTC)
-Date:   Sat, 16 Jul 2022 06:42:45 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20220716044247.72EECC34114@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 16 Jul 2022 00:50:00 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 857E818E3A
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 21:49:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657946999; x=1689482999;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZvL6Jbon2jlzMuzMit8uADNDkVBJrCyidLKSHcXXqGY=;
+  b=FqOXQk3CvBW9lhmYvSG7KhndutD6RKXqLxFCBR+hO4AZSOF288AzTqFl
+   HdjJtOaV+W0NmdyuVZR4xHXKHJoRKQ56yYhQnaXUcrg2e0mnFAIE7ZfU+
+   iCPFb0Ltd/Gs6YrehLYlEatqdClIvJXDRw/SyjETTf3a/Cx7g2AYBy8MS
+   slR0Sl8UcAUkQa0xKQRqAvXQoiAWY6T1tSrYT0ezs6jBlaM++ZNf7IrRV
+   Csc7X0AP3rDuWAy4c16pehSSyt3D/XxXKAYlVk3GN2js3ToXyPVPMYlEN
+   OlWejds/9QGvgzPQYzLuPfGKr4wlaJ5GMbVlnpy1yqcWIU1olrOpV/a65
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10409"; a="265735620"
+X-IronPort-AV: E=Sophos;i="5.92,275,1650956400"; 
+   d="scan'208";a="265735620"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2022 21:49:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,275,1650956400"; 
+   d="scan'208";a="654612741"
+Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 15 Jul 2022 21:49:58 -0700
+Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oCZkb-00019s-Kf;
+        Sat, 16 Jul 2022 04:49:57 +0000
+Date:   Sat, 16 Jul 2022 12:49:19 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [BUILD SUCCESS] LAST PATCH: [PATCH v5 2/2] drm/i915/gt: Serialize TLB invalidates with GT resets
+Message-ID: <62d2434f.vweEs5O2wsGxI/U7%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/Fix-TLB-invalidate-issues-with-Broadwell/20220712-232336
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
 
-Results of the daily build of media_tree:
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-date:			Sat Jul 16 05:00:08 CEST 2022
-media-tree git hash:	ca24fef0f2c857b0533f21f9a8a756f9e73d60fb
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	ae7f823bb2ea355bf2ea7039449ed2c71ec879be
-edid-decode git hash:	582c935652b0303b87ddad4551e6f97f8bb883ac
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8093-gc82b58a1-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d4d7757a52e4d94afde49d3080442d11dda83573
-host hardware:		x86_64
-host os:		5.18.0-2-amd64
+elapsed time: 4661m
 
-linux-git-sh: OK
-linux-git-arm-stm32: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: WARNINGS
-virtme: ERRORS: Final Summary: 3077, Succeeded: 3076, Failed: 1, Warnings: 0
-virtme-32: ERRORS: Final Summary: 3190, Succeeded: 3189, Failed: 1, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
+configs tested: 118
+configs skipped: 4
 
-Detailed results are available here:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
+gcc tested configs:
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+i386                          randconfig-c001
+sparc                             allnoconfig
+arm                           h3600_defconfig
+mips                         cobalt_defconfig
+sh                        sh7785lcr_defconfig
+arm                        clps711x_defconfig
+powerpc                      pcm030_defconfig
+m68k                          atari_defconfig
+arc                          axs103_defconfig
+powerpc                     pq2fads_defconfig
+arm                             ezx_defconfig
+sh                             sh03_defconfig
+m68k                        m5272c3_defconfig
+arc                                 defconfig
+arm                         at91_dt_defconfig
+powerpc                 mpc8540_ads_defconfig
+alpha                             allnoconfig
+arm                           viper_defconfig
+sh                        edosk7705_defconfig
+arc                              alldefconfig
+powerpc                  iss476-smp_defconfig
+mips                         bigsur_defconfig
+x86_64                                  kexec
+sparc                               defconfig
+xtensa                           allyesconfig
+csky                                defconfig
+sparc                            allyesconfig
+s390                                defconfig
+s390                             allmodconfig
+alpha                               defconfig
+s390                             allyesconfig
+nios2                            allyesconfig
+nios2                               defconfig
+parisc                              defconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20220715
+csky                              allnoconfig
+arc                               allnoconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+i386                                defconfig
+i386                             allyesconfig
+x86_64                        randconfig-a004
+x86_64                        randconfig-a006
+x86_64                        randconfig-a002
+i386                          randconfig-a003
+i386                          randconfig-a001
+i386                          randconfig-a005
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+x86_64                    rhel-8.3-kselftests
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
 
-Detailed regression test results are available here:
+clang tested configs:
+powerpc                      pmac32_defconfig
+arm                           spitz_defconfig
+powerpc                 mpc836x_rdk_defconfig
+arm                      pxa255-idp_defconfig
+mips                        workpad_defconfig
+powerpc                          g5_defconfig
+powerpc                    gamecube_defconfig
+s390                             alldefconfig
+powerpc                   lite5200b_defconfig
+powerpc                        fsp2_defconfig
+hexagon                             defconfig
+powerpc                    mvme5100_defconfig
+powerpc                      ppc44x_defconfig
+powerpc                   bluestone_defconfig
+powerpc                     ppa8548_defconfig
+powerpc                     mpc512x_defconfig
+mips                     cu1000-neo_defconfig
+arm                         orion5x_defconfig
+riscv                            alldefconfig
+x86_64                        randconfig-k001
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a015
+i386                          randconfig-a011
+hexagon              randconfig-r045-20220714
+hexagon              randconfig-r041-20220714
+hexagon              randconfig-r045-20220715
+s390                 randconfig-r044-20220715
+hexagon              randconfig-r041-20220715
+riscv                randconfig-r042-20220715
 
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
