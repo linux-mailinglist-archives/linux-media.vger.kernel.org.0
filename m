@@ -2,298 +2,304 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29255576C43
-	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 08:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4845576CC0
+	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 11:19:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbiGPGpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Jul 2022 02:45:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58734 "EHLO
+        id S231864AbiGPJTg convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 16 Jul 2022 05:19:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbiGPGpm (ORCPT
+        with ESMTP id S229521AbiGPJTf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Jul 2022 02:45:42 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B279DF43;
-        Fri, 15 Jul 2022 23:45:40 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id ss3so12351954ejc.11;
-        Fri, 15 Jul 2022 23:45:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HipZeTSpA19RU4Hp2M0HETtT9n6bH3Wl9VTITl/nWZg=;
-        b=B/INUAinjy9qg2+rm0GcFd2JZPcLB2ykUpT7RyUOviN+dr00bzlwJWGwgRSGuR7xA/
-         b+ovq7VPpEDXD+AnADORByvN4p9MLbnpuKDtK1GFpRhoZ8l0WTpYMtbTyHWysY/1IYyj
-         GtMMNF769f/o/SPNjzHvb2W+oJcdVivUKn88LEXmiFflwLoihUrVB8tswz17gTvK6Lzw
-         SG7QE8DSWZw7uh1bKytGT38BchPKccFd/5lkpBbl2iYcCDKvrKMLpSxp0yURefRG9RtA
-         dbXaPScCYxzbsvXwlI4ti4fujpbTsBktdzCivgYPDMB1JIMN0xskohR4HOsDALJFBWB+
-         sUdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HipZeTSpA19RU4Hp2M0HETtT9n6bH3Wl9VTITl/nWZg=;
-        b=5cb+Fs66hBB+5dXBL+ZiXNNPwwymf7iITYcZdSBWbaTch25LrG6VQ/Ge1x0OqbOvOk
-         fhjkzkE/1c/TfNfK0kL1GdX+cfMwm4Fkzq9KvlilVbvJtnO5xBYeTEviAu+dzI9zZ9Lg
-         hHlu6Kym3535+7F3SHM1Q2IrFVeKxhk+FCXyLA/oHmJkt5rGkmXgBkGhr2bVyCyCQ/JO
-         SDD+boXF0J+WYu/4BhsZgsSoaOBoaCa8Yb7i9XYF0T+8c9V+BmHVPSTdjPpjQbkMUS2m
-         W6mU/uK4MkxkUYH4KTbiZUIU0+94K33Skhl78iLjgDZEbO1f5kdmqISvucQ4qyRE8w1D
-         fErw==
-X-Gm-Message-State: AJIora+KDLXE7kd113Vy41/I5BBjaeruW2moH2812ad9ST96HMWRpDax
-        RESSgLhhQEY3Qu3Ui7PFbxA98xKcKtxMwg==
-X-Google-Smtp-Source: AGRyM1saRfPcbaDjRVaouZrq4KMzTQAX3XsnE5QnaIvE2GmgTu8NcxyvQIIRQeM0tpNFOnh7T8pZrQ==
-X-Received: by 2002:a17:907:a076:b0:72b:4ad1:53ba with SMTP id ia22-20020a170907a07600b0072b4ad153bamr16305373ejc.685.1657953938701;
-        Fri, 15 Jul 2022 23:45:38 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id vp21-20020a17090712d500b006feba31171bsm2889352ejb.11.2022.07.15.23.45.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jul 2022 23:45:37 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     knaerzche@gmail.com, kernel@collabora.com,
-        bob.beckett@collabora.com, ezequiel@vanguardiasur.com.ar,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, Yury Norov <yury.norov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH 0/6] RkVDEC HEVC driver
-Date:   Sat, 16 Jul 2022 08:45:35 +0200
-Message-ID: <2107456.irdbgypaU6@jernej-laptop>
-In-Reply-To: <f05896551f8545af3c7352a6bd38248e038b61d2.camel@collabora.com>
-References: <20220713162449.133738-1-sebastian.fricke@collabora.com> <7be996ee-9977-129b-08e2-12bde7ac9cd7@arm.com> <f05896551f8545af3c7352a6bd38248e038b61d2.camel@collabora.com>
+        Sat, 16 Jul 2022 05:19:35 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF0C3EE28
+        for <linux-media@vger.kernel.org>; Sat, 16 Jul 2022 02:19:33 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oCdxT-00D9do-8P; Sat, 16 Jul 2022 09:19:31 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oCdxR-000Zp5-Dz; Sat, 16 Jul 2022 09:19:28 +0000
+Date:   Sat, 16 Jul 2022 09:19:28 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1440674595.0.1657963168764@builder.linuxtv.org>
+In-Reply-To: <1438375724.0.1657876757338@builder.linuxtv.org>
+References: <1438375724.0.1657876757338@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3961
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 15. julij 2022 ob 17:36:01 CEST je Nicolas Dufresne napisal(a):
-> Le vendredi 15 juillet 2022 =E0 12:04 +0100, Robin Murphy a =E9crit :
-> > On 2022-07-13 17:24, Sebastian Fricke wrote:
-> > > Implement the HEVC codec variation for the RkVDEC driver. Currently o=
-nly
-> > > the RK3399 is supported, but it is possible to enable the RK3288 as it
-> > > also supports this codec.
-> > >=20
-> > > Based on top of the media tree @ef7fcbbb9eabbe86d2287484bf366dd1821cc=
-6b8
-> > > and the HEVC uABI MR by Benjamin Gaignard.
-> > > (https://patchwork.linuxtv.org/project/linux-media/list/?series=3D836=
-0)
-> > >=20
-> > > Tested with the GStreamer V4L2 HEVC plugin:
-> > > (https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/=
-107
-> > > 9)
-> > >=20
-> > > Current Fluster score:
-> > > `Ran 131/147 tests successfully               in 278.568 secs`
-> > > with
-> > > `python3 fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts
-> > > JCT-VC-HEVC_V1 -j1`
-> > >=20
-> > > failed conformance tests:
-> > > - DBLK_D_VIXS_2 (Success on Hantro G2)
-> > > - DSLICE_A_HHI_5 (Success on Hantro G2)
-> > > - EXT_A_ericsson_4 (Success on Hantro G2)
-> > > - PICSIZE_A_Bossen_1 (Hardware limitation)
-> > > - PICSIZE_B_Bossen_1 (Hardware limitation)
-> > > - PICSIZE_C_Bossen_1 (Hardware limitation)
-> > > - PICSIZE_D_Bossen_1 (Hardware limitation)
-> > > - PPS_A_qualcomm_7 (Success on Hantro G2)
-> > > - SAODBLK_A_MainConcept_4 (Success on Hantro G2)
-> > > - SAODBLK_B_MainConcept_4 (Success on Hantro G2)
-> > > - SLIST_B_Sony_9 (Success on Hantro G2)
-> > > - SLIST_D_Sony_9 (Success on Hantro G2)
-> > > - TSUNEQBD_A_MAIN10_Technicolor_2 (Success on Hantro G2)
-> > > - VPSSPSPPS_A_MainConcept_1 (Success on Hantro G2)
-> > > - WPP_D_ericsson_MAIN10_2 (Fail on Hantro G2)
-> > > - WPP_D_ericsson_MAIN_2 (Fail on Hantro G2)
-> > >=20
-> > > Not tested with FFMpeg so far.
-> > >=20
-> > > Known issues:
-> > > - Unable to reliably decode multiple videos concurrently
-> > > - The SAODBLK_* tests timeout if the timeout time in fluster is lower
-> > > than 120 - Currently the uv_virstride is calculated in a manner that =
-is
-> > > hardcoded for the two available formats NV12 and NV15.
-> > > (@config_registers)
-> > >=20
-> > > Notable design decisions:
-> > > - I opted for a bitfield to represent the PPS memory blob as it is the
-> > > perfect tool for that job. It describes the memory layout with any
-> > > additional required documentation, is easy to read and a native langu=
-age
-> > > tool for that job
-> >=20
-> > Can I point out how terrible an idea this is? The C language gives
-> > virtually zero guarantee about how bitfields are actually represented in
-> > memory. Platform ABIs (e.g. [1]) might nail things down a bit more, but
-> > different platforms are free to make completely different choices so
-> > portability still goes out the window. Even for a single platform,
-> > different compilers (or at worst even different version of one compiler)
-> > can still make incompatible choices e.g. WRT alignment of packed
-> > members. Even if you narrow the scope as far as a specific version of
-> > AArch64 GCC, I think this is still totally broken for big-endian.
-> >=20
-> > The fact that you've had to use nonsensical types to trick a compiler
-> > into meeting your expectations should already be a clue to how fragile
-> > this is in general.
-> >=20
-> > > - The RPS memory blob is created using a bitmap implementation, which
-> > > uses a common Kernel API to avoid reinventing the wheel and to keep t=
-he
-> > > code clean.
-> >=20
-> > Similarly, Linux bitmaps are designed for use as, well, bitmaps. Abusing
-> > them as a data interchange format for bit-aligned numerical values is
-> > far from "clean" semantically. And I'm pretty sure it's also broken for
-> > big-endian.
-> >=20
-> > This kind of stuff may be standard practice in embedded development
-> > where you're targeting a specific MCU with a specific toolchain, but I
-> > don't believe it's suitable for upstream Linux. It would take pretty
-> > much the same number of lines to use GENMASK definitions and bitfield.h
-> > helpers to pack values into words which can then be written to memory in
-> > a guaranteed format and endianness (certainly for the PPS; for the RPS
-> > it may well end up a bit longer, but would be self-documenting and
-> > certainly more readable than those loops). It mostly just means that for
-> > any field which crosses a word boundary you'll end up with 2 definitions
-> > and 2 assignments, which is hardly a problem (and in some ways more
-> > honest about what's actually going on).
->=20
-> Thanks for the feedback, in multimedia (unlike register programming), we
-> don't really consider bitstreams as bitmap or bitfield. What we do really
-> expect is to use bit writer helpers (and sometimes a bit reader though we
-> try and avoid the second one in the  kernel). Its more of less a cursor (a
-> bit position) into a memory that advance while writing. A bit writer shou=
-ld
-> help protect against overflow too.
->=20
-> When writing lets say a chain of 8 bits from a char, a proper helper is
-> expected to be very explicit on the ordering (write_u8_le/be or something
-> better worded). I would rather like to see all these blobs written this w=
-ay
-> personally then having a cleared buffer and writing using bit offsets.
->=20
-> Perhaps I may suggest to start with implementing just that inside this
-> driver? It isn't very hard, and then the implementation can be reduced
-> later and shared later, with whatever exists without deviating from the
-> intent of the existing API ? I do believe that having this in linux-media
-> can be useful in the future. We will notably need to extend such a helper
-> with multimedia specific coding technique (golomb, boolean coding, etc.)
-> for use in stateless encoder drivers.
+See <https://builder.linuxtv.org/job/media-build/3961/display/redirect>
 
-I don't know RKVDEC, but at least Cedar has integrated bitstream parsing=20
-engine. Is there something similar in RKVDEC? That way HW could be used=20
-instead of SW implementation.
-
-Best regards,
-Jernej
-
->=20
-> Nicolas
->=20
-> > Thanks,
-> > Robin.
-> >=20
-> > [1]
-> > https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst#bi=
-t-f
-> > ields>=20
-> > > - I deliberatly opted against the macro solution used in H264, which
-> > > declares Macros in mid function and declares the fields of the memory
-> > > blob as macros as well. And I would be glad to refactor the H264 code=
- if
-> > > desired by the maintainer to use common Kernel APIs and native langua=
-ge
-> > > elements.
-> > > - The giant static array of cabac values is moved to a separate c fil=
-e,
-> > > I did so because a separate .h file would be incorrect as it doesn't
-> > > expose anything of any value for any other file than the rkvdec-hevc.c
-> > >=20
-> > > file. Other options were:
-> > >    - Calculating the values instead of storing the results (doesn't s=
-eem
-> > >    to be worth it)
-> > >    - Supply them via firmware (Adding firmware makes the whole softwa=
-re
-> > >    way more complicated and the usage of the driver less obvious)
-> > >=20
-> > > Ignored Checkpatch warnings (as it fits to the current style of the
-> > > file):
-> > > ```
-> > > WARNING: line length of 162 exceeds 100 columns
-> > > #115: FILE: drivers/media/v4l2-core/v4l2-common.c:265:
-> > > +               { .format =3D V4L2_PIX_FMT_NV15,    .pixel_enc =3D
-> > > V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D {=
- 5, 5,
-> > > 0, 0 }, .hdiv =3D 2, .vdiv =3D 2,
-> > >=20
-> > > ERROR: trailing statements should be on next line
-> > > #128: FILE: drivers/media/v4l2-core/v4l2-ioctl.c:1305:
-> > > +       case V4L2_PIX_FMT_NV15:         descr =3D "10-bit Y/CbCr 4:2:0
-> > > (Packed)"; break; ```
-> > >=20
-> > > v4l2-compliance test:
-> > > ```
-> > > Total for rkvdec device /dev/video3: 46, Succeeded: 46, Failed: 0,
-> > > Warnings: 0 ```
-> > >=20
-> > > kselftest module run for the bitmap changes:
-> > > ```
-> > > $ sudo insmod
-> > > /usr/lib/modules/5.19.0-rc3-finalseries/kernel/lib/test_bitmap.ko [ =
-=20
-> > > 71.751716] test_bitmap: parselist: 14: input is '0-2047:128/256' OK,
-> > > Time: 1750 [   71.751787] test_bitmap: bitmap_print_to_pagebuf: input
-> > > is '0-32767 [   71.751787] ', Time: 6708
-> > > [   71.760373] test_bitmap: set_value: 6/6 tests correct
-> > > ```
-> > >=20
-> > > Jonas Karlman (2):
-> > >    media: v4l2: Add NV15 pixel format
-> > >    media: v4l2-common: Add helpers to calculate bytesperline and
-> > >   =20
-> > >      sizeimage
-> > >=20
-> > > Sebastian Fricke (4):
-> > >    bitops: bitmap helper to set variable length values
-> > >    staging: media: rkvdec: Add valid pixel format check
-> > >    staging: media: rkvdec: Enable S_CTRL IOCTL
-> > >    staging: media: rkvdec: Add HEVC backend
-> > >  =20
-> > >   .../media/v4l/pixfmt-yuv-planar.rst           |   53 +
-> > >   drivers/media/v4l2-core/v4l2-common.c         |   79 +-
-> > >   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
-> > >   drivers/staging/media/rkvdec/Makefile         |    2 +-
-> > >   drivers/staging/media/rkvdec/TODO             |   22 +-
-> > >   .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1844 ++++++++++++++=
-+++
-> > >   drivers/staging/media/rkvdec/rkvdec-hevc.c    |  859 ++++++++
-> > >   drivers/staging/media/rkvdec/rkvdec-regs.h    |    1 +
-> > >   drivers/staging/media/rkvdec/rkvdec.c         |  182 +-
-> > >   drivers/staging/media/rkvdec/rkvdec.h         |    3 +
-> > >   include/linux/bitmap.h                        |   39 +
-> > >   include/uapi/linux/videodev2.h                |    1 +
-> > >   lib/test_bitmap.c                             |   47 +
-> > >   13 files changed, 3066 insertions(+), 67 deletions(-)
-> > >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
-> > >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
+Changes:
 
 
+------------------------------------------
+[...truncated 5.67 KB...]
 
+2022-07-16 09:19:13 (68.3 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
+--2022-07-16 09:19:13--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2 [following]
+--2022-07-16 09:19:14--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7539499 (7.2M) [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2’
+
+     0K .......... .......... .......... .......... ..........  0% 96.6K 76s
+    50K .......... .......... .......... .......... ..........  1% 96.8K 75s
+   100K .......... .......... .......... .......... ..........  2%  145K 66s
+   150K .......... .......... .......... .......... ..........  2%  145K 62s
+   200K .......... .......... .......... .......... ..........  3%  147K 59s
+   250K .......... .......... .......... .......... ..........  4%  283K 53s
+   300K .......... .......... .......... .......... ..........  4%  146K 52s
+   350K .......... .......... .......... .......... ..........  5%  290K 48s
+   400K .......... .......... .......... .......... ..........  6%  145K 48s
+   450K .......... .......... .......... .......... ..........  6%  289K 45s
+   500K .......... .......... .......... .......... ..........  7%  290K 43s
+   550K .......... .......... .......... .......... ..........  8%  289K 41s
+   600K .......... .......... .......... .......... ..........  8%  290K 39s
+   650K .......... .......... .......... .......... ..........  9%  290K 38s
+   700K .......... .......... .......... .......... .......... 10%  292K 36s
+   750K .......... .......... .......... .......... .......... 10%  291K 35s
+   800K .......... .......... .......... .......... .......... 11%  291K 34s
+   850K .......... .......... .......... .......... .......... 12%  291K 33s
+   900K .......... .......... .......... .......... .......... 12%  301K 33s
+   950K .......... .......... .......... .......... .......... 13% 5.97M 31s
+  1000K .......... .......... .......... .......... .......... 14%  293K 30s
+  1050K .......... .......... .......... .......... .......... 14% 9.86M 28s
+  1100K .......... .......... .......... .......... .......... 15%  298K 28s
+  1150K .......... .......... .......... .......... .......... 16% 1.06M 27s
+  1200K .......... .......... .......... .......... .......... 16%  388K 26s
+  1250K .......... .......... .......... .......... .......... 17%  297K 26s
+  1300K .......... .......... .......... .......... .......... 18% 12.7M 25s
+  1350K .......... .......... .......... .......... .......... 19%  298K 24s
+  1400K .......... .......... .......... .......... .......... 19% 18.8M 23s
+  1450K .......... .......... .......... .......... .......... 20% 1.07M 22s
+  1500K .......... .......... .......... .......... .......... 21%  398K 22s
+  1550K .......... .......... .......... .......... .......... 21% 11.1M 21s
+  1600K .......... .......... .......... .......... .......... 22%  298K 21s
+  1650K .......... .......... .......... .......... .......... 23% 8.46M 20s
+  1700K .......... .......... .......... .......... .......... 23%  313K 20s
+  1750K .......... .......... .......... .......... .......... 24% 6.83M 19s
+  1800K .......... .......... .......... .......... .......... 25% 7.76M 18s
+  1850K .......... .......... .......... .......... .......... 25%  306K 18s
+  1900K .......... .......... .......... .......... .......... 26% 18.0M 18s
+  1950K .......... .......... .......... .......... .......... 27% 5.26M 17s
+  2000K .......... .......... .......... .......... .......... 27%  305K 17s
+  2050K .......... .......... .......... .......... .......... 28% 70.0M 16s
+  2100K .......... .......... .......... .......... .......... 29% 3.89M 16s
+  2150K .......... .......... .......... .......... .......... 29% 1.55M 15s
+  2200K .......... .......... .......... .......... .......... 30%  385K 15s
+  2250K .......... .......... .......... .......... .......... 31% 6.40M 15s
+  2300K .......... .......... .......... .......... .......... 31% 8.21M 14s
+  2350K .......... .......... .......... .......... .......... 32%  317K 14s
+  2400K .......... .......... .......... .......... .......... 33% 10.9M 14s
+  2450K .......... .......... .......... .......... .......... 33% 5.83M 13s
+  2500K .......... .......... .......... .......... .......... 34% 1.66M 13s
+  2550K .......... .......... .......... .......... .......... 35%  366K 13s
+  2600K .......... .......... .......... .......... .......... 35%  142M 13s
+  2650K .......... .......... .......... .......... .......... 36% 8.72M 12s
+  2700K .......... .......... .......... .......... .......... 37% 18.7M 12s
+  2750K .......... .......... .......... .......... .......... 38%  310K 12s
+  2800K .......... .......... .......... .......... .......... 38% 13.5M 11s
+  2850K .......... .......... .......... .......... .......... 39% 11.5M 11s
+  2900K .......... .......... .......... .......... .......... 40% 15.0M 11s
+  2950K .......... .......... .......... .......... .......... 40%  311K 11s
+  3000K .......... .......... .......... .......... .......... 41% 16.4M 10s
+  3050K .......... .......... .......... .......... .......... 42% 24.8M 10s
+  3100K .......... .......... .......... .......... .......... 42% 7.98M 10s
+  3150K .......... .......... .......... .......... .......... 43% 1.79M 10s
+  3200K .......... .......... .......... .......... .......... 44%  371K 10s
+  3250K .......... .......... .......... .......... .......... 44% 16.9M 9s
+  3300K .......... .......... .......... .......... .......... 45% 11.0M 9s
+  3350K .......... .......... .......... .......... .......... 46% 14.9M 9s
+  3400K .......... .......... .......... .......... .......... 46%  717K 9s
+  3450K .......... .......... .......... .......... .......... 47%  543K 9s
+  3500K .......... .......... .......... .......... .......... 48% 22.7M 8s
+  3550K .......... .......... .......... .......... .......... 48% 8.55M 8s
+  3600K .......... .......... .......... .......... .......... 49% 15.6M 8s
+  3650K .......... .......... .......... .......... .......... 50%  683K 8s
+  3700K .......... .......... .......... .......... .......... 50%  572K 8s
+  3750K .......... .......... .......... .......... .......... 51% 20.5M 7s
+  3800K .......... .......... .......... .......... .......... 52% 9.67M 7s
+  3850K .......... .......... .......... .......... .......... 52% 9.79M 7s
+  3900K .......... .......... .......... .......... .......... 53% 88.4M 7s
+  3950K .......... .......... .......... .......... .......... 54%  316K 7s
+  4000K .......... .......... .......... .......... .......... 55% 23.3M 7s
+  4050K .......... .......... .......... .......... .......... 55% 19.7M 6s
+  4100K .......... .......... .......... .......... .......... 56% 5.72M 6s
+  4150K .......... .......... .......... .......... .......... 57% 29.3M 6s
+  4200K .......... .......... .......... .......... .......... 57% 24.1M 6s
+  4250K .......... .......... .......... .......... .......... 58%  322K 6s
+  4300K .......... .......... .......... .......... .......... 59% 23.8M 6s
+  4350K .......... .......... .......... .......... .......... 59% 27.2M 6s
+  4400K .......... .......... .......... .......... .......... 60% 5.03M 5s
+  4450K .......... .......... .......... .......... .......... 61% 12.2M 5s
+  4500K .......... .......... .......... .......... .......... 61%  126M 5s
+  4550K .......... .......... .......... .......... .......... 62%  325K 5s
+  4600K .......... .......... .......... .......... .......... 63% 21.6M 5s
+  4650K .......... .......... .......... .......... .......... 63% 24.9M 5s
+  4700K .......... .......... .......... .......... .......... 64% 11.0M 5s
+  4750K .......... .......... .......... .......... .......... 65% 7.18M 5s
+  4800K .......... .......... .......... .......... .......... 65% 7.36M 4s
+  4850K .......... .......... .......... .......... .......... 66% 2.96M 4s
+  4900K .......... .......... .......... .......... .......... 67%  372K 4s
+  4950K .......... .......... .......... .......... .......... 67% 29.1M 4s
+  5000K .......... .......... .......... .......... .......... 68% 18.1M 4s
+  5050K .......... .......... .......... .......... .......... 69% 9.31M 4s
+  5100K .......... .......... .......... .......... .......... 69% 9.25M 4s
+  5150K .......... .......... .......... .......... .......... 70% 7.70M 4s
+  5200K .......... .......... .......... .......... .......... 71% 2.99M 3s
+  5250K .......... .......... .......... .......... .......... 71%  372K 3s
+  5300K .......... .......... .......... .......... .......... 72% 24.2M 3s
+  5350K .......... .......... .......... .......... .......... 73% 17.3M 3s
+  5400K .......... .......... .......... .......... .......... 74% 19.7M 3s
+  5450K .......... .......... .......... .......... .......... 74% 6.47M 3s
+  5500K .......... .......... .......... .......... .......... 75% 9.27M 3s
+  5550K .......... .......... .......... .......... .......... 76% 6.81M 3s
+  5600K .......... .......... .......... .......... .......... 76%  348K 3s
+  5650K .......... .......... .......... .......... .......... 77% 19.1M 3s
+  5700K .......... .......... .......... .......... .......... 78% 23.2M 3s
+  5750K .......... .......... .......... .......... .......... 78% 27.2M 2s
+  5800K .......... .......... .......... .......... .......... 79% 10.7M 2s
+  5850K .......... .......... .......... .......... .......... 80% 6.85M 2s
+  5900K .......... .......... .......... .......... .......... 80% 12.0M 2s
+  5950K .......... .......... .......... .......... .......... 81% 4.53M 2s
+  6000K .......... .......... .......... .......... .......... 82%  359K 2s
+  6050K .......... .......... .......... .......... .......... 82% 21.4M 2s
+  6100K .......... .......... .......... .......... .......... 83% 22.4M 2s
+  6150K .......... .......... .......... .......... .......... 84% 23.9M 2s
+  6200K .......... .......... .......... .......... .......... 84% 10.7M 2s
+  6250K .......... .......... .......... .......... .......... 85% 7.03M 2s
+  6300K .......... .......... .......... .......... .......... 86% 14.2M 1s
+  6350K .......... .......... .......... .......... .......... 86% 4.61M 1s
+  6400K .......... .......... .......... .......... .......... 87%  358K 1s
+  6450K .......... .......... .......... .......... .......... 88% 21.4M 1s
+  6500K .......... .......... .......... .......... .......... 88% 33.5M 1s
+  6550K .......... .......... .......... .......... .......... 89% 16.5M 1s
+  6600K .......... .......... .......... .......... .......... 90% 25.1M 1s
+  6650K .......... .......... .......... .......... .......... 90% 10.2M 1s
+  6700K .......... .......... .......... .......... .......... 91% 9.06M 1s
+  6750K .......... .......... .......... .......... .......... 92% 14.2M 1s
+  6800K .......... .......... .......... .......... .......... 93% 3.15M 1s
+  6850K .......... .......... .......... .......... .......... 93%  371K 1s
+  6900K .......... .......... .......... .......... .......... 94% 22.6M 1s
+  6950K .......... .......... .......... .......... .......... 95% 21.2M 0s
+  7000K .......... .......... .......... .......... .......... 95% 21.5M 0s
+  7050K .......... .......... .......... .......... .......... 96% 26.5M 0s
+  7100K .......... .......... .......... .......... .......... 97% 12.3M 0s
+  7150K .......... .......... .......... .......... .......... 97% 8.40M 0s
+  7200K .......... .......... .......... .......... .......... 98% 5.76M 0s
+  7250K .......... .......... .......... .......... .......... 99% 8.10M 0s
+  7300K .......... .......... .......... .......... .......... 99%  936K 0s
+  7350K .......... ..                                         100% 51.2M=9.6s
+
+2022-07-16 09:19:24 (770 KB/s) - ‘linux-media.tar.bz2’ saved [7539499/7539499]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
