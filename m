@@ -2,202 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C8A3576BE6
-	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 06:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F990576BF5
+	for <lists+linux-media@lfdr.de>; Sat, 16 Jul 2022 07:12:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbiGPEuB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Jul 2022 00:50:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34426 "EHLO
+        id S229632AbiGPFMJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Jul 2022 01:12:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiGPEuA (ORCPT
+        with ESMTP id S229448AbiGPFMI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Jul 2022 00:50:00 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 857E818E3A
-        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 21:49:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657946999; x=1689482999;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZvL6Jbon2jlzMuzMit8uADNDkVBJrCyidLKSHcXXqGY=;
-  b=FqOXQk3CvBW9lhmYvSG7KhndutD6RKXqLxFCBR+hO4AZSOF288AzTqFl
-   HdjJtOaV+W0NmdyuVZR4xHXKHJoRKQ56yYhQnaXUcrg2e0mnFAIE7ZfU+
-   iCPFb0Ltd/Gs6YrehLYlEatqdClIvJXDRw/SyjETTf3a/Cx7g2AYBy8MS
-   slR0Sl8UcAUkQa0xKQRqAvXQoiAWY6T1tSrYT0ezs6jBlaM++ZNf7IrRV
-   Csc7X0AP3rDuWAy4c16pehSSyt3D/XxXKAYlVk3GN2js3ToXyPVPMYlEN
-   OlWejds/9QGvgzPQYzLuPfGKr4wlaJ5GMbVlnpy1yqcWIU1olrOpV/a65
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10409"; a="265735620"
-X-IronPort-AV: E=Sophos;i="5.92,275,1650956400"; 
-   d="scan'208";a="265735620"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2022 21:49:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,275,1650956400"; 
-   d="scan'208";a="654612741"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Jul 2022 21:49:58 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oCZkb-00019s-Kf;
-        Sat, 16 Jul 2022 04:49:57 +0000
-Date:   Sat, 16 Jul 2022 12:49:19 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [BUILD SUCCESS] LAST PATCH: [PATCH v5 2/2] drm/i915/gt: Serialize TLB invalidates with GT resets
-Message-ID: <62d2434f.vweEs5O2wsGxI/U7%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 16 Jul 2022 01:12:08 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 697ED8BABB
+        for <linux-media@vger.kernel.org>; Fri, 15 Jul 2022 22:12:07 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 31CD15C00AE;
+        Sat, 16 Jul 2022 01:12:04 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Sat, 16 Jul 2022 01:12:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1657948324; x=1658034724; bh=ZBfAeKEn6t
+        7Bgbk2F4A3T0hcDOiY8SHauNE6FxnK6Po=; b=KTxa5hrXsvstpQKCR5je5km/p3
+        Ifszx/+z2KTQelNwlEw/bFVzcIzj3ucpcOW8xCE6D6y98gmon733zYtFnKzfOr44
+        p2j1OMfKkl0+ZOljyIo62hpozzNjtEdljomYQRuD4CY+WXRF+CstkkODjVLXY8Zn
+        Go7BHgRS7paivjH3c0nO0X5xHOzcWAsEn3069zZ+wYggS4HeqsOTcgTYdiDcnDnP
+        ni344+S6IJ16vntZ2MRoNimYlUaUbvvcgtrDGW5IP27xAIK1rVFHVrXNRXdG+l72
+        BafJ/IlLDeUu7gpoUb7PSNXGRblwMnrVFa+/U8j3Mo1BNV+Kf8XJExUsF7lA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1657948324; x=1658034724; bh=ZBfAeKEn6t7Bgbk2F4A3T0hcDOiY
+        8SHauNE6FxnK6Po=; b=FUzKFCMhkvaqn+mioG6tJ7imcVqDUdtoCmmqakdvB8XS
+        VNWpNmTz8hK7nk9HIvYEmTBidOSwm9JNszMdCPUEnvEnGUMJA14+EwmTYv/7q6ih
+        MqWed7a4HJqltZrfKgUSQ5vmXDsOym4d7StX1X6HYj6uol906q95CRN6Kw48w3e7
+        YQlqCopRmcQQuD41ODTu487XVXfzKmdrdZteyhTs2eEKZeu9bV5lrKgaf0XmPKuf
+        XV7Av7zD0725/KVM5AYPoeJZSgPl7yvVrwWICJYkuOu1SSWhJGIbMaMsfzwISZux
+        Rg8ZKGoVbyKZtm135+wYtdMOLcOLr6aYkC1D5p9CbA==
+X-ME-Sender: <xms:o0jSYs51UWUWCoqjKoU7SjOMAYWgCah6znVHY8WaK92FcAMjHIRGOQ>
+    <xme:o0jSYt5YZNnaMqkdL-FM4EYdEQvpZly5Sj6zr8bAerQuOPonXJICCE7exyQ-2ASyA
+    HxmmYYoLDECc1ZZUig>
+X-ME-Received: <xmr:o0jSYreimR_qd2xD8sPZNveKvCgu6-_O9pQjSLPxB67Fq-OD2Cie7A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekvddgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
+    rgcujfhirhhstghhfhgvlhguuceouggrfhhnrgesfhgrshhtmhgrihhlrdgtohhmqeenuc
+    ggtffrrghtthgvrhhnpedvhedtledukeegveelfeeuvddujeeiteehkedvhfetkeffudej
+    hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegurghfnhgrsehfrghsthhmrghilhdrtghomh
+X-ME-Proxy: <xmx:o0jSYhIeMnSUdvVZjA7f_3fFhtwqJ7APqLiuRpAhNvWsZiDtpXshEg>
+    <xmx:o0jSYgK-NhGMy_xz3aFAJxqvOEg4c-Rjx509hDCv2W92fK6M6kwJSg>
+    <xmx:o0jSYixPw-mXCaOiRaag0XXshQpgBwBLydyzuQh9bSGu9JrXNuj1kA>
+    <xmx:pEjSYk3uXRu3tgHvZNyZLRRhH9xZsyTVZhg7tVI4Gyq8Nzg2o34nxA>
+Feedback-ID: i0e894699:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 16 Jul 2022 01:12:02 -0400 (EDT)
+Date:   Sat, 16 Jul 2022 08:11:59 +0300
+From:   Dafna Hirschfeld <dafna@fastmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Florian Sylvestre <fsylvestre@baylibre.com>
+Subject: Re: [PATCH 1/3] media: rockchip: rkisp1: Set DPCC methods enable
+ bits inside loop
+Message-ID: <20220716051159.uif74xaq2xtpen3y@guri>
+References: <20220616160456.21549-1-laurent.pinchart@ideasonboard.com>
+ <20220616160456.21549-2-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220616160456.21549-2-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/Fix-TLB-invalidate-issues-with-Broadwell/20220712-232336
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+hi,
 
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 16.06.2022 19:04, Laurent Pinchart wrote:
+>The rkisp1_dpcc_config() function looks over methods sets to configure
+>them, but sets the RKISP1_CIF_ISP_DPCC_METHODS_SET_* registers outside
+>of the loop with hand-unrolled code. Move this to the loop to simplify
+>the code.
+>
+>Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-elapsed time: 4661m
+Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 
-configs tested: 118
-configs skipped: 4
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-sparc                             allnoconfig
-arm                           h3600_defconfig
-mips                         cobalt_defconfig
-sh                        sh7785lcr_defconfig
-arm                        clps711x_defconfig
-powerpc                      pcm030_defconfig
-m68k                          atari_defconfig
-arc                          axs103_defconfig
-powerpc                     pq2fads_defconfig
-arm                             ezx_defconfig
-sh                             sh03_defconfig
-m68k                        m5272c3_defconfig
-arc                                 defconfig
-arm                         at91_dt_defconfig
-powerpc                 mpc8540_ads_defconfig
-alpha                             allnoconfig
-arm                           viper_defconfig
-sh                        edosk7705_defconfig
-arc                              alldefconfig
-powerpc                  iss476-smp_defconfig
-mips                         bigsur_defconfig
-x86_64                                  kexec
-sparc                               defconfig
-xtensa                           allyesconfig
-csky                                defconfig
-sparc                            allyesconfig
-s390                                defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                             allyesconfig
-nios2                            allyesconfig
-nios2                               defconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220715
-csky                              allnoconfig
-arc                               allnoconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-i386                                defconfig
-i386                             allyesconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a006
-x86_64                        randconfig-a002
-i386                          randconfig-a003
-i386                          randconfig-a001
-i386                          randconfig-a005
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-
-clang tested configs:
-powerpc                      pmac32_defconfig
-arm                           spitz_defconfig
-powerpc                 mpc836x_rdk_defconfig
-arm                      pxa255-idp_defconfig
-mips                        workpad_defconfig
-powerpc                          g5_defconfig
-powerpc                    gamecube_defconfig
-s390                             alldefconfig
-powerpc                   lite5200b_defconfig
-powerpc                        fsp2_defconfig
-hexagon                             defconfig
-powerpc                    mvme5100_defconfig
-powerpc                      ppc44x_defconfig
-powerpc                   bluestone_defconfig
-powerpc                     ppa8548_defconfig
-powerpc                     mpc512x_defconfig
-mips                     cu1000-neo_defconfig
-arm                         orion5x_defconfig
-riscv                            alldefconfig
-x86_64                        randconfig-k001
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a015
-i386                          randconfig-a011
-hexagon              randconfig-r045-20220714
-hexagon              randconfig-r041-20220714
-hexagon              randconfig-r045-20220715
-s390                 randconfig-r044-20220715
-hexagon              randconfig-r041-20220715
-riscv                randconfig-r042-20220715
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+>---
+> drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 10 ++++------
+> 1 file changed, 4 insertions(+), 6 deletions(-)
+>
+>diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+>index c88a9c0fa86e..140012fa18f0 100644
+>--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+>+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+>@@ -18,6 +18,8 @@
+> #define RKISP1_ISP_PARAMS_REQ_BUFS_MIN	2
+> #define RKISP1_ISP_PARAMS_REQ_BUFS_MAX	8
+>
+>+#define RKISP1_ISP_DPCC_METHODS_SET(n) \
+>+			(RKISP1_CIF_ISP_DPCC_METHODS_SET_1 + 0x4 * (n))
+> #define RKISP1_ISP_DPCC_LINE_THRESH(n) \
+> 			(RKISP1_CIF_ISP_DPCC_LINE_THRESH_1 + 0x14 * (n))
+> #define RKISP1_ISP_DPCC_LINE_MAD_FAC(n) \
+>@@ -66,13 +68,9 @@ static void rkisp1_dpcc_config(struct rkisp1_params *params,
+> 	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_DPCC_SET_USE,
+> 		     arg->set_use);
+>
+>-	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_DPCC_METHODS_SET_1,
+>-		     arg->methods[0].method);
+>-	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_DPCC_METHODS_SET_2,
+>-		     arg->methods[1].method);
+>-	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_DPCC_METHODS_SET_3,
+>-		     arg->methods[2].method);
+> 	for (i = 0; i < RKISP1_CIF_ISP_DPCC_METHODS_MAX; i++) {
+>+		rkisp1_write(params->rkisp1, RKISP1_ISP_DPCC_METHODS_SET(i),
+>+			     arg->methods[i].method);
+> 		rkisp1_write(params->rkisp1, RKISP1_ISP_DPCC_LINE_THRESH(i),
+> 			     arg->methods[i].line_thresh);
+> 		rkisp1_write(params->rkisp1, RKISP1_ISP_DPCC_LINE_MAD_FAC(i),
+>-- 
+>Regards,
+>
+>Laurent Pinchart
+>
