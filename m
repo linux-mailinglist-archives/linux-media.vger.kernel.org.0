@@ -2,117 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D832577309
-	for <lists+linux-media@lfdr.de>; Sun, 17 Jul 2022 03:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EF1E5773DB
+	for <lists+linux-media@lfdr.de>; Sun, 17 Jul 2022 05:48:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232616AbiGQBeI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Jul 2022 21:34:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44948 "EHLO
+        id S232882AbiGQDsP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Jul 2022 23:48:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232637AbiGQBeG (ORCPT
+        with ESMTP id S232755AbiGQDsI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Jul 2022 21:34:06 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E94319C1C;
-        Sat, 16 Jul 2022 18:34:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658021645; x=1689557645;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+XMChNw0Gz6+nuPRsN7JXhyI2VdGCfNEEUhObhOMVpg=;
-  b=blm0m6ho4eci+UkT9ZCvXVfuYrME2wGPdVOv4u1/JCAlwwvPQy5CdZWJ
-   7+U6wrvOS1h6c9vqBMIUzvJapABZ41i8epHlmHmu6pgfdeyVn8hJK1f7E
-   orAecDDJRzwYf6E/5W/hyJqjsgcKF/Ktww4TsppDMXJld6ZPFUgSXVXIe
-   Sm+hbcWAvacIfAvOYor9qrdC2O/34/rWexbWB0fpj1npq7KNDUybvrNFy
-   vH+BykWRH9IPJLBRRiChaVOnCh1kbLXXFqqpApCtkO7jK0sCOMf2LQC1g
-   ua8P29uiylmByNOkyAwaC00n6Fa5d7KchdSIkr5oxed24WWgUmkXXc5l5
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="284774845"
-X-IronPort-AV: E=Sophos;i="5.92,278,1650956400"; 
-   d="scan'208";a="284774845"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2022 18:34:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,278,1650956400"; 
-   d="scan'208";a="629514612"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 16 Jul 2022 18:34:01 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oCtAX-0002Q9-9s;
-        Sun, 17 Jul 2022 01:34:01 +0000
-Date:   Sun, 17 Jul 2022 09:33:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, Volodymyr Kharuk <vkh@melexis.com>,
-        Andrii Kyselov <ays@melexis.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Michal Simek <monstr@monstr.eu>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] media: i2c: Add driver for mlx7502x ToF sensor
-Message-ID: <202207170928.qeUikXoT-lkp@intel.com>
-References: <6f9b20bb1946d8a50170963b84e32abfdee14ba7.1657786765.git.vkh@melexis.com>
+        Sat, 16 Jul 2022 23:48:08 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3AD117E36;
+        Sat, 16 Jul 2022 20:48:07 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id f65so7801046pgc.12;
+        Sat, 16 Jul 2022 20:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=Z0QE6TqiTLpNVLq0d6Tn+LJm8jdHQlIKPBhpl1b1IvI=;
+        b=Hm/XZDORe8w/23YWh1ILjh5kveofdNCqQ0V7yu07TXBiadO710B4sQcFi584OFzxTg
+         MbAbTUZxhED4dxph0IUuYzrgaFeGgk+qs59KYL9dU6a4gT/Amg2JYMnVB+1qPNu3XDlL
+         R1CV6eXisR3zOqmF9wvS27nea+FsemZ6R9CtRQEC1ZE1UZ5Oq9V1E8Rb387rHvGuzrRw
+         9f/WdSbAJJzOIdI8t7bcdfwGoHSSV3KG0XUyDKKLroc6HTzX7n2UnG5JsSj8jenqMBhN
+         jVjVpUyZ5psvEY4DhPxJ1H2wqVxDINPWNUkibUyXCa1/AgSOx41fMuH/SKmrwwavgqDu
+         u9Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=Z0QE6TqiTLpNVLq0d6Tn+LJm8jdHQlIKPBhpl1b1IvI=;
+        b=Do6klEJY8Ym8UPzVOxIkeHwhZR0UPMHnd0U5x/qPesYSA+1tJv1b0fOtOOZsMNZPLK
+         V8qK28PhocpJrTov6/SU0+KO1CCjHc5trVEN29Gp6yoFpXneUN4dbCxUT9LlhpafS8CT
+         tamKSjJea1m4Jmx1nmmpdKiimBvQakLa37qbRgpIjEc5fyOsJZ3YCmKbci8JYHhRIgng
+         gaUA6JIB9Ie7BaOuNNREKZT1OnAAsGI78kAxGFb0ZBE7T69Ltrid0jgQ/7de6j6m8cgC
+         iIfemrQOfH3zHBdAJsPVlXCDAUEb9J6NUptWL+T/IVueamDrobdwVF1DLGAL9HukeP7u
+         sIag==
+X-Gm-Message-State: AJIora8gg7Mz9BKyfsU/Gp66UwLgXvCkpGlNZVROAznJxhNb0BxXNv/6
+        p56chyrY2biOonVeAm5qaypK8H0Ed73bPtmwFQ==
+X-Google-Smtp-Source: AGRyM1ts9KqXoDY4UHuc4G3SVfNilEGzmKzpCb1uTJFtaEWLMKAvCulqjjlSB/KMEm3RW8jR0HClTPzAZCj2jB06jKU=
+X-Received: by 2002:a05:6a02:113:b0:412:a7c0:da8e with SMTP id
+ bg19-20020a056a02011300b00412a7c0da8emr19808019pgb.113.1658029687199; Sat, 16
+ Jul 2022 20:48:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f9b20bb1946d8a50170963b84e32abfdee14ba7.1657786765.git.vkh@melexis.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+From:   Zheyu Ma <zheyuma97@gmail.com>
+Date:   Sun, 17 Jul 2022 11:47:56 +0800
+Message-ID: <CAMhUBjn=k-4DV0-u_30_rNQc9n__ZkwVFaLwfP1CP-uk1LjMpg@mail.gmail.com>
+Subject: [BUG] most: usb: Found a bug at the probe time
+To:     sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Volodymyr,
+Hello,
 
-I love your patch! Perhaps something to improve:
+I found a bug in the most usb driver.
 
-[auto build test WARNING on d8e8aa866ed8636fd6c1017c3d9453eab2922496]
+When the driver fails at
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Volodymyr-Kharuk/media-i2c-mlx7502x-ToF-camera-support/20220714-163709
-base:   d8e8aa866ed8636fd6c1017c3d9453eab2922496
-config: parisc-randconfig-s041-20220715 (https://download.01.org/0day-ci/archive/20220717/202207170928.qeUikXoT-lkp@intel.com/config)
-compiler: hppa64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/59a691c2f449518699a328ea663098aa3ae038b9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Volodymyr-Kharuk/media-i2c-mlx7502x-ToF-camera-support/20220714-163709
-        git checkout 59a691c2f449518699a328ea663098aa3ae038b9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc64 SHELL=/bin/bash drivers/media/i2c/ drivers/pci/ kernel/trace/ sound/soc/codecs/
+    mdev->conf = kcalloc(num_endpoints, sizeof(*mdev->conf), GFP_KERNEL);
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+I got the following warning message:
 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/i2c/mlx7502x.c:1989:53: sparse: sparse: Using plain integer as NULL pointer
+[   15.406256] kobject: '(null)' (ffff8881068f8000): is not
+initialized, yet kobject_put() is being called.
+[   15.406986] WARNING: CPU: 3 PID: 396 at lib/kobject.c:720
+kobject_put+0x6e/0x1c0
+[   15.410120] RIP: 0010:kobject_put+0x6e/0x1c0
+[   15.410470] Code: 01 75 29 4c 89 f8 48 c1 e8 03 80 3c 28 00 74 08
+4c 89 ff e8 14 2e 73 ff 49 8b 37 48 c7 c7 c0 fc de 85 4c 89 fa e8 e2
+61 21 ff <0f> 0b 49 8d 5f 38 48 89 df be 04 00 00 00 e8 df 2e 73 ff b8
+ff ff
+[   15.416529] Call Trace:
+[   15.416896]  hdm_probe+0xf3d/0x1090 [most_usb]
 
-vim +1989 drivers/media/i2c/mlx7502x.c
+Since I'm not familiar with the driver, I ask for your help to solve
+the warning.
 
-  1987	
-  1988	static const struct of_device_id mlx7502x_of_match[] = {
-> 1989		{ .compatible = "melexis,mlx7502x", .data = 0 }, /* auto-detection */
-  1990		{ .compatible = "melexis,mlx75026", .data = &mlx75026 },
-  1991		{ .compatible = "melexis,mlx75027", .data = &mlx75027 },
-  1992		{ /* sentinel */ }
-  1993	};
-  1994	MODULE_DEVICE_TABLE(of, mlx7502x_of_match);
-  1995	
+regards,
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Zheyu Ma
