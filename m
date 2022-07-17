@@ -2,66 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 896E6577235
-	for <lists+linux-media@lfdr.de>; Sun, 17 Jul 2022 01:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB5B7577287
+	for <lists+linux-media@lfdr.de>; Sun, 17 Jul 2022 02:05:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232574AbiGPXLE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Jul 2022 19:11:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36328 "EHLO
+        id S231489AbiGQAFl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Jul 2022 20:05:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbiGPXLD (ORCPT
+        with ESMTP id S229619AbiGQAFk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Jul 2022 19:11:03 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE3E3AA;
-        Sat, 16 Jul 2022 16:11:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658013062; x=1689549062;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hzULYEvoiu2+cjOVVPjIerySW8CycA9JilWDFs3+7lU=;
-  b=XyGihDPCjv0+R/Rd56OWxdDjcAoPYws4NRj2Ttb7XtRyk0CxUeiHHqYS
-   G+j55t6k3EzO/QNWX+jro+ABEoVcQVExj9xGuNXuoX4gOgWnK2kL1diDP
-   qjIMKz23ezchWQ0gKFg8R7kePqO+yuPaDNWpxCCG6/0aqxFv+Zq7F5YFy
-   XBClQF0qJB5vHu7u+nCJ0pZaRPaTZxflr4rSA9/c9Nve/pVJUwuIs6tbx
-   mty4NZ4x27ZG2lsuR/nHvNhR/fChrNtvknRST79u8qN/KM5Og3g1erZnU
-   K/8gt4HiyTQRKK280l7YKAZedyv/AuzWgdlOF+mZEePEp4uxU8q9hSVzG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="286034110"
-X-IronPort-AV: E=Sophos;i="5.92,278,1650956400"; 
-   d="scan'208";a="286034110"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2022 16:11:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,278,1650956400"; 
-   d="scan'208";a="723463391"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 16 Jul 2022 16:10:58 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oCqw5-0002Ho-TG;
-        Sat, 16 Jul 2022 23:10:57 +0000
-Date:   Sun, 17 Jul 2022 07:10:36 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, stanimir.varbanov@linaro.org,
-        laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-        robh+dt@kernel.org, nicolas@ndufresne.ca,
-        alexander.stein@ew.tq-group.com, ezequiel@vanguardiasur.com.ar
-Cc:     kbuild-all@lists.01.org,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v8 5/6] media: dw100: Add i.MX8MP dw100 dewarper driver
-Message-ID: <202207170714.QdpDmTNJ-lkp@intel.com>
-References: <20220715135329.975400-6-xavier.roumegue@oss.nxp.com>
+        Sat, 16 Jul 2022 20:05:40 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3198718361;
+        Sat, 16 Jul 2022 17:05:40 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id f65so7568118pgc.12;
+        Sat, 16 Jul 2022 17:05:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jvc5QnDNvevbD8cpU2SRqKC1urfkP+uvE5heBXUe2+4=;
+        b=oziB7A0EkBfra1KLj464rVXNuZ+pjC5Gy11QekAwFbnkzeBQPmwIgbzKzJh1LHW28N
+         PScexfbKTdQzicu/Cs27nZ4cVPYw7NtoZDc1sbJTmxVhNn2QhJA8HD9deL0geKK+M5St
+         d0C7ERHBbRUOW/n+vfMX0CvVHqhUkmEUiM+eyCTRqQp8igNmtZQXndgF87hcjnsGph42
+         MFdJquMa3WichkswOD0ounARqfTm8OAtNsGM68D4ltBzp+lsZNG2zdHOJUEADS2dMXEP
+         8OOf9gzgIDHw7GAVvmBg/enmiKwpfjAJhq6YhxzWUkE/wbVFq901yUmqDC+jJcS9JoJ+
+         6JhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jvc5QnDNvevbD8cpU2SRqKC1urfkP+uvE5heBXUe2+4=;
+        b=sI2kAnhuZoJYOcRoqcQ+QtUXbGc8Nvj3Z0yq+VL2SKZHD4X0Ze1MhkKISdlaz1cn2q
+         pT2X53Xmgm2nup8RKkBsA5h+AXpBtXuHjV12+oqzXW6nACT+to0NDjg9VTFe3b3hlzDq
+         I0iG4ygyF7XBHW+wkkyXPZPwQi2YlpPVXLtdkYjVRWvWFr7m1YbO9oO/fZ/WZu4ZzVuD
+         ii3Buqa4VmCUPuqq1Xu+74HvWytj9GPBynZvSlKWMUt75PWOBt7HnKTZFeb6IV+zjTTe
+         wII7adTntWVwRfS1ESxwXOQZAq75L7TCZQgbcFhYq8wYhYRXGrQqt7zr7FuKBzwBRDTg
+         XUnw==
+X-Gm-Message-State: AJIora/oW4vfkIohlvjDrjRQ8lXFTgCKb87SDf00BNfVx6kNr+GvGJPG
+        PbEJNxrnXa4c7ZeZ21pjE2dCq7onrD85xi9vuCYuAHidSmo1
+X-Google-Smtp-Source: AGRyM1voVlgt4czroxoBFv8HX05m2Y3yhAzDqzgeiwv2ZtzUUsyniDhVuS4w1kXpGSWfCkAZx0rW458wrb0WMnc+Pbw=
+X-Received: by 2002:a63:7d49:0:b0:408:c70a:9496 with SMTP id
+ m9-20020a637d49000000b00408c70a9496mr19546538pgn.616.1658016339158; Sat, 16
+ Jul 2022 17:05:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220715135329.975400-6-xavier.roumegue@oss.nxp.com>
-X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+References: <CAMhUBj=bs8rbiPGX1qOv9FSU8m=TdRZqqJGvRcynKbaWwf_A-A@mail.gmail.com>
+ <5fc2c89d-5aaf-3b81-64cc-7e69b16266c9@infradead.org>
+In-Reply-To: <5fc2c89d-5aaf-3b81-64cc-7e69b16266c9@infradead.org>
+From:   Zheyu Ma <zheyuma97@gmail.com>
+Date:   Sun, 17 Jul 2022 08:05:27 +0800
+Message-ID: <CAMhUBjnUfH6hKgP7nwoCXphwMtc838zjzJZuUuNzOo4b+cESHA@mail.gmail.com>
+Subject: Re: [BUG] media: cx88-alsa: Found a bug at the probe time
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,115 +68,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xavier,
+On Sun, Jul 17, 2022 at 3:03 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Hi--
+>
+> On 7/14/22 18:54, Zheyu Ma wrote:
+> > Hello,
+> >
+> > I found a bug in the driver cx88-alsa.
+> >
+> > When the driver fails in the function snd_cx88_create() at the probe
+> > time, it will cause a UAF bug as follows:
+>
+> It's not a UAF. It's a WARN() macro with an IRQ management problem,
+> as shown in the next 2 lines below:
 
-Thank you for the patch! Yet something to improve:
+You are right, that is indeed just a warning :)
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v5.19-rc6 next-20220715]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+regards,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xavier-Roumegue/i-MX8MP-DW100-dewarper-driver/20220716-222346
-base:   git://linuxtv.org/media_tree.git master
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20220717/202207170714.QdpDmTNJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/49c9ce2fbbca7da795c8b503c0af12f77fe8fc16
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Xavier-Roumegue/i-MX8MP-DW100-dewarper-driver/20220716-222346
-        git checkout 49c9ce2fbbca7da795c8b503c0af12f77fe8fc16
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/platform/nxp/dw100/dw100.c: In function 'dw100_s_fmt':
->> drivers/media/platform/nxp/dw100/dw100.c:830:23: error: implicit declaration of function '__v4l2_ctrl_modify_dimensions'; did you mean '__v4l2_ctrl_modify_range'? [-Werror=implicit-function-declaration]
-     830 |                 ret = __v4l2_ctrl_modify_dimensions(ctrl, dims);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                       __v4l2_ctrl_modify_range
-   cc1: some warnings being treated as errors
-
-
-vim +830 drivers/media/platform/nxp/dw100/dw100.c
-
-   776	
-   777	static int dw100_s_fmt(struct dw100_ctx *ctx, struct v4l2_format *f)
-   778	{
-   779		struct dw100_q_data *q_data;
-   780		struct vb2_queue *vq;
-   781	
-   782		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-   783		if (!vq)
-   784			return -EINVAL;
-   785	
-   786		q_data = dw100_get_q_data(ctx, f->type);
-   787		if (!q_data)
-   788			return -EINVAL;
-   789	
-   790		if (vb2_is_busy(vq)) {
-   791			dev_dbg(&ctx->dw_dev->pdev->dev, "%s queue busy\n", __func__);
-   792			return -EBUSY;
-   793		}
-   794	
-   795		q_data->fmt = dw100_find_format(f);
-   796		q_data->pix_fmt = f->fmt.pix_mp;
-   797		q_data->crop.top = 0;
-   798		q_data->crop.left = 0;
-   799		q_data->crop.width = f->fmt.pix_mp.width;
-   800		q_data->crop.height = f->fmt.pix_mp.height;
-   801	
-   802		/* Propagate buffers encoding */
-   803	
-   804		if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-   805			struct dw100_q_data *dst_q_data =
-   806				dw100_get_q_data(ctx,
-   807						 V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-   808	
-   809			dst_q_data->pix_fmt.colorspace = q_data->pix_fmt.colorspace;
-   810			dst_q_data->pix_fmt.ycbcr_enc = q_data->pix_fmt.ycbcr_enc;
-   811			dst_q_data->pix_fmt.quantization = q_data->pix_fmt.quantization;
-   812			dst_q_data->pix_fmt.xfer_func = q_data->pix_fmt.xfer_func;
-   813		}
-   814	
-   815		dev_dbg(&ctx->dw_dev->pdev->dev,
-   816			"Setting format for type %u, wxh: %ux%u, fmt: %p4cc\n",
-   817			f->type, q_data->pix_fmt.width, q_data->pix_fmt.height,
-   818			&q_data->pix_fmt.pixelformat);
-   819	
-   820		if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
-   821			int ret;
-   822			u32 dims[V4L2_CTRL_MAX_DIMS] = {};
-   823			struct v4l2_ctrl *ctrl = ctx->ctrls[DW100_CTRL_DEWARPING_MAP];
-   824	
-   825			dims[0] = dw100_get_n_vertices_from_length(q_data->pix_fmt.width);
-   826			dims[1] = dw100_get_n_vertices_from_length(q_data->pix_fmt.height);
-   827	
-   828			v4l2_ctrl_lock(ctrl);
-   829			ctx->user_map_is_valid = false;
- > 830			ret = __v4l2_ctrl_modify_dimensions(ctrl, dims);
-   831			v4l2_ctrl_unlock(ctrl);
-   832	
-   833			if (ret) {
-   834				dev_err(&ctx->dw_dev->pdev->dev,
-   835					"Modifying LUT dimensions failed with error %d\n",
-   836					ret);
-   837				return ret;
-   838			}
-   839		}
-   840	
-   841		return 0;
-   842	}
-   843	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Zheyu Ma
