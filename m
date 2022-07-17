@@ -2,113 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F613577515
-	for <lists+linux-media@lfdr.de>; Sun, 17 Jul 2022 10:38:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53B8F577517
+	for <lists+linux-media@lfdr.de>; Sun, 17 Jul 2022 10:42:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232491AbiGQIht (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Jul 2022 04:37:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50126 "EHLO
+        id S232667AbiGQImK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Jul 2022 04:42:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbiGQIhs (ORCPT
+        with ESMTP id S231390AbiGQImJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Jul 2022 04:37:48 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 819A31759A
-        for <linux-media@vger.kernel.org>; Sun, 17 Jul 2022 01:37:47 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oCzmc-00EZqC-1Q; Sun, 17 Jul 2022 08:37:46 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oCzmZ-005Gdv-UU; Sun, 17 Jul 2022 08:37:43 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.20] v3: hantro/cedrus/vb2 updates (#84899)
-Date:   Sun, 17 Jul 2022 08:37:43 +0000
-Message-Id: <20220717083743.1255569-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <7b7eb926-9600-0116-b983-bc18613e7674@xs4all.nl>
-References: 
+        Sun, 17 Jul 2022 04:42:09 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB82C183AA;
+        Sun, 17 Jul 2022 01:42:07 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 126981B00101;
+        Sun, 17 Jul 2022 11:42:04 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1658047324;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ljpNRllBYzcmautrfzTavCMGgs6vk6O9O+uG2n9i8/M=;
+        b=tBhMwHrPAR5xJYtlfw1Phj1uKwG96fw8sI6k+KHevOEihOvXNaKXJHsUgPTj7UBAFobY2R
+        PhMsKwQovJsV35JSMjzi6g3KN94oMruxkDyttalrbzVx5jAs7YLT7sdJgFWxgXEvsYP1LU
+        359zS+NBZmtarizIGM6ozpJ1aycODmOmuQXsBdSY2esxFQu6iWtJu/dP4dDbV3Q60CKjSb
+        RMW7gEcEaXCmoaZGW1xDHWXF89mik85VejoHyhLF0MBmIEf08cTlekN+FWYa7kY0UouuRR
+        OvhOpmUYybg5mYnqh5B3jdyRODkChSRIzGHDv1ZrwhMFYWbjcN3fTeUe05f/Kw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AB051634D5F;
+        Sun, 17 Jul 2022 11:42:03 +0300 (EEST)
+Date:   Sun, 17 Jul 2022 11:42:03 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/1] media: atomisp_gmin_platform: Switch to use
+ acpi_evaluate_dsm_typed()
+Message-ID: <YtPLW+utY/XuCnbl@valkosipuli.retiisi.eu>
+References: <20220715160641.73526-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220715160641.73526-1-andriy.shevchenko@linux.intel.com>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1658047324; a=rsa-sha256;
+        cv=none;
+        b=LQrKe+1OIBdSoYRLtLmtaGPw6dALDUXYan0o/OmwNHrpH+Q7FKzLDcjzxVRo3qjPA03L+f
+        HmXRQYt2/UAfl/FxoEBuap+fJx//FTaW1Gngd/7O4iIbm6umDFB2BSZFGJH0oyTl2adYKx
+        wAgu3XoQpxtesbt6WjiXdvoyv8l/f8I/pM2gNludkzlMxHnzgdYdgyWP61pwyhLDmSrgza
+        hlrISc+G2kKeRVwMTva4ntuUaPkoCC5B5LISn5bvTWKmdAXRW6Mu/eONUP3RU72B8tN8Y3
+        gWv5gM+06qzQIWMjo44TOM2OyleIRijVhmEIQNwyMqHSWOg59TbLPD/hUfy5gg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1658047324;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ljpNRllBYzcmautrfzTavCMGgs6vk6O9O+uG2n9i8/M=;
+        b=IA3BDP1+vwx8bP7hFa6ZzNPhkuD1bgimg8IGdRrBAsxk17akX3XbZHhPOUv81CpTosav2s
+        3Xe3BZVGywB6lOkpfpcZ5mVLtbZKTQ4mzDGQxVrv5kVQMlChOU9EOE1A2RY/xuWMZgOkm1
+        1kk/Q4ESM/lOUshMr9Vzh9zBiMzybVpW6msqyHV0/qX6db71ruztbs4t1NQiiqA10KfdFZ
+        Yr5oP737kGZwhg0tprX0+x4osxvTROPeChoHRIF88PCyTBeVRl5nTxkaA0wNPA1yeweEcW
+        Xm8Tdt8unsN7oF5VMSaUMeBBmWV3N6Pqi5vpgbG/naexmM1RSebY8+wwryMy2g==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Andy,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/7b7eb926-9600-0116-b983-bc18613e7674@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/225499/
-Build time: 00:46:47
-Link: https://lore.kernel.org/linux-media/7b7eb926-9600-0116-b983-bc18613e7674@xs4all.nl
+On Fri, Jul 15, 2022 at 07:06:41PM +0300, Andy Shevchenko wrote:
+> The acpi_evaluate_dsm_typed() provides a way to check the type of the
+> object evaluated by _DSM call. Use it instead of open coded variant.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> index bf527b366ab3..d4cfda07f7fb 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> @@ -1207,16 +1207,13 @@ static int gmin_get_config_dsm_var(struct device *dev,
+>  	if (!strcmp(var, "CamClk"))
+>  		return -EINVAL;
+>  
+> -	obj = acpi_evaluate_dsm(handle, &atomisp_dsm_guid, 0, 0, NULL);
+> +	/* Return on unexpected object type */
+> +	obj = acpi_evaluate_dsm_typed(handle, &atomisp_dsm_guid, 0, 0, NULL, ACPI_TYPE_PACKAGE);
 
-gpg: Signature made Fri 15 Jul 2022 02:49:56 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Can you please run:
 
-Summary: got 4/20 patches with issues, being 2 at build time, plus one error when buinding PDF document
+	$ ./scripts/checkpatch.pl --strict --max-line-length=80
 
-Error/warnings:
+I.e. the preferred line length is 80 or less, unless there are other
+reasons to keep it longer.
 
-patches/0001-media-Add-P010-tiled-format.patch:
+>  	if (!obj) {
+>  		dev_info_once(dev, "Didn't find ACPI _DSM table.\n");
+>  		return -EINVAL;
+>  	}
+>  
+> -	/* Return on unexpected object type */
+> -	if (obj->type != ACPI_TYPE_PACKAGE)
+> -		return -EINVAL;
+> -
+>  #if 0 /* Just for debugging purposes */
+>  	for (i = 0; i < obj->package.count; i++) {
+>  		union acpi_object *cur = &obj->package.elements[i];
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+-- 
+Kind regards,
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/cx25840/cx25840-core.c: ../drivers/media/i2c/cx25840/cx25840-core.c:5495 cx23885_dif_setup() parse error: turning off implications after 60 seconds
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/dvb-frontends/sp887x.c: ../drivers/media/dvb-frontends/sp887x.c:178 sp887x_initial_setup() error: __memcpy() '&buf[2]' too small (30 vs 16384)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1725742
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 50 seconds
-	../drivers/media/test-drivers/vimc/vimc-core.c: ../drivers/media/test-drivers/vimc/vimc-core.c:214 vimc_create_links() warn: passing a valid pointer to 'PTR_ERR'
-	../drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
-	../drivers/media/usb/uvc/uvc_ctrl.c: ../drivers/media/usb/uvc/uvc_ctrl.c:2472 uvc_ctrl_init_ctrl() error: we previously assumed 'mapping' could be null (see line 2458)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2884 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0001-media-Add-P010-tiled-format.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:73: WARNING: line length of 165 exceeds 100 columns
-	-:85: ERROR: trailing statements should be on next line
-	-:97: WARNING: line length of 107 exceeds 100 columns
-
-patches/0014-media-cedrus-h265-Implement-support-for-tiles.patch:
-
-   checkpatch.pl:
-	$ cat patches/0014-media-cedrus-h265-Implement-support-for-tiles.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:72: CHECK: Alignment should match open parenthesis
-	-:74: CHECK: Alignment should match open parenthesis
-
-patches/0015-videobuf2-Introduce-vb2_find_buffer.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/usb/uvc/uvc_ctrl.c: ../drivers/media/usb/uvc/uvc_ctrl.c:2472 uvc_ctrl_init_ctrl() error: we previously assumed 'mapping' could be null (see line 2458)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2858 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1725741
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2548 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 52 seconds
-
-patches/0020-rkvdec-Use-vb2_find_buffer.patch:
-
-   checkpatch.pl:
-	$ cat patches/0020-rkvdec-Use-vb2_find_buffer.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:57: CHECK: Comparison to NULL could be written "run->ref_buf[ref->index]"
-
-
-Error #512 when building PDF docs
-
+Sakari Ailus
