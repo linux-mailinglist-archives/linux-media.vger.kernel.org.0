@@ -2,199 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F1D85775FD
-	for <lists+linux-media@lfdr.de>; Sun, 17 Jul 2022 13:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD318577667
+	for <lists+linux-media@lfdr.de>; Sun, 17 Jul 2022 15:39:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232073AbiGQLhO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Jul 2022 07:37:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37146 "EHLO
+        id S232136AbiGQNjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Jul 2022 09:39:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231918AbiGQLhM (ORCPT
+        with ESMTP id S229463AbiGQNjD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Jul 2022 07:37:12 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D31C015809;
-        Sun, 17 Jul 2022 04:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658057831; x=1689593831;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X6aY0q+5aDpSXPBzmndb3qPcsEz32yV4MXOhg75mJSM=;
-  b=KcQeF8j93oUy9TXzR1zuG2+aYnjzXn3BQc/i6gZCY8q6zNDN/1NM21Ht
-   syEMoTa4KVwKfYJMCu2DDm8IMx1OmLcleQDgar8JZw766hfpxtUG2VEzF
-   38Iktewmugkw5KooPQ7eWJhTfOvefzcG3nqC2zB+Yaqc0qxSr4qamwq0z
-   1NV5c8B+hz4HrDr94yTQCAPI6oU2ib0TvLTUJ3thhelrI7AUMHWMs1MOz
-   WIvCZVXeZV1D+8aGXOJ708jhxLbhNvNX+yeWKxDp+5X6BpIVvHKfk7afp
-   0mHA7SoyM6F3QFDYG98ctVOON+2fd+7ZWUWxkfMxIhaOXdV8T2nVTj+Eg
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="269076178"
-X-IronPort-AV: E=Sophos;i="5.92,279,1650956400"; 
-   d="scan'208";a="269076178"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 04:37:11 -0700
-X-IronPort-AV: E=Sophos;i="5.92,279,1650956400"; 
-   d="scan'208";a="739155206"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 04:37:07 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 16DCD20521;
-        Sun, 17 Jul 2022 14:37:05 +0300 (EEST)
-Date:   Sun, 17 Jul 2022 11:37:05 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v5 1/6] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <YtP0YfPteyzsBWn3@paasikivi.fi.intel.com>
-References: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
- <20220704173523.76729-2-paul.kocialkowski@bootlin.com>
+        Sun, 17 Jul 2022 09:39:03 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C370F62FE;
+        Sun, 17 Jul 2022 06:39:02 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id a5so13369502wrx.12;
+        Sun, 17 Jul 2022 06:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9z2+HGjKgnMOda8ghxXHSV9Wvsj6zXH8Cq1q3me/Lxo=;
+        b=oLXk2Bbmj92/7jc6QUtg5BZeZHCu2P7QX45JCzM/GfAruPkc04jqG/ZJql4LDF9rXw
+         f6trarSn7g6jGty3+jRmGOJD0I31BFBjT/iu8skKk5fzqxVjcVDI5l7ud0x1qkIk2qTN
+         0KkDD148TBBSQBSTkXVO36bhSKLhYNEfZ1lxx8FWGHdzzhIUrD1Ys2w3Q9sjImy/+RNK
+         qMfsh2Jfe2vinlTyR5pR0EfmEfiKYbOINQGl39vkesMPe+T5vUilnpOw3434kaX7vrz9
+         CBweRVvqL4rb0xpNXorcYQ0gkjZQg4f1NB0OzxBP0yUju2jyUWhgOdB5pQGX+R9qlZW8
+         Np4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9z2+HGjKgnMOda8ghxXHSV9Wvsj6zXH8Cq1q3me/Lxo=;
+        b=pCja9LpSk7xSyJFR8wTOZF1D8PDGFq7WvwEsz0jfs/+jekr6Vho23Tuvg2kkQkXdjL
+         CdoygKOtUVxGbOH5j8swDki3UFhSdik2o3rvkVCK1rJq63meJvWt+RQtPZyYAM+uw/8D
+         3hkEljHHBF6hpjdgkXyq8bHTcBhQOlJiwUhjkVa40beKaW1lNfvpN40KyTzVI8/WF2ow
+         OaM+Dtb9eu6taNPZRlZM3lxIz6x9PT3s7l/Fvp/tQsHgtThQS3hkyQFZWY2ohNv+C4CI
+         V76oJ1PIBJTe8Zc/EZRABl3ve/zl6sM69gHKdtl893n+512rQvr7N9XE6u5YNfkx/j1J
+         jD+w==
+X-Gm-Message-State: AJIora+g6dt9exUOeVpFhDLWrzGqtpi+EFXQCtPM8llezc6t8RPQMrAR
+        TzHPBpQBDW1S0kmMVtwQZ3k=
+X-Google-Smtp-Source: AGRyM1u1TaYEO/NnE1iPmYC4DnDynws17vSGPrLwkBDPot3L36VJHodvIYXYOWlTaHlQI2CprO776g==
+X-Received: by 2002:a5d:414a:0:b0:21d:6be5:1765 with SMTP id c10-20020a5d414a000000b0021d6be51765mr19982420wrq.419.1658065141273;
+        Sun, 17 Jul 2022 06:39:01 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.36.185])
+        by smtp.gmail.com with ESMTPSA id z26-20020a1c4c1a000000b003a31b00c216sm868881wmf.0.2022.07.17.06.39.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Jul 2022 06:39:00 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ribalda@chromium.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v3] media: uvcvideo: Fix memory leak in uvc_gpio_parse
+Date:   Sun, 17 Jul 2022 15:38:47 +0200
+Message-Id: <20220717133847.245703-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220704173523.76729-2-paul.kocialkowski@bootlin.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Previously the unit buffer was allocated before checking the IRQ for
+privacy GPIO.
+In case of error, the unit buffer was leaked.
 
-On Mon, Jul 04, 2022 at 07:35:18PM +0200, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A31 Image
-> Signal Processor (ISP).
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
->  1 file changed, 97 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> new file mode 100644
-> index 000000000000..2fda6e05e16c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> @@ -0,0 +1,97 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun6i-a31-isp
-> +      - allwinner,sun8i-v3s-isp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +      - description: DRAM Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +      - const: ram
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: CSI0 input port
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: CSI1 input port
+Allocate the unit buffer after the IRQ to avoid it.
 
-Do both support a single PHY with a single data only? If multiple data lanes
-are supported, please require data-lanes property (on endpoint).
+Addresses-Coverity-ID: 1474639 ("Resource leak")
+Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
-> +
-> +    anyOf:
-> +      - required:
-> +          - port@0
-> +      - required:
-> +          - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> +
-> +    isp: isp@1cb8000 {
-> +        compatible = "allwinner,sun8i-v3s-isp";
-> +        reg = <0x01cb8000 0x1000>;
-> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +             <&ccu CLK_CSI1_SCLK>,
-> +             <&ccu CLK_DRAM_CSI>;
-> +        clock-names = "bus", "mod", "ram";
-> +        resets = <&ccu RST_BUS_CSI>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                isp_in_csi0: endpoint {
-> +                    remote-endpoint = <&csi0_out_isp>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+---
 
+v2: Add Fixes and Reviewed-by Ricardo Ribalda tags
+v3: Add Reviewed-by Laurent Pinchart
+---
+ drivers/media/usb/uvc/uvc_driver.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 7c007426e082..9e83e2002710 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1533,10 +1533,6 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+ 	if (IS_ERR_OR_NULL(gpio_privacy))
+ 		return PTR_ERR_OR_ZERO(gpio_privacy);
+ 
+-	unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
+-	if (!unit)
+-		return -ENOMEM;
+-
+ 	irq = gpiod_to_irq(gpio_privacy);
+ 	if (irq < 0) {
+ 		if (irq != EPROBE_DEFER)
+@@ -1545,6 +1541,10 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+ 		return irq;
+ 	}
+ 
++	unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
++	if (!unit)
++		return -ENOMEM;
++
+ 	unit->gpio.gpio_privacy = gpio_privacy;
+ 	unit->gpio.irq = irq;
+ 	unit->gpio.bControlSize = 1;
 -- 
-Sakari Ailus
+2.25.1
+
