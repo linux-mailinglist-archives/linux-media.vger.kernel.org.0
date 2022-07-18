@@ -2,146 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A15D578906
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 19:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EBE95789A4
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 20:39:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234646AbiGRR6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 13:58:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41878 "EHLO
+        id S234934AbiGRSjd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 14:39:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234628AbiGRR56 (ORCPT
+        with ESMTP id S230451AbiGRSjb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 13:57:58 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43CA52E9E7;
-        Mon, 18 Jul 2022 10:57:54 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id b11so22672342eju.10;
-        Mon, 18 Jul 2022 10:57:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7pbvqadJLQpegf3D+q21OLRSwQXILX31lmjWX8Hj/GY=;
-        b=b5g1vKxnKuvfgRtkVJm2ZXoQeRwcrMtRwhAUX6uZINrXGcu1pchJpyVw/M+Hd96mMW
-         hBnhrH90clc05gcS5xguvYuXAGGVTRgb2MtagArPyUBzQMXRRTF3+UeTrgm5aQtc7WH0
-         gpM0cb86dwOJgcVLHBYBFb3coPCCRYdQMlM1aTMCSDyWF/nXhz45jInNoMz6EDG3RACh
-         /JvFVFUV/xzYNrwmkgRUVSv84j7TfdAn2jVQLe+Y47YxLRDolNTtKYG/JXv4pVdxudRt
-         ogFPFLbj7UZm55bLbrKLKcXoWIwCYWfPAYISmktzpu6AHpzo/yhByLrn7csRxF7QmJhE
-         5qEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7pbvqadJLQpegf3D+q21OLRSwQXILX31lmjWX8Hj/GY=;
-        b=Bishnu8rAerLYbCNlIVnBef3jiqxCVLi84qq+0sd+nXejaBUqf5h2ru0CYyqAWcJd4
-         u/mAG0MBQ1rjADVOI39ABVYoDx+xxHi8z08xyhRU1CToZUy73I5z2sJOkqMXDSzya32L
-         V3PQQEwkVuHOKtGjdJjSTVRow+1e1d+v/CTS/q6mWSW/yCVRUh2wBV/qyiOJz/Cw1h6e
-         XZfTsLbsfOrFRd8jVLjw+7tk6SvblvlhBxPFEgaq7tefSauJucRJVf385J5nNNx7jhDV
-         cIr/2QdXwcCKfwdwbOsMiucRWcPi9GVDuJGOGzn07um35JIoqxyTadpPFWObrC0osGf7
-         0RXA==
-X-Gm-Message-State: AJIora/WcbPuAt/Wo5b9G9WuSSDJWHrq/UaZZFGtsEbZurKo8ZVGkHyS
-        9+iDgvPXQKwZExH5YDY5nHE=
-X-Google-Smtp-Source: AGRyM1s2xe9DqszGwO+egWgTy28gEFT166qISo4hJQn4LN8S+JzN/Y/mXSMgNsQz/8KSTLeTxLt8gw==
-X-Received: by 2002:a17:906:58c9:b0:72f:4646:1f6f with SMTP id e9-20020a17090658c900b0072f46461f6fmr2253952ejs.181.1658167072750;
-        Mon, 18 Jul 2022 10:57:52 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id eg52-20020a05640228b400b0043a6fde6e7bsm8823482edb.19.2022.07.18.10.57.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 10:57:51 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        samuel@sholland.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH] media: cedrus: hevc: Add check for invalid timestamp
-Date:   Mon, 18 Jul 2022 19:57:49 +0200
-Message-ID: <4725382.GXAFRqVoOG@kista>
-In-Reply-To: <d58e8624e9703e5dbbc54908aa142d10ef7f5a22.camel@collabora.com>
-References: <20220718165649.16407-1-jernej.skrabec@gmail.com> <d58e8624e9703e5dbbc54908aa142d10ef7f5a22.camel@collabora.com>
+        Mon, 18 Jul 2022 14:39:31 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7ACE2CDF7
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 11:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658169571; x=1689705571;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=yeGKLQ+N++cvbrFF38iJ/xk16Rh4E4c7WhZ0gsNMsaU=;
+  b=YCzl6T3LBg3BRPT5IWeR00voczbng7Xn6szTY6S4de82+loMP/jJO4Jd
+   qcFy0yTKUdzL0sds9Xn9eYbthBxoNBtEjvGlrFl1WNanu7uX4bLq1Z9MS
+   mZJmlLnGAkbtEdfMJmBxmT//ztqqzEk6SGzNMNYLBsPrmQ+ZI6rCh036Z
+   xz37Gv39wy5127TeVsYkzFB9V4fsWgdUipyvPWPLx4i36+zdiq1eHJL54
+   jgUy68FBBMtxCAfjpgOJgEXOmOuU+D9E3dnr8ROXoVnOMtmJvgFQzFUwA
+   n4pWAGwx3nxDIWx3j2WZm5Hoz2wLZR2nBq+3vCbscxZaW13l04l5gGbw/
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="347983245"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
+   d="scan'208";a="347983245"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 11:39:31 -0700
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
+   d="scan'208";a="686835394"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 11:39:29 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 1775C20462;
+        Mon, 18 Jul 2022 21:39:27 +0300 (EEST)
+Date:   Mon, 18 Jul 2022 18:39:27 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] media: v4l2-core: v4l2-i2c: Fix default device name
+Message-ID: <YtWo33+6J9DBtG0z@paasikivi.fi.intel.com>
+References: <20220718120151.425388-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220718120151.425388-1-alexander.stein@ew.tq-group.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne ponedeljek, 18. julij 2022 ob 19:41:48 CEST je Nicolas Dufresne=20
-napisal(a):
-> Le lundi 18 juillet 2022 =E0 18:56 +0200, Jernej Skrabec a =E9crit :
-> > Not all DPB entries will be used most of the time. Unused entries will
-> > thus have invalid timestamps. They will produce negative buffer index
-> > which is not specifically handled. This works just by chance in current
-> > code. It will even produce bogus pointer, but since it's not used, it
-> > won't do any harm.
-> >=20
-> > Let's fix that brittle design by skipping writing DPB entry altogether
-> > if timestamp is invalid.
-> >=20
-> > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > ---
-> >=20
-> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > 1afc6797d806..687f87598f78 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > @@ -147,6 +147,9 @@ static void cedrus_h265_frame_info_write_dpb(struct
-> > cedrus_ctx *ctx,>=20
-> >  			dpb[i].pic_order_cnt_val
-> >  	=09
-> >  		};
-> >=20
-> > +		if (buffer_index < 0)
-> > +			continue;
->=20
-> When I compare to other codecs, when the buffer_index does not exist, the
-> addr 0 is being programmed into the HW. With this implementation is is le=
-ft
-> to whatever it was set for the previous decode operation. I think its is
-> nicer done the other way.
+Hi Alexander,
 
-It's done the same way as it's done in vendor lib. As I stated in commit=20
-message, actual values don't matter for unused entries. If it is used by=20
-accident, HW reaction on all zero pointers can only be worse than using old=
-,=20
-but valid entry.
+Thanks for the patch.
 
-Due to no real documentation and Allwinner unwillingness to share details,=
-=20
-we'll probably never know what's best response for each error. Some things =
-can=20
-be deduced from vendor code, but not all.
+On Mon, Jul 18, 2022 at 02:01:51PM +0200, Alexander Stein wrote:
+> Documentation to v4l2_i2c_subdev_set_name says I²C device name if
+> devname parameter is NULL. But instead the I²C driver name is assigned.
+> Fix this by actually using the i2c_client->name for the subdev name.
+> 
+> Fixes: 0658293012af ("media: v4l: subdev: Add a function to set an I²C sub-device's name")
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+> Having a sensor node in DT with compatible = "ovti,ov9281" the subdev
+> name is "ov9282" without this patch. With this patch applied it is
+> "ov9281". The i2c_client->name is "ov9281" in every case.
+> 
+>  drivers/media/v4l2-core/v4l2-i2c.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-i2c.c b/drivers/media/v4l2-core/v4l2-i2c.c
+> index b4acca75644b..90c3c799317a 100644
+> --- a/drivers/media/v4l2-core/v4l2-i2c.c
+> +++ b/drivers/media/v4l2-core/v4l2-i2c.c
+> @@ -33,7 +33,7 @@ void v4l2_i2c_subdev_set_name(struct v4l2_subdev *sd,
+>  			      const char *devname, const char *postfix)
+>  {
+>  	if (!devname)
+> -		devname = client->dev.driver->name;
+> +		devname = client->name;
 
-I would rather not complicate this fix, especially since it's candidate for=
-=20
-backporting.
+This would work OF somehow but not on ACPI. At the moment, at least, I think
+this information needs to come from the driver itself.
 
-Best regards,
-Jernej
+>  	if (!postfix)
+>  		postfix = "";
+>  
 
->=20
-> > +
-> >=20
-> >  		cedrus_h265_frame_info_write_single(ctx, i,=20
-dpb[i].field_pic,
-> >  	=09
-> >  						   =20
-pic_order_cnt,
-> >  						   =20
-buffer_index);
+-- 
+Kind regards,
 
-
+Sakari Ailus
