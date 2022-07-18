@@ -2,306 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47FB3577FBA
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 12:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A853577FC5
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 12:35:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234331AbiGRKdk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 06:33:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42958 "EHLO
+        id S234377AbiGRKfm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 06:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234327AbiGRKdk (ORCPT
+        with ESMTP id S234373AbiGRKfk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 06:33:40 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E5FE1E3C2;
-        Mon, 18 Jul 2022 03:33:38 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id A4C4B6601A05;
-        Mon, 18 Jul 2022 11:33:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1658140416;
-        bh=wFbi6UCGoTtmKBC9q/jLYRHp+xvE/2amm1VXtH0cozI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TbOuiDcvpKCaM6ZnCSsqJ+FLLEBIa0fc6RWySI8akBItP60L8kpUXsmislNoFazob
-         6EjVk1CKKMsJjbA9O7nxOj3B/R/rh/xDNubTsbctYwbueVVWLhymswKvTez+B/9wQd
-         HzA17mwLU5u8bTL0wOStfS7miiVjCPWymS1fOldqf+Hk+TxpWLgNw/S9RLalHXbOmj
-         GxvFwOPKr6x1jzQxJ/dMgKMkkqn2vX09uTGWkndtLzGU1v1CGu1r9G5ZxK7htLAPo6
-         zTcNQn0zbmzJqK2uN8WP5oRMLf1ZXnaMj/WRfIwXbsdpxtJ415/CeawBRrWdVvgQVd
-         rzU4CFmOTcDAw==
-Message-ID: <499968a2-fbc6-230d-2ed4-cac2b9a98a17@collabora.com>
-Date:   Mon, 18 Jul 2022 12:33:33 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [V5,5/8] media: mtk-jpegdec: add jpeg decode worker interface
-Content-Language: en-US
-To:     Irui Wang <irui.wang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mon, 18 Jul 2022 06:35:40 -0400
+X-Greylist: delayed 229 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Jul 2022 03:35:39 PDT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22572F584;
+        Mon, 18 Jul 2022 03:35:38 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26IAL2AF031081;
+        Mon, 18 Jul 2022 10:35:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qti.qualcomm.com; h=from : to :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=A57ykHIjk9u4TtrG8hxoS5zRO0oi8kV8jHvNS7uzwa0=;
+ b=DPCQBWEzU4KU4B4VnUPwZ0aBM9075rMG5XzD4u4aOygvdPwaftdvZ4KTNteFGG3k/o1T
+ xGx8YP0whShPFFRxat5F5LzlmJqQPyJpDvzpvFfpODGWDDgWq9Z88mIqzj4nFoJtZjh4
+ 1S2ikcm0kKGq8eaEBA7HTjj1UMgP8aL4QwOgqg+SPtgNAKtGqfdwbFEDKtfO/40q+Eq/
+ 6/zwvSQyZKQURlWGDyXst/Uz6IDCkE8qlSrBE9oWrYpfFWBKD4laeeaKTnjO4I97VYxG
+ vOrCbVW37LyV5ginpjLfPFC3RtFDIqWQsfbuXGHhQIWe34zPDVcnuA3Lx5857OkQx0YD rw== 
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hbnugv2nt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 18 Jul 2022 10:35:35 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oKR6I+iZ0Jdw80AXrqM/6o7+BpG6KiAEYtnDDw1+RXJ8Gs9OnmugvajRru8if0O/H6TVuDM9mjUmYihNVHV7gR/qr7ulSoEjldZSjN5TAmGJWxKTdRicvn0Z9fzsbz/kxzhp9FRhb2uuTb4kyDSoA1JYarl2zxHekzhU554Vp9Rk1d4At6KA9J9zY3wfdah6Sx3ag1MLf0cEnolAMWDWUioqyZ4Nxhw6YmN3yZ6igXrMGEzjGKeuXqJFREX4UMl41zBquyBl9iZZeL7AUwEwWGBa5AKmry+iYLTcLpo8+RGWPW9xfFi7Ku9Qhv77dpPcETLMN53T5jXEIIOyXj6nrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A57ykHIjk9u4TtrG8hxoS5zRO0oi8kV8jHvNS7uzwa0=;
+ b=B+ziDoL/K85houMP9q5awehb6kpAS9UkCB5U7mMflhrgmToVURjLiEao2WfRL1UQ4Or+X7sftLxdZNYwrXM5CuKffdIa8AfIzJEtvB+7FXDQLho1PMlqXkMPNExcC4c9GqeYFYyblfgytx3a+GFw6V6QpvX4WODmReX1K1aipnu4ggr+vA45ob5d46fri8/kLgpDZ7LNSCP4AY9/W1+68qlzDEaL24PhYUee+xepHAMklmHf1KEiJ2XafjRwppgTBjlTXJby/WiCgCXV5O0s4jlzjJpWv1QJ5wHUbbv9nV8qfEmDp88skPBVfRG6TZLscEfiPD1vwPPhO+UIILTYOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
+ header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
+Received: from SJ0PR02MB8848.namprd02.prod.outlook.com (2603:10b6:a03:3dc::5)
+ by BL0PR02MB5490.namprd02.prod.outlook.com (2603:10b6:208:83::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.17; Mon, 18 Jul
+ 2022 10:35:31 +0000
+Received: from SJ0PR02MB8848.namprd02.prod.outlook.com
+ ([fe80::4891:a5e3:92c:29ab]) by SJ0PR02MB8848.namprd02.prod.outlook.com
+ ([fe80::4891:a5e3:92c:29ab%5]) with mapi id 15.20.5417.026; Mon, 18 Jul 2022
+ 10:35:31 +0000
+From:   "Viswanath Boma (Temp)" <vboma@qti.qualcomm.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        "Viswanath Boma (Temp) (QUIC)" <quic_vboma@quicinc.com>,
+        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        nicolas.dufresne@collabora.com, wenst@chromium.org,
-        kyrie wu <kyrie.wu@mediatek.com>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com, srv_heupstream@mediatek.com
-References: <20220716093408.29734-1-irui.wang@mediatek.com>
- <20220716093408.29734-6-irui.wang@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220716093408.29734-6-irui.wang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Stanimir Varbanov (Consultant)" <c_svarba@quicinc.com>
+Subject: RE: [PATCH 1/7] venus : Add default values for the control
+ V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY
+Thread-Topic: [PATCH 1/7] venus : Add default values for the control
+ V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY
+Thread-Index: AQHYlepOQnzhUypSuEKIITnLM9ogAq16vEgAgAk7DEA=
+Date:   Mon, 18 Jul 2022 10:35:31 +0000
+Message-ID: <SJ0PR02MB8848F24C0D8EB37C7C97A625858C9@SJ0PR02MB8848.namprd02.prod.outlook.com>
+References: <20220712122347.6781-1-quic_vboma@quicinc.com>
+ <b06c71d090ae7eaa3cd047bb0067f566371bac3a.camel@ndufresne.ca>
+In-Reply-To: <b06c71d090ae7eaa3cd047bb0067f566371bac3a.camel@ndufresne.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-Mentions: c_svarba@quicinc.com
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: af7feaaa-041e-48c3-5826-08da68a93d56
+x-ms-traffictypediagnostic: BL0PR02MB5490:EE_
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: La+lG7jtadWg4NN8Ck6ympyMdRXZHUnA5yzW3H45Iw2UDu8UZgsY1L1PL6t+6eiTonbSRrVYp2lsQzOKIndWotWSvYnf4In5k9FwvnXAWuKc1KRCkSk2l8BwmL+KMIbF/jEzMIi1Mh4djOjrNLRM3y6GateOVBshRYnU/qJnOddduvX7wQ8rsUFWKjUfOPrOXR4i2+coo70xL0KapJIuKbuV1y280/zQ3Pv1REzdmTRaqTMO2mzcnYRjRWtoGrrRYW+LAtiwA7MGahMnXMEVmPMwFx7s+35GOjoWLBbr3LhGQYfBDCNrkG9YBMrJpgWoHRJc7No+R+Nz1airz23TnGr5e2qH9TGv/04+wiS0Lv0cekc4ER5A6zgvhVPOgyqwNGi2WVzjWbR3Pzh+moyxo6dpUanH1RlUah5nv9HFMPPMbVUCuHepUUKiUSjAkO4XGYcqOtTRekmaNBdTsBL2zO/Dzv+8SI/1knf0TUD/QEMEraKQsoh80CGLItjwQtBzaAwmeLwU1M+sgVvhPmTnxH6W7Ezp+eXu+um5ALMjENmV8b5eGK96l3TvBx8c9M78W66RNtLHX6KqSmULybIjb1L0l55HI5icwTdmh0RVliqIMdalw8ExaBtaPdAxfDK58K8WIOKQvo9stPRJyoQ+kPAt1WEv6RHak1VnaEd9CeuyJ0s+FX9uCE0SaIhrhBS7l5AKSqv1hBLIyH4cdMq5gkNBOpgBenjtsmF3mtBelHwDL1yWzMBR09At7wlsN1WqOMRibDXNeeCE8XSd/I4yLUfSD6mOoDU2fQHRWtUyg6HG2o9BE9YqA2I/9+FV7RG88QeToZFm69gOHiDICvOMHw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR02MB8848.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(136003)(39860400002)(376002)(396003)(346002)(122000001)(316002)(41300700001)(110136005)(9686003)(7696005)(6506007)(26005)(2906002)(38070700005)(71200400001)(33656002)(66556008)(76116006)(5660300002)(38100700002)(52536014)(66446008)(921005)(64756008)(55016003)(66574015)(8676002)(66476007)(66946007)(83380400001)(8936002)(186003)(478600001)(53546011)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NkF0MmhROGIyZjVyWEhYeGxFY1VXR0k5R0tRclAzK0l6dDAwTDYyNzdMZ3VG?=
+ =?utf-8?B?UlpjWk8vdlYzYlVubGVzelBzeWR5cVZ3V2E3NXVFZ3F4eWdJaVozMVAxVkln?=
+ =?utf-8?B?UndHOTJuNWUxU0hUMzI4eVIvZ3B0ejJhL2tNQ1ZXU2p3QU1GbVJZUW5JNXd2?=
+ =?utf-8?B?c2wvcEltV1c2c0taUTJiZmI5Z1JTazBWYU9QUTAzZHNzQ1lReWJ1T0VMYWhD?=
+ =?utf-8?B?K1JjSGdQbnFBMmNJSXd2Mk1nN1Z5dzJSRkZTZ0xmVmc2T0ZTaDVuRThOWUVE?=
+ =?utf-8?B?WVhlSVJnQWlUVkdKSGxqVnBKS25JN3ZyeXpLdnUzVjZVQU5SV3R2VXRTRzhh?=
+ =?utf-8?B?bXFRY3NZOXhFdWE0cGIvY090MHpBZWdTVHBHcWxrd0VOYXdqamxtelBySmVF?=
+ =?utf-8?B?SStJK2Y4VHhiOTJIRjdhaW8zQlo4TjJjUEJnOWFPRXcvQU01NzlhdmVBT3Bh?=
+ =?utf-8?B?d2lBNExUU3NLZmhaZFFwT0lSRG9yREQzbTVRRldyeGoxYVhhY0VBcTNJM1gv?=
+ =?utf-8?B?UDRCNytWVmcyRXFia0txejdra1FhY1I2MXhicm9mdzlISG1vYjlSano1TmdS?=
+ =?utf-8?B?eDZhKzlrUG4xQWxJaCtTM2Y2eEhFUm5Nbnp3VS81VFNvcEtxVGQxMTFuUEly?=
+ =?utf-8?B?QjdpK3JhWkxqN0xmZDd5UTFNT1Z2Q2l6Z1NPK2JtVnM2a21CUDJsdXN3RXRP?=
+ =?utf-8?B?S1JOYkJlZ0FVL0JlaVFNanJWVmdDaE01eHFCRjZiSEN0SVhiZHVWbmtEMDN2?=
+ =?utf-8?B?N05DTmpCdmliVHZWOWhRRkIrRjEvL0w0NWpndzl4OVBKMVFsdGpsekZwMXdu?=
+ =?utf-8?B?dWIrUFE3MnQrSVg3aTkrSm50UTJrem9EaThSUHZsNUo4T0pVNmhIRUdtbHg5?=
+ =?utf-8?B?MXFLd3lRekxkRVhOaXFRUVl5Vm1wL1F6RGRZRmwyRjFkQXp4d3F6WWpITXhv?=
+ =?utf-8?B?LzVvblc0aFFLQ3kvSFNhQXNZZG5WdFFGMnY5WHo5Smh0eDZUc3J3V3FvWkhm?=
+ =?utf-8?B?ZTdsVzZmYU1aT200a1M4YzJLTGI3L1JicDduUDJ4MTRsM05rVmF3TlQ2d0Nv?=
+ =?utf-8?B?TWVYRlRhR3pFK2VYZnVGUjE0ZGE5QStJcjhnTzFmeFR2SWR6NjlnQkRuOVJB?=
+ =?utf-8?B?UXdyWkk1TkVlU3pNRHdvT0pxVC8xYjNQeHMrU0tJMmNDZncxM3VscXh3MGZD?=
+ =?utf-8?B?RjJhZUZoN0hYRnAzaGtvTzUrUTRRVWJZMkx0TW5KOGRVNDNsUWJGV3gvZjg0?=
+ =?utf-8?B?cGRiNis3b0RIMUpFM2xlWjBHbDRjeFZpYUhBT0lVOUdvR2sxM0E3Uys1RVhL?=
+ =?utf-8?B?RlY5VTV5Zmpydm95d2dBT0IvblZRWFd5UWd2YmRVU0FkT3djNlQ4T1NPdE9v?=
+ =?utf-8?B?S3c3YXRSNmY2T2dLSkN0cWwvREorZTR5L2lvbU1Pd2lYRzdtTGRnSUNHeDdy?=
+ =?utf-8?B?cHVQdnF2WUhWbW1Hbmh4RWZyeDJKV21BNks5YXZhMTFyVGpZMnpDdEdTVWhp?=
+ =?utf-8?B?TnkvWlhlTzduQzZmOSthdG92SjFqWWNaenFKWVhUd1d3Wk1WbHg3ZWU2Wlpn?=
+ =?utf-8?B?RXZJd2QvMVpOa1ZVck1qbHZRS0syMGszVm9TeWFDb2tTODloeG5FQVF3WU5s?=
+ =?utf-8?B?WG5YcS9PSmlzL2I0eFRwWW1IdzV5cEpvM1RDMTJqMkZ5VW93UDQrZnRweHkr?=
+ =?utf-8?B?THdyd050SXpiU1RqY3NYT0U3SGhMY0J0K01OOGRIaGJWWlJiQ2ZoaU1CaHNa?=
+ =?utf-8?B?NzU4YUg3aThQU2t0Qy85R0hIZ2hYamRSRExhYnpQQ1FnbFB3eEVmQ1FFUEd3?=
+ =?utf-8?B?Wm1vUVR4RzlqbmJsR2xxYmtLUGhHNFRMYVEybEI1WDF3NzZsQkxIc3lyWVlL?=
+ =?utf-8?B?OE43TUhhZXI4U2w3ak1DT3pjMGgrdG9BWUlFb0tMWEcyUkc3cS9nNEhDUG14?=
+ =?utf-8?B?eXZkZmhyYUZFKzVJaDZ3Y0RVcHpUR0lSSmZYYVp3MzFVSmtVUTcwaFp5Q0lN?=
+ =?utf-8?B?UndxQXlWbHVqeU04Z3didVRIbTF4c25KcFUvVGRwb1NMNHJkNEE0c01CSTlM?=
+ =?utf-8?B?dDhyZlp6bW03Uk1JOU4vd0RHeTNPaUYveElDZXp5RlJxYXZuenVKUE9ZalRj?=
+ =?utf-8?Q?gen7wl0pEAIEGi/nin+o0xLHs?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: qti.qualcomm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR02MB8848.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af7feaaa-041e-48c3-5826-08da68a93d56
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2022 10:35:31.4020
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zPisU3q06mpoPVdJQtoPLwDe4qnYh2/ErPAeUu7o33UaTu7E9Ifeky+xVg+/NqIalmBrp4+Zwc19suSLqeO7aQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB5490
+X-Proofpoint-GUID: Axs3vnJZaFDHudtDKb87EJGwWPcL6a87
+X-Proofpoint-ORIG-GUID: Axs3vnJZaFDHudtDKb87EJGwWPcL6a87
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-18_10,2022-07-15_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0 mlxlogscore=999
+ priorityscore=1501 clxscore=1011 spamscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207180044
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 16/07/22 11:34, Irui Wang ha scritto:
-> From: kyrie wu <kyrie.wu@mediatek.com>
-> 
-> Add jpeg decoding worker to ensure that three HWs
-> run in parallel in MT8195.
-> 
-> Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
-> Signed-off-by: irui wang <irui.wang@mediatek.com>
-> 
-> ---
->   .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 172 ++++++++++++++++++
->   .../platform/mediatek/jpeg/mtk_jpeg_core.h    |   6 +
->   .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  |  39 ++--
->   3 files changed, 205 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index a9e8be976bb0..65b963ba0d6f 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -1100,8 +1100,177 @@ static void mtk_jpeg_multicore_enc_device_run(void *priv)
->   	queue_work(jpeg->workqueue, &ctx->jpeg_work);
->   }
->   
-> +static int mtk_jpegdec_get_hw(struct mtk_jpeg_ctx *ctx)
-> +{
-> +	struct mtk_jpegdec_comp_dev *comp_jpeg;
-> +	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
-> +	unsigned long flags;
-> +	int hw_id = -1;
-> +	int i;
-> +
-> +	spin_lock_irqsave(&jpeg->hw_lock, flags);
-> +	for (i = 0; i < MTK_JPEGDEC_HW_MAX; i++) {
-> +		comp_jpeg = jpeg->dec_hw_dev[i];
-> +		if (comp_jpeg->hw_state == MTK_JPEG_HW_IDLE) {
-> +			hw_id = i;
-> +			comp_jpeg->hw_state = MTK_JPEG_HW_BUSY;
-> +			break;
-> +		}
-> +	}
-> +	spin_unlock_irqrestore(&jpeg->hw_lock, flags);
-> +
-> +	return hw_id;
-> +}
-> +
-> +static int mtk_jpegdec_put_hw(struct mtk_jpeg_dev *jpeg, int hw_id)
-> +{
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&jpeg->hw_lock, flags);
-> +	jpeg->dec_hw_dev[hw_id]->hw_state =
-> +		MTK_JPEG_HW_IDLE;
-> +	spin_unlock_irqrestore(&jpeg->hw_lock, flags);
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_jpegdec_set_hw_param(struct mtk_jpeg_ctx *ctx,
-> +				    int hw_id,
-> +				    struct vb2_v4l2_buffer *src_buf,
-> +				    struct vb2_v4l2_buffer *dst_buf)
-> +{
-> +	struct mtk_jpegdec_comp_dev *jpeg =
-> +		ctx->jpeg->dec_hw_dev[hw_id];
-> +
-> +	jpeg->hw_param.curr_ctx = ctx;
-> +	jpeg->hw_param.src_buffer = src_buf;
-> +	jpeg->hw_param.dst_buffer = dst_buf;
-> +
-> +	return 0;
-> +}
-> +
-> +static void mtk_jpegdec_worker(struct work_struct *work)
-> +{
-> +	struct mtk_jpeg_ctx *ctx = container_of(work, struct mtk_jpeg_ctx,
-> +		jpeg_work);
-> +	struct mtk_jpegdec_comp_dev *comp_jpeg[MTK_JPEGDEC_HW_MAX];
-> +	enum vb2_buffer_state buf_state = VB2_BUF_STATE_ERROR;
-> +	struct mtk_jpeg_src_buf *jpeg_src_buf, *jpeg_dst_buf;
-> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-> +	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
-> +	int ret, i, hw_id = 0;
-> +	struct mtk_jpeg_bs bs;
-> +	struct mtk_jpeg_fb fb;
-> +	unsigned long flags;
-> +
-> +	for (i = 0; i < MTK_JPEGDEC_HW_MAX; i++)
-> +		comp_jpeg[i] = jpeg->dec_hw_dev[i];
-> +
-> +retry_select:
-
-Please ensure that we have a max retries limit to avoid an infinite loop.
-
-> +	hw_id = mtk_jpegdec_get_hw(ctx);
-> +	if (hw_id < 0) {
-> +		ret = wait_event_interruptible_timeout(jpeg->dec_hw_wq,
-> +						       atomic_read(&jpeg->dechw_rdy) > 0,
-> +						       MTK_JPEG_HW_TIMEOUT_MSEC);
-> +		if (ret != 0) {
-> +			dev_err(jpeg->dev, "%s : %d, all HW are busy\n",
-> +				__func__, __LINE__);
-> +			v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> +			return;
-> +		}
-> + > +		goto retry_select;
-> +	}
-> +
-> +	atomic_dec(&jpeg->dechw_rdy);
-> +	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> +	if (!src_buf)
-> +		goto getbuf_fail;
-> +
-> +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> +	if (!dst_buf)
-> +		goto getbuf_fail;
-> +
-> +	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-> +	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> +
-> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
-> +	jpeg_src_buf = mtk_jpeg_vb2_to_srcbuf(&src_buf->vb2_buf);
-> +	jpeg_dst_buf = mtk_jpeg_vb2_to_srcbuf(&dst_buf->vb2_buf);
-> +
-> +	if (mtk_jpeg_check_resolution_change(ctx,
-> +					     &jpeg_src_buf->dec_param)) {
-> +		mtk_jpeg_queue_src_chg_event(ctx);
-> +		ctx->state = MTK_JPEG_SOURCE_CHANGE;
-> +		goto dec_end;
-> +	}
-> +
-> +	jpeg_src_buf->curr_ctx = ctx;
-> +	jpeg_src_buf->frame_num = ctx->total_frame_num;
-> +	jpeg_dst_buf->curr_ctx = ctx;
-> +	jpeg_dst_buf->frame_num = ctx->total_frame_num;
-> +	ctx->total_frame_num++;
-> +
-> +	mtk_jpegdec_set_hw_param(ctx, hw_id, src_buf, dst_buf);
-> +	ret = pm_runtime_get_sync(comp_jpeg[hw_id]->dev);
-> +	if (ret < 0) {
-> +		dev_err(jpeg->dev, "%s : %d, pm_runtime_get_sync fail !!!\n",
-> +			__func__, __LINE__);
-> +		goto dec_end;
-> +	}
-> +
-> +	ret = clk_prepare_enable(comp_jpeg[hw_id]->jdec_clk.clks->clk);
-> +	if (ret) {
-> +		dev_err(jpeg->dev, "%s : %d, jpegdec clk_prepare_enable fail\n",
-> +			__func__, __LINE__);
-> +		goto clk_end;
-> +	}
-> +
-> +	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
-> +			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
-> +
-> +	mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
-> +	if (mtk_jpeg_set_dec_dst(ctx,
-> +				 &jpeg_src_buf->dec_param,
-> +				 &dst_buf->vb2_buf, &fb)) {
-> +		dev_err(jpeg->dev, "%s : %d, mtk_jpeg_set_dec_dst fail\n",
-> +			__func__, __LINE__);
-> +		goto setdst_end;
-> +	}
-> +
-> +	spin_lock_irqsave(&comp_jpeg[hw_id]->hw_lock, flags);
-> +	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
-> +	mtk_jpeg_dec_set_config(jpeg->reg_base,
-> +				&jpeg_src_buf->dec_param,
-> +				&bs,
-> +				&fb);
-> +	mtk_jpeg_dec_start(comp_jpeg[hw_id]->reg_base);
-> +	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> +	spin_unlock_irqrestore(&comp_jpeg[hw_id]->hw_lock, flags);
-> +
-> +	return;
-> +
-> +setdst_end:
-> +	clk_disable_unprepare(comp_jpeg[hw_id]->jdec_clk.clks->clk);
-> +clk_end:
-> +	pm_runtime_put(comp_jpeg[hw_id]->dev);
-> +dec_end:
-> +	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-> +	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> +	v4l2_m2m_buf_done(src_buf, buf_state);
-> +	v4l2_m2m_buf_done(dst_buf, buf_state);
-> +getbuf_fail:
-> +	atomic_inc(&jpeg->dechw_rdy);
-> +	mtk_jpegdec_put_hw(jpeg, hw_id);
-> +	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> +}
-> +
->   static void mtk_jpeg_multicore_dec_device_run(void *priv)
->   {
-> +	struct mtk_jpeg_ctx *ctx = priv;
-> +	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
-> +
-> +	queue_work(jpeg->workqueue, &ctx->jpeg_work);
-
-
-In the previous commit, I asked why this function was empty: I see you're
-filling it in right now, so please add the MT8195 compatibles after this
-commit, or later.
-
->   }
->   
->   static void mtk_jpeg_dec_device_run(void *priv)
-> @@ -1377,6 +1546,9 @@ static int mtk_jpeg_open(struct file *file)
->   	if (jpeg->is_jpgenc_multihw)
->   		INIT_WORK(&ctx->jpeg_work, mtk_jpegenc_worker);
->   
-> +	if (jpeg->is_jpgdec_multihw)
-> +		INIT_WORK(&ctx->jpeg_work, mtk_jpegdec_worker);
-> +
->   	INIT_LIST_HEAD(&ctx->dst_done_queue);
->   	spin_lock_init(&ctx->done_queue_lock);
->   	v4l2_fh_init(&ctx->fh, vfd);
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> index ddfe2b4c48b3..ef9a3e1fdf60 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> @@ -171,6 +171,9 @@ struct mtk_jpegdec_comp_dev {
->   	int jpegdec_irq;
->   	struct delayed_work job_timeout_work;
->   	struct mtk_jpeg_hw_param hw_param;
-> +	enum mtk_jpeg_hw_state hw_state;
-> +	//spinlock protecting the hw device resource
-
-C-style comments please.
-
-> +	spinlock_t hw_lock;
->   };
->   
->   /**
-
-Regards,
-Angelo
-
+DQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBOaWNvbGFzIER1ZnJlc25lIDxu
+aWNvbGFzQG5kdWZyZXNuZS5jYT4gDQpTZW50OiBUdWVzZGF5LCBKdWx5IDEyLCAyMDIyIDc6MDQg
+UE0NClRvOiBWaXN3YW5hdGggQm9tYSAoVGVtcCkgKFFVSUMpIDxxdWljX3Zib21hQHF1aWNpbmMu
+Y29tPjsgdmlkZW8udXBzdHJlYW0uZXh0ZXJuYWwgPHZpZGVvLnVwc3RyZWFtLmV4dGVybmFsQHF0
+aS5xdWFsY29tbS5jb20+OyBzdGFuaW1pci52YXJiYW5vdkBsaW5hcm8ub3JnOyBBbmR5IEdyb3Nz
+IDxhZ3Jvc3NAa2VybmVsLm9yZz47IGJqb3JuLmFuZGVyc3NvbkBsaW5hcm8ub3JnOyBNYXVybyBD
+YXJ2YWxobyBDaGVoYWIgPG1jaGVoYWJAa2VybmVsLm9yZz47IGxpbnV4LW1lZGlhQHZnZXIua2Vy
+bmVsLm9yZzsgbGludXgtYXJtLW1zbUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2Vy
+Lmtlcm5lbC5vcmcNClN1YmplY3Q6IFJlOiBbUEFUQ0ggMS83XSB2ZW51cyA6IEFkZCBkZWZhdWx0
+IHZhbHVlcyBmb3IgdGhlIGNvbnRyb2wgVjRMMl9DSURfQ09MT1JJTUVUUllfSERSMTBfTUFTVEVS
+SU5HX0RJU1BMQVkNCg0KV0FSTklORzogVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZyb20gb3V0c2lk
+ZSBvZiBRdWFsY29tbS4gUGxlYXNlIGJlIHdhcnkgb2YgYW55IGxpbmtzIG9yIGF0dGFjaG1lbnRz
+LCBhbmQgZG8gbm90IGVuYWJsZSBtYWNyb3MuDQoNCkxlIG1hcmRpIDEyIGp1aWxsZXQgMjAyMiDD
+oCAxNzo1MyArMDUzMCwgVmlzd2FuYXRoIEJvbWEgYSDDqWNyaXQgOg0KPiBGcm9tOiBTdGFuaW1p
+ciBWYXJiYW5vdiA8c3RhbmltaXIudmFyYmFub3ZAbGluYXJvLm9yZz4NCj4NCj4gIFY0bDIgZW5j
+b2RlciBjb21wbGlhbmNlIGV4cGVjdGluZyBkZWZhdWx0IHZhbHVlcyBvZiBjb2xvcm1ldHJ5IGZv
+ciB0aGUgY29udHJvbC4NCg0Kbml0OiBjb2xvcm1ldHJ5IC0+IGNvbG9yaW1ldHJ5DQpbdmJvbWFd
+DQpXaWxsIGVuc3VyZSB3aXRoIG5leHQgcGF0Y2ggc2V0IC4NCj4NCj4gQ2hhbmdlLUlkOiBJMWRi
+MGQ0OTQwYjU0ZTAzM2Q2NDZjZTM5ZDYwZGM0ODhhZmJhOGQ1OA0KPiBTaWduZWQtb2ZmLWJ5OiBW
+aXN3YW5hdGggQm9tYSA8cXVpY192Ym9tYUBxdWljaW5jLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJz
+L21lZGlhL3BsYXRmb3JtL3Fjb20vdmVudXMvdmVuY19jdHJscy5jIHwgNCArKystDQo+ICAxIGZp
+bGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+DQo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Fjb20vdmVudXMvdmVuY19jdHJscy5jIA0KPiBi
+L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcWNvbS92ZW51cy92ZW5jX2N0cmxzLmMNCj4gaW5kZXgg
+ZWE1ODA1ZTcxYzE0My4uMzdiYTdkOTdmOTliMiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRp
+YS9wbGF0Zm9ybS9xY29tL3ZlbnVzL3ZlbmNfY3RybHMuYw0KPiArKysgYi9kcml2ZXJzL21lZGlh
+L3BsYXRmb3JtL3Fjb20vdmVudXMvdmVuY19jdHJscy5jDQo+IEBAIC0zNTIsNiArMzUyLDggQEAg
+c3RhdGljIGNvbnN0IHN0cnVjdCB2NGwyX2N0cmxfb3BzIHZlbmNfY3RybF9vcHMgPSANCj4geyAg
+aW50IHZlbmNfY3RybF9pbml0KHN0cnVjdCB2ZW51c19pbnN0ICppbnN0KSAgew0KPiAgICAgICBp
+bnQgcmV0Ow0KPiArICAgICBzdHJ1Y3QgdjRsMl9jdHJsX2hkcjEwX21hc3RlcmluZ19kaXNwbGF5
+IHBfaGRyMTBfbWFzdGVyaW5nID0geyB7MzQwMDAsIDEzMjUwLCA3NTAwIH0sDQo+ICsgICAgIHsg
+MTYwMDAsIDM0NTAwLCAzMDAwIH0sIDE1NjM1LCAgMTY0NTAsIDEwMDAwMDAwLCA1MDAgfTsNCg0K
+V2hhdCBpcyB0aGUgb3JpZ2luIG9mIHRoZXNlIHZhbHVlcyA/IFNob3VsZCB0aGlzIGJlIGRvbmUg
+aW4gdGhlIGNvbnRyb2wgZnJhbWV3b3JrIGluc3RlYWQgPw0KW3Zib21hXQ0KQ29udHJvbCBmcmFt
+ZSB3b3JrIGhhbmRsaW5nIHRoZSBtaW4vbWF4IHZhbHVlIHRoYXQgcmVxdWlyZWQgd2l0aCB0aGUg
+ZGVmYXVsdCBjb250cm9sIG9iamVjdC4NCkFzIHBlciBAU3RhbmltaXIgVmFyYmFub3YgKENvbnN1
+bHRhbnQpICBpbnB1dHMgLGFkZGVkIHRoZXNlIHZhbHVlcyBmb3IgdGhlIGRlZmF1bHQgLg0KSEkg
+LCBAU3RhbmltaXIgVmFyYmFub3YgKENvbnN1bHRhbnQpICwgY291bGQgeW91IHBsZWFzZSBzaGFy
+ZSBtb3JlIGluZm8gYXMgcmVxdWlyZWQgLg0KDQo+DQo+ICAgICAgIHJldCA9IHY0bDJfY3RybF9o
+YW5kbGVyX2luaXQoJmluc3QtPmN0cmxfaGFuZGxlciwgNTgpOw0KPiAgICAgICBpZiAocmV0KQ0K
+PiBAQCAtNTgwLDcgKzU4Miw3IEBAIGludCB2ZW5jX2N0cmxfaW5pdChzdHJ1Y3QgdmVudXNfaW5z
+dCAqaW5zdCkNCj4NCj4gICAgICAgdjRsMl9jdHJsX25ld19zdGRfY29tcG91bmQoJmluc3QtPmN0
+cmxfaGFuZGxlciwgJnZlbmNfY3RybF9vcHMsDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIFY0TDJfQ0lEX0NPTE9SSU1FVFJZX0hEUjEwX01BU1RFUklOR19ESVNQTEFZLA0KPiAt
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2NGwyX2N0cmxfcHRyX2NyZWF0ZShOVUxM
+KSk7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHY0bDJfY3RybF9wdHJfY3Jl
+YXRlKCh2b2lkIA0KPiArICopJnBfaGRyMTBfbWFzdGVyaW5nKSk7DQo+DQo+ICAgICAgIHY0bDJf
+Y3RybF9uZXdfc3RkKCZpbnN0LT5jdHJsX2hhbmRsZXIsICZ2ZW5jX2N0cmxfb3BzLA0KPiAgICAg
+ICAgICAgICAgICAgICAgICAgICBWNEwyX0NJRF9NUEVHX1ZJREVPX0lOVFJBX1JFRlJFU0hfUEVS
+SU9ELCAwLA0KDQo=
