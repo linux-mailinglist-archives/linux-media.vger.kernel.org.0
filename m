@@ -2,76 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B941B578D48
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 00:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FA28578D7F
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 00:28:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236399AbiGRWEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 18:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
+        id S234876AbiGRW2i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 18:28:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235709AbiGRWE3 (ORCPT
+        with ESMTP id S229647AbiGRW2h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 18:04:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B9AE1F2D6;
-        Mon, 18 Jul 2022 15:04:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 778DBB817B5;
-        Mon, 18 Jul 2022 22:04:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0E7DC341C0;
-        Mon, 18 Jul 2022 22:04:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658181860;
-        bh=3JxZkLM8MBszfDbDjwosYrF471wfmGyjogJnExYKUPY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BSlcJtetWKT66UYJ5KpIsH1zskh3T2ZqU/URAT5Y8TZeNrDkyU4XdYFBS1UCq8HGs
-         OeAcEtyYH5QPq1S0Yf81A5dfERgEQxdiY1nFXXqysSevgo4VJ10WCEzxjCSTsywggx
-         5o3XEpBmhlD+Mj4w7jqRwz28mrK0Ev4Pvv7VC/qnVVpXS6vgAgZnf3vmjMzM//0TM+
-         m2PNihIHQjQ8iDbkBmz1rc3GpaRWbkpAqP8iOcdqqB4t+W5qDj3Ykk/sudVMnTAfSN
-         MIStUtpzJ2s7xfcOgw526ZqsCKTTUvFKUQGKMYkCj01RTmOKRLDqptGyKlWg1k0DIr
-         kQpGkmvYq8x6g==
-Date:   Mon, 18 Jul 2022 15:04:14 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Dave Airlie <airlied@gmail.com>, torvalds@linux-foundation.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        gregkh@linuxfoundation.org, Daniel Vetter <daniel@ffwll.ch>,
-        mcgrof@kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.sf.net, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-media@vger.kernel.org, linux-block@vger.kernel.org,
-        Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
- guidelines.
-Message-ID: <20220718150414.1767bbd8@kernel.org>
-In-Reply-To: <97e5afd3-77a3-2227-0fbf-da2f9a41520f@leemhuis.info>
-References: <20220718072144.2699487-1-airlied@gmail.com>
-        <97e5afd3-77a3-2227-0fbf-da2f9a41520f@leemhuis.info>
+        Mon, 18 Jul 2022 18:28:37 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031A4286D3
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 15:28:36 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 811C26EE;
+        Tue, 19 Jul 2022 00:28:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1658183314;
+        bh=ByqLgWboA6agr5LlPG85e14WyGIxZ/eAm6lHr7jgkN8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=i02yaZNy1yUQws3HOCe+6D5Fe2zGfW5n9j0secOkmVtMdryiOvXSpsThFGRGLiHJX
+         RnewgfSrbEHJ8hcPDbvGgiWLN2ODEPDBMpjGbymmaQu66+eecJJ+G0YfcfgIBL3oEk
+         JqaAp4qQI399kEqMeUO++AqpIS8ues+OeDiiYjpc=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] media: uvcvideo: Use indexed loops in uvc_ctrl_init_ctrl()
+Date:   Tue, 19 Jul 2022 01:27:57 +0300
+Message-Id: <20220718222757.8203-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 18 Jul 2022 11:33:11 +0200 Thorsten Leemhuis wrote:
-> > If the hardware isn't
-> > +  enabled by default or under development,  
-> 
-> Wondering if it might be better to drop the "or under development", as
-> the "enabled by default" is the main part afaics. Maybe something like
-> "If support for the hardware is normally inactive (e.g. has to be
-> enabled manually by a kernel parameter)" would be better anyway.
+As shown by the bug introduced in commit 86f7ef773156 ("media: uvcvideo:
+Add support for per-device control mapping overrides"), the loop style
+used by uvc_ctrl_init_ctrl() is error-prone. Rewrite the loops to use
+indices instead.
 
-It's a tricky one, I'd say something like you can break the FW ABI
-"until HW becomes available for public consumption" or such.
-I'm guessing what we're after is letting people break the compatibility
-in early stages of the product development cycles. Pre-silicon and
-bring up, but not after there are products on the market?
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+This patch depends on https://lore.kernel.org/linux-media/20220718121219.16079-1-laurent.pinchart@ideasonboard.com
+---
+ drivers/media/usb/uvc/uvc_ctrl.c | 34 ++++++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index 8c208db9600b..5c33b0b7ef9a 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -2411,10 +2411,9 @@ static void uvc_ctrl_prune_entity(struct uvc_device *dev,
+ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 			       struct uvc_control *ctrl)
+ {
+-	const struct uvc_control_info *info = uvc_ctrls;
+-	const struct uvc_control_info *iend = info + ARRAY_SIZE(uvc_ctrls);
+-	const struct uvc_control_mapping *mapping;
+-	const struct uvc_control_mapping *mend;
++	const struct uvc_control_mapping *mappings;
++	unsigned int num_mappings;
++	unsigned int i;
+ 
+ 	/*
+ 	 * XU controls initialization requires querying the device for control
+@@ -2425,7 +2424,9 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 	if (UVC_ENTITY_TYPE(ctrl->entity) == UVC_VC_EXTENSION_UNIT)
+ 		return;
+ 
+-	for (; info < iend; ++info) {
++	for (i = 0; i < ARRAY_SIZE(uvc_ctrls); ++i) {
++		const struct uvc_control_info *info = &uvc_ctrls[i];
++
+ 		if (uvc_entity_match_guid(ctrl->entity, info->entity) &&
+ 		    ctrl->index == info->index) {
+ 			uvc_ctrl_add_info(chain->dev, ctrl, info);
+@@ -2452,9 +2453,11 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 	 */
+ 	if (chain->dev->info->mappings) {
+ 		bool custom = false;
+-		unsigned int i;
+ 
+-		for (i = 0; (mapping = chain->dev->info->mappings[i]); ++i) {
++		for (i = 0; chain->dev->info->mappings[i]; ++i) {
++			const struct uvc_control_mapping *mapping =
++				chain->dev->info->mappings[i];
++
+ 			if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+ 			    ctrl->info.selector == mapping->selector) {
+ 				__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+@@ -2467,10 +2470,9 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 	}
+ 
+ 	/* Process common mappings next. */
+-	mapping = uvc_ctrl_mappings;
+-	mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings);
++	for (i = 0; i < ARRAY_SIZE(uvc_ctrl_mappings); ++i) {
++		const struct uvc_control_mapping *mapping = &uvc_ctrl_mappings[i];
+ 
+-	for (; mapping < mend; ++mapping) {
+ 		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+ 		    ctrl->info.selector == mapping->selector)
+ 			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+@@ -2478,14 +2480,16 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 
+ 	/* Finally process version-specific mappings. */
+ 	if (chain->dev->uvc_version < 0x0150) {
+-		mapping = uvc_ctrl_mappings_uvc11;
+-		mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings_uvc11);
++		mappings = uvc_ctrl_mappings_uvc11;
++		num_mappings = ARRAY_SIZE(uvc_ctrl_mappings_uvc11);
+ 	} else {
+-		mapping = uvc_ctrl_mappings_uvc15;
+-		mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings_uvc15);
++		mappings = uvc_ctrl_mappings_uvc15;
++		num_mappings = ARRAY_SIZE(uvc_ctrl_mappings_uvc15);
+ 	}
+ 
+-	for (; mapping < mend; ++mapping) {
++	for (i = 0; i < num_mappings; ++i) {
++		const struct uvc_control_mapping *mapping = &mappings[i];
++
+ 		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+ 		    ctrl->info.selector == mapping->selector)
+ 			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+-- 
+Regards,
+
+Laurent Pinchart
+
