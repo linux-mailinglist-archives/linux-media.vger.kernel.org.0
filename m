@@ -2,117 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E6D5778E5
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 01:53:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88387577953
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 03:42:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231499AbiGQXxK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Jul 2022 19:53:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47800 "EHLO
+        id S231485AbiGRBmW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Jul 2022 21:42:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbiGQXxJ (ORCPT
+        with ESMTP id S229949AbiGRBmV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Jul 2022 19:53:09 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C3010FF0;
-        Sun, 17 Jul 2022 16:53:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658101988; x=1689637988;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VNMEzfp+9oK/wqfrmdzIE3iL6TAeWOf/0OE1dADLY6c=;
-  b=OBAX0RhqQBDYz9jAeQz9uDGNdJMrI8qMuxH1NmaPc7kkTjwMo+0Ftrz+
-   pjKwCbdvL1JxV66sXid4VdLyCjZ87Uy5zNSEpgOkEQXMaKLpZV485GDjH
-   EozSexQf4qXoM5+ZytnhVqSUE5awhFhh53nur0Ty8ZnExzVRB7v7fq8A3
-   OlV0w7Mj+aKxF4hwjH/36hUg8ChI5HkUiTWDeblBzMI0/XGmd3ap9MsQ0
-   CooxFGFDBswWyNDhMcEMPhVmEj0aj2ZerR0JIiSk9jbhQxxC+hNZbGs7M
-   4rYW5UZC2l5l3ML8ow079+MS0mz12bZICi+TjnvXET30rQahcwc4gpcoP
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="350063090"
-X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
-   d="scan'208";a="350063090"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 16:53:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
-   d="scan'208";a="547276233"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 17 Jul 2022 16:53:05 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oDE4O-0003o1-EY;
-        Sun, 17 Jul 2022 23:53:04 +0000
-Date:   Mon, 18 Jul 2022 07:52:33 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, Volodymyr Kharuk <vkh@melexis.com>,
-        Andrii Kyselov <ays@melexis.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Michal Simek <monstr@monstr.eu>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] media: i2c: Add driver for mlx7502x ToF sensor
-Message-ID: <202207180729.RLw6oeM7-lkp@intel.com>
-References: <6f9b20bb1946d8a50170963b84e32abfdee14ba7.1657786765.git.vkh@melexis.com>
+        Sun, 17 Jul 2022 21:42:21 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C47712AF8
+        for <linux-media@vger.kernel.org>; Sun, 17 Jul 2022 18:42:20 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id h17so15071254wrx.0
+        for <linux-media@vger.kernel.org>; Sun, 17 Jul 2022 18:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bekOncRaPF1NxvuZVFAu6mcVMT/xzfB6dU3oKKjrlTs=;
+        b=MO3SpsNBx0YdBNe4EdBAkch2ap9FSo6pYSGjO7iThVm5xswWjh7WDMVkSadj4LqS3/
+         XEbrqZ2keLt2mwq15CWMQWUTtSoWNgSHo8mOpaA2AGmuc2faUAH6nGyvznlf+/x7cBDc
+         ywkY85CJI3dGK7SJTMfS5Mx6K6YOoovVkqrxddkqoTc/mJcoM7OCyTRVb86SQDEC1xVg
+         SfdHRw6VzVi7vb1FSgZ53YCuCApOjKLd0XkldQ17Kt3wuOmRNirwLyWHLUgVR3syXgeE
+         2v8UYlsItxYNBs5DxXtoJy/+LGMNF+hU+Gx8+jCNaEFTxFGL+3ASL44OhkfTquM9c/6H
+         g4fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bekOncRaPF1NxvuZVFAu6mcVMT/xzfB6dU3oKKjrlTs=;
+        b=txmPMUrYqHpDtn2bs/UG4JtgrU16BcQB4llSLaI/MfPhMLuI4SwzAafGjZaAAi/YtH
+         wjTcQrAhcEmMjYQVIsi3WCy9dAmlP0Lg4H9UUN3zKct3Exe4e0FCVrKWX3lQ7vMTSLyt
+         yr5tPoO2+V8NEgHsN5+1/XZ77P4mCoH7qGupNFl51TY136rBPgOYEE0l2dQpe9FpdVkP
+         oAAY+biHXEfJA8WOkqBS2iwZsQEiEd+UuoqDeozWfHdAQ/2DT449/RI6rW8I6jrMrP8b
+         dPciebrExPub+8dycFFVfO5ZH1ATe0j6mUXDEjLLCccHM9/+upyNTT0A6VQkIEZ0isjX
+         3gYQ==
+X-Gm-Message-State: AJIora+3CuQsSrYBxe25F3DqBINsDOwhaXQeLfSxbnN7CZIibMu7owR4
+        DIjNa6Db9mZWSZcQWelyBGdhTg==
+X-Google-Smtp-Source: AGRyM1s57C4gHhD81Q+RdMTOBoGWHjP2XZ59G3gBO6B/x4zTY5JRHxWtUpZgJoayvcpqChU55ZJXrg==
+X-Received: by 2002:a5d:5548:0:b0:21d:69c1:c09 with SMTP id g8-20020a5d5548000000b0021d69c10c09mr20573178wrw.251.1658108538957;
+        Sun, 17 Jul 2022 18:42:18 -0700 (PDT)
+Received: from planet9.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id v10-20020adfebca000000b0021d76a1b0e3sm1685139wrn.6.2022.07.17.18.42.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Jul 2022 18:42:18 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     sakari.ailus@iki.fi, jacopo@jmondi.org, paul.j.murphy@intel.com,
+        daniele.alessandrelli@intel.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     dmitry.baryshkov@linaro.org, konrad.dybcio@somainline.org,
+        andrey.konovalov@linaro.org, bryan.odonoghue@linaro.org
+Subject: [PATCH v2 0/3] Add imx577 compatible to imx412
+Date:   Mon, 18 Jul 2022 02:42:12 +0100
+Message-Id: <20220718014215.1240114-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f9b20bb1946d8a50170963b84e32abfdee14ba7.1657786765.git.vkh@melexis.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Volodymyr,
+V2:
+Sakari wasn't especially satisfied with the answer imx412 and imx577 have
+the same init sequence but, suggested setting the string for imx577 as is
+done in the ccs driver.
 
-I love your patch! Perhaps something to improve:
+https://lore.kernel.org/all/20220607134057.2427663-3-bryan.odonoghue@linaro.org/t/
 
-[auto build test WARNING on d8e8aa866ed8636fd6c1017c3d9453eab2922496]
+I went to look at that and asked myself "how would I tell the difference
+between the two silicon parts". The obvious answer is a chip identifier.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Volodymyr-Kharuk/media-i2c-mlx7502x-ToF-camera-support/20220714-163709
-base:   d8e8aa866ed8636fd6c1017c3d9453eab2922496
-config: parisc-randconfig-s041-20220715 (https://download.01.org/0day-ci/archive/20220718/202207180729.RLw6oeM7-lkp@intel.com/config)
-compiler: hppa64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/59a691c2f449518699a328ea663098aa3ae038b9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Volodymyr-Kharuk/media-i2c-mlx7502x-ToF-camera-support/20220714-163709
-        git checkout 59a691c2f449518699a328ea663098aa3ae038b9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc64 SHELL=/bin/bash drivers/media/i2c/ drivers/pci/ kernel/trace/ sound/soc/codecs/
+Luckily this class of IMX sensor has a chip identifier at offset 0x0016.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+That looks like this for imx258, imx319 and imx355
 
+drivers/media/i2c/imx258.c:#define IMX258_REG_CHIP_ID    0x0016
+drivers/media/i2c/imx258.c:#define IMX258_CHIP_ID        0x0258
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/i2c/mlx7502x.c:1989:53: sparse: sparse: Using plain integer as NULL pointer
+drivers/media/i2c/imx319.c:#define IMX319_REG_CHIP_ID    0x0016
+drivers/media/i2c/imx319.c:#define IMX319_CHIP_ID        0x0319
 
-vim +1989 drivers/media/i2c/mlx7502x.c
+drivers/media/i2c/imx355.c:#define IMX355_REG_CHIP_ID    0x0016
+drivers/media/i2c/imx355.c:#define IMX355_CHIP_ID        0x0355
 
-  1987	
-  1988	static const struct of_device_id mlx7502x_of_match[] = {
-> 1989		{ .compatible = "melexis,mlx7502x", .data = 0 }, /* auto-detection */
-  1990		{ .compatible = "melexis,mlx75026", .data = &mlx75026 },
-  1991		{ .compatible = "melexis,mlx75027", .data = &mlx75027 },
-  1992		{ /* sentinel */ }
-  1993	};
-  1994	MODULE_DEVICE_TABLE(of, mlx7502x_of_match);
-  1995	
+but then looks like this for imx412.
+
+drivers/media/i2c/imx412.c:#define IMX412_REG_ID         0x0016
+drivers/media/i2c/imx412.c:#define IMX412_ID             0x577
+
+This made no sense at all to me, why is the imx412 driver not named imx577 ?
+
+I went and dug into the Qualcomm camx/chi-cdk sources to find that a file
+called cmk_imx577_sensor.xml has a property called sensorId which is
+constrained to 0x0577.
+
+In the Qualcomm stack this pairing of filename and identifier is
+maintained for imx258, imx376, imx476, imx576, imx519, imx362, imx481,
+imx318 imx334 and imx386.
+
+Every single example I can find of a Sony IMX sensor which returns a chip
+identifier at offset 0x0016 matches the driver name to the returned sensor
+id both here upstream in Linux and in Qualcomm's camx stack.
+
+The conclusion I draw from this is that imx412.c is inappropriately named.
+
+I think the right thing to do is to rename imx412 to imx577. It is
+confusing and I think wrong to pair imx412.c with a chip which identifies
+as 0x0577.
+
+V1:
+Right now the imx412 and imx577 are code and pin compatible however, they
+are distinct pieces of silicon.
+
+Document imx577 as a compatible enum and add the compat string to imx412.c.
+This allows us to differentiate these chips in DTS and potentially to apply
+any future imx412 or imx577 specific changes appropriately.
+
+Bryan O'Donoghue (3):
+  media: dt-bindings: media: Rename imx412 to imx577
+  media: i2c: imx577: Rename imx412.c to imx577.c
+  media: i2c: imx577: Fix chip identifier define name
+
+ .../{sony,imx412.yaml => sony,imx577.yaml}    |  18 +-
+ MAINTAINERS                                   |   6 +-
+ drivers/media/i2c/Kconfig                     |   8 +-
+ drivers/media/i2c/Makefile                    |   2 +-
+ drivers/media/i2c/{imx412.c => imx577.c}      | 622 +++++++++---------
+ 5 files changed, 328 insertions(+), 328 deletions(-)
+ rename Documentation/devicetree/bindings/media/i2c/{sony,imx412.yaml => sony,imx577.yaml} (83%)
+ rename drivers/media/i2c/{imx412.c => imx577.c} (55%)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.34.1
+
