@@ -2,177 +2,353 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F2C2577EE7
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 11:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39376577EFB
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 11:51:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234224AbiGRJqg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 05:46:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37790 "EHLO
+        id S234276AbiGRJv1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 05:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234166AbiGRJqe (ORCPT
+        with ESMTP id S234221AbiGRJv0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 05:46:34 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2133.outbound.protection.outlook.com [40.107.114.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ADB71ADAD;
-        Mon, 18 Jul 2022 02:46:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A6Fk91+1DS2atmcg1zIoCqX8mLO7SErtar/vPWMl7uBbdF1Z1MiXz2O/gcIgf2Xojvcb8Q8gLVrDOn614yhYGNhfQOgFbqfA3ejq/2gCCSVDIe1kr6hBb1TGNNBlYrhR0lqaCgfNHzLCuqqYIv4LqHBgmseZccUBexwKCgC55mzaXW2KKDoPdv3wViIqHGZsJBRNF6802iAm6alPV+Atf8fx4j5vhXhpXB/1qjHwEbxaxi4oNEAXzJjSiV7S7JWIYhluZtT6Rn+YxYsAoURzOyrrbPb6SGxQ4TpyDVLGtDDblTINnB/tU/kJmYtF7uzvjt62UPQeitHNkDKA/rf/Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lgGC2SoFu9v+9UXGpkmzwbXu0TtZtO8NwA+LtEz+u54=;
- b=nXexei1HYGUMgQ1p+p2q9T6iDXP6nuOC5ZuLN4NAlPxg/BnatO6NFEBl9smLpNRL6TRCEvAGMNvXumkhaL/R9ULwSZZIK3PzYf8oYeQJvbIXT529tzdNGSaJBsM911uIjOqrLEMs5gt8f1sPWedLa3bp1qgRj4LZocnDqzrlejbkaQ06ir96yUgeYsydabSr+nGxF8uQwqcAjpd956IQBKuTFMxVJgoMrSdM5rx8ocYQ+H30esfP/1FxI8WWatD6Xk/FapioOySw8j7uDdZt3I+3u7k/+cjNvGCvh33j6l84o9JzQyWsk4wK3trIG+d4068B5APgBvhbxcHevXaeWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lgGC2SoFu9v+9UXGpkmzwbXu0TtZtO8NwA+LtEz+u54=;
- b=gNSgU9A3KiuKrP/wR8bhNETV8erAr+QtSA0qNI0bg7tRpQhUsr9CWX2B3QHV4zPWOAZ5FTTjDV3DN5JIq796NvH3wccW7Oak2Fzi6iAUAs5PxRZ5or8q870QIyIiq+VFp/f3dhjyzuwnBmhSvuLhEgYPzvnjkz3JDZUnd0ObKV8=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSZPR01MB9597.jpnprd01.prod.outlook.com (2603:1096:604:1d2::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Mon, 18 Jul
- 2022 09:46:30 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b046:d8a3:ac9c:75b5]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b046:d8a3:ac9c:75b5%4]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
- 09:46:30 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v11 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-Thread-Topic: [PATCH v11 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-Thread-Index: AQHYdPmLaH3LWDeTz0+X1dy9H4VIWa18OHAAgAAKlXCAAAizAIAAEfkAgAAGnICAB8d6EA==
-Date:   Mon, 18 Jul 2022 09:46:30 +0000
-Message-ID: <OS0PR01MB5922AEA08C8DD71390E51A97868C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
- <20220531141958.575616-3-biju.das.jz@bp.renesas.com>
- <20220713081856.GA14683@pengutronix.de>
- <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com>
- <20220713103216.GA10829@pengutronix.de>
- <CAMuHMdX9ULJVzxsBqkZvg2_XoxJPGqmduhjM9j_PCJDk-PdmqQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdX9ULJVzxsBqkZvg2_XoxJPGqmduhjM9j_PCJDk-PdmqQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 80ee4c76-53eb-42be-3d27-08da68a2644d
-x-ms-traffictypediagnostic: OSZPR01MB9597:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ZUqV7U93w+O/JsADbJGVb70eOvi7B/ucyfQKHxu9eMri4/VCEuzT4w0yCrYkTQKPMHpWecv9jJwZ6Gf4nwujNzTnt5aANqKm4cC3OdbzO9hycsXy/WHkvXlpuTB7Aq7w7HpjNJ1dRpxaBI72QQ2L0/v8bk6HzyFQsVZZZB9G6qiROycZWixBt8xLI3YF1+KmyLjvxKML+oHHMUpZ6f/TfVC8DIKUReAGDmjmnH8RJB+or8Ubrz7msUq8Y/PMvTY8aewXRgbCA2QmClE6CXABTyfgrrUvhI954XnkL/f12VBuHjTMMPYLYmkQVidZa78CqvGsrufeEUGVPdwewXeB0Dh155BqC6d1+u1yVmf3NZKmB5AdTptM2zxx5EH29lfBJ05XJkzAnZwg7ovVYyGWL5fc6wxHvyAcITyJUwjukni3h+zZR+5UBjEoZ6JsOcAmV1m8TbKublbslaHh5v4+Qg3TczemXvmbgdOsQym8gApQLyOJeqcrdq3GcVjweI6tEyQm8BbmxIfh3uiGifzcnz0rfMktj9qsjMnfqGnt2GxHzivTUQGzREsctNPH1LBU4wdcLNyJ1vfDw77M5Cgxy4jqWOsFJD6UKC/ro+TEiJjO+dAru7W8tX6dnsgglMipKJ0sbpCL4eTiiFucL6yDAjHM6RXN0X5rZrrLHGXNr18UquHBGtJ8ou9/RMcOjEGrc/6NlWeXJc5aYEgjAxbVIA5X0ATWZMsb8ZOTfOLjsyZG0DHdIvNU3+3hLvPD4UUT0Nf1yKIrWiodXXpmYMWfdupe7C3rAabftczCjPw2isnOVuqCmPFYWoPWTlA6axVa
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(39860400002)(366004)(396003)(376002)(346002)(33656002)(5660300002)(55016003)(52536014)(8936002)(2906002)(110136005)(54906003)(86362001)(76116006)(4326008)(66556008)(64756008)(66446008)(66476007)(8676002)(316002)(66946007)(53546011)(26005)(122000001)(478600001)(7696005)(71200400001)(9686003)(6506007)(83380400001)(107886003)(38100700002)(186003)(38070700005)(41300700001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?j4C0R/ovn9JWi1CQ9AtRTHjaiWIseLpJhpb9Q/h9tTbqvrbDTG+cgyDEqKce?=
- =?us-ascii?Q?BXedHEVMvcgCdoAneovjwbTeynefRN3DgMYwpIuA+qa8MEtBLzD6qqe3h0lQ?=
- =?us-ascii?Q?xP2SSnWLklOgo5FiTOOtysyULAmhbTuXREu2YbjVlmj4MH2abR478FE83AJL?=
- =?us-ascii?Q?NxXEASPo08mV7bHbSQCzi5kxp7brQljRZlqWZVIyMnjReDMCqCKDoCtJRPKz?=
- =?us-ascii?Q?7+EkqPap1sjqY5ZpPC6GnUg1/p8gHwGvIMR8tzuHdbY0yUEhqj2F1eR0Glv0?=
- =?us-ascii?Q?flCUr+PvRFAhE47+13G9qOE0CPf8oEKsgMgCJaQ/v/dKVWEgQgy5equlANFS?=
- =?us-ascii?Q?hF7DjF5/nGnm7Nor7l97l9ZqLEXmF0lDtqfcaKMrwPv4ZLgIZrKLCiHAAwOz?=
- =?us-ascii?Q?c4y29FIn8UH91NiZ37ZOpA6RUFC+HWmWDxfVMehZYc4ZYyGy/1Zw2gsX9H3o?=
- =?us-ascii?Q?LW5S4kgY5yTDeqJUn/tHTBXMEO1MYrnuvP0mYJpctgKIWY9zbgYjKL1a6HVd?=
- =?us-ascii?Q?p2cMUHBJEgHs2BZwI+A/Y+FClG15Mg3cioCEeVEp8GExFETATdZO9ytvt8cr?=
- =?us-ascii?Q?07NcbdL1lweEaufCHpEvFEdsK+mQrEHaO5en7/zPZGD8Y1nXpnkma7sPi9Ka?=
- =?us-ascii?Q?dmK0GESbC3osfSJ1A39qw3h/0nLK4dvYa3PtnEWEJ4L4gusj4JhO5zrqj8fX?=
- =?us-ascii?Q?dw6dMVrm8LpHCkYVVVbO7SaL/NnHXvC3UFoaTlpYL4z56Nivk8P6dCLdOxRZ?=
- =?us-ascii?Q?FcMcVmnwPLzzUvSx/4p2wppTN04JaO0swt5n+e15n7HjZ05TfbAhoWg7rpBL?=
- =?us-ascii?Q?voTJydf3S7YfrAo06Do6OsxswXVW5hu+B4hZqAdE0WS+ZlC/M2qzNIckTWHV?=
- =?us-ascii?Q?H1nsXxTr0QhILT/ecoh/5wagSDP+87qSgCGVepj+gHb72C91Plm4wP8/wps+?=
- =?us-ascii?Q?5v9Nvapx/5SWn3eppEH7poas8q8yTcS21QZaOKxqXWl1tkFXFUauQWMuNNup?=
- =?us-ascii?Q?eWZmEpkqyZSfuzOJ+adRFUZzsJKfLTuC0CwaRHjbnbLBX5WrI4qhoOPtzXxB?=
- =?us-ascii?Q?R9k87fyqxsyohf8pD4Prahlx3TPCAnZvVZp5LLsLrwBjKw/EmQa29uBzGe48?=
- =?us-ascii?Q?pR6yV1KoTdu/olG/KOYzW7MLnOKkMmwCjtoTWeFuZHk6r6Jw6uWcjRouY0Xg?=
- =?us-ascii?Q?54Cm21mLdhN1qxctwxDUvM6sXBfnvYcfrxW7bnPKnISnWtM6LRFFzzlRJcxc?=
- =?us-ascii?Q?fG2gXjiWELYPyXUQSIg7/QVVe975olDhapK4hyFI4ikVmf2WJHIHmQVPWOpZ?=
- =?us-ascii?Q?FCok2Z57GBGZW+20gn+oHcGsxi4bQ0s8WO1AaZXXQcKpit7WcYWsFH9HqHPl?=
- =?us-ascii?Q?mderNb8F3iFEMelrHYa+hFAWatmrWS3a9BNU8ogGtn9cszKzl0uTQy6xf72z?=
- =?us-ascii?Q?rU3PIWwkQSLEmVphAMGvqRmmX78LQbKQVH+P3PSLMrHcuHoJi1MZmFlis0Ur?=
- =?us-ascii?Q?yzQftahBKo0bo9eHFc2ALLk7rCD70C2WbFX4kk9O+tVxkJnJb6Wk3nDrIEjI?=
- =?us-ascii?Q?Xtmgk0nSjPOq33DQM8yc7LRKSDKhtVGzq3gwr7pSE6bLEvCET1WxCFfTvXaQ?=
- =?us-ascii?Q?Gw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 18 Jul 2022 05:51:26 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0081317E1C;
+        Mon, 18 Jul 2022 02:51:24 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 132EC66019EC;
+        Mon, 18 Jul 2022 10:51:22 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1658137883;
+        bh=PqU541BVrWZVynVzJE2lxuQek5iEJih4i5Wd0g205qA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=hi44mgVwdIkeXvD+f6GslCa+8jtj2Pyk4sdSH6I4Db+8odeLe0dvnw0JziY2rwyTU
+         YxxbCRd3tM25ebpbG8EdOGsD9RKoXhSX5aTHgaB9uTqktz+6Pj/eL7pU1Eq6Oxds6c
+         bB+asJHGhy4MY8gC4RP1YHdGZRo8pVkP1pRGdqkxIq10OECf8X3shUSMEZVOxdgDAl
+         nM222M6wpJ4IdizFP5TzMtJe8nmFcCnPOMX9FgV8SoQBiSCqNHVKBogn3xrLRUET/t
+         HTBmYaFe9Nzbkmp9hcwhxdVxiQjaO/ICbGh4GrRhUDJ7x9JDEY2hfZqo1qfBuoFI6/
+         0JUqO+4PjS/ug==
+Message-ID: <7967c1df-ec41-e5ee-021d-d671021bc779@collabora.com>
+Date:   Mon, 18 Jul 2022 11:51:19 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80ee4c76-53eb-42be-3d27-08da68a2644d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2022 09:46:30.2808
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hMWfbeqjytT96Fk8Ck3XdacFFa99yQ7ekn9JtZbzl30CLG6R6uGTTlNhDPmCwTR6H70meRVcMTOpzalvEDx5qTHLQLRWRSv5vNybruwd6SI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9597
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/5] media: mediatek: vcodec: Add encoder driver support
+ for 34-bit iova
+Content-Language: en-US
+To:     Irui Wang <irui.wang@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>
+Cc:     Yong Wu <yong.wu@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20220716093808.29894-1-irui.wang@mediatek.com>
+ <20220716093808.29894-2-irui.wang@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220716093808.29894-2-irui.wang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Il 16/07/22 11:38, Irui Wang ha scritto:
+> Encoder driver got iova from IOMMU is 34-bit, for example:
+> 
+> Here is the sample code:
+> encoder input frame buffer dma address is:
+> frm_buf =
+>      vb2_dma_contig_plane_dma_addr(&vb2_v4l2_buffer->vb2_buf, 0);
+> the value of frm_buf is 0x1_ff30_0000.
+> 
+> encoder driver got the frm_buf and send the iova to SCP firmware
+> through SCP IPI message, then write to encoder hardware in SCP.
+> The iova is stored in IPI message as uint32_t data type, so the
+> value will be truncated from *0x1_ff30_0000* to *0xff30_0000*,
+> and then *0xff30_0000* will be written to encoder hardware, but
+> IOMMU will help to add the high *0x1_* bit back, so IOMMU can
+> translate the iova to PA correctly, encoder hardware can access
+> the correct memory for encoding.
+> Another reason to do this is the encoder hardware can't access
+> the 34-bit iova, IOMMU will help to add the remaining high bits
+> of iova. But for mt8188, encoder hardware can access 34-bit iova
+> directly, and encoder driver need write all 34-bit iova because
+> IOMMU can't help driver do this if the hardware support access
+> 34-bit iova.
+> For the reasons above, this patch is added to support transfer
+> 34-bit iova between kernel and SCP encoder driver. Use uint64_t
+> data type to store the iova, for compatibility with old chipsets,
+> add some new struct definitions for 34-bit.
+> 
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> ---
+>   .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   3 +
+>   .../mediatek/vcodec/venc/venc_h264_if.c       | 200 +++++++++++++++---
+>   .../platform/mediatek/vcodec/venc_ipi_msg.h   |  24 +++
+>   .../platform/mediatek/vcodec/venc_vpu_if.c    |  34 ++-
+>   4 files changed, 227 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
+> index ef4584a46417..ab80e1b1979e 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
+> @@ -401,6 +401,7 @@ struct mtk_vcodec_dec_pdata {
+>    * @output_formats: array of supported output formats
+>    * @num_output_formats: number of entries in output_formats
+>    * @core_id: stand for h264 or vp8 encode index
+> + * @is_34bit: whether the encoder uses 34bit iova
+>    */
+>   struct mtk_vcodec_enc_pdata {
+>   	bool uses_ext;
+> @@ -411,9 +412,11 @@ struct mtk_vcodec_enc_pdata {
+>   	const struct mtk_video_fmt *output_formats;
+>   	size_t num_output_formats;
+>   	int core_id;
+> +	bool is_34bit;
+>   };
+>   
+>   #define MTK_ENC_CTX_IS_EXT(ctx) ((ctx)->dev->venc_pdata->uses_ext)
+> +#define MTK_ENC_IOVA_IS_34BIT(ctx) ((ctx)->dev->venc_pdata->is_34bit)
+>   
+>   /**
+>    * struct mtk_vcodec_dev - driver data
+> diff --git a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c b/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> index 4d9b8798dffe..3a5af6cca040 100644
+> --- a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> @@ -127,6 +127,72 @@ struct venc_h264_vsi {
+>   	struct venc_h264_vpu_buf work_bufs[VENC_H264_VPU_WORK_BUF_MAX];
+>   };
+>   
+> +/**
+> + * struct venc_h264_vpu_config_ext - Structure for h264 encoder configuration
+> + *                                   AP-W/R : AP is writer/reader on this item
+> + *                                   VPU-W/R: VPU is write/reader on this item
+> + * @input_fourcc: input fourcc
+> + * @bitrate: target bitrate (in bps)
+> + * @pic_w: picture width. Picture size is visible stream resolution, in pixels,
+> + *         to be used for display purposes; must be smaller or equal to buffer
+> + *         size.
+> + * @pic_h: picture height
+> + * @buf_w: buffer width. Buffer size is stream resolution in pixels aligned to
+> + *         hardware requirements.
+> + * @buf_h: buffer height
+> + * @gop_size: group of picture size (idr frame)
+> + * @intra_period: intra frame period
+> + * @framerate: frame rate in fps
+> + * @profile: as specified in standard
+> + * @level: as specified in standard
+> + * @wfd: WFD mode 1:on, 0:off
+> + * @max_qp: max quant parameter
+> + * @min_qp: min quant parameter
+> + * @reserved: reserved configs
+> + */
+> +struct venc_h264_vpu_config_ext {
+> +	u32 input_fourcc;
+> +	u32 bitrate;
+> +	u32 pic_w;
+> +	u32 pic_h;
+> +	u32 buf_w;
+> +	u32 buf_h;
+> +	u32 gop_size;
+> +	u32 intra_period;
+> +	u32 framerate;
+> +	u32 profile;
+> +	u32 level;
+> +	u32 wfd;
+> +	u32 max_qp;
+> +	u32 min_qp;
+> +	u32 reserved[8];
+> +};
+> +
+> +/**
+> + * struct venc_h264_vpu_buf_34 - Structure for 34 bit buffer information
+> + *                               AP-W/R : AP is writer/reader on this item
+> + *                               VPU-W/R: VPU is write/reader on this item
+> + * @iova: 34 bit IO virtual address
+> + * @vpua: VPU side memory addr which is used by RC_CODE
+> + * @size: buffer size (in bytes)
+> + */
+> +struct venc_h264_vpu_buf_34 {
+> +	u64 iova;
+> +	u32 vpua;
+> +	u32 size;
+> +};
+> +
+> +/**
+> + * struct venc_h264_vsi_64 - Structure for VPU driver control and info share
 
-Hi Philipp and Geert,
+Typo here --------------  ^^^^
 
-> Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
-> deassert/assert reset line
->=20
-> Hi Philipp,
->=20
-> On Wed, Jul 13, 2022 at 12:32 PM Philipp Zabel <p.zabel@pengutronix.de>
-> wrote:
-> > On Wed, Jul 13, 2022 at 11:27:56AM +0200, Geert Uytterhoeven wrote:
-> > [...]
-> > > Actually I suggested handling this in the VSP driver, as VSP seems
-> > > to be "special".
-> > >
-> > > >
-> > > > [1]
-> >
-> > So reset_control_status never actually returns 1 and the polling loop
-> > is not necessary at all?
-> >
-> > If it's just the status register read that fixes things for VSP, could
-> > it be that the deasserting register write to the reset controller and
-> > the following register writes to VSP are not ordered somewhere at the
-> > interconnect and the read issued to the reset controller just
-> > guarantees that order?
->=20
-> The udelay() also works.
->=20
-> While the reset may be deasserted immediately (at the reset controller
-> level), the VSP may need some additional time to settle/initialize (at
-> the VSP level).
->=20
-> Reset is known to work on other blocks on the same SoC, so that's why I
-> suggested handling this in the VSP driver instead, like we already do for
-> i2c.
+> + *                           Used for 64 bit iova sharing
+> + * @config: h264 encoder configuration
+> + * @work_bufs: working buffer information in VPU side
+> + */
+> +struct venc_h264_vsi_34 {
+> +	struct venc_h264_vpu_config_ext config;
+> +	struct venc_h264_vpu_buf_34 work_bufs[VENC_H264_VPU_WORK_BUF_MAX];
+> +};
+> +
+>   /*
+>    * struct venc_h264_inst - h264 encoder AP driver instance
+>    * @hw_base: h264 encoder hardware register base
+> @@ -140,6 +206,8 @@ struct venc_h264_vsi {
 
-From the discussion, we agree that the current implementation is good.
+..snip..
 
-Please correct me if my understanding is wrong.
+> diff --git a/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c b/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c
+> index d3570c4c177d..25c1b13559c9 100644
+> --- a/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c
+> @@ -228,17 +228,28 @@ int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+>   		   struct venc_frame_info *frame_info)
+>   {
 
-Cheers,
-Biju
+That's practically 75% flow differences (or more, actually)... and there's going
+to always be a useless memzero, because a platform will always use either 34, or 32
+bits code.
+
+At this point I think that for both performance and readability purposes, you
+should simply create another function.
+
+Perhaps something like
+
+static int vpu_enc_encode_32bits(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+				 struct venc_frm_buf *frm_buf,
+				 struct mtk_vcodec_mem *bs_buf,
+				 struct venc_frame_info *frame_info)
+{
+	..... function .....
+}
+
+static int vpu_enc_encode_34bits(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+
+				 struct venc_frm_buf *frm_buf,
+
+				 struct mtk_vcodec_mem *bs_buf,
+
+				 struct venc_frame_info *frame_info)
+
+{
+	...... function ......
+}
+
+int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+
+		   struct venc_frm_buf *frm_buf,
+
+		   struct mtk_vcodec_mem *bs_buf,
+
+		   struct venc_frame_info *frame_info)
+
+{
+	int ret;
+
+	if (MTK_ENC_IOVA_IS_34BIT(vpu->ctx))
+		ret = vpu_enc_encode_34bits(......);
+	else
+		ret = vpu_enc_encode_32bits(....);
+
+	if (ret)
+		return ret;
+
+	mtk_vcodec_debug(vpu, "bs_mode %d state %d size %d key_frm %d <-",
+
+			 bs_mode, vpu->state, vpu->bs_size, vpu->is_key_frm);
+
+	return 0;
+}
+
+
+>   	const bool is_ext = MTK_ENC_CTX_IS_EXT(vpu->ctx);
+> +	const bool is_34bit = MTK_ENC_IOVA_IS_34BIT(vpu->ctx);
+> +
+>   	size_t msg_size = is_ext ?
+>   		sizeof(struct venc_ap_ipi_msg_enc_ext) :
+>   		sizeof(struct venc_ap_ipi_msg_enc);
+> +	int status;
+>   	struct venc_ap_ipi_msg_enc_ext out;
+> +	struct venc_ap_ipi_msg_enc_ext_34 out_34;
+>   
+>   	mtk_vcodec_debug(vpu, "bs_mode %d ->", bs_mode);
+>   
+>   	memset(&out, 0, sizeof(out));
+> +	memset(&out_34, 0, sizeof(out_34));
+> +
+>   	out.base.msg_id = AP_IPIMSG_ENC_ENCODE;
+>   	out.base.vpu_inst_addr = vpu->inst_addr;
+>   	out.base.bs_mode = bs_mode;
+> +
+> +	out_34.msg_id = AP_IPIMSG_ENC_ENCODE;
+> +	out_34.vpu_inst_addr = vpu->inst_addr;
+> +	out_34.bs_mode = bs_mode;
+> +
+>   	if (frm_buf) {
+>   		if ((frm_buf->fb_addr[0].dma_addr % 16 == 0) &&
+>   		    (frm_buf->fb_addr[1].dma_addr % 16 == 0) &&
+> @@ -246,6 +257,10 @@ int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+>   			out.base.input_addr[0] = frm_buf->fb_addr[0].dma_addr;
+>   			out.base.input_addr[1] = frm_buf->fb_addr[1].dma_addr;
+>   			out.base.input_addr[2] = frm_buf->fb_addr[2].dma_addr;
+> +
+> +			out_34.input_addr[0] = frm_buf->fb_addr[0].dma_addr;
+> +			out_34.input_addr[1] = frm_buf->fb_addr[1].dma_addr;
+> +			out_34.input_addr[2] = frm_buf->fb_addr[2].dma_addr;
+>   		} else {
+>   			mtk_vcodec_err(vpu, "dma_addr not align to 16");
+>   			return -EINVAL;
+> @@ -254,14 +269,31 @@ int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+>   	if (bs_buf) {
+>   		out.base.bs_addr = bs_buf->dma_addr;
+>   		out.base.bs_size = bs_buf->size;
+> +
+> +		out_34.bs_addr = bs_buf->dma_addr;
+> +		out_34.bs_size = bs_buf->size;
+>   	}
+> +
+>   	if (is_ext && frame_info) {
+>   		out.data_item = 3;
+>   		out.data[0] = frame_info->frm_count;
+>   		out.data[1] = frame_info->skip_frm_count;
+>   		out.data[2] = frame_info->frm_type;
+> +
+> +		out_34.data_item = 3;
+> +		out_34.data[0] = frame_info->frm_count;
+> +		out_34.data[1] = frame_info->skip_frm_count;
+> +		out_34.data[2] = frame_info->frm_type;
+>   	}
+> -	if (vpu_enc_send_msg(vpu, &out, msg_size)) {
+> +
+> +	if (is_34bit) {
+> +		msg_size = sizeof(struct venc_ap_ipi_msg_enc_ext_34);
+> +		status = vpu_enc_send_msg(vpu, &out_34, msg_size);
+> +	} else {
+> +		status = vpu_enc_send_msg(vpu, &out, msg_size);
+> +	}
+> +
+> +	if (status) {
+>   		mtk_vcodec_err(vpu, "AP_IPIMSG_ENC_ENCODE %d fail",
+>   			       bs_mode);
+>   		return -EINVAL;
+
+
