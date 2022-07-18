@@ -2,206 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA508578D13
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 23:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E17F578D1D
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 23:55:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236312AbiGRVtx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 17:49:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41228 "EHLO
+        id S235682AbiGRVzD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 17:55:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235492AbiGRVtw (ORCPT
+        with ESMTP id S234131AbiGRVzD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 17:49:52 -0400
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD132B19C
-        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 14:49:51 -0700 (PDT)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-f2a4c51c45so27483705fac.9
-        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 14:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=YRegPlGkAgnXCQS+56XrhwlChkX0WERwCF78v3+dEDE=;
-        b=tx4wDsqJpNDyDy+RoCSOngclATfOSZSGSNqXermhdzAgWIJQzVv0Sma93TTt5PbTRY
-         +e7j74ZUKxge80dMCD6hCLmAJ2hJBFc3zvXypaiavIDgrvxyXj1DjZQdv7wvxR1Wxoxk
-         4+rGISmGIRqAt8HpsKy75keqQh+uErIt/MgHLMjTRI2ItvOLvWYMS5l0MstP+DAKkbzD
-         cnRaXQS6t2qZe6WYsf8Y+oGTp3+xwjJ1crHibSHTjBN6Y73d8RHByBcdPS0VB24OCp9h
-         0ndrMFGKb1W0GUoTKLkZNswK44qbXle4hLt5CkaXZ6tWaHq08rpmzz+QP9mgMrtl3oks
-         nf8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YRegPlGkAgnXCQS+56XrhwlChkX0WERwCF78v3+dEDE=;
-        b=sGxe3GIyNU93ouXC3NS7zYE4bn3qbz7FCw3EprvXW6LH2SiviwNniQO5EV+hvgoDlq
-         ekBcfuagsp/lHP3emX01I/dv2ZBAqtmSjcZWrVqKvSISrvFIWfppeFI+gouhNJl9BvKy
-         4fepQ9feaeI9Y5lmz2OUAbV4AMMNZz+O8+yH7VZs1atNQlRrP4lsUZTAg9Bk4WiAbzJp
-         RdrrOy5zUoExZ8OggBWYYYL4ehlUP70WOdYF1QWpRDrOR100f0ptOO+xElYj+gMgiAfz
-         Qh0XP1nr1yNLuJZylcm461b0QWzNQCPJuzTMgkSiKlronvYA2XR1jm1xswzDmPHDs/ny
-         4ZRQ==
-X-Gm-Message-State: AJIora/zUnR2BpMVZnUCpOGV0C/RqDmOMzInwsKJK+It+8xhd5b5fG3s
-        JO+az3nsMIooE5d7yE2d6RbwNw==
-X-Google-Smtp-Source: AGRyM1vz+73Xt/EprCxr0glRx7mlW8o0gR7RQ50oLzXGipGpGPDEmsqZtjvD/fY5SFshUU/R35B23w==
-X-Received: by 2002:a05:6808:1691:b0:2f9:4bd7:581e with SMTP id bb17-20020a056808169100b002f94bd7581emr16545639oib.144.1658180990517;
-        Mon, 18 Jul 2022 14:49:50 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id c127-20020a4a0585000000b00431003ca076sm5472932ooc.44.2022.07.18.14.49.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 14:49:50 -0700 (PDT)
-Date:   Mon, 18 Jul 2022 18:49:44 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc:     mripard@kernel.org, paul.kocialkowski@bootlin.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        samuel@sholland.org, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: hevc: Add check for invalid timestamp
-Message-ID: <YtXVeAChyKlfqD8O@eze-laptop>
-References: <20220718165649.16407-1-jernej.skrabec@gmail.com>
- <4725382.GXAFRqVoOG@kista>
- <b588b53fcfe539692a0a55b9fd0e97528def1d96.camel@collabora.com>
- <1795344.atdPhlSkOF@jernej-laptop>
+        Mon, 18 Jul 2022 17:55:03 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605FB27FD9
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 14:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658181301; x=1689717301;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7BkU61LaZlGfXvISb0W2BSsEd/OzzHzMLeBBFSevO2Y=;
+  b=C15LAvDRNHrEHbJLnaHqIubpEW/sGBs3Mg74Ak4sqq+ZcJSHSGmeFN1u
+   nBYA1c60NicKYF+gpRxZgOksjRsmGClBY5qLXtXB6LAMGQErMEWVM8HTo
+   E10J+LW4j5MQmob6FHIOFiuy9hvuPSK8ZGOgoa9ifhohdyfECL3Nsbild
+   M512qgw9reVRAtRaHNQooeaobipGfVvX/mvrIiaEIzczGXwv2wuWID4of
+   OyxPq3VAuEVlVP4JvDHatn1gtPxten6y/VfX+kCeFfMkQ8vwuAXZ5cpyD
+   29hqAOFWYeUujR6HMYyqzp46/RGhCZN/qHWcwABNgrcfvArPMUzd2TTkv
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="312016160"
+X-IronPort-AV: E=Sophos;i="5.92,282,1650956400"; 
+   d="scan'208";a="312016160"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 14:55:00 -0700
+X-IronPort-AV: E=Sophos;i="5.92,282,1650956400"; 
+   d="scan'208";a="724025210"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 14:54:56 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id DBCF220282;
+        Tue, 19 Jul 2022 00:54:53 +0300 (EEST)
+Date:   Mon, 18 Jul 2022 21:54:53 +0000
+From:   "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Sean Young <sean@mess.org>,
+        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        paul.kocialkowski@bootlin.com,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [ANN] Media Summit at OSS Europe in Dublin: September 12
+Message-ID: <YtXWrUJ87Fuu4m1V@paasikivi.fi.intel.com>
+References: <54d42d4e-5994-68a2-4a21-770167d5405a@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1795344.atdPhlSkOF@jernej-laptop>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+In-Reply-To: <54d42d4e-5994-68a2-4a21-770167d5405a@xs4all.nl>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jernej,
+Hi Hans,
 
-On Mon, Jul 18, 2022 at 10:34:37PM +0200, Jernej Škrabec wrote:
-> Dne ponedeljek, 18. julij 2022 ob 21:37:31 CEST je Nicolas Dufresne 
-> napisal(a):
-> > Le lundi 18 juillet 2022 à 19:57 +0200, Jernej Škrabec a écrit :
-> > > Dne ponedeljek, 18. julij 2022 ob 19:41:48 CEST je Nicolas Dufresne
-> > > 
-> > > napisal(a):
-> > > > Le lundi 18 juillet 2022 à 18:56 +0200, Jernej Skrabec a écrit :
-> > > > > Not all DPB entries will be used most of the time. Unused entries will
-> > > > > thus have invalid timestamps. They will produce negative buffer index
-> > > > > which is not specifically handled. This works just by chance in
-> > > > > current
-> > > > > code. It will even produce bogus pointer, but since it's not used, it
-> > > > > won't do any harm.
-> > > > > 
-> > > > > Let's fix that brittle design by skipping writing DPB entry altogether
-> > > > > if timestamp is invalid.
-> > > > > 
-> > > > > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
-> > > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > > ---
-> > > > > 
-> > > > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 3 +++
-> > > > >  1 file changed, 3 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > > > > 1afc6797d806..687f87598f78 100644
-> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > > @@ -147,6 +147,9 @@ static void
-> > > > > cedrus_h265_frame_info_write_dpb(struct
-> > > > > cedrus_ctx *ctx,>
-> > > > > 
-> > > > >  			dpb[i].pic_order_cnt_val
-> > > > >  		
-> > > > >  		};
-> > > > > 
-> > > > > +		if (buffer_index < 0)
-> > > > > +			continue;
-> > > > 
-> > > > When I compare to other codecs, when the buffer_index does not exist,
-> > > > the
-> > > > addr 0 is being programmed into the HW. With this implementation is is
-> > > > left
-> > > > to whatever it was set for the previous decode operation. I think its is
-> > > > nicer done the other way.
-> > > 
-> > > It's done the same way as it's done in vendor lib. As I stated in commit
-> > > message, actual values don't matter for unused entries. If it is used by
-> > > accident, HW reaction on all zero pointers can only be worse than using
-> > > old, but valid entry.
-> > > 
-> > > Due to no real documentation and Allwinner unwillingness to share details,
-> > > we'll probably never know what's best response for each error. Some things
-> > > can be deduced from vendor code, but not all.
-> > > 
-> > > I would rather not complicate this fix, especially since it's candidate
-> > > for
-> > > backporting.
+On Fri, Jul 15, 2022 at 10:15:04AM +0200, Hans Verkuil wrote:
+> Hi all,
+> 
+> The Linux Foundation organized a meeting room for us to use on Monday
+> September 12 at the Convention Centre Dublin.  It is co-located with the
+> Open Source Summit Europe, see
+> https://events.linuxfoundation.org/open-source-summit-europe/ for more
+> info.
 
-I think this makes sense, since it allows to fix the bug for the time
-being.
+I'd like to attend.
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-
-Thanks!
-Ezequiel
-
-> > 
-> > I am simply trying to highlight that this is not consistant with how the
-> > H264 part is done. Why do we reset the register for one codec and not the
-> > other ?
-> 
-> While H264 and HEVC are similar in many ways, Cedrus uses two different cores 
-> or in Cedrus slang, engines, for them. They have their own quirks. One of the 
-> most apparent is handling of DPB array. H264 requires that same entry is 
-> always at the same position in HW DPB. That's not required by HEVC.
-> 
-> Additional reasons for differences come from the fact that it's from two 
-> different authors (Maxime and Paul). Those differences were created at the 
-> beginning and it is what it is.
-> 
-> > 
-> > Perhaps you should sync to your preference the driver as a whole. It also
-> > seems that before your patch, some bits would be 0 and some other would be
-> > very large values. Between this and leaving random value, I don't really
-> > see any gain or reason for a backport. It neither break or fix anything as
-> > far as I understand.
-> 
-> Maybe there is no need to backport, but the change is nevertheless useful. As 
-> I explained, current code works only by chance, as we noticed with Ezequiel's 
-> rework. It's certainly worthwhile to make code less brittle. As far as I'm 
-> concerned, fixes tag can be dropped or even Ezequiel can squash this change 
-> into his commit, with appropriate adjustments, of course.
-> 
-> I'm not completely sure what do you mean by syncing driver preference. Code 
-> changes always need a good reason to be accepted. Moving code around and 
-> renaming things just to be similar with something else is not.
-> 
-> Best regards,
-> Jernej
-> 
-> > 
-> > My general opinion, is that we fixe the unused address (like to 0) then when
-> > something goes wrong, as least it will go wrong consistently.
-> > 
-> > > Best regards,
-> > > Jernej
-> > > 
-> > > > > +
-> > > > > 
-> > > > >  		cedrus_h265_frame_info_write_single(ctx, i,
-> > > 
-> > > dpb[i].field_pic,
-> > > 
-> > > 
-> > > pic_order_cnt,
-> > > 
-> > > buffer_index);
-> 
-> 
-> 
-> 
+-- 
+Sakari Ailus
