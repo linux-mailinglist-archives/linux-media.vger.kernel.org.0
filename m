@@ -2,335 +2,655 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EE6F5785E0
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 16:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41F915786D6
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 17:56:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234537AbiGROyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 10:54:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47602 "EHLO
+        id S235205AbiGRP4v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 11:56:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233526AbiGROyk (ORCPT
+        with ESMTP id S233972AbiGRP4u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 10:54:40 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB49DF6E;
-        Mon, 18 Jul 2022 07:54:38 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8734A6601A62;
-        Mon, 18 Jul 2022 15:54:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1658156077;
-        bh=dtjm06E2JLGOCpuaKz8lsJXAGaoG8a3XoR0YkrQyLb4=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=kttjZD0o2EctUJSKWAa6Oz6uHVG9hgfHNrn4T2WJUBSaGk8hWyaLlazhXmKrjt2VX
-         OLfAItuGM+6cy41jruiQsECYiIuNneSHlZoIk89BFZ86JVvEsundzxq9SEOij/v+Rn
-         65LXQtd1QmnpWXYUUTzeecv8htmvDEhYLt2RC+iKEST/n3GRm7gI2FjdzknKKvYf09
-         fVI9zdNtcVo56kiziZ0s0Sr6nTygnt8L2+IBsRXX8eMoNmWOYQ5XJuHFBSU4v+6xxb
-         Y9Wi9WzXLr0Uu2OlAeVUWUDO9YxmqsNzWqV2HiRWM2t3fpe0rBmc7q5EWHSwb6MpYr
-         WZFRlyZxf8WKg==
-Message-ID: <c43bd8cf385cc4c90e549ae28174b3d406fae1ce.camel@collabora.com>
-Subject: Re: [PATCH 0/6] RkVDEC HEVC driver
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     knaerzche@gmail.com, kernel@collabora.com,
-        bob.beckett@collabora.com, ezequiel@vanguardiasur.com.ar,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, Yury Norov <yury.norov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Date:   Mon, 18 Jul 2022 10:54:25 -0400
-In-Reply-To: <2107456.irdbgypaU6@jernej-laptop>
-References: <20220713162449.133738-1-sebastian.fricke@collabora.com>
-         <7be996ee-9977-129b-08e2-12bde7ac9cd7@arm.com>
-         <f05896551f8545af3c7352a6bd38248e038b61d2.camel@collabora.com>
-         <2107456.irdbgypaU6@jernej-laptop>
+        Mon, 18 Jul 2022 11:56:50 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF7DB2A243
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 08:56:46 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id d17so9113207qvs.0
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 08:56:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=dbxzwLlppXZ4/h0FdNUOMoKRxsoCMBDUDWzVIjMuhOw=;
+        b=lCm3Cp7adzdBInkAwLZWKmJlzybjzXRMI6UUAZcDqjy4/WfrZf8DzWTzB/0WN6blWs
+         tdZqay0KZzVxJzx4vr+ZTLJPji+LR984ULNQDDdmC9qy4eX1XZd8mPHwZe7U5JsCme/7
+         1PRnZG4+HmBtp5lZvPTAP3KbUDt5Q9S9i62BeikF13aC3/b2Duoyb4pRgPk938k4Lw2g
+         2BDnrKsn1m4adKyEiOO/4Q3Tfeay4wf+nOtLaNwqlXCFRNJZv9FXdg2xD4Btye7oktcS
+         0xL41olkUI9smB7UXsSFQieBuDCU3CTGnnmX4919L0KBjiVlW5EO5bVUqcT7avm3U4Qr
+         Xclg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=dbxzwLlppXZ4/h0FdNUOMoKRxsoCMBDUDWzVIjMuhOw=;
+        b=enCNeGapUg/biyp3s7w/IodUp4wWD65t38frtBkk8x8mqp5LSzqacTB+JSB4LPbt20
+         W37gbEjlcX943E9qEV7pa01U3ZCyHdX24NvRenZVBR6w/dwq1SxFwaD8bSqLjt5JKy8X
+         0OSMsB5k8BIhTN8gNg3xBJBAtiCxyXY+NyM9q7ciPdlzHwmfr9eLmX4mKls6NjSi9AdP
+         YLdllpYnL6F+9XnaeapViMxZB1sR5uJuc4OFxxHCFSZWMlFQkJTdeWj996r98a9IpjI2
+         e7EkFBo9PDSBov7Ku3xxJC08plCsTzBd9G4z1Kvtbn4HDQ/tTU3LVQs0jFRO03hbHunu
+         rXEA==
+X-Gm-Message-State: AJIora9wDLYIEMrshMPRkI/eyUo/VRa/ndE8vukg/blaJWAzM85jIdS4
+        v/0nlyVaQ7rmzsDDHZ8qMjdagA==
+X-Google-Smtp-Source: AGRyM1vI4ZsQpTiYUrzt4T5T7YcdRBiuuxu+Tdcw0ViDOI7ah2LfpukygkPax0Ph0N5TbwVFzgA+kQ==
+X-Received: by 2002:a05:6214:19ee:b0:472:f5d9:ef with SMTP id q14-20020a05621419ee00b00472f5d900efmr21691127qvc.77.1658159806045;
+        Mon, 18 Jul 2022 08:56:46 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id z4-20020a05622a124400b0031ea9aa916bsm9016340qtx.95.2022.07.18.08.56.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 08:56:45 -0700 (PDT)
+Message-ID: <d3b80d20426092430e235f0a45f7e2568f571dcd.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 7/8] cedrus: Use vb2_find_buffer
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Date:   Mon, 18 Jul 2022 11:56:44 -0400
+In-Reply-To: <CAAEAJfBPCBJf_oZ9kAjRgFVb5cu57MUKHGpcizg0fsUBPK_8Jw@mail.gmail.com>
+References: <20220711211141.349902-1-ezequiel@vanguardiasur.com.ar>
+         <5da2b3547f86e74c86a95300df82609a0cf7406e.camel@ndufresne.ca>
+         <CAAEAJfDuX9Dq6QCtZhO_yoBZh6mgtePx5SwjeQgzZjkUiG8-zw@mail.gmail.com>
+         <2188083.iZASKD2KPV@jernej-laptop>
+         <CAAEAJfBPCBJf_oZ9kAjRgFVb5cu57MUKHGpcizg0fsUBPK_8Jw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le samedi 16 juillet 2022 =C3=A0 08:45 +0200, Jernej =C5=A0krabec a =C3=A9c=
-rit=C2=A0:
-> Dne petek, 15. julij 2022 ob 17:36:01 CEST je Nicolas Dufresne napisal(a)=
-:
-> > Le vendredi 15 juillet 2022 =C3=A0 12:04 +0100, Robin Murphy a =C3=A9cr=
-it :
-> > > On 2022-07-13 17:24, Sebastian Fricke wrote:
-> > > > Implement the HEVC codec variation for the RkVDEC driver. Currently=
- only
-> > > > the RK3399 is supported, but it is possible to enable the RK3288 as=
- it
-> > > > also supports this codec.
-> > > >=20
-> > > > Based on top of the media tree @ef7fcbbb9eabbe86d2287484bf366dd1821=
-cc6b8
-> > > > and the HEVC uABI MR by Benjamin Gaignard.
-> > > > (https://patchwork.linuxtv.org/project/linux-media/list/?series=3D8=
-360)
-> > > >=20
-> > > > Tested with the GStreamer V4L2 HEVC plugin:
-> > > > (https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_request=
-s/107
-> > > > 9)
-> > > >=20
-> > > > Current Fluster score:
-> > > > `Ran 131/147 tests successfully               in 278.568 secs`
-> > > > with
-> > > > `python3 fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts
-> > > > JCT-VC-HEVC_V1 -j1`
-> > > >=20
-> > > > failed conformance tests:
-> > > > - DBLK_D_VIXS_2 (Success on Hantro G2)
-> > > > - DSLICE_A_HHI_5 (Success on Hantro G2)
-> > > > - EXT_A_ericsson_4 (Success on Hantro G2)
-> > > > - PICSIZE_A_Bossen_1 (Hardware limitation)
-> > > > - PICSIZE_B_Bossen_1 (Hardware limitation)
-> > > > - PICSIZE_C_Bossen_1 (Hardware limitation)
-> > > > - PICSIZE_D_Bossen_1 (Hardware limitation)
-> > > > - PPS_A_qualcomm_7 (Success on Hantro G2)
-> > > > - SAODBLK_A_MainConcept_4 (Success on Hantro G2)
-> > > > - SAODBLK_B_MainConcept_4 (Success on Hantro G2)
-> > > > - SLIST_B_Sony_9 (Success on Hantro G2)
-> > > > - SLIST_D_Sony_9 (Success on Hantro G2)
-> > > > - TSUNEQBD_A_MAIN10_Technicolor_2 (Success on Hantro G2)
-> > > > - VPSSPSPPS_A_MainConcept_1 (Success on Hantro G2)
-> > > > - WPP_D_ericsson_MAIN10_2 (Fail on Hantro G2)
-> > > > - WPP_D_ericsson_MAIN_2 (Fail on Hantro G2)
-> > > >=20
-> > > > Not tested with FFMpeg so far.
-> > > >=20
-> > > > Known issues:
-> > > > - Unable to reliably decode multiple videos concurrently
-> > > > - The SAODBLK_* tests timeout if the timeout time in fluster is low=
-er
-> > > > than 120 - Currently the uv_virstride is calculated in a manner tha=
-t is
-> > > > hardcoded for the two available formats NV12 and NV15.
-> > > > (@config_registers)
-> > > >=20
-> > > > Notable design decisions:
-> > > > - I opted for a bitfield to represent the PPS memory blob as it is =
-the
-> > > > perfect tool for that job. It describes the memory layout with any
-> > > > additional required documentation, is easy to read and a native lan=
-guage
-> > > > tool for that job
-> > >=20
-> > > Can I point out how terrible an idea this is? The C language gives
-> > > virtually zero guarantee about how bitfields are actually represented=
- in
-> > > memory. Platform ABIs (e.g. [1]) might nail things down a bit more, b=
-ut
-> > > different platforms are free to make completely different choices so
-> > > portability still goes out the window. Even for a single platform,
-> > > different compilers (or at worst even different version of one compil=
-er)
-> > > can still make incompatible choices e.g. WRT alignment of packed
-> > > members. Even if you narrow the scope as far as a specific version of
-> > > AArch64 GCC, I think this is still totally broken for big-endian.
-> > >=20
-> > > The fact that you've had to use nonsensical types to trick a compiler
-> > > into meeting your expectations should already be a clue to how fragil=
-e
-> > > this is in general.
-> > >=20
-> > > > - The RPS memory blob is created using a bitmap implementation, whi=
-ch
-> > > > uses a common Kernel API to avoid reinventing the wheel and to keep=
- the
-> > > > code clean.
-> > >=20
-> > > Similarly, Linux bitmaps are designed for use as, well, bitmaps. Abus=
-ing
-> > > them as a data interchange format for bit-aligned numerical values is
-> > > far from "clean" semantically. And I'm pretty sure it's also broken f=
-or
-> > > big-endian.
-> > >=20
-> > > This kind of stuff may be standard practice in embedded development
-> > > where you're targeting a specific MCU with a specific toolchain, but =
-I
-> > > don't believe it's suitable for upstream Linux. It would take pretty
-> > > much the same number of lines to use GENMASK definitions and bitfield=
-.h
-> > > helpers to pack values into words which can then be written to memory=
- in
-> > > a guaranteed format and endianness (certainly for the PPS; for the RP=
-S
-> > > it may well end up a bit longer, but would be self-documenting and
-> > > certainly more readable than those loops). It mostly just means that =
-for
-> > > any field which crosses a word boundary you'll end up with 2 definiti=
-ons
-> > > and 2 assignments, which is hardly a problem (and in some ways more
-> > > honest about what's actually going on).
-> >=20
-> > Thanks for the feedback, in multimedia (unlike register programming), w=
-e
-> > don't really consider bitstreams as bitmap or bitfield. What we do real=
-ly
-> > expect is to use bit writer helpers (and sometimes a bit reader though =
-we
-> > try and avoid the second one in the  kernel). Its more of less a cursor=
- (a
-> > bit position) into a memory that advance while writing. A bit writer sh=
-ould
-> > help protect against overflow too.
-> >=20
-> > When writing lets say a chain of 8 bits from a char, a proper helper is
-> > expected to be very explicit on the ordering (write_u8_le/be or somethi=
-ng
-> > better worded). I would rather like to see all these blobs written this=
- way
-> > personally then having a cleared buffer and writing using bit offsets.
-> >=20
-> > Perhaps I may suggest to start with implementing just that inside this
-> > driver? It isn't very hard, and then the implementation can be reduced
-> > later and shared later, with whatever exists without deviating from the
-> > intent of the existing API ? I do believe that having this in linux-med=
-ia
-> > can be useful in the future. We will notably need to extend such a help=
-er
-> > with multimedia specific coding technique (golomb, boolean coding, etc.=
-)
-> > for use in stateless encoder drivers.
+Le samedi 16 juillet 2022 =C3=A0 11:55 -0300, Ezequiel Garcia a =C3=A9crit=
+=C2=A0:
+> Hi Jernej,
 >=20
-> I don't know RKVDEC, but at least Cedar has integrated bitstream parsing=
-=20
-> engine. Is there something similar in RKVDEC? That way HW could be used=
-=20
-> instead of SW implementation.
-
-This is unrelated, since the code here generates a bitstream. Some of the
-parameters you'd pass with registers with other drivers, are passed with me=
-mory
-chunk in rkvdec. Not all these blob have a byte aligned memory layout, they=
- are
-instead bitstream without any consideration for byte alignment. So we need =
-a
-tool to create such a bitstream. Similar tool will be needed for adapting
-encoders.
-
->=20
-> Best regards,
-> Jernej
->=20
+> On Sat, Jul 16, 2022 at 9:36 AM Jernej =C5=A0krabec <jernej.skrabec@gmail=
+.com> wrote:
 > >=20
-> > Nicolas
-> >=20
-> > > Thanks,
-> > > Robin.
+> > Dne petek, 15. julij 2022 ob 13:48:34 CEST je Ezequiel Garcia napisal(a=
+):
+> > > Hi Nicolas,
 > > >=20
-> > > [1]
-> > > https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst#=
-bit-f
-> > > ields>=20
-> > > > - I deliberatly opted against the macro solution used in H264, whic=
-h
-> > > > declares Macros in mid function and declares the fields of the memo=
-ry
-> > > > blob as macros as well. And I would be glad to refactor the H264 co=
-de if
-> > > > desired by the maintainer to use common Kernel APIs and native lang=
-uage
-> > > > elements.
-> > > > - The giant static array of cabac values is moved to a separate c f=
-ile,
-> > > > I did so because a separate .h file would be incorrect as it doesn'=
+> > > Thanks a lot for the test and the bug report.
+> > >=20
+> > > On Thu, Jul 14, 2022 at 4:26 PM Nicolas Dufresne <nicolas@ndufresne.c=
+a>
+> > wrote:
+> > > > Hi Ezequiel,
+> > > >=20
+> > > > I started testing with these patches and found some NULL dreference=
+s, see
+> > > > my comment inline...
+> > > >=20
+> > > > Le lundi 11 juillet 2022 =C3=A0 18:11 -0300, Ezequiel Garcia a =C3=
+=A9crit :
+> > > > > Use the newly introduced vb2_find_buffer API to get a vb2_buffer
+> > > > > given a buffer timestamp.
+> > > > >=20
+> > > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > > Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > > Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > > > > Acked-by: Tomasz Figa <tfiga@chromium.org>
+> > > > > ---
+> > > > >=20
+> > > > >  drivers/staging/media/sunxi/cedrus/cedrus.h   | 24 ++++++-----
+> > > > >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 16 +++----
+> > > > >  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 16 +++----
+> > > > >  .../staging/media/sunxi/cedrus/cedrus_mpeg2.c | 28 ++++--------
+> > > > >  .../staging/media/sunxi/cedrus/cedrus_vp8.c   | 43 ++++---------=
+------
+> > > > >  5 files changed, 46 insertions(+), 81 deletions(-)
+> > > > >=20
+> > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
+> > > > > 3bc094eb497f..c054dbe3d3bc 100644
+> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > > > @@ -233,19 +233,23 @@ static inline dma_addr_t cedrus_buf_addr(st=
+ruct
+> > > > > vb2_buffer *buf,> >
+> > > > >  }
+> > > > >=20
+> > > > >  static inline dma_addr_t cedrus_dst_buf_addr(struct cedrus_ctx *=
+ctx,
+> > > > >=20
+> > > > > -                                          int index, unsigned in=
 t
-> > > > expose anything of any value for any other file than the rkvdec-hev=
-c.c
-> > > >=20
-> > > > file. Other options were:
-> > > >    - Calculating the values instead of storing the results (doesn't=
- seem
-> > > >    to be worth it)
-> > > >    - Supply them via firmware (Adding firmware makes the whole soft=
-ware
-> > > >    way more complicated and the usage of the driver less obvious)
-> > > >=20
-> > > > Ignored Checkpatch warnings (as it fits to the current style of the
-> > > > file):
-> > > > ```
-> > > > WARNING: line length of 162 exceeds 100 columns
-> > > > #115: FILE: drivers/media/v4l2-core/v4l2-common.c:265:
-> > > > +               { .format =3D V4L2_PIX_FMT_NV15,    .pixel_enc =3D
-> > > > V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D=
- { 5, 5,
-> > > > 0, 0 }, .hdiv =3D 2, .vdiv =3D 2,
-> > > >=20
-> > > > ERROR: trailing statements should be on next line
-> > > > #128: FILE: drivers/media/v4l2-core/v4l2-ioctl.c:1305:
-> > > > +       case V4L2_PIX_FMT_NV15:         descr =3D "10-bit Y/CbCr 4:=
-2:0
-> > > > (Packed)"; break; ```
-> > > >=20
-> > > > v4l2-compliance test:
-> > > > ```
-> > > > Total for rkvdec device /dev/video3: 46, Succeeded: 46, Failed: 0,
-> > > > Warnings: 0 ```
-> > > >=20
-> > > > kselftest module run for the bitmap changes:
-> > > > ```
-> > > > $ sudo insmod
-> > > > /usr/lib/modules/5.19.0-rc3-finalseries/kernel/lib/test_bitmap.ko [=
- =20
-> > > > 71.751716] test_bitmap: parselist: 14: input is '0-2047:128/256' OK=
+> > > > > plane)
+> > > > > +                                          struct vb2_buffer *buf=
 ,
-> > > > Time: 1750 [   71.751787] test_bitmap: bitmap_print_to_pagebuf: inp=
-ut
-> > > > is '0-32767 [   71.751787] ', Time: 6708
-> > > > [   71.760373] test_bitmap: set_value: 6/6 tests correct
-> > > > ```
+> > > > > +                                          unsigned int plane)
+> > > > >=20
+> > > > >  {
+> > > > >=20
+> > > > > -     struct vb2_buffer *buf =3D NULL;
+> > > > > -     struct vb2_queue *vq;
+> > > > > -
+> > > > > -     if (index < 0)
+> > > > > -             return 0;
+> > > > > +     return buf ? cedrus_buf_addr(buf, &ctx->dst_fmt, plane) : 0=
+;
+> > > > > +}
+> > > > >=20
+> > > > > -     vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+> > > > > V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> > > > > -     if (vq)
+> > > > > -             buf =3D vb2_get_buffer(vq, index);
+> > > > > +static inline void cedrus_write_ref_buf_addr(struct cedrus_ctx *=
+ctx,
+> > > > > +                                          struct vb2_queue *q,
+> > > > > +                                          u64 timestamp,
+> > > > > +                                          u32 luma_reg,
+> > > > > +                                          u32 chroma_reg)
+> > > > > +{
+> > > > > +       struct cedrus_dev *dev =3D ctx->dev;
+> > > > > +       struct vb2_buffer *buf =3D vb2_find_buffer(q, timestamp);
+> > > > >=20
+> > > > > -     return buf ? cedrus_buf_addr(buf, &ctx->dst_fmt, plane) : 0=
+;
+> > > > > +       cedrus_write(dev, luma_reg, cedrus_dst_buf_addr(ctx, buf,=
+ 0));
+> > > > > +       cedrus_write(dev, chroma_reg, cedrus_dst_buf_addr(ctx, bu=
+f, 1));
+> > > > >=20
+> > > > >  }
+> > > > >=20
+> > > > >  static inline struct cedrus_buffer *
+> > > > >=20
+> > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
+> > > > > d8fb93035470..0559efeac125 100644
+> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > @@ -111,16 +111,16 @@ static void cedrus_write_frame_list(struct
+> > > > > cedrus_ctx *ctx,> >
+> > > > >       for (i =3D 0; i < ARRAY_SIZE(decode->dpb); i++) {
+> > > > >=20
+> > > > >               const struct v4l2_h264_dpb_entry *dpb =3D &decode->=
+dpb[i];
+> > > > >               struct cedrus_buffer *cedrus_buf;
+> > > > >=20
+> > > > > -             int buf_idx;
+> > > > > +             struct vb2_buffer *buf;
+> > > > >=20
+> > > > >               if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
+> > > > >=20
+> > > > >                       continue;
+> > > > >=20
+> > > > > -             buf_idx =3D vb2_find_timestamp(cap_q, dpb->referenc=
+e_ts, 0);
+> > > > > -             if (buf_idx < 0)
+> > > > > +             buf =3D vb2_find_buffer(cap_q, dpb->reference_ts);
+> > > > > +             if (!buf)
+> > > > >=20
+> > > > >                       continue;
+> > > > >=20
+> > > > > -             cedrus_buf =3D vb2_to_cedrus_buffer(cap_q->bufs[buf=
+_idx]);
+> > > > > +             cedrus_buf =3D vb2_to_cedrus_buffer(buf);
+> > > > >=20
+> > > > >               position =3D cedrus_buf->codec.h264.position;
+> > > > >               used_dpbs |=3D BIT(position);
+> > > > >=20
+> > > > > @@ -186,7 +186,7 @@ static void _cedrus_write_ref_list(struct ced=
+rus_ctx
+> > > > > *ctx,> >
+> > > > >               const struct v4l2_h264_dpb_entry *dpb;
+> > > > >               const struct cedrus_buffer *cedrus_buf;
+> > > > >               unsigned int position;
+> > > > >=20
+> > > > > -             int buf_idx;
+> > > > > +             struct vb2_buffer *buf;
+> > > > >=20
+> > > > >               u8 dpb_idx;
+> > > > >=20
+> > > > >               dpb_idx =3D ref_list[i].index;
+> > > > >=20
+> > > > > @@ -195,11 +195,11 @@ static void _cedrus_write_ref_list(struct
+> > > > > cedrus_ctx *ctx,> >
+> > > > >               if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)=
+)
+> > > > >=20
+> > > > >                       continue;
+> > > > >=20
+> > > > > -             buf_idx =3D vb2_find_timestamp(cap_q, dpb->referenc=
+e_ts, 0);
+> > > > > -             if (buf_idx < 0)
+> > > > > +             buf =3D vb2_find_buffer(cap_q, dpb->reference_ts);
+> > > > > +             if (!buf)
+> > > > >=20
+> > > > >                       continue;
+> > > > >=20
+> > > > > -             cedrus_buf =3D vb2_to_cedrus_buffer(cap_q->bufs[buf=
+_idx]);
+> > > > > +             cedrus_buf =3D vb2_to_cedrus_buffer(buf);
+> > > > >=20
+> > > > >               position =3D cedrus_buf->codec.h264.position;
+> > > > >=20
+> > > > >               sram_array[i] |=3D position << 1;
+> > > > >=20
+> > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> > > > > 44f385be9f6c..60cc13e4d0a9 100644
+> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > @@ -102,14 +102,14 @@ static void
+> > > > > cedrus_h265_frame_info_write_single(struct cedrus_ctx *ctx,> >
+> > > > >                                               unsigned int index,
+> > > > >                                               bool field_pic,
+> > > > >                                               u32 pic_order_cnt[]=
+,
+> > > > >=20
+> > > > > -                                             int buffer_index)
+> > > > > +                                             struct vb2_buffer *=
+buf)
+> > > > >=20
+> > > > >  {
+> > > > >=20
+> > > > >       struct cedrus_dev *dev =3D ctx->dev;
+> > > > >=20
+> > > > > -     dma_addr_t dst_luma_addr =3D cedrus_dst_buf_addr(ctx, buffe=
+r_index,
+> > > > > 0);
+> > > > > -     dma_addr_t dst_chroma_addr =3D cedrus_dst_buf_addr(ctx,
+> > > > > buffer_index, 1); +     dma_addr_t dst_luma_addr =3D
+> > > > > cedrus_dst_buf_addr(ctx, buf, 0); +     dma_addr_t dst_chroma_add=
+r =3D
+> > > > > cedrus_dst_buf_addr(ctx, buf, 1);> >
+> > > > >       dma_addr_t mv_col_buf_addr[2] =3D {
+> > > > >=20
+> > > > > -             cedrus_h265_frame_info_mv_col_buf_addr(ctx, buffer_=
+index,
+> > > > > 0),
+> > > > > -             cedrus_h265_frame_info_mv_col_buf_addr(ctx, buffer_=
+index,
+> > > > > +             cedrus_h265_frame_info_mv_col_buf_addr(ctx, buf->in=
+dex,
+> > > > > 0),
+> > > > > +             cedrus_h265_frame_info_mv_col_buf_addr(ctx, buf->in=
+dex,
+> > > > >=20
+> > > > >                                                      field_pic ? =
+1 : 0)
 > > > >=20
-> > > > Jonas Karlman (2):
-> > > >    media: v4l2: Add NV15 pixel format
-> > > >    media: v4l2-common: Add helpers to calculate bytesperline and
-> > > >   =20
-> > > >      sizeimage
-> > > >=20
-> > > > Sebastian Fricke (4):
-> > > >    bitops: bitmap helper to set variable length values
-> > > >    staging: media: rkvdec: Add valid pixel format check
-> > > >    staging: media: rkvdec: Enable S_CTRL IOCTL
-> > > >    staging: media: rkvdec: Add HEVC backend
-> > > >  =20
-> > > >   .../media/v4l/pixfmt-yuv-planar.rst           |   53 +
-> > > >   drivers/media/v4l2-core/v4l2-common.c         |   79 +-
-> > > >   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
-> > > >   drivers/staging/media/rkvdec/Makefile         |    2 +-
-> > > >   drivers/staging/media/rkvdec/TODO             |   22 +-
-> > > >   .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1844 ++++++++++++=
-+++++
-> > > >   drivers/staging/media/rkvdec/rkvdec-hevc.c    |  859 ++++++++
-> > > >   drivers/staging/media/rkvdec/rkvdec-regs.h    |    1 +
-> > > >   drivers/staging/media/rkvdec/rkvdec.c         |  182 +-
-> > > >   drivers/staging/media/rkvdec/rkvdec.h         |    3 +
-> > > >   include/linux/bitmap.h                        |   39 +
-> > > >   include/uapi/linux/videodev2.h                |    1 +
-> > > >   lib/test_bitmap.c                             |   47 +
-> > > >   13 files changed, 3066 insertions(+), 67 deletions(-)
-> > > >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.=
-c
-> > > >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
+> > > > Previously, -1 would be passed to
+> > > > cedrus_h265_frame_info_mv_col_buf_addr(),
+> > > > which would not find a buffer at that index, and would return 0. No=
+w the
+> > > > code will crash with a NULL pointer deref.
+> > >=20
+> > > Is it really correct to pass -1 to cedrus_h265_frame_info_mv_col_buf_=
+addr?
+> > > It seems it get casted into an unsigned type and then used to calcula=
+te
+> > > an address for DMA.
+> >=20
+> > I totally agree that this is a latent bug and it should be fixed. H264 =
+checks
+> > for negative value, but not HEVC. Current code just makes out of bounds=
+ read,
+> > which is tolerated, but yours causes NULL pointer dereference, which is=
+ not.
+> >=20
+> > I suggest that following check is added in cedrus_h265_frame_info_write=
+_dpb():
+> >=20
+> > if (buffer_index < 0)
+> >  continue;
+> >=20
 >=20
+> Seems reasonable.
 >=20
+> > I can send it as a fix so it gets backported and you update this patch =
+so above
+> > if is changed to NULL pointer check.
+> >=20
 >=20
+> Yes, I like this approach.
 >=20
+> > Do you all agree? Nicolas, do you prefer to send such patch, since you'=
+re first
+> > who noticed something odd with the code?
+> >=20
+>=20
+> Hans' last PR dropped the cedrus patch, and left vb2_find_timestamp
+> for the time being (for 5.20). I like the proposal of sending a fix that =
+can
+> be backported. I can re-work the rest of this series on top.
+
+Oops, I was to send a fix for that on top of the orignal, feel free to squa=
+sh
+that:
+
+https://gitlab.collabora.com/nicolas/linux/-/commit/1093321ddb8d3fb06833f47=
+1a60d07ce94e78d88
+
+From 1093321ddb8d3fb06833f471a60d07ce94e78d88 Mon Sep 17 00:00:00 2001
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Date: Fri, 15 Jul 2022 15:28:44 -0400
+Subject: [PATCH] media: cedrus: Fix NULL buf dereference
+
+This is a regression introduced after porting to vb2_find_buffer.
+The function returnis NULL when the buffer isn't found. The HEVC
+decoder would call a helper to get the motion vector buffer address
+by passing the index. This is fixed by passing the buffer
+pointer instead of the index.
+
+Fixes: 7f3614514ab0 ("cedrus: Use vb2_find_buffer")
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+index 28d90fec9aea..d359726b4966 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+@@ -91,16 +91,13 @@ static void cedrus_h265_sram_write_data(struct cedrus_d=
+ev
+*dev, void *data,
+=20
+ static inline dma_addr_t
+ cedrus_h265_frame_info_mv_col_buf_addr(struct cedrus_ctx *ctx,
+-				       unsigned int index,
++				       struct vb2_buffer *buf,
+ 				       const struct v4l2_ctrl_hevc_sps *sps)
+ {
+ 	struct cedrus_buffer *cedrus_buf =3D NULL;
+-	struct vb2_buffer *buf =3D NULL;
+ 	struct vb2_queue *vq;
+=20
+ 	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+-	if (vq)
+-		buf =3D vb2_get_buffer(vq, index);
+=20
+ 	if (buf)
+ 		cedrus_buf =3D vb2_to_cedrus_buffer(buf);
+@@ -148,8 +145,8 @@ static void cedrus_h265_frame_info_write_single(struct
+cedrus_ctx *ctx,
+ 	dma_addr_t dst_luma_addr =3D cedrus_dst_buf_addr(ctx, buf, 0);
+ 	dma_addr_t dst_chroma_addr =3D cedrus_dst_buf_addr(ctx, buf, 1);
+ 	dma_addr_t mv_col_buf_addr[2] =3D {
+-		cedrus_h265_frame_info_mv_col_buf_addr(ctx, buf->index, sps),
+-		cedrus_h265_frame_info_mv_col_buf_addr(ctx, buf->index, sps)
++		cedrus_h265_frame_info_mv_col_buf_addr(ctx, buf, sps),
++		cedrus_h265_frame_info_mv_col_buf_addr(ctx, buf, sps)
+ 	};
+ 	u32 offset =3D VE_DEC_H265_SRAM_OFFSET_FRAME_INFO +
+ 		     VE_DEC_H265_SRAM_OFFSET_FRAME_INFO_UNIT * index;
+--=20
+GitLab
+
+>=20
+> Thanks,
+> Ezequiel
+>=20
+> > Best regards,
+> > Jernej
+> >=20
+> > >=20
+> > > static inline dma_addr_t
+> > > cedrus_h265_frame_info_mv_col_buf_addr(struct cedrus_ctx *ctx,
+> > >                                        unsigned int index, unsigned i=
+nt
+> > > field) {
+> > >         return ctx->codec.h265.mv_col_buf_addr + index *
+> > >                ctx->codec.h265.mv_col_buf_unit_size +
+> > >                field * ctx->codec.h265.mv_col_buf_unit_size / 2;
+> > > }
+> > >=20
+> > > Fixing the driver to go back to the previous behavior is trivial,
+> > > but this looks odd.
+> > >=20
+> > > Jernej, Paul, any thoughts?
+> > >=20
+> > > Thanks,
+> > > Ezequiel
+> > >=20
+> > > > >       };
+> > > > >       u32 offset =3D VE_DEC_H265_SRAM_OFFSET_FRAME_INFO +
+> > > > >=20
+> > > > > @@ -141,7 +141,7 @@ static void cedrus_h265_frame_info_write_dpb(=
+struct
+> > > > > cedrus_ctx *ctx,> >
+> > > > >       unsigned int i;
+> > > > >=20
+> > > > >       for (i =3D 0; i < num_active_dpb_entries; i++) {
+> > > > >=20
+> > > > > -             int buffer_index =3D vb2_find_timestamp(vq,
+> > > > > dpb[i].timestamp, 0); +             struct vb2_buffer *buf =3D
+> > > > > vb2_find_buffer(vq, dpb[i].timestamp);> >
+> > > > >               u32 pic_order_cnt[2] =3D {
+> > > > >=20
+> > > > >                       dpb[i].pic_order_cnt[0],
+> > > > >                       dpb[i].pic_order_cnt[1]
+> > > > >=20
+> > > > > @@ -149,7 +149,7 @@ static void cedrus_h265_frame_info_write_dpb(=
+struct
+> > > > > cedrus_ctx *ctx,> >
+> > > > >               cedrus_h265_frame_info_write_single(ctx, i,
+> > > > >               dpb[i].field_pic,
+> > > > >=20
+> > > > >                                                   pic_order_cnt,
+> > > > >=20
+> > > > > -                                                 buffer_index);
+> > > > > +                                                 buf);
+> > > > >=20
+> > > > >       }
+> > > > >=20
+> > > > >  }
+> > > > >=20
+> > > > > @@ -616,7 +616,7 @@ static void cedrus_h265_setup(struct cedrus_c=
+tx
+> > > > > *ctx,
+> > > > >=20
+> > > > >       cedrus_h265_frame_info_write_single(ctx, output_pic_list_in=
+dex,
+> > > > >=20
+> > > > >                                           slice_params->pic_struc=
+t !=3D 0,
+> > > > >                                           pic_order_cnt,
+> > > > >=20
+> > > > > -                                         run->dst->vb2_buf.index=
+);
+> > > > > +                                         &run->dst->vb2_buf);
+> > > > >=20
+> > > > >       cedrus_write(dev, VE_DEC_H265_OUTPUT_FRAME_IDX,
+> > > > >       output_pic_list_index);
+> > > > >=20
+> > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c index
+> > > > > 5dad2f296c6d..22d6cae9a710 100644
+> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> > > > > @@ -54,13 +54,9 @@ static void cedrus_mpeg2_setup(struct cedrus_c=
+tx
+> > > > > *ctx, struct cedrus_run *run)> >
+> > > > >       const struct v4l2_ctrl_mpeg2_picture *pic;
+> > > > >       const struct v4l2_ctrl_mpeg2_quantisation *quantisation;
+> > > > >       dma_addr_t src_buf_addr, dst_luma_addr, dst_chroma_addr;
+> > > > >=20
+> > > > > -     dma_addr_t fwd_luma_addr, fwd_chroma_addr;
+> > > > > -     dma_addr_t bwd_luma_addr, bwd_chroma_addr;
+> > > > >=20
+> > > > >       struct cedrus_dev *dev =3D ctx->dev;
+> > > > >       struct vb2_queue *vq;
+> > > > >       const u8 *matrix;
+> > > > >=20
+> > > > > -     int forward_idx;
+> > > > > -     int backward_idx;
+> > > > >=20
+> > > > >       unsigned int i;
+> > > > >       u32 reg;
+> > > > >=20
+> > > > > @@ -123,27 +119,19 @@ static void cedrus_mpeg2_setup(struct cedru=
+s_ctx
+> > > > > *ctx, struct cedrus_run *run)> >
+> > > > >       cedrus_write(dev, VE_DEC_MPEG_PICBOUNDSIZE, reg);
+> > > > >=20
+> > > > >       /* Forward and backward prediction reference buffers. */
+> > > > >=20
+> > > > > -
+> > > > >=20
+> > > > >       vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+> > > > >       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> > > > >=20
+> > > > > -     forward_idx =3D vb2_find_timestamp(vq, pic->forward_ref_ts,=
+ 0);
+> > > > > -     fwd_luma_addr =3D cedrus_dst_buf_addr(ctx, forward_idx, 0);
+> > > > > -     fwd_chroma_addr =3D cedrus_dst_buf_addr(ctx, forward_idx, 1=
+);
+> > > > > -
+> > > > > -     cedrus_write(dev, VE_DEC_MPEG_FWD_REF_LUMA_ADDR, fwd_luma_a=
+ddr);
+> > > > > -     cedrus_write(dev, VE_DEC_MPEG_FWD_REF_CHROMA_ADDR,
+> > > > > fwd_chroma_addr);
+> > > > > -
+> > > > > -     backward_idx =3D vb2_find_timestamp(vq, pic->backward_ref_t=
+s, 0);
+> > > > > -     bwd_luma_addr =3D cedrus_dst_buf_addr(ctx, backward_idx, 0)=
+;
+> > > > > -     bwd_chroma_addr =3D cedrus_dst_buf_addr(ctx, backward_idx, =
+1);
+> > > > > -
+> > > > > -     cedrus_write(dev, VE_DEC_MPEG_BWD_REF_LUMA_ADDR, bwd_luma_a=
+ddr);
+> > > > > -     cedrus_write(dev, VE_DEC_MPEG_BWD_REF_CHROMA_ADDR,
+> > > > > bwd_chroma_addr);
+> > > > > +     cedrus_write_ref_buf_addr(ctx, vq, pic->forward_ref_ts,
+> > > > > +                               VE_DEC_MPEG_FWD_REF_LUMA_ADDR,
+> > > > > +                               VE_DEC_MPEG_FWD_REF_CHROMA_ADDR);
+> > > > > +     cedrus_write_ref_buf_addr(ctx, vq, pic->backward_ref_ts,
+> > > > > +                               VE_DEC_MPEG_BWD_REF_LUMA_ADDR,
+> > > > > +                               VE_DEC_MPEG_BWD_REF_CHROMA_ADDR);
+> > > > >=20
+> > > > >       /* Destination luma and chroma buffers. */
+> > > > >=20
+> > > > > -     dst_luma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_bu=
+f.index,
+> > > > > 0);
+> > > > > -     dst_chroma_addr =3D cedrus_dst_buf_addr(ctx,
+> > > > > run->dst->vb2_buf.index, 1); +     dst_luma_addr =3D
+> > > > > cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf, 0); +     dst_chroma=
+_addr
+> > > > > =3D cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf, 1);> >
+> > > > >       cedrus_write(dev, VE_DEC_MPEG_REC_LUMA, dst_luma_addr);
+> > > > >       cedrus_write(dev, VE_DEC_MPEG_REC_CHROMA, dst_chroma_addr);
+> > > > >=20
+> > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
+> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c index
+> > > > > f4016684b32d..196cf692186d 100644
+> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
+> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
+> > > > > @@ -661,7 +661,6 @@ static void cedrus_vp8_setup(struct cedrus_ct=
+x *ctx,
+> > > > >=20
+> > > > >       dma_addr_t luma_addr, chroma_addr;
+> > > > >       dma_addr_t src_buf_addr;
+> > > > >       int header_size;
+> > > > >=20
+> > > > > -     int qindex;
+> > > > >=20
+> > > > >       u32 reg;
+> > > > >=20
+> > > > >       cedrus_engine_enable(ctx, CEDRUS_CODEC_VP8);
+> > > > >=20
+> > > > > @@ -805,43 +804,17 @@ static void cedrus_vp8_setup(struct cedrus_=
+ctx
+> > > > > *ctx,
+> > > > >=20
+> > > > >       reg |=3D VE_VP8_LF_DELTA0(slice->lf.mb_mode_delta[0]);
+> > > > >       cedrus_write(dev, VE_VP8_MODE_LF_DELTA, reg);
+> > > > >=20
+> > > > > -     luma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.in=
+dex, 0);
+> > > > > -     chroma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.=
+index,
+> > > > > 1);
+> > > > > +     luma_addr =3D cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf, =
+0);
+> > > > > +     chroma_addr =3D cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf=
+, 1);
+> > > > >=20
+> > > > >       cedrus_write(dev, VE_VP8_REC_LUMA, luma_addr);
+> > > > >       cedrus_write(dev, VE_VP8_REC_CHROMA, chroma_addr);
+> > > > >=20
+> > > > > -     qindex =3D vb2_find_timestamp(cap_q, slice->last_frame_ts, =
+0);
+> > > > > -     if (qindex >=3D 0) {
+> > > > > -             luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
+> > > > > -             chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1)=
+;
+> > > > > -             cedrus_write(dev, VE_VP8_FWD_LUMA, luma_addr);
+> > > > > -             cedrus_write(dev, VE_VP8_FWD_CHROMA, chroma_addr);
+> > > > > -     } else {
+> > > > > -             cedrus_write(dev, VE_VP8_FWD_LUMA, 0);
+> > > > > -             cedrus_write(dev, VE_VP8_FWD_CHROMA, 0);
+> > > > > -     }
+> > > > > -
+> > > > > -     qindex =3D vb2_find_timestamp(cap_q, slice->golden_frame_ts=
+, 0);
+> > > > > -     if (qindex >=3D 0) {
+> > > > > -             luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
+> > > > > -             chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1)=
+;
+> > > > > -             cedrus_write(dev, VE_VP8_BWD_LUMA, luma_addr);
+> > > > > -             cedrus_write(dev, VE_VP8_BWD_CHROMA, chroma_addr);
+> > > > > -     } else {
+> > > > > -             cedrus_write(dev, VE_VP8_BWD_LUMA, 0);
+> > > > > -             cedrus_write(dev, VE_VP8_BWD_CHROMA, 0);
+> > > > > -     }
+> > > > > -
+> > > > > -     qindex =3D vb2_find_timestamp(cap_q, slice->alt_frame_ts, 0=
+);
+> > > > > -     if (qindex >=3D 0) {
+> > > > > -             luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
+> > > > > -             chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1)=
+;
+> > > > > -             cedrus_write(dev, VE_VP8_ALT_LUMA, luma_addr);
+> > > > > -             cedrus_write(dev, VE_VP8_ALT_CHROMA, chroma_addr);
+> > > > > -     } else {
+> > > > > -             cedrus_write(dev, VE_VP8_ALT_LUMA, 0);
+> > > > > -             cedrus_write(dev, VE_VP8_ALT_CHROMA, 0);
+> > > > > -     }
+> > > > > +     cedrus_write_ref_buf_addr(ctx, cap_q, slice->last_frame_ts,
+> > > > > +                               VE_VP8_FWD_LUMA, VE_VP8_FWD_CHROM=
+A);
+> > > > > +     cedrus_write_ref_buf_addr(ctx, cap_q, slice->golden_frame_t=
+s,
+> > > > > +                               VE_VP8_BWD_LUMA, VE_VP8_BWD_CHROM=
+A);
+> > > > > +     cedrus_write_ref_buf_addr(ctx, cap_q, slice->alt_frame_ts,
+> > > > > +                               VE_VP8_ALT_LUMA, VE_VP8_ALT_CHROM=
+A);
+> > > > >=20
+> > > > >       cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8 |
+> > > > >=20
+> > > > >                    VE_H264_CTRL_DECODE_ERR_INT |
+> >=20
+> >=20
+> >=20
+> >=20
 
