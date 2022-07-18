@@ -2,191 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 958F4577AE4
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 08:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75E3E577BD8
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 08:42:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231547AbiGRGWE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 02:22:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42124 "EHLO
+        id S233580AbiGRGm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 02:42:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233276AbiGRGVb (ORCPT
+        with ESMTP id S230317AbiGRGm0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 02:21:31 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 911D313F06;
-        Sun, 17 Jul 2022 23:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658125290; x=1689661290;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UP1Su1i03iUE3Ltwaesy575ZNYed5sPxqxMLM14ke8E=;
-  b=WqO8/pzP/zmEdRCc/GEirDg4xLA5hN0XQXTpcyItJhTII0qg/A3A1ekM
-   PIxoSDqDH0wzaL1rEDdD5Arodq8VnmnJpKVRZRcjxmzMpePpZH9w0TLto
-   YLHbJaht86gmBnWF0iLRP9SIgLGybBpH1weoD/QQrWb73l/t2jTsAtRnc
-   11ncfy20XVReNrMyaxhtxPGn8HQlK2Yi2NDsfM5dZP06wnFdmH3/7+y+a
-   aSZaWVza7XO0AQJXvluJFSdmLTImtUDl1X34KnneP2SRhJqcT8lBvRh9i
-   CCG4rQH6MovIXx0w8DcHPav6lX6PUBLEJtM4xo57UYenqopAEYUfuu+Pr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="311824147"
-X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
-   d="scan'208";a="311824147"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 23:21:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
-   d="scan'208";a="629801821"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 17 Jul 2022 23:21:27 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oDK8E-00045i-C6;
-        Mon, 18 Jul 2022 06:21:26 +0000
-Date:   Mon, 18 Jul 2022 14:20:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Volodymyr Kharuk <vkh@melexis.com>,
-        Andrii Kyselov <ays@melexis.com>,
+        Mon, 18 Jul 2022 02:42:26 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D385BE2F;
+        Sun, 17 Jul 2022 23:42:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658126541; x=1689662541;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=0kv2gBEParhNaHPdjuIwGUrTXLst3/vjwjfZ1UMJusw=;
+  b=hEQw6NLptK7NSY866Ux5sxJbXDzmtHL63VltkpZK3Z5WERpoBWsftDS7
+   D3EdLWoG5hqi/8SORub1NeqwiEi6DAAs8AbVFpjIslArzEJtY68MxW+D2
+   iJidc/NM/H59Zk0+47cGJJKndk9WJC1+kJUKMVjoFgoqXLL3xH2XeHqbL
+   IJdfGggOYHFnVKIWQlEfZMIMFHM9jPN/ZdmLFbc8tvaSisF2uAod2yHK2
+   59HIPysZHjXBNUGzvaom4eNcmqV5eduK73dOyzSD+7mrPadltd9pt62KA
+   arTYGs6qvAo8tzfSsLBnItv97DXd+VYkzFK5m8zXMfvD5Ta0l5ILojNe+
+   A==;
+X-IronPort-AV: E=Sophos;i="5.92,280,1650924000"; 
+   d="scan'208";a="25095054"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 18 Jul 2022 08:42:19 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 18 Jul 2022 08:42:19 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 18 Jul 2022 08:42:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658126539; x=1689662539;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=0kv2gBEParhNaHPdjuIwGUrTXLst3/vjwjfZ1UMJusw=;
+  b=YsrpYbIlfvi3AUpdczfxxt163rS7r8oEs3RSl25MPilKw/TiunJMgeck
+   mWYYsn5n6yhOTRmgya6S/y4JORmq6nCoLdzOPxn1FeZjSFwpO3+6Dsc4j
+   IaLXSiUDxrRtiYU7XWB7bmApn7S0CI/XNuRSMYxbkWbiDMKlnEyjTbRqh
+   rUQQinQjo1700o91Ux/RrfkiSCMjmESWuYsqPbJlrqMM7iWg49CLvEgKc
+   3DF2ODD3Fz95B5zNzz8glGLxk6RXKKSg3hkHiy8D8Ub+lsHrRc2xUevq/
+   zW/2DXJqEUopDNUvMogt+NV7upmhhxd0sSgQAEPboYdkA4GqA9gGM2SZS
+   g==;
+X-IronPort-AV: E=Sophos;i="5.92,280,1650924000"; 
+   d="scan'208";a="25095053"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 18 Jul 2022 08:42:19 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D1C9A280056;
+        Mon, 18 Jul 2022 08:42:18 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Michal Simek <monstr@monstr.eu>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] media: i2c: Add driver for mlx7502x ToF sensor
-Message-ID: <202207181432.DwoL0GPb-lkp@intel.com>
-References: <6f9b20bb1946d8a50170963b84e32abfdee14ba7.1657786765.git.vkh@melexis.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] media: i2c: ov9282: Add regulator support
+Date:   Mon, 18 Jul 2022 08:42:16 +0200
+Message-ID: <12042217.O9o76ZdvQC@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <YtQZ5TD+pc7lPLI0@valkosipuli.retiisi.eu>
+References: <20220715074858.875808-1-alexander.stein@ew.tq-group.com> <20220715074858.875808-6-alexander.stein@ew.tq-group.com> <YtQZ5TD+pc7lPLI0@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f9b20bb1946d8a50170963b84e32abfdee14ba7.1657786765.git.vkh@melexis.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Volodymyr,
+Hi Sakari,
 
-I love your patch! Perhaps something to improve:
+Am Sonntag, 17. Juli 2022, 16:17:09 CEST schrieb Sakari Ailus:
+> Hi Alexander,
+> 
+> Thanks for the set.
+> 
+> On Fri, Jul 15, 2022 at 09:48:57AM +0200, Alexander Stein wrote:
+> > Need in case the sensors is supplied by a switchable regulator.
+> > 
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> > Changes in v2:
+> > * Remove error message for failed regulator_bulk_disable()
+> > * Rename ov9282_configure_regulators to ov9282_get_regulators
+> > 
+> >  drivers/media/i2c/ov9282.c | 39 ++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 39 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index 04fda8222e07..263cdffc558f 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -11,6 +11,7 @@
+> > 
+> >  #include <linux/i2c.h>
+> >  #include <linux/module.h>
+> >  #include <linux/pm_runtime.h>
+> > 
+> > +#include <linux/regulator/consumer.h>
+> > 
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-fwnode.h>
+> > 
+> > @@ -55,6 +56,14 @@
+> > 
+> >  #define OV9282_REG_MIN		0x00
+> >  #define OV9282_REG_MAX		0xfffff
+> > 
+> > +static const char * const ov9282_supply_names[] = {
+> > +	"avdd",		/* Analog power */
+> > +	"dovdd",	/* Digital I/O power */
+> > +	"dvdd",		/* Digital core power */
+> > +};
+> > +
+> > +#define OV9282_NUM_SUPPLIES ARRAY_SIZE(ov9282_supply_names)
+> > +
+> > 
+> >  /**
+> >  
+> >   * struct ov9282_reg - ov9282 sensor register
+> >   * @address: Register address
+> > 
+> > @@ -127,6 +136,7 @@ struct ov9282 {
+> > 
+> >  	struct media_pad pad;
+> >  	struct gpio_desc *reset_gpio;
+> >  	struct clk *inclk;
+> > 
+> > +	struct regulator_bulk_data supplies[OV9282_NUM_SUPPLIES];
+> > 
+> >  	struct v4l2_ctrl_handler ctrl_handler;
+> >  	struct v4l2_ctrl *link_freq_ctrl;
+> >  	struct v4l2_ctrl *pclk_ctrl;
+> > 
+> > @@ -883,10 +893,18 @@ static int ov9282_power_on(struct device *dev)
+> > 
+> >  		goto error_reset;
+> >  	
+> >  	}
+> > 
+> > +	ret = regulator_bulk_enable(ARRAY_SIZE(ov9282->supplies),
+> > ov9282->supplies);
+> Please run the set through:
+> 
+> 	./scripts/checkpatch.pl --strict --max-line-length=80
 
-[auto build test WARNING on d8e8aa866ed8636fd6c1017c3d9453eab2922496]
+Thanks, will be fixed.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Volodymyr-Kharuk/media-i2c-mlx7502x-ToF-camera-support/20220714-163709
-base:   d8e8aa866ed8636fd6c1017c3d9453eab2922496
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20220718/202207181432.DwoL0GPb-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 07022e6cf9b5b3baa642be53d0b3c3f1c403dbfd)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/59a691c2f449518699a328ea663098aa3ae038b9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Volodymyr-Kharuk/media-i2c-mlx7502x-ToF-camera-support/20220714-163709
-        git checkout 59a691c2f449518699a328ea663098aa3ae038b9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/i2c/ drivers/net/pcs/ kernel/trace/
+> > +	if (ret) {
+> > +		dev_err(dev, "Failed to enable regulators\n");
+> > +		goto disable_clk;
+> > +	}
+> > +
+> > 
+> >  	usleep_range(400, 600);
+> >  	
+> >  	return 0;
+> > 
+> > +disable_clk:
+> > +	clk_disable_unprepare(ov9282->inclk);
+> > 
+> >  error_reset:
+> >  	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
+> > 
+> > @@ -903,6 +921,9 @@ static int ov9282_power_off(struct device *dev)
+> > 
+> >  {
+> >  
+> >  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> >  	struct ov9282 *ov9282 = to_ov9282(sd);
+> > 
+> > +	int ret;
+> 
+> ret seems to be unused.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+You are right, leftover from last cleanup. Will be removed.
 
-All warnings (new ones prefixed by >>):
+Thanks and best regards,
+Alexander
 
->> drivers/media/i2c/mlx7502x.c:981:13: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           } else if (!on && sensor->streaming) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/mlx7502x.c:993:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/media/i2c/mlx7502x.c:981:9: note: remove the 'if' if its condition is always true
-           } else if (!on && sensor->streaming) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/mlx7502x.c:981:13: warning: variable 'ret' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
-           } else if (!on && sensor->streaming) {
-                      ^~~
-   drivers/media/i2c/mlx7502x.c:993:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/media/i2c/mlx7502x.c:981:13: note: remove the '&&' if its condition is always true
-           } else if (!on && sensor->streaming) {
-                      ^~~~~~
-   drivers/media/i2c/mlx7502x.c:945:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   2 warnings generated.
+> > +
+> > +	regulator_bulk_disable(ARRAY_SIZE(ov9282->supplies), ov9282-
+>supplies);
+> > 
+> >  	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
+> > 
+> > @@ -996,6 +1017,18 @@ static int ov9282_init_controls(struct ov9282
+> > *ov9282)> 
+> >  	return 0;
+> >  
+> >  }
+> > 
+> > +static int ov9282_get_regulators(struct ov9282 *ov9282)
+> > +{
+> > +	unsigned int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(ov9282->supplies); i++)
+> > +		ov9282->supplies[i].supply = ov9282_supply_names[i];
+> > +
+> > +	return devm_regulator_bulk_get(ov9282->dev,
+> > +				       ARRAY_SIZE(ov9282-
+>supplies),
+> > +				       ov9282->supplies);
+> > +}
+> > +
+> > 
+> >  /**
+> >  
+> >   * ov9282_probe() - I2C client device binding
+> >   * @client: pointer to i2c client device
+> > 
+> > @@ -1022,6 +1055,12 @@ static int ov9282_probe(struct i2c_client *client)
+> > 
+> >  		return ret;
+> >  	
+> >  	}
+> > 
+> > +	ret = ov9282_get_regulators(ov9282);
+> > +	if (ret) {
+> > +		dev_err(&client->dev, "Failed to get power 
+regulators\n");
+> > +		return ret;
+> > +	}
+> > +
+> > 
+> >  	mutex_init(&ov9282->mutex);
+> >  	
+> >  	ret = ov9282_power_on(ov9282->dev);
 
 
-vim +981 drivers/media/i2c/mlx7502x.c
 
-   941	
-   942	static int mlx7502x_s_stream(struct v4l2_subdev *sd, int on)
-   943	{
-   944		struct mlx7502x *sensor = to_mlx7502x(sd);
-   945		int ret;
-   946	
-   947		mutex_lock(&sensor->lock);
-   948	
-   949		if (on && !sensor->streaming) {
-   950			ret = pm_runtime_resume_and_get(sensor->dev);
-   951			if (ret < 0) {
-   952				mutex_unlock(&sensor->lock);
-   953				return ret;
-   954			}
-   955	
-   956			ret = __v4l2_ctrl_handler_setup(sd->ctrl_handler);
-   957			if (ret < 0)
-   958				goto error_stream;
-   959			/* the registers below depends on hmax, which is configured in controls */
-   960			ret = mlx7502x_set_link_freq(sensor);
-   961			if (ret < 0)
-   962				goto error_stream;
-   963			ret = mlx7502x_update_output_format(sensor);
-   964			if (ret < 0)
-   965				goto error_stream;
-   966			ret = mlx7502x_set_trigger_mode(sensor);
-   967			if (ret < 0)
-   968				goto error_stream;
-   969	
-   970			ret = mlx7502x_write8(sd, MLX7502X_STREAM_EN_REG, 1u);
-   971			if (ret < 0)
-   972				goto error_stream;
-   973	
-   974			sensor->streaming = 1u;
-   975			dev_dbg(sensor->dev, "stream enabled\n");
-   976	
-   977			/* we need to wait to stabilize the system after streaming on */
-   978			usleep_range(MLX7502X_STREAMING_DELAY_US, MLX7502X_STREAMING_DELAY_US + 10);
-   979	
-   980			gpiod_set_value_cansleep(sensor->leden, 1);
- > 981		} else if (!on && sensor->streaming) {
-   982			gpiod_set_value_cansleep(sensor->leden, 0);
-   983	
-   984			sensor->streaming = 0u;
-   985			ret = mlx7502x_write8(sd, MLX7502X_STREAM_EN_REG, 0u);
-   986			dev_dbg(sensor->dev, "stream disabled\n");
-   987	
-   988			pm_runtime_mark_last_busy(sensor->dev);
-   989			pm_runtime_put_autosuspend(sensor->dev);
-   990		}
-   991	
-   992		mutex_unlock(&sensor->lock);
-   993		return ret;
-   994	
-   995	error_stream:
-   996		pm_runtime_put(sensor->dev);
-   997		mutex_unlock(&sensor->lock);
-   998		return ret;
-   999	}
-  1000	
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
