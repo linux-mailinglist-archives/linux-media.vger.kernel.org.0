@@ -2,172 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0DB3578BC9
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 22:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4927578BDA
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 22:34:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235870AbiGRUbH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 16:31:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38012 "EHLO
+        id S236005AbiGRUen (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 16:34:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235224AbiGRUbE (ORCPT
+        with ESMTP id S234589AbiGRUem (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 16:31:04 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B692ED4A;
-        Mon, 18 Jul 2022 13:31:01 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id f14so9732250qkm.0;
-        Mon, 18 Jul 2022 13:31:01 -0700 (PDT)
+        Mon, 18 Jul 2022 16:34:42 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC77811C1C;
+        Mon, 18 Jul 2022 13:34:40 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id oy13so23417793ejb.1;
+        Mon, 18 Jul 2022 13:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=SgQ3vg69XrKG4SLCrmfnrR9gARtMXL/8P6uqVwUjR3c=;
+        b=VxWwXRXdCUcsrKmUjNBAHYCWburQdbxY7b81p9Yht9MSbBsge4pGwUZNohHpUSWRFi
+         SUdz+Hcs+7ifQSWy/OBNqjMDwmgV3Uqj2u4MlNqGrCjZdmFzXkzI5/3hvG5F8LZrCmmC
+         zVSAv9N++OTVah8O5gecqRvRO1WuigyMu+j8AcfENxfYCpbbSx54E/71kKir1jWuv8UP
+         8ddcGUmWt4psg0OckI1yLQCePjydWmUNCnJPsDhi05V9zgTN3dMzWdbXWlEMXzhBJSVg
+         Bb4/I5mwxTFy1n5mwtURwCG/I7Iydua3PeQDgYE+znOjrxAEjkeAUcJ+I3Uz4NeI4RM+
+         Wi6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7ztWxP70SPPra9KJuFOmxCRhYGqoDBVpQMjJSseEb90=;
-        b=dsynwEpg46o6ulGUa1f07Vwu1vz7XJmjxzDRH/c2kTpXHyw8qDcnpswUhAWaMPEw4z
-         yiu98eDYTGgsQXVDhBBv+yXaJ9EhVsufEsxB7qt96vLdjMzqGCjHuRbU+iEXYnWRUFbE
-         AlK2ghp5XM7T/vLEM9ug9ItRZgowB4SwJY6vvTaX06uJaHV9WK5K8cTZmkJj8BOZuvI7
-         IGh6eeD0S1Z62UKcKrf8kcthMQGJOGR6uMAOLYxROPrjCaje7MsUL2ZjS263YGh+lzwt
-         6q7rAkO2vi+gPIC03YAZC54kNrV2RqZaJJ26omAkFxyrq2T5+KVRdI7wBbMS55leXxrt
-         MbFA==
-X-Gm-Message-State: AJIora+EPAt+2pUcCRazuxJQob1FqghinGdHg0FWrYr//GkU4YoYgge2
-        PnnYdsk/SBNB92eaKB7IXsjQbw9kKRqNaA==
-X-Google-Smtp-Source: AGRyM1tO8a84MIafTB7xVOvLZJNK4hzdP1maE7v6CznZY+luIlMRfIEqIcvRKuDrEIj7ARVJjDzOTg==
-X-Received: by 2002:a05:620a:1901:b0:6b5:e309:cc6a with SMTP id bj1-20020a05620a190100b006b5e309cc6amr5787730qkb.624.1658176259965;
-        Mon, 18 Jul 2022 13:30:59 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id ay17-20020a05620a179100b006b5d3a6f1e1sm8774322qkb.0.2022.07.18.13.30.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jul 2022 13:30:59 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-31d85f82f0bso119816837b3.7;
-        Mon, 18 Jul 2022 13:30:59 -0700 (PDT)
-X-Received: by 2002:a0d:dd09:0:b0:31c:e3b9:7442 with SMTP id
- g9-20020a0ddd09000000b0031ce3b97442mr32925297ywe.47.1658176259129; Mon, 18
- Jul 2022 13:30:59 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=SgQ3vg69XrKG4SLCrmfnrR9gARtMXL/8P6uqVwUjR3c=;
+        b=cAbLK2k85w7f4m5RB1/KgGSONsHmi2L658ZdhjaI7kNQX0HkFd/mIanYY7So12/N+0
+         7N+NwkETTza1mUVOp9DdVxsWj188HXHgHvYfqN/ULwa1uT/pKMTL9cI9Y2nPrycZfdtX
+         JLfRdsjr+sJRvAZYtbnmP3HKdI9eQD3o02dp+SZTE1m2r2xhZDWdt7VryfqhDbENLOI9
+         eyhiBTZLlW7XORn2LDEsUTC33Xq3N92HwI964HMGY+PhzI4nq5/XJmQUcY9tEdDxUID+
+         0YlTGh/tquEUo5edHTk5dLAds69VevumAyjzSj6kdxxqLUrc2wqFm7+6WuBjFfCBZAtD
+         mQLg==
+X-Gm-Message-State: AJIora8FalLv+G+0VD5kYVJCTEzz0iVLzmj0mq5PEUFFd416nyYvWJjC
+        HYc0AUn0rdA2bG7A/2VBvZ8lOZ2GcKSDXg==
+X-Google-Smtp-Source: AGRyM1tGC2mf5OL95/Xi8XsQYmNIKA2K5q/KcUfriX7AvcRKc6Sa4cckzxTSNZj7ebXoHk11R9xhPg==
+X-Received: by 2002:a17:907:761c:b0:6d6:e553:7bd1 with SMTP id jx28-20020a170907761c00b006d6e5537bd1mr27853505ejc.5.1658176479423;
+        Mon, 18 Jul 2022 13:34:39 -0700 (PDT)
+Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id b17-20020a1709063cb100b00722fadc4279sm5856158ejh.124.2022.07.18.13.34.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 13:34:38 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     mripard@kernel.org, paul.kocialkowski@bootlin.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+        samuel@sholland.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: cedrus: hevc: Add check for invalid timestamp
+Date:   Mon, 18 Jul 2022 22:34:37 +0200
+Message-ID: <1795344.atdPhlSkOF@jernej-laptop>
+In-Reply-To: <b588b53fcfe539692a0a55b9fd0e97528def1d96.camel@collabora.com>
+References: <20220718165649.16407-1-jernej.skrabec@gmail.com> <4725382.GXAFRqVoOG@kista> <b588b53fcfe539692a0a55b9fd0e97528def1d96.camel@collabora.com>
 MIME-Version: 1.0
-References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
- <20220531141958.575616-3-biju.das.jz@bp.renesas.com> <20220713081856.GA14683@pengutronix.de>
- <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com>
- <20220713103216.GA10829@pengutronix.de> <CAMuHMdX9ULJVzxsBqkZvg2_XoxJPGqmduhjM9j_PCJDk-PdmqQ@mail.gmail.com>
- <OS0PR01MB5922AEA08C8DD71390E51A97868C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <f3d19a38e59e73b91601b7a34aaf1c2ea41ff915.camel@pengutronix.de> <OS0PR01MB5922B692CA3784F4C481118F868C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922B692CA3784F4C481118F868C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 Jul 2022 22:30:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXJ0=J6ZG4BJEdG21ks3NVpm6nbBgz7UySeQ8xdLj159g@mail.gmail.com>
-Message-ID: <CAMuHMdXJ0=J6ZG4BJEdG21ks3NVpm6nbBgz7UySeQ8xdLj159g@mail.gmail.com>
-Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+Dne ponedeljek, 18. julij 2022 ob 21:37:31 CEST je Nicolas Dufresne=20
+napisal(a):
+> Le lundi 18 juillet 2022 =C3=A0 19:57 +0200, Jernej =C5=A0krabec a =C3=A9=
+crit :
+> > Dne ponedeljek, 18. julij 2022 ob 19:41:48 CEST je Nicolas Dufresne
+> >=20
+> > napisal(a):
+> > > Le lundi 18 juillet 2022 =C3=A0 18:56 +0200, Jernej Skrabec a =C3=A9c=
+rit :
+> > > > Not all DPB entries will be used most of the time. Unused entries w=
+ill
+> > > > thus have invalid timestamps. They will produce negative buffer ind=
+ex
+> > > > which is not specifically handled. This works just by chance in
+> > > > current
+> > > > code. It will even produce bogus pointer, but since it's not used, =
+it
+> > > > won't do any harm.
+> > > >=20
+> > > > Let's fix that brittle design by skipping writing DPB entry altoget=
+her
+> > > > if timestamp is invalid.
+> > > >=20
+> > > > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding suppor=
+t")
+> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > ---
+> > > >=20
+> > > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 3 +++
+> > > >  1 file changed, 3 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> > > > 1afc6797d806..687f87598f78 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > @@ -147,6 +147,9 @@ static void
+> > > > cedrus_h265_frame_info_write_dpb(struct
+> > > > cedrus_ctx *ctx,>
+> > > >=20
+> > > >  			dpb[i].pic_order_cnt_val
+> > > >  	=09
+> > > >  		};
+> > > >=20
+> > > > +		if (buffer_index < 0)
+> > > > +			continue;
+> > >=20
+> > > When I compare to other codecs, when the buffer_index does not exist,
+> > > the
+> > > addr 0 is being programmed into the HW. With this implementation is is
+> > > left
+> > > to whatever it was set for the previous decode operation. I think its=
+ is
+> > > nicer done the other way.
+> >=20
+> > It's done the same way as it's done in vendor lib. As I stated in commit
+> > message, actual values don't matter for unused entries. If it is used by
+> > accident, HW reaction on all zero pointers can only be worse than using
+> > old, but valid entry.
+> >=20
+> > Due to no real documentation and Allwinner unwillingness to share detai=
+ls,
+> > we'll probably never know what's best response for each error. Some thi=
+ngs
+> > can be deduced from vendor code, but not all.
+> >=20
+> > I would rather not complicate this fix, especially since it's candidate
+> > for
+> > backporting.
+>=20
+> I am simply trying to highlight that this is not consistant with how the
+> H264 part is done. Why do we reset the register for one codec and not the
+> other ?
 
-On Mon, Jul 18, 2022 at 12:12 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
-> > deassert/assert reset line
-> >
-> > Hi,
-> >
-> > On Mo, 2022-07-18 at 09:46 +0000, Biju Das wrote:
-> > > Hi Philipp and Geert,
-> > >
-> > > > Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
-> > > > deassert/assert reset line
-> > > >
-> > > > Hi Philipp,
-> > > >
-> > > > On Wed, Jul 13, 2022 at 12:32 PM Philipp Zabel
-> > > > <p.zabel@pengutronix.de>
-> > > > wrote:
-> > > > > On Wed, Jul 13, 2022 at 11:27:56AM +0200, Geert Uytterhoeven wrote:
-> > > > > [...]
-> > > > > > Actually I suggested handling this in the VSP driver, as VSP
-> > > > > > seems to be "special".
-> > > > > >
-> > > > > > >
-> > > > > > > [1]
-> > > > >
-> > > > > So reset_control_status never actually returns 1 and the polling
-> > > > > loop is not necessary at all?
-> > > > >
-> > > > > If it's just the status register read that fixes things for VSP,
-> > > > > could it be that the deasserting register write to the reset
-> > > > > controller and the following register writes to VSP are not
-> > > > > ordered somewhere at the interconnect and the read issued to the
-> > > > > reset controller just guarantees that order?
-> > > >
-> > > > The udelay() also works.
-> > > >
-> > > > While the reset may be deasserted immediately (at the reset
-> > > > controller level), the VSP may need some additional time to
-> > > > settle/initialize (at the VSP level).
-> >
-> > ^ this feels to me like we are blindly applying a workaround for an
-> > unknown problem. Is there any way to find out what actually causes this
-> > delay (or status readback) to be necessary? Is there something
-> > documented, like a certain number of VSP clocks required to internally
-> > propagate the reset?
->
-> OK.
->
-> >
-> > > >
-> > > > Reset is known to work on other blocks on the same SoC, so that's
-> > > > why I suggested handling this in the VSP driver instead, like we
-> > > > already do for i2c.
-> > >
-> > > From the discussion, we agree that the current implementation is good.
-> > >
-> > > Please correct me if my understanding is wrong.
-> >
-> > From my understanding, not quite. At least the timeout poll is
-> > unnecessary and misleading. It suggests that reset_control_status() could
-> > return 0 at this point, which would be a bug in the reset driver.
-> >
-> > If reset_control_status() only ever returns 1 and the polling loop ends
-> > in the first iteration, you can drop the loop and just read status once.
-> > Or use udelay(), at this point I have not enough information to
-> > understand which would be more appropriate.
->
-> For RZ/G1N SoC's like Geert mentioned in [1], calling reset_control_status() only once fixes the
-> issue. So strictly speaking polling is not required.
->
-> @Geert Uytterhoeven, Please share your opinion on this.
+While H264 and HEVC are similar in many ways, Cedrus uses two different cor=
+es=20
+or in Cedrus slang, engines, for them. They have their own quirks. One of t=
+he=20
+most apparent is handling of DPB array. H264 requires that same entry is=20
+always at the same position in HW DPB. That's not required by HEVC.
 
-According to that thread, it also works without reading the
-register, when adding a small delay() (to the vsp driver)?
+Additional reasons for differences come from the fact that it's from two=20
+different authors (Maxime and Paul). Those differences were created at the=
+=20
+beginning and it is what it is.
 
->
-> [1]
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220504184406.93788-1-biju.das.jz@bp.renesas.com/
+>=20
+> Perhaps you should sync to your preference the driver as a whole. It also
+> seems that before your patch, some bits would be 0 and some other would be
+> very large values. Between this and leaving random value, I don't really
+> see any gain or reason for a backport. It neither break or fix anything as
+> far as I understand.
 
-Gr{oetje,eeting}s,
+Maybe there is no need to backport, but the change is nevertheless useful. =
+As=20
+I explained, current code works only by chance, as we noticed with Ezequiel=
+'s=20
+rework. It's certainly worthwhile to make code less brittle. As far as I'm=
+=20
+concerned, fixes tag can be dropped or even Ezequiel can squash this change=
+=20
+into his commit, with appropriate adjustments, of course.
 
-                        Geert
+I'm not completely sure what do you mean by syncing driver preference. Code=
+=20
+changes always need a good reason to be accepted. Moving code around and=20
+renaming things just to be similar with something else is not.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Best regards,
+Jernej
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>=20
+> My general opinion, is that we fixe the unused address (like to 0) then w=
+hen
+> something goes wrong, as least it will go wrong consistently.
+>=20
+> > Best regards,
+> > Jernej
+> >=20
+> > > > +
+> > > >=20
+> > > >  		cedrus_h265_frame_info_write_single(ctx, i,
+> >=20
+> > dpb[i].field_pic,
+> >=20
+> >=20
+> > pic_order_cnt,
+> >=20
+> > buffer_index);
+
+
+
+
