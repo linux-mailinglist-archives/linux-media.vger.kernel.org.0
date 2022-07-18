@@ -2,242 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D03F5781AC
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 14:09:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8954D5781D4
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 14:13:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234786AbiGRMJY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 08:09:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55610 "EHLO
+        id S234888AbiGRMND (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 08:13:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234762AbiGRMJT (ORCPT
+        with ESMTP id S234853AbiGRMM6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 08:09:19 -0400
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1A97DD8
-        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 05:08:49 -0700 (PDT)
-Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-10bd4812c29so23012316fac.11
-        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 05:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=SJp1q6XJR6dWugl7INyRf6dofrjwqu21++Nv2wqMW3M=;
-        b=cE7M0Le1tSAGbGcrlSggeXY0y9LTHbcIIk3Iqy4k8VglLhovX5RxkiCh4QpsDEnH/B
-         ft3q8I8czp3+JTGvlD181UGX0CyE2hKksgBtChxhxg6Z6tu5MjC6vmq6q6M/C9Ghmdm7
-         Qq3g/geOnQUy7RnR0TurDmTIbjLWXi5TaYZ6CA8Atwg+2+bcGSWyFf62GGWewumW0GRM
-         SpLzjA8mSbU7+aOEgKcpkrh3N6QhWvHsoFNNEnj3+1JfZzUcDFfs75HWKmsfFwWun/UA
-         5ZnpjnGtzF8vj+kQK0kIZAb5AkPhpxrDHgImytWG9LwGnhYrOIv311Q7tnzpfVPV+dWD
-         1vQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=SJp1q6XJR6dWugl7INyRf6dofrjwqu21++Nv2wqMW3M=;
-        b=DS2B2xmAz5RUwXy1V1T5E+vEIhe9rmqjWTEyHYpx6BP3vkYLRgRdqID07/eoLKJ8WR
-         ykjwjdFcliQgqW1/ExMWZbWf9+A9gYmUMGzln8Ix9pVj0ukMksKWcxiF7zxxTAXVbCrs
-         iQx+4c6DFh0XW9s5OJ3zn8eHPgc3Gt3L7sCoMv3RoW5+ndTVCwo6VeL8x4kZKQiOCsRk
-         1isZ9CtXILLwwUfitsof62B56/55nScAIGzfFmbfmO+AsPUINXY6bMvlVFqoxTOT9v6V
-         dnycr+PBt4tGJZOgfRDzaHVN/ae1V9nytFzTOvq1QWnyNXY0atSL+TO0Tk4cLT+VSXAc
-         2Yrw==
-X-Gm-Message-State: AJIora9YG06rueuHtEa87MVaIlmYbS9mH4yjnPaUAvbPvfd8dT+19aN/
-        guNMs1spt69l5xOwwlFMgWqr1Q==
-X-Google-Smtp-Source: AGRyM1v5lt+xpMi5RRnjhUp/8kHGdPVxIcx8yOKnAV0q5Q81rMdFBEGoE3nE4a9U/h1ZBjdKdFeARw==
-X-Received: by 2002:a05:6871:611:b0:10c:4bc0:88b9 with SMTP id w17-20020a056871061100b0010c4bc088b9mr13880800oan.81.1658146122843;
-        Mon, 18 Jul 2022 05:08:42 -0700 (PDT)
-Received: from eze-laptop ([186.13.97.222])
-        by smtp.gmail.com with ESMTPSA id l24-20020a056830155800b0061c8bca21d8sm1041786otp.2.2022.07.18.05.08.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 05:08:42 -0700 (PDT)
-Date:   Mon, 18 Jul 2022 09:08:36 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH] hantro: Remove incorrect HEVC SPS validation
-Message-ID: <YtVNRG99emUfdE52@eze-laptop>
-References: <20220629195624.45745-1-ezequiel@vanguardiasur.com.ar>
- <20220629195624.45745-2-ezequiel@vanguardiasur.com.ar>
- <20220630050232.bpntbghouslye3l3@basti-XPS-13-9310>
- <9df23a2d-b5c3-ddd5-8594-afc6f36d2350@xs4all.nl>
+        Mon, 18 Jul 2022 08:12:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC49824BE0
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 05:12:57 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCA106DC;
+        Mon, 18 Jul 2022 14:12:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1658146376;
+        bh=RfenEmd9M9GCmVMjbvXGdx3Cl0CLNBlhMLojz+MhsYs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qeT2KfzoRo20xuSkbsWxCE3CcOjzbVjn8PEGToQnbZThRaAvtsAR8DXpCZVIFfIyG
+         E/I9o+I4u8dRagjbq7aE8X2yaXty5ZAfIr0ZANhA97jZLul7rdcnqCNZLM+a1urxgv
+         +/tDHaFjxIm3B0Mp8ZwBMVnhkpR3AlKtcqI14Aao=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH] media: uvcvideo: Fix invalid pointer in uvc_ctrl_init_ctrl()
+Date:   Mon, 18 Jul 2022 15:12:19 +0300
+Message-Id: <20220718121219.16079-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9df23a2d-b5c3-ddd5-8594-afc6f36d2350@xs4all.nl>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+The handling of per-device mappings introduced in commit 86f7ef773156
+("media: uvcvideo: Add support for per-device control mapping
+overrides") overwrote the mapping variable after it was initialized and
+before it was used, leading to usage of an invalid pointer for devices
+with per-device mappings. Fix it.
 
-On Fri, Jul 08, 2022 at 10:42:43AM +0200, Hans Verkuil wrote:
-> 
-> 
-> On 6/30/22 07:02, Sebastian Fricke wrote:
-> > Hey Ezequiel,
-> > 
-> > On 29.06.2022 16:56, Ezequiel Garcia wrote:
-> >> Currently, the driver tries to validat the HEVC SPS
-> > 
-> > s/validat/validate/
-> > 
-> >> against the CAPTURE queue format (i.e. the decoded format).
-> >> This is not correct, because typically the SPS control is set
-> >> before the CAPTURE queue is negotiated.
-> >>
-> >> In addition to this, a format validation in hantro_hevc_dec_prepare_run()
-> >> is also suboptimal, because hantro_hevc_dec_prepare_run() runs in the context
-> >> of v4l2_m2m_ops.device_run, as part of a decoding job.
-> >>
-> >> Format and control validations should happen before decoding starts,
-> >> in the context of ioctls such as S_CTRL, S_FMT, or STREAMON.
-> >>
-> >> Remove the validation for now.
-> > 
-> > Couldn't we add a small wrapper around STREAMON to perform that
-> > validation? I feel like "remove the validation for now", seems like a
-> > vague statement.
-> 
-> I agree. Basically two things happen in this patch: two sanity checks
-> for the SPS control are moved to try_ctrl, and that part looks good.
-> 
-> So that can be a separate patch.
-> 
-> The second part is the removal of the format+control validation, but it
-> is not clear why removing it altogether is wrong. Shouldn't it still be
-> done somewhere? And if not, why not?
-> 
+Fixes: 86f7ef773156 ("media: uvcvideo: Add support for per-device control mapping overrides")
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/media/usb/uvc/uvc_ctrl.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Sorry for the delayed reply. After giving this format+control validation
-more thought, I believe the V4L2 API provides a natural way of handling.
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index e4826a846861..8c208db9600b 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -2413,9 +2413,8 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ {
+ 	const struct uvc_control_info *info = uvc_ctrls;
+ 	const struct uvc_control_info *iend = info + ARRAY_SIZE(uvc_ctrls);
+-	const struct uvc_control_mapping *mapping = uvc_ctrl_mappings;
+-	const struct uvc_control_mapping *mend =
+-		mapping + ARRAY_SIZE(uvc_ctrl_mappings);
++	const struct uvc_control_mapping *mapping;
++	const struct uvc_control_mapping *mend;
+ 
+ 	/*
+ 	 * XU controls initialization requires querying the device for control
+@@ -2468,6 +2467,9 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 	}
+ 
+ 	/* Process common mappings next. */
++	mapping = uvc_ctrl_mappings;
++	mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings);
++
+ 	for (; mapping < mend; ++mapping) {
+ 		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+ 		    ctrl->info.selector == mapping->selector)
 
-When the format is negotiated in TRY_FMT, the control needs to be used
-to offer a valid resolution.
+base-commit: 8bd1dbf8d580c425605fb8936309a4e9745a7a95
+prerequisite-patch-id: 89d2dc61eb83afb89fb075a63e161ea0b87fdcc7
+prerequisite-patch-id: 01354ee4b874fea1acc040a23badff034588362f
+prerequisite-patch-id: 7ae47f109892b89675acbdc0c6bcc1487436ec78
+-- 
+Regards,
 
-The driver is capable of negotiating the resolution of the stream
-using the control information, instead of failing.
+Laurent Pinchart
 
-I'll send a v2 with a new proposal.
-
-Thanks,
-Ezequiel
-
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> > Greetings,
-> > Sebastian
-> > 
-> >>
-> >> Fixes: 135ad96cb4d6b ("media: hantro: Be more accurate on pixel formats step_width constraints")
-> >> Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> >> ---
-> >> drivers/staging/media/hantro/hantro_drv.c  | 12 ++++-----
-> >> drivers/staging/media/hantro/hantro_hevc.c | 30 ----------------------
-> >> drivers/staging/media/hantro/hantro_hw.h   |  1 -
-> >> 3 files changed, 6 insertions(+), 37 deletions(-)
-> >>
-> >> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> >> index afddf7ac0731..2387ca85ab54 100644
-> >> --- a/drivers/staging/media/hantro/hantro_drv.c
-> >> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> >> @@ -253,11 +253,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
-> >>
-> >> static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
-> >> {
-> >> -    struct hantro_ctx *ctx;
-> >> -
-> >> -    ctx = container_of(ctrl->handler,
-> >> -               struct hantro_ctx, ctrl_handler);
-> >> -
-> >>     if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
-> >>         const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
-> >>
-> >> @@ -273,7 +268,12 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
-> >>     } else if (ctrl->id == V4L2_CID_MPEG_VIDEO_HEVC_SPS) {
-> >>         const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
-> >>
-> >> -        return hantro_hevc_validate_sps(ctx, sps);
-> >> +        if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-> >> +            /* Luma and chroma bit depth mismatch */
-> >> +            return -EINVAL;
-> >> +        if (sps->bit_depth_luma_minus8 != 0)
-> >> +            /* Only 8-bit is supported */
-> >> +            return -EINVAL;
-> >>     } else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
-> >>         const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
-> >>
-> >> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-> >> index bd924896e409..f86c98e19177 100644
-> >> --- a/drivers/staging/media/hantro/hantro_hevc.c
-> >> +++ b/drivers/staging/media/hantro/hantro_hevc.c
-> >> @@ -154,32 +154,6 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
-> >>     return -ENOMEM;
-> >> }
-> >>
-> >> -int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
-> >> -{
-> >> -    if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-> >> -        /* Luma and chroma bit depth mismatch */
-> >> -        return -EINVAL;
-> >> -    if (sps->bit_depth_luma_minus8 != 0)
-> >> -        /* Only 8-bit is supported */
-> >> -        return -EINVAL;
-> >> -
-> >> -    /*
-> >> -     * for tile pixel format check if the width and height match
-> >> -     * hardware constraints
-> >> -     */
-> >> -    if (ctx->vpu_dst_fmt->fourcc == V4L2_PIX_FMT_NV12_4L4) {
-> >> -        if (ctx->dst_fmt.width !=
-> >> -            ALIGN(sps->pic_width_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_width))
-> >> -            return -EINVAL;
-> >> -
-> >> -        if (ctx->dst_fmt.height !=
-> >> -            ALIGN(sps->pic_height_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_height))
-> >> -            return -EINVAL;
-> >> -    }
-> >> -
-> >> -    return 0;
-> >> -}
-> >> -
-> >> int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
-> >> {
-> >>     struct hantro_hevc_dec_hw_ctx *hevc_ctx = &ctx->hevc_dec;
-> >> @@ -203,10 +177,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
-> >>     if (WARN_ON(!ctrls->sps))
-> >>         return -EINVAL;
-> >>
-> >> -    ret = hantro_hevc_validate_sps(ctx, ctrls->sps);
-> >> -    if (ret)
-> >> -        return ret;
-> >> -
-> >>     ctrls->pps =
-> >>         hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_PPS);
-> >>     if (WARN_ON(!ctrls->pps))
-> >> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> >> index a2e0f0836281..5edff0f0be20 100644
-> >> --- a/drivers/staging/media/hantro/hantro_hw.h
-> >> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> >> @@ -359,7 +359,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
-> >> void hantro_hevc_ref_init(struct hantro_ctx *ctx);
-> >> dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
-> >> int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
-> >> -int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps);
-> >>
-> >>
-> >> static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
-> >> -- 
-> >> 2.31.1
-> >>
