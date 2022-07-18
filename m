@@ -2,79 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7EB3578A16
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 21:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D277578A80
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 21:16:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234593AbiGRTBi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 15:01:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55770 "EHLO
+        id S234107AbiGRTQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 15:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234646AbiGRTBb (ORCPT
+        with ESMTP id S230317AbiGRTQr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 15:01:31 -0400
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AEAF2FFE8
-        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 12:01:19 -0700 (PDT)
-Received: by mail-ua1-x92d.google.com with SMTP id t21so5631502uaq.3
-        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 12:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
-        b=IQXHlBQ3jHSYUTt89EYBBYMpS/rXYtHBaNUJ6e2ZzB07/ETpvOJM0/ZijryokIEfDh
-         oJG0jiachEiIldTcksV5XzU+dy3csOVeMrzVRYAIpdf4PUrGYfI/KNNvcLIWjvmc8oHa
-         yWKlPWKnOFkuEw2Mq2CzZYpqcRK9kJ+LygeUXE0izxh4s3I+nauj1w40rP+480vJCi+X
-         rAPSoEvo8wXV23cydMjOZnuzBivYToT/OwjRuq1iqX/8Isb8Rqougy46FnOdoQuh9Z/u
-         z7xKihQATs9EIIDqpmGAQl/2n//vpMk3ZDpLHQioaLk/1hVBrL4som/CgeyT77yPFwbn
-         VU6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
-        b=zeuJCdNrA8DDMn5x5kipZ6vysftLDfIbG4albQsQgXEwoiUFZIk+Z3OqnackhBua35
-         3uEfaVlE9HW0GYDTaDFUSu70zhmbXXNMgWv2mq++x4U2bU820pgpsM2pitUnvG3lNYlV
-         Bz17en98X9n8JANytAfEv3WHwDtcbVi6xUNTvsq6WlVpwMiIjOyM8KVQ/YZSs3EKXyYz
-         rNjFXHM7of+FFbQ2JIYylPK++mMwFVe4cN1PJpVMIDNN4ccU2k9ObqIIQi8a95ZFkhLh
-         zNh8QD/w9zsKO3JKbL5ZOJ2PKTv83aY7svS409pYuYlv3zOoOkQGPTJsE2ne7Iprdo3t
-         b5pQ==
-X-Gm-Message-State: AJIora9SJy7qGaMdYLcdk7sUAYPxI+zKslA2dAzC2wb+u7k6r/Rrh4Xa
-        PIvZWESSkfsxhmObMdtopHYGyEvpkp6ZojvaNUSSCid77GDFyg==
-X-Google-Smtp-Source: AGRyM1sOF4caZ/Mzb7i1HwUB8dyXYAmjf9y+Pd1nVHRKiUHeMR6opOrMc10oZNu5DLkN2HS0cpkKNGEh0T+MU99Jmes=
-X-Received: by 2002:a81:5747:0:b0:31d:1bb8:65b7 with SMTP id
- l68-20020a815747000000b0031d1bb865b7mr30830046ywb.168.1658170865217; Mon, 18
- Jul 2022 12:01:05 -0700 (PDT)
+        Mon, 18 Jul 2022 15:16:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E7382F675
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 12:16:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2425E616AF
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 19:16:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 177B8C341C0
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 19:16:44 +0000 (UTC)
+Message-ID: <6d662034-3a80-7217-6603-93b9e222e7a8@xs4all.nl>
+Date:   Mon, 18 Jul 2022 21:16:43 +0200
 MIME-Version: 1.0
-Received: by 2002:a05:6919:4004:b0:cc:50ff:b3d8 with HTTP; Mon, 18 Jul 2022
- 12:01:04 -0700 (PDT)
-Reply-To: lilywilliam989@gmail.com
-From:   Lily William <sgtalberts@gmail.com>
-Date:   Mon, 18 Jul 2022 11:01:04 -0800
-Message-ID: <CALPTejMFgL0Bg7jCKa7j+5KxVv_jnSM4ZPq-QhHCiUpG_ZswsQ@mail.gmail.com>
-Subject: Hi Dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [GIT PULL FOR v5.20] Various daily build fixes
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dear,
+These patches fix various daily build issues: documentation warnings and
+smatch warnings and errors.
 
-My name is Dr Lily William from the United States.I am a French and
-American nationality (dual) living in the U.S and sometimes in France
-for Work Purpose.
+The following changes since commit 8bd1dbf8d580c425605fb8936309a4e9745a7a95:
 
-I hope you consider my friend request. I will share some of my pics
-and more details about myself when I get your response.
+  media: rkisp1: debug: Add dump file in debugfs for MI main path registers (2022-07-17 12:34:43 +0100)
 
-Thanks
+are available in the Git repository at:
 
-With love
-Lily
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.20l
+
+for you to fetch changes up to 2c5a90cde295463ff9e7771a6c833eb3adcff6a7:
+
+  media: sunxi: sun6i_mipi_csi2.c/sun8i_a83t_mipi_csi2.c: clarify error handling (2022-07-18 18:10:22 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (3):
+      vimc: wrong pointer is used with PTR_ERR
+      media: videodev2.h.rst.exceptions: add missing exceptions
+      media: sunxi: sun6i_mipi_csi2.c/sun8i_a83t_mipi_csi2.c: clarify error handling
+
+Laurent Pinchart (2):
+      media: Documentation: mc-core: Fix typo
+      media: uvcvideo: Fix invalid pointer in uvc_ctrl_init_ctrl()
+
+ Documentation/driver-api/media/mc-core.rst                               | 2 +-
+ Documentation/userspace-api/media/videodev2.h.rst.exceptions             | 3 +++
+ drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c           | 7 ++++---
+ drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c | 7 ++++---
+ drivers/media/test-drivers/vimc/vimc-core.c                              | 2 +-
+ drivers/media/usb/uvc/uvc_ctrl.c                                         | 8 +++++---
+ 6 files changed, 18 insertions(+), 11 deletions(-)
