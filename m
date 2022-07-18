@@ -2,91 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C5C7578D1E
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 23:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6757578D29
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 00:00:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236346AbiGRV4m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 17:56:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45068 "EHLO
+        id S236379AbiGRWAR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 18:00:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234131AbiGRV4l (ORCPT
+        with ESMTP id S233981AbiGRWAQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 17:56:41 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3EC0286E2;
-        Mon, 18 Jul 2022 14:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658181400; x=1689717400;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jtelwOkBsZ1rw2rAM+GRVZOZu4hLir8ReE56NKel1wU=;
-  b=j4OCPBzt4oOiiHyTd+v71Y3b78fY8LAcghhUBt4HI74MDAIxbHtGRk0o
-   Z6lYZhkPchpNbcIpumdcKzTKDidLkWr5tAAWyXVzSQ/51vb02XvkXGnNV
-   ehWFgWGALTpphWCL4qO/ePccynS907XwZVaHWO/K3fEpjog+HmoCkKuJZ
-   yxSnDFDxtAuGTyUP7auidkdjYmrbIbL2a+0d5hmYWKVRyeU2sobM4AlSJ
-   +Kib2anverinW433vcBKZj+PCuOj+KUXippoZDIUyAFIOfyZJgbhjGudp
-   JEUQJWD6O/HM6Yli1yFacXWCmWz9rT8OgcZ0Var00X656GP6Je1VaRuop
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="285086813"
-X-IronPort-AV: E=Sophos;i="5.92,282,1650956400"; 
-   d="scan'208";a="285086813"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 14:56:40 -0700
-X-IronPort-AV: E=Sophos;i="5.92,282,1650956400"; 
-   d="scan'208";a="739625187"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 14:56:39 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 4728120282;
-        Tue, 19 Jul 2022 00:56:37 +0300 (EEST)
-Date:   Mon, 18 Jul 2022 21:56:37 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jason Wang <wangborong@cdjrlc.com>
-Cc:     mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: mc-request.c: Fix comment typo
-Message-ID: <YtXXFZzMnL5IJZoZ@paasikivi.fi.intel.com>
-References: <20220715051646.30195-1-wangborong@cdjrlc.com>
+        Mon, 18 Jul 2022 18:00:16 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4A3F30567;
+        Mon, 18 Jul 2022 15:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Smy+K5SsBoKu7R2Ez6Wknyaqr3gfX9BPVA5fVt2P8T0=; b=leyACy2j4DACa1kT6Gpoba8VOm
+        VOcEfZL3PkIZgiPs8NmLAJaBh8ucD+6kAoUEzxAXkRiJhdoKUCC9eS2BxTrWrSU3Gqy8FGHCl0+Yf
+        cnoOA2e2G7FTo7OqIQ+Jms+460wxBba1ZdXNg9IsZJuJ86ignpBqHcbMW+ipI2+RdNLMHKQbtEnSK
+        yUQZmHoK4wSnrk6TsdqloQ/tkKm0+6MDqgVLg+haVl7nQ2yUnqoiirjvDUaegs24clTHejTLG5Nhf
+        GrMHfUZ3Mq47NEGdmLxe/Y3iaYND/IDLOH/w41NkO0UbGqm0/y7Hu229QF2xyeGt/BSMoNktdIPyL
+        BQ+qyY7Q==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oDYmh-001q88-OL; Mon, 18 Jul 2022 22:00:11 +0000
+Date:   Mon, 18 Jul 2022 15:00:11 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Dave Airlie <airlied@gmail.com>
+Cc:     torvalds@linux-foundation.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.sf.net, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-media@vger.kernel.org, linux-block@vger.kernel.org,
+        Dave Airlie <airlied@redhat.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Casey Schaufler <casey@schaufler-ca.com>
+Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
+ guidelines.
+Message-ID: <YtXX604B2X8vdH9b@bombadil.infradead.org>
+References: <20220718072144.2699487-1-airlied@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220715051646.30195-1-wangborong@cdjrlc.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220718072144.2699487-1-airlied@gmail.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jason,
-
-On Fri, Jul 15, 2022 at 01:16:46PM +0800, Jason Wang wrote:
-> The double `that' is duplicated in line 162, remove one.
+On Mon, Jul 18, 2022 at 05:21:44PM +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
 > 
-> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
-> ---
->  drivers/media/mc/mc-request.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> A recent snafu where Intel ignored upstream feedback on a firmware
+> change, led to a late rc6 fix being required. In order to avoid this
+> in the future we should document some expectations around
+> linux-firmware.
 > 
-> diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
-> index addb8f2d8939..752ea0bc804b 100644
-> --- a/drivers/media/mc/mc-request.c
-> +++ b/drivers/media/mc/mc-request.c
-> @@ -159,7 +159,7 @@ static long media_request_ioctl_queue(struct media_request *req)
->  	 * state can only happen if either the driver changes the state or if
->  	 * the user cancels the vb2 queue. The driver can only change the state
->  	 * after each object is queued through the req_queue op (and note that
-> -	 * that op cannot fail), so setting the state to QUEUED up front is
+> I was originally going to write this for drm, but it seems quite generic
+> advice.
+> 
+> I'm cc'ing this quite widely to reach subsystems which use fw a lot.
+> 
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 
-In this case, the second "that" is there for a reason.
+Document well deserved to be written, thanks for making this happen.
+Modulo all the silly spelling / bike-shedding issues folks might find,
+in case you care to re-spin for a v2:
 
-> +	 * op cannot fail), so setting the state to QUEUED up front is
->  	 * safe.
->  	 *
->  	 * The other reason for changing the state is if the vb2 queue is
+Acked-by: Luis Chamberlain <mcgrof@kernel.org>
 
--- 
-Sakari Ailus
+Now let's think about the impact of two corner cases which *do*
+happen and so this poses security implications on enablement:
+
+1) Devices which end up with a security issue which a vendor considers
+   obsolete, and the only way to fix something is firmware. We're
+   security-out-of-luck. For this I've previously sucessfully have put
+   effort into organizations to open source the firmware. We were
+   successful more than once:
+
+     * https://github.com/qca/open-ath9k-htc-firmware
+     * https://github.com/qca/ath6kl-firmware
+
+   When these efforts fall short we have a slew of reverse engineering
+   efforts which fortunately also have been sucessfull.
+
+2) Vendor goes belly up
+
+Both implicate the need to help persuade early on a strategy for open
+source firmware, and I don't want to hear anyone tell me it is not
+possible.
+
+When that fails we can either reverse engineer and worst case, I am not
+sure if we have a process for annotations or should. Perhaps a kconfig
+symbol which drivers with buggy firmware can depend on, and only if you
+enable that kconfig symbol would these drivers be available to be
+enabled?
+
+Are we aware of such device drivers? They must exist...
+
+  Luis
