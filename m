@@ -2,73 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B32F75780D7
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 13:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B0F257811C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 13:42:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234131AbiGRLe0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 07:34:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54722 "EHLO
+        id S233918AbiGRLmV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 07:42:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233435AbiGRLe0 (ORCPT
+        with ESMTP id S230249AbiGRLmV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 07:34:26 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E54FADECA;
-        Mon, 18 Jul 2022 04:34:23 -0700 (PDT)
-X-UUID: 97de6e35c7034c3999966c78c6b23a80-20220718
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8,REQID:744aec6b-847c-420c-9334-c55a67eb03c8,OB:0,LO
-        B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
-        ON:release,TS:5
-X-CID-META: VersionHash:0f94e32,CLOUDID:67aacad7-5d6d-4eaf-a635-828a3ee48b7c,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
-        ,QS:nil,BEC:nil,COL:0
-X-UUID: 97de6e35c7034c3999966c78c6b23a80-20220718
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1844753461; Mon, 18 Jul 2022 19:34:18 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 18 Jul 2022 19:34:17 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Mon, 18 Jul 2022 19:34:16 +0800
-Message-ID: <bb7877319b395e764653f14297c130f114799c7e.camel@mediatek.com>
-Subject: Re: [PATCH 3/5] media: mediatek: vcodec: Add mt8188 encoder driver
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+        Mon, 18 Jul 2022 07:42:21 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41807B7FE;
+        Mon, 18 Jul 2022 04:42:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658144539; x=1689680539;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=cjDEUMocRa7SlH9O7KgQ1qOCN1vQXXghvTYa+IpysC0=;
+  b=L0nFnY3RLX4DFKcImWjq9H3Ki+gskuU5r1iQQMYSsPZUUjkbvuZQf58E
+   rZzvkhw0Ry+OKnGhfo+IboJj5ITPwilN0Q+5BbpX1ryXJHHr2N2m/NVle
+   Acl6dOVx8LkElXPIYfzhInv3GtCuiXGEaL3iQNbd5Z/L1OOmbF3C06EVT
+   R3qgGdGefuUN+fvRGG6AofMUFPpFGqPp39i/8JeqVWnA+tcYpVlURjztv
+   YqWxJZvufTrKMhYYHtssTXS5xMvFr5Y+zT318cD4Gd2SXVB/OUr9SEHlH
+   aTvZGp2gzK68JDEs+Nn0M7cXBPAi8h3ZKWejNbx3qcmQ0cEceU5jbJb1g
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.92,281,1650924000"; 
+   d="scan'208";a="25106434"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 18 Jul 2022 13:42:17 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 18 Jul 2022 13:42:17 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 18 Jul 2022 13:42:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658144537; x=1689680537;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=cjDEUMocRa7SlH9O7KgQ1qOCN1vQXXghvTYa+IpysC0=;
+  b=R3KONxRprur5IXFfwI2Ja64rMNN/SBMXv+5x75CtQlsmsSaPjOUOIg3n
+   +8FFKpVkYG76SVj1j+GdTqYe+7NUdFbKAiilEZYvQ9VuMunExBjI6PZnk
+   w98qvfU+2Rvpg0XsUx8UfkLZLDF9Ph3phEjLGicVsl53hPAaCVzJWFMCX
+   I1t0O+WpLNJiDbH7wzQN1MpIFwB0vpgkq9pPSmsI/Z7HxKsIDIaLAINY2
+   bzWoXB/ZTD12gAXAZI1KOwuYzl+IRAVk+v8+wXre/fMOiI8QM7m8CkB5l
+   crrRwae4697lI5HjbIPb8AVzVvdf5O4Cp24iaskjt+rS0OMamUarURt1k
+   g==;
+X-IronPort-AV: E=Sophos;i="5.92,281,1650924000"; 
+   d="scan'208";a="25106432"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 18 Jul 2022 13:42:17 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 45DBD280056;
+        Mon, 18 Jul 2022 13:42:17 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>
-CC:     Yong Wu <yong.wu@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Mon, 18 Jul 2022 19:34:16 +0800
-In-Reply-To: <98b0edfa-9669-3adb-894d-5d6fce9e2f8f@collabora.com>
-References: <20220716093808.29894-1-irui.wang@mediatek.com>
-         <20220716093808.29894-4-irui.wang@mediatek.com>
-         <98b0edfa-9669-3adb-894d-5d6fce9e2f8f@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] media: i2c: ov9282: Add ov9281 compatible
+Date:   Mon, 18 Jul 2022 13:42:14 +0200
+Message-ID: <4750866.GXAFRqVoOG@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <YtQbVcpmtZjZC2go@valkosipuli.retiisi.eu>
+References: <20220715074858.875808-1-alexander.stein@ew.tq-group.com> <20220715074858.875808-4-alexander.stein@ew.tq-group.com> <YtQbVcpmtZjZC2go@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,94 +85,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Angelo,
-On Mon, 2022-07-18 at 11:53 +0200, AngeloGioacchino Del Regno wrote:
-> Il 16/07/22 11:38, Irui Wang ha scritto:
-> > Add mt8188's compatible "mediatek,mt8188-vcodec-enc".
-> > Add mt8188's device private data "mt8188_pdata".
-> > Remove platform_get_resource API to get IRQ resoure.
-> > 
-> > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+Am Sonntag, 17. Juli 2022, 16:23:17 CEST schrieb Sakari Ailus:
+> Hi Alexander,
+>=20
+> On Fri, Jul 15, 2022 at 09:48:55AM +0200, Alexander Stein wrote:
+> > According to product brief they are identical from software point of vi=
+ew.
+> > Differences are a different chief ray angle (CRA) and the package.
+> >=20
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
 > > ---
-> >   .../mediatek/vcodec/mtk_vcodec_enc_drv.c      | 21 ++++++++++++
-> > -------
-> >   1 file changed, 13 insertions(+), 8 deletions(-)
-> > 
-> > diff --git
-> > a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> > b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> > index 95e8c29ccc65..6b0688b4872d 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> > @@ -228,7 +228,6 @@ static int mtk_vcodec_probe(struct
-> > platform_device *pdev)
-> >   {
-> >   	struct mtk_vcodec_dev *dev;
-> >   	struct video_device *vfd_enc;
-> > -	struct resource *res;
-> >   	phandle rproc_phandle;
-> >   	enum mtk_vcodec_fw_type fw_type;
-> >   	int ret;
-> > @@ -272,13 +271,6 @@ static int mtk_vcodec_probe(struct
-> > platform_device *pdev)
-> >   		goto err_res;
-> >   	}
-> >   
-> > -	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> 
-> This needs to be a separated commit with a Fixes tag!
-Separate to another patch, thanks.
-> 
-> > -	if (res == NULL) {
-> > -		dev_err(&pdev->dev, "failed to get irq resource");
-> > -		ret = -ENOENT;
-> > -		goto err_res;
-> > -	}
-> > -
-> >   	dev->enc_irq = platform_get_irq(pdev, 0);
-> >   	irq_set_status_flags(dev->enc_irq, IRQ_NOAUTOEN);
-> >   	ret = devm_request_irq(&pdev->dev, dev->enc_irq,
-> > @@ -428,6 +420,18 @@ static const struct mtk_vcodec_enc_pdata
-> > mt8195_pdata = {
-> >   	.core_id = VENC_SYS,
-> >   };
-> >   
-> > +static const struct mtk_vcodec_enc_pdata mt8188_pdata = {
-> > +	.uses_ext = true,
-> > +	.capture_formats = mtk_video_formats_capture_h264,
-> > +	.num_capture_formats =
-> > ARRAY_SIZE(mtk_video_formats_capture_h264),
-> > +	.output_formats = mtk_video_formats_output,
-> > +	.num_output_formats = ARRAY_SIZE(mtk_video_formats_output),
-> > +	.min_bitrate = 64,
-> > +	.max_bitrate = 50000000,
-> > +	.core_id = VENC_SYS,
-> > +	.is_34bit = true,
-> > +};
-> > +
-> >   static const struct of_device_id mtk_vcodec_enc_match[] = {
-> >   	{.compatible = "mediatek,mt8173-vcodec-enc",
-> >   			.data = &mt8173_avc_pdata},
-> > @@ -436,6 +440,7 @@ static const struct of_device_id
-> > mtk_vcodec_enc_match[] = {
-> >   	{.compatible = "mediatek,mt8183-vcodec-enc", .data =
-> > &mt8183_pdata},
-> >   	{.compatible = "mediatek,mt8192-vcodec-enc", .data =
-> > &mt8192_pdata},
-> >   	{.compatible = "mediatek,mt8195-vcodec-enc", .data =
-> > &mt8195_pdata},
-> > +	{.compatible = "mediatek,mt8188-vcodec-enc", .data =
-> > &mt8188_pdata},
-> 
-> Please keep this list alphabetically sorted.
-Fix in next version.
+> >=20
+> >  drivers/media/i2c/ov9282.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index 3269c1983bd5..04fda8222e07 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -1114,6 +1114,7 @@ static const struct dev_pm_ops ov9282_pm_ops =3D {
+> >=20
+> >  };
+> > =20
+> >  static const struct of_device_id ov9282_of_match[] =3D {
+> >=20
+> > +	{ .compatible =3D "ovti,ov9281" },
+>=20
+> This should also be reflected in the entity name --- the user space
+> deserves to know it's a different device.
 
-Thanks
-Best Regards.
-> 
-> >   	{},
-> >   };
-> >   MODULE_DEVICE_TABLE(of, mtk_vcodec_enc_match);
-> 
-> 
+Not so sure what to do here. v4l2_i2c_subdev_set_name is called from=20
+v4l2_i2c_subdev_init() with devname=3DNULL. This should set the correct nam=
+e.=20
+According to it's documentation with the I=B2C device name, but apparently=
+=20
+v4l2_i2c_subdev_set_name uses the drivers name.
+This seems a bug to me, but is outside of this driver.
+
+Best regards,
+Alexander
+
+> >  	{ .compatible =3D "ovti,ov9282" },
+> >  	{ }
+> > =20
+> >  };
+
+
+
 
