@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89CE3577FCA
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 12:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BC17577FEF
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 12:40:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234384AbiGRKgX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 06:36:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45182 "EHLO
+        id S234409AbiGRKkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 06:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234000AbiGRKgW (ORCPT
+        with ESMTP id S234408AbiGRKkc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 06:36:22 -0400
+        Mon, 18 Jul 2022 06:40:32 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A21F584;
-        Mon, 18 Jul 2022 03:36:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C805F1EC68;
+        Mon, 18 Jul 2022 03:40:25 -0700 (PDT)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 20EB56601A05;
-        Mon, 18 Jul 2022 11:36:19 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 04F2B6601A05;
+        Mon, 18 Jul 2022 11:40:22 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1658140580;
-        bh=iSwuLXDnaixNeYtjbh3kKjug8iTFfg+DwQcZxPKFB4U=;
+        s=mail; t=1658140824;
+        bh=yNapTY+IvffaTEBI0X0/kdVvwYn1/gbJNowfTGMSXNQ=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=W1rjXS+gHE1mn0A3nprW3zGjnLEJFTNW8RkL/QBefy02jWToxeWyghWXKuh7bMzqm
-         ZZ5MTe1MVRmXZzi1Nxdz4Cz6jKW90snYGwfbLUFtm2LkEnRpb8wGkvhUEZXtX7B/Jx
-         wSA3CKctUbzeFwE+1hYq7iONHK/R6gc30wvcoqfgETrj5duKABz/OfKYcPXE1ryOU9
-         B7fWdtmouNzSgQwVtoHxaotTv7SgPEu+FGQdSjPS60v0yMOJmUfN4tNPPVK0ymEUpb
-         g18ElU+S0sJykgWZraSv4vVTWwCqP02Thqo49IbDHL7Ub/PaKppfiTgi0l5pPqrEQi
-         xHIaIvV3M1gQw==
-Message-ID: <737fbc8c-8890-c4e0-c7f6-e2c4c1cb9725@collabora.com>
-Date:   Mon, 18 Jul 2022 12:36:16 +0200
+        b=P3/OcjQmqoB7/8Udziy16ptBdaRSZGwqC1/9u9iV81kc/CEfjdb4P3q37+93nkk40
+         VAS6HqybxkEA6xt/AXEZqtS/MOKPwr7kXRK90kpfZSkor6QlWyRtbMdFJISFT1b+lR
+         63JXc8xvhZ1vz/ScnipFicFwgFu6hAnXCXywkhvbwUYPr+FSi67CQc3JYXp5BcpvaY
+         noH2JcuXi53v2hlmf9vHu7JEU29M6Evphoae9gCc23oKPj1yB362X7ZdprHCzg9/fA
+         IgN4LxJhRBf8rIzmMcG4u3GffxzfwEgYlKkM0fYoslVFEWx/kKywhUY4Uq9OcWXpSS
+         Tx8BwA3W+BiKQ==
+Message-ID: <f8618c29-167b-a627-e4b1-d117ec860b7e@collabora.com>
+Date:   Mon, 18 Jul 2022 12:40:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [V5,6/8] media: mtk-jpegdec: add output pic reorder interface
+Subject: Re: [V11,3/7] mtk-jpegenc: manage jpegenc multi-hardware
 Content-Language: en-US
 To:     Irui Wang <irui.wang@mediatek.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -53,11 +53,11 @@ Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
         linux-mediatek@lists.infradead.org,
         Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
         maoguang.meng@mediatek.com, srv_heupstream@mediatek.com
-References: <20220716093408.29734-1-irui.wang@mediatek.com>
- <20220716093408.29734-7-irui.wang@mediatek.com>
+References: <20220716093435.29796-1-irui.wang@mediatek.com>
+ <20220716093435.29796-4-irui.wang@mediatek.com>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220716093408.29734-7-irui.wang@mediatek.com>
+In-Reply-To: <20220716093435.29796-4-irui.wang@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -72,59 +72,89 @@ X-Mailing-List: linux-media@vger.kernel.org
 Il 16/07/22 11:34, Irui Wang ha scritto:
 > From: kyrie wu <kyrie.wu@mediatek.com>
 > 
-> add output reorder func to reorder the output images
-> to ensure the output pic is consistent with the input images.
+> manage each hardware information, including irq/clk/power.
+> the hardware includes HW0 and HW1.
 > 
 > Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
 > Signed-off-by: irui wang <irui.wang@mediatek.com>
 > 
 > ---
->   .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 49 ++++++++++++++++++-
->   1 file changed, 47 insertions(+), 2 deletions(-)
+>   drivers/media/platform/mediatek/jpeg/Makefile |  11 +-
+>   .../platform/mediatek/jpeg/mtk_jpeg_core.c    |  94 ++++++----
+>   .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  37 ++++
+>   .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 163 ++++++++++++++++++
+>   4 files changed, 272 insertions(+), 33 deletions(-)
 > 
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> index 590300108bff..c0468cf96d74 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> @@ -440,6 +440,51 @@ void mtk_jpeg_dec_set_config(void __iomem *base,
->   }
->   EXPORT_SYMBOL_GPL(mtk_jpeg_dec_set_config);
+> diff --git a/drivers/media/platform/mediatek/jpeg/Makefile b/drivers/media/platform/mediatek/jpeg/Makefile
+> index 76c33aad0f3f..69703db4b0a5 100644
+> --- a/drivers/media/platform/mediatek/jpeg/Makefile
+> +++ b/drivers/media/platform/mediatek/jpeg/Makefile
+> @@ -1,6 +1,9 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+> -mtk_jpeg-objs := mtk_jpeg_core.o \
+> +obj-$(CONFIG_VIDEO_MEDIATEK_JPEG) += mtk_jpeg.o \
+> +	mtk-jpeg-enc-hw.o
+> +
+> +mtk_jpeg-y := mtk_jpeg_core.o \
+>   		 mtk_jpeg_dec_hw.o \
+> -		 mtk_jpeg_dec_parse.o \
+> -		 mtk_jpeg_enc_hw.o
+> -obj-$(CONFIG_VIDEO_MEDIATEK_JPEG) += mtk_jpeg.o
+> +		 mtk_jpeg_dec_parse.o
+> +
+> +mtk-jpeg-enc-hw-y := mtk_jpeg_enc_hw.o
+> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> index 724fb7aeb0ee..3286e9606505 100644
+> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+
+..snip..
+
+> @@ -1497,6 +1516,18 @@ static const struct mtk_jpeg_variant mtk_jpeg_drvdata = {
+>   	.cap_q_default_fourcc = V4L2_PIX_FMT_JPEG,
+>   };
 >   
-> +static void mtk_jpegdec_put_buf(struct mtk_jpegdec_comp_dev *jpeg)
-> +{
-> +	struct mtk_jpeg_src_buf *dst_done_buf, *tmp_dst_done_buf;
-> +	struct vb2_v4l2_buffer *dst_buffer;
-> +	struct list_head *temp_entry;
-> +	struct list_head *pos = NULL;
-> +	struct mtk_jpeg_ctx *ctx;
-> +	unsigned long flags;
-> +
-> +	ctx = jpeg->hw_param.curr_ctx;
-> +	if (unlikely(!ctx)) {
-> +		dev_err(jpeg->dev, "comp_jpeg ctx fail !!!\n");
-> +		return;
-> +	}
-> +
-> +	dst_buffer = jpeg->hw_param.dst_buffer;
-> +	if (!dst_buffer) {
-> +		dev_err(jpeg->dev, "comp_jpeg dst_buffer fail !!!\n");
-> +		return;
-> +	}
-> +
-> +	dst_done_buf = container_of(dst_buffer, struct mtk_jpeg_src_buf, b);
-> +
-> +	spin_lock_irqsave(&ctx->done_queue_lock, flags);
-> +	list_add_tail(&dst_done_buf->list, &ctx->dst_done_queue);
-> +	while (!list_empty(&ctx->dst_done_queue) &&
-> +	       (pos != &ctx->dst_done_queue)) {
-> +		list_for_each_prev_safe(pos,
-> +					temp_entry,
-> +					(&ctx->dst_done_queue)) {
+> +static struct mtk_jpeg_variant mtk8195_jpegenc_drvdata = {
 
-This fits in one line, as it results in being 81 columns long, and parenthesis
-are redundant for dst_done_queue.
+mt8195_jpegenc_drvdata, or mtk_jpegenc_multicore_drvdata
 
-Everything else looks ok to me.
+(same applies for jpegdec)
 
-Regards,
-Angelo
+> +	.formats = mtk_jpeg_enc_formats,
+> +	.num_formats = MTK_JPEG_ENC_NUM_FORMATS,
+> +	.qops = &mtk_jpeg_enc_qops,
+> +	.m2m_ops = &mtk_jpeg_multicore_enc_m2m_ops,
+
+Same comment for jpgenc as well: add support for this device after adding support
+for multicore encoder.
+
+> +	.dev_name = "mtk-jpeg-enc",
+> +	.ioctl_ops = &mtk_jpeg_enc_ioctl_ops,
+> +	.out_q_default_fourcc = V4L2_PIX_FMT_YUYV,
+> +	.cap_q_default_fourcc = V4L2_PIX_FMT_JPEG,
+> +};
+> +
+> +#if defined(CONFIG_OF)
+>   static const struct of_device_id mtk_jpeg_match[] = {
+>   	{
+>   		.compatible = "mediatek,mt8173-jpgdec",
+> @@ -1510,10 +1541,15 @@ static const struct of_device_id mtk_jpeg_match[] = {
+>   		.compatible = "mediatek,mtk-jpgenc",
+>   		.data = &mtk_jpeg_drvdata,
+>   	},
+> +	{
+> +		.compatible = "mediatek,mt8195-jpgenc",
+> +		.data = &mtk8195_jpegenc_drvdata,
+> +	},
+>   	{},
+>   };
+>   
+>   MODULE_DEVICE_TABLE(of, mtk_jpeg_match);
+> +#endif
+>   
+>   static struct platform_driver mtk_jpeg_driver = {
+>   	.probe = mtk_jpeg_probe,
+
+
+
+
