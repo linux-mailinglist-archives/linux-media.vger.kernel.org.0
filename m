@@ -2,63 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75E3E577BD8
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 08:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEBB6577BDE
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jul 2022 08:45:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233580AbiGRGm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 02:42:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55512 "EHLO
+        id S230240AbiGRGps (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 02:45:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230317AbiGRGm0 (ORCPT
+        with ESMTP id S229680AbiGRGpr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 02:42:26 -0400
+        Mon, 18 Jul 2022 02:45:47 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D385BE2F;
-        Sun, 17 Jul 2022 23:42:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E351A15A3A;
+        Sun, 17 Jul 2022 23:45:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1658126541; x=1689662541;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
+  t=1658126746; x=1689662746;
+  h=subject:from:to:cc:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=0kv2gBEParhNaHPdjuIwGUrTXLst3/vjwjfZ1UMJusw=;
-  b=hEQw6NLptK7NSY866Ux5sxJbXDzmtHL63VltkpZK3Z5WERpoBWsftDS7
-   D3EdLWoG5hqi/8SORub1NeqwiEi6DAAs8AbVFpjIslArzEJtY68MxW+D2
-   iJidc/NM/H59Zk0+47cGJJKndk9WJC1+kJUKMVjoFgoqXLL3xH2XeHqbL
-   IJdfGggOYHFnVKIWQlEfZMIMFHM9jPN/ZdmLFbc8tvaSisF2uAod2yHK2
-   59HIPysZHjXBNUGzvaom4eNcmqV5eduK73dOyzSD+7mrPadltd9pt62KA
-   arTYGs6qvAo8tzfSsLBnItv97DXd+VYkzFK5m8zXMfvD5Ta0l5ILojNe+
-   A==;
+  bh=K22OndFF88XJbLRArzXV4DYIqqfg/QAlJ8HOx0024HM=;
+  b=Y8jgzCr97g1qkFtinDQSLri0VZ8EwYl6d8Fv6x+EZNyqB7hkJ5vUZ1/i
+   IfTLWgM9iwDRgGq1C00u3aWiWzJEZqJhc1wNSqPYqPQ8FPFkEbukfk5tz
+   6+q+lEMUNRXmrXryIcQc1vuuX5eIbn6qo3mypDunTYycQhGCcHoNKcPbS
+   Xx4seDQ2UjIzrIOVuPaBeSKY4jnyMPUE8MpZhvIyjs3RVNV2i4igSvWfA
+   ljAMfUf6P4umXU3UnkEpRNp5Py/mD11TR5REdz0PhWMtFUtMSFHjV5tuC
+   Ynin8aWpZ+ZS/ASpwfWqfQ5aSi8xBENIziktwZTbBXWATqTRIjJL/e4rl
+   Q==;
 X-IronPort-AV: E=Sophos;i="5.92,280,1650924000"; 
-   d="scan'208";a="25095054"
+   d="scan'208";a="25095177"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 18 Jul 2022 08:42:19 +0200
+  by mx1-pgp.tq-group.com with ESMTP; 18 Jul 2022 08:45:44 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 18 Jul 2022 08:42:19 +0200
+  Mon, 18 Jul 2022 08:45:44 +0200
 X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 18 Jul 2022 08:42:19 +0200
+        by tq-pgp-pr1.tq-net.de on Mon, 18 Jul 2022 08:45:44 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1658126539; x=1689662539;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=0kv2gBEParhNaHPdjuIwGUrTXLst3/vjwjfZ1UMJusw=;
-  b=YsrpYbIlfvi3AUpdczfxxt163rS7r8oEs3RSl25MPilKw/TiunJMgeck
-   mWYYsn5n6yhOTRmgya6S/y4JORmq6nCoLdzOPxn1FeZjSFwpO3+6Dsc4j
-   IaLXSiUDxrRtiYU7XWB7bmApn7S0CI/XNuRSMYxbkWbiDMKlnEyjTbRqh
-   rUQQinQjo1700o91Ux/RrfkiSCMjmESWuYsqPbJlrqMM7iWg49CLvEgKc
-   3DF2ODD3Fz95B5zNzz8glGLxk6RXKKSg3hkHiy8D8Ub+lsHrRc2xUevq/
-   zW/2DXJqEUopDNUvMogt+NV7upmhhxd0sSgQAEPboYdkA4GqA9gGM2SZS
+  t=1658126744; x=1689662744;
+  h=from:to:cc:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding:subject;
+  bh=K22OndFF88XJbLRArzXV4DYIqqfg/QAlJ8HOx0024HM=;
+  b=BcAPBWNwBDv2PvrkTembsIdT3ygSmr++8buIAWhMOVhBthY3J2+bjISm
+   K0iz5JwJdUeqT/mAkCJs6Yapy7nPP12RtbmVolTTbG5DUjnHNlpjYX5fW
+   0l6dz0M1ph2KmRX34PdaVS7nZKjLVBQmWyVdrlkYXcXaiuoL9zm+HiMzF
+   itahG/Zg0YSVh9ubtrXfy8ha+w7GScP054RWS1xu3wrP8OJR36xzyEH34
+   IalG6WR18SirOGvd8Cga0T2NPWKGeDBXicKi9fIkhsYF4Rph9sxbC+h3z
+   tjW1sXPwKe0oRpLc4bz6YcAeRNEopxhvl3u9jNQuXJBedwvFOCUev2Wet
    g==;
 X-IronPort-AV: E=Sophos;i="5.92,280,1650924000"; 
-   d="scan'208";a="25095053"
+   d="scan'208";a="25095176"
+Subject: Re: Re: [PATCH v2 6/6] media: i2c: ov9282: Fix device detection
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 18 Jul 2022 08:42:19 +0200
+  by mx1.tq-group.com with ESMTP; 18 Jul 2022 08:45:44 +0200
 Received: from steina-w.localnet (unknown [10.123.49.12])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D1C9A280056;
-        Mon, 18 Jul 2022 08:42:18 +0200 (CEST)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 133B3280056;
+        Mon, 18 Jul 2022 08:45:44 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Sakari Ailus <sakari.ailus@iki.fi>
 Cc:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
@@ -67,15 +68,14 @@ Cc:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] media: i2c: ov9282: Add regulator support
-Date:   Mon, 18 Jul 2022 08:42:16 +0200
-Message-ID: <12042217.O9o76ZdvQC@steina-w>
+Date:   Mon, 18 Jul 2022 08:45:41 +0200
+Message-ID: <4777887.31r3eYUQgx@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <YtQZ5TD+pc7lPLI0@valkosipuli.retiisi.eu>
-References: <20220715074858.875808-1-alexander.stein@ew.tq-group.com> <20220715074858.875808-6-alexander.stein@ew.tq-group.com> <YtQZ5TD+pc7lPLI0@valkosipuli.retiisi.eu>
+In-Reply-To: <YtQbCYCdUHcpnTs5@valkosipuli.retiisi.eu>
+References: <20220715074858.875808-1-alexander.stein@ew.tq-group.com> <20220715074858.875808-7-alexander.stein@ew.tq-group.com> <YtQbCYCdUHcpnTs5@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
@@ -85,165 +85,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hello Sakari,
 
-Am Sonntag, 17. Juli 2022, 16:17:09 CEST schrieb Sakari Ailus:
+thanks for the feedback.
+
+Am Sonntag, 17. Juli 2022, 16:22:01 CEST schrieb Sakari Ailus:
 > Hi Alexander,
-> 
-> Thanks for the set.
-> 
-> On Fri, Jul 15, 2022 at 09:48:57AM +0200, Alexander Stein wrote:
-> > Need in case the sensors is supplied by a switchable regulator.
-> > 
+>=20
+> On Fri, Jul 15, 2022 at 09:48:58AM +0200, Alexander Stein wrote:
+> > Apparently the Vision Components model (VC=E2=80=AFMIPI=E2=80=AFOV9281)=
+ does not support
+> > address auto-increment, so probe fails with:
+> > ov9282 2-0060: chip id mismatch: 9281!=3D92ff
+> > Instead do two 1 byte reads and combine the result.
+> >=20
 > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > > ---
 > > Changes in v2:
-> > * Remove error message for failed regulator_bulk_disable()
-> > * Rename ov9282_configure_regulators to ov9282_get_regulators
-> > 
-> >  drivers/media/i2c/ov9282.c | 39 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 39 insertions(+)
-> > 
+> > * Fix commit message
+> > * Add comment about prevented auto-increment
+> > * Return early if reading ID register failed
+> > * Reorder ID registers, smaller register number first
+> >=20
+> >  drivers/media/i2c/ov9282.c | 15 ++++++++++++++-
+> >  1 file changed, 14 insertions(+), 1 deletion(-)
+> >=20
 > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > index 04fda8222e07..263cdffc558f 100644
+> > index 263cdffc558f..532791304c3d 100644
 > > --- a/drivers/media/i2c/ov9282.c
 > > +++ b/drivers/media/i2c/ov9282.c
-> > @@ -11,6 +11,7 @@
-> > 
-> >  #include <linux/i2c.h>
-> >  #include <linux/module.h>
-> >  #include <linux/pm_runtime.h>
-> > 
-> > +#include <linux/regulator/consumer.h>
-> > 
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-fwnode.h>
-> > 
-> > @@ -55,6 +56,14 @@
-> > 
-> >  #define OV9282_REG_MIN		0x00
-> >  #define OV9282_REG_MAX		0xfffff
-> > 
-> > +static const char * const ov9282_supply_names[] = {
-> > +	"avdd",		/* Analog power */
-> > +	"dovdd",	/* Digital I/O power */
-> > +	"dvdd",		/* Digital core power */
-> > +};
-> > +
-> > +#define OV9282_NUM_SUPPLIES ARRAY_SIZE(ov9282_supply_names)
-> > +
-> > 
-> >  /**
-> >  
-> >   * struct ov9282_reg - ov9282 sensor register
-> >   * @address: Register address
-> > 
-> > @@ -127,6 +136,7 @@ struct ov9282 {
-> > 
-> >  	struct media_pad pad;
-> >  	struct gpio_desc *reset_gpio;
-> >  	struct clk *inclk;
-> > 
-> > +	struct regulator_bulk_data supplies[OV9282_NUM_SUPPLIES];
-> > 
-> >  	struct v4l2_ctrl_handler ctrl_handler;
-> >  	struct v4l2_ctrl *link_freq_ctrl;
-> >  	struct v4l2_ctrl *pclk_ctrl;
-> > 
-> > @@ -883,10 +893,18 @@ static int ov9282_power_on(struct device *dev)
-> > 
-> >  		goto error_reset;
-> >  	
-> >  	}
-> > 
-> > +	ret = regulator_bulk_enable(ARRAY_SIZE(ov9282->supplies),
-> > ov9282->supplies);
-> Please run the set through:
-> 
-> 	./scripts/checkpatch.pl --strict --max-line-length=80
-
-Thanks, will be fixed.
-
-> > +	if (ret) {
-> > +		dev_err(dev, "Failed to enable regulators\n");
-> > +		goto disable_clk;
-> > +	}
-> > +
-> > 
-> >  	usleep_range(400, 600);
-> >  	
-> >  	return 0;
-> > 
-> > +disable_clk:
-> > +	clk_disable_unprepare(ov9282->inclk);
-> > 
-> >  error_reset:
-> >  	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
-> > 
-> > @@ -903,6 +921,9 @@ static int ov9282_power_off(struct device *dev)
-> > 
+> > @@ -761,11 +761,24 @@ static int ov9282_set_stream(struct v4l2_subdev *=
+sd,
+> > int enable)>=20
+> >  static int ov9282_detect(struct ov9282 *ov9282)
 > >  {
-> >  
-> >  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> >  	struct ov9282 *ov9282 = to_ov9282(sd);
-> > 
-> > +	int ret;
-> 
-> ret seems to be unused.
+> > =20
+> >  	int ret;
+> >=20
+> > +	u32 id[2];
+> >=20
+> >  	u32 val;
+> >=20
+> > -	ret =3D ov9282_read_reg(ov9282, OV9282_REG_ID, 2, &val);
+> > +	/*
+> > +	 * Some vendors prevent auto-increment, so each register has to
+> > +	 * be read separately
+> > +	 */
+>=20
+> I suppose it still works for writes I guess? Would be nice to have this in
+> the comment.
 
-You are right, leftover from last cleanup. Will be removed.
+Yes, I didn't notice any problems regarding writes. Will address this in th=
+e=20
+comment.
+
+> > +	ret =3D ov9282_read_reg(ov9282, OV9282_REG_ID,
+> > +			      1, &id[0]);
+>=20
+> Fits on one line. Same below.
+
+Sure, will be changed.
 
 Thanks and best regards,
 Alexander
 
-> > +
-> > +	regulator_bulk_disable(ARRAY_SIZE(ov9282->supplies), ov9282-
->supplies);
-> > 
-> >  	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
-> > 
-> > @@ -996,6 +1017,18 @@ static int ov9282_init_controls(struct ov9282
-> > *ov9282)> 
-> >  	return 0;
-> >  
-> >  }
-> > 
-> > +static int ov9282_get_regulators(struct ov9282 *ov9282)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(ov9282->supplies); i++)
-> > +		ov9282->supplies[i].supply = ov9282_supply_names[i];
-> > +
-> > +	return devm_regulator_bulk_get(ov9282->dev,
-> > +				       ARRAY_SIZE(ov9282-
->supplies),
-> > +				       ov9282->supplies);
-> > +}
-> > +
-> > 
-> >  /**
-> >  
-> >   * ov9282_probe() - I2C client device binding
-> >   * @client: pointer to i2c client device
-> > 
-> > @@ -1022,6 +1055,12 @@ static int ov9282_probe(struct i2c_client *client)
-> > 
+> >  	if (ret)
+> >  =09
 > >  		return ret;
-> >  	
-> >  	}
-> > 
-> > +	ret = ov9282_get_regulators(ov9282);
-> > +	if (ret) {
-> > +		dev_err(&client->dev, "Failed to get power 
-regulators\n");
+> >=20
+> > +	ret =3D ov9282_read_reg(ov9282, OV9282_REG_ID + 1,
+> > +			      1, &id[1]);
+> > +	if (ret)
 > > +		return ret;
-> > +	}
 > > +
-> > 
-> >  	mutex_init(&ov9282->mutex);
-> >  	
-> >  	ret = ov9282_power_on(ov9282->dev);
+> > +	val =3D id[1];
+> > +	val |=3D (id[0] << 8);
+> >=20
+> >  	if (val !=3D OV9282_ID) {
+> >  =09
+> >  		dev_err(ov9282->dev, "chip id mismatch: %x!=3D%x",
 
 
 
