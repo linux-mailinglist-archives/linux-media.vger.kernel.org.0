@@ -2,91 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20F1E57A12E
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 16:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36A4857A165
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 16:26:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239188AbiGSOUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jul 2022 10:20:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59876 "EHLO
+        id S238571AbiGSO0O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jul 2022 10:26:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235604AbiGSOTg (ORCPT
+        with ESMTP id S238690AbiGSOZ5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jul 2022 10:19:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B7E32631;
-        Tue, 19 Jul 2022 06:59:01 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E00676EE;
-        Tue, 19 Jul 2022 15:58:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658239139;
-        bh=irTaZmM+ObM/f2jHCsgtAKiX+yda+twRdLB2IFOgxSI=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=m0W1Eq7cMs4nXdLxm3MHugqOAdtAjR6abOfl51aE1R6wXYqKoXK2TrKJqHf3qM1JE
-         o0AdEEz+Cx4AiJDg/O1ZIht+1ctqmvSc9nSEcXEfM2vvbZeU9NM6UqQikIDnQMrUSL
-         ZQKC0bmMQKbFUTydZBcFT8qXtvRsnX07zt/CuKEU=
-Content-Type: text/plain; charset="utf-8"
+        Tue, 19 Jul 2022 10:25:57 -0400
+Received: from mail-m964.mail.126.com (mail-m964.mail.126.com [123.126.96.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E65D886888
+        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 07:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=zMLC2
+        v8AapbLONOFTAyzuQMeLZWmkQMmbtekCkl9MEg=; b=Io3OUuwN418KA/drf2wWe
+        /p5Bii/BtPluW+QwvoxySLkm+kkaUbfW0rqCnez3d21eMpxkf6EzwDUHGvlPTeJL
+        epGCQt6vMnav2FbHBNRDUR/ZooXIm1LOamqRq3t8tsVHRus0IGy3u28ioCm+Qrwv
+        dQn9HVNsruuri+c/Ewfx5A=
+Received: from localhost.localdomain (unknown [124.16.139.61])
+        by smtp9 (Coremail) with SMTP id NeRpCgDHcsdQu9ZizGl0Gw--.64800S2;
+        Tue, 19 Jul 2022 22:10:25 +0800 (CST)
+From:   Liang He <windhl@126.com>
+To:     patrice.chotard@foss.st.com, mchehab@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        windhl@126.com
+Subject: [PATCH] media: c8sectpfe: Add of_node_put() when breaking out of loop
+Date:   Tue, 19 Jul 2022 22:10:23 +0800
+Message-Id: <20220719141023.1245125-1-windhl@126.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Yta15OckATLKf6DF@kili>
-References: <Yta15OckATLKf6DF@kili>
-Subject: Re: [PATCH] media: vimc: fix an error code in vimc_create_links()
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Yunke Cao <yunkec@google.com>
-Date:   Tue, 19 Jul 2022 14:58:56 +0100
-Message-ID: <165823913604.2021905.13300600564840687711@Monstersaurus>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: NeRpCgDHcsdQu9ZizGl0Gw--.64800S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKF1rAw45Kr1DZr1UAr1kZrb_yoWDJFb_Cr
+        yagFy7W3W8Cr4akF1jvr1ru3sFvrsY9rWrA3WxKryjv3yqvr1UG34YyFW5XFyUur4qvF98
+        trZ5JFW0kr9xujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRNtxhJUUUUU==
+X-Originating-IP: [124.16.139.61]
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbiuBpDF2JVkbmdPwABsK
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+In configure_channels(), we should call of_node_put() when breaking
+out of for_each_child_of_node() which will automatically increase
+and decrease the refcount.
 
-Quoting Dan Carpenter (2022-07-19 14:47:16)
-> Use the correct "ret_link" variable instead of "link".
->=20
-> Fixes: d534b9520a12 ("media: vimc: add ancillary lens")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Fixes: c5f5d0f99794 ("[media] c8sectpfe: STiH407/10 Linux DVB demux support")
+Signed-off-by: Liang He <windhl@126.com>
+---
+ drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks for the patch, but it's been preceeded twice now.
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+index cefe6b7bfdc4..1dbb89f0ddb8 100644
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
++++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+@@ -925,6 +925,7 @@ static int configure_channels(struct c8sectpfei *fei)
+ 		if (ret) {
+ 			dev_err(fei->dev,
+ 				"configure_memdma_and_inputblock failed\n");
++			of_node_put(child);
+ 			goto err_unmap;
+ 		}
+ 		index++;
+-- 
+2.25.1
 
-[0] https://lore.kernel.org/linux-media/4fd23b1c-8a0a-1691-a4f9-526ec99bd19=
-3@xs4all.nl/
-[1] https://lore.kernel.org/linux-media/20220719071721.703986-1-yangyinglia=
-ng@huawei.com/
-
---
-Kieran
-
-
-> ---
->  drivers/media/test-drivers/vimc/vimc-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/=
-test-drivers/vimc/vimc-core.c
-> index c73f91947f44..2ae7a0f11ebf 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-core.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
-> @@ -211,7 +211,7 @@ static int vimc_create_links(struct vimc_device *vimc)
->                         media_create_ancillary_link(ved_primary->ent, ved=
-_ancillary->ent);
-> =20
->                 if (IS_ERR(ret_link)) {
-> -                       ret =3D PTR_ERR(link);
-> +                       ret =3D PTR_ERR(ret_link);
->                         goto err_rm_links;
->                 }
->         }
-> --=20
-> 2.35.1
->
