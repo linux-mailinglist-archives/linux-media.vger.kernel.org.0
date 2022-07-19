@@ -2,140 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FA28578D7F
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 00:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5367A578F43
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 02:30:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234876AbiGRW2i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 18:28:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36068 "EHLO
+        id S235004AbiGSAaO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jul 2022 20:30:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbiGRW2h (ORCPT
+        with ESMTP id S230104AbiGSAaM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 18:28:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031A4286D3
-        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 15:28:36 -0700 (PDT)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 811C26EE;
-        Tue, 19 Jul 2022 00:28:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658183314;
-        bh=ByqLgWboA6agr5LlPG85e14WyGIxZ/eAm6lHr7jgkN8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=i02yaZNy1yUQws3HOCe+6D5Fe2zGfW5n9j0secOkmVtMdryiOvXSpsThFGRGLiHJX
-         RnewgfSrbEHJ8hcPDbvGgiWLN2ODEPDBMpjGbymmaQu66+eecJJ+G0YfcfgIBL3oEk
-         JqaAp4qQI399kEqMeUO++AqpIS8ues+OeDiiYjpc=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] media: uvcvideo: Use indexed loops in uvc_ctrl_init_ctrl()
-Date:   Tue, 19 Jul 2022 01:27:57 +0300
-Message-Id: <20220718222757.8203-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.35.1
+        Mon, 18 Jul 2022 20:30:12 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8759B6551;
+        Mon, 18 Jul 2022 17:30:09 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id l23so24326303ejr.5;
+        Mon, 18 Jul 2022 17:30:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tHECUp5Nu2/GZmp47KHS0DA3aZn/HqPLp4AXTv+D1so=;
+        b=cmjJp4Wc70UFyJOU6m9PHDv6cgBcSxACjV8XCYXocWtr/FcDcZs/QFmdPSXbhLyk3R
+         FCPJlVcDF3a/bfbY1OWEBMjl7TtYtUqMl4/A/cUcxiW5hsr+PAuT1lF+4Ixp22UZhHaL
+         sJIUDawrTaLiqBcojVG2hn0PPXAFrYn7zche+uxAV4J2eoaR53m7JLz9lb0PPCkXovqr
+         TCkGxZqKxLlK4CUnskdjqrd6D8nX5LutfIhmOojrYGQhrbAL0nFeOJB3HSXXDc75ja4Q
+         Ur9wiz3Bf1hLJs4caVo1AfyVNX5xpE4+6LBYPFFX8y4zfXhOa+ndM9cAVlVQj/YWQdYx
+         EP1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tHECUp5Nu2/GZmp47KHS0DA3aZn/HqPLp4AXTv+D1so=;
+        b=dBZzEOhtjIyFkgbp1UeKf8XczD+xW+qQXcBLUyb0RhTbkjpWyIwJwqxSn0Apaw1oLs
+         aDrSqvrJFUf1nzQoApe8exwuu7WnWDXzjAuE6kHon1F/9LqsULM9SHbct09WHVkZNw1s
+         S4CI6nvqadzFDsQy75jZw63W/oSP3zx6yeZ4o8Osjtr6Qyaj1m7S3Y45MpqZU6g/KbrY
+         +yh00FxpVoCey9AitLjsxvlfJfpk1Z4GR0zFhwpqBMmTbXm6oZR9Ut6MCABvp5gaFxbs
+         gKyCaJ99aA79gieEJAZfX+JXjRqArymTr72AAOaPUXIKymwVqAjZFwOtszY1UdQ8aNwz
+         QGjA==
+X-Gm-Message-State: AJIora9oQiiTjoCW//GkIDfsWmzq3SL8KZFkXJ85WUdCHbMiOhJIDdij
+        Z0jHvWViDmS2fW/C3L4vHYbDWIIezGeNSt88+Ek=
+X-Google-Smtp-Source: AGRyM1svWNwoYq60pp37EFhGkxbFoEzaD37OWwpIsvtcVPSeTlz8BczIXRa0zpFaHGe5N9WvcJ4GnRQwW7CTE2lGvM0=
+X-Received: by 2002:a17:907:96ac:b0:72f:1dea:5b66 with SMTP id
+ hd44-20020a17090796ac00b0072f1dea5b66mr10887738ejc.266.1658190608048; Mon, 18
+ Jul 2022 17:30:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220718072144.2699487-1-airlied@gmail.com> <YtWeUOJewho7p/vM@intel.com>
+In-Reply-To: <YtWeUOJewho7p/vM@intel.com>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Tue, 19 Jul 2022 10:29:56 +1000
+Message-ID: <CAPM=9tyhOfOz1tn7uNsg_0EzvrBHcSoY+8bignNb2zfgZr6iRw@mail.gmail.com>
+Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware guidelines.
+To:     Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        alsa-devel@alsa-project.org,
+        Network Development <netdev@vger.kernel.org>,
+        Linux Wireless List <linux-wireless@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org,
+        "dri-devel@lists.sf.net" <dri-devel@lists.sf.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As shown by the bug introduced in commit 86f7ef773156 ("media: uvcvideo:
-Add support for per-device control mapping overrides"), the loop style
-used by uvc_ctrl_init_ctrl() is error-prone. Rewrite the loops to use
-indices instead.
+> > +* Firmware should be versioned with at least a major/minor version. It
+> > +  is suggested that the firmware files in linux-firmware be named with
+> > +  some device specific name, and just the major version. The
+> > +  major/minor/patch versions should be stored in a header in the
+> > +  firmware file for the driver to detect any non-ABI fixes/issues. The
+> > +  firmware files in linux-firmware should be overwritten with the newest
+> > +  compatible major version. Newer major version firmware should remain
+> > +  compatible with all kernels that load that major number.
+>
+> would symbolic links be acceptable in the linux-firmware.git where
+> the <fmw>_<major>.bin is a sym link to <fwm>_<major>.<minor>.bin
+>
+> or having the <fwm>_<major>.bin really to be the overwritten every minor
+> update?
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-This patch depends on https://lore.kernel.org/linux-media/20220718121219.16079-1-laurent.pinchart@ideasonboard.com
----
- drivers/media/usb/uvc/uvc_ctrl.c | 34 ++++++++++++++++++--------------
- 1 file changed, 19 insertions(+), 15 deletions(-)
+I don't think providing multiple minor versions of fw in
+linux-firmware is that interesting.
+Like if the major is the same, surely you always want the newer ones.
+As long as the
+ABI doesn't break. Otherwise we are just wasting disk space with fws
+nobody will be using.
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 8c208db9600b..5c33b0b7ef9a 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -2411,10 +2411,9 @@ static void uvc_ctrl_prune_entity(struct uvc_device *dev,
- static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 			       struct uvc_control *ctrl)
- {
--	const struct uvc_control_info *info = uvc_ctrls;
--	const struct uvc_control_info *iend = info + ARRAY_SIZE(uvc_ctrls);
--	const struct uvc_control_mapping *mapping;
--	const struct uvc_control_mapping *mend;
-+	const struct uvc_control_mapping *mappings;
-+	unsigned int num_mappings;
-+	unsigned int i;
- 
- 	/*
- 	 * XU controls initialization requires querying the device for control
-@@ -2425,7 +2424,9 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 	if (UVC_ENTITY_TYPE(ctrl->entity) == UVC_VC_EXTENSION_UNIT)
- 		return;
- 
--	for (; info < iend; ++info) {
-+	for (i = 0; i < ARRAY_SIZE(uvc_ctrls); ++i) {
-+		const struct uvc_control_info *info = &uvc_ctrls[i];
-+
- 		if (uvc_entity_match_guid(ctrl->entity, info->entity) &&
- 		    ctrl->index == info->index) {
- 			uvc_ctrl_add_info(chain->dev, ctrl, info);
-@@ -2452,9 +2453,11 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 	 */
- 	if (chain->dev->info->mappings) {
- 		bool custom = false;
--		unsigned int i;
- 
--		for (i = 0; (mapping = chain->dev->info->mappings[i]); ++i) {
-+		for (i = 0; chain->dev->info->mappings[i]; ++i) {
-+			const struct uvc_control_mapping *mapping =
-+				chain->dev->info->mappings[i];
-+
- 			if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
- 			    ctrl->info.selector == mapping->selector) {
- 				__uvc_ctrl_add_mapping(chain, ctrl, mapping);
-@@ -2467,10 +2470,9 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 	}
- 
- 	/* Process common mappings next. */
--	mapping = uvc_ctrl_mappings;
--	mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings);
-+	for (i = 0; i < ARRAY_SIZE(uvc_ctrl_mappings); ++i) {
-+		const struct uvc_control_mapping *mapping = &uvc_ctrl_mappings[i];
- 
--	for (; mapping < mend; ++mapping) {
- 		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
- 		    ctrl->info.selector == mapping->selector)
- 			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
-@@ -2478,14 +2480,16 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 
- 	/* Finally process version-specific mappings. */
- 	if (chain->dev->uvc_version < 0x0150) {
--		mapping = uvc_ctrl_mappings_uvc11;
--		mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings_uvc11);
-+		mappings = uvc_ctrl_mappings_uvc11;
-+		num_mappings = ARRAY_SIZE(uvc_ctrl_mappings_uvc11);
- 	} else {
--		mapping = uvc_ctrl_mappings_uvc15;
--		mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings_uvc15);
-+		mappings = uvc_ctrl_mappings_uvc15;
-+		num_mappings = ARRAY_SIZE(uvc_ctrl_mappings_uvc15);
- 	}
- 
--	for (; mapping < mend; ++mapping) {
-+	for (i = 0; i < num_mappings; ++i) {
-+		const struct uvc_control_mapping *mapping = &mappings[i];
-+
- 		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
- 		    ctrl->info.selector == mapping->selector)
- 			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
--- 
-Regards,
-
-Laurent Pinchart
-
+Dave.
