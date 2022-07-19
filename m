@@ -2,144 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E150A5795A3
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 10:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64EA85795E3
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 11:14:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236899AbiGSIzQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jul 2022 04:55:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60316 "EHLO
+        id S236340AbiGSJOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jul 2022 05:14:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231504AbiGSIzP (ORCPT
+        with ESMTP id S236098AbiGSJOC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jul 2022 04:55:15 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA00C5F41
-        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 01:55:12 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 0A493FF802;
-        Tue, 19 Jul 2022 08:55:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1658220907;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WcJHXdEOmYEIlKgklT+rhKrMy4NdP9WwfB6g7WIq47E=;
-        b=Kvw3Op9FNU6WFvaIardl6G7/wFfhI5RfiQ/plHDVsP/tyYbvCCFdNmGJ+FWvbJbk73Ch6B
-        eyz5T/cplIcxYhzLwLpCPkryDOqNhsdiGNCSj+XlmS9FSPMDED0vcYVQ13jjIJstSLtgYG
-        3nmQGZnkRAQQiIHmCmrRq3O9aJ0PENzOoZkIir4yoCsKvhP9CxvGyWIXUOzpGVVXPA+1Qt
-        VOgauln7tHESF8zRgrKagTcQKEcDhRAJ8Qgb1ZsEPiH2W9FsxXw37EnosCNgo8OKgpa3FP
-        rjVsvGMTsQQrvV3OOZ5bCFre4QX8ztcAKRMkZvAvhTrO5mko72UJc+1BKc0T1A==
-Date:   Tue, 19 Jul 2022 10:55:06 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 1/1] media: sunxi: Depend on GENERIC_PHY_MIPI_DPHY
-Message-ID: <YtZxajlS5FFFnfgf@aptenodytes>
-References: <20220713192540.222794-1-sakari.ailus@linux.intel.com>
+        Tue, 19 Jul 2022 05:14:02 -0400
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C23224F35
+        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 02:14:02 -0700 (PDT)
+Received: by mail-vs1-xe35.google.com with SMTP id q26so12784586vsp.11
+        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 02:14:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=USiHEWO3jenD+4D67wgYkGKlAcIRmi0lfoN5PdFyKzQ=;
+        b=dFYdzZzeGTwRc0FPEgBG5fRwMWNVjXZzxLxwtIHOW4IyAUtC1iJhL8ze0h/ntk8Iq4
+         lKlrAFaVxT4/pV4802tsmPOfXqrd/5krNwAeme2Ty0hfRzSXMQ2O+C/Kf1izAeM/mOcz
+         8LysLHAdaCtPPppxeQNBi2EL1ZGV/VNGij1I4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=USiHEWO3jenD+4D67wgYkGKlAcIRmi0lfoN5PdFyKzQ=;
+        b=dgKp0AJgZ/oco9xPQOlDMBfZfxcJLAwMUIlCEsdYixnmTd6JSiz4Ek4P3v6lxSvl7m
+         Ld5ZPkNQxK1BisAKHA9RUZdl7/nOSq3/qE4t+ngeeRKTFwG0nQuAEMq36L8iSpA6GANh
+         a9QU6cgQG3T7hL16WtRqnP4cO1nQwfU/Y6Xz9F1LzbOZuAx3KzWJp6oKgsV/G30BFv5E
+         YQVVO4rVSuZigkQ4aBhLwP6I+sNO5pVtghQweXVrKmu+AIlMIpSzIuDpdq0y+ZtdKaeB
+         RMR6vak1qTFCEAcQ42B+mZu+KEyyZHNHd3TH4aPJuMGpN1DdMq8mPyjlvTqahgAh2Qlw
+         d4bg==
+X-Gm-Message-State: AJIora9ekHHy4tYnmAcbw/ZJcLyLO75Y1laokABb3q79mi+Fram5HGgX
+        Zk0mZAognp+uCYy5m5YJmRXntSV/jqVHnw==
+X-Google-Smtp-Source: AGRyM1s0zqH/ZK+jaF/uLcUow3orSg5Uae0tf2hOBqElZsIu9bW8dX5/UPHFkU2RTmQRfF8yeRoE6w==
+X-Received: by 2002:a67:7282:0:b0:356:da1:6876 with SMTP id n124-20020a677282000000b003560da16876mr11219924vsc.29.1658222041003;
+        Tue, 19 Jul 2022 02:14:01 -0700 (PDT)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id t16-20020a9f2e10000000b003827ff7211bsm2183575uaj.5.2022.07.19.02.14.00
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Jul 2022 02:14:00 -0700 (PDT)
+Received: by mail-ua1-f51.google.com with SMTP id x31so6521388uaf.10
+        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 02:14:00 -0700 (PDT)
+X-Received: by 2002:a81:6ccd:0:b0:31d:c77:73e5 with SMTP id
+ h196-20020a816ccd000000b0031d0c7773e5mr33706265ywc.314.1658222030025; Tue, 19
+ Jul 2022 02:13:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="c2vhqyY7Sz61WNE8"
-Content-Disposition: inline
-In-Reply-To: <20220713192540.222794-1-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220715005244.42198-1-dmitry.osipenko@collabora.com>
+In-Reply-To: <20220715005244.42198-1-dmitry.osipenko@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 19 Jul 2022 18:13:39 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5C0dx5X=VEqXDyj22fbxs1jhOQLLid3vSNfAc9vataPhg@mail.gmail.com>
+Message-ID: <CAAFQd5C0dx5X=VEqXDyj22fbxs1jhOQLLid3vSNfAc9vataPhg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/6] Move all drivers to a common dma-buf locking convention
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        spice-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, Jul 15, 2022 at 9:53 AM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+>
+> Hello,
+>
+> This series moves all drivers to a dynamic dma-buf locking specification.
+> From now on all dma-buf importers are made responsible for holding
+> dma-buf's reservation lock around all operations performed over dma-bufs.
+> This common locking convention allows us to utilize reservation lock more
+> broadly around kernel without fearing of potential dead locks.
+>
+> This patchset passes all i915 selftests. It was also tested using VirtIO,
+> Panfrost, Lima and Tegra drivers. I tested cases of display+GPU,
+> display+V4L and GPU+V4L dma-buf sharing, which covers majority of kernel
+> drivers since rest of the drivers share same or similar code paths.
+>
+> This is a continuation of [1] where Christian K=C3=B6nig asked to factor =
+out
+> the dma-buf locking changes into separate series.
+>
+> [1] https://lore.kernel.org/dri-devel/20220526235040.678984-1-dmitry.osip=
+enko@collabora.com/
+>
+> Dmitry Osipenko (6):
+>   dma-buf: Add _unlocked postfix to function names
+>   drm/gem: Take reservation lock for vmap/vunmap operations
+>   dma-buf: Move all dma-bufs to dynamic locking specification
+>   dma-buf: Acquire wait-wound context on attachment
+>   media: videobuf2: Stop using internal dma-buf lock
+>   dma-buf: Remove internal lock
+>
+>  drivers/dma-buf/dma-buf.c                     | 198 +++++++++++-------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c   |   4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   4 +-
+>  drivers/gpu/drm/armada/armada_gem.c           |  14 +-
+>  drivers/gpu/drm/drm_client.c                  |   4 +-
+>  drivers/gpu/drm/drm_gem.c                     |  28 +++
+>  drivers/gpu/drm/drm_gem_cma_helper.c          |   6 +-
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        |   6 +-
+>  drivers/gpu/drm/drm_prime.c                   |  12 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   6 +-
+>  drivers/gpu/drm/exynos/exynos_drm_gem.c       |   2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  20 +-
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +-
+>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  20 +-
+>  drivers/gpu/drm/i915/i915_gem_evict.c         |   2 +-
+>  drivers/gpu/drm/i915/i915_gem_ww.c            |  26 ++-
+>  drivers/gpu/drm/i915/i915_gem_ww.h            |  15 +-
+>  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   8 +-
+>  drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
+>  drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+>  drivers/gpu/drm/tegra/gem.c                   |  27 +--
+>  drivers/infiniband/core/umem_dmabuf.c         |  11 +-
+>  .../common/videobuf2/videobuf2-dma-contig.c   |  26 +--
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |  23 +-
+>  .../common/videobuf2/videobuf2-vmalloc.c      |  17 +-
 
---c2vhqyY7Sz61WNE8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For the videobuf2 changes:
 
-Hi Sakari,
+Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-On Wed 13 Jul 22, 22:25, Sakari Ailus wrote:
-> The sun6i-mipi-csi2 and sun6i-a83t-mipi-csi2 drivers depend on the generic
-> MIPI D-PHY support. Select it. This fixes a linking problem when either of
-> these drivers is enabled and GENERIC_PHY_MIPI_DPHY is disabled.
->=20
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Looks good to me but I have one question below.
-
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Cheers,
-
-Paul
-
-> ---
->  drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig      | 1 +
->  drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig | 1 +
->  2 files changed, 2 insertions(+)
->=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig b/drive=
-rs/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> index b1712f5873fd9..eb982466abd30 100644
-> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> @@ -8,6 +8,7 @@ config VIDEO_SUN6I_MIPI_CSI2
->  	select VIDEO_V4L2_SUBDEV_API
->  	select V4L2_FWNODE
->  	select PHY_SUN6I_MIPI_DPHY
-> +	select GENERIC_PHY_MIPI_DPHY
-
-Since we select PHY_SUN6I_MIPI_DPHY here which also selects
-GENERIC_PHY_MIPI_DPHY, I suppose this is not strictly needed?
-
-Still feels like a good idea to have it since the driver does use the gener=
-ic
-MIPI D-PHY API.
-
-Thanks,
-
-Paul
-
->  	select REGMAP_MMIO
->  	help
->  	   Support for the Allwinner A31 MIPI CSI-2 controller, also found on
-> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig b/=
-drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
-> index 5854f8388c92a..789d58ee12ea9 100644
-> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
-> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
-> @@ -8,5 +8,6 @@ config VIDEO_SUN8I_A83T_MIPI_CSI2
->  	select VIDEO_V4L2_SUBDEV_API
->  	select V4L2_FWNODE
->  	select REGMAP_MMIO
-> +	select GENERIC_PHY_MIPI_DPHY
->  	help
->  	   Support for the Allwinner A83T MIPI CSI-2 controller and D-PHY.
-> --=20
-> 2.30.2
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---c2vhqyY7Sz61WNE8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmLWcWoACgkQ3cLmz3+f
-v9Gpewf/dAY3PASP/1aBjBhq9Ufq74LEUFJNiLMwY9RdTMqxm3DvPBkBilsvwZS3
-REAYNQZ0mWBE2v8GE6AYqk4tcb3NmOuxXRtlwQP6Bkl4KrUUJudPVgQUS/AFl6U+
-wB2cEu8SHWWZI5OrX5t6BkaUnmvWJ5DfUfFsV2s958yZGhq28SS/1elKfyB+T9Ra
-J4xlDelwAQjL8vv9NHVCDQlbZoAj+u6DdE9SMK3JleAIvILayuvqm0WRM0B9Feq1
-KG73qfk9hquQYlcAh36s/WJlXq9JGIji1nGGxPOPCpGE6lOkYYBNsNqCm40uXnOH
-/za7p+zZpqLYwrRBw5+gnXr419gDxQ==
-=TnzH
------END PGP SIGNATURE-----
-
---c2vhqyY7Sz61WNE8--
+Best regards,
+Tomasz
