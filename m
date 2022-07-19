@@ -2,167 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 598E257966A
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 11:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 928CD5796C1
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 11:54:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234329AbiGSJfD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jul 2022 05:35:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36030 "EHLO
+        id S237247AbiGSJyh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jul 2022 05:54:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237125AbiGSJfB (ORCPT
+        with ESMTP id S233747AbiGSJyg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jul 2022 05:35:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3F392610F
-        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 02:34:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D0FF6182E
-        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 09:34:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4034C341C6;
-        Tue, 19 Jul 2022 09:34:57 +0000 (UTC)
-Message-ID: <fe899b13-8e1c-4550-4b1a-a2b125e19cc9@xs4all.nl>
-Date:   Tue, 19 Jul 2022 11:34:55 +0200
+        Tue, 19 Jul 2022 05:54:36 -0400
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25F4229800
+        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 02:54:32 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 41C55100004;
+        Tue, 19 Jul 2022 09:54:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1658224471;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TzOODSz2A/5xkfE8DtmxnOBdcEg+U1axz6vMATKnnQQ=;
+        b=epFlWY3HhcEvxQ77mq3udZLghfS3DDxgqXukqejrMfEjg44PT8aOlQGmeHoE6cmm2UKkJa
+        hqJEJKouW798nzHTvM17pD6EJsnH4uSA3QYu0LEO4GIFc720EstKTuO7EjlgMQxqhSfafm
+        AF4g3fcqIjsYGQQOzjrgdHE3h4+JxQ4KeoQ2bXoyddNzJL1zEkUXeDSTTMs1TuQUOwUA3N
+        h4x+0eh/IVCbLimVczME4s8eO0kLykMj12lFmvcr+swgyBUGee0kPwiiiWqQJ12kIe5ki+
+        IjNegHYo3G4t6Luo7vLo/+IAgm5/MbKn9y0PwIj6i5PD5Zm2FziOMkoIYLCPNg==
+Date:   Tue, 19 Jul 2022 11:54:30 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH] media: sunxi: sun6i_mipi_csi2.c/sun8i_a83t_mipi_csi2.c:
+ clarify error handling
+Message-ID: <YtZ/VmLgnnn2tlAK@aptenodytes>
+References: <815bc07c-20ef-86ba-1492-54c77afc7a1f@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.20] cedrus fix, hantro fixes and destaging
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="b65kn44O6d9s7sw3"
+Content-Disposition: inline
+In-Reply-To: <815bc07c-20ef-86ba-1492-54c77afc7a1f@xs4all.nl>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
 
-This PR has three cedrus/hantro fixes and destages hantro in the final patch.
-That last patch just moves code into the new directory and has no other changes.
+--b65kn44O6d9s7sw3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ezequiel, I decided to postpone the v3 of the vb2_find_buffer series to 5.21.
-It's just an improvement, and the cedrus changes are a bit larger than I'd like
-so close to the code freeze. I'd like to have those tested first.
+Hi Hans,
 
-Regards,
+On Mon 18 Jul 22, 18:08, Hans Verkuil wrote:
+> Both sun6i_mipi_csi2.c and sun8i_a83t_mipi_csi2.c have the same issue:
+> the comment before the ret =3D 0 assignment is incorrect, drop it and
+> always assign the result of the v4l2_subdev_call(..., 0) to ret.
 
-	Hans
+Not sure what is incorrect about it. I agree that it's good to return the
+return code of v4l2_subdev_call instead of always 0 on the !on path though.
 
-The following changes since commit 8bd1dbf8d580c425605fb8936309a4e9745a7a95:
+> In the disable label check for !on and set ret to 0 in that case.
+>=20
+> This fixes two smatch warnings:
+>=20
+> drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:193 sun6i_=
+mipi_csi2_s_stream() warn: missing error code 'ret'
 
-  media: rkisp1: debug: Add dump file in debugfs for MI main path registers (2022-07-17 12:34:43 +0100)
+I don't think this is legit: the initialization of ret is specifically there
+to avoid an undefined ret there.
 
-are available in the Git repository at:
+> drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:=
+225 sun8i_a83t_mipi_csi2_s_stream() warn: missing error code 'ret'
+>=20
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  .../media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c | 7 ++++---
+>  .../sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c      | 7 ++++---
+>  2 files changed, 8 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
+=2Ec b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> index 31e12f1506cb..a4e3f9a6b2ff 100644
+> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> @@ -182,14 +182,13 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+>  	unsigned int lanes_count =3D
+>  		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+>  	unsigned long pixel_rate;
+> -	/* Initialize to 0 to use both in disable label (ret !=3D 0) and off. */
+> -	int ret =3D 0;
+> +	int ret;
+> =20
+>  	if (!source_subdev)
+>  		return -ENODEV;
+> =20
+>  	if (!on) {
+> -		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> +		ret =3D v4l2_subdev_call(source_subdev, video, s_stream, 0);
+>  		goto disable;
+>  	}
+> =20
+> @@ -281,6 +280,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
+v *subdev, int on)
+>  	return 0;
+> =20
+>  disable:
+> +	if (!on)
+> +		ret =3D 0;
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.20m
+Then this will always overwrite the ret value from v4l2_subdev_call with the
+!on disable path. Looks like this can be removed.
 
-for you to fetch changes up to 10b516fc3544cc9057495d981e43df3953bd264d:
+What do you think?
 
-  hantro: Remove incorrect HEVC SPS validation (2022-07-19 11:14:41 +0200)
+Paul
 
-----------------------------------------------------------------
-Tag branch
+>  	phy_power_off(dphy);
+>  	sun6i_mipi_csi2_disable(csi2_dev);
+> =20
+> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c
+> index c82ede3ca0ff..d052ee77ef0a 100644
+> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> @@ -214,14 +214,13 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l=
+2_subdev *subdev, int on)
+>  	unsigned int lanes_count =3D
+>  		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+>  	unsigned long pixel_rate;
+> -	/* Initialize to 0 to use both in disable label (ret !=3D 0) and off. */
+> -	int ret =3D 0;
+> +	int ret;
+> =20
+>  	if (!source_subdev)
+>  		return -ENODEV;
+> =20
+>  	if (!on) {
+> -		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> +		ret =3D v4l2_subdev_call(source_subdev, video, s_stream, 0);
+>  		goto disable;
+>  	}
+> =20
+> @@ -313,6 +312,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+>  	return 0;
+> =20
+>  disable:
+> +	if (!on)
+> +		ret =3D 0;
+>  	phy_power_off(dphy);
+>  	sun8i_a83t_mipi_csi2_disable(csi2_dev);
+> =20
+> --=20
+> 2.35.1
+>=20
 
-----------------------------------------------------------------
-Ezequiel Garcia (3):
-      media: destage Hantro VPU driver
-      hantro: Remove dedicated control documentation
-      hantro: Remove incorrect HEVC SPS validation
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-Jernej Skrabec (1):
-      media: cedrus: hevc: Add check for invalid timestamp
+--b65kn44O6d9s7sw3
+Content-Type: application/pgp-signature; name="signature.asc"
 
- Documentation/userspace-api/media/drivers/hantro.rst                                      | 19 -------------------
- Documentation/userspace-api/media/drivers/index.rst                                       |  1 -
- MAINTAINERS                                                                               |  2 +-
- drivers/media/platform/Kconfig                                                            |  1 +
- drivers/media/platform/Makefile                                                           |  1 +
- drivers/{staging/media/hantro => media/platform/verisilicon}/Kconfig                      |  6 +++++-
- drivers/{staging/media/hantro => media/platform/verisilicon}/Makefile                     |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro.h                     |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_drv.c                 | 12 ++++++------
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1.c                  |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1_h264_dec.c         |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1_mpeg2_dec.c        |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1_regs.h             |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1_vp8_dec.c          |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g2.c                  |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g2_hevc_dec.c         |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g2_regs.h             |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g2_vp9_dec.c          |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_h1_jpeg_enc.c         |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_h1_regs.h             |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_h264.c                |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_hevc.c                |  9 +--------
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_hw.h                  |  1 -
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_jpeg.c                |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_jpeg.h                |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_mpeg2.c               |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_postproc.c            |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_v4l2.c                |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_v4l2.h                |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_vp8.c                 |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_vp9.c                 |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_vp9.h                 |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/imx8m_vpu_hw.c               |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_hw_h264_dec.c  |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_hw_jpeg_enc.c  |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_hw_mpeg2_dec.c |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_hw_vp8_dec.c   |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_regs.h         |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu_hw.c            |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/sama5d4_vdec_hw.c            |  0
- drivers/{staging/media/hantro => media/platform/verisilicon}/sunxi_vpu_hw.c               |  0
- drivers/staging/media/Kconfig                                                             |  2 --
- drivers/staging/media/Makefile                                                            |  1 -
- drivers/staging/media/hantro/TODO                                                         |  2 --
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c                                          |  3 +++
- 45 files changed, 18 insertions(+), 42 deletions(-)
- delete mode 100644 Documentation/userspace-api/media/drivers/hantro.rst
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/Kconfig (91%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/Makefile (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro.h (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_drv.c (99%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1_h264_dec.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1_mpeg2_dec.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1_regs.h (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g1_vp8_dec.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g2.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g2_hevc_dec.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g2_regs.h (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_g2_vp9_dec.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_h1_jpeg_enc.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_h1_regs.h (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_h264.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_hevc.c (96%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_hw.h (99%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_jpeg.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_jpeg.h (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_mpeg2.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_postproc.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_v4l2.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_v4l2.h (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_vp8.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_vp9.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/hantro_vp9.h (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/imx8m_vpu_hw.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_hw_h264_dec.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_hw_jpeg_enc.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_hw_mpeg2_dec.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_hw_vp8_dec.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu2_regs.h (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/rockchip_vpu_hw.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/sama5d4_vdec_hw.c (100%)
- rename drivers/{staging/media/hantro => media/platform/verisilicon}/sunxi_vpu_hw.c (100%)
- delete mode 100644 drivers/staging/media/hantro/TODO
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmLWf1YACgkQ3cLmz3+f
+v9HasQf/SywilXcJChVvPLNfnRd09TUpRB4YEI/CukuRp45buCoTZxzxORRRlR3G
+Fu47U6v36FVvtFVqrGw2eEKMqTFB9sbA19TNZM7ILeH82tGJussFhj2LFHbD8OdX
+WpxuQZqxWBgcinVa8oGaopdpIAmxuu1evRl+MRIdVN6qoihcRiHmKihvtMhnsSyX
+iE1F+RzJoqFFfI09roHpSE20g+gGukAIYvSx2UViWyAsZhrfpojQFPjo9712WUUA
+SUYN5DmInUpYtqIQ3FVzj6hHy2DyfdwxYJJbWMD5T4R5CauN3CPhv+wXHQfFjf+z
+PKHSYvQ5t0hPkTd/20VoIOtOZLLhRw==
+=PH9F
+-----END PGP SIGNATURE-----
+
+--b65kn44O6d9s7sw3--
