@@ -2,102 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30E32578F50
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 02:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAE6457920F
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 06:41:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235843AbiGSAeB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jul 2022 20:34:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38846 "EHLO
+        id S233445AbiGSElb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jul 2022 00:41:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230104AbiGSAd7 (ORCPT
+        with ESMTP id S229914AbiGSEla (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jul 2022 20:33:59 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A9B820BE3;
-        Mon, 18 Jul 2022 17:33:58 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id tk8so12968667ejc.7;
-        Mon, 18 Jul 2022 17:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IvxZ+pT9eeB1oLC9gFmEKd/KuQtpynmxv5JFp2p4LmA=;
-        b=gIwUl/XuJhRTTGvtNQ0aWFNNZ72RlbJkwCpGM7wO/sSbDoqxUvqlBJWjDWb4nUVxkr
-         wA4kzWGIsYd+oyTYPVOyC2ZEirNy56kC6YvoOg+Fu9JlIyx/BhzBlvQ+GB0MbVTk2jEb
-         eyBlXAwQJroWvaq2gnY/J8A7Jy+02RK/TtexgA7MBUZK9FnxBH7HPm/OPbZR2kp6FIOG
-         BYDIh26pR+njlg0wqOtuaPaePG5L+WBmSIyBqxyMD5dCULrXaEhs9vg/GnJqlYLpsG/y
-         w38dp1uD5s55WeggWwrAh2xQxeFiYqJgAS/5mGamYHgRw4gT0je1cudllgWrZEayUSK0
-         E39A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IvxZ+pT9eeB1oLC9gFmEKd/KuQtpynmxv5JFp2p4LmA=;
-        b=3pozF0Sp0Y31M6XUXg5S/pg5PQ13T7OSXUI/u2d+ngzgnenZaMrKdO629nBNmeWgaV
-         Z3v5bRHB17DWBN5oYUBjDNFHhCNu0vZiPPOwfymIjFbjWChr7WSzs+R6V34YH+U19Uzt
-         6rJanp842pyNVovP9mzCtmEt1nNpJxy47uzLplu14L6nH4JjqcSd25fu5Bxcu1dj5lFy
-         A4oWGSWmK/oPkvYllMLtce9K6fy9UMOhCW38s7vGzS+/svDbiubNe9GF6KTHKmoLTnnJ
-         5H3dmqQOwXwYadKi/VLKJ8rOG+AxNsi5OoQFVSylk9202nm9Lhq7QfAGK06YuwwUy0AW
-         X7UQ==
-X-Gm-Message-State: AJIora+rHTGTED0YfyLnHtBoK9I+cU5fbEc/G345v467NOlVM8Y0IQRV
-        CGEj0Esz4xHEXBrRkwPytQSkZjfs3QgMF4WVmNc=
-X-Google-Smtp-Source: AGRyM1sRm67nRsWZfFSFhouVBqucc4bOtFjiV6na1gILOaBHlxhxwORoLOL7DxP/wH7oPhk7TCfa/L42Gn4aM8oO2I8=
-X-Received: by 2002:a17:906:149:b0:712:502:bc62 with SMTP id
- 9-20020a170906014900b007120502bc62mr28280283ejh.720.1658190836834; Mon, 18
- Jul 2022 17:33:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220718072144.2699487-1-airlied@gmail.com> <97e5afd3-77a3-2227-0fbf-da2f9a41520f@leemhuis.info>
- <20220718150414.1767bbd8@kernel.org>
-In-Reply-To: <20220718150414.1767bbd8@kernel.org>
-From:   Dave Airlie <airlied@gmail.com>
-Date:   Tue, 19 Jul 2022 10:33:45 +1000
-Message-ID: <CAPM=9tw6iP3Ti1idrBLTLVX57uYgf79rG2-0ad-fS48z+pXzeA@mail.gmail.com>
-Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware guidelines.
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "dri-devel@lists.sf.net" <dri-devel@lists.sf.net>,
-        Network Development <netdev@vger.kernel.org>,
-        Linux Wireless List <linux-wireless@vger.kernel.org>,
-        alsa-devel@alsa-project.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tue, 19 Jul 2022 00:41:30 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA75D275F0
+        for <linux-media@vger.kernel.org>; Mon, 18 Jul 2022 21:41:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7C820B81964
+        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 04:41:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2CBCC341C6
+        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 04:41:25 +0000 (UTC)
+Date:   Tue, 19 Jul 2022 06:41:24 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+Message-Id: <20220719044125.C2CBCC341C6@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 19 Jul 2022 at 08:04, Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Mon, 18 Jul 2022 11:33:11 +0200 Thorsten Leemhuis wrote:
-> > > If the hardware isn't
-> > > +  enabled by default or under development,
-> >
-> > Wondering if it might be better to drop the "or under development", as
-> > the "enabled by default" is the main part afaics. Maybe something like
-> > "If support for the hardware is normally inactive (e.g. has to be
-> > enabled manually by a kernel parameter)" would be better anyway.
->
-> It's a tricky one, I'd say something like you can break the FW ABI
-> "until HW becomes available for public consumption" or such.
-> I'm guessing what we're after is letting people break the compatibility
-> in early stages of the product development cycles. Pre-silicon and
-> bring up, but not after there are products on the market?
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I'll stick with enabled by default I think, "public consumption"
-invites efforts to describe corners of the cloud or other places where
-hw has shipped but is not technically "public",
+Results of the daily build of media_tree:
 
-Dave.
+date:			Tue Jul 19 05:00:07 CEST 2022
+media-tree git hash:	8bd1dbf8d580c425605fb8936309a4e9745a7a95
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	015461b55a9baf57c8c908c9a399ebacb107f0de
+edid-decode git hash:	582c935652b0303b87ddad4551e6f97f8bb883ac
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8107-gefca24df-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: f98c34ed03d28434c74a0a568e4bf2b0bbfa9ce3
+host hardware:		x86_64
+host os:		5.18.0-2-amd64
+
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-at91: OK
+linux-git-arm-multi: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: WARNINGS
+virtme: OK: Final Summary: 3077, Succeeded: 3077, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3190, Succeeded: 3190, Failed: 0, Warnings: 0
+sparse: OK
+smatch: ERRORS
+kerneldoc: OK
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
