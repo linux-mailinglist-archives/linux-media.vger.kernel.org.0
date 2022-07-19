@@ -2,168 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64EA85795E3
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 11:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91C17579630
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 11:20:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236340AbiGSJOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jul 2022 05:14:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43632 "EHLO
+        id S237333AbiGSJUY convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 19 Jul 2022 05:20:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236098AbiGSJOC (ORCPT
+        with ESMTP id S237282AbiGSJTo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jul 2022 05:14:02 -0400
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C23224F35
-        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 02:14:02 -0700 (PDT)
-Received: by mail-vs1-xe35.google.com with SMTP id q26so12784586vsp.11
-        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 02:14:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=USiHEWO3jenD+4D67wgYkGKlAcIRmi0lfoN5PdFyKzQ=;
-        b=dFYdzZzeGTwRc0FPEgBG5fRwMWNVjXZzxLxwtIHOW4IyAUtC1iJhL8ze0h/ntk8Iq4
-         lKlrAFaVxT4/pV4802tsmPOfXqrd/5krNwAeme2Ty0hfRzSXMQ2O+C/Kf1izAeM/mOcz
-         8LysLHAdaCtPPppxeQNBi2EL1ZGV/VNGij1I4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=USiHEWO3jenD+4D67wgYkGKlAcIRmi0lfoN5PdFyKzQ=;
-        b=dgKp0AJgZ/oco9xPQOlDMBfZfxcJLAwMUIlCEsdYixnmTd6JSiz4Ek4P3v6lxSvl7m
-         Ld5ZPkNQxK1BisAKHA9RUZdl7/nOSq3/qE4t+ngeeRKTFwG0nQuAEMq36L8iSpA6GANh
-         a9QU6cgQG3T7hL16WtRqnP4cO1nQwfU/Y6Xz9F1LzbOZuAx3KzWJp6oKgsV/G30BFv5E
-         YQVVO4rVSuZigkQ4aBhLwP6I+sNO5pVtghQweXVrKmu+AIlMIpSzIuDpdq0y+ZtdKaeB
-         RMR6vak1qTFCEAcQ42B+mZu+KEyyZHNHd3TH4aPJuMGpN1DdMq8mPyjlvTqahgAh2Qlw
-         d4bg==
-X-Gm-Message-State: AJIora9ekHHy4tYnmAcbw/ZJcLyLO75Y1laokABb3q79mi+Fram5HGgX
-        Zk0mZAognp+uCYy5m5YJmRXntSV/jqVHnw==
-X-Google-Smtp-Source: AGRyM1s0zqH/ZK+jaF/uLcUow3orSg5Uae0tf2hOBqElZsIu9bW8dX5/UPHFkU2RTmQRfF8yeRoE6w==
-X-Received: by 2002:a67:7282:0:b0:356:da1:6876 with SMTP id n124-20020a677282000000b003560da16876mr11219924vsc.29.1658222041003;
-        Tue, 19 Jul 2022 02:14:01 -0700 (PDT)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id t16-20020a9f2e10000000b003827ff7211bsm2183575uaj.5.2022.07.19.02.14.00
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jul 2022 02:14:00 -0700 (PDT)
-Received: by mail-ua1-f51.google.com with SMTP id x31so6521388uaf.10
-        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 02:14:00 -0700 (PDT)
-X-Received: by 2002:a81:6ccd:0:b0:31d:c77:73e5 with SMTP id
- h196-20020a816ccd000000b0031d0c7773e5mr33706265ywc.314.1658222030025; Tue, 19
- Jul 2022 02:13:50 -0700 (PDT)
+        Tue, 19 Jul 2022 05:19:44 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73CC53F317
+        for <linux-media@vger.kernel.org>; Tue, 19 Jul 2022 02:19:18 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oDjNs-00HOq8-K6; Tue, 19 Jul 2022 09:19:16 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oDjNr-002ZHG-4E; Tue, 19 Jul 2022 09:19:14 +0000
+Date:   Tue, 19 Jul 2022 09:19:14 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <687790556.0.1658222354488@builder.linuxtv.org>
+In-Reply-To: <37116243.0.1658135953739@builder.linuxtv.org>
+References: <37116243.0.1658135953739@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3964
 MIME-Version: 1.0
-References: <20220715005244.42198-1-dmitry.osipenko@collabora.com>
-In-Reply-To: <20220715005244.42198-1-dmitry.osipenko@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 19 Jul 2022 18:13:39 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5C0dx5X=VEqXDyj22fbxs1jhOQLLid3vSNfAc9vataPhg@mail.gmail.com>
-Message-ID: <CAAFQd5C0dx5X=VEqXDyj22fbxs1jhOQLLid3vSNfAc9vataPhg@mail.gmail.com>
-Subject: Re: [PATCH v1 0/6] Move all drivers to a common dma-buf locking convention
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robdclark@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kernel@collabora.com, virtualization@lists.linux-foundation.org,
-        spice-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 15, 2022 at 9:53 AM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
->
-> Hello,
->
-> This series moves all drivers to a dynamic dma-buf locking specification.
-> From now on all dma-buf importers are made responsible for holding
-> dma-buf's reservation lock around all operations performed over dma-bufs.
-> This common locking convention allows us to utilize reservation lock more
-> broadly around kernel without fearing of potential dead locks.
->
-> This patchset passes all i915 selftests. It was also tested using VirtIO,
-> Panfrost, Lima and Tegra drivers. I tested cases of display+GPU,
-> display+V4L and GPU+V4L dma-buf sharing, which covers majority of kernel
-> drivers since rest of the drivers share same or similar code paths.
->
-> This is a continuation of [1] where Christian K=C3=B6nig asked to factor =
-out
-> the dma-buf locking changes into separate series.
->
-> [1] https://lore.kernel.org/dri-devel/20220526235040.678984-1-dmitry.osip=
-enko@collabora.com/
->
-> Dmitry Osipenko (6):
->   dma-buf: Add _unlocked postfix to function names
->   drm/gem: Take reservation lock for vmap/vunmap operations
->   dma-buf: Move all dma-bufs to dynamic locking specification
->   dma-buf: Acquire wait-wound context on attachment
->   media: videobuf2: Stop using internal dma-buf lock
->   dma-buf: Remove internal lock
->
->  drivers/dma-buf/dma-buf.c                     | 198 +++++++++++-------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c   |   4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   4 +-
->  drivers/gpu/drm/armada/armada_gem.c           |  14 +-
->  drivers/gpu/drm/drm_client.c                  |   4 +-
->  drivers/gpu/drm/drm_gem.c                     |  28 +++
->  drivers/gpu/drm/drm_gem_cma_helper.c          |   6 +-
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
->  drivers/gpu/drm/drm_gem_shmem_helper.c        |   6 +-
->  drivers/gpu/drm/drm_prime.c                   |  12 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   6 +-
->  drivers/gpu/drm/exynos/exynos_drm_gem.c       |   2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  20 +-
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +-
->  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  20 +-
->  drivers/gpu/drm/i915/i915_gem_evict.c         |   2 +-
->  drivers/gpu/drm/i915/i915_gem_ww.c            |  26 ++-
->  drivers/gpu/drm/i915/i915_gem_ww.h            |  15 +-
->  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   8 +-
->  drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
->  drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
->  drivers/gpu/drm/tegra/gem.c                   |  27 +--
->  drivers/infiniband/core/umem_dmabuf.c         |  11 +-
->  .../common/videobuf2/videobuf2-dma-contig.c   |  26 +--
->  .../media/common/videobuf2/videobuf2-dma-sg.c |  23 +-
->  .../common/videobuf2/videobuf2-vmalloc.c      |  17 +-
+See <https://builder.linuxtv.org/job/media-build/3964/display/redirect>
 
-For the videobuf2 changes:
+Changes:
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-Best regards,
-Tomasz
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+Commit message: "versions.txt: IMON builds for 4.11 and up only"
+ > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3963' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
+[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@21f274b5'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins7274938549898105682.sh
++ make distclean
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
+	config-compat.h Module.symvers Module.markers modules.order \
+	*.unsigned .*.ko.unsigned.cmd
+rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
+	Kconfig Kconfig.kern .config .config.cmd .myconfig \
+	.kconfig.dep config-mycompat.h
+rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
+rm -f scripts/lxdialog scripts/kconfig
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
+
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2022-07-19 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2022-07-19 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  107M=0s
+
+2022-07-19 09:19:10 (107 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
