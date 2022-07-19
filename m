@@ -2,117 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA1EF579515
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 10:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 261F2579585
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jul 2022 10:48:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235225AbiGSIQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jul 2022 04:16:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60574 "EHLO
+        id S237072AbiGSIsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jul 2022 04:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234967AbiGSIQt (ORCPT
+        with ESMTP id S237135AbiGSIso (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jul 2022 04:16:49 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1DA8252BF;
-        Tue, 19 Jul 2022 01:16:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658218608; x=1689754608;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bmQqrIrl1gOiIcseBWSxBBfsCad5lHKdq5T4cP6urEU=;
-  b=VYbNDeuTNiNJ6rx+3373/qXmYHQJBtU6/IzV9vcABvlJrM93UvVYvfni
-   pgvCQk5GWne9MBf8ntxE40EdEPktjfn9KJ71zN7Xc3VZw02COYq5th/2z
-   pNBsBkD8offZ6XfijHEicCFJl2N57QFyVnRG5GpEO8HGtms8dTKyKEA0s
-   CapnJ6PFApunmKPmDSRMueT0f4XhV3r4fM+IxLRHcj10G3Ao4Vu9K75T9
-   ChpD9VJyMfbG6frmoci19i8Eo93zoo4R1wyk84WXUKZxy+1mHyr3QIH/f
-   ExCfuHDT+4UFGBQ+MKh1rddRXra9M8Kw5bVmZ+VlpqgtCq1e5a6JvF3T5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="287579518"
-X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; 
-   d="scan'208";a="287579518"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2022 01:16:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; 
-   d="scan'208";a="655650684"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 19 Jul 2022 01:16:45 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oDiPH-0005QS-UC;
-        Tue, 19 Jul 2022 08:16:39 +0000
-Date:   Tue, 19 Jul 2022 16:16:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, Volodymyr Kharuk <vkh@melexis.com>,
-        Andrii Kyselov <ays@melexis.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Michal Simek <monstr@monstr.eu>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] media: i2c: Add driver for mlx7502x ToF sensor
-Message-ID: <202207191647.RnqnKcMF-lkp@intel.com>
-References: <6f9b20bb1946d8a50170963b84e32abfdee14ba7.1657786765.git.vkh@melexis.com>
+        Tue, 19 Jul 2022 04:48:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6613C8FC;
+        Tue, 19 Jul 2022 01:48:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A5B2161790;
+        Tue, 19 Jul 2022 08:48:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FD50C341C6;
+        Tue, 19 Jul 2022 08:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658220521;
+        bh=Y80I/9h5gwXwAl7BrWnNgRboomD0Q/i4fsdukksbxuA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ftz2opaB3z+yb8RtydfLoLtaxsjl9hbVDuSH7gqPczmybG3jqnAUX/sMgYFai0B3B
+         D/GVCtngIJW3ALxtzJdXN9F9GYV3fLFB6cJSSD+sVPPUikiEIjT0M8UPFkwT0aa5xL
+         S6gbKGCyNjELTnqJzmWgE2WySNetGPq/TuPWVf762sbXBQXxv4Ch7L0hoP4OKxhBeF
+         wempCKHPca39pk1WqmSOjqnkIctwswq4BX7jZBwaQ4uWPl0JWkCWzcYye7zvAQIS3v
+         mXo4NI3t11uKJPh3r7gX87oIZdPIvGwwnzMg2urBDZulfeOAMM5Uk/DRfnKWweGNcg
+         ixWwiuFbfaCqw==
+Date:   Tue, 19 Jul 2022 09:48:35 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Dave Airlie <airlied@gmail.com>
+Cc:     torvalds@linux-foundation.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        Daniel Vetter <daniel@ffwll.ch>, mcgrof@kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.sf.net,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
+        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
+ guidelines. (v2)
+Message-ID: <20220719094835.52197852@sal.lan>
+In-Reply-To: <20220719065357.2705918-1-airlied@gmail.com>
+References: <20220719065357.2705918-1-airlied@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f9b20bb1946d8a50170963b84e32abfdee14ba7.1657786765.git.vkh@melexis.com>
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Volodymyr,
+Em Tue, 19 Jul 2022 16:53:57 +1000
+Dave Airlie <airlied@gmail.com> escreveu:
 
-I love your patch! Perhaps something to improve:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> A recent snafu where Intel ignored upstream feedback on a firmware
+> change, led to a late rc6 fix being required. In order to avoid this
+> in the future we should document some expectations around
+> linux-firmware.
+> 
+> I was originally going to write this for drm, but it seems quite generic
+> advice.
 
-[auto build test WARNING on d8e8aa866ed8636fd6c1017c3d9453eab2922496]
+Indeed it makes sense to document firmware API compatibility in a generic way.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Volodymyr-Kharuk/media-i2c-mlx7502x-ToF-camera-support/20220714-163709
-base:   d8e8aa866ed8636fd6c1017c3d9453eab2922496
-config: parisc-randconfig-s041-20220715 (https://download.01.org/0day-ci/archive/20220719/202207191647.RnqnKcMF-lkp@intel.com/config)
-compiler: hppa64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/59a691c2f449518699a328ea663098aa3ae038b9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Volodymyr-Kharuk/media-i2c-mlx7502x-ToF-camera-support/20220714-163709
-        git checkout 59a691c2f449518699a328ea663098aa3ae038b9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc64 SHELL=/bin/bash drivers/media/i2c/ drivers/pci/ kernel/trace/ sound/soc/codecs/
+Some suggestions below.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+> v2: rewritten with suggestions from Thorsten Leemhuis.
+>
+> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  Documentation/driver-api/firmware/core.rst    |  1 +
+>  .../firmware/firmware-usage-guidelines.rst    | 34 +++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+>  create mode 100644 Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> 
+> diff --git a/Documentation/driver-api/firmware/core.rst b/Documentation/driver-api/firmware/core.rst
+> index 1d1688cbc078..803cd574bbd7 100644
+> --- a/Documentation/driver-api/firmware/core.rst
+> +++ b/Documentation/driver-api/firmware/core.rst
+> @@ -13,4 +13,5 @@ documents these features.
+>     direct-fs-lookup
+>     fallback-mechanisms
+>     lookup-order
+> +   firmware-usage-guidelines
+>  
+> diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> new file mode 100644
+> index 000000000000..34d2412e78c6
+> --- /dev/null
+> +++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> @@ -0,0 +1,34 @@
+> +===================
+> +Firmware Guidelines
+> +===================
+> +
+> +Drivers that use firmware from linux-firmware should attempt to follow
+> +the rules in this guide.
+> +
+> +* Firmware should be versioned with at least a major/minor version.
 
+It is hard to enforce how vendors will version their firmware. On media,
+we have some drivers whose major means different hardware versions. For
+instance, on xc3028, v3.x means low voltage chips, while v2.x means
+"normal" voltage. We end changing the file name on Linux to avoid the risk
+of damaging the hardware, as using v27 firmware on low power chips damage
+them. So, we have:
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/i2c/mlx7502x.c:1989:53: sparse: sparse: Using plain integer as NULL pointer
+	drivers/media/tuners/xc2028.h:#define XC2028_DEFAULT_FIRMWARE "xc3028-v27.fw"
+	drivers/media/tuners/xc2028.h:#define XC3028L_DEFAULT_FIRMWARE "xc3028L-v36.fw"
 
-vim +1989 drivers/media/i2c/mlx7502x.c
+As their main market is not Linux - nor PC - as their main sales are on 
+TV sets, and them don't officially support Linux, there's nothing we can
+do to enforce it.
 
-  1987	
-  1988	static const struct of_device_id mlx7502x_of_match[] = {
-> 1989		{ .compatible = "melexis,mlx7502x", .data = 0 }, /* auto-detection */
-  1990		{ .compatible = "melexis,mlx75026", .data = &mlx75026 },
-  1991		{ .compatible = "melexis,mlx75027", .data = &mlx75027 },
-  1992		{ /* sentinel */ }
-  1993	};
-  1994	MODULE_DEVICE_TABLE(of, mlx7502x_of_match);
-  1995	
+IMO we need a more generic text here to indicate that Linux firmware
+files should be defined in a way that it should be possible to detect
+when there are incompatibilities with past versions. 
+So, I would say, instead:
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+	Firmware files shall be designed in a way that it allows
+	checking for firmware ABI version changes. It is recommended
+	that firmware files to be versioned with at least major/minor
+	version.
+
+> It
+> +  is suggested that the firmware files in linux-firmware be named with
+> +  some device specific name, and just the major version. 
+
+> The
+> +  major/minor/patch versions should be stored in a header in the
+> +  firmware file for the driver to detect any non-ABI fixes/issues. 
+
+I would also make this more generic. On media, we ended adding the firmware
+version indicated at the file name. For instance, xc4000 driver checks for
+two firmware files:
+
+drivers/media/tuners/xc4000.c:#define XC4000_DEFAULT_FIRMWARE "dvb-fe-xc4000-1.4.fw"
+drivers/media/tuners/xc4000.c:#define XC4000_DEFAULT_FIRMWARE_NEW "dvb-fe-xc4000-1.4.1.fw"
+
+On such cases, the driver can take decisions based on the firmware name.
+
+I would change the text to be more generic covering both cases:
+
+	The firmware version shall either be stored at the firmware
+	header or as part of the firmware file name, in order to let the
+	driver to detect any non-ABI fixes/changes.
+
+> The
+> +  firmware files in linux-firmware should be overwritten with the newest
+> +  compatible major version.
+
+For me "shall" is mandatory, while "should" is optional.
+
+In this specific case, I'm not so sure if overriding it is the best thing 
+to do on all subsystems. I mean, even with the same ABI, older firmware 
+usually means that some bugs and/or limitations will be present there.
+
+That's specially true on codecs: even having the same ABI, older versions
+won't support decoding newer protocols. We have one case with some
+digital TV decoders that only support some Cable-TV protocols with
+newer firmware versions. We have also one case were remote controller
+decoding is buggy with older firmwares. On both situations, the ABI
+didn't change.
+
+> Newer major version firmware should remain
+> +  compatible with all kernels that load that major number.
+
+	should -> shall
+
+> +
+> +* Users should *not* have to install newer firmware to use existing
+> +  hardware when they install a newer kernel. 
+
+> If the hardware isn't
+> +  enabled by default or under development,
+
+Hmm.. someone might understand that not having a "default Y" at Kconfig
+would mean that this is not enabled by default ;-)
+
+IMO you can just tell, instead:
+
+	"This can be ignored until the first kernel release that enables support
+	 for such hardware."
+
+> this can be ignored, until
+> +  the first kernel release that enables that hardware. 
+
+> This means no
+> +  major version bumps without the kernel retaining backwards
+> +  compatibility for the older major versions.  Minor version bumps
+> +  should not introduce new features that newer kernels depend on
+> +  non-optionally.
+> +
+> +* If a security fix needs lockstep firmware and kernel fixes in order to
+> +  be successful, then all supported major versions in the linux-firmware
+> +  repo should be updated with the security fix, and the kernel patches
+> +  should detect if the firmware is new enough to declare if the security
+> +  issue is fixed.  All communications around security fixes should point
+> +  at both the firmware and kernel fixes. If a security fix requires
+> +  deprecating old major versions, then this should only be done as a
+> +  last option, and be stated clearly in all communications.
+> +
+
+Perfect!
+
+Regards,
+Mauro
