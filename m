@@ -2,176 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1FFD57B3AD
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 11:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60ED257B3E8
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 11:31:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232252AbiGTJVR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jul 2022 05:21:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50712 "EHLO
+        id S232734AbiGTJbx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jul 2022 05:31:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231461AbiGTJVP (ORCPT
+        with ESMTP id S229909AbiGTJbw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jul 2022 05:21:15 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E418E40BC5;
-        Wed, 20 Jul 2022 02:21:14 -0700 (PDT)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26K6f8Rd031777;
-        Wed, 20 Jul 2022 09:21:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=HFXfilSzWmZ1wr6s+IIuH1/M8mukocaFVQBG0LbZGls=;
- b=C5iKUgQv0h1rw8EAFGDZm+hNf4/Op57C4vGtLHEB+Ewd+MU/EwX/xVPCShx6phcemK8R
- taVe1ydPmhawcLtRhWKOPNVUCX4jh4QvJ2J/IoulXw1vo7TGpCJs7BgGVmCklhxmrmIf
- yKr8bUJhOoYFEGevsIIwdFrCWT3F4gtZN4vGbMBNbEHi/ajHcZZB9dAvOXTxnu3hYzPz
- HW5e1tuT2MTHeyGKafWe3HPgvUEG3E7+R6jsxFzfI3DcCxppVKgAujEQHFsm3myT0mNV
- xO2l/4OjV5u6UoVBDc3vqtSm6huRcxnt1cQP3vRHDiU383eBFSJojGvwdSA4v8YocK2u bg== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbnvtgxwg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Jul 2022 09:21:07 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 26K87YaZ016395;
-        Wed, 20 Jul 2022 09:21:07 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2102.outbound.protection.outlook.com [104.47.55.102])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3hc1enaetn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Jul 2022 09:21:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U50TD2BZZHazfsQ3Qe+UrTWWcf7SjThg+qbRTqOZX70kbQJobU8WkgnSvPYxvx7lmF5X9LThvHbRCitjLuCmzgdawkHp6MJDy0J/V6e5TtPaU+pfBItAWvh2jZWk/c5TS0vbP3Al77yKp1Gfars+Y+sh9eheE6rSxA5UnPixkXPFj/ZkYbWpqi6rja72gflzqBwdYoBmK3t4WjAmkD6FCy3MCGOrcgg4pZDOopoitj3T6kh0pRtVPQK43+XjZDoSEENBrn6yNCk3Io5eH/xNRmd4r1/o0PDbWnnh23PNfjmU4HJ5ZV19FiAmjSKUfauisP9hZ2HpOK0mlNEsRCS6pA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HFXfilSzWmZ1wr6s+IIuH1/M8mukocaFVQBG0LbZGls=;
- b=g/i0k6dKaQ8gbUf0+yFs6lCX5Z+RMHEAj8c3EQdohPoHiaDiJWZeyfjBb9xhNiHwEJMJnx8w1Rfn7X9m5A/I6Fyiu4mro74p9QXnZ17Ls5Bc8Za9lwu+opZHvSPNfqr08YBNo8WS6p/bYVHmAjxmp3QRNntQA4r2fxbqnQwLpBixUw1/N/Tu8gL4wat7dY8F4bSKzhd1HUpZtHWUTMIIFg70Z8wrZ213IjUwQX9UB3c4mF2S0+nNzHfURnIldwGpRvW+ypP9kl41VH4dSTb7SgXZnHFlMAgHr5vpUH1tkWSU/een5SO5HXSEheo7FtaTA73aOBvZbPdWdXmy+yfGZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HFXfilSzWmZ1wr6s+IIuH1/M8mukocaFVQBG0LbZGls=;
- b=RKP+3kpSqNtRwWdMy9rzV05GTXY6fFmt9Tz/e50UAJ1Gk9uiqFmiW4FBSF54fAJgGjuFxrfrzj5pfdzvqvL8dz6l1HGHQ3hjp1Lkz/y9BZuas7Xs+Ao+SoUnIneZk11d4J9AWW3hlWBthY/71NTNc9j7cuS/H9LnGZbGk7e81mg=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DS7PR10MB5152.namprd10.prod.outlook.com
- (2603:10b6:5:3a9::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Wed, 20 Jul
- 2022 09:21:05 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::24dc:9f9a:c139:5c97]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::24dc:9f9a:c139:5c97%4]) with mapi id 15.20.5458.018; Wed, 20 Jul 2022
- 09:21:05 +0000
-Date:   Wed, 20 Jul 2022 12:20:48 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: fix a crash in uvc_ctrl_init_ctrl()
-Message-ID: <20220720092048.GI2338@kadam>
-References: <Yta1eXgbVFGrVuTJ@kili>
- <YtcxkInnG3DUGbOr@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YtcxkInnG3DUGbOr@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0029.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::17)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        Wed, 20 Jul 2022 05:31:52 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 446315B798
+        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 02:31:51 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1oE63V-0005sE-2N; Wed, 20 Jul 2022 11:31:45 +0200
+Message-ID: <bb64343ba89cc6534691eed7a9dbba920ba62099.camel@pengutronix.de>
+Subject: Re: [RESEND v2 2/3] usb: gadget: uvc: increase worker prio to
+ WQ_HIGHPRI
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Michael Grzeschik <mgr@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
+        paul.elder@ideasonboard.com, kieran.bingham@ideasonboard.com,
+        nicolas@ndufresne.ca, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Date:   Wed, 20 Jul 2022 11:31:44 +0200
+In-Reply-To: <20220719225247.GB24858@pengutronix.de>
+References: <20220608110339.141036-1-m.grzeschik@pengutronix.de>
+         <20220608110339.141036-3-m.grzeschik@pengutronix.de>
+         <YqDtWkUbp4LPBRxS@pendragon.ideasonboard.com>
+         <20220719225247.GB24858@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8ca69bca-3963-4547-2a00-08da6a312c04
-X-MS-TrafficTypeDiagnostic: DS7PR10MB5152:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SsWmukpovqI1LglsEQ1TSWPxHvEq4N+jvuA1he0ocO8agtobzc0lWYiNVKQgx2Q4A6nio03tCrLLV1RMUa2HIL2EDMtn6zkAA/Fd7x05NrnvunT7Ouyin8Mt24pO5cHJ1CfoniiMo5yJKSvN1Uf+4oUz+YEbQb4zrSVzVVg2Oe+TZyQD8R0nk3ZhfBcZNhVRUC87GcjLTF4Rp1ClmX/vQIYpZpNVH2pwNkI0D/VKMJxag621oZopqjReL4OiSq8PLVvH5Ma2wKQM7P6wVLpUCh9sbTrpXN09+Q5gohjNgEmjRR+XXbLkxw3MzPbxJUJ9ghaROGswk+7fYLoF5a2AGws/+brJwAq9bCUZbMtiUq586EZl+ZrXSfy2Fsm0AKAHkmy+fL5IBWp+f7cxV9aldsSOTo+3tO0EmAIz6vcpAw5ZSLA1cXS2lC3FyvTuxDE0/yZ0oeUoTWxKDcnrpSoceG+ijzM8ZLZf/G1fj7t9eBRfzwsfrSoCyr5kduZQIdf8sL4T6YUy6kJfX/Jz7bqM4Py45m2Ff0m/8Q432sT1dZn9Mt2tVM9CutXjcK9cHVGWBlmnl/QKHl9K/+YGtqcllbhUCsQH3vy5/rsCIZAbtM+fG4kEonw04eK5eE7bkA6jNRS7k3TcANroaFD9LSV+SbnuB+QuiIAMgr0+srl4qWtru3MgSdN+upCJHacgLlyG37MvLzscR8iErDHxKlA9r10+YLgO/HeJDc7PGo2AQuKvK/dvi5maxPJ7EyAm5CKTe0VS6wu6zC1W9Tr2RI6R0pdXEJW9AAsWWfjxy9fApGBQ26w4sadj+nZc+vadW0pt3LXg0M8RMES/EXEbHIe0aThiWkOtxJUiiTsMnQ8xIJFkycIr7/uOhqRHug2GENoJ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(136003)(39860400002)(366004)(396003)(376002)(346002)(33656002)(33716001)(5660300002)(8936002)(44832011)(66556008)(4326008)(54906003)(2906002)(8676002)(86362001)(316002)(6916009)(66476007)(966005)(41300700001)(9686003)(6506007)(478600001)(6486002)(26005)(6512007)(6666004)(66946007)(52116002)(1076003)(186003)(38100700002)(38350700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HEiOLT8ynPDcpySeT63hoOO9vhb2UE39l80+j5ePXc4ixwLMSc31aYIouOTF?=
- =?us-ascii?Q?e3pdZaoqW/pWXZtgNPe+yA+FpttNHS8pJode1B4dj/4Ok08S7WJBAc7EXqur?=
- =?us-ascii?Q?5+EnQj0SIfk9pupM0Wx1w2dGrvcaLKOx0YTZ6yly0EuXve6z0lgPrVUHMI5m?=
- =?us-ascii?Q?cRfaqkvA4fsXNEmphyT0Mf39HjWH8M7BhygbpRu2ats1ODrbqCK8eLBYOxLH?=
- =?us-ascii?Q?AxjtFJJolI//vYffbRfQJGyqFm2MYKwKdOqBgt/QJlgWwWuKwYx8ybKU5RF7?=
- =?us-ascii?Q?c3yFxcnre7fuFtwTtCNKNvvKNDDLdsBpHH6G2odwckKn4HuD26G4g+8X73nm?=
- =?us-ascii?Q?BF83P5YiYGNmrhzy2yZG+RkJkLUG+8/5GIyNyzflTgj5yvJrDflC1Skdalsw?=
- =?us-ascii?Q?Ny/u62nTjEt6Pmni3EqR59Ui7fGXVo0RL1+XCCUiBnRD0wt99VgNT12hwILt?=
- =?us-ascii?Q?wzKrcV3Ykf6mn9E3Wq8MKw1wIqiZpg/87ef9KpCHaS5Hqf83cx+yCdFnFnyY?=
- =?us-ascii?Q?iL/vNzAZNCGBBTjpDu4mN9MBqv0TYWD1URtH2CCwXyYAk9XVrm7WDvx7tcRs?=
- =?us-ascii?Q?hEV1rdclvRYs+L/b5qhDb6caJLK3gI0T5UJRfrQcyMKU90mMT+/ztd4vf7z5?=
- =?us-ascii?Q?ov5UkAQagWuSY2/DG894gu4rwx5ocKVj3AP87M95gxT8U+e/L6/HT303zu7V?=
- =?us-ascii?Q?SeBqVWgC5/ChOzbszWtPMrp3Z38ehQw0CBy2RESuY8GcNz1/sJNEOeOuTIFH?=
- =?us-ascii?Q?2dPHJ3oBaZ/ljRVT8QXKJb3hDjSMGk0JcqF3D/X620n2pKyWiKsbWRCmK396?=
- =?us-ascii?Q?EGVBm6F0rNV1b9Pe+3B9x4clWoSXZ4XWeC1hmQpW6cTw15A6l8KhBfD4lVNf?=
- =?us-ascii?Q?RjtLTzl4icOgxqYJaWuMVEA9tqPKl3wES3NKw3KGNrimTuWPohoX8OaeQtnc?=
- =?us-ascii?Q?04ie+I8rpIW1OSwnmNgSsMF77OxOQYZ5DwD3MeSTncWmhGsiqm8RI41Z/bzM?=
- =?us-ascii?Q?paxSPFme5sM/s4Fywzhi35Pp+SG7LZGJk5odriADBOoHlXYLEyK78OVx3Ksi?=
- =?us-ascii?Q?dQDpUbPEOUmz3XByQOLrVTx11IC6m458s0m5pl8iTRQNyOQZYjKPm0K9YfLX?=
- =?us-ascii?Q?s5+t2+VRr5wc3U2dlKjTEaHIWyt51eFhthxlvZDOida3u4Wi14n8bqc2jD2L?=
- =?us-ascii?Q?xQJ9gqlm63wzLtcOnXFYazkkRoeo3J1UtISVVPmRnWR9+IQBVN79TemlF9KX?=
- =?us-ascii?Q?Pv7JrDv8yjrbdgPFs428orNpdXZRytXb6VAwlpuhPj/HwZLKIS3iOg7nuGob?=
- =?us-ascii?Q?ovLV0sjpiPvgnojCXd4HvK3CULIKtPmcrHBENtLvDJXxpC1DQFJ1BhsxNBJE?=
- =?us-ascii?Q?hU6YPlZX6j/Yu1GcGC9s1hT+geh+4sJuy3bCpdtUID4ozduVIXYzjjmzM3ES?=
- =?us-ascii?Q?6fATZJK+ggiPfsS9cvEjc2dE8zpA+p5N+qEVI+nE4UGePYFWo3FFuVBTjvFH?=
- =?us-ascii?Q?IpIfGre+pjXwykJbgk4NTCE6z2xa6T3s303VWxFib5MD8Gba+hge+gdkRmX4?=
- =?us-ascii?Q?OmOamNyYqaKRX7wZTTjF0mlFhpE2rn1xwCSBO1K438FBgCxRW/NSIKjeRmXa?=
- =?us-ascii?Q?aQ=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ca69bca-3963-4547-2a00-08da6a312c04
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2022 09:21:05.2321
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d9Ye0O3i4ruRe0DZG3Fp4WcLECStL9x9bXIoHzNNA0wTxzwVeCjTj9fZ2+yrt3IVA75ZonOgYyvm0Zu1c2nloCiYWulsSTzst3H8LH6vc54=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5152
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-20_05,2022-07-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 phishscore=0 adultscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207200038
-X-Proofpoint-GUID: RbQdR36uWlXNhqMLv--WfezsRWZK3onu
-X-Proofpoint-ORIG-GUID: RbQdR36uWlXNhqMLv--WfezsRWZK3onu
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 20, 2022 at 01:34:56AM +0300, Laurent Pinchart wrote:
-> Hi Dan,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Jul 19, 2022 at 04:45:29PM +0300, Dan Carpenter wrote:
-> > There is a path where "mapping" is NULL when we try to process the
-> > common mappings so it will crash.
+Am Mittwoch, dem 20.07.2022 um 00:52 +0200 schrieb Michael Grzeschik:
+> On Wed, Jun 08, 2022 at 09:41:30PM +0300, Laurent Pinchart wrote:
+> > Hi Michael,
 > > 
-> > Fixes: 86f7ef773156 ("media: uvcvideo: Add support for per-device control mapping overrides")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Thank you for the patch.
+> > 
+> > On Wed, Jun 08, 2022 at 01:03:38PM +0200, Michael Grzeschik wrote:
+> > > Likewise to the uvcvideo hostside driver, this patch is changing the
+> > > simple workqueue to an async_wq with higher priority. This ensures that
+> > > the worker will not be scheduled away while the video stream is handled.
+> > > 
+> > > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> > > 
+> > > ---
+> > > v1 -> v2: - added destroy_workqueue in uvc_function_unbind
+> > >           - reworded comment above allow_workqueue
+> > > 
+> > >  drivers/usb/gadget/function/f_uvc.c     | 4 ++++
+> > >  drivers/usb/gadget/function/uvc.h       | 1 +
+> > >  drivers/usb/gadget/function/uvc_v4l2.c  | 2 +-
+> > >  drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
+> > >  4 files changed, 13 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+> > > index d3feeeb50841b8..dcc5f057810973 100644
+> > > --- a/drivers/usb/gadget/function/f_uvc.c
+> > > +++ b/drivers/usb/gadget/function/f_uvc.c
+> > > @@ -891,10 +891,14 @@ static void uvc_function_unbind(struct usb_configuration *c,
+> > >  {
+> > >  	struct usb_composite_dev *cdev = c->cdev;
+> > >  	struct uvc_device *uvc = to_uvc(f);
+> > > +	struct uvc_video *video = &uvc->video;
+> > >  	long wait_ret = 1;
+> > > 
+> > >  	uvcg_info(f, "%s()\n", __func__);
+> > > 
+> > > +	if (video->async_wq)
+> > > +		destroy_workqueue(video->async_wq);
+> > > +
+> > >  	/* If we know we're connected via v4l2, then there should be a cleanup
+> > >  	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
+> > >  	 * though the video device removal uevent. Allow some time for the
+> > > diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+> > > index 58e383afdd4406..1a31e6c6a5ffb8 100644
+> > > --- a/drivers/usb/gadget/function/uvc.h
+> > > +++ b/drivers/usb/gadget/function/uvc.h
+> > > @@ -88,6 +88,7 @@ struct uvc_video {
+> > >  	struct usb_ep *ep;
+> > > 
+> > >  	struct work_struct pump;
+> > > +	struct workqueue_struct *async_wq;
+> > > 
+> > >  	/* Frame parameters */
+> > >  	u8 bpp;
+> > > diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> > > index fd8f73bb726dd1..fddc392b8ab95d 100644
+> > > --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> > > +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> > > @@ -170,7 +170,7 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+> > >  		return ret;
+> > > 
+> > >  	if (uvc->state == UVC_STATE_STREAMING)
+> > > -		schedule_work(&video->pump);
+> > > +		queue_work(video->async_wq, &video->pump);
+> > > 
+> > >  	return ret;
+> > >  }
+> > > diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+> > > index a9bb4553db847e..9a9101851bc1e8 100644
+> > > --- a/drivers/usb/gadget/function/uvc_video.c
+> > > +++ b/drivers/usb/gadget/function/uvc_video.c
+> > > @@ -277,7 +277,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+> > >  	spin_unlock_irqrestore(&video->req_lock, flags);
+> > > 
+> > >  	if (uvc->state == UVC_STATE_STREAMING)
+> > > -		schedule_work(&video->pump);
+> > > +		queue_work(video->async_wq, &video->pump);
+> > >  }
+> > > 
+> > >  static int
+> > > @@ -478,7 +478,7 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
+> > > 
+> > >  	video->req_int_count = 0;
+> > > 
+> > > -	schedule_work(&video->pump);
+> > > +	queue_work(video->async_wq, &video->pump);
+> > > 
+> > >  	return ret;
+> > >  }
+> > > @@ -492,6 +492,11 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+> > >  	spin_lock_init(&video->req_lock);
+> > >  	INIT_WORK(&video->pump, uvcg_video_pump);
+> > > 
+> > > +	/* Allocate a work queue for asynchronous video pump handler. */
+> > > +	video->async_wq = alloc_workqueue("uvcvideo", WQ_UNBOUND | WQ_HIGHPRI, 0);
+> > 
+> > Let's call it "uvcgadget" (or "uvc gadget", "uvc-gadget", ...) as
+> > "uvcvideo" refers to the host side driver.
+> > 
+> > I'm still a bit worried about WQ_UNBOUND and the risk of running work
+> > items in parallel on different CPUs. uvcg_video_pump() looks mostly
+> > safe, as it protects video->req_free with a spinlock, and the buffer
+> > queue with another spinlock. The req_int_count increment at the end of
+> > the loop would be unsafe though.
 > 
-> I've submitted [1] to fix this issue, and [2] to replace all the
-> error-prone loops in this function.
+> I looked into this again. But am still a bit unsure.
 > 
-> [1] https://lore.kernel.org/linux-media/20220718121219.16079-1-laurent.pinchart@ideasonboard.com/
-> [2] https://lore.kernel.org/linux-media/20220718222757.8203-1-laurent.pinchart@ideasonboard.com/T/#u
+> Why exactly would req_int_count be unsafe?
 > 
+> I thought WQ_UNBOUND is just making sure, that the workqueue could be
+> scheduled on any CPU, independent of the calling CPU waking the WQ. The
+> function uvcg_video_pump would than be called. But would it then be
+> called in parallel on two CPU at once? I doubt that. So how should
+> touching req_int_count on the bottom of the function be unsafe?
+> 
+> If WQ_UNBOUND would mean, that it would be run on more than one CPU
+> at once, this should clearly be documented.
 
-Ah, perfect.  Thank you!
+All workqueues (including the system_wq, that is used by schedule_work)
+can execute multiple workitems at the same time. The max_active
+parameter provided to alloc_workqueue() is what regulates concurrency,
+WQ_UNBOUND has nothing to do with this, expect that it provides a
+different maximum of the possible concurrency.
 
-regards,
-dan carpenter
+If the code works fine as-is, then this change should make no
+difference. Without looking into the details, I think the singlethread
+assumption here is satisfied by the video pump being a single work
+item, so if it is already queued it will not be queued again, so there
+is nothing to execute in parallel.
 
-> > ---
-> > This bug was previously reported by the kbuild bot and fixed in later
-> > versions of the patchset.  The git log doesn't have a link to
-> > lore.kernel.org but I suspect an earlier version got merged?
+Regards,
+Lucas
 
