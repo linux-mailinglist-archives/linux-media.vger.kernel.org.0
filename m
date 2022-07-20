@@ -2,195 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5FED57B1D4
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 09:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BA1457B227
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 09:54:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239877AbiGTHg1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jul 2022 03:36:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54202 "EHLO
+        id S235316AbiGTHyq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jul 2022 03:54:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239842AbiGTHg0 (ORCPT
+        with ESMTP id S233984AbiGTHyp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jul 2022 03:36:26 -0400
-Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr [80.12.242.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 522ED53D25
-        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 00:36:25 -0700 (PDT)
-Received: from [192.168.1.18] ([90.11.190.129])
-        by smtp.orange.fr with ESMTPA
-        id E4FpoOQ7fAZYmE4FpoFLhi; Wed, 20 Jul 2022 09:36:23 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Wed, 20 Jul 2022 09:36:23 +0200
-X-ME-IP: 90.11.190.129
-Message-ID: <772469b0-c279-6762-091d-821c58717941@wanadoo.fr>
-Date:   Wed, 20 Jul 2022 09:36:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 3/3] media: i2c: ak7375: Add regulator management
-Content-Language: fr
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Yassine Oudjana <yassine.oudjana@gmail.com>
+        Wed, 20 Jul 2022 03:54:45 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9038F6554F
+        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 00:54:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658303682; x=1689839682;
+  h=subject:from:to:cc:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=3+T9gbvb0dt1+pqABU33aPToMBjN5u/okXmCyGieOzA=;
+  b=QnTdOmkBs2dvlaw4n17fEudYa1V3PeuUoJJh3xW1wPIDXE+j0nwiNsT3
+   HhaRXDTssg+e0XK+K87YqqgYk0i6X+YR6VQQ/pEmfUE2MggM9KYPJNN82
+   13fGbXWlt0qxIJ5fkWtbO8wrHfm1hhkwVGhtd6Gd4hpRD7u7SCr4t+12h
+   IhUduMMsbja5p7Z1OWspbWTgnhcxeyynFaOEQyTE2AOI+0U0FXe3r8Qt3
+   aQUHn0h1ZN5HTPFqcAv4BXIzuTsHzWcPB7mUkSRCO+rDKXcwAUMYqh9b8
+   Q/tGUdFLui/yr8A9pgiKujhr/QN1ZV+dMa2bs0Sle+r0FlSd20QH2KHye
+   A==;
+X-IronPort-AV: E=Sophos;i="5.92,286,1650924000"; 
+   d="scan'208";a="25150899"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 20 Jul 2022 09:54:40 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Wed, 20 Jul 2022 09:54:40 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Wed, 20 Jul 2022 09:54:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658303680; x=1689839680;
+  h=from:to:cc:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding:subject;
+  bh=3+T9gbvb0dt1+pqABU33aPToMBjN5u/okXmCyGieOzA=;
+  b=G2FJ9DfkQHr7igrCtNzTkfiqut1koV4HSislewd+ptRc9pF2QI8H9PrV
+   LDK/Pro9WBuFtuD3NEMEMIUNyMvc4TH2qZmaQNRkI3Xt1GFRs/NeAYRkj
+   s0E2tQkV9ZEMdV9sf4dGZMqHgipxVxrUz6/aEfWWdw1WViUaDgA0GKIjw
+   bRJA78tzj7x5rE6W0AbTYWUVNAkvR2Fa7xZcZSewR8MgOv9JMzu5ut+uT
+   epnnhTNsrlZ/E8J4aEiCdo67Lw10PDV6Q7YmOWzfmLTOAmeJAWn/q4ral
+   NNk+/tfFVuBmDqyi6d+nhyMwXxYaPNDlZ6fJjrJg/S2WjEZo91g2bA5Ir
+   A==;
+X-IronPort-AV: E=Sophos;i="5.92,286,1650924000"; 
+   d="scan'208";a="25150898"
+Subject: Re: Re: [PATCH 1/1] media: v4l2-core: v4l2-i2c: Fix default device name
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 20 Jul 2022 09:54:40 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 9C47E280056;
+        Wed, 20 Jul 2022 09:54:40 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Yassine Oudjana <y.oudjana@protonmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220711144039.232196-1-y.oudjana@protonmail.com>
- <20220711144039.232196-4-y.oudjana@protonmail.com>
- <20220711173123.55abjsli3tmqgegj@uno.localdomain>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20220711173123.55abjsli3tmqgegj@uno.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org
+Date:   Wed, 20 Jul 2022 09:54:40 +0200
+Message-ID: <44845826.fMDQidcC6G@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <YtWo33+6J9DBtG0z@paasikivi.fi.intel.com>
+References: <20220718120151.425388-1-alexander.stein@ew.tq-group.com> <YtWo33+6J9DBtG0z@paasikivi.fi.intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 11/07/2022 à 19:31, Jacopo Mondi a écrit :
-> Hi Yassine,
-> 
-> On Mon, Jul 11, 2022 at 06:40:39PM +0400, Yassine Oudjana wrote:
->> From: Yassine Oudjana <y.oudjana@protonmail.com>
->>
->> Make the driver get needed regulators on probe and enable/disable
->> them on runtime PM callbacks.
->>
->> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
->> ---
->> Changes since v1:
->>    - Reorganize variable declaration
->>    - Change the power-on delay range to 3000-3500 microseconds.
->>
->>   drivers/media/i2c/ak7375.c | 39 ++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 39 insertions(+)
->>
->> diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
->> index 40b1a4aa846c..c2b2542a0056 100644
->> --- a/drivers/media/i2c/ak7375.c
->> +++ b/drivers/media/i2c/ak7375.c
->> @@ -6,6 +6,7 @@
->>   #include <linux/i2c.h>
->>   #include <linux/module.h>
->>   #include <linux/pm_runtime.h>
->> +#include <linux/regulator/consumer.h>
->>   #include <media/v4l2-ctrls.h>
->>   #include <media/v4l2-device.h>
->>
->> @@ -23,17 +24,32 @@
->>    */
->>   #define AK7375_CTRL_STEPS	64
->>   #define AK7375_CTRL_DELAY_US	1000
->> +/*
->> + * The vcm takes around 3 ms to power on and start taking
->> + * I2C messages. This value was found experimentally due to
->> + * lack of documentation.
->> + */
->> +#define AK7375_POWER_DELAY_US	3000
->>
->>   #define AK7375_REG_POSITION	0x0
->>   #define AK7375_REG_CONT		0x2
->>   #define AK7375_MODE_ACTIVE	0x0
->>   #define AK7375_MODE_STANDBY	0x40
->>
->> +static const char * const ak7375_supply_names[] = {
->> +	"vdd",
->> +	"vio",
->> +};
->> +
->> +#define AK7375_NUM_SUPPLIES ARRAY_SIZE(ak7375_supply_names)
->> +
->>   /* ak7375 device structure */
->>   struct ak7375_device {
->>   	struct v4l2_ctrl_handler ctrls_vcm;
->>   	struct v4l2_subdev sd;
->>   	struct v4l2_ctrl *focus;
->> +	struct regulator_bulk_data supplies[AK7375_NUM_SUPPLIES];
->> +
->>   	/* active or standby mode */
->>   	bool active;
->>   };
->> @@ -133,12 +149,24 @@ static int ak7375_probe(struct i2c_client *client)
->>   {
->>   	struct ak7375_device *ak7375_dev;
->>   	int ret;
->> +	int i;
->>
->>   	ak7375_dev = devm_kzalloc(&client->dev, sizeof(*ak7375_dev),
->>   				  GFP_KERNEL);
->>   	if (!ak7375_dev)
->>   		return -ENOMEM;
->>
->> +	for (i = 0; i < AK7375_NUM_SUPPLIES; i++)
->> +		ak7375_dev->supplies[i].supply = ak7375_supply_names[i];
->> +
->> +	ret = devm_regulator_bulk_get(&client->dev, AK7375_NUM_SUPPLIES,
->> +				      ak7375_dev->supplies);
->> +	if (ret) {
->> +		dev_err(&client->dev, "Failed to get regulators: %pe",
->> +			ERR_PTR(ret));
-> 
-> Why are you using %pe here ? Your return value is not a pointer
-> (Also, missing \n at the end of the string)
-> 
->  From Documentation/core-api/printk-formats.rst:
-> 	%pe	-ENOSPC
-> 
-> For printing error pointers (i.e. a pointer for which IS_ERR() is true)
-> as a symbolic error name. Error values for which no symbolic name is
-> known are printed in decimal, while a non-ERR_PTR passed as the
-> argument to %pe gets treated as ordinary %p.
-> 
+Hi Sakari,
 
-Nit: using:
-+		return dev_err_probe(&client->dev, ret, "Failed to get regulators);
+thanks for the feedback.
 
-would be even simpler.
+Am Montag, 18. Juli 2022, 20:39:27 CEST schrieb Sakari Ailus:
+> Hi Alexander,
+>=20
+> Thanks for the patch.
+>=20
+> On Mon, Jul 18, 2022 at 02:01:51PM +0200, Alexander Stein wrote:
+> > Documentation to v4l2_i2c_subdev_set_name says I=B2C device name if
+> > devname parameter is NULL. But instead the I=B2C driver name is assigne=
+d.
+> > Fix this by actually using the i2c_client->name for the subdev name.
+> >=20
+> > Fixes: 0658293012af ("media: v4l: subdev: Add a function to set an I=B2C
+> > sub-device's name") Signed-off-by: Alexander Stein
+> > <alexander.stein@ew.tq-group.com>
+> > ---
+> > Having a sensor node in DT with compatible =3D "ovti,ov9281" the subdev
+> > name is "ov9282" without this patch. With this patch applied it is
+> > "ov9281". The i2c_client->name is "ov9281" in every case.
+> >=20
+> >  drivers/media/v4l2-core/v4l2-i2c.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/media/v4l2-core/v4l2-i2c.c
+> > b/drivers/media/v4l2-core/v4l2-i2c.c index b4acca75644b..90c3c799317a
+> > 100644
+> > --- a/drivers/media/v4l2-core/v4l2-i2c.c
+> > +++ b/drivers/media/v4l2-core/v4l2-i2c.c
+> > @@ -33,7 +33,7 @@ void v4l2_i2c_subdev_set_name(struct v4l2_subdev *sd,
+> >=20
+> >  			      const char *devname, const char=20
+*postfix)
+> > =20
+> >  {
+> > =20
+> >  	if (!devname)
+> >=20
+> > -		devname =3D client->dev.driver->name;
+> > +		devname =3D client->name;
+>=20
+> This would work OF somehow but not on ACPI. At the moment, at least, I th=
+ink
+> this information needs to come from the driver itself.
 
-CJ
+I've not much experience regarding ACPI, nor can I test anything. Which=20
+information from ACPI should be used as devname? AFAICS i2c_acpi_fill_info=
+=20
+need to be modified to set info->type as well. This should fix the ACPI cas=
+e.
+
+Nevertheless currently either the documentation or the implementation needs=
+ a=20
+fix, they don't match. You can also opt to driver name in case client->name=
+ is=20
+empty. Is this acceptable?
+
+Best regards,
+Alexander
 
 
->> +		return ret;
->> +	}
->> +
->>   	v4l2_i2c_subdev_init(&ak7375_dev->sd, client, &ak7375_ops);
->>   	ak7375_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->>   	ak7375_dev->sd.internal_ops = &ak7375_int_ops;
->> @@ -210,6 +238,10 @@ static int __maybe_unused ak7375_vcm_suspend(struct device *dev)
->>   	if (ret)
->>   		dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
->>
->> +	ret = regulator_bulk_disable(AK7375_NUM_SUPPLIES, ak7375_dev->supplies);
->> +	if (ret)
->> +		return ret;
->> +
->>   	ak7375_dev->active = false;
->>
->>   	return 0;
->> @@ -230,6 +262,13 @@ static int __maybe_unused ak7375_vcm_resume(struct device *dev)
->>   	if (ak7375_dev->active)
->>   		return 0;
->>
->> +	ret = regulator_bulk_enable(AK7375_NUM_SUPPLIES, ak7375_dev->supplies);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Wait for vcm to become ready */
->> +	usleep_range(AK7375_POWER_DELAY_US, AK7375_POWER_DELAY_US + 500);
->> +
->>   	ret = ak7375_i2c_write(ak7375_dev, AK7375_REG_CONT,
->>   		AK7375_MODE_ACTIVE, 1);
->>   	if (ret) {
->> --
->> 2.37.0
->>
-> 
 
