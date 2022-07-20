@@ -2,66 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C906E57BAE4
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 17:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65BF757BC82
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 19:22:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232276AbiGTPxw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jul 2022 11:53:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59318 "EHLO
+        id S239071AbiGTRWu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jul 2022 13:22:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiGTPxv (ORCPT
+        with ESMTP id S229677AbiGTRWt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jul 2022 11:53:51 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D3F74BD18
-        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 08:53:51 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id n185so11126873wmn.4
-        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 08:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=48fj8+SEYseTJxEMnEnTvEGFV8gDAw0PWcc7VlH/EIs=;
-        b=ddyi+dka3ecgLJQbTwR2E8Amafus9lYfV73N8wz5UjfKf+XJjTmooD3yZhZwMSO5Y2
-         Z03PzUnlLDRn4cyHXeQhjeXmjQCg/8++Sfc3YsAEDqKHeD7thFuNMDNAotGhCsroa4ml
-         NBtkJhWp8Tab5D/qKu8ufhuE/Y6Hgh4qISorKcHJi98kWh2RjkIJMzvOLEeT1DbVO2JL
-         HO2CgWb6O7+WS66E83OsqCrU1cDLdYIDXoVP6LsawOCtcjv2gFLREGvNITSkAk8ow7kC
-         D6iJcrrMcbvv7FHC/mR/dLeVLpgXN0Chx3k2ijcQGjzf67ksdKrY9Yc1KCFVTMz8aM4/
-         5rWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=48fj8+SEYseTJxEMnEnTvEGFV8gDAw0PWcc7VlH/EIs=;
-        b=QrOPuYy+8rzKC7Lk9nboTdUgnyGX45K65fA1vuIuuWDZ9Omfha82Kpe2wn6lQsYUp0
-         Lu3/XnQOmmnan+1omFQgjcDLlbHRA9vUbIN2QTibFZnyi2WhC6jXNceu4yBTgNUK3Ome
-         kXcCzDk9mpu+yXvCPaquDX8lFksSJQJ1j40RARmClmnPixT4CsGEyT4KgMXOjA85vC2I
-         q252lHb0NsTqfkEOiiIIQ3ScG9fPwGVDO4eYCEEq9+olZDjmPUB3qJVtCnjUacEb15dg
-         E1cXMXVEHsvIUrYwLmdvMYxpKsTEcnhpbfZIeterTBBIAYL/PbwfkdD+pVDTTNHyB5HW
-         cjMg==
-X-Gm-Message-State: AJIora9i2YdaH2PC2P/QwN2BqHwanELrM1BPW6jQfv1hS5MHKgLWdggu
-        oFb81PoBiYoFLGWqfYIBOA/jrHXF0UKIZR3wgqE=
-X-Google-Smtp-Source: AGRyM1s3nNOQ2EAh3HuWsAlpgHXiuECjIr2V1uJkjfET/BezcYZlvQumrf5vxzQqtExC2WsZNkBrgSDo/ENXleH2Vgg=
-X-Received: by 2002:a1c:1901:0:b0:3a3:1be3:4df2 with SMTP id
- 1-20020a1c1901000000b003a31be34df2mr4584726wmz.146.1658332429678; Wed, 20 Jul
- 2022 08:53:49 -0700 (PDT)
+        Wed, 20 Jul 2022 13:22:49 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C50B13F332;
+        Wed, 20 Jul 2022 10:22:48 -0700 (PDT)
+Received: from pyrite.rasen.tech (softbank036240121080.bbtec.net [36.240.121.80])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B38AC6DB;
+        Wed, 20 Jul 2022 19:22:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1658337766;
+        bh=cdhTFwAUWu0BfU4pY0Qx+ICqevNTT6nB/e0kgl797cc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TEXeCjaR2aW8XsTlPI5AgJxKkEneJwOgJEzZGHwHRc13Rp1YG3xJGwiCDtL/IMsrb
+         lz88eHiL+fzSblDMj2gTWiuY1hEcNNYd1kVqXw8bqz/y64+DmIMkXevKdRkxN8kZ0C
+         yLmHbsIYYLkfynThQ/rnXeZGAEXNdBLxLsXvnMWo=
+From:   Paul Elder <paul.elder@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com
+Subject: [PATCH] media: rkisp1: Implement ENUM_FRAMESIZES
+Date:   Thu, 21 Jul 2022 02:22:31 +0900
+Message-Id: <20220720172231.4019063-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Received: by 2002:a7b:c404:0:0:0:0:0 with HTTP; Wed, 20 Jul 2022 08:53:49
- -0700 (PDT)
-From:   D B <kosdav71@gmail.com>
-Date:   Wed, 20 Jul 2022 15:53:49 +0000
-Message-ID: <CAN6u_H_MwigBFN1hVe0haV-pZgCQCEUUfG0GtnouJF4AOVRfxA@mail.gmail.com>
-Subject: Re:
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good Afternoon,
-Please am still waiting for your reply on the mail i sent you yesterday
-Mr David
+Implement VIDIOC_ENUM_FRAMESIZES for the rkisp1 capture devices.
+
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+---
+ .../platform/rockchip/rkisp1/rkisp1-capture.c | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index c494afbc21b4..74106a01ded7 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -1245,6 +1245,31 @@ static int rkisp1_enum_fmt_vid_cap_mplane(struct file *file, void *priv,
+ 	return -EINVAL;
+ }
+ 
++static int rkisp1_enum_framesizes(struct file *file, void *fh,
++				  struct v4l2_frmsizeenum *fsize)
++{
++	struct rkisp1_capture *cap = video_drvdata(file);
++	const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
++					    RKISP1_RSZ_SP_SRC_MAX_WIDTH };
++	const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
++					     RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
++
++	if (fsize->index != 0)
++		return -EINVAL;
++
++	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
++
++	fsize->stepwise.min_width = RKISP1_RSZ_SRC_MIN_WIDTH;
++	fsize->stepwise.max_width = max_widths[cap->id];
++	fsize->stepwise.step_width = 2;
++
++	fsize->stepwise.min_height = RKISP1_RSZ_SRC_MIN_HEIGHT;
++	fsize->stepwise.max_height = max_heights[cap->id];
++	fsize->stepwise.step_height = 2;
++
++	return 0;
++}
++
+ static int rkisp1_s_fmt_vid_cap_mplane(struct file *file,
+ 				       void *priv, struct v4l2_format *f)
+ {
+@@ -1294,6 +1319,7 @@ static const struct v4l2_ioctl_ops rkisp1_v4l2_ioctl_ops = {
+ 	.vidioc_s_fmt_vid_cap_mplane = rkisp1_s_fmt_vid_cap_mplane,
+ 	.vidioc_g_fmt_vid_cap_mplane = rkisp1_g_fmt_vid_cap_mplane,
+ 	.vidioc_enum_fmt_vid_cap = rkisp1_enum_fmt_vid_cap_mplane,
++	.vidioc_enum_framesizes = rkisp1_enum_framesizes,
+ 	.vidioc_querycap = rkisp1_querycap,
+ 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+ 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+-- 
+2.30.2
+
