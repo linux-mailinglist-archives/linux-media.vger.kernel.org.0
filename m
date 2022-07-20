@@ -2,210 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1504D57B63F
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 14:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E2FA57B6BC
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 14:48:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231739AbiGTMSs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jul 2022 08:18:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52282 "EHLO
+        id S240966AbiGTMsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jul 2022 08:48:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbiGTMSq (ORCPT
+        with ESMTP id S239258AbiGTMsU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jul 2022 08:18:46 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA262C108;
-        Wed, 20 Jul 2022 05:18:45 -0700 (PDT)
-Received: from [192.168.2.145] (unknown [109.252.119.232])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 81CE666015BE;
-        Wed, 20 Jul 2022 13:18:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1658319523;
-        bh=B4ji8JwW8eJ3XP1EGK6JbA9JDbvoYbqvHvRf2nsb7zM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=MVHTQFYSrRMdyliP4QT0X5TFtmh9JA+mHFJhAYOmZzsKwZwQzRnJK87cEcwpnFUZL
-         arJbnBaTGOQX2kUp2P8Ds7zfCZI6wmWngKny0rJieNPqAqpzGaEqCxk12yhpR9bWZ3
-         8o5aU0IRsGM53Utp7m+HQQ/mpoTgDM/dxR2xvu4IKhpYf00S9yfaCe6giBFGwuwUpT
-         s/4/8aBfsMBpZ0suxVilFqlaueL5Lc3v2jWW47REkJ3EOO9mFKe033EiupjZaH2QvJ
-         dKC8LfBq+innrk6YwjrjXyl3SZy47EYje/qG+yyAu8lC6YaalCpVJ+SnqsNOsPKo8P
-         7PYwHi0AyYdZw==
-Message-ID: <ab6252bb-50d4-1fd6-589e-1c956f058a5b@collabora.com>
-Date:   Wed, 20 Jul 2022 15:18:38 +0300
+        Wed, 20 Jul 2022 08:48:20 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DD012AE14
+        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 05:48:18 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20C436DB;
+        Wed, 20 Jul 2022 14:48:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1658321295;
+        bh=3BQewCSCcJ6YC3KW50l1ItyaKjSNqmtT2xPibi47J3M=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=hxjEKHddaJqXbzesaXAv4iaXrjjnPWJBnludJmGc9aWhlZHqp4vgV4J40NwN6yd+c
+         RLiO4/qM0scBqlPMXNhQHPCKXlk/ejfzZVzg4rYSl1tI2X7wJhh0wbOs312Swqw77F
+         VE383sJNF5IoU3k8PEldplVn+pcRlQlls7rfll/c=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v1 4/6] dma-buf: Acquire wait-wound context on attachment
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robdclark@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kernel@collabora.com, virtualization@lists.linux-foundation.org,
-        spice-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20220715005244.42198-1-dmitry.osipenko@collabora.com>
- <20220715005244.42198-5-dmitry.osipenko@collabora.com>
- <5ec9313e-8498-2838-0320-331c347ce905@amd.com>
- <1ce233a2-36c9-3698-59f0-c4ff902bec60@collabora.com>
- <43446124-b99a-32d8-f797-7ec0cdca9ee4@collabora.com>
- <163d3271-e1e9-c325-185d-adb4391023e1@amd.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <163d3271-e1e9-c325-185d-adb4391023e1@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220719222432.4356-1-laurent.pinchart@ideasonboard.com>
+References: <20220719222432.4356-1-laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] media: rkisp1: Add and use rkisp1_has_feature() macro
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        linux-rockchip@lists.infradead.org
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Date:   Wed, 20 Jul 2022 13:48:12 +0100
+Message-ID: <165832129287.2021905.5325737808156196561@Monstersaurus>
+User-Agent: alot/0.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/20/22 11:29, Christian König wrote:
-> Am 19.07.22 um 22:05 schrieb Dmitry Osipenko:
->> On 7/15/22 09:59, Dmitry Osipenko wrote:
->>> On 7/15/22 09:50, Christian König wrote:
->>>> Am 15.07.22 um 02:52 schrieb Dmitry Osipenko:
->>>>> Intel i915 GPU driver uses wait-wound mutex to lock multiple GEMs
->>>>> on the
->>>>> attachment to the i915 dma-buf. In order to let all drivers utilize
->>>>> shared
->>>>> wait-wound context during attachment in a general way, make dma-buf
->>>>> core to
->>>>> acquire the ww context internally for the attachment operation and
->>>>> update
->>>>> i915 driver to use the importer's ww context instead of the
->>>>> internal one.
->>>>>
->>>>>   From now on all dma-buf exporters shall use the importer's ww
->>>>> context
->>>>> for
->>>>> the attachment operation.
->>>>>
->>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>>>> ---
->>>>>    drivers/dma-buf/dma-buf.c                     |  8 +++++-
->>>>>    drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  2 +-
->>>>>    .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
->>>>>    drivers/gpu/drm/i915/gem/i915_gem_object.h    |  6 ++---
->>>>>    drivers/gpu/drm/i915/i915_gem_evict.c         |  2 +-
->>>>>    drivers/gpu/drm/i915/i915_gem_ww.c            | 26
->>>>> +++++++++++++++----
->>>>>    drivers/gpu/drm/i915/i915_gem_ww.h            | 15 +++++++++--
->>>>>    7 files changed, 47 insertions(+), 14 deletions(-)
->>>>>
->>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>>>> index 0ee588276534..37545ecb845a 100644
->>>>> --- a/drivers/dma-buf/dma-buf.c
->>>>> +++ b/drivers/dma-buf/dma-buf.c
->>>>> @@ -807,6 +807,8 @@ static struct sg_table * __map_dma_buf(struct
->>>>> dma_buf_attachment *attach,
->>>>>     * Optionally this calls &dma_buf_ops.attach to allow
->>>>> device-specific attach
->>>>>     * functionality.
->>>>>     *
->>>>> + * Exporters shall use ww_ctx acquired by this function.
->>>>> + *
->>>>>     * Returns:
->>>>>     *
->>>>>     * A pointer to newly created &dma_buf_attachment on success, or a
->>>>> negative
->>>>> @@ -822,6 +824,7 @@ dma_buf_dynamic_attach_unlocked(struct dma_buf
->>>>> *dmabuf, struct device *dev,
->>>>>                    void *importer_priv)
->>>>>    {
->>>>>        struct dma_buf_attachment *attach;
->>>>> +    struct ww_acquire_ctx ww_ctx;
->>>>>        int ret;
->>>>>          if (WARN_ON(!dmabuf || !dev))
->>>>> @@ -841,7 +844,8 @@ dma_buf_dynamic_attach_unlocked(struct dma_buf
->>>>> *dmabuf, struct device *dev,
->>>>>        attach->importer_ops = importer_ops;
->>>>>        attach->importer_priv = importer_priv;
->>>>>    -    dma_resv_lock(dmabuf->resv, NULL);
->>>>> +    ww_acquire_init(&ww_ctx, &reservation_ww_class);
->>>>> +    dma_resv_lock(dmabuf->resv, &ww_ctx);
->>>> That won't work like this. The core property of a WW context is that
->>>> you
->>>> need to unwind all the locks and re-quire them with the contended one
->>>> first.
->>>>
->>>> When you statically lock the imported one here you can't do that any
->>>> more.
->>> You're right. I felt that something is missing here, but couldn't
->>> notice. I'll think more about this and enable
->>> CONFIG_DEBUG_WW_MUTEX_SLOWPATH. Thank you!
->>>
->> Christian, do you think we could make an excuse for the attach()
->> callback and make the exporter responsible for taking the resv lock? It
->> will be inconsistent with the rest of the callbacks, where importer
->> takes the lock, but it will be the simplest and least invasive solution.
->> It's very messy to do a cross-driver ww locking, I don't think it's the
->> right approach.
-> 
-> So to summarize the following calls will require that the caller hold
-> the resv lock:
-> 1. dma_buf_pin()/dma_buf_unpin()
-> 2. dma_buf_map_attachment()/dma_buf_unmap_attachment()
-> 3. dma_buf_vmap()/dma_buf_vunmap()
-> 4. dma_buf_move_notify()
-> 
-> The following calls require that caller does not held the resv lock:
-> 1. dma_buf_attach()/dma_buf_dynamic_attach()/dma_buf_detach()
-> 2. dma_buf_export()/dma_buf_fd()
-> 3. dma_buf_get()/dma_buf_put()
-> 4. dma_buf_begin_cpu_access()/dma_buf_end_cpu_access()
-> 
-> If that's correct than that would work for me as well, but we should
-> probably document this.
+Quoting Laurent Pinchart (2022-07-19 23:24:32)
+> Simplify feature tests with a macro that shortens lines.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Looks good, thank you. I'll try this variant.
+Given how we use it on VSP1 too, I certainly prefer this style of
+helper!
 
-> Or let me ask the other way around: What calls exactly do you need to
-> change to solve your original issue? That was vmap/vunmap, wasn't it? If
-> yes then let's concentrate on those for the moment.
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-Originally, Daniel Vetter asked to sort out the dma-buf lockings across
-all drivers, so we could replace custom locks in DRM-SHMEM with the resv
-lock, otherwise there were no guarantees that we won't have deadlocks in
-the dma-buf code paths.
 
-The vmap/vunmap is one of the paths that needs to be sorted out, there
-is no particular issue with it, just need to specify the convention. The
-mmaping was the other questionable path and we concluded that it's
-better to prohibit dma-buf mappings for DRM entirely. Lastly, there is
-i915 attach() that uses the ww locking.
-
--- 
-Best regards,
-Dmitry
+> ---
+> Sending to the correct mailing list this time, sorry for the noise.
+> ---
+>  .../media/platform/rockchip/rkisp1/rkisp1-common.h |  3 +++
+>  .../media/platform/rockchip/rkisp1/rkisp1-dev.c    | 14 +++++++-------
+>  2 files changed, 10 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/dri=
+vers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 8056997d5c29..0aae802464ac 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -111,6 +111,9 @@ enum rkisp1_feature {
+>         RKISP1_FEATURE_MIPI_CSI2 =3D BIT(0),
+>  };
+> =20
+> +#define rkisp1_has_feature(rkisp1, feature) \
+> +       ((rkisp1)->info->features & RKISP1_FEATURE_##feature)
+> +
+>  /*
+>   * struct rkisp1_info - Model-specific ISP Information
+>   *
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/driver=
+s/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index f2475c6235ea..e348d8c86861 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -206,7 +206,7 @@ static int rkisp1_subdev_notifier_register(struct rki=
+sp1_device *rkisp1)
+>                 switch (reg) {
+>                 case 0:
+>                         /* MIPI CSI-2 port */
+> -                       if (!(rkisp1->info->features & RKISP1_FEATURE_MIP=
+I_CSI2)) {
+> +                       if (!rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+>                                 dev_err(rkisp1->dev,
+>                                         "internal CSI must be available f=
+or port 0\n");
+>                                 ret =3D -EINVAL;
+> @@ -338,7 +338,7 @@ static int rkisp1_create_links(struct rkisp1_device *=
+rkisp1)
+>         unsigned int i;
+>         int ret;
+> =20
+> -       if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+> +       if (rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+>                 /* Link the CSI receiver to the ISP. */
+>                 ret =3D media_create_pad_link(&rkisp1->csi.sd.entity,
+>                                             RKISP1_CSI_PAD_SRC,
+> @@ -390,7 +390,7 @@ static int rkisp1_create_links(struct rkisp1_device *=
+rkisp1)
+> =20
+>  static void rkisp1_entities_unregister(struct rkisp1_device *rkisp1)
+>  {
+> -       if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
+> +       if (rkisp1_has_feature(rkisp1, MIPI_CSI2))
+>                 rkisp1_csi_unregister(rkisp1);
+>         rkisp1_params_unregister(rkisp1);
+>         rkisp1_stats_unregister(rkisp1);
+> @@ -423,7 +423,7 @@ static int rkisp1_entities_register(struct rkisp1_dev=
+ice *rkisp1)
+>         if (ret)
+>                 goto error;
+> =20
+> -       if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+> +       if (rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+>                 ret =3D rkisp1_csi_register(rkisp1);
+>                 if (ret)
+>                         goto error;
+> @@ -590,7 +590,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+>                 goto err_unreg_v4l2_dev;
+>         }
+> =20
+> -       if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+> +       if (rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+>                 ret =3D rkisp1_csi_init(rkisp1);
+>                 if (ret)
+>                         goto err_unreg_media_dev;
+> @@ -611,7 +611,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  err_unreg_entities:
+>         rkisp1_entities_unregister(rkisp1);
+>  err_cleanup_csi:
+> -       if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
+> +       if (rkisp1_has_feature(rkisp1, MIPI_CSI2))
+>                 rkisp1_csi_cleanup(rkisp1);
+>  err_unreg_media_dev:
+>         media_device_unregister(&rkisp1->media_dev);
+> @@ -630,7 +630,7 @@ static int rkisp1_remove(struct platform_device *pdev)
+>         v4l2_async_nf_cleanup(&rkisp1->notifier);
+> =20
+>         rkisp1_entities_unregister(rkisp1);
+> -       if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
+> +       if (rkisp1_has_feature(rkisp1, MIPI_CSI2))
+>                 rkisp1_csi_cleanup(rkisp1);
+>         rkisp1_debug_cleanup(rkisp1);
+> =20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
