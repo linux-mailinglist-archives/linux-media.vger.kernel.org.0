@@ -2,187 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60ED257B3E8
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 11:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBD6957B450
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jul 2022 12:12:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232734AbiGTJbx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jul 2022 05:31:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33230 "EHLO
+        id S231420AbiGTKMn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jul 2022 06:12:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229909AbiGTJbw (ORCPT
+        with ESMTP id S231133AbiGTKMm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jul 2022 05:31:52 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 446315B798
-        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 02:31:51 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1oE63V-0005sE-2N; Wed, 20 Jul 2022 11:31:45 +0200
-Message-ID: <bb64343ba89cc6534691eed7a9dbba920ba62099.camel@pengutronix.de>
-Subject: Re: [RESEND v2 2/3] usb: gadget: uvc: increase worker prio to
- WQ_HIGHPRI
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Michael Grzeschik <mgr@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
-        paul.elder@ideasonboard.com, kieran.bingham@ideasonboard.com,
-        nicolas@ndufresne.ca, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Date:   Wed, 20 Jul 2022 11:31:44 +0200
-In-Reply-To: <20220719225247.GB24858@pengutronix.de>
-References: <20220608110339.141036-1-m.grzeschik@pengutronix.de>
-         <20220608110339.141036-3-m.grzeschik@pengutronix.de>
-         <YqDtWkUbp4LPBRxS@pendragon.ideasonboard.com>
-         <20220719225247.GB24858@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        Wed, 20 Jul 2022 06:12:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA28A62490
+        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 03:12:40 -0700 (PDT)
+Received: from pyrite.rasen.tech (softbank036240121080.bbtec.net [36.240.121.80])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B654F6DB;
+        Wed, 20 Jul 2022 12:12:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1658311958;
+        bh=Z5QDKlwQZ63wCP+vpTpnemHkq8H/YPYUpKSAaki8ZTs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LDuJzL8FXbpeaIh/roGNw2L82U22L+ARgsxBxOxISW/1ZN+X8ArL540VQHD4qhbwI
+         ZyKmL/xpSPBEAmd8J0S4ZIUiQv9CqLuERhK/21o4DlRO2mDHi1gmocip7EWd82/Nwx
+         +NwdEGgSsAd9q5XQ4qipMRsxidJ+9OSbBP5tNiyI=
+Date:   Wed, 20 Jul 2022 19:12:31 +0900
+From:   paul.elder@ideasonboard.com
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH] media: rkisp1: Add and use rkisp1_has_feature() macro
+Message-ID: <20220720101231.GF3984498@pyrite.rasen.tech>
+References: <20220719222432.4356-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220719222432.4356-1-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Mittwoch, dem 20.07.2022 um 00:52 +0200 schrieb Michael Grzeschik:
-> On Wed, Jun 08, 2022 at 09:41:30PM +0300, Laurent Pinchart wrote:
-> > Hi Michael,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Wed, Jun 08, 2022 at 01:03:38PM +0200, Michael Grzeschik wrote:
-> > > Likewise to the uvcvideo hostside driver, this patch is changing the
-> > > simple workqueue to an async_wq with higher priority. This ensures that
-> > > the worker will not be scheduled away while the video stream is handled.
-> > > 
-> > > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> > > 
-> > > ---
-> > > v1 -> v2: - added destroy_workqueue in uvc_function_unbind
-> > >           - reworded comment above allow_workqueue
-> > > 
-> > >  drivers/usb/gadget/function/f_uvc.c     | 4 ++++
-> > >  drivers/usb/gadget/function/uvc.h       | 1 +
-> > >  drivers/usb/gadget/function/uvc_v4l2.c  | 2 +-
-> > >  drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
-> > >  4 files changed, 13 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-> > > index d3feeeb50841b8..dcc5f057810973 100644
-> > > --- a/drivers/usb/gadget/function/f_uvc.c
-> > > +++ b/drivers/usb/gadget/function/f_uvc.c
-> > > @@ -891,10 +891,14 @@ static void uvc_function_unbind(struct usb_configuration *c,
-> > >  {
-> > >  	struct usb_composite_dev *cdev = c->cdev;
-> > >  	struct uvc_device *uvc = to_uvc(f);
-> > > +	struct uvc_video *video = &uvc->video;
-> > >  	long wait_ret = 1;
-> > > 
-> > >  	uvcg_info(f, "%s()\n", __func__);
-> > > 
-> > > +	if (video->async_wq)
-> > > +		destroy_workqueue(video->async_wq);
-> > > +
-> > >  	/* If we know we're connected via v4l2, then there should be a cleanup
-> > >  	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
-> > >  	 * though the video device removal uevent. Allow some time for the
-> > > diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-> > > index 58e383afdd4406..1a31e6c6a5ffb8 100644
-> > > --- a/drivers/usb/gadget/function/uvc.h
-> > > +++ b/drivers/usb/gadget/function/uvc.h
-> > > @@ -88,6 +88,7 @@ struct uvc_video {
-> > >  	struct usb_ep *ep;
-> > > 
-> > >  	struct work_struct pump;
-> > > +	struct workqueue_struct *async_wq;
-> > > 
-> > >  	/* Frame parameters */
-> > >  	u8 bpp;
-> > > diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> > > index fd8f73bb726dd1..fddc392b8ab95d 100644
-> > > --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> > > +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> > > @@ -170,7 +170,7 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
-> > >  		return ret;
-> > > 
-> > >  	if (uvc->state == UVC_STATE_STREAMING)
-> > > -		schedule_work(&video->pump);
-> > > +		queue_work(video->async_wq, &video->pump);
-> > > 
-> > >  	return ret;
-> > >  }
-> > > diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-> > > index a9bb4553db847e..9a9101851bc1e8 100644
-> > > --- a/drivers/usb/gadget/function/uvc_video.c
-> > > +++ b/drivers/usb/gadget/function/uvc_video.c
-> > > @@ -277,7 +277,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
-> > >  	spin_unlock_irqrestore(&video->req_lock, flags);
-> > > 
-> > >  	if (uvc->state == UVC_STATE_STREAMING)
-> > > -		schedule_work(&video->pump);
-> > > +		queue_work(video->async_wq, &video->pump);
-> > >  }
-> > > 
-> > >  static int
-> > > @@ -478,7 +478,7 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
-> > > 
-> > >  	video->req_int_count = 0;
-> > > 
-> > > -	schedule_work(&video->pump);
-> > > +	queue_work(video->async_wq, &video->pump);
-> > > 
-> > >  	return ret;
-> > >  }
-> > > @@ -492,6 +492,11 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
-> > >  	spin_lock_init(&video->req_lock);
-> > >  	INIT_WORK(&video->pump, uvcg_video_pump);
-> > > 
-> > > +	/* Allocate a work queue for asynchronous video pump handler. */
-> > > +	video->async_wq = alloc_workqueue("uvcvideo", WQ_UNBOUND | WQ_HIGHPRI, 0);
-> > 
-> > Let's call it "uvcgadget" (or "uvc gadget", "uvc-gadget", ...) as
-> > "uvcvideo" refers to the host side driver.
-> > 
-> > I'm still a bit worried about WQ_UNBOUND and the risk of running work
-> > items in parallel on different CPUs. uvcg_video_pump() looks mostly
-> > safe, as it protects video->req_free with a spinlock, and the buffer
-> > queue with another spinlock. The req_int_count increment at the end of
-> > the loop would be unsafe though.
-> 
-> I looked into this again. But am still a bit unsure.
-> 
-> Why exactly would req_int_count be unsafe?
-> 
-> I thought WQ_UNBOUND is just making sure, that the workqueue could be
-> scheduled on any CPU, independent of the calling CPU waking the WQ. The
-> function uvcg_video_pump would than be called. But would it then be
-> called in parallel on two CPU at once? I doubt that. So how should
-> touching req_int_count on the bottom of the function be unsafe?
-> 
-> If WQ_UNBOUND would mean, that it would be run on more than one CPU
-> at once, this should clearly be documented.
+Hi Laurent,
 
-All workqueues (including the system_wq, that is used by schedule_work)
-can execute multiple workitems at the same time. The max_active
-parameter provided to alloc_workqueue() is what regulates concurrency,
-WQ_UNBOUND has nothing to do with this, expect that it provides a
-different maximum of the possible concurrency.
+On Wed, Jul 20, 2022 at 01:24:32AM +0300, Laurent Pinchart wrote:
+> Simplify feature tests with a macro that shortens lines.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-If the code works fine as-is, then this change should make no
-difference. Without looking into the details, I think the singlethread
-assumption here is satisfied by the video pump being a single work
-item, so if it is already queued it will not be queued again, so there
-is nothing to execute in parallel.
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 
-Regards,
-Lucas
-
+> ---
+> Sending to the correct mailing list this time, sorry for the noise.
+> ---
+>  .../media/platform/rockchip/rkisp1/rkisp1-common.h |  3 +++
+>  .../media/platform/rockchip/rkisp1/rkisp1-dev.c    | 14 +++++++-------
+>  2 files changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 8056997d5c29..0aae802464ac 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -111,6 +111,9 @@ enum rkisp1_feature {
+>  	RKISP1_FEATURE_MIPI_CSI2 = BIT(0),
+>  };
+>  
+> +#define rkisp1_has_feature(rkisp1, feature) \
+> +	((rkisp1)->info->features & RKISP1_FEATURE_##feature)
+> +
+>  /*
+>   * struct rkisp1_info - Model-specific ISP Information
+>   *
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index f2475c6235ea..e348d8c86861 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -206,7 +206,7 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+>  		switch (reg) {
+>  		case 0:
+>  			/* MIPI CSI-2 port */
+> -			if (!(rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)) {
+> +			if (!rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+>  				dev_err(rkisp1->dev,
+>  					"internal CSI must be available for port 0\n");
+>  				ret = -EINVAL;
+> @@ -338,7 +338,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+> +	if (rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+>  		/* Link the CSI receiver to the ISP. */
+>  		ret = media_create_pad_link(&rkisp1->csi.sd.entity,
+>  					    RKISP1_CSI_PAD_SRC,
+> @@ -390,7 +390,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+>  
+>  static void rkisp1_entities_unregister(struct rkisp1_device *rkisp1)
+>  {
+> -	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
+> +	if (rkisp1_has_feature(rkisp1, MIPI_CSI2))
+>  		rkisp1_csi_unregister(rkisp1);
+>  	rkisp1_params_unregister(rkisp1);
+>  	rkisp1_stats_unregister(rkisp1);
+> @@ -423,7 +423,7 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
+>  	if (ret)
+>  		goto error;
+>  
+> -	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+> +	if (rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+>  		ret = rkisp1_csi_register(rkisp1);
+>  		if (ret)
+>  			goto error;
+> @@ -590,7 +590,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  		goto err_unreg_v4l2_dev;
+>  	}
+>  
+> -	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
+> +	if (rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+>  		ret = rkisp1_csi_init(rkisp1);
+>  		if (ret)
+>  			goto err_unreg_media_dev;
+> @@ -611,7 +611,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  err_unreg_entities:
+>  	rkisp1_entities_unregister(rkisp1);
+>  err_cleanup_csi:
+> -	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
+> +	if (rkisp1_has_feature(rkisp1, MIPI_CSI2))
+>  		rkisp1_csi_cleanup(rkisp1);
+>  err_unreg_media_dev:
+>  	media_device_unregister(&rkisp1->media_dev);
+> @@ -630,7 +630,7 @@ static int rkisp1_remove(struct platform_device *pdev)
+>  	v4l2_async_nf_cleanup(&rkisp1->notifier);
+>  
+>  	rkisp1_entities_unregister(rkisp1);
+> -	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
+> +	if (rkisp1_has_feature(rkisp1, MIPI_CSI2))
+>  		rkisp1_csi_cleanup(rkisp1);
+>  	rkisp1_debug_cleanup(rkisp1);
