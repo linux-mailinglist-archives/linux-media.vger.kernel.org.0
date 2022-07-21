@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92E5E57C662
+	by mail.lfdr.de (Postfix) with ESMTP id 4761057C661
 	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 10:36:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231981AbiGUIgE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 04:36:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34992 "EHLO
+        id S231859AbiGUIgF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 04:36:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231859AbiGUIgD (ORCPT
+        with ESMTP id S231966AbiGUIgE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 04:36:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A001180F
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 01:36:02 -0700 (PDT)
+        Thu, 21 Jul 2022 04:36:04 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D586F14011
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 01:36:03 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1269612F3;
-        Thu, 21 Jul 2022 10:36:01 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51D0AA38;
+        Thu, 21 Jul 2022 10:36:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658392561;
-        bh=ah9EY9oHdq0zWuHTk/V77BrXKa1jtKUA6KVGtM4yDoA=;
+        s=mail; t=1658392562;
+        bh=Ki8f+TS/S0VGL6RhpHqNoWW0COHldTvbQBBvkwl4sh4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UNa1r0hgxx6jEL1PkaI4EX2PDpxCrCsUspXz/ElkvXgVPdvAjDHcnFDYmZivsZAsO
-         66h+wJD1UKFrc7TGqOcHZ67dLTCuKYAuNqggwVQZGE0wsjYk4rcmPCzlzgvS2WP5TL
-         inq6X1cPD2Rv8ZDXDzUDICrsa/3aFyzZ9ZqNpxYE=
+        b=wKnbAnpbAhE9NiXRx7TAaRMIxru4mJRSBGxixvNOuZonCw0HqqBYmGh24CV3cLCr4
+         70HNFwsvI59K6OFVK5adIMCjq0hYxKHMcM94BieJKP3K6OEJHhIdWkiF2WnX1bJebI
+         ryrGI5yvRTSlqgwNZ+EXhZhfjELyfAiEaUVNsnu4=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH 13/19] media: i2c: imx290: Split control initialization to separate function
-Date:   Thu, 21 Jul 2022 11:35:34 +0300
-Message-Id: <20220721083540.1525-14-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 14/19] media: i2c: imx290: Implement HBLANK and VBLANK controls
+Date:   Thu, 21 Jul 2022 11:35:35 +0300
+Message-Id: <20220721083540.1525-15-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
 References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
@@ -46,122 +46,88 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The imx290_probe() function is too large. Split control initialzation to
-a dedicated function to increase code readability.
+Add support for the V4L2_CID_HBLANK and V4L2_CID_VBLANK controls to the
+imx290 driver. Make the controls read-only to start with, to report the
+values to userspace for timing calculation.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/imx290.c | 83 ++++++++++++++++++++++----------------
- 1 file changed, 48 insertions(+), 35 deletions(-)
+ drivers/media/i2c/imx290.c | 39 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 1bd464932432..4408dd3e191f 100644
+index 4408dd3e191f..7190399f4111 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -878,6 +878,49 @@ static const struct media_entity_operations imx290_subdev_entity_ops = {
- 	.link_validate = v4l2_subdev_link_validate,
+@@ -146,6 +146,8 @@ struct imx290 {
+ 	struct v4l2_ctrl_handler ctrls;
+ 	struct v4l2_ctrl *link_freq;
+ 	struct v4l2_ctrl *pixel_rate;
++	struct v4l2_ctrl *hblank;
++	struct v4l2_ctrl *vblank;
+ 
+ 	struct mutex lock;
  };
- 
-+static int imx290_ctrl_init(struct imx290 *imx290)
-+{
-+	int ret;
+@@ -642,6 +644,20 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+ 		if (imx290->pixel_rate)
+ 			__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
+ 						 imx290_calc_pixel_rate(imx290));
 +
-+	v4l2_ctrl_handler_init(&imx290->ctrls, 5);
-+	imx290->ctrls.lock = &imx290->lock;
++		if (imx290->hblank) {
++			unsigned int hblank = mode->hmax - mode->width;
 +
-+	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-+			  V4L2_CID_GAIN, 0, 240, 1, 0);
++			__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank,
++						 1, hblank);
++		}
 +
-+	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-+			  V4L2_CID_EXPOSURE, 1, IMX290_VMAX_DEFAULT - 2, 1,
-+			  IMX290_VMAX_DEFAULT - 2);
++		if (imx290->vblank) {
++			unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
 +
-+	imx290->link_freq =
-+		v4l2_ctrl_new_int_menu(&imx290->ctrls, &imx290_ctrl_ops,
-+				       V4L2_CID_LINK_FREQ,
-+				       imx290_link_freqs_num(imx290) - 1, 0,
-+				       imx290_link_freqs_ptr(imx290));
-+	if (imx290->link_freq)
-+		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	imx290->pixel_rate = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-+					       V4L2_CID_PIXEL_RATE,
-+					       1, INT_MAX, 1,
-+					       imx290_calc_pixel_rate(imx290));
-+
-+	v4l2_ctrl_new_std_menu_items(&imx290->ctrls, &imx290_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(imx290_test_pattern_menu) - 1,
-+				     0, 0, imx290_test_pattern_menu);
-+
-+	imx290->sd.ctrl_handler = &imx290->ctrls;
-+
-+	if (imx290->ctrls.error) {
-+		ret = imx290->ctrls.error;
-+		v4l2_ctrl_handler_free(&imx290->ctrls);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * Returns 0 if all link frequencies used by the driver for the given number
-  * of MIPI data lanes are mentioned in the device tree, or the value of the
-@@ -1016,41 +1059,10 @@ static int imx290_probe(struct i2c_client *client)
- 	 */
- 	imx290_entity_init_cfg(&imx290->sd, NULL);
- 
--	v4l2_ctrl_handler_init(&imx290->ctrls, 5);
--	imx290->ctrls.lock = &imx290->lock;
--
--	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
--			  V4L2_CID_GAIN, 0, 240, 1, 0);
--
--	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
--			  V4L2_CID_EXPOSURE, 1, IMX290_VMAX_DEFAULT - 2, 1,
--			  IMX290_VMAX_DEFAULT - 2);
--
--	imx290->link_freq =
--		v4l2_ctrl_new_int_menu(&imx290->ctrls, &imx290_ctrl_ops,
--				       V4L2_CID_LINK_FREQ,
--				       imx290_link_freqs_num(imx290) - 1, 0,
--				       imx290_link_freqs_ptr(imx290));
--	if (imx290->link_freq)
--		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
--
--	imx290->pixel_rate = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
--					       V4L2_CID_PIXEL_RATE,
--					       1, INT_MAX, 1,
--					       imx290_calc_pixel_rate(imx290));
--
--	v4l2_ctrl_new_std_menu_items(&imx290->ctrls, &imx290_ctrl_ops,
--				     V4L2_CID_TEST_PATTERN,
--				     ARRAY_SIZE(imx290_test_pattern_menu) - 1,
--				     0, 0, imx290_test_pattern_menu);
--
--	imx290->sd.ctrl_handler = &imx290->ctrls;
--
--	if (imx290->ctrls.error) {
--		dev_err(dev, "Control initialization error %d\n",
--			imx290->ctrls.error);
--		ret = imx290->ctrls.error;
--		goto free_ctrl;
-+	ret = imx290_ctrl_init(imx290);
-+	if (ret < 0) {
-+		dev_err(dev, "Control initialization error %d\n", ret);
-+		goto free_mutex;
++			__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank,
++						 1, vblank);
++		}
  	}
  
- 	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
-@@ -1091,6 +1103,7 @@ static int imx290_probe(struct i2c_client *client)
- 	media_entity_cleanup(&imx290->sd.entity);
- free_ctrl:
- 	v4l2_ctrl_handler_free(&imx290->ctrls);
-+free_mutex:
- 	mutex_destroy(&imx290->lock);
- free_err:
- 	v4l2_fwnode_endpoint_free(&ep);
+ 	*format = fmt->format;
+@@ -880,9 +896,10 @@ static const struct media_entity_operations imx290_subdev_entity_ops = {
+ 
+ static int imx290_ctrl_init(struct imx290 *imx290)
+ {
++	unsigned int blank;
+ 	int ret;
+ 
+-	v4l2_ctrl_handler_init(&imx290->ctrls, 5);
++	v4l2_ctrl_handler_init(&imx290->ctrls, 7);
+ 	imx290->ctrls.lock = &imx290->lock;
+ 
+ 	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+@@ -910,6 +927,26 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+ 				     ARRAY_SIZE(imx290_test_pattern_menu) - 1,
+ 				     0, 0, imx290_test_pattern_menu);
+ 
++	/*
++	 * Horizontal blanking is controlled through the HMAX register, which
++	 * contains a line length in INCK clock units. The INCK frequency is
++	 * fixed to 74.25 MHz. The HMAX value is currently fixed to 1100,
++	 * convert it to a number of pixels based on the nominal pixel rate.
++	 */
++	blank = imx290->current_mode->hmax - imx290->current_mode->width;
++	imx290->hblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
++					   V4L2_CID_HBLANK, blank, blank, 1,
++					   blank);
++	if (imx290->hblank)
++		imx290->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	blank = IMX290_VMAX_DEFAULT - imx290->current_mode->height;
++	imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
++					   V4L2_CID_VBLANK, blank, blank, 1,
++					   blank);
++	if (imx290->vblank)
++		imx290->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
+ 	imx290->sd.ctrl_handler = &imx290->ctrls;
+ 
+ 	if (imx290->ctrls.error) {
 -- 
 Regards,
 
