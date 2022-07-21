@@ -2,43 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CBD857C583
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 09:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBD8957C654
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 10:35:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229781AbiGUHts (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 03:49:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56750 "EHLO
+        id S229945AbiGUIfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 04:35:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229672AbiGUHtq (ORCPT
+        with ESMTP id S229724AbiGUIfp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 03:49:46 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E8F7CB58
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 00:49:44 -0700 (PDT)
-Received: from pyrite.rasen.tech (softbank036240121080.bbtec.net [36.240.121.80])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3137B496;
-        Thu, 21 Jul 2022 09:49:40 +0200 (CEST)
+        Thu, 21 Jul 2022 04:35:45 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9AB1180F
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 01:35:44 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8132C496;
+        Thu, 21 Jul 2022 10:35:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658389783;
-        bh=CPjQHhrXXdyNa2+NGD8ownN20SJ22yDUQmBS/tUjUbg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aNYKiXz7WpN2LBFAW9zYUS900Hz+ZLS9qF3Xl3TJ7fuDVlUZKqS8jcDWwNHU2ASQB
-         vQfwopzVdaz9+nex/qcpa9LpWYTR7ZT3We5r4SN34BWLYe6MeuJOVbgjZiehJaii/D
-         anGetrNb5eeMmlbjq2UTLYeMqvjggGstz/iGHkZ0=
-Date:   Thu, 21 Jul 2022 16:49:35 +0900
-From:   paul.elder@ideasonboard.com
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH] media: rkisp1: Make local immutable array variables
- static const
-Message-ID: <20220721074935.GI3984498@pyrite.rasen.tech>
-References: <20220721065706.31710-1-laurent.pinchart@ideasonboard.com>
+        s=mail; t=1658392542;
+        bh=1juczrtp7uT8kwr/XoH7Bty+kWRnM5gNoNzPeqcSWk8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GqQgU/uFfSaoPLlAwDcIGzUH0NgKAbCaYNrHG4mhka1O5uzDY90xI3BXYul7siTDz
+         JZIdt856TpjvCDwY4Tf/0KV2Sq/UH++dN7Zg4/Pyxvy90DU45Q/tj8dcLq1YtfiLcD
+         3CwAgV+x/E/zfrdXeZImiXKYhLx/gDeGj5U56/UU=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH 00/19] media: i2c: imx290: Miscellaneous improvements
+Date:   Thu, 21 Jul 2022 11:35:21 +0300
+Message-Id: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220721065706.31710-1-laurent.pinchart@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -48,42 +44,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 09:57:06AM +0300, Laurent Pinchart wrote:
-> The max_widths and max_heights variables in rkisp1_try_fmt() are
-> immutable and don't need to be allocated on the stack every time the
-> function is called. Make them static.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hello,
 
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+This patch series gathers miscellaneous improvements for the imx290
+driver. The most notable changes on the kernel side is patch 07/19 that
+simplifies register access, and on the userspace API side patches 14/19,
+15/19 and 18/19 that extend the driver with controls and selection
+rectangles required by libcamera.
 
-> ---
->  .../media/platform/rockchip/rkisp1/rkisp1-capture.c  | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index ef3c9389d684..81177ad08cf0 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -1162,13 +1162,17 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
->  			   const struct rkisp1_capture_fmt_cfg **fmt_cfg,
->  			   const struct v4l2_format_info **fmt_info)
->  {
-> +	static const unsigned int max_widths[] = {
-> +		RKISP1_RSZ_MP_SRC_MAX_WIDTH,
-> +		RKISP1_RSZ_SP_SRC_MAX_WIDTH,
-> +	};
-> +	static const unsigned int max_heights[] = {
-> +		RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
-> +		RKISP1_RSZ_SP_SRC_MAX_HEIGHT,
-> +	};
->  	const struct rkisp1_capture_config *config = cap->config;
->  	const struct rkisp1_capture_fmt_cfg *fmt;
->  	const struct v4l2_format_info *info;
-> -	const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
-> -					    RKISP1_RSZ_SP_SRC_MAX_WIDTH };
-> -	const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
-> -					     RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
->  
->  	fmt = rkisp1_find_fmt_cfg(cap, pixm->pixelformat);
->  	if (!fmt) {
+Laurent Pinchart (19):
+  media: i2c: imx290: Use device lock for the control handler
+  media: i2c: imx290: Print error code when I2C transfer fails
+  media: i2c: imx290: Specify HMAX values in decimal
+  media: i2c: imx290: Replace macro with explicit ARRAY_SIZE()
+  media: i2c: imx290: Drop imx290_write_buffered_reg()
+  media: i2c: imx290: Drop regmap cache
+  media: i2c: imx290: Support variable-sized registers
+  media: i2c: imx290: Correct register sizes
+  media: i2c: imx290: Simplify error handling when writing registers
+  media: i2c: imx290: Define more register macros
+  media: i2c: imx290: Add exposure time control
+  media: i2c: imx290: Fix max gain value
+  media: i2c: imx290: Split control initialization to separate function
+  media: i2c: imx290: Implement HBLANK and VBLANK controls
+  media: i2c: imx290: Create controls for fwnode properties
+  media: i2c: imx290: Move registers with fixed value to init array
+  media: i2c: imx290: Factor out format retrieval to separate function
+  media: i2c: imx290: Add crop selection targets support
+  media: i2c: imx290: Replace GAIN control with ANALOGUE_GAIN
+
+ drivers/media/i2c/imx290.c | 781 ++++++++++++++++++++++---------------
+ 1 file changed, 458 insertions(+), 323 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
+
