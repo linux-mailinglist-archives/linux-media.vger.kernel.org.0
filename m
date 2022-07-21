@@ -2,100 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7233557C016
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 00:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5026257C2DE
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 05:43:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230457AbiGTWbp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jul 2022 18:31:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33512 "EHLO
+        id S230379AbiGUDnf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jul 2022 23:43:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiGTWbn (ORCPT
+        with ESMTP id S230042AbiGUDnd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jul 2022 18:31:43 -0400
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17FBD13DF5;
-        Wed, 20 Jul 2022 15:31:43 -0700 (PDT)
-Received: by mail-il1-f178.google.com with SMTP id h14so2873596ilq.12;
-        Wed, 20 Jul 2022 15:31:43 -0700 (PDT)
+        Wed, 20 Jul 2022 23:43:33 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B827821F;
+        Wed, 20 Jul 2022 20:43:31 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id e15so662544edj.2;
+        Wed, 20 Jul 2022 20:43:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=6npaS1zRKm+yyU2zCsQvl5XLwT7kKQ+yzE8xge/iXYI=;
+        b=p1MOI/PwyKmAKZLRGUU7wHJ3gwmCfOuMSd9qe8/di7NRgYoQPVattGIm2LLA/5ZRzt
+         UmkU5j7zN1FHuEPODuf5718XISFVfuLHo7rlPOyFt0V58zPmMwJD1kG7cNARq4n1qG1/
+         xWPDaDD+f5JXnDkwiGvO7GhQVNM9VnDE/QT9Wer6VhUl3z6bBcM9aN93BWHJJX/y/Q3I
+         HBozrneJP0gbcCgI0IKl+MyC0FQKZzDHKL02n/9I3eqSk38jOFbMYJk3ShWxQIAokptk
+         0ew9hHw8UUP63i9jplHud3h+FVPCkA0FQyUiO55QiCkqmVKmB+mDy86it0JvXhH0iuM9
+         +ncw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=t5TlJ94FD1MVyczPdskF3rjx/bkliuSIhUHKZii9ixQ=;
-        b=MsNBUKGleCz5pBFMUBTgLcFMs4FahJIbEyOIrRKzLt/7/psFx7rtJ+ydhySgXdudAc
-         ZKSnniL/SeG8ut3lB5P6Flat9TIOo4kI/N3n2V52RE6dW9R6hI4ICzwIihq2xm63azoH
-         PCffgdT/8aAiXJ6SZ9FXzgmxunjYff0+q47B9Eum0xdlx5h/x5WYP1LE2Lbpa+gpJy/l
-         knSkBcc4dxop6nouQ+nMfJ/rLTr/2O/WboEE8tJctLlMLQKvlK0Xzdr+c3IaH/62fjC5
-         LJ0WH+eSmp94zurIggcYMaSuzUREdDs1/p++DvC7U+jMqUAWU9zf53b182IJi544BR8Z
-         FZBw==
-X-Gm-Message-State: AJIora8qJzMmhI+oKluXZGrsZaETPevKgAvwr54f+ZBpNZFjsxNohIRu
-        VPvAg2yEBVwmfr16wG0GjrKkP9CkUA==
-X-Google-Smtp-Source: AGRyM1t1TJ6DIzu8lyJvtIiXyv5C51ElON3pDHVOL6+LSuhwewg67Q9wDEz8JbrJmTojrloxiIO0jQ==
-X-Received: by 2002:a05:6e02:784:b0:2dd:49c:18b5 with SMTP id q4-20020a056e02078400b002dd049c18b5mr4487802ils.224.1658356302336;
-        Wed, 20 Jul 2022 15:31:42 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id c44-20020a023b2c000000b0033ec34174a4sm63555jaa.39.2022.07.20.15.31.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 15:31:42 -0700 (PDT)
-Received: (nullmailer pid 4099699 invoked by uid 1000);
-        Wed, 20 Jul 2022 22:31:40 -0000
-Date:   Wed, 20 Jul 2022 16:31:40 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     andrey.konovalov@linaro.org, konrad.dybcio@somainline.org,
-        devicetree@vger.kernel.org, daniele.alessandrelli@intel.com,
-        jacopo@jmondi.org, linux-media@vger.kernel.org,
-        dmitry.baryshkov@linaro.org, mchehab@kernel.org,
-        sakari.ailus@iki.fi, paul.j.murphy@intel.com
-Subject: Re: [PATCH v2 1/3] media: dt-bindings: media: Rename imx412 to imx577
-Message-ID: <20220720223140.GA4099645-robh@kernel.org>
-References: <20220718014215.1240114-1-bryan.odonoghue@linaro.org>
- <20220718014215.1240114-2-bryan.odonoghue@linaro.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=6npaS1zRKm+yyU2zCsQvl5XLwT7kKQ+yzE8xge/iXYI=;
+        b=dHnO52Nrs8NsXSweRjVS5eZfc1Kt7RNuGUa/g/xPB4OJ7PzT3B4tTWmXN6A65WqWde
+         XfMz2J4nCTB67af2Pqnhz6DAPX6zJ3jtKeoB+zaL6MCmgHM1AO4F3wt63tvRfNofY4TA
+         HbgncIAiptQhZpi5krjYrLcVWT2WyohDYSA32h38Y3tx7bzzPj2KW9Ml+XsJE33xAqXY
+         V+4+3+fPcTpGwwP50y5EX5jGSaU7vUFb5qWWUEeDL6hFTX3T4T09gApn+4NCIKEUWEHZ
+         pGxQmpRv3UDJ7tGstTpcNdPNVl7boaWVqRUDl8PWJ/vgqrKRrILNSb0+yI2ypcFEN53z
+         Oyew==
+X-Gm-Message-State: AJIora9P8JU41bewVPddCmr/LPwe89hqB4djJJHxDsrryoa6hAuDDMhP
+        mDnTZcdz0e+k+rnrgGC6fk9ustbJdS9HI6sbnCE=
+X-Google-Smtp-Source: AGRyM1uOI+8BZmBho8NWh0C+///IOSzyEsQPkRoYp57fJlWZ+qY2k+4HwdfPpAVjNR2BGQDSHLue/6IDKdxW5yyntWw=
+X-Received: by 2002:a05:6402:3326:b0:43a:902b:d335 with SMTP id
+ e38-20020a056402332600b0043a902bd335mr55228432eda.412.1658375009916; Wed, 20
+ Jul 2022 20:43:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220718014215.1240114-2-bryan.odonoghue@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20220719065357.2705918-1-airlied@gmail.com> <20220719094835.52197852@sal.lan>
+In-Reply-To: <20220719094835.52197852@sal.lan>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Thu, 21 Jul 2022 13:43:18 +1000
+Message-ID: <CAPM=9tzoB_dJXgb9M7y9cJ24Z4vBmy7NRePxJARdYRLag2Vx9g@mail.gmail.com>
+Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
+ guidelines. (v2)
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.sf.net" <dri-devel@lists.sf.net>,
+        Network Development <netdev@vger.kernel.org>,
+        Linux Wireless List <linux-wireless@vger.kernel.org>,
+        alsa-devel@alsa-project.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 18 Jul 2022 02:42:13 +0100, Bryan O'Donoghue wrote:
-> The yaml and driver we have right now misidentifies the imx577 as the
-> imx412.
-> 
-> Looking at similar IMX chips which give their chip identifier via register
-> 0x0016 we can see:
-> 
-> drivers/media/i2c/imx258.c:#define IMX258_REG_CHIP_ID    0x0016
-> drivers/media/i2c/imx258.c:#define IMX258_CHIP_ID        0x0258
-> 
-> drivers/media/i2c/imx319.c:#define IMX319_REG_CHIP_ID    0x0016
-> drivers/media/i2c/imx319.c:#define IMX319_CHIP_ID        0x0319
-> 
-> drivers/media/i2c/imx355.c:#define IMX355_REG_CHIP_ID    0x0016
-> drivers/media/i2c/imx355.c:#define IMX355_CHIP_ID        0x0355
-> 
-> Right now imx412.c does:
-> 
-> drivers/media/i2c/imx412.c:#define IMX412_REG_ID         0x0016
-> drivers/media/i2c/imx412.c:#define IMX412_ID             0x577
-> 
-> As a first step to fixing this problem rename the supporting yaml file and
-> containing text from imx412 to imx577.
-> 
-> Fixes: 333b3125d130 ("media: dt-bindings: media: Add bindings for imx412")
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  .../i2c/{sony,imx412.yaml => sony,imx577.yaml} | 18 +++++++++---------
->  MAINTAINERS                                    |  6 +++---
->  2 files changed, 12 insertions(+), 12 deletions(-)
->  rename Documentation/devicetree/bindings/media/i2c/{sony,imx412.yaml => sony,imx577.yaml} (83%)
-> 
+> It is hard to enforce how vendors will version their firmware. On media,
+> we have some drivers whose major means different hardware versions. For
+> instance, on xc3028, v3.x means low voltage chips, while v2.x means
+> "normal" voltage. We end changing the file name on Linux to avoid the risk
+> of damaging the hardware, as using v27 firmware on low power chips damage
+> them. So, we have:
+>
+>         drivers/media/tuners/xc2028.h:#define XC2028_DEFAULT_FIRMWARE "xc3028-v27.fw"
+>         drivers/media/tuners/xc2028.h:#define XC3028L_DEFAULT_FIRMWARE "xc3028L-v36.fw"
+>
+> As their main market is not Linux - nor PC - as their main sales are on
+> TV sets, and them don't officially support Linux, there's nothing we can
+> do to enforce it.
+>
+> IMO we need a more generic text here to indicate that Linux firmware
+> files should be defined in a way that it should be possible to detect
+> when there are incompatibilities with past versions.
+> So, I would say, instead:
+>
+>         Firmware files shall be designed in a way that it allows
+>         checking for firmware ABI version changes. It is recommended
+>         that firmware files to be versioned with at least major/minor
+>         version.
 
-Acked-by: Rob Herring <robh@kernel.org>
+This sounds good, will update with this.
+
+>
+> > It
+> > +  is suggested that the firmware files in linux-firmware be named with
+> > +  some device specific name, and just the major version.
+>
+> > The
+> > +  major/minor/patch versions should be stored in a header in the
+> > +  firmware file for the driver to detect any non-ABI fixes/issues.
+>
+> I would also make this more generic. On media, we ended adding the firmware
+> version indicated at the file name. For instance, xc4000 driver checks for
+> two firmware files:
+>
+> drivers/media/tuners/xc4000.c:#define XC4000_DEFAULT_FIRMWARE "dvb-fe-xc4000-1.4.fw"
+> drivers/media/tuners/xc4000.c:#define XC4000_DEFAULT_FIRMWARE_NEW "dvb-fe-xc4000-1.4.1.fw"
+
+This is probably fine for products where development never produces
+much firmwares, but it quickly becomes unmanageable when you end up
+with _NEW_NEW_NEW etc.
+
+I'd rather not encourage this sort of thing unless it is totally
+outside our control. So I'd like to keep the guidelines for when we
+have some control what we'd recommend.
+
+In this case I'd have recommended you put the 1.4.1 in the header of
+the fw, and just have it called dvb-fe-xc4000-1.fw and overwrite the
+NEW with the OLD, I understand we likely don't have the control here.
+
+> > +  firmware files in linux-firmware should be overwritten with the newest
+> > +  compatible major version.
+>
+> For me "shall" is mandatory, while "should" is optional.
+>
+> In this specific case, I'm not so sure if overriding it is the best thing
+> to do on all subsystems. I mean, even with the same ABI, older firmware
+> usually means that some bugs and/or limitations will be present there.
+
+As long as you can detect the minor/patch versions from the firmware
+file after loading it you should be able to do sufficient workarounds.
+>
+> That's specially true on codecs: even having the same ABI, older versions
+> won't support decoding newer protocols. We have one case with some
+> digital TV decoders that only support some Cable-TV protocols with
+> newer firmware versions. We have also one case were remote controller
+> decoding is buggy with older firmwares. On both situations, the ABI
+> didn't change.
+
+If the only way to figure that out is by the filename or minor
+version, then so be it, but where people have some control I'd rather
+provide some harder guidelines.
+
+Dave.
