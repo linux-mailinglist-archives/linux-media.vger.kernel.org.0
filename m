@@ -2,75 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 829F357C98F
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 13:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7773157C99C
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 13:12:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232907AbiGULI1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 07:08:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33102 "EHLO
+        id S233018AbiGULMZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 07:12:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230282AbiGULIZ (ORCPT
+        with ESMTP id S232549AbiGULMY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 07:08:25 -0400
+        Thu, 21 Jul 2022 07:12:24 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C91182FA8
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 04:08:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8168212E
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 04:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1658401704; x=1689937704;
+  t=1658401943; x=1689937943;
   h=subject:from:to:cc:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=sFTqeTj2EiGftuPjuP5QNITwV2uXGksBWCPxgJEstc0=;
-  b=KVWtF7jcoLS0ASIFaE+LnICxWHtAraFdTCdRppD9Zo5OFBl4QwquwB7r
-   blTEh37ipSmhemhaSj26hUu3GC6GG8A8vQVxx9O4CqvMyRtuqsdZpHepm
-   8TVtlmYlWWN8ZsQbSrxeag2lgnJlVkrF8rtG5HmEuDkEJ4Dm9ScgdJHuH
-   LR2yufAqSnnSinzWhyP0tR+NR7hT+W9qfPSzZ662jhpsGx7NBvVzdAbZX
-   kcnedVYNf+Da8GtEkdFU3gU3DElmfVqIH/lt/OleRdUeqYYjBPLxG0t5/
-   wrgGI2cRINh3QSyIwJU9TNXmXYCW4fAQG7ikNpfouRO2299OqpYSSq8QK
-   A==;
+  bh=YpCWcEcNnqjA7A18jAixgoJqu/ddtmq+wEzunywBf/M=;
+  b=S7x3dRxlgezMgqOUajv1CgnT/76X/nW4RSk0/MykBN8oCoGWkS16q09O
+   9Ya88mZQjNFpcKdp+HPeHmKQU5zE/Gtf3L+p8S6v++PreDMaP0of1Qqzg
+   JBMwr6tEvPCcEFh0PYilJiqfy++W0HgRTYm5YkcDwXXiYiuuEi1NcoXjj
+   aagVfrOD3bnw8OMVsTFl8Nc/HJlQJfEG0QYpohry/AmLJvpJtHg1ouNV9
+   N1ELrOQcd3T5I6WYsDb12HEsfAU5YQzxtVmyY08C+lYoHOUu9OczfM0SG
+   K2iiAeyoOITOWLW0faqU5llP1uc99xXxmQfFx7sttT0dtN/KP/7iriaKH
+   g==;
 X-IronPort-AV: E=Sophos;i="5.92,289,1650924000"; 
-   d="scan'208";a="25182818"
+   d="scan'208";a="25182889"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 21 Jul 2022 13:08:22 +0200
+  by mx1-pgp.tq-group.com with ESMTP; 21 Jul 2022 13:12:21 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 21 Jul 2022 13:08:22 +0200
+  Thu, 21 Jul 2022 13:12:21 +0200
 X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 21 Jul 2022 13:08:22 +0200
+        by tq-pgp-pr1.tq-net.de on Thu, 21 Jul 2022 13:12:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1658401702; x=1689937702;
+  t=1658401941; x=1689937941;
   h=from:to:cc:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding:subject;
-  bh=sFTqeTj2EiGftuPjuP5QNITwV2uXGksBWCPxgJEstc0=;
-  b=IwkvClDpGVBbw1eMFlwXjTx/wCsZy3TKiP69/g+kR7KxkQ3DyI3BO3dl
-   jQ0chXXktSzo+brk5IQgUwD5CvzDRhn93Y02OLcnTDrI+j4Mx0LQG0DwY
-   dRTD+KpDzm1oG7BWMsKQUaBL3jxq7qbSyG5p93lYeje/uv6I7bg5tOAVI
-   SgbQSyRQr4oNJMrt2o18ZxhmREnbq1WACb28VeeHuLVW1HUIjKOLPbHhI
-   Pkdt91c/7v7ddgCm0n2dz/J0YN85BYORscGCQdf42JmDUd73FotxOXjlf
-   8g9uKwM7Fb6lPdRkhz/2TNTJkk00nX6T4GFyITPNY6FSSKY7mdddx1o5O
+  bh=YpCWcEcNnqjA7A18jAixgoJqu/ddtmq+wEzunywBf/M=;
+  b=Yn1s1+AKxv6tXd+z17TJ4hgCYJa0gu9ELZQM5BwVRT8PE/ZeyRmasR9f
+   n2t/jf1wRgiiOPRjrDXpksekdSgHSvMIgSYINWFbgzeDmhHsGlCqXvDXr
+   47sK+QmRNUEOwRPxr3vl4TKQiIhOY2jUE8IxcusZDgpqBMQVn5bbtSYNR
+   ODxxV61ouR7x8MJpgOUru7LMI5IFT1aHuEbU6GlW+de9qxrZrDTxOaEZX
+   OpTvVO7aGIAnt9B8ENYtqWw4sIUR/17U0z6zrsDTGAImviHiFWyYdgsjU
+   ZU61yXlM+Kcg5nyVj7bWq++W0+rQ6SFrjXwXuABBk2xFy+2M9n4L6VPYH
    w==;
 X-IronPort-AV: E=Sophos;i="5.92,289,1650924000"; 
-   d="scan'208";a="25182817"
-Subject: Re: Re: [PATCH 16/19] media: i2c: imx290: Move registers with fixed value to
- init array
+   d="scan'208";a="25182888"
+Subject: Re: Re: [PATCH 17/19] media: i2c: imx290: Factor out format retrieval to
+ separate function
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 21 Jul 2022 13:08:22 +0200
+  by mx1.tq-group.com with ESMTP; 21 Jul 2022 13:12:21 +0200
 Received: from steina-w.localnet (unknown [10.123.49.12])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 776D9280056;
-        Thu, 21 Jul 2022 13:08:22 +0200 (CEST)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 875A4280056;
+        Thu, 21 Jul 2022 13:12:21 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
         Manivannan Sadhasivam <mani@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>
-Date:   Thu, 21 Jul 2022 13:08:22 +0200
-Message-ID: <4314456.BEx9A2HvPv@steina-w>
+Date:   Thu, 21 Jul 2022 13:12:21 +0200
+Message-ID: <4191860.BddDVKsqQX@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <YtktJD/HQu44jTdr@pendragon.ideasonboard.com>
-References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <3980578.jE0xQCEvom@steina-w> <YtktJD/HQu44jTdr@pendragon.ideasonboard.com>
+In-Reply-To: <YtksM7F7xzhf2K89@pendragon.ideasonboard.com>
+References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <830803795.0ifERbkFSE@steina-w> <YtksM7F7xzhf2K89@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -83,110 +83,108 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+Hi Laurent,
 
-Am Donnerstag, 21. Juli 2022, 12:40:36 CEST schrieb Laurent Pinchart:
+Am Donnerstag, 21. Juli 2022, 12:36:35 CEST schrieb Laurent Pinchart:
 > Hi Alexander,
 > 
-> On Thu, Jul 21, 2022 at 12:08:50PM +0200, Alexander Stein wrote:
-> > Am Donnerstag, 21. Juli 2022, 10:35:37 CEST schrieb Laurent Pinchart:
-> > > Registers 0x3012, 0x3013 and 0x3480 are not documented and are set in
-> > > the per-mode register arrays with values indentical for all modes. Move
-> > > them to the common array.
+> On Thu, Jul 21, 2022 at 12:11:31PM +0200, Alexander Stein wrote:
+> > Am Donnerstag, 21. Juli 2022, 10:35:38 CEST schrieb Laurent Pinchart:
+> > > The driver duplicates the same pattern to access the try or active
+> > > format in multiple locations. Factor it out to a separate function.
 > > > 
 > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > > ---
 > > > 
-> > >  drivers/media/i2c/imx290.c | 8 ++------
-> > >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > >  drivers/media/i2c/imx290.c | 28 ++++++++++++++++++----------
+> > >  1 file changed, 18 insertions(+), 10 deletions(-)
 > > > 
 > > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > > index 78772c6327a2..fc6e87fada1c 100644
+> > > index fc6e87fada1c..baf9941c5fbe 100644
 > > > --- a/drivers/media/i2c/imx290.c
 > > > +++ b/drivers/media/i2c/imx290.c
-> > > @@ -192,6 +192,7 @@ static const struct imx290_regval
-> > > imx290_global_init_settings[] = { { IMX290_REG_8BIT(0x300f), 0x00 },
+> > > @@ -519,6 +519,20 @@ static const struct v4l2_ctrl_ops imx290_ctrl_ops =
+> > > {
 > > > 
-> > >  	{ IMX290_REG_8BIT(0x3010), 0x21 },
-> > >  	{ IMX290_REG_8BIT(0x3012), 0x64 },
-> > > 
-> > > +	{ IMX290_REG_8BIT(0x3013), 0x00 },
-> > > 
-> > >  	{ IMX290_REG_8BIT(0x3016), 0x09 },
-> > >  	{ IMX290_REG_8BIT(0x3070), 0x02 },
-> > >  	{ IMX290_REG_8BIT(0x3071), 0x11 },
-> > > 
-> > > @@ -230,6 +231,7 @@ static const struct imx290_regval
-> > > imx290_global_init_settings[] = { { IMX290_REG_8BIT(0x33b0), 0x50 },
-> > > 
-> > >  	{ IMX290_REG_8BIT(0x33b2), 0x1a },
-> > >  	{ IMX290_REG_8BIT(0x33b3), 0x04 },
-> > > 
-> > > +	{ IMX290_REG_8BIT(0x3480), 0x49 },
-> > > 
-> > >  };
+> > >  	.s_ctrl = imx290_set_ctrl,
 > > >  
-> > >  static const struct imx290_regval imx290_1080p_settings[] = {
+> > >  };
 > > > 
-> > > @@ -239,15 +241,12 @@ static const struct imx290_regval
-> > > imx290_1080p_settings[] = { { IMX290_OPB_SIZE_V, 10 },
+> > > +static struct v4l2_mbus_framefmt *
+> > > +imx290_get_pad_format(struct imx290 *imx290, struct v4l2_subdev_state
+> > > *state, +		      u32 which)
+> > > +{
+> > > +	switch (which) {
+> > > +	case V4L2_SUBDEV_FORMAT_TRY:
+> > > +		return v4l2_subdev_get_try_format(&imx290->sd, state, 
+0);
+> > > +	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> > > +		return &imx290->current_format;
+> > > +	default:
+> > > +		return NULL;
+> > > +	}
+> > > +}
+> > > +
 > > > 
-> > >  	{ IMX290_X_OUT_SIZE, 1920 },
-> > >  	{ IMX290_Y_OUT_SIZE, 1080 },
+> > >  static int imx290_enum_mbus_code(struct v4l2_subdev *sd,
+> > >  
+> > >  				 struct v4l2_subdev_state 
+*sd_state,
+> > >  				 struct v4l2_subdev_mbus_code_enum 
+*code)
 > > > 
-> > > -	{ IMX290_REG_8BIT(0x3012), 0x64 },
-> > > -	{ IMX290_REG_8BIT(0x3013), 0x00 },
+> > > @@ -562,12 +576,7 @@ static int imx290_get_fmt(struct v4l2_subdev *sd,
 > > > 
-> > >  	{ IMX290_INCKSEL1, 0x18 },
-> > >  	{ IMX290_INCKSEL2, 0x03 },
-> > >  	{ IMX290_INCKSEL3, 0x20 },
-> > >  	{ IMX290_INCKSEL4, 0x01 },
-> > >  	{ IMX290_INCKSEL5, 0x1a },
-> > >  	{ IMX290_INCKSEL6, 0x1a },
+> > >  	mutex_lock(&imx290->lock);
 > > > 
-> > > -	{ IMX290_REG_8BIT(0x3480), 0x49 },
+> > > -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> > > -		framefmt = v4l2_subdev_get_try_format(&imx290->sd, 
+sd_state,
+> > > -						      fmt-
+>pad);
+> > > -	else
+> > > -		framefmt = &imx290->current_format;
+> > > -
+> > > +	framefmt = imx290_get_pad_format(imx290, sd_state, fmt->which);
 > > > 
-> > >  	/* data rate settings */
-> > >  	{ IMX290_REPETITION, 0x10 },
-> > >  	{ IMX290_TCLKPOST, 87 },
-> > > 
-> > > @@ -267,15 +266,12 @@ static const struct imx290_regval
-> > > imx290_720p_settings[] = { { IMX290_OPB_SIZE_V, 4 },
-> > > 
-> > >  	{ IMX290_X_OUT_SIZE, 1280 },
-> > >  	{ IMX290_Y_OUT_SIZE, 720 },
-> > > 
-> > > -	{ IMX290_REG_8BIT(0x3012), 0x64 },
-> > > -	{ IMX290_REG_8BIT(0x3013), 0x00 },
-> > > 
-> > >  	{ IMX290_INCKSEL1, 0x20 },
-> > >  	{ IMX290_INCKSEL2, 0x00 },
-> > >  	{ IMX290_INCKSEL3, 0x20 },
-> > >  	{ IMX290_INCKSEL4, 0x01 },
-> > >  	{ IMX290_INCKSEL5, 0x1a },
-> > >  	{ IMX290_INCKSEL6, 0x1a },
-> > > 
-> > > -	{ IMX290_REG_8BIT(0x3480), 0x49 },
-> > > 
-> > >  	/* data rate settings */
-> > >  	{ IMX290_REPETITION, 0x10 },
-> > >  	{ IMX290_TCLKPOST, 79 },
+> > >  	fmt->format = *framefmt;
 > > 
-> > 0x3480 is INCKSEL7 for imx327, not sure if that should be set yet for
-> > imx290 (only) driver, without proper imx327 support.
+> > NULL ptr derence here if 'fmt->which' is neither V4L2_SUBDEV_FORMAT_TRY
+> > nor
+> > V4L2_SUBDEV_FORMAT_ACTIVE. Same for imx290_set_fmt later on.
 > 
-> Do you mean the register doesn't exist on the IMX290 ? We could make it
-> conditional on the sensor model, but it's not added by this patch, it
-> has been there since the first version of the driver, so I'd rather do
-> that on top.
+> You're right, but this can't happen, TRY and ACTIVE are the only two
+> possible values.
 
-As far as I know INCKSEL7 is only valid on imx327. On imx290 the whole 
-0x300-0x34ff range is reserved.
-I agree this should be conditional on the sensor model. If you want to keep 
-it, because it is not new, I'm fine with that.
+fmt (and therefore which) is only a u32, so there is no benefit to treat it 
+like an enum. IMHO using the old if-else structure seems better. This might 
+also help static code analysis which does not have such background 
+information.
+If 'which' would be changed to type enum v4l2_subdev_format_whence, the switch 
+case seems preferable.
 
 Best regards,
 Alexander
+
+> > >  	mutex_unlock(&imx290->lock);
+> > > 
+> > > @@ -627,10 +636,9 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+> > > 
+> > >  	fmt->format.code = imx290_formats[i].code;
+> > >  	fmt->format.field = V4L2_FIELD_NONE;
+> > > 
+> > > -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> > > -		format = v4l2_subdev_get_try_format(sd, sd_state, fmt-
+>pad);
+> > > -	} else {
+> > > -		format = &imx290->current_format;
+> > > +	format = imx290_get_pad_format(imx290, sd_state, fmt->which);
+> > > +
+> > > +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > 
+> > >  		imx290->current_mode = mode;
+> > >  		imx290->bpp = imx290_formats[i].bpp;
+
 
 
 
