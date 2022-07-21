@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50F8F57C655
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 10:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C531257C656
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 10:35:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbiGUIfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 04:35:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34730 "EHLO
+        id S230506AbiGUIfs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 04:35:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbiGUIfq (ORCPT
+        with ESMTP id S229780AbiGUIfr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 04:35:46 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AA0912AA2
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 01:35:45 -0700 (PDT)
+        Thu, 21 Jul 2022 04:35:47 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B8112AA2
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 01:35:46 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6BAD825;
-        Thu, 21 Jul 2022 10:35:43 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DC498D0;
+        Thu, 21 Jul 2022 10:35:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658392544;
-        bh=P7/8qHL5e8tggiqH3qcEHZbeK25mbN/1qsV15yd37UA=;
+        s=mail; t=1658392545;
+        bh=pr740Y17j8oM0gpGqXnfkdAMKrUsEH2IaEQO02DeynA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hfrgcW13M9ux/rSO0LTDuQSisuBGylOJob6lULp+uT3mg4H21AKTvfbdVxNvQMEYi
-         0ErAYK6dbiqYH4ciwA+H2dTuugtEIdEt9aD++4zl0sI8wj/p/YWk79HHZ2daU8r1b1
-         SgbirTHPliRZ1KQ6JUk6HbhCyoboH8YC1FBBtx98=
+        b=nxasu7jZGfcGh5FNkJ+vpv+r/gOPyi1fNpPNbM8GzlmCXQRbswQ9+Rd1lzfcfEWOg
+         yWRZ32NkJsksI+6nl0HoUrXcFDrjIJemKrBDYcbPAj58M4U1DoLazRyUvf/eItnzGQ
+         nOS4dqmscIwAnN/HMiM5Gui801k192uoQ2/8o57g=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH 01/19] media: i2c: imx290: Use device lock for the control handler
-Date:   Thu, 21 Jul 2022 11:35:22 +0300
-Message-Id: <20220721083540.1525-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 02/19] media: i2c: imx290: Print error code when I2C transfer fails
+Date:   Thu, 21 Jul 2022 11:35:23 +0300
+Message-Id: <20220721083540.1525-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
 References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
@@ -46,28 +46,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The link frequency and pixel rate controls are set without holding the
-control handler lock, resulting in kernel warnings. As the value of
-those controls depend on the format, the simplest fix is to use the
-device lock for the control handler.
+Knowing why I2C transfers fail is useful for debugging. Extend the error
+message to print the error code.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/imx290.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/i2c/imx290.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 99f2a50d39a4..d97a5fb1d501 100644
+index d97a5fb1d501..64bd43813dbf 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -1043,6 +1043,7 @@ static int imx290_probe(struct i2c_client *client)
- 	imx290_entity_init_cfg(&imx290->sd, NULL);
+@@ -370,7 +370,8 @@ static inline int __always_unused imx290_read_reg(struct imx290 *imx290, u16 add
  
- 	v4l2_ctrl_handler_init(&imx290->ctrls, 4);
-+	imx290->ctrls.lock = &imx290->lock;
+ 	ret = regmap_read(imx290->regmap, addr, &regval);
+ 	if (ret) {
+-		dev_err(imx290->dev, "I2C read failed for addr: %x\n", addr);
++		dev_err(imx290->dev, "Failed to read register 0x%04x: %d\n",
++			addr, ret);
+ 		return ret;
+ 	}
  
- 	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
- 			  V4L2_CID_GAIN, 0, 72, 1, 0);
+@@ -385,7 +386,8 @@ static int imx290_write_reg(struct imx290 *imx290, u16 addr, u8 value)
+ 
+ 	ret = regmap_write(imx290->regmap, addr, value);
+ 	if (ret) {
+-		dev_err(imx290->dev, "I2C write failed for addr: %x\n", addr);
++		dev_err(imx290->dev, "Failed to write register 0x%04x: %d\n",
++			addr, ret);
+ 		return ret;
+ 	}
+ 
 -- 
 Regards,
 
