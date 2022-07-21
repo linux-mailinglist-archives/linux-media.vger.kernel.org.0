@@ -2,286 +2,445 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3071657C859
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 11:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57C6E57C870
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 12:01:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232929AbiGUJ6q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 05:58:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57188 "EHLO
+        id S233014AbiGUKBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 06:01:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232953AbiGUJ6k (ORCPT
+        with ESMTP id S233025AbiGUKBA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 05:58:40 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3615F81B3E;
-        Thu, 21 Jul 2022 02:58:36 -0700 (PDT)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26L9HiHV007010;
-        Thu, 21 Jul 2022 11:58:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=29/4ZRrfybYnLkGYwwzWGuQKLF4VDzGdxbciTLHPEyE=;
- b=1E4xh2Tnt+1zDJTesMsY6HcHKbsu64EWB+LDyvsRpJF1GAlbnerJrN4HZuRjL57qvenV
- rkYqBD2EVoeqIwO8uVvbRD3QmlJwOEfpINK/TeyS7h5Owk5BHZEHzqbSVIxYa2qqV2KB
- jH91OVB0+pAfEGB2TfvoBXuRVfKCLthm3kRzvInbAHOGHjv5hMNrgpuuwjErSVF3toGf
- xEOu7VjNotfELlhgafjceJM+ee9saMrolkiumS9NPUK2QwtKlndHRQqcUWrnYGamPMnt
- kZHv32umcTadyFvCq5yjXFktAC99hVZaEr9/1WsxRUz3Tc7QvBXY8ekKyitllhZ4ZcCy VA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3hf41rr7s6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 21 Jul 2022 11:58:23 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7DC1610002A;
-        Thu, 21 Jul 2022 11:58:22 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6D15C21683B;
-        Thu, 21 Jul 2022 11:58:22 +0200 (CEST)
-Received: from [10.0.2.15] (10.75.127.48) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Thu, 21 Jul
- 2022 11:58:22 +0200
-Subject: Re: [PATCH v2 4/6] media: uapi: Add mlx7502x header file
-To:     Volodymyr Kharuk <vkh@melexis.com>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, Andrii Kyselov <ays@melexis.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        <devicetree@vger.kernel.org>
-References: <cover.1657786765.git.vkh@melexis.com>
- <0765b2ef8eea43dce67232a109e9f8b338aa06bd.1657786765.git.vkh@melexis.com>
- <Ys/wh1wUvQlmpHrg@pendragon.ideasonboard.com>
- <20220715085720.GA2295@vkh-ThinkPad-T490>
- <YtE1EgvDpfLdbWnD@pendragon.ideasonboard.com>
- <20220715150329.GA14041@vkh-ThinkPad-T490>
- <d8868819-9807-f880-db9b-f2631c3ff5d3@foss.st.com>
- <20220720144405.GA45183@melexis.com>
-From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Message-ID: <80c1ad89-1463-7aae-b7ea-c0d8d15f18b0@foss.st.com>
-Date:   Thu, 21 Jul 2022 11:58:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Thu, 21 Jul 2022 06:01:00 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FFE6DDF
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 03:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658397657; x=1689933657;
+  h=subject:from:to:cc:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XgLxyzAdZ8JzAZyGeTH1mezRud0qXjmOZQg8lHoPcQ8=;
+  b=Qh9HlecqN79DX6kt/kfUiz9vMUOwZBKsFOG6ijTKC/FVogT+6K2ZTmN9
+   zqxORsNlIItAnQ7HuuFuSkMxvexWNz5E2fDWv+tosvO6UFf6KSqij7671
+   T0siwqU4cGtsAV6Qajc0LYex6F/6QdGTRLe55F+3oCEBkKYoLAjuj4Fab
+   /546FTRcEo4zb3WhACOuvjcXbAVTLjlgpUXd1+VG3gvuCE+oyr+FMpuh6
+   jjtpSKsB83XjP/FsP4+1yVEWYlNM+p/2WApjx2oOLMnjjtl8b2qwFMSHp
+   lLewchyQejo5Gj7Wo9Gfc3GDJjeVbsa1Us8ZeQBNom3YBRJoLS0TujJS2
+   A==;
+X-IronPort-AV: E=Sophos;i="5.92,289,1650924000"; 
+   d="scan'208";a="25181148"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 21 Jul 2022 12:00:55 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 21 Jul 2022 12:00:55 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 21 Jul 2022 12:00:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658397655; x=1689933655;
+  h=from:to:cc:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding:subject;
+  bh=XgLxyzAdZ8JzAZyGeTH1mezRud0qXjmOZQg8lHoPcQ8=;
+  b=R5zWzNyibazHG9hu9pgziWwiY7r8LmvwnsCRNvXvNmug5cb61KGAU+yW
+   MQDZW72J/924MqpMCU68Gv6X7aYB/jLKVEG4Y96zSssleUnc9UhzNzLO/
+   lY1V8rYmo7NRvJfzvqPz0/FJShi2Uxhq/4TrZ6lWn0nR2a5rIiAGMLRVo
+   2T1ZTdumjxh2k0/Ngjr3dPLg/UpBey3PANRGORWUZRHfsDXY09qmWI84G
+   iK0083TCo4cl9U42RvnW0pKyoEPlVZry1cbvqwH3M3uEVc8hBhxJx1QwT
+   nw18oJzZS5E53gWK0ATxNBC72wYoYJDo0/n9yKpYufmXrUI6hMfriQa3i
+   w==;
+X-IronPort-AV: E=Sophos;i="5.92,289,1650924000"; 
+   d="scan'208";a="25181147"
+Subject: Re: [PATCH 10/19] media: i2c: imx290: Define more register macros
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 21 Jul 2022 12:00:55 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 5B4BF280056;
+        Thu, 21 Jul 2022 12:00:55 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Date:   Thu, 21 Jul 2022 12:00:55 +0200
+Message-ID: <3429069.CQOukoFCf9@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220721083540.1525-11-laurent.pinchart@ideasonboard.com>
+References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <20220721083540.1525-11-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20220720144405.GA45183@melexis.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-21_14,2022-07-20_01,2022-06-22_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Volodymyr,
+Hi Laurent,
 
-On 20/07/2022 16:44, Volodymyr Kharuk wrote:
-> Hi Benjamin,
+thanks for this patch.
+
+Am Donnerstag, 21. Juli 2022, 10:35:31 CEST schrieb Laurent Pinchart:
+> Define macros for all registers programmed by the driver for which
+> documentation is available to increase readability. This starts making
+> use of 16-bit registers in the register arrays, so the value field has
+> to be increased to 32 bits.
 > 
-> On Tue, Jul 19, 2022 at 05:20:40PM +0200, Benjamin Mugnier wrote:
->> Hi Volodymyr,
->>
->>
->> On 15/07/2022 17:03, Volodymyr Kharuk wrote:
->>> On Fri, Jul 15, 2022 at 12:36:18PM +0300, Laurent Pinchart wrote:
->>>> Hello,
->>>>
->>>> CC'ing Benjamin Mugnier who I recall expressed an interest in ToF
->>>> sensors (if I recall incorrectly, my apologies).
->>
->> I am indeed very interested. Thank you :)
->>
->>>>
->>>> On Fri, Jul 15, 2022 at 11:57:20AM +0300, Volodymyr Kharuk wrote:
->>>>> On Thu, Jul 14, 2022 at 01:31:35PM +0300, Laurent Pinchart wrote:
->>>>>> On Thu, Jul 14, 2022 at 11:34:46AM +0300, Volodymyr Kharuk wrote:
->>>>>>> Define user controls for mlx7502x driver and update MAINTAINERS
->>>>>>>
->>>>>>> Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
->>>>>>> ---
->>>>>>>  MAINTAINERS                   |  7 +++++++
->>>>>>>  include/uapi/linux/mlx7502x.h | 31 +++++++++++++++++++++++++++++++
->>>>>>>  2 files changed, 38 insertions(+)
->>>>>>>  create mode 100644 include/uapi/linux/mlx7502x.h
->>>>>>>
->>>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>>>>> index ef3ec334fae9..1a68d888ee14 100644
->>>>>>> --- a/MAINTAINERS
->>>>>>> +++ b/MAINTAINERS
->>>>>>> @@ -12673,6 +12673,13 @@ S:	Supported
->>>>>>>  W:	http://www.melexis.com
->>>>>>>  F:	drivers/iio/temperature/mlx90632.c
->>>>>>>  
->>>>>>> +MELEXIS MLX7502X DRIVER
->>>>>>> +M:	Volodymyr Kharuk <vkh@melexis.com>
->>>>>>> +L:	linux-media@vger.kernel.org
->>>>>>> +S:	Supported
->>>>>>> +W:	http://www.melexis.com
->>>>>>> +F:	include/uapi/linux/mlx7502x.h
->>>>>>> +
->>>>>>>  MELFAS MIP4 TOUCHSCREEN DRIVER
->>>>>>>  M:	Sangwon Jee <jeesw@melfas.com>
->>>>>>>  S:	Supported
->>>>>>> diff --git a/include/uapi/linux/mlx7502x.h b/include/uapi/linux/mlx7502x.h
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..44386f3d6f5a
->>>>>>> --- /dev/null
->>>>>>> +++ b/include/uapi/linux/mlx7502x.h
->>>>>>> @@ -0,0 +1,31 @@
->>>>>>> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->>>>>>> +/*
->>>>>>> + * Melexis 7502x ToF cameras driver.
->>>>>>> + *
->>>>>>> + * Copyright (C) 2021 Melexis N.V.
->>>>>>> + *
->>>>>>> + */
->>>>>>> +
->>>>>>> +#ifndef __UAPI_MLX7502X_H_
->>>>>>> +#define __UAPI_MLX7502X_H_
->>>>>>> +
->>>>>>> +#include <linux/v4l2-controls.h>
->>>>>>> +
->>>>>>
->>>>>> These controls should be documented, in
->>>>>> Documentation/userspace-api/media/drivers/.
->>>>>
->>>>> Ok, will do in v3
->>>>>
->>>>>>> +/* number of phases per frame: 1..8 */
->>>>>>> +#define V4L2_CID_MLX7502X_PHASE_NUMBER  (V4L2_CID_USER_MLX7502X_BASE + 0)
->>>>>>> +/* shift of each phase in frame, this is an array of 8 elements, each 16bits */
->>>>>>> +#define V4L2_CID_MLX7502X_PHASE_SEQ	(V4L2_CID_USER_MLX7502X_BASE + 1)
->>>>>>> +/* frequency modulation in MHz */
->>>>>>> +#define V4L2_CID_MLX7502X_FMOD		(V4L2_CID_USER_MLX7502X_BASE + 2)
->>>>>>> +/* time integration of each phase in us */
->>>>>>> +#define V4L2_CID_MLX7502X_TINT		(V4L2_CID_USER_MLX7502X_BASE + 3)
->>>>>>
->>>>>> Are these control very device-specific, or are they concept that apply
->>>>>> in general to ToF sensors ? Same for V4L2_CID_MLX7502X_OUTPUT_MODE.
->>>>>
->>>>> These controls(except V4L2_CID_MLX7502X_OUTPUT_MODE) are general for ToF
->>>>> sensors. Do you think we should standardize them?
->>>>
->>>> I would really really like to see control standardization for ToF
->>>> sensors, yes :-)
->>> Sounds great :)
->>
->> Thanks a lot for your efforts in standardizing these controls. This is pretty close to what I expected :)
->>
->> Sensors may require multiple fmod from the user, and may not be able to deduce them from a single one.
->> Subframes may be acquired for each fmod (composed themselves of acquisitions for each phase), and then generate a frame from these.
->> Here is a quick drawing example with 2 fmod and 2 phases. Hope this makes sense.
->>
->> |-------------------------------------------------------------------------> time
->> |FMOD1 PHASE1|FMOD1 PHASE2|FMOD2 PHASE1|FMOD2 PHASE2|FMOD1 PHASE1|...
->> |         SUBFRAME1       |         SUBFRAME2       |
->> |                       FRAME1                      |
-> Just to be clear: one camera trigger generates one frame.
-> The number of subframes can be configured via register.
-
-Yes exactly. It's mostly vocabulary differences afaik, but we are on the same 
-
-> One phase generates one image. Do we have the same understanding?
-
-Yes, one frame on the MIPI is one phase. The reconstitution is done later on.
-But some sensors tend to put their "start of frame" and "end of frame" markers for the concatenation of subframes (the frame on my drawing), and not for each phase. I'm not really familiar with this yet.
-This is used example if you want to plug your sensor in a software stack that can't handle more than a limited number of fps. You trick it into getting one big frame and then slice after. This is afaik the same mechanism as used for high fps cameras. I don't really know how to handle this kind of usage yet.
-
->>
->> This allows greater ranges.
->> I suggest changing V4L2_CID_MLX7502X_FMOD to an array, if it suits you.
->> I'm curious how are you doing this? Are you using only one fmod or do you compute some others from the first one? Either in the driver or the sensor.
-> The mlx7502x supports only one fmod per frame. Instead it is possible to use
-> a few phase shifts(V4L2_CID_MLX7502X_PHASE_SEQ) per one frame. Using
-> cross-correlation it is possible to calculate the distance from received images.
-
-Alright. In my opinion if we standardize this control we could make it an array from the start to prepare for other sensors using multiple fmod.
-
->>
->>>>
->>>> Do you know of any public litterature that explains the operating
->>>> principles of ToF sensors ? I don't expect most of the V4L2 developers
->>>> to be familiar with the concept, so something that could bring us up to
->>>> speed on ToF would be useful for the discussion.
->>>
->>> Here what I have:
->>> 1. ToF Basics from Melexis
->>> https://media.melexis.com/-/media/files/documents/application-notes/time-of-flight-basics-application-note-melexis.pdf
->>> 2. ToF Basics from TI
->>> https://www.ti.com/lit/wp/sloa190b/sloa190b.pdf?ts=1657842732275&ref_url=https%253A%252F%252Fwww.google.com%252F
->>> 2. ToF systems from TI
->>> https://www.ti.com/lit/ug/sbau219d/sbau219d.pdf
->>> 4. This more related to ToF algorithms
->>> https://hal.inria.fr/hal-00725654/document
->>>
->>> I hope it helps.
->>>>
->>>>> Note that the control V4L2_CID_MLX7502X_TINT is similar to
->>>>> V4L2_CID_EXPOSURE, but the way it is done in ToF is different. They don't
->>>>> have a shutter. So I gave a separate control name. Is it ok?
->>>>
->>>> Yes, I think that's fine.
->>>>
->>
->> Having only one integration time control is problematic for HDR sensors as they require both a short and long integration time setting.
->> I have the same issue for the vgxy61 camera with V4L2_CID_EXPOSURE and ended up defining 2 custom controls for both short and long exposure, but I understand this is not ideal. Maybe Laurent have an idea on this?
-> It is possible to have integration time per phase. For now I just copy tint into all phase registers.
-
-Yes I see little to no use cases for variable integration time per phase. So your control is fine.
-
-For HDR it's kind of special, as every frame is acquired is in fact 2 frames: one in HDR and one in SDR, and they require 2 different integration time.
-As I said the problem already exists for camera sensors, so this is fine as is for now :)
-
->>
->>>>>>> +/* mode could sw(sending i2c packet), hw(pin triggering), and continuous(self triggering) */
->>>>>>> +#define V4L2_CID_MLX7502X_TRIGGER_MODE	(V4L2_CID_USER_MLX7502X_BASE + 4)
->>>>>>> +/* in case sw or hw trigger mode is used */
->>>>>>> +#define V4L2_CID_MLX7502X_TRIGGER	(V4L2_CID_USER_MLX7502X_BASE + 5)
->>>>>>
->>>>>> Trigger control is likely something we need to standardize at the V4L2
->>>>>> level.
->>>>>
->>>>> Ok, then I'll remove these controls for now and I will back with this as
->>>>> a separate patch.
->>>>>
->>>>>>> +/* this is related to the taps in ToF cameras, usually A minus B is the best option */
->>>>>>> +#define V4L2_CID_MLX7502X_OUTPUT_MODE	(V4L2_CID_USER_MLX7502X_BASE + 6)
->>>>>>> +/* ToF camers has its own temperature sensor, which can be read out only during streaming */
->>>>>>> +#define V4L2_CID_MLX7502X_TEMPERATURE	(V4L2_CID_USER_MLX7502X_BASE + 7)
->>>>>>
->>>>>> This should probably use the proposed temperature control from
->>>>>> https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
->>>>>
->>>>> Ok, then I'll remove these controls for now.
->>>>>
->>
->> We discussed the standardization of the temperature control with linux-hwmon subsystem team [1].
->> As this happened to be a trickier problem than I thought, I decided to remove the temperature control I initially proposed. You can find the v3 of the vgxy61 without the temperature control [2].
->>
->> So no temperature control for now. I plan on giving it another go after the vgxy61 is accepted, but for now the simpler the better.
->> Of course feel free to do it, I'll gratefully rebase on your work ;)
->>
->> [1] https://lore.kernel.org/linux-media/d4c868d5ef05f338bdc2237d9b9304077d268c8b.camel@ndufresne.ca/
->> [2] https://lore.kernel.org/all/20220512074037.3829926-1-benjamin.mugnier@foss.st.com/
->>
->>>>>>> +
->>>>>>> +#endif /* __UAPI_MLX7502X_H_ */
->>>>
->>>> -- 
->>>> Regards,
->>>>
->>>> Laurent Pinchart
->>>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx290.c | 219 +++++++++++++++++++++----------------
+>  1 file changed, 124 insertions(+), 95 deletions(-)
 > 
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 5b7f9027b50f..bec326a83952 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -31,14 +31,73 @@
+>  #define IMX290_STANDBY					
+IMX290_REG_8BIT(0x3000)
+>  #define IMX290_REGHOLD					
+IMX290_REG_8BIT(0x3001)
+>  #define IMX290_XMSTA					
+IMX290_REG_8BIT(0x3002)
+> +#define IMX290_ADBIT					
+IMX290_REG_8BIT(0x3005)
+> +#define IMX290_ADBIT_10BIT				(0 << 0)
+> +#define IMX290_ADBIT_12BIT				(1 << 0)
+> +#define IMX290_CTRL_07					
+IMX290_REG_8BIT(0x3007)
+> +#define IMX290_VREVERSE					
+BIT(0)
+> +#define IMX290_HREVERSE					
+BIT(1)
+> +#define IMX290_WINMODE_1080P				(0 << 4)
+> +#define IMX290_WINMODE_720P				(1 << 4)
+> +#define IMX290_WINMODE_CROP				(4 << 4)
+>  #define IMX290_FR_FDG_SEL				
+IMX290_REG_8BIT(0x3009)
+>  #define IMX290_BLKLEVEL					
+IMX290_REG_16BIT(0x300a)
+>  #define IMX290_GAIN					
+IMX290_REG_8BIT(0x3014)
+> +#define IMX290_VMAX					
+IMX290_REG_24BIT(0x3018)
+>  #define IMX290_HMAX					
+IMX290_REG_16BIT(0x301c)
+> +#define IMX290_SHS1					
+IMX290_REG_24BIT(0x3020)
+> +#define IMX290_WINWV_OB					
+IMX290_REG_8BIT(0x303a)
+> +#define IMX290_WINPV					
+IMX290_REG_16BIT(0x303c)
+> +#define IMX290_WINWV					
+IMX290_REG_16BIT(0x303e)
+> +#define IMX290_WINPH					
+IMX290_REG_16BIT(0x3040)
+> +#define IMX290_WINWH					
+IMX290_REG_16BIT(0x3042)
+> +#define IMX290_OUT_CTRL					
+IMX290_REG_8BIT(0x3046)
+> +#define IMX290_ODBIT_10BIT				(0 << 0)
+> +#define IMX290_ODBIT_12BIT				(1 << 0)
+
+ODBIT is fixed 1h for MIPI-CSI-2 output.
+
+> +#define IMX290_OPORTSEL_PARALLEL			(0x0 << 4)
+> +#define IMX290_OPORTSEL_LVDS_2CH			(0xd << 4)
+> +#define IMX290_OPORTSEL_LVDS_4CH			(0xe << 4)
+> +#define IMX290_OPORTSEL_LVDS_8CH			(0xf << 4)
+
+This driver only supports MIPI-CSI-2 output, but these bits are don't care, 
+you still want to list them here for completeness?
+
+> +#define IMX290_XSOUTSEL					
+IMX290_REG_8BIT(0x304b)
+> +#define IMX290_XSOUTSEL_XVSOUTSEL_HIGH			(0 << 0)
+> +#define IMX290_XSOUTSEL_XVSOUTSEL_VSYNC			(2 << 0)
+> +#define IMX290_XSOUTSEL_XHSOUTSEL_HIGH			(0 << 2)
+> +#define IMX290_XSOUTSEL_XHSOUTSEL_HSYNC			(2 << 2)
+> +#define IMX290_INCKSEL1					
+IMX290_REG_8BIT(0x305c)
+> +#define IMX290_INCKSEL2					
+IMX290_REG_8BIT(0x305d)
+> +#define IMX290_INCKSEL3					
+IMX290_REG_8BIT(0x305e)
+> +#define IMX290_INCKSEL4					
+IMX290_REG_8BIT(0x305f)
+>  #define IMX290_PGCTRL					
+IMX290_REG_8BIT(0x308c)
+> +#define IMX290_ADBIT1					
+IMX290_REG_8BIT(0x3129)
+> +#define IMX290_ADBIT1_10BIT				0x1d
+> +#define IMX290_ADBIT1_12BIT				0x00
+> +#define IMX290_INCKSEL5					
+IMX290_REG_8BIT(0x315e)
+> +#define IMX290_INCKSEL6					
+IMX290_REG_8BIT(0x3164)
+
+Any reason to skip the bit defines for both supported input clocks?
+
+> +#define IMX290_ADBIT2					
+IMX290_REG_8BIT(0x317c)
+> +#define IMX290_ADBIT2_10BIT				0x12
+> +#define IMX290_ADBIT2_12BIT				0x00
+>  #define IMX290_CHIP_ID					
+IMX290_REG_16BIT(0x319a)
+> +#define IMX290_ADBIT3					
+IMX290_REG_16BIT(0x31ec)
+> +#define IMX290_ADBIT3_10BIT				0x37
+> +#define IMX290_ADBIT3_12BIT				0x0e
+> +#define IMX290_REPETITION				
+IMX290_REG_8BIT(0x3405)
+>  #define IMX290_PHY_LANE_NUM				
+IMX290_REG_8BIT(0x3407)
+> +#define IMX290_OPB_SIZE_V				
+IMX290_REG_8BIT(0x3414)
+> +#define IMX290_Y_OUT_SIZE				
+IMX290_REG_16BIT(0x3418)
+> +#define IMX290_CSI_DT_FMT				
+IMX290_REG_16BIT(0x3441)
+> +#define IMX290_CSI_DT_FMT_RAW10				
+0x0a0a
+> +#define IMX290_CSI_DT_FMT_RAW12				
+0x0c0c
+>  #define IMX290_CSI_LANE_MODE				
+IMX290_REG_8BIT(0x3443)
+> +#define IMX290_EXTCK_FREQ				
+IMX290_REG_16BIT(0x3444)
+
+Same here.
+
+Regards,
+Alexander
+
+> +#define IMX290_TCLKPOST					
+IMX290_REG_16BIT(0x3446)
+> +#define IMX290_THSZERO					
+IMX290_REG_16BIT(0x3448)
+> +#define IMX290_THSPREPARE				
+IMX290_REG_16BIT(0x344a)
+> +#define IMX290_TCLKTRAIL				
+IMX290_REG_16BIT(0x344c)
+> +#define IMX290_THSTRAIL					
+IMX290_REG_16BIT(0x344e)
+> +#define IMX290_TCLKZERO					
+IMX290_REG_16BIT(0x3450)
+> +#define IMX290_TCLKPREPARE				
+IMX290_REG_16BIT(0x3452)
+> +#define IMX290_TLPX					
+IMX290_REG_16BIT(0x3454)
+> +#define IMX290_X_OUT_SIZE				
+IMX290_REG_16BIT(0x3472)
+> 
+>  #define IMX290_PGCTRL_REGEN				BIT(0)
+>  #define IMX290_PGCTRL_THRU				BIT(1)
+> @@ -54,7 +113,7 @@ static const char * const imx290_supply_name[] = {
+> 
+>  struct imx290_regval {
+>  	u32 reg;
+> -	u8 val;
+> +	u32 val;
+>  };
+> 
+>  struct imx290_mode {
+> @@ -116,22 +175,16 @@ static const char * const imx290_test_pattern_menu[] =
+> { };
+> 
+>  static const struct imx290_regval imx290_global_init_settings[] = {
+> -	{ IMX290_REG_8BIT(0x3007), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3018), 0x65 },
+> -	{ IMX290_REG_8BIT(0x3019), 0x04 },
+> -	{ IMX290_REG_8BIT(0x301a), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3444), 0x20 },
+> -	{ IMX290_REG_8BIT(0x3445), 0x25 },
+> -	{ IMX290_REG_8BIT(0x303a), 0x0c },
+> -	{ IMX290_REG_8BIT(0x3040), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3041), 0x00 },
+> -	{ IMX290_REG_8BIT(0x303c), 0x00 },
+> -	{ IMX290_REG_8BIT(0x303d), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3042), 0x9c },
+> -	{ IMX290_REG_8BIT(0x3043), 0x07 },
+> -	{ IMX290_REG_8BIT(0x303e), 0x49 },
+> -	{ IMX290_REG_8BIT(0x303f), 0x04 },
+> -	{ IMX290_REG_8BIT(0x304b), 0x0a },
+> +	{ IMX290_CTRL_07, IMX290_WINMODE_1080P },
+> +	{ IMX290_VMAX, 1125 },
+> +	{ IMX290_EXTCK_FREQ, 0x2520 },
+> +	{ IMX290_WINWV_OB, 12 },
+> +	{ IMX290_WINPH, 0 },
+> +	{ IMX290_WINPV, 0 },
+> +	{ IMX290_WINWH, 1948 },
+> +	{ IMX290_WINWV, 1097 },
+> +	{ IMX290_XSOUTSEL, IMX290_XSOUTSEL_XVSOUTSEL_VSYNC |
+> +			   IMX290_XSOUTSEL_XHSOUTSEL_HSYNC },
+>  	{ IMX290_REG_8BIT(0x300f), 0x00 },
+>  	{ IMX290_REG_8BIT(0x3010), 0x21 },
+>  	{ IMX290_REG_8BIT(0x3012), 0x64 },
+> @@ -177,102 +230,78 @@ static const struct imx290_regval
+> imx290_global_init_settings[] = {
+> 
+>  static const struct imx290_regval imx290_1080p_settings[] = {
+>  	/* mode settings */
+> -	{ IMX290_REG_8BIT(0x3007), 0x00 },
+> -	{ IMX290_REG_8BIT(0x303a), 0x0c },
+> -	{ IMX290_REG_8BIT(0x3414), 0x0a },
+> -	{ IMX290_REG_8BIT(0x3472), 0x80 },
+> -	{ IMX290_REG_8BIT(0x3473), 0x07 },
+> -	{ IMX290_REG_8BIT(0x3418), 0x38 },
+> -	{ IMX290_REG_8BIT(0x3419), 0x04 },
+> +	{ IMX290_CTRL_07, IMX290_WINMODE_1080P },
+> +	{ IMX290_WINWV_OB, 12 },
+> +	{ IMX290_OPB_SIZE_V, 10 },
+> +	{ IMX290_X_OUT_SIZE, 1920 },
+> +	{ IMX290_Y_OUT_SIZE, 1080 },
+>  	{ IMX290_REG_8BIT(0x3012), 0x64 },
+>  	{ IMX290_REG_8BIT(0x3013), 0x00 },
+> -	{ IMX290_REG_8BIT(0x305c), 0x18 },
+> -	{ IMX290_REG_8BIT(0x305d), 0x03 },
+> -	{ IMX290_REG_8BIT(0x305e), 0x20 },
+> -	{ IMX290_REG_8BIT(0x305f), 0x01 },
+> -	{ IMX290_REG_8BIT(0x315e), 0x1a },
+> -	{ IMX290_REG_8BIT(0x3164), 0x1a },
+> +	{ IMX290_INCKSEL1, 0x18 },
+> +	{ IMX290_INCKSEL2, 0x03 },
+> +	{ IMX290_INCKSEL3, 0x20 },
+> +	{ IMX290_INCKSEL4, 0x01 },
+> +	{ IMX290_INCKSEL5, 0x1a },
+> +	{ IMX290_INCKSEL6, 0x1a },
+>  	{ IMX290_REG_8BIT(0x3480), 0x49 },
+>  	/* data rate settings */
+> -	{ IMX290_REG_8BIT(0x3405), 0x10 },
+> -	{ IMX290_REG_8BIT(0x3446), 0x57 },
+> -	{ IMX290_REG_8BIT(0x3447), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3448), 0x37 },
+> -	{ IMX290_REG_8BIT(0x3449), 0x00 },
+> -	{ IMX290_REG_8BIT(0x344a), 0x1f },
+> -	{ IMX290_REG_8BIT(0x344b), 0x00 },
+> -	{ IMX290_REG_8BIT(0x344c), 0x1f },
+> -	{ IMX290_REG_8BIT(0x344d), 0x00 },
+> -	{ IMX290_REG_8BIT(0x344e), 0x1f },
+> -	{ IMX290_REG_8BIT(0x344f), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3450), 0x77 },
+> -	{ IMX290_REG_8BIT(0x3451), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3452), 0x1f },
+> -	{ IMX290_REG_8BIT(0x3453), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3454), 0x17 },
+> -	{ IMX290_REG_8BIT(0x3455), 0x00 },
+> +	{ IMX290_REPETITION, 0x10 },
+> +	{ IMX290_TCLKPOST, 87 },
+> +	{ IMX290_THSZERO, 55 },
+> +	{ IMX290_THSPREPARE, 31 },
+> +	{ IMX290_TCLKTRAIL, 31 },
+> +	{ IMX290_THSTRAIL, 31 },
+> +	{ IMX290_TCLKZERO, 119 },
+> +	{ IMX290_TCLKPREPARE, 31 },
+> +	{ IMX290_TLPX, 23 },
+>  };
+> 
+>  static const struct imx290_regval imx290_720p_settings[] = {
+>  	/* mode settings */
+> -	{ IMX290_REG_8BIT(0x3007), 0x10 },
+> -	{ IMX290_REG_8BIT(0x303a), 0x06 },
+> -	{ IMX290_REG_8BIT(0x3414), 0x04 },
+> -	{ IMX290_REG_8BIT(0x3472), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3473), 0x05 },
+> -	{ IMX290_REG_8BIT(0x3418), 0xd0 },
+> -	{ IMX290_REG_8BIT(0x3419), 0x02 },
+> +	{ IMX290_CTRL_07, IMX290_WINMODE_720P },
+> +	{ IMX290_WINWV_OB, 6 },
+> +	{ IMX290_OPB_SIZE_V, 4 },
+> +	{ IMX290_X_OUT_SIZE, 1280 },
+> +	{ IMX290_Y_OUT_SIZE, 720 },
+>  	{ IMX290_REG_8BIT(0x3012), 0x64 },
+>  	{ IMX290_REG_8BIT(0x3013), 0x00 },
+> -	{ IMX290_REG_8BIT(0x305c), 0x20 },
+> -	{ IMX290_REG_8BIT(0x305d), 0x00 },
+> -	{ IMX290_REG_8BIT(0x305e), 0x20 },
+> -	{ IMX290_REG_8BIT(0x305f), 0x01 },
+> -	{ IMX290_REG_8BIT(0x315e), 0x1a },
+> -	{ IMX290_REG_8BIT(0x3164), 0x1a },
+> +	{ IMX290_INCKSEL1, 0x20 },
+> +	{ IMX290_INCKSEL2, 0x00 },
+> +	{ IMX290_INCKSEL3, 0x20 },
+> +	{ IMX290_INCKSEL4, 0x01 },
+> +	{ IMX290_INCKSEL5, 0x1a },
+> +	{ IMX290_INCKSEL6, 0x1a },
+>  	{ IMX290_REG_8BIT(0x3480), 0x49 },
+>  	/* data rate settings */
+> -	{ IMX290_REG_8BIT(0x3405), 0x10 },
+> -	{ IMX290_REG_8BIT(0x3446), 0x4f },
+> -	{ IMX290_REG_8BIT(0x3447), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3448), 0x2f },
+> -	{ IMX290_REG_8BIT(0x3449), 0x00 },
+> -	{ IMX290_REG_8BIT(0x344a), 0x17 },
+> -	{ IMX290_REG_8BIT(0x344b), 0x00 },
+> -	{ IMX290_REG_8BIT(0x344c), 0x17 },
+> -	{ IMX290_REG_8BIT(0x344d), 0x00 },
+> -	{ IMX290_REG_8BIT(0x344e), 0x17 },
+> -	{ IMX290_REG_8BIT(0x344f), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3450), 0x57 },
+> -	{ IMX290_REG_8BIT(0x3451), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3452), 0x17 },
+> -	{ IMX290_REG_8BIT(0x3453), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3454), 0x17 },
+> -	{ IMX290_REG_8BIT(0x3455), 0x00 },
+> +	{ IMX290_REPETITION, 0x10 },
+> +	{ IMX290_TCLKPOST, 79 },
+> +	{ IMX290_THSZERO, 47 },
+> +	{ IMX290_THSPREPARE, 23 },
+> +	{ IMX290_TCLKTRAIL, 23 },
+> +	{ IMX290_THSTRAIL, 23 },
+> +	{ IMX290_TCLKZERO, 87 },
+> +	{ IMX290_TCLKPREPARE, 23 },
+> +	{ IMX290_TLPX, 23 },
+>  };
+> 
+>  static const struct imx290_regval imx290_10bit_settings[] = {
+> -	{ IMX290_REG_8BIT(0x3005), 0x00},
+> -	{ IMX290_REG_8BIT(0x3046), 0x00},
+> -	{ IMX290_REG_8BIT(0x3129), 0x1d},
+> -	{ IMX290_REG_8BIT(0x317c), 0x12},
+> -	{ IMX290_REG_8BIT(0x31ec), 0x37},
+> -	{ IMX290_REG_8BIT(0x3441), 0x0a},
+> -	{ IMX290_REG_8BIT(0x3442), 0x0a},
+> -	{ IMX290_REG_8BIT(0x300a), 0x3c},
+> -	{ IMX290_REG_8BIT(0x300b), 0x00},
+> +	{ IMX290_ADBIT, IMX290_ADBIT_10BIT },
+> +	{ IMX290_OUT_CTRL, IMX290_ODBIT_10BIT },
+> +	{ IMX290_ADBIT1, IMX290_ADBIT1_10BIT },
+> +	{ IMX290_ADBIT2, IMX290_ADBIT2_10BIT },
+> +	{ IMX290_ADBIT3, IMX290_ADBIT3_10BIT },
+> +	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW10 },
+> +	{ IMX290_BLKLEVEL, 60 },
+>  };
+> 
+>  static const struct imx290_regval imx290_12bit_settings[] = {
+> -	{ IMX290_REG_8BIT(0x3005), 0x01 },
+> -	{ IMX290_REG_8BIT(0x3046), 0x01 },
+> -	{ IMX290_REG_8BIT(0x3129), 0x00 },
+> -	{ IMX290_REG_8BIT(0x317c), 0x00 },
+> -	{ IMX290_REG_8BIT(0x31ec), 0x0e },
+> -	{ IMX290_REG_8BIT(0x3441), 0x0c },
+> -	{ IMX290_REG_8BIT(0x3442), 0x0c },
+> -	{ IMX290_REG_8BIT(0x300a), 0xf0 },
+> -	{ IMX290_REG_8BIT(0x300b), 0x00 },
+> +	{ IMX290_ADBIT, IMX290_ADBIT_12BIT },
+> +	{ IMX290_OUT_CTRL, IMX290_ODBIT_12BIT },
+> +	{ IMX290_ADBIT1, IMX290_ADBIT1_12BIT },
+> +	{ IMX290_ADBIT2, IMX290_ADBIT2_12BIT },
+> +	{ IMX290_ADBIT3, IMX290_ADBIT3_12BIT },
+> +	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW12 },
+> +	{ IMX290_BLKLEVEL, 240 },
+>  };
+> 
+>  /* supported link frequencies */
+
+
+
+
