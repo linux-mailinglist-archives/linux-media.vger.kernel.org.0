@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A21E557C65D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 10:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A44F57C65E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 10:36:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbiGUIf6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 04:35:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34894 "EHLO
+        id S231675AbiGUIf7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 04:35:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbiGUIf5 (ORCPT
+        with ESMTP id S229663AbiGUIf7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 04:35:57 -0400
+        Thu, 21 Jul 2022 04:35:59 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08A41180F
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 01:35:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C018913D62
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 01:35:57 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 235AF8D0;
-        Thu, 21 Jul 2022 10:35:55 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56D1C9B1;
+        Thu, 21 Jul 2022 10:35:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658392555;
-        bh=xJsDGop13gyf9z073jpTZe4BXJchx/hX8x9CSsIpqKY=;
+        s=mail; t=1658392556;
+        bh=/I+Y7Uais+iL6yR9zVqEb8ABoCCFyhGMYFtWQsJNffk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ucipxD3qhMRZObZoY0pbLBxkBVIdjN7CUkOdc791FywyDtG3W0udcWSDp9Er5vJrD
-         7PaS3w0CG8jFCSwee4eQw3LMlBGTwvy/zpHKvpiRMy0fjUHOpFRlkwxjjjo7wopkt8
-         Eb9Hxgq3I/IVOFSHq9qe5IJIiJ8ndywgoLbQWpRY=
+        b=QC9jcCvYvM6J7+tEZj8APoc/s0J59levZyJquGASL+qre/x/f82skcQG7Tg84+j9E
+         RlDVYFLEDu1App+sIsYXRThRCYn19CHy/Y7AYo1iS9xgqDeX8XCzkINBJw93RC6diM
+         KdiNFMXdu4Z0YFsEvtYtvFdhIJCsph/AhdE5Oo5Q=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH 09/19] media: i2c: imx290: Simplify error handling when writing registers
-Date:   Thu, 21 Jul 2022 11:35:30 +0300
-Message-Id: <20220721083540.1525-10-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 10/19] media: i2c: imx290: Define more register macros
+Date:   Thu, 21 Jul 2022 11:35:31 +0300
+Message-Id: <20220721083540.1525-11-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
 References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
@@ -46,198 +46,293 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Error handling for register writes requires checking the error status of
-every single write. This makes the code complex, or incorrect when the
-checks are omitted. Simplify this by passing a pointer to an error code
-to the imx290_write_reg() function, which allows writing multiple
-registers in a row and only checking for errors at the end.
-
-While at it, rename imx290_write_reg() to imx290_write() as there's
-nothing else than registers to write, and rename imx290_read_reg()
-accordingly.
+Define macros for all registers programmed by the driver for which
+documentation is available to increase readability. This starts making
+use of 16-bit registers in the register arrays, so the value field has
+to be increased to 32 bits.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/imx290.c | 86 ++++++++++++++------------------------
- 1 file changed, 32 insertions(+), 54 deletions(-)
+ drivers/media/i2c/imx290.c | 219 +++++++++++++++++++++----------------
+ 1 file changed, 124 insertions(+), 95 deletions(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 3f67c4d2417f..5b7f9027b50f 100644
+index 5b7f9027b50f..bec326a83952 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -367,7 +367,7 @@ static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
- 	return container_of(_sd, struct imx290, sd);
- }
+@@ -31,14 +31,73 @@
+ #define IMX290_STANDBY					IMX290_REG_8BIT(0x3000)
+ #define IMX290_REGHOLD					IMX290_REG_8BIT(0x3001)
+ #define IMX290_XMSTA					IMX290_REG_8BIT(0x3002)
++#define IMX290_ADBIT					IMX290_REG_8BIT(0x3005)
++#define IMX290_ADBIT_10BIT				(0 << 0)
++#define IMX290_ADBIT_12BIT				(1 << 0)
++#define IMX290_CTRL_07					IMX290_REG_8BIT(0x3007)
++#define IMX290_VREVERSE					BIT(0)
++#define IMX290_HREVERSE					BIT(1)
++#define IMX290_WINMODE_1080P				(0 << 4)
++#define IMX290_WINMODE_720P				(1 << 4)
++#define IMX290_WINMODE_CROP				(4 << 4)
+ #define IMX290_FR_FDG_SEL				IMX290_REG_8BIT(0x3009)
+ #define IMX290_BLKLEVEL					IMX290_REG_16BIT(0x300a)
+ #define IMX290_GAIN					IMX290_REG_8BIT(0x3014)
++#define IMX290_VMAX					IMX290_REG_24BIT(0x3018)
+ #define IMX290_HMAX					IMX290_REG_16BIT(0x301c)
++#define IMX290_SHS1					IMX290_REG_24BIT(0x3020)
++#define IMX290_WINWV_OB					IMX290_REG_8BIT(0x303a)
++#define IMX290_WINPV					IMX290_REG_16BIT(0x303c)
++#define IMX290_WINWV					IMX290_REG_16BIT(0x303e)
++#define IMX290_WINPH					IMX290_REG_16BIT(0x3040)
++#define IMX290_WINWH					IMX290_REG_16BIT(0x3042)
++#define IMX290_OUT_CTRL					IMX290_REG_8BIT(0x3046)
++#define IMX290_ODBIT_10BIT				(0 << 0)
++#define IMX290_ODBIT_12BIT				(1 << 0)
++#define IMX290_OPORTSEL_PARALLEL			(0x0 << 4)
++#define IMX290_OPORTSEL_LVDS_2CH			(0xd << 4)
++#define IMX290_OPORTSEL_LVDS_4CH			(0xe << 4)
++#define IMX290_OPORTSEL_LVDS_8CH			(0xf << 4)
++#define IMX290_XSOUTSEL					IMX290_REG_8BIT(0x304b)
++#define IMX290_XSOUTSEL_XVSOUTSEL_HIGH			(0 << 0)
++#define IMX290_XSOUTSEL_XVSOUTSEL_VSYNC			(2 << 0)
++#define IMX290_XSOUTSEL_XHSOUTSEL_HIGH			(0 << 2)
++#define IMX290_XSOUTSEL_XHSOUTSEL_HSYNC			(2 << 2)
++#define IMX290_INCKSEL1					IMX290_REG_8BIT(0x305c)
++#define IMX290_INCKSEL2					IMX290_REG_8BIT(0x305d)
++#define IMX290_INCKSEL3					IMX290_REG_8BIT(0x305e)
++#define IMX290_INCKSEL4					IMX290_REG_8BIT(0x305f)
+ #define IMX290_PGCTRL					IMX290_REG_8BIT(0x308c)
++#define IMX290_ADBIT1					IMX290_REG_8BIT(0x3129)
++#define IMX290_ADBIT1_10BIT				0x1d
++#define IMX290_ADBIT1_12BIT				0x00
++#define IMX290_INCKSEL5					IMX290_REG_8BIT(0x315e)
++#define IMX290_INCKSEL6					IMX290_REG_8BIT(0x3164)
++#define IMX290_ADBIT2					IMX290_REG_8BIT(0x317c)
++#define IMX290_ADBIT2_10BIT				0x12
++#define IMX290_ADBIT2_12BIT				0x00
+ #define IMX290_CHIP_ID					IMX290_REG_16BIT(0x319a)
++#define IMX290_ADBIT3					IMX290_REG_16BIT(0x31ec)
++#define IMX290_ADBIT3_10BIT				0x37
++#define IMX290_ADBIT3_12BIT				0x0e
++#define IMX290_REPETITION				IMX290_REG_8BIT(0x3405)
+ #define IMX290_PHY_LANE_NUM				IMX290_REG_8BIT(0x3407)
++#define IMX290_OPB_SIZE_V				IMX290_REG_8BIT(0x3414)
++#define IMX290_Y_OUT_SIZE				IMX290_REG_16BIT(0x3418)
++#define IMX290_CSI_DT_FMT				IMX290_REG_16BIT(0x3441)
++#define IMX290_CSI_DT_FMT_RAW10				0x0a0a
++#define IMX290_CSI_DT_FMT_RAW12				0x0c0c
+ #define IMX290_CSI_LANE_MODE				IMX290_REG_8BIT(0x3443)
++#define IMX290_EXTCK_FREQ				IMX290_REG_16BIT(0x3444)
++#define IMX290_TCLKPOST					IMX290_REG_16BIT(0x3446)
++#define IMX290_THSZERO					IMX290_REG_16BIT(0x3448)
++#define IMX290_THSPREPARE				IMX290_REG_16BIT(0x344a)
++#define IMX290_TCLKTRAIL				IMX290_REG_16BIT(0x344c)
++#define IMX290_THSTRAIL					IMX290_REG_16BIT(0x344e)
++#define IMX290_TCLKZERO					IMX290_REG_16BIT(0x3450)
++#define IMX290_TCLKPREPARE				IMX290_REG_16BIT(0x3452)
++#define IMX290_TLPX					IMX290_REG_16BIT(0x3454)
++#define IMX290_X_OUT_SIZE				IMX290_REG_16BIT(0x3472)
  
--static int __always_unused imx290_read_reg(struct imx290 *imx290, u32 addr, u32 *value)
-+static int __always_unused imx290_read(struct imx290 *imx290, u32 addr, u32 *value)
- {
- 	u8 data[3] = { 0, 0, 0 };
- 	int ret;
-@@ -385,17 +385,23 @@ static int __always_unused imx290_read_reg(struct imx290 *imx290, u32 addr, u32
- 	return 0;
- }
+ #define IMX290_PGCTRL_REGEN				BIT(0)
+ #define IMX290_PGCTRL_THRU				BIT(1)
+@@ -54,7 +113,7 @@ static const char * const imx290_supply_name[] = {
  
--static int imx290_write_reg(struct imx290 *imx290, u32 addr, u32 value)
-+static int imx290_write(struct imx290 *imx290, u32 addr, u32 value, int *err)
- {
- 	u8 data[3] = { value & 0xff, (value >> 8) & 0xff, value >> 16 };
- 	int ret;
+ struct imx290_regval {
+ 	u32 reg;
+-	u8 val;
++	u32 val;
+ };
  
-+	if (err && *err)
-+		return *err;
-+
- 	ret = regmap_raw_write(imx290->regmap, addr & IMX290_REG_ADDR_MASK,
- 			       data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
--	if (ret < 0)
-+	if (ret < 0) {
- 		dev_err(imx290->dev, "%u-bit write to 0x%04x failed: %d\n",
- 			 ((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
- 			 addr & IMX290_REG_ADDR_MASK, ret);
-+		if (err)
-+			*err = ret;
-+	}
+ struct imx290_mode {
+@@ -116,22 +175,16 @@ static const char * const imx290_test_pattern_menu[] = {
+ };
  
- 	return ret;
- }
-@@ -408,7 +414,7 @@ static int imx290_set_register_array(struct imx290 *imx290,
- 	int ret;
+ static const struct imx290_regval imx290_global_init_settings[] = {
+-	{ IMX290_REG_8BIT(0x3007), 0x00 },
+-	{ IMX290_REG_8BIT(0x3018), 0x65 },
+-	{ IMX290_REG_8BIT(0x3019), 0x04 },
+-	{ IMX290_REG_8BIT(0x301a), 0x00 },
+-	{ IMX290_REG_8BIT(0x3444), 0x20 },
+-	{ IMX290_REG_8BIT(0x3445), 0x25 },
+-	{ IMX290_REG_8BIT(0x303a), 0x0c },
+-	{ IMX290_REG_8BIT(0x3040), 0x00 },
+-	{ IMX290_REG_8BIT(0x3041), 0x00 },
+-	{ IMX290_REG_8BIT(0x303c), 0x00 },
+-	{ IMX290_REG_8BIT(0x303d), 0x00 },
+-	{ IMX290_REG_8BIT(0x3042), 0x9c },
+-	{ IMX290_REG_8BIT(0x3043), 0x07 },
+-	{ IMX290_REG_8BIT(0x303e), 0x49 },
+-	{ IMX290_REG_8BIT(0x303f), 0x04 },
+-	{ IMX290_REG_8BIT(0x304b), 0x0a },
++	{ IMX290_CTRL_07, IMX290_WINMODE_1080P },
++	{ IMX290_VMAX, 1125 },
++	{ IMX290_EXTCK_FREQ, 0x2520 },
++	{ IMX290_WINWV_OB, 12 },
++	{ IMX290_WINPH, 0 },
++	{ IMX290_WINPV, 0 },
++	{ IMX290_WINWH, 1948 },
++	{ IMX290_WINWV, 1097 },
++	{ IMX290_XSOUTSEL, IMX290_XSOUTSEL_XVSOUTSEL_VSYNC |
++			   IMX290_XSOUTSEL_XHSOUTSEL_HSYNC },
+ 	{ IMX290_REG_8BIT(0x300f), 0x00 },
+ 	{ IMX290_REG_8BIT(0x3010), 0x21 },
+ 	{ IMX290_REG_8BIT(0x3012), 0x64 },
+@@ -177,102 +230,78 @@ static const struct imx290_regval imx290_global_init_settings[] = {
  
- 	for (i = 0; i < num_settings; ++i, ++settings) {
--		ret = imx290_write_reg(imx290, settings->reg, settings->val);
-+		ret = imx290_write(imx290, settings->reg, settings->val, NULL);
- 		if (ret < 0)
- 			return ret;
- 	}
-@@ -419,29 +425,16 @@ static int imx290_set_register_array(struct imx290 *imx290,
- 	return 0;
- }
+ static const struct imx290_regval imx290_1080p_settings[] = {
+ 	/* mode settings */
+-	{ IMX290_REG_8BIT(0x3007), 0x00 },
+-	{ IMX290_REG_8BIT(0x303a), 0x0c },
+-	{ IMX290_REG_8BIT(0x3414), 0x0a },
+-	{ IMX290_REG_8BIT(0x3472), 0x80 },
+-	{ IMX290_REG_8BIT(0x3473), 0x07 },
+-	{ IMX290_REG_8BIT(0x3418), 0x38 },
+-	{ IMX290_REG_8BIT(0x3419), 0x04 },
++	{ IMX290_CTRL_07, IMX290_WINMODE_1080P },
++	{ IMX290_WINWV_OB, 12 },
++	{ IMX290_OPB_SIZE_V, 10 },
++	{ IMX290_X_OUT_SIZE, 1920 },
++	{ IMX290_Y_OUT_SIZE, 1080 },
+ 	{ IMX290_REG_8BIT(0x3012), 0x64 },
+ 	{ IMX290_REG_8BIT(0x3013), 0x00 },
+-	{ IMX290_REG_8BIT(0x305c), 0x18 },
+-	{ IMX290_REG_8BIT(0x305d), 0x03 },
+-	{ IMX290_REG_8BIT(0x305e), 0x20 },
+-	{ IMX290_REG_8BIT(0x305f), 0x01 },
+-	{ IMX290_REG_8BIT(0x315e), 0x1a },
+-	{ IMX290_REG_8BIT(0x3164), 0x1a },
++	{ IMX290_INCKSEL1, 0x18 },
++	{ IMX290_INCKSEL2, 0x03 },
++	{ IMX290_INCKSEL3, 0x20 },
++	{ IMX290_INCKSEL4, 0x01 },
++	{ IMX290_INCKSEL5, 0x1a },
++	{ IMX290_INCKSEL6, 0x1a },
+ 	{ IMX290_REG_8BIT(0x3480), 0x49 },
+ 	/* data rate settings */
+-	{ IMX290_REG_8BIT(0x3405), 0x10 },
+-	{ IMX290_REG_8BIT(0x3446), 0x57 },
+-	{ IMX290_REG_8BIT(0x3447), 0x00 },
+-	{ IMX290_REG_8BIT(0x3448), 0x37 },
+-	{ IMX290_REG_8BIT(0x3449), 0x00 },
+-	{ IMX290_REG_8BIT(0x344a), 0x1f },
+-	{ IMX290_REG_8BIT(0x344b), 0x00 },
+-	{ IMX290_REG_8BIT(0x344c), 0x1f },
+-	{ IMX290_REG_8BIT(0x344d), 0x00 },
+-	{ IMX290_REG_8BIT(0x344e), 0x1f },
+-	{ IMX290_REG_8BIT(0x344f), 0x00 },
+-	{ IMX290_REG_8BIT(0x3450), 0x77 },
+-	{ IMX290_REG_8BIT(0x3451), 0x00 },
+-	{ IMX290_REG_8BIT(0x3452), 0x1f },
+-	{ IMX290_REG_8BIT(0x3453), 0x00 },
+-	{ IMX290_REG_8BIT(0x3454), 0x17 },
+-	{ IMX290_REG_8BIT(0x3455), 0x00 },
++	{ IMX290_REPETITION, 0x10 },
++	{ IMX290_TCLKPOST, 87 },
++	{ IMX290_THSZERO, 55 },
++	{ IMX290_THSPREPARE, 31 },
++	{ IMX290_TCLKTRAIL, 31 },
++	{ IMX290_THSTRAIL, 31 },
++	{ IMX290_TCLKZERO, 119 },
++	{ IMX290_TCLKPREPARE, 31 },
++	{ IMX290_TLPX, 23 },
+ };
  
--static int imx290_set_gain(struct imx290 *imx290, u32 value)
--{
--	int ret;
--
--	ret = imx290_write_reg(imx290, IMX290_GAIN, value);
--	if (ret)
--		dev_err(imx290->dev, "Unable to write gain\n");
--
--	return ret;
--}
--
- /* Stop streaming */
- static int imx290_stop_streaming(struct imx290 *imx290)
- {
--	int ret;
-+	int ret = 0;
+ static const struct imx290_regval imx290_720p_settings[] = {
+ 	/* mode settings */
+-	{ IMX290_REG_8BIT(0x3007), 0x10 },
+-	{ IMX290_REG_8BIT(0x303a), 0x06 },
+-	{ IMX290_REG_8BIT(0x3414), 0x04 },
+-	{ IMX290_REG_8BIT(0x3472), 0x00 },
+-	{ IMX290_REG_8BIT(0x3473), 0x05 },
+-	{ IMX290_REG_8BIT(0x3418), 0xd0 },
+-	{ IMX290_REG_8BIT(0x3419), 0x02 },
++	{ IMX290_CTRL_07, IMX290_WINMODE_720P },
++	{ IMX290_WINWV_OB, 6 },
++	{ IMX290_OPB_SIZE_V, 4 },
++	{ IMX290_X_OUT_SIZE, 1280 },
++	{ IMX290_Y_OUT_SIZE, 720 },
+ 	{ IMX290_REG_8BIT(0x3012), 0x64 },
+ 	{ IMX290_REG_8BIT(0x3013), 0x00 },
+-	{ IMX290_REG_8BIT(0x305c), 0x20 },
+-	{ IMX290_REG_8BIT(0x305d), 0x00 },
+-	{ IMX290_REG_8BIT(0x305e), 0x20 },
+-	{ IMX290_REG_8BIT(0x305f), 0x01 },
+-	{ IMX290_REG_8BIT(0x315e), 0x1a },
+-	{ IMX290_REG_8BIT(0x3164), 0x1a },
++	{ IMX290_INCKSEL1, 0x20 },
++	{ IMX290_INCKSEL2, 0x00 },
++	{ IMX290_INCKSEL3, 0x20 },
++	{ IMX290_INCKSEL4, 0x01 },
++	{ IMX290_INCKSEL5, 0x1a },
++	{ IMX290_INCKSEL6, 0x1a },
+ 	{ IMX290_REG_8BIT(0x3480), 0x49 },
+ 	/* data rate settings */
+-	{ IMX290_REG_8BIT(0x3405), 0x10 },
+-	{ IMX290_REG_8BIT(0x3446), 0x4f },
+-	{ IMX290_REG_8BIT(0x3447), 0x00 },
+-	{ IMX290_REG_8BIT(0x3448), 0x2f },
+-	{ IMX290_REG_8BIT(0x3449), 0x00 },
+-	{ IMX290_REG_8BIT(0x344a), 0x17 },
+-	{ IMX290_REG_8BIT(0x344b), 0x00 },
+-	{ IMX290_REG_8BIT(0x344c), 0x17 },
+-	{ IMX290_REG_8BIT(0x344d), 0x00 },
+-	{ IMX290_REG_8BIT(0x344e), 0x17 },
+-	{ IMX290_REG_8BIT(0x344f), 0x00 },
+-	{ IMX290_REG_8BIT(0x3450), 0x57 },
+-	{ IMX290_REG_8BIT(0x3451), 0x00 },
+-	{ IMX290_REG_8BIT(0x3452), 0x17 },
+-	{ IMX290_REG_8BIT(0x3453), 0x00 },
+-	{ IMX290_REG_8BIT(0x3454), 0x17 },
+-	{ IMX290_REG_8BIT(0x3455), 0x00 },
++	{ IMX290_REPETITION, 0x10 },
++	{ IMX290_TCLKPOST, 79 },
++	{ IMX290_THSZERO, 47 },
++	{ IMX290_THSPREPARE, 23 },
++	{ IMX290_TCLKTRAIL, 23 },
++	{ IMX290_THSTRAIL, 23 },
++	{ IMX290_TCLKZERO, 87 },
++	{ IMX290_TCLKPREPARE, 23 },
++	{ IMX290_TLPX, 23 },
+ };
  
--	ret = imx290_write_reg(imx290, IMX290_STANDBY, 0x01);
--	if (ret < 0)
--		return ret;
-+	imx290_write(imx290, IMX290_STANDBY, 0x01, &ret);
+ static const struct imx290_regval imx290_10bit_settings[] = {
+-	{ IMX290_REG_8BIT(0x3005), 0x00},
+-	{ IMX290_REG_8BIT(0x3046), 0x00},
+-	{ IMX290_REG_8BIT(0x3129), 0x1d},
+-	{ IMX290_REG_8BIT(0x317c), 0x12},
+-	{ IMX290_REG_8BIT(0x31ec), 0x37},
+-	{ IMX290_REG_8BIT(0x3441), 0x0a},
+-	{ IMX290_REG_8BIT(0x3442), 0x0a},
+-	{ IMX290_REG_8BIT(0x300a), 0x3c},
+-	{ IMX290_REG_8BIT(0x300b), 0x00},
++	{ IMX290_ADBIT, IMX290_ADBIT_10BIT },
++	{ IMX290_OUT_CTRL, IMX290_ODBIT_10BIT },
++	{ IMX290_ADBIT1, IMX290_ADBIT1_10BIT },
++	{ IMX290_ADBIT2, IMX290_ADBIT2_10BIT },
++	{ IMX290_ADBIT3, IMX290_ADBIT3_10BIT },
++	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW10 },
++	{ IMX290_BLKLEVEL, 60 },
+ };
  
- 	msleep(30);
+ static const struct imx290_regval imx290_12bit_settings[] = {
+-	{ IMX290_REG_8BIT(0x3005), 0x01 },
+-	{ IMX290_REG_8BIT(0x3046), 0x01 },
+-	{ IMX290_REG_8BIT(0x3129), 0x00 },
+-	{ IMX290_REG_8BIT(0x317c), 0x00 },
+-	{ IMX290_REG_8BIT(0x31ec), 0x0e },
+-	{ IMX290_REG_8BIT(0x3441), 0x0c },
+-	{ IMX290_REG_8BIT(0x3442), 0x0c },
+-	{ IMX290_REG_8BIT(0x300a), 0xf0 },
+-	{ IMX290_REG_8BIT(0x300b), 0x00 },
++	{ IMX290_ADBIT, IMX290_ADBIT_12BIT },
++	{ IMX290_OUT_CTRL, IMX290_ODBIT_12BIT },
++	{ IMX290_ADBIT1, IMX290_ADBIT1_12BIT },
++	{ IMX290_ADBIT2, IMX290_ADBIT2_12BIT },
++	{ IMX290_ADBIT3, IMX290_ADBIT3_12BIT },
++	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW12 },
++	{ IMX290_BLKLEVEL, 240 },
+ };
  
--	return imx290_write_reg(imx290, IMX290_XMSTA, 0x01);
-+	return imx290_write(imx290, IMX290_XMSTA, 0x01, &ret);
- }
- 
- static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
-@@ -456,25 +449,25 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	switch (ctrl->id) {
- 	case V4L2_CID_GAIN:
--		ret = imx290_set_gain(imx290, ctrl->val);
-+		ret = imx290_write(imx290, IMX290_GAIN, ctrl->val, NULL);
- 		break;
- 	case V4L2_CID_TEST_PATTERN:
- 		if (ctrl->val) {
--			imx290_write_reg(imx290, IMX290_BLKLEVEL, 0);
-+			imx290_write(imx290, IMX290_BLKLEVEL, 0, &ret);
- 			usleep_range(10000, 11000);
--			imx290_write_reg(imx290, IMX290_PGCTRL,
--					 (u8)(IMX290_PGCTRL_REGEN |
--					 IMX290_PGCTRL_THRU |
--					 IMX290_PGCTRL_MODE(ctrl->val)));
-+			imx290_write(imx290, IMX290_PGCTRL,
-+				     (u8)(IMX290_PGCTRL_REGEN |
-+				     IMX290_PGCTRL_THRU |
-+				     IMX290_PGCTRL_MODE(ctrl->val)), &ret);
- 		} else {
--			imx290_write_reg(imx290, IMX290_PGCTRL, 0x00);
-+			imx290_write(imx290, IMX290_PGCTRL, 0x00, &ret);
- 			usleep_range(10000, 11000);
- 			if (imx290->bpp == 10)
--				imx290_write_reg(imx290, IMX290_BLKLEVEL,
--						 0x3c);
-+				imx290_write(imx290, IMX290_BLKLEVEL, 0x3c,
-+					     &ret);
- 			else /* 12 bits per pixel */
--				imx290_write_reg(imx290, IMX290_BLKLEVEL,
--						 0xf0);
-+				imx290_write(imx290, IMX290_BLKLEVEL, 0xf0,
-+					     &ret);
- 		}
- 		break;
- 	default:
-@@ -695,7 +688,8 @@ static int imx290_start_streaming(struct imx290 *imx290)
- 		return ret;
- 	}
- 
--	ret = imx290_write_reg(imx290, IMX290_HMAX, imx290->current_mode->hmax);
-+	ret = imx290_write(imx290, IMX290_HMAX, imx290->current_mode->hmax,
-+			   NULL);
- 	if (ret)
- 		return ret;
- 
-@@ -706,14 +700,12 @@ static int imx290_start_streaming(struct imx290 *imx290)
- 		return ret;
- 	}
- 
--	ret = imx290_write_reg(imx290, IMX290_STANDBY, 0x00);
--	if (ret < 0)
--		return ret;
-+	imx290_write(imx290, IMX290_STANDBY, 0x00, &ret);
- 
- 	msleep(30);
- 
- 	/* Start streaming */
--	return imx290_write_reg(imx290, IMX290_XMSTA, 0x00);
-+	return imx290_write(imx290, IMX290_XMSTA, 0x00, &ret);
- }
- 
- static int imx290_set_stream(struct v4l2_subdev *sd, int enable)
-@@ -772,27 +764,13 @@ static int imx290_set_data_lanes(struct imx290 *imx290)
- 		 * validated in probe itself
- 		 */
- 		dev_err(imx290->dev, "Lane configuration not supported\n");
--		ret = -EINVAL;
--		goto exit;
-+		return -EINVAL;
- 	}
- 
--	ret = imx290_write_reg(imx290, IMX290_PHY_LANE_NUM, laneval);
--	if (ret) {
--		dev_err(imx290->dev, "Error setting Physical Lane number register\n");
--		goto exit;
--	}
--
--	ret = imx290_write_reg(imx290, IMX290_CSI_LANE_MODE, laneval);
--	if (ret) {
--		dev_err(imx290->dev, "Error setting CSI Lane mode register\n");
--		goto exit;
--	}
--
--	ret = imx290_write_reg(imx290, IMX290_FR_FDG_SEL, frsel);
--	if (ret)
--		dev_err(imx290->dev, "Error setting FR/FDG SEL register\n");
-+	imx290_write(imx290, IMX290_PHY_LANE_NUM, laneval, &ret);
-+	imx290_write(imx290, IMX290_CSI_LANE_MODE, laneval, &ret);
-+	imx290_write(imx290, IMX290_FR_FDG_SEL, frsel, &ret);
- 
--exit:
- 	return ret;
- }
- 
+ /* supported link frequencies */
 -- 
 Regards,
 
