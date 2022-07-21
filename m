@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F1DE57D056
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 17:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B48657D0BB
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 18:09:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233158AbiGUPws (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 11:52:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49542 "EHLO
+        id S229526AbiGUQI6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 12:08:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230161AbiGUPwr (ORCPT
+        with ESMTP id S229540AbiGUQIz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 11:52:47 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6112D43E63
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 08:52:46 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id y8so2710674eda.3
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 08:52:46 -0700 (PDT)
+        Thu, 21 Jul 2022 12:08:55 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13CD361DA9
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 09:08:55 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id sz17so3963431ejc.9
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 09:08:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=H6GmlPPoxI364VpvqINQP43FYgTjgXKR4hPzJuIwqB4=;
-        b=NtWFFXWVe+5CarBLRLczuQF+xuyCjT8AWMjcLX9QpdhFRwGnanTU+QJjydHFcY0fLR
-         Itbb76pYIkHLQwhwV1a1VXbc4uQMfJI+aBB9FpDnBNvY3zod0+Nyu4UPVPMSc9l8301Z
-         Hfl6NcAQQXGenFsvpR9ks/oxjhZCwfoYclIwswsF9ycB20OsYEXaQ2uH1CyYPnT0SPq8
-         M3+iafjLbqGH1vk++mESgnw8cYzGx27MRM+p4kW19j/3dp/yTvS3CAJBqNL1gH9ioPxL
-         z/4UivsqgQJ/O4I58UL6/RrmRQiVzvwvIml77jSCThmX9gGMB9bpYrne4HKApY2TthXO
-         IDug==
+        bh=LCSMqVg6V7FGxMrLZq7q03bgacJ/LY1rvlQcx+C4n/Y=;
+        b=pUUzX1Yig0FnRUr3J6hYSWKTRR45Xzxxz92DrkOtyOPj7dsEyMZGUuUk+riQGOKcZB
+         6tOeGKdw3wYVMLTOvKTjcwQJb7XINu1V/UI8FZI3+LP7fa1ggH3S972ohln8Mty0Ji+v
+         EaPhp6hPAzC6zYxb8MMF46MS4qYZ89wo/SaRHDz9b6ZD7llllBrWG3ZWmnsiDLxj5ctO
+         MT868qQ5tYd3BFofQsXtHxFw90O8QelrgHS/tjLsZgJuhDi6em6BSjrIpAGcpOvhcMil
+         oyuZSYw9auBEvOcoGtZzea9rTBr+uWgfLZIFUvZcPmPdL+KREc9QUZeLJFarHar8wdye
+         MI5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=H6GmlPPoxI364VpvqINQP43FYgTjgXKR4hPzJuIwqB4=;
-        b=RhRUHK4Vr3/eCCrMjNXkm5yssHL+rcXiOq14b9UCQkV5zhVmCjoPXQi+HF+aGblSSk
-         oRci89SeRaf5xTu/RWdfdqfEK9HQdE3HMBHvBN2j2E8QMZY+U7haVPJGm72RdW56gsnE
-         FY8e9PrpyGyIe9ei9/+d+Cbc7KgdB8OaZ3RtzH5bZ/d/eITfDXcBUuZvZnMSkoXnoBPx
-         /gLVcWwEjEfkn7ZGrJccMnvbJSAsYAdB4HmDwuPdzsS4EyIODuYCtehHRlrLFKfMlEL5
-         nBPNmyJvtlVyeZjCP9+grwqJ+3Ub5Lk0DVMt1ooox9C0wWJ9hIBb++iNBSW6DXjs4RUV
-         1cvg==
-X-Gm-Message-State: AJIora9XS/1zOX4CizVhMfIxx+XEWyRExsSrHZoc/7lvMTuQ1ZjDTCLg
-        23e22JlORU7JsbPJ9l6ipyhafcLr/RV3MLXXIN/TOw==
-X-Google-Smtp-Source: AGRyM1tQTjIKct7HmBY1WbVW9Owzn86sFVJ/R/8/lyM5QGI4x+iySoRr2+iAePhZioTbd6JXBv+UrA0nlociGdP8Ksk=
-X-Received: by 2002:a05:6402:194f:b0:43a:298f:f39c with SMTP id
- f15-20020a056402194f00b0043a298ff39cmr57448359edz.106.1658418764861; Thu, 21
- Jul 2022 08:52:44 -0700 (PDT)
+        bh=LCSMqVg6V7FGxMrLZq7q03bgacJ/LY1rvlQcx+C4n/Y=;
+        b=ivM2OtwhZs6ZfcYHkUaSiwGmN8YI7x0ubUtjBQji48cp2ReOLFrX1cdEmOfgGwTdBZ
+         pss+qTMb4toFJDAb8Ickm3TmwoH5b7baK29wYBOQwRVjvkO44DxZ2BJo8TvzlsL6+jcQ
+         gBcyscS566IaJxxCHNjJwwOqAxV9y/LOatLy67T+bN2Qg9bqB90QCVoA7YwjGNavgdHu
+         GJkeBKk12tfZdlQIPHsnXbeucW/oIBPRS4CBBcc9yLgLS5i0kcXI8knRTL1uGXL6xTvT
+         8QI4qmshqEbiwnMDLJwTNOHx9SGpLkvGFbJDr/rlzmCpUr73y3S2hJUnP05dUPzBb1+G
+         SY3A==
+X-Gm-Message-State: AJIora8zNGrKFYZtrFxdXt8GDmeC5OvQ5EoSUY7JDMdoPxzSspbnd9gx
+        Opt7tODAtXahSynyrLYps3YmYo2gWyLqqzPr1pmehA==
+X-Google-Smtp-Source: AGRyM1vscIQo/+xy7dBKtp9I1PdKXkKNEmiDsuRfeqfoF7J0CwLtjsndJwIaUzD3F8yOiqpZDYicVMy69fqs15Wg6hM=
+X-Received: by 2002:a17:906:4fd5:b0:72e:ce13:2438 with SMTP id
+ i21-20020a1709064fd500b0072ece132438mr39359955ejw.175.1658419733482; Thu, 21
+ Jul 2022 09:08:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <20220721083540.1525-12-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20220721083540.1525-12-laurent.pinchart@ideasonboard.com>
+References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <20220721083540.1525-13-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220721083540.1525-13-laurent.pinchart@ideasonboard.com>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 21 Jul 2022 16:52:29 +0100
-Message-ID: <CAPY8ntB=7QFvKtq0Rg7XBHfokU110sLZcSfZ3OSnUdE9zuizsg@mail.gmail.com>
-Subject: Re: [PATCH 11/19] media: i2c: imx290: Add exposure time control
+Date:   Thu, 21 Jul 2022 17:08:37 +0100
+Message-ID: <CAPY8ntAibtuRKnA7+YJKugMNNAz=kiKkFmCN1z9hFitPgsZM=g@mail.gmail.com>
+Subject: Re: [PATCH 12/19] media: i2c: imx290: Fix max gain value
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
         Manivannan Sadhasivam <mani@kernel.org>,
@@ -69,76 +69,49 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Thu, 21 Jul 2022 at 09:36, Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Support configuring the exposure time, which is expressed as the
-> complement if the exposure time (frame period minus integration time).
+> The gain is expressed in multiple of 0.3dB, as a value between 0.0dB
+> and 72.0dB. The maximum value is thus 240, not 72.
 
-s/if/of
+At this point in the series I'll agree with you as it is for V4L2_CID_GAIN.
+However later in the series you convert to V4L2_CID_ANALOGUE_GAIN, and
+there I disagree.
 
-Ranges confirmed to be in accordance with the datasheet.
+The register is for a combined 0-30dB of analogue gain, and 0-42dB of
+digital gain, both in 0.3dB steps.
+V4L2_CID_GAIN can have a range of 0-240.
+V4L2_CID_ANALOGUE_GAIN has a range of 0-100.
 
-With the commit text typo fixed:
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Minor additional point: IMX327 is the previous version of this and
+only goes up to 1080p60 instead of 1080p120 (10bit only). That
+supports 0-29.4dB of analogue gain, and 42dB of digital gain, for a
+max value of 238. If using the definition for analogue gain only, then
+you may end up with 0.6dB of digital gain instead, but it will work.
+IMX462 is the newer version and supports 1080p120 in 10 or 12bit. I
+don't have a full datasheet for it, but the product brief lists
+0-29.4dB of analogue, and 42dB of digital gain, same as IMX327.
+Seeing as the 120fps modes are not implemented in this driver, it
+currently supports all 3 models.
 
-> The frame period is currently fixed.
->
+  Dave
+
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/i2c/imx290.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
+>  drivers/media/i2c/imx290.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index bec326a83952..3cb024b73ee7 100644
+> index 3cb024b73ee7..1bd464932432 100644
 > --- a/drivers/media/i2c/imx290.c
 > +++ b/drivers/media/i2c/imx290.c
-> @@ -103,6 +103,8 @@
->  #define IMX290_PGCTRL_THRU                             BIT(1)
->  #define IMX290_PGCTRL_MODE(n)                          ((n) << 4)
->
-> +#define IMX290_VMAX_DEFAULT                            1125
-> +
->  static const char * const imx290_supply_name[] = {
->         "vdda",
->         "vddd",
-> @@ -176,7 +178,7 @@ static const char * const imx290_test_pattern_menu[] = {
->
->  static const struct imx290_regval imx290_global_init_settings[] = {
->         { IMX290_CTRL_07, IMX290_WINMODE_1080P },
-> -       { IMX290_VMAX, 1125 },
-> +       { IMX290_VMAX, IMX290_VMAX_DEFAULT },
->         { IMX290_EXTCK_FREQ, 0x2520 },
->         { IMX290_WINWV_OB, 12 },
->         { IMX290_WINPH, 0 },
-> @@ -480,6 +482,12 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
->         case V4L2_CID_GAIN:
->                 ret = imx290_write(imx290, IMX290_GAIN, ctrl->val, NULL);
->                 break;
-> +
-> +       case V4L2_CID_EXPOSURE:
-> +               ret = imx290_write(imx290, IMX290_SHS1,
-> +                                  IMX290_VMAX_DEFAULT - ctrl->val - 1, NULL);
-> +               break;
-> +
->         case V4L2_CID_TEST_PATTERN:
->                 if (ctrl->val) {
->                         imx290_write(imx290, IMX290_BLKLEVEL, 0, &ret);
-> @@ -1008,12 +1016,16 @@ static int imx290_probe(struct i2c_client *client)
->          */
->         imx290_entity_init_cfg(&imx290->sd, NULL);
->
-> -       v4l2_ctrl_handler_init(&imx290->ctrls, 4);
-> +       v4l2_ctrl_handler_init(&imx290->ctrls, 5);
+> @@ -1020,7 +1020,7 @@ static int imx290_probe(struct i2c_client *client)
 >         imx290->ctrls.lock = &imx290->lock;
 >
 >         v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
->                           V4L2_CID_GAIN, 0, 72, 1, 0);
+> -                         V4L2_CID_GAIN, 0, 72, 1, 0);
+> +                         V4L2_CID_GAIN, 0, 240, 1, 0);
 >
-> +       v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-> +                         V4L2_CID_EXPOSURE, 1, IMX290_VMAX_DEFAULT - 2, 1,
-> +                         IMX290_VMAX_DEFAULT - 2);
-> +
->         imx290->link_freq =
->                 v4l2_ctrl_new_int_menu(&imx290->ctrls, &imx290_ctrl_ops,
->                                        V4L2_CID_LINK_FREQ,
+>         v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+>                           V4L2_CID_EXPOSURE, 1, IMX290_VMAX_DEFAULT - 2, 1,
 > --
 > Regards,
 >
