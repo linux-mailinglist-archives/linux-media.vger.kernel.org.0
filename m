@@ -2,224 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D5757C9C6
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 13:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69D4857C9D5
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 13:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233005AbiGULcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 07:32:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47758 "EHLO
+        id S233026AbiGULjP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 07:39:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbiGULco (ORCPT
+        with ESMTP id S233236AbiGULjL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 07:32:44 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D069947B95
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 04:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1658403163; x=1689939163;
-  h=subject:from:to:cc:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=HA4H83DCz5tsP4yEcoXGdG811sZ+516EIix/uyDxZFc=;
-  b=QSQH3oasxhYQc3l6hG9EpcwUT3GVl4jm9ZZkMX+/aJfUHvwF0RaoeRyj
-   tXoHwj5NibUcoJlmxjSX/+2eHhqz/EZPXLGwBlJVNv4u50X0rACEGYI2B
-   c17uotGLSVYUU5n4qHcFERXGbqPPOoNjyajltxPdH0Byt9uNrJ36aDYTU
-   CH4ipGJFjitRaOgvH5mTgOLARMwgBjhUrnmS5GUNQL9mCuUEPErMIaofU
-   iI4NNlSMGYZ/yFM/6wfNNraFkoLh2J+5aWn0l0ZIUxRvX3xLn1MYT6UmN
-   w5n7xc2NRzRFdR1CZv3mcXu3TfSzTFaNp63MrgsEuT7XCTnbunaSymX7x
-   w==;
-X-IronPort-AV: E=Sophos;i="5.92,289,1650924000"; 
-   d="scan'208";a="25183432"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 21 Jul 2022 13:32:41 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 21 Jul 2022 13:32:41 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 21 Jul 2022 13:32:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1658403161; x=1689939161;
-  h=from:to:cc:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding:subject;
-  bh=HA4H83DCz5tsP4yEcoXGdG811sZ+516EIix/uyDxZFc=;
-  b=hdBY1InmQgdGVpJJOiRa6FjqteH+nQ9B9VgVJHjM4eAVswcqw2NDSgOl
-   MhjmBulHT+VRGrncWywYP7SKQyFWw2piTNv6yr4whW/U1oQnHH4RmrWoE
-   dR7UqMf8iy79iIPj2iW9jb2VgnAvgQSfEUZKJzeUKe9dpKvJ+JugVbJxa
-   BXWyk+DvpfaFzXWrbJj6iYEgcEoWYm2A8MyeWJLO1a01UpRBxKyWoVCSk
-   Q8bWsh91FiEGg0t0/AkTUQ10+eTBYNBCJeo4yQ300TVnaXIlL2+7r5EVk
-   NSQUn8XMOzOYWD01gD+vvnvlxkPknZtCvN2XGGhN2kMxhOhyBVgjzWwoq
-   g==;
-X-IronPort-AV: E=Sophos;i="5.92,289,1650924000"; 
-   d="scan'208";a="25183430"
-Subject: Re: Re: [PATCH 14/19] media: i2c: imx290: Implement HBLANK and VBLANK
- controls
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 21 Jul 2022 13:32:40 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D37F9280056;
-        Thu, 21 Jul 2022 13:32:40 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Date:   Thu, 21 Jul 2022 13:32:40 +0200
-Message-ID: <4167869.k3LOHGUjKi@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <Ytk1wWOec2tkOB8M@pendragon.ideasonboard.com>
-References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <3399452.atdPhlSkOF@steina-w> <Ytk1wWOec2tkOB8M@pendragon.ideasonboard.com>
+        Thu, 21 Jul 2022 07:39:11 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125026BC39;
+        Thu, 21 Jul 2022 04:39:08 -0700 (PDT)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26L9SOxG006786;
+        Thu, 21 Jul 2022 13:38:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=mun7AZ9mBpMtmwmdeDuU6tzJo0p9u8X+NgiClxdhchc=;
+ b=WMETRdaps0rSi2PR91l7eUocWhrCGLyygeKc9rNQmTDR/Li+TbturBDJq4THsbLjRE7I
+ BYmb4+8Va8+1E4NuxfOQeX1VqFQQCa1RFWxUXFgvvfX4y/5EcUr+57wwsGFKKe9ptPsr
+ lUaEVsgrh6K66hf4CSt6bPI/sG/BIQnv6en00hnKye9RGqizxTQNVrfscm/UfLVW5vu2
+ srSpaUQNKQkwnkHzIvfC4l7V9EhDkIbo8PXcXeoitwYUkKAF3/X1ICKjZ4LzW3uC8ODc
+ vmdxiZvI4yDibrvIiRN1T/Q44WocE9+h1SilO8OxnkhUP7lJBXje4LYVTEfxDerkBjvI aA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3hbnp6cpwk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 21 Jul 2022 13:38:59 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 11DD510002A;
+        Thu, 21 Jul 2022 13:38:57 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0B23E217B9E;
+        Thu, 21 Jul 2022 13:38:57 +0200 (CEST)
+Received: from [10.0.2.15] (10.75.127.51) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Thu, 21 Jul
+ 2022 13:38:56 +0200
+Subject: Re: [PATCH v2 0/4] Switch on IMX577 on RB5 with a new CCI fix
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        <robert.foss@linaro.org>, <todor.too@gmail.com>,
+        <agross@kernel.org>, <bjorn.andersson@linaro.org>
+CC:     <vladimir.zapolskiy@linaro.org>, <mchehab@kernel.org>,
+        <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <mmitkov@quicinc.com>,
+        <jgrahsl@snap.com>, <hfink@snap.com>
+References: <20220524140207.2758605-1-bryan.odonoghue@linaro.org>
+From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Message-ID: <1c596650-177c-e3be-feb0-4c5f00196589@foss.st.com>
+Date:   Thu, 21 Jul 2022 13:38:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220524140207.2758605-1-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-21_16,2022-07-20_01,2022-06-22_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Bryan,
 
-Am Donnerstag, 21. Juli 2022, 13:17:21 CEST schrieb Laurent Pinchart:
-> Hi Alexander,
+On 24/05/2022 16:02, Bryan O'Donoghue wrote:
+> V2:
 > 
-> On Thu, Jul 21, 2022 at 12:05:46PM +0200, Alexander Stein wrote:
-> > Am Donnerstag, 21. Juli 2022, 10:35:35 CEST schrieb Laurent Pinchart:
-> > > Add support for the V4L2_CID_HBLANK and V4L2_CID_VBLANK controls to the
-> > > imx290 driver. Make the controls read-only to start with, to report the
-> > > values to userspace for timing calculation.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > > 
-> > >  drivers/media/i2c/imx290.c | 39 +++++++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 38 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > > index 4408dd3e191f..7190399f4111 100644
-> > > --- a/drivers/media/i2c/imx290.c
-> > > +++ b/drivers/media/i2c/imx290.c
-> > > @@ -146,6 +146,8 @@ struct imx290 {
-> > > 
-> > >  	struct v4l2_ctrl_handler ctrls;
-> > >  	struct v4l2_ctrl *link_freq;
-> > >  	struct v4l2_ctrl *pixel_rate;
-> > > 
-> > > +	struct v4l2_ctrl *hblank;
-> > > +	struct v4l2_ctrl *vblank;
-> > > 
-> > >  	struct mutex lock;
-> > >  
-> > >  };
-> > > 
-> > > @@ -642,6 +644,20 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
-> > > 
-> > >  		if (imx290->pixel_rate)
-> > >  		
-> > >  			__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
-> > >  			
-> > >  						 
-imx290_calc_pixel_rate(imx290));
-> > > 
-> > > +
-> > > +		if (imx290->hblank) {
-> > > +			unsigned int hblank = mode->hmax - mode-
->width;
-> > > +
-> > > +			__v4l2_ctrl_modify_range(imx290->hblank, 
-hblank, hblank,
-> > > +						 1, hblank);
-> > > +		}
-> > > +
-> > > +		if (imx290->vblank) {
-> > > +			unsigned int vblank = IMX290_VMAX_DEFAULT - 
-mode->height;
-> > > +
-> > > +			__v4l2_ctrl_modify_range(imx290->vblank, 
-vblank, vblank,
-> > > +						 1, vblank);
-> > > +		}
-> > > 
-> > >  	}
-> > >  	
-> > >  	*format = fmt->format;
-> > > 
-> > > @@ -880,9 +896,10 @@ static const struct media_entity_operations
-> > > imx290_subdev_entity_ops = {> > 
-> > >  static int imx290_ctrl_init(struct imx290 *imx290)
-> > >  {
-> > > 
-> > > +	unsigned int blank;
-> > > 
-> > >  	int ret;
-> > > 
-> > > -	v4l2_ctrl_handler_init(&imx290->ctrls, 5);
-> > > +	v4l2_ctrl_handler_init(&imx290->ctrls, 7);
-> > > 
-> > >  	imx290->ctrls.lock = &imx290->lock;
-> > >  	
-> > >  	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-> > > 
-> > > @@ -910,6 +927,26 @@ static int imx290_ctrl_init(struct imx290 *imx290)
-> > > 
-> > >  				     
-ARRAY_SIZE(imx290_test_pattern_menu) - 1,
-> > >  				     0, 0, 
-imx290_test_pattern_menu);
-> > > 
-> > > +	/*
-> > > +	 * Horizontal blanking is controlled through the HMAX register, 
-which
-> > > +	 * contains a line length in INCK clock units. The INCK frequency 
-is
-> > > +	 * fixed to 74.25 MHz. The HMAX value is currently fixed to 1100,
-> > > +	 * convert it to a number of pixels based on the nominal pixel 
-rate.
-> > > +	 */
-> > 
-> > Currently the driver only supports 37.125 MHz, please refer to
-> > imx290_probe.
-> Indeed. Re-reading the comment, I suspect something is wrong, as hmax is
-> not converted to pixels here (and is also not fixed to 1100). The only
-> datasheet I found that is publicly accessed doesn't explain very clearly
-> how the HMAX value should be computed. Based on your experience with IMX
-> sensors, would you be able to shed some light on this ?
+> - Adds fix for bug identified by Vladimir
+>   The CCI i2c_adapter_add() and pm_runtime_enable() are racy.
+>   This is a generic problem not related to the rb5/imx577 but, for the sake
+>   of our conversation/review's context I'll add it into this series.
+> - Include Vladimir's camcc patch
+>   I've also opted to include Vladimir's disable of camcc to make the enable
+>   of it in my patchset logical.
+> - Move address/size cells Konrad
+> - Remove newline in pin definitions - Konrad
+> - Remove sensor 'status = "okay"' - Konrad
+> - Add comment to qrb5165-rb5.dts re: imx412 and imx577 difference - Konrad
+> - Move pin definitions to 8250 dtsi - Vladimir
+> - Drop power domain from sensor definition - Vladimir
+> - Correct to "add to cam2" not "cam1" in commit log - bod
+> 
+> To make verification of the CCI race eaiser I've provided a defconfig both
+> with and without modules enabled.
+> 
+> Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/log/?h=linux-next-24-05-22%2bimx577-rb5
+> Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/log/?h=linux-next-24-05-22%2bimx577-rb5-compiled-in
+> 
+> git diff linaro/linux-next-22-05-22+imx577-rb5 linaro/linux-next-24-05-22+imx577-rb5
+> 
+> V1:
+> Linux-next now has everything we need to switch on this sensor both in the
+> qcom DTS and in the imx412 driver.
+> 
+> After this, no further dts or driver work is required to capture images on
+> the RB5.
+> 
+> Here's a bootable linux-next with a kernel config. I added Vladimir's
+> power-domain changes on-top to verify nothing breaks for me.
+> 
+> https://git.linaro.org/people/bryan.odonoghue/kernel.git/log/?h=linux-next-18-05-22%2bimx577-rb5
+> 
+> Bryan O'Donoghue (3):
+>   i2c: qcom-cci: Fix ordering of pm_runtime_xx and i2c_add_adapter
+>   arm64: dts: qcom: sm8250: camss: Define ports address/size cells
+>   arm64: dts: qcom: qrb5165-rb5: Enable the IMX577 on cam2
+> 
+> Vladimir Zapolskiy (1):
+>   arm64: dts: qcom: sm8250: Disable camcc by default
+> 
+>  arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 60 ++++++++++++++++++++++++
+>  arch/arm64/boot/dts/qcom/sm8250.dtsi     | 39 +++++++++++++++
+>  drivers/i2c/busses/i2c-qcom-cci.c        | 14 ++++--
+>  3 files changed, 108 insertions(+), 5 deletions(-)
+> 
 
-Can you share the link to this datasheet you found?
-Sorry, my experience is more like try and error. I don't fully understand this 
-as well, but apparently this depends on frame rate select (FRSEL).
+I successfully tested this series with the st-vgxy61 sensor instead of the imx577. I can't provide comments on the device tree patch for the imx577 in 4/4.
+For patches 1/4, 2/4, and 3/4:
 
-Best regards,
-Alexander
-
-> > > +	blank = imx290->current_mode->hmax - imx290->current_mode->width;
-> > > +	imx290->hblank = v4l2_ctrl_new_std(&imx290->ctrls, 
-&imx290_ctrl_ops,
-> > > +					   V4L2_CID_HBLANK, 
-blank, blank, 1,
-> > > +					   blank);
-> > > +	if (imx290->hblank)
-> > > +		imx290->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > +
-> > > +	blank = IMX290_VMAX_DEFAULT - imx290->current_mode->height;
-> > > +	imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, 
-&imx290_ctrl_ops,
-> > > +					   V4L2_CID_VBLANK, 
-blank, blank, 1,
-> > > +					   blank);
-> > > +	if (imx290->vblank)
-> > > +		imx290->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > +
-> > > 
-> > >  	imx290->sd.ctrl_handler = &imx290->ctrls;
-> > >  	
-> > >  	if (imx290->ctrls.error) {
+Tested-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
 
-
-
+Thanks again for your work.
