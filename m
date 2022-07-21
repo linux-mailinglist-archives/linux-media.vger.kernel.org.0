@@ -2,286 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D14157CFF4
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 17:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01A3457D00E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 17:43:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233394AbiGUPlk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 11:41:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52796 "EHLO
+        id S229673AbiGUPnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 11:43:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233097AbiGUPjq (ORCPT
+        with ESMTP id S232854AbiGUPnY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 11:39:46 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4BD89A82;
-        Thu, 21 Jul 2022 08:38:02 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 72so2044646pge.0;
-        Thu, 21 Jul 2022 08:38:02 -0700 (PDT)
+        Thu, 21 Jul 2022 11:43:24 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C9788E36
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 08:39:25 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id bp15so3842070ejb.6
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 08:39:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hs4O7l0pP6DRS5EHCNCIfeuQWOmUlfNFogQS7F4nGMY=;
-        b=cVYaqki2RE96z91l8vkrxU1/8tPlu8X1aATtyQlcF4T9ti4vBKmOI8EyL7Gt7f/W3Z
-         o8widG+rRMF3f8ZHy7YYqiW0Q1zdwMfU119G/LyQB8oMrvEMHZl5dWNgE4iSyRWdhv45
-         V/XnZppMeYQtQh0HzArs2YcWpsNqBGahR3ORwwVxR12LnvHBYT7hBxSPoCol+9MYTXMf
-         XNBIsoJWcwkdZ65FV2eXU4cYitKNyUZ6A9LBcqn79Ym72q+2yGyLT1mrl0zqAl5/Ml1S
-         khXKW1X955h8zaSUx9favNoxaQIWGUYXrfCXYPVCcbFxn/fFJnP/pKFBsiX7Q1GPWPIy
-         qjJw==
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cPDpOMGYakK7cZ6t6rrOYvvbn68AEaxrviWTN5Qn6sI=;
+        b=so2R/ZLZAaES7jjHvOtSZn/XP76ZDJ4duOEFrpYNmA+Fut8BuoxWJF84UaBfmwHcMp
+         eclM7T/IRei37sLIP+1488uwtZFrRAUYii22Sccip697TCzNPe9YyrRnk8Gdz+vh3OVY
+         yRISt204ecE+YRPh4ft6DyKdezDOVcXJjb+qvpxlH/VLf7e8y0htXaBqgQODRtIq3Yut
+         xJxS13k+2K75GkptrOISK+1JWiVSXmvm4tGqzH+Lb9tvRVFXWe9MzDrZzCaAGhVJBtz8
+         8e3Iz56/ZDuu2mxQpr7xOLx5PlMWnwWM+iPEw+ZDRYlBJofIKHC3chxay3Tkgzt35G/J
+         HLaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hs4O7l0pP6DRS5EHCNCIfeuQWOmUlfNFogQS7F4nGMY=;
-        b=baKD6eqGZ3/nedf7lWrSdo/Ss7yQTzfWDXoq0j/WYzD1g1bMQNsxe1Zy+E0zskSrN9
-         MlYNyRbKn01xjCnUh0A034TF/zpL/fMnk5SKc3/3c4lq+zYs+yc1qSN5hSAvrAxWyiDu
-         eCi+gTmkru3ve70kUjkQnYvLI+qGxfxH7czEjVc9qQfZqSyLOvuJGje5uRduNJoMDxp/
-         uObR6HwVtaAs3lYTXXmLRfJaC8us/RUq+ZvwwLMW1O7iW94On7gzpEtIihH2qxd7RfKO
-         Sy8SIc9SNDT1btbnSamXrFTrdm9kguqIWyIsNavi19iuLD+niaSNESD5wz/AmNY5yO7T
-         bAwA==
-X-Gm-Message-State: AJIora+2s5sKSSaD4UiSdRhALelyIMWokraFmULmrn+PCdChsK2oTSF/
-        RFI7w61B8Rylyl+inJwUDIs=
-X-Google-Smtp-Source: AGRyM1vGJUj/7cE+gO0ZJD5zSmD5g+AuMgDYMxqGc5+o8h/XLlqkFxfyXAAB7zAMx4xWIT9su8odSQ==
-X-Received: by 2002:a62:1b57:0:b0:52a:d646:de3c with SMTP id b84-20020a621b57000000b0052ad646de3cmr44520891pfb.60.1658417880600;
-        Thu, 21 Jul 2022 08:38:00 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:d01c:7038:6d29:af18:34a6:1c34])
-        by smtp.googlemail.com with ESMTPSA id h12-20020a170902f7cc00b0016d1fee99ccsm1826583plw.298.2022.07.21.08.37.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 08:38:00 -0700 (PDT)
-From:   Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
-Cc:     abhijeet.srivastava2308@gmail.com,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: staging: media: zoran: Added * on subsequent lines of Blockcomment
-Date:   Thu, 21 Jul 2022 21:07:37 +0530
-Message-Id: <20220721153748.56687-1-abhijeet.srivastava2308@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cPDpOMGYakK7cZ6t6rrOYvvbn68AEaxrviWTN5Qn6sI=;
+        b=Yua8Rm/eQ+JciqI9U1Q1x4mRrnL4c7usqUW5bY2ucW0daSk9XIL4Op1sAi8Uv5p7Ub
+         H4ZMghewYmlZsppN2jVs5c6YrU5/zujxYRWuqUZaKNgl4OsVzmAXjmmafifNT5eugkW6
+         5KVXGD4OOlhs1nNEKg3A4IxcgVAOHMQo9KeaX496gAtiAIGpvNsGQlte/8KUHzd/xzfe
+         61Cy+N+4W6SR2HFLwcYjCMcwb0VH2YoAfkZATg3h+ZzOTQ3d/tztm1qWp78nQwBzD3nT
+         jDuRN+NzAXHJhwDVsmQkcZOPp3L/CGWFlniYEZ8n33vBgZmnXqQrxod2MRdarBWquP/Q
+         TUcw==
+X-Gm-Message-State: AJIora/5KuBf6uM7vN0clbpTpWKBYclC+TYqqT82Q4TiwU7DDpmiCTIh
+        a4maHHdNddjM+pw4bv1ryavMiS3ra0wMi0WftgYtul5R/yA=
+X-Google-Smtp-Source: AGRyM1ui/8JtAs7cum2HQwFfAhOQNWu0wGrfYkY2Lui/AbJC8WbopkkWaY5hy/PsrTJy4B8+UvDAwDUEBxKkACq3nWw=
+X-Received: by 2002:a17:907:2718:b0:72b:6b65:37dc with SMTP id
+ w24-20020a170907271800b0072b6b6537dcmr40934222ejk.425.1658417964435; Thu, 21
+ Jul 2022 08:39:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <20220721083540.1525-19-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220721083540.1525-19-laurent.pinchart@ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Thu, 21 Jul 2022 16:39:08 +0100
+Message-ID: <CAPY8ntD=rk+dfA8_gjJ7-Q07qL0Fgz5y_ug+jXJh=CH1U=bjjQ@mail.gmail.com>
+Subject: Re: [PATCH 18/19] media: i2c: imx290: Add crop selection targets support
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Warning found by checkpatch.pl script
+Hi Laurent
 
-Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
----
- drivers/staging/media/zoran/videocodec.h | 180 +++++++++++------------
- 1 file changed, 90 insertions(+), 90 deletions(-)
+On Thu, 21 Jul 2022 at 09:36, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Implement read-only access to crop selection rectangles to expose the
+> analogue crop rectangle. The public (leaked) IMX290 documentation is not
+> very clear on how cropping is implemented and configured exactly, so
+> the margins may not be entirely accurate.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx290.c | 94 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 94 insertions(+)
+>
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index baf9941c5fbe..0cb11ec1cf0f 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -105,6 +105,53 @@
+>
+>  #define IMX290_VMAX_DEFAULT                            1125
+>
+> +
+> +/*
+> + * The IMX290 pixel array is organized as follows:
+> + *
+> + *     +------------------------------------+
+> + *     |           Optical Black            |     }  Vertical effective optical black (10)
+> + * +---+------------------------------------+---+
+> + * |   |                                    |   | }  Effective top margin (8)
+> + * |   |   +----------------------------+   |   | \
+> + * |   |   |                            |   |   |  |
+> + * |   |   |                            |   |   |  |
+> + * |   |   |                            |   |   |  |
+> + * |   |   |    Recording Pixel Area    |   |   |  | Recommended height (1080)
+> + * |   |   |                            |   |   |  |
+> + * |   |   |                            |   |   |  |
+> + * |   |   |                            |   |   |  |
+> + * |   |   +----------------------------+   |   | /
+> + * |   |                                    |   | }  Effective bottom margin (8)
 
-diff --git a/drivers/staging/media/zoran/videocodec.h b/drivers/staging/media/zoran/videocodec.h
-index 9dea348fee40..58365b0932b4 100644
---- a/drivers/staging/media/zoran/videocodec.h
-+++ b/drivers/staging/media/zoran/videocodec.h
-@@ -13,108 +13,108 @@
- /* =================== */
- 
- /* Should ease the (re-)usage of drivers supporting cards with (different)
--   video codecs. The codecs register to this module their functionality,
--   and the processors (masters) can attach to them if they fit.
--
--   The codecs are typically have a "strong" binding to their master - so I
--   don't think it makes sense to have a full blown interfacing as with e.g.
--   i2c. If you have an other opinion, let's discuss & implement it :-)))
--
--   Usage:
--
--   The slave has just to setup the videocodec structure and use two functions:
--   videocodec_register(codecdata);
--   videocodec_unregister(codecdata);
--   The best is just calling them at module (de-)initialisation.
--
--   The master sets up the structure videocodec_master and calls:
--   codecdata=videocodec_attach(master_codecdata);
--   videocodec_detach(codecdata);
--
--   The slave is called during attach/detach via functions setup previously
--   during register. At that time, the master_data pointer is set up
--   and the slave can access any io registers of the master device (in the case
--   the slave is bound to it). Otherwise it doesn't need this functions and
--   therfor they may not be initialized.
--
--   The other functions are just for convenience, as they are for sure used by
--   most/all of the codecs. The last ones may be omitted, too.
--
--   See the structure declaration below for more information and which data has
--   to be set up for the master and the slave.
--
--   ----------------------------------------------------------------------------
--   The master should have "knowledge" of the slave and vice versa.  So the data
--   structures sent to/from slave via set_data/get_data set_image/get_image are
--   device dependent and vary between MJPEG/MPEG/WAVELET/... devices. (!!!!)
--   ----------------------------------------------------------------------------
--*/
-+ * video codecs. The codecs register to this module their functionality,
-+ * and the processors (masters) can attach to them if they fit.
-+ *
-+ * The codecs are typically have a "strong" binding to their master - so I
-+ * don't think it makes sense to have a full blown interfacing as with e.g.
-+ * i2c. If you have an other opinion, let's discuss & implement it :-)))
-+ *
-+ * Usage:
-+ *
-+ * The slave has just to setup the videocodec structure and use two functions:
-+ * videocodec_register(codecdata);
-+ * videocodec_unregister(codecdata);
-+ * The best is just calling them at module (de-)initialisation.
-+ *
-+ * The master sets up the structure videocodec_master and calls:
-+ * codecdata=videocodec_attach(master_codecdata);
-+ * videocodec_detach(codecdata);
-+ *
-+ * The slave is called during attach/detach via functions setup previously
-+ * during register. At that time, the master_data pointer is set up
-+ * and the slave can access any io registers of the master device (in the case
-+ * the slave is bound to it). Otherwise it doesn't need this functions and
-+ * therfor they may not be initialized.
-+ *
-+ * The other functions are just for convenience, as they are for sure used by
-+ * most/all of the codecs. The last ones may be omitted, too.
-+ *
-+ * See the structure declaration below for more information and which data has
-+ * to be set up for the master and the slave.
-+ *
-+ * ----------------------------------------------------------------------------
-+ *  The master should have "knowledge" of the slave and vice versa.  So the data
-+ *  structures sent to/from slave via set_data/get_data set_image/get_image are
-+ *  device dependent and vary between MJPEG/MPEG/WAVELET/... devices. (!!!!)
-+ *  ----------------------------------------------------------------------------
-+ */
- 
- /* ========================================== */
- /* description of the videocodec_io structure */
- /* ========================================== */
- 
- /*
--   ==== master setup ====
--   name -> name of the device structure for reference and debugging
--   master_data ->  data ref. for the master (e.g. the zr36055,57,67)
--   readreg -> ref. to read-fn from register (setup by master, used by slave)
--   writereg -> ref. to write-fn to register (setup by master, used by slave)
--	       this two functions do the lowlevel I/O job
--
--   ==== slave functionality setup ====
--   slave_data -> data ref. for the slave (e.g. the zr36050,60)
--   check -> fn-ref. checks availability of an device, returns -EIO on failure or
--	    the type on success
--	    this makes espcecially sense if a driver module supports more than
--	    one codec which may be quite similar to access, nevertheless it
--	    is good for a first functionality check
--
--   -- main functions you always need for compression/decompression --
--
--   set_mode -> this fn-ref. resets the entire codec, and sets up the mode
--	       with the last defined norm/size (or device default if not
--	       available) - it returns 0 if the mode is possible
--   set_size -> this fn-ref. sets the norm and image size for
--	       compression/decompression (returns 0 on success)
--	       the norm param is defined in videodev2.h (V4L2_STD_*)
--
--   additional setup may be available, too - but the codec should work with
--   some default values even without this
--
--   set_data -> sets device-specific data (tables, quality etc.)
--   get_data -> query device-specific data (tables, quality etc.)
--
--   if the device delivers interrupts, they may be setup/handled here
--   setup_interrupt -> codec irq setup (not needed for 36050/60)
--   handle_interrupt -> codec irq handling (not needed for 36050/60)
--
--   if the device delivers pictures, they may be handled here
--   put_image -> puts image data to the codec (not needed for 36050/60)
--   get_image -> gets image data from the codec (not needed for 36050/60)
--		the calls include frame numbers and flags (even/odd/...)
--		if needed and a flag which allows blocking until its ready
--*/
-+ * ==== master setup ====
-+ * name -> name of the device structure for reference and debugging
-+ * master_data ->  data ref. for the master (e.g. the zr36055,57,67)
-+ * readreg -> ref. to read-fn from register (setup by master, used by slave)
-+ * writereg -> ref. to write-fn to register (setup by master, used by slave)
-+ * this two functions do the lowlevel I/O job
-+ *
-+ * ==== slave functionality setup ====
-+ * slave_data -> data ref. for the slave (e.g. the zr36050,60)
-+ * check -> fn-ref. checks availability of an device, returns -EIO on failure or
-+ * the type on success
-+ * this makes espcecially sense if a driver module supports more than
-+ * one codec which may be quite similar to access, nevertheless it
-+ * is good for a first functionality check
-+ *
-+ * -- main functions you always need for compression/decompression --
-+ *
-+ * set_mode -> this fn-ref. resets the entire codec, and sets up the mode
-+ * with the last defined norm/size (or device default if not
-+ * available) - it returns 0 if the mode is possible
-+ *
-+ * set_size -> this fn-ref. sets the norm and image size for
-+ * compression/decompression (returns 0 on success)
-+ * the norm param is defined in videodev2.h (V4L2_STD_*)
-+ * additional setup may be available, too - but the codec should work with
-+ * some default values even without this
-+ *
-+ * set_data -> sets device-specific data (tables, quality etc.)
-+ * get_data -> query device-specific data (tables, quality etc.)
-+ *
-+ * if the device delivers interrupts, they may be setup/handled here
-+ * setup_interrupt -> codec irq setup (not needed for 36050/60)
-+ * handle_interrupt -> codec irq handling (not needed for 36050/60)
-+ *
-+ * if the device delivers pictures, they may be handled here
-+ * put_image -> puts image data to the codec (not needed for 36050/60)
-+ *
-+ * get_image -> gets image data from the codec (not needed for 36050/60)
-+ * the calls include frame numbers and flags (even/odd/...)
-+ * if needed and a flag which allows blocking until its ready
-+ */
- 
- /* ============== */
- /* user interface */
- /* ============== */
- 
- /*
--   Currently there is only a information display planned, as the layer
--   is not visible for the user space at all.
--
--   Information is available via procfs. The current entry is "/proc/videocodecs"
--   but it makes sense to "hide" it in the /proc/video tree of v4l(2) --TODO--.
--
--A example for such an output is:
--
--<S>lave or attached <M>aster name  type flags    magic    (connected as)
--S                          zr36050 0002 0000d001 00000000 (TEMPLATE)
--M                       zr36055[0] 0001 0000c001 00000000 (zr36050[0])
--M                       zr36055[1] 0001 0000c001 00000000 (zr36050[1])
--
--*/
-+ * Currently there is only a information display planned, as the layer
-+ * is not visible for the user space at all.
-+ *
-+ * Information is available via procfs. The current entry is "/proc/videocodecs"
-+ * but it makes sense to "hide" it in the /proc/video tree of v4l(2) --TODO--.
-+ *
-+ * A example for such an output is:
-+ *
-+ * <S>lave or attached <M>aster name  type flags    magic    (connected as)
-+ * S                          zr36050 0002 0000d001 00000000 (TEMPLATE)
-+ * M                       zr36055[0] 0001 0000c001 00000000 (zr36050[0])
-+ * M                       zr36055[1] 0001 0000c001 00000000 (zr36050[1])
-+ */
- 
- /* =============================================== */
- /* special defines for the videocodec_io structure */
--- 
-2.34.1
+I have an official datasheet from Sony. "Effective margin for colour
+processing" at the bottom is stated to be 9 lines, not 8. That also
+makes the numbers then tally of total height being 8 + 1080 + 9 =
+1097.
 
+Otherwise I agree with the numbers you quote here.
+
+My datasheet does go into how window mode is configured, however
+window mode is not being used.
+The register sets present in the driver set the output image size to
+1920x1080 or 1280x720 of the overall 1945x1097 pixels. They differ
+slightly from the definitions given in the datasheet for the Full HD
+1080p and HD720p modes which read out 1945x1097 and 1297x725 pixels
+respectively (assuming I've read it correctly). Exactly how those
+extra pixels are cropped off isn't defined, but I'd suspect it was the
+top left portion of the full image.
+
+If you want 100% defined cropping for each mode then that should be
+achievable using window mode.
+
+  Dave
+
+> + * +---+------------------------------------+---+
+> + *  <-> <-> <--------------------------> <-> <->
+> + *                                            \----  Ignored right margin (4)
+> + *                                        \--------  Effective right margin (9)
+> + *                       \-------------------------  Recommended width (1920)
+> + *       \-----------------------------------------  Effective left margin (8)
+> + *   \---------------------------------------------  Ignored left margin (4)
+> + *
+> + * The optical black lines are output over CSI-2 with a separate data type.
+> + *
+> + * The pixel array is meant to have 1920x1080 usable pixels after image
+> + * processing in an ISP. It has 8 (9) extra active pixels usable for color
+> + * processing in the ISP on the top and left (bottom and right) sides of the
+> + * image. In addition, 4 additional pixels are present on the left and right
+> + * sides of the image, documented as "ignored area".
+> + *
+> + * As far as is understood, all pixels of the pixel array (ignored area, color
+> + * processing margins and recording area) can be output by the sensor.
+> + */
+> +
+> +#define IMX290_PIXEL_ARRAY_WIDTH                       1945
+> +#define IMX290_PIXEL_ARRAY_HEIGHT                      1097
+> +#define IMX920_PIXEL_ARRAY_MARGIN_LEFT                 12
+> +#define IMX920_PIXEL_ARRAY_MARGIN_RIGHT                        13
+> +#define IMX920_PIXEL_ARRAY_MARGIN_TOP                  8
+> +#define IMX920_PIXEL_ARRAY_MARGIN_BOTTOM               9
+> +#define IMX290_PIXEL_ARRAY_RECORDING_WIDTH             1920
+> +#define IMX290_PIXEL_ARRAY_RECORDING_HEIGHT            1080
+> +
+>  static const char * const imx290_supply_name[] = {
+>         "vdda",
+>         "vddd",
+> @@ -671,6 +718,52 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+>         return 0;
+>  }
+>
+> +static int imx290_get_selection(struct v4l2_subdev *sd,
+> +                               struct v4l2_subdev_state *sd_state,
+> +                               struct v4l2_subdev_selection *sel)
+> +{
+> +       struct imx290 *imx290 = to_imx290(sd);
+> +       struct v4l2_mbus_framefmt *format;
+> +
+> +       switch (sel->target) {
+> +       case V4L2_SEL_TGT_CROP: {
+> +               format = imx290_get_pad_format(imx290, sd_state, sel->which);
+> +
+> +               mutex_lock(&imx290->lock);
+> +
+> +               sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP
+> +                          + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT - format->height) / 2;
+> +               sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT
+> +                           + (IMX290_PIXEL_ARRAY_RECORDING_WIDTH - format->width) / 2;
+> +               sel->r.width = format->width;
+> +               sel->r.height = format->height;
+> +
+> +               mutex_unlock(&imx290->lock);
+> +               return 0;
+> +       }
+> +
+> +       case V4L2_SEL_TGT_NATIVE_SIZE:
+> +       case V4L2_SEL_TGT_CROP_BOUNDS:
+> +               sel->r.top = 0;
+> +               sel->r.left = 0;
+> +               sel->r.width = IMX290_PIXEL_ARRAY_WIDTH;
+> +               sel->r.height = IMX290_PIXEL_ARRAY_HEIGHT;
+> +
+> +               return 0;
+> +
+> +       case V4L2_SEL_TGT_CROP_DEFAULT:
+> +               sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP;
+> +               sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT;
+> +               sel->r.width = IMX290_PIXEL_ARRAY_RECORDING_WIDTH;
+> +               sel->r.height = IMX290_PIXEL_ARRAY_RECORDING_HEIGHT;
+> +
+> +               return 0;
+> +
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +}
+> +
+>  static int imx290_entity_init_cfg(struct v4l2_subdev *subdev,
+>                                   struct v4l2_subdev_state *sd_state)
+>  {
+> @@ -887,6 +980,7 @@ static const struct v4l2_subdev_pad_ops imx290_pad_ops = {
+>         .enum_frame_size = imx290_enum_frame_size,
+>         .get_fmt = imx290_get_fmt,
+>         .set_fmt = imx290_set_fmt,
+> +       .get_selection = imx290_get_selection,
+>  };
+>
+>  static const struct v4l2_subdev_ops imx290_subdev_ops = {
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
