@@ -2,44 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3D557C48F
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 08:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D3D157C4C7
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 08:57:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232117AbiGUGkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 02:40:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55910 "EHLO
+        id S231286AbiGUG5P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 02:57:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231965AbiGUGj6 (ORCPT
+        with ESMTP id S231726AbiGUG5O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 02:39:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBDB3B960;
-        Wed, 20 Jul 2022 23:39:57 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F8CF496;
-        Thu, 21 Jul 2022 08:39:55 +0200 (CEST)
+        Thu, 21 Jul 2022 02:57:14 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91CB0785BE
+        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 23:57:13 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E22DA496;
+        Thu, 21 Jul 2022 08:57:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658385595;
-        bh=HLCcuuyn09GD67jWlHbPI3K4ebYuAGYQAmHxs8T3XHA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VIP/1SDkbOlYWuSVDO/jKpVK0/mOc5eAMkyQGCOnEdDAm4EJmMTmjwwlnJeEz6E8c
-         P5nfkDyKcTZjolO86ZUD9/OQpKXGlrOSUxNp5yLeVsfp4v5uFEOspqJdJefAWQFpHl
-         u8T1UqkO12fAvJKJWlSJQ9TfO69NDFpglgnOJozk=
-Date:   Thu, 21 Jul 2022 09:39:53 +0300
+        s=mail; t=1658386631;
+        bh=rre2EFq+a/iXK3MjyFHjjC/DQtSAI9OIMUGABD57OFU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GjOdOCC8014vLsl5mAO/xKH6ZT9uouhMFsWFUyIsLv/WIhzr47PVy7tmE5DAD9hmk
+         HJC78pZYyNmBJPCE/6uynL0+FFC+KoK3f5mIrF44+Qnv2TH+HCeuOksZSfC/5eFZFJ
+         +Yy1/x/5Uz4kdrma8ZqI45EWWf5X9JtxpC14mimY=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     linux-media@vger.kernel.org
+Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
         Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rkisp1: Implement ENUM_FRAMESIZES
-Message-ID: <Ytj0uVpQJUaJuJvK@pendragon.ideasonboard.com>
-References: <20220720172231.4019063-1-paul.elder@ideasonboard.com>
+        Paul Elder <paul.elder@ideasonboard.com>,
+        linux-rockchip@lists.infradead.org
+Subject: [PATCH] media: rkisp1: Make local immutable array variables static const
+Date:   Thu, 21 Jul 2022 09:57:06 +0300
+Message-Id: <20220721065706.31710-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220720172231.4019063-1-paul.elder@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -49,69 +46,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+The max_widths and max_heights variables in rkisp1_try_fmt() are
+immutable and don't need to be allocated on the stack every time the
+function is called. Make them static.
 
-Thank you for the patch.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ .../media/platform/rockchip/rkisp1/rkisp1-capture.c  | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-On Thu, Jul 21, 2022 at 02:22:31AM +0900, Paul Elder wrote:
-> Implement VIDIOC_ENUM_FRAMESIZES for the rkisp1 capture devices.
-> 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-capture.c | 26 +++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index c494afbc21b4..74106a01ded7 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -1245,6 +1245,31 @@ static int rkisp1_enum_fmt_vid_cap_mplane(struct file *file, void *priv,
->  	return -EINVAL;
->  }
->  
-> +static int rkisp1_enum_framesizes(struct file *file, void *fh,
-> +				  struct v4l2_frmsizeenum *fsize)
-> +{
-> +	struct rkisp1_capture *cap = video_drvdata(file);
-> +	const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
-> +					    RKISP1_RSZ_SP_SRC_MAX_WIDTH };
-> +	const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
-> +					     RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
-
-You can make these static const.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
-> +	if (fsize->index != 0)
-> +		return -EINVAL;
-> +
-> +	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-> +
-> +	fsize->stepwise.min_width = RKISP1_RSZ_SRC_MIN_WIDTH;
-> +	fsize->stepwise.max_width = max_widths[cap->id];
-> +	fsize->stepwise.step_width = 2;
-> +
-> +	fsize->stepwise.min_height = RKISP1_RSZ_SRC_MIN_HEIGHT;
-> +	fsize->stepwise.max_height = max_heights[cap->id];
-> +	fsize->stepwise.step_height = 2;
-> +
-> +	return 0;
-> +}
-> +
->  static int rkisp1_s_fmt_vid_cap_mplane(struct file *file,
->  				       void *priv, struct v4l2_format *f)
->  {
-> @@ -1294,6 +1319,7 @@ static const struct v4l2_ioctl_ops rkisp1_v4l2_ioctl_ops = {
->  	.vidioc_s_fmt_vid_cap_mplane = rkisp1_s_fmt_vid_cap_mplane,
->  	.vidioc_g_fmt_vid_cap_mplane = rkisp1_g_fmt_vid_cap_mplane,
->  	.vidioc_enum_fmt_vid_cap = rkisp1_enum_fmt_vid_cap_mplane,
-> +	.vidioc_enum_framesizes = rkisp1_enum_framesizes,
->  	.vidioc_querycap = rkisp1_querycap,
->  	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
->  	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index ef3c9389d684..81177ad08cf0 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -1162,13 +1162,17 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
+ 			   const struct rkisp1_capture_fmt_cfg **fmt_cfg,
+ 			   const struct v4l2_format_info **fmt_info)
+ {
++	static const unsigned int max_widths[] = {
++		RKISP1_RSZ_MP_SRC_MAX_WIDTH,
++		RKISP1_RSZ_SP_SRC_MAX_WIDTH,
++	};
++	static const unsigned int max_heights[] = {
++		RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
++		RKISP1_RSZ_SP_SRC_MAX_HEIGHT,
++	};
+ 	const struct rkisp1_capture_config *config = cap->config;
+ 	const struct rkisp1_capture_fmt_cfg *fmt;
+ 	const struct v4l2_format_info *info;
+-	const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
+-					    RKISP1_RSZ_SP_SRC_MAX_WIDTH };
+-	const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
+-					     RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
+ 
+ 	fmt = rkisp1_find_fmt_cfg(cap, pixm->pixelformat);
+ 	if (!fmt) {
 -- 
 Regards,
 
 Laurent Pinchart
+
