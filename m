@@ -2,143 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D975857C39D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 06:44:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3D557C48F
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 08:40:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbiGUEoS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 00:44:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39380 "EHLO
+        id S232117AbiGUGkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 02:40:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbiGUEoQ (ORCPT
+        with ESMTP id S231965AbiGUGj6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 00:44:16 -0400
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5EAC9743D1
-        for <linux-media@vger.kernel.org>; Wed, 20 Jul 2022 21:44:15 -0700 (PDT)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-wCWCKbzDPBOPH_d9xnmbWw-1; Thu, 21 Jul 2022 00:44:01 -0400
-X-MC-Unique: wCWCKbzDPBOPH_d9xnmbWw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80331811E80;
-        Thu, 21 Jul 2022 04:44:00 +0000 (UTC)
-Received: from dreadlord.bne.redhat.com (fdacunha.bne.redhat.com [10.64.0.157])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BEEA3909FF;
-        Thu, 21 Jul 2022 04:43:55 +0000 (UTC)
-From:   Dave Airlie <airlied@gmail.com>
-To:     torvalds@linux-foundation.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        Daniel Vetter <daniel@ffwll.ch>, mcgrof@kernel.org
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.sf.net,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
-        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Harry Wentland <harry.wentland@amd.com>
-Subject: [PATCH] docs: driver-api: firmware: add driver firmware guidelines. (v3)
-Date:   Thu, 21 Jul 2022 14:43:52 +1000
-Message-Id: <20220721044352.3110507-1-airlied@gmail.com>
+        Thu, 21 Jul 2022 02:39:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBDB3B960;
+        Wed, 20 Jul 2022 23:39:57 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F8CF496;
+        Thu, 21 Jul 2022 08:39:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1658385595;
+        bh=HLCcuuyn09GD67jWlHbPI3K4ebYuAGYQAmHxs8T3XHA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VIP/1SDkbOlYWuSVDO/jKpVK0/mOc5eAMkyQGCOnEdDAm4EJmMTmjwwlnJeEz6E8c
+         P5nfkDyKcTZjolO86ZUD9/OQpKXGlrOSUxNp5yLeVsfp4v5uFEOspqJdJefAWQFpHl
+         u8T1UqkO12fAvJKJWlSJQ9TfO69NDFpglgnOJozk=
+Date:   Thu, 21 Jul 2022 09:39:53 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rkisp1: Implement ENUM_FRAMESIZES
+Message-ID: <Ytj0uVpQJUaJuJvK@pendragon.ideasonboard.com>
+References: <20220720172231.4019063-1-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_SOFTFAIL,SPOOFED_FREEMAIL,SPOOF_GMAIL_MID
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220720172231.4019063-1-paul.elder@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dave Airlie <airlied@redhat.com>
+Hi Paul,
 
-A recent snafu where Intel ignored upstream feedback on a firmware
-change, led to a late rc6 fix being required. In order to avoid this
-in the future we should document some expectations around
-linux-firmware.
+Thank you for the patch.
 
-I was originally going to write this for drm, but it seems quite generic
-advice.
+On Thu, Jul 21, 2022 at 02:22:31AM +0900, Paul Elder wrote:
+> Implement VIDIOC_ENUM_FRAMESIZES for the rkisp1 capture devices.
+> 
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-capture.c | 26 +++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> index c494afbc21b4..74106a01ded7 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> @@ -1245,6 +1245,31 @@ static int rkisp1_enum_fmt_vid_cap_mplane(struct file *file, void *priv,
+>  	return -EINVAL;
+>  }
+>  
+> +static int rkisp1_enum_framesizes(struct file *file, void *fh,
+> +				  struct v4l2_frmsizeenum *fsize)
+> +{
+> +	struct rkisp1_capture *cap = video_drvdata(file);
+> +	const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
+> +					    RKISP1_RSZ_SP_SRC_MAX_WIDTH };
+> +	const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
+> +					     RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
 
-v2: rewritten with suggestions from Thorsten Leemhuis
-v3: rewritten with suggestions from Mauro
+You can make these static const.
 
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
-Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Acked-by: Daniel Vetter <daniel@ffwll.ch>
-Acked-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- Documentation/driver-api/firmware/core.rst    |  1 +
- .../firmware/firmware-usage-guidelines.rst    | 44 +++++++++++++++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-diff --git a/Documentation/driver-api/firmware/core.rst b/Documentation/driver-api/firmware/core.rst
-index 1d1688cbc078..803cd574bbd7 100644
---- a/Documentation/driver-api/firmware/core.rst
-+++ b/Documentation/driver-api/firmware/core.rst
-@@ -13,4 +13,5 @@ documents these features.
-    direct-fs-lookup
-    fallback-mechanisms
-    lookup-order
-+   firmware-usage-guidelines
- 
-diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-new file mode 100644
-index 000000000000..fdcfce42c6d2
---- /dev/null
-+++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-@@ -0,0 +1,44 @@
-+===================
-+Firmware Guidelines
-+===================
-+
-+Users switching to a newer kernel should *not* have to install newer
-+firmware files to keep their hardware working. At the same time updated
-+firmware files must not cause any regressions for users of older kernel
-+releases.
-+
-+Drivers that use firmware from linux-firmware should follow the rules in
-+this guide. (Where there is limited control of the firmware,
-+i.e. company doesn't support Linux, firmwares sourced from misc places,
-+then of course these rules will not apply strictly.)
-+
-+* Firmware files shall be designed in a way that it allows checking for
-+  firmware ABI version changes. It is recommended that firmware files be
-+  versioned with at least a major/minor version. It is suggested that
-+  the firmware files in linux-firmware be named with some device
-+  specific name, and just the major version. The firmware version should
-+  be stored in the firmware header, or as an exception, as part of the
-+  firmware file name, in order to let the driver detact any non-ABI
-+  fixes/changes. The firmware files in linux-firmware should be
-+  overwritten with the newest compatible major version. Newer major
-+  version firmware shall remain compatible with all kernels that load
-+  that major number.
-+
-+* If the kernel support for the hardware is normally inactive, or the
-+  hardware isn't available for public consumption, this can
-+  be ignored, until the first kernel release that enables that hardware.
-+  This means no major version bumps without the kernel retaining
-+  backwards compatibility for the older major versions.  Minor version
-+  bumps should not introduce new features that newer kernels depend on
-+  non-optionally.
-+
-+* If a security fix needs lockstep firmware and kernel fixes in order to
-+  be successful, then all supported major versions in the linux-firmware
-+  repo that are required by currently supported stable/LTS kernels,
-+  should be updated with the security fix. The kernel patches should
-+  detect if the firmware is new enough to declare if the security issue
-+  is fixed.  All communications around security fixes should point at
-+  both the firmware and kernel fixes. If a security fix requires
-+  deprecating old major versions, then this should only be done as a
-+  last option, and be stated clearly in all communications.
-+
+> +
+> +	if (fsize->index != 0)
+> +		return -EINVAL;
+> +
+> +	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+> +
+> +	fsize->stepwise.min_width = RKISP1_RSZ_SRC_MIN_WIDTH;
+> +	fsize->stepwise.max_width = max_widths[cap->id];
+> +	fsize->stepwise.step_width = 2;
+> +
+> +	fsize->stepwise.min_height = RKISP1_RSZ_SRC_MIN_HEIGHT;
+> +	fsize->stepwise.max_height = max_heights[cap->id];
+> +	fsize->stepwise.step_height = 2;
+> +
+> +	return 0;
+> +}
+> +
+>  static int rkisp1_s_fmt_vid_cap_mplane(struct file *file,
+>  				       void *priv, struct v4l2_format *f)
+>  {
+> @@ -1294,6 +1319,7 @@ static const struct v4l2_ioctl_ops rkisp1_v4l2_ioctl_ops = {
+>  	.vidioc_s_fmt_vid_cap_mplane = rkisp1_s_fmt_vid_cap_mplane,
+>  	.vidioc_g_fmt_vid_cap_mplane = rkisp1_g_fmt_vid_cap_mplane,
+>  	.vidioc_enum_fmt_vid_cap = rkisp1_enum_fmt_vid_cap_mplane,
+> +	.vidioc_enum_framesizes = rkisp1_enum_framesizes,
+>  	.vidioc_querycap = rkisp1_querycap,
+>  	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+>  	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+
 -- 
-2.36.1
+Regards,
 
+Laurent Pinchart
