@@ -2,228 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01A3457D00E
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 17:43:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F1DE57D056
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jul 2022 17:52:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229673AbiGUPnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 11:43:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35914 "EHLO
+        id S233158AbiGUPws (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 11:52:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232854AbiGUPnY (ORCPT
+        with ESMTP id S230161AbiGUPwr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 11:43:24 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C9788E36
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 08:39:25 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id bp15so3842070ejb.6
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 08:39:25 -0700 (PDT)
+        Thu, 21 Jul 2022 11:52:47 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6112D43E63
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 08:52:46 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id y8so2710674eda.3
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 08:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=cPDpOMGYakK7cZ6t6rrOYvvbn68AEaxrviWTN5Qn6sI=;
-        b=so2R/ZLZAaES7jjHvOtSZn/XP76ZDJ4duOEFrpYNmA+Fut8BuoxWJF84UaBfmwHcMp
-         eclM7T/IRei37sLIP+1488uwtZFrRAUYii22Sccip697TCzNPe9YyrRnk8Gdz+vh3OVY
-         yRISt204ecE+YRPh4ft6DyKdezDOVcXJjb+qvpxlH/VLf7e8y0htXaBqgQODRtIq3Yut
-         xJxS13k+2K75GkptrOISK+1JWiVSXmvm4tGqzH+Lb9tvRVFXWe9MzDrZzCaAGhVJBtz8
-         8e3Iz56/ZDuu2mxQpr7xOLx5PlMWnwWM+iPEw+ZDRYlBJofIKHC3chxay3Tkgzt35G/J
-         HLaA==
+        bh=H6GmlPPoxI364VpvqINQP43FYgTjgXKR4hPzJuIwqB4=;
+        b=NtWFFXWVe+5CarBLRLczuQF+xuyCjT8AWMjcLX9QpdhFRwGnanTU+QJjydHFcY0fLR
+         Itbb76pYIkHLQwhwV1a1VXbc4uQMfJI+aBB9FpDnBNvY3zod0+Nyu4UPVPMSc9l8301Z
+         Hfl6NcAQQXGenFsvpR9ks/oxjhZCwfoYclIwswsF9ycB20OsYEXaQ2uH1CyYPnT0SPq8
+         M3+iafjLbqGH1vk++mESgnw8cYzGx27MRM+p4kW19j/3dp/yTvS3CAJBqNL1gH9ioPxL
+         z/4UivsqgQJ/O4I58UL6/RrmRQiVzvwvIml77jSCThmX9gGMB9bpYrne4HKApY2TthXO
+         IDug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cPDpOMGYakK7cZ6t6rrOYvvbn68AEaxrviWTN5Qn6sI=;
-        b=Yua8Rm/eQ+JciqI9U1Q1x4mRrnL4c7usqUW5bY2ucW0daSk9XIL4Op1sAi8Uv5p7Ub
-         H4ZMghewYmlZsppN2jVs5c6YrU5/zujxYRWuqUZaKNgl4OsVzmAXjmmafifNT5eugkW6
-         5KVXGD4OOlhs1nNEKg3A4IxcgVAOHMQo9KeaX496gAtiAIGpvNsGQlte/8KUHzd/xzfe
-         61Cy+N+4W6SR2HFLwcYjCMcwb0VH2YoAfkZATg3h+ZzOTQ3d/tztm1qWp78nQwBzD3nT
-         jDuRN+NzAXHJhwDVsmQkcZOPp3L/CGWFlniYEZ8n33vBgZmnXqQrxod2MRdarBWquP/Q
-         TUcw==
-X-Gm-Message-State: AJIora/5KuBf6uM7vN0clbpTpWKBYclC+TYqqT82Q4TiwU7DDpmiCTIh
-        a4maHHdNddjM+pw4bv1ryavMiS3ra0wMi0WftgYtul5R/yA=
-X-Google-Smtp-Source: AGRyM1ui/8JtAs7cum2HQwFfAhOQNWu0wGrfYkY2Lui/AbJC8WbopkkWaY5hy/PsrTJy4B8+UvDAwDUEBxKkACq3nWw=
-X-Received: by 2002:a17:907:2718:b0:72b:6b65:37dc with SMTP id
- w24-20020a170907271800b0072b6b6537dcmr40934222ejk.425.1658417964435; Thu, 21
- Jul 2022 08:39:24 -0700 (PDT)
+        bh=H6GmlPPoxI364VpvqINQP43FYgTjgXKR4hPzJuIwqB4=;
+        b=RhRUHK4Vr3/eCCrMjNXkm5yssHL+rcXiOq14b9UCQkV5zhVmCjoPXQi+HF+aGblSSk
+         oRci89SeRaf5xTu/RWdfdqfEK9HQdE3HMBHvBN2j2E8QMZY+U7haVPJGm72RdW56gsnE
+         FY8e9PrpyGyIe9ei9/+d+Cbc7KgdB8OaZ3RtzH5bZ/d/eITfDXcBUuZvZnMSkoXnoBPx
+         /gLVcWwEjEfkn7ZGrJccMnvbJSAsYAdB4HmDwuPdzsS4EyIODuYCtehHRlrLFKfMlEL5
+         nBPNmyJvtlVyeZjCP9+grwqJ+3Ub5Lk0DVMt1ooox9C0wWJ9hIBb++iNBSW6DXjs4RUV
+         1cvg==
+X-Gm-Message-State: AJIora9XS/1zOX4CizVhMfIxx+XEWyRExsSrHZoc/7lvMTuQ1ZjDTCLg
+        23e22JlORU7JsbPJ9l6ipyhafcLr/RV3MLXXIN/TOw==
+X-Google-Smtp-Source: AGRyM1tQTjIKct7HmBY1WbVW9Owzn86sFVJ/R/8/lyM5QGI4x+iySoRr2+iAePhZioTbd6JXBv+UrA0nlociGdP8Ksk=
+X-Received: by 2002:a05:6402:194f:b0:43a:298f:f39c with SMTP id
+ f15-20020a056402194f00b0043a298ff39cmr57448359edz.106.1658418764861; Thu, 21
+ Jul 2022 08:52:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <20220721083540.1525-19-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20220721083540.1525-19-laurent.pinchart@ideasonboard.com>
+References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <20220721083540.1525-12-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220721083540.1525-12-laurent.pinchart@ideasonboard.com>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 21 Jul 2022 16:39:08 +0100
-Message-ID: <CAPY8ntD=rk+dfA8_gjJ7-Q07qL0Fgz5y_ug+jXJh=CH1U=bjjQ@mail.gmail.com>
-Subject: Re: [PATCH 18/19] media: i2c: imx290: Add crop selection targets support
+Date:   Thu, 21 Jul 2022 16:52:29 +0100
+Message-ID: <CAPY8ntB=7QFvKtq0Rg7XBHfokU110sLZcSfZ3OSnUdE9zuizsg@mail.gmail.com>
+Subject: Re: [PATCH 11/19] media: i2c: imx290: Add exposure time control
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
         Manivannan Sadhasivam <mani@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
-
 On Thu, 21 Jul 2022 at 09:36, Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Implement read-only access to crop selection rectangles to expose the
-> analogue crop rectangle. The public (leaked) IMX290 documentation is not
-> very clear on how cropping is implemented and configured exactly, so
-> the margins may not be entirely accurate.
+> Support configuring the exposure time, which is expressed as the
+> complement if the exposure time (frame period minus integration time).
+
+s/if/of
+
+Ranges confirmed to be in accordance with the datasheet.
+
+With the commit text typo fixed:
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> The frame period is currently fixed.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/i2c/imx290.c | 94 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 94 insertions(+)
+>  drivers/media/i2c/imx290.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index baf9941c5fbe..0cb11ec1cf0f 100644
+> index bec326a83952..3cb024b73ee7 100644
 > --- a/drivers/media/i2c/imx290.c
 > +++ b/drivers/media/i2c/imx290.c
-> @@ -105,6 +105,53 @@
+> @@ -103,6 +103,8 @@
+>  #define IMX290_PGCTRL_THRU                             BIT(1)
+>  #define IMX290_PGCTRL_MODE(n)                          ((n) << 4)
 >
->  #define IMX290_VMAX_DEFAULT                            1125
->
-> +
-> +/*
-> + * The IMX290 pixel array is organized as follows:
-> + *
-> + *     +------------------------------------+
-> + *     |           Optical Black            |     }  Vertical effective optical black (10)
-> + * +---+------------------------------------+---+
-> + * |   |                                    |   | }  Effective top margin (8)
-> + * |   |   +----------------------------+   |   | \
-> + * |   |   |                            |   |   |  |
-> + * |   |   |                            |   |   |  |
-> + * |   |   |                            |   |   |  |
-> + * |   |   |    Recording Pixel Area    |   |   |  | Recommended height (1080)
-> + * |   |   |                            |   |   |  |
-> + * |   |   |                            |   |   |  |
-> + * |   |   |                            |   |   |  |
-> + * |   |   +----------------------------+   |   | /
-> + * |   |                                    |   | }  Effective bottom margin (8)
-
-I have an official datasheet from Sony. "Effective margin for colour
-processing" at the bottom is stated to be 9 lines, not 8. That also
-makes the numbers then tally of total height being 8 + 1080 + 9 =
-1097.
-
-Otherwise I agree with the numbers you quote here.
-
-My datasheet does go into how window mode is configured, however
-window mode is not being used.
-The register sets present in the driver set the output image size to
-1920x1080 or 1280x720 of the overall 1945x1097 pixels. They differ
-slightly from the definitions given in the datasheet for the Full HD
-1080p and HD720p modes which read out 1945x1097 and 1297x725 pixels
-respectively (assuming I've read it correctly). Exactly how those
-extra pixels are cropped off isn't defined, but I'd suspect it was the
-top left portion of the full image.
-
-If you want 100% defined cropping for each mode then that should be
-achievable using window mode.
-
-  Dave
-
-> + * +---+------------------------------------+---+
-> + *  <-> <-> <--------------------------> <-> <->
-> + *                                            \----  Ignored right margin (4)
-> + *                                        \--------  Effective right margin (9)
-> + *                       \-------------------------  Recommended width (1920)
-> + *       \-----------------------------------------  Effective left margin (8)
-> + *   \---------------------------------------------  Ignored left margin (4)
-> + *
-> + * The optical black lines are output over CSI-2 with a separate data type.
-> + *
-> + * The pixel array is meant to have 1920x1080 usable pixels after image
-> + * processing in an ISP. It has 8 (9) extra active pixels usable for color
-> + * processing in the ISP on the top and left (bottom and right) sides of the
-> + * image. In addition, 4 additional pixels are present on the left and right
-> + * sides of the image, documented as "ignored area".
-> + *
-> + * As far as is understood, all pixels of the pixel array (ignored area, color
-> + * processing margins and recording area) can be output by the sensor.
-> + */
-> +
-> +#define IMX290_PIXEL_ARRAY_WIDTH                       1945
-> +#define IMX290_PIXEL_ARRAY_HEIGHT                      1097
-> +#define IMX920_PIXEL_ARRAY_MARGIN_LEFT                 12
-> +#define IMX920_PIXEL_ARRAY_MARGIN_RIGHT                        13
-> +#define IMX920_PIXEL_ARRAY_MARGIN_TOP                  8
-> +#define IMX920_PIXEL_ARRAY_MARGIN_BOTTOM               9
-> +#define IMX290_PIXEL_ARRAY_RECORDING_WIDTH             1920
-> +#define IMX290_PIXEL_ARRAY_RECORDING_HEIGHT            1080
+> +#define IMX290_VMAX_DEFAULT                            1125
 > +
 >  static const char * const imx290_supply_name[] = {
 >         "vdda",
 >         "vddd",
-> @@ -671,6 +718,52 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
->         return 0;
->  }
+> @@ -176,7 +178,7 @@ static const char * const imx290_test_pattern_menu[] = {
 >
-> +static int imx290_get_selection(struct v4l2_subdev *sd,
-> +                               struct v4l2_subdev_state *sd_state,
-> +                               struct v4l2_subdev_selection *sel)
-> +{
-> +       struct imx290 *imx290 = to_imx290(sd);
-> +       struct v4l2_mbus_framefmt *format;
+>  static const struct imx290_regval imx290_global_init_settings[] = {
+>         { IMX290_CTRL_07, IMX290_WINMODE_1080P },
+> -       { IMX290_VMAX, 1125 },
+> +       { IMX290_VMAX, IMX290_VMAX_DEFAULT },
+>         { IMX290_EXTCK_FREQ, 0x2520 },
+>         { IMX290_WINWV_OB, 12 },
+>         { IMX290_WINPH, 0 },
+> @@ -480,6 +482,12 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>         case V4L2_CID_GAIN:
+>                 ret = imx290_write(imx290, IMX290_GAIN, ctrl->val, NULL);
+>                 break;
 > +
-> +       switch (sel->target) {
-> +       case V4L2_SEL_TGT_CROP: {
-> +               format = imx290_get_pad_format(imx290, sd_state, sel->which);
+> +       case V4L2_CID_EXPOSURE:
+> +               ret = imx290_write(imx290, IMX290_SHS1,
+> +                                  IMX290_VMAX_DEFAULT - ctrl->val - 1, NULL);
+> +               break;
 > +
-> +               mutex_lock(&imx290->lock);
-> +
-> +               sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP
-> +                          + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT - format->height) / 2;
-> +               sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT
-> +                           + (IMX290_PIXEL_ARRAY_RECORDING_WIDTH - format->width) / 2;
-> +               sel->r.width = format->width;
-> +               sel->r.height = format->height;
-> +
-> +               mutex_unlock(&imx290->lock);
-> +               return 0;
-> +       }
-> +
-> +       case V4L2_SEL_TGT_NATIVE_SIZE:
-> +       case V4L2_SEL_TGT_CROP_BOUNDS:
-> +               sel->r.top = 0;
-> +               sel->r.left = 0;
-> +               sel->r.width = IMX290_PIXEL_ARRAY_WIDTH;
-> +               sel->r.height = IMX290_PIXEL_ARRAY_HEIGHT;
-> +
-> +               return 0;
-> +
-> +       case V4L2_SEL_TGT_CROP_DEFAULT:
-> +               sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP;
-> +               sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT;
-> +               sel->r.width = IMX290_PIXEL_ARRAY_RECORDING_WIDTH;
-> +               sel->r.height = IMX290_PIXEL_ARRAY_RECORDING_HEIGHT;
-> +
-> +               return 0;
-> +
-> +       default:
-> +               return -EINVAL;
-> +       }
-> +}
-> +
->  static int imx290_entity_init_cfg(struct v4l2_subdev *subdev,
->                                   struct v4l2_subdev_state *sd_state)
->  {
-> @@ -887,6 +980,7 @@ static const struct v4l2_subdev_pad_ops imx290_pad_ops = {
->         .enum_frame_size = imx290_enum_frame_size,
->         .get_fmt = imx290_get_fmt,
->         .set_fmt = imx290_set_fmt,
-> +       .get_selection = imx290_get_selection,
->  };
+>         case V4L2_CID_TEST_PATTERN:
+>                 if (ctrl->val) {
+>                         imx290_write(imx290, IMX290_BLKLEVEL, 0, &ret);
+> @@ -1008,12 +1016,16 @@ static int imx290_probe(struct i2c_client *client)
+>          */
+>         imx290_entity_init_cfg(&imx290->sd, NULL);
 >
->  static const struct v4l2_subdev_ops imx290_subdev_ops = {
+> -       v4l2_ctrl_handler_init(&imx290->ctrls, 4);
+> +       v4l2_ctrl_handler_init(&imx290->ctrls, 5);
+>         imx290->ctrls.lock = &imx290->lock;
+>
+>         v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+>                           V4L2_CID_GAIN, 0, 72, 1, 0);
+>
+> +       v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> +                         V4L2_CID_EXPOSURE, 1, IMX290_VMAX_DEFAULT - 2, 1,
+> +                         IMX290_VMAX_DEFAULT - 2);
+> +
+>         imx290->link_freq =
+>                 v4l2_ctrl_new_int_menu(&imx290->ctrls, &imx290_ctrl_ops,
+>                                        V4L2_CID_LINK_FREQ,
 > --
 > Regards,
 >
