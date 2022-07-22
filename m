@@ -2,70 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D19A557D907
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 05:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 951F857D9B0
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 06:54:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbiGVDgn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 23:36:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52834 "EHLO
+        id S233387AbiGVEyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jul 2022 00:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbiGVDgm (ORCPT
+        with ESMTP id S229839AbiGVEyw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 23:36:42 -0400
-X-Greylist: delayed 398 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 21 Jul 2022 20:36:40 PDT
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B912193C25
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 20:36:40 -0700 (PDT)
-X-mail-filterd: {"version":"1.3.4","queueID":"4Lpw124qHfz1LQKdM","contextId":"c17f7f46-faaa-49c5-bc20-a4f9bb209ad8"}
-Received: from [192.168.1.17] (lfbn-rou-1-439-254.w90-23.abo.wanadoo.fr [90.23.32.254])
-        by msfrf2610.sfr.fr (SMTP Server) with ESMTP id 4Lpw124qHfz1LQKdM
-        for <linux-media@vger.kernel.org>; Fri, 22 Jul 2022 05:29:58 +0200 (CEST)
-X-mail-filterd: {"version":"1.3.4","queueID":"4Lpw124HtRz1LQKdK","contextId":"221d96d2-09d4-4541-9d65-e6497cc953ec"}
-X-sfr-mailing: LEGIT
-X-sfr-spamrating: 40
-X-sfr-spam: not-spam
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=neuf.fr; s=202006;
- t=1658460598; h=Date:To:From:Subject; bh=Hd+qb2owvlQIRCwXEtFLMbtQ40K44NX5m/mp
-  k+hSnog=; b=Zfg/CQkycRmAyCyymSFF4lD1OL+d8ALQKygSQ3aYVWCkv7iIDx8skvjM5bCASFTr
-  nbUfZv3zHyODl+07kxiJe+lgYQ4XgmKFmrsFvOzg9VsgAdbpYowchmoR5LD6MLpyDSSLV3tJ/9MC
-  EKO0zdtmM6SthX66kBMiZ8tFB3kRrePVDd4HTy0/m2yN6FuxPOzUlJGy/NLVXSenjevDE9h6j5QU
-  +JAVXcZbaCMYp8CtF/Fph56lF+9O+fPsGDrrzLwYy5rY9+aF24rXSDJ0P0KK96DbWJJ1itf2je2r
-  gOQJFds5565J98M4S4sOy10OIWw9F57aSa03oy0G8cRm66RqKA==
-Received: from [192.168.1.17] (lfbn-rou-1-439-254.w90-23.abo.wanadoo.fr [90.23.32.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: coez.bertrand@neuf.fr)
-        by msfrf2610.sfr.fr (SMTP Server) with ESMTPSA id 4Lpw124HtRz1LQKdK
-        for <linux-media@vger.kernel.org>; Fri, 22 Jul 2022 05:29:58 +0200 (CEST)
-Authentication-Results: sfr.fr; auth=pass (PLAIN) smtp.auth=coez.bertrand@neuf.fr
-Message-ID: <8bd3b659-5e1c-4985-ceac-7b9956f2158f@neuf.fr>
-Date:   Fri, 22 Jul 2022 05:29:58 +0200
+        Fri, 22 Jul 2022 00:54:52 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15E493638;
+        Thu, 21 Jul 2022 21:54:51 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id l23so6663836ejr.5;
+        Thu, 21 Jul 2022 21:54:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=BAspDEPCtXjW6B387M1BEwowk25i6EDgUSDlagLj1Hk=;
+        b=LGnXKOwviOg2k81AVWVpNLFmzOUc5v70JFyf7x43iWW2Hh0JUjh2YK4xmryjna91dF
+         ZucFalVj9ZG/7e8avCiu9XE5b1O4rX3UEGx3wj4uIj4g1OAX5d2sfDZtzQz2WADF0GI/
+         SjnazoFgrEmEbXuZM/h2zjjr+X61q+OwGTwmoXFevCYp5gWTKHudLHabEJGW8wcwmhtr
+         35Dbfu7NAaLJ/zDMp9nbpTvnN/0KQYpFtK5r8LhLiqFjxSZUS+8PmmIbHo/URaFT6mnX
+         qnp7wwq00SnFpHD/3ZIQQF0EAULCUTJYdaR1sAr5RsmwCA3piXhbaLj3R1kr80JwxU1D
+         B3qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=BAspDEPCtXjW6B387M1BEwowk25i6EDgUSDlagLj1Hk=;
+        b=HJWNXz375a/WvMc/Qpy+x9fDDRz8VWwKYfGQ21LXBKxVfI9Bfc1qRX62lqtRVdTwjm
+         OGNbyeGUjrCdUHxtJrbBMFBBaeddAqQ66ZEiis4XYqGKv4MulYL0P68D0uwepZf5/jiM
+         B8/PDfoH0wUgpjFsIH5yVJP6rGpu4snUJyHBsqGTtaLqEgP2xRpyhrTVm79dse3vGBfl
+         B3aKFIAFEoInwV/5fPO8Rft3ODEZIqdtReb1eDK41ORQU2dp/A91h8juJbqY27zoZx9f
+         sK33AiE59/tm1LvICXoqa0oX31sMYf+MWrRf3qArm8b9BVdcmZ3UHIre/XWlM6eh3KFc
+         FuhQ==
+X-Gm-Message-State: AJIora+OZV4SEbsf01zJMRougou0zS5eA7tgf5aj8wznM8zDAXCPwxm3
+        5bft3nx3ZP9j+tD91EzDkt0=
+X-Google-Smtp-Source: AGRyM1sHXShGR6o1qcwrokXbBl+lV1+M3JghaQXqCevUiOPwb4M9Sy+r3nydB9pqTt5VqYROK9/k3A==
+X-Received: by 2002:a17:907:7290:b0:72b:3799:624c with SMTP id dt16-20020a170907729000b0072b3799624cmr1648824ejc.108.1658465690190;
+        Thu, 21 Jul 2022 21:54:50 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2e:6979:bc71:385a:5363:16f9? (p200300c78f2e6979bc71385a536316f9.dip0.t-ipconnect.de. [2003:c7:8f2e:6979:bc71:385a:5363:16f9])
+        by smtp.gmail.com with ESMTPSA id c1-20020a17090618a100b0072321c99b78sm1560487ejf.57.2022.07.21.21.54.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Jul 2022 21:54:49 -0700 (PDT)
+Message-ID: <11b4ef15-9fb5-2c40-90ae-11ee434bbea3@gmail.com>
+Date:   Fri, 22 Jul 2022 06:54:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-To:     linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: staging: media: zoran: Removed braces for single
+ statement block
 Content-Language: en-US
-From:   Bertrand COEZ <coez.bertrand@neuf.fr>
-Subject: Adding a new UVC Device
+To:     Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
+Cc:     Corentin Labbe <clabbe@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220721150055.52096-1-abhijeet.srivastava2308@gmail.com>
+From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220721150055.52096-1-abhijeet.srivastava2308@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
+On 7/21/22 17:00, Abhijeet Srivastava wrote:
+> Warning found by checkpatch.pl script.
+> 
+> Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
+> ---
+>   drivers/staging/media/zoran/zoran_card.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
+> index 26f978a1cc72..0c138d47d0c3 100644
+> --- a/drivers/staging/media/zoran/zoran_card.c
+> +++ b/drivers/staging/media/zoran/zoran_card.c
+> @@ -1038,9 +1038,9 @@ static int zr36057_init(struct zoran *zr)
+>   	zr->stat_com = dma_alloc_coherent(&zr->pci_dev->dev,
+>   					  BUZ_NUM_STAT_COM * sizeof(u32),
+>   					  &zr->p_sc, GFP_KERNEL);
+> -	if (!zr->stat_com) {
+> +	if (!zr->stat_com)
+>   		return -ENOMEM;
+> -	}
+> +
+>   	for (j = 0; j < BUZ_NUM_STAT_COM; j++)
+>   		zr->stat_com[j] = cpu_to_le32(1); /* mark as unavailable to zr36057 */
+>   
 
-I would like to add a device to the list,
 
-Here it is : 5986:211b Acer, Inc HD Webcam.
+Why does the subject line start with "media:" The subsystem is 
+"staging:" so the subject should start with "staging: media: ..."
 
+I have no clue if this is accepted.
 
-Best regards,
+Regards,
 
-Bertrand
-
+Philipp
