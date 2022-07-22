@@ -2,78 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3529057E290
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 15:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 551B957E31D
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 16:38:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231603AbiGVNug (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jul 2022 09:50:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58652 "EHLO
+        id S234595AbiGVOh6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jul 2022 10:37:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbiGVNuf (ORCPT
+        with ESMTP id S229441AbiGVOh5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jul 2022 09:50:35 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AEE123163;
-        Fri, 22 Jul 2022 06:50:34 -0700 (PDT)
+        Fri, 22 Jul 2022 10:37:57 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC3D28C3CC
+        for <linux-media@vger.kernel.org>; Fri, 22 Jul 2022 07:37:55 -0700 (PDT)
 Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 0C460202A5;
-        Fri, 22 Jul 2022 16:50:31 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1658497831;
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 637DE1B0004B;
+        Fri, 22 Jul 2022 17:37:54 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1658500674;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dGA7TmfBUtzcH5UoFGnG6EflU62ob49cdU4Ktc31jOg=;
-        b=aMoQwN/Y0biKaWZTf/VnpugTZuJINcI1mm1WPb833sNBCld9i1FZZ9T8rV2yFAt8bkU69q
-        Sv7V6LACesTZ6vGMpWTkn5QY4uhi+pjWB3GXNx8waR8rx2UjnIcL7iZup9d94bnH1JNJW1
-        MiXqM5V0kmwQiH/5MOE8WWY2lGwVDDg=
+        bh=sGQWU/hhQLhvVvRKPEO47A1fCtVqsikZqImP5vhL368=;
+        b=riS3+se1UFj1SbepnkYxQ9k4y+TVSFQyTtdFuyfoIzqsiTn5ywdgqXKz66Ni9qQbpRSV5o
+        CRlB8puYnXBrxuo1nxWJ7CjeSiKn2PelkeXOB2plz6Khj7eIgyoyoydAkbQbLP5kqBReAu
+        z5TpFbPr8r8zvGqs2h5dE3zuM7mRdnpHr+HEE7iKNRhSZsgoPDhKKyrrGm536tFVDCXCXr
+        USe8EyVO6iQQ7C+CQasmKkeSTk1zWN04fNW4JJjffzK3vgvAKpVX/UkZVcB903jswzsR0P
+        U/XMzobqhLQwRaApIANMknYb+RS9yaLsaq8l3j4Y+Gx4vYtpmOnCiu5n5ZP3hg==
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A5A1A634C95;
-        Fri, 22 Jul 2022 16:50:30 +0300 (EEST)
-Date:   Fri, 22 Jul 2022 16:50:30 +0300
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0B762634C95;
+        Fri, 22 Jul 2022 17:37:54 +0300 (EEST)
+Date:   Fri, 22 Jul 2022 17:37:53 +0300
 From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 6/7] media: i2c: ov9282: Set v4l2 subdev name
- according to sensor model
-Message-ID: <YtqrJp8qZOwYdUrZ@valkosipuli.retiisi.eu>
-References: <20220722131947.2456988-1-alexander.stein@ew.tq-group.com>
- <20220722131947.2456988-7-alexander.stein@ew.tq-group.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: Re: Re: [PATCH 07/19] media: i2c: imx290: Support variable-sized
+ registers
+Message-ID: <Ytq2Qb04baTNy+I4@valkosipuli.retiisi.eu>
+References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
+ <6038880.cEBGB3zze1@steina-w>
+ <Ytk3nfwQ7eEQSTcV@pendragon.ideasonboard.com>
+ <8007753.G0QQBjFxQf@steina-w>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220722131947.2456988-7-alexander.stein@ew.tq-group.com>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1658497831;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=dGA7TmfBUtzcH5UoFGnG6EflU62ob49cdU4Ktc31jOg=;
-        b=ylbRUaTL5LTvUfw6foD4+Y62/NCNou8GJbZYgS6V8V+Ggn1y43X8WQSWwz9UT4qrr7dgpQ
-        2swJ21ME4LIHqels6UXpIJyGx6d94X6yI+uRrbsL5dzHjSg8quo7bnI46U7CS8E6FDrxWa
-        0Mq9NI1+wFDs+lHLGiJ6eIG71ZxANpw=
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8007753.G0QQBjFxQf@steina-w>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1658500674; a=rsa-sha256;
+        cv=none;
+        b=t977s7FWurDu5lxfn6rbc+j0pZSfGbXe0RwiSphMcNWEWiuFM0N3hTCd5cAeNp6dgShYq/
+        gUaXJVrle4gyAff+e0MIQ2PDlb0EZDTFvJM21VdsAhi8Hx+GVNMes6umKxR1XYNP69A0IS
+        PK7E5hemuK+mtIYsKMGnm8MO2LtnA1rk56j/PxPnfvr+/f8cBgXxwct8jWaP8JpwTSagcy
+        mAm/Hd/4olQRyMR/mVC/vnQJguKHsxNPWp6pD937MH8mzuKZ1fg1Y+QWTTmyrO6Ocu2UnZ
+        Y/Fmz0COvJtzZIlr9kaXbm5vBMX18R9R5Tgmvekw+u93tMedf37WX9F0inV9sg==
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1658497831; a=rsa-sha256; cv=none;
-        b=s99f1cJmnxXqRevDNXi2/rxL7ikkD1W3/Z83oBJmnUGUxhqGtY+nXNUPKrlKuNLGhnOFD/
-        Ts48LVk345RYzXEGXszDz6BiI7qeNakGKaq9rPclEGumTVqmIKQkehAep9l9yNeY98vXDo
-        2/KBixT46LPi32zT/Ir1Io5b+ovloF0=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1658500674;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sGQWU/hhQLhvVvRKPEO47A1fCtVqsikZqImP5vhL368=;
+        b=v560Nstf6YgoCr/l4Fhswxqvpf4XmEhCzJUZ3NTbx39/IYlhSwu8whAdDwnTPgf9YzUuu0
+        vZXFL80/kmCOFH3K5leYhCpPaVyVwJM0F8PVI8XCZDFzUwz8MhLEnT94aSxt1y6s/nbxE3
+        VKcAxIXh69DXVdHw8HZP31sGeDqsNDgEwYjuGliebVjd73UXIqEBxKnF64l7eDbotEoGRA
+        swE19X/v1XbhUpzA1vAumVc+dRZpTekptdpoInrnNuOwyigNj4/oriTz3nhFmwlYz9TrfB
+        pZ1l9SprkTqGYIu2vLxpzYNPClwrKeSG3BDxBkIpEOVodUNrnFk15jjOjDt91Q==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -82,31 +91,29 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Alexander,
 
-On Fri, Jul 22, 2022 at 03:19:46PM +0200, Alexander Stein wrote:
-> To distinguish ov9281 & ov9282 the name has to be explicitly set.
-> i2c_client already has the name parsed from the compatible.
-> 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  drivers/media/i2c/ov9282.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> index 352dbe21a902..dbc0a4cd060f 100644
-> --- a/drivers/media/i2c/ov9282.c
-> +++ b/drivers/media/i2c/ov9282.c
-> @@ -1047,6 +1047,7 @@ static int ov9282_probe(struct i2c_client *client)
+On Thu, Jul 21, 2022 at 01:43:54PM +0200, Alexander Stein wrote:
+...
+> Nice the following snippet does the trick already:
+> ---8<---
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -221,6 +221,7 @@ static const struct imx290_pixfmt imx290_formats[] = {
+>  static const struct regmap_config imx290_regmap_config = {
+>         .reg_bits = 16,
+>         .val_bits = 8,
+> +       .use_single_read = true,
+>  };
 >  
->  	/* Initialize subdev */
->  	v4l2_i2c_subdev_init(&ov9282->sd, client, &ov9282_subdev_ops);
-> +	v4l2_i2c_subdev_set_name(&ov9282->sd, client, client->name, NULL);
->  
+>  static const char * const imx290_test_pattern_menu[] = {
+> ---8<---
+> 
+> As this affects the VC OV9281 as well, any suggestions for a common property?
 
-Could you instead do this based on the compatible string in the driver,
-using device_get_match_data()? The approach works on non-OF systems, too.
+If there's a 1:1 I²C mux in there between the host and the sensor, should
+it be in DT as well? I'm not entirely certain it's necessary.
 
->  	ret = ov9282_parse_hw_config(ov9282);
->  	if (ret) {
+The property could be called e.g. "single-octet-read". I think this should
+probably be documented in I²C bindings (or even regmap).
 
 -- 
 Regards,
