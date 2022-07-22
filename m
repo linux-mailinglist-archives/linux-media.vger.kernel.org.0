@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CABA357DA58
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 08:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D437157DA5A
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 08:35:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234243AbiGVGez (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jul 2022 02:34:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40854 "EHLO
+        id S234251AbiGVGe6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jul 2022 02:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233387AbiGVGex (ORCPT
+        with ESMTP id S234110AbiGVGe5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jul 2022 02:34:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AFF067593
-        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 23:34:52 -0700 (PDT)
+        Fri, 22 Jul 2022 02:34:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C386714A
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 23:34:55 -0700 (PDT)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA88E80A;
-        Fri, 22 Jul 2022 08:34:50 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 319CAAD2;
+        Fri, 22 Jul 2022 08:34:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1658471691;
-        bh=dIc2wdnvt/KLtV1ttJfcPZh+XjQa655XRdnHvBLUfK0=;
+        bh=tnt+s19oWC1RmFgUIRqRcSboqcEAaRRFiJJRZIyYoOQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GBe05GCluIxxAdb9ldw2+8cdHB/QVVWb8bqINs/GqIDZRQN5ViM1+UNNw0irx7M6V
-         ULKO4TL7jP86kcaQ9SukyZ8LaRsDTY6GtjLuEXuPcH8LtZQ2FTJvdswvUtW9IuWTf0
-         BbcT9O8GDl6pacYHHl+Qw+LYCH2LmbFE8fPPF49g=
+        b=T7yQb5boYqNdSXZtdRVZ/o7H2QhmBcwbRUbLsUnme+U1BDnuQsJodDNq8PXY9IO3b
+         WcgQD04XHSruBEFkRBvKRbdyIquA4rxhdsdgvAhTj7Sif6EkrUyG0La+cnuLrzjzWu
+         2Uczi+tuGbNvHah4xH5qMQCsiZLwKwp1/xO00dZs=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Kishon Vijay Abraham I <kishon@ti.com>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 2/5] media: ti: cal: rename sd_state to state
-Date:   Fri, 22 Jul 2022 09:34:21 +0300
-Message-Id: <20220722063424.174288-2-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 3/5] media: ti: cal: use CSI-2 frame number for seq number
+Date:   Fri, 22 Jul 2022 09:34:22 +0300
+Message-Id: <20220722063424.174288-3-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220722063424.174288-1-tomi.valkeinen@ideasonboard.com>
 References: <20220722063424.174288-1-tomi.valkeinen@ideasonboard.com>
@@ -48,141 +48,165 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename sd_state variable to state.
+The userspace needs a way to match received metadata buffers to pixel
+data buffers. The obvious way to do this is to use the CSI-2 frame
+number, as both the metadata and the pixel data have the same frame
+number as they come from the same frame.
+
+However, we don't have means to convey the frame number to userspace. We
+do have the 'sequence' field, which with a few tricks can be used for
+this purpose.
+
+To achieve this, track the frame number for each virtual channel and
+increase the sequence for each virtual channel by frame-number -
+previous-frame-number, also taking into account the eventual wrap of the
+CSI-2 frame number.
+
+This way we get a monotonically increasing sequence number which is
+common to all streams using the same virtual channel.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/platform/ti/cal/cal-camerarx.c | 30 ++++++++++----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ drivers/media/platform/ti/cal/cal-camerarx.c |  1 +
+ drivers/media/platform/ti/cal/cal.c          | 57 +++++++++++++++++++-
+ drivers/media/platform/ti/cal/cal.h          |  7 ++-
+ 3 files changed, 62 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
-index e69fed117fea..6faf716c7814 100644
+index 6faf716c7814..76329ab61fe7 100644
 --- a/drivers/media/platform/ti/cal/cal-camerarx.c
 +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
-@@ -622,12 +622,12 @@ static inline struct cal_camerarx *to_cal_camerarx(struct v4l2_subdev *sd)
+@@ -871,6 +871,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+ 	phy->cal = cal;
+ 	phy->instance = instance;
  
- static struct v4l2_mbus_framefmt *
- cal_camerarx_get_pad_format(struct cal_camerarx *phy,
--			    struct v4l2_subdev_state *sd_state,
-+			    struct v4l2_subdev_state *state,
- 			    unsigned int pad, u32 which)
++	spin_lock_init(&phy->vc_lock);
+ 	mutex_init(&phy->mutex);
+ 
+ 	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
+index 425b4f4b7ed7..afba0b72a68c 100644
+--- a/drivers/media/platform/ti/cal/cal.c
++++ b/drivers/media/platform/ti/cal/cal.c
+@@ -543,7 +543,22 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
+ 
+ void cal_ctx_start(struct cal_ctx *ctx)
  {
- 	switch (which) {
- 	case V4L2_SUBDEV_FORMAT_TRY:
--		return v4l2_subdev_get_try_format(&phy->subdev, sd_state, pad);
-+		return v4l2_subdev_get_try_format(&phy->subdev, state, pad);
- 	case V4L2_SUBDEV_FORMAT_ACTIVE:
- 		return &phy->formats[pad];
- 	default:
-@@ -653,7 +653,7 @@ static int cal_camerarx_sd_s_stream(struct v4l2_subdev *sd, int enable)
- }
+-	ctx->sequence = 0;
++	struct cal_camerarx *phy = ctx->phy;
++
++	/*
++	 * Reset the frame number & sequence number, but only if the
++	 * virtual channel is not already in use.
++	 */
++
++	spin_lock(&phy->vc_lock);
++
++	if (phy->vc_enable_count[ctx->vc]++ == 0) {
++		phy->vc_frame_number[ctx->vc] = 0;
++		phy->vc_sequence[ctx->vc] = 0;
++	}
++
++	spin_unlock(&phy->vc_lock);
++
+ 	ctx->dma.state = CAL_DMA_RUNNING;
  
- static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
--					  struct v4l2_subdev_state *sd_state,
-+					  struct v4l2_subdev_state *state,
- 					  struct v4l2_subdev_mbus_code_enum *code)
+ 	/* Configure the CSI-2, pixel processing and write DMA contexts. */
+@@ -563,8 +578,15 @@ void cal_ctx_start(struct cal_ctx *ctx)
+ 
+ void cal_ctx_stop(struct cal_ctx *ctx)
  {
- 	struct cal_camerarx *phy = to_cal_camerarx(sd);
-@@ -670,7 +670,7 @@ static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
- 			goto out;
- 		}
++	struct cal_camerarx *phy = ctx->phy;
+ 	long timeout;
  
--		fmt = cal_camerarx_get_pad_format(phy, sd_state,
-+		fmt = cal_camerarx_get_pad_format(phy, state,
- 						  CAL_CAMERARX_PAD_SINK,
- 						  code->which);
- 		code->code = fmt->code;
-@@ -690,7 +690,7 @@ static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
- }
- 
- static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
--					   struct v4l2_subdev_state *sd_state,
-+					   struct v4l2_subdev_state *state,
- 					   struct v4l2_subdev_frame_size_enum *fse)
- {
- 	struct cal_camerarx *phy = to_cal_camerarx(sd);
-@@ -706,7 +706,7 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
- 	if (cal_rx_pad_is_source(fse->pad)) {
- 		struct v4l2_mbus_framefmt *fmt;
- 
--		fmt = cal_camerarx_get_pad_format(phy, sd_state,
-+		fmt = cal_camerarx_get_pad_format(phy, state,
- 						  CAL_CAMERARX_PAD_SINK,
- 						  fse->which);
- 		if (fse->code != fmt->code) {
-@@ -738,7 +738,7 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
- }
- 
- static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
--				   struct v4l2_subdev_state *sd_state,
-+				   struct v4l2_subdev_state *state,
- 				   struct v4l2_subdev_format *format)
- {
- 	struct cal_camerarx *phy = to_cal_camerarx(sd);
-@@ -746,7 +746,7 @@ static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
- 
- 	mutex_lock(&phy->mutex);
- 
--	fmt = cal_camerarx_get_pad_format(phy, sd_state, format->pad,
-+	fmt = cal_camerarx_get_pad_format(phy, state, format->pad,
- 					  format->which);
- 	format->format = *fmt;
- 
-@@ -756,7 +756,7 @@ static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
- }
- 
- static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
--				   struct v4l2_subdev_state *sd_state,
-+				   struct v4l2_subdev_state *state,
- 				   struct v4l2_subdev_format *format)
- {
- 	struct cal_camerarx *phy = to_cal_camerarx(sd);
-@@ -766,7 +766,7 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
- 
- 	/* No transcoding, source and sink formats must match. */
- 	if (cal_rx_pad_is_source(format->pad))
--		return cal_camerarx_sd_get_fmt(sd, sd_state, format);
-+		return cal_camerarx_sd_get_fmt(sd, state, format);
- 
++	WARN_ON(phy->vc_enable_count[ctx->vc] == 0);
++
++	spin_lock(&phy->vc_lock);
++	phy->vc_enable_count[ctx->vc]--;
++	spin_unlock(&phy->vc_lock);
++
  	/*
- 	 * Default to the first format if the requested media bus code isn't
-@@ -792,12 +792,12 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
+ 	 * Request DMA stop and wait until it completes. If completion times
+ 	 * out, forcefully disable the DMA.
+@@ -601,6 +623,34 @@ void cal_ctx_stop(struct cal_ctx *ctx)
+  * ------------------------------------------------------------------
+  */
  
- 	mutex_lock(&phy->mutex);
- 
--	fmt = cal_camerarx_get_pad_format(phy, sd_state,
-+	fmt = cal_camerarx_get_pad_format(phy, state,
- 					  CAL_CAMERARX_PAD_SINK,
- 					  format->which);
- 	*fmt = format->format;
- 
--	fmt = cal_camerarx_get_pad_format(phy, sd_state,
-+	fmt = cal_camerarx_get_pad_format(phy, state,
- 					  CAL_CAMERARX_PAD_FIRST_SOURCE,
- 					  format->which);
- 	*fmt = format->format;
-@@ -808,10 +808,10 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
- }
- 
- static int cal_camerarx_sd_init_cfg(struct v4l2_subdev *sd,
--				    struct v4l2_subdev_state *sd_state)
-+				    struct v4l2_subdev_state *state)
++/*
++ * Track a sequence number for each virtual channel, which is shared by
++ * all contexts using the same virtual channel. This is done using the
++ * CSI-2 frame number as a base.
++ */
++static void cal_update_seq_number(struct cal_ctx *ctx)
++{
++	struct cal_dev *cal = ctx->cal;
++	struct cal_camerarx *phy = ctx->phy;
++	u16 prev_frame_num, frame_num;
++	u8 vc = ctx->vc;
++
++	frame_num =
++		cal_read(cal, CAL_CSI2_STATUS(phy->instance, ctx->csi2_ctx)) &
++		0xffff;
++
++	if (phy->vc_frame_number[vc] != frame_num) {
++		prev_frame_num = phy->vc_frame_number[vc];
++
++		if (prev_frame_num >= frame_num)
++			phy->vc_sequence[vc] += 1;
++		else
++			phy->vc_sequence[vc] += frame_num - prev_frame_num;
++
++		phy->vc_frame_number[vc] = frame_num;
++	}
++}
++
+ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
  {
- 	struct v4l2_subdev_format format = {
--		.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY
-+		.which = state ? V4L2_SUBDEV_FORMAT_TRY
- 		: V4L2_SUBDEV_FORMAT_ACTIVE,
- 		.pad = CAL_CAMERARX_PAD_SINK,
- 		.format = {
-@@ -826,7 +826,7 @@ static int cal_camerarx_sd_init_cfg(struct v4l2_subdev *sd,
- 		},
- 	};
+ 	spin_lock(&ctx->dma.lock);
+@@ -631,6 +681,8 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
+ 	}
  
--	return cal_camerarx_sd_set_fmt(sd, sd_state, &format);
-+	return cal_camerarx_sd_set_fmt(sd, state, &format);
+ 	spin_unlock(&ctx->dma.lock);
++
++	cal_update_seq_number(ctx);
  }
  
- static const struct v4l2_subdev_video_ops cal_camerarx_video_ops = {
+ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
+@@ -657,7 +709,8 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
+ 	if (buf) {
+ 		buf->vb.vb2_buf.timestamp = ktime_get_ns();
+ 		buf->vb.field = ctx->v_fmt.fmt.pix.field;
+-		buf->vb.sequence = ctx->sequence++;
++		buf->vb.sequence = ctx->phy->vc_sequence[ctx->vc];
++
+ 		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+ 	}
+ }
+diff --git a/drivers/media/platform/ti/cal/cal.h b/drivers/media/platform/ti/cal/cal.h
+index 61409ddced98..80f2c9c73c71 100644
+--- a/drivers/media/platform/ti/cal/cal.h
++++ b/drivers/media/platform/ti/cal/cal.h
+@@ -180,6 +180,12 @@ struct cal_camerarx {
+ 	struct media_pad	pads[CAL_CAMERARX_NUM_PADS];
+ 	struct v4l2_mbus_framefmt	formats[CAL_CAMERARX_NUM_PADS];
+ 
++	/* protects the vc_* fields below */
++	spinlock_t		vc_lock;
++	u8			vc_enable_count[4];
++	u16			vc_frame_number[4];
++	u32			vc_sequence[4];
++
+ 	/*
+ 	 * Lock for camerarx ops. Protects:
+ 	 * - formats
+@@ -242,7 +248,6 @@ struct cal_ctx {
+ 	const struct cal_format_info	**active_fmt;
+ 	unsigned int		num_active_fmt;
+ 
+-	unsigned int		sequence;
+ 	struct vb2_queue	vb_vidq;
+ 	u8			dma_ctx;
+ 	u8			cport;
 -- 
 2.34.1
 
