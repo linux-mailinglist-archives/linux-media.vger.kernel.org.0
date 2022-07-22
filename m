@@ -2,75 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 951F857D9B0
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 06:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3927257D9DA
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 07:53:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233387AbiGVEyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jul 2022 00:54:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40504 "EHLO
+        id S230284AbiGVFx4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jul 2022 01:53:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229839AbiGVEyw (ORCPT
+        with ESMTP id S229505AbiGVFxy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jul 2022 00:54:52 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15E493638;
-        Thu, 21 Jul 2022 21:54:51 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id l23so6663836ejr.5;
-        Thu, 21 Jul 2022 21:54:51 -0700 (PDT)
+        Fri, 22 Jul 2022 01:53:54 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEAF24599E
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 22:53:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=BAspDEPCtXjW6B387M1BEwowk25i6EDgUSDlagLj1Hk=;
-        b=LGnXKOwviOg2k81AVWVpNLFmzOUc5v70JFyf7x43iWW2Hh0JUjh2YK4xmryjna91dF
-         ZucFalVj9ZG/7e8avCiu9XE5b1O4rX3UEGx3wj4uIj4g1OAX5d2sfDZtzQz2WADF0GI/
-         SjnazoFgrEmEbXuZM/h2zjjr+X61q+OwGTwmoXFevCYp5gWTKHudLHabEJGW8wcwmhtr
-         35Dbfu7NAaLJ/zDMp9nbpTvnN/0KQYpFtK5r8LhLiqFjxSZUS+8PmmIbHo/URaFT6mnX
-         qnp7wwq00SnFpHD/3ZIQQF0EAULCUTJYdaR1sAr5RsmwCA3piXhbaLj3R1kr80JwxU1D
-         B3qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=BAspDEPCtXjW6B387M1BEwowk25i6EDgUSDlagLj1Hk=;
-        b=HJWNXz375a/WvMc/Qpy+x9fDDRz8VWwKYfGQ21LXBKxVfI9Bfc1qRX62lqtRVdTwjm
-         OGNbyeGUjrCdUHxtJrbBMFBBaeddAqQ66ZEiis4XYqGKv4MulYL0P68D0uwepZf5/jiM
-         B8/PDfoH0wUgpjFsIH5yVJP6rGpu4snUJyHBsqGTtaLqEgP2xRpyhrTVm79dse3vGBfl
-         B3aKFIAFEoInwV/5fPO8Rft3ODEZIqdtReb1eDK41ORQU2dp/A91h8juJbqY27zoZx9f
-         sK33AiE59/tm1LvICXoqa0oX31sMYf+MWrRf3qArm8b9BVdcmZ3UHIre/XWlM6eh3KFc
-         FuhQ==
-X-Gm-Message-State: AJIora+OZV4SEbsf01zJMRougou0zS5eA7tgf5aj8wznM8zDAXCPwxm3
-        5bft3nx3ZP9j+tD91EzDkt0=
-X-Google-Smtp-Source: AGRyM1sHXShGR6o1qcwrokXbBl+lV1+M3JghaQXqCevUiOPwb4M9Sy+r3nydB9pqTt5VqYROK9/k3A==
-X-Received: by 2002:a17:907:7290:b0:72b:3799:624c with SMTP id dt16-20020a170907729000b0072b3799624cmr1648824ejc.108.1658465690190;
-        Thu, 21 Jul 2022 21:54:50 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2e:6979:bc71:385a:5363:16f9? (p200300c78f2e6979bc71385a536316f9.dip0.t-ipconnect.de. [2003:c7:8f2e:6979:bc71:385a:5363:16f9])
-        by smtp.gmail.com with ESMTPSA id c1-20020a17090618a100b0072321c99b78sm1560487ejf.57.2022.07.21.21.54.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 21:54:49 -0700 (PDT)
-Message-ID: <11b4ef15-9fb5-2c40-90ae-11ee434bbea3@gmail.com>
-Date:   Fri, 22 Jul 2022 06:54:48 +0200
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658469233; x=1690005233;
+  h=subject:from:to:cc:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=S0zKaM3Bi4fYvR4sf5mwD/1ZAQTaNcD9WDMqlzSRtC8=;
+  b=cG6Z++jcECRpv/E0jqgDSqWzeSGur0K8CDOzIrS4fSmMVlaSRBfAbIqq
+   EWmBYNtv3Loj+4xebm7qe6HLNq11LDOQaHFLUnXNapTN3N+gam/+3TF7Y
+   +TWLjEBRilTsAcZZ2gbhLD57Wo8Tx4Z44wyQBwoRnvY8rZAIfM+A55xAu
+   2t7ps7XT5JZzDzNfX8B8qQP9iQcU3Ji+olqi1OGX2PDa75BlfJS9Z5P6j
+   ZHqIPYt/WRyGDGP8ewcNLNOmQTP4oKTQ9DwU06p+oDi5qbBcYDqobxlnn
+   7youBz+yZ95YrGjV/TGhUOZFkef2+X8Ju96zT4YHl/IbokUZ++itXO4WB
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,184,1654552800"; 
+   d="scan'208";a="25198425"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 22 Jul 2022 07:53:51 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Fri, 22 Jul 2022 07:53:51 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Fri, 22 Jul 2022 07:53:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658469231; x=1690005231;
+  h=from:to:cc:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding:subject;
+  bh=S0zKaM3Bi4fYvR4sf5mwD/1ZAQTaNcD9WDMqlzSRtC8=;
+  b=P0KoARAcCSsSE1+G9n8PlapW+f02t70Ojt14awQJtiQvpxZVfWrE/NZo
+   OLOP330pIjSDpEaQcO2X3j/1P9Usgi8J3N2FTnd4B1kVg/Hzb7N2wbe+S
+   VeCDYmosiH2Z6OdcT6qBBHttEECQ4wxCVv913GnZb2oUKf+OGxEkNGGmp
+   E8eGQ8sfcvw2nlZi00UDUPy5G7ukagzoshSP/Xtk/+u6vtUhKYDKQyele
+   PO1Bh7aEv4oj78kJCQPD3jbleauOZX/QZy5anQujeLxloRQjUT5NLty5g
+   jynK56CivHl2gzYu1L0b857Ev3MnK958kwqqckm6swZOpKfeopazYS7y4
+   A==;
+X-IronPort-AV: E=Sophos;i="5.93,184,1654552800"; 
+   d="scan'208";a="25198424"
+Subject: Re: Re: Re: [PATCH 16/19] media: i2c: imx290: Move registers with fixed
+ value to init array
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 22 Jul 2022 07:53:51 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DB055280056;
+        Fri, 22 Jul 2022 07:53:50 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Date:   Fri, 22 Jul 2022 07:53:48 +0200
+Message-ID: <3555790.PIDvDuAF1L@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <CAPY8ntBRQJFwFX1sV7kjUDwK2iHSqbTyUmEie2RFH-BVvyHcyQ@mail.gmail.com>
+References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <4314456.BEx9A2HvPv@steina-w> <CAPY8ntBRQJFwFX1sV7kjUDwK2iHSqbTyUmEie2RFH-BVvyHcyQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] media: staging: media: zoran: Removed braces for single
- statement block
-Content-Language: en-US
-To:     Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
-Cc:     Corentin Labbe <clabbe@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220721150055.52096-1-abhijeet.srivastava2308@gmail.com>
-From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220721150055.52096-1-abhijeet.srivastava2308@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,37 +84,146 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/21/22 17:00, Abhijeet Srivastava wrote:
-> Warning found by checkpatch.pl script.
+Hello Dave,
+
+Am Donnerstag, 21. Juli 2022, 18:19:56 CEST schrieb Dave Stevenson:
+> Hi Laurent and Alexander
 > 
-> Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
-> ---
->   drivers/staging/media/zoran/zoran_card.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> On Thu, 21 Jul 2022 at 12:08, Alexander Stein
 > 
-> diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-> index 26f978a1cc72..0c138d47d0c3 100644
-> --- a/drivers/staging/media/zoran/zoran_card.c
-> +++ b/drivers/staging/media/zoran/zoran_card.c
-> @@ -1038,9 +1038,9 @@ static int zr36057_init(struct zoran *zr)
->   	zr->stat_com = dma_alloc_coherent(&zr->pci_dev->dev,
->   					  BUZ_NUM_STAT_COM * sizeof(u32),
->   					  &zr->p_sc, GFP_KERNEL);
-> -	if (!zr->stat_com) {
-> +	if (!zr->stat_com)
->   		return -ENOMEM;
-> -	}
-> +
->   	for (j = 0; j < BUZ_NUM_STAT_COM; j++)
->   		zr->stat_com[j] = cpu_to_le32(1); /* mark as unavailable to zr36057 */
->   
+> <alexander.stein@ew.tq-group.com> wrote:
+> > Hello Laurent,
+> > 
+> > Am Donnerstag, 21. Juli 2022, 12:40:36 CEST schrieb Laurent Pinchart:
+> > > Hi Alexander,
+> > > 
+> > > On Thu, Jul 21, 2022 at 12:08:50PM +0200, Alexander Stein wrote:
+> > > > Am Donnerstag, 21. Juli 2022, 10:35:37 CEST schrieb Laurent Pinchart:
+> > > > > Registers 0x3012, 0x3013 and 0x3480 are not documented and are set
+> > > > > in
+> > > > > the per-mode register arrays with values indentical for all modes.
+> > > > > Move
+> > > > > them to the common array.
+> > > > > 
+> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > ---
+> > > > > 
+> > > > >  drivers/media/i2c/imx290.c | 8 ++------
+> > > > >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > > > > index 78772c6327a2..fc6e87fada1c 100644
+> > > > > --- a/drivers/media/i2c/imx290.c
+> > > > > +++ b/drivers/media/i2c/imx290.c
+> > > > > @@ -192,6 +192,7 @@ static const struct imx290_regval
+> > > > > imx290_global_init_settings[] = { { IMX290_REG_8BIT(0x300f), 0x00 },
+> > > > > 
+> > > > >   { IMX290_REG_8BIT(0x3010), 0x21 },
+> > > > >   { IMX290_REG_8BIT(0x3012), 0x64 },
+> > > > > 
+> > > > > + { IMX290_REG_8BIT(0x3013), 0x00 },
+> > > > > 
+> > > > >   { IMX290_REG_8BIT(0x3016), 0x09 },
+> > > > >   { IMX290_REG_8BIT(0x3070), 0x02 },
+> > > > >   { IMX290_REG_8BIT(0x3071), 0x11 },
+> > > > > 
+> > > > > @@ -230,6 +231,7 @@ static const struct imx290_regval
+> > > > > imx290_global_init_settings[] = { { IMX290_REG_8BIT(0x33b0), 0x50 },
+> > > > > 
+> > > > >   { IMX290_REG_8BIT(0x33b2), 0x1a },
+> > > > >   { IMX290_REG_8BIT(0x33b3), 0x04 },
+> > > > > 
+> > > > > + { IMX290_REG_8BIT(0x3480), 0x49 },
+> > > > > 
+> > > > >  };
+> > > > >  
+> > > > >  static const struct imx290_regval imx290_1080p_settings[] = {
+> > > > > 
+> > > > > @@ -239,15 +241,12 @@ static const struct imx290_regval
+> > > > > imx290_1080p_settings[] = { { IMX290_OPB_SIZE_V, 10 },
+> > > > > 
+> > > > >   { IMX290_X_OUT_SIZE, 1920 },
+> > > > >   { IMX290_Y_OUT_SIZE, 1080 },
+> > > > > 
+> > > > > - { IMX290_REG_8BIT(0x3012), 0x64 },
+> > > > > - { IMX290_REG_8BIT(0x3013), 0x00 },
+> > > > > 
+> > > > >   { IMX290_INCKSEL1, 0x18 },
+> > > > >   { IMX290_INCKSEL2, 0x03 },
+> > > > >   { IMX290_INCKSEL3, 0x20 },
+> > > > >   { IMX290_INCKSEL4, 0x01 },
+> > > > >   { IMX290_INCKSEL5, 0x1a },
+> > > > >   { IMX290_INCKSEL6, 0x1a },
+> > > > > 
+> > > > > - { IMX290_REG_8BIT(0x3480), 0x49 },
+> > > > > 
+> > > > >   /* data rate settings */
+> > > > >   { IMX290_REPETITION, 0x10 },
+> > > > >   { IMX290_TCLKPOST, 87 },
+> > > > > 
+> > > > > @@ -267,15 +266,12 @@ static const struct imx290_regval
+> > > > > imx290_720p_settings[] = { { IMX290_OPB_SIZE_V, 4 },
+> > > > > 
+> > > > >   { IMX290_X_OUT_SIZE, 1280 },
+> > > > >   { IMX290_Y_OUT_SIZE, 720 },
+> > > > > 
+> > > > > - { IMX290_REG_8BIT(0x3012), 0x64 },
+> > > > > - { IMX290_REG_8BIT(0x3013), 0x00 },
+> > > > > 
+> > > > >   { IMX290_INCKSEL1, 0x20 },
+> > > > >   { IMX290_INCKSEL2, 0x00 },
+> > > > >   { IMX290_INCKSEL3, 0x20 },
+> > > > >   { IMX290_INCKSEL4, 0x01 },
+> > > > >   { IMX290_INCKSEL5, 0x1a },
+> > > > >   { IMX290_INCKSEL6, 0x1a },
+> > > > > 
+> > > > > - { IMX290_REG_8BIT(0x3480), 0x49 },
+> > > > > 
+> > > > >   /* data rate settings */
+> > > > >   { IMX290_REPETITION, 0x10 },
+> > > > >   { IMX290_TCLKPOST, 79 },
+> > > > 
+> > > > 0x3480 is INCKSEL7 for imx327, not sure if that should be set yet for
+> > > > imx290 (only) driver, without proper imx327 support.
+> > > 
+> > > Do you mean the register doesn't exist on the IMX290 ? We could make it
+> > > conditional on the sensor model, but it's not added by this patch, it
+> > > has been there since the first version of the driver, so I'd rather do
+> > > that on top.
+> > 
+> > As far as I know INCKSEL7 is only valid on imx327. On imx290 the whole
+> > 0x300-0x34ff range is reserved.
+> 
+> IMX290_CSI_LANE_MODE to select the number of CSI2 data lanes is
+> 0x3443, so clearly the whole range is not reserved.
+
+You are right, I was looking at the wrong table, my bad.
+
+> > I agree this should be conditional on the sensor model. If you want to
+> > keep
+> > it, because it is not new, I'm fine with that.
+> 
+> 0x3840 is documented in my IMX290 datasheet as being INCKSEL7. 0x49
+> for 37.125MHz clock. 0x92 for 74.25MHz (default).
+> Removing it *will* break this driver for existing platforms as the
+> rest of the code configures a 37.125MHz clock.
+
+I guess you mean 0x3480, just a small typo. Just to be sure.
+Interesting, the datasheet for imx290 I found doesn't contain INCKSEL7 at all. 
+But good to know, that this register applies to imx290 as well.
+Thanks for that information.
+
+Best regards,
+Alexander
+
+> See [1] for adding 74.25MHz clock support.
+> 
+>   Dave
+> 
+> [1]
+> https://github.com/raspberrypi/linux/commit/125f7e7ef1194d4849c74b25c87d18a
+> ea9de2de7
 
 
-Why does the subject line start with "media:" The subsystem is 
-"staging:" so the subject should start with "staging: media: ..."
 
-I have no clue if this is accepted.
 
-Regards,
-
-Philipp
