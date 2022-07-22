@@ -2,48 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FA7E57D86F
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 04:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8427F57D892
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 04:26:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234027AbiGVCTe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 22:19:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60216 "EHLO
+        id S234326AbiGVCZw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 22:25:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234034AbiGVCTc (ORCPT
+        with ESMTP id S234237AbiGVCZj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 22:19:32 -0400
-Received: from m12-14.163.com (m12-14.163.com [220.181.12.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CFAD413CDB;
-        Thu, 21 Jul 2022 19:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=/0XkG
-        Fs+FCFX0sqA6J0AfVmSz9Si3P6MzDBYURSGPow=; b=jlOH1H/SqnYS+AroUQ+xH
-        YKjMWVKLXrnaQTWLqbRgx4GMUyh6tiPDkVKRigl3ag0QGzqWSMEKrg6l9Lcq3/oZ
-        mjylRONb7tZ7VhBbCTkVViLMybSz3LOWPe2kqaPGvdFW2ACOOIsjKPaTO1p91ayi
-        uRKqGsLIFwp5JZF0h7TroM=
-Received: from localhost.localdomain (unknown [223.104.63.34])
-        by smtp10 (Coremail) with SMTP id DsCowAD3ISQpCdpi5mSGOg--.603S2;
-        Fri, 22 Jul 2022 10:19:24 +0800 (CST)
-From:   Slark Xiao <slark_xiao@163.com>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] media: saa7164: Fix typo 'the the' in comment
-Date:   Fri, 22 Jul 2022 10:19:18 +0800
-Message-Id: <20220722021918.64636-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 21 Jul 2022 22:25:39 -0400
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6CB7820F40;
+        Thu, 21 Jul 2022 19:25:19 -0700 (PDT)
+Received: from localhost.localdomain (unknown [10.12.77.33])
+        by mail-app4 (Coremail) with SMTP id cS_KCgDn6Mx_CtpiRg0IAQ--.0S4;
+        Fri, 22 Jul 2022 10:25:03 +0800 (CST)
+From:   Lin Ma <linma@zju.edu.cn>
+To:     dongchun.zhu@mediatek.com, zhengsq@rock-chips.com,
+        mchehab@kernel.org, matthias.bgg@gmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Cc:     Lin Ma <linma@zju.edu.cn>
+Subject: [PATCH v0] media: i2c: fix the erroneous pointer initializer
+Date:   Fri, 22 Jul 2022 10:24:59 +0800
+Message-Id: <20220722022459.5030-1-linma@zju.edu.cn>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DsCowAD3ISQpCdpi5mSGOg--.603S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZFWUWr1ftw4UJF18Cr4DJwb_yoW3Krg_Wr
-        1DZ3yxZ343Jr1ayF4Yv3WfZry8K3y8uFWrA3Z3tryrt348ur1UXryYywn8Xw1UJFW3u3sr
-        WrZxWa1xZw1rKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sREbAFPUUUUU==
-X-Originating-IP: [223.104.63.34]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiGRBGZFyPdmgJAgABss
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+X-CM-TRANSID: cS_KCgDn6Mx_CtpiRg0IAQ--.0S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr4rtw47GF1UtrykurW8tFb_yoW8ZFy5pF
+        ZrX34akryYgr4jqF17J3yUuFyYga1xJFy8KFW3uw15ZFWUCryIvryftF4Yyr1kGrWDKa4I
+        qw1rtrW3Aa1xAF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkI1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+        6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+        vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
+        1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
+        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+        1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+        x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,26 +56,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace 'the the' with 'the' in the comment.
+There are obvious errors for the initializer of ov02a10_i2c_driver,
+ov2682_i2c_driver, and ov5695_i2c_driver as the code intended to assign
+"address of function pointer" to function pointer. This patch fixes them
+by removing redundant & operators.
 
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Signed-off-by: Lin Ma <linma@zju.edu.cn>
 ---
- drivers/media/pci/saa7164/saa7164-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ov02a10.c | 4 ++--
+ drivers/media/i2c/ov2685.c  | 4 ++--
+ drivers/media/i2c/ov5695.c  | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
-index 7973ae42873a..d5f32e3ff544 100644
---- a/drivers/media/pci/saa7164/saa7164-core.c
-+++ b/drivers/media/pci/saa7164/saa7164-core.c
-@@ -626,7 +626,7 @@ static irqreturn_t saa7164_irq(int irq, void *dev_id)
- 	portf = &dev->ports[SAA7164_PORT_VBI2];
+diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
+index 0f08c05333ea..5d205454ca4e 100644
+--- a/drivers/media/i2c/ov02a10.c
++++ b/drivers/media/i2c/ov02a10.c
+@@ -1004,8 +1004,8 @@ static struct i2c_driver ov02a10_i2c_driver = {
+ 		.pm = &ov02a10_pm_ops,
+ 		.of_match_table = ov02a10_of_match,
+ 	},
+-	.probe_new	= &ov02a10_probe,
+-	.remove		= &ov02a10_remove,
++	.probe_new	= ov02a10_probe,
++	.remove		= ov02a10_remove,
+ };
+ module_i2c_driver(ov02a10_i2c_driver);
  
- 	/* Check that the hardware is accessible. If the status bytes are
--	 * 0xFF then the device is not accessible, the the IRQ belongs
-+	 * 0xFF then the device is not accessible, the IRQ belongs
- 	 * to another driver.
- 	 * 4 x u32 interrupt registers.
- 	 */
+diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
+index b6e010ea3249..4b9f4f3a0194 100644
+--- a/drivers/media/i2c/ov2685.c
++++ b/drivers/media/i2c/ov2685.c
+@@ -832,8 +832,8 @@ static struct i2c_driver ov2685_i2c_driver = {
+ 		.pm = &ov2685_pm_ops,
+ 		.of_match_table = of_match_ptr(ov2685_of_match),
+ 	},
+-	.probe		= &ov2685_probe,
+-	.remove		= &ov2685_remove,
++	.probe		= ov2685_probe,
++	.remove		= ov2685_remove,
+ };
+ 
+ module_i2c_driver(ov2685_i2c_driver);
+diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
+index 910309783885..59da66f4f810 100644
+--- a/drivers/media/i2c/ov5695.c
++++ b/drivers/media/i2c/ov5695.c
+@@ -1395,8 +1395,8 @@ static struct i2c_driver ov5695_i2c_driver = {
+ 		.pm = &ov5695_pm_ops,
+ 		.of_match_table = of_match_ptr(ov5695_of_match),
+ 	},
+-	.probe		= &ov5695_probe,
+-	.remove		= &ov5695_remove,
++	.probe		= ov5695_probe,
++	.remove		= ov5695_remove,
+ };
+ 
+ module_i2c_driver(ov5695_i2c_driver);
 -- 
-2.25.1
+2.36.1
 
