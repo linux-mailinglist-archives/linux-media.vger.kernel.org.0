@@ -2,60 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6253757D8DF
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 05:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D19A557D907
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 05:36:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233582AbiGVDIQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jul 2022 23:08:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36742 "EHLO
+        id S229739AbiGVDgn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jul 2022 23:36:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229682AbiGVDIP (ORCPT
+        with ESMTP id S229605AbiGVDgm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jul 2022 23:08:15 -0400
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 259C28C588;
-        Thu, 21 Jul 2022 20:08:13 -0700 (PDT)
-Received: by ajax-webmail-mail-app3 (Coremail) ; Fri, 22 Jul 2022 11:08:01
- +0800 (GMT+08:00)
-X-Originating-IP: [10.192.176.244]
-Date:   Fri, 22 Jul 2022 11:08:01 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   "Lin Ma" <linma@zju.edu.cn>
-To:     dongchun.zhu@mediatek.com, zhengsq@rock-chips.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v0] media: i2c: fix the erroneous pointer initializer
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <20220722022459.5030-1-linma@zju.edu.cn>
-References: <20220722022459.5030-1-linma@zju.edu.cn>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        Thu, 21 Jul 2022 23:36:42 -0400
+X-Greylist: delayed 398 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 21 Jul 2022 20:36:40 PDT
+Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B912193C25
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 20:36:40 -0700 (PDT)
+X-mail-filterd: {"version":"1.3.4","queueID":"4Lpw124qHfz1LQKdM","contextId":"c17f7f46-faaa-49c5-bc20-a4f9bb209ad8"}
+Received: from [192.168.1.17] (lfbn-rou-1-439-254.w90-23.abo.wanadoo.fr [90.23.32.254])
+        by msfrf2610.sfr.fr (SMTP Server) with ESMTP id 4Lpw124qHfz1LQKdM
+        for <linux-media@vger.kernel.org>; Fri, 22 Jul 2022 05:29:58 +0200 (CEST)
+X-mail-filterd: {"version":"1.3.4","queueID":"4Lpw124HtRz1LQKdK","contextId":"221d96d2-09d4-4541-9d65-e6497cc953ec"}
+X-sfr-mailing: LEGIT
+X-sfr-spamrating: 40
+X-sfr-spam: not-spam
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=neuf.fr; s=202006;
+ t=1658460598; h=Date:To:From:Subject; bh=Hd+qb2owvlQIRCwXEtFLMbtQ40K44NX5m/mp
+  k+hSnog=; b=Zfg/CQkycRmAyCyymSFF4lD1OL+d8ALQKygSQ3aYVWCkv7iIDx8skvjM5bCASFTr
+  nbUfZv3zHyODl+07kxiJe+lgYQ4XgmKFmrsFvOzg9VsgAdbpYowchmoR5LD6MLpyDSSLV3tJ/9MC
+  EKO0zdtmM6SthX66kBMiZ8tFB3kRrePVDd4HTy0/m2yN6FuxPOzUlJGy/NLVXSenjevDE9h6j5QU
+  +JAVXcZbaCMYp8CtF/Fph56lF+9O+fPsGDrrzLwYy5rY9+aF24rXSDJ0P0KK96DbWJJ1itf2je2r
+  gOQJFds5565J98M4S4sOy10OIWw9F57aSa03oy0G8cRm66RqKA==
+Received: from [192.168.1.17] (lfbn-rou-1-439-254.w90-23.abo.wanadoo.fr [90.23.32.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: coez.bertrand@neuf.fr)
+        by msfrf2610.sfr.fr (SMTP Server) with ESMTPSA id 4Lpw124HtRz1LQKdK
+        for <linux-media@vger.kernel.org>; Fri, 22 Jul 2022 05:29:58 +0200 (CEST)
+Authentication-Results: sfr.fr; auth=pass (PLAIN) smtp.auth=coez.bertrand@neuf.fr
+Message-ID: <8bd3b659-5e1c-4985-ceac-7b9956f2158f@neuf.fr>
+Date:   Fri, 22 Jul 2022 05:29:58 +0200
 MIME-Version: 1.0
-Message-ID: <693a3b3e.519a0.18223e0575b.Coremail.linma@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cC_KCgD3_6uSFNpiD7U3AQ--.18250W
-X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/1tbiAwMTElNG3HhAaAACsa
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWUCw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+To:     linux-media@vger.kernel.org
+Content-Language: en-US
+From:   Bertrand COEZ <coez.bertrand@neuf.fr>
+Subject: Adding a new UVC Device
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGVsbG8gdGhlcmUsCgoKPiAKPiBUaGVyZSBhcmUgb2J2aW91cyBlcnJvcnMgZm9yIHRoZSBpbml0
-aWFsaXplciBvZiBvdjAyYTEwX2kyY19kcml2ZXIsCj4gb3YyNjgyX2kyY19kcml2ZXIsIGFuZCBv
-djU2OTVfaTJjX2RyaXZlciBhcyB0aGUgY29kZSBpbnRlbmRlZCB0byBhc3NpZ24KPiAiYWRkcmVz
-cyBvZiBmdW5jdGlvbiBwb2ludGVyIiB0byBmdW5jdGlvbiBwb2ludGVyLiBUaGlzIHBhdGNoIGZp
-eGVzIHRoZW0KPiBieSByZW1vdmluZyByZWR1bmRhbnQgJiBvcGVyYXRvcnMuCj4gCj4gU2lnbmVk
-LW9mZi1ieTogTGluIE1hIDxsaW5tYUB6anUuZWR1LmNuPgoKU29ycnkgYXMgdGhpcyBpcyBhIGZh
-bHNlIGFsYXJtIDooCkkganVzdCBnZXQgY29uZnVzZWQgYnkgdGhlIGZ1bmN0aW9uIHBvaW50ZXJz
-IGFuZCBmdW5jdGlvbiBhZGRyZXNzZXMgYW5kCnRoZSBvcmlnaW5hbCBjb2RlIHdvcmtzIGZpbmUu
-CgpSZWdhcmRzCkxpbg==
+Hello
+
+I would like to add a device to the list,
+
+Here it is : 5986:211b Acer, Inc HD Webcam.
+
+
+Best regards,
+
+Bertrand
+
