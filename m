@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1400457E22F
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 15:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0463557E232
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 15:20:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234595AbiGVNT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jul 2022 09:19:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35702 "EHLO
+        id S234826AbiGVNUA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jul 2022 09:20:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbiGVNT5 (ORCPT
+        with ESMTP id S234583AbiGVNT6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jul 2022 09:19:57 -0400
+        Fri, 22 Jul 2022 09:19:58 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9373AA0B90;
-        Fri, 22 Jul 2022 06:19:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD6F7A0B89;
+        Fri, 22 Jul 2022 06:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1658495996; x=1690031996;
+  t=1658495998; x=1690031998;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=jHGCy+LY2xn86PxwDOHDZMu5ODeZxv+Kr+sz0BLuCiI=;
-  b=LztSgfjlje+c/MwBn01HdGchgDuLnzMzI0NQIu0/c6AAnnhJQuk+ZF9f
-   5h17qs1TGo5Htqty6PNpUk313ydOntiDKzvKRazyD9CHJU7HRMh01weHu
-   x6pCVRS1Fuda4uqm6eEwI3yOQQxXFgoJYbix2mYlIF5v2cpK4fcClrSI9
-   uNrJhX5/4EqWJr/kvkKEjCaMcgSta2T+mfWH2BcoU94cks/ts135G02M8
-   F0bXu03nMiTRXsLOKwqrPTd1CR7AD3w/ZRF6q68/b7bJtQ6L7lzx4C2hm
-   o+48zFC7qkRXcAfYVSa6TA8C2WexK48rXviy45cuooqEGcVlFSdYagKhf
-   w==;
+  bh=KaEDJVU3uZqRPoVDhl+O6jtIVNEtEGZ+mLxj2kIA+XQ=;
+  b=CgE1nCZVHTnnpLLgCaA2uwkp+Txs+yYWrVM5pgToI9u4hEsapwAQCtRX
+   G+jdlG+qCxYk0PAPMhJhAzfQmX2oAMDJLvwPY2vJdk1UqftLSBjaILt9V
+   U41GgEYCP2aG1Cdz6JuMKf2VmsIi6q/PpQes385KPL0/axWuHArdqXIrP
+   Dkk4QtGi5ZpTy8zILR9pNnrGvQ+fktUbFPEvfv7mRuwNrWYAXcCt4JMY6
+   bWvZcwV7QUgvP0xtod/sdXz4yfS6AE+3FMNgEv+jsnUJlds5WomKDGI2X
+   rka0iQRQ1DTCs3FUIVsjbXjkw2vW/gSI+4+YslU3VMJFBlKyt4G9HGKXk
+   A==;
 X-IronPort-AV: E=Sophos;i="5.93,185,1654552800"; 
-   d="scan'208";a="25212300"
+   d="scan'208";a="25212302"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
   by mx1-pgp.tq-group.com with ESMTP; 22 Jul 2022 15:19:52 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
@@ -42,22 +42,22 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   t=1658495992; x=1690031992;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=jHGCy+LY2xn86PxwDOHDZMu5ODeZxv+Kr+sz0BLuCiI=;
-  b=AtfbV9b7E7p4u1IBRnQnQi2MnluNE7YV6UV+6HDLPOxaX3hU8n0cSzN5
-   pY41mG33l4L+0299+9iXzJCK/ftG4rn9uet9DQqay4cSAQvBIjig7eA8t
-   exYcTcVa7Vu8aOFaWNLrHt2txSU3z53C/OmlfBHOB0qEN4Jy2aIGxZXFl
-   qBIHv1S4DsdxGeHbWJYLtezcfUs3Mqd0Pp2w0ZkG1968NI1FWMkWjLj6L
-   VJn7RmkcHm65pbRdCxyqTlyUm8J6KE4S6RM01wi5n558cR0s43sjWWgNi
-   iCsKkMDRG78KxWzLbZRDS9KE9MMThhgMJel7CxUQu+k2IO7IdAr7b9oye
+  bh=KaEDJVU3uZqRPoVDhl+O6jtIVNEtEGZ+mLxj2kIA+XQ=;
+  b=JDZbJsvu1GE+LMN2MZRtqlYNS7A8XO18er8K41Jrj30O/S83sgIgZx8F
+   gpXtHmIF6/+HNH67R7ctn8cHNCW8aa36cbL6hAbzBhPSImX+AtwCfvY9j
+   wdKbaOAFO1ikKutUnInqjOYqRF/bBbrD1zYIr7ROz+zTjylXsRHNPIr+W
+   DUZNyuWM5rD6EPiwZytGljvRcMYKytdvXOoNLhoYBolbNPToePg1XVP5v
+   XBNQrDEpM1s37TbaYp6kr647pY20awMMlsBhd3xVRaBDir/HqFUpHMZBy
+   mjdJonE1Qh6rADsdw+Kjjd6hYXCcVXnH5RCcyy63lc0RKyHt0QQ1n/ke1
    g==;
 X-IronPort-AV: E=Sophos;i="5.93,185,1654552800"; 
-   d="scan'208";a="25212298"
+   d="scan'208";a="25212301"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 22 Jul 2022 15:19:52 +0200
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2B970280072;
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 59C1E280056;
         Fri, 22 Jul 2022 15:19:52 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
@@ -67,10 +67,11 @@ To:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH v3 1/7] media: i2c: ov9282: remove unused and unset i2c_client member
-Date:   Fri, 22 Jul 2022 15:19:41 +0200
-Message-Id: <20220722131947.2456988-2-alexander.stein@ew.tq-group.com>
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 2/7] media: dt-bindings: media: Add compatible for ov9281
+Date:   Fri, 22 Jul 2022 15:19:42 +0200
+Message-Id: <20220722131947.2456988-3-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220722131947.2456988-1-alexander.stein@ew.tq-group.com>
 References: <20220722131947.2456988-1-alexander.stein@ew.tq-group.com>
@@ -85,34 +86,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is not need anyway as the i2c_client is stored in v4l2_subdev.
+This is a slightly different hardware with identical software interface.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/media/i2c/ov9282.c | 2 --
- 1 file changed, 2 deletions(-)
+ Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 2e0b315801e5..8a252bf3b59f 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -104,7 +104,6 @@ struct ov9282_mode {
- /**
-  * struct ov9282 - ov9282 sensor device structure
-  * @dev: Pointer to generic device
-- * @client: Pointer to i2c client
-  * @sd: V4L2 sub-device
-  * @pad: Media pad. Only one pad supported
-  * @reset_gpio: Sensor reset gpio
-@@ -123,7 +122,6 @@ struct ov9282_mode {
-  */
- struct ov9282 {
- 	struct device *dev;
--	struct i2c_client *client;
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
- 	struct gpio_desc *reset_gpio;
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+index bf115ab9d926..285f8c85f253 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+@@ -16,10 +16,13 @@ description:
+   sensor with an active array size of 1296H x 816V. It is programmable through
+   I2C interface. The I2C client address is fixed to 0x60/0x70 as per sensor data
+   sheet. Image data is sent through MIPI CSI-2.
++  OV9281 has a different lens chief ray angle.
+ 
+ properties:
+   compatible:
+-    const: ovti,ov9282
++    enum:
++      - ovti,ov9281
++      - ovti,ov9282
+   reg:
+     description: I2C address
+     maxItems: 1
 -- 
 2.25.1
 
