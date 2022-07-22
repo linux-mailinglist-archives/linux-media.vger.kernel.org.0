@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDAFB57DA61
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 08:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AB3157DA6C
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 08:41:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234235AbiGVGg4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jul 2022 02:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43184 "EHLO
+        id S234279AbiGVGlU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jul 2022 02:41:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbiGVGg4 (ORCPT
+        with ESMTP id S229671AbiGVGlT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jul 2022 02:36:56 -0400
-Received: from mail-m974.mail.163.com (mail-m974.mail.163.com [123.126.97.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C9B4D15A3B;
-        Thu, 21 Jul 2022 23:36:54 -0700 (PDT)
+        Fri, 22 Jul 2022 02:41:19 -0400
+Received: from mail-m973.mail.163.com (mail-m973.mail.163.com [123.126.97.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5BC7B8239C;
+        Thu, 21 Jul 2022 23:41:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=E3oBu
-        jAk5+CJh8HxzfokInqGTX7i0cI8oJxfC2MTK34=; b=DpMVIC2pV+IcBFVi636jf
-        MxS4BMglcsYrcibL0VsrlHw81lNy4AXd7Wn4w5GJ6R8UzyGm549SCfAvigFbhgDm
-        o0hdWrP4X/er7m40zn5Skwb1/9TGHHEkh01/yS92kdSyASEsDhAJhtGAa4yQ/tnw
-        9L8xbd6vgfu9/Kwulh0gf4=
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=pjlpM
+        8dBHy5NE83zTB8LjaeuaNsWgsLf7e7AH9wZrWY=; b=QZja4GOpqGSsC/QyvUCz6
+        royHoeX8BKig58Dx0YfIlwyU1dNFM5Bn0oOWuJ4RkUoQryzCxVnA6tX2Tn5zfQKd
+        VyRQZCoVq+BHPnV5svn1qqCNpGvPTKOOChRnpM97f90Yx+ImehZBzoUdDCzh695C
+        YKRbDJPupyegMHK3R7l/ZE=
 Received: from localhost.localdomain (unknown [112.97.59.29])
-        by smtp4 (Coremail) with SMTP id HNxpCgBXkXF+RdpiLGBmQA--.5172S2;
-        Fri, 22 Jul 2022 14:36:48 +0800 (CST)
+        by smtp3 (Coremail) with SMTP id G9xpCgDXt0uCRtpicCR6Qg--.4947S2;
+        Fri, 22 Jul 2022 14:41:07 +0800 (CST)
 From:   Slark Xiao <slark_xiao@163.com>
-To:     frank@zago.net, mchehab@kernel.org
+To:     mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] media: gspca: Fix typo 'the the' in comment
-Date:   Fri, 22 Jul 2022 14:36:43 +0800
-Message-Id: <20220722063643.70229-1-slark_xiao@163.com>
+Subject: [PATCH] media: tm6000: Fix typo 'the the' in comment
+Date:   Fri, 22 Jul 2022 14:41:05 +0800
+Message-Id: <20220722064105.70610-1-slark_xiao@163.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: HNxpCgBXkXF+RdpiLGBmQA--.5172S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZFWUWr1xAFW7Jr4DXF45trb_yoW3Arg_Ww
-        4kXw1xu348Jw1FkF1ak3W8Za4Ik39rur1fZFy5Kry3ZFW2kw4UuFWqvrZ8JF13WFy7JFZx
-        Ga4kAFykt3ZxWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRZHU6JUUUUU==
+X-CM-TRANSID: G9xpCgDXt0uCRtpicCR6Qg--.4947S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZFWUWr1DWFWrAF18tw47Arb_yoWfZrX_CF
+        ykuw4xuw1UJrn0yr1fGrnIvryYya1kZFZ7AFsxt3yfGrWq9FyDXrWDWayxJFn3CrW2qFyD
+        A34FqF1rWw1SgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRuYLyJUUUUU==
 X-Originating-IP: [112.97.59.29]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwhGZFc7Yw9E-AABsU
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwNGZFc7Yw9XuwAAsK
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -55,22 +55,22 @@ Replace 'the the' with 'the' in the comment.
 
 Signed-off-by: Slark Xiao <slark_xiao@163.com>
 ---
- drivers/media/usb/gspca/finepix.c | 2 +-
+ drivers/media/usb/tm6000/tm6000-cards.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/gspca/finepix.c b/drivers/media/usb/gspca/finepix.c
-index 66c8e5122a0a..bc6133b525e3 100644
---- a/drivers/media/usb/gspca/finepix.c
-+++ b/drivers/media/usb/gspca/finepix.c
-@@ -129,7 +129,7 @@ static void dostream(struct work_struct *work)
- 				 * for, then it's the end of the
- 				 * frame. Sometimes the jpeg is not complete,
- 				 * but there's nothing we can do. We also end
--				 * here if the the jpeg ends right at the end
-+				 * here if the jpeg ends right at the end
- 				 * of the frame. */
- 				gspca_frame_add(gspca_dev, LAST_PACKET,
- 						data, len);
+diff --git a/drivers/media/usb/tm6000/tm6000-cards.c b/drivers/media/usb/tm6000/tm6000-cards.c
+index 98f4a63adc2a..b7842cd6f9af 100644
+--- a/drivers/media/usb/tm6000/tm6000-cards.c
++++ b/drivers/media/usb/tm6000/tm6000-cards.c
+@@ -1297,7 +1297,7 @@ static int tm6000_usb_probe(struct usb_interface *interface,
+ 		le16_to_cpu(dev->udev->descriptor.idProduct),
+ 		interface->altsetting->desc.bInterfaceNumber);
+ 
+-/* check if the the device has the iso in endpoint at the correct place */
++/* check if the device has the iso in endpoint at the correct place */
+ 	if (!dev->isoc_in.endp) {
+ 		printk(KERN_ERR "tm6000: probing error: no IN ISOC endpoint!\n");
+ 		rc = -ENODEV;
 -- 
 2.25.1
 
