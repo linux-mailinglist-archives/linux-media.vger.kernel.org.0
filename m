@@ -2,90 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A41157DA55
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 08:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CAB257DA5C
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 08:35:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbiGVGeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jul 2022 02:34:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40260 "EHLO
+        id S234247AbiGVGez (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jul 2022 02:34:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234243AbiGVGeB (ORCPT
+        with ESMTP id S234110AbiGVGex (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jul 2022 02:34:01 -0400
-Received: from mail-m974.mail.163.com (mail-m974.mail.163.com [123.126.97.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4FF784D4E5;
-        Thu, 21 Jul 2022 23:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=QSsw+
-        n12VZ5Mt9M8vjVWAmnvanUDHuoSYkmFZCbq7AY=; b=hRouYzf4/ggxwt5AfsHZV
-        cFQluoPp/JOWo9U+Bf4Vf7JrALvukRL9CuJbAR2AsatDcxcydNyQGtsfTBX4JUNQ
-        KEKRrqt6sRGrvtZP+x9w4Wg8Cz7RlSGxLLgcFb3t/9V2IyjmaovpvtY5rPJ6T6KF
-        /ZsXbm6LcTGyRwIr6+ubec=
-Received: from localhost.localdomain (unknown [112.97.59.29])
-        by smtp4 (Coremail) with SMTP id HNxpCgD3L3DGRNpigOxlQA--.19561S2;
-        Fri, 22 Jul 2022 14:33:44 +0800 (CST)
-From:   Slark Xiao <slark_xiao@163.com>
-To:     prabhakar.csengg@gmail.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] media: platform: ti: Fix typo 'the the' in comment
-Date:   Fri, 22 Jul 2022 14:33:41 +0800
-Message-Id: <20220722063341.69913-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 22 Jul 2022 02:34:53 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8157465587
+        for <linux-media@vger.kernel.org>; Thu, 21 Jul 2022 23:34:52 -0700 (PDT)
+Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4AE9C6D5;
+        Fri, 22 Jul 2022 08:34:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1658471690;
+        bh=LONPrpHOZTqcagfC+nmyMlusOSsY/hWMJ+o47b5Zyzw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cgZSV3OUKRU7EM2pNCpiyxGhGY+GeZbrwduK21PaWIBOClQtKOgF8oLFL6d9e3g29
+         5YWYsM999Jd8NEkQjNGolYjZKWTGxVeSBFEf/AJ6oE6fzWNGPl4nsbFwKNdEQc4Fjq
+         bD5QqbDJoHlYSnaRDwv47NnCgoOmDsEK7TnIDc7A=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 1/5] media: ti: cal: fix useless variable init
+Date:   Fri, 22 Jul 2022 09:34:20 +0300
+Message-Id: <20220722063424.174288-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: HNxpCgD3L3DGRNpigOxlQA--.19561S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFyDXFy8ZFyUJrWxWr4xXrb_yoW8WFWUpF
-        WDK3yxArWqgr1qqw4DAw1kuFW3Aw1SvFWjkry3u3s3uan8ZFWqyr18tFySyF9rXFWfZFy3
-        JF1rtw13WFs5ur7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEyxRnUUUUU=
-X-Originating-IP: [112.97.59.29]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbivwhGZFWB0jrEuAAAsV
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace 'the the' with 'the' in the comment.
+'ret' is initialized needlessly in cal_legacy_try_fmt_vid_cap(). We can
+also move the variable to the for block, which is the only place where
+it is used.
 
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/platform/ti/davinci/vpbe.c | 2 +-
- drivers/media/platform/ti/omap3isp/isp.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/ti/cal/cal-video.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/ti/davinci/vpbe.c b/drivers/media/platform/ti/davinci/vpbe.c
-index 5f0aeb744e81..509ecc84624e 100644
---- a/drivers/media/platform/ti/davinci/vpbe.c
-+++ b/drivers/media/platform/ti/davinci/vpbe.c
-@@ -280,7 +280,7 @@ static int vpbe_set_default_output(struct vpbe_device *vpbe_dev)
-  * vpbe_get_output - Get output
-  * @vpbe_dev: vpbe device ptr
-  *
-- * return current vpbe output to the the index
-+ * return current vpbe output to the index
-  */
- static unsigned int vpbe_get_output(struct vpbe_device *vpbe_dev)
- {
-diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
-index 4c937f3f323e..f99dda7337b9 100644
---- a/drivers/media/platform/ti/omap3isp/isp.c
-+++ b/drivers/media/platform/ti/omap3isp/isp.c
-@@ -1528,7 +1528,7 @@ void omap3isp_print_status(struct isp_device *isp)
-  * To solve this problem power management support is split into prepare/complete
-  * and suspend/resume operations. The pipelines are stopped in prepare() and the
-  * ISP clocks get disabled in suspend(). Similarly, the clocks are re-enabled in
-- * resume(), and the the pipelines are restarted in complete().
-+ * resume(), and the pipelines are restarted in complete().
-  *
-  * TODO: PM dependencies between the ISP and sensors are not modelled explicitly
-  * yet.
+diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
+index 07ae1a34e6b0..a4d764c96a90 100644
+--- a/drivers/media/platform/ti/cal/cal-video.c
++++ b/drivers/media/platform/ti/cal/cal-video.c
+@@ -191,7 +191,7 @@ static int cal_legacy_try_fmt_vid_cap(struct file *file, void *priv,
+ 	struct cal_ctx *ctx = video_drvdata(file);
+ 	const struct cal_format_info *fmtinfo;
+ 	struct v4l2_subdev_frame_size_enum fse;
+-	int ret, found;
++	int found;
+ 
+ 	fmtinfo = find_format_by_pix(ctx, f->fmt.pix.pixelformat);
+ 	if (!fmtinfo) {
+@@ -206,12 +206,13 @@ static int cal_legacy_try_fmt_vid_cap(struct file *file, void *priv,
+ 	f->fmt.pix.field = ctx->v_fmt.fmt.pix.field;
+ 
+ 	/* check for/find a valid width/height */
+-	ret = 0;
+ 	found = false;
+ 	fse.pad = 0;
+ 	fse.code = fmtinfo->code;
+ 	fse.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 	for (fse.index = 0; ; fse.index++) {
++		int ret;
++
+ 		ret = v4l2_subdev_call(ctx->phy->source, pad, enum_frame_size,
+ 				       NULL, &fse);
+ 		if (ret)
 -- 
-2.25.1
+2.34.1
 
