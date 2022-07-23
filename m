@@ -2,122 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B08557F14A
-	for <lists+linux-media@lfdr.de>; Sat, 23 Jul 2022 22:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4839757F201
+	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 01:02:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231821AbiGWUOy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Jul 2022 16:14:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34588 "EHLO
+        id S233371AbiGWXCA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Jul 2022 19:02:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231489AbiGWUOx (ORCPT
+        with ESMTP id S231493AbiGWXB7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Jul 2022 16:14:53 -0400
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC09193C4
-        for <linux-media@vger.kernel.org>; Sat, 23 Jul 2022 13:14:52 -0700 (PDT)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-31e0d4ad6caso76402007b3.10
-        for <linux-media@vger.kernel.org>; Sat, 23 Jul 2022 13:14:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+X4NC7HMEsTyJEUED99GQac+kPMykk+7iU8zBxRDHGE=;
-        b=qD6L0rW129uoghdib0Q9G8iCt4MzIIQDmVLjpfPnLKnsgSTawoDyQnO4okooE5aDjH
-         PGyO/dom29KqMpZq6j9xuMMKm4sFvG7xFUIut4S6oljflTY6nl0klEzIv3OPziSgjjeY
-         xOCgneGTnmhLdFMK+tLfXMiDUKQQhRjEoXqqTaiMABTY13yeGmidN5pYuMvYpx1w1lsa
-         ZmzNxjoBPOWarqC3zEb9fIUw0apPm2cUcD/EoIp8p8LoVRocNRD3o8nnQfWsMofTP42Y
-         3CaodP2cejEzVTdjpwqaazlGNow3ql4budzQnfmVvhVnI80//oyi/HZxaFXMcoLlw4EK
-         TNyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+X4NC7HMEsTyJEUED99GQac+kPMykk+7iU8zBxRDHGE=;
-        b=8GO6VgeXh5qo6WnSkafpC4Kpp2QYQCWuPUKGLOhxmxRCpOzDGOojPvbZL0OcGvtlEp
-         O1vuPSpS44IPwmMRIzLJmcxK7FYvjehnMui95FSf3ltwcCZtD6UyRdmR10pYSGDyHDv9
-         b5Uohgjpd9X0iASnPqfw6DKFEzBsThSfytzj705FjOhTlRLpOTCGTEcN8pnPE/OzKkLY
-         vmZiOZmHxJU5JOuL9RBwQX/zblHaCdMbgl//1PtzE87JZMAOcEV4T3ZNtXzbFQtKEtWu
-         aFhtJIqnrPQjTSyHH5csGm5AS7lUxBta6pBH8+lAj0f3L7PuNmgRlITFwYVd3ORhd4eR
-         3goQ==
-X-Gm-Message-State: AJIora+nk0LqVv9OYI3Kgab2CWxxNvyxm5WdykMxDRNkGgPzoz37rS47
-        JN3uHBUpzpCv/va0SqjukSwb7HJn2wuYJaSEtrgaPFWiEDs=
-X-Google-Smtp-Source: AGRyM1vYUDN9oKNsaAI7c8kYvWmQj0BBWJCpkzl4DX+pkFMOU9ldvjWrh5p69OoFaMiovfrVTmJhy0XPqJxntCk4UyI=
-X-Received: by 2002:a81:6503:0:b0:31d:6463:bf1a with SMTP id
- z3-20020a816503000000b0031d6463bf1amr4481917ywb.178.1658607291516; Sat, 23
- Jul 2022 13:14:51 -0700 (PDT)
+        Sat, 23 Jul 2022 19:01:59 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2391E1A064;
+        Sat, 23 Jul 2022 16:01:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658617318; x=1690153318;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uO14P5Z/HSC5LGiKTRp+TtPiWLCoSqv3tZewvl7+QkU=;
+  b=a2vsvUh5jwgMxvrfYFWzD+ohCgiwyy4rYBhMxe64eC2YfiN5ZMYEGY02
+   HiDuRd1Db68UPkqTOYZ1BnwjSpmC0pytstPZId2fJl3igAMa8AYcXlaKE
+   FPzpCblCQ8QkwWiDPiPihmGzV7RLbhJjes3zetaDmKdIqZCG2uRxke/6Y
+   WkLLnhrzvVavfTkRKM2OIxXz+AvTRA/Gtk05EqvoI7n6AaoMQ5Q99Qm/O
+   mB1a8PYpsSFoktVjxL7p7iqn01AK6C6z9X303fvJslcOar4pEtqu4DFkh
+   cR2AW6HO582DZQk4wZr/KrCVLtQFRIGQLfJOgmA4ALm24dbLK6USpAqXz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10417"; a="286259030"
+X-IronPort-AV: E=Sophos;i="5.93,189,1654585200"; 
+   d="scan'208";a="286259030"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2022 16:01:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,189,1654585200"; 
+   d="scan'208";a="775571802"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 23 Jul 2022 16:01:55 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oFO8B-0003CX-09;
+        Sat, 23 Jul 2022 23:01:55 +0000
+Date:   Sun, 24 Jul 2022 07:01:23 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Eugen Hristev <eugen.hristev@microchip.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: drivers/media/platform/atmel/atmel-sama7g5-isc.c:610:34: warning:
+ unused variable 'microchip_xisc_of_match'
+Message-ID: <202207240637.I0U48Kcd-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220723155502.127404-1-zhangn1985@qq.com> <tencent_686082BF01D2C0E8027D8CB05DC1C649DA05@qq.com>
-In-Reply-To: <tencent_686082BF01D2C0E8027D8CB05DC1C649DA05@qq.com>
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Sat, 23 Jul 2022 22:14:40 +0200
-Message-ID: <CAFBinCBr=LvMywLJMeSY3bgNPF1tV-Fs4_kFb4jXUm_F20eGng@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dts/amlogic: Add MagicBox M16S support
-To:     Zhang Ning <zhangn1985@qq.com>
-Cc:     Neil Armstrong <narmstrong@baylibre.com>, sean@mess.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Eugen,
 
-great to see this patch!
+FYI, the error/warning still remains.
 
-On Sat, Jul 23, 2022 at 5:56 PM Zhang Ning <zhangn1985@qq.com> wrote:
->
-> MagicBox M16S or MagicBox 3Pro is popular Tv box in China.
->
-> it's q201_v1 according u-boot log.
-> and it's almost same as Q201 reference design.
->
-> add a simple dts to support this Tv box.
-It would be great if you could add the hardware specs from the
-cover-letter here.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   515f71412bb73ebd7f41f90e1684fc80b8730789
+commit: c9aa973884a163ecb6d5d4d3be9137058adcaf8c media: atmel: atmel-isc: add microchip-xisc driver
+date:   1 year, 1 month ago
+config: hexagon-randconfig-r035-20220724 (https://download.01.org/0day-ci/archive/20220724/202207240637.I0U48Kcd-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 12fbd2d377e396ad61bce56d71c98a1eb1bebfa9)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c9aa973884a163ecb6d5d4d3be9137058adcaf8c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout c9aa973884a163ecb6d5d4d3be9137058adcaf8c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/atmel/
 
-[...]
-> diff --git a/Documentation/devicetree/bindings/arm/amlogic.yaml b/Documentation/devicetree/bindings/arm/amlogic.yaml
-> index 61a6cabb375b..3eac16a4de68 100644
-> --- a/Documentation/devicetree/bindings/arm/amlogic.yaml
-> +++ b/Documentation/devicetree/bindings/arm/amlogic.yaml
-> @@ -123,6 +123,7 @@ properties:
->                - khadas,vim2
->                - kingnovel,r-box-pro
->                - libretech,aml-s912-pc
-> +              - magicbox,m16s
->                - minix,neo-u9h
->                - nexbox,a1
->                - tronsmart,vega-s96
-The change itself is fine (entries are sorted alphabetically). It
-should go into a separate dt-binding patch though.
-See commit 3f7dbd336f360a ("dt-bindings: arm: amlogic: add Vero 4K+
-bindings") for an example with the correct title and commit message.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-[...]
-> +       gpio-keys-polled {
-> +               compatible = "gpio-keys-polled";
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-#address-cells and #size-cells will be dropped in Linux 5.20 in all
-existing .dts files, see [0]
-Please do the same.
+All warnings (new ones prefixed by >>):
 
-> +               button-power {
-Button/Key node labels are updated in 5.20 as well (see [1], but
-button-power does match the recommended naming so no change is needed.
+>> drivers/media/platform/atmel/atmel-sama7g5-isc.c:610:34: warning: unused variable 'microchip_xisc_of_match' [-Wunused-const-variable]
+   static const struct of_device_id microchip_xisc_of_match[] = {
+                                    ^
+   1 warning generated.
 
 
-Thank you and best regards,
-Martin
+vim +/microchip_xisc_of_match +610 drivers/media/platform/atmel/atmel-sama7g5-isc.c
 
+   609	
+ > 610	static const struct of_device_id microchip_xisc_of_match[] = {
+   611		{ .compatible = "microchip,sama7g5-isc" },
+   612		{ }
+   613	};
+   614	MODULE_DEVICE_TABLE(of, microchip_xisc_of_match);
+   615	
 
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git/commit/?h=v5.20/arm64-dt&id=4956be9944d1fb23107f27bad8a2cca0fa167443
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git/commit/?h=v5.20/arm64-dt&id=4fd9afd894ebe5831dbd737e6ca7b6de14da7fda
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
