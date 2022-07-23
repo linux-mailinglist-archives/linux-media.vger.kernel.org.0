@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B38BB57F140
-	for <lists+linux-media@lfdr.de>; Sat, 23 Jul 2022 22:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B08557F14A
+	for <lists+linux-media@lfdr.de>; Sat, 23 Jul 2022 22:14:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236886AbiGWUFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Jul 2022 16:05:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59044 "EHLO
+        id S231821AbiGWUOy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Jul 2022 16:14:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234901AbiGWUFh (ORCPT
+        with ESMTP id S231489AbiGWUOx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Jul 2022 16:05:37 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D76CE31
-        for <linux-media@vger.kernel.org>; Sat, 23 Jul 2022 13:05:36 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id l11so13360395ybu.13
-        for <linux-media@vger.kernel.org>; Sat, 23 Jul 2022 13:05:36 -0700 (PDT)
+        Sat, 23 Jul 2022 16:14:53 -0400
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC09193C4
+        for <linux-media@vger.kernel.org>; Sat, 23 Jul 2022 13:14:52 -0700 (PDT)
+Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-31e0d4ad6caso76402007b3.10
+        for <linux-media@vger.kernel.org>; Sat, 23 Jul 2022 13:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlemail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=yxNqH7s5Rz3f+v8fqZj0/vCjFEHibCyuheCPD/aW+oc=;
-        b=odGY58M7k02VmCGnlbzb6wQjEKIYUFnVmy2rwX+qvUhwTVmwJWICAz24VjhNAtp1cA
-         k+KW5HZKFbSMLIlWLUJWqWJoaxtz626DBDiomWuhZ7sKIVYt4EPyfYtHQhmIsr/m2/ci
-         oF8OVOuZhXZssrKtgQgpa1LinxENJTd0kA7FJEGzDSk6RnXwmuLnmQdXNwCMgqIFFqPk
-         WB1c1tGDCLqRRXtlpq/lsqdXXzzIVwlM5kDlfVZaRROJC1lbq2okiGFlYtAP4nkQJgdF
-         AxhrxznwkD3f0q1eHPoVp4YILARvlsW/8vRkZpa/dROu6Ycq6HWutya5L28jV8NIE8qi
-         OgUQ==
+        bh=+X4NC7HMEsTyJEUED99GQac+kPMykk+7iU8zBxRDHGE=;
+        b=qD6L0rW129uoghdib0Q9G8iCt4MzIIQDmVLjpfPnLKnsgSTawoDyQnO4okooE5aDjH
+         PGyO/dom29KqMpZq6j9xuMMKm4sFvG7xFUIut4S6oljflTY6nl0klEzIv3OPziSgjjeY
+         xOCgneGTnmhLdFMK+tLfXMiDUKQQhRjEoXqqTaiMABTY13yeGmidN5pYuMvYpx1w1lsa
+         ZmzNxjoBPOWarqC3zEb9fIUw0apPm2cUcD/EoIp8p8LoVRocNRD3o8nnQfWsMofTP42Y
+         3CaodP2cejEzVTdjpwqaazlGNow3ql4budzQnfmVvhVnI80//oyi/HZxaFXMcoLlw4EK
+         TNyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=yxNqH7s5Rz3f+v8fqZj0/vCjFEHibCyuheCPD/aW+oc=;
-        b=V63mtJwujwyxv24RUZUvNOySH0HV4pT59TflHF8PCQb2SKcVEtqdeRNwJMGQ4m1Ki5
-         ZITCywHSRdZOD9batlQPBX4yZMrgWyDsyol7OL8bxvjDyjKtG6GZqxkO12y8SzyRTLsR
-         gUps3lRxlsOLENp/uj+3WAX8e99v8A7wgH+SAMOAVkH18XJKvhULr0hDuFB9y7K+PGhP
-         8Ikct5sQwccB0MOI7Ql7llvye6Wlt/zsIFfzDVKCEWxlQ0Dn8d7EK/xdWIG0AXltqBcv
-         dWm25b1sSQUhcRS+IiW2kZGYzoNFhAMkZEoPkPYyZp63z8kKj56aXQ44XUO6M2h56p2r
-         kPaA==
-X-Gm-Message-State: AJIora82hxpCzC+74K1AHuzde0WA5c1ZPoKImJynfUKpFzam4NaCfRJQ
-        rFXNh0+sZTd0I18sCleYwSy59YcsjZY+FBCnqfBUx/0vR+Q=
-X-Google-Smtp-Source: AGRyM1vLCkmGrcMHJaxHg/n2nhWnQXycKco5363dXL+UeKBCQNmA+xRseVB5Ovlzd0ug/SCzIq3qTAJGMLgwA1WNB3Q=
-X-Received: by 2002:a25:808c:0:b0:670:7d94:f2a with SMTP id
- n12-20020a25808c000000b006707d940f2amr4663495ybk.452.1658606735407; Sat, 23
- Jul 2022 13:05:35 -0700 (PDT)
+        bh=+X4NC7HMEsTyJEUED99GQac+kPMykk+7iU8zBxRDHGE=;
+        b=8GO6VgeXh5qo6WnSkafpC4Kpp2QYQCWuPUKGLOhxmxRCpOzDGOojPvbZL0OcGvtlEp
+         O1vuPSpS44IPwmMRIzLJmcxK7FYvjehnMui95FSf3ltwcCZtD6UyRdmR10pYSGDyHDv9
+         b5Uohgjpd9X0iASnPqfw6DKFEzBsThSfytzj705FjOhTlRLpOTCGTEcN8pnPE/OzKkLY
+         vmZiOZmHxJU5JOuL9RBwQX/zblHaCdMbgl//1PtzE87JZMAOcEV4T3ZNtXzbFQtKEtWu
+         aFhtJIqnrPQjTSyHH5csGm5AS7lUxBta6pBH8+lAj0f3L7PuNmgRlITFwYVd3ORhd4eR
+         3goQ==
+X-Gm-Message-State: AJIora+nk0LqVv9OYI3Kgab2CWxxNvyxm5WdykMxDRNkGgPzoz37rS47
+        JN3uHBUpzpCv/va0SqjukSwb7HJn2wuYJaSEtrgaPFWiEDs=
+X-Google-Smtp-Source: AGRyM1vYUDN9oKNsaAI7c8kYvWmQj0BBWJCpkzl4DX+pkFMOU9ldvjWrh5p69OoFaMiovfrVTmJhy0XPqJxntCk4UyI=
+X-Received: by 2002:a81:6503:0:b0:31d:6463:bf1a with SMTP id
+ z3-20020a816503000000b0031d6463bf1amr4481917ywb.178.1658607291516; Sat, 23
+ Jul 2022 13:14:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220723155502.127404-1-zhangn1985@qq.com> <tencent_ED01C585DBD86EFB91CD8074FB0460C3BA06@qq.com>
-In-Reply-To: <tencent_ED01C585DBD86EFB91CD8074FB0460C3BA06@qq.com>
+References: <20220723155502.127404-1-zhangn1985@qq.com> <tencent_686082BF01D2C0E8027D8CB05DC1C649DA05@qq.com>
+In-Reply-To: <tencent_686082BF01D2C0E8027D8CB05DC1C649DA05@qq.com>
 From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Sat, 23 Jul 2022 22:05:24 +0200
-Message-ID: <CAFBinCATO6YPrZDpV4fyso0ReESSOGFzw0tk=KRfYZaXJMvDNg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] rc/keymap: add keymap for MagicBox M16S
+Date:   Sat, 23 Jul 2022 22:14:40 +0200
+Message-ID: <CAFBinCBr=LvMywLJMeSY3bgNPF1tV-Fs4_kFb4jXUm_F20eGng@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dts/amlogic: Add MagicBox M16S support
 To:     Zhang Ning <zhangn1985@qq.com>
 Cc:     Neil Armstrong <narmstrong@baylibre.com>, sean@mess.org,
         linux-amlogic@lists.infradead.org,
@@ -68,52 +68,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hello,
 
-first of all: thank you for your patches!
+great to see this patch!
 
 On Sat, Jul 23, 2022 at 5:56 PM Zhang Ning <zhangn1985@qq.com> wrote:
 >
-I am not sure if the media subsystem requires it but most subsystem
-maintainers want a description here.
-See for example commit 7bb53f361c59b ("media: rc: add keymap for Tanix
-TX5 max remote") which has been accepted previously.
-
-> Signed-off-by: Zhang Ning <zhangn1985@qq.com>
-> ---
->  .../dts/amlogic/meson-gxm-magicbox-m16s.dts   |  4 ++
-This should be part of the .dts patch (patch #1)
-
->  drivers/media/rc/keymaps/Makefile             |  1 +
->  drivers/media/rc/keymaps/rc-magicbox.c        | 55 +++++++++++++++++++
->  include/media/rc-map.h                        |  1 +
-Additionally we need a dt-bindings patch so the new value is
-recognized by the .dts validation.
-See commit d2fccf94495e57 ("media: dt-bindings: media: add new rc map
-name") for an example.
-dt-binding patches typically go first in the series.
+> MagicBox M16S or MagicBox 3Pro is popular Tv box in China.
+>
+> it's q201_v1 according u-boot log.
+> and it's almost same as Q201 reference design.
+>
+> add a simple dts to support this Tv box.
+It would be great if you could add the hardware specs from the
+cover-letter here.
 
 [...]
-> +static struct rc_map_table magicbox[] = {
-> +       { 40791, KEY_POWER },
-> +       { 40842, KEY_MUTE }, // M
-> +
-> +       { 40771, KEY_UP },
-> +       { 40714, KEY_DOWN },
-> +       { 40710, KEY_LEFT },
-> +       { 40718, KEY_RIGHT },
-> +       { 40706, KEY_OK },
-> +
-> +       { 40775, KEY_HOME },
-> +       { 40783, KEY_BACK },
-> +       { 40726, KEY_MENU },
-> +
-> +       { 40959, KEY_VOLUMEDOWN },
-> +       { 40797, KEY_VOLUMEUP },
-I checked a few other keymaps and they're using hex values for the key code.
-That said, I am not familiar with the keymap code, so let's see what
-the media maintainers think.
+> diff --git a/Documentation/devicetree/bindings/arm/amlogic.yaml b/Documentation/devicetree/bindings/arm/amlogic.yaml
+> index 61a6cabb375b..3eac16a4de68 100644
+> --- a/Documentation/devicetree/bindings/arm/amlogic.yaml
+> +++ b/Documentation/devicetree/bindings/arm/amlogic.yaml
+> @@ -123,6 +123,7 @@ properties:
+>                - khadas,vim2
+>                - kingnovel,r-box-pro
+>                - libretech,aml-s912-pc
+> +              - magicbox,m16s
+>                - minix,neo-u9h
+>                - nexbox,a1
+>                - tronsmart,vega-s96
+The change itself is fine (entries are sorted alphabetically). It
+should go into a separate dt-binding patch though.
+See commit 3f7dbd336f360a ("dt-bindings: arm: amlogic: add Vero 4K+
+bindings") for an example with the correct title and commit message.
+
+[...]
+> +       gpio-keys-polled {
+> +               compatible = "gpio-keys-polled";
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+#address-cells and #size-cells will be dropped in Linux 5.20 in all
+existing .dts files, see [0]
+Please do the same.
+
+> +               button-power {
+Button/Key node labels are updated in 5.20 as well (see [1], but
+button-power does match the recommended naming so no change is needed.
 
 
-Best regards,
+Thank you and best regards,
 Martin
+
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git/commit/?h=v5.20/arm64-dt&id=4956be9944d1fb23107f27bad8a2cca0fa167443
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git/commit/?h=v5.20/arm64-dt&id=4fd9afd894ebe5831dbd737e6ca7b6de14da7fda
