@@ -2,117 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A3C457E754
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jul 2022 21:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B8E957EC14
+	for <lists+linux-media@lfdr.de>; Sat, 23 Jul 2022 06:27:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234146AbiGVTZW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jul 2022 15:25:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57844 "EHLO
+        id S233283AbiGWE1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Jul 2022 00:27:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231784AbiGVTZU (ORCPT
+        with ESMTP id S229450AbiGWE1H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jul 2022 15:25:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AC413F93;
-        Fri, 22 Jul 2022 12:25:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B57D86192A;
-        Fri, 22 Jul 2022 19:25:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F02C341C6;
-        Fri, 22 Jul 2022 19:25:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658517918;
-        bh=xuKtXsTHkn0pTkQYNaGYt7up+YxyXAU6zKa8/F8cb4Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GvVYEz0XVqnnIsn/hR7I+ZMQYYiGNijjl3vDCaO3PrCyIBGadxMl1Lym1d6CZOFYU
-         jXG3IRvDRcyb1jtrPEFjCf5zUoP1AwSdyVmbGXq0yYYGtEsJeJ3rzXHkEP8zMWsLWA
-         2jdQlEMa0uoblsJ9U3ojOVp/Q5wQ1QnLymTnQ9q4hNURDXqCiHF8801S03fKjNh1B2
-         AKez12l/WgOBFyzQOwiVFeBJdQIetKO91HmKRJfq+M0B+CyPrynklOF+JT31gyUwAq
-         I+RPJ0zEhdSeLfy2qcnFOTDAsg+t2kpfsh90wjFjfxtUAoSCOATz+l7efrG+mFtcU4
-         duPVtPhCFkcog==
-Date:   Fri, 22 Jul 2022 21:25:12 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc:     Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: media: zoran: Deleted dead code
-Message-ID: <20220722212512.265cc13d@coco.lan>
-In-Reply-To: <614ce7e3-ff4e-5d76-e940-2aa222535743@gmail.com>
-References: <20220722182622.23719-1-abhijeet.srivastava2308@gmail.com>
-        <614ce7e3-ff4e-5d76-e940-2aa222535743@gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        Sat, 23 Jul 2022 00:27:07 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 167D712AF6;
+        Fri, 22 Jul 2022 21:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658550425; x=1690086425;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=p32WojUus5yQvIGYicEbXPwQzncOSK5v30pgKhW98Ss=;
+  b=Z0KdV5ej56RhTv7dgjmQJAps9Zq/qW9V94ZpqDF+FUWS1iHj1OgXZeF7
+   sfVHID2E7h+z9Mcy1kKICW9vyUO8T//F2dqAED0wL4mhkyvqvMls6Ayz8
+   QcylFNKCxWNdYOXujZ5YoBow35U0J1d3T9kWnidnrWLOWw4hBT4xZK1wK
+   XZJDYTi636JJIFaYIjoJKBuBm2CEHyWM0xVYw7Emcxg3l4Ab0KN2dqLvy
+   wTtJ/kdX4omfb+PozLSfnD1urHWSa3ev3KDZY0Yk/gFRGep4wX+vX+nQV
+   2oVxkCwtwNY6Z1CLqB/NWoOEkUDyjSz7Xd86VYZBAEiPv/Q0zMNcRbyx4
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10416"; a="313179590"
+X-IronPort-AV: E=Sophos;i="5.93,187,1654585200"; 
+   d="scan'208";a="313179590"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2022 21:27:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,187,1654585200"; 
+   d="scan'208";a="574399997"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 22 Jul 2022 21:27:02 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oF6jG-0002GD-0j;
+        Sat, 23 Jul 2022 04:27:02 +0000
+Date:   Sat, 23 Jul 2022 12:26:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: drivers/media/platform/renesas/rcar_drif.c:1470:34: warning: unused
+ variable 'rcar_drif_of_table'
+Message-ID: <202207231223.j1VC50Wj-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 22 Jul 2022 20:52:29 +0200
-Philipp Hortmann <philipp.g.hortmann@gmail.com> escreveu:
+Hi Mauro,
 
-> On 7/22/22 20:26, Abhijeet Srivastava wrote:
-> > Deleted part of code in block comment
-> > 
-> > Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
-> > ---
-> >   drivers/staging/media/zoran/zoran_driver.c | 9 ---------
-> >   1 file changed, 9 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-> > index b408c1d4e0a7..836edf623571 100644
-> > --- a/drivers/staging/media/zoran/zoran_driver.c
-> > +++ b/drivers/staging/media/zoran/zoran_driver.c
-> > @@ -746,11 +746,6 @@ static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
-> >   	.vidioc_enum_input		    = zoran_enum_input,
-> >   	.vidioc_g_input			    = zoran_g_input,
-> >   	.vidioc_s_input			    = zoran_s_input,
-> > -
-> > -/*	.vidioc_enum_output		    = zoran_enum_output,
-> > - *	.vidioc_g_output		    = zoran_g_output,
-> > - *	.vidioc_s_output		    = zoran_s_output,
-> > - */
-> >   	.vidioc_g_std			    = zoran_g_std,
-> >   	.vidioc_s_std			    = zoran_s_std,
-> >   	.vidioc_create_bufs		    = vb2_ioctl_create_bufs,
-> > @@ -762,13 +757,9 @@ static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
-> >   	.vidioc_streamon		    = vb2_ioctl_streamon,
-> >   	.vidioc_streamoff		    = vb2_ioctl_streamoff,
-> >   	.vidioc_enum_fmt_vid_cap	    = zoran_enum_fmt_vid_cap,
-> > -/*	.vidioc_enum_fmt_vid_out	    = zoran_enum_fmt_vid_out,*/
-> >   	.vidioc_g_fmt_vid_cap		    = zoran_g_fmt_vid_cap,
-> > -/*	.vidioc_g_fmt_vid_out               = zoran_g_fmt_vid_out,*/
-> >   	.vidioc_s_fmt_vid_cap		    = zoran_s_fmt_vid_cap,
-> > -/*	.vidioc_s_fmt_vid_out               = zoran_s_fmt_vid_out,*/
-> >   	.vidioc_try_fmt_vid_cap		    = zoran_try_fmt_vid_cap,
-> > -/*	.vidioc_try_fmt_vid_out		    = zoran_try_fmt_vid_out,*/
-> >   	.vidioc_subscribe_event             = v4l2_ctrl_subscribe_event,
-> >   	.vidioc_unsubscribe_event           = v4l2_event_unsubscribe,
-> >   };  
-> 
-> Why does the subject line start with "media:" The subsystem is 
-> "staging:" so the subject should start with "staging: media: ..."
-> 
-> I have no clue if this is accepted.
+FYI, the error/warning still remains.
 
-The subsystem is media. The drivers for both drivers/media and
-drivers/staging/media have the same maintainers. The "staging" is 
-just a place where we place stuff that are either not ready for
-upstream or are under deprecation.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   70664fc10c0d722ec79d746d8ac1db8546c94114
+commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Renesas drivers on a separate dir
+date:   4 months ago
+config: hexagon-randconfig-r034-20220721 (https://download.01.org/0day-ci/archive/20220723/202207231223.j1VC50Wj-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0c1b32717bcffcf8edf95294e98933bd4c1e76ed)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/renesas/
 
-So, we expect that all subjects start with media:. I prefer if 
-they don't have "staging" at the subject, as makes the driver
-logs more coherent when they're moved in/out staging dir.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Regards,
-Mauro
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/renesas/rcar_drif.c:1470:34: warning: unused variable 'rcar_drif_of_table' [-Wunused-const-variable]
+   static const struct of_device_id rcar_drif_of_table[] = {
+                                    ^
+   1 warning generated.
+
+
+vim +/rcar_drif_of_table +1470 drivers/media/platform/renesas/rcar_drif.c
+
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12  1466  
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12  1467  static SIMPLE_DEV_PM_OPS(rcar_drif_pm_ops, rcar_drif_suspend,
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12  1468  			 rcar_drif_resume);
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12  1469  
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12 @1470  static const struct of_device_id rcar_drif_of_table[] = {
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12  1471  	{ .compatible = "renesas,rcar-gen3-drif" },
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12  1472  	{ }
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12  1473  };
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12  1474  MODULE_DEVICE_TABLE(of, rcar_drif_of_table);
+7625ee981af166d drivers/media/platform/rcar_drif.c Ramesh Shanmugasundaram 2017-06-12  1475  
+
+:::::: The code at line 1470 was first introduced by commit
+:::::: 7625ee981af166ddb569e2e6c0006e2af471326f [media] media: platform: rcar_drif: Add DRIF support
+
+:::::: TO: Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
