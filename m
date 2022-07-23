@@ -2,109 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4839757F201
-	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 01:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8687C57F205
+	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 01:06:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233371AbiGWXCA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Jul 2022 19:02:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48678 "EHLO
+        id S233371AbiGWXGh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Jul 2022 19:06:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231493AbiGWXB7 (ORCPT
+        with ESMTP id S230197AbiGWXGg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Jul 2022 19:01:59 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2391E1A064;
-        Sat, 23 Jul 2022 16:01:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658617318; x=1690153318;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uO14P5Z/HSC5LGiKTRp+TtPiWLCoSqv3tZewvl7+QkU=;
-  b=a2vsvUh5jwgMxvrfYFWzD+ohCgiwyy4rYBhMxe64eC2YfiN5ZMYEGY02
-   HiDuRd1Db68UPkqTOYZ1BnwjSpmC0pytstPZId2fJl3igAMa8AYcXlaKE
-   FPzpCblCQ8QkwWiDPiPihmGzV7RLbhJjes3zetaDmKdIqZCG2uRxke/6Y
-   WkLLnhrzvVavfTkRKM2OIxXz+AvTRA/Gtk05EqvoI7n6AaoMQ5Q99Qm/O
-   mB1a8PYpsSFoktVjxL7p7iqn01AK6C6z9X303fvJslcOar4pEtqu4DFkh
-   cR2AW6HO582DZQk4wZr/KrCVLtQFRIGQLfJOgmA4ALm24dbLK6USpAqXz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10417"; a="286259030"
-X-IronPort-AV: E=Sophos;i="5.93,189,1654585200"; 
-   d="scan'208";a="286259030"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2022 16:01:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,189,1654585200"; 
-   d="scan'208";a="775571802"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 23 Jul 2022 16:01:55 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oFO8B-0003CX-09;
-        Sat, 23 Jul 2022 23:01:55 +0000
-Date:   Sun, 24 Jul 2022 07:01:23 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Eugen Hristev <eugen.hristev@microchip.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: drivers/media/platform/atmel/atmel-sama7g5-isc.c:610:34: warning:
- unused variable 'microchip_xisc_of_match'
-Message-ID: <202207240637.I0U48Kcd-lkp@intel.com>
+        Sat, 23 Jul 2022 19:06:36 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 192DA1AF39
+        for <linux-media@vger.kernel.org>; Sat, 23 Jul 2022 16:06:35 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4751835;
+        Sun, 24 Jul 2022 01:06:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1658617593;
+        bh=ksG0sAtvl3Py+CJ9mANm7DRTcceWH5ytORfXn8fgffI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WGpqH2Zt7tNsZnSRVeSjiAjiZ2w4z8CCSia7OQqYrvWmLtTnig9J8nusqOGOJ0VbM
+         JEcgU+ee6Yk1fJz5a2E1LzfyWOkxW6w7ab2reyjzy8R7TuLb2ctWrDRA93KF4Rdtju
+         2NsT7/FkXMSMvd3zjahgdop3BSvBFGbNESiKfzTM=
+Date:   Sun, 24 Jul 2022 02:06:29 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-media@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: Re: Re: [PATCH 07/19] media: i2c: imx290: Support variable-sized
+ registers
+Message-ID: <Ytx+9f3y99EpQ5z5@pendragon.ideasonboard.com>
+References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
+ <6038880.cEBGB3zze1@steina-w>
+ <Ytk3nfwQ7eEQSTcV@pendragon.ideasonboard.com>
+ <8007753.G0QQBjFxQf@steina-w>
+ <Ytq2Qb04baTNy+I4@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Ytq2Qb04baTNy+I4@valkosipuli.retiisi.eu>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen,
+Hi Sakari,
 
-FYI, the error/warning still remains.
+On Fri, Jul 22, 2022 at 05:37:53PM +0300, Sakari Ailus wrote:
+> Hi Alexander,
+> 
+> On Thu, Jul 21, 2022 at 01:43:54PM +0200, Alexander Stein wrote:
+> ...
+> > Nice the following snippet does the trick already:
+> > ---8<---
+> > --- a/drivers/media/i2c/imx290.c
+> > +++ b/drivers/media/i2c/imx290.c
+> > @@ -221,6 +221,7 @@ static const struct imx290_pixfmt imx290_formats[] = {
+> >  static const struct regmap_config imx290_regmap_config = {
+> >         .reg_bits = 16,
+> >         .val_bits = 8,
+> > +       .use_single_read = true,
+> >  };
+> >  
+> >  static const char * const imx290_test_pattern_menu[] = {
+> > ---8<---
+> > 
+> > As this affects the VC OV9281 as well, any suggestions for a common property?
+> 
+> If there's a 1:1 I²C mux in there between the host and the sensor, should
+> it be in DT as well? I'm not entirely certain it's necessary.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   515f71412bb73ebd7f41f90e1684fc80b8730789
-commit: c9aa973884a163ecb6d5d4d3be9137058adcaf8c media: atmel: atmel-isc: add microchip-xisc driver
-date:   1 year, 1 month ago
-config: hexagon-randconfig-r035-20220724 (https://download.01.org/0day-ci/archive/20220724/202207240637.I0U48Kcd-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 12fbd2d377e396ad61bce56d71c98a1eb1bebfa9)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c9aa973884a163ecb6d5d4d3be9137058adcaf8c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c9aa973884a163ecb6d5d4d3be9137058adcaf8c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/atmel/
+The microcontroller also the sensor clock and power supplies, so it has
+to be modelled in DT in any case. I was trying to avoid exposing it as
+an I2C mux, but maybe we'll have to bite the bullet...
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+I've implement support for two camera modules from Vision Components but
+haven't submitted patches yet. See [1] and [2] for DT examples and [3]
+for the driver that handles the microcontroller.
 
-All warnings (new ones prefixed by >>):
+Note that one purpose of the microcontroller is to configure the sensor
+automatically. It can be queried through I2C for a list of supported
+modes, and it can also reconfigure the sensor fully when a mode is
+selected. This is meant to enable development of a single driver that
+will cover all modules, regardless of which camera sensor it integrates.
+I'm not sure what words you will use to voice your opinion on this
+design, but I think I already agree :-)
 
->> drivers/media/platform/atmel/atmel-sama7g5-isc.c:610:34: warning: unused variable 'microchip_xisc_of_match' [-Wunused-const-variable]
-   static const struct of_device_id microchip_xisc_of_match[] = {
-                                    ^
-   1 warning generated.
+[1] https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/dev/isp/next/arch/arm64/boot/dts/freescale/imx8mp-maivin-csi1-imx296.dts
+[2] https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/dev/isp/next/arch/arm64/boot/dts/freescale/imx8mp-maivin-csi1-imx327.dts
+[3] https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/dev/isp/next/drivers/media/i2c/vc-mipi.c
 
+> The property could be called e.g. "single-octet-read". I think this should
+> probably be documented in I²C bindings (or even regmap).
 
-vim +/microchip_xisc_of_match +610 drivers/media/platform/atmel/atmel-sama7g5-isc.c
-
-   609	
- > 610	static const struct of_device_id microchip_xisc_of_match[] = {
-   611		{ .compatible = "microchip,sama7g5-isc" },
-   612		{ }
-   613	};
-   614	MODULE_DEVICE_TABLE(of, microchip_xisc_of_match);
-   615	
+I like the idea of making it a DT property global to all I2C devices. It
+should ideally be parsed by the I2C core or by regmap.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Regards,
+
+Laurent Pinchart
