@@ -2,113 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82EB457F380
-	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 08:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8CB557F3BC
+	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 09:31:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232718AbiGXGvy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Jul 2022 02:51:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54240 "EHLO
+        id S234930AbiGXHbY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Jul 2022 03:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbiGXGvx (ORCPT
+        with ESMTP id S232801AbiGXHbW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Jul 2022 02:51:53 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A46A613FAE;
-        Sat, 23 Jul 2022 23:51:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658645512; x=1690181512;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2NUyPhN/UYQQ9M7d6K0Zy/ra6kwOYG5LKXH/GneiZ18=;
-  b=jh4Pnm1VXxyckYNMq1EsJDMWo1Kn8cI42jCWFoH5I24CMStyxhrU1VWR
-   Ns5+YZsDkdAxrX45fh305JIq3MllyewolWFUBSChWVRkLvzPP5slI72Wz
-   Ws5hLx3o59ZQLdcQV03cI9BU7dQQy54zy+RRTMwPmTChkT5qyczwz2iAZ
-   HslM88lJIRlL+36SjRZ6R1r8h4bK9sjYo6id8DrBpHCaTYXAzoz8hwWUl
-   6Ept3A7HFNyEVWs2/4HjNF9FAQedM/NiDvFqgaToO35erwEKyhGcdywOt
-   9+9Qtk4QNukFBF8sz+uSe+jf1c88ogeDWNpnYhPSQABF5qa/xbqwLH9B7
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10417"; a="286279761"
-X-IronPort-AV: E=Sophos;i="5.93,190,1654585200"; 
-   d="scan'208";a="286279761"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2022 23:51:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,190,1654585200"; 
-   d="scan'208";a="926512947"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 23 Jul 2022 23:51:43 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oFVSo-0003eT-2m;
-        Sun, 24 Jul 2022 06:51:42 +0000
-Date:   Sun, 24 Jul 2022 14:51:03 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/intel/pxa_camera.c:2449:34: warning: unused
- variable 'pxa_camera_of_match'
-Message-ID: <202207241411.UTTuvBZG-lkp@intel.com>
+        Sun, 24 Jul 2022 03:31:22 -0400
+Received: from smtpbg.qq.com (unknown [43.155.67.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7748D105;
+        Sun, 24 Jul 2022 00:31:17 -0700 (PDT)
+X-QQ-mid: bizesmtp73t1658647874tlx0dwsy
+Received: from localhost.localdomain ( [125.70.163.183])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Sun, 24 Jul 2022 15:31:12 +0800 (CST)
+X-QQ-SSF: 01000000002000007000B00A0000000
+X-QQ-FEAT: wPivafIDGPNvF5EIxj4x0h2HJMofIaVnx1KZCrH6G/WSd7e7qHqY2oBLj0CkU
+        dKPSV1XuNSFfjB2R0pZ8464kNXa436Ijjmgp4jxsgYdDcLa9tHGxgUxtOOtlM0Emf72/ixm
+        z2UxaNwgYAXHftCXkoQQO3ephWMCRg5NYvMtOewGsYGMBCclgqDh02IIQ53tLbkPZsCP7JX
+        LMU/eg3SBASjSdkyui7V7ULYlMcuqfig4Ow65OuUIdo687aKtrDsTdnSeWMhBHIZNIB0jfj
+        lbUhA1/K/guPSg65dmOAg+sRTbHI7kwVrijkdHpanUwAz5VmtBQpQy5nuhzuiZsfRqOwV02
+        GaIMMgczmk4UEMPHlBiBsSiM/KI7NY3SVNrLR09+oHOZgXUxVJmzd8ef005qA==
+X-QQ-GoodBg: 0
+From:   wangjianli <wangjianli@cdjrlc.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        wangjianli <wangjianli@cdjrlc.com>
+Subject: [PATCH] media/i2c: fix repeated words in comments
+Date:   Sun, 24 Jul 2022 15:30:56 +0800
+Message-Id: <20220724073056.14734-1-wangjianli@cdjrlc.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr7
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,SPF_PASS,
+        T_SPF_HELO_TEMPERROR autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+ Delete the redundant word 'in'.
 
-First bad commit (maybe != root cause):
+Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
+---
+ drivers/media/i2c/adv7175.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   515f71412bb73ebd7f41f90e1684fc80b8730789
-commit: 95495f2aa9d8df1a7697bab24118544d3568f41d media: platform: place Intel drivers on a separate dir
-date:   4 months ago
-config: hexagon-randconfig-r035-20220724 (https://download.01.org/0day-ci/archive/20220724/202207241411.UTTuvBZG-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 12fbd2d377e396ad61bce56d71c98a1eb1bebfa9)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=95495f2aa9d8df1a7697bab24118544d3568f41d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 95495f2aa9d8df1a7697bab24118544d3568f41d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/intel/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/intel/pxa_camera.c:2449:34: warning: unused variable 'pxa_camera_of_match' [-Wunused-const-variable]
-   static const struct of_device_id pxa_camera_of_match[] = {
-                                    ^
-   1 warning generated.
-
-
-vim +/pxa_camera_of_match +2449 drivers/media/platform/intel/pxa_camera.c
-
-7254026cedd42d drivers/media/video/pxa_camera.c               Guennadi Liakhovetski 2011-06-29  2448  
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29 @2449  static const struct of_device_id pxa_camera_of_match[] = {
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2450  	{ .compatible = "marvell,pxa270-qci", },
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2451  	{},
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2452  };
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2453  MODULE_DEVICE_TABLE(of, pxa_camera_of_match);
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2454  
-
-:::::: The code at line 2449 was first introduced by commit
-:::::: e9a1d94fa85542d4f3046ac82d234a3c8349c948 [media] media: pxa_camera device-tree support
-
-:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
-:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
-
+diff --git a/drivers/media/i2c/adv7175.c b/drivers/media/i2c/adv7175.c
+index 1813f67f0fe1..945068c12763 100644
+--- a/drivers/media/i2c/adv7175.c
++++ b/drivers/media/i2c/adv7175.c
+@@ -209,7 +209,7 @@ static int adv7175_s_std_output(struct v4l2_subdev *sd, v4l2_std_id std)
+ 		/* This is an attempt to convert
+ 		 * SECAM->PAL (typically it does not work
+ 		 * due to genlock: when decoder is in SECAM
+-		 * and encoder in in PAL the subcarrier can
++		 * and encoder in PAL the subcarrier can
+ 		 * not be synchronized with horizontal
+ 		 * quency) */
+ 		adv7175_write_block(sd, init_pal, sizeof(init_pal));
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.36.1
+
