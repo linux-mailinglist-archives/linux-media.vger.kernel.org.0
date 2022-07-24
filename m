@@ -2,237 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10EA757F453
-	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 11:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 881FA57F541
+	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 15:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231294AbiGXJTV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sun, 24 Jul 2022 05:19:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44464 "EHLO
+        id S229570AbiGXNof (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Jul 2022 09:44:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbiGXJTU (ORCPT
+        with ESMTP id S229702AbiGXNoc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Jul 2022 05:19:20 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FF717E27
-        for <linux-media@vger.kernel.org>; Sun, 24 Jul 2022 02:19:19 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oFXlc-006K1l-UT; Sun, 24 Jul 2022 09:19:17 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oFXlb-001HaF-E8; Sun, 24 Jul 2022 09:19:14 +0000
-Date:   Sun, 24 Jul 2022 09:19:14 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <131518629.0.1658654354729@builder.linuxtv.org>
-In-Reply-To: <227776983.0.1658567952919@builder.linuxtv.org>
-References: <227776983.0.1658567952919@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3969
+        Sun, 24 Jul 2022 09:44:32 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CAEAEE0D
+        for <linux-media@vger.kernel.org>; Sun, 24 Jul 2022 06:44:30 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 8165410006F; Sun, 24 Jul 2022 14:44:28 +0100 (BST)
+Date:   Sun, 24 Jul 2022 14:44:28 +0100
+From:   Sean Young <sean@mess.org>
+To:     Zhang Ning <zhangn1985@qq.com>
+Cc:     narmstrong@baylibre.com, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] rc/keymap: add keymap for MagicBox M16S
+Message-ID: <Yt1MvOQtRgxYFm7F@gofer.mess.org>
+References: <20220723155502.127404-1-zhangn1985@qq.com>
+ <tencent_ED01C585DBD86EFB91CD8074FB0460C3BA06@qq.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_ED01C585DBD86EFB91CD8074FB0460C3BA06@qq.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3969/display/redirect>
+On Sat, Jul 23, 2022 at 11:55:02PM +0800, Zhang Ning wrote:
+> Signed-off-by: Zhang Ning <zhangn1985@qq.com>
+> ---
+>  .../dts/amlogic/meson-gxm-magicbox-m16s.dts   |  4 ++
+>  drivers/media/rc/keymaps/Makefile             |  1 +
+>  drivers/media/rc/keymaps/rc-magicbox.c        | 55 +++++++++++++++++++
+>  include/media/rc-map.h                        |  1 +
+>  4 files changed, 61 insertions(+)
+>  create mode 100644 drivers/media/rc/keymaps/rc-magicbox.c
+> 
+> diff --git a/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts b/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts
+> index 464de73d2f0f..69e72687ac9c 100644
+> --- a/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts
+> +++ b/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts
+> @@ -34,3 +34,7 @@ &ethmac {
+>  &sdio_pwrseq {
+>  	reset-gpios = <&gpio GPIODV_2 GPIO_ACTIVE_LOW>;
+>  };
+> +
+> +&ir {
+> +        linux,rc-map-name = "rc-magicbox";
+> +};
 
-Changes:
+As has been pointed out already, this should go a in a different patch.
 
+> diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+> index f513ff5caf4e..02c1c2150f03 100644
+> --- a/drivers/media/rc/keymaps/Makefile
+> +++ b/drivers/media/rc/keymaps/Makefile
+> @@ -71,6 +71,7 @@ obj-$(CONFIG_RC_MAP) += \
+>  			rc-kworld-plus-tv-analog.o \
+>  			rc-leadtek-y04g0051.o \
+>  			rc-lme2510.o \
+> +			rc-magicbox.o \
+>  			rc-manli.o \
+>  			rc-mecool-kiii-pro.o \
+>  			rc-mecool-kii-pro.o \
+> diff --git a/drivers/media/rc/keymaps/rc-magicbox.c b/drivers/media/rc/keymaps/rc-magicbox.c
+> new file mode 100644
+> index 000000000000..7dd3afd8a42c
+> --- /dev/null
+> +++ b/drivers/media/rc/keymaps/rc-magicbox.c
+> @@ -0,0 +1,55 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +//
+> +// Copyright (C) 2022 Zhang Ning <zhangn1985@qq.com>
+> +
+> +/*
+> + * Keytable for the MagicBox M16S remote control
+> + */
+> +
+> +#include <media/rc-map.h>
+> +#include <linux/module.h>
+> +
+> +
+> +static struct rc_map_table magicbox[] = {
+> +	{ 40791, KEY_POWER },
+> +	{ 40842, KEY_MUTE }, // M
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3968' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@18d88617'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins7605380537592832304.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+This comment needs elaboration. What does M mean?
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+> +	{ 40771, KEY_UP },
+> +	{ 40714, KEY_DOWN },
+> +	{ 40710, KEY_LEFT },
+> +	{ 40718, KEY_RIGHT },
+> +	{ 40706, KEY_OK },
+> +
+> +	{ 40775, KEY_HOME },
+> +	{ 40783, KEY_BACK },
+> +	{ 40726, KEY_MENU },
+> +
+> +	{ 40959, KEY_VOLUMEDOWN },
+> +	{ 40797, KEY_VOLUMEUP },
 
-Not aborted. It means that the licence was agreed. Proceeding...
+Please use hex values here, they make much more sense for nec protocol.
 
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-07-24 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-07-24 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+> +
 
-     0K                                                       100% 99.7M=0s
+Remove blank line.
 
-2022-07-24 09:19:10 (99.7 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+> +};
+> +
+> +static struct rc_map_list magicbox_map = {
+> +	.map = {
+> +		.scan     = magicbox,
+> +		.size     = ARRAY_SIZE(magicbox),
+> +		.rc_proto = RC_PROTO_NEC,
+> +		.name     = RC_MAP_MAGICBOX,
+> +	}
+> +};
+> +
+> +static int __init init_rc_map_magicbox(void)
+> +{
+> +	return rc_map_register(&magicbox_map);
+> +}
+> +
+> +static void __exit exit_rc_map_magicbox(void)
+> +{
+> +	rc_map_unregister(&magicbox_map);
+> +}
+> +
+> +module_init(init_rc_map_magicbox)
+> +module_exit(exit_rc_map_magicbox)
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Zhang Ning <zhangn1985@qq.com>");
+> diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+> index 793b54342dff..656217b8e91b 100644
+> --- a/include/media/rc-map.h
+> +++ b/include/media/rc-map.h
+> @@ -277,6 +277,7 @@ struct rc_map *rc_map_get(const char *name);
+>  #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
+>  #define RC_MAP_LEADTEK_Y04G0051          "rc-leadtek-y04g0051"
+>  #define RC_MAP_LME2510                   "rc-lme2510"
+> +#define RC_MAP_MAGICBOX                  "rc-magicbox"
+>  #define RC_MAP_MANLI                     "rc-manli"
+>  #define RC_MAP_MECOOL_KII_PRO            "rc-mecool-kii-pro"
+>  #define RC_MAP_MECOOL_KIII_PRO           "rc-mecool-kiii-pro"
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+You should update Documentation/devicetree/bindings/media/rc.yaml as well.
+
+Thanks,
+
+Sean
