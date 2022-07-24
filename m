@@ -2,110 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8687C57F205
-	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 01:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82EB457F380
+	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 08:51:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233371AbiGWXGh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Jul 2022 19:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51122 "EHLO
+        id S232718AbiGXGvy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Jul 2022 02:51:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbiGWXGg (ORCPT
+        with ESMTP id S229483AbiGXGvx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Jul 2022 19:06:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 192DA1AF39
-        for <linux-media@vger.kernel.org>; Sat, 23 Jul 2022 16:06:35 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4751835;
-        Sun, 24 Jul 2022 01:06:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658617593;
-        bh=ksG0sAtvl3Py+CJ9mANm7DRTcceWH5ytORfXn8fgffI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WGpqH2Zt7tNsZnSRVeSjiAjiZ2w4z8CCSia7OQqYrvWmLtTnig9J8nusqOGOJ0VbM
-         JEcgU+ee6Yk1fJz5a2E1LzfyWOkxW6w7ab2reyjzy8R7TuLb2ctWrDRA93KF4Rdtju
-         2NsT7/FkXMSMvd3zjahgdop3BSvBFGbNESiKfzTM=
-Date:   Sun, 24 Jul 2022 02:06:29 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>
-Subject: Re: Re: Re: [PATCH 07/19] media: i2c: imx290: Support variable-sized
- registers
-Message-ID: <Ytx+9f3y99EpQ5z5@pendragon.ideasonboard.com>
-References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
- <6038880.cEBGB3zze1@steina-w>
- <Ytk3nfwQ7eEQSTcV@pendragon.ideasonboard.com>
- <8007753.G0QQBjFxQf@steina-w>
- <Ytq2Qb04baTNy+I4@valkosipuli.retiisi.eu>
+        Sun, 24 Jul 2022 02:51:53 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A46A613FAE;
+        Sat, 23 Jul 2022 23:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658645512; x=1690181512;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2NUyPhN/UYQQ9M7d6K0Zy/ra6kwOYG5LKXH/GneiZ18=;
+  b=jh4Pnm1VXxyckYNMq1EsJDMWo1Kn8cI42jCWFoH5I24CMStyxhrU1VWR
+   Ns5+YZsDkdAxrX45fh305JIq3MllyewolWFUBSChWVRkLvzPP5slI72Wz
+   Ws5hLx3o59ZQLdcQV03cI9BU7dQQy54zy+RRTMwPmTChkT5qyczwz2iAZ
+   HslM88lJIRlL+36SjRZ6R1r8h4bK9sjYo6id8DrBpHCaTYXAzoz8hwWUl
+   6Ept3A7HFNyEVWs2/4HjNF9FAQedM/NiDvFqgaToO35erwEKyhGcdywOt
+   9+9Qtk4QNukFBF8sz+uSe+jf1c88ogeDWNpnYhPSQABF5qa/xbqwLH9B7
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10417"; a="286279761"
+X-IronPort-AV: E=Sophos;i="5.93,190,1654585200"; 
+   d="scan'208";a="286279761"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2022 23:51:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,190,1654585200"; 
+   d="scan'208";a="926512947"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 23 Jul 2022 23:51:43 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oFVSo-0003eT-2m;
+        Sun, 24 Jul 2022 06:51:42 +0000
+Date:   Sun, 24 Jul 2022 14:51:03 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/platform/intel/pxa_camera.c:2449:34: warning: unused
+ variable 'pxa_camera_of_match'
+Message-ID: <202207241411.UTTuvBZG-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Ytq2Qb04baTNy+I4@valkosipuli.retiisi.eu>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Mauro,
 
-On Fri, Jul 22, 2022 at 05:37:53PM +0300, Sakari Ailus wrote:
-> Hi Alexander,
-> 
-> On Thu, Jul 21, 2022 at 01:43:54PM +0200, Alexander Stein wrote:
-> ...
-> > Nice the following snippet does the trick already:
-> > ---8<---
-> > --- a/drivers/media/i2c/imx290.c
-> > +++ b/drivers/media/i2c/imx290.c
-> > @@ -221,6 +221,7 @@ static const struct imx290_pixfmt imx290_formats[] = {
-> >  static const struct regmap_config imx290_regmap_config = {
-> >         .reg_bits = 16,
-> >         .val_bits = 8,
-> > +       .use_single_read = true,
-> >  };
-> >  
-> >  static const char * const imx290_test_pattern_menu[] = {
-> > ---8<---
-> > 
-> > As this affects the VC OV9281 as well, any suggestions for a common property?
-> 
-> If there's a 1:1 I²C mux in there between the host and the sensor, should
-> it be in DT as well? I'm not entirely certain it's necessary.
+First bad commit (maybe != root cause):
 
-The microcontroller also the sensor clock and power supplies, so it has
-to be modelled in DT in any case. I was trying to avoid exposing it as
-an I2C mux, but maybe we'll have to bite the bullet...
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   515f71412bb73ebd7f41f90e1684fc80b8730789
+commit: 95495f2aa9d8df1a7697bab24118544d3568f41d media: platform: place Intel drivers on a separate dir
+date:   4 months ago
+config: hexagon-randconfig-r035-20220724 (https://download.01.org/0day-ci/archive/20220724/202207241411.UTTuvBZG-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 12fbd2d377e396ad61bce56d71c98a1eb1bebfa9)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=95495f2aa9d8df1a7697bab24118544d3568f41d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 95495f2aa9d8df1a7697bab24118544d3568f41d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/intel/
 
-I've implement support for two camera modules from Vision Components but
-haven't submitted patches yet. See [1] and [2] for DT examples and [3]
-for the driver that handles the microcontroller.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Note that one purpose of the microcontroller is to configure the sensor
-automatically. It can be queried through I2C for a list of supported
-modes, and it can also reconfigure the sensor fully when a mode is
-selected. This is meant to enable development of a single driver that
-will cover all modules, regardless of which camera sensor it integrates.
-I'm not sure what words you will use to voice your opinion on this
-design, but I think I already agree :-)
+All warnings (new ones prefixed by >>):
 
-[1] https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/dev/isp/next/arch/arm64/boot/dts/freescale/imx8mp-maivin-csi1-imx296.dts
-[2] https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/dev/isp/next/arch/arm64/boot/dts/freescale/imx8mp-maivin-csi1-imx327.dts
-[3] https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/dev/isp/next/drivers/media/i2c/vc-mipi.c
+>> drivers/media/platform/intel/pxa_camera.c:2449:34: warning: unused variable 'pxa_camera_of_match' [-Wunused-const-variable]
+   static const struct of_device_id pxa_camera_of_match[] = {
+                                    ^
+   1 warning generated.
 
-> The property could be called e.g. "single-octet-read". I think this should
-> probably be documented in I²C bindings (or even regmap).
 
-I like the idea of making it a DT property global to all I2C devices. It
-should ideally be parsed by the I2C core or by regmap.
+vim +/pxa_camera_of_match +2449 drivers/media/platform/intel/pxa_camera.c
+
+7254026cedd42d drivers/media/video/pxa_camera.c               Guennadi Liakhovetski 2011-06-29  2448  
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29 @2449  static const struct of_device_id pxa_camera_of_match[] = {
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2450  	{ .compatible = "marvell,pxa270-qci", },
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2451  	{},
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2452  };
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2453  MODULE_DEVICE_TABLE(of, pxa_camera_of_match);
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2454  
+
+:::::: The code at line 2449 was first introduced by commit
+:::::: e9a1d94fa85542d4f3046ac82d234a3c8349c948 [media] media: pxa_camera device-tree support
+
+:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
+:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://01.org/lkp
