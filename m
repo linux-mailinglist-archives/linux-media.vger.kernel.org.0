@@ -2,163 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 881FA57F541
-	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 15:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4794A57F5B7
+	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 17:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbiGXNof (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Jul 2022 09:44:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48234 "EHLO
+        id S232691AbiGXPWI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Jul 2022 11:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229702AbiGXNoc (ORCPT
+        with ESMTP id S229640AbiGXPWH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Jul 2022 09:44:32 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CAEAEE0D
-        for <linux-media@vger.kernel.org>; Sun, 24 Jul 2022 06:44:30 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 8165410006F; Sun, 24 Jul 2022 14:44:28 +0100 (BST)
-Date:   Sun, 24 Jul 2022 14:44:28 +0100
-From:   Sean Young <sean@mess.org>
-To:     Zhang Ning <zhangn1985@qq.com>
-Cc:     narmstrong@baylibre.com, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] rc/keymap: add keymap for MagicBox M16S
-Message-ID: <Yt1MvOQtRgxYFm7F@gofer.mess.org>
-References: <20220723155502.127404-1-zhangn1985@qq.com>
- <tencent_ED01C585DBD86EFB91CD8074FB0460C3BA06@qq.com>
+        Sun, 24 Jul 2022 11:22:07 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEAA811C07;
+        Sun, 24 Jul 2022 08:22:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=RG/BJ3Nv9HakG4zVWqCXWL3uZp6IBIbE/vdVZRgFNzw=;
+        t=1658676126; x=1659885726; b=hyxJq9tjqYBSUs+yl2lXhjEasadf4QDDhUQtDVBgBTsOCXy
+        dXAS1NdbzZAH8t2GUlNLJhRhD49LM6qQYr6ikt7VEwb372PnhXfEw2eIErL3/1g/NmcQS7A1MmBoj
+        M7sI/c7TKKmGWAVMuqOX0QISRHvCSzFTYdLMvn4EDRAsr7qLMVn4yGnhfPIrpN9AlVZXuznPdF7KL
+        MRGo6/1aZIACWmI+uYVqBv6MGHPydotxxqBIszWJT+2aLy/cMHaEc5ZyPntvis9Hxxu9S7XG2Yi0g
+        ypD4kw1ai5Re/1SorP2ClE+MC/OBt+Q4GXVXOTKFomMo1MmltlwK5AiDCvwoP4Gg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1oFdQP-006zmj-2a;
+        Sun, 24 Jul 2022 17:21:45 +0200
+Message-ID: <4f8ab262d98ba2a4d0e106e127c171e75b52ad47.camel@sipsolutions.net>
+Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
+ guidelines. (v3)
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Dave Airlie <airlied@gmail.com>, torvalds@linux-foundation.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org, Daniel Vetter <daniel@ffwll.ch>,
+        mcgrof@kernel.org
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.sf.net,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
+        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Harry Wentland <harry.wentland@amd.com>
+Date:   Sun, 24 Jul 2022 17:21:43 +0200
+In-Reply-To: <20220721044352.3110507-1-airlied@gmail.com>
+References: <20220721044352.3110507-1-airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.3 (3.44.3-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_ED01C585DBD86EFB91CD8074FB0460C3BA06@qq.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-malware-bazaar: not-scanned
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jul 23, 2022 at 11:55:02PM +0800, Zhang Ning wrote:
-> Signed-off-by: Zhang Ning <zhangn1985@qq.com>
-> ---
->  .../dts/amlogic/meson-gxm-magicbox-m16s.dts   |  4 ++
->  drivers/media/rc/keymaps/Makefile             |  1 +
->  drivers/media/rc/keymaps/rc-magicbox.c        | 55 +++++++++++++++++++
->  include/media/rc-map.h                        |  1 +
->  4 files changed, 61 insertions(+)
->  create mode 100644 drivers/media/rc/keymaps/rc-magicbox.c
-> 
-> diff --git a/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts b/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts
-> index 464de73d2f0f..69e72687ac9c 100644
-> --- a/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts
-> +++ b/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts
-> @@ -34,3 +34,7 @@ &ethmac {
->  &sdio_pwrseq {
->  	reset-gpios = <&gpio GPIODV_2 GPIO_ACTIVE_LOW>;
->  };
-> +
-> +&ir {
-> +        linux,rc-map-name = "rc-magicbox";
-> +};
+On Thu, 2022-07-21 at 14:43 +1000, Dave Airlie wrote:
+>=20
+> +Users switching to a newer kernel should *not* have to install newer
+> +firmware files to keep their hardware working. At the same time updated
+> +firmware files must not cause any regressions for users of older kernel
+> +releases.
 
-As has been pointed out already, this should go a in a different patch.
+That seems sane, and certainly something we've done in wireless in the
+past.
 
-> diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-> index f513ff5caf4e..02c1c2150f03 100644
-> --- a/drivers/media/rc/keymaps/Makefile
-> +++ b/drivers/media/rc/keymaps/Makefile
-> @@ -71,6 +71,7 @@ obj-$(CONFIG_RC_MAP) += \
->  			rc-kworld-plus-tv-analog.o \
->  			rc-leadtek-y04g0051.o \
->  			rc-lme2510.o \
-> +			rc-magicbox.o \
->  			rc-manli.o \
->  			rc-mecool-kiii-pro.o \
->  			rc-mecool-kii-pro.o \
-> diff --git a/drivers/media/rc/keymaps/rc-magicbox.c b/drivers/media/rc/keymaps/rc-magicbox.c
-> new file mode 100644
-> index 000000000000..7dd3afd8a42c
-> --- /dev/null
-> +++ b/drivers/media/rc/keymaps/rc-magicbox.c
-> @@ -0,0 +1,55 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +//
-> +// Copyright (C) 2022 Zhang Ning <zhangn1985@qq.com>
-> +
-> +/*
-> + * Keytable for the MagicBox M16S remote control
-> + */
-> +
-> +#include <media/rc-map.h>
-> +#include <linux/module.h>
-> +
-> +
-> +static struct rc_map_table magicbox[] = {
-> +	{ 40791, KEY_POWER },
-> +	{ 40842, KEY_MUTE }, // M
+> +* Firmware files shall be designed in a way that it allows checking for
+> +  firmware ABI version changes. It is recommended that firmware files be
+> +  versioned with at least a major/minor version. It is suggested that
+> +  the firmware files in linux-firmware be named with some device
+> +  specific name, and just the major version. The firmware version should
+> +  be stored in the firmware header, or as an exception, as part of the
+> +  firmware file name,
 
-This comment needs elaboration. What does M mean?
+Eh, I went to write a whole paragraph here and then read it again ...
+Maybe this should say "[t]he _full_ firmware version", to contrast with
+the previous sentence mentioning the "major version".
 
-> +	{ 40771, KEY_UP },
-> +	{ 40714, KEY_DOWN },
-> +	{ 40710, KEY_LEFT },
-> +	{ 40718, KEY_RIGHT },
-> +	{ 40706, KEY_OK },
-> +
-> +	{ 40775, KEY_HOME },
-> +	{ 40783, KEY_BACK },
-> +	{ 40726, KEY_MENU },
-> +
-> +	{ 40959, KEY_VOLUMEDOWN },
-> +	{ 40797, KEY_VOLUMEUP },
+>  in order to let the driver detact any non-ABI
 
-Please use hex values here, they make much more sense for nec protocol.
+typo - 'detect'
 
-> +
+> +  fixes/changes. The firmware files in linux-firmware should be
+> +  overwritten with the newest compatible major version.
+>=20
 
-Remove blank line.
+That's also a bit confusing IMHO - did that mean "minor version"? Or
+something? I mean ... if you overwrite a file that has the major version
+in the filename then by definition it is the same major version?
 
-> +};
-> +
-> +static struct rc_map_list magicbox_map = {
-> +	.map = {
-> +		.scan     = magicbox,
-> +		.size     = ARRAY_SIZE(magicbox),
-> +		.rc_proto = RC_PROTO_NEC,
-> +		.name     = RC_MAP_MAGICBOX,
-> +	}
-> +};
-> +
-> +static int __init init_rc_map_magicbox(void)
-> +{
-> +	return rc_map_register(&magicbox_map);
-> +}
-> +
-> +static void __exit exit_rc_map_magicbox(void)
-> +{
-> +	rc_map_unregister(&magicbox_map);
-> +}
-> +
-> +module_init(init_rc_map_magicbox)
-> +module_exit(exit_rc_map_magicbox)
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Zhang Ning <zhangn1985@qq.com>");
-> diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-> index 793b54342dff..656217b8e91b 100644
-> --- a/include/media/rc-map.h
-> +++ b/include/media/rc-map.h
-> @@ -277,6 +277,7 @@ struct rc_map *rc_map_get(const char *name);
->  #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
->  #define RC_MAP_LEADTEK_Y04G0051          "rc-leadtek-y04g0051"
->  #define RC_MAP_LME2510                   "rc-lme2510"
-> +#define RC_MAP_MAGICBOX                  "rc-magicbox"
->  #define RC_MAP_MANLI                     "rc-manli"
->  #define RC_MAP_MECOOL_KII_PRO            "rc-mecool-kii-pro"
->  #define RC_MAP_MECOOL_KIII_PRO           "rc-mecool-kiii-pro"
+> +  This means no major version bumps without the kernel retaining
+> +  backwards compatibility for the older major versions.
 
-You should update Documentation/devicetree/bindings/media/rc.yaml as well.
+Strictly reading this might require aeons of support for firmware
+version, if you have a release cadence of them like every 6 weeks for a
+new _major_ version (yes, because APIs change), then that's rather
+harsh. In practice we've often done this, but I think some reasonable
+cut-off could/should be there, such as dropping support after a
+reasonably long time frame (say a year?)
 
-Thanks,
+Often though that's less a question of "does it still work" and rather
+one of "do I still support that" and the answer for the latter is
+obviously "no" much quicker than the former.
 
-Sean
+johannes
