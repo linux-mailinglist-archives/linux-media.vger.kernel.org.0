@@ -2,141 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD7785802AE
-	for <lists+linux-media@lfdr.de>; Mon, 25 Jul 2022 18:29:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E763F5802B6
+	for <lists+linux-media@lfdr.de>; Mon, 25 Jul 2022 18:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236086AbiGYQ3b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Jul 2022 12:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57936 "EHLO
+        id S236147AbiGYQbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Jul 2022 12:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231237AbiGYQ3a (ORCPT
+        with ESMTP id S236027AbiGYQbN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jul 2022 12:29:30 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A251C93D
-        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 09:29:27 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id f15so6208522edc.4
-        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 09:29:27 -0700 (PDT)
+        Mon, 25 Jul 2022 12:31:13 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C76B65FB
+        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 09:31:12 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id m12so17808411lfj.4
+        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 09:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C7F63YfqSElTKH6vhYb8WCgwhCzeeugfwAKRk2UaFis=;
-        b=ZNjqPIarAp4UgnVWPjpK4U0VWutd5PZe++WcmJ4sPcpfw1lln2kn3iNO0oaEjD+iMS
-         3AZZC/eV3ukNtMAVPr3F9bCoJI4x6o9uWjJlpuLJ8djT2NzCUiqjBz8ACJqJ9CKu3Kb3
-         B8mBNRCwLO67+jEj3aF8INRpux6UxauSA0zYbZYMF6R17qWuk9CThgnHPrdEHHAjsBJ7
-         0gCrcX5rr4JYgb/iSLOKHtV399uUDle4AS9rHLBdPHC/jjdEFZbNE5U7CZBiCQleNsjb
-         oxoSH4wjh6txrNmEdLRpDeaitDKAkBF7j5RrbPpbccJR0IrIyMyVwWKrJvXJkMB6kPX/
-         q3HQ==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=4Njask7Y7NcDaGQmjQ0MHzpAHWiB3LrAGSEayvbjElM=;
+        b=dlWIzQSxMabu5KosPx5jW4XNbWn99t4uk1uInDNruuL4aWMZlnsGAdwmkuESz9kni6
+         EjVtsRxXB89YYEWRkNtZq0LdT0b94qQudSi6Gp7AtD5X64t+GvjKi6/s1hBMv9v5l3O1
+         B4Yir05ezUIL6CO95+wKCdnoO3lZ+wK983HCNnaD5FOG28hAysfhxPRqcSFh+CiXc9Fw
+         XIR7Z2ifAmR7KqHZ7Iy2Scf6VcPVDFhK9Dt+ytNUvw0OB7D9HBx39UDjGgKzeVW2jwf6
+         sxXpSHCkDCnrLRFnnSI5a1itXbaftgXbJf/9jEZ4a/E86huInVm8Py6660ZDxsOr8w1I
+         2Nvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C7F63YfqSElTKH6vhYb8WCgwhCzeeugfwAKRk2UaFis=;
-        b=D6aB7D9azWJEs28MU+2lA0obzRjGek0lHcZhDyqMfWDzcei6fhMqesD6S/Evi6+mhP
-         ydeGSAmZHbFaFouIVL1WgPUQKjmjr4TdhpWz+dADs/tNfR0qoAXkOxrh23wBeZ+b+mNM
-         YNwjebZcHUbd3Q2HgU1jwY1VGp5w4ndk8D3jCTsueaffhbLJ/HLSC1VfZKZ2p/g9ywRB
-         wiocsiu/R/Q8B34tnKz4a/3nG77SfMB5w/nwKcPXnghWzG420ll16sXARW90OJdodNh5
-         BN5Et6c3k9m8zLb8CqD1GITR3TuD0ikuD7xRnTAVU+NS8x+XkasDVhE0iKEh+4476i9a
-         MUjw==
-X-Gm-Message-State: AJIora9NX7W/pLG9fUQWIxxxQLYTbb1UOdO25jKg5YwGxVEM8jwnYyFz
-        LeMeTIg9Coch49REs/2+0OcZJW1fake5+zdXHwSx3w==
-X-Google-Smtp-Source: AGRyM1sfFHfiyXyI1PRrm0pqMoNzo1OT79L5DayUQB4W3Z03Vhq3fvixU/ny5bzLWyonj33wuRZwdjFiF4POWuFcxOY=
-X-Received: by 2002:a05:6402:3492:b0:43a:d1f0:978e with SMTP id
- v18-20020a056402349200b0043ad1f0978emr14456065edc.306.1658766566375; Mon, 25
- Jul 2022 09:29:26 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=4Njask7Y7NcDaGQmjQ0MHzpAHWiB3LrAGSEayvbjElM=;
+        b=hWHg7eUnX8fc4Z3vz99Iq1UhHZsTgSwJ+uwFe+AKNwVzABJQGpUnb0ZVVmJlAa7dbF
+         x1WGcqktYjPoC9nbYKxuRo2rR1c7jIFn4GoIEYECEw4sNUpywaj/9ENsW13T1vVUKodM
+         S+yYmXuPadvKxUy8sK2wRFTMgbJJIn3vkN2/8I5mGDVy2GowLb1Cpv4rP9gUh0GRc554
+         IXBYZHWx7+uTeFColkm+xw9ZyIqXI0RZoK2skTuZKRtYspbkJMserG802/APoVWCdNaQ
+         7yOXemzuPJjKrELjJm+rrUigu1nkB5nAwBj9DrQvuU+CEYdT3j0OWbK/9XkGjz13QgLO
+         nfgA==
+X-Gm-Message-State: AJIora/43d5eYBiVtiiAVlDrY0Ye0VDarDZgCgst1fMJ2nh0Gx61o806
+        zujWaBjCk//rjbxKO6eBWr7E/g==
+X-Google-Smtp-Source: AGRyM1uZV+8Fizi+VmedQAV84B90DJEWpiCH26Mk33Otp0KJLxGM3PrgDc4XawhKFmqciR5YDfgoLw==
+X-Received: by 2002:a05:6512:4020:b0:48a:8d1b:c8c3 with SMTP id br32-20020a056512402000b0048a8d1bc8c3mr2315086lfb.131.1658766670590;
+        Mon, 25 Jul 2022 09:31:10 -0700 (PDT)
+Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no. [78.26.46.173])
+        by smtp.gmail.com with ESMTPSA id c6-20020a056512324600b0048759bc6c1asm163179lfr.203.2022.07.25.09.31.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Jul 2022 09:31:10 -0700 (PDT)
+Message-ID: <efb62771-4a4c-c166-7a31-0e44df2c0908@linaro.org>
+Date:   Mon, 25 Jul 2022 18:31:08 +0200
 MIME-Version: 1.0
-References: <20220214212955.1178947-1-piotr.oniszczuk@gmail.com>
- <20220214212955.1178947-2-piotr.oniszczuk@gmail.com> <YjcgC9HZeDQX1sNJ@eze-laptop>
-In-Reply-To: <YjcgC9HZeDQX1sNJ@eze-laptop>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Mon, 25 Jul 2022 13:29:15 -0300
-Message-ID: <CAAEAJfAo9Onyxesxm37V=YWp6YNm+QWDeF-evfg9sFzm7uRrzg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] arm64: dts: rockchip: Add VPU support for RK3568/RK3566
-To:     Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Cc:     linux-media@vger.kernel.org, Linux-rockchip@lists.infradead.org,
-        heiko@sntech.de, hverkuil@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [v5 3/4] dt-bindings: arm: add Magicbox M16S bindings
+Content-Language: en-US
+To:     Zhang Ning <zhangn1985@qq.com>, martin.blumenstingl@googlemail.com,
+        narmstrong@baylibre.com, linux-amlogic@lists.infradead.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        sean@mess.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <20220724231704.132472-1-zhangn1985@qq.com>
+ <tencent_529DC7E641BA7022B2C1C7C0E7427C2CB805@qq.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <tencent_529DC7E641BA7022B2C1C7C0E7427C2CB805@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko,
+On 25/07/2022 01:17, Zhang Ning wrote:
+> Add the board binding for Magicbox M16S Tv Box
+> 
+> Signed-off-by: Zhang Ning <zhangn1985@qq.com>
 
-On Sun, Mar 20, 2022 at 9:37 AM Ezequiel Garcia
-<ezequiel@vanguardiasur.com.ar> wrote:
->
-> On Mon, Feb 14, 2022 at 10:29:54PM +0100, Piotr Oniszczuk wrote:
-> > From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-> >
-> > RK356x has Hantro G1 video decoder capable to decode MPEG2/H.264/VP8
-> > video formats.
-> >
-> > This patch enables RK356x video decoder in RK356x device-tree
-> > include.
-> >
-> > Tested on [1] with FFmpeg v4l2_request code taken from [2]
-> > with MPEG2, H.642 and VP8 samples with results [3].
-> >
-> > [1] https://github.com/warpme/minimyth2
-> > [2] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
-> > [3] https://github.com/warpme/minimyth2/blob/master/video-test-summary.txt
-> >
-> > Signed-off-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
->
-> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
->
+Don't forget proper mail titles (PATCH and prefix). git format-patch
+solves the first, git log --oneline gives you hint about second. So this
+should be:
 
-Looks like this slipped thru the cracks.
+[PATCH v5 3/4] dt-bindings: arm: amlogic: add Magicbox M16S bindings
 
-Any chance it gets queued?
+> ---
+>  Documentation/devicetree/bindings/arm/amlogic.yaml | 1 +
 
-Thanks,
-Ezequiel
 
-> Thanks,
-> Ezequiel
->
-> > ---
-> >  arch/arm64/boot/dts/rockchip/rk356x.dtsi | 20 ++++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> > index a68033a23975..33ecaafa8cb7 100644
-> > --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> > +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> > @@ -390,6 +390,26 @@ power-domain@RK3568_PD_RKVENC {
-> >               };
-> >       };
-> >
-> > +     vpu: video-codec@fdea0400 {
-> > +             compatible = "rockchip,rk3568-vpu";
-> > +             reg = <0x0 0xfdea0000 0x0 0x800>;
-> > +             interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
-> > +             clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> > +             clock-names = "aclk", "hclk";
-> > +             iommus = <&vdpu_mmu>;
-> > +             power-domains = <&power RK3568_PD_VPU>;
-> > +     };
-> > +
-> > +     vdpu_mmu: iommu@fdea0800 {
-> > +             compatible = "rockchip,rk3568-iommu";
-> > +             reg = <0x0 0xfdea0800 0x0 0x40>;
-> > +             interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-> > +             clock-names = "aclk", "iface";
-> > +             clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> > +             power-domains = <&power RK3568_PD_VPU>;
-> > +             #iommu-cells = <0>;
-> > +     };
-> > +
-> >       sdmmc2: mmc@fe000000 {
-> >               compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
-> >               reg = <0x0 0xfe000000 0x0 0x4000>;
-> > --
-> > 2.29.2
-> >
+Best regards,
+Krzysztof
