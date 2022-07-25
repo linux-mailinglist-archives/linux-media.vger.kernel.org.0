@@ -2,160 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D2685801BA
-	for <lists+linux-media@lfdr.de>; Mon, 25 Jul 2022 17:22:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD7785802AE
+	for <lists+linux-media@lfdr.de>; Mon, 25 Jul 2022 18:29:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235935AbiGYPWE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Jul 2022 11:22:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41722 "EHLO
+        id S236086AbiGYQ3b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Jul 2022 12:29:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236310AbiGYPVo (ORCPT
+        with ESMTP id S231237AbiGYQ3a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jul 2022 11:21:44 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21CB617B;
-        Mon, 25 Jul 2022 08:21:03 -0700 (PDT)
-Received: from dimapc.. (109-252-119-232.nat.spd-mgts.ru [109.252.119.232])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2E5EC6601B0E;
-        Mon, 25 Jul 2022 16:21:00 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1658762462;
-        bh=va+2N1U6jZR9UG67k72ODpvUReFCq9AoJW3EC29fAyY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hF7ZR01ny2d7o7bYE+Z5dQKruldBmtrcJcYzRtqjWpjWhPHejJuJ8SbR06SZM2aPy
-         PtNrndiN/nQSiU3QbPd3ctnZp4AsfylceLBLgZg1oSvV4c3Zv419RY/B4awMy5ey1W
-         JdPdffAe80sYcNuJxp42Aie3X8uYUumDehJZnxPU9KVd3D21F8VXhUQFK+8ZkB1DWc
-         KmrEP/xKl94kuJKiRYwnCEIPYClTew820OvW7bvO7YKu8UcodMFHHx5wzl7sk4al/K
-         i0Wxa4jPFMqEzxfcD4BoG6SAy54UxKHYee5eOgxPvwHkUvoNdjeuL8fEHON/BKLhvt
-         80xKjVSm5X6kA==
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robdclark@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas_os@shipmail.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kernel@collabora.com, virtualization@lists.linux-foundation.org,
-        spice-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 5/5] dma-buf: Remove internal lock
-Date:   Mon, 25 Jul 2022 18:18:39 +0300
-Message-Id: <20220725151839.31622-6-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220725151839.31622-1-dmitry.osipenko@collabora.com>
-References: <20220725151839.31622-1-dmitry.osipenko@collabora.com>
+        Mon, 25 Jul 2022 12:29:30 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A251C93D
+        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 09:29:27 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id f15so6208522edc.4
+        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 09:29:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C7F63YfqSElTKH6vhYb8WCgwhCzeeugfwAKRk2UaFis=;
+        b=ZNjqPIarAp4UgnVWPjpK4U0VWutd5PZe++WcmJ4sPcpfw1lln2kn3iNO0oaEjD+iMS
+         3AZZC/eV3ukNtMAVPr3F9bCoJI4x6o9uWjJlpuLJ8djT2NzCUiqjBz8ACJqJ9CKu3Kb3
+         B8mBNRCwLO67+jEj3aF8INRpux6UxauSA0zYbZYMF6R17qWuk9CThgnHPrdEHHAjsBJ7
+         0gCrcX5rr4JYgb/iSLOKHtV399uUDle4AS9rHLBdPHC/jjdEFZbNE5U7CZBiCQleNsjb
+         oxoSH4wjh6txrNmEdLRpDeaitDKAkBF7j5RrbPpbccJR0IrIyMyVwWKrJvXJkMB6kPX/
+         q3HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C7F63YfqSElTKH6vhYb8WCgwhCzeeugfwAKRk2UaFis=;
+        b=D6aB7D9azWJEs28MU+2lA0obzRjGek0lHcZhDyqMfWDzcei6fhMqesD6S/Evi6+mhP
+         ydeGSAmZHbFaFouIVL1WgPUQKjmjr4TdhpWz+dADs/tNfR0qoAXkOxrh23wBeZ+b+mNM
+         YNwjebZcHUbd3Q2HgU1jwY1VGp5w4ndk8D3jCTsueaffhbLJ/HLSC1VfZKZ2p/g9ywRB
+         wiocsiu/R/Q8B34tnKz4a/3nG77SfMB5w/nwKcPXnghWzG420ll16sXARW90OJdodNh5
+         BN5Et6c3k9m8zLb8CqD1GITR3TuD0ikuD7xRnTAVU+NS8x+XkasDVhE0iKEh+4476i9a
+         MUjw==
+X-Gm-Message-State: AJIora9NX7W/pLG9fUQWIxxxQLYTbb1UOdO25jKg5YwGxVEM8jwnYyFz
+        LeMeTIg9Coch49REs/2+0OcZJW1fake5+zdXHwSx3w==
+X-Google-Smtp-Source: AGRyM1sfFHfiyXyI1PRrm0pqMoNzo1OT79L5DayUQB4W3Z03Vhq3fvixU/ny5bzLWyonj33wuRZwdjFiF4POWuFcxOY=
+X-Received: by 2002:a05:6402:3492:b0:43a:d1f0:978e with SMTP id
+ v18-20020a056402349200b0043ad1f0978emr14456065edc.306.1658766566375; Mon, 25
+ Jul 2022 09:29:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220214212955.1178947-1-piotr.oniszczuk@gmail.com>
+ <20220214212955.1178947-2-piotr.oniszczuk@gmail.com> <YjcgC9HZeDQX1sNJ@eze-laptop>
+In-Reply-To: <YjcgC9HZeDQX1sNJ@eze-laptop>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Mon, 25 Jul 2022 13:29:15 -0300
+Message-ID: <CAAEAJfAo9Onyxesxm37V=YWp6YNm+QWDeF-evfg9sFzm7uRrzg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] arm64: dts: rockchip: Add VPU support for RK3568/RK3566
+To:     Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Cc:     linux-media@vger.kernel.org, Linux-rockchip@lists.infradead.org,
+        heiko@sntech.de, hverkuil@xs4all.nl
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The internal dma-buf lock isn't needed anymore because the updated
-locking specification claims that dma-buf reservation must be locked
-by importers, and thus, the internal data is already protected by the
-reservation lock. Remove the obsoleted internal lock.
+Hi Heiko,
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/dma-buf/dma-buf.c | 5 -----
- include/linux/dma-buf.h   | 9 ---------
- 2 files changed, 14 deletions(-)
+On Sun, Mar 20, 2022 at 9:37 AM Ezequiel Garcia
+<ezequiel@vanguardiasur.com.ar> wrote:
+>
+> On Mon, Feb 14, 2022 at 10:29:54PM +0100, Piotr Oniszczuk wrote:
+> > From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+> >
+> > RK356x has Hantro G1 video decoder capable to decode MPEG2/H.264/VP8
+> > video formats.
+> >
+> > This patch enables RK356x video decoder in RK356x device-tree
+> > include.
+> >
+> > Tested on [1] with FFmpeg v4l2_request code taken from [2]
+> > with MPEG2, H.642 and VP8 samples with results [3].
+> >
+> > [1] https://github.com/warpme/minimyth2
+> > [2] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
+> > [3] https://github.com/warpme/minimyth2/blob/master/video-test-summary.txt
+> >
+> > Signed-off-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+>
+> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index bfdd551c7571..1d211ab400a1 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -656,7 +656,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	dmabuf->file = file;
- 
--	mutex_init(&dmabuf->lock);
- 	INIT_LIST_HEAD(&dmabuf->attachments);
- 
- 	mutex_lock(&db_list.lock);
-@@ -1508,7 +1507,6 @@ int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
- 		return -EINVAL;
- 
- 	dma_resv_lock(dmabuf->resv, NULL);
--	mutex_lock(&dmabuf->lock);
- 	if (dmabuf->vmapping_counter) {
- 		dmabuf->vmapping_counter++;
- 		BUG_ON(iosys_map_is_null(&dmabuf->vmap_ptr));
-@@ -1528,7 +1526,6 @@ int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
- 	*map = dmabuf->vmap_ptr;
- 
- out_unlock:
--	mutex_unlock(&dmabuf->lock);
- 	dma_resv_unlock(dmabuf->resv);
- 	return ret;
- }
-@@ -1549,13 +1546,11 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
- 	BUG_ON(!iosys_map_is_equal(&dmabuf->vmap_ptr, map));
- 
- 	dma_resv_lock(dmabuf->resv, NULL);
--	mutex_lock(&dmabuf->lock);
- 	if (--dmabuf->vmapping_counter == 0) {
- 		if (dmabuf->ops->vunmap)
- 			dmabuf->ops->vunmap(dmabuf, map);
- 		iosys_map_clear(&dmabuf->vmap_ptr);
- 	}
--	mutex_unlock(&dmabuf->lock);
- 	dma_resv_unlock(dmabuf->resv);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index e7a6a8d28862..2f9fb7f3c835 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -326,15 +326,6 @@ struct dma_buf {
- 	/** @ops: dma_buf_ops associated with this buffer object. */
- 	const struct dma_buf_ops *ops;
- 
--	/**
--	 * @lock:
--	 *
--	 * Used internally to serialize list manipulation, attach/detach and
--	 * vmap/unmap. Note that in many cases this is superseeded by
--	 * dma_resv_lock() on @resv.
--	 */
--	struct mutex lock;
--
- 	/**
- 	 * @vmapping_counter:
- 	 *
--- 
-2.36.1
+Looks like this slipped thru the cracks.
 
+Any chance it gets queued?
+
+Thanks,
+Ezequiel
+
+> Thanks,
+> Ezequiel
+>
+> > ---
+> >  arch/arm64/boot/dts/rockchip/rk356x.dtsi | 20 ++++++++++++++++++++
+> >  1 file changed, 20 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+> > index a68033a23975..33ecaafa8cb7 100644
+> > --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+> > +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+> > @@ -390,6 +390,26 @@ power-domain@RK3568_PD_RKVENC {
+> >               };
+> >       };
+> >
+> > +     vpu: video-codec@fdea0400 {
+> > +             compatible = "rockchip,rk3568-vpu";
+> > +             reg = <0x0 0xfdea0000 0x0 0x800>;
+> > +             interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
+> > +             clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
+> > +             clock-names = "aclk", "hclk";
+> > +             iommus = <&vdpu_mmu>;
+> > +             power-domains = <&power RK3568_PD_VPU>;
+> > +     };
+> > +
+> > +     vdpu_mmu: iommu@fdea0800 {
+> > +             compatible = "rockchip,rk3568-iommu";
+> > +             reg = <0x0 0xfdea0800 0x0 0x40>;
+> > +             interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
+> > +             clock-names = "aclk", "iface";
+> > +             clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
+> > +             power-domains = <&power RK3568_PD_VPU>;
+> > +             #iommu-cells = <0>;
+> > +     };
+> > +
+> >       sdmmc2: mmc@fe000000 {
+> >               compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
+> >               reg = <0x0 0xfe000000 0x0 0x4000>;
+> > --
+> > 2.29.2
+> >
