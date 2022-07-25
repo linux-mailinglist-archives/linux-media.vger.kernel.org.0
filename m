@@ -2,68 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3316F57F73C
-	for <lists+linux-media@lfdr.de>; Sun, 24 Jul 2022 23:42:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB8AB57F984
+	for <lists+linux-media@lfdr.de>; Mon, 25 Jul 2022 08:39:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230490AbiGXVmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Jul 2022 17:42:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40420 "EHLO
+        id S230212AbiGYGjF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Jul 2022 02:39:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbiGXVme (ORCPT
+        with ESMTP id S230135AbiGYGjE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Jul 2022 17:42:34 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD2FFDFFC;
-        Sun, 24 Jul 2022 14:42:32 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id d8so13478265wrp.6;
-        Sun, 24 Jul 2022 14:42:32 -0700 (PDT)
+        Mon, 25 Jul 2022 02:39:04 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F475D6D;
+        Sun, 24 Jul 2022 23:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cI0tq8ocLXnomSpbghiVV7RxzqLowQvyj0zeXfaGRkk=;
-        b=AYzHdSH4LYYxwPAVebBYfedRYqP0Wr9Hh+iqf8pYEMndrZnQ7pqItSGqypWj9Qnbd1
-         eXFRu/Z8JVzRtSo8s6deeiLjHab7rGabOhMO8B0V+NL7dz2Wy3sG7Yo9xumTpMYUhJNG
-         8oM39zmisit/HM55TUiQKQhlPNxm4N/pWkQQAw/qoBCLw8nFRTAZ6dswBvznnNeng4Dj
-         VUYOIUsSMCXBCowS+db3eVv3M+0NYPqK/JUSD0bxykZQD40rS51IB+KQnBXSds68nftM
-         h2/N3gbn4fsonG5eZx+TXlmbU4RLGSy1veZXODAz1j1unSFHGyFaGiRv3He+fXr7HJJH
-         mL/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cI0tq8ocLXnomSpbghiVV7RxzqLowQvyj0zeXfaGRkk=;
-        b=45jglXf1tvFzeEZPmLFYvHqHOwhZjMWIEyZREccnxqhlogSERLvo4ahPCvT8Fx98+M
-         ku9EJG5aVyfd4wTnEZ9fVeOBWfUJyPrvJcagyh+vStaemNHoWYCYjIcj5p+dY70/3qCc
-         jh5ZWfkIfuazAE6wyxgyDdliB4AZpo2wEaco6IVLiXHgjmeRaCtPk68Z56uiZBpR63KP
-         P8rtSnUgqGpf+br7CVIb2grX7a79uIXMpAaVuBTjr24Nh3LeK3g0sEHR2zWFolVhXh4L
-         WbEZ+wIFGfleW+15o4g6jHUlhySOOA9ScdtcIYORIZjJ44aWN1/ReqSPSBTevIA/WXG3
-         Tvhw==
-X-Gm-Message-State: AJIora+fchS2N2zdkpbMMYDVpm1t23jFMCA37NgLr5wMsfSq+hVCMqDn
-        B7pW+HEx4Gw+0lObDIs+kBi/ihRVrq6+kd44
-X-Google-Smtp-Source: AGRyM1sSw/iFXQoSeyFqEEBVJH9oD0mhzGexSPkzEN8qhoy2RmTetkCyZv86IoZgtkp5+jXrDCDnXQ==
-X-Received: by 2002:a05:6000:1545:b0:21e:6a2d:1e42 with SMTP id 5-20020a056000154500b0021e6a2d1e42mr5782677wry.660.1658698951095;
-        Sun, 24 Jul 2022 14:42:31 -0700 (PDT)
-Received: from localhost.localdomain ([84.255.184.16])
-        by smtp.gmail.com with ESMTPSA id c4-20020adffb04000000b0021db7b0162esm6322359wrr.105.2022.07.24.14.42.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jul 2022 14:42:30 -0700 (PDT)
-From:   Mazin Al Haddad <mazinalhaddad05@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Mazin Al Haddad <mazinalhaddad05@gmail.com>,
-        syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
-Subject: [PATCH v2] media: dvb-usb: fix memory leak in dvb_usb_adapter_init()
-Date:   Mon, 25 Jul 2022 00:41:02 +0300
-Message-Id: <20220724214100.593287-1-mazinalhaddad05@gmail.com>
-X-Mailer: git-send-email 2.37.1
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658731142; x=1690267142;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=EEWT4S+Qs0ryV9/0t19M8ZIajcDtClqakif8xqLHkoE=;
+  b=VsQyC9LYUOcRhvnn80z0KloN+vekJrsAvInm7fvYxUW1gSuGxAyrk7dW
+   2sZnAP5Bk+Qp1zAmGMVBATJd5cYkpVoFbhYDkjKdMmB7UoRkxJTJKqCa4
+   03ZHmJOXOBOW/9BzVFjcdlzZ9X/ByxOJqyljQvw+MykoINg+MjTfzLfhc
+   xFL75GkgAJWjML4iBdss1EHPWVuUUFZa26NZoVryUb1ALCY9o5rEDat1g
+   fxKc16cAfT3OKsVwtXi4OFMSVrruVNhWWHiFJbfejb15QjcUEHYov42yz
+   g+AzBOUq682K09NMncUl1w8F/7lyTjGYhJjN10fNvGUycLkr8G1AkBO2i
+   g==;
+X-IronPort-AV: E=Sophos;i="5.93,192,1654552800"; 
+   d="scan'208";a="25227925"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 25 Jul 2022 08:39:00 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 25 Jul 2022 08:39:00 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 25 Jul 2022 08:39:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658731140; x=1690267140;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=EEWT4S+Qs0ryV9/0t19M8ZIajcDtClqakif8xqLHkoE=;
+  b=AS37DCLOqyoj4OybyTd4LdqrlUaAes0rL3p/PtvYg6SH1SuO+Qyt6ntC
+   r+F1VFVwYU69BsTmF5Xc/kNgZlavMpiWusTFjxx1A84UsptqpcYBoBZEd
+   2v61tSWEpH+qyzZSpFgq26YF7VtjK+5SmO67pgCITtXEfGVeSlEA4ZqIi
+   vcEtDFfF0KpAWTLMooeUgiBeCIS1O6/FohdmYb1gkXbsUvs2V5LywfPQU
+   feHoPaIA1vIH83Fq8bhkbsnwypwtldb+3MIn5OaGxoeUG2MtQfymIdFvQ
+   IeRswAqGoe5eAfXNbjlQcNxRlZIPTbzymOdLe1z5Gk8YyX7P4kxztro0p
+   w==;
+X-IronPort-AV: E=Sophos;i="5.93,192,1654552800"; 
+   d="scan'208";a="25227924"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 25 Jul 2022 08:39:00 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 303F9280056;
+        Mon, 25 Jul 2022 08:39:00 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 6/7] media: i2c: ov9282: Set v4l2 subdev name according to sensor model
+Date:   Mon, 25 Jul 2022 08:38:57 +0200
+Message-ID: <5587982.DvuYhMxLoT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <YtqrJp8qZOwYdUrZ@valkosipuli.retiisi.eu>
+References: <20220722131947.2456988-1-alexander.stein@ew.tq-group.com> <20220722131947.2456988-7-alexander.stein@ew.tq-group.com> <YtqrJp8qZOwYdUrZ@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,96 +85,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix a memory leak in dvb_usb_adapter_init() reported by syzkaller. The 
-problem is due to the error path exiting before incrementing 
-num_adapters_initalized, which is used as a reference counter to free 
-adapter's private data. There are multiple error paths that 
-dvb_usb_adapter_init() can exit from before incrementing the counter, 
-which lead to a memory leak as the current iteration is not accounted for.
-Fix this by freeing the current iteration's adap->priv in each of the 
-error paths.
+Hi Sakari,
 
-Syz Report:
-BUG: memory leak
-unreferenced object 0xffff8881172f1a00 (size 512):
-  comm "kworker/0:2", pid 139, jiffies 4294994873 (age 10.960s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff844af012>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:75 [inline]
-    [<ffffffff844af012>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
-    [<ffffffff844af012>] dvb_usb_device_init.cold+0x4e5/0x79e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
-    [<ffffffff830db21d>] dib0700_probe+0x8d/0x1b0 drivers/media/usb/dvb-usb/dib0700_core.c:883
-    [<ffffffff82d3fdc7>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
-    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
-    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
-    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
-    [<ffffffff8274af6a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:782
-    [<ffffffff8274b786>] __device_attach_driver+0xf6/0x140 drivers/base/dd.c:899
-    [<ffffffff82747c87>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:427
-    [<ffffffff8274b352>] __device_attach+0x122/0x260 drivers/base/dd.c:970
-    [<ffffffff827498f6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:487
-    [<ffffffff82745cdb>] device_add+0x5fb/0xdf0 drivers/base/core.c:3405
-    [<ffffffff82d3d202>] usb_set_configuration+0x8f2/0xb80 drivers/usb/core/message.c:2170
-    [<ffffffff82d4dbfc>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<ffffffff82d3f49c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
-    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
-    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
-    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
+Am Freitag, 22. Juli 2022, 15:50:30 CEST schrieb Sakari Ailus:
+> Hi Alexander,
+> 
+> On Fri, Jul 22, 2022 at 03:19:46PM +0200, Alexander Stein wrote:
+> > To distinguish ov9281 & ov9282 the name has to be explicitly set.
+> > i2c_client already has the name parsed from the compatible.
+> > 
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> > 
+> >  drivers/media/i2c/ov9282.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index 352dbe21a902..dbc0a4cd060f 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -1047,6 +1047,7 @@ static int ov9282_probe(struct i2c_client *client)
+> > 
+> >  	/* Initialize subdev */
+> >  	v4l2_i2c_subdev_init(&ov9282->sd, client, &ov9282_subdev_ops);
+> > 
+> > +	v4l2_i2c_subdev_set_name(&ov9282->sd, client, client->name, NULL);
+> 
+> Could you instead do this based on the compatible string in the driver,
+> using device_get_match_data()? The approach works on non-OF systems, too.
 
-Link: https://syzkaller.appspot.com/bug?id=4d54f8bf7b98eecf6cd76ed5aaea883c5d9e502a
-Reported-by: syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
-Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
----
+I actually don't like doing the same as of_modalias_node() is doing.
+Until non-OF support is added (if ever), I don't see any benefit in doing so 
+right now.
 
-Changes in v2:
-- Remove variable that is used to refcount and instead free current
-  iteration private data.
+Best regards,
+Alexander
 
- drivers/media/usb/dvb-usb/dvb-usb-init.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+> >  	ret = ov9282_parse_hw_config(ov9282);
+> >  	if (ret) {
 
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-index 61439c8f33ca..69520d7ca25d 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-@@ -80,16 +80,22 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
- 		}
- 
- 		ret = dvb_usb_adapter_stream_init(adap);
--		if (ret)
-+		if (ret) {
-+			kfree(adap->priv);
- 			return ret;
-+		}
- 
- 		ret = dvb_usb_adapter_dvb_init(adap, adapter_nrs);
--		if (ret)
-+		if (ret) {
-+			kfree(adap->priv);
- 			goto dvb_init_err;
-+		}
- 
- 		ret = dvb_usb_adapter_frontend_init(adap);
--		if (ret)
-+		if (ret) {
-+			kfree(adap->priv);
- 			goto frontend_init_err;
-+		}
- 
- 		/* use exclusive FE lock if there is multiple shared FEs */
- 		if (adap->fe_adap[1].fe)
-@@ -112,6 +118,7 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
- 
- frontend_init_err:
- 	dvb_usb_adapter_dvb_exit(adap);
-+	return ret;
- dvb_init_err:
- 	dvb_usb_adapter_stream_exit(adap);
- 	return ret;
--- 
-2.37.1
+
+
 
