@@ -2,166 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7575B5802B8
-	for <lists+linux-media@lfdr.de>; Mon, 25 Jul 2022 18:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E728580737
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jul 2022 00:20:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236097AbiGYQcW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Jul 2022 12:32:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59930 "EHLO
+        id S236904AbiGYWT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Jul 2022 18:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233704AbiGYQcV (ORCPT
+        with ESMTP id S230242AbiGYWT5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jul 2022 12:32:21 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74219192BE
-        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 09:32:20 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id a23so16523258lfm.10
-        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 09:32:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=zwZY6X82dfmJAnPeF/543yFoWYLt1Gv+miG51a8O22U=;
-        b=XqWWIfNGdNrCMrr708mX/AiOlm89+pSsgkiw68yz/sr2h5wwtX9TtNRYeSV8r/+ato
-         NMJIYc8uMXHPgLz/hFSYuVzb0kaG0hi+JsrKbW8pqh2AbdvfLR1MTdtzJConCrgpYrJe
-         tp0J8bPjIfahm5H6qpO4t521nr+5GdaOwQgcaTwd4HxvuH4uCj2e6wHcFLeaZbPF/6eZ
-         bpSrmmJ08XitHRwyba/I1ywmqzL4Zon7yQi+aRbsKUJsvV/szXNQn5GxtmLTWRCyXnZ5
-         l9GlUedTAP9jBF6tt2TspYrwLo7jWvMDqwZnRxr1DqXR8zOBUpFmDAb/sQxLk8ADdjnm
-         WeJg==
+        Mon, 25 Jul 2022 18:19:57 -0400
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 722ED252A8;
+        Mon, 25 Jul 2022 15:19:56 -0700 (PDT)
+Received: by mail-oi1-f173.google.com with SMTP id n133so5012500oib.0;
+        Mon, 25 Jul 2022 15:19:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=zwZY6X82dfmJAnPeF/543yFoWYLt1Gv+miG51a8O22U=;
-        b=sG1DcI80JsRgHmlZmfrqspvTn6sLi4s1GNF7KOA54zsqIXsuW6krbKIA84uQENn62/
-         NzHrgoSzgQ2nNsrFI5R2Uo1zar4FWV8uXnhLnXKtjELjAp7k8cWpWLx4M/5+V6BdtyNy
-         AEKn/MkL+deGa+nsRIwyx9Cw2ETNCUDr+GnhVU+xymIEyGmqR+u1ieKLhUWACPEzkvdJ
-         FxoWEjkTzhDFlHbBqCLQRpVTshcNJVSi0YshjmJ+GVA8SZnEpZigBVuQH5sc5xHT5DDk
-         TVuksco0zKJ3TujZ8eRoZoEksadSPgAErf/kOOu4YIIhyMw6MD2mmLWOlgqMSTrF77pj
-         XfwA==
-X-Gm-Message-State: AJIora8YJ7/AbcpKgMHVAI3dmCkcdUxe62+YfakYqDDruWTQaqCnoVIt
-        1JwBG07TIaCCf4GNPtyWYZdirA==
-X-Google-Smtp-Source: AGRyM1seBt8XbPbgtD0Ok/a7aF3Z7uOFexdivos6yxqErhHZreedg5ZO3Y1QCkz14lxzT/wh//90pg==
-X-Received: by 2002:ac2:4e12:0:b0:489:ddbe:83c5 with SMTP id e18-20020ac24e12000000b00489ddbe83c5mr5398208lfr.371.1658766738799;
-        Mon, 25 Jul 2022 09:32:18 -0700 (PDT)
-Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no. [78.26.46.173])
-        by smtp.gmail.com with ESMTPSA id b6-20020a196446000000b00488d0e38283sm2721731lfj.153.2022.07.25.09.32.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Jul 2022 09:32:18 -0700 (PDT)
-Message-ID: <677c9314-593e-3512-539a-fd74f634c470@linaro.org>
-Date:   Mon, 25 Jul 2022 18:32:17 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HbbhG0x/GmEMqsFPTNhHHd72R0EMBvUmg+t2tR9hUck=;
+        b=FX/FHkIsSEKNEpnpEAUocqnJOJLxc79vUUKQQp+Mg2WyT/IYjIua4KWWAOlUuWdE8a
+         u8wtyLLG3uZ4GG4YgLribtpkM4Y8x9GxyqPZ5opJdXiBhWtRKhH7Hk/AGLgoPMTBaUlf
+         XHdAZGNwoSRyn/mJAqQXBq6i5hW7JK8iA8pw+s9LwG5ahDtXP5QbHBopU7VMpXR+x4tC
+         keaBk9CV+DO2Gwc+4XO33cGyLcpghLF9zSTWJ2TI3kD0+BrvX0CcEA8PHCNjlVkWrPP4
+         mRvy7r7go7B/ZnFTyL1ie9tiXEo8FGIVMh9jJHFxLz6cbqgrEvVv+tqs2WKSbNl87u3p
+         XCNw==
+X-Gm-Message-State: AJIora9PnC0OQBHBqSEDJghdBzbQld9nrR8oNN4odAstasbZth6cnniq
+        S+5AP64xSKC8bc1HZyCYzg==
+X-Google-Smtp-Source: AGRyM1uuT1vQIr57VczZbMYqBCAWavAInhVTP1sLXmo5Mj9c6tQOoxLBzzgmuH+5owc4zloQm+1brQ==
+X-Received: by 2002:a05:6808:654:b0:33a:66b8:a7ef with SMTP id z20-20020a056808065400b0033a66b8a7efmr6977756oih.108.1658787595756;
+        Mon, 25 Jul 2022 15:19:55 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id t21-20020a056870f21500b0010dc461410bsm4790197oao.38.2022.07.25.15.19.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jul 2022 15:19:55 -0700 (PDT)
+Received: (nullmailer pid 2844967 invoked by uid 1000);
+        Mon, 25 Jul 2022 22:19:53 -0000
+Date:   Mon, 25 Jul 2022 16:19:53 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Irui Wang <irui.wang@mediatek.com>
+Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devicetree@vger.kernel.org,
+        angelogioacchino.delregno@collabora.com,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        linux-kernel@vger.kernel.org,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        srv_heupstream@mediatek.com,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Tiffany Lin <tiffany.lin@mediatek.com>
+Subject: Re: [PATCH v2, 2/6] dt-bindings: media: mediatek: vcodec: Add
+ encoder dt-bindings for mt8188
+Message-ID: <20220725221953.GA2844911-robh@kernel.org>
+References: <20220720085731.11011-1-irui.wang@mediatek.com>
+ <20220720085731.11011-3-irui.wang@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [v5 4/4] arm64: dts: meson: Add MagicBox M16S support
-Content-Language: en-US
-To:     Zhang Ning <zhangn1985@qq.com>, martin.blumenstingl@googlemail.com,
-        narmstrong@baylibre.com, linux-amlogic@lists.infradead.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        sean@mess.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-References: <20220724231704.132472-1-zhangn1985@qq.com>
- <tencent_9D885D188E51B537DB904A774CEC35E4180A@qq.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <tencent_9D885D188E51B537DB904A774CEC35E4180A@qq.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220720085731.11011-3-irui.wang@mediatek.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/07/2022 01:17, Zhang Ning wrote:
-> MagicBox M16S or MagicBox 3Pro is popular Tv box in China.
-> with spec:
+On Wed, 20 Jul 2022 16:57:27 +0800, Irui Wang wrote:
+> Add encoder dt-bindings for mt8188.
 > 
->  - Amlogic S912-H (S912 with dolby and dts)
->  - 2G ddr3
->  - 16G emmc
->  - Marvell sd8897 BT/wifi module
->  - 100M ethernet
->  - IR reciever
->  - 4K HDMI
->  - AV out
->  - Rest hole
->  - 5V2A power input
->  - white LED
-> 
-> it's q201_v1 according u-boot log.
-> and it's almost same as Q201 reference design.
-> 
-> add a simple dts to support this Tv box.
-> 
-> Signed-off-by: Zhang Ning <zhangn1985@qq.com>
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
 > ---
->  arch/arm64/boot/dts/amlogic/Makefile          |  1 +
->  .../dts/amlogic/meson-gxm-magicbox-m16s.dts   | 40 +++++++++++++++++++
->  2 files changed, 41 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts
+>  .../devicetree/bindings/media/mediatek,vcodec-encoder.yaml       | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/arch/arm64/boot/dts/amlogic/Makefile b/arch/arm64/boot/dts/amlogic/Makefile
-> index 8773211df50e..e0907fb41829 100644
-> --- a/arch/arm64/boot/dts/amlogic/Makefile
-> +++ b/arch/arm64/boot/dts/amlogic/Makefile
-> @@ -44,6 +44,7 @@ dtb-$(CONFIG_ARCH_MESON) += meson-gxl-s905x-libretech-cc.dtb
->  dtb-$(CONFIG_ARCH_MESON) += meson-gxl-s905x-nexbox-a95x.dtb
->  dtb-$(CONFIG_ARCH_MESON) += meson-gxl-s905x-p212.dtb
->  dtb-$(CONFIG_ARCH_MESON) += meson-gxm-khadas-vim2.dtb
-> +dtb-$(CONFIG_ARCH_MESON) += meson-gxm-magicbox-m16s.dtb
->  dtb-$(CONFIG_ARCH_MESON) += meson-gxm-mecool-kiii-pro.dtb
->  dtb-$(CONFIG_ARCH_MESON) += meson-gxm-minix-neo-u9h.dtb
->  dtb-$(CONFIG_ARCH_MESON) += meson-gxm-nexbox-a1.dtb
-> diff --git a/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts b/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts
-> new file mode 100644
-> index 000000000000..69e72687ac9c
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/amlogic/meson-gxm-magicbox-m16s.dts
-> @@ -0,0 +1,40 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (c) 2022 Zhang Ning <zhangn1985@qq.com>
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "meson-gxm.dtsi"
-> +#include "meson-gx-p23x-q20x.dtsi"
-> +#include <dt-bindings/input/input.h>
-> +
-> +/ {
-> +	compatible = "magicbox,m16s", "amlogic,s912", "amlogic,meson-gxm";
-> +	model = "MagicBox M16S";
-> +
-> +	gpio-keys-polled {
 
-Just gpio-keys (or even "keys").
-
-> +		compatible = "gpio-keys-polled";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-
-Address/size cells are not correct.
-
-> +		poll-interval = <100>;
-> +
-> +		button-power {
-> +			label = "power";
-> +			linux,code = <KEY_POWER>;
-> +			gpios = <&gpio_ao GPIOAO_2 GPIO_ACTIVE_LOW>;
-> +		};
-> +	};
-> +};
-
-Missing blank line.
-
-> +&ethmac {
-
-
-Best regards,
-Krzysztof
+Acked-by: Rob Herring <robh@kernel.org>
