@@ -2,145 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CC1557FA5F
-	for <lists+linux-media@lfdr.de>; Mon, 25 Jul 2022 09:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92D4257FBE8
+	for <lists+linux-media@lfdr.de>; Mon, 25 Jul 2022 11:01:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231365AbiGYHlI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Jul 2022 03:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37252 "EHLO
+        id S234379AbiGYJB0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Jul 2022 05:01:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231444AbiGYHlF (ORCPT
+        with ESMTP id S230177AbiGYJBZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jul 2022 03:41:05 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F3112766
-        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 00:41:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CC88DB80D87
-        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 07:41:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8C4AC341C6;
-        Mon, 25 Jul 2022 07:40:55 +0000 (UTC)
-Message-ID: <194a3931-7546-9f26-0607-4ce9f12e9599@xs4all.nl>
-Date:   Mon, 25 Jul 2022 09:40:54 +0200
+        Mon, 25 Jul 2022 05:01:25 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E845E14D0A
+        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 02:01:23 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id k11so14536253wrx.5
+        for <linux-media@vger.kernel.org>; Mon, 25 Jul 2022 02:01:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=oDGw3WVCUqpb1y41tcLQhQZCB3Jkdv/9EGqZqsBM1SQ=;
+        b=I1fhCkNu27OGN7Su+f7uyyZcISxU2+WbQ5HmPddk7CtE2cPl1TtpAMV82mYQHu2JTq
+         Cs48CbMOZhMEjZfbfPKY1RUMRDD1dCgcoSqocJXsMGCPX39SjriIlwDhSrcyLVmdyu63
+         D5nTvdq4RRIHJtTTXKeKMWX39fAA4lpGLHbzHbrjWiwQxP2NeGqdk8Fg+EX+hZPlYi6r
+         XGomyUA1ZbGC/xcFG+kZOY+bTaPA7b/DirD5fOyweA6VixBaYfZZsQkAOtnBE3M0s5kv
+         zYTMlhlggE6TiFSSd0vVn3qmwOE/ogDnG5n+w93rMeq848bAE/U0o8wbB1umx8D5q5PA
+         lB4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=oDGw3WVCUqpb1y41tcLQhQZCB3Jkdv/9EGqZqsBM1SQ=;
+        b=3F55LXl78xejh/ZQgrP6OMvwKiqhLmZpfO0QZL13WiLlYP2O1T6tOUKSOrrOj7NnoI
+         Oh/FgPk2srUnYK6WuPJ7EGlSH743LKr+4UTsbZ6q4iiAfYW4/CkYIPCU4CEVLgxudN+g
+         99EBuObK6NRBWtRBkLNxRHpOvWDO8Qmx1ba4jcEcj1/OU5yM1fdIiJB0xRcZpPhr6d6c
+         T5yc9Tonq/KmAfODMTRjVM6ProgKBNugVxP66K6eSTrK1t3Xpi9Ips3+j9QsdoIdl8pw
+         4lIOVbF0Z5EAFVbFQBWkS4urdnQa8T9GjThO3h5uSNYJU3KOk8Pf5xuraMYYqYnHMPRa
+         S+FA==
+X-Gm-Message-State: AJIora8r6GNszA7PL1Run+nbQim+oMWAwJjOKQCc17VPKXciN4o3fg3t
+        fEWYpbej3O0W75PkdW3praAq3A==
+X-Google-Smtp-Source: AGRyM1vmszB0XdSa2HBsMAR85kUABI5hCHOPFiTJ0YewyS3HdWyPG2vzZJymYlF3mE08s/9WMTEJrQ==
+X-Received: by 2002:a5d:4523:0:b0:21e:5796:3622 with SMTP id j3-20020a5d4523000000b0021e57963622mr7273694wra.456.1658739682454;
+        Mon, 25 Jul 2022 02:01:22 -0700 (PDT)
+Received: from [192.168.1.9] ([195.24.90.54])
+        by smtp.googlemail.com with ESMTPSA id j10-20020a05600c190a00b003a342933727sm11246988wmq.3.2022.07.25.02.01.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Jul 2022 02:01:21 -0700 (PDT)
+Message-ID: <f7df92d8-5faf-b643-cb3d-57115ca6cebd@linaro.org>
+Date:   Mon, 25 Jul 2022 12:01:19 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [ANN] Media Summit at OSS Europe in Dublin: September 12
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/7] venus : Add default values for the control
+ V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY
 Content-Language: en-US
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Sean Young <sean@mess.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        paul.kocialkowski@bootlin.com,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Viswanath Boma <quic_vboma@quicinc.com>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <54d42d4e-5994-68a2-4a21-770167d5405a@xs4all.nl>
-In-Reply-To: <54d42d4e-5994-68a2-4a21-770167d5405a@xs4all.nl>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+References: <20220712122347.6781-1-quic_vboma@quicinc.com>
+ <b06c71d090ae7eaa3cd047bb0067f566371bac3a.camel@ndufresne.ca>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+In-Reply-To: <b06c71d090ae7eaa3cd047bb0067f566371bac3a.camel@ndufresne.ca>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
 
-On 7/15/22 10:15, Hans Verkuil wrote:
-> Hi all,
-> 
-> The Linux Foundation organized a meeting room for us to use on Monday September 12
-> at the Convention Centre Dublin. It is co-located with the Open Source Summit Europe,
-> see https://events.linuxfoundation.org/open-source-summit-europe/ for more info.
-> 
-> To attend this Media Summit no registration is required for the OSSE, but you do need
-> to register with me by sending me an email. There is a maximum of 20 participants.
-> 
-> I send out a request for topics in May and got quite a few replies:
-> 
-> https://lore.kernel.org/all/a7007268a65846674b82a108215992d39b430b38.camel@ndufresne.ca/T/
-> 
-> If you have more ideas for topics, then reply either to that message (preferred) or this
-> one.
-> 
-> See here for more details about the conference:
-> 
-> https://events.linuxfoundation.org/open-source-summit-europe/
-> 
-> It is primarily meant for media developers to meet face-to-face. Whether there will
-> be a possibility to participate remotely is not certain at this time. Past experience
-> shows that meetings like this are a poor fit for remote attendance, unless you have
-> a meeting room that is designed for such purposes, which we don't have.
-> 
-> The actual agenda will depend on who will attend, I hope to be able to put that
-> together around mid August. But the link above with the 'Request for Topics' thread
-> will give a good indication of what to expect.
-> 
-> So, if you want to attend, then let me know by email. Please reply as soon as possible,
-> even if you are not entirely certain yet if you can attend.
 
-The current list of attendees is:
+On 7/12/22 16:34, Nicolas Dufresne wrote:
+> Le mardi 12 juillet 2022 à 17:53 +0530, Viswanath Boma a écrit :
+>> From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>>
+>>  V4l2 encoder compliance expecting default values of colormetry for the control.
+> 
+> nit: colormetry -> colorimetry
+> 
+>>
+>> Change-Id: I1db0d4940b54e033d646ce39d60dc488afba8d58
+>> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+>> ---
+>>  drivers/media/platform/qcom/venus/venc_ctrls.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
+>> index ea5805e71c143..37ba7d97f99b2 100644
+>> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
+>> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+>> @@ -352,6 +352,8 @@ static const struct v4l2_ctrl_ops venc_ctrl_ops = {
+>>  int venc_ctrl_init(struct venus_inst *inst)
+>>  {
+>>  	int ret;
+>> +	struct v4l2_ctrl_hdr10_mastering_display p_hdr10_mastering = { {34000, 13250, 7500 },
+>> +	{ 16000, 34500, 3000 }, 15635,	16450, 10000000, 500 };
+> 
+> What is the origin of these values ? Should this be done in the control
+> framework instead ?
 
-Sakari Ailus
-Kieran Bingham
-Nicolas Dufresne
-Benjamin Gaignard
-Paul Kocialkowski
-Jacopo Mondi
-Laurent Pinchart
-Ricardo Ribalda
-Maxime Ripard
-Dave Stevenson (from 11 am)
-Hans Verkuil
-Philipp Zabel
+We needed some safe default values to satisfy v4l2 control. I took the
+values from here [1].
 
-Tentative:
-
-Jernej Škrabec
-
-So 12 confirmed attendees. The room holds 20 people, so if you are interested and
-able to attend, then just let me know, there are still seats available.
-
-I plan to post a first draft agenda next week.
+I'm not sure do we need them in v4l2 control core (most probably it is a
+good to have it), Hans ?
 
 > 
-> The health and safety regulations will be those of the OSSE LF:
+>>  
+>>  	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 58);
+>>  	if (ret)
+>> @@ -580,7 +582,7 @@ int venc_ctrl_init(struct venus_inst *inst)
+>>  
+>>  	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
+>>  				   V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY,
+>> -				   v4l2_ctrl_ptr_create(NULL));
+>> +				   v4l2_ctrl_ptr_create((void *)&p_hdr10_mastering));
+>>  
+>>  	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
+>>  			  V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD, 0,
 > 
-> https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/
-> 
-> Code of conduct:
-> 
-> https://events.linuxfoundation.org/open-source-summit-europe/attend/code-of-conduct/
-> 
-> A final note: the total cost is at most $650 (depends on the number of people):
-> that's for a whiteboard, powerstrips and refreshments (coffee, tea, soda, water).
-> 
-> It would be nice if this can be sponsored by one or more companies. I'll ask
-> my manager if Cisco can contribute to this (once he's back from vacation), but
-> if other companies want to contribute as well, then let me know and we can
-> split the bill. And start off the meeting with a nice slide saying: "Sponsored by:".
 
-Collabora offered to sponsor this, many thanks for that!
+-- 
+regards,
+Stan
 
-Regards,
+[1] https://www.elecard.com/page/article_hdr
 
-	Hans
