@@ -2,155 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3ECF5814B2
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jul 2022 15:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0519C5814C4
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jul 2022 16:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238762AbiGZN7j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jul 2022 09:59:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42160 "EHLO
+        id S233180AbiGZOFZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jul 2022 10:05:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238744AbiGZN7h (ORCPT
+        with ESMTP id S230430AbiGZOFY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jul 2022 09:59:37 -0400
-X-Greylist: delayed 22606 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 26 Jul 2022 06:59:36 PDT
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B2C424F35;
-        Tue, 26 Jul 2022 06:59:36 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id A313810006A; Tue, 26 Jul 2022 14:59:34 +0100 (BST)
-Date:   Tue, 26 Jul 2022 14:59:34 +0100
-From:   Sean Young <sean@mess.org>
-To:     Zhang Ning <zhangn1985@qq.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        narmstrong@baylibre.com, martin.blumenstingl@googlemail.com,
-        linux-amlogic@lists.infradead.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [v6 2/4] media: rc: add keymap for MagicBox M16S remote
-Message-ID: <Yt/zRoDbEMiMT6qj@gofer.mess.org>
-References: <20220726131523.140581-1-zhangn1985@qq.com>
- <tencent_7941C3ADC1F805DF58467BADCD88F4C0C406@qq.com>
- <tencent_DAA1CCC0ECA273CCA2DDC726455A73C2B705@qq.com>
+        Tue, 26 Jul 2022 10:05:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6A0615FF6
+        for <linux-media@vger.kernel.org>; Tue, 26 Jul 2022 07:05:22 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 786E0735;
+        Tue, 26 Jul 2022 16:05:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1658844320;
+        bh=BjrxfjD0Oh8Ii96Cfaz3qVc1XM5xBSREBxRy4ate+zM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KAOr3i55VQU4Pw1oA8HrELEu7yMfmI38+z9O4FbFkY87VtlU/I225/3v3OYzz95M0
+         RiI5bJsRRKTsvpJJjr4xh2+yxblMBP0ogZUC25BIcdQPSqCBukV3z0spkAHl21U3kE
+         NN5rhFv6Zp+/xoacdx8YkMfqx7wd4unNYEclcXmE=
+Date:   Tue, 26 Jul 2022 17:05:15 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] media: uvcvideo: Fix invalid pointer in
+ uvc_ctrl_init_ctrl()
+Message-ID: <Yt/0m0eNvr6n86qu@pendragon.ideasonboard.com>
+References: <20220718121219.16079-1-laurent.pinchart@ideasonboard.com>
+ <CANiDSCuSW4et50rjNi33z4mwhy6fAnub1cXZFJ2wUKaOObTD8Q@mail.gmail.com>
+ <CANiDSCvh0Zy8PbMW5yFWfExjEzPTdvWGjYmGCw=eychHFs0sAw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <tencent_DAA1CCC0ECA273CCA2DDC726455A73C2B705@qq.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CANiDSCvh0Zy8PbMW5yFWfExjEzPTdvWGjYmGCw=eychHFs0sAw@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 26, 2022 at 09:39:46PM +0800, Zhang Ning wrote:
-> On Tue, Jul 26, 2022 at 09:15:21PM +0800, Zhang Ning wrote:
-> > MagicBox M16S Tv box shipped with a simple NEC remote.
-> > 
-> > Signed-off-by: Zhang Ning <zhangn1985@qq.com>
-> > ---
-> >  drivers/media/rc/keymaps/Makefile      |  1 +
-> >  drivers/media/rc/keymaps/rc-magicbox.c | 58 ++++++++++++++++++++++++++
-> >  include/media/rc-map.h                 |  1 +
-> >  3 files changed, 60 insertions(+)
-> >  create mode 100644 drivers/media/rc/keymaps/rc-magicbox.c
-> > 
-> > diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-> > index f513ff5caf4e..02c1c2150f03 100644
-> > --- a/drivers/media/rc/keymaps/Makefile
-> > +++ b/drivers/media/rc/keymaps/Makefile
-> > @@ -71,6 +71,7 @@ obj-$(CONFIG_RC_MAP) += \
-> >  			rc-kworld-plus-tv-analog.o \
-> >  			rc-leadtek-y04g0051.o \
-> >  			rc-lme2510.o \
-> > +			rc-magicbox.o \
-> >  			rc-manli.o \
-> >  			rc-mecool-kiii-pro.o \
-> >  			rc-mecool-kii-pro.o \
-> > diff --git a/drivers/media/rc/keymaps/rc-magicbox.c b/drivers/media/rc/keymaps/rc-magicbox.c
-> > new file mode 100644
-> > index 000000000000..015767429028
-> > --- /dev/null
-> > +++ b/drivers/media/rc/keymaps/rc-magicbox.c
-> > @@ -0,0 +1,58 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +//
-> > +// Copyright (C) 2022 Zhang Ning <zhangn1985@qq.com>
-> > +
-> > +/*
-> > + * Keytable for the MagicBox M16S remote control
-> > + */
-> > +
-> > +#include <media/rc-map.h>
-> > +#include <linux/module.h>
-> > +
-> > +static struct rc_map_table magicbox[] = {
-> > +	{ 0x9f57, KEY_POWER },
-> > +
-> > +	/*
-> > +	 * This key labeled "M" is used as magic key in vendor OS,
-> > +         * and mapped to KEY_MUTE.
-> oh no, mixed tab and space. I will fix it next version.
+Hi Ricardo,
 
-That's something minor that can be fixed when merging.
-
-Looks good to me, thank you for dealing with all the pedantic reviews.
-
-Signed-off-by: Sean Young <sean@mess.org>
-
+On Tue, Jul 26, 2022 at 02:11:07PM +0200, Ricardo Ribalda wrote:
+> Arghh
 > 
-> > +	 */
-> > +	{ 0x9f8a, KEY_MUTE },
-> > +
-> > +	{ 0x9f43, KEY_UP },
-> > +	{ 0x9f0a, KEY_DOWN },
-> > +	{ 0x9f06, KEY_LEFT },
-> > +	{ 0x9f0e, KEY_RIGHT },
-> > +	{ 0x9f02, KEY_OK },
-> > +
-> > +	{ 0x9f47, KEY_HOME },
-> > +	{ 0x9f4f, KEY_BACK },
-> > +	{ 0x9f16, KEY_MENU },
-> > +
-> > +	{ 0x9fff, KEY_VOLUMEUP },
-> > +	{ 0x9f5d, KEY_VOLUMEDOWN },
-> > +};
-> > +
-> > +static struct rc_map_list magicbox_map = {
-> > +	.map = {
-> > +		.scan     = magicbox,
-> > +		.size     = ARRAY_SIZE(magicbox),
-> > +		.rc_proto = RC_PROTO_NEC,
-> > +		.name     = RC_MAP_MAGICBOX,
-> > +	}
-> > +};
-> > +
-> > +static int __init init_rc_map_magicbox(void)
-> > +{
-> > +	return rc_map_register(&magicbox_map);
-> > +}
-> > +
-> > +static void __exit exit_rc_map_magicbox(void)
-> > +{
-> > +	rc_map_unregister(&magicbox_map);
-> > +}
-> > +
-> > +module_init(init_rc_map_magicbox)
-> > +module_exit(exit_rc_map_magicbox)
-> > +
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_AUTHOR("Zhang Ning <zhangn1985@qq.com>");
-> > diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-> > index 793b54342dff..656217b8e91b 100644
-> > --- a/include/media/rc-map.h
-> > +++ b/include/media/rc-map.h
-> > @@ -277,6 +277,7 @@ struct rc_map *rc_map_get(const char *name);
-> >  #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
-> >  #define RC_MAP_LEADTEK_Y04G0051          "rc-leadtek-y04g0051"
-> >  #define RC_MAP_LME2510                   "rc-lme2510"
-> > +#define RC_MAP_MAGICBOX                  "rc-magicbox"
-> >  #define RC_MAP_MANLI                     "rc-manli"
-> >  #define RC_MAP_MECOOL_KII_PRO            "rc-mecool-kii-pro"
-> >  #define RC_MAP_MECOOL_KIII_PRO           "rc-mecool-kiii-pro"
-> > -- 
-> > 2.35.1
-> > 
+> it seems like the merged version was not the latest version, so yes,
+> this patch is needed.
+
+Sorry about that :-S
+
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+
+Mauro, this is a fix for v5.20, could you apply it to your tree ?
+
+> By the way, are you still interested in this:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/patch/20220617235610.321917-5-ribalda@chromium.org/
+> 
+> So I prepare a new version for it.
+
+Thank you :-)
+
+> On Tue, 26 Jul 2022 at 14:00, Ricardo Ribalda <ribalda@chromium.org> wrote:
+> >
+> > Hi Laurent
+> >
+> > Is this needed?
+> >
+> > It is already part of v8
+> >
+> > https://patchwork.linuxtv.org/project/linux-media/patch/20220617235610.321917-3-ribalda@chromium.org/
+> >
+> > On Mon, 18 Jul 2022 at 14:12, Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> > >
+> > > The handling of per-device mappings introduced in commit 86f7ef773156
+> > > ("media: uvcvideo: Add support for per-device control mapping
+> > > overrides") overwrote the mapping variable after it was initialized and
+> > > before it was used, leading to usage of an invalid pointer for devices
+> > > with per-device mappings. Fix it.
+> > >
+> > > Fixes: 86f7ef773156 ("media: uvcvideo: Add support for per-device control mapping overrides")
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_ctrl.c | 8 +++++---
+> > >  1 file changed, 5 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > index e4826a846861..8c208db9600b 100644
+> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > @@ -2413,9 +2413,8 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+> > >  {
+> > >         const struct uvc_control_info *info = uvc_ctrls;
+> > >         const struct uvc_control_info *iend = info + ARRAY_SIZE(uvc_ctrls);
+> > > -       const struct uvc_control_mapping *mapping = uvc_ctrl_mappings;
+> > > -       const struct uvc_control_mapping *mend =
+> > > -               mapping + ARRAY_SIZE(uvc_ctrl_mappings);
+> > > +       const struct uvc_control_mapping *mapping;
+> > > +       const struct uvc_control_mapping *mend;
+> > >
+> > >         /*
+> > >          * XU controls initialization requires querying the device for control
+> > > @@ -2468,6 +2467,9 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+> > >         }
+> > >
+> > >         /* Process common mappings next. */
+> > > +       mapping = uvc_ctrl_mappings;
+> > > +       mend = mapping + ARRAY_SIZE(uvc_ctrl_mappings);
+> > > +
+> > >         for (; mapping < mend; ++mapping) {
+> > >                 if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+> > >                     ctrl->info.selector == mapping->selector)
+> > >
+> > > base-commit: 8bd1dbf8d580c425605fb8936309a4e9745a7a95
+> > > prerequisite-patch-id: 89d2dc61eb83afb89fb075a63e161ea0b87fdcc7
+> > > prerequisite-patch-id: 01354ee4b874fea1acc040a23badff034588362f
+> > > prerequisite-patch-id: 7ae47f109892b89675acbdc0c6bcc1487436ec78
+
+-- 
+Regards,
+
+Laurent Pinchart
