@@ -2,99 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEDBE580DFD
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jul 2022 09:39:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 096AA580E1D
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jul 2022 09:43:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232008AbiGZHjf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jul 2022 03:39:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54078 "EHLO
+        id S238175AbiGZHnZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jul 2022 03:43:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238613AbiGZHjJ (ORCPT
+        with ESMTP id S238372AbiGZHnL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jul 2022 03:39:09 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F75C2C
-        for <linux-media@vger.kernel.org>; Tue, 26 Jul 2022 00:39:07 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id sz17so24641588ejc.9
-        for <linux-media@vger.kernel.org>; Tue, 26 Jul 2022 00:39:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JFkaZFxAuxkLEehi69dTWbNl8unG+u8MhhTVphE46Gk=;
-        b=Ec872N7iUH0/o6dfJVII3y16GE9215olQHtR9NkNhp8xKhu+WbB+5r/+NJZKHK/doF
-         YN58Aj8wOQ7plVdAZZws3+afT6fenyRDuB0N+1OMSgeDi67wcNTJjklZC36dnJyvfFoF
-         lPAC4r4M8unHq1d8746ofCleQ2WKr8ZlizFp4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JFkaZFxAuxkLEehi69dTWbNl8unG+u8MhhTVphE46Gk=;
-        b=4fOCO/Ehbi5Jfbi3/mBSD9WYiCYVBQVPws4WuJrE20fFm9nZS3Omu6tO2m57SN+8y5
-         0VCSsxmGeFzh1c+H6gkUVpJWuLRFtGichuq3Pc1yvtNox7mL5NtkC6AlDGmrjDH6uRkO
-         FPMxBTP79kLVsIGdxYgiw2H+6+ixcaO/P4xVx8mDk9VB31PomKknjXdzQnTStdbidThB
-         LeZa97ZHDN9kenKasLI8+dVP2U8TbFLI89qyIGVUc78Nvs/Z5hPDVUxWcLHHLBkMAstR
-         F5+okajf84PvD0pwjFDtoeVMCM1c44t2Zxx4OKXdmMjkSlwJNNtMXtry+XiTwP9Vkv/i
-         kaCQ==
-X-Gm-Message-State: AJIora9jQrIBTTDLuRYWVX05jS6VXCdIu9JxCN7EEQunSzSkmTOOQ6R8
-        TDb23Fdp1+j19t253QJKLwlY7SN0J2IPEQ==
-X-Google-Smtp-Source: AGRyM1uvzM5Dli1Bl46N7vnhkWSqsrpxlnQ2nRYQNyE5MUxOKQAFvwAqBEEXJVgnlw1DW27GuIcwuQ==
-X-Received: by 2002:a17:907:9605:b0:6f5:c66:7c13 with SMTP id gb5-20020a170907960500b006f50c667c13mr13219101ejc.66.1658821146044;
-        Tue, 26 Jul 2022 00:39:06 -0700 (PDT)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id v10-20020a170906292a00b007262a1c8d20sm6192633ejd.19.2022.07.26.00.39.05
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Jul 2022 00:39:05 -0700 (PDT)
-Received: by mail-ej1-f43.google.com with SMTP id sz17so24641437ejc.9
-        for <linux-media@vger.kernel.org>; Tue, 26 Jul 2022 00:39:05 -0700 (PDT)
-X-Received: by 2002:a17:907:7617:b0:72b:49fe:fdf7 with SMTP id
- jx23-20020a170907761700b0072b49fefdf7mr13634226ejc.25.1658821144766; Tue, 26
- Jul 2022 00:39:04 -0700 (PDT)
+        Tue, 26 Jul 2022 03:43:11 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717022C664;
+        Tue, 26 Jul 2022 00:42:52 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id E6AB9100063; Tue, 26 Jul 2022 08:42:48 +0100 (BST)
+Date:   Tue, 26 Jul 2022 08:42:48 +0100
+From:   Sean Young <sean@mess.org>
+To:     Zhang Ning <zhangn1985@qq.com>
+Cc:     martin.blumenstingl@googlemail.com, narmstrong@baylibre.com,
+        linux-amlogic@lists.infradead.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [v5 2/4] media: rc: add keymap for MagicBox M16S remote
+Message-ID: <Yt+a+N1BJ+AZqPRt@gofer.mess.org>
+References: <20220724231704.132472-1-zhangn1985@qq.com>
+ <tencent_5AC39B81CB85E258763BA8CD8774E9045806@qq.com>
 MIME-Version: 1.0
-References: <8bd3b659-5e1c-4985-ceac-7b9956f2158f@neuf.fr>
-In-Reply-To: <8bd3b659-5e1c-4985-ceac-7b9956f2158f@neuf.fr>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 26 Jul 2022 09:38:53 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvYLv_SX1nCS9s2TWbCQS54JL1kXcfLqE60LiGW+YsZDg@mail.gmail.com>
-Message-ID: <CANiDSCvYLv_SX1nCS9s2TWbCQS54JL1kXcfLqE60LiGW+YsZDg@mail.gmail.com>
-Subject: Re: Adding a new UVC Device
-To:     Bertrand COEZ <coez.bertrand@neuf.fr>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_5AC39B81CB85E258763BA8CD8774E9045806@qq.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bertrand
+On Mon, Jul 25, 2022 at 07:17:02AM +0800, Zhang Ning wrote:
+> MagicBox M16S Tv box shipped with a simple NEC remote.
+> it has a key labeled "M", used as Magic key in vendor OS.
+> This has mapped to KEY_MUTE.
 
-I am not sure that I understand your email.
+Please put this commit in the source code next to the key definition.
+This doesn't belong in the commit message.
 
-Your device is not recognised by the driver? Can you send the output of
-lsusb -v -d 5986:211b
-?
+Thanks
+Sean
 
-Thanks!
-
-On Fri, 22 Jul 2022 at 05:40, Bertrand COEZ <coez.bertrand@neuf.fr> wrote:
->
-> Hello
->
-> I would like to add a device to the list,
->
-> Here it is : 5986:211b Acer, Inc HD Webcam.
->
->
-> Best regards,
->
-> Bertrand
->
-
-
--- 
-Ricardo Ribalda
+> 
+> Signed-off-by: Zhang Ning <zhangn1985@qq.com>
+> ---
+>  drivers/media/rc/keymaps/Makefile      |  1 +
+>  drivers/media/rc/keymaps/rc-magicbox.c | 53 ++++++++++++++++++++++++++
+>  include/media/rc-map.h                 |  1 +
+>  3 files changed, 55 insertions(+)
+>  create mode 100644 drivers/media/rc/keymaps/rc-magicbox.c
+> 
+> diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+> index f513ff5caf4e..02c1c2150f03 100644
+> --- a/drivers/media/rc/keymaps/Makefile
+> +++ b/drivers/media/rc/keymaps/Makefile
+> @@ -71,6 +71,7 @@ obj-$(CONFIG_RC_MAP) += \
+>  			rc-kworld-plus-tv-analog.o \
+>  			rc-leadtek-y04g0051.o \
+>  			rc-lme2510.o \
+> +			rc-magicbox.o \
+>  			rc-manli.o \
+>  			rc-mecool-kiii-pro.o \
+>  			rc-mecool-kii-pro.o \
+> diff --git a/drivers/media/rc/keymaps/rc-magicbox.c b/drivers/media/rc/keymaps/rc-magicbox.c
+> new file mode 100644
+> index 000000000000..b4fc1856a9e7
+> --- /dev/null
+> +++ b/drivers/media/rc/keymaps/rc-magicbox.c
+> @@ -0,0 +1,53 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +//
+> +// Copyright (C) 2022 Zhang Ning <zhangn1985@qq.com>
+> +
+> +/*
+> + * Keytable for the MagicBox M16S remote control
+> + */
+> +
+> +#include <media/rc-map.h>
+> +#include <linux/module.h>
+> +
+> +static struct rc_map_table magicbox[] = {
+> +	{ 0x9f57, KEY_POWER },
+> +	{ 0x9f8a, KEY_MUTE }, // M
+> +
+> +	{ 0x9f43, KEY_UP },
+> +	{ 0x9f0a, KEY_DOWN },
+> +	{ 0x9f06, KEY_LEFT },
+> +	{ 0x9f0e, KEY_RIGHT },
+> +	{ 0x9f02, KEY_OK },
+> +
+> +	{ 0x9f47, KEY_HOME },
+> +	{ 0x9f4f, KEY_BACK },
+> +	{ 0x9f16, KEY_MENU },
+> +
+> +	{ 0x9fff, KEY_VOLUMEDOWN },
+> +	{ 0x9f5d, KEY_VOLUMEUP },
+> +};
+> +
+> +static struct rc_map_list magicbox_map = {
+> +	.map = {
+> +		.scan     = magicbox,
+> +		.size     = ARRAY_SIZE(magicbox),
+> +		.rc_proto = RC_PROTO_NEC,
+> +		.name     = RC_MAP_MAGICBOX,
+> +	}
+> +};
+> +
+> +static int __init init_rc_map_magicbox(void)
+> +{
+> +	return rc_map_register(&magicbox_map);
+> +}
+> +
+> +static void __exit exit_rc_map_magicbox(void)
+> +{
+> +	rc_map_unregister(&magicbox_map);
+> +}
+> +
+> +module_init(init_rc_map_magicbox)
+> +module_exit(exit_rc_map_magicbox)
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Zhang Ning <zhangn1985@qq.com>");
+> diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+> index 793b54342dff..656217b8e91b 100644
+> --- a/include/media/rc-map.h
+> +++ b/include/media/rc-map.h
+> @@ -277,6 +277,7 @@ struct rc_map *rc_map_get(const char *name);
+>  #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
+>  #define RC_MAP_LEADTEK_Y04G0051          "rc-leadtek-y04g0051"
+>  #define RC_MAP_LME2510                   "rc-lme2510"
+> +#define RC_MAP_MAGICBOX                  "rc-magicbox"
+>  #define RC_MAP_MANLI                     "rc-manli"
+>  #define RC_MAP_MECOOL_KII_PRO            "rc-mecool-kii-pro"
+>  #define RC_MAP_MECOOL_KIII_PRO           "rc-mecool-kiii-pro"
+> -- 
+> 2.35.1
