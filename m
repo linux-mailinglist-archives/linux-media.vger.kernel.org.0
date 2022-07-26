@@ -2,189 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 848A0581631
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jul 2022 17:15:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C96B581A5F
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jul 2022 21:40:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233883AbiGZPPj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jul 2022 11:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48596 "EHLO
+        id S230056AbiGZTkV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jul 2022 15:40:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbiGZPPi (ORCPT
+        with ESMTP id S229658AbiGZTkU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jul 2022 11:15:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E957317E37;
-        Tue, 26 Jul 2022 08:15:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 26 Jul 2022 15:40:20 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CA75FC8
+        for <linux-media@vger.kernel.org>; Tue, 26 Jul 2022 12:40:19 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 86EFE6069B;
-        Tue, 26 Jul 2022 15:15:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B62C433C1;
-        Tue, 26 Jul 2022 15:15:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1658848536;
-        bh=JdYLPvm15DCGWDloUpXmxYYLmSi+V/FEw3vBEoaF+Jw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xBokB72rddFLxtHSosxuv3alJqsdn0oyulNn4jSAaE2unHKS0UIM1wLxL2J8T16L0
-         k39NRaycdo4vXVxUP4FOVG+nE53iMehPLaex58j9lRVfL0OQ2uKPiGgF5dJfnEg16i
-         sBHsTSPvke7L3MCKx6Puv+grQDjTJVYq56eH/DFk=
-Date:   Tue, 26 Jul 2022 17:15:30 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     yuji2.ishikawa@toshiba.co.jp
-Cc:     robh+dt@kernel.org, hverkuil@xs4all.nl,
-        nobuhiro1.iwamatsu@toshiba.co.jp, corbet@lwn.net,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 3/5] soc: visconti: Add Toshiba Visconti DNN image
- processing accelerator
-Message-ID: <YuAFEvKLnavheZMn@kroah.com>
-References: <20220722082858.17880-1-yuji2.ishikawa@toshiba.co.jp>
- <20220722082858.17880-4-yuji2.ishikawa@toshiba.co.jp>
- <Yt6Rryi4SHVc4DR4@kroah.com>
- <TYAPR01MB62013C42CB26FD456929C0D592949@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id AC4691B00238;
+        Tue, 26 Jul 2022 22:40:16 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1658864416;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=skgf1BirPSJEDNoBpWdf+Db9GqmrHe/NWwnm+f66rZE=;
+        b=f9FxmlKApO3OqOauFZzrLoszqc+GHInz2mCRmaELxfMx4FqhDjrjiKab5HMW74H2Wj0Fsb
+        VF2U8yx8vfQzv3fZSxCBIKrjwVEw2mFxWocHrB1NYyDis0dcV6RoeV+MWFyuMErJHQ3Vjw
+        gUJPXVtuqAwCwf/SagZFsYi3p2zGP74H0uwnazcmCe/r5v1G82tKtE5IH5A4NZC0LVmxPa
+        NUx98q0P/J/7cavS4p03IFc818q6nrD816xlRrO0PGmWCyM3u95G/tgIwLjIlhYpkcJQwP
+        E9ew8lcLYhSrpEQwXAqHrZpUruJDB311injAzr6qwKc7kNlToLnzeW8YoU8nMg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 49633634C94;
+        Tue, 26 Jul 2022 22:40:16 +0300 (EEST)
+Date:   Tue, 26 Jul 2022 22:40:16 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Helge Kreutzmann <debian@helgefjell.de>,
+        linux-media@vger.kernel.org
+Subject: Re: DVB: Unable to find symbol m88ds3103_attach() [Kernel 5.18.13]
+Message-ID: <YuBDIEUokV5vxD6n@valkosipuli.retiisi.eu>
+References: <20220723155707.GA17564@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYAPR01MB62013C42CB26FD456929C0D592949@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220723155707.GA17564@Debian-50-lenny-64-minimal>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1658864416; a=rsa-sha256;
+        cv=none;
+        b=YZNGf61AfulbUtjVp0o5TlPHX2KFdJSHPAz5OlHtN8/ZgckhyGRUnqZANw21KFtBKEoi1v
+        VRE6VFmzr6Dl971pPhj5VmxFfJd6Im6WZJ44AOKzgtn/4nMYzx+lbvWRzI8qcpWKtMF/nl
+        erRAZVGbiB4dQrLL/cVPFnXie3PqPE2JWP7GTY7kjcBpxhmqhWsjGVQ1WluvrrrrPKzasT
+        qQHR/n1iDS0QcIdF2m4oABmi4JCO5nKu5sT07CyOG1KSmrt4TXgvVcprTQ89xbS1Hd0akB
+        PKVREBTIv7x/Zg/p42H/96+0Al5rvCXRbIq3PMabMHPKxHc3NwjB705ZSkqylw==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1658864416;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=skgf1BirPSJEDNoBpWdf+Db9GqmrHe/NWwnm+f66rZE=;
+        b=WhTQ1/ZDAHZL77YghvWc8gxorFzHRQQf3PbgRc1CpS9ztLqSgyUPeBCaE1nJxvXojG0HWc
+        FcusWCcEAnUNx7IWO4JE5Q77Fu6XvVKEDBGwLJwRW7iDbHE/Df8hdUxDkbfa9OwUxyxWYh
+        RHNImhG23HMoykPncNfDTrPEWzCWM8b89zaN/ShOlHK6B9bRIDh7QF1o/QYWkldyFYF0+9
+        H+VkmbD3Tws/JTV3fTDo5zlxkch97vRbFQcUBX8KUvOCBLH+J22AhUimHk49Vm8FvpLUqM
+        5J54f5Qb+OQb2/LtgZXF4ysljijQXTcpZaETztxMQe+UW4UrGT3q9zIXVTKMdw==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 26, 2022 at 06:10:37AM +0000, yuji2.ishikawa@toshiba.co.jp wrote:
-> Hi Greg
+Hi Helge,
+
+On Sat, Jul 23, 2022 at 05:57:07PM +0200, Helge Kreutzmann wrote:
+> Hello,
+> I want to operate a Hauppauge WinTV-HR-5524 HD [1]. Despite numerous
+> attempts / searches /trials, I'm unable to get the sattelite part
+> operating, I always get (during boot):
 > 
-> Thank you for your comments.
+> Jul 23 08:37:19 twentytwo kernel: [    6.632755] DVB: Unable to find symbol m88ds3103_attach()
 > 
-> > -----Original Message-----
-> > From: Greg KH <gregkh@linuxfoundation.org>
-> > Sent: Monday, July 25, 2022 9:51 PM
-> > To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
-> > <yuji2.ishikawa@toshiba.co.jp>
-> > Cc: Rob Herring <robh+dt@kernel.org>; Hans Verkuil <hverkuil@xs4all.nl>;
-> > iwamatsu nobuhiro(岩松 信洋 □ＳＷＣ◯ＡＣＴ)
-> > <nobuhiro1.iwamatsu@toshiba.co.jp>; Jonathan Corbet <corbet@lwn.net>;
-> > Sumit Semwal <sumit.semwal@linaro.org>; Christian König
-> > <christian.koenig@amd.com>; linux-arm-kernel@lists.infradead.org;
-> > linux-kernel@vger.kernel.org; linux-media@vger.kernel.org;
-> > dri-devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org
-> > Subject: Re: [PATCH v2 3/5] soc: visconti: Add Toshiba Visconti DNN image
-> > processing accelerator
-> > 
-> > On Fri, Jul 22, 2022 at 05:28:56PM +0900, Yuji Ishikawa wrote:
-> > > --- /dev/null
-> > > +++ b/drivers/soc/visconti/uapi/dnn.h
-> > > @@ -0,0 +1,77 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > +/* Toshiba Visconti DNN Accelerator Support
-> > > + *
-> > > + * (C) Copyright 2022 TOSHIBA CORPORATION
-> > > + * (C) Copyright 2022 Toshiba Electronic Devices & Storage
-> > > +Corporation  */
-> > > +
-> > > +#ifndef _UAPI_LINUX_DNN_H
-> > > +#define _UAPI_LINUX_DNN_H
-> > > +
-> > > +#include <linux/ioctl.h>
-> > > +#include <linux/types.h>
-> > > +#include "ipa.h"
-> > > +
-> > > +#define DRV_DNN_BIT_CONFIG_DESC_FINAL (0x8000U)
-> > > +#define DRV_DNN_BUFFER_INDEX_MAX      (15)
-> > > +
-> > > +#define DRV_DNN_BASE_ADDR_NUM (8U) /* DNN number of base
-> > address */
-> > > +
-> > > +#define DRV_DNN_BASE_ADDR_PURPOSE_INPUT	    (1U)
-> > > +#define DRV_DNN_BASE_ADDR_PURPOSE_OUTPUT    (2U)
-> > > +#define DRV_DNN_BASE_ADDR_PURPOSE_AWB	    (3U)
-> > > +#define DRV_DNN_BASE_ADDR_PURPOSE_TEMPORARY (4U)
-> > > +
-> > > +/**
-> > > + * struct drv_dnn_status - DNN IPA status for IOC_IPA_GET_STATUS
-> > > + *
-> > > + * @state:     State of driver
-> > > + * @eer_cmd:   Execution error command
-> > > + * @eer:       Execution error
-> > > + * @reserved:  Padding
-> > > + * @eer_flags: Execution error flags
-> > > + */
-> > > +struct drv_dnn_status {
-> > > +	enum drv_ipa_state state;
-> > > +	__u32 eer_cmd;
-> > > +	__u32 eer : 1;
-> > > +	__u32 reserved : 31;
-> > 
-> > bitfields will not work like this for uapi files, sorry.
+> The full related boot log is below [2], I can provide more additional 
+> lines as necessary of course.
 > 
-> I'll change the type of the member eer from bitfield to bool.
-
-bool will not work for a user/kernel api structure at all, sorry.
-
-> > > +	__u32 eer_flags[32];
-> > 
-> > What endian is all of these?  Big?  Little?  Unknown?
+> I listed the (related) loaded modules below [3], again I can provide
+> the full list of course.
 > 
-> The processors and accelerators are little endian in Visconti SoC.
-> Do I have to use more specific type such as __le32 ?
-
-Of course, this has to be defined as to how the hardware sees it.  Why
-wouldn't you specify this?
-
-> > > +};
-> > > +
-> > > +struct drv_dnn_base_addr {
-> > > +	__u32 purpose;
-> > > +	union {
-> > > +		struct drv_ipa_addr ipa_addr;
-> > > +		uintptr_t list_addr;
-> > 
-> > You really do not ever want a uintptr_t in a uapi file, that's not going to be
-> > portable at all.  It's also not a valid kernel type :(
+> Based on grep'ing through the kernel sources[4], I also modprobed …
+> but this did not improve the satellite detection[5].
 > 
-> I understand. The member list_addr should be typed "struct drv_ipa_addr*".
-
-No, not at all, that too will not work and is not portable.  Please read
-the documentation in the kernel for how to write correct user/kernel
-apis with ioctl structures.  It is all documented there, please do not
-ignore it and create an api that will be broken.
-
-> > > + * @config_done:          Flags of called configuration
-> > > + * @buffer_info:          Table of buffer information
-> > > + * @buffer_info_num:      Number of buffer_info
-> > > + */
-> > > +struct drv_dnn_descriptor {
-> > > +	struct drv_ipa_addr configuration;
-> > > +	__u32 configuration_offset;
-> > 
-> > What endian are any of these?
+> According to the vendor satellite should work.
 > 
-> They are little endian as processors and accelerators are LE.
-> Do I have to use specific type such as __le32?
+> I can provide more details (also tried applications, ..) as needed.
+> 
+> Thanks for any pointer to get the satellite tuner working!
 
-Yes, as that is defined by your hardware, not the processor the kernel
-is running as.
+Looking at the problem, I guess this looks like something that shouldn't
+generally happen.
 
-> Do we need special care for endianness	when userland and kernel are sharing data (a drv_dnn_descriptor instance) ?
+Have you tried removing cx23885 module and loading it again? It would seem
+lake in lsmod listing the module is there but somehow the symbol isn't
+found. I can't immediately think what else could cause this, than not being
+able to load the needed module when the symbol is looked up.
 
-Yes, why wouldn't you?
+-- 
+Regards,
 
-> I thought there're no endianness problem when the driver is reading/writing HW's 32bit registers.
-
-Is that what you are doing here?  It's impossible to tell.
-
-For data that only crosses the user/kernel boundry, you can use the
-native processor endian, but when it crosses the kernel/hardware
-boundry, you HAVE to specify it as to what the hardware expects.
-
-thanks,
-
-greg k-h
+Sakari Ailus
