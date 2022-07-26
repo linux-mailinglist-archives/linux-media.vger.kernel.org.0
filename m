@@ -2,37 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 096AA580E1D
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jul 2022 09:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 781DD580E79
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jul 2022 10:06:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238175AbiGZHnZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jul 2022 03:43:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56620 "EHLO
+        id S238231AbiGZIGY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jul 2022 04:06:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238372AbiGZHnL (ORCPT
+        with ESMTP id S231923AbiGZIGW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jul 2022 03:43:11 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717022C664;
-        Tue, 26 Jul 2022 00:42:52 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id E6AB9100063; Tue, 26 Jul 2022 08:42:48 +0100 (BST)
-Date:   Tue, 26 Jul 2022 08:42:48 +0100
-From:   Sean Young <sean@mess.org>
-To:     Zhang Ning <zhangn1985@qq.com>
-Cc:     martin.blumenstingl@googlemail.com, narmstrong@baylibre.com,
-        linux-amlogic@lists.infradead.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [v5 2/4] media: rc: add keymap for MagicBox M16S remote
-Message-ID: <Yt+a+N1BJ+AZqPRt@gofer.mess.org>
-References: <20220724231704.132472-1-zhangn1985@qq.com>
- <tencent_5AC39B81CB85E258763BA8CD8774E9045806@qq.com>
+        Tue, 26 Jul 2022 04:06:22 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA1B72125C;
+        Tue, 26 Jul 2022 01:06:20 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 86A616601B12;
+        Tue, 26 Jul 2022 09:06:17 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1658822778;
+        bh=MNrUc27nvflxHBWPOSWvk/R35+T8mTF6A6eoo+o6KFs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=m8Zq9Vjs+nhENoayJMvgrwpgB5uvGMP+uuYVanZXnTCE8xWHNgUk3AZLPUjabXhQQ
+         hPpcR8z502BdXcVxgjYXZThkEz6BejjZVCYIAjDHTk+Nj3dOiaqOyRpUNciGZoZRsJ
+         HTYZQCIZrLwc9ao/CYRAUsNFJDj7/aB2pKHe2jLMRI3ZD9hjPsqGFuzQOddmBXUOhj
+         u4GHvSffq7ebvMgj7LG2jx18krnOiVywOJA+ZS9RoqGVeA3dlWy6dvEg1X20ddmN5u
+         1TnuhWJs2TWsYwk85gLVnGDvYaC7+7Ay71lETZAlNx4dsx8eQKjV9i2STnttsBsWOn
+         pSQycEr5SJdCA==
+Message-ID: <22404581-c58e-9703-f0c1-ecd6d44db4f5@collabora.com>
+Date:   Tue, 26 Jul 2022 10:06:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_5AC39B81CB85E258763BA8CD8774E9045806@qq.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 4/4] media: mediatek: vcodec: Add mt8188 encoder's chip
+ name
+Content-Language: en-US
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20220726040155.17206-1-yunfei.dong@mediatek.com>
+ <20220726040155.17206-4-yunfei.dong@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220726040155.17206-4-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -40,108 +77,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 25, 2022 at 07:17:02AM +0800, Zhang Ning wrote:
-> MagicBox M16S Tv box shipped with a simple NEC remote.
-> it has a key labeled "M", used as Magic key in vendor OS.
-> This has mapped to KEY_MUTE.
-
-Please put this commit in the source code next to the key definition.
-This doesn't belong in the commit message.
-
-Thanks
-Sean
-
+Il 26/07/22 06:01, Yunfei Dong ha scritto:
+> Getting mt8188's chip name according to encoder compatible name.
 > 
-> Signed-off-by: Zhang Ning <zhangn1985@qq.com>
-> ---
->  drivers/media/rc/keymaps/Makefile      |  1 +
->  drivers/media/rc/keymaps/rc-magicbox.c | 53 ++++++++++++++++++++++++++
->  include/media/rc-map.h                 |  1 +
->  3 files changed, 55 insertions(+)
->  create mode 100644 drivers/media/rc/keymaps/rc-magicbox.c
-> 
-> diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-> index f513ff5caf4e..02c1c2150f03 100644
-> --- a/drivers/media/rc/keymaps/Makefile
-> +++ b/drivers/media/rc/keymaps/Makefile
-> @@ -71,6 +71,7 @@ obj-$(CONFIG_RC_MAP) += \
->  			rc-kworld-plus-tv-analog.o \
->  			rc-leadtek-y04g0051.o \
->  			rc-lme2510.o \
-> +			rc-magicbox.o \
->  			rc-manli.o \
->  			rc-mecool-kiii-pro.o \
->  			rc-mecool-kii-pro.o \
-> diff --git a/drivers/media/rc/keymaps/rc-magicbox.c b/drivers/media/rc/keymaps/rc-magicbox.c
-> new file mode 100644
-> index 000000000000..b4fc1856a9e7
-> --- /dev/null
-> +++ b/drivers/media/rc/keymaps/rc-magicbox.c
-> @@ -0,0 +1,53 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +//
-> +// Copyright (C) 2022 Zhang Ning <zhangn1985@qq.com>
-> +
-> +/*
-> + * Keytable for the MagicBox M16S remote control
-> + */
-> +
-> +#include <media/rc-map.h>
-> +#include <linux/module.h>
-> +
-> +static struct rc_map_table magicbox[] = {
-> +	{ 0x9f57, KEY_POWER },
-> +	{ 0x9f8a, KEY_MUTE }, // M
-> +
-> +	{ 0x9f43, KEY_UP },
-> +	{ 0x9f0a, KEY_DOWN },
-> +	{ 0x9f06, KEY_LEFT },
-> +	{ 0x9f0e, KEY_RIGHT },
-> +	{ 0x9f02, KEY_OK },
-> +
-> +	{ 0x9f47, KEY_HOME },
-> +	{ 0x9f4f, KEY_BACK },
-> +	{ 0x9f16, KEY_MENU },
-> +
-> +	{ 0x9fff, KEY_VOLUMEDOWN },
-> +	{ 0x9f5d, KEY_VOLUMEUP },
-> +};
-> +
-> +static struct rc_map_list magicbox_map = {
-> +	.map = {
-> +		.scan     = magicbox,
-> +		.size     = ARRAY_SIZE(magicbox),
-> +		.rc_proto = RC_PROTO_NEC,
-> +		.name     = RC_MAP_MAGICBOX,
-> +	}
-> +};
-> +
-> +static int __init init_rc_map_magicbox(void)
-> +{
-> +	return rc_map_register(&magicbox_map);
-> +}
-> +
-> +static void __exit exit_rc_map_magicbox(void)
-> +{
-> +	rc_map_unregister(&magicbox_map);
-> +}
-> +
-> +module_init(init_rc_map_magicbox)
-> +module_exit(exit_rc_map_magicbox)
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Zhang Ning <zhangn1985@qq.com>");
-> diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-> index 793b54342dff..656217b8e91b 100644
-> --- a/include/media/rc-map.h
-> +++ b/include/media/rc-map.h
-> @@ -277,6 +277,7 @@ struct rc_map *rc_map_get(const char *name);
->  #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
->  #define RC_MAP_LEADTEK_Y04G0051          "rc-leadtek-y04g0051"
->  #define RC_MAP_LME2510                   "rc-lme2510"
-> +#define RC_MAP_MAGICBOX                  "rc-magicbox"
->  #define RC_MAP_MANLI                     "rc-manli"
->  #define RC_MAP_MECOOL_KII_PRO            "rc-mecool-kii-pro"
->  #define RC_MAP_MECOOL_KIII_PRO           "rc-mecool-kiii-pro"
-> -- 
-> 2.35.1
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
