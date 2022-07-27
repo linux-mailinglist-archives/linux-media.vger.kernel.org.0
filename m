@@ -2,170 +2,379 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05FA6582615
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 14:06:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AF0C58266A
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 14:28:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232685AbiG0MGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jul 2022 08:06:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51856 "EHLO
+        id S231529AbiG0M2f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jul 2022 08:28:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232611AbiG0MGj (ORCPT
+        with ESMTP id S231294AbiG0M2f (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 08:06:39 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B31B5F56;
-        Wed, 27 Jul 2022 05:06:36 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 4E2E35C01A0;
-        Wed, 27 Jul 2022 08:06:34 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 27 Jul 2022 08:06:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1658923594; x=1659009994; bh=sns5b3/QFe
-        KrteH5LAIPWxoG6sLFqTq3vrWcUhZbXYo=; b=GibnmcNO6wp3WeAyKuTE/nUCLB
-        YW50Ol+91ZDj79Zo5CIskHeaFVR8jAMN0X49kTLFWOa3a9HjROw12SLcp+WTbRWk
-        OAkgmgaftSsl5cwK5scd/mWQIJFxIcXwJ1bcX64UgyDee8EVuuwj44j05ryTguUB
-        p4DCIfXbxijwwku9KDHPm/VhzCK98td11UVKG7pSS/a7NmdUAmozFwQXu3IG1JFW
-        txl5azyk8POfhYSw+3hREMc6nZv9m7rRxqDP8J8Vajz9PGVQLBsC2PlyTMAIwkXm
-        D5yStClLg0CP5ubMKD1whxvJ0Og4wzm6jioIRQ20dGJ6ekEYdHcOyHVe+pFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1658923594; x=1659009994; bh=sns5b3/QFeKrteH5LAIPWxoG6sLF
-        qTq3vrWcUhZbXYo=; b=CPOvtjMSWfr51w9qpRc0e0LNAed6DSTlNlYhggqfevUC
-        XGfbJ7p3LwPJWqUWCd9A2SMlnM+cLnehqodde9XgZ5q7NJjPW1cPu960mZoIUu+Z
-        MLtHutev6Jg6MRHV7ZuYmcu463JoZ56rC+pIo38UBmuZ91cuktZr3PfECppTuleR
-        WMLUUJaap9ElmMQVnCox/54tVH+0yXXjJJtLkRxteSs55EAxP8C8XnXgsO6TB1WB
-        gWiOY4jExXpp8UFQ7CKeiQWNA90ehzhOO+HibWyvhBUzwZCZuwSwtUA2gssBu4Ig
-        jHUbywnvlinBSmdRzE/t7o4wYzVBt+GLMzcD049NfQ==
-X-ME-Sender: <xms:SSrhYuzCudXQOXDePTu9vd-jnHWA2c0dG9z3DmtX82aSwA_iiHLlVQ>
-    <xme:SSrhYqQivoa7jzWzw_mNC5VX8HsHDGaFeRqg7-0c9M8dAne77B8nWeOZvJglqA2F8
-    13RETjYW95OvqTKwa4>
-X-ME-Received: <xmr:SSrhYgVwpFCYbJHWnIkNSZl2pqClDE01SmH6gCdeKdXa4o7jKmy2gepA-Ejw_cRbcv9nvxuLg3wZ3U5mLd650aRxRfb9Ip_VeJjiaj4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduvddggeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
-    geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
-    hh
-X-ME-Proxy: <xmx:SSrhYkicJ_IGgqz6iexkhVvJotQY9PgHDYu6at83sP86XcN-jbRxig>
-    <xmx:SSrhYgD_6W9SF0CcaX5syZO4GDpQtYW869-2NL9JMz79PzcyP-mG8w>
-    <xmx:SSrhYlIvonbC6Au2J1vGXrnhrB9vVXK9few-aIOgGzwMHy05o0c_Hw>
-    <xmx:SirhYob7ea0CytTonx1V7XsjzDERI7TE34Dj8js15DQ3IuZ1nqkMsQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Jul 2022 08:06:33 -0400 (EDT)
-Date:   Wed, 27 Jul 2022 14:06:31 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH RFC v3 1/8] of: Mark interconnects property supplier as
- optional
-Message-ID: <20220727120631.iefzititedahdsdt@houat>
-References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
- <20220302211100.65264-2-paul.kocialkowski@bootlin.com>
- <YiaTfsMDs7RGob2N@robh.at.kernel.org>
- <CAGETcx9u9RO_5nSp+=qgwDGY=jL_Q1hAcj+RfVN=q-H_8iuT4w@mail.gmail.com>
+        Wed, 27 Jul 2022 08:28:35 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0857133;
+        Wed, 27 Jul 2022 05:28:33 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id m8so21163082edd.9;
+        Wed, 27 Jul 2022 05:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WAI7Q2jplmuQ+srnlB4oFLWm+IYzcxAZQEee5kg+wG8=;
+        b=A6DxVpFM9qxOk6bjBO10BX3QNoDjqqqvIsbZ48tXpcYlzTuDtSFTrASa6wd94MbSzv
+         kCmpiPQuSdOslbnaVHKI8fyU0C33P6xs3/z0MJ75kbe94ZCkUtxw6shPRhI/9U/eSePa
+         xH2AHAJCbvWugnT4dodEiI/R0448N6R2Z99tu2Y0hYdi/9B4ibdpJofJQwq4AMAHknlk
+         QXUYR2NrQKMU13i2ZHLI8yUxjDohNE1sGNK1pLztdW8YEB7VPnITW6T5H/dalT2w0Ymg
+         4Eu0b9Uvch20bwuXn1UFkEwhUibrlE12KAsAhsoOWFDtYIjtsujKH6F9QLfuJ4PMf4wN
+         UnAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WAI7Q2jplmuQ+srnlB4oFLWm+IYzcxAZQEee5kg+wG8=;
+        b=bnSlveTqCqeWBVVB/RYu5PCUflg+MS7LuSxNVTvOskmmtozqQRh/b4X+WjnvMX9s1G
+         yw2Nj5hsZ5z8kMAVqsZnYF0smPgb2QDAlLOmdiFb0BltqdABPr3LJHS1vfcXPRPB5RWn
+         UCQp73yP1NHH4lujLEvW7jrFORLgZ5CjgAoESHzavWTtHQptM9+2Z+HaDZHi3lFxO5nN
+         RPhNFUbAtwFBiHQn6k7bZyRcsU2Fs8ywmtNM7M0Zc0mR+5tzUPGdFWNyOCP3OKZf1dfh
+         AT8/bV1Vj43lhEydLBs8iunSI6RZEl4LmlkMZ4FYCKiMxCn7ZWg2sKup8DPmRhAK4zNF
+         5RQg==
+X-Gm-Message-State: AJIora+E5/PJAnvRdcRm48HfwiyTdWXWFEaWcVXDQlMGi32eRvh6VbFo
+        tRGv1GFxOJLUPi5ynMIHIVmviZQVdDbZJzCSuhKW6SYH
+X-Google-Smtp-Source: AGRyM1t4mWpwX6vT2WF0Xty2oRfh34eyqfN0UBDXFEnL4vJ8NCG9y6O6K+zHrDX6xS1VGCQ/SX+SGljIMpekNUtTiuY=
+X-Received: by 2002:a05:6402:11d3:b0:43c:436b:829 with SMTP id
+ j19-20020a05640211d300b0043c436b0829mr8785475edw.324.1658924911868; Wed, 27
+ Jul 2022 05:28:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5f267h7mxg6wplag"
-Content-Disposition: inline
-In-Reply-To: <CAGETcx9u9RO_5nSp+=qgwDGY=jL_Q1hAcj+RfVN=q-H_8iuT4w@mail.gmail.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220709135052.3850913-1-aford173@gmail.com>
+In-Reply-To: <20220709135052.3850913-1-aford173@gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 27 Jul 2022 07:28:20 -0500
+Message-ID: <CAHCN7xLeByMUZ0ntPUckrCPVGs4GnHKTGRpaiWz5Se40qY4OiQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: i2c: imx219: Split common registers from mode tables
+To:     linux-media <linux-media@vger.kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sat, Jul 9, 2022 at 8:51 AM Adam Ford <aford173@gmail.com> wrote:
+>
+> There are four modes, and each mode has a table of registers.
+> Some of the registers are common to all modes, so create new
+> tables for these common registers to reduce duplicate code.
+>
 
---5f267h7mxg6wplag
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Dave,
 
-Hi,
+I've tried to address your concerns in this V3 series which is down to
+2 patches.  Any chance you can review them?  I've tested the 4-lane
+mode on both an imx8mp (still images) and a Renesas RZ/G2M (streaming
+video) and both can capture in 4-lane mode.
 
-On Mon, Mar 07, 2022 at 07:34:22PM -0800, Saravana Kannan wrote:
-> On Mon, Mar 7, 2022 at 3:21 PM Rob Herring <robh@kernel.org> wrote:
-> >
-> > +Saravana
-> >
-> > On Wed, Mar 02, 2022 at 10:10:53PM +0100, Paul Kocialkowski wrote:
-> > > In order to set their correct DMA address offset, some devices rely on
-> > > the device-tree interconnects property which identifies an
-> > > interconnect node that provides a dma-ranges property that can be used
-> > > to set said offset.
-> > >
-> > > Since that logic is all handled by the generic openfirmware and driver
-> > > code, the device-tree description could be enough to properly set
-> > > the offset.
-> > >
-> > > However the interconnects property is currently not marked as
-> > > optional, which implies that a driver for the corresponding node
-> > > must be loaded as a requirement. When no such driver exists, this
-> > > results in an endless EPROBE_DEFER which gets propagated to the
-> > > calling driver. This ends up in the driver never loading.
-> > >
-> > > Marking the interconnects property as optional makes it possible
-> > > to load the driver in that situation, since the EPROBE_DEFER return
-> > > code will no longer be propagated to the driver.
-> > >
-> > > There might however be undesirable consequences with this change,
-> > > which I do not fully grasp at this point.
->=20
-> Temporary NACK till I get a bit more time to take a closer look. I
-> really don't like the idea of making interconnects optional. IOMMUs
-> and DMAs were exceptions. Also, we kinda discuss similar issues in
-> LPC. We had some consensus on how to handle these and I noted them all
-> down with a lot of details -- let me go take a look at those notes
-> again and see if I can send a more generic patch.
->=20
-> Paul,
->=20
-> Can you point to the DTS (not DTSI) file that corresponds to this?
-> Also, if it's a builtin kernel, I'd recommend setting
-> deferred_probe_timeout=3D1 and that should take care of it too.
-
-For the record, I also encountered this today on next-20220726 with this
-device:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arc=
-h/arm/boot/dts/sun5i.dtsi#n775
-
-The driver won't probe without fw_devlink=3Doff
-
-Maxime
-
---5f267h7mxg6wplag
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYuEqRwAKCRDj7w1vZxhR
-xU7hAPwISO3g/gkHRCgtYcqZGbLJsQTjFn8UlaYIl4MsqUE71AEArjHaL+k43u3L
-IMF27kO1knwUR8duIkDbYBb49e/ZQgs=
-=h3a/
------END PGP SIGNATURE-----
-
---5f267h7mxg6wplag--
+adam
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> ---
+> V3:  Change some of the comments to better reflect their description
+>      Add a few more entries to the imx219_common_regs table.
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index e10af3f74b38..faa5dab3c2ec 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -145,23 +145,61 @@ struct imx219_mode {
+>         struct imx219_reg_list reg_list;
+>  };
+>
+> -/*
+> - * Register sets lifted off the i2C interface from the Raspberry Pi firmware
+> - * driver.
+> - * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
+> - */
+> -static const struct imx219_reg mode_3280x2464_regs[] = {
+> -       {0x0100, 0x00},
+> +static const struct imx219_reg imx219_common_regs[] = {
+> +       {0x0100, 0x00}, /* Mode Select */
+> +
+> +       /* To Access Addresses 3000-5fff, send the following commands */
+>         {0x30eb, 0x0c},
+>         {0x30eb, 0x05},
+>         {0x300a, 0xff},
+>         {0x300b, 0xff},
+>         {0x30eb, 0x05},
+>         {0x30eb, 0x09},
+> -       {0x0114, 0x01},
+> -       {0x0128, 0x00},
+> -       {0x012a, 0x18},
+> +
+> +       /* PLL Clock Table */
+> +       {0x0301, 0x05}, /* VTPXCK_DIV */
+> +       {0x0303, 0x01}, /* VTSYSCK_DIV */
+> +       {0x0304, 0x03}, /* PREPLLCK_VT_DIV 0x03 = AUTO set */
+> +       {0x0305, 0x03}, /* PREPLLCK_OP_DIV 0x03 = AUTO set */
+> +       {0x0306, 0x00}, /* PLL_VT_MPY */
+> +       {0x0307, 0x39},
+> +       {0x030b, 0x01}, /* OP_SYS_CLK_DIV */
+> +       {0x030c, 0x00}, /* PLL_OP_MPY */
+> +       {0x030d, 0x72},
+> +
+> +       /* Undocumented registers */
+> +       {0x455e, 0x00},
+> +       {0x471e, 0x4b},
+> +       {0x4767, 0x0f},
+> +       {0x4750, 0x14},
+> +       {0x4540, 0x00},
+> +       {0x47b4, 0x14},
+> +       {0x4713, 0x30},
+> +       {0x478b, 0x10},
+> +       {0x478f, 0x10},
+> +       {0x4793, 0x10},
+> +       {0x4797, 0x0e},
+> +       {0x479b, 0x0e},
+> +
+> +       /* Frame Bank Register Group "A" */
+> +       {0x0162, 0x0d}, /* Line_Length_A */
+> +       {0x0163, 0x78},
+> +       {0x0170, 0x01}, /* X_ODD_INC_A */
+> +       {0x0171, 0x01}, /* Y_ODD_INC_A */
+> +
+> +       /* Output setup registers */
+> +       {0x0114, 0x01}, /* CSI 2-Lane Mode */
+> +       {0x0128, 0x00}, /* DPHY Auto Mode */
+> +       {0x012a, 0x18}, /* EXCK_Freq */
+>         {0x012b, 0x00},
+> +};
+> +
+> +/*
+> + * Register sets lifted off the i2C interface from the Raspberry Pi firmware
+> + * driver.
+> + * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
+> + */
+> +static const struct imx219_reg mode_3280x2464_regs[] = {
+>         {0x0164, 0x00},
+>         {0x0165, 0x00},
+>         {0x0166, 0x0c},
+> @@ -174,53 +212,15 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
+>         {0x016d, 0xd0},
+>         {0x016e, 0x09},
+>         {0x016f, 0xa0},
+> -       {0x0170, 0x01},
+> -       {0x0171, 0x01},
+> -       {0x0174, 0x00},
+> +       {0x0174, 0x00}, /* No-Binning */
+>         {0x0175, 0x00},
+> -       {0x0301, 0x05},
+> -       {0x0303, 0x01},
+> -       {0x0304, 0x03},
+> -       {0x0305, 0x03},
+> -       {0x0306, 0x00},
+> -       {0x0307, 0x39},
+> -       {0x030b, 0x01},
+> -       {0x030c, 0x00},
+> -       {0x030d, 0x72},
+>         {0x0624, 0x0c},
+>         {0x0625, 0xd0},
+>         {0x0626, 0x09},
+>         {0x0627, 0xa0},
+> -       {0x455e, 0x00},
+> -       {0x471e, 0x4b},
+> -       {0x4767, 0x0f},
+> -       {0x4750, 0x14},
+> -       {0x4540, 0x00},
+> -       {0x47b4, 0x14},
+> -       {0x4713, 0x30},
+> -       {0x478b, 0x10},
+> -       {0x478f, 0x10},
+> -       {0x4793, 0x10},
+> -       {0x4797, 0x0e},
+> -       {0x479b, 0x0e},
+> -       {0x0162, 0x0d},
+> -       {0x0163, 0x78},
+>  };
+>
+>  static const struct imx219_reg mode_1920_1080_regs[] = {
+> -       {0x0100, 0x00},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x0c},
+> -       {0x300a, 0xff},
+> -       {0x300b, 0xff},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x09},
+> -       {0x0114, 0x01},
+> -       {0x0128, 0x00},
+> -       {0x012a, 0x18},
+> -       {0x012b, 0x00},
+> -       {0x0162, 0x0d},
+> -       {0x0163, 0x78},
+>         {0x0164, 0x02},
+>         {0x0165, 0xa8},
+>         {0x0166, 0x0a},
+> @@ -233,49 +233,15 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
+>         {0x016d, 0x80},
+>         {0x016e, 0x04},
+>         {0x016f, 0x38},
+> -       {0x0170, 0x01},
+> -       {0x0171, 0x01},
+> -       {0x0174, 0x00},
+> +       {0x0174, 0x00}, /* No-Binning */
+>         {0x0175, 0x00},
+> -       {0x0301, 0x05},
+> -       {0x0303, 0x01},
+> -       {0x0304, 0x03},
+> -       {0x0305, 0x03},
+> -       {0x0306, 0x00},
+> -       {0x0307, 0x39},
+> -       {0x030b, 0x01},
+> -       {0x030c, 0x00},
+> -       {0x030d, 0x72},
+>         {0x0624, 0x07},
+>         {0x0625, 0x80},
+>         {0x0626, 0x04},
+>         {0x0627, 0x38},
+> -       {0x455e, 0x00},
+> -       {0x471e, 0x4b},
+> -       {0x4767, 0x0f},
+> -       {0x4750, 0x14},
+> -       {0x4540, 0x00},
+> -       {0x47b4, 0x14},
+> -       {0x4713, 0x30},
+> -       {0x478b, 0x10},
+> -       {0x478f, 0x10},
+> -       {0x4793, 0x10},
+> -       {0x4797, 0x0e},
+> -       {0x479b, 0x0e},
+>  };
+>
+>  static const struct imx219_reg mode_1640_1232_regs[] = {
+> -       {0x0100, 0x00},
+> -       {0x30eb, 0x0c},
+> -       {0x30eb, 0x05},
+> -       {0x300a, 0xff},
+> -       {0x300b, 0xff},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x09},
+> -       {0x0114, 0x01},
+> -       {0x0128, 0x00},
+> -       {0x012a, 0x18},
+> -       {0x012b, 0x00},
+>         {0x0164, 0x00},
+>         {0x0165, 0x00},
+>         {0x0166, 0x0c},
+> @@ -288,53 +254,15 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+>         {0x016d, 0x68},
+>         {0x016e, 0x04},
+>         {0x016f, 0xd0},
+> -       {0x0170, 0x01},
+> -       {0x0171, 0x01},
+> -       {0x0174, 0x01},
+> +       {0x0174, 0x01}, /* x2-Binning */
+>         {0x0175, 0x01},
+> -       {0x0301, 0x05},
+> -       {0x0303, 0x01},
+> -       {0x0304, 0x03},
+> -       {0x0305, 0x03},
+> -       {0x0306, 0x00},
+> -       {0x0307, 0x39},
+> -       {0x030b, 0x01},
+> -       {0x030c, 0x00},
+> -       {0x030d, 0x72},
+>         {0x0624, 0x06},
+>         {0x0625, 0x68},
+>         {0x0626, 0x04},
+>         {0x0627, 0xd0},
+> -       {0x455e, 0x00},
+> -       {0x471e, 0x4b},
+> -       {0x4767, 0x0f},
+> -       {0x4750, 0x14},
+> -       {0x4540, 0x00},
+> -       {0x47b4, 0x14},
+> -       {0x4713, 0x30},
+> -       {0x478b, 0x10},
+> -       {0x478f, 0x10},
+> -       {0x4793, 0x10},
+> -       {0x4797, 0x0e},
+> -       {0x479b, 0x0e},
+> -       {0x0162, 0x0d},
+> -       {0x0163, 0x78},
+>  };
+>
+>  static const struct imx219_reg mode_640_480_regs[] = {
+> -       {0x0100, 0x00},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x0c},
+> -       {0x300a, 0xff},
+> -       {0x300b, 0xff},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x09},
+> -       {0x0114, 0x01},
+> -       {0x0128, 0x00},
+> -       {0x012a, 0x18},
+> -       {0x012b, 0x00},
+> -       {0x0162, 0x0d},
+> -       {0x0163, 0x78},
+>         {0x0164, 0x03},
+>         {0x0165, 0xe8},
+>         {0x0166, 0x08},
+> @@ -347,35 +275,12 @@ static const struct imx219_reg mode_640_480_regs[] = {
+>         {0x016d, 0x80},
+>         {0x016e, 0x01},
+>         {0x016f, 0xe0},
+> -       {0x0170, 0x01},
+> -       {0x0171, 0x01},
+> -       {0x0174, 0x03},
+> +       {0x0174, 0x03}, /* x2-analog binning */
+>         {0x0175, 0x03},
+> -       {0x0301, 0x05},
+> -       {0x0303, 0x01},
+> -       {0x0304, 0x03},
+> -       {0x0305, 0x03},
+> -       {0x0306, 0x00},
+> -       {0x0307, 0x39},
+> -       {0x030b, 0x01},
+> -       {0x030c, 0x00},
+> -       {0x030d, 0x72},
+>         {0x0624, 0x06},
+>         {0x0625, 0x68},
+>         {0x0626, 0x04},
+>         {0x0627, 0xd0},
+> -       {0x455e, 0x00},
+> -       {0x471e, 0x4b},
+> -       {0x4767, 0x0f},
+> -       {0x4750, 0x14},
+> -       {0x4540, 0x00},
+> -       {0x47b4, 0x14},
+> -       {0x4713, 0x30},
+> -       {0x478b, 0x10},
+> -       {0x478f, 0x10},
+> -       {0x4793, 0x10},
+> -       {0x4797, 0x0e},
+> -       {0x479b, 0x0e},
+>  };
+>
+>  static const struct imx219_reg raw8_framefmt_regs[] = {
+> @@ -1041,6 +946,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
+>         if (ret < 0)
+>                 return ret;
+>
+> +       /* Send all registers that are common to all modes */
+> +       ret = imx219_write_regs(imx219, imx219_common_regs, ARRAY_SIZE(imx219_common_regs));
+> +       if (ret) {
+> +               dev_err(&client->dev, "%s failed to send mfg header\n", __func__);
+> +               goto err_rpm_put;
+> +       }
+> +
+>         /* Apply default values of current mode */
+>         reg_list = &imx219->mode->reg_list;
+>         ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
+> --
+> 2.34.1
+>
