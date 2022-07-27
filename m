@@ -2,261 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00FFE582230
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 10:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1956D5822ED
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 11:19:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230406AbiG0Ibq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jul 2022 04:31:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51016 "EHLO
+        id S231538AbiG0JTV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 27 Jul 2022 05:19:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230047AbiG0Ibn (ORCPT
+        with ESMTP id S230521AbiG0JTU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 04:31:43 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2CF45982;
-        Wed, 27 Jul 2022 01:31:35 -0700 (PDT)
-X-UUID: e21eb32d4a99448baacec9aff59f1bbb-20220727
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8,REQID:0efc4b53-96ca-412f-8a9f-d3b7e78d74a6,OB:0,LO
-        B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
-        TION:release,TS:40
-X-CID-INFO: VERSION:1.1.8,REQID:0efc4b53-96ca-412f-8a9f-d3b7e78d74a6,OB:0,LOB:
-        0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
-        ON:release,TS:40
-X-CID-META: VersionHash:0f94e32,CLOUDID:831d82c9-5f65-4fda-abe9-f2436fed4c72,C
-        OID:31859cafb6e0,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: e21eb32d4a99448baacec9aff59f1bbb-20220727
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1431240852; Wed, 27 Jul 2022 16:31:27 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 27 Jul 2022 16:31:26 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 27 Jul 2022 16:31:24 +0800
-Message-ID: <b1bfb40fbcdffc8e91df31c0d9b2a8be2f951280.camel@mediatek.com>
-Subject: Re: [PATCH, v2] media: mediatek: vcodec: Add to support VP9 inner
- racing mode
-From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
-To:     Mingjia Zhang <mingjia.zhang@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        "Fritz Koenig" <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Wed, 27 Jul 2022 16:31:23 +0800
-In-Reply-To: <20220727061310.2307-1-mingjia.zhang@mediatek.com>
-References: <20220727061310.2307-1-mingjia.zhang@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Wed, 27 Jul 2022 05:19:20 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB73137FB7
+        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 02:19:18 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oGdCH-00AGH5-23; Wed, 27 Jul 2022 09:19:17 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oGdCF-00APxq-Di; Wed, 27 Jul 2022 09:19:14 +0000
+Date:   Wed, 27 Jul 2022 09:19:14 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1061324511.0.1658913554744@builder.linuxtv.org>
+In-Reply-To: <1627208629.0.1658827155159@builder.linuxtv.org>
+References: <1627208629.0.1658827155159@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3972
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,MAY_BE_FORGED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,T_SPF_TEMPERROR,UNPARSEABLE_RELAY
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi mingjia,
+See <https://builder.linuxtv.org/job/media-build/3972/display/redirect>
 
-Thanks for your patch.
+Changes:
 
-Reviewed-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-On Wed, 2022-07-27 at 14:13 +0800, Mingjia Zhang wrote:
-> In order to reduce decoder latency, enable VP9 inner racing mode.
-> Send lat trans buffer information to core when trigger lat to work,
-> need not to wait until lat decode done.
-> 
-> Signed-off-by: mingjia zhang <mingjia.zhang@mediatek.com>
-> ---
-> 1. CTS/GTS test pass
-> 2. Fluster result: Ran 240/303 tests successfully
-> ---
->  .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 64 ++++++++++++-----
-> --
->  1 file changed, 40 insertions(+), 24 deletions(-)
-> 
-> diff --git
-> a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> index fb1c36a3592d..92b47f0fdf40 100644
-> ---
-> a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> +++
-> b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> @@ -436,6 +436,7 @@ struct vdec_vp9_slice_ref {
->   * @frame_ctx:		4 frame context according to VP9 Spec
->   * @frame_ctx_helper:	4 frame context according to newest
-> kernel spec
->   * @dirty:		state of each frame context
-> + * @local_vsi:		local instance vsi information
->   * @init_vsi:		vsi used for initialized VP9 instance
->   * @vsi:		vsi used for decoding/flush ...
->   * @core_vsi:		vsi used for Core stage
-> @@ -482,6 +483,8 @@ struct vdec_vp9_slice_instance {
->  	struct v4l2_vp9_frame_context frame_ctx_helper;
->  	unsigned char dirty[4];
->  
-> +	struct vdec_vp9_slice_vsi local_vsi;
-> +
->  	/* MicroP vsi */
->  	union {
->  		struct vdec_vp9_slice_init_vsi *init_vsi;
-> @@ -1616,16 +1619,10 @@ static int
-> vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance
->  }
->  
->  static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance
-> *instance,
-> -				     struct vdec_lat_buf *lat_buf,
-> -				     struct vdec_vp9_slice_pfc *pfc)
-> +				     struct vdec_vp9_slice_vsi *vsi)
->  {
-> -	struct vdec_vp9_slice_vsi *vsi;
-> -
-> -	vsi = &pfc->vsi;
-> -	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
-> -
->  	mtk_vcodec_debug(instance, "Frame %u LAT CRC 0x%08x %lx %lx\n",
-> -			 pfc->seq, vsi->state.crc[0],
-> +			 (instance->seq - 1), vsi->state.crc[0],
->  			 (unsigned long)vsi->trans.dma_addr,
->  			 (unsigned long)vsi->trans.dma_addr_end);
->  
-> @@ -2090,6 +2087,13 @@ static int vdec_vp9_slice_lat_decode(void
-> *h_vdec, struct mtk_vcodec_mem *bs,
->  		return ret;
->  	}
->  
-> +	if (IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability)) {
-> +		vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
-> +		memcpy(&instance->local_vsi, vsi, sizeof(*vsi));
-> +		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx,
-> lat_buf);
-> +		vsi = &instance->local_vsi;
-> +	}
-> +
->  	if (instance->irq) {
->  		ret = mtk_vcodec_wait_for_done_ctx(ctx,	MTK_INST_IRQ_
-> RECEIVED,
->  						   WAIT_INTR_TIMEOUT_MS
-> , MTK_VDEC_LAT0);
-> @@ -2102,22 +2106,25 @@ static int vdec_vp9_slice_lat_decode(void
-> *h_vdec, struct mtk_vcodec_mem *bs,
->  	}
->  
->  	vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
-> -	ret = vdec_vp9_slice_update_lat(instance, lat_buf, pfc);
-> +	ret = vdec_vp9_slice_update_lat(instance, vsi);
->  
-> -	/* LAT trans full, no more UBE or decode timeout */
-> -	if (ret) {
-> -		mtk_vcodec_err(instance, "VP9 decode error: %d\n",
-> ret);
-> -		return ret;
-> -	}
-> +	if (!IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
-> +		/* LAT trans full, no more UBE or decode timeout */
-> +		if (ret) {
-> +			mtk_vcodec_err(instance, "frame[%d] decode
-> error: %d\n",
-> +				       ret, (instance->seq - 1));
-> +			return ret;
-> +		}
->  
-> -	mtk_vcodec_debug(instance, "lat dma addr: 0x%lx 0x%lx\n",
-> -			 (unsigned long)pfc->vsi.trans.dma_addr,
-> -			 (unsigned long)pfc->vsi.trans.dma_addr_end);
->  
-> -	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
-> -				       vsi->trans.dma_addr_end +
-> -				       ctx-
-> >msg_queue.wdma_addr.dma_addr);
-> -	vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-> +	vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
-> +	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi-
-> >trans.dma_addr_end);
-> +	if (!IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
-> +		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx,
-> lat_buf);
-> +
-> +	mtk_vcodec_debug(instance, "lat trans end addr(0x%lx), ube
-> start addr(0x%lx)\n",
-> +			 (unsigned long)vsi->trans.dma_addr_end,
-> +			 (unsigned long)ctx-
-> >msg_queue.wdma_addr.dma_addr);
->  
->  	return 0;
->  }
-> @@ -2193,10 +2200,14 @@ static int vdec_vp9_slice_core_decode(struct
-> vdec_lat_buf *lat_buf)
->  		goto err;
->  	}
->  
-> -	pfc->vsi.trans.dma_addr_end += ctx-
-> >msg_queue.wdma_addr.dma_addr;
->  	mtk_vcodec_debug(instance, "core dma_addr_end 0x%lx\n",
->  			 (unsigned long)pfc->vsi.trans.dma_addr_end);
-> -	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc-
-> >vsi.trans.dma_addr_end);
-> +
-> +	if (IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
-> +		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc-
-> >vsi.trans.dma_addr);
-> +	else
-> +		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc-
-> >vsi.trans.dma_addr_end);
-> +
->  	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf-
-> >src_buf_req);
->  
->  	return 0;
-> @@ -2204,7 +2215,12 @@ static int vdec_vp9_slice_core_decode(struct
-> vdec_lat_buf *lat_buf)
->  err:
->  	if (ctx && pfc) {
->  		/* always update read pointer */
-> -		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc-
-> >vsi.trans.dma_addr_end);
-> +		if (IS_VDEC_INNER_RACING(instance->ctx->dev-
-> >dec_capability))
-> +			vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
-> +						       pfc-
-> >vsi.trans.dma_addr);
-> +		else
-> +			vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
-> +						       pfc-
-> >vsi.trans.dma_addr_end);
->  
->  		if (fb)
->  			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1,
-> lat_buf->src_buf_req);
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+Commit message: "versions.txt: IMON builds for 4.11 and up only"
+ > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3971' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
+[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@4250a513'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins4081087994867603877.sh
++ make distclean
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
+	config-compat.h Module.symvers Module.markers modules.order \
+	*.unsigned .*.ko.unsigned.cmd
+rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
+	Kconfig Kconfig.kern .config .config.cmd .myconfig \
+	.kconfig.dep config-mycompat.h
+rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
+rm -f scripts/lxdialog scripts/kconfig
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
 
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2022-07-27 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2022-07-27 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100% 89.0M=0s
+
+2022-07-27 09:19:10 (89.0 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
