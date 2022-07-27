@@ -2,201 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B12335824A7
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 12:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 182E85825D7
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 13:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbiG0KmU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jul 2022 06:42:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44150 "EHLO
+        id S232339AbiG0Lsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jul 2022 07:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230218AbiG0KmT (ORCPT
+        with ESMTP id S231226AbiG0Lsp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 06:42:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B672474C2
-        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 03:42:18 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42DAA835;
-        Wed, 27 Jul 2022 12:42:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658918536;
-        bh=KsaSqTJkHOPhEZIUb+LD/AKVOUw4N6YQOxkyy5EBdVg=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=nyyaL2YaA3cyIIUTgoYxfrFDmAg7cwcM3EVWZfH+RzF7gyb8lojyTYIi2WTj0lFdD
-         y8kfEClxoc36thv2tJE2997ULklv4sIBmWjf2e4tOie2TBVGhnuPB2zib/3SJQz2Ap
-         ZQUFjw1ltQmSTnMqsYqcV7ZWSQspCwLzshFxijkA=
-Message-ID: <8bef1a8f-8526-f72e-4c41-f717e8e5e2db@ideasonboard.com>
-Date:   Wed, 27 Jul 2022 13:42:13 +0300
+        Wed, 27 Jul 2022 07:48:45 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C604E4AD5B;
+        Wed, 27 Jul 2022 04:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658922524; x=1690458524;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Az1nDJh3EQ7R5j6ZaG1tS/RcvdlaJn7u98b87B9prMk=;
+  b=CSAqdr8KIupoR3PpfSTbumtuml8eov3NKE5WJyouR89aAPiIXP3bMZGr
+   dXwlkmaZQKLEPxhJdUIqpMhUIn9xV5r2XgYBvSIbEMZ0uoUxBnQV+VVW1
+   aG6nfX1ul0XV1Bsbcxq63x4Zm8wsWyApknuLtV+3Y5Vjzr5MCcDZzowt+
+   AEZFnH+GNA/MQdRz8YRCyl6IqSoOefNuzZpAfb03WpTwFcdmC17vhtiUR
+   KOac3YbjFAxw+oRAeohp/APCuNbBEFToFJTgjX1YmJvAmhJam2wQe68Hp
+   84IoVHoQHahwt9CvDDmHGbAZBp7dG1WxBpzYim3CEiTeKlq4y/aiMbkRU
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10420"; a="349916810"
+X-IronPort-AV: E=Sophos;i="5.93,195,1654585200"; 
+   d="scan'208";a="349916810"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2022 04:48:44 -0700
+X-IronPort-AV: E=Sophos;i="5.93,195,1654585200"; 
+   d="scan'208";a="628346740"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2) ([10.252.45.68])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2022 04:48:39 -0700
+Date:   Wed, 27 Jul 2022 13:48:36 +0200
+From:   Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Chris Wilson <chris.p.wilson@intel.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Matthew Auld <matthew.auld@intel.com>,
+        Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= 
+        <thomas.hellstrom@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [Intel-gfx] [PATCH v2 06/21] drm/i915/gt: Batch TLB
+ invalidations
+Message-ID: <20220727134836.7f7b5fab@maurocar-mobl2>
+In-Reply-To: <567823d5-57ba-30db-dd64-de609df4d8c5@linux.intel.com>
+References: <cover.1657800199.git.mchehab@kernel.org>
+        <9f535a97f32320a213a619a30c961ba44b595453.1657800199.git.mchehab@kernel.org>
+        <567823d5-57ba-30db-dd64-de609df4d8c5@linux.intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v12 00/30] v4l: routing and streams support
-Content-Language: en-US
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Wed, 20 Jul 2022 11:49:59 +0100
+Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
 
-# uAPI
+> On 20/07/2022 08:13, Mauro Carvalho Chehab wrote:
+> > On Mon, 18 Jul 2022 14:52:05 +0100
+> > Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+> >   
+> >>
+> >> On 14/07/2022 13:06, Mauro Carvalho Chehab wrote:  
+> >>> From: Chris Wilson <chris.p.wilson@intel.com>
+> >>>
+> >>> Invalidate TLB in patch, in order to reduce performance regressions.  
+> >>
+> >> "in batches"?  
+> > 
+> > Yeah. Will fix it.
 
-This is both a summary of the uAPI changes for routing and streams 
-support and a list of the open questions.
+> > +void vma_invalidate_tlb(struct i915_address_space *vm, u32 tlb)
+> > +{
+> > +	/*
+> > +	 * Before we release the pages that were bound by this vma, we
+> > +	 * must invalidate all the TLBs that may still have a reference
+> > +	 * back to our physical address. It only needs to be done once,
+> > +	 * so after updating the PTE to point away from the pages, record
+> > +	 * the most recent TLB invalidation seqno, and if we have not yet
+> > +	 * flushed the TLBs upon release, perform a full invalidation.
+> > +	 */
+> > +	WRITE_ONCE(tlb, intel_gt_next_invalidate_tlb_full(vm->gt));  
+> 
+> Shouldn't tlb be a pointer for this to make sense?
 
-# Subdev Cap
+Oh, my mistake! Will fix at the next version.
 
-Subdev capability V4L2_SUBDEV_CAP_STREAMS tells the userspace that the 
-subdev supports routing and streams.
+> >   
+> >>> diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+> >>> index d8b94d638559..2da6c82a8bd2 100644
+> >>> --- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+> >>> +++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+> >>> @@ -206,8 +206,12 @@ void ppgtt_bind_vma(struct i915_address_space *vm,
+> >>>    void ppgtt_unbind_vma(struct i915_address_space *vm,
+> >>>    		      struct i915_vma_resource *vma_res)
+> >>>    {
+> >>> -	if (vma_res->allocated)
+> >>> -		vm->clear_range(vm, vma_res->start, vma_res->vma_size);
+> >>> +	if (!vma_res->allocated)
+> >>> +		return;
+> >>> +
+> >>> +	vm->clear_range(vm, vma_res->start, vma_res->vma_size);
+> >>> +	if (vma_res->tlb)
+> >>> +		vma_invalidate_tlb(vm, *vma_res->tlb);  
+> >>
+> >> The patch is about more than batching? If there is a security hole in
+> >> this area (unbind) with the current code?  
+> > 
+> > No, I don't think there's a security hole. The rationale for this is
+> > not due to it.  
+> 
+> In this case obvious question is why are these changes in the patch 
+> which declares itself to be about batching invalidations? Because...
 
-# Stream ID
+Because vma_invalidate_tlb() basically stores a TLB seqno, but the
+actual invalidation is deferred to when the pages are unset, at
+__i915_gem_object_unset_pages().
 
-We use u64 bitmask inside the kernel to represent a set of streams in a 
-pad, each bit representing a stream ID, so the stream ID number is 
-currently limited to a max of 63 (i.e. max 64  streams per pad). The 
-userspace API doesn't have this limitation at the moment, as the stream 
-ID number is passed as u32, and we don't have stream masks in the uAPI 
-structs. However, the kernel checks that the Stream IDs given in 
-S_ROUTING are < 64.
+So, what happens is:
 
-In theory we can increase this number later, as it won't change the 
-uAPI. In practice there will be some challenges in how to do the change 
-and how to find all the places in the kernel which depend on this.
+- on VMA sync mode, the need to invalidate TLB is marked at
+  __vma_put_pages(), before VMA unbind;
+- on async, this is deferred to happen at ppgtt_unbind_vma(), where
+  it marks the need to invalidate TLBs.
 
-If it's clear that 64 streams won't be enough, perhaps we already need 
-to take some steps toward this. Maybe hiding the type behind a typedef 
-and creating a set of macros/functions which need to be used to access 
-the data.
+On both cases, __i915_gem_object_unset_pages() is called later,
+when the driver is ready to unmap the page.
 
-# Routing
+> I am explaining why it looks to me that the patch is doing two things. 
+> Implementing batching _and_ adding invalidation points at VMA unbind 
+> sites, while so far we had it at backing store release only. Maybe I am 
+> wrong and perhaps I am too slow to pick up on the explanation here.
+> 
+> So if the patch is doing two things please split it up.
+> 
+> I am further confused by the invalidation call site in evict and in 
+> unbind - why there can't be one logical site since the logical sequence 
+> is evict -> unbind.
 
-```
-#define VIDIOC_SUBDEV_G_ROUTING                        _IOWR('V', 38, 
-struct v4l2_subdev_routing)
-#define VIDIOC_SUBDEV_S_ROUTING                        _IOWR('V', 39, 
-struct v4l2_subdev_routing)
+The invalidation happens only on one place: __i915_gem_object_unset_pages().
 
-#define V4L2_SUBDEV_ROUTE_FL_ACTIVE		_BITUL(0)
-#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		_BITUL(1)
-#define V4L2_SUBDEV_ROUTE_FL_SOURCE		_BITUL(2)
+Despite its name, vma_invalidate_tlb() just marks the need of doing TLB
+invalidation.
 
-struct v4l2_subdev_route {
-	__u32 sink_pad;
-	__u32 sink_stream;
-	__u32 source_pad;
-	__u32 source_stream;
-	__u32 flags;
-	__u32 reserved[5];
-};
-
-struct v4l2_subdev_routing {
-	__u32 which;
-	__u32 num_routes;
-	__u64 routes;
-	__u32 reserved[6];
-};
-```
-
-- There's a maximum of 256 for the number of routes in the routing 
-table, but there's nothing in the code that relies on this limit. It is 
-there just to limit the memory allocations the kernel will do based on 
-the routing table we get from the userspace.
-
-- Using S_ROUTING will overwrite the old routing table. All the 
-configurations (e.g. formats) for the streams on that subdevice are lost 
-(reset to defaults), so the userspace must reconfigure the subdev after 
-S_ROUTING.
-
-- If V4L2_SUBDEV_ROUTE_FL_SOURCE flag is present, the sink_pad and 
-sink_stream are ignored. This is used e.g. for sensors.
-
-- I think V4L2_SUBDEV_ROUTE_FL_IMMUTABLE should be dropped. I don't 
-really know what it means or how to use it. It was there in the original 
-routing patches and so far I have kept it.
-
-- Usually V4L2_SUBDEV_ROUTE_FL_ACTIVE is not strictly needed, as the 
-existence of a route in the routing table implies that the route is 
-active. However, it can be used for cases where the routing table is not 
-freely modifiable. E.g. a sensor that supports both a pixel stream and a 
-metadata stream could always have both in its routing table, metadta 
-stream inactive by default, and the user could use 
-V4L2_SUBDEV_ROUTE_FL_ACTIVE to enable/disable the metadata stream.
-
-# Stream/routing discovery of a device
-
-We currently don't have much for this.
-
-For example:
-
-- How many streams a device can support?
-- What kind of routing can the device do?
-- What are the streams? If a sensor supports a pixel stream and a 
-metadata stream, how does the userspace know which stream ID represents 
-which?
-
-I believe this is a very complex issue, as it is perhaps impossible to 
-somehow describe complex device's capabilities in a form that the 
-userspace could actually use.
-
-Options:
-- Just document the device's & driver's behavior and let the userspace 
-deal with it. I think this is acceptable, as when streams and routing 
-are involved the userspace more or less has to have detailed 
-understanding of the HW in question.
-- In addition to the above, for source devices we can use the (absence 
-of) V4L2_SUBDEV_ROUTE_FL_ACTIVE as described above to inform the 
-userspace about the available streams.
-- Try to add some kind of discovery mechanism that covers the HW we have 
-now, or perhaps only for "simple" pipelines, understanding that it won't 
-possibly work for future HWs.
-
-# Selection
-
-I admit I'm not very familiar with the cropping, scaling and composition 
-in v4l2 subdevs. I believe the straightforward cases should work fine 
-with streams, as there should be no practical difference between a 
-legacy case of one sink pad + one source pad (and implicit routing 
-between those two), and a stream coming to one pad and routed to a 
-source pad.
-
-Possibly problems could arise on cases where a stream is split into two 
-streams, or two streams are merged into one stream.
-
-I'd appreciate if someone familiar with the subdev selection could study 
-this and if there are problems, explain the setup where it arises.
-
-# Streams
-
-`__u32 stream` field has been added to the following structs:
-- v4l2_subdev_format
-- v4l2_subdev_crop
-- v4l2_subdev_mbus_code_enum
-- v4l2_subdev_frame_size_enum
-- v4l2_subdev_frame_interval
-- v4l2_subdev_frame_interval_enum
-- v4l2_subdev_selection
-
-In other words, all the above operations support streams, and for the 
-subdevs which do not support streams, they operate on the implicit 
-stream ID 0.
-
-  Tomi
-
+Regards,
+Mauro
