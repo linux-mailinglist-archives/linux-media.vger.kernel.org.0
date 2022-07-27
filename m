@@ -2,237 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1956D5822ED
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 11:19:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2625258235F
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 11:41:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231538AbiG0JTV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 27 Jul 2022 05:19:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32928 "EHLO
+        id S231680AbiG0Jl1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jul 2022 05:41:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230521AbiG0JTU (ORCPT
+        with ESMTP id S231504AbiG0JlZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 05:19:20 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB73137FB7
-        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 02:19:18 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oGdCH-00AGH5-23; Wed, 27 Jul 2022 09:19:17 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oGdCF-00APxq-Di; Wed, 27 Jul 2022 09:19:14 +0000
-Date:   Wed, 27 Jul 2022 09:19:14 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1061324511.0.1658913554744@builder.linuxtv.org>
-In-Reply-To: <1627208629.0.1658827155159@builder.linuxtv.org>
-References: <1627208629.0.1658827155159@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3972
+        Wed, 27 Jul 2022 05:41:25 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C43402C1;
+        Wed, 27 Jul 2022 02:41:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658914884; x=1690450884;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=o2vgAj57qEmV+/mHCqyUM1gTDYf7PPsrTkxumVZ6d3Y=;
+  b=Iw1ArU+taOoNiqs2K0S68uqZYYuHvV40X4Gur6hNs8DvtQ660IGXeYL1
+   luyfzH3xTJWH23wqF6MwJPNPjSjMYVrKw90Ask6CsUbdI2Fth2vvap6nz
+   BuGBChz3O2Nf2zWD/yPG3YT5+siwtwFzx7r0UB0/OEsC/foqjY4qVOwCr
+   1fTzakxUqUO7FjaDgCxRY1zpC3KLIUAQyjY9/GcpcC6P3g1hsegWXj9w9
+   Vd83TLXQ8MM34INZvIKkw11pOThEclapqCtQ6gXwzKfihVhbY0E6HouBY
+   XcAnWGUzu918iVEyyzpe+A5jVccTGjUh3tu//ZHycluJ5C+qJC4etjOws
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10420"; a="285738399"
+X-IronPort-AV: E=Sophos;i="5.93,195,1654585200"; 
+   d="scan'208";a="285738399"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2022 02:41:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,195,1654585200"; 
+   d="scan'208";a="628310280"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga008.jf.intel.com with ESMTP; 27 Jul 2022 02:41:14 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Wed, 27 Jul 2022 02:41:13 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Wed, 27 Jul 2022 02:41:13 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Wed, 27 Jul 2022 02:41:13 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Wed, 27 Jul 2022 02:41:12 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PGegzkT5/FugkiIAfcSqz663agpyu2luTE05UmvT758DDDG01/R6YP0IoorRR/l8TS3GSokaP8ScEB3ObZcr50nHxoq3nAe646hFcg3osr6ZRu17X2mKzkjuSe1LnGqd4p43pDjzQSr6ZF3lWVojR7JpRkM8EmGGnMz0jAzhOV5r28Cwc0lqTuWPEFCzFfe2Va+VhrNI3QaPNPk04j/Sh2uNew4T9SMo05lWu6/jcKFJcityMKGelVIbSHHzaAGoXNF1ZoDgv56fl+U4xwPmpOtFguBo1oYK0kPuEBxN41JCzO6ZWdJNJ6TIx5sEULTW0Ir/tMhEa846AcqyLSuv7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J5iSmN6fSgFLWnm8Xatcizp5I/MEIXIQRwRq5fhsjg8=;
+ b=WoAZfp+c9kHoOjWvSe/PuTaueE4WnrF5MojoMEg6kcs0unUqNxVX/FnlLPi6wOb2mxlgA1bkVz4HagU54M5/1ijw7oSBI8CW0fWpCwbPzpwnI5mc88ioey3Udubcu7KH1vIa/4wOvagOXzZht0y7niFdhujpB35qEO+onjZhAwra3hR2mxjlo1EjVykk8ptngT0FO8Ksq63gRNH2tFvHXX40rNWgUwWjsMoOPfZokNYHKhNFD2/+Hkj7FcyrTHr7WTaYaVEWVHAbtnfrh4PkAQlckuPGEoegY2qMwEV49ECSEfMWqdDQFIfmZuiFBTKS53Vk9Hjyjs6hzj6KUBnhag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5653.namprd11.prod.outlook.com (2603:10b6:8:25::8) by
+ SN6PR11MB2815.namprd11.prod.outlook.com (2603:10b6:805:62::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5458.23; Wed, 27 Jul 2022 09:41:05 +0000
+Received: from DM8PR11MB5653.namprd11.prod.outlook.com
+ ([fe80::9983:65c7:ae4c:d521]) by DM8PR11MB5653.namprd11.prod.outlook.com
+ ([fe80::9983:65c7:ae4c:d521%7]) with mapi id 15.20.5482.006; Wed, 27 Jul 2022
+ 09:41:05 +0000
+From:   "Cao, Bingbu" <bingbu.cao@intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+        "Tu, ShawnX" <shawnx.tu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: RE: [PATCH v1 4/8] media: ov2740: Remove duplicate check for NULL
+ fwnode
+Thread-Topic: [PATCH v1 4/8] media: ov2740: Remove duplicate check for NULL
+ fwnode
+Thread-Index: AQHYoOgT3BbsvDQ0lEurL8cW5qr1wa2R9Ryw
+Date:   Wed, 27 Jul 2022 09:41:05 +0000
+Message-ID: <DM8PR11MB56539D93300DE7709DB0F0DF99979@DM8PR11MB5653.namprd11.prod.outlook.com>
+References: <20220726120556.2881-1-andriy.shevchenko@linux.intel.com>
+ <20220726120556.2881-4-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20220726120556.2881-4-andriy.shevchenko@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.500.17
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 68306f78-758a-4ff3-29ca-08da6fb42061
+x-ms-traffictypediagnostic: SN6PR11MB2815:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NOpt902H7XwW8ifpPD9mdy2jRR+zdgdXdFp9rQmFDYf3bw0OukrdI9QRuxVbMLpcNhbM7cbIS4P9O06AQKfxDg7IcPs+ocOHO5X7hk64IvtADX4go/08wjpGqhC3fXtdwL2fEsRXq0a5AmxjzASuSOuJ09La6zjVhjqScQ4kvCCZysK9DTa6RpJR1luJ0ctiJ3VFUpA3EG3El70BSqvzesYwIGMuQcqnNStuYwEPPtBjxLpwwgM6tRAzCA7llPlhJjIjtCIsHeEta2Xy4yXQYAtWpt9aQdAUHH62KOGeD8rIciyzqLIvZTJprUxDqazXp8fSJPrxZLSnHU5daLEFyLQS4QkLcuet6tKf2SiNSGR9aKW6dcY/c0hdnu3RKhRmR5bjEHfohPP4n8EAaWpa/qnj0Mk2mQol5J555QFlwOB5nB7nlcJGwblifvnmdFmI649OoM3ihVAk3n64Wf4Luv4ezmW9imLdEJD6anxxKXkqyeHvX+MWY1+9rXxrZC3ZwShpOaZRlxfwYEBAJgY3w2vao4rvN/iXs6qW9w6myVqUrfWlxlSjRcxsUMPM0hIHnWc5mxg424aTmYObke99J6DvNGHmeIuaiRCqHiwo0BFyeid/ULsg38s2z6SG8ipjyuR5DW/fFEfxdDpYyIilwNyCvAccmiSe7dlzOpem2oKenSyMfYz6fDe5pP1EuQryCcMRX1QR61B00bTEPjOLuu+IPWAMpJ2gdFc4oFXKnnYRA3cWi1lPjKOzjQdbKE+VuT/yH83UJEc17+0M0bJK6ZhU5qLMwkYZfG0pFxUZUEsL0OHm+Iz1R/K9xWeFzg3g
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5653.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(136003)(396003)(346002)(376002)(39860400002)(366004)(8676002)(4326008)(76116006)(64756008)(66946007)(66556008)(66446008)(82960400001)(52536014)(55016003)(5660300002)(122000001)(38070700005)(66476007)(8936002)(2906002)(38100700002)(478600001)(316002)(41300700001)(71200400001)(186003)(7696005)(33656002)(86362001)(6506007)(110136005)(54906003)(83380400001)(9686003)(53546011)(26005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?P/Jjm1URVSqs2a8XzQ9SCC2WYABQ6aKXZJ52sXwoAtD/Vm7HSHO21SW0GRtx?=
+ =?us-ascii?Q?KiLO98yd/Z4rL9vMNDlMVD00p7iCH4Sb+AC/xXTts+gvVnL6no0hxOsPo/kL?=
+ =?us-ascii?Q?Q/LfzGt1nVU2ngxp2fTyNgmpWs9qEvEgaPRVbK6hAFrDjd4x2QtfP937dIry?=
+ =?us-ascii?Q?s/r4HNatOlMlG0g69AI9FBoXInx9ZiIQZ9r/jOTRLAT//5q8KsdZvm8poGp9?=
+ =?us-ascii?Q?VJVBYgGQfAz1Qqx8KUUpigsQCjCJ3ggC1rb+vnfFvA8M9VJ+R4M/crO+iHOb?=
+ =?us-ascii?Q?uHRbpa2JqLav7adv0w6icR72ojuBzqZWNrHYLEe7PqzpsUc/p/SC1e1VUycN?=
+ =?us-ascii?Q?IjPokfJGHZ2zinEmMObgOvTp1b0zL7WwtXYPyOEUiDUZ6C+3YNCFRRbDOt0h?=
+ =?us-ascii?Q?8K4l7BhZOVVCrRPdq1C9OKPKqdWi4GcOtexyisK4bG+0/VeWztKVHnAXkUjt?=
+ =?us-ascii?Q?Wzyw2IxzJYjqk2705qqlFSxfJxN7aye0P9VKzsWPnOlGjonN2F2nlajdV76g?=
+ =?us-ascii?Q?NokgA8MUWK0QOfTgOKbDZ6nXxeSG2I3D7CVQhP1qA3DPF9v4H+tkKT1ytWXp?=
+ =?us-ascii?Q?5eZBP7OdTHgLEXXxxLcen9AIZWW3c4QuafJ3DS3sNeEkzXMUS/XihVPHJTSb?=
+ =?us-ascii?Q?4dyjFvpu/4zC3NBJgaR52dCeeJ7s5cOUwgm7Bqe50LaQ9/JPZTLPTizAvtlk?=
+ =?us-ascii?Q?KaEKzX68+SJ6O0TzRdCTrhT3URwp26Ve7ag+l+kGtaRa5QqcUZhC95tpU1Oi?=
+ =?us-ascii?Q?USGgyXxm7Szm3lRPgy80Q2cjp/BsAmEJlMXnp+J1RYPEC6DuvnlJBGqmVtqp?=
+ =?us-ascii?Q?xxGtIbSSi5CPuV4lsSMCmGPnywvohpH6AWCNN+LiLKTOBGk4oDGxUTImUp1Q?=
+ =?us-ascii?Q?AbriiWZHQ28C/hm5mJkI3jPYmGMokK6LvRd1E7rXS/smMXoxRS6iRPiP9Z96?=
+ =?us-ascii?Q?Sae6ObkBoNWs+bJZcCrXS7/tkDG6RXWdRB1QebBGNpOx7hUBN7Bp3kUTOdVJ?=
+ =?us-ascii?Q?kFzSE+qzl+b31HWx452X8kycWZcIu3ZSu7gdZCWQPoSjnTG3csRQVM74a4o0?=
+ =?us-ascii?Q?EvdYGOSFcM71lD/qL2HMSatMjTNp8EKh+OyK6qpxYPyzLnmqMhstDQc69TNO?=
+ =?us-ascii?Q?Ds60KTTZbtl+JSeedA2qIXYzjLI27xEMj8tpQ7L6t8WWxsLEow4raw7FlDAU?=
+ =?us-ascii?Q?H3VAt8G722csinqW8x+9U1Qv8vxTbeVT4Ob1crj5hgVLjLFz/v02T1z7GNr5?=
+ =?us-ascii?Q?utiBtcSkFBq6VeSCPdGuwiMkXTZyHPrCDpLLlau6hmeVAoH3YWFNHR15zyKL?=
+ =?us-ascii?Q?RiWpk4DsSNJv2yaKGk489RYGgDoGvzyHLzca74Znb3I/INUeNucJzmTxkyKI?=
+ =?us-ascii?Q?l3TRjPc1JUAtrN4ODyLrSlGJpO5lHmeTonGv6UczA2SwYc6Sq5ZD0oGt5neN?=
+ =?us-ascii?Q?BDUaNgtZlTL8ZfjbsP12Q0YMCFfX/Y7aCx28dFACULFYgotd+jdZArpFkO7P?=
+ =?us-ascii?Q?gI3Wstp7yS+YdWFSFeBBxvHXVVvOkXWEeByasFxEkrbV173vtt89404SBHSz?=
+ =?us-ascii?Q?8Yfg9vFM4Zx80fC1SisuU7oPuE5eUNGzMmO9dmCy?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5653.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68306f78-758a-4ff3-29ca-08da6fb42061
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2022 09:41:05.3756
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NPlHbhDriZib8wX/l+aeq5vK6XCPqnfz2LyFviHbWk1IGq6xizXd/QLxdybmn+ImkK0cniG967v/9OESlyny7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2815
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3972/display/redirect>
+Hi, Andy
 
-Changes:
+Thanks for your patch.
 
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3971' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@4250a513'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins4081087994867603877.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+________________________
+BRs, =20
+Bingbu Cao=20
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+> -----Original Message-----
+> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Sent: Tuesday, July 26, 2022 8:06 PM
+> To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>; linux-
+> media@vger.kernel.org; linux-kernel@vger.kernel.org
+> Cc: Qiu, Tian Shu <tian.shu.qiu@intel.com>; Tu, ShawnX
+> <shawnx.tu@intel.com>; Cao, Bingbu <bingbu.cao@intel.com>; Mauro Carvalho
+> Chehab <mchehab@kernel.org>
+> Subject: [PATCH v1 4/8] media: ov2740: Remove duplicate check for NULL
+> fwnode
+>=20
+> fwnode API does proper checks and returns correct codes, no need to repea=
+t
+> it in the caller.
+>=20
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/media/i2c/ov2740.c | 3 ---
+>  1 file changed, 3 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c inde=
+x
+> 9420258c6073..07fe8fda274e 100644
+> --- a/drivers/media/i2c/ov2740.c
+> +++ b/drivers/media/i2c/ov2740.c
+> @@ -1009,9 +1009,6 @@ static int ov2740_check_hwcfg(struct device *dev)
+>  	int ret;
+>  	unsigned int i, j;
+>=20
+> -	if (!fwnode)
+> -		return -ENXIO;
+> -
+>  	ret =3D fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
+>  	if (ret)
+>  		return ret;
+> --
+> 2.35.1
 
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-07-27 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-07-27 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100% 89.0M=0s
-
-2022-07-27 09:19:10 (89.0 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
