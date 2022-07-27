@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AFA8582487
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 12:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 451B358248A
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 12:37:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232010AbiG0Kh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jul 2022 06:37:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40584 "EHLO
+        id S232030AbiG0Kha (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jul 2022 06:37:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232022AbiG0Kh1 (ORCPT
+        with ESMTP id S232005AbiG0Kh2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 06:37:27 -0400
+        Wed, 27 Jul 2022 06:37:28 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B4EC474F4
-        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 03:37:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3215F474E8
+        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 03:37:26 -0700 (PDT)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D156CE1;
-        Wed, 27 Jul 2022 12:37:10 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F290D37;
+        Wed, 27 Jul 2022 12:37:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658918230;
-        bh=AYYH1p9UtaaT+/4FNbFdVkydxuJ7n5PTwti0FVY0J3o=;
+        s=mail; t=1658918231;
+        bh=4mBfHIaDpJMPHCo3RVY1gKTO7ynybTbPolstUGT2ndE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=N4m3u5mC0Lctv/TR29KEoCsWjPNMIfPJ/hItwGo9GXvy/PJTiW2fLHyVckX22avxz
-         3DrkfGxfb5zPA4Ks+w1Sn+GhPqGFq0B5BKvny4j/DfAwTYFUonu1llQQ7xcD+VI8Vn
-         AumkYcb5Mh9KAbv4mY8T5WrCwuavLfKP/BiJro0o=
+        b=PP5XDzuNGWtWF/x1aouAqABThNvQ92DU3oN9Bun5InYhE+ySujzjSIb8CsX0iutVB
+         xSZQkKQI4EFORPPRwIwP5WifxY924p8dLbhzK8XT0/AWw48Zs1PRNU5v7Xt39rE0ah
+         ZtTX2/nyp3daNL29S46P34veA5NubX/l8keWuXG4=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -35,10 +35,11 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Pratyush Yadav <p.yadav@ti.com>,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v12 18/30] media: subdev: use streams in v4l2_subdev_link_validate()
-Date:   Wed, 27 Jul 2022 13:36:27 +0300
-Message-Id: <20220727103639.581567-19-tomi.valkeinen@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: [PATCH v12 19/30] media: subdev: add "opposite" stream helper funcs
+Date:   Wed, 27 Jul 2022 13:36:28 +0300
+Message-Id: <20220727103639.581567-20-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
 References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
@@ -53,313 +54,129 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Update v4l2_subdev_link_validate() to use routing and streams for
-validation.
+Add two helper functions to make dealing with streams easier:
 
-Instead of just looking at the format on the pad on both ends of the
-link, the routing tables are used to collect all the streams going from
-the source to the sink over the link, and the streams' formats on both
-ends of the link are verified.
+v4l2_subdev_routing_find_opposite_end - given a routing table and a pad
++ stream, return the pad + stream on the opposite side of the subdev.
+
+v4l2_subdev_state_get_opposite_stream_format - return a pointer to the
+format on the pad + stream on the opposite side from the given pad +
+stream.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 255 ++++++++++++++++++++++++--
- 1 file changed, 235 insertions(+), 20 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 48 +++++++++++++++++++++++++++
+ include/media/v4l2-subdev.h           | 36 ++++++++++++++++++++
+ 2 files changed, 84 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index d26715cbd955..7ca2337ca8d3 100644
+index 7ca2337ca8d3..0dd612f09f35 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -16,6 +16,7 @@
- #include <linux/videodev2.h>
- #include <linux/export.h>
- #include <linux/version.h>
-+#include <linux/sort.h>
- 
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-@@ -1069,7 +1070,7 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
- EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate_default);
- 
- static int
--v4l2_subdev_link_validate_get_format(struct media_pad *pad,
-+v4l2_subdev_link_validate_get_format(struct media_pad *pad, u32 stream,
- 				     struct v4l2_subdev_format *fmt)
- {
- 	if (is_media_entity_v4l2_subdev(pad->entity)) {
-@@ -1078,7 +1079,11 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
- 
- 		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
- 		fmt->pad = pad->index;
--		return v4l2_subdev_call_state_active(sd, pad, get_fmt, fmt);
-+		fmt->stream = stream;
-+
-+		return v4l2_subdev_call(sd, pad, get_fmt,
-+					v4l2_subdev_get_locked_active_state(sd),
-+					fmt);
- 	}
- 
- 	WARN(pad->entity->function != MEDIA_ENT_F_IO_V4L,
-@@ -1088,31 +1093,241 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
- 	return -EINVAL;
+@@ -1558,6 +1558,54 @@ v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
  }
+ EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_compose);
  
--int v4l2_subdev_link_validate(struct media_link *link)
-+static int cmp_u32(const void *a, const void *b)
- {
--	struct v4l2_subdev *sink;
--	struct v4l2_subdev_format sink_fmt, source_fmt;
--	int rval;
-+	u32 a32 = *(u32 *)a;
-+	u32 b32 = *(u32 *)b;
- 
--	rval = v4l2_subdev_link_validate_get_format(
--		link->source, &source_fmt);
--	if (rval < 0)
--		return 0;
-+	return a32 > b32 ? 1 : (a32 < b32 ? -1 : 0);
-+}
-+
-+static int v4l2_link_validate_get_streams(struct media_link *link,
-+					  bool is_source, u32 *out_num_streams,
-+					  const u32 **out_streams,
-+					  bool *allocated)
++int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
++					  u32 pad, u32 stream, u32 *other_pad,
++					  u32 *other_stream)
 +{
-+	static const u32 default_streams[] = { 0 };
-+	struct v4l2_subdev_krouting *routing;
-+	struct v4l2_subdev *subdev;
-+	u32 num_streams;
-+	u32 *streams;
 +	unsigned int i;
-+	struct v4l2_subdev_state *state;
-+	int ret;
- 
--	rval = v4l2_subdev_link_validate_get_format(
--		link->sink, &sink_fmt);
--	if (rval < 0)
-+	if (is_source)
-+		subdev = media_entity_to_v4l2_subdev(link->source->entity);
-+	else
-+		subdev = media_entity_to_v4l2_subdev(link->sink->entity);
-+
-+	if (!(subdev->flags & V4L2_SUBDEV_FL_STREAMS)) {
-+		*out_num_streams = 1;
-+		*out_streams = default_streams;
-+		*allocated = false;
- 		return 0;
-+	}
- 
--	sink = media_entity_to_v4l2_subdev(link->sink->entity);
-+	state = v4l2_subdev_get_locked_active_state(subdev);
- 
--	rval = v4l2_subdev_call(sink, pad, link_validate, link,
--				&source_fmt, &sink_fmt);
--	if (rval != -ENOIOCTLCMD)
--		return rval;
-+	routing = &state->routing;
-+
-+	streams = kmalloc_array(routing->num_routes, sizeof(u32), GFP_KERNEL);
-+	if (!streams)
-+		return -ENOMEM;
-+
-+	num_streams = 0;
 +
 +	for (i = 0; i < routing->num_routes; ++i) {
 +		struct v4l2_subdev_route *route = &routing->routes[i];
-+		int j;
-+		u32 route_pad;
-+		u32 route_stream;
-+		u32 link_pad;
 +
-+		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+			continue;
-+
-+		if (is_source) {
-+			route_pad = route->source_pad;
-+			route_stream = route->source_stream;
-+			link_pad = link->source->index;
-+		} else {
-+			route_pad = route->sink_pad;
-+			route_stream = route->sink_stream;
-+			link_pad = link->sink->index;
++		if (route->source_pad == pad &&
++		    route->source_stream == stream) {
++			if (other_pad)
++				*other_pad = route->sink_pad;
++			if (other_stream)
++				*other_stream = route->sink_stream;
++			return 0;
 +		}
 +
-+		if (route_pad != link_pad)
-+			continue;
-+
-+		/* look for duplicates */
-+		for (j = 0; j < num_streams; ++j) {
-+			if (streams[j] == route_stream) {
-+				ret = -EINVAL;
-+				goto free_streams;
-+			}
++		if (route->sink_pad == pad && route->sink_stream == stream) {
++			if (other_pad)
++				*other_pad = route->source_pad;
++			if (other_stream)
++				*other_stream = route->source_stream;
++			return 0;
 +		}
-+
-+		streams[num_streams++] = route_stream;
 +	}
 +
-+	sort(streams, num_streams, sizeof(u32), &cmp_u32, NULL);
-+
-+	*out_num_streams = num_streams;
-+	*out_streams = streams;
-+	*allocated = true;
-+
-+	return 0;
-+
-+free_streams:
-+	kfree(streams);
-+
-+	return ret;
++	return -EINVAL;
 +}
++EXPORT_SYMBOL_GPL(v4l2_subdev_routing_find_opposite_end);
 +
-+static int v4l2_subdev_link_validate_locked(struct media_link *link)
++struct v4l2_mbus_framefmt *
++v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
++					     u32 pad, u32 stream)
 +{
-+	struct v4l2_subdev *sink_subdev =
-+		media_entity_to_v4l2_subdev(link->sink->entity);
-+	struct device *dev = sink_subdev->entity.graph_obj.mdev->dev;
-+	u32 num_source_streams;
-+	const u32 *source_streams;
-+	bool source_allocated;
-+	u32 num_sink_streams;
-+	const u32 *sink_streams;
-+	bool sink_allocated;
-+	unsigned int sink_idx;
-+	unsigned int source_idx;
++	u32 other_pad, other_stream;
 +	int ret;
 +
-+	dev_dbg(dev, "validating link \"%s\":%u -> \"%s\":%u\n",
-+		link->source->entity->name, link->source->index,
-+		link->sink->entity->name, link->sink->index);
-+
-+	ret = v4l2_link_validate_get_streams(link, true, &num_source_streams,
-+					     &source_streams,
-+					     &source_allocated);
++	ret = v4l2_subdev_routing_find_opposite_end(&state->routing, pad, stream,
++						    &other_pad, &other_stream);
 +	if (ret)
-+		return ret;
++		return NULL;
 +
-+	ret = v4l2_link_validate_get_streams(link, false, &num_sink_streams,
-+					     &sink_streams, &sink_allocated);
-+	if (ret)
-+		goto free_source;
-+
-+	/*
-+	 * It is ok to have more source streams than sink streams as extra
-+	 * source streams can just be ignored by the receiver, but having extra
-+	 * sink streams is an error as streams must have a source.
-+	 */
-+	if (num_source_streams < num_sink_streams) {
-+		dev_err(dev,
-+			"Not enough source streams: %d < %d\n",
-+			num_source_streams, num_sink_streams);
-+		ret = -EINVAL;
-+		goto free_sink;
-+	}
-+
-+	/* Validate source and sink stream formats */
-+
-+	source_idx = 0;
-+
-+	for (sink_idx = 0; sink_idx < num_sink_streams; ++sink_idx) {
-+		struct v4l2_subdev_format sink_fmt, source_fmt;
-+		u32 stream;
-+
-+		stream = sink_streams[sink_idx];
-+
-+		for (; source_idx < num_source_streams; ++source_idx) {
-+			if (source_streams[source_idx] == stream)
-+				break;
-+		}
-+
-+		if (source_idx == num_source_streams) {
-+			dev_err(dev, "No source stream for sink stream %u\n",
-+				stream);
-+			ret = -EINVAL;
-+			goto free_sink;
-+		}
-+
-+		dev_dbg(dev, "validating stream \"%s\":%u:%u -> \"%s\":%u:%u\n",
-+			link->source->entity->name, link->source->index, stream,
-+			link->sink->entity->name, link->sink->index, stream);
-+
-+		ret = v4l2_subdev_link_validate_get_format(link->source, stream,
-+							   &source_fmt);
-+		if (ret < 0) {
-+			dev_dbg(dev, "Failed to get format for \"%s\":%u:%u (but that's ok)\n",
-+				link->source->entity->name, link->source->index,
-+				stream);
-+			ret = 0;
-+			continue;
-+		}
-+
-+		ret = v4l2_subdev_link_validate_get_format(link->sink, stream,
-+							   &sink_fmt);
-+		if (ret < 0) {
-+			dev_dbg(dev, "Failed to get format for \"%s\":%u:%u (but that's ok)\n",
-+				link->sink->entity->name, link->sink->index,
-+				stream);
-+			ret = 0;
-+			continue;
-+		}
- 
--	return v4l2_subdev_link_validate_default(
--		sink, link, &source_fmt, &sink_fmt);
-+		/* TODO: add stream number to link_validate() */
-+		ret = v4l2_subdev_call(sink_subdev, pad, link_validate, link,
-+				       &source_fmt, &sink_fmt);
-+		if (!ret)
-+			continue;
-+
-+		if (ret != -ENOIOCTLCMD)
-+			goto free_sink;
-+
-+		ret = v4l2_subdev_link_validate_default(sink_subdev, link,
-+							&source_fmt, &sink_fmt);
-+
-+		if (ret)
-+			goto free_sink;
-+	}
-+
-+free_sink:
-+	if (sink_allocated)
-+		kfree(sink_streams);
-+
-+free_source:
-+	if (source_allocated)
-+		kfree(source_streams);
-+
-+	return ret;
++	return v4l2_subdev_state_get_stream_format(state, other_pad,
++						   other_stream);
 +}
++EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_opposite_stream_format);
 +
-+int v4l2_subdev_link_validate(struct media_link *link)
-+{
-+	struct v4l2_subdev *source_sd, *sink_sd;
-+	struct v4l2_subdev_state *source_state, *sink_state;
-+	int ret;
-+
-+	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
-+	source_sd = media_entity_to_v4l2_subdev(link->source->entity);
-+
-+	sink_state = v4l2_subdev_get_unlocked_active_state(sink_sd);
-+	source_state = v4l2_subdev_get_unlocked_active_state(source_sd);
-+
-+	if (sink_state)
-+		v4l2_subdev_lock_state(sink_state);
-+
-+	if (source_state)
-+		v4l2_subdev_lock_state(source_state);
-+
-+	ret = v4l2_subdev_link_validate_locked(link);
-+
-+	if (sink_state)
-+		v4l2_subdev_unlock_state(sink_state);
-+
-+	if (source_state)
-+		v4l2_subdev_unlock_state(source_state);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
+ #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
  
+ #endif /* CONFIG_MEDIA_CONTROLLER */
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 6d177fc609f7..69831967fb6f 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1502,6 +1502,42 @@ struct v4l2_rect *
+ v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
+ 				     unsigned int pad, u32 stream);
+ 
++/**
++ * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
++ * @routing: routing used to find the opposite side
++ * @pad: pad id
++ * @stream: stream id
++ * @other_pad: pointer used to return the opposite pad
++ * @other_stream: pointer used to return the opposite stream
++ *
++ * This function uses the routing table to find the pad + stream which is
++ * opposite the given pad + stream.
++ *
++ * @other_pad and/or @other_stream can be NULL if the caller does not need the
++ * value.
++ *
++ * Returns 0 on success, or -EINVAL if no matching route is found.
++ */
++int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
++					  u32 pad, u32 stream, u32 *other_pad,
++					  u32 *other_stream);
++
++/**
++ * v4l2_subdev_state_get_opposite_stream_format() - Get pointer to opposite
++ *                                                  stream format
++ * @state: subdevice state
++ * @pad: pad id
++ * @stream: stream id
++ *
++ * This returns a pointer to &struct v4l2_mbus_framefmt for the pad + stream
++ * that is opposite the given pad + stream in the subdev state.
++ *
++ * If the state does not contain the given pad + stream, NULL is returned.
++ */
++struct v4l2_mbus_framefmt *
++v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
++					     u32 pad, u32 stream);
++
+ #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+ 
+ #endif /* CONFIG_MEDIA_CONTROLLER */
 -- 
 2.34.1
 
