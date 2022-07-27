@@ -2,169 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 182E85825D7
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 13:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05FA6582615
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 14:06:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232339AbiG0Lsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jul 2022 07:48:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36618 "EHLO
+        id S232685AbiG0MGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jul 2022 08:06:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231226AbiG0Lsp (ORCPT
+        with ESMTP id S232611AbiG0MGj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 07:48:45 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C604E4AD5B;
-        Wed, 27 Jul 2022 04:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658922524; x=1690458524;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Az1nDJh3EQ7R5j6ZaG1tS/RcvdlaJn7u98b87B9prMk=;
-  b=CSAqdr8KIupoR3PpfSTbumtuml8eov3NKE5WJyouR89aAPiIXP3bMZGr
-   dXwlkmaZQKLEPxhJdUIqpMhUIn9xV5r2XgYBvSIbEMZ0uoUxBnQV+VVW1
-   aG6nfX1ul0XV1Bsbcxq63x4Zm8wsWyApknuLtV+3Y5Vjzr5MCcDZzowt+
-   AEZFnH+GNA/MQdRz8YRCyl6IqSoOefNuzZpAfb03WpTwFcdmC17vhtiUR
-   KOac3YbjFAxw+oRAeohp/APCuNbBEFToFJTgjX1YmJvAmhJam2wQe68Hp
-   84IoVHoQHahwt9CvDDmHGbAZBp7dG1WxBpzYim3CEiTeKlq4y/aiMbkRU
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10420"; a="349916810"
-X-IronPort-AV: E=Sophos;i="5.93,195,1654585200"; 
-   d="scan'208";a="349916810"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2022 04:48:44 -0700
-X-IronPort-AV: E=Sophos;i="5.93,195,1654585200"; 
-   d="scan'208";a="628346740"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2) ([10.252.45.68])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2022 04:48:39 -0700
-Date:   Wed, 27 Jul 2022 13:48:36 +0200
-From:   Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Chris Wilson <chris.p.wilson@intel.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Tomas Winkler <tomas.winkler@intel.com>,
-        Matthew Auld <matthew.auld@intel.com>,
-        Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= 
-        <thomas.hellstrom@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [Intel-gfx] [PATCH v2 06/21] drm/i915/gt: Batch TLB
- invalidations
-Message-ID: <20220727134836.7f7b5fab@maurocar-mobl2>
-In-Reply-To: <567823d5-57ba-30db-dd64-de609df4d8c5@linux.intel.com>
-References: <cover.1657800199.git.mchehab@kernel.org>
-        <9f535a97f32320a213a619a30c961ba44b595453.1657800199.git.mchehab@kernel.org>
-        <567823d5-57ba-30db-dd64-de609df4d8c5@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        Wed, 27 Jul 2022 08:06:39 -0400
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B31B5F56;
+        Wed, 27 Jul 2022 05:06:36 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 4E2E35C01A0;
+        Wed, 27 Jul 2022 08:06:34 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 27 Jul 2022 08:06:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1658923594; x=1659009994; bh=sns5b3/QFe
+        KrteH5LAIPWxoG6sLFqTq3vrWcUhZbXYo=; b=GibnmcNO6wp3WeAyKuTE/nUCLB
+        YW50Ol+91ZDj79Zo5CIskHeaFVR8jAMN0X49kTLFWOa3a9HjROw12SLcp+WTbRWk
+        OAkgmgaftSsl5cwK5scd/mWQIJFxIcXwJ1bcX64UgyDee8EVuuwj44j05ryTguUB
+        p4DCIfXbxijwwku9KDHPm/VhzCK98td11UVKG7pSS/a7NmdUAmozFwQXu3IG1JFW
+        txl5azyk8POfhYSw+3hREMc6nZv9m7rRxqDP8J8Vajz9PGVQLBsC2PlyTMAIwkXm
+        D5yStClLg0CP5ubMKD1whxvJ0Og4wzm6jioIRQ20dGJ6ekEYdHcOyHVe+pFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1658923594; x=1659009994; bh=sns5b3/QFeKrteH5LAIPWxoG6sLF
+        qTq3vrWcUhZbXYo=; b=CPOvtjMSWfr51w9qpRc0e0LNAed6DSTlNlYhggqfevUC
+        XGfbJ7p3LwPJWqUWCd9A2SMlnM+cLnehqodde9XgZ5q7NJjPW1cPu960mZoIUu+Z
+        MLtHutev6Jg6MRHV7ZuYmcu463JoZ56rC+pIo38UBmuZ91cuktZr3PfECppTuleR
+        WMLUUJaap9ElmMQVnCox/54tVH+0yXXjJJtLkRxteSs55EAxP8C8XnXgsO6TB1WB
+        gWiOY4jExXpp8UFQ7CKeiQWNA90ehzhOO+HibWyvhBUzwZCZuwSwtUA2gssBu4Ig
+        jHUbywnvlinBSmdRzE/t7o4wYzVBt+GLMzcD049NfQ==
+X-ME-Sender: <xms:SSrhYuzCudXQOXDePTu9vd-jnHWA2c0dG9z3DmtX82aSwA_iiHLlVQ>
+    <xme:SSrhYqQivoa7jzWzw_mNC5VX8HsHDGaFeRqg7-0c9M8dAne77B8nWeOZvJglqA2F8
+    13RETjYW95OvqTKwa4>
+X-ME-Received: <xmr:SSrhYgVwpFCYbJHWnIkNSZl2pqClDE01SmH6gCdeKdXa4o7jKmy2gepA-Ejw_cRbcv9nvxuLg3wZ3U5mLd650aRxRfb9Ip_VeJjiaj4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduvddggeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
+    geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+    hh
+X-ME-Proxy: <xmx:SSrhYkicJ_IGgqz6iexkhVvJotQY9PgHDYu6at83sP86XcN-jbRxig>
+    <xmx:SSrhYgD_6W9SF0CcaX5syZO4GDpQtYW869-2NL9JMz79PzcyP-mG8w>
+    <xmx:SSrhYlIvonbC6Au2J1vGXrnhrB9vVXK9few-aIOgGzwMHy05o0c_Hw>
+    <xmx:SirhYob7ea0CytTonx1V7XsjzDERI7TE34Dj8js15DQ3IuZ1nqkMsQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 Jul 2022 08:06:33 -0400 (EDT)
+Date:   Wed, 27 Jul 2022 14:06:31 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH RFC v3 1/8] of: Mark interconnects property supplier as
+ optional
+Message-ID: <20220727120631.iefzititedahdsdt@houat>
+References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
+ <20220302211100.65264-2-paul.kocialkowski@bootlin.com>
+ <YiaTfsMDs7RGob2N@robh.at.kernel.org>
+ <CAGETcx9u9RO_5nSp+=qgwDGY=jL_Q1hAcj+RfVN=q-H_8iuT4w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5f267h7mxg6wplag"
+Content-Disposition: inline
+In-Reply-To: <CAGETcx9u9RO_5nSp+=qgwDGY=jL_Q1hAcj+RfVN=q-H_8iuT4w@mail.gmail.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 20 Jul 2022 11:49:59 +0100
-Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
 
-> On 20/07/2022 08:13, Mauro Carvalho Chehab wrote:
-> > On Mon, 18 Jul 2022 14:52:05 +0100
-> > Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> >   
-> >>
-> >> On 14/07/2022 13:06, Mauro Carvalho Chehab wrote:  
-> >>> From: Chris Wilson <chris.p.wilson@intel.com>
-> >>>
-> >>> Invalidate TLB in patch, in order to reduce performance regressions.  
-> >>
-> >> "in batches"?  
-> > 
-> > Yeah. Will fix it.
+--5f267h7mxg6wplag
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > +void vma_invalidate_tlb(struct i915_address_space *vm, u32 tlb)
-> > +{
-> > +	/*
-> > +	 * Before we release the pages that were bound by this vma, we
-> > +	 * must invalidate all the TLBs that may still have a reference
-> > +	 * back to our physical address. It only needs to be done once,
-> > +	 * so after updating the PTE to point away from the pages, record
-> > +	 * the most recent TLB invalidation seqno, and if we have not yet
-> > +	 * flushed the TLBs upon release, perform a full invalidation.
-> > +	 */
-> > +	WRITE_ONCE(tlb, intel_gt_next_invalidate_tlb_full(vm->gt));  
-> 
-> Shouldn't tlb be a pointer for this to make sense?
+Hi,
 
-Oh, my mistake! Will fix at the next version.
+On Mon, Mar 07, 2022 at 07:34:22PM -0800, Saravana Kannan wrote:
+> On Mon, Mar 7, 2022 at 3:21 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > +Saravana
+> >
+> > On Wed, Mar 02, 2022 at 10:10:53PM +0100, Paul Kocialkowski wrote:
+> > > In order to set their correct DMA address offset, some devices rely on
+> > > the device-tree interconnects property which identifies an
+> > > interconnect node that provides a dma-ranges property that can be used
+> > > to set said offset.
+> > >
+> > > Since that logic is all handled by the generic openfirmware and driver
+> > > code, the device-tree description could be enough to properly set
+> > > the offset.
+> > >
+> > > However the interconnects property is currently not marked as
+> > > optional, which implies that a driver for the corresponding node
+> > > must be loaded as a requirement. When no such driver exists, this
+> > > results in an endless EPROBE_DEFER which gets propagated to the
+> > > calling driver. This ends up in the driver never loading.
+> > >
+> > > Marking the interconnects property as optional makes it possible
+> > > to load the driver in that situation, since the EPROBE_DEFER return
+> > > code will no longer be propagated to the driver.
+> > >
+> > > There might however be undesirable consequences with this change,
+> > > which I do not fully grasp at this point.
+>=20
+> Temporary NACK till I get a bit more time to take a closer look. I
+> really don't like the idea of making interconnects optional. IOMMUs
+> and DMAs were exceptions. Also, we kinda discuss similar issues in
+> LPC. We had some consensus on how to handle these and I noted them all
+> down with a lot of details -- let me go take a look at those notes
+> again and see if I can send a more generic patch.
+>=20
+> Paul,
+>=20
+> Can you point to the DTS (not DTSI) file that corresponds to this?
+> Also, if it's a builtin kernel, I'd recommend setting
+> deferred_probe_timeout=3D1 and that should take care of it too.
 
-> >   
-> >>> diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-> >>> index d8b94d638559..2da6c82a8bd2 100644
-> >>> --- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-> >>> +++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-> >>> @@ -206,8 +206,12 @@ void ppgtt_bind_vma(struct i915_address_space *vm,
-> >>>    void ppgtt_unbind_vma(struct i915_address_space *vm,
-> >>>    		      struct i915_vma_resource *vma_res)
-> >>>    {
-> >>> -	if (vma_res->allocated)
-> >>> -		vm->clear_range(vm, vma_res->start, vma_res->vma_size);
-> >>> +	if (!vma_res->allocated)
-> >>> +		return;
-> >>> +
-> >>> +	vm->clear_range(vm, vma_res->start, vma_res->vma_size);
-> >>> +	if (vma_res->tlb)
-> >>> +		vma_invalidate_tlb(vm, *vma_res->tlb);  
-> >>
-> >> The patch is about more than batching? If there is a security hole in
-> >> this area (unbind) with the current code?  
-> > 
-> > No, I don't think there's a security hole. The rationale for this is
-> > not due to it.  
-> 
-> In this case obvious question is why are these changes in the patch 
-> which declares itself to be about batching invalidations? Because...
+For the record, I also encountered this today on next-20220726 with this
+device:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arc=
+h/arm/boot/dts/sun5i.dtsi#n775
 
-Because vma_invalidate_tlb() basically stores a TLB seqno, but the
-actual invalidation is deferred to when the pages are unset, at
-__i915_gem_object_unset_pages().
+The driver won't probe without fw_devlink=3Doff
 
-So, what happens is:
+Maxime
 
-- on VMA sync mode, the need to invalidate TLB is marked at
-  __vma_put_pages(), before VMA unbind;
-- on async, this is deferred to happen at ppgtt_unbind_vma(), where
-  it marks the need to invalidate TLBs.
+--5f267h7mxg6wplag
+Content-Type: application/pgp-signature; name="signature.asc"
 
-On both cases, __i915_gem_object_unset_pages() is called later,
-when the driver is ready to unmap the page.
+-----BEGIN PGP SIGNATURE-----
 
-> I am explaining why it looks to me that the patch is doing two things. 
-> Implementing batching _and_ adding invalidation points at VMA unbind 
-> sites, while so far we had it at backing store release only. Maybe I am 
-> wrong and perhaps I am too slow to pick up on the explanation here.
-> 
-> So if the patch is doing two things please split it up.
-> 
-> I am further confused by the invalidation call site in evict and in 
-> unbind - why there can't be one logical site since the logical sequence 
-> is evict -> unbind.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYuEqRwAKCRDj7w1vZxhR
+xU7hAPwISO3g/gkHRCgtYcqZGbLJsQTjFn8UlaYIl4MsqUE71AEArjHaL+k43u3L
+IMF27kO1knwUR8duIkDbYBb49e/ZQgs=
+=h3a/
+-----END PGP SIGNATURE-----
 
-The invalidation happens only on one place: __i915_gem_object_unset_pages().
-
-Despite its name, vma_invalidate_tlb() just marks the need of doing TLB
-invalidation.
-
-Regards,
-Mauro
+--5f267h7mxg6wplag--
