@@ -2,140 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6549582A43
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 18:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A1F8582A89
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 18:18:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234668AbiG0QG7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jul 2022 12:06:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37544 "EHLO
+        id S230103AbiG0QSl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jul 2022 12:18:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233779AbiG0QGx (ORCPT
+        with ESMTP id S234772AbiG0QSk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 12:06:53 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B57332E9F2
-        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 09:06:52 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-31e47ac84daso180858527b3.0
-        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 09:06:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6ewmeS4McgdnQEH35NlTf+WYZOW3FH17zRDpoEtE6dI=;
-        b=INtOTD/aD9pkxpId/nbuIfYIh2625Ql2cdm3PPE/6OV3MR+Wf16Bp5IKfLSjHDDdjS
-         W7lwSfyvr4fx7EfPX3hqXV1XLbcIMhTyo9YzIwh63CE0L71Xq9Obi4EnF+MQIy1X8AJt
-         Wg+uJYmmPqba3AXMWElBsWx5w+MQ+RS/loTWNnuza6cW8u1isDc7eBuHwdXTdLQ7bxLQ
-         oSpj0xrrJsCW4Pq4spqSnAhj9GsF0WpwBPW8y/ICNyaWKHRCpa157wFfGAr5fGaoA4sI
-         QIUcdKKRbvI4kPeVTPgHneG9ZJXqa0aJU7PVTwSy8IyTy/Lg3cMir7MB3t0/5VoDrZGs
-         sV4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6ewmeS4McgdnQEH35NlTf+WYZOW3FH17zRDpoEtE6dI=;
-        b=SIXB3ZrF/6qWvSqXdqWg0KdiHSWMiDljt2WPt3+RF8iErxoHcjIAuBMg9KwFTNKO5q
-         bg593NjUQCh726BpTSyRpvKXVbc3Izb8FALo94/1xu/Lu0V4BWKHtKV7ksv4M0sSbxxD
-         AJgkEiJ55Ff7j0I4kHJR1Tdb3ao24mqeRx13MUtRGvUrtWNIZ2nrch0LdhQoTQaeVLJS
-         WFLeLnpaY7k2pWQClALQA7Gjswk7RMTRuOR1nIqaKx3BrvwLeIIk9REB6iJcta4cWmOE
-         Rd/2PLn+V2FU3XuUg+jy9Of9Sq9XwY4PPQaP4LV8d5+BmnLuVQhF7+yooz86kMrbpLeg
-         6bPQ==
-X-Gm-Message-State: AJIora8HV79Oz5MgBVVbFsvpKM7FNHE27Rv+FTT4412cUmBZ30kJJWE7
-        Bj0aEm4x8ntezzwNElC/PGxRnNw1HBucPfEqeR4O/Q==
-X-Google-Smtp-Source: AGRyM1vqCW78Cn3V5a5E1wbeBWAhNzfNn3hKWKs7sG2nMhfHyzih69XaNV0l1aSjh7XmJa8TaUVDgp3KjFrA2y3Jezs=
-X-Received: by 2002:a05:690c:72c:b0:31f:474d:ea43 with SMTP id
- bt12-20020a05690c072c00b0031f474dea43mr8578158ywb.126.1658938011811; Wed, 27
- Jul 2022 09:06:51 -0700 (PDT)
+        Wed, 27 Jul 2022 12:18:40 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED434AD7D;
+        Wed, 27 Jul 2022 09:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658938719; x=1690474719;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tBeOUp/yxaWMe5c9npreqRETmrBhESTwQGPebnMPCV8=;
+  b=WM6Zer+CYEHxp3MM/UrGAq+kb5Y9zI9bIJqfyt4yjQgtDWlrPiGd46BB
+   MlfW24giCYqtwn1VRqTXKCwGkEG0Ea3XP/n7SeDoyWK5ESGRYq0d2a++Q
+   bpucvPZtpPhYyGRQVE89XtvUF4kbjOmtY+2q9S9R4q3zP5bRVKsrO0Yd3
+   HU7/FfRVoB+dJGw55Ezqhznrc9D4+ls0SYKus5+kUexmT1YPE63QYBYUC
+   rZz/qn6yiV5VIsLSthg0B6haw3G24JV250wkg0N0REuyLo+EehCC5DhbI
+   neLaW3ZhuWQalWRIfa4xUn0TmvOGRAyZoS4xJ6uJNUqnRfZvXY1pGIXX0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="289473329"
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; 
+   d="scan'208";a="289473329"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2022 09:18:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; 
+   d="scan'208";a="927851599"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 27 Jul 2022 09:18:34 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oGjk2-0008tK-0M;
+        Wed, 27 Jul 2022 16:18:34 +0000
+Date:   Thu, 28 Jul 2022 00:17:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34:
+ warning: unused variable 'c8sectpfe_match'
+Message-ID: <202207280016.r8tOLF4N-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
- <20220302211100.65264-2-paul.kocialkowski@bootlin.com> <YiaTfsMDs7RGob2N@robh.at.kernel.org>
- <CAGETcx9u9RO_5nSp+=qgwDGY=jL_Q1hAcj+RfVN=q-H_8iuT4w@mail.gmail.com> <20220727120631.iefzititedahdsdt@houat>
-In-Reply-To: <20220727120631.iefzititedahdsdt@houat>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 27 Jul 2022 09:06:15 -0700
-Message-ID: <CAGETcx_o=L+Ku9CPGbQW2wS15etvi+ofkKZ0K=C7imP4=JcXeQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 1/8] of: Mark interconnects property supplier as optional
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Rob Herring <robh@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 27, 2022 at 5:06 AM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi,
->
-> On Mon, Mar 07, 2022 at 07:34:22PM -0800, Saravana Kannan wrote:
-> > On Mon, Mar 7, 2022 at 3:21 PM Rob Herring <robh@kernel.org> wrote:
-> > >
-> > > +Saravana
-> > >
-> > > On Wed, Mar 02, 2022 at 10:10:53PM +0100, Paul Kocialkowski wrote:
-> > > > In order to set their correct DMA address offset, some devices rely on
-> > > > the device-tree interconnects property which identifies an
-> > > > interconnect node that provides a dma-ranges property that can be used
-> > > > to set said offset.
-> > > >
-> > > > Since that logic is all handled by the generic openfirmware and driver
-> > > > code, the device-tree description could be enough to properly set
-> > > > the offset.
-> > > >
-> > > > However the interconnects property is currently not marked as
-> > > > optional, which implies that a driver for the corresponding node
-> > > > must be loaded as a requirement. When no such driver exists, this
-> > > > results in an endless EPROBE_DEFER which gets propagated to the
-> > > > calling driver. This ends up in the driver never loading.
-> > > >
-> > > > Marking the interconnects property as optional makes it possible
-> > > > to load the driver in that situation, since the EPROBE_DEFER return
-> > > > code will no longer be propagated to the driver.
-> > > >
-> > > > There might however be undesirable consequences with this change,
-> > > > which I do not fully grasp at this point.
-> >
-> > Temporary NACK till I get a bit more time to take a closer look. I
-> > really don't like the idea of making interconnects optional. IOMMUs
-> > and DMAs were exceptions. Also, we kinda discuss similar issues in
-> > LPC. We had some consensus on how to handle these and I noted them all
-> > down with a lot of details -- let me go take a look at those notes
-> > again and see if I can send a more generic patch.
-> >
-> > Paul,
-> >
-> > Can you point to the DTS (not DTSI) file that corresponds to this?
-> > Also, if it's a builtin kernel, I'd recommend setting
-> > deferred_probe_timeout=1 and that should take care of it too.
->
-> For the record, I also encountered this today on next-20220726 with this
-> device:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/sun5i.dtsi#n775
->
-> The driver won't probe without fw_devlink=off
+Hi Mauro,
 
-Really? I basically ended up doing what I mentioned in my original
-reply. next-20220726 should have my changes that'll make sure
-fw_devlink doesn't block any probe (it'll still try to create as many
-device links as possible) after 10s (default deferred probe timeout).
-Can you try to find more info on why it's not probing?
-<debugfs>/devices_deferred should give more details.
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   39c3c396f8131f3db454c80e0fcfcdc54ed9ec01
+commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm32/ and sti/ under st/ dir
+date:   4 months ago
+config: mips-buildonly-randconfig-r001-20220727 (https://download.01.org/0day-ci/archive/20220728/202207280016.r8tOLF4N-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 8dfaecc4c24494337933aff9d9166486ca0949f1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mipsel-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/platform/ drivers/tty/serial/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34: warning: unused variable 'c8sectpfe_match' [-Wunused-const-variable]
+   static const struct of_device_id c8sectpfe_match[] = {
+                                    ^
+   1 warning generated.
 
 
--Saravana
+vim +/c8sectpfe_match +1175 drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+
+c5f5d0f99794cfb drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1174  
+c5f5d0f99794cfb drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30 @1175  static const struct of_device_id c8sectpfe_match[] = {
+c5f5d0f99794cfb drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1176  	{ .compatible = "st,stih407-c8sectpfe" },
+c5f5d0f99794cfb drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1177  	{ /* sentinel */ },
+c5f5d0f99794cfb drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1178  };
+c5f5d0f99794cfb drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1179  MODULE_DEVICE_TABLE(of, c8sectpfe_match);
+c5f5d0f99794cfb drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1180  
+
+:::::: The code at line 1175 was first introduced by commit
+:::::: c5f5d0f99794cfb675ecacfe37a1b33b352b9752 [media] c8sectpfe: STiH407/10 Linux DVB demux support
+
+:::::: TO: Peter Griffin <peter.griffin@linaro.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
