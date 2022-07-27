@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86860582486
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 12:37:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AFA8582487
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 12:37:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232012AbiG0Kh2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jul 2022 06:37:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40530 "EHLO
+        id S232010AbiG0Kh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jul 2022 06:37:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232011AbiG0KhY (ORCPT
+        with ESMTP id S232022AbiG0Kh1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 06:37:24 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC3DE474EF
-        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 03:37:19 -0700 (PDT)
+        Wed, 27 Jul 2022 06:37:27 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B4EC474F4
+        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 03:37:24 -0700 (PDT)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B555218CE;
-        Wed, 27 Jul 2022 12:37:09 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D156CE1;
+        Wed, 27 Jul 2022 12:37:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1658918230;
-        bh=YgH5eF/tajBFOmsMJdoWlm3zUWAvIyAZRj+a6DcSOM8=;
+        bh=AYYH1p9UtaaT+/4FNbFdVkydxuJ7n5PTwti0FVY0J3o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GObRRdpN2Trf7GFxObGcn1mLzgnOK6QxDAXSo5bPS8uep/vKr5YUgFJRgGdTh6C03
-         lwp843u1aYJnqWNH80jXDKYUKjmUKIY71nEiQaPa23UMTHMoP2hUqnTD1tplWj3NzE
-         y3CXCpgUGK2e0uDgXVnd2bVChu9m1PpE2cuf6NI0=
+        b=N4m3u5mC0Lctv/TR29KEoCsWjPNMIfPJ/hItwGo9GXvy/PJTiW2fLHyVckX22avxz
+         3DrkfGxfb5zPA4Ks+w1Sn+GhPqGFq0B5BKvny4j/DfAwTYFUonu1llQQ7xcD+VI8Vn
+         AumkYcb5Mh9KAbv4mY8T5WrCwuavLfKP/BiJro0o=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -36,9 +36,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v12 17/30] media: subdev: add stream based configuration
-Date:   Wed, 27 Jul 2022 13:36:26 +0300
-Message-Id: <20220727103639.581567-18-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v12 18/30] media: subdev: use streams in v4l2_subdev_link_validate()
+Date:   Wed, 27 Jul 2022 13:36:27 +0300
+Message-Id: <20220727103639.581567-19-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
 References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
@@ -53,610 +53,313 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support to manage configurations (format, crop, compose) per stream,
-instead of per pad. This is accomplished with data structures that hold
-an array of all subdev's stream configurations.
+Update v4l2_subdev_link_validate() to use routing and streams for
+validation.
 
-The number of streams can vary at runtime based on routing. Every time
-the routing is changed, the stream configurations need to be
-re-initialized.
+Instead of just looking at the format on the pad on both ends of the
+link, the routing tables are used to collect all the streams going from
+the source to the sink over the link, and the streams' formats on both
+ends of the link are verified.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- .../v4l/vidioc-subdev-enum-frame-interval.rst |   5 +-
- .../v4l/vidioc-subdev-enum-frame-size.rst     |   5 +-
- .../v4l/vidioc-subdev-enum-mbus-code.rst      |   5 +-
- .../media/v4l/vidioc-subdev-g-crop.rst        |   5 +-
- .../media/v4l/vidioc-subdev-g-fmt.rst         |   5 +-
- .../v4l/vidioc-subdev-g-frame-interval.rst    |   5 +-
- .../media/v4l/vidioc-subdev-g-selection.rst   |   5 +-
- drivers/media/v4l2-core/v4l2-subdev.c         | 156 +++++++++++++++++-
- include/media/v4l2-subdev.h                   |  79 +++++++++
- include/uapi/linux/v4l2-subdev.h              |  28 +++-
- 10 files changed, 276 insertions(+), 22 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 255 ++++++++++++++++++++++++--
+ 1 file changed, 235 insertions(+), 20 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst
-index 3703943b412f..8def4c05d3da 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst
-@@ -92,7 +92,10 @@ multiple pads of the same sub-device is not defined.
-       - Frame intervals to be enumerated, from enum
- 	:ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
-     * - __u32
--      - ``reserved``\ [8]
-+      - ``stream``
-+      - Stream identifier.
-+    * - __u32
-+      - ``reserved``\ [7]
-       - Reserved for future extensions. Applications and drivers must set
- 	the array to zero.
- 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
-index c25a9896df0e..3ef361c0dca7 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
-@@ -97,7 +97,10 @@ information about try formats.
-       - Frame sizes to be enumerated, from enum
- 	:ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
-     * - __u32
--      - ``reserved``\ [8]
-+      - ``stream``
-+      - Stream identifier.
-+    * - __u32
-+      - ``reserved``\ [7]
-       - Reserved for future extensions. Applications and drivers must set
- 	the array to zero.
- 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-index 417f1a19bcc4..248f6f9ee7c5 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-@@ -73,7 +73,10 @@ information about the try formats.
-       - ``flags``
-       - See :ref:`v4l2-subdev-mbus-code-flags`
-     * - __u32
--      - ``reserved``\ [7]
-+      - ``stream``
-+      - Stream identifier.
-+    * - __u32
-+      - ``reserved``\ [6]
-       - Reserved for future extensions. Applications and drivers must set
- 	the array to zero.
- 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
-index bd15c0a5a66b..1d267f7e7991 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
-@@ -96,7 +96,10 @@ modified format should be as close as possible to the original request.
-       - ``rect``
-       - Crop rectangle boundaries, in pixels.
-     * - __u32
--      - ``reserved``\ [8]
-+      - ``stream``
-+      - Stream identifier.
-+    * - __u32
-+      - ``reserved``\ [7]
-       - Reserved for future extensions. Applications and drivers must set
- 	the array to zero.
- 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
-index 7acdbb939d89..ed253a1e44b7 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
-@@ -102,7 +102,10 @@ should be as close as possible to the original request.
-       - Definition of an image format, see :c:type:`v4l2_mbus_framefmt` for
- 	details.
-     * - __u32
--      - ``reserved``\ [8]
-+      - ``stream``
-+      - Stream identifier.
-+    * - __u32
-+      - ``reserved``\ [7]
-       - Reserved for future extensions. Applications and drivers must set
- 	the array to zero.
- 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst
-index d7fe7543c506..842f962d2aea 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst
-@@ -90,7 +90,10 @@ the same sub-device is not defined.
-       - ``interval``
-       - Period, in seconds, between consecutive video frames.
-     * - __u32
--      - ``reserved``\ [9]
-+      - ``stream``
-+      - Stream identifier.
-+    * - __u32
-+      - ``reserved``\ [8]
-       - Reserved for future extensions. Applications and drivers must set
- 	the array to zero.
- 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst
-index f9172a42f036..6b629c19168c 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst
-@@ -94,7 +94,10 @@ Selection targets and flags are documented in
-       - ``r``
-       - Selection rectangle, in pixels.
-     * - __u32
--      - ``reserved``\ [8]
-+      - ``stream``
-+      - Stream identifier.
-+    * - __u32
-+      - ``reserved``\ [7]
-       - Reserved for future extensions. Applications and drivers must set
- 	the array to zero.
- 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 0b841cf74c74..d26715cbd955 100644
+index d26715cbd955..7ca2337ca8d3 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -154,8 +154,17 @@ static inline int check_pad(struct v4l2_subdev *sd, u32 pad)
- 	return 0;
- }
+@@ -16,6 +16,7 @@
+ #include <linux/videodev2.h>
+ #include <linux/export.h>
+ #include <linux/version.h>
++#include <linux/sort.h>
  
--static int check_state_pads(u32 which, struct v4l2_subdev_state *state)
-+static int check_state(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
-+		       u32 which, u32 pad, u32 stream)
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+@@ -1069,7 +1070,7 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
+ EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate_default);
+ 
+ static int
+-v4l2_subdev_link_validate_get_format(struct media_pad *pad,
++v4l2_subdev_link_validate_get_format(struct media_pad *pad, u32 stream,
+ 				     struct v4l2_subdev_format *fmt)
  {
-+#if defined(CONFIG_MEDIA_CONTROLLER)
-+	if (sd->flags & V4L2_SUBDEV_FL_STREAMS) {
-+		if (!v4l2_subdev_state_get_stream_format(state, pad, stream))
-+			return -EINVAL;
-+		return 0;
-+	}
-+#endif
-+
- 	if (which == V4L2_SUBDEV_FORMAT_TRY && (!state || !state->pads))
- 		return -EINVAL;
+ 	if (is_media_entity_v4l2_subdev(pad->entity)) {
+@@ -1078,7 +1079,11 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
  
-@@ -170,7 +179,7 @@ static inline int check_format(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 
- 	return check_which(format->which) ? : check_pad(sd, format->pad) ? :
--	       check_state_pads(format->which, state);
-+	       check_state(sd, state, format->which, format->pad, format->stream);
- }
- 
- static int call_get_fmt(struct v4l2_subdev *sd,
-@@ -197,7 +206,7 @@ static int call_enum_mbus_code(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 
- 	return check_which(code->which) ? : check_pad(sd, code->pad) ? :
--	       check_state_pads(code->which, state) ? :
-+	       check_state(sd, state, code->which, code->pad, code->stream) ? :
- 	       sd->ops->pad->enum_mbus_code(sd, state, code);
- }
- 
-@@ -209,7 +218,7 @@ static int call_enum_frame_size(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 
- 	return check_which(fse->which) ? : check_pad(sd, fse->pad) ? :
--	       check_state_pads(fse->which, state) ? :
-+	       check_state(sd, state, fse->which, fse->pad, fse->stream) ? :
- 	       sd->ops->pad->enum_frame_size(sd, state, fse);
- }
- 
-@@ -244,7 +253,7 @@ static int call_enum_frame_interval(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 
- 	return check_which(fie->which) ? : check_pad(sd, fie->pad) ? :
--	       check_state_pads(fie->which, state) ? :
-+	       check_state(sd, state, fie->which, fie->pad, fie->stream) ? :
- 	       sd->ops->pad->enum_frame_interval(sd, state, fie);
- }
- 
-@@ -256,7 +265,7 @@ static inline int check_selection(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 
- 	return check_which(sel->which) ? : check_pad(sd, sel->pad) ? :
--	       check_state_pads(sel->which, state);
-+	       check_state(sd, state, sel->which, sel->pad, sel->stream);
- }
- 
- static int call_get_selection(struct v4l2_subdev *sd,
-@@ -915,6 +924,72 @@ const struct v4l2_file_operations v4l2_subdev_fops = {
- 
- #ifdef CONFIG_MEDIA_CONTROLLER
- 
-+static int
-+v4l2_subdev_init_stream_configs(struct v4l2_subdev_stream_configs *stream_configs,
-+				const struct v4l2_subdev_krouting *routing)
-+{
-+	u32 num_configs = 0;
-+	unsigned int i;
-+	u32 format_idx = 0;
+ 		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 		fmt->pad = pad->index;
+-		return v4l2_subdev_call_state_active(sd, pad, get_fmt, fmt);
++		fmt->stream = stream;
 +
-+	kvfree(stream_configs->configs);
-+	stream_configs->configs = NULL;
-+	stream_configs->num_configs = 0;
-+
-+	/* Count number of formats needed */
-+	for (i = 0; i < routing->num_routes; ++i) {
-+		struct v4l2_subdev_route *route = &routing->routes[i];
-+
-+		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+			continue;
-+
-+		/*
-+		 * Each route needs a format on both ends of the route, except
-+		 * for source streams which only need one format.
-+		 */
-+		num_configs +=
-+			(route->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE) ? 1 : 2;
-+	}
-+
-+	if (!num_configs)
-+		return 0;
-+
-+	stream_configs->configs = kvcalloc(num_configs,
-+					   sizeof(*stream_configs->configs),
-+					   GFP_KERNEL);
-+
-+	if (!stream_configs->configs)
-+		return -ENOMEM;
-+
-+	stream_configs->num_configs = num_configs;
-+
-+	/*
-+	 * Fill in the 'pad' and stream' value for each item in the array from
-+	 * the routing table
-+	 */
-+	for (i = 0; i < routing->num_routes; ++i) {
-+		struct v4l2_subdev_route *route = &routing->routes[i];
-+		u32 idx;
-+
-+		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+			continue;
-+
-+		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE)) {
-+			idx = format_idx++;
-+
-+			stream_configs->configs[idx].pad = route->sink_pad;
-+			stream_configs->configs[idx].stream = route->sink_stream;
-+		}
-+
-+		idx = format_idx++;
-+
-+		stream_configs->configs[idx].pad = route->source_pad;
-+		stream_configs->configs[idx].stream = route->source_stream;
-+	}
-+
-+	return 0;
-+}
-+
- int v4l2_subdev_get_fwnode_pad_1_to_1(struct media_entity *entity,
- 				      struct fwnode_endpoint *endpoint)
- {
-@@ -1089,7 +1164,8 @@ __v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
- 	else
- 		state->lock = &state->_lock;
- 
--	if (sd->entity.num_pads) {
-+	/* Drivers that support streams do not need the legacy pad config */
-+	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS) && sd->entity.num_pads) {
- 		state->pads = kvcalloc(sd->entity.num_pads,
- 				       sizeof(*state->pads), GFP_KERNEL);
- 		if (!state->pads) {
-@@ -1129,6 +1205,7 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
- 	mutex_destroy(&state->_lock);
- 
- 	kfree(state->routing.routes);
-+	kvfree(state->stream_configs.configs);
- 	kvfree(state->pads);
- 	kfree(state);
- }
-@@ -1199,10 +1276,73 @@ int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
- 		dst->num_routes = src->num_routes;
++		return v4l2_subdev_call(sd, pad, get_fmt,
++					v4l2_subdev_get_locked_active_state(sd),
++					fmt);
  	}
  
--	return 0;
-+	return v4l2_subdev_init_stream_configs(&state->stream_configs, dst);
+ 	WARN(pad->entity->function != MEDIA_ENT_F_IO_V4L,
+@@ -1088,31 +1093,241 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
+ 	return -EINVAL;
  }
- EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
  
-+struct v4l2_mbus_framefmt *
-+v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
-+				    unsigned int pad, u32 stream)
+-int v4l2_subdev_link_validate(struct media_link *link)
++static int cmp_u32(const void *a, const void *b)
+ {
+-	struct v4l2_subdev *sink;
+-	struct v4l2_subdev_format sink_fmt, source_fmt;
+-	int rval;
++	u32 a32 = *(u32 *)a;
++	u32 b32 = *(u32 *)b;
+ 
+-	rval = v4l2_subdev_link_validate_get_format(
+-		link->source, &source_fmt);
+-	if (rval < 0)
+-		return 0;
++	return a32 > b32 ? 1 : (a32 < b32 ? -1 : 0);
++}
++
++static int v4l2_link_validate_get_streams(struct media_link *link,
++					  bool is_source, u32 *out_num_streams,
++					  const u32 **out_streams,
++					  bool *allocated)
 +{
-+	struct v4l2_subdev_stream_configs *stream_configs;
++	static const u32 default_streams[] = { 0 };
++	struct v4l2_subdev_krouting *routing;
++	struct v4l2_subdev *subdev;
++	u32 num_streams;
++	u32 *streams;
 +	unsigned int i;
++	struct v4l2_subdev_state *state;
++	int ret;
+ 
+-	rval = v4l2_subdev_link_validate_get_format(
+-		link->sink, &sink_fmt);
+-	if (rval < 0)
++	if (is_source)
++		subdev = media_entity_to_v4l2_subdev(link->source->entity);
++	else
++		subdev = media_entity_to_v4l2_subdev(link->sink->entity);
 +
-+	lockdep_assert_held(state->lock);
++	if (!(subdev->flags & V4L2_SUBDEV_FL_STREAMS)) {
++		*out_num_streams = 1;
++		*out_streams = default_streams;
++		*allocated = false;
+ 		return 0;
++	}
+ 
+-	sink = media_entity_to_v4l2_subdev(link->sink->entity);
++	state = v4l2_subdev_get_locked_active_state(subdev);
+ 
+-	rval = v4l2_subdev_call(sink, pad, link_validate, link,
+-				&source_fmt, &sink_fmt);
+-	if (rval != -ENOIOCTLCMD)
+-		return rval;
++	routing = &state->routing;
 +
-+	stream_configs = &state->stream_configs;
++	streams = kmalloc_array(routing->num_routes, sizeof(u32), GFP_KERNEL);
++	if (!streams)
++		return -ENOMEM;
 +
-+	for (i = 0; i < stream_configs->num_configs; ++i) {
-+		if (stream_configs->configs[i].pad == pad &&
-+		    stream_configs->configs[i].stream == stream)
-+			return &stream_configs->configs[i].fmt;
++	num_streams = 0;
++
++	for (i = 0; i < routing->num_routes; ++i) {
++		struct v4l2_subdev_route *route = &routing->routes[i];
++		int j;
++		u32 route_pad;
++		u32 route_stream;
++		u32 link_pad;
++
++		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
++			continue;
++
++		if (is_source) {
++			route_pad = route->source_pad;
++			route_stream = route->source_stream;
++			link_pad = link->source->index;
++		} else {
++			route_pad = route->sink_pad;
++			route_stream = route->sink_stream;
++			link_pad = link->sink->index;
++		}
++
++		if (route_pad != link_pad)
++			continue;
++
++		/* look for duplicates */
++		for (j = 0; j < num_streams; ++j) {
++			if (streams[j] == route_stream) {
++				ret = -EINVAL;
++				goto free_streams;
++			}
++		}
++
++		streams[num_streams++] = route_stream;
 +	}
 +
-+	return NULL;
++	sort(streams, num_streams, sizeof(u32), &cmp_u32, NULL);
++
++	*out_num_streams = num_streams;
++	*out_streams = streams;
++	*allocated = true;
++
++	return 0;
++
++free_streams:
++	kfree(streams);
++
++	return ret;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_format);
 +
-+struct v4l2_rect *
-+v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
-+				  unsigned int pad, u32 stream)
++static int v4l2_subdev_link_validate_locked(struct media_link *link)
 +{
-+	struct v4l2_subdev_stream_configs *stream_configs;
-+	unsigned int i;
++	struct v4l2_subdev *sink_subdev =
++		media_entity_to_v4l2_subdev(link->sink->entity);
++	struct device *dev = sink_subdev->entity.graph_obj.mdev->dev;
++	u32 num_source_streams;
++	const u32 *source_streams;
++	bool source_allocated;
++	u32 num_sink_streams;
++	const u32 *sink_streams;
++	bool sink_allocated;
++	unsigned int sink_idx;
++	unsigned int source_idx;
++	int ret;
 +
-+	lockdep_assert_held(state->lock);
++	dev_dbg(dev, "validating link \"%s\":%u -> \"%s\":%u\n",
++		link->source->entity->name, link->source->index,
++		link->sink->entity->name, link->sink->index);
 +
-+	stream_configs = &state->stream_configs;
++	ret = v4l2_link_validate_get_streams(link, true, &num_source_streams,
++					     &source_streams,
++					     &source_allocated);
++	if (ret)
++		return ret;
 +
-+	for (i = 0; i < stream_configs->num_configs; ++i) {
-+		if (stream_configs->configs[i].pad == pad &&
-+		    stream_configs->configs[i].stream == stream)
-+			return &stream_configs->configs[i].crop;
++	ret = v4l2_link_validate_get_streams(link, false, &num_sink_streams,
++					     &sink_streams, &sink_allocated);
++	if (ret)
++		goto free_source;
++
++	/*
++	 * It is ok to have more source streams than sink streams as extra
++	 * source streams can just be ignored by the receiver, but having extra
++	 * sink streams is an error as streams must have a source.
++	 */
++	if (num_source_streams < num_sink_streams) {
++		dev_err(dev,
++			"Not enough source streams: %d < %d\n",
++			num_source_streams, num_sink_streams);
++		ret = -EINVAL;
++		goto free_sink;
 +	}
 +
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_crop);
++	/* Validate source and sink stream formats */
 +
-+struct v4l2_rect *
-+v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
-+				     unsigned int pad, u32 stream)
-+{
-+	struct v4l2_subdev_stream_configs *stream_configs;
-+	unsigned int i;
++	source_idx = 0;
 +
-+	lockdep_assert_held(state->lock);
++	for (sink_idx = 0; sink_idx < num_sink_streams; ++sink_idx) {
++		struct v4l2_subdev_format sink_fmt, source_fmt;
++		u32 stream;
 +
-+	stream_configs = &state->stream_configs;
++		stream = sink_streams[sink_idx];
 +
-+	for (i = 0; i < stream_configs->num_configs; ++i) {
-+		if (stream_configs->configs[i].pad == pad &&
-+		    stream_configs->configs[i].stream == stream)
-+			return &stream_configs->configs[i].compose;
++		for (; source_idx < num_source_streams; ++source_idx) {
++			if (source_streams[source_idx] == stream)
++				break;
++		}
++
++		if (source_idx == num_source_streams) {
++			dev_err(dev, "No source stream for sink stream %u\n",
++				stream);
++			ret = -EINVAL;
++			goto free_sink;
++		}
++
++		dev_dbg(dev, "validating stream \"%s\":%u:%u -> \"%s\":%u:%u\n",
++			link->source->entity->name, link->source->index, stream,
++			link->sink->entity->name, link->sink->index, stream);
++
++		ret = v4l2_subdev_link_validate_get_format(link->source, stream,
++							   &source_fmt);
++		if (ret < 0) {
++			dev_dbg(dev, "Failed to get format for \"%s\":%u:%u (but that's ok)\n",
++				link->source->entity->name, link->source->index,
++				stream);
++			ret = 0;
++			continue;
++		}
++
++		ret = v4l2_subdev_link_validate_get_format(link->sink, stream,
++							   &sink_fmt);
++		if (ret < 0) {
++			dev_dbg(dev, "Failed to get format for \"%s\":%u:%u (but that's ok)\n",
++				link->sink->entity->name, link->sink->index,
++				stream);
++			ret = 0;
++			continue;
++		}
+ 
+-	return v4l2_subdev_link_validate_default(
+-		sink, link, &source_fmt, &sink_fmt);
++		/* TODO: add stream number to link_validate() */
++		ret = v4l2_subdev_call(sink_subdev, pad, link_validate, link,
++				       &source_fmt, &sink_fmt);
++		if (!ret)
++			continue;
++
++		if (ret != -ENOIOCTLCMD)
++			goto free_sink;
++
++		ret = v4l2_subdev_link_validate_default(sink_subdev, link,
++							&source_fmt, &sink_fmt);
++
++		if (ret)
++			goto free_sink;
 +	}
 +
-+	return NULL;
++free_sink:
++	if (sink_allocated)
++		kfree(sink_streams);
++
++free_source:
++	if (source_allocated)
++		kfree(source_streams);
++
++	return ret;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_compose);
 +
- #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
- 
- #endif /* CONFIG_MEDIA_CONTROLLER */
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 37081a2e6697..6d177fc609f7 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -691,6 +691,37 @@ struct v4l2_subdev_pad_config {
- 	struct v4l2_rect try_compose;
- };
- 
-+/**
-+ * struct v4l2_subdev_stream_config - Used for storing stream configuration.
-+ *
-+ * @pad: pad number
-+ * @stream: stream number
-+ * @fmt: &struct v4l2_mbus_framefmt
-+ * @crop: &struct v4l2_rect to be used for crop
-+ * @compose: &struct v4l2_rect to be used for compose
-+ *
-+ * This structure stores configuration for a stream.
-+ */
-+struct v4l2_subdev_stream_config {
-+	u32 pad;
-+	u32 stream;
++int v4l2_subdev_link_validate(struct media_link *link)
++{
++	struct v4l2_subdev *source_sd, *sink_sd;
++	struct v4l2_subdev_state *source_state, *sink_state;
++	int ret;
 +
-+	struct v4l2_mbus_framefmt fmt;
-+	struct v4l2_rect crop;
-+	struct v4l2_rect compose;
-+};
++	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
++	source_sd = media_entity_to_v4l2_subdev(link->source->entity);
 +
-+/**
-+ * struct v4l2_subdev_stream_configs - A collection of stream configs.
-+ *
-+ * @num_configs: number of entries in @config.
-+ * @configs: an array of &struct v4l2_subdev_stream_configs.
-+ */
-+struct v4l2_subdev_stream_configs {
-+	u32 num_configs;
-+	struct v4l2_subdev_stream_config *configs;
-+};
++	sink_state = v4l2_subdev_get_unlocked_active_state(sink_sd);
++	source_state = v4l2_subdev_get_unlocked_active_state(source_sd);
 +
- /**
-  * struct v4l2_subdev_krouting - subdev routing table
-  *
-@@ -711,6 +742,7 @@ struct v4l2_subdev_krouting {
-  * @lock: mutex for the state. May be replaced by the user.
-  * @pads: &struct v4l2_subdev_pad_config array
-  * @routing: routing table for the subdev
-+ * @stream_configs: stream configurations (only for V4L2_SUBDEV_FL_STREAMS)
-  *
-  * This structure only needs to be passed to the pad op if the 'which' field
-  * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
-@@ -722,6 +754,7 @@ struct v4l2_subdev_state {
- 	struct mutex *lock;
- 	struct v4l2_subdev_pad_config *pads;
- 	struct v4l2_subdev_krouting routing;
-+	struct v4l2_subdev_stream_configs stream_configs;
- };
- 
- /**
-@@ -1423,6 +1456,52 @@ int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
- 			    struct v4l2_subdev_state *state,
- 			    struct v4l2_subdev_krouting *routing);
- 
-+/**
-+ * v4l2_subdev_state_get_stream_format() - Get pointer to a stream format
-+ * @state: subdevice state
-+ * @pad: pad id
-+ * @stream: stream id
-+ *
-+ * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
-+ * stream in the subdev state.
-+ *
-+ * If the state does not contain the given pad + stream, NULL is returned.
-+ */
-+struct v4l2_mbus_framefmt *
-+v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
-+				    unsigned int pad, u32 stream);
++	if (sink_state)
++		v4l2_subdev_lock_state(sink_state);
 +
-+/**
-+ * v4l2_subdev_state_get_stream_crop() - Get pointer to a stream crop rectangle
-+ * @state: subdevice state
-+ * @pad: pad id
-+ * @stream: stream id
-+ *
-+ * This returns a pointer to crop rectangle for the given pad + stream in the
-+ * subdev state.
-+ *
-+ * If the state does not contain the given pad + stream, NULL is returned.
-+ */
-+struct v4l2_rect *
-+v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
-+				  unsigned int pad, u32 stream);
++	if (source_state)
++		v4l2_subdev_lock_state(source_state);
 +
-+/**
-+ * v4l2_subdev_state_get_stream_compose() - Get pointer to a stream compose
-+ *					    rectangle
-+ * @state: subdevice state
-+ * @pad: pad id
-+ * @stream: stream id
-+ *
-+ * This returns a pointer to compose rectangle for the given pad + stream in the
-+ * subdev state.
-+ *
-+ * If the state does not contain the given pad + stream, NULL is returned.
-+ */
-+struct v4l2_rect *
-+v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
-+				     unsigned int pad, u32 stream);
++	ret = v4l2_subdev_link_validate_locked(link);
 +
- #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
++	if (sink_state)
++		v4l2_subdev_unlock_state(sink_state);
++
++	if (source_state)
++		v4l2_subdev_unlock_state(source_state);
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
  
- #endif /* CONFIG_MEDIA_CONTROLLER */
-diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-index ae393f9f17c1..429390c2f8a0 100644
---- a/include/uapi/linux/v4l2-subdev.h
-+++ b/include/uapi/linux/v4l2-subdev.h
-@@ -44,13 +44,15 @@ enum v4l2_subdev_format_whence {
-  * @which: format type (from enum v4l2_subdev_format_whence)
-  * @pad: pad number, as reported by the media API
-  * @format: media bus format (format code and frame size)
-+ * @stream: stream number, defined in subdev routing
-  * @reserved: drivers and applications must zero this array
-  */
- struct v4l2_subdev_format {
- 	__u32 which;
- 	__u32 pad;
- 	struct v4l2_mbus_framefmt format;
--	__u32 reserved[8];
-+	__u32 stream;
-+	__u32 reserved[7];
- };
- 
- /**
-@@ -58,13 +60,15 @@ struct v4l2_subdev_format {
-  * @which: format type (from enum v4l2_subdev_format_whence)
-  * @pad: pad number, as reported by the media API
-  * @rect: pad crop rectangle boundaries
-+ * @stream: stream number, defined in subdev routing
-  * @reserved: drivers and applications must zero this array
-  */
- struct v4l2_subdev_crop {
- 	__u32 which;
- 	__u32 pad;
- 	struct v4l2_rect rect;
--	__u32 reserved[8];
-+	__u32 stream;
-+	__u32 reserved[7];
- };
- 
- #define V4L2_SUBDEV_MBUS_CODE_CSC_COLORSPACE	0x00000001
-@@ -80,6 +84,7 @@ struct v4l2_subdev_crop {
-  * @code: format code (MEDIA_BUS_FMT_ definitions)
-  * @which: format type (from enum v4l2_subdev_format_whence)
-  * @flags: flags set by the driver, (V4L2_SUBDEV_MBUS_CODE_*)
-+ * @stream: stream number, defined in subdev routing
-  * @reserved: drivers and applications must zero this array
-  */
- struct v4l2_subdev_mbus_code_enum {
-@@ -88,7 +93,8 @@ struct v4l2_subdev_mbus_code_enum {
- 	__u32 code;
- 	__u32 which;
- 	__u32 flags;
--	__u32 reserved[7];
-+	__u32 stream;
-+	__u32 reserved[6];
- };
- 
- /**
-@@ -101,6 +107,7 @@ struct v4l2_subdev_mbus_code_enum {
-  * @min_height: minimum frame height, in pixels
-  * @max_height: maximum frame height, in pixels
-  * @which: format type (from enum v4l2_subdev_format_whence)
-+ * @stream: stream number, defined in subdev routing
-  * @reserved: drivers and applications must zero this array
-  */
- struct v4l2_subdev_frame_size_enum {
-@@ -112,19 +119,22 @@ struct v4l2_subdev_frame_size_enum {
- 	__u32 min_height;
- 	__u32 max_height;
- 	__u32 which;
--	__u32 reserved[8];
-+	__u32 stream;
-+	__u32 reserved[7];
- };
- 
- /**
-  * struct v4l2_subdev_frame_interval - Pad-level frame rate
-  * @pad: pad number, as reported by the media API
-  * @interval: frame interval in seconds
-+ * @stream: stream number, defined in subdev routing
-  * @reserved: drivers and applications must zero this array
-  */
- struct v4l2_subdev_frame_interval {
- 	__u32 pad;
- 	struct v4l2_fract interval;
--	__u32 reserved[9];
-+	__u32 stream;
-+	__u32 reserved[8];
- };
- 
- /**
-@@ -136,6 +146,7 @@ struct v4l2_subdev_frame_interval {
-  * @height: frame height in pixels
-  * @interval: frame interval in seconds
-  * @which: format type (from enum v4l2_subdev_format_whence)
-+ * @stream: stream number, defined in subdev routing
-  * @reserved: drivers and applications must zero this array
-  */
- struct v4l2_subdev_frame_interval_enum {
-@@ -146,7 +157,8 @@ struct v4l2_subdev_frame_interval_enum {
- 	__u32 height;
- 	struct v4l2_fract interval;
- 	__u32 which;
--	__u32 reserved[8];
-+	__u32 stream;
-+	__u32 reserved[7];
- };
- 
- /**
-@@ -158,6 +170,7 @@ struct v4l2_subdev_frame_interval_enum {
-  *	    defined in v4l2-common.h; V4L2_SEL_TGT_* .
-  * @flags: constraint flags, defined in v4l2-common.h; V4L2_SEL_FLAG_*.
-  * @r: coordinates of the selection window
-+ * @stream: stream number, defined in subdev routing
-  * @reserved: for future use, set to zero for now
-  *
-  * Hardware may use multiple helper windows to process a video stream.
-@@ -170,7 +183,8 @@ struct v4l2_subdev_selection {
- 	__u32 target;
- 	__u32 flags;
- 	struct v4l2_rect r;
--	__u32 reserved[8];
-+	__u32 stream;
-+	__u32 reserved[7];
- };
- 
- /**
 -- 
 2.34.1
 
