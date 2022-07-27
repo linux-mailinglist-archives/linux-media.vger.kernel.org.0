@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF77B582478
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 12:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 922D858247A
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 12:37:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231944AbiG0KhH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S231963AbiG0KhH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 27 Jul 2022 06:37:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40082 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbiG0KhF (ORCPT
+        with ESMTP id S231940AbiG0KhG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 06:37:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F872474C3
-        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 03:37:04 -0700 (PDT)
+        Wed, 27 Jul 2022 06:37:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17560474E8
+        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 03:37:06 -0700 (PDT)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4D16D24;
-        Wed, 27 Jul 2022 12:36:59 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0090D37;
+        Wed, 27 Jul 2022 12:37:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1658918220;
-        bh=IUiZAhOdyY6JUCnINWvTRcGpHt9DKuJA2neyCjtG2qY=;
+        s=mail; t=1658918221;
+        bh=61HrzoINm6i+Fv7lqsU4LS45z/4gL32PdMRhZLX29Ik=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iCwf8ljWxKpumEOnl/UYqzJv9yXAGprOwsLw+DQQDJryXhVfircfoPLSs0TayZarq
-         3SsVTABF8yR1yJo04OVUeJwXYAHO4Qu8n8vxUC+bnql/mWBC8HoBEBn2vuVNLt2ms0
-         7KAY1QStsBQGt45nMJn7sPyINPB1BQ+TjDUOZyic=
+        b=upkuHTjCR07sD5r2hONUP4lcBzBjZ7X7kOYv8nVMCP5Ti5oUf6UIZ5ZfZIvTXjc9w
+         /DqC8igy5ogmSmKtKgkBr1MAXkYoLwau8zT6Uv3pcGD++3nlt5XGIAclKa65HsjrWB
+         A+0WjG3rY+8p3yGoh0frRrrfReB3RqW2rvw+pWr4=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -36,9 +36,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v12 05/30] media: mc: entity: Add media_entity_pipeline() to access the media pipeline
-Date:   Wed, 27 Jul 2022 13:36:14 +0300
-Message-Id: <20220727103639.581567-6-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v12 06/30] media: mc: entity: Add has_route entity operation and media_entity_has_route() helper
+Date:   Wed, 27 Jul 2022 13:36:15 +0300
+Message-Id: <20220727103639.581567-7-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
 References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
@@ -55,252 +55,92 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Replace direct access to the pipe field in drivers with a new helper
-function. This will allow easier refactoring of media pipeline handling
-in the MC core behind the scenes without affecting drivers.
+The optional operation can be used by entities to report whether a
+source pad and a sink pad are internally connected.
+
+media_entity_has_route() is a wrapper around the media entity has_route operation.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/mc/mc-entity.c                   |  6 ++++++
- .../platform/renesas/rcar-vin/rcar-core.c      |  5 ++---
- .../media/platform/renesas/rcar-vin/rcar-dma.c |  2 +-
- drivers/media/platform/ti/omap3isp/isp.c       |  4 +---
- drivers/media/platform/ti/omap3isp/ispvideo.c  |  3 +--
- drivers/media/platform/ti/omap3isp/ispvideo.h  | 11 +++++++++--
- drivers/media/platform/xilinx/xilinx-dma.c     |  3 +--
- drivers/media/platform/xilinx/xilinx-dma.h     |  7 ++++++-
- drivers/staging/media/imx/imx-media-utils.c    |  2 +-
- drivers/staging/media/omap4iss/iss.c           |  4 +---
- drivers/staging/media/omap4iss/iss_video.c     |  3 +--
- drivers/staging/media/omap4iss/iss_video.h     | 11 +++++++++--
- include/media/media-entity.h                   | 18 ++++++++++++++++++
- 13 files changed, 57 insertions(+), 22 deletions(-)
+ drivers/media/mc/mc-entity.c | 37 ++++++++++++++++++++++++++++++++++++
+ include/media/media-entity.h |  8 ++++++++
+ 2 files changed, 45 insertions(+)
 
 diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 9f4a1c98dc43..50872d953cf9 100644
+index 50872d953cf9..4f02f1247762 100644
 --- a/drivers/media/mc/mc-entity.c
 +++ b/drivers/media/mc/mc-entity.c
-@@ -923,6 +923,12 @@ int media_entity_get_fwnode_pad(struct media_entity *entity,
- }
- EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
- 
-+struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
-+{
-+	return entity->pipe;
-+}
-+EXPORT_SYMBOL_GPL(media_entity_pipeline);
-+
- static void media_interface_init(struct media_device *mdev,
- 				 struct media_interface *intf,
- 				 u32 gobj_type,
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 49bdcfba010b..7b12af3ed8fb 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -786,9 +786,8 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
- 		return 0;
- 
- 	/*
--	 * Don't allow link changes if any entity in the graph is
--	 * streaming, modifying the CHSEL register fields can disrupt
--	 * running streams.
-+	 * Don't allow link changes if any stream in the graph is active as
-+	 * modifying the CHSEL register fields can disrupt running streams.
- 	 */
- 	media_device_for_each_entity(entity, &group->mdev)
- 		if (media_entity_is_streaming(entity))
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index 6644b498929d..924907b71263 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -1281,7 +1281,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
- 	 */
- 	mdev = vin->vdev.entity.graph_obj.mdev;
- 	mutex_lock(&mdev->graph_mutex);
--	pipe = sd->entity.pipe ? sd->entity.pipe : &vin->vdev.pipe;
-+	pipe = media_entity_pipeline(&sd->entity) ? : &vin->vdev.pipe;
- 	ret = __media_pipeline_start(&vin->vdev.entity, pipe);
- 	mutex_unlock(&mdev->graph_mutex);
- 	if (ret)
-diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
-index 4c937f3f323e..2b5310b07bc3 100644
---- a/drivers/media/platform/ti/omap3isp/isp.c
-+++ b/drivers/media/platform/ti/omap3isp/isp.c
-@@ -937,10 +937,8 @@ static int isp_pipeline_is_last(struct media_entity *me)
- 	struct isp_pipeline *pipe;
- 	struct media_pad *pad;
- 
--	if (!me->pipe)
--		return 0;
- 	pipe = to_isp_pipeline(me);
--	if (pipe->stream_state == ISP_PIPELINE_STREAM_STOPPED)
-+	if (!pipe || pipe->stream_state == ISP_PIPELINE_STREAM_STOPPED)
- 		return 0;
- 	pad = media_entity_remote_pad(&pipe->output->pad);
- 	return pad->entity == me;
-diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
-index 8811d6dd4ee7..44b0d55ee5d8 100644
---- a/drivers/media/platform/ti/omap3isp/ispvideo.c
-+++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
-@@ -1093,8 +1093,7 @@ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- 	/* Start streaming on the pipeline. No link touching an entity in the
- 	 * pipeline can be activated or deactivated once streaming is started.
- 	 */
--	pipe = video->video.entity.pipe
--	     ? to_isp_pipeline(&video->video.entity) : &video->pipe;
-+	pipe = to_isp_pipeline(&video->video.entity) ? : &video->pipe;
- 
- 	ret = media_entity_enum_init(&pipe->ent_enum, &video->isp->media_dev);
- 	if (ret)
-diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.h b/drivers/media/platform/ti/omap3isp/ispvideo.h
-index a0908670c0cf..1d23df576e6b 100644
---- a/drivers/media/platform/ti/omap3isp/ispvideo.h
-+++ b/drivers/media/platform/ti/omap3isp/ispvideo.h
-@@ -99,8 +99,15 @@ struct isp_pipeline {
- 	unsigned int external_width;
- };
- 
--#define to_isp_pipeline(__e) \
--	container_of((__e)->pipe, struct isp_pipeline, pipe)
-+static inline struct isp_pipeline *to_isp_pipeline(struct media_entity *entity)
-+{
-+	struct media_pipeline *pipe = media_entity_pipeline(entity);
-+
-+	if (!pipe)
-+		return NULL;
-+
-+	return container_of(pipe, struct isp_pipeline, pipe);
-+}
- 
- static inline int isp_pipeline_ready(struct isp_pipeline *pipe)
- {
-diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
-index 338c3661d809..72eff5ef626b 100644
---- a/drivers/media/platform/xilinx/xilinx-dma.c
-+++ b/drivers/media/platform/xilinx/xilinx-dma.c
-@@ -402,8 +402,7 @@ static int xvip_dma_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	 * Use the pipeline object embedded in the first DMA object that starts
- 	 * streaming.
- 	 */
--	pipe = dma->video.entity.pipe
--	     ? to_xvip_pipeline(&dma->video.entity) : &dma->pipe;
-+	pipe = to_xvip_pipeline(&dma->video.entity) ? : &dma->pipe;
- 
- 	ret = media_pipeline_start(&dma->video.entity, &pipe->pipe);
- 	if (ret < 0)
-diff --git a/drivers/media/platform/xilinx/xilinx-dma.h b/drivers/media/platform/xilinx/xilinx-dma.h
-index 2378bdae57ae..3ea10f6b0bb9 100644
---- a/drivers/media/platform/xilinx/xilinx-dma.h
-+++ b/drivers/media/platform/xilinx/xilinx-dma.h
-@@ -47,7 +47,12 @@ struct xvip_pipeline {
- 
- static inline struct xvip_pipeline *to_xvip_pipeline(struct media_entity *e)
- {
--	return container_of(e->pipe, struct xvip_pipeline, pipe);
-+	struct media_pipeline *pipe = media_entity_pipeline(e);
-+
-+	if (!pipe)
-+		return NULL;
-+
-+	return container_of(pipe, struct xvip_pipeline, pipe);
- }
- 
- /**
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index 94bc866ca28c..5d9c6fc6f2e0 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -871,7 +871,7 @@ int imx_media_pipeline_set_stream(struct imx_media_dev *imxmd,
- 			__media_pipeline_stop(entity);
- 	} else {
- 		v4l2_subdev_call(sd, video, s_stream, 0);
--		if (entity->pipe)
-+		if (media_entity_pipeline(entity))
- 			__media_pipeline_stop(entity);
- 	}
- 
-diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-index 68588e9dab0b..77760d913b49 100644
---- a/drivers/staging/media/omap4iss/iss.c
-+++ b/drivers/staging/media/omap4iss/iss.c
-@@ -548,10 +548,8 @@ static int iss_pipeline_is_last(struct media_entity *me)
- 	struct iss_pipeline *pipe;
- 	struct media_pad *pad;
- 
--	if (!me->pipe)
--		return 0;
- 	pipe = to_iss_pipeline(me);
--	if (pipe->stream_state == ISS_PIPELINE_STREAM_STOPPED)
-+	if (!pipe || pipe->stream_state == ISS_PIPELINE_STREAM_STOPPED)
- 		return 0;
- 	pad = media_entity_remote_pad(&pipe->output->pad);
- 	return pad->entity == me;
-diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-index d0da083deed5..67d63a400fa2 100644
---- a/drivers/staging/media/omap4iss/iss_video.c
-+++ b/drivers/staging/media/omap4iss/iss_video.c
-@@ -870,8 +870,7 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- 	 * Start streaming on the pipeline. No link touching an entity in the
- 	 * pipeline can be activated or deactivated once streaming is started.
- 	 */
--	pipe = entity->pipe
--	     ? to_iss_pipeline(entity) : &video->pipe;
-+	pipe = to_iss_pipeline(&video->video.entity) ? : &video->pipe;
- 	pipe->external = NULL;
- 	pipe->external_rate = 0;
- 	pipe->external_bpp = 0;
-diff --git a/drivers/staging/media/omap4iss/iss_video.h b/drivers/staging/media/omap4iss/iss_video.h
-index 526281bf0051..ca2d5edb6261 100644
---- a/drivers/staging/media/omap4iss/iss_video.h
-+++ b/drivers/staging/media/omap4iss/iss_video.h
-@@ -90,8 +90,15 @@ struct iss_pipeline {
- 	int external_bpp;
- };
- 
--#define to_iss_pipeline(__e) \
--	container_of((__e)->pipe, struct iss_pipeline, pipe)
-+static inline struct iss_pipeline *to_iss_pipeline(struct media_entity *entity)
-+{
-+	struct media_pipeline *pipe = media_entity_pipeline(entity);
-+
-+	if (!pipe)
-+		return NULL;
-+
-+	return container_of(pipe, struct iss_pipeline, pipe);
-+}
- 
- static inline int iss_pipeline_ready(struct iss_pipeline *pipe)
- {
-diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 4e4fec60bf97..96f5fcda1985 100644
---- a/include/media/media-entity.h
-+++ b/include/media/media-entity.h
-@@ -883,6 +883,24 @@ static inline bool media_entity_is_streaming(const struct media_entity *entity)
- 	return entity->pipe;
- }
+@@ -225,6 +225,43 @@ EXPORT_SYMBOL_GPL(media_entity_pads_init);
+  * Graph traversal
+  */
  
 +/**
-+ * media_entity_pipeline - Get the media pipeline an entity is part of
++ * media_entity_has_route - Check if two entity pads are connected internally
++ *
 + * @entity: The entity
++ * @pad0: The first pad index
++ * @pad1: The second pad index
 + *
-+ * This function returns the media pipeline that an entity has been associated
-+ * with when constructing the pipeline with media_pipeline_start(). The pointer
-+ * remains valid until media_pipeline_stop() is called.
++ * This function uses the &media_entity_operations.has_route() operation to
++ * check connectivity inside the entity between @pad0 and @pad1.
 + *
-+ * In general, entities can be part of multiple pipelines, when carrying
-+ * multiple streams (either on different pads, or on the same pad using
-+ * multiplexed streams). This function is ill-defined in that case. It
-+ * currently returns the pipeline associated with the first pad of the entity.
++ * One of @pad0 and @pad1 must be a sink pad and the other one a source pad.
++ * The function returns 0 if both pads are sinks or sources.
 + *
-+ * Return: The media_pipeline the entity is part of, or NULL if the entity is
-+ * not part of any pipeline.
++ * If the has_route operation is not implemented, all pads of the entity are
++ * considered as connected.
++ *
++ * The caller must hold entity->graph_obj.mdev->mutex.
++ *
++ * Return: true if the pads are connected internally and false otherwise.
 + */
-+struct media_pipeline *media_entity_pipeline(struct media_entity *entity);
++__maybe_unused
++static bool media_entity_has_route(struct media_entity *entity,
++				   unsigned int pad0, unsigned int pad1)
++{
++	if (pad0 >= entity->num_pads || pad1 >= entity->num_pads)
++		return false;
 +
- /**
-  * media_entity_get_fwnode_pad - Get pad number from fwnode
++	if (entity->pads[pad0].flags & entity->pads[pad1].flags &
++	    (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE))
++		return false;
++
++	if (!entity->ops || !entity->ops->has_route)
++		return true;
++
++	return entity->ops->has_route(entity, pad0, pad1);
++}
++
+ static struct media_entity *
+ media_entity_other(struct media_entity *entity, struct media_link *link)
+ {
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index 96f5fcda1985..5764aadd2c42 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -206,6 +206,12 @@ struct media_pad {
+  * @link_validate:	Return whether a link is valid from the entity point of
+  *			view. The media_pipeline_start() function
+  *			validates all links by calling this operation. Optional.
++ * @has_route:		Return whether a route exists inside the entity between
++ *			pad0 and pad1. pad0 and pad1 are guaranteed to not both
++ *			be sinks or sources. Never call the .has_route()
++ *			operation directly, always use media_entity_has_route().
++ *			Optional: If the operation isn't implemented all pads
++ *			will be considered as connected, with the same streams.
   *
+  * .. note::
+  *
+@@ -219,6 +225,8 @@ struct media_entity_operations {
+ 			  const struct media_pad *local,
+ 			  const struct media_pad *remote, u32 flags);
+ 	int (*link_validate)(struct media_link *link);
++	bool (*has_route)(struct media_entity *entity, unsigned int pad0,
++			  unsigned int pad1);
+ };
+ 
+ /**
 -- 
 2.34.1
 
