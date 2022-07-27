@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D61A9582477
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 12:37:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46C1B582479
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jul 2022 12:37:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231910AbiG0KhE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jul 2022 06:37:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40020 "EHLO
+        id S231932AbiG0KhF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jul 2022 06:37:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbiG0KhC (ORCPT
+        with ESMTP id S231911AbiG0KhE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jul 2022 06:37:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F7E46D9E
-        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 03:37:02 -0700 (PDT)
+        Wed, 27 Jul 2022 06:37:04 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0821C474C2
+        for <linux-media@vger.kernel.org>; Wed, 27 Jul 2022 03:37:04 -0700 (PDT)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84AD2BBD;
-        Wed, 27 Jul 2022 12:36:58 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3704BCE1;
+        Wed, 27 Jul 2022 12:36:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1658918219;
-        bh=mqz3i0weDUi8iIJzh2lkaUJiaMM0gr61gwnJYCAjoEU=;
+        bh=yMyDfMbEPz4nNNXh1bnNG8oHqX3xQxjFdj5NcehD1kw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Uhy0H+/rFwcw4bgP4+Q7dd3Pk8Qt9/5lxEZ4Cxf9Ll4pWDhVUlv5oOSsAThNEg3hw
-         BQBQGP/daKvIk3EA03GXiBBm4/xumk5eAyTPav9i0Hv5s5TL1Mbmw4FuadURnkNmh2
-         vVUWHyA7Ds7mfLlMwQIoJmF2vt8sXgnA9XZEAiUU=
+        b=W2g+Q8vTPDgsAEBGCMxPX6lt7LZmuDs+vJa2Y7OfxMFOrwF5EQb/cA8NlH/+4ILX4
+         W6PrJAtWvuTYhmIzk34XZMbwke5Uz7VTj6ztB7GtpYMWxK05lydOm3w53C1YCPl6uC
+         oCSheNxPyYZ8cf11mbROL6CS1Gb4ZTL31HVPQ35g=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -36,9 +36,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v12 03/30] media: mc: entity: Merge media_entity_enum_init and __media_entity_enum_init
-Date:   Wed, 27 Jul 2022 13:36:12 +0300
-Message-Id: <20220727103639.581567-4-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v12 04/30] media: mc: entity: Move media_entity_get_fwnode_pad() out of graph walk section
+Date:   Wed, 27 Jul 2022 13:36:13 +0300
+Message-Id: <20220727103639.581567-5-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
 References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
@@ -55,100 +55,104 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The media_entity_enum_init() function is a wrapper around
-__media_entity_enum_init() that turns a media_device pointer argument
-into the maximum entity ID in the corresponding media graph.
-__media_entity_enum_init() is never used outside of
-media_entity_enum_init(), so the two functions can be merged together.
+The media_entity_get_fwnode_pad() function is unrelated to the graph
+traversal code that it is currently bundled with. Move it with the
+media_entity_remote_pad() function.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/mc/mc-entity.c | 10 ++++++----
- include/media/media-device.h | 15 ---------------
- include/media/media-entity.h | 10 +++++-----
- 3 files changed, 11 insertions(+), 24 deletions(-)
+ drivers/media/mc/mc-entity.c | 70 ++++++++++++++++++------------------
+ 1 file changed, 35 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 35a1aa218c51..c810b5f45d82 100644
+index c810b5f45d82..9f4a1c98dc43 100644
 --- a/drivers/media/mc/mc-entity.c
 +++ b/drivers/media/mc/mc-entity.c
-@@ -58,10 +58,12 @@ static inline const char *link_type_name(struct media_link *link)
- 	}
+@@ -369,41 +369,6 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph)
  }
+ EXPORT_SYMBOL_GPL(media_graph_walk_next);
  
--__must_check int __media_entity_enum_init(struct media_entity_enum *ent_enum,
--					  int idx_max)
-+__must_check int media_entity_enum_init(struct media_entity_enum *ent_enum,
-+					struct media_device *mdev)
- {
--	idx_max = ALIGN(idx_max, BITS_PER_LONG);
-+	int idx_max;
-+
-+	idx_max = ALIGN(mdev->entity_internal_idx_max + 1, BITS_PER_LONG);
- 	ent_enum->bmap = bitmap_zalloc(idx_max, GFP_KERNEL);
- 	if (!ent_enum->bmap)
- 		return -ENOMEM;
-@@ -70,7 +72,7 @@ __must_check int __media_entity_enum_init(struct media_entity_enum *ent_enum,
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(__media_entity_enum_init);
-+EXPORT_SYMBOL_GPL(media_entity_enum_init);
- 
- void media_entity_enum_cleanup(struct media_entity_enum *ent_enum)
- {
-diff --git a/include/media/media-device.h b/include/media/media-device.h
-index a10b30507524..86716ee7cc6c 100644
---- a/include/media/media-device.h
-+++ b/include/media/media-device.h
-@@ -191,21 +191,6 @@ struct usb_device;
- #define MEDIA_DEV_NOTIFY_PRE_LINK_CH	0
- #define MEDIA_DEV_NOTIFY_POST_LINK_CH	1
- 
--/**
-- * media_entity_enum_init - Initialise an entity enumeration
-- *
-- * @ent_enum: Entity enumeration to be initialised
-- * @mdev: The related media device
-- *
-- * Return: zero on success or a negative error code.
-- */
--static inline __must_check int media_entity_enum_init(
--	struct media_entity_enum *ent_enum, struct media_device *mdev)
+-int media_entity_get_fwnode_pad(struct media_entity *entity,
+-				struct fwnode_handle *fwnode,
+-				unsigned long direction_flags)
 -{
--	return __media_entity_enum_init(ent_enum,
--					mdev->entity_internal_idx_max + 1);
--}
+-	struct fwnode_endpoint endpoint;
+-	unsigned int i;
+-	int ret;
 -
- /**
-  * media_device_init() - Initializes a media device element
-  *
-diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 6b6fea6a713e..4e4fec60bf97 100644
---- a/include/media/media-entity.h
-+++ b/include/media/media-entity.h
-@@ -438,15 +438,15 @@ static inline bool is_media_entity_v4l2_subdev(struct media_entity *entity)
- }
- 
- /**
-- * __media_entity_enum_init - Initialise an entity enumeration
-+ * media_entity_enum_init - Initialise an entity enumeration
-  *
-  * @ent_enum: Entity enumeration to be initialised
-- * @idx_max: Maximum number of entities in the enumeration
-+ * @mdev: The related media device
-  *
-- * Return: Returns zero on success or a negative error code.
-+ * Return: zero on success or a negative error code.
+-	if (!entity->ops || !entity->ops->get_fwnode_pad) {
+-		for (i = 0; i < entity->num_pads; i++) {
+-			if (entity->pads[i].flags & direction_flags)
+-				return i;
+-		}
+-
+-		return -ENXIO;
+-	}
+-
+-	ret = fwnode_graph_parse_endpoint(fwnode, &endpoint);
+-	if (ret)
+-		return ret;
+-
+-	ret = entity->ops->get_fwnode_pad(entity, &endpoint);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (ret >= entity->num_pads)
+-		return -ENXIO;
+-
+-	if (!(entity->pads[ret].flags & direction_flags))
+-		return -ENXIO;
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
+-
+ /* -----------------------------------------------------------------------------
+  * Pipeline management
   */
--__must_check int __media_entity_enum_init(struct media_entity_enum *ent_enum,
--					  int idx_max);
-+__must_check int media_entity_enum_init(struct media_entity_enum *ent_enum,
-+					struct media_device *mdev);
+@@ -923,6 +888,41 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad)
+ }
+ EXPORT_SYMBOL_GPL(media_entity_remote_pad);
  
- /**
-  * media_entity_enum_cleanup - Release resources of an entity enumeration
++int media_entity_get_fwnode_pad(struct media_entity *entity,
++				struct fwnode_handle *fwnode,
++				unsigned long direction_flags)
++{
++	struct fwnode_endpoint endpoint;
++	unsigned int i;
++	int ret;
++
++	if (!entity->ops || !entity->ops->get_fwnode_pad) {
++		for (i = 0; i < entity->num_pads; i++) {
++			if (entity->pads[i].flags & direction_flags)
++				return i;
++		}
++
++		return -ENXIO;
++	}
++
++	ret = fwnode_graph_parse_endpoint(fwnode, &endpoint);
++	if (ret)
++		return ret;
++
++	ret = entity->ops->get_fwnode_pad(entity, &endpoint);
++	if (ret < 0)
++		return ret;
++
++	if (ret >= entity->num_pads)
++		return -ENXIO;
++
++	if (!(entity->pads[ret].flags & direction_flags))
++		return -ENXIO;
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
++
+ static void media_interface_init(struct media_device *mdev,
+ 				 struct media_interface *intf,
+ 				 u32 gobj_type,
 -- 
 2.34.1
 
