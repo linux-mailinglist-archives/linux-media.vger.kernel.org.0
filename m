@@ -2,237 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE4BA583B14
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 11:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B05C583BD1
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 12:11:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234819AbiG1JTU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 28 Jul 2022 05:19:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56842 "EHLO
+        id S235672AbiG1KLf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jul 2022 06:11:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234668AbiG1JTT (ORCPT
+        with ESMTP id S231260AbiG1KLe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jul 2022 05:19:19 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26C96564A
-        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 02:19:17 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oGzfo-00BY29-5D; Thu, 28 Jul 2022 09:19:16 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oGzfm-00DUME-P9; Thu, 28 Jul 2022 09:19:14 +0000
-Date:   Thu, 28 Jul 2022 09:19:13 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <239543149.0.1658999954093@builder.linuxtv.org>
-In-Reply-To: <1061324511.0.1658913554744@builder.linuxtv.org>
-References: <1061324511.0.1658913554744@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3973
+        Thu, 28 Jul 2022 06:11:34 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B6E3AE7B;
+        Thu, 28 Jul 2022 03:11:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659003093; x=1690539093;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=abgk3vUpAQZd9qPd9c0j2BN6XVDXH3lIfe2uKYnCea4=;
+  b=LDFfJBBCTea7L182ShLL2FDdPtGnr12+c1YqwgbbcLj8IQ7YsPGUUDxV
+   0h6Ueh5vunlLVHMfeFxNvinySfaXItfP+68op/kDDyfEVe9iG02+GrA0G
+   Mh/U2S0SSWnmDD0pmGmFQTBhz3ljn7vnHBuwUmOy91v/I6bpwZ45lpUgG
+   ws8dsVtk8khxDCOLf16liqhtcwdd077UbhZE4TbgUYY2D/I3YVFFz3wor
+   KTFWzq5MTtOYnbbMjTL6f3drLsT+PMuY0QWz/C4KfwlUS6y2M/RbSwr/J
+   fLFDlsF/ElYDsm5zvTHXZeSORmwpziHH86Y3ktfLNW/wKYOdyzTdLCWm7
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="314263779"
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; 
+   d="scan'208";a="314263779"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2022 03:11:33 -0700
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; 
+   d="scan'208";a="633603135"
+Received: from niviojax-mobl2.ger.corp.intel.com (HELO [10.213.204.129]) ([10.213.204.129])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2022 03:11:29 -0700
+Message-ID: <a5605b3a-173d-d4a4-fccf-7cf6ba559913@linux.intel.com>
+Date:   Thu, 28 Jul 2022 11:11:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [Intel-gfx] [PATCH v2 06/21] drm/i915/gt: Batch TLB invalidations
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+Cc:     stable@vger.kernel.org,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= 
+        <thomas.hellstrom@linux.intel.com>, linux-media@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        intel-gfx@lists.freedesktop.org,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org,
+        Chris Wilson <chris.p.wilson@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Matthew Auld <matthew.auld@intel.com>
+References: <cover.1657800199.git.mchehab@kernel.org>
+ <9f535a97f32320a213a619a30c961ba44b595453.1657800199.git.mchehab@kernel.org>
+ <567823d5-57ba-30db-dd64-de609df4d8c5@linux.intel.com>
+ <20220727134836.7f7b5fab@maurocar-mobl2>
+ <d2337b73-ae34-3dd3-afa3-85c77dc2135e@linux.intel.com>
+ <20220728083232.352f80cf@maurocar-mobl2>
+From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220728083232.352f80cf@maurocar-mobl2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HK_RANDOM_ENVFROM,HK_RANDOM_FROM,
+        NICE_REPLY_A,RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3973/display/redirect>
 
-Changes:
+On 28/07/2022 07:32, Mauro Carvalho Chehab wrote:
+> On Wed, 27 Jul 2022 13:56:50 +0100
+> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+> 
+>>> Because vma_invalidate_tlb() basically stores a TLB seqno, but the
+>>> actual invalidation is deferred to when the pages are unset, at
+>>> __i915_gem_object_unset_pages().
+>>>
+>>> So, what happens is:
+>>>
+>>> - on VMA sync mode, the need to invalidate TLB is marked at
+>>>     __vma_put_pages(), before VMA unbind;
+>>> - on async, this is deferred to happen at ppgtt_unbind_vma(), where
+>>>     it marks the need to invalidate TLBs.
+>>>
+>>> On both cases, __i915_gem_object_unset_pages() is called later,
+>>> when the driver is ready to unmap the page.
+>>
+>> Sorry still not clear to me why is the patch moving marking of the need
+>> to invalidate (regardless if it a bit like today, or a seqno like in
+>> this patch) from bind to unbind?
+>>
+>> What if the seqno was stored in i915_vma_bind, where the bit is set
+>> today, and all the hunks which touch the unbind and evict would
+>> disappear from the patch. What wouldn't work in that case, if anything?
+> 
+> Ah, now I see your point.
+> 
+> I can't see any sense on having a sequence number at VMA bind, as the
+> unbind order can be different. The need of doing a full TLB invalidation
+> or not depends on the unbind order.
 
+Sorry yes that was stupid from me.. What I was really thinking was the 
+approach I initially used for coalescing. Keeping the set_bit in bind 
+and then once the code enters intel_gt_invalidate_tlbs, takes a "ticket" 
+and waits on the mutex. Once it gets the mutex checks the ticket against 
+the GT copy and if two invalidations have passed since it was waiting on 
+the mutex it can immediately exit. That would seem like a minimal 
+improvement to batch things up.
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3972' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@2793b1d2'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins8706719074721537720.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+But I guess it would still emit needless invalidations if there is no 
+contention, just a stream of serialized put pages. While the approach 
+from this patch can skip all but truly required.
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+Okay, go for it and thanks for the explanations.
 
-Not aborted. It means that the licence was agreed. Proceeding...
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-07-28 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-07-28 09:19:10--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+Regards,
 
-     0K                                                       100%  172M=0s
+Tvrtko
 
-2022-07-28 09:19:10 (172 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+P.S. The last remaining "ugliness" is the 2nd call to invalidation from 
+evict. It would be nicer if there was a single common place to do it on 
+vma unbind but okay, I do not plan to dig into it so fine.
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+> 
+> The way the current algorithm works is that drm_i915_gem_object can be
+> created on any order, and, at unbind/evict, they receive a seqno.
+> 
+> The seqno is incremented at intel_gt_invalidate_tlb():
+> 
+>      void intel_gt_invalidate_tlb(struct intel_gt *gt, u32 seqno)
+>      {
+> 	with_intel_gt_pm_if_awake(gt, wakeref) {
+> 		mutex_lock(&gt->tlb.invalidate_lock);
+> 		if (tlb_seqno_passed(gt, seqno))
+> 				goto unlock;
+> 
+> 		mmio_invalidate_full(gt);
+> 
+> 		write_seqcount_invalidate(&gt->tlb.seqno);	// increment seqno
+> 		
+> 
+> So, let's say 3 objects were created, on this order:
+> 
+> 	obj1
+> 	obj2
+> 	obj3
+> 
+> They would be unbind/evict on a different order. On that time,
+> the mm.tlb will be stamped with a seqno, using the number from the
+> last TLB flush, plus 1.
+> 
+> As different threads can be used to handle TLB flushes, let's imagine
+> two threads (just for the sake of having an example). On such case,
+> what we would have is:
+> 
+> seqno		Thread 0			Thread 1
+> 
+> seqno=2		unbind/evict event
+> 		obj3.mm.tlb = seqno | 1
+> seqno=2		unbind/evict event
+> 		obj1.mm.tlb = seqno | 1
+> 						__i915_gem_object_unset_pages()
+> 						called for obj3, TLB flush happened,
+> 						invalidating both obj1 and obj2.
+> 						seqno += 2					
+> seqno=4		unbind/evict event
+> 		obj1.mm.tlb = seqno | 1
+> 						__i915_gem_object_unset_pages()
+> 						called for obj1, don't flush.
+> ...
+> 						__i915_gem_object_unset_pages() called for obj2, TLB flush happened
+> 						seqno += 2
+> seqno=6
+> 
+> So, basically the seqno is used to track when the object data stopped
+> being updated, because of an unbind/evict event, being later used by
+> intel_gt_invalidate_tlb() when called from __i915_gem_object_unset_pages(),
+> in order to check if a previous invalidation call was enough to invalidate
+> the object, or if a new call is needed.
+> 
+> Now, if seqno is stored at bind, data can still leak, as the assumption
+> made by intel_gt_invalidate_tlb() that the data stopped being used at
+> seqno is not true anymore.
+> 
+> Still, I agree that this logic is complex and should be better
+> documented. So, if you're now OK with this patch, I'll add the above
+> explanation inside a kernel-doc comment.
+> 
+> Regards,
+> Mauro
