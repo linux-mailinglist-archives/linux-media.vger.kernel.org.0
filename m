@@ -2,66 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D9DE583BDA
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 12:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5EA2583DD4
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 13:42:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235815AbiG1KMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jul 2022 06:12:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43630 "EHLO
+        id S237005AbiG1LmC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jul 2022 07:42:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235707AbiG1KMr (ORCPT
+        with ESMTP id S235799AbiG1Llt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jul 2022 06:12:47 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB0EE6554A;
-        Thu, 28 Jul 2022 03:12:45 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id g12so1547581pfb.3;
-        Thu, 28 Jul 2022 03:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=1i65+wYAMGoremMIr0Xi0boO4ehYs1X3ksPFjCjKlXI=;
-        b=SwMM/drpJubu02Tra+8kE7yhZJyL8/5X0d7MY/hUUAt4oYLrQxRthbaPw2aN8QFPer
-         /HisqsF//mDpmCBoz7Ucanzz9uo4ce9pOy1hcbLhJt7NusblWx/kiPkYulpLN4ryHJ2O
-         pd9G4m3qPxK66C9QTCMDy06eapfbs+rccQ5rMldfzwRgHmDqdsjta0n1uCVndhGqcu5j
-         ZMHJ2ucN710+nGZiF+rlXXG86Blb2r9yYo7RtCh1KTlY18pg8MeOdGYmscXNz3mALKP3
-         6BrHbrBQAW6LFqy3m0r4rpy5cZSXSMWfRF5LLtByej7vygNBKMFxNlurnBshXMYs2oeS
-         YsMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=1i65+wYAMGoremMIr0Xi0boO4ehYs1X3ksPFjCjKlXI=;
-        b=D0N3GS7MmWbOO9ZLFfLg3oCXfztbzZYg/yz1lmm2ngCdzZ+/98clQ/vIhFPjhve/QT
-         VKPTPH1lZUo8M0H4FxUI7fzWqXdtEQnMe7U4BThsQ+l2cCpBY449HH9Bv0IEQswZ/muJ
-         VtBiDMa3FlgDJu/u6/ShcmrF7mcgT8vOZnyDEAdFjAmVwmkjK3NrUnuZDgQ1AxVbCVOS
-         Ve+wW6IFqe50BV5xM02e3jOp9/ZdHMDAiNwHMoa0btW+DObKQ4OaTEg3xuukBJANQZgv
-         MsF4+WvDkWyyTV9OlgSk3tAFo+JU4zl/a8QZFmNjuAHsltJUtc6qJ6j+AOgVEgAkQP4O
-         9xlg==
-X-Gm-Message-State: AJIora8OYhed374mavtORj/XxFy3DWy9/kcgwlhq40T0AQTUEElfFkl7
-        YBDNk4Ci7dzMxQZdZmA3kdWWjoopLEVtCA==
-X-Google-Smtp-Source: AGRyM1s1dEeCxotLll2OjwShE0rt45Q1Hm4f0IKSawKJCSwl09sKvHJO+xFGl/6ylX5SowceQYxwqA==
-X-Received: by 2002:a63:4820:0:b0:41b:4a4c:5504 with SMTP id v32-20020a634820000000b0041b4a4c5504mr5570892pga.538.1659003165427;
-        Thu, 28 Jul 2022 03:12:45 -0700 (PDT)
-Received: from localhost.localdomain ([43.132.141.4])
-        by smtp.gmail.com with ESMTPSA id a11-20020a1709027e4b00b0016cbb46806asm741084pln.278.2022.07.28.03.12.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 03:12:45 -0700 (PDT)
-From:   Zeng Jingxiang <zengjx95@gmail.com>
-To:     mchehab@kernel.org, keescook@chromium.org,
-        hverkuil-cisco@xs4all.nl, mailhol.vincent@wanadoo.fr
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Zeng Jingxiang <linuszeng@tencent.com>
-Subject: [PATCH] [media] tm6000: Fix unused value in vidioc_try_fmt_vid_cap()
-Date:   Thu, 28 Jul 2022 18:12:36 +0800
-Message-Id: <20220728101236.1909269-1-zengjx95@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        Thu, 28 Jul 2022 07:41:49 -0400
+X-Greylist: delayed 64 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 28 Jul 2022 04:41:48 PDT
+Received: from aer-iport-5.cisco.com (aer-iport-5.cisco.com [173.38.203.67])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3A6140E3
+        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 04:41:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=2078; q=dns/txt; s=iport;
+  t=1659008508; x=1660218108;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZgSi5/gcgB3+CnDCM11ERzKSg7Y2ZbZ6CbjmVYJK9nY=;
+  b=iwr9zXJe4WKoVsfEVBcaOOpiXTv9yo2LTEPBW64HJTPMmp/HLAb0fwUv
+   ly0TvJXVlo4umRhOQ2khSAeMCQZN9KaqJdCv97BuUa+vN/SzguKUQnZJy
+   R1ycA8qN2VoTgcSNN9E/+j7sf/IjFQlS7mzq9qJYZztFAaLV/pYKTEmNh
+   8=;
+X-IronPort-AV: E=Sophos;i="5.93,198,1654560000"; 
+   d="scan'208";a="612865"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com) ([173.38.203.22])
+  by aer-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 28 Jul 2022 11:40:42 +0000
+Received: from office-260.rd.cisco.com ([10.47.77.162])
+        by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id 26SBegI1010979;
+        Thu, 28 Jul 2022 11:40:42 GMT
+From:   Erling Ljunggren <hljunggr@cisco.com>
+To:     linux-media@vger.kernel.org
+Cc:     Erling Ljunggren <hljunggr@cisco.com>
+Subject: [PATCH 0/5] Add the cat24c208 EDID EEPROM driver + new EDID capability
+Date:   Thu, 28 Jul 2022 13:40:45 +0200
+Message-Id: <20220728114050.2400475-1-hljunggr@cisco.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Outbound-SMTP-Client: 10.47.77.162, [10.47.77.162]
+X-Outbound-Node: aer-core-1.cisco.com
+X-Spam-Status: No, score=-10.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        SPF_HELO_NONE,SPF_NONE,USER_IN_DEF_DKIM_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,39 +54,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Zeng Jingxiang <linuszeng@tencent.com>
+This series adds support for the standalone cat24c208 EDID EEPROM i2c device.
+Usually EDID support is part of an HDMI receiver, but this is a standalone EEPROM.
 
-Coverity warns uf an unused value:
+Note that EEPROMs for EDIDs are not regular EEPROM devices, these are dual port
+devices that follow the VESA E-DDC standard.
 
-assigned_value: Assign the value of the variable f->fmt.pix.field
-to field here,  but that stored value is overwritten.
-before it can be used.
-919	field = f->fmt.pix.field;
-920
+Since this is a standalone device that does not capture any video a new
+V4L2_CAP_EDID_MEMORY capability is introduced to represent such devices.
+Note that such a device doesn't have to be an EEPROM, it can also be
+implemented using a microcontroller, for example. Hence the use of the generic
+word 'MEMORY'.
 
-value_overwrite: Overwriting previous write to field with
-the value of V4L2_FIELD_INTERLACED.
-921	field = V4L2_FIELD_INTERLACED;
+The new capability uses the free bit 0x00000008. But we are running out of
+capability bits: only 0x40000000 and 0x00000008 are free at the moment.
 
-Fixes: ed57256f6fe8 ("[media] tm6000: fix G/TRY_FMT")
-Signed-off-by: Zeng Jingxiang <linuszeng@tencent.com>
----
- drivers/media/usb/tm6000/tm6000-video.c | 2 --
- 1 file changed, 2 deletions(-)
+There is one other capability V4L2_CAP_ASYNCIO (0x02000000) that is not used
+at all, it was never implemented. Wouldn't it be better to define
+V4L2_CAP_ASYNCIO to 0, mark it as obsolete, and instead reuse it for this
+V4L2_CAP_EDID_MEMORY capability?
 
-diff --git a/drivers/media/usb/tm6000/tm6000-video.c b/drivers/media/usb/tm6000/tm6000-video.c
-index d855a19551f3..e06ed21edbdd 100644
---- a/drivers/media/usb/tm6000/tm6000-video.c
-+++ b/drivers/media/usb/tm6000/tm6000-video.c
-@@ -916,8 +916,6 @@ static int vidioc_try_fmt_vid_cap(struct file *file, void *priv,
- 		return -EINVAL;
- 	}
- 
--	field = f->fmt.pix.field;
--
- 	field = V4L2_FIELD_INTERLACED;
- 
- 	tm6000_get_std_res(dev);
+Erling Ljunggren (4):
+  media: videodev2.h: add V4L2_CAP_EDID_MEMORY
+  media: docs: Add V4L2_CAP_EDID_MEMORY
+  dt-bindings: media: add cat24c208 bindings
+  media: v4l2-dev: handle V4L2_CAP_EDID_MEMORY
+
+Jonathan Selnes (1):
+  media: i2c: cat24c208: driver for the cat24c208 EDID EEPROM
+
+ .../bindings/media/i2c/onnn,cat24c208.yaml    |  40 ++
+ .../userspace-api/media/v4l/biblio.rst        |  11 +
+ .../media/v4l/vidioc-querycap.rst             |   7 +
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/media/i2c/Kconfig                     |   9 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/cat24c208.c                 | 421 ++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-dev.c            |   8 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 10 files changed, 506 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+ create mode 100644 drivers/media/i2c/cat24c208.c
+
 -- 
-2.27.0
+2.37.1
 
