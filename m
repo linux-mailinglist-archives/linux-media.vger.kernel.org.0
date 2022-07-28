@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C132583F7D
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 15:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAF32583F82
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 15:03:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238844AbiG1NCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S238871AbiG1NCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 28 Jul 2022 09:02:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41340 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238837AbiG1NCw (ORCPT
+        with ESMTP id S238857AbiG1NCx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jul 2022 09:02:52 -0400
+        Thu, 28 Jul 2022 09:02:53 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EEA746D81;
-        Thu, 28 Jul 2022 06:02:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC6CE120AD;
+        Thu, 28 Jul 2022 06:02:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1659013370; x=1690549370;
+  t=1659013372; x=1690549372;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CGHyMONZ2wrKJUIuy4ZNGqJusCkm0oXUk4BvqHTAOwU=;
-  b=MNTBc7Fbln2ij6NNxC7QJ5oUlU4mYb8Ctl61cp+hWhYZTeOf8wBpvXKf
-   muWAo5EiFXIiSdNDArfglqHT1x8u3hJYV3B9bZ6eqAig5OcRDOBoi8ZVr
-   F+U04F90c5dO1DmVxL/+HwzS6U252CLfS9jXqiFuO2G38GTWfnYnMrEZp
-   a2V4tWYPIUcYncbXPwOnE9XZ3en02jf93upFZs7/vW1+I7AT4x3BDi1MZ
-   ncs3GAhpamRl0DGjitRVDTD6SM1qvpwFuWmkMph7VR7hmX/T7UHSjUU/6
-   Qk0Y235Ddgr+hW8rqK5Kcs1eoRtyzulbrxA0he2Ck6shTISSmDEe4GIs7
-   w==;
+  bh=NHRBrcQiwCmbc51NNix9lvaPQkQhf1coVWgrxlz9mFg=;
+  b=d46QorvCaDjixQw1SpQ9gKVU+OtcKQkwW5byG87EwmcJLPIrlJtEgMCp
+   9KJFbQMtMWqgKytKX+VYsSLIz3QvHAQMzN7kbFMdD6mUm2i27C2KWYZyT
+   gBpniuWKG5VgoCvnRSKyAYYlvR90g8I3vJgIml2RNCdo8rHemto2TvkCK
+   AmOQoWNuPqdW9WQC6PEIW/PRM30hzNa49/ttT+RCFB3u9yYThlCAtTm9C
+   GsuVNiY6TBONxBA2X1m4j9K/UtUMThdjeGpHAF2qitnAcdQBsAKP9poPC
+   u3X72jOjOWa4FkV9y5qwuA9SF1hObPgFPIx8cILCgStqQbOZ9tD6CvJSw
+   A==;
 X-IronPort-AV: E=Sophos;i="5.93,198,1654552800"; 
-   d="scan'208";a="25321375"
+   d="scan'208";a="25321377"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
   by mx1-pgp.tq-group.com with ESMTP; 28 Jul 2022 15:02:44 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
@@ -42,22 +42,22 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   t=1659013364; x=1690549364;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CGHyMONZ2wrKJUIuy4ZNGqJusCkm0oXUk4BvqHTAOwU=;
-  b=Ka5mZJhxRXR4V9p/9rpGyYb8Gww8tSV0sSccCKFuQR/lr/BR71t0s9Jn
-   KqLsMsYfixhjR3I9/t6bnmaQCP2nE9xx5p1oOxtCbDk7kbG9f23UY4M6U
-   WvMYJ8Yd+23iUgFzxem+1xwsEIEtMZoJN4amGgx5mTQvntpYaYbipql4L
-   T8Hn01vXuwAvKm9kZH3xqPwJ3j2340V26CRNpZwJC56tOw2o8zfgJZOLl
-   NkXbWRkNnDHBwhOheI/tF8EzJWjoLvYHojWboQNA2HieCTPaSifNk4NyI
-   n377YMLZ3/+FoRq/mkSu+Vb+8q4xJWJ0L302WK9kPWIkByTzx9GKPyAwF
-   A==;
+  bh=NHRBrcQiwCmbc51NNix9lvaPQkQhf1coVWgrxlz9mFg=;
+  b=IDko2Xa5etYpWovoMgHydnHY77roCRTfJiG+mKo+p6cFadFDF0McFCz9
+   aiOsLwbRPAcTIzEAzWQLRob8Q3hbWBelx30vqH3VO9XfgHQgCY7BuFqCf
+   CS8KDVPMoaXP9hfMkd9pR8oAQe8YSaUg7S9O7yQl8HMbOiFAV+YXTvBjs
+   ZHSxNWGsFilrF8VgH6BAbCs+UvlgPVu1MmlOn2jSBKZ1uQIl8bALxdOWC
+   WSGJIwSpCKfOf6zrOrCyWWdd8g+D1XViwNGDTBK4ZizJWmoJfg2sx2eJ0
+   gkmm4dBWNlmcegwOkgUUyGLV0AXYhi6twayRXcZMUg2rNwDK7O5bqjQl4
+   g==;
 X-IronPort-AV: E=Sophos;i="5.93,198,1654552800"; 
-   d="scan'208";a="25321374"
+   d="scan'208";a="25321376"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 28 Jul 2022 15:02:44 +0200
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 3B440280072;
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 63F9E280056;
         Thu, 28 Jul 2022 15:02:44 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
@@ -68,9 +68,9 @@ To:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
 Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH v4 6/7] media: i2c: ov9282: Set v4l2 subdev name according to sensor model
-Date:   Thu, 28 Jul 2022 15:02:36 +0200
-Message-Id: <20220728130237.3396663-7-alexander.stein@ew.tq-group.com>
+Subject: [PATCH v4 7/7] media: i2c: ov9282: Add regmap support
+Date:   Thu, 28 Jul 2022 15:02:37 +0200
+Message-Id: <20220728130237.3396663-8-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220728130237.3396663-1-alexander.stein@ew.tq-group.com>
 References: <20220728130237.3396663-1-alexander.stein@ew.tq-group.com>
@@ -85,54 +85,139 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To distinguish ov9281 & ov9282 the name has to be explicitly set.
-Provide a fixed string using platform data.
+Register values apparently are stored in MSB format, hence the manual
+swap when reading/writing.
+regmap's endianness swapping is not applied when reading with val_bits = 8.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
 Changes in v4:
-* Replaced v4l2_i2c_subdev_set_name with device_get_match_data and added
-  platform data containing the sensor name
+* Removed superfluous line break
+* Shortened variable initialization
 
- drivers/media/i2c/ov9282.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov9282.c | 57 +++++++++++++++++++-------------------
+ 1 file changed, 28 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 352dbe21a902..f79bdfa821e8 100644
+index f79bdfa821e8..e9e595df187b 100644
 --- a/drivers/media/i2c/ov9282.c
 +++ b/drivers/media/i2c/ov9282.c
-@@ -1037,6 +1037,7 @@ static int ov9282_get_regulators(struct ov9282 *ov9282)
- static int ov9282_probe(struct i2c_client *client)
+@@ -10,6 +10,7 @@
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
++#include <linux/regmap.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
+ 
+@@ -113,6 +114,7 @@ struct ov9282_mode {
+ /**
+  * struct ov9282 - ov9282 sensor device structure
+  * @dev: Pointer to generic device
++ * @regmap: sensor's regmap
+  * @sd: V4L2 sub-device
+  * @pad: Media pad. Only one pad supported
+  * @reset_gpio: Sensor reset gpio
+@@ -131,6 +133,7 @@ struct ov9282_mode {
+  */
+ struct ov9282 {
+ 	struct device *dev;
++	struct regmap *regmap;
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+ 	struct gpio_desc *reset_gpio;
+@@ -151,6 +154,11 @@ struct ov9282 {
+ 	bool streaming;
+ };
+ 
++static const struct regmap_config ov9282_regmap_config = {
++	.reg_bits = 16,
++	.val_bits = 8,
++};
++
+ static const s64 link_freq[] = {
+ 	OV9282_LINK_FREQ,
+ };
+@@ -297,35 +305,20 @@ static inline struct ov9282 *to_ov9282(struct v4l2_subdev *subdev)
+  */
+ static int ov9282_read_reg(struct ov9282 *ov9282, u16 reg, u32 len, u32 *val)
  {
- 	struct ov9282 *ov9282;
-+	const char *sensor_name;
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov9282->sd);
+-	struct i2c_msg msgs[2] = {0};
+-	u8 addr_buf[2] = {0};
+-	u8 data_buf[4] = {0};
++	u8 data[4] = {0};
  	int ret;
  
- 	ov9282 = devm_kzalloc(&client->dev, sizeof(*ov9282), GFP_KERNEL);
-@@ -1047,6 +1048,12 @@ static int ov9282_probe(struct i2c_client *client)
+ 	if (WARN_ON(len > 4))
+ 		return -EINVAL;
+ 
+-	put_unaligned_be16(reg, addr_buf);
+-
+-	/* Write register address */
+-	msgs[0].addr = client->addr;
+-	msgs[0].flags = 0;
+-	msgs[0].len = ARRAY_SIZE(addr_buf);
+-	msgs[0].buf = addr_buf;
+-
+-	/* Read data from register */
+-	msgs[1].addr = client->addr;
+-	msgs[1].flags = I2C_M_RD;
+-	msgs[1].len = len;
+-	msgs[1].buf = &data_buf[4 - len];
+-
+-	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
+-	if (ret != ARRAY_SIZE(msgs))
+-		return -EIO;
+-
+-	*val = get_unaligned_be32(data_buf);
++	ret = regmap_raw_read(ov9282->regmap, reg, &data[4 - len], len);
++	if (ret < 0) {
++		dev_err(ov9282->dev, "read from 0x%04x failed: %d\n",
++			reg, ret);
++		return ret;
++	}
+ 
++	*val = get_unaligned_be32(data);
+ 	return 0;
+ }
+ 
+@@ -340,16 +333,17 @@ static int ov9282_read_reg(struct ov9282 *ov9282, u16 reg, u32 len, u32 *val)
+  */
+ static int ov9282_write_reg(struct ov9282 *ov9282, u16 reg, u32 len, u32 val)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov9282->sd);
+-	u8 buf[6] = {0};
++	u8 data[4] = {0};
++	int ret;
+ 
+ 	if (WARN_ON(len > 4))
+ 		return -EINVAL;
+ 
+-	put_unaligned_be16(reg, buf);
+-	put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
+-	if (i2c_master_send(client, buf, len + 2) != len + 2)
+-		return -EIO;
++	put_unaligned_be32(val << (8 * (4 - len)), data);
++
++	ret = regmap_raw_write(ov9282->regmap, reg, data, len);
++	if (ret < 0)
++		dev_err(ov9282->dev, "write to 0x%04x failed: %d\n", reg, ret);
+ 
+ 	return 0;
+ }
+@@ -1045,6 +1039,11 @@ static int ov9282_probe(struct i2c_client *client)
+ 		return -ENOMEM;
+ 
+ 	ov9282->dev = &client->dev;
++	ov9282->regmap = devm_regmap_init_i2c(client, &ov9282_regmap_config);
++	if (IS_ERR(ov9282->regmap)) {
++		dev_err(ov9282->dev, "Unable to initialize I2C\n");
++		return -ENODEV;
++	}
  
  	/* Initialize subdev */
  	v4l2_i2c_subdev_init(&ov9282->sd, client, &ov9282_subdev_ops);
-+	sensor_name = device_get_match_data(ov9282->dev);
-+	if (!sensor_name) {
-+		dev_err(ov9282->dev, "Sensor name is missing");
-+		return ret;
-+	}
-+	v4l2_i2c_subdev_set_name(&ov9282->sd, client, sensor_name, NULL);
- 
- 	ret = ov9282_parse_hw_config(ov9282);
- 	if (ret) {
-@@ -1152,8 +1159,8 @@ static const struct dev_pm_ops ov9282_pm_ops = {
- };
- 
- static const struct of_device_id ov9282_of_match[] = {
--	{ .compatible = "ovti,ov9281" },
--	{ .compatible = "ovti,ov9282" },
-+	{ .compatible = "ovti,ov9281", .data = "ov9281" },
-+	{ .compatible = "ovti,ov9282", .data = "ov9282" },
- 	{ }
- };
- 
 -- 
 2.25.1
 
