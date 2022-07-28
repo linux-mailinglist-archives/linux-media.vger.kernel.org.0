@@ -2,360 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F14ED583FAC
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 15:12:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFEF4583FB2
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 15:13:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239108AbiG1NMS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jul 2022 09:12:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51018 "EHLO
+        id S239134AbiG1NNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jul 2022 09:13:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236688AbiG1NMR (ORCPT
+        with ESMTP id S236686AbiG1NNQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jul 2022 09:12:17 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFEC2BD3
-        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 06:12:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C1306B82324
-        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 13:12:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8850C433C1;
-        Thu, 28 Jul 2022 13:12:11 +0000 (UTC)
-Message-ID: <1e31bed0-24d2-d728-3866-6834ad08032c@xs4all.nl>
-Date:   Thu, 28 Jul 2022 15:12:10 +0200
+        Thu, 28 Jul 2022 09:13:16 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D86481BEBA
+        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 06:13:14 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id e11so1926873ljl.4
+        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 06:13:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=enxGsIYunokJEXPMGCaE1Z7pYtuICaBoKBXgeSWmWds=;
+        b=KnPMKWFuiKPiA/P4vExFpb/yxNCbd6RN4z9b8adLpTi0enYQdO1DCGVCgRRXSZC5Aq
+         lTQJRiT2rver/3W0QAvIbJasWNyvKj5jOGvuGSZ9L7ugDmmtuWPgZiRkF87i839pGiHN
+         FkI57ALLpz6VRvaVAVKLZI/FYYj/Upg4C8T+7DTj6WVkB+S3QGqYG8PplFXF2huPBcPn
+         K9SlgYUChDKy2D7mZm0hVnLB1AA+a84x2krOEb0Tr9YFTHd3ANjZxyWjAg+NisUbkwxR
+         dO4ju2jllwgx2GQNjQBZ8LCO+mRH00lr4tzjMTd3F3ByUX8UNDmfwCm6por0skChclOp
+         5RNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=enxGsIYunokJEXPMGCaE1Z7pYtuICaBoKBXgeSWmWds=;
+        b=wDgzNa3QDtFUnmqL/7iDA9UeJceNi6VPf6B6NZzIHl8HVyJ5YKY44apPF51n/koBiS
+         Vni2RlzRkfeP0yG/v07wTnDnkVlg2o7yp++1TO60LdzuVIT9mm70R1rH/WCYbfo9K4yC
+         jGaqjx6s0E+nI3/f6mmwyiqIEg0d+RwH1+vZ/Vp2l0xZPBsqfMCvMdMyf6qJK7OPp8pa
+         Yc0pSvD1W4VXaCAbjTbNPp8xHnPe6QptNu9lCHehSCO2NhkJa9xzI/FvdoZ+Lp0hcdhN
+         AIAlcLkmDhGp/tDRzjKb0bjEw2pQR1vAvgCFhHLat1xXRu7gJkG3GkGXwsI3QtJT91ky
+         WJSQ==
+X-Gm-Message-State: AJIora98r7Fc8Rmg8pjjSqqQvMyGZpBAl1nkGTodH7n+1Lg5jHPkLWWY
+        zboVw9X0gIqCZ9bOSqs0SJoLRg==
+X-Google-Smtp-Source: AGRyM1ueWV1tfxf9FVvPLoM/8R4w9qdGdgVWOxGzoYQXpfgmjsGBeWL+qbYnT+dzT+zmLYVcaF3k7Q==
+X-Received: by 2002:a2e:5741:0:b0:25d:fcb1:d449 with SMTP id r1-20020a2e5741000000b0025dfcb1d449mr7752871ljd.333.1659013992945;
+        Thu, 28 Jul 2022 06:13:12 -0700 (PDT)
+Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no. [78.26.46.173])
+        by smtp.gmail.com with ESMTPSA id d20-20020a193854000000b0048a757d314esm188383lfj.304.2022.07.28.06.13.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jul 2022 06:13:12 -0700 (PDT)
+Message-ID: <4e89e55b-9312-5525-974b-0a1dbe0b3dd1@linaro.org>
+Date:   Thu, 28 Jul 2022 15:13:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v4 3/7] media: i2c: ov9282: Add ov9281 compatible
 Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] v4l2-ctrls: optimize type_ops for arrays
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>
+References: <20220728130237.3396663-1-alexander.stein@ew.tq-group.com>
+ <20220728130237.3396663-4-alexander.stein@ew.tq-group.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220728130237.3396663-4-alexander.stein@ew.tq-group.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Initializing arrays and validating or checking for equality of arrays
-is suboptimal since it does this per element.
+On 28/07/2022 15:02, Alexander Stein wrote:
+> According to product brief they are identical from software point of view.
+> Differences are a different chief ray angle (CRA) and the package.
+> 
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+> ---
+>  drivers/media/i2c/ov9282.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index 8a252bf3b59f..c8d83a29f9bb 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -1113,6 +1113,7 @@ static const struct dev_pm_ops ov9282_pm_ops = {
+>  };
+>  
+>  static const struct of_device_id ov9282_of_match[] = {
+> +	{ .compatible = "ovti,ov9281" },
 
-Change the ops to operate on the whole payload to speed up array
-operations.
+The devices seem entirely compatible, so why you add a new compatible
+and not re-use existing?
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/v4l2-core/v4l2-ctrls-api.c  |  19 +---
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 129 +++++++++++++++-------
- include/media/v4l2-ctrls.h                |   6 +-
- 3 files changed, 96 insertions(+), 58 deletions(-)
+The difference in lens does not explain this.
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index 67fbdccda2d8..a8c354ad3d23 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -89,10 +89,7 @@ static int req_to_user(struct v4l2_ext_control *c,
- /* Helper function: copy the initial control value back to the caller */
- static int def_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- {
--	int idx;
--
--	for (idx = 0; idx < ctrl->elems; idx++)
--		ctrl->type_ops->init(ctrl, idx, ctrl->p_new);
-+	ctrl->type_ops->init(ctrl, 0, ctrl->elems, ctrl->p_new);
- 
- 	return ptr_to_user(c, ctrl, ctrl->p_new);
- }
-@@ -122,7 +119,6 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- 
- 	if (ctrl->is_ptr && !ctrl->is_string) {
- 		unsigned int elems = c->size / ctrl->elem_size;
--		unsigned int idx;
- 
- 		if (copy_from_user(ctrl->p_new.p, c->ptr, c->size))
- 			return -EFAULT;
-@@ -130,8 +126,7 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- 		if (ctrl->is_dyn_array)
- 			ctrl->new_elems = elems;
- 		else if (ctrl->is_array)
--			for (idx = elems; idx < ctrl->elems; idx++)
--				ctrl->type_ops->init(ctrl, idx, ctrl->p_new);
-+			ctrl->type_ops->init(ctrl, elems, ctrl->elems, ctrl->p_new);
- 		return 0;
- 	}
- 
-@@ -499,12 +494,7 @@ EXPORT_SYMBOL(v4l2_g_ext_ctrls);
- /* Validate a new control */
- static int validate_new(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr p_new)
- {
--	unsigned int idx;
--	int err = 0;
--
--	for (idx = 0; !err && idx < ctrl->new_elems; idx++)
--		err = ctrl->type_ops->validate(ctrl, idx, p_new);
--	return err;
-+	return ctrl->type_ops->validate(ctrl, ctrl->new_elems, p_new);
- }
- 
- /* Validate controls. */
-@@ -1017,8 +1007,7 @@ int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
- 	ctrl->p_cur.p = p_array + elems * ctrl->elem_size;
- 	for (i = 0; i < ctrl->nr_of_dims; i++)
- 		ctrl->dims[i] = dims[i];
--	for (i = 0; i < elems; i++)
--		ctrl->type_ops->init(ctrl, i, ctrl->p_cur);
-+	ctrl->type_ops->init(ctrl, 0, elems, ctrl->p_cur);
- 	cur_to_new(ctrl);
- 	send_event(NULL, ctrl, V4L2_EVENT_CTRL_CH_VALUE |
- 			       V4L2_EVENT_CTRL_CH_DIMENSIONS);
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index a004fea10da2..ff05171b3507 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -65,31 +65,27 @@ void send_event(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 changes)
- 			v4l2_event_queue_fh(sev->fh, &ev);
- }
- 
--static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
-+static bool std_equal(const struct v4l2_ctrl *ctrl, u32 elems,
- 		      union v4l2_ctrl_ptr ptr1,
- 		      union v4l2_ctrl_ptr ptr2)
- {
-+	unsigned int i;
-+
- 	switch (ctrl->type) {
- 	case V4L2_CTRL_TYPE_BUTTON:
- 		return false;
- 	case V4L2_CTRL_TYPE_STRING:
--		idx *= ctrl->elem_size;
--		/* strings are always 0-terminated */
--		return !strcmp(ptr1.p_char + idx, ptr2.p_char + idx);
--	case V4L2_CTRL_TYPE_INTEGER64:
--		return ptr1.p_s64[idx] == ptr2.p_s64[idx];
--	case V4L2_CTRL_TYPE_U8:
--		return ptr1.p_u8[idx] == ptr2.p_u8[idx];
--	case V4L2_CTRL_TYPE_U16:
--		return ptr1.p_u16[idx] == ptr2.p_u16[idx];
--	case V4L2_CTRL_TYPE_U32:
--		return ptr1.p_u32[idx] == ptr2.p_u32[idx];
-+		for (i = 0; i < elems; i++) {
-+			unsigned int idx = i * ctrl->elem_size;
-+
-+			/* strings are always 0-terminated */
-+			if (strcmp(ptr1.p_char + idx, ptr2.p_char + idx))
-+				return false;
-+		}
-+		return true;
- 	default:
--		if (ctrl->is_int)
--			return ptr1.p_s32[idx] == ptr2.p_s32[idx];
--		idx *= ctrl->elem_size;
--		return !memcmp(ptr1.p_const + idx, ptr2.p_const + idx,
--			       ctrl->elem_size);
-+		return !memcmp(ptr1.p_const, ptr2.p_const,
-+			       elems * ctrl->elem_size);
- 	}
- }
- 
-@@ -181,40 +177,66 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	}
- }
- 
--static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
-+static void std_init(const struct v4l2_ctrl *ctrl, u32 from_idx, u32 elems,
- 		     union v4l2_ctrl_ptr ptr)
- {
-+	unsigned int i;
-+
- 	switch (ctrl->type) {
- 	case V4L2_CTRL_TYPE_STRING:
--		idx *= ctrl->elem_size;
--		memset(ptr.p_char + idx, ' ', ctrl->minimum);
--		ptr.p_char[idx + ctrl->minimum] = '\0';
-+		for (i = from_idx; i < elems; i++) {
-+			unsigned int offset = i * ctrl->elem_size;
-+
-+			memset(ptr.p_char + offset, ' ', ctrl->minimum);
-+			ptr.p_char[offset + ctrl->minimum] = '\0';
-+		}
- 		break;
- 	case V4L2_CTRL_TYPE_INTEGER64:
--		ptr.p_s64[idx] = ctrl->default_value;
-+		if (ctrl->default_value) {
-+			for (i = from_idx; i < elems; i++)
-+				ptr.p_s64[i] = ctrl->default_value;
-+		} else {
-+			memset(ptr.p_s64 + from_idx, 0, elems * sizeof(s64));
-+		}
- 		break;
- 	case V4L2_CTRL_TYPE_INTEGER:
- 	case V4L2_CTRL_TYPE_INTEGER_MENU:
- 	case V4L2_CTRL_TYPE_MENU:
- 	case V4L2_CTRL_TYPE_BITMASK:
- 	case V4L2_CTRL_TYPE_BOOLEAN:
--		ptr.p_s32[idx] = ctrl->default_value;
-+		if (ctrl->default_value) {
-+			for (i = from_idx; i < elems; i++)
-+				ptr.p_s32[i] = ctrl->default_value;
-+		} else {
-+			memset(ptr.p_s32 + from_idx, 0, elems * sizeof(s32));
-+		}
- 		break;
- 	case V4L2_CTRL_TYPE_BUTTON:
- 	case V4L2_CTRL_TYPE_CTRL_CLASS:
--		ptr.p_s32[idx] = 0;
-+		memset(ptr.p_s32 + from_idx, 0, elems * sizeof(s32));
- 		break;
- 	case V4L2_CTRL_TYPE_U8:
--		ptr.p_u8[idx] = ctrl->default_value;
-+		memset(ptr.p_u8 + from_idx, ctrl->default_value, elems);
- 		break;
- 	case V4L2_CTRL_TYPE_U16:
--		ptr.p_u16[idx] = ctrl->default_value;
-+		if (ctrl->default_value) {
-+			for (i = from_idx; i < elems; i++)
-+				ptr.p_u16[i] = ctrl->default_value;
-+		} else {
-+			memset(ptr.p_u16 + from_idx, 0, elems * sizeof(u16));
-+		}
- 		break;
- 	case V4L2_CTRL_TYPE_U32:
--		ptr.p_u32[idx] = ctrl->default_value;
-+		if (ctrl->default_value) {
-+			for (i = from_idx; i < elems; i++)
-+				ptr.p_u32[i] = ctrl->default_value;
-+		} else {
-+			memset(ptr.p_u32 + from_idx, 0, elems * sizeof(u32));
-+		}
- 		break;
- 	default:
--		std_init_compound(ctrl, idx, ptr);
-+		for (i = from_idx; i < elems; i++)
-+			std_init_compound(ctrl, i, ptr);
- 		break;
- 	}
- }
-@@ -895,8 +917,8 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	return 0;
- }
- 
--static int std_validate(const struct v4l2_ctrl *ctrl, u32 idx,
--			union v4l2_ctrl_ptr ptr)
-+static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
-+			     union v4l2_ctrl_ptr ptr)
- {
- 	size_t len;
- 	u64 offset;
-@@ -964,6 +986,38 @@ static int std_validate(const struct v4l2_ctrl *ctrl, u32 idx,
- 	default:
- 		return std_validate_compound(ctrl, idx, ptr);
- 	}
-+
-+}
-+
-+static int std_validate(const struct v4l2_ctrl *ctrl, u32 elems,
-+			union v4l2_ctrl_ptr ptr)
-+{
-+	unsigned int i;
-+	int ret = 0;
-+
-+	switch ((u32)ctrl->type) {
-+	case V4L2_CTRL_TYPE_U8:
-+		if (ctrl->maximum == 0xff && ctrl->minimum == 0 && ctrl->step == 1)
-+			return 0;
-+		break;
-+	case V4L2_CTRL_TYPE_U16:
-+		if (ctrl->maximum == 0xffff && ctrl->minimum == 0 && ctrl->step == 1)
-+			return 0;
-+		break;
-+	case V4L2_CTRL_TYPE_U32:
-+		if (ctrl->maximum == 0xffffffff && ctrl->minimum == 0 && ctrl->step == 1)
-+			return 0;
-+		break;
-+
-+	case V4L2_CTRL_TYPE_BUTTON:
-+	case V4L2_CTRL_TYPE_CTRL_CLASS:
-+		memset(ptr.p_s32, 0, elems * sizeof(s32));
-+		return 0;
-+	}
-+
-+	for (i = 0; !ret && i < elems; i++)
-+		ret = std_validate_elem(ctrl, i, ptr);
-+	return ret;
- }
- 
- static const struct v4l2_ctrl_type_ops std_type_ops = {
-@@ -1449,7 +1503,6 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	unsigned elems = 1;
- 	bool is_array;
- 	unsigned tot_ctrl_size;
--	unsigned idx;
- 	void *data;
- 	int err;
- 
-@@ -1664,10 +1717,8 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 		memcpy(ctrl->p_def.p, p_def.p_const, elem_size);
- 	}
- 
--	for (idx = 0; idx < elems; idx++) {
--		ctrl->type_ops->init(ctrl, idx, ctrl->p_cur);
--		ctrl->type_ops->init(ctrl, idx, ctrl->p_new);
--	}
-+	ctrl->type_ops->init(ctrl, 0, elems, ctrl->p_cur);
-+	cur_to_new(ctrl);
- 
- 	if (handler_new_ref(hdl, ctrl, NULL, false, false)) {
- 		kvfree(ctrl->p_array);
-@@ -1984,7 +2035,6 @@ void update_from_auto_cluster(struct v4l2_ctrl *master)
- static int cluster_changed(struct v4l2_ctrl *master)
- {
- 	bool changed = false;
--	unsigned int idx;
- 	int i;
- 
- 	for (i = 0; i < master->ncontrols; i++) {
-@@ -2010,10 +2060,9 @@ static int cluster_changed(struct v4l2_ctrl *master)
- 
- 		if (ctrl->elems != ctrl->new_elems)
- 			ctrl_changed = true;
--
--		for (idx = 0; !ctrl_changed && idx < ctrl->elems; idx++)
--			ctrl_changed = !ctrl->type_ops->equal(ctrl, idx,
--				ctrl->p_cur, ctrl->p_new);
-+		if (!ctrl_changed)
-+			ctrl_changed = !ctrl->type_ops->equal(ctrl,
-+				ctrl->elems, ctrl->p_cur, ctrl->p_new);
- 		ctrl->has_changed = ctrl_changed;
- 		changed |= ctrl->has_changed;
- 	}
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 607960309579..3bb1f0909c46 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -128,13 +128,13 @@ struct v4l2_ctrl_ops {
-  *	otherwise.
-  */
- struct v4l2_ctrl_type_ops {
--	bool (*equal)(const struct v4l2_ctrl *ctrl, u32 idx,
-+	bool (*equal)(const struct v4l2_ctrl *ctrl, u32 elems,
- 		      union v4l2_ctrl_ptr ptr1,
- 		      union v4l2_ctrl_ptr ptr2);
--	void (*init)(const struct v4l2_ctrl *ctrl, u32 idx,
-+	void (*init)(const struct v4l2_ctrl *ctrl, u32 from_idx, u32 elems,
- 		     union v4l2_ctrl_ptr ptr);
- 	void (*log)(const struct v4l2_ctrl *ctrl);
--	int (*validate)(const struct v4l2_ctrl *ctrl, u32 idx,
-+	int (*validate)(const struct v4l2_ctrl *ctrl, u32 elems,
- 			union v4l2_ctrl_ptr ptr);
- };
- 
--- 
-2.35.1
 
+Best regards,
+Krzysztof
