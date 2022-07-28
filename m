@@ -2,183 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 488C55840F1
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 16:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9269584749
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 22:57:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231491AbiG1OUU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jul 2022 10:20:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49064 "EHLO
+        id S232720AbiG1U5D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jul 2022 16:57:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiG1OUT (ORCPT
+        with ESMTP id S230143AbiG1U5C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jul 2022 10:20:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C61FFCFF;
-        Thu, 28 Jul 2022 07:20:18 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F76B56D;
-        Thu, 28 Jul 2022 16:20:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1659018016;
-        bh=q2BB39MP0tZQIZRXCzJWG56ZohL9stJRt4VHYJFO6jI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZdxDrewPgpInaF+/7uxPx56GKvm1lJ9F8meoFeXq4J7bQBXB7t8kpFLE/IGm6bKUx
-         bUA5e4m0I2FcgWDEZ/LA1AFzIAMjQAiYhb1iSWxQBMUHS503HkRXj9bvVTItANOGX2
-         TtGyE9q2UGlzqYgGlSxfCffkO0t1Wvi+XtARQiYE=
-Date:   Thu, 28 Jul 2022 17:20:13 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     paul.elder@ideasonboard.com
-Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rkisp1: Add UYVY as an output format
-Message-ID: <YuKbHdiZD5JGE/GY@pendragon.ideasonboard.com>
-References: <20220714112603.1117335-1-paul.elder@ideasonboard.com>
- <20220714112603.1117335-3-paul.elder@ideasonboard.com>
- <YtcwZSbXlSaaMjcd@pendragon.ideasonboard.com>
- <20220728125259.GL3984498@pyrite.rasen.tech>
+        Thu, 28 Jul 2022 16:57:02 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 542276C10D
+        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 13:56:58 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id sz17so5139381ejc.9
+        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 13:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=g+cJCY8r9fc8rDpEr0szrs8C73W7uxOHCccnFnlfaUU=;
+        b=D9/IWsjwsgLC4wByXb71hvHMhFqSIxbchTr7faw7eDCdhgZvQ79v/3l4oc3yd3rIAd
+         VjNLbP7WFMK4Yw4AtcmMgTMW3+TxB2cPZafgzJrv5mVmAWoxic5d381SZ0eZEThuhhdr
+         V7W/VHll1LJQhLjPi+WdeAnfw53oZ8NBFaVSZKdbpWtOMBbyX29kazBXsxZ5bmk6ohp/
+         hOFGS2piziJJrcrAs9hpqdTzEQPsB2BqxaAMEQ3+frL9CCzYyU594wIMuu1KIFRZF/xs
+         H5tnVkXwYvUHC2Sx6wodkZ/u2jl5faU0h5vkqhM8b6d6XqOUy7dJP529oqtfNFXmYEYG
+         E8OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=g+cJCY8r9fc8rDpEr0szrs8C73W7uxOHCccnFnlfaUU=;
+        b=HEaShyU1Z0ItX+cb1wew7UBeDyGOFWBSWJKgqB1Lz/pMiJMY4EIpmOYb45jGUFgW6t
+         Ypg3uaU4kxCt9jNZcu/uCsfuB4MtvP6+7M70bMvx4+dhVckfwjy+DFApqgtnpJZTrnUV
+         LwIuNRdW0mnY+KYyKcbFrPIgnIbpkqr0F+pBZqkxok9sS9v0d6Hbdnreo3Xbp+xPHtbj
+         sPwusAr3tQCG5i1c61adOX7g3d50zs1MC1MViUzP5wQMAlDfmMrQ999VHNQzAEj5SWD8
+         gZTsre5/BMx+XZBYCF6HsinCOiAifqPBU+wEy7vcqvIRM05n882+SoGLo7C2pfxUmt1r
+         vJ6Q==
+X-Gm-Message-State: AJIora+qrbkroKh1H4nhRhpKeLOEByeV4gEONkaFViL4lkEsAQM7lTep
+        pAbij/uNe0bNrVhiqEm8jifAo+I8VF9aqevOjWI=
+X-Google-Smtp-Source: AGRyM1v3Y32o9LdIMWLrcGO77zwZT3fJAML0s2ZzUPEqwERqEn1+7d3b+9WikhYxUn2sSnfBJMH+a5u4XAxTVIAja1k=
+X-Received: by 2002:a17:906:7950:b0:72f:d4a4:564d with SMTP id
+ l16-20020a170906795000b0072fd4a4564dmr501977ejo.479.1659041816853; Thu, 28
+ Jul 2022 13:56:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220728125259.GL3984498@pyrite.rasen.tech>
+References: <20220728114050.2400475-1-hljunggr@cisco.com> <20220728114050.2400475-5-hljunggr@cisco.com>
+ <CAHp75VeKMJ7eSZ3SLki74o+LkL6CBfcx4RL90n2J20BE+8L+KA@mail.gmail.com> <8fe44de7-2cb5-eb9d-2e2b-ac6dc0af41a5@xs4all.nl>
+In-Reply-To: <8fe44de7-2cb5-eb9d-2e2b-ac6dc0af41a5@xs4all.nl>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 28 Jul 2022 22:56:20 +0200
+Message-ID: <CAHp75Ve1SC_a0ZM2G-3j73dE7rZCxFbay0zzmB5_m_iJKma5tg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] media: i2c: cat24c208: driver for the cat24c208 EDID EEPROM
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Erling Ljunggren <hljunggr@cisco.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Jonathan Selnes <jonathansb1@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+On Thu, Jul 28, 2022 at 3:23 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wro=
+te:
+> On 28/07/2022 14:02, Andy Shevchenko wrote:
+> > On Thursday, July 28, 2022, Erling Ljunggren <hljunggr@cisco.com <mailt=
+o:hljunggr@cisco.com>> wrote:
 
-On Thu, Jul 28, 2022 at 09:52:59PM +0900, paul.elder@ideasonboard.com wrote:
-> On Wed, Jul 20, 2022 at 01:29:57AM +0300, Laurent Pinchart wrote:
-> > On Thu, Jul 14, 2022 at 08:26:03PM +0900, Paul Elder wrote:
-> > > Add support for UYVY as an output format. The uv_swap bit in the
-> > > MI_XTD_FORMAT_CTRL register that is used for the NV formats does not
-> > > work for packed YUV formats. Thus, UYVY support is implemented via
-> > > byte-swapping. This method clearly does not work for implementing
-> > > support for YVYU and VYUY.
-> > > 
-> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > > 
-> > > ---
-> > > UYVY for the self path has not been tested because no device supports
-> > > it. The rk3399 has a self path, but does not have the
-> > > MI_OUTPUT_ALIGN_FORMAT register and thus does not support UYVY. The
-> > > i.MX8MP does support UYVY, but does not have a self path.
-> > 
-> > I'm tempted to drop it then, as the code below isn't correct given that
-> > you use the same register for both MP and SP. Let's address MP only for
-> > now.
-> 
-> The same register is used for both MP and SP. They just have different
-> bits. Which is why we'd need the read-write cycle, assuming that there
-> exists a device that has both an SP and the MI_OUTPUT_ALIGN_FORMAT
-> register.
+> >     Support reading and writing the EDID EEPROM through the
+> >     v4l2 API.
+> >
+> > Why the normal way of representing as a memory (we have framework and d=
+rivers) can=E2=80=99t work?
+>
+> Because support for EDID for video sinks is already part of the media sub=
+system (V4L2).
+> Normally it is integrated into an HDMI receiver, but in this case it is j=
+ust the EDID
+> support without the video receiver. It belongs in drivers/media in any ca=
+se since EDIDs
+> are closely tied to media.
 
-Indeed, I had missed that. The documentation is confusing, the register
-is described as "Output align format for main path", has both
-mp_byte_swap and sp_byte_swap, but no sp equivalent to mp_lsb_alignment
-(maybe the self path doesn't support raw outputs though ?).
+It's fine. From the Linux perspective we do not reduplicate the
+drivers that are done by other frameworks, right?
 
-I'm OK keeping support for both paths, but I think the
-MI_OUTPUT_ALIGN_FORMAT register should then be initialized to a default
-value somewhere.
+> > Moreover, this driver seems limited in support of variety of the eeprom=
+ chips.
+>
+> Not quite sure what you mean. The cat24c208 is what this was developed fo=
+r and
+> the only one we have.
+>
+> Note that an EDID EEPROM !=3D a regular EEPROM: it has to support the VES=
+A E-DDC
+> standard, which a normal EEPROM doesn't. So these devices are specificall=
+y made
+> for this use-case.
 
-> > > ---
-> > >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 40 +++++++++++++++++++
-> > >  1 file changed, 40 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > > index 85fd85fe208c..77496ccef7ec 100644
-> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > > @@ -97,6 +97,12 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
-> > >  		.uv_swap = 0,
-> > >  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
-> > >  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> > > +	}, {
-> > > +		.fourcc = V4L2_PIX_FMT_UYVY,
-> > > +		.uv_swap = 0,
-> > > +		.yc_swap = 1,
-> > > +		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
-> > > +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> > >  	}, {
-> > >  		.fourcc = V4L2_PIX_FMT_YUV422P,
-> > >  		.uv_swap = 0,
-> > > @@ -231,6 +237,13 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
-> > >  		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
-> > >  		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
-> > >  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> > > +	}, {
-> > > +		.fourcc = V4L2_PIX_FMT_UYVY,
-> > > +		.uv_swap = 0,
-> > > +		.yc_swap = 1,
-> > > +		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
-> > > +		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
-> > > +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> > >  	}, {
-> > >  		.fourcc = V4L2_PIX_FMT_YUV422P,
-> > >  		.uv_swap = 0,
-> > > @@ -464,6 +477,20 @@ static void rkisp1_mp_config(struct rkisp1_capture *cap)
-> > >  		rkisp1_write(rkisp1, RKISP1_CIF_MI_XTD_FORMAT_CTRL, reg);
-> > >  	}
-> > >  
-> > > +	/*
-> > > +	 * uv swapping with the MI_XTD_FORMAT_CTRL register only works for
-> > 
-> > s@uv@U/V@
-> > 
-> > > +	 * NV12/NV21 and NV16/NV61, so instead use byte swap to support UYVY.
-> > > +	 * YVYU and VYUY cannot be supported with this method.
-> > > +	 */
-> > > +	if (rkisp1->info->features & RKISP1_FEATURE_MI_OUTPUT_ALIGN) {
-> > > +		reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT);
-> > > +		if (cap->pix.cfg->yc_swap)
-> > > +			reg |= RKISP1_CIF_OUTPUT_ALIGN_FORMAT_MP_BYTE_SWAP_BYTES;
-> > > +		else
-> > > +			reg &= ~RKISP1_CIF_OUTPUT_ALIGN_FORMAT_MP_BYTE_SWAP_BYTES;
-> > > +		rkisp1_write(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT, reg);
-> > 
-> > As the register is not initialized anywhere, it would be better to write
-> > it fully here instead of a read-modify-write cycle. Same comments below.
-> > 
-> > > +	}
-> > > +
-> > >  	rkisp1_mi_config_ctrl(cap);
-> > >  
-> > >  	reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_CTRL);
-> > > @@ -505,6 +532,19 @@ static void rkisp1_sp_config(struct rkisp1_capture *cap)
-> > >  		rkisp1_write(rkisp1, RKISP1_CIF_MI_XTD_FORMAT_CTRL, reg);
-> > >  	}
-> > >  
-> > > +	/*
-> > > +	 * uv swapping with the MI_XTD_FORMAT_CTRL register only works for
-> > > +	 * NV12/NV21 and NV16/NV61, so instead use byte swap to support UYVY.
-> > > +	 * YVYU and VYUY cannot be supported with this method.
-> > > +	 */
-> > > +	if (rkisp1->info->features & RKISP1_FEATURE_MI_OUTPUT_ALIGN) {
-> > > +		reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT);
-> > > +		if (cap->pix.cfg->yc_swap)
-> > > +			reg |= RKISP1_CIF_OUTPUT_ALIGN_FORMAT_SP_BYTE_SWAP_BYTES;
-> > > +		else
-> > > +			reg &= ~RKISP1_CIF_OUTPUT_ALIGN_FORMAT_SP_BYTE_SWAP_BYTES;
-> > > +		rkisp1_write(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT, reg);
-> > > +	}
-> > 
-> > Missing blank line.
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > >  	rkisp1_mi_config_ctrl(cap);
-> > >  
-> > >  	mi_ctrl = rkisp1_read(rkisp1, RKISP1_CIF_MI_CTRL);
+What is the difference from a programming interface?
+Can the nvmem driver(s) be reused (at24?)?
 
--- 
-Regards,
+...
 
-Laurent Pinchart
+> >      drivers/media/i2c/cat24c208.c | 421 ++++++++++++++++++++++++++++++=
+++++
+
+It really seems silly to me to add so many LoCs for the existing
+drivers and perhaps we need to extend the nvmem to support EDID rather
+than copying everything again?
+
+Note, I can be well mistaken by not understanding some underlying
+issues, perhaps there is some documentation to read...
+
+--=20
+With Best Regards,
+Andy Shevchenko
