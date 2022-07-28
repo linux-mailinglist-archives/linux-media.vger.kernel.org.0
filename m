@@ -2,76 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFEF4583FB2
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 15:13:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E5A2583FDF
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 15:23:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239134AbiG1NNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jul 2022 09:13:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51834 "EHLO
+        id S234892AbiG1NXX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jul 2022 09:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236686AbiG1NNQ (ORCPT
+        with ESMTP id S230483AbiG1NXW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jul 2022 09:13:16 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D86481BEBA
-        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 06:13:14 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id e11so1926873ljl.4
-        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 06:13:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=enxGsIYunokJEXPMGCaE1Z7pYtuICaBoKBXgeSWmWds=;
-        b=KnPMKWFuiKPiA/P4vExFpb/yxNCbd6RN4z9b8adLpTi0enYQdO1DCGVCgRRXSZC5Aq
-         lTQJRiT2rver/3W0QAvIbJasWNyvKj5jOGvuGSZ9L7ugDmmtuWPgZiRkF87i839pGiHN
-         FkI57ALLpz6VRvaVAVKLZI/FYYj/Upg4C8T+7DTj6WVkB+S3QGqYG8PplFXF2huPBcPn
-         K9SlgYUChDKy2D7mZm0hVnLB1AA+a84x2krOEb0Tr9YFTHd3ANjZxyWjAg+NisUbkwxR
-         dO4ju2jllwgx2GQNjQBZ8LCO+mRH00lr4tzjMTd3F3ByUX8UNDmfwCm6por0skChclOp
-         5RNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=enxGsIYunokJEXPMGCaE1Z7pYtuICaBoKBXgeSWmWds=;
-        b=wDgzNa3QDtFUnmqL/7iDA9UeJceNi6VPf6B6NZzIHl8HVyJ5YKY44apPF51n/koBiS
-         Vni2RlzRkfeP0yG/v07wTnDnkVlg2o7yp++1TO60LdzuVIT9mm70R1rH/WCYbfo9K4yC
-         jGaqjx6s0E+nI3/f6mmwyiqIEg0d+RwH1+vZ/Vp2l0xZPBsqfMCvMdMyf6qJK7OPp8pa
-         Yc0pSvD1W4VXaCAbjTbNPp8xHnPe6QptNu9lCHehSCO2NhkJa9xzI/FvdoZ+Lp0hcdhN
-         AIAlcLkmDhGp/tDRzjKb0bjEw2pQR1vAvgCFhHLat1xXRu7gJkG3GkGXwsI3QtJT91ky
-         WJSQ==
-X-Gm-Message-State: AJIora98r7Fc8Rmg8pjjSqqQvMyGZpBAl1nkGTodH7n+1Lg5jHPkLWWY
-        zboVw9X0gIqCZ9bOSqs0SJoLRg==
-X-Google-Smtp-Source: AGRyM1ueWV1tfxf9FVvPLoM/8R4w9qdGdgVWOxGzoYQXpfgmjsGBeWL+qbYnT+dzT+zmLYVcaF3k7Q==
-X-Received: by 2002:a2e:5741:0:b0:25d:fcb1:d449 with SMTP id r1-20020a2e5741000000b0025dfcb1d449mr7752871ljd.333.1659013992945;
-        Thu, 28 Jul 2022 06:13:12 -0700 (PDT)
-Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no. [78.26.46.173])
-        by smtp.gmail.com with ESMTPSA id d20-20020a193854000000b0048a757d314esm188383lfj.304.2022.07.28.06.13.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Jul 2022 06:13:12 -0700 (PDT)
-Message-ID: <4e89e55b-9312-5525-974b-0a1dbe0b3dd1@linaro.org>
-Date:   Thu, 28 Jul 2022 15:13:11 +0200
+        Thu, 28 Jul 2022 09:23:22 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4589B5073D
+        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 06:23:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D3D5BB82449
+        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 13:23:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 994BCC433C1;
+        Thu, 28 Jul 2022 13:23:16 +0000 (UTC)
+Message-ID: <8fe44de7-2cb5-eb9d-2e2b-ac6dc0af41a5@xs4all.nl>
+Date:   Thu, 28 Jul 2022 15:23:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v4 3/7] media: i2c: ov9282: Add ov9281 compatible
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 4/5] media: i2c: cat24c208: driver for the cat24c208 EDID
+ EEPROM
 Content-Language: en-US
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        "Paul J . Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>
-References: <20220728130237.3396663-1-alexander.stein@ew.tq-group.com>
- <20220728130237.3396663-4-alexander.stein@ew.tq-group.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220728130237.3396663-4-alexander.stein@ew.tq-group.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Erling Ljunggren <hljunggr@cisco.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Jonathan Selnes <jonathansb1@gmail.com>
+References: <20220728114050.2400475-1-hljunggr@cisco.com>
+ <20220728114050.2400475-5-hljunggr@cisco.com>
+ <CAHp75VeKMJ7eSZ3SLki74o+LkL6CBfcx4RL90n2J20BE+8L+KA@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CAHp75VeKMJ7eSZ3SLki74o+LkL6CBfcx4RL90n2J20BE+8L+KA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,31 +50,540 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/07/2022 15:02, Alexander Stein wrote:
-> According to product brief they are identical from software point of view.
-> Differences are a different chief ray angle (CRA) and the package.
+Hi Andy,
+
+On 28/07/2022 14:02, Andy Shevchenko wrote:
 > 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> ---
->  drivers/media/i2c/ov9282.c | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> index 8a252bf3b59f..c8d83a29f9bb 100644
-> --- a/drivers/media/i2c/ov9282.c
-> +++ b/drivers/media/i2c/ov9282.c
-> @@ -1113,6 +1113,7 @@ static const struct dev_pm_ops ov9282_pm_ops = {
->  };
->  
->  static const struct of_device_id ov9282_of_match[] = {
-> +	{ .compatible = "ovti,ov9281" },
+> On Thursday, July 28, 2022, Erling Ljunggren <hljunggr@cisco.com <mailto:hljunggr@cisco.com>> wrote:
+> 
+>     From: Jonathan Selnes <jonathansb1@gmail.com <mailto:jonathansb1@gmail.com>>
+> 
+>     Support reading and writing the EDID EEPROM through the
+>     v4l2 API.
+> 
+> 
+> 
+> Why the normal way of representing as a memory (we have framework and drivers) can’t work?
 
-The devices seem entirely compatible, so why you add a new compatible
-and not re-use existing?
+Because support for EDID for video sinks is already part of the media subsystem (V4L2).
+Normally it is integrated into an HDMI receiver, but in this case it is just the EDID
+support without the video receiver. It belongs in drivers/media in any case since EDIDs
+are closely tied to media.
 
-The difference in lens does not explain this.
+> 
+> Moreover, this driver seems limited in support of variety of the eeprom chips.
 
+Not quite sure what you mean. The cat24c208 is what this was developed for and
+the only one we have.
 
-Best regards,
-Krzysztof
+Note that an EDID EEPROM != a regular EEPROM: it has to support the VESA E-DDC
+standard, which a normal EEPROM doesn't. So these devices are specifically made
+for this use-case.
+
+Regards,
+
+	Hans
+
+> 
+>  
+> 
+> 
+>     Signed-off-by: Jonathan Selnes <jonathansb1@gmail.com <mailto:jonathansb1@gmail.com>>
+>     Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl <mailto:hverkuil-cisco@xs4all.nl>>
+>     Signed-off-by: Erling Ljunggren <hljunggr@cisco.com <mailto:hljunggr@cisco.com>>
+>     ---
+>      MAINTAINERS                   |   7 +
+>      drivers/media/i2c/Kconfig     |   9 +
+>      drivers/media/i2c/Makefile    |   1 +
+>      drivers/media/i2c/cat24c208.c | 421 ++++++++++++++++++++++++++++++++++
+>      4 files changed, 438 insertions(+)
+>      create mode 100644 drivers/media/i2c/cat24c208.c
+> 
+>     diff --git a/MAINTAINERS b/MAINTAINERS
+>     index 0a1d3d2b42bc..97d7ead555ac 100644
+>     --- a/MAINTAINERS
+>     +++ b/MAINTAINERS
+>     @@ -14632,6 +14632,13 @@ S:     Maintained
+>      T:     git git://linuxtv.org/media_tree.git <http://linuxtv.org/media_tree.git>
+>      F:     drivers/media/i2c/ov9734.c
+> 
+>     +ON SEMICONDUCTOR CAT24C208 EDID EEPROM DRIVER
+>     +M:     Hans Verkuil <hverkuil-cisco@xs4all.nl <mailto:hverkuil-cisco@xs4all.nl>>
+>     +L:     linux-media@vger.kernel.org <mailto:linux-media@vger.kernel.org>
+>     +S:     Maintained
+>     +F:     Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+>     +F:     drivers/media/i2c/cat24c208*
+>     +
+>      ONENAND FLASH DRIVER
+>      M:     Kyungmin Park <kyungmin.park@samsung.com <mailto:kyungmin.park@samsung.com>>
+>      L:     linux-mtd@lists.infradead.org <mailto:linux-mtd@lists.infradead.org>
+>     diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+>     index fae2baabb773..10d437f79a35 100644
+>     --- a/drivers/media/i2c/Kconfig
+>     +++ b/drivers/media/i2c/Kconfig
+>     @@ -1529,6 +1529,15 @@ endmenu
+>      menu "Miscellaneous helper chips"
+>             visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
+> 
+>     +config VIDEO_CAT24C208
+>     +       tristate "ON Semiconductor cat24c208 EDID EEPROM"
+>     +       depends on VIDEO_DEV && I2C
+>     +       help
+>     +         Support for the ON Semiconductor CAT24C208 Dual Port EDID EEPROM.
+>     +
+>     +         To compile this driver as a module, choose M here: the
+>     +         module will be called cat24c208.
+>     +
+>      config VIDEO_I2C
+>             tristate "I2C transport video support"
+>             depends on VIDEO_DEV && I2C
+>     diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+>     index 3e1696963e7f..ae5a88204892 100644
+>     --- a/drivers/media/i2c/Makefile
+>     +++ b/drivers/media/i2c/Makefile
+>     @@ -35,6 +35,7 @@ obj-$(CONFIG_VIDEO_ET8EK8) += et8ek8/
+>      obj-$(CONFIG_VIDEO_HI556) += hi556.o
+>      obj-$(CONFIG_VIDEO_HI846) += hi846.o
+>      obj-$(CONFIG_VIDEO_HI847) += hi847.o
+>     +obj-$(CONFIG_VIDEO_CAT24C208) += cat24c208.o
+>      obj-$(CONFIG_VIDEO_I2C) += video-i2c.o
+>      obj-$(CONFIG_VIDEO_IMX208) += imx208.o
+>      obj-$(CONFIG_VIDEO_IMX214) += imx214.o
+>     diff --git a/drivers/media/i2c/cat24c208.c b/drivers/media/i2c/cat24c208.c
+>     new file mode 100644
+>     index 000000000000..b56e5f829a8d
+>     --- /dev/null
+>     +++ b/drivers/media/i2c/cat24c208.c
+>     @@ -0,0 +1,421 @@
+>     +// SPDX-License-Identifier: GPL-2.0-only
+>     +/*
+>     + * cat24c208 - HDMI i2c controlled EEPROM from ON Semiconductor or Catalyst Semiconductor
+>     + *
+>     + * cat24c208.c - Support for i2c based DDC EEPROM
+>     + *
+>     + * Copyright (C) 2021-2022 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>     + */
+>     +
+>     +/*
+>     + * REF_01 - ON Semiconductor, cat24c208, Datasheet, URL : https://www.onsemi.com/pdf/datasheet/cat24c208-d.pdf <https://www.onsemi.com/pdf/datasheet/cat24c208-d.pdf>
+>     + *     Revision 7, May 2018
+>     + */
+>     +
+>     +#include <linux/i2c.h>
+>     +#include <linux/module.h>
+>     +#include <linux/mutex.h>
+>     +#include <linux/of_device.h>
+>     +#include <linux/regmap.h>
+>     +#include <linux/slab.h>
+>     +#include <linux/videodev2.h>
+>     +#include <linux/kernel.h>
+>     +
+>     +#include <media/v4l2-common.h>
+>     +#include <media/v4l2-device.h>
+>     +#include <media/v4l2-event.h>
+>     +#include <media/v4l2-fh.h>
+>     +#include <media/v4l2-ioctl.h>
+>     +
+>     +MODULE_DESCRIPTION("cat24c208 EDID EEPROM driver");
+>     +MODULE_AUTHOR("Jonathan Selnes Bognaes <jonathansb1@gmail.com <mailto:jonathansb1@gmail.com>>");
+>     +MODULE_LICENSE("GPL");
+>     +
+>     +/*
+>     + * CAT24C208 setup
+>     + */
+>     +#define BYTES_PER_BLOCK                128
+>     +#define EDID_EXT_FLAG_BIT      126
+>     +#define MAX_WRITE_BYTES                16
+>     +#define NUM_BLOCKS             4
+>     +#define NUM_CLIENTS            3
+>     +#define CONFIG_NB_BIT          BIT(0)
+>     +#define CONFIG_AB0_BIT         BIT(1)
+>     +#define CONFIG_AB1_BIT         BIT(2)
+>     +#define CONFIG_WE_BIT          BIT(3)
+>     +
+>     +/*
+>     + * From the datasheet:
+>     + *
+>     + * The write cycle time is the time from a valid stop condition of a write
+>     + * sequence to the end of the internal program/erase cycle. During the write
+>     + * cycle, the bus interface circuits are disabled, SDA is allowed to remain
+>     + * high, and the device does not respond to its slave address.
+>     + */
+>     +#define WRITE_CYCLE_TIME_US    5000
+>     +
+>     +/*
+>     + * CAT24C208 addresses
+>     + */
+>     +#define CONFIG_I2C_ADDR                0x31
+>     +#define EEPROM_I2C_ADDR                0x50
+>     +#define SEGMENT_I2C_ADDR       0x30
+>     +
+>     +struct cat24c208_state {
+>     +       struct i2c_client *i2c_clients[NUM_CLIENTS];
+>     +       // V4L2 ioctl serialization
+>     +       struct mutex lock;
+>     +
+>     +       struct v4l2_device v4l2_dev;
+>     +       struct video_device vdev;
+>     +
+>     +       u8 edid_blocks;         // edid length can vary, one block = 128 bytes
+>     +       u8 edid[BYTES_PER_BLOCK * NUM_BLOCKS]; // actual active edid data
+>     +};
+>     +
+>     +static const struct v4l2_file_operations cat24c208_fops = {
+>     +       .owner          = THIS_MODULE,
+>     +       .open           = v4l2_fh_open,
+>     +       .release        = v4l2_fh_release,
+>     +       .unlocked_ioctl = video_ioctl2,
+>     +};
+>     +
+>     +static int cat24c208_seg_write(struct cat24c208_state *state, u8 *data, u16 len, u8 seg)
+>     +{
+>     +       struct i2c_client *dev_client = state->i2c_clients[0];
+>     +       struct i2c_client *data_client = state->i2c_clients[1];
+>     +       struct i2c_client *seg_client = state->i2c_clients[2];
+>     +
+>     +       struct i2c_msg msg[] = {
+>     +               {
+>     +                       .addr = seg_client->addr,       // Segment
+>     +                       .buf = &seg,
+>     +                       .len = 1,
+>     +                       .flags = 0,
+>     +               },
+>     +               {
+>     +                       .addr = data_client->addr,      // write data
+>     +                       .buf = data,
+>     +                       .len = len,
+>     +                       .flags = 0,
+>     +               },
+>     +       };
+>     +       int err;
+>     +
+>     +       if (seg)
+>     +               err = i2c_transfer(dev_client->adapter, msg, ARRAY_SIZE(msg));
+>     +       else
+>     +               err = i2c_transfer(dev_client->adapter, &msg[1], 1);
+>     +       if (err < 0)
+>     +               dev_err(&dev_client->dev, "Writing to 0x%x failed (segment %d)\n",
+>     +                       data_client->addr, seg);
+>     +
+>     +       usleep_range(WRITE_CYCLE_TIME_US, 2 * WRITE_CYCLE_TIME_US);
+>     +       return err < 0 ? err : 0;
+>     +}
+>     +
+>     +static int cat24c208_edid_read(struct cat24c208_state *state, u8 *data, u8 seg, u8 offset, u16 len)
+>     +{
+>     +       struct i2c_client *dev_client = state->i2c_clients[0];
+>     +       struct i2c_client *data_client = state->i2c_clients[1];
+>     +       struct i2c_client *seg_client = state->i2c_clients[2];
+>     +       int err;
+>     +
+>     +       len *= BYTES_PER_BLOCK;
+>     +       if (seg) {
+>     +               struct i2c_msg msg[] = {
+>     +                       {
+>     +                               .addr = seg_client->addr,       // Segment
+>     +                               .buf = &seg,
+>     +                               .len = 1,
+>     +                               .flags = 0,
+>     +                       },
+>     +                       {
+>     +                               .addr = data_client->addr,      // read data
+>     +                               .buf = data,
+>     +                               .len = len,
+>     +                               .flags = I2C_M_RD,
+>     +                       },
+>     +               };
+>     +               err = i2c_transfer(dev_client->adapter, msg, ARRAY_SIZE(msg));
+>     +       } else {
+>     +               struct i2c_msg msg[] = {
+>     +                       {
+>     +                               .addr = data_client->addr,      // set offset
+>     +                               .buf = &offset,
+>     +                               .len = 1,
+>     +                               .flags = 0,
+>     +                       },
+>     +                       {
+>     +                               .addr = data_client->addr,      // read data
+>     +                               .buf = data,
+>     +                               .len = len,
+>     +                               .flags = I2C_M_RD,
+>     +                       },
+>     +               };
+>     +               err = i2c_transfer(dev_client->adapter, msg, ARRAY_SIZE(msg));
+>     +       }
+>     +
+>     +       if (err < 0)
+>     +               dev_err(&dev_client->dev, "Reading of EDID failed\n");
+>     +       return err < 0 ? err : 0;
+>     +}
+>     +
+>     +static int cat24c208_set_config(struct i2c_client *client)
+>     +{
+>     +       u8 buf[2] = { 0, CONFIG_NB_BIT };
+>     +       struct i2c_msg msg = {
+>     +               .addr = client->addr,
+>     +               .buf = buf,
+>     +               .len = sizeof(buf),
+>     +               .flags = 0,
+>     +       };
+>     +       int err;
+>     +
+>     +       err = i2c_transfer(client->adapter, &msg, 1);
+>     +       if (err < 0)
+>     +               dev_err(&client->dev, "Could not set config register\n");
+>     +       usleep_range(WRITE_CYCLE_TIME_US, 2 * WRITE_CYCLE_TIME_US);
+>     +       return err < 0 ? err : 0;
+>     +}
+>     +
+>     +static bool cat24c208_is_valid_edid(const u8 *block)
+>     +{
+>     +       static const u8 header_pattern[] = {
+>     +               0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00
+>     +       };
+>     +
+>     +       return !memcmp(block, header_pattern, sizeof(header_pattern));
+>     +}
+>     +
+>     +static int cat24c208_set_edid(struct file *file, void *fh, struct v4l2_edid *edid)
+>     +{
+>     +       struct cat24c208_state *state = video_drvdata(file);
+>     +       u8 buf[MAX_WRITE_BYTES + 1];
+>     +       int err;
+>     +       int seg;
+>     +       int i;
+>     +
+>     +       memset(edid->reserved, 0, sizeof(edid->reserved));
+>     +
+>     +       if (edid->pad)
+>     +               return -EINVAL;
+>     +
+>     +       if (edid->blocks > NUM_BLOCKS) {
+>     +               edid->blocks = NUM_BLOCKS;
+>     +               return -E2BIG;
+>     +       }
+>     +
+>     +       if (edid->start_block)
+>     +               return -EINVAL;
+>     +
+>     +       state->edid_blocks = edid->blocks;
+>     +       memcpy(state->edid, edid->edid, state->edid_blocks * BYTES_PER_BLOCK);
+>     +
+>     +       /* Write EDID to EEPROM */
+>     +       for (i = 0; i < edid->blocks * BYTES_PER_BLOCK; i = i + MAX_WRITE_BYTES) {
+>     +               if (i >= 2 * BYTES_PER_BLOCK) {
+>     +                       seg = 1;
+>     +                       buf[0] = i - BYTES_PER_BLOCK * 2;
+>     +               } else {
+>     +                       seg = 0;
+>     +                       buf[0] = i;
+>     +               }
+>     +
+>     +               memcpy(buf + 1, &edid->edid[i], MAX_WRITE_BYTES);
+>     +               err = cat24c208_seg_write(state, buf, MAX_WRITE_BYTES + 1, seg);
+>     +               if (err) {
+>     +                       dev_err(&state->i2c_clients[0]->dev,
+>     +                               "Could not write EDID to EEPROM, i: %d\n", i);
+>     +                       return err;
+>     +               }
+>     +       }
+>     +
+>     +       return 0;
+>     +}
+>     +
+>     +static int cat24c208_get_edid(struct file *file, void *fh, struct v4l2_edid *edid)
+>     +{
+>     +       struct cat24c208_state *state = video_drvdata(file);
+>     +
+>     +       memset(edid->reserved, 0, sizeof(edid->reserved));
+>     +
+>     +       if (edid->pad != 0)
+>     +               return -EINVAL;
+>     +
+>     +       if (edid->start_block == 0 && edid->blocks == 0) {
+>     +               edid->blocks = state->edid_blocks;
+>     +               return 0;
+>     +       }
+>     +
+>     +       if (state->edid_blocks == 0)
+>     +               return -ENODATA;
+>     +
+>     +       if (edid->start_block >= state->edid_blocks)
+>     +               return -EINVAL;
+>     +
+>     +       if (edid->start_block + edid->blocks > state->edid_blocks)
+>     +               edid->blocks = state->edid_blocks - edid->start_block;
+>     +
+>     +       memcpy(edid->edid, state->edid + edid->start_block * BYTES_PER_BLOCK,
+>     +              edid->blocks * BYTES_PER_BLOCK);
+>     +
+>     +       return 0;
+>     +}
+>     +
+>     +static int cat24c208_get_input(struct file *file, void *priv, unsigned int *i)
+>     +{
+>     +       *i = 0;
+>     +       return 0;
+>     +}
+>     +
+>     +static int cat24c208_set_input(struct file *file, void *priv, unsigned int i)
+>     +{
+>     +       return i > 0 ? -EINVAL : 0;
+>     +}
+>     +
+>     +static int cat24c208_enum_input(struct file *file, void *priv,
+>     +                               struct v4l2_input *inp)
+>     +{
+>     +       if (inp->index)
+>     +               return -EINVAL;
+>     +       strscpy(inp->name, "HDMI", sizeof(inp->name));
+>     +       inp->capabilities = 0;
+>     +       inp->type = V4L2_INPUT_TYPE_CAMERA;
+>     +       return 0;
+>     +}
+>     +
+>     +static int cat24c208_querycap(struct file *file,
+>     +                             void *priv, struct v4l2_capability *cap)
+>     +{
+>     +       strscpy(cap->driver, "cat24c208", sizeof(cap->driver));
+>     +       strscpy(cap->card, "cat24c208 EDID EEPROM", sizeof(cap->card));
+>     +       return 0;
+>     +}
+>     +
+>     +static const struct v4l2_ioctl_ops cat24c208_ioctl_ops = {
+>     +       .vidioc_querycap        = cat24c208_querycap,
+>     +       .vidioc_g_edid          = cat24c208_get_edid,
+>     +       .vidioc_s_edid          = cat24c208_set_edid,
+>     +       .vidioc_g_input         = cat24c208_get_input,
+>     +       .vidioc_s_input         = cat24c208_set_input,
+>     +       .vidioc_enum_input      = cat24c208_enum_input,
+>     +};
+>     +
+>     +static void cat24c208_release(struct video_device *vdev)
+>     +{
+>     +       struct cat24c208_state *state = video_get_drvdata(vdev);
+>     +
+>     +       v4l2_device_unregister(&state->v4l2_dev);
+>     +       mutex_destroy(&state->lock);
+>     +       kfree(state);
+>     +}
+>     +
+>     +static int cat24c208_probe(struct i2c_client *client)
+>     +{
+>     +       struct cat24c208_state *state;
+>     +       struct v4l2_device *v4l2_dev;
+>     +       int blocks;
+>     +       int ret;
+>     +
+>     +       state = kzalloc(sizeof(*state), GFP_KERNEL);
+>     +       if (!state)
+>     +               return -ENOMEM;
+>     +
+>     +       state->i2c_clients[0] = client;
+>     +       state->i2c_clients[1] = i2c_new_ancillary_device(client, "eeprom", EEPROM_I2C_ADDR);
+>     +       if (IS_ERR(state->i2c_clients[1])) {
+>     +               ret = PTR_ERR(state->i2c_clients[1]);
+>     +               goto free_state;
+>     +       }
+>     +       state->i2c_clients[2] = i2c_new_ancillary_device(client, "segment", SEGMENT_I2C_ADDR);
+>     +       if (IS_ERR(state->i2c_clients[2])) {
+>     +               ret = PTR_ERR(state->i2c_clients[2]);
+>     +               goto unreg_i2c_first;
+>     +       }
+>     +
+>     +       ret = cat24c208_set_config(client);
+>     +       if (ret)
+>     +               goto unreg_i2c_all;
+>     +
+>     +       if (cat24c208_edid_read(state, state->edid, 0, 0, 2) >= 0 &&
+>     +           cat24c208_is_valid_edid(state->edid)) {
+>     +               unsigned int i;
+>     +
+>     +               blocks = 1 + state->edid[126];
+>     +               state->edid_blocks = blocks;
+>     +               for (i = 2; i < blocks; i += 2) {
+>     +                       if (cat24c208_edid_read(state, state->edid + i * BYTES_PER_BLOCK,
+>     +                                               i / 2, 0, (i + 1 >= blocks ? 1 : 2))) {
+>     +                               state->edid_blocks = i;
+>     +                               break;
+>     +                       }
+>     +               }
+>     +       }
+>     +
+>     +       v4l2_dev = &state->v4l2_dev;
+>     +       strscpy(v4l2_dev->name, "cat24c208", sizeof(v4l2_dev->name));
+>     +       ret = v4l2_device_register(&client->dev, v4l2_dev);
+>     +       if (ret) {
+>     +               dev_err(&client->dev, "v4l2_device_register failed: %d\n", ret);
+>     +               goto unreg_i2c_all;
+>     +       }
+>     +
+>     +       mutex_init(&state->lock);
+>     +
+>     +       snprintf(state->vdev.name <http://vdev.name>, sizeof(state->vdev.name <http://vdev.name>),
+>     +                "cat24c208 %d-%d", client->adapter->nr, client->addr);
+>     +
+>     +       state->vdev.v4l2_dev = v4l2_dev;
+>     +       state->vdev.fops = &cat24c208_fops;
+>     +       state->vdev.ioctl_ops = &cat24c208_ioctl_ops;
+>     +       state->vdev.lock = &state->lock;
+>     +       state->vdev.release = cat24c208_release;
+>     +       state->vdev.device_caps = V4L2_CAP_EDID_MEMORY;
+>     +
+>     +       video_set_drvdata(&state->vdev, state);
+>     +       i2c_set_clientdata(client, state);
+>     +       ret = video_register_device(&state->vdev, VFL_TYPE_VIDEO, -1);
+>     +       if (ret != 0) {
+>     +               dev_err(&client->dev, "Video registering failed: %d\n", ret);
+>     +               goto unreg_v4l2_dev;
+>     +       }
+>     +       return 0;
+>     +
+>     +unreg_v4l2_dev:
+>     +       v4l2_device_unregister(&state->v4l2_dev);
+>     +unreg_i2c_all:
+>     +       i2c_unregister_device(state->i2c_clients[2]);
+>     +unreg_i2c_first:
+>     +       i2c_unregister_device(state->i2c_clients[1]);
+>     +free_state:
+>     +       kfree(state);
+>     +       return ret;
+>     +}
+>     +
+>     +static int cat24c208_remove(struct i2c_client *client)
+>     +{
+>     +       struct cat24c208_state *state = i2c_get_clientdata(client);
+>     +
+>     +       i2c_unregister_device(state->i2c_clients[1]);
+>     +       i2c_unregister_device(state->i2c_clients[2]);
+>     +       video_unregister_device(&state->vdev);
+>     +
+>     +       return 0;
+>     +}
+>     +
+>     +static const struct of_device_id cat24c208_of_match[] = {
+>     +       { .compatible = "onnn,cat24c208"},
+>     +       {}
+>     +};
+>     +MODULE_DEVICE_TABLE(of, cat24c208_of_match);
+>     +
+>     +static struct i2c_driver cat24c208_driver = {
+>     +       .driver = {
+>     +               .name   = "cat24c208",
+>     +               .of_match_table = of_match_ptr(cat24c208_of_match),
+>     +       },
+>     +       .probe_new      = cat24c208_probe,
+>     +       .remove         = cat24c208_remove,
+>     +};
+>     +module_i2c_driver(cat24c208_driver);
+>     -- 
+>     2.37.1
+> 
+> 
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
