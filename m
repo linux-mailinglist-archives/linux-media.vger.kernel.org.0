@@ -2,176 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 790B75838C8
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 08:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5DBE583918
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jul 2022 09:01:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232555AbiG1Gcm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jul 2022 02:32:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40206 "EHLO
+        id S234023AbiG1HBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jul 2022 03:01:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229682AbiG1Gck (ORCPT
+        with ESMTP id S231540AbiG1HBG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jul 2022 02:32:40 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9F5B50197;
-        Wed, 27 Jul 2022 23:32:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658989959; x=1690525959;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=RK0HAmV0bkXD+BBB3t8pfYAFUKXxk01BYq1b2equMoE=;
-  b=K6h6dY1BDvaJ93GlUDIcZOXobIMpGNyx5ncS3SEzkLkbxwgwbe98Hj9O
-   jhVd34jTpAsaM9gjMK7fLJMvIpMKqmsrjfTMRWPe88ue7mo70RF7T/vgr
-   D/sbV1g6QWhtvEWR5gdSA092aEJs/O+SSuCKFYdoattnGetnIrnytd7Ic
-   UvM2ScDZhJMWqRTLkXuv3YDTvt7fN8NBFPMYHYyXnx7nOoRWbvQW4d8LQ
-   zg1CVswWxrzaQOdH0pfBQrsUEws9u9OmYw9nQ7GcHqrUfLaTwgpJfW/N6
-   a2fuluyZRTHT8VF022/wNPPP77/7Q3WczsPHM7dXi1FBRr4khhlYac49M
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="350139609"
-X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; 
-   d="scan'208";a="350139609"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2022 23:32:39 -0700
-X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; 
-   d="scan'208";a="659570540"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2) ([10.249.36.196])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2022 23:32:35 -0700
-Date:   Thu, 28 Jul 2022 08:32:32 +0200
-From:   Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc:     stable@vger.kernel.org,
-        Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= 
-        <thomas.hellstrom@linux.intel.com>, linux-media@vger.kernel.org,
-        David Airlie <airlied@linux.ie>,
-        intel-gfx@lists.freedesktop.org,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org,
-        Chris Wilson <chris.p.wilson@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Tomas Winkler <tomas.winkler@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 06/21] drm/i915/gt: Batch TLB
- invalidations
-Message-ID: <20220728083232.352f80cf@maurocar-mobl2>
-In-Reply-To: <d2337b73-ae34-3dd3-afa3-85c77dc2135e@linux.intel.com>
-References: <cover.1657800199.git.mchehab@kernel.org>
-        <9f535a97f32320a213a619a30c961ba44b595453.1657800199.git.mchehab@kernel.org>
-        <567823d5-57ba-30db-dd64-de609df4d8c5@linux.intel.com>
-        <20220727134836.7f7b5fab@maurocar-mobl2>
-        <d2337b73-ae34-3dd3-afa3-85c77dc2135e@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        Thu, 28 Jul 2022 03:01:06 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2082851438
+        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 00:01:04 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id p22so966780lji.10
+        for <linux-media@vger.kernel.org>; Thu, 28 Jul 2022 00:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=nRhU8Xmo8NVx+3hPXhYpUbAwbYIpncAqKvgE1eanWM4=;
+        b=Dw02yJpYL/KXSjq0VXkvvmLYDISAKKmLsOkwCxlia2u47URBEuv2/gJF0Epdd3B1LF
+         m4Qcw7u/Ts6pp5tKpNC2+GnNveS8BcgpbEa2+MrBArNsmHF5utlF7aBPBjt14ujaO6+l
+         XTMwYFByECCRfK2qs2bc6/gCS+3nFCEaDixtd1QWtMPJBvQiYsgZbAAVTIauXeUFLHra
+         p3Btvbo+W8ykXDLznW3Po8AGs/sVunLSsYy5QRdxNzUeUiI/nsT7xodaJ+quAqE6TuVo
+         IbTbnYsl2ZJOv6eEpbB7BPa00HYp8RmkpmCDAtFrgwVOInWXZu/YgQKnYA7/QzoQHWZ0
+         Ax8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=nRhU8Xmo8NVx+3hPXhYpUbAwbYIpncAqKvgE1eanWM4=;
+        b=TbqwHrb7FVz9HHZluxmU4CGFL+rTtkHldTlJlcFScfrV4kOxdCz3CvJKGlPtgbVNib
+         6+27gHVKJZdUWWAXZBFntfWNr65wZG7uzvWDSUxTeqZ3q8Pruqz+sBbHY87HuoK+Egsq
+         6mewDztO59UQ4bpQcDIgHcZwbSaDszTN/q7uakMBZ2uOq6eGE5s0RQHSM2nIb5tA1voA
+         L4Ia1xxrM1H7NUw4xwghy7AIizmANSnGzKbHR+I9amvYRmbnH6rJQ9sat27vISrBm5Ve
+         2rm9e7l0xCLDpDMyS2cBIfDaYQDtWF08E/nfI5a9OCbZJ0XCeirdB/WNnuQhynAR+vE1
+         aUCA==
+X-Gm-Message-State: AJIora+ZfyRqFzkWF+VzbrbRJeCvCUtpqcFC66qiwX5ruR72kG7PFrjD
+        EMbO8uf2SeDSfsUrEkUrlPZdwBlAdWdkpvaq
+X-Google-Smtp-Source: AGRyM1vvAFefN8UxewXLvqrhGbBM4U+BhOGlbN6KRptT19q7Jk5gCZOufq2rYPIc2TkOPf+3bA4m+g==
+X-Received: by 2002:a05:651c:b23:b0:25e:e2d:9e40 with SMTP id b35-20020a05651c0b2300b0025e0e2d9e40mr5406364ljr.38.1658991662420;
+        Thu, 28 Jul 2022 00:01:02 -0700 (PDT)
+Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no. [78.26.46.173])
+        by smtp.gmail.com with ESMTPSA id r11-20020a2e8e2b000000b0025a70f7ea3asm4390878ljk.138.2022.07.28.00.01.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jul 2022 00:01:01 -0700 (PDT)
+Message-ID: <91e966c9-b398-1a3a-e4be-8e4e3a0f8d89@linaro.org>
+Date:   Thu, 28 Jul 2022 09:01:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [v7 3/4] dt-bindings: arm: amlogic: add MagicBox M16S bindings
+Content-Language: en-US
+To:     Zhang Ning <zhangn1985@qq.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        narmstrong@baylibre.com, martin.blumenstingl@googlemail.com,
+        sean@mess.org, christianshewitt@gmail.com,
+        linux-amlogic@lists.infradead.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20220726143649.142574-1-zhangn1985@qq.com>
+ <tencent_A962A641C180EEC2680CA53DDD6643BA6E05@qq.com>
+ <b094bf45-ad7e-9e42-89a6-bae0b8e4aae1@linaro.org>
+ <tencent_F809BC863B83870BBEB1EF76499B3969B607@qq.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <tencent_F809BC863B83870BBEB1EF76499B3969B607@qq.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 27 Jul 2022 13:56:50 +0100
-Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-
-> > Because vma_invalidate_tlb() basically stores a TLB seqno, but the
-> > actual invalidation is deferred to when the pages are unset, at
-> > __i915_gem_object_unset_pages().
-> > 
-> > So, what happens is:
-> > 
-> > - on VMA sync mode, the need to invalidate TLB is marked at
-> >    __vma_put_pages(), before VMA unbind;
-> > - on async, this is deferred to happen at ppgtt_unbind_vma(), where
-> >    it marks the need to invalidate TLBs.
-> > 
-> > On both cases, __i915_gem_object_unset_pages() is called later,
-> > when the driver is ready to unmap the page.  
+On 28/07/2022 01:48, Zhang Ning wrote:
+> On Wed, Jul 27, 2022 at 05:27:25PM +0200, Krzysztof Kozlowski wrote:
+>> On 26/07/2022 16:36, Zhang Ning wrote:
+>>> Add manufactor bindings for Tmall
+>>> Add the board bindings for Magicbox M16S Tv Box
+>>>
+>>> Signed-off-by: Zhang Ning <zhangn1985@qq.com>
+>>
+>> Please send patches with correct subject PATCH.
+> I got confused, and don't know how to update..
 > 
-> Sorry still not clear to me why is the patch moving marking of the need 
-> to invalidate (regardless if it a bit like today, or a seqno like in 
-> this patch) from bind to unbind?
+> ad152daedc5c dt-bindings: arm: amlogic: add MagicBox M16S bindings
+> 3f7dbd336f36 dt-bindings: arm: amlogic: add Vero 4K+ bindings
+> 2ca889b12016 dt-bindings: arm: amlogic: add H96-Max bindings
+
+git format-patch -v8
+
 > 
-> What if the seqno was stored in i915_vma_bind, where the bit is set 
-> today, and all the hunks which touch the unbind and evict would 
-> disappear from the patch. What wouldn't work in that case, if anything?
+>>
+>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> Christian Hewitt told me to split to 2 patches, 1st for manufactor, 2nd
+> for device, how to handle your Acked-by?
+>
+If split is the only change, you can add ti both of them
 
-Ah, now I see your point.
 
-I can't see any sense on having a sequence number at VMA bind, as the
-unbind order can be different. The need of doing a full TLB invalidation
-or not depends on the unbind order.
-
-The way the current algorithm works is that drm_i915_gem_object can be
-created on any order, and, at unbind/evict, they receive a seqno.
-
-The seqno is incremented at intel_gt_invalidate_tlb():
-
-    void intel_gt_invalidate_tlb(struct intel_gt *gt, u32 seqno)
-    {
-	with_intel_gt_pm_if_awake(gt, wakeref) {
-		mutex_lock(&gt->tlb.invalidate_lock);
-		if (tlb_seqno_passed(gt, seqno))
-				goto unlock;
-
-		mmio_invalidate_full(gt);
-
-		write_seqcount_invalidate(&gt->tlb.seqno);	// increment seqno
-		
-
-So, let's say 3 objects were created, on this order:
-
-	obj1
-	obj2
-	obj3
-
-They would be unbind/evict on a different order. On that time, 
-the mm.tlb will be stamped with a seqno, using the number from the
-last TLB flush, plus 1.
-
-As different threads can be used to handle TLB flushes, let's imagine
-two threads (just for the sake of having an example). On such case,
-what we would have is:
-
-seqno		Thread 0			Thread 1
-
-seqno=2		unbind/evict event
-		obj3.mm.tlb = seqno | 1
-seqno=2		unbind/evict event
-		obj1.mm.tlb = seqno | 1
-						__i915_gem_object_unset_pages() 
-						called for obj3, TLB flush happened,
-						invalidating both obj1 and obj2.
-						seqno += 2					
-seqno=4		unbind/evict event
-		obj1.mm.tlb = seqno | 1
-						__i915_gem_object_unset_pages()
-						called for obj1, don't flush.
-...
-						__i915_gem_object_unset_pages() called for obj2, TLB flush happened
-						seqno += 2
-seqno=6
-
-So, basically the seqno is used to track when the object data stopped
-being updated, because of an unbind/evict event, being later used by
-intel_gt_invalidate_tlb() when called from __i915_gem_object_unset_pages(),
-in order to check if a previous invalidation call was enough to invalidate
-the object, or if a new call is needed.
-
-Now, if seqno is stored at bind, data can still leak, as the assumption
-made by intel_gt_invalidate_tlb() that the data stopped being used at
-seqno is not true anymore.
-
-Still, I agree that this logic is complex and should be better 
-documented. So, if you're now OK with this patch, I'll add the above
-explanation inside a kernel-doc comment.
-
-Regards,
-Mauro
+Best regards,
+Krzysztof
