@@ -2,187 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C377058486D
-	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 00:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD414584A5E
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 05:52:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232813AbiG1Ww4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jul 2022 18:52:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
+        id S234133AbiG2Dvo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jul 2022 23:51:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbiG1Wwz (ORCPT
+        with ESMTP id S234127AbiG2Dvl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jul 2022 18:52:55 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7E024F194;
-        Thu, 28 Jul 2022 15:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659048773; x=1690584773;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lsvA/KlT+eaewYelZT3Vo+d9k9BiZgVM50HbbWPr308=;
-  b=BtGVqmBXmvIut/0LO/Ploxco1itpuBxJXWIQZp/e2daBnZEJsJzHqLIK
-   Qhc49U6MBnTvOMzXeB/6MrqbrpO+KMvtXbpJ8+s7qPiqci0vLiZS3qC86
-   twyaxtjQwgWJLlpzG4z5j7w9SGEAOcm/z7AXOEFrOm0ccAaUUF8XXG5y7
-   x+lTfayu4ThPR+4s7fR5UgKf5Vvi61+rSTFmu3IRzimXFMOpYztefv7bK
-   KrmOzXAM+dublU1TTqbkaMqLnkCvepPnS4f6ogjcEqiHHxp/zF/cg71Mc
-   rsW4K1cS6Ov3J0g/K/S5o+V9+SbpYOuP0/dii0bHHQcxRCAm9s3yIENbR
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10422"; a="268409888"
-X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; 
-   d="scan'208";a="268409888"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2022 15:52:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; 
-   d="scan'208";a="743332771"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2022 15:52:49 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oHCN7-000AfY-0y;
-        Thu, 28 Jul 2022 22:52:49 +0000
-Date:   Fri, 29 Jul 2022 06:51:54 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Thu, 28 Jul 2022 23:51:41 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7D07CB5B;
+        Thu, 28 Jul 2022 20:51:39 -0700 (PDT)
+X-UUID: 7b8fb5f6b6054ae9b4b432e5ec5e4d5b-20220729
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8,REQID:a50d1b30-8045-4e09-b1df-05fae615385b,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:-5
+X-CID-META: VersionHash:0f94e32,CLOUDID:d1a6a5d0-841b-4e95-ad42-8f86e18f54fc,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+        ,QS:nil,BEC:nil,COL:0
+X-UUID: 7b8fb5f6b6054ae9b4b432e5ec5e4d5b-20220729
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 924437438; Fri, 29 Jul 2022 11:51:33 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 29 Jul 2022 11:51:31 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Fri, 29 Jul 2022 11:51:30 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        <angelogioacchino.delregno@collabora.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size
- of 1420 bytes is larger than 1024 bytes
-Message-ID: <202207290656.w3o6f0jZ-lkp@intel.com>
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tomasz Figa <tfiga@google.com>,
+        <nicolas.dufresne@collabora.com>
+CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v5, 0/8] Support H264 multi-core encoder on MT8195
+Date:   Fri, 29 Jul 2022 11:51:21 +0800
+Message-ID: <20220729035129.3634-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   33ea1340bafe1f394e5bf96fceef73e9771d066b
-commit: f25709c4ff151fbc7dc2e0b7cf5962767a093f68 media: rkvdec: Add the VP9 backend
-date:   8 months ago
-config: csky-randconfig-r015-20220729 (https://download.01.org/0day-ci/archive/20220729/202207290656.w3o6f0jZ-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f25709c4ff151fbc7dc2e0b7cf5962767a093f68
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout f25709c4ff151fbc7dc2e0b7cf5962767a093f68
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/media/v4l2-core/
+MT8195 has two H264 encoder hardware, named core0 and core1, this two
+cores can encode two input frames separately at the same time to achieve
+higher performance.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+This series of patches are used to enable the two H264 encoder cores,
+the difference between encoding process before and after enable two
+cores is just like as below:
+As-Is: Synchronous
+V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> wait encoder IRQ
+-->
+encoding done with result --> job_finish
+V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> wait encoder IRQ
+-->
+encoding done with result --> job_finish
+...
+To-Be: Asynchronous
+V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> job_finish
+..V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> job_finish
+(venc core0 may encode done here, done the encoding result to client)
+V4L2_VIDIOC_QBUF#2 --> device_run(triger encoder) --> job_finish.
 
-All warnings (new ones prefixed by >>):
+---
+changes compared with v4:
+- reabse to the newer linux media stage tree.
+- remove "mediatek,venc-multi-core" property since sub-device can
+  be probed by of_platform_populate api directly.
+- some modifications for patch v4's review comments.
 
-   drivers/media/v4l2-core/v4l2-vp9.c: In function 'v4l2_vp9_adapt_noncoef_probs':
->> drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size of 1420 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1834 | }
-         | ^
+changes compared with v3:
+- rebase to the newer linux media stage.
+- add a capability to indicate scp firmware support multi-core.
+- probe core0 as main device, core1 as sub-device.
 
+changes compared with v2:
+- update venc core dt-bindings, add two new properties for current
+  usage.
+- parse venc multi_core mode from device tree.
+- rebase to the newer linux media stage.
 
-vim +1834 drivers/media/v4l2-core/v4l2-vp9.c
+changes compared with v1:
+- of_platform_populate was used in place of the component framework.
+- new yaml file for venc cores.
+- some modifications for patch v1's review comments.
+---
 
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1757  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1758  /* 8.4.4 Non coefficient probability adaptation process */
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1759  void v4l2_vp9_adapt_noncoef_probs(struct v4l2_vp9_frame_context *probs,
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1760  				  struct v4l2_vp9_frame_symbol_counts *counts,
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1761  				  u8 reference_mode, u8 interpolation_filter, u8 tx_mode,
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1762  				  u32 flags)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1763  {
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1764  	unsigned int i, j;
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1765  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1766  	for (i = 0; i < ARRAY_SIZE(probs->is_inter); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1767  		probs->is_inter[i] = adapt_prob(probs->is_inter[i], (*counts->intra_inter)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1768  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1769  	for (i = 0; i < ARRAY_SIZE(probs->comp_mode); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1770  		probs->comp_mode[i] = adapt_prob(probs->comp_mode[i], (*counts->comp)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1771  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1772  	for (i = 0; i < ARRAY_SIZE(probs->comp_ref); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1773  		probs->comp_ref[i] = adapt_prob(probs->comp_ref[i], (*counts->comp_ref)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1774  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1775  	if (reference_mode != V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1776  		for (i = 0; i < ARRAY_SIZE(probs->single_ref); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1777  			for (j = 0; j < ARRAY_SIZE(probs->single_ref[0]); j++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1778  				probs->single_ref[i][j] = adapt_prob(probs->single_ref[i][j],
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1779  								     (*counts->single_ref)[i][j]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1780  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1781  	for (i = 0; i < ARRAY_SIZE(probs->inter_mode); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1782  		adapt_probs_variant_c(probs->inter_mode[i], (*counts->mv_mode)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1783  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1784  	for (i = 0; i < ARRAY_SIZE(probs->y_mode); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1785  		adapt_probs_variant_d(probs->y_mode[i], (*counts->y_mode)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1786  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1787  	for (i = 0; i < ARRAY_SIZE(probs->uv_mode); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1788  		adapt_probs_variant_d(probs->uv_mode[i], (*counts->uv_mode)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1789  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1790  	for (i = 0; i < ARRAY_SIZE(probs->partition); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1791  		adapt_probs_variant_e(probs->partition[i], (*counts->partition)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1792  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1793  	for (i = 0; i < ARRAY_SIZE(probs->skip); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1794  		probs->skip[i] = adapt_prob(probs->skip[i], (*counts->skip)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1795  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1796  	if (interpolation_filter == V4L2_VP9_INTERP_FILTER_SWITCHABLE)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1797  		for (i = 0; i < ARRAY_SIZE(probs->interp_filter); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1798  			adapt_probs_variant_f(probs->interp_filter[i], (*counts->filter)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1799  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1800  	if (tx_mode == V4L2_VP9_TX_MODE_SELECT)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1801  		for (i = 0; i < ARRAY_SIZE(probs->tx8); i++) {
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1802  			adapt_probs_variant_b(probs->tx8[i], (*counts->tx8p)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1803  			adapt_probs_variant_f(probs->tx16[i], (*counts->tx16p)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1804  			adapt_probs_variant_e(probs->tx32[i], (*counts->tx32p)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1805  		}
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1806  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1807  	adapt_probs_variant_e(probs->mv.joint, *counts->mv_joint);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1808  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1809  	for (i = 0; i < ARRAY_SIZE(probs->mv.sign); i++) {
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1810  		probs->mv.sign[i] = adapt_prob(probs->mv.sign[i], (*counts->sign)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1811  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1812  		adapt_probs_variant_g(probs->mv.classes[i], (*counts->classes)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1813  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1814  		probs->mv.class0_bit[i] = adapt_prob(probs->mv.class0_bit[i], (*counts->class0)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1815  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1816  		for (j = 0; j < ARRAY_SIZE(probs->mv.bits[0]); j++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1817  			probs->mv.bits[i][j] = adapt_prob(probs->mv.bits[i][j],
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1818  							  (*counts->bits)[i][j]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1819  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1820  		for (j = 0; j < ARRAY_SIZE(probs->mv.class0_fr[0]); j++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1821  			adapt_probs_variant_e(probs->mv.class0_fr[i][j],
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1822  					      (*counts->class0_fp)[i][j]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1823  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1824  		adapt_probs_variant_e(probs->mv.fr[i], (*counts->fp)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1825  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1826  		if (!(flags & V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV))
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1827  			continue;
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1828  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1829  		probs->mv.class0_hp[i] = adapt_prob(probs->mv.class0_hp[i],
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1830  						    (*counts->class0_hp)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1831  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1832  		probs->mv.hp[i] = adapt_prob(probs->mv.hp[i], (*counts->hp)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1833  	}
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16 @1834  }
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1835  EXPORT_SYMBOL_GPL(v4l2_vp9_adapt_noncoef_probs);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1836  
+Irui Wang (8):
+  dt-bindings: media: mediatek: vcodec: Adds encoder cores dt-bindings
+    for mt8195
+  media: mediatek: vcodec: Enable venc dual core usage
+  media: mediatek: vcodec: Refactor venc power manage function
+  media: mediatek: vcodec: Add more extra processing for multi-core
+    encoding
+  media: mediatek: vcodec: Add venc power on/off function
+  media: mediatek: vcodec: Refactor encoder clock on/off function
+  media: mediatek: vcodec: Add multi-core encoding process
+  media: mediatek: vcodec: Return encoding result in asynchronous mode
 
-:::::: The code at line 1834 was first introduced by commit
-:::::: 3e3b1fb0e5d95c0cd7278717185ca3fb00f5d771 media: Add VP9 v4l2 library
-
-:::::: TO: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+ .../media/mediatek,vcodec-encoder-core.yaml   | 218 ++++++++++++++++
+ .../media/mediatek,vcodec-encoder.yaml        |   1 -
+ .../media/platform/mediatek/vcodec/Makefile   |   4 +-
+ .../platform/mediatek/vcodec/mtk_vcodec_drv.h |  28 +-
+ .../platform/mediatek/vcodec/mtk_vcodec_enc.c | 113 ++++++--
+ .../platform/mediatek/vcodec/mtk_vcodec_enc.h |  11 +-
+ .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |  44 +++-
+ .../mediatek/vcodec/mtk_vcodec_enc_hw.c       | 156 +++++++++++
+ .../mediatek/vcodec/mtk_vcodec_enc_hw.h       |  34 +++
+ .../mediatek/vcodec/mtk_vcodec_enc_pm.c       | 178 +++++++++++--
+ .../mediatek/vcodec/mtk_vcodec_enc_pm.h       |  11 +-
+ .../mediatek/vcodec/mtk_vcodec_util.c         |  19 ++
+ .../mediatek/vcodec/mtk_vcodec_util.h         |   3 +
+ .../mediatek/vcodec/venc/venc_h264_if.c       | 243 ++++++++++++++----
+ .../mediatek/vcodec/venc/venc_vp8_if.c        |   3 +-
+ .../platform/mediatek/vcodec/venc_drv_if.c    |  75 ++++--
+ .../platform/mediatek/vcodec/venc_drv_if.h    |   6 +
+ .../platform/mediatek/vcodec/venc_vpu_if.c    |   9 +-
+ .../platform/mediatek/vcodec/venc_vpu_if.h    |   3 +-
+ 19 files changed, 1028 insertions(+), 131 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
+ create mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_hw.c
+ create mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_hw.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.18.0
+
