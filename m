@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFB8C584EC9
-	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 12:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05242584ECF
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 12:31:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231706AbiG2K1z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Jul 2022 06:27:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53576 "EHLO
+        id S235476AbiG2KbC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Jul 2022 06:31:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbiG2K1w (ORCPT
+        with ESMTP id S231830AbiG2KbB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Jul 2022 06:27:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82125B6C
-        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 03:27:51 -0700 (PDT)
+        Fri, 29 Jul 2022 06:31:01 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B0261BE97
+        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 03:31:00 -0700 (PDT)
 Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C859152F;
-        Fri, 29 Jul 2022 12:27:48 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65F1B52F;
+        Fri, 29 Jul 2022 12:30:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1659090469;
-        bh=rGpkARVpULsGcTXBRtSzvVNCQfblpngkoYVq9uo25mA=;
+        s=mail; t=1659090657;
+        bh=VzRN/8tZ1bLLS+o4xQyAJ/zurKwbc3ikgcPmJxsQmsA=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=urBOWjffjMcwYdbVUDN7DLyYTo0h17cYMEV4H/HJnqq8ummWW1hCere55EU9epbWK
-         YjahtWTXrzitENqx7ERrYPpFHkjmBiGlA0YRRoVFt17HoD06mfK19nzFkTFUFte6V7
-         9PwpYRxvpRwuXNq0kWb6bKTG9oPULeNOc2TWrsd0=
-Message-ID: <ce6f1e9a-21d2-cb89-87fd-1ec09ee95c4f@ideasonboard.com>
-Date:   Fri, 29 Jul 2022 13:27:46 +0300
+        b=hevMtU/GKHGh6AmxGRKB/aMkBTdJaEiniIH/cgJDqwSl6C32t/JfrIZJ0Uy5rSI0s
+         jTHin7O0wDYr4LN8DC9NQN5ZV1TuFfY5UvwB/Mgdr87TinvWJqb44EPkt04v+GZzkY
+         YRqMVP7e9iy6w4gbMLWbJIpfms0k0XkkYyYt9QD0=
+Message-ID: <44c3a308-8755-dcb6-b8c4-dc1c36c724aa@ideasonboard.com>
+Date:   Fri, 29 Jul 2022 13:30:55 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [EXT] Re: [EXT] [PATCH v12 09/30] media: mc: entity: Rewrite
- media_pipeline_start() to support routes
+Subject: Re: [EXT] [PATCH v12 20/30] media: subdev: add streams to
+ v4l2_subdev_get_fmt() helper function
 Content-Language: en-US
 To:     Satish Nagireddy <satish.nagireddy@getcruise.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
@@ -44,12 +44,10 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Kishon Vijay Abraham <kishon@ti.com>,
         Tomasz Figa <tfiga@chromium.org>
 References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
- <20220727103639.581567-10-tomi.valkeinen@ideasonboard.com>
- <CAG0LG94ADymN_R0Mw0hSf-M0nwUcWW_Xtr8gLM=wsqdH7Ep2Wg@mail.gmail.com>
- <438685f9-1a18-31c3-ffbc-15e87ef7493d@ideasonboard.com>
- <CAG0LG94AUCng800b6GxaYcATdSJRKHiVdz8wrT83cLMDC0XOtg@mail.gmail.com>
+ <20220727103639.581567-21-tomi.valkeinen@ideasonboard.com>
+ <CAG0LG94pP4=ifCqt_swta2Av6hx9uMGizmOpwq_g7zKFtt2G=A@mail.gmail.com>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <CAG0LG94AUCng800b6GxaYcATdSJRKHiVdz8wrT83cLMDC0XOtg@mail.gmail.com>
+In-Reply-To: <CAG0LG94pP4=ifCqt_swta2Av6hx9uMGizmOpwq_g7zKFtt2G=A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -61,78 +59,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/07/2022 12:19, Satish Nagireddy wrote:
-> On Fri, Jul 29, 2022 at 1:53 AM Tomi Valkeinen
+On 29/07/2022 12:16, Satish Nagireddy wrote:
+> Hi Tomi,
+> 
+> Thanks for the patch.
+> 
+> On Wed, Jul 27, 2022 at 3:37 AM Tomi Valkeinen
 > <tomi.valkeinen@ideasonboard.com> wrote:
 >>
->> On 29/07/2022 11:45, Satish Nagireddy wrote:
+>> Add streams support to v4l2_subdev_get_fmt() helper function. Subdev
+>> drivers that do not need to do anything special in their get_fmt op can
+>> use this helper directly for v4l2_subdev_pad_ops.get_fmt.
 >>
->>>> @@ -1011,7 +1342,7 @@ EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
->>>>
->>>>    struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
->>>>    {
->>>> -       return entity->pipe;
->>>> +       return entity->pads->pipe;
->>>
->>> I am not sure If it is always safe to return the pipe associated with
->>> the first pad. I think this will work with all the existing drivers.
->>> Let's say If pads of an entity are associated with different pipes,
->>> this function might require extending the support of returning
->>> pipe based on pad index. Please let me know your opinion.
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 10 +++++++---
+>>   1 file changed, 7 insertions(+), 3 deletions(-)
 >>
->> That's true. The kdoc for this function says:
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index 0dd612f09f35..95fd2e07d69f 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -1455,10 +1455,14 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+>>   {
+>>          struct v4l2_mbus_framefmt *fmt;
 >>
->>    * In general, entities can be part of multiple pipelines, when carrying
->>    * multiple streams (either on different pads, or on the same pad using
->>    * multiplexed streams). This function is ill-defined in that case. It
->>    * currently returns the pipeline associated with the first pad of the
->> entity.
->>
->> I did consider adding a warning if the function is called for entities
->> with more than one pad. But that probably would give false warnings,
->> e.g. for a simple entity with one sink and one source pad. In that case
->> both pads are always part of the same pipeline, and
->> media_entity_pipeline() works correctly.
->>
->> We could perhaps add a check here which verifies that all the pads in
->> the entity have the same pipe.
-
-Perhaps something like:
-
-struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
-{
-	struct media_pipeline *pipe;
-	struct media_pad *pad;
-
-	if (entity->num_pads == 0)
-		return NULL;
-
-	pipe = entity->pads->pipe;
-
-	media_entity_for_each_pad(entity, pad) {
-		if (WARN_ON(pad->pipe != pipe))
-			return NULL;
-	}
-
-	return pipe;
-}
-
->>>>    }
->>>>    EXPORT_SYMBOL_GPL(media_entity_pipeline);
->>>
->>> nit, It would be nice to rename this function to media_entity_get_pipe
->>> or media_entity_get_pipeline for better readability.
->>
->> I'm ok with that, but we do have other functions with this style:
->> media_entity_remote_pad(), media_entity_id(), ...
->>
->>    Tomi
+>> -       if (format->pad >= sd->entity.num_pads)
+>> -               return -EINVAL;
+>> +       if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
+>> +               fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+>> +                                                         format->stream);
+>> +       else if (format->pad < sd->entity.num_pads && format->stream == 0)
+>> +               fmt = v4l2_subdev_get_pad_format(sd, state, format->pad);
+>> +       else
+>> +               fmt = NULL;
 > 
-> I could only see one function with the similar style ==>
-> media_entity_get_fwnode_pad
+> fmt can be initialized to NULL at the declaration, so that the above 2
+> lines can be removed.
 
-Right, so, do you agree that we should keep the name as 
-media_entity_pipeline, as we already have many other functions with 
-similar style?
+That is true, but I personally like the above better, as it handles all 
+the cases in the same if-else-sequence.
 
   Tomi
