@@ -2,58 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68A9E58548D
-	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 19:34:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ED965854F8
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 20:21:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238240AbiG2ReB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Jul 2022 13:34:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48304 "EHLO
+        id S231651AbiG2SVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Jul 2022 14:21:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238326AbiG2Rd6 (ORCPT
+        with ESMTP id S229509AbiG2SVI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Jul 2022 13:33:58 -0400
+        Fri, 29 Jul 2022 14:21:08 -0400
 Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A70D89A7D
-        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 10:33:56 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-2ef5380669cso57957117b3.9
-        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 10:33:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E16E1572C
+        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 11:21:07 -0700 (PDT)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-322b5199358so56774517b3.6
+        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 11:21:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=getcruise.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=s14sBVsXfK7QEo3j7PFzpmhCqWJ5+mEiTvQFe6Q1CF0=;
-        b=Gz7mwRRAMs8vnKZ1JeInvoYd+ZmvjNCX9NxocSE5TJkThJNh5MmpgT17vV8ACPmMBB
-         EO6qMLpR1aCKGrZ1RU3RguL+pM3aaNyWEu4la4fvan8cogqFTgPfFL3TTbcGiAw1AQFG
-         XgCJ/K+DuOKPxpKQgm+3+PK4jFuNbMENwEzAaAduKGU1vtgEZFmFgirhtiOndBy1aC9i
-         W0Lxuaf/IbtrcDhOrwwItvRNhojRjNmvsRJz57Q8BKaq1l74FjGCoQRTUaDAGkXwQHR7
-         aodhBQpbCSXq0JjXEcbVoPLPfwEMDABEddEIqWsnJ/MnO8Ka1FA24o86rc//YuY8fncc
-         jN5w==
+        bh=yHRevWtP6xErDg1yPtOg8UMqDNLXdosMwPxU7FhwPFc=;
+        b=sPCZOrIQMy+Igi6xWFTVijPa+GeG7lXYqY7FK47d7JTo1tm3fTAO2zxQD2Un+Cp/AO
+         9tHrwvkZeZt+P8bDEhq7hVVA1YbNHZa6r8tgXhjLN0AiGWT4oHuXkRONjeXSaYlRiL1I
+         l0OLiTylLySB6SV05kF4GGeQgecXrJqs6fSKpVx+so+5973cw1AR7yiyIZGYVYaTZuDN
+         Vd+MW05YR8p1hY+8Q7lOaXw2eb2IeuW9pX/d/NZPZhYlADNYcKQo524MbMBUi8rV8Q6Q
+         MJyH7YopLFFPjGV1h/USC6WG1P1luY1OYwRvYsttDyMYktokCGiLi/XZYHIEOTXdJ9UR
+         PAfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=s14sBVsXfK7QEo3j7PFzpmhCqWJ5+mEiTvQFe6Q1CF0=;
-        b=YY1bjwhWdBKVdE8Ec179vDeJeoVY6flSvFIDyuweIJ6/Jy9jCmYIbn0+ZrUDxh/Slj
-         OE7vPwh5IxzLwlsRdo7+72Hlp7Oi29uXertdHCQGTjt421XY+mChSeGeWE8h/WJI5fB+
-         DPoSbs3MFTzo6QhK8IHbrThb25jDQSTIYPIGPYlN1TQbYELMNiUemMOb1Is9CN9V3ri/
-         Sx9mWrL+GOh6AEgpDUW6iZLp9mkKU1YXuFLNM1V+gGkYVWI83TV12fieHMKzHKPFcLcA
-         ctEO8jKvcvpFGOA21Ya5q/ybzZRU1hJhTqGcgM3YA0PjYCaIgnPCgvpXaU0BskyINOAv
-         Ew4Q==
-X-Gm-Message-State: ACgBeo0hPO3BpROxUi3D74wnOSEJXpaAX5SW/RAEiKCJyr0sakRpMGBi
-        MNmRTSs6Ooz4Rt5XH70Zas8EfkgNtNmOg+rzzUCYUw==
-X-Google-Smtp-Source: AA6agR51O2U0KQ7FbxXjfaLtyH4f5PsdF9cI1WMcEREiKs7bjh/WQQMUyd8DiikoSAsOCyuy3imkyFYnx1A2Jh4kywE=
-X-Received: by 2002:a05:690c:102:b0:2ef:48d8:24c3 with SMTP id
- bd2-20020a05690c010200b002ef48d824c3mr4266897ywb.153.1659116035400; Fri, 29
- Jul 2022 10:33:55 -0700 (PDT)
+        bh=yHRevWtP6xErDg1yPtOg8UMqDNLXdosMwPxU7FhwPFc=;
+        b=kiT5Z/xrftp/o6dIdsBmXdX7IEmlSOc6gl/ABBIMP4FhVCEu2yv6DJfxdfVIZQLpXg
+         BzSoxAuaPLO5N2yWSsXf6brwivrMNTDeXODVvt0CRU+IArac2s/GfOkvaRQ4WU0v96/Q
+         qE8AGdmPbzF21JQWbq3uSTBsFhO0nmFa5o7rd+iMNkmAz0k4vx88tk1+dMppSr8fOhYZ
+         BGRT/znYcTo61DQNNqPp0NI4SN9Xi2qJYMAbc9nBamfkAQFYmrmUJvZMrllG18lb5jt+
+         nxtvxQq3J3WSx4znADtw6XROn5H/qh0+jS9B12o8mIYooVyOb2Gc3ep/OYtLus/UcNJh
+         Q4Fg==
+X-Gm-Message-State: ACgBeo3E0SGIxAmdwP6c2Ro/AHgsGkXYT585q9i+0j0mHhJVW4wD+dIA
+        N1AI02L0VO8HpbRlI65b4a5crGy1MT+2mHm+6yaz8A==
+X-Google-Smtp-Source: AA6agR5rPiG4Upj+Z5YKDaMpAwBt7Kwn7XAZbai7SaZTW92eGLAKksxvcPfk1W8Z3a0hMjVohE9PbO7gKtWFkHR/bTM=
+X-Received: by 2002:a81:8413:0:b0:322:d661:a785 with SMTP id
+ u19-20020a818413000000b00322d661a785mr4200831ywf.16.1659118866432; Fri, 29
+ Jul 2022 11:21:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
- <20220727103639.581567-19-tomi.valkeinen@ideasonboard.com>
- <CAG0LG96XkmpP2JmMG+Nxkd0ViCdKbHOhPPqE0JxUKBgK-xrRkw@mail.gmail.com> <c09299e2-7507-863c-cb9f-b26b3f90af22@ideasonboard.com>
-In-Reply-To: <c09299e2-7507-863c-cb9f-b26b3f90af22@ideasonboard.com>
+ <20220727103639.581567-10-tomi.valkeinen@ideasonboard.com>
+ <CAG0LG94ADymN_R0Mw0hSf-M0nwUcWW_Xtr8gLM=wsqdH7Ep2Wg@mail.gmail.com>
+ <438685f9-1a18-31c3-ffbc-15e87ef7493d@ideasonboard.com> <CAG0LG94AUCng800b6GxaYcATdSJRKHiVdz8wrT83cLMDC0XOtg@mail.gmail.com>
+ <ce6f1e9a-21d2-cb89-87fd-1ec09ee95c4f@ideasonboard.com> <CAG0LG96dncADM65ids6VMU=ym-j55fws6NOwLQM=or7pN4-d-g@mail.gmail.com>
+ <47c925b2-2fa2-ce0b-0d43-5fc8fb048338@ideasonboard.com>
+In-Reply-To: <47c925b2-2fa2-ce0b-0d43-5fc8fb048338@ideasonboard.com>
 From:   Satish Nagireddy <satish.nagireddy@getcruise.com>
-Date:   Fri, 29 Jul 2022 10:33:44 -0700
-Message-ID: <CAG0LG96GhA+YjuycjHGdbv2scVbShdrW+iTS6HgRh7ouH2i8Bw@mail.gmail.com>
-Subject: Re: [EXT] Re: [EXT] [PATCH v12 18/30] media: subdev: use streams in v4l2_subdev_link_validate()
+Date:   Fri, 29 Jul 2022 11:20:55 -0700
+Message-ID: <CAG0LG966eKazMTDBtk09dG8uOGbnBaqDJodr-OfLoabMUJ07fw@mail.gmail.com>
+Subject: Re: [EXT] Re: [EXT] Re: [EXT] Re: [EXT] [PATCH v12 09/30] media: mc:
+ entity: Rewrite media_pipeline_start() to support routes
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -74,267 +78,98 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 29, 2022 at 4:00 AM Tomi Valkeinen
+On Fri, Jul 29, 2022 at 10:07 AM Tomi Valkeinen
 <tomi.valkeinen@ideasonboard.com> wrote:
 >
-> On 29/07/2022 12:12, Satish Nagireddy wrote:
-> > Hi Tomi,
-> >
-> > Thanks for the patch.
-> >
-> > On Wed, Jul 27, 2022 at 3:37 AM Tomi Valkeinen
+> On 29/07/2022 20:00, Satish Nagireddy wrote:
+> > On Fri, Jul 29, 2022 at 3:27 AM Tomi Valkeinen
 > > <tomi.valkeinen@ideasonboard.com> wrote:
 > >>
-> >> Update v4l2_subdev_link_validate() to use routing and streams for
-> >> validation.
+> >> On 29/07/2022 12:19, Satish Nagireddy wrote:
+> >>> On Fri, Jul 29, 2022 at 1:53 AM Tomi Valkeinen
+> >>> <tomi.valkeinen@ideasonboard.com> wrote:
+> >>>>
+> >>>> On 29/07/2022 11:45, Satish Nagireddy wrote:
+> >>>>
+> >>>>>> @@ -1011,7 +1342,7 @@ EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
+> >>>>>>
+> >>>>>>     struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
+> >>>>>>     {
+> >>>>>> -       return entity->pipe;
+> >>>>>> +       return entity->pads->pipe;
+> >>>>>
+> >>>>> I am not sure If it is always safe to return the pipe associated with
+> >>>>> the first pad. I think this will work with all the existing drivers.
+> >>>>> Let's say If pads of an entity are associated with different pipes,
+> >>>>> this function might require extending the support of returning
+> >>>>> pipe based on pad index. Please let me know your opinion.
+> >>>>
+> >>>> That's true. The kdoc for this function says:
+> >>>>
+> >>>>     * In general, entities can be part of multiple pipelines, when carrying
+> >>>>     * multiple streams (either on different pads, or on the same pad using
+> >>>>     * multiplexed streams). This function is ill-defined in that case. It
+> >>>>     * currently returns the pipeline associated with the first pad of the
+> >>>> entity.
+> >>>>
+> >>>> I did consider adding a warning if the function is called for entities
+> >>>> with more than one pad. But that probably would give false warnings,
+> >>>> e.g. for a simple entity with one sink and one source pad. In that case
+> >>>> both pads are always part of the same pipeline, and
+> >>>> media_entity_pipeline() works correctly.
+> >>>>
+> >>>> We could perhaps add a check here which verifies that all the pads in
+> >>>> the entity have the same pipe.
 > >>
-> >> Instead of just looking at the format on the pad on both ends of the
-> >> link, the routing tables are used to collect all the streams going from
-> >> the source to the sink over the link, and the streams' formats on both
-> >> ends of the link are verified.
+> >> Perhaps something like:
 > >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >> ---
-> >>   drivers/media/v4l2-core/v4l2-subdev.c | 255 ++++++++++++++++++++++++--
-> >>   1 file changed, 235 insertions(+), 20 deletions(-)
+> >> struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
+> >> {
+> >>          struct media_pipeline *pipe;
+> >>          struct media_pad *pad;
 > >>
-> >> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> >> index d26715cbd955..7ca2337ca8d3 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> >> @@ -16,6 +16,7 @@
-> >>   #include <linux/videodev2.h>
-> >>   #include <linux/export.h>
-> >>   #include <linux/version.h>
-> >> +#include <linux/sort.h>
+> >>          if (entity->num_pads == 0)
+> >>                  return NULL;
 > >>
-> >>   #include <media/v4l2-ctrls.h>
-> >>   #include <media/v4l2-device.h>
-> >> @@ -1069,7 +1070,7 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
-> >>   EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate_default);
+> >>          pipe = entity->pads->pipe;
 > >>
-> >>   static int
-> >> -v4l2_subdev_link_validate_get_format(struct media_pad *pad,
-> >> +v4l2_subdev_link_validate_get_format(struct media_pad *pad, u32 stream,
-> >>                                       struct v4l2_subdev_format *fmt)
-> >>   {
-> >>          if (is_media_entity_v4l2_subdev(pad->entity)) {
-> >> @@ -1078,7 +1079,11 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
-> >>
-> >>                  fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> >>                  fmt->pad = pad->index;
-> >> -               return v4l2_subdev_call_state_active(sd, pad, get_fmt, fmt);
-> >> +               fmt->stream = stream;
-> >> +
-> >> +               return v4l2_subdev_call(sd, pad, get_fmt,
-> >> +                                       v4l2_subdev_get_locked_active_state(sd),
-> >> +                                       fmt);
+> >>          media_entity_for_each_pad(entity, pad) {
+> >>                  if (WARN_ON(pad->pipe != pipe))
+> >>                          return NULL;
 > >>          }
 > >>
-> >>          WARN(pad->entity->function != MEDIA_ENT_F_IO_V4L,
-> >> @@ -1088,31 +1093,241 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
-> >>          return -EINVAL;
-> >>   }
-> >>
-> >> -int v4l2_subdev_link_validate(struct media_link *link)
-> >> +static int cmp_u32(const void *a, const void *b)
-> >>   {
-> >> -       struct v4l2_subdev *sink;
-> >> -       struct v4l2_subdev_format sink_fmt, source_fmt;
-> >> -       int rval;
-> >> +       u32 a32 = *(u32 *)a;
-> >> +       u32 b32 = *(u32 *)b;
-> >>
-> >> -       rval = v4l2_subdev_link_validate_get_format(
-> >> -               link->source, &source_fmt);
-> >> -       if (rval < 0)
-> >> -               return 0;
-> >> +       return a32 > b32 ? 1 : (a32 < b32 ? -1 : 0);
-> >> +}
-> >> +
-> >> +static int v4l2_link_validate_get_streams(struct media_link *link,
-> >> +                                         bool is_source, u32 *out_num_streams,
-> >> +                                         const u32 **out_streams,
-> >> +                                         bool *allocated)
+> >>          return pipe;
+> >> }
 > >
-> > I have a suggestion to refactor this function a bit to avoid the usage
-> > of is_source boolean, hopefully that makes this implementation look
-> > better.
-> > Here is my idea: Pass the media_pad (source or sink) to the function
-> > directly and drop the parameters link and is_source. Then...
+> > The above code means that we do not support multiple pipelines per
+> > entity. Or leave the implementation as is now and
+> > this can be done as a different patch later, I will leave it to you.
+> > He is what I'm thinking, assuming that every media_pad has it's own pipe.
 > >
-> >> +{
-> >> +       static const u32 default_streams[] = { 0 };
-> >> +       struct v4l2_subdev_krouting *routing;
-> >> +       struct v4l2_subdev *subdev;
-> >> +       u32 num_streams;
-> >> +       u32 *streams;
-> >> +       unsigned int i;
-> >> +       struct v4l2_subdev_state *state;
-> >> +       int ret;
-> >>
-> >> -       rval = v4l2_subdev_link_validate_get_format(
-> >> -               link->sink, &sink_fmt);
-> >> -       if (rval < 0)
-> >> +       if (is_source)
-> >> +               subdev = media_entity_to_v4l2_subdev(link->source->entity);
-> >> +       else
-> >> +               subdev = media_entity_to_v4l2_subdev(link->sink->entity);
+> > struct media_pipeline *media_entity_pipeline(struct media_entity
+> > *entity, u32 pad_index)
+> > {
+> >           if (pad_index >= entity->num_pads)
+> >                   return NULL;
 > >
-> > ... we can avoid the if check here and directly assign subdev as below.
-> >       subdev = media_entity_to_v4l2_subdev(pad->entity);
-> > Then...
-> >
-> >> +
-> >> +       if (!(subdev->flags & V4L2_SUBDEV_FL_STREAMS)) {
-> >> +               *out_num_streams = 1;
-> >> +               *out_streams = default_streams;
-> >> +               *allocated = false;
-> >>                  return 0;
-> >> +       }
-> >>
-> >> -       sink = media_entity_to_v4l2_subdev(link->sink->entity);
-> >> +       state = v4l2_subdev_get_locked_active_state(subdev);
-> >>
-> >> -       rval = v4l2_subdev_call(sink, pad, link_validate, link,
-> >> -                               &source_fmt, &sink_fmt);
-> >> -       if (rval != -ENOIOCTLCMD)
-> >> -               return rval;
-> >> +       routing = &state->routing;
-> >> +
-> >> +       streams = kmalloc_array(routing->num_routes, sizeof(u32), GFP_KERNEL);
-> >> +       if (!streams)
-> >> +               return -ENOMEM;
-> >> +
-> >> +       num_streams = 0;
-> >> +
-> >> +       for (i = 0; i < routing->num_routes; ++i) {
-> >> +               struct v4l2_subdev_route *route = &routing->routes[i];
-> >> +               int j;
-> >> +               u32 route_pad;
-> >> +               u32 route_stream;
-> >> +               u32 link_pad;
-> >> +
-> >> +               if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-> >> +                       continue;
-> >> +
-> >> +               if (is_source) {
-> >> +                       route_pad = route->source_pad;
-> >> +                       route_stream = route->source_stream;
-> >> +                       link_pad = link->source->index;
-> >> +               } else {
-> >> +                       route_pad = route->sink_pad;
-> >> +                       route_stream = route->sink_stream;
-> >> +                       link_pad = link->sink->index;
-> >> +               }
-> >
-> > This can be achieved by checking pad->flags against
-> > MEDIA_PAD_FL_SOURCE or MEDIA_PAD_FL_SINK.
-> > Please let me know your opinion.
+> >           return entity->pads[pad_index].pipe;
+> > }
 >
-> Yes, I like this. It gets rid of that annoying 'is_source' =).
+> Oh, I see now where the confusion is.
 >
-> >> +
-> >> +               if (route_pad != link_pad)
-> >> +                       continue;
-> >> +
-> >> +               /* look for duplicates */
-> >> +               for (j = 0; j < num_streams; ++j) {
-> >> +                       if (streams[j] == route_stream) {
-> >> +                               ret = -EINVAL;
-> >> +                               goto free_streams;
-> >> +                       }
-> >> +               }
-> >
-> > This is good logic, but seems to be a bit inefficient as it is
-> > repeatedly checking the array from the start.
-> > I do not have a better idea :)
-> >
-> >> +
-> >> +               streams[num_streams++] = route_stream;
-> >> +       }
-> >> +
-> >> +       sort(streams, num_streams, sizeof(u32), &cmp_u32, NULL);
-> >> +
-> >> +       *out_num_streams = num_streams;
-> >> +       *out_streams = streams;
-> >> +       *allocated = true;
-> >> +
-> >> +       return 0;
-> >> +
-> >> +free_streams:
-> >> +       kfree(streams);
-> >> +
-> >> +       return ret;
-> >> +}
-> >> +
-> >> +static int v4l2_subdev_link_validate_locked(struct media_link *link)
-> >> +{
-> >> +       struct v4l2_subdev *sink_subdev =
-> >> +               media_entity_to_v4l2_subdev(link->sink->entity);
-> >> +       struct device *dev = sink_subdev->entity.graph_obj.mdev->dev;
-> >> +       u32 num_source_streams;
-> >> +       const u32 *source_streams;
-> >> +       bool source_allocated;
-> >> +       u32 num_sink_streams;
-> >> +       const u32 *sink_streams;
-> >> +       bool sink_allocated;
-> >> +       unsigned int sink_idx;
-> >> +       unsigned int source_idx;
-> >> +       int ret;
-> >> +
-> >> +       dev_dbg(dev, "validating link \"%s\":%u -> \"%s\":%u\n",
-> >> +               link->source->entity->name, link->source->index,
-> >> +               link->sink->entity->name, link->sink->index);
-> >> +
-> >> +       ret = v4l2_link_validate_get_streams(link, true, &num_source_streams,
-> >
-> > This function call can be modified as below
-> >      v4l2_link_validate_get_streams(link->source, &num_source_streams,
-> >
-> >> +                                            &source_streams,
-> >> +                                            &source_allocated);
-> >> +       if (ret)
-> >> +               return ret;
-> >> +
-> >> +       ret = v4l2_link_validate_get_streams(link, false, &num_sink_streams,
-> >
-> > This function call can be modified as below
-> >      v4l2_link_validate_get_streams(link->sink, &num_source_streams,
-> >
-> >
-> >> +                                            &sink_streams, &sink_allocated);
-> >> +       if (ret)
-> >> +               goto free_source;
-> >> +
-> >> +       /*
-> >> +        * It is ok to have more source streams than sink streams as extra
-> >> +        * source streams can just be ignored by the receiver, but having extra
-> >> +        * sink streams is an error as streams must have a source.
-> >> +        */
-> >> +       if (num_source_streams < num_sink_streams) {
-> >> +               dev_err(dev,
-> >> +                       "Not enough source streams: %d < %d\n",
-> >> +                       num_source_streams, num_sink_streams);
-> >> +               ret = -EINVAL;
-> >> +               goto free_sink;
-> >> +       }
-> >> +
-> >> +       /* Validate source and sink stream formats */
-> >> +
-> >> +       source_idx = 0;
-> >
-> > Nit, This can be assigned at the declaration.
+> media_entity_pipeline() is a convenience helper for the currently
+> existing drivers. They access entity->pipe directly (or when we move the
+> pipe to pad, entity->pads->pipe). So this function is just refactoring
+> the direct access away from the drivers, which makes it easier in the
+> future to find those drivers accessing the pipe, or change where the
+> pipe is stored without doing any changes to the drivers.
 >
-> True, but I often like to initialize the variables closer to the
-> use if the function is a bit on the longer side.
->
-> Although nowadays we could do:
->
-> for (unsigned int sink_idx = 0, source_idx = 0; sink_idx < num_sink_streams; ++sink_idx) {
+> A driver which supports streams should not use this function, as there's
+> no "pipe for entity". We seem to be missing a similar helper function
+> for these cases, media_pad_pipeline() or such. We can add when needed.
 >
 >   Tomi
 
-This looks good, thanks!
+Sure, great!
 
 - Satish
