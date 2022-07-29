@@ -2,121 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1CF4584C7F
-	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 09:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 295B6584CA3
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 09:31:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234405AbiG2HVr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Jul 2022 03:21:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36746 "EHLO
+        id S234779AbiG2HbT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Jul 2022 03:31:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234103AbiG2HVq (ORCPT
+        with ESMTP id S234710AbiG2HbR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Jul 2022 03:21:46 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B8CD167D0
-        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 00:21:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DC48BB8264A
-        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 07:21:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E586EC433C1;
-        Fri, 29 Jul 2022 07:21:41 +0000 (UTC)
-Message-ID: <b97dcd78-3565-e20f-274a-693972834107@xs4all.nl>
-Date:   Fri, 29 Jul 2022 09:21:40 +0200
+        Fri, 29 Jul 2022 03:31:17 -0400
+Received: from mail.coredeal.pl (mail.coredeal.pl [51.75.73.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F15180493
+        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 00:31:17 -0700 (PDT)
+Received: by mail.coredeal.pl (Postfix, from userid 1002)
+        id BC9DAA9941; Fri, 29 Jul 2022 07:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=coredeal.pl; s=mail;
+        t=1659079862; bh=9KGuIG62LgzC9aYmjKxzocuYLRCVghXg6v9Q1q2LHec=;
+        h=Date:From:To:Subject:From;
+        b=MSofScAVqvW4RkO0RpD4aN38dwoRcbslUmDqg84X80HG/4Ii+QbZpgbs2ZSiO2aDQ
+         Yz25dmvpEnaNmoFOJUJ2OUJcCgvcEewSQT7mgYRqRIi8GDSTVBzGq7NStelkM1BX/f
+         eWnzR/C+sogggnLwP8LY5034juzBWEn2E/QXk+nXi7tU2N/v+vK6q2/W507q7q4mgi
+         KPc/9Mpo/xfZynW0rh9hUBSQSOFeZTZGN2anZupDo4OOng/IQZe+vNgpHamPr3aR0p
+         g9tDBhSig0/pd/oko6TarIi7pFpXPeHgM6rxdEVeMIeas2NmUKURurHjvQdVQqKzxf
+         UZV5Ah2COaB3w==
+Received: by mail.coredeal.pl for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 07:29:16 GMT
+Message-ID: <20220729063000-0.1.4l.18108.0.46k22l3odo@coredeal.pl>
+Date:   Fri, 29 Jul 2022 07:29:16 GMT
+From:   "Krzysztof Maj" <krzysztof.maj@coredeal.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: Biznesowy angielski
+X-Mailer: mail.coredeal.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 4/5] media: i2c: cat24c208: driver for the cat24c208 EDID
- EEPROM
-Content-Language: en-US
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Erling Ljunggren <hljunggr@cisco.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Jonathan Selnes <jonathansb1@gmail.com>
-References: <20220728114050.2400475-1-hljunggr@cisco.com>
- <20220728114050.2400475-5-hljunggr@cisco.com>
- <CAHp75VeKMJ7eSZ3SLki74o+LkL6CBfcx4RL90n2J20BE+8L+KA@mail.gmail.com>
- <8fe44de7-2cb5-eb9d-2e2b-ac6dc0af41a5@xs4all.nl>
- <CAHp75Ve1SC_a0ZM2G-3j73dE7rZCxFbay0zzmB5_m_iJKma5tg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAHp75Ve1SC_a0ZM2G-3j73dE7rZCxFbay0zzmB5_m_iJKma5tg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+Dzie=C5=84 dobry,=20
 
-On 28/07/2022 22:56, Andy Shevchenko wrote:
-> On Thu, Jul 28, 2022 at 3:23 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->> On 28/07/2022 14:02, Andy Shevchenko wrote:
->>> On Thursday, July 28, 2022, Erling Ljunggren <hljunggr@cisco.com <mailto:hljunggr@cisco.com>> wrote:
-> 
->>>     Support reading and writing the EDID EEPROM through the
->>>     v4l2 API.
->>>
->>> Why the normal way of representing as a memory (we have framework and drivers) can’t work?
->>
->> Because support for EDID for video sinks is already part of the media subsystem (V4L2).
->> Normally it is integrated into an HDMI receiver, but in this case it is just the EDID
->> support without the video receiver. It belongs in drivers/media in any case since EDIDs
->> are closely tied to media.
-> 
-> It's fine. From the Linux perspective we do not reduplicate the
-> drivers that are done by other frameworks, right?
-> 
->>> Moreover, this driver seems limited in support of variety of the eeprom chips.
->>
->> Not quite sure what you mean. The cat24c208 is what this was developed for and
->> the only one we have.
->>
->> Note that an EDID EEPROM != a regular EEPROM: it has to support the VESA E-DDC
->> standard, which a normal EEPROM doesn't. So these devices are specifically made
->> for this use-case.
-> 
-> What is the difference from a programming interface?
-> Can the nvmem driver(s) be reused (at24?)?
+czy rozwa=C5=BCali Pa=C5=84stwo rozw=C3=B3j kwalifikacji j=C4=99zykowych =
+swoich pracownik=C3=B3w?
 
-No. EDID EEPROM devices are specific to storing EDIDs: they have two i2c
-ports, one connected to (typically) the HDMI bus (DDC lines) allowing a
-video source to read the EDID, the other is connected to the SoC to write to
-and configure the device. The HDMI bus side has two i2c addresses (reading the
-EEPROM and to write to the segment address for EDIDs > 256 bytes), the SoC
-side has three i2c addresses: to configure the behavior, the segment address,
-and to write the EDID from the SoC.
+Opracowali=C5=9Bmy kursy j=C4=99zykowe dla r=C3=B3=C5=BCnych bran=C5=BC, =
+w kt=C3=B3rych koncentrujemy si=C4=99 na podniesieniu poziomu s=C5=82owni=
+ctwa i jako=C5=9Bci komunikacji wykorzystuj=C4=85c autorsk=C4=85 metod=C4=
+=99, stworzon=C4=85 specjalnie dla wymagaj=C4=85cego biznesu.=20
 
-So it is a much more complex device than a regular eeprom, and it really
-is dedicated to EDIDs only.
+Niestandardowy kurs on-line, dopasowany do profilu firmy i obszar=C3=B3w =
+=C5=9Bwiadczonych us=C5=82ug, w szybkim czasie przyniesie efekty, kt=C3=B3=
+re zwi=C4=99ksz=C4=85 komfort i jako=C5=9B=C4=87 pracy, rozwijaj=C4=85c m=
+o=C5=BCliwo=C5=9Bci biznesowe.=20
 
-Also note that the V4L2 API is already used to get/set EDIDs, everything is
-in place for supporting that, including support for parsing EDIDs for the
-physical address, which is something that is needed if this is combined with
-HDMI CEC hardware. It's not implemented in this driver since it is not
-needed in our use-case, but that might change in the future.
+Zdalne szkolenie j=C4=99zykowe to m.in. zaj=C4=99cia z native speakerami,=
+ kt=C3=B3re w szybkim czasie naucz=C4=85 pracownik=C3=B3w rozmawia=C4=87 =
+za pomoc=C4=85 jasnego i zwi=C4=99z=C5=82ego j=C4=99zyka Business English=
+=2E
 
-And by using the V4L2 API you can use v4l2-ctl --get-edid and --set-edid
-out of the box, using the standard API for EDIDs.
+Czy m=C3=B3g=C5=82bym przedstawi=C4=87 wi=C4=99cej szczeg=C3=B3=C5=82=C3=B3=
+w i opowiedzie=C4=87 jak dzia=C5=82amy?=20
 
-Regards,
 
-	Hans
-
-> 
-> ...
-> 
->>>      drivers/media/i2c/cat24c208.c | 421 ++++++++++++++++++++++++++++++++++
-> 
-> It really seems silly to me to add so many LoCs for the existing
-> drivers and perhaps we need to extend the nvmem to support EDID rather
-> than copying everything again?
-> 
-> Note, I can be well mistaken by not understanding some underlying
-> issues, perhaps there is some documentation to read...
-> 
+Pozdrawiam
+Krzysztof Maj
