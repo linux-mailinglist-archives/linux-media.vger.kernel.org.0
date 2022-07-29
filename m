@@ -2,135 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC44A584C65
-	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 09:07:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1CF4584C7F
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 09:21:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234663AbiG2HHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Jul 2022 03:07:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54278 "EHLO
+        id S234405AbiG2HVr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Jul 2022 03:21:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232555AbiG2HHp (ORCPT
+        with ESMTP id S234103AbiG2HVq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Jul 2022 03:07:45 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14375BC31;
-        Fri, 29 Jul 2022 00:07:44 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Fri, 29 Jul 2022 03:21:46 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B8CD167D0
+        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 00:21:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id C72721B002C9;
-        Fri, 29 Jul 2022 10:07:39 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1659078460;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GLHwRWD8w65TnHLEVtLlTx9NDMVLYEkO0F6RFMeR+IY=;
-        b=G7yoncEnfQRIJmkGrI/xeC0bYXWSDyhdcq92q6ArEcrB/1jkZMw8m8TnMT6VGyGQ/kPfjt
-        qe6b3Hy2MDqc66R4mv2rzPWcaz+SKDNswExH6jdfHguRAx07kAceosTrrS5BvdSDFoox6f
-        JLgEvSZSLl0N9qYJRHilQ2xGELSO2Jblr9hRAt2nBn/ESs3zdREg9Ad71jBoVR8d4u24YE
-        a4iGrkV4Xyv+Y8P69/8+wqlNptiE9MwkBliZ9lTwG1934/hDDa4Z2LQ3gNYR7PFLTq4sXu
-        FFmylPlyWBo6crJ2lOzCy5BL6TF/9t0rkjqiJCM6DQVgCUpzyMg9o1BYroFbaQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 43A97634C97;
-        Fri, 29 Jul 2022 10:07:36 +0300 (EEST)
-Date:   Fri, 29 Jul 2022 10:07:36 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        "Paul J . Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v4 3/7] media: i2c: ov9282: Add ov9281 compatible
-Message-ID: <YuOHOEUk+znzump5@valkosipuli.retiisi.eu>
-References: <20220728130237.3396663-1-alexander.stein@ew.tq-group.com>
- <20220728130237.3396663-4-alexander.stein@ew.tq-group.com>
- <4e89e55b-9312-5525-974b-0a1dbe0b3dd1@linaro.org>
+        by ams.source.kernel.org (Postfix) with ESMTPS id DC48BB8264A
+        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 07:21:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E586EC433C1;
+        Fri, 29 Jul 2022 07:21:41 +0000 (UTC)
+Message-ID: <b97dcd78-3565-e20f-274a-693972834107@xs4all.nl>
+Date:   Fri, 29 Jul 2022 09:21:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4e89e55b-9312-5525-974b-0a1dbe0b3dd1@linaro.org>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1659078460; a=rsa-sha256;
-        cv=none;
-        b=P+1gUNu7FHb44zhrppmS/d+DVSoNMGESY8AknH3gxUVgPALpG5FmpbUkdkJlM8ipaS2e0B
-        90YrWqp4eX1rQsp1Fd1qFzvPJgfBGCty/7s8lYU4JmWFZeJSP0zIHxTzegIlG/Qnbgz57Q
-        jGadX+jqgjvfPQIws/IsqOUOg6ST4YtrtYc1bByfFb6e5fKFwIh7uqcSDhCk/WtRRC+uTL
-        Hewq3BPtopuUAbTOAf9OWz8qfcXxAohOXJoFi8+mKUnUINvig0q2KN7T5P39iJqnpp0H/f
-        rBqNwdWM+Tk/pZGL4zgdbFHnDHYy0I9AFFWNSZMcvRay+9ywp0hljO2dgK38GQ==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1659078460;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GLHwRWD8w65TnHLEVtLlTx9NDMVLYEkO0F6RFMeR+IY=;
-        b=A7iFlK8IZS/vdjvYkAFOcJQVEhAThTpHGD2nQDzWgIrun97HXAqZI9DmR0oqLlib7NhD0L
-        4TBudi+MPru008sq5PkF837n88/9Q0fYDBb91PIqpTuAZASZHfo0+0ynkEBp57lvWrTOBT
-        f0Ca6U2ocPLUKggFLIMrf5Fom3whSJ7WtJzCVLZ8eyM6NsG9bhk56LsbqoEcXpEoxxgajz
-        xm0f1vvNUB2wdvWakE/QLH4zjEVfqeZZpsRqmcJDMMnQGwsmLwy3IPX6mAYIAE5QGUFAXJ
-        NB6C/2Q+ELvR+6Esm94uSo8MPaXyJDxKE4KaYp2cn5z9TToDzqJJpCMPAewWbA==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 4/5] media: i2c: cat24c208: driver for the cat24c208 EDID
+ EEPROM
+Content-Language: en-US
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Erling Ljunggren <hljunggr@cisco.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Jonathan Selnes <jonathansb1@gmail.com>
+References: <20220728114050.2400475-1-hljunggr@cisco.com>
+ <20220728114050.2400475-5-hljunggr@cisco.com>
+ <CAHp75VeKMJ7eSZ3SLki74o+LkL6CBfcx4RL90n2J20BE+8L+KA@mail.gmail.com>
+ <8fe44de7-2cb5-eb9d-2e2b-ac6dc0af41a5@xs4all.nl>
+ <CAHp75Ve1SC_a0ZM2G-3j73dE7rZCxFbay0zzmB5_m_iJKma5tg@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CAHp75Ve1SC_a0ZM2G-3j73dE7rZCxFbay0zzmB5_m_iJKma5tg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+Hi Andy,
 
-On Thu, Jul 28, 2022 at 03:13:11PM +0200, Krzysztof Kozlowski wrote:
-> On 28/07/2022 15:02, Alexander Stein wrote:
-> > According to product brief they are identical from software point of view.
-> > Differences are a different chief ray angle (CRA) and the package.
-> > 
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> > ---
-> >  drivers/media/i2c/ov9282.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > index 8a252bf3b59f..c8d83a29f9bb 100644
-> > --- a/drivers/media/i2c/ov9282.c
-> > +++ b/drivers/media/i2c/ov9282.c
-> > @@ -1113,6 +1113,7 @@ static const struct dev_pm_ops ov9282_pm_ops = {
-> >  };
-> >  
-> >  static const struct of_device_id ov9282_of_match[] = {
-> > +	{ .compatible = "ovti,ov9281" },
+On 28/07/2022 22:56, Andy Shevchenko wrote:
+> On Thu, Jul 28, 2022 at 3:23 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>> On 28/07/2022 14:02, Andy Shevchenko wrote:
+>>> On Thursday, July 28, 2022, Erling Ljunggren <hljunggr@cisco.com <mailto:hljunggr@cisco.com>> wrote:
 > 
-> The devices seem entirely compatible, so why you add a new compatible
-> and not re-use existing?
+>>>     Support reading and writing the EDID EEPROM through the
+>>>     v4l2 API.
+>>>
+>>> Why the normal way of representing as a memory (we have framework and drivers) can’t work?
+>>
+>> Because support for EDID for video sinks is already part of the media subsystem (V4L2).
+>> Normally it is integrated into an HDMI receiver, but in this case it is just the EDID
+>> support without the video receiver. It belongs in drivers/media in any case since EDIDs
+>> are closely tied to media.
 > 
-> The difference in lens does not explain this.
+> It's fine. From the Linux perspective we do not reduplicate the
+> drivers that are done by other frameworks, right?
+> 
+>>> Moreover, this driver seems limited in support of variety of the eeprom chips.
+>>
+>> Not quite sure what you mean. The cat24c208 is what this was developed for and
+>> the only one we have.
+>>
+>> Note that an EDID EEPROM != a regular EEPROM: it has to support the VESA E-DDC
+>> standard, which a normal EEPROM doesn't. So these devices are specifically made
+>> for this use-case.
+> 
+> What is the difference from a programming interface?
+> Can the nvmem driver(s) be reused (at24?)?
 
-It is typically necessary to know what kind of related hardware can be
-found in the system, beyond just the device's register interface. Apart
-from USB cameras, less integrated cameras require low-level software
-control in which specific device properties are important. In this case it
-could be the lens shading table, among other things.
+No. EDID EEPROM devices are specific to storing EDIDs: they have two i2c
+ports, one connected to (typically) the HDMI bus (DDC lines) allowing a
+video source to read the EDID, the other is connected to the SoC to write to
+and configure the device. The HDMI bus side has two i2c addresses (reading the
+EEPROM and to write to the segment address for EDIDs > 256 bytes), the SoC
+side has three i2c addresses: to configure the behavior, the segment address,
+and to write the EDID from the SoC.
 
-	https://www.ovt.com/sensor/ov9282/
+So it is a much more complex device than a regular eeprom, and it really
+is dedicated to EDIDs only.
 
-Therefore I think adding a specific compatible string for this one is
-justified.
+Also note that the V4L2 API is already used to get/set EDIDs, everything is
+in place for supporting that, including support for parsing EDIDs for the
+physical address, which is something that is needed if this is combined with
+HDMI CEC hardware. It's not implemented in this driver since it is not
+needed in our use-case, but that might change in the future.
 
-Also cc Laurent.
+And by using the V4L2 API you can use v4l2-ctl --get-edid and --set-edid
+out of the box, using the standard API for EDIDs.
 
--- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+> ...
+> 
+>>>      drivers/media/i2c/cat24c208.c | 421 ++++++++++++++++++++++++++++++++++
+> 
+> It really seems silly to me to add so many LoCs for the existing
+> drivers and perhaps we need to extend the nvmem to support EDID rather
+> than copying everything again?
+> 
+> Note, I can be well mistaken by not understanding some underlying
+> issues, perhaps there is some documentation to read...
+> 
