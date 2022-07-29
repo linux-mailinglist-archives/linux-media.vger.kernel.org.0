@@ -2,102 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91B5B584DB9
-	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 10:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C314584DD0
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 11:07:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235404AbiG2Ixw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Jul 2022 04:53:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60526 "EHLO
+        id S235598AbiG2JHD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Jul 2022 05:07:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235311AbiG2Ixv (ORCPT
+        with ESMTP id S235559AbiG2JHA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Jul 2022 04:53:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 575FE82FBE
-        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 01:53:50 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DCFF52F;
-        Fri, 29 Jul 2022 10:53:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1659084828;
-        bh=6RMsukyc9kPRvqVH8PwfTQdPTe5CW3uhsQnWhcemZE0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=SwFzdjC6nWtMpe+I1gNwhv9vvdVS0ux0ZIc77xmblb0Roz3Qe9oortLJaUaQMzcej
-         ANjq15zIZNj3XePEP2V03NE4sc8LOorQdSwd8x96PiTshnwf1cjWhTsSLAbjwFEPX9
-         7zUe20jCTXqO7KhjtAXkMFD3Ti+b7YMGsSn31y/0=
-Message-ID: <438685f9-1a18-31c3-ffbc-15e87ef7493d@ideasonboard.com>
-Date:   Fri, 29 Jul 2022 11:53:46 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [EXT] [PATCH v12 09/30] media: mc: entity: Rewrite
- media_pipeline_start() to support routes
-Content-Language: en-US
-To:     Satish Nagireddy <satish.nagireddy@getcruise.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        Tomasz Figa <tfiga@chromium.org>
-References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
- <20220727103639.581567-10-tomi.valkeinen@ideasonboard.com>
- <CAG0LG94ADymN_R0Mw0hSf-M0nwUcWW_Xtr8gLM=wsqdH7Ep2Wg@mail.gmail.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <CAG0LG94ADymN_R0Mw0hSf-M0nwUcWW_Xtr8gLM=wsqdH7Ep2Wg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Fri, 29 Jul 2022 05:07:00 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D849684EF5;
+        Fri, 29 Jul 2022 02:06:57 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id k8so3051134wrd.5;
+        Fri, 29 Jul 2022 02:06:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc;
+        bh=Xuz7b31SZ6YAYumJHBVurHpw2rO7+Ja8ryp7tp5VZOk=;
+        b=lZP98vktrRv81gPPiiUXrQADzP6Mv/O9M9hy591hYZZB1qAsEvIwzd0DCm1SJxdnH0
+         zQtatHUP1QNgLMYa+Q1LLy0Y7Iud6BuDiET5qbzKEuI4tTo4UR/PaHJkrkyRsjNWoiw9
+         n17NEOpQruPlM9h6I3djY/31KmUQQgGycAcTX8jjI1mwCa5WurXrwIBhQ25bMxprZl6d
+         +DgPrcsqFyKNrlwWtzoLiYOUTRi8ktRdkXKmhdgANOGCbDx53qfm8CH9276kcc/przRy
+         WmW3c+/871xf2VXXB4NlprC9zMNsBYo4KwE84E2X3KO/du83SsIXcX3DAiQ+sdc2slvD
+         X2jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc;
+        bh=Xuz7b31SZ6YAYumJHBVurHpw2rO7+Ja8ryp7tp5VZOk=;
+        b=q/PY6uOgWCtLJ5rF/3Hm8eBPrH76Zy92F8xArGZmbPTmkuX534f8jMj7Afg0S31ivI
+         tKq2JX08a6oN/smQb8f519b0rND6F31Kkx/Nlog92FV+fUF0Z55BNDkHwUtPbGjqDWuQ
+         Jn90csjTXTTefATvo7TXjKCllEGGAiozLluwMzYDUxHDCImpoe348gFOH34Dc3uEeGJk
+         iFIVs1rkMm3xKsVTEJWqTdIzdoorpuVkj1Tc9LUH8qXtJn/sOmKHRWVJ85g54a3YPpw0
+         sbbY2ySHr23iPOAgUvZ8os51zWZbjoRjaGYi0aYn0POS6E01P/IUYPmuUQHWYMcCCn+o
+         JmzA==
+X-Gm-Message-State: ACgBeo2YgMz9R6HmfP1c2g4WLd3x6A+k5fcfVkG/CH/Ivsk7WG8EM2vc
+        /eEaPwecCiYPRgBgzvPLLtA=
+X-Google-Smtp-Source: AA6agR44DjBZWJyjyaXogrlqG2/oyAQ95weNGFS2YkkqRteBULPfHkamSDbm9eqLBahUPT61SgGD8A==
+X-Received: by 2002:adf:d1e2:0:b0:21d:c7ae:3b1a with SMTP id g2-20020adfd1e2000000b0021dc7ae3b1amr1725590wrd.700.1659085616268;
+        Fri, 29 Jul 2022 02:06:56 -0700 (PDT)
+Received: from smtpclient.apple ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id q2-20020a5d6582000000b0021e52020198sm3049879wru.61.2022.07.29.02.06.53
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 29 Jul 2022 02:06:55 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.100.31\))
+Subject: Re: [v7 3/4] dt-bindings: arm: amlogic: add MagicBox M16S bindings
+From:   Christian Hewitt <christianshewitt@gmail.com>
+In-Reply-To: <YuOdWyF2yJVhh415@gofer.mess.org>
+Date:   Fri, 29 Jul 2022 13:06:51 +0400
+Cc:     Zhang Ning <zhangn1985@qq.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D258CD0B-4490-4182-85A5-BE8D213EB70F@gmail.com>
+References: <20220726143649.142574-1-zhangn1985@qq.com>
+ <tencent_A962A641C180EEC2680CA53DDD6643BA6E05@qq.com>
+ <b094bf45-ad7e-9e42-89a6-bae0b8e4aae1@linaro.org>
+ <tencent_F809BC863B83870BBEB1EF76499B3969B607@qq.com>
+ <YuOdWyF2yJVhh415@gofer.mess.org>
+To:     Sean Young <sean@mess.org>
+X-Mailer: Apple Mail (2.3696.100.31)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/07/2022 11:45, Satish Nagireddy wrote:
 
->> @@ -1011,7 +1342,7 @@ EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
->>
->>   struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
->>   {
->> -       return entity->pipe;
->> +       return entity->pads->pipe;
-> 
-> I am not sure If it is always safe to return the pipe associated with
-> the first pad. I think this will work with all the existing drivers.
-> Let's say If pads of an entity are associated with different pipes,
-> this function might require extending the support of returning
-> pipe based on pad index. Please let me know your opinion.
+> On 29 Jul 2022, at 12:42 pm, Sean Young <sean@mess.org> wrote:
+>=20
+> On Thu, Jul 28, 2022 at 07:48:57AM +0800, Zhang Ning wrote:
+>> Christian Hewitt told me to split to 2 patches, 1st for manufactor, =
+2nd
+>> for device, how to handle your Acked-by?
+>>=20
+>> btw, he also said I'm wrong in handle Sean's Signed-of-by, still =
+don't
+>> know how to do in next version. Should I just not send this patch?
+>=20
+> Christian can you explain *on list* what is wrong with handling my
+> Signed-off-by? As far as I can see Ning has done the right thing.
 
-That's true. The kdoc for this function says:
+Sorry, this is my ignorance. I=E2=80=99ve only seen maintainers provide =
+Acked-By
+or Reviewed-By tags in response to my own past submissions. I=E2=80=99ve =
+not had
+Signed-Off-By responses on-list before. I=E2=80=99ve only seen =
+maintainer SOB
+being applied to patches as they are merged into the maintainers tree
+and queued for sending upstream. Today is a learning day :)
 
-  * In general, entities can be part of multiple pipelines, when carrying
-  * multiple streams (either on different pads, or on the same pad using
-  * multiplexed streams). This function is ill-defined in that case. It
-  * currently returns the pipeline associated with the first pad of the 
-entity.
+> Please keep the conversation on list so we're all in the loop.
 
-I did consider adding a warning if the function is called for entities 
-with more than one pad. But that probably would give false warnings, 
-e.g. for a simple entity with one sink and one source pad. In that case 
-both pads are always part of the same pipeline, and 
-media_entity_pipeline() works correctly.
+The board still has some hardware items to figure out and the next date
+Amlogic patches will be picked for 5.21 is ~2.5 months away, so there
+is no rush and I=E2=80=99ve encouraged Zhang to keep working via the =
+Armbian
+forum thread that he started [0]. I=E2=80=99m no expert (as you can see =
+^) but
+I=E2=80=99m trying to coach and explain/spot the common etiquette and =
+process
+nits (which I=E2=80=99ve made myself in the past) before he sends the =
+next rev.
+of patches for review.
 
-We could perhaps add a check here which verifies that all the pads in 
-the entity have the same pipe.
+Christian
 
->>   }
->>   EXPORT_SYMBOL_GPL(media_entity_pipeline);
-> 
-> nit, It would be nice to rename this function to media_entity_get_pipe
-> or media_entity_get_pipeline for better readability.
-
-I'm ok with that, but we do have other functions with this style: 
-media_entity_remote_pad(), media_entity_id(), ...
-
-  Tomi
+[0] =
+https://forum.armbian.com/topic/22301-help-to-review-porting-mainline-u-bo=
+ot-and-linux-to-tmall-magicbox-m16s-amlogic-s912-h-tv-box/=
