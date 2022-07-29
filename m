@@ -2,174 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ED965854F8
-	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 20:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D91835855CA
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jul 2022 21:55:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231651AbiG2SVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Jul 2022 14:21:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53580 "EHLO
+        id S238967AbiG2Tzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Jul 2022 15:55:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbiG2SVI (ORCPT
+        with ESMTP id S238420AbiG2Tzo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Jul 2022 14:21:08 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E16E1572C
-        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 11:21:07 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-322b5199358so56774517b3.6
-        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 11:21:07 -0700 (PDT)
+        Fri, 29 Jul 2022 15:55:44 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6358580F5E
+        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 12:55:43 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id b21so4070401qte.12
+        for <linux-media@vger.kernel.org>; Fri, 29 Jul 2022 12:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=getcruise.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=yHRevWtP6xErDg1yPtOg8UMqDNLXdosMwPxU7FhwPFc=;
-        b=sPCZOrIQMy+Igi6xWFTVijPa+GeG7lXYqY7FK47d7JTo1tm3fTAO2zxQD2Un+Cp/AO
-         9tHrwvkZeZt+P8bDEhq7hVVA1YbNHZa6r8tgXhjLN0AiGWT4oHuXkRONjeXSaYlRiL1I
-         l0OLiTylLySB6SV05kF4GGeQgecXrJqs6fSKpVx+so+5973cw1AR7yiyIZGYVYaTZuDN
-         Vd+MW05YR8p1hY+8Q7lOaXw2eb2IeuW9pX/d/NZPZhYlADNYcKQo524MbMBUi8rV8Q6Q
-         MJyH7YopLFFPjGV1h/USC6WG1P1luY1OYwRvYsttDyMYktokCGiLi/XZYHIEOTXdJ9UR
-         PAfQ==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=lI7ivcAwRUifQnRI706c0+q8Lpzh40+rYKLKoU1I3oA=;
+        b=qy/Ws0vsozgufqZWtXL2So+xVlSE6SGi5kFtkvmzaaaUA6pw/RkbUFS5Zigm83YVGi
+         ox6/EDOITHju9acHoHBNF5GJjMNZwIn+seu1/hmrT05Pwdezn1CcbCcttGXXRZ5n7jRs
+         zqZO9U6cPEN9Nf6021Lm1e9bcHKf97lWQ/HA0m/4cMBtZBkQGm60W6O8vimRYEms6Zer
+         AwnEEzoFgGR0abgEviTkD5HQfZ4vL77+qiUvQ8w6MnCjm+/nDEyzebrASriyyrI4wNXz
+         MXjfKq764z3kntKCkl8ctPRfMDtPkLY+7tuK5yF1ILgZEkPjAU8ihT2B6H/A939UMjTj
+         T5jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=yHRevWtP6xErDg1yPtOg8UMqDNLXdosMwPxU7FhwPFc=;
-        b=kiT5Z/xrftp/o6dIdsBmXdX7IEmlSOc6gl/ABBIMP4FhVCEu2yv6DJfxdfVIZQLpXg
-         BzSoxAuaPLO5N2yWSsXf6brwivrMNTDeXODVvt0CRU+IArac2s/GfOkvaRQ4WU0v96/Q
-         qE8AGdmPbzF21JQWbq3uSTBsFhO0nmFa5o7rd+iMNkmAz0k4vx88tk1+dMppSr8fOhYZ
-         BGRT/znYcTo61DQNNqPp0NI4SN9Xi2qJYMAbc9nBamfkAQFYmrmUJvZMrllG18lb5jt+
-         nxtvxQq3J3WSx4znADtw6XROn5H/qh0+jS9B12o8mIYooVyOb2Gc3ep/OYtLus/UcNJh
-         Q4Fg==
-X-Gm-Message-State: ACgBeo3E0SGIxAmdwP6c2Ro/AHgsGkXYT585q9i+0j0mHhJVW4wD+dIA
-        N1AI02L0VO8HpbRlI65b4a5crGy1MT+2mHm+6yaz8A==
-X-Google-Smtp-Source: AA6agR5rPiG4Upj+Z5YKDaMpAwBt7Kwn7XAZbai7SaZTW92eGLAKksxvcPfk1W8Z3a0hMjVohE9PbO7gKtWFkHR/bTM=
-X-Received: by 2002:a81:8413:0:b0:322:d661:a785 with SMTP id
- u19-20020a818413000000b00322d661a785mr4200831ywf.16.1659118866432; Fri, 29
- Jul 2022 11:21:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
- <20220727103639.581567-10-tomi.valkeinen@ideasonboard.com>
- <CAG0LG94ADymN_R0Mw0hSf-M0nwUcWW_Xtr8gLM=wsqdH7Ep2Wg@mail.gmail.com>
- <438685f9-1a18-31c3-ffbc-15e87ef7493d@ideasonboard.com> <CAG0LG94AUCng800b6GxaYcATdSJRKHiVdz8wrT83cLMDC0XOtg@mail.gmail.com>
- <ce6f1e9a-21d2-cb89-87fd-1ec09ee95c4f@ideasonboard.com> <CAG0LG96dncADM65ids6VMU=ym-j55fws6NOwLQM=or7pN4-d-g@mail.gmail.com>
- <47c925b2-2fa2-ce0b-0d43-5fc8fb048338@ideasonboard.com>
-In-Reply-To: <47c925b2-2fa2-ce0b-0d43-5fc8fb048338@ideasonboard.com>
-From:   Satish Nagireddy <satish.nagireddy@getcruise.com>
-Date:   Fri, 29 Jul 2022 11:20:55 -0700
-Message-ID: <CAG0LG966eKazMTDBtk09dG8uOGbnBaqDJodr-OfLoabMUJ07fw@mail.gmail.com>
-Subject: Re: [EXT] Re: [EXT] Re: [EXT] Re: [EXT] [PATCH v12 09/30] media: mc:
- entity: Rewrite media_pipeline_start() to support routes
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        Tomasz Figa <tfiga@chromium.org>
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=lI7ivcAwRUifQnRI706c0+q8Lpzh40+rYKLKoU1I3oA=;
+        b=RxoVdxUm3oD0g1JvPNw3ep3cvxNXdKMy9Bs2D17b2pOGC7CYpguJTHHcV8E/kO43vv
+         hKxN4y7P1iyn3rqyEqBjCdg1ye4/R4YM494qiIGHuiazNpOa0d+W0l3HjbxrLfyXXil3
+         myWQLcG0IXkHZwIgNPpLXpVkINY0yfkBq3LPt5/MhyPIN80YEbJPbBTElnH/DmcX8GS5
+         JRA5mVPZsHoUwKbba58lRvbxBKlGt1MZWMBtFMgWtYsL0fT5/MCDnS4esG9fGMHD8zfG
+         T523pH05uLXzYCb1syPscTV9iNRpz3O/5eB7xTFkG3Gy0EyPy5339ZydSySwq8pN6cZT
+         HpwQ==
+X-Gm-Message-State: AJIora+BXBpCqP+hGye5R7WZILYeU903ysRF+9oAQDBwGZVk+0LhSrX6
+        cPVuKxmNcCbIb+E/CAxtJFtafQ==
+X-Google-Smtp-Source: AGRyM1sihhA5ZddLZrESE9GSeP9Ji0UMQqbh8Np5eaWnEHtLDvdLpVQGIvqn5AwYAh7DONLDcge0mA==
+X-Received: by 2002:a05:622a:3cb:b0:31f:36f5:f6c8 with SMTP id k11-20020a05622a03cb00b0031f36f5f6c8mr4833145qtx.428.1659124542531;
+        Fri, 29 Jul 2022 12:55:42 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id t7-20020a375f07000000b006af50b6f10csm3037958qkb.61.2022.07.29.12.55.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Jul 2022 12:55:42 -0700 (PDT)
+Message-ID: <0bc68659aa225a0623751b82e9a8636d701cece9.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/4] media: add nv12_8l128 and nv12_10be_8l128 video
+ format.
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date:   Fri, 29 Jul 2022 15:55:40 -0400
+In-Reply-To: <687fb73b648b897426899c6a313f35a5e2451d69.1659082839.git.ming.qian@nxp.com>
+References: <cover.1659082839.git.ming.qian@nxp.com>
+         <687fb73b648b897426899c6a313f35a5e2451d69.1659082839.git.ming.qian@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 29, 2022 at 10:07 AM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
->
-> On 29/07/2022 20:00, Satish Nagireddy wrote:
-> > On Fri, Jul 29, 2022 at 3:27 AM Tomi Valkeinen
-> > <tomi.valkeinen@ideasonboard.com> wrote:
-> >>
-> >> On 29/07/2022 12:19, Satish Nagireddy wrote:
-> >>> On Fri, Jul 29, 2022 at 1:53 AM Tomi Valkeinen
-> >>> <tomi.valkeinen@ideasonboard.com> wrote:
-> >>>>
-> >>>> On 29/07/2022 11:45, Satish Nagireddy wrote:
-> >>>>
-> >>>>>> @@ -1011,7 +1342,7 @@ EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
-> >>>>>>
-> >>>>>>     struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
-> >>>>>>     {
-> >>>>>> -       return entity->pipe;
-> >>>>>> +       return entity->pads->pipe;
-> >>>>>
-> >>>>> I am not sure If it is always safe to return the pipe associated with
-> >>>>> the first pad. I think this will work with all the existing drivers.
-> >>>>> Let's say If pads of an entity are associated with different pipes,
-> >>>>> this function might require extending the support of returning
-> >>>>> pipe based on pad index. Please let me know your opinion.
-> >>>>
-> >>>> That's true. The kdoc for this function says:
-> >>>>
-> >>>>     * In general, entities can be part of multiple pipelines, when carrying
-> >>>>     * multiple streams (either on different pads, or on the same pad using
-> >>>>     * multiplexed streams). This function is ill-defined in that case. It
-> >>>>     * currently returns the pipeline associated with the first pad of the
-> >>>> entity.
-> >>>>
-> >>>> I did consider adding a warning if the function is called for entities
-> >>>> with more than one pad. But that probably would give false warnings,
-> >>>> e.g. for a simple entity with one sink and one source pad. In that case
-> >>>> both pads are always part of the same pipeline, and
-> >>>> media_entity_pipeline() works correctly.
-> >>>>
-> >>>> We could perhaps add a check here which verifies that all the pads in
-> >>>> the entity have the same pipe.
-> >>
-> >> Perhaps something like:
-> >>
-> >> struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
-> >> {
-> >>          struct media_pipeline *pipe;
-> >>          struct media_pad *pad;
-> >>
-> >>          if (entity->num_pads == 0)
-> >>                  return NULL;
-> >>
-> >>          pipe = entity->pads->pipe;
-> >>
-> >>          media_entity_for_each_pad(entity, pad) {
-> >>                  if (WARN_ON(pad->pipe != pipe))
-> >>                          return NULL;
-> >>          }
-> >>
-> >>          return pipe;
-> >> }
-> >
-> > The above code means that we do not support multiple pipelines per
-> > entity. Or leave the implementation as is now and
-> > this can be done as a different patch later, I will leave it to you.
-> > He is what I'm thinking, assuming that every media_pad has it's own pipe.
-> >
-> > struct media_pipeline *media_entity_pipeline(struct media_entity
-> > *entity, u32 pad_index)
-> > {
-> >           if (pad_index >= entity->num_pads)
-> >                   return NULL;
-> >
-> >           return entity->pads[pad_index].pipe;
-> > }
->
-> Oh, I see now where the confusion is.
->
-> media_entity_pipeline() is a convenience helper for the currently
-> existing drivers. They access entity->pipe directly (or when we move the
-> pipe to pad, entity->pads->pipe). So this function is just refactoring
-> the direct access away from the drivers, which makes it easier in the
-> future to find those drivers accessing the pipe, or change where the
-> pipe is stored without doing any changes to the drivers.
->
-> A driver which supports streams should not use this function, as there's
-> no "pipe for entity". We seem to be missing a similar helper function
-> for these cases, media_pad_pipeline() or such. We can add when needed.
->
->   Tomi
+Le vendredi 29 juillet 2022 =C3=A0 16:38 +0800, Ming Qian a =C3=A9crit=C2=
+=A0:
+> add contiguous nv12 tiled format nv12_8l128 and nv12_10be_8l128
+>=20
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
 
-Sure, great!
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-- Satish
+cheer,
+Nicolas
+
+> ---
+>  .../userspace-api/media/v4l/pixfmt-yuv-planar.rst         | 8 ++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                      | 2 ++
+>  include/uapi/linux/videodev2.h                            | 2 ++
+>  3 files changed, 12 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst =
+b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> index 10b1feeb0b57..f1d5bb7b806d 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> @@ -273,7 +273,9 @@ of the luma plane.
+>  .. _V4L2-PIX-FMT-NV12-16L16:
+>  .. _V4L2-PIX-FMT-NV12-32L32:
+>  .. _V4L2-PIX-FMT-NV12M-8L128:
+> +.. _V4L2-PIX-FMT-NV12-8L128:
+>  .. _V4L2-PIX-FMT-NV12M-10BE-8L128:
+> +.. _V4L2-PIX-FMT-NV12-10BE-8L128:
+>  .. _V4L2-PIX-FMT-MM21:
+> =20
+>  Tiled NV12
+> @@ -319,6 +321,9 @@ pixels in 2D 8x128 tiles, and stores tiles linearly i=
+n memory.
+>  The image height must be aligned to a multiple of 128.
+>  The layouts of the luma and chroma planes are identical.
+> =20
+> +``V4L2_PIX_FMT_NV12_8L128`` is similar to ``V4L2_PIX_FMT_NV12M_8L128`` b=
+ut stores
+> +two planes in one memory.
+> +
+>  ``V4L2_PIX_FMT_NV12M_10BE_8L128`` is similar to ``V4L2_PIX_FMT_NV12M`` b=
+ut stores
+>  10 bits pixels in 2D 8x128 tiles, and stores tiles linearly in memory.
+>  the data is arranged in big endian order.
+> @@ -334,6 +339,9 @@ byte 2: Y1(bits 3-0) Y2(bits 9-6)
+>  byte 3: Y2(bits 5-0) Y3(bits 9-8)
+>  byte 4: Y3(bits 7-0)
+> =20
+> +``V4L2_PIX_FMT_NV12_10BE_8L128`` is similar to ``V4L2_PIX_FMT_NV12M_10BE=
+_8L128`` but stores
+> +two planes in one memory.
+> +
+>  ``V4L2_PIX_FMT_MM21`` store luma pixel in 16x32 tiles, and chroma pixels
+>  in 16x16 tiles. The line stride must be aligned to a multiple of 16 and =
+the
+>  image height must be aligned to a multiple of 32. The number of luma and=
+ chroma
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index c314025d977e..d973bd2ff750 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1444,7 +1444,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  	case V4L2_META_FMT_VIVID:       descr =3D "Vivid Metadata"; break;
+>  	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr =3D "Rockchip ISP1 3A Paramete=
+rs"; break;
+>  	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr =3D "Rockchip ISP1 3A Statist=
+ics"; break;
+> +	case V4L2_PIX_FMT_NV12_8L128:	descr =3D "NV12 (8x128 Linear)"; break;
+>  	case V4L2_PIX_FMT_NV12M_8L128:	descr =3D "NV12M (8x128 Linear)"; break;
+> +	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr =3D "10-bit NV12 (8x128 Linear=
+, BE)"; break;
+>  	case V4L2_PIX_FMT_NV12M_10BE_8L128:	descr =3D "10-bit NV12M (8x128 Line=
+ar, BE)"; break;
+> =20
+>  	default:
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index cd66e01ed3c3..64f16490dd2b 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -655,6 +655,8 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_NV12_16L16 v4l2_fourcc('H', 'M', '1', '2') /* 12  Y=
+/CbCr 4:2:0 16x16 tiles */
+>  #define V4L2_PIX_FMT_NV12_32L32 v4l2_fourcc('S', 'T', '1', '2') /* 12  Y=
+/CbCr 4:2:0 32x32 tiles */
+>  #define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12  Y/C=
+bCr 4:2:0 10-bit 4x4 macroblocks */
+> +#define V4L2_PIX_FMT_NV12_8L128       v4l2_fourcc('A', 'T', '1', '2') /*=
+ Y/CbCr 4:2:0 8x128 tiles */
+> +#define V4L2_PIX_FMT_NV12_10BE_8L128  v4l2_fourcc_be('A', 'X', '1', '2')=
+ /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
+> =20
+>  /* Tiled YUV formats, non contiguous planes */
+>  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  Y/Cb=
+Cr 4:2:0 64x32 tiles */
+
