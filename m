@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA515585B7E
-	for <lists+linux-media@lfdr.de>; Sat, 30 Jul 2022 20:07:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CFB2585C4B
+	for <lists+linux-media@lfdr.de>; Sat, 30 Jul 2022 23:30:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235446AbiG3SHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Jul 2022 14:07:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38982 "EHLO
+        id S234965AbiG3Var (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Jul 2022 17:30:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbiG3SHW (ORCPT
+        with ESMTP id S232895AbiG3Vap (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Jul 2022 14:07:22 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16BD01572B;
-        Sat, 30 Jul 2022 11:07:21 -0700 (PDT)
+        Sat, 30 Jul 2022 17:30:45 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A983E13D6E;
+        Sat, 30 Jul 2022 14:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659204441; x=1690740441;
+  t=1659216643; x=1690752643;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GfUPPhycW67KQMvN9iRt1mPvqrm/d/0T+G/wECkqerA=;
-  b=UaMqhtHsRmTfceraarqP8LkwWqBRpH0bK6AuAKJZ6Dlv6EDtlQWSCqJq
-   RspOITB1nNIC5EOfrErxmEjeok8HPIra9b1xT3JTIQ6S9DOunkygUtvqY
-   XyEbP0VUIxtbrHp6w12gZ+GrfgFYYFkc/0zmZyYl9FdHAKO0y9KX1lRxC
-   zpVGf5zcV2MN6jsHh1DZPKPi1VgtTQwIEv3FtZIilOIRhV5oI+HHlh9In
-   Hby+kJPxJY6OIieKXbOfWzxhgWgzfTTpD7b8Hd4b5drR1WPn0NRSLeOnw
-   LHbj4+SYjZgJy26i16agy84xToQ5F7e/Lk44Q3DUQicP/6fZ/JufKNtRm
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10424"; a="269318653"
-X-IronPort-AV: E=Sophos;i="5.93,204,1654585200"; 
-   d="scan'208";a="269318653"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2022 11:07:20 -0700
+  bh=aGSQmHo/kiuw78YHKHJARd0rX66Q3h+6pYogKhyI5oQ=;
+  b=UAhAMOV94//0WrvaJxsRR24lckqzax/rUn34Rvl9IxwFPNro60xgOpkQ
+   o4CmFv8Ft6i7ssTHy2ZTjif2EMPXv9StcwPp/nwnRfDnODbTXd9WKY2ol
+   rwzDat8Owe0X6oruQWDakpHBdJ2P+gQB1Oe/mBxnBFk2XsmB40yAGdHoX
+   1SkorFtrsexmC9rvdx7O/gb0a6moXrYtSzSiuVm/ksnQIJ6SwleC4ygfh
+   K9Uul/6mlZVZ3rT5ulKLfQe27b/i0/rCikw1kofMTieAEFio5NCNeg3Re
+   yLj2rC60ZnVbeJjJZlIjM/6wPveLTeOf7KOk+wmO1rzI+8QxshN0rRD08
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10424"; a="289718935"
+X-IronPort-AV: E=Sophos;i="5.93,205,1654585200"; 
+   d="scan'208";a="289718935"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2022 14:30:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,204,1654585200"; 
-   d="scan'208";a="552071485"
+X-IronPort-AV: E=Sophos;i="5.93,205,1654585200"; 
+   d="scan'208";a="929119888"
 Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 30 Jul 2022 11:07:17 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 30 Jul 2022 14:30:40 -0700
 Received: from kbuild by e0eace57cfef with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1oHqrs-000D3H-2h;
-        Sat, 30 Jul 2022 18:07:16 +0000
-Date:   Sun, 31 Jul 2022 02:06:50 +0800
+        id 1oHu2i-000DMR-0B;
+        Sat, 30 Jul 2022 21:30:40 +0000
+Date:   Sun, 31 Jul 2022 05:29:49 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        Yong Zhi <yong.zhi@intel.com>,
         Bingbu Cao <bingbu.cao@intel.com>,
         Dan Scally <djrscally@gmail.com>,
         Tianshu Qiu <tian.shu.qiu@intel.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Subject: Re: [PATCH v1 1/1] media: ipu3-cio2: Don't dereference fwnode handle
-Message-ID: <202207310216.JtYAKodB-lkp@intel.com>
+Message-ID: <202207310535.kgjPgg86-lkp@intel.com>
 References: <20220730154844.89556-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -63,7 +63,8 @@ Content-Disposition: inline
 In-Reply-To: <20220730154844.89556-1-andriy.shevchenko@linux.intel.com>
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -82,38 +83,47 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/media-ipu3-cio2-Don-t-dereference-fwnode-handle/20220730-235023
 base:   git://linuxtv.org/media_tree.git master
-config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20220731/202207310216.JtYAKodB-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00cabf479aa7eb6dbb063b7ba41ea57bce9e)
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220731/202207310535.kgjPgg86-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/a78ba0da9d77a8fa412604492f931b188e1114d5
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Andy-Shevchenko/media-ipu3-cio2-Don-t-dereference-fwnode-handle/20220730-235023
         git checkout a78ba0da9d77a8fa412604492f931b188e1114d5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/pci/intel/ipu3/
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/pci/intel/ipu3/cio2-bridge.c:266:33: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-           struct fwnode_handle *fwnode, *current;
-                                          ^
-   arch/x86/include/asm/current.h:18:28: note: expanded from macro 'current'
-   #define current get_current()
-                              ^
->> drivers/media/pci/intel/ipu3/cio2-bridge.c:266:33: error: conflicting types for 'get_current'
-   arch/x86/include/asm/current.h:18:17: note: expanded from macro 'current'
-   #define current get_current()
-                   ^
-   arch/x86/include/asm/current.h:13:44: note: previous definition is here
-   static __always_inline struct task_struct *get_current(void)
-                                              ^
-   2 errors generated.
+   drivers/media/pci/intel/ipu3/cio2-bridge.c: In function 'cio2_bridge_connect_sensor':
+>> drivers/media/pci/intel/ipu3/cio2-bridge.c:266:16: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+     266 |         struct fwnode_handle *fwnode, *current;
+         |                ^~~~~~~~~~~~~
+   In file included from include/linux/mutex.h:14,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from include/linux/irqdomain.h:35,
+                    from include/linux/acpi.h:13,
+                    from drivers/media/pci/intel/ipu3/cio2-bridge.c:4:
+>> arch/x86/include/asm/current.h:18:17: error: conflicting types for 'get_current'; have 'struct fwnode_handle *()'
+      18 | #define current get_current()
+         |                 ^~~~~~~~~~~
+   drivers/media/pci/intel/ipu3/cio2-bridge.c:266:40: note: in expansion of macro 'current'
+     266 |         struct fwnode_handle *fwnode, *current;
+         |                                        ^~~~~~~
+   arch/x86/include/asm/current.h:13:44: note: previous definition of 'get_current' with type 'struct task_struct *(void)'
+      13 | static __always_inline struct task_struct *get_current(void)
+         |                                            ^~~~~~~~~~~
+>> drivers/media/pci/intel/ipu3/cio2-bridge.c:326:25: error: lvalue required as left operand of assignment
+     326 |                 current = acpi_fwnode_handle(adev);
+         |                         ^
+   cc1: some warnings being treated as errors
 
 
 vim +266 drivers/media/pci/intel/ipu3/cio2-bridge.c
@@ -183,7 +193,7 @@ vim +266 drivers/media/pci/intel/ipu3/cio2-bridge.c
    323	
    324			sensor->adev = acpi_dev_get(adev);
    325	
-   326			current = acpi_fwnode_handle(adev);
+ > 326			current = acpi_fwnode_handle(adev);
    327			current->secondary = fwnode;
    328	
    329			cio2_bridge_instantiate_vcm_i2c_client(sensor);
