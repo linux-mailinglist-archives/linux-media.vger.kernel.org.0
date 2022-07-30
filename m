@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 724B7585A0E
-	for <lists+linux-media@lfdr.de>; Sat, 30 Jul 2022 12:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3963E585A0A
+	for <lists+linux-media@lfdr.de>; Sat, 30 Jul 2022 12:26:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232749AbiG3KZH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Jul 2022 06:25:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36114 "EHLO
+        id S232866AbiG3KZI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Jul 2022 06:25:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231687AbiG3KZG (ORCPT
+        with ESMTP id S232658AbiG3KZH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Jul 2022 06:25:06 -0400
+        Sat, 30 Jul 2022 06:25:07 -0400
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACBB02C119;
-        Sat, 30 Jul 2022 03:25:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE4417A83;
+        Sat, 30 Jul 2022 03:25:06 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qvm7cyjCw/4y4Wkh2RHrQV/gYQ4SJC1yDga98LfZHdPeSI6BgXwGHABEHqdEvpd1d0gV3XGXxB7Uwi6+2BY80RiV0e72F1lSPQCefrrw16DP7YuJ9Tt8bhM5xwKCciqWrZkXQf8CMUcmO+luFsbgpSvF86YAA2Q+mIIUUJaDgxIKl4ZmVfBo7m2uahRH6KEE7jagST2tO3J280b9DiTcUSs1LA5UrA1UvUpahKGuGtub0IgMnVIZz40rUWXtP1wG21JMqcOfmhHxM+TsDgZxEKBJ31SjyC0aPZycJZQQbvpinPjv1SO8BfG5dCOKQnPgH4bXsoeZn6wDIjBhvdWLEQ==
+ b=SewoZVbcer3hlHR0+oowYMGq7RvH9Sj3Ct3Sj17D4Y1jUb3TPkJpC5eS5hXb94aiOqdhB/gx37t/kydFEkG3wvF3z6xkHu1VUZ2Uklu5WM7wRWPGw0lBqD293zCglI9u+l7BjrtZ39H9KC70d1XTyN21GoutUBXfnuRtLxbV041dEP57C1iiTNNnMUplF5p4lO9qMik4kg5kecBFXoxvf77f/xp5l62cK3cB796iW/y7+9WoR6zmS6mPYOgZSSc92qJBG3ouSDoLHAtPlKNj/fGmnIV4GtUm1J1HK3VcFo0EFeWwJi76IzLKVkeEN7l+3zLwUZyrYw3au49TUVeVPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sJySvM2RzQ8yfyLYrCcr+UHM3X0MJ5/VdC5P5rgGc7E=;
- b=miOe4xtPka0+rY7UWWdN2VAqpZALsNzElzv4zPKfXWPW1MnGP5DnzEIZVT4UCli/RjEeXTUiCO7+ZsPQWx4iYQqPivqg3GJiWPrKqgt+HHLIaN99S4KLGrRS8UtTPi3mvas87kIKyPP9DfCDHaprMjM2VeTU3MQQVKeK5HkmBCmbWgdUr71un1Z15MmlONTzJ4DHAZjz5KxVXrcNF0XfwCxEUl4Dh47zqTzJwmPfALOmqMp+X7IycOVwJ4ZumqcKE9vTuJAPU0e8h4ZXT5IEh7rnr8f1ZnBwGAxeznLQ6Dhbpc5mXaxidAzY6uq+bL9g6es9nM8vJ5s6QaKmw5W5vQ==
+ bh=c3JN9o4QcbBTMt4mLQUCzo+2bIrsNzcVwdzFt4RFoLI=;
+ b=d/k/Q7hGHitm02Hme6CVAqpjEyUOgddejh/VFuoEwvuQvgrXUDTe7AVA1BQdExNK4Nkft3BqeeA7axanlH+HeAjzIDSp7J3GkU273XTesK05nwZPnyg58GTk1++zpowOtjKALXXmXFK9Acb9oabNOTS5yQdUM+jMm6AxdIn5mL2+b8FCmzJ3U8FaKX0LcNdbiyhUJtJwb1myi49beUK4kCcjRucKbMbvio4OO/yOX6LxCpwgt+GKCf5tXA8fhGGEWN33gdD9iDVC26EBdYtBQuITDILUsfrCgLmX9dRrbgmB7HUOaGAblSGEhHfEUpevu6Z2x5hs2XN+bjELVdLqYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sJySvM2RzQ8yfyLYrCcr+UHM3X0MJ5/VdC5P5rgGc7E=;
- b=Cclxo9qRDeePnQWheGaPFCF6w9gFuVmG0boeXlPRb/UHAzEmb5HDX/HCSldb9WjYWGUfTyruEgiaIwiK6vbAK/pr43G+21/gsN8jm5Eb+tig38Sjq7mnWy5ajkp+LevKJr6rxcLEyNULaDva0AT3wjnJNf3sk1GPZiep4OG1uS8=
+ bh=c3JN9o4QcbBTMt4mLQUCzo+2bIrsNzcVwdzFt4RFoLI=;
+ b=ktgsxXuwYsneyIMClrHeCcrKaavCucgZmrwtLrLmRDrnayaYa8yrnDN1RnXJFkz3wzh3I4h6uF8Obi2pH2g8nVRRsFNycI8RcGYUy+xDGypBUCgnf+t+IlsAM33/lA3pURPd93tsUsa3bIUecbErUidOhlxLoFIkQF5sQaDtGIc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB8703.eurprd04.prod.outlook.com (2603:10a6:102:21e::22)
  by PAXPR04MB8621.eurprd04.prod.outlook.com (2603:10a6:102:218::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Sat, 30 Jul
- 2022 10:25:01 +0000
+ 2022 10:25:02 +0000
 Received: from PAXPR04MB8703.eurprd04.prod.outlook.com
  ([fe80::9d8:f571:6ec7:521f]) by PAXPR04MB8703.eurprd04.prod.outlook.com
  ([fe80::9d8:f571:6ec7:521f%9]) with mapi id 15.20.5482.014; Sat, 30 Jul 2022
- 10:25:01 +0000
+ 10:25:02 +0000
 From:   Xavier Roumegue <xavier.roumegue@oss.nxp.com>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         stanimir.varbanov@linaro.org, laurent.pinchart@ideasonboard.com,
@@ -49,9 +49,9 @@ To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         ezequiel@vanguardiasur.com.ar
 Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v9 2/8] v4l2-ctrls: Export default v4l2_ctrl_type_ops callbacks
-Date:   Sat, 30 Jul 2022 12:24:07 +0200
-Message-Id: <20220730102413.547698-3-xavier.roumegue@oss.nxp.com>
+Subject: [PATCH v9 3/8] media: Documentation: dw100: Add user documentation for the DW100 driver
+Date:   Sat, 30 Jul 2022 12:24:08 +0200
+Message-Id: <20220730102413.547698-4-xavier.roumegue@oss.nxp.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220730102413.547698-1-xavier.roumegue@oss.nxp.com>
 References: <20220730102413.547698-1-xavier.roumegue@oss.nxp.com>
@@ -63,54 +63,54 @@ X-ClientProxiedBy: PR1P264CA0067.FRAP264.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c4052ba4-a990-4d35-d8e7-08da7215c288
+X-MS-Office365-Filtering-Correlation-Id: 7a3ec279-a8e9-48cf-55e4-08da7215c30e
 X-MS-TrafficTypeDiagnostic: PAXPR04MB8621:EE_
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zxfc9jxisnl6nc6XC789ITVm6pnFSI8tZ7LvXPDdjuCsLmC4RMKiakC3moUqqBhLehB0fpZoha1gnwr8csZBBPs/RqJPc5rEJm1xcRcSbmCGdmhkBx28RCs/gz0Etgu+5Na5yLh61ui3IAwk0v/NgLajji7pWEF3BuOdqW6GivQRYCl8jsq1GV4LIxNsHgRYZwBd3JwY9gRTOZiPfppMvb39oBm30bJeNZG0aPgenwxuet503jqVE2e5bVqexf89/4OocXMqetqpD25yLbzLYLsI6jq0f1oBvrsKsz6oqNwGB4ni33o7CIzRQO/Ze88pdlCOqSDjoyei3A3hopoMT7qWaN18p9vAf67/lBD8UQ5cHHUL6kH67u4eIwQoYYoT2LeWGYvkP3pbV7X8zm/fV6gZBx76VJ++DYjJEqQnvCIR+7VN8uEGUHtFngECxZNMlvOkhSGVn4v0c+K73EXyTmbbmpd9ezCHt2rSi+lnGhL1UFNUMzlXXwKKNGZjbUwhtjAatGJ9h3lyRLxYJopbv8LoGy1qZyqXmg+Es6rOMYJNseQk/ViMTzVC7vPaUjxzq46JVuP/f0qyArAONrTZCaHaV9cV38mfoiGQlYipXMRZ539k/T9Shs57DEwnN6iV8MaqsvAI/wjuuT2/lJ4KFOPg57NwHU1YrKF5usB51OWWcoe+zCMlp+/WYEk/o7j96Oddl8lyAH9k3iKUb61E1ellbTmQyf/JvPW2o49rcV93MKLuE6SS2Hz1B95EfZDB
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(366004)(39860400002)(136003)(396003)(346002)(7416002)(6512007)(4326008)(8676002)(44832011)(186003)(83380400001)(52116002)(66556008)(6506007)(38100700002)(66476007)(66946007)(2906002)(86362001)(8936002)(41300700001)(5660300002)(478600001)(1076003)(6486002)(2616005)(316002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: DyR5KuaAxkj8QxBjoFepPvpPo/57ywXu2rd65BqOty41dW2KRFuAnRrTzL191/1driNBqh5OKJgzdjwQmdRwfdNo7M1R/n7FxuQJzoJEXlKAab7VSRGino951t4pv0KcFrgSxTNTfc6wCF3PQmJ04HftrX8wXqVCKBpA377TMgBb/SInELWEWdwSiGje4eAJdu8VRKwgqxEQWXBsX2Jdw+JOsmqqMIMrj6awIw1hAGnFdYwQprkXIPkzAWyVdH4Ka/l0EI4FM3upKcniRnE5AHpHiOag/eTUFJPBh4x01VKIyLhHyN+ucjUM+jy7ceuYtJRpVh23KPk4wDJmggn4x+sEX5VbYX3KfViA6jGMhcroNdRLHJg7LH2pDkGdc1chE84FIaPt/XaItzMovKZXQn99d+ck7+djy4AZEzkYRbDY3q5p3NSoZFL1eiX4a2BbqLohDMBYe/hOgK+J5FQEMxfUmjHsmIpVrHHefpfHNdPSnjlra4n/+BQMjCMjvJJoTTiYhk43AajJhESpDoOuUzgCjojZU1xw5RwdsofeCXVMRaw3vTWvqS323zD/PBRXvWOmob4VgcK603rMcSdM8TVbsMlls54ktBrEAVW1m6W/DmtpnP2yBV6PcNxf3r+cUhotC5VN4C9lQlM+Y660kYti0jvGyyTJ/YsfmY+73ezsSCPtQKCOJ9ybi4T/3hL6g3dsuGfclPjCvXLqLRNG1yTFo7Zmoh7Y2+FAUoc1NRrVt81tEyJI/uekOPuo1+jq70J0xJvtX7Kh9ZAXqn3aZg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(366004)(39860400002)(136003)(396003)(346002)(7416002)(6512007)(4326008)(8676002)(44832011)(186003)(83380400001)(52116002)(66556008)(6506007)(38100700002)(66476007)(66946007)(2906002)(86362001)(8936002)(41300700001)(5660300002)(478600001)(1076003)(966005)(6486002)(2616005)(316002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Dv7iky23mJkUDe3+biYTWCjauI5WWdsmxH+QAYrjz5TLUslFZpz+1zploFLZ?=
- =?us-ascii?Q?xr7VcFdZVXaozfwWPwajXkbPO8go3FMzycZqiFkeLOVhr+IJY0GA3hsE26WA?=
- =?us-ascii?Q?RMP+zb1YU1R56QGFUKrDURmJcUSWXXLqRyfJ4QF7Ob+B41JC8O3wKmggw7Pj?=
- =?us-ascii?Q?RwPDy1U9Vkx5CbiP8mU9irbaexcs4NLCmtg0Q1jpsq9KRDUWE/vBPfT6s2jM?=
- =?us-ascii?Q?ywTqRPR7+ajUO+KtUFsap/68CBxDrHfayD23KZVDLaXCihiBViPLxiK7YsEw?=
- =?us-ascii?Q?ziroZqpf0766e/YEN5fFswrfHFkB8IOz44oeyEyuHWJzdkgs8f6tqw7JMMzp?=
- =?us-ascii?Q?2BfzKHHhC2HSdq4zJFI/BHastRK4wbjQJBbZ+rvxULNSEZVwM5SrYxYGnj97?=
- =?us-ascii?Q?AZZvC9F1/7mq0aB+oIMUMKk9uFnrAZC4fu7GFX79wJ+UbqPkACkzJvRpGaiz?=
- =?us-ascii?Q?AvjxLH6Y8f7aFbbwRK9/XhFcQ3zCCaKjGEtj3S8v4rgViS9rN7n18cpMODY3?=
- =?us-ascii?Q?+ipvQJPXgQRuI6bGeoFREcui54yzytv4INP1d1CmiXeEzqklO8iuSwxV2qUN?=
- =?us-ascii?Q?8gGkH/ctQcx4eiF5hLjScbUCMlMGtv5LyxkZvwyNxWAgNC8MIrXzGeTf33/l?=
- =?us-ascii?Q?dNAFvf1tgi61aXmMu3zzglRIi8izNnoz7euhdOZxSZcMMNpkrd4arZ/z7Agr?=
- =?us-ascii?Q?x3txJ6bS57K1HctEOqkEYfu0W87kXSTXR1c7vNJuM/gjZrsqjmE6FjqdAyjb?=
- =?us-ascii?Q?t1fDrsiGmX9ExCRovuxu+AqYJGWtSz5MO8nqyrQ8dRR0AVXA17Qe2O2dR/C7?=
- =?us-ascii?Q?lboSYi3fOJ3P9LTDR37a1ji+PpfvhNONIIpa8xFm26Llj+/GUr//rfIJhJof?=
- =?us-ascii?Q?rzjNC6v6XCEhHBwbZMOM6PqGBX6yxINJ9yDEDGe0eMw/ogxZ/UXUEQC2rF7E?=
- =?us-ascii?Q?ekIcsqu9ANXt8Fw8aIv6AfBkn1r4aLdZVLWuuYbc1RQLtyoletXbvUtdlJOd?=
- =?us-ascii?Q?dQ3NU8IfXaERWzD8wIlEzWY860iMiwEOhl2yOrdC+7s9alByKO7rH20dWatS?=
- =?us-ascii?Q?XgEw8duyW0DJDjL8kvSj0EIKlvfDcsZlw2HxydKyosuDmvLSygmk5AtVw9mE?=
- =?us-ascii?Q?A2U5ANpxNapBYc3rpirgbRr7l4ixOSr8Xbr8oBh8cCCYkJrvy9ZUGb+tZMCy?=
- =?us-ascii?Q?B91m/HZ4RuR6etP68ju7JMt+Vki1evBP5WJQyrQptxvgJb0wG2T2GaWKI4Oq?=
- =?us-ascii?Q?oZS2ZZtkCnNX6tQIHT7jZarQtaPc1yiqTBn/G03kBzRyOaKwnNlEgP07oaZS?=
- =?us-ascii?Q?5t9cVZ6Pbjkxdz8dtrbXVElpNUIz25mlUoMkWJ4JIunkkxyhbnsIckZ80Y6q?=
- =?us-ascii?Q?EVrQt6BWZO7fkH9XbscrrmDsAVyaTWaNnuNC7R1j7oR7/BrA3XNHFQU1/hJ/?=
- =?us-ascii?Q?zpmbz+6jZu74lA6GUMirJicU0IZfVCH0yWbatGDPfftq1FkN5IpjIBtQQ/PH?=
- =?us-ascii?Q?7Y5cxxNXP0+Nu25CZVGOTfGdp3OtRk0L8MeQfMKcIrN1HqSbkquhTYNuyF8/?=
- =?us-ascii?Q?sPPvt0E/Euh790IlzoRrA/zPOI6d6tNZXh1i+dpZiA4kwTHjPktEwke10COI?=
- =?us-ascii?Q?VhtdwF4Wk5vxR5n3IzxQWb+XmDML8lBMzMgTvOFZBNBUa0n0ljIxC0SGcGEc?=
- =?us-ascii?Q?ZC+BPw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?V/gYn5jNMi4djXAU8duQANOS7lyNIowGhFDaxUKj/hFKUfZOg5/zkQnJW063?=
+ =?us-ascii?Q?OwPmkhtA7qV8vJg6+oyaTb4qmGOdtjYfbU+skxxwg6y/LGu7M2v6N/qKl3Gg?=
+ =?us-ascii?Q?2BUr4Xo0WcXdcu4FbPfNh9gCDpI+jrPZr+mqRbiimr6xLA8LMfbcAvKxYrsG?=
+ =?us-ascii?Q?EB75Jc5SlYfDl1U/+5nB5tWBbPX+ASgohPH1vOt5aQcNBZG+ZSGsBu9gKU9b?=
+ =?us-ascii?Q?VLhkZoGlA9+k5p52RptNv+eRAchc4CgZAyDpF3TEY48nOT8PD/yDdHnvi0/q?=
+ =?us-ascii?Q?KcDDFCv2i32W8+K1xjhvh85NtB7ypoMaYGFZpAYPDm9Vz0mv0a1tVuSGOTcE?=
+ =?us-ascii?Q?5j8Jzw16sygUCBf+y7LzNTn/TBiJ4EiFyshpMHarh/qBM6zv21cycuVAJ4KG?=
+ =?us-ascii?Q?VT07IIvWYKi1c/QtC4G/p8sPyvmyhmr2nMgwYeDrwywlStsJlcOttupvU7jT?=
+ =?us-ascii?Q?AliDr8i6xch+TFlRCTZSfqpLVdccfKGWpVbPYsuBcMWF0x8JEqoIeYiE3TN2?=
+ =?us-ascii?Q?cnxD2yYoq3ZbKe2UxHvyqtZv9mmnQZcIDE0qfZ7T2ifwuqyQvjhusKT8nNQS?=
+ =?us-ascii?Q?N4lHXWe4Db8a88wDpjeMXu7/9nGtJe7u/yePpkuzBAZ5KiuXoqgiUTMTjBre?=
+ =?us-ascii?Q?X87RkINuZtKJxr8D12Hq+UefVGJxVE0/bQshkoDU9BIr64JGluZThIUhL6pf?=
+ =?us-ascii?Q?20Jm2vHJfSNm2oJDqs12y3g8H0UZTPE/PSSXYtSAAcQ8kub2B8nzV5p9YOAf?=
+ =?us-ascii?Q?o8rF9D0bBVB54KWEhoQ7mdOfU4fFqVYQ7yeR8V8UHkZkmw5fsecF7vjD6ZS1?=
+ =?us-ascii?Q?Cm5qLrTPuPZ47V2DL80Bwgb/XE5ilNFSUcWyMxigMnb3xov8zpRYl0APX0Na?=
+ =?us-ascii?Q?FoOiZ2hjSoy3MIfdAbkjniV917oy55fFvFVQokcrsqrp517esOcZaPOrxRQV?=
+ =?us-ascii?Q?0Clo4m8I1QAH0a8O0S3pcrBQdCe+wv6cwA2KLa0Ta50DcJ1ITUjqAlE4KxVx?=
+ =?us-ascii?Q?2QgIWBgTwS3XxPegqF5YBwdyRZTpSL+uwLxBSPzy32yMt1m/r4OvOjQ/oMoM?=
+ =?us-ascii?Q?w6Gcm28s1ABq0KuTSKrK+ORW43cBw7X+tB5qMNXa5ecE3IF0Qt6m+LqiL9ae?=
+ =?us-ascii?Q?JcSQdwS/SZzVug1BGMeLS6mvmdQzM34HVPkDc1MUzgoCwmBQXXBb09Mn5k9o?=
+ =?us-ascii?Q?6Uhamm+hXj+1PUjjbaR/mtH8NzLXmh8EeKp3+WGhuykafkFVRMUq0/SUd/S7?=
+ =?us-ascii?Q?ejHqQk78PrywOQQoyd9yBPL/cHoYVbTdPvwxxfAi6668G3vI0m/hOIskWgHU?=
+ =?us-ascii?Q?A/kHRT3dQFPpA4AHzqiypuAw517tUxblJM4DR3O/mzDfjDu19QnTrET3JffR?=
+ =?us-ascii?Q?rF3lo84nyimdgxbdcqWABGg6mzyzLvCfeeulwQWJ6zjBDhaAac5jzcWnhd5N?=
+ =?us-ascii?Q?lvbx/Pp1Epu+0jwPexC5Q74k0xc/Hddhgwg23QnMKEPexxGg2RcJIfepmXp6?=
+ =?us-ascii?Q?iY5GZJg+50opMD6M+GaK/tAKdj1bIViOq4wMowNdiyH20h6Et/Ndd6Iq718o?=
+ =?us-ascii?Q?Hx/z1biK3dDeymrb7GaZ8dn2s2cDNjKFG4zNvhmE3DVYDV2EYYzGMBpF0+Rd?=
+ =?us-ascii?Q?j3FSJ7e9n8tP+WIy0hPfTaRfjNzilYGco80qkTFsby4PA6tW/EoOUJO+hq9D?=
+ =?us-ascii?Q?K3/DGA=3D=3D?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4052ba4-a990-4d35-d8e7-08da7215c288
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a3ec279-a8e9-48cf-55e4-08da7215c30e
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8703.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2022 10:25:01.1536
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2022 10:25:01.9972
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EZO8BIu9CVRXdTyQew97lYDUnNibsfo1BAf3Xfl4KfDXSq0OqAXOyBRXWdhKCADXoqXHUs9uX8Q8HijjOAiFSA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: P+rBZKCTHY19Ze2DECeGUxPXewqvvPXoavbW+Eo+6g9TPCOBlcpN1CNkUER6EM9PWacVfLoQaZ495yFnmslEtQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8621
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
@@ -121,165 +121,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Export the callback functions of the default v4l2 control type operations
-such as a driver defining its own operations could reuse some of them.
+Add user documentation for the DW100 driver.
+
+while at it, replace spaces with tab on drivers list.
 
 Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 30 ++++++++------
- include/media/v4l2-ctrls.h                | 48 +++++++++++++++++++++++
- 2 files changed, 65 insertions(+), 13 deletions(-)
+ .../userspace-api/media/drivers/dw100.rst     | 69 +++++++++++++++++++
+ .../userspace-api/media/drivers/index.rst     |  3 +-
+ 2 files changed, 71 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/userspace-api/media/drivers/dw100.rst
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index 4faba8ffe426a..ead5159f39c77 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -65,9 +65,8 @@ void send_event(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 changes)
- 			v4l2_event_queue_fh(sev->fh, &ev);
- }
- 
--static bool std_equal(const struct v4l2_ctrl *ctrl, u32 elems,
--		      union v4l2_ctrl_ptr ptr1,
--		      union v4l2_ctrl_ptr ptr2)
-+bool v4l2_ctrl_type_op_equal(const struct v4l2_ctrl *ctrl, u32 elems,
-+			     union v4l2_ctrl_ptr ptr1, union v4l2_ctrl_ptr ptr2)
- {
- 	unsigned int i;
- 
-@@ -88,6 +87,7 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 elems,
- 			       elems * ctrl->elem_size);
- 	}
- }
-+EXPORT_SYMBOL(v4l2_ctrl_type_op_equal);
- 
- /* Default intra MPEG-2 quantisation coefficients, from the specification. */
- static const u8 mpeg2_intra_quant_matrix[64] = {
-@@ -177,8 +177,8 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	}
- }
- 
--static void std_init(const struct v4l2_ctrl *ctrl, u32 from_idx, u32 elems,
--		     union v4l2_ctrl_ptr ptr)
-+void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
-+			    u32 elems, union v4l2_ctrl_ptr ptr)
- {
- 	unsigned int i;
- 
-@@ -240,8 +240,9 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 from_idx, u32 elems,
- 		break;
- 	}
- }
-+EXPORT_SYMBOL(v4l2_ctrl_type_op_init);
- 
--static void std_log(const struct v4l2_ctrl *ctrl)
-+void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
- {
- 	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
- 
-@@ -334,6 +335,7 @@ static void std_log(const struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- }
-+EXPORT_SYMBOL(v4l2_ctrl_type_op_log);
- 
- /*
-  * Round towards the closest legal value. Be careful when we are
-@@ -527,7 +529,8 @@ validate_vp9_frame(struct v4l2_ctrl_vp9_frame *frame)
- 
- /*
-  * Compound controls validation requires setting unused fields/flags to zero
-- * in order to properly detect unchanged controls with std_equal's memcmp.
-+ * in order to properly detect unchanged controls with v4l2_ctrl_type_op_equal's
-+ * memcmp.
-  */
- static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 				 union v4l2_ctrl_ptr ptr)
-@@ -989,8 +992,8 @@ static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
- 
- }
- 
--static int std_validate(const struct v4l2_ctrl *ctrl, u32 elems,
--			union v4l2_ctrl_ptr ptr)
-+int v4l2_ctrl_type_op_validate(const struct v4l2_ctrl *ctrl, u32 elems,
-+			       union v4l2_ctrl_ptr ptr)
- {
- 	unsigned int i;
- 	int ret = 0;
-@@ -1019,12 +1022,13 @@ static int std_validate(const struct v4l2_ctrl *ctrl, u32 elems,
- 		ret = std_validate_elem(ctrl, i, ptr);
- 	return ret;
- }
-+EXPORT_SYMBOL(v4l2_ctrl_type_op_validate);
- 
- static const struct v4l2_ctrl_type_ops std_type_ops = {
--	.equal = std_equal,
--	.init = std_init,
--	.log = std_log,
--	.validate = std_validate,
-+	.equal = v4l2_ctrl_type_op_equal,
-+	.init = v4l2_ctrl_type_op_init,
-+	.log = v4l2_ctrl_type_op_log,
-+	.validate = v4l2_ctrl_type_op_validate,
- };
- 
- void v4l2_ctrl_notify(struct v4l2_ctrl *ctrl, v4l2_ctrl_notify_fnc notify, void *priv)
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 62052e1874bdf..121ea19d3da8c 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -1544,4 +1544,52 @@ int v4l2_ctrl_subdev_log_status(struct v4l2_subdev *sd);
- int v4l2_ctrl_new_fwnode_properties(struct v4l2_ctrl_handler *hdl,
- 				    const struct v4l2_ctrl_ops *ctrl_ops,
- 				    const struct v4l2_fwnode_device_properties *p);
+diff --git a/Documentation/userspace-api/media/drivers/dw100.rst b/Documentation/userspace-api/media/drivers/dw100.rst
+new file mode 100644
+index 0000000000000..1ca6fa55f539e
+--- /dev/null
++++ b/Documentation/userspace-api/media/drivers/dw100.rst
+@@ -0,0 +1,69 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+/**
-+ * v4l2_ctrl_type_op_equal - Default v4l2_ctrl_type_ops equal callback.
-+ *
-+ * @ctrl: The v4l2_ctrl pointer.
-+ * @elems: The number of elements to compare.
-+ * @ptr1: A v4l2 control value.
-+ * @ptr2: A v4l2 control value.
-+ *
-+ * Return: true if values are equal, otherwise false.
-+ */
-+bool v4l2_ctrl_type_op_equal(const struct v4l2_ctrl *ctrl, u32 elems,
-+			     union v4l2_ctrl_ptr ptr1, union v4l2_ctrl_ptr ptr2);
++DW100 dewarp driver
++===================
 +
-+/**
-+ * v4l2_ctrl_type_op_init - Default v4l2_ctrl_type_ops init callback.
-+ *
-+ * @ctrl: The v4l2_ctrl pointer.
-+ * @from_idx: Starting element index.
-+ * @elems: The number of elements to initialize.
-+ * @ptr: The v4l2 control value.
-+ *
-+ * Return: void
-+ */
-+void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
-+			    u32 elems, union v4l2_ctrl_ptr ptr);
++The Vivante DW100 Dewarp Processor IP core found on i.MX8MP SoC applies a
++programmable geometrical transformation on the input image to correct distortion
++introduced by lenses.
 +
-+/**
-+ * v4l2_ctrl_type_op_log - Default v4l2_ctrl_type_ops log callback.
-+ *
-+ * @ctrl: The v4l2_ctrl pointer.
-+ *
-+ * Return: void
-+ */
-+void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl);
++The transformation function is exposed by the hardware as a grid map with 16x16
++pixel macroblocks indexed using X, Y vertex coordinates.
++::
 +
-+/**
-+ * v4l2_ctrl_type_op_validate - Default v4l2_ctrl_type_ops validate callback.
-+ *
-+ * @ctrl: The v4l2_ctrl pointer.
-+ * @elems: The number of elements in the control.
-+ * @ptr: The v4l2 control value.
-+ *
-+ * Return: 0 on success, a negative error code on failure.
-+ */
-+int v4l2_ctrl_type_op_validate(const struct v4l2_ctrl *ctrl, u32 elems,
-+			       union v4l2_ctrl_ptr ptr);
++                          Image width
++           <--------------------------------------->
 +
- #endif
++      ^    .-------.-------.-------.-------.-------.
++      |    | 16x16 |       |       |       |       |
++   I  |    | pixel |       |       |       |       |
++   m  |    | block |       |       |       |       |
++   a  |    .-------.-------.-------.-------.-------.
++   g  |    |       |       |       |       |       |
++   e  |    |       |       |       |       |       |
++      |    |       |       |       |       |       |
++   h  |    .-------.-------.-------.-------.-------.
++   e  |    |       |       |       |       |       |
++   i  |    |       |       |       |       |       |
++   g  |    |       |       |       |       |       |
++   h  |    .-------.-------.-------.-------.-------.
++   t  |    |       |       |       |       |       |
++      |    |       |       |       |       |       |
++      |    |       |       |       |       |       |
++      v    '-------'-------'-------'-------'-------'
++
++            Grid of Image Blocks for Dewarping Map
++
++
++Each x, y coordinate register uses 16 bits to record the coordinate address in
++an unsigned 12.4 fixed point format (UQ12.4).
++::
++
++    .----------------------.--------..----------------------.--------.
++    |         31~20        | 19~16  ||         15~4         |  3~0   |
++    |       (integer)      | (frac) ||       (integer)      | (frac) |
++    '----------------------'--------''----------------------'--------'
++    <-------------------------------><------------------------------->
++                Y coordinate                     X coordinate
++
++                           Remap Register Layout
++
++The dewarping map is set from applications using the
++V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP control. The control contains
++an array of u32 values storing (x, y) destination coordinates for each
++vertex of the grid. The x coordinate is stored in the 16 LSBs and the y
++coordinate in the 16 MSBs.
++
++The number of elements in the array must match the image size:
++
++.. code-block:: C
++
++    elems = (DIV_ROUND_UP(width, 16) + 1) * (DIV_ROUND_UP(height, 16) + 1);
++
++If the control has not been set by the application, the driver uses an identity
++map.
++
++More details on the DW100 hardware operations can be found in
++*chapter 13.15 DeWarp* of IMX8MP_ reference manual.
++
++.. _IMX8MP: https://www.nxp.com/webapp/Download?colCode=IMX8MPRM
+diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+index 12e3c512d7185..0c720ca1a27d2 100644
+--- a/Documentation/userspace-api/media/drivers/index.rst
++++ b/Documentation/userspace-api/media/drivers/index.rst
+@@ -33,7 +33,8 @@ For more details see the file COPYING in the source distribution of Linux.
+ 
+ 	ccs
+ 	cx2341x-uapi
+-        hantro
++	dw100
++	hantro
+ 	imx-uapi
+ 	max2175
+ 	meye-uapi
 -- 
 2.37.1
 
