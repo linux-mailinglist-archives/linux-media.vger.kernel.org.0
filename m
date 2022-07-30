@@ -2,178 +2,262 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 236E5585A4A
-	for <lists+linux-media@lfdr.de>; Sat, 30 Jul 2022 13:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF550585A64
+	for <lists+linux-media@lfdr.de>; Sat, 30 Jul 2022 14:22:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234107AbiG3L4U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Jul 2022 07:56:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58474 "EHLO
+        id S234365AbiG3MWF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Jul 2022 08:22:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230135AbiG3L4T (ORCPT
+        with ESMTP id S230135AbiG3MWE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Jul 2022 07:56:19 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 430F41705F
-        for <linux-media@vger.kernel.org>; Sat, 30 Jul 2022 04:56:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659182178; x=1690718178;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=te78annmi3GJfl6YPGb1nx8vTC1sDPpQx3qOLLsvMgU=;
-  b=oB3RSRAq8FFFDritplDakTO4hGJjY1U/imXBiM5PHz/ntfb9QQTC7FWz
-   Ph5c3RQvw2g3lnDrmQDmLBT/tbr8EcBM5yg+uJ6+xOGVEGwoGtsLZDyRU
-   4bPjFbclwLXno/9zWyKHKBuQwJg/jgn3OxBhlDRBAk50IKeB6ltgLKxYO
-   3q3x7/oxWYh/JHZm+ocDFbZObVXj0fA9l9PNQVTPzDLh6fVDdOeXW7tGt
-   c/J09NCXWsCcjF8ccOTFBA6vPcMOZL7QpRRm5H1xDIFyHQ6UOuXnL4b1B
-   dUKq0ZLWM49ueh/fU/QXMFbd2hGHnOCswBTdFgmwMbBxB5OcJZ7BYXtIc
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="352915721"
-X-IronPort-AV: E=Sophos;i="5.93,204,1654585200"; 
-   d="scan'208";a="352915721"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2022 04:56:17 -0700
-X-IronPort-AV: E=Sophos;i="5.93,204,1654585200"; 
-   d="scan'208";a="634393012"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2022 04:56:14 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id B596C203B7;
-        Sat, 30 Jul 2022 14:56:12 +0300 (EEST)
-Date:   Sat, 30 Jul 2022 11:56:12 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [EXT] Re: [EXT] Re: [EXT] [PATCH v12 09/30] media: mc: entity:
- Rewrite media_pipeline_start() to support routes
-Message-ID: <YuUcXJD/EXIumPac@paasikivi.fi.intel.com>
-References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
- <20220727103639.581567-10-tomi.valkeinen@ideasonboard.com>
- <CAG0LG94ADymN_R0Mw0hSf-M0nwUcWW_Xtr8gLM=wsqdH7Ep2Wg@mail.gmail.com>
- <438685f9-1a18-31c3-ffbc-15e87ef7493d@ideasonboard.com>
- <CAG0LG94AUCng800b6GxaYcATdSJRKHiVdz8wrT83cLMDC0XOtg@mail.gmail.com>
- <ce6f1e9a-21d2-cb89-87fd-1ec09ee95c4f@ideasonboard.com>
- <CAG0LG96dncADM65ids6VMU=ym-j55fws6NOwLQM=or7pN4-d-g@mail.gmail.com>
- <47c925b2-2fa2-ce0b-0d43-5fc8fb048338@ideasonboard.com>
+        Sat, 30 Jul 2022 08:22:04 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60042.outbound.protection.outlook.com [40.107.6.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEAE213F9A;
+        Sat, 30 Jul 2022 05:22:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=laeDUULdeshorhH2zsCiL7gM+U67nVJjWZ742QIX5t3VLiUC5VAcDSaEkelJoMFvo92tYW1pXLEACf400ZXBNdkRmGTiQujZM8njyLM7V4gElApVz8EVd9qzVXZYc7wxTbNC7DCeJPlQXBAnroYVeagvoaWqoYOPhATHx5L5UhDxAz1IKpsVKDaxi5lD1cNrXyCUdk9hx8LI5v+iNrfWX/keFxaCXzPXjuOh2Y1vtmYOI9dNXSxuVpCq/IDOTb02loErL+Tvuv87oQnmd9kX24rnVl8Ig3ESNgJgWGzj12soKNAu9pQD7fnvmZAu7Q+Nb/70F/daxx/HiCgFNk+6Ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=otc7mEloMqMqhxWggEypi2SCqQG5qzoLKNgmD7/AS5A=;
+ b=dR9kohVPQNIKGnJkesHaPZOKFjqeS40UuBld+OCpuSBHtLomyBq8a8PCN7zAzZitl0jcC/XHEConpOevc5PIc8cC2oHQghFqZGRAGrzrHlTk4uQLg6s1NCSk2CfH7okRNI2nWuyqVqGESQXfK0oMvVVjrUBYNaO5mRxVEO59COM7bQUzkZLdB561/JKGOUilbcYqMHejvlEcKGbVPjJBqIzGOv7gE1SbH3KFS7JYik7wQ/lAwTj5VItKDqykEGUy6138qinu9TbdnUWnax5LyKrCBmkkNbzNAeoDfUyfymzmOG/DzgvPwHonPO+UkdGvxY44wyr+BWT4RS9+TF8Mkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=otc7mEloMqMqhxWggEypi2SCqQG5qzoLKNgmD7/AS5A=;
+ b=bad4adHYmdVgHU8lgc6Ladl9GlHWl4MFUT9NbAmQLunZ+XKMa7cw0OCtVPu9ik9OPd5C6rqzurVT532cB1saJjVClZ4JK/3qYT5s2lYtqq3NipXEeySVuy8toRKQ1houYoYf6UlQM8QWtlIixEsdwJpgPeY+bgOjPYMOv1TBVIo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8703.eurprd04.prod.outlook.com (2603:10a6:102:21e::22)
+ by AS8PR04MB7719.eurprd04.prod.outlook.com (2603:10a6:20b:29a::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.25; Sat, 30 Jul
+ 2022 12:21:59 +0000
+Received: from PAXPR04MB8703.eurprd04.prod.outlook.com
+ ([fe80::9d8:f571:6ec7:521f]) by PAXPR04MB8703.eurprd04.prod.outlook.com
+ ([fe80::9d8:f571:6ec7:521f%9]) with mapi id 15.20.5482.014; Sat, 30 Jul 2022
+ 12:21:59 +0000
+Message-ID: <2df18385-c975-eeab-40b7-7ebfaad8f378@oss.nxp.com>
+Date:   Sat, 30 Jul 2022 14:21:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v9 7/8] media: dw100: Add i.MX8MP dw100 dewarper driver
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+        stanimir.varbanov@linaro.org, laurent.pinchart@ideasonboard.com,
+        tomi.valkeinen@ideasonboard.com, robh+dt@kernel.org,
+        nicolas@ndufresne.ca, alexander.stein@ew.tq-group.com,
+        ezequiel@vanguardiasur.com.ar
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20220730102413.547698-1-xavier.roumegue@oss.nxp.com>
+ <20220730102413.547698-8-xavier.roumegue@oss.nxp.com>
+ <5fdb62df-da1a-2c68-aaed-18a394f5f4ba@xs4all.nl>
+From:   "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
+In-Reply-To: <5fdb62df-da1a-2c68-aaed-18a394f5f4ba@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PR0P264CA0108.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:19::24) To PAXPR04MB8703.eurprd04.prod.outlook.com
+ (2603:10a6:102:21e::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <47c925b2-2fa2-ce0b-0d43-5fc8fb048338@ideasonboard.com>
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 22ecd598-2ecf-4f41-4aca-08da722619d3
+X-MS-TrafficTypeDiagnostic: AS8PR04MB7719:EE_
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qABHIM7ZvKehYdy8A8uBw7iqYNqE8yoBWpmkH69dy4jGIzIJf1leq8AuinzNPTQZI914QDIlKvv5L1S7RNkq25hH/H8L1BCEQ6CWABTIfpDN2Hm8WVMsj9WT0/CFYYwJ88P7K0cevwInmU3tR3/mTg1rVDGrSYc12WutM7ErcYwsyTFt05C9GPmDjVrcOxgRTdDZk5Lj3b2TTAxYsbknq5DwlYeUmOpNzQ+0e63Z3hppo774clX5Iu2AtQNQ1cCkOHpo1Yx8OW3wkSml4qHHS8+D6zEJbtJ+DfCmTxMntmn+PNo7W0pWU04FKJzLmVmSKjXWqevMKyh8u7fKJI7edQNzxqDZhoJGhxBEWDFrXoSZRb4UHH7eni2KZ29NZhxWsYx8HL5AgCMemMltMispbif5yr1cKhfwqVy7yJ+iNtr2eXgIZEGt1cqBwt6eSqIV09oCkZuEJReehj5bL8DGHV4N0yp3DLW2G2BJK33SJQRtkIE7h1Dpa3seB5iqxcf32ERksE0ptlWIcTyfCowy540XSLBsX43TIl3az40omMmmQazViwO83ctdKYWg0O4nmfPMER3jwpsz/jnmChXq7KQ7PLGGplweTrg+s4fIo++7Yeogc63HG/A6vABvUJpgkSJR+KiU/uRqvuCsVsN17v7wzqPaMPHGRaxlpCNdM7BewKsEvgf3agh0mgiCfdr6O53v+cd2zMRd8imyiGcfXq70DtBeLDzhjuK+nJCO3fGt11C4smscYCasXtIBc7GH7j2bJ05PEr/ce+HpieAQ9ta2Ux4besexW9zGeqYR164cuP4CChGHAMYOPOD/Rq6CnUODGILv7wutaX20shPxiw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(346002)(366004)(396003)(39860400002)(376002)(5660300002)(66946007)(8936002)(7416002)(8676002)(31686004)(6486002)(66556008)(66476007)(478600001)(4326008)(53546011)(2906002)(86362001)(186003)(2616005)(52116002)(6506007)(41300700001)(316002)(6512007)(38100700002)(31696002)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDEwRURZS0c0VVp0anhBanBORnhGOS9QQUF5Nkp3QTAyWjFRNVNXQ1hPektW?=
+ =?utf-8?B?dFJlVGlMZVloMGVvVUZIbVJ3LzZ0dUltTXFmMDA3WG5FaStHWDY3THlDMm9r?=
+ =?utf-8?B?L1hIMXQ5dlJhVEtzdUZocHUwWmpvWEdpQzBKRnppckMvSm16RnFJaThkZWNl?=
+ =?utf-8?B?WnFJR2tQOXVBR1JjUTRGcGhMbG5XOU8xb2grd3l6RnZXb1EwUUlkdnZoazkz?=
+ =?utf-8?B?Y0lJaWdVSGkzNjZ0Wit6aUg3R3NKZG5XdzlOVXhyL3dQbkdaeTdxM2JMN3NG?=
+ =?utf-8?B?TytaMThtRnFsbGZDVlRMajRZcUFrLzd4YjA4SEM1Wjd5SnRGeXdiMUdob3Jx?=
+ =?utf-8?B?ejFOZjFIaG9tWi8vR0h5OXdEMUVxWDBQNFgwTElxWVRvdlRxVFRidUY4bElp?=
+ =?utf-8?B?NkxNaVU2WitsMW5GM2hLZCtmSFN1ZVVmWnVLWXVQMmpoQ0hsQWhxalFKNGRP?=
+ =?utf-8?B?MHFqTjBWQ3o1aHg4K1BQM2duTGc0SDVwZm1TOGFRdHNmZ1F0TWgwZlhIdTM5?=
+ =?utf-8?B?QW9oeUtGOCtnVTlEQnJpN2lTcXRUV3JJNlFka29Zc3luNlNjZk9aellUaDFh?=
+ =?utf-8?B?aUFCb1BmTE9GekhUZFQ3Y0ZyUm41SVc1QXBONXJBT2JSNVZLRHl6VWFKbHJm?=
+ =?utf-8?B?bDh4MEFEaWd1Q1dqYUJlYU9CV2NRaWM1SDh0OXZkV0NkL00yMHp2ckFWQ0pC?=
+ =?utf-8?B?VXdGOEpFUDJhNFVMTGZzK2RsamtMS2NWNTRaQ1RXczhjanJ6TjBPUHNSYk9i?=
+ =?utf-8?B?WGpXaTNmRndlb0pSQSsyWEF2NVNhdTlTVUVZckdJbllnaklPVkpTci94dUJr?=
+ =?utf-8?B?cml2WFRzMUR6L3NqMCtrZTlpZURHLzVhWk84Z1NKK1c1ekdqOG03c2JOMXM0?=
+ =?utf-8?B?d05XMWFFV1EyYmFrK0lKckFYdGFLcnJhb2Y1ZlAvQlBIYTJlekM2bXJJL0pa?=
+ =?utf-8?B?VktEQXpucUpDQVVlbGlrbGJkb00yZ20rd0I1L3FUQ1l2Yms0bE9SRUtxM3lm?=
+ =?utf-8?B?VkIxdVZmOXh0ZkxIdVhFM280MXdOTWluWTV6bzBhN1lHbncwODN2TUFrL2pl?=
+ =?utf-8?B?MlRHVEVxVDVUWElNcEhaeVkwMHZFMmNrSHpkRysyRTVieHNSdllTZFU3blBE?=
+ =?utf-8?B?aDhydDRoTHdOaVU4WWtCM0pPZ0JsZW1pMFVkVlVQaCtMMnRyV3picXltR2hV?=
+ =?utf-8?B?MC81K2M5M0t4MGhMdUdKMlBpUU1HSnhKOHVoSGpoVWJ5dTFJTnJYc1kvVzQr?=
+ =?utf-8?B?YmNWRU05V0dkM1NsQ3FQT0tibThuOXdqUlN4VHQ0QklMZkFoajVKM1RvL3Rs?=
+ =?utf-8?B?NklCR1ppdjlIenZSVjNUYXlYS3FJZUNjSEVKNGdnL1NxZmlFbDZOUzVKQ0lV?=
+ =?utf-8?B?YVdMZ20zTm9xQytiKzk3T0xySDVkQ2NqNis3ZHNIZDhEVTY1c09yL1dyUU1v?=
+ =?utf-8?B?V2k1ZUFwN1FvUDAreFIybk9vN2RVR21MWUZENzNmU3ZldEg3Mnd3U2dwYkVl?=
+ =?utf-8?B?c2tWaGFhMDBEazMvV2dsS2RzWHk3dzdNbEdOcUJZRDZmcmk3Sllkczk0STNL?=
+ =?utf-8?B?c0RMdnpxZGJOeFhRMDNudHhMN2p4akdGajZhdzdNV1AxajhOdFZyZHV0RlRC?=
+ =?utf-8?B?b2NKdG9lZFpaTTVoUFRyZjQvNk1zc2Rra2loM2dxL3cwRFREVXc4MzVKVnJF?=
+ =?utf-8?B?RFhFejMyNWUvQXdOcmU2SE9BR1EwVjVXZllwalNPQTJmR3R1bGRGdHFrckZO?=
+ =?utf-8?B?bUREKzZrRjFlRjVIbGtHbUdYc3I2dWxDSVdwUFRYNm84TmdCRExpLzRhVUo1?=
+ =?utf-8?B?QXdTVS9oWHQxS0pLdm01cjUvS0ZRNVo5MnRsa3YrbUVTbFE1TTlHZU9GeDdl?=
+ =?utf-8?B?UENDOGtuVlkvcGlrcnMwc3pQY1pscnNNaDRUS1pqN1VGVzZQd0sveTBUdWFF?=
+ =?utf-8?B?Zm9LVkVQME9HOHhyTXlIbkdRNjR5OThKU3hEUUxJRFJmK2FkeklpZVFyanl4?=
+ =?utf-8?B?T1UvRnFOclg1eDVFRmNMSlJ2MHBPL3N3TFFZSnFyWHdwelM1cTM0TkljVUFx?=
+ =?utf-8?B?L2llbElXUEV5K2JHMlpqbDFUNEtIWUF1cVNZR0YvS09KQUxoSFZwK2JTbWEv?=
+ =?utf-8?B?SW1hQTVidG1HWUtqakpkWXhMSHQ3Tnd4akViKy9hSDVLZVFIaElnalk5WUtw?=
+ =?utf-8?B?MEJEb0cwVTcxd2ZVcnhJMVVtR3Q3dnQxZGJDM2llNER2MStZb1BzbmwraU96?=
+ =?utf-8?B?MTNBUUFYai91N1h1bmN3bjM0M2d3PT0=?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22ecd598-2ecf-4f41-4aca-08da722619d3
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8703.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2022 12:21:59.6148
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k2+yUgj5iAzwBmGtW4kuESYu7kxv+2srXn8mCyDbKYulPwWH4rAR6SHY/VGVtczyrgJk+3ejbz+K1d69pffRcg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7719
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
+Hello Hans,
 
-On Fri, Jul 29, 2022 at 08:07:19PM +0300, Tomi Valkeinen wrote:
-> On 29/07/2022 20:00, Satish Nagireddy wrote:
-> > On Fri, Jul 29, 2022 at 3:27 AM Tomi Valkeinen
-> > <tomi.valkeinen@ideasonboard.com> wrote:
-> > > 
-> > > On 29/07/2022 12:19, Satish Nagireddy wrote:
-> > > > On Fri, Jul 29, 2022 at 1:53 AM Tomi Valkeinen
-> > > > <tomi.valkeinen@ideasonboard.com> wrote:
-> > > > > 
-> > > > > On 29/07/2022 11:45, Satish Nagireddy wrote:
-> > > > > 
-> > > > > > > @@ -1011,7 +1342,7 @@ EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
-> > > > > > > 
-> > > > > > >     struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
-> > > > > > >     {
-> > > > > > > -       return entity->pipe;
-> > > > > > > +       return entity->pads->pipe;
-> > > > > > 
-> > > > > > I am not sure If it is always safe to return the pipe associated with
-> > > > > > the first pad. I think this will work with all the existing drivers.
-> > > > > > Let's say If pads of an entity are associated with different pipes,
-> > > > > > this function might require extending the support of returning
-> > > > > > pipe based on pad index. Please let me know your opinion.
-> > > > > 
-> > > > > That's true. The kdoc for this function says:
-> > > > > 
-> > > > >     * In general, entities can be part of multiple pipelines, when carrying
-> > > > >     * multiple streams (either on different pads, or on the same pad using
-> > > > >     * multiplexed streams). This function is ill-defined in that case. It
-> > > > >     * currently returns the pipeline associated with the first pad of the
-> > > > > entity.
-> > > > > 
-> > > > > I did consider adding a warning if the function is called for entities
-> > > > > with more than one pad. But that probably would give false warnings,
-> > > > > e.g. for a simple entity with one sink and one source pad. In that case
-> > > > > both pads are always part of the same pipeline, and
-> > > > > media_entity_pipeline() works correctly.
-> > > > > 
-> > > > > We could perhaps add a check here which verifies that all the pads in
-> > > > > the entity have the same pipe.
-> > > 
-> > > Perhaps something like:
-> > > 
-> > > struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
-> > > {
-> > >          struct media_pipeline *pipe;
-> > >          struct media_pad *pad;
-> > > 
-> > >          if (entity->num_pads == 0)
-> > >                  return NULL;
-> > > 
-> > >          pipe = entity->pads->pipe;
-> > > 
-> > >          media_entity_for_each_pad(entity, pad) {
-> > >                  if (WARN_ON(pad->pipe != pipe))
-> > >                          return NULL;
-> > >          }
-> > > 
-> > >          return pipe;
-> > > }
-> > 
-> > The above code means that we do not support multiple pipelines per
-> > entity. Or leave the implementation as is now and
-> > this can be done as a different patch later, I will leave it to you.
-> > He is what I'm thinking, assuming that every media_pad has it's own pipe.
-> > 
-> > struct media_pipeline *media_entity_pipeline(struct media_entity
-> > *entity, u32 pad_index)
-> > {
-> >           if (pad_index >= entity->num_pads)
-> >                   return NULL;
-> > 
-> >           return entity->pads[pad_index].pipe;
-> > }
+On 7/30/22 12:49, Hans Verkuil wrote:
+> Hi Xavier,
 > 
-> Oh, I see now where the confusion is.
+> On 30/07/2022 12:24, Xavier Roumegue wrote:
+>> Add a V4L2 mem-to-mem driver for the Vivante DW100 Dewarp Processor IP
+>> core found on i.MX8MP SoC.
+>>
+>> The processor core applies a programmable geometrical transformation on
+>> input images to correct distorsion introduced by lenses.
+>> The transformation function is exposed as a grid map with 16x16 pixel
+>> macroblocks indexed using X, Y vertex coordinates.
+>>
+>> The dewarping map can be set from application through a dedicated v4l2
+>> control. If not set or invalid, the driver computes an identity map
+>> prior to starting the processing engine.
+>>
+>> The driver supports scaling, cropping and pixel format conversion.
+>>
+>> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+>> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> ---
+>>   drivers/media/platform/nxp/Kconfig            |    1 +
+>>   drivers/media/platform/nxp/Makefile           |    1 +
+>>   drivers/media/platform/nxp/dw100/Kconfig      |   17 +
+>>   drivers/media/platform/nxp/dw100/Makefile     |    3 +
+>>   drivers/media/platform/nxp/dw100/dw100.c      | 1712 +++++++++++++++++
+>>   drivers/media/platform/nxp/dw100/dw100_regs.h |  117 ++
+>>   6 files changed, 1851 insertions(+)
+>>   create mode 100644 drivers/media/platform/nxp/dw100/Kconfig
+>>   create mode 100644 drivers/media/platform/nxp/dw100/Makefile
+>>   create mode 100644 drivers/media/platform/nxp/dw100/dw100.c
+>>   create mode 100644 drivers/media/platform/nxp/dw100/dw100_regs.h
+>>
 > 
-> media_entity_pipeline() is a convenience helper for the currently existing
-> drivers. They access entity->pipe directly (or when we move the pipe to pad,
-> entity->pads->pipe). So this function is just refactoring the direct access
-> away from the drivers, which makes it easier in the future to find those
-> drivers accessing the pipe, or change where the pipe is stored without doing
-> any changes to the drivers.
+> <snip>
 > 
-> A driver which supports streams should not use this function, as there's no
-> "pipe for entity". We seem to be missing a similar helper function for these
-> cases, media_pad_pipeline() or such. We can add when needed.
+>> +/*
+>> + * Initialize the dewarping map with an identity mapping.
+>> + *
+>> + * A 16 pixels cell size grid is mapped on the destination image.
+>> + * The last cells width/height might be lesser than 16 if the destination image
+>> + * width/height is not divisible by 16. This dewarping grid map specifies the
+>> + * source image pixel location (x, y) on each grid intersection point.
+>> + * Bilinear interpolation is used to compute inner cell points locations.
+>> + *
+>> + * The coordinates are saved in UQ12.4 fixed point format.
+>> + */
+>> +static void dw100_ctrl_dewarping_map_init(const struct v4l2_ctrl *ctrl,
+>> +					  u32 from_idx, u32 elems,
+>> +					  union v4l2_ctrl_ptr ptr)
+>> +{
+>> +	struct dw100_ctx *ctx =
+>> +		container_of(ctrl->handler, struct dw100_ctx, hdl);
+>> +
+>> +	u32 sw, sh, dw, dh, mw, mh, i, j;
+>> +	u16 qx, qy, qdx, qdy, qsh, qsw;
+>> +	u32 *map = ctrl->p_cur.p_u32;
+>> +
+>> +	sw = ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width;
+>> +	dw = ctx->q_data[DW100_QUEUE_DST].pix_fmt.width;
+>> +	sh = ctx->q_data[DW100_QUEUE_SRC].pix_fmt.height;
+>> +	dh = ctx->q_data[DW100_QUEUE_DST].pix_fmt.height;
+>> +
+>> +	mw = dw100_get_n_vertices_from_length(dw);
+>> +	mh = dw100_get_n_vertices_from_length(dh);
+> 
+> Note that ctrl->dims[] contains the array dimensions: use that rather than
+> calculating from dw/dh since using dims[] is more robust.
+> 
+>> +
+>> +	qsw = dw100_map_convert_to_uq12_4(sw);
+>> +	qsh = dw100_map_convert_to_uq12_4(sh);
+>> +	qdx = qsw / (mw - 1);
+>> +	qdy = qsh / (mh - 1);
+>> +
+>> +	ctx->map_width = mw;
+>> +	ctx->map_height = mh;
+>> +	ctx->map_size = mh * mw * sizeof(u32);
+>> +
+>> +	for (i = 0, qy = 0; i < mh; i++, qy += qdy) {
+> 
+> This isn't correct: you actually start from 'from_idx', which is almost always 0,
+> except if userspace only sets the first N elements of an array, in that case
+> those N elements are copied to the control array and the remainder is initialized.
+> 
+> I admit that it doesn't make much sense in this particular case, but you still
+> need to take it into account.
+Right, but it was done on purpose.It's incorrect from the driver 
+perspective to initialize partially the dewarping map as this can lead 
+to hardware hang up. Strictly speaking, accepting partial update would 
+force the driver to verify each individual pixel has been properly set 
+prior to start the streaming - which is not reasonable. API/semantic 
+wise, if init() is intended to be used as "set_range()", this might 
+rather makes more sense to add a dedicated set_range() callback, and 
+limit init() use for initializing the entire control range.
 
-I think this could be done now, for consistency. Either the existing
-drivers could call it on entity->pads, thus assuming they only use a single
-pipeline for that entity. Or keep media_entity_pipeline(), but there's some
-chance for confusion on where the pipeline is bound. At least there should
-be a warning it's just for old existing drivers.
+Having said that, I can implement as per your suggestions but I will not 
+implement sanity checks and error handling in case v4l2-ctrl api and/or 
+userspace have not initialized properly the mapping, i.e. partial 
+update, assuming that v4l2-ctrl api will always call init() for the 
+whole range on its first call.
 
--- 
-Terveisin,
-
-Sakari Ailus
+> 
+> I also would rename i and j to y and x, that makes more sense here.
+Indeed, but as from_idx/elems involves a 1D handling, the loop index 
+will become idx.
+> 
+>> +		if (qy > qsh)
+>> +			qy = qsh;
+>> +		for (j = 0, qx = 0; j < mw; j++, qx += qdx) {
+>> +			if (qx > qsw)
+>> +				qx = qsw;
+>> +			*map++ = dw100_map_format_coordinates(qx, qy);
+>> +		}
+>> +	}
+>> +
+>> +	ctx->user_map_is_set = false;
+>> +}
+> 
+> Regards,
+> 
+> 	Hans
+> 
+Regards.
+   Xavier
