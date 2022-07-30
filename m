@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98803585B16
-	for <lists+linux-media@lfdr.de>; Sat, 30 Jul 2022 17:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43664585B18
+	for <lists+linux-media@lfdr.de>; Sat, 30 Jul 2022 17:49:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234941AbiG3PtO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Jul 2022 11:49:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33106 "EHLO
+        id S235191AbiG3PtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Jul 2022 11:49:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235124AbiG3PtK (ORCPT
+        with ESMTP id S235131AbiG3PtK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Sat, 30 Jul 2022 11:49:10 -0400
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2057.outbound.protection.outlook.com [40.107.21.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D1F615A0C;
-        Sat, 30 Jul 2022 08:49:08 -0700 (PDT)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2083.outbound.protection.outlook.com [40.107.21.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ACC915A1D;
+        Sat, 30 Jul 2022 08:49:09 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PDczSK4cCAElRqHczeAtwq63OgzPoK01a1fmqu3hMkKp8waXwvZxpEtC4s0YZ6kKWfxjwtF4x2wsrlmYeiQ0ah1uVEFKUWKACUNhhUFoapT22/eDXpcwCZJA3RkH3WYL+bIL370uZsFlRmVa6GRp2HUl6oLJq3ViZKhdDYL9S4Qj1/iihmFuL3bfj0NNAGmwgrzvN08cW1DWYriNJL8l3kWH1Q1AbyoGgvn/VEy7HBxh+mbhCDPaojjW4q5lqozkHcORB4hVQ12bxF193xSvSHLKKSAmYlMN3eDF7/RFw5YCGL0BJU0/J38/Id33pG2MARZXeg6HqcpmEmZ/AdNV3g==
+ b=hRN3QsL2wRXfV2tVS6h5Ic1lsFhzngBGwDFCpXeNn1NsA0awUU04NSUgb7CNVoFfFBHcTZqhvlkQGfKQ65jsrOiMwxbqzep4WGMFzelqxxYTsPwjcdxEagnVq+O89ImE2yWKRt4DpbjLdMQFCG+Faofnqs0PyCainD/wky3Wza+SXq+ZjXM8Ie81n5FwNFVLYoDDIp9EGBCt+LJO503YX/OeOL6nKciMmh/61Q/jWkgGS/yDfNr1tRfKpTeeO5bWtNI98iBfOTyGNlaq4cX04cylfPWrd9TyhWCCPBGdn8GzlExJ7idYGsjCSjmigYGedamWFN6ONbaHjEVGVd9cPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vGMq/W2/ac8V0jfSl0o8R/flkvjAyw1EZ8JJ38UbspQ=;
- b=kZrAAryoVZCySzRib5onu8pfCpHApts8EFM/LK2Dq6zyrceBB7mc4Y6vL6T7+2f1iZ2l/TxlbNFlYDRwPgWkvwD+EVJyRB/I89HJ712IoQ6G3Coyqk94eNdFigZnvfqA7pOIzBFg7QtYjoD1B+k35qK79s96md2/N/CUwBYd3NR6yyq2IAAivx4vcy/s0XqYH96OIrasXNfGTs1cidL3VMBS3bMk24d8F4XZboQb7Xnxs2oCiJbzko83nWu4hbvqG8khngEck6RA0TMoTzbcvak1CzzQsEDjqyjaKIfN9qkd4gIeCTKAFQnPUkvdoX2lqoT4OQTB947XapH4fTedkg==
+ bh=sJySvM2RzQ8yfyLYrCcr+UHM3X0MJ5/VdC5P5rgGc7E=;
+ b=LBFBZGfgltc8v8d3YZpeCaczEMG/0URWZnQHO31bnUyw6JspPbHrpufwvd/lLGns+tds3ypTn4MKbYUac38xyBZ2AzlEFVgGEaNgp07b53dl+LzJYRKkX/zLFhgSe0j2JKKvQXmWtwUXTBlC9Cflu0nr1CFOAeWzakDYA28beXOnmq1RSkWtWrkH8O+qdUzT5gD8kNkuwJEWLJtEFG9d1J0YGGYiYIQQs9qJvIT/W44vBc003VmuqoxADtkl91p4JSLMC0eBq+uiViC2EsDuneu0rFEq97LrqYG7V5mWSBfYCiQWzemOO1iodTo85X4FodiMXCId9GyDgE4irXsAFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vGMq/W2/ac8V0jfSl0o8R/flkvjAyw1EZ8JJ38UbspQ=;
- b=jwH2Gl62/oYWQufDQ0dJX1M7/umtW4NunUgaU8NSGKVC9UL+0FpebZ7H6T5qve/wT/9VHKA7sZOgIpSjTn2WDlGOgCr4Y7Aa0VKyQhrttAn/EkC8G2EvTXsW8IRRtieFb2F15mnKUPcBwCXNlE336gK7GrXs/C2g7mUB5FxMS30=
+ bh=sJySvM2RzQ8yfyLYrCcr+UHM3X0MJ5/VdC5P5rgGc7E=;
+ b=ByKowVEPKTI1zxFFonDL2mjTx/uONIo/yCw+sxnBMf1cdbyV2zKU3m3p2FIs0SAf6f4DDRUcNpTa+pEXUVHFIID4jMFZTvD+y4Yg+il/eAmWuo8VjaiP8EUMVimDml0ijiBBFjt96hBvxn1wnNBB9XFOouw8c1aUtDzlJAxgsBw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB8703.eurprd04.prod.outlook.com (2603:10a6:102:21e::22)
@@ -47,11 +47,11 @@ To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         tomi.valkeinen@ideasonboard.com, robh+dt@kernel.org,
         nicolas@ndufresne.ca, alexander.stein@ew.tq-group.com,
         ezequiel@vanguardiasur.com.ar
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH v10 1/8] v4l2-ctrls: optimize type_ops for arrays
-Date:   Sat, 30 Jul 2022 17:48:36 +0200
-Message-Id: <20220730154843.791378-2-xavier.roumegue@oss.nxp.com>
+Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v10 2/8] v4l2-ctrls: Export default v4l2_ctrl_type_ops callbacks
+Date:   Sat, 30 Jul 2022 17:48:37 +0200
+Message-Id: <20220730154843.791378-3-xavier.roumegue@oss.nxp.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220730154843.791378-1-xavier.roumegue@oss.nxp.com>
 References: <20220730154843.791378-1-xavier.roumegue@oss.nxp.com>
@@ -63,54 +63,54 @@ X-ClientProxiedBy: PR3P189CA0082.EURP189.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aa7afdf9-c9bf-45f0-439f-08da724306c9
+X-MS-Office365-Filtering-Correlation-Id: b233ed5c-2c69-439c-5248-08da7243071a
 X-MS-TrafficTypeDiagnostic: DB7PR04MB4875:EE_
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: b42EopFU6yuvHEQttBufMJy1OtWd8OeASHDirEzoZZh/C9KvCXQxR+4DP+qxg+TNuhMGAUa3+MeJYUcrUyFGNyPFZEALkQEdPw/JhSzo1Xow2zWfxDOcqPB0eBFY3swQ81BVFkuYZqIunuqBsp4aHt9qy6JslaGMFvtl52I7ljv+0kMTg2WQArfKvwjjx2AUxDFRy53XQaddqjvTlZk3LVUjfZLu2TCCFH+9RouuYHgCMGWixtTcM57f/YSaXP8LqR4Dbrkj/2geLqcDGzZSTpl//pTmpLPRTSzc2tLxC+z8fONhQTeJPiqEH17JU8e17g4U3w84vLkDVUuMxXm7mkSkk6ShpwsKdh+crPCrVpPT6J8dwKDrHjNdHsYTlq/+sBEUB0grJLLea3yi+N73TOXfEvdFCeZdKNFIWoRkmAS1bh00otIVLEm7a5qJHsR6PXHsRK83HaJOZvk9JoEyC6czMYu4XdHJyX/4N6Qdr4dooYlz/W/Ap/5fPA4ggSrxzCEc0qMnbypbta5ddWeWTei80eYJuilC9MX0wau+PcLWUZlAS1VETwmZLcgCtjeYUwYMlRRkeEdqQk/ycro/K0dm3kG3LKssVt5z4ygpjoyVTkz9zlr1cpf5BRl7I26Lq2XeZniNaKt6Ojjk2z+JrJ2wsT1s8hzzP3mbEbXj7rwIg2U/tun6KeInMPoYhMzaY/Hp2FoSPqK4gsw9iC07eztA0yn0tavf+P+NAbttAg/cljJRcz60lFVnxrJseLxM
+X-Microsoft-Antispam-Message-Info: +zXzPjzEOer8Wv6ghcJmxDEP+ZUjFrdjiXB3EdX0qotC7NPpsGY3fw17h0SritpjunBBAVwLJKAwF5giF0wJEz55DAUgqzRzwZ4Cr3p6TJ+Am785qnzXl1T3FsjExkqZTW+Qyv7kRdzNask4mBn8moFyEEqw94HMh8D1qVr2XMH0iRs2S5T0gjMWD9ppyUvaCj+uj7nVwqEChfHAe3/LuUr40oM13doI/9p2YZSoI64tsYiJSwtu1K/q5e+1mZwpJSzxJEj2SDy8lY/DfXC7qLZx9Bdk5F/y/c7BjcWR05R45xuxqhPgqrzgEizoLvYAtZtqRY77ZT7rO+1YHHhc1hEb9VUL4QEDUQWxieGICqvlM3AA29zfwGnFasGj+01/2i5wM6D7BKyqlMvIU6ZUwHA8Kj5/yuKoaoWVOZNLPsgAUwFlx5Dz5YZcdNB5psbEFD6/+d8t/bwNHb15bnwfd57DOCZoj5Fb3HJMaozD8lkwwwDHYEGFFlTW5nXMbhbIKI/qM/bSMS7zn5DDvr/hGBHRgpw0vAKIbWKUh2ubd9AyfYWa8mwxALoneCUJ6wB8ZciPlMDKPMXIoh0ngRhUxzOClJMLwoEfqGQEqqLZZthbHzpOR10Zjnmne+2ekWzW5jFPxsj94+3kQG306x8ipxVoIMVq0cL77rn3irHZF99r5NunOyZW+FhCsI/bAHJk9TOT3fU04Kax9XUGfIOws8JHdOj6Vj99wDRJUl+kw28lrAw2XY2/ecEnq18kehjq
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39850400004)(346002)(376002)(136003)(396003)(366004)(41300700001)(6666004)(478600001)(52116002)(66556008)(316002)(66476007)(66946007)(6486002)(6512007)(6506007)(83380400001)(38100700002)(186003)(2616005)(8936002)(1076003)(5660300002)(2906002)(8676002)(7416002)(44832011)(4326008)(86362001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Gd9ginvMg1jbf5j/1gPwwMnQsiks22Orosd1BM1Ga/GAoxDDISn++Ih/xk11?=
- =?us-ascii?Q?RcGMxwngXxmUjJlngdGOJoG7KlcKOGkPguo9pXTwl0rsNDXEZWgTTqD1sGb2?=
- =?us-ascii?Q?xYvh809cCiWWqGMSnRmH7oVZig5pzpTEyB579S+R80QDhZ9+fn+bFTdDBPnR?=
- =?us-ascii?Q?Q1R9bEcNZa7YKz3KjLPeqK/c/9QkvqXVJNkdrJNU+Q1H8hJfrJiSm/TQUBnf?=
- =?us-ascii?Q?Mlp79UDqP8Qm+0pixWV3noDoPwYlKWKAAQZvZKvNqJ2llawyD5eovik9Z2SD?=
- =?us-ascii?Q?13LDlzHb6nsbb5FUr5Yvll6aZjs8RRtlqWTpi5k3BtHTNE1j9TD2kMINsoNV?=
- =?us-ascii?Q?MyZ3Vzm+SIFb5CsjOcz2qN+XwbQeqy4xvElzvzmCWzsve5XAFMw8zfbW8GN7?=
- =?us-ascii?Q?hnmuZkrhKFeZoObFksGegp4/6HD9QssL/I02GXPo9Tv3y2AKjKLIZG75zPFz?=
- =?us-ascii?Q?Zg94EHXwIBs03i/wEEW09C7FJF80ZWYQVe1AtWc+pw6wUWrsoMUKltqQAJ59?=
- =?us-ascii?Q?ZgGTgwPmJEtYG9bH+siNJPUy7HHgo0AgFu/uujGJgwWMsCQLrOUfsLMefKE7?=
- =?us-ascii?Q?WUl3NOOCOLPOpcFN4MY4zU2BLsGivUKIuLPLtSY6MFnOwpiAT9pRz+C/st9x?=
- =?us-ascii?Q?vgwyqIOivX1G6N3hS3S3Oe+PM4PyVbI9naLff3CmEpLNpCYjOF4MhV8EinEq?=
- =?us-ascii?Q?40YvE+FZroYh0nlqd1F2HqoCCeZcswzByBki1mAyJMWS9MFRycqxn5Sf1NCX?=
- =?us-ascii?Q?z1dNNGl2iBEq6zl0HrXRXKyS1hKyeZk2fL1Z39k0JCqKMtQIl47+oIVUtWxx?=
- =?us-ascii?Q?/xUaO/55c/nD+IHxSoBgCd7NWvozvI7l9zyRLC+XK6barv7GjOvEaQu3MURS?=
- =?us-ascii?Q?tNBVMVr80nZk6Bv5hj3d6Ng/cvs9wd8Q1MmTceFKF+UszYjc2mWW234CvyUg?=
- =?us-ascii?Q?CbxG/86WASux8Nva51ZtWY6zQc9xKXBvP+zSdcg4ieuFKWfq7ZL33iOgtJcx?=
- =?us-ascii?Q?mkdE9b/GdlrN+cR9Xsgo/5ZPmd76Y4WGJbKFsoxy3SUsugK8AI8661Bf66MI?=
- =?us-ascii?Q?GOKz/WLCSGsm42cmCM3KQKTiMKcyN6IO47NSrOUjXjLle088KxXfKSGseFf0?=
- =?us-ascii?Q?0mbWPLerLNNGMr0NwR+OtInX/Bu6/ORIQt2jHHE5FVuO9iTq9vVFu55JDj4X?=
- =?us-ascii?Q?qtm83whSTmY7oDQrCgt4JY6VT6R3d8AqAVJ9uXdAFtz2aS/RXVQd4kazIKys?=
- =?us-ascii?Q?2vJNY/5tvzDS8r2T4FB8rHZDt+lNaW7wKyN4pHYB4O8c+Xf8eTSsC5T4k8aD?=
- =?us-ascii?Q?VuXZTVtPm2LzqWLoru12mnvcBBtJHRykoEdjaZiIB0Bz/oArIQdZzss7uz6r?=
- =?us-ascii?Q?MgJp1EzGGD1xANZjljOEKHCkztQWnKbZXrZPP+/yarVuAGLdEYA4nTlXaJgv?=
- =?us-ascii?Q?qTCLN3yc2biuSuz+e+JiqT7NjvXRLa51jVran36oRxv8txmTnmKOz1rdLNvX?=
- =?us-ascii?Q?PrW5jKHj6TfX9OjX93CpUfvCf9W5oRIZAoE51qicHFoJ+e88gaTre1J2wjkv?=
- =?us-ascii?Q?1iHCYS6G09CC7fPIoRtGvrnpRUBxOwEyJnIVkoPLb+terhPWRwchhk6nH/+C?=
- =?us-ascii?Q?uorVUWuxEiVvRUewyY87KpmgEINK4UDSjdA4AZPnghJ5CrTtRmoPIqdMIbhd?=
- =?us-ascii?Q?29s/sA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Z+MbchgH6kqNhyeyWC86BkgMbIaRDsZHSPs/mw1awqw14Nxs6BtpZsPeZOgt?=
+ =?us-ascii?Q?jZH1ZdIEiJBkMgLvGTwHu2XcZ6pIQoPmAAQwUmu7bKBeOBUelrit+uTys+aB?=
+ =?us-ascii?Q?XgrF4umOU22PVkPA4GCNINUKikGT8vFIUl31lLAu64C8m03onoZUQMw5iEaZ?=
+ =?us-ascii?Q?h+YZJm5ERsDHyg6MctF8OtJiQnkbg25x+/r+7iTsONRq33UheufhmlMXAf+N?=
+ =?us-ascii?Q?oN85pN2vPfCnKevFxI3vaF6/ppg+f4rMKXss+FnlGCFeu9kGho5da+pYjR61?=
+ =?us-ascii?Q?OASvF2iJ356RjnS5jkA0RzxTs95dqXYc/Ztf5uq8slZcyQq6VmnnreH/UU4R?=
+ =?us-ascii?Q?3BPoSPJwhD0XD2Ba/fNYj7/L4UmUfLbp6oylgPcCwvih++NkNfYlHGqDPegN?=
+ =?us-ascii?Q?ajK70O3yjZ2GGg9MT/APMxV3STfozaZCy8PA4eUXrU4Pu0sjoWwg02yvIXC2?=
+ =?us-ascii?Q?8/tNIc03xMbGy+YIX0+RBqsD5UkrS9cLAS0IGsI26CzL2aOOdDcZNG4dz2TU?=
+ =?us-ascii?Q?fmztt/W88vgic+XeLJCLTP/y8YGdU8t9LVXgFYz+KIucTd2914hb86eCTaYr?=
+ =?us-ascii?Q?qf/bkhShC3fBG9buOTXD0lfx5s7jriqL9Wb0Hp3t19tVGairBXqqBCNpBu3w?=
+ =?us-ascii?Q?6+IYGnloLkyuttsS7QS3WbfL3CZX71OTwTCBcfq6UxSx1/h+l3kbVoIMP3ng?=
+ =?us-ascii?Q?y5E5g+FpK4xb2EZu6YEoVmK6srSoHoSas1R8v+1EALSqhfTqkxGWvkhvFJgY?=
+ =?us-ascii?Q?e+SxsRtgtyaAerN+sycVZfsDskGjG/Vk//z252KPiA/1TuVPMspWffcQN8RK?=
+ =?us-ascii?Q?ih/AkfOtSh2ygRn3LP50H+hYuQU2Qo9QTfuetPB3ZYAiQVHLOg51jAA2U4fQ?=
+ =?us-ascii?Q?zekrgQfBaToxs3Mc5yGb8ZyDgf+M4uuO/+bROz9m8Fo+5B0QUgATQO14Axo3?=
+ =?us-ascii?Q?ypefGNGiz5d5dfY22JeSn8Wm7U7k6CyfIqq9btkgbD/EeAwkJta93z+ESxBu?=
+ =?us-ascii?Q?y1t+XqsLmAB0s+npVqArdlg5HWfVQ2tiUEZgU3D2XRtg8A6jC+pkCK+00vrw?=
+ =?us-ascii?Q?ALtlIGS1frOwX4sxjXqtUmo+EKfLxzv9vsIwDprsh76BMFbZmeEmkgVJuFLg?=
+ =?us-ascii?Q?7GSIfFbfDxPGSIuG9Bkl8sDftIunULj3pkIcR3KzKClY1ZPrErz/sPqPedaQ?=
+ =?us-ascii?Q?uEWHz3j3i1y53C77tyjiNXeZRsOzgyZMkw86UtZ4oWDt+V4HjhsaCqhCiHm7?=
+ =?us-ascii?Q?Smk/1N7yybFZsP/bADquok7K6v2dY/AvbC68vRruErY5JXBg+wztOWSu5HyY?=
+ =?us-ascii?Q?HMW5p4k7wSHCvFiTlakx5Dq6r6xr0ci8MGSdxB3oXFWR5w0egRTJhISPS0Td?=
+ =?us-ascii?Q?e8vHRr7h0bbMBgWSh0YezUtC7ibhs+EIKq3RuCG5HeNBBI/gCseo8GyTDATs?=
+ =?us-ascii?Q?cuMwvZ75QZGNUPYI1R1m2E7fzVB8pS5wEpfZ7eXGSuzpdHw02Vh1ng3GfVB9?=
+ =?us-ascii?Q?aijjSqvpZQmefoE2m+ku22bdsNYsgIwRkV46Jmp5NO1zRhGA1A1qxZs52scc?=
+ =?us-ascii?Q?Fu2BCLqYRJ7CpQz8ED4HTGCHODMnu4Nx2pwqUn7On5n4tw/3eWYWWAxd9bWr?=
+ =?us-ascii?Q?Q2S6Vj7mG9wjWoOEwoME9q9NsZwzCiA9emdNF0b/rp6/NgJKF1OdUCQsG1rH?=
+ =?us-ascii?Q?BVi/2Q=3D=3D?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa7afdf9-c9bf-45f0-439f-08da724306c9
+X-MS-Exchange-CrossTenant-Network-Message-Id: b233ed5c-2c69-439c-5248-08da7243071a
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8703.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2022 15:49:03.0137
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2022 15:49:03.5136
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bBzdsaQndGTfhXyHC21kZVKv0ns5Ec4RvM1EQE/mDAxcvQIr481rVB1D0SPXJYdRFz5ARLbiNgySG5WtXbV7KA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: mIGiG7d7W3XYeFpv6La9ZjKRgXL/KK5+v7r6/6x0DmOKvUjdMs8Z9wS8C4wzBj9htRC88U7K+JCL9hwt5zndug==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4875
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
@@ -121,320 +121,165 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil@xs4all.nl>
+Export the callback functions of the default v4l2 control type operations
+such as a driver defining its own operations could reuse some of them.
 
-Initializing arrays and validating or checking for equality of arrays
-is suboptimal since it does this per element.
-
-Change the ops to operate on the whole payload to speed up array
-operations.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
 ---
- drivers/media/v4l2-core/v4l2-ctrls-api.c  |  19 +---
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 129 +++++++++++++++-------
- include/media/v4l2-ctrls.h                |   6 +-
- 3 files changed, 96 insertions(+), 58 deletions(-)
+ drivers/media/v4l2-core/v4l2-ctrls-core.c | 30 ++++++++------
+ include/media/v4l2-ctrls.h                | 48 +++++++++++++++++++++++
+ 2 files changed, 65 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index 67fbdccda2d83..a8c354ad3d234 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -89,10 +89,7 @@ static int req_to_user(struct v4l2_ext_control *c,
- /* Helper function: copy the initial control value back to the caller */
- static int def_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- {
--	int idx;
--
--	for (idx = 0; idx < ctrl->elems; idx++)
--		ctrl->type_ops->init(ctrl, idx, ctrl->p_new);
-+	ctrl->type_ops->init(ctrl, 0, ctrl->elems, ctrl->p_new);
- 
- 	return ptr_to_user(c, ctrl, ctrl->p_new);
- }
-@@ -122,7 +119,6 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- 
- 	if (ctrl->is_ptr && !ctrl->is_string) {
- 		unsigned int elems = c->size / ctrl->elem_size;
--		unsigned int idx;
- 
- 		if (copy_from_user(ctrl->p_new.p, c->ptr, c->size))
- 			return -EFAULT;
-@@ -130,8 +126,7 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- 		if (ctrl->is_dyn_array)
- 			ctrl->new_elems = elems;
- 		else if (ctrl->is_array)
--			for (idx = elems; idx < ctrl->elems; idx++)
--				ctrl->type_ops->init(ctrl, idx, ctrl->p_new);
-+			ctrl->type_ops->init(ctrl, elems, ctrl->elems, ctrl->p_new);
- 		return 0;
- 	}
- 
-@@ -499,12 +494,7 @@ EXPORT_SYMBOL(v4l2_g_ext_ctrls);
- /* Validate a new control */
- static int validate_new(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr p_new)
- {
--	unsigned int idx;
--	int err = 0;
--
--	for (idx = 0; !err && idx < ctrl->new_elems; idx++)
--		err = ctrl->type_ops->validate(ctrl, idx, p_new);
--	return err;
-+	return ctrl->type_ops->validate(ctrl, ctrl->new_elems, p_new);
- }
- 
- /* Validate controls. */
-@@ -1017,8 +1007,7 @@ int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
- 	ctrl->p_cur.p = p_array + elems * ctrl->elem_size;
- 	for (i = 0; i < ctrl->nr_of_dims; i++)
- 		ctrl->dims[i] = dims[i];
--	for (i = 0; i < elems; i++)
--		ctrl->type_ops->init(ctrl, i, ctrl->p_cur);
-+	ctrl->type_ops->init(ctrl, 0, elems, ctrl->p_cur);
- 	cur_to_new(ctrl);
- 	send_event(NULL, ctrl, V4L2_EVENT_CTRL_CH_VALUE |
- 			       V4L2_EVENT_CTRL_CH_DIMENSIONS);
 diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index 38030a7cb2338..4faba8ffe426a 100644
+index 4faba8ffe426a..ead5159f39c77 100644
 --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
 +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -65,31 +65,27 @@ void send_event(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 changes)
+@@ -65,9 +65,8 @@ void send_event(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 changes)
  			v4l2_event_queue_fh(sev->fh, &ev);
  }
  
--static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
-+static bool std_equal(const struct v4l2_ctrl *ctrl, u32 elems,
- 		      union v4l2_ctrl_ptr ptr1,
- 		      union v4l2_ctrl_ptr ptr2)
+-static bool std_equal(const struct v4l2_ctrl *ctrl, u32 elems,
+-		      union v4l2_ctrl_ptr ptr1,
+-		      union v4l2_ctrl_ptr ptr2)
++bool v4l2_ctrl_type_op_equal(const struct v4l2_ctrl *ctrl, u32 elems,
++			     union v4l2_ctrl_ptr ptr1, union v4l2_ctrl_ptr ptr2)
  {
-+	unsigned int i;
-+
- 	switch (ctrl->type) {
- 	case V4L2_CTRL_TYPE_BUTTON:
- 		return false;
- 	case V4L2_CTRL_TYPE_STRING:
--		idx *= ctrl->elem_size;
--		/* strings are always 0-terminated */
--		return !strcmp(ptr1.p_char + idx, ptr2.p_char + idx);
--	case V4L2_CTRL_TYPE_INTEGER64:
--		return ptr1.p_s64[idx] == ptr2.p_s64[idx];
--	case V4L2_CTRL_TYPE_U8:
--		return ptr1.p_u8[idx] == ptr2.p_u8[idx];
--	case V4L2_CTRL_TYPE_U16:
--		return ptr1.p_u16[idx] == ptr2.p_u16[idx];
--	case V4L2_CTRL_TYPE_U32:
--		return ptr1.p_u32[idx] == ptr2.p_u32[idx];
-+		for (i = 0; i < elems; i++) {
-+			unsigned int idx = i * ctrl->elem_size;
-+
-+			/* strings are always 0-terminated */
-+			if (strcmp(ptr1.p_char + idx, ptr2.p_char + idx))
-+				return false;
-+		}
-+		return true;
- 	default:
--		if (ctrl->is_int)
--			return ptr1.p_s32[idx] == ptr2.p_s32[idx];
--		idx *= ctrl->elem_size;
--		return !memcmp(ptr1.p_const + idx, ptr2.p_const + idx,
--			       ctrl->elem_size);
-+		return !memcmp(ptr1.p_const, ptr2.p_const,
-+			       elems * ctrl->elem_size);
+ 	unsigned int i;
+ 
+@@ -88,6 +87,7 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 elems,
+ 			       elems * ctrl->elem_size);
+ 	}
+ }
++EXPORT_SYMBOL(v4l2_ctrl_type_op_equal);
+ 
+ /* Default intra MPEG-2 quantisation coefficients, from the specification. */
+ static const u8 mpeg2_intra_quant_matrix[64] = {
+@@ -177,8 +177,8 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
  	}
  }
  
-@@ -181,40 +177,66 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	}
- }
- 
--static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
-+static void std_init(const struct v4l2_ctrl *ctrl, u32 from_idx, u32 elems,
- 		     union v4l2_ctrl_ptr ptr)
+-static void std_init(const struct v4l2_ctrl *ctrl, u32 from_idx, u32 elems,
+-		     union v4l2_ctrl_ptr ptr)
++void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
++			    u32 elems, union v4l2_ctrl_ptr ptr)
  {
-+	unsigned int i;
-+
- 	switch (ctrl->type) {
- 	case V4L2_CTRL_TYPE_STRING:
--		idx *= ctrl->elem_size;
--		memset(ptr.p_char + idx, ' ', ctrl->minimum);
--		ptr.p_char[idx + ctrl->minimum] = '\0';
-+		for (i = from_idx; i < elems; i++) {
-+			unsigned int offset = i * ctrl->elem_size;
-+
-+			memset(ptr.p_char + offset, ' ', ctrl->minimum);
-+			ptr.p_char[offset + ctrl->minimum] = '\0';
-+		}
- 		break;
- 	case V4L2_CTRL_TYPE_INTEGER64:
--		ptr.p_s64[idx] = ctrl->default_value;
-+		if (ctrl->default_value) {
-+			for (i = from_idx; i < elems; i++)
-+				ptr.p_s64[i] = ctrl->default_value;
-+		} else {
-+			memset(ptr.p_s64 + from_idx, 0, elems * sizeof(s64));
-+		}
- 		break;
- 	case V4L2_CTRL_TYPE_INTEGER:
- 	case V4L2_CTRL_TYPE_INTEGER_MENU:
- 	case V4L2_CTRL_TYPE_MENU:
- 	case V4L2_CTRL_TYPE_BITMASK:
- 	case V4L2_CTRL_TYPE_BOOLEAN:
--		ptr.p_s32[idx] = ctrl->default_value;
-+		if (ctrl->default_value) {
-+			for (i = from_idx; i < elems; i++)
-+				ptr.p_s32[i] = ctrl->default_value;
-+		} else {
-+			memset(ptr.p_s32 + from_idx, 0, elems * sizeof(s32));
-+		}
- 		break;
- 	case V4L2_CTRL_TYPE_BUTTON:
- 	case V4L2_CTRL_TYPE_CTRL_CLASS:
--		ptr.p_s32[idx] = 0;
-+		memset(ptr.p_s32 + from_idx, 0, elems * sizeof(s32));
- 		break;
- 	case V4L2_CTRL_TYPE_U8:
--		ptr.p_u8[idx] = ctrl->default_value;
-+		memset(ptr.p_u8 + from_idx, ctrl->default_value, elems);
- 		break;
- 	case V4L2_CTRL_TYPE_U16:
--		ptr.p_u16[idx] = ctrl->default_value;
-+		if (ctrl->default_value) {
-+			for (i = from_idx; i < elems; i++)
-+				ptr.p_u16[i] = ctrl->default_value;
-+		} else {
-+			memset(ptr.p_u16 + from_idx, 0, elems * sizeof(u16));
-+		}
- 		break;
- 	case V4L2_CTRL_TYPE_U32:
--		ptr.p_u32[idx] = ctrl->default_value;
-+		if (ctrl->default_value) {
-+			for (i = from_idx; i < elems; i++)
-+				ptr.p_u32[i] = ctrl->default_value;
-+		} else {
-+			memset(ptr.p_u32 + from_idx, 0, elems * sizeof(u32));
-+		}
- 		break;
- 	default:
--		std_init_compound(ctrl, idx, ptr);
-+		for (i = from_idx; i < elems; i++)
-+			std_init_compound(ctrl, i, ptr);
+ 	unsigned int i;
+ 
+@@ -240,8 +240,9 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 from_idx, u32 elems,
  		break;
  	}
  }
-@@ -895,8 +917,8 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	return 0;
++EXPORT_SYMBOL(v4l2_ctrl_type_op_init);
+ 
+-static void std_log(const struct v4l2_ctrl *ctrl)
++void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+ {
+ 	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
+ 
+@@ -334,6 +335,7 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+ 		break;
+ 	}
+ }
++EXPORT_SYMBOL(v4l2_ctrl_type_op_log);
+ 
+ /*
+  * Round towards the closest legal value. Be careful when we are
+@@ -527,7 +529,8 @@ validate_vp9_frame(struct v4l2_ctrl_vp9_frame *frame)
+ 
+ /*
+  * Compound controls validation requires setting unused fields/flags to zero
+- * in order to properly detect unchanged controls with std_equal's memcmp.
++ * in order to properly detect unchanged controls with v4l2_ctrl_type_op_equal's
++ * memcmp.
+  */
+ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 				 union v4l2_ctrl_ptr ptr)
+@@ -989,8 +992,8 @@ static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
+ 
  }
  
--static int std_validate(const struct v4l2_ctrl *ctrl, u32 idx,
+-static int std_validate(const struct v4l2_ctrl *ctrl, u32 elems,
 -			union v4l2_ctrl_ptr ptr)
-+static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
-+			     union v4l2_ctrl_ptr ptr)
++int v4l2_ctrl_type_op_validate(const struct v4l2_ctrl *ctrl, u32 elems,
++			       union v4l2_ctrl_ptr ptr)
  {
- 	size_t len;
- 	u64 offset;
-@@ -964,6 +986,38 @@ static int std_validate(const struct v4l2_ctrl *ctrl, u32 idx,
- 	default:
- 		return std_validate_compound(ctrl, idx, ptr);
- 	}
-+
-+}
-+
-+static int std_validate(const struct v4l2_ctrl *ctrl, u32 elems,
-+			union v4l2_ctrl_ptr ptr)
-+{
-+	unsigned int i;
-+	int ret = 0;
-+
-+	switch ((u32)ctrl->type) {
-+	case V4L2_CTRL_TYPE_U8:
-+		if (ctrl->maximum == 0xff && ctrl->minimum == 0 && ctrl->step == 1)
-+			return 0;
-+		break;
-+	case V4L2_CTRL_TYPE_U16:
-+		if (ctrl->maximum == 0xffff && ctrl->minimum == 0 && ctrl->step == 1)
-+			return 0;
-+		break;
-+	case V4L2_CTRL_TYPE_U32:
-+		if (ctrl->maximum == 0xffffffff && ctrl->minimum == 0 && ctrl->step == 1)
-+			return 0;
-+		break;
-+
-+	case V4L2_CTRL_TYPE_BUTTON:
-+	case V4L2_CTRL_TYPE_CTRL_CLASS:
-+		memset(ptr.p_s32, 0, elems * sizeof(s32));
-+		return 0;
-+	}
-+
-+	for (i = 0; !ret && i < elems; i++)
-+		ret = std_validate_elem(ctrl, i, ptr);
-+	return ret;
+ 	unsigned int i;
+ 	int ret = 0;
+@@ -1019,12 +1022,13 @@ static int std_validate(const struct v4l2_ctrl *ctrl, u32 elems,
+ 		ret = std_validate_elem(ctrl, i, ptr);
+ 	return ret;
  }
++EXPORT_SYMBOL(v4l2_ctrl_type_op_validate);
  
  static const struct v4l2_ctrl_type_ops std_type_ops = {
-@@ -1449,7 +1503,6 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	unsigned elems = 1;
- 	bool is_array;
- 	unsigned tot_ctrl_size;
--	unsigned idx;
- 	void *data;
- 	int err;
- 
-@@ -1664,10 +1717,8 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 		memcpy(ctrl->p_def.p, p_def.p_const, elem_size);
- 	}
- 
--	for (idx = 0; idx < elems; idx++) {
--		ctrl->type_ops->init(ctrl, idx, ctrl->p_cur);
--		ctrl->type_ops->init(ctrl, idx, ctrl->p_new);
--	}
-+	ctrl->type_ops->init(ctrl, 0, elems, ctrl->p_cur);
-+	cur_to_new(ctrl);
- 
- 	if (handler_new_ref(hdl, ctrl, NULL, false, false)) {
- 		kvfree(ctrl->p_array);
-@@ -1984,7 +2035,6 @@ void update_from_auto_cluster(struct v4l2_ctrl *master)
- static int cluster_changed(struct v4l2_ctrl *master)
- {
- 	bool changed = false;
--	unsigned int idx;
- 	int i;
- 
- 	for (i = 0; i < master->ncontrols; i++) {
-@@ -2010,10 +2060,9 @@ static int cluster_changed(struct v4l2_ctrl *master)
- 
- 		if (ctrl->elems != ctrl->new_elems)
- 			ctrl_changed = true;
--
--		for (idx = 0; !ctrl_changed && idx < ctrl->elems; idx++)
--			ctrl_changed = !ctrl->type_ops->equal(ctrl, idx,
--				ctrl->p_cur, ctrl->p_new);
-+		if (!ctrl_changed)
-+			ctrl_changed = !ctrl->type_ops->equal(ctrl,
-+				ctrl->elems, ctrl->p_cur, ctrl->p_new);
- 		ctrl->has_changed = ctrl_changed;
- 		changed |= ctrl->has_changed;
- 	}
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 683e9903a6ea6..62052e1874bdf 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -134,13 +134,13 @@ struct v4l2_ctrl_ops {
-  *	otherwise.
-  */
- struct v4l2_ctrl_type_ops {
--	bool (*equal)(const struct v4l2_ctrl *ctrl, u32 idx,
-+	bool (*equal)(const struct v4l2_ctrl *ctrl, u32 elems,
- 		      union v4l2_ctrl_ptr ptr1,
- 		      union v4l2_ctrl_ptr ptr2);
--	void (*init)(const struct v4l2_ctrl *ctrl, u32 idx,
-+	void (*init)(const struct v4l2_ctrl *ctrl, u32 from_idx, u32 elems,
- 		     union v4l2_ctrl_ptr ptr);
- 	void (*log)(const struct v4l2_ctrl *ctrl);
--	int (*validate)(const struct v4l2_ctrl *ctrl, u32 idx,
-+	int (*validate)(const struct v4l2_ctrl *ctrl, u32 elems,
- 			union v4l2_ctrl_ptr ptr);
+-	.equal = std_equal,
+-	.init = std_init,
+-	.log = std_log,
+-	.validate = std_validate,
++	.equal = v4l2_ctrl_type_op_equal,
++	.init = v4l2_ctrl_type_op_init,
++	.log = v4l2_ctrl_type_op_log,
++	.validate = v4l2_ctrl_type_op_validate,
  };
  
+ void v4l2_ctrl_notify(struct v4l2_ctrl *ctrl, v4l2_ctrl_notify_fnc notify, void *priv)
+diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+index 62052e1874bdf..121ea19d3da8c 100644
+--- a/include/media/v4l2-ctrls.h
++++ b/include/media/v4l2-ctrls.h
+@@ -1544,4 +1544,52 @@ int v4l2_ctrl_subdev_log_status(struct v4l2_subdev *sd);
+ int v4l2_ctrl_new_fwnode_properties(struct v4l2_ctrl_handler *hdl,
+ 				    const struct v4l2_ctrl_ops *ctrl_ops,
+ 				    const struct v4l2_fwnode_device_properties *p);
++
++/**
++ * v4l2_ctrl_type_op_equal - Default v4l2_ctrl_type_ops equal callback.
++ *
++ * @ctrl: The v4l2_ctrl pointer.
++ * @elems: The number of elements to compare.
++ * @ptr1: A v4l2 control value.
++ * @ptr2: A v4l2 control value.
++ *
++ * Return: true if values are equal, otherwise false.
++ */
++bool v4l2_ctrl_type_op_equal(const struct v4l2_ctrl *ctrl, u32 elems,
++			     union v4l2_ctrl_ptr ptr1, union v4l2_ctrl_ptr ptr2);
++
++/**
++ * v4l2_ctrl_type_op_init - Default v4l2_ctrl_type_ops init callback.
++ *
++ * @ctrl: The v4l2_ctrl pointer.
++ * @from_idx: Starting element index.
++ * @elems: The number of elements to initialize.
++ * @ptr: The v4l2 control value.
++ *
++ * Return: void
++ */
++void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
++			    u32 elems, union v4l2_ctrl_ptr ptr);
++
++/**
++ * v4l2_ctrl_type_op_log - Default v4l2_ctrl_type_ops log callback.
++ *
++ * @ctrl: The v4l2_ctrl pointer.
++ *
++ * Return: void
++ */
++void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl);
++
++/**
++ * v4l2_ctrl_type_op_validate - Default v4l2_ctrl_type_ops validate callback.
++ *
++ * @ctrl: The v4l2_ctrl pointer.
++ * @elems: The number of elements in the control.
++ * @ptr: The v4l2 control value.
++ *
++ * Return: 0 on success, a negative error code on failure.
++ */
++int v4l2_ctrl_type_op_validate(const struct v4l2_ctrl *ctrl, u32 elems,
++			       union v4l2_ctrl_ptr ptr);
++
+ #endif
 -- 
 2.37.1
 
