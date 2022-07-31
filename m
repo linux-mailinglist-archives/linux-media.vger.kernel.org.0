@@ -2,101 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FAAF586171
-	for <lists+linux-media@lfdr.de>; Sun, 31 Jul 2022 22:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03DFB58617A
+	for <lists+linux-media@lfdr.de>; Sun, 31 Jul 2022 22:55:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237966AbiGaUry (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 Jul 2022 16:47:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49148 "EHLO
+        id S237875AbiGaUzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 31 Jul 2022 16:55:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231264AbiGaUrx (ORCPT
+        with ESMTP id S231264AbiGaUzs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 Jul 2022 16:47:53 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED8A65E8
-        for <linux-media@vger.kernel.org>; Sun, 31 Jul 2022 13:47:51 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id B2A0F20337;
-        Sun, 31 Jul 2022 23:47:48 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1659300468;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EMBiblLs+PrwsyUSTNH56VxnL3Jc0LWnXPB3gjs+1M0=;
-        b=TGIHOQ8o1FjLiQ+n08yeX9dUn6/94wplSxPE5hdY5YnxlOxxYUUueYfuenNDyuQ/aJRzPH
-        RUiKcRS4w0HiMVuo/LmzrHnHo5MiPS7DZqWlt38KCnOfAy1viWJjal+Uy2mAazCbp57ejD
-        /RtUgG22CWrNTwM9rG+/RMzGW0huWbA=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 29C3A634C97;
-        Sun, 31 Jul 2022 23:47:48 +0300 (EEST)
-Date:   Sun, 31 Jul 2022 23:47:47 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
+        Sun, 31 Jul 2022 16:55:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6129263A7;
+        Sun, 31 Jul 2022 13:55:46 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C36B415;
+        Sun, 31 Jul 2022 22:55:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1659300944;
+        bh=z/icKT+ON5rGVjV3cQOF9rm7J26cV7YZ1upIXjkT4Is=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qRKDl5CWFyiu/lIHNsnj8p6f8yxrCWisd92TkIo90hhjXHZ9cgcD74QomFA1mqjby
+         QTdbqeR+0Fp2YQjuIfTWCH20A7n8rXjd5QqGrWcI5w89CC40djiJaNRUlaTPmtCXQo
+         GTfISRFqByInYlhivZpTeheWzV13RAX9PD1PzFWQ=
+Date:   Sun, 31 Jul 2022 23:55:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v12 00/30] v4l: routing and streams support
-Message-ID: <Yubqc1biiQTE3gvY@valkosipuli.retiisi.eu>
-References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: rkisp1: Add UYVY as an output format
+Message-ID: <YubsTAmY/B9F1Dhy@pendragon.ideasonboard.com>
+References: <20220728130505.2077842-1-paul.elder@ideasonboard.com>
+ <20220728130505.2077842-3-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1659300468;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EMBiblLs+PrwsyUSTNH56VxnL3Jc0LWnXPB3gjs+1M0=;
-        b=WZv40khS4EMY57v7TtpUmF3NK0ZlBygibRrTYzw2Y+47/E6lMK3XlxSmPhzN3Fh2rqH92V
-        h7LTfTFpY2twDrQsro1YZAY/EdVkrvkeMfiHyoX8Hr2Fbq6Cjtfkc7vYfPJpRw3xjUYl0Q
-        sZydISo75AfuohHaoBUcXQa7J0PWN5c=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1659300468; a=rsa-sha256; cv=none;
-        b=lqqpk+g0ru0xeXXG5+hVGw3c5i36dYw1eKOgQNVApZEgo+E3n3WbhxiN3CbYvvUt9Iwlm0
-        eFph7bVtFlOvJ3lOtv5sokxLPyF0N1/F7sf5q5E4q+Gi/ri3PH6Hg16qAutWYTc8t1lquV
-        WseooXxPC+jLUvX0sDwD4O2YKCJsnNY=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220728130505.2077842-3-paul.elder@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
+Hi Paul,
 
-On Wed, Jul 27, 2022 at 01:36:09PM +0300, Tomi Valkeinen wrote:
-> Hi,
+Thank you for the patch.
+
+On Thu, Jul 28, 2022 at 10:05:05PM +0900, Paul Elder wrote:
+> Add support for UYVY as an output format. The uv_swap bit in the
+> MI_XTD_FORMAT_CTRL register that is used for the NV formats does not
+> work for packed YUV formats. Thus, UYVY support is implemented via
+> byte-swapping. This method clearly does not work for implementing
+> support for YVYU and VYUY.
 > 
-> This is v12 of the streams series. The v11 can be found from:
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> 
+> ---
+> Changes in v2:
+> - s@uv@U/V@
+> - SP has been kept (so, uh, *not* changed in v2)
+> 
+> UYVY for the self path has not been tested because no device supports
+> it. The rk3399 has a self path, but does not have the
+> MI_OUTPUT_ALIGN_FORMAT register and thus does not support UYVY. The
+> i.MX8MP does support UYVY, but does not have a self path.
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-capture.c | 41 +++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> index 9fb4879e65fa..0d5e3373e1f5 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> @@ -97,6 +97,12 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
+>  		.uv_swap = 0,
+>  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
+>  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+> +	}, {
+> +		.fourcc = V4L2_PIX_FMT_UYVY,
+> +		.uv_swap = 0,
+> +		.yc_swap = 1,
+> +		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
+> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>  	}, {
+>  		.fourcc = V4L2_PIX_FMT_YUV422P,
+>  		.uv_swap = 0,
+> @@ -231,6 +237,13 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
+>  		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
+>  		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
+>  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+> +	}, {
+> +		.fourcc = V4L2_PIX_FMT_UYVY,
+> +		.uv_swap = 0,
+> +		.yc_swap = 1,
+> +		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
+> +		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
+> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>  	}, {
+>  		.fourcc = V4L2_PIX_FMT_YUV422P,
+>  		.uv_swap = 0,
+> @@ -464,6 +477,20 @@ static void rkisp1_mp_config(struct rkisp1_capture *cap)
+>  		rkisp1_write(rkisp1, RKISP1_CIF_MI_XTD_FORMAT_CTRL, reg);
+>  	}
+>  
+> +	/*
+> +	 * U/V swapping with the MI_XTD_FORMAT_CTRL register only works for
+> +	 * NV12/NV21 and NV16/NV61, so instead use byte swap to support UYVY.
+> +	 * YVYU and VYUY cannot be supported with this method.
+> +	 */
+> +	if (rkisp1->info->features & RKISP1_FEATURE_MI_OUTPUT_ALIGN) {
+> +		reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT);
+> +		if (cap->pix.cfg->yc_swap)
+> +			reg |= RKISP1_CIF_OUTPUT_ALIGN_FORMAT_MP_BYTE_SWAP_BYTES;
+> +		else
+> +			reg &= ~RKISP1_CIF_OUTPUT_ALIGN_FORMAT_MP_BYTE_SWAP_BYTES;
+> +		rkisp1_write(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT, reg);
+> +	}
 
-Thanks for the update. This continues to be a set that will need changes
-before merging, hopefully less so than in the past. But at the same time I
-think there are a number of patches early in the set that could be merged
-now. Specifically I mean patches 1--5 and 7.
+I dislike read-modify-write sequences when the register isn't fully
+initialized to a known value somewhere. This issue applies to other
+registers too, so we could fix it globally on top.
 
-I'll pick those if there are no objections once we have rc1 in media tree.
-That should at least make it a little easier to work with the rest.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+>  	rkisp1_mi_config_ctrl(cap);
+>  
+>  	reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_CTRL);
+> @@ -505,6 +532,20 @@ static void rkisp1_sp_config(struct rkisp1_capture *cap)
+>  		rkisp1_write(rkisp1, RKISP1_CIF_MI_XTD_FORMAT_CTRL, reg);
+>  	}
+>  
+> +	/*
+> +	 * U/V swapping with the MI_XTD_FORMAT_CTRL register only works for
+> +	 * NV12/NV21 and NV16/NV61, so instead use byte swap to support UYVY.
+> +	 * YVYU and VYUY cannot be supported with this method.
+> +	 */
+> +	if (rkisp1->info->features & RKISP1_FEATURE_MI_OUTPUT_ALIGN) {
+> +		reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT);
+> +		if (cap->pix.cfg->yc_swap)
+> +			reg |= RKISP1_CIF_OUTPUT_ALIGN_FORMAT_SP_BYTE_SWAP_BYTES;
+> +		else
+> +			reg &= ~RKISP1_CIF_OUTPUT_ALIGN_FORMAT_SP_BYTE_SWAP_BYTES;
+> +		rkisp1_write(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT, reg);
+> +	}
+> +
+>  	rkisp1_mi_config_ctrl(cap);
+>  
+>  	mi_ctrl = rkisp1_read(rkisp1, RKISP1_CIF_MI_CTRL);
 
 -- 
-Terveisin,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
