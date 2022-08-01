@@ -2,131 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97272586716
-	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 11:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 497D058677E
+	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 12:29:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230478AbiHAJwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Aug 2022 05:52:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38398 "EHLO
+        id S230372AbiHAK3u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Aug 2022 06:29:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230399AbiHAJwV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 05:52:21 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33793337A
-        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 02:52:20 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id ss3so19285580ejc.11
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 02:52:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZAqumGKNwXF91ZXOgACEsdGClwf6mBEVt6dtVad95O8=;
-        b=EC/C/QVVBUFtef+J7K34rEPiGLdh3lhcNYa2rNF2ojk49gj3uket3Vzn2c2Us+0Dfg
-         QEo8lKOvnfoo8OtYddFYX8j+51rrGlRj9qwjHhrKVlFgW4gS8a35VJcDDo0JhOXzfwN9
-         wtgyFj5+8Vig4R07fAcR9ondakL0H9Fu8WdRM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZAqumGKNwXF91ZXOgACEsdGClwf6mBEVt6dtVad95O8=;
-        b=r3H19xr541PJU5WRQ2WeDW8GSxvFUYhsMNZh1ByBH2grD6xTtQ4M6X9qIuLcuGu4YH
-         QcFYY4lL4vX3FW22LBVbrujyG1pZdoAhlNLEqtibLPBmfYQAtbItCOCtCxjosziIZ3YU
-         gk3U+NaL3KUKSm7T+sKVngACFW+yUjnAPMVKsh0mYI6XjyW+5tfg4dfLTvDCQxQHLyk8
-         Ijfm+GUgBEHvOxcAOUrm/fcw2J+o/goiO0QC8TlxILFbeDAJNNlusraZtpeiphlODgoT
-         ZbCI396LXK7IannquQX+umQGHXBOmgQj4K4ocoSXJy971JMoghN7M3teegeSELlPLLJK
-         fljQ==
-X-Gm-Message-State: AJIora90eBinCcJDZ7U6iVIbF3uNujdYeLT9tx/LhqG5jExvFTHhKtB2
-        MpAzMzytwQX4xUF5jU0pWVttffGmZ0o39Q==
-X-Google-Smtp-Source: AGRyM1ugDF/c8RJSGYIaoG4txokdqVETMNFNqB99ylpdzy8aNgomeYpubBL65pwjHASuiEVlaRtyHA==
-X-Received: by 2002:a17:906:cc11:b0:72b:458e:5d45 with SMTP id ml17-20020a170906cc1100b0072b458e5d45mr11833006ejb.589.1659347538961;
-        Mon, 01 Aug 2022 02:52:18 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id x13-20020aa7dacd000000b0043cab10f702sm6653492eds.90.2022.08.01.02.52.17
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Aug 2022 02:52:18 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id f5so6519322eje.3
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 02:52:17 -0700 (PDT)
-X-Received: by 2002:a17:906:ef8c:b0:72c:780c:6693 with SMTP id
- ze12-20020a170906ef8c00b0072c780c6693mr11790741ejb.196.1659347537594; Mon, 01
- Aug 2022 02:52:17 -0700 (PDT)
+        with ESMTP id S230096AbiHAK3s (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 06:29:48 -0400
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com (mail-eopbgr30087.outbound.protection.outlook.com [40.107.3.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F41D19C37;
+        Mon,  1 Aug 2022 03:29:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gyCij7DBkmqQbjvz0kpFghqi/LK63R/Vi6DMDXBXndg87NV6zdUUQ6/GWQ6hKzcSiA2w/oSWDlypExWWBUnC3Amct0ArZ6ZpAftJzzfP4tY6whfTx41pBLD2oJMiJybFXNAvT2Ko8v5W8QO8lMRPbasRm+AUmDAEfX29tTnRxDNlmaSRxx3b4WM5oDwUkRAIw2mV8bl4Z59Gn38YsOzkbANbVFzPwLg0oWzKdBtFH8PjMPakdfulVVD5IF+pmeLtMo05jenHWUTHbaookDGk7tuD2isT4XYyaEqcalaACxTbKSbK4ZFrf1zRj3xE01jGwP908zgm1mnTuNvLCN9kLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Jfw7ZsJWG9cjhpCNkRVmi2nyrRd9TpEyQ/NS/9tUNrI=;
+ b=fwc+b4OamJ1W0zQsJp6oKd/E/00qxjD6KuAsKfVlCeGWTslbk27eAoR8orW7vvJEeuRpHVGNYGD15qx35rZF6tZl+7VBHWbpFheHsmNYEem9PSRxCLqnk0Uclh84HYBNTAqyFQlGIVCNDWcPafe8RP0F0r+ihFwfGtHU1tPfQ1I6IIlICZhdWf/uqZ3RDLPbqkWCrfZJ1r6MD/8qVQ9hoZGmoipMnsXxFE36N0nm31QeGbsAlJXv3e4QOLxUb5tBUtGN4afRwfqOuMAcuVc0lF8SqoyyjQgxW3OiS6vas5GXpK3kDKgdam1+EzO5W0Db5pn8TjKdhuFSW8zNRUHbFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jfw7ZsJWG9cjhpCNkRVmi2nyrRd9TpEyQ/NS/9tUNrI=;
+ b=YXQhqqq8zqZ3/U5lB+HwmmNLzbelqrKOTLcVnswc6mZ2lzoUsgYn6k8BorpYceQN/Pa6FP6cbQ10bwosbwYSKBu66l4s2CkSqy/rLhljCqMOF41mRVLFEGEmf9U9C7IoODUBaLFk0SI5wMKrypXjILar4QCV3i87uZNv+qRrkbc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by DB8PR04MB6715.eurprd04.prod.outlook.com (2603:10a6:10:10d::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.16; Mon, 1 Aug
+ 2022 10:29:44 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5db6:3f08:2e04:33c]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5db6:3f08:2e04:33c%4]) with mapi id 15.20.5482.014; Mon, 1 Aug 2022
+ 10:29:44 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, mirela.rabulea@oss.nxp.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/2] media: imx-jpeg, Add support for contiguous NV12
+Date:   Mon,  1 Aug 2022 18:29:08 +0800
+Message-Id: <cover.1659349092.git.ming.qian@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0051.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::6) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
-References: <CAMCNdRr8yvnaoKkguYxOeYC+pVj=LcbVzhHLQQmZ6bxuKQom8A@mail.gmail.com>
-In-Reply-To: <CAMCNdRr8yvnaoKkguYxOeYC+pVj=LcbVzhHLQQmZ6bxuKQom8A@mail.gmail.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 1 Aug 2022 11:52:06 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvRdd6_LLudTkowdJwB8EKZEDitB29VJtfN0GoSuOLGRw@mail.gmail.com>
-Message-ID: <CANiDSCvRdd6_LLudTkowdJwB8EKZEDitB29VJtfN0GoSuOLGRw@mail.gmail.com>
-Subject: Re: uvcvideo driver support requests
-To:     Bruce Liu <rainman59118@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1ffe82fa-ff67-4373-f767-08da73a8bff3
+X-MS-TrafficTypeDiagnostic: DB8PR04MB6715:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: c3K+JzmEXaUUs3FmR5rnOjiQFJQY2G9NPydyDjzXim5WdQWwoPeK7AfP5Dlg+W5q+i7sJJjYuQMA/1rlazw3C3uUgeKGhTT2dgQY0hPOWtLcrWkPwxFvDHNTEU/vjFe1pdid+1akypuJdtkOJUqTkPmb/tf3nAFexdeNPHDBVxPTRwe5dOof7HjGhC6b1i+FAm4UFhdhP/gUqMzmIqsBLNefHrcrSfxh5Bo4hpCyBVlMcfkj2bCD7ZjYsMl3LW3zbyzfwdFZCQjL99V82+bOd5gD1OaTZz/eGa8sQbwXBuDIC+DPcPib96YxDeMc0Xrrbngm7sEt3giJb0l+QtK7AE7DuEVCcHl8Ns8fG97rhgWrSWYQ2v6HnVyFFsShZ+3rdVAjH+TMXt1ndLp/XrthBuKmj9L5cjqQpYrWqKStplO3JbYTW8puxhfgaKjgeuv5CYVb2SPY9sTLT3c47XKgcIdY7ru6LT9c4iE614KJFdnrT4eNfHz9RTNAzLb6+XDuqCPpu2XIij061pmCXF5uxmQC/2ycXsoHSwt8PrMytD/gcFfZzbsgA4BRb/G+bqbp5R5gmU9jmMznjqyCRew5gj7laHX6T29g8Vqb4mNYVDkoD2bbt74Z9Hj01PPSwjDmWIAFr5vmdqefKK9SUzn4huHGEGcBR4SJE9Td1PLlPWTcQl5IGtMlFLkyw9EmrcZiXG2807ulKKOlsr2XIjmgBICRi8imCEKREjnli85LLNOZnPRnEUrNYX/VzdCYN8CSCgvjNnmij6qyzTKfWwPvxmuMPFJOxqUyoED49hRvfUI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(346002)(376002)(366004)(39860400002)(4744005)(36756003)(2906002)(7416002)(44832011)(5660300002)(8936002)(66946007)(66556008)(66476007)(8676002)(4326008)(41300700001)(316002)(478600001)(6506007)(6486002)(52116002)(6666004)(6512007)(26005)(38350700002)(86362001)(38100700002)(83380400001)(2616005)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?K3CB7oC0OBiJW6NvXzoqWTCRQts9CKC58+gQxGRw+nZp+9rqZPVCBupC/cxU?=
+ =?us-ascii?Q?n18uZUJSrE2WL/InwcDmt3U9JT5IWfH8sDrW0WHmSW7xUVsWejwb+bwWvGYc?=
+ =?us-ascii?Q?vMQCgk4IRU2eTsJNP/hjENeCXAmCUePL+fk4fiwkFgRnTq6y0foexvHe9b4l?=
+ =?us-ascii?Q?JQ5Rof7OLWxEnE4tZjPHNr57ULRVlD36X5ccPGkZwcYNTt64pL3M15w4w24w?=
+ =?us-ascii?Q?sCgCBv3VRz9jXsW8qFDYxvo4ECSJwOCfXE59VJnv1XCDLOsMGLdmFJYWyftL?=
+ =?us-ascii?Q?5qFA0QjlrBwDjgns+cIqJwM1ni4x+cIwLPUbC6blxyQTUHy2Cxe45yM80F/K?=
+ =?us-ascii?Q?t4GWRNdhkXhxVXkZ83ISALmYqZRAGaqckjHPgE1IbVB/HlKplSWhcKJRjq+1?=
+ =?us-ascii?Q?GdooHfW8YNFP/UPG30KtWMPTTVkhbvnx/v9Jk6Mf98gk/AEps3WaqsY9+RX6?=
+ =?us-ascii?Q?e/pCQow+59BFHDuApYNUnEonMK32v1s1ZE7x7PE1At904k8xjGIzFYL1D/05?=
+ =?us-ascii?Q?Lhzxb7YOCCe+PL1FKMnx1284FZCkqBonu2gcwV8iT9wYU72deC+sRkMqffnY?=
+ =?us-ascii?Q?ynElOr5O4CRNg28lUftKTEdCfv94HuLOgJZAkqJ0XFiX5g2CsRyqidwBrrTa?=
+ =?us-ascii?Q?ZaAZS3AyFOSH2sO/n+a/0yLhhDg8Lb6oavkQgaDTT3uBMfxX3k1jo0Y7Dadg?=
+ =?us-ascii?Q?IaPo+HYhdKHpElHWA5BoXwiK5UTjTlepAlDjnFMagz3T5J4wfYjjz0aTOy6M?=
+ =?us-ascii?Q?dWOXcFA1GXWTiuR0DDqYAshKilLBszIDnV1rdxS59l04p+4hH5s5CNPcSzZb?=
+ =?us-ascii?Q?ssVNZXi4sTl6vLTRk/GnwmHkdynvWQhgxUQZstHaOU00AZoE1DeKsmkTsTzU?=
+ =?us-ascii?Q?5ZoxfBe23IVtDqLRNaiHbL462JBM4HlOXg2hz9FPOHwPmGn+1GalbkECME3Q?=
+ =?us-ascii?Q?C5AMbTrmPGyc/QePkQOu0ZHE/nP86d6EpA0IPUlcIsV1jfZEkjMBWOMwF5Hi?=
+ =?us-ascii?Q?RE7gqodgo6rYcM2QELRJh3SDYohSth94HA9hUm/KIoNtOVFkvPQDvOIZmDWe?=
+ =?us-ascii?Q?hU6F7z4hmxLEgggyORg2taCrKqs4ZVFmqVajNFIfKbhXahkk3hSrmebi0Mm+?=
+ =?us-ascii?Q?SW1fNearva7w5pBd7Ra7bGSERFsIe5m16mMbbZFCvRKva+X6MsGRwroG1cgS?=
+ =?us-ascii?Q?ETFty0shhxjqp2D4wmAT1sMVv18gH1qXQ8NF/g/3z5c5YdTMR1w92iIF+CY9?=
+ =?us-ascii?Q?SFwv0wxNQBOUGcK3n02sTYoL2lIQdO1GqIrp0ImoVqT7G+C0802MYyuBj+oZ?=
+ =?us-ascii?Q?eNcX2k4aLUjPYgQ7AAZVTn4hIPPf99rPSaRSBW2D4wuvv8pUMKhsLM7bPE8o?=
+ =?us-ascii?Q?VbP15UA2aOs6xtcTtzjRl/3MsN6viCvUBSWEU6FQXngEV5yZx85eng2a9Bp+?=
+ =?us-ascii?Q?K5VWEk5nFtmb8xnAaJxhPn4A2NtPphZqF834ggzMSIBGLQ1x5xr5QRIx9/rO?=
+ =?us-ascii?Q?ka0faBgXY445fIm/pbpTAAA9TEKlfIdDGE1Ff7Mt+zxCJel7Nq/YmkY0wsKZ?=
+ =?us-ascii?Q?HrF0ZlU8vLhW+9V7OH/ArFDWv35bx/g9Gh8C7qTF?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ffe82fa-ff67-4373-f767-08da73a8bff3
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2022 10:29:44.1295
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cIShFhwJQ2zeyOGrvpV46hUPijIvtBDy2/97aJT07obuT0rQLs6sjPOjr+JRWLHv6EFxD8PkLI4B2S6Tguuxaw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6715
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bruce
+mxc-jpeg supports non contiguous format nv12m,
+and in order to compatible with the devices
+who only supports contiguous format nv12,
+jpeg can support nv12 and nv12m in the same time.
 
-The Webcam does not seem to be following the standard and at some
-point the driver gives up:
+And client needs to calculate plane size for format NV12.
+driver needs to report the aligned resolution,
+otherwise they can't the correct uv address.
+So driver needs to implement g_selection to report
+the actual picture size.
 
+Ming Qian (2):
+  media: imx-jpeg: Implement g_selection and s_selection
+  media: imx-jpeg: Support contiguous and non contiguous format
 
-[    6.906419] usb 3-7: Found UVC 1.50 device ACER HD User Facing (0408:4033)
-[    6.935011] usb 3-7: UVC non compliance - GET_DEF(PROBE) not
-supported. Enabling workaround.
-[    6.938200] uvcvideo 3-7:1.1: Failed to query (129) UVC probe
-control : 26 (exp. 48).
-[    6.938208] uvcvideo 3-7:1.1: Failed to initialize the device (-5).
-
-Here you can see that the camera is identified as uvc1.5, which should
-return 48 bytes for video_ctrl, but only returns 26, as in uvc1.0
-
-
-If it works from windows maybe you should be able to record some
-traces from windows so you can figure out how they are doing the
-probing differently and add a quirk for it.
-
-Regards!
-
-On Sun, 26 Jun 2022 at 19:33, Bruce Liu <rainman59118@gmail.com> wrote:
->
-> Hi,
->
->
-> I'm on Arch with somehow new model of Acer Aspire 5, A515-57-52NZ to be percise.
->
->
-> The webcam failed to work, while it does work under Windows 11 on the
-> same box and the (I believe) same condition/setting.
->
->
-> There is no hardware killer switch on this model, nor button switch,
-> as far as I've checked in and out.
->
->
-> $ uname -a
->
-> Linux host 5.18.6-hardened1-1-hardened #1 SMP PREEMPT_DYNAMIC Wed, 22
-> Jun 2022 19:50:53 +0000x86_64 GNU/Linux
->
->
-> the attachment includes lsusb.log and partial dmesg.log
->
->
-> hope they would be helpful for you to debug.
->
->
-> Also, consider donation, is there direct method or should I just go to
-> the Linux Foundation for this? Since somehow,
-> https://www.ideasonboard.org/uvc/#introduction has no links to this
-> issue?
-
-
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 545 ++++++++++++------
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.h    |   8 +-
+ 2 files changed, 389 insertions(+), 164 deletions(-)
 
 -- 
-Ricardo Ribalda
+2.37.1
+
