@@ -2,69 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6983586708
-	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 11:46:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97272586716
+	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 11:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230403AbiHAJqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Aug 2022 05:46:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34872 "EHLO
+        id S230478AbiHAJwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Aug 2022 05:52:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230415AbiHAJqO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 05:46:14 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D904BF6A
-        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 02:46:12 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id b7so6669283qvq.2
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 02:46:12 -0700 (PDT)
+        with ESMTP id S230399AbiHAJwV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 05:52:21 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33793337A
+        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 02:52:20 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id ss3so19285580ejc.11
+        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 02:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=VPFHdbaBa7EI6frsIzdNt1TytQNWZ647AsxmmEjKTPQ=;
-        b=KBLk2hLPWZ2S1nksjkH8x/bB+Y29Jirw7u4KrBzQ9xMJhZoqD+jPkf9T92AYBVh2Kl
-         dFSa3AyYu4pCFNOUgY+s83zy1H8wbJ8MO8sIk535NCVMAkYCBsDrWM2qnSQtx+/tip3d
-         eV9qOEECz1l0UiiLdP816Ar7+v8mzBHMwrSq0=
+        bh=ZAqumGKNwXF91ZXOgACEsdGClwf6mBEVt6dtVad95O8=;
+        b=EC/C/QVVBUFtef+J7K34rEPiGLdh3lhcNYa2rNF2ojk49gj3uket3Vzn2c2Us+0Dfg
+         QEo8lKOvnfoo8OtYddFYX8j+51rrGlRj9qwjHhrKVlFgW4gS8a35VJcDDo0JhOXzfwN9
+         wtgyFj5+8Vig4R07fAcR9ondakL0H9Fu8WdRM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VPFHdbaBa7EI6frsIzdNt1TytQNWZ647AsxmmEjKTPQ=;
-        b=6lTl0mAnYU7RDQ6YGVZBDLdArNl+dynVc66XnrpcqvMgJk9rYvO2MxtvLcb5exZaLF
-         krrKQfHef8hLTayj5YNbLniODPNozqpfyg+o7tS1It31pVYUZi15JR5CIkww82O+ucBt
-         5EH+dYBuJ1sGc2LRN6tTEgPXcnTzwmZDx3BA3EOgotsYz3neVtkDNP0Z2UdLCiuU6C6h
-         ASJOB1BwJPSdKduOhGUZG6Zm/EuIs88XrXkv7pCN+Xf+bSuNLUui7DQz/bx8/66pMYaJ
-         qBAEX/iRRDhIdTTa6/+fFAFZXez0xn8rkNhNCE9/U5cmZZZy7hnjRBRUifeXKIhq3qxF
-         lLcg==
-X-Gm-Message-State: ACgBeo25P9KhHzIQeCvFoY9zXURGuiBOoiuXSiORjQytEVfCsNzZ5dop
-        A4UfSbxhpCvYs+bMn2LcJvv92EWWCWtntQ==
-X-Google-Smtp-Source: AA6agR5CpsiooOZnossH3a/4DzbqMFe+cDkISZF+XT4+3RatiYxrDVJzJCRGC3avEWGPdSZOOPDtJQ==
-X-Received: by 2002:a05:6214:3017:b0:476:7430:64a6 with SMTP id ke23-20020a056214301700b00476743064a6mr5266648qvb.98.1659347171277;
-        Mon, 01 Aug 2022 02:46:11 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id n8-20020a05620a294800b006b5e296452csm8058397qkp.54.2022.08.01.02.46.10
+        bh=ZAqumGKNwXF91ZXOgACEsdGClwf6mBEVt6dtVad95O8=;
+        b=r3H19xr541PJU5WRQ2WeDW8GSxvFUYhsMNZh1ByBH2grD6xTtQ4M6X9qIuLcuGu4YH
+         QcFYY4lL4vX3FW22LBVbrujyG1pZdoAhlNLEqtibLPBmfYQAtbItCOCtCxjosziIZ3YU
+         gk3U+NaL3KUKSm7T+sKVngACFW+yUjnAPMVKsh0mYI6XjyW+5tfg4dfLTvDCQxQHLyk8
+         Ijfm+GUgBEHvOxcAOUrm/fcw2J+o/goiO0QC8TlxILFbeDAJNNlusraZtpeiphlODgoT
+         ZbCI396LXK7IannquQX+umQGHXBOmgQj4K4ocoSXJy971JMoghN7M3teegeSELlPLLJK
+         fljQ==
+X-Gm-Message-State: AJIora90eBinCcJDZ7U6iVIbF3uNujdYeLT9tx/LhqG5jExvFTHhKtB2
+        MpAzMzytwQX4xUF5jU0pWVttffGmZ0o39Q==
+X-Google-Smtp-Source: AGRyM1ugDF/c8RJSGYIaoG4txokdqVETMNFNqB99ylpdzy8aNgomeYpubBL65pwjHASuiEVlaRtyHA==
+X-Received: by 2002:a17:906:cc11:b0:72b:458e:5d45 with SMTP id ml17-20020a170906cc1100b0072b458e5d45mr11833006ejb.589.1659347538961;
+        Mon, 01 Aug 2022 02:52:18 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
+        by smtp.gmail.com with ESMTPSA id x13-20020aa7dacd000000b0043cab10f702sm6653492eds.90.2022.08.01.02.52.17
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Aug 2022 02:46:10 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id e127so17324728yba.12
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 02:46:10 -0700 (PDT)
-X-Received: by 2002:a05:6902:1148:b0:677:dd8:5a06 with SMTP id
- p8-20020a056902114800b006770dd85a06mr3743396ybu.261.1659347170310; Mon, 01
- Aug 2022 02:46:10 -0700 (PDT)
+        Mon, 01 Aug 2022 02:52:18 -0700 (PDT)
+Received: by mail-ej1-f47.google.com with SMTP id f5so6519322eje.3
+        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 02:52:17 -0700 (PDT)
+X-Received: by 2002:a17:906:ef8c:b0:72c:780c:6693 with SMTP id
+ ze12-20020a170906ef8c00b0072c780c6693mr11790741ejb.196.1659347537594; Mon, 01
+ Aug 2022 02:52:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220731202116.820516-1-ayaka@soulik.info> <CAAFQd5C95W-2=oLTmbgQCBoYq1Ef3hKgpmk=ij4+nFPY3XVWPg@mail.gmail.com>
- <ec08ac1d-dc03-097e-dcb4-0ea0e86c612c@synaptics.com>
-In-Reply-To: <ec08ac1d-dc03-097e-dcb4-0ea0e86c612c@synaptics.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 1 Aug 2022 18:45:59 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CKfv6F6cgN95SE42HWQYynsSuYFcU_8aePgtawXyey1g@mail.gmail.com>
-Message-ID: <CAAFQd5CKfv6F6cgN95SE42HWQYynsSuYFcU_8aePgtawXyey1g@mail.gmail.com>
-Subject: Re: [PATCH] [Draft]: media: videobuf2-dma-heap: add a vendor defined
- memory runtine
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc:     linux-media@vger.kernel.org, m.szyprowski@samsung.com,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, ayaka@soulik.info
+References: <CAMCNdRr8yvnaoKkguYxOeYC+pVj=LcbVzhHLQQmZ6bxuKQom8A@mail.gmail.com>
+In-Reply-To: <CAMCNdRr8yvnaoKkguYxOeYC+pVj=LcbVzhHLQQmZ6bxuKQom8A@mail.gmail.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 1 Aug 2022 11:52:06 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvRdd6_LLudTkowdJwB8EKZEDitB29VJtfN0GoSuOLGRw@mail.gmail.com>
+Message-ID: <CANiDSCvRdd6_LLudTkowdJwB8EKZEDitB29VJtfN0GoSuOLGRw@mail.gmail.com>
+Subject: Re: uvcvideo driver support requests
+To:     Bruce Liu <rainman59118@gmail.com>
+Cc:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -75,524 +70,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 1, 2022 at 3:44 PM Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
->
->
->
-> On 8/1/22 14:19, Tomasz Figa wrote:
-> >
-> Hello Tomasz
-> >
-> > ?Hi Randy,
-> >
-> > On Mon, Aug 1, 2022 at 5:21 AM <ayaka@soulik.info> wrote:
-> >>
-> >> From: Randy Li <ayaka@soulik.info>
-> >>
-> >> This module is still at a early stage, I wrote this for showing what
-> >> APIs we need here.
-> >>
-> >> Let me explain why we need such a module here.
-> >> If you won't allocate buffers from a V4L2 M2M device, this module
-> >> may not be very useful. I am sure the most of users won't know a
-> >> device would require them allocate buffers from a DMA-Heap then
-> >> import those buffers into a V4L2's queue.
-> >>
-> >> Then the question goes back to why DMA-Heap. From the Android's
-> >> description, we know it is about the copyright's DRM.
-> >> When we allocate a buffer in a DMA-Heap, it may register that buffer
-> >> in the trusted execution environment so the firmware which is running
-> >> or could only be acccesed from there could use that buffer later.
-> >>
-> >> The answer above leads to another thing which is not done in this
-> >> version, the DMA mapping. Although in some platforms, a DMA-Heap
-> >> responses a IOMMU device as well. For the genernal purpose, we would
-> >> be better assuming the device mapping should be done for each device
-> >> itself. The problem here we only know alloc_devs in those DMAbuf
-> >> methods, which are DMA-heaps in my design, the device from the queue
-> >> is not enough, a plane may requests another IOMMU device or table
-> >> for mapping.
-> >>
-> >> Signed-off-by: Randy Li <ayaka@soulik.info>
-> >> ---
-> >>   drivers/media/common/videobuf2/Kconfig        |   6 +
-> >>   drivers/media/common/videobuf2/Makefile       |   1 +
-> >>   .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++++++++
-> >>   include/media/videobuf2-dma-heap.h            |  30 ++
-> >>   4 files changed, 387 insertions(+)
-> >>   create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-heap.c
-> >>   create mode 100644 include/media/videobuf2-dma-heap.h
-> >>
-> >
-> > First of all, thanks for the series.
-> >
-> > Possibly a stupid question, but why not just allocate the DMA-bufs
-> > directly from the DMA-buf heap device in the userspace and just import
-> > the buffers to the V4L2 device using V4L2_MEMORY_DMABUF?
-> Sometimes the allocation policy could be very complex, let's suppose a
-> multiple planes pixel format enabling with frame buffer compression.
-> Its luma, chroma data could be allocated from a pool which is delegated
-> for large buffers while its metadata would come from a pool which many
-> users could take some few slices from it(likes system pool).
->
-> Then when we have a new users knowing nothing about this platform, if we
-> just configure the alloc_devs in each queues well. The user won't need
-> to know those complex rules.
->
-> The real situation could be more complex, Samsung MFC's left and right
-> banks could be regarded as two pools, many devices would benefit from
-> this either from the allocation times or the security buffers policy.
->
-> In our design, when we need to do some security decoding(DRM video),
-> codecs2 would allocate buffers from the pool delegated for that. While
-> the non-DRM video, users could not care about this.
+Hi Bruce
 
-I'm a little bit surprised about this, because on Android all the
-graphics buffers are allocated from the system IAllocator and imported
-to the specific devices.
+The Webcam does not seem to be following the standard and at some
+point the driver gives up:
 
-Would it make sense to instead extend the UAPI to expose enough
-information about the allocation requirements to the userspace, so it
-can allocate correctly?
-My reasoning here is that it's not a driver's decision to allocate
-from a DMA-buf heap (and which one) or not. It's the userspace which
-knows that, based on the specific use case that it wants to fulfill.
 
-Also, FWIW, dma_heap_ioctl_allocate() is a static function not exposed
-to other kernel modules:
-https://elixir.bootlin.com/linux/v5.19/source/drivers/dma-buf/dma-heap.c#L52
+[    6.906419] usb 3-7: Found UVC 1.50 device ACER HD User Facing (0408:4033)
+[    6.935011] usb 3-7: UVC non compliance - GET_DEF(PROBE) not
+supported. Enabling workaround.
+[    6.938200] uvcvideo 3-7:1.1: Failed to query (129) UVC probe
+control : 26 (exp. 48).
+[    6.938208] uvcvideo 3-7:1.1: Failed to initialize the device (-5).
 
-By the way, the MFC left/right port requirement was gone long ago, it
-was only one of the earliest Exynos SoCs which required that.
+Here you can see that the camera is identified as uvc1.5, which should
+return 48 bytes for video_ctrl, but only returns 26, as in uvc1.0
 
-Best regards,
-Tomasz
 
-> >
-> > Best regards,
-> > Tomasz
-> >
-> >> diff --git a/drivers/media/common/videobuf2/Kconfig b/drivers/media/common/videobuf2/Kconfig
-> >> index d2223a12c95f..02235077f07e 100644
-> >> --- a/drivers/media/common/videobuf2/Kconfig
-> >> +++ b/drivers/media/common/videobuf2/Kconfig
-> >> @@ -30,3 +30,9 @@ config VIDEOBUF2_DMA_SG
-> >>   config VIDEOBUF2_DVB
-> >>          tristate
-> >>          select VIDEOBUF2_CORE
-> >> +
-> >> +config VIDEOBUF2_DMA_HEAP
-> >> +       tristate
-> >> +       select VIDEOBUF2_CORE
-> >> +       select VIDEOBUF2_MEMOPS
-> >> +       select DMABUF_HEAPS
-> >> diff --git a/drivers/media/common/videobuf2/Makefile b/drivers/media/common/videobuf2/Makefile
-> >> index a6fe3f304685..7fe65f93117f 100644
-> >> --- a/drivers/media/common/videobuf2/Makefile
-> >> +++ b/drivers/media/common/videobuf2/Makefile
-> >> @@ -10,6 +10,7 @@ endif
-> >>   # (e. g. LC_ALL=C sort Makefile)
-> >>   obj-$(CONFIG_VIDEOBUF2_CORE) += videobuf2-common.o
-> >>   obj-$(CONFIG_VIDEOBUF2_DMA_CONTIG) += videobuf2-dma-contig.o
-> >> +obj-$(CONFIG_VIDEOBUF2_DMA_HEAP) += videobuf2-dma-heap.o
-> >>   obj-$(CONFIG_VIDEOBUF2_DMA_SG) += videobuf2-dma-sg.o
-> >>   obj-$(CONFIG_VIDEOBUF2_DVB) += videobuf2-dvb.o
-> >>   obj-$(CONFIG_VIDEOBUF2_MEMOPS) += videobuf2-memops.o
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-heap.c b/drivers/media/common/videobuf2/videobuf2-dma-heap.c
-> >> new file mode 100644
-> >> index 000000000000..377b82ab8f5a
-> >> --- /dev/null
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-dma-heap.c
-> >> @@ -0,0 +1,350 @@
-> >> +/*
-> >> + * Copyright (C) 2022 Randy Li <ayaka@soulik.info>
-> >> + *
-> >> + * This software is licensed under the terms of the GNU General Public
-> >> + * License version 2, as published by the Free Software Foundation, and
-> >> + * may be copied, distributed, and modified under those terms.
-> >> + *
-> >> + * This program is distributed in the hope that it will be useful,
-> >> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> >> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> >> + * GNU General Public License for more details.
-> >> + *
-> >> + */
-> >> +
-> >> +#include <linux/dma-buf.h>
-> >> +#include <linux/dma-heap.h>
-> >> +#include <linux/refcount.h>
-> >> +#include <linux/scatterlist.h>
-> >> +#include <linux/sched.h>
-> >> +#include <linux/slab.h>
-> >> +#include <linux/dma-mapping.h>
-> >> +
-> >> +#include <media/videobuf2-v4l2.h>
-> >> +#include <media/videobuf2-memops.h>
-> >> +#include <media/videobuf2-dma-heap.h>
-> >> +
-> >> +struct vb2_dmaheap_buf {
-> >> +       struct device *dev;
-> >> +       void *vaddr;
-> >> +       unsigned long size;
-> >> +       struct dma_buf *dmabuf;
-> >> +       dma_addr_t dma_addr;
-> >> +       unsigned long attrs;
-> >> +       enum dma_data_direction dma_dir;
-> >> +       struct sg_table *dma_sgt;
-> >> +
-> >> +       /* MMAP related */
-> >> +       struct vb2_vmarea_handler handler;
-> >> +       refcount_t refcount;
-> >> +
-> >> +       /* DMABUF related */
-> >> +       struct dma_buf_attachment *db_attach;
-> >> +};
-> >> +
-> >> +/*********************************************/
-> >> +/*         callbacks for all buffers         */
-> >> +/*********************************************/
-> >> +
-> >> +void *vb2_dmaheap_cookie(struct vb2_buffer *vb, void *buf_priv)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = buf_priv;
-> >> +
-> >> +       return &buf->dma_addr;
-> >> +}
-> >> +
-> >> +static void *vb2_dmaheap_vaddr(struct vb2_buffer *vb, void *buf_priv)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = buf_priv;
-> >> +       struct iosys_map map;
-> >> +
-> >> +       if (buf->vaddr)
-> >> +           return buf->vaddr;
-> >> +
-> >> +       if (buf->db_attach) {
-> >> +               if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
-> >> +                       buf->vaddr = map.vaddr;
-> >> +       }
-> >> +
-> >> +       return buf->vaddr;
-> >> +}
-> >> +
-> >> +static unsigned int vb2_dmaheap_num_users(void *buf_priv)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = buf_priv;
-> >> +
-> >> +       return refcount_read(&buf->refcount);
-> >> +}
-> >> +
-> >> +static void vb2_dmaheap_prepare(void *buf_priv)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = buf_priv;
-> >> +
-> >> +       /* TODO: DMABUF exporter will flush the cache for us */
-> >> +       if (buf->db_attach)
-> >> +               return;
-> >> +
-> >> +       dma_buf_end_cpu_access(buf->dmabuf, buf->dma_dir);
-> >> +}
-> >> +
-> >> +static void vb2_dmaheap_finish(void *buf_priv)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = buf_priv;
-> >> +
-> >> +       /* TODO: DMABUF exporter will flush the cache for us */
-> >> +       if (buf->db_attach)
-> >> +               return;
-> >> +
-> >> +       dma_buf_begin_cpu_access(buf->dmabuf, buf->dma_dir);
-> >> +}
-> >> +
-> >> +/*********************************************/
-> >> +/*        callbacks for MMAP buffers         */
-> >> +/*********************************************/
-> >> +
-> >> +void vb2_dmaheap_put(void *buf_priv)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = buf_priv;
-> >> +
-> >> +       if (!refcount_dec_and_test(&buf->refcount))
-> >> +               return;
-> >> +
-> >> +       dma_buf_put(buf->dmabuf);
-> >> +
-> >> +       put_device(buf->dev);
-> >> +       kfree(buf);
-> >> +}
-> >> +
-> >> +static void *vb2_dmaheap_alloc(struct vb2_buffer *vb,
-> >> +                              struct device *dev,
-> >> +                              unsigned long size)
-> >> +{
-> >> +       struct vb2_queue *q = vb->vb2_queue;
-> >> +       struct dma_heap *heap;
-> >> +       struct vb2_dmaheap_buf *buf;
-> >> +       const char *heap_name;
-> >> +       int ret;
-> >> +
-> >> +       if (WARN_ON(!dev))
-> >> +               return ERR_PTR(-EINVAL);
-> >> +
-> >> +       heap_name = dev_name(dev);
-> >> +       if (!heap_name)
-> >> +               return ERR_PTR(-EINVAL);
-> >> +
-> >> +       heap = dma_heap_find(heap_name);
-> >> +       if (!heap) {
-> >> +               dev_err(dev, "is not a DMA-heap device\n");
-> >> +               return ERR_PTR(-EINVAL);
-> >> +       }
-> >> +
-> >> +       buf = kzalloc(sizeof *buf, GFP_KERNEL);
-> >> +       if (!buf)
-> >> +               return ERR_PTR(-ENOMEM);
-> >> +
-> >> +       /* Prevent the device from being released while the buffer is used */
-> >> +       buf->dev = get_device(dev);
-> >> +       buf->attrs = vb->vb2_queue->dma_attrs;
-> >> +       buf->dma_dir = vb->vb2_queue->dma_dir;
-> >> +
-> >> +       /* TODO: heap flags */
-> >> +       ret = dma_heap_buffer_alloc(heap, size, 0, 0);
-> >> +       if (ret < 0) {
-> >> +               dev_err(dev, "is not a DMA-heap device\n");
-> >> +               put_device(buf->dev);
-> >> +               kfree(buf);
-> >> +               return ERR_PTR(ret);
-> >> +       }
-> >> +       buf->dmabuf = dma_buf_get(ret);
-> >> +
-> >> +       /* FIXME */
-> >> +       buf->dma_addr = 0;
-> >> +
-> >> +       if ((q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
-> >> +               buf->vaddr = buf->dmabuf;
-> >> +
-> >> +       buf->handler.refcount = &buf->refcount;
-> >> +       buf->handler.put = vb2_dmaheap_put;
-> >> +       buf->handler.arg = buf;
-> >> +
-> >> +       refcount_set(&buf->refcount, 1);
-> >> +
-> >> +       return buf;
-> >> +}
-> >> +
-> >> +static int vb2_dmaheap_mmap(void *buf_priv, struct vm_area_struct *vma)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = buf_priv;
-> >> +       int ret;
-> >> +
-> >> +       if (!buf) {
-> >> +               printk(KERN_ERR "No buffer to map\n");
-> >> +               return -EINVAL;
-> >> +       }
-> >> +
-> >> +       vma->vm_flags &= ~VM_PFNMAP;
-> >> +
-> >> +       ret = dma_buf_mmap(buf->dmabuf, vma, 0);
-> >> +       if (ret) {
-> >> +               pr_err("Remapping memory failed, error: %d\n", ret);
-> >> +               return ret;
-> >> +       }
-> >> +       vma->vm_flags           |= VM_DONTEXPAND | VM_DONTDUMP;
-> >> +       vma->vm_private_data    = &buf->handler;
-> >> +       vma->vm_ops             = &vb2_common_vm_ops;
-> >> +
-> >> +       vma->vm_ops->open(vma);
-> >> +
-> >> +       pr_debug("%s: mapped memid 0x%08lx at 0x%08lx, size %ld\n",
-> >> +                __func__, (unsigned long)buf->dma_addr, vma->vm_start,
-> >> +                buf->size);
-> >> +
-> >> +       return 0;
-> >> +}
-> >> +
-> >> +/*********************************************/
-> >> +/*         DMABUF ops for exporters          */
-> >> +/*********************************************/
-> >> +
-> >> +static struct dma_buf *vb2_dmaheap_get_dmabuf(struct vb2_buffer *vb,
-> >> +                                             void *buf_priv,
-> >> +                                             unsigned long flags)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = buf_priv;
-> >> +       struct dma_buf *dbuf;
-> >> +
-> >> +       dbuf = buf->dmabuf;
-> >> +
-> >> +       return dbuf;
-> >> +}
-> >> +
-> >> +/*********************************************/
-> >> +/*       callbacks for DMABUF buffers        */
-> >> +/*********************************************/
-> >> +
-> >> +static int vb2_dmaheap_map_dmabuf(void *mem_priv)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = mem_priv;
-> >> +       struct sg_table *sgt;
-> >> +
-> >> +       if (WARN_ON(!buf->db_attach)) {
-> >> +               pr_err("trying to pin a non attached buffer\n");
-> >> +               return -EINVAL;
-> >> +       }
-> >> +
-> >> +       if (WARN_ON(buf->dma_sgt)) {
-> >> +               pr_err("dmabuf buffer is already pinned\n");
-> >> +               return 0;
-> >> +       }
-> >> +
-> >> +       /* get the associated scatterlist for this buffer */
-> >> +       sgt = dma_buf_map_attachment(buf->db_attach, buf->dma_dir);
-> >> +       if (IS_ERR(sgt)) {
-> >> +               pr_err("Error getting dmabuf scatterlist\n");
-> >> +               return -EINVAL;
-> >> +       }
-> >> +
-> >> +       buf->dma_addr = sg_dma_address(sgt->sgl);
-> >> +       buf->dma_sgt = sgt;
-> >> +       buf->vaddr = NULL;
-> >> +
-> >> +       return 0;
-> >> +}
-> >> +
-> >> +static void vb2_dmaheap_unmap_dmabuf(void *mem_priv)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = mem_priv;
-> >> +       struct sg_table *sgt = buf->dma_sgt;
-> >> +       struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
-> >> +
-> >> +       if (WARN_ON(!buf->db_attach)) {
-> >> +               pr_err("trying to unpin a not attached buffer\n");
-> >> +               return;
-> >> +       }
-> >> +
-> >> +       if (WARN_ON(!sgt)) {
-> >> +               pr_err("dmabuf buffer is already unpinned\n");
-> >> +               return;
-> >> +       }
-> >> +
-> >> +       if (buf->vaddr) {
-> >> +               dma_buf_vunmap(buf->db_attach->dmabuf, &map);
-> >> +               buf->vaddr = NULL;
-> >> +       }
-> >> +       dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
-> >> +
-> >> +       buf->dma_addr = 0;
-> >> +       buf->dma_sgt = NULL;
-> >> +}
-> >> +
-> >> +static void vb2_dmaheap_detach_dmabuf(void *mem_priv)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf = mem_priv;
-> >> +
-> >> +       /* if vb2 works correctly you should never detach mapped buffer */
-> >> +       if (WARN_ON(buf->dma_addr))
-> >> +               vb2_dmaheap_unmap_dmabuf(buf);
-> >> +
-> >> +       /* detach this attachment */
-> >> +       dma_buf_detach(buf->db_attach->dmabuf, buf->db_attach);
-> >> +       kfree(buf);
-> >> +}
-> >> +
-> >> +static void *vb2_dmaheap_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
-> >> +                                      struct dma_buf *dbuf, unsigned long size)
-> >> +{
-> >> +       struct vb2_dmaheap_buf *buf;
-> >> +       struct dma_buf_attachment *dba;
-> >> +
-> >> +       if (dbuf->size < size)
-> >> +               return ERR_PTR(-EFAULT);
-> >> +
-> >> +       if (WARN_ON(!dev))
-> >> +               return ERR_PTR(-EINVAL);
-> >> +       /*
-> >> +        * TODO: A better way to check whether the buffer is coming
-> >> +        * from this heap or this heap could accept this buffer
-> >> +        */
-> >> +       if (strcmp(dbuf->exp_name, dev_name(dev)))
-> >> +               return ERR_PTR(-EINVAL);
-> >> +
-> >> +       buf = kzalloc(sizeof(*buf), GFP_KERNEL);
-> >> +       if (!buf)
-> >> +               return ERR_PTR(-ENOMEM);
-> >> +
-> >> +       buf->dev = dev;
-> >> +       /* create attachment for the dmabuf with the user device */
-> >> +       dba = dma_buf_attach(dbuf, buf->dev);
-> >> +       if (IS_ERR(dba)) {
-> >> +               pr_err("failed to attach dmabuf\n");
-> >> +               kfree(buf);
-> >> +               return dba;
-> >> +       }
-> >> +
-> >> +       buf->dma_dir = vb->vb2_queue->dma_dir;
-> >> +       buf->size = size;
-> >> +       buf->db_attach = dba;
-> >> +
-> >> +       return buf;
-> >> +}
-> >> +
-> >> +const struct vb2_mem_ops vb2_dmaheap_memops = {
-> >> +       .alloc = vb2_dmaheap_alloc,
-> >> +       .put = vb2_dmaheap_put,
-> >> +       .get_dmabuf = vb2_dmaheap_get_dmabuf,
-> >> +       .cookie = vb2_dmaheap_cookie,
-> >> +       .vaddr = vb2_dmaheap_vaddr,
-> >> +       .prepare = vb2_dmaheap_prepare,
-> >> +       .finish = vb2_dmaheap_finish,
-> >> +       .map_dmabuf = vb2_dmaheap_map_dmabuf,
-> >> +       .unmap_dmabuf = vb2_dmaheap_unmap_dmabuf,
-> >> +       .attach_dmabuf = vb2_dmaheap_attach_dmabuf,
-> >> +       .detach_dmabuf = vb2_dmaheap_detach_dmabuf,
-> >> +       .num_users = vb2_dmaheap_num_users,
-> >> +       .mmap = vb2_dmaheap_mmap,
-> >> +};
-> >> +
-> >> +MODULE_DESCRIPTION("DMA-Heap memory handling routines for videobuf2");
-> >> +MODULE_AUTHOR("Randy Li <ayaka@soulik.info>");
-> >> +MODULE_LICENSE("GPL");
-> >> +MODULE_IMPORT_NS(DMA_BUF);
-> >> diff --git a/include/media/videobuf2-dma-heap.h b/include/media/videobuf2-dma-heap.h
-> >> new file mode 100644
-> >> index 000000000000..fa057f67d6e9
-> >> --- /dev/null
-> >> +++ b/include/media/videobuf2-dma-heap.h
-> >> @@ -0,0 +1,30 @@
-> >> +/*
-> >> + * Copyright (C) 2022 Randy Li <ayaka@soulik.info>
-> >> + *
-> >> + * This software is licensed under the terms of the GNU General Public
-> >> + * License version 2, as published by the Free Software Foundation, and
-> >> + * may be copied, distributed, and modified under those terms.
-> >> + *
-> >> + * This program is distributed in the hope that it will be useful,
-> >> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> >> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> >> + * GNU General Public License for more details.
-> >> + *
-> >> + */
-> >> +
-> >> +#ifndef _MEDIA_VIDEOBUF2_DMA_HEAP_H
-> >> +#define _MEDIA_VIDEOBUF2_DMA_HEAP_H
-> >> +
-> >> +#include <media/videobuf2-v4l2.h>
-> >> +#include <linux/dma-mapping.h>
-> >> +
-> >> +static inline dma_addr_t
-> >> +vb2_dmaheap_plane_dma_addr(struct vb2_buffer *vb, unsigned int plane_no)
-> >> +{
-> >> +       dma_addr_t *addr = vb2_plane_cookie(vb, plane_no);
-> >> +
-> >> +       return *addr;
-> >> +}
-> >> +
-> >> +extern const struct vb2_mem_ops vb2_dmaheap_memops;
-> >> +#endif
-> >> --
-> >> 2.17.1
-> >>
+If it works from windows maybe you should be able to record some
+traces from windows so you can figure out how they are doing the
+probing differently and add a quirk for it.
+
+Regards!
+
+On Sun, 26 Jun 2022 at 19:33, Bruce Liu <rainman59118@gmail.com> wrote:
 >
-> --
-> Hsia-Jun(Randy) Li
+> Hi,
+>
+>
+> I'm on Arch with somehow new model of Acer Aspire 5, A515-57-52NZ to be percise.
+>
+>
+> The webcam failed to work, while it does work under Windows 11 on the
+> same box and the (I believe) same condition/setting.
+>
+>
+> There is no hardware killer switch on this model, nor button switch,
+> as far as I've checked in and out.
+>
+>
+> $ uname -a
+>
+> Linux host 5.18.6-hardened1-1-hardened #1 SMP PREEMPT_DYNAMIC Wed, 22
+> Jun 2022 19:50:53 +0000x86_64 GNU/Linux
+>
+>
+> the attachment includes lsusb.log and partial dmesg.log
+>
+>
+> hope they would be helpful for you to debug.
+>
+>
+> Also, consider donation, is there direct method or should I just go to
+> the Linux Foundation for this? Since somehow,
+> https://www.ideasonboard.org/uvc/#introduction has no links to this
+> issue?
+
+
+
+-- 
+Ricardo Ribalda
