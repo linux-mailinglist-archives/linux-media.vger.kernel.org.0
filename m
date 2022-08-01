@@ -2,36 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39CFC586859
-	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 13:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62F8A58685C
+	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 13:43:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231408AbiHALnh convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 1 Aug 2022 07:43:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57310 "EHLO
+        id S231600AbiHALnw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 1 Aug 2022 07:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231193AbiHALnR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 07:43:17 -0400
-X-Greylist: delayed 55295 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 01 Aug 2022 04:43:11 PDT
+        with ESMTP id S230450AbiHALn2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 07:43:28 -0400
 Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5054:ff:fe75:428f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96CA33375;
-        Mon,  1 Aug 2022 04:43:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B3C039BA7;
+        Mon,  1 Aug 2022 04:43:24 -0700 (PDT)
 Received: from [192.168.10.77] (unknown [112.65.61.203])
-        by kozue.soulik.info (Postfix) with ESMTPSA id 06989100DB3;
-        Mon,  1 Aug 2022 20:34:06 +0900 (JST)
+        by kozue.soulik.info (Postfix) with ESMTPSA id ABA32102164;
+        Mon,  1 Aug 2022 20:37:01 +0900 (JST)
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8BIT
 From:   ayaka <ayaka@soulik.info>
 Mime-Version: 1.0 (1.0)
 Subject: Re: [PATCH] [Draft]: media: videobuf2-dma-heap: add a vendor defined memory runtine
-Date:   Mon, 1 Aug 2022 19:39:51 +0800
-Message-Id: <1C214079-69AA-40D7-92EC-ED1F86CD37A3@soulik.info>
-References: <CAAFQd5CKfv6F6cgN95SE42HWQYynsSuYFcU_8aePgtawXyey1g@mail.gmail.com>
+Message-Id: <B4B3306F-C3B4-4594-BDF9-4BBC59C628C9@soulik.info>
+Date:   Mon, 1 Aug 2022 19:40:26 +0800
+To:     Tomasz Figa <tfiga@chromium.org>
 Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
         m.szyprowski@samsung.com, sumit.semwal@linaro.org,
         christian.koenig@amd.com, linux-kernel@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-In-Reply-To: <CAAFQd5CKfv6F6cgN95SE42HWQYynsSuYFcU_8aePgtawXyey1g@mail.gmail.com>
-To:     Tomasz Figa <tfiga@chromium.org>
 X-Mailer: iPad Mail (18D61)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -41,7 +38,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
+﻿
 
 Sent from my iPad
 
@@ -51,34 +48,23 @@ Sent from my iPad
 > 
 > 
 >> On Mon, Aug 1, 2022 at 3:44 PM Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
->> 
->> 
->> 
 >>> On 8/1/22 14:19, Tomasz Figa wrote:
->>> 
 >> Hello Tomasz
->>> 
 >>> ?Hi Randy,
->>> 
 >>> On Mon, Aug 1, 2022 at 5:21 AM <ayaka@soulik.info> wrote:
->>>> 
 >>>> From: Randy Li <ayaka@soulik.info>
->>>> 
 >>>> This module is still at a early stage, I wrote this for showing what
 >>>> APIs we need here.
->>>> 
 >>>> Let me explain why we need such a module here.
 >>>> If you won't allocate buffers from a V4L2 M2M device, this module
 >>>> may not be very useful. I am sure the most of users won't know a
 >>>> device would require them allocate buffers from a DMA-Heap then
 >>>> import those buffers into a V4L2's queue.
->>>> 
 >>>> Then the question goes back to why DMA-Heap. From the Android's
 >>>> description, we know it is about the copyright's DRM.
 >>>> When we allocate a buffer in a DMA-Heap, it may register that buffer
 >>>> in the trusted execution environment so the firmware which is running
 >>>> or could only be acccesed from there could use that buffer later.
->>>> 
 >>>> The answer above leads to another thing which is not done in this
 >>>> version, the DMA mapping. Although in some platforms, a DMA-Heap
 >>>> responses a IOMMU device as well. For the genernal purpose, we would
@@ -87,20 +73,16 @@ Sent from my iPad
 >>>> methods, which are DMA-heaps in my design, the device from the queue
 >>>> is not enough, a plane may requests another IOMMU device or table
 >>>> for mapping.
->>>> 
 >>>> Signed-off-by: Randy Li <ayaka@soulik.info>
 >>>> ---
->>>>  drivers/media/common/videobuf2/Kconfig        |   6 +
->>>>  drivers/media/common/videobuf2/Makefile       |   1 +
->>>>  .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++++++++
->>>>  include/media/videobuf2-dma-heap.h            |  30 ++
->>>>  4 files changed, 387 insertions(+)
->>>>  create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-heap.c
->>>>  create mode 100644 include/media/videobuf2-dma-heap.h
->>>> 
->>> 
+>>>> drivers/media/common/videobuf2/Kconfig        |   6 +
+>>>> drivers/media/common/videobuf2/Makefile       |   1 +
+>>>> .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++++++++
+>>>> include/media/videobuf2-dma-heap.h            |  30 ++
+>>>> 4 files changed, 387 insertions(+)
+>>>> create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-heap.c
+>>>> create mode 100644 include/media/videobuf2-dma-heap.h
 >>> First of all, thanks for the series.
->>> 
 >>> Possibly a stupid question, but why not just allocate the DMA-bufs
 >>> directly from the DMA-buf heap device in the userspace and just import
 >>> the buffers to the V4L2 device using V4L2_MEMORY_DMABUF?
@@ -109,15 +91,12 @@ Sent from my iPad
 >> Its luma, chroma data could be allocated from a pool which is delegated
 >> for large buffers while its metadata would come from a pool which many
 >> users could take some few slices from it(likes system pool).
->> 
 >> Then when we have a new users knowing nothing about this platform, if we
 >> just configure the alloc_devs in each queues well. The user won't need
 >> to know those complex rules.
->> 
 >> The real situation could be more complex, Samsung MFC's left and right
 >> banks could be regarded as two pools, many devices would benefit from
 >> this either from the allocation times or the security buffers policy.
->> 
 >> In our design, when we need to do some security decoding(DRM video),
 >> codecs2 would allocate buffers from the pool delegated for that. While
 >> the non-DRM video, users could not care about this.
@@ -125,7 +104,6 @@ Sent from my iPad
 > I'm a little bit surprised about this, because on Android all the
 > graphics buffers are allocated from the system IAllocator and imported
 > to the specific devices.
-> 
 In the non-tunnel mode, yes it is. While the tunnel mode is completely vendor defined. Neither HWC nor codec2 cares about where the buffers coming from, you could do what ever you want.
 
 Besides there are DRM video in GNU Linux platform, I heard the webkit has made huge effort here and Playready is one could work in non-Android Linux.
@@ -136,7 +114,6 @@ Yes, it could. But as I said it would need the users to do more works.
 > My reasoning here is that it's not a driver's decision to allocate
 > from a DMA-buf heap (and which one) or not. It's the userspace which
 > knows that, based on the specific use case that it wants to fulfill.
-> 
 Although I would like to let the users decide that, users just can’t do that which would violate the security rules in some platforms.
 For example,  video codec and display device could only access a region of memory, any other device or trusted apps can’t access it. Users have to allocate the buffer from the pool the vendor decided.
 
@@ -144,28 +121,24 @@ So why not we offer a quick way that users don’t need to try and error.
 > Also, FWIW, dma_heap_ioctl_allocate() is a static function not exposed
 > to other kernel modules:
 > https://urldefense.proofpoint.com/v2/url?u=https-3A__elixir.bootlin.com_linux_v5.19_source_drivers_dma-2Dbuf_dma-2Dheap.c-23L52&d=DwIBaQ&c=7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=HFC3KS_ZU9m61rWQgCO99xSAwnfR3nT8M6h9aW2JYG4-Sy_Uog4xkR8awUOw65Fe&s=TPQwWeG-DdLcgJtaA1cIuQhl3zsHLITkWFV1UNLSFWs&e=
-> 
 I may forget to mention that you need two extra patches from Linaro that export those API(original version is actually out of time). Besides Android kernel did have the two kAPI I need here.
 Actually I need more APIs from DMA-heap to archive those things in TODO list.
 > By the way, the MFC left/right port requirement was gone long ago, it
 > was only one of the earliest Exynos SoCs which required that.
-> 
 Yes, MFCv5 or v6 right. I just want mention that the world has any possible, vendor always has its own reason.
 > Best regards,
 > Tomasz
 > 
->>> 
 >>> Best regards,
 >>> Tomasz
->>> 
 >>>> diff --git a/drivers/media/common/videobuf2/Kconfig b/drivers/media/common/videobuf2/Kconfig
 >>>> index d2223a12c95f..02235077f07e 100644
 >>>> --- a/drivers/media/common/videobuf2/Kconfig
 >>>> +++ b/drivers/media/common/videobuf2/Kconfig
 >>>> @@ -30,3 +30,9 @@ config VIDEOBUF2_DMA_SG
->>>>  config VIDEOBUF2_DVB
->>>>         tristate
->>>>         select VIDEOBUF2_CORE
+>>>> config VIDEOBUF2_DVB
+>>>>        tristate
+>>>>        select VIDEOBUF2_CORE
 >>>> +
 >>>> +config VIDEOBUF2_DMA_HEAP
 >>>> +       tristate
@@ -177,13 +150,13 @@ Yes, MFCv5 or v6 right. I just want mention that the world has any possible, ven
 >>>> --- a/drivers/media/common/videobuf2/Makefile
 >>>> +++ b/drivers/media/common/videobuf2/Makefile
 >>>> @@ -10,6 +10,7 @@ endif
->>>>  # (e. g. LC_ALL=C sort Makefile)
->>>>  obj-$(CONFIG_VIDEOBUF2_CORE) += videobuf2-common.o
->>>>  obj-$(CONFIG_VIDEOBUF2_DMA_CONTIG) += videobuf2-dma-contig.o
+>>>> # (e. g. LC_ALL=C sort Makefile)
+>>>> obj-$(CONFIG_VIDEOBUF2_CORE) += videobuf2-common.o
+>>>> obj-$(CONFIG_VIDEOBUF2_DMA_CONTIG) += videobuf2-dma-contig.o
 >>>> +obj-$(CONFIG_VIDEOBUF2_DMA_HEAP) += videobuf2-dma-heap.o
->>>>  obj-$(CONFIG_VIDEOBUF2_DMA_SG) += videobuf2-dma-sg.o
->>>>  obj-$(CONFIG_VIDEOBUF2_DVB) += videobuf2-dvb.o
->>>>  obj-$(CONFIG_VIDEOBUF2_MEMOPS) += videobuf2-memops.o
+>>>> obj-$(CONFIG_VIDEOBUF2_DMA_SG) += videobuf2-dma-sg.o
+>>>> obj-$(CONFIG_VIDEOBUF2_DVB) += videobuf2-dvb.o
+>>>> obj-$(CONFIG_VIDEOBUF2_MEMOPS) += videobuf2-memops.o
 >>>> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-heap.c b/drivers/media/common/videobuf2/videobuf2-dma-heap.c
 >>>> new file mode 100644
 >>>> index 000000000000..377b82ab8f5a
@@ -578,8 +551,6 @@ Yes, MFCv5 or v6 right. I just want mention that the world has any possible, ven
 >>>> +#endif
 >>>> --
 >>>> 2.17.1
->>>> 
->> 
 >> --
 >> Hsia-Jun(Randy) Li
 
