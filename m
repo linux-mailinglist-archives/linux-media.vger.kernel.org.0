@@ -2,78 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74CDD5872B1
-	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 23:00:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8A5D587381
+	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 23:47:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234797AbiHAVAC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Aug 2022 17:00:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34100 "EHLO
+        id S234430AbiHAVrb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Aug 2022 17:47:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234994AbiHAU77 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 16:59:59 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5454B3FA19
-        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 13:59:57 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id h22so9033510qta.3
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 13:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=iLb8ugeaf3dbpDh9pOJVGSMieKWvANPBP/SCH9cR+Sw=;
-        b=dDiHXaOe+QG91YrTiT+3oIdfqihTqPfA0t6A5CieYPO2HOGvplKHFU0e+wn3BdaheF
-         My2uJzHRHdAekD9rVjVFHnu3hNwPe3WSVj+wbJY9MVMCeSIunD/py/Q1pj8MrIplAV6S
-         rSB6TeaWIzF4o/tUCyYxyYoB8qhqNZb6yeWLPS/2VjXPQ/ddTg8Kjh2O8EsTfUD9ZGYU
-         xo4ulD7LLlXvCB5+7Nm6jElguP86ZYEPpfhsmht1T0tsGpBaC0GV0pZ/EPuiMgc068a4
-         Y6xJlqJaMCKUQQ/OTGFiXxkx32AovjXDQXhTh5sXWs+NzdxXdix11Ncoej996TpUPcF2
-         wDKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=iLb8ugeaf3dbpDh9pOJVGSMieKWvANPBP/SCH9cR+Sw=;
-        b=kkZen92NJ+4/qtNKAaHKtFCM+mxEmekhOBhR3/IWne5WfXgXyixOfGJLAxS0qVARl0
-         6vYQjwVsqVcNrIToIjQBCOH0PtTPWUeqDNPHofsMEjxWQvVubLxP3nuCitPETi2vbBOI
-         g1Qu45VuLkoF051FRuWEQOOKuqrQ5uCp9LTI1IaYPQf6sDxBq2bJb1njAvEsv0gm5AGz
-         6gy4vZAUHY0KCrOzesAxZUl/za6jI0ZWaiUhdXEp4BNMH+0iWyJPPFe/y4L2o5ByLfhM
-         qWbYp6LlMNeov1ls5sg/eRJ5qALgyATnw/VBWJ0Q1hxATY9pdtYC6J3tPynWTd3r1Z/0
-         pP7Q==
-X-Gm-Message-State: AJIora/RoLeOE5jyMf97YUo95od5sZrZEEDE7xkEbaaeYFWCb77LU0ax
-        EtWpVQAgjyVMaBumln/gqtPlYF/Zkm8KaA0m8MU=
-X-Google-Smtp-Source: AGRyM1u1DYHC7rB691jDfV7jPyiCPaQpdf1ku1HpjMB4eqMzYXmppvewEAP5W5IFpdJCXrsd8pQ76yaWTexdLRu7u0w=
-X-Received: by 2002:ac8:5913:0:b0:31f:1541:6b8a with SMTP id
- 19-20020ac85913000000b0031f15416b8amr16094899qty.231.1659387595844; Mon, 01
- Aug 2022 13:59:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:6214:238d:0:0:0:0 with HTTP; Mon, 1 Aug 2022 13:59:55
- -0700 (PDT)
-Reply-To: te463602@gmail.com
-From:   "Mr. Jibri loubda" <gjibriloubda@gmail.com>
-Date:   Mon, 1 Aug 2022 13:59:55 -0700
-Message-ID: <CAO=FyH+GZOqOk63=5vUvvZE95WxADQV=mm7TCJrTKXLxD=wZUg@mail.gmail.com>
-Subject: Greetings,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+        with ESMTP id S232288AbiHAVra (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 17:47:30 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 006D733A1E;
+        Mon,  1 Aug 2022 14:47:28 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,209,1654527600"; 
+   d="scan'208";a="129950924"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 02 Aug 2022 06:47:28 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 716E64108B8D;
+        Tue,  2 Aug 2022 06:47:23 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/4] Add driver for CSI2 and CRU modules found on Renesas RZ/G2L SoC
+Date:   Mon,  1 Aug 2022 22:47:14 +0100
+Message-Id: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi All,
+
+This patch series aims to add driver support to CRU module found
+on Renesas RZ/G2L SoC.
+
+The Camera Data Receiving Unit (CRU) consists of a MIPI CSI-2
+block and an Image Processing block. The Image Processing block
+can receive video data received from the external Digital Parallel
+Interface or MIPI CSI-2 block, and perform appropriate image
+processing for each.
+
+More details:
+* https://renesas.info/wiki/File:CRU.png
+* https://www.renesas.com/document/mah/rzg2l-group-rzg2lc-group-users-manual-hardware-0?language=en&r=1467981
+
+Currently the driver has been tested using yavta and Gstreamer
+on RZ/G2L SMARC EVK using the ov5645 sensor on CSI2 interface
+only.
+
+RFC v2: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+RFC v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20211207012351.15754-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (4):
+  media: dt-bindings: media: Document RZ/G2L CSI-2 block
+  media: dt-bindings: media: Document RZ/G2L CRU
+  media: platform: Add Renesas RZ/G2L MIPI CSI-2 receiver driver
+  media: platform: Add Renesas RZ/G2L CRU driver
+
+ .../bindings/media/renesas,rzg2l-cru.yaml     | 142 ++++
+ .../bindings/media/renesas,rzg2l-csi2.yaml    | 149 ++++
+ drivers/media/platform/renesas/Kconfig        |   1 +
+ drivers/media/platform/renesas/Makefile       |   1 +
+ .../media/platform/renesas/rzg2l-cru/Kconfig  |  34 +
+ .../media/platform/renesas/rzg2l-cru/Makefile |   6 +
+ .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 371 +++++++++
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 144 ++++
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 702 +++++++++++++++++
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.h   |  49 ++
+ .../platform/renesas/rzg2l-cru/rzg2l-dma.c    | 728 ++++++++++++++++++
+ .../platform/renesas/rzg2l-cru/rzg2l-v4l2.c   | 354 +++++++++
+ 12 files changed, 2681 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/Kconfig
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/Makefile
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.h
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-dma.c
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-v4l2.c
+
 -- 
-Hello,
-We the Board Directors believe you are in good health, doing great and
-with the hope that this mail will meet you in good condition, We are
-privileged and delighted to reach you via email" And we are urgently
-waiting to hear from you. and again your number is not connecting.
+2.25.1
 
-My regards,
-Dr. Jibri loubda.
-
-Sincerely,
-Prof. Chin Guang
