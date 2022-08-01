@@ -2,142 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C76B586F32
-	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 19:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64CB658702D
+	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 20:07:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232535AbiHAREj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Aug 2022 13:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52606 "EHLO
+        id S232995AbiHASHZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Aug 2022 14:07:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232363AbiHAREf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 13:04:35 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B38205D0;
-        Mon,  1 Aug 2022 10:04:33 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id q22so2870284plr.9;
-        Mon, 01 Aug 2022 10:04:33 -0700 (PDT)
+        with ESMTP id S231600AbiHASHY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 14:07:24 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D16FCEE
+        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 11:07:23 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id u1so8302136lfq.4
+        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 11:07:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=FldoPR8BVfM3iFKwCM1XMFRXAR81Z32eid0v1j3G9ms=;
-        b=P5t1olBIPvtepOhoWbKkkUVf08sqYRhi/TWm0yi84qISkPToL9ZOLKl9vbFjIhS8b6
-         bYTGbV0qB/1eFZxubi3BGt7V+ba/RPrbVnj2ybfRDE1e4/zGNVRt84kxHdnCLYh48VMh
-         yGWtynCaP4Gs4beiBVSZtPZ0zuPSDeZMuSQBe8GFNhIaaWNaRxYXfhpdFWnH1+8BSYla
-         B1QVJcxpfiKeMa0GZm7VYaXkCIdRz302vr8+YYr5MmLE0Q93QpYRn8tB1hjqLiaZg6Qv
-         0gVNQbMUetaPGuhYCUUlsObNnTVxyaUBmhWs2DGHn17+baKEzk962HChc/qyqhDF4zRo
-         8x3Q==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=370jJersisG8fPy4Ka8zqcPhpPqZLT8jJAiRbixcWys=;
+        b=Gg5B/B4sDvtXYmQYppiwAZbHVpuHZxBp+P6rIAK+DrkCM2DhFipqmRYazNbyDiL963
+         ecLhsKeEd5eV///nUpvUNd+vF9QOBoPl2uAO4hgPa48elzV4QAnhSqJwyWuxZFX4jW2W
+         fpKspmtZptX5VFPeA1NYcDL2W1CkHW31zCVFiF8Ml8gKa2HgXYt3dQhnA1pSWEZkXou3
+         IDSnmLpKcvOkh4TNMiJTdyCAxk5Uv7fyz8Q4uyV06KwNbvNEhCNHJP3QuwYO9Z5J2J6P
+         UqXcKXRErG+LLVAtiOqJjluBIBuZH+OUfMvyGU+6nCnjeaER+6+Gc+W/tWuvyG0Fi5Vq
+         8iwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=FldoPR8BVfM3iFKwCM1XMFRXAR81Z32eid0v1j3G9ms=;
-        b=RsUSqnbTjePgnUjADK1Mo70/+IQzcAsopR7GVcZf6bSo6YnJbzL0SsGOmGr/Qry9wV
-         54l6giBqa20KKwKJZ2sOhy8TAeczViY1FgecVfr3C+Y3ZdqY18wOI8KEscHKZNlfqqee
-         PFxJMJMjuaR1gL/F2bxFfvQl1VAjgMPheJEeMn6rbU7O7znFxdlCr5knqNgFQWvbPHvC
-         E3KcMsYbj6XvIkxwAFQCKfS7XG05hJmLq784v53kbVoKwlghwfmhw5o5IN8BW1Ww0F9Q
-         PQZVtJHTZryGuknEOeuvpH2oI1gBdUJT5Lo6rg4bxEBbnCYriivY+jVl4q1d/U3GsgO/
-         Vfag==
-X-Gm-Message-State: ACgBeo13qop/NEGPmW9TyB+QWjA1dZP8ezGhzYW2W3Mt09ln4R8jmopS
-        P3f8GOewIksHf6MzmSllDB8=
-X-Google-Smtp-Source: AA6agR7RKmYUgh7A3D15hwwh+KxJFk2yHczvexmfofd2/7qJwEl8Vx18v5W+zk5ElLXMIRH6WGWqOg==
-X-Received: by 2002:a17:902:e945:b0:16b:f802:1660 with SMTP id b5-20020a170902e94500b0016bf8021660mr17490083pll.7.1659373473559;
-        Mon, 01 Aug 2022 10:04:33 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
-        by smtp.gmail.com with ESMTPSA id d17-20020a170902ced100b0016d9877d3bfsm9937250plg.32.2022.08.01.10.04.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 10:04:32 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [PATCH v2 2/3] drm/prime: Wire up mmap_info support
-Date:   Mon,  1 Aug 2022 10:04:56 -0700
-Message-Id: <20220801170459.1593706-3-robdclark@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220801170459.1593706-1-robdclark@gmail.com>
-References: <20220801170459.1593706-1-robdclark@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=370jJersisG8fPy4Ka8zqcPhpPqZLT8jJAiRbixcWys=;
+        b=QNsH4In4RgUSlXT0m7B6lzxjzhm2TepDTGfH16r6bPAHKQgAFCy4fs8MDBfWjjh89M
+         WOLKl6Xf8Genh8SwO0ty3zeyiBVF40LNQHLtNUzuOVyqU2iWfKTouDgNcchSktU+Ezjv
+         YkQAa4Wv/wxNApehLM3VwXFTZibisZWwwcuIFtIHy4fsXSaErBo3H8b+YOMJgSssWukP
+         xwhFCdPLqKSxg/JE35LVk9HZ95kmDfCdcOFCNnVxtDF4xGlUnt3nTx2HGytaAz2loCEE
+         CKamcFJYh8EPG7QzZLp9kW710QSom3dfrue4sbnBJ7HF4JIcfuQmd3VoEmEkXVf/BZ7E
+         6xmA==
+X-Gm-Message-State: AJIora9qRfgeYBU1yk8OtB825KmjcMxqeuOrxTqLZykz6ypw9L0/v73t
+        OfkHSmYSDizsEaXCkQxAZIwELQ==
+X-Google-Smtp-Source: AGRyM1suLNdfhpm/00Q+GZnN4Z3MI9qLna7mJW2e3US6fJa/WDzCKc6pPbvVcAz/8p31Rd+frlNkbw==
+X-Received: by 2002:a05:6512:16a4:b0:48a:aebb:42fb with SMTP id bu36-20020a05651216a400b0048aaebb42fbmr6428767lfb.355.1659377241169;
+        Mon, 01 Aug 2022 11:07:21 -0700 (PDT)
+Received: from [192.168.1.6] ([213.161.169.44])
+        by smtp.gmail.com with ESMTPSA id g41-20020a0565123ba900b0048aec70f7e6sm987459lfv.194.2022.08.01.11.07.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Aug 2022 11:07:20 -0700 (PDT)
+Message-ID: <e3847096-ae60-9ab3-f1e7-c461508be952@linaro.org>
+Date:   Mon, 1 Aug 2022 20:07:18 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v4 3/7] media: i2c: ov9282: Add ov9281 compatible
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Naushir Patuck <naush@raspberrypi.com>
+References: <20220728130237.3396663-1-alexander.stein@ew.tq-group.com>
+ <20220728130237.3396663-4-alexander.stein@ew.tq-group.com>
+ <4e89e55b-9312-5525-974b-0a1dbe0b3dd1@linaro.org>
+ <YuOHOEUk+znzump5@valkosipuli.retiisi.eu>
+ <YuOXyZ6XTW2DjLvd@pendragon.ideasonboard.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <YuOXyZ6XTW2DjLvd@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+On 29/07/2022 10:18, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> (Adding Dave and Naush to the CC list)
+> 
+> On Fri, Jul 29, 2022 at 10:07:36AM +0300, Sakari Ailus wrote:
+>> On Thu, Jul 28, 2022 at 03:13:11PM +0200, Krzysztof Kozlowski wrote:
+>>> On 28/07/2022 15:02, Alexander Stein wrote:
+>>>> According to product brief they are identical from software point of view.
+>>>> Differences are a different chief ray angle (CRA) and the package.
+>>>>
+>>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>>>> Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+>>>> ---
+>>>>  drivers/media/i2c/ov9282.c | 1 +
+>>>>  1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+>>>> index 8a252bf3b59f..c8d83a29f9bb 100644
+>>>> --- a/drivers/media/i2c/ov9282.c
+>>>> +++ b/drivers/media/i2c/ov9282.c
+>>>> @@ -1113,6 +1113,7 @@ static const struct dev_pm_ops ov9282_pm_ops = {
+>>>>  };
+>>>>  
+>>>>  static const struct of_device_id ov9282_of_match[] = {
+>>>> +	{ .compatible = "ovti,ov9281" },
+>>>
+>>> The devices seem entirely compatible, so why you add a new compatible
+>>> and not re-use existing?
+>>>
+>>> The difference in lens does not explain this.
+>>
+>> It is typically necessary to know what kind of related hardware can be
+>> found in the system, beyond just the device's register interface. Apart
+>> from USB cameras, less integrated cameras require low-level software
+>> control in which specific device properties are important. In this case it
+>> could be the lens shading table, among other things.
+>>
+>> 	https://www.ovt.com/sensor/ov9282/
+>>
+>> Therefore I think adding a specific compatible string for this one is
+>> justified.
 
-Just plumbing the thing thru an extra layer.
+Specific compatible in binding is a requirement. No one discussed this.
+However not in the driver. None of the arguments above justify adding
+such binding, unless user-space depends on matching compatible, but not
+real compatible?
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/drm_prime.c | 12 ++++++++++++
- include/drm/drm_drv.h       |  7 +++++++
- 2 files changed, 19 insertions(+)
+>>
+>> Also cc Laurent.
+> 
+> Interesting coincidence, we've talked about this topic (as part of a
+> broader discussion) no later than yesterday.
+> 
+> I agree with Sakari in that userspace needs to know the exact model of
+> the camera sensor. I don't see a good alternative to providing that
+> information through the platform firmware, so the device tree in this
+> case. The question is how it should be provided (the question of how it
+> should then be exposed to userspace is also important, but out of scope
+> in this discussion).
+> 
+> The compatible string is meant to indicate a device's compatibility with
+> "something", and that something is often considered from the point of
+> view of software support, and in particular to pick an appropriate
+> kernel driver and tune its behaviour for the device. Here, one could
+> argue that the exact model is also needed to ensure proper software
+> support, but in userspace this time, not in the kernel. I think using a
+> dedicated compatible string would be reasonable. An alternative would be
+> to use another DT property, which should then be standardized. I'm not
+> sure it's worth it.
+> 
+> Broadening the discussion, we also need to know detailed information
+> about the camera lens (I'm talking about the lens itself here, not the
+> lens controller IC that controls the motor that moves the focus lens).
+> The lens isn't described in the device tree with a dedicated device tree
+> node today, and I don't think it should (I'd have a hard time coming up
+> with a naming scheme for lenses that we could use in compatible strings,
+> and the lens-related data that a system requires can possibly vary based
+> not only on the lens itself but on the ISP that the camera sensor is
+> used with). Typical useful data are the lens movement range, the
+> hyperfocal distance, but also the lens shading tables. (Part of) that
+> information is sometimes stored in non-volatile memory in the camera
+> module (OTP in the camera sensor itself, or a separate EEPROM), but
+> that's not always the case. We have considered the possibility of
+> storing the information in the device tree, but I doubt that would be
+> accepted. We can store the information in userspace in configuration
+> files, but we will still need to device tree to provide lens
+> identification information to select the correct configuration file. I
+> don't know how that should be done.
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index e3f09f18110c..f58586e131c5 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -784,6 +784,17 @@ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
- }
- EXPORT_SYMBOL(drm_gem_dmabuf_mmap);
- 
-+static int drm_gem_dmabuf_mmap_info(struct dma_buf *dma_buf)
-+{
-+	struct drm_gem_object *obj = dma_buf->priv;
-+	struct drm_device *dev = obj->dev;
-+
-+	if (!dev->driver->gem_prime_mmap_info)
-+		return -ENOSYS;
-+
-+	return dev->driver->gem_prime_mmap_info(obj);
-+}
-+
- static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
- 	.cache_sgt_mapping = true,
- 	.attach = drm_gem_map_attach,
-@@ -792,6 +803,7 @@ static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
- 	.unmap_dma_buf = drm_gem_unmap_dma_buf,
- 	.release = drm_gem_dmabuf_release,
- 	.mmap = drm_gem_dmabuf_mmap,
-+	.mmap_info = drm_gem_dmabuf_mmap_info,
- 	.vmap = drm_gem_dmabuf_vmap,
- 	.vunmap = drm_gem_dmabuf_vunmap,
- };
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index f6159acb8856..797c0f8c2dd0 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -355,6 +355,13 @@ struct drm_driver {
- 	 */
- 	int (*gem_prime_mmap)(struct drm_gem_object *obj, struct vm_area_struct *vma);
- 
-+	/**
-+	 * @gem_prim_mmap_info:
-+	 *
-+	 * Get info about mmap setup by gem_prime_mmap.  See dma_buf_ops:mmap_info.
-+	 */
-+	int (*gem_prime_mmap_info)(struct drm_gem_object *obj);
-+
- 	/**
- 	 * @dumb_create:
- 	 *
--- 
-2.36.1
+It seems both you and Sakari suggested not to have specific compatible.
+Such idea (not to have specific compatible) was not proposed by me.
+Quite contrary - specific compatible is a requirement. However device
+driver does no need it. Just use fallback for the driver.
 
+Best regards,
+Krzysztof
