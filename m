@@ -2,106 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C8E9586CC2
-	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 16:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6884C586D56
+	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 16:58:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232521AbiHAOZS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Aug 2022 10:25:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40738 "EHLO
+        id S232239AbiHAO6c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Aug 2022 10:58:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232526AbiHAOZQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 10:25:16 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA01EB1
-        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 07:25:14 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC24E2F3;
-        Mon,  1 Aug 2022 16:25:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1659363912;
-        bh=jsS1DyMJSR8OKKMqkFWKiO7+2bIXBY7Mjx2OuGZH4hg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=KLl511Ks6QRfrVozqefYFACC4uSbnIii9powkiXgRoZtouPWk1Em9BNLiHUsKzKQ2
-         pauSUT+fMYmatVfA7L8/IljcQ55udRPyXttUCh1/R4YRkJ/BWgi3W4vVDGuztTs2pI
-         +Pril6MZVnvascIvfQWYOJgCEXk9eJPzO9v5WhyA=
-Message-ID: <24245557-502f-76b7-ac97-7192fabe4eb1@ideasonboard.com>
-Date:   Mon, 1 Aug 2022 17:25:09 +0300
+        with ESMTP id S231190AbiHAO6a (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 10:58:30 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 884D43337D
+        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 07:58:29 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id kb8so6273961ejc.4
+        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 07:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=Iu9tq3pnN5qo/a5o1A7ujyHn5rob+EWGoZ3UGPL3cR4=;
+        b=WVEkJB0085Cwl2+++Ys2/UboVPHDaI9jxrhQy8D5v51u6KlFwfBA5jJAi8t4ZIzhVU
+         h1HWp3u97772MYEYXnQQl1H78takYob2/165lo9gXW3BcDFhl+1SqGagQYf3cJrX9sEs
+         kfOgZr31Ke7dtezNUGgLdb68mxqYwOhYbdzNKw/Lag2vHyvQornvmSiI+mAuM/weQ7DN
+         YRgIcHgqupsOx0usx04OsyoVxeH3u5h49ZFTbqRjGBlOG6eYhlijJWpqMaqe/Nxi5sNE
+         2Gv4m/i/kE4eCAdl8Hp0Pud5736pMLDmL2XYstw0xxJNz5LvOh+kPlIZd7Mgmx8RBcBa
+         mrxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=Iu9tq3pnN5qo/a5o1A7ujyHn5rob+EWGoZ3UGPL3cR4=;
+        b=PpJ8eGAN8zoctU0h5C4yrz02TCsyU7CO87hc62Kj7VgcFnHdTUcNDtMnR+ISLtlGGN
+         P3HfbR4vMvUrqCG7cDKwnRx8YKKMt/0CoVd9SxekR2XysdSJLH/MLSaOejO4UiUg404P
+         Z1Nv9/jsJyGxLCnrTp6JDAQFC44oc6b/i+hu9hhHM36R8C9WmH439XPBqsMtUm1H41nl
+         rpmnjVoiBQR+si1qbiWAX2Q8CQbgewxX7Lk8AJfKtZWF8j5XKnK7DmB8UQ3QsmKyTDbC
+         yXH9MxgiwWQSXvnG81kpxTsJx54tcDGtoo6L/1Iy+sDL+RS/K+ImYKzlhZWOhIgesEQr
+         CTZQ==
+X-Gm-Message-State: AJIora/6+k1l3lHICQO899hL5cYP1j+NHijQ+iSUn4tQXW30N3XHOXXA
+        mGZYMnxrBdS+RahjB/qFYAn1uZ9XyCnaacQUalo=
+X-Google-Smtp-Source: AGRyM1vbCk+BrlVXR8NJZX+F5SEAnDJwmIeRqMAZDS8q9yoyxZkslIBmGJbHxfGuf6wWpBzJFNeQRQm6zTQUUAbnROc=
+X-Received: by 2002:a17:907:2dab:b0:72f:f7:bdd6 with SMTP id
+ gt43-20020a1709072dab00b0072f00f7bdd6mr13418804ejc.330.1659365907979; Mon, 01
+ Aug 2022 07:58:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v12 26/30] media: v4l2-subdev: Add
- v4l2_subdev_state_xlate_streams() helper
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
- <20220727103639.581567-27-tomi.valkeinen@ideasonboard.com>
- <YufI7P9kf2E2mBYG@paasikivi.fi.intel.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <YufI7P9kf2E2mBYG@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220728114050.2400475-1-hljunggr@cisco.com> <20220728114050.2400475-5-hljunggr@cisco.com>
+ <CAHp75Ve6-BQ_Ajst96cr=XvJGV247_FYLTHTz=nvTCC3NhQa1A@mail.gmail.com> <db2d74d0ab17b407223092c8e0e01784d36bbda1.camel@cisco.com>
+In-Reply-To: <db2d74d0ab17b407223092c8e0e01784d36bbda1.camel@cisco.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 1 Aug 2022 16:57:51 +0200
+Message-ID: <CAHp75Vc2qWQXk-+0ath8zuTaGHmSG_ZiUYih=4rGeKx3_nmtsQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] media: i2c: cat24c208: driver for the cat24c208 EDID EEPROM
+To:     "Erling Ljunggren (hljunggr)" <hljunggr@cisco.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "jonathansb1@gmail.com" <jonathansb1@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, Aug 1, 2022 at 3:07 PM Erling Ljunggren (hljunggr)
+<hljunggr@cisco.com> wrote:
+> On Fri, 2022-07-29 at 17:51 +0200, Andy Shevchenko wrote:
+> > On Thu, Jul 28, 2022 at 1:53 PM Erling Ljunggren <hljunggr@cisco.com>
+> > wrote:
 
-On 01/08/2022 15:37, Sakari Ailus wrote:
+...
 
->> +u64 v4l2_subdev_state_xlate_streams(const struct v4l2_subdev_state *state,
->> +				    u32 pad0, u32 pad1, u64 *streams);
->> +
->>   /**
->>    * enum v4l2_subdev_routing_restriction - Subdevice internal routing restrictions
->>    *
-> 
-> How and where is this meant to be used?
+> > > +       usleep_range(WRITE_CYCLE_TIME_US, 2 * WRITE_CYCLE_TIME_US);
+> >
+> > Sleep even in case of error? Is it required?
+> > (Same Q per other similar places)
+>
+> The i2c transfer may still have written some data, and we need to wait
+> for the EEPROM to update.
 
-I use it in subdev driver's .enable_streams(). E.g.:
+But in an error case you will leave EEPROM in an erroneous state?
 
-static int ub953_enable_streams(struct v4l2_subdev *sd,
-				struct v4l2_subdev_state *state, u32 pad,
-				u64 streams_mask)
-{
-	struct ub953_data *priv = sd_to_ub953(sd);
-	struct media_pad *remote_pad;
-	u64 sink_streams;
-	int ret;
+...
 
-	if (streams_mask & priv->enabled_source_streams)
-		return -EALREADY;
+> > > +       static const u8 header_pattern[] = {
+> > > +               0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00
+> >
+> > Keeping a comma at the end is good anyway.
+>
+> This header pattern is fixed to 8 bytes, and will never be more than 8
+> bytes. So I don't think think the added comma is necessary.
 
-	sink_streams = v4l2_subdev_state_xlate_streams(
-		state, UB953_PAD_SOURCE, UB953_PAD_SINK, &streams_mask);
+It's minor, so up to you, folks.
 
-	remote_pad = media_entity_remote_pad(&priv->pads[UB953_PAD_SINK]);
+> > > +       };
 
-	ret = v4l2_subdev_enable_streams(priv->source_sd, remote_pad->index,
-					 sink_streams);
-	if (ret)
-		return ret;
+...
 
-	priv->enabled_source_streams |= streams_mask;
+> > > +       state = kzalloc(sizeof(*state), GFP_KERNEL);
+> > > +       if (!state)
+> > > +               return -ENOMEM;
+> >
+> > devm_kzalloc() ?
+>
+> This will fail if the device is forcibly unloaded while some
+> application has the device node open.
 
-	return 0;
-}
+I'm not sure how it's related. Can you elaborate a bit, please?
 
-The driver gets the source pad & stream mask, and must get the
-sink pad & stream mask so that it can then call enable_streams
-on its source subdev.
+If you try to forcibly unload the device (driver) when it's open and
+it somehow succeeds, that will be a sign of lifetime issues in the
+code.
 
-  Tomi
+-- 
+With Best Regards,
+Andy Shevchenko
