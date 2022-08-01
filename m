@@ -2,106 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CD28586DDF
-	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 17:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4170586E83
+	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 18:26:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231896AbiHAPhG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Aug 2022 11:37:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40418 "EHLO
+        id S232502AbiHAQ0m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Aug 2022 12:26:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232845AbiHAPhA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 11:37:00 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75B2D2A712
-        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 08:36:57 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id v7so5084726ljh.5
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 08:36:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=q9Slei3vdZHf3BWZhWjxjnYHcSiTDd6lLLw5COAJJH4=;
-        b=UKcP1FDF09nj1k3uYCs67Q7ZyiUIjGtO/8/Bj2O390UgRgAJaQbdj4bNFv73NHa6D2
-         iYDxlXmYJBF3bZ+BbTGm686z3m5B8jXpwu0YmqjPCoKHCXX42ltrt2aAmH4sQv+ccJN+
-         OHyZ31OJTJwijh8OV8oO5eWh1/bM4pqSqK2uyo052aPr6eVSdk1CVQkx424vXYMEZQTj
-         HsS77Ky28UOjl0KpgsmMPfvxGbLfejaevmoaRlv0kRAHXIpr67GF1/t31ULjMlw9VGDc
-         NI+pGTJBLZwknk3P787XURm2/kBy3STaEpJiGhVmWsgdrf7IgJXaPWV7ssfsuJ7alB0a
-         /1Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=q9Slei3vdZHf3BWZhWjxjnYHcSiTDd6lLLw5COAJJH4=;
-        b=OBIjlOG0DePJsCqCZGoP6rmU61l/5L08cTd9PTTQgQEsAMNQVr1GnKlI+TxtwQU5tq
-         ynQ0MOcA1SBPczs3/F1ND+zGOEaPqb/f2E9JjvHm8GR2iWLLinAAb/pIAGkq0CqZbCUA
-         SZH+TiAvQLJ7sJQ7FlWD/y+HCJxxqCmZIVVbNz7WuTHBwzzH1F0rGq3Uk7Pc/ZpNiEMx
-         LWOnEIihBnUoda4/WuAwixsYF2ffCg6V0M0zkt9uM97376pC7wOPg1Q2OB9X0HVQmJS9
-         6zzKOeGadp3TY4Cl+wZE5MkqeY82O6WFe3k664jCAIlunCoTkh5K4OsTdgul4JKqpMwr
-         6Axw==
-X-Gm-Message-State: AJIora+IaJTegbOM8v9Y2Eenpny/HIxcgeMfUtnERGLKj76mZO9WoRrb
-        +aVUtevPMiT50TZppp0/qonHIBOgEDy7xpcHhgo=
-X-Google-Smtp-Source: AGRyM1vmE9FJ4oaYsT2Hr55xmADsiyPljwE7zY7KjJ0BGtCDobMH8efpf5FFXcSqHPDNiB3EqFhLCRIlfACfnG64NOA=
-X-Received: by 2002:a2e:be90:0:b0:25e:1496:a0b8 with SMTP id
- a16-20020a2ebe90000000b0025e1496a0b8mr5475533ljr.194.1659368215756; Mon, 01
- Aug 2022 08:36:55 -0700 (PDT)
+        with ESMTP id S231600AbiHAQ0l (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 12:26:41 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E69E92A71C;
+        Mon,  1 Aug 2022 09:26:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659371200; x=1690907200;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VMXo5DjiwiqtT6m271eeEopcmaYvEvxFlvUT6ghUWRk=;
+  b=Fs+RgYbMQNQOpg8TfA/66pruilouOFfwPIaeRRYWd5bm2g/t0QAkyoyn
+   N3LL/A55GZ2JSCoMyd2mrYPvib1Meb7ezbBb1b5c/jzH4Nl998Pf27faD
+   gzI4UEUkm0Bz4CA2vDmkUNdPgWxB2hr3ipQvcKV5k7/h7+Kh+Lqa4tLPe
+   MWmR5O1mcmwM5lnAP0aED78wVR4ZH5hBhxdMDYbAR4KQ8SkD8r5liJgUx
+   4soU2qM2I77liGtsTVcRm+XbLdGp6PKUZ7oAtVtQBcxYOTy4WHC5Ow+PI
+   UrnmCC7QUEg02ORjQ9gpdmtKRKpKIpALyEM5O8+CfDEG+VJBhivjl9JUb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="290400537"
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; 
+   d="scan'208";a="290400537"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 09:26:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; 
+   d="scan'208";a="929618108"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 01 Aug 2022 09:26:37 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oIYFZ-000F9b-0N;
+        Mon, 01 Aug 2022 16:26:37 +0000
+Date:   Tue, 2 Aug 2022 00:26:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Eugen Hristev <eugen.hristev@microchip.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: drivers/media/platform/atmel/atmel-sama7g5-isc.c:610:34: warning:
+ unused variable 'microchip_xisc_of_match'
+Message-ID: <202208020021.8hfala2O-lkp@intel.com>
 MIME-Version: 1.0
-Received: by 2002:aa6:cb52:0:b0:1fa:aaed:e6d9 with HTTP; Mon, 1 Aug 2022
- 08:36:55 -0700 (PDT)
-From:   Bright Gawayn <gben68387@gmail.com>
-Date:   Mon, 1 Aug 2022 21:06:55 +0530
-Message-ID: <CAG1+V0zQ=FhBLNLT__co7DHJWC=eYBw480NBDxjx-Za_ZVMuzw@mail.gmail.com>
-Subject: Lucrative business proposal very urgent!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.9 required=5.0 tests=ADVANCE_FEE_3_NEW,BAYES_50,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:243 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5005]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [gben68387[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [gben68387[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  3.5 ADVANCE_FEE_3_NEW Appears to be advance fee fraud (Nigerian
-        *      419)
-        *  2.5 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello dear My name is Mr Bright Gawayn,  It's my pleasure to contact you today.
+Hi Eugen,
 
-We use a certain raw material in our pharmaceutical firm for the
-manufacture of animal vaccines and many more.
+FYI, the error/warning still remains.
 
-My intention is to give you the new contact information of the local
-manufacturer of this raw material in India and every details regarding
-how to supply the material to my company if you're interested, my
-company pays in advance for this material.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3d7cb6b04c3f3115719235cc6866b10326de34cd
+commit: c9aa973884a163ecb6d5d4d3be9137058adcaf8c media: atmel: atmel-isc: add microchip-xisc driver
+date:   1 year, 2 months ago
+config: mips-randconfig-r024-20220731 (https://download.01.org/0day-ci/archive/20220802/202208020021.8hfala2O-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00cabf479aa7eb6dbb063b7ba41ea57bce9e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mipsel-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c9aa973884a163ecb6d5d4d3be9137058adcaf8c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout c9aa973884a163ecb6d5d4d3be9137058adcaf8c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/platform/atmel/
 
-Due to some reasons, which I will explain in my next email, I cannot
-procure this material and supply it to my company myself due to the
-fact that I am a staff in the company.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Please get back to me as soon as possible for full detail if you are interested.
+All warnings (new ones prefixed by >>):
 
-Thanks and regards
-Bright.
+>> drivers/media/platform/atmel/atmel-sama7g5-isc.c:610:34: warning: unused variable 'microchip_xisc_of_match' [-Wunused-const-variable]
+   static const struct of_device_id microchip_xisc_of_match[] = {
+                                    ^
+   1 warning generated.
+
+
+vim +/microchip_xisc_of_match +610 drivers/media/platform/atmel/atmel-sama7g5-isc.c
+
+   609	
+ > 610	static const struct of_device_id microchip_xisc_of_match[] = {
+   611		{ .compatible = "microchip,sama7g5-isc" },
+   612		{ }
+   613	};
+   614	MODULE_DEVICE_TABLE(of, microchip_xisc_of_match);
+   615	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
