@@ -2,251 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA4A35865AA
-	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 09:32:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8F755865BF
+	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 09:38:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229525AbiHAHcQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Aug 2022 03:32:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36512 "EHLO
+        id S229792AbiHAHib (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Aug 2022 03:38:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiHAHcO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 03:32:14 -0400
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E33762C122
-        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 00:32:13 -0700 (PDT)
-Received: by mail-qt1-x835.google.com with SMTP id u12so7467631qtk.0
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 00:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=kUKDAQZf5I2blIR+AUaciEIYQ3CQhPKMxZp4utZZqrg=;
-        b=a72bmV5vaAoP6w2s5uelKUwNMoVUzIEtnLolEMGAoJ8GJEELiOq+vpQn2aMdPuAEq7
-         Ud09zCGaLM9Epl++ptCjcNrK96/vg7SqWO+BWpGzdtpIP6JwmeuwBiKTzr4hjYdxqWXx
-         qrgUm7X9cP0yNjx+ERh3fg66flkeAAEr7ynAs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kUKDAQZf5I2blIR+AUaciEIYQ3CQhPKMxZp4utZZqrg=;
-        b=LvRIJVf50XL31c/Ao2XiulqECFfQvCgQxEIGZbmlEknA/WQrpp4wkxtzay0D/nSccY
-         7SYpR9lzV36fQVRNt+o6PBf08DoeeutkVEuUDQx0u1bir4h/eIfOvwZOJ0MYVcKlN3/I
-         doi8z/hWAyRHG5K8fMP0PV5BBf88fZIn98NY+JgfSIuD9OwoCFwZQUIAcPkIKB8qPdXa
-         f1Fg1C4jAfL+lbprZadD7lbiHq8/Gd2o2LS5gf8R7v6TQOuOfd5Q/eTXl/TxGBdJ39tr
-         g88j5uY7H+IUcNCLjLo0ItmC/aMfcU4NLNcUHo3qtwwzY97dB1cne583C1XN5jtuZ4uj
-         DiFA==
-X-Gm-Message-State: AJIora/5LlrKvbTjJBKQEYh8f1PPXrrAIZglcHRzm0LvV9x88MZWLYok
-        lpbMEXrjhs1k0NwKCi+pyznw4nwXZHLRxQ==
-X-Google-Smtp-Source: AGRyM1vDJVmx7qsp4kMxsuk6GtSQXBel62hwaTd+GhMhyDaSXVWcKx2Ebkl48JP83DbPM600Gwt+Lg==
-X-Received: by 2002:ac8:594c:0:b0:31e:f951:cce2 with SMTP id 12-20020ac8594c000000b0031ef951cce2mr12850737qtz.519.1659339132872;
-        Mon, 01 Aug 2022 00:32:12 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id br18-20020a05620a461200b006b6641c4c35sm8005992qkb.79.2022.08.01.00.32.12
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Aug 2022 00:32:12 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 204so16447257yba.1
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 00:32:12 -0700 (PDT)
-X-Received: by 2002:a25:6e85:0:b0:676:a971:a1a4 with SMTP id
- j127-20020a256e85000000b00676a971a1a4mr10818489ybc.1.1659338645522; Mon, 01
- Aug 2022 00:24:05 -0700 (PDT)
+        with ESMTP id S229795AbiHAHiS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 03:38:18 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC7D33AE4F
+        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 00:38:12 -0700 (PDT)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 834992F3;
+        Mon,  1 Aug 2022 09:38:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1659339490;
+        bh=rQZ4QTP5aFCtOtmXSg05jC9Fc5EW1vWiiKHHBDcfXFc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=p87MxBlm4tG5TgiktVATDIBJPbU1Lh/JHh/7nkUW+aOG1ZOUI4SCxN4BiUCPc0vxF
+         BYjBx02xSGaWglH2HWE3hSK7jfcWrtumGl5UPt+Fw7mohdI5mQYG1TViOlnGDBZBhV
+         Iicyq9Z+mKam1HpiWxJkHj1AnrBkmb56YtR5sGS8=
+Message-ID: <b36d1383-f90c-4d52-cfec-d47c631958cf@ideasonboard.com>
+Date:   Mon, 1 Aug 2022 10:38:06 +0300
 MIME-Version: 1.0
-References: <YitLit9LC2zlOfdh@paasikivi.fi.intel.com> <YitMt7hVA2okuQ8x@pendragon.ideasonboard.com>
- <YitPaq2yYnrKsq4f@paasikivi.fi.intel.com> <Yi3rQGmeXQD70Tkh@pendragon.ideasonboard.com>
- <Yi3z2nR8j+ee4E4m@paasikivi.fi.intel.com> <Yi38zOHsh68FrrKK@pendragon.ideasonboard.com>
- <Yi+e/IK+eVpKit/F@paasikivi.fi.intel.com> <Yi+gEVB0FuOcY5qn@pendragon.ideasonboard.com>
- <Yi+vdvMeXqb/BvKo@paasikivi.fi.intel.com> <YkMDfvuhAvsrjbON@pendragon.ideasonboard.com>
- <YlfplRQYDYhFvc5U@paasikivi.fi.intel.com> <CAAFQd5C7-OuNpnduwKpZXFUPQKDeqkz2xkvP+JBBs+aNjB87FQ@mail.gmail.com>
-In-Reply-To: <CAAFQd5C7-OuNpnduwKpZXFUPQKDeqkz2xkvP+JBBs+aNjB87FQ@mail.gmail.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 1 Aug 2022 16:23:54 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Bgx2u6quaCobrKEFjMPqP1S-HihCo-XP0k_OhAEUDm-g@mail.gmail.com>
-Message-ID: <CAAFQd5Bgx2u6quaCobrKEFjMPqP1S-HihCo-XP0k_OhAEUDm-g@mail.gmail.com>
-Subject: Re: [PATCH v2] media: ov5640: Use runtime PM
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v12 15/30] media: subdev: add v4l2_subdev_set_routing
+ helper()
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Martina Krasteva <martinax.krasteva@intel.com>,
-        Shawn Tu <shawnx.tu@intel.com>, Arec Kao <arec.kao@intel.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jimmy Su <jimmy.su@intel.com>,
-        Martin Kepplinger <martink@posteo.de>,
-        Daniel Scally <djrscally@gmail.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org, rafael@kernel.org,
-        linux-acpi@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-        bingbu.cao@intel.com, andriy.shevchenko@intel.com,
-        "hidenorik@chromium.org" <hidenorik@chromium.org>,
-        jacopo mondi <jacopo@jmondi.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Pratyush Yadav <p.yadav@ti.com>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
+ <20220727103639.581567-16-tomi.valkeinen@ideasonboard.com>
+ <Yud5w0xS/zv3auYR@paasikivi.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Yud5w0xS/zv3auYR@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[Fixed Jacopo's email address.]
+On 01/08/2022 09:59, Sakari Ailus wrote:
+> Moi,
+> 
+> On Wed, Jul 27, 2022 at 01:36:24PM +0300, Tomi Valkeinen wrote:
+>> Add a helper function to set the subdev routing. The helper can be used
+>> from subdev driver's set_routing op to store the routing table.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 27 +++++++++++++++++++++++++++
+>>   include/media/v4l2-subdev.h           | 16 ++++++++++++++++
+>>   2 files changed, 43 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index befd00ebf381..0b841cf74c74 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -1176,6 +1176,33 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+>>   }
+>>   EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
+>>   
+>> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+>> +			    struct v4l2_subdev_state *state,
+>> +			    struct v4l2_subdev_krouting *routing)
+>> +{
+>> +	struct v4l2_subdev_krouting *dst = &state->routing;
+>> +	const struct v4l2_subdev_krouting *src = routing;
+>> +
+>> +	lockdep_assert_held(state->lock);
+>> +
+>> +	kfree(dst->routes);
+>> +	dst->routes = NULL;
+>> +	dst->num_routes = 0;
+> 
+> Shouldn't you keep the old routing around until memory allocation (and
+> anything else that can fail) has succeeded?
 
-On Mon, Aug 1, 2022 at 4:17 PM Tomasz Figa <tfiga@chromium.org> wrote:
->
-> On Thu, Apr 14, 2022 at 6:30 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Laurent,
-> >
-> > On Tue, Mar 29, 2022 at 04:02:54PM +0300, Laurent Pinchart wrote:
-> > > Hi Sakari,
-> > >
-> > > On Mon, Mar 14, 2022 at 11:11:18PM +0200, Sakari Ailus wrote:
-> > > > On Mon, Mar 14, 2022 at 10:05:37PM +0200, Laurent Pinchart wrote:
-> > > > ...
-> > > > > > > Yes, after reading the version register (or doing any other h=
-arware
-> > > > > > > access). Actually the full code would be
-> > > > > > >
-> > > > > > >
-> > > > > > >       pm_runtime_enable(dev);
-> > > > > > >       pm_runtime_resume_and_get(dev);
-> > > > > > >
-> > > > > > >       /* Hardware access */
-> > > > > > >
-> > > > > > >       pm_runtime_set_autosuspend_delay(dev, 1000);
-> > > > > > >       pm_runtime_use_autosuspend(dev);
-> > > > > > >       pm_runtime_put_autosuspend(dev);
-> > > > > > >
-> > > > > > > (plus error handling).
-> > > > > > >
-> > > > > > > If the probe function doesn't need to access the hardware, th=
-en
-> > > > > > > the above becomes
-> > > > > > >
-> > > > > > >       pm_runtime_enable(dev);
-> > > > > > >       pm_runtime_set_autosuspend_delay(dev, 1000);
-> > > > > > >       pm_runtime_use_autosuspend(dev);
-> > > > > > >
-> > > > > > > instead of having to power up the device just in case !PM.
-> > > > > > >
-> > > > > > > > Also the latter only works on DT-based systems so it's not =
-an option for
-> > > > > > > > most of the drivers.
-> > >
-> > > Does the former work on ACPI systems ?
-> >
-> > Yes (i.e. the one that was above the quoted text).
-> >
-> > >
-> > > > > > > How so, what's wrong with the above for ACPI-based system ?
-> > > > > >
-> > > > > > I=E6=B6=8E devices are already powered on for probe on ACPI bas=
-ed systems.
-> > > > >
-> > > > > Not through RPM I suppose ?
-> > > >
-> > > > Runtime PM isn't involved, this takes place in the ACPI framework (=
-via
-> > > > dev_pm_domain_attach() called in i2c_device_probe()).
-> > >
-> > > How can we fix this ? It may have made sense a long time ago, but it'=
-s
-> > > making RPM handling way too difficult in I2C drivers now. We need
-> > > something better instead of continuing to rely on cargo-cult for prob=
-e
-> > > functions. Most drivers are broken.
-> >
-> > Some could be broken, there's no question of that. A lot of drivers sup=
-port
-> > either ACPI or DT, too, so not _that_ many need to work with both. Albe=
-it
-> > that number is probably increasing constantly for the same devices are =
-used
-> > on both.
-> >
-> > Then there are drivers that prefer not powering on the device in probe =
-(see
-> > <URL:https://lore.kernel.org/linux-acpi/20210210230800.30291-2-sakari.a=
-ilus@linux.intel.com/T/>),
-> > it gets complicated to support all the combinatios of DT/ACPI (with or
-> > without the flag / property for waiving powering device on for probe) a=
-nd
-> > CONFIG_PM enabled/disabled.
-> >
-> > What I think could be done to add a flag for drivers that handle power =
-on
-> > their own, or perhaps rather change how I2C_DRV_ACPI_WAIVE_D0_PROBE fla=
-g
-> > works. Right now it expects a property on the device but that check cou=
-ld
-> > be moved to existing drivers using the flag. Not many drivers are curre=
-ntly
-> > using the flag. I think this would simplify driver implementation as bo=
-th
-> > firmware interfaces would work the same way in this respect.
-> >
-> > You'd have to change one driver at a time, and people should be encoura=
-ged
-> > to write new drivers with that flag. Or add the flag to all existing
-> > drivers and not accept new ones with it.
-> >
-> > These devices I think are all I=E6=B6=8E but my understanding is that s=
-uch
-> > differences exist elsewhere in the kernel, too. If they are to be
-> > addressed, it would probably be best to have a unified approach towards=
- it.
-> >
-> > Added a few more people and lists to cc.
->
-> + Hidenori from my team for visibility.
->
-> I think we may want to take a step back and first define the problem
-> itself. To do that, let's take a look separately at DT and ACPI cases
-> (is platform data still relevant? are there any other firmware
-> interfaces that deal with I2C devices?).
-> For simplicity, let's forget about the ACPI waived power on in probe.
->
-> DT:
->  1) hardware state unknown when probe is called
->  2) claim any independently managed resources (e.g. GPIOs)
->  3) enable runtime PM
->  4) if driver wants to access the hardware:
->     a) runtime PM get
->     b) enable any independently controlled resources (e.g. reset GPIO)
->     c) [do access]
->     d) disable any independently controlled resources
->     e) runtime PM put
->  5) after probe returns, regulators, clocks (and other similarly
-> managed resources) would be force disabled if their enable count is 0
->  6) hardware state is off (after the runtime PM state settles)
->
-> ACPI:
->  1) hardware state is active when probe is called
->  2) [n/a]
->  3) tell runtime PM framework that the state is active and then enable
-> runtime PM
->  4) if driver wants to access the hardware:
->     a) runtime PM get
->     b) [n/a]
->     c) [do access]
->     d) [n/a]
->     e) runtime PM put
->  5) [n/a]
->  6) hardware state is off (after the runtime PM state settles)
->
-> It seems like the relevant difference here is that for ACPI, the
-> driver needs to know that the initial state is active and also relay
-> this knowledge to the runtime PM subsystem. If we could make the ACPI
-> PM domain work the same way as regulators and clocks and eventually
-> power off some time later when the enable count is 0, then perhaps we
-> could avoid the problem in the first place?
->
-> Best regards,
-> Tomasz
+Indeed, good catch! I think v4l2_subdev_init_stream_configs() also needs 
+improving.
+
+  Tomi
