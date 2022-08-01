@@ -2,182 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 140FC586D86
-	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 17:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CD28586DDF
+	for <lists+linux-media@lfdr.de>; Mon,  1 Aug 2022 17:37:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233245AbiHAPRt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Aug 2022 11:17:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52130 "EHLO
+        id S231896AbiHAPhG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Aug 2022 11:37:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231246AbiHAPRq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 11:17:46 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB5FE2A700
-        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 08:17:43 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id z12so4424614wrs.9
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 08:17:43 -0700 (PDT)
+        with ESMTP id S232845AbiHAPhA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Aug 2022 11:37:00 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75B2D2A712
+        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 08:36:57 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id v7so5084726ljh.5
+        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 08:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=BsB/xDepRoJiilddxJDopGmANpQBABFrmiBJJLAilII=;
-        b=KVU27RcJoNT5haO/2EHOyGXIbUgKL9t5rs7rpFIiOJ/x7tw4+H0XZP2t/2/skQso5i
-         I4tlHbfrfdhOtUAJd0MuyGoofKCtO5/hab4h2xB9NTHurtrTH5p9H1NdjXxZHuMFcLxs
-         Gr5hdcJ4s7ylqGuX35jAERdVUSK8FHgc2LZwe2Mo8MU8jmMIZie9g+v7v0FxmFXyej+d
-         g61PAEusEBM4ae+sCe2F83A2lsxf8rb2lIBmjXprFlsTk42lr1G7YBMRoCIR2UrurZQW
-         oreZbNW4rdcHQZei5vRfBUtC/0rOyL3Si0JqFG/1FggbYzPUXLGtvXA7OnY99WwgkAf6
-         ER7w==
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=q9Slei3vdZHf3BWZhWjxjnYHcSiTDd6lLLw5COAJJH4=;
+        b=UKcP1FDF09nj1k3uYCs67Q7ZyiUIjGtO/8/Bj2O390UgRgAJaQbdj4bNFv73NHa6D2
+         iYDxlXmYJBF3bZ+BbTGm686z3m5B8jXpwu0YmqjPCoKHCXX42ltrt2aAmH4sQv+ccJN+
+         OHyZ31OJTJwijh8OV8oO5eWh1/bM4pqSqK2uyo052aPr6eVSdk1CVQkx424vXYMEZQTj
+         HsS77Ky28UOjl0KpgsmMPfvxGbLfejaevmoaRlv0kRAHXIpr67GF1/t31ULjMlw9VGDc
+         NI+pGTJBLZwknk3P787XURm2/kBy3STaEpJiGhVmWsgdrf7IgJXaPWV7ssfsuJ7alB0a
+         /1Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=BsB/xDepRoJiilddxJDopGmANpQBABFrmiBJJLAilII=;
-        b=Ti+OjMFnnkdFiA3ke4V1PxtU9xRbmqexDcTNxRPwyIAlXGcFUNqgU/SU47hhbG3v11
-         T2ubxLlc1xwurQ2EHaxNwvg4hjrd2VG6s6GqS1SLLfbMlhmwAyFqOdsoxLfh+HMLaujR
-         6BchGYoIwrrtVHT+m89Oke8wETvUxOlGt5yJp8cEZTXv8B562bejpO+UlBUgMRA1I9oI
-         qUZ/tMSZ75yzgt0e37Jc+cCebcvkAkANSSpzeRqciaTbYvVlvTnuADbor0IUUpDatNVu
-         gNi8BcqhFIVJdkhxWH52te2ovbjkA8vZGlw+0oIdrtQEHzkA/LQ1WORBFyRA3rVIWRzF
-         tsYQ==
-X-Gm-Message-State: ACgBeo1NGY7LWGg1XHIFMQExxM44VYr6ts22I5w16v2tWLja/SVCn1RO
-        wC73dzFOIkfj+ES5SD/wRT7q9hM2d9AKMQ==
-X-Google-Smtp-Source: AA6agR4o/IUoeMmtVpmXqxTtjr73ll0mC5RHrbMlyqMBRYLgHsh2iUy1/T4/VQCnPSELak43YE1uGA==
-X-Received: by 2002:a05:6000:1ac8:b0:220:6af3:935d with SMTP id i8-20020a0560001ac800b002206af3935dmr1527550wry.549.1659367062220;
-        Mon, 01 Aug 2022 08:17:42 -0700 (PDT)
-Received: from localhost.localdomain ([195.24.90.54])
-        by smtp.gmail.com with ESMTPSA id m14-20020a05600c4f4e00b003a2d47d3051sm18881505wmq.41.2022.08.01.08.17.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 08:17:41 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Linux Kernel Functional Testing <lkft@linaro.org>
-Subject: [PATCH] venus: pm_helpers: Fix warning in OPP during probe
-Date:   Mon,  1 Aug 2022 18:16:41 +0300
-Message-Id: <20220801151641.1069181-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=q9Slei3vdZHf3BWZhWjxjnYHcSiTDd6lLLw5COAJJH4=;
+        b=OBIjlOG0DePJsCqCZGoP6rmU61l/5L08cTd9PTTQgQEsAMNQVr1GnKlI+TxtwQU5tq
+         ynQ0MOcA1SBPczs3/F1ND+zGOEaPqb/f2E9JjvHm8GR2iWLLinAAb/pIAGkq0CqZbCUA
+         SZH+TiAvQLJ7sJQ7FlWD/y+HCJxxqCmZIVVbNz7WuTHBwzzH1F0rGq3Uk7Pc/ZpNiEMx
+         LWOnEIihBnUoda4/WuAwixsYF2ffCg6V0M0zkt9uM97376pC7wOPg1Q2OB9X0HVQmJS9
+         6zzKOeGadp3TY4Cl+wZE5MkqeY82O6WFe3k664jCAIlunCoTkh5K4OsTdgul4JKqpMwr
+         6Axw==
+X-Gm-Message-State: AJIora+IaJTegbOM8v9Y2Eenpny/HIxcgeMfUtnERGLKj76mZO9WoRrb
+        +aVUtevPMiT50TZppp0/qonHIBOgEDy7xpcHhgo=
+X-Google-Smtp-Source: AGRyM1vmE9FJ4oaYsT2Hr55xmADsiyPljwE7zY7KjJ0BGtCDobMH8efpf5FFXcSqHPDNiB3EqFhLCRIlfACfnG64NOA=
+X-Received: by 2002:a2e:be90:0:b0:25e:1496:a0b8 with SMTP id
+ a16-20020a2ebe90000000b0025e1496a0b8mr5475533ljr.194.1659368215756; Mon, 01
+ Aug 2022 08:36:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+Received: by 2002:aa6:cb52:0:b0:1fa:aaed:e6d9 with HTTP; Mon, 1 Aug 2022
+ 08:36:55 -0700 (PDT)
+From:   Bright Gawayn <gben68387@gmail.com>
+Date:   Mon, 1 Aug 2022 21:06:55 +0530
+Message-ID: <CAG1+V0zQ=FhBLNLT__co7DHJWC=eYBw480NBDxjx-Za_ZVMuzw@mail.gmail.com>
+Subject: Lucrative business proposal very urgent!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=6.9 required=5.0 tests=ADVANCE_FEE_3_NEW,BAYES_50,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no autolearn_force=no
         version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:243 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5005]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [gben68387[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [gben68387[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  3.5 ADVANCE_FEE_3_NEW Appears to be advance fee fraud (Nigerian
+        *      419)
+        *  2.5 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the following WARN triggered during Venus driver probe on
-5.19.0-rc8-next-20220728:
+Hello dear My name is Mr Bright Gawayn,  It's my pleasure to contact you today.
 
- WARNING: CPU: 7 PID: 339 at drivers/opp/core.c:2471 dev_pm_opp_set_config+0x49c/0x610
- Modules linked in: qcom_spmi_adc5 rtc_pm8xxx qcom_spmi_adc_tm5 leds_qcom_lpg led_class_multicolor
-  qcom_pon qcom_vadc_common venus_core(+) qcom_spmi_temp_alarm v4l2_mem2mem videobuf2_v4l2 msm(+)
-  videobuf2_common crct10dif_ce spi_geni_qcom snd_soc_sm8250 i2c_qcom_geni gpu_sched
-  snd_soc_qcom_common videodev qcom_q6v5_pas soundwire_qcom drm_dp_aux_bus qcom_stats
-  drm_display_helper qcom_pil_info soundwire_bus snd_soc_lpass_va_macro mc qcom_q6v5
-  phy_qcom_snps_femto_v2 qcom_rng snd_soc_lpass_macro_common snd_soc_lpass_wsa_macro
-  lpass_gfm_sm8250 slimbus qcom_sysmon qcom_common qcom_glink_smem qmi_helpers
-  qcom_wdt mdt_loader socinfo icc_osm_l3 display_connector
-  drm_kms_helper qnoc_sm8250 drm fuse ip_tables x_tables ipv6
- CPU: 7 PID: 339 Comm: systemd-udevd Not tainted 5.19.0-rc8-next-20220728 #4
- Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
- pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
- pc : dev_pm_opp_set_config+0x49c/0x610
- lr : dev_pm_opp_set_config+0x58/0x610
- sp : ffff8000093c3710
- x29: ffff8000093c3710 x28: ffffbca3959d82b8 x27: ffff8000093c3d00
- x26: ffffbca3959d8e08 x25: ffff4396cac98118 x24: ffff4396c0e24810
- x23: ffff4396c4272c40 x22: ffff4396c0e24810 x21: ffff8000093c3810
- x20: ffff4396cac36800 x19: ffff4396cac96800 x18: 0000000000000000
- x17: 0000000000000003 x16: ffffbca3f4edf198 x15: 0000001cba64a858
- x14: 0000000000000180 x13: 000000000000017e x12: 0000000000000000
- x11: 0000000000000002 x10: 0000000000000a60 x9 : ffff8000093c35c0
- x8 : ffff4396c4273700 x7 : ffff43983efca6c0 x6 : ffff43983efca640
- x5 : 00000000410fd0d0 x4 : ffff4396c4272c40 x3 : ffffbca3f5d1e008
- x2 : 0000000000000000 x1 : ffff4396c2421600 x0 : ffff4396cac96860
- Call trace:
-  dev_pm_opp_set_config+0x49c/0x610
-  devm_pm_opp_set_config+0x18/0x70
-  vcodec_domains_get+0xb8/0x1638 [venus_core]
-  core_get_v4+0x1d8/0x218 [venus_core]
-  venus_probe+0xf4/0x468 [venus_core]
-  platform_probe+0x68/0xd8
-  really_probe+0xbc/0x2a8
-  __driver_probe_device+0x78/0xe0
-  driver_probe_device+0x3c/0xf0
-  __driver_attach+0x70/0x120
-  bus_for_each_dev+0x70/0xc0
-  driver_attach+0x24/0x30
-  bus_add_driver+0x150/0x200
-  driver_register+0x64/0x120
-  __platform_driver_register+0x28/0x38
-  qcom_venus_driver_init+0x24/0x1000 [venus_core]
-  do_one_initcall+0x54/0x1c8
-  do_init_module+0x44/0x1d0
-  load_module+0x16c8/0x1aa0
-  __do_sys_finit_module+0xbc/0x110
-  __arm64_sys_finit_module+0x20/0x30
-  invoke_syscall+0x44/0x108
-  el0_svc_common.constprop.0+0xcc/0xf0
-  do_el0_svc+0x2c/0xb8
-  el0_svc+0x2c/0x88
-  el0t_64_sync_handler+0xb8/0xc0
-  el0t_64_sync+0x18c/0x190
-  qcom-venus: probe of aa00000.video-codec failed with error -16
+We use a certain raw material in our pharmaceutical firm for the
+manufacture of animal vaccines and many more.
 
-The fix is re-ordering the code related to OPP core. The OPP core
-expects all configuration options to be provided before the OPP
-table is added.
+My intention is to give you the new contact information of the local
+manufacturer of this raw material in India and every details regarding
+how to supply the material to my company if you're interested, my
+company pays in advance for this material.
 
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/pm_helpers.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Due to some reasons, which I will explain in my next email, I cannot
+procure this material and supply it to my company myself due to the
+fact that I am a staff in the company.
 
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index cb48c5ff3dee..c93d2906e4c7 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.c
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -875,7 +875,7 @@ static int vcodec_domains_get(struct venus_core *core)
- 	}
- 
- skip_pmdomains:
--	if (!core->has_opp_table)
-+	if (!core->res->opp_pmdomain)
- 		return 0;
- 
- 	/* Attach the power domain for setting performance state */
-@@ -1007,6 +1007,10 @@ static int core_get_v4(struct venus_core *core)
- 	if (ret)
- 		return ret;
- 
-+	ret = vcodec_domains_get(core);
-+	if (ret)
-+		return ret;
-+
- 	if (core->res->opp_pmdomain) {
- 		ret = devm_pm_opp_of_add_table(dev);
- 		if (!ret) {
-@@ -1017,10 +1021,6 @@ static int core_get_v4(struct venus_core *core)
- 		}
- 	}
- 
--	ret = vcodec_domains_get(core);
--	if (ret)
--		return ret;
--
- 	return 0;
- }
- 
--- 
-2.25.1
+Please get back to me as soon as possible for full detail if you are interested.
 
+Thanks and regards
+Bright.
