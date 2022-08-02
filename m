@@ -2,59 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5A7458766C
-	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 06:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4015C5877EE
+	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 09:36:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232918AbiHBEmv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Aug 2022 00:42:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51618 "EHLO
+        id S235964AbiHBHgp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Aug 2022 03:36:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232111AbiHBEmu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 00:42:50 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95BBBDEE3
-        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 21:42:48 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id d7so8345529pgc.13
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 21:42:48 -0700 (PDT)
+        with ESMTP id S235977AbiHBHgb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 03:36:31 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 082AFD12E
+        for <linux-media@vger.kernel.org>; Tue,  2 Aug 2022 00:36:30 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id v7so7084618ljh.5
+        for <linux-media@vger.kernel.org>; Tue, 02 Aug 2022 00:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7FIM0lLLD/hJvFF9jQAZ9LmmvnoaR0r3fL4LzT4Fj8I=;
-        b=iPiBkDp6w1Afo63byGzk5OUeQiiaH3XvNJ5xC5RAfdHmKaTYaIUjiTntHiJ51tSZSP
-         ucKYD9tnuDTiIkdsBlK9zhca4o5ef+nPB8UQCIj9Bv/93V8CxNa8DI9NKPVwnOFtnDMu
-         E/ZpvyygTNLh4F5QSnLywKNSnyUTFpgoe3QRc=
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=+uxw0k1z3yLPPGIvdY7TbWXYjeq8DTWxtJm8yZgfHjM=;
+        b=lehLhnOxHSYYvDeRIsj9cGKX6iGFd9EJ2KyLjQ5zdw7EOpe1ax+Ck7FKZfJ548h9H0
+         Zt2R10iuct7iBdcxdUCrvsrXObQRCImWlwl0I+TuPuYGTcfZUK6k0RBbN/PU+Z0seItZ
+         yTDMWwLcdRS+Mhh/bUX6F2w7fbdpfP41BrO2FvZK+NZGCtnw3OgH7Qq5dBsyKornMVRD
+         dx7PIhgzHNvZMEEjmv+Inv8ReKtWN8jIw/FgVHidrnOObka+qI1Z/KPdFjg8hfCqH7FF
+         amNvad1KBCWNy3YqRmzqn4vfET8D6hlgdXElhoAia1WeuZW4uqNU2cOil9Fzm7x25xOc
+         nYMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=7FIM0lLLD/hJvFF9jQAZ9LmmvnoaR0r3fL4LzT4Fj8I=;
-        b=tSDY8v/YuxHDhHAvJgUY7DrMjRNQNqR+8veJf8yrLx9hc5i6tugb7fTVMnMrJ5PNqb
-         f8XiBVjRsbMv4of7t7m6d+dg4kPXRg/E44ON9Dqs/y2w2KFyej+SD1U2G4g+q+Z1ultx
-         7K2p1OU1nJHtwd1B4nWqpUsU5gvTwB+iWG5+jcpGwFuttLGNU/8oWwXSimXY3UqkHe59
-         f38Om7Miike/SZBCmKXpQAhcpYse1re54ulq5q3lIcG8FaXayuUiooakSOn3RgWs/8KO
-         D6hSV7u5WAI//wyRY7/95/dAoOJajnCAfsvyBtGRYk3b9f4cEm2rKhC/40eYhWOtPvOq
-         iOhA==
-X-Gm-Message-State: AJIora9RbZNy8deq7vWGWIq6NTVpkjOzZq7bl6/balknlX01t9XJFm1U
-        gptwNxrL/fPhJWf8Ap2roJykzhPIEL/kHw==
-X-Google-Smtp-Source: AGRyM1uMvjv8DLatXjKlvyEmESrjQAGIC1adkcOJd99g7+XpFXVrH2Yfo6b6VXJGTyeQA1vfCcYq/Q==
-X-Received: by 2002:a63:5a4d:0:b0:41b:7702:635f with SMTP id k13-20020a635a4d000000b0041b7702635fmr15942636pgm.111.1659415367958;
-        Mon, 01 Aug 2022 21:42:47 -0700 (PDT)
-Received: from hiroh2.c.googlers.com.com (231.137.80.34.bc.googleusercontent.com. [34.80.137.231])
-        by smtp.gmail.com with ESMTPSA id q30-20020a631f5e000000b0041c6541383dsm446321pgm.60.2022.08.01.21.42.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 21:42:47 -0700 (PDT)
-From:   Hirokazu Honda <hiroh@chromium.org>
-To:     linux-media@vger.kernel.org
-Cc:     Hirokazu Honda <hiroh@chromium.org>
-Subject: [PATCH] media: mediatek: vcodec: Skip non CBR bitrate mode
-Date:   Tue,  2 Aug 2022 04:42:42 +0000
-Message-Id: <20220802044242.1465815-1-hiroh@chromium.org>
-X-Mailer: git-send-email 2.37.1.455.g008518b4e5-goog
+        bh=+uxw0k1z3yLPPGIvdY7TbWXYjeq8DTWxtJm8yZgfHjM=;
+        b=7G64mqHh4Ua4sanEDqWoIAZvEFm+RalB6BpfBBtmNro8+zzBhT9oLikx0D2Wec4XGE
+         Lq1Fj+zHh6ffkvgpdzYJibaOqtj0jhRpOqCVVuUOck8KkjIPZX/+fXFu7y8qkZ0gkVP7
+         z8EjUC+9mvmed2WdDFEQrFezaJrF+xZQ1JHqh/01sZPItCp0ZFfVYTKXjbR9/voj6c4q
+         qm69//GrKJCYakzPXFGAiTHrzon4EofCUgo2CRGE/GiFDbSJqflDDrSTcHRRSDz0jXTv
+         zbm54tYI1ReXT/NmE6DPaWwDK6BZGC7vp2C6uUSwIpKf2PPDo+fXiI5F8Ncuj4MOOWEG
+         iOJQ==
+X-Gm-Message-State: AJIora8iTnooN77wc9VKUMKxhzNimID6jIT6oIbBcdiku5IKlhC3ifwZ
+        ps2G2ixkzeazrHdPQBykDiS/ZA==
+X-Google-Smtp-Source: AGRyM1sCfsPc72zuAnJmDLr75MiHUEpZykMoGAAgdiNdr2Jw6rzcump9gBcYkdkMXkdsf9InJgbzyA==
+X-Received: by 2002:a2e:934f:0:b0:24f:ea1:6232 with SMTP id m15-20020a2e934f000000b0024f0ea16232mr6321414ljh.135.1659425788309;
+        Tue, 02 Aug 2022 00:36:28 -0700 (PDT)
+Received: from [192.168.1.6] ([213.161.169.44])
+        by smtp.gmail.com with ESMTPSA id h40-20020a0565123ca800b0048af895ca6bsm718364lfv.107.2022.08.02.00.36.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Aug 2022 00:36:27 -0700 (PDT)
+Message-ID: <4b1d5266-40a9-9897-7caf-d3d41c0aa598@linaro.org>
+Date:   Tue, 2 Aug 2022 09:36:25 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 1/4] media: dt-bindings: media: Document RZ/G2L CSI-2
+ block
+Content-Language: en-US
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,29 +86,190 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-V4L2_MPEG_VIDEO_BITRATE_MODE_CBR is the only bitrate mode supported
-by the mediatek driver. The other bitrates must be skipped in
-QUERY_MENU.
+On 01/08/2022 23:47, Lad Prabhakar wrote:
+> Document the CSI-2 block which is part of CRU found in Renesas
+> RZ/G2L SoC.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> RFC v2 -> v1
 
-Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Too many "media" in the subject prefixes.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-index 25e816863597..ca7c4058f6b8 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-@@ -1403,7 +1403,8 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
- 			       V4L2_MPEG_VIDEO_VP8_PROFILE_0, 0, V4L2_MPEG_VIDEO_VP8_PROFILE_0);
- 	v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
- 			       V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
--			       0, V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
-+                               ~(1 << V4L2_MPEG_VIDEO_BITRATE_MODE_CBR),
-+			       V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
- 
- 
- 	if (handler->error) {
--- 
-2.37.1.455.g008518b4e5-goog
+> * Fixed review comments pointed by Rob and Jacopo.
+> 
+> RFC v1 -> RFC v2
+> * New patch
+> ---
+>  .../bindings/media/renesas,rzg2l-csi2.yaml    | 149 ++++++++++++++++++
+>  1 file changed, 149 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> new file mode 100644
+> index 000000000000..f82f88c096df
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> @@ -0,0 +1,149 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (C) 2022 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-csi2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L (and alike SoC's) MIPI CSI-2 receiver
+> +
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description:
+> +  The CSI-2 receiver device provides MIPI CSI-2 capabilities for the Renesas RZ/G2L
+> +  (and alike SoCs). MIPI CSI-2 is part of the CRU block which is used in conjunction
+> +  with the Image Processing module, which provides the video capture capabilities.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+> +              - renesas,r9a07g054-csi2       # RZ/V2L
+> +          - const: renesas,rzg2l-csi2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  interrupt-names:
+> +    const: csi2_link
+> +
+> +  clocks:
+> +    items:
+> +      - description: Internal clock for connecting CRU and MIPI
+> +      - description: CRU Main clock
+> +      - description: CPU Register access clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: vclk
+> +      - const: pclk
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: CRU_CMN_RSTB reset terminal
+> +
+> +  reset-names:
+> +    const: cmn-rstb
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  maximum: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node, Image Processing block connected to the CSI-2 receiver.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - resets
+> +  - reset-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    csi20: csi2@10830400 {
 
+Node name just "csi"
+
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+> +            compatible = "renesas,r9a07g044-csi2", "renesas,rzg2l-csi2";
+> +            reg = <0x10830400 0xfc00>;
+
+Please use 4-space indentation for example DTS.
+
+> +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>;
+> +            clock-names = "sysclk", "vclk", "pclk";
+> +            power-domains = <&cpg>;
+> +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>;
+> +            reset-names = "cmn-rstb";
+> +
+> +            ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@0 {
+> +                            reg = <0>;
+> +
+> +                            csi2_in: endpoint {
+> +                                    clock-lanes = <0>;
+> +                                    data-lanes = <1 2>;
+> +                                    remote-endpoint = <&ov5645_ep>;
+> +                            };
+> +                    };
+> +
+> +                    port@1 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <1>;
+> +
+> +                            csi2cru: endpoint@0 {
+> +                                    reg = <0>;
+> +                                    remote-endpoint = <&crucsi2>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+
+
+Best regards,
+Krzysztof
