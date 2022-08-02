@@ -2,132 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B768D587996
-	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 11:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3CB35879C2
+	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 11:19:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233918AbiHBJHS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Aug 2022 05:07:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36124 "EHLO
+        id S234041AbiHBJTW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 2 Aug 2022 05:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231571AbiHBJHR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 05:07:17 -0400
-X-Greylist: delayed 61 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 02 Aug 2022 02:07:13 PDT
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D984B1E3F3
-        for <linux-media@vger.kernel.org>; Tue,  2 Aug 2022 02:07:13 -0700 (PDT)
-X-KPN-MessageId: 4a84b24d-1242-11ed-bfe8-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 4a84b24d-1242-11ed-bfe8-005056999439;
-        Tue, 02 Aug 2022 11:05:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=mLOsJT0TJ3c4KXdQDSuI0fX6PHkphFKUJPumIvXjI+M=;
-        b=Lnwt2a1LAM4XU3PL4ppbW8wfRou994jyhv6qaV7s0h9PXRqIHblVC5bZQV2pz7A84TBvdhA8lENJ5
-         e6f/5oDD7Q6XC8nVw2Rwua6diJdHuCUUp0De9BdJH9E6E4bZ9Kd+vy5Vk8fMGqlYpiA0O5INvQ4EdX
-         9T1ssDarv+15yLUXbisIDu/hFxdDjgtsoPKl5UgH2irGdMKv+LZVW4D2HrZO8U+eehuVFhypIZDNL+
-         MDQWBLzHN74Nuswnqr8el/8sVGxOopw1vPD+tUG9TJHhdonchxd8CV5+P8F3grzHfLw8WjpoqpJ+7a
-         syIapiqDtYnlI+qXY1KqxId3H/Uj2Ng==
-X-KPN-MID: 33|xrJjbMnG31eMG1uuOuySwe40UL/nEWnoa6hAl/rFxgO/Up2uow3xOQPutPxVdq1
- 6IgEwndvYAsFmLL1IWR9vO64AC8ZNvct+9k+lTg2o8co=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|bkauOvJvXBXhdlX0okvocgx6DVLRjHDVJrDpnUMWCeeXyZFQb2PgFy+IaIoC/yD
- GMYfUMqFUR63gUIEBUrdEbw==
-X-Originating-IP: 173.38.220.52
-Received: from [10.47.77.219] (unknown [173.38.220.52])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 58f82e4d-1242-11ed-9b28-00505699d6e5;
-        Tue, 02 Aug 2022 11:06:09 +0200 (CEST)
-Message-ID: <5d3fe43f-5615-137d-b712-f6c9079460cd@xs4all.nl>
-Date:   Tue, 2 Aug 2022 11:06:08 +0200
+        with ESMTP id S232543AbiHBJTU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 05:19:20 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D5332EC9
+        for <linux-media@vger.kernel.org>; Tue,  2 Aug 2022 02:19:19 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oIo3Z-000UhE-Au; Tue, 02 Aug 2022 09:19:17 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oIo3Y-00BItF-2b; Tue, 02 Aug 2022 09:19:15 +0000
+Date:   Tue, 2 Aug 2022 09:19:15 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <503008048.0.1659431955337@builder.linuxtv.org>
+In-Reply-To: <412751278.0.1659345555000@builder.linuxtv.org>
+References: <412751278.0.1659345555000@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3978
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 4/5] media: i2c: cat24c208: driver for the cat24c208 EDID
- EEPROM
-Content-Language: en-US
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "Erling Ljunggren (hljunggr)" <hljunggr@cisco.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "jonathansb1@gmail.com" <jonathansb1@gmail.com>
-References: <20220728114050.2400475-1-hljunggr@cisco.com>
- <20220728114050.2400475-5-hljunggr@cisco.com>
- <CAHp75Ve6-BQ_Ajst96cr=XvJGV247_FYLTHTz=nvTCC3NhQa1A@mail.gmail.com>
- <db2d74d0ab17b407223092c8e0e01784d36bbda1.camel@cisco.com>
- <CAHp75Vc2qWQXk-+0ath8zuTaGHmSG_ZiUYih=4rGeKx3_nmtsQ@mail.gmail.com>
- <b426bd08-6c52-3891-9319-b6cc52bdfbab@xs4all.nl>
- <CAHp75Vdtv6qtjxACA+nET2wyzHpHqxvPeZ-KhRWSByGtH4T5TQ@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAHp75Vdtv6qtjxACA+nET2wyzHpHqxvPeZ-KhRWSByGtH4T5TQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/2/22 10:42, Andy Shevchenko wrote:
-> On Mon, Aug 1, 2022 at 8:35 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->> On 01/08/2022 16:57, Andy Shevchenko wrote:
->>> On Mon, Aug 1, 2022 at 3:07 PM Erling Ljunggren (hljunggr)
->>> <hljunggr@cisco.com> wrote:
->>>> On Fri, 2022-07-29 at 17:51 +0200, Andy Shevchenko wrote:
->>>>> On Thu, Jul 28, 2022 at 1:53 PM Erling Ljunggren <hljunggr@cisco.com>
->>>>> wrote:
-> 
-> ...
-> 
->>>>>> +       state = kzalloc(sizeof(*state), GFP_KERNEL);
->>>>>> +       if (!state)
->>>>>> +               return -ENOMEM;
->>>>>
->>>>> devm_kzalloc() ?
->>>>
->>>> This will fail if the device is forcibly unloaded while some
->>>> application has the device node open.
->>>
->>> I'm not sure how it's related. Can you elaborate a bit, please?
->>>
->>> If you try to forcibly unload the device (driver) when it's open and
->>> it somehow succeeds, that will be a sign of lifetime issues in the
->>> code.
->>
->> Not with rmmod but using the unbind facility.
-> 
-> And what is the difference? The device driver core calls the same, no?
+See <https://builder.linuxtv.org/job/media-build/3978/display/redirect>
 
-rmmod when the /dev/videoX is open won't work (device is busy), whereas
-unbind *will* work, and it is really the same as a USB unplug.
+Changes:
 
-> 
->> For new media drivers we generally
->> want to avoid using devm_*alloc, it causes more problems than it solves.
-> 
-> I think it's because people don't think much about the lifetime of
-> objects. I don't think devm is an issue here.
 
-Yes, it is: unbind will call the driver remove() function, and after that
-function all memory allocated with devm_*alloc will be freed immediately.
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+Commit message: "versions.txt: IMON builds for 4.11 and up only"
+ > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3977' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
+[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@4491f3d'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins2100958472625012330.sh
++ make distclean
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
+	config-compat.h Module.symvers Module.markers modules.order \
+	*.unsigned .*.ko.unsigned.cmd
+rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
+	Kconfig Kconfig.kern .config .config.cmd .myconfig \
+	.kconfig.dep config-mycompat.h
+rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
+rm -f scripts/lxdialog scripts/kconfig
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
 
-But if an application still has a filehandle open and was possibly even in
-the middle of an ioctl call, then having the memory removed instantaneously
-is a really bad thing.
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
-Hotpluggable devices in general definitely should not use it. I'm not a fan
-of devm_*alloc anymore.
+Not aborted. It means that the licence was agreed. Proceeding...
 
-Regards,
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2022-08-02 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2022-08-02 09:19:10--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-	Hans
+     0K                                                       100%  113M=0s
 
-> 
->> It's unlikely to be an issue here, but I'd rather keep it as-is.
-> 
-> OK.
-> 
+2022-08-02 09:19:10 (113 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-14-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-14-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
