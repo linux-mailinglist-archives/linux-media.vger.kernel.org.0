@@ -2,236 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3CB35879C2
-	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 11:19:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45F5C5879E1
+	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 11:33:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234041AbiHBJTW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 2 Aug 2022 05:19:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45006 "EHLO
+        id S235988AbiHBJc2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Aug 2022 05:32:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232543AbiHBJTU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 05:19:20 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D5332EC9
-        for <linux-media@vger.kernel.org>; Tue,  2 Aug 2022 02:19:19 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oIo3Z-000UhE-Au; Tue, 02 Aug 2022 09:19:17 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oIo3Y-00BItF-2b; Tue, 02 Aug 2022 09:19:15 +0000
-Date:   Tue, 2 Aug 2022 09:19:15 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <503008048.0.1659431955337@builder.linuxtv.org>
-In-Reply-To: <412751278.0.1659345555000@builder.linuxtv.org>
-References: <412751278.0.1659345555000@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3978
+        with ESMTP id S236368AbiHBJcJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 05:32:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459D33E748;
+        Tue,  2 Aug 2022 02:32:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D65F160EC7;
+        Tue,  2 Aug 2022 09:32:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2492DC433C1;
+        Tue,  2 Aug 2022 09:32:04 +0000 (UTC)
+Message-ID: <f035cdea-934c-3bd9-f685-47e5e9ff3f49@xs4all.nl>
+Date:   Tue, 2 Aug 2022 11:32:03 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/3] media: videobuf2: Add a transfer error event
+Content-Language: en-US
+To:     Michael Rodin <mrodin@de.adit-jv.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, michael@rodin.online,
+        erosca@de.adit-jv.com,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+References: <YqEO3/KekkZhVjW+@oden.dyn.berto.se>
+ <20220628180024.451258-1-mrodin@de.adit-jv.com>
+ <20220628180024.451258-2-mrodin@de.adit-jv.com>
+ <5e8c50cdc031bffd96b19929508f034d1263c8b7.camel@ndufresne.ca>
+ <20220715161346.GA1116690@vmlxhi-182>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220715161346.GA1116690@vmlxhi-182>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3978/display/redirect>
+Hi Michael,
 
-Changes:
+Apologies for the late reply...
 
+On 7/15/22 18:15, Michael Rodin wrote:
+> Hi Nicolas,
+> 
+> On Mon, Jul 04, 2022 at 11:59:58AM -0400, Nicolas Dufresne wrote:
+>> Hi Micheal,
+>>
+>> thanks for your work, I have some questions below ...
+> 
+> Thank you for your feedback!
+> 
+>> Le mardi 28 juin 2022 à 20:00 +0200, Michael Rodin a écrit :
+>>> From: Niklas Söderlund <https://urldefense.proofpoint.com/v2/url?u=http-3A__niklas.soderlund-2Brenesas-40ragnatech.se&d=DwIFaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=7ktiIpDjee6bMSPLXXR7KVvJ_y234VytWEydKF2TWEo&s=-GUWUbGDkkrTAXiF_75xnL13cn3HYL2r2ZN0XwlG41U&e=>
+>>>
+>>> Add a new V4L2_EVENT_XFER_ERROR event to signal if an error happens during
+>>> video transfer.
+>>>
+>>> The use-case that sparked this new event is to signal to the video
+>>> device driver that an error has happen on the CSI-2 bus from the CSI-2
+>>> receiver subdevice.
+>>>
+>>> Signed-off-by: Niklas Söderlund <https://urldefense.proofpoint.com/v2/url?u=http-3A__niklas.soderlund-2Brenesas-40ragnatech.se&d=DwIFaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=7ktiIpDjee6bMSPLXXR7KVvJ_y234VytWEydKF2TWEo&s=-GUWUbGDkkrTAXiF_75xnL13cn3HYL2r2ZN0XwlG41U&e=>
+>>> [mrodin@de.adit-jv.com: adapted information what to do if this new event is received]
+>>> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+>>> ---
+>>>  .../userspace-api/media/v4l/vidioc-dqevent.rst         | 10 ++++++++++
+>>>  .../userspace-api/media/videodev2.h.rst.exceptions     |  1 +
+>>>  include/uapi/linux/videodev2.h                         |  1 +
+>>>  3 files changed, 12 insertions(+)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>> index 6eb40073c906..3cf0b4859784 100644
+>>> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>> @@ -182,6 +182,16 @@ call.
+>>>  	the regions changes. This event has a struct
+>>>  	:c:type:`v4l2_event_motion_det`
+>>>  	associated with it.
+>>> +    * - ``V4L2_EVENT_XFER_ERROR``
+>>
+>> I'm not sure why this event is specific to XFER. Is there uses cases were a
+>> future implementation would have both XFER and RECEIVER error ?
+> 
+> I am not sure whether I understand you correctly, do you mean that there is
+> already a method to signal a receiver error? Or that we should name it
+> V4L2_EVENT_RECEIVER_ERROR? I think that "transfer error" is a good name for
+> this event, because it could be sent by receiver or by transmitter drivers,
+> depending on their hardware error detection capabilities. We could have
+> e.g. a video transmitter which can detect an error coupled with a video
+> receiver which can not detect any errors.
+> 
+>>> +      - 7
+>>> +      - This event is triggered when an transfer error is detected while
+>>> +	streaming. For example if an error is detected on a video bus in
+>>> +	the pipeline. If a driver receives this event from an upstream
+>>> +	subdevice, it has to forward the event to userspace. The streaming
+>>> +	application has to check if the transfer error is unrecoverable,
+>>> +	i.e. no new buffers can be dequeued from the kernel after the
+>>> +	expected time. If the error is unrecoverable, the streaming
+>>> +	application should restart streaming if it wants to continue.
+>>
+>> The process to determine if an error is recoverable or not isn't clear to me. As
+>> an application developer, I would not know what to do here. Recoverable error
+>> already have a designed mechanism, it consist of marking done a buffer with the
+>> flag V4L2_BUF_FLAG_ERROR. I would like to understand what the existing mechanism
+>> needed to be replaced, and the placement should be documented.
+> 
+> "Recoverable" means in this context that kernel space continues to capture
+> video buffers (which do not necessarily have the flag V4L2_BUF_FLAG_ERROR).
+> So probably we should not say "recoverable" or "unrecoverable" in the
+> context of this event to avoid confusion. V4L2_EVENT_XFER_ERROR just tells
+> userspace that it should restart streaming if the buffer flow stops after
+> this event. So would it be sufficient for an application developer if we
+> drop all statements about "recoverability" from the event description?
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3977' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@4491f3d'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins2100958472625012330.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+Here you touch on the core problem of this patch: you are basically saying
+that userspace has to 1) subscribe to this event, 2) poll for it, 3) if it
+arrives start a timer, 4) if the timer triggers and no new buffers have been
+received in the meantime, then 5) restart streaming.
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+So in other words, you are just too lazy to do this in the driver and want
+to hand it off to userspace.
 
-Not aborted. It means that the licence was agreed. Proceeding...
+That's not how it works. Usually the driver will know if the error is
+recoverable or not (i.e. if an HDMI receiver loses signal, that's definitely
+unrecoverable, and it's something the driver can know and call vb2_queue_error).
 
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-08-02 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-08-02 09:19:10--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+If it is really unknown, then you indeed need some monitoring thread. And
+that's fine. Even better if you can make some helper things in the V4L2 core.
 
-     0K                                                       100%  113M=0s
+But you can't just kick that to userspace IMHO. I can guarantee that almost
+no userspace application will do this and it is really not the job of userspace
+to deal with such issues.
 
-2022-08-02 09:19:10 (113 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+Regards,
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+	Hans
+
+> 
+>> Nicolas
+>>
+>>>      * - ``V4L2_EVENT_PRIVATE_START``
+>>>        - 0x08000000
+>>>        - Base event number for driver-private events.
+>>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> index 9cbb7a0c354a..25bde61a1519 100644
+>>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> @@ -500,6 +500,7 @@ replace define V4L2_EVENT_CTRL event-type
+>>>  replace define V4L2_EVENT_FRAME_SYNC event-type
+>>>  replace define V4L2_EVENT_SOURCE_CHANGE event-type
+>>>  replace define V4L2_EVENT_MOTION_DET event-type
+>>> +replace define V4L2_EVENT_XFER_ERROR event-type
+>>>  replace define V4L2_EVENT_PRIVATE_START event-type
+>>>  
+>>>  replace define V4L2_EVENT_CTRL_CH_VALUE ctrl-changes-flags
+>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>>> index 5311ac4fde35..44db724d4541 100644
+>>> --- a/include/uapi/linux/videodev2.h
+>>> +++ b/include/uapi/linux/videodev2.h
+>>> @@ -2385,6 +2385,7 @@ struct v4l2_streamparm {
+>>>  #define V4L2_EVENT_FRAME_SYNC			4
+>>>  #define V4L2_EVENT_SOURCE_CHANGE		5
+>>>  #define V4L2_EVENT_MOTION_DET			6
+>>> +#define V4L2_EVENT_XFER_ERROR			7
+>>>  #define V4L2_EVENT_PRIVATE_START		0x08000000
+>>>  
+>>>  /* Payload for V4L2_EVENT_VSYNC */
+>>
+> 
+
