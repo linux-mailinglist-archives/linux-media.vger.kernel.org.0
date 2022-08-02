@@ -2,152 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B09E5587630
-	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 06:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5A7458766C
+	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 06:42:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235263AbiHBEQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Aug 2022 00:16:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40146 "EHLO
+        id S232918AbiHBEmv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Aug 2022 00:42:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbiHBEQc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 00:16:32 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639143ED4C
-        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 21:16:31 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id m2so5563690pls.4
-        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 21:16:31 -0700 (PDT)
+        with ESMTP id S232111AbiHBEmu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 00:42:50 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95BBBDEE3
+        for <linux-media@vger.kernel.org>; Mon,  1 Aug 2022 21:42:48 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id d7so8345529pgc.13
+        for <linux-media@vger.kernel.org>; Mon, 01 Aug 2022 21:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=C6HB9uTf60BVvbZncr5sQL+IFnZUsS8J9nTGcw/j7Rw=;
-        b=I5zwxvwvpyxGnk+WHFLO8Pq0Xiy8ph21o0HfIj5lWh/zSJvjtYDcB7CfxzHEFe2k6Z
-         nLLHXeQ4HgdBoguSnbmcfEqCwWJZt37yUWd+EL7QBE42k6gwXCVS4gBq4vZaRaCqh2a9
-         pA1JQ8GlvGGx8vQs2wvT/1XEcX9zqjDorlZfCllU3IqBCnRN5AuCTG5+sn+PbBR/9VJa
-         BUOH68KZ83K4c4kjVl/hBectysySO199fxqsDvlTXU4wVZhciWTjyaMU+OJEvbn78w3q
-         ubZohpLWD09yHAQNsmQ0jWFcIMY0sNNUizQwXK+c7QzSqu9LS1EVInAMtgBmED5fVBbf
-         JZ+A==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7FIM0lLLD/hJvFF9jQAZ9LmmvnoaR0r3fL4LzT4Fj8I=;
+        b=iPiBkDp6w1Afo63byGzk5OUeQiiaH3XvNJ5xC5RAfdHmKaTYaIUjiTntHiJ51tSZSP
+         ucKYD9tnuDTiIkdsBlK9zhca4o5ef+nPB8UQCIj9Bv/93V8CxNa8DI9NKPVwnOFtnDMu
+         E/ZpvyygTNLh4F5QSnLywKNSnyUTFpgoe3QRc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=C6HB9uTf60BVvbZncr5sQL+IFnZUsS8J9nTGcw/j7Rw=;
-        b=iLrsuGBQVGxRx6IFa+hXjgE8FSCooWfj1yDGYuojSh03ssUj8PeYjQKEDfl3hWwDCh
-         8ZcTs9LD54bC82XxcfvSgpHhwxdB3fw39yBwlK2v11XxNl0lr8omzqSVYI0LqBdVC1Ew
-         dBrh4EQEiYZqhNkItLdWa0lveKzcIMHe/dmfnBUbxGqxZjMxm3H5kVTSn2H2yelSXYUk
-         2lxzUOQZCoxA0YwNn8sNbdzBxtFBPZ8Y2aqjlQ/W06HsZWA0jO+gPGuk8wSbzYI3kgrQ
-         /8AP4tNpsxGCvT8GB3S2lHXiTw/SLZwskv9de9A4BL6mj5KUrYN+KmVfHpzzFOPPJ1pq
-         P84A==
-X-Gm-Message-State: ACgBeo2MtUtIORhzxcCFJqhmRNand+qQ+LdBnYDVxc1Dyo1JC1VTq+9s
-        1DB0MkbTwcX7ZQmS2J8b/Foh0enkS4TD9A==
-X-Google-Smtp-Source: AA6agR55b4L32phqlkvghpqYBJ6oUKz/RakdVBDEkF0S4WlcvUiscniySP1WanMVX+5sSPICd6zHBA==
-X-Received: by 2002:a17:90a:930b:b0:1ed:5441:1fff with SMTP id p11-20020a17090a930b00b001ed54411fffmr22416378pjo.238.1659413790733;
-        Mon, 01 Aug 2022 21:16:30 -0700 (PDT)
-Received: from localhost ([122.171.18.80])
-        by smtp.gmail.com with ESMTPSA id m9-20020a170902f64900b0016d2e8c2228sm10356025plg.238.2022.08.01.21.16.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7FIM0lLLD/hJvFF9jQAZ9LmmvnoaR0r3fL4LzT4Fj8I=;
+        b=tSDY8v/YuxHDhHAvJgUY7DrMjRNQNqR+8veJf8yrLx9hc5i6tugb7fTVMnMrJ5PNqb
+         f8XiBVjRsbMv4of7t7m6d+dg4kPXRg/E44ON9Dqs/y2w2KFyej+SD1U2G4g+q+Z1ultx
+         7K2p1OU1nJHtwd1B4nWqpUsU5gvTwB+iWG5+jcpGwFuttLGNU/8oWwXSimXY3UqkHe59
+         f38Om7Miike/SZBCmKXpQAhcpYse1re54ulq5q3lIcG8FaXayuUiooakSOn3RgWs/8KO
+         D6hSV7u5WAI//wyRY7/95/dAoOJajnCAfsvyBtGRYk3b9f4cEm2rKhC/40eYhWOtPvOq
+         iOhA==
+X-Gm-Message-State: AJIora9RbZNy8deq7vWGWIq6NTVpkjOzZq7bl6/balknlX01t9XJFm1U
+        gptwNxrL/fPhJWf8Ap2roJykzhPIEL/kHw==
+X-Google-Smtp-Source: AGRyM1uMvjv8DLatXjKlvyEmESrjQAGIC1adkcOJd99g7+XpFXVrH2Yfo6b6VXJGTyeQA1vfCcYq/Q==
+X-Received: by 2002:a63:5a4d:0:b0:41b:7702:635f with SMTP id k13-20020a635a4d000000b0041b7702635fmr15942636pgm.111.1659415367958;
+        Mon, 01 Aug 2022 21:42:47 -0700 (PDT)
+Received: from hiroh2.c.googlers.com.com (231.137.80.34.bc.googleusercontent.com. [34.80.137.231])
+        by smtp.gmail.com with ESMTPSA id q30-20020a631f5e000000b0041c6541383dsm446321pgm.60.2022.08.01.21.42.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 21:16:29 -0700 (PDT)
-Date:   Tue, 2 Aug 2022 09:46:26 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Kernel Functional Testing <lkft@linaro.org>
-Subject: Re: [PATCH] venus: pm_helpers: Fix warning in OPP during probe
-Message-ID: <20220802041626.cjsuatqecw3qxsxm@vireshk-i7>
-References: <20220801151641.1069181-1-stanimir.varbanov@linaro.org>
+        Mon, 01 Aug 2022 21:42:47 -0700 (PDT)
+From:   Hirokazu Honda <hiroh@chromium.org>
+To:     linux-media@vger.kernel.org
+Cc:     Hirokazu Honda <hiroh@chromium.org>
+Subject: [PATCH] media: mediatek: vcodec: Skip non CBR bitrate mode
+Date:   Tue,  2 Aug 2022 04:42:42 +0000
+Message-Id: <20220802044242.1465815-1-hiroh@chromium.org>
+X-Mailer: git-send-email 2.37.1.455.g008518b4e5-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220801151641.1069181-1-stanimir.varbanov@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01-08-22, 18:16, Stanimir Varbanov wrote:
-> Fix the following WARN triggered during Venus driver probe on
-> 5.19.0-rc8-next-20220728:
-> 
->  WARNING: CPU: 7 PID: 339 at drivers/opp/core.c:2471 dev_pm_opp_set_config+0x49c/0x610
->  Modules linked in: qcom_spmi_adc5 rtc_pm8xxx qcom_spmi_adc_tm5 leds_qcom_lpg led_class_multicolor
->   qcom_pon qcom_vadc_common venus_core(+) qcom_spmi_temp_alarm v4l2_mem2mem videobuf2_v4l2 msm(+)
->   videobuf2_common crct10dif_ce spi_geni_qcom snd_soc_sm8250 i2c_qcom_geni gpu_sched
->   snd_soc_qcom_common videodev qcom_q6v5_pas soundwire_qcom drm_dp_aux_bus qcom_stats
->   drm_display_helper qcom_pil_info soundwire_bus snd_soc_lpass_va_macro mc qcom_q6v5
->   phy_qcom_snps_femto_v2 qcom_rng snd_soc_lpass_macro_common snd_soc_lpass_wsa_macro
->   lpass_gfm_sm8250 slimbus qcom_sysmon qcom_common qcom_glink_smem qmi_helpers
->   qcom_wdt mdt_loader socinfo icc_osm_l3 display_connector
->   drm_kms_helper qnoc_sm8250 drm fuse ip_tables x_tables ipv6
->  CPU: 7 PID: 339 Comm: systemd-udevd Not tainted 5.19.0-rc8-next-20220728 #4
->  Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
->  pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->  pc : dev_pm_opp_set_config+0x49c/0x610
->  lr : dev_pm_opp_set_config+0x58/0x610
->  sp : ffff8000093c3710
->  x29: ffff8000093c3710 x28: ffffbca3959d82b8 x27: ffff8000093c3d00
->  x26: ffffbca3959d8e08 x25: ffff4396cac98118 x24: ffff4396c0e24810
->  x23: ffff4396c4272c40 x22: ffff4396c0e24810 x21: ffff8000093c3810
->  x20: ffff4396cac36800 x19: ffff4396cac96800 x18: 0000000000000000
->  x17: 0000000000000003 x16: ffffbca3f4edf198 x15: 0000001cba64a858
->  x14: 0000000000000180 x13: 000000000000017e x12: 0000000000000000
->  x11: 0000000000000002 x10: 0000000000000a60 x9 : ffff8000093c35c0
->  x8 : ffff4396c4273700 x7 : ffff43983efca6c0 x6 : ffff43983efca640
->  x5 : 00000000410fd0d0 x4 : ffff4396c4272c40 x3 : ffffbca3f5d1e008
->  x2 : 0000000000000000 x1 : ffff4396c2421600 x0 : ffff4396cac96860
->  Call trace:
->   dev_pm_opp_set_config+0x49c/0x610
->   devm_pm_opp_set_config+0x18/0x70
->   vcodec_domains_get+0xb8/0x1638 [venus_core]
->   core_get_v4+0x1d8/0x218 [venus_core]
->   venus_probe+0xf4/0x468 [venus_core]
->   platform_probe+0x68/0xd8
->   really_probe+0xbc/0x2a8
->   __driver_probe_device+0x78/0xe0
->   driver_probe_device+0x3c/0xf0
->   __driver_attach+0x70/0x120
->   bus_for_each_dev+0x70/0xc0
->   driver_attach+0x24/0x30
->   bus_add_driver+0x150/0x200
->   driver_register+0x64/0x120
->   __platform_driver_register+0x28/0x38
->   qcom_venus_driver_init+0x24/0x1000 [venus_core]
->   do_one_initcall+0x54/0x1c8
->   do_init_module+0x44/0x1d0
->   load_module+0x16c8/0x1aa0
->   __do_sys_finit_module+0xbc/0x110
->   __arm64_sys_finit_module+0x20/0x30
->   invoke_syscall+0x44/0x108
->   el0_svc_common.constprop.0+0xcc/0xf0
->   do_el0_svc+0x2c/0xb8
->   el0_svc+0x2c/0x88
->   el0t_64_sync_handler+0xb8/0xc0
->   el0t_64_sync+0x18c/0x190
->   qcom-venus: probe of aa00000.video-codec failed with error -16
-> 
-> The fix is re-ordering the code related to OPP core. The OPP core
-> expects all configuration options to be provided before the OPP
-> table is added.
-> 
-> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+V4L2_MPEG_VIDEO_BITRATE_MODE_CBR is the only bitrate mode supported
+by the mediatek driver. The other bitrates must be skipped in
+QUERY_MENU.
 
-Changed this to Suggested-by.
+Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/pm_helpers.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-
-Applied. Thanks.
-
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+index 25e816863597..ca7c4058f6b8 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+@@ -1403,7 +1403,8 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
+ 			       V4L2_MPEG_VIDEO_VP8_PROFILE_0, 0, V4L2_MPEG_VIDEO_VP8_PROFILE_0);
+ 	v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
+ 			       V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
+-			       0, V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
++                               ~(1 << V4L2_MPEG_VIDEO_BITRATE_MODE_CBR),
++			       V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
+ 
+ 
+ 	if (handler->error) {
 -- 
-viresh
+2.37.1.455.g008518b4e5-goog
+
