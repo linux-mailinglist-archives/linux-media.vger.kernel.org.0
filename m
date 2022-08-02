@@ -2,147 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD0F1587C4E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 14:21:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 517EA587C5A
+	for <lists+linux-media@lfdr.de>; Tue,  2 Aug 2022 14:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237017AbiHBMVh convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 2 Aug 2022 08:21:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43050 "EHLO
+        id S236568AbiHBMYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Aug 2022 08:24:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236905AbiHBMVe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 08:21:34 -0400
-Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5054:ff:fe75:428f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD094F1BE;
-        Tue,  2 Aug 2022 05:21:33 -0700 (PDT)
-Received: from [192.168.10.77] (unknown [140.207.23.88])
-        by kozue.soulik.info (Postfix) with ESMTPSA id 18E6D100DB3;
-        Tue,  2 Aug 2022 21:15:17 +0900 (JST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] [Draft]: media: videobuf2-dma-heap: add a vendor defined memory runtine
-From:   ayaka <ayaka@soulik.info>
-In-Reply-To: <CAAFQd5AL=OejdaubnYDRF4M1EKyStZP_FAMPz4CJ=KCa_8QjaA@mail.gmail.com>
-Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
-        m.szyprowski@samsung.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Date:   Tue, 2 Aug 2022 20:21:22 +0800
-Message-Id: <CF192A87-1664-45B2-B26C-A9B8B6A52523@soulik.info>
-References: <CAAFQd5AL=OejdaubnYDRF4M1EKyStZP_FAMPz4CJ=KCa_8QjaA@mail.gmail.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-X-Mailer: iPad Mail (18D61)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,MIME_QP_LONG_LINE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S231732AbiHBMYL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Aug 2022 08:24:11 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F30934E874
+        for <linux-media@vger.kernel.org>; Tue,  2 Aug 2022 05:24:10 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id dc19so2903705ejb.12
+        for <linux-media@vger.kernel.org>; Tue, 02 Aug 2022 05:24:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=nBBW4WUXiXRlo7hadh/ZCmmBwA7CwRZbKxauE3bKnoA=;
+        b=JFD9R4eWz5PWP5ASd/Q8KIy2kErqcEOlkNehQLebcnsEDhgjsDIfLAga0nF+0hjbjG
+         c7GGgAnh1ISlqQss+xfnQr0cwJgLZ26z/ctJZMy2I/qYt0C55JLWQH5DN4K7wRn3mA4e
+         im8HULoHEfQVX3cqsKWowuYSYwGgBgWN6FKtfP/dPqocQL2iLZsI7B7vvNuTCPZGnIUz
+         iiMEg5Cfh1NP6co8nzGHaVWYJPeGaCnSILtCjdTUYfNIC+k8EMgS6PLVM0PB/8hm+Msb
+         oLCnEKa2je4HNPEmx0RpPMJs3a+0YgkxrjEv+ITsSPW8chUSOYX+aONlB7fX4Bea9DMi
+         I/mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=nBBW4WUXiXRlo7hadh/ZCmmBwA7CwRZbKxauE3bKnoA=;
+        b=PAkD/twd5IKLmPn5n5s/lUZUBvI6dp3J2c5PJ3YQL7rOoNlnZ/kvanMxrWUHqbNtxK
+         4wzGgCw4WC0IBVlcVANXd5JprC9KHr/5DD4dFyvcZYtbbpmTCSD5/TlHohGCDdcw6M5+
+         BDUKGucVOFzSOtNKTvdvG3fdirhmHw0llJFEEf79/T+DK70WZQJyv8ig2ks+GLdvsRWM
+         Wu0H/BSJYY+8lth3kcrM/fQO3Yit7UA5AM4cwNWvVf7Efkm+rZBmw0w12xePPMaEDuSw
+         aKRvVu83EfUz/rzFuSe6o2X0BFEVWLyybpPT0dIhD6YZgQjsL22+L8Ba4fYUqUlHP4ZG
+         OutQ==
+X-Gm-Message-State: AJIora/iXPqxzGD6hAXqTbLu6ujKZSID87w/AsQCdk+MYYwnSpY2BlgR
+        U10/sOr+a7kNEcALbbrilMzQdY7dGIlNWh95qhA=
+X-Google-Smtp-Source: AGRyM1voK7Vpv7M0zvOFBJSw9LbwaT3zVrmjcEXPyxPqH1VuXnVBTzILvsPM1l+9fX3rFDt8TdqFwRZxrJwTIFmVJuI=
+X-Received: by 2002:a17:907:28d6:b0:72b:7497:76b with SMTP id
+ en22-20020a17090728d600b0072b7497076bmr15672001ejc.365.1659443049375; Tue, 02
+ Aug 2022 05:24:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220728114050.2400475-1-hljunggr@cisco.com> <20220728114050.2400475-5-hljunggr@cisco.com>
+ <CAHp75Ve6-BQ_Ajst96cr=XvJGV247_FYLTHTz=nvTCC3NhQa1A@mail.gmail.com>
+ <db2d74d0ab17b407223092c8e0e01784d36bbda1.camel@cisco.com>
+ <CAHp75Vc2qWQXk-+0ath8zuTaGHmSG_ZiUYih=4rGeKx3_nmtsQ@mail.gmail.com>
+ <b426bd08-6c52-3891-9319-b6cc52bdfbab@xs4all.nl> <CAHp75Vdtv6qtjxACA+nET2wyzHpHqxvPeZ-KhRWSByGtH4T5TQ@mail.gmail.com>
+ <5d3fe43f-5615-137d-b712-f6c9079460cd@xs4all.nl> <CAHp75VfWhzz4jzyQAD4UYTN8dBWiKsvimKOPiKozGyNd2_oj=A@mail.gmail.com>
+In-Reply-To: <CAHp75VfWhzz4jzyQAD4UYTN8dBWiKsvimKOPiKozGyNd2_oj=A@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 2 Aug 2022 14:23:32 +0200
+Message-ID: <CAHp75Vd60urVv5R+fE+xxqMNJhJSmXZnfJJwU5t-m3E_T+pcWA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] media: i2c: cat24c208: driver for the cat24c208 EDID EEPROM
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     "Erling Ljunggren (hljunggr)" <hljunggr@cisco.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "jonathansb1@gmail.com" <jonathansb1@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sorry, the previous one contains html data.
+On Tue, Aug 2, 2022 at 2:21 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Tue, Aug 2, 2022 at 11:06 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> > On 8/2/22 10:42, Andy Shevchenko wrote:
+> > > On Mon, Aug 1, 2022 at 8:35 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> > >> On 01/08/2022 16:57, Andy Shevchenko wrote:
+> > >>> On Mon, Aug 1, 2022 at 3:07 PM Erling Ljunggren (hljunggr)
+> > >>> <hljunggr@cisco.com> wrote:
+> > >>>> On Fri, 2022-07-29 at 17:51 +0200, Andy Shevchenko wrote:
+> > >>>>> On Thu, Jul 28, 2022 at 1:53 PM Erling Ljunggren <hljunggr@cisco.com>
+> > >>>>> wrote:
+>
+> ...
+>
+> > >>>>>> +       state = kzalloc(sizeof(*state), GFP_KERNEL);
+> > >>>>>> +       if (!state)
+> > >>>>>> +               return -ENOMEM;
+> > >>>>>
+> > >>>>> devm_kzalloc() ?
+> > >>>>
+> > >>>> This will fail if the device is forcibly unloaded while some
+> > >>>> application has the device node open.
+> > >>>
+> > >>> I'm not sure how it's related. Can you elaborate a bit, please?
+> > >>>
+> > >>> If you try to forcibly unload the device (driver) when it's open and
+> > >>> it somehow succeeds, that will be a sign of lifetime issues in the
+> > >>> code.
+> > >>
+> > >> Not with rmmod but using the unbind facility.
+> > >
+> > > And what is the difference? The device driver core calls the same, no?
+> >
+> > rmmod when the /dev/videoX is open won't work (device is busy), whereas
+> > unbind *will* work, and it is really the same as a USB unplug.
+>
+> Seems there are no guards against that.
+>
+> > >> For new media drivers we generally
+> > >> want to avoid using devm_*alloc, it causes more problems than it solves.
+> > >
+> > > I think it's because people don't think much about the lifetime of
+> > > objects. I don't think devm is an issue here.
+> >
+> > Yes, it is: unbind will call the driver remove() function, and after that
+> > function all memory allocated with devm_*alloc will be freed immediately.
+>
+> Yes.
+>
+> > But if an application still has a filehandle open and was possibly even in
+> > the middle of an ioctl call, then having the memory removed instantaneously
+> > is a really bad thing.
+>
+> True.
+>
+> > Hotpluggable devices in general definitely should not use it. I'm not a fan
+> > of devm_*alloc anymore.
+>
+> You are blaming the wrong man here, i.e. devm. The problem as I stated
+> above is developers who do not understand (pay attention to) the
+> lifetime of the objects.
 
-> On Aug 2, 2022, at 3:33 PM, Tomasz Figa <tfiga@chromium.org> wrote:
-> 
-> ﻿On Mon, Aug 1, 2022 at 8:43 PM ayaka <ayaka@soulik.info> wrote:
->> Sent from my iPad
->>>> On Aug 1, 2022, at 5:46 PM, Tomasz Figa <tfiga@chromium.org> wrote:
->>> ﻿CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
->>>> On Mon, Aug 1, 2022 at 3:44 PM Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
->>>>> On 8/1/22 14:19, Tomasz Figa wrote:
->>>> Hello Tomasz
->>>>> ?Hi Randy,
->>>>> On Mon, Aug 1, 2022 at 5:21 AM <ayaka@soulik.info> wrote:
->>>>>> From: Randy Li <ayaka@soulik.info>
->>>>>> This module is still at a early stage, I wrote this for showing what
->>>>>> APIs we need here.
->>>>>> Let me explain why we need such a module here.
->>>>>> If you won't allocate buffers from a V4L2 M2M device, this module
->>>>>> may not be very useful. I am sure the most of users won't know a
->>>>>> device would require them allocate buffers from a DMA-Heap then
->>>>>> import those buffers into a V4L2's queue.
->>>>>> Then the question goes back to why DMA-Heap. From the Android's
->>>>>> description, we know it is about the copyright's DRM.
->>>>>> When we allocate a buffer in a DMA-Heap, it may register that buffer
->>>>>> in the trusted execution environment so the firmware which is running
->>>>>> or could only be acccesed from there could use that buffer later.
->>>>>> The answer above leads to another thing which is not done in this
->>>>>> version, the DMA mapping. Although in some platforms, a DMA-Heap
->>>>>> responses a IOMMU device as well. For the genernal purpose, we would
->>>>>> be better assuming the device mapping should be done for each device
->>>>>> itself. The problem here we only know alloc_devs in those DMAbuf
->>>>>> methods, which are DMA-heaps in my design, the device from the queue
->>>>>> is not enough, a plane may requests another IOMMU device or table
->>>>>> for mapping.
->>>>>> Signed-off-by: Randy Li <ayaka@soulik.info>
->>>>>> ---
->>>>>> drivers/media/common/videobuf2/Kconfig        |   6 +
->>>>>> drivers/media/common/videobuf2/Makefile       |   1 +
->>>>>> .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++++++++
->>>>>> include/media/videobuf2-dma-heap.h            |  30 ++
->>>>>> 4 files changed, 387 insertions(+)
->>>>>> create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-heap.c
->>>>>> create mode 100644 include/media/videobuf2-dma-heap.h
->>>>> First of all, thanks for the series.
->>>>> Possibly a stupid question, but why not just allocate the DMA-bufs
->>>>> directly from the DMA-buf heap device in the userspace and just import
->>>>> the buffers to the V4L2 device using V4L2_MEMORY_DMABUF?
->>>> Sometimes the allocation policy could be very complex, let's suppose a
->>>> multiple planes pixel format enabling with frame buffer compression.
->>>> Its luma, chroma data could be allocated from a pool which is delegated
->>>> for large buffers while its metadata would come from a pool which many
->>>> users could take some few slices from it(likes system pool).
->>>> Then when we have a new users knowing nothing about this platform, if we
->>>> just configure the alloc_devs in each queues well. The user won't need
->>>> to know those complex rules.
->>>> The real situation could be more complex, Samsung MFC's left and right
->>>> banks could be regarded as two pools, many devices would benefit from
->>>> this either from the allocation times or the security buffers policy.
->>>> In our design, when we need to do some security decoding(DRM video),
->>>> codecs2 would allocate buffers from the pool delegated for that. While
->>>> the non-DRM video, users could not care about this.
->>> I'm a little bit surprised about this, because on Android all the
->>> graphics buffers are allocated from the system IAllocator and imported
->>> to the specific devices.
->> In the non-tunnel mode, yes it is. While the tunnel mode is completely vendor defined. Neither HWC nor codec2 cares about where the buffers coming from, you could do what ever you want.
->> Besides there are DRM video in GNU Linux platform, I heard the webkit has made huge effort here and Playready is one could work in non-Android Linux.
->>> Would it make sense to instead extend the UAPI to expose enough
->>> information about the allocation requirements to the userspace, so it
->>> can allocate correctly?
->> Yes, it could. But as I said it would need the users to do more works.
->>> My reasoning here is that it's not a driver's decision to allocate
->>> from a DMA-buf heap (and which one) or not. It's the userspace which
->>> knows that, based on the specific use case that it wants to fulfill.
->> Although I would like to let the users decide that, users just can’t do that which would violate the security rules in some platforms.
->> For example,  video codec and display device could only access a region of memory, any other device or trusted apps can’t access it. Users have to allocate the buffer from the pool the vendor decided.
->> So why not we offer a quick way that users don’t need to try and error.
-> 
-> In principle, I'm not against integrating DMA-buf heap with vb2,
-> however I see some problems I mentioned before:
-> 
-> 1) How would the driver know if it should allocate from a DMA-buf heap or not?
+That said, the devm has nothing to do with the driver still being
+problematic for the scenario you described, no?
 
-struct vb2_queue.mem_ops
 
-int (*queue_setup)(struct vb2_queue *q,unsigned int *num_buffers, unsigned int *num_planes, unsigned int sizes[], struct device *alloc_devs[]);
-
-> 2) How would the driver know which heap to allocate from?
-
-From vb2_queue.alloc_devs
-
-What I did now is likes what MFC does, create some mem_alloc_devs.
-It would be better that we could retrieve the DMA-heaps’ devices from kernel, but that is not enough, we need a place to store the heap flags although none of them are defined yet.
-
-From Android documents, I think it is unlikely we would have heap flags.
-“Standardization: The DMA-BUF heaps framework offers a well-defined UAPI. ION allowed custom flags and heap IDs that prevented developing a common testing framework because each device’s ION implementation could behave differently.”
-
-> 3) How would the heap know how to allocate properly for the device?
-> 
-Because “each DMA-BUF heap is a separate character device”.
-But as I said in the first draft I am not sure about the DMA mapping part. alloc_devs responds for the heap, we have a device variable in the queue that mapping function could access, but that may not be enough. A plane may apply a different mapping policy or IOMMU here.
-
-Would it be better that I create a interface here that creating a memdev with DMA-heap description ? 
-
-> Best regards,
-> Tomasz
-
+-- 
+With Best Regards,
+Andy Shevchenko
