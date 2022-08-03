@@ -2,151 +2,239 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BCC9588B67
-	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 13:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEEED588B6A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 13:39:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237470AbiHCLhS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Aug 2022 07:37:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57454 "EHLO
+        id S237589AbiHCLjK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Aug 2022 07:39:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236468AbiHCLhS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 07:37:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07069FD04
-        for <linux-media@vger.kernel.org>; Wed,  3 Aug 2022 04:37:17 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F9D08B;
-        Wed,  3 Aug 2022 13:37:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1659526635;
-        bh=GG3bcvz7alMj2a03YqJR8mL5nzOLkh7/DWe+e+4KVeI=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=TnLuStUnFPAtIHiXTJkOyH9PnhjeZi8+Wlc1FGdTlgvCuOZWlWFIaZVbuS9HZHgeJ
-         wqMnbDMGHk4Si/lfEaBW+H8sJti9ARkA+xVA0pCbodWDny6Kp4a+clr/9fYsXU4prO
-         hTweSSq77mzOR+MMKe5dLL+crxXpS0Kyt/TMgy4w=
-Message-ID: <b7e3b283-a042-8b73-26f3-9aef0f5c7fbb@ideasonboard.com>
-Date:   Wed, 3 Aug 2022 14:37:11 +0300
+        with ESMTP id S236055AbiHCLjJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 07:39:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 120111054C
+        for <linux-media@vger.kernel.org>; Wed,  3 Aug 2022 04:39:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9EBDD61190
+        for <linux-media@vger.kernel.org>; Wed,  3 Aug 2022 11:39:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A4DBC433D6;
+        Wed,  3 Aug 2022 11:39:06 +0000 (UTC)
+Message-ID: <97f7618b-bd3e-3cf7-652c-0498ac4df270@xs4all.nl>
+Date:   Wed, 3 Aug 2022 13:39:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v12 00/30] v4l: routing and streams support
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] videodev2.h: drop V4L2_CAP_ASYNCIO
 Content-Language: en-US
-To:     "Milen Mitkov (Consultant)" <mmitkov@quicinc.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        "satish.nagireddy@getcruise.com" <satish.nagireddy@getcruise.com>,
-        Tomasz Figa <tfiga@chromium.org>
-References: <20220727103639.581567-1-tomi.valkeinen@ideasonboard.com>
- <MW4PR02MB737849AF15E8004B2CB39C3BB09C9@MW4PR02MB7378.namprd02.prod.outlook.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <MW4PR02MB737849AF15E8004B2CB39C3BB09C9@MW4PR02MB7378.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Erling Ljunggren (hljunggr)" <hljunggr@cisco.com>
+References: <d3361317-f975-5e01-6a2e-2415e07e7f16@xs4all.nl>
+ <YupaiqH/uslLYNHS@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <YupaiqH/uslLYNHS@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On 03/08/2022 12:03, Milen Mitkov (Consultant) wrote:
-> Hey Tomi,
+
+On 03/08/2022 13:22, Laurent Pinchart wrote:
+> Hi Hans,
 > 
-> thank you for providing v12 of the routing and streams support patches! 
-> We are using v11 of these to add CSI virtual channels support to the 
-> Qualcomm Titan platform (a.k.a qcom-camss driver) and will be moving to 
-> the brand new fresh v12 now.
+> Thank you for the patch.
 > 
-> I ponder several questions with regards to this newly added 
-> functionality (not just v12, but all versions in general):
+> On Wed, Aug 03, 2022 at 12:04:02PM +0200, Hans Verkuil wrote:
+>> The V4L2_CAP_ASYNCIO capability was never implemented (and in fact
+>> it isn't clear what it is supposed to do in the first place).
+>>
+>> Drop it from the capabilities list. Keep it in videodev2.h defined
+>> to 0 with the other defines under ifndef __KERNEL__ for backwards
+>> compatibility.
+>>
+>> This will free up a capability bit for other future uses. And having
+>> an unused and undefined I/O method is just plain confusing.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>  Documentation/userspace-api/media/v4l/async.rst          | 9 ---------
+>>  Documentation/userspace-api/media/v4l/dev-raw-vbi.rst    | 2 +-
+>>  Documentation/userspace-api/media/v4l/dev-sdr.rst        | 2 +-
+>>  Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst | 2 +-
+>>  Documentation/userspace-api/media/v4l/hist-v4l2.rst      | 2 +-
+>>  Documentation/userspace-api/media/v4l/io.rst             | 4 +---
+>>  .../userspace-api/media/v4l/vidioc-querycap.rst          | 3 ---
+>>  include/uapi/linux/videodev2.h                           | 2 +-
+>>  8 files changed, 6 insertions(+), 20 deletions(-)
+>>  delete mode 100644 Documentation/userspace-api/media/v4l/async.rst
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/async.rst b/Documentation/userspace-api/media/v4l/async.rst
+>> deleted file mode 100644
+>> index d6960ff5c382..000000000000
+>> --- a/Documentation/userspace-api/media/v4l/async.rst
+>> +++ /dev/null
+>> @@ -1,9 +0,0 @@
+>> -.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+>> -
+>> -.. _async:
+>> -
+>> -****************
+>> -Asynchronous I/O
+>> -****************
+>> -
+>> -This method is not defined yet.
+>> diff --git a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+>> index 58f97c3a7792..2bec20d87928 100644
+>> --- a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+>> +++ b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+>> @@ -41,7 +41,7 @@ Devices supporting the raw VBI capturing or output API set the
+>>  in the ``capabilities`` field of struct
+>>  :c:type:`v4l2_capability` returned by the
+>>  :ref:`VIDIOC_QUERYCAP` ioctl. At least one of the
+>> -read/write, streaming or asynchronous I/O methods must be supported. VBI
+>> +read/write or streaming I/O methods must be supported. VBI
+>>  devices may or may not have a tuner or modulator.
+>>  
+>>  Supplemental Functions
+>> diff --git a/Documentation/userspace-api/media/v4l/dev-sdr.rst b/Documentation/userspace-api/media/v4l/dev-sdr.rst
+>> index 928884dfe09d..dfdeddbca41f 100644
+>> --- a/Documentation/userspace-api/media/v4l/dev-sdr.rst
+>> +++ b/Documentation/userspace-api/media/v4l/dev-sdr.rst
+>> @@ -34,7 +34,7 @@ Devices supporting the SDR transmitter interface set the
+>>  device has an Digital to Analog Converter (DAC), which is a mandatory
+>>  element for the SDR transmitter.
+>>  
+>> -At least one of the read/write, streaming or asynchronous I/O methods
+>> +At least one of the read/write or streaming I/O methods
+>>  must be supported.
+>>  
+>>  
+>> diff --git a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+>> index 97ec2b115c71..44415822c7c5 100644
+>> --- a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+>> +++ b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+>> @@ -36,7 +36,7 @@ Devices supporting the sliced VBI capturing or output API set the
+>>  respectively, in the ``capabilities`` field of struct
+>>  :c:type:`v4l2_capability` returned by the
+>>  :ref:`VIDIOC_QUERYCAP` ioctl. At least one of the
+>> -read/write, streaming or asynchronous :ref:`I/O methods <io>` must be
+>> +read/write or streaming :ref:`I/O methods <io>` must be
+>>  supported. Sliced VBI devices may have a tuner or modulator.
+>>  
+>>  Supplemental Functions
+>> diff --git a/Documentation/userspace-api/media/v4l/hist-v4l2.rst b/Documentation/userspace-api/media/v4l/hist-v4l2.rst
+>> index 28a2750d5c8c..dbc04374dc22 100644
+>> --- a/Documentation/userspace-api/media/v4l/hist-v4l2.rst
+>> +++ b/Documentation/userspace-api/media/v4l/hist-v4l2.rst
+>> @@ -316,7 +316,7 @@ This unnamed version was finally merged into Linux 2.5.46.
+>>      There are new fields to identify the driver, a new RDS device
+>>      function ``V4L2_CAP_RDS_CAPTURE``, the ``V4L2_CAP_AUDIO`` flag
+>>      indicates if the device has any audio connectors, another I/O
+>> -    capability ``V4L2_CAP_ASYNCIO`` can be flagged. In response to these
+>> +    capability V4L2_CAP_ASYNCIO can be flagged. In response to these
+>>      changes the ``type`` field became a bit set and was merged into the
+>>      ``flags`` field. ``V4L2_FLAG_TUNER`` was renamed to
+>>      ``V4L2_CAP_TUNER``, ``V4L2_CAP_VIDEO_OVERLAY`` replaced
+>> diff --git a/Documentation/userspace-api/media/v4l/io.rst b/Documentation/userspace-api/media/v4l/io.rst
+>> index ce0cece6f35f..4b1964df9d73 100644
+>> --- a/Documentation/userspace-api/media/v4l/io.rst
+>> +++ b/Documentation/userspace-api/media/v4l/io.rst
+>> @@ -17,8 +17,7 @@ read or write will fail at any time.
+>>  
+>>  Other methods must be negotiated. To select the streaming I/O method
+>>  with memory mapped or user buffers applications call the
+>> -:ref:`VIDIOC_REQBUFS` ioctl. The asynchronous I/O
+>> -method is not defined yet.
+>> +:ref:`VIDIOC_REQBUFS` ioctl.
+>>  
+>>  Video overlay can be considered another I/O method, although the
+>>  application does not directly receive the image data. It is selected by
+>> @@ -46,6 +45,5 @@ The following sections describe the various I/O methods in more detail.
+>>      mmap
+>>      userp
+>>      dmabuf
+>> -    async
+>>      buffer
+>>      field-order
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
+>> index 63e23f6f95ee..6c57b8428356 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
+>> @@ -244,9 +244,6 @@ specification the ioctl returns an ``EINVAL`` error code.
+>>        - 0x01000000
+>>        - The device supports the :c:func:`read()` and/or
+>>  	:c:func:`write()` I/O methods.
+>> -    * - ``V4L2_CAP_ASYNCIO``
+>> -      - 0x02000000
+>> -      - The device supports the :ref:`asynchronous <async>` I/O methods.
+>>      * - ``V4L2_CAP_STREAMING``
+>>        - 0x04000000
+>>        - The device supports the :ref:`streaming <mmap>` I/O method.
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 01e630f2ec78..1af12e5928aa 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -502,7 +502,6 @@ struct v4l2_capability {
+>>  #define V4L2_CAP_META_CAPTURE		0x00800000  /* Is a metadata capture device */
+>>  
+>>  #define V4L2_CAP_READWRITE              0x01000000  /* read/write systemcalls */
+>> -#define V4L2_CAP_ASYNCIO                0x02000000  /* async I/O */
+>>  #define V4L2_CAP_STREAMING              0x04000000  /* streaming I/O ioctls */
+>>  #define V4L2_CAP_META_OUTPUT		0x08000000  /* Is a metadata output device */
+>>  
+>> @@ -2682,6 +2681,7 @@ struct v4l2_create_buffers {
+>>  #ifndef __KERNEL__
+>>  #define V4L2_PIX_FMT_HM12 V4L2_PIX_FMT_NV12_16L16
+>>  #define V4L2_PIX_FMT_SUNXI_TILED_NV12 V4L2_PIX_FMT_NV12_32L32
+>> +#define V4L2_CAP_ASYNCIO 0
 > 
-> 1. What are the main benefits of having multiple streams, that can be 
-> enabled/disabled/configured, on the same pad vs. say having multiple 
-> pads, each of which can be enabled/disabled/configured?
-
-The streams and pads are kind of similar, but also different.
-
-One difference is a conceptual one, that a pad represents some kind of 
-physical connector, streams are logical "virtual" pads or connectors.
-
-But perhaps the main practical difference is that you had a hardcoded 
-amount of pads, but the amount of streams is dynamic, adjusted based on 
-the routing table.
-
-> As far as I understood, in the user-space world each stream on the end 
-> of the pipeline gets exposed as a /dev/video%d node. Each node 
-> corresponds to a videodev which is wrapped in a media entity that has a 
-
-Yes.
-
-It would be nice to have a videodev that supports multiple streams, but 
-at the moment there's no API for that kind of thing. Perhaps in the future.
-
-> single sink pad. So in the end, all streams end up as multiple "stream 
-> -> pad" correspondences. I am sure there is some benefit of having 
-> multiple streams vs having multiple pads, but I am struggling to put it 
-> into exact words.
-
-Consider a bridge device with, say, 2 CSI2 inputs and 2 CSI2 outputs. 
-The device can route streams from either input to either output, and 
-possibly modify them (say, change virtual channel number).
-
-How many pads would have there? You would need a predefined amount of 
-pads, one for each stream. So how many streams? What's a stream? With 
-CSI2, we can easily define at least that we can have streams identified 
-with the VC and the DT. So, 4 VCs at max, but there can be many DTs. I 
-don't remember how wide the DT field is, but lets say 10 DTs. That would 
-be max 40 streams per input.
-
-So the above device would need to have 40 * 4 pads to cover "all" 
-possible uses. I say "all", because it's not clear how to define a 
-stream. If the device in question can, say, split the incoming frame per 
-line, and somehow output each of those lines separately, then, 
-effectively, there would be as many streams as there are lines. That's a 
-silly example, but I just want to highlight the dynamic nature of streams.
-
-> 2. What is your userspace modus operandi with regards to testing these 
-
-I have my own python scripts built on top of kms++. They're really not 
-in such a condition that I could share them to others. Maybe I'll at 
-some point find the time to clean them up...
-
-> changes? For example, I figured out this much with regards to media-ctl:
-
-Yes, it should be all doable with media-ctl, v4l2-ctl.
-
-> media-ctl -R '"msm_csid0"[0/0->1/0[0x1],0/0->1/1[0x1]]'
+> I'm fine dropping V4L2_CAP_ASYNCIO, but this particular change doesn't
+> sound right. Applications that would do, for instance,
 > 
-> If I want to configure the CSI decoder subdev (msm_csid0) to receive 1 
-> stream on the sink pad and route it to 2 streams on its source pad. Is 
-> my thinking correct?
+> 	if (caps & V4L2_CAP_ASYNCIO) {
+> 		...
+> 	}
+> 
+> could now get a warning from the compiler that the condition is always
+> false.
 
-Yes, if your HW can do that. I don't have HW that can split (or clone) a 
-stream, so it's possible that the use case doesn't work.
+Isn't that better than failing to compile?
 
-> And I also wonder what is your preferred method to open each /dev/video 
-> node in userspace concurrently? Are you, say, running 2 or more parallel 
-> instances of yavta?
+When it is used in applications it is typically used to log the caps:
 
-I do it with my script, but yes, I think running multiple yavtas should 
-do the trick.
+		if (vid_cap.capabilities & V4L2_CAP_ASYNCIO){
+			printf("    Supports async i/o: Yes\n");
+		} else {
+			printf("    Supports async i/o: No\n");
+		}
 
-> 3. I assume, that with these changes, it's _strongly_ preferred that the 
-> subdevice's active state management is left to the V4L2 API and not kept 
-> internally like older drivers do?
+(https://gist.github.com/tugstugi/2627647, found with a quick google search).
 
-A subdev that uses routing/streams _must_ use the subdev active state.
+Just dropping the cap altogether will cause all these applications to fail to
+compile, and I don't think that's the right thing to do.
 
-  Tomi
+I do think that a comment should be added in videodev2.h stating that that
+capability was never actually used and applications should remove support for
+it (or something along those lines). So if they see the warning, then they can
+look up in the header what they should do to fix it.
+
+If you have a better suggestion, then I'm all ears :-)
+
+Regards,
+
+	Hans
+
+> 
+>>  #endif
+>>  
+>>  #endif /* _UAPI__LINUX_VIDEODEV2_H */
+> 
