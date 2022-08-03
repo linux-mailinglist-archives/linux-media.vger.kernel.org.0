@@ -2,101 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 514BC588695
-	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 06:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D54AC58885C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 09:58:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229891AbiHCEiB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Aug 2022 00:38:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60614 "EHLO
+        id S237321AbiHCH6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Aug 2022 03:58:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiHCEiA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 00:38:00 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 481F04E602
-        for <linux-media@vger.kernel.org>; Tue,  2 Aug 2022 21:37:59 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id z22so20006698edd.6
-        for <linux-media@vger.kernel.org>; Tue, 02 Aug 2022 21:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=B9R2VTIXzChIlzLU9ikhte7sHljOJrxbFAO9pAo4SlM=;
-        b=MXOaU1R00oVlmDam7W4wEq5nfevTD9kI6MrtaVonOLOk0BBV8cSUtPtrdVY7Jj5Cia
-         DRSPRPo4NVFABux7dgZ1Opvwjdm7+VHxTNd/pSl3fUQfxzmS1HliVd/nuglUg0c4uvec
-         yT97yZQlxMD8Zgi5uEeCFOmHnQ321AiXBN3Z4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=B9R2VTIXzChIlzLU9ikhte7sHljOJrxbFAO9pAo4SlM=;
-        b=tCIH5JJ3UV1rpgpDG/MnvL7gZ76Q60QVDOMLDn8EkQkfo7pTMwD1mPHMGgkcfhzysx
-         Cwj3Cra7yc0nRVYx68NXTIi8Vu7moJzeHd/zBChbbTzq7ChRtBbwXFrKBSCTpHjNvUQw
-         +gLx8ADqrJB6LnE+Nb79C9+1y4oZi+/h6bujQfRCFmuDocj/q+AzzmC/RgSlK8pgrSOQ
-         dtv6pTTCETGGEFjMrHWQWToWK/06n9kQNhu6GRcA0y+m0zGIt91cua+ED7s4zGhUI9zF
-         uR08ebkEw4gdlTGkgPW4WMmqdxul7zPQQrIGGCsJz+eijQ56JiuQmTPFQfRxjkihCiLT
-         Kucg==
-X-Gm-Message-State: AJIora+NMZLvktNLBzZvole0+8T373iPuUUgQQ4kCkbtSn7w9VCQEvkB
-        LU1/nCHdEZacofCZBuug0nxslUiEhR8YB3cGsYtlCOkMd67gtA==
-X-Google-Smtp-Source: AGRyM1u8N5Su+QgF9SUR7sKfAX22H1GvTvOUq/uiGKCAdyTGONHT/uk7yjmflkfK6WQuUqQq+2c7DCm2j5Y5jd6Wp6Q=
-X-Received: by 2002:a05:6402:5513:b0:43a:b866:b9ab with SMTP id
- fi19-20020a056402551300b0043ab866b9abmr24446935edb.290.1659501477879; Tue, 02
- Aug 2022 21:37:57 -0700 (PDT)
+        with ESMTP id S235626AbiHCH6I (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 03:58:08 -0400
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E73D29C90
+        for <linux-media@vger.kernel.org>; Wed,  3 Aug 2022 00:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=2395; q=dns/txt; s=iport;
+  t=1659513487; x=1660723087;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xe++4vAn3h0LtSTvZklJQu2txzYoqZWJulAMWepupx0=;
+  b=c34MvVxCFSC2EWmpCQaeFOQYf41CRfYJP+MOoQdSQNDgUPQJJbPxeu7Q
+   pCc/xinRyCeeV+3fQ+foHyIjow0OwaN+ZjYKoEuvzZ/SiS/RA1za/KhbT
+   rQo9mmrBfoBoMFz20ExQNxzIkoFrRueQ+0QpihSXX+oKzHtPrNClwuKMY
+   8=;
+X-IronPort-AV: E=Sophos;i="5.93,213,1654560000"; 
+   d="scan'208";a="3325130"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com) ([173.38.203.22])
+  by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 03 Aug 2022 07:58:06 +0000
+Received: from office-260.rd.cisco.com ([10.47.77.162])
+        by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id 2737w5S8024084;
+        Wed, 3 Aug 2022 07:58:05 GMT
+From:   Erling Ljunggren <hljunggr@cisco.com>
+To:     linux-media@vger.kernel.org
+Cc:     Erling Ljunggren <hljunggr@cisco.com>
+Subject: [PATCH v2 0/5] Add the cat24c208 EDID EEPROM driver + new EDID capability
+Date:   Wed,  3 Aug 2022 09:58:45 +0200
+Message-Id: <20220803075850.1196988-1-hljunggr@cisco.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220802044242.1465815-1-hiroh@chromium.org>
-In-Reply-To: <20220802044242.1465815-1-hiroh@chromium.org>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Wed, 3 Aug 2022 12:37:46 +0800
-Message-ID: <CAGXv+5E+gpS-bJyuagRBbNvCJsZqGRb+tuTGzDbR7UPfD5n3ig@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Skip non CBR bitrate mode
-To:     Hirokazu Honda <hiroh@chromium.org>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.47.77.162, [10.47.77.162]
+X-Outbound-Node: aer-core-1.cisco.com
+X-Spam-Status: No, score=-10.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        SPF_HELO_PASS,SPF_NONE,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 2, 2022 at 12:42 PM Hirokazu Honda <hiroh@chromium.org> wrote:
->
-> V4L2_MPEG_VIDEO_BITRATE_MODE_CBR is the only bitrate mode supported
-> by the mediatek driver. The other bitrates must be skipped in
-> QUERY_MENU.
->
-> Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+This series adds support for the standalone cat24c208 EDID EEPROM i2c device.
+Usually EDID support is part of an HDMI receiver, but this is a standalone EEPROM.
 
-This should have a fixes tag:
+Note that EEPROMs for EDIDs are not regular EEPROM devices, these are dual port
+devices that follow the VESA E-DDC standard.
 
-Fixes: d8e8aa866ed8 ("media: mediatek: vcodec: Report supported bitrate modes")
+Since this is a standalone device that does not capture any video a new
+V4L2_CAP_EDID_MEMORY capability is introduced to represent such devices.
+Note that such a device doesn't have to be an EEPROM, it can also be
+implemented using a microcontroller, for example. Hence the use of the generic
+word 'MEMORY'.
 
-Otherwise,
+The new capability uses the free bit 0x00000008. But we are running out of
+capability bits: only 0x40000000 and 0x00000008 are free at the moment.
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+There is one other capability V4L2_CAP_ASYNCIO (0x02000000) that is not used
+at all, it was never implemented. Wouldn't it be better to define
+V4L2_CAP_ASYNCIO to 0, mark it as obsolete, and instead reuse it for this
+V4L2_CAP_EDID_MEMORY capability?
 
-I believe this also makes the check in mtk_vcodec_enc.c:vidioc_venc_s_ctrl()
-redundant.
+v2:
+ - fix dt binding example
+ - rename i2c client variables in data struct
+ - fix include: of_device.h -> mod_devicetable.h
+ - Sorted makefile
+ - used define EDID_OFFSET_EXT_FLAG instead of magic number
+ - removed of_match_ptr
+ - added bus_info
+ - remove unneeded headers
+ - add depends on OF to Kconfig
 
-> ---
->  drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> index 25e816863597..ca7c4058f6b8 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> @@ -1403,7 +1403,8 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
->                                V4L2_MPEG_VIDEO_VP8_PROFILE_0, 0, V4L2_MPEG_VIDEO_VP8_PROFILE_0);
->         v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
->                                V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
-> -                              0, V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
-> +                               ~(1 << V4L2_MPEG_VIDEO_BITRATE_MODE_CBR),
-> +                              V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
->
->
->         if (handler->error) {
-> --
-> 2.37.1.455.g008518b4e5-goog
->
+Erling Ljunggren (4):
+  media: videodev2.h: add V4L2_CAP_EDID_MEMORY
+  media: docs: Add V4L2_CAP_EDID_MEMORY
+  dt-bindings: media: add cat24c208 bindings
+  media: v4l2-dev: handle V4L2_CAP_EDID_MEMORY
+
+Jonathan Selnes (1):
+  media: i2c: cat24c208: driver for the cat24c208 EDID EEPROM
+
+ .../bindings/media/i2c/onnn,cat24c208.yaml    |  40 ++
+ .../userspace-api/media/v4l/biblio.rst        |  11 +
+ .../media/v4l/vidioc-querycap.rst             |   7 +
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/media/i2c/Kconfig                     |   9 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/cat24c208.c                 | 421 ++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-dev.c            |   8 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 10 files changed, 506 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+ create mode 100644 drivers/media/i2c/cat24c208.c
+
+-- 
+2.37.1
+
